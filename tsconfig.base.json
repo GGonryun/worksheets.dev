@@ -15,8 +15,13 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@worksheets/common-ui": ["libs/common-ui/src/index.ts"],
-      "@worksheets/products": ["libs/products/src/index.ts"]
+      "@worksheets/apps/framework": ["libs/apps/framework/src/index.ts"],
+      "@worksheets/apps/http": ["libs/apps/http/src/index.ts"],
+      "@worksheets/apps/math": ["libs/apps/math/src/index.ts"],
+      "@worksheets/apps/registry": ["libs/apps/registry/src/index.ts"],
+      "@worksheets/apps/sys": ["libs/apps/sys/src/index.ts"],
+      "@worksheets/ui-common": ["libs/ui-common/src/index.ts"],
+      "@worksheets/worksheets": ["libs/worksheets/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
