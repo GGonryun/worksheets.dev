@@ -1,0 +1,6 @@
+main:
+  steps:
+    - now:
+      call: core.sys.now
+  output:
+    time: { { now } }

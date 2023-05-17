@@ -1,0 +1,15 @@
+main:
+  assign:
+    data_types:
+      int: 1
+      float: 4.1
+      string: 'hello'
+      bool: true
+      null: null
+      list: ['zero', 'one', 'two']
+      map:
+        wordOf: Hello
+        TheDay: World
+        count: 1
+        seen: true
+  output: { { data_types } }

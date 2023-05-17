@@ -1,0 +1,11 @@
+main:
+  input: [data]
+  steps:
+    - addNumbers:
+      call: system.math.add
+      args:
+        a: { { data.a } }
+        b: { { data.b } }
+      save: sum
+  output:
+    sum: { { addNumbers.sum } }

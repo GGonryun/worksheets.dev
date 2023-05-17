@@ -1,31 +1,31 @@
 {
-  "name": "worksheets",
+  "name": "engine",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/worksheets/src",
+  "sourceRoot": "libs/engine/src",
   "projectType": "library",
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/libs/worksheets",
-        "main": "libs/worksheets/src/index.ts",
-        "tsConfig": "libs/worksheets/tsconfig.lib.json",
-        "assets": ["libs/worksheets/*.md"]
+        "outputPath": "dist/libs/engine",
+        "main": "libs/engine/src/index.ts",
+        "tsConfig": "libs/engine/tsconfig.lib.json",
+        "assets": ["libs/engine/*.md"]
       }
     },
     "lint": {
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["libs/worksheets/**/*.ts"]
+        "lintFilePatterns": ["libs/engine/**/*.ts"]
       }
     },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "libs/worksheets/jest.config.ts",
+        "jestConfig": "libs/engine/jest.config.ts",
         "passWithNoTests": true
       },
       "configurations": {

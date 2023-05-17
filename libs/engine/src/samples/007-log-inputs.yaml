@@ -1,0 +1,7 @@
+main:
+  input: [inputs]
+  steps:
+    - log:
+      call: core.sys.log
+      args:
+        data: { { inputs } }

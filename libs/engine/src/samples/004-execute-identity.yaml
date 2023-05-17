@@ -1,0 +1,8 @@
+main:
+  input: [input]
+  steps:
+    - identity:
+      call: system.math.identity
+      args: { { inputs } }
+      save: { { outputs } }
+  output: { { identity } }

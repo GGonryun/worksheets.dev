@@ -1,0 +1,4 @@
+main:
+  assign:
+    word: 'hello'
+  output: { { word } }

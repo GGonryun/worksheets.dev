@@ -1,0 +1,9 @@
+main:
+  assign:
+    word: 'hello'
+  steps:
+    - log:
+      call: core.sys.log
+      args:
+        level: error
+        data: received "{{word}}" as input
