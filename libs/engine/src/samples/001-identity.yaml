@@ -1,3 +1,0 @@
-main:
-  input: [x]
-  output: { { x } }

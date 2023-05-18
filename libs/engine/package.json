@@ -1,5 +1,8 @@
 {
   "name": "@worksheets/engine",
   "version": "0.0.1",
-  "type": "commonjs"
+  "type": "commonjs",
+  "devDependencies": {
+    "@types/js-yaml": "^4.0.5"
+  }
 }
