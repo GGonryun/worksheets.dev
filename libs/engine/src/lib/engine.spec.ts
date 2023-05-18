@@ -1,82 +1,227 @@
 import { Engine } from './engine';
 import { Init } from './instructions/init';
-import { Context } from './instructions/instructions';
-import { Terminate } from './instructions/terminate';
+import { Context } from './instructions/framework';
+import { Return } from './instructions/return';
 import { Parameters } from './instructions/parameters';
-import { yaml } from './util';
+import { load } from './util';
 
-function expectNext<T>(instance: T, engine: Engine) {
-  expect(engine.peek()).toBeInstanceOf(instance);
-  expect(engine.hasNext()).toBeTruthy();
-  expect(async () => await engine.iterate()).not.toThrow();
+function expectFinish(ctx: Context, engine: Engine) {
+  while (engine.hasNext()) {
+    expect(async () => await engine.iterate()).not.toThrow();
+  }
+  expect(ctx.instructions.peek()).toBeUndefined();
 }
 
 describe('unit', () => {
-  const unit = `
-  version: 1
-  name: unit
-  output: 1
+  const yaml = `
+  return: 1
   `;
   it('processes worksheet', () => {
-    const def = yaml.from(unit);
-    const context = new Context();
-    context.stack.push(new Init(def));
-    const engine = new Engine(context);
+    const def = load(yaml);
+    const ctx = new Context();
+    ctx.instructions.push(new Init(def));
+    const engine = new Engine(ctx);
+    expect(ctx.register.output).toBeUndefined();
+    expectFinish(ctx, engine);
+    expect(ctx.register.output).toBe(1);
+  });
+});
 
-    expectNext(Init, engine);
+describe('metadata only', () => {
+  const yaml = `
+  version: 1
+  name: metadata
+  `;
+  it('processes worksheet', () => {
+    const def = load(yaml);
+    const ctx = new Context();
+    ctx.instructions.push(new Init(def));
+    const engine = new Engine(ctx);
 
-    expect(context.info.output).toBeUndefined();
-    expectNext(Terminate, engine);
-    expect(context.info.output).toBe(1);
+    expectFinish(ctx, engine);
+    expect(ctx.register.name).toEqual('metadata');
+    expect(ctx.register.version).toEqual(1);
   });
 });
 
 describe('identity', () => {
-  const identity = `
-  version: v1.0
-  name: identity
-  input: x
-  output: \${x}
+  const yaml = `
+  params: x
+  return: \${x}
   `;
   it('processes worksheet', () => {
-    const def = yaml.from(identity);
+    const def = load(yaml);
     const init = new Init(def);
     const opts = { input: 'test-string' };
-    const context = new Context(opts);
-    context.stack.push(init);
-    const engine = new Engine(context);
+    const ctx = new Context(opts);
+    ctx.instructions.push(init);
+    const engine = new Engine(ctx);
 
-    expectNext(Init, engine);
-
-    expectNext(Parameters, engine);
-    expect(context.heap.get('x')).toBe(opts.input);
-
-    expectNext(Terminate, engine);
-    expect(context.info.output).toBe(opts.input);
+    expectFinish(ctx, engine);
+    expect(ctx.memory.get('x')).toBe(opts.input);
+    expect(ctx.register.output).toBe(opts.input);
   });
 });
 
 describe('interpolate', () => {
-  const interpolate = `
-  version: v1.0
-  name: identity
-  input: x
-  output: hello \${x}!
+  const yaml = `
+  params: x
+  return: hello \${x}!
   `;
   it('processes worksheet', () => {
-    const def = yaml.from(interpolate);
+    const def = load(yaml);
     const init = new Init(def);
     const opts = { input: 'user' };
-    const context = new Context(opts);
-    context.stack.push(init);
-    const engine = new Engine(context);
+    const ctx = new Context(opts);
+    ctx.instructions.push(init);
+    const engine = new Engine(ctx);
 
-    expectNext(Init, engine);
-
-    expectNext(Parameters, engine);
-    expect(context.heap.get('x')).toBe(opts.input);
-
-    expectNext(Terminate, engine);
-    expect(context.info.output).toBe(`hello ${opts.input}!`);
+    expectFinish(ctx, engine);
+    expect(ctx.memory.get('x')).toBe(opts.input);
+    expect(ctx.register.output).toBe(`hello ${opts.input}!`);
   });
 });
+
+describe('assign string', () => {
+  const yaml = `
+  params:
+    - word: hello
+  return: \${word} user
+  `;
+  it.todo('processes worksheet');
+});
+
+describe('assign many types', () => {
+  const yaml = `
+  version: 1
+  name: assign
+  assign:
+    - word: hello
+    - count: 13
+    - available: true
+    - names: [my, name, is, engine]
+    - effect:
+      earth: 1
+      fire: 2
+      wind: 3
+      water: 4
+  output: 
+    phrase: \${word} user
+    tag: #\${count}
+    seen: has been seen? \${available}
+  `;
+  it.todo('processes worksheet');
+});
+
+describe('assign during step', () => {
+  const yaml = `
+  steps:
+    - first:
+      assign:
+        - word: 'hello'
+        - count: 3
+        - truth: true
+  return:
+    str: \${word}
+    num: \${count}
+    bool: \${truth}
+  `;
+  it.todo('processes worksheet');
+});
+
+describe('steps must specify an output to export their data', () => {
+  const yaml = `
+  steps:
+    - getTime
+      call: system.time.now
+      output: time
+    - return \${time}
+  `;
+  it.todo('processes worksheet');
+});
+
+describe('read parameters for method call inputs', () => {
+  const yaml = `
+  params: data
+  steps:
+    - executeStep:
+      call: system.math.max
+      input: 
+        a: \${data.a}
+        b: \${data.b}
+      output: max
+  return: \${max}
+  `;
+  it.todo('processes worksheet');
+});
+
+describe('terminate manually', () => {
+  const yaml = `
+  params: data
+  steps:
+    - executeStep:
+      call: system.math.max
+      input: 
+        a: \${data.a}
+        b: \${data.b}
+      output: max
+    - terminateManually: 
+      return: \${max}
+  `;
+  it.todo('processes worksheet');
+});
+
+describe('shortcut: nameless method call steps', () => {
+  const yaml = `
+  steps:
+    - call: system.time.now
+      output: time
+    - return \${time}
+  `;
+  it.todo('processes worksheet');
+});
+
+describe('perform a side effect minimally', () => {
+  const yaml = `
+  steps:
+    - call: system.log
+      input:
+        data: 
+          a: 1
+          b: true
+          c: "test"
+        level: debug
+  `;
+  it.todo('processes worksheet');
+});
+
+describe('execute a step without i/o', () => {
+  const yaml = `
+  steps:
+    - call: system.checkpoint
+    - call: system.time.now
+      output: time
+    - return: \${time}
+  `;
+  it.todo('processes worksheet');
+});
+
+describe('shared memory overrides existing variables', () => {
+  const yaml = `
+  steps:
+    - getTime1:
+      call: system.time.now
+      output: time
+    - call: system.sleep
+      input: 1000
+    - getTime2:
+      call: system.time.now
+      output: time
+  return: \${time}
+  `;
+  it.todo('processes worksheet');
+});
+
+// TODO: Switch.
+// TODO: Loops.
+// TODO: Try/Catch.

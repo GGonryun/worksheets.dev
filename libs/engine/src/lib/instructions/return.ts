@@ -1,18 +1,18 @@
 import { getTextBetweenReferenceBrackets } from '../util';
-import { Context, Instruction } from './instructions';
+import { Context, Instruction } from './framework';
 
-export type TerminateDefinition = number | string;
+export type ReturnDefinition = number | string;
 
-export class Terminate implements Instruction {
-  private readonly definition: TerminateDefinition;
-  constructor(def: TerminateDefinition) {
+export class Return implements Instruction {
+  private readonly definition: ReturnDefinition;
+  constructor(def: ReturnDefinition) {
     this.definition = def;
   }
   process(ctx: Context): void {
     if (typeof this.definition === 'string') {
-      ctx.info.output = this.evaluateVariables(ctx, this.definition);
+      ctx.register.output = this.evaluateVariables(ctx, this.definition);
     } else {
-      ctx.info.output = this.definition;
+      ctx.register.output = this.definition;
     }
   }
 
@@ -20,7 +20,7 @@ export class Terminate implements Instruction {
     const keys = getTextBetweenReferenceBrackets(def);
     let clone = `${def}`;
     for (const key of keys) {
-      const v = ctx.heap.get(key);
+      const v = ctx.memory.get(key);
       clone = clone.replace(`\${${key}}`, v);
     }
     return clone;

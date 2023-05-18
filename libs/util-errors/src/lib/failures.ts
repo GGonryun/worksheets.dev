@@ -30,3 +30,24 @@ export class Failure extends Error {
     this.cause = cause?.message;
   }
 }
+
+export type CodedFailureOptions<T> = ConstructorParameters<
+  typeof CodedFailure<T>
+>[0];
+
+export class CodedFailure<T> extends Failure {
+  public readonly code: T;
+  constructor(
+    opts: {
+      code: T;
+    } & FailureOptions
+  ) {
+    const { code, message, data, cause } = opts;
+    super({
+      message: message ?? `failure ${code}`,
+      data: data,
+      cause: cause,
+    });
+    this.code = code;
+  }
+}

@@ -2,22 +2,26 @@
 import { Failure } from '@worksheets/util-errors';
 
 export interface Instruction {
+  // type: "assign" | "break";
   process(ctx: Context): void;
 }
 
 export class Context {
-  public readonly info: Information;
-  public readonly heap: Heap;
-  public readonly stack: Stack<Instruction>;
+  public readonly register: Registry;
+  public readonly memory: Heap;
+  public readonly instructions: Stack<Instruction>;
   constructor(opts?: { input?: unknown }) {
-    this.heap = new Heap();
-    this.stack = new Stack<Instruction>();
-    this.info = new Information();
-    this.info.input = opts?.input;
+    this.memory = new Heap();
+    this.instructions = new Stack<Instruction>();
+    this.register = new Registry();
+    this.register.input = opts?.input;
   }
 }
 
-export class Information {
+/**
+ * The registry contains named parameters known ahead of time and shared by all instructions.
+ */
+export class Registry {
   public name: string | undefined;
   public version: number | undefined;
   public failure: Failure | undefined;
@@ -74,5 +78,18 @@ export class Stack<T> {
 
   clear(): void {
     this.items = [];
+  }
+
+  peekUntil(fn: (i: T) => boolean): boolean {
+    for (const item of this.items) {
+      if (fn(item)) return true;
+    }
+    return false;
+  }
+
+  peekAll(fn: (i: T) => void) {
+    for (const item of this.items) {
+      fn(item);
+    }
   }
 }

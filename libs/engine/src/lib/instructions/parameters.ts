@@ -1,4 +1,5 @@
-import { Context, Instruction } from './instructions';
+import { Assignment } from './assignment';
+import { Context, Instruction } from './framework';
 
 // key of parameter to assign inputs to.
 export type ParametersDefinition = string;
@@ -10,7 +11,8 @@ export class Parameters implements Instruction {
   }
   process(ctx: Context): void {
     // assign parameters to heap.
-    const heap = ctx.heap;
-    heap.put(this.definition, ctx.info.input);
+    ctx.instructions.push(
+      new Assignment({ key: this.definition, value: ctx.register.input })
+    );
   }
 }

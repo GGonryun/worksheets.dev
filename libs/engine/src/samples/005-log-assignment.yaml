@@ -1,8 +1,0 @@
-main:
-  assign:
-    word: 'hello'
-  steps:
-    - log:
-      call: system.console.log
-      args:
-        data: { { word } }

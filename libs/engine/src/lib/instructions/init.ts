@@ -1,13 +1,12 @@
-import { Context, Instruction } from './instructions';
+import { Context, Instruction } from './framework';
 import { Parameters } from './parameters';
-import { Terminate } from './terminate';
+import { Return } from './return';
 
 export type InitDefinition = {
   version: 1;
   name: string;
-  // the specific key to save input parameters to.
-  input: string;
-  output: number | string;
+  params: string;
+  return: number | string;
 };
 
 export class Init implements Instruction {
@@ -17,18 +16,18 @@ export class Init implements Instruction {
   }
 
   process(ctx: Context): void {
-    const { name, version, output, input } = this.definition;
+    const { name, version, return: r, params } = this.definition;
     if (name) {
-      ctx.info.name = name;
+      ctx.register.name = name;
     }
     if (version) {
-      ctx.info.version = version;
+      ctx.register.version = version;
     }
-    if (output) {
-      ctx.stack.push(new Terminate(output));
+    if (r) {
+      ctx.instructions.push(new Return(r));
     }
-    if (input) {
-      ctx.stack.push(new Parameters(input));
+    if (params) {
+      ctx.instructions.push(new Parameters(params));
     }
   }
 }

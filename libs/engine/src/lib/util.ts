@@ -1,11 +1,9 @@
-import { load } from 'js-yaml';
+import { load as loadYaml } from 'js-yaml';
 import { InitDefinition } from './instructions/init';
 
-export const yaml = {
-  from(text: string): InitDefinition {
-    return load(text) as InitDefinition;
-  },
-};
+export function load(text: string): InitDefinition {
+  return loadYaml(text) as InitDefinition;
+}
 
 const START_WITH = '${';
 const END_WITH = '}';
