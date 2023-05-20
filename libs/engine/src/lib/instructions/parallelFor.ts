@@ -1,14 +1,9 @@
-import { Context, Instruction } from './framework';
+import { Instruction } from '../framework';
 
 export type ParallelForDefinition = unknown;
 
 export class ParallelFor implements Instruction {
-  private readonly definition: ParallelForDefinition;
-  constructor(def: ParallelForDefinition) {
-    this.definition = def;
-  }
-
-  process(ctx: Context): void {
+  async process(): Promise<void> {
     throw new Error('unimplemented');
   }
 }

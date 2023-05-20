@@ -24,10 +24,6 @@ Execute a sequential set of actions. A step can include instructions: call, try,
 
 Execute an application from the registry. A call instruction will place its outputs on the heap at the variable name specified by output.
 
-### Clone heap
-
-Simply replaces the current snapshot of the heap in memory with a new deep clone. This is done to prevent any modifications to the previous heap.
-
 ### Restore heap
 
 This instruction takes the original heap as an argument. It creates a cache of all current assigned variable keys. When this instruction executes it takes the current heap and removes all new keys and places assign instructions on the stack. This will retain global variable modified state.
@@ -78,3 +74,13 @@ Executes multiple steps at the same time.
 
 **Planned v3 release**
 Go to another position in the execution flow.
+
+### Copy
+
+**Unofficial Instruction**
+Copies information across different locations in memory. Useful if you need to copy or create temporary data.
+
+### Evaluate
+
+**Unofficial Instruction**
+Places an expression evaluation on the stack, this lets us process the expression as if it was an instruction which also allows us to handle it's exceptions.

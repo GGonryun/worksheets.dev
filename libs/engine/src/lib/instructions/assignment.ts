@@ -1,4 +1,4 @@
-import { Context, Instruction } from './framework';
+import { Context, Instruction } from '../framework';
 
 export type AssignmentDefinition = {
   key: string;
@@ -10,7 +10,10 @@ export class Assignment implements Instruction {
   constructor(def: AssignmentDefinition) {
     this.definition = def;
   }
-  process(ctx: Context): void {
-    ctx.memory.put(this.definition.key, this.definition.value);
+
+  async process(ctx: Context): Promise<void> {
+    const { key, value } = this.definition;
+    const v = typeof value === 'string' ? ctx.scripts.parse(value) : value;
+    ctx.memory.put(key, v);
   }
 }

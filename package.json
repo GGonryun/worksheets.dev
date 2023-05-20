@@ -7,8 +7,12 @@
   "dependencies": {
     "@nx/next": "16.1.4",
     "@swc/helpers": "~0.5.0",
+    "escodegen": "^2.0.0",
+    "esprima": "^4.0.1",
+    "estraverse": "^5.3.0",
     "http-status-codes": "^2.2.0",
     "js-yaml": "^4.1.0",
+    "lodash": "^4.17.21",
     "next": "13.3.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",

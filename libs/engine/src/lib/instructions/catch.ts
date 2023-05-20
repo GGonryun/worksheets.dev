@@ -1,6 +1,7 @@
-import { Context, Instruction } from './framework';
+import { Address, Context, Instruction } from '../framework';
+import { StepsDefinition, Steps } from './steps';
 
-export type CatchDefinition = unknown;
+export type CatchDefinition = { address: Address; steps: StepsDefinition };
 
 export class Catch implements Instruction {
   private readonly definition: CatchDefinition;
@@ -8,7 +9,16 @@ export class Catch implements Instruction {
     this.definition = def;
   }
 
-  process(ctx: Context): void {
-    throw new Error('unimplemented');
+  async process(ctx: Context): Promise<void> {
+    if (ctx.register.failure.peek()) {
+      const failure = ctx.register.failure.pop();
+      const { address, steps } = this.definition;
+      if (address) {
+        ctx.memory.put(address, failure);
+      }
+      if (steps) {
+        ctx.instructions.push(new Steps(steps));
+      }
+    }
   }
 }

@@ -1,4 +1,3 @@
-import { CodedFailure, CodedFailureOptions } from '@worksheets/util-errors';
 import { Program, parseScript } from 'esprima';
 import {
   Directive,
@@ -13,181 +12,59 @@ import {
   BinaryExpression,
   ConditionalExpression,
 } from 'estree';
-import { Heap } from '../instructions/framework';
+import { getExpressions, isExpression } from '../util';
+import { EvaluateExpressionFailure } from '../failures';
+import { Heap, WriteOnlyHeap } from '../framework';
 
-describe('evaluate expression', () => {
-  const handler = jest.fn();
+export class ScriptProcessor {
+  private readonly memory: WriteOnlyHeap;
+  private readonly library: WriteOnlyHeap;
 
-  const memory = new Heap();
-  const library = new Heap();
-  memory.put('a', 'a');
-  memory.put('undef', undefined);
-  memory.put('variable', 42);
-  memory.put('count', 13);
-  memory.put('word', 'apple');
-  memory.put('phrase', 'hello world');
-  memory.put('truthy', true);
-  memory.put('falsy', false);
-  memory.put('list', [1, 2, 3]);
-  memory.put('map', { a: 1, b: 2, c: 3 });
-  memory.put('test', { test: -2 });
-  memory.put('nested', { map: { 'special!key': 'bar' } });
-  library.put('sys', { test: handler });
-  library.put('test', handler);
-  library.put('sample', handler);
-
-  type TestCases = ([string, unknown, () => void] | [string, unknown])[];
-  const testCases: TestCases = [
-    // empty
-    ['', ''],
-    // numbers
-    ['1', 1],
-    ['-1', -1],
-    ['4.2', 4.2],
-    ['0', 0],
-    // booleans
-    ['true', true],
-    ['false', false],
-    // strings
-    ["'string literal!'", 'string literal!'],
-    // variables
-    ['variable', 42],
-    ['count', 13],
-    ['word', 'apple'],
-    ['phrase', 'hello world'],
-    // unary operator
-    ['!true', false],
-    ['!false', true],
-    ['!1', !1],
-    ['!9.9', !9.9],
-    // binary operations
-    ['3 + 3', 6],
-    ['3 - 3', 0],
-    ['3 * 3', 9],
-    ['3 % 3', 0],
-    ['3 / 3', 1],
-    ['word + word', 'appleapple'],
-    ['"word" + word', 'wordapple'],
-    ["'w' + 'o' + 'r' + 'd'", 'word'],
-    ["'string of ' + word + 's!'", 'string of apples!'],
-    // parentheses
-    ['(1 + 2) * (2 + 1)', 9],
-    // numeric logical operations
-    ['6 > 7', false],
-    ['6 < 7', true],
-    ['6 <= 6', true],
-    ['6 >= 6', true],
-    // comparison operators
-    ['6 == 7', false],
-    ['6 != 7', true],
-    ['count == 13', true],
-    ['word == 13', false],
-    ['word != 13', true],
-    // boolean logical operators
-    ['truthy && true', true],
-    ['truthy && false', false],
-    ['truthy && truthy', true],
-    ['truthy && falsy', false],
-    ['truthy || truthy', true],
-    ['truthy || falsy', true],
-    ['falsy || truthy', true],
-    ['falsy || falsy', false],
-    ['true ? 1 : 2', 1],
-    ['false ? 1 : 2', 2],
-    ['truthy && truthy ? 1 : 2', 1],
-    // // indexing
-    ['list[1]', 2],
-    ['list[2]', 3],
-    ['map[a]', 1],
-    ['map["a"]', 1],
-    ['map["c"]', 3],
-    // // access nested keys
-    ['test', { test: -2 }],
-    ['test["test"]', -2],
-    ['test.test', -2],
-    ['"foo " + nested.map["special!key"]', 'foo bar'],
-    // executing methods
-    [
-      'sys.test(1)',
-      'ok',
-      () => {
-        expect(handler).toBeCalledTimes(1);
-        expect(handler).toBeCalledWith(1);
-      },
-    ],
-    [
-      'test(test(test(1))) + test(1)',
-      'okok',
-      () => {
-        expect(handler).toBeCalledTimes(4);
-        expect(handler).toBeCalledWith(1);
-        expect(handler).toBeCalledWith('ok');
-      },
-    ],
-    [
-      `sample(sys.test(map, "a"), "Couldn't find key!")`,
-      'ok',
-      () => {
-        expect(handler).toBeCalledTimes(2);
-        expect(handler).toBeCalledWith({ a: 1, b: 2, c: 3 }, 'a');
-        expect(handler).toBeCalledWith('ok', "Couldn't find key!");
-      },
-    ],
-    [
-      'sys.test(sys.test(1))',
-      'ok',
-      () => {
-        expect(handler).toBeCalledTimes(2);
-        expect(handler).toBeCalledWith(1);
-        expect(handler).toBeCalledWith('ok');
-      },
-    ],
-    [
-      'sys.test(1) + sys.test(2)',
-      'okok',
-      () => {
-        expect(handler).toBeCalledTimes(2);
-        expect(handler).toBeCalledWith(1);
-        expect(handler).toBeCalledWith(2);
-      },
-    ],
-    [
-      'sys.test(1, 2, 3)',
-      'ok',
-      () => {
-        expect(handler).toBeCalledTimes(1);
-        expect(handler).toBeCalledWith(1, 2, 3);
-      },
-    ],
-  ];
-  testCases.forEach(([actual, expected, verify]) => {
-    it(`evaluates the expression '${actual}' to: ${expected}`, () => {
-      handler.mockReset().mockReturnValue('ok');
-      const expression = new ExpressionProcess(memory, library);
-      const value = expression.evaluate(actual);
-      expect(value).toEqual(expected);
-      if (verify) {
-        verify();
-      }
-    });
-  });
-});
-
-class ExpressionProcess {
-  private readonly memory: Heap;
-  private readonly library: Heap;
   useLibrary: boolean;
   useDry: boolean;
+  /**
+   * Processes and evaluates scripts. A script is composed of a single javascript expression. For string interpolation use a script in text "Hello, ${strings.uppercase(username)}"
+   *
+   * This processor was built using a JavaScript AST visualizer: https://astexplorer.net/
+   *
+   * @param memory Contains a key value mapping of variable names and their literal values. If you want to lock access to memory use the `useDry` flag.
+   * @param library Contains references to executable functions. Scripts can access library functions using a function call `${sys.sleep(500)}` or `${wait(500)}`.
+   */
   constructor(memory: Heap, library: Heap) {
-    this.memory = memory;
-    this.library = library;
+    this.memory = new WriteOnlyHeap(memory);
+    this.library = new WriteOnlyHeap(library);
+    // Switches the current active memory location. Used to evaluate method expressions that reference a function during evaluation. This helps prevent naming collisions between functions and memory variables.
     this.useLibrary = false;
+    // Prevents access to external data sources.
     this.useDry = false;
   }
 
-  evaluate(text: string) {
-    if (!text) return '';
-    const program = parseScript(text);
+  /**
+   * Evaluates scripts contained in text.
+   * @param phrase a string containing scripts.
+   * @returns the original text with all scripts replaced or the output of an expression if only one was provided.
+   */
+  parse(phrase: string) {
+    const expressions = getExpressions(phrase);
+    if (isExpression(phrase)) {
+      return this.evaluate(expressions[0]);
+    }
+    let clone = `${phrase}`;
+    for (const expression of expressions) {
+      const v = this.evaluate(expression);
+      clone = clone.replace(`\${${expression}}`, v);
+    }
+    return clone;
+  }
+
+  /**
+   * Evaluates a single javascript expression.
+   * @param expression must have content and must be a javascript expression.
+   * @returns the evaluated result of the expression.
+   */
+  evaluate(expression: string) {
+    if (!expression) return '';
+    const program = parseScript(expression);
     return this.evaluateProgram(program);
   }
 
@@ -195,7 +72,7 @@ class ExpressionProcess {
     const b = program.body;
     const l = b.length;
     if (!l || l > 1) {
-      throw new Error(`must have only one statement ${l}`);
+      throw new EvaluateExpressionFailure({ code: 'too-many-statements' });
     }
     return this.evaluateBody(b[0]);
   }
@@ -204,8 +81,7 @@ class ExpressionProcess {
     if (body.type === 'ExpressionStatement') {
       return this.evaluateExpressionStatement(body);
     }
-
-    throw new Error(`evaluateBody: unexpected type: ${body.type}`);
+    throw new EvaluateExpressionFailure({ code: 'unexpected-type' });
   }
 
   private evaluateExpressionStatement(statement: ExpressionStatement) {
@@ -243,10 +119,7 @@ class ExpressionProcess {
     if (exp.type === 'MemberExpression') {
       return this.evaluateMemberExpression(exp);
     }
-
-    throw new Error(
-      `evaluateExpressionStatement: unexpected type: ${exp.type}`
-    );
+    throw new EvaluateExpressionFailure({ code: 'unexpected-type' });
   }
 
   private evaluateConditionalExpression(exp: ConditionalExpression) {
@@ -367,16 +240,5 @@ class ExpressionProcess {
     const property = this.evaluateExpression(member.property as Expression);
     this.useDry = false;
     return obj[property];
-  }
-}
-
-type EvaluateExpressionFailureCode =
-  | 'unexpected-type'
-  | 'unexpected-operator'
-  | 'argument-required'
-  | 'method-not-in-library';
-class EvaluateExpressionFailure extends CodedFailure<EvaluateExpressionFailureCode> {
-  constructor(opts: CodedFailureOptions<EvaluateExpressionFailureCode>) {
-    super(opts);
   }
 }

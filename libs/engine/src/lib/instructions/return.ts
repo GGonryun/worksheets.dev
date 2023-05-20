@@ -1,5 +1,4 @@
-import { getTextBetweenReferenceBrackets } from '../util';
-import { Context, Instruction } from './framework';
+import { Context, Instruction } from '../framework';
 
 export type ReturnDefinition = number | string;
 
@@ -8,21 +7,12 @@ export class Return implements Instruction {
   constructor(def: ReturnDefinition) {
     this.definition = def;
   }
-  process(ctx: Context): void {
-    if (typeof this.definition === 'string') {
-      ctx.register.output = this.evaluateVariables(ctx, this.definition);
+  async process({ register, scripts }: Context): Promise<void> {
+    const d = this.definition;
+    if (typeof d === 'string') {
+      register.output = scripts.parse(d);
     } else {
-      ctx.register.output = this.definition;
+      register.output = d;
     }
-  }
-
-  private evaluateVariables(ctx: Context, def: string): string {
-    const keys = getTextBetweenReferenceBrackets(def);
-    let clone = `${def}`;
-    for (const key of keys) {
-      const v = ctx.memory.get(key);
-      clone = clone.replace(`\${${key}}`, v);
-    }
-    return clone;
   }
 }

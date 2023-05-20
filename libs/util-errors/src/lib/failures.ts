@@ -27,7 +27,7 @@ export class Failure extends Error {
       ...opts.data,
       cause,
     };
-    this.cause = cause?.message;
+    this.cause = cause;
   }
 }
 
