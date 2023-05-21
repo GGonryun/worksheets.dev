@@ -5,7 +5,7 @@ export class Copy implements Instruction {
   private readonly definition: CopyDefinition;
   /**
    * Copies data across memory.
-   * Currently not a part of the official instruction set.
+   *
    * @param def take data 'from' another address and place back in'to' memory in a new address.
    */
   constructor(def: CopyDefinition) {

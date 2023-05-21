@@ -3,8 +3,8 @@ import { Engine } from '../engine';
 import { Register, Instruction, Context } from '../framework';
 import { Init } from '../instructions';
 import { load } from '../util';
-import { Heap, Stack } from '../structures';
 import { ApplicationLibrary, ApplicationRegistry } from '../applications';
+import { Heap, Stack } from '@worksheets/util-data-structures';
 
 export type ExecutionOptions = {
   memory?: Heap;

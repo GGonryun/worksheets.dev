@@ -1,6 +1,6 @@
+import { Heap, Stack } from '@worksheets/util-data-structures';
 import { ApplicationLibrary, LibraryProcessor } from '../applications';
 import { ScriptProcessor } from '../scripts';
-import { Heap, Stack } from '../structures';
 import { Register, Instruction } from './framework';
 
 export interface ContextOptions {

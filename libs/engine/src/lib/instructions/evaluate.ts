@@ -6,9 +6,9 @@ export type EvaluateDefinition = { address: Address; expression: string };
 export class Evaluate implements Instruction {
   private readonly definition: EvaluateDefinition;
   /**
-   * Evaluates an expression and stores it's result in an address.
-   * Not part of the official instruction set.
-   * @param def the string to evaluate and the location in memory to store the result
+   * Evaluates an expression and stores it's result at an address in memory.
+   *
+   * @param def the string to evaluate and the address in memory to store the result
    */
   constructor(def: EvaluateDefinition) {
     this.definition = def;

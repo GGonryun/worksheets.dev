@@ -22,7 +22,6 @@ export class For implements Instruction {
     const { memory, instructions: stack } = ctx;
     const { for: address, index } = this.definition;
 
-    // validate inputs before pushing instructions onto the stack.
     if (!index) {
       throw new ExecutionFailure({
         code: 'missing-required-parameter',
@@ -49,7 +48,6 @@ export class For implements Instruction {
       });
     }
 
-    // for loop creates a private scope.
     stack.push(new RestoreHeap(memory.clone()));
     stack.push(new Loop(this.definition));
   }

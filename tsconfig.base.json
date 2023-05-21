@@ -22,6 +22,9 @@
       "@worksheets/apps/sys": ["libs/apps/sys/src/index.ts"],
       "@worksheets/engine": ["libs/engine/src/index.ts"],
       "@worksheets/ui-common": ["libs/ui-common/src/index.ts"],
+      "@worksheets/util-data-structures": [
+        "libs/util-data-structures/src/index.ts"
+      ],
       "@worksheets/util-errors": ["libs/util-errors/src/index.ts"]
     }
   },

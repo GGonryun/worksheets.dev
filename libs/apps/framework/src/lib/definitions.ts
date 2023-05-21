@@ -22,3 +22,13 @@ export function newMethod<
 >(opts: MethodDefinition<Inputs, Outputs>): MethodDefinition<Inputs, Outputs> {
   return opts;
 }
+
+export type ApplicationDefinition = {
+  label: string;
+  description: string;
+  methods: { [path: string]: MethodDefinition };
+};
+
+export function newApplication(opts: ApplicationDefinition) {
+  return opts;
+}

@@ -9,14 +9,12 @@ export class Engine {
     this.context = ctx;
   }
 
-  // todo: what we want is to trigger effects before/after which is a lot like a state machine.
-  // if we can convert the engine into a state machine we can add beforeState and afterState triggers.
-  // and then organize a clearer picture of the order of events
   async iterate(): Promise<Instruction | undefined> {
     const instruction = this.context.instructions.pop();
     if (!instruction) {
-      return;
+      return; // done
     }
+
     if (this.canCatchError(instruction)) {
       return instruction;
     }
@@ -33,8 +31,6 @@ export class Engine {
                 'unexpected failure received during instruction execution',
               data: { instruction },
             });
-      // TOOD: cases circular dependencies in errors.
-      // if we moved the register into the engine out of context we wouldnt error.
       this.context.register.failure.push(e);
     }
     return instruction;

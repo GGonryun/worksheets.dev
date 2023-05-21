@@ -1,7 +1,5 @@
-import {
-  ApplicationExecutionPayload,
-  ApplicationRegistry,
-} from '../applications';
+import { ApplicationExecutionPayload } from '../applications';
+import { ApplicationRegistry } from '../registries';
 
 export type ApplicationEvaluator = (
   path: string,

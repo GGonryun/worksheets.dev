@@ -1,7 +1,7 @@
-import { registry } from './registry';
+import { appsRegistry } from './registry';
 
-describe('registry', () => {
-  it('should exist', () => {
-    expect(registry()).not.toBeUndefined();
+describe('appsRegistry', () => {
+  it('should work', () => {
+    expect(appsRegistry()).toEqual('apps-registry');
   });
 });

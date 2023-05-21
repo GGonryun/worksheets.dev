@@ -6,8 +6,8 @@ import { Context } from '../framework';
 import { JestRegistry } from '../applications/applications.test';
 import { Mock } from '../util/index.test';
 import { when } from 'jest-when';
-import { Heap } from '../structures';
 import { DomainFailure } from '../failures';
+import { Heap } from '@worksheets/util-data-structures';
 
 const CONSTANT_NOW = 1684563401;
 describe('parsing visualizer', () => {
@@ -198,6 +198,20 @@ describe('worksheets', () => {
     };
 
     const testCases: TestCases[] = [
+      // LISTS
+      {
+        name: 'reads unquoted loop parameters as strings',
+        yaml: `
+        assign:
+          list: [1,2,x,3,4]
+        steps:
+          - call: read
+            input: \${list}
+        `,
+        assert(_, m) {
+          expect(m).toBeCalledWith('read', [[1, 2, 'x', 3, 4]]);
+        },
+      },
       {
         name: 'list indexing',
         yaml: `
@@ -213,6 +227,7 @@ describe('worksheets', () => {
           expect(m).toBeCalledTimes(1);
         },
       },
+      // MAPS
       {
         name: 'object indexing',
         yaml: `
@@ -256,6 +271,7 @@ describe('worksheets', () => {
           expect(m).toBeCalledWith('verify', [3]);
         },
       },
+      // CALL
       {
         name: 'must specify output',
         yaml: `
@@ -712,6 +728,62 @@ describe('worksheets', () => {
         },
       },
       {
+        name: 'use a switch statement to break a loop',
+        yaml: `
+        steps:
+          - assign:
+            list: ["apple", "banana", "cherry"]
+          - for: list
+            index: index
+            value: value
+            steps:
+              - switch:
+                - if: \${index == 2}
+                  next: break
+              - call: core.test.first
+                input: \${index}
+              - call: core.test.second
+                input: \${value}
+              `,
+        assert(_, m) {
+          expect(m).toBeCalledWith('core.test.first', [0]);
+          expect(m).toBeCalledWith('core.test.first', [1]);
+          expect(m).not.toBeCalledWith('core.test.first', [2]);
+          expect(m).toBeCalledWith('core.test.second', ['apple']);
+          expect(m).toBeCalledWith('core.test.second', ['banana']);
+          expect(m).not.toBeCalledWith('core.test.second', ['cherry']);
+          expect(m).toBeCalledTimes(4);
+        },
+      },
+      {
+        name: 'skips an item using continue',
+        yaml: `
+        steps:
+          - assign:
+            list: ["apple", "banana", "cherry"]
+          - for: list
+            index: index
+            value: value
+            steps:
+              - switch:
+                - if: \${index == 0}
+                  next: continue
+              - call: core.test.first
+                input: \${index}
+              - call: core.test.second
+                input: \${value}
+        `,
+        assert(_, m) {
+          expect(m).not.toBeCalledWith('core.test.first', [0]);
+          expect(m).toBeCalledWith('core.test.first', [1]);
+          expect(m).toBeCalledWith('core.test.first', [2]);
+          expect(m).not.toBeCalledWith('core.test.second', ['apple']);
+          expect(m).toBeCalledWith('core.test.second', ['banana']);
+          expect(m).toBeCalledWith('core.test.second', ['cherry']);
+          expect(m).toBeCalledTimes(4);
+        },
+      },
+      {
         name: 'nested loops of big items',
         yaml: `
         steps:
@@ -894,7 +966,7 @@ describe('worksheets', () => {
             catch:
               steps:
                 - call: test`,
-        arrange(m, r) {
+        arrange(m) {
           when(m).calledWith('throws', []).mockRejectedValue('bad');
         },
         assert(_, m) {
@@ -919,7 +991,7 @@ describe('worksheets', () => {
                   input: \${error}
 
         `,
-        arrange(m, _) {
+        arrange(m) {
           when(m).calledWith('throws', []).mockRejectedValue('bad');
         },
         assert(_, m) {
@@ -1057,6 +1129,107 @@ describe('worksheets', () => {
           expect(m).toBeCalledTimes(3);
           expect(m).toBeCalledWith('local', [100]);
           expect(m).toBeCalledWith('ends', [100]);
+        },
+      },
+      // STEPS
+      {
+        name: 'nested steps are useful if you want to reduce your average call stack size or group common operations with a name',
+        yaml: `
+        steps:
+          - run_sample:
+            steps:
+            - call: sample
+          - eat_apple:
+            steps:
+            - call: apple
+          - go_vroom:
+            steps:
+            - call: vroom
+            - return: yes
+        `,
+        assert(r, m) {
+          expect(r).toEqual('yes');
+          expect(m).toBeCalledWith('sample', []);
+          expect(m).toBeCalledWith('apple', []);
+          expect(m).toBeCalledWith('vroom', []);
+        },
+      },
+      {
+        name: 'deeply nested steps',
+        yaml: `
+        steps:
+          - steps:
+            - call: sample
+            - steps:
+              - call: apple
+              - steps:
+                - call: vroom
+                - steps:
+                  - call: wow
+                  - return: true
+        `,
+        assert(r, m) {
+          expect(r).toEqual(true);
+          expect(m).toBeCalledWith('sample', []);
+          expect(m).toBeCalledWith('apple', []);
+          expect(m).toBeCalledWith('vroom', []);
+          expect(m).toBeCalledWith('wow', []);
+        },
+      },
+      // RETURN
+      {
+        name: 'only the first return statement matters',
+        yaml: `
+        steps:
+          - call: sample
+          - return: true
+          - call: apple
+          - return: false
+        `,
+        assert(r, m) {
+          expect(m).not.toBeCalledWith('apple', []);
+          expect(m).toBeCalledTimes(1);
+          expect(m).toBeCalledWith('sample', []);
+          expect(r).toEqual(true);
+        },
+      },
+      {
+        name: 'returns during a loop',
+        yaml: `
+        assign:
+          list: [1,2,x,3,4]
+        steps:
+          - for: list
+            index: i
+            value: v
+            steps:
+              - switch:
+                - if: \${v === "x"}
+                  steps:
+                    - return: \${i}
+            
+        `,
+        assert(r) {
+          expect(r).toEqual(2);
+        },
+      },
+      {
+        name: 'returns during a loop (shortcut return statement)',
+        yaml: `
+        assign:
+          list: [1,2,x,3,4]
+        steps:
+          - for: list
+            index: i
+            value: v
+            steps:
+              - switch:
+                - if: \${v === "x"}
+                  return: \${i}
+            
+        `,
+        assert(r) {
+          expect(r).toEqual(2);
         },
       },
     ];

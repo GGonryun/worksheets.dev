@@ -3,10 +3,10 @@ import { Loop } from './loop';
 
 export class Continue implements Instruction {
   async process(ctx: Context): Promise<void> {
-    const { peek, pop } = ctx.instructions;
+    const { instructions } = ctx;
     do {
-      if (peek() instanceof Loop) return;
-      pop();
-    } while (peek() != null);
+      if (instructions.peek() instanceof Loop) return;
+      instructions.pop();
+    } while (instructions.peek() != null);
   }
 }

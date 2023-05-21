@@ -1,14 +1,15 @@
 import { ScriptProcessor } from '../scripts/processor';
-import { Heap } from '../structures';
+import { SimpleCallExpression } from 'estree';
+import { ScriptsApplicationBridge } from './bridges';
 import {
   CustomRegistry,
   MockRegistry,
   MockRegistryResponses,
-} from './applications';
-import { SimpleCallExpression } from 'estree';
-import { ScriptsApplicationBridge } from './bridges';
+} from './registries';
+import { Heap } from '@worksheets/util-data-structures';
 
 export class JestRegistry extends CustomRegistry {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   constructor(fn: jest.Mock<any, any, any>) {
     super(async ({ path, input }) => {
       const result = fn(path, input);

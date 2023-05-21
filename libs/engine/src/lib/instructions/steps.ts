@@ -14,8 +14,9 @@ export type StepsDefinition = Definition[];
 export class Steps implements Instruction {
   private readonly definition: StepsDefinition;
   /**
-   * Execute a sequential set of actions. A step can include instructions: call, try, for, assign, return, break, continue, switch, parallel_for, parallel_steps and steps. The steps instruction will immediately place all of its instructions on the stack. when any step fails a failure is placed in the registry.
-   * @param def
+   * Execute a sequential set of actions. A step can include instructions: call, try, for, assign, return, switch, parallel_for, parallel_steps and steps. The steps instruction will immediately place all of its instructions on the stack. When any step fails a failure is placed in the registry. Use a try-catch for error handling.
+   *
+   * @param def an unknown list of steps to execute. throws an error if the list is empty or undefined.
    */
   constructor(def: StepsDefinition) {
     this.definition = def;
@@ -30,12 +31,12 @@ export class Steps implements Instruction {
         definition: this.definition,
       });
     }
-    // execute a sequential set of actions.
-    // reverse steps before executing them so that they enter the stack in the correct order.
     const steps = cloneDeep(this.definition).reverse();
     for (const step of steps) {
       let instruction: Instruction | undefined;
-      // TODO: how to detect a steps types?
+      if (isDefinition<{ steps: StepsDefinition }>(step, 'steps')) {
+        instruction = new Steps(step.steps);
+      }
       if (isDefinition<AssignDefinition>(step, 'assign')) {
         instruction = new Assign(step);
       }

@@ -1,13 +1,14 @@
+import { CallExpressionBridge, ScriptProcessor } from '../../scripts/processor';
 import {
-  CallExpressionBridge,
-  ScriptProcessor,
-  evaluateCallPath,
-} from '../../scripts/processor';
-import { SimpleCallExpression, Expression } from 'estree';
-import { ApplicationRegistry } from '../applications';
+  SimpleCallExpression,
+  Expression,
+  PrivateIdentifier,
+  Super,
+} from 'estree';
+import { ApplicationRegistry } from '../registries';
 
 export class LoggingCallExpressionBridge implements CallExpressionBridge {
-  async evaluate(processor: ScriptProcessor, call: SimpleCallExpression) {
+  async evaluate(_: ScriptProcessor, call: SimpleCallExpression) {
     console.log('LoggingApplicationBridge', call);
   }
 }
@@ -35,4 +36,18 @@ export class ScriptsApplicationBridge implements CallExpressionBridge {
     );
     return await this.registry.run({ path, input: args });
   }
+}
+
+export function evaluateCallPath(
+  call: Expression | Super | PrivateIdentifier
+): string {
+  if (call.type === 'Identifier') {
+    return call.name;
+  }
+  if (call.type === 'MemberExpression') {
+    const object = evaluateCallPath(call.object);
+    const property = evaluateCallPath(call.property);
+    return `${object}.${property}`;
+  }
+  throw new Error('failed to evaluate call path, unrecognized type');
 }

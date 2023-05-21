@@ -1,4 +1,4 @@
-import { Heap } from '../structures';
+import { Heap } from '@worksheets/util-data-structures';
 import { Context } from './context';
 
 describe('Heap', () => {

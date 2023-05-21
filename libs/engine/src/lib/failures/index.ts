@@ -4,7 +4,7 @@ import {
   Failure,
 } from '@worksheets/util-errors';
 import { Context, Instruction } from '../framework';
-import { Heap, Stack } from '../structures';
+import { Heap, Stack } from '@worksheets/util-data-structures';
 
 export type ExecutionFailureCodes =
   | 'unknown'

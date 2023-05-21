@@ -7,6 +7,6 @@ export const noop = newMethod({
   input: z.any(),
   output: null,
   async call() {
-    // console.log('universal function call received', ctx);
+    // no operation
   },
 });

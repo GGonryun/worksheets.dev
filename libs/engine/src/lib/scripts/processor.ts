@@ -11,15 +11,12 @@ import {
   UnaryExpression,
   BinaryExpression,
   ConditionalExpression,
-  Super,
-  PrivateIdentifier,
 } from 'estree';
 import { getExpressions, isExpression, isRecord } from '../util';
 import { EvaluateExpressionFailure } from '../failures';
 import { isString, isObject, isArray } from 'lodash';
-import { WriteOnlyHeap, Heap } from '../structures';
+import { Heap, WriteOnlyHeap } from '@worksheets/util-data-structures';
 import { UnimplementedCallExpressionBridge } from '../applications';
-import { object } from 'zod';
 
 export type CallExpressionEvaluator = (
   processor: ScriptProcessor,
@@ -34,7 +31,6 @@ export interface CallExpressionBridge {
 
 export class ScriptProcessor {
   private readonly memory: WriteOnlyHeap;
-  useDry: boolean;
   bridge: CallExpressionBridge;
   /**
    * Processes and evaluates scripts. A script is composed of a single javascript expression. For string interpolation use a script in text "Hello, ${strings.uppercase(username)}"
@@ -47,8 +43,6 @@ export class ScriptProcessor {
   constructor(memory: Heap, bridge?: CallExpressionBridge) {
     this.memory = new WriteOnlyHeap(memory);
     this.bridge = bridge ?? new UnimplementedCallExpressionBridge();
-    // Prevents access to external data sources.
-    this.useDry = false;
   }
 
   /**
@@ -80,8 +74,11 @@ export class ScriptProcessor {
     return await this.evaluateProgram(program);
   }
 
-  /** iterates over all fields, if the input is an object and evaluates strings that have expressions in them */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  /**
+   * Evaluates all javascript expressions on any simple or complex parameter type.
+   * @param input evaluates simple types or deeply nested structures like objects or arrays using recursion
+   * @returns the same input but with all expressions evaluated
+   */
   async recursiveParse(input: unknown) {
     if (isString(input)) {
       const parsed = await this.parse(input);
@@ -106,6 +103,11 @@ export class ScriptProcessor {
     }
   }
 
+  /**
+   * Evaluates a JavaScript Abstract Syntax Tree (AST).
+   * @param program the JavaScript AST entry point.
+   * @returns the evaluated result.
+   */
   private async evaluateProgram(program: Program) {
     const b = program.body;
     const l = b.length;
@@ -116,6 +118,11 @@ export class ScriptProcessor {
     return await this.evaluateBody(b[0]);
   }
 
+  /**
+   * Evaluates a JavaScript AST body statement.
+   * @param body the JavaScript AST body entry point.
+   * @returns the evaluated result.
+   */
   private async evaluateBody(body: Directive | Statement | ModuleDeclaration) {
     if (body.type === 'ExpressionStatement') {
       return await this.evaluateExpressionStatement(body);
@@ -123,50 +130,77 @@ export class ScriptProcessor {
     throw new EvaluateExpressionFailure({ code: 'unexpected-type' });
   }
 
+  /**
+   * Evaluates a JavaScript AST expression statement.
+   * @param statement the JavaScript AST expression statement entry point.
+   * @returns the evaluated result.
+   */
   private async evaluateExpressionStatement(statement: ExpressionStatement) {
     const exp = statement.expression;
     return await this.evaluateExpression(exp);
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  /**
+   * Evaluates an unknown JavaScript AST expression.
+   * @param expression of an unknown type will be type checked and evaluated accordingly.
+   * @param dryRun prevents resolving of identifiers from memory. Identifiers will return their names instead.
+   * @returns
+   */
   private async evaluateExpression(
-    exp: Expression,
+    expression: Expression,
     dryRun?: boolean
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ): Promise<any> {
-    if (exp.type === 'Literal') {
-      return exp.value;
+    if (expression.type === 'Literal') {
+      return expression.value;
     }
-    if (exp.type === 'Identifier') {
-      const name = exp.name;
+    if (expression.type === 'Identifier') {
+      const name = expression.name;
       return dryRun ? name : this.memory.get(name);
     }
-    if (exp.type === 'CallExpression') {
-      return await this.evaluateCallExpression(exp);
+    if (expression.type === 'CallExpression') {
+      return await this.evaluateCallExpression(expression);
     }
-    if (exp.type === 'UnaryExpression') {
-      return await this.evaluateUnaryExpression(exp);
+    if (expression.type === 'UnaryExpression') {
+      return await this.evaluateUnaryExpression(expression);
     }
-    if (exp.type === 'BinaryExpression') {
-      return await this.evaluateBinaryExpression(exp);
+    if (expression.type === 'BinaryExpression') {
+      return await this.evaluateBinaryExpression(expression);
     }
-    if (exp.type === 'LogicalExpression') {
-      return await this.evaluateLogicalExpression(exp);
+    if (expression.type === 'LogicalExpression') {
+      return await this.evaluateLogicalExpression(expression);
     }
-    if (exp.type === 'ConditionalExpression') {
-      return await this.evaluateConditionalExpression(exp);
+    if (expression.type === 'ConditionalExpression') {
+      return await this.evaluateConditionalExpression(expression);
     }
-    if (exp.type === 'MemberExpression') {
-      return await this.evaluateMemberExpression(exp);
+    if (expression.type === 'MemberExpression') {
+      return await this.evaluateMemberExpression(expression);
     }
     throw new EvaluateExpressionFailure({ code: 'unexpected-type' });
   }
 
-  private async evaluateConditionalExpression(exp: ConditionalExpression) {
-    return (await this.evaluateExpression(exp.test))
-      ? await this.evaluateExpression(exp.consequent)
-      : await this.evaluateExpression(exp.alternate);
+  /**
+   * Evaluates a JavaScript conditional expression
+   *
+   * Conditional Expressions allow you to perform different actions or evaluations based on a certain test or predicate.
+   * @param expression must be a conditional expression.
+   * @returns the evaluated result.
+   */
+  private async evaluateConditionalExpression(
+    expression: ConditionalExpression
+  ) {
+    return (await this.evaluateExpression(expression.test))
+      ? await this.evaluateExpression(expression.consequent)
+      : await this.evaluateExpression(expression.alternate);
   }
 
+  /**
+   * Evaluates a JavaScript logical expression
+   *
+   * Logical Expressions are statements or combinations of statements that evaluate to either true or false.
+   * @param expression must be a logical expression.
+   * @returns the evaluated result.
+   */
   private async evaluateLogicalExpression(exp: LogicalExpression) {
     const left = await this.evaluateExpression(exp.left);
     const right = await this.evaluateExpression(exp.right);
@@ -179,6 +213,14 @@ export class ScriptProcessor {
         return left ?? right;
     }
   }
+
+  /**
+   * Evaluates a JavaScript binary expression.
+   *
+   * Binary Expressions involve two operands or variables and an operator, performing an operation between the two values.
+   * @param expression must be a binary expression.
+   * @returns the evaluated result.
+   */
 
   private async evaluateBinaryExpression(exp: BinaryExpression) {
     const left = await this.evaluateExpression(exp.left);
@@ -233,6 +275,13 @@ export class ScriptProcessor {
     }
   }
 
+  /**
+   * Evaluates a JavaScript unary expression
+   *
+   * Unary Expressions involve a single operand or variable and an operator.
+   * @param expression must be a unary expression.
+   * @returns the evaluated result.
+   */
   private async evaluateUnaryExpression(exp: UnaryExpression) {
     const argument = await this.evaluateExpression(exp.argument);
     switch (exp.operator) {
@@ -253,11 +302,24 @@ export class ScriptProcessor {
     throw new EvaluateExpressionFailure({ code: 'unexpected-type' });
   }
 
+  /**
+   * Evaluates a JavaScript call expression using a bridge. The bridge is responsible for evaluating the simple call expression and responding with data.
+   * @param call must be a call expression
+   * @returns the evaluation of the function call
+   */
   private async evaluateCallExpression(call: SimpleCallExpression) {
     return await this.bridge.evaluate(this, call);
   }
 
-  async evaluateCallExpressionArguments(args: Expression[]) {
+  /**
+   * Evaluates a method call's arguments, each argument must be evaluated independently.
+   *
+   * @param args an n-sized list of unknown expressions to evlauate.
+   * @returns the evaluated arguments as a list.
+   */
+  async evaluateCallExpressionArguments(
+    args: Expression[]
+  ): Promise<unknown[]> {
     const results: unknown[] = [];
     for (const arg of args) {
       results.push(await this.evaluateExpression(arg));
@@ -265,6 +327,12 @@ export class ScriptProcessor {
     return results;
   }
 
+  /**
+   * Evaluates a membership expression. These are used to reference the contents of map-like or iterable-like structures.
+   *
+   * @param member the expression to evaluate membership from.
+   * @returns the evaluated expression.
+   */
   private async evaluateMemberExpression(member: MemberExpression) {
     const obj = await this.evaluateExpression(member.object as Expression);
     const property = await this.evaluateExpression(
@@ -273,18 +341,4 @@ export class ScriptProcessor {
     );
     return obj[property];
   }
-}
-
-export function evaluateCallPath(
-  call: Expression | Super | PrivateIdentifier
-): string {
-  if (call.type === 'Identifier') {
-    return call.name;
-  }
-  if (call.type === 'MemberExpression') {
-    const object = evaluateCallPath(call.object);
-    const property = evaluateCallPath(call.property);
-    return `${object}.${property}`;
-  }
-  throw new Error('failed to evaluate call path, unrecognized type');
 }

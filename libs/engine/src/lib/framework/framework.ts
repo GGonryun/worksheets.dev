@@ -1,7 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Failure } from '@worksheets/util-errors';
 import { Context } from './context';
-import { Stack } from '../structures';
+import { Stack } from '@worksheets/util-data-structures';
 
 export type Address = string;
 
