@@ -1,9 +1,12 @@
 import {
+  findFirstExpression,
   getExpressions,
   hasOverlappingCurlyBrackets,
   hasUnbalancedCurlyBrackets,
   isExpression,
 } from '.';
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type Mock = jest.Mock<any, any, any>;
 
 describe('hasOverlappingCurlyBrackets', () => {
   it.each([
@@ -33,6 +36,7 @@ describe('getExpressions', () => {
         'This ${is some} ${text inside} curly brackets.',
         ['is some', 'text inside'],
       ],
+      ['${1 === 1}', ['1 === 1']],
     ];
 
     testCases.forEach(([input, expected]) => {
@@ -86,4 +90,16 @@ describe('isExpression', () => {
 
   processor(success, true);
   processor(failure, false);
+});
+
+describe('findFirstExpression', () => {
+  [
+    ['${test}', 'test'],
+    ['', undefined],
+    ['${a} ${b}', 'a'],
+  ].forEach(([actual, expected]) => {
+    it(`expression in '${actual}'`, () => {
+      expect(findFirstExpression(actual)).toEqual(expected);
+    });
+  });
 });

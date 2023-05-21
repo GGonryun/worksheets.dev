@@ -5,6 +5,7 @@
   "devDependencies": {
     "@types/esprima": "^4.0.3",
     "@types/estraverse": "^5.1.2",
+    "@types/jest-when": "^3.5.2",
     "@types/js-yaml": "^4.0.5",
     "@types/lodash": "^4.14.194"
   }

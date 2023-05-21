@@ -2,7 +2,9 @@ import { Context, Instruction } from '../framework';
 import { Steps, StepsDefinition } from './steps';
 
 export type LoopDefinition = {
-  locators: { index: string; value: string; iterable: string };
+  for: string;
+  index: string;
+  value: string;
   steps: StepsDefinition[];
 };
 
@@ -12,27 +14,30 @@ export class Loop implements Instruction {
     this.definition = def;
   }
 
-  async process({
-    memory: { has, get, put },
-    instructions: { push },
-  }: Context): Promise<void> {
-    const { locators, steps } = this.definition;
+  async process({ memory, instructions }: Context): Promise<void> {
+    const {
+      for: listAddress,
+      index: indexAddress,
+      value: valueAddress,
+      steps,
+    } = this.definition;
     // get current iteration
-    let index: number = has(locators.index) ? get(locators.index) + 1 : 0;
+    const index: number = memory.has(indexAddress)
+      ? memory.get(indexAddress) + 1
+      : 0;
 
-    const iterable = get(locators.iterable);
-    if (++index >= iterable.length) {
+    const iterable = memory.get(listAddress);
+    if (index >= iterable.length) {
       return; // loop terminate
     }
 
     // assign value and current index into memory for next instruction
-    const item = iterable[index];
-    const value = item[index];
-    put(locators.value, value);
-    put(locators.index, index);
+    const value = iterable[index];
+    memory.put(valueAddress, value);
+    memory.put(indexAddress, index);
 
     // execute steps and loop
-    push(new Loop(this.definition));
-    push(new Steps(steps));
+    instructions.push(new Loop(this.definition));
+    instructions.push(new Steps(steps));
   }
 }

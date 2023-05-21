@@ -1,14 +1,16 @@
 import { load as loadYaml } from 'js-yaml';
 import { InitDefinition } from '../instructions/init';
+import { isArray } from 'lodash';
 
 export function load(text: string): InitDefinition {
   return loadYaml(text) as InitDefinition;
 }
 
-export function findFirstExpression(input: string) {
+export function findFirstExpression(input?: string) {
+  if (!input) return undefined;
   const expressions = getExpressions(input);
-  if (expressions.length < 1) return expressions[0];
-  return undefined;
+  if (expressions.length < 1) return undefined;
+  return expressions[0];
 }
 
 export function isExpression(input: string): boolean {
@@ -76,4 +78,8 @@ export function hasUnbalancedCurlyBrackets(input: string): boolean {
   }
 
   return count !== 0; // Check if count is non-zero, indicating unbalanced curly brackets
+}
+
+export function isRecord(value: unknown): value is Record<string, unknown> {
+  return true;
 }

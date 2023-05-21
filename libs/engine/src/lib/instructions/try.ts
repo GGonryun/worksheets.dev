@@ -1,14 +1,13 @@
 import { ExecutionFailure } from '../failures';
-import { Catch } from './catch';
-import { Address, Context, Instruction } from '../framework';
+import { Catch, CatchDefinition } from './catch';
+import { Context, Instruction } from '../framework';
 import { RestoreHeap } from './restoreHeap';
 import { Steps, StepsDefinition } from './steps';
 
 export type TryDefinition = {
-  try: StepsDefinition;
-  catch: Address;
-  handle: StepsDefinition;
-  finally: StepsDefinition;
+  try: { steps: StepsDefinition };
+  catch: CatchDefinition;
+  finally: { steps: StepsDefinition };
 };
 
 export class Try implements Instruction {
@@ -30,11 +29,11 @@ export class Try implements Instruction {
     }
     instructions.push(new RestoreHeap(memory.clone()));
     if (def.finally) {
-      instructions.push(new Steps(def.finally));
+      instructions.push(new Steps(def.finally.steps));
     }
-    if (def.catch || def.handle) {
-      instructions.push(new Catch({ address: def.catch, steps: def.handle }));
+    if (def.catch) {
+      instructions.push(new Catch(def.catch));
     }
-    instructions.push(new Steps(def.try));
+    instructions.push(new Steps(def.try.steps));
   }
 }

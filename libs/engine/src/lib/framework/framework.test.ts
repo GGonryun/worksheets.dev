@@ -1,5 +1,5 @@
+import { Heap } from '../structures';
 import { Context } from './context';
-import { Heap } from './framework';
 
 describe('Heap', () => {
   describe('constructor', () => {

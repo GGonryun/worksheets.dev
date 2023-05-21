@@ -3,25 +3,6 @@ import { ExecutionFailure } from '../failures';
 import { Catch } from '../instructions/catch';
 import { Context, Instruction } from '../framework';
 
-export type IterateLifeCycleCodes =
-  | 'prePop'
-  | 'pop'
-  | 'done'
-  | 'checking'
-  | 'skipped'
-  | 'preProcess'
-  | 'processed'
-  | 'erroring'
-  | 'errored';
-
-export type LifeCycleHook<T> = (code: T, instruction?: Instruction) => void;
-
-function op<T>(on?: LifeCycleHook<T>) {
-  return function (code: T, instruction?: Instruction) {
-    on && on(code, instruction);
-  };
-}
-
 export class Engine {
   private readonly context: Context;
   constructor(ctx: Context = new Context()) {
@@ -31,26 +12,18 @@ export class Engine {
   // todo: what we want is to trigger effects before/after which is a lot like a state machine.
   // if we can convert the engine into a state machine we can add beforeState and afterState triggers.
   // and then organize a clearer picture of the order of events
-  async iterate(on?: LifeCycleHook<IterateLifeCycleCodes>) {
-    op(on)('prePop', undefined);
+  async iterate(): Promise<Instruction | undefined> {
     const instruction = this.context.instructions.pop();
-    op(on)('pop', instruction);
     if (!instruction) {
-      op(on)('done', instruction);
       return;
     }
-    op(on)('checking', instruction);
     if (this.canCatchError(instruction)) {
-      op(on)('skipped', instruction);
-      return;
+      return instruction;
     }
 
     try {
-      op(on)('preProcess', instruction);
-      instruction.process(this.context);
-      op(on)('processed', instruction);
+      await instruction.process(this.context);
     } catch (error) {
-      op(on)('erroring', instruction);
       const e =
         error instanceof ExecutionFailure
           ? error
@@ -60,10 +33,11 @@ export class Engine {
                 'unexpected failure received during instruction execution',
               data: { instruction },
             });
-
+      // TOOD: cases circular dependencies in errors.
+      // if we moved the register into the engine out of context we wouldnt error.
       this.context.register.failure.push(e);
-      op(on)('errored', instruction);
     }
+    return instruction;
   }
 
   canCatchError(instruction: Instruction) {

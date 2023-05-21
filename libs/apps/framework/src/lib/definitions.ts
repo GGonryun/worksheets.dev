@@ -10,7 +10,7 @@ export type MethodDefinition<
   Output extends z.ZodType<any, any, any> = z.ZodType<any, any, any>
 > = {
   label: string;
-  description: string;
+  description?: string;
   input: Input | null;
   output: Output | null;
   call(ctx: Context<z.infer<Input>>): Promise<z.infer<Output>>;

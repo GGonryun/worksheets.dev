@@ -11,6 +11,7 @@ export class Assign implements Instruction {
 
   async process(ctx: Context): Promise<void> {
     for (const key in this.definition) {
+      if (key === 'assign') continue;
       const value = this.definition[key];
       ctx.instructions.push(new Assignment({ key, value }));
     }

@@ -22,7 +22,8 @@ export class Call implements Instruction {
   async process(ctx: Context): Promise<void> {
     try {
       const { call, input, output } = this.definition;
-      const result = await executeMethod(call, input);
+      const resolved = await ctx.scripts.recursiveParse(input);
+      const result = await ctx.lib.run(call, resolved);
       if (output) {
         ctx.instructions.push(
           new Assignment({
@@ -41,9 +42,4 @@ export class Call implements Instruction {
       });
     }
   }
-}
-
-async function executeMethod(path: string, input: unknown) {
-  console.log('TODO: call application registry.', path, input);
-  return 'ok';
 }

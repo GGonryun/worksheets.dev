@@ -11,9 +11,9 @@ export class Assignment implements Instruction {
     this.definition = def;
   }
 
-  async process(ctx: Context): Promise<void> {
-    const { key, value } = this.definition;
-    const v = typeof value === 'string' ? ctx.scripts.parse(value) : value;
-    ctx.memory.put(key, v);
+  async process({ scripts, memory }: Context): Promise<void> {
+    const { key, value: raw } = this.definition;
+    const value = await scripts.recursiveParse(raw);
+    memory.put(key, value);
   }
 }

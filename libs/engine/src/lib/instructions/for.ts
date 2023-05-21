@@ -6,11 +6,9 @@ import { RestoreHeap } from './restoreHeap';
 import { StepsDefinition } from './steps';
 
 export type ForDefinition = {
-  locators: {
-    index: string;
-    value: string;
-    iterable: string;
-  };
+  for: string;
+  index: string;
+  value: string;
   steps: StepsDefinition[];
 };
 
@@ -22,35 +20,32 @@ export class For implements Instruction {
 
   async process(ctx: Context): Promise<void> {
     const { memory, instructions: stack } = ctx;
-    const { locators } = this.definition;
+    const { for: address, index } = this.definition;
 
     // validate inputs before pushing instructions onto the stack.
-    if (!locators.index || !locators.iterable) {
+    if (!index) {
       throw new ExecutionFailure({
         code: 'missing-required-parameter',
-        message: 'missing required locators',
+        message: 'missing index address',
         definition: this.definition,
         context: ctx,
       });
     }
-
-    const iterable = memory.get(locators.iterable);
-    if (!iterable) {
+    const list = memory.get(address);
+    if (!list) {
       throw new ExecutionFailure({
         code: 'missing-required-parameter',
-        message: 'For instruction requires an iterable',
+        message: 'missing a list',
         definition: this.definition,
         context: ctx,
       });
     }
-
-    if (!isArrayLike(iterable)) {
+    if (!isArrayLike(list)) {
       throw new ExecutionFailure({
         code: 'invalid-argument-type',
-        message: `element in memory '${locators.iterable}' is not iterable`,
+        message: `element at '${address}' is not iterable`,
         definition: this.definition,
         context: ctx,
-        data: { iterable, locators },
       });
     }
 

@@ -1,4 +1,5 @@
-import { Context, Heap, Instruction } from '../framework';
+import { Context, Instruction } from '../framework';
+import { Heap } from '../structures';
 
 export type RestoreHeapDefinition = Heap;
 

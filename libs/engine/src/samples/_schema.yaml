@@ -1,90 +1,51 @@
 version: v1.0
 name: worksheet_name
-env:
-  param_name_a: value_of_any_type
 
-input:
-  param_name_b:
-    type: string
-    default: default_value
+params:
+  #   key: value
+  param_a: ${sys.time.now()} 
+  param_b: ${env("my_auth_token")}
 
 assign:
-  param_name_c: value_of_any_type
+  #   key: value
+  param_c: value
 
 steps:
-  - step_name_a:
-    assign:
-      param_name_d: value_of_any_type
-  - step_name_b:
-    for:
-      value: loop_variable_name
-      index: index_variable_name
-      in: ${list_variable}
-      steps:
-        - step_name_c:
-          ...
-        - step_name_d:
-          # cannot reference steps outside of it's scope. the heap will only have: step a, step b, and step c, but it will not have
-          # data about the previous or next step b during the loop.
-          ...
-      # after executing, at this point in the worksheet the user writing it doesn't know the length of the list but they can manipulate each list item using "output"
-    output: param_name_x
-    # if they make no changes the output for this for step should be => step_name_b[x]{}
-    # if each loop item does change it's steps then we'll be called: step_name_b[x].param_name_x.{step_name_c, step_name_d}
-  - step_name_e:
-    try:
-      steps:
-        - step_name_f:
-          ...
-        - step_name_g:
-          ...
-    catch:
-      steps:
-        - step_name_h:
-          ...
-        - step_name_i:
-          ...
-      retry: ${core.retry.default} # a function definition that takes (error, code, attempts) => ms to wait before retrying, if 0 do not retry.
-  - step_name_j:
-    switch:
-      - case: {{expression}}
-        steps:
-          - step_name_k:
-            ...
-          - step_name_l:
-            ...
-        next: step_name
-      - case: {{expression}}
-        steps:
-          - step_name_m:
-            ...
-          - step_name_n:
-            ...
-        next: step_name
-    next: step_name
-  - step_name_k:
-    call: module.function.path
+  - assign:
+    #   key: value
+    param_d: the current time is ${param_a}!
+  - call: module.function.path
     input:
-      param_name_e: {{param_name}}
-      param_name_f: {{step_name.param_name}}
+      # key: value
+      key_a: ${param_a}
+      key_b: ${param_b}
       ...
-    output: param_name_g
-  - step_name_k:
-    parallel:
-      - step_name_j:
+    output: param_g
+  - switch:
+    - if: ${expression} # only accepts single expressions
+      steps:
+          ...
+    - if: ${expression}
+      steps:
+          ...
+  - for: list_variable_name
+    value: value_variable_name # current value during iteration
+    index: index_variable_name
+    steps:
+      # execute more instructions
         ...
-      - step_name_l:
-        ...
-# Referencing each step.
-# ${step_name_a.param_name_d}
-# ${step_name_b[i].step_name_c}
-
-output:
-  param_name_i: "assigning this text as a value"  # we support type inference for outputs.
-  param_name_h: 
-    type: string # but if you specify a type we'll perform type validation for outputs.
-    default: example # we'll assign the default value if the variable reference is null
-    .
-    value: {{param_reference}}
-  param_name_j: 24
-```
+  - try:
+      steps:
+          ...
+    catch: 
+      # reference assigned error with ${error_name}
+      assign: error_name
+      steps:
+          ...
+    finally:
+      steps:
+          ...
+return:
+  param_i: "assigning this text as a value"
+  param_h: ${param_g} # reference outputs
+  param_j: 24
