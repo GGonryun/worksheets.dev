@@ -1,8 +1,8 @@
 import { newApplication } from '@worksheets/apps/framework';
-import { request } from './lib/request';
+import { query } from './lib/query';
 
 export default newApplication({
-  label: 'http',
+  label: 'JSON',
   description: '',
-  methods: [request],
+  methods: [query],
 });

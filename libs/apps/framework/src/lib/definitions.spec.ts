@@ -3,6 +3,7 @@ import { newMethod } from './definitions';
 describe('newMethod', () => {
   it('creates a method definition', () => {
     const method = newMethod({
+      path: '',
       label: '',
       description: '',
       input: null,

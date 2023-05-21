@@ -9,6 +9,7 @@ export type MethodDefinition<
   Input extends z.ZodType<any, any, any> = z.ZodType<any, any, any>,
   Output extends z.ZodType<any, any, any> = z.ZodType<any, any, any>
 > = {
+  path: string;
   label: string;
   description?: string;
   input: Input | null;
@@ -26,7 +27,7 @@ export function newMethod<
 export type ApplicationDefinition = {
   label: string;
   description: string;
-  methods: { [path: string]: MethodDefinition };
+  methods: MethodDefinition[];
 };
 
 export function newApplication(opts: ApplicationDefinition) {

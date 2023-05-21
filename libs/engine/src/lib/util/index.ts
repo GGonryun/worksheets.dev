@@ -1,9 +1,13 @@
-import { load as loadYaml } from 'js-yaml';
+import { JSON_SCHEMA, load as loadYaml } from 'js-yaml';
 import { InitDefinition } from '../instructions/init';
-import { isArray } from 'lodash';
 
 export function load(text: string): InitDefinition {
-  return loadYaml(text) as InitDefinition;
+  const t = loadYaml(text, {
+    json: true,
+    schema: JSON_SCHEMA,
+  }) as InitDefinition;
+  console.log(t);
+  return t;
 }
 
 export function findFirstExpression(input?: string) {

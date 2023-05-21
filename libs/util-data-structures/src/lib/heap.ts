@@ -7,8 +7,12 @@ export class Heap {
     this.data = data ?? {};
   }
 
+  getAll(): any {
+    return cloneDeep(this.data);
+  }
+
   get(key: string): any {
-    return this.data[key];
+    return cloneDeep(this.data[key]);
   }
 
   put(key: string, value: any): any {
@@ -55,6 +59,10 @@ export class WriteOnlyHeap
   heap: Heap;
   constructor(heap: Heap) {
     this.heap = heap;
+  }
+
+  getAll() {
+    return this.heap.getAll();
   }
 
   has(key: string): boolean {

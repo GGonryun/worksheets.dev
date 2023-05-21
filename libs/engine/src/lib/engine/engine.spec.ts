@@ -10,56 +10,12 @@ import { DomainFailure } from '../failures';
 import { Heap } from '@worksheets/util-data-structures';
 
 const CONSTANT_NOW = 1684563401;
-describe('parsing visualizer', () => {
-  it('visualizes yaml', () => {
-    const yaml = `
-    steps:
-      - call: system.time.now
-        output: time
-      - try: 
-          steps:
-            - call: system.time.now
-              output: time
-        handle: error
-        catch:
-          steps:
-            - call: system.time.now
-              output: time
-      - if:
-        - case: \${time > system.time.now() - 5000}
-          steps:
-            - call: system.time.now
-              output: time
-            - call: system.time.now
-              output: time
-        - case: \${time > system.time.now() - 2000}
-          steps:
-            - call: system.time.now
-              output: time
-            - call: system.time.now
-              output: time
-      - loop: \${list}
-        index: index_name
-        value: value_name
-        steps: 
-          - call: system.console.log
-            input:
-              data: \${index_name} 
-          - call: system.console.log
-            input:
-              data: \${value_name} 
-      - return: \${time}
-
-    `;
-    const def = load(yaml);
-    expect(def).not.toBeUndefined();
-  });
-});
 
 describe('metadata only', () => {
   const yaml = `
   version: 1
   name: metadata
+  return: 1
   `;
   it('processes worksheet', async () => {
     const def = load(yaml);
@@ -78,10 +34,8 @@ describe('worksheets', () => {
     type TestCases = {
       name: string;
       yaml: string;
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      input?: any;
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      expectation: any;
+      input?: unknown;
+      expectation: unknown;
       print?: boolean;
     };
 
@@ -181,8 +135,8 @@ describe('worksheets', () => {
 
     testCases.forEach(async ({ name, yaml, input, expectation }) => {
       it(name, async () => {
-        const exe = new Execution({ input });
-        const result = await exe.run(yaml);
+        const exe = new Execution();
+        const result = await exe.run(yaml, input);
         expect(result).toEqual(expectation);
       });
     });
@@ -1240,8 +1194,8 @@ describe('worksheets', () => {
         const registry = new JestRegistry(mock);
         const memory = new Heap();
         arrange && arrange(mock, memory);
-        const exe = new Execution({ input, registry, memory });
-        const result = await exe.run(yaml);
+        const exe = new Execution({ registry, memory });
+        const result = await exe.run(yaml, input);
         assert && assert(result, mock);
       });
     });

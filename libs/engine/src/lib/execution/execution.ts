@@ -9,7 +9,6 @@ import { Heap, Stack } from '@worksheets/util-data-structures';
 export type ExecutionOptions = {
   memory?: Heap;
   registry?: ApplicationRegistry;
-  input?: unknown;
 };
 
 export class Execution {
@@ -21,9 +20,6 @@ export class Execution {
   constructor(opts?: ExecutionOptions) {
     this.executed = false;
     const register = new Register();
-    if (opts?.input) {
-      register.input = opts.input;
-    }
 
     const memory = opts?.memory ?? new Heap();
     this.ctx = new Context({
@@ -42,7 +38,10 @@ export class Execution {
     }
   }
 
-  async run(yaml: string): Promise<unknown> {
+  async run(yaml: string, input?: unknown): Promise<unknown> {
+    if (input) {
+      this.ctx.register.input = input;
+    }
     if (this.executed)
       throw new Failure({
         message: 'execution context cannot run twice for the same instruction',
@@ -52,7 +51,6 @@ export class Execution {
     const def = load(yaml);
 
     this.ctx.instructions.push(new Init(def));
-
     while (this.engine.hasNext()) {
       const instruction = await this.engine.iterate();
       if (instruction) {

@@ -4,6 +4,7 @@ import { Parameters } from './parameters';
 import { Return } from './return';
 import { Definition } from './definition';
 import { Steps } from './steps';
+import { ExecutionFailure } from '../failures';
 
 export type InitDefinition = {
   version: 1;
@@ -22,6 +23,14 @@ export class Init implements Instruction {
 
   async process(ctx: Context): Promise<void> {
     const { name, version, return: r, params, assign, steps } = this.definition;
+    if (!r && !steps && !assign && !params) {
+      throw new ExecutionFailure({
+        code: 'missing-required-parameter',
+        message: 'worksheet must have at least one parameter specified',
+        context: ctx,
+        definition: this.definition,
+      });
+    }
     if (name) {
       ctx.register.name = name;
     }

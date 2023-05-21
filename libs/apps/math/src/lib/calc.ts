@@ -2,6 +2,7 @@ import { newMethod } from '@worksheets/apps/framework';
 import { z } from 'zod';
 
 export const calc = newMethod({
+  path: 'math.calc',
   label: 'Calculate',
   description: 'Executes an operation (+, -, *, /, ^) between X and Y',
   input: z.object({
