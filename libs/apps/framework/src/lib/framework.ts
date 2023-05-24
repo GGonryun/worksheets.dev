@@ -57,6 +57,6 @@ export class MethodCallFailure extends Failure {
 }
 
 export interface ApplicationLibrary {
-  list(): Promise<MethodDefinition[]>;
+  list(): MethodDefinition[];
   call(path: string, ...inputs: unknown[]): Promise<unknown>;
 }

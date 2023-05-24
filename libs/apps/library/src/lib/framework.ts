@@ -5,6 +5,9 @@ import {
 } from '@worksheets/apps/framework';
 import { Heap } from '@worksheets/util-data-structures';
 import { StatusCodes } from 'http-status-codes';
+import { ZodType, string } from 'zod';
+import zodToJsonSchema from 'zod-to-json-schema';
+import { JsonSchema7Type } from 'zod-to-json-schema/src/parseDef';
 
 /** Knows about where applications are stored and how */
 export class Clerk {
@@ -50,9 +53,12 @@ export class Technician {
     if (method.input) {
       const parse = method.input.safeParse(raw);
       if (!parse.success) {
+        const msg = parse.error.errors.at(0)?.message ?? 'unexpected';
         throw new MethodCallFailure({
           code: StatusCodes.UNPROCESSABLE_ENTITY,
-          message: `method ${method.path} received invalid input`,
+          message: `method ${
+            method.path
+          } received invalid input -- ${msg.toLocaleLowerCase()}`,
         });
       }
       input = parse.data;
@@ -87,3 +93,51 @@ export class Technician {
     return output;
   }
 }
+
+export class Translator {
+  print({
+    path,
+    input,
+    output,
+    label,
+    description,
+  }: MethodDefinition): MethodSummary {
+    console.log('path', label);
+    return {
+      path,
+      label,
+      description: description ?? '',
+      input: this.printSchema(input),
+      output: this.printSchema(output),
+    };
+  }
+
+  private printSchema(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    type: ZodType<any, any, any> | undefined | null
+  ): JsonSchema7Type {
+    if (!type) {
+      return {};
+    }
+
+    const schema = zodToJsonSchema(type, 'schema');
+    if (!schema.definitions) {
+      return {};
+    }
+
+    return schema.definitions['schema'];
+  }
+}
+
+export type MethodSummary = {
+  path: string;
+  label: string;
+  description: string;
+  input: JsonSchema7Type;
+  output: JsonSchema7Type;
+};
+
+// // eslint-disable-next-line @typescript-eslint/no-explicit-any
+// type FieldDescription<K extends keyof any = string, T = string> = {
+//   [P in K]: T | FieldDescription<K, T>;
+// };

@@ -18,7 +18,7 @@ export class JestApplicationLibrary implements ApplicationLibrary {
     this.callMock = opts?.call ?? jest.fn();
     this.listMock = opts?.list ?? jest.fn();
   }
-  list(): Promise<MethodDefinition[]> {
+  list(): MethodDefinition[] {
     return this.listMock();
   }
 

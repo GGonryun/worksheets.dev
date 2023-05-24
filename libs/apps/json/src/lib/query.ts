@@ -10,7 +10,7 @@ export const query = newMethod({
     data: z.any(),
     selector: z.string(),
   }),
-  output: z.unknown(),
+  output: z.object({}),
   call: async function ({ input }) {
     const { selector, data } = input;
     const result = jq(selector, { data, allowRegexp: true });

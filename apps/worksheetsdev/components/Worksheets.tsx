@@ -1,7 +1,9 @@
-import { Box, Typography, TextField, Button } from '@mui/material';
+import { Box, Typography, Button } from '@mui/material';
 import { OfficialApplicationLibrary } from '@worksheets/apps/library';
 import { Execution } from '@worksheets/engine';
 import { useState } from 'react';
+import React from 'react';
+import { CodeEditor } from './CodeEditor';
 
 export default function Worksheets() {
   const [worksheet, setWorksheet] = useState<string>('');
@@ -20,17 +22,25 @@ export default function Worksheets() {
   }
 
   return (
-    <Box width="100%">
-      <TextField
-        InputProps={{ style: { fontFamily: 'monospace' } }}
-        fullWidth
-        multiline
-        minRows={12}
+    <Box
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+      flexDirection="column"
+      gap={3}
+    >
+      <CodeEditor
         value={worksheet}
-        onChange={(e) => setWorksheet(e.currentTarget.value)}
+        onChange={(newValue) => setWorksheet(newValue)}
       />
-      <Button onClick={() => handleSubmit()}>Run Worksheet</Button>
-      {response && <Typography>{response}</Typography>}
+      <Button variant="contained" onClick={() => handleSubmit()}>
+        EXECUTE WORKSHEET
+      </Button>
+      {response && (
+        <Box>
+          <Typography>{response}</Typography>
+        </Box>
+      )}
     </Box>
   );
 }
