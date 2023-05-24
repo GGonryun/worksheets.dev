@@ -1,10 +1,10 @@
 import { Context, Instruction } from '../framework';
 import { Steps, StepsDefinition } from './steps';
 import { RestoreHeap } from './restoreHeap';
-import { findFirstExpression } from '../util';
 import { ExecutionFailure } from '../failures';
 import { Return, ReturnDefinition } from './return';
 import { Next, NextDefinition } from './next';
+import { findFirstExpression } from '../util';
 
 export type CaseDefinition = {
   if: string;
@@ -22,19 +22,22 @@ export class If implements Instruction {
   async process(ctx: Context): Promise<void> {
     const { definition: def } = this;
     const { memory, instructions, scripts } = ctx;
-    const cache = memory.clone();
-    instructions.push(new RestoreHeap(cache));
+
+    if (def.length) {
+      instructions.push(new RestoreHeap(memory.clone()));
+    }
+
     for (let i = 0; i < def.length; i++) {
       const { if: condition, steps, return: terminate, next } = def[i];
       const expression = findFirstExpression(condition);
+
       if (!expression) {
         throw new ExecutionFailure({
-          code: 'missing-required-parameter',
-          message: `if condition ${i} expression is invalid`,
-          context: ctx,
-          definition: this.definition,
+          code: 'invalid-instruction',
+          message: `'switch' instruction contains a condition that could not be evaluated at position ${i}. expected a single expression, but received: ${expression}`,
         });
       }
+
       if (await scripts.evaluate(expression)) {
         if (terminate) {
           instructions.push(new Return(terminate));

@@ -1,5 +1,5 @@
-import { Assignment } from './assignment';
 import { Context, Instruction } from '../framework';
+import { Assignment } from './assignment';
 
 export type AssignDefinition = { [key: string]: unknown };
 

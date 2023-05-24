@@ -11,10 +11,8 @@ export class Break implements Instruction {
 
     if (!canBreak) {
       throw new ExecutionFailure({
-        code: 'invalid-break-statement',
-        message: `a break instruction exists outside of a loop`,
-        definition: 'break',
-        context: ctx,
+        code: 'invalid-instruction',
+        message: `'break' instruction cannot exist outside of a loop`,
       });
     }
 

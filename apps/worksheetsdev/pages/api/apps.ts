@@ -1,4 +1,4 @@
-import { OfficialRegistry } from '@worksheets/apps/registry';
+import { OfficialApplicationLibrary } from '@worksheets/apps/library';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { ZodAny } from 'zod';
 import zodToJsonSchema from 'zod-to-json-schema';
@@ -6,8 +6,8 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const registry = new OfficialRegistry();
-  const catalog = registry.library.catalog();
+  const library = new OfficialApplicationLibrary();
+  const catalog = await library.list();
 
   const results: MethodWithSchema[] = [];
   for (const method of catalog) {

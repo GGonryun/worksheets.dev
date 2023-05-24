@@ -1,29 +1,21 @@
 import { Box, Typography, TextField, Button } from '@mui/material';
+import { OfficialApplicationLibrary } from '@worksheets/apps/library';
+import { Execution } from '@worksheets/engine';
 import { useState } from 'react';
 
 export default function Worksheets() {
   const [worksheet, setWorksheet] = useState<string>('');
   const [response, setResponse] = useState<string>('');
   function handleSubmit() {
-    setResponse('');
-    fetch('/api/run', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/text',
-      },
-      body: JSON.stringify(worksheet),
-    })
-      .then((r) => {
-        if (!r.ok) {
-          throw r.status;
-        }
-        return r.json();
-      })
+    const library = new OfficialApplicationLibrary();
+    const execution = new Execution({ library });
+    execution
+      .run(worksheet, {})
       .then((data) => {
         setResponse(`${JSON.stringify(data, null, 2)}`);
       })
-      .catch((code) => {
-        setResponse(`request failed with code ${code}`);
+      .catch((error) => {
+        setResponse(`(${error.code}) - ${error.message}`);
       });
   }
 

@@ -1,5 +1,4 @@
 import { isObject } from 'lodash';
-import { ExecutionFailure } from '../failures';
 import { Assignment } from './assignment';
 import { Context, Instruction } from '../framework';
 
@@ -20,26 +19,16 @@ export class Call implements Instruction {
   }
 
   async process(ctx: Context): Promise<void> {
-    try {
-      const { call, input, output } = this.definition;
-      const resolved = await ctx.scripts.recursiveParse(input);
-      const result = await ctx.lib.run(call, resolved);
-      if (output) {
-        ctx.instructions.push(
-          new Assignment({
-            key: output,
-            value: result,
-          })
-        );
-      }
-    } catch (error) {
-      throw new ExecutionFailure({
-        code: 'method-call-failure',
-        message: `method execution failed unexpectedly`,
-        cause: error,
-        definition: this.definition,
-        context: ctx,
-      });
+    const { call: path, input, output } = this.definition;
+    const resolved = await ctx.scripts.recursiveParse(input);
+    const result = await ctx.library.call(path, resolved);
+    if (output) {
+      ctx.instructions.push(
+        new Assignment({
+          key: output,
+          value: result,
+        })
+      );
     }
   }
 }

@@ -17,7 +17,6 @@ describe('query', () => {
         },
       },
     });
-    console.log(result);
     expect(result).toEqual([
       { name: 'Matt', country: 'NZ' },
       { name: 'Mikey', country: 'NZ' },

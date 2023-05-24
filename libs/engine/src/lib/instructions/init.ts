@@ -25,12 +25,11 @@ export class Init implements Instruction {
     const { name, version, return: r, params, assign, steps } = this.definition;
     if (!r && !steps && !assign && !params) {
       throw new ExecutionFailure({
-        code: 'missing-required-parameter',
-        message: 'worksheet must have at least one parameter specified',
-        context: ctx,
-        definition: this.definition,
+        code: 'invalid-instruction',
+        message: `'init' instruction must have at least one required parameter set: 'return', 'steps', 'assign', 'params'`,
       });
     }
+
     if (name) {
       ctx.register.name = name;
     }

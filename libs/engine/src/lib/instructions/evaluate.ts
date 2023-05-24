@@ -1,5 +1,5 @@
-import { isExpression } from '../util';
 import { Address, Instruction, Context } from '../framework';
+import { isExpression } from '../util';
 
 export type EvaluateDefinition = { address: Address; expression: string };
 
@@ -18,9 +18,9 @@ export class Evaluate implements Instruction {
     const { expression, address } = this.definition;
     let value;
     if (isExpression(expression)) {
-      value = ctx.scripts.evaluate(expression);
+      value = await ctx.scripts.evaluate(expression);
     } else {
-      value = ctx.scripts.parse(expression);
+      value = await ctx.scripts.recursiveParse(expression);
     }
     ctx.memory.put(address, value);
   }

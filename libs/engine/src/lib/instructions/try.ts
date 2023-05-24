@@ -19,21 +19,24 @@ export class Try implements Instruction {
   async process(ctx: Context): Promise<void> {
     const { memory, instructions } = ctx;
     const def = this.definition;
+
     if (!def.try) {
       throw new ExecutionFailure({
-        code: 'missing-required-parameter',
-        message: 'Try instruction cannot execute without steps defined.',
-        context: ctx,
-        definition: def,
+        code: 'invalid-instruction',
+        message: `'try' instruction is missing required parameter: 'steps'`,
       });
     }
+
     instructions.push(new RestoreHeap(memory.clone()));
+
     if (def.finally) {
       instructions.push(new Steps(def.finally.steps));
     }
+
     if (def.catch) {
       instructions.push(new Catch(def.catch));
     }
+
     instructions.push(new Steps(def.try.steps));
   }
 }

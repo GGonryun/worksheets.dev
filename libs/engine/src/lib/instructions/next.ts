@@ -35,10 +35,8 @@ export class Next implements Instruction {
         return;
     }
     throw new ExecutionFailure({
-      code: 'invalid-operation',
-      message: `Next statement received an unexpected parameter ${definition}`,
-      context,
-      definition,
+      code: 'invalid-instruction',
+      message: `Next instruction received an unexpected operation: ${definition}`,
     });
   }
 }

@@ -1,10 +1,9 @@
-import { Box, Button, Collapse, IconButton, Typography } from '@mui/material';
-import InputIcon from '@mui/icons-material/Input';
+import { Box, Button, Collapse, Typography } from '@mui/material';
 import useSWR from 'swr';
-import { MethodWithSchema } from '../pages/api/apps';
 import JSONPretty from 'react-json-pretty';
 import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
 import { useState } from 'react';
+import { MethodWithSchema } from '../pages/api/apps';
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export default function Applications() {

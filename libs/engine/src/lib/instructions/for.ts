@@ -24,27 +24,21 @@ export class For implements Instruction {
 
     if (!index) {
       throw new ExecutionFailure({
-        code: 'missing-required-parameter',
-        message: 'missing index address',
-        definition: this.definition,
-        context: ctx,
+        code: 'invalid-instruction',
+        message: `'for' instruction is missing required parameter: "index"`,
       });
     }
     const list = memory.get(address);
     if (!list) {
       throw new ExecutionFailure({
-        code: 'missing-required-parameter',
-        message: 'missing a list',
-        definition: this.definition,
-        context: ctx,
+        code: 'invalid-instruction',
+        message: `'for' instruction is missing required parameter: 'list'`,
       });
     }
     if (!isArrayLike(list)) {
       throw new ExecutionFailure({
-        code: 'invalid-argument-type',
-        message: `element at '${address}' is not iterable`,
-        definition: this.definition,
-        context: ctx,
+        code: 'invalid-instruction',
+        message: `'for' instruction cannot iterate over list at address '${address}' expected iterable but received: '${typeof list}'`,
       });
     }
 

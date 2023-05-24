@@ -25,10 +25,8 @@ export class Steps implements Instruction {
   async process(ctx: Context): Promise<void> {
     if (!this.definition) {
       throw new ExecutionFailure({
-        code: 'invalid-operation',
-        message: 'steps instruction is missing a definition',
-        context: ctx,
-        definition: this.definition,
+        code: 'invalid-instruction',
+        message: 'instruction definition schema is required',
       });
     }
     const steps = cloneDeep(this.definition).reverse();
@@ -55,17 +53,15 @@ export class Steps implements Instruction {
       if (isDefinition<TryDefinition>(step, 'try')) {
         instruction = new Try(step);
       }
+
       if (!instruction) {
         throw new ExecutionFailure({
-          code: 'unrecognized-step',
-          message: `steps instruction encountered a definition we did not recognize ${JSON.stringify(
-            step
-          )}`,
-          context: ctx,
-          definition: this.definition,
+          code: 'invalid-instruction',
+          message: `encountered an unfamiliar instruction`,
           data: { step },
         });
       }
+
       ctx.instructions.push(instruction);
     }
   }
