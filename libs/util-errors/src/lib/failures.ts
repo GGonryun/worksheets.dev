@@ -23,11 +23,8 @@ export class Failure extends Error {
   constructor(opts: FailureOptions) {
     const cause = opts.cause != null ? convertToFailure(opts.cause) : undefined;
     super(opts.message);
-    this.data = {
-      ...opts.data,
-      cause,
-    };
-    this.cause = cause?.message;
+    this.data = opts.data;
+    this.cause = cause;
   }
 }
 

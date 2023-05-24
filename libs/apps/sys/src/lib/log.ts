@@ -2,7 +2,6 @@ import { z } from 'zod';
 import { newMethod } from '@worksheets/apps/framework';
 
 export const log = newMethod({
-  module: 'sys.log',
   label: 'System Console Logger',
   input: z.object({
     data: z.any(),

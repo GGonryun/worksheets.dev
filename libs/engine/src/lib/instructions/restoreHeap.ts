@@ -1,6 +1,7 @@
-import { Context, Instruction } from './framework';
+import { Heap } from '@worksheets/util-data-structures';
+import { Context, Instruction } from '../framework';
 
-export type RestoreHeapDefinition = unknown;
+export type RestoreHeapDefinition = Heap;
 
 export class RestoreHeap implements Instruction {
   private readonly definition: RestoreHeapDefinition;
@@ -8,7 +9,13 @@ export class RestoreHeap implements Instruction {
     this.definition = def;
   }
 
-  process(ctx: Context): void {
-    throw new Error('unimplemented');
+  async process(ctx: Context): Promise<void> {
+    const heap = new Heap();
+    for (const key of this.definition.keys()) {
+      const value = ctx.memory.get(key);
+      heap.put(key, value);
+    }
+
+    ctx.memory.restore(heap);
   }
 }

@@ -1,3 +1,59 @@
+# Schema
+
+```yaml
+version: v1.0
+name: worksheet_name
+
+params: param_name
+
+assign:
+  #   key: value
+  param_a: ${sys.time.now()}
+  param_b: ${env("my_auth_token")}
+  param_c: value
+
+steps:
+  - assign:
+    #   key: value
+    param_d: the current time is ${param_a}!
+  - call: module.function.path
+    input:
+      # key: value
+      key_a: ${param_a}
+      key_b: ${param_b}
+      ...
+    output: param_g
+  - switch:
+    - if: ${expression} # only accepts single expressions
+      steps:
+          ...
+    - if: ${expression}
+      return: ${param_name}
+  - for: list_variable_name
+    value: value_variable_name # current value during iteration
+    index: index_variable_name
+    steps:
+      # execute more instructions
+        ...
+  - try:
+      steps:
+          ...
+    catch:
+      # reference assigned error with ${error_name}
+      assign: error_name
+      steps:
+          ...
+    finally:
+      steps:
+          ...
+
+return:
+  param_i: "assigning this text as a value"
+  param_h: ${param_g} # reference outputs
+  param_j: 24
+
+```
+
 # Engine
 
 The engine takes worksheets executes it. An engine is composed of an execution stack, a memory heap, and a register. The execution stack contains sequential information about which processes need to run. A memory heap contains shared data between executions, and a register manages special fields that influence the executions flow or operation of events.
@@ -23,10 +79,6 @@ Execute a sequential set of actions. A step can include instructions: call, try,
 ### Call
 
 Execute an application from the registry. A call instruction will place its outputs on the heap at the variable name specified by output.
-
-### Clone heap
-
-Simply replaces the current snapshot of the heap in memory with a new deep clone. This is done to prevent any modifications to the previous heap.
 
 ### Restore heap
 
@@ -78,3 +130,13 @@ Executes multiple steps at the same time.
 
 **Planned v3 release**
 Go to another position in the execution flow.
+
+### Copy
+
+**Unofficial Instruction**
+Copies information across different locations in memory. Useful if you need to copy or create temporary data.
+
+### Evaluate
+
+**Unofficial Instruction**
+Places an expression evaluation on the stack, this lets us process the expression as if it was an instruction which also allows us to handle it's exceptions.

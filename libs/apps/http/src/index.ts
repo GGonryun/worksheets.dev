@@ -1,1 +1,8 @@
-export * from './lib/request';
+import { newApplication } from '@worksheets/apps/framework';
+import { request } from './lib/request';
+
+export default newApplication({
+  label: 'http',
+  description: '',
+  methods: [request],
+});

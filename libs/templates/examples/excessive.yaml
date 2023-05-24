@@ -1,0 +1,42 @@
+name: excessive http requests
+assign:
+  list: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+  # allocating memory for return
+  resp1:
+  resp2:
+  resp3:
+  resp4:
+steps:
+  - for: list
+    index: index
+    value: value
+    steps:
+      - for: list
+        index: index2
+        value: value2
+        steps:
+          - call: http
+            input:
+              url: https://api.sampleapis.com/beers/ale
+              method: GET
+            output: resp1
+          - call: http
+            input:
+              url: https://api.sampleapis.com/coffee/hot
+              method: GET
+            output: resp2
+          - call: http
+            input:
+              url: https://api.sampleapis.com/fakebank/accounts
+              method: GET
+            output: resp3
+          - call: http
+            input:
+              url: https://api.sampleapis.com/health/professions
+              method: GET
+            output: resp4
+return:
+  first: ${resp1.body[2]}
+  second: ${resp2.body[2]}
+  third: ${resp3.body[2]}
+  fourth: ${resp4.body[0]}

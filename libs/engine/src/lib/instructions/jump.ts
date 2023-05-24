@@ -1,14 +1,9 @@
-import { Context, Instruction } from './framework';
+import { Instruction } from '../framework';
 
 export type JumpDefinition = unknown;
 
 export class Jump implements Instruction {
-  private readonly definition: JumpDefinition;
-  constructor(def: JumpDefinition) {
-    this.definition = def;
-  }
-
-  process(ctx: Context): void {
+  async process(): Promise<void> {
     throw new Error('unimplemented');
   }
 }

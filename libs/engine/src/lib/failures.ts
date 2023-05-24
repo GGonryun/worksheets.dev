@@ -1,16 +1,15 @@
 import { CodedFailure, CodedFailureOptions } from '@worksheets/util-errors';
-import { Instruction } from './instructions/framework';
 
-export type ExecutionFailureCodes = 'unknown' | 'incorrect-break-statement';
+export type ExecutionFailureCodes =
+  | 'unexpected'
+  | 'invalid-expression'
+  | 'invalid-precondition'
+  | 'invalid-syntax'
+  | 'invalid-instruction'
+  | 'unhandled-failure';
 
 export class ExecutionFailure extends CodedFailure<ExecutionFailureCodes> {
-  public readonly definition: unknown;
-  constructor(
-    opts: CodedFailureOptions<ExecutionFailureCodes> & {
-      definition: unknown;
-    }
-  ) {
+  constructor(opts: CodedFailureOptions<ExecutionFailureCodes>) {
     super(opts);
-    this.definition = opts.definition;
   }
 }

@@ -1,17 +1,19 @@
-import { AssignmentDefinition, Assignment } from './assignment';
-import { Context, Instruction } from './framework';
+import { Context, Instruction } from '../framework';
+import { Assignment } from './assignment';
 
-// a list of assignments.
-export type AssignDefinition = AssignmentDefinition[];
+export type AssignDefinition = { [key: string]: unknown };
 
 export class Assign implements Instruction {
   private readonly definition: AssignDefinition;
   constructor(def: AssignDefinition) {
     this.definition = def;
   }
-  process(ctx: Context): void {
-    for (const assignment of this.definition) {
-      ctx.instructions.push(new Assignment(assignment));
+
+  async process(ctx: Context): Promise<void> {
+    for (const key in this.definition) {
+      if (key === 'assign') continue;
+      const value = this.definition[key];
+      ctx.instructions.push(new Assignment({ key, value }));
     }
   }
 }

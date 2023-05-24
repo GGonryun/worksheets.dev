@@ -1,0 +1,8 @@
+{
+  "name": "@worksheets/apps/json",
+  "version": "0.0.1",
+  "type": "commonjs",
+  "devDependencies": {
+    "@types/json-query": "^2.2.3"
+  }
+}

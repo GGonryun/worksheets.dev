@@ -2,6 +2,7 @@ import { newMethod } from '@worksheets/apps/framework';
 import { z } from 'zod';
 
 export const request = newMethod({
+  path: 'http',
   label: 'request',
   description:
     'Sends an HTTP request to the specified URL, body should be stringified',

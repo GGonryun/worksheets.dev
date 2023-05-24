@@ -1,31 +1,128 @@
-import { getTextBetweenReferenceBrackets } from './util';
+import {
+  ApplicationLibrary,
+  MethodDefinition,
+} from '@worksheets/apps/framework';
+import {
+  findFirstExpression,
+  getExpressions,
+  hasOverlappingCurlyBrackets,
+  hasUnbalancedCurlyBrackets,
+  isExpression,
+} from './util';
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type Mock = jest.Mock<any, any, any>;
+export class JestApplicationLibrary implements ApplicationLibrary {
+  private readonly callMock: Mock;
+  private readonly listMock: Mock;
+  constructor(opts?: { call?: Mock; list?: Mock }) {
+    this.callMock = opts?.call ?? jest.fn();
+    this.listMock = opts?.list ?? jest.fn();
+  }
+  list(): MethodDefinition[] {
+    return this.listMock();
+  }
 
-describe('engine', () => {
-  it.each(['test', '', '${}', '${test', 'test}'])(
-    "'%s' should not have any references to select",
-    (data) => {
-      const instances = getTextBetweenReferenceBrackets(data);
-      expect(instances).toHaveLength(0);
-    }
-  );
+  async call(path: string, ...inputs: unknown[]): Promise<unknown> {
+    return this.callMock(path, ...inputs);
+  }
+
+  mocks() {
+    return { call: this.callMock, list: this.listMock };
+  }
+}
+
+describe('hasOverlappingCurlyBrackets', () => {
   it.each([
-    '${test}',
-    'some ${interpolated} text',
-    '${some ${nested}}',
-    '${ ${ ${ ${test} } } }',
-  ])("'%s' should one have any references to select", expectReferences(1));
+    'This {text {intersecting} balanced} curly brackets.',
+    'This {text {contains {nested} curly brackets}}',
+  ])("should return true for '%s'", (input) => {
+    const result = hasOverlappingCurlyBrackets(input);
+    expect(result).toBe(true);
+  });
   it.each([
-    '${test} ${test}',
-    '${some ${nested} ${text}}',
-    '${} ${test} ${test}',
-    '${ ${test} ${test} }',
-    '${ ${ ${test} ${test} } }',
-  ])("'%s' should one have any references to select", expectReferences(2));
+    'This {text} has {balanced} curly brackets.',
+    'This {text}{contains} no overlapping curly brackets.',
+    'This {text} {contains no overlapping} {curly brackets}',
+    'This text has unbalanced closing curly bracket}',
+  ])("should return false for '%s'", (input) => {
+    const result = hasOverlappingCurlyBrackets(input);
+    expect(result).toBe(false);
+  });
 });
 
-function expectReferences(count: number) {
-  return (data: string) => {
-    const instances = getTextBetweenReferenceBrackets(data);
-    expect(instances).toHaveLength(count);
-  };
-}
+describe('getExpressions', () => {
+  describe('handles text', () => {
+    const testCases: [string, string[]][] = [
+      ['This text does not have any curly brackets.', []],
+      ['This ${is some} text inside curly brackets.', ['is some']],
+      [
+        'This ${is some} ${text inside} curly brackets.',
+        ['is some', 'text inside'],
+      ],
+      ['${1 === 1}', ['1 === 1']],
+    ];
+
+    testCases.forEach(([input, expected]) => {
+      it(`should return ${expected} for the input: ${input}`, () => {
+        const result = getExpressions(input);
+        expect(result).toEqual(expected);
+      });
+    });
+  });
+
+  describe('throws errors', () => {
+    const testCases: string[] = [
+      'This {is some {unclosed curly brackets.',
+      'This {is {some {nested} text} inside} curly brackets.',
+    ];
+
+    testCases.forEach((input) => {
+      it(`should throw an error for input: ${input}`, () => {
+        expect(() => getExpressions(input)).toThrow();
+      });
+    });
+  });
+});
+
+describe('hasUnbalancedCurlyBrackets', () => {
+  const testCases: [string, boolean][] = [
+    ['This text does not have any curly brackets.', false],
+    ['This {text} has {balanced} curly brackets.', false],
+    ['This {text has unbalanced opening curly bracket.', true],
+    ['This text has unbalanced closing curly bracket.}', true],
+    ['This {text {contains unbalanced} curly brackets', true],
+  ];
+
+  testCases.forEach(([input, expected]) => {
+    it(`should return ${expected} for the input: ${input}`, () => {
+      const result = hasUnbalancedCurlyBrackets(input);
+      expect(result).toBe(expected);
+    });
+  });
+});
+
+describe('isExpression', () => {
+  const success: string[] = ['${}', '${test}'];
+  const failure: string[] = ['$${}', '${partial', 'partial}', ' ${}', '${{}}'];
+  const processor = (conditions: string[], expectation: boolean) =>
+    conditions.forEach((v) => {
+      it(`isExpression(${v}) === ${expectation}`, () => {
+        expect(isExpression(v)).toEqual(expectation);
+      });
+    });
+
+  processor(success, true);
+  processor(failure, false);
+});
+
+describe('findFirstExpression', () => {
+  [
+    ['${test}', 'test'],
+    ['', undefined],
+    ['${a} ${b}', 'a'],
+  ].forEach(([actual, expected]) => {
+    it(`expression in '${actual}'`, () => {
+      expect(findFirstExpression(actual)).toEqual(expected);
+    });
+  });
+});

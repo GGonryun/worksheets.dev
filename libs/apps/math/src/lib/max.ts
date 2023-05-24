@@ -2,6 +2,7 @@ import { newMethod } from '@worksheets/apps/framework';
 import { z } from 'zod';
 
 export const max = newMethod({
+  path: 'math.max',
   label: 'Maximum',
   description: 'Returns the maximum value from a list of items',
   input: z.array(z.number()),
