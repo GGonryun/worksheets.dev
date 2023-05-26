@@ -1,4 +1,5 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
+**/.env.local
 
 # compiled output
 dist
@@ -40,3 +41,14 @@ Thumbs.db
 
 # Next.js
 .next
+
+
+# Nx-Firebase
+.runtimeconfig.json
+**/.emulators/*
+**/.firebase/*
+database-debug.log
+firebase-debug.log
+firestore-debug.log
+pubsub-debug.log
+ui-debug.log

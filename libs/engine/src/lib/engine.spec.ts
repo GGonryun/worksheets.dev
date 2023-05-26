@@ -1,7 +1,7 @@
 import { Execution } from './execution';
 import { JestApplicationLibrary, Mock } from './util.test';
 import { when } from 'jest-when';
-import { Heap } from '@worksheets/util-data-structures';
+import { Heap } from '@worksheets/util/data-structures';
 import { MethodCallFailure } from '@worksheets/apps/framework';
 import { StatusCodes } from 'http-status-codes';
 

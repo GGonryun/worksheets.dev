@@ -15,7 +15,7 @@ import {
   PrivateIdentifier,
 } from 'estree';
 import { isString, isObject, isArray } from 'lodash';
-import { Heap, WriteOnlyHeap } from '@worksheets/util-data-structures';
+import { Heap, WriteOnlyHeap } from '@worksheets/util/data-structures';
 import { getExpressions, isExpression, isRecord } from './util';
 import { ExecutionFailure } from './failures';
 import { ApplicationLibrary } from '@worksheets/apps/framework';

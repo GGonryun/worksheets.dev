@@ -8,7 +8,7 @@ import {
   MethodSummary,
   OfficialApplicationLibrary,
 } from '@worksheets/apps/library';
-import { GraphNode } from '@worksheets/util-data-structures';
+import { GraphNode } from '@worksheets/util/data-structures';
 import { v4 as uuidv4 } from 'uuid';
 import DataArrayIcon from '@mui/icons-material/DataArray';
 import { JsonSchema7Type } from 'zod-to-json-schema/src/parseDef';

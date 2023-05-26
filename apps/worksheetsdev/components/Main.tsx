@@ -2,10 +2,12 @@ import { Container, Box, Typography } from '@mui/material';
 import Applications from './Applications';
 import Templates from './Templates';
 import Worksheets from './Worksheets';
+import { LoginWithGoogle } from '@worksheets/feat/user-auth';
 
 export default function Main() {
   return (
     <Container maxWidth="md">
+      <LoginWithGoogle />
       <Box
         display="flex"
         flexDirection="column"

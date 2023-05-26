@@ -1,12 +1,12 @@
 import { ApplicationLibrary } from '@worksheets/apps/framework';
-import { Heap, Stack } from '@worksheets/util-data-structures';
+import { Heap, Stack } from '@worksheets/util/data-structures';
 import { Compiler, YAMLCompiler } from './compiler';
 import { Engine } from './engine';
 import { ScriptEvaluator, ScriptsApplicationBridge } from './evaluator';
 import { ExecutionFailure } from './failures';
 import { Context, Instruction, Register } from './framework';
 import { Init } from './instructions';
-import { Failure } from '@worksheets/util-errors';
+import { Failure } from '@worksheets/util/errors';
 
 export type ExecutionOptions = {
   memory?: Heap;
@@ -18,13 +18,18 @@ export class Execution {
   private readonly engine: Engine;
   private readonly history: Stack<Instruction>;
   private readonly compiler: Compiler;
+
   private executed: boolean;
+
   constructor(opts: ExecutionOptions) {
     this.executed = false;
+
     this.history = new Stack();
+
     this.compiler = new YAMLCompiler();
     const register = new Register();
     const instructions = new Stack<Instruction>();
+
     const library = opts.library;
     const memory = opts.memory ?? new Heap();
 

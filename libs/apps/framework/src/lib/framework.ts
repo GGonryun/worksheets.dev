@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Failure, FailureOptions } from '@worksheets/util-errors';
+import { Failure, FailureOptions } from '@worksheets/util/errors';
 import { StatusCodes } from 'http-status-codes';
 import { z } from 'zod';
 

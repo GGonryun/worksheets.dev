@@ -3,7 +3,7 @@ import {
   MethodCallFailure,
   MethodDefinition,
 } from '@worksheets/apps/framework';
-import { Heap } from '@worksheets/util-data-structures';
+import { Heap } from '@worksheets/util/data-structures';
 import { StatusCodes } from 'http-status-codes';
 import { ZodType, string } from 'zod';
 import zodToJsonSchema from 'zod-to-json-schema';
