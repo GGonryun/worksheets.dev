@@ -2,7 +2,7 @@ import { Container, Box, Typography } from '@mui/material';
 import Applications from './Applications';
 import Templates from './Templates';
 import Worksheets from './Worksheets';
-import { LoginWithGoogle } from '@worksheets/feat/user-auth';
+import { LoginWithGoogle } from '@worksheets/auth/client';
 
 export default function Main() {
   return (

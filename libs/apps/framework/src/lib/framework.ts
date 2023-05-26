@@ -7,27 +7,23 @@ export type Context<T> = {
   input: T;
 };
 
+type zAny = z.ZodType<any, any, any>;
+
 export type MethodDefinition<
-  Input extends z.ZodType<any, any, any> = z.ZodType<any, any, any>,
-  Output extends z.ZodType<any, any, any> = z.ZodType<any, any, any>
+  Input extends zAny = any,
+  Output extends zAny = any
 > = {
   path: string;
   label: string;
   description?: string;
   input: Input | null;
   output: Output | null;
-  call: MethodHandler<Input, Output>;
+  call: (ctx: Context<z.infer<Input>>) => Promise<z.infer<Output>>;
 };
 
-export type MethodHandler<
-  Input extends z.ZodType<any, any, any>,
-  Output extends z.ZodType<any, any, any>
-> = (ctx: Context<z.infer<Input>>) => Promise<z.infer<Output>>;
-
-export function newMethod<
-  Inputs extends z.ZodType<any, any, any>,
-  Outputs extends z.ZodType<any, any, any>
->(opts: MethodDefinition<Inputs, Outputs>): MethodDefinition<Inputs, Outputs> {
+export function newMethod<Inputs extends zAny, Outputs extends zAny>(
+  opts: MethodDefinition<Inputs, Outputs>
+): MethodDefinition<Inputs, Outputs> {
   return opts;
 }
 

@@ -215,6 +215,7 @@ export class ScriptEvaluator implements ExpressionEvaluator {
     if (expression.type === 'MemberExpression') {
       return await this.evaluateMemberExpression(expression);
     }
+
     throw new Error('unexpected-type');
   }
 

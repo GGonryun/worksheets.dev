@@ -5,7 +5,7 @@ import {
 } from '@worksheets/apps/framework';
 import { Heap } from '@worksheets/util/data-structures';
 import { StatusCodes } from 'http-status-codes';
-import { ZodType, string } from 'zod';
+import { ZodType } from 'zod';
 import zodToJsonSchema from 'zod-to-json-schema';
 import { JsonSchema7Type } from 'zod-to-json-schema/src/parseDef';
 
@@ -33,7 +33,7 @@ export class Clerk {
     if (!method) {
       throw new MethodCallFailure({
         code: StatusCodes.NOT_FOUND,
-        message: `method ${method.path} was not found in memory`,
+        message: `method ${path} was not found in memory`,
       });
     }
     return method;
@@ -136,8 +136,3 @@ export type MethodSummary = {
   input: JsonSchema7Type;
   output: JsonSchema7Type;
 };
-
-// // eslint-disable-next-line @typescript-eslint/no-explicit-any
-// type FieldDescription<K extends keyof any = string, T = string> = {
-//   [P in K]: T | FieldDescription<K, T>;
-// };

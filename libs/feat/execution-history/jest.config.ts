@@ -1,6 +1,6 @@
 /* eslint-disable */
 export default {
-  displayName: 'feat--execution-history',
+  displayName: 'feat-execution-history',
   preset: '../../../jest.preset.js',
   transform: {
     '^.+\\.[tj]sx?$': [
