@@ -17,23 +17,21 @@
     "paths": {
       "@worksheets/apps/framework": ["libs/apps/framework/src/index.ts"],
       "@worksheets/apps/http": ["libs/apps/http/src/index.ts"],
-      "@worksheets/apps/json": ["libs/apps/json/src/index.ts"],
       "@worksheets/apps/library": ["libs/apps/library/src/index.ts"],
       "@worksheets/apps/math": ["libs/apps/math/src/index.ts"],
       "@worksheets/apps/sys": ["libs/apps/sys/src/index.ts"],
+      "@worksheets/auth/client": ["libs/auth/client/src/index.ts"],
+      "@worksheets/auth/server": ["libs/auth/server/src/index.ts"],
       "@worksheets/engine": ["libs/engine/src/index.ts"],
-      "@worksheets/feat-oauth2/server": ["libs/feat-oauth2/src/server.ts"],
-      "@worksheets/feat-user-auth/server": [
-        "libs/feat-user-auth/src/server.ts"
+      "@worksheets/feat/async-execution": [
+        "libs/feat/async-execution/src/index.ts"
       ],
-      "@worksheets/feat//execution-history": [
+      "@worksheets/feat/execution-history": [
         "libs/feat/execution-history/src/index.ts"
       ],
-      "@worksheets/feat//execution-history/server": [
+      "@worksheets/feat/execution-history/server": [
         "libs/feat/execution-history/src/server.ts"
       ],
-      "@worksheets/feat/oauth2": ["libs/feat/oauth2/src/index.ts"],
-      "@worksheets/feat/user-auth": ["libs/feat/user-auth/src/index.ts"],
       "@worksheets/firebase/client": ["libs/firebase/client/src/index.ts"],
       "@worksheets/firebase/firestore": [
         "libs/firebase/firestore/src/index.ts"

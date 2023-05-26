@@ -78,6 +78,7 @@ export class Execution {
         instruction = await this.engine.iterate();
       } catch (error) {
         if (error instanceof Failure) throw error;
+        console.log('error, error', error);
 
         throw new ExecutionFailure({
           code: 'unexpected',
@@ -93,7 +94,6 @@ export class Execution {
 
     const failure = this.ctx.register.failure;
     if (failure) {
-      console.log(failure);
       throw new ExecutionFailure({
         code: 'unhandled-failure',
         message: `an unhandled failure exists: ${failure.message}`,

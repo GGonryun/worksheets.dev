@@ -4,11 +4,8 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import TreeItem from '@mui/lab/TreeItem';
 import { Box, SvgIconTypeMap, Typography } from '@mui/material';
-import {
-  MethodSummary,
-  OfficialApplicationLibrary,
-} from '@worksheets/apps/library';
-import { GraphNode } from '@worksheets/util/data-structures';
+
+import { Graph, GraphNode } from '@worksheets/util/data-structures';
 import { v4 as uuidv4 } from 'uuid';
 import DataArrayIcon from '@mui/icons-material/DataArray';
 import { JsonSchema7Type } from 'zod-to-json-schema/src/parseDef';
@@ -28,11 +25,13 @@ import { JsonSchema7BooleanType } from 'zod-to-json-schema/src/parsers/boolean';
 import FolderIcon from '@mui/icons-material/FolderOutlined';
 import TaskIcon from '@mui/icons-material/TaskOutlined';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import { OfficialApplicationLibrary } from '@worksheets/apps/library';
 
 export default function Applications() {
   const library = new OfficialApplicationLibrary();
   const tree = library.tree();
   const values = tree.root.children.values();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return (
     <Box>
       <Typography variant="h6">Applications</Typography>
@@ -49,6 +48,15 @@ export default function Applications() {
     </Box>
   );
 }
+
+//TODO: move this.
+export type MethodSummary = {
+  path: string;
+  label: string;
+  description: string;
+  input: JsonSchema7Type;
+  output: JsonSchema7Type;
+};
 
 function NodeTreeItem(props: { node: GraphNode<MethodSummary> }) {
   const { key, value, children } = props.node;

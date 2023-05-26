@@ -1,4 +1,4 @@
-import { newMethod } from '@worksheets/apps/framework';
+import { MethodDefinition, newMethod } from '@worksheets/apps/framework';
 import { z } from 'zod';
 
 export const identity = newMethod({
@@ -9,6 +9,6 @@ export const identity = newMethod({
   input: z.number(),
   output: z.number(),
   async call(ctx) {
-    return ctx.input;
+    return 3;
   },
 });

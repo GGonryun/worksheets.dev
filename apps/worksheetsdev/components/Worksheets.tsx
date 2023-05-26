@@ -1,24 +1,22 @@
 import { Box, Typography, Button } from '@mui/material';
-import { OfficialApplicationLibrary } from '@worksheets/apps/library';
-import { Execution } from '@worksheets/engine';
 import { useState } from 'react';
 import React from 'react';
 import { CodeEditor } from './CodeEditor';
+import { authorized, poster, useUser, yamled } from '@worksheets/auth/client';
 
 export default function Worksheets() {
+  const { user } = useUser();
+
   const [worksheet, setWorksheet] = useState<string>('');
   const [response, setResponse] = useState<string>('');
+
+  const secureFetch = authorized(yamled(poster), user);
+
   function handleSubmit() {
-    const library = new OfficialApplicationLibrary();
-    const execution = new Execution({ library });
-    execution
-      .run(worksheet, {})
-      .then((data) => {
-        setResponse(`${JSON.stringify(data, null, 2)}`);
-      })
-      .catch((error) => {
-        setResponse(`(${error.code}) - ${error.message}`);
-      });
+    console.log('Fetching securely');
+    secureFetch('/api/x', { body: worksheet })
+      .then((r) => r.json())
+      .then((data) => setResponse(JSON.stringify(data)));
   }
 
   return (

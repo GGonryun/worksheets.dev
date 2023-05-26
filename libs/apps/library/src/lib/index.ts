@@ -1,6 +1,5 @@
 import math from '@worksheets/apps/math';
 import http from '@worksheets/apps/http';
-import json from '@worksheets/apps/json';
 import {
   ApplicationLibrary,
   MethodDefinition,
@@ -17,7 +16,7 @@ export class OfficialApplicationLibrary implements ApplicationLibrary {
     this.translator = new Translator();
     this.technician = new Technician();
     // Official applications list.
-    this.clerk = new Clerk(math, http, json);
+    this.clerk = new Clerk(math, http);
   }
 
   tree(): Graph<MethodSummary> {
