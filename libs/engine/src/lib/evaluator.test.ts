@@ -5,7 +5,7 @@ import {
 } from './evaluator';
 import { when } from 'jest-when';
 import { JestApplicationLibrary, Mock } from './util.test';
-import { Heap } from '@worksheets/util-data-structures';
+import { Heap } from '@worksheets/util/data-structures';
 import { Expression, SimpleCallExpression } from 'estree';
 
 function newTestProcessor() {

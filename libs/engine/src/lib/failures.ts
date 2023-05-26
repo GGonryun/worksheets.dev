@@ -1,4 +1,4 @@
-import { CodedFailure, CodedFailureOptions } from '@worksheets/util-errors';
+import { CodedFailure, CodedFailureOptions } from '@worksheets/util/errors';
 
 export type ExecutionFailureCodes =
   | 'unexpected'

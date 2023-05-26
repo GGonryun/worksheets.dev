@@ -1,4 +1,4 @@
-import { Heap } from '@worksheets/util-data-structures';
+import { Heap } from '@worksheets/util/data-structures';
 import { Context, Instruction } from '../framework';
 
 export type RestoreHeapDefinition = Heap;

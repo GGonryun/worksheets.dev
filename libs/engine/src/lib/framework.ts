@@ -1,4 +1,4 @@
-import { Heap, Stack } from '@worksheets/util-data-structures';
+import { Heap, Stack } from '@worksheets/util/data-structures';
 import { ScriptEvaluator } from './evaluator';
 import {
   ApplicationLibrary,

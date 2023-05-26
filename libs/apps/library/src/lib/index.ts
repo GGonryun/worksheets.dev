@@ -6,7 +6,7 @@ import {
   MethodDefinition,
 } from '@worksheets/apps/framework';
 import { Clerk, MethodSummary, Technician, Translator } from './framework';
-import { Graph } from '@worksheets/util-data-structures';
+import { Graph } from '@worksheets/util/data-structures';
 
 export * from './framework';
 export class OfficialApplicationLibrary implements ApplicationLibrary {
