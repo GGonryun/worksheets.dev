@@ -2,15 +2,19 @@ import { newPrivateDatabase } from '../data-access/private-db';
 import { z } from 'zod';
 import { HandlerFailure, newPrivateHandler } from '@worksheets/util/next';
 import { MAXIMUM_WORKSHEETS } from './const';
-
-const input = z.object({ text: z.string(), id: z.string() });
-const output = z.unknown();
+import { v4 as uuidv4 } from 'uuid';
+const input = z.object({
+  text: z.string().optional(),
+  path: z.array(z.string()).optional(),
+});
+const output = z.string();
 
 export type PostWorksheetRequest = z.infer<typeof input>;
 export type PostWorksheetResponse = z.infer<typeof output>;
 
 export const post = newPrivateHandler({ input, output })(
-  async ({ user, data: { id, text } }) => {
+  async ({ user, data: { path, text } }) => {
+    const id = path?.at(0) ?? uuidv4();
     const db = newPrivateDatabase(user);
 
     const records = await db.worksheets.list();
@@ -23,7 +27,9 @@ export const post = newPrivateHandler({ input, output })(
       });
     }
 
-    const entity = await db.worksheets.create({ id, text });
-    return entity;
+    console.log('saving worksheet', id, text);
+
+    await db.worksheets.create({ id, text: text ?? '' });
+    return id;
   }
 );

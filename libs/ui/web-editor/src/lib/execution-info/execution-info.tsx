@@ -1,10 +1,9 @@
-import useSWR from 'swr';
 import styles from './execution-info.module.css';
-import { web } from '@worksheets/auth/client';
 import {
   Box,
   Button,
   Collapse,
+  Divider,
   Tab,
   Tabs,
   TextField,
@@ -13,8 +12,6 @@ import {
 import { GetExecutionsResponse } from '../../api/execution/get';
 import { useState } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
-import ReplayIcon from '@mui/icons-material/Replay';
-import BubbleChartOutlinedIcon from '@mui/icons-material/BubbleChartOutlined';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined';
 
@@ -27,28 +24,34 @@ import ViewInArRoundedIcon from '@mui/icons-material/ViewInArRounded';
 // width
 import StraightenOutlinedIcon from '@mui/icons-material/StraightenOutlined';
 
-/* eslint-disable-next-line */
 export interface ExecutionInformationProps {
-  worksheetId: string;
+  worksheets?: GetExecutionsResponse;
+  onClear: () => void;
   onDelete: (executionId: string) => void;
   onReplay: (executionId: string) => void;
 }
 
 export function ExecutionInformation({
-  worksheetId,
+  worksheets,
+  onClear,
   onDelete,
   onReplay,
 }: ExecutionInformationProps) {
-  const { data, isLoading } = useSWR<GetExecutionsResponse>(
-    ...web.swr.basic(`/api/x?id=${worksheetId}`)
-  );
-  if (isLoading) {
-    return <Box>Loading...</Box>;
-  }
   return (
     <div className={styles['container']}>
-      <Typography fontWeight={900}>Executions</Typography>
-      {data?.map((execution, index) => (
+      <Box display="flex" gap={3} alignItems="center">
+        <Typography fontWeight={900}>Executions</Typography>
+        <Button
+          variant="outlined"
+          color="error"
+          size="small"
+          fullWidth
+          onClick={() => onClear()}
+        >
+          clear
+        </Button>
+      </Box>
+      {worksheets?.map((execution, index) => (
         <Info
           key={index}
           index={index}
@@ -86,7 +89,7 @@ export function Info({
   };
 
   return (
-    <Box width={300}>
+    <Box>
       <Box display="flex" alignItems="center">
         <Typography fontSize={14}>{index}.</Typography>
         <Button
@@ -117,16 +120,7 @@ export function Info({
               icon={<ArticleOutlinedIcon fontSize="small" />}
               iconPosition="start"
             />
-            <Tab
-              classes={{ root: styles['tab'] }}
-              icon={<BubbleChartOutlinedIcon fontSize="small" />}
-              iconPosition="start"
-            />
-            <Tab
-              classes={{ root: styles['tab'] }}
-              icon={<ReplayIcon fontSize="small" />}
-              iconPosition="start"
-            />
+
             <Tab
               classes={{ root: styles['tab'] }}
               icon={<DeleteIcon fontSize="small" />}
@@ -134,22 +128,10 @@ export function Info({
             />
           </Tabs>
           <TabPanel value={value} index={0}>
-            <Box>
-              <Typography variant="overline">execution id:</Typography>
-              <br />
-              {id}
-            </Box>
-            <Box>
-              <Typography variant="overline">worksheet id:</Typography>
-              <br />
-              {worksheetId}
-            </Box>
-            <Box>
-              <Typography variant="overline">created at:</Typography>
-              <br />
-              {new Date(timestamp).toUTCString()}
-            </Box>
-
+            <Divider>CREATED AT</Divider>
+            <Box>{new Date(timestamp).toUTCString()}</Box>
+            <br />
+            <Divider>DIMENSIONS</Divider>
             <Box display="flex" flexDirection="column" gap={1} marginTop={1}>
               <Box display="flex" gap={1} alignItems="center">
                 <TimerOutlinedIcon /> {(dimensions.depth / 1000).toFixed(2)}{' '}
@@ -167,43 +149,62 @@ export function Info({
                 (bytes)
               </Box>
             </Box>
+            <br />
+            <Divider>IDENTIFIERS</Divider>
+
+            <Box>
+              <Typography variant="overline">execution id:</Typography>
+              <br />
+              {id}
+            </Box>
+            <Box>
+              <Typography variant="overline">worksheet id:</Typography>
+              <br />
+              {worksheetId}
+            </Box>
           </TabPanel>
+
           <TabPanel value={value} index={1}>
-            <BlockedTextField label="yaml" text={text ?? ''} />
+            <Box display="flex" flexDirection="column" gap={1}>
+              <BlockedTextField label="worksheet" text={text ?? ''} />
+              {!!result?.error && (
+                <BlockedTextField
+                  label="error"
+                  text={JSON.stringify(result.error, null, 2)}
+                />
+              )}
+              {!!result?.input && (
+                <BlockedTextField
+                  label="input"
+                  text={JSON.stringify(result.input, null, 2)}
+                />
+              )}
+              {!!result?.output && (
+                <BlockedTextField
+                  label="output"
+                  text={JSON.stringify(result.output, null, 2)}
+                />
+              )}
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={() => {
+                  onReplay();
+                  setOpen(false);
+                }}
+              >
+                Replay
+              </Button>
+            </Box>
           </TabPanel>
           <TabPanel value={value} index={2}>
-            <BlockedTextField
-              label="error"
-              text={JSON.stringify(result?.error, null, 2)}
-            />
-            <BlockedTextField
-              label="input"
-              text={JSON.stringify(result?.input, null, 2)}
-            />
-            <BlockedTextField
-              label="output"
-              text={JSON.stringify(result?.output, null, 2)}
-            />
-          </TabPanel>
-          <TabPanel value={value} index={3}>
-            <BlockedTextField
-              label="input"
-              text={JSON.stringify(result?.input, null, 2)}
-            />
-            <br />
-            <Button
-              variant="contained"
-              color="secondary"
-              onClick={() => onReplay()}
-            >
-              Replay
-            </Button>
-          </TabPanel>
-          <TabPanel value={value} index={4}>
             <Button
               variant="contained"
               color="error"
-              onClick={() => onDelete()}
+              onClick={() => {
+                onDelete();
+                setOpen(false);
+              }}
             >
               Delete
             </Button>
@@ -232,7 +233,7 @@ function TabPanel(props: TabPanelProps) {
       {...other}
     >
       {value === index && (
-        <Box p={1}>
+        <Box pb={1} pl={1}>
           <Typography variant="caption">{children}</Typography>
         </Box>
       )}
@@ -244,7 +245,8 @@ type TextDataFieldProps = { label: string; text: string };
 function BlockedTextField({ label, text }: TextDataFieldProps) {
   return (
     <Box display="flex" flexDirection="column">
-      {label}
+      <Divider sx={{ pb: 1 }}>{label}</Divider>
+
       <TextField
         InputProps={{
           className: styles['text'],

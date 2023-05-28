@@ -17,15 +17,23 @@ export function newPublicDatabase(txn?: Txn) {
     },
     executions: {
       post: postExecutions(executionsDb),
-      get: getExecutions(executionsDb),
+      list: getExecutions(executionsDb),
+      get: getExecution(executionsDb),
     },
   };
 }
 
+const getExecution = (db: ExecutionsDatabase) => async (id: string) => {
+  if (!(await db.has(id))) {
+    throw new HandlerFailure({ code: 'not-found' });
+  }
+  return await db.get(id);
+};
+
 const getExecutions = (db: ExecutionsDatabase) => async (id: string) => {
   const data = await db.collection
     .where('worksheetId', '==', id)
-    .limit(10)
+    .limit(20)
     .orderBy('timestamp', 'desc')
     .get();
 

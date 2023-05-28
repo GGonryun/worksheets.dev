@@ -1,18 +1,20 @@
 import { verifyIdToken } from '@worksheets/auth/server';
+import { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier';
+import { NextApiRequest, NextApiHandler, NextApiResponse } from 'next';
+import { ZodError, z } from 'zod';
 import { CodedFailure } from '@worksheets/util/errors';
 import { StatusCodes } from 'http-status-codes';
-import { NextApiRequest, NextApiHandler, NextApiResponse } from 'next';
-import { z } from 'zod';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type zAny = z.ZodType<any, any, any>;
+type zAny = z.ZodTypeAny;
 
 type HandlerContext<T, Optional = never> = {
   data: T;
+  req: NextApiRequest;
 } & Optional;
 
+type ContextFactoryMethod<T> = (req: NextApiRequest) => Promise<T>;
 type ContextFactory<T> = {
-  newContext?: (ctx: NextApiRequest) => Promise<T>;
+  newContext?: ContextFactoryMethod<T>;
 };
 
 type HandlerSchema<TInput extends zAny, TOutput extends zAny> = {
@@ -38,43 +40,111 @@ const newHandler =
     const body = req.body;
     const query = req.query;
 
-    let parsed;
-    if (options.input) {
-      if (!body && !query) {
-        throw new Error('expected a query or body in request');
-      }
-      parsed = options.input.parse({ ...body, ...query });
-    }
+    const input = await parseInput(options.input, body, query);
 
-    let obj: C = {} as C;
-    if (options.newContext) {
-      obj = await options.newContext(req);
-    }
+    const ctx = await newContext(req, options.newContext);
 
-    let data;
-    try {
-      data = await handler({ ...obj, data: parsed });
-    } catch (error) {
-      return convertError(error)(res);
-    }
+    const data = await handler({ ...ctx, data: input, req });
 
-    if (data) {
-      let results = data;
-      if (options.output) {
-        results = options.output.parse(data);
-      }
-      res.status(200).json(results);
-      return;
-    }
+    const output = await parseOutput(options.output, data);
 
-    res.status(204).end();
+    if (output) {
+      res.status(200).json(output);
+    } else {
+      res.status(204).end();
+    }
   };
+
+async function newContext<T>(
+  req: NextApiRequest,
+  factory?: ContextFactoryMethod<T>
+  // eslint-disable-next-line @typescript-eslint/ban-types
+): Promise<T> {
+  if (!factory) return {} as T;
+
+  try {
+    return await factory(req);
+  } catch (error) {
+    const { method, body, query, url } = req;
+    throw new HandlerFailure({
+      code: 'operation-failure',
+      message: 'api handler failed to build context',
+      cause: error,
+      data: { method, body, query, url },
+    });
+  }
+}
+
+async function parseInput(
+  schema: z.ZodTypeAny | undefined,
+  rawBody: unknown,
+  query: object
+): Promise<unknown> {
+  let body: object;
+  if (!rawBody) {
+    body = {};
+  } else if (typeof rawBody !== 'object' || Array.isArray(rawBody)) {
+    // use the body as a spreadable object. otherwise assign it to the data object as 'body'.
+    body = { body: rawBody };
+  } else {
+    body = rawBody;
+  }
+
+  schema = schema ?? z.any();
+
+  try {
+    return schema.parse({ ...body, ...query });
+  } catch (error) {
+    if (error instanceof ZodError) {
+      throw new HandlerFailure({
+        code: 'invalid-argument',
+        message: 'api handler failed to parse input',
+        cause: error,
+        data: { body, query, issues: error.issues },
+      });
+    }
+    throw new HandlerFailure({
+      code: 'unknown',
+      message: 'unknown exception while parsing',
+      cause: error,
+      data: { body, query },
+    });
+  }
+}
+
+async function parseOutput<O extends zAny>(
+  schema: O | undefined,
+  output: unknown
+): Promise<z.TypeOf<O> | undefined> {
+  if (!output) return;
+  if (!schema) return output;
+
+  try {
+    return schema.parse(output);
+  } catch (error) {
+    if (error instanceof ZodError) {
+      throw new HandlerFailure({
+        code: 'invalid-argument',
+        message: 'api handler failed to parse input',
+        cause: error,
+        data: { output },
+      });
+    }
+    throw new HandlerFailure({
+      code: 'unknown',
+      message: 'unknown exception while parsing',
+      cause: error,
+      data: { output },
+    });
+  }
+}
 
 export const newPublicHandler = <I extends zAny, O extends zAny>({
   input,
   output,
 }: HandlerSchema<I, O>) => newHandler({ input, output });
 
+export type PrivateContext = { user: DecodedIdToken };
 export const newPrivateHandler = <I extends zAny, O extends zAny>({
   input,
   output,
@@ -94,37 +164,47 @@ export type HandlerFailures =
   | 'unexpected'
   | 'unauthorized'
   | 'unimplemented'
+  | 'operation-failure'
   | 'resource-exhausted'
   | 'not-found'
+  | 'invalid-argument'
   | 'conflict';
 
 export const handlerFailureStatusCodeMap: Record<HandlerFailures, number> = {
   unknown: StatusCodes.IM_A_TEAPOT,
   unexpected: StatusCodes.INTERNAL_SERVER_ERROR,
   unauthorized: StatusCodes.UNAUTHORIZED,
+  'operation-failure': StatusCodes.INTERNAL_SERVER_ERROR,
   'resource-exhausted': StatusCodes.INSUFFICIENT_SPACE_ON_RESOURCE,
   'not-found': StatusCodes.NOT_FOUND,
   conflict: StatusCodes.CONFLICT,
   unimplemented: StatusCodes.NOT_IMPLEMENTED,
+  'invalid-argument': StatusCodes.BAD_REQUEST,
 };
 
 export class HandlerFailure extends CodedFailure<HandlerFailures> {}
-export function convertError(error: unknown) {
-  return function (res: NextApiResponse) {
+
+export function processError(error: unknown) {
+  return function (req: NextApiRequest, res: NextApiResponse) {
     let code: HandlerFailures = 'unknown';
     let status = handlerFailureStatusCodeMap[code];
     let message = 'failure';
+    let data: unknown = {};
 
     if (error instanceof HandlerFailure) {
       code = error.code;
       status = handlerFailureStatusCodeMap[code];
       message = error.message ?? message;
+      data = error.data;
     }
 
     if (code === 'unknown') {
-      console.error('encountered unknown handler failure', error);
+      const { method, url } = req;
+      console.error(`${method?.toUpperCase()} ${url}: unexpected error`, error);
     }
 
-    return res.status(status).json({ code, message });
+    console.error(`${req.method} ${req.url} encountered failure`, error);
+
+    return res.status(status).json({ code, message, data });
   };
 }

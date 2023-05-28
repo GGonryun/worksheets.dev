@@ -55,3 +55,5 @@ ui-debug.log
 # coverage
 **/coverage/**
 libs/ui/common/coverage/**
+/coverage
+**/coverage

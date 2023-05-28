@@ -1,29 +1,38 @@
-import { Container, Box, Button } from '@mui/material';
+import { Container, Box } from '@mui/material';
 import { useRouter } from 'next/router';
 import { ResourceExplorer } from '../resource-explorer';
 import { Header } from './header';
 import { CodeEditor } from '../code-editor';
 import { ControlPanel } from '../control-panel';
-import { v4 as uuidv4 } from 'uuid';
-import { useUser, web } from '@worksheets/auth/client';
-import useSWR, { useSWRConfig } from 'swr';
 import { warn } from '@worksheets/ui/common';
-import { GetWorksheetResponse } from '../../server';
+import { useUser, request } from '@worksheets/auth/client';
+import { useSWRConfig } from 'swr';
+import { GetWorksheetResponse, PostWorksheetResponse } from '../../server';
 import { useState, useEffect } from 'react';
 import ExecutionInformation from '../execution-info/execution-info';
-const { request, method, headers, body, swr } = web;
+import { GetExecutionsResponse } from '../../api/execution/get';
 
 export function WebEditor() {
-  const { push, query } = useRouter();
-  const { worksheet } = query;
+  const router = useRouter();
+  const { worksheet } = router.query;
   const { user } = useUser();
   const { mutate } = useSWRConfig();
+  const privateCommand = request.command.private(user);
+  const publicCommand = request.command.public();
 
   const worksheetId = worksheet as string;
+  const apiReplay = (executionsId: string) => `/api/r/${executionsId}`;
+  const apiExecute = `/api/x/${worksheetId}`;
+  const apiWorksheet = `/api/worksheets/${worksheetId}`;
+  const apiWorksheets = '/api/worksheets';
 
-  const { data, isLoading } = useSWR<GetWorksheetResponse>(
-    ...swr.secure(`/api/worksheets?id=${worksheetId}`, user)
+  const { data } = request.query.usePrivate<GetWorksheetResponse>(
+    apiWorksheet,
+    user
   );
+
+  const { data: executionsData } =
+    request.query.usePublic<GetExecutionsResponse>(apiExecute);
 
   const [text, setText] = useState<string>('');
 
@@ -34,33 +43,43 @@ export function WebEditor() {
   }, [data]);
 
   const handleNew = () => {
-    push(`/ide/${uuidv4()}`);
-    setText('');
+    privateCommand<PostWorksheetResponse>(apiWorksheets, 'POST', { text })
+      .then((d) => {
+        router.push(`/ide/${d}`);
+        setText('');
+      })
+      .catch(warn(`failed to save worksheet`))
+      .finally(() => mutate(apiWorksheets));
   };
 
   function handleExecute() {
-    mutate('/api/x');
-    request(
-      method('POST'),
-      headers.auth.bearer(user),
-      body.json({ id: worksheetId, text, input: undefined })
-    )('/api/x')
-      .then(warn('failed to execute worksheet'))
-      .finally(() => mutate(`/api/x?id=${worksheetId}`));
+    publicCommand(apiExecute, 'POST', { text })
+      .catch(warn(`failed to execute worksheet`))
+      .finally(() => mutate(apiExecute));
   }
 
   function handleSave() {
-    request(
-      method('POST'),
-      headers.auth.bearer(user),
-      body.json({ text, id: worksheetId })
-    )('/api/worksheets')
-      .then(warn('failed to save worksheet'))
-      .finally(() => mutate('/api/worksheets'));
+    privateCommand(apiWorksheet, 'POST', { text })
+      .catch(warn(`failed to save worksheet`))
+      .finally(() => mutate(apiWorksheet));
   }
 
-  if (isLoading) {
-    return <Box>Loading!</Box>;
+  function handleClear() {
+    privateCommand(apiExecute, 'DELETE')
+      .catch(warn('failed to delete worksheet'))
+      .finally(() => mutate(apiExecute));
+  }
+
+  function handleDelete(executionId: string) {
+    privateCommand(apiExecute, 'DELETE', { executionId })
+      .catch(warn('failed to delete worksheet'))
+      .finally(() => mutate(apiExecute));
+  }
+
+  function handleReplay(executionId: string) {
+    publicCommand(apiExecute, 'POST', { replay: executionId })
+      .catch(warn('failed to replay worksheet'))
+      .finally(() => mutate(apiExecute));
   }
 
   return (
@@ -93,13 +112,10 @@ export function WebEditor() {
             />
           </Box>
           <ExecutionInformation
-            worksheetId={worksheetId}
-            onDelete={function (executionId: string): void {
-              alert('TODO');
-            }}
-            onReplay={function (executionId: string): void {
-              alert('TODO');
-            }}
+            onClear={() => handleClear()}
+            onDelete={(executionId) => handleDelete(executionId)}
+            onReplay={(executionId) => handleReplay(executionId)}
+            worksheets={executionsData}
           />
         </Box>
       </Box>

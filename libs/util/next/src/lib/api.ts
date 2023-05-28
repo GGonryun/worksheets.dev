@@ -1,11 +1,11 @@
 import { NextApiHandler } from 'next';
-import { ZodError } from 'zod';
 import { Wrapper } from '@worksheets/util/functional';
+import { HandlerFailure, processError } from './handlers';
 
 type MethodHandler = {
   get: Handler;
   post: Handler;
-  delete: Handler;
+  del: Handler;
   put: Handler;
   global: Handler;
 };
@@ -13,24 +13,19 @@ type MethodHandler = {
 type Handler = NextApiHandler;
 type CustomHandler = (handler: Partial<MethodHandler>) => Handler;
 
-const methodUndefinedHandler: Handler = async (_, res) => res.send(405);
+const methodUndefinedHandler: Handler = async () => {
+  throw new HandlerFailure({
+    code: 'unimplemented',
+    message: 'feature unimplemented',
+  });
+};
 
 const lastSecondExceptionHandler: Wrapper<Handler> =
   (fn) => async (req, res) => {
     try {
       await fn(req, res);
     } catch (error) {
-      if (error instanceof ZodError) {
-        res
-          .status(400)
-          .json({ message: 'invalid input arguments', data: error.issues });
-      } else {
-        const header = `${req.method?.toUpperCase()} ${req.url}`;
-        const message =
-          'last second exception handler encountered an unexpected error';
-        console.error(`${header} ${message}`, error);
-        res.status(500).json({ message: 'unexpected error' });
-      }
+      processError(error)(req, res);
     }
   };
 
@@ -47,7 +42,7 @@ export const skeleton: CustomHandler = (methods) => async (req, res) => {
       method = methods.post;
       break;
     case 'DELETE':
-      method = methods.delete;
+      method = methods.del;
       break;
     case 'PUT':
       method = methods.put;

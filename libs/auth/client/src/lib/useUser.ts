@@ -10,6 +10,7 @@ import {
 import { useEffect, useState } from 'react';
 import { firebaseAuth } from '@worksheets/firebase/client';
 import { UserAccessFailure } from './failures';
+import { request } from './web';
 
 export const useUser = () => {
   const [user, setUser] = useState<User | null>(null);
@@ -110,6 +111,7 @@ export const useUser = () => {
   return {
     loading,
     user,
+
     signIn,
     signInProvider,
     signOut,

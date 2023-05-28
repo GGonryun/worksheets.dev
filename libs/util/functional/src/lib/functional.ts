@@ -1,5 +1,5 @@
 // wrappers: apply input/output modifications to the data that's passing through them.
-export type Wrapper<T> = (t: T) => T;
+export type Wrapper<I, O = I> = (t: I) => O;
 
 // decorators: uses input data to create a wrapper that decorates the original type somehow.
 export type Decorator<T, U> = (data: T) => Wrapper<U>;
@@ -11,6 +11,7 @@ export type Composer<T> = (T: T) => Applier<T>;
 // appliers: wrap a known initial object with multiple wrappings at once.
 export type Applier<T> = (...wrappers: Wrapper<T>[]) => T;
 
+// the first wrapper (from the left) always executes first.
 export function compose<T>(element: T): Applier<T> {
   return (...wrappers) => {
     for (const wrapper of wrappers) {

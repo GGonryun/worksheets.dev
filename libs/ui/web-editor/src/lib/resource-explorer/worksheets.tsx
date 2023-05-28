@@ -1,8 +1,7 @@
 import TreeItem from '@mui/lab/TreeItem';
 import { Box, Typography } from '@mui/material';
-import { useUser, web } from '@worksheets/auth/client';
+import { request, useUser } from '@worksheets/auth/client';
 import { useRouter } from 'next/router';
-import useSWR from 'swr';
 import InsertDriveFileOutlinedIcon from '@mui/icons-material/InsertDriveFileOutlined';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import { GetWorksheetsResponse } from '../../server';
@@ -10,19 +9,17 @@ import { GetWorksheetsResponse } from '../../server';
 export function Worksheets() {
   const { push, query } = useRouter();
   const { user } = useUser();
-  const { data, isLoading } = useSWR<GetWorksheetsResponse>(
-    ...web.swr.secure(`/api/worksheets`, user)
+  const { data } = request.query.usePrivate<GetWorksheetsResponse>(
+    `/api/worksheets`,
+    user
   );
 
   const handleClick = (key: string) => {
     push(`/ide/${key}`);
   };
 
-  if (!data || isLoading) {
-    return <Box>Loading...</Box>;
-  }
   const id = query.worksheet as string;
-  const keys = Object.keys(data);
+  const keys = Object.keys(data ?? {});
 
   const icon = (key: string) => {
     return id === key ? (

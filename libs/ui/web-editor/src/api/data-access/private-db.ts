@@ -2,6 +2,7 @@ import { Txn } from '@worksheets/firebase/firestore';
 import { HandlerFailure } from '@worksheets/util/next';
 import { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier';
 import {
+  ExecutionsDatabase,
   newExecutionsDatabase,
   newWorksheetsDatabase,
   WorksheetsDatabase,
@@ -19,6 +20,61 @@ export function newPrivateDatabase(user: DecodedIdToken, txn?: Txn) {
       create: createWorksheet(worksheetsDb, user),
       has: hasWorksheet(worksheetsDb, user),
     },
+    executions: {
+      delete: deleteExecution(executionsDb, worksheetsDb, user),
+      clear: clearExecution(executionsDb, worksheetsDb, user),
+    },
+  };
+}
+export function clearExecution(
+  executeDb: ExecutionsDatabase,
+  worksheetsDb: WorksheetsDatabase,
+  user: DecodedIdToken
+) {
+  return async (worksheetId: string) => {
+    // check user access to worksheet.
+    await userWorksheet(worksheetsDb, user)(worksheetId);
+
+    // get executions and delete them.
+    const executions = await executeDb.query({
+      f: 'worksheetId',
+      o: '==',
+      v: worksheetId,
+    });
+
+    // delete all executions if owner.
+    const promises: Promise<unknown>[] = [];
+    for (const exe of executions) {
+      promises.push(executeDb.delete(exe.id));
+    }
+    await Promise.all(promises);
+
+    console.info(`deleted ${executions.length} executions`);
+    return true;
+  };
+}
+
+export function deleteExecution(
+  executeDb: ExecutionsDatabase,
+  worksheetsDb: WorksheetsDatabase,
+  user: DecodedIdToken
+) {
+  return async (executionId: string) => {
+    if (!(await executeDb.has(executionId))) {
+      throw new HandlerFailure({
+        code: 'not-found',
+      });
+    }
+
+    const execution = await executeDb.get(executionId);
+
+    // check user access to worksheet.
+    await userWorksheet(worksheetsDb, user)(execution.worksheetId);
+
+    // delete execution if owner.
+    await executeDb.delete(executionId);
+
+    return true;
   };
 }
 
