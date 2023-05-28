@@ -8,6 +8,10 @@ export class GraphNode<T> {
     this.value = value;
     this.children = new Map<string, GraphNode<T>>();
   }
+
+  connections(): GraphNode<T>[] {
+    return Array.from(this.children.values());
+  }
 }
 
 /**

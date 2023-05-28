@@ -1,5 +1,10 @@
 import { ApplicationLibrary } from '@worksheets/apps/framework';
-import { Heap, Stack } from '@worksheets/util/data-structures';
+import {
+  Clock,
+  Heap,
+  HeightAwareStack,
+  Stack,
+} from '@worksheets/util/data-structures';
 import { Compiler, YAMLCompiler } from './compiler';
 import { Engine } from './engine';
 import { ScriptEvaluator, ScriptsApplicationBridge } from './evaluator';
@@ -7,28 +12,41 @@ import { ExecutionFailure } from './failures';
 import { Context, Instruction, Register } from './framework';
 import { Init } from './instructions';
 import { Failure } from '@worksheets/util/errors';
+import { z } from 'zod';
 
 export type ExecutionOptions = {
   memory?: Heap;
   library: ApplicationLibrary;
 };
 
+export const executionDimensionsSchema = z.object({
+  mass: z.number(), // heap size
+  width: z.number(), // total number of instructions.
+  height: z.number(), // stack size.
+  depth: z.number(), // duration.
+});
+
+export type ExecutionDimensions = z.infer<typeof executionDimensionsSchema>;
+
 export class Execution {
   private readonly ctx: Context;
+  private readonly instructions: HeightAwareStack<Instruction>;
   private readonly engine: Engine;
   private readonly history: Stack<Instruction>;
   private readonly compiler: Compiler;
+  private readonly clock: Clock;
 
   private executed: boolean;
 
   constructor(opts: ExecutionOptions) {
     this.executed = false;
 
+    this.clock = new Clock();
     this.history = new Stack();
-
+    this.instructions = new HeightAwareStack<Instruction>();
     this.compiler = new YAMLCompiler();
+
     const register = new Register();
-    const instructions = new Stack<Instruction>();
 
     const library = opts.library;
     const memory = opts.memory ?? new Heap();
@@ -43,13 +61,15 @@ export class Execution {
       scripts,
       library,
       register,
-      instructions,
+      instructions: this.instructions,
     });
 
     this.engine = new Engine(this.ctx);
   }
 
   async run(yaml: string, input?: unknown): Promise<unknown> {
+    this.clock.start();
+
     if (input) {
       this.ctx.register.input = input;
     }
@@ -92,17 +112,32 @@ export class Execution {
       }
     }
 
+    this.executed = true;
+
+    this.clock.stop();
     const failure = this.ctx.register.failure;
     if (failure) {
       throw new ExecutionFailure({
-        code: 'unhandled-failure',
-        message: `an unhandled failure exists: ${failure.message}`,
-        cause: failure,
+        code: 'method-failure',
+        message: `unhandled method failure: (${failure.code}) ${failure.message}`,
+        data: failure.data,
       });
     }
 
-    this.executed = true;
     return this.ctx.register.output;
+  }
+
+  dimensions(): ExecutionDimensions {
+    const width = this.history.size();
+    const height = this.instructions.height();
+    const mass = this.ctx.memory.size();
+    const depth = this.clock.getExecutionTime() || 1;
+    return {
+      width,
+      height,
+      mass,
+      depth,
+    };
   }
 
   read() {

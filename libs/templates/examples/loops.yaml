@@ -1,0 +1,14 @@
+name: iterating loops
+assign:
+  loop: [1, 2, 3, 4, apple]
+  data:
+
+steps:
+  - for: loop
+    index: i
+    value: v
+    steps:
+      - assign:
+        data: ${v}
+
+return: ${data}

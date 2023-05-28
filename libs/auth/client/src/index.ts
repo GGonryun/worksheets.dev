@@ -3,4 +3,4 @@
 export * from './lib/LoginWithGoogle';
 export * from './lib/useUser';
 export * from './lib/failures';
-export * from './lib/authorizedFetch';
+export * from './lib/web';

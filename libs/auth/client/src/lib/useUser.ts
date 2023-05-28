@@ -13,12 +13,24 @@ import { UserAccessFailure } from './failures';
 
 export const useUser = () => {
   const [user, setUser] = useState<User | null>(null);
+  const [token, setToken] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     if (!firebaseAuth) return;
     const unlisten = firebaseAuth.onAuthStateChanged((newUser) => {
-      newUser ? setUser(newUser) : setUser(null);
+      if (newUser) {
+        setUser(newUser);
+        newUser
+          .getIdToken()
+          .then((t) => setToken(t))
+          .catch((error) =>
+            console.error('unexpected error getting user token', error)
+          );
+      } else {
+        setUser(null);
+        setToken('');
+      }
       setLoading(false);
     });
     return () => {
@@ -104,6 +116,7 @@ export const useUser = () => {
     resendVerification,
     signUp,
     getRequestToken,
+    token,
     hasUser: !!user && !loading,
   };
 };

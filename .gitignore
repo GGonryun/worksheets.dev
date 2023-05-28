@@ -28,7 +28,6 @@ node_modules
 # misc
 /.sass-cache
 /connect.lock
-/coverage
 /libpeerconnection.log
 npm-debug.log
 yarn-error.log
@@ -52,3 +51,7 @@ firebase-debug.log
 firestore-debug.log
 pubsub-debug.log
 ui-debug.log
+
+# coverage
+**/coverage/**
+libs/ui/common/coverage/**

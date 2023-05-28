@@ -23,15 +23,6 @@
       "@worksheets/auth/client": ["libs/auth/client/src/index.ts"],
       "@worksheets/auth/server": ["libs/auth/server/src/index.ts"],
       "@worksheets/engine": ["libs/engine/src/index.ts"],
-      "@worksheets/feat/async-execution": [
-        "libs/feat/async-execution/src/index.ts"
-      ],
-      "@worksheets/feat/execution-history": [
-        "libs/feat/execution-history/src/index.ts"
-      ],
-      "@worksheets/feat/execution-history/server": [
-        "libs/feat/execution-history/src/server.ts"
-      ],
       "@worksheets/firebase/client": ["libs/firebase/client/src/index.ts"],
       "@worksheets/firebase/firestore": [
         "libs/firebase/firestore/src/index.ts"
@@ -40,10 +31,14 @@
       "@worksheets/firebase/server": ["libs/firebase/server/src/index.ts"],
       "@worksheets/templates": ["libs/templates/src/index.ts"],
       "@worksheets/ui/common": ["libs/ui/common/src/index.ts"],
+      "@worksheets/ui/web-editor": ["libs/ui/web-editor/src/index.ts"],
+      "@worksheets/ui/web-editor/server": ["libs/ui/web-editor/src/server.ts"],
       "@worksheets/util/data-structures": [
         "libs/util/data-structures/src/index.ts"
       ],
-      "@worksheets/util/errors": ["libs/util/errors/src/index.ts"]
+      "@worksheets/util/errors": ["libs/util/errors/src/index.ts"],
+      "@worksheets/util/functional": ["libs/util/functional/src/index.ts"],
+      "@worksheets/util/next": ["libs/util/next/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

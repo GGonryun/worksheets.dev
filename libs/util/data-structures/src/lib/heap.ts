@@ -1,8 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { cloneDeep } from 'lodash';
 
+const SIZE_MODIFIER = 10000;
+
 export class Heap {
   private data: Record<string, any>;
+
   constructor(data?: Record<string, any>) {
     this.data = data ?? {};
   }
@@ -51,6 +54,16 @@ export class Heap {
   lock(): WriteOnlyHeap {
     return new WriteOnlyHeap(this);
   }
+
+  // guesst-imate of the heap size by calculating the size of the stringified heap
+  size(): number {
+    const guestimate = new TextEncoder().encode(this.serialize()).length;
+    return guestimate / SIZE_MODIFIER;
+  }
+
+  private serialize() {
+    return JSON.stringify(this.data);
+  }
 }
 
 export class WriteOnlyHeap
@@ -84,5 +97,9 @@ export class WriteOnlyHeap
 
   unlock(): Heap {
     return this.heap;
+  }
+
+  size(): number {
+    return this.size();
   }
 }

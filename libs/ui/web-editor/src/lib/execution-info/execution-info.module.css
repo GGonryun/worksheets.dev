@@ -1,0 +1,34 @@
+/*
+ * Replace this with your own classes
+ *
+ * e.g.
+ * .container {
+ * }
+*/
+
+.info {
+  white-space: nowrap;
+  min-width: auto;
+}
+
+.tabs {
+  min-width: 30px;
+  width: 30px;
+}
+
+.tab {
+  min-width: 30px;
+  width: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0;
+  margin: 0;
+}
+.text {
+  padding: 4px;
+  font-family: monospace;
+  font-size: 14px;
+  color: black !important;
+  -webkit-text-fill-color: black !important;
+}

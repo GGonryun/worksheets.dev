@@ -22,6 +22,12 @@ export class Init implements Instruction {
   }
 
   async process(ctx: Context): Promise<void> {
+    if (!this.definition) {
+      throw new ExecutionFailure({
+        code: 'invalid-instruction',
+        message: `cannot execute an empty worksheet`,
+      });
+    }
     const { name, version, return: r, params, assign, steps } = this.definition;
     if (!r && !steps && !assign && !params) {
       throw new ExecutionFailure({

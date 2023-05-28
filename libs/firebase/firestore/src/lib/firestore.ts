@@ -1,6 +1,7 @@
 import { CodedFailure, CodedFailureOptions } from '@worksheets/util/errors';
 import { firestore } from '@worksheets/firebase/server';
 import { DocumentData, WhereFilterOp } from 'firebase/firestore';
+import { Entity } from './schema';
 
 type DatabaseFailures = 'unknown' | 'not-found' | 'missing-id';
 export class DatabaseFailure extends CodedFailure<DatabaseFailures> {
@@ -19,18 +20,28 @@ export type Query<T> = {
   //value
   v: unknown;
 };
-export type Entity = {
-  id?: string;
-};
+
 export type Txn = FirebaseFirestore.Transaction;
+
 export type Document =
   FirebaseFirestore.DocumentSnapshot<FirebaseFirestore.DocumentData>;
 
-export function newDatabase<T extends Entity>(key: string, txn?: Txn) {
+export function newFirestore<T extends Entity>(key: string, txn?: Txn) {
   const collection = firestore().collection(key);
-  function transact(newTxn?: Txn) {
-    return newDatabase<T>(key, newTxn);
+
+  function parse(data: FirebaseFirestore.QuerySnapshot<DocumentData>): T[] {
+    const items: T[] = [];
+    data.forEach((doc) => {
+      const data = doc.data() as T;
+      items.push(data);
+    });
+    return items;
   }
+
+  function transact(newTxn?: Txn) {
+    return newFirestore<T>(key, newTxn);
+  }
+
   async function doc(id: string): Promise<Document> {
     const query = collection.doc(id);
     if (txn) {
@@ -39,13 +50,16 @@ export function newDatabase<T extends Entity>(key: string, txn?: Txn) {
       return await query.get();
     }
   }
+
   async function id(): Promise<string> {
     return collection.doc().id;
   }
+
   async function has(id: string): Promise<boolean> {
     const document = await doc(id);
     return document.exists;
   }
+
   async function get(id: string): Promise<T> {
     const document = await doc(id);
     if (!document.exists) {
@@ -57,6 +71,7 @@ export function newDatabase<T extends Entity>(key: string, txn?: Txn) {
     }
     return document.data() as T;
   }
+
   async function query(...queries: Query<T>[]): Promise<T[]> {
     let q: FirebaseFirestore.Query<DocumentData> = firestore().collection(key);
     for (const query of queries) {
@@ -71,13 +86,9 @@ export function newDatabase<T extends Entity>(key: string, txn?: Txn) {
       docs = await q.get();
     }
 
-    const items: T[] = [];
-    docs.forEach((doc) => {
-      const data = doc.data() as T;
-      items.push(data);
-    });
-    return items;
+    return parse(docs);
   }
+
   async function insert(entity: T): Promise<T> {
     if (!entity.id) {
       entity.id = await id();
@@ -100,6 +111,7 @@ export function newDatabase<T extends Entity>(key: string, txn?: Txn) {
 
     return entity;
   }
+
   async function update(entity: T): Promise<T> {
     if (!entity.id) {
       throw new DatabaseFailure({
@@ -133,6 +145,7 @@ export function newDatabase<T extends Entity>(key: string, txn?: Txn) {
 
     return get(entity.id);
   }
+
   async function updateOrInsert(entity: T): Promise<T> {
     if (!entity.id || !(await has(entity.id))) {
       return await insert(entity);
@@ -140,6 +153,7 @@ export function newDatabase<T extends Entity>(key: string, txn?: Txn) {
 
     return await update(entity);
   }
+
   async function list(txn?: Txn): Promise<T[]> {
     try {
       let docs;
@@ -163,6 +177,7 @@ export function newDatabase<T extends Entity>(key: string, txn?: Txn) {
       });
     }
   }
+
   async function del(id: string): Promise<void> {
     if (!id) {
       throw new DatabaseFailure({
@@ -188,6 +203,7 @@ export function newDatabase<T extends Entity>(key: string, txn?: Txn) {
   }
 
   return {
+    collection,
     with: transact,
     id,
     has,
@@ -198,5 +214,10 @@ export function newDatabase<T extends Entity>(key: string, txn?: Txn) {
     updateOrInsert,
     list,
     delete: del,
+    parse,
   };
 }
+
+export type FirestoreDatabase<T extends Entity> = ReturnType<
+  typeof newFirestore<T>
+>;

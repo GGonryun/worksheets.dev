@@ -66,6 +66,38 @@ export class Technician {
 
     let result;
     try {
+      // TODO: add credentials. if the method has credentials.
+      // specified. we will search for the user's credentials
+      // a locksmith takes in a request, and "unlocks" context.
+      // the unlocked context has credentials bound. the method
+      // defines the "key" to store the credentials object.
+      // for example: if the method defines an enviornment variable
+      // of type "oauth", and all of te stuff required to make.
+      // an oauth connection. on the webapp, a little lock icon
+      // appears, and the user can create a connection. if the
+      // envrionment variable with a matching key already exists.
+      // then we will load that one in. this allows multiple apps
+      // to simply reference the same key. a method can have multiple
+      // keys. each lock appears under the application. if the
+      // environment variable is "required" then it will be mandatory
+      // that the user fills this value in before being able to use.
+      // the app. once a connection is set. if the user sets an api
+      // key or 'secret' key for the env type, then a little key box
+      // entry appears, and a regular token is stored/accessed from the
+      // database. when accessing/storing credentials from the locker
+      // if they are oauth tokens, we should always refresh and save
+      // the latest access token. this means we will need to create
+      // a 'get'/'set' command that allows env variables to load only
+      // when the library is being called.
+      // a "user" library uses a locksmith to lock/unlock applications.
+      // this user library grants access to "private" applications
+      // otherwise the "public" library allows you to use any apps that
+      // do not need credentials.
+
+      // using the path, secret key, uid. we can load that user's creds.
+      // when executing public worksheets, we have to be careful because
+      // your credentials will get getting loaded in/out of apps.
+
       result = await method.call({ input });
     } catch (error) {
       if (error instanceof MethodCallFailure) {
@@ -102,7 +134,6 @@ export class Translator {
     label,
     description,
   }: MethodDefinition): MethodSummary {
-    console.log('path', label);
     return {
       path,
       label,

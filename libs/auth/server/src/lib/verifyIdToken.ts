@@ -12,7 +12,7 @@ export async function verifyIdToken(
   return user;
 }
 
-async function parseToken(authorization?: string): Promise<string> {
+export async function parseToken(authorization?: string): Promise<string> {
   if (!authorization) {
     throw new UserVerificationFailure({
       code: 'missing-token',

@@ -1,7 +1,7 @@
 import { cloneDeep } from 'lodash';
 
 export class Stack<T> {
-  private items: T[];
+  protected items: T[];
 
   constructor() {
     this.items = [];
@@ -50,5 +50,26 @@ export class Stack<T> {
     for (const item of this.items) {
       fn(item, ++i);
     }
+  }
+}
+
+export class HeightAwareStack<T> extends Stack<T> {
+  private _height = 0;
+
+  constructor() {
+    super();
+  }
+
+  override push(item: T): boolean {
+    this.items.push(item);
+    const size = this.size();
+    if (size > this._height) {
+      this._height = size;
+    }
+    return true;
+  }
+
+  height(): number {
+    return this._height;
   }
 }

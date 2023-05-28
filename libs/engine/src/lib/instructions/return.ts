@@ -1,4 +1,3 @@
-import { isObject, isString } from 'lodash';
 import { Context, Instruction } from '../framework';
 import { End } from './end';
 export type ReturnDefinition =

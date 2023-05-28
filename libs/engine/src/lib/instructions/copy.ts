@@ -6,7 +6,7 @@ export class Copy implements Instruction {
   /**
    * Copies data across memory.
    *
-   * @param def take data 'from' another address and place back in'to' memory in a new address.
+   * @param def take data 'from' another address and place back in 'to' memory in a new address.
    */
   constructor(def: CopyDefinition) {
     this.definition = def;

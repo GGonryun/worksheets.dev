@@ -1,5 +1,5 @@
 import { GoogleAuthProvider } from 'firebase/auth';
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import { useUser } from './useUser';
 
 export function LoginWithGoogle() {
@@ -27,7 +27,6 @@ export function LoginWithGoogle() {
   const buttonText = () => (user ? 'Logout' : 'Login');
   return (
     <Box>
-      <Typography>Google</Typography>
       <Button variant="contained" onClick={() => handleClick()}>
         {buttonText()}
       </Button>
