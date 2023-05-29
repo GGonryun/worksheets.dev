@@ -32,8 +32,10 @@ export function clearExecution(
   user: DecodedIdToken
 ) {
   return async (worksheetId: string) => {
-    // check user access to worksheet.
-    await userWorksheet(worksheetsDb, user)(worksheetId);
+    // check user access to worksheet if it exists
+    if (await worksheetsDb.has(worksheetId)) {
+      await userWorksheet(worksheetsDb, user)(worksheetId);
+    }
 
     // get executions and delete them.
     const executions = await executeDb.query({

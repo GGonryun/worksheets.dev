@@ -8,13 +8,13 @@
 }
 
 .tabs {
-  min-width: 30px;
-  width: 30px;
+  min-width: 30px !important;
+  width: 30px !important;
 }
 
 .tab {
-  min-width: 30px;
-  width: 30px;
+  min-width: 30px !important;
+  width: 30px !important;
   display: flex;
   align-items: center;
   justify-content: flex-start;
