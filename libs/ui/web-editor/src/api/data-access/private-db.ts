@@ -19,6 +19,7 @@ export function newPrivateDatabase(user: DecodedIdToken, txn?: Txn) {
       get: userWorksheet(worksheetsDb, user),
       create: createWorksheet(worksheetsDb, user),
       has: hasWorksheet(worksheetsDb, user),
+      delete: deleteWorksheet(worksheetsDb, user),
     },
     executions: {
       delete: deleteExecution(executionsDb, worksheetsDb, user),
@@ -26,6 +27,18 @@ export function newPrivateDatabase(user: DecodedIdToken, txn?: Txn) {
     },
   };
 }
+
+export function deleteWorksheet(
+  worksheetsDb: WorksheetsDatabase,
+  user: DecodedIdToken
+) {
+  return async (worksheetId: string) => {
+    // check user access
+    const worksheet = await userWorksheet(worksheetsDb, user)(worksheetId);
+    await worksheetsDb.delete(worksheet.id);
+  };
+}
+
 export function clearExecution(
   executeDb: ExecutionsDatabase,
   worksheetsDb: WorksheetsDatabase,
@@ -114,7 +127,7 @@ export function userWorksheet(db: WorksheetsDatabase, user: DecodedIdToken) {
       throw new HandlerFailure({ code: 'unauthorized' });
     }
 
-    return { text: entity.text };
+    return { id, text: entity.text };
   };
 }
 

@@ -11,6 +11,7 @@ import { useState, useEffect } from 'react';
 import ExecutionInformation from '../execution-info/execution-info';
 import { GetExecutionsResponse } from '../../api/execution/get';
 
+import { v4 as uuidv4 } from 'uuid';
 export function WebEditor() {
   const router = useRouter();
   const { worksheet } = router.query;
@@ -41,7 +42,7 @@ export function WebEditor() {
   }, [data]);
 
   const handleNew = () => {
-    privateCommand<PostWorksheetResponse>(apiWorksheets, 'POST', { text })
+    privateCommand<PostWorksheetResponse>(apiWorksheets, 'POST')
       .then((d) => {
         router.push(`/ide/${d}`);
         setText('');
@@ -58,19 +59,29 @@ export function WebEditor() {
 
   function handleSave() {
     privateCommand(apiWorksheet, 'POST', { text })
-      .then(() => mutate(apiWorksheet))
+      .then(() => mutate(apiWorksheets))
       .catch(warn(`failed to save worksheet`));
   }
 
-  function handleClear() {
+  function handleClearExecutions() {
     privateCommand(apiExecute, 'DELETE')
       .then(() => mutate(apiExecute))
-      .catch(warn('failed to clear worksheet'));
+      .catch(warn('failed to clear executions'));
   }
 
-  function handleDelete(executionId: string) {
+  function handleDeleteExecution(executionId: string) {
     privateCommand(apiExecute, 'DELETE', { executionId })
       .then(() => mutate(apiExecute))
+      .catch(warn('failed to delete execution'));
+  }
+
+  function handleDeleteWorksheet() {
+    privateCommand(apiWorksheet, 'DELETE')
+      .then(() => {
+        mutate(apiWorksheets);
+        router.push(`/ide/${uuidv4()}`);
+        setText('');
+      })
       .catch(warn('failed to delete worksheet'));
   }
 
@@ -91,6 +102,7 @@ export function WebEditor() {
       >
         <Header worksheetId={worksheetId} />
         <ControlPanel
+          onDelete={handleDeleteWorksheet}
           onNew={handleNew}
           onExecute={handleExecute}
           onSave={handleSave}
@@ -110,8 +122,8 @@ export function WebEditor() {
             />
           </Box>
           <ExecutionInformation
-            onClear={() => handleClear()}
-            onDelete={(executionId) => handleDelete(executionId)}
+            onClear={() => handleClearExecutions()}
+            onDelete={(executionId) => handleDeleteExecution(executionId)}
             onReplay={(executionId) => handleReplay(executionId)}
             executions={executionsData}
           />
