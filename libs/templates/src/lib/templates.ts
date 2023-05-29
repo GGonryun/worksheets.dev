@@ -1,16 +1,25 @@
-import { readFilesInFolder } from '@worksheets/util/hardware';
 import { z } from 'zod';
+import { accumulator } from '../examples/accumulator';
+import { add } from '../examples/add';
+import { http } from '../examples/http';
+import { loops } from '../examples/loops';
+import { max } from '../examples/max';
 
-const dirPath = 'libs/templates/examples';
+const templates: Record<string, string> = {
+  add,
+  accumulator,
+  http,
+  loops,
+  max,
+};
 
-export function templates(): Template[] {
-  const raw = readFilesInFolder(dirPath);
-  const templates: Template[] = [];
-  for (const key in raw) {
-    const v = raw[key];
-    templates.push({ id: key, text: v });
+export function listTemplates(): Template[] {
+  const list: Template[] = [];
+  for (const id in templates) {
+    const text = templates[id].trim();
+    list.push({ id, text });
   }
-  return templates;
+  return list;
 }
 
 export const templateSchema = z.object({ id: z.string(), text: z.string() });

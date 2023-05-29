@@ -1,3 +1,4 @@
+export const accumulator = `
 name: accumulator
 assign:
   loop:
@@ -13,6 +14,7 @@ steps:
     value: v
     steps:
       - assign:
-        data: ${data + v}
+        data: \${data + v}
 
-return: ${data}
+return: \${data}
+`;

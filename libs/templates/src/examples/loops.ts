@@ -1,3 +1,4 @@
+export const loops = `
 name: iterating loops
 assign:
   loop: [1, 2, 3, 4, apple]
@@ -9,6 +10,7 @@ steps:
     value: v
     steps:
       - assign:
-        data: ${v}
+        data: \${v}
 
-return: ${data}
+return: \${data}
+`;

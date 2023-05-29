@@ -3,14 +3,16 @@ import { Box, Button, Typography } from '@mui/material';
 import { ShowDataField } from '../common/show-data-field';
 import ContentPasteGoOutlinedIcon from '@mui/icons-material/ContentPasteGoOutlined';
 import ContentCopyOutlinedIcon from '@mui/icons-material/ContentCopyOutlined';
-import { Template } from '@worksheets/templates';
+import { Template, listTemplates } from '@worksheets/templates';
+import { useUser } from '@worksheets/auth/client';
 
 export type TemplatesProps = {
-  templates: Template[];
   onClipboard: (t: Template) => void;
   onClone: (t: Template) => void;
 };
-export function Templates({ templates, onClipboard, onClone }: TemplatesProps) {
+export function Templates({ onClipboard, onClone }: TemplatesProps) {
+  const templates = listTemplates();
+
   return (
     <TreeItem
       nodeId={'templates'}
@@ -34,6 +36,7 @@ export type TemplateItemProps = Template & {
 };
 
 function TemplateItem({ id, text, onClipboard, onClone }: TemplateItemProps) {
+  const { user } = useUser();
   return (
     <TreeItem nodeId={id} label={id} sx={{ borderLeft: '1px solid grey' }}>
       <Box
@@ -53,15 +56,17 @@ function TemplateItem({ id, text, onClipboard, onClone }: TemplateItemProps) {
         >
           clipboard
         </Button>
-        <Button
-          onClick={() => onClone({ id, text })}
-          fullWidth
-          variant="contained"
-          color="success"
-          endIcon={<ContentCopyOutlinedIcon fontSize="small" />}
-        >
-          clone
-        </Button>
+        {user && (
+          <Button
+            onClick={() => onClone({ id, text })}
+            fullWidth
+            variant="contained"
+            color="success"
+            endIcon={<ContentCopyOutlinedIcon fontSize="small" />}
+          >
+            clone
+          </Button>
+        )}
       </Box>
     </TreeItem>
   );

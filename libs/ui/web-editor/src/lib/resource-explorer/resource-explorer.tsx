@@ -6,7 +6,6 @@ import { OfficialApplicationLibrary } from '@worksheets/apps/library';
 import { Applications } from './applications';
 import { Worksheets } from './worksheets';
 import { Templates } from './templates';
-import { GetTemplatesResponse } from '../../api/templates/get';
 import { request, useUser } from '@worksheets/auth/client';
 import { Template } from '@worksheets/templates';
 import { warn } from '@worksheets/ui/common';
@@ -16,12 +15,10 @@ export function ResourceExplorer() {
   const library = new OfficialApplicationLibrary();
   const tree = library.tree();
 
-  const templatesApi = '/api/templates';
   const worksheetsApi = '/api/worksheets';
-  const { data } = request.query.usePublic<GetTemplatesResponse>(templatesApi);
   const mutate = request.query.useMutate();
   const handleClipboard = (template: Template) => {
-    alert('copied yaml to clipboard');
+    alert('copied worksheet to clipboard');
     navigator.clipboard.writeText(template.text);
   };
 
@@ -52,11 +49,7 @@ export function ResourceExplorer() {
       >
         <Worksheets />
         <Applications nodes={tree.root.connections()} />
-        <Templates
-          templates={data ?? []}
-          onClipboard={handleClipboard}
-          onClone={handleClone}
-        />
+        <Templates onClipboard={handleClipboard} onClone={handleClone} />
       </TreeView>
     </Box>
   );

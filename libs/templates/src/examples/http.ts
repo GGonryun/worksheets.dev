@@ -1,3 +1,4 @@
+export const http = `
 name: html execution
 steps:
   - call: http
@@ -5,4 +6,5 @@ steps:
       url: https://api.sampleapis.com/beers/ale
       method: GET
     output: resp
-  - return: ${resp.body}
+  - return: \${resp.body}
+`;
