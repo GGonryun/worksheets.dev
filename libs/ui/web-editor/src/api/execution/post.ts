@@ -29,15 +29,14 @@ export const post = newPublicHandler({ input })(async ({ data, req }) => {
   let text = data.text;
   let input = data.input;
 
-  // if replaying, fallback to the replay's original text.
+  // if replaying, use the original input.
   if (data.replay) {
     const execution = await db.executions.get(data.replay);
     input = execution;
-    text = execution.text;
   }
 
   // if empty, fallback to stored text.
-  if (!text) {
+  if (text == null) {
     const worksheet = await db.worksheets.get(worksheetId);
     text = worksheet.text;
   }

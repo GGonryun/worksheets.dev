@@ -35,6 +35,7 @@ export function Worksheets() {
     >
       {keys.map((key) => (
         <TreeItem
+          sx={{ borderLeft: '1px solid grey' }}
           key={key}
           nodeId={key}
           onClick={() => handleClick(key)}
@@ -55,5 +56,3 @@ export function Worksheets() {
     </TreeItem>
   );
 }
-
-// get a list of the user's current worksheets. when we click create assign a new one with a random guid.

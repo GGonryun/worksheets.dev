@@ -47,6 +47,7 @@ function NodeTreeItem(props: { node: GraphNode<MethodSummary> }) {
   const nodes = Array.from(children.values());
   return (
     <TreeItem
+      sx={{ borderLeft: '1px solid grey' }}
       label={
         <Box display="flex" alignItems="center" gap={1}>
           {nodes.length ? (
@@ -75,7 +76,7 @@ function DisplayMethodSummary({
   output,
 }: MethodSummary) {
   return (
-    <Box>
+    <Box sx={{ borderLeft: '1px solid grey', boxSizing: 'border-box' }}>
       {label && (input || output) && (
         <TreeItem
           style={{ fontSize: 12 }}
@@ -177,7 +178,7 @@ function DataTypeDescription(props: JsonSchema7Type & { label?: string }) {
     );
   }
 
-  if (props.label == 'input' || props.label == 'output') {
+  if (props.label === 'input' || props.label === 'output') {
     return null;
   }
 
@@ -192,24 +193,24 @@ function DataTypeDescription(props: JsonSchema7Type & { label?: string }) {
 }
 
 function isArrayType(schema: JsonSchema7Type): schema is JsonSchema7ArrayType {
-  return 'type' in schema && schema.type == 'array';
+  return 'type' in schema && schema.type === 'array';
 }
 
 function isEnumType(schema: JsonSchema7Type): schema is JsonSchema7EnumType {
-  return 'type' in schema && 'enum' in schema && schema.type == 'string';
+  return 'type' in schema && 'enum' in schema && schema.type === 'string';
 }
 
 function isStringType(
   schema: JsonSchema7Type
 ): schema is JsonSchema7StringType {
-  return 'type' in schema && schema.type == 'string';
+  return 'type' in schema && schema.type === 'string';
 }
 
 function isNumberType(
   schema: JsonSchema7Type
 ): schema is JsonSchema7NumberType {
   return (
-    'type' in schema && (schema.type == 'number' || schema.type === 'integer')
+    'type' in schema && (schema.type === 'number' || schema.type === 'integer')
   );
 }
 

@@ -1,7 +1,7 @@
 import { UserAccessFailure } from './failures';
 import { User } from 'firebase/auth';
 import { Decorator, Wrapper, compose } from '@worksheets/util/functional';
-import useSWR from 'swr';
+import useSWR, { useSWRConfig } from 'swr';
 
 type Info = RequestInfo | URL;
 type Init = RequestInit | undefined;
@@ -61,9 +61,9 @@ const bearer: FetchDecorator<User | null> =
     return header({ Authorization: `Bearer ${token}` })(fetcher)(info, init);
   };
 
-const usePublic = <Output>(url: string, ready = true) => {
+const usePublic = <Output>(url: string, shouldLoad = true) => {
   const insecure = compose(fetch)(); // add global attributes here.
-  return useSWR<Output>(ready && url, errorAdapter<Output>(insecure));
+  return useSWR<Output>(shouldLoad && url, errorAdapter<Output>(insecure));
 };
 
 const usePrivate = <Output>(url: string, user: User | null) => {
@@ -87,6 +87,11 @@ const errorAdapter =
       }
       throw await r.json();
     });
+
+const useMutate = () => {
+  const { mutate } = useSWRConfig();
+  return mutate;
+};
 
 export const request = {
   command: {
@@ -113,5 +118,5 @@ export const request = {
         )(url),
   },
   // query
-  query: { usePublic, usePrivate },
+  query: { usePublic, usePrivate, useMutate },
 };

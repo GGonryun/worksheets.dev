@@ -1,2 +1,3 @@
 export * from './api/execution/handler';
 export * from './api/worksheets/handler';
+export * from './api/templates/handler';

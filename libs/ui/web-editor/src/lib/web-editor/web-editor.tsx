@@ -6,7 +6,6 @@ import { CodeEditor } from '../code-editor';
 import { ControlPanel } from '../control-panel';
 import { warn } from '@worksheets/ui/common';
 import { useUser, request } from '@worksheets/auth/client';
-import { useSWRConfig } from 'swr';
 import { GetWorksheetResponse, PostWorksheetResponse } from '../../server';
 import { useState, useEffect } from 'react';
 import ExecutionInformation from '../execution-info/execution-info';
@@ -16,12 +15,11 @@ export function WebEditor() {
   const router = useRouter();
   const { worksheet } = router.query;
   const { user } = useUser();
-  const { mutate } = useSWRConfig();
+  const mutate = request.query.useMutate();
   const privateCommand = request.command.private(user);
   const publicCommand = request.command.public();
 
   const worksheetId = worksheet as string;
-  const apiReplay = (executionsId: string) => `/api/r/${executionsId}`;
   const apiExecute = `/api/x/${worksheetId}`;
   const apiWorksheet = `/api/worksheets/${worksheetId}`;
   const apiWorksheets = '/api/worksheets';
@@ -47,39 +45,39 @@ export function WebEditor() {
       .then((d) => {
         router.push(`/ide/${d}`);
         setText('');
+        mutate(apiWorksheets);
       })
-      .catch(warn(`failed to save worksheet`))
-      .finally(() => mutate(apiWorksheets));
+      .catch(warn(`failed to save worksheet`));
   };
 
   function handleExecute() {
     publicCommand(apiExecute, 'POST', { text })
-      .catch(warn(`failed to execute worksheet`))
-      .finally(() => mutate(apiExecute));
+      .then(() => mutate(apiExecute))
+      .catch(warn(`failed to execute worksheet`));
   }
 
   function handleSave() {
     privateCommand(apiWorksheet, 'POST', { text })
-      .catch(warn(`failed to save worksheet`))
-      .finally(() => mutate(apiWorksheet));
+      .then(() => mutate(apiWorksheet))
+      .catch(warn(`failed to save worksheet`));
   }
 
   function handleClear() {
     privateCommand(apiExecute, 'DELETE')
-      .catch(warn('failed to delete worksheet'))
-      .finally(() => mutate(apiExecute));
+      .then(() => mutate(apiExecute))
+      .catch(warn('failed to delete worksheet'));
   }
 
   function handleDelete(executionId: string) {
     privateCommand(apiExecute, 'DELETE', { executionId })
-      .catch(warn('failed to delete worksheet'))
-      .finally(() => mutate(apiExecute));
+      .then(() => mutate(apiExecute))
+      .catch(warn('failed to delete worksheet'));
   }
 
   function handleReplay(executionId: string) {
-    publicCommand(apiExecute, 'POST', { replay: executionId })
-      .catch(warn('failed to replay worksheet'))
-      .finally(() => mutate(apiExecute));
+    publicCommand(apiExecute, 'POST', { replay: executionId, text })
+      .then(() => mutate(apiExecute))
+      .catch(warn('failed to replay worksheet'));
   }
 
   return (

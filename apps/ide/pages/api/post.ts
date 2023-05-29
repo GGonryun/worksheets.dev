@@ -1,4 +1,4 @@
-import { newDatabase } from '@worksheets/firebase/firestore';
+import { newFirestore } from '@worksheets/firebase/firestore';
 import { NextApiRequest, NextApiResponse } from 'next';
 export default async function handler(
   req: NextApiRequest,
@@ -10,7 +10,7 @@ export default async function handler(
     return res.send(400);
   }
 
-  const db = newDatabase<{ id: string; test: string }>('sample');
+  const db = newFirestore<{ id: string; test: string }>('sample');
 
   db.insert({ test: 'yes', id });
 

@@ -6,7 +6,6 @@ import {
   Divider,
   Tab,
   Tabs,
-  TextField,
   Typography,
 } from '@mui/material';
 import { GetExecutionsResponse } from '../../api/execution/get';
@@ -23,6 +22,7 @@ import TimerOutlinedIcon from '@mui/icons-material/TimerOutlined';
 import ViewInArRoundedIcon from '@mui/icons-material/ViewInArRounded';
 // width
 import StraightenOutlinedIcon from '@mui/icons-material/StraightenOutlined';
+import { ShowDataField } from '../common/show-data-field';
 
 export interface ExecutionInformationProps {
   worksheets?: GetExecutionsResponse;
@@ -166,21 +166,21 @@ export function Info({
 
           <TabPanel value={value} index={1}>
             <Box display="flex" flexDirection="column" gap={1}>
-              <BlockedTextField label="worksheet" text={text ?? ''} />
+              <ShowDataField label="worksheet" text={text ?? ''} />
               {!!result?.error && (
-                <BlockedTextField
+                <ShowDataField
                   label="error"
                   text={JSON.stringify(result.error, null, 2)}
                 />
               )}
               {!!result?.input && (
-                <BlockedTextField
+                <ShowDataField
                   label="input"
                   text={JSON.stringify(result.input, null, 2)}
                 />
               )}
               {!!result?.output && (
-                <BlockedTextField
+                <ShowDataField
                   label="output"
                   text={JSON.stringify(result.output, null, 2)}
                 />
@@ -238,27 +238,6 @@ function TabPanel(props: TabPanelProps) {
         </Box>
       )}
     </div>
-  );
-}
-
-type TextDataFieldProps = { label: string; text: string };
-function BlockedTextField({ label, text }: TextDataFieldProps) {
-  return (
-    <Box display="flex" flexDirection="column">
-      <Divider sx={{ pb: 1 }}>{label}</Divider>
-
-      <TextField
-        InputProps={{
-          className: styles['text'],
-          classes: { disabled: styles['text'], root: styles['text'] },
-        }}
-        disabled
-        value={text}
-        multiline
-        minRows={1}
-        maxRows={8}
-      />
-    </Box>
   );
 }
 

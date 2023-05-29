@@ -5,11 +5,44 @@ import { Box } from '@mui/material';
 import { OfficialApplicationLibrary } from '@worksheets/apps/library';
 import { Applications } from './applications';
 import { Worksheets } from './worksheets';
+import { Templates } from './templates';
+import { GetTemplatesResponse } from '../../api/templates/get';
+import { request, useUser } from '@worksheets/auth/client';
+import { Template } from '@worksheets/templates';
+import { warn } from '@worksheets/ui/common';
 
 export function ResourceExplorer() {
+  const { user } = useUser();
   const library = new OfficialApplicationLibrary();
   const tree = library.tree();
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
+  const templatesApi = '/api/templates';
+  const worksheetsApi = '/api/worksheets';
+  const { data } = request.query.usePublic<GetTemplatesResponse>(templatesApi);
+  const mutate = request.query.useMutate();
+  const handleClipboard = (template: Template) => {
+    alert('copied yaml to clipboard');
+    navigator.clipboard.writeText(template.text);
+  };
+
+  const handleClone = (template: Template) => {
+    if (
+      // eslint-disable-next-line no-restricted-globals
+      confirm(
+        `are you sure you want to clone ${template.id}? this action will open a new tab.`
+      )
+    ) {
+      request.command
+        .private(user)(worksheetsApi, 'POST', { text: template.text })
+        .then((id) => {
+          mutate(worksheetsApi);
+          const win = window.open(`/ide/${id}`, '_blank');
+          win?.focus();
+        })
+        .catch(warn('failed to clone worksheet'));
+    }
+  };
+
   return (
     <Box>
       <TreeView
@@ -19,6 +52,11 @@ export function ResourceExplorer() {
       >
         <Worksheets />
         <Applications nodes={tree.root.connections()} />
+        <Templates
+          templates={data ?? []}
+          onClipboard={handleClipboard}
+          onClone={handleClone}
+        />
       </TreeView>
     </Box>
   );
