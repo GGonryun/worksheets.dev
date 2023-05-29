@@ -47,7 +47,7 @@ export function WebEditor() {
         setText('');
         mutate(apiWorksheets);
       })
-      .catch(warn(`failed to save worksheet`));
+      .catch(warn(`failed to create new worksheet`));
   };
 
   function handleExecute() {
@@ -65,7 +65,7 @@ export function WebEditor() {
   function handleClear() {
     privateCommand(apiExecute, 'DELETE')
       .then(() => mutate(apiExecute))
-      .catch(warn('failed to delete worksheet'));
+      .catch(warn('failed to clear worksheet'));
   }
 
   function handleDelete(executionId: string) {
@@ -113,7 +113,7 @@ export function WebEditor() {
             onClear={() => handleClear()}
             onDelete={(executionId) => handleDelete(executionId)}
             onReplay={(executionId) => handleReplay(executionId)}
-            worksheets={executionsData}
+            executions={executionsData}
           />
         </Box>
       </Box>

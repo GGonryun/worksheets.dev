@@ -23,35 +23,39 @@ import ViewInArRoundedIcon from '@mui/icons-material/ViewInArRounded';
 // width
 import StraightenOutlinedIcon from '@mui/icons-material/StraightenOutlined';
 import { ShowDataField } from '../common/show-data-field';
+import { useUser } from '@worksheets/auth/client';
 
 export interface ExecutionInformationProps {
-  worksheets?: GetExecutionsResponse;
+  executions?: GetExecutionsResponse;
   onClear: () => void;
   onDelete: (executionId: string) => void;
   onReplay: (executionId: string) => void;
 }
 
 export function ExecutionInformation({
-  worksheets,
+  executions,
   onClear,
   onDelete,
   onReplay,
 }: ExecutionInformationProps) {
+  const { user } = useUser();
   return (
     <div className={styles['container']}>
       <Box display="flex" gap={3} alignItems="center">
         <Typography fontWeight={900}>Executions</Typography>
-        <Button
-          variant="outlined"
-          color="error"
-          size="small"
-          fullWidth
-          onClick={() => onClear()}
-        >
-          clear
-        </Button>
+        {!!executions?.length && user && (
+          <Button
+            variant="outlined"
+            color="error"
+            size="small"
+            fullWidth
+            onClick={() => onClear()}
+          >
+            clear
+          </Button>
+        )}
       </Box>
-      {worksheets?.map((execution, index) => (
+      {executions?.map((execution, index) => (
         <Info
           key={index}
           index={index}
