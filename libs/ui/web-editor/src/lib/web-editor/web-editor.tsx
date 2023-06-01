@@ -9,7 +9,7 @@ import { useUser, request } from '@worksheets/auth/client';
 import { GetWorksheetResponse, PostWorksheetResponse } from '../../server';
 import { useState, useEffect } from 'react';
 import ExecutionInformation from '../execution-info/execution-info';
-import { GetExecutionsResponse } from '../../api/execution/get';
+import { GetExecutionsResponse } from '../../api/executions/get';
 
 import { v4 as uuidv4 } from 'uuid';
 export function WebEditor() {

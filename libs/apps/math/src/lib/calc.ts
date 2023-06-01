@@ -5,6 +5,7 @@ export const calc = newMethod({
   path: 'math.calc',
   label: 'Calculate',
   description: 'Executes an operation (+, -, *, /, ^) between X and Y',
+  settings: null,
   input: z.object({
     op: z.union([
       z.literal('+'),

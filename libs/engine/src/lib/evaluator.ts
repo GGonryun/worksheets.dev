@@ -18,7 +18,7 @@ import { isString, isObject, isArray } from 'lodash';
 import { Heap, WriteOnlyHeap } from '@worksheets/util/data-structures';
 import { getExpressions, isExpression, isRecord } from './util';
 import { ExecutionFailure } from './failures';
-import { ApplicationLibrary } from '@worksheets/apps/framework';
+import { Library } from '@worksheets/apps/framework';
 
 export type CallExpressionEvaluator = (
   evaluator: ScriptEvaluator,
@@ -131,6 +131,7 @@ export class ScriptEvaluator implements ExpressionEvaluator {
         return input;
       }
     } catch (error) {
+      console.error(`recursiveParse failed`, error);
       throw new ExecutionFailure({
         code: 'invalid-expression',
         message: `failed to parse expression: '${JSON.stringify(input)}'`,
@@ -392,8 +393,8 @@ export class UnimplementedCallExpressionBridge implements CallExpressionBridge {
 }
 
 export class ScriptsApplicationBridge implements CallExpressionBridge {
-  private readonly library: ApplicationLibrary;
-  constructor(library: ApplicationLibrary) {
+  private readonly library: Library;
+  constructor(library: Library) {
     this.library = library;
   }
   async evaluate(
@@ -413,6 +414,7 @@ export class ScriptsApplicationBridge implements CallExpressionBridge {
       );
       return result;
     } catch (error) {
+      console.error(`failed to evaluate script`, error);
       throw new ExecutionFailure({
         code: 'invalid-expression',
         message: `failed to execute application ${path}`,

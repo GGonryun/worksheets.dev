@@ -1,9 +1,6 @@
 import { Heap, Stack } from '@worksheets/util/data-structures';
 import { ScriptEvaluator } from './evaluator';
-import {
-  ApplicationLibrary,
-  MethodCallFailure,
-} from '@worksheets/apps/framework';
+import { Library, MethodCallFailure } from '@worksheets/apps/framework';
 
 export type Address = string;
 
@@ -42,7 +39,7 @@ export class Context {
   public readonly register: Register;
   public readonly instructions: Stack<Instruction>;
   public readonly scripts: ScriptEvaluator;
-  public readonly library: ApplicationLibrary;
+  public readonly library: Library;
 
   constructor({ memory, register, instructions, scripts, library }: Context) {
     this.memory = memory;

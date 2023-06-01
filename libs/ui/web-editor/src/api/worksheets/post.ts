@@ -27,7 +27,7 @@ export const post = newPrivateHandler({ input, output })(
       });
     }
 
-    console.log('saving worksheet', id, text);
+    console.info('saving worksheet', id, text);
 
     await db.worksheets.create({ id, text: text ?? '' });
     return id;

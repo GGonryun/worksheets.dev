@@ -1,0 +1,8 @@
+{
+  "name": "@worksheets/apps/google/gmail",
+  "version": "0.0.1",
+  "type": "commonjs",
+  "devDependencies": {
+    "@types/nodemailer": "^6.4.8"
+  }
+}

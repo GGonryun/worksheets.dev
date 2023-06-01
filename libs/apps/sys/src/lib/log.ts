@@ -4,13 +4,19 @@ import { newMethod } from '@worksheets/apps/framework';
 export const log = newMethod({
   path: 'sys.log',
   label: 'System Console Logger',
+  description: 'Logs information to the system console',
+
+  settings: null,
+
   input: z.object({
     data: z.any(),
     level: z
       .union([z.literal('warn'), z.literal('log'), z.literal('error')])
       .optional(),
   }),
+
   output: null,
+
   async call(ctx) {
     const { data, level } = ctx.input;
     let fn;

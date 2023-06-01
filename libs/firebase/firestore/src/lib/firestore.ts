@@ -51,7 +51,7 @@ export function newFirestore<T extends Entity>(key: string, txn?: Txn) {
     }
   }
 
-  async function id(): Promise<string> {
+  function id(): string {
     return collection.doc().id;
   }
 

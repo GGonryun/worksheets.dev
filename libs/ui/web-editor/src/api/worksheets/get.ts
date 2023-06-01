@@ -26,7 +26,7 @@ export const get = newPrivateHandler({ input, output })(
     }
 
     const entity = await db.worksheets.get(id);
-    console.log('loading worksheet', id, entity.text);
+    console.info('loading worksheet', id, entity.text);
     return { text: entity.text };
   }
 );

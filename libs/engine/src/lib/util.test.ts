@@ -1,5 +1,6 @@
 import {
   ApplicationLibrary,
+  Library,
   MethodDefinition,
 } from '@worksheets/apps/framework';
 import {
@@ -11,7 +12,7 @@ import {
 } from './util';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type Mock = jest.Mock<any, any, any>;
-export class JestApplicationLibrary implements ApplicationLibrary {
+export class JestApplicationLibrary implements Library {
   private readonly callMock: Mock;
   private readonly listMock: Mock;
   constructor(opts?: { call?: Mock; list?: Mock }) {
@@ -19,7 +20,7 @@ export class JestApplicationLibrary implements ApplicationLibrary {
     this.listMock = opts?.list ?? jest.fn();
   }
   list(): MethodDefinition[] {
-    return this.listMock();
+    throw new Error('Method not implemented.');
   }
 
   async call(path: string, ...inputs: unknown[]): Promise<unknown> {

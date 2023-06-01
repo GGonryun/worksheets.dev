@@ -1,4 +1,4 @@
-import { ApplicationLibrary } from '@worksheets/apps/framework';
+import { ApplicationLibrary, Library } from '@worksheets/apps/framework';
 import {
   Clock,
   Heap,
@@ -16,7 +16,7 @@ import { z } from 'zod';
 
 export type ExecutionOptions = {
   memory?: Heap;
-  library: ApplicationLibrary;
+  library: Library;
 };
 
 export const executionDimensionsSchema = z.object({
@@ -98,8 +98,7 @@ export class Execution {
         instruction = await this.engine.iterate();
       } catch (error) {
         if (error instanceof Failure) throw error;
-        console.log('error, error', error);
-
+        console.log('unexpected execution failure', error);
         throw new ExecutionFailure({
           code: 'unexpected',
           message: 'an unexpected error occured during execution',
@@ -120,7 +119,7 @@ export class Execution {
       throw new ExecutionFailure({
         code: 'method-failure',
         message: `unhandled method failure: (${failure.code}) ${failure.message}`,
-        data: failure.data,
+        cause: failure,
       });
     }
 

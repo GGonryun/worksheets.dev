@@ -5,6 +5,7 @@ export const abs = newMethod({
   path: 'math.abs',
   label: 'Absolute Value',
   description: 'Removes the "-" sign from a value',
+  settings: null,
   input: z.number(),
   output: z.number(),
   async call({ input }) {

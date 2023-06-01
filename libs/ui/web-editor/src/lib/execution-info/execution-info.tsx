@@ -8,7 +8,7 @@ import {
   Tabs,
   Typography,
 } from '@mui/material';
-import { GetExecutionsResponse } from '../../api/execution/get';
+import { GetExecutionsResponse } from '../../api/executions/get';
 import { useState } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
@@ -132,10 +132,10 @@ export function Info({
             />
           </Tabs>
           <TabPanel value={value} index={0}>
-            <Divider>CREATED AT</Divider>
+            <Divider>created at</Divider>
             <Box>{new Date(timestamp).toUTCString()}</Box>
             <br />
-            <Divider>DIMENSIONS</Divider>
+            <Divider>dimensions</Divider>
             <Box display="flex" flexDirection="column" gap={1} marginTop={1}>
               <Box display="flex" gap={1} alignItems="center">
                 <TimerOutlinedIcon /> {(dimensions.depth / 1000).toFixed(2)}{' '}
@@ -154,8 +154,7 @@ export function Info({
               </Box>
             </Box>
             <br />
-            <Divider>IDENTIFIERS</Divider>
-
+            <Divider>identifiers</Divider>
             <Box>
               <Typography variant="overline">execution id:</Typography>
               <br />

@@ -10,6 +10,7 @@ type zAny = z.ZodTypeAny;
 type HandlerContext<T, Optional = never> = {
   data: T;
   req: NextApiRequest;
+  res: NextApiResponse;
 } & Optional;
 
 type ContextFactoryMethod<T> = (req: NextApiRequest) => Promise<T>;
@@ -44,7 +45,12 @@ const newHandler =
 
     const ctx = await newContext(req, options.newContext);
 
-    const data = await handler({ ...ctx, data: input, req });
+    const data = await handler({ ...ctx, data: input, req, res });
+
+    // skip output step if res was written to.
+    if (res.writableEnded) {
+      return;
+    }
 
     const output = await parseOutput(options.output, data);
 
@@ -168,7 +174,9 @@ export type HandlerFailures =
   | 'resource-exhausted'
   | 'not-found'
   | 'invalid-argument'
-  | 'conflict';
+  | 'unsupported-operation'
+  | 'conflict'
+  | 'redirect';
 
 export const handlerFailureStatusCodeMap: Record<HandlerFailures, number> = {
   unknown: StatusCodes.IM_A_TEAPOT,
@@ -179,7 +187,9 @@ export const handlerFailureStatusCodeMap: Record<HandlerFailures, number> = {
   'not-found': StatusCodes.NOT_FOUND,
   conflict: StatusCodes.CONFLICT,
   unimplemented: StatusCodes.NOT_IMPLEMENTED,
+  'unsupported-operation': StatusCodes.UNPROCESSABLE_ENTITY,
   'invalid-argument': StatusCodes.BAD_REQUEST,
+  redirect: StatusCodes.MOVED_TEMPORARILY,
 };
 
 export class HandlerFailure extends CodedFailure<HandlerFailures> {}
@@ -196,6 +206,14 @@ export function processError(error: unknown) {
       status = handlerFailureStatusCodeMap[code];
       message = error.message ?? message;
       data = error.data;
+      if (error.code === 'redirect') {
+        if (typeof data === 'string') {
+          res.status(status).redirect(data);
+          return;
+        }
+        console.error(`unable to process redirect, no url was provided`, error);
+        status = StatusCodes.INTERNAL_SERVER_ERROR;
+      }
     }
 
     if (code === 'unknown') {

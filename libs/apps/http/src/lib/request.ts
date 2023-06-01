@@ -6,19 +6,29 @@ export const request = newMethod({
   label: 'request',
   description:
     'Sends an HTTP request to the specified URL, body should be stringified',
+
+  settings: null,
+
   input: z.object({
     url: z.string(),
     method: z
-      .union([z.literal('GET'), z.literal('POST'), z.literal('DELETE')])
+      .union([
+        z.literal('GET'),
+        z.literal('POST'),
+        z.literal('PUT'),
+        z.literal('DELETE'),
+      ])
       .optional(),
     headers: z.record(z.string()).optional(),
     body: z.string().optional(),
   }),
+
   output: z.object({
     url: z.string(),
     code: z.number(),
     body: z.any(),
   }),
+
   async call(ctx) {
     const { url, method, headers, body } = ctx.input;
     const response = await fetch(url, {
