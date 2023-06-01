@@ -41,7 +41,6 @@ export class OAuthClient {
     const suggestedExpiration = Number(token.data['expires_in'] || 0) * 1000; // ms
     // expire in 15 minutes or in suggested expiration
     const expiry = Date.now() + Math.min(FIFTEEN_MINUTES, suggestedExpiration);
-    console.log('serializeToken expiration', expiry);
     return JSON.stringify({ ...token.data, expiry: `${expiry}` });
   }
 
@@ -54,7 +53,6 @@ export class OAuthClient {
     const { expiry, ...token } = data;
     // reassign expiry to token as "expires_in"
     const expires_in = (Number(expiry) - Date.now()) / 1000;
-    console.log('convertToOAuthToken reassigning expiration', expires_in);
     token['expires_in'] = `${expires_in}`;
 
     return this.client().createToken(token);
