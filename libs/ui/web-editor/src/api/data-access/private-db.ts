@@ -27,7 +27,7 @@ export function newPrivateDatabase(user: DecodedIdToken, txn?: Txn) {
     worksheets: {
       list: userWorksheets(worksheetsDb, user),
       get: userWorksheet(worksheetsDb, user),
-      create: createWorksheet(worksheetsDb, user),
+      upsert: upsertWorksheet(worksheetsDb, user),
       has: hasWorksheet(worksheetsDb, user),
       delete: deleteWorksheet(worksheetsDb, user),
     },
@@ -223,7 +223,7 @@ export function userWorksheet(db: WorksheetsDatabase, user: DecodedIdToken) {
   };
 }
 
-export function createWorksheet(db: WorksheetsDatabase, user: DecodedIdToken) {
+export function upsertWorksheet(db: WorksheetsDatabase, user: DecodedIdToken) {
   return async (entity: Omit<WorksheetEntity, 'uid'>) =>
     await db.updateOrInsert({
       ...entity,

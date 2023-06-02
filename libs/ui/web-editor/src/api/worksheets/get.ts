@@ -3,7 +3,7 @@ import { newPrivateDatabase } from '../data-access/private-db';
 import { z } from 'zod';
 
 const input = z.object({ path: z.array(z.string()).optional() });
-const worksheetSchema = z.object({ text: z.string() });
+const worksheetSchema = z.object({ id: z.string(), text: z.string() });
 const worksheetsSchema = z.record(worksheetSchema);
 const output = z.union([worksheetSchema, worksheetsSchema]);
 
@@ -22,11 +22,11 @@ export const get = newPrivateHandler({ input, output })(
 
     const exists = await db.worksheets.has(id);
     if (!exists) {
-      return { text: '' };
+      return { text: '', id };
     }
 
     const entity = await db.worksheets.get(id);
     console.info('loading worksheet', id, entity.text);
-    return { text: entity.text };
+    return { text: entity.text, id };
   }
 );

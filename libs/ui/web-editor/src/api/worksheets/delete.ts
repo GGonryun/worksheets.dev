@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { newPrivateDatabase } from '../data-access/private-db';
 
 const input = z.object({ path: z.array(z.string()) });
-const output = z.boolean();
+const output = z.object({ ok: z.boolean() });
 
 export const del = newPrivateHandler({ input, output })(
   async ({ data: { path }, user }) => {
@@ -17,6 +17,7 @@ export const del = newPrivateHandler({ input, output })(
     const db = newPrivateDatabase(user);
     await db.executions.clear(id);
     await db.worksheets.delete(id);
-    return true;
+    console.info(`worksheet ${id} was deleted`);
+    return { ok: true };
   }
 );

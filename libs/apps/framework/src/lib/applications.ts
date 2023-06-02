@@ -44,7 +44,10 @@ export class ApplicationLibrary {
 
   async call(path: string, input: unknown): Promise<unknown> {
     const method = this.clerk.borrow(path);
-    const settings = await this.settingsLoader(method.path);
+    let settings;
+    if (method.settings) {
+      settings = await this.settingsLoader(method.path);
+    }
     return await this.technician.process(method, settings, input);
   }
 }

@@ -60,7 +60,7 @@ export const post = newPublicHandler({ input })(async ({ data, req }) => {
   } catch (e) {
     // send unknown errors back to clients
     if (!(e instanceof ExecutionFailure)) {
-      console.error(`failed to perform execution`, error);
+      console.error(`failed to perform execution`, e);
       throw new HandlerFailure({
         code: 'unexpected',
         message: 'unexpected failure encountered during execution',

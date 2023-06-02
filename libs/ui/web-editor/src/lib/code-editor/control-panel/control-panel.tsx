@@ -18,15 +18,11 @@ export function ControlPanel({
   return (
     <Box gap={2} display="flex" alignItems="center">
       <LoginWithGoogle />
+      <Button variant="contained" color="success" onClick={() => onExecute()}>
+        execute
+      </Button>
       {user && (
         <>
-          <Button
-            variant="contained"
-            color="success"
-            onClick={() => onExecute()}
-          >
-            execute
-          </Button>
           <Button variant="contained" color="warning" onClick={() => onNew()}>
             new
           </Button>

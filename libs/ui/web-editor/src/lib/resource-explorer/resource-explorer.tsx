@@ -1,7 +1,6 @@
 import TreeView from '@mui/lab/TreeView';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import { Box } from '@mui/material';
 import { Worksheets } from './worksheets';
 import { Templates } from './templates';
 import { request, useUser } from '@worksheets/auth/client';
@@ -9,6 +8,8 @@ import { Template } from '@worksheets/templates';
 import { warn } from '@worksheets/ui/common';
 import { GetApplicationGraphResponse } from '../../api/apps/get';
 import { Applications } from './applications';
+import { useRouter } from 'next/router';
+import { GetWorksheetsResponse } from '../../api/worksheets/handler';
 
 export function ResourceExplorer() {
   const { user } = useUser();
@@ -18,9 +19,21 @@ export function ResourceExplorer() {
   const worksheetsApi = '/api/worksheets';
   const mutate = request.query.useMutate();
   const handleClipboard = (template: Template) => {
-    alert('copied worksheet to clipboard');
     navigator.clipboard.writeText(template.text);
   };
+
+  const { push, query } = useRouter();
+  const { data: worksheets } = request.query.usePrivate<GetWorksheetsResponse>(
+    `/api/worksheets`,
+    user
+  );
+
+  const handleClick = (key: string) => {
+    push(`/ide/${key}`);
+  };
+
+  const id = query.worksheet as string;
+  const worksheetIds = Object.keys(worksheets ?? {});
 
   const handleClone = (template: Template) => {
     if (
@@ -41,16 +54,18 @@ export function ResourceExplorer() {
   };
 
   return (
-    <Box>
-      <TreeView
-        defaultCollapseIcon={<ExpandMoreIcon />}
-        defaultExpandIcon={<ChevronRightIcon />}
-        sx={{ flexGrow: 1, width: 240, overflowY: 'auto' }}
-      >
-        <Worksheets />
-        <Applications nodes={data?.children ?? []} />
-        <Templates onClipboard={handleClipboard} onClone={handleClone} />
-      </TreeView>
-    </Box>
+    <TreeView
+      defaultCollapseIcon={<ExpandMoreIcon />}
+      defaultExpandIcon={<ChevronRightIcon />}
+      sx={{ overflowY: 'auto' }}
+    >
+      <Worksheets
+        focused={id}
+        worksheets={worksheetIds}
+        onClick={handleClick}
+      />
+      <Applications nodes={data?.children ?? []} />
+      <Templates onClipboard={handleClipboard} onClone={handleClone} />
+    </TreeView>
   );
 }

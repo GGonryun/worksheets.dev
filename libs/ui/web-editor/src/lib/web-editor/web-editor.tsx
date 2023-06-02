@@ -1,134 +1,91 @@
-import { Container, Box } from '@mui/material';
+import { Box, Container, IconButton, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
 import { ResourceExplorer } from '../resource-explorer';
 import { Header } from './header';
-import { CodeEditor } from '../code-editor';
-import { ControlPanel } from '../control-panel';
-import { warn } from '@worksheets/ui/common';
-import { useUser, request } from '@worksheets/auth/client';
-import { GetWorksheetResponse, PostWorksheetResponse } from '../../server';
-import { useState, useEffect } from 'react';
+import { CodeEditor } from '../code-editor/code-editor';
 import ExecutionInformation from '../execution-info/execution-info';
-import { GetExecutionsResponse } from '../../api/executions/get';
-
-import { v4 as uuidv4 } from 'uuid';
+import { useEffect, useState } from 'react';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import { request, useUser } from '@worksheets/auth/client';
+import { GetWorksheetsResponse } from '../../server';
 export function WebEditor() {
-  const router = useRouter();
-  const { worksheet } = router.query;
-  const { user } = useUser();
-  const mutate = request.query.useMutate();
-  const privateCommand = request.command.private(user);
-  const publicCommand = request.command.public();
+  const { query, push } = useRouter();
+  const { worksheet } = query;
+  const { user, loading: isLoadingUser } = useUser();
+  const { data, isLoading: isLoadingData } =
+    request.query.usePrivate<GetWorksheetsResponse>(`/api/worksheets`, user);
 
   const worksheetId = worksheet as string;
-  const apiExecute = `/api/x/${worksheetId}`;
-  const apiWorksheet = `/api/worksheets/${worksheetId}`;
-  const apiWorksheets = '/api/worksheets';
 
-  const { data } = request.query.usePrivate<GetWorksheetResponse>(
-    apiWorksheet,
-    user
-  );
-
-  const { data: executionsData } =
-    request.query.usePublic<GetExecutionsResponse>(apiExecute);
-
-  const [text, setText] = useState<string>('');
+  const hasUser = user && !isLoadingUser;
+  const hasNoUser = !user && !isLoadingUser;
+  const hasData = data && !isLoadingData;
 
   useEffect(() => {
-    if (data) {
-      setText(data.text);
+    if (hasData && hasUser && worksheetId) {
+      // if data does not exist redirect to front-page.
+      if (!data[worksheetId]) {
+        push('/');
+      }
     }
-  }, [data]);
+  }, [push, data, worksheetId, hasData, hasUser]);
 
-  const handleNew = () => {
-    privateCommand<PostWorksheetResponse>(apiWorksheets, 'POST')
-      .then((d) => {
-        router.push(`/ide/${d}`);
-        setText('');
-        mutate(apiWorksheets);
-      })
-      .catch(warn(`failed to create new worksheet`));
-  };
+  useEffect(() => {
+    if (hasUser && hasData && !worksheetId) {
+      push('/');
+    }
+  }, [push, data, worksheetId, hasData, hasUser]);
 
-  function handleExecute() {
-    publicCommand(apiExecute, 'POST', { text })
-      .then(() => mutate(apiExecute))
-      .catch(warn(`failed to execute worksheet`));
+  useEffect(() => {
+    if (hasNoUser && worksheetId) {
+      push('/');
+    }
+  }, [push, hasNoUser, worksheetId]);
+
+  if (isLoadingUser || isLoadingData) {
+    return <Box>Loading...</Box>;
   }
-
-  function handleSave() {
-    privateCommand(apiWorksheet, 'POST', { text })
-      .then(() => mutate(apiWorksheets))
-      .catch(warn(`failed to save worksheet`));
-  }
-
-  function handleClearExecutions() {
-    privateCommand(apiExecute, 'DELETE')
-      .then(() => mutate(apiExecute))
-      .catch(warn('failed to clear executions'));
-  }
-
-  function handleDeleteExecution(executionId: string) {
-    privateCommand(apiExecute, 'DELETE', { executionId })
-      .then(() => mutate(apiExecute))
-      .catch(warn('failed to delete execution'));
-  }
-
-  function handleDeleteWorksheet() {
-    privateCommand(apiWorksheet, 'DELETE')
-      .then(() => {
-        mutate(apiWorksheets);
-        router.push(`/ide/${uuidv4()}`);
-        setText('');
-      })
-      .catch(warn('failed to delete worksheet'));
-  }
-
-  function handleReplay(executionId: string) {
-    publicCommand(apiExecute, 'POST', { replay: executionId, text })
-      .then(() => mutate(apiExecute))
-      .catch(warn('failed to replay worksheet'));
-  }
-
   return (
-    <Container maxWidth="md">
-      <Box
-        display="flex"
-        flexDirection="column"
-        marginTop={4}
-        gap={2}
-        alignItems="center"
-      >
-        <Header worksheetId={worksheetId} />
-        <ControlPanel
-          onDelete={handleDeleteWorksheet}
-          onNew={handleNew}
-          onExecute={handleExecute}
-          onSave={handleSave}
-        />
-        <Box display="flex" alignItems="flex-start" gap={3}>
-          <ResourceExplorer />
-          <Box
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-            flexDirection="column"
-            gap={3}
-          >
-            <CodeEditor
-              value={text}
-              onChange={(newValue) => setText(newValue)}
-            />
-          </Box>
-          <ExecutionInformation
-            onClear={() => handleClearExecutions()}
-            onDelete={(executionId) => handleDeleteExecution(executionId)}
-            onReplay={(executionId) => handleReplay(executionId)}
-            executions={executionsData}
-          />
+    <Container maxWidth="xl">
+      <Header worksheetId={worksheetId} />
+      <Box display="flex" gap={1} justifyContent="center">
+        <Explorer />
+        <Box flexGrow={2}>
+          <CodeEditor />
+        </Box>
+        <Box flexGrow={1} maxWidth={600} minHeight={600}>
+          <ExecutionInformation />
         </Box>
       </Box>
     </Container>
+  );
+}
+
+export function Explorer() {
+  const [showResources, setShowResources] = useState(false);
+
+  return (
+    <Box
+      flexGrow={showResources ? 1 : 0}
+      maxWidth={370}
+      display="flex"
+      flexDirection="column"
+    >
+      <Box display="flex" justifyContent="space-between" alignItems="center">
+        {showResources && <Typography>Explorer</Typography>}
+        <IconButton
+          sx={{ alignSelf: 'flex-end' }}
+          size="small"
+          onClick={() => setShowResources(!showResources)}
+        >
+          {showResources ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+        </IconButton>
+      </Box>
+
+      <Box display={showResources ? 'block' : 'none'}>
+        <ResourceExplorer />
+      </Box>
+    </Box>
   );
 }

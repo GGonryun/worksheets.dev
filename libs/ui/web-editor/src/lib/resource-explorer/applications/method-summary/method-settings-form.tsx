@@ -122,7 +122,6 @@ type FlagInputFieldProps = InputField<boolean> & SettingSummary;
 function FlagInputField({ value, onChange, required }: FlagInputFieldProps) {
   return (
     <Box display="flex" alignItems="center" pl={2} gap={2}>
-      {required && <Divider>required</Divider>}
       <Checkbox
         checked={value}
         onChange={(event) => onChange(event.target.checked)}

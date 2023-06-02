@@ -23,44 +23,63 @@ import ViewInArRoundedIcon from '@mui/icons-material/ViewInArRounded';
 // width
 import StraightenOutlinedIcon from '@mui/icons-material/StraightenOutlined';
 import { ShowDataField } from '../common/show-data-field';
-import { useUser } from '@worksheets/auth/client';
+import { request, useUser } from '@worksheets/auth/client';
+import { useRouter } from 'next/router';
+import { warn } from '@worksheets/ui/common';
 
-export interface ExecutionInformationProps {
-  executions?: GetExecutionsResponse;
-  onClear: () => void;
-  onDelete: (executionId: string) => void;
-  onReplay: (executionId: string) => void;
-}
-
-export function ExecutionInformation({
-  executions,
-  onClear,
-  onDelete,
-  onReplay,
-}: ExecutionInformationProps) {
+export function ExecutionInformation() {
   const { user } = useUser();
+  const router = useRouter();
+  const { worksheet } = router.query;
+  const mutate = request.query.useMutate();
+  const privateCommand = request.command.private(user);
+  const publicCommand = request.command.public();
+
+  const worksheetId = worksheet as string;
+  const apiExecute = `/api/x/${worksheetId}`;
+
+  const { data: executionsData } =
+    request.query.usePublic<GetExecutionsResponse>(apiExecute);
+
+  function handleReplay(executionId: string) {
+    publicCommand(apiExecute, 'POST', { replay: executionId })
+      .then(() => mutate(apiExecute))
+      .catch(warn('failed to replay worksheet'));
+  }
+
+  function handleClearExecutions() {
+    privateCommand(apiExecute, 'DELETE')
+      .then(() => mutate(apiExecute))
+      .catch(warn('failed to clear executions'));
+  }
+
+  function handleDeleteExecution(executionId: string) {
+    privateCommand(apiExecute, 'DELETE', { executionId })
+      .then(() => mutate(apiExecute))
+      .catch(warn('failed to delete execution'));
+  }
   return (
-    <div className={styles['container']}>
-      <Box display="flex" gap={3} alignItems="center">
+    <div>
+      <Box display="flex" gap={3}>
         <Typography fontWeight={900}>Executions</Typography>
-        {!!executions?.length && user && (
+        {!!executionsData?.length && user && (
           <Button
             variant="outlined"
             color="error"
             size="small"
             fullWidth
-            onClick={() => onClear()}
+            onClick={() => handleClearExecutions()}
           >
             clear
           </Button>
         )}
       </Box>
-      {executions?.map((execution, index) => (
+      {executionsData?.map((execution, index) => (
         <Info
           key={index}
           index={index}
-          onDelete={() => onDelete(execution.id)}
-          onReplay={() => onReplay(execution.id)}
+          onDelete={() => handleDeleteExecution(execution.id)}
+          onReplay={() => handleReplay(execution.id)}
           {...execution}
         />
       ))}
@@ -150,7 +169,7 @@ export function Info({
               </Box>
               <Box display="flex" gap={1} alignItems="center">
                 <ViewInArRoundedIcon /> {dimensions.mass.toFixed(2)} storage
-                (bytes)
+                (units)
               </Box>
             </Box>
             <br />
@@ -234,6 +253,7 @@ function TabPanel(props: TabPanelProps) {
       id={`vertical-tabpanel-${index}`}
       aria-labelledby={`vertical-tab-${index}`}
       {...other}
+      style={{ width: '100%' }}
     >
       {value === index && (
         <Box pb={1} pl={1}>

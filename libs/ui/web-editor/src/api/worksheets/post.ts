@@ -14,7 +14,7 @@ export type PostWorksheetResponse = z.infer<typeof output>;
 
 export const post = newPrivateHandler({ input, output })(
   async ({ user, data: { path, text } }) => {
-    const id = path?.at(0) ?? uuidv4();
+    let id = path?.at(0);
     const db = newPrivateDatabase(user);
 
     const records = await db.worksheets.list();
@@ -27,9 +27,16 @@ export const post = newPrivateHandler({ input, output })(
       });
     }
 
-    console.info('saving worksheet', id, text);
+    if (id && !(await db.worksheets.has(id))) {
+      throw new HandlerFailure({
+        code: 'not-found',
+        message: 'worksheet does not exist',
+      });
+    }
 
-    await db.worksheets.create({ id, text: text ?? '' });
-    return id;
+    id = id ?? uuidv4();
+    console.info('saving worksheet', id, text);
+    const entity = await db.worksheets.upsert({ id, text: text ?? '' });
+    return entity.id;
   }
 );

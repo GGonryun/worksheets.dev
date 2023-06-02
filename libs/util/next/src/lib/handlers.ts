@@ -54,7 +54,7 @@ const newHandler =
 
     const output = await parseOutput(options.output, data);
 
-    if (output) {
+    if (output != null) {
       res.status(200).json(output);
     } else {
       res.status(204).end();

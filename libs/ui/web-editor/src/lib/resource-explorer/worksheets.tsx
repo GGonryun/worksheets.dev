@@ -6,23 +6,14 @@ import InsertDriveFileOutlinedIcon from '@mui/icons-material/InsertDriveFileOutl
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import { GetWorksheetsResponse } from '../../server';
 
-export function Worksheets() {
-  const { push, query } = useRouter();
-  const { user } = useUser();
-  const { data } = request.query.usePrivate<GetWorksheetsResponse>(
-    `/api/worksheets`,
-    user
-  );
-
-  const handleClick = (key: string) => {
-    push(`/ide/${key}`);
-  };
-
-  const id = query.worksheet as string;
-  const keys = Object.keys(data ?? {});
-
+export type WorksheetsProps = {
+  focused: string;
+  worksheets: string[]; //worksheetIds
+  onClick: (id: string) => void;
+};
+export function Worksheets({ focused, worksheets, onClick }: WorksheetsProps) {
   const icon = (key: string) => {
-    return id === key ? (
+    return focused === key ? (
       <InsertDriveFileOutlinedIcon sx={{ fontSize: 14 }} />
     ) : (
       <InsertDriveFileIcon sx={{ fontSize: 14 }} />
@@ -31,14 +22,14 @@ export function Worksheets() {
   return (
     <TreeItem
       nodeId={'worksheets'}
-      label={<Typography>Worksheets ({keys.length})</Typography>}
+      label={<Typography>Worksheets ({worksheets.length})</Typography>}
     >
-      {keys.map((key) => (
+      {worksheets.map((key) => (
         <TreeItem
           sx={{ borderLeft: '1px solid grey' }}
           key={key}
           nodeId={key}
-          onClick={() => handleClick(key)}
+          onClick={() => onClick(key)}
           label={
             <Box display="flex" gap={1} alignItems="baseline">
               {icon(key)}
