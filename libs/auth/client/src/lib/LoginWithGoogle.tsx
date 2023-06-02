@@ -14,16 +14,14 @@ export function LoginWithGoogle() {
     provider.addScope('email');
 
     signInProvider(provider)
-      .then(() => {
-        push('/ide');
-      })
+      .then(() => push('/ide'))
       .catch((error) => {
         alert(`${error.message}`);
       });
   };
 
   const handleLogout = () => {
-    signOut();
+    signOut().then(() => push('/ide'));
   };
 
   const handleClick = () => {

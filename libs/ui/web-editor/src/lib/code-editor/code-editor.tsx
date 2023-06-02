@@ -6,7 +6,6 @@ import { GetWorksheetResponse, PostWorksheetResponse } from '../../server';
 import { useRouter } from 'next/router';
 import { warn } from '@worksheets/ui/common';
 import { ControlPanel } from './control-panel';
-import { push } from 'firebase/database';
 
 const DynamicCodeEditor = dynamic(() => import('./ace-editor'), {
   ssr: false,
@@ -21,7 +20,7 @@ export const CodeEditor: FC = () => {
   const maybeCommand = request.command.maybe(user);
 
   const apiExecutions = `/api/worksheets/${worksheetId}/executions`;
-  const testExecute = `/api/x/test`;
+  const testExecute = `/api/x/dry`;
   const apiWorksheet = `/api/worksheets/${worksheetId}`;
   const apiWorksheets = '/api/worksheets';
 
