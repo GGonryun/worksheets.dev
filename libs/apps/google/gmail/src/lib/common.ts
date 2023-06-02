@@ -18,7 +18,6 @@ export const auth = newOAuthSetting({
     query: {
       access_type: 'offline',
       include_granted_scopes: 'true',
-      prompt: 'consent',
     },
   },
   schema: z.any(),

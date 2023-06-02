@@ -6,6 +6,7 @@ import {
   Divider,
   Tab,
   Tabs,
+  Tooltip,
   Typography,
 } from '@mui/material';
 import { GetExecutionsResponse } from '../../api/executions/get';
@@ -33,29 +34,22 @@ export function ExecutionInformation() {
   const { worksheet } = router.query;
   const mutate = request.query.useMutate();
   const privateCommand = request.command.private(user);
-  const publicCommand = request.command.public();
 
   const worksheetId = worksheet as string;
-  const apiExecute = `/api/x/${worksheetId}`;
+  const executionsUrl = `/api/worksheets/${worksheetId}/executions`;
 
   const { data: executionsData } =
-    request.query.usePublic<GetExecutionsResponse>(apiExecute);
-
-  function handleReplay(executionId: string) {
-    publicCommand(apiExecute, 'POST', { replay: executionId })
-      .then(() => mutate(apiExecute))
-      .catch(warn('failed to replay worksheet'));
-  }
+    request.query.usePublic<GetExecutionsResponse>(executionsUrl);
 
   function handleClearExecutions() {
-    privateCommand(apiExecute, 'DELETE')
-      .then(() => mutate(apiExecute))
+    privateCommand(executionsUrl, 'DELETE')
+      .then(() => mutate(executionsUrl))
       .catch(warn('failed to clear executions'));
   }
 
   function handleDeleteExecution(executionId: string) {
-    privateCommand(apiExecute, 'DELETE', { executionId })
-      .then(() => mutate(apiExecute))
+    privateCommand(executionsUrl, 'DELETE', { executionId })
+      .then(() => mutate(executionsUrl))
       .catch(warn('failed to delete execution'));
   }
   return (
@@ -79,7 +73,6 @@ export function ExecutionInformation() {
           key={index}
           index={index}
           onDelete={() => handleDeleteExecution(execution.id)}
-          onReplay={() => handleReplay(execution.id)}
           {...execution}
         />
       ))}
@@ -89,7 +82,6 @@ export function ExecutionInformation() {
 
 export type InfoProps = {
   index: number;
-  onReplay: () => void;
   onDelete: () => void;
 };
 
@@ -101,11 +93,12 @@ export function Info({
   id,
   timestamp,
   index,
+  userId,
   onDelete,
-  onReplay,
 }: GetExecutionsResponse[number] & InfoProps) {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(0);
+  const { user } = useUser();
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -184,6 +177,11 @@ export function Info({
               <br />
               {worksheetId}
             </Box>
+            <Box>
+              <Typography variant="overline">user id:</Typography>
+              <br />
+              {userId}
+            </Box>
           </TabPanel>
 
           <TabPanel value={value} index={1}>
@@ -207,29 +205,31 @@ export function Info({
                   text={JSON.stringify(result.output, null, 2)}
                 />
               )}
-              <Button
-                variant="contained"
-                color="secondary"
-                onClick={() => {
-                  onReplay();
-                  setOpen(false);
-                }}
-              >
-                Replay
-              </Button>
             </Box>
           </TabPanel>
           <TabPanel value={value} index={2}>
-            <Button
-              variant="contained"
-              color="error"
-              onClick={() => {
-                onDelete();
-                setOpen(false);
-              }}
+            <Tooltip
+              title={
+                !user
+                  ? 'anonymous users cannot delete execution history'
+                  : undefined
+              }
             >
-              Delete
-            </Button>
+              <Box>
+                <Button
+                  fullWidth
+                  disabled={!user}
+                  variant="contained"
+                  color="error"
+                  onClick={() => {
+                    onDelete();
+                    setOpen(false);
+                  }}
+                >
+                  Delete
+                </Button>
+              </Box>
+            </Tooltip>
           </TabPanel>
         </Box>
       </Collapse>

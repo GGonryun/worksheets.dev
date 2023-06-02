@@ -75,10 +75,14 @@ export class ScriptEvaluator implements ExpressionEvaluator {
       }
       return clone;
     } catch (error) {
+      if (error instanceof ExecutionFailure) {
+        throw error;
+      }
       throw new ExecutionFailure({
         code: 'invalid-expression',
-        message: `failed to evaluate an expression in phrase: '${phrase}'`,
+        message: `failed to evaluate phrase`,
         cause: error,
+        data: { phrase },
       });
     }
   }
@@ -94,11 +98,14 @@ export class ScriptEvaluator implements ExpressionEvaluator {
       const program = parseScript(expression);
       return await this.evaluateProgram(program);
     } catch (error) {
-      throw new ExecutionFailure({
-        code: 'invalid-expression',
-        message: `failed to evaluate expression: '${expression}'`,
-        cause: error,
-      });
+      if (error instanceof Error) {
+        throw new ExecutionFailure({
+          code: 'invalid-expression',
+          message: `failed to evaluate expression '${expression}': ${error.message}`,
+          cause: error,
+        });
+      }
+      throw error;
     }
   }
 
@@ -132,10 +139,14 @@ export class ScriptEvaluator implements ExpressionEvaluator {
       }
     } catch (error) {
       console.error(`recursiveParse failed`, error);
+      if (error instanceof ExecutionFailure) {
+        throw error;
+      }
       throw new ExecutionFailure({
         code: 'invalid-expression',
-        message: `failed to parse expression: '${JSON.stringify(input)}'`,
+        message: `failed to parse expression`,
         cause: error,
+        data: { expression: input },
       });
     }
   }

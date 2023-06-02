@@ -18,30 +18,20 @@ export function WebEditor() {
 
   const worksheetId = worksheet as string;
 
-  const hasUser = user && !isLoadingUser;
-  const hasNoUser = !user && !isLoadingUser;
-  const hasData = data && !isLoadingData;
+  useEffect(() => {
+    if (!isLoadingUser && !isLoadingData && !worksheetId) {
+      push('/');
+    }
+  }, [push, isLoadingUser, isLoadingData, worksheetId]);
 
   useEffect(() => {
-    if (hasData && hasUser && worksheetId) {
+    if (data && !isLoadingData && user && !isLoadingUser && worksheetId) {
       // if data does not exist redirect to front-page.
       if (!data[worksheetId]) {
         push('/');
       }
     }
-  }, [push, data, worksheetId, hasData, hasUser]);
-
-  useEffect(() => {
-    if (hasUser && hasData && !worksheetId) {
-      push('/');
-    }
-  }, [push, data, worksheetId, hasData, hasUser]);
-
-  useEffect(() => {
-    if (hasNoUser && worksheetId) {
-      push('/');
-    }
-  }, [push, hasNoUser, worksheetId]);
+  }, [push, data, worksheetId, isLoadingData, user, isLoadingUser]);
 
   if (isLoadingUser || isLoadingData) {
     return <Box>Loading...</Box>;

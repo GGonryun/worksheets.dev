@@ -11,6 +11,7 @@ import {
   newHandshakesDatabase,
   SettingsDatabase,
   HandshakeDatabase,
+  findSettingEntityId,
 } from './common';
 import { OfficialLibraryClerk, findProperty } from './clerk';
 import { Clerk } from '@worksheets/apps/framework';
@@ -95,29 +96,6 @@ export function updateSetting(
       data: prop,
     });
   };
-}
-
-async function findSettingEntityId(
-  db: SettingsDatabase,
-  methodPath: string,
-  propertyKey: string,
-  userId: string
-): Promise<string | undefined> {
-  const settings = await db.query(
-    { f: 'uid', o: '==', v: userId },
-    { f: 'method', o: '==', v: methodPath },
-    { f: 'key', o: '==', v: propertyKey }
-  );
-  if (!settings || settings.length < 1) {
-    return undefined;
-  }
-  if (settings.length > 1) {
-    console.warn(
-      `unexpected: found more than 1 settings with the same method, uid, and key`,
-      settings.map((s) => s.id)
-    );
-  }
-  return settings[0].id;
 }
 
 export function deleteWorksheet(
@@ -218,6 +196,7 @@ export function userWorksheet(db: WorksheetsDatabase, user: DecodedIdToken) {
     if (entity.uid !== user.uid) {
       throw new HandlerFailure({ code: 'unauthorized' });
     }
+    console.log('found worksheet', entity.id, entity.uid);
 
     return { id, text: entity.text };
   };

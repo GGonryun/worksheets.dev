@@ -1,8 +1,10 @@
 import { GoogleAuthProvider } from 'firebase/auth';
 import { Box, Button } from '@mui/material';
 import { useUser } from './useUser';
+import { useRouter } from 'next/router';
 
 export function LoginWithGoogle() {
+  const { push } = useRouter();
   const { user, signInProvider, signOut } = useUser();
 
   const handleLogin = () => {
@@ -11,9 +13,13 @@ export function LoginWithGoogle() {
     provider.addScope('profile');
     provider.addScope('email');
 
-    signInProvider(provider).catch((error) => {
-      alert(`${error.message}`);
-    });
+    signInProvider(provider)
+      .then(() => {
+        push('/ide');
+      })
+      .catch((error) => {
+        alert(`${error.message}`);
+      });
   };
 
   const handleLogout = () => {

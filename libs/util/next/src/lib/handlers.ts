@@ -131,7 +131,7 @@ async function parseOutput<O extends zAny>(
     if (error instanceof ZodError) {
       throw new HandlerFailure({
         code: 'invalid-argument',
-        message: 'api handler failed to parse input',
+        message: 'api handler failed to parse output',
         cause: error,
         data: { output },
       });
@@ -149,6 +149,24 @@ export const newPublicHandler = <I extends zAny, O extends zAny>({
   input,
   output,
 }: HandlerSchema<I, O>) => newHandler({ input, output });
+
+export const newMaybePrivateHandler = <I extends zAny, O extends zAny>({
+  input,
+  output,
+}: HandlerSchema<I, O>) => {
+  return newHandler({
+    input,
+    output,
+    newContext: async (req) => {
+      const { authorization } = req.headers;
+      if (authorization) {
+        const user = await verifyIdToken(req);
+        return { user };
+      }
+      return { user: undefined };
+    },
+  });
+};
 
 export type PrivateContext = { user: DecodedIdToken };
 export const newPrivateHandler = <I extends zAny, O extends zAny>({

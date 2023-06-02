@@ -6,6 +6,7 @@ import { GetWorksheetResponse, PostWorksheetResponse } from '../../server';
 import { useRouter } from 'next/router';
 import { warn } from '@worksheets/ui/common';
 import { ControlPanel } from './control-panel';
+import { push } from 'firebase/database';
 
 const DynamicCodeEditor = dynamic(() => import('./ace-editor'), {
   ssr: false,
@@ -17,9 +18,10 @@ export const CodeEditor: FC = () => {
   const { user } = useUser();
   const mutate = request.query.useMutate();
   const privateCommand = request.command.private(user);
-  const publicCommand = request.command.public();
+  const maybeCommand = request.command.maybe(user);
 
-  const apiExecute = `/api/x/${worksheetId}`;
+  const apiExecutions = `/api/worksheets/${worksheetId}/executions`;
+  const testExecute = `/api/x/test`;
   const apiWorksheet = `/api/worksheets/${worksheetId}`;
   const apiWorksheets = '/api/worksheets';
 
@@ -48,8 +50,8 @@ export const CodeEditor: FC = () => {
   };
 
   function handleExecute() {
-    publicCommand(apiExecute, 'POST', { text })
-      .then(() => mutate(apiExecute))
+    maybeCommand(testExecute, 'POST', { worksheetId, text })
+      .then(() => mutate(apiExecutions))
       .catch(warn(`failed to execute worksheet`));
   }
 
@@ -62,7 +64,9 @@ export const CodeEditor: FC = () => {
   function handleDeleteWorksheet() {
     privateCommand(apiWorksheet, 'DELETE')
       .then(() => {
-        mutate(apiWorksheets);
+        mutate(apiWorksheets).then(() => {
+          router.push('/ide');
+        });
         setText('');
       })
       .catch(warn('failed to delete worksheet'));

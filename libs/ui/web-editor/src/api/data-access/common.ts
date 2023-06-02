@@ -34,6 +34,7 @@ export const executionResultSchema = z.object({
 
 export const executionEntitySchema = z.object({
   worksheetId: z.string(),
+  userId: z.string().optional(),
   timestamp: z.number(),
   text: z.string().optional(),
   result: executionResultSchema.optional(),
@@ -77,3 +78,26 @@ export const newSettingsDatabase = (txn?: Txn) =>
   newFirestore<SettingEntity>('settings', txn);
 export const newHandshakesDatabase = (txn?: Txn) =>
   newFirestore<HandshakeEntity>('handshakes', txn);
+
+export async function findSettingEntityId(
+  db: SettingsDatabase,
+  methodPath: string,
+  propertyKey: string,
+  userId: string
+): Promise<string | undefined> {
+  const settings = await db.query(
+    { f: 'uid', o: '==', v: userId },
+    { f: 'method', o: '==', v: methodPath },
+    { f: 'key', o: '==', v: propertyKey }
+  );
+  if (!settings || settings.length < 1) {
+    return undefined;
+  }
+  if (settings.length > 1) {
+    console.warn(
+      `unexpected: found more than 1 settings with the same method, uid, and key`,
+      settings.map((s) => s.id)
+    );
+  }
+  return settings[0].id;
+}

@@ -4,6 +4,7 @@ import { add } from '../examples/add';
 import { http } from '../examples/http';
 import { loops } from '../examples/loops';
 import { max } from '../examples/max';
+import { gmail } from '../examples/gmail';
 
 const templates: Record<string, string> = {
   add,
@@ -11,6 +12,7 @@ const templates: Record<string, string> = {
   http,
   loops,
   max,
+  gmail,
 };
 
 export function listTemplates(): Template[] {

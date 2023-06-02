@@ -10,6 +10,7 @@ import {
   newSettingsDatabase,
   SettingsDatabase,
   SettingEntity,
+  findSettingEntityId,
 } from './common';
 import { HandlerFailure } from '@worksheets/util/next';
 import { Execution } from '@worksheets/engine';
@@ -18,6 +19,7 @@ import { OfficialLibraryClerk, findOAuthProperty } from './clerk';
 
 import { OAuthClient, OAuthToken } from '@worksheets/util/oauth/client';
 import { isExpired } from '@worksheets/util/time';
+import { v4 as uuidv4 } from 'uuid';
 
 export function newPublicDatabase(txn?: Txn) {
   const worksheetDb = newWorksheetsDatabase(txn);
@@ -36,6 +38,7 @@ export function newPublicDatabase(txn?: Txn) {
     },
     worksheets: {
       get: getWorksheet(worksheetDb),
+      create: createWorksheet(worksheetDb),
     },
     executions: {
       newExecution: newExecution(settingsDb, clerk),
@@ -52,6 +55,15 @@ export function newPublicDatabase(txn?: Txn) {
     },
   };
 }
+
+const createWorksheet = (db: WorksheetsDatabase) => {
+  return async () =>
+    await db.insert({
+      id: uuidv4(),
+      text: '',
+      uid: 'anonymous',
+    });
+};
 
 const getApplications = (clerk: Clerk) => () => {
   return clerk.tree();
@@ -88,7 +100,15 @@ const saveOAuthSetting =
       const client = new OAuthClient(prop.options);
       const tokens = await client.parseUrl(url);
 
-      const id = settings.id();
+      const entityId = await findSettingEntityId(
+        settings,
+        methodPath,
+        propertyKey,
+        uid
+      );
+
+      const id = entityId ?? settings.id();
+
       await settings.updateOrInsert({
         id,
         uid: uid,

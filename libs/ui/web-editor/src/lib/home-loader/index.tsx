@@ -14,6 +14,7 @@ export const HomeLoader: FC = () => {
   );
   const mutate = request.query.useMutate();
   const privateCommand = request.command.private(user);
+  const publicCommand = request.command.public();
 
   const numWorksheets = Object.keys(data ?? {}).length;
   useTimeout(() => {
@@ -32,7 +33,12 @@ export const HomeLoader: FC = () => {
         })
         .catch(warn(`failed to create new worksheet`));
     } else {
-      push(`/ide`);
+      publicCommand<PostWorksheetResponse>('/api/worksheets', 'POST')
+        .then((d) => {
+          push(`/ide/${d}`);
+          mutate('/api/worksheets');
+        })
+        .catch(warn(`failed to create new worksheet`));
     }
   }, 1250);
   return (

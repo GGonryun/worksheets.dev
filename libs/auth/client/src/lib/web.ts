@@ -106,6 +106,17 @@ export const request = {
             body(JSON.stringify(data))
           )
         )(url),
+    maybe:
+      (user: User | null) =>
+      <Output>(url: string, mode: RequestMethods, data?: unknown) =>
+        errorAdapter<Output>(
+          compose(fetch)(
+            method(mode),
+            user ? bearer(user) : (t) => t,
+            content(ContentType.JSON),
+            body(JSON.stringify(data))
+          )
+        )(url),
     public:
       () =>
       <Output>(url: string, mode: RequestMethods, data?: unknown) =>
