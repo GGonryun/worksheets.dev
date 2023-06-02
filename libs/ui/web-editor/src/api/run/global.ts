@@ -20,10 +20,13 @@ export const global = newPublicHandler({})(async ({ data, req }) => {
 
   const execution = await db.executions.newExecution(worksheet.uid);
 
+  const rawInput = { ...req.body, ...req.query };
+  // remove worksheet id key from input
+  const { worksheetId: _, ...input } = rawInput;
   let output;
   let error: ExecutionErrorEntity | undefined;
   try {
-    output = await execution.run(worksheet.text, { ...req.body, ...req.query });
+    output = await execution.run(worksheet.text, input);
   } catch (e) {
     // send unknown errors back to clients
     if (!(e instanceof ExecutionFailure)) {
@@ -51,7 +54,7 @@ export const global = newPublicHandler({})(async ({ data, req }) => {
     text: worksheet.text,
     dimensions: execution.dimensions(),
     result: {
-      input: data.input,
+      input,
       error,
       output,
     },

@@ -76,6 +76,7 @@ export const CodeEditor: FC = () => {
       flexDirection="column"
       alignItems="center"
       height={'100%'}
+      maxHeight={800}
     >
       <DynamicCodeEditor
         width="95%"
