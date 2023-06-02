@@ -98,7 +98,7 @@ export class Execution {
         instruction = await this.engine.iterate();
       } catch (error) {
         if (error instanceof Failure) throw error;
-        console.log('unexpected execution failure', error);
+        console.error('unexpected execution failure', error);
         throw new ExecutionFailure({
           code: 'unexpected',
           message: 'an unexpected error occured during execution',
