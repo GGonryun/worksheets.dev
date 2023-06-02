@@ -4,4 +4,4 @@ export * from './api/oauth/handler';
 export * from './api/settings/handler';
 export * from './api/apps/handler';
 export * from './api/run/handler';
-export { testRunHandler } from './api/test-run/handler';
+export * from './api/test-run/handler';

@@ -9,7 +9,9 @@ export function Header({ worksheetId }: HeaderProps) {
   const suffix = `/api/x/${worksheetId}`;
 
   const copyToClipoard = () => {
-    navigator.clipboard.writeText(`https://worksheets.dev${suffix}`);
+    navigator.clipboard.writeText(
+      `${process.env['NEXT_PUBLIC_HOST']}${suffix}`
+    );
   };
 
   return (

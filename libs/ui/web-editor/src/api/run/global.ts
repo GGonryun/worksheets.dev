@@ -60,5 +60,6 @@ export const global = newPublicHandler({})(async ({ data, req }) => {
     },
   };
 
-  return await db.executions.post(entity);
+  await db.executions.post(entity);
+  return output;
 });
