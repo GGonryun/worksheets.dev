@@ -1,44 +1,22 @@
 import { Box, Container, IconButton, Typography } from '@mui/material';
-import { useRouter } from 'next/router';
 import { ResourceExplorer } from '../resource-explorer';
 import { Header } from './header';
 import { CodeEditor } from '../code-editor/code-editor';
 import ExecutionInformation from '../execution-info/execution-info';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import { request, useUser } from '@worksheets/util/auth/client';
-import { GetWorksheetsResponse } from '@worksheets/api/worksheets';
+import { LoginWithGoogle, useUser } from '@worksheets/util/auth/client';
 export function WebEditor() {
-  const { query, push } = useRouter();
-  const { worksheet } = query;
-  const { user, loading: isLoadingUser } = useUser();
-  const { data, isLoading: isLoadingData } =
-    request.query.usePrivate<GetWorksheetsResponse>(`/api/worksheets`, user);
+  const { user, loading } = useUser();
 
-  const worksheetId = worksheet as string;
-
-  useEffect(() => {
-    if (!isLoadingUser && !isLoadingData && !worksheetId) {
-      push('/');
-    }
-  }, [push, isLoadingUser, isLoadingData, worksheetId]);
-
-  useEffect(() => {
-    if (data && !isLoadingData && user && !isLoadingUser && worksheetId) {
-      // if data does not exist redirect to front-page.
-      if (!data[worksheetId]) {
-        push('/');
-      }
-    }
-  }, [push, data, worksheetId, isLoadingData, user, isLoadingUser]);
-
-  if (isLoadingUser || isLoadingData) {
-    return <Box>Loading...</Box>;
+  if (!user && !loading) {
+    return <LoginWithGoogle />;
   }
+
   return (
     <Container maxWidth="xl">
-      <Header worksheetId={worksheetId} />
+      <Header />
       <Box display="flex" gap={1} justifyContent="center">
         <Explorer />
         <Box flexGrow={2}>
@@ -48,6 +26,7 @@ export function WebEditor() {
           <ExecutionInformation />
         </Box>
       </Box>
+      <LoginWithGoogle />
     </Container>
   );
 }

@@ -7,6 +7,7 @@ import { warn } from '@worksheets/ui/common';
 import { ControlPanel } from './control-panel';
 import {
   GetWorksheetResponse,
+  GetWorksheetsResponse,
   PostWorksheetResponse,
 } from '@worksheets/api/worksheets';
 
@@ -29,7 +30,8 @@ export const CodeEditor: FC = () => {
 
   const { data } = request.query.usePrivate<GetWorksheetResponse>(
     apiWorksheet,
-    user
+    user,
+    Boolean(worksheetId)
   );
 
   const [text, setText] = useState<string>('');
@@ -65,14 +67,15 @@ export const CodeEditor: FC = () => {
 
   function handleDeleteWorksheet() {
     privateCommand(apiWorksheet, 'DELETE')
-      .then(() => {
-        mutate(apiWorksheets).then(() => {
-          router.push('/ide');
-        });
-        setText('');
-      })
+      .then(() => mutate(apiWorksheets))
+      .then(() =>
+        privateCommand<GetWorksheetsResponse>('/api/worksheets', 'GET')
+      )
+      .then((ws) => Object.values(ws).at(0))
+      .then((worksheet) => router.push(`/ide/${worksheet?.id}`))
       .catch(warn('failed to delete worksheet'));
   }
+
   return (
     <Box
       display="flex"

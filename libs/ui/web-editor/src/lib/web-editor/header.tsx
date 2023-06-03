@@ -1,11 +1,11 @@
 import { Box, Typography, Button } from '@mui/material';
 import CopyAllIcon from '@mui/icons-material/CopyAll';
+import { useRouter } from 'next/router';
 
-export type HeaderProps = {
-  worksheetId: string;
-};
-
-export function Header({ worksheetId }: HeaderProps) {
+export function Header() {
+  const { query } = useRouter();
+  const { worksheet } = query;
+  const worksheetId = worksheet as string;
   const suffix = `/api/x/${worksheetId}`;
 
   const copyToClipoard = () => {
@@ -16,7 +16,7 @@ export function Header({ worksheetId }: HeaderProps) {
 
   return (
     <Box display="flex" alignItems="center" flexDirection="column">
-      <Typography variant="h3" fontWeight={900}>
+      <Typography variant="h3" fontWeight={900} data-test="worksheets-header">
         worksheets.dev
       </Typography>
       {worksheetId && (

@@ -10,7 +10,7 @@ import {
 import { useEffect, useState } from 'react';
 import { firebaseAuth } from '@worksheets/firebase/client';
 import { UserAccessFailure } from './failures';
-import { request } from './web';
+import { FirebaseFailure } from '@worksheets/firebase/client';
 
 export const useUser = () => {
   const [user, setUser] = useState<User | null>(null);
@@ -57,14 +57,22 @@ export const useUser = () => {
       });
 
     try {
-      return await signInWithPopup(firebaseAuth, provider);
-    } catch (err) {
-      const error = err as any;
-      const errorCode = error.code;
+      const credentials = await signInWithPopup(firebaseAuth, provider);
+      return credentials.user;
+    } catch (error) {
+      if (error instanceof FirebaseFailure) {
+        const errorCode = error.code;
+        throw new UserAccessFailure({
+          code: 'firebase',
+          cause: error,
+          message: `failed to signin with popup: ${errorCode}`,
+        });
+      }
+
       throw new UserAccessFailure({
         code: 'unexpected',
-        cause: err,
-        message: `failed to signin with popup: ${errorCode}`,
+        cause: error,
+        message: `unexpected failure during auth process`,
       });
     }
   };
@@ -134,6 +142,6 @@ export type SignInFunction = (
 ) => Promise<UserCredential | undefined>;
 export type SignInProviderFunction = (
   provider: AuthProvider
-) => Promise<UserCredential | undefined>;
+) => Promise<User | null>;
 export type SignOutFunction = () => Promise<void>;
 export type ResendVerificationFunction = () => Promise<void>;

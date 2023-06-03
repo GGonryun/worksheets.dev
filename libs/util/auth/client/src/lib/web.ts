@@ -66,9 +66,16 @@ const usePublic = <Output>(url: string, shouldLoad = true) => {
   return useSWR<Output>(shouldLoad && url, errorAdapter<Output>(insecure));
 };
 
-const usePrivate = <Output>(url: string, user: User | null) => {
+const usePrivate = <Output>(
+  url: string,
+  user: User | null,
+  shouldLoad = true
+) => {
   const secure = compose(fetch)(bearer(user));
-  return useSWR<Output>(Boolean(user) && url, errorAdapter<Output>(secure));
+  return useSWR<Output>(
+    Boolean(user) && shouldLoad && url,
+    errorAdapter<Output>(secure)
+  );
 };
 
 /**

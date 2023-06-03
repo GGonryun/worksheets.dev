@@ -1,5 +1,5 @@
 import { Box, Button } from '@mui/material';
-import { LoginWithGoogle, useUser } from '@worksheets/util/auth/client';
+import { useUser } from '@worksheets/util/auth/client';
 
 export interface ControlPanelProps {
   onExecute: () => void;
@@ -17,7 +17,6 @@ export function ControlPanel({
   const { user } = useUser();
   return (
     <Box gap={2} display="flex" alignItems="center">
-      <LoginWithGoogle />
       <Button variant="contained" color="success" onClick={() => onExecute()}>
         execute
       </Button>

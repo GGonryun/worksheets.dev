@@ -20,7 +20,7 @@ export const doesUserOwnWorksheet = async (
 
 export const deleteWorksheet = async (userId: string, worksheetId: string) => {
   // check user access
-  if (!(await doesUserOwnWorksheet(worksheetId, userId))) {
+  if (!(await doesUserOwnWorksheet(userId, worksheetId))) {
     throw new HandlerFailure({ code: 'unauthorized' });
   }
 
@@ -29,6 +29,9 @@ export const deleteWorksheet = async (userId: string, worksheetId: string) => {
 
 export const listUsersWorksheets = async (userId: string) => {
   const list = await worksheetsdb.query({ f: 'uid', o: '==', v: userId });
+  if (!list.length) {
+    list.push(await upsertWorksheet({ uid: userId, text: '' }));
+  }
   const map: Record<string, WorksheetEntity> = {};
   for (const entity of list) {
     map[entity.id] = entity;

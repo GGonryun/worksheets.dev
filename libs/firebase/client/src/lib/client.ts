@@ -1,6 +1,11 @@
 import { getAuth, connectAuthEmulator } from '@firebase/auth';
 import { getFirestore, connectFirestoreEmulator } from 'firebase/firestore';
-import { initializeApp, getApps, FirebaseApp } from 'firebase/app';
+import {
+  initializeApp,
+  getApps,
+  FirebaseApp,
+  FirebaseError,
+} from 'firebase/app';
 import { getDatabase, connectDatabaseEmulator } from 'firebase/database';
 
 const clientCredentials = {
@@ -14,6 +19,7 @@ const clientCredentials = {
   measurementId: process.env['NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID'],
 };
 
+export class FirebaseFailure extends FirebaseError {}
 type CreateFirebaseAppFuncton = () => FirebaseApp;
 
 const createFirebaseApp: CreateFirebaseAppFuncton = () => {
