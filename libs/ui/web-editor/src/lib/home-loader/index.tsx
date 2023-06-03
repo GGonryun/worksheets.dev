@@ -1,10 +1,12 @@
 import { Box } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import { useTimeout, warn } from '@worksheets/ui/common';
-import { request, useUser } from '@worksheets/auth/client';
-import { GetWorksheetsResponse } from '../../api/worksheets/get';
+import { request, useUser } from '@worksheets/util/auth/client';
 import { FC } from 'react';
-import { PostWorksheetResponse } from '../../server';
+import {
+  GetWorksheetsResponse,
+  PostWorksheetResponse,
+} from '@worksheets/api/worksheets';
 export const HomeLoader: FC = () => {
   const { push } = useRouter();
   const { user } = useUser();

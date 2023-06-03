@@ -1,3 +1,3 @@
-import { appsHandler } from '@worksheets/ui/web-editor/server';
+import { appsHandler } from '@worksheets/api/applications';
 
 export default appsHandler;

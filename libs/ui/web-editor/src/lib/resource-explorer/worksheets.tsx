@@ -1,10 +1,7 @@
 import TreeItem from '@mui/lab/TreeItem';
 import { Box, Typography } from '@mui/material';
-import { request, useUser } from '@worksheets/auth/client';
-import { useRouter } from 'next/router';
 import InsertDriveFileOutlinedIcon from '@mui/icons-material/InsertDriveFileOutlined';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
-import { GetWorksheetsResponse } from '../../server';
 
 export type WorksheetsProps = {
   focused: string;

@@ -1,3 +1,3 @@
-import { worksheetsHandler } from '@worksheets/ui/web-editor/server';
+import { worksheetsHandler } from '@worksheets/api/worksheets';
 
 export default worksheetsHandler;

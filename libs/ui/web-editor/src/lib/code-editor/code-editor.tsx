@@ -1,11 +1,14 @@
 import { Box } from '@mui/material';
-import { request, useUser } from '@worksheets/auth/client';
+import { request, useUser } from '@worksheets/util/auth/client';
 import dynamic from 'next/dynamic';
 import { FC, useEffect, useState } from 'react';
-import { GetWorksheetResponse, PostWorksheetResponse } from '../../server';
 import { useRouter } from 'next/router';
 import { warn } from '@worksheets/ui/common';
 import { ControlPanel } from './control-panel';
+import {
+  GetWorksheetResponse,
+  PostWorksheetResponse,
+} from '@worksheets/api/worksheets';
 
 const DynamicCodeEditor = dynamic(() => import('./ace-editor'), {
   ssr: false,

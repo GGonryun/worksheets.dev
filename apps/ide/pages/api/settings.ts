@@ -1,3 +1,3 @@
-import { settingsHandler } from '@worksheets/ui/web-editor/server';
+import { settingsHandler } from '@worksheets/api/settings';
 
 export default settingsHandler;

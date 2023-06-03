@@ -1,4 +1,4 @@
-import { verifyIdToken } from '@worksheets/auth/server';
+import { verifyIdToken } from '@worksheets/util/auth/server';
 import { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier';
 import { NextApiRequest, NextApiHandler, NextApiResponse } from 'next';
 import { ZodError, z } from 'zod';

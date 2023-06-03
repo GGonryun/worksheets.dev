@@ -7,8 +7,8 @@ import ExecutionInformation from '../execution-info/execution-info';
 import { useEffect, useState } from 'react';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import { request, useUser } from '@worksheets/auth/client';
-import { GetWorksheetsResponse } from '../../server';
+import { request, useUser } from '@worksheets/util/auth/client';
+import { GetWorksheetsResponse } from '@worksheets/api/worksheets';
 export function WebEditor() {
   const { query, push } = useRouter();
   const { worksheet } = query;

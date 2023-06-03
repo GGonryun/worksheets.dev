@@ -15,6 +15,13 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@worksheets/api/applications": ["libs/api/applications/src/index.ts"],
+      "@worksheets/api/executions": ["libs/api/executions/src/index.ts"],
+      "@worksheets/api/oauth": ["libs/api/oauth/src/index.ts"],
+      "@worksheets/api/run": ["libs/api/run/src/index.ts"],
+      "@worksheets/api/settings": ["libs/api/settings/src/index.ts"],
+      "@worksheets/api/test-run": ["libs/api/test-run/src/index.ts"],
+      "@worksheets/api/worksheets": ["libs/api/worksheets/src/index.ts"],
       "@worksheets/apps/framework": ["libs/apps/framework/src/index.ts"],
       "@worksheets/apps/google/calendar": [
         "libs/apps/google/calendar/src/index.ts"
@@ -24,19 +31,46 @@
       "@worksheets/apps/http": ["libs/apps/http/src/index.ts"],
       "@worksheets/apps/math": ["libs/apps/math/src/index.ts"],
       "@worksheets/apps/sys": ["libs/apps/sys/src/index.ts"],
-      "@worksheets/auth/client": ["libs/auth/client/src/index.ts"],
-      "@worksheets/auth/server": ["libs/auth/server/src/index.ts"],
+      "@worksheets/data-access/applications": [
+        "libs/data-access/applications/src/index.ts"
+      ],
+      "@worksheets/data-access/executions": [
+        "libs/data-access/executions/src/index.ts"
+      ],
+      "@worksheets/data-access/handshakes": [
+        "libs/data-access/handshakes/src/index.ts"
+      ],
+      "@worksheets/data-access/settings": [
+        "libs/data-access/settings/src/index.ts"
+      ],
+      "@worksheets/data-access/worksheets": [
+        "libs/data-access/worksheets/src/index.ts"
+      ],
       "@worksheets/engine": ["libs/engine/src/index.ts"],
+      "@worksheets/feat/execute-worksheet": [
+        "libs/feat/execute-worksheet/src/index.ts"
+      ],
+      "@worksheets/feat/execution-history": [
+        "libs/feat/execution-history/src/index.ts"
+      ],
+      "@worksheets/feat/execution-settings": [
+        "libs/feat/execution-settings/src/index.ts"
+      ],
+      "@worksheets/feat/templates": ["libs/feat/templates/src/index.ts"],
+      "@worksheets/feat/worksheets-management": [
+        "libs/feat/worksheets-management/src/index.ts"
+      ],
       "@worksheets/firebase/client": ["libs/firebase/client/src/index.ts"],
       "@worksheets/firebase/firestore": [
         "libs/firebase/firestore/src/index.ts"
       ],
       "@worksheets/firebase/pubsub": ["libs/firebase/pubsub/src/index.ts"],
       "@worksheets/firebase/server": ["libs/firebase/server/src/index.ts"],
-      "@worksheets/templates": ["libs/templates/src/index.ts"],
       "@worksheets/ui/common": ["libs/ui/common/src/index.ts"],
       "@worksheets/ui/web-editor": ["libs/ui/web-editor/src/index.ts"],
       "@worksheets/ui/web-editor/server": ["libs/ui/web-editor/src/server.ts"],
+      "@worksheets/util/auth/client": ["libs/util/auth/client/src/index.ts"],
+      "@worksheets/util/auth/server": ["libs/util/auth/server/src/index.ts"],
       "@worksheets/util/data-structures": [
         "libs/util/data-structures/src/index.ts"
       ],

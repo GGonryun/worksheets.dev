@@ -1,3 +1,3 @@
-import { oauthHandler } from '@worksheets/ui/web-editor/server';
+import { oauthHandler } from '@worksheets/api/oauth';
 
 export default oauthHandler;

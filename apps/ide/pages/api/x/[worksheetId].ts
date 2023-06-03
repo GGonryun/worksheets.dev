@@ -1,3 +1,3 @@
-import { runHandler } from '@worksheets/ui/web-editor/server';
+import { runHandler } from '@worksheets/api/run';
 
 export default runHandler;

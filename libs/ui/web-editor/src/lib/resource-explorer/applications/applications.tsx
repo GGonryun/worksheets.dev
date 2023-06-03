@@ -3,9 +3,9 @@ import { Box, Typography } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
 import FolderIcon from '@mui/icons-material/FolderOutlined';
 import TaskIcon from '@mui/icons-material/TaskOutlined';
-import { SerializedNode } from '../../../api/apps/get';
 import { DisplayMethodSummary } from './method-summary';
-import { useUser } from '@worksheets/auth/client';
+import { useUser } from '@worksheets/util/auth/client';
+import { SerializedNode } from '@worksheets/api/applications';
 
 export function Applications(props: { nodes: SerializedNode[] }) {
   return (

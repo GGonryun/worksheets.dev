@@ -3,18 +3,17 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { Worksheets } from './worksheets';
 import { Templates } from './templates';
-import { request, useUser } from '@worksheets/auth/client';
-import { Template } from '@worksheets/templates';
+import { request, useUser } from '@worksheets/util/auth/client';
+import { Template } from '@worksheets/feat/templates';
 import { warn } from '@worksheets/ui/common';
-import { GetApplicationGraphResponse } from '../../api/apps/get';
 import { Applications } from './applications';
 import { useRouter } from 'next/router';
-import { GetWorksheetsResponse } from '../../api/worksheets/handler';
+import { GetWorksheetsResponse } from '@worksheets/api/worksheets';
+import { SerializedNode } from '@worksheets/api/applications';
 
 export function ResourceExplorer() {
   const { user } = useUser();
-  const { data } =
-    request.query.usePublic<GetApplicationGraphResponse>('/api/apps');
+  const { data } = request.query.usePublic<SerializedNode>('/api/apps');
 
   const worksheetsApi = '/api/worksheets';
   const mutate = request.query.useMutate();

@@ -3,8 +3,8 @@ import { Box, Button, Typography } from '@mui/material';
 import { ShowDataField } from '../common/show-data-field';
 import ContentPasteGoOutlinedIcon from '@mui/icons-material/ContentPasteGoOutlined';
 import ContentCopyOutlinedIcon from '@mui/icons-material/ContentCopyOutlined';
-import { Template, listTemplates } from '@worksheets/templates';
-import { useUser } from '@worksheets/auth/client';
+import { Template, listTemplates } from '@worksheets/feat/templates';
+import { useUser } from '@worksheets/util/auth/client';
 
 export type TemplatesProps = {
   onClipboard: (t: Template) => void;

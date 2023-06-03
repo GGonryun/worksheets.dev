@@ -10,10 +10,12 @@ import {
 } from '@mui/material';
 import { SettingSummary } from '@worksheets/apps/framework';
 import { useState } from 'react';
-import { request, useUser } from '@worksheets/auth/client';
-import { GetSettingsResponse } from '../../../../api/settings/get';
-import { PostSettingsResponse } from '../../../../api/settings/post';
+import { request, useUser } from '@worksheets/util/auth/client';
 import { warn } from '@worksheets/ui/common';
+import {
+  GetSettingsResponse,
+  PostSettingsResponse,
+} from '@worksheets/api/settings';
 
 declare global {
   interface Window {

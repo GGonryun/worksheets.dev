@@ -1,5 +1,5 @@
 import { Box, Button } from '@mui/material';
-import { LoginWithGoogle, useUser } from '@worksheets/auth/client';
+import { LoginWithGoogle, useUser } from '@worksheets/util/auth/client';
 
 export interface ControlPanelProps {
   onExecute: () => void;

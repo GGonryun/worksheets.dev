@@ -1,3 +1,3 @@
-import { executionsHandler } from '@worksheets/ui/web-editor/server';
+import { executionsHandler } from '@worksheets/api/executions';
 
 export default executionsHandler;

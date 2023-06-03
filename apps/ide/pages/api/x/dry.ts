@@ -1,2 +1,3 @@
-import { testRunHandler } from '@worksheets/ui/web-editor/server';
+import { testRunHandler } from '@worksheets/api/test-run';
+
 export default testRunHandler;

@@ -9,7 +9,6 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import { GetExecutionsResponse } from '../../api/executions/get';
 import { useState } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
@@ -24,9 +23,10 @@ import ViewInArRoundedIcon from '@mui/icons-material/ViewInArRounded';
 // width
 import StraightenOutlinedIcon from '@mui/icons-material/StraightenOutlined';
 import { ShowDataField } from '../common/show-data-field';
-import { request, useUser } from '@worksheets/auth/client';
+import { request, useUser } from '@worksheets/util/auth/client';
 import { useRouter } from 'next/router';
 import { warn } from '@worksheets/ui/common';
+import { GetExecutionsResponse } from '@worksheets/api/executions';
 
 export function ExecutionInformation() {
   const { user } = useUser();
