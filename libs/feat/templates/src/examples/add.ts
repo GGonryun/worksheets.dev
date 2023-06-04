@@ -1,8 +1,0 @@
-export const add = `
-name: add
-version: 1
-steps:
-  - assign:
-    sum: \${2 + 2}
-return: \${sum}
-`;

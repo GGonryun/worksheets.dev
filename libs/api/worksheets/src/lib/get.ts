@@ -23,7 +23,7 @@ export const get = newPrivateHandler({ input, output })(
       worksheetId
     );
 
-    console.info('loading worksheet', worksheetId, entity);
+    console.info('loading worksheet', worksheetId);
     return { text: entity.text, id: worksheetId };
   }
 );

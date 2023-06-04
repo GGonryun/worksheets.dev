@@ -3,7 +3,11 @@ import { Box, Button, Typography } from '@mui/material';
 import { ShowDataField } from '../common/show-data-field';
 import ContentPasteGoOutlinedIcon from '@mui/icons-material/ContentPasteGoOutlined';
 import ContentCopyOutlinedIcon from '@mui/icons-material/ContentCopyOutlined';
-import { Template, listTemplates } from '@worksheets/feat/templates';
+import {
+  Template,
+  listTemplates,
+  listNumTemplates,
+} from '@worksheets/feat/templates';
 import { useUser } from '@worksheets/util/auth/client';
 
 export type TemplatesProps = {
@@ -12,19 +16,29 @@ export type TemplatesProps = {
 };
 export function Templates({ onClipboard, onClone }: TemplatesProps) {
   const templates = listTemplates();
+  const numTemplates = listNumTemplates();
 
   return (
     <TreeItem
       nodeId={'templates'}
-      label={<Typography>Templates ({templates?.length})</Typography>}
+      label={<Typography>Templates ({numTemplates})</Typography>}
     >
-      {templates?.map((d) => (
-        <TemplateItem
-          onClipboard={onClipboard}
-          onClone={onClone}
-          key={d.id}
-          {...d}
-        ></TemplateItem>
+      {Object.keys(templates)?.map((folderName) => (
+        <TreeItem
+          nodeId={folderName}
+          label={folderName}
+          sx={{ borderLeft: '1px solid grey' }}
+        >
+          {Object.keys(templates[folderName]).map((fileName) => (
+            <TemplateItem
+              onClipboard={onClipboard}
+              onClone={onClone}
+              key={folderName}
+              id={fileName}
+              text={templates[folderName][fileName]}
+            />
+          ))}
+        </TreeItem>
       ))}
     </TreeItem>
   );

@@ -39,8 +39,7 @@ export class OAuthClient {
   serializeToken(token: ClientOAuth2.Token) {
     // suggested expiration:
     const suggestedExpiration = Number(token.data['expires_in'] || 0) * 1000; // ms
-    // expire in 15 minutes or in suggested expiration
-    const expiry = Date.now() + Math.min(FIFTEEN_MINUTES, suggestedExpiration);
+    const expiry = Date.now() + suggestedExpiration;
     return JSON.stringify({ ...token.data, expiry: `${expiry}` });
   }
 
@@ -58,4 +57,5 @@ export class OAuthClient {
     return this.client().createToken(token);
   }
 }
-const FIFTEEN_MINUTES = 15 * 60 * 1000;
+// days * hours * minutes * seconds * ms in 1 second
+const THIRTY_DAYS = 30 * 24 * 60 * 60 * 1000;

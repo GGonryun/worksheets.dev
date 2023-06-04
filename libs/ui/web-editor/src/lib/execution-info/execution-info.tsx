@@ -27,6 +27,7 @@ import { request, useUser } from '@worksheets/util/auth/client';
 import { useRouter } from 'next/router';
 import { warn } from '@worksheets/ui/common';
 import { GetExecutionsResponse } from '@worksheets/api/executions';
+import { DryExecutionRequest } from '@worksheets/api/test-run';
 
 export function ExecutionInformation() {
   const { user } = useUser();
@@ -52,6 +53,23 @@ export function ExecutionInformation() {
       .then(() => mutate(executionsUrl))
       .catch(warn('failed to delete execution'));
   }
+
+  function handleReplayExecution(executionId: string) {
+    if (
+      // we don't have context of the current text, so we need to save the state before replaying so we can just use the worksheet id
+      // eslint-disable-next-line no-restricted-globals
+      confirm(
+        'must save current worksheet before replaying, press ok to save and continue'
+      )
+    ) {
+      privateCommand<DryExecutionRequest>('/api/x/dry', 'POST', {
+        worksheetId,
+        replay: executionId,
+      })
+        .then(() => mutate(executionsUrl))
+        .catch(warn('failed to replay execution'));
+    }
+  }
   return (
     <div>
       <Box display="flex" gap={3}>
@@ -73,6 +91,7 @@ export function ExecutionInformation() {
           key={index}
           index={index}
           onDelete={() => handleDeleteExecution(execution.id)}
+          onReplay={() => handleReplayExecution(execution.id)}
           {...execution}
         />
       ))}
@@ -82,6 +101,7 @@ export function ExecutionInformation() {
 
 export type InfoProps = {
   index: number;
+  onReplay: () => void;
   onDelete: () => void;
 };
 
@@ -95,6 +115,7 @@ export function Info({
   index,
   userId,
   onDelete,
+  onReplay,
 }: GetExecutionsResponse[number] & InfoProps) {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(0);
@@ -205,6 +226,14 @@ export function Info({
                   text={JSON.stringify(result.output, null, 2)}
                 />
               )}
+              <Button
+                fullWidth
+                variant="contained"
+                color="secondary"
+                onClick={() => onReplay()}
+              >
+                Replay
+              </Button>
             </Box>
           </TabPanel>
           <TabPanel value={value} index={2}>

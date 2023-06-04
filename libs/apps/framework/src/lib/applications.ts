@@ -116,12 +116,13 @@ export class Technician {
     if (method.input) {
       const parsed = method.input.safeParse(rawInput);
       if (!parsed.success) {
-        const msg = parsed.error.errors.at(0)?.message ?? 'unexpected';
+        const err = parsed.error.errors.at(0);
         throw new MethodCallFailure({
           code: StatusCodes.UNPROCESSABLE_ENTITY,
           message: `method ${
             method.path
-          } received invalid input -- ${msg.toLocaleLowerCase()}`,
+          } received invalid input for parameter '${err?.path.toString()}' ${err?.message.toString()}`,
+          data: err,
         });
       }
       input = parsed.data;
@@ -164,6 +165,7 @@ export class Technician {
         throw new MethodCallFailure({
           code: StatusCodes.UNPROCESSABLE_ENTITY,
           message: `method ${method.path} created unexpected output`,
+          data: parsed.error,
         });
       }
       output = parsed.data;

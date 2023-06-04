@@ -167,6 +167,8 @@ export const saveOAuthSetting = async (
     const client = new OAuthClient(prop.options);
     const tokens = await client.parseUrl(url);
 
+    console.log('tokens received after auth', tokens);
+
     const entityId = await findSettingEntityId(methodPath, propertyKey, uid);
 
     const id = entityId ?? settingsDb.id();
@@ -210,7 +212,7 @@ const getLatestTokens = async (setting: SettingEntity): Promise<OAuthToken> => {
 
   const tokens = client.convertToOAuthToken(setting.data as string);
 
-  if (tokens.expired()) {
+  if (tokens.expired() && tokens.refreshToken) {
     const refreshed = await tokens.refresh();
 
     setting.data = client.serializeToken(refreshed);

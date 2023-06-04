@@ -1,27 +1,27 @@
 import { z } from 'zod';
-import { accumulator } from '../examples/accumulator';
-import { add } from '../examples/add';
-import { http } from '../examples/http';
-import { loops } from '../examples/loops';
-import { max } from '../examples/max';
-import { gmail } from '../examples/gmail';
 
-const templates: Record<string, string> = {
-  add,
-  accumulator,
-  http,
-  loops,
-  max,
+import { gmail } from '../examples/gmail';
+import { github } from '../examples/github';
+import { system } from '../examples/system';
+
+export type Templates = Record<string, Record<string, string>>;
+
+const templates: Templates = {
+  system,
   gmail,
+  github,
 };
 
-export function listTemplates(): Template[] {
-  const list: Template[] = [];
-  for (const id in templates) {
-    const text = templates[id].trim();
-    list.push({ id, text });
+export function listTemplates(): Templates {
+  return templates;
+}
+
+export function listNumTemplates(): number {
+  let i = 0;
+  for (const folder in templates) {
+    i = i + Object.keys(templates[folder]).length;
   }
-  return list;
+  return i;
 }
 
 export const templateSchema = z.object({ id: z.string(), text: z.string() });

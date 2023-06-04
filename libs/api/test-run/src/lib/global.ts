@@ -4,9 +4,10 @@ import { z } from 'zod';
 import * as ExecutionHistory from '@worksheets/feat/execution-history';
 import * as ExecuteWorksheet from '@worksheets/feat/execute-worksheet';
 import { ExecutionErrorEntity } from '@worksheets/data-access/executions';
+import * as WorksheetManagement from '@worksheets/feat/worksheets-management';
 
 const input = z.object({
-  text: z.string(),
+  text: z.string().optional(),
   worksheetId: z.string(),
   input: z.unknown().optional(),
   replay: z.string().optional(), //executionId to replay.
@@ -16,18 +17,25 @@ const output = z.object({
   message: z.string().optional(),
 });
 
-export type ExecutionRequest = z.infer<typeof input>;
-export type ExecutionResponse = z.infer<typeof output>;
+export type DryExecutionRequest = z.infer<typeof input>;
+export type DryExecutionResponse = z.infer<typeof output>;
 
 export const global = newMaybePrivateHandler({ input })(
   async ({ data, user }) => {
-    const text = data.text;
+    let text = data.text ?? '';
     let input = data.input;
 
     // if replaying, use the original input.
     if (data.replay) {
       const history = await ExecutionHistory.getExecution(data.replay);
-      input = history;
+      input = history.result?.input;
+    }
+
+    if (!text && data.worksheetId) {
+      const worksheet = await WorksheetManagement.getWorksheet(
+        data.worksheetId
+      );
+      text = worksheet.text ?? '';
     }
 
     const uid = user?.uid ?? 'anonymous';

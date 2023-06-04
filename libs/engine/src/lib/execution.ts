@@ -116,6 +116,7 @@ export class Execution {
     this.clock.stop();
     const failure = this.ctx.register.failure;
     if (failure) {
+      console.error(`unhandled method failure`, failure);
       throw new ExecutionFailure({
         code: 'method-failure',
         message: `unhandled method failure: (${failure.code}) ${failure.message}`,
