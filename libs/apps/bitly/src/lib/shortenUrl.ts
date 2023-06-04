@@ -11,7 +11,7 @@ export const auth = newOAuthSetting({
     clientId: process.env['BITLY_APP_CLIENT_KEY'],
     clientSecret: process.env['BITLY_APP_SECRET_KEY'],
     authorizationUri: 'https://bitly.com/oauth/authorize',
-    accessTokenUri: 'https://bitly.com/oauth/access_token',
+    accessTokenUri: 'https://api-ssl.bitly.com/oauth/access_token',
   },
   schema: z.any(),
 });
