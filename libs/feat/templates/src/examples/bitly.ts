@@ -1,3 +1,12 @@
+export const show_user_groups = `
+name: show currently authenticated user's list of groups
+version: 1
+steps:
+    - call: bitly.groups.list
+      output: groups
+    - return: \${groups}
+`;
+
 export const create_qr_code = `
 name: create a QR code for a short link
 version: 1
@@ -18,4 +27,5 @@ steps:
       output: data
     - return: \${data.qr_code}
 `;
-export const bitly = { create_qr_code };
+
+export const bitly = { show_user_groups, create_qr_code };
