@@ -84,7 +84,10 @@ export const upsertSetting = async (
       propertyKey
     );
 
-    return { url: client.getUri(handshakeId) };
+    const url = client.getUri(handshakeId);
+    console.log('my request', url);
+
+    return { url };
   }
 
   throw new HandlerFailure({
@@ -167,6 +170,7 @@ export const saveOAuthSetting = async (
   const method = applicationsDb.borrow(methodPath);
   const prop = findOAuthProperty(method, propertyKey);
 
+  console.log(url, handshakeId);
   try {
     const client = new OAuthClient(prop.options);
     const tokens = await client.parseUrl(url);
@@ -189,6 +193,9 @@ export const saveOAuthSetting = async (
     await deleteHandshake(handshakeId);
     return closeRedirect();
   } catch (error) {
+    if (error instanceof Error) {
+      console.error(`more details`, error.message);
+    }
     console.error(`failed to complete oauth connection`, error);
     return errorRedirect('UNKNOWN_FAILURE');
   }

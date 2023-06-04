@@ -11,7 +11,7 @@ import { webhooksDelete } from './lib/webhooks/delete';
 import { webhooksGet } from './lib/webhooks/get';
 import { webhooksList } from './lib/webhooks/list';
 import { webhooksPing } from './lib/webhooks/ping';
-import { webhooksTest } from './lib/webhooks/test';
+import { webhooksTest } from './lib/webhooks/verify';
 
 export default newApplication({
   label: 'GitHub',

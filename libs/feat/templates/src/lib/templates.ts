@@ -4,6 +4,7 @@ import { gmail } from '../examples/gmail';
 import { github } from '../examples/github';
 import { system } from '../examples/system';
 import { dropbox } from '../examples/dropbox';
+import { bitly } from '../examples/bitly';
 
 export type Templates = Record<string, Record<string, string>>;
 
@@ -12,6 +13,7 @@ const templates: Templates = {
   gmail,
   github,
   dropbox,
+  bitly,
 };
 
 export function listTemplates(): Templates {
