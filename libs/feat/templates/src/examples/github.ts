@@ -1,4 +1,4 @@
-const createGist = `
+const create_gist = `
 name: create github gist
 version: 1
 steps:
@@ -12,7 +12,7 @@ steps:
 - return: \${data}
 `;
 
-const createWebhook = `
+const create_webhook = `
 name: create github repository webhook
 version: 1
 assign
@@ -35,7 +35,7 @@ steps:
 - return: \${result}
 `;
 
-const listWebhook = `
+const list_webhook = `
 name: list github repository webhooks
 version: 1
 steps:
@@ -47,7 +47,7 @@ steps:
 - return: \${webhook}
 `;
 
-const deleteWebhook = `
+const delete_webhook = `
 name: delete github repistory webhook
 version: 1
 steps:
@@ -59,7 +59,7 @@ steps:
   output: deleted
 - return: \${deleted}`;
 
-const testWebHook = `
+const test_webHook = `
 steps:
 - call: github.webhooks.test
   input: 
@@ -71,9 +71,9 @@ steps:
 `;
 
 export const github = {
-  createGist,
-  createWebhook,
-  listWebhook,
-  deleteWebhook,
-  testWebHook,
+  create_gist,
+  create_webhook,
+  list_webhook,
+  delete_webhook,
+  test_webHook,
 };

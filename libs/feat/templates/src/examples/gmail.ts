@@ -1,4 +1,4 @@
-const sendEmail = `
+const send_email = `
 name: send yourself an email
 version: 1
 assign:
@@ -16,4 +16,4 @@ steps:
     - return: \${email}
 `;
 
-export const gmail = { sendEmail };
+export const gmail = { send_email };

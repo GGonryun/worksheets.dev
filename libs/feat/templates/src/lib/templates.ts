@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { gmail } from '../examples/gmail';
 import { github } from '../examples/github';
 import { system } from '../examples/system';
+import { dropbox } from '../examples/dropbox';
 
 export type Templates = Record<string, Record<string, string>>;
 
@@ -10,6 +11,7 @@ const templates: Templates = {
   system,
   gmail,
   github,
+  dropbox,
 };
 
 export function listTemplates(): Templates {

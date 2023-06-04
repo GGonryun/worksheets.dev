@@ -60,9 +60,8 @@ export const upsertSetting = async (
 ): Promise<{ url?: string }> => {
   const method = applicationsDb.borrow(methodPath);
   const prop = findProperty(method, propertyKey);
+  const entityId = await findSettingEntityId(userId, methodPath, propertyKey);
   if (prop.type === 'flag' || prop.type === 'token') {
-    const entityId = await findSettingEntityId(methodPath, propertyKey, userId);
-
     await settingsDb.updateOrInsert({
       id: entityId ?? settingsDb.id(),
       uid: userId,
@@ -78,7 +77,12 @@ export const upsertSetting = async (
   if (prop.type === 'oauth') {
     const client = new OAuthClient(prop.options);
 
-    const handshakeId = await createHandshake(userId, methodPath, propertyKey);
+    const handshakeId = await createHandshake(
+      userId,
+      entityId,
+      methodPath,
+      propertyKey
+    );
 
     return { url: client.getUri(handshakeId) };
   }
@@ -155,7 +159,7 @@ export const saveOAuthSetting = async (
     return errorRedirect('INVALID_HANDSHAKE');
   }
 
-  const { methodPath, propertyKey, uid, timestamp } = handshake;
+  const { methodPath, propertyKey, uid, timestamp, settingId } = handshake;
   if (isExpired(timestamp + 10 * 60 * 1000)) {
     return errorRedirect('EXPIRED_HANDSHAKE');
   }
@@ -167,11 +171,12 @@ export const saveOAuthSetting = async (
     const client = new OAuthClient(prop.options);
     const tokens = await client.parseUrl(url);
 
-    console.log('tokens received after auth', tokens);
+    console.log(
+      'tokens keys received after auth',
+      Object.keys(JSON.parse(tokens))
+    );
 
-    const entityId = await findSettingEntityId(methodPath, propertyKey, uid);
-
-    const id = entityId ?? settingsDb.id();
+    const id = settingId ?? settingsDb.id();
     await settingsDb.updateOrInsert({
       id,
       uid: uid,
@@ -227,6 +232,7 @@ const getLatestTokens = async (setting: SettingEntity): Promise<OAuthToken> => {
 
 const createHandshake = async (
   userId: string,
+  settingId: string | undefined,
   methodPath: string,
   propertyKey: string
 ) => {
@@ -234,6 +240,7 @@ const createHandshake = async (
   await handshakesDb.insert({
     uid: userId,
     id: handshakeId,
+    settingId: settingId,
     timestamp: Date.now(),
     methodPath,
     propertyKey,

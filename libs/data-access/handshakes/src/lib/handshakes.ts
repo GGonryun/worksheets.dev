@@ -11,6 +11,7 @@ export const handshakeEntitySchema = z.object({
   methodPath: z.string(),
   propertyKey: z.string(),
   timestamp: z.number(),
+  settingId: z.string().optional(),
   ...entitySchema.shape,
 });
 

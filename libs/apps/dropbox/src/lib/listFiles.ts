@@ -16,7 +16,7 @@ export const listFiles = newMethod({
   description:
     'Starts returning the contents of a folder. Does not include deleted files.',
   settings: { auth },
-  input: z.string().default('/'),
+  input: z.string().default(''),
   output: z.array(z.union([dropboxFolderSchema, dropboxFileSchema])),
   async call({ settings, input }) {
     const dbx = new Dropbox({ accessToken: settings.auth.accessToken });
