@@ -57,6 +57,7 @@ export function ExecutionInformation() {
   function handleReplayExecution(executionId: string) {
     if (
       // we don't have context of the current text, so we need to save the state before replaying so we can just use the worksheet id
+      //
       // eslint-disable-next-line no-restricted-globals
       confirm(
         'must save current worksheet before replaying, press ok to save and continue'

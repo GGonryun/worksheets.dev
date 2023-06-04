@@ -6,8 +6,18 @@ import gmail from '@worksheets/apps/google/gmail';
 import calendar from '@worksheets/apps/google/calendar';
 import drive from '@worksheets/apps/google/drive';
 import github from '@worksheets/apps/github';
+import dropbox from '@worksheets/apps/dropbox';
 
-const clerk = new Clerk(math, http, sys, gmail, calendar, drive, github);
+const clerk = new Clerk(
+  math,
+  http,
+  sys,
+  gmail,
+  calendar,
+  drive,
+  github,
+  dropbox
+);
 
 export const newApplicationsDatabase = () => {
   return clerk;
