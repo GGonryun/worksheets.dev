@@ -22,6 +22,7 @@
       "@worksheets/api/settings": ["libs/api/settings/src/index.ts"],
       "@worksheets/api/test-run": ["libs/api/test-run/src/index.ts"],
       "@worksheets/api/worksheets": ["libs/api/worksheets/src/index.ts"],
+      "@worksheets/apps/bitly": ["libs/apps/bitly/src/index.ts"],
       "@worksheets/apps/dropbox": ["libs/apps/dropbox/src/index.ts"],
       "@worksheets/apps/framework": ["libs/apps/framework/src/index.ts"],
       "@worksheets/apps/github": ["libs/apps/github/src/index.ts"],

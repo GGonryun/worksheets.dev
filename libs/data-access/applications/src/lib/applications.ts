@@ -7,6 +7,7 @@ import calendar from '@worksheets/apps/google/calendar';
 import drive from '@worksheets/apps/google/drive';
 import github from '@worksheets/apps/github';
 import dropbox from '@worksheets/apps/dropbox';
+import bitly from '@worksheets/apps/bitly';
 
 const clerk = new Clerk(
   math,
@@ -16,7 +17,8 @@ const clerk = new Clerk(
   calendar,
   drive,
   github,
-  dropbox
+  dropbox,
+  bitly
 );
 
 export const newApplicationsDatabase = () => {
