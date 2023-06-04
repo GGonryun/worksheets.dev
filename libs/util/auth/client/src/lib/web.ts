@@ -1,64 +1,22 @@
-import { UserAccessFailure } from './failures';
 import { User } from 'firebase/auth';
-import { Decorator, Wrapper, compose } from '@worksheets/util/functional';
+import { compose } from '@worksheets/util/functional';
 import useSWR, { useSWRConfig } from 'swr';
+import {
+  Fetcher,
+  fetcher,
+  ContentType,
+  RequestMethods,
+  FetchDecorator,
+} from '@worksheets/util/http';
+import { UserAccessFailure } from './failures';
 
-type Info = RequestInfo | URL;
-type Init = RequestInit | undefined;
-type Body = BodyInit | undefined;
+const { method, body, bearer, content } = fetcher;
 
-type Fetcher<T = Response> = (info: Info, init?: Init) => Promise<T>;
-export type FetchWrapper = Wrapper<Fetcher>;
-type FetchDecorator<T> = Decorator<T, Fetcher>;
-
-/**
- * provides current request for inline modifications
- * @param fetcher the target we are decorating
- * @param adding the new headers we are adding.
- * @returns
- */
-const updateRequest: FetchDecorator<Wrapper<Init>> =
-  (fn) => (fetcher) => async (info, original) => {
-    return fetcher(info, fn(original));
-  };
-
-/**
- * applies incoming changes over original input
- * @param fetcher the target we are decorating
- * @param incoming the new properties we are setting.
- * @returns
- */
-const setRequest: FetchDecorator<Init> =
-  (incoming) => (fetcher) => async (info, original) => {
-    return fetcher(info, { ...original, ...incoming });
-  };
-
-type RequestMethods = 'GET' | 'DELETE' | 'POST' | 'PUT';
-const method: FetchDecorator<RequestMethods> = (method) =>
-  setRequest({ method });
-
-const body: FetchDecorator<Body> = (body) => setRequest({ body });
-
-const header: FetchDecorator<HeadersInit> = (headers) =>
-  updateRequest((init) =>
-    !init ? { headers } : { ...init, headers: { ...init.headers, ...headers } }
-  );
-
-enum ContentType {
-  JSON = 'application/json',
-  YAML = 'text/vnd.yaml',
-  TEXT = 'text/text',
-}
-const content: FetchDecorator<ContentType> = (contentType) =>
-  header({
-    'Content-Type': contentType,
-  });
-
-const bearer: FetchDecorator<User | null> =
+const userBearer: FetchDecorator<User | null> =
   (user) => (fetcher) => async (info, init) => {
     if (!user) throw new UserAccessFailure({ code: 'unauthorized' });
     const token = await user.getIdToken();
-    return header({ Authorization: `Bearer ${token}` })(fetcher)(info, init);
+    return bearer(token)(fetcher)(info, init);
   };
 
 const usePublic = <Output>(url: string, shouldLoad = true) => {
@@ -71,7 +29,7 @@ const usePrivate = <Output>(
   user: User | null,
   shouldLoad = true
 ) => {
-  const secure = compose(fetch)(bearer(user));
+  const secure = compose(fetch)(userBearer(user));
   return useSWR<Output>(
     Boolean(user) && shouldLoad && url,
     errorAdapter<Output>(secure)
@@ -108,7 +66,7 @@ export const request = {
         errorAdapter<Output>(
           compose(fetch)(
             method(mode),
-            bearer(user),
+            userBearer(user),
             content(ContentType.JSON),
             body(JSON.stringify(data))
           )
@@ -119,7 +77,7 @@ export const request = {
         errorAdapter<Output>(
           compose(fetch)(
             method(mode),
-            user ? bearer(user) : (t) => t,
+            user ? userBearer(user) : (t) => t,
             content(ContentType.JSON),
             body(JSON.stringify(data))
           )

@@ -1,9 +1,22 @@
 import { Options } from 'client-oauth2';
 import ClientOAuth2 from 'client-oauth2';
+import { getQueryParameter } from '@worksheets/util/http';
 
 export type OAuthToken = ClientOAuth2.Token;
+
 type TokenData = ClientOAuth2.Token['data'] & { expiry: string };
-export type OAuthOptions = Options;
+
+export type BaseOAuthOptions = Options;
+
+export type ParseUrlOverride = (
+  options: BaseOAuthOptions,
+  code: string
+) => Promise<string>;
+
+export type OAuthOptions = BaseOAuthOptions & {
+  parseUrlOverride?: ParseUrlOverride;
+};
+
 export type SecureToken = {
   expiry: number;
   data: unknown;
@@ -14,16 +27,18 @@ function baseOAuthUrl() {
 }
 
 export class OAuthClient {
-  opts: OAuthOptions;
+  opts: BaseOAuthOptions;
+  parseUrlOverride?: ParseUrlOverride;
   constructor(opts: OAuthOptions) {
-    this.opts = opts;
+    const { parseUrlOverride, ...args } = opts;
+    this.opts = { ...args, redirectUri: `${baseOAuthUrl()}/api/oauth` };
+    this.parseUrlOverride = parseUrlOverride;
   }
 
   private client(state?: string) {
     return new ClientOAuth2({
       ...this.opts,
       state,
-      redirectUri: `${baseOAuthUrl()}/api/oauth`,
     });
   }
 
@@ -32,13 +47,19 @@ export class OAuthClient {
   }
 
   async parseUrl(url: string): Promise<string> {
+    if (this.parseUrlOverride) {
+      const rawCode = getQueryParameter(url, 'code');
+
+      return await this.parseUrlOverride(this.opts, rawCode);
+    }
     const token = await this.client().code.getToken(url);
     return this.serializeToken(token);
   }
 
   serializeToken(token: ClientOAuth2.Token) {
     // suggested expiration:
-    const suggestedExpiration = Number(token.data['expires_in'] || 0) * 1000; // ms
+    const suggestedExpiration =
+      Number(token.data['expires_in'] || THIRTY_DAYS) * 1000; // ms
     const expiry = Date.now() + suggestedExpiration;
     return JSON.stringify({ ...token.data, expiry: `${expiry}` });
   }

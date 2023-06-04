@@ -80,6 +80,7 @@
       "@worksheets/util/errors": ["libs/util/errors/src/index.ts"],
       "@worksheets/util/functional": ["libs/util/functional/src/index.ts"],
       "@worksheets/util/hardware": ["libs/util/hardware/src/index.ts"],
+      "@worksheets/util/http": ["libs/util/http/src/index.ts"],
       "@worksheets/util/next": ["libs/util/next/src/index.ts"],
       "@worksheets/util/oauth/client": ["libs/util/oauth/client/src/index.ts"],
       "@worksheets/util/strings": ["libs/util/strings/src/index.ts"],
