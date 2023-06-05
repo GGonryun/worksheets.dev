@@ -11,6 +11,7 @@ import bitly from '@worksheets/apps/bitly';
 import crudcrud from '@worksheets/apps/crudcrud';
 import json from '@worksheets/apps/json';
 import core from '@worksheets/apps/core';
+import openai from '@worksheets/apps/open-ai';
 
 const clerk = new Clerk(
   math,
@@ -24,7 +25,8 @@ const clerk = new Clerk(
   bitly,
   crudcrud,
   json,
-  core
+  core,
+  openai
 );
 
 export const newApplicationsDatabase = () => {
