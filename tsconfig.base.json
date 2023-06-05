@@ -37,6 +37,9 @@
       "@worksheets/apps/json": ["libs/apps/json/src/index.ts"],
       "@worksheets/apps/math": ["libs/apps/math/src/index.ts"],
       "@worksheets/apps/open-ai": ["libs/apps/open-ai/src/index.ts"],
+      "@worksheets/apps/screenshot-one": [
+        "libs/apps/screenshot-one/src/index.ts"
+      ],
       "@worksheets/apps/sys": ["libs/apps/sys/src/index.ts"],
       "@worksheets/data-access/applications": [
         "libs/data-access/applications/src/index.ts"
