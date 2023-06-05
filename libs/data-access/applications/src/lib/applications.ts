@@ -8,6 +8,9 @@ import drive from '@worksheets/apps/google/drive';
 import github from '@worksheets/apps/github';
 import dropbox from '@worksheets/apps/dropbox';
 import bitly from '@worksheets/apps/bitly';
+import crudcrud from '@worksheets/apps/crudcrud';
+import json from '@worksheets/apps/json';
+import core from '@worksheets/apps/core';
 
 const clerk = new Clerk(
   math,
@@ -18,7 +21,10 @@ const clerk = new Clerk(
   drive,
   github,
   dropbox,
-  bitly
+  bitly,
+  crudcrud,
+  json,
+  core
 );
 
 export const newApplicationsDatabase = () => {

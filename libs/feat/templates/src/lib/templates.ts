@@ -5,6 +5,7 @@ import { github } from '../examples/github';
 import { system } from '../examples/system';
 import { dropbox } from '../examples/dropbox';
 import { bitly } from '../examples/bitly';
+import { crudcrud } from '../examples/crudcrud';
 
 export type Templates = Record<string, Record<string, string>>;
 
@@ -14,6 +15,7 @@ const templates: Templates = {
   github,
   dropbox,
   bitly,
+  crudcrud,
 };
 
 export function listTemplates(): Templates {
