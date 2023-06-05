@@ -12,6 +12,7 @@ import crudcrud from '@worksheets/apps/crudcrud';
 import json from '@worksheets/apps/json';
 import core from '@worksheets/apps/core';
 import openai from '@worksheets/apps/open-ai';
+import screenshotone from '@worksheets/apps/screenshot-one';
 
 const clerk = new Clerk(
   math,
@@ -26,7 +27,8 @@ const clerk = new Clerk(
   crudcrud,
   json,
   core,
-  openai
+  openai,
+  screenshotone
 );
 
 export const newApplicationsDatabase = () => {
