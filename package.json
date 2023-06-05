@@ -36,6 +36,7 @@
     "next": "13.3.0",
     "nodemailer": "^6.9.3",
     "octokit": "^2.0.19",
+    "openai": "^3.2.1",
     "react": "18.2.0",
     "react-ace": "^10.1.0",
     "react-dom": "18.2.0",

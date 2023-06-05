@@ -25,6 +25,7 @@ export function Templates({ onClipboard, onClone }: TemplatesProps) {
     >
       {Object.keys(templates)?.map((folderName) => (
         <TreeItem
+          key={folderName}
           nodeId={folderName}
           label={folderName}
           sx={{ borderLeft: '1px solid grey' }}

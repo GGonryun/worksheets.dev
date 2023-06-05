@@ -6,6 +6,7 @@ import { system } from '../examples/system';
 import { dropbox } from '../examples/dropbox';
 import { bitly } from '../examples/bitly';
 import { crudcrud } from '../examples/crudcrud';
+import { openai } from '../examples/openai';
 
 export type Templates = Record<string, Record<string, string>>;
 
@@ -16,6 +17,7 @@ const templates: Templates = {
   dropbox,
   bitly,
   crudcrud,
+  openai,
 };
 
 export function listTemplates(): Templates {
