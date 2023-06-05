@@ -23,6 +23,8 @@
       "@worksheets/api/test-run": ["libs/api/test-run/src/index.ts"],
       "@worksheets/api/worksheets": ["libs/api/worksheets/src/index.ts"],
       "@worksheets/apps/bitly": ["libs/apps/bitly/src/index.ts"],
+      "@worksheets/apps/core": ["libs/apps/core/src/index.ts"],
+      "@worksheets/apps/crudcrud": ["libs/apps/crudcrud/src/index.ts"],
       "@worksheets/apps/dropbox": ["libs/apps/dropbox/src/index.ts"],
       "@worksheets/apps/framework": ["libs/apps/framework/src/index.ts"],
       "@worksheets/apps/github": ["libs/apps/github/src/index.ts"],
@@ -32,6 +34,7 @@
       "@worksheets/apps/google/drive": ["libs/apps/google/drive/src/index.ts"],
       "@worksheets/apps/google/gmail": ["libs/apps/google/gmail/src/index.ts"],
       "@worksheets/apps/http": ["libs/apps/http/src/index.ts"],
+      "@worksheets/apps/json": ["libs/apps/json/src/index.ts"],
       "@worksheets/apps/math": ["libs/apps/math/src/index.ts"],
       "@worksheets/apps/sys": ["libs/apps/sys/src/index.ts"],
       "@worksheets/data-access/applications": [
