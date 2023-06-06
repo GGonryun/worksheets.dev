@@ -31,6 +31,9 @@
       "@worksheets/apps/google/calendar": [
         "libs/apps/google/calendar/src/index.ts"
       ],
+      "@worksheets/apps/google/cloud/storage": [
+        "libs/apps/google/cloud/storage/src/index.ts"
+      ],
       "@worksheets/apps/google/drive": ["libs/apps/google/drive/src/index.ts"],
       "@worksheets/apps/google/gmail": ["libs/apps/google/gmail/src/index.ts"],
       "@worksheets/apps/http": ["libs/apps/http/src/index.ts"],

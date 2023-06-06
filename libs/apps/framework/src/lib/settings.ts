@@ -110,7 +110,7 @@ export const safeParse = <S extends Settings>(
     const setting = settings[key];
     const comparingTo = object[key];
     try {
-      const data = setting.schema.parse(comparingTo);
+      const data = setting.schema.optional().parse(comparingTo);
       if (setting.required && !data) {
         errors.push({
           code: 'custom',

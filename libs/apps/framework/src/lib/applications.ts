@@ -137,7 +137,7 @@ export class Technician {
           code: StatusCodes.UNPROCESSABLE_ENTITY,
           message: `method ${
             method.path
-          } contains invalid settings -- ${msg.toLocaleLowerCase()}`,
+          } contains invalid settings ${msg.toLocaleLowerCase()}`,
           data: parsed.errors,
         });
       }

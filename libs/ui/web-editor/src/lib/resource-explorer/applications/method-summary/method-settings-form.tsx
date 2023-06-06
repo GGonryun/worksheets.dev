@@ -71,24 +71,23 @@ export function MethodSettingsForm({
   return (
     <>
       {settings.map((setting, index) => (
-        <Box key={index} borderLeft="1px solid grey">
-          <TreeItem
-            nodeId={uuidv4()}
-            label={
-              <Box display="flex">
-                <Box>{setting.label}</Box>
-                {setting.required && <Box color="red">*</Box>}
-              </Box>
-            }
-          >
-            <MethodSettingInputField
-              {...setting}
-              value={data[setting.key]}
-              onChange={(value) => {
-                handleSettingsUpdate(setting.key, value);
-              }}
-            />
-          </TreeItem>
+        <Box
+          key={index}
+          borderLeft="1px solid grey"
+          padding={1}
+          paddingLeft={2}
+        >
+          <Box display="flex" gap={1}>
+            <Box>{setting.label}</Box>{' '}
+            {setting.required && <Box color="red">*</Box>}
+          </Box>
+          <MethodSettingInputField
+            {...setting}
+            value={data[setting.key]}
+            onChange={(value) => {
+              handleSettingsUpdate(setting.key, value);
+            }}
+          />
         </Box>
       ))}
     </>
@@ -147,7 +146,6 @@ function TokenInputField({
   const isUpdating = value !== text;
   return (
     <Box display="flex" flexDirection="column" gap={1} p={1}>
-      {required && <Divider>required</Divider>}
       <TextField
         size="small"
         placeholder={value}
