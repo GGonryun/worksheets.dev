@@ -7,7 +7,12 @@ import {
   doesWorksheetExist,
   isUserOwnerOfWorksheet,
 } from '@worksheets/feat/worksheets-management';
+import {
+  calculateDataVolume,
+  kilobytes,
+} from '@worksheets/util/data-structures';
 import { HandlerFailure } from '@worksheets/util/next';
+import { StatusCodes } from 'http-status-codes';
 
 const executionsdb = newExecutionsDatabase();
 
@@ -93,5 +98,21 @@ export const listWorksheetExecutions = async (worksheetId: string) => {
   return entities;
 };
 
-export const createExecution = async (entity: Omit<ExecutionEntity, 'id'>) =>
-  await executionsdb.insert({ ...entity, id: executionsdb.id() });
+export const createExecution = async (entity: Omit<ExecutionEntity, 'id'>) => {
+  const id = executionsdb.id();
+
+  // sanitize execution history before saving it.
+  const { result } = entity;
+  if (result) {
+    if (calculateDataVolume(result.input) > kilobytes(2.5)) {
+      console.warn(`sanitizing entity input was too large`, id);
+      result.input = 'sanitized for being too large';
+    }
+    if (calculateDataVolume(result.output) > kilobytes(2.5)) {
+      console.warn(`sanitizing entity output was too large`, id);
+      result.output = 'sanitized for being too large';
+    }
+  }
+
+  return await executionsdb.insert({ ...entity, id });
+};

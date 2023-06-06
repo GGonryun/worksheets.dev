@@ -13,7 +13,7 @@ export const completionsCreate = newMethod({
   description: 'Creates a completion for the provided prompt and parameters.',
   settings: { key },
   input: z.object({
-    prompt: z.string().default('Say this is a test'),
+    prompt: z.string(),
     model: z.string().default('text-davinci-003'),
     max_tokens: z.number().default(16),
     temperature: z.number().default(1),

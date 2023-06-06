@@ -24,8 +24,6 @@ export const groupsList = newMethod({
     })
   ),
   async call({ settings }) {
-    console.log('found settings', settings.auth.accessToken);
-
     const result = await composer()(
       method('GET'),
       bearer(settings.auth.accessToken)

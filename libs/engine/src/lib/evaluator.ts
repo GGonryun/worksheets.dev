@@ -114,7 +114,10 @@ export class ScriptEvaluator implements ExpressionEvaluator {
    * @param input evaluates simple types or deeply nested structures like objects or arrays using recursion
    * @returns the same input but with all expressions evaluated
    */
-  async recursiveParse(input: unknown) {
+  async recursiveParse(raw: unknown) {
+    if (!raw) return;
+    // this helps prevent objects with functions from breaking our recursive function.
+    const input = JSON.parse(JSON.stringify(raw));
     try {
       if (isString(input)) {
         const parsed = await this.parse(input);
@@ -144,7 +147,7 @@ export class ScriptEvaluator implements ExpressionEvaluator {
       }
       throw new ExecutionFailure({
         code: 'invalid-expression',
-        message: `failed to parse expression`,
+        message: `failed to parse expression ${input}`,
         cause: error,
         data: { expression: input },
       });

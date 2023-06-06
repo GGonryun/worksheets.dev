@@ -1,4 +1,5 @@
 import { Clerk } from '@worksheets/apps/framework';
+
 import http from '@worksheets/apps/http';
 import math from '@worksheets/apps/math';
 import sys from '@worksheets/apps/sys';
@@ -13,6 +14,7 @@ import json from '@worksheets/apps/json';
 import core from '@worksheets/apps/core';
 import openai from '@worksheets/apps/open-ai';
 import screenshotone from '@worksheets/apps/screenshot-one';
+import googlecloudstorage from '@worksheets/apps/google/cloud/storage';
 
 const clerk = new Clerk(
   math,
@@ -28,7 +30,8 @@ const clerk = new Clerk(
   json,
   core,
   openai,
-  screenshotone
+  screenshotone,
+  googlecloudstorage
 );
 
 export const newApplicationsDatabase = () => {

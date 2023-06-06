@@ -39,7 +39,7 @@ export const get = newPrivateHandler({ input, output })(
       }
     }
 
-    console.info(`found settings`, output);
+    console.info(`found settings`, Object.keys(output));
     return output;
   }
 );
