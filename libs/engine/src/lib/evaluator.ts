@@ -115,7 +115,7 @@ export class ScriptEvaluator implements ExpressionEvaluator {
    * @returns the same input but with all expressions evaluated
    */
   async recursiveParse(raw: unknown) {
-    if (!raw) return;
+    if (raw == null) return;
     // this helps prevent objects with functions from breaking our recursive function.
     const input = JSON.parse(JSON.stringify(raw));
     try {
