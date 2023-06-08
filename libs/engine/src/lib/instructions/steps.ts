@@ -8,6 +8,7 @@ import { Return, ReturnDefinition } from './return';
 import { If, IfDefinition } from './if';
 import { For, ForDefinition } from './for';
 import { Try, TryDefinition } from './try';
+import { Halt } from './halt';
 
 export type StepsDefinition = Definition[];
 
@@ -53,8 +54,11 @@ export class Steps implements Instruction {
       if (isDefinition<TryDefinition>(step, 'try')) {
         instruction = new Try(step);
       }
-
+      if (isDefinition(step, 'halt')) {
+        instruction = new Halt();
+      }
       if (!instruction) {
+        console.error(`unfamiliar instruction`, instruction);
         throw new ExecutionFailure({
           code: 'invalid-instruction',
           message: `encountered an unfamiliar instruction`,

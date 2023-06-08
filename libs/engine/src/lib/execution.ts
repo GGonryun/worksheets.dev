@@ -36,11 +36,7 @@ export class Execution {
   private readonly compiler: Compiler;
   private readonly clock: Clock;
 
-  private executed: boolean;
-
   constructor(opts: ExecutionOptions) {
-    this.executed = false;
-
     this.clock = new Clock();
     this.history = new Stack();
     this.instructions = new HeightAwareStack<Instruction>();
@@ -67,18 +63,12 @@ export class Execution {
     this.engine = new Engine(this.ctx);
   }
 
-  async run(yaml: string, input?: unknown): Promise<unknown> {
+  async run(yaml: string, input?: unknown): Promise<Register> {
     this.clock.start();
 
     if (input) {
       this.ctx.register.input = input;
     }
-
-    if (this.executed)
-      throw new ExecutionFailure({
-        code: 'invalid-precondition',
-        message: 'execution context cannot run twice',
-      });
 
     let def;
     try {
@@ -93,7 +83,7 @@ export class Execution {
 
     this.ctx.instructions.push(new Init(def));
     let instruction: Instruction | undefined;
-    while (this.engine.hasNext()) {
+    while (!this.ctx.register.halt && this.engine.hasNext()) {
       try {
         instruction = await this.engine.iterate();
       } catch (error) {
@@ -111,8 +101,6 @@ export class Execution {
       }
     }
 
-    this.executed = true;
-
     this.clock.stop();
     const failure = this.ctx.register.failure;
     if (failure) {
@@ -124,7 +112,7 @@ export class Execution {
       });
     }
 
-    return this.ctx.register.output;
+    return this.ctx.register;
   }
 
   dimensions(): ExecutionDimensions {
