@@ -1,5 +1,8 @@
 {
   "name": "@worksheets/apps/json",
   "version": "0.0.1",
-  "type": "commonjs"
+  "type": "commonjs",
+  "devDependencies": {
+    "@types/jsonpath": "^0.2.0"
+  }
 }
