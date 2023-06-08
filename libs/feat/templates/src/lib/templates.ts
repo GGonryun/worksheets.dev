@@ -8,6 +8,8 @@ import { bitly } from '../examples/bitly';
 import { crudcrud } from '../examples/crudcrud';
 import { openai } from '../examples/openai';
 import { screenshotone } from '../examples/screenshotone';
+import { google_cloud_storage } from '../examples/google-cloud-storage';
+import { json } from '../examples/json';
 
 export type Templates = Record<string, Record<string, string>>;
 
@@ -20,6 +22,8 @@ const templates: Templates = {
   crudcrud,
   openai,
   screenshotone,
+  google_cloud_storage,
+  json,
 };
 
 export function listTemplates(): Templates {
