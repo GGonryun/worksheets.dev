@@ -29,6 +29,7 @@ export class Register {
   public failure?: MethodCallFailure;
   public output: unknown;
   public input: unknown;
+  public halt = false;
 }
 
 /**

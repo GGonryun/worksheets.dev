@@ -4,6 +4,7 @@ import { when } from 'jest-when';
 import { Heap } from '@worksheets/util/data-structures';
 import { MethodCallFailure } from '@worksheets/apps/framework';
 import { StatusCodes } from 'http-status-codes';
+import { Register } from './framework';
 
 const CONSTANT_NOW = 1684563401;
 
@@ -116,7 +117,7 @@ describe('worksheets', () => {
         const library = new JestApplicationLibrary();
         const exe = new Execution({ library });
         const result = await exe.run(yaml, input);
-        expect(result).toEqual(expectation);
+        expect(result.output).toEqual(expectation);
       });
     });
   });
@@ -127,7 +128,7 @@ describe('worksheets', () => {
       yaml: string;
       input?: unknown;
       arrange?: (mock: Mock, heap: Heap) => void;
-      assert?: (result: unknown, mock: Mock) => void;
+      assert?: (result: Register, mock: Mock) => void;
     };
 
     const testCases: TestCases[] = [
@@ -219,7 +220,7 @@ describe('worksheets', () => {
             .mockReturnValue(CONSTANT_NOW);
         },
         assert(r) {
-          expect(r).toEqual(CONSTANT_NOW);
+          expect(r.output).toEqual(CONSTANT_NOW);
         },
       },
       {
@@ -232,7 +233,7 @@ describe('worksheets', () => {
           when(m).calledWith('core.time.now', undefined).mockReturnValue(100);
         },
         assert(r, m) {
-          expect(r).toEqual(100);
+          expect(r.output).toEqual(100);
           expect(m).toBeCalledTimes(1);
         },
       },
@@ -250,7 +251,7 @@ describe('worksheets', () => {
             .mockReturnValue(CONSTANT_NOW);
         },
         assert(r, m) {
-          expect(r).toEqual(1684563401);
+          expect(r.output).toEqual(1684563401);
           expect(m).toBeCalledTimes(1);
         },
       },
@@ -273,7 +274,7 @@ describe('worksheets', () => {
         },
         assert(r, m) {
           expect(m).toBeCalledTimes(2);
-          expect(r).toEqual({ time: CONSTANT_NOW, val: CONSTANT_NOW });
+          expect(r.output).toEqual({ time: CONSTANT_NOW, val: CONSTANT_NOW });
         },
       },
       {
@@ -301,7 +302,7 @@ describe('worksheets', () => {
           expect(m).toBeCalledWith('core.test.many', { first: 1, second: 2 });
           expect(m).toBeCalledWith('core.test.many', 1, 2);
           expect(m).toBeCalledTimes(2);
-          expect(r).toEqual({ time: 'banana', val: 'apple' });
+          expect(r.output).toEqual({ time: 'banana', val: 'apple' });
         },
       },
       {
@@ -339,7 +340,7 @@ describe('worksheets', () => {
         },
         assert(r, m) {
           expect(m).toBeCalledTimes(3);
-          expect(r).toEqual({ a: 'apple', b: 'apple' });
+          expect(r.output).toEqual({ a: 'apple', b: 'apple' });
         },
       },
       {
@@ -360,7 +361,7 @@ describe('worksheets', () => {
             .mockReturnValue(2);
         },
         assert(r, m) {
-          expect(r).toEqual(2);
+          expect(r.output).toEqual(2);
           expect(m).toBeCalledTimes(1);
         },
       },
@@ -375,7 +376,7 @@ describe('worksheets', () => {
             .mockReturnValue(2);
         },
         assert(r, m) {
-          expect(r).toEqual(undefined);
+          expect(r.output).toEqual(undefined);
           expect(m).toBeCalledTimes(1);
         },
       },
@@ -402,7 +403,7 @@ describe('worksheets', () => {
             .mockReturnValue(1100);
         },
         assert(r, m) {
-          expect(r).toEqual(1100);
+          expect(r.output).toEqual(1100);
           expect(m).toBeCalledTimes(3);
         },
       },
@@ -425,7 +426,7 @@ describe('worksheets', () => {
             .mockReturnValue(1010);
         },
         assert(r, m) {
-          expect(r).toEqual(1010);
+          expect(r.output).toEqual(1010);
           expect(m).toBeCalledTimes(1);
         },
       },
@@ -448,7 +449,7 @@ describe('worksheets', () => {
             .mockReturnValue(1010);
         },
         assert(r, m) {
-          expect(r).toEqual(1010);
+          expect(r.output).toEqual(1010);
           expect(m).toBeCalledTimes(1);
         },
       },
@@ -471,7 +472,7 @@ describe('worksheets', () => {
             .mockReturnValue(5050);
         },
         assert(r, m) {
-          expect(r).toEqual(5050);
+          expect(r.output).toEqual(5050);
           expect(m).toBeCalledTimes(1);
         },
       },
@@ -492,7 +493,7 @@ describe('worksheets', () => {
           when(m).calledWith('core.time.now', undefined).mockReturnValue(100);
         },
         assert(r, m) {
-          expect(r).toEqual(100);
+          expect(r.output).toEqual(100);
           expect(m).toBeCalledTimes(1);
         },
       },
@@ -519,7 +520,7 @@ describe('worksheets', () => {
           when(m).calledWith('core.test.second', undefined).mockReturnValue(1);
         },
         assert(r, m) {
-          expect(r).toEqual(1);
+          expect(r.output).toEqual(1);
           expect(m).toBeCalledTimes(1);
         },
       },
@@ -546,7 +547,7 @@ describe('worksheets', () => {
           when(m).calledWith('core.test.second', undefined).mockReturnValue(1);
         },
         assert(r, m) {
-          expect(r).toEqual(undefined);
+          expect(r.output).toEqual(undefined);
           expect(m).toBeCalledTimes(0);
         },
       },
@@ -576,7 +577,7 @@ describe('worksheets', () => {
             .mockReturnValue('yes');
         },
         assert(r, m) {
-          expect(r).toEqual('yes');
+          expect(r.output).toEqual('yes');
           expect(m).toBeCalledTimes(3);
         },
       },
@@ -612,7 +613,7 @@ describe('worksheets', () => {
             .mockReturnValue('yes');
         },
         assert(r, m) {
-          expect(r).toEqual({ inner: undefined, outer: 'no' });
+          expect(r.output).toEqual({ inner: undefined, outer: 'no' });
           expect(m).toBeCalledTimes(1);
         },
       },
@@ -648,7 +649,7 @@ describe('worksheets', () => {
             .mockReturnValue('yes');
         },
         assert(r, m) {
-          expect(r).toEqual({ inner: undefined, outer: 'no' });
+          expect(r.output).toEqual({ inner: undefined, outer: 'no' });
           expect(m).toBeCalledTimes(1);
         },
       },
@@ -877,7 +878,7 @@ describe('worksheets', () => {
           expect(m).toBeCalledWith('core.test.first', 7);
           expect(m).toBeCalledWith('core.test.first', 8);
           expect(m).toBeCalledWith('core.test.first', 'okay');
-          expect(r).toEqual('okay');
+          expect(r.output).toEqual('okay');
         },
       },
       // TRY
@@ -1101,7 +1102,7 @@ describe('worksheets', () => {
           when(m).calledWith('time.now', undefined).mockReturnValue(100);
         },
         assert(r, m) {
-          expect(r).toEqual(undefined);
+          expect(r.output).toEqual(undefined);
           expect(m).toBeCalledTimes(3);
           expect(m).toBeCalledWith('local', 100);
           expect(m).toBeCalledWith('ends', 100);
@@ -1124,7 +1125,7 @@ describe('worksheets', () => {
             - return: yes
         `,
         assert(r, m) {
-          expect(r).toEqual('yes');
+          expect(r.output).toEqual('yes');
           expect(m).toBeCalledWith('sample', undefined);
           expect(m).toBeCalledWith('apple', undefined);
           expect(m).toBeCalledWith('vroom', undefined);
@@ -1145,7 +1146,7 @@ describe('worksheets', () => {
                   - return: true
         `,
         assert(r, m) {
-          expect(r).toEqual(true);
+          expect(r.output).toEqual(true);
           expect(m).toBeCalledWith('sample', undefined);
           expect(m).toBeCalledWith('apple', undefined);
           expect(m).toBeCalledWith('vroom', undefined);
@@ -1166,7 +1167,7 @@ describe('worksheets', () => {
           expect(m).not.toBeCalledWith('apple', undefined);
           expect(m).toBeCalledTimes(1);
           expect(m).toBeCalledWith('sample', undefined);
-          expect(r).toEqual(true);
+          expect(r.output).toEqual(true);
         },
       },
       {
@@ -1186,7 +1187,7 @@ describe('worksheets', () => {
             
         `,
         assert(r) {
-          expect(r).toEqual(2);
+          expect(r.output).toEqual(2);
         },
       },
       {
@@ -1205,7 +1206,7 @@ describe('worksheets', () => {
             
         `,
         assert(r) {
-          expect(r).toEqual(2);
+          expect(r.output).toEqual(2);
         },
       },
     ];
@@ -1223,6 +1224,53 @@ describe('worksheets', () => {
     });
   });
 
+  describe('halting', () => {
+    type TestCases = {
+      name: string;
+      yaml: string;
+      input?: unknown;
+      arrange?: (mock: Mock, heap: Heap) => void;
+      assert?: (mock: Mock, exe: Execution) => void;
+    };
+
+    const testCases: TestCases[] = [
+      {
+        name: 'halts when instruction is seen in step',
+        yaml: `
+        assign:
+          name: abc
+        steps:
+          - call: read
+          - halt:
+          - call: read
+          - call: read
+        `,
+        arrange(m) {
+          when(m)
+            .calledWith('core.time.now', undefined)
+            .mockReturnValue(CONSTANT_NOW);
+        },
+        assert(m, e) {
+          expect(e.ctx.register.halt).toEqual(true);
+          console.log(e.ctx.instructions);
+          expect(e.ctx.instructions.size()).toEqual(2);
+          expect(m).toBeCalledTimes(1);
+        },
+      },
+    ];
+
+    testCases.forEach(async ({ name, yaml, input, arrange, assert }) => {
+      it(name, async () => {
+        const mock = jest.fn();
+        const library = new JestApplicationLibrary({ call: mock });
+        const memory = new Heap();
+        arrange && arrange(mock, memory);
+        const exe = new Execution({ library, memory });
+        await exe.run(yaml, input);
+        assert && assert(mock, exe);
+      });
+    });
+  });
   // describe('failure cases', () => {});
 });
 
