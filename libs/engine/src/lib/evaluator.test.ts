@@ -4,9 +4,9 @@ import {
   evaluateCallPath,
 } from './evaluator';
 import { when } from 'jest-when';
-import { JestApplicationLibrary, Mock } from './util.test';
 import { Heap } from '@worksheets/util/data-structures';
 import { Expression, SimpleCallExpression } from 'estree';
+import { JestApplicationLibrary, Mock } from './test-utils.spec';
 
 function newTestProcessor() {
   const mock = jest.fn();

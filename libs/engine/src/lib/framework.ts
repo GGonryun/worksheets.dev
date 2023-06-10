@@ -9,8 +9,12 @@ export interface Operation {
 }
 
 export interface Instruction {
+  type: string;
+  definition: unknown;
   process(ctx: Context): Promise<void>;
 }
+
+export type SerializedInstruction = Pick<Instruction, 'type' | 'definition'>;
 
 export function isInstruction(definition: unknown): definition is Instruction {
   if (!definition) return false;
@@ -25,6 +29,7 @@ export function isInstruction(definition: unknown): definition is Instruction {
  */
 export class Register {
   public name?: string;
+  public yaml?: string;
   public version?: number;
   public failure?: MethodCallFailure;
   public output: unknown;

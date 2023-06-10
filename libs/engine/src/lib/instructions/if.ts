@@ -14,7 +14,8 @@ export type CaseDefinition = {
 };
 export type IfDefinition = CaseDefinition[];
 export class If implements Instruction {
-  private readonly definition: IfDefinition;
+  readonly type = 'if';
+  readonly definition: IfDefinition;
   constructor(def: IfDefinition) {
     this.definition = def;
   }

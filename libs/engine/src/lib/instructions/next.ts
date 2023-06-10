@@ -7,7 +7,8 @@ import { Break } from './break';
 export type NextDefinition = 'end' | 'continue' | 'break' | string;
 
 export class Next implements Instruction {
-  private readonly definition: NextDefinition;
+  readonly type = 'next';
+  readonly definition: NextDefinition;
   /**
    * Next is used to specify a control operation such as "end" or "break" or "continue".
    *

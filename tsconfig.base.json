@@ -56,6 +56,7 @@
       "@worksheets/data-access/settings": [
         "libs/data-access/settings/src/index.ts"
       ],
+      "@worksheets/data-access/tasks": ["libs/data-access/tasks/src/index.ts"],
       "@worksheets/data-access/worksheets": [
         "libs/data-access/worksheets/src/index.ts"
       ],
@@ -82,6 +83,7 @@
       "@worksheets/ui/common": ["libs/ui/common/src/index.ts"],
       "@worksheets/ui/web-editor": ["libs/ui/web-editor/src/index.ts"],
       "@worksheets/ui/web-editor/server": ["libs/ui/web-editor/src/server.ts"],
+      "@worksheets/util/arrays": ["libs/util/arrays/src/index.ts"],
       "@worksheets/util/auth/client": ["libs/util/auth/client/src/index.ts"],
       "@worksheets/util/auth/server": ["libs/util/auth/server/src/index.ts"],
       "@worksheets/util/data-structures": [
