@@ -1,3 +1,4 @@
+import { Failure } from '@worksheets/util/errors';
 import { Decorator, Wrapper, compose } from '@worksheets/util/functional';
 
 type Info = RequestInfo | URL;
@@ -66,7 +67,36 @@ const bearer: FetchDecorator<string> =
 
 const composer = (fetcher?: Fetcher) => compose(fetcher ?? fetch);
 
+const applier = (fetcher: Fetcher, ...wrappers: FetchWrapper[]) =>
+  compose(fetcher)(...wrappers);
+
+const aborter: FetchDecorator<number> =
+  (timeout: number) => (fetcher) => async (info, init) => {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => {
+      return controller.abort();
+    }, timeout);
+
+    try {
+      const response = await fetcher(info, {
+        ...init,
+        signal: controller.signal,
+      });
+      clearTimeout(timeoutId);
+      return response;
+    } catch (error) {
+      clearTimeout(timeoutId);
+      if (error instanceof Error && error.name === 'AbortError') {
+        throw new AbortFailure({ cause: error, message: 'Request timed out' });
+      }
+      throw error;
+    }
+  };
+
+export class AbortFailure extends Failure {}
+
 export const fetcher = {
+  applier,
   composer,
   bearer,
   content,
@@ -77,4 +107,5 @@ export const fetcher = {
   method,
   setRequest,
   updateRequest,
+  aborter,
 };

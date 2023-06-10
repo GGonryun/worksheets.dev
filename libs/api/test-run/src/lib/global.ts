@@ -74,7 +74,7 @@ export const global = newMaybePrivateHandler({ input })(
       result: {
         input: data.input,
         error,
-        output,
+        output: output?.output,
       },
     });
   }
