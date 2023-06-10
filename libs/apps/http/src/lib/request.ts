@@ -1,5 +1,12 @@
-import { newMethod } from '@worksheets/apps/framework';
+import { MethodCallFailure, newMethod } from '@worksheets/apps/framework';
+import { AbortFailure, fetcher } from '@worksheets/util/http';
+import { StatusCodes } from 'http-status-codes';
 import { z } from 'zod';
+
+const TEN_SECONDS = 10000;
+
+const { aborter, applier } = fetcher;
+const client = applier(fetch, aborter(TEN_SECONDS));
 
 export const request = newMethod({
   path: 'http',
@@ -27,19 +34,56 @@ export const request = newMethod({
     url: z.string(),
     code: z.number(),
     body: z.any(),
+    headers: z.record(z.string().optional()).optional(),
   }),
 
   async call(ctx) {
     const { url, method, headers, body } = ctx.input;
-    const response = await fetch(url, {
-      method,
-      headers,
-      body,
-    });
+    let response;
+    try {
+      response = await client(url, {
+        method,
+        headers,
+        body,
+      });
+    } catch (error) {
+      if (error instanceof AbortFailure) {
+        throw new MethodCallFailure({
+          code: StatusCodes.REQUEST_TIMEOUT,
+          message: `http request: ${error.message}`,
+        });
+      }
+
+      throw new MethodCallFailure({
+        code: 500,
+        message: 'http request: unexpected failure',
+        cause: error,
+      });
+    }
+
+    let data: unknown = await response.text();
+
+    if (!response.ok) {
+      throw new MethodCallFailure({
+        code: response.status,
+        message: response.statusText,
+        data,
+      });
+    }
+
+    try {
+      data = JSON.parse(data as string);
+    } catch (error) {
+      throw new MethodCallFailure({
+        code: StatusCodes.UNSUPPORTED_MEDIA_TYPE,
+        message: 'http request expects json data',
+      });
+    }
+
     return {
       url: response.url,
       code: response.status,
-      body: await response.json(),
+      body: data,
     };
   },
 });
