@@ -8,8 +8,8 @@ import {
   isUserOwnerOfWorksheet,
 } from '@worksheets/feat/worksheets-management';
 import {
+  FIRESTORE_LIMIT,
   calculateDataVolume,
-  kilobytes,
 } from '@worksheets/util/data-structures';
 import { HandlerFailure } from '@worksheets/util/next';
 
@@ -103,12 +103,15 @@ export const createExecution = async (entity: Omit<ExecutionEntity, 'id'>) => {
   // sanitize execution history before saving it.
   const { result } = entity;
   if (result) {
-    if (calculateDataVolume(result.input) > kilobytes(2.5)) {
-      console.warn(`sanitizing entity input was too large`, id);
+    const inputVolume = calculateDataVolume(result.input);
+    if (inputVolume > FIRESTORE_LIMIT / 3) {
+      console.warn(`sanitizing entity input was too large`, inputVolume, id);
       result.input = 'sanitized for being too large';
     }
-    if (calculateDataVolume(result.output) > kilobytes(2.5)) {
-      console.warn(`sanitizing entity output was too large`, id);
+
+    const outputVolume = calculateDataVolume(result.output);
+    if (outputVolume > FIRESTORE_LIMIT / 3) {
+      console.warn(`sanitizing entity output was too large`, outputVolume, id);
       result.output = 'sanitized for being too large';
     }
   }
