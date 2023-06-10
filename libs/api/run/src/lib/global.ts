@@ -24,10 +24,10 @@ export const global = newPublicHandler({})(async ({ req }) => {
   const { worksheetId: _, ...input } = rawInput;
   console.info(`executing worksheet`, _);
 
-  let output;
+  let register;
   let error: ExecutionErrorEntity | undefined;
   try {
-    output = await execution.run(worksheet.text, input);
+    register = await execution.run(worksheet.text, input);
   } catch (e) {
     // send unknown errors back to clients
     if (!(e instanceof ExecutionFailure)) {
@@ -54,10 +54,10 @@ export const global = newPublicHandler({})(async ({ req }) => {
     text: worksheet.text,
     dimensions: execution.dimensions(),
     result: {
-      input,
-      error,
-      output,
+      input: register?.input,
+      error: error,
+      output: register?.output,
     },
   });
-  return output;
+  return register?.output;
 });
