@@ -10,6 +10,7 @@ import { openai } from '../examples/openai';
 import { screenshotone } from '../examples/screenshotone';
 import { google_cloud_storage } from '../examples/google-cloud-storage';
 import { json } from '../examples/json';
+import { applyFunctionToKeys } from '@worksheets/util/objects';
 
 export type Templates = Record<string, Record<string, string>>;
 
@@ -27,7 +28,9 @@ const templates: Templates = {
 };
 
 export function listTemplates(): Templates {
-  return templates;
+  return applyFunctionToKeys(templates, (group) =>
+    applyFunctionToKeys(group, (template) => template.trim())
+  );
 }
 
 export function listNumTemplates(): number {
