@@ -17,6 +17,8 @@ import {
   ForDefinition,
   If,
   IfDefinition,
+  Init,
+  InitDefinition,
   Loop,
   LoopDefinition,
   Parameters,
@@ -129,6 +131,9 @@ export class InstructionSerializer
     }
     if (serialized.type === 'if') {
       return new If(serialized.definition as IfDefinition);
+    }
+    if (serialized.type === 'init') {
+      return new Init(serialized.definition as InitDefinition);
     }
     if (serialized.type === 'loop') {
       return new Loop(serialized.definition as LoopDefinition);
