@@ -1,10 +1,10 @@
 import { Execution } from './execution';
-import { JestApplicationLibrary, Mock } from './util.test';
 import { when } from 'jest-when';
 import { Heap } from '@worksheets/util/data-structures';
 import { MethodCallFailure } from '@worksheets/apps/framework';
 import { StatusCodes } from 'http-status-codes';
 import { Register } from './framework';
+import { JestApplicationLibrary, Mock } from './test-utils.spec';
 
 const CONSTANT_NOW = 1684563401;
 
@@ -38,35 +38,32 @@ describe('worksheets', () => {
         input: 'test',
         expectation: 'hello test!',
         yaml: `
-      params: x
-      return: hello \${x}!
-      `,
+        params: x
+        return: hello \${x}!`,
       },
       {
         name: 'assign string',
         expectation: 'hello test!',
         yaml: `
-      assign:
-        word: hello
-      return: \${word} test!
-      `,
+        assign:
+        - word: hello
+        return: \${word} test!`,
       },
       {
         name: 'assign multiple',
         expectation: 'hello test!',
         yaml: `
-      assign:
-        word: hello
-        name: test
-      return: \${word} \${name}!
-      `,
+        assign:
+        - word: hello
+        - name: test
+        return: \${word} \${name}!`,
       },
       {
         name: 'returns number type',
         expectation: 3,
         yaml: `
         assign:
-          count: 3
+        - count: 3
         return: \${count}`,
       },
       {
@@ -78,19 +75,19 @@ describe('worksheets', () => {
         },
         yaml: `
         assign:
-          word: hello
-          count: 13
-          available: true
-          names: [my, name, is, engine]
-          effect:
-            earth: 1
-            fire: 2
-            wind: 3
-            water: 4
+          - word: hello
+          - count: 13
+          - available: true
+          - names: [my, name, is, engine]
+          - effect:
+              - earth: 1
+              - fire: 2
+              - wind: 3
+              - water: 4
         return:
-          phrase: \${word} user
-          tag: \${count}
-          seen: has been seen? \${available}`,
+          - phrase: \${word} user
+          - tag: \${count}
+          - seen: has been seen? \${available}`,
       },
       {
         name: 'assign during step',
@@ -100,15 +97,40 @@ describe('worksheets', () => {
           bool: true,
         },
         yaml: `    
-      steps:
-        - assign:
-          word: 'hello'
-          count: 3
-          truth: true
-      return:
-        str: \${word}
-        num: \${count}
-        bool: \${truth}`,
+        steps:
+          - assign:
+            - word: 'hello'
+            - count: 3
+            - truth: true
+        return:
+          - str: \${word}
+          - num: \${count}
+          - bool: \${truth}`,
+      },
+      {
+        name: 'complex assignment',
+        expectation: {
+          obj: {
+            name: 'test',
+            count: 57,
+          },
+          list: [1, 2, 3],
+          alt: ['a', 'b', 'c'],
+        },
+        yaml: `    
+        assign:
+          - obj:
+              name: test
+              count: 57
+          - list: [1, 2, 3]
+          - alt:
+            - a
+            - b
+            - c
+        return:
+          - obj: \${obj}
+          - list: \${list}
+          - alt: \${alt}`,
       },
     ];
 
@@ -127,7 +149,7 @@ describe('worksheets', () => {
       name: string;
       yaml: string;
       input?: unknown;
-      arrange?: (mock: Mock, heap: Heap) => void;
+      arrange?: (mock: Mock) => void;
       assert?: (result: Register, mock: Mock) => void;
     };
 
@@ -137,7 +159,7 @@ describe('worksheets', () => {
         name: 'reads unquoted loop parameters as strings',
         yaml: `
         assign:
-          list: [1,2,x,3,4]
+          - list: [1,2,x,3,4]
         steps:
           - call: read
             input: \${list}
@@ -150,7 +172,7 @@ describe('worksheets', () => {
         name: 'list indexing',
         yaml: `
         assign:
-          list: ["apple", "banana", "cherry", "data"]
+          - list: ["apple", "banana", "cherry", "data"]
         steps:
           - call: test
             input: \${list[3]} 
@@ -166,8 +188,8 @@ describe('worksheets', () => {
         name: 'object indexing',
         yaml: `
         assign:
-          fruit: "apple"
-          object: {"apple": 3}
+          - fruit: "apple"
+          - object: {"apple": 3}
         steps:
           - call: test
             input: \${object.apple} 
@@ -187,9 +209,9 @@ describe('worksheets', () => {
         name: 'map indexing',
         yaml: `
         assign:
-          fruit: "apple"
-          object: 
-            apple: 3
+          - fruit: "apple"
+          - object: 
+              apple: 3
         steps:
           - call: test
             input: \${object.apple} 
@@ -242,7 +264,7 @@ describe('worksheets', () => {
         yaml: `
         steps:
           - assign:
-            val: \${core.time.now()}
+            - val: \${core.time.now()}
           - return: \${val}
         `,
         arrange(m) {
@@ -260,12 +282,12 @@ describe('worksheets', () => {
         yaml: `
         steps:
           - assign:
-            val: \${core.time.now()}
+            - val: \${core.time.now()}
           - call: core.time.now
             output: time
           - return:
-              val: \${val}
-              time: \${time}
+            - val: \${val}
+            - time: \${time}
         `,
         arrange(m) {
           when(m)
@@ -282,15 +304,15 @@ describe('worksheets', () => {
         yaml: `
         steps:
           - assign:
-            val: \${core.test.many(1, 2)}
+            - val: \${core.test.many(1, 2)}
           - call: core.test.many
             input:
               first: 1
               second: 2
             output: time
           - return:
-              val: \${val}
-              time: \${time}
+            - val: \${val}
+            - time: \${time}
         `,
         arrange(m) {
           when(m).calledWith('core.test.many', 1, 2).mockReturnValue('apple');
@@ -312,12 +334,12 @@ describe('worksheets', () => {
         params: x
         steps:
           - assign:
-            data:
-              name: \${x}
-              seen: true
-              time: \${core.time.now()}
+            - data:
+                name: \${x}
+                seen: true
+                time: \${core.time.now()}
           - assign:
-            primary_output: \${core.test.many(data)}
+            - primary_output: \${core.test.many(data)}
           - call: core.test.many
             input:
               name: \${data.name}
@@ -325,8 +347,8 @@ describe('worksheets', () => {
               time: \${data.time}
             output: secondary_output
           - return: 
-              a: \${primary_output}
-              b: \${secondary_output}
+            - a: \${primary_output}
+            - b: \${secondary_output}
         `,
         arrange(m) {
           when(m).calledWith('core.time.now', undefined).mockReturnValue(100);
@@ -412,7 +434,7 @@ describe('worksheets', () => {
         yaml: `
         steps:
           - assign:
-            sum: 10
+            - sum: 10
           - call: core.math.add
             input:
               a: \${sum}
@@ -434,7 +456,7 @@ describe('worksheets', () => {
         name: 'shared memory overrides existing variables (in assign 2)',
         yaml: `
         assign:
-          sum: 10
+          - sum: 10
         steps:
           - call: core.math.add
             input:
@@ -502,7 +524,7 @@ describe('worksheets', () => {
         yaml: `
         steps:
           - assign:
-            a: 1
+            - a: 1
           - switch: 
             - if: \${a === 2}
               steps:
@@ -529,7 +551,7 @@ describe('worksheets', () => {
         yaml: `
         steps:
           - assign:
-            a: 3
+            - a: 3
           - switch: 
             - if: \${a === 2}
               steps:
@@ -556,7 +578,7 @@ describe('worksheets', () => {
         yaml: `
         steps:
           - assign:
-            a: 3
+            - a: 3
           - switch: 
             - if: \${bool(0)}
               steps:
@@ -586,7 +608,7 @@ describe('worksheets', () => {
         yaml: `
         steps:
           - assign:
-            outerScope: possibly
+            - outerScope: possibly
           - switch:
             - if: \${false}
               steps:
@@ -598,8 +620,8 @@ describe('worksheets', () => {
                 - call: core.test.second
                   output: second
                 - assign:
-                  innerScope: yes
-                  outerScope: no
+                  - innerScope: yes
+                  - outerScope: no
         return:
           inner: \${innerScope}
           outer: \${outerScope}
@@ -623,7 +645,7 @@ describe('worksheets', () => {
         yaml: `
         steps:
           - assign:
-            outerScope: possibly
+            - outerScope: possibly
           - switch:
             - if: \${false}
               steps:
@@ -635,8 +657,8 @@ describe('worksheets', () => {
                 - call: core.test.second
                   output: second
                 - assign:
-                  innerScope: yes
-                  outerScope: no
+                  - innerScope: yes
+                  - outerScope: no
         return:
           inner: \${innerScope}
           outer: \${outerScope}
@@ -659,7 +681,7 @@ describe('worksheets', () => {
         yaml: `
         steps:
           - assign:
-            list: ["apple", "banana", "cherry"]
+            - list: ["apple", "banana", "cherry"]
           - for: list
             index: index
             value: value
@@ -684,7 +706,7 @@ describe('worksheets', () => {
         yaml: `
         steps:
           - assign:
-            list: ["apple", "banana", "cherry"]
+            - list: ["apple", "banana", "cherry"]
           - for: list
             index: index
             value: value
@@ -712,7 +734,7 @@ describe('worksheets', () => {
         yaml: `
         steps:
           - assign:
-            list: ["apple", "banana", "cherry"]
+            - list: ["apple", "banana", "cherry"]
           - for: list
             index: index
             value: value
@@ -740,9 +762,9 @@ describe('worksheets', () => {
         yaml: `
         steps:
           - assign:
-            list: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49]
+            - list: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49]
           - assign:
-            listTwo: \${list}
+            - listTwo: \${list}
           - for: list
             index: index
             value: value
@@ -765,7 +787,7 @@ describe('worksheets', () => {
         yaml: `
         steps:
           - assign:
-            list: [0,1,2,3,4,5,6,7,8,9]
+            - list: [0,1,2,3,4,5,6,7,8,9]
           - for: list
             index: index
             value: value
@@ -796,7 +818,7 @@ describe('worksheets', () => {
         yaml: `
         steps:
           - assign:
-            list: [0,1,2,3,4,5,6,7,8,9]
+            - list: [0,1,2,3,4,5,6,7,8,9]
           - for: list
             index: index
             value: value
@@ -825,8 +847,8 @@ describe('worksheets', () => {
         yaml: `
         steps:
           - assign:
-            index: 0
-            list: [0,1,2,3,4,5,6,7,8,9]
+            - index: 0
+            - list: [0,1,2,3,4,5,6,7,8,9]
           - for: list
             index: index
             value: value
@@ -855,8 +877,8 @@ describe('worksheets', () => {
         yaml: `
         steps:
         - assign:
-          value: 0
-          list: [0,1,2,3,4,5,6,7,8,"okay"]
+          - value: 0
+          - list: [0,1,2,3,4,5,6,7,8,"okay"]
         - for: list
           index: index
           value: value
@@ -1021,7 +1043,7 @@ describe('worksheets', () => {
                 - call: ignore
                 - call: ignore
                 - assign:
-                  test: \${ignore()}
+                  - test: \${ignore()}
             catch:
               steps:
                 - call: test`,
@@ -1087,7 +1109,6 @@ describe('worksheets', () => {
         steps:
           - try:
               steps:
-                - assign:
                 - call: time.now
                   output: now
                 - call: local
@@ -1174,7 +1195,7 @@ describe('worksheets', () => {
         name: 'returns during a loop',
         yaml: `
         assign:
-          list: [1,2,x,3,4]
+          - list: [1,2,x,3,4]
         steps:
           - for: list
             index: i
@@ -1194,7 +1215,7 @@ describe('worksheets', () => {
         name: 'returns during a loop (shortcut return statement)',
         yaml: `
         assign:
-          list: [1,2,x,3,4]
+          - list: [1,2,x,3,4]
         steps:
           - for: list
             index: i
@@ -1216,7 +1237,7 @@ describe('worksheets', () => {
         const mock = jest.fn();
         const library = new JestApplicationLibrary({ call: mock });
         const memory = new Heap();
-        arrange && arrange(mock, memory);
+        arrange && arrange(mock);
         const exe = new Execution({ library, memory });
         const result = await exe.run(yaml, input);
         assert && assert(result, mock);
@@ -1238,21 +1259,15 @@ describe('worksheets', () => {
         name: 'halts when instruction is seen in step',
         yaml: `
         assign:
-          name: abc
+          - name: abc
         steps:
           - call: read
-          - halt:
+          - jump: halt
           - call: read
           - call: read
         `,
-        arrange(m) {
-          when(m)
-            .calledWith('core.time.now', undefined)
-            .mockReturnValue(CONSTANT_NOW);
-        },
         assert(m, e) {
           expect(e.ctx.register.halt).toEqual(true);
-          console.log(e.ctx.instructions);
           expect(e.ctx.instructions.size()).toEqual(2);
           expect(m).toBeCalledTimes(1);
         },

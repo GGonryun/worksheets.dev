@@ -9,7 +9,8 @@ export type LoopDefinition = {
 };
 
 export class Loop implements Instruction {
-  private readonly definition: LoopDefinition;
+  readonly type = 'loop';
+  readonly definition: LoopDefinition;
   constructor(def: LoopDefinition) {
     this.definition = def;
   }

@@ -11,7 +11,8 @@ export type TryDefinition = {
 };
 
 export class Try implements Instruction {
-  private readonly definition: TryDefinition;
+  readonly type = 'try';
+  readonly definition: TryDefinition;
   constructor(def: TryDefinition) {
     this.definition = def;
   }

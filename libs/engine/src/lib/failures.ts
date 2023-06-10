@@ -7,6 +7,7 @@ export const executionFailureCodeSchema = z.union([
   l('unexpected'),
   l('method-failure'),
   l('invalid-expression'),
+  l('invalid-definition'),
   l('invalid-precondition'),
   l('invalid-syntax'),
   l('invalid-instruction'),

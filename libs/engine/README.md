@@ -1,21 +1,24 @@
 # Schema
 
 ```yaml
-version: v1.0
+version: 1
 name: worksheet_name
 
 params: param_name
 
 assign:
   #   key: value
-  param_a: ${sys.time.now()}
-  param_b: ${env("my_auth_token")}
-  param_c: value
+  - param_a: ${sys.time.now()}
+  - param_b: ${env("my_auth_token")}
+  - param_c: value
 
 steps:
+  # save values into memory
   - assign:
     #   key: value
-    param_d: the current time is ${param_a}!
+    - param_d: the current time is ${param_a}!
+
+  # execute external methods or libraries
   - call: module.function.path
     input:
       # key: value
@@ -23,18 +26,27 @@ steps:
       key_b: ${param_b}
       ...
     output: param_g
+
+  # make decisions with expressions
   - switch:
-    - if: ${expression} # only accepts single expressions
+    - if: ${expression} # expects a single expression: ${a == b}
       steps:
           ...
     - if: ${expression}
+      # terminate early.
+      next: continue | break | end
+    - if: ${expression}
       return: ${param_name}
+
+  # operate on arrays, lists and maps (iterables).
   - for: list_variable_name
-    value: value_variable_name # current value during iteration
+    value: value_variable_name # value stored during iteration
     index: index_variable_name
     steps:
-      # execute more instructions
+      # execute instructions for each value in list.
         ...
+
+  # handle operations safely
   - try:
       steps:
           ...
@@ -48,10 +60,9 @@ steps:
           ...
 
 return:
-  param_i: "assigning this text as a value"
-  param_h: ${param_g} # reference outputs
-  param_j: 24
-
+  - param_i: "assigning this text as a value"
+  - param_h: ${param_g} # reference outputs
+  - param_j: 24
 ```
 
 # Engine
@@ -70,7 +81,7 @@ Places data on the heap, each assignment operation may only perform one assignme
 
 ### Assign
 
-Place data on the heap. Accepts a list of key value pairs. Values can be of any type including expressions or other variables on the heap.
+Place data on the heap. Accepts a list oåf key value pairs. Values can be of any type including expressions or other variables on the heap.
 
 ### Steps
 
@@ -116,6 +127,10 @@ Pops instructions off the stack until we reach the forloop and will continue wit
 
 Takes data from the heap and places it in the registries output position and pops all instructions off the stack.
 
+### Jump
+
+Jump to a named step during execution. Currently only accepts 'halt' operations.
+
 ### Parallel For
 
 **Planned v2 release**
@@ -125,11 +140,6 @@ Executes multiple for loop iterations in parallel.
 
 **Planned v2 release**
 Executes multiple steps at the same time.
-
-### Jump
-
-**Planned v3 release**
-Go to another position in the execution flow.
 
 ### Copy
 

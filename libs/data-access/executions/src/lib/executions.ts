@@ -11,6 +11,7 @@ import {
 } from '@worksheets/firebase/firestore';
 import { z } from 'zod';
 
+// TODO: a lot of these data methods don't make anymore sense because we're refactoring them into the Task + Snapshot paradigm.
 export const executionErrorSchema = z.object({
   code: executionFailureCodeSchema,
   message: z.string(),

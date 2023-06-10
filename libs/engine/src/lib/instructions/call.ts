@@ -13,7 +13,8 @@ export function isCallDefinition(
 }
 
 export class Call implements Instruction {
-  private readonly definition: CallDefinition;
+  readonly type = 'call';
+  readonly definition: CallDefinition;
   constructor(def: CallDefinition) {
     this.definition = def;
   }

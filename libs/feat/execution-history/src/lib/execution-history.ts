@@ -12,7 +12,6 @@ import {
   kilobytes,
 } from '@worksheets/util/data-structures';
 import { HandlerFailure } from '@worksheets/util/next';
-import { StatusCodes } from 'http-status-codes';
 
 const executionsdb = newExecutionsDatabase();
 

@@ -3,6 +3,9 @@ import { Context, Instruction } from '../framework';
 import { Loop } from './loop';
 
 export class Break implements Instruction {
+  readonly type = 'break';
+  readonly definition = undefined;
+
   async process(ctx: Context): Promise<void> {
     // look ahead and throw an error if we can't find an instruction
     const canBreak = ctx.instructions.peekUntil(

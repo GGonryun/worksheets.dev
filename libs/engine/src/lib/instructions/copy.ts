@@ -2,7 +2,9 @@ import { Address, Instruction, Context } from '../framework';
 
 export type CopyDefinition = { to: Address; from: Address };
 export class Copy implements Instruction {
-  private readonly definition: CopyDefinition;
+  readonly type = 'copy';
+  readonly definition: CopyDefinition;
+
   /**
    * Copies data across memory.
    *
