@@ -21,10 +21,10 @@ export const CodeEditor: FC = () => {
   const { user } = useUser();
   const mutate = request.query.useMutate();
   const privateCommand = request.command.private(user);
-  const maybeCommand = request.command.maybe(user);
+  const publicCommand = request.command.public();
 
   const apiExecutions = `/api/worksheets/${worksheetId}/executions`;
-  const testExecute = `/api/x/dry`;
+  const execute = `/api/x/${worksheetId}`;
   const apiWorksheet = `/api/worksheets/${worksheetId}`;
   const apiWorksheets = '/api/worksheets';
 
@@ -54,15 +54,19 @@ export const CodeEditor: FC = () => {
   };
 
   function handleExecute() {
-    maybeCommand(testExecute, 'POST', { worksheetId, text })
-      .then(() => mutate(apiExecutions))
-      .catch(warn(`failed to execute worksheet`));
+    privateCommand(`${apiWorksheets}/${worksheetId}`, 'POST', { text })
+      .then(() =>
+        publicCommand(execute, 'POST', { worksheetId })
+          .then(() => mutate(apiExecutions))
+          .catch(warn(`failed to execute worksheet`))
+      )
+      .catch(warn('failed to save worksheet before execution'));
   }
 
   function handleSave() {
-    privateCommand(`${apiWorksheets}/${worksheetId}`, 'POST', { text })
-      .then(() => mutate(apiWorksheets))
-      .catch(warn(`failed to save worksheet`));
+    privateCommand(`${apiWorksheets}/${worksheetId}`, 'POST', { text }).catch(
+      warn(`failed to save worksheet`)
+    );
   }
 
   function handleDeleteWorksheet() {
@@ -84,11 +88,13 @@ export const CodeEditor: FC = () => {
       height={'100%'}
       maxHeight={800}
     >
-      <DynamicCodeEditor
-        width="95%"
-        value={text}
-        onChange={(newValue) => setText(newValue)}
-      />
+      {worksheetId && (
+        <DynamicCodeEditor
+          width="95%"
+          value={text}
+          onChange={(newValue) => setText(newValue)}
+        />
+      )}
       <ControlPanel
         onDelete={handleDeleteWorksheet}
         onNew={handleNew}
