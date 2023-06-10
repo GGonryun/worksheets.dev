@@ -16,6 +16,8 @@ import { z } from 'zod';
 
 export type ExecutionOptions = {
   memory?: Heap;
+  register?: Register;
+  instructions?: Stack<Instruction>;
   library: Library;
 };
 
@@ -29,22 +31,18 @@ export const executionDimensionsSchema = z.object({
 export type ExecutionDimensions = z.infer<typeof executionDimensionsSchema>;
 
 export class Execution {
-  private readonly ctx: Context;
-  private readonly instructions: HeightAwareStack<Instruction>;
-  private readonly engine: Engine;
-  private readonly history: Stack<Instruction>;
-  private readonly compiler: Compiler;
-  private readonly clock: Clock;
+  public readonly ctx: Context;
+  public readonly engine: Engine;
+  public readonly history: Stack<Instruction>;
+  public readonly compiler: Compiler;
 
   constructor(opts: ExecutionOptions) {
-    this.clock = new Clock();
     this.history = new Stack();
-    this.instructions = new HeightAwareStack<Instruction>();
     this.compiler = new YAMLCompiler();
 
-    const register = new Register();
-
     const library = opts.library;
+    const register = opts.register ?? new Register();
+    const instructions = opts.instructions ?? new Stack<Instruction>();
     const memory = opts.memory ?? new Heap();
 
     const scripts = new ScriptEvaluator(
@@ -54,18 +52,16 @@ export class Execution {
 
     this.ctx = new Context({
       memory,
+      register,
+      instructions,
       scripts,
       library,
-      register,
-      instructions: this.instructions,
     });
 
     this.engine = new Engine(this.ctx);
   }
 
   async run(yaml: string, input?: unknown): Promise<Register> {
-    this.clock.start();
-
     if (input) {
       this.ctx.register.input = input;
     }
@@ -82,6 +78,15 @@ export class Execution {
     }
 
     this.ctx.instructions.push(new Init(def));
+
+    return await this.process();
+  }
+
+  async process(opts?: { force?: boolean }) {
+    if (opts?.force) {
+      this.ctx.register.halt = false;
+    }
+
     let instruction: Instruction | undefined;
     while (!this.ctx.register.halt && this.engine.hasNext()) {
       try {
@@ -101,7 +106,6 @@ export class Execution {
       }
     }
 
-    this.clock.stop();
     const failure = this.ctx.register.failure;
     if (failure) {
       console.error(`unhandled method failure`, failure);
@@ -115,11 +119,12 @@ export class Execution {
     return this.ctx.register;
   }
 
+  // TODO: remove this concept of history. we don't need it.
   dimensions(): ExecutionDimensions {
     const width = this.history.size();
-    const height = this.instructions.height();
+    const height = 0;
     const mass = this.ctx.memory.size();
-    const depth = this.clock.getExecutionTime() || 1;
+    const depth = 0;
     return {
       width,
       height,

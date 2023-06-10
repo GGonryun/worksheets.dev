@@ -6,7 +6,8 @@ export type AssignmentDefinition = {
 };
 
 export class Assignment implements Instruction {
-  private readonly definition: AssignmentDefinition;
+  public readonly definition: AssignmentDefinition;
+  public readonly type = 'assignment';
   constructor(def: AssignmentDefinition) {
     this.definition = def;
   }

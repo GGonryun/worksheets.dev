@@ -8,12 +8,13 @@ import { Return, ReturnDefinition } from './return';
 import { If, IfDefinition } from './if';
 import { For, ForDefinition } from './for';
 import { Try, TryDefinition } from './try';
-import { Halt } from './halt';
+import { Jump, JumpDefinition } from './jump';
 
 export type StepsDefinition = Definition[];
 
 export class Steps implements Instruction {
-  private readonly definition: StepsDefinition;
+  readonly type = 'steps';
+  readonly definition: StepsDefinition;
   /**
    * Execute a sequential set of actions. A step can include instructions: call, try, for, assign, return, switch, parallel_for, parallel_steps and steps. The steps instruction will immediately place all of its instructions on the stack. When any step fails a failure is placed in the registry. Use a try-catch for error handling.
    *
@@ -36,8 +37,8 @@ export class Steps implements Instruction {
       if (isDefinition<{ steps: StepsDefinition }>(step, 'steps')) {
         instruction = new Steps(step.steps);
       }
-      if (isDefinition<AssignDefinition>(step, 'assign')) {
-        instruction = new Assign(step);
+      if (isDefinition<{ assign: AssignDefinition }>(step, 'assign')) {
+        instruction = new Assign(step.assign);
       }
       if (isDefinition<CallDefinition>(step, 'call')) {
         instruction = new Call(step);
@@ -54,11 +55,10 @@ export class Steps implements Instruction {
       if (isDefinition<TryDefinition>(step, 'try')) {
         instruction = new Try(step);
       }
-      if (isDefinition(step, 'halt')) {
-        instruction = new Halt();
+      if (isDefinition<{ jump: JumpDefinition }>(step, 'jump')) {
+        instruction = new Jump(step.jump);
       }
       if (!instruction) {
-        console.error(`unfamiliar instruction`, instruction);
         throw new ExecutionFailure({
           code: 'invalid-instruction',
           message: `encountered an unfamiliar instruction`,

@@ -4,7 +4,8 @@ import { StepsDefinition, Steps } from './steps';
 export type CatchDefinition = { assign: Address; steps: StepsDefinition };
 
 export class Catch implements Instruction {
-  private readonly definition: CatchDefinition;
+  readonly type = 'catch';
+  readonly definition: CatchDefinition;
   constructor(def: CatchDefinition) {
     this.definition = def;
   }

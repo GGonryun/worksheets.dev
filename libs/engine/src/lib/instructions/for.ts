@@ -13,7 +13,8 @@ export type ForDefinition = {
 };
 
 export class For implements Instruction {
-  private readonly definition: ForDefinition;
+  readonly type = 'for';
+  readonly definition: ForDefinition;
   constructor(def: ForDefinition) {
     this.definition = def;
   }

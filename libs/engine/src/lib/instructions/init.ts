@@ -10,13 +10,14 @@ export type InitDefinition = {
   version: 1;
   name: string;
   params: string;
-  assign: { [key: string]: string };
+  assign: { [key: string]: string }[];
   return: number | string;
   steps: Definition[];
 };
 
 export class Init implements Instruction {
-  private readonly definition: InitDefinition;
+  readonly type = 'init';
+  readonly definition: InitDefinition;
   constructor(def: InitDefinition) {
     this.definition = def;
   }

@@ -4,7 +4,8 @@ import { isExpression } from '../util';
 export type EvaluateDefinition = { address: Address; expression: string };
 
 export class Evaluate implements Instruction {
-  private readonly definition: EvaluateDefinition;
+  readonly type = 'evaluate';
+  readonly definition: EvaluateDefinition;
   /**
    * Evaluates an expression and stores it's result at an address in memory.
    *

@@ -4,7 +4,8 @@ import { Context, Instruction } from '../framework';
 export type RestoreHeapDefinition = Heap;
 
 export class RestoreHeap implements Instruction {
-  private readonly definition: RestoreHeapDefinition;
+  readonly type: string = 'restore';
+  readonly definition: RestoreHeapDefinition;
   constructor(def: RestoreHeapDefinition) {
     this.definition = def;
   }
