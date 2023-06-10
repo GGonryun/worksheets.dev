@@ -2,8 +2,7 @@ import { GoogleAuthProvider } from 'firebase/auth';
 import { Box, Button } from '@mui/material';
 import { useUser } from './useUser';
 import { useRouter } from 'next/router';
-import { request } from './web';
-import { GetWorksheetsResponse } from '@worksheets/api/worksheets';
+import { warn } from '@worksheets/ui/common';
 
 export function LoginWithGoogle() {
   const { push } = useRouter();
@@ -16,16 +15,8 @@ export function LoginWithGoogle() {
     provider.addScope('email');
 
     signInProvider(provider)
-      .then((user) =>
-        request.command.private(user)<GetWorksheetsResponse>(
-          '/api/worksheets',
-          'GET'
-        )
-      )
-      .then((t) => push(`/ide/${Object.values(t).at(0)?.id}`))
-      .catch((error) => {
-        alert(`${error.message}`);
-      });
+      .then(() => push(`/ide`))
+      .catch(warn('failed to log in with google'));
   };
 
   const handleLogout = () => {

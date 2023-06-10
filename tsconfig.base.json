@@ -20,7 +20,6 @@
       "@worksheets/api/oauth": ["libs/api/oauth/src/index.ts"],
       "@worksheets/api/run": ["libs/api/run/src/index.ts"],
       "@worksheets/api/settings": ["libs/api/settings/src/index.ts"],
-      "@worksheets/api/test-run": ["libs/api/test-run/src/index.ts"],
       "@worksheets/api/worksheets": ["libs/api/worksheets/src/index.ts"],
       "@worksheets/apps/bitly": ["libs/apps/bitly/src/index.ts"],
       "@worksheets/apps/core": ["libs/apps/core/src/index.ts"],

@@ -23,10 +23,10 @@ export function Templates({ onClipboard, onClone }: TemplatesProps) {
       nodeId={'templates'}
       label={<Typography>Templates ({numTemplates})</Typography>}
     >
-      {Object.keys(templates)?.map((folderName) => (
+      {Object.keys(templates)?.map((folderName, i) => (
         <TreeItem
-          key={folderName}
-          nodeId={folderName}
+          key={`${folderName}${i}`}
+          nodeId={`${folderName}${i}`}
           label={folderName}
           sx={{ borderLeft: '1px solid grey' }}
         >
@@ -34,8 +34,9 @@ export function Templates({ onClipboard, onClone }: TemplatesProps) {
             <TemplateItem
               onClipboard={onClipboard}
               onClone={onClone}
-              key={folderName}
-              id={fileName}
+              label={fileName}
+              key={`${folderName}${fileName}${i}`}
+              id={`${folderName}${fileName}${i}`}
               text={templates[folderName][fileName]}
             />
           ))}
@@ -46,14 +47,21 @@ export function Templates({ onClipboard, onClone }: TemplatesProps) {
 }
 
 export type TemplateItemProps = Template & {
+  label: string;
   onClipboard: (t: Template) => void;
   onClone: (t: Template) => void;
 };
 
-function TemplateItem({ id, text, onClipboard, onClone }: TemplateItemProps) {
+function TemplateItem({
+  id,
+  text,
+  label,
+  onClipboard,
+  onClone,
+}: TemplateItemProps) {
   const { user } = useUser();
   return (
-    <TreeItem nodeId={id} label={id} sx={{ borderLeft: '1px solid grey' }}>
+    <TreeItem nodeId={id} label={label} sx={{ borderLeft: '1px solid grey' }}>
       <Box
         p={1}
         display="flex"
