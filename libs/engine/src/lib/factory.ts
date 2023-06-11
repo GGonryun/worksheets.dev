@@ -20,17 +20,19 @@ export class ExecutionFactory implements Serializer<Execution, Snapshot> {
   public readonly compiler: Compiler;
   public readonly library: Library;
   public readonly serializer: Serializer<Execution, Snapshot>;
+  public readonly memory: Heap;
 
   constructor({ library }: FactoryOptions) {
     this.compiler = new YAMLCompiler();
     this.library = library;
     this.serializer = new ExecutionSerializer(library);
+    this.memory = new Heap();
   }
 
   async create({ text, input }: CreationOptions) {
     const register = new Register();
     const instructions = new Stack<Instruction>();
-    const memory = new Heap();
+    const memory = this.memory.clone();
 
     register.yaml = text;
     if (input) {

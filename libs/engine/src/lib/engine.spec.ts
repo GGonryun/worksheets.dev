@@ -1,10 +1,10 @@
 import { Execution } from './execution';
 import { when } from 'jest-when';
-import { Heap } from '@worksheets/util/data-structures';
 import { MethodCallFailure } from '@worksheets/apps/framework';
 import { StatusCodes } from 'http-status-codes';
 import { Register } from './framework';
 import { JestApplicationLibrary, Mock } from './test-utils.spec';
+import { ExecutionFactory } from '..';
 
 const CONSTANT_NOW = 1684563401;
 
@@ -137,8 +137,9 @@ describe('worksheets', () => {
     testCases.forEach(async ({ name, yaml, input, expectation }) => {
       it(name, async () => {
         const library = new JestApplicationLibrary();
-        const exe = new Execution({ library });
-        const result = await exe.run(yaml, input);
+        const factory = new ExecutionFactory({ library });
+        const exe = await factory.create({ text: yaml, input });
+        const result = await exe.process();
         expect(result.output).toEqual(expectation);
       });
     });
@@ -1236,10 +1237,10 @@ describe('worksheets', () => {
       it(name, async () => {
         const mock = jest.fn();
         const library = new JestApplicationLibrary({ call: mock });
-        const memory = new Heap();
         arrange && arrange(mock);
-        const exe = new Execution({ library, memory });
-        const result = await exe.run(yaml, input);
+        const factory = new ExecutionFactory({ library });
+        const exe = await factory.create({ text: yaml, input });
+        const result = await exe.process();
         assert && assert(result, mock);
       });
     });
@@ -1250,7 +1251,7 @@ describe('worksheets', () => {
       name: string;
       yaml: string;
       input?: unknown;
-      arrange?: (mock: Mock, heap: Heap) => void;
+      arrange?: (mock: Mock) => void;
       assert?: (mock: Mock, exe: Execution) => void;
     };
 
@@ -1278,10 +1279,10 @@ describe('worksheets', () => {
       it(name, async () => {
         const mock = jest.fn();
         const library = new JestApplicationLibrary({ call: mock });
-        const memory = new Heap();
-        arrange && arrange(mock, memory);
-        const exe = new Execution({ library, memory });
-        await exe.run(yaml, input);
+        arrange && arrange(mock);
+        const factory = new ExecutionFactory({ library });
+        const exe = await factory.create({ text: yaml, input });
+        await exe.process();
         assert && assert(mock, exe);
       });
     });
