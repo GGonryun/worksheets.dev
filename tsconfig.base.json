@@ -16,9 +16,7 @@
     "baseUrl": ".",
     "paths": {
       "@worksheets/api/applications": ["libs/api/applications/src/index.ts"],
-      "@worksheets/api/executions": ["libs/api/executions/src/index.ts"],
       "@worksheets/api/oauth": ["libs/api/oauth/src/index.ts"],
-      "@worksheets/api/run": ["libs/api/run/src/index.ts"],
       "@worksheets/api/settings": ["libs/api/settings/src/index.ts"],
       "@worksheets/api/worksheets": ["libs/api/worksheets/src/index.ts"],
       "@worksheets/apps/bitly": ["libs/apps/bitly/src/index.ts"],
@@ -46,9 +44,6 @@
       "@worksheets/data-access/applications": [
         "libs/data-access/applications/src/index.ts"
       ],
-      "@worksheets/data-access/executions": [
-        "libs/data-access/executions/src/index.ts"
-      ],
       "@worksheets/data-access/handshakes": [
         "libs/data-access/handshakes/src/index.ts"
       ],
@@ -62,9 +57,6 @@
       "@worksheets/engine": ["libs/engine/src/index.ts"],
       "@worksheets/feat/execute-worksheet": [
         "libs/feat/execute-worksheet/src/index.ts"
-      ],
-      "@worksheets/feat/execution-history": [
-        "libs/feat/execution-history/src/index.ts"
       ],
       "@worksheets/feat/execution-settings": [
         "libs/feat/execution-settings/src/index.ts"

@@ -1,5 +1,5 @@
 import { Box, Button } from '@mui/material';
-import { useUser } from '@worksheets/util/auth/client';
+import { LoginWithGoogle, useUser } from '@worksheets/util/auth/client';
 
 export interface ControlPanelProps {
   onExecute: () => void;
@@ -14,14 +14,25 @@ export function ControlPanel({
   onSave,
   onDelete,
 }: ControlPanelProps) {
-  const { user } = useUser();
+  const { user, loading } = useUser();
+
+  if (!user && !loading) {
+    return <LoginWithGoogle />;
+  }
+
   return (
     <Box gap={2} display="flex" alignItems="center">
-      <Button variant="contained" color="success" onClick={() => onExecute()}>
-        execute
-      </Button>
+      <LoginWithGoogle />
       {user && (
         <>
+          <Button
+            variant="contained"
+            color="success"
+            onClick={() => onExecute()}
+          >
+            execute
+          </Button>
+
           <Button variant="contained" color="warning" onClick={() => onNew()}>
             new
           </Button>

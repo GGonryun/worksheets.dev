@@ -38,10 +38,6 @@ const taskSnapshotEntity = z.object({
   // a 1:1 relationship between snapshots and tasks
   // the id of the snapshot is the same as the task id
   ...entitySchema.shape,
-  // created at timestamp
-  createdAt: z.number().default(Date.now()),
-  // updated at timestamp
-  updatedAt: z.number().default(Date.now()),
   // serialized array of instructions
   instructions: z.array(z.string()),
   // serialized contents of execution memory
@@ -74,12 +70,14 @@ const taskDeadlines = z.object({
 export type TaskDeadlines = z.infer<typeof taskDeadlines>;
 export type TaskDeadlineContract = keyof TaskDeadlines;
 
-// states before a task is ready to be processed
 export const taskPendingStateEntity = z.literal('pending');
 export type TaskPendingState = z.infer<typeof taskPendingStateEntity>;
 
 export const taskProcessableStateEntity = z.literal('queued');
 export type TaskProcessableState = z.infer<typeof taskProcessableStateEntity>;
+
+export const taskProcessingStateEntity = z.literal('running');
+export type TaskProcessingState = z.infer<typeof taskProcessingStateEntity>;
 
 export const taskCompleteStateEntity = z.union([
   z.literal('done'),
@@ -92,6 +90,7 @@ export type TaskCompleteState = z.infer<typeof taskCompleteStateEntity>;
 export const taskStateEntity = z.union([
   taskPendingStateEntity,
   taskProcessableStateEntity,
+  taskProcessingStateEntity,
   taskCompleteStateEntity,
 ]);
 

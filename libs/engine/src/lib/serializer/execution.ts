@@ -8,7 +8,10 @@ import { InstructionsSerializer } from './instruction';
 import { Keys } from '@worksheets/util/types';
 import { Entity } from '@worksheets/firebase/firestore';
 
-export type Snapshot = Omit<TaskSnapshotEntity, Keys<Entity>>;
+export type Snapshot = Omit<
+  TaskSnapshotEntity,
+  Keys<Entity> | 'createdAt' | 'updatedAt'
+>;
 
 export class ExecutionSerializer implements Serializer<Execution, Snapshot> {
   private readonly library: Library;
@@ -28,12 +31,14 @@ export class ExecutionSerializer implements Serializer<Execution, Snapshot> {
 
   serialize(execution: Execution): Snapshot {
     const { instructions, memory, register } = this.serializers;
+
     return {
       instructions: instructions.serialize(execution.ctx.instructions),
       memory: memory.serialize(execution.ctx.memory),
       register: register.serialize(execution.ctx.register),
     };
   }
+
   deserialize(data: Snapshot): Execution {
     const { instructions, memory, register } = this.serializers;
 
