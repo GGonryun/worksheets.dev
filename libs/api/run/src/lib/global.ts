@@ -21,12 +21,14 @@ export const global = newPublicHandler({})(async ({ req }) => {
 
   const rawInput = { ...req.body, ...req.query };
   // remove worksheet id key from input
+  // (thought) could get a bit awkward if the input was a "worksheetId"
   const { worksheetId: _, ...input } = rawInput;
   console.info(`executing worksheet`, _);
 
   let register;
   let error: ExecutionErrorEntity | undefined;
   try {
+    console.log('running worksheet with input', worksheet.id, input);
     register = await execution.run(worksheet.text, input);
   } catch (e) {
     // send unknown errors back to clients
@@ -47,6 +49,11 @@ export const global = newPublicHandler({})(async ({ req }) => {
     };
   }
 
+  if (register?.halt) {
+    console.log('execution halted', worksheetId);
+  }
+  // if the register contains a halt, serialize and retry.
+
   await createExecution({
     worksheetId,
     userId: worksheet.uid,
@@ -59,5 +66,5 @@ export const global = newPublicHandler({})(async ({ req }) => {
       output: register?.output,
     },
   });
-  return register?.output;
+  return register?.output ?? {};
 });

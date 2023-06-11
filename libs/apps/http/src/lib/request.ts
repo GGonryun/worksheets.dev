@@ -55,9 +55,8 @@ export const request = newMethod({
       }
 
       throw new MethodCallFailure({
-        code: 500,
-        message: 'http request: unexpected failure',
-        cause: error,
+        code: StatusCodes.SERVICE_UNAVAILABLE,
+        message: 'http request: host is unavailable',
       });
     }
 

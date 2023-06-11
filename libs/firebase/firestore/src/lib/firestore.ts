@@ -26,6 +26,17 @@ export type Txn = FirebaseFirestore.Transaction;
 export type Document =
   FirebaseFirestore.DocumentSnapshot<FirebaseFirestore.DocumentData>;
 
+export type Firestore<T extends Entity> = {
+  transact(newTxn?: Txn): Firestore<T>;
+  id(): string;
+  has(id: string): Promise<boolean>;
+  get(id: string): Promise<T>;
+  query(...queries: Query<T>[]): Promise<T[]>;
+  create(data: T): Promise<T>;
+  update(data: T): Promise<T>;
+  delete(id: string): Promise<void>;
+};
+
 export function newFirestore<T extends Entity>(key: string, txn?: Txn) {
   const collection = firestore().collection(key);
 
