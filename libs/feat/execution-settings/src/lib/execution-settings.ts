@@ -1,4 +1,4 @@
-import { ApplicationLibrary } from '@worksheets/apps/framework';
+import { ApplicationLibrary, Clerk } from '@worksheets/apps/framework';
 import { newApplicationsDatabase } from '@worksheets/data-access/applications';
 import { newHandshakesDatabase } from '@worksheets/data-access/handshakes';
 import {
@@ -25,6 +25,13 @@ export const newPrivateLibrary = (userId: string) => {
     settingsLoader: (methodPath) => getSettings(userId, methodPath),
   });
   return library;
+};
+
+export const newEmptyLibrary = () => {
+  return new ApplicationLibrary({
+    clerk: new Clerk(),
+    settingsLoader: () => Promise.resolve({}),
+  });
 };
 
 export const findSettingEntityId = async (

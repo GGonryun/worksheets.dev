@@ -1,10 +1,5 @@
 import { Library } from '@worksheets/apps/framework';
-import {
-  Clock,
-  Heap,
-  HeightAwareStack,
-  Stack,
-} from '@worksheets/util/data-structures';
+import { Heap, Stack } from '@worksheets/util/data-structures';
 import { Compiler, YAMLCompiler } from './compiler';
 import { Engine } from './engine';
 import { ScriptEvaluator, ScriptsApplicationBridge } from './evaluator';
@@ -61,6 +56,9 @@ export class Execution {
     this.engine = new Engine(this.ctx);
   }
 
+  /**
+   * @deprecated run endpoint should not be used, @see Factory
+   */
   async run(yaml: string, input?: unknown): Promise<Register> {
     if (input) {
       this.ctx.register.input = input;
@@ -93,10 +91,9 @@ export class Execution {
         instruction = await this.engine.iterate();
       } catch (error) {
         if (error instanceof Failure) throw error;
-        console.error('unexpected execution failure', error);
         throw new ExecutionFailure({
-          code: 'unexpected',
-          message: 'an unexpected error occured during execution',
+          code: 'internal-error',
+          message: 'failed to iterate engine steps',
           cause: error,
         });
       }
@@ -106,20 +103,12 @@ export class Execution {
       }
     }
 
-    const failure = this.ctx.register.failure;
-    if (failure) {
-      console.error(`unhandled method failure`, failure);
-      throw new ExecutionFailure({
-        code: 'method-failure',
-        message: `unhandled method failure: (${failure.code}) ${failure.message}`,
-        cause: failure,
-      });
-    }
-
     return this.ctx.register;
   }
 
-  // TODO: remove this concept of history. we don't need it.
+  /**
+   * @deprecated scheduled for deletion, we are no longer supporting the execution history concept @see TasksDatabase
+   */
   dimensions(): ExecutionDimensions {
     const width = this.history.size();
     const height = 0;

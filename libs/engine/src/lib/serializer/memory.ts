@@ -1,10 +1,10 @@
-import { SnapshotEntity } from '@worksheets/data-access/tasks';
+import { TaskSnapshotEntity } from '@worksheets/data-access/tasks';
 import { Heap } from '@worksheets/util/data-structures';
 import { Serializer } from './serializer';
 import { JSONSerializer } from './json';
 
 export class MemorySerializer
-  implements Serializer<Heap, SnapshotEntity['memory']>
+  implements Serializer<Heap, TaskSnapshotEntity['memory']>
 {
   private readonly json = new JSONSerializer();
 

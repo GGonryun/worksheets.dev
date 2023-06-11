@@ -1,14 +1,16 @@
 import { Library } from '@worksheets/apps/framework';
-import { SnapshotEntity } from '@worksheets/data-access/tasks';
+import { TaskSnapshotEntity } from '@worksheets/data-access/tasks';
 import { Execution } from '../execution';
 import { Serializer } from './serializer';
 import { MemorySerializer } from './memory';
 import { RegisterSerializer } from './register';
 import { InstructionsSerializer } from './instruction';
+import { Keys } from '@worksheets/util/types';
+import { Entity } from '@worksheets/firebase/firestore';
 
-export class ExecutionSerializer
-  implements Serializer<Execution, SnapshotEntity>
-{
+export type Snapshot = Omit<TaskSnapshotEntity, Keys<Entity>>;
+
+export class ExecutionSerializer implements Serializer<Execution, Snapshot> {
   private readonly library: Library;
   private readonly serializers: {
     instructions: InstructionsSerializer;
@@ -24,7 +26,7 @@ export class ExecutionSerializer
     };
   }
 
-  serialize(execution: Execution): SnapshotEntity {
+  serialize(execution: Execution): Snapshot {
     const { instructions, memory, register } = this.serializers;
     return {
       instructions: instructions.serialize(execution.ctx.instructions),
@@ -32,7 +34,7 @@ export class ExecutionSerializer
       register: register.serialize(execution.ctx.register),
     };
   }
-  deserialize(data: SnapshotEntity): Execution {
+  deserialize(data: Snapshot): Execution {
     const { instructions, memory, register } = this.serializers;
 
     return new Execution({

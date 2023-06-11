@@ -31,6 +31,11 @@ export type SettingsLoader = (
   methodPath: string
 ) => Promise<Record<string, unknown>>;
 
+/**
+ * Knows about all the applications and their methods
+ * Knows how to execute methods
+ * Knows how to load settings before executing a methods
+ */
 export class ApplicationLibrary {
   private readonly clerk: Clerk;
   private readonly settingsLoader: SettingsLoader;
@@ -52,7 +57,7 @@ export class ApplicationLibrary {
   }
 }
 
-/** Knows about where applications are stored and how */
+/** Knows about where applications are stored */
 export class Clerk {
   private readonly translator: Translator;
   private readonly memory: Heap;

@@ -95,8 +95,13 @@ const aborter: FetchDecorator<number> =
 
 export class AbortFailure extends Failure {}
 
+// create a fetch client that binds a base api url to the request and then lets me add api endpoints to it.
+const baseUrl: FetchDecorator<string> =
+  (baseUrl: string) => (fetcher) => async (info, init) =>
+    fetcher(`${baseUrl}${info}`, init);
 export const fetcher = {
   applier,
+  baseUrl,
   composer,
   bearer,
   content,

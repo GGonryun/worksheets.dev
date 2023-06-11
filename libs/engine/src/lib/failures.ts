@@ -12,6 +12,7 @@ export const executionFailureCodeSchema = z.union([
   l('invalid-syntax'),
   l('invalid-instruction'),
   l('unhandled-failure'),
+  l('internal-error'),
 ]);
 export type ExecutionFailureCode = z.infer<typeof executionFailureCodeSchema>;
 
