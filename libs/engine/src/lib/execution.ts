@@ -5,7 +5,6 @@ import { Engine } from './engine';
 import { ScriptEvaluator, ScriptsApplicationBridge } from './evaluator';
 import { ExecutionFailure } from './failures';
 import { Context, Instruction, Register } from './framework';
-import { Init } from './instructions';
 import { Failure } from '@worksheets/util/errors';
 import { z } from 'zod';
 
@@ -56,30 +55,6 @@ export class Execution {
     this.engine = new Engine(this.ctx);
   }
 
-  /**
-   * @deprecated run endpoint should not be used, @see Factory
-   */
-  async run(yaml: string, input?: unknown): Promise<Register> {
-    if (input) {
-      this.ctx.register.input = input;
-    }
-
-    let def;
-    try {
-      def = await this.compiler.compile(yaml);
-    } catch (error) {
-      throw new ExecutionFailure({
-        code: 'invalid-syntax',
-        message: 'failed to ccompile worksheet',
-        cause: error,
-      });
-    }
-
-    this.ctx.instructions.push(new Init(def));
-
-    return await this.process();
-  }
-
   async process(opts?: { force?: boolean }) {
     if (opts?.force) {
       this.ctx.register.halt = false;
@@ -104,25 +79,5 @@ export class Execution {
     }
 
     return this.ctx.register;
-  }
-
-  /**
-   * @deprecated scheduled for deletion, we are no longer supporting the execution history concept @see TasksDatabase
-   */
-  dimensions(): ExecutionDimensions {
-    const width = this.history.size();
-    const height = 0;
-    const mass = this.ctx.memory.size();
-    const depth = 0;
-    return {
-      width,
-      height,
-      mass,
-      depth,
-    };
-  }
-
-  read() {
-    return { history: this.history, context: this.ctx };
   }
 }

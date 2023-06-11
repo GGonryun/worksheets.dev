@@ -55,9 +55,6 @@ export const processTask = async (taskId: string): Promise<TaskState> => {
   // create a new logger
   const logger = new TaskLogger({ db: loggingDb, taskId });
 
-  // log that we are processing the task
-  await logger.info('Processing task');
-
   // check if the task is in a processible state
   if (!isTaskProcessible(task)) {
     // save a new log entry if the task was not processible
@@ -69,6 +66,14 @@ export const processTask = async (taskId: string): Promise<TaskState> => {
       data: { taskId, state: task.state },
     });
   }
+
+  // start processing task
+  await logger.info('Processing task');
+  await taskDb.update({
+    ...task,
+    state: 'running',
+    updatedAt: Date.now(),
+  });
 
   // check if the task expired
   if (isTaskExpired(task)) {
@@ -179,7 +184,6 @@ export const requeueTask = async (
   // update the snapshot state in the database
   await snapshotsDb.update({
     ...snapshot,
-    updatedAt: Date.now(),
     id: task.id,
   });
 

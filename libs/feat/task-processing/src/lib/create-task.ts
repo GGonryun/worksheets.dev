@@ -11,6 +11,7 @@ import { getWorksheet } from '@worksheets/feat/worksheets-management';
 import { HandlerFailure } from '@worksheets/util/next';
 import { Maybe } from '@worksheets/util/types';
 import { newDefaultDeadlines, safelyGetTask } from './util';
+import { TaskLogger } from './util';
 
 const tasksDb = newTasksDatabase();
 const snapshotsDb = newTaskSnapshotsDatabase();
@@ -51,6 +52,9 @@ export const createTask = async (
     state: 'pending',
     deadlines: newDefaultDeadlines(),
     input,
+    createdAt: Date.now(),
+    updatedAt: Date.now(),
+    retries: 0,
   });
   // TODO: check to see if the user has sufficient resources to perform request
   const worksheet = await getWorksheet(worksheetId);
@@ -67,13 +71,10 @@ export const createTask = async (
     ...serialized,
     id: taskId,
   });
+  // create a new logger for the task
+  const logger = new TaskLogger({ db: loggingDb, taskId });
   // save a logging statement
-  await loggingDb.insert({
-    id: loggingDb.id(),
-    message: 'Task queued for execution',
-    level: 'trace',
-    taskId,
-  });
+  logger.trace('Task queued for execution');
   // update the task db to reflect the new state.
   await tasksDb.update({
     ...task,
