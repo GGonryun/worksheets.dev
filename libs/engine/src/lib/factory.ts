@@ -4,8 +4,7 @@ import { Compiler, YAMLCompiler } from './compiler';
 import { Register, Instruction } from './framework';
 import { Init } from './instructions';
 import { Library } from '@worksheets/apps/framework';
-import { ExecutionSerializer, Serializer } from './serializer';
-import { SnapshotEntity } from '@worksheets/data-access/tasks';
+import { ExecutionSerializer, Serializer, Snapshot } from './serializer';
 
 // The runtime can also decide which library we want to run, we can swap it out in the runtime we need to.
 export type FactoryOptions = {
@@ -13,37 +12,34 @@ export type FactoryOptions = {
 };
 
 export type CreationOptions = {
-  yaml: string;
+  text: string;
   input?: unknown;
 };
 
-export class ExecutionFactory {
+export class ExecutionFactory implements Serializer<Execution, Snapshot> {
   public readonly compiler: Compiler;
   public readonly library: Library;
-  public readonly serializer: Serializer<Execution, SnapshotEntity>;
-  // change values to override the initial memory for all executions this runtime creates.
-  public readonly memory: Heap;
+  public readonly serializer: Serializer<Execution, Snapshot>;
 
   constructor({ library }: FactoryOptions) {
     this.compiler = new YAMLCompiler();
     this.library = library;
     this.serializer = new ExecutionSerializer(library);
-    this.memory = new Heap();
   }
 
-  async create({ yaml, input }: CreationOptions) {
+  async create({ text, input }: CreationOptions) {
     const register = new Register();
     const instructions = new Stack<Instruction>();
-    const memory = this.memory.clone();
+    const memory = new Heap();
 
-    register.yaml = yaml;
+    register.yaml = text;
     if (input) {
       register.input = input;
     }
 
     let def;
     try {
-      def = await this.compiler.compile(yaml);
+      def = await this.compiler.compile(text);
     } catch (error) {
       throw new ExecutionFailure({
         code: 'invalid-syntax',
@@ -62,11 +58,11 @@ export class ExecutionFactory {
     });
   }
 
-  save(execution: Execution): SnapshotEntity {
+  serialize(execution: Execution): Snapshot {
     return this.serializer.serialize(execution);
   }
 
-  load(snapshot: SnapshotEntity): Execution {
+  deserialize(snapshot: Snapshot): Execution {
     return this.serializer.deserialize(snapshot);
   }
 }

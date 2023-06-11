@@ -168,14 +168,14 @@ describe('execution factory serialization through explicit halting', () => {
 
       arrange && arrange(mock);
 
-      const exe = await factory.create({ yaml, input });
+      const exe = await factory.create({ text: yaml, input });
       await exe.process();
       expect(exe.ctx.register.halt).toBeTruthy();
-      const serialized = factory.save(exe);
+      const serialized = factory.serialize(exe);
       /*
        * in real use-cases, something happens in between these two steps.
        */
-      const deserialized = factory.load(serialized);
+      const deserialized = factory.deserialize(serialized);
       await deserialized.process({ force: true });
       assert && assert(mock, deserialized);
     });
@@ -240,12 +240,12 @@ describe('initializing and running serialized executions ', () => {
 
       arrange && arrange(mock);
 
-      const exe = await factory.create({ yaml, input });
-      const serialized = factory.save(exe);
+      const exe = await factory.create({ text: yaml, input });
+      const serialized = factory.serialize(exe);
       /*
        * in real use-cases, we'll immediately serialize an execution before it gets picked up by a processor.
        */
-      const deserialized = factory.load(serialized);
+      const deserialized = factory.deserialize(serialized);
       await deserialized.process({ force: false }); // no need to force, we never halted to begin with.
       assert && assert(mock, deserialized);
     });
