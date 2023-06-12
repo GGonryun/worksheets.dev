@@ -95,6 +95,5 @@ export const createTask = async (
   // send a pubsub message to the queue to start the task.
   await processorBus.publish({ taskId });
 
-  console.info(`Task ${taskId} queued for execution`);
   return taskId;
 };

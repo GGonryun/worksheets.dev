@@ -39,6 +39,8 @@ import { Next, NextDefinition } from '../instructions/next';
 import { MemorySerializer } from './memory';
 import { ChainSerializers } from './chain';
 import { Jump, JumpDefinition } from '../instructions/jump';
+import { Delay, DelayDefinition } from '../instructions/delay';
+import { Wait, WaitDefinition } from '../instructions/wait';
 
 // TODO: we'll need to refactor all our instructions at some point, not sure how just yet.
 // the problem is that a lot of their data is spread out between framework, the individual instructions, and now the serializer for those instructions
@@ -161,7 +163,12 @@ export class InstructionSerializer
     if (serialized.type === 'try') {
       return new Try(serialized.definition as TryDefinition);
     }
-
+    if (serialized.type === 'delay') {
+      return new Delay(serialized.definition as DelayDefinition);
+    }
+    if (serialized.type === 'wait') {
+      return new Wait(serialized.definition as WaitDefinition);
+    }
     console.error('encountered unrecognized instruction', serialized);
     throw new SerializerFailure({
       code: 'unrecognized-instruction',
