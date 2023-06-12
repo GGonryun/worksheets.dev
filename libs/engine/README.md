@@ -59,6 +59,17 @@ steps:
       steps:
           ...
 
+  # save a task for later processing
+  - jump: halt
+
+  # save and log data
+  - log:
+      level: trace | debug | info | warn | error | fatal
+      message: string message of text
+      data: # unstructured data gets saved as json object.
+        anything: ${goes}
+  - log: syntax shortcut for a logging specific messages.
+
 return:
   - param_i: "assigning this text as a value"
   - param_h: ${param_g} # reference outputs

@@ -1,5 +1,5 @@
 import { Stack, Heap } from '@worksheets/util/data-structures';
-import { Execution, ExecutionFailure } from '..';
+import { Controller, Execution, ExecutionFailure, Logger } from '..';
 import { Compiler, YAMLCompiler } from './compiler';
 import { Register, Instruction } from './framework';
 import { Init } from './instructions';
@@ -9,6 +9,8 @@ import { ExecutionSerializer, Serializer, Snapshot } from './serializer';
 // The runtime can also decide which library we want to run, we can swap it out in the runtime we need to.
 export type FactoryOptions = {
   library: Library;
+  controller: Controller;
+  logger: Logger;
 };
 
 export type CreationOptions = {
@@ -17,15 +19,15 @@ export type CreationOptions = {
 };
 
 export class ExecutionFactory implements Serializer<Execution, Snapshot> {
-  public readonly compiler: Compiler;
-  public readonly library: Library;
-  public readonly serializer: Serializer<Execution, Snapshot>;
+  private readonly opts: FactoryOptions;
+  private readonly compiler: Compiler;
+  private readonly serializer: Serializer<Execution, Snapshot>;
   public readonly memory: Heap;
 
-  constructor({ library }: FactoryOptions) {
+  constructor(opts: FactoryOptions) {
     this.compiler = new YAMLCompiler();
-    this.library = library;
-    this.serializer = new ExecutionSerializer(library);
+    this.opts = opts;
+    this.serializer = new ExecutionSerializer(opts);
     this.memory = new Heap();
   }
 
@@ -34,7 +36,6 @@ export class ExecutionFactory implements Serializer<Execution, Snapshot> {
     const instructions = new Stack<Instruction>();
     const memory = this.memory.clone();
 
-    register.yaml = text;
     if (input) {
       register.input = input;
     }
@@ -53,8 +54,8 @@ export class ExecutionFactory implements Serializer<Execution, Snapshot> {
     instructions.push(new Init(def));
 
     return new Execution({
+      ...this.opts,
       register,
-      library: this.library,
       instructions,
       memory,
     });

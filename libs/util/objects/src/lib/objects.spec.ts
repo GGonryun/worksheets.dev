@@ -1,4 +1,4 @@
-import { applyFunctionToKeys } from './objects';
+import { applyFunctionToKeys, removeUndefinedProperties } from './objects';
 describe('applyFunctionToKeys', () => {
   test('Calling a function on each key and returning a new object', () => {
     const obj: Record<string, number> = { a: 1, b: 2, c: 3 };
@@ -44,5 +44,24 @@ describe('applyFunctionToKeys', () => {
     expect(clonedObj).toEqual({});
     expect(counter).toBe(0);
     expect(clonedObj).not.toBe(obj);
+  });
+});
+
+describe('removeUndefinedProperties', () => {
+  it('should remove undefined properties from an object', () => {
+    const obj = {
+      a: 1,
+      b: undefined,
+      c: 3,
+      d: undefined,
+    };
+    expect(removeUndefinedProperties(obj)).toEqual({
+      a: 1,
+      c: 3,
+    });
+  });
+  it('should handle empty objects', () => {
+    const obj = {};
+    expect(removeUndefinedProperties(obj)).toEqual({});
   });
 });

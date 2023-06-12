@@ -9,7 +9,12 @@ const DynamicCodeEditor = dynamic(() => import('./ace-editor'), {
   ssr: false,
 });
 
-export const CodeEditor: FC = () => {
+export type CodeEditorProps = {
+  text: string;
+  setText: (text: string) => void;
+};
+
+export const CodeEditor: FC<CodeEditorProps> = ({ text, setText }) => {
   const router = useRouter();
   const worksheetId = router.query.worksheet as string;
   const { user } = useUser();
@@ -22,13 +27,11 @@ export const CodeEditor: FC = () => {
     Boolean(worksheetId)
   );
 
-  const [text, setText] = useState<string>('');
-
   useEffect(() => {
     if (data) {
       setText(data.text);
     }
-  }, [data]);
+  }, [setText, data]);
 
   return (
     <Box

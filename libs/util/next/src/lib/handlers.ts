@@ -191,6 +191,7 @@ export type HandlerFailures =
   | 'operation-failure'
   | 'resource-exhausted'
   | 'not-found'
+  | 'bad-request'
   | 'invalid-argument'
   | 'unsupported-operation'
   | 'conflict'
@@ -198,6 +199,7 @@ export type HandlerFailures =
 
 export const handlerFailureStatusCodeMap: Record<HandlerFailures, number> = {
   unknown: StatusCodes.IM_A_TEAPOT,
+  'bad-request': StatusCodes.BAD_REQUEST,
   unexpected: StatusCodes.INTERNAL_SERVER_ERROR,
   unauthorized: StatusCodes.UNAUTHORIZED,
   'operation-failure': StatusCodes.INTERNAL_SERVER_ERROR,

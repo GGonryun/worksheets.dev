@@ -3,8 +3,11 @@ import { when } from 'jest-when';
 import { MethodCallFailure } from '@worksheets/apps/framework';
 import { StatusCodes } from 'http-status-codes';
 import { Register } from './framework';
-import { JestApplicationLibrary, Mock } from './test-utils.spec';
-import { ExecutionFactory } from '..';
+import {
+  InMemoryLogger,
+  Mock,
+  newTestExecutionFactory,
+} from './test-utils.spec';
 
 const CONSTANT_NOW = 1684563401;
 
@@ -136,8 +139,7 @@ describe('worksheets', () => {
 
     testCases.forEach(async ({ name, yaml, input, expectation }) => {
       it(name, async () => {
-        const library = new JestApplicationLibrary();
-        const factory = new ExecutionFactory({ library });
+        const { factory } = newTestExecutionFactory();
         const exe = await factory.create({ text: yaml, input });
         const result = await exe.process();
         expect(result.output).toEqual(expectation);
@@ -1236,9 +1238,8 @@ describe('worksheets', () => {
     testCases.forEach(async ({ name, yaml, input, arrange, assert }) => {
       it(name, async () => {
         const mock = jest.fn();
-        const library = new JestApplicationLibrary({ call: mock });
         arrange && arrange(mock);
-        const factory = new ExecutionFactory({ library });
+        const { factory } = newTestExecutionFactory(mock);
         const exe = await factory.create({ text: yaml, input });
         const result = await exe.process();
         assert && assert(result, mock);
@@ -1268,7 +1269,7 @@ describe('worksheets', () => {
           - call: read
         `,
         assert(m, e) {
-          expect(e.ctx.register.halt).toEqual(true);
+          expect(e.ctx.controller.isCancelled()).toEqual(true);
           expect(e.ctx.instructions.size()).toEqual(2);
           expect(m).toBeCalledTimes(1);
         },
@@ -1278,16 +1279,82 @@ describe('worksheets', () => {
     testCases.forEach(async ({ name, yaml, input, arrange, assert }) => {
       it(name, async () => {
         const mock = jest.fn();
-        const library = new JestApplicationLibrary({ call: mock });
         arrange && arrange(mock);
-        const factory = new ExecutionFactory({ library });
+        const { factory } = newTestExecutionFactory(mock);
         const exe = await factory.create({ text: yaml, input });
         await exe.process();
         assert && assert(mock, exe);
       });
     });
   });
-  // describe('failure cases', () => {});
+
+  describe('logging', () => {
+    type TestCases = {
+      name: string;
+      yaml: string;
+      input?: unknown;
+      arrange?: (mock: Mock) => void;
+      assert: (logger: InMemoryLogger) => void;
+    };
+
+    const testCases: TestCases[] = [
+      {
+        name: 'basic syntax for log',
+        yaml: `
+        assign:
+          - name: abc
+        steps:
+          - log:
+              level: info
+              message: hello
+              data: \${name}
+        `,
+        assert(l) {
+          const log = l.findLog('info', 'hello');
+          expect(log).toBeTruthy();
+          expect(log?.data).toEqual('abc');
+        },
+      },
+      {
+        name: 'shortcut syntax for log defaults to info level and sets content as message',
+        yaml: `
+        assign:
+          - name: abc
+        steps:
+          - log: \${name}
+        `,
+        assert(l) {
+          expect(l.findLog('info', 'abc')).toBeTruthy();
+        },
+      },
+      {
+        name: 'saves log message from previous steps',
+        yaml: `
+        steps:
+          - call: sample
+            output: sample
+          - log: \${sample}
+        `,
+        arrange(m) {
+          when(m).calledWith('sample', undefined).mockReturnValue('hello');
+        },
+        assert(l) {
+          expect(l.findLog('info', 'hello')).toBeTruthy();
+        },
+      },
+    ];
+
+    testCases.forEach(async ({ name, yaml, input, arrange, assert }) => {
+      it(name, async () => {
+        const mock = jest.fn();
+        arrange && arrange(mock);
+        const { factory, logger } = newTestExecutionFactory(mock);
+        const exe = await factory.create({ text: yaml, input });
+        await exe.process();
+        assert && assert(logger);
+      });
+    });
+  });
 });
 
 // const testCases: TestCases[] = [

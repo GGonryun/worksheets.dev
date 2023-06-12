@@ -29,7 +29,7 @@ export class Init implements Instruction {
         message: `cannot execute an empty worksheet`,
       });
     }
-    const { name, version, return: r, params, assign, steps } = this.definition;
+    const { return: r, params, assign, steps } = this.definition;
     if (!r && !steps && !assign && !params) {
       throw new ExecutionFailure({
         code: 'invalid-instruction',
@@ -37,12 +37,6 @@ export class Init implements Instruction {
       });
     }
 
-    if (name) {
-      ctx.register.name = name;
-    }
-    if (version) {
-      ctx.register.version = version;
-    }
     if (r) {
       ctx.instructions.push(new Return(r));
     }

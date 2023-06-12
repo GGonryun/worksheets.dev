@@ -1,6 +1,8 @@
 import { Heap, Stack } from '@worksheets/util/data-structures';
 import { ScriptEvaluator } from './evaluator';
 import { Library, MethodCallFailure } from '@worksheets/apps/framework';
+import { Controller } from './controller';
+import { Logger } from './logger';
 
 export type Address = string;
 
@@ -28,13 +30,9 @@ export function isInstruction(definition: unknown): definition is Instruction {
  * The Register contains named parameters known ahead of time and shared by all instructions.
  */
 export class Register {
-  public name?: string;
-  public yaml?: string;
-  public version?: number;
   public failure?: MethodCallFailure;
   public output: unknown;
   public input: unknown;
-  public halt = false;
 }
 
 /**
@@ -46,12 +44,24 @@ export class Context {
   public readonly instructions: Stack<Instruction>;
   public readonly scripts: ScriptEvaluator;
   public readonly library: Library;
+  public readonly controller: Controller;
+  public readonly logger: Logger;
 
-  constructor({ memory, register, instructions, scripts, library }: Context) {
+  constructor({
+    memory,
+    register,
+    instructions,
+    scripts,
+    library,
+    controller,
+    logger,
+  }: Context) {
     this.memory = memory;
     this.register = register;
     this.instructions = instructions;
     this.scripts = scripts;
     this.library = library;
+    this.controller = controller;
+    this.logger = logger;
   }
 }

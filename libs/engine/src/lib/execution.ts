@@ -1,18 +1,20 @@
 import { Library } from '@worksheets/apps/framework';
 import { Heap, Stack } from '@worksheets/util/data-structures';
-import { Compiler, YAMLCompiler } from './compiler';
 import { Engine } from './engine';
 import { ScriptEvaluator, ScriptsApplicationBridge } from './evaluator';
 import { ExecutionFailure } from './failures';
 import { Context, Instruction, Register } from './framework';
-import { Failure } from '@worksheets/util/errors';
 import { z } from 'zod';
+import { Logger } from './logger';
+import { Controller } from './controller';
 
 export type ExecutionOptions = {
-  memory?: Heap;
-  register?: Register;
-  instructions?: Stack<Instruction>;
+  memory: Heap;
+  register: Register;
+  instructions: Stack<Instruction>;
   library: Library;
+  logger: Logger;
+  controller: Controller;
 };
 
 export const executionDimensionsSchema = z.object({
@@ -27,17 +29,16 @@ export type ExecutionDimensions = z.infer<typeof executionDimensionsSchema>;
 export class Execution {
   public readonly ctx: Context;
   public readonly engine: Engine;
-  public readonly history: Stack<Instruction>;
-  public readonly compiler: Compiler;
+
+  // if i took in a controller as a parameter, i can bind the controller to the execution. here i can have a reference to the controller and i can call the controller to stop the execution.
 
   constructor(opts: ExecutionOptions) {
-    this.history = new Stack();
-    this.compiler = new YAMLCompiler();
-
     const library = opts.library;
-    const register = opts.register ?? new Register();
-    const instructions = opts.instructions ?? new Stack<Instruction>();
-    const memory = opts.memory ?? new Heap();
+    const register = opts.register;
+    const instructions = opts.instructions;
+    const memory = opts.memory;
+    const logger = opts.logger;
+    const controller = opts.controller;
 
     const scripts = new ScriptEvaluator(
       memory,
@@ -50,34 +51,33 @@ export class Execution {
       instructions,
       scripts,
       library,
+      logger,
+      controller,
     });
 
     this.engine = new Engine(this.ctx);
   }
 
-  async process(opts?: { force?: boolean }) {
-    if (opts?.force) {
-      this.ctx.register.halt = false;
-    }
-
-    let instruction: Instruction | undefined;
-    while (!this.ctx.register.halt && this.engine.hasNext()) {
+  async process() {
+    const { controller, logger, register } = this.ctx;
+    await logger.info(`Starting execution`);
+    while (!controller.isCancelled() && this.engine.hasNext()) {
       try {
-        instruction = await this.engine.iterate();
+        await this.engine.iterate();
       } catch (error) {
-        if (error instanceof Failure) throw error;
-        throw new ExecutionFailure({
-          code: 'internal-error',
-          message: 'failed to iterate engine steps',
-          cause: error,
-        });
-      }
-
-      if (instruction) {
-        this.history.push(instruction);
+        const message = `Failed to iterate engine steps`;
+        logger.error(message, error);
+        controller.cancel(
+          new ExecutionFailure({
+            code: 'internal-error',
+            message,
+            cause: error,
+          })
+        );
+        return register;
       }
     }
 
-    return this.ctx.register;
+    return register;
   }
 }
