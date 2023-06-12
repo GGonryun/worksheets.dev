@@ -10,9 +10,11 @@ export const executionFailureCodeSchema = z.union([
   l('invalid-definition'),
   l('invalid-precondition'),
   l('invalid-syntax'),
+  l('invalid-operation'),
   l('invalid-instruction'),
   l('unhandled-failure'),
   l('internal-error'),
+  l('cancelled'),
 ]);
 export type ExecutionFailureCode = z.infer<typeof executionFailureCodeSchema>;
 

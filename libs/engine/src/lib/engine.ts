@@ -1,49 +1,57 @@
 import { MethodCallFailure } from '@worksheets/apps/framework';
 import { Context, Instruction } from './framework';
 import { Catch } from './instructions/catch';
+import { ExecutionFailure } from './failures';
 
 export class Engine {
-  private readonly context: Context;
-  constructor(ctx: Context) {
-    this.context = ctx;
-  }
+  constructor(private readonly ctx: Context) {}
 
   async iterate(): Promise<Instruction | undefined> {
-    const instruction = this.context.instructions.pop();
+    const ctx = this.ctx;
+
+    const instruction = ctx.instructions.pop();
     if (!instruction) {
       return; // done
     }
 
-    if (this.cannotCatchError(instruction)) {
+    if (this.cannotHandleFailure(instruction)) {
       return instruction;
     }
 
     try {
-      await instruction.process(this.context);
+      await instruction.process(ctx);
     } catch (error) {
       if (error instanceof MethodCallFailure) {
-        this.context.register.failure = error;
-        return instruction;
+        // handlable errors get moved into the register for the next instruction to handle because the controller would terminate the entire execution.
+        ctx.register.failure = error;
+      } else {
+        const message = `Failed to process instruction`;
+        ctx.logger.error(message, { raw: JSON.stringify(error) });
+        ctx.controller.cancel(
+          new ExecutionFailure({
+            code: 'internal-error',
+            message,
+            cause: error,
+          })
+        );
       }
-
-      throw error;
     }
     return instruction;
   }
 
-  private cannotCatchError(instruction: Instruction) {
-    return this.hasError() && !(instruction instanceof Catch);
+  private cannotHandleFailure(instruction: Instruction) {
+    return this.hasProcessableFailure() && !(instruction instanceof Catch);
   }
 
-  hasError(): boolean {
-    return Boolean(this.context.register.failure);
+  hasProcessableFailure(): boolean {
+    return Boolean(this.ctx.register.failure);
   }
 
   hasNext(): boolean {
-    return Boolean(this.context.instructions.peek());
+    return Boolean(this.ctx.instructions.peek());
   }
 
   peek(): Instruction | undefined {
-    return this.context.instructions.peek();
+    return this.ctx.instructions.peek();
   }
 }

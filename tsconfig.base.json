@@ -55,9 +55,6 @@
         "libs/data-access/worksheets/src/index.ts"
       ],
       "@worksheets/engine": ["libs/engine/src/index.ts"],
-      "@worksheets/feat/execute-worksheet": [
-        "libs/feat/execute-worksheet/src/index.ts"
-      ],
       "@worksheets/feat/execution-settings": [
         "libs/feat/execution-settings/src/index.ts"
       ],

@@ -5,7 +5,7 @@ import {
   newTaskSnapshotsDatabase,
   newTasksDatabase,
 } from '@worksheets/data-access/tasks';
-import { ExecutionFactory } from '@worksheets/engine';
+import { Controller, ExecutionFactory } from '@worksheets/engine';
 import { newEmptyLibrary } from '@worksheets/feat/execution-settings';
 import { getWorksheet } from '@worksheets/feat/worksheets-management';
 import { HandlerFailure } from '@worksheets/util/next';
@@ -56,12 +56,15 @@ export const createTask = async (
     updatedAt: Date.now(),
     retries: 0,
   });
+  // create a new logger for the task
+  const logger = new TaskLogger({ db: loggingDb, task });
+  // neither the library nor the controller serve any purpose during serialization
+  const library = newEmptyLibrary();
+  const controller = new Controller();
+  // create a new execution factory
+  const factory = new ExecutionFactory({ library, controller, logger });
   // TODO: check to see if the user has sufficient resources to perform request
   const worksheet = await getWorksheet(worksheetId);
-  // the library serves no purpose here. it is only used to create an execution factory which is used to create an execution which is used to create a snapshot. the snapshot is what is used to execute the task.
-  const library = newEmptyLibrary();
-  // create a new execution factory
-  const factory = new ExecutionFactory({ library });
   // use the factory to create a new execution. and provide it inputs
   const execution = await factory.create({ text: worksheet.text, input });
   // use the factory to serialize that execution so we can execute it later.
@@ -71,8 +74,15 @@ export const createTask = async (
     ...serialized,
     id: taskId,
   });
-  // create a new logger for the task
-  const logger = new TaskLogger({ db: loggingDb, taskId });
+
+  // throw an error if worksheet has no text set
+  if (!worksheet.text) {
+    throw new HandlerFailure({
+      code: 'bad-request',
+      message: 'Worksheet has no text',
+      data: { worksheetId },
+    });
+  }
   // save a logging statement
   logger.trace('Task queued for execution');
   // update the task db to reflect the new state.
@@ -85,5 +95,6 @@ export const createTask = async (
   // send a pubsub message to the queue to start the task.
   await processorBus.publish({ taskId });
 
+  console.info(`Task ${taskId} queued for execution`);
   return taskId;
 };

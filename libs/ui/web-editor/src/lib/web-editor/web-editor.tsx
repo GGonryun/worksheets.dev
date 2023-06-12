@@ -83,7 +83,7 @@ export function WebEditor() {
             onExecute={handleExecute}
             onSave={handleSave}
           />
-          <CodeEditor />
+          <CodeEditor text={text} setText={setText} />
         </Box>
       </Box>
     </Container>

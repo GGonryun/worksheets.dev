@@ -48,10 +48,12 @@ const taskSnapshotEntity = z.object({
 
 // create a service level agreement for a task
 const taskDeadlines = z.object({
-  ['max-task-lifetime']: z
+  ['task-expiration']: z
     .number()
     .default(() => addMinutesToCurrentTime(2).getTime())
-    .describe('maximum time a worksheet can be active for'),
+    .describe(
+      'maximum time a worksheet can be active for, tasks will expire after this date'
+    ),
   ['method-call-timeout']: z
     .number()
     .default(5)

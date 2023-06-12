@@ -9,6 +9,7 @@ import { If, IfDefinition } from './if';
 import { For, ForDefinition } from './for';
 import { Try, TryDefinition } from './try';
 import { Jump, JumpDefinition } from './jump';
+import { Log, LogDefinition } from './log';
 
 export type StepsDefinition = Definition[];
 
@@ -55,8 +56,11 @@ export class Steps implements Instruction {
       if (isDefinition<TryDefinition>(step, 'try')) {
         instruction = new Try(step);
       }
-      if (isDefinition<{ jump: JumpDefinition }>(step, 'jump')) {
-        instruction = new Jump(step.jump);
+      if (isDefinition<JumpDefinition>(step, 'jump')) {
+        instruction = new Jump(step);
+      }
+      if (isDefinition<LogDefinition>(step, 'log')) {
+        instruction = new Log(step);
       }
       if (!instruction) {
         throw new ExecutionFailure({
