@@ -18,8 +18,6 @@ const snapshotsDb = newTaskSnapshotsDatabase();
  * @throws {HandlerFailure} if the task could not be cancelled
  */
 export const cancelTask = async (taskId: string): Promise<void> => {
-  // create a new logger
-  const logger = new TaskLogger({ taskId, db: loggingDb });
   // check to make sure the task exists
   if (!(await taskDb.has(taskId))) {
     throw new HandlerFailure({
@@ -30,6 +28,8 @@ export const cancelTask = async (taskId: string): Promise<void> => {
   }
   // get the task from the database
   const task = await taskDb.get(taskId);
+  // create a new logger
+  const logger = new TaskLogger({ task, db: loggingDb });
   // and log that we are cancelling the task
   await logger.info('Cancelling task');
   // update the task status to cancelled

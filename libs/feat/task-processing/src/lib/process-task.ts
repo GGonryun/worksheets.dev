@@ -17,8 +17,9 @@ import {
   isTaskProcessible,
   isTaskExpired,
   isTaskRequeueLimitReached,
-  didExecutionHalt,
+  isExecutionCancelled,
   didExecutionFail,
+  newTaskController,
 } from './util';
 
 const taskDb = newTasksDatabase();
@@ -53,7 +54,7 @@ export const processTask = async (taskId: string): Promise<TaskState> => {
   const task = await taskDb.get(taskId);
 
   // create a new logger
-  const logger = new TaskLogger({ db: loggingDb, taskId });
+  const logger = new TaskLogger({ db: loggingDb, task });
 
   // check if the task is in a processible state
   if (!isTaskProcessible(task)) {
@@ -68,7 +69,7 @@ export const processTask = async (taskId: string): Promise<TaskState> => {
   }
 
   // start processing task
-  await logger.info('Processing task');
+  await logger.info('Task picked up by processor');
   await taskDb.update({
     ...task,
     state: 'running',
@@ -109,27 +110,33 @@ export const processTask = async (taskId: string): Promise<TaskState> => {
   const worksheet = await worksheetsdb.get(task.worksheetId);
   // create a new library that uses the user id from the worksheet
   const library = newPrivateLibrary(worksheet.uid);
+  // create a new task controller
+  const { controller, startController } = newTaskController(task);
   // TODO: pass in the logger to the execution factory
-  const factory = new ExecutionFactory({ library });
+  const factory = new ExecutionFactory({
+    library,
+    controller,
+    logger,
+  });
   // create a new execution from the snapshot
   const execution = factory.deserialize(snapshot);
+
   // process the execution
+  startController();
   const result = await execution.process();
-  // check if the execution completed
-  if (didExecutionHalt(result)) {
+
+  if (didExecutionFail(controller, result)) {
+    const failure = result.failure?.toSimple();
+    // if the execution failed, log that it failed
+    await logger.error('Execution failed', { failure });
+    // complete the task with a failure.
+    return await completeTask(task, 'failed', failure);
+  } else if (isExecutionCancelled(controller)) {
     // if the execution halted, log that it halted
     await logger.info('Execution halted');
     // serialize the execution snapshot
     const snapshot = factory.serialize(execution);
     return await requeueTask(task, snapshot);
-  }
-  if (didExecutionFail(result)) {
-    // if the execution failed, log that it failed
-    await logger.error('Execution failed', {
-      failure: result.failure?.toSimple(),
-    });
-    // complete teh task with a failure.
-    return await completeTask(task, 'failed', result.failure?.toSimple());
   } else {
     // if the execution completed, log that it completed
     await logger.info('Execution completed');

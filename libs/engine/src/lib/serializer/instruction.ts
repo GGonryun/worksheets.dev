@@ -91,6 +91,7 @@ export class InstructionSerializer
   serialize(instruction: Instruction): SerializedInstruction {
     const payload = { ...instruction };
 
+    // TODO: more unit tests around restoration of heaps
     if (instruction instanceof RestoreHeap) {
       payload.definition = this.memory.serialize(instruction.definition);
     }

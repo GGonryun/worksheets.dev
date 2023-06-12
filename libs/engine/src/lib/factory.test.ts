@@ -1,8 +1,7 @@
 import { MethodCallFailure } from '@worksheets/apps/framework';
 import { StatusCodes } from 'http-status-codes';
 import { Execution } from './execution';
-import { ExecutionFactory } from './factory';
-import { Mock, JestApplicationLibrary } from './test-utils.spec';
+import { Mock, newTestExecutionFactory } from './test-utils.spec';
 import { when } from 'jest-when';
 
 describe('execution factory serialization through explicit halting', () => {
@@ -24,7 +23,7 @@ describe('execution factory serialization through explicit halting', () => {
         - call: read
         - call: read`,
       assert(m, e) {
-        expect(e.ctx.register.halt).toEqual(false);
+        expect(e.ctx.controller.isCancelled()).toEqual(false);
         expect(e.ctx.instructions.size()).toEqual(0);
         expect(m).toBeCalledTimes(3);
       },
@@ -163,20 +162,21 @@ describe('execution factory serialization through explicit halting', () => {
   testCases.forEach(async ({ name, yaml, input, arrange, assert }) => {
     it(name, async () => {
       const mock = jest.fn();
-      const library = new JestApplicationLibrary({ call: mock });
-      const factory = new ExecutionFactory({ library });
 
       arrange && arrange(mock);
 
+      const { factory, controller } = newTestExecutionFactory(mock);
+
       const exe = await factory.create({ text: yaml, input });
       await exe.process();
-      expect(exe.ctx.register.halt).toBeTruthy();
+      expect(exe.ctx.controller.isCancelled()).toBeTruthy();
       const serialized = factory.serialize(exe);
       /*
        * in real use-cases, something happens in between these two steps.
        */
+      controller.reset();
       const deserialized = factory.deserialize(serialized);
-      await deserialized.process({ force: true });
+      await deserialized.process();
       assert && assert(mock, deserialized);
     });
   });
@@ -193,7 +193,7 @@ describe('initializing and running serialized executions ', () => {
 
   const testCases: TestCases[] = [
     {
-      name: 'halts when instruction is seen in step',
+      name: 'still executes multiple calls',
       yaml: `
       steps:
         - call: read
@@ -204,7 +204,7 @@ describe('initializing and running serialized executions ', () => {
       },
     },
     {
-      name: 'serializes part way through a for loop',
+      name: 'still processes a loop',
       yaml: `
       assign:
         - list: ["a","b","c","d","e"]
@@ -235,9 +235,7 @@ describe('initializing and running serialized executions ', () => {
   testCases.forEach(async ({ name, yaml, input, arrange, assert }) => {
     it(name, async () => {
       const mock = jest.fn();
-      const library = new JestApplicationLibrary({ call: mock });
-      const factory = new ExecutionFactory({ library });
-
+      const { factory } = newTestExecutionFactory(mock);
       arrange && arrange(mock);
 
       const exe = await factory.create({ text: yaml, input });
@@ -246,7 +244,7 @@ describe('initializing and running serialized executions ', () => {
        * in real use-cases, we'll immediately serialize an execution before it gets picked up by a processor.
        */
       const deserialized = factory.deserialize(serialized);
-      await deserialized.process({ force: false }); // no need to force, we never halted to begin with.
+      await deserialized.process();
       assert && assert(mock, deserialized);
     });
   });

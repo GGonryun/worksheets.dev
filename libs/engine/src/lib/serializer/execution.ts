@@ -1,4 +1,3 @@
-import { Library } from '@worksheets/apps/framework';
 import { TaskSnapshotEntity } from '@worksheets/data-access/tasks';
 import { Execution } from '../execution';
 import { Serializer } from './serializer';
@@ -7,21 +6,26 @@ import { RegisterSerializer } from './register';
 import { InstructionsSerializer } from './instruction';
 import { Keys } from '@worksheets/util/types';
 import { Entity } from '@worksheets/firebase/firestore';
+import { FactoryOptions } from '../factory';
 
 export type Snapshot = Omit<
   TaskSnapshotEntity,
   Keys<Entity> | 'createdAt' | 'updatedAt'
 >;
 
+/**
+ * @remarks another construction method for executions
+ * @todo: notice how the initialization objects are passed down from the execution factory to the execution serializer to the execution.
+ */
 export class ExecutionSerializer implements Serializer<Execution, Snapshot> {
-  private readonly library: Library;
+  private readonly opts: FactoryOptions;
   private readonly serializers: {
     instructions: InstructionsSerializer;
     register: RegisterSerializer;
     memory: MemorySerializer;
   };
-  constructor(library: Library) {
-    this.library = library;
+  constructor(opts: FactoryOptions) {
+    this.opts = opts;
     this.serializers = {
       instructions: new InstructionsSerializer(),
       register: new RegisterSerializer(),
@@ -46,7 +50,7 @@ export class ExecutionSerializer implements Serializer<Execution, Snapshot> {
       instructions: instructions.deserialize(data.instructions),
       register: register.deserialize(data.register),
       memory: memory.deserialize(data.memory),
-      library: this.library,
+      ...this.opts,
     });
   }
 }

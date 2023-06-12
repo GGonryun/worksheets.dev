@@ -1,7 +1,7 @@
 import { ExecutionFailure } from '../failures';
 import { Context, Instruction } from '../framework';
 
-export type JumpDefinition = 'halt';
+export type JumpDefinition = { jump: 'halt' };
 export class Jump implements Instruction {
   readonly type = 'jump';
   readonly definition: JumpDefinition;
@@ -9,9 +9,15 @@ export class Jump implements Instruction {
     this.definition = def;
   }
   async process(ctx: Context): Promise<void> {
-    const { register } = ctx;
-    if (this.definition === 'halt') {
-      register.halt = true;
+    const { controller } = ctx;
+    if (this.definition.jump === 'halt') {
+      controller.cancel(
+        new ExecutionFailure({
+          code: 'cancelled',
+          message: 'halted by jump instruction',
+        })
+      );
+
       return;
     }
 

@@ -24,14 +24,18 @@ export function expireAfter({
   return Date.now() + offset;
 }
 
-export function addMinutesToCurrentTime(minutes: number): Date {
-  const currentTime: Date = new Date();
+export function addMinutesToCurrentTime(
+  minutes: number,
+  currentTime = new Date()
+): Date {
   const newTime: Date = new Date(currentTime.getTime() + minutes * 60000);
   return newTime;
 }
 
-export function addSecondsToCurrentTime(seconds: number): Date {
-  const currentTime = new Date();
+export function addSecondsToCurrentTime(
+  seconds: number,
+  currentTime = new Date()
+): Date {
   const newTime = new Date(currentTime.getTime() + seconds * 1000);
   return newTime;
 }
