@@ -1,4 +1,8 @@
-import { addMinutesToCurrentTime, addSecondsToCurrentTime } from './time';
+import {
+  addMinutesToCurrentTime,
+  addSecondsToCurrentTime,
+  waitFor,
+} from './time';
 
 describe('addMinutesToCurrentTime', () => {
   test('should add 0 minutes to the current time', () => {
@@ -85,5 +89,16 @@ describe('addSecondsToCurrentTime', () => {
       currentTime.getTime() + secondsToSubtract * 1000
     );
     expect(updatedTime.getTime()).toBe(expectedTime.getTime());
+  });
+});
+
+describe('waitFor', () => {
+  it('delays for the specified amount of time', async () => {
+    const waitTime = 1000;
+    const startTime = new Date().getTime();
+    await waitFor(waitTime);
+    const endTime = new Date().getTime();
+    const timeDifference = endTime - startTime;
+    expect(timeDifference).toBeGreaterThanOrEqual(waitTime);
   });
 });
