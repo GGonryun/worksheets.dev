@@ -39,3 +39,13 @@ export function addSecondsToCurrentTime(
   const newTime = new Date(currentTime.getTime() + seconds * 1000);
   return newTime;
 }
+
+/**
+ * @name waitFor
+ * @definition used to wait for a specified amount of time before continuing execution, calculated in milliseconds.
+ * @params {number} wait - the amount of time to wait in milliseconds.
+ * @returns {Promise<void>} a promise that resolves when the wait is complete.
+ */
+export const waitFor = (wait: number): Promise<void> => {
+  return new Promise((resolve) => setTimeout(resolve, wait));
+};
