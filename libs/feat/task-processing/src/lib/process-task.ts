@@ -3,6 +3,7 @@ import {
   TaskEntity,
   TaskProcessableState,
   TaskState,
+  newProcessTaskBus,
   newTaskCompleteBus,
   newTaskLoggingDatabase,
   newTaskSnapshotsDatabase,
@@ -27,6 +28,7 @@ const snapshotsDb = newTaskSnapshotsDatabase();
 const loggingDb = newTaskLoggingDatabase();
 const completeBus = newTaskCompleteBus();
 const worksheetsdb = newWorksheetsDatabase();
+const processorBus = newProcessTaskBus();
 
 /**
  * @description process task takes in a task id and executes the task. a task may contain a partially processed execution in which case we will restart that execution and complete it. otherwise if the task is not in a processable state, it will return an error. if we are able to complete a task we will return the task's new state.
@@ -72,6 +74,7 @@ export const processTask = async (taskId: string): Promise<TaskState> => {
   await logger.info('Task picked up by processor');
   await taskDb.update({
     ...task,
+    retries: task.retries + 1,
     state: 'running',
     updatedAt: Date.now(),
   });
@@ -193,6 +196,8 @@ export const requeueTask = async (
     ...snapshot,
     id: task.id,
   });
+  // tell processor bus to pickup task again
+  await processorBus.publish({ taskId: task.id });
 
   return 'queued';
 };
