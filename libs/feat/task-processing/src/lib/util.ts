@@ -33,7 +33,7 @@ export function newDefaultDeadlines(): TaskDeadlines {
     'task-expiration': addMinutesToCurrentTime(10).getTime(),
     'max-processor-runtime': 30 * 1000, // seconds
     'method-call-timeout': 10 * 1000, // seconds
-    'task-requeue-limit': 10 * 1000, // seconds
+    'task-requeue-limit': 20, // times
   };
 }
 

@@ -68,7 +68,11 @@ steps:
       message: string message of text
       data: # unstructured data gets saved as json object.
         anything: ${goes}
-  - log: syntax shortcut for a logging specific messages.
+  # shortcut syntax
+  - log: save strings as info level logs
+
+  # delay execution for up to 5 minutes per instruction.
+  - wait: 500 # milliseconds
 
 return:
   - param_i: "assigning this text as a value"
@@ -141,6 +145,18 @@ Takes data from the heap and places it in the registries output position and pop
 ### Jump
 
 Jump to a named step during execution. Currently only accepts 'halt' operations.
+
+### Log
+
+Saves data to using the task's logger to the execution console.
+
+### Wait
+
+Delays execution until the duration is complete. (milliseconds)
+
+### Delay
+
+The Delay instruction is used in conjunction with the "wait" instruction to help pause until the set timestamp has expired. The delay instruction will place short pauses on the engine's stac
 
 ### Parallel For
 

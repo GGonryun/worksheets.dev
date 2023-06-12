@@ -1355,6 +1355,56 @@ describe('worksheets', () => {
       });
     });
   });
+
+  // describe('retry', () => {});
+
+  describe('wait', () => {
+    it('basic syntax for wait', async () => {
+      const yaml = `
+        steps:
+          - wait: 500
+        `;
+
+      const { factory } = newTestExecutionFactory();
+      const exe = await factory.create({ text: yaml });
+      // record start time
+      const start = Date.now();
+      await exe.process();
+      // record end time
+      const end = Date.now();
+      // at least 500 milliseconds should have passed
+      expect(end - start).toBeGreaterThanOrEqual(500);
+    });
+    it('throws an error if we wait for a negative amount of time', async () => {
+      const yaml = `
+      steps:
+        - wait: -500
+      `;
+
+      const { factory } = newTestExecutionFactory();
+      const exe = await factory.create({ text: yaml });
+      await exe.process();
+      expect(exe.ctx.controller.isCancelled()).toEqual(true);
+      expect(exe.ctx.controller.hasFailure()).toEqual(true);
+      expect(exe.ctx.controller.getFailure().message).toEqual(
+        `Failed to process instruction`
+      );
+    });
+    it('throws an error if the wait time exceeds 5 minutes', async () => {
+      const yaml = `
+      steps:
+        - wait: 300001
+      `;
+      const { factory } = newTestExecutionFactory();
+      const exe = await factory.create({ text: yaml });
+      await exe.process();
+      expect(exe.ctx.controller.isCancelled()).toEqual(true);
+      expect(exe.ctx.controller.hasFailure()).toEqual(true);
+      expect(exe.ctx.controller.getFailure().message).toEqual(
+        `Failed to process instruction`
+      );
+    });
+  });
 });
 
 // const testCases: TestCases[] = [
