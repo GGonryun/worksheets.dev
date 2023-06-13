@@ -2,6 +2,8 @@ import { MethodCallFailure } from '@worksheets/apps/framework';
 import { Context, Instruction } from './framework';
 import { Catch } from './instructions/catch';
 import { ExecutionFailure } from './failures';
+import { Retry } from './instructions/retry';
+import { Finally } from './instructions/finally';
 
 export class Engine {
   constructor(private readonly ctx: Context) {}
@@ -24,8 +26,12 @@ export class Engine {
       if (error instanceof MethodCallFailure) {
         // handlable errors get moved into the register for the next instruction to handle because the controller would terminate the entire execution.
         ctx.register.failure = error;
+      } else if (error instanceof ExecutionFailure) {
+        const message = 'Failed to execute instruction';
+        ctx.logger.error(message, { raw: JSON.stringify(error) });
+        ctx.controller.cancel(error);
       } else {
-        const message = `Failed to process instruction`;
+        const message = `Unknown failure occured in engine during execution`;
         ctx.logger.error(message, { raw: JSON.stringify(error) });
         ctx.controller.cancel(
           new ExecutionFailure({
@@ -40,7 +46,11 @@ export class Engine {
   }
 
   private cannotHandleFailure(instruction: Instruction) {
-    return this.hasProcessableFailure() && !(instruction instanceof Catch);
+    return (
+      this.hasProcessableFailure() &&
+      !(instruction instanceof Catch) &&
+      !(instruction instanceof Retry && !(instruction instanceof Finally))
+    );
   }
 
   hasProcessableFailure(): boolean {

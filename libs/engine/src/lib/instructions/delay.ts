@@ -1,6 +1,7 @@
-import { waitFor } from '@worksheets/util/time';
-import { Context, Instruction } from '../framework';
+import { convertMillisecondsToSeconds, waitFor } from '@worksheets/util/time';
 import { randomBetween } from '@worksheets/util/numbers';
+import { Context, Instruction } from '../framework';
+import { ExecutionFailure } from '../failures';
 
 export type DelayDefinition = number; // timestamp to delay until
 
@@ -12,14 +13,39 @@ export class Delay implements Instruction {
   }
 
   async process(ctx: Context): Promise<void> {
-    // check if the timestamp has passed
-    if (Date.now() < this.definition) {
-      // calculate the wait time offset
-      const wait = this.definition - Date.now();
-      // wait for 1~2 seconds or the offset whichever is smaller
-      await waitFor(Math.min(randomBetween(1000, 2000), wait));
+    const now = Date.now();
+    // check how much time is left
+    const duration = this.definition - now;
+
+    // check if duration is longer than 1 minute.
+    if (duration > 60 * 1000) {
+      // use a retry failure to delay the execution
+      ctx.controller.cancel(
+        new ExecutionFailure({
+          code: 'retry',
+          message: 'Task delay exceeded 1 minute',
+          data: {},
+          delay: this.definition,
+        })
+      );
+
       // push the delay instruction back onto the stack
       ctx.instructions.push(this);
+      return;
+    }
+
+    // check if the delay is still active
+    if (now < this.definition) {
+      // calculate the wait time offset
+      const offset = this.definition - Date.now();
+      const wait = Math.min(randomBetween(500, 5000), offset);
+      // wait for 1 seconds or the offset whichever is smaller
+      // log that we're gonna wait
+      ctx.logger.trace(`Waiting for ${convertMillisecondsToSeconds(offset)}s`);
+      await waitFor(wait);
+      // push the delay instruction back onto the stack
+      ctx.instructions.push(this);
+      return;
     }
   }
 }

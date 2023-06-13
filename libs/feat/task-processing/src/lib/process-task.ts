@@ -10,7 +10,12 @@ import {
   newTasksDatabase,
 } from '@worksheets/data-access/tasks';
 import { newWorksheetsDatabase } from '@worksheets/data-access/worksheets';
-import { ExecutionFactory, Snapshot } from '@worksheets/engine';
+import {
+  Controller,
+  ExecutionFactory,
+  ExecutionFailure,
+  Snapshot,
+} from '@worksheets/engine';
 import { newPrivateLibrary } from '@worksheets/feat/execution-settings';
 import { HandlerFailure } from '@worksheets/util/next';
 import {
@@ -18,10 +23,14 @@ import {
   isTaskProcessible,
   isTaskExpired,
   isTaskRequeueLimitReached,
-  isExecutionCancelled,
+  canExecutionBeRetried,
   didExecutionFail,
   newTaskController,
+  convertFailureToTaskState,
+  isTaskDelayed,
+  isWithinNearPollingLimit,
 } from './util';
+import { durationRemaining, printDuration } from '@worksheets/util/time';
 
 const taskDb = newTasksDatabase();
 const snapshotsDb = newTaskSnapshotsDatabase();
@@ -53,10 +62,18 @@ export const processTask = async (taskId: string): Promise<TaskState> => {
   }
 
   // get the task from the database
-  const task = await taskDb.get(taskId);
+  let task = await taskDb.get(taskId);
 
   // create a new logger
   const logger = new TaskLogger({ db: loggingDb, task });
+
+  // if task has a delay and the delay is longer than cron polling limit allow out of band scheduler to take over
+  if (isTaskDelayed(task) && !isWithinNearPollingLimit(task)) {
+    await logger.info(
+      `Task delayed. ${printDuration(durationRemaining(task.delay))}s remaining`
+    );
+    return 'queued';
+  }
 
   // check if the task is in a processible state
   if (!isTaskProcessible(task)) {
@@ -72,7 +89,7 @@ export const processTask = async (taskId: string): Promise<TaskState> => {
 
   // start processing task
   await logger.info('Task picked up by processor');
-  await taskDb.update({
+  task = await taskDb.update({
     ...task,
     retries: task.retries + 1,
     state: 'running',
@@ -128,23 +145,46 @@ export const processTask = async (taskId: string): Promise<TaskState> => {
   startController();
   const result = await execution.process();
 
-  if (didExecutionFail(controller, result)) {
-    const failure = result.failure?.toSimple();
+  if (didExecutionFail(controller)) {
+    const failure = controller.getFailure();
     // if the execution failed, log that it failed
     await logger.error('Execution failed', { failure });
     // complete the task with a failure.
-    return await completeTask(task, 'failed', failure);
-  } else if (isExecutionCancelled(controller)) {
-    // if the execution halted, log that it halted
-    await logger.info('Execution halted');
+    return await failTask(task, failure);
+  } else if (canExecutionBeRetried(controller)) {
+    // if the execution can be retried, log that it can be retried
+    await logger.info('Execution requires requeue');
     // serialize the execution snapshot
     const snapshot = factory.serialize(execution);
-    return await requeueTask(task, snapshot);
+    return await requeueTask(task, controller, snapshot);
   } else {
     // if the execution completed, log that it completed
     await logger.info('Execution completed');
     return await completeTask(task, 'done', result.output);
   }
+};
+
+/**
+ * @name failTask
+ * @description fails a task by updating the task state depending on the failure type
+ * @param {TaskEntity} task the task to fail
+ * @param {TaskFailure} failure the failure to set on the task
+ * @returns {Promise<TaskCompleteState>} a promise that resolves when the task has been completed with the new state
+ * @throws {HandlerFailure} if the failure type is not supported
+ */
+export const failTask = async (
+  task: TaskEntity,
+  failure?: ExecutionFailure
+): Promise<TaskCompleteState> => {
+  if (!failure) {
+    failure = new ExecutionFailure({
+      code: 'unknown',
+      message: 'Task failed without a failure object',
+      data: { taskId: task.id },
+    });
+  }
+  const newState = convertFailureToTaskState(failure);
+  return await completeTask(task, newState, failure.serialize());
 };
 
 /**
@@ -178,25 +218,35 @@ export const completeTask = async (
 /**
  * @name requeue
  * @description requeues a task by updating the task state to 'requeued' and updating the snapshot in memory
- * @param {TaskLogger} logger the logger to use
  * @param {TaskEntity} task the task to requeue
+ * @param {Controller} controller the failure determines whether or not to start processing again or delay for a period of time
  * @param {Snapshot} snapshot the snapshot to update
  * @returns {Promise<string>} a promise that resolves when the task has been requeued
  */
 export const requeueTask = async (
   task: TaskEntity,
+  controller: Controller,
   snapshot: Snapshot
 ): Promise<TaskProcessableState> => {
   const state = 'queued';
 
+  // get the delay from the controller failure
+  const failure = controller.getFailure();
+
   // update the task state in the database
-  await taskDb.update({ ...task, state, updatedAt: Date.now() });
+  await taskDb.update({
+    ...task,
+    state,
+    updatedAt: Date.now(),
+    delay: failure.delay,
+  });
+
   // update the snapshot state in the database
   await snapshotsDb.update({
     ...snapshot,
     id: task.id,
   });
-  // tell processor bus to pickup task again
+
   await processorBus.publish({ taskId: task.id });
 
   return 'queued';

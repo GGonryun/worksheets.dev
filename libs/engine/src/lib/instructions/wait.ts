@@ -27,12 +27,12 @@ export class Wait implements Instruction {
       });
     }
 
-    // cannot process a wait if the duration is longer than 5 minutes
-    if (this.definition.wait > 300000) {
+    // cannot process a wait if the duration is longer than an hour
+    if (this.definition.wait > 3600000) {
       // throws an execution failure
       throw new ExecutionFailure({
         code: 'invalid-instruction',
-        message: 'Wait duration cannot exceed 5 minutes',
+        message: 'Wait duration cannot exceed one hour',
       });
     }
 

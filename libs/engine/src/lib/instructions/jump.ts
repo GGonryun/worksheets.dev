@@ -13,7 +13,7 @@ export class Jump implements Instruction {
     if (this.definition.jump === 'halt') {
       controller.cancel(
         new ExecutionFailure({
-          code: 'cancelled',
+          code: 'retry',
           message: 'halted by jump instruction',
         })
       );

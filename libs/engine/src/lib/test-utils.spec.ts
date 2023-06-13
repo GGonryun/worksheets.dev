@@ -84,7 +84,7 @@ export class InMemoryLogger implements Logger {
   }
 }
 
-export function newTestExecutionFactory(mock: jest.Mock = jest.fn()) {
+export function newTestExecutionFactory(mock: jest.Mock) {
   const logger = new InMemoryLogger();
   const library = new JestApplicationLibrary({ call: mock });
   const controller = new Controller();
