@@ -55,6 +55,7 @@ export const createTask = async (
     createdAt: Date.now(),
     updatedAt: Date.now(),
     retries: 0,
+    delay: 0,
   });
   // create a new logger for the task
   const logger = new TaskLogger({ db: loggingDb, task });

@@ -78,6 +78,18 @@ export class Execution {
       }
     }
 
+    // if the register has an error pass it into the controller as an unhandled error
+    if (register.failure && !controller.isCancelled()) {
+      controller.cancel(
+        new ExecutionFailure({
+          code: 'unhandled-failure',
+          message: register.failure.message,
+          cause: register.failure,
+          data: { code: register.failure.code },
+        })
+      );
+    }
+
     return register;
   }
 }

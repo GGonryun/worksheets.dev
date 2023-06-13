@@ -86,6 +86,7 @@ export const taskCompleteStateEntity = z.union([
   z.literal('failed'),
   z.literal('expired'),
   z.literal('cancelled'),
+  z.literal('internal'),
 ]);
 export type TaskCompleteState = z.infer<typeof taskCompleteStateEntity>;
 
@@ -110,6 +111,8 @@ const taskEntity = z.object({
   updatedAt: z.number().default(Date.now()),
   // the number of processor jobs used to process this task
   retries: z.number().default(0),
+  // the timestamp to wait until before processing this task
+  delay: z.number().default(0),
   // the worksheet that started this task
   worksheetId: z.string(),
   // the raw text that started this task.
@@ -118,7 +121,7 @@ const taskEntity = z.object({
   deadlines: taskDeadlines,
   // possible states a task may end up in
   state: taskStateEntity,
-  // the output of this task (max 300KB)
+  // the output of this task (max 300KB) it can be data or a failure message.
   output: z.unknown().optional(),
   // the input of this task (max 300KB)
   input: z.unknown().optional(),

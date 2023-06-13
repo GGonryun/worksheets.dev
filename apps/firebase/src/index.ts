@@ -32,7 +32,7 @@ export const taskProcessor = functions.pubsub
 
 // the task process observer is a pubsub function that executes every 10 minutes and sends a request to the task reaper to check for tasks that have been running for too long.
 export const taskProcessObserver = functions.pubsub
-  .schedule('every 10 minutes')
+  .schedule('* * * * *')
   .onRun(async (context) => {
     // send the fetch request to the worksheets.dev task reaper endpoint
     const response = await fetcher(`/api/processor/reap`, {

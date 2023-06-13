@@ -59,6 +59,19 @@ steps:
       steps:
           ...
 
+  # retry operations (not compatible with catch/finally)
+  - try:
+      steps:
+          ...
+    retry:
+      # reference assigned error with ${error_name}
+      assign: e # defaults to 'error'
+      if: ${e.code === 429} # evaluate any expression
+      attempts: 5 # number of extra retries to perform
+      delay: ${5 * 1000} # starting delay in ms
+      limit: ${60 * 1000} # 60 seconds max delay in between retries
+      multiplier: 2 # every attempt double the starting delay.
+
   # save a task for later processing
   - jump: halt
 
@@ -69,7 +82,8 @@ steps:
       data: # unstructured data gets saved as json object.
         anything: ${goes}
   # shortcut syntax
-  - log: save strings as info level logs
+  - log: 400
+  - log: 429
 
   # delay execution for up to 5 minutes per instruction.
   - wait: 500 # milliseconds
@@ -122,6 +136,14 @@ React to failures in steps. Creates scope. When the try instruction executes it 
 
 Assigns the current registry error, if one exists, into a specified key in the heap and removes the error from the registry. If we pulled an error we also place the handlers set of instructions on the stack. otherwise we continue with the operation.
 
+### Finally
+
+A parameter of `try`, allows you to perform an action after a try-catch block. Catch must be specified.
+
+### Retry
+
+Used in conjunction with a `try` instruction to reattempt earlier steps if a failure is encountered. Incompatible with `catch` and `finally`.
+
 ### For
 
 Iterate over lists or maps. Creates scope. When the instruction is initialized we create 3 instructions, restore heap, loop, and clone heap.
@@ -152,11 +174,11 @@ Saves data to using the task's logger to the execution console.
 
 ### Wait
 
-Delays execution until the duration is complete. (milliseconds)
+Delays execution until the duration is complete calculates a timestamp from a millisecond input
 
 ### Delay
 
-The Delay instruction is used in conjunction with the "wait" instruction to help pause until the set timestamp has expired. The delay instruction will place short pauses on the engine's stac
+The Delay instruction is used in conjunction with the "wait" instruction to help pause until the set timestamp has expired. The delay instruction will place short pauses on the engine's stack.
 
 ### Parallel For
 

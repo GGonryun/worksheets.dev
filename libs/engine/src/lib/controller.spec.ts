@@ -1,19 +1,12 @@
-import { ExecutionFactory } from '..';
 import {
   AlarmController,
   CompositeController,
   Controller,
   HourglassController,
 } from './controller';
-import {
-  InMemoryLogger,
-  JestApplicationLibrary,
-  newTestExecutionFactory,
-} from './test-utils.spec';
+import { newTestExecutionFactory } from './test-utils.spec';
 
-// jest tests for the alarm controller
 describe('AlarmController', () => {
-  // alarm controller should cancel if the alarm time has passed
   it('should cancel if the alarm time has passed', () => {
     // create a new alarm controller with a 100ms alarm time
     const alarm = new AlarmController(Date.now() + 100);
@@ -111,8 +104,6 @@ describe('Controller in an Execution', () => {
     - call: world
   `;
   it('controllers can prevent execution processing', async () => {
-    // create a jest mock function that waits for 200ms before continuing
-    // const mock = jest.fn(() => new Promise((resolve) => setTimeout(resolve, 200)));
     const mock = jest.fn();
     const { factory, controller } = newTestExecutionFactory(mock);
 
@@ -124,7 +115,6 @@ describe('Controller in an Execution', () => {
   });
 
   it('using a controller will stop the execution if the controller is cancelled', async () => {
-    // create a jest mock function that waits for 200ms before continuing
     const mock = jest.fn(
       () => new Promise((resolve) => setTimeout(resolve, 200))
     );

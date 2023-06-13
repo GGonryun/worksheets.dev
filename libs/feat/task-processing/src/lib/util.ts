@@ -1,5 +1,6 @@
 import {
   LogLevel,
+  TaskCompleteState,
   TaskEntity,
   TaskLoggingDatabase,
   TasksDatabase,
@@ -11,14 +12,16 @@ import {
   ExecutionFailure,
   HourglassController,
   Logger,
-  Register,
 } from '@worksheets/engine';
 import { isDataVolumeTooLargeForFirestore } from '@worksheets/util/data-structures';
 import { addMinutesToCurrentTime } from '@worksheets/util/time';
 import { Maybe } from '@worksheets/util/types';
 import { cleanseObject } from '@worksheets/util/objects';
 import { TaskDeadlines } from '@worksheets/data-access/tasks';
+import { HandlerFailure } from '@worksheets/util/next';
 
+// we currently poll every 1 minute. any tasks that are delayed within 1 minute should be processed in band.
+const CRON_POLLING_FREQUENCY = 1;
 /**
  * @name newDefaultDeadlines
  * @description safelySaveTask saves a task to the database. if the task is too large to save, it will throw an error.
@@ -26,14 +29,14 @@ import { TaskDeadlines } from '@worksheets/data-access/tasks';
  * @remarks 10 minutes for global timeout
  * @remarks 30 seconds max processor runtime because vercel has a 60 second timeout, this should give us enough time to for pre-processing and post-processing
  * @remarks 10 seconds for method call timeout because we don't want to wait too long for a method to execute it could cause the entire execution to fail
- * @remarks 10 requeues to prevent infinite requeues
+ * @remarks 30 requeues to prevent infinite requeues
  */
 export function newDefaultDeadlines(): TaskDeadlines {
   return {
     'task-expiration': addMinutesToCurrentTime(10).getTime(),
     'max-processor-runtime': 30 * 1000, // seconds
     'method-call-timeout': 10 * 1000, // seconds
-    'task-requeue-limit': 20, // times
+    'task-requeue-limit': 30, // times
   };
 }
 
@@ -57,12 +60,18 @@ export const safelyGetTask = async (
 };
 
 /**
- * @name isExecutionCancelled
- * @description checks to see if an execution has been cancelled.
+ * @name canExecutionBeRetried
+ * @description an execution can be retried if it's cancelled with a retryable failure.
  * @returns {boolean} true if the execution has completed, otherwise false
  */
-export const isExecutionCancelled = (controller: Controller): boolean => {
-  return Boolean(controller.isCancelled());
+export const canExecutionBeRetried = (controller: Controller): boolean => {
+  // if the controller is not cancelled return false
+  if (!controller.isCancelled()) return false;
+  // get the failure and if it's undefined return false
+  const failure = controller.getFailure();
+  if (!failure) return false;
+  // check if the failure is retryable
+  return failure.isRetryable();
 };
 
 /**
@@ -195,23 +204,17 @@ export const isTaskExpired = (task: TaskEntity): boolean => {
  * @name didExecutionFail
  * @description checks the register of an execution to see if a failure has been set
  * @param {Controller} controller the controller to check
- * @param {Register} register the register to check
  * @returns {boolean} true if the register has a failure set, otherwise false
  */
-export const didExecutionFail = (
-  controller: Controller,
-  register: Register
-): boolean => {
+export const didExecutionFail = (controller: Controller): boolean => {
   if (controller.hasFailure()) {
     const failure = controller.getFailure();
-    if (
-      !(failure instanceof ExecutionFailure) ||
-      failure.code !== 'cancelled'
-    ) {
+    // returns true if the execution failure is not retryable
+    if (!(failure instanceof ExecutionFailure) || !failure.isRetryable()) {
       return true;
     }
   }
-  return register.failure !== undefined;
+  return false;
 };
 
 /**
@@ -255,4 +258,72 @@ export const newTaskController = (
     },
     controller: composite,
   };
+};
+
+/**
+ * @name convertFailureToTaskState
+ * @description converts an execution failure to a task complete state
+ * @param {ExecutionFailure} failure the failure to convert
+ * @returns {TaskCompleteState} the converted failure
+ * @throws {HandlerFailure} if the failure type is not supported
+ * @example
+ * const failure = { type: 'timeout' };
+ * const state = convertFailureToTaskState(failure);
+ * console.log(state);
+ * // => 'expired'
+ * @example
+ * const failure = { type: 'invalid-input' };
+ * const state = convertFailureToTaskState(failure);
+ * console.log(state);
+ * // => 'failed'
+ */
+export const convertFailureToTaskState = (
+  failure: ExecutionFailure
+): TaskCompleteState => {
+  switch (failure.code) {
+    case 'timeout':
+      return 'expired';
+    case 'unknown':
+    case 'unauthorized':
+    case 'unexpected':
+    case 'method-failure':
+    case 'invalid-expression':
+    case 'invalid-definition':
+    case 'invalid-precondition':
+    case 'invalid-syntax':
+    case 'invalid-operation':
+    case 'invalid-instruction':
+    case 'unhandled-failure':
+    case 'internal-error':
+    case 'not-implemented':
+      return 'failed';
+    // retry's should be processed and not converted into termination states.
+    case 'retry':
+  }
+
+  throw new HandlerFailure({
+    code: 'invalid-argument',
+    message: `Cannot convert failure to task state: ${failure.code}`,
+    data: { code: failure.code },
+  });
+};
+
+/**
+ * @name isTaskDelayed
+ * @description checks to see if a task has been delayed
+ * @param {TaskEntity} task the task to check
+ * @returns {boolean} true if the task has been delayed, otherwise false
+ */
+export const isTaskDelayed = (task: TaskEntity): boolean => {
+  return task.delay > Date.now();
+};
+
+/**
+ * @name isWithinNearPollingLimit
+ * @description checks to see if a delay is within the polling frequency.
+ * @param {TaskEntity} task the task to check
+ */
+export const isWithinNearPollingLimit = (task: TaskEntity): boolean => {
+  //check if the task's current delay is less than the cron polling frequency
+  return task.delay < addMinutesToCurrentTime(CRON_POLLING_FREQUENCY).getTime();
 };

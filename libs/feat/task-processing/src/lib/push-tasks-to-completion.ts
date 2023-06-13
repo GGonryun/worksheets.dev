@@ -13,11 +13,14 @@ const bus = newProcessTaskBus();
  * @returns {Promise<number>} a promise that resolves when the tasks have been processed
  */
 export const pushTasksToCompletion = async (max: number): Promise<number> => {
-  // get all tasks that are not queued or requeued or building or pending
   const data = await db.collection
+    // get all tasks that might be ready to process
     .where('state', 'in', ['queued', 'pending'])
+    // where the delay is within five minutes of the current time
+    .where('delay', '<=', new Date().getTime() + 60 * 1000)
+    // limit the number of tasks to process
     .limit(max)
-    .orderBy('updatedAt', 'desc')
+    // get the data
     .get();
 
   // if there are no tasks to process, return 0
@@ -28,9 +31,30 @@ export const pushTasksToCompletion = async (max: number): Promise<number> => {
   // parse the data into entities
   const entities = db.parse(data);
 
+  // filter out tasks that have a delay set with an offset greater than 2 minutes
+  const now = new Date().getTime();
+  const filtered = entities.filter((entity) => {
+    const offset = entity.delay - now;
+    return offset < 2 * 60 * 1000;
+  });
+
+  if (filtered.length !== entities.length) {
+    // log how many tasks were filtered out
+    console.info(
+      `Filtered out ${
+        entities.length - filtered.length
+      } incoming tasks that are almost ready for processing`
+    );
+  }
+
+  // if there are no tasks to process, return 0
+  if (filtered.length === 0) {
+    return 0;
+  }
+
   // create an empty promise group and push a promise for each task that we need to publish to the bus
   const promises: Promise<string>[] = [];
-  entities.forEach((entity) => {
+  filtered.forEach((entity) => {
     promises.push(bus.publish({ taskId: entity.id }));
   });
 
