@@ -49,7 +49,7 @@ const processorBus = newProcessTaskBus();
  * @example
  * const taskId = '1234';
  * const state = await processTask(taskId);
- * console.log(state);
+ * console.info(state);
  * // => 'processing'
  */
 export const processTask = async (taskId: string): Promise<TaskState> => {

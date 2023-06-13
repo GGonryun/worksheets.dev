@@ -24,7 +24,7 @@ export const linksGet = newMethod({
       bearer(settings.auth.accessToken),
       content(ContentType.JSON)
     )(`https://api-ssl.bitly.com/v4/bitlinks/${input}`);
-    console.log('bitly is getting url', input);
+    console.info('bitly is getting url', input);
     if (!result.ok) {
       const message = `bitly failed to get bitlink metadata`;
       console.error(message);

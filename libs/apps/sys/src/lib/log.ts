@@ -28,7 +28,7 @@ export const log = newMethod({
         fn = console.error;
         break;
       default:
-        fn = console.log;
+        fn = console.debug;
     }
     fn(data);
   },

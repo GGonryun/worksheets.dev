@@ -22,7 +22,7 @@ export const webhooksCreate = newMethod({
   async call({ settings, input }) {
     const { owner, repo, name, active, events, url } = input;
     const { accessToken } = settings.auth;
-    console.log('inputs', owner, repo, name, active, events, url);
+    console.info('inputs', owner, repo, name, active, events, url);
     const octokit = new Octokit({
       auth: accessToken,
     });

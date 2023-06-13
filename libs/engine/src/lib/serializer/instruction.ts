@@ -13,35 +13,48 @@ import {
   Continue,
   Copy,
   CopyDefinition,
+  Delay,
+  DelayDefinition,
+  End,
+  Evaluate,
+  EvaluateDefinition,
+  Finally,
+  FinallyDefinition,
   For,
   ForDefinition,
   If,
   IfDefinition,
   Init,
   InitDefinition,
+  Jump,
+  JumpDefinition,
+  Log,
+  LogDefinition,
   Loop,
   LoopDefinition,
+  Next,
+  NextDefinition,
   Parameters,
   ParametersDefinition,
   RestoreHeap,
+  Retry,
+  RetryDefinition,
   Return,
   ReturnDefinition,
   Steps,
   StepsDefinition,
+  Throw,
+  ThrowDefinition,
   Try,
   TryDefinition,
+  Wait,
+  WaitDefinition,
 } from '../instructions';
 import { Serializer } from './serializer';
 import { JSONSerializer } from './json';
 import { SerializerFailure } from './failures';
-import { End } from '../instructions/end';
-import { Next, NextDefinition } from '../instructions/next';
 import { MemorySerializer } from './memory';
 import { ChainSerializers } from './chain';
-import { Jump, JumpDefinition } from '../instructions/jump';
-import { Delay, DelayDefinition } from '../instructions/delay';
-import { Wait, WaitDefinition } from '../instructions/wait';
-import { Throw, ThrowDefinition } from '../instructions/throws';
 
 // TODO: we'll need to refactor all our instructions at some point, not sure how just yet.
 // the problem is that a lot of their data is spread out between framework, the individual instructions, and now the serializer for those instructions
@@ -163,6 +176,9 @@ export class InstructionSerializer
     if (serialized.type === 'try') {
       return new Try(serialized.definition as TryDefinition);
     }
+    if (serialized.type === 'log') {
+      return new Log(serialized.definition as LogDefinition);
+    }
     if (serialized.type === 'delay') {
       return new Delay(serialized.definition as DelayDefinition);
     }
@@ -171,6 +187,15 @@ export class InstructionSerializer
     }
     if (serialized.type === 'throw') {
       return new Throw(serialized.definition as ThrowDefinition);
+    }
+    if (serialized.type === 'retry') {
+      return new Retry(serialized.definition as RetryDefinition);
+    }
+    if (serialized.type === 'finally') {
+      return new Finally(serialized.definition as FinallyDefinition);
+    }
+    if (serialized.type === 'evaluate') {
+      return new Evaluate(serialized.definition as EvaluateDefinition);
     }
     console.error('encountered unrecognized instruction', serialized);
     throw new SerializerFailure({
