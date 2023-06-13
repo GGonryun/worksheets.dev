@@ -33,15 +33,15 @@ export const listEvents = newMethod({
 
     const events = res.data.items;
     if (!events || events.length === 0) {
-      console.log('No upcoming events found.');
+      console.info('No upcoming events found.');
       return;
     }
 
-    console.log('Upcoming 10 events:');
+    console.info('Upcoming 10 events:');
 
     events.map((event, i) => {
       const start = event?.start?.dateTime || event?.start?.date;
-      console.log(`${i}\t ${start} - ${event.summary}`);
+      console.info(`${i}\t ${start} - ${event.summary}`);
     });
   },
 });

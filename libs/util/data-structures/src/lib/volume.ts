@@ -7,7 +7,7 @@
  * @example
  * const obj = { a: 1, b: 2 };
  * const dataVolume = calculateDataVolume(obj);
- * console.log(dataVolume);
+ * console.info(dataVolume);
  * // => 13
  */
 export const calculateDataVolume = (obj: unknown) => {
@@ -56,7 +56,8 @@ export const isDataVolumeTooLargeForFirestore = (
  *
  * @example
  * const kilobytes = convertToKilobytes(1000);
- * console.log(kilobytes);
+ * console.info(kilobytes);
+ * // => 1
  */
 export const convertToKilobytes = (bytes: number): number => {
   // covert bytes to kilobytes

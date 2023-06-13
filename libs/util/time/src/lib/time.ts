@@ -139,7 +139,7 @@ export type Duration = {
  * const now = new Date();
  * const timestamp = addMinutesToCurrentTime(3, now).getTime();
  * const remaining = durationRemaining(timestamp, now);
- * console.log(remaining);
+ * console.info(remaining);
  * // { hours: 0, minutes: 2, seconds: 59 }
  */
 export const durationRemaining = (

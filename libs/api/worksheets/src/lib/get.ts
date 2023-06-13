@@ -17,7 +17,6 @@ export const get = newPrivateHandler({ input, output })(
       return await WorksheetsManagement.listUsersWorksheets(uid);
     }
 
-    console.log('searching for worksheet', uid, worksheetId);
     const entity = await WorksheetsManagement.getUserWorksheet(
       uid,
       worksheetId

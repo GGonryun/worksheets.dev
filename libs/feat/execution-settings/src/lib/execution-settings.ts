@@ -92,7 +92,6 @@ export const upsertSetting = async (
     );
 
     const url = client.getUri(handshakeId);
-    console.log('my request', url);
 
     return { url };
   }
@@ -177,15 +176,9 @@ export const saveOAuthSetting = async (
   const method = applicationsDb.borrow(methodPath);
   const prop = findOAuthProperty(method, propertyKey);
 
-  console.log(url, handshakeId);
   try {
     const client = new OAuthClient(prop.options);
     const tokens = await client.parseUrl(url);
-
-    console.log(
-      'tokens keys received after auth',
-      Object.keys(JSON.parse(tokens))
-    );
 
     const id = settingId ?? settingsDb.id();
     await settingsDb.updateOrInsert({

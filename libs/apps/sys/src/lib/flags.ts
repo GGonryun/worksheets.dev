@@ -19,7 +19,7 @@ export const flags = newMethod({
   input: null,
   output: null,
   async call({ settings }) {
-    console.log(
+    console.info(
       'received flags',
       settings.primary,
       settings.secondary,

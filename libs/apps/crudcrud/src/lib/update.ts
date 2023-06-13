@@ -18,7 +18,7 @@ export const update = newMethod({
     const { key } = settings;
     const { resource, payload, id } = input;
 
-    console.log('data received', payload, typeof payload);
+    console.info('data received', payload, typeof payload);
     const url = `https://crudcrud.com/api/${key}/${resource}`;
 
     const result = await fetch(`${url}/${id}`, {
