@@ -139,7 +139,7 @@ describe('worksheets', () => {
 
     testCases.forEach(async ({ name, yaml, input, expectation }) => {
       it(name, async () => {
-        const { factory } = newTestExecutionFactory();
+        const { factory } = newTestExecutionFactory(jest.fn());
         const exe = await factory.create({ text: yaml, input });
         const result = await exe.process();
         expect(result.output).toEqual(expectation);
@@ -1356,8 +1356,6 @@ describe('worksheets', () => {
     });
   });
 
-  // describe('retry', () => {});
-
   describe('wait', () => {
     it('basic syntax for wait', async () => {
       const yaml = `
@@ -1365,7 +1363,7 @@ describe('worksheets', () => {
           - wait: 500
         `;
 
-      const { factory } = newTestExecutionFactory();
+      const { factory } = newTestExecutionFactory(jest.fn());
       const exe = await factory.create({ text: yaml });
       // record start time
       const start = Date.now();
@@ -1381,29 +1379,450 @@ describe('worksheets', () => {
         - wait: -500
       `;
 
-      const { factory } = newTestExecutionFactory();
+      const { factory } = newTestExecutionFactory(jest.fn());
       const exe = await factory.create({ text: yaml });
       await exe.process();
       expect(exe.ctx.controller.isCancelled()).toEqual(true);
       expect(exe.ctx.controller.hasFailure()).toEqual(true);
-      expect(exe.ctx.controller.getFailure().message).toEqual(
-        `Failed to process instruction`
+      expect(exe.ctx.controller.getFailure()?.message).toEqual(
+        `Wait duration cannot be negative`
       );
     });
-    it('throws an error if the wait time exceeds 5 minutes', async () => {
+
+    it('throws an error if the wait time exceeds 1 hour', async () => {
       const yaml = `
       steps:
-        - wait: 300001
+        - wait: 3600001
       `;
-      const { factory } = newTestExecutionFactory();
+      const { factory } = newTestExecutionFactory(jest.fn());
       const exe = await factory.create({ text: yaml });
       await exe.process();
       expect(exe.ctx.controller.isCancelled()).toEqual(true);
       expect(exe.ctx.controller.hasFailure()).toEqual(true);
-      expect(exe.ctx.controller.getFailure().message).toEqual(
-        `Failed to process instruction`
+      expect(exe.ctx.controller.getFailure()?.message).toEqual(
+        `Wait duration cannot exceed one hour`
       );
     });
+  });
+
+  describe('throws', () => {
+    type TestCases = {
+      name: string;
+      yaml: string;
+      input?: unknown;
+      arrange?: (mock: Mock) => void;
+      assert: (mock: Mock, exe: Execution) => void;
+    };
+
+    const testCases: TestCases[] = [
+      {
+        name: 'terminates an execution',
+        yaml: `
+        steps:
+          - call: test
+          - throw:
+              code: 400
+              message: bad request
+          - call: test
+        `,
+        assert(m, e) {
+          expect(e.ctx.controller.isCancelled()).toEqual(true);
+          expect(e.ctx.controller.getFailure().code).toEqual(
+            'unhandled-failure'
+          );
+          expect(m).toBeCalledTimes(1);
+        },
+      },
+      {
+        name: 'short hand syntax for throw',
+        yaml: `
+        steps:
+          - call: test
+          - throw: 400
+          - call: test
+        `,
+        assert(m, e) {
+          expect(e.ctx.controller.isCancelled()).toEqual(true);
+          expect(e.ctx.controller.getFailure().code).toEqual(
+            'unhandled-failure'
+          );
+          expect(m).toBeCalledTimes(1);
+        },
+      },
+      {
+        name: 'throws catchable errors',
+        yaml: `
+        steps:
+          - try:
+              steps:
+                - throw: 400
+            catch:
+              steps: 
+                - call: error
+                  input: \${error}
+        `,
+        assert(m, e) {
+          expect(e.ctx.controller.isCancelled()).toBeFalsy();
+          expect(e.ctx.controller.hasFailure()).toBeFalsy();
+          expect(m).toBeCalledTimes(1);
+          expect(m).toBeCalledWith('error', {
+            code: 400,
+            data: undefined,
+            message: 'Bad Request',
+          });
+        },
+      },
+    ];
+
+    testCases.forEach(async ({ name, yaml, input, arrange, assert }) => {
+      it(name, async () => {
+        const mock = jest.fn();
+        arrange && arrange(mock);
+        const { factory } = newTestExecutionFactory(mock);
+        const exe = await factory.create({ text: yaml, input });
+        await exe.process();
+        assert && assert(mock, exe);
+      });
+    });
+  });
+
+  describe('retry', () => {
+    type TestCases = {
+      name: string;
+      yaml: string;
+      arrange?: (mock: Mock) => void;
+      assert: (mock: Mock, exe: Execution) => void;
+    };
+
+    const testCases: TestCases[] = [
+      {
+        name: "attempts again if there's a failure",
+        yaml: `
+        steps:
+          - try:
+              steps:
+                - call: test
+            retry:
+              attempts: 1
+        `,
+        arrange(m) {
+          when(m)
+            .calledWith('test', undefined)
+            .mockRejectedValueOnce(new MethodCallFailure({ code: 429 }));
+          // when arranging the mock, we need to make sure that the first call to test fails but the second call succeeds.
+        },
+        assert(m) {
+          // should call twice, once for the initial call and once for the retry
+          expect(m).toBeCalledTimes(2);
+        },
+      },
+      {
+        name: 'retries until all attempts are exhausted',
+        yaml: `
+        steps:
+          - try:
+              steps:
+                - call: test
+            retry:
+              attempts: 7
+        `,
+        arrange(m) {
+          when(m)
+            .calledWith('test', undefined)
+            .mockRejectedValue(new MethodCallFailure({ code: 429 }));
+        },
+        assert(m) {
+          expect(m).toBeCalledTimes(8);
+        },
+      },
+      {
+        name: 'attempts again if the predicate is true',
+        yaml: `
+        steps:
+          - try:
+              steps:
+                - call: test
+            retry:
+              if: \${true}
+              attempts: 3
+        `,
+        arrange(m) {
+          when(m)
+            .calledWith('test', undefined)
+            .mockRejectedValue(new MethodCallFailure({ code: 400 }));
+          // when arranging the mock, we need to make sure that the first call to test fails but the second call succeeds.
+        },
+        assert(m) {
+          // should call four times, one for the original call and then 3 more attempts
+          expect(m).toBeCalledTimes(4);
+        },
+      },
+      {
+        name: 'does not attempt again if the predicate is false',
+        yaml: `
+        steps:
+          - try:
+              steps:
+                - call: test
+            retry:
+              if: \${false}
+              attempts: 3
+        `,
+        arrange(m) {
+          when(m)
+            .calledWith('test')
+            .mockRejectedValue(new MethodCallFailure({ code: 400 }));
+        },
+        assert(m) {
+          expect(m).toBeCalledTimes(1);
+        },
+      },
+      {
+        name: "defaults the error to address 'error' unless specified",
+        yaml: `
+        steps:
+          - try:
+              steps:
+                - call: test
+            retry:
+              if: \${error.code == 429}
+              attempts: 3
+        `,
+        arrange(m) {
+          when(m)
+            .calledWith('test', undefined)
+            .mockRejectedValueOnce(new MethodCallFailure({ code: 429 }))
+            .mockResolvedValue({});
+          // when arranging the mock, we need to make sure that the first call to test fails but the second call succeeds.
+        },
+        assert(m) {
+          // should call twice, once for the initial call and once for the retry
+          expect(m).toBeCalledTimes(2);
+        },
+      },
+      {
+        name: 'defaults to 1 extra attempt if not specified',
+        yaml: `
+        steps:
+        - try:
+            steps:
+              - call: test
+              - throw: 429
+          retry:
+            if: \${error.code == 429}
+        `,
+        assert(m) {
+          expect(m).toBeCalledTimes(2);
+        },
+      },
+      {
+        name: 'does not work with finally',
+        yaml: `
+        steps:
+        - try:
+            steps:
+              - call: test
+          retry:
+            if: \${error.code == 429}
+          finally:
+            steps:
+              - call: done
+        `,
+        arrange(m) {
+          when(m)
+            .calledWith('test', undefined)
+            .mockRejectedValueOnce(new MethodCallFailure({ code: 429 }));
+        },
+        assert(m, e) {
+          expect(m).toBeCalledTimes(0);
+          expect(e.ctx.controller.isCancelled()).toBe(true);
+          expect(e.ctx.controller.hasFailure()).toBe(true);
+        },
+      },
+      {
+        name: 'allow users to assign the error to different address',
+        yaml: `
+        steps:
+        - try:
+            steps:
+              - call: throws
+          retry:
+            assign: e
+            if: \${e.code == 429}
+            attempts: 5
+        `,
+        arrange(m) {
+          when(m)
+            .calledWith('throws', undefined)
+            .mockRejectedValue(new MethodCallFailure({ code: 429 }));
+        },
+        assert(m) {
+          expect(m).toBeCalledTimes(6);
+        },
+      },
+      {
+        name: 'if the reattempt succeeds then the output is still returned',
+        yaml: `
+        assign:
+          - word: ""
+        steps:
+        - try:
+            steps:
+              - call: throws
+                output: word
+          retry:
+            assign: e
+            if: \${e.code == 429}
+        - return: \${word}
+        `,
+        arrange(m) {
+          // only throw an error the first time the mock is called
+          when(m)
+            .calledWith('throws', undefined)
+            .mockRejectedValueOnce(new MethodCallFailure({ code: 429 }))
+            .mockReturnValueOnce('hello');
+        },
+        assert(m, e) {
+          expect(m).toBeCalledTimes(2);
+          expect(e.ctx.register.output).toEqual('hello');
+        },
+      },
+      {
+        name: 'does not work with catch statements',
+        yaml: `
+        steps:
+        - try:
+            steps:
+              - call: test
+          retry:
+            if: \${error.code == 429}
+            attempts: 3
+          catch:
+            assign: e
+            steps:
+              - call: impossible
+        `,
+        assert(m, e) {
+          expect(m).toBeCalledTimes(0);
+          expect(e.ctx.controller.isCancelled()).toBe(true);
+          expect(e.ctx.controller.getFailure().code).toEqual(
+            'invalid-instruction'
+          );
+        },
+      },
+    ];
+
+    testCases.forEach(async ({ name, yaml, arrange, assert }) => {
+      it(name, async () => {
+        const mock = jest.fn();
+        arrange && arrange(mock);
+        const { factory } = newTestExecutionFactory(mock);
+        const exe = await factory.create({ text: yaml });
+        await exe.process();
+        assert(mock, exe);
+      });
+    });
+  });
+
+  it('multiplier without a delay has no effect', async () => {
+    const yaml = `
+    steps:
+      - try:
+          steps:
+            - throw: 417
+        retry:
+          if: \${error.code == 429}
+          multiplier: 500`;
+    // expect total delay to equal 500
+    const mock = jest.fn();
+    const { factory } = newTestExecutionFactory(mock);
+    const exe = await factory.create({ text: yaml });
+
+    const now = Date.now();
+    await exe.process();
+    expect(Date.now() - now).toBeLessThan(10);
+  });
+  it('if the initial delay is too long the delay will force a retry', async () => {
+    const yaml = `
+    steps:
+      - try:
+          steps:
+            - throw: 417
+        retry:
+          delay: 500000`;
+
+    const { factory } = newTestExecutionFactory(jest.fn());
+    const exe = await factory.create({ text: yaml });
+
+    // expect execution to take more than 500ms
+    await exe.process();
+    expect(exe.ctx.controller.isCancelled()).toBe(true);
+    expect(exe.ctx.controller.getFailure().code).toEqual('retry');
+  });
+  it('waits for 500 ms before trying again', async () => {
+    const yaml = `
+    steps:
+      - try:
+          steps:
+            - throw: 418
+        retry:
+          delay: 501`;
+
+    const { factory } = newTestExecutionFactory(jest.fn());
+    const exe = await factory.create({ text: yaml });
+
+    // expect execution to take more than 500ms
+    const now = Date.now();
+    await exe.process();
+    expect(Date.now() - now).toBeGreaterThan(500);
+  });
+  it('multiplier increases delay', async () => {
+    const yaml = `
+    steps:
+      - try:
+          steps:
+            - call: test
+            - throw: 419
+        retry:
+          attempts: 3
+          multiplier: 2
+          delay: 100
+    `;
+    const mock = jest.fn();
+    const { factory } = newTestExecutionFactory(mock);
+    const exe = await factory.create({ text: yaml });
+
+    // expect total delay to take longer than 100 + 200 + 400
+    const now = Date.now();
+    await exe.process();
+    expect(Date.now() - now).toBeGreaterThan(700);
+    expect(mock).toBeCalledTimes(4);
+  });
+  it('multiplied delay cannot exceed limit', async () => {
+    // on the second attempt we'll try to increase the multiplier by an amount that would exceed the limit
+    const yaml = `
+    steps:
+      - try:
+          steps:
+            - call: test
+            - throw: 429
+        retry:
+          multiplier: 2000
+          attempts: 2
+          delay: 1
+          limit: 300
+    `;
+    const mock = jest.fn();
+    const { factory } = newTestExecutionFactory(mock);
+    const exe = await factory.create({ text: yaml });
+
+    // expect total delay to take longer than 250 ms but less than 350ms
+    const now = Date.now();
+    await exe.process();
+    const offset = Date.now() - now;
+    expect(offset).toBeGreaterThan(250);
+    expect(offset).toBeLessThan(350);
+    expect(mock).toBeCalledTimes(3);
   });
 });
 

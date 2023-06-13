@@ -10,7 +10,7 @@ export class Controller {
   // whether or not the controller has been cancelled
   private cancelled = false;
   // the failure that caused the cancellation
-  private failure?: Failure;
+  private failure?: ExecutionFailure;
   // a collection of callbacks to be called when the controller is cancelled
   private cancellationCallbacks: Array<(failure?: Failure) => void> = [];
 
@@ -22,7 +22,7 @@ export class Controller {
    * @throws {ExecutionFailure} if the controller has already been cancelled
    *
    */
-  cancel(failure?: Failure): void {
+  cancel(failure?: ExecutionFailure): void {
     if (this.cancelled) {
       throw new ExecutionFailure({
         code: 'invalid-operation',
@@ -73,14 +73,14 @@ export class Controller {
    * @returns {Failure} the failure that caused the controller to be cancelled
    * @throws {ExecutionFailure} if the controller has not been cancelled
    */
-  getFailure(): Failure {
+  getFailure(): ExecutionFailure {
     if (!this.cancelled) {
       throw new ExecutionFailure({
         code: 'invalid-operation',
         message: 'Controller has not been cancelled.',
       });
     }
-    return this.failure as Failure;
+    return this.failure as ExecutionFailure;
   }
 
   /**
@@ -116,7 +116,7 @@ export class HourglassController extends Controller {
     this.timeoutId = setTimeout(() => {
       this.cancel(
         new ExecutionFailure({
-          code: 'cancelled',
+          code: 'retry',
           message: 'Hourglass ran out of time.',
         })
       );
@@ -164,7 +164,7 @@ export class AlarmController extends Controller {
       if (this.alarmTime <= Date.now()) {
         this.cancel(
           new ExecutionFailure({
-            code: 'cancelled',
+            code: 'timeout',
             message: 'Alarm went off.',
           })
         );

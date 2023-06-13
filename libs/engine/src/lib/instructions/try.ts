@@ -3,11 +3,14 @@ import { Catch, CatchDefinition } from './catch';
 import { Context, Instruction } from '../framework';
 import { RestoreHeap } from './restoreHeap';
 import { Steps, StepsDefinition } from './steps';
+import { Retry, RetryDefinition } from './retry';
+import { Finally, FinallyDefinition } from './finally';
 
 export type TryDefinition = {
   try: { steps: StepsDefinition };
   catch: CatchDefinition;
-  finally: { steps: StepsDefinition };
+  finally: FinallyDefinition;
+  retry: RetryDefinition;
 };
 
 export class Try implements Instruction {
@@ -21,17 +24,45 @@ export class Try implements Instruction {
     const { memory, instructions } = ctx;
     const def = this.definition;
 
-    if (!def.try) {
+    if (!def.try || !def.try.steps) {
       throw new ExecutionFailure({
         code: 'invalid-instruction',
-        message: `'try' instruction is missing required parameter: 'steps'`,
+        message: `The 'try' instruction is missing required parameter: 'steps'`,
+      });
+    }
+
+    if (def.catch && def.retry) {
+      throw new ExecutionFailure({
+        code: 'invalid-instruction',
+        message: `The 'try' instruction cannot have both 'catch' and 'retry'`,
+      });
+    }
+
+    if (def.retry && def.finally) {
+      throw new ExecutionFailure({
+        code: 'invalid-instruction',
+        message: `The 'try' instruction cannot have both 'retry' and 'finally'`,
       });
     }
 
     instructions.push(new RestoreHeap(memory.clone()));
 
     if (def.finally) {
-      instructions.push(new Steps(def.finally.steps));
+      instructions.push(new Finally(def.finally));
+    }
+
+    if (def.retry) {
+      instructions.push(
+        new Retry({
+          steps: def.try.steps,
+          if: def.retry.if,
+          assign: def.retry.assign ?? 'error',
+          attempts: def.retry.attempts ?? 1,
+          delay: def.retry.delay ?? 0,
+          limit: def.retry.limit ?? 60 * 1000,
+          multiplier: def.retry.multiplier ?? 1,
+        })
+      );
     }
 
     if (def.catch) {

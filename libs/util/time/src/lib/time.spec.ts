@@ -1,7 +1,11 @@
 import {
+  addDurationToCurrentTime,
+  addHoursToCurrentTime,
   addMinutesToCurrentTime,
   addSecondsToCurrentTime,
+  secondsRemaining,
   waitFor,
+  withinMinutes,
 } from './time';
 
 describe('addMinutesToCurrentTime', () => {
@@ -100,5 +104,59 @@ describe('waitFor', () => {
     const endTime = new Date().getTime();
     const timeDifference = endTime - startTime;
     expect(timeDifference).toBeGreaterThanOrEqual(waitTime);
+  });
+});
+
+describe('withinMinutes', () => {
+  it('should return true if the current time is within the specified minutes', () => {
+    const now = new Date();
+    const timestamp = addMinutesToCurrentTime(3, now).getTime();
+
+    expect(withinMinutes(timestamp, 5)).toBeTruthy();
+  });
+  it("should return false if the current time isn't within the specified minutes", () => {
+    const now = new Date();
+    const timestamp = addMinutesToCurrentTime(7, now).getTime();
+
+    expect(withinMinutes(timestamp, 5, now)).toBeFalsy();
+  });
+});
+
+describe('secondsRemaining', () => {
+  [1, 2, 3, 62, 0, 42589, -5].forEach((seconds) => {
+    it(`should return the number of seconds remaining: ${seconds}`, () => {
+      const now = new Date();
+      const timestamp = addSecondsToCurrentTime(seconds, now).getTime();
+      expect(secondsRemaining(timestamp, now)).toBe(seconds);
+    });
+  });
+});
+
+describe('durationRemaining', () => {
+  it('calculates seconds remaining', () => {
+    const now = new Date();
+    const timestamp = addSecondsToCurrentTime(5, now).getTime();
+    expect(secondsRemaining(timestamp, now)).toBe(5);
+  });
+
+  it('calculates minutes remaining', () => {
+    const now = new Date();
+    const timestamp = addMinutesToCurrentTime(5, now).getTime();
+    expect(secondsRemaining(timestamp, now)).toBe(300);
+  });
+
+  it('calculates hours remaining', () => {
+    const now = new Date();
+    const timestamp = addHoursToCurrentTime(3, now).getTime();
+    expect(secondsRemaining(timestamp, now)).toBe(10800);
+  });
+
+  it('calculates duration remaining', () => {
+    const now = new Date();
+    const timestamp = addDurationToCurrentTime(
+      { hours: 3, minutes: 5, seconds: 5 },
+      now
+    ).getTime();
+    expect(secondsRemaining(timestamp, now)).toBe(11105);
   });
 });

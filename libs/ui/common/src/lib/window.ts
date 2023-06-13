@@ -3,6 +3,6 @@ export const warn = (message: string) => (e: unknown) => {
   if (e && typeof e === 'object' && 'message' in e) {
     suffix = `: ${e.message}`;
   }
-  console.log('error', e);
+  console.error('error', e);
   alert(`${message}${suffix}`);
 };

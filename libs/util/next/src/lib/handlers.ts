@@ -194,6 +194,7 @@ export type HandlerFailures =
   | 'bad-request'
   | 'invalid-argument'
   | 'unsupported-operation'
+  | 'internal-server-error'
   | 'conflict'
   | 'redirect';
 
@@ -209,6 +210,7 @@ export const handlerFailureStatusCodeMap: Record<HandlerFailures, number> = {
   unimplemented: StatusCodes.NOT_IMPLEMENTED,
   'unsupported-operation': StatusCodes.UNPROCESSABLE_ENTITY,
   'invalid-argument': StatusCodes.BAD_REQUEST,
+  'internal-server-error': StatusCodes.INTERNAL_SERVER_ERROR,
   redirect: StatusCodes.MOVED_TEMPORARILY,
 };
 

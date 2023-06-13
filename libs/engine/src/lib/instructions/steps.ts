@@ -11,6 +11,7 @@ import { Try, TryDefinition } from './try';
 import { Jump, JumpDefinition } from './jump';
 import { Log, LogDefinition } from './log';
 import { Wait, WaitDefinition } from './wait';
+import { Throw, ThrowDefinition } from './throw';
 
 export type StepsDefinition = Definition[];
 
@@ -65,6 +66,9 @@ export class Steps implements Instruction {
       }
       if (isDefinition<WaitDefinition>(step, 'wait')) {
         instruction = new Wait(step);
+      }
+      if (isDefinition<ThrowDefinition>(step, 'throw')) {
+        instruction = new Throw(step);
       }
       if (!instruction) {
         throw new ExecutionFailure({
