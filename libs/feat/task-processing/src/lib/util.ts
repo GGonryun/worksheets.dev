@@ -83,7 +83,7 @@ export const canExecutionBeRetried = (controller: Controller): boolean => {
  * @example
  * const task = { id: '1234', state: 'queued' };
  * const isProcessible = isTaskProcessible(task);
- * console.log(isProcessible);
+ * console.info(isProcessible);
  * // => true
  */
 export const isTaskProcessible = (task: TaskEntity): boolean => {
@@ -186,7 +186,7 @@ export class TaskLogger implements Logger {
  * @example
  * const task = { id: '1234', state: 'queued', deadline: Date.now() - 1000 };
  * const hasExceededDeadline = hasTaskExceededDeadline(task);
- * console.log(hasExceededDeadline);
+ * console.info(hasExceededDeadline);
  * // => true
  */
 export const isTaskExpired = (task: TaskEntity): boolean => {
@@ -269,12 +269,12 @@ export const newTaskController = (
  * @example
  * const failure = { type: 'timeout' };
  * const state = convertFailureToTaskState(failure);
- * console.log(state);
+ * console.info(state);
  * // => 'expired'
  * @example
  * const failure = { type: 'invalid-input' };
  * const state = convertFailureToTaskState(failure);
- * console.log(state);
+ * console.info(state);
  * // => 'failed'
  */
 export const convertFailureToTaskState = (

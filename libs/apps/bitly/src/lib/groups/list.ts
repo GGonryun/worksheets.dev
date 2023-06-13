@@ -40,7 +40,7 @@ export const groupsList = newMethod({
       });
     }
     const { groups } = data;
-    console.log(`bitly found ${groups.length} user groups`);
+    console.info(`bitly found ${groups.length} user groups`);
     return groups;
   },
 });

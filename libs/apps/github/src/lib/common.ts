@@ -17,7 +17,7 @@ export function handleOctokitError(error: unknown) {
       });
     }
   }
-  console.log('unexpected octokit error', error);
+  console.error('unexpected octokit error', error);
 }
 
 export const auth = newOAuthSetting({
