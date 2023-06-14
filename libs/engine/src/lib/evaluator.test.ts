@@ -7,10 +7,11 @@ import { when } from 'jest-when';
 import { Heap } from '@worksheets/util/data-structures';
 import { Expression, SimpleCallExpression } from 'estree';
 import { JestApplicationLibrary, Mock } from './test-utils.spec';
+import { Memory } from './framework';
 
 function newTestProcessor() {
   const mock = jest.fn();
-  const memory = new Heap();
+  const memory = new Memory();
   const library = new JestApplicationLibrary({ call: mock });
   const bridge = new ScriptsApplicationBridge(library);
   const processor = new ScriptEvaluator(memory, bridge);
@@ -119,7 +120,9 @@ describe('evaluate', () => {
     testCases.forEach(([actual, expected]) => {
       it(`evaluates the expression '${actual}'`, async () => {
         const { processor, memory } = newTestProcessor();
-        memory.putMulti(variables);
+        const heap = new Heap();
+        heap.putMulti(variables);
+        memory.setHeap(0, heap);
         const result = await processor.evaluate(actual);
         expect(result).toEqual(expected);
       });
@@ -130,7 +133,7 @@ describe('evaluate', () => {
     type TestCase = {
       name: string;
       exp: string;
-      arrange?: (heap: Heap, mock: Mock) => void;
+      arrange?: (memory: Memory, mock: Mock) => void;
       assert?: (result: unknown, mock: Mock) => void;
     };
     const testCases: TestCase[] = [
@@ -138,7 +141,7 @@ describe('evaluate', () => {
         name: 'replacing a variable - numeric',
         exp: 'variable',
         arrange(h) {
-          h.put('variable', 42);
+          h.putData('variable', 42);
         },
         assert(r) {
           expect(r).toEqual(42);
@@ -148,7 +151,7 @@ describe('evaluate', () => {
         name: 'replacing a variable - text',
         exp: 'phrase',
         arrange(h) {
-          h.put('phrase', 'text is here');
+          h.putData('phrase', 'text is here');
         },
         assert(r) {
           expect(r).toEqual('text is here');
@@ -168,7 +171,7 @@ describe('evaluate', () => {
         name: 'executing methods',
         exp: 'sys.test(1) + sys.sample(v)',
         arrange(h, m) {
-          h.put('v', true);
+          h.putData('v', true);
           when(m).calledWith('sys.test', 1).mockReturnValue('text ');
           when(m).calledWith('sys.sample', true).mockReturnValue('is here');
         },
@@ -180,7 +183,7 @@ describe('evaluate', () => {
         name: 'executing nested methods',
         exp: 'apple(banana(cherry(lemon))) + lime()',
         arrange(h, m) {
-          h.put('lemon', true);
+          h.putData('lemon', true);
           when(m).calledWith('apple', { a: 1 }).mockReturnValue('text ');
           when(m).calledWith('banana', 'tomato').mockReturnValue({ a: 1 });
           when(m).calledWith('cherry', true).mockReturnValue('tomato');
@@ -194,7 +197,7 @@ describe('evaluate', () => {
         name: 'executing with multiple arguments',
         exp: 'core.sys.sample(sys.test(map, "a"), "force")',
         arrange(h, m) {
-          h.put('map', [1, 2, 3]);
+          h.putData('map', [1, 2, 3]);
           when(m)
             .calledWith('sys.test', [1, 2, 3], 'a')
             .mockReturnValue('overwhelming');
@@ -211,7 +214,8 @@ describe('evaluate', () => {
         name: 'resolves nested identifiers',
         exp: 'object[fruit]',
         arrange(h) {
-          h.putMulti({ fruit: 'apple', object: { apple: 3 } });
+          h.putData('fruit', 'apple');
+          h.putData('object', { apple: 3 });
         },
         assert(r) {
           expect(r).toEqual(3);
@@ -234,7 +238,7 @@ describe('parse text', () => {
     type TestCases = {
       name: string;
       actual: string;
-      arrange?: (memory: Heap, mock: Mock) => void;
+      arrange?: (memory: Memory, mock: Mock) => void;
       assert?: (result: unknown, mock: Mock) => void;
     }[];
     const testCases: TestCases = [
@@ -251,7 +255,7 @@ describe('parse text', () => {
         name: 'not an expression',
         actual: 'ball',
         arrange(h) {
-          h.put('ball', 'basket');
+          h.putData('ball', 'basket');
         },
         assert(result) {
           expect(result).toEqual('ball');
@@ -261,7 +265,7 @@ describe('parse text', () => {
         name: 'single evaluation string',
         actual: '${ball}',
         arrange(h) {
-          h.put('ball', 'basket');
+          h.putData('ball', 'basket');
         },
         assert(result) {
           expect(result).toEqual('basket');
@@ -271,7 +275,7 @@ describe('parse text', () => {
         name: 'single evaluation numeric',
         actual: '${ball}',
         arrange(h) {
-          h.put('ball', 32);
+          h.putData('ball', 32);
         },
         assert(result) {
           expect(result).toEqual(32);
@@ -281,7 +285,7 @@ describe('parse text', () => {
         name: 'single evaluation boolean',
         actual: '${ball}',
         arrange(h) {
-          h.put('ball', false);
+          h.putData('ball', false);
         },
         assert(result) {
           expect(result).toEqual(false);
@@ -303,7 +307,7 @@ describe('parse text', () => {
         name: 'multiple evaluation',
         actual: '${ball} ${ball}',
         arrange(h) {
-          h.put('ball', 'basket');
+          h.putData('ball', 'basket');
         },
         assert(result) {
           expect(result).toEqual('basket basket');
@@ -328,7 +332,7 @@ describe('parse text', () => {
         name: 'multiple complex evaluation',
         actual: 'the ${ball + ball + ball + ball} ${sports.basket()} team',
         arrange(h, m) {
-          h.put('ball', 'basket');
+          h.putData('ball', 'basket');
           when(m)
             .calledWith('sports.basket', undefined)
             .mockReturnValue('ball');
@@ -523,12 +527,14 @@ describe('expression evaluator', () => {
   testCases.forEach(({ name, expression, arrange, assert }) => {
     it(name, async () => {
       const { processor, mock, memory } = newTestProcessor();
-      memory.putMulti({
+      const heap = new Heap();
+      heap.putMulti({
         w: [1, 2, 3],
         x: 1,
         y: true,
         z: 'test',
       });
+      memory.setHeap(0, heap);
       arrange(mock);
       const result = await processor.evaluate(expression);
       assert(result, mock);
@@ -890,10 +896,10 @@ describe('ScriptsApplicationBridge', () => {
   ];
   tcs.forEach(({ name, expression, expected, arrange }) => {
     it(name, async () => {
-      const memory = new Heap();
       const mock = jest.fn();
       const library = new JestApplicationLibrary({ call: mock });
       arrange(mock);
+      const memory = new Memory();
       const bridge = new ScriptsApplicationBridge(library);
       const processor = new ScriptEvaluator(memory, bridge);
       const result = await bridge.evaluate(processor, expression);

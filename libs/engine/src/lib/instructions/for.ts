@@ -2,8 +2,9 @@ import { isArrayLike } from 'lodash';
 import { ExecutionFailure } from '../failures';
 import { Context, Instruction } from '../framework';
 import { Loop } from './loop';
-import { RestoreHeap } from './restoreHeap';
+import { RestoreScope } from './restore-scope';
 import { StepsDefinition } from './steps';
+import { CreateScope } from './create-scope';
 
 export type ForDefinition = {
   for: string;
@@ -29,7 +30,7 @@ export class For implements Instruction {
         message: `'for' instruction is missing required parameter: "index"`,
       });
     }
-    const list = memory.get(address);
+    const list = memory.getData(address);
     if (!list) {
       throw new ExecutionFailure({
         code: 'invalid-instruction',
@@ -43,7 +44,8 @@ export class For implements Instruction {
       });
     }
 
-    stack.push(new RestoreHeap(memory.clone()));
+    stack.push(new RestoreScope());
     stack.push(new Loop(this.definition));
+    stack.push(new CreateScope());
   }
 }

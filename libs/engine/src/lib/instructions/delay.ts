@@ -1,5 +1,4 @@
 import { convertMillisecondsToSeconds, waitFor } from '@worksheets/util/time';
-import { randomBetween } from '@worksheets/util/numbers';
 import { Context, Instruction } from '../framework';
 import { ExecutionFailure } from '../failures';
 
@@ -38,8 +37,8 @@ export class Delay implements Instruction {
     if (now < this.definition) {
       // calculate the wait time offset
       const offset = this.definition - Date.now();
-      const wait = Math.min(randomBetween(500, 5000), offset);
       // wait for 1 seconds or the offset whichever is smaller
+      const wait = Math.min(1000, offset);
       // log that we're gonna wait
       ctx.logger.trace(`Waiting for ${convertMillisecondsToSeconds(offset)}s`);
       await waitFor(wait);

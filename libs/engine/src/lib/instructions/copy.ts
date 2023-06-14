@@ -16,7 +16,7 @@ export class Copy implements Instruction {
 
   async process(ctx: Context): Promise<void> {
     const { to, from } = this.definition;
-    const data = ctx.memory.get(from);
-    ctx.memory.put(to, data);
+    const data = ctx.memory.getData(from);
+    ctx.memory.putData(to, data);
   }
 }

@@ -1,7 +1,7 @@
-import { Stack, Heap } from '@worksheets/util/data-structures';
+import { Stack } from '@worksheets/util/data-structures';
 import { Controller, Execution, ExecutionFailure, Logger } from '..';
 import { Compiler, YAMLCompiler } from './compiler';
-import { Register, Instruction } from './framework';
+import { Register, Instruction, Memory } from './framework';
 import { Init } from './instructions';
 import { Library } from '@worksheets/apps/framework';
 import { ExecutionSerializer, Serializer, Snapshot } from './serializer';
@@ -22,13 +22,13 @@ export class ExecutionFactory implements Serializer<Execution, Snapshot> {
   private readonly opts: FactoryOptions;
   private readonly compiler: Compiler;
   private readonly serializer: Serializer<Execution, Snapshot>;
-  public readonly memory: Heap;
+  public readonly memory: Memory;
 
   constructor(opts: FactoryOptions) {
     this.compiler = new YAMLCompiler();
     this.opts = opts;
     this.serializer = new ExecutionSerializer(opts);
-    this.memory = new Heap();
+    this.memory = new Memory();
   }
 
   async create({ text, input }: CreationOptions) {

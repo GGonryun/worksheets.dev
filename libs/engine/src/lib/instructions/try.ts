@@ -1,10 +1,11 @@
 import { ExecutionFailure } from '../failures';
 import { Catch, CatchDefinition } from './catch';
 import { Context, Instruction } from '../framework';
-import { RestoreHeap } from './restoreHeap';
+import { RestoreScope } from './restore-scope';
 import { Steps, StepsDefinition } from './steps';
 import { Retry, RetryDefinition } from './retry';
 import { Finally, FinallyDefinition } from './finally';
+import { CreateScope } from './create-scope';
 
 export type TryDefinition = {
   try: { steps: StepsDefinition };
@@ -21,7 +22,7 @@ export class Try implements Instruction {
   }
 
   async process(ctx: Context): Promise<void> {
-    const { memory, instructions } = ctx;
+    const { instructions } = ctx;
     const def = this.definition;
 
     if (!def.try || !def.try.steps) {
@@ -45,7 +46,7 @@ export class Try implements Instruction {
       });
     }
 
-    instructions.push(new RestoreHeap(memory.clone()));
+    instructions.push(new RestoreScope());
 
     if (def.finally) {
       instructions.push(new Finally(def.finally));
@@ -70,5 +71,7 @@ export class Try implements Instruction {
     }
 
     instructions.push(new Steps(def.try.steps));
+
+    instructions.push(new CreateScope());
   }
 }

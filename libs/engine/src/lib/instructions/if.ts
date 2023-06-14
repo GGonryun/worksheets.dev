@@ -1,10 +1,11 @@
 import { Context, Instruction } from '../framework';
 import { Steps, StepsDefinition } from './steps';
-import { RestoreHeap } from './restoreHeap';
+import { RestoreScope } from './restore-scope';
 import { ExecutionFailure } from '../failures';
 import { Return, ReturnDefinition } from './return';
 import { Next, NextDefinition } from './next';
 import { findFirstExpression } from '../util';
+import { CreateScope } from './create-scope';
 
 export type CaseDefinition = {
   if: string;
@@ -22,11 +23,7 @@ export class If implements Instruction {
 
   async process(ctx: Context): Promise<void> {
     const { definition: def } = this;
-    const { memory, instructions, scripts } = ctx;
-
-    if (def.length) {
-      instructions.push(new RestoreHeap(memory.clone()));
-    }
+    const { instructions, scripts } = ctx;
 
     for (let i = 0; i < def.length; i++) {
       const { if: condition, steps, return: terminate, next } = def[i];
@@ -40,6 +37,8 @@ export class If implements Instruction {
       }
 
       if (await scripts.evaluate(expression)) {
+        instructions.push(new RestoreScope());
+
         if (terminate) {
           instructions.push(new Return(terminate));
         }
@@ -51,6 +50,8 @@ export class If implements Instruction {
         if (steps) {
           instructions.push(new Steps(steps));
         }
+
+        instructions.push(new CreateScope());
         return;
       }
     }

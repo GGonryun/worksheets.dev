@@ -13,6 +13,7 @@ import {
   Continue,
   Copy,
   CopyDefinition,
+  CreateScope,
   Delay,
   DelayDefinition,
   End,
@@ -36,7 +37,7 @@ import {
   NextDefinition,
   Parameters,
   ParametersDefinition,
-  RestoreHeap,
+  RestoreScope,
   Retry,
   RetryDefinition,
   Return,
@@ -53,7 +54,6 @@ import {
 import { Serializer } from './serializer';
 import { JSONSerializer } from './json';
 import { SerializerFailure } from './failures';
-import { MemorySerializer } from './memory';
 import { ChainSerializers } from './chain';
 
 // TODO: we'll need to refactor all our instructions at some point, not sure how just yet.
@@ -102,17 +102,8 @@ export class InstructionsSerializer
 export class InstructionSerializer
   implements Serializer<Instruction, SerializedInstruction>
 {
-  private readonly memory = new MemorySerializer();
-
-  serialize(instruction: Instruction): SerializedInstruction {
-    const payload = { ...instruction };
-
-    // TODO: more unit tests around restoration of heaps
-    if (instruction instanceof RestoreHeap) {
-      payload.definition = this.memory.serialize(instruction.definition);
-    }
-
-    return { type: payload.type, definition: payload.definition };
+  serialize({ type, definition }: Instruction): SerializedInstruction {
+    return { type, definition };
   }
 
   deserialize(serialized: SerializedInstruction): Instruction {
@@ -161,11 +152,8 @@ export class InstructionSerializer
     if (serialized.type === 'parameters') {
       return new Parameters(serialized.definition as ParametersDefinition);
     }
-    if (serialized.type === 'restore') {
-      const heap = this.memory.deserialize(
-        serialized.definition as Record<string, string>
-      );
-      return new RestoreHeap(heap);
+    if (serialized.type === 'restore-scope') {
+      return new RestoreScope();
     }
     if (serialized.type === 'return') {
       return new Return(serialized.definition as ReturnDefinition);
@@ -196,6 +184,9 @@ export class InstructionSerializer
     }
     if (serialized.type === 'evaluate') {
       return new Evaluate(serialized.definition as EvaluateDefinition);
+    }
+    if (serialized.type === 'create-scope') {
+      return new CreateScope();
     }
     console.error('encountered unrecognized instruction', serialized);
     throw new SerializerFailure({
