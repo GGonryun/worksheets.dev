@@ -41,7 +41,7 @@ const taskSnapshotEntity = z.object({
   // serialized array of instructions
   instructions: z.array(z.string()),
   // serialized contents of execution memory
-  memory: z.record(z.string()),
+  memory: z.array(z.string()),
   // serialized protected keys
   register: z.record(z.string()),
 });

@@ -20,7 +20,7 @@ export class Catch implements Instruction {
       const failure = ctx.register.failure;
       const { assign: address, steps } = this.definition;
       if (failure) {
-        ctx.memory.put(address ?? this.defaultAddress, failure.toSimple());
+        ctx.memory.putData(address ?? this.defaultAddress, failure.toSimple());
       }
       if (steps) {
         ctx.instructions.push(new Steps(steps));

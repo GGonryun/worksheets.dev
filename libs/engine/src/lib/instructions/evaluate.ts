@@ -1,5 +1,6 @@
 import { Address, Instruction, Context } from '../framework';
 import { isExpression } from '../util';
+import { Assignment } from './assignment';
 
 export type EvaluateDefinition = { address: Address; expression: string };
 
@@ -23,6 +24,6 @@ export class Evaluate implements Instruction {
     } else {
       value = await ctx.scripts.recursiveParse(expression);
     }
-    ctx.memory.put(address, value);
+    ctx.instructions.push(new Assignment({ key: address, value }));
   }
 }

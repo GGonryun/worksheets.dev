@@ -23,19 +23,19 @@ export class Loop implements Instruction {
       steps,
     } = this.definition;
     // get current iteration
-    const index: number = memory.has(indexAddress)
-      ? memory.get(indexAddress) + 1
+    const index: number = memory.hasData(indexAddress)
+      ? memory.getData(indexAddress) + 1
       : 0;
 
-    const iterable = memory.get(listAddress);
+    const iterable = memory.getData(listAddress);
     if (index >= iterable.length) {
       return; // loop terminate
     }
 
     // assign value and current index into memory for next instruction
     const value = iterable[index];
-    memory.put(valueAddress, value);
-    memory.put(indexAddress, index);
+    memory.putData(valueAddress, value);
+    memory.putData(indexAddress, index);
 
     // execute steps and loop
     instructions.push(new Loop(this.definition));

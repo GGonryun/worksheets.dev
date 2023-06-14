@@ -15,10 +15,10 @@ import {
   PrivateIdentifier,
 } from 'estree';
 import { isString, isObject, isArray } from 'lodash';
-import { Heap, WriteOnlyHeap } from '@worksheets/util/data-structures';
 import { getExpressions, isExpression, isRecord } from './util';
 import { ExecutionFailure } from './failures';
 import { Library } from '@worksheets/apps/framework';
+import { Memory } from './framework';
 
 export type CallExpressionEvaluator = (
   evaluator: ScriptEvaluator,
@@ -42,7 +42,7 @@ export interface ExpressionEvaluator {
 }
 
 export class ScriptEvaluator implements ExpressionEvaluator {
-  private readonly memory: WriteOnlyHeap;
+  private readonly memory: Memory;
   bridge: CallExpressionBridge;
   /**
    * Processes and evaluates scripts. A script is composed of a single javascript expression. For string interpolation use a script in text "Hello, ${strings.uppercase(username)}"
@@ -52,8 +52,8 @@ export class ScriptEvaluator implements ExpressionEvaluator {
    * @param memory Contains a key value mapping of variable names and their literal values. If you want to lock access to memory use the `useDry` flag.
    * @param bridge Contains an evaluation function for processing function invocations during expression evaluation.
    */
-  constructor(memory: Heap, bridge?: CallExpressionBridge) {
-    this.memory = new WriteOnlyHeap(memory);
+  constructor(memory: Memory, bridge?: CallExpressionBridge) {
+    this.memory = memory;
     this.bridge = bridge ?? new UnimplementedCallExpressionBridge();
   }
 
@@ -210,7 +210,7 @@ export class ScriptEvaluator implements ExpressionEvaluator {
     }
     if (expression.type === 'Identifier') {
       const name = expression.name;
-      return dryRun ? name : this.memory.get(name);
+      return dryRun ? name : this.memory.getData(name);
     }
     if (expression.type === 'CallExpression') {
       return await this.evaluateCallExpression(expression);
