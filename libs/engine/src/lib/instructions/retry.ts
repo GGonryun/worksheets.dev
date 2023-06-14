@@ -54,7 +54,8 @@ export class Retry implements Instruction {
     }
 
     // move failure into memory for script parsing.
-    ctx.memory.put(address, failure.toSimple());
+    ctx.memory.putData(address, failure.toSimple());
+    ctx.register.failure = undefined;
 
     // check to see if the predicate evaluates to true
     if (this.definition.if) {
@@ -83,7 +84,7 @@ export class Retry implements Instruction {
     );
 
     instructions.push(new Steps(this.definition.steps));
-    ctx.register.failure = undefined;
+
     // if we have a delay push a new wait instruction onto the stack
     // waits are used to calculate a delay from a millisecond value
     if (delay) {

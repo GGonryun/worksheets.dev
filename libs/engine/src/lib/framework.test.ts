@@ -1,4 +1,5 @@
 import { Heap } from '@worksheets/util/data-structures';
+import { Memory } from './framework';
 
 describe('Heap', () => {
   describe('constructor', () => {
@@ -38,5 +39,48 @@ describe('Heap', () => {
         expectClear(heap, key);
       }
     );
+  });
+});
+
+describe('Memory', () => {
+  it('gets data from the first heap', () => {
+    const key = 'test';
+    const value = 'sample';
+    const memory = new Memory();
+    memory.putData(key, value);
+    expect(memory.getData(key)).toEqual(value);
+  });
+
+  it('places data in lowest scope with key', () => {
+    const key = 'test';
+    const value = 'sample';
+    const memory = new Memory();
+    memory.putData(key, value);
+    memory.createScope();
+    const heaps = memory.getHeaps();
+    // second heap should be empty.
+    expect(heaps[1].get(key)).toEqual(undefined);
+  });
+
+  it('places data in next scope if key does not exist', () => {
+    const key = 'test';
+    const value = 'sample';
+    const memory = new Memory();
+    memory.createScope();
+    memory.putData(key, value);
+    const heaps = memory.getHeaps();
+    // first heap should be empty.
+    expect(heaps[0].get(key)).toEqual(undefined);
+    // second heap has key.
+    expect(heaps[1].get(key)).toEqual(value);
+  });
+
+  it('gets data from the first heap that has the key', () => {
+    const key = 'test';
+    const value = 'sample';
+    const memory = new Memory();
+    memory.putData(key, value);
+    memory.createScope();
+    expect(memory.getData(key)).toEqual(value);
   });
 });

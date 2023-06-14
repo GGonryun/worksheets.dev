@@ -15,6 +15,6 @@ export class Assignment implements Instruction {
   async process({ scripts, memory }: Context): Promise<void> {
     const { key, value: raw } = this.definition;
     const value = await scripts.recursiveParse(raw);
-    memory.put(key, value);
+    memory.putData(key, value);
   }
 }

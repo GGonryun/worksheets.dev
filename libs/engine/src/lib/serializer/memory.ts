@@ -1,33 +1,21 @@
 import { TaskSnapshotEntity } from '@worksheets/data-access/tasks';
-import { Heap } from '@worksheets/util/data-structures';
 import { Serializer } from './serializer';
-import { JSONSerializer } from './json';
+import { Memory } from '../framework';
+import { HeapSerializer } from './heap';
 
 export class MemorySerializer
-  implements Serializer<Heap, TaskSnapshotEntity['memory']>
+  implements Serializer<Memory, TaskSnapshotEntity['memory']>
 {
-  private readonly json = new JSONSerializer();
+  private readonly heap = new HeapSerializer();
 
-  serialize(original: Heap): Record<string, string> {
-    const data = original.getAll();
-    const serialized: Record<string, string> = {};
-
-    for (const key in data) {
-      const value = data[key];
-      serialized[key] = this.json.serialize(value);
-    }
-
-    return serialized;
+  serialize(original: Memory): TaskSnapshotEntity['memory'] {
+    return original.getHeaps().map((heap) => this.heap.serialize(heap));
   }
 
-  deserialize(serialized: Record<string, string>): Heap {
-    const deserialized: Record<string, unknown> = {};
-
-    for (const key in serialized) {
-      const value = serialized[key];
-      deserialized[key] = this.json.deserialize(value);
-    }
-
-    return new Heap(deserialized);
+  deserialize(serialized: TaskSnapshotEntity['memory']): Memory {
+    const deserializedHeaps = serialized.map((heap) =>
+      this.heap.deserialize(heap)
+    );
+    return new Memory(deserializedHeaps);
   }
 }

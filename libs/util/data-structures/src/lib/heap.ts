@@ -18,7 +18,7 @@ export class Heap {
     return cloneDeep(this.data[key]);
   }
 
-  put(key: string, value: any): any {
+  put(key: string, value: any) {
     this.data[key] = value;
   }
 
@@ -51,10 +51,6 @@ export class Heap {
     this.data = newData;
   }
 
-  lock(): WriteOnlyHeap {
-    return new WriteOnlyHeap(this);
-  }
-
   // guesst-imate of the heap size by calculating the size of the stringified heap
   size(): number {
     const guestimate = new TextEncoder().encode(this.serialize()).length;
@@ -63,43 +59,5 @@ export class Heap {
 
   private serialize() {
     return JSON.stringify(this.data);
-  }
-}
-
-export class WriteOnlyHeap
-  implements Omit<Heap, 'delete' | 'put' | 'putMulti' | 'restore' | 'lock'>
-{
-  heap: Heap;
-  constructor(heap: Heap) {
-    this.heap = heap;
-  }
-
-  getAll() {
-    return this.heap.getAll();
-  }
-
-  has(key: string): boolean {
-    return this.heap.has(key);
-  }
-
-  keys(): string[] {
-    return this.heap.keys();
-  }
-
-  clone(): Heap {
-    return this.heap.clone();
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  get(key: string): any {
-    return this.heap.get(key);
-  }
-
-  unlock(): Heap {
-    return this.heap;
-  }
-
-  size(): number {
-    return this.size();
   }
 }
