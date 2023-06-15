@@ -63,7 +63,10 @@ export const createTask = async (
   const library = newEmptyLibrary();
   const controller = new Controller();
   // create a new execution factory
-  const factory = new ExecutionFactory({ library, controller, logger });
+  const factory = new ExecutionFactory({
+    execution: { library, controller, logger },
+    stack: { max: 100 },
+  });
   // TODO: check to see if the user has sufficient resources to perform request
   const worksheet = await getWorksheet(worksheetId);
   // use the factory to create a new execution. and provide it inputs

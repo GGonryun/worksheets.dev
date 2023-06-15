@@ -41,9 +41,11 @@ const taskSnapshotEntity = z.object({
   // serialized array of instructions
   instructions: z.array(z.string()),
   // serialized contents of execution memory
-  memory: z.array(z.string()),
+  memory: z.string(),
   // serialized protected keys
   register: z.record(z.string()),
+  // serialized references
+  references: z.record(z.string()),
 });
 
 // create a service level agreement for a task

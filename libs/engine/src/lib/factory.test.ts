@@ -157,6 +157,94 @@ describe('execution factory serialization through explicit halting', () => {
         });
       },
     },
+    {
+      name: 'serializing a worksheet during subexecution',
+      yaml: `
+      main:
+        assign:
+          - num: 5
+        steps:
+          - worksheet: specific_number
+          - worksheet: override_number
+          - worksheet: override_word
+          - call: override
+            input: \${num}
+          - return: \${num}
+
+      specific_number:
+        assign:
+          - num: 7
+        steps:
+          - call: specific
+            input: \${num}
+
+      override_number:
+        assign:
+          - num: 4
+        steps:
+          - jump: halt
+          - call: number
+            input: \${num}
+
+      override_word:
+        assign:
+          - num: word
+        steps:
+          - call: word
+            input: \${num}
+      `,
+      assert(m, e) {
+        expect(m).toBeCalledWith('override', 5);
+        expect(m).toBeCalledWith('specific', 7);
+        expect(m).toBeCalledWith('number', 4);
+        expect(m).toBeCalledWith('word', 'word');
+        expect(e.ctx.register.output).toBe(5);
+      },
+    },
+    {
+      name: 'serializing a worksheet during main execution',
+      yaml: `
+      main:
+        assign:
+          - num: 5
+        steps:
+          - worksheet: specific_number
+          - worksheet: override_number
+          - jump: halt
+          - call: override
+            input: \${num}
+          - worksheet: override_word
+          - return: \${num}
+
+      specific_number:
+        assign:
+          - num: 7
+        steps:
+          - call: specific
+            input: \${num}
+
+      override_number:
+        assign:
+          - num: 4
+        steps:
+          - call: number
+            input: \${num}
+
+      override_word:
+        assign:
+          - num: word
+        steps:
+          - call: word
+            input: \${num}
+      `,
+      assert(m, e) {
+        expect(m).toBeCalledWith('override', 5);
+        expect(m).toBeCalledWith('specific', 7);
+        expect(m).toBeCalledWith('number', 4);
+        expect(m).toBeCalledWith('word', 'word');
+        expect(e.ctx.register.output).toBe(5);
+      },
+    },
   ];
 
   testCases.forEach(async ({ name, yaml, input, arrange, assert }) => {
@@ -228,6 +316,39 @@ describe('initializing and running serialized executions ', () => {
         expect(m).toBeCalledWith('test.input', 'e');
         expect(m).toBeCalledTimes(5);
         expect(e.ctx.register.output).toEqual('abcde');
+      },
+    },
+    {
+      name: 'multiple worksheets in a single worksheet',
+      yaml: `
+          main:
+            assign:
+              - result: 5
+            steps:
+              - worksheet: multiply_by_three
+                input: \${result}
+                output: result
+              - worksheet: multiply_by_two
+                input: \${result}
+                output: result
+              - return: \${result}
+  
+          multiply_by_three:
+            params: x
+            steps:
+              - worksheet: multiply_by_two
+                input: \${x}
+                output: data
+              - return: \${data * 3}
+  
+          multiply_by_two:
+            params: y
+            steps:
+              - return: \${y * 2}
+          `,
+      assert(_, e) {
+        expect(e.ctx.controller.hasFailure()).toBe(false);
+        expect(e.ctx.register.output).toBe(60);
       },
     },
   ];
