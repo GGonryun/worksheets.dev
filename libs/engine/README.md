@@ -1,5 +1,7 @@
 # Schema
 
+## Single Function Execution
+
 ```yaml
 version: 1
 name: worksheet_name
@@ -72,6 +74,10 @@ steps:
       limit: ${60 * 1000} # 60 seconds max delay in between retries
       multiplier: 2 # every attempt double the starting delay.
 
+  # execute other worksheets synchronously waits for the task to complete.
+  - worksheet: my_sub_worksheet_id
+    input: ${x/y} # accepts references or static variables
+    output: data # address to store output
   # save a task for later processing
   - jump: halt
 
@@ -92,6 +98,26 @@ return:
   - param_i: "assigning this text as a value"
   - param_h: ${param_g} # reference outputs
   - param_j: 24
+```
+
+## Multi Function Execution
+
+```yaml
+name: my worksheet name
+version: 1
+
+# must specify a main function
+main:
+  params: data
+  steps:
+    - worksheet: multiply_by_three
+      input: ${data}
+      output: result
+  return: ${result}
+
+multiply_by_three:
+  params: x
+  return: ${x * 3}
 ```
 
 # Engine
@@ -120,9 +146,25 @@ Execute a sequential set of actions. A step can include instructions: call, try,
 
 Execute an application from the registry. A call instruction will place its outputs on the heap at the variable name specified by output.
 
-### Restore heap
+### Create Scope
 
-This instruction takes the original heap as an argument. It creates a cache of all current assigned variable keys. When this instruction executes it takes the current heap and removes all new keys and places assign instructions on the stack. This will retain global variable modified state.
+This will create a new "scope" or heap. Whenever we attempt to place data in memory if keys are not found in first heap they are placed into the newly created scope. When scope is destroyed only the outermost layer of keys should be removed.
+
+Scope grows and shrinks like a stack. But we always iterate Scope starting with the oldest.
+
+We can also create private scope. Private scope is used to define a separate layer of memory that only the upcoming function should have access too. If we need to transfer data through memory heaps we can use a register or a Copy (todo) instruction.
+
+### Restore Scope
+
+Removes the outermost layer of scope or throws an error if we try to delete the primary layer of scope.
+
+### Pull Register
+
+Pulls data out of the register and into memory and clears it from the register.
+
+### Push Register
+
+Pushes data into the register from an address in the currently memory.
 
 ### If
 
@@ -180,15 +222,11 @@ Delays execution until the duration is complete calculates a timestamp from a mi
 
 The Delay instruction is used in conjunction with the "wait" instruction to help pause until the set timestamp has expired. The delay instruction will place short pauses on the engine's stack.
 
-### Parallel For
+### Worksheet
 
-**Planned v2 release**
-Executes multiple for loop iterations in parallel.
+Executes another worksheet defined as a subworksheet.
 
-### Parallel Steps
-
-**Planned v2 release**
-Executes multiple steps at the same time.
+### Branch
 
 ### Copy
 

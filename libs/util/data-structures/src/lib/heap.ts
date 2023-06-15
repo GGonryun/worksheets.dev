@@ -22,12 +22,6 @@ export class Heap {
     this.data[key] = value;
   }
 
-  putMulti(map: Record<string, any>) {
-    for (const key in map) {
-      this.data[key] = map[key];
-    }
-  }
-
   delete(key: string) {
     if (this.has(key)) {
       delete this.data[key];

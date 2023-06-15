@@ -428,10 +428,13 @@ export class ScriptsApplicationBridge implements CallExpressionBridge {
       );
       return result;
     } catch (error) {
-      console.error(`failed to evaluate script`, error);
+      console.error(
+        `failed to perform library call during script evaluation`,
+        error
+      );
       throw new ExecutionFailure({
         code: 'invalid-expression',
-        message: `failed to execute application ${path}`,
+        message: `failed to execute application ${path} in script`,
         cause: error,
         data: { args },
       });

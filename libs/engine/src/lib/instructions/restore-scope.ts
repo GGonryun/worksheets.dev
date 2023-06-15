@@ -1,10 +1,20 @@
 import { Context, Instruction } from '../framework';
 
+export type RestoreScopeDefinition = { private?: boolean } | undefined;
+
 export class RestoreScope implements Instruction {
-  readonly type: string = 'restore-scope';
-  readonly definition: unknown = undefined;
+  static type = 'restore-scope';
+  readonly type: string = RestoreScope.type;
+  readonly definition: RestoreScopeDefinition;
+  constructor(def?: RestoreScopeDefinition) {
+    this.definition = def;
+  }
 
   async process(ctx: Context): Promise<void> {
-    ctx.memory.deleteScope();
+    if (this.definition?.private) {
+      ctx.memory.dropScope();
+    } else {
+      ctx.memory.deleteLayer();
+    }
   }
 }

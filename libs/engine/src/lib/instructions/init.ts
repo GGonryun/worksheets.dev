@@ -6,14 +6,29 @@ import { Definition } from './definition';
 import { Steps } from './steps';
 import { ExecutionFailure } from '../failures';
 
-export type InitDefinition = {
-  version: 1;
-  name: string;
+export type MethodMetadata = {
+  version?: 1;
+  name?: string;
+  description?: string;
+};
+
+export type MultiMethodInitDefinition = {
+  // the multi method must specify the "main" method
+  main: SingleMethodInitDefinition;
+  //and the rest of it's methods can have any name
+  [key: string]: SingleMethodInitDefinition;
+};
+
+export type SingleMethodInitDefinition = {
   params: string;
   assign: { [key: string]: string }[];
   return: number | string;
   steps: Definition[];
+  output?: unknown; // if set, this means we're processing an inline worksheet and we will place our output in the heap's address space specified.
 };
+
+export type InitDefinition = MethodMetadata &
+  (MultiMethodInitDefinition | SingleMethodInitDefinition);
 
 export class Init implements Instruction {
   readonly type = 'init';
@@ -29,25 +44,54 @@ export class Init implements Instruction {
         message: `cannot execute an empty worksheet`,
       });
     }
-    const { return: r, params, assign, steps } = this.definition;
-    if (!r && !steps && !assign && !params) {
-      throw new ExecutionFailure({
-        code: 'invalid-instruction',
-        message: `'init' instruction must have at least one required parameter set: 'return', 'steps', 'assign', 'params'`,
-      });
+
+    // prefer key words to prevent possible infinite recursion with steps
+    const {
+      return: r,
+      params,
+      assign,
+      steps,
+    } = this.definition as SingleMethodInitDefinition;
+    if (steps || r || assign || params) {
+      if (r) {
+        ctx.instructions.push(new Return(r));
+      }
+      if (steps) {
+        ctx.instructions.push(new Steps(steps));
+      }
+      if (assign) {
+        ctx.instructions.push(new Assign(assign));
+      }
+      if (params) {
+        ctx.instructions.push(new Parameters(params));
+      }
+
+      return;
     }
 
-    if (r) {
-      ctx.instructions.push(new Return(r));
+    // has multiple methods defined
+    if ('main' in this.definition) {
+      const multiMethod = this.definition as MultiMethodInitDefinition;
+      const main = multiMethod.main;
+      if (!main) {
+        throw new ExecutionFailure({
+          code: 'invalid-instruction',
+          message: `'init' instruction must have a 'main' method defined`,
+        });
+      }
+      const mainInit = new Init({ ...main, name: 'main' });
+      ctx.instructions.push(mainInit);
+      const methods = Object.keys(multiMethod).filter((key) => key != 'main');
+      methods.forEach((method) => {
+        const def = multiMethod[method];
+        ctx.references.add(method, def);
+      });
+      return;
     }
-    if (steps) {
-      ctx.instructions.push(new Steps(steps));
-    }
-    if (assign) {
-      ctx.instructions.push(new Assign(assign));
-    }
-    if (params) {
-      ctx.instructions.push(new Parameters(params));
-    }
+
+    throw new ExecutionFailure({
+      code: 'invalid-instruction',
+      message: `'init' instruction must have at least one required parameter set: 'return', 'steps', 'assign', 'params'`,
+    });
   }
 }

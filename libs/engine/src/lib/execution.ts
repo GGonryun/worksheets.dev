@@ -1,36 +1,33 @@
 import { Library } from '@worksheets/apps/framework';
-import { Stack } from '@worksheets/util/data-structures';
 import { Engine } from './engine';
 import { ScriptEvaluator, ScriptsApplicationBridge } from './evaluator';
 import { ExecutionFailure } from './failures';
-import { Context, Instruction, Memory, Register } from './framework';
-import { z } from 'zod';
+import {
+  Context,
+  Instructions,
+  Memory,
+  References,
+  Register,
+} from './framework';
 import { Logger } from './logger';
 import { Controller } from './controller';
 
 export type ExecutionOptions = {
   memory: Memory;
+  references: References;
   register: Register;
-  instructions: Stack<Instruction>;
+  instructions: Instructions;
   library: Library;
   logger: Logger;
   controller: Controller;
 };
-
-export const executionDimensionsSchema = z.object({
-  mass: z.number(), // heap size
-  width: z.number(), // total number of instructions.
-  height: z.number(), // stack size.
-  depth: z.number(), // duration.
-});
-
-export type ExecutionDimensions = z.infer<typeof executionDimensionsSchema>;
 
 export class Execution {
   public readonly ctx: Context;
   public readonly engine: Engine;
 
   constructor(opts: ExecutionOptions) {
+    const references = opts.references;
     const library = opts.library;
     const register = opts.register;
     const instructions = opts.instructions;
@@ -44,6 +41,7 @@ export class Execution {
     );
 
     this.ctx = new Context({
+      references,
       memory,
       register,
       instructions,

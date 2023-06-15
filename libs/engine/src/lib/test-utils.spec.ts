@@ -89,9 +89,14 @@ export function newTestExecutionFactory(mock: jest.Mock) {
   const library = new JestApplicationLibrary({ call: mock });
   const controller = new Controller();
   const factory = new ExecutionFactory({
-    library,
-    controller,
-    logger,
+    execution: {
+      library,
+      controller,
+      logger,
+    },
+    stack: {
+      max: 100,
+    },
   });
   return { factory, controller, logger };
 }

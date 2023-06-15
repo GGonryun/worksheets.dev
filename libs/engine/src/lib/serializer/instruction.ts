@@ -1,5 +1,4 @@
 import { Instruction, SerializedInstruction } from '../framework';
-import { Stack } from '@worksheets/util/data-structures';
 import {
   Assign,
   AssignDefinition,
@@ -14,6 +13,7 @@ import {
   Copy,
   CopyDefinition,
   CreateScope,
+  CreateScopeDefinition,
   Delay,
   DelayDefinition,
   End,
@@ -37,7 +37,12 @@ import {
   NextDefinition,
   Parameters,
   ParametersDefinition,
+  PullRegister,
+  PullRegisterDefinition,
+  PushRegister,
+  PushRegisterDefinition,
   RestoreScope,
+  RestoreScopeDefinition,
   Retry,
   RetryDefinition,
   Return,
@@ -50,54 +55,11 @@ import {
   TryDefinition,
   Wait,
   WaitDefinition,
+  Worksheet,
+  WorksheetDefinition,
 } from '../instructions';
 import { Serializer } from './serializer';
-import { JSONSerializer } from './json';
 import { SerializerFailure } from './failures';
-import { ChainSerializers } from './chain';
-
-// TODO: we'll need to refactor all our instructions at some point, not sure how just yet.
-// the problem is that a lot of their data is spread out between framework, the individual instructions, and now the serializer for those instructions
-export class InstructionsSerializer
-  implements Serializer<Stack<Instruction>, string[]>
-{
-  private readonly serializer: Serializer<Instruction, string>;
-
-  constructor() {
-    const json = new JSONSerializer<SerializedInstruction>();
-    const instruction = new InstructionSerializer();
-
-    this.serializer = new ChainSerializers(instruction, json);
-  }
-
-  serialize(instructions: Stack<Instruction>): string[] {
-    const serialized: string[] = [];
-
-    do {
-      const instruction = instructions.pop();
-
-      if (instruction) {
-        serialized.push(this.serializer.serialize(instruction));
-      }
-    } while (!instructions.isEmpty());
-
-    return serialized;
-  }
-
-  deserialize(items: string[]): Stack<Instruction> {
-    const instructions = new Stack<Instruction>();
-
-    do {
-      const serialized = items.pop();
-
-      if (serialized) {
-        instructions.push(this.serializer.deserialize(serialized));
-      }
-    } while (items.length > 0);
-
-    return instructions;
-  }
-}
 
 export class InstructionSerializer
   implements Serializer<Instruction, SerializedInstruction>
@@ -152,8 +114,8 @@ export class InstructionSerializer
     if (serialized.type === 'parameters') {
       return new Parameters(serialized.definition as ParametersDefinition);
     }
-    if (serialized.type === 'restore-scope') {
-      return new RestoreScope();
+    if (serialized.type === RestoreScope.type) {
+      return new RestoreScope(serialized.definition as RestoreScopeDefinition);
     }
     if (serialized.type === 'return') {
       return new Return(serialized.definition as ReturnDefinition);
@@ -185,9 +147,19 @@ export class InstructionSerializer
     if (serialized.type === 'evaluate') {
       return new Evaluate(serialized.definition as EvaluateDefinition);
     }
-    if (serialized.type === 'create-scope') {
-      return new CreateScope();
+    if (serialized.type === CreateScope.type) {
+      return new CreateScope(serialized.definition as CreateScopeDefinition);
     }
+    if (serialized.type === Worksheet.type) {
+      return new Worksheet(serialized.definition as WorksheetDefinition);
+    }
+    if (serialized.type === PushRegister.type) {
+      return new PushRegister(serialized.definition as PushRegisterDefinition);
+    }
+    if (serialized.type === PullRegister.type) {
+      return new PullRegister(serialized.definition as PullRegisterDefinition);
+    }
+
     console.error('encountered unrecognized instruction', serialized);
     throw new SerializerFailure({
       code: 'unrecognized-instruction',

@@ -4,7 +4,6 @@ import {
   evaluateCallPath,
 } from './evaluator';
 import { when } from 'jest-when';
-import { Heap } from '@worksheets/util/data-structures';
 import { Expression, SimpleCallExpression } from 'estree';
 import { JestApplicationLibrary, Mock } from './test-utils.spec';
 import { Memory } from './framework';
@@ -20,110 +19,330 @@ function newTestProcessor() {
 
 describe('evaluate', () => {
   describe('simple', () => {
-    // static set of memory for all tests
-    const variables = {
-      a: 'a',
-      undef: undefined,
-      variable: 42,
-      count: 13,
-      word: 'apple',
-      phrase: 'hello world',
-      truthy: true,
-      falsy: false,
-      list: [1, 2, 3],
-      map: { a: 1, b: 2, c: 3 },
-      test: { test: -2, sample: 1, apple: 'fruit' },
-      nested: { map: { 'special!key': 'bar' } },
-      nest: { nest: { nest: 'ok' } },
-      sys: { test: 1 },
+    type TestCase = {
+      input: string;
+      expected: unknown;
+      arrange?: (memory: Memory, mock: Mock) => void;
     };
-    type TestCase = [string, unknown];
     const testCases: TestCase[] = [
       // empty
-      ['', ''],
+      { input: '', expected: '' },
       // numbers
-      ['1', 1],
-      ['-1', -1],
-      ['4.2', 4.2],
-      ['0', 0],
+      // ['1', 1],
+      { input: '1', expected: 1 },
+      // ['-1', -1],
+      { input: '-1', expected: -1 },
+      // ['4.2', 4.2],
+      { input: '4.2', expected: 4.2 },
+      // ['0', 0],
+      { input: '0', expected: 0 },
       // booleans
-      ['true', true],
-      ['false', false],
+      { input: 'true', expected: true },
+      { input: 'false', expected: false },
       // strings
-      ["'string literal!'", 'string literal!'],
+      { input: "'string literal!'", expected: 'string literal!' },
       // variables
-      ['variable', 42],
-      ['count', 13],
-      ['word', 'apple'],
-      ['phrase', 'hello world'],
+      {
+        input: 'variable',
+        expected: 42,
+        arrange: (memory) => memory.putData('variable', 42),
+      },
+      {
+        input: 'count',
+        expected: 13,
+        arrange: (memory) => memory.putData('count', 13),
+      },
+      {
+        input: 'word',
+        expected: 'apple',
+        arrange: (memory) => memory.putData('word', 'apple'),
+      },
+      // ['phrase', 'hello world'],
+      {
+        input: 'phrase',
+        expected: 'hello world',
+        arrange: (memory) => memory.putData('phrase', 'hello world'),
+      },
       // unary operator
-      ['!true', false],
-      ['!false', true],
-      ['!1', !1],
-      ['!9.9', !9.9],
+      {
+        input: '!true',
+        expected: false,
+      },
+      {
+        input: '!false',
+        expected: true,
+      },
+      {
+        input: '!1',
+        expected: false,
+      },
+      {
+        input: '!0',
+        expected: true,
+      },
+      {
+        input: '!truthy',
+        expected: false,
+        arrange: (memory) => memory.putData('truthy', true),
+      },
       // binary operations
-      ['3 + 3', 6],
-      ['3 - 3', 0],
-      ['3 * 3', 9],
-      ['3 % 3', 0],
-      ['3 / 3', 1],
-      ['word + word', 'appleapple'],
-      ['"word" + word', 'wordapple'],
-      ["'w' + 'o' + 'r' + 'd'", 'word'],
-      ["'string of ' + word + 's!'", 'string of apples!'],
+      {
+        input: '3 + 3',
+        expected: 6,
+      },
+      {
+        input: '3 - 3',
+        expected: 0,
+      },
+      {
+        input: '3 * 3',
+        expected: 9,
+      },
+      {
+        input: '3 % 3',
+        expected: 0,
+      },
+      {
+        input: '3 / 3',
+        expected: 1,
+      },
+      {
+        input: 'word + word',
+        expected: 'appleapple',
+        arrange: (memory) => memory.putData('word', 'apple'),
+      },
+      {
+        input: '"word" + word',
+        expected: 'wordapple',
+        arrange: (memory) => memory.putData('word', 'apple'),
+      },
+      {
+        input: "'w' + 'o' + 'r' + 'd'",
+        expected: 'word',
+      },
+      {
+        input: "'string of ' + word + 's!'",
+        expected: 'string of apples!',
+        arrange: (memory) => memory.putData('word', 'apple'),
+      },
       // parentheses
-      ['(1 + 2) * (2 + 1)', 9],
+      {
+        input: '(1 + 2) * (2 + 1)',
+        expected: 9,
+      },
       // numeric logical operations
-      ['6 > 7', false],
-      ['6 < 7', true],
-      ['6 <= 6', true],
-      ['6 >= 6', true],
+      {
+        input: '6 > 7',
+        expected: false,
+      },
+      {
+        input: '6 < 7',
+        expected: true,
+      },
+      {
+        input: '6 <= 6',
+        expected: true,
+      },
+      {
+        input: '6 >= 6',
+        expected: true,
+      },
       // comparison operators
-      ['6 == 7', false],
-      ['6 != 7', true],
-      ['count == 13', true],
-      ['word == 13', false],
-      ['word != 13', true],
+      {
+        input: '6 == 7',
+        expected: false,
+      },
+      // ['6 != 7', true],
+      {
+        input: '6 != 7',
+        expected: true,
+      },
+      // ['count == 13', true],
+      {
+        input: 'count == 13',
+        expected: true,
+        arrange: (memory) => memory.putData('count', 13),
+      },
+      {
+        input: 'word == 13',
+        expected: false,
+        arrange: (memory) => memory.putData('word', 'apple'),
+      },
+      {
+        input: 'word != 13',
+        expected: true,
+        arrange: (memory) => memory.putData('word', 'apple'),
+      },
       // boolean logical operators
-      ['truthy && true', true],
-      ['truthy && false', false],
-      ['truthy && truthy', true],
-      ['truthy && falsy', false],
-      ['truthy || truthy', true],
-      ['truthy || falsy', true],
-      ['falsy || truthy', true],
-      ['falsy || falsy', false],
-      ['true ? 1 : 2', 1],
-      ['false ? 1 : 2', 2],
-      ['truthy && truthy ? 1 : 2', 1],
+      {
+        input: 'truthy && true',
+        expected: true,
+        arrange: (memory) => memory.putData('truthy', true),
+      },
+      {
+        input: 'truthy && false',
+        expected: false,
+        arrange: (memory) => memory.putData('truthy', true),
+      },
+      {
+        input: 'truthy && truthy',
+        expected: true,
+        arrange: (memory) => memory.putData('truthy', true),
+      },
+      {
+        input: 'truthy && falsy',
+        expected: false,
+        arrange: (memory) => {
+          memory.putData('truthy', true), memory.putData('falsy', false);
+        },
+      },
+      {
+        input: 'truthy || truthy',
+        expected: true,
+        arrange: (memory) => memory.putData('truthy', true),
+      },
+      {
+        input: 'truthy || falsy',
+        expected: true,
+        arrange: (memory) => {
+          memory.putData('truthy', true), memory.putData('falsy', false);
+        },
+      },
+      {
+        input: 'falsy || truthy',
+        expected: true,
+        arrange: (memory) => {
+          memory.putData('truthy', true), memory.putData('falsy', false);
+        },
+      },
+      {
+        input: 'falsy || falsy',
+        expected: false,
+        arrange: (memory) => memory.putData('falsy', false),
+      },
+      {
+        input: 'true ? 1 : 2',
+        expected: 1,
+      },
+      {
+        input: 'false ? 1 : 2',
+        expected: 2,
+      },
+      {
+        input: 'truthy && truthy ? 1 : 2',
+        expected: 1,
+        arrange: (memory) => memory.putData('truthy', true),
+      },
       // indexing
-      ['list[1]', 2],
-      ['list[2]', 3],
-      ['map[a]', 1],
-      ['map["a"]', 1],
-      ['map["c"]', 3],
+      {
+        input: 'list[1]',
+        expected: 2,
+        arrange: (memory) => memory.putData('list', [1, 2, 3]),
+      },
+      {
+        input: 'list[2]',
+        expected: 3,
+        arrange: (memory) => memory.putData('list', [1, 2, 3]),
+      },
+      {
+        input: 'map[a]',
+        expected: 1,
+        arrange: (memory) => {
+          memory.putData('map', { apple: 1 }), memory.putData('a', 'apple');
+        },
+      },
+      {
+        input: 'map["a"]',
+        expected: 1,
+        arrange: (memory) => memory.putData('map', { a: 1 }),
+      },
       // access nested keys
-      ['test', { test: -2, sample: 1, apple: 'fruit' }],
-      ['test["test"]', -2],
-      ['test.test', -2],
-      ['nest.nest.nest', 'ok'],
-      ['nest.nest', { nest: 'ok' }],
-      ['nest["nest"]', { nest: 'ok' }],
-      ['nest["nest"].nest', 'ok'],
-      ['nest["nest"]["nest"]', 'ok'],
-      ['nest', { nest: { nest: 'ok' } }],
-      ['test.sample', 1],
-      ['test["sample"]', 1],
-      ['test[word]', 'fruit'],
-      ['"foo " + nested.map["special!key"]', 'foo bar'],
+      {
+        input: 'test',
+        expected: { test: -2, sample: 1, apple: 'fruit' },
+        arrange: (memory) =>
+          memory.putData('test', { test: -2, sample: 1, apple: 'fruit' }),
+      },
+      {
+        input: 'test["test"]',
+        expected: -2,
+        arrange: (memory) =>
+          memory.putData('test', { test: -2, sample: 1, apple: 'fruit' }),
+      },
+      {
+        input: 'test.test',
+        expected: -2,
+        arrange: (memory) =>
+          memory.putData('test', { test: -2, sample: 1, apple: 'fruit' }),
+      },
+      {
+        input: 'nest.nest.nest',
+        expected: 'ok',
+        arrange: (memory) => memory.putData('nest', { nest: { nest: 'ok' } }),
+      },
+      {
+        input: 'nest.nest',
+        expected: { nest: 'ok' },
+        arrange: (memory) => memory.putData('nest', { nest: { nest: 'ok' } }),
+      },
+      {
+        input: 'nest["nest"]',
+        expected: { nest: 'ok' },
+        arrange: (memory) => memory.putData('nest', { nest: { nest: 'ok' } }),
+      },
+      {
+        input: 'nest["nest"].nest',
+        expected: 'ok',
+        arrange: (memory) => memory.putData('nest', { nest: { nest: 'ok' } }),
+      },
+      {
+        input: 'nest["nest"]["nest"]',
+        expected: 'ok',
+        arrange: (memory) => memory.putData('nest', { nest: { nest: 'ok' } }),
+      },
+      {
+        input: 'nest["nest"]["nest"].nest',
+        expected: 'ok',
+        arrange: (memory) =>
+          memory.putData('nest', { nest: { nest: { nest: 'ok' } } }),
+      },
+      {
+        input: 'nest',
+        expected: { nest: { nest: 'ok' } },
+        arrange: (memory) => memory.putData('nest', { nest: { nest: 'ok' } }),
+      },
+      {
+        input: 'test.sample',
+        expected: 1,
+        arrange: (memory) =>
+          memory.putData('test', { test: -2, sample: 1, apple: 'fruit' }),
+      },
+      {
+        input: 'test["sample"]',
+        expected: 1,
+        arrange: (memory) =>
+          memory.putData('test', { test: -2, sample: 1, apple: 'fruit' }),
+      },
+      {
+        input: 'test[word]',
+        expected: 'fruit',
+        arrange: (memory) => {
+          memory.putData('test', { test: -2, sample: 1, apple: 'fruit' }),
+            memory.putData('word', 'apple');
+        },
+      },
+      {
+        input: '"foo " + nested.map["special!key"]',
+        expected: 'foo bar',
+        arrange: (memory) =>
+          memory.putData('nested', { map: { 'special!key': 'bar' } }),
+      },
     ];
-    testCases.forEach(([actual, expected]) => {
-      it(`evaluates the expression '${actual}'`, async () => {
-        const { processor, memory } = newTestProcessor();
-        const heap = new Heap();
-        heap.putMulti(variables);
-        memory.setHeap(0, heap);
-        const result = await processor.evaluate(actual);
+    testCases.forEach(({ input, expected, arrange }) => {
+      it(`evaluates the expression '${input}'`, async () => {
+        const { mock, processor, memory } = newTestProcessor();
+        arrange && arrange(memory, mock);
+        const result = await processor.evaluate(input);
         expect(result).toEqual(expected);
       });
     });
@@ -527,14 +746,10 @@ describe('expression evaluator', () => {
   testCases.forEach(({ name, expression, arrange, assert }) => {
     it(name, async () => {
       const { processor, mock, memory } = newTestProcessor();
-      const heap = new Heap();
-      heap.putMulti({
-        w: [1, 2, 3],
-        x: 1,
-        y: true,
-        z: 'test',
-      });
-      memory.setHeap(0, heap);
+      memory.putData('w', [1, 2, 3]);
+      memory.putData('x', 1);
+      memory.putData('y', true);
+      memory.putData('z', 'test');
       arrange(mock);
       const result = await processor.evaluate(expression);
       assert(result, mock);
