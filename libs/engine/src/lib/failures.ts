@@ -17,6 +17,7 @@ export const executionFailureCodeSchema = z.union([
   l('unhandled-failure'),
   l('internal-error'),
   l('not-implemented'),
+  l('stack-overflow'),
   l('timeout'),
   l('retry'),
 ]);

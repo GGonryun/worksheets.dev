@@ -12,6 +12,7 @@ import { Jump, JumpDefinition } from './jump';
 import { Log, LogDefinition } from './log';
 import { Wait, WaitDefinition } from './wait';
 import { Throw, ThrowDefinition } from './throw';
+import { Worksheet, WorksheetDefinition } from './worksheet';
 
 export type StepsDefinition = Definition[];
 
@@ -69,6 +70,9 @@ export class Steps implements Instruction {
       }
       if (isDefinition<ThrowDefinition>(step, 'throw')) {
         instruction = new Throw(step);
+      }
+      if (isDefinition<WorksheetDefinition>(step, 'worksheet')) {
+        instruction = new Worksheet(step);
       }
       if (!instruction) {
         throw new ExecutionFailure({

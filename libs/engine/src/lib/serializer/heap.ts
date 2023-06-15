@@ -4,15 +4,15 @@ import { JSONSerializer } from './json';
 import { Serializer } from './serializer';
 
 export class HeapSerializer
-  implements Serializer<Heap, TaskSnapshotEntity['memory'][number]>
+  implements Serializer<Heap, TaskSnapshotEntity['memory'][number][number]>
 {
   private readonly json = new JSONSerializer<Heap['data']>();
 
-  serialize(original: Heap): TaskSnapshotEntity['memory'][number] {
+  serialize(original: Heap): TaskSnapshotEntity['memory'][number][number] {
     return this.json.serialize(original.getAll());
   }
 
-  deserialize(serialized: TaskSnapshotEntity['memory'][number]): Heap {
+  deserialize(serialized: TaskSnapshotEntity['memory'][number][number]): Heap {
     return new Heap(this.json.deserialize(serialized));
   }
 }

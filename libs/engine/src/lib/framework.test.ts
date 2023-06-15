@@ -56,8 +56,8 @@ describe('Memory', () => {
     const value = 'sample';
     const memory = new Memory();
     memory.putData(key, value);
-    memory.createScope();
-    const heaps = memory.getHeaps();
+    memory.createLayer();
+    const heaps = memory.scope();
     // second heap should be empty.
     expect(heaps[1].get(key)).toEqual(undefined);
   });
@@ -66,9 +66,9 @@ describe('Memory', () => {
     const key = 'test';
     const value = 'sample';
     const memory = new Memory();
-    memory.createScope();
+    memory.createLayer();
     memory.putData(key, value);
-    const heaps = memory.getHeaps();
+    const heaps = memory.scope();
     // first heap should be empty.
     expect(heaps[0].get(key)).toEqual(undefined);
     // second heap has key.
@@ -80,7 +80,7 @@ describe('Memory', () => {
     const value = 'sample';
     const memory = new Memory();
     memory.putData(key, value);
-    memory.createScope();
+    memory.createLayer();
     expect(memory.getData(key)).toEqual(value);
   });
 });

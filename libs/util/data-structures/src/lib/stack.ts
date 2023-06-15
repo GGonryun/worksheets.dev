@@ -7,6 +7,16 @@ export class Stack<T> {
     this.items = [];
   }
 
+  data(): T[] {
+    return cloneDeep(this.items);
+  }
+
+  clone(): Stack<T> {
+    const clone = new Stack<T>();
+    clone.items = cloneDeep(this.items);
+    return clone;
+  }
+
   push(item: T): boolean {
     this.items.push(item);
     return true;

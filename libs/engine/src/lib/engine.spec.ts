@@ -1984,389 +1984,184 @@ describe('retry', () => {
 });
 
 describe('worksheet', () => {
-  it('supports having two function declarations in one worksheet', () => {
-    // TODO
-    const yaml = `
-    main:
-      assign:
-        - num: 1
-      steps:
-        - worksheet: multiply_by_three
-          input: \${num}
-          output: result
-        - return: \${result}
+  type TestCases = {
+    name: string;
+    yaml: string;
+    arrange?: (mock: Mock) => void;
+    assert: (mock: Mock, exe: Execution) => void;
+  };
 
-    multiply_by_three:
-      params: val
-      steps:
-        - return: \${val * 3}
-    `;
-  });
-  it('can execute that worksheet as an expression', () => {
-    // TODO
-    const yaml = `
-    main:
-      assign:
-        - num: 3
-      steps:
-        - generate_a_number:
-            call: create_number
-            output: result
-        - exit:
-            return: \${multiply_together({x: num, y: result})}
+  const testCases: TestCases[] = [
+    {
+      name: 'can call a subworksheet in the same worksheet',
+      yaml: `
+        main:
+          assign:
+            - num: 5
+          steps:
+            - worksheet: multiply_by_three
+              input: \${num}
+              output: result
+          return: \${result}
 
-    multiply_together:
-      params: data
-      steps:
-        - exit:
-            return: \${data.x * data.y}
-    `;
+        multiply_by_three:
+          params: val
+          steps:
+            - return: \${val * 3}
+        `,
+      assert(m, e) {
+        expect(e.ctx.controller.hasFailure()).toBe(false);
+        expect(e.ctx.register.output).toBe(15);
+      },
+    },
+    {
+      name: 'nested worksheets',
+      yaml: `
+        main:
+          assign:
+            - num: 5
+          steps:
+            - worksheet: multiply_by_three
+              input: \${num}
+              output: result
+            - return: \${result}
+
+        multiply_by_three:
+          params: x
+          steps:
+            - worksheet: multiply_by_two
+              input: \${x}
+              output: data
+            - return: \${data * 3}
+
+        multiply_by_two:
+          params: y
+          steps:
+            - return: \${y * 2}
+        `,
+      assert(_, e) {
+        expect(e.ctx.controller.hasFailure()).toBe(false);
+        expect(e.ctx.register.output).toBe(30);
+      },
+    },
+    {
+      name: 'multiple functions in a single worksheet',
+      yaml: `
+        main:
+          assign:
+            - result: 5
+          steps:
+            - worksheet: multiply_by_three
+              input: \${result}
+              output: result
+            - worksheet: multiply_by_two
+              input: \${result}
+              output: result
+            - return: \${result}
+
+        multiply_by_three:
+          params: x
+          steps:
+            - worksheet: multiply_by_two
+              input: \${x}
+              output: data
+            - return: \${data * 3}
+
+        multiply_by_two:
+          params: y
+          steps:
+            - return: \${y * 2}
+        `,
+      assert(_, e) {
+        expect(e.ctx.controller.hasFailure()).toBe(false);
+        expect(e.ctx.register.output).toBe(60);
+      },
+    },
+    {
+      name: 'worksheet subfunction cannot reexecute main function',
+      yaml: `
+      main:
+        assign:
+          - num: 5
+        steps:
+          - call: override
+            input: \${num}
+          - worksheet: specific_number
+          - return: \${num}
+
+      specific_number:
+        assign:
+          - num: 7
+        steps:
+          - worksheet: main
+            input: \${num}
+      `,
+      assert(m, e) {
+        expect(e.ctx.controller.isCancelled()).toBe(true);
+        expect(e.ctx.controller.hasFailure()).toBe(true);
+        expect(e.ctx.controller.getFailure().message).toBe(
+          'Could not find worksheet reference to main'
+        );
+      },
+    },
+    {
+      name: 'worksheet subfunction invocation will eventually cause stack overflow',
+      yaml: `
+      main:
+        assign:
+          - num: 5
+        steps:
+          - call: override
+            input: \${num}
+          - worksheet: specific_number
+          - return: \${num}
+
+      specific_number:
+        assign:
+          - num: 7
+        steps:
+          - worksheet: specific_number
+            input: \${num}
+      `,
+      assert(m, e) {
+        expect(e.ctx.controller.isCancelled()).toBe(true);
+        expect(e.ctx.controller.hasFailure()).toBe(true);
+        expect(e.ctx.controller.getFailure().message).toBe(
+          'Stack overflow: maximum stack size of 100 exceeded'
+        );
+      },
+    },
+    {
+      name: 'multifunction worksheet can still assign metadata',
+      yaml: `
+      name: my worksheet
+      description: my description
+      version: 1
+      main:
+        steps:
+          - worksheet: specific_number
+            output: data
+          - return: \${data}
+
+      specific_number:
+        steps:
+          - return: \${7}
+      `,
+      assert(_, e) {
+        expect(e.ctx.controller.hasFailure()).toBe(false);
+        expect(e.ctx.register.output).toBe(7);
+      },
+    },
+  ];
+
+  testCases.forEach(async ({ name, yaml, arrange, assert }) => {
+    it(name, async () => {
+      const mock = jest.fn();
+      arrange && arrange(mock);
+      const { factory } = newTestExecutionFactory(mock);
+      const exe = await factory.create({ text: yaml });
+      await exe.process();
+      assert(mock, exe);
+    });
   });
 });
-
-describe('jump', () => {
-  it('lets you jump to any addressable step', () => {
-    // TODO
-    const yaml = `
-    main:
-      assign:
-        - num: 1
-      steps:
-        - worksheet: multiply_by_three
-          input: \${num}
-          output: result
-        - return: \${result}
-
-    multiply_by_three:
-      params: val
-      steps:
-        - return: \${val * 3}
-    `;
-  });
-  it('can execute that worksheet as an expression', () => {
-    // TODO
-    const yaml = `
-    main:
-      assign:
-        - num: 3
-      steps:
-        - generate_a_number:
-            call: create_number
-            output: result
-        - exit:
-            return: \${multiply_together({x: num, y: result})}
-
-    multiply_together:
-      params: data
-      steps:
-        - exit:
-            return: \${data.x * data.y}
-    `;
-  });
-});
-
-// const testCases: TestCases[] = [
-//   // invalid-syntax (found during compile time, yaml could not be parsed)
-//   {
-//     name: 'missing mapping element',
-//     yaml: `
-//     name: bad syntax
-//     version 1
-//   `,
-//     assert(err) {
-//       expect(err.code).toEqual('compilation-failure');
-//       expect(err.message).toEqual(
-//         'Invalid syntax detected on line 2: "version 1"'
-//       );
-//       expect(err.line).toEqual(1);
-//     },
-//   },
-//   {
-//     name: 'bad indentation',
-//     yaml: `
-//     steps:
-//       - test
-//     - test:
-//   `,
-//     assert(err) {
-//       const e = coerce(err, ExecutionFailure);
-//       expect(err.code).toEqual('compilation-failure');
-//       expect(err.message).toEqual(
-//         'Invalid syntax detected on line 5: "test: "'
-//       );
-//       expect(err.line).toEqual(1);
-//     },
-//   },
-//   {
-//     name: 'unexpected identifier',
-//     yaml: `
-//     steps: test
-//       - call: test
-//       - call: test
-//   `,
-//     assert(err) {
-//       const e = coerce(err, ExecutionFailure);
-//       expect(err.code).toEqual('compilation-failure');
-//       expect(err.message).toEqual(
-//         'Invalid instruction detected on line 1: "steps: test"'
-//       );
-//       expect(err.line).toEqual(1);
-//     },
-//   },
-//   {
-//     name: 'unexpected identifier',
-//     yaml: `
-//     steps: test
-//       - call: test
-//       - call: test
-//   `,
-//     assert(err) {
-//       const e = coerce(err, ExecutionFailure);
-//       expect(err.code).toEqual('compilation-failure');
-//       expect(err.message).toEqual(
-//         'Invalid instruction detected on line 1: "steps: test"'
-//       );
-//       expect(err.line).toEqual(1);
-//     },
-//   },
-//   // invaid-instruction (unregonized instruction, or missing a required system instruction, or engine refused to process it for some reason)
-//   {
-//     name: 'unknown instruction',
-//     yaml: `
-//     steps:
-//       - call: test
-//       - unknown: test
-//   `,
-//     assert(err) {
-//       const e = coerce(err, ExecutionFailure);
-//       expect(err.code).toEqual('invalid-instruction');
-//       expect(err.message).toEqual(
-//         'Cannot process unknown instruction: "unknown"'
-//       );
-//       expect(err.line).toEqual(1);
-//     },
-//   },
-//   {
-//     name: 'missing required parameter "if"',
-//     yaml: `
-//     steps:
-//       - switch:
-//         - steps:
-//           - call: test
-//           - call: test
-//   `,
-//     assert(err) {
-//       const e = coerce(err, ExecutionFailure);
-//       expect(err.code).toEqual('invalid-instruction');
-//       expect(err.message).toEqual(
-//         'Instruction "switch" is missing a required parameter: "if"'
-//       );
-//       expect(err.line).toEqual(1);
-//     },
-//   },
-//   {
-//     name: 'cannot use expressions in parameter names',
-//     yaml: `
-//     assign:
-//       sample: \${call}
-//     steps:
-//       - call: test
-//       - \${sample}: test`,
-//     assert(err) {
-//       const e = coerce(err, ExecutionFailure);
-//       expect(err.code).toEqual('invalid-instruction');
-//       expect(err.message).toEqual(
-//         'Instruction "switch" is missing a required parameter: "if"'
-//       );
-//       expect(err.line).toEqual(1);
-//     },
-//   },
-//   // application-failure (for call step it could be that the method was not found or http error)
-//   {
-//     name: 'application fails --  method not found',
-//     yaml: `
-//     steps:
-//       - call: test.test
-//         output: \${test}
-//   `,
-//     assert(err) {
-//       const e = coerce(err, ExecutionFailure);
-//       expect(err.code).toEqual('application-failure');
-//       expect(err.message).toEqual(
-//         'Failed to call "test.test" -- it does not exist in the application registry'
-//       );
-//       expect(err.line).toEqual(1);
-//     },
-//   },
-//   {
-//     name: 'application fails -- service unavailable',
-//     yaml: `
-//     steps:
-//       - call: test.test
-//         output: \${test}
-//   `,
-//     assert(err) {
-//       const e = coerce(err, ExecutionFailure);
-//       expect(err.code).toEqual('application-failure');
-//       expect(err.message).toEqual(
-//         'Failed to call "test.test" -- the application registry was unable to process your request'
-//       );
-//       expect(err.status).toEqual(503);
-//     },
-//   },
-//   {
-//     name: 'application fails -- missing property',
-//     yaml: `
-//     steps:
-//       - call: test.test
-//         input:
-//           a: sample
-//   `,
-//     assert(err) {
-//       const e = coerce(err, ExecutionFailure);
-//       expect(err.code).toEqual('application-failure');
-//       expect(err.message).toEqual(
-//         'Failed to call "test.test" -- input does not satisfy expected schema -- missing property "b"'
-//       );
-//       expect(err.status).toEqual(503);
-//     },
-//   },
-//   {
-//     name: 'application call fails -- invalid type',
-//     yaml: `
-//     steps:
-//       - call: test.test
-//         input:
-//           a: 1
-//   `,
-//     assert(err) {
-//       const e = coerce(err, ExecutionFailure);
-//       expect(err.code).toEqual('application-failure');
-//       expect(err.message).toEqual(
-//         'Failed to call "test.test" -- input does not satisfy expected schema -- invalid type on property "a"'
-//       );
-//       expect(err.status).toEqual(503);
-//     },
-//   },
-//   {
-//     name: 'application call fails -- http responds with 400 error',
-//     yaml: `
-//     steps:
-//       - call: test.test
-//         input:
-//           a: 1
-//   `,
-//     assert(err) {
-//       const e = coerce(err, ExecutionFailure);
-//       expect(err.code).toEqual('application-failure');
-//       expect(err.message).toEqual(
-//         'Failed to call "test.test" -- input does not satisfy expected schema -- invalid type on property "a"'
-//       );
-//       expect(err.status).toEqual(503);
-//     },
-//   },
-//   {
-//     name: 'application call fails -- http responds with 500 error',
-//     yaml: `
-//     steps:
-//       - call: test.test
-//         input:
-//           a: 1
-//   `,
-//     assert(err) {
-//       const e = coerce(err, ExecutionFailure);
-//       expect(err.code).toEqual('application-failure');
-//       expect(err.message).toEqual(
-//         'Failed to call "test.test" -- input does not satisfy expected schema -- invalid type on property "a"'
-//       );
-//       expect(err.status).toEqual(503);
-//     },
-//   },
-//   {
-//     name: 'expression fails method does not exist',
-//     yaml: `
-//     steps:
-//       - assign:
-//         value \${test.test()}
-//           a: 1
-//   `,
-//     assert(err) {
-//       const e = coerce(err, ExecutionFailure);
-//       expect(err.code).toEqual('expression-failure');
-//       expect(err.message).toEqual(
-//         'Failed to evaluate expression "test.test()" -- method does not exist in application registry'
-//       );
-//       expect(err.status).toEqual(503);
-//     },
-//   },
-//   {
-//     name: 'expression fails accessing an undefined object',
-//     yaml: `
-//     steps:
-//       - assign:
-//           value: \${apple.banana}
-//           a: 1
-//   `,
-//     assert(err) {
-//       const e = coerce(err, ExecutionFailure);
-//       expect(err.code).toEqual('expression-failure');
-//       expect(err.message).toEqual(
-//         'Failed to evaluate expression "test.test" -- "apple" property does not exist'
-//       );
-//       expect(err.status).toEqual(503);
-//     },
-//   },
-//   {
-//     name: 'maximum call stack exceeded',
-//     yaml: `
-//     assign:
-//       list: [0,1,2,3,4,5,6,7,9,10,11,12,13,14,15,16,17,18,19]
-//     steps:
-//       - for: list
-//         index: index
-//         value: value
-//         steps:
-//           - for: list
-//             index: index2
-//             value: value2
-//             steps:
-//               - for: list
-//                 index: index3
-//                 value: value3
-//                 steps:
-//                   - call: test
-//   `,
-//     assert(err) {
-//       const e = coerce(err, ExecutionFailure);
-//       expect(err.code).toEqual('system-failure');
-//       expect(err.message).toEqual(
-//         'Maximum call stack exceeded -- reduce recursion or step count.'
-//       );
-//       expect(err.status).toEqual(503);
-//     },
-//   },
-//   {
-//     name: 'maximum heap size exceeded',
-//     yaml: `
-//     assign:
-//       list: \${newMassiveList()}
-//     steps:
-//       - for: list
-//         index: index
-//         value: value
-//         steps:
-//           - assign:
-//             test: \${}
-//             sample: b
-//           - call: test
-//   `,
-//     assert(err) {
-//       const e = coerce(err, ExecutionFailure);
-//       expect(err.code).toEqual('system-failure');
-//       expect(err.message).toEqual(
-//         'Maximum call stack exceeded -- reduce recursion or step count.'
-//       );
-//       expect(err.status).toEqual(503);
-//     },
-//   },
-// ];

@@ -132,11 +132,15 @@ export const processTask = async (taskId: string): Promise<TaskState> => {
   const library = newPrivateLibrary(worksheet.uid);
   // create a new task controller
   const { controller, startController } = newTaskController(task);
-  // TODO: pass in the logger to the execution factory
   const factory = new ExecutionFactory({
-    library,
-    controller,
-    logger,
+    execution: {
+      library,
+      controller,
+      logger,
+    },
+    stack: {
+      max: 100,
+    },
   });
   // create a new execution from the snapshot
   const execution = factory.deserialize(snapshot);

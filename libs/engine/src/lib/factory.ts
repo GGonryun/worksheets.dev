@@ -1,16 +1,26 @@
 import { Stack } from '@worksheets/util/data-structures';
 import { Controller, Execution, ExecutionFailure, Logger } from '..';
 import { Compiler, YAMLCompiler } from './compiler';
-import { Register, Instruction, Memory } from './framework';
+import {
+  Register,
+  Instruction,
+  Memory,
+  References,
+  Instructions,
+  StackLimits,
+} from './framework';
 import { Init } from './instructions';
 import { Library } from '@worksheets/apps/framework';
 import { ExecutionSerializer, Serializer, Snapshot } from './serializer';
 
 // The runtime can also decide which library we want to run, we can swap it out in the runtime we need to.
 export type FactoryOptions = {
-  library: Library;
-  controller: Controller;
-  logger: Logger;
+  execution: {
+    library: Library;
+    controller: Controller;
+    logger: Logger;
+  };
+  stack: StackLimits;
 };
 
 export type CreationOptions = {
@@ -33,7 +43,11 @@ export class ExecutionFactory implements Serializer<Execution, Snapshot> {
 
   async create({ text, input }: CreationOptions) {
     const register = new Register();
-    const instructions = new Stack<Instruction>();
+    const references = new References();
+    const instructions = new Instructions(
+      new Stack<Instruction>(),
+      this.opts.stack
+    );
     const memory = this.memory.clone();
 
     if (input) {
@@ -54,10 +68,11 @@ export class ExecutionFactory implements Serializer<Execution, Snapshot> {
     instructions.push(new Init(def));
 
     return new Execution({
-      ...this.opts,
+      ...this.opts.execution,
       register,
       instructions,
       memory,
+      references,
     });
   }
 
