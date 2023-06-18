@@ -48,6 +48,7 @@ const errorAdapter =
   (info, init) =>
     fetcher(info, init).then(async (r) => {
       if (r.ok) {
+        if (r.status === 204) return r.text();
         return r.json();
       }
       throw await r.json();
