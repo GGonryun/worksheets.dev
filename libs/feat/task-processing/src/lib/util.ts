@@ -283,6 +283,8 @@ export const convertFailureToTaskState = (
   switch (failure.code) {
     case 'timeout':
       return 'expired';
+    case 'not-found':
+    case 'stack-overflow':
     case 'unknown':
     case 'unauthorized':
     case 'unexpected':
@@ -299,13 +301,12 @@ export const convertFailureToTaskState = (
       return 'failed';
     // retry's should be processed and not converted into termination states.
     case 'retry':
+      throw new HandlerFailure({
+        code: 'invalid-argument',
+        message: `Cannot convert failure ${failure.code} into a task completion state`,
+        data: { code: failure.code },
+      });
   }
-
-  throw new HandlerFailure({
-    code: 'invalid-argument',
-    message: `Cannot convert failure to task state: ${failure.code}`,
-    data: { code: failure.code },
-  });
 };
 
 /**

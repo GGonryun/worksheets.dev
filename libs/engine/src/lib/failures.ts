@@ -16,6 +16,7 @@ export const executionFailureCodeSchema = z.union([
   l('invalid-instruction'),
   l('unhandled-failure'),
   l('internal-error'),
+  l('not-found'),
   l('not-implemented'),
   l('stack-overflow'),
   l('timeout'),
