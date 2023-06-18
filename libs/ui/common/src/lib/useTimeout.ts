@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line @typescript-eslint/ban-types
-export function useTimeout(callback: any, delay: any) {
+export function useTimeout(callback: any, delay: number) {
   const timeoutRef = React.useRef<any>(null);
   const savedCallback = React.useRef<any>(callback);
   React.useEffect(() => {
