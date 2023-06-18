@@ -1,5 +1,3 @@
-import { HomeLoader } from '@worksheets/ui/web-editor';
+import { HomePage } from '@worksheets/ui/home';
 
-export default function Index() {
-  return <HomeLoader />;
-}
+export default HomePage;
