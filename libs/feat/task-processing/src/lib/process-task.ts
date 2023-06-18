@@ -99,29 +99,56 @@ export const processTask = async (taskId: string): Promise<TaskState> => {
   // check if the task expired
   if (isTaskExpired(task)) {
     // log that the task expired
-    await logger.info('Task expired');
-    return await completeTask(task, 'expired');
+    const message = 'Task expired';
+    await logger.info(message);
+    return await failTask(
+      task,
+      new ExecutionFailure({
+        code: 'timeout',
+        message,
+      })
+    );
   }
 
   // check if the task has breached it's maximum requeue count
   if (isTaskRequeueLimitReached(task)) {
-    // log that the task has reached it's maximum requeue count
-    await logger.info("Task has reached it's maximum requeue count");
-    return await completeTask(task, 'cancelled');
+    const message = "Task has reached it's maximum requeue count";
+    await logger.warn(message);
+    return await failTask(
+      task,
+      new ExecutionFailure({
+        code: 'stack-overflow',
+        message,
+      })
+    );
   }
 
   // check if worksheet still exists
   if (!(await worksheetsdb.has(task.worksheetId))) {
+    const message = 'Worksheet does not exist';
     // if the worksheet does not exist, log that it does not exist
-    await logger.error('Worksheet does not exist');
-    return await completeTask(task, 'cancelled');
+    await logger.error(message);
+    return await failTask(
+      task,
+      new ExecutionFailure({
+        code: 'not-found',
+        message,
+      })
+    );
   }
 
   // check if snapshot exists
   if (!(await snapshotsDb.has(taskId))) {
+    const message = 'Task snapshot does not exist';
     // if the snapshot does not exist, log that it does not exist
-    await logger.error('Task snapshot does not exist');
-    return await completeTask(task, 'cancelled');
+    await logger.error(message);
+    return await failTask(
+      task,
+      new ExecutionFailure({
+        code: 'not-found',
+        message,
+      })
+    );
   }
 
   // load the task's snapshot from the database
