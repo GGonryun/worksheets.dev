@@ -1,10 +1,7 @@
-import { CodeEditor } from '@worksheets/ui/code-editor';
 import { FormLayout } from '../form-layout';
 import { useState } from 'react';
-import { ResizableLayout } from './resizer';
-import { Box, Button, Divider, Typography } from '@mui/material';
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { getYamlCodeValidationErrors } from '@worksheets/ui/code-editor';
+import { SourceVisualizer } from '../../shared/source-visualizer';
 export type DefineInstructionsFormValues = {
   yaml: string;
 };
@@ -56,40 +53,7 @@ export const DefineInstructionsForm: React.FC<DefineInstructionsFormProps> = ({
         },
       }}
     >
-      <ResizableLayout
-        leftContent={
-          <Box height="100%" width="100%">
-            <Box
-              display="flex"
-              px={3}
-              py={1}
-              alignItems="center"
-              justifyContent="space-between"
-            >
-              <Typography variant="h6">Source</Typography>
-              <Button
-                size="small"
-                color="primary"
-                sx={{ alignItems: 'flex-start' }}
-                endIcon={<OpenInNewIcon />}
-                href="/docs/worksheets/yaml-syntax"
-                target="_blank"
-              >
-                Syntax Reference
-              </Button>
-            </Box>
-            <Divider />
-            <CodeEditor
-              width="100%"
-              value={newYaml}
-              mode={'yaml'}
-              theme={'light'}
-              onChange={(newValue) => setYaml(newValue)}
-            />
-          </Box>
-        }
-        rightContent={<div>TODO</div>}
-      />
+      <SourceVisualizer text={newYaml} onUpdate={(data) => setYaml(data)} />
     </FormLayout>
   );
 };

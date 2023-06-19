@@ -7,4 +7,4 @@ export * from './lib/templates-page';
 export * from './lib/documents-page';
 export * from './lib/support-page';
 export * from './lib/create-a-worksheet/page';
-export * from './lib/worksheet-details-page';
+export * from './lib/worksheet-details/page';

@@ -12,7 +12,7 @@ export const FilterTextInput: FC<FilterTextInputProps> = ({
   value,
   onChange,
 }) => (
-  <Box paddingLeft={2} marginTop={'0.5em'}>
+  <Box paddingLeft={2} marginTop={'0.25em'}>
     <TextField
       sx={{ display: 'flex', gap: 2, alignItems: 'center' }}
       size="small"
@@ -22,7 +22,7 @@ export const FilterTextInput: FC<FilterTextInputProps> = ({
       InputProps={{
         disableUnderline: true,
         startAdornment: (
-          <InputAdornment position="start" sx={{ marginTop: '-8px' }}>
+          <InputAdornment position="start" sx={{ marginTop: '-4px' }}>
             <FilterListIcon color="action" />
           </InputAdornment>
         ),

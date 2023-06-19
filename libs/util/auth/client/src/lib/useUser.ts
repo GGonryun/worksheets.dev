@@ -120,7 +120,6 @@ export const useUser = () => {
   return {
     loading,
     user,
-
     signIn,
     signInProvider,
     signOut,
@@ -130,8 +129,10 @@ export const useUser = () => {
     token,
     hasUser: !!user && !loading,
     request: {
+      mutate: request.query.useMutate(),
       secure: request.command.private(user),
-      useSecure: request.query.usePrivate,
+      useSecure: <T>(url: string, shouldLoad?: boolean) =>
+        request.query.usePrivate<T>(url, user, shouldLoad),
     },
   };
 };
