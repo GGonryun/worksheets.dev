@@ -1,13 +1,4 @@
-import { TreeItem } from '@mui/lab';
-import { v4 as uuidv4 } from 'uuid';
-import {
-  Box,
-  Button,
-  Checkbox,
-  Divider,
-  TextField,
-  Typography,
-} from '@mui/material';
+import { Box, Button, Checkbox, TextField, Typography } from '@mui/material';
 import { SettingSummary } from '@worksheets/apps/framework';
 import { useState } from 'react';
 import { request, useUser } from '@worksheets/util/auth/client';

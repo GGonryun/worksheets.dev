@@ -190,3 +190,26 @@ export const formatTimestamp = (timestamp: number) => {
 
   return `${month}/${day}/${year}, ${hourString}:${minuteString} ${ampm}`;
 };
+
+/**
+ * a function that converts millisecond unix timestamp to a string format Jun 15, 2023, 8:47:51 PM
+ * @param timestamp a millisecond unix timestamp
+ * @returns a string format of MMM DD, YYYY, HH:MM:SS AM/PM
+ */
+export const formatTimestampLong = (timestamp?: number) => {
+  if (!timestamp) return 'Invalid Date';
+  const date = new Date(timestamp);
+  const month = date.toLocaleString('default', { month: 'short' });
+  const day = date.getDate();
+  const year = date.getFullYear();
+  const hour = date.getHours();
+  const minute = date.getMinutes();
+  const second = date.getSeconds();
+  const ampm = hour < 12 ? 'AM' : 'PM';
+  const hour12 = hour % 12;
+  const hourString = hour12 === 0 ? '12' : hour12.toString();
+  const minuteString = minute < 10 ? `0${minute}` : minute.toString();
+  const secondString = second < 10 ? `0${second}` : second.toString();
+
+  return `${month} ${day}, ${year}, ${hourString}:${minuteString}:${secondString} ${ampm}`;
+};

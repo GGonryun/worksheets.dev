@@ -113,7 +113,7 @@ export const getWorksheetsDataTable = async (
     rows.push({
       name: worksheet.name,
       id: worksheet.id,
-      lastUpdated: formatTimestamp(worksheet.lastUpdated),
+      lastUpdated: formatTimestamp(worksheet.updatedAt),
       lastExecuted: entities.length
         ? formatTimestamp(entities[0].createdAt)
         : undefined,

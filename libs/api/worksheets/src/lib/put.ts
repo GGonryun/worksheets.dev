@@ -12,7 +12,6 @@ const input = z.object({
   text: z.string(),
   description: z.string().default(''),
   logging: logLevelEntity.default('debug'),
-  trigger: z.string().optional(),
   schedules: z.array(z.string()).optional(),
   events: z.array(z.string()).optional(),
   connections: z.array(z.string()).optional(),
@@ -25,16 +24,7 @@ export type PutWorksheetResponse = z.infer<typeof output>;
 export const put = newPrivateHandler({ input, output })(
   async ({
     user: { uid },
-    data: {
-      text,
-      name,
-      description,
-      trigger,
-      logging,
-      schedules,
-      events,
-      connections,
-    },
+    data: { text, name, description, logging, schedules, events, connections },
   }) => {
     console.info(`creating a new worksheet for user ${uid}`);
     const records = await WorksheetsManagement.listUsersWorksheets(uid);
@@ -59,9 +49,9 @@ export const put = newPrivateHandler({ input, output })(
       name,
       text,
       description,
-      lastUpdated: Date.now(),
       logging,
-      trigger: trigger ?? id,
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
     });
     return id;
   }
