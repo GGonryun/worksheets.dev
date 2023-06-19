@@ -1,0 +1,68 @@
+import Layout from '../layout';
+import { useRouter } from 'next/router';
+import { Box, Button, Divider, IconButton, Typography } from '@mui/material';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { useUser } from '@worksheets/util/auth/client';
+import { GetWorksheetResponse } from '@worksheets/api/worksheets';
+import { WorksheetTabs } from './tabs';
+import PlayArrowOutlinedIcon from '@mui/icons-material/PlayArrowOutlined';
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
+
+export function WorksheetDetailsPage() {
+  const { query, push } = useRouter();
+  const {
+    request: { useSecure },
+  } = useUser();
+  // get worksheet details.
+  const { data: worksheet } = useSecure<GetWorksheetResponse>(
+    `/api/worksheets?worksheetId=${query.id}`
+  );
+
+  return (
+    <Layout>
+      <Box height="100%" display="flex" flexDirection="column">
+        <Box display="flex" alignItems="center" gap={3} margin={1}>
+          <IconButton onClick={() => push('/worksheets')}>
+            <ArrowBackIcon color="primary" />
+          </IconButton>
+          <Typography variant="h6">Worksheet details</Typography>
+        </Box>
+        <Divider />
+        <Box mx={3} my={1} display="flex" gap={3} alignItems="center">
+          <Typography variant="h6">
+            {worksheet?.name ?? 'not found...'}
+          </Typography>
+          <Box display="flex" alignItems="center" gap={2}>
+            <Button
+              size="small"
+              startIcon={<EditOutlinedIcon />}
+              sx={{ fontWeight: 900 }}
+              href={`/worksheets/${query.id}/edit`}
+            >
+              Edit
+            </Button>
+            <Button
+              size="small"
+              startIcon={<PlayArrowOutlinedIcon />}
+              href={`/worksheets/${query.id}/execute`}
+              sx={{ fontWeight: 900 }}
+            >
+              Execute
+            </Button>
+            <Button
+              size="small"
+              startIcon={<DeleteOutlineOutlinedIcon />}
+              onClick={() => alert('not implemented yet')}
+              sx={{ fontWeight: 900 }}
+            >
+              Delete
+            </Button>
+          </Box>
+        </Box>
+        <Divider />
+        <WorksheetTabs />
+      </Box>
+    </Layout>
+  );
+}

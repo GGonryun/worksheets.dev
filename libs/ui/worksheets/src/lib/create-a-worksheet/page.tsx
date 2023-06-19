@@ -7,7 +7,7 @@ import { useReducer, useState } from 'react';
 import { useRouter } from 'next/router';
 import { isEqual } from 'lodash';
 import { DefineInstructionsForm } from './define-instructions/form';
-import { ConnectionsForm } from './connections/form';
+import { ConnectionsForm } from './connection-form';
 import { useUser } from '@worksheets/util/auth/client';
 import { warn } from '@worksheets/ui/common';
 import {
@@ -98,9 +98,9 @@ export function CreateAWorksheetPage() {
   const handleSaveWorksheet = async (connections: string[]) => {
     // TODO: dispatch a creation event to save the worksheet w/ connections + current state.
     try {
-      const result = await secure<PostWorksheetResponse>(
+      const result = await secure<PutWorksheetResponse>(
         '/api/worksheets',
-        'POST',
+        'PUT',
         { ...state, connections }
       );
       push(`/worksheets/${result}`);
@@ -112,9 +112,9 @@ export function CreateAWorksheetPage() {
   return (
     <Layout>
       <Box display="flex" flexDirection="column" height="100%">
-        <Box display="flex" alignItems="center" gap={4} padding={1}>
+        <Box display="flex" alignItems="center" gap={3} padding={1}>
           <IconButton onClick={leavePage}>
-            <ArrowBackIcon color="primary" fontSize="large" />
+            <ArrowBackIcon color="primary" />
           </IconButton>
           <Typography variant="h6">Create a Worksheet</Typography>
         </Box>
@@ -148,9 +148,7 @@ export function CreateAWorksheetPage() {
           <ConnectionsForm
             onPrevious={() => setStep(1)}
             onSubmit={(values) => handleSaveWorksheet(values.connections)}
-            onCancel={function (): void {
-              throw new Error('Function not implemented.');
-            }}
+            onCancel={leavePage}
           />
         )}
       </Box>

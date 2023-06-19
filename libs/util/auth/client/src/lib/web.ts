@@ -24,6 +24,13 @@ const usePublic = <Output>(url: string, shouldLoad = true) => {
   return useSWR<Output>(shouldLoad && url, errorAdapter<Output>(insecure));
 };
 
+/**
+ *
+ * @param url
+ * @param user
+ * @param shouldLoad checks if the request should be made
+ * @returns
+ */
 const usePrivate = <Output>(
   url: string,
   user: User | null,
@@ -63,7 +70,7 @@ export const request = {
   command: {
     private:
       (user: User | null) =>
-      <Output>(url: string, mode: RequestMethods, data?: unknown) =>
+      <Output, Input>(url: string, mode: RequestMethods, data?: Input) =>
         errorAdapter<Output>(
           compose(fetch)(
             method(mode),
@@ -74,7 +81,7 @@ export const request = {
         )(url),
     maybe:
       (user: User | null) =>
-      <Output>(url: string, mode: RequestMethods, data?: unknown) =>
+      <Output, Input>(url: string, mode: RequestMethods, data?: Input) =>
         errorAdapter<Output>(
           compose(fetch)(
             method(mode),
@@ -85,7 +92,7 @@ export const request = {
         )(url),
     public:
       () =>
-      <Output>(url: string, mode: RequestMethods, data?: unknown) =>
+      <Output, Input>(url: string, mode: RequestMethods, data?: Input) =>
         errorAdapter<Output>(
           compose(fetch)(
             method(mode),
