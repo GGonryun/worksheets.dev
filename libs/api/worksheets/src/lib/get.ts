@@ -1,8 +1,9 @@
 import { newPrivateHandler } from '@worksheets/util/next';
 import { z } from 'zod';
 import * as WorksheetsManagement from '@worksheets/feat/worksheets-management';
+import { worksheetsEntitySchema } from '@worksheets/data-access/worksheets';
 const input = z.object({ worksheetId: z.string().optional() });
-export const worksheetSchema = z.object({ id: z.string(), text: z.string() });
+export const worksheetSchema = worksheetsEntitySchema;
 export const worksheetsSchema = z.record(worksheetSchema);
 const output = z.union([worksheetSchema, worksheetsSchema]);
 
@@ -23,6 +24,6 @@ export const get = newPrivateHandler({ input, output })(
     );
 
     console.info('loading worksheet', worksheetId);
-    return { text: entity.text, id: worksheetId };
+    return { ...entity };
   }
 );

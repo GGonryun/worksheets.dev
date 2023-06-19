@@ -10,8 +10,8 @@ import {
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import AddIcon from '@mui/icons-material/AddOutlined';
 import { FC, RefAttributes } from 'react';
-import { FilterTextInput } from '../../shared/filter-text-input';
-import { useRouter } from 'next/router';
+import { FilterTextInput } from '../filter-text-input';
+import Router, { useRouter } from 'next/router';
 type GridLinkActionProps = { href: string } & GridActionsCellItemProps &
   RefAttributes<HTMLButtonElement>;
 
@@ -29,7 +29,12 @@ const columns: GridColDef[] = [
     headerName: 'Connection Name',
     minWidth: 200,
     renderCell: (params) => (
-      <Link href={`/worksheets/create?connections=${params.id}`}>
+      <Link
+        sx={{ cursor: 'pointer' }}
+        onClick={() =>
+          Router.push(`/worksheets/create?connections=${params.id}`)
+        }
+      >
         {params.value}
       </Link>
     ),

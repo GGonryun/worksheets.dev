@@ -3,7 +3,7 @@ import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 
-const steps = ['Configure', 'Define instructions', 'Connections'];
+const steps = ['Configure', 'Define instructions', 'Add connections'];
 
 export type CreationProgressProps = {
   activeStep: number;

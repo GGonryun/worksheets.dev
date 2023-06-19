@@ -6,7 +6,7 @@ import styles from './resizer.module.scss';
 import { Box, Button, Divider, IconButton, Typography } from '@mui/material';
 import FirstPageIcon from '@mui/icons-material/FirstPage';
 import LastPageIcon from '@mui/icons-material/LastPage';
-
+import { v4 as uuidv4 } from 'uuid';
 export function ResizeHandle({
   className = '',
   id,
@@ -26,13 +26,7 @@ export function ResizeHandle({
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
-          <path
-            d="M5 14H19M5 10H19"
-            stroke="#000000"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
+          <path d="M5 14H19M5 10H19" stroke="#000000" />
         </svg>
       </div>
     </PanelResizeHandle>
@@ -52,13 +46,8 @@ export function ResizableLayout({
   return (
     <div className={styles.Container}>
       <div className={styles.BottomRow}>
-        <PanelGroup autoSaveId="example" direction="horizontal">
-          <Panel
-            className={styles.Panel}
-            collapsible={true}
-            defaultSize={10}
-            order={1}
-          >
+        <PanelGroup autoSaveId={uuidv4()} direction="horizontal">
+          <Panel className={styles.Panel} collapsible={true} order={1}>
             <div className={styles.PanelContent}>{leftContent}</div>
           </Panel>
 
@@ -66,11 +55,11 @@ export function ResizableLayout({
             <>
               <ResizeHandle />
               <Divider orientation="vertical" />
-
               <Panel
                 className={styles.Panel}
-                collapsible={true}
-                defaultSize={10}
+                collapsible={false}
+                defaultSize={30}
+                minSize={20}
                 order={2}
               >
                 <Box
