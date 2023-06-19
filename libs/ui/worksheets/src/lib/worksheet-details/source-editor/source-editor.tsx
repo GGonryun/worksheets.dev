@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
-import { SourceVisualizer } from '../shared/source-visualizer';
-import { useUser } from '@worksheets/util/auth/client';
 import { useRouter } from 'next/router';
+import { SourceVisualizer } from '../../shared/source-visualizer';
+import { useWorksheet } from '../../shared/useWorksheet';
+import { useUser } from '@worksheets/util/auth/client';
 import { Box, Button } from '@mui/material';
 import { getYamlCodeValidationErrors } from '@worksheets/ui/code-editor';
-import { useWorksheet } from '../shared/useWorksheet';
 
 const editorEditingCaption =
   "press 'save' to save your changes or 'cancel' to discard them.";
