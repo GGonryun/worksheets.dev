@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
-import { SourceVisualizer } from '../../shared/source-visualizer';
+import { SourceVisualizer } from '../shared/source-visualizer';
 import { useUser } from '@worksheets/util/auth/client';
 import { useRouter } from 'next/router';
-import { GetWorksheetResponse } from '@worksheets/api/worksheets';
 import { Box, Button } from '@mui/material';
 import { getYamlCodeValidationErrors } from '@worksheets/ui/code-editor';
+import { useWorksheet } from '../shared/useWorksheet';
 
 const editorEditingCaption =
   "press 'save' to save your changes or 'cancel' to discard them.";
@@ -12,12 +12,10 @@ export const SourceEditor = () => {
   const { query } = useRouter();
   const worksheetId = query.id as string;
   const {
-    request: { secure, useSecure, mutate },
+    request: { secure },
   } = useUser();
 
-  const getWorksheetUrl = `/api/worksheets?worksheetId=${worksheetId}`;
-  const { data: worksheet, isLoading } =
-    useSecure<GetWorksheetResponse>(getWorksheetUrl);
+  const { data: worksheet, isLoading, mutate } = useWorksheet(worksheetId);
 
   const [yaml, setYaml] = useState<string>(worksheet?.text ?? '');
   const [editing, setEditing] = useState(false);
@@ -42,8 +40,10 @@ export const SourceEditor = () => {
     if (errors) {
       return alert('Your code has errors. Fix them before saving.');
     }
+
     await secure(`/api/worksheets`, 'POST', { worksheetId, text: yaml });
-    await mutate(getWorksheetUrl);
+    await mutate();
+
     setEditing(false);
   };
 

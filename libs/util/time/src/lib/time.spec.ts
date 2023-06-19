@@ -4,6 +4,7 @@ import {
   addMinutesToCurrentTime,
   addSecondsToCurrentTime,
   formatTimestamp,
+  formatTimestampLong,
   secondsRemaining,
   waitFor,
   withinMinutes,
@@ -174,5 +175,20 @@ describe('formatTimestamp', () => {
   it('should return current time if the timestamp is invalid', () => {
     const timestamp = 1687067691891;
     expect(formatTimestamp(timestamp)).toBe('6/17/23, 10:54 PM');
+  });
+});
+
+describe('formatTimestampLong', () => {
+  it('should format a timestamp: Mar 2, 2021', () => {
+    const timestamp = 1614739200000;
+    expect(formatTimestampLong(timestamp)).toBe('Mar 2, 2021, 6:40:00 PM');
+  });
+  it('should format a timestamp: Jun 26, 2008', () => {
+    const timestamp = 1214491200000;
+    expect(formatTimestampLong(timestamp)).toBe('Jun 26, 2008, 7:40:00 AM');
+  });
+  it("should return 'Invalid Date' if the timestamp is invalid", () => {
+    const timestamp = undefined;
+    expect(formatTimestampLong(timestamp)).toBe('Invalid Date');
   });
 });

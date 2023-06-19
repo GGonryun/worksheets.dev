@@ -14,6 +14,7 @@ export type GetWorksheetsResponse = z.infer<typeof worksheetsSchema>;
 
 export const get = newPrivateHandler({ input, output })(
   async ({ user: { uid }, data: { worksheetId } }) => {
+    console.log('worksheetId', worksheetId);
     if (!worksheetId) {
       return await WorksheetsManagement.listUsersWorksheets(uid);
     }

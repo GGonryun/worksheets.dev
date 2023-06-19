@@ -70,7 +70,11 @@ export const request = {
   command: {
     private:
       (user: User | null) =>
-      <Output, Input>(url: string, mode: RequestMethods, data?: Input) =>
+      <Output, Input = unknown>(
+        url: string,
+        mode: RequestMethods,
+        data?: Input
+      ) =>
         errorAdapter<Output>(
           compose(fetch)(
             method(mode),
@@ -81,7 +85,11 @@ export const request = {
         )(url),
     maybe:
       (user: User | null) =>
-      <Output, Input>(url: string, mode: RequestMethods, data?: Input) =>
+      <Output, Input = unknown>(
+        url: string,
+        mode: RequestMethods,
+        data?: Input
+      ) =>
         errorAdapter<Output>(
           compose(fetch)(
             method(mode),
@@ -92,7 +100,11 @@ export const request = {
         )(url),
     public:
       () =>
-      <Output, Input>(url: string, mode: RequestMethods, data?: Input) =>
+      <Output, Input = unknown>(
+        url: string,
+        mode: RequestMethods,
+        data?: Input
+      ) =>
         errorAdapter<Output>(
           compose(fetch)(
             method(mode),

@@ -3,8 +3,12 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import { ExecutionDetails } from './execution-details/execution-details';
-import { SourceEditor } from './execution-details/source-editor';
+import { SourceEditor } from './source-editor';
 import { Divider } from '@mui/material';
+import { GeneralConfiguration } from './general-configuration/general-configuration';
+import { ConnectionsSelector } from './connections-selector';
+import { LogList } from './log-list/log-list';
+import { TriggersContainer } from './triggers-container';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -39,9 +43,9 @@ export function WorksheetTabs() {
       <Tabs value={value} onChange={handleChange} aria-label="execution tabs">
         <Tab label="Executions" {...a11yProps(0)} />
         <Tab label="YAML" {...a11yProps(1)} />
-        <Tab label="Details" {...a11yProps(2)} />
-        <Tab label="Logs" {...a11yProps(3)} />
-        <Tab label="Triggers" {...a11yProps(4)} />
+        <Tab label="Logs" {...a11yProps(2)} />
+        <Tab label="Triggers" {...a11yProps(3)} />
+        <Tab label="Settings" {...a11yProps(4)} />
         <Tab label="Connections" {...a11yProps(5)} />
       </Tabs>
       <Divider />
@@ -53,16 +57,16 @@ export function WorksheetTabs() {
         <SourceEditor />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        Item Three
+        <LogList logs={[]} />
       </TabPanel>
       <TabPanel value={value} index={3}>
-        Item Four
+        <TriggersContainer triggers={[]} />
       </TabPanel>
       <TabPanel value={value} index={4}>
-        Item Five
+        <GeneralConfiguration details={[]} />
       </TabPanel>
       <TabPanel value={value} index={5}>
-        Item Six
+        <ConnectionsSelector connections={[]} />
       </TabPanel>
     </>
   );
