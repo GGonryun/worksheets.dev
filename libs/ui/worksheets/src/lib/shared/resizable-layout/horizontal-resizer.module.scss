@@ -52,6 +52,14 @@
   margin-bottom: 0.5rem;
 }
 
+.IconBox {
+  width: 1em;
+  height: 100%;
+  position: absolute;
+  left: calc(50% - 0.5rem);
+  cursor: col-resize;
+}
+
 .Icon {
   width: 1em;
   height: 1em;

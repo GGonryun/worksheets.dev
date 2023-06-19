@@ -1,7 +1,7 @@
 import { GridRowId } from '@mui/x-data-grid';
 import { useState } from 'react';
 import { FormLayout } from './form-layout';
-import { DataTable } from '../shared/connections/data-grid';
+import { DataTable } from '../shared/connections/data-table';
 export type ConnectionsFormValues = {
   connections: string[];
 };

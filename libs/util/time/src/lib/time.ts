@@ -29,6 +29,16 @@ export function expireAfter({
 }
 
 /**
+ * @name dateFromTimestamp
+ * @description converts a timestamp to a date
+ * @param {number} timestamp the timestamp to convert
+ * @returns {Date} the date
+ */
+export const dateFromTimestamp = (timestamp: number): Date => {
+  return new Date(timestamp);
+};
+
+/**
  * @name addDurationToCurrentTime
  * @description adds a duration to the current time
  * @param {Duration} duration the duration to add
@@ -52,13 +62,28 @@ export const addDurationToCurrentTime = (
 };
 
 /**
+ * @name addDaysToCurrentTime
+ * @description adds days to the current time
+ * @param {number} days the number of days to add
+ * @param {Date} currentTime the current time to check against useful if testing and we need to set a fixed time.
+ */
+export function addDaysToCurrentTime(
+  days: number,
+  currentTime: Date = new Date()
+): Date {
+  const newTime: Date = new Date(currentTime.getTime() + days * 86400000);
+  return newTime;
+}
+
+/**
  * @name addHoursToCurrentTime
  * @description adds hours to the current time
  * @param {number} hours the number of hours to add
+ * @param {Date} currentTime the current time to check against useful if testing and we need to set a fixed time.
  */
 export function addHoursToCurrentTime(
   hours: number,
-  currentTime = new Date()
+  currentTime: Date = new Date()
 ): Date {
   const newTime: Date = new Date(currentTime.getTime() + hours * 3600000);
   return newTime;
@@ -100,7 +125,7 @@ export const waitFor = (wait: number): Promise<void> => {
 export const withinMinutes = (
   timestamp: number,
   minutes: number,
-  currentTime = new Date()
+  currentTime: Date = new Date()
 ): boolean => {
   const minutesToMs = 60000;
   const offset = minutes * minutesToMs;
@@ -135,6 +160,7 @@ export type Duration = {
  * @param {number} timestamp the timestamp to check
  * @param {Date} currentTime the current time to check against useful if testing and we need to set a fixed time.
  * @returns {object} the number of hours, minutes and seconds remaining in the timestamp
+ *
  * @example
  * const now = new Date();
  * const timestamp = addMinutesToCurrentTime(3, now).getTime();

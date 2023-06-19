@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 
 import 'ace-builds/src-noconflict/mode-yaml';
 import 'ace-builds/src-noconflict/mode-json';
-import 'ace-builds/src-noconflict/theme-sqlserver';
+import 'ace-builds/src-noconflict/theme-textmate';
 import 'ace-builds/src-noconflict/theme-terminal';
 import 'ace-builds/src-noconflict/ext-language_tools';
 import { getYamlCodeValidationErrors } from './yaml';
@@ -16,7 +16,7 @@ export type AceEditorProps = {
   value: string;
   mode: 'yaml' | 'json';
   theme: 'light' | 'dark';
-  onChange: (newValue: string) => void;
+  onChange?: (newValue: string) => void;
   disabled?: boolean;
   caption?: string;
 };
@@ -67,7 +67,7 @@ export default function CodeEditor({
         height="100%"
         width={width}
         mode={mode === 'yaml' ? 'yaml' : 'json'}
-        theme={theme === 'light' ? 'sqlserver' : 'terminal'}
+        theme={theme === 'light' ? 'textmate' : 'terminal'}
         value={value}
         fontSize={14}
         style={{ borderRadius: '0px' }}

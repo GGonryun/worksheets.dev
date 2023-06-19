@@ -1,29 +1,14 @@
 import { Box, Chip, Link } from '@mui/material';
-import {
-  DataGrid,
-  GridActionsCellItem,
-  GridActionsCellItemProps,
-  GridColDef,
-  GridRowParams,
-} from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridRowParams } from '@mui/x-data-grid';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
-import { FC, RefAttributes } from 'react';
+import { FC } from 'react';
 import PlayIcon from '@mui/icons-material/PlayArrowOutlined';
 import { TaskState } from '@worksheets/data-access/tasks';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import PendingIcon from '@mui/icons-material/Pending';
 import ErrorIcon from '@mui/icons-material/Error';
 import { useRouter } from 'next/router';
-type GridLinkActionProps = { href: string } & GridActionsCellItemProps &
-  RefAttributes<HTMLButtonElement>;
-
-const GridLinkAction = ({ href, ...props }: GridLinkActionProps) => {
-  return (
-    <Link href={href} underline="none" color="inherit" variant="body1">
-      <GridActionsCellItem {...props} />
-    </Link>
-  );
-};
+import { GridLinkAction } from '../../shared/grid-action-link';
 
 const columns = (worksheetId: string): GridColDef[] => [
   {

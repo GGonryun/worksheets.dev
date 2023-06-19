@@ -1,27 +1,16 @@
 import { Box, Button, Divider, Link, Typography } from '@mui/material';
 import {
   DataGrid,
-  GridActionsCellItem,
-  GridActionsCellItemProps,
   GridColDef,
   GridRowId,
   GridRowParams,
 } from '@mui/x-data-grid';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import AddIcon from '@mui/icons-material/AddOutlined';
-import { FC, RefAttributes } from 'react';
+import { FC } from 'react';
 import { FilterTextInput } from '../filter-text-input';
 import Router, { useRouter } from 'next/router';
-type GridLinkActionProps = { href: string } & GridActionsCellItemProps &
-  RefAttributes<HTMLButtonElement>;
-
-const GridLinkAction = ({ href, ...props }: GridLinkActionProps) => {
-  return (
-    <Link href={href} underline="none" color="inherit" variant="body1">
-      <GridActionsCellItem {...props} />
-    </Link>
-  );
-};
+import { GridLinkAction } from '../grid-action-link';
 
 const columns: GridColDef[] = [
   {
