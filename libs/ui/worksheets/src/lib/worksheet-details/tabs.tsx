@@ -3,7 +3,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import { ExecutionDetails } from './execution-details/execution-details';
-import { SourceEditor } from './source-editor';
+import { SourceEditor } from './source-editor/source-editor';
 import { Divider } from '@mui/material';
 import { GeneralConfiguration } from './general-configuration/general-configuration';
 import { ConnectionsSelector } from './connections-selector';

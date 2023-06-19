@@ -1,28 +1,12 @@
 import { Box, Link } from '@mui/material';
-import {
-  DataGrid,
-  GridActionsCellItem,
-  GridActionsCellItemProps,
-  GridColDef,
-  GridRowParams,
-} from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridRowParams } from '@mui/x-data-grid';
 import PlayArrowIcon from '@mui/icons-material/PlayArrowOutlined';
 import ModeEditIcon from '@mui/icons-material/ModeEditOutlineOutlined';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 
-import { RefAttributes } from 'react';
 import { request, useUser } from '@worksheets/util/auth/client';
 import { WorksheetsDataTable } from '@worksheets/feat/worksheets-management';
-type GridLinkActionProps = { href: string } & GridActionsCellItemProps &
-  RefAttributes<HTMLButtonElement>;
-
-const GridLinkAction = ({ href, ...props }: GridLinkActionProps) => {
-  return (
-    <Link href={href} underline="none" color="inherit" variant="body1">
-      <GridActionsCellItem {...props} />
-    </Link>
-  );
-};
+import { GridLinkAction } from '../shared/grid-action-link';
 
 const columns: GridColDef[] = [
   {

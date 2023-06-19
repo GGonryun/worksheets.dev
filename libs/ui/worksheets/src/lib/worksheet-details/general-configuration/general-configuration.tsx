@@ -56,7 +56,7 @@ export const GeneralConfiguration: React.FC<GeneralDetailsProps> = ({
     <>
       {/* General Configuration Form */}
       <Box p={3} display="flex" flexDirection="column" gap={1.25}>
-        <ConfigurationOption label={'Atomic ID'} content={data?.id} />
+        <ConfigurationOption label={'Identifier'} content={data?.id} />
 
         <ConfigurationOption
           label={'Published time'}
