@@ -2,22 +2,15 @@ import Layout from '../layout';
 import { useRouter } from 'next/router';
 import { Box, Button, Divider, IconButton, Typography } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { useUser } from '@worksheets/util/auth/client';
-import { GetWorksheetResponse } from '@worksheets/api/worksheets';
 import { WorksheetTabs } from './tabs';
 import PlayArrowOutlinedIcon from '@mui/icons-material/PlayArrowOutlined';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
+import { useWorksheet } from '../shared/useWorksheet';
 
 export function WorksheetDetailsPage() {
   const { query, push } = useRouter();
-  const {
-    request: { useSecure },
-  } = useUser();
-  // get worksheet details.
-  const { data: worksheet } = useSecure<GetWorksheetResponse>(
-    `/api/worksheets?worksheetId=${query.id}`
-  );
+  const { data: worksheet } = useWorksheet(query.id as string);
 
   return (
     <Layout>

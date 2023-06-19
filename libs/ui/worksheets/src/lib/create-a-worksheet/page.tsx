@@ -11,8 +11,8 @@ import { ConnectionsForm } from './connection-form';
 import { useUser } from '@worksheets/util/auth/client';
 import { warn } from '@worksheets/ui/common';
 import {
-  PostWorksheetRequest,
-  PostWorksheetResponse,
+  PutWorksheetResponse,
+  PutWorksheetRequest,
 } from '@worksheets/api/worksheets';
 
 const defaultYaml = `
@@ -32,19 +32,18 @@ steps:
 return: \${data}
 `;
 
-const newWorksheetRequest: PostWorksheetRequest = {
+const newWorksheetRequest: PutWorksheetRequest = {
   name: '',
   text: defaultYaml.trim(),
   description: '',
   logging: 'trace',
-  trigger: '',
   schedules: [],
   events: [],
   connections: [],
 };
 
 // checks to see if the values matches the default entities values
-const hasNoChanges = (value: PostWorksheetRequest) => {
+const hasNoChanges = (value: PutWorksheetRequest) => {
   return Object.entries(value).every(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ([k, v]) => isEqual((newWorksheetRequest as any)[k], v)
@@ -56,7 +55,7 @@ type WorksheetBuilderActions =
   | ({ type: 'update-config' } & ConfigFormValues)
   | { type: 'update-yaml'; text: string };
 
-type WorksheetBuilderState = PostWorksheetRequest;
+type WorksheetBuilderState = PutWorksheetRequest;
 
 function worksheetBuilderReducer(
   state: WorksheetBuilderState,
