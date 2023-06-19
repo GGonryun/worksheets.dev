@@ -1,10 +1,14 @@
+import { newTasksDatabase } from '@worksheets/data-access/tasks';
 import {
   WorksheetEntity,
   newWorksheetsDatabase,
 } from '@worksheets/data-access/worksheets';
 import { HandlerFailure } from '@worksheets/util/next';
+import { formatTimestamp } from '@worksheets/util/time';
+import { z } from 'zod';
 
 const worksheetsdb = newWorksheetsDatabase();
+const tasksDb = newTasksDatabase();
 
 export const doesUserOwnWorksheet = async (
   userId: string,
@@ -29,9 +33,6 @@ export const deleteWorksheet = async (userId: string, worksheetId: string) => {
 
 export const listUsersWorksheets = async (userId: string) => {
   const list = await worksheetsdb.query({ f: 'uid', o: '==', v: userId });
-  if (!list.length) {
-    list.push(await upsertWorksheet({ uid: userId, text: '' }));
-  }
   const map: Record<string, WorksheetEntity> = {};
   for (const entity of list) {
     map[entity.id] = entity;
@@ -50,25 +51,6 @@ export const getUserWorksheet = async (userId: string, worksheetId: string) => {
   }
 
   return worksheet;
-};
-
-const DEFAULT_WORKSHEET_USER = 'anonymous';
-
-export const upsertWorksheet = async (update: Partial<WorksheetEntity>) => {
-  const id = update.id ?? worksheetsdb.id();
-  const uid = update.uid ?? DEFAULT_WORKSHEET_USER;
-  const text = update.text ?? '';
-  const entity: WorksheetEntity = { text, id, uid };
-
-  return await worksheetsdb.updateOrInsert(entity);
-};
-
-export const createWorksheet = async () => {
-  return await worksheetsdb.insert({
-    id: worksheetsdb.id(),
-    text: '',
-    uid: 'anonymous',
-  });
 };
 
 export const doesWorksheetExist = async (worksheetId: string) => {
@@ -100,4 +82,42 @@ export const getWorksheet = async (worksheetId: string) => {
   }
 
   return await worksheetsdb.get(worksheetId);
+};
+
+export const worksheetDataRowSchema = z.object({
+  name: z.string(),
+  id: z.string(),
+  lastUpdated: z.string(),
+  lastExecuted: z.string().optional(),
+});
+
+export const worksheetsDataTableSchema = z.array(worksheetDataRowSchema);
+export type WorksheetsDataTable = z.infer<typeof worksheetsDataTableSchema>;
+
+export const getWorksheetsDataTable = async (
+  userId: string
+): Promise<WorksheetsDataTable> => {
+  const list = await listUsersWorksheets(userId);
+  const rows: WorksheetsDataTable = [];
+  for (const worksheetId in list) {
+    const worksheet = list[worksheetId];
+    // for each worksheet get it's last execution
+    const data = await tasksDb.collection
+      .where('worksheetId', '==', worksheetId)
+      .orderBy('createdAt', 'desc')
+      .limit(1)
+      .get();
+
+    const entities = tasksDb.parse(data);
+
+    rows.push({
+      name: worksheet.name,
+      id: worksheet.id,
+      lastUpdated: formatTimestamp(worksheet.lastUpdated),
+      lastExecuted: entities.length
+        ? formatTimestamp(entities[0].createdAt)
+        : undefined,
+    });
+  }
+  return rows;
 };

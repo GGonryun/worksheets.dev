@@ -7,7 +7,7 @@ import {
 import { addMinutesToCurrentTime } from '@worksheets/util/time';
 import { z } from 'zod';
 
-const logLevelEntity = z.enum([
+export const logLevelEntity = z.enum([
   'trace',
   'debug',
   'info',

@@ -11,6 +11,7 @@ import { useEffect, useState } from 'react';
 import { firebaseAuth } from '@worksheets/firebase/client';
 import { UserAccessFailure } from './failures';
 import { FirebaseFailure } from '@worksheets/firebase/client';
+import { request } from './web';
 
 export const useUser = () => {
   const [user, setUser] = useState<User | null>(null);
@@ -128,6 +129,10 @@ export const useUser = () => {
     getRequestToken,
     token,
     hasUser: !!user && !loading,
+    request: {
+      secure: request.command.private(user),
+      useSecure: request.query.usePrivate,
+    },
   };
 };
 

@@ -71,6 +71,7 @@
       ],
       "@worksheets/firebase/pubsub": ["libs/firebase/pubsub/src/index.ts"],
       "@worksheets/firebase/server": ["libs/firebase/server/src/index.ts"],
+      "@worksheets/ui/code-editor": ["libs/ui/code-editor/src/index.ts"],
       "@worksheets/ui/common": ["libs/ui/common/src/index.ts"],
       "@worksheets/ui/home": ["libs/ui/home/src/index.ts"],
       "@worksheets/ui/home/server": ["libs/ui/home/src/server.ts"],

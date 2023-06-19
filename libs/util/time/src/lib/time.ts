@@ -170,3 +170,23 @@ export const printDuration = ({
   const pad = (num: number) => num.toString().padStart(2, '0');
   return `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
 };
+
+/**
+ * a function that converts a millisecond unix timestamp to a string format like 6/15/23, 8:02 PM
+ * @param timestamp a millisecond unix timestamp
+ * @returns a string format of MM/DD/YY, HH:MM AM/PM
+ */
+export const formatTimestamp = (timestamp: number) => {
+  const date = new Date(timestamp);
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+  const year = date.getFullYear() % 100;
+  const hour = date.getHours();
+  const minute = date.getMinutes();
+  const ampm = hour < 12 ? 'AM' : 'PM';
+  const hour12 = hour % 12;
+  const hourString = hour12 === 0 ? '12' : hour12.toString();
+  const minuteString = minute < 10 ? `0${minute}` : minute.toString();
+
+  return `${month}/${day}/${year}, ${hourString}:${minuteString} ${ampm}`;
+};
