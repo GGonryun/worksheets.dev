@@ -131,7 +131,7 @@ export default function Layout({ children }: LayoutProps) {
   ];
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box height="100%" display="flex">
       <CssBaseline />
       <AppBar position="fixed" open={open}>
         <Toolbar
@@ -224,9 +224,10 @@ export default function Layout({ children }: LayoutProps) {
           ))}
         </List>
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+      <Box component="main" sx={{ flexGrow: 1 }}>
         <DrawerHeader />
-        <Box>{children}</Box>
+        {/* remove the offset created by the drawer header */}
+        <Box height="calc(100% - 64px)">{children}</Box>
       </Box>
     </Box>
   );

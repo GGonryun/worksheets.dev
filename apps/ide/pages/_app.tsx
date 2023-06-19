@@ -8,9 +8,7 @@ function CustomApp({ Component, pageProps }: AppProps) {
       <Head>
         <title>Worksheets IDE</title>
       </Head>
-      <main className="app">
-        <Component {...pageProps} />
-      </main>
+      <Component {...pageProps} />
     </>
   );
 }

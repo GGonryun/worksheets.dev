@@ -1,12 +1,10 @@
 import { Box, Container, IconButton, Typography } from '@mui/material';
 import { ResourceExplorer } from '../resource-explorer';
 import { Header } from './header';
-import { CodeEditor } from '../code-editor/code-editor';
 import { useEffect, useState } from 'react';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { request, useUser } from '@worksheets/util/auth/client';
-import { ControlPanel } from '../code-editor/control-panel';
 import {
   GetWorksheetResponse,
   GetWorksheetsResponse,
@@ -77,13 +75,7 @@ export function WebEditor() {
       <Box display="flex" gap={1} justifyContent="center">
         <Explorer />
         <Box flexGrow={2} maxHeight={800} minHeight={600}>
-          <ControlPanel
-            onDelete={handleDeleteWorksheet}
-            onNew={handleNew}
-            onExecute={handleExecute}
-            onSave={handleSave}
-          />
-          <CodeEditor text={text} setText={setText} />
+          DEPRECATED
         </Box>
       </Box>
     </Container>

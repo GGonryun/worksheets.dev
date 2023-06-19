@@ -3,6 +3,7 @@ import {
   addHoursToCurrentTime,
   addMinutesToCurrentTime,
   addSecondsToCurrentTime,
+  formatTimestamp,
   secondsRemaining,
   waitFor,
   withinMinutes,
@@ -158,5 +159,20 @@ describe('durationRemaining', () => {
       now
     ).getTime();
     expect(secondsRemaining(timestamp, now)).toBe(11105);
+  });
+});
+
+describe('formatTimestamp', () => {
+  it('should format a timestamp', () => {
+    const timestamp = 1614739200000;
+    expect(formatTimestamp(timestamp)).toBe('3/2/21, 6:40 PM');
+  });
+  it("should return 'Invalid Date' if the timestamp is invalid", () => {
+    const timestamp = 1214491200000;
+    expect(formatTimestamp(timestamp)).toBe('6/26/8, 7:40 AM');
+  });
+  it('should return current time if the timestamp is invalid', () => {
+    const timestamp = 1687067691891;
+    expect(formatTimestamp(timestamp)).toBe('6/17/23, 10:54 PM');
   });
 });

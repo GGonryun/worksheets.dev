@@ -14,3 +14,8 @@ export function maskStringExceptLastFive(input: string): string {
 export function escapeNewLines(string: string) {
   return string.replace(/\\n/g, '\n');
 }
+
+// upper case the first letter of a string
+export function capitalizeFirstLetter(string: string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
