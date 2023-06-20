@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { checkValidWorksheetName } from '../../../shared/util';
-import { SharedTextField } from './shared-text-field';
+import { SharedTextField } from '../../../shared/shared-text-field';
 
 export const WorksheetNameField: React.FC<{
   name: string;

@@ -1,4 +1,4 @@
-import { Box, Link } from '@mui/material';
+import { Link } from '@mui/material';
 import { DataGrid, GridColDef, GridRowParams } from '@mui/x-data-grid';
 import PlayArrowIcon from '@mui/icons-material/PlayArrowOutlined';
 import ModeEditIcon from '@mui/icons-material/ModeEditOutlineOutlined';
@@ -55,7 +55,7 @@ const columns: GridColDef[] = [
   },
 ];
 
-export default function DataTable() {
+export function WorksheetsDataTable() {
   const { user } = useUser();
   // Get the data from the API
   const { data: worksheets } = request.query.usePrivate<WorksheetsDataTable>(
@@ -64,22 +64,20 @@ export default function DataTable() {
   );
 
   return (
-    <Box>
-      <DataGrid
-        sx={{ border: 0 }}
-        rows={worksheets ?? []}
-        autoHeight
-        columns={columns}
-        density="compact"
-        initialState={{
-          pagination: {
-            paginationModel: {
-              pageSize: 100,
-            },
+    <DataGrid
+      sx={{ border: 0 }}
+      rows={worksheets ?? []}
+      autoHeight
+      columns={columns}
+      density="compact"
+      initialState={{
+        pagination: {
+          paginationModel: {
+            pageSize: 100,
           },
-        }}
-        hideFooter
-      />
-    </Box>
+        },
+      }}
+      hideFooter
+    />
   );
 }

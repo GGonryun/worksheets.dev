@@ -1,4 +1,4 @@
-import Layout from '../layout';
+import WebsiteLayout from '../website-layout';
 import { useRouter } from 'next/router';
 import { Box, Button, Divider, IconButton, Typography } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -8,12 +8,13 @@ import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import { useWorksheet } from '../shared/useWorksheet';
 
-export function WorksheetDetailsPage() {
+export const WorksheetDetailsPage: React.FC<{ tab: number }> = ({ tab }) => {
   const { query, push } = useRouter();
-  const { data: worksheet } = useWorksheet(query.id as string);
+  const worksheetId = query.id as string;
+  const { data: worksheet } = useWorksheet(worksheetId);
 
   return (
-    <Layout>
+    <WebsiteLayout>
       <Box height="100%" display="flex" flexDirection="column">
         <Box display="flex" alignItems="center" gap={3} margin={1}>
           <IconButton onClick={() => push('/worksheets')}>
@@ -54,8 +55,8 @@ export function WorksheetDetailsPage() {
           </Box>
         </Box>
         <Divider />
-        <WorksheetTabs />
+        <WorksheetTabs value={tab} worksheetId={worksheetId} />
       </Box>
-    </Layout>
+    </WebsiteLayout>
   );
-}
+};

@@ -62,7 +62,7 @@ export const LogListDataTable: FC<LogListDataTableProps> = ({
     <DataGrid
       sx={() => ({
         border: 0,
-        cursor: 'pointer',
+        cursor: loading ? 'progress' : 'pointer',
       })}
       rows={rows ?? []}
       autoHeight

@@ -9,11 +9,21 @@ import { GeneralConfiguration } from './general-configuration/general-configurat
 import { ConnectionsSelector } from './connections-selector';
 import { LogList } from './log-list/log-list';
 import { TriggersContainer } from './triggers-container';
+import { useRouter } from 'next/router';
 
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
-  value: number;
+  value: TabIndex;
+}
+
+export enum TabIndex {
+  Executions = 0,
+  YAML = 1,
+  Logs = 2,
+  Triggers = 3,
+  Settings = 4,
+  Connections = 5,
 }
 
 function TabPanel(props: TabPanelProps) {
@@ -31,13 +41,34 @@ function a11yProps(index: number) {
   };
 }
 
-export function WorksheetTabs() {
-  const [value, setValue] = React.useState(0);
+export const WorksheetTabs: React.FC<{
+  value: TabIndex;
+  worksheetId: string;
+}> = ({ worksheetId, value }) => {
+  const { push } = useRouter();
 
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue);
+  const handleChange = (event: React.SyntheticEvent, newValue: TabIndex) => {
+    switch (newValue) {
+      case TabIndex.Executions:
+        push(`/worksheets/${worksheetId}/executions`);
+        break;
+      case TabIndex.YAML:
+        push(`/worksheets/${worksheetId}/yaml`);
+        break;
+      case TabIndex.Logs:
+        push(`/worksheets/${worksheetId}/logs`);
+        break;
+      case TabIndex.Triggers:
+        push(`/worksheets/${worksheetId}/triggers`);
+        break;
+      case TabIndex.Settings:
+        push(`/worksheets/${worksheetId}/settings`);
+        break;
+      case TabIndex.Connections:
+        push(`/worksheets/${worksheetId}/connections`);
+        break;
+    }
   };
-
   return (
     <>
       <Tabs value={value} onChange={handleChange} aria-label="execution tabs">
@@ -70,4 +101,4 @@ export function WorksheetTabs() {
       </TabPanel>
     </>
   );
-}
+};

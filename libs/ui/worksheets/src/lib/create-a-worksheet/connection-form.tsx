@@ -1,7 +1,12 @@
 import { GridRowId } from '@mui/x-data-grid';
 import { useState } from 'react';
 import { FormLayout } from './form-layout';
-import { DataTable } from '../shared/connections/data-table';
+import { ConnectionsDataTable } from '../connections/data-table';
+import { Box, Typography, Button, Divider } from '@mui/material';
+import AddIcon from '@mui/icons-material/AddOutlined';
+import { useRouter } from 'next/router';
+import { FilterTextInput } from '../shared/filter-text-input';
+
 export type ConnectionsFormValues = {
   connections: string[];
 };
@@ -18,6 +23,7 @@ export const ConnectionsForm: React.FC<ConnectionsFormProps> = ({
   onPrevious,
 }) => {
   const [selections, setSelections] = useState<GridRowId[]>([]);
+  const { push } = useRouter();
 
   return (
     <FormLayout
@@ -45,7 +51,21 @@ export const ConnectionsForm: React.FC<ConnectionsFormProps> = ({
         },
       }}
     >
-      <DataTable
+      <Box paddingTop={1.25} paddingBottom={1} px={3} display="flex" gap={6}>
+        <Typography variant="h6">Connections</Typography>
+        <Button
+          startIcon={<AddIcon />}
+          size="small"
+          onClick={() => push('/worksheets/create?connections=')}
+        >
+          Create
+        </Button>
+      </Box>
+      <Divider />
+      <FilterTextInput placeholder="Filter by name" />
+      <Divider />
+      <ConnectionsDataTable
+        onConnectionClick={(id) => push(`/worksheets/create?connections=${id}`)}
         rows={rows}
         selections={selections}
         onSelectionChange={setSelections}
