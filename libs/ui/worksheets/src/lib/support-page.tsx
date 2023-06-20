@@ -1,5 +1,5 @@
-import Layout from './layout';
+import WebsiteLayout from './website-layout';
 
 export function SupportPage() {
-  return <Layout>Support Page</Layout>;
+  return <WebsiteLayout>Support Page</WebsiteLayout>;
 }
