@@ -1,5 +1,5 @@
 import { Box, Divider, IconButton, Typography } from '@mui/material';
-import Layout from '../layout';
+import WebsiteLayout from '../website-layout';
 import { CreationProgress } from './progress';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { ConfigFormValues, ConfigureForm } from './configure/form';
@@ -109,7 +109,7 @@ export function CreateAWorksheetPage() {
   };
 
   return (
-    <Layout>
+    <WebsiteLayout>
       <Box display="flex" flexDirection="column" height="100%">
         <Box display="flex" alignItems="center" gap={3} padding={1}>
           <IconButton onClick={leavePage}>
@@ -151,6 +151,6 @@ export function CreateAWorksheetPage() {
           />
         )}
       </Box>
-    </Layout>
+    </WebsiteLayout>
   );
 }

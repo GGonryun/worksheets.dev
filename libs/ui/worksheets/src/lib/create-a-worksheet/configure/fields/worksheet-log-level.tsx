@@ -1,5 +1,5 @@
 import { LogLevel } from '@worksheets/data-access/tasks';
-import { SharedTextField } from './shared-text-field';
+import { SharedTextField } from '../../../shared/shared-text-field';
 import { MenuItem } from '@mui/material';
 
 export const WorksheetLogLevelField: React.FC<{

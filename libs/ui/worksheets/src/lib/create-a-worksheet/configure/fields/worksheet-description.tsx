@@ -1,4 +1,4 @@
-import { SharedTextField } from './shared-text-field';
+import { SharedTextField } from '../../../shared/shared-text-field';
 
 export const WorksheetDescriptionField: React.FC<{
   description: string;

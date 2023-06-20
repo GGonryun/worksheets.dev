@@ -99,7 +99,7 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 export type LayoutProps = { children: React.ReactNode };
-export default function Layout({ children }: LayoutProps) {
+export default function WebsiteLayout({ children }: LayoutProps) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const { push } = useRouter();
