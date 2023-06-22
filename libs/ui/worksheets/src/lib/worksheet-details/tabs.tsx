@@ -1,7 +1,6 @@
 import * as React from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import Box from '@mui/material/Box';
 import { ExecutionDetails } from './execution-details/execution-details';
 import { SourceEditor } from './source-editor/source-editor';
 import { Divider } from '@mui/material';
@@ -10,61 +9,44 @@ import { ConnectionsSelector } from './connections-selector';
 import { LogList } from './log-list/log-list';
 import { TriggersContainer } from './triggers-container';
 import { useRouter } from 'next/router';
+import { a11yProps, TabPanel } from '../shared/tab-panel';
 
-interface TabPanelProps {
-  children?: React.ReactNode;
-  index: number;
-  value: TabIndex;
-}
-
-export enum TabIndex {
+export enum WorksheetTabIndex {
   Executions = 0,
-  YAML = 1,
+  Worksheet = 1,
   Logs = 2,
   Triggers = 3,
   Settings = 4,
   Connections = 5,
 }
 
-function TabPanel(props: TabPanelProps) {
-  const { children, value, index } = props;
-  if (value !== index) {
-    return null;
-  }
-  return <Box height="100%">{value === index && children}</Box>;
-}
-
-function a11yProps(index: number) {
-  return {
-    id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
-  };
-}
-
 export const WorksheetTabs: React.FC<{
-  value: TabIndex;
+  value: WorksheetTabIndex;
   worksheetId: string;
 }> = ({ worksheetId, value }) => {
   const { push } = useRouter();
 
-  const handleChange = (event: React.SyntheticEvent, newValue: TabIndex) => {
+  const handleChange = (
+    event: React.SyntheticEvent,
+    newValue: WorksheetTabIndex
+  ) => {
     switch (newValue) {
-      case TabIndex.Executions:
+      case WorksheetTabIndex.Executions:
         push(`/worksheets/${worksheetId}/executions`);
         break;
-      case TabIndex.YAML:
-        push(`/worksheets/${worksheetId}/yaml`);
+      case WorksheetTabIndex.Worksheet:
+        push(`/worksheets/${worksheetId}/worksheet`);
         break;
-      case TabIndex.Logs:
+      case WorksheetTabIndex.Logs:
         push(`/worksheets/${worksheetId}/logs`);
         break;
-      case TabIndex.Triggers:
+      case WorksheetTabIndex.Triggers:
         push(`/worksheets/${worksheetId}/triggers`);
         break;
-      case TabIndex.Settings:
+      case WorksheetTabIndex.Settings:
         push(`/worksheets/${worksheetId}/settings`);
         break;
-      case TabIndex.Connections:
+      case WorksheetTabIndex.Connections:
         push(`/worksheets/${worksheetId}/connections`);
         break;
     }
@@ -72,31 +54,34 @@ export const WorksheetTabs: React.FC<{
   return (
     <>
       <Tabs value={value} onChange={handleChange} aria-label="execution tabs">
-        <Tab label="Executions" {...a11yProps(0)} />
-        <Tab label="YAML" {...a11yProps(1)} />
-        <Tab label="Logs" {...a11yProps(2)} />
-        <Tab label="Triggers" {...a11yProps(3)} />
-        <Tab label="Settings" {...a11yProps(4)} />
-        <Tab label="Connections" {...a11yProps(5)} />
+        <Tab label="Executions" {...a11yProps(WorksheetTabIndex.Executions)} />
+        <Tab label="Worksheet" {...a11yProps(WorksheetTabIndex.Worksheet)} />
+        <Tab label="Logs" {...a11yProps(WorksheetTabIndex.Logs)} />
+        <Tab label="Triggers" {...a11yProps(WorksheetTabIndex.Triggers)} />
+        <Tab label="Settings" {...a11yProps(WorksheetTabIndex.Settings)} />
+        <Tab
+          label="Connections"
+          {...a11yProps(WorksheetTabIndex.Connections)}
+        />
       </Tabs>
       <Divider />
 
-      <TabPanel value={value} index={0}>
+      <TabPanel value={value} index={WorksheetTabIndex.Executions}>
         <ExecutionDetails />
       </TabPanel>
-      <TabPanel value={value} index={1}>
+      <TabPanel value={value} index={WorksheetTabIndex.Worksheet}>
         <SourceEditor />
       </TabPanel>
-      <TabPanel value={value} index={2}>
+      <TabPanel value={value} index={WorksheetTabIndex.Logs}>
         <LogList logs={[]} />
       </TabPanel>
-      <TabPanel value={value} index={3}>
+      <TabPanel value={value} index={WorksheetTabIndex.Triggers}>
         <TriggersContainer triggers={[]} />
       </TabPanel>
-      <TabPanel value={value} index={4}>
+      <TabPanel value={value} index={WorksheetTabIndex.Settings}>
         <GeneralConfiguration details={[]} />
       </TabPanel>
-      <TabPanel value={value} index={5}>
+      <TabPanel value={value} index={WorksheetTabIndex.Connections}>
         <ConnectionsSelector connections={[]} />
       </TabPanel>
     </>

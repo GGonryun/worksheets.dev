@@ -6,12 +6,28 @@ import { WorksheetTabs } from './tabs';
 import PlayArrowOutlinedIcon from '@mui/icons-material/PlayArrowOutlined';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
-import { useWorksheet } from '../shared/useWorksheet';
+import { trpc } from '@worksheets/trpc/ide';
 
 export const WorksheetDetailsPage: React.FC<{ tab: number }> = ({ tab }) => {
   const { query, push } = useRouter();
   const worksheetId = query.id as string;
-  const { data: worksheet } = useWorksheet(worksheetId);
+  const { data: worksheet } = trpc.worksheets.get.useQuery(
+    { id: worksheetId },
+    { enabled: !!worksheetId }
+  );
+  const deleteWorksheet = trpc.worksheets.delete.useMutation();
+
+  const handleDeleteWorksheet = async () => {
+    if (
+      // eslint-disable-next-line no-restricted-globals
+      confirm(
+        "This will also delete your worksheet's execution history and logs. Are you sure?"
+      )
+    ) {
+      await deleteWorksheet.mutateAsync({ id: worksheetId });
+      push('/worksheets');
+    }
+  };
 
   return (
     <WebsiteLayout>
@@ -24,15 +40,13 @@ export const WorksheetDetailsPage: React.FC<{ tab: number }> = ({ tab }) => {
         </Box>
         <Divider />
         <Box mx={3} my={1} display="flex" gap={3} alignItems="center">
-          <Typography variant="h6">
-            {worksheet?.name ?? 'not found...'}
-          </Typography>
+          <Typography variant="h6">{worksheet?.name ?? ''}</Typography>
           <Box display="flex" alignItems="center" gap={2}>
             <Button
               size="small"
               startIcon={<EditOutlinedIcon />}
               sx={{ fontWeight: 900 }}
-              href={`/worksheets/${query.id}/edit`}
+              href={`/worksheets/${query.id}/worksheet`}
             >
               Edit
             </Button>
@@ -47,7 +61,7 @@ export const WorksheetDetailsPage: React.FC<{ tab: number }> = ({ tab }) => {
             <Button
               size="small"
               startIcon={<DeleteOutlineOutlinedIcon />}
-              onClick={() => alert('not implemented yet')}
+              onClick={handleDeleteWorksheet}
               sx={{ fontWeight: 900 }}
             >
               Delete

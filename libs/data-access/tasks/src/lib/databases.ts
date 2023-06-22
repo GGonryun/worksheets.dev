@@ -14,6 +14,7 @@ export const logLevelEntity = z.enum([
   'warn',
   'error',
   'fatal',
+  'silent',
 ]);
 
 export type LogLevel = z.infer<typeof logLevelEntity>;

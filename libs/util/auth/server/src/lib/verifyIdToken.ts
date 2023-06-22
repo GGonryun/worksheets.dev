@@ -31,7 +31,7 @@ export async function parseToken(authorization?: string): Promise<string> {
   return pieces[1];
 }
 
-async function verify(idToken: string): Promise<DecodedIdToken> {
+export async function verify(idToken: string): Promise<DecodedIdToken> {
   try {
     const user = await auth().verifyIdToken(idToken);
     if (user) {

@@ -13,15 +13,15 @@ export const InvocationUrl: React.FC<{ url: string; onClick: () => void }> = ({
   return (
     <Box display="flex" alignItems={'center'} gap={1}>
       <Box
-        sx={(theme) => ({ backgroundColor: theme.palette.grey[100] })}
+        sx={(theme) => ({ px: 1, backgroundColor: theme.palette.grey[100] })}
         display="flex"
         gap={1}
         overflow="hidden"
         whiteSpace="nowrap"
       >
-        <Typography fontSize={14}>POST</Typography>
+        <Typography variant="body2">POST</Typography>
         <Typography
-          fontSize={14}
+          variant="body2"
           color="primary"
           sx={{ textDecoration: 'underline', cursor: 'pointer' }}
           onClick={handleCopyInvocationUrl}
