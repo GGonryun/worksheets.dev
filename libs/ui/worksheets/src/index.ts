@@ -3,6 +3,7 @@
 export * from './lib/worksheets/page';
 export * from './lib/connections/page';
 export * from './lib/settings/page';
+export * from './lib/settings/tabs';
 export * from './lib/templates-page';
 export * from './lib/documents-page';
 export * from './lib/support-page';

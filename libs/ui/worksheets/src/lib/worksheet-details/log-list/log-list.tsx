@@ -200,7 +200,7 @@ const LogLoadingBanner: React.FC<{
     >
       <InfoIcon {...darken} fontSize="small" />
 
-      <Typography {...darken} fontSize={14}>
+      <Typography {...darken} variant="body2">
         {!loading ? <>Scanned up to {time}</> : <>Searching for more</>}
       </Typography>
       <Box pl={4}>

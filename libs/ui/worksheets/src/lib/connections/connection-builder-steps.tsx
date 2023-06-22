@@ -85,7 +85,7 @@ export const ConnectionBuilderSteps: React.FC<{
             </SharedTextField>
             <SharedTextField
               label="Connection name"
-              helperText="An user friendly name for your connection."
+              helperText="A user friendly name for your connection."
               required
               value={form.name}
               onChange={(value) => updateForm({ name: value.target.value })}
@@ -165,7 +165,7 @@ export const ConnectionBuilderSteps: React.FC<{
   );
 };
 
-const ReviewRow: React.FC<{ label: string; children: ReactNode }> = ({
+export const ReviewRow: React.FC<{ label: string; children: ReactNode }> = ({
   label,
   children,
 }) => {
@@ -185,10 +185,10 @@ const ReviewRow: React.FC<{ label: string; children: ReactNode }> = ({
   );
 };
 
-const StepLabelWithCaption: React.FC<{ caption?: string; label: string }> = ({
-  caption,
-  label,
-}) => {
+export const StepLabelWithCaption: React.FC<{
+  caption?: string;
+  label: string;
+}> = ({ caption, label }) => {
   return (
     <StepLabel
       optional={
@@ -200,7 +200,7 @@ const StepLabelWithCaption: React.FC<{ caption?: string; label: string }> = ({
   );
 };
 
-const StepContentWithActions: React.FC<{
+export const StepContentWithActions: React.FC<{
   children: ReactNode;
   description: string;
   index: number;
@@ -219,7 +219,7 @@ const StepContentWithActions: React.FC<{
 }) => {
   return (
     <StepContent>
-      <Typography fontSize={14}>{description}</Typography>
+      <Typography variant="body2">{description}</Typography>
       {children}
       <Box sx={{ mb: 2 }}>
         <div>

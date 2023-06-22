@@ -1,25 +1,16 @@
-import { Box, Divider, Drawer, Typography } from '@mui/material';
 import { ConnectionBuilderSteps } from './connection-builder-steps';
+import { SidecarLayout } from '../shared/sidecar-layout';
 
 export const ConnectionBuilderSidecar: React.FC<{
   open: boolean;
   onClose: () => void;
 }> = ({ open, onClose }) => (
-  <Drawer anchor="right" open={open} onClose={onClose}>
-    <Box mt={'64px'} width="600px">
-      <Box px={3} py={1}>
-        <Typography variant="h6">Create a new connection</Typography>
-      </Box>
-      <Divider />
-
-      <Box px={3} py={2}>
-        <ConnectionBuilderSteps
-          onConnect={() => {
-            alert('TODO: Create connection');
-            onClose();
-          }}
-        />
-      </Box>
-    </Box>
-  </Drawer>
+  <SidecarLayout title="Create a new connection" open={open} onClose={onClose}>
+    <ConnectionBuilderSteps
+      onConnect={() => {
+        alert('TODO: Create connection');
+        onClose();
+      }}
+    />
+  </SidecarLayout>
 );

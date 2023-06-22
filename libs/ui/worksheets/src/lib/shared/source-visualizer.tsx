@@ -32,7 +32,7 @@ export const SourceVisualizer: React.FC<{
               color="primary"
               sx={{ alignItems: 'flex-start' }}
               endIcon={<OpenInNewIcon />}
-              href="/docs/worksheets/yaml-syntax"
+              href="/docs/worksheet-syntax"
               target="_blank"
             >
               Syntax Reference
@@ -51,7 +51,7 @@ export const SourceVisualizer: React.FC<{
         </Box>
       }
       secondary={{
-        content: <div>TODO</div>,
+        content: <div>TODO: graph representation</div>,
         title: 'Visualizer',
         hidden: !open,
         onClose: () => setOpen(false),

@@ -6,6 +6,7 @@ import {
 import { HandlerFailure } from '@worksheets/util/next';
 import { formatTimestamp } from '@worksheets/util/time';
 import { z } from 'zod';
+export const MAXIMUM_WORKSHEETS = 10;
 
 const worksheetsdb = newWorksheetsDatabase();
 const tasksDb = newTasksDatabase();
@@ -120,4 +121,45 @@ export const getWorksheetsDataTable = async (
     });
   }
   return rows;
+};
+
+export const createWorksheet = async (
+  uid: string,
+  entity: Pick<WorksheetEntity, 'name' | 'text' | 'description' | 'logging'>
+) => {
+  console.info(`creating a new worksheet for user ${uid}`);
+  const records = await listUsersWorksheets(uid);
+  const numRecords = Object.keys(records).length;
+
+  if (numRecords >= MAXIMUM_WORKSHEETS) {
+    throw new HandlerFailure({
+      code: 'resource-exhausted',
+      message: 'maximum worksheets threshold reached',
+    });
+  }
+
+  const id = worksheetsdb.id();
+  console.info('upserting worksheet', id);
+  await worksheetsdb.insert({
+    ...entity,
+    id,
+    uid,
+    createdAt: Date.now(),
+    updatedAt: Date.now(),
+  });
+  return id;
+};
+
+export const updateWorksheet = async (
+  entity: Partial<WorksheetEntity> & Pick<WorksheetEntity, 'id' | 'uid'>
+) => {
+  // get worksheet
+  const worksheet = await getUserWorksheet(entity.uid, entity.id);
+
+  // update worksheet
+  return await worksheetsdb.update({
+    ...worksheet,
+    ...entity,
+    updatedAt: Date.now(),
+  });
 };
