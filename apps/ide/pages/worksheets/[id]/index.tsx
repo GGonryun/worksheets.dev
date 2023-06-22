@@ -1,5 +1,8 @@
-import { TabIndex, WorksheetDetailsPage } from '@worksheets/ui/worksheets';
+import {
+  WorksheetDetailsPage,
+  WorksheetTabIndex,
+} from '@worksheets/ui/worksheets';
 
 export default function WorksheetDetails() {
-  return <WorksheetDetailsPage tab={TabIndex.Executions} />;
+  return <WorksheetDetailsPage tab={WorksheetTabIndex.Executions} />;
 }

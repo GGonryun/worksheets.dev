@@ -10,6 +10,7 @@ import { WorksheetNameField } from './fields/worksheet-name';
 import { checkValidWorksheetName } from '../../shared/util';
 import { WorksheetDescriptionField } from './fields/worksheet-description';
 import { WorksheetLogLevelField } from './fields/worksheet-log-level';
+import { ScheduleEditor } from './schedule-editor';
 
 export type ConfigFormValues = {
   name: string;
@@ -18,7 +19,7 @@ export type ConfigFormValues = {
 };
 
 export type ConfigFormProps = {
-  state: ConfigFormValues;
+  state: Partial<ConfigFormValues>;
   onSubmit: (values: ConfigFormValues) => void;
   onCancel: () => void;
 };
@@ -28,13 +29,15 @@ export const ConfigureForm: React.FC<ConfigFormProps> = ({
   onSubmit,
   onCancel,
 }) => {
-  const [form, setForm] = useState<ConfigFormValues>(
-    state ?? {
-      name: '',
-      description: '',
-      logging: 'trace',
-    }
-  );
+  const [form, setForm] = useState<ConfigFormValues>({
+    name: '',
+    description: '',
+    logging: 'trace',
+    ...state,
+  });
+
+  const [showScheduleEditor, setShowScheduleEditor] = useState(false);
+  const [showEventEditor, setShowEventEditor] = useState(false);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const handleOpenTriggerMenu = (
@@ -47,8 +50,8 @@ export const ConfigureForm: React.FC<ConfigFormProps> = ({
     setAnchorEl(null);
   };
 
-  const handleTriggerMenuSelection = () => {
-    alert('TODO');
+  const handleTriggerMenuSelection = (value: 'schedule' | 'event') => {
+    alert(`TODO: Implement trigger menu '${value}' selection.`);
     setAnchorEl(null);
   };
 
@@ -100,7 +103,7 @@ export const ConfigureForm: React.FC<ConfigFormProps> = ({
         />
 
         <WorksheetDescriptionField
-          description={form.description}
+          description={form.description ?? ''}
           onUpdate={(description) => ({ ...form, description })}
         />
 

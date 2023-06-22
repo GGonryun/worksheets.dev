@@ -1,5 +1,4 @@
 import { Alert, Box, Divider, Snackbar, Typography } from '@mui/material';
-import { useWorksheet } from '../../shared/useWorksheet';
 import { useRouter } from 'next/router';
 import { formatTimestampLong } from '@worksheets/util/time';
 import { IconButton } from '@mui/material';
@@ -7,13 +6,14 @@ import { ReactNode, useState } from 'react';
 import { useSnackbar } from '../../shared/useSnackbar';
 import EditIcon from '@mui/icons-material/EditOutlined';
 import { capitalizeFirstLetter } from '@worksheets/util/strings';
-import { useUser } from '@worksheets/util/auth/client';
 import { InvocationUrl } from './invocation-url';
-import { PostWorksheetRequest } from '@worksheets/api/worksheets';
 import { EditNameDialog } from './dialogs/edit-name';
 import { EditDescriptionDialog } from './dialogs/edit-description';
 import { EditLogLevelDialog } from './dialogs/edit-log-level';
 import { LogLevel } from '@worksheets/data-access/tasks';
+import { trpc } from '@worksheets/trpc/ide';
+import { UpdateWorksheetRequest } from '../../shared/types';
+
 type GeneralDetailsProps = {
   details: string[];
 };
@@ -22,22 +22,30 @@ export const GeneralConfiguration: React.FC<GeneralDetailsProps> = ({
   details,
 }) => {
   const { query } = useRouter();
-  const {
-    request: { secure },
-  } = useUser();
-  const { data, mutate } = useWorksheet(query.id as string);
+  const worksheetId = query.id as string;
+
+  const utils = trpc.useContext();
+
+  const { data } = trpc.worksheets.get.useQuery(
+    { id: worksheetId },
+    { enabled: !!worksheetId }
+  );
+
+  const updateWorksheet = trpc.worksheets.update.useMutation();
+
+  // TODO: import notistack.
   const { open, handleClose, handleClick } = useSnackbar();
   const executableUrl = `http://worksheets.dev/api/execute/${data?.id}`;
   const [editingField, setEditingField] = useState('');
 
   const handleUpdateWorksheet = async (
-    applyChanges: Partial<PostWorksheetRequest>
+    applyChanges: Partial<UpdateWorksheetRequest>
   ) => {
-    await secure('/api/worksheets', 'POST', {
-      worksheetId: data?.id,
+    await updateWorksheet.mutateAsync({
+      id: worksheetId,
       ...applyChanges,
     });
-    mutate();
+    utils.worksheets.get.invalidate();
   };
 
   const handleUpdateWorksheetName = async (name: string) => {
@@ -142,7 +150,7 @@ export const ConfigurationOption = ({
 
 export const EditableLabel: React.FC<{ label: string }> = ({ label }) => (
   <Box>
-    <Typography fontWeight={900} fontSize={14}>
+    <Typography fontWeight={900} variant="body2">
       {label}
     </Typography>
   </Box>
@@ -153,7 +161,7 @@ export const EditableField: React.FC<{
   onEdit?: () => void;
 }> = ({ content, onEdit }) => (
   <Box display="flex" alignItems="center" gap={1}>
-    <Typography fontSize={14} color="text.secondary">
+    <Typography variant="body2" color="text.secondary">
       {content}
     </Typography>
     {Boolean(onEdit) && (

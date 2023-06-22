@@ -1,6 +1,7 @@
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 import './styles.css';
+import { trpc } from '@worksheets/trpc/ide';
 
 function CustomApp({ Component, pageProps }: AppProps) {
   return (
@@ -13,4 +14,4 @@ function CustomApp({ Component, pageProps }: AppProps) {
   );
 }
 
-export default CustomApp;
+export default trpc.withTRPC(CustomApp);

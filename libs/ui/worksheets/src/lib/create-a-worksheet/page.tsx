@@ -8,12 +8,9 @@ import { useRouter } from 'next/router';
 import { isEqual } from 'lodash';
 import { DefineInstructionsForm } from './define-instructions/form';
 import { ConnectionsForm } from './connection-form';
-import { useUser } from '@worksheets/util/auth/client';
 import { warn } from '@worksheets/ui/common';
-import {
-  PutWorksheetResponse,
-  PutWorksheetRequest,
-} from '@worksheets/api/worksheets';
+import { trpc } from '@worksheets/trpc/ide';
+import { CreateWorksheetRequest } from '../shared/types';
 
 const defaultYaml = `
 name: iterating loops
@@ -32,7 +29,7 @@ steps:
 return: \${data}
 `;
 
-const newWorksheetRequest: PutWorksheetRequest = {
+const newWorksheetRequest: CreateWorksheetRequest = {
   name: '',
   text: defaultYaml.trim(),
   description: '',
@@ -43,7 +40,7 @@ const newWorksheetRequest: PutWorksheetRequest = {
 };
 
 // checks to see if the values matches the default entities values
-const hasNoChanges = (value: PutWorksheetRequest) => {
+const hasNoChanges = (value: CreateWorksheetRequest) => {
   return Object.entries(value).every(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ([k, v]) => isEqual((newWorksheetRequest as any)[k], v)
@@ -55,13 +52,12 @@ type WorksheetBuilderActions =
   | ({ type: 'update-config' } & ConfigFormValues)
   | { type: 'update-yaml'; text: string };
 
-type WorksheetBuilderState = PutWorksheetRequest;
+type WorksheetBuilderState = CreateWorksheetRequest;
 
 function worksheetBuilderReducer(
   state: WorksheetBuilderState,
   action: WorksheetBuilderActions
 ): WorksheetBuilderState {
-  console.log('action', action);
   switch (action.type) {
     case 'update-config':
       return { ...state, ...action };
@@ -75,14 +71,13 @@ function worksheetBuilderReducer(
 
 export function CreateAWorksheetPage() {
   const { push } = useRouter();
-  const {
-    request: { secure },
-  } = useUser();
   const [step, setStep] = useState(0);
   const [state, dispatch] = useReducer(
     worksheetBuilderReducer,
     newWorksheetRequest
   );
+
+  const createWorksheet = trpc.worksheets.create.useMutation();
 
   const leavePage = () => {
     if (
@@ -95,14 +90,11 @@ export function CreateAWorksheetPage() {
   };
 
   const handleSaveWorksheet = async (connections: string[]) => {
-    // TODO: dispatch a creation event to save the worksheet w/ connections + current state.
     try {
-      const result = await secure<PutWorksheetResponse>(
-        '/api/worksheets',
-        'PUT',
-        { ...state, connections }
-      );
-      push(`/worksheets/${result}`);
+      const payload = { ...state, connections };
+      console.log('mutating async with payload', payload);
+      const data = await createWorksheet.mutateAsync(payload);
+      push(`/worksheets/${data}`);
     } catch (error) {
       warn(`Failed to save worksheet ${state.name}`)(error);
     }

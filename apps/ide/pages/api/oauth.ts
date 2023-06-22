@@ -1,3 +1,16 @@
-import { oauthHandler } from '@worksheets/api/oauth';
+import { saveOAuthSetting } from '@worksheets/feat/execution-settings';
+import { NextApiHandler } from 'next';
 
-export default oauthHandler;
+const handler: NextApiHandler = async (req, res) => {
+  const { query, url } = req;
+
+  const result = await saveOAuthSetting(url, query['state'] as string);
+
+  res.status(302).redirect(result.url);
+
+  console.info(`save oauth result handled`, result.url);
+
+  return;
+};
+
+export default handler;

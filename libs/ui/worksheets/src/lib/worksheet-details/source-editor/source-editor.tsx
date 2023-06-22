@@ -1,21 +1,23 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { SourceVisualizer } from '../../shared/source-visualizer';
-import { useWorksheet } from '../../shared/useWorksheet';
-import { useUser } from '@worksheets/util/auth/client';
 import { Box, Button } from '@mui/material';
 import { getYamlCodeValidationErrors } from '@worksheets/ui/code-editor';
+import { trpc } from '@worksheets/trpc/ide';
 
 const editorEditingCaption =
   "press 'save' to save your changes or 'cancel' to discard them.";
 export const SourceEditor = () => {
   const { query } = useRouter();
   const worksheetId = query.id as string;
-  const {
-    request: { secure },
-  } = useUser();
 
-  const { data: worksheet, isLoading, mutate } = useWorksheet(worksheetId);
+  const utils = trpc.useContext();
+  const { data: worksheet, isLoading } = trpc.worksheets.get.useQuery(
+    { id: worksheetId },
+    { enabled: !!worksheetId }
+  );
+
+  const updateWorksheet = trpc.worksheets.update.useMutation();
 
   const [yaml, setYaml] = useState<string>(worksheet?.text ?? '');
   const [editing, setEditing] = useState(false);
@@ -41,8 +43,11 @@ export const SourceEditor = () => {
       return alert('Your code has errors. Fix them before saving.');
     }
 
-    await secure(`/api/worksheets`, 'POST', { worksheetId, text: yaml });
-    await mutate();
+    await updateWorksheet.mutateAsync({
+      id: worksheetId,
+      text: yaml,
+    });
+    utils.worksheets.get.invalidate();
 
     setEditing(false);
   };
