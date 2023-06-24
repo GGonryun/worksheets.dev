@@ -8,10 +8,10 @@ import { z } from 'zod';
 
 export const handshakeEntitySchema = z.object({
   uid: z.string().describe('the user that initiated the handshake'),
-  methodPath: z.string(),
-  propertyKey: z.string(),
+  appId: z.string(),
   timestamp: z.number(),
-  settingId: z.string().optional(),
+  connectionId: z.string(),
+  settingId: z.string(),
   ...entitySchema.shape,
 });
 

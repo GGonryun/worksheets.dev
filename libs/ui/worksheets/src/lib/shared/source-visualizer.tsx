@@ -27,16 +27,28 @@ export const SourceVisualizer: React.FC<{
               <Typography variant="h6">Source</Typography>
               {toolbar}
             </Box>
-            <Button
-              size="small"
-              color="primary"
-              sx={{ alignItems: 'flex-start' }}
-              endIcon={<OpenInNewIcon />}
-              href="/docs/worksheet-syntax"
-              target="_blank"
-            >
-              Syntax Reference
-            </Button>
+            <Box display="flex" alignItems="center" gap={1}>
+              <Button
+                size="small"
+                color="primary"
+                sx={{ alignItems: 'flex-start' }}
+                endIcon={<OpenInNewIcon />}
+                href="/templates"
+                target="_blank"
+              >
+                Templates
+              </Button>
+              <Button
+                size="small"
+                color="primary"
+                sx={{ alignItems: 'flex-start' }}
+                endIcon={<OpenInNewIcon />}
+                href="/docs/worksheet-syntax"
+                target="_blank"
+              >
+                Syntax Reference
+              </Button>
+            </Box>
           </Box>
           <Divider />
           <CodeEditor

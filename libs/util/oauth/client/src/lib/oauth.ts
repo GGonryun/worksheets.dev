@@ -1,6 +1,5 @@
 import { Options } from 'client-oauth2';
 import ClientOAuth2 from 'client-oauth2';
-import { getQueryParameter } from '@worksheets/util/http';
 
 export type OAuthToken = ClientOAuth2.Token;
 
@@ -13,9 +12,7 @@ export type ParseUrlOverride = (
   code: string
 ) => Promise<string>;
 
-export type OAuthOptions = BaseOAuthOptions & {
-  parseUrlOverride?: ParseUrlOverride;
-};
+export type OAuthOptions = BaseOAuthOptions;
 
 export type SecureToken = {
   expiry: number;
@@ -28,11 +25,9 @@ function baseOAuthUrl() {
 
 export class OAuthClient {
   opts: BaseOAuthOptions;
-  parseUrlOverride?: ParseUrlOverride;
   constructor(opts: OAuthOptions) {
-    const { parseUrlOverride, ...args } = opts;
+    const { ...args } = opts;
     this.opts = { ...args, redirectUri: `${baseOAuthUrl()}/api/oauth` };
-    this.parseUrlOverride = parseUrlOverride;
   }
 
   private client(state?: string) {
@@ -47,11 +42,6 @@ export class OAuthClient {
   }
 
   async parseUrl(url: string): Promise<string> {
-    if (this.parseUrlOverride) {
-      const rawCode = getQueryParameter(url, 'code');
-
-      return await this.parseUrlOverride(this.opts, rawCode);
-    }
     const token = await this.client().code.getToken(url);
     return this.serializeToken(token);
   }
