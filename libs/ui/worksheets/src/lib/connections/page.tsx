@@ -8,19 +8,23 @@ import { GridRowId } from '@mui/x-data-grid';
 import { useEffect, useState } from 'react';
 import RemoveIcon from '@mui/icons-material/Remove';
 import { ConnectionBuilderSidecar } from './connection-builder-sidecar';
+import { v4 as uuidv4 } from 'uuid';
+import { trpc } from '@worksheets/trpc/ide';
 
 export const ConnectionsPage: React.FC<{ connectionId?: string }> = ({
   connectionId,
 }) => {
   const { push } = useRouter();
   const [selections, setSelections] = useState<GridRowId[]>([]);
-  const [connectionSidecarVisible, setConnectionSidecarVisible] =
-    useState(false);
+  const [activeConnection, setActiveConnection] = useState('');
+
+  const utils = trpc.useContext();
+  const { data: connections } = trpc.connections.dataTable.useQuery();
+  const deleteConnection = trpc.connections.delete.useMutation();
 
   useEffect(() => {
     if (connectionId) {
-      // TODO: get connection data and open sidecar with it
-      setConnectionSidecarVisible(true);
+      setActiveConnection(connectionId);
     }
   }, [connectionId]);
 
@@ -32,7 +36,7 @@ export const ConnectionsPage: React.FC<{ connectionId?: string }> = ({
         startIcon: <AddIcon />,
         size: 'small',
         onClick() {
-          setConnectionSidecarVisible(true);
+          setActiveConnection(uuidv4());
         },
       }}
       secondary={{
@@ -48,36 +52,31 @@ export const ConnectionsPage: React.FC<{ connectionId?: string }> = ({
     >
       <FilterTextInput placeholder="Filter by name" />
       <Divider />
+      length:{connections?.length ?? 0}
       <ConnectionsDataTable
-        rows={rows}
+        rows={connections ?? []}
         selections={selections}
-        onConnectionClick={(id) => push(`/connections/${id}`)}
+        onConnectionClick={(id) => setActiveConnection(id)}
         onSelectionChange={setSelections}
-        onConnectionDelete={(id) => {
-          alert('TODO: delete connection');
+        onConnectionDelete={async (id) => {
+          // eslint-disable-next-line no-restricted-globals
+          if (confirm('Are you sure you want to delete this connection?')) {
+            await deleteConnection.mutateAsync(id);
+            utils.connections.dataTable.invalidate();
+          }
         }}
       />
       <ConnectionBuilderSidecar
-        open={connectionSidecarVisible}
+        open={Boolean(activeConnection)}
         onClose={() => {
           if (connectionId) {
             push(`/connections`);
           } else {
-            setConnectionSidecarVisible(false);
+            setActiveConnection('');
           }
         }}
+        id={activeConnection}
       />
     </PageLayout>
   );
 };
-
-const rows = [
-  {
-    id: '1',
-    name: 'Test Connection',
-    app: 'Google Sheets',
-    status: 'Active',
-    lastUpdated: '2023-05-23 03:05 AM',
-    expires: '2023-10-01, 02:25 PM',
-  },
-];

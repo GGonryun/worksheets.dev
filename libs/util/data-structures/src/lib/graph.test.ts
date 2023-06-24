@@ -1,10 +1,10 @@
 import { Graph } from './graph';
 describe('Graph', () => {
   describe('should correctly add nodes and edges', () => {
-    let graph: Graph<any>;
+    let graph: Graph<unknown>;
 
     beforeEach(() => {
-      graph = new Graph<any>();
+      graph = new Graph<unknown>();
     });
 
     it('should return nested children', () => {

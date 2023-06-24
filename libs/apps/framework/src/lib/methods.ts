@@ -13,7 +13,7 @@ export type MethodDefinition<
   Output extends ZodTypeAny | null = ZodTypeAny | null,
   Globals extends Settings | null = Settings | null // TODO: is it safe to drop to null here?
 > = {
-  path: string;
+  id: string;
   label: string;
   description: string | null;
   settings: Globals;
@@ -31,6 +31,7 @@ export type MethodDefinition<
 export function newMethod<
   Inputs extends ZodTypeAny | null,
   Outputs extends ZodTypeAny | null,
+  // currently only used to provide type safety in method call
   Globals extends Settings | null
 >(
   opts: MethodDefinition<Inputs, Outputs, Globals>

@@ -8,11 +8,6 @@ import {
   Alert,
   Link,
 } from '@mui/material';
-import {
-  StepContentWithActions,
-  ReviewRow,
-  StepLabelWithCaption,
-} from '../../connections/connection-builder-steps';
 import { SharedTextField } from '../../shared/shared-text-field';
 import { SidecarLayout } from '../../shared/sidecar-layout';
 import { LogLevel } from '@worksheets/data-access/tasks';
@@ -24,6 +19,9 @@ import {
   validateCronSchedule,
 } from '@worksheets/util/cron';
 import PanToolIcon from '@mui/icons-material/PanToolOutlined';
+import { ReviewRow } from '../../shared/sidecar-components/review-row';
+import { StepContentWithActions } from '../../shared/sidecar-components/step-content-with-actions';
+import { StepLabelWithCaption } from '../../shared/sidecar-components/step-label-with-caption';
 export type ScheduleForm = {
   name: string;
   description: string;
@@ -87,6 +85,7 @@ export const ScheduleEditor: React.FC<ScheduleEditorProps> = ({ onSubmit }) => {
             tooltip="You must set all required fields to continue."
             onBack={handleBack}
             onNext={handleNext}
+            maxIndex={2}
           >
             <Box my={3} display="flex" flexDirection={'column'} gap={3}>
               <SharedTextField
@@ -189,6 +188,7 @@ export const ScheduleEditor: React.FC<ScheduleEditorProps> = ({ onSubmit }) => {
             description={
               'You can pass an optional JSON object as input everytime a schedule executes your worksheet.'
             }
+            maxIndex={2}
             index={1}
             onBack={handleBack}
             onNext={handleNext}
@@ -207,6 +207,7 @@ export const ScheduleEditor: React.FC<ScheduleEditorProps> = ({ onSubmit }) => {
             description={
               'You can manage and delete your account credentials at any time. We will never ask you for your credentials or a way to identify them.'
             }
+            maxIndex={2}
             index={2}
             onBack={handleBack}
             onNext={handleNext}

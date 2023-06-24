@@ -14,10 +14,6 @@ export class GraphNode<T> {
   }
 }
 
-/**
- * Proceed with caution. Chat GPT made this.
- * TODO: create an acyclic graph with protection against cycles.
- */
 export class Graph<T> {
   private _root: GraphNode<T>;
 

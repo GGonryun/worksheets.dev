@@ -1,10 +1,10 @@
-import { saveOAuthSetting } from '@worksheets/feat/execution-settings';
+import { resolveHandshake } from '@worksheets/feat/execution-settings';
 import { NextApiHandler } from 'next';
 
 const handler: NextApiHandler = async (req, res) => {
   const { query, url } = req;
 
-  const result = await saveOAuthSetting(url, query['state'] as string);
+  const result = await resolveHandshake(url, query['state'] as string);
 
   res.status(302).redirect(result.url);
 
