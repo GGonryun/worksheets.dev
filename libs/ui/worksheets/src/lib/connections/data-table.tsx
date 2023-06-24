@@ -1,31 +1,46 @@
+import { darken, lighten, styled } from '@mui/material/styles';
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Box, Link, Tooltip, Typography } from '@mui/material';
+import {
+  Box,
+  Divider,
+  LinearProgress,
+  Link,
+  Tooltip,
+  Typography,
+} from '@mui/material';
 import {
   DataGrid,
   GridActionsCellItem,
   GridColDef,
-  GridRowId,
   GridRowParams,
 } from '@mui/x-data-grid';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import { FC } from 'react';
-import { ConnectionDataTableRow as ConnectionDataTable } from '../shared/types';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
 import HelpIcon from '@mui/icons-material/Help';
 import Image from 'next/image';
 import PendingIcon from '@mui/icons-material/Pending';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import { trpc } from '@worksheets/trpc/ide';
+import { GetConnectionsDataTableResponse } from '../shared/types';
+
 const columns: (
   onClick: (id: string) => void,
-  onDelete?: (id: string) => void
-) => GridColDef[] = (onClick, onDelete) => {
+  onDelete: (id: string) => void,
+  canModify: boolean
+) => GridColDef[] = (onClick, onDelete, canModify) => {
   const defs = [
     {
       field: 'validation',
       headerName: 'Status',
       renderHeader() {
-        return <HelpIcon color="primary" fontSize="small" />;
+        return (
+          <Tooltip placement="top" title="Hover over icons for details">
+            <HelpIcon color="primary" fontSize="small" />
+          </Tooltip>
+        );
       },
       sortable: false,
       disableColumnMenu: true,
@@ -35,10 +50,14 @@ const columns: (
       minWidth: 40,
       renderCell: (params: any) => {
         const status = params.value?.status;
-        const message = params.value?.message;
+        const message = params.value?.message || 'Connection is active';
         return (
           <Box display="flex" alignItems="center">
-            <Tooltip title={message} disableHoverListener={!message}>
+            <Tooltip
+              placement="top"
+              title={message}
+              disableHoverListener={!message}
+            >
               {status === 'active' ? (
                 <CheckCircleIcon color="success" fontSize="small" />
               ) : status === 'inactive' ? (
@@ -59,7 +78,7 @@ const columns: (
       minWidth: 200,
       renderHeader: (params: any) => (
         <Box display="flex">
-          <Box width="40px" />
+          <Box width="32px" />
           <Box>{params.colDef.headerName}</Box>
         </Box>
       ),
@@ -68,23 +87,25 @@ const columns: (
         const logo = params.value?.logo;
         return (
           <Box display="flex" alignItems="center">
-            <Box width="40px">
+            <Box width="32px">
               <Box display="flex" alignItems="center">
                 {logo && (
-                  <Box
-                    border={({ palette }) => `1px solid ${palette.divider}`}
-                    display="flex"
-                    alignItems="center"
-                    justifyContent={'center'}
-                    padding={0.25}
-                  >
-                    <Image
-                      height={20}
-                      width={20}
-                      src={logo}
-                      alt={`${label} logo`}
-                    />
-                  </Box>
+                  <Tooltip placement="top" title={label}>
+                    <Box
+                      border={({ palette }) => `1px solid ${palette.divider}`}
+                      display="flex"
+                      alignItems="center"
+                      justifyContent={'center'}
+                      padding={0.1}
+                    >
+                      <Image
+                        height={20}
+                        width={20}
+                        src={logo}
+                        alt={`${label} logo`}
+                      />
+                    </Box>
+                  </Tooltip>
                 )}
               </Box>
             </Box>
@@ -120,7 +141,7 @@ const columns: (
     },
   ];
 
-  onDelete &&
+  canModify &&
     defs.push({
       field: 'actions',
       headerName: 'Actions',
@@ -150,39 +171,130 @@ const columns: (
   return defs;
 };
 
+export type TableRow = GetConnectionsDataTableResponse[number];
 export type DataTableProps = {
-  rows: ConnectionDataTable;
-  selections: GridRowId[];
-  onSelectionChange: (selections: GridRowId[]) => void;
+  selections?: TableRow[];
+  onSelectionChange?: (selections: TableRow[]) => void;
+  validateRow?: (connection?: TableRow) => boolean;
+  canModify?: boolean;
   onConnectionClick: (id: string) => void;
-  onConnectionDelete?: (id: string) => void;
+  fill?: boolean;
+  readonly?: boolean;
+  connections: TableRow[];
+  loading?: boolean;
 };
+
 export const ConnectionsDataTable: FC<DataTableProps> = ({
-  rows,
-  selections,
-  onSelectionChange,
   onConnectionClick,
-  onConnectionDelete,
+  onSelectionChange,
+  validateRow,
+  readonly = false,
+  selections: defaultSelections,
+  canModify = false,
+  fill = true,
+  connections,
+  loading = false,
 }) => {
+  const utils = trpc.useContext();
+
+  const deleteConnection = trpc.connections.delete.useMutation();
+
+  const handleDelete = async (id: string) => {
+    // eslint-disable-next-line no-restricted-globals
+    if (confirm('Are you sure you want to delete this connection?')) {
+      await deleteConnection.mutateAsync(id);
+      utils.connections.dataTable.invalidate();
+    }
+  };
+
   return (
-    <DataGrid
-      sx={{ border: 0 }}
-      rows={rows ?? []}
-      autoHeight
-      columns={columns(onConnectionClick, onConnectionDelete)}
-      density="compact"
-      rowSelection={true}
-      rowSelectionModel={selections}
-      onRowSelectionModelChange={(v) => onSelectionChange(v)}
-      initialState={{
-        pagination: {
-          paginationModel: {
-            pageSize: 100,
+    <>
+      <StyledDataGrid
+        sx={{ border: 0 }}
+        rows={connections ?? []}
+        rowHeight={42}
+        autoHeight={fill}
+        columns={columns(onConnectionClick, handleDelete, canModify)}
+        density="compact"
+        rowSelection={true}
+        getRowClassName={(params) => {
+          if (
+            validateRow &&
+            !validateRow(connections?.find((c) => c.id === params.row.id))
+          ) {
+            return 'invalid-connection';
+          }
+          return '';
+        }}
+        rowSelectionModel={
+          defaultSelections?.map((selection) => selection.id ?? '') ?? []
+        }
+        onRowSelectionModelChange={(v) => {
+          if (!readonly && onSelectionChange) {
+            // get matching selections as connections
+            const mapped = v
+              .map((id) => connections?.find((c) => c.id === id))
+              .filter((c) => c) as TableRow[];
+            console.log('new mapped', mapped);
+            onSelectionChange(mapped);
+          }
+        }}
+        showCellVerticalBorder={true}
+        showColumnVerticalBorder={true}
+        initialState={{
+          pagination: {
+            paginationModel: {
+              pageSize: 100,
+            },
           },
-        },
-      }}
-      checkboxSelection
-      hideFooter
-    />
+        }}
+        loading={loading}
+        slots={{
+          loadingOverlay: LinearProgress,
+        }}
+        isRowSelectable={() => !readonly}
+        checkboxSelection={Boolean(onSelectionChange)}
+        hideFooter
+      />
+      <Divider />
+    </>
   );
 };
+const getBackgroundColor = (color: string, mode: string) =>
+  mode === 'dark' ? darken(color, 0.7) : lighten(color, 0.7);
+
+const getHoverBackgroundColor = (color: string, mode: string) =>
+  mode === 'dark' ? darken(color, 0.6) : lighten(color, 0.6);
+
+const getSelectedBackgroundColor = (color: string, mode: string) =>
+  mode === 'dark' ? darken(color, 0.5) : lighten(color, 0.5);
+
+const getSelectedHoverBackgroundColor = (color: string, mode: string) =>
+  mode === 'dark' ? darken(color, 0.4) : lighten(color, 0.4);
+
+const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
+  '& .invalid-connection': {
+    backgroundColor: getBackgroundColor(
+      theme.palette.error.main,
+      theme.palette.mode
+    ),
+    '&:hover': {
+      backgroundColor: getHoverBackgroundColor(
+        theme.palette.error.main,
+        theme.palette.mode
+      ),
+    },
+    '&.Mui-selected': {
+      backgroundColor: getSelectedBackgroundColor(
+        theme.palette.error.main,
+        theme.palette.mode
+      ),
+      '&:hover': {
+        backgroundColor: getSelectedHoverBackgroundColor(
+          theme.palette.error.main,
+          theme.palette.mode
+        ),
+      },
+    },
+  },
+}));

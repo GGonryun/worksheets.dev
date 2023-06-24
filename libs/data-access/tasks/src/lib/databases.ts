@@ -25,6 +25,8 @@ const taskLogEntity = z.object({
   ...entitySchema.shape,
   // the task that these logs belong to.
   taskId: z.string(),
+  // the worksheet that these logs belong to.
+  worksheetId: z.string(),
   // when this log was created
   createdAt: z.number().default(Date.now()),
   // contents of the log

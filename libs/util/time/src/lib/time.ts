@@ -202,7 +202,7 @@ export const printDuration = ({
  * @param timestamp a millisecond unix timestamp
  * @returns a string format of MM/DD/YY, HH:MM AM/PM
  */
-export const formatTimestamp = (timestamp: number) => {
+export const formatTimestamp = (timestamp: number = Date.now()) => {
   const date = new Date(timestamp);
   const month = date.getMonth() + 1;
   const day = date.getDate();
@@ -238,4 +238,17 @@ export const formatTimestampLong = (timestamp?: number) => {
   const secondString = second < 10 ? `0${second}` : second.toString();
 
   return `${month} ${day}, ${year}, ${hourString}:${minuteString}:${secondString} ${ampm}`;
+};
+
+/**
+ * gets a date's utc timestamp in milliseconds
+ */
+export const getCurrentHourInMilliseconds = (
+  timestamp: number = Date.now()
+) => {
+  const date = new Date(timestamp);
+  date.setMinutes(0);
+  date.setSeconds(0);
+  date.setMilliseconds(0);
+  return date.getTime();
 };

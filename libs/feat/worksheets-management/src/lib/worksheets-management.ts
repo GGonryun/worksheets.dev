@@ -1,15 +1,23 @@
-import { newTasksDatabase } from '@worksheets/data-access/tasks';
+import {
+  newTaskLoggingDatabase,
+  newTaskSnapshotsDatabase,
+  newTasksDatabase,
+} from '@worksheets/data-access/tasks';
 import {
   WorksheetEntity,
   newWorksheetsDatabase,
 } from '@worksheets/data-access/worksheets';
+import { newWorksheetsConnectionsDatabase } from '@worksheets/data-access/worksheets-connections';
 import { HandlerFailure } from '@worksheets/util/next';
 import { formatTimestamp } from '@worksheets/util/time';
 import { z } from 'zod';
 export const MAXIMUM_WORKSHEETS = 10;
 
+const loggingDb = newTaskLoggingDatabase();
+const snapshotsDb = newTaskSnapshotsDatabase();
 const worksheetsdb = newWorksheetsDatabase();
 const tasksDb = newTasksDatabase();
+const connectionsDb = newWorksheetsConnectionsDatabase();
 
 export const doesUserOwnWorksheet = async (
   userId: string,
@@ -30,6 +38,41 @@ export const deleteWorksheet = async (userId: string, worksheetId: string) => {
   }
 
   await worksheetsdb.delete(worksheetId);
+
+  // also delete this worksheet's logs.
+  // get all logs.
+  const logs = await loggingDb.query({
+    f: 'worksheetId',
+    o: '==',
+    v: worksheetId,
+  });
+  // delete all logs.
+  for (const log of logs) {
+    await loggingDb.delete(log.id);
+  }
+
+  // get all tasks.
+  const tasks = await tasksDb.query({
+    f: 'worksheetId',
+    o: '==',
+    v: worksheetId,
+  });
+  for (const task of tasks) {
+    // delete all tasks.
+    // delete all snapshots.
+    await tasksDb.delete(task.id);
+    await snapshotsDb.delete(task.id);
+  }
+
+  // delete all connection in join table.
+  const connections = await connectionsDb.query({
+    f: 'worksheetId',
+    o: '==',
+    v: worksheetId,
+  });
+  for (const connection of connections) {
+    await connectionsDb.delete(connection.id);
+  }
 };
 
 export const listUsersWorksheets = async (userId: string) => {
@@ -146,6 +189,7 @@ export const createWorksheet = async (
     uid,
     createdAt: Date.now(),
     updatedAt: Date.now(),
+    enabled: true,
   });
   return id;
 };

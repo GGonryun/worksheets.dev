@@ -7,7 +7,7 @@ import {
   Typography,
   alpha,
 } from '@mui/material';
-import { LogListDataRow, LogListDataTable } from './data-table';
+import { LogListDataTable } from './data-table';
 import InfoIcon from '@mui/icons-material/InfoOutlined';
 import CloseIcon from '@mui/icons-material/Close';
 import {
@@ -15,73 +15,11 @@ import {
   dateFromTimestamp,
   formatTimestampLong,
 } from '@worksheets/util/time';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { CollapsingHorizontalResizableLayout } from '../../shared/resizable-layout/collapsing-horizontal-resizer';
 import { CodeEditor } from '@worksheets/ui/code-editor';
-
-export type LogListProps = {
-  logs: string[];
-};
-
-const SAMPLE_JSON = {
-  glossary: {
-    title: 'example glossary',
-    GlossDiv: {
-      title: 'S',
-      GlossList: {
-        GlossEntry: {
-          ID: 'SGML',
-          SortAs: 'SGML',
-          GlossTerm: 'Standard Generalized Markup Language',
-          Acronym: 'SGML',
-          Abbrev: 'ISO 8879:1986',
-          GlossDef: {
-            para: 'A meta-markup language, used to create markup languages such as DocBook.',
-            GlossSeeAlso: ['GML', 'XML'],
-          },
-          GlossSee: 'markup',
-        },
-      },
-    },
-  },
-};
-
-const SAMPLE_LOGS: Record<string, LogListDataRow> = {
-  '1': {
-    id: '1',
-    level: 'trace',
-    timestamp: Date.now(),
-    message: 'This is a test message from the worksheets system',
-    data: JSON.stringify(SAMPLE_JSON, null, 2),
-  },
-  '2': {
-    id: '2',
-    level: 'debug',
-    timestamp: Date.now(),
-    message: 'This is a test message from the worksheets system',
-    data: JSON.stringify(
-      {
-        test: 'test',
-        test2: 'test2',
-        test3: 'test3',
-      },
-      null,
-      2
-    ),
-  },
-  '3': {
-    id: '3',
-    level: 'warn',
-    timestamp: Date.now(),
-    message: 'This is a test message from the worksheets system',
-    data: JSON.stringify({
-      test: 'test',
-      test2: 'test2',
-      test3: 'test3',
-    }),
-  },
-};
+import { trpc } from '@worksheets/trpc/ide';
 
 const darken: SxProps<Theme> = {
   sx: ({ palette }) => ({
@@ -89,20 +27,34 @@ const darken: SxProps<Theme> = {
   }),
 };
 
-export const LogList: React.FC<LogListProps> = ({ logs }) => {
+export type LogListProps = {
+  worksheetId: string;
+};
+
+export const LogList: React.FC<LogListProps> = ({ worksheetId }) => {
   const [viewingDetails, setViewingDetails] = useState<string>('');
   const [loadingNew, setLoadingNew] = useState(false);
   const [loadingOld, setLoadingOld] = useState(false);
-  const [startRange, setStartRange] = useState<number>(Date.now() - 1);
-  const [endRange, setEndRange] = useState<number>(
-    addHoursToCurrentTime(-1).getTime()
-  );
+  const [startRange, setStartRange] = useState<number>(0);
+  const [endRange, setEndRange] = useState<number>(0);
   const [newTimeout, setNewTimeout] = useState<NodeJS.Timeout | undefined>(
     undefined
   );
   const [oldTimeout, setOldTimeout] = useState<NodeJS.Timeout | undefined>(
     undefined
   );
+
+  const { data, isLoading } = trpc.worksheets.logs.get.useQuery(
+    { worksheetId },
+    { enabled: !!worksheetId }
+  );
+
+  useEffect(() => {
+    if (!isLoading && data) {
+      setStartRange(data.startTime);
+      setEndRange(data.endTime);
+    }
+  }, [data, isLoading]);
 
   const handleLoadNewLogs = () => {
     setLoadingNew(true);
@@ -144,15 +96,15 @@ export const LogList: React.FC<LogListProps> = ({ logs }) => {
           />
           <LogListDataTable
             onClick={(id) => setViewingDetails(id)}
-            loading={loadingOld || loadingNew}
-            rows={Object.values(SAMPLE_LOGS)}
+            loading={isLoading || loadingOld || loadingNew}
+            rows={data?.logs ?? []}
           />
           <LogLoadingBanner
             loading={loadingOld}
             timestamp={endRange}
             action={{
               onClick: handleLoadOldLogs,
-              children: 'Extend by one hour',
+              children: 'Load older logs',
             }}
           />
         </Box>
@@ -162,7 +114,9 @@ export const LogList: React.FC<LogListProps> = ({ logs }) => {
           <Box height="100%" width="100%">
             <CodeEditor
               width="100%"
-              value={SAMPLE_LOGS[viewingDetails]?.data ?? ''}
+              value={
+                data?.logs?.find((log) => log.id === viewingDetails)?.data ?? ''
+              }
               disabled={true}
               mode={'json'}
               theme={'light'}

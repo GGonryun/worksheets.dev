@@ -4,8 +4,10 @@ import React, { useEffect } from 'react';
 
 export const useConnectionBuilder = ({
   connectionId,
+  canEdit = false,
 }: {
   connectionId: string;
+  canEdit?: boolean;
 }) => {
   // use query to get latest form data when loading for this ID.
   const [connection, setConnection] = React.useState<Required<ConnectionForm>>({
@@ -15,17 +17,23 @@ export const useConnectionBuilder = ({
     settings: {},
   });
 
+  const [editing, setEditing] = React.useState(false);
+  const cannotEdit = !canEdit && editing;
+
   const form = trpc.connections.getForm.useMutation();
 
   useEffect(() => {
     if (connectionId) {
-      form.mutateAsync(connectionId).then((data) => {
-        setConnection({
-          id: connectionId,
-          name: data.name ?? '',
-          appId: data.appId,
-          settings: data.settings ?? {},
-        });
+      form.mutateAsync(connectionId).then(({ connection, created }) => {
+        if (!created) {
+          setEditing(true);
+          setConnection({
+            id: connectionId,
+            name: connection.name ?? '',
+            appId: connection.appId,
+            settings: connection.settings ?? {},
+          });
+        }
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -40,12 +48,18 @@ export const useConnectionBuilder = ({
     { enabled: !!connection.appId }
   );
 
+  const { data: relatedWorksheets } = trpc.connections.worksheets.get.useQuery(
+    connection.id,
+    { enabled: !!connection.id }
+  );
+
   const submitConnectionForm = trpc.connections.submitForm.useMutation();
   const getOAuthUrl = trpc.connections.getOAuthUrl.useMutation();
   const deleteConnectionField =
     trpc.connections.deleteConnectionField.useMutation();
 
   const updateConnection = (updates: Partial<ConnectionForm>) => {
+    if (cannotEdit) return;
     setConnection({ ...connection, ...updates });
   };
 
@@ -106,6 +120,7 @@ export const useConnectionBuilder = ({
   };
 
   const save = async () => {
+    if (cannotEdit) return;
     if (connection.id) {
       await submitConnectionForm.mutateAsync(connection);
       utils.connections.dataTable.invalidate();
@@ -132,6 +147,9 @@ export const useConnectionBuilder = ({
     connection,
     fields: app?.fields || [],
     app,
+    editing,
+    cannotEdit,
+    relatedWorksheets,
     validation: {
       name: {
         ok: connection.name.length < 1 || connection.name.length > 2,

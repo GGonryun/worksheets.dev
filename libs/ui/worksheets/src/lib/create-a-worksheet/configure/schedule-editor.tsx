@@ -151,8 +151,6 @@ export const ScheduleEditor: React.FC<ScheduleEditorProps> = ({ onSubmit }) => {
                 icon={<PanToolIcon color="action" />}
                 sx={(theme) => ({
                   color: theme.palette.text.primary,
-                  whiteSpace: 'pre-line',
-                  fontFamily: 'monospace',
                   backgroundColor: theme.palette.grey[200],
                 })}
               >

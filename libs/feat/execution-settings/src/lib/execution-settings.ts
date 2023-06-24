@@ -12,6 +12,7 @@ import { isExpired } from '@worksheets/util/time';
 import { TRPCError } from '@trpc/server';
 import { RequiredBy } from '@worksheets/util/types';
 import { z } from 'zod';
+import { newWorksheetsConnectionsDatabase } from '@worksheets/data-access/worksheets-connections';
 
 const connectionsDb = newConnectionDatabase();
 const registry = newApplicationsDatabase();
@@ -85,14 +86,17 @@ export const loadConnectionForm = async ({
 }: {
   id: string;
   uid: string;
-}): Promise<ConnectionForm> => {
+}): Promise<{ created: boolean; connection: ConnectionForm }> => {
   // return empty form if connection doesn't exist
   if (!id || !(await connectionsDb.has(id))) {
     return {
-      id: '',
-      name: '',
-      appId: '',
-      settings: {},
+      created: true,
+      connection: {
+        id: '',
+        name: '',
+        appId: '',
+        settings: {},
+      },
     };
   }
   const connection = await connectionsDb.get(id);
@@ -118,10 +122,13 @@ export const loadConnectionForm = async ({
   }
 
   return {
-    id: connection.id,
-    name: connection.name,
-    appId: connection.appId,
-    settings: connection.settings,
+    created: false,
+    connection: {
+      id: connection.id,
+      name: connection.name,
+      appId: connection.appId,
+      settings: connection.settings,
+    },
   };
 };
 
@@ -156,6 +163,7 @@ export const deleteConnectionField = async ({
 
   return connection;
 };
+
 export const deleteConnection = async ({
   id,
   uid,
@@ -174,6 +182,7 @@ export const deleteConnection = async ({
   await connectionsDb.delete(id);
   return true;
 };
+
 export const resolveHandshake = async (
   url?: string,
   handshakeId?: string

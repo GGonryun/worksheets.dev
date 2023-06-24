@@ -15,7 +15,7 @@ export const WorksheetNameField: React.FC<{
       helperText={
         changed
           ? !isWorksheetNameValid
-            ? 'Name must only contain letters, numbers, hyphens and underscores'
+            ? 'Name must only contain letters, numbers, hyphens, underscores, and spaces'
             : isWorksheetNameEmpty
             ? 'Name cannot be empty'
             : ''

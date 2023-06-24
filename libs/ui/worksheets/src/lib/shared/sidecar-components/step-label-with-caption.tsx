@@ -1,16 +1,30 @@
-import { StepLabel, Typography } from '@mui/material';
+import { Button, StepLabel, Typography } from '@mui/material';
 
 export const StepLabelWithCaption: React.FC<{
   caption?: string;
   label: string;
-}> = ({ caption, label }) => {
+  onClick?: () => void;
+}> = ({ caption, label, onClick }) => {
   return (
-    <StepLabel
-      optional={
-        caption ? <Typography variant="caption">{caption}</Typography> : null
-      }
+    <Button
+      disabled={!onClick}
+      sx={{
+        textTransform: 'none',
+        display: 'flex',
+        alignItems: 'flex-start',
+        justifyContent: 'flex-start',
+        cursor: 'pointer',
+      }}
+      onClick={onClick}
+      fullWidth
     >
-      {label}
-    </StepLabel>
+      <StepLabel
+        optional={
+          caption ? <Typography variant="caption">{caption}</Typography> : null
+        }
+      >
+        {label}
+      </StepLabel>
+    </Button>
   );
 };

@@ -1,7 +1,6 @@
-import { Box, Collapse, LinearProgress } from '@mui/material';
+import { Box, LinearProgress } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { FC } from 'react';
-import { LogLevel } from '@worksheets/data-access/tasks';
 import { useRouter } from 'next/router';
 import { formatTimestampLong } from '@worksheets/util/time';
 import OpenIcon from '@mui/icons-material/OpenInNewOutlined';
@@ -24,7 +23,7 @@ const columns = (worksheetId: string): GridColDef[] => [
     ),
   },
   {
-    field: 'timestamp',
+    field: 'createdAt',
     headerName: 'Timestamp',
     sortingOrder: ['desc'],
     minWidth: 200,
@@ -38,16 +37,13 @@ const columns = (worksheetId: string): GridColDef[] => [
   },
 ];
 
-export type LogListDataRow = {
-  id: string;
-  level: LogLevel;
-  timestamp: number;
-  message: string;
-  data: string; //json string of data
-};
+type LogDataTableRows = {
+  data?: undefined;
+  level: 'trace' | 'debug' | 'info' | 'warn' | 'error' | 'fatal' | 'silent';
+}[];
 
 export type LogListDataTableProps = {
-  rows: LogListDataRow[];
+  rows: LogDataTableRows;
   loading?: boolean;
   onClick: (logId: string) => void;
 };

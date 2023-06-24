@@ -5,7 +5,13 @@ import { worksheetsEntitySchema } from '@worksheets/data-access/worksheets';
 export default protectedProcedure
   .input(
     worksheetsEntitySchema
-      .partial({ name: true, text: true, description: true, logging: true })
+      .partial({
+        name: true,
+        text: true,
+        description: true,
+        logging: true,
+        enabled: true,
+      })
       .omit({ uid: true, createdAt: true, updatedAt: true })
   )
   .mutation(

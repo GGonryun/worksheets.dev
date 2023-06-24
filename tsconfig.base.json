@@ -42,14 +42,23 @@
       "@worksheets/data-access/worksheets": [
         "libs/data-access/worksheets/src/index.ts"
       ],
+      "@worksheets/data-access/worksheets-connections": [
+        "libs/data-access/worksheets-connections/src/index.ts"
+      ],
       "@worksheets/engine": ["libs/engine/src/index.ts"],
       "@worksheets/feat/execution-settings": [
         "libs/feat/execution-settings/src/index.ts"
+      ],
+      "@worksheets/feat/structured-logging": [
+        "libs/feat/structured-logging/src/index.ts"
       ],
       "@worksheets/feat/task-processing": [
         "libs/feat/task-processing/src/index.ts"
       ],
       "@worksheets/feat/templates": ["libs/feat/templates/src/index.ts"],
+      "@worksheets/feat/worksheets-connections": [
+        "libs/feat/worksheets-connections/src/index.ts"
+      ],
       "@worksheets/feat/worksheets-management": [
         "libs/feat/worksheets-management/src/index.ts"
       ],
