@@ -3,20 +3,21 @@ import Box from '@mui/material/Box';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import Typography from '@mui/material/Typography';
-import { SharedTextField } from '../shared/shared-text-field';
+import { SharedTextField } from '../../shared/shared-text-field';
 import { Alert, Divider, Link, MenuItem } from '@mui/material';
 import InfoIcon from '@mui/icons-material/Info';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import { ReviewRow } from '../shared/sidecar-components/review-row';
-import { StepContentWithActions } from '../shared/sidecar-components/step-content-with-actions';
-import { StepLabelWithCaption } from '../shared/sidecar-components/step-label-with-caption';
-import { DynamicSettingsForm } from './dynamic-form/dynamic-form';
 import {
-  GetApplicationResponse,
-  ListApplicationsResponse,
-} from '../shared/types';
-import Image from 'next/image';
-import { useConnectionBuilder } from './useConnectionBuilder';
+  ReviewRow,
+  ReviewRowText,
+} from '../../shared/sidecar-components/review-row';
+import { StepContentWithActions } from '../../shared/sidecar-components/step-content-with-actions';
+import { StepLabelWithCaption } from '../../shared/sidecar-components/step-label-with-caption';
+import { DynamicSettingsForm } from '../dynamic-form/dynamic-form';
+import { ListApplicationsResponse } from '../../shared/types';
+import { useConnectionBuilder } from '../useConnectionBuilder';
+import { ModificationBanner } from './modification-banner';
+import { AppLabel } from './app-label';
 
 const MAX_INDEX = 2;
 
@@ -24,7 +25,8 @@ export const ConnectionBuilderSteps: React.FC<{
   connectionId: string;
   apps: ListApplicationsResponse;
   onClose: () => void;
-}> = ({ connectionId, apps, onClose }) => {
+  canEdit?: boolean;
+}> = ({ connectionId, apps, onClose, canEdit }) => {
   const [activeStep, setActiveStep] = React.useState(0);
 
   const {
@@ -32,10 +34,13 @@ export const ConnectionBuilderSteps: React.FC<{
     fields,
     validation,
     app,
+    editing,
+    cannotEdit,
+    relatedWorksheets,
     save,
     updateSettingsFieldHandler,
     updateConnection,
-  } = useConnectionBuilder({ connectionId });
+  } = useConnectionBuilder({ connectionId, canEdit });
 
   const handleNext = () => {
     if (activeStep === 2) {
@@ -53,9 +58,11 @@ export const ConnectionBuilderSteps: React.FC<{
   return (
     <Stepper activeStep={activeStep} orientation="vertical">
       <Step key={0}>
+        {cannotEdit && <ModificationBanner connectionId={connectionId} />}
         <StepLabelWithCaption
-          label={'Connection details'}
-          caption={`Select an application and method to connect to.`}
+          onClick={() => setActiveStep(0)}
+          label={'Application details'}
+          caption={`Select an application and method to connect to`}
         />
         <StepContentWithActions
           description={
@@ -74,6 +81,7 @@ export const ConnectionBuilderSteps: React.FC<{
               helperText={'The application to create a connection to.'}
               select
               required
+              disabled={cannotEdit}
               value={connection.appId}
               onChange={(value) =>
                 updateConnection({ appId: value.target.value })
@@ -93,6 +101,7 @@ export const ConnectionBuilderSteps: React.FC<{
                   : validation.name.message
               }
               required
+              disabled={cannotEdit}
               error={!validation.name.ok}
               value={connection.name}
               onChange={(value) =>
@@ -104,11 +113,14 @@ export const ConnectionBuilderSteps: React.FC<{
       </Step>
       <Step key={1}>
         <StepLabelWithCaption
-          label={'Authentication'}
-          caption={`Set secure tokens for access in worksheets.`}
+          onClick={validation.details.ok ? () => setActiveStep(1) : undefined}
+          label={'Connection settings'}
+          caption={`Save secure tokens or flags for access in worksheets`}
         />
         <StepContentWithActions
-          description={''}
+          description={
+            'Connection settings are stored securely and get loaded into worksheets as context variables during execution.'
+          }
           maxIndex={MAX_INDEX}
           index={1}
           disableNext={!validation.authentication.ok}
@@ -119,6 +131,7 @@ export const ConnectionBuilderSteps: React.FC<{
           <Box m={1} display="flex" flexDirection={'column'} gap={1}>
             {app && <AppLabel app={app} />}
             <DynamicSettingsForm
+              disabled={cannotEdit}
               fields={fields}
               settings={connection.settings}
               onFieldUpdate={updateSettingsFieldHandler}
@@ -128,6 +141,11 @@ export const ConnectionBuilderSteps: React.FC<{
       </Step>
       <Step key={2}>
         <StepLabelWithCaption
+          onClick={
+            validation.details.ok && validation.authentication.ok
+              ? () => setActiveStep(2)
+              : undefined
+          }
           label="Review"
           caption="Review and create your connection."
         />
@@ -136,6 +154,7 @@ export const ConnectionBuilderSteps: React.FC<{
             'You can manage and delete your account credentials at any time. We will never ask you for your credentials or a way to identify them.'
           }
           index={2}
+          disableNext={cannotEdit}
           maxIndex={MAX_INDEX}
           onBack={handleBack}
           onNext={handleNext}
@@ -145,49 +164,55 @@ export const ConnectionBuilderSteps: React.FC<{
               Connection details
             </Typography>
             <Divider />
-            <ReviewRow label="Application">{connection.appId}</ReviewRow>
+            <ReviewRowText label="Application">
+              {connection.appId}
+            </ReviewRowText>
             <Divider />
-            <ReviewRow label="Connection name">{connection.name}</ReviewRow>
+            <ReviewRowText label="Connection name">
+              {connection.name}
+            </ReviewRowText>
             <Divider />
-            <ReviewRow label="Changed properties">
+            <ReviewRowText label="Secure settings">
               {Object.keys(connection.settings ?? {}).length}
+            </ReviewRowText>
+            <Divider />
+            <ReviewRow label="Connected worksheets">
+              {!relatedWorksheets?.length && (
+                <Typography
+                  variant="caption"
+                  color="text.secondary"
+                  fontWeight={900}
+                >
+                  no worksheets connected
+                </Typography>
+              )}
+              <Typography variant="caption" color="text.secondary">
+                <Box component="span" display="flex" gap={1}>
+                  {relatedWorksheets?.map((r, i) => (
+                    <Link href={`/worksheets?${r.id}`} key={i}>
+                      {r.name}{' '}
+                      <OpenInNewIcon fontSize="small" color="primary" />
+                    </Link>
+                  ))}
+                </Box>
+              </Typography>
             </ReviewRow>
             <Divider />
           </Box>
-          <Box my={2}>
-            <Alert icon={<InfoIcon color="primary" />} color="info">
-              It may take a few minutes to provision your credentials. Check the
-              status of your connection from the{' '}
-              <Link href="/connections" target="_blank">
-                Connections page{' '}
-                <OpenInNewIcon color="primary" fontSize={'small'} />.
-              </Link>
-            </Alert>
-          </Box>
+          {!editing && (
+            <Box my={2}>
+              <Alert icon={<InfoIcon color="primary" />} color="info">
+                It may take a few minutes to provision your credentials. Check
+                the status of your connection from the{' '}
+                <Link href="/connections" target="_blank">
+                  Connections page{' '}
+                  <OpenInNewIcon color="primary" fontSize={'small'} />.
+                </Link>
+              </Alert>
+            </Box>
+          )}
         </StepContentWithActions>
       </Step>
     </Stepper>
   );
 };
-
-const AppLabel: React.FC<{ app: GetApplicationResponse }> = ({ app }) => (
-  <Box display="flex" alignItems="center" gap={1}>
-    {app?.name && app?.logo && (
-      <Box
-        border={({ palette }) => `1px solid ${palette.divider}`}
-        display="flex"
-        alignItems="center"
-        justifyContent={'center'}
-        padding={0.25}
-      >
-        <Image
-          height={20}
-          width={20}
-          src={app.logo}
-          alt={`${app?.name} logo`}
-        />
-      </Box>
-    )}
-    <Box>{app?.name}</Box>
-  </Box>
-);

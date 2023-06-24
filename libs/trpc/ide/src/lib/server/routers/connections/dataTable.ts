@@ -12,7 +12,8 @@ const output = z.array(
     id: z.string().optional(),
     connectionName: z.string().optional(),
     app: z.object({
-      label: z.string().optional(),
+      id: z.string(),
+      label: z.string(),
       logo: z.string().optional(),
     }),
     validation: z.object({
@@ -50,7 +51,7 @@ export default protectedProcedure.output(output).query(
       rows.push({
         id: connection.id,
         connectionName: connection.name,
-        app: { label: app.label, logo: app.logo },
+        app: { id: app.id, label: app.label, logo: app.logo },
         validation: {
           status: isIncomplete ? 'active' : 'incomplete',
           message: isIncomplete ? '' : 'Connection has missing fields',

@@ -7,17 +7,17 @@ import { Divider } from '@mui/material';
 import { GeneralConfiguration } from './general-configuration/general-configuration';
 import { ConnectionsSelector } from './connections-selector';
 import { LogList } from './log-list/log-list';
-import { TriggersContainer } from './triggers-container';
 import { useRouter } from 'next/router';
 import { a11yProps, TabPanel } from '../shared/tab-panel';
+import { getCurrentHourInMilliseconds } from '@worksheets/util/time';
+import { trpc } from '@worksheets/trpc/ide';
 
 export enum WorksheetTabIndex {
   Executions = 0,
   Worksheet = 1,
   Logs = 2,
-  Triggers = 3,
-  Settings = 4,
-  Connections = 5,
+  Settings = 3,
+  Connections = 4,
 }
 
 export const WorksheetTabs: React.FC<{
@@ -40,9 +40,6 @@ export const WorksheetTabs: React.FC<{
       case WorksheetTabIndex.Logs:
         push(`/worksheets/${worksheetId}/logs`);
         break;
-      case WorksheetTabIndex.Triggers:
-        push(`/worksheets/${worksheetId}/triggers`);
-        break;
       case WorksheetTabIndex.Settings:
         push(`/worksheets/${worksheetId}/settings`);
         break;
@@ -57,7 +54,6 @@ export const WorksheetTabs: React.FC<{
         <Tab label="Executions" {...a11yProps(WorksheetTabIndex.Executions)} />
         <Tab label="Worksheet" {...a11yProps(WorksheetTabIndex.Worksheet)} />
         <Tab label="Logs" {...a11yProps(WorksheetTabIndex.Logs)} />
-        <Tab label="Triggers" {...a11yProps(WorksheetTabIndex.Triggers)} />
         <Tab label="Settings" {...a11yProps(WorksheetTabIndex.Settings)} />
         <Tab
           label="Connections"
@@ -73,16 +69,13 @@ export const WorksheetTabs: React.FC<{
         <SourceEditor />
       </TabPanel>
       <TabPanel value={value} index={WorksheetTabIndex.Logs}>
-        <LogList logs={[]} />
-      </TabPanel>
-      <TabPanel value={value} index={WorksheetTabIndex.Triggers}>
-        <TriggersContainer triggers={[]} />
+        <LogList worksheetId={worksheetId} />
       </TabPanel>
       <TabPanel value={value} index={WorksheetTabIndex.Settings}>
         <GeneralConfiguration details={[]} />
       </TabPanel>
       <TabPanel value={value} index={WorksheetTabIndex.Connections}>
-        <ConnectionsSelector connections={[]} />
+        <ConnectionsSelector />
       </TabPanel>
     </>
   );

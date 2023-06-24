@@ -13,13 +13,15 @@ export const InvocationUrl: React.FC<{ url: string; onClick: () => void }> = ({
   return (
     <Box display="flex" alignItems={'center'} gap={1}>
       <Box
-        sx={(theme) => ({ px: 1, backgroundColor: theme.palette.grey[100] })}
+        sx={(theme) => ({ px: 1, backgroundColor: theme.palette.grey[200] })}
         display="flex"
         gap={1}
         overflow="hidden"
         whiteSpace="nowrap"
       >
-        <Typography variant="body2">POST</Typography>
+        <Typography variant="body2" fontWeight={900}>
+          POST
+        </Typography>
         <Typography
           variant="body2"
           color="primary"

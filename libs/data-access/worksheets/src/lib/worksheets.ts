@@ -11,6 +11,7 @@ export const worksheetsEntitySchema = z.object({
   ...entitySchema.shape,
   uid: z.string(),
   name: z.string(),
+  enabled: z.boolean(),
   text: z.string(),
   description: z.string(),
   createdAt: z.number().describe('a unix ms timestamp'),

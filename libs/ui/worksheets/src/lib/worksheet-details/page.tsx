@@ -5,29 +5,17 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { WorksheetTabs } from './tabs';
 import PlayArrowOutlinedIcon from '@mui/icons-material/PlayArrowOutlined';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
-import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import { trpc } from '@worksheets/trpc/ide';
+import { useUser } from '@worksheets/util/auth/client';
 
 export const WorksheetDetailsPage: React.FC<{ tab: number }> = ({ tab }) => {
   const { query, push } = useRouter();
+  const { user } = useUser();
   const worksheetId = query.id as string;
   const { data: worksheet } = trpc.worksheets.get.useQuery(
     { id: worksheetId },
-    { enabled: !!worksheetId }
+    { enabled: !!worksheetId && !!user }
   );
-  const deleteWorksheet = trpc.worksheets.delete.useMutation();
-
-  const handleDeleteWorksheet = async () => {
-    if (
-      // eslint-disable-next-line no-restricted-globals
-      confirm(
-        "This will also delete your worksheet's execution history and logs. Are you sure?"
-      )
-    ) {
-      await deleteWorksheet.mutateAsync({ id: worksheetId });
-      push('/worksheets');
-    }
-  };
 
   return (
     <WebsiteLayout>
@@ -57,14 +45,6 @@ export const WorksheetDetailsPage: React.FC<{ tab: number }> = ({ tab }) => {
               sx={{ fontWeight: 900 }}
             >
               Execute
-            </Button>
-            <Button
-              size="small"
-              startIcon={<DeleteOutlineOutlinedIcon />}
-              onClick={handleDeleteWorksheet}
-              sx={{ fontWeight: 900 }}
-            >
-              Delete
             </Button>
           </Box>
         </Box>
