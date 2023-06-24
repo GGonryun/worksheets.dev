@@ -2,6 +2,7 @@ import { CodedFailure, CodedFailureOptions } from '@worksheets/util/errors';
 import { firestore } from '@worksheets/firebase/server';
 import { DocumentData, WhereFilterOp } from 'firebase/firestore';
 import { Entity } from './schema';
+import { merge } from 'lodash';
 
 type DatabaseFailures = 'unknown' | 'not-found' | 'missing-id';
 export class DatabaseFailure extends CodedFailure<DatabaseFailures> {
@@ -33,6 +34,7 @@ export type Firestore<T extends Entity> = {
   get(id: string): Promise<T>;
   query(...queries: Query<T>[]): Promise<T[]>;
   create(data: T): Promise<T>;
+  apply(id: string, data: Partial<Omit<T, 'id'>>): Promise<T>;
   update(data: T): Promise<T>;
   delete(id: string): Promise<void>;
 };
@@ -157,8 +159,21 @@ export function newFirestore<T extends Entity>(key: string, txn?: Txn) {
     return get(entity.id);
   }
 
+  async function apply(
+    id: string,
+    updates: Partial<Omit<T, 'id'>>
+  ): Promise<T> {
+    let data = { id } as T;
+    if (await has(id)) {
+      data = await get(id);
+      return await update(merge(data, updates));
+    } else {
+      return await insert(merge(data, updates));
+    }
+  }
+
   async function updateOrInsert(entity: T): Promise<T> {
-    if (!entity.id || !(await has(entity.id))) {
+    if (!entity.id) {
       return await insert(entity);
     }
 
@@ -224,6 +239,7 @@ export function newFirestore<T extends Entity>(key: string, txn?: Txn) {
     update,
     updateOrInsert,
     list,
+    apply,
     delete: del,
     parse,
   };

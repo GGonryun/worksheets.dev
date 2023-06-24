@@ -5,19 +5,18 @@ import {
   entitySchema,
   newFirestore,
 } from '@worksheets/firebase/firestore';
-import { settingTypeSchema } from '@worksheets/apps/framework';
 
-export const settingEntitySchema = z.object({
-  method: z.string().describe('the method path'),
-  key: z.string().describe('the key relative to the method'),
-  uid: z.string().describe('the owner of the setting'),
-  type: settingTypeSchema,
-  data: z.unknown(),
+export const connectionEntity = z.object({
   ...entitySchema.shape,
+  uid: z.string().describe('the owner of the setting'),
+  name: z.string().describe('a user friendly name for the connection'),
+  appId: z.string().describe('the application id'),
+  settings: z.record(z.unknown()).describe('the settings for the application'),
+  updatedAt: z.number(),
 });
-export type SettingsDatabase = FirestoreDatabase<SettingEntity>;
+export type ConnectionsDatabase = FirestoreDatabase<ConnectionEntity>;
 
-export type SettingEntity = z.infer<typeof settingEntitySchema>;
+export type ConnectionEntity = z.infer<typeof connectionEntity>;
 
-export const newSettingsDatabase = (txn?: Txn) =>
-  newFirestore<SettingEntity>('settings', txn);
+export const newConnectionDatabase = (txn?: Txn) =>
+  newFirestore<ConnectionEntity>('connections', txn);

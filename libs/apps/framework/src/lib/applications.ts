@@ -1,15 +1,17 @@
 import { MethodCallFailure, MethodDefinition } from './methods';
 
-import { Graph, Heap } from '@worksheets/util/data-structures';
+import { Heap } from '@worksheets/util/data-structures';
 import { StatusCodes } from 'http-status-codes';
-import { ZodType } from 'zod';
-import zodToJsonSchema from 'zod-to-json-schema';
-import { JsonSchema7Type } from 'zod-to-json-schema/src/parseDef';
-import { SettingType, Settings, safeParse } from './settings';
+import { z } from 'zod';
+import { SettingType, Settings, parseSettings } from './settings';
+import {} from '@worksheets/util/errors';
 
 export type ApplicationDefinition = {
+  id: string;
+  logo: string; // url to app logo
   label: string;
   description: string;
+  settings: Settings | null;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   methods: MethodDefinition<any, any, any>[];
 };
@@ -28,9 +30,20 @@ export type ApplicationLibraryOptions = {
 };
 
 export type SettingsLoader = (
-  methodPath: string
+  app: string,
+  methodId: string
 ) => Promise<Record<string, unknown>>;
 
+export const methodPathSchema = z.object({
+  appId: z.string(),
+  methodId: z.string(),
+});
+
+export type MethodPathKey = string; // appId.methodId
+export type ApplicationMethod = {
+  app: ApplicationDefinition;
+  method: MethodDefinition;
+};
 /**
  * Knows about all the applications and their methods
  * Knows how to execute methods
@@ -47,66 +60,130 @@ export class ApplicationLibrary {
     this.clerk = clerk;
   }
 
+  /**
+   * @description executes a method contained in the library. also loads in settings if the execution has them set.
+   * @param path the app/method path to execute
+   * @param input the input to the method
+   * @returns
+   */
   async call(path: string, input: unknown): Promise<unknown> {
-    const method = this.clerk.borrow(path);
+    const { app, method } = this.clerk.parse(path);
     let settings;
     if (method.settings) {
-      settings = await this.settingsLoader(method.path);
+      settings = await this.settingsLoader(app.id, method.id);
     }
-    return await this.technician.process(method, settings, input);
+
+    try {
+      return await this.technician.process(method, settings, input);
+    } catch (error) {
+      if (error instanceof MethodCallFailure) {
+        throw new MethodCallFailure({
+          message: `method (${path}) failed to execute: ${error.message}`,
+          code: error.code,
+          cause: error,
+          data: { path },
+        });
+      }
+      throw new MethodCallFailure({
+        code: StatusCodes.INTERNAL_SERVER_ERROR,
+      });
+    }
   }
 }
 
 /** Knows about where applications are stored */
 export class Clerk {
-  private readonly translator: Translator;
-  private readonly memory: Heap;
+  private readonly memory: Heap<ApplicationDefinition>;
   constructor(...applications: ApplicationDefinition[]) {
     this.memory = new Heap();
-    this.translator = new Translator();
 
     for (const application of applications) {
       this.registerApplication(application);
     }
   }
+
+  /**
+   * takes a string and turns it into an app/method pair.
+   * throws errors if the app or method is not found.
+   */
+  parse(path: MethodPathKey): ApplicationMethod {
+    // split the path into app and method
+    const [appId, methodId] = path.split('.');
+    return this.borrow({ appId, methodId });
+  }
+
+  getApp(appId: string): ApplicationDefinition {
+    return this.memory.get(appId);
+  }
+
+  /**
+   * takes an application method reference and creates a path
+   */
+  stringify({ app, method }: ApplicationMethod): MethodPathKey {
+    return `${app.id}.${method.id}`;
+  }
+
+  /**
+   * another stringify method, but this one takes an app definition and method definition
+   */
+  stringifyPathFromDefinitions(
+    application: ApplicationDefinition,
+    method: MethodDefinition
+  ): MethodPathKey {
+    return `${application.id}.${method.id}`;
+  }
+
   // register an application, take all the specified paths and assign them.
-  registerApplication({ methods }: ApplicationDefinition) {
-    for (const method of methods) {
-      this.registerMethod(method);
-    }
+  registerApplication(app: ApplicationDefinition) {
+    this.memory.put(app.id, app);
   }
 
-  registerMethod(method: MethodDefinition) {
-    if (this.memory.get(method.path)) {
-      throw new Error(`method ${method.path} already exists in the library`);
+  /**
+   * Get method finds a method using it's path `applicationId.methodId`
+   * @param path
+   * @returns {MethodDefinition}
+   * @throws MethodNotFound
+   */
+  private borrow(path: { appId: string; methodId: string }): ApplicationMethod {
+    const app = this.memory.get(path.appId) as ApplicationDefinition;
+    if (!app) {
+      throw new MethodCallFailure({
+        code: StatusCodes.NOT_FOUND,
+        message: `application not found: ${path.appId}`,
+        data: { path },
+      });
     }
-    this.memory.put(method.path, method);
-  }
 
-  borrow(path: string): MethodDefinition {
-    const method = this.memory.get(path);
+    if (!app.methods) {
+      throw new MethodCallFailure({
+        code: StatusCodes.NOT_FOUND,
+        message: `application has no methods: ${path}`,
+        data: { path },
+      });
+    }
+
+    const method = this.scan(app, path.methodId);
+
     if (!method) {
       throw new MethodCallFailure({
         code: StatusCodes.NOT_FOUND,
-        message: `method ${path} was not found in memory`,
+        message: `method not found: ${path}`,
+        data: { path },
       });
     }
-    return method;
+
+    return { app, method };
   }
 
-  /** Returns the item's this clerk has access too */
-  list(): MethodDefinition[] {
-    const values = this.memory.getAll();
-    return Object.values(values);
+  private scan(
+    application: ApplicationDefinition,
+    methodId: string
+  ): MethodDefinition | undefined {
+    return application.methods.find((method) => method.id === methodId);
   }
 
-  tree(): Graph<MethodSummary> {
-    const methods = this.list();
-    const graph = new Graph<MethodSummary>();
-    for (const method of methods) {
-      graph.addNode(method.path, this.translator.print(method));
-    }
-    return graph;
+  list(): ApplicationDefinition[] {
+    return this.memory.values();
   }
 }
 
@@ -119,129 +196,28 @@ export class Technician {
   ): Promise<unknown> {
     let input;
     if (method.input) {
-      const parsed = method.input.safeParse(rawInput);
-      if (!parsed.success) {
-        const err = parsed.error.errors.at(0);
-        throw new MethodCallFailure({
-          code: StatusCodes.UNPROCESSABLE_ENTITY,
-          message: `method ${
-            method.path
-          } received invalid input for parameter '${err?.path.toString()}' ${err?.message.toString()}`,
-          data: err,
-        });
-      }
-      input = parsed.data;
+      input = method.input.parse(rawInput);
     }
 
     let settings: Record<string, unknown> = {};
     if (method.settings) {
-      const parsed = safeParse(method.settings, rawSettings);
-      if (!parsed.success) {
-        const msg = parsed.errors.at(0)?.message ?? 'unexpected';
-        throw new MethodCallFailure({
-          code: StatusCodes.UNPROCESSABLE_ENTITY,
-          message: `method ${
-            method.path
-          } contains invalid settings ${msg.toLocaleLowerCase()}`,
-          data: parsed.errors,
-        });
-      }
-      settings = parsed.data;
+      settings = parseSettings(method.settings, rawSettings);
     }
 
-    let result;
-    try {
-      result = await method.call({ input, settings });
-    } catch (error) {
-      if (error instanceof MethodCallFailure) {
-        throw error;
-      }
-      throw new MethodCallFailure({
-        code: StatusCodes.INTERNAL_SERVER_ERROR,
-        message: `method: ${method.path} failed unexpectedly`,
-        cause: error,
-      });
-    }
+    const result = await method.call({ input, settings });
 
     let output;
     if (method.output) {
-      const parsed = method.output.safeParse(result);
-      if (!parsed.success) {
-        throw new MethodCallFailure({
-          code: StatusCodes.UNPROCESSABLE_ENTITY,
-          message: `method ${method.path} created unexpected output`,
-          data: parsed.error,
-        });
-      }
-      output = parsed.data;
+      output = method.output.parse(result);
     }
 
     return output;
   }
 }
 
-export class Translator {
-  print({
-    path,
-    input,
-    output,
-    label,
-    description,
-    settings,
-  }: MethodDefinition): MethodSummary {
-    return {
-      path,
-      label,
-      description: description ?? '',
-      settings: this.printSettings(settings),
-      input: this.printSchema(input),
-      output: this.printSchema(output),
-    };
-  }
-
-  private printSettings(settings: Settings | null = {}): SettingSummary[] {
-    const summary: SettingSummary[] = [];
-    for (const key in settings) {
-      const { label, type, required } = settings[key];
-      summary.push({
-        label: label ?? key,
-        key,
-        type,
-        required,
-      });
-    }
-    return summary;
-  }
-
-  private printSchema(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    type: ZodType<any, any, any> | undefined | null
-  ): JsonSchema7Type {
-    if (!type) {
-      return {};
-    }
-
-    const schema = zodToJsonSchema(type, 'schema');
-    if (!schema.definitions) {
-      return {};
-    }
-
-    return schema.definitions['schema'];
-  }
-}
-
 export interface SettingsProvider {
   access(method: MethodDefinition): Promise<Record<string, unknown>>;
 }
-
-export type MethodSummary = {
-  path: string;
-  label: string;
-  description: string;
-  settings: SettingSummary[];
-  input: JsonSchema7Type;
-  output: JsonSchema7Type;
-};
 
 export type SettingSummary = {
   label: string;

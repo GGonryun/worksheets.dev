@@ -4,8 +4,9 @@ import { FormLayout } from './form-layout';
 import { ConnectionsDataTable } from '../connections/data-table';
 import { Box, Typography, Button, Divider } from '@mui/material';
 import AddIcon from '@mui/icons-material/AddOutlined';
-import { useRouter } from 'next/router';
 import { FilterTextInput } from '../shared/filter-text-input';
+import { ConnectionBuilderSidecar } from '../connections/connection-builder-sidecar';
+import { v4 as uuidv4 } from 'uuid';
 
 export type ConnectionsFormValues = {
   connections: string[];
@@ -22,55 +23,78 @@ export const ConnectionsForm: React.FC<ConnectionsFormProps> = ({
   onCancel,
   onPrevious,
 }) => {
+  const [activeConnection, setActiveConnection] = useState<string | undefined>(
+    undefined
+  );
+
   const [selections, setSelections] = useState<GridRowId[]>([]);
-  const { push } = useRouter();
+
+  const handleEditConnection = (id: string | undefined) => {
+    // requests without id are new connections
+    if (id) {
+      setActiveConnection(id);
+    } else {
+      setActiveConnection(undefined);
+    }
+  };
+
+  const handleCloseConnectionBuilderSidecar = () => {
+    setActiveConnection(undefined);
+  };
 
   return (
-    <FormLayout
-      actions={{
-        primary: {
-          label: 'Back',
-          variant: 'outlined',
-          color: 'primary',
-          sx: { fontWeight: 900 },
-          onClick: () => onPrevious(),
-        },
-        secondary: {
-          label: 'Publish',
-          sx: { fontWeight: 900 },
+    <>
+      <FormLayout
+        actions={{
+          primary: {
+            label: 'Back',
+            variant: 'outlined',
+            color: 'primary',
+            sx: { fontWeight: 900 },
+            onClick: () => onPrevious(),
+          },
+          secondary: {
+            label: 'Publish',
+            sx: { fontWeight: 900 },
 
-          onClick: () =>
-            onSubmit({ connections: selections.map((s) => s.toString()) }),
-        },
-        tertiary: {
-          label: 'Cancel',
-          onClick: onCancel,
-          color: 'inherit',
-          variant: 'text',
-          sx: { fontWeight: 900 },
-        },
-      }}
-    >
-      <Box paddingTop={1.25} paddingBottom={1} px={3} display="flex" gap={6}>
-        <Typography variant="h6">Connections</Typography>
-        <Button
-          startIcon={<AddIcon />}
-          size="small"
-          onClick={() => push('/worksheets/create?connections=')}
-        >
-          Create
-        </Button>
-      </Box>
-      <Divider />
-      <FilterTextInput placeholder="Filter by name" />
-      <Divider />
-      <ConnectionsDataTable
-        onConnectionClick={(id) => push(`/worksheets/create?connections=${id}`)}
-        rows={rows}
-        selections={selections}
-        onSelectionChange={setSelections}
+            onClick: () =>
+              onSubmit({ connections: selections.map((s) => s.toString()) }),
+          },
+          tertiary: {
+            label: 'Cancel',
+            onClick: onCancel,
+            color: 'inherit',
+            variant: 'text',
+            sx: { fontWeight: 900 },
+          },
+        }}
+      >
+        <Box paddingTop={1.25} paddingBottom={1} px={3} display="flex" gap={6}>
+          <Typography variant="h6">Connections</Typography>
+          <Button
+            startIcon={<AddIcon />}
+            size="small"
+            onClick={() => handleEditConnection(uuidv4())}
+          >
+            Create
+          </Button>
+        </Box>
+        <Divider />
+        <FilterTextInput placeholder="Filter by name" />
+        <Divider />
+        <ConnectionsDataTable
+          onConnectionClick={handleEditConnection}
+          rows={rows}
+          selections={selections}
+          onSelectionChange={setSelections}
+        />
+      </FormLayout>
+      <ConnectionBuilderSidecar
+        id={activeConnection}
+        open={Boolean(activeConnection)}
+        onClose={handleCloseConnectionBuilderSidecar}
       />
-    </FormLayout>
+    </>
   );
 };
 

@@ -1,14 +1,13 @@
 import { MethodCallFailure, newMethod } from '@worksheets/apps/framework';
 import { z } from 'zod';
-import { auth, getCurrentUserEmail, newGmailClient } from './common';
+import { getCurrentUserEmail, newGmailClient, settings } from './common';
 import MailComposer from 'nodemailer/lib/mail-composer';
 
 export const sendEmail = newMethod({
-  path: 'google.gmail.send_email',
+  id: 'send.email',
   label: 'Send Email',
   description:
     'Discover how Gmail keeps your account & emails encrypted, private and under your control with the largest secure email service in the world.',
-  settings: { auth },
   input: z.object({
     to: z.string().email(),
     subject: z.string(),
@@ -19,8 +18,9 @@ export const sendEmail = newMethod({
     id: z.string(),
     sentAt: z.number(),
   }),
+  settings,
   async call({ input, settings }) {
-    const { accessToken } = settings.auth;
+    const { accessToken } = settings.tokens;
     const { to, subject, body } = input;
     const client = newGmailClient(accessToken);
     const sender = await getCurrentUserEmail(client);

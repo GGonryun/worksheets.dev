@@ -3,18 +3,22 @@ import { cloneDeep } from 'lodash';
 
 const SIZE_MODIFIER = 10000;
 
-export class Heap {
-  private data: Record<string, any>;
+export class Heap<T = any> {
+  private data: Record<string, T>;
 
-  constructor(data?: Record<string, any>) {
+  constructor(data?: Record<string, T>) {
     this.data = data ?? {};
   }
 
-  getAll(): any {
+  getAll(): Record<string, T> {
     return cloneDeep(this.data);
   }
 
-  get(key: string): any {
+  values(): T[] {
+    return Object.values(this.getAll());
+  }
+
+  get(key: string): T {
     return cloneDeep(this.data[key]);
   }
 
@@ -36,11 +40,11 @@ export class Heap {
     return Object.keys(this.data);
   }
 
-  clone(): Heap {
+  clone(): Heap<T> {
     return new Heap(cloneDeep(this.data));
   }
 
-  restore({ data }: Heap) {
+  restore({ data }: Heap<T>) {
     const newData = cloneDeep(data);
     this.data = newData;
   }

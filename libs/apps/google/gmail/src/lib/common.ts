@@ -1,28 +1,7 @@
-import { newOAuthSetting } from '@worksheets/apps/framework';
+import { newOAuthSetting, newSettings } from '@worksheets/apps/framework';
 import { OAuth2Client } from 'google-auth-library';
 import { gmail_v1, google } from 'googleapis';
 import { z } from 'zod';
-
-export const auth = newOAuthSetting({
-  required: true,
-  options: {
-    clientId: process.env['GOOGLE_APP_CLIENT_KEY'],
-    clientSecret: process.env['GOOGLE_APP_SECRET_KEY'],
-    accessTokenUri: 'https://oauth2.googleapis.com/token',
-    authorizationUri: 'https://accounts.google.com/o/oauth2/v2/auth',
-    scopes: [
-      'openid',
-      'https://www.googleapis.com/auth/gmail.send',
-      'https://www.googleapis.com/auth/gmail.metadata',
-    ],
-    query: {
-      access_type: 'offline',
-      include_granted_scopes: 'true',
-      prompt: 'consent',
-    },
-  },
-  schema: z.any(),
-});
 
 export function newGmailClient(accessToken: string) {
   if (!accessToken) {
@@ -40,3 +19,27 @@ export async function getCurrentUserEmail(client: gmail_v1.Gmail) {
   }
   return profile.data.emailAddress;
 }
+
+export const settings = newSettings({
+  tokens: newOAuthSetting({
+    label: 'GMail OAuth Token',
+    required: true,
+    options: {
+      clientId: process.env['GOOGLE_APP_CLIENT_KEY'],
+      clientSecret: process.env['GOOGLE_APP_SECRET_KEY'],
+      accessTokenUri: 'https://oauth2.googleapis.com/token',
+      authorizationUri: 'https://accounts.google.com/o/oauth2/v2/auth',
+      scopes: [
+        'openid',
+        'https://www.googleapis.com/auth/gmail.send',
+        'https://www.googleapis.com/auth/gmail.metadata',
+      ],
+      query: {
+        access_type: 'offline',
+        include_granted_scopes: 'true',
+        prompt: 'consent',
+      },
+    },
+    schema: z.any(),
+  }),
+});

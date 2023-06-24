@@ -2,7 +2,6 @@ import {
   TypeOf,
   ZodBoolean,
   ZodError,
-  ZodIssue,
   ZodString,
   ZodTypeAny,
   any,
@@ -36,11 +35,7 @@ export type BaseSetting<
 
 /* Setting Definitions */
 
-export type FlagSetting<Required extends boolean> = BaseSetting<
-  'flag',
-  ZodBoolean,
-  Required
->;
+export type FlagSetting = BaseSetting<'flag', ZodBoolean, false>;
 
 export type TokenSetting<Required extends boolean> = BaseSetting<
   'token',
@@ -56,12 +51,16 @@ export type OAuthSetting<
 };
 
 export type Setting =
-  | FlagSetting<boolean>
+  | FlagSetting
   | TokenSetting<boolean>
   | OAuthSetting<ZodTypeAny, boolean>;
 
 export type Settings = {
   [id: string]: Setting;
+};
+
+export const newSettings = <T>(settings: T) => {
+  return settings;
 };
 
 /** Setting Constructors */
@@ -73,76 +72,55 @@ type Options<R extends boolean> = Omit<
   required: R;
 };
 
-type SafeParseSuccess<Output> = {
-  success: true;
-  data: Output;
-};
-type SafeParseError = {
-  success: false;
-  errors: ZodIssue[];
-};
-type SafeParseReturnType<Output> = SafeParseSuccess<Output> | SafeParseError;
-
-export const safeParse = <S extends Settings>(
+export const parseSettings = <S extends Settings>(
   settings: S,
   rawObject: unknown
-): SafeParseReturnType<Infer<S>> => {
+): Infer<S> => {
   const object = (rawObject ?? {}) as Record<string, unknown>;
   const actualType = typeof rawObject;
 
   if (actualType !== 'object' || Array.isArray(settings)) {
-    return {
-      success: false,
-      errors: [
-        {
-          code: 'invalid_type',
-          message: 'input must be an object with keys',
-          expected: 'object',
-          received: actualType,
-          path: ['value'],
-        },
-      ],
-    };
+    throw new ZodError([
+      {
+        code: 'invalid_type',
+        message: 'input must be an object with keys',
+        expected: 'object',
+        received: actualType,
+        path: ['value'],
+      },
+    ]);
   }
-  const errors: ZodIssue[] = [];
+
   const output: Record<string, unknown> = {};
   for (const key in settings) {
     const setting = settings[key];
     const comparingTo = object[key];
-    try {
-      const data = setting.schema.optional().parse(comparingTo);
-      if (setting.required && !data) {
-        errors.push({
-          code: 'custom',
+    const data = setting.schema.optional().parse(comparingTo);
+    if (setting.required && !data) {
+      throw new ZodError([
+        {
+          code: 'invalid_type',
+          fatal: false,
           message: `required setting '${key}' has not been set`,
-          expected: setting.type,
+          expected: 'string',
           received: 'undefined',
           path: [key],
-        });
-        continue;
-      }
-      output[key] = data;
-    } catch (error) {
-      if (error instanceof ZodError) {
-        errors.push(...error.issues);
-      }
+        },
+      ]);
     }
   }
-  if (errors.length) {
-    return { success: false, errors };
-  }
 
-  return { success: true, data: output as Infer<S> };
+  return output as Infer<S>;
 };
 
-export const newFlagSetting = <R extends boolean>(
-  opts: Options<R>
-): R extends true ? FlagSetting<true> : FlagSetting<false> =>
-  ({
-    ...opts,
-    type: 'flag',
-    schema: boolean(),
-  } as R extends true ? FlagSetting<true> : FlagSetting<false>);
+export const newFlagSetting = (
+  opts: Omit<Options<false>, 'required'>
+): FlagSetting => ({
+  ...opts,
+  required: false,
+  type: 'flag',
+  schema: boolean(),
+});
 
 export const newTokenSetting = <R extends boolean>(
   opts: Options<R>
