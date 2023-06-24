@@ -1,4 +1,11 @@
-import { Alert, Box, Divider, Snackbar, Typography } from '@mui/material';
+import {
+  Alert,
+  Box,
+  Button,
+  Divider,
+  Snackbar,
+  Typography,
+} from '@mui/material';
 import { useRouter } from 'next/router';
 import { formatTimestampLong } from '@worksheets/util/time';
 import { IconButton } from '@mui/material';
@@ -13,6 +20,8 @@ import { EditLogLevelDialog } from './dialogs/edit-log-level';
 import { LogLevel } from '@worksheets/data-access/tasks';
 import { trpc } from '@worksheets/trpc/ide';
 import { UpdateWorksheetRequest } from '../../shared/types';
+import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
+import { TinyToggle } from '../../shared/tiny-toggle';
 
 type GeneralDetailsProps = {
   details: string[];
@@ -21,8 +30,23 @@ type GeneralDetailsProps = {
 export const GeneralConfiguration: React.FC<GeneralDetailsProps> = ({
   details,
 }) => {
-  const { query } = useRouter();
+  const { query, push } = useRouter();
+
   const worksheetId = query.id as string;
+
+  const deleteWorksheet = trpc.worksheets.delete.useMutation();
+
+  const handleDeleteWorksheet = async () => {
+    if (
+      // eslint-disable-next-line no-restricted-globals
+      confirm(
+        "This will also delete your worksheet's execution history and logs. Are you sure?"
+      )
+    ) {
+      await deleteWorksheet.mutateAsync({ id: worksheetId });
+      push('/worksheets');
+    }
+  };
 
   const utils = trpc.useContext();
 
@@ -60,10 +84,20 @@ export const GeneralConfiguration: React.FC<GeneralDetailsProps> = ({
     await handleUpdateWorksheet({ logging });
   };
 
+  const handleUpdateEnabled = async (enabled: boolean) => {
+    await handleUpdateWorksheet({ enabled });
+  };
+
   return (
     <>
       {/* General Configuration Form */}
       <Box p={3} display="flex" flexDirection="column" gap={1.25}>
+        <ConfigurationOption
+          label={'Enabled'}
+          content={
+            <TinyToggle value={data?.enabled} onChange={handleUpdateEnabled} />
+          }
+        />
         <ConfigurationOption label={'Identifier'} content={data?.id} />
 
         <ConfigurationOption
@@ -93,6 +127,23 @@ export const GeneralConfiguration: React.FC<GeneralDetailsProps> = ({
           label={'Log Level'}
           content={capitalizeFirstLetter(data?.logging ?? '')}
           onEdit={() => setEditingField('logging')}
+        />
+        <br />
+        <ConfigurationOption
+          label={'Delete'}
+          content={
+            <Box>
+              <Button
+                color="inherit"
+                size="small"
+                startIcon={<DeleteOutlineOutlinedIcon />}
+                onClick={handleDeleteWorksheet}
+                sx={{ fontWeight: 900, p: 0 }}
+              >
+                Destroy permanently
+              </Button>
+            </Box>
+          }
         />
       </Box>
 
@@ -161,9 +212,11 @@ export const EditableField: React.FC<{
   onEdit?: () => void;
 }> = ({ content, onEdit }) => (
   <Box display="flex" alignItems="center" gap={1}>
-    <Typography variant="body2" color="text.secondary">
-      {content}
-    </Typography>
+    {typeof content === 'string' ? (
+      <Typography variant="body2">{content}</Typography>
+    ) : (
+      content
+    )}
     {Boolean(onEdit) && (
       <IconButton sx={{ p: 0, m: 0 }} onClick={onEdit}>
         <EditIcon color="primary" fontSize="small" />

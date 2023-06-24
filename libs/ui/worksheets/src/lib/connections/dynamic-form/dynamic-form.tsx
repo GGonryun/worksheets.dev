@@ -2,12 +2,11 @@ import { Box, Button, Divider, Tooltip, Typography } from '@mui/material';
 import { SettingSummary } from '@worksheets/apps/framework';
 import { FormFieldsResponse } from '../../shared/types';
 import { SharedTextField } from '../../shared/shared-text-field';
-import OnCircleIcon from '@mui/icons-material/Circle';
-import OffCircleIcon from '@mui/icons-material/CircleOutlined';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import LinkIcon from '@mui/icons-material/LinkOutlined';
 import LinkOffIcon from '@mui/icons-material/LinkOffOutlined';
 import { Fragment } from 'react';
+import { TinyToggle } from '../../shared/tiny-toggle';
 declare global {
   interface Window {
     oauthcallback: undefined | (() => void);
@@ -17,9 +16,10 @@ declare global {
 export const DynamicSettingsForm: React.FC<{
   fields?: FormFieldsResponse;
   settings: Record<string, unknown>;
+  disabled?: boolean;
   // input is key/value pair of the updated property.
   onFieldUpdate: (field: FormFieldsResponse[number], newValue: unknown) => void;
-}> = ({ fields, settings, onFieldUpdate }) => {
+}> = ({ fields, settings, onFieldUpdate, disabled }) => {
   return (
     <Box>
       {fields?.map((field, index) => {
@@ -28,6 +28,7 @@ export const DynamicSettingsForm: React.FC<{
             {field.type !== 'token' && index === 0 && <Divider />}
 
             <MethodSettingInputField
+              disabled={disabled}
               key={field.id}
               label={field.name}
               type={field.type}
@@ -74,13 +75,19 @@ export function MethodSettingInputField(
 }
 
 type InputField<T> = {
+  disabled?: boolean;
   value: T;
   onChange: (newValue: T) => void;
 };
 
 type FlagInputFieldProps = InputField<boolean> & SettingSummary;
 
-function FlagInputField({ label, value, onChange }: FlagInputFieldProps) {
+function FlagInputField({
+  disabled,
+  label,
+  value,
+  onChange,
+}: FlagInputFieldProps) {
   return (
     <Box>
       <Box
@@ -94,21 +101,7 @@ function FlagInputField({ label, value, onChange }: FlagInputFieldProps) {
         <Box>
           <Typography>{label}</Typography>
         </Box>
-        <Button
-          sx={{ p: 0, m: 0 }}
-          variant="text"
-          size="small"
-          onClick={() => onChange(!value)}
-          startIcon={
-            value ? (
-              <OnCircleIcon fontSize="small" color="primary" />
-            ) : (
-              <OffCircleIcon fontSize="small" color="primary" />
-            )
-          }
-        >
-          <Box width="32px">{value ? 'on' : 'off'}</Box>
-        </Button>
+        <TinyToggle disabled={disabled} value={value} onChange={onChange} />
       </Box>
     </Box>
   );
@@ -118,6 +111,7 @@ type TokenInputFieldProps = InputField<string> & SettingSummary;
 
 function TokenInputField({
   label,
+  disabled,
   value = '',
   onChange,
   required,
@@ -125,6 +119,7 @@ function TokenInputField({
   return (
     <Box py={1}>
       <SharedTextField
+        disabled={disabled}
         label={label}
         required={required}
         placeholder={value}
@@ -139,7 +134,12 @@ function TokenInputField({
 
 type OAuthInputFieldProps = InputField<boolean> & SettingSummary;
 
-function OAuthInputField({ required, value, onChange }: OAuthInputFieldProps) {
+function OAuthInputField({
+  disabled,
+  required,
+  value,
+  onChange,
+}: OAuthInputFieldProps) {
   const connected = !!value;
 
   return (
@@ -163,6 +163,7 @@ function OAuthInputField({ required, value, onChange }: OAuthInputFieldProps) {
         >
           <span>
             <Button
+              disabled={disabled}
               sx={{ m: 0 }}
               size="small"
               onClick={() => onChange(connected)}

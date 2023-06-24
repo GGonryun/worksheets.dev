@@ -75,12 +75,12 @@ export const ConfigureForm: React.FC<ConfigFormProps> = ({
 
         <WorksheetDescriptionField
           description={form.description ?? ''}
-          onUpdate={(description) => ({ ...form, description })}
+          onUpdate={(description) => setForm({ ...form, description })}
         />
 
         <WorksheetLogLevelField
           level={form.logging}
-          onUpdate={(logging) => ({ ...form, logging })}
+          onUpdate={(logging) => setForm({ ...form, logging })}
         />
       </Box>
     </FormLayout>

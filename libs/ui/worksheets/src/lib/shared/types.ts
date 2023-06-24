@@ -20,8 +20,11 @@ export type ConnectionFieldOptions =
 export type ConnectionForm =
   inferRouterInputs<AppRouter>['connections']['submitForm'];
 
-export type ConnectionDataTableRow =
+export type GetConnectionsDataTableResponse =
   inferRouterOutputs<AppRouter>['connections']['dataTable'];
 
 export type GetApplicationResponse =
   inferRouterOutputs<AppRouter>['applications']['get'];
+
+export type LogDataTableRows =
+  inferRouterOutputs<AppRouter>['worksheets']['logs']['get']['logs'];
