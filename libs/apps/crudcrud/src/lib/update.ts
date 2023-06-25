@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { key } from './common';
 
 export const update = newMethod({
-  path: 'crudcrud.update',
+  id: 'update',
   label: 'cr(Update)d',
   description:
     'Update an entitiy with the JSON payload -- https://crudcrud.com/',

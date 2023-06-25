@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { key } from './common';
 
 export const del = newMethod({
-  path: 'crudcrud.delete',
+  id: 'delete',
   label: 'cru(Delete)',
   description: 'Delete an entity -- https://crudcrud.com/',
   settings: { key },

@@ -1,8 +1,4 @@
-import { MethodCallFailure, newTokenSetting } from '@worksheets/apps/framework';
-
-export const apikey = newTokenSetting({
-  required: true,
-});
+import { MethodCallFailure } from '@worksheets/apps/framework';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const handleOpenAIError = (error: any, message: string) => {

@@ -23,7 +23,7 @@ export class Heap<T = any> {
   }
 
   put(key: string, value: any) {
-    this.data[key] = value;
+    this.data[key] = value ?? null;
   }
 
   delete(key: string) {
@@ -33,7 +33,7 @@ export class Heap<T = any> {
   }
 
   has(key: string): boolean {
-    return this.data[key] != null;
+    return this.data[key] !== undefined;
   }
 
   keys(): string[] {

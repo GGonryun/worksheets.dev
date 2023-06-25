@@ -584,6 +584,26 @@ describe('for', () => {
         expect(r.output).toEqual('okay');
       },
     },
+    {
+      name: 'assigning global loop output',
+      yaml: `
+        steps:
+        - assign:
+          - cached: 
+          - value: 0
+          - list: [0,1,2,3,4,5,6,7,8,"okay"]
+        - for: list
+          index: index
+          value: value
+          steps:
+          - assign:
+            - cached: \${value}
+        return: \${cached}
+        `,
+      assert(r) {
+        expect(r.output).toEqual('okay');
+      },
+    },
   ];
 
   testCases.forEach(async ({ name, yaml, input, arrange, assert }) => {

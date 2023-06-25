@@ -1,17 +1,14 @@
 import { Configuration, OpenAIApi } from 'openai';
-import { newMethod, newTokenSetting } from '@worksheets/apps/framework';
+import { newMethod } from '@worksheets/apps/framework';
 import { z } from 'zod';
 import { handleOpenAIError } from '../common';
-
-const key = newTokenSetting({
-  required: true,
-});
+import { settings } from '../..';
 
 export const completionsCreate = newMethod({
-  path: 'openai.completions.create',
+  id: 'completions.create',
   label: 'Create completion',
   description: 'Creates a completion for the provided prompt and parameters.',
-  settings: { key },
+  settings,
   input: z.object({
     prompt: z.string(),
     model: z.string().default('text-davinci-003'),
@@ -44,7 +41,7 @@ export const completionsCreate = newMethod({
   }),
   async call({ settings, input }) {
     const configuration = new Configuration({
-      apiKey: settings.key,
+      apiKey: settings.apiKey,
     });
 
     const openai = new OpenAIApi(configuration);

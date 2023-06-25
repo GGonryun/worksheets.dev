@@ -1,40 +1,11 @@
-import { PanelResizeHandle } from 'react-resizable-panels';
-
-import styles from './horizontal-resizer.module.scss';
+import styles from './resizer.module.scss';
 import { Box, Button, Divider, IconButton, Typography } from '@mui/material';
 import FirstPageIcon from '@mui/icons-material/FirstPage';
 import LastPageIcon from '@mui/icons-material/LastPage';
 import { HorizontalResizableLayout } from './horizontal-resizer';
 
-export function ResizeHandle({
-  className = '',
-  id,
-}: {
-  className?: string;
-  id?: string;
-}) {
-  return (
-    <PanelResizeHandle
-      className={[styles.ResizeHandleOuter, className].join(' ')}
-      id={id}
-    >
-      <div className={styles.ResizeHandleInner}>
-        <div className={styles.IconBox}>
-          <svg
-            className={styles.Icon}
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path d="M5 14H19M5 10H19" stroke="#000000" />
-          </svg>
-        </div>
-      </div>
-    </PanelResizeHandle>
-  );
-}
-
 export type ResizableLayoutProps = {
+  atomicId?: string;
   primary: React.ReactNode;
   secondary: {
     content: React.ReactNode;
@@ -50,12 +21,14 @@ export type ResizableLayoutProps = {
   };
 };
 export function CollapsingHorizontalResizableLayout({
+  atomicId,
   primary,
   secondary,
 }: ResizableLayoutProps) {
   return (
     <Box display="flex" height="100%">
       <HorizontalResizableLayout
+        atomicId={atomicId}
         left={{ content: primary, visible: true }}
         right={{
           visible: !secondary.hidden,

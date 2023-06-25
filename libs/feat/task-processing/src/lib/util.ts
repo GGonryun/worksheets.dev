@@ -93,6 +93,7 @@ export const isTaskProcessible = (task: TaskEntity): boolean => {
 export type TaskLoggerOptions = {
   db: TaskLoggingDatabase;
   task: TaskEntity;
+  verbosity: LogLevel | undefined;
 };
 /**
  * @description creates a new logger bound to a task
@@ -114,9 +115,20 @@ export type TaskLoggerOptions = {
 export class TaskLogger implements Logger {
   private readonly db: TaskLoggingDatabase;
   private readonly task: TaskEntity;
-  constructor({ db, task }: TaskLoggerOptions) {
+  private readonly verbosity: LogLevel;
+  private readonly order: LogLevel[] = [
+    'trace',
+    'debug',
+    'info',
+    'warn',
+    'error',
+    'fatal',
+    'silent',
+  ];
+  constructor({ db, task, verbosity }: TaskLoggerOptions) {
     this.db = db;
     this.task = task;
+    this.verbosity = verbosity ?? 'silent';
   }
 
   trace(message: string, data?: unknown): Promise<void> {
@@ -158,6 +170,9 @@ export class TaskLogger implements Logger {
    *
    */
   async log(level: LogLevel, message: string, data: unknown): Promise<void> {
+    // check verbosity to see if log level is allowed
+    if (!this.isLogLevelAllowed(level)) return;
+
     // check to make sure the size of the data does not exceed the maximum size
     if (isDataVolumeTooLargeForFirestore(data, 10)) {
       // if the data is too large, we will log a warning and truncate the data
@@ -172,7 +187,21 @@ export class TaskLogger implements Logger {
       level,
       data: cleanseObject(data),
       createdAt: Date.now(),
+      worksheetId: this.task.worksheetId,
     });
+  }
+
+  /**
+   * @name isLogLevelAllowed
+   * @description checks to see if a log level is allowed based on the verbosity level
+   * @param {LogLevel} verbosity the verbosity level
+   * @param {LogLevel} level the log level to check
+   */
+  private isLogLevelAllowed(level: LogLevel): boolean {
+    const verbosityLevel = this.order.indexOf(this.verbosity);
+    const logLevel = this.order.indexOf(level);
+    if (verbosityLevel === -1 || logLevel === -1) return false;
+    return logLevel >= verbosityLevel;
   }
 }
 

@@ -15,8 +15,8 @@ import { CreateWorksheetRequest } from '../shared/types';
 const defaultYaml = `
 name: iterating loops
 assign:
-  loop: [1, 2, 3, 4, apple]
-  data:
+  - loop: [1, 2, 3, 4, apple]
+  - data:
 
 steps:
   - for: loop
@@ -24,7 +24,7 @@ steps:
     value: v
     steps:
       - assign:
-        data: \${v}
+        - data: \${v}
 
 return: \${data}
 `;
@@ -34,8 +34,7 @@ const newWorksheetRequest: CreateWorksheetRequest = {
   text: defaultYaml.trim(),
   description: '',
   logging: 'trace',
-  schedules: [],
-  events: [],
+
   connections: [],
 };
 

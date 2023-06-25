@@ -1,13 +1,14 @@
 import { newMethod } from '@worksheets/apps/framework';
-import { apikey, handleOpenAIError } from '../common';
+import { handleOpenAIError } from '../common';
 import { z } from 'zod';
 import { Configuration, OpenAIApi } from 'openai';
+import { settings } from '../..';
 
 export const imagesCreate = newMethod({
-  path: 'openai.images.create',
+  id: 'images.create',
   label: 'Create Image',
   description: 'Creates an image given a prompt.',
-  settings: { apikey },
+  settings,
   input: z.object({
     prompt: z.string().describe('prompt to draw'),
     n: z.number().default(1),
@@ -22,7 +23,7 @@ export const imagesCreate = newMethod({
   output: z.array(z.object({ url: z.string().optional() })),
   async call({ settings, input }) {
     const configuration = new Configuration({
-      apiKey: settings.apikey,
+      apiKey: settings.apiKey,
     });
 
     const openai = new OpenAIApi(configuration);

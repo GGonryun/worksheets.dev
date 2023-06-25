@@ -8,4 +8,7 @@ export default newApplication({
   label: 'CrudCrud',
   description: '',
   methods: [create, read, update, del],
+  id: 'crudcrud',
+  logo: '',
+  settings: null,
 });
