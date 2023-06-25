@@ -2,7 +2,7 @@ import { newMethod } from '@worksheets/apps/framework';
 import { z } from 'zod';
 
 export const min = newMethod({
-  path: 'math.min',
+  id: 'min',
   label: 'Minimum',
   description: 'Returns the minimum value from a list of items',
   settings: null,

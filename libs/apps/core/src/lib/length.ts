@@ -2,7 +2,7 @@ import { newMethod } from '@worksheets/apps/framework';
 import { z } from 'zod';
 
 export const length = newMethod({
-  path: 'length',
+  id: 'length',
   label: 'Length',
   description:
     "Returns the length of an iterable element or throws 0 if the element isn't iterable",

@@ -2,7 +2,7 @@ import { newMethod } from '@worksheets/apps/framework';
 import { z } from 'zod';
 
 export const avg = newMethod({
-  path: 'math.avg',
+  id: 'avg',
   label: 'Average',
   description: 'Combines all inputs and returns the average',
   settings: null,

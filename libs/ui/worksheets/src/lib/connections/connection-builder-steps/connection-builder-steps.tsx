@@ -18,6 +18,7 @@ import { ListApplicationsResponse } from '../../shared/types';
 import { useConnectionBuilder } from '../useConnectionBuilder';
 import { ModificationBanner } from './modification-banner';
 import { AppLabel } from './app-label';
+import { useEffect } from 'react';
 
 const MAX_INDEX = 2;
 
@@ -27,8 +28,6 @@ export const ConnectionBuilderSteps: React.FC<{
   onClose: () => void;
   canEdit?: boolean;
 }> = ({ connectionId, apps, onClose, canEdit }) => {
-  const [activeStep, setActiveStep] = React.useState(0);
-
   const {
     connection,
     fields,
@@ -41,6 +40,11 @@ export const ConnectionBuilderSteps: React.FC<{
     updateSettingsFieldHandler,
     updateConnection,
   } = useConnectionBuilder({ connectionId, canEdit });
+  const [activeStep, setActiveStep] = React.useState(0);
+
+  useEffect(() => {
+    setActiveStep(editing ? 2 : 0);
+  }, [editing]);
 
   const handleNext = () => {
     if (activeStep === 2) {
@@ -56,8 +60,8 @@ export const ConnectionBuilderSteps: React.FC<{
   };
 
   return (
-    <Stepper activeStep={activeStep} orientation="vertical">
-      <Step key={0}>
+    <Stepper activeStep={activeStep} nonLinear orientation="vertical">
+      <Step completed={editing} key={0}>
         {cannotEdit && <ModificationBanner connectionId={connectionId} />}
         <StepLabelWithCaption
           onClick={() => setActiveStep(0)}
@@ -111,7 +115,7 @@ export const ConnectionBuilderSteps: React.FC<{
           </Box>
         </StepContentWithActions>
       </Step>
-      <Step key={1}>
+      <Step completed={editing} key={1}>
         <StepLabelWithCaption
           onClick={validation.details.ok ? () => setActiveStep(1) : undefined}
           label={'Connection settings'}
@@ -139,7 +143,7 @@ export const ConnectionBuilderSteps: React.FC<{
           </Box>
         </StepContentWithActions>
       </Step>
-      <Step key={2}>
+      <Step completed={editing} key={2}>
         <StepLabelWithCaption
           onClick={
             validation.details.ok && validation.authentication.ok

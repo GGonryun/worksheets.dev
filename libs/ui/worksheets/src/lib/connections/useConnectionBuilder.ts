@@ -35,9 +35,11 @@ export const useConnectionBuilder = ({
           });
         }
       });
+    } else {
+      setEditing(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [connectionId]);
 
   const utils = trpc.useContext();
 

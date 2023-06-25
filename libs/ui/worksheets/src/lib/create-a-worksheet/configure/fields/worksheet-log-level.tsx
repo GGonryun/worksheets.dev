@@ -5,11 +5,16 @@ import { MenuItem } from '@mui/material';
 export const WorksheetLogLevelField: React.FC<{
   level: LogLevel;
   onUpdate: (level: LogLevel) => void;
-}> = ({ level, onUpdate }) => {
+  helperText?: string;
+}> = ({
+  level,
+  onUpdate,
+  helperText = 'Record logs at this level or higher.',
+}) => {
   return (
     <SharedTextField
       label="Log Level"
-      helperText="Record logs at this level or higher."
+      helperText={helperText}
       select
       required
       value={level}
