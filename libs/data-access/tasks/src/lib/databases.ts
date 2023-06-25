@@ -20,7 +20,7 @@ export const logLevelEntity = z.enum([
 export type LogLevel = z.infer<typeof logLevelEntity>;
 
 // keyed by type, taskid, timestamp
-const taskLogEntity = z.object({
+export const taskLogEntity = z.object({
   // atomic key
   ...entitySchema.shape,
   // the task that these logs belong to.
@@ -37,7 +37,7 @@ const taskLogEntity = z.object({
   level: logLevelEntity,
 });
 
-const taskSnapshotEntity = z.object({
+export const taskSnapshotEntity = z.object({
   // a 1:1 relationship between snapshots and tasks
   // the id of the snapshot is the same as the task id
   ...entitySchema.shape,
@@ -52,7 +52,7 @@ const taskSnapshotEntity = z.object({
 });
 
 // create a service level agreement for a task
-const taskDeadlines = z.object({
+export const taskDeadlines = z.object({
   ['task-expiration']: z
     .number()
     .default(() => addMinutesToCurrentTime(2).getTime())
@@ -107,9 +107,13 @@ export const PROCESS_TIMEOUT_CONTRACT = 'process-timeout';
 
 export type TaskState = z.infer<typeof taskStateEntity>;
 
-const taskEntity = z.object({
+export const taskEntity = z.object({
   // atomic key
   ...entitySchema.shape,
+  // the amount of logging to do for this task.
+  verbosity: logLevelEntity,
+  // processing time spent on this task.
+  duration: z.number().default(0),
   // created at timestamp
   createdAt: z.number().default(Date.now()),
   // updated at timestamp

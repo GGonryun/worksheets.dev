@@ -15,7 +15,6 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@worksheets/api/settings": ["libs/api/settings/src/index.ts"],
       "@worksheets/apps/core": ["libs/apps/core/src/index.ts"],
       "@worksheets/apps/crudcrud": ["libs/apps/crudcrud/src/index.ts"],
       "@worksheets/apps/framework": ["libs/apps/framework/src/index.ts"],

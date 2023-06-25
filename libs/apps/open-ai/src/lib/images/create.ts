@@ -1,8 +1,7 @@
 import { newMethod } from '@worksheets/apps/framework';
-import { handleOpenAIError } from '../common';
+import { handleOpenAIError, settings } from '../common';
 import { z } from 'zod';
 import { Configuration, OpenAIApi } from 'openai';
-import { settings } from '../..';
 
 export const imagesCreate = newMethod({
   id: 'images.create',

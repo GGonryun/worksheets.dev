@@ -16,7 +16,8 @@ export const worksheetsEntitySchema = z.object({
   description: z.string(),
   createdAt: z.number().describe('a unix ms timestamp'),
   updatedAt: z.number().describe('a unix ms timestamp'),
-  logging: logLevelEntity,
+  timeout: z.number().describe('in seconds'),
+  logLevel: logLevelEntity,
 });
 
 export type WorksheetEntity = z.infer<typeof worksheetsEntitySchema>;

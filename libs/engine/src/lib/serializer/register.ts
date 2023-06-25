@@ -19,8 +19,14 @@ export class RegisterSerializer
     this.failure = new ChainSerializers(methodCallFailure, errorMessage);
   }
 
-  serialize({ failure, output, input }: Register): Record<string, string> {
+  serialize({
+    failure,
+    output,
+    input,
+    duration,
+  }: Register): Record<string, string> {
     return {
+      duration: `${duration ?? 0}`,
       failure: failure ? this.failure.serialize(failure) : '',
       output: this.json.serialize(output),
       input: this.json.serialize(input),
@@ -28,11 +34,12 @@ export class RegisterSerializer
   }
 
   deserialize(serialized: Record<string, string>): Register {
-    const { failure, output, input } = serialized;
+    const { failure, output, input, duration } = serialized;
     const register = new Register();
     register.failure = failure ? this.failure.deserialize(failure) : undefined;
     register.input = input ? this.json.deserialize(input) : undefined;
     register.output = output ? this.json.deserialize(output) : undefined;
+    register.duration = duration ? parseInt(duration) : 0;
     return register;
   }
 }

@@ -25,10 +25,8 @@ export const EditNameDialog: React.FC<{
       handleSubmit={() => {
         if (name !== value) {
           onSubmit(name);
-          onClose();
-        } else {
-          onClose();
         }
+        onClose();
       }}
     >
       <Box sx={{ width: 400 }}>

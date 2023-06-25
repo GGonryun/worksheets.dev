@@ -55,6 +55,8 @@ export class Execution {
   }
 
   async process() {
+    const start = Date.now();
+
     const { controller, logger, register } = this.ctx;
     await logger.info(`Starting execution`);
     while (!controller.isCancelled() && this.engine.hasNext()) {
@@ -70,7 +72,7 @@ export class Execution {
             cause: error,
           })
         );
-        return register;
+        // return register; // TODO: should we return register here?
       }
     }
 
@@ -86,6 +88,8 @@ export class Execution {
       );
     }
 
+    // add to total processing time.
+    register.duration += Date.now() - start;
     return register;
   }
 }

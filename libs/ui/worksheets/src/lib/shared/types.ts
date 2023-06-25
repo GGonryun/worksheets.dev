@@ -28,3 +28,9 @@ export type GetApplicationResponse =
 
 export type LogDataTableRows =
   inferRouterOutputs<AppRouter>['worksheets']['logs']['get']['logs'];
+
+export type ExecutionOverrideForm =
+  inferRouterInputs<AppRouter>['tasks']['execute']['overrides'];
+
+export type ExecutionDetailsDataRow =
+  inferRouterOutputs<AppRouter>['worksheets']['tasks']['history'];

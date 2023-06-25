@@ -7,7 +7,11 @@ import {
   Typography,
 } from '@mui/material';
 import { useRouter } from 'next/router';
-import { formatTimestampLong } from '@worksheets/util/time';
+import {
+  durationFromSeconds,
+  formatTimestampLong,
+  printCountdownDuration,
+} from '@worksheets/util/time';
 import { IconButton } from '@mui/material';
 import { ReactNode, useState } from 'react';
 import { useSnackbar } from '../../shared/useSnackbar';
@@ -22,14 +26,9 @@ import { trpc } from '@worksheets/trpc/ide';
 import { UpdateWorksheetRequest } from '../../shared/types';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import { TinyToggle } from '../../shared/tiny-toggle';
+import { EditTimeoutDialog } from './dialogs/edit-timeout';
 
-type GeneralDetailsProps = {
-  details: string[];
-};
-
-export const GeneralConfiguration: React.FC<GeneralDetailsProps> = ({
-  details,
-}) => {
+export const GeneralConfiguration: React.FC = () => {
   const { query, push } = useRouter();
 
   const worksheetId = query.id as string;
@@ -43,8 +42,9 @@ export const GeneralConfiguration: React.FC<GeneralDetailsProps> = ({
         "This will also delete your worksheet's execution history and logs. Are you sure?"
       )
     ) {
-      await deleteWorksheet.mutateAsync({ id: worksheetId });
-      push('/worksheets');
+      await deleteWorksheet.mutateAsync({ id: worksheetId }).then(() => {
+        push('/worksheets');
+      });
     }
   };
 
@@ -80,12 +80,17 @@ export const GeneralConfiguration: React.FC<GeneralDetailsProps> = ({
     await handleUpdateWorksheet({ description });
   };
 
-  const handleUpdateLogLevel = async (logging: LogLevel) => {
-    await handleUpdateWorksheet({ logging });
+  const handleUpdateLogLevel = async (logLevel: LogLevel) => {
+    await handleUpdateWorksheet({ logLevel });
   };
 
   const handleUpdateEnabled = async (enabled: boolean) => {
     await handleUpdateWorksheet({ enabled });
+  };
+
+  const handleUpdateTimeout = async (timeout: number) => {
+    console.log('handling update timeout', timeout);
+    await handleUpdateWorksheet({ timeout });
   };
 
   return (
@@ -125,8 +130,15 @@ export const GeneralConfiguration: React.FC<GeneralDetailsProps> = ({
         />
         <ConfigurationOption
           label={'Log Level'}
-          content={capitalizeFirstLetter(data?.logging ?? '')}
+          content={capitalizeFirstLetter(data?.logLevel ?? '')}
           onEdit={() => setEditingField('logging')}
+        />
+        <ConfigurationOption
+          label={'Timeout'}
+          content={printCountdownDuration(
+            durationFromSeconds(data?.timeout ?? 0)
+          )}
+          onEdit={() => setEditingField('timeout')}
         />
         <br />
         <ConfigurationOption
@@ -163,10 +175,17 @@ export const GeneralConfiguration: React.FC<GeneralDetailsProps> = ({
       />
 
       <EditLogLevelDialog
-        value={data?.logging || 'trace'}
+        value={data?.logLevel || 'trace'}
         open={editingField === 'logging'}
         onClose={() => setEditingField('')}
         onSubmit={handleUpdateLogLevel}
+      />
+
+      <EditTimeoutDialog
+        value={data?.timeout ?? 0}
+        open={editingField === 'timeout'}
+        onClose={() => setEditingField('')}
+        onSubmit={handleUpdateTimeout}
       />
 
       {/* TODO: Globalize Snackbars */}

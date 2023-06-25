@@ -149,6 +149,7 @@ export const secondsRemaining = (
 };
 
 export type Duration = {
+  days: number;
   hours: number;
   minutes: number;
   seconds: number;
@@ -176,10 +177,11 @@ export const durationRemaining = (
   const minutesToMs = 60000;
   const hoursToMs = 3600000;
   const offset = timestamp - currentTime.getTime();
-  const hours = Math.floor(offset / hoursToMs);
+  const days = Math.floor(offset / (hoursToMs * 24));
+  const hours = Math.floor((offset % (hoursToMs * 24)) / hoursToMs);
   const minutes = Math.floor((offset % hoursToMs) / minutesToMs);
   const seconds = Math.floor((offset % minutesToMs) / secondsToMs);
-  return { hours, minutes, seconds };
+  return { days, hours, minutes, seconds };
 };
 
 /**
@@ -189,14 +191,45 @@ export const durationRemaining = (
  * @returns {string} in HH:MM:SS.MMMM format
  */
 export const printDuration = ({
+  days,
   hours,
   minutes,
   seconds,
 }: Duration): string => {
   const pad = (num: number) => num.toString().padStart(2, '0');
-  return `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+  return `${pad(days)}:${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
 };
 
+/**
+ * @name printCountdownDuration
+ * @description returns a human readable string of the duration remaining
+ * @param {Duration} duration the duration to print
+ */
+export const printCountdownDuration = ({
+  days,
+  hours,
+  minutes,
+  seconds,
+}: Duration) => {
+  const pad = (num: number) => num.toString().padStart(2, '0');
+  const daysString = days > 0 ? `${days}d ` : '';
+  const hoursString = hours > 0 ? `${hours}h ` : '';
+  const minutesString = minutes > 0 ? `${minutes}m ` : '';
+  const secondsString = `${pad(seconds)}s`;
+  return `${daysString}${hoursString}${minutesString}${secondsString}`;
+};
+
+/**
+ * @name durationFromSeconds
+ */
+export const durationFromSeconds = (seconds: number): Duration => {
+  const days = Math.floor(seconds / 86400);
+  const hours = Math.floor((seconds % 86400) / 3600);
+  const minutes = Math.floor((seconds % 3600) / 60);
+  const remainingSeconds = Math.floor(seconds % 60);
+
+  return { days, hours, minutes, seconds: remainingSeconds };
+};
 /**
  * a function that converts a millisecond unix timestamp to a string format like 6/15/23, 8:02 PM
  * @param timestamp a millisecond unix timestamp
@@ -251,4 +284,20 @@ export const getCurrentHourInMilliseconds = (
   date.setSeconds(0);
   date.setMilliseconds(0);
   return date.getTime();
+};
+
+/**
+ * print millseconds as a user friendly duration
+ */
+export const printMillisecondsAsDuration = (milliseconds: number) => {
+  const seconds = Math.floor(milliseconds / 1000);
+  const minutes = Math.floor(seconds / 60);
+  const hours = Math.floor(minutes / 60);
+
+  const hoursString = hours > 0 ? `${hours}h ` : '';
+  const minutesString = minutes > 0 ? `${minutes}m ` : '';
+  const secondsString = seconds > 0 ? `${seconds % 60}s ` : '';
+  const millisecondsString = minutes < 1 ? `${milliseconds % 1000}ms ` : '';
+
+  return `${hoursString}${minutesString}${secondsString}${millisecondsString}`;
 };

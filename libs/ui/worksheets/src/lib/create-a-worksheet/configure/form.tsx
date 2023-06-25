@@ -6,11 +6,13 @@ import { WorksheetNameField } from './fields/worksheet-name';
 import { checkValidWorksheetName } from '../../shared/util';
 import { WorksheetDescriptionField } from './fields/worksheet-description';
 import { WorksheetLogLevelField } from './fields/worksheet-log-level';
+import { WorksheetTimeoutField } from './fields/worksheet-timeout';
 
 export type ConfigFormValues = {
   name: string;
   description: string;
-  logging: LogLevel;
+  logLevel: LogLevel;
+  timeout?: number;
 };
 
 export type ConfigFormProps = {
@@ -27,11 +29,12 @@ export const ConfigureForm: React.FC<ConfigFormProps> = ({
   const [form, setForm] = useState<ConfigFormValues>({
     name: '',
     description: '',
-    logging: 'trace',
+    logLevel: 'trace',
+    timeout: undefined,
     ...state,
   });
 
-  const hasRequiredFields = form.name.length > 0 && Boolean(form.logging);
+  const hasRequiredFields = form.name.length > 0 && Boolean(form.logLevel);
 
   const isWorksheetNameValid = checkValidWorksheetName(form.name);
 
@@ -79,8 +82,13 @@ export const ConfigureForm: React.FC<ConfigFormProps> = ({
         />
 
         <WorksheetLogLevelField
-          level={form.logging}
-          onUpdate={(logging) => setForm({ ...form, logging })}
+          level={form.logLevel}
+          onUpdate={(logLevel) => setForm({ ...form, logLevel })}
+        />
+
+        <WorksheetTimeoutField
+          timeout={form.timeout ?? 600}
+          onUpdate={(timeout) => setForm({ ...form, timeout })}
         />
       </Box>
     </FormLayout>
