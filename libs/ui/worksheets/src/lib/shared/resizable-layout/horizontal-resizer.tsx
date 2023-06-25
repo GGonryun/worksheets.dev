@@ -1,36 +1,8 @@
 import { Panel, PanelGroup, PanelProps } from 'react-resizable-panels';
-import { PanelResizeHandle } from 'react-resizable-panels';
 
-import styles from './horizontal-resizer.module.scss';
-import { v4 as uuidv4 } from 'uuid';
+import styles from './resizer.module.scss';
 import { Divider } from '@mui/material';
-export function ResizeHandle({
-  className = '',
-  id,
-}: {
-  className?: string;
-  id?: string;
-}) {
-  return (
-    <PanelResizeHandle
-      className={[styles.ResizeHandleOuter, className].join(' ')}
-      id={id}
-    >
-      <div className={styles.ResizeHandleInner}>
-        <div className={styles.IconBox}>
-          <svg
-            className={styles.Icon}
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path d="M5 14H19M5 10H19" stroke="#000000" />
-          </svg>
-        </div>
-      </div>
-    </PanelResizeHandle>
-  );
-}
+import { ResizeHandle } from './resize-handle';
 
 type ResizablePanelProps = {
   content: React.ReactNode;
@@ -38,11 +10,13 @@ type ResizablePanelProps = {
 } & PanelProps;
 
 export type HorizontalResizableLayoutProps = {
+  atomicId?: string;
   left: ResizablePanelProps;
   right: ResizablePanelProps;
 };
 
 export function HorizontalResizableLayout({
+  atomicId,
   left,
   right,
 }: HorizontalResizableLayoutProps) {
@@ -51,7 +25,7 @@ export function HorizontalResizableLayout({
   return (
     <div className={styles.Container}>
       <div className={styles.BottomRow}>
-        <PanelGroup autoSaveId={uuidv4()} direction="horizontal">
+        <PanelGroup direction="horizontal">
           {leftVisible && (
             <Panel {...leftProps} className={styles.Panel} order={1}>
               <div className={styles.PanelContent}>{leftContent}</div>
@@ -60,7 +34,7 @@ export function HorizontalResizableLayout({
 
           {rightVisible && (
             <>
-              <ResizeHandle />
+              <ResizeHandle horizontal />
               <Divider orientation="vertical" />
 
               <Panel {...rightProps} className={styles.Panel} order={2}>

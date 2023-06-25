@@ -1,4 +1,5 @@
 import {
+  LogLevel,
   TaskEntity,
   newProcessTaskBus,
   newTaskLoggingDatabase,
@@ -21,7 +22,8 @@ const processorBus = newProcessTaskBus();
 export const createTask = async (
   taskId: string | undefined,
   worksheetId: string,
-  input: unknown
+  input: unknown,
+  logging?: LogLevel
 ): Promise<string> => {
   // TODO: add support for transactions. otherwise two executions could perform the work of trying to save the task before recognizing that the task may already exist.
   let task: Maybe<TaskEntity> = await safelyGetTask(tasksDb, taskId);
@@ -57,8 +59,15 @@ export const createTask = async (
     retries: 0,
     delay: 0,
   });
+
+  // TODO: check to see if the user has sufficient resources to perform request
+  const worksheet = await getWorksheet(worksheetId);
   // create a new logger for the task
-  const logger = new TaskLogger({ db: loggingDb, task });
+  const logger = new TaskLogger({
+    db: loggingDb,
+    task,
+    verbosity: logging ?? worksheet.logging,
+  });
   // neither the library nor the controller serve any purpose during serialization
   const library = newEmptyLibrary();
   const controller = new Controller();
@@ -67,8 +76,7 @@ export const createTask = async (
     execution: { library, controller, logger },
     stack: { max: 100 },
   });
-  // TODO: check to see if the user has sufficient resources to perform request
-  const worksheet = await getWorksheet(worksheetId);
+
   // use the factory to create a new execution. and provide it inputs
   const execution = await factory.create({ text: worksheet.text, input });
   // use the factory to serialize that execution so we can execute it later.

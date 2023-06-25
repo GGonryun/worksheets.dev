@@ -7,7 +7,10 @@ import { min } from './lib/min';
 import { abs } from './lib/abs';
 
 export default newApplication({
+  id: 'math',
   label: 'Math',
+  logo: '',
   description: '',
+  settings: null,
   methods: [avg, calc, identity, max, min, abs],
 });

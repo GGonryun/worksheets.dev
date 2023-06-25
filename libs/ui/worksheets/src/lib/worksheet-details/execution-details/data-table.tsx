@@ -53,7 +53,7 @@ const columns = (worksheetId: string): GridColDef[] => [
     minWidth: 300,
     sortable: false,
     renderCell: (params) => (
-      <Link href={`/worksheets/${worksheetId}/execution/${params.id}`}>
+      <Link href={`/worksheets/${worksheetId}/executions/${params.id}`}>
         {params.value}
       </Link>
     ),

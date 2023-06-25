@@ -134,15 +134,23 @@ export const SettingsCardPlans: React.FC<{ plan: 'free' | 'premium' }> = ({
         <Box display="flex" justifyContent="space-between" gap={1}>
           <LimitPanel
             color="inherit"
-            label="Processor dilation"
-            tooltip="The impact of a minute on processing time. A 0.5 time dilation value would reduces processing costs by half."
-            caption={'1.0 x minute'}
+            label="Time dilation"
+            tooltip="The impact of a minute on processing time. A value of 0.5 would reduce processing costs by half. A value of 2.0 would double processing costs."
+            caption={'(1.0) time'}
           />
+          <LimitPanel
+            color="inherit"
+            label="System efficiency"
+            tooltip="The current cost of processing for a minute, as the system improves your average cost of operations will decrease."
+            caption={'(0.01) speed'}
+          />
+        </Box>
+        <Box display="flex" justifyContent="flex-start">
           <LimitPanel
             color="success"
             label="System processing"
-            tooltip="The current processing capabilities of the system. Reduced capabilities will result in impacts to processing time."
-            caption={'1.0 x minute'}
+            tooltip="The current processing capabilities of the entire worksheets task system."
+            caption={'100 x tasks per minute'}
           />
         </Box>
       </Box>

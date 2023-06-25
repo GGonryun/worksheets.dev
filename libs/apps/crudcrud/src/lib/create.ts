@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { key } from './common';
 
 export const create = newMethod({
-  path: 'crudcrud.create',
+  id: 'create',
   label: '(Create)rud',
   description:
     'Create an entity represented by the JSON payload -- https://crudcrud.com/',

@@ -3,6 +3,7 @@ import { CodeEditor } from '@worksheets/ui/code-editor';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { CollapsingHorizontalResizableLayout } from './resizable-layout/collapsing-horizontal-resizer';
 import { ReactNode, useState } from 'react';
+import { useUser } from '@worksheets/util/auth/client';
 
 export const SourceVisualizer: React.FC<{
   text: string;
@@ -12,8 +13,10 @@ export const SourceVisualizer: React.FC<{
   caption?: string;
 }> = ({ text, onUpdate, disabled, toolbar, caption }) => {
   const [open, setOpen] = useState(true);
+  const { user } = useUser();
   return (
     <CollapsingHorizontalResizableLayout
+      atomicId={user?.uid}
       primary={
         <Box height="100%" width="100%">
           <Box

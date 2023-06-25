@@ -4,7 +4,7 @@ import { key } from './common';
 import { StatusCodes } from 'http-status-codes';
 
 export const read = newMethod({
-  path: 'crudcrud.read',
+  id: 'read',
   label: 'c(Read)ud',
   description:
     'Get a single entity (id) or all entities from the resource -- https://crudcrud.com/',

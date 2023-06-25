@@ -1,7 +1,7 @@
 import { Ace } from 'ace-builds';
 import AceEditor from 'react-ace';
 
-import { useEffect, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 
 import 'ace-builds/src-noconflict/mode-yaml';
 import 'ace-builds/src-noconflict/mode-json';
@@ -13,22 +13,28 @@ import { Box, Typography } from '@mui/material';
 
 export type AceEditorProps = {
   width?: string;
+  height?: string;
   value: string;
   mode: 'yaml' | 'json';
   theme: 'light' | 'dark';
   onChange?: (newValue: string) => void;
   disabled?: boolean;
-  caption?: string;
+  caption?: ReactNode | string;
+  hideActiveLineHighlighter?: boolean;
+  hideLineNumbers?: boolean;
 };
 
 export default function CodeEditor({
   width,
+  height = '100%',
   value,
   mode,
   theme,
   onChange,
   caption,
   disabled,
+  hideLineNumbers = false,
+  hideActiveLineHighlighter = false,
 }: AceEditorProps) {
   const [annotations, setAnnotations] = useState<Ace.Annotation[]>([]);
   useEffect(() => {
@@ -52,9 +58,13 @@ export default function CodeEditor({
   return (
     <>
       <Box px={1} display="flex" alignItems="center">
-        <Typography p={0} m={0} variant="caption" color="text.secondary">
-          {caption}
-        </Typography>
+        {typeof caption === 'string' ? (
+          <Typography p={0} m={0} variant="caption" color="text.secondary">
+            {caption}
+          </Typography>
+        ) : (
+          caption
+        )}
       </Box>
       <AceEditor
         /*
@@ -64,7 +74,7 @@ export default function CodeEditor({
         setOptions={{ useWorker: false }}
         showPrintMargin={false}
         readOnly={disabled}
-        height="100%"
+        height={height}
         width={width}
         mode={mode === 'yaml' ? 'yaml' : 'json'}
         theme={theme === 'light' ? 'textmate' : 'terminal'}
@@ -73,6 +83,8 @@ export default function CodeEditor({
         style={{ borderRadius: '0px' }}
         annotations={annotations}
         onChange={onChange}
+        highlightActiveLine={!hideActiveLineHighlighter}
+        showGutter={!hideLineNumbers}
       />
     </>
   );

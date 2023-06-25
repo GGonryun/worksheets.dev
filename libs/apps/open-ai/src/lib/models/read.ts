@@ -1,7 +1,8 @@
 import { newMethod } from '@worksheets/apps/framework';
-import { apikey, handleOpenAIError } from '../common';
+import { handleOpenAIError } from '../common';
 import { z } from 'zod';
 import { Configuration, OpenAIApi } from 'openai';
+import { settings } from '../..';
 
 const modelSchema = z.object({
   id: z.string(),
@@ -11,16 +12,16 @@ const modelSchema = z.object({
 });
 
 export const modelsRead = newMethod({
-  path: 'openai.models.read',
+  id: 'models.read',
   label: 'List models',
   description:
     'Lists the currently available models, and provides basic information about each one such as the owner and availability.',
-  settings: { apikey },
+  settings,
   input: z.string().optional().describe('model id'),
   output: z.union([z.array(modelSchema), modelSchema]),
   async call({ settings, input }) {
     const configuration = new Configuration({
-      apiKey: settings.apikey,
+      apiKey: settings.apiKey,
     });
     const openai = new OpenAIApi(configuration);
 
