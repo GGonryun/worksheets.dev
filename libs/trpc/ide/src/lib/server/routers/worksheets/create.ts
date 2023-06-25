@@ -9,24 +9,26 @@ export default protectedProcedure
     z.object({
       name: z.string(),
       text: z.string(),
+      timeout: z.number().optional(),
       description: z.string().default(''),
-      logging: logLevelEntity.default('debug'),
+      logLevel: logLevelEntity.default('warn'),
       connections: z.array(z.string()).optional(),
     })
   )
   .output(z.string())
   .mutation(
     async ({
-      input: { name, text, description, logging, connections },
+      input: { name, text, description, timeout, logLevel, connections },
       ctx: { user },
     }) => {
       const uid = user.uid;
       console.info(`creating a new worksheet for user ${uid}`);
       const worksheetId = await WorksheetsManagement.createWorksheet(uid, {
+        timeout: timeout ?? 600,
         name,
         text,
         description,
-        logging,
+        logLevel,
       });
 
       if (connections) {

@@ -54,4 +54,8 @@ const logLevels: { label: string; value: LogLevel }[] = [
     label: 'Fatal',
     value: 'fatal',
   },
+  {
+    label: 'Silent',
+    value: 'silent',
+  },
 ];

@@ -1,8 +1,7 @@
 import { Configuration, OpenAIApi } from 'openai';
 import { newMethod } from '@worksheets/apps/framework';
 import { z } from 'zod';
-import { handleOpenAIError } from '../common';
-import { settings } from '../..';
+import { handleOpenAIError, settings } from '../common';
 
 export const completionsCreate = newMethod({
   id: 'completions.create',
