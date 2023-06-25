@@ -1,5 +1,4 @@
 import {
-  LogLevel,
   TaskEntity,
   newProcessTaskBus,
   newTaskLoggingDatabase,
@@ -11,7 +10,12 @@ import { newEmptyLibrary } from '@worksheets/feat/execution-settings';
 import { getWorksheet } from '@worksheets/feat/worksheets-management';
 import { HandlerFailure } from '@worksheets/util/next';
 import { Maybe } from '@worksheets/util/types';
-import { newDefaultDeadlines, safelyGetTask } from './util';
+import {
+  TaskCreationOverrides,
+  newDefaultDeadlines,
+  newDefaultVerbosity,
+  safelyGetTask,
+} from './util';
 import { TaskLogger } from './util';
 
 const tasksDb = newTasksDatabase();
@@ -23,8 +27,12 @@ export const createTask = async (
   taskId: string | undefined,
   worksheetId: string,
   input: unknown,
-  logging?: LogLevel
+  // TODO: make optional
+  options: TaskCreationOverrides
 ): Promise<string> => {
+  // TODO: check to see if the user has sufficient resources to perform request
+  const worksheet = await getWorksheet(worksheetId);
+
   // TODO: add support for transactions. otherwise two executions could perform the work of trying to save the task before recognizing that the task may already exist.
   let task: Maybe<TaskEntity> = await safelyGetTask(tasksDb, taskId);
   // check if the task already exists
@@ -49,24 +57,23 @@ export const createTask = async (
   task = await tasksDb.insert({
     id: taskId,
     worksheetId: worksheetId,
-    text: '',
+    text: worksheet.text,
     // do not save as queued otherwise the task will be picked up by the processor
     state: 'pending',
-    deadlines: newDefaultDeadlines(),
     input,
+    deadlines: newDefaultDeadlines(worksheet, options),
+    verbosity: newDefaultVerbosity(worksheet, options),
     createdAt: Date.now(),
     updatedAt: Date.now(),
-    retries: 0,
     delay: 0,
+    duration: 0,
+    retries: 0,
   });
 
-  // TODO: check to see if the user has sufficient resources to perform request
-  const worksheet = await getWorksheet(worksheetId);
   // create a new logger for the task
   const logger = new TaskLogger({
     db: loggingDb,
     task,
-    verbosity: logging ?? worksheet.logging,
   });
   // neither the library nor the controller serve any purpose during serialization
   const library = newEmptyLibrary();

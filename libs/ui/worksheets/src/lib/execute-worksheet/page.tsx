@@ -24,8 +24,9 @@ import FormatPaintIcon from '@mui/icons-material/FormatPaintOutlined';
 import HelpIcon from '@mui/icons-material/Help';
 import ReportIcon from '@mui/icons-material/Report';
 import { WorksheetLogLevelField } from '../create-a-worksheet/configure/fields/worksheet-log-level';
-import { LogLevel } from '@worksheets/data-access/tasks';
-import { warn } from '@worksheets/ui/common';
+import { useDebounce, warn } from '@worksheets/ui/common';
+import { WorksheetTimeoutField } from '../create-a-worksheet/configure/fields/worksheet-timeout';
+import { ExecutionOverrideForm } from '../shared/types';
 
 export const EXECUTION_HEADER_COMMENT = `
 # 👋 These comments are auto-generated and are
@@ -33,6 +34,7 @@ export const EXECUTION_HEADER_COMMENT = `
 # 📝 Use the left window to provide JSON input 
 #    and adjust your execution settings.
 `.trimStart();
+
 export const ExecuteWorksheetPage: React.FC = () => {
   const { user } = useUser();
   const { query, push } = useRouter();
@@ -41,18 +43,29 @@ export const ExecuteWorksheetPage: React.FC = () => {
   const { data: worksheet } = trpc.worksheets.get.useQuery({ id: worksheetId });
   const [input, setInput] = useState('{}');
   const [error, setError] = useState<string | undefined>(undefined);
-  const [logLevel, setLogLevel] = useState<LogLevel | undefined>(undefined);
+  const [overrides, setOverrides] = useState<ExecutionOverrideForm>({});
 
   const execute = trpc.tasks.execute.useMutation();
 
-  useEffect(() => {
+  const validateInput = useDebounce(1500, (input: string) => {
     try {
       JSON.parse(input);
       setError(undefined);
     } catch {
       setError('Failed to parse JSON text');
     }
-  }, [input]);
+  });
+
+  useEffect(() => {
+    validateInput(input);
+  }, [validateInput, input]);
+
+  useEffect(() => {
+    setOverrides({
+      logLevel: worksheet?.logLevel,
+      timeout: worksheet?.timeout,
+    });
+  }, [worksheet]);
 
   const tryFormatJson = () => {
     try {
@@ -73,7 +86,7 @@ export const ExecuteWorksheetPage: React.FC = () => {
       const id = await execute.mutateAsync({
         worksheetId,
         input: JSON.parse(input),
-        logLevel,
+        overrides,
       });
 
       push(`/worksheets/${worksheetId}/executions/${id}`);
@@ -113,12 +126,14 @@ export const ExecuteWorksheetPage: React.FC = () => {
                     bot={{
                       content: (
                         <ExecutionSettings
-                          value={logLevel ?? worksheet?.logging}
-                          onUpdate={setLogLevel}
+                          value={overrides}
+                          onUpdate={setOverrides}
                         />
                       ),
                       visible: true,
                       defaultSize: 20,
+                      // clamps so that it doesn't show more than the required fields in the execution override form
+                      maxSize: 37,
                     }}
                   />
                 </Box>
@@ -328,10 +343,10 @@ const JSONEditor: React.FC<{
 };
 
 const ExecutionSettings: React.FC<{
-  value?: LogLevel;
-  onUpdate: (log: LogLevel) => void;
-}> = ({ value = 'warn', onUpdate }) => (
-  <Box height="100%" width="100%">
+  value?: ExecutionOverrideForm;
+  onUpdate: (form: ExecutionOverrideForm) => void;
+}> = ({ value, onUpdate }) => (
+  <Box height="100%" width="100%" overflow="scroll">
     <Box
       height="48px"
       px={2}
@@ -354,11 +369,17 @@ const ExecutionSettings: React.FC<{
     <Divider />
     <Box p={3}>
       <WorksheetLogLevelField
-        level={value}
-        onUpdate={(log) => onUpdate(log)}
+        level={value?.logLevel ?? 'silent'}
+        onUpdate={(logLevel) => onUpdate({ logLevel })}
         helperText={
           "Overwrite your worksheet's default log level exclusively for this execution."
         }
+      />
+    </Box>
+    <Box px={3} pb={2}>
+      <WorksheetTimeoutField
+        timeout={value?.timeout ?? 0}
+        onUpdate={(timeout) => onUpdate({ timeout })}
       />
     </Box>
   </Box>

@@ -9,8 +9,9 @@ export default protectedProcedure
         name: true,
         text: true,
         description: true,
-        logging: true,
+        logLevel: true,
         enabled: true,
+        timeout: true,
       })
       .omit({ uid: true, createdAt: true, updatedAt: true })
   )
@@ -21,6 +22,7 @@ export default protectedProcedure
         user: { uid },
       },
     }) => {
+      console.info(`updating worksheet ${uid} properties`, input);
       return await WorksheetsManagement.updateWorksheet({
         uid,
         ...input,

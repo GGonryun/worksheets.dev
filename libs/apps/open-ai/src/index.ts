@@ -1,17 +1,8 @@
-import {
-  newApplication,
-  newSettings,
-  newTokenSetting,
-} from '@worksheets/apps/framework';
+import { newApplication } from '@worksheets/apps/framework';
 import { completionsCreate } from './lib/completions/create';
 import { imagesCreate } from './lib/images/create';
 import { modelsRead } from './lib/models/read';
-
-export const settings = newSettings({
-  apiKey: newTokenSetting({
-    required: true,
-  }),
-});
+import { settings } from './lib/common';
 
 export default newApplication({
   id: 'openai',

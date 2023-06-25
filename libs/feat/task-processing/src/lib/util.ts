@@ -14,14 +14,28 @@ import {
   Logger,
 } from '@worksheets/engine';
 import { isDataVolumeTooLargeForFirestore } from '@worksheets/util/data-structures';
-import { addMinutesToCurrentTime } from '@worksheets/util/time';
+import {
+  addMinutesToCurrentTime,
+  addSecondsToCurrentTime,
+} from '@worksheets/util/time';
 import { Maybe } from '@worksheets/util/types';
 import { cleanseObject } from '@worksheets/util/objects';
 import { TaskDeadlines } from '@worksheets/data-access/tasks';
 import { HandlerFailure } from '@worksheets/util/next';
+import { WorksheetEntity } from '@worksheets/data-access/worksheets';
+
+export type TaskCreationOverrides = {
+  verbosity?: LogLevel;
+  timeout?: number;
+};
 
 // we currently poll every 1 minute. any tasks that are delayed within 1 minute should be processed in band.
 const CRON_POLLING_FREQUENCY = 1;
+// defaults to 10 minutes in seconds
+const DEFAULT_TIMEOUT = 600;
+
+const DEFAULT_VERBOSITY = 'silent';
+
 /**
  * @name newDefaultDeadlines
  * @description safelySaveTask saves a task to the database. if the task is too large to save, it will throw an error.
@@ -31,14 +45,33 @@ const CRON_POLLING_FREQUENCY = 1;
  * @remarks 10 seconds for method call timeout because we don't want to wait too long for a method to execute it could cause the entire execution to fail
  * @remarks 30 requeues to prevent infinite requeues
  */
-export function newDefaultDeadlines(): TaskDeadlines {
+export function newDefaultDeadlines(
+  worksheet: WorksheetEntity,
+  overrides?: {
+    timeout?: number; // seconds to add.
+  }
+): TaskDeadlines {
+  const timeout = overrides?.timeout ?? worksheet.timeout ?? DEFAULT_TIMEOUT;
+
   return {
-    'task-expiration': addMinutesToCurrentTime(10).getTime(),
+    // millisecond utc timestamp of expiration datetime
+    'task-expiration': addSecondsToCurrentTime(timeout).getTime(),
     'max-processor-runtime': 30 * 1000, // seconds
     'method-call-timeout': 10 * 1000, // seconds
-    'task-requeue-limit': 30, // times
+    'task-requeue-limit': 30, // num repeats
   };
 }
+
+/**
+ * @name newDefaultVerbosity
+ * @description returns the default verbosity for a task
+ */
+export const newDefaultVerbosity = (
+  worksheet: WorksheetEntity,
+  overrides: Pick<TaskCreationOverrides, 'verbosity'>
+): LogLevel => {
+  return overrides?.verbosity ?? worksheet.logLevel ?? DEFAULT_VERBOSITY;
+};
 
 /**
  * @name safelyGetTask
@@ -93,8 +126,8 @@ export const isTaskProcessible = (task: TaskEntity): boolean => {
 export type TaskLoggerOptions = {
   db: TaskLoggingDatabase;
   task: TaskEntity;
-  verbosity: LogLevel | undefined;
 };
+
 /**
  * @description creates a new logger bound to a task
  * @constructor takes in a task id and returns a new logger for that task
@@ -125,10 +158,10 @@ export class TaskLogger implements Logger {
     'fatal',
     'silent',
   ];
-  constructor({ db, task, verbosity }: TaskLoggerOptions) {
+  constructor({ db, task }: TaskLoggerOptions) {
     this.db = db;
     this.task = task;
-    this.verbosity = verbosity ?? 'silent';
+    this.verbosity = task.verbosity ?? 'silent';
   }
 
   trace(message: string, data?: unknown): Promise<void> {

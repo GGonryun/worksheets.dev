@@ -9,18 +9,17 @@ export default protectedProcedure
     z.object({
       worksheetId: z.string(),
       input: z.unknown(),
-      logLevel: logLevelEntity.optional(),
+      overrides: z.object({
+        timeout: z.number().optional(),
+        logLevel: logLevelEntity.optional(),
+      }),
     })
   )
   .output(z.string())
-  .mutation(
-    async ({
-      input: { worksheetId, input, logLevel },
-      ctx: {
-        user: { uid },
-      },
-    }) => {
-      console.info(`creating a task execution for ${worksheetId}`);
-      return await createTask(uuidv4(), worksheetId, input, logLevel);
-    }
-  );
+  .mutation(async ({ input: { worksheetId, input, overrides } }) => {
+    console.info(`creating a task execution for ${worksheetId}`);
+    return await createTask(uuidv4(), worksheetId, input, {
+      verbosity: overrides.logLevel,
+      timeout: overrides.timeout,
+    });
+  });

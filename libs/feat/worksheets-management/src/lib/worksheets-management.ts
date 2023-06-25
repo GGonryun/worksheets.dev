@@ -168,7 +168,10 @@ export const getWorksheetsDataTable = async (
 
 export const createWorksheet = async (
   uid: string,
-  entity: Pick<WorksheetEntity, 'name' | 'text' | 'description' | 'logging'>
+  entity: Pick<
+    WorksheetEntity,
+    'name' | 'text' | 'description' | 'logLevel' | 'timeout'
+  >
 ) => {
   console.info(`creating a new worksheet for user ${uid}`);
   const records = await listUsersWorksheets(uid);
