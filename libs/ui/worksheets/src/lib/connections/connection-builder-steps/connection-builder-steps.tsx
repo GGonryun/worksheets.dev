@@ -193,7 +193,11 @@ export const ConnectionBuilderSteps: React.FC<{
               <Typography variant="caption" color="text.secondary">
                 <Box component="span" display="flex" gap={1}>
                   {relatedWorksheets?.map((r, i) => (
-                    <Link href={`/worksheets?${r.id}`} key={i}>
+                    <Link
+                      href={`/worksheets/${r.id}`}
+                      target={'_blank'}
+                      key={i}
+                    >
                       {r.name}{' '}
                       <OpenInNewIcon fontSize="small" color="primary" />
                     </Link>

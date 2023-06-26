@@ -1,124 +1,96 @@
-import {
-  Chip,
-  ChipProps,
-  Link,
-  SvgIconTypeMap,
-  Tooltip,
-  Typography,
-} from '@mui/material';
+import { Box, Link, Tooltip, Typography } from '@mui/material';
 import { DataGrid, GridColDef, GridRowParams } from '@mui/x-data-grid';
 import { FC } from 'react';
 import { useRouter } from 'next/router';
 import { GridLinkAction } from '../../shared/grid-action-link';
 import { trpc } from '@worksheets/trpc/ide';
 import { TaskState } from '@worksheets/data-access/tasks';
-import { capitalizeFirstLetter } from '@worksheets/util/strings';
-import { OverridableComponent } from '@mui/material/OverridableComponent';
 import {
-  Alarm,
   PlayArrowOutlined,
-  CancelPresentation,
-  Check,
   Delete,
-  DirectionsRun,
-  MoreHoriz,
-  Pause,
-  PriorityHigh,
-  QuestionMark,
-  WarningAmber,
+  Webhook,
+  InfoOutlined,
 } from '@mui/icons-material';
-import { printMillisecondsAsDuration } from '@worksheets/util/time';
 
-const selectStatusIcon: (state: TaskState) => OverridableComponent<
-  SvgIconTypeMap<object, 'svg'>
-> & {
-  muiName: string;
-} = (state) => {
-  switch (state) {
-    case 'done':
-      return Check;
-    case 'pending':
-      return Pause;
-    case 'queued':
-      return MoreHoriz;
-    case 'running':
-      return DirectionsRun;
-    case 'failed':
-      return PriorityHigh;
-    case 'expired':
-      return Alarm;
-    case 'cancelled':
-      return CancelPresentation;
-    case 'internal':
-      return WarningAmber;
-    default:
-      return QuestionMark;
-  }
-};
-
-const selectStatusColor = (state: TaskState): ChipProps['color'] => {
-  switch (state) {
-    case 'done':
-      return 'success';
-    case 'pending':
-      return 'default';
-    case 'queued':
-      return 'primary';
-    case 'running':
-      return 'secondary';
-    case 'failed':
-      return 'error';
-    case 'expired':
-      return 'warning';
-    case 'cancelled':
-      return 'primary';
-    case 'internal':
-      return 'error';
-    default:
-      return 'default';
-  }
-};
+import {
+  formatTimestampLong,
+  prettyPrintMilliseconds,
+} from '@worksheets/util/time';
+import { TaskExecutionStatusChip } from '../../shared/task-execution-status-chip';
 
 const columns = (worksheetId: string): GridColDef[] => [
   {
     field: 'state',
     headerName: 'State',
-    minWidth: 125,
-
-    renderCell: (params) => {
-      const Icon = selectStatusIcon(params.value as TaskState);
-      const color = selectStatusColor(params.value as TaskState);
-      return (
-        <Tooltip placement="top" title={capitalizeFirstLetter(params.value)}>
-          <Chip
-            icon={<Icon fontSize="small" />}
-            color={color}
-            size="small"
-            label={params.value}
-            sx={{ p: 0.5 }}
-          />
-        </Tooltip>
-      );
-    },
+    maxWidth: 110,
+    headerAlign: 'center',
+    align: 'center',
+    renderCell: (params) => (
+      <TaskExecutionStatusChip state={params.value as TaskState} />
+    ),
   },
+
   {
     field: 'id',
     headerName: 'Execution ID',
-    minWidth: 300,
+    minWidth: 265,
     sortable: false,
     renderCell: (params) => (
-      <Link href={`/worksheets/${worksheetId}/executions/${params.id}`}>
-        {params.value}
-      </Link>
+      <Typography variant="caption">
+        <Link href={`/worksheets/${worksheetId}/executions/${params.id}`}>
+          {params.value}
+        </Link>
+      </Typography>
     ),
   },
-  { field: 'createdAt', headerName: 'Start time', minWidth: 200 },
+
+  {
+    // TODO: support more trigger srouces
+    field: 'source',
+    headerName: 'Source',
+    width: 40,
+    minWidth: 40,
+    align: 'center',
+    headerAlign: 'center',
+    sortable: false,
+    disableColumnMenu: true,
+    disableExport: true,
+    disableReorder: true,
+    renderHeader: () => (
+      <Box>
+        <Tooltip title={'Trigger source'} placement="top">
+          <InfoOutlined fontSize="small" />
+        </Tooltip>
+      </Box>
+    ),
+    renderCell: (params) => (
+      <Tooltip title={'Triggered by Webhook'} placement="top">
+        <Webhook />
+      </Tooltip>
+    ),
+  },
+  {
+    field: 'createdAt',
+    headerName: 'Start time',
+    minWidth: 180,
+    renderCell: (params) => (
+      <Typography variant="caption">
+        {formatTimestampLong(params.value)}
+      </Typography>
+    ),
+  },
   {
     field: 'duration',
     headerName: 'Duration',
-    minWidth: 100,
+    width: 80,
+    headerAlign: 'right',
+    align: 'right',
     disableColumnMenu: true,
-    renderCell: (params) => <>{printMillisecondsAsDuration(params.value)}</>,
+    renderCell: (params) => (
+      <Typography variant="caption">
+        {prettyPrintMilliseconds(params.value)}
+      </Typography>
+    ),
   },
   {
     field: 'actions',
@@ -129,7 +101,7 @@ const columns = (worksheetId: string): GridColDef[] => [
     getActions: (params: GridRowParams<{ id: string }>) => {
       return [
         <GridLinkAction
-          href={`/worksheets/${worksheetId}/execute?id=${params.id}`}
+          href={`/worksheets/${worksheetId}/execute?replayId=${params.id}`}
           dense
           icon={<PlayArrowOutlined />}
           label="Replay"

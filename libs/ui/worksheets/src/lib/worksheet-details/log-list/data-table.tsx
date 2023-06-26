@@ -1,49 +1,93 @@
-import { Box, LinearProgress } from '@mui/material';
+import { Box, LinearProgress, Tooltip, Typography } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { FC } from 'react';
 import { useRouter } from 'next/router';
 import { formatTimestampLong } from '@worksheets/util/time';
-import OpenIcon from '@mui/icons-material/OpenInNewOutlined';
+import { Help } from '@mui/icons-material';
+import { LogLevelVerbosityIcon } from '../../shared/log-level-verbosity-chip';
+import { LogLevel } from '@worksheets/data-access/tasks';
+import { capitalizeFirstLetter } from '@worksheets/util/strings';
+import ReadMoreOutlinedIcon from '@mui/icons-material/ReadMoreOutlined';
+import { LogListDataTableRows } from '../../shared/types';
 const columns = (worksheetId: string): GridColDef[] => [
   {
     sortable: false,
+    disableColumnMenu: true,
     disableReorder: true,
+    disableExport: true,
     field: 'level',
     headerName: 'Level',
-    width: 50,
+    width: 40,
+    minWidth: 40,
     renderCell: (params) => (
-      <Box>
-        {params.value === 'trace' && <Box>Trace</Box>}
-        {params.value === 'info' && <Box>Info</Box>}
-        {params.value === 'debug' && <Box>Debug</Box>}
-        {params.value === 'warn' && <Box>Warn</Box>}
-        {params.value === 'error' && <Box>Error</Box>}
-        {params.value === 'fatal' && <Box>Fatal</Box>}
-      </Box>
+      <Tooltip title={capitalizeFirstLetter(params.value)} placement="top">
+        <span>
+          <LogLevelVerbosityIcon verbosity={params.value as LogLevel} />
+        </span>
+      </Tooltip>
     ),
+    renderHeader() {
+      return (
+        <Tooltip placement="top" title="View log level name">
+          <Help color="primary" fontSize="small" />
+        </Tooltip>
+      );
+    },
   },
   {
     field: 'createdAt',
     headerName: 'Timestamp',
     sortingOrder: ['desc'],
     minWidth: 200,
-    renderCell: (params) => <Box>{formatTimestampLong(params.value)}</Box>,
+    renderCell: (params) => (
+      <Typography variant="caption">
+        {formatTimestampLong(params.value)}
+      </Typography>
+    ),
   },
   {
     field: 'message',
     headerName: 'Message',
     flex: 1,
     sortable: false,
+    disableColumnMenu: true,
+    renderHeader: (params) => (
+      <Box
+        display="flex"
+        width="100%"
+        alignItems="center"
+        justifyContent="space-between"
+      >
+        <Typography variant="body2">{params.colDef.headerName}</Typography>
+        <Tooltip title={'Click a log for more details'} placement="top">
+          <span>
+            <Help fontSize="small" color="primary" />
+          </span>
+        </Tooltip>
+      </Box>
+    ),
+
+    renderCell: (params) => (
+      <Box
+        display="flex"
+        width="100%"
+        alignItems="center"
+        justifyContent="space-between"
+      >
+        <Typography variant="caption">{params.value}</Typography>
+
+        <Tooltip title={'View more details'} placement="top">
+          <span>
+            <ReadMoreOutlinedIcon fontSize="small" />
+          </span>
+        </Tooltip>
+      </Box>
+    ),
   },
 ];
 
-type LogDataTableRows = {
-  data?: undefined;
-  level: 'trace' | 'debug' | 'info' | 'warn' | 'error' | 'fatal' | 'silent';
-}[];
-
 export type LogListDataTableProps = {
-  rows: LogDataTableRows;
+  rows: LogListDataTableRows;
   loading?: boolean;
   onClick: (logId: string) => void;
 };
@@ -59,16 +103,19 @@ export const LogListDataTable: FC<LogListDataTableProps> = ({
       sx={() => ({
         border: 0,
         cursor: loading ? 'progress' : 'pointer',
+        '& .MuiDataGrid-columnHeaderTitleContainerContent': {
+          width: '100%',
+        },
       })}
       rows={rows ?? []}
+      rowHeight={42}
       autoHeight
+      showCellVerticalBorder
+      showColumnVerticalBorder
       columns={columns(query.id as string)}
       density="compact"
       hideFooter
-      getDetailPanelContent={(params) => <Box>Test</Box>}
       slots={{
-        detailPanelExpandIcon: OpenIcon,
-        detailPanelCollapseIcon: OpenIcon,
         loadingOverlay: LinearProgress,
       }}
       onRowClick={(params) => {
