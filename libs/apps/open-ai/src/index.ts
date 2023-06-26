@@ -6,7 +6,7 @@ import { settings } from './lib/common';
 
 export default newApplication({
   id: 'openai',
-  logo: '',
+  logo: 'https://storage.googleapis.com/worksheets-test-app-logos/openai-svgrepo-com.svg',
   settings,
   label: 'Open AI',
   description: `The OpenAI API uses API keys for authentication. Visit your API Keys page to retrieve the API key you'll use in your requests.`,

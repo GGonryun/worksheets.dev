@@ -1,14 +1,14 @@
 import { newMethod } from '@worksheets/apps/framework';
-import { auth, gistSchema } from '../common';
+import { settings, gistSchema } from '../common';
 import { Octokit } from 'octokit';
 import { TypeOf, boolean, object, string, z } from 'zod';
 
 export const gistsCreate = newMethod({
-  path: 'github.gists.create',
+  id: 'gists.create',
   label: 'Create Gist',
   description:
     'Allows you to add a new gist with one or more files.\nNote: Don\'t name your files "gistfile" with a numerical suffix. This is the format of the automatic naming scheme that Gist uses internally.',
-  settings: { auth },
+  settings,
   input: object({
     description: string(),
     public: boolean().optional(),
@@ -18,7 +18,7 @@ export const gistsCreate = newMethod({
   output: gistSchema,
   async call({ settings, input }) {
     const { description, file, content } = input;
-    const { accessToken } = settings.auth;
+    const { accessToken } = settings.tokens;
 
     const octokit = new Octokit({
       auth: accessToken,

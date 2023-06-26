@@ -1,6 +1,7 @@
 import { MethodCallFailure, newMethod } from '@worksheets/apps/framework';
 import { z } from 'zod';
-import { key } from './common';
+import { settings } from './common';
+
 import { StatusCodes } from 'http-status-codes';
 
 export const read = newMethod({
@@ -8,9 +9,7 @@ export const read = newMethod({
   label: 'c(Read)ud',
   description:
     'Get a single entity (id) or all entities from the resource -- https://crudcrud.com/',
-
-  settings: { key },
-
+  settings,
   input: z.object({
     id: z.string().optional(),
     resource: z.string(),

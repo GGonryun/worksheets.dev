@@ -9,8 +9,6 @@ import { ConnectionsSelector } from './connections-selector';
 import { LogList } from './log-list/log-list';
 import { useRouter } from 'next/router';
 import { a11yProps, TabPanel } from '../shared/tab-panel';
-import { getCurrentHourInMilliseconds } from '@worksheets/util/time';
-import { trpc } from '@worksheets/trpc/ide';
 
 export enum WorksheetTabIndex {
   Executions = 0,
@@ -72,7 +70,7 @@ export const WorksheetTabs: React.FC<{
         <LogList worksheetId={worksheetId} />
       </TabPanel>
       <TabPanel value={value} index={WorksheetTabIndex.Settings}>
-        <GeneralConfiguration details={[]} />
+        <GeneralConfiguration />
       </TabPanel>
       <TabPanel value={value} index={WorksheetTabIndex.Connections}>
         <ConnectionsSelector />

@@ -114,7 +114,7 @@ export const parseSettings = <S extends Settings>(
 };
 
 export const newFlagSetting = (
-  opts: Omit<Options<false>, 'required'>
+  opts: Omit<Options<false>, 'required'> = {}
 ): FlagSetting => ({
   ...opts,
   required: false,

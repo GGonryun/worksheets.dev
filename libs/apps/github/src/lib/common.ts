@@ -1,4 +1,8 @@
-import { MethodCallFailure, newOAuthSetting } from '@worksheets/apps/framework';
+import {
+  MethodCallFailure,
+  newOAuthSetting,
+  newSettings,
+} from '@worksheets/apps/framework';
 import { StatusCodes } from 'http-status-codes';
 import { z } from 'zod';
 
@@ -20,16 +24,18 @@ export function handleOctokitError(error: unknown) {
   console.error('unexpected octokit error', error);
 }
 
-export const auth = newOAuthSetting({
-  required: true,
-  options: {
-    clientId: process.env['GITHUB_APP_CLIENT_KEY'],
-    clientSecret: process.env['GITHUB_APP_SECRET_KEY'],
-    accessTokenUri: 'https://github.com/login/oauth/access_token',
-    authorizationUri: 'https://github.com/login/oauth/authorize',
-    scopes: ['gist', 'repo', 'admin:repo_hook'],
-  },
-  schema: z.any(),
+export const settings = newSettings({
+  tokens: newOAuthSetting({
+    required: true,
+    options: {
+      clientId: process.env['GITHUB_APP_CLIENT_KEY'],
+      clientSecret: process.env['GITHUB_APP_SECRET_KEY'],
+      accessTokenUri: 'https://github.com/login/oauth/access_token',
+      authorizationUri: 'https://github.com/login/oauth/authorize',
+      scopes: ['gist', 'repo', 'admin:repo_hook'],
+    },
+    schema: z.any(),
+  }),
 });
 
 export const gistFileSchema = z.object({

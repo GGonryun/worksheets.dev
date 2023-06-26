@@ -41,4 +41,5 @@ export const sysTokens = newApplication({
   description: '',
   settings,
   methods: [tokens],
+  logo: 'https://storage.googleapis.com/worksheets-test-app-logos/paper-plane-svgrepo-com.svg',
 });

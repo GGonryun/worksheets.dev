@@ -1,13 +1,13 @@
 import { newMethod } from '@worksheets/apps/framework';
-import { auth, handleOctokitError } from '../common';
+import { handleOctokitError, settings } from '../common';
 import { z } from 'zod';
 import { Octokit } from 'octokit';
 
 export const webhooksDelete = newMethod({
-  path: 'github.webhooks.delete',
+  id: 'webhooks.delete',
   label: 'Delete a repository webhook',
   description: null,
-  settings: { auth },
+  settings,
   input: z.object({
     owner: z.string(),
     repo: z.string(),
@@ -17,7 +17,7 @@ export const webhooksDelete = newMethod({
 
   async call({ settings, input }) {
     const { owner, repo, hook_id } = input;
-    const { accessToken } = settings.auth;
+    const { accessToken } = settings.tokens;
 
     const octokit = new Octokit({
       auth: accessToken,

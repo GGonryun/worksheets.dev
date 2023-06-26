@@ -91,6 +91,7 @@ export class ApplicationLibrary {
   }
 }
 
+const APP_METHOD_DELIMITER = '.';
 /** Knows about where applications are stored */
 export class Clerk {
   private readonly memory: Heap<ApplicationDefinition>;
@@ -107,9 +108,14 @@ export class Clerk {
    * throws errors if the app or method is not found.
    */
   parse(path: MethodPathKey): ApplicationMethod {
-    // split the path into app and method
-    const [appId, methodId] = path.split('.');
-    return this.borrow({ appId, methodId });
+    if (path.indexOf(APP_METHOD_DELIMITER) === -1) {
+      // alternative path for invoking a core app.
+      return this.borrow({ appId: 'core', methodId: path });
+    } else {
+      // split the path into app and method
+      const [appId, methodId] = path.split(APP_METHOD_DELIMITER);
+      return this.borrow({ appId, methodId });
+    }
   }
 
   getApp(appId: string): ApplicationDefinition {

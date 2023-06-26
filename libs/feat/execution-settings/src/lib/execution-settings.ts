@@ -15,6 +15,7 @@ import { z } from 'zod';
 import { newWorksheetsConnectionsDatabase } from '@worksheets/data-access/worksheets-connections';
 
 const connectionsDb = newConnectionDatabase();
+const worksheetsConnectionsDb = newWorksheetsConnectionsDatabase();
 const registry = newApplicationsDatabase();
 const handshakesDb = newHandshakesDatabase();
 
@@ -180,6 +181,15 @@ export const deleteConnection = async ({
     });
   }
   await connectionsDb.delete(id);
+  // also delete related worksheet connections
+  const connections = await worksheetsConnectionsDb.query({
+    f: 'connectionId',
+    o: '==',
+    v: id,
+  });
+  console.info('deleting related worksheet connections', connections.length);
+  connections.forEach(async (c) => await worksheetsConnectionsDb.delete(c.id));
+
   return true;
 };
 
