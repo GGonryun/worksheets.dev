@@ -4,3 +4,4 @@ export * from './lib/useTimeout';
 export * from './lib/window';
 export * from './lib/Emoji';
 export * from './lib/useDebounce';
+export * from './lib/useClipboard';

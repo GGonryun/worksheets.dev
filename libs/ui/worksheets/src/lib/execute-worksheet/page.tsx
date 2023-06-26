@@ -12,38 +12,41 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useRouter } from 'next/router';
 import { trpc } from '@worksheets/trpc/ide';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import { HorizontalResizableLayout } from '../shared/resizable-layout/horizontal-resizer';
-import { VerticalResizableLayout } from '../shared/resizable-layout/vertical-resizer.tsx';
 import { useUser } from '@worksheets/util/auth/client';
-import { CodeEditor } from '@worksheets/ui/code-editor';
 import SendIcon from '@mui/icons-material/Send';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { WorksheetEntity } from '@worksheets/data-access/worksheets';
 import React, { useEffect, useState } from 'react';
-import FormatPaintIcon from '@mui/icons-material/FormatPaintOutlined';
 import HelpIcon from '@mui/icons-material/Help';
-import ReportIcon from '@mui/icons-material/Report';
 import { WorksheetLogLevelField } from '../create-a-worksheet/configure/fields/worksheet-log-level';
 import { useDebounce, warn } from '@worksheets/ui/common';
 import { WorksheetTimeoutField } from '../create-a-worksheet/configure/fields/worksheet-timeout';
 import { ExecutionOverrideForm } from '../shared/types';
-
-export const EXECUTION_HEADER_COMMENT = `
-# 👋 These comments are auto-generated and are
-#    not a part of your worksheet.
-# 📝 Use the left window to provide JSON input 
-#    and adjust your execution settings.
-`.trimStart();
+import { VerticalResizerLayout } from '../shared/resizable-layout/vertical-resizer-layout';
+import { HorizontalResizerLayout } from '../shared/resizable-layout/horizontal-resizer-layout';
+import { JSONEditor } from './json-editor';
+import { YAMLViewer } from './yaml-viewer';
 
 export const ExecuteWorksheetPage: React.FC = () => {
-  const { user } = useUser();
   const { query, push } = useRouter();
   const worksheetId = query.id as string;
+  const replayId = query.replayId as string;
 
-  const { data: worksheet } = trpc.worksheets.get.useQuery({ id: worksheetId });
+  const { data: replay } = trpc.worksheets.tasks.execution.useQuery(replayId, {
+    enabled: !!replayId,
+  });
+  const { data: worksheet } = trpc.worksheets.get.useQuery(
+    { id: worksheetId },
+    { enabled: !!worksheetId }
+  );
+
   const [input, setInput] = useState('{}');
   const [error, setError] = useState<string | undefined>(undefined);
   const [overrides, setOverrides] = useState<ExecutionOverrideForm>({});
+
+  useEffect(() => {
+    setInput(JSON.stringify(replay?.input ?? {}));
+  }, [replay]);
 
   const execute = trpc.tasks.execute.useMutation();
 
@@ -103,48 +106,64 @@ export const ExecuteWorksheetPage: React.FC = () => {
         <WorksheetHeader worksheet={worksheet} />
         <Divider />
         <Box height="100%">
-          <HorizontalResizableLayout
-            atomicId={user?.uid}
-            left={{
-              content: (
-                <Box height="100%" width={'100%'}>
-                  <VerticalResizableLayout
-                    atomicId={user?.uid}
-                    top={{
-                      content: (
-                        <JSONEditor
-                          value={input}
-                          onChange={setInput}
-                          error={error}
-                          onFormat={tryFormatJson}
-                        />
-                      ),
-                      visible: true,
+          <HorizontalResizerLayout
+            panels={[
+              {
+                content: (
+                  <Box height="100%" width={'100%'}>
+                    <VerticalResizerLayout
+                      panels={[
+                        {
+                          content: (
+                            <JSONEditor
+                              title="Input"
+                              value={input}
+                              onChange={setInput}
+                              error={error}
+                              onFormat={tryFormatJson}
+                              onReplay={
+                                replay
+                                  ? () => {
+                                      setInput(
+                                        JSON.stringify(replay?.input ?? {})
+                                      );
+                                    }
+                                  : undefined
+                              }
+                            />
+                          ),
+                          visible: true,
 
-                      defaultSize: 80,
-                    }}
-                    bot={{
-                      content: (
-                        <ExecutionSettings
-                          value={overrides}
-                          onUpdate={setOverrides}
-                        />
-                      ),
-                      visible: true,
-                      defaultSize: 20,
-                      // clamps so that it doesn't show more than the required fields in the execution override form
-                      maxSize: 37,
-                    }}
-                  />
-                </Box>
-              ),
-              visible: true,
-            }}
-            right={{
-              minSize: 20,
-              content: <ReadOnlyCodeEditor worksheet={worksheet} />,
-              visible: true,
-            }}
+                          defaultSize: 80,
+                        },
+                        {
+                          content: (
+                            <ExecutionSettings
+                              value={overrides}
+                              onUpdate={(newData) =>
+                                setOverrides({ ...overrides, ...newData })
+                              }
+                            />
+                          ),
+                          visible: true,
+                          defaultSize: 20,
+                          // clamps so that it doesn't show more than the required fields in the execution override form
+                          maxSize: 30,
+                          minSize: 5,
+                          collapsible: true,
+                        },
+                      ]}
+                    />
+                  </Box>
+                ),
+                visible: true,
+              },
+              {
+                minSize: 20,
+                content: <YAMLViewer worksheet={worksheet} />,
+                visible: true,
+              },
+            ]}
           />
         </Box>
         <PageFooter
@@ -173,39 +192,41 @@ const PageFooter: React.FC<{
   worksheetId: string;
   error?: string;
   onExecute: () => void;
-}> = ({ error, worksheetId, onExecute }) => (
-  <Box>
-    <Divider />
-    <Box p={2} display="flex" alignItems="center" gap={3}>
-      <Tooltip
-        title={'Correct all errors to continue.'}
-        disableHoverListener={!error}
-      >
-        <span>
-          <Button
-            disabled={!!error}
-            variant="contained"
-            startIcon={<SendIcon />}
-            size="small"
-            onClick={onExecute}
-          >
-            Execute
-          </Button>
-        </span>
-      </Tooltip>
-      <Button
-        startIcon={<CancelIcon />}
-        color="inherit"
-        size="small"
-        sx={{ fontWeight: 900 }}
-        href={`/worksheets/${worksheetId}`}
-        target="_blank"
-      >
-        Cancel
-      </Button>
+}> = ({ error, worksheetId, onExecute }) => {
+  const { push } = useRouter();
+  return (
+    <Box>
+      <Divider />
+      <Box p={2} display="flex" alignItems="center" gap={3}>
+        <Tooltip
+          title={'Correct all errors to continue.'}
+          disableHoverListener={!error}
+        >
+          <span>
+            <Button
+              disabled={!!error}
+              variant="contained"
+              startIcon={<SendIcon />}
+              size="small"
+              onClick={onExecute}
+            >
+              Execute
+            </Button>
+          </span>
+        </Tooltip>
+        <Button
+          startIcon={<CancelIcon />}
+          color="inherit"
+          size="small"
+          sx={{ fontWeight: 900 }}
+          onClick={() => push(`/worksheets/${worksheetId}`)}
+        >
+          Cancel
+        </Button>
+      </Box>
     </Box>
-  </Box>
-);
+  );
+};
 
 const WorksheetHeader: React.FC<{ worksheet?: WorksheetEntity }> = ({
   worksheet,
@@ -221,126 +242,6 @@ const WorksheetHeader: React.FC<{ worksheet?: WorksheetEntity }> = ({
     </Typography>
   </Box>
 );
-
-const ReadOnlyCodeEditor: React.FC<{
-  worksheet?: WorksheetEntity;
-}> = ({ worksheet }) => (
-  <Box height="100%" width="100%">
-    <Box
-      px={2}
-      height="48px"
-      display="flex"
-      alignItems="center"
-      justifyContent="space-between"
-    >
-      <Typography variant="h6">Worksheet</Typography>
-      <Tooltip
-        placement="top"
-        title="Explore thousands of custom built worksheets."
-      >
-        <span>
-          <Button
-            endIcon={<OpenInNewIcon />}
-            size="small"
-            variant="contained"
-            href="/templates"
-            target="_blank"
-          >
-            Templates
-          </Button>
-        </span>
-      </Tooltip>
-    </Box>
-    <Divider />
-    <Box pl={1} width="100%" height="100%">
-      <CodeEditor
-        hideLineNumbers
-        height="calc(100% - 48px)"
-        width="100%"
-        value={`${EXECUTION_HEADER_COMMENT}${worksheet?.text ?? ''}` ?? ''}
-        disabled={true}
-        mode={'yaml'}
-        theme={'light'}
-        caption={
-          <Box display="flex" alignItems="center">
-            <Typography variant="caption">
-              Editor is in readonly mode.{' '}
-              <Link href={`/worksheets/${worksheet?.id}`} target="_blank">
-                Click Here <OpenInNewIcon fontSize="small" />
-              </Link>{' '}
-              to make changes.
-            </Typography>
-          </Box>
-        }
-      />
-    </Box>
-  </Box>
-);
-
-const JSONEditor: React.FC<{
-  value: string;
-  onChange: (newValue: string) => void;
-  onFormat: () => void;
-  error?: string;
-}> = ({ value, onChange, onFormat, error }) => {
-  const calculateHeight = () => `calc(100% - ${!error ? 48 : 78}px)`;
-
-  return (
-    <Box width="100%" height="100%">
-      <Box>
-        <Box
-          height="48px"
-          display="flex"
-          alignItems="center"
-          justifyContent="space-between"
-        >
-          <Typography variant="h6" sx={{ pl: 2 }}>
-            Input
-          </Typography>
-          <Box display="flex" alignItems="center" gap={2} pr={3}>
-            <Tooltip
-              placement="top"
-              title="Visually enchance a JSON (JavaScript Object Notation) string"
-            >
-              <span>
-                <Button
-                  startIcon={<FormatPaintIcon />}
-                  size="small"
-                  variant="text"
-                  onClick={onFormat}
-                >
-                  Format
-                </Button>
-              </span>
-            </Tooltip>
-          </Box>
-        </Box>
-      </Box>
-      <Divider />
-
-      <CodeEditor
-        height={calculateHeight()}
-        width="100%"
-        value={value ?? ''}
-        onChange={(value) => onChange(value)}
-        mode={'json'}
-        theme={'light'}
-      />
-      {error && (
-        <Box display="flex" alignItems="center" height={'30px'} gap={0.5}>
-          <Box height="100%">
-            <ReportIcon color="error" fontSize="small" />
-          </Box>
-          <Box height="100%">
-            <Typography variant="caption" color="red">
-              {error}
-            </Typography>
-          </Box>
-        </Box>
-      )}
-    </Box>
-  );
-};
 
 const ExecutionSettings: React.FC<{
   value?: ExecutionOverrideForm;

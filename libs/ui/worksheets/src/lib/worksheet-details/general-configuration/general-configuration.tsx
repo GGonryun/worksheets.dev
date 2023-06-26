@@ -16,7 +16,6 @@ import { IconButton } from '@mui/material';
 import { ReactNode, useState } from 'react';
 import { useSnackbar } from '../../shared/useSnackbar';
 import EditIcon from '@mui/icons-material/EditOutlined';
-import { capitalizeFirstLetter } from '@worksheets/util/strings';
 import { InvocationUrl } from './invocation-url';
 import { EditNameDialog } from './dialogs/edit-name';
 import { EditDescriptionDialog } from './dialogs/edit-description';
@@ -27,6 +26,8 @@ import { UpdateWorksheetRequest } from '../../shared/types';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import { TinyToggle } from '../../shared/tiny-toggle';
 import { EditTimeoutDialog } from './dialogs/edit-timeout';
+import { ConfigurationOption } from '../../shared/configuration-option';
+import { LogLevelVerbosityChip } from '../../shared/log-level-verbosity-chip';
 
 export const GeneralConfiguration: React.FC = () => {
   const { query, push } = useRouter();
@@ -85,7 +86,14 @@ export const GeneralConfiguration: React.FC = () => {
   };
 
   const handleUpdateEnabled = async (enabled: boolean) => {
-    await handleUpdateWorksheet({ enabled });
+    if (
+      // eslint-disable-next-line no-restricted-globals
+      confirm(
+        'This will affect all current and future executions of this worksheet. Are you sure?'
+      )
+    ) {
+      await handleUpdateWorksheet({ enabled });
+    }
   };
 
   const handleUpdateTimeout = async (timeout: number) => {
@@ -129,12 +137,14 @@ export const GeneralConfiguration: React.FC = () => {
           onEdit={() => setEditingField('description')}
         />
         <ConfigurationOption
-          label={'Log Level'}
-          content={capitalizeFirstLetter(data?.logLevel ?? '')}
+          label={'Defalt log Level'}
+          tooltip={'Set a default value. You can override this later.'}
+          content={<LogLevelVerbosityChip verbosity={data?.logLevel} />}
           onEdit={() => setEditingField('logging')}
         />
         <ConfigurationOption
-          label={'Timeout'}
+          label={'Default timeout'}
+          tooltip={'Set a default value. You can override this later.'}
           content={printCountdownDuration(
             durationFromSeconds(data?.timeout ?? 0)
           )}
@@ -197,26 +207,6 @@ export const GeneralConfiguration: React.FC = () => {
     </>
   );
 };
-
-export type ConfigurationOptionProps = {
-  label: string;
-  content?: ReactNode;
-  onEdit?: () => void;
-};
-export const ConfigurationOption = ({
-  label,
-  content,
-  onEdit,
-}: ConfigurationOptionProps) => (
-  <Box display="flex" alignItems="center">
-    <Box width="150px">
-      <EditableLabel label={label} />
-    </Box>
-    <Box>
-      <EditableField content={content} onEdit={onEdit} />
-    </Box>
-  </Box>
-);
 
 export const EditableLabel: React.FC<{ label: string }> = ({ label }) => (
   <Box>
