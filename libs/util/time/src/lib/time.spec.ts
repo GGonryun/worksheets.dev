@@ -156,7 +156,7 @@ describe('durationRemaining', () => {
   it('calculates duration remaining', () => {
     const now = new Date();
     const timestamp = addDurationToCurrentTime(
-      { hours: 3, minutes: 5, seconds: 5 },
+      { days: 0, hours: 3, minutes: 5, seconds: 5 },
       now
     ).getTime();
     expect(secondsRemaining(timestamp, now)).toBe(11105);

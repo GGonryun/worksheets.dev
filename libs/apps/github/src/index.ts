@@ -12,6 +12,7 @@ import { webhooksGet } from './lib/webhooks/get';
 import { webhooksList } from './lib/webhooks/list';
 import { webhooksPing } from './lib/webhooks/ping';
 import { webhooksTest } from './lib/webhooks/verify';
+import { settings } from './lib/common';
 
 export default newApplication({
   label: 'GitHub',
@@ -31,4 +32,7 @@ export default newApplication({
     webhooksPing,
     webhooksTest,
   ],
+  id: 'github',
+  logo: 'https://storage.googleapis.com/worksheets-test-app-logos/github-142-svgrepo-com.svg',
+  settings,
 });

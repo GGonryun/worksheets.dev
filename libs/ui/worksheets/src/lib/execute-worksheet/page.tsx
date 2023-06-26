@@ -121,7 +121,7 @@ export const ExecuteWorksheetPage: React.FC = () => {
                               onChange={setInput}
                               error={error}
                               onFormat={tryFormatJson}
-                              onReplay={
+                              onReset={
                                 replay
                                   ? () => {
                                       setInput(

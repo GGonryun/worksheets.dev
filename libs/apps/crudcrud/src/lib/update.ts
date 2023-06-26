@@ -1,13 +1,13 @@
 import { MethodCallFailure, newMethod } from '@worksheets/apps/framework';
 import { z } from 'zod';
-import { key } from './common';
+import { settings } from './common';
 
 export const update = newMethod({
   id: 'update',
   label: 'cr(Update)d',
   description:
     'Update an entitiy with the JSON payload -- https://crudcrud.com/',
-  settings: { key },
+  settings,
   input: z.object({
     payload: z.string(),
     id: z.string(),

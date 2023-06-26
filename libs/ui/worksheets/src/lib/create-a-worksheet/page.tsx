@@ -33,7 +33,7 @@ const newWorksheetRequest: CreateWorksheetRequest = {
   name: '',
   text: defaultYaml.trim(),
   description: '',
-  logging: 'trace',
+  logLevel: 'trace',
 
   connections: [],
 };

@@ -19,7 +19,9 @@ const post = newPublicHandler({
   input: createTaskRequest,
   output: createTaskResponse,
 })(async ({ data: { taskId, worksheetId, input } }) => {
-  return await createTask(taskId, worksheetId, input);
+  return await createTask(taskId, worksheetId, input, {
+    //TODO: support overriding the default task settings for api
+  });
 });
 
 export default skeleton({ post });

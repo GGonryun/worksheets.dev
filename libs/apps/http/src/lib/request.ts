@@ -9,13 +9,11 @@ const { aborter, applier } = fetcher;
 const client = applier(fetch, aborter(TEN_SECONDS));
 
 export const request = newMethod({
-  path: 'http',
-  label: 'request',
+  id: 'request',
+  label: 'HTTP Request',
   description:
-    'Sends an HTTP request to the specified URL, body should be stringified',
-
+    'Sends an HTTP request to the specified URL. Body should be stringified',
   settings: null,
-
   input: z.object({
     url: z.string(),
     method: z

@@ -1,13 +1,13 @@
 import { MethodCallFailure, newMethod } from '@worksheets/apps/framework';
 import { z } from 'zod';
-import { key } from './common';
+import { settings } from './common';
 
 export const create = newMethod({
   id: 'create',
   label: '(Create)rud',
   description:
     'Create an entity represented by the JSON payload -- https://crudcrud.com/',
-  settings: { key },
+  settings,
   input: z.object({
     json: z.string(),
     resource: z.string(),

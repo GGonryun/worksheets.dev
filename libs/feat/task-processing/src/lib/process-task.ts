@@ -177,7 +177,7 @@ export const processTask = async (taskId: string): Promise<TaskState> => {
   const result = await execution.process();
 
   // TODO: create a boundary for shared pre-processing that occures before the execution is rescheduled or terminated.
-  task.duration = result.duration; // keep the duration of the execution in sync with the task for easier querying
+  task.duration = Number(result.duration); // keep the duration of the execution in sync with the task for easier querying
 
   if (didExecutionFail(controller)) {
     const failure = controller.getFailure();

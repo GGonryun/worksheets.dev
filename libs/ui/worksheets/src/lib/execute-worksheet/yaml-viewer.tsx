@@ -54,7 +54,10 @@ export const YAMLViewer: React.FC<{
           <Box height="28px" overflow="hidden" textOverflow={'ellipsis'}>
             <Typography variant="caption" color="text.secondary">
               Editor is in read-only mode.{' '}
-              <Link href={`/worksheets/${worksheet?.id}`} target="_blank">
+              <Link
+                href={`/worksheets/${worksheet?.id}/worksheet`}
+                target="_blank"
+              >
                 Click Here <OpenInNewIcon fontSize="small" />
               </Link>{' '}
               to make changes.

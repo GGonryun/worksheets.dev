@@ -11,7 +11,7 @@ export const JSONEditor: React.FC<{
   onChange?: (newValue: string) => void;
   onCopy?: () => void;
   onFormat?: () => void;
-  onReplay?: () => void;
+  onReset?: () => void;
   error?: string;
   caption?: string;
   hideActiveLine?: boolean;
@@ -20,7 +20,7 @@ export const JSONEditor: React.FC<{
   value,
   onChange,
   onFormat,
-  onReplay,
+  onReset,
   onCopy,
   error,
   caption,
@@ -58,7 +58,7 @@ export const JSONEditor: React.FC<{
                 </span>
               </Tooltip>
             )}
-            {onReplay && (
+            {onReset && (
               <Tooltip
                 placement="top"
                 title="Reset your current changes back to the starting inputs."
@@ -68,7 +68,7 @@ export const JSONEditor: React.FC<{
                     startIcon={<ReplayIcon />}
                     size="small"
                     variant="contained"
-                    onClick={onReplay}
+                    onClick={onReset}
                   >
                     Reset
                   </Button>
@@ -81,6 +81,7 @@ export const JSONEditor: React.FC<{
       {title && <Divider />}
 
       <CodeEditor
+        hideActiveLineHighlighter={hideActiveLine}
         onCopy={onCopy}
         caption={caption}
         height={calculateHeight()}

@@ -2,7 +2,7 @@ import { newMethod } from '@worksheets/apps/framework';
 import { z } from 'zod';
 
 export const parse = newMethod({
-  path: 'json.parse',
+  id: 'parse',
   label: 'JSON Parse',
   description: 'Convert JSON strings back into objects',
   settings: null,

@@ -1,13 +1,13 @@
 import { newMethod } from '@worksheets/apps/framework';
-import { auth, webhook } from '../common';
+import { settings, webhook } from '../common';
 import { z } from 'zod';
 import { Octokit } from 'octokit';
 
 export const webhooksGet = newMethod({
-  path: 'github.webhooks.get',
+  id: 'webhooks.get',
   label: 'Get a repository webhook',
   description: null,
-  settings: { auth },
+  settings,
   input: z.object({
     owner: z.string(),
     repo: z.string(),
@@ -17,7 +17,7 @@ export const webhooksGet = newMethod({
 
   async call({ settings, input }) {
     const { owner, repo, hook_id } = input;
-    const { accessToken } = settings.auth;
+    const { accessToken } = settings.tokens;
 
     const octokit = new Octokit({
       auth: accessToken,

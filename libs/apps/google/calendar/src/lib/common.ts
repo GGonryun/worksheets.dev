@@ -1,16 +1,21 @@
-import { newOAuthSetting } from '@worksheets/apps/framework';
+import { newOAuthSetting, newSettings } from '@worksheets/apps/framework';
 import { OAuth2Client } from 'google-auth-library';
 import { google } from 'googleapis';
 import { z } from 'zod';
 
-export const newOAuth = (...scopes: string[]) =>
-  newOAuthSetting({
+export const settings = newSettings({
+  tokens: newOAuthSetting({
     options: {
       clientId: process.env['GOOGLE_APP_CLIENT_KEY'],
       clientSecret: process.env['GOOGLE_APP_SECRET_KEY'],
       accessTokenUri: 'https://oauth2.googleapis.com/token',
       authorizationUri: 'https://accounts.google.com/o/oauth2/v2/auth',
-      scopes: ['openid', ...scopes],
+      scopes: [
+        'openid',
+        'https://www.googleapis.com/auth/calendar',
+        'https://www.googleapis.com/auth/userinfo.email',
+        'https://www.googleapis.com/auth/userinfo.profile',
+      ],
       query: {
         access_type: 'offline',
         include_granted_scopes: 'true',
@@ -19,7 +24,8 @@ export const newOAuth = (...scopes: string[]) =>
     },
     required: true,
     schema: z.any(),
-  });
+  }),
+});
 
 export function newCalendarClient(accessToken: string) {
   if (!accessToken) {

@@ -1,17 +1,12 @@
 import { newMethod } from '@worksheets/apps/framework';
-import { newCalendarClient, newOAuth } from './common';
+import { newCalendarClient, settings } from './common';
 import { z } from 'zod';
-const auth = newOAuth(
-  'https://www.googleapis.com/auth/calendar',
-  'https://www.googleapis.com/auth/userinfo.email',
-  'https://www.googleapis.com/auth/userinfo.profile'
-);
 
 export const listEvents = newMethod({
-  path: 'google.calendar.list_events',
+  id: 'list_events',
   label: 'List Events',
   description: 'Lists the next 10 events in your google calendar',
-  settings: { auth },
+  settings,
   input: z.object({
     calendarId: z.string().optional().default('primary'),
     maxResults: z.number().optional().default(10),
@@ -19,7 +14,7 @@ export const listEvents = newMethod({
   output: null,
   async call({ settings, input }) {
     const { calendarId, maxResults } = input;
-    const { accessToken } = settings.auth;
+    const { accessToken } = settings.tokens;
 
     const calendar = newCalendarClient(accessToken);
 
