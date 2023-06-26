@@ -1,13 +1,15 @@
 import CopyIcon from '@mui/icons-material/ContentCopy';
 import { Box, Typography, IconButton } from '@mui/material';
+import { useClipboard } from '@worksheets/ui/common';
 
 export const InvocationUrl: React.FC<{ url: string; onClick: () => void }> = ({
   url,
   onClick,
 }) => {
+  const { copy } = useClipboard();
   const handleCopyInvocationUrl = () => {
     onClick();
-    navigator.clipboard.writeText(url);
+    copy(url);
   };
 
   return (
