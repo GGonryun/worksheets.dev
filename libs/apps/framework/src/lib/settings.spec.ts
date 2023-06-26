@@ -8,14 +8,8 @@ import {
 
 describe('newField', () => {
   it('typescript lints all fields', () => {
-    const requiredFlag = newFlagSetting({
+    const flag = newFlagSetting({
       label: 'flag 1',
-      required: true,
-    });
-
-    const optionalFlag = newFlagSetting({
-      label: 'flag 2',
-      required: false,
     });
 
     const requiredToken = newTokenSetting({
@@ -43,8 +37,7 @@ describe('newField', () => {
     });
 
     const fields = {
-      requiredFlag,
-      optionalFlag,
+      flag,
       requiredToken,
       optionalToken,
       requiredOAuth,
@@ -52,8 +45,7 @@ describe('newField', () => {
     };
 
     const data: Infer<typeof fields> = {
-      requiredFlag: false,
-      optionalFlag: undefined,
+      flag: false,
       requiredToken: 'yes',
       optionalToken: 'unknown',
       requiredOAuth: { id: 'test' },

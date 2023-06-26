@@ -1,14 +1,14 @@
 import { newMethod } from '@worksheets/apps/framework';
-import { auth, handleOctokitError } from '../common';
+import { handleOctokitError, settings } from '../common';
 import { z } from 'zod';
 import { Octokit } from 'octokit';
 
 export const webhooksTest = newMethod({
-  path: 'github.webhooks.test',
+  id: 'webhooks.test',
   label: 'Test the push repository webhook',
   description:
     'This will trigger the hook with the latest push to the current repository if the hook is subscribed to push events. If the hook is not subscribed to push events, the server will respond with 204 but no test POST will be generated.',
-  settings: { auth },
+  settings,
   input: z.object({
     owner: z.string(),
     repo: z.string(),
@@ -18,7 +18,7 @@ export const webhooksTest = newMethod({
 
   async call({ settings, input }) {
     const { owner, repo, hook_id } = input;
-    const { accessToken } = settings.auth;
+    const { accessToken } = settings.tokens;
 
     const octokit = new Octokit({
       auth: accessToken,

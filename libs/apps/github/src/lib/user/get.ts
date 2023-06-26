@@ -1,5 +1,5 @@
 import { newMethod } from '@worksheets/apps/framework';
-import { auth } from '../common';
+import { settings } from '../common';
 import { z } from 'zod';
 
 const githubUserSchema = z.object({
@@ -13,14 +13,14 @@ const githubUserSchema = z.object({
 });
 
 export const userGet = newMethod({
-  path: 'github.user.get',
+  id: 'user.get',
   label: 'Get User',
   description: null,
-  settings: { auth },
+  settings,
   input: null,
   output: githubUserSchema,
   async call({ settings }) {
-    const { accessToken } = settings.auth;
+    const { accessToken } = settings.tokens;
 
     const response = await fetch('https://api.github.com/user', {
       headers: { Authorization: `Bearer ${accessToken}` },

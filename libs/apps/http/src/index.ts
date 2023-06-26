@@ -5,4 +5,7 @@ export default newApplication({
   label: 'http',
   description: '',
   methods: [request],
+  id: 'http',
+  logo: '',
+  settings: null,
 });

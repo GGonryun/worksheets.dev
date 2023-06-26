@@ -1,18 +1,18 @@
 import { newMethod } from '@worksheets/apps/framework';
-import { auth, gistSchema } from '../../common';
+import { settings, gistSchema } from '../../common';
 import { Octokit } from 'octokit';
 import { TypeOf, z } from 'zod';
 
 export const gistsListStarred = newMethod({
-  path: 'github.gists.list.starred',
+  id: 'gists.list.starred',
   label: 'List Gists',
   description:
     'Allows you to add a new gist with one or more files.\nNote: Don\'t name your files "gistfile" with a numerical suffix. This is the format of the automatic naming scheme that Gist uses internally.',
-  settings: { auth },
+  settings,
   input: null,
   output: z.array(gistSchema),
   async call({ settings }) {
-    const { accessToken } = settings.auth;
+    const { accessToken } = settings.tokens;
 
     const octokit = new Octokit({
       auth: accessToken,

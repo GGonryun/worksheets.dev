@@ -1,18 +1,18 @@
 import { newMethod } from '@worksheets/apps/framework';
-import { auth, gistSchema } from '../../common';
+import { settings, gistSchema } from '../../common';
 import { Octokit } from 'octokit';
 import { TypeOf, z } from 'zod';
 
 export const gistsListUser = newMethod({
-  path: 'github.gists.list.user',
+  id: 'list.user',
   label: 'List gists for the authenticated user',
   description:
     "Lists the authenticated user's gists or if called anonymously, this endpoint returns all public gists",
-  settings: { auth },
+  settings,
   input: null,
   output: z.array(gistSchema),
   async call({ settings }) {
-    const { accessToken } = settings.auth;
+    const { accessToken } = settings.tokens;
 
     const octokit = new Octokit({
       auth: accessToken,

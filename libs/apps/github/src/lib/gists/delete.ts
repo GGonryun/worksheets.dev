@@ -1,17 +1,17 @@
 import { newMethod } from '@worksheets/apps/framework';
-import { auth } from '../common';
 import { Octokit } from 'octokit';
 import { z } from 'zod';
+import { settings } from '../common';
 
 export const gistsDelete = newMethod({
-  path: 'github.gists.delete',
+  id: 'gists.delete',
   label: 'Delete a gist',
   description: null,
-  settings: { auth },
+  settings,
   input: z.string().describe('gist id'),
   output: z.boolean(),
   async call({ input, settings }) {
-    const { accessToken } = settings.auth;
+    const { accessToken } = settings.tokens;
 
     const octokit = new Octokit({
       auth: accessToken,

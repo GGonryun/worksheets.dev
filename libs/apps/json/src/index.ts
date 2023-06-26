@@ -5,6 +5,9 @@ import { query } from './lib/query';
 
 export default newApplication({
   label: 'JSON',
-  description: '',
+  description: 'JavaScript Object Notation',
   methods: [stringify, parse, query],
+  id: 'json',
+  logo: '',
+  settings: null,
 });

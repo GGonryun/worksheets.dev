@@ -37,5 +37,5 @@ export const sysFlags = newApplication({
   description: '',
   settings,
   methods: [flags],
-  logo: '',
+  logo: 'https://storage.googleapis.com/worksheets-test-app-logos/paper-plane-svgrepo-com.svg',
 });

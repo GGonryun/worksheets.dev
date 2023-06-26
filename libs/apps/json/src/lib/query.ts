@@ -4,7 +4,7 @@ import { z } from 'zod';
 import * as jp from 'jsonpath';
 
 export const query = newMethod({
-  path: 'json.query',
+  id: 'query',
   label: 'JSON Query',
   description:
     'Query JavaScript objects with JSONPath expressions. Robust / safe JSONPath engine for Node.js — https://www.npmjs.com/package/jsonpath',

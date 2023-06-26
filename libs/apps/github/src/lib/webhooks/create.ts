@@ -1,14 +1,19 @@
 import { newMethod } from '@worksheets/apps/framework';
-import { auth, handleOctokitError, webhook, webhookEvents } from '../common';
+import {
+  settings,
+  handleOctokitError,
+  webhook,
+  webhookEvents,
+} from '../common';
 import { z } from 'zod';
 import { Octokit } from 'octokit';
 
 export const webhooksCreate = newMethod({
-  path: 'github.webhooks.create',
+  id: 'webhooks.create',
   label: 'Create a repository webhook',
   description:
     'Repositories can have multiple webhooks installed. Each webhook should have a unique config. Multiple webhooks can share the same config as long as those webhooks do not have any events that overlap.',
-  settings: { auth },
+  settings,
   input: z.object({
     owner: z.string(),
     repo: z.string(),
@@ -21,7 +26,7 @@ export const webhooksCreate = newMethod({
 
   async call({ settings, input }) {
     const { owner, repo, name, active, events, url } = input;
-    const { accessToken } = settings.auth;
+    const { accessToken } = settings.tokens;
     console.info('inputs', owner, repo, name, active, events, url);
     const octokit = new Octokit({
       auth: accessToken,

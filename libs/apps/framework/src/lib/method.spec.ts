@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { w } from './framework';
 import { newMethod } from './methods';
-import { newOAuthSetting, Infer, newFlagSetting } from './settings';
+import { newOAuthSetting, newFlagSetting } from './settings';
 describe('newMethod', () => {
   beforeEach(() => {
     jest.spyOn(console, 'log').mockImplementation(() => {
@@ -11,7 +11,7 @@ describe('newMethod', () => {
   describe('creates a method definition', () => {
     it('empty', () => {
       const method = newMethod({
-        path: '',
+        id: '',
         label: '',
         description: '',
         settings: null,
@@ -27,7 +27,7 @@ describe('newMethod', () => {
 
     it('typesafe inputs', () => {
       const method = newMethod({
-        path: '',
+        id: '',
         label: '',
         description: '',
         settings: null,
@@ -53,7 +53,7 @@ describe('newMethod', () => {
 
     it('typesafe outputs', () => {
       const method = w.newMethod({
-        path: '',
+        id: '',
         label: '',
         description: '',
         settings: null,
@@ -76,7 +76,7 @@ describe('newMethod', () => {
     });
     it('typesafe settings', () => {
       const method = newMethod({
-        path: '',
+        id: '',
         label: '',
         description: '',
         settings: {
@@ -85,9 +85,7 @@ describe('newMethod', () => {
             schema: z.boolean(),
             required: true,
           }),
-          feature: newFlagSetting({
-            required: false,
-          }),
+          feature: newFlagSetting(),
         },
         input: null,
         output: null,

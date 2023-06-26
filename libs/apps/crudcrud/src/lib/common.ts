@@ -1,5 +1,7 @@
-import { newTokenSetting } from '@worksheets/apps/framework';
+import { newSettings, newTokenSetting } from '@worksheets/apps/framework';
 
-export const key = newTokenSetting({
-  required: true,
+export const settings = newSettings({
+  key: newTokenSetting({
+    required: true,
+  }),
 });

@@ -9,17 +9,19 @@ import { JSONViewer } from '../../execute-worksheet/json-viewer';
 export type LogListProps = {
   worksheetId: string;
   executionId?: string;
+  refetchInterval?: number;
 };
 
 export const LogList: React.FC<LogListProps> = ({
   worksheetId,
   executionId,
+  refetchInterval,
 }) => {
   const [viewingDetails, setViewingDetails] = useState<string>('');
 
   const { data, isLoading } = trpc.worksheets.logs.get.useQuery(
-    { worksheetId },
-    { enabled: !!worksheetId }
+    { worksheetId, executionId },
+    { enabled: !!worksheetId, refetchInterval: refetchInterval }
   );
 
   return (

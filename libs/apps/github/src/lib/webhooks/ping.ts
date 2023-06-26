@@ -1,13 +1,13 @@
 import { newMethod } from '@worksheets/apps/framework';
-import { auth } from '../common';
 import { z } from 'zod';
 import { Octokit } from 'octokit';
+import { settings } from '../common';
 
 export const webhooksPing = newMethod({
-  path: 'github.webhooks.ping',
+  id: 'webhooks.ping',
   label: 'Ping a repository webhook',
   description: 'This will trigger a ping event to be sent to the hook.',
-  settings: { auth },
+  settings,
   input: z.object({
     owner: z.string(),
     repo: z.string(),
@@ -17,7 +17,7 @@ export const webhooksPing = newMethod({
 
   async call({ settings, input }) {
     const { owner, repo, hook_id } = input;
-    const { accessToken } = settings.auth;
+    const { accessToken } = settings.tokens;
 
     const octokit = new Octokit({
       auth: accessToken,

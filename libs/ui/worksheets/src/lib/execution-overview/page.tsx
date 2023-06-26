@@ -1,5 +1,12 @@
 import WebsiteLayout from '../website-layout';
-import { Box, Divider, IconButton, Link, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Divider,
+  IconButton,
+  Link,
+  Typography,
+} from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { trpc } from '@worksheets/trpc/ide';
 import { VerticalResizerLayout } from '../shared/resizable-layout/vertical-resizer-layout';
@@ -16,7 +23,7 @@ import {
   formatTimestampLong,
   prettyPrintMilliseconds,
 } from '@worksheets/util/time';
-import { OpenInNew } from '@mui/icons-material';
+import { OpenInNew, PlayArrowOutlined } from '@mui/icons-material';
 import { LogLevelVerbosityChip } from '../shared/log-level-verbosity-chip';
 import { LogList } from '../worksheet-details/log-list/log-list';
 
@@ -30,6 +37,8 @@ export const ExecutionOverviewPage: React.FC<{
     executionId,
     {
       enabled: !!executionId,
+      refetchInterval: 5000,
+      refetchIntervalInBackground: false,
     }
   );
   // get the execution
@@ -144,6 +153,14 @@ const TaskExecutionSummary: React.FC<{
       justifyContent="space-between"
     >
       <Typography variant="h6">Overview</Typography>
+      <Button
+        href={`/worksheets/${worksheet?.id}/execute?replayId=${execution?.id}`}
+        startIcon={<PlayArrowOutlined />}
+        variant="contained"
+        size="small"
+      >
+        Replay
+      </Button>
     </Box>
     <Divider />
     <Box py={2} px={4} display="flex" flexDirection="column" gap={1}>
@@ -190,7 +207,7 @@ const LogsViewer: React.FC<{ worksheetId: string; executionId: string }> = (
 ) => {
   return (
     <Box width="100%" height="100%">
-      <LogList {...props} />
+      <LogList {...props} refetchInterval={2000} />
     </Box>
   );
 };

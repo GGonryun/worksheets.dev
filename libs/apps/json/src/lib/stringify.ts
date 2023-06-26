@@ -2,7 +2,7 @@ import { newMethod } from '@worksheets/apps/framework';
 import { z } from 'zod';
 
 export const stringify = newMethod({
-  path: 'json.stringify',
+  id: 'stringify',
   label: 'JSON Stringify',
   description: 'Turn anything into a JSON string',
   settings: null,
