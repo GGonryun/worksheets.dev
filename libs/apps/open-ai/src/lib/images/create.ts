@@ -4,7 +4,7 @@ import { z } from 'zod';
 import { Configuration, OpenAIApi } from 'openai';
 
 export const imagesCreate = newMethod({
-  id: 'images.create',
+  id: 'create-image',
   label: 'Create Image',
   description: 'Creates an image given a prompt.',
   settings,

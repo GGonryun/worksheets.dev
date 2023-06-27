@@ -31,3 +31,8 @@ export function combine<TWrapping>(
     return init;
   };
 }
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function onlyUnique(value: any, index: number, array: any) {
+  return array.indexOf(value) === index;
+}

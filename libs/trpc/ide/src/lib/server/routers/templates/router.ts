@@ -1,6 +1,6 @@
 import { t } from '../../trpc';
-import get from './get';
 import list from './list';
+import get from './get';
 
 export default t.router({
   list,

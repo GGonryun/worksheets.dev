@@ -4,7 +4,7 @@ import { z } from 'zod';
 import { handleOpenAIError, settings } from '../common';
 
 export const completionsCreate = newMethod({
-  id: 'completions.create',
+  id: 'create-completion',
   label: 'Create completion',
   description: 'Creates a completion for the provided prompt and parameters.',
   settings,

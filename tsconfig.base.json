@@ -54,7 +54,9 @@
       "@worksheets/feat/task-processing": [
         "libs/feat/task-processing/src/index.ts"
       ],
-      "@worksheets/feat/templates": ["libs/feat/templates/src/index.ts"],
+      "@worksheets/feat/templates-gallery": [
+        "libs/feat/templates-gallery/src/index.ts"
+      ],
       "@worksheets/feat/worksheets-connections": [
         "libs/feat/worksheets-connections/src/index.ts"
       ],
@@ -94,7 +96,8 @@
       "@worksheets/util/objects": ["libs/util/objects/src/index.ts"],
       "@worksheets/util/strings": ["libs/util/strings/src/index.ts"],
       "@worksheets/util/time": ["libs/util/time/src/index.ts"],
-      "@worksheets/util/types": ["libs/util/types/src/index.ts"]
+      "@worksheets/util/types": ["libs/util/types/src/index.ts"],
+      "@worksheets/util/worksheets": ["libs/util/worksheets/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
