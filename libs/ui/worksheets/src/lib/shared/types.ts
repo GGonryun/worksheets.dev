@@ -11,6 +11,9 @@ export type UpdateWorksheetRequest =
 export type ListApplicationsResponse =
   inferRouterOutputs<AppRouter>['applications']['list'];
 
+export type ApplicationDetails =
+  inferRouterOutputs<AppRouter>['applications']['list'][number];
+
 export type FormFieldsResponse =
   inferRouterOutputs<AppRouter>['applications']['get']['fields'];
 
@@ -34,3 +37,6 @@ export type ExecutionDetailsDataRow =
 
 export type LogListDataTableRows =
   inferRouterOutputs<AppRouter>['worksheets']['logs']['get'];
+
+export type GetTemplateDetails =
+  inferRouterOutputs<AppRouter>['templates']['get'];

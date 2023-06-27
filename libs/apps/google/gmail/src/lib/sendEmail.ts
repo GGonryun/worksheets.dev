@@ -4,7 +4,7 @@ import { getCurrentUserEmail, newGmailClient, settings } from './common';
 import MailComposer from 'nodemailer/lib/mail-composer';
 
 export const sendEmail = newMethod({
-  id: 'send.email',
+  id: 'send-email',
   label: 'Send Email',
   description:
     'Discover how Gmail keeps your account & emails encrypted, private and under your control with the largest secure email service in the world.',

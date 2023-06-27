@@ -1,27 +1,12 @@
 import { Box } from '@mui/material';
 import { GetApplicationResponse } from '../../shared/types';
-import Image from 'next/image';
+import { TinyLogo } from '../../shared/tiny-logo';
 
 export const AppLabel: React.FC<{ app: GetApplicationResponse }> = ({
   app,
 }) => (
   <Box display="flex" alignItems="center" gap={1}>
-    {app?.name && app?.logo && (
-      <Box
-        border={({ palette }) => `1px solid ${palette.divider}`}
-        display="flex"
-        alignItems="center"
-        justifyContent={'center'}
-        padding={0.25}
-      >
-        <Image
-          height={20}
-          width={20}
-          src={app.logo}
-          alt={`${app?.name} logo`}
-        />
-      </Box>
-    )}
+    {app?.name && app?.logo && <TinyLogo label={app.name} src={app.logo} />}
     <Box>{app?.name}</Box>
   </Box>
 );
