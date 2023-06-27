@@ -1,4 +1,4 @@
-import { Clerk } from '@worksheets/apps/framework';
+import { ApplicationDefinition, Clerk } from '@worksheets/apps/framework';
 
 import http from '@worksheets/apps/http';
 import math from '@worksheets/apps/math';
@@ -10,6 +10,7 @@ import crudcrud from '@worksheets/apps/crudcrud';
 import json from '@worksheets/apps/json';
 import core from '@worksheets/apps/core';
 import openai from '@worksheets/apps/open-ai';
+import { z } from 'zod';
 
 const clerk = new Clerk(
   math,
@@ -31,3 +32,21 @@ export const newApplicationsDatabase = (): ApplicationsDatabase => {
 };
 
 export type ApplicationsDatabase = Clerk;
+
+export const applicationDetailsSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  logo: z.string(),
+  description: z.string(),
+});
+
+export type ApplicationDetails = z.infer<typeof applicationDetailsSchema>;
+
+export const convertApplicationDefinition = (
+  app: ApplicationDefinition
+): ApplicationDetails => ({
+  id: app.id,
+  name: app.label,
+  logo: app.logo,
+  description: app.description,
+});

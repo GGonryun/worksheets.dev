@@ -1,16 +1,12 @@
-import { newApplicationsDatabase } from '@worksheets/data-access/applications';
+import {
+  applicationDetailsSchema,
+  convertApplicationDefinition,
+  newApplicationsDatabase,
+} from '@worksheets/data-access/applications';
 import { publicProcedure } from '../../trpc';
 import { z } from 'zod';
-import { ApplicationDefinition } from '@worksheets/apps/framework';
 
 const db = newApplicationsDatabase();
-
-const output = z.object({
-  id: z.string(),
-  name: z.string(),
-});
-
-type Response = z.infer<typeof output>;
 
 export default publicProcedure
   .input(
@@ -18,7 +14,7 @@ export default publicProcedure
       customizable: z.boolean().default(false),
     })
   )
-  .output(z.array(output))
+  .output(z.array(applicationDetailsSchema))
   .query(async ({ input: { customizable } }) => {
     let all = db.list();
 
@@ -26,10 +22,5 @@ export default publicProcedure
       all = all.filter((app) => Boolean(app.settings));
     }
 
-    return all.map(convert);
+    return all.map(convertApplicationDefinition);
   });
-
-const convert = (app: ApplicationDefinition): Response => ({
-  id: app.id,
-  name: app.label,
-});

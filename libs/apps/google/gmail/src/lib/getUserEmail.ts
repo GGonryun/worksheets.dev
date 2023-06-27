@@ -4,7 +4,7 @@ import { newGmailClient } from './common';
 import { z } from 'zod';
 
 export const getUserEmail = newMethod({
-  id: 'user.get_email',
+  id: 'get-user-email',
   label: 'Get User Email',
   description:
     'Returns the email associated with the current connection to gmail',

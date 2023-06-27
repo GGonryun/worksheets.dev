@@ -5,7 +5,7 @@ import { modelsRead } from './lib/models/read';
 import { settings } from './lib/common';
 
 export default newApplication({
-  id: 'openai',
+  id: 'open-ai',
   logo: 'https://storage.googleapis.com/worksheets-test-app-logos/openai-svgrepo-com.svg',
   settings,
   label: 'Open AI',

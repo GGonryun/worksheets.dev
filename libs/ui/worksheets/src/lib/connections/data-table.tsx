@@ -25,6 +25,7 @@ import PendingIcon from '@mui/icons-material/Pending';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import { trpc } from '@worksheets/trpc/ide';
 import { GetConnectionsDataTableResponse } from '../shared/types';
+import { TinyLogo } from '../shared/tiny-logo';
 
 const columns: (
   onClick: (id: string) => void,
@@ -89,24 +90,7 @@ const columns: (
           <Box display="flex" alignItems="center">
             <Box width="32px">
               <Box display="flex" alignItems="center">
-                {logo && (
-                  <Tooltip placement="top" title={label}>
-                    <Box
-                      border={({ palette }) => `1px solid ${palette.divider}`}
-                      display="flex"
-                      alignItems="center"
-                      justifyContent={'center'}
-                      padding={0.1}
-                    >
-                      <Image
-                        height={20}
-                        width={20}
-                        src={logo}
-                        alt={`${label} logo`}
-                      />
-                    </Box>
-                  </Tooltip>
-                )}
+                {logo && <TinyLogo label={label} src={logo} />}
               </Box>
             </Box>
             <Typography variant="caption">{label}</Typography>

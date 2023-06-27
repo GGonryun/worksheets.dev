@@ -4,7 +4,10 @@ import { Heap } from '@worksheets/util/data-structures';
 import { StatusCodes } from 'http-status-codes';
 import { z } from 'zod';
 import { SettingType, Settings, parseSettings } from './settings';
-import {} from '@worksheets/util/errors';
+import {
+  FUNCTION_DELIMITER,
+  splitFunctionDeclaration,
+} from '@worksheets/util/worksheets';
 
 export type ApplicationDefinition = {
   id: string;
@@ -91,7 +94,6 @@ export class ApplicationLibrary {
   }
 }
 
-const APP_METHOD_DELIMITER = '.';
 /** Knows about where applications are stored */
 export class Clerk {
   private readonly memory: Heap<ApplicationDefinition>;
@@ -108,13 +110,13 @@ export class Clerk {
    * throws errors if the app or method is not found.
    */
   parse(path: MethodPathKey): ApplicationMethod {
-    if (path.indexOf(APP_METHOD_DELIMITER) === -1) {
+    if (path.indexOf(FUNCTION_DELIMITER) === -1) {
       // alternative path for invoking a core app.
       return this.borrow({ appId: 'core', methodId: path });
     } else {
       // split the path into app and method
-      const [appId, methodId] = path.split(APP_METHOD_DELIMITER);
-      return this.borrow({ appId, methodId });
+      const { app, method } = splitFunctionDeclaration(path);
+      return this.borrow({ appId: app, methodId: method });
     }
   }
 
@@ -126,17 +128,7 @@ export class Clerk {
    * takes an application method reference and creates a path
    */
   stringify({ app, method }: ApplicationMethod): MethodPathKey {
-    return `${app.id}.${method.id}`;
-  }
-
-  /**
-   * another stringify method, but this one takes an app definition and method definition
-   */
-  stringifyPathFromDefinitions(
-    application: ApplicationDefinition,
-    method: MethodDefinition
-  ): MethodPathKey {
-    return `${application.id}.${method.id}`;
+    return `${app.id}${FUNCTION_DELIMITER}${method.id}`;
   }
 
   // register an application, take all the specified paths and assign them.
