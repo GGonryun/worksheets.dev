@@ -65,7 +65,7 @@ export function ApplicationsGalleryPage() {
             <Grid md={4}>
               <SpotlightButton
                 label="Request new apps"
-                caption="Learn the syntax"
+                caption="Add your app to the gallery"
                 icon={<PlaylistAddIcon fontSize="large" />}
                 onClick={() => setRequesting(true)}
               />

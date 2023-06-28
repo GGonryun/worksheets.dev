@@ -3,20 +3,16 @@ import { ApplicationAutocomplete } from './application-autocomplete';
 import { useState } from 'react';
 import { ApplicationDetails } from '../shared/types';
 import { trpc } from '@worksheets/trpc/ide';
-import HubIcon from '@mui/icons-material/Hub';
+import HubIcon from '@mui/icons-material/HubOutlined';
 import Button from '@mui/material/Button';
-import { TemplateCard } from './template-card';
-import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 import { FloatingLayout } from '../floating-layout';
 import { onlyUnique } from '@worksheets/util/functional';
+import { TemplatesGrid } from './templates-grid';
 
 export function TemplatesPage() {
   const [selections, setSelections] = useState<ApplicationDetails[]>([]);
-
   const { data: applications } = trpc.applications.list.useQuery({});
-  const { data: templates } = trpc.templates.list.useQuery({
-    appIds: selections.map((s) => s.id),
-  });
+
   return (
     <FloatingLayout>
       <Box
@@ -32,7 +28,8 @@ export function TemplatesPage() {
           Supercharge your workflows with templates that integrate the tools you
           use every day. Try our ready-to-go worksheets or{' '}
           <Link href="/docs/create-worksheet">create your own</Link> using one
-          of our {applications?.length} apps.
+          of our{' '}
+          <Link href="/applications">{applications?.length} applications</Link>.
         </Typography>
       </Box>
       <Divider />
@@ -54,18 +51,12 @@ export function TemplatesPage() {
           </Box>
         </Box>
         <Box pt={2}>
-          <Grid container spacing={2}>
-            {templates?.map((t) => (
-              <Grid xs={4} key={t.id}>
-                <TemplateCard
-                  template={t}
-                  onAppClick={(app) =>
-                    setSelections([...selections, app].filter(onlyUnique))
-                  }
-                />
-              </Grid>
-            ))}
-          </Grid>
+          <TemplatesGrid
+            appIds={selections.map((s) => s.id)}
+            onAppClick={(app) =>
+              setSelections([...selections, app].filter(onlyUnique))
+            }
+          />
         </Box>
       </Box>
     </FloatingLayout>
