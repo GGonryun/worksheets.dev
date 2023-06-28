@@ -18,7 +18,15 @@ type FormFields = z.infer<typeof formFields>;
 
 export default publicProcedure
   .input(z.object({ appId: z.string() }))
-  .output(z.object({ name: z.string(), logo: z.string(), fields: formFields }))
+  .output(
+    z.object({
+      id: z.string(),
+      name: z.string(),
+      logo: z.string(),
+      fields: formFields,
+      description: z.string(),
+    })
+  )
   .query(async ({ input: { appId } }) => {
     const app = db.getApp(appId);
 
@@ -41,5 +49,11 @@ export default publicProcedure
       });
     }
 
-    return { name: app.label ?? '', logo: app.logo ?? '', fields };
+    return {
+      id: app.id,
+      name: app.label,
+      logo: app.logo,
+      description: app.description ?? '',
+      fields,
+    };
   });

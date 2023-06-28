@@ -45,6 +45,7 @@ export const TemplateCard: React.FC<{
         <Box display="flex" gap={1} alignItems="center">
           {template.categories.map((category) => (
             <Chip
+              key={category}
               label={category}
               size="small"
               clickable

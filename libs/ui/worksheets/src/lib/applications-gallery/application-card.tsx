@@ -8,9 +8,7 @@ import {
   Link,
   Typography,
 } from '@mui/material';
-import SendIcon from '@mui/icons-material/Send';
 import { ApplicationDetails } from '../shared/types';
-import StarIcon from '@mui/icons-material/Star';
 import { TinyLogo } from '../shared/tiny-logo';
 
 export const ApplicationCard: React.FC<{
@@ -40,21 +38,10 @@ export const ApplicationCard: React.FC<{
           </Box>
         }
       />
-      <CardContent sx={{ px: 2, py: 0, height: 60, overflow: 'scroll' }}>
+      <CardContent sx={{ px: 2, py: 0, height: 80, overflow: 'scroll' }}>
         <Typography variant="body2">{application.description}</Typography>
       </CardContent>
-      <CardActions>
-        <Box display="flex" alignItems="center" gap={1}>
-          <Box display="flex" alignItems="center">
-            <StarIcon sx={{ height: 14 }} />
-            <Typography variant="caption">5.0</Typography>
-          </Box>
-          <Box display="flex" alignItems="center">
-            <SendIcon sx={{ height: 14 }} />
-            <Typography variant="caption">0K+</Typography>
-          </Box>
-        </Box>
-      </CardActions>
+      <CardActions></CardActions>
     </CardActionArea>
   </Card>
 );

@@ -40,3 +40,9 @@ export type LogListDataTableRows =
 
 export type GetTemplateDetails =
   inferRouterOutputs<AppRouter>['templates']['get'];
+
+export type ListTemplatesResponse =
+  inferRouterOutputs<AppRouter>['templates']['list'];
+
+export type ListMethodsResponse =
+  inferRouterOutputs<AppRouter>['applications']['methods']['list'];

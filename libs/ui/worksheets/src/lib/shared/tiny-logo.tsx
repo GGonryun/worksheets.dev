@@ -14,6 +14,7 @@ export const TinyLogo: React.FC<{
     <Box
       sx={sx}
       border={borderless ? {} : ({ palette }) => `1px solid ${palette.divider}`}
+      borderRadius={1}
       display="flex"
       alignItems="center"
       justifyContent={'center'}

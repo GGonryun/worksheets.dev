@@ -7,30 +7,21 @@ import {
   Divider,
   Collapse,
   ButtonBase,
-  Tooltip,
-  Link,
 } from '@mui/material';
-import React, { ReactNode, useState } from 'react';
+import React, { useState } from 'react';
 import { trpc } from '@worksheets/trpc/ide';
 import { FloatingLayout } from '../floating-layout';
 import { TinyLogo } from '../shared/tiny-logo';
 import ThumbDownOutlinedIcon from '@mui/icons-material/ThumbDownOutlined';
 import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 import SendIcon from '@mui/icons-material/Send';
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import { CodeEditor } from '@worksheets/ui/code-editor';
 import ExpandMoreOutlinedIcon from '@mui/icons-material/ExpandMoreOutlined';
 import ExpandLessOutlinedIcon from '@mui/icons-material/ExpandLessOutlined';
 import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined';
 import { useRouter } from 'next/router';
-import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
-import LocalOfferOutlinedIcon from '@mui/icons-material/LocalOfferOutlined';
-import LiveHelpOutlinedIcon from '@mui/icons-material/LiveHelpOutlined';
-import HubOutlinedIcon from '@mui/icons-material/HubOutlined';
-import ReceiptLongOutlinedIcon from '@mui/icons-material/ReceiptLongOutlined';
-import HelpIcon from '@mui/icons-material/Help';
-import { OpenInNew } from '@mui/icons-material';
 import { useClipboard } from '@worksheets/ui/common';
+import { ResourcesFooter } from '../shared/resources-footer';
 
 export const TemplateDetailsPage: React.FC<{ templateId: string }> = ({
   templateId,
@@ -110,12 +101,15 @@ export const TemplateDetailsPage: React.FC<{ templateId: string }> = ({
 
         {template?.inputs.map((input, i) => (
           <SampleText
+            key={i}
             label={`Sample Input #${i + 0}`}
             text={JSON.stringify(input, null, 2)}
           />
         ))}
+
         {template?.outputs.map((output, i) => (
           <SampleText
+            key={i}
             label={`Sample Output #${i + 0}`}
             text={JSON.stringify(output, null, 2)}
           />
@@ -131,93 +125,11 @@ export const TemplateDetailsPage: React.FC<{ templateId: string }> = ({
         flexDirection="column"
         gap={2}
       >
-        <Grid
-          container
-          spacing={2}
-          alignContent="center"
-          justifyContent="center"
-          width="100%"
-        >
-          <Grid md={3}>
-            <ResourceCard
-              title="Pricing"
-              caption="free of charge, forever"
-              icon={<LocalOfferOutlinedIcon color="primary" />}
-            />
-          </Grid>
-          <Grid md={3}>
-            <ResourceCard
-              title="Support"
-              caption="Get help now"
-              helpText="A live agent is standing by to help you."
-              icon={<LiveHelpOutlinedIcon color="primary" />}
-              href="/support"
-              openInNewTab
-            />
-          </Grid>
-          <Grid md={3}>
-            <ResourceCard
-              title="Applications"
-              caption="Browse more apps"
-              icon={<HubOutlinedIcon color="primary" />}
-              href="/applications"
-            />
-          </Grid>
-          <Grid md={3}>
-            <ResourceCard
-              title="Syntax Guide"
-              caption="Learn more"
-              helpText="Learn more about how worksheets are written."
-              icon={<ReceiptLongOutlinedIcon color="primary" />}
-              href="/docs/syntax-guide"
-              openInNewTab
-            />
-          </Grid>
-        </Grid>
+        <ResourcesFooter apps />
       </Box>
     </FloatingLayout>
   );
 };
-
-const ResourceCard: React.FC<{
-  title: string;
-  caption: string;
-  icon: ReactNode;
-  helpText?: string;
-  href?: string;
-  openInNewTab?: boolean;
-}> = ({ title, caption, icon, helpText, href, openInNewTab }) => (
-  <Paper elevation={2}>
-    <Box display="flex" px={3} py={2} gap={2}>
-      <Box>{icon}</Box>
-      <Box>
-        <Box display="flex" gap={2} alignItems="center">
-          <Typography variant="body1" fontWeight={900}>
-            {title}
-          </Typography>
-          {helpText && (
-            <Tooltip
-              placement="top"
-              title={helpText}
-              disableHoverListener={!helpText}
-            >
-              <HelpIcon fontSize="small" color="primary" />
-            </Tooltip>
-          )}
-        </Box>
-        <Typography variant="body2" color="text.secondary">
-          {!href ? (
-            caption
-          ) : (
-            <Link href={href} target={openInNewTab ? '_blank' : '_top'}>
-              {caption} {openInNewTab && <OpenInNew sx={{ height: 14 }} />}
-            </Link>
-          )}
-        </Typography>
-      </Box>
-    </Box>
-  </Paper>
-);
 
 const SampleText: React.FC<{ label: string; text: string }> = ({
   label,
