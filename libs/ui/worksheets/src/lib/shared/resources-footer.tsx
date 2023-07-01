@@ -3,7 +3,7 @@ import React, { ReactNode } from 'react';
 import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 import LocalOfferOutlinedIcon from '@mui/icons-material/LocalOfferOutlined';
 import LiveHelpOutlinedIcon from '@mui/icons-material/LiveHelpOutlined';
-import HubOutlinedIcon from '@mui/icons-material/HubOutlined';
+import AppsIcon from '@mui/icons-material/Apps';
 import ReceiptLongOutlinedIcon from '@mui/icons-material/ReceiptLongOutlined';
 import HelpIcon from '@mui/icons-material/Help';
 import ScannerIcon from '@mui/icons-material/ScannerOutlined';
@@ -41,7 +41,7 @@ export const ResourcesFooter: React.FC<{ apps?: boolean }> = ({ apps }) => (
         <ResourceCard
           title="Applications"
           caption="Browse more apps"
-          icon={<HubOutlinedIcon color="primary" />}
+          icon={<AppsIcon color="primary" />}
           href="/applications"
         />
       ) : (

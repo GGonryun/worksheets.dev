@@ -9,6 +9,15 @@ import { z } from 'zod';
 const db = newApplicationsDatabase();
 
 export default publicProcedure
+  .meta({
+    openapi: {
+      method: 'GET',
+      path: '/applications/',
+      tags: ['applications'],
+      summary: 'List applications',
+      description: 'List application information',
+    },
+  })
   .input(
     z.object({
       customizable: z.boolean().default(false),

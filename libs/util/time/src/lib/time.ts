@@ -52,13 +52,14 @@ export const dateFromTimestamp = (timestamp: number): Date => {
  * // 2021-03-04T14:02:03.000Z
  */
 export const addDurationToCurrentTime = (
-  duration: Duration,
+  { days = 0, hours = 0, minutes = 0, seconds = 0 }: Duration,
   currentTime: Date = new Date()
 ): Date => {
-  const newTime = addHoursToCurrentTime(duration.hours, currentTime);
-  const newTime2 = addMinutesToCurrentTime(duration.minutes, newTime);
-  const newTime3 = addSecondsToCurrentTime(duration.seconds, newTime2);
-  return newTime3;
+  const newTime = addDaysToCurrentTime(days, currentTime);
+  const newTime2 = addHoursToCurrentTime(hours, newTime);
+  const newTime3 = addMinutesToCurrentTime(minutes, newTime2);
+  const newTime4 = addSecondsToCurrentTime(seconds, newTime3);
+  return newTime4;
 };
 
 /**
@@ -149,10 +150,10 @@ export const secondsRemaining = (
 };
 
 export type Duration = {
-  days: number;
-  hours: number;
-  minutes: number;
-  seconds: number;
+  days?: number;
+  hours?: number;
+  minutes?: number;
+  seconds?: number;
 };
 
 /**
@@ -191,10 +192,10 @@ export const durationRemaining = (
  * @returns {string} in HH:MM:SS.MMMM format
  */
 export const printDuration = ({
-  days,
-  hours,
-  minutes,
-  seconds,
+  days = 0,
+  hours = 0,
+  minutes = 0,
+  seconds = 0,
 }: Duration): string => {
   const pad = (num: number) => num.toString().padStart(2, '0');
   return `${pad(days)}:${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
@@ -206,10 +207,10 @@ export const printDuration = ({
  * @param {Duration} duration the duration to print
  */
 export const printCountdownDuration = ({
-  days,
-  hours,
-  minutes,
-  seconds,
+  days = 0,
+  hours = 0,
+  minutes = 0,
+  seconds = 0,
 }: Duration) => {
   const pad = (num: number) => num.toString().padStart(2, '0');
   const daysString = days > 0 ? `${days}d ` : '';
@@ -300,4 +301,20 @@ export const prettyPrintMilliseconds = (milliseconds: number) => {
   const millisecondsString = minutes < 1 ? `${milliseconds % 1000}ms ` : '';
 
   return `${hoursString}${minutesString}${secondsString}${millisecondsString}`;
+};
+
+/**
+ * converts a duration to milliseconds
+ */
+export const durationToMilliseconds = ({
+  days = 0,
+  hours = 0,
+  minutes = 0,
+  seconds = 0,
+}: Duration) => {
+  const daysToMs = days * 86400000;
+  const hoursToMs = hours * 3600000;
+  const minutesToMs = minutes * 60000;
+  const secondsToMs = seconds * 1000;
+  return daysToMs + hoursToMs + minutesToMs + secondsToMs;
 };

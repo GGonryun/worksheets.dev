@@ -2,7 +2,6 @@ import { Divider } from '@mui/material';
 import AddIcon from '@mui/icons-material/AddOutlined';
 import { WorksheetsDataTable } from './data-table';
 import { useRouter } from 'next/router';
-import { FilterTextInput } from '../shared/filter-text-input';
 import { PageLayout } from '../page-layout';
 
 export function WorksheetsPage() {
@@ -20,9 +19,8 @@ export function WorksheetsPage() {
         },
       }}
     >
-      <FilterTextInput placeholder="Filter by name" />
-      <Divider />
       <WorksheetsDataTable />
+      <Divider />
     </PageLayout>
   );
 }

@@ -3,7 +3,7 @@ import WebsiteLayout from '../website-layout';
 import { CreationProgress } from './progress';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { ConfigFormValues, ConfigureForm } from './configure/form';
-import { useReducer, useState } from 'react';
+import { useEffect, useReducer, useState } from 'react';
 import { useRouter } from 'next/router';
 import { isEqual } from 'lodash';
 import { DefineInstructionsForm } from './define-instructions/form';
@@ -34,7 +34,6 @@ const newWorksheetRequest: CreateWorksheetRequest = {
   text: defaultYaml.trim(),
   description: '',
   logLevel: 'trace',
-
   connections: [],
 };
 
@@ -48,7 +47,7 @@ const hasNoChanges = (value: CreateWorksheetRequest) => {
 
 // create a reducer that allows us to update properties of the worksheet
 type WorksheetBuilderActions =
-  | ({ type: 'update-config' } & ConfigFormValues)
+  | ({ type: 'update-config' } & Partial<ConfigFormValues>)
   | { type: 'update-yaml'; text: string };
 
 type WorksheetBuilderState = CreateWorksheetRequest;
@@ -57,6 +56,7 @@ function worksheetBuilderReducer(
   state: WorksheetBuilderState,
   action: WorksheetBuilderActions
 ): WorksheetBuilderState {
+  console.log('dispatching', action.type);
   switch (action.type) {
     case 'update-config':
       return { ...state, ...action };
@@ -69,14 +69,38 @@ function worksheetBuilderReducer(
 }
 
 export function CreateAWorksheetPage() {
-  const { push } = useRouter();
+  const { push, query } = useRouter();
+  const templateId = query.templateId as string;
   const [step, setStep] = useState(0);
   const [state, dispatch] = useReducer(
     worksheetBuilderReducer,
     newWorksheetRequest
   );
 
+  const { data: template, isLoading } = trpc.templates.get.useQuery(
+    templateId,
+    {
+      enabled: !!templateId,
+    }
+  );
+
   const createWorksheet = trpc.worksheets.create.useMutation();
+
+  useEffect(() => {
+    if (template && !isLoading) {
+      dispatch({
+        ...newWorksheetRequest,
+        type: 'update-config',
+        name: template.description,
+        description: `copied from template ${template.id}`,
+      });
+
+      dispatch({
+        type: 'update-yaml',
+        text: template.text,
+      });
+    }
+  }, [template, isLoading]);
 
   const leavePage = () => {
     if (

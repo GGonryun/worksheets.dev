@@ -5,6 +5,25 @@ import { logLevelEntity } from '@worksheets/data-access/tasks';
 import { addWorksheetConnections } from '@worksheets/feat/worksheets-connections';
 
 export default protectedProcedure
+  .meta({
+    /* 👉 */ openapi: {
+      enabled: true,
+      protect: true,
+      method: 'PUT',
+      path: '/worksheets',
+      tags: ['worksheets'],
+      summary: 'Create a new worksheet',
+      description: 'Create a new worksheet',
+      example: {
+        request: {
+          body: {
+            name: 'My worksheet',
+            text: 'echo "hello world"',
+          },
+        },
+      },
+    },
+  })
   .input(
     z.object({
       name: z.string(),

@@ -2,10 +2,8 @@ import {
   Box,
   Card,
   CardActionArea,
-  CardActions,
   CardContent,
   CardHeader,
-  Link,
   Typography,
 } from '@mui/material';
 import { ApplicationDetails } from '../shared/types';
@@ -22,8 +20,12 @@ export const ApplicationCard: React.FC<{
             <Typography variant="body2" fontWeight={900}>
               {application.name}
             </Typography>
-            <Typography variant="caption">
-              <Link>Worksheets.dev</Link>
+            <Typography
+              variant="caption"
+              color="primary"
+              sx={{ textDecoration: 'underline' }}
+            >
+              Worksheets.dev
             </Typography>
           </Box>
         }
@@ -41,7 +43,6 @@ export const ApplicationCard: React.FC<{
       <CardContent sx={{ px: 2, py: 0, height: 80, overflow: 'scroll' }}>
         <Typography variant="body2">{application.description}</Typography>
       </CardContent>
-      <CardActions></CardActions>
     </CardActionArea>
   </Card>
 );

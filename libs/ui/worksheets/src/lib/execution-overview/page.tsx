@@ -1,12 +1,5 @@
 import WebsiteLayout from '../website-layout';
-import {
-  Box,
-  Button,
-  Divider,
-  IconButton,
-  Link,
-  Typography,
-} from '@mui/material';
+import { Box, Button, Divider, IconButton, Typography } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { trpc } from '@worksheets/trpc/ide';
 import { VerticalResizerLayout } from '../shared/resizable-layout/vertical-resizer-layout';
@@ -23,9 +16,10 @@ import {
   formatTimestampLong,
   prettyPrintMilliseconds,
 } from '@worksheets/util/time';
-import { OpenInNew, PlayArrowOutlined } from '@mui/icons-material';
+import { PlayArrowOutlined } from '@mui/icons-material';
 import { LogLevelVerbosityChip } from '../shared/log-level-verbosity-chip';
 import { LogList } from '../worksheet-details/log-list/log-list';
+import { OpenInNewTabLink } from '../shared/open-in-new-tab-link';
 
 export const ExecutionOverviewPage: React.FC<{
   worksheetId: string;
@@ -186,10 +180,12 @@ const TaskExecutionSummary: React.FC<{
         label={'Worksheet ID'}
         content={
           <Typography variant="body2">
-            <Link href={`/worksheet/${worksheet?.id}`} target="_blank">
+            <OpenInNewTabLink
+              href={`/worksheets/${worksheet?.id}`}
+              fontSize={14}
+            >
               {worksheet?.id}
-              <OpenInNew fontSize="small" sx={{ height: 14 }} />
-            </Link>
+            </OpenInNewTabLink>
           </Typography>
         }
       />

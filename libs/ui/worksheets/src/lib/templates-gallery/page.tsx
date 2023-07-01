@@ -3,7 +3,7 @@ import { ApplicationAutocomplete } from './application-autocomplete';
 import { useState } from 'react';
 import { ApplicationDetails } from '../shared/types';
 import { trpc } from '@worksheets/trpc/ide';
-import HubIcon from '@mui/icons-material/HubOutlined';
+import AppsIcon from '@mui/icons-material/Apps';
 import Button from '@mui/material/Button';
 import { FloatingLayout } from '../floating-layout';
 import { onlyUnique } from '@worksheets/util/functional';
@@ -12,6 +12,8 @@ import { TemplatesGrid } from './templates-grid';
 export function TemplatesPage() {
   const [selections, setSelections] = useState<ApplicationDetails[]>([]);
   const { data: applications } = trpc.applications.list.useQuery({});
+
+  const { data: sample } = trpc.samples.sayHello.useQuery({ name: 'world' });
 
   return (
     <FloatingLayout>
@@ -23,6 +25,7 @@ export function TemplatesPage() {
         flexDirection="column"
         gap={1}
       >
+        {JSON.stringify(sample)}
         <Typography variant="h2">Template Gallery</Typography>
         <Typography variant="body1" textAlign="center" maxWidth={800}>
           Supercharge your workflows with templates that integrate the tools you
@@ -42,8 +45,8 @@ export function TemplatesPage() {
           />
           <Box>
             <Button
-              variant="outlined"
-              startIcon={<HubIcon />}
+              variant="contained"
+              startIcon={<AppsIcon />}
               href="/applications"
             >
               Applications
