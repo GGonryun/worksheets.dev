@@ -27,7 +27,10 @@ type SingleMethodResponse = ListMethodsResponse[number];
 export const ApplicationDetailsPage: React.FC<{ appId: string }> = ({
   appId,
 }) => {
-  const { data: app } = trpc.applications.get.useQuery({ appId });
+  const { data: app } = trpc.applications.get.useQuery(
+    { appId },
+    { enabled: !!appId }
+  );
 
   if (!app) return <Box />;
 

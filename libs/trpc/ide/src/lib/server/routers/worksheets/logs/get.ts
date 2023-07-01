@@ -24,6 +24,7 @@ export default protectedProcedure
 
     const massaged = logs.map((log) => ({
       ...log,
+      message: JSON.stringify(log.message), // just in case clients insert bad data into message.
       data: JSON.stringify(log, null, 2),
     }));
 

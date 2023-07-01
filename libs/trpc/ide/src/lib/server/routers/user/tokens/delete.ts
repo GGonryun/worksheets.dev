@@ -6,10 +6,11 @@ export default protectedProcedure
   .meta({
     openapi: {
       enabled: true,
+      protect: true,
       method: 'DELETE',
       path: '/user/tokens',
       summary: 'Delete an api token',
-      protect: true,
+      tags: ['user'],
     },
   })
   .input(z.object({ tokenId: z.string().nonempty() }))

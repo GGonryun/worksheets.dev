@@ -5,6 +5,8 @@ import { API_TOKEN_PREFIX } from './constants';
 import { TRPCError } from '@trpc/server';
 import { hasher, isApiToken, splitTokenFromHeader } from './util';
 import { isExpired } from '@worksheets/util/time';
+import { quotas } from './quotas';
+import { limits } from '@worksheets/feat/server-management';
 
 const db = newApiTokenDatabase();
 
@@ -25,6 +27,27 @@ async function getUserIdFromApiToken(apiToken: string): Promise<string> {
     });
   }
 
+  if (
+    !(await quotas.request({ uid: table.uid, type: 'tokenUses', quantity: 1 }))
+  ) {
+    throw new TRPCError({
+      code: 'TOO_MANY_REQUESTS',
+      message: "You've exceeded your allocated quota of API token uses.",
+    });
+  }
+
+  if (
+    !(await limits.throttle({
+      id: id,
+      meta: 'api-token',
+      quantity: 5,
+    }))
+  ) {
+    throw new TRPCError({
+      code: 'TOO_MANY_REQUESTS',
+      message: "You've exceeded your rate-limit of API token uses.",
+    });
+  }
   return table.uid;
 }
 
@@ -34,7 +57,11 @@ async function getUserIdFromFirebaseToken(idToken: string): Promise<string> {
 
     return user.uid;
   } catch (error) {
-    throw new TRPCError({ code: 'UNAUTHORIZED', cause: error });
+    throw new TRPCError({
+      code: 'UNAUTHORIZED',
+      message: 'Unexpected error verifying Firebase token.',
+      cause: error,
+    });
   }
 }
 

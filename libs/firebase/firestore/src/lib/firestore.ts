@@ -3,6 +3,7 @@ import { firestore } from '@worksheets/firebase/server';
 import { DocumentData, WhereFilterOp } from 'firebase/firestore';
 import { Entity } from './schema';
 import { merge } from 'lodash';
+import { PartialBy } from '@worksheets/util/types';
 
 type DatabaseFailures = 'unknown' | 'not-found' | 'missing-id';
 export class DatabaseFailure extends CodedFailure<DatabaseFailures> {
@@ -102,11 +103,13 @@ export function newFirestore<T extends Entity>(key: string, txn?: Txn) {
     return parse(docs);
   }
 
-  async function insert(entity: T): Promise<T> {
+  async function insert(entity: PartialBy<T, 'id'>): Promise<T> {
     if (!entity.id) {
-      entity.id = await id();
+      entity.id = id();
     }
+
     const document = firestore().collection(key).doc(entity.id);
+
     try {
       if (txn) {
         txn.create(document, entity);
@@ -122,7 +125,7 @@ export function newFirestore<T extends Entity>(key: string, txn?: Txn) {
       });
     }
 
-    return entity;
+    return entity as T;
   }
 
   async function update(entity: T): Promise<T> {

@@ -37,6 +37,15 @@
       "@worksheets/data-access/handshakes": [
         "libs/data-access/handshakes/src/index.ts"
       ],
+      "@worksheets/data-access/server-alerts": [
+        "libs/data-access/server-alerts/src/index.ts"
+      ],
+      "@worksheets/data-access/server-limits": [
+        "libs/data-access/server-limits/src/index.ts"
+      ],
+      "@worksheets/data-access/server-settings": [
+        "libs/data-access/server-settings/src/index.ts"
+      ],
       "@worksheets/data-access/settings": [
         "libs/data-access/settings/src/index.ts"
       ],
@@ -56,6 +65,9 @@
       ],
       "@worksheets/feat/execution-settings": [
         "libs/feat/execution-settings/src/index.ts"
+      ],
+      "@worksheets/feat/server-management": [
+        "libs/feat/server-management/src/index.ts"
       ],
       "@worksheets/feat/structured-logging": [
         "libs/feat/structured-logging/src/index.ts"

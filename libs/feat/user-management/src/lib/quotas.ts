@@ -19,26 +19,25 @@ const getQuotas = async (uid: string): Promise<UserQuotasEntity> => {
   return q;
 };
 
-// should replenish every hour.
+// should replenish out of band every hour.
 const INITIAL_QUOTAS = {
-  maxApiTokenUses: 100,
-  maxExecutions: 10,
-  maxProcessing: durationToMilliseconds({ minutes: 5 }),
+  tokenUses: 1000,
+  executions: 100,
+  processingTime: durationToMilliseconds({ minutes: 5 }),
 };
 
 export const quotas = {
-  exceeds: async (
-    uid: string,
-    { key, value }: { key: keyof Omit<UserQuotasEntity, 'id'>; value: number }
-  ) => {
-    const quota = await getQuotas(uid);
-    return quota[key] < value;
-  },
-  meets: async (
-    uid: string,
-    { key, value }: { key: keyof Omit<UserQuotasEntity, 'id'>; value: number }
-  ) => {
-    const quota = await getQuotas(uid);
-    return quota[key] < value;
+  request: async (opts: {
+    uid: string;
+    type: keyof Omit<UserQuotasEntity, 'id'>;
+    quantity: number;
+  }) => {
+    const quota = await getQuotas(opts.uid);
+    if (quota[opts.type] < opts.quantity) {
+      return false;
+    }
+    quota[opts.type] -= opts.quantity;
+    await db.update(quota);
+    return true;
   },
 };

@@ -32,7 +32,7 @@ export type TaskCreationOverrides = {
 // we currently poll every 1 minute. any tasks that are delayed within 1 minute should be processed in band.
 const CRON_POLLING_FREQUENCY = 1;
 // defaults to 10 minutes in seconds
-const DEFAULT_TIMEOUT = 600;
+export const DEFAULT_TIMEOUT = 600;
 
 const DEFAULT_VERBOSITY = 'silent';
 

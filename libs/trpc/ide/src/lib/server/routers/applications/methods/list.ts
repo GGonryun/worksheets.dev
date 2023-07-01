@@ -11,7 +11,7 @@ export default publicProcedure
     openapi: {
       method: 'GET',
       path: '/applications/{appId}/methods',
-      tags: ['applications', 'methods'],
+      tags: ['applications'],
       summary: 'List application methods',
       description: 'List application methods',
     },
