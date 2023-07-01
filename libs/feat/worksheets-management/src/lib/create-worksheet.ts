@@ -2,10 +2,10 @@ import {
   newWorksheetsDatabase,
   worksheetsEntitySchema,
 } from '@worksheets/data-access/worksheets';
-import { HandlerFailure } from '@worksheets/util/next';
 import { z } from 'zod';
 import { listUsersWorksheets } from './list-user-worksheets';
-import { MAXIMUM_WORKSHEETS } from './get-user-worksheet';
+import { TRPCError } from '@trpc/server';
+import { limits } from '@worksheets/feat/user-management';
 
 const db = newWorksheetsDatabase();
 
@@ -25,10 +25,9 @@ export const createWorksheet = async (
   const records = await listUsersWorksheets(uid);
   const numRecords = Object.keys(records).length;
 
-  if (numRecords >= MAXIMUM_WORKSHEETS) {
-    throw new HandlerFailure({
-      code: 'resource-exhausted',
-      message: 'maximum worksheets threshold reached',
+  if (await limits.exceeds(uid, 'maxWorksheets', numRecords)) {
+    throw new TRPCError({
+      code: 'PRECONDITION_FAILED',
     });
   }
 

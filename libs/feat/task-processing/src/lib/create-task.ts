@@ -8,7 +8,6 @@ import {
 import { Controller, ExecutionFactory } from '@worksheets/engine';
 import { newEmptyLibrary } from '@worksheets/feat/execution-settings';
 import { getWorksheet } from '@worksheets/feat/worksheets-management';
-import { HandlerFailure } from '@worksheets/util/next';
 import { Maybe } from '@worksheets/util/types';
 import {
   TaskCreationOverrides,
@@ -17,6 +16,7 @@ import {
   safelyGetTask,
 } from './util';
 import { TaskLogger } from './util';
+import { TRPCError } from '@trpc/server';
 
 const tasksDb = newTasksDatabase();
 const snapshotsDb = newTaskSnapshotsDatabase();
@@ -40,10 +40,9 @@ export const createTask = async (
     // check input to see if it is the same
     if (task.input !== input) {
       // if the input is not the same, throw an error
-      throw new HandlerFailure({
-        code: 'conflict',
+      throw new TRPCError({
+        code: 'CONFLICT',
         message: 'Task already exists with different input',
-        data: { taskId, input },
       });
     }
     // if the task already exists, return the task id
@@ -96,10 +95,9 @@ export const createTask = async (
 
   // throw an error if worksheet has no text set
   if (!worksheet.text) {
-    throw new HandlerFailure({
-      code: 'bad-request',
+    throw new TRPCError({
+      code: 'BAD_REQUEST',
       message: 'Worksheet has no text',
-      data: { worksheetId },
     });
   }
   // save a logging statement

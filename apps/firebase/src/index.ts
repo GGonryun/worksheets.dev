@@ -22,8 +22,8 @@ export const taskProcessor = functions.pubsub
     const taskId = message.json.taskId;
     // write a log message
     functions.logger.info('Processing task', { taskId });
-    // send a post request to task processor at worksheets.dev/api/process/:taskId
-    const response = await fetcher(`/api/process/${taskId}`, {
+    // send a post request to task processor at
+    const response = await fetcher(`/api/executions/${taskId}/process`, {
       method: 'POST',
     });
 
@@ -35,8 +35,8 @@ export const taskProcessObserver = functions.pubsub
   .schedule('* * * * *')
   .onRun(async (context) => {
     // send the fetch request to the worksheets.dev task reaper endpoint
-    const response = await fetcher(`/api/processor/reap`, {
-      method: 'POST',
+    const response = await fetcher(`/api/executions/reaper`, {
+      method: 'DELETE',
       // send the request with a json body that contains the current time
       body: JSON.stringify({
         timestamp: context.timestamp,

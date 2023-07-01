@@ -6,10 +6,13 @@ import {
 import { limits } from './limits';
 import { TRPCError } from '@trpc/server';
 import { API_TOKEN_PREFIX } from './constants';
+import { formatTimestampLong, isExpired } from '@worksheets/util/time';
+import { hasher } from './util';
 
 const db = newApiTokenDatabase();
 
 const checkMaxTokens = async (userId: string, value: number) => {
+  console.log('max token check', userId, value);
   if (await limits.exceeds(userId, 'maxApiTokens', value)) {
     throw new TRPCError({
       code: 'PRECONDITION_FAILED',
@@ -21,23 +24,27 @@ const checkMaxTokens = async (userId: string, value: number) => {
 const createTokenRequestSchema = apiTokenEntity.omit({
   id: true,
   createdAt: true,
+  hash: true,
 });
 
 const createToken = async (
   req: TypeOf<typeof createTokenRequestSchema>
 ): Promise<string> => {
-  const values = await db.query({ f: 'id', o: '==', v: req.uid });
+  const values = await db.query({ f: 'uid', o: '==', v: req.uid });
 
   await checkMaxTokens(req.uid, values.length + 1);
 
-  const id = `${db.id()}-${db.id()}`;
+  const id = db.id();
+  const hash = hasher.hash(id);
   await db.insert({
-    id,
+    id: hash,
     createdAt: Date.now(),
+    hash,
     ...req,
   });
+  console.info(`created token ${hash} for ${req.uid}`);
 
-  return `${API_TOKEN_PREFIX}:${id}`;
+  return `${API_TOKEN_PREFIX}${hash}`;
 };
 
 const genericAccessFailure = {
@@ -60,7 +67,20 @@ const deleteTokenHandler = async (req: { uid: string; id: string }) => {
   return await db.delete(req.id);
 };
 
+export const listTokens = async (req: { uid: string }) => {
+  const tokens = await db.query({ f: 'uid', o: '==', v: req.uid });
+  console.info(`found ${tokens.length} tokens for ${req.uid}`);
+  return tokens.map((token) => ({
+    id: token.id,
+    name: token.name,
+    createdAt: formatTimestampLong(token.createdAt),
+    expiresOn: formatTimestampLong(token.expires),
+    expired: isExpired(token.expires),
+  }));
+};
+
 export const tokens = {
   create: createToken,
   delete: deleteTokenHandler,
+  list: listTokens,
 };

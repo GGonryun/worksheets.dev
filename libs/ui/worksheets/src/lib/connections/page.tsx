@@ -23,7 +23,6 @@ export const ConnectionsPage: React.FC<{ connectionId?: string }> = ({
 
   useEffect(() => {
     if (connectionId) {
-      console.log('setting active connection', connectionId);
       setActiveConnection(connectionId);
     }
   }, [connectionId]);

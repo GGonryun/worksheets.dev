@@ -13,8 +13,6 @@ export function TemplatesPage() {
   const [selections, setSelections] = useState<ApplicationDetails[]>([]);
   const { data: applications } = trpc.applications.list.useQuery({});
 
-  const { data: sample } = trpc.samples.sayHello.useQuery({ name: 'world' });
-
   return (
     <FloatingLayout>
       <Box
@@ -25,7 +23,6 @@ export function TemplatesPage() {
         flexDirection="column"
         gap={1}
       >
-        {JSON.stringify(sample)}
         <Typography variant="h2">Template Gallery</Typography>
         <Typography variant="body1" textAlign="center" maxWidth={800}>
           Supercharge your workflows with templates that integrate the tools you

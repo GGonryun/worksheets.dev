@@ -1,7 +1,7 @@
 /**
  * @module Wait
  * @description used to wait for a specified amount of time before continuing execution, calculated in milliseconds.
- * @throws {HandlerFailure} if the wait duration exceeds 5 minutes.
+ * @throws {ExecutionFailure} if the wait duration exceeds 5 minutes.
  */
 
 import { ExecutionFailure } from '../failures';

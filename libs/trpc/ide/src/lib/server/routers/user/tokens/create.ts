@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { protectedProcedure } from '../../../trpc';
 import { tokens } from '@worksheets/feat/user-management';
+import { addDaysToCurrentTime } from '@worksheets/util/time';
 
 export default protectedProcedure
   .meta({
@@ -14,17 +15,21 @@ export default protectedProcedure
   .input(
     z.object({
       name: z.string().nonempty(),
-      expires: z.number().describe('expires in milliseconds from now'),
+      expiresInDays: z.number().describe('expires in days from now'),
     })
   )
   .output(z.string())
   .mutation(
     async ({
-      input: { name, expires },
+      input: { name, expiresInDays },
       ctx: {
         user: { uid },
       },
     }) => {
-      return await tokens.create({ name, uid, expires });
+      return await tokens.create({
+        name,
+        uid,
+        expires: addDaysToCurrentTime(expiresInDays).getTime(),
+      });
     }
   );

@@ -17,7 +17,6 @@ import {
   Snapshot,
 } from '@worksheets/engine';
 import { newPrivateLibrary } from '@worksheets/feat/execution-settings';
-import { HandlerFailure } from '@worksheets/util/next';
 import {
   TaskLogger,
   isTaskProcessible,
@@ -31,6 +30,7 @@ import {
   isWithinNearPollingLimit,
 } from './util';
 import { durationRemaining, printDuration } from '@worksheets/util/time';
+import { TRPCError } from '@trpc/server';
 
 const taskDb = newTasksDatabase();
 const snapshotsDb = newTaskSnapshotsDatabase();
@@ -43,8 +43,8 @@ const processorBus = newProcessTaskBus();
  * @description process task takes in a task id and executes the task. a task may contain a partially processed execution in which case we will restart that execution and complete it. otherwise if the task is not in a processable state, it will return an error. if we are able to complete a task we will return the task's new state.
  * @param {string} taskId the id of the task to process
  * @returns {Promise<string>} the new state of the task
- * @throws {HandlerFailure} if the task is not in a processable state
- * @throws {HandlerFailure} if the task does not exist
+ * @throws {TRPCError} if the task is not in a processable state
+ * @throws {TRPCError} if the task does not exist
  *
  * @example
  * const taskId = '1234';
@@ -54,10 +54,9 @@ const processorBus = newProcessTaskBus();
  */
 export const processTask = async (taskId: string): Promise<TaskState> => {
   if (!(await taskDb.has(taskId))) {
-    throw new HandlerFailure({
-      code: 'not-found',
+    throw new TRPCError({
+      code: 'NOT_FOUND',
       message: 'Task does not exist',
-      data: { taskId },
     });
   }
 
@@ -80,10 +79,9 @@ export const processTask = async (taskId: string): Promise<TaskState> => {
     // save a new log entry if the task was not processible
     const message = 'Task is not in a processible state';
     await logger.error(message, { state: task.state });
-    throw new HandlerFailure({
-      code: 'conflict',
+    throw new TRPCError({
+      code: 'CONFLICT',
       message,
-      data: { taskId, state: task.state },
     });
   }
 
@@ -204,7 +202,6 @@ export const processTask = async (taskId: string): Promise<TaskState> => {
  * @param {TaskEntity} task the task to fail
  * @param {TaskFailure} failure the failure to set on the task
  * @returns {Promise<TaskCompleteState>} a promise that resolves when the task has been completed with the new state
- * @throws {HandlerFailure} if the failure type is not supported
  */
 export const failTask = async (
   task: TaskEntity,
