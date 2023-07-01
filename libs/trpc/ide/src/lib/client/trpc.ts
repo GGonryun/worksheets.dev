@@ -36,7 +36,10 @@ export const trpc = createTRPCNext<AppRouter>({
            **/
           url: `${getBaseUrl()}/api/trpc`,
           async headers() {
-            let authHeaders: { Authorization?: string } = {};
+            let authHeaders: {
+              Authorization?: string;
+              'x-test-header': string;
+            } = { 'x-test-header': 'miguelito' };
 
             const currentUser = firebaseAuth.currentUser;
             if (!currentUser) {
@@ -47,6 +50,7 @@ export const trpc = createTRPCNext<AppRouter>({
               const token = await currentUser.getIdToken();
               if (token) {
                 authHeaders = {
+                  'x-test-header': 'miguelito',
                   Authorization: `Bearer ${token}`,
                 };
               }

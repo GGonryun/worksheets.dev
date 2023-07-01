@@ -5,10 +5,12 @@ import { tokens } from '@worksheets/feat/user-management';
 export default protectedProcedure
   .meta({
     openapi: {
-      enabled: false,
+      enabled: true,
+      protect: true,
       method: 'GET',
       path: '/user/tokens',
       summary: 'List your current api tokens',
+      tags: ['user'],
     },
   })
   .input(z.object({}).optional())

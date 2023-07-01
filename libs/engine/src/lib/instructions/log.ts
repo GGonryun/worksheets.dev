@@ -16,7 +16,8 @@ export class Log implements Instruction {
     const { logger, scripts } = ctx;
     // check if the log definition is of type string if so use the logger to send an info log message
     if (typeof this.definition.log === 'string') {
-      logger.info(await scripts.recursiveParse(this.definition.log));
+      const data = await scripts.recursiveParse(this.definition.log);
+      logger.info(JSON.stringify(data));
       return;
     }
     // check if the log definition is of type object if so use the logger to send a log message with the specified level

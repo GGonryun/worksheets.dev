@@ -12,7 +12,6 @@ import { hasher } from './util';
 const db = newApiTokenDatabase();
 
 const checkMaxTokens = async (userId: string, value: number) => {
-  console.log('max token check', userId, value);
   if (await limits.exceeds(userId, 'maxApiTokens', value)) {
     throw new TRPCError({
       code: 'PRECONDITION_FAILED',
@@ -36,13 +35,13 @@ const createToken = async (
 
   const id = db.id();
   const hash = hasher.hash(id);
+
   await db.insert({
     id: hash,
     createdAt: Date.now(),
     hash,
     ...req,
   });
-  console.info(`created token ${hash} for ${req.uid}`);
 
   return `${API_TOKEN_PREFIX}${hash}`;
 };
@@ -69,7 +68,6 @@ const deleteTokenHandler = async (req: { uid: string; id: string }) => {
 
 export const listTokens = async (req: { uid: string }) => {
   const tokens = await db.query({ f: 'uid', o: '==', v: req.uid });
-  console.info(`found ${tokens.length} tokens for ${req.uid}`);
   return tokens.map((token) => ({
     id: token.id,
     name: token.name,

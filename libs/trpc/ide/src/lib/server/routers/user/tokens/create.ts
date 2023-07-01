@@ -6,10 +6,12 @@ import { addDaysToCurrentTime } from '@worksheets/util/time';
 export default protectedProcedure
   .meta({
     openapi: {
-      enabled: false,
+      enabled: true,
+      protect: true,
       method: 'PUT',
       path: '/user/tokens',
       summary: 'Create a new API token',
+      tags: ['user'],
     },
   })
   .input(

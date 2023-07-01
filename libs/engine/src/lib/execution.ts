@@ -89,7 +89,7 @@ export class Execution {
     }
 
     // add to total processing time.
-    register.duration = Number(register.duration) + Date.now() - start;
+    register.duration += Date.now() - start;
     return register;
   }
 }

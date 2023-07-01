@@ -1,7 +1,7 @@
 import { z } from 'zod';
-import { publicProcedure } from '../../trpc';
+import { protectedProcedure } from '../../trpc';
 
-export default publicProcedure
+export default protectedProcedure
   .meta({
     openapi: {
       enabled: true,
@@ -10,6 +10,7 @@ export default publicProcedure
       path: '/user/identify',
       summary: 'Identify the user',
       description: 'Used to test your auth token.',
+      tags: ['user'],
     },
   })
   .input(

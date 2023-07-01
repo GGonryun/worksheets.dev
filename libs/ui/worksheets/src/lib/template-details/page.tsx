@@ -27,7 +27,9 @@ export const TemplateDetailsPage: React.FC<{ templateId: string }> = ({
   templateId,
 }) => {
   const { push } = useRouter();
-  const { data: template } = trpc.templates.get.useQuery(templateId);
+  const { data: template } = trpc.templates.get.useQuery(templateId, {
+    enabled: !!templateId,
+  });
   const clipboard = useClipboard();
   return (
     <FloatingLayout>

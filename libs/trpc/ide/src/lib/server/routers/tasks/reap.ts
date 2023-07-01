@@ -9,6 +9,7 @@ export default publicProcedure
       method: 'DELETE',
       path: '/executions/reaper',
       summary: 'Clean up task executions',
+      tags: ['executions'],
     },
   })
   .input(

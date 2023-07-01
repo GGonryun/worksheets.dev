@@ -17,7 +17,10 @@ const connectionsDb = newWorksheetsConnectionsDatabase();
 export const deleteWorksheet = async (userId: string, worksheetId: string) => {
   // check user access
   if (!(await doesUserOwnWorksheet(userId, worksheetId))) {
-    throw new TRPCError({ code: 'UNAUTHORIZED' });
+    throw new TRPCError({
+      code: 'UNAUTHORIZED',
+      message: 'You cannot delete this worksheet.',
+    });
   }
 
   await worksheetsdb.delete(worksheetId);

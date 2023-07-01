@@ -10,6 +10,7 @@ export default publicProcedure
       method: 'POST',
       path: '/executions/{taskId}/process',
       summary: 'Process a task execution',
+      tags: ['executions'],
     },
   })
   .input(

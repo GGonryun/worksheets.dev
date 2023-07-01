@@ -118,6 +118,8 @@ export const taskEntity = z.object({
   createdAt: z.number().default(Date.now()),
   // updated at timestamp
   updatedAt: z.number().default(Date.now()),
+  // the timeout set for this task
+  timeout: z.number(),
   // the number of processor jobs used to process this task
   retries: z.number().default(0),
   // the timestamp to wait until before processing this task
