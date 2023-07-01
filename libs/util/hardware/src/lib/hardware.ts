@@ -20,3 +20,11 @@ export function listFilesAndFoldersAtPath(dirPath: string): string[] {
   const filesAndFolders: string[] = fs.readdirSync(dirPath);
   return filesAndFolders;
 }
+
+/**
+ * creates a new yaml file given input text
+ */
+export function createYamlFile(filePath: string, text: string) {
+  // save text to filePath
+  return fs.writeFileSync(filePath, text);
+}

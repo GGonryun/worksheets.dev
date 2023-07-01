@@ -1,4 +1,4 @@
-import { Link } from '@mui/material';
+import { Box, Link, Typography } from '@mui/material';
 import {
   DataGrid,
   GridActionsCellItem,
@@ -10,6 +10,8 @@ import ModeEditIcon from '@mui/icons-material/ModeEditOutlineOutlined';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import { GridLinkAction } from '../shared/grid-action-link';
 import { trpc } from '@worksheets/trpc/ide';
+import { ApplicationDetails } from '../shared/types';
+import { TinyLogo } from '../shared/tiny-logo';
 
 const columns: (onClick: (worksheetId: string) => void) => GridColDef[] = (
   onClick
@@ -21,7 +23,23 @@ const columns: (onClick: (worksheetId: string) => void) => GridColDef[] = (
     minWidth: 150,
     maxWidth: 300,
     renderCell: (params) => (
-      <Link href={`/worksheets/${params.id}`}>{params.value}</Link>
+      <Typography variant="caption">
+        <Link href={`/worksheets/${params.id}`}>{params.value}</Link>
+      </Typography>
+    ),
+  },
+  {
+    field: 'apps',
+    headerName: 'Applications',
+    align: 'center',
+    headerAlign: 'center',
+    width: 100,
+    renderCell: (params) => (
+      <Box>
+        {params.value.map((app: ApplicationDetails) => (
+          <TinyLogo key={app.id} label={app.name} src={app.logo} />
+        ))}
+      </Box>
     ),
   },
   {
@@ -30,10 +48,28 @@ const columns: (onClick: (worksheetId: string) => void) => GridColDef[] = (
     flex: 1,
     minWidth: 150,
     maxWidth: 250,
+    renderCell: (params) => (
+      <Typography variant="caption">
+        <Link href={`/worksheets/${params.id}`}>{params.value}</Link>
+      </Typography>
+    ),
   },
-  { field: 'lastUpdated', headerName: 'Last Updated', minWidth: 150 },
-  { field: 'lastExecution', headerName: 'Last Execution', minWidth: 150 },
-
+  {
+    field: 'lastUpdated',
+    headerName: 'Last Updated',
+    minWidth: 150,
+    renderCell: (params) => (
+      <Typography variant="caption">{params.value}</Typography>
+    ),
+  },
+  {
+    field: 'lastExecution',
+    headerName: 'Last Execution',
+    minWidth: 150,
+    renderCell: (params) => (
+      <Typography variant="caption">{params.value}</Typography>
+    ),
+  },
   {
     field: 'actions',
     headerName: 'Actions',
@@ -92,6 +128,9 @@ export function WorksheetsDataTable() {
       sx={{ border: 0 }}
       rows={worksheets ?? []}
       autoHeight
+      rowHeight={42}
+      showCellVerticalBorder
+      showColumnVerticalBorder
       columns={columns(handleDeleteWorksheet)}
       density="compact"
       initialState={{

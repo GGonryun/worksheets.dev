@@ -17,6 +17,15 @@ const formFields = z.array(formFieldSchema);
 type FormFields = z.infer<typeof formFields>;
 
 export default publicProcedure
+  .meta({
+    openapi: {
+      method: 'GET',
+      path: '/applications/{appId}',
+      tags: ['applications'],
+      summary: 'Get application information',
+      description: 'Get application information',
+    },
+  })
   .input(z.object({ appId: z.string() }))
   .output(
     z.object({

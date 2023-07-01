@@ -28,6 +28,9 @@
       "@worksheets/apps/math": ["libs/apps/math/src/index.ts"],
       "@worksheets/apps/open-ai": ["libs/apps/open-ai/src/index.ts"],
       "@worksheets/apps/sys": ["libs/apps/sys/src/index.ts"],
+      "@worksheets/data-access/api-tokens": [
+        "libs/data-access/api-tokens/src/index.ts"
+      ],
       "@worksheets/data-access/applications": [
         "libs/data-access/applications/src/index.ts"
       ],
@@ -38,6 +41,9 @@
         "libs/data-access/settings/src/index.ts"
       ],
       "@worksheets/data-access/tasks": ["libs/data-access/tasks/src/index.ts"],
+      "@worksheets/data-access/user-agent": [
+        "libs/data-access/user-agent/src/index.ts"
+      ],
       "@worksheets/data-access/worksheets": [
         "libs/data-access/worksheets/src/index.ts"
       ],
@@ -45,6 +51,9 @@
         "libs/data-access/worksheets-connections/src/index.ts"
       ],
       "@worksheets/engine": ["libs/engine/src/index.ts"],
+      "@worksheets/feat/applications-registry": [
+        "libs/feat/applications-registry/src/index.ts"
+      ],
       "@worksheets/feat/execution-settings": [
         "libs/feat/execution-settings/src/index.ts"
       ],
@@ -56,6 +65,9 @@
       ],
       "@worksheets/feat/templates-gallery": [
         "libs/feat/templates-gallery/src/index.ts"
+      ],
+      "@worksheets/feat/user-management": [
+        "libs/feat/user-management/src/index.ts"
       ],
       "@worksheets/feat/worksheets-connections": [
         "libs/feat/worksheets-connections/src/index.ts"

@@ -22,6 +22,7 @@ import SettingsIcon from '@mui/icons-material/SettingsOutlined';
 import ScannerIcon from '@mui/icons-material/ScannerOutlined';
 import SupportAgentIcon from '@mui/icons-material/SupportAgentOutlined';
 import AssignmenIcon from '@mui/icons-material/AssignmentOutlined';
+import AppsIcon from '@mui/icons-material/Apps';
 import { Link } from '@mui/material';
 import AccountMenu from './account-menu';
 import { useUser } from '@worksheets/util/auth/client';
@@ -126,6 +127,7 @@ export default function WebsiteLayout({ children }: LayoutProps) {
   ];
   const bottomSections = [
     { text: 'Templates', link: '/templates', icon: <ScannerIcon /> },
+    { text: 'Applications', link: '/applications', icon: <AppsIcon /> },
     { text: 'Documentation', link: '/docs', icon: <AssignmenIcon /> },
     { text: 'Support', link: '/support', icon: <SupportAgentIcon /> },
   ];

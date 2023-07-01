@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { LogLevel } from '@worksheets/data-access/tasks';
 import { FormLayout } from '../form-layout';
 import { WorksheetNameField } from './fields/worksheet-name';
@@ -21,18 +21,27 @@ export type ConfigFormProps = {
   onCancel: () => void;
 };
 
+const DEFAULT_CONFIG_FORM_VALUES = {
+  name: '',
+  description: '',
+  logLevel: 'trace' as const,
+  timeout: undefined,
+};
+
 export const ConfigureForm: React.FC<ConfigFormProps> = ({
   state,
   onSubmit,
   onCancel,
 }) => {
-  const [form, setForm] = useState<ConfigFormValues>({
-    name: '',
-    description: '',
-    logLevel: 'trace',
-    timeout: undefined,
-    ...state,
-  });
+  const [form, setForm] = useState<ConfigFormValues>(
+    DEFAULT_CONFIG_FORM_VALUES
+  );
+
+  useEffect(() => {
+    setForm({ ...DEFAULT_CONFIG_FORM_VALUES, ...state });
+  }, [state]);
+
+  console.log('new form', form);
 
   const hasRequiredFields = form.name.length > 0 && Boolean(form.logLevel);
 

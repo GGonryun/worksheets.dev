@@ -12,5 +12,6 @@ export default protectedProcedure
         message: `Template with id ${input} not found`,
       });
     }
+
     return template;
   });
