@@ -12,9 +12,9 @@ export class Delay implements Instruction {
   }
 
   async process(ctx: Context): Promise<void> {
-    const now = Date.now();
+    const start = Date.now();
     // check how much time is left
-    const duration = this.definition - now;
+    const duration = this.definition - start;
 
     // check if duration is longer than 1 minute.
     if (duration > 60 * 1000) {
@@ -30,11 +30,14 @@ export class Delay implements Instruction {
 
       // push the delay instruction back onto the stack
       ctx.instructions.push(this);
+
+      // do not factor waits into the duration
+      ctx.register.duration -= Date.now() - start;
       return;
     }
 
     // check if the delay is still active
-    if (now < this.definition) {
+    if (start < this.definition) {
       // calculate the wait time offset
       const offset = this.definition - Date.now();
       // wait for 1 seconds or the offset whichever is smaller
@@ -44,6 +47,9 @@ export class Delay implements Instruction {
       await waitFor(wait);
       // push the delay instruction back onto the stack
       ctx.instructions.push(this);
+
+      // do not factor waits into the duration
+      ctx.register.duration -= Date.now() - start;
       return;
     }
   }

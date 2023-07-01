@@ -10,7 +10,10 @@ export const getUserWorksheet = async (userId: string, worksheetId: string) => {
   }
   const worksheet = await db.get(worksheetId);
   if (worksheet.uid !== userId) {
-    throw new TRPCError({ code: 'UNAUTHORIZED' });
+    throw new TRPCError({
+      code: 'UNAUTHORIZED',
+      message: "You don't have access to this worksheet.",
+    });
   }
 
   return worksheet;

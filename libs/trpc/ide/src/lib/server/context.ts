@@ -1,6 +1,7 @@
 import { inferAsyncReturnType } from '@trpc/server';
 import * as trpcNext from '@trpc/server/adapters/next';
 import { user } from '@worksheets/feat/user-management';
+import { v4 as uuidv4 } from 'uuid';
 
 export async function createContext({
   req,
@@ -11,6 +12,8 @@ export async function createContext({
   }
 
   return {
+    req,
+    atom: uuidv4().split('-')[0],
     user: await getUserFromHeader(),
   };
 }

@@ -34,9 +34,9 @@ export const userLimitsEntity = z.object({
 
 export const userQuotasEntity = z.object({
   ...entitySchema.shape,
-  maxApiTokenUses: z.number(),
-  maxExecutions: z.number(),
-  maxProcessing: z.number().describe('in milliseconds'),
+  tokenUses: z.number(),
+  executions: z.number(),
+  processingTime: z.number().describe('in milliseconds'),
 });
 
 export type UserLimitsEntity = z.infer<typeof userLimitsEntity>;

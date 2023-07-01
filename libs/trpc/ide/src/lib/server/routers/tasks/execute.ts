@@ -11,6 +11,7 @@ export default publicProcedure
       method: 'POST',
       path: '/executions',
       summary: 'Create a task execution',
+      tags: ['executions'],
     },
   })
   .input(

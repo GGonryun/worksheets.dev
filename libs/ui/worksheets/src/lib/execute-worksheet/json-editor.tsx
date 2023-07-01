@@ -80,25 +80,27 @@ export const JSONEditor: React.FC<{
       )}
       {title && <Divider />}
 
-      <CodeEditor
-        hideActiveLineHighlighter={hideActiveLine}
-        onCopy={onCopy}
-        caption={caption}
-        height={calculateHeight()}
-        width="100%"
-        value={value ?? ''}
-        disabled={!onChange}
-        onChange={(value) => onChange && onChange(value)}
-        mode={'json'}
-        theme={'light'}
-      />
+      <Box height={calculateHeight()}>
+        <CodeEditor
+          hideActiveLineHighlighter={hideActiveLine}
+          onCopy={onCopy}
+          caption={caption}
+          height={'100%'}
+          width="100%"
+          value={value ?? ''}
+          disabled={!onChange}
+          onChange={(value) => onChange && onChange(value)}
+          mode={'json'}
+          theme={'light'}
+        />
+      </Box>
       {error && (
         <Box display="flex" alignItems="center" height={'30px'} gap={0.5}>
           <Box height="100%">
             <ReportIcon color="error" fontSize="small" />
           </Box>
           <Box height="100%">
-            <Typography variant="caption" color="red">
+            <Typography variant="caption" color="error">
               {error}
             </Typography>
           </Box>

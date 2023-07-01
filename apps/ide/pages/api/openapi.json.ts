@@ -8,7 +8,7 @@ export const openApiDocument = generateOpenApiDocument(appRouter, {
   version: '1.0.0',
   baseUrl: 'http://localhost:4200/api',
   docsUrl: 'https://worksheets.dev/docs',
-  tags: ['worksheets', 'executions', 'connections'],
+  tags: ['worksheets', 'executions', 'connections', 'user'],
   securitySchemes: {
     bearerAuth: {
       type: 'http',

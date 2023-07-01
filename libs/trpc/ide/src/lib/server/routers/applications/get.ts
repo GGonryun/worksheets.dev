@@ -1,7 +1,6 @@
 import { newApplicationsDatabase } from '@worksheets/data-access/applications';
 import { publicProcedure } from '../../trpc';
 import { z } from 'zod';
-import { TRPCError } from '@trpc/server';
 import { settingTypeSchema } from '@worksheets/apps/framework';
 
 const db = newApplicationsDatabase();
@@ -39,23 +38,19 @@ export default publicProcedure
   .query(async ({ input: { appId } }) => {
     const app = db.getApp(appId);
 
-    if (!app.settings) {
-      throw new TRPCError({
-        code: 'PRECONDITION_FAILED',
-        message: 'Application does not have settings to modify',
-      });
-    }
-
     const fields: FormFields = [];
-    for (const key in app.settings) {
-      const setting = app.settings[key];
 
-      fields.push({
-        id: key,
-        name: setting.label ?? key,
-        type: setting.type,
-        required: setting.required,
-      });
+    if (app.settings) {
+      for (const key in app.settings) {
+        const setting = app.settings[key];
+
+        fields.push({
+          id: key,
+          name: setting.label ?? key,
+          type: setting.type,
+          required: setting.required,
+        });
+      }
     }
 
     return {

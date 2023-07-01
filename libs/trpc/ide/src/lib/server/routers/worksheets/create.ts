@@ -4,6 +4,22 @@ import * as WorksheetsManagement from '@worksheets/feat/worksheets-management';
 import { logLevelEntity } from '@worksheets/data-access/tasks';
 import { addWorksheetConnections } from '@worksheets/feat/worksheets-connections';
 
+const sampleYaml = `
+name: iterating loops
+assign:
+  - loop: [1, 2, 3, 4, apple]
+  - data:
+
+steps:
+  - for: loop
+    index: i
+    value: v
+    steps:
+      - assign:
+        - data: \${v}
+
+return: \${data}
+`.trim();
 export default protectedProcedure
   .meta({
     /* 👉 */ openapi: {
@@ -16,10 +32,12 @@ export default protectedProcedure
       description: 'Create a new worksheet',
       example: {
         request: {
-          body: {
-            name: 'My worksheet',
-            text: 'echo "hello world"',
-          },
+          name: 'My worksheet',
+          text: sampleYaml,
+          timeout: 10, // in seconds
+          description: "My worksheet's description",
+          logLevelEntity: 'warn',
+          connections: [],
         },
       },
     },
@@ -28,10 +46,17 @@ export default protectedProcedure
     z.object({
       name: z.string(),
       text: z.string(),
-      timeout: z.number().optional(),
+      timeout: z.number().optional().describe('Timeout in seconds'),
       description: z.string().default(''),
-      logLevel: logLevelEntity.default('warn'),
-      connections: z.array(z.string()).optional(),
+      logLevel: logLevelEntity
+        .default('warn')
+        .describe('The worksheets default log level when running a task'),
+      connections: z
+        .array(z.string())
+        .optional()
+        .describe(
+          "Worksheet's connections. These should be the ids of connections you've already made."
+        ),
     })
   )
   .output(z.string())

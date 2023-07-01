@@ -15,6 +15,7 @@ import { TaskExecutionStatusChip } from '../shared/task-execution-status-chip';
 import {
   formatTimestampLong,
   prettyPrintMilliseconds,
+  printCountdownDuration,
 } from '@worksheets/util/time';
 import { PlayArrowOutlined } from '@mui/icons-material';
 import { LogLevelVerbosityChip } from '../shared/log-level-verbosity-chip';
@@ -176,6 +177,14 @@ const TaskExecutionSummary: React.FC<{
         label={'Processing time'}
         content={prettyPrintMilliseconds(execution?.duration ?? 0)}
       />
+      {execution?.createdAt && (
+        <ConfigurationOption
+          label={'Run time'}
+          content={prettyPrintMilliseconds(
+            (execution.updatedAt ?? Date.now()) - execution.createdAt
+          )}
+        />
+      )}
       <ConfigurationOption
         label={'Worksheet ID'}
         content={
@@ -192,7 +201,17 @@ const TaskExecutionSummary: React.FC<{
       <ConfigurationOption label={'Worksheet Name'} content={worksheet?.name} />
       <ConfigurationOption
         label={'Log Level'}
-        content={<LogLevelVerbosityChip verbosity={worksheet?.logLevel} />}
+        content={
+          <LogLevelVerbosityChip
+            verbosity={execution?.verbosity ?? worksheet?.logLevel}
+          />
+        }
+      />
+      <ConfigurationOption
+        label={'Timeout'}
+        content={printCountdownDuration({
+          seconds: execution?.timeout ?? worksheet?.timeout,
+        })}
       />
     </Box>
   </Box>

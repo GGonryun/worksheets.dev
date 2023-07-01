@@ -43,7 +43,6 @@ export const SettingsCardAccessTokens: React.FC = () => {
         name: form.name,
         expiresInDays: form.expiration,
       });
-      alert(`Created new token ${result}`);
       utils.user.tokens.list.invalidate();
       setForm({
         name: '',

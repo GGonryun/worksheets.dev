@@ -10,6 +10,7 @@ import { newEmptyLibrary } from '@worksheets/feat/execution-settings';
 import { getWorksheet } from '@worksheets/feat/worksheets-management';
 import { Maybe } from '@worksheets/util/types';
 import {
+  DEFAULT_TIMEOUT,
   TaskCreationOverrides,
   newDefaultDeadlines,
   newDefaultVerbosity,
@@ -61,6 +62,7 @@ export const createTask = async (
     state: 'pending',
     input,
     deadlines: newDefaultDeadlines(worksheet, options),
+    timeout: options.timeout ?? worksheet.timeout ?? DEFAULT_TIMEOUT,
     verbosity: newDefaultVerbosity(worksheet, options),
     createdAt: Date.now(),
     updatedAt: Date.now(),
