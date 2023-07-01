@@ -183,20 +183,31 @@ export const newPrivateHandler = <I extends zAny, O extends zAny>({
   });
 };
 
-export type HandlerFailures =
-  | 'unknown'
-  | 'unexpected'
-  | 'unauthorized'
-  | 'unimplemented'
-  | 'operation-failure'
-  | 'resource-exhausted'
-  | 'not-found'
-  | 'bad-request'
-  | 'invalid-argument'
-  | 'unsupported-operation'
-  | 'internal-server-error'
-  | 'conflict'
-  | 'redirect';
+export const handlerFailuresSchema = z.union([
+  z.literal('unknown'),
+  z.literal('unexpected'),
+  z.literal('unauthorized'),
+  z.literal('unimplemented'),
+  z.literal('operation-failure'),
+  z.literal('resource-exhausted'),
+  z.literal('not-found'),
+  z.literal('bad-request'),
+  z.literal('invalid-argument'),
+  z.literal('unsupported-operation'),
+  z.literal('internal-server-error'),
+  z.literal('conflict'),
+  z.literal('redirect'),
+]);
+
+export type HandlerFailures = z.infer<typeof handlerFailuresSchema>;
+
+export const failureObjectSchema = z.object({
+  code: handlerFailuresSchema,
+  message: z.string(),
+  data: z.unknown(),
+});
+
+export type FailureObject = z.infer<typeof failureObjectSchema>;
 
 export const handlerFailureStatusCodeMap: Record<HandlerFailures, number> = {
   unknown: StatusCodes.IM_A_TEAPOT,
@@ -245,6 +256,7 @@ export function processError(error: unknown) {
 
     console.error(`${req.method} ${req.url} encountered failure`, error);
 
-    return res.status(status).json({ code, message, data });
+    const failure: FailureObject = { code, message, data };
+    return res.status(status).json(failure);
   };
 }

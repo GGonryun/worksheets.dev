@@ -81,7 +81,13 @@ export const TemplateDetailsPage: React.FC<{ templateId: string }> = ({
               justifyContent="space-between"
             >
               <Typography variant="h6">Worksheet</Typography>
-              <Button variant="contained" startIcon={<SendIcon />}>
+              <Button
+                variant="contained"
+                startIcon={<SendIcon />}
+                onClick={() =>
+                  push(`/worksheets/create?templateId=${templateId}`)
+                }
+              >
                 Create
               </Button>
             </Box>

@@ -8,7 +8,9 @@ import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import { trpc } from '@worksheets/trpc/ide';
 import { useUser } from '@worksheets/util/auth/client';
 
-export const WorksheetDetailsPage: React.FC<{ tab: number }> = ({ tab }) => {
+export const WorksheetDetailsPage: React.FC<{
+  tab: number;
+}> = ({ tab }) => {
   const { query, push } = useRouter();
   const { user } = useUser();
   const worksheetId = query.id as string;

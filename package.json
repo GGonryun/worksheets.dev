@@ -54,6 +54,7 @@
     "react-json-pretty": "^2.2.0",
     "react-resizable-panels": "^0.0.51",
     "swr": "^2.1.5",
+    "trpc-openapi": "^1.2.0",
     "tslib": "^2.3.0",
     "zod": "^3.21.4",
     "zod-to-json-schema": "^3.21.1"
