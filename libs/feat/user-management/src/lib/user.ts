@@ -3,13 +3,28 @@ import { flags } from './flags';
 import { newApiTokenDatabase } from '@worksheets/data-access/api-tokens';
 import { API_TOKEN_PREFIX } from './constants';
 import { TRPCError } from '@trpc/server';
-import { isApiToken, splitTokenFromHeader } from './util';
+import { hasher, isApiToken, splitTokenFromHeader } from './util';
+import { isExpired } from '@worksheets/util/time';
 
 const db = newApiTokenDatabase();
 
 async function getUserIdFromApiToken(apiToken: string): Promise<string> {
   const token = apiToken.split(API_TOKEN_PREFIX)[1];
-  const table = await db.get(token);
+  const id = hasher.unhash(token);
+  const table = await db.get(id);
+  if (table.hash != token)
+    throw new TRPCError({
+      code: 'UNAUTHORIZED',
+      message: 'hash does not match original token',
+    });
+
+  if (isExpired(table.expires)) {
+    throw new TRPCError({
+      code: 'UNAUTHORIZED',
+      message: 'token has expired',
+    });
+  }
+
   return table.uid;
 }
 
@@ -64,7 +79,6 @@ const getUser = async (uid: string) => {
 const getUserFromAuthrorization = async (authorization?: string) => {
   if (authorization) {
     const token = splitTokenFromHeader(authorization);
-
     const userId = await getUserIdFromToken(token);
 
     return await getUser(userId);

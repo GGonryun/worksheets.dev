@@ -12,7 +12,6 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useRouter } from 'next/router';
 import { trpc } from '@worksheets/trpc/ide';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import { useUser } from '@worksheets/util/auth/client';
 import SendIcon from '@mui/icons-material/Send';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { WorksheetEntity } from '@worksheets/data-access/worksheets';
@@ -81,7 +80,7 @@ export const ExecuteWorksheetPage: React.FC = () => {
 
   const handleExecution = async () => {
     if (error) {
-      console.log('we have an error!');
+      alert('we have an error!');
       return;
     }
 

@@ -1,10 +1,18 @@
 import { z } from 'zod';
-import { protectedProcedure } from '../../trpc';
 import { logLevelEntity } from '@worksheets/data-access/tasks';
 import { createTask } from '@worksheets/feat/task-processing';
 import { v4 as uuidv4 } from 'uuid';
+import { publicProcedure } from '../../trpc';
 
-export default protectedProcedure
+export default publicProcedure
+  .meta({
+    openapi: {
+      enabled: true,
+      method: 'POST',
+      path: '/executions',
+      summary: 'Create a task execution',
+    },
+  })
   .input(
     z.object({
       worksheetId: z.string(),

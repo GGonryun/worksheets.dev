@@ -133,11 +133,3 @@ export const ConnectionsSelector: React.FC<ConnectionsSelectorProps> = () => {
     </Box>
   );
 };
-
-// when a user first goes to the connections tab =>
-//   - load all of their connections sorted by checked.
-//   - make the checkboxes readonly.
-//   - add a tooltip to all checkboxes them that says: "press 'update' to configure your worksheets connections".
-//   - when a user clicks edit, the user can change the selections.
-//   - the user can cancel to backout.
-//   - the user can save to update the worksheet connections.

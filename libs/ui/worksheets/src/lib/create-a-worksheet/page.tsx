@@ -56,7 +56,6 @@ function worksheetBuilderReducer(
   state: WorksheetBuilderState,
   action: WorksheetBuilderActions
 ): WorksheetBuilderState {
-  console.log('dispatching', action.type);
   switch (action.type) {
     case 'update-config':
       return { ...state, ...action };
@@ -115,7 +114,6 @@ export function CreateAWorksheetPage() {
   const handleSaveWorksheet = async (connections: string[]) => {
     try {
       const payload = { ...state, connections };
-      console.log('mutating async with payload', payload);
       const data = await createWorksheet.mutateAsync(payload);
       push(`/worksheets/${data}`);
     } catch (error) {

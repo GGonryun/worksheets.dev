@@ -4,7 +4,7 @@ import { SettingsCardTextField } from './cards/text-field';
 import { v4 as uuidv4 } from 'uuid';
 import { SettingsCardPlans } from './cards/plans';
 import { SettingsCardPayments } from './cards/payments';
-import { SettingsCardAccessTokens } from './cards/access-tokens';
+import { SettingsCardAccessTokens } from './cards/access-tokens/access-tokens';
 import { SettingsCardGeneric } from './cards/generic';
 import { TabPanel, a11yProps } from '../shared/tab-panel';
 

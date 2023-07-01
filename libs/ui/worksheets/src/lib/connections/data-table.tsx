@@ -20,7 +20,6 @@ import { FC } from 'react';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
 import HelpIcon from '@mui/icons-material/Help';
-import Image from 'next/image';
 import PendingIcon from '@mui/icons-material/Pending';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import { trpc } from '@worksheets/trpc/ide';
@@ -219,7 +218,6 @@ export const ConnectionsDataTable: FC<DataTableProps> = ({
             const mapped = v
               .map((id) => connections?.find((c) => c.id === id))
               .filter((c) => c) as TableRow[];
-            console.log('new mapped', mapped);
             onSelectionChange(mapped);
           }
         }}

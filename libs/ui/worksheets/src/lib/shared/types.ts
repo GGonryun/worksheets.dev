@@ -46,3 +46,6 @@ export type ListTemplatesResponse =
 
 export type ListMethodsResponse =
   inferRouterOutputs<AppRouter>['applications']['methods']['list'];
+
+export type ListTokensResponse =
+  inferRouterOutputs<AppRouter>['user']['tokens']['list'];

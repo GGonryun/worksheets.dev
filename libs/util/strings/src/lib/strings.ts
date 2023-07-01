@@ -19,3 +19,7 @@ export function escapeNewLines(string: string) {
 export function capitalizeFirstLetter(string: string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
+
+export function reverseString(string: string) {
+  return string.split('').reverse().join('');
+}

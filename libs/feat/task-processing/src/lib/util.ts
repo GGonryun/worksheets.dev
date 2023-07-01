@@ -21,8 +21,8 @@ import {
 import { Maybe } from '@worksheets/util/types';
 import { cleanseObject } from '@worksheets/util/objects';
 import { TaskDeadlines } from '@worksheets/data-access/tasks';
-import { HandlerFailure } from '@worksheets/util/next';
 import { WorksheetEntity } from '@worksheets/data-access/worksheets';
+import { TRPCError } from '@trpc/server';
 
 export type TaskCreationOverrides = {
   verbosity?: LogLevel;
@@ -243,7 +243,6 @@ export class TaskLogger implements Logger {
  * @description checks to see if a task has breached the execution deadline. if the task has exceeded it's deadline it will return true, otherwise it will return false.
  * @param {TaskEntity} task the task to check
  * @returns {boolean} true if the task has exceeded it's SLA's, otherwise false
- * @throws {HandlerFailure} if the task does not have a deadline set
  *
  * @example
  * const task = { id: '1234', state: 'queued', deadline: Date.now() - 1000 };
@@ -327,7 +326,6 @@ export const newTaskController = (
  * @description converts an execution failure to a task complete state
  * @param {ExecutionFailure} failure the failure to convert
  * @returns {TaskCompleteState} the converted failure
- * @throws {HandlerFailure} if the failure type is not supported
  * @example
  * const failure = { type: 'timeout' };
  * const state = convertFailureToTaskState(failure);
@@ -363,10 +361,9 @@ export const convertFailureToTaskState = (
       return 'failed';
     // retry's should be processed and not converted into termination states.
     case 'retry':
-      throw new HandlerFailure({
-        code: 'invalid-argument',
+      throw new TRPCError({
+        code: 'BAD_REQUEST',
         message: `Cannot convert failure ${failure.code} into a task completion state`,
-        data: { code: failure.code },
       });
   }
 };

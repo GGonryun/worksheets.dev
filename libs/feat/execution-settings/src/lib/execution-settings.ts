@@ -5,7 +5,6 @@ import {
   ConnectionEntity,
   newConnectionDatabase,
 } from '@worksheets/data-access/settings';
-import { HandlerFailure } from '@worksheets/util/next';
 import { OAuthClient } from '@worksheets/util/oauth/client';
 import { closeRedirect, errorRedirect } from './util';
 import { isExpired } from '@worksheets/util/time';
@@ -39,14 +38,14 @@ export const newEmptyLibrary = () => {
 
 // const getLatestTokens = async (setting: SettingEntity): Promise<OAuthToken> => {
 //   if (setting.type !== 'oauth') {
-//     throw new HandlerFailure({
+//     throw new TRPCError({
 //       code: 'unsupported-operation',
 //       message: `invalid setting type, expected 'oauth' received '${setting.type}' `,
 //     });
 //   }
 
 //   if (!setting.data) {
-//     throw new HandlerFailure({
+//     throw new TRPCError({
 //       code: 'unsupported-operation',
 //       message: `setting must have a token set`,
 //     });
@@ -155,7 +154,6 @@ export const deleteConnectionField = async ({
   }
 
   // find the setting on the connection.
-  console.log('deleting setting', settingId);
   connection.settings[settingId] = '';
 
   await applyConnectionUpdates(connectionId, {
@@ -353,8 +351,8 @@ const getHandshake = async (id: string) => {
     return await handshakesDb.get(id);
   }
 
-  throw new HandlerFailure({
-    code: 'not-found',
+  throw new TRPCError({
+    code: 'NOT_FOUND',
   });
 };
 
