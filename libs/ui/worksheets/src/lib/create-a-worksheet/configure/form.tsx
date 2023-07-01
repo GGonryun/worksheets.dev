@@ -41,8 +41,6 @@ export const ConfigureForm: React.FC<ConfigFormProps> = ({
     setForm({ ...DEFAULT_CONFIG_FORM_VALUES, ...state });
   }, [state]);
 
-  console.log('new form', form);
-
   const hasRequiredFields = form.name.length > 0 && Boolean(form.logLevel);
 
   const isWorksheetNameValid = checkValidWorksheetName(form.name);

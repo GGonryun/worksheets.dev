@@ -1,9 +1,3 @@
-/**
- * @module Wait
- * @description used to wait for a specified amount of time before continuing execution, calculated in milliseconds.
- * @throws {HandlerFailure} if the wait duration exceeds 5 minutes.
- */
-
 import { MethodCallFailure } from '@worksheets/apps/framework';
 import { ExecutionFailure } from '../failures';
 import { Context, Instruction } from '../framework';

@@ -97,7 +97,6 @@ export const GeneralConfiguration: React.FC = () => {
   };
 
   const handleUpdateTimeout = async (timeout: number) => {
-    console.log('handling update timeout', timeout);
     await handleUpdateWorksheet({ timeout });
   };
 

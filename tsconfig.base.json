@@ -102,7 +102,6 @@
       "@worksheets/util/functional": ["libs/util/functional/src/index.ts"],
       "@worksheets/util/hardware": ["libs/util/hardware/src/index.ts"],
       "@worksheets/util/http": ["libs/util/http/src/index.ts"],
-      "@worksheets/util/next": ["libs/util/next/src/index.ts"],
       "@worksheets/util/numbers": ["libs/util/numbers/src/index.ts"],
       "@worksheets/util/oauth/client": ["libs/util/oauth/client/src/index.ts"],
       "@worksheets/util/objects": ["libs/util/objects/src/index.ts"],

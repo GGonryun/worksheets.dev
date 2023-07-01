@@ -12,7 +12,8 @@ const exceedsLimit = async (
   value: number
 ) => {
   const limit = await getLimits(uid);
-  return limit[key] < value;
+  console.log('limit', limit, key, value);
+  return Number(limit[key]) < value;
 };
 
 const meetsLimit = async (

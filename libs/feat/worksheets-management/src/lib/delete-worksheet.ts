@@ -5,8 +5,8 @@ import {
 } from '@worksheets/data-access/tasks';
 import { newWorksheetsDatabase } from '@worksheets/data-access/worksheets';
 import { newWorksheetsConnectionsDatabase } from '@worksheets/data-access/worksheets-connections';
-import { HandlerFailure } from '@worksheets/util/next';
 import { doesUserOwnWorksheet } from './does-user-own-worksheet';
+import { TRPCError } from '@trpc/server';
 
 const loggingDb = newTaskLoggingDatabase();
 const snapshotsDb = newTaskSnapshotsDatabase();
@@ -17,7 +17,7 @@ const connectionsDb = newWorksheetsConnectionsDatabase();
 export const deleteWorksheet = async (userId: string, worksheetId: string) => {
   // check user access
   if (!(await doesUserOwnWorksheet(userId, worksheetId))) {
-    throw new HandlerFailure({ code: 'unauthorized' });
+    throw new TRPCError({ code: 'UNAUTHORIZED' });
   }
 
   await worksheetsdb.delete(worksheetId);

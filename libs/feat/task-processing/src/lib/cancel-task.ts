@@ -3,8 +3,8 @@ import {
   newTaskSnapshotsDatabase,
   newTasksDatabase,
 } from '@worksheets/data-access/tasks';
-import { HandlerFailure } from '@worksheets/util/next';
 import { TaskLogger } from './util';
+import { TRPCError } from '@trpc/server';
 
 const taskDb = newTasksDatabase();
 const loggingDb = newTaskLoggingDatabase();
@@ -15,15 +15,14 @@ const snapshotsDb = newTaskSnapshotsDatabase();
  * @description sets task status to cancelled this does not immediately cancel the execution but it will prevent it from being requeued
  * @param {string} taskId the id of the task to cancel
  * @returns {Promise<TaskProcessableState>} a promise that resolves when the task has been cancelled
- * @throws {HandlerFailure} if the task could not be cancelled
+ * @throws {TRPCError} if the task could not be cancelled
  */
 export const cancelTask = async (taskId: string): Promise<void> => {
   // check to make sure the task exists
   if (!(await taskDb.has(taskId))) {
-    throw new HandlerFailure({
-      code: 'not-found',
+    throw new TRPCError({
+      code: 'NOT_FOUND',
       message: 'Task does not exist',
-      data: { taskId },
     });
   }
   // get the task from the database

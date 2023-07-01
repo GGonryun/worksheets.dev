@@ -1,5 +1,4 @@
 import { z } from 'zod';
-import { w } from './framework';
 import { newMethod } from './methods';
 import { newOAuthSetting, newFlagSetting } from './settings';
 describe('newMethod', () => {
@@ -52,7 +51,7 @@ describe('newMethod', () => {
     });
 
     it('typesafe outputs', () => {
-      const method = w.newMethod({
+      const method = newMethod({
         id: '',
         label: '',
         description: '',

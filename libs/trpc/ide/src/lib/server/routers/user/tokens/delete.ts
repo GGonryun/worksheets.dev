@@ -9,17 +9,19 @@ export default protectedProcedure
       method: 'DELETE',
       path: '/user/tokens',
       summary: 'Delete an api token',
-      protected: true,
+      protect: true,
     },
   })
-  .input(z.object({ id: z.string().nonempty() }))
+  .input(z.object({ tokenId: z.string().nonempty() }))
+  .output(z.string())
   .mutation(
     async ({
-      input: { id },
+      input: { tokenId },
       ctx: {
         user: { uid },
       },
     }) => {
-      return await tokens.delete({ id, uid });
+      await tokens.delete({ id: tokenId, uid });
+      return 'ok';
     }
   );
