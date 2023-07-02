@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { SourceVisualizer } from '../../shared/source-visualizer';
-import { Box, Button } from '@mui/material';
+import { Box, Button, Tooltip } from '@mui/material';
 import { getYamlCodeValidationErrors } from '@worksheets/ui/code-editor';
 import { trpc } from '@worksheets/trpc/ide';
 
@@ -10,23 +10,30 @@ const editorEditingCaption =
 export const SourceEditor = () => {
   const { query } = useRouter();
   const worksheetId = query.id as string;
+  const editingQueryValue = query.edit as string;
+  console.log('editing', editingQueryValue, !!editingQueryValue);
 
   const utils = trpc.useContext();
   const { data: worksheet, isLoading } = trpc.worksheets.get.useQuery(
-    { id: worksheetId },
+    { worksheetId },
     { enabled: !!worksheetId }
   );
 
   const updateWorksheet = trpc.worksheets.update.useMutation();
 
   const [yaml, setYaml] = useState<string>(worksheet?.text ?? '');
-  const [editing, setEditing] = useState(false);
+  const [editing, setEditing] = useState<boolean>(false);
+  const errors = getYamlCodeValidationErrors(yaml);
 
   useEffect(() => {
-    if (!isLoading && !editing) {
+    setEditing(!!editingQueryValue);
+  }, [editingQueryValue]);
+
+  useEffect(() => {
+    if (!isLoading) {
       worksheet?.text && setYaml(worksheet?.text);
     }
-  }, [isLoading, worksheet, setYaml, editing]);
+  }, [isLoading, worksheet, setYaml]);
 
   const handleEditSource = () => {
     setEditing(true);
@@ -38,13 +45,12 @@ export const SourceEditor = () => {
   };
 
   const handleSaveChanges = async () => {
-    const errors = getYamlCodeValidationErrors(yaml);
     if (errors) {
       return alert('Your code has errors. Fix them before saving.');
     }
 
     await updateWorksheet.mutateAsync({
-      id: worksheetId,
+      worksheetId,
       text: yaml,
     });
     utils.worksheets.get.invalidate();
@@ -62,13 +68,21 @@ export const SourceEditor = () => {
             </Button>
           ) : (
             <Box display="flex" gap={3}>
-              <Button
-                variant="contained"
-                size="small"
-                onClick={handleSaveChanges}
+              <Tooltip
+                title={`Line ${errors?.mark.line} contains invalid YAML: ${errors?.reason}`}
+                disableHoverListener={!errors}
               >
-                Save
-              </Button>
+                <span>
+                  <Button
+                    variant="contained"
+                    size="small"
+                    disabled={updateWorksheet.isLoading || !!errors}
+                    onClick={handleSaveChanges}
+                  >
+                    Save
+                  </Button>
+                </span>
+              </Tooltip>
               <Button size="small" onClick={handleCancelEditing}>
                 Cancel
               </Button>

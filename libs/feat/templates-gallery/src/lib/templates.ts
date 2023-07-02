@@ -2,20 +2,25 @@ import {
   searchForFunctions,
   splitFunctionDeclaration,
 } from '@worksheets/util/worksheets';
-import { TemplateDefinition } from '@worksheets/apps/framework';
+import {
+  TemplateDefinition,
+  templateDefinitionSchema,
+} from '@worksheets/apps/framework';
 import { sendEmail } from './google-gmail/sendEmail';
 import {
   newApplicationsDatabase,
-  ApplicationDetails,
   convertApplicationDefinition,
+  applicationDetailsSchema,
 } from '@worksheets/data-access/applications';
 import { onlyUnique } from '@worksheets/util/functional';
 import { createImage } from './openai/createImage';
 import { createCompletion } from './openai/createCompletion';
+import { z } from 'zod';
 
-export type TemplateDetails = {
-  apps: ApplicationDetails[];
-} & TemplateDefinition;
+export const templateDetailsSchema = z
+  .object({ apps: z.array(applicationDetailsSchema) })
+  .and(templateDefinitionSchema);
+export type TemplateDetails = z.infer<typeof templateDetailsSchema>;
 
 const apps = newApplicationsDatabase();
 

@@ -6,7 +6,7 @@ export const OpenInNewTabLink: React.FC<{
   href: string;
   fontSize?: number | SvgIconProps['fontSize'];
   children: ReactNode;
-}> = ({ href, fontSize, children }) => {
+}> = ({ href, fontSize = 'inherit', children }) => {
   let props: SvgIconProps;
   if (typeof fontSize === 'number') {
     props = { sx: { fontSize } };

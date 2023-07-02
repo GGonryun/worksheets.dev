@@ -20,7 +20,6 @@ export default publicProcedure
       .optional()
   )
   .output(z.string())
-
   .mutation(async ({ input }) => {
     console.info(`Reaping task execution`, input);
     await pushTasksToCompletion(20);

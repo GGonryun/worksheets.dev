@@ -154,16 +154,17 @@ const columns: (
   return defs;
 };
 
-export type TableRow = GetConnectionsDataTableResponse[number];
 export type DataTableProps = {
-  selections?: TableRow[];
-  onSelectionChange?: (selections: TableRow[]) => void;
-  validateRow?: (connection?: TableRow) => boolean;
+  selections?: string[number][];
+  onSelectionChange?: (selections: string[]) => void;
+  validateRow?: (
+    connection?: GetConnectionsDataTableResponse[number]
+  ) => boolean;
   canModify?: boolean;
   onConnectionClick: (id: string) => void;
   fill?: boolean;
   readonly?: boolean;
-  connections: TableRow[];
+  connections: GetConnectionsDataTableResponse[number][];
   loading?: boolean;
 };
 
@@ -185,7 +186,7 @@ export const ConnectionsDataTable: FC<DataTableProps> = ({
   const handleDelete = async (id: string) => {
     // eslint-disable-next-line no-restricted-globals
     if (confirm('Are you sure you want to delete this connection?')) {
-      await deleteConnection.mutateAsync(id);
+      await deleteConnection.mutateAsync({ connectionId: id });
       utils.connections.dataTable.invalidate();
     }
   };
@@ -209,16 +210,10 @@ export const ConnectionsDataTable: FC<DataTableProps> = ({
           }
           return '';
         }}
-        rowSelectionModel={
-          defaultSelections?.map((selection) => selection.id ?? '') ?? []
-        }
+        rowSelectionModel={defaultSelections ?? []}
         onRowSelectionModelChange={(v) => {
           if (!readonly && onSelectionChange) {
-            // get matching selections as connections
-            const mapped = v
-              .map((id) => connections?.find((c) => c.id === id))
-              .filter((c) => c) as TableRow[];
-            onSelectionChange(mapped);
+            onSelectionChange(v.map((id) => id.toString()).filter(Boolean));
           }
         }}
         showCellVerticalBorder={true}

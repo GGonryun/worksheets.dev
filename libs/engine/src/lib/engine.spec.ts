@@ -1607,7 +1607,7 @@ describe('throws', () => {
     `,
       assert(m, e) {
         expect(e.ctx.controller.isCancelled()).toEqual(true);
-        expect(e.ctx.controller.getFailure().code).toEqual('unhandled-failure');
+        expect(e.ctx.controller.getFailure().code).toEqual('method-failure');
         expect(m).toBeCalledTimes(1);
       },
     },
@@ -1621,7 +1621,7 @@ describe('throws', () => {
     `,
       assert(m, e) {
         expect(e.ctx.controller.isCancelled()).toEqual(true);
-        expect(e.ctx.controller.getFailure().code).toEqual('unhandled-failure');
+        expect(e.ctx.controller.getFailure().code).toEqual('method-failure');
         expect(m).toBeCalledTimes(1);
       },
     },

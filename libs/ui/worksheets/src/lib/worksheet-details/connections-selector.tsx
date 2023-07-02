@@ -31,7 +31,6 @@ export const ConnectionsSelector: React.FC<ConnectionsSelectorProps> = () => {
     revertSelections,
     commitSelections,
   } = useWorksheetConnections(worksheetId);
-  const { push } = useRouter();
   const hasErrors = Object.keys(errors).length > 0;
 
   const openSidecar = (id: string | undefined) => {
@@ -108,7 +107,8 @@ export const ConnectionsSelector: React.FC<ConnectionsSelectorProps> = () => {
         <Button
           size="small"
           endIcon={<OpenInNew />}
-          onClick={() => push('/templates?apps=true')}
+          href={'/applications'}
+          target="_blank"
         >
           Browse Apps
         </Button>

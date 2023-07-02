@@ -29,7 +29,7 @@ export const ExecutionOverviewPage: React.FC<{
   const { back } = useRouter();
   // get the task
   const { data: execution } = trpc.worksheets.tasks.execution.useQuery(
-    executionId,
+    { executionId },
     {
       enabled: !!executionId,
       refetchInterval: 5000,
@@ -39,7 +39,7 @@ export const ExecutionOverviewPage: React.FC<{
   // get the execution
 
   const { data: worksheet } = trpc.worksheets.get.useQuery(
-    { id: worksheetId },
+    { worksheetId },
     {
       enabled: !!worksheetId,
     }
@@ -88,7 +88,9 @@ export const ExecutionOverviewPage: React.FC<{
                                         <JSONViewer
                                           title={'Input'}
                                           value={JSON.stringify(
-                                            execution?.input ?? {}
+                                            execution?.input ?? {},
+                                            null,
+                                            2
                                           )}
                                         />
                                       ),
@@ -98,7 +100,9 @@ export const ExecutionOverviewPage: React.FC<{
                                         <JSONViewer
                                           title={'Output'}
                                           value={JSON.stringify(
-                                            execution?.output ?? {}
+                                            execution?.output ?? {},
+                                            null,
+                                            2
                                           )}
                                         />
                                       ),

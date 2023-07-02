@@ -25,14 +25,18 @@ export const createWorksheet = async (
   const records = await listUsersWorksheets(uid);
   const numRecords = Object.keys(records).length;
 
-  if (await limits.exceeds(uid, 'maxWorksheets', numRecords)) {
+  if (await limits.exceeds({ uid, key: 'maxWorksheets', value: numRecords })) {
+    console.error(`user has exceeded their maximum number of worksheets`, {
+      userId: uid,
+    });
     throw new TRPCError({
       code: 'PRECONDITION_FAILED',
+      message: `You have exceeded your maximum number of worksheets.`,
     });
   }
 
   const id = db.id();
-  console.info('upserting worksheet', id);
+
   await db.insert({
     ...entity,
     id,
@@ -41,5 +45,6 @@ export const createWorksheet = async (
     updatedAt: Date.now(),
     enabled: true,
   });
+
   return id;
 };

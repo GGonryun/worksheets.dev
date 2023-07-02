@@ -86,7 +86,7 @@ export const getWorksheetConnections = async ({
   worksheetId,
 }: {
   worksheetId: string;
-}) => {
+}): Promise<string[]> => {
   const connections = await worksheetConnectionsDb.query({
     f: 'worksheetId',
     o: '==',

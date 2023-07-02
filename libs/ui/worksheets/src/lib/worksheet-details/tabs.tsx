@@ -67,7 +67,7 @@ export const WorksheetTabs: React.FC<{
         <SourceEditor />
       </TabPanel>
       <TabPanel value={value} index={WorksheetTabIndex.Logs}>
-        <LogList worksheetId={worksheetId} />
+        <LogList showExecutionIds worksheetId={worksheetId} />
       </TabPanel>
       <TabPanel value={value} index={WorksheetTabIndex.Settings}>
         <GeneralConfiguration />

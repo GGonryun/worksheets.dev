@@ -4,7 +4,14 @@ import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import Typography from '@mui/material/Typography';
 import { SharedTextField } from '../../shared/shared-text-field';
-import { Alert, Divider, Link, MenuItem } from '@mui/material';
+import {
+  Alert,
+  Divider,
+  IconButton,
+  Link,
+  MenuItem,
+  Tooltip,
+} from '@mui/material';
 import InfoIcon from '@mui/icons-material/Info';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import {
@@ -18,7 +25,9 @@ import { ListApplicationsResponse } from '../../shared/types';
 import { useConnectionBuilder } from '../useConnectionBuilder';
 import { ModificationBanner } from './modification-banner';
 import { AppLabel } from './app-label';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { OpenInNewTabLink } from '../../shared/open-in-new-tab-link';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
 const MAX_INDEX = 2;
 
@@ -27,7 +36,8 @@ export const ConnectionBuilderSteps: React.FC<{
   apps: ListApplicationsResponse;
   onClose: () => void;
   canEdit?: boolean;
-}> = ({ connectionId, apps, onClose, canEdit }) => {
+  onSaved?: (connectionId: string) => void;
+}> = ({ connectionId, apps, onClose, canEdit, onSaved }) => {
   const {
     connection,
     fields,
@@ -39,7 +49,7 @@ export const ConnectionBuilderSteps: React.FC<{
     save,
     updateSettingsFieldHandler,
     updateConnection,
-  } = useConnectionBuilder({ connectionId, canEdit });
+  } = useConnectionBuilder({ connectionId, canEdit, onSaved });
   const [activeStep, setActiveStep] = React.useState(0);
 
   useEffect(() => {
@@ -159,6 +169,7 @@ export const ConnectionBuilderSteps: React.FC<{
           }
           index={2}
           disableNext={cannotEdit}
+          tooltip={'You are viewing this connection in read-only mode.'}
           maxIndex={MAX_INDEX}
           onBack={handleBack}
           onNext={handleNext}
@@ -168,8 +179,14 @@ export const ConnectionBuilderSteps: React.FC<{
               Connection details
             </Typography>
             <Divider />
+            <ReviewRowText label="ID">
+              <HiddenField text={connection.id} />
+            </ReviewRowText>
+            <Divider />
             <ReviewRowText label="Application">
-              {connection.appId}
+              <OpenInNewTabLink href={`/applications/${app?.id}`}>
+                {app?.name}{' '}
+              </OpenInNewTabLink>
             </ReviewRowText>
             <Divider />
             <ReviewRowText label="Connection name">
@@ -183,24 +200,19 @@ export const ConnectionBuilderSteps: React.FC<{
             <ReviewRow label="Connected worksheets">
               {!relatedWorksheets?.length && (
                 <Typography
-                  variant="caption"
+                  variant="body2"
                   color="text.secondary"
                   fontWeight={900}
                 >
                   no worksheets connected
                 </Typography>
               )}
-              <Typography variant="caption" color="text.secondary">
+              <Typography variant="body2" color="text.secondary">
                 <Box component="span" display="flex" gap={1}>
                   {relatedWorksheets?.map((r, i) => (
-                    <Link
-                      href={`/worksheets/${r.id}`}
-                      target={'_blank'}
-                      key={i}
-                    >
+                    <OpenInNewTabLink href={`/worksheets/${r.id}`} key={i}>
                       {r.name}{' '}
-                      <OpenInNewIcon fontSize="small" color="primary" />
-                    </Link>
+                    </OpenInNewTabLink>
                   ))}
                 </Box>
               </Typography>
@@ -222,5 +234,28 @@ export const ConnectionBuilderSteps: React.FC<{
         </StepContentWithActions>
       </Step>
     </Stepper>
+  );
+};
+
+const HiddenField: React.FC<{ text: string }> = ({ text }) => {
+  const [showText, setShowText] = useState(false);
+  return (
+    <Box display="flex" alignItems="center" gap={1}>
+      <Tooltip
+        title="View your connection id. Protect this ID like you would a password."
+        placement="top"
+      >
+        <span>
+          <IconButton
+            size="small"
+            sx={{ p: 0 }}
+            onClick={() => setShowText((p) => !p)}
+          >
+            <VisibilityIcon sx={{ fontSize: 16 }} color="primary" />
+          </IconButton>
+        </span>
+      </Tooltip>
+      {showText ? text : text.replace(/./g, '*')}
+    </Box>
   );
 };

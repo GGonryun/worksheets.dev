@@ -77,7 +77,7 @@ export function CreateAWorksheetPage() {
   );
 
   const { data: template, isLoading } = trpc.templates.get.useQuery(
-    templateId,
+    { templateId },
     {
       enabled: !!templateId,
     }

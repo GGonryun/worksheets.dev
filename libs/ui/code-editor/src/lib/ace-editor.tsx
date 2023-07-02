@@ -108,7 +108,9 @@ export default function CodeEditor({
           theme={theme === 'light' ? 'textmate' : 'terminal'}
           value={value}
           fontSize={14}
-          style={{ borderRadius: '0px' }}
+          style={{
+            borderRadius: '0px',
+          }}
           annotations={annotations}
           onChange={onChange}
           highlightActiveLine={!hideActiveLineHighlighter}

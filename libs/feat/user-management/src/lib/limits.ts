@@ -6,13 +6,15 @@ import { INITIAL_LIMITS } from './constants';
 
 const db = newUserLimitsDatabase();
 
-const exceedsLimit = async (
-  uid: string,
-  key: keyof Omit<UserLimitsEntity, 'id'>,
-  value: number
-) => {
-  const limit = await getLimits(uid);
-  return Number(limit[key]) < value;
+// if the amount we're requesting exceeds our current key's limit
+const exceedsLimit = async (opts: {
+  uid: string;
+  key: keyof Omit<UserLimitsEntity, 'id'>;
+  value: number;
+}) => {
+  const limit = await getLimits(opts.uid);
+
+  return Number(limit[opts.key]) < opts.value;
 };
 
 const meetsLimit = async (
@@ -20,7 +22,7 @@ const meetsLimit = async (
   { key, value }: { key: keyof Omit<UserLimitsEntity, 'id'>; value: number }
 ) => {
   const limit = await getLimits(uid);
-  return limit[key] < value;
+  return Number(limit[key]) > value;
 };
 
 const getLimits = async (uid: string): Promise<UserLimitsEntity> => {

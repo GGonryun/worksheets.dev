@@ -1,4 +1,4 @@
-import { Box, LinearProgress, Tooltip, Typography } from '@mui/material';
+import { Box, LinearProgress, Link, Tooltip, Typography } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { FC } from 'react';
 import { useRouter } from 'next/router';
@@ -38,7 +38,7 @@ const columns = (worksheetId: string): GridColDef[] => [
     field: 'createdAt',
     headerName: 'Timestamp',
     sortingOrder: ['desc'],
-    minWidth: 200,
+    minWidth: 165,
     renderCell: (params) => (
       <Typography variant="caption">
         {formatTimestampLong(params.value)}
@@ -84,17 +84,44 @@ const columns = (worksheetId: string): GridColDef[] => [
       </Box>
     ),
   },
+  {
+    field: 'taskId',
+    headerName: 'Execution',
+    width: 150,
+    renderCell: (params) => (
+      <Tooltip placement="top" title={params.value}>
+        <span
+          style={{
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'elipsis',
+          }}
+        >
+          <Link
+            href={`/worksheets/${worksheetId}/executions/${params.value}`}
+            onClick={(event) => {
+              event.stopPropagation();
+            }}
+          >
+            <Typography variant="caption">{params.value}</Typography>
+          </Link>
+        </span>
+      </Tooltip>
+    ),
+  },
 ];
 
 export type LogListDataTableProps = {
   rows: LogListDataTableRows;
   loading?: boolean;
   onClick: (logId: string) => void;
+  showExecutionIds?: boolean;
 };
 export const LogListDataTable: FC<LogListDataTableProps> = ({
   rows,
   loading,
   onClick,
+  showExecutionIds,
 }) => {
   const { query } = useRouter();
 
@@ -126,6 +153,12 @@ export const LogListDataTable: FC<LogListDataTableProps> = ({
         pagination: {
           paginationModel: {
             pageSize: 100,
+          },
+        },
+        columns: {
+          columnVisibilityModel: {
+            // Hide columns status and traderName, the other columns will remain visible
+            taskId: showExecutionIds ?? false,
           },
         },
       }}

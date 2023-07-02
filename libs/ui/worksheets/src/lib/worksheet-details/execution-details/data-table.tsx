@@ -129,7 +129,7 @@ export const ExecutionDetailsDataTable: FC<
   const { query } = useRouter();
   const worksheetId = query.id as string;
   const { data: executions } = trpc.worksheets.tasks.history.useQuery(
-    worksheetId,
+    { worksheetId },
     { enabled: !!worksheetId }
   );
   return (

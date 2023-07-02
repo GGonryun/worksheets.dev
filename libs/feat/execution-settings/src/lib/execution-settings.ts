@@ -7,70 +7,113 @@ import {
 } from '@worksheets/data-access/settings';
 import { OAuthClient } from '@worksheets/util/oauth/client';
 import { closeRedirect, errorRedirect } from './util';
-import { isExpired } from '@worksheets/util/time';
+import { addSecondsToCurrentTime, isExpired } from '@worksheets/util/time';
 import { TRPCError } from '@trpc/server';
 import { RequiredBy } from '@worksheets/util/types';
 import { z } from 'zod';
 import { newWorksheetsConnectionsDatabase } from '@worksheets/data-access/worksheets-connections';
+import { limits as serverLimits } from '@worksheets/feat/server-management';
+import { quotas as userQuotas } from '@worksheets/feat/user-management';
+import { ExecutionFailure } from '@worksheets/engine';
+import { mapSecureProperties } from './common';
+import { dynamicSettingsResolver } from './dynamic-settings-resolver';
+import { applyConnectionUpdates } from './apply-connection-updates';
 
 const connectionsDb = newConnectionDatabase();
 const worksheetsConnectionsDb = newWorksheetsConnectionsDatabase();
 const registry = newApplicationsDatabase();
 const handshakesDb = newHandshakesDatabase();
 
-export const newPrivateLibrary = (userId: string) => {
+type PrivateLibraryOptions = {
+  userId: string;
+  worksheetId?: string;
+  // a list of known connections.
+  connectionIds?: string[];
+};
+export const newPrivateLibrary = ({
+  userId,
+  worksheetId,
+  connectionIds,
+}: PrivateLibraryOptions) => {
   const library = new ApplicationLibrary({
     clerk: registry,
-    settingsLoader: (methodPath) => {
-      console.info('TODO', userId, methodPath);
-      return Promise.resolve({});
+    settingsLoader: async ({ path, app }) => {
+      console.info(
+        `[APPLOADER][${path}][private] searching for user ${userId} settings`
+      );
+      const connection = await dynamicSettingsResolver({
+        userId,
+        worksheetId,
+        overrideConnectionIds: connectionIds,
+        app,
+      });
+      return connection?.settings ?? {};
+    },
+    beforeMethodCall: async (opts) => {
+      if (
+        !(await userQuotas.request({
+          type: `methodCalls`,
+          quantity: 1,
+          uid: userId,
+        }))
+      ) {
+        console.error('User ran out of method call processing capability.', {
+          userId: userId,
+          path: opts.path,
+        });
+        // prevent user from making too many requests.
+        throw new ExecutionFailure({
+          code: 'insufficient-quota',
+          message:
+            'You have exceeded your quota for executing method calls. Contact support to increase your limits.',
+        });
+      }
+
+      if (
+        !(await serverLimits.throttle({
+          id: `${opts.app.id}-${opts.method.id}`,
+          meta: 'methods',
+          quantity: 1,
+        }))
+      ) {
+        throw new ExecutionFailure({
+          code: 'retry',
+          message:
+            'Server does not have sufficient processing capability to handle this request.',
+          delay: addSecondsToCurrentTime(30).getTime(),
+        });
+      }
+
+      if (
+        !(await serverLimits.throttle({
+          id: 'method-calls',
+          meta: 'system',
+          quantity: 0.1,
+        }))
+      ) {
+        throw new ExecutionFailure({
+          code: 'retry',
+          message:
+            'Server does not have sufficient processing capability to handle this request.',
+          delay: addSecondsToCurrentTime(60).getTime(),
+        });
+      }
+      console.info(
+        `[APPLOADER][${opts.path}][private] user ${userId} passed pre-method throttle checks`
+      );
     },
   });
   return library;
 };
 
-export const newEmptyLibrary = () => {
-  return new ApplicationLibrary({
+export const newEmptyLibrary = () =>
+  new ApplicationLibrary({
     clerk: new Clerk(),
-    settingsLoader: () => Promise.resolve({}),
+    settingsLoader: async () => Promise.resolve({}),
+    beforeMethodCall: async () => {
+      // do nothing
+    },
   });
-};
-
-// const getLatestTokens = async (setting: SettingEntity): Promise<OAuthToken> => {
-//   if (setting.type !== 'oauth') {
-//     throw new TRPCError({
-//       code: 'unsupported-operation',
-//       message: `invalid setting type, expected 'oauth' received '${setting.type}' `,
-//     });
-//   }
-
-//   if (!setting.data) {
-//     throw new TRPCError({
-//       code: 'unsupported-operation',
-//       message: `setting must have a token set`,
-//     });
-//   }
-
-//   const method = applicationsDb.borrow(setting.method);
-
-//   const prop = findOAuthProperty(method, setting.key);
-
-//   const client = new OAuthClient(prop.options);
-
-//   const tokens = client.convertToOAuthToken(setting.data as string);
-
-//   if (tokens.expired() && tokens.refreshToken) {
-//     const refreshed = await tokens.refresh();
-
-//     setting.data = client.serializeToken(refreshed);
-
-//     await settingsDb.update({ ...setting });
-
-//     return refreshed;
-//   }
-
-//   return tokens;
-// };
 
 export const connectionFormSchema = z.object({
   id: z.string().describe('the connection id'),
@@ -87,6 +130,7 @@ export const loadConnectionForm = async ({
   id: string;
   uid: string;
 }): Promise<{ created: boolean; connection: ConnectionForm }> => {
+  console.info(`[CONNECTIONS] loading connection form for ${id}`);
   // return empty form if connection doesn't exist
   if (!id || !(await connectionsDb.has(id))) {
     return {
@@ -102,22 +146,21 @@ export const loadConnectionForm = async ({
   const connection = await connectionsDb.get(id);
   const app = registry.getApp(connection.appId);
   // get settings
-  const settings = app.settings;
+  const appSettings = app.settings;
   // for each connection setting, replace oauth tokens if they are set.
-  if (settings && connection.settings) {
-    connection.settings = Object.keys(connection.settings).reduce(
-      (acc, key) => {
-        const value = connection.settings[key];
-        const setting = settings[key];
-        if (setting.type === 'oauth') {
-          acc[key] = Boolean(value);
+  if (appSettings && connection.settings) {
+    // TODO: encryption audit, we will need to mask our non-oauth tokens here too.
+    connection.settings = await mapSecureProperties(
+      connection.settings,
+      appSettings,
+      async (v, k, s) => {
+        console.info(`[CONNECTIONS] mapping secure property ${k}`);
+        if (s.type === 'oauth') {
+          return Boolean(v);
         } else {
-          acc[key] = value;
+          return v;
         }
-
-        return acc;
-      },
-      {} as Record<string, unknown>
+      }
     );
   }
 
@@ -132,6 +175,7 @@ export const loadConnectionForm = async ({
   };
 };
 
+// TODO: encryption audit? does this method need it?
 export const listConnections = async ({ uid }: { uid: string }) => {
   const connections = await connectionsDb.query({ f: 'uid', o: '==', v: uid });
   return connections;
@@ -304,19 +348,6 @@ export const submitConnectionForm = async (
   }
 
   await applyConnectionUpdates(entity.id, entity);
-};
-
-const applyConnectionUpdates = async (
-  connectionId: string,
-  { uid, appId, settings, name }: Partial<Omit<ConnectionEntity, 'id'>>
-) => {
-  await connectionsDb.apply(connectionId, {
-    uid,
-    appId,
-    name,
-    settings,
-    updatedAt: Date.now(),
-  });
 };
 
 type ConnectionFieldOptions = {

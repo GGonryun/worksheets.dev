@@ -23,6 +23,7 @@ const getQuotas = async (uid: string): Promise<UserQuotasEntity> => {
 const INITIAL_QUOTAS = {
   tokenUses: 1000,
   executions: 100,
+  methodCalls: 500,
   processingTime: durationToMilliseconds({ minutes: 5 }),
 };
 
@@ -36,8 +37,16 @@ export const quotas = {
     if (quota[opts.type] < opts.quantity) {
       return false;
     }
+
     quota[opts.type] -= opts.quantity;
     await db.update(quota);
     return true;
+  },
+  isEmpty: async (opts: {
+    uid: string;
+    type: keyof Omit<UserQuotasEntity, 'id'>;
+  }) => {
+    const quota = await getQuotas(opts.uid);
+    return quota[opts.type] <= 0;
   },
 };

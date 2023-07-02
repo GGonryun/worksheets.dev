@@ -5,7 +5,11 @@ import { Entity } from './schema';
 import { merge } from 'lodash';
 import { PartialBy } from '@worksheets/util/types';
 
-type DatabaseFailures = 'unknown' | 'not-found' | 'missing-id';
+type DatabaseFailures =
+  | 'unknown'
+  | 'not-found'
+  | 'missing-id'
+  | 'multiple-results';
 export class DatabaseFailure extends CodedFailure<DatabaseFailures> {
   constructor(opt: CodedFailureOptions<DatabaseFailures>) {
     const { message, ...args } = opt;
@@ -34,6 +38,7 @@ export type Firestore<T extends Entity> = {
   has(id: string): Promise<boolean>;
   get(id: string): Promise<T>;
   query(...queries: Query<T>[]): Promise<T[]>;
+  findOne(...queries: Query<T>[]): Promise<T>;
   create(data: T): Promise<T>;
   apply(id: string, data: Partial<Omit<T, 'id'>>): Promise<T>;
   update(data: T): Promise<T>;
@@ -101,6 +106,37 @@ export function newFirestore<T extends Entity>(key: string, txn?: Txn) {
     }
 
     return parse(docs);
+  }
+
+  async function findOne(...queries: Query<T>[]): Promise<T> {
+    let q: FirebaseFirestore.Query<DocumentData> = firestore().collection(key);
+    for (const query of queries) {
+      const { f, o, v } = query;
+      q = q.where(f as string, o, v);
+    }
+
+    let docs;
+    if (txn) {
+      docs = await txn.get(q);
+    } else {
+      docs = await q.get();
+    }
+
+    const results = parse(docs);
+    if (results.length === 0) {
+      throw new DatabaseFailure({
+        code: 'not-found',
+        message: `no results found`,
+        data: { key, queries },
+      });
+    } else if (results.length > 1) {
+      throw new DatabaseFailure({
+        code: 'multiple-results',
+        message: `multiple results found`,
+        data: { key, queries, results },
+      });
+    }
+    return results[0];
   }
 
   async function insert(entity: PartialBy<T, 'id'>): Promise<T> {
@@ -180,6 +216,10 @@ export function newFirestore<T extends Entity>(key: string, txn?: Txn) {
       return await insert(entity);
     }
 
+    if (!(await has(entity.id))) {
+      return await insert(entity);
+    }
+
     return await update(entity);
   }
 
@@ -238,6 +278,7 @@ export function newFirestore<T extends Entity>(key: string, txn?: Txn) {
     has,
     get,
     query,
+    findOne,
     insert,
     update,
     updateOrInsert,
