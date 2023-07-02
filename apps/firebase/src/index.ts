@@ -14,6 +14,18 @@ admin.firestore().settings({
   ignoreUndefinedProperties: true,
 });
 
+export const limitsReaper = functions.pubsub
+  .schedule('every 30 minutes')
+  .onRun(async () => {
+    // send the fetch request to the worksheets.dev task reaper endpoint
+    const response = await fetcher(`/api/limits/reaper`, {
+      method: 'DELETE',
+      body: JSON.stringify({}),
+    });
+    // return the status code
+    return response.status;
+  });
+
 // TODO: do not rely on making calls back to the worksheets.dev API. Instead, use a shared library to process tasks.
 export const taskProcessor = functions.pubsub
   .topic('process-tasks')
@@ -32,7 +44,8 @@ export const taskProcessor = functions.pubsub
 
 // the task process observer is a pubsub function that executes every 10 minutes and sends a request to the task reaper to check for tasks that have been running for too long.
 export const taskProcessObserver = functions.pubsub
-  .schedule('* * * * *')
+  // .schedule('* * * * *')
+  .schedule('every 30 minutes')
   .onRun(async (context) => {
     // send the fetch request to the worksheets.dev task reaper endpoint
     const response = await fetcher(`/api/executions/reaper`, {

@@ -16,6 +16,7 @@ export const openApiDocument = generateOpenApiDocument(appRouter, {
     'templates',
     'applications',
     'logs',
+    'limits',
   ],
   securitySchemes: {
     bearerAuth: {

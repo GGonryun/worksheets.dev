@@ -4,6 +4,10 @@
  * @throws {ExecutionFailure} if the wait duration exceeds 5 minutes.
  */
 
+import {
+  formatTimestampLong,
+  prettyPrintMilliseconds,
+} from '@worksheets/util/time';
 import { ExecutionFailure } from '../failures';
 import { Context, Instruction } from '../framework';
 import { Delay } from './delay';
@@ -35,9 +39,15 @@ export class Wait implements Instruction {
         message: 'Wait duration cannot exceed one hour',
       });
     }
+    const offset = Date.now() + this.definition.wait;
+
+    ctx.logger.info(
+      `Execution paused until ${formatTimestampLong(
+        offset
+      )}. Duration remaining: ${prettyPrintMilliseconds(this.definition.wait)}.`
+    );
 
     // calculate the offset and push a delay instruction onto the stack
-    const offset = Date.now() + this.definition.wait;
     ctx.instructions.push(new Delay(offset));
   }
 }

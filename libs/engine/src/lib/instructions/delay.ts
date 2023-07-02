@@ -39,13 +39,9 @@ export class Delay implements Instruction {
       // calculate the wait time offset
       const offset = this.definition - Date.now();
       // wait for 30 seconds or the offset whichever is smaller
-      const wait = Math.min(30000, offset);
+      const wait = Math.min(Math.random() * 5000, offset);
       // log that we're gonna wait
-      ctx.logger.trace(
-        `Execution paused. Duration remaining: ${prettyPrintMilliseconds(
-          offset
-        )}`
-      );
+      ctx.logger.trace(`Execution paused for ${prettyPrintMilliseconds(wait)}`);
       await waitFor(wait);
       // push the delay instruction back onto the stack
       ctx.instructions.push(this);

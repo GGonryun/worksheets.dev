@@ -41,7 +41,7 @@ const DEFAULT_VERBOSITY = 'silent';
  * @description safelySaveTask saves a task to the database. if the task is too large to save, it will throw an error.
  * @returns {TaskDeadlines} the default deadlines
  * @remarks 10 minutes for global timeout
- * @remarks 30 seconds max processor runtime because vercel has a 60 second timeout, this should give us enough time to for pre-processing and post-processing
+ * @remarks 20 seconds max processor runtime because vercel has a 60 second timeout, this should give us enough wiggle room for pre-processing and post-processing
  * @remarks 10 seconds for method call timeout because we don't want to wait too long for a method to execute it could cause the entire execution to fail
  * @remarks 30 requeues to prevent infinite requeues
  */
@@ -56,7 +56,7 @@ export function newDefaultDeadlines(
   return {
     // millisecond utc timestamp of expiration datetime
     'task-expiration': addSecondsToCurrentTime(timeout).getTime(),
-    'max-processor-runtime': 30 * 1000, // seconds
+    'max-processor-runtime': 20 * 1000, // seconds
     'method-call-timeout': 10 * 1000, // seconds
     'task-requeue-limit': 30, // num repeats
   };
@@ -300,7 +300,11 @@ export const isTaskRequeueLimitReached = (task: TaskEntity): boolean => {
 
 export const newTaskController = (
   task: TaskEntity
-): { startController: () => void; controller: Controller } => {
+): {
+  controller: Controller;
+  stopController: () => void;
+  startController: () => void;
+} => {
   // get the tasks expiration date
   const expiration = task.deadlines['task-expiration'];
   // get the tasks max processor lifetime
@@ -319,6 +323,10 @@ export const newTaskController = (
     startController: () => {
       hourglass.start();
       alarm.start();
+    },
+    stopController: () => {
+      hourglass.stop();
+      alarm.stop();
     },
     controller: composite,
   };

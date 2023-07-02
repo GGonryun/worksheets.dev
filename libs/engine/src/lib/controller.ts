@@ -114,6 +114,7 @@ export class HourglassController extends Controller {
   start(): void {
     // save the timeout id so we can cancel it later if needed but start it now
     this.timeoutId = setTimeout(() => {
+      console.info(`[HOURGLASS] Hourglass ran out of time.`);
       this.cancel(
         new ExecutionFailure({
           code: 'retry',
