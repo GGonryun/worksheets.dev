@@ -15,7 +15,7 @@ export const WorksheetDetailsPage: React.FC<{
   const { user } = useUser();
   const worksheetId = query.id as string;
   const { data: worksheet } = trpc.worksheets.get.useQuery(
-    { id: worksheetId },
+    { worksheetId },
     { enabled: !!worksheetId && !!user }
   );
 
@@ -33,10 +33,11 @@ export const WorksheetDetailsPage: React.FC<{
           <Typography variant="h6">{worksheet?.name ?? ''}</Typography>
           <Box display="flex" alignItems="center" gap={2}>
             <Button
+              data-test-id="edit-worksheet-button"
               size="small"
               startIcon={<EditOutlinedIcon />}
               sx={{ fontWeight: 900 }}
-              href={`/worksheets/${query.id}/worksheet`}
+              href={`/worksheets/${query.id}/worksheet?edit=true`}
             >
               Edit
             </Button>

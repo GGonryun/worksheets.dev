@@ -2,6 +2,7 @@ import { FormLayout } from '../form-layout';
 import { useState } from 'react';
 import { getYamlCodeValidationErrors } from '@worksheets/ui/code-editor';
 import { SourceVisualizer } from '../../shared/source-visualizer';
+import { capitalizeFirstLetter } from '@worksheets/util/strings';
 export type DefineInstructionsFormValues = {
   yaml: string;
 };
@@ -38,9 +39,11 @@ export const DefineInstructionsForm: React.FC<DefineInstructionsFormProps> = ({
           sx: { fontWeight: 900 },
           disabled: Boolean(hasYamlError) || !hasYamlContent,
           tooltip: hasYamlError
-            ? 'Correct all invalid syntax before continuing.'
+            ? `Your worksheet is invalid. ${capitalizeFirstLetter(
+                hasYamlError.reason
+              )}.`
             : !hasYamlContent
-            ? 'Enter some YAML before continuing.'
+            ? 'Your worksheet is empty.'
             : undefined,
           onClick: () => onSubmit({ yaml: newYaml }),
         },

@@ -11,11 +11,12 @@ import { hasher } from './util';
 
 const db = newApiTokenDatabase();
 
-const checkMaxTokens = async (userId: string, value: number) => {
-  if (await limits.exceeds(userId, 'maxApiTokens', value)) {
+const checkMaxTokens = async (uid: string, value: number) => {
+  if (await limits.exceeds({ uid, key: 'maxApiTokens', value })) {
     throw new TRPCError({
       code: 'PRECONDITION_FAILED',
-      message: "You've reached the maximum number of API tokens.",
+      message:
+        "You've exceeded your quota of API tokens. Contact support to increase your quota.",
     });
   }
 };

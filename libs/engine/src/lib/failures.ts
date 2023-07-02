@@ -8,6 +8,7 @@ export const executionFailureCodeSchema = z.union([
   l('unknown'),
   l('unauthorized'),
   l('method-failure'),
+  l('insufficient-quota'),
   l('invalid-expression'),
   l('invalid-definition'),
   l('invalid-precondition'),
@@ -24,8 +25,11 @@ export const executionFailureCodeSchema = z.union([
 ]);
 export type ExecutionFailureCode = z.infer<typeof executionFailureCodeSchema>;
 
+// TODO: when executions fail also point users towards help articles so that they can fix the issue.
+// TODO: when executions fail add the instruction name to the error message so that users can easily find the issue that caused the error.
 export class ExecutionFailure extends CodedFailure<ExecutionFailureCode> {
   // if retry is set, the execution should be retried after the requested delay
+  // timestamp to delay until
   delay: number;
   constructor(
     opts: CodedFailureOptions<ExecutionFailureCode> & { delay?: number }

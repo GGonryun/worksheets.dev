@@ -31,11 +31,14 @@ export const ExecuteWorksheetPage: React.FC = () => {
   const worksheetId = query.id as string;
   const replayId = query.replayId as string;
 
-  const { data: replay } = trpc.worksheets.tasks.execution.useQuery(replayId, {
-    enabled: !!replayId,
-  });
+  const { data: replay } = trpc.worksheets.tasks.execution.useQuery(
+    { executionId: replayId },
+    {
+      enabled: !!replayId,
+    }
+  );
   const { data: worksheet } = trpc.worksheets.get.useQuery(
-    { id: worksheetId },
+    { worksheetId },
     { enabled: !!worksheetId }
   );
 

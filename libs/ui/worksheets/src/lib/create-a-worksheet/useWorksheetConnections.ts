@@ -1,8 +1,11 @@
 import { trpc } from '@worksheets/trpc/ide';
 import { warn } from '@worksheets/ui/common';
 import { useState, useCallback, useEffect } from 'react';
-import { TableRow } from '../connections/data-table';
+
 import { useUser } from '@worksheets/util/auth/client';
+import { GetConnectionsDataTableResponse } from '../shared/types';
+
+type TableRow = GetConnectionsDataTableResponse[number];
 
 export const useWorksheetConnections = (worksheetId?: string) => {
   const { user } = useUser();
@@ -13,13 +16,20 @@ export const useWorksheetConnections = (worksheetId?: string) => {
   });
 
   const worksheetConnections = trpc.worksheets.connections.get.useQuery(
-    worksheetId ?? '',
+    { worksheetId: worksheetId ?? '' },
     { enabled: !!worksheetId && !!user }
   );
   const [updatingSelections, setUpdatingSelections] = useState(false);
   const [cache, setCache] = useState<TableRow[] | undefined>();
-  const [selections, setSelections] = useState<TableRow[]>([]);
+  const [selections, setSelections] = useState<string[]>([]);
   const [errors, setErrors] = useState<Record<string, string>>({});
+
+  const find = useCallback(
+    (id: string) => {
+      return allConnections.data?.find((c) => c.id === id);
+    },
+    [allConnections.data]
+  );
 
   useEffect(() => {
     const currentData = worksheetConnections.data;
@@ -27,7 +37,7 @@ export const useWorksheetConnections = (worksheetId?: string) => {
     const connections = allConnections.data?.filter(
       (c) => c.id && currentData.includes(c.id)
     );
-    setSelections(connections ?? []);
+    setSelections(connections?.map((c) => c.id ?? '').filter(Boolean) ?? []);
   }, [allConnections.data, worksheetConnections.data]);
 
   const getConnectionErrorMessage = useCallback(
@@ -38,14 +48,14 @@ export const useWorksheetConnections = (worksheetId?: string) => {
       }
 
       // check if the connection is already selected
-      const exists = selections.find((s) => s.id === connection?.id);
+      const exists = selections.includes(connection.id);
       if (!exists) {
         return '';
       }
 
       // if we are a unique app connection we are valid
       const multiple = selections.find(
-        (s) => s.app.id === connection?.app.id && s.id !== connection?.id
+        (s) => s === connection?.app.id && s !== connection?.id
       );
       if (!multiple) {
         return '';
@@ -61,23 +71,26 @@ export const useWorksheetConnections = (worksheetId?: string) => {
 
   useEffect(() => {
     const errors: Record<string, string> = {};
-    for (const selection of selections) {
-      const msg = getConnectionErrorMessage(selection);
-      if (msg) {
-        errors[''] = 'Select one connection per application.';
-        errors[selection.id ?? ''] = msg;
+    for (const connectionId of selections) {
+      const selection = find(connectionId);
+      if (selection) {
+        const msg = getConnectionErrorMessage(selection);
+        if (msg) {
+          errors[''] = 'Select one connection per application.';
+          errors[selection.id ?? ''] = msg;
+        }
       }
     }
     setErrors(errors);
-  }, [selections, getConnectionErrorMessage]);
+  }, [find, selections, getConnectionErrorMessage]);
 
   const stageSelections = () => {
-    setCache(selections);
+    setCache(selections.map(find).filter(Boolean) as TableRow[]);
     setUpdatingSelections(true);
   };
 
   const revertSelections = () => {
-    setSelections(cache ?? []);
+    setSelections(cache?.map((c) => c.id ?? '').filter(Boolean) ?? []);
     setCache(undefined);
     setUpdatingSelections(false);
   };
@@ -88,12 +101,11 @@ export const useWorksheetConnections = (worksheetId?: string) => {
     updateWorksheetConnections
       .mutateAsync({
         worksheetId,
-        connections:
-          selections?.map((c) => c.id ?? '').filter((c) => !!c) ?? [],
+        connections: selections ?? [],
       })
       .then(() => {
         utils.worksheets.connections.invalidate().then(() => {
-          setSelections(cache ?? []);
+          setSelections(cache?.map((c) => c.id ?? '').filter(Boolean) ?? []);
           setUpdatingSelections(false);
         });
       })

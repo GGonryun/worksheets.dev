@@ -4,9 +4,23 @@ import { taskEntity } from '@worksheets/data-access/tasks';
 import { getTaskExecution } from '@worksheets/feat/task-processing';
 
 export default protectedProcedure
-  .input(z.string())
+  .meta({
+    openapi: {
+      enabled: true,
+      protect: true,
+      summary: 'Get execution details',
+      description: 'Get execution details for a worksheet',
+      tags: ['executions'],
+      method: 'GET',
+      path: '/executions/{executionId}',
+    },
+  })
+  .input(
+    z.object({
+      executionId: z.string(),
+    })
+  )
   .output(taskEntity)
-  .query(async ({ input }) => {
-    console.info(`getting task execution details for ${input}`);
-    return await getTaskExecution(input);
+  .query(async ({ input: { executionId } }) => {
+    return await getTaskExecution(executionId);
   });

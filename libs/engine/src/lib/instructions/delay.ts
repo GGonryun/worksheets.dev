@@ -1,4 +1,4 @@
-import { convertMillisecondsToSeconds, waitFor } from '@worksheets/util/time';
+import { prettyPrintMilliseconds, waitFor } from '@worksheets/util/time';
 import { Context, Instruction } from '../framework';
 import { ExecutionFailure } from '../failures';
 
@@ -31,8 +31,6 @@ export class Delay implements Instruction {
       // push the delay instruction back onto the stack
       ctx.instructions.push(this);
 
-      // do not factor waits into the duration
-      ctx.register.duration -= Date.now() - start;
       return;
     }
 
@@ -40,16 +38,20 @@ export class Delay implements Instruction {
     if (start < this.definition) {
       // calculate the wait time offset
       const offset = this.definition - Date.now();
-      // wait for 1 seconds or the offset whichever is smaller
-      const wait = Math.min(1000, offset);
+      // wait for 30 seconds or the offset whichever is smaller
+      const wait = Math.min(30000, offset);
       // log that we're gonna wait
-      ctx.logger.trace(`Waiting for ${convertMillisecondsToSeconds(offset)}s`);
+      ctx.logger.trace(
+        `Execution paused. Duration remaining: ${prettyPrintMilliseconds(
+          offset
+        )}`
+      );
       await waitFor(wait);
       // push the delay instruction back onto the stack
       ctx.instructions.push(this);
 
       // do not factor waits into the duration
-      ctx.register.duration -= Date.now() - start;
+      ctx.register.duration = (ctx.register.duration ?? 0) - wait;
       return;
     }
   }

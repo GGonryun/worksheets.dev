@@ -8,18 +8,17 @@ export default publicProcedure
     openapi: {
       enabled: true,
       method: 'POST',
-      path: '/executions/{taskId}/process',
+      path: '/executions/{executionId}/process',
       summary: 'Process a task execution',
       tags: ['executions'],
     },
   })
   .input(
     z.object({
-      taskId: z.string(),
+      executionId: z.string(),
     })
   )
   .output(z.string())
-  .mutation(async ({ input: { taskId } }) => {
-    console.info(`Processing task execution ${taskId}`);
-    return await processTask(taskId);
+  .mutation(async ({ input: { executionId } }) => {
+    return await processTask(executionId);
   });

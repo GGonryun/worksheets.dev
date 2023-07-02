@@ -52,7 +52,7 @@ export const GeneralConfiguration: React.FC = () => {
   const utils = trpc.useContext();
 
   const { data } = trpc.worksheets.get.useQuery(
-    { id: worksheetId },
+    { worksheetId },
     { enabled: !!worksheetId }
   );
 
@@ -67,7 +67,7 @@ export const GeneralConfiguration: React.FC = () => {
     applyChanges: Partial<UpdateWorksheetRequest>
   ) => {
     await updateWorksheet.mutateAsync({
-      id: worksheetId,
+      worksheetId,
       ...applyChanges,
     });
     utils.worksheets.get.invalidate();

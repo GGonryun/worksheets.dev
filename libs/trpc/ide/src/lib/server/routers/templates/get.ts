@@ -1,15 +1,30 @@
 import { z } from 'zod';
-import { protectedProcedure } from '../../trpc';
-import { getTemplate } from '@worksheets/feat/templates-gallery';
+import { publicProcedure } from '../../trpc';
+import {
+  getTemplate,
+  templateDetailsSchema,
+} from '@worksheets/feat/templates-gallery';
 import { TRPCError } from '@trpc/server';
-export default protectedProcedure
-  .input(z.string().describe('template id'))
-  .query(async ({ input }) => {
-    const template = getTemplate(input);
+export default publicProcedure
+  .meta({
+    openapi: {
+      enabled: true,
+      summary: 'Get template details',
+      description: 'Get template details',
+      tags: ['templates'],
+      method: 'GET',
+      path: '/templates/{templateId}',
+    },
+  })
+  .input(z.object({ templateId: z.string() }))
+  .output(templateDetailsSchema)
+  .query(async ({ input: { templateId } }) => {
+    const template = getTemplate(templateId);
+
     if (!template) {
       throw new TRPCError({
         code: 'NOT_FOUND',
-        message: `Template with id ${input} not found`,
+        message: `Template with id ${templateId} not found`,
       });
     }
 

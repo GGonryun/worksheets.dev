@@ -4,6 +4,7 @@ import {
   updateWorksheetResponseSchema,
 } from '@worksheets/feat/worksheets-management';
 import { Severity, protectedProcedure } from '../../trpc';
+import { z } from 'zod';
 
 const sampleText = `
 steps:
@@ -17,11 +18,12 @@ steps:
 
 export default protectedProcedure
   .meta({
-    /* 👉 */ openapi: {
+    logging: Severity.INFO,
+    openapi: {
       enabled: true,
       protect: true,
       method: 'POST',
-      path: '/worksheets/{id}',
+      path: '/worksheets/{worksheetId}',
       tags: ['worksheets'],
       summary: 'Update a worksheet',
       example: {
@@ -35,9 +37,12 @@ export default protectedProcedure
         timeout: 30,
       },
     },
-    logging: Severity.INFO,
   })
-  .input(updateWorksheetRequestSchema)
+  .input(
+    updateWorksheetRequestSchema
+      .omit({ id: true })
+      .merge(z.object({ worksheetId: z.string() }))
+  )
   .output(updateWorksheetResponseSchema)
   .mutation(
     async ({
@@ -49,6 +54,7 @@ export default protectedProcedure
       console.info(`updating worksheet ${uid} properties`, input);
       return await updateWorksheet(uid, {
         ...input,
+        id: input.worksheetId,
       });
     }
   );

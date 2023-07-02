@@ -23,7 +23,7 @@ const flags = newMethod({
   output: null,
   async call({ settings }) {
     console.info(
-      'received flags',
+      '[CALL][sys.flags/flags]: received flags',
       settings.primary,
       settings.secondary,
       settings.tertiary

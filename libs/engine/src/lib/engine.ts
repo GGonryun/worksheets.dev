@@ -27,12 +27,12 @@ export class Engine {
         // handlable errors get moved into the register for the next instruction to handle because the controller would terminate the entire execution.
         ctx.register.failure = error;
       } else if (error instanceof ExecutionFailure) {
-        const message = 'Failed to execute instruction';
-        ctx.logger.error(message, { raw: JSON.stringify(error) });
+        const message = `${error.message}`;
+        ctx.logger.error(message, error);
         ctx.controller.cancel(error);
       } else {
-        const message = `Unknown failure occured in engine during execution`;
-        ctx.logger.error(message, { raw: JSON.stringify(error) });
+        const message = `Unknown failure occured during execution`;
+        ctx.logger.error(message, error);
         ctx.controller.cancel(
           new ExecutionFailure({
             code: 'internal-error',

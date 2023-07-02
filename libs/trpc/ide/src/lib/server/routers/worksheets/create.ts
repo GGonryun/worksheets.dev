@@ -22,7 +22,7 @@ return: \${data}
 `.trim();
 export default protectedProcedure
   .meta({
-    /* 👉 */ openapi: {
+    openapi: {
       enabled: true,
       protect: true,
       method: 'PUT',

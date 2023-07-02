@@ -165,32 +165,32 @@ export class TaskLogger implements Logger {
   }
 
   trace(message: string, data?: unknown): Promise<void> {
-    console.debug(`Task ${this.task.id}: ${message}`, data);
+    console.debug(`[TASK][TRACE][${this.task.id}] ${message}`, data);
     return this.log('trace', message, data);
   }
 
   debug(message: string, data?: unknown): Promise<void> {
-    console.debug(`Task ${this.task.id}: ${message}`, data);
+    console.debug(`[TASK][DEBUG][${this.task.id}] ${message}`, data);
     return this.log('debug', message, data);
   }
 
   info(message: string, data?: unknown): Promise<void> {
-    console.info(`Task ${this.task.id}: ${message}`, data);
+    console.info(`[TASK][INFO][${this.task.id}] ${message}`, data);
     return this.log('info', message, data);
   }
 
   warn(message: string, data?: unknown): Promise<void> {
-    console.warn(`Task ${this.task.id}: ${message}`, data);
+    console.warn(`[TASK][WARN][${this.task.id}] ${message}`, data);
     return this.log('warn', message, data);
   }
 
   error(message: string, data?: unknown): Promise<void> {
-    console.error(`Task ${this.task.id}: ${message}`, data);
+    console.error(`[TASK][ERROR][${this.task.id}] ${message}`, data);
     return this.log('error', message, data);
   }
 
   fatal(message: string, data?: unknown): Promise<void> {
-    console.error(`Task ${this.task.id}: ${message}`, data);
+    console.error(`[TASK][FATAL][${this.task.id}] ${message}`, data);
     return this.log('fatal', message, data);
   }
 
@@ -208,6 +208,9 @@ export class TaskLogger implements Logger {
 
     // check to make sure the size of the data does not exceed the maximum size
     if (isDataVolumeTooLargeForFirestore(data, 10)) {
+      console.warn(
+        `[LOGGING][VOLUME-CHECK][${this.task.id}] Removing large data from log`
+      );
       // if the data is too large, we will log a warning and truncate the data
       data = 'Data too large to log';
     }
@@ -352,6 +355,7 @@ export const convertFailureToTaskState = (
     case 'invalid-expression':
     case 'invalid-definition':
     case 'invalid-precondition':
+    case 'insufficient-quota':
     case 'invalid-syntax':
     case 'invalid-operation':
     case 'invalid-instruction':

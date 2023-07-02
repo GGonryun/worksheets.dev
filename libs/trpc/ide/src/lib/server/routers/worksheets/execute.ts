@@ -9,14 +9,14 @@ export default publicProcedure
     openapi: {
       enabled: true,
       method: 'POST',
-      path: '/worksheets/{id}/execute',
+      path: '/worksheets/{worksheetId}/execute',
       summary: 'Execute a worksheet',
       tags: ['worksheets', 'executions'],
     },
   })
   .input(
     z.object({
-      id: z.string(),
+      worksheetId: z.string(),
       input: z.unknown(),
       overrides: z
         .object({
@@ -27,9 +27,9 @@ export default publicProcedure
     })
   )
   .output(z.string())
-  .mutation(async ({ input: { id, input, overrides } }) => {
-    console.info(`creating a task execution for ${id}`);
-    return await createTask(uuidv4(), id, input, {
+  .mutation(async ({ input: { worksheetId, input, overrides } }) => {
+    console.info(`creating a task execution for ${worksheetId}`);
+    return await createTask(uuidv4(), worksheetId, input, {
       verbosity: overrides?.logLevel,
       timeout: overrides?.timeout,
     });

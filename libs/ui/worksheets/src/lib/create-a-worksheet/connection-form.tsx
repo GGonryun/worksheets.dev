@@ -44,6 +44,12 @@ export const ConnectionsForm: React.FC<ConnectionsFormProps> = ({
     }
   };
 
+  const handleSaved = (id: string) => {
+    if (!selections.includes(id)) {
+      setSelections((previous) => [...previous, id]);
+    }
+  };
+
   return (
     <FormLayout
       actions={{
@@ -61,9 +67,7 @@ export const ConnectionsForm: React.FC<ConnectionsFormProps> = ({
           tooltip: errors[''],
           onClick: () =>
             onSubmit({
-              connections: selections
-                .map((s) => s?.id?.toString())
-                .filter((s) => !!s) as string[],
+              connections: selections,
             }),
         },
         tertiary: {
@@ -97,6 +101,7 @@ export const ConnectionsForm: React.FC<ConnectionsFormProps> = ({
       />
       {activeConnection && (
         <ConnectionBuilderSidecar
+          onSaved={handleSaved}
           id={activeConnection}
           open={Boolean(activeConnection)}
           onClose={closeEditor}

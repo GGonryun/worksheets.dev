@@ -29,40 +29,59 @@ const output = z.array(
 );
 type Result = z.infer<typeof output>;
 
-export default protectedProcedure.output(output).query(
-  async ({
-    ctx: {
-      user: { uid },
+export default protectedProcedure
+  .meta({
+    openapi: {
+      enabled: true,
+      protect: true,
+      method: 'GET',
+      path: '/connections',
+      summary: 'List connections',
+      tags: ['connections'],
     },
-  }) => {
-    console.info(`received request to list connections for user ${uid}`);
-    const rows: Result = [];
-    // get the app from the registry
-    const connections = await listConnections({
-      uid,
-    });
-
-    for (const connection of connections) {
-      const app = registry.getApp(connection.appId);
-      const isIncomplete = areRequiredFieldsSet(
-        app.settings,
-        connection.settings
-      );
-      rows.push({
-        id: connection.id,
-        connectionName: connection.name,
-        app: { id: app.id, label: app.label, logo: app.logo },
-        validation: {
-          status: isIncomplete ? 'active' : 'incomplete',
-          message: isIncomplete ? '' : 'Connection has missing fields',
-        },
-        updatedAt: formatTimestampLong(connection.updatedAt),
+  })
+  .input(
+    z
+      .object({
+        limit: z.number().optional().default(10),
+      })
+      .optional()
+  )
+  .output(output)
+  .query(
+    async ({
+      ctx: {
+        user: { uid },
+      },
+    }) => {
+      console.info(`received request to list connections for user ${uid}`);
+      const rows: Result = [];
+      // get the app from the registry
+      const connections = await listConnections({
+        uid,
       });
-    }
 
-    return rows;
-  }
-);
+      for (const connection of connections) {
+        const app = registry.getApp(connection.appId);
+        const isIncomplete = areRequiredFieldsSet(
+          app.settings,
+          connection.settings
+        );
+        rows.push({
+          id: connection.id,
+          connectionName: connection.name,
+          app: { id: app.id, label: app.label, logo: app.logo },
+          validation: {
+            status: isIncomplete ? 'active' : 'incomplete',
+            message: isIncomplete ? '' : 'Connection has missing fields',
+          },
+          updatedAt: formatTimestampLong(connection.updatedAt),
+        });
+      }
+
+      return rows;
+    }
+  );
 
 const areRequiredFieldsSet = (
   settings: Settings | null,

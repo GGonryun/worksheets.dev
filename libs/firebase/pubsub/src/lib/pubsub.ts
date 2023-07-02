@@ -2,21 +2,18 @@ import { pubsub } from '@worksheets/firebase/server';
 import { CodedFailure } from '@worksheets/util/errors';
 
 async function publish<T>(name: string, message: T): Promise<string> {
-  console.info(`bus: publishing message to pubsub queue ${name}`, message);
+  console.info(`[BUS][${name}][REQ] publishing message`, message);
   const topic = pubsub().topic(name);
   const data = JSON.stringify(message);
   const dataBuffer = Buffer.from(data);
   try {
     const id = await topic.publishMessage({ data: dataBuffer });
     // log that message was published successfully to the queue name
-    console.info(`bus: published message ${id} to pubsub queue ${name}`);
+    console.info(`[BUS][${name}][OK] message ${id} published`);
     return id;
   } catch (error) {
     // log error
-    console.error(
-      `bus: failed to publish message to pubsub queue ${name}`,
-      error
-    );
+    console.error(`[BUS][${name}][ERR] failed to publish to queue`, error);
     // throw new pubsub error
     throw new PubSubFailure({
       code: 'unknown',

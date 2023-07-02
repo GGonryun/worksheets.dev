@@ -30,12 +30,23 @@ export interface Library {
 export type ApplicationLibraryOptions = {
   clerk: Clerk;
   settingsLoader: SettingsLoader;
+  beforeMethodCall: BeforeMethodCallHook;
 };
 
-export type SettingsLoader = (
-  app: string,
-  methodId: string
-) => Promise<Record<string, unknown>>;
+export type SettingsLoader = (options: {
+  app: ApplicationDefinition;
+  method: MethodDefinition;
+  path: string;
+  input: unknown;
+}) => Promise<Record<string, unknown>>;
+
+export type BeforeMethodCallHook = (opts: {
+  path: string;
+  app: ApplicationDefinition;
+  method: MethodDefinition;
+  input: unknown;
+  settings: Record<string, unknown> | undefined;
+}) => Promise<void>;
 
 export const methodPathSchema = z.object({
   appId: z.string(),
@@ -53,13 +64,19 @@ export type ApplicationMethod = {
  * Knows how to load settings before executing a methods
  */
 export class ApplicationLibrary {
-  private readonly clerk: Clerk;
   private readonly settingsLoader: SettingsLoader;
+  private readonly beforeMethodCall: BeforeMethodCallHook;
+  private readonly clerk: Clerk;
   private readonly technician: Technician;
-  constructor({ clerk, settingsLoader }: ApplicationLibraryOptions) {
+  constructor({
+    clerk,
+    settingsLoader,
+    beforeMethodCall,
+  }: ApplicationLibraryOptions) {
     this.technician = new Technician();
 
     this.settingsLoader = settingsLoader;
+    this.beforeMethodCall = beforeMethodCall;
     this.clerk = clerk;
   }
 
@@ -73,12 +90,27 @@ export class ApplicationLibrary {
     const { app, method } = this.clerk.parse(path);
     let settings;
     if (method.settings) {
-      settings = await this.settingsLoader(app.id, method.id);
+      console.info(`[APPLAUNCHER][${path}] loading settings`);
+      settings = await this.settingsLoader({ app, method, path, input });
+      console.info(
+        `[APPLAUNCHER][${path}] found settings`,
+        Object.keys(settings)
+      );
     }
 
+    await this.beforeMethodCall({
+      app,
+      method,
+      path,
+      input,
+      settings,
+    });
+
     try {
-      return await this.technician.process(method, settings, input);
+      const data = await this.technician.process(method, settings, input);
+      return data;
     } catch (error) {
+      console.error('error', error);
       if (error instanceof MethodCallFailure) {
         throw new MethodCallFailure({
           message: `method (${path}) failed to execute: ${error.message}`,
@@ -87,9 +119,8 @@ export class ApplicationLibrary {
           data: { path },
         });
       }
-      throw new MethodCallFailure({
-        code: StatusCodes.INTERNAL_SERVER_ERROR,
-      });
+
+      throw error;
     }
   }
 }
@@ -129,6 +160,10 @@ export class Clerk {
    */
   stringify({ app, method }: ApplicationMethod): MethodPathKey {
     return `${app.id}${FUNCTION_DELIMITER}${method.id}`;
+  }
+
+  stringifyBasic(appId: string, methodId: string): MethodPathKey {
+    return `${appId}${FUNCTION_DELIMITER}${methodId}`;
   }
 
   // register an application, take all the specified paths and assign them.
@@ -192,14 +227,21 @@ export class Technician {
     rawSettings: unknown,
     rawInput: unknown
   ): Promise<unknown> {
+    console.log('[TECHNICIAN] received process request');
+
     let input;
     if (method.input) {
+      console.log('[TECHNICIAN] processing input');
       input = method.input.parse(rawInput);
+      console.log('[TECHNICIAN] processed input');
     }
+    console.log('[TECHNICIAN] does method require settings?');
 
     let settings: Record<string, unknown> = {};
     if (method.settings) {
+      console.log('[TECHNICIAN] parsing settings');
       settings = parseSettings(method.settings, rawSettings);
+      console.log('[TECHNICIAN] parsed settings');
     }
 
     const result = await method.call({ input, settings });

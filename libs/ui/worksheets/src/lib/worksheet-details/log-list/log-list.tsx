@@ -10,12 +10,14 @@ export type LogListProps = {
   worksheetId: string;
   executionId?: string;
   refetchInterval?: number;
+  showExecutionIds?: boolean;
 };
 
 export const LogList: React.FC<LogListProps> = ({
   worksheetId,
   executionId,
   refetchInterval,
+  showExecutionIds,
 }) => {
   const [viewingDetails, setViewingDetails] = useState<string>('');
 
@@ -29,6 +31,7 @@ export const LogList: React.FC<LogListProps> = ({
       primary={
         <Box width="100%" height="100%" overflow="scroll">
           <LogListDataTable
+            showExecutionIds={showExecutionIds}
             onClick={(id) => setViewingDetails(id)}
             loading={isLoading}
             rows={data ?? []}
