@@ -1,3 +1,9 @@
+/**
+ * checks if a timestamp is older than `against` timestamp
+ * @param timestamp
+ * @param against
+ * @returns
+ */
 export function isExpired(
   timestamp: number,
   against: number = new Date().getTime()
