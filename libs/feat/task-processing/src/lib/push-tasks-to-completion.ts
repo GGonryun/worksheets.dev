@@ -16,8 +16,6 @@ export const pushTasksToCompletion = async (max: number): Promise<number> => {
   const data = await db.collection
     // get all tasks that might be ready to process
     .where('state', 'in', ['queued', 'pending'])
-    // where the delay is within five minutes of the current time
-    .where('delay', '<=', new Date().getTime() + 60 * 1000)
     // limit the number of tasks to process
     .limit(max)
     // get the data
@@ -25,11 +23,13 @@ export const pushTasksToCompletion = async (max: number): Promise<number> => {
 
   // if there are no tasks to process, return 0
   if (data.empty) {
+    console.info('[REAPER] Shutting down. No available tasks to process.');
     return 0;
   }
 
   // parse the data into entities
   const entities = db.parse(data);
+  console.info('[REAPER] Searching for tasks to terminate.', entities.length);
 
   // filter out tasks that have a delay set with an offset greater than 2 minutes
   const now = new Date().getTime();

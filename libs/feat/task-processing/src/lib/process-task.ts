@@ -84,7 +84,9 @@ export const processTask = async (taskId: string): Promise<TaskState> => {
   // if task has a delay and the delay is longer than cron polling limit allow out of band scheduler to take over
   if (isTaskDelayed(task) && !isWithinNearPollingLimit(task)) {
     await logger.info(
-      `Task delayed. ${printDuration(durationRemaining(task.delay))}s remaining`
+      `Task delay exceeds near polling limit. Delaying for ${printDuration(
+        durationRemaining(task.delay)
+      )}`
     );
     return 'queued';
   }
@@ -174,7 +176,8 @@ export const processTask = async (taskId: string): Promise<TaskState> => {
     worksheetId: worksheet.id,
   });
   // create a new task controller
-  const { controller, startController } = newTaskController(task);
+  const { controller, startController, stopController } =
+    newTaskController(task);
   const factory = new ExecutionFactory({
     execution: {
       library,
@@ -191,6 +194,7 @@ export const processTask = async (taskId: string): Promise<TaskState> => {
   // process the execution
   startController(); // TODO: make the execution responsible for starting the controller
   const result = await execution.process();
+  stopController(); // TODO: make the execution responsible for starting the controller
 
   // TODO: create a boundary for shared pre-processing that occures before the execution is rescheduled or terminated.
   // keep the duration of the execution in sync with the task for easier querying
