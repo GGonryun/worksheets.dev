@@ -5,8 +5,9 @@ export const ConnectionBuilderSidecar: React.FC<{
   id: string;
   open: boolean;
   onClose: () => void;
+  onSaved?: (connectionId: string) => void;
   canModify?: boolean;
-}> = ({ id, open, onClose, canModify }) => {
+}> = ({ id, open, onClose, canModify, onSaved }) => {
   const { data: apps } = trpc.applications.list.useQuery(
     {
       customizable: true,
@@ -25,6 +26,7 @@ export const ConnectionBuilderSidecar: React.FC<{
         connectionId={id}
         apps={apps ?? []}
         onClose={onClose}
+        onSaved={onSaved}
       />
     </SidecarLayout>
   );

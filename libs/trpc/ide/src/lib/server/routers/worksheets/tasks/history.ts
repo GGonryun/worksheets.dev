@@ -4,9 +4,23 @@ import { getProcessingHistory } from '@worksheets/feat/task-processing';
 import { taskEntity } from '@worksheets/data-access/tasks';
 
 export default protectedProcedure
-  .input(z.string())
+  .meta({
+    openapi: {
+      enabled: true,
+      protect: true,
+      summary: 'Get execution history for a worksheet',
+      description: 'Get execution history for a worksheet',
+      tags: ['executions'],
+      method: 'GET',
+      path: '/worksheets/{worksheetId}/executions',
+    },
+  })
+  .input(
+    z.object({
+      worksheetId: z.string(),
+    })
+  )
   .output(z.array(taskEntity))
-  .query(async ({ input, ctx: { user } }) => {
-    console.info(`getting processing history for worksheet ${input}`);
-    return await getProcessingHistory(input);
+  .query(async ({ input: { worksheetId } }) => {
+    return await getProcessingHistory(worksheetId);
   });

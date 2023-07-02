@@ -5,7 +5,6 @@ import { useTimeout, warn } from '@worksheets/ui/common';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useUser } from '@worksheets/util/auth/client';
-import { trpc } from '@worksheets/trpc/ide';
 
 /* eslint-disable-next-line */
 export interface LoginPageProps {}
@@ -14,8 +13,6 @@ export function LoginPage(props: LoginPageProps) {
   const { push } = useRouter();
   const { user, signInProvider } = useUser();
   const [loading, setLoading] = useState(true);
-
-  const identify = trpc.user.identify.useMutation();
 
   useTimeout(() => {
     if (user) {
@@ -32,7 +29,6 @@ export function LoginPage(props: LoginPageProps) {
     provider.addScope('email');
 
     signInProvider(provider)
-      .then((u) => identify.mutateAsync({ uid: u?.uid }))
       .then(() => push(`/worksheets`))
       .catch(warn('failed to log in with google'));
   }

@@ -8,7 +8,7 @@ export const TemplatesGrid: React.FC<{
   onAppClick: (app: ApplicationDetails) => void;
 }> = ({ appIds, onAppClick }) => {
   const { data: templates } = trpc.templates.list.useQuery({
-    appIds,
+    appIds: appIds.join(','),
   });
 
   return (

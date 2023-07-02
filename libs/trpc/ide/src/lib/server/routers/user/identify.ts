@@ -24,6 +24,6 @@ export default protectedProcedure
     })
   )
   .mutation(async ({ input, ctx: { user } }) => {
-    console.info('user identified successfully', user);
+    console.info(`[user][${user.uid}] identified`, user.uid);
     return input;
   });

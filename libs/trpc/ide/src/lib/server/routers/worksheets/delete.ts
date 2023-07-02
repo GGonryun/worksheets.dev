@@ -5,7 +5,7 @@ import * as WorksheetsManagement from '@worksheets/feat/worksheets-management';
 export default protectedProcedure
   .meta({
     logging: Severity.INFO,
-    /* 👉 */ openapi: {
+    openapi: {
       enabled: true,
       protect: true,
       method: 'DELETE',

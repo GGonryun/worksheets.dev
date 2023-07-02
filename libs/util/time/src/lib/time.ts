@@ -298,7 +298,8 @@ export const prettyPrintMilliseconds = (milliseconds: number) => {
   const hoursString = hours > 0 ? `${hours}h ` : '';
   const minutesString = minutes > 0 ? `${minutes}m ` : '';
   const secondsString = seconds > 0 ? `${seconds % 60}s ` : '';
-  const millisecondsString = minutes < 1 ? `${milliseconds % 1000}ms` : '';
+  const millisecondsString =
+    minutes < 1 ? `${Math.round(milliseconds % 1000)}ms` : '';
 
   return `${hoursString}${minutesString}${secondsString}${millisecondsString}`;
 };

@@ -1,7 +1,8 @@
-import { newMethod } from '@worksheets/apps/framework';
+import { MethodCallFailure, newMethod } from '@worksheets/apps/framework';
 import { settings, getCurrentUserEmail } from './common';
 import { newGmailClient } from './common';
 import { z } from 'zod';
+import { StatusCodes } from 'http-status-codes';
 
 export const getUserEmail = newMethod({
   id: 'get-user-email',
@@ -14,6 +15,13 @@ export const getUserEmail = newMethod({
   async call(ctx) {
     const { accessToken } = ctx.settings.tokens;
     const client = newGmailClient(accessToken);
-    return await getCurrentUserEmail(client);
+    try {
+      return await getCurrentUserEmail(client);
+    } catch (error) {
+      throw new MethodCallFailure({
+        code: StatusCodes.INTERNAL_SERVER_ERROR,
+        message: 'Failed to get user email',
+      });
+    }
   },
 });

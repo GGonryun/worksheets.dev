@@ -18,6 +18,9 @@ import {
 } from './util';
 import { TaskLogger } from './util';
 import { TRPCError } from '@trpc/server';
+import { limits as serverLimits } from '@worksheets/feat/server-management';
+import { quotas, limits as userLimits } from '@worksheets/feat/user-management';
+import { findActiveTasks } from './find-active-tasks';
 
 const tasksDb = newTasksDatabase();
 const snapshotsDb = newTaskSnapshotsDatabase();
@@ -31,8 +34,69 @@ export const createTask = async (
   // TODO: make optional
   options: TaskCreationOverrides
 ): Promise<string> => {
-  // TODO: check to see if the user has sufficient resources to perform request
   const worksheet = await getWorksheet(worksheetId);
+
+  // throttle system task executions to 10 per minute for any given worksheet
+  if (
+    !(await serverLimits.throttle({
+      id: worksheetId,
+      meta: 'worksheet',
+      quantity: 10,
+    }))
+  ) {
+    throw new TRPCError({
+      code: 'TOO_MANY_REQUESTS',
+      message:
+        "This worksheet has exceeded it's execution rate limit. Please try again in a minute.",
+    });
+  }
+
+  // check the if the user has sufficient quota to execute the task
+  if (
+    !(await quotas.request({
+      uid: worksheet.uid,
+      type: 'executions',
+      quantity: 1,
+    }))
+  ) {
+    throw new TRPCError({
+      code: 'TOO_MANY_REQUESTS',
+      message:
+        'You have exceeded your execution quota. Contact customer support to increase your quota.',
+    });
+  }
+
+  // find active tasks
+  const activeTasks = await findActiveTasks(worksheetId);
+  console.info('active tasks', activeTasks.length);
+  if (
+    await userLimits.exceeds({
+      uid: worksheet.uid,
+      key: 'maxActiveTasks',
+      value: activeTasks.length,
+    })
+  ) {
+    throw new TRPCError({
+      code: 'TOO_MANY_REQUESTS',
+      message:
+        'You have exceeded your concurrent task limit. Contact customer support to increase your limit.',
+    });
+  }
+
+  // throttle system executions to 100 per minute
+  if (
+    !(await serverLimits.throttle({
+      id: 'worksheet-executions',
+      meta: 'system',
+      quantity: 1,
+    }))
+  ) {
+    throw new TRPCError({
+      code: 'TOO_MANY_REQUESTS',
+      message:
+        "The system has exceeded it's execution rate limit. Please try again in a minute.",
+    });
+  }
 
   // TODO: add support for transactions. otherwise two executions could perform the work of trying to save the task before recognizing that the task may already exist.
   let task: Maybe<TaskEntity> = await safelyGetTask(tasksDb, taskId);

@@ -80,16 +80,15 @@ export class Execution {
     if (register.failure && !controller.isCancelled()) {
       controller.cancel(
         new ExecutionFailure({
-          code: 'unhandled-failure',
+          code: 'method-failure',
           message: register.failure.message,
           cause: register.failure,
-          data: { code: register.failure.code },
         })
       );
     }
 
     // add to total processing time.
-    register.duration += Date.now() - start;
+    register.duration = (register.duration ?? 0) + Date.now() - start;
     return register;
   }
 }

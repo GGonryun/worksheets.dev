@@ -44,8 +44,8 @@ export type TokenSetting<Required extends boolean> = BaseSetting<
 >;
 
 export type OAuthSetting<
-  Schema extends ZodTypeAny,
-  Required extends boolean
+  Schema extends ZodTypeAny = ZodTypeAny,
+  Required extends boolean = boolean
 > = BaseSetting<'oauth', Schema, Required> & {
   options: OAuthOptions;
 };
@@ -108,6 +108,7 @@ export const parseSettings = <S extends Settings>(
         },
       ]);
     }
+    output[key] = data;
   }
 
   return output as Infer<S>;

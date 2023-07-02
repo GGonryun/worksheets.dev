@@ -5,21 +5,21 @@ import { worksheetsEntitySchema } from '@worksheets/data-access/worksheets';
 
 export default protectedProcedure
   .meta({
-    /* 👉 */ openapi: {
+    openapi: {
       enabled: true,
       protect: true,
       method: 'GET',
-      path: '/worksheets/{id}',
+      path: '/worksheets/{worksheetId}',
       tags: ['worksheets'],
       summary: 'Get a worksheet',
     },
   })
   .input(
     z.object({
-      id: z.string(),
+      worksheetId: z.string(),
     })
   )
   .output(worksheetsEntitySchema)
-  .query(async ({ input: { id }, ctx: { user } }) => {
-    return await WorksheetsManagement.getUserWorksheet(user.uid, id);
+  .query(async ({ input: { worksheetId }, ctx: { user } }) => {
+    return await WorksheetsManagement.getUserWorksheet(user.uid, worksheetId);
   });

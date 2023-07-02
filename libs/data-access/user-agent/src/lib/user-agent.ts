@@ -29,13 +29,14 @@ export const userLimitsEntity = z.object({
   ...entitySchema.shape,
   maxApiTokens: z.number(),
   maxWorksheets: z.number(),
-  maxConcurrentExecutions: z.number(),
+  maxActiveTasks: z.number(),
 });
 
 export const userQuotasEntity = z.object({
   ...entitySchema.shape,
   tokenUses: z.number(),
   executions: z.number(),
+  methodCalls: z.number(),
   processingTime: z.number().describe('in milliseconds'),
 });
 

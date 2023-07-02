@@ -136,7 +136,7 @@ export class Register {
   public failure?: MethodCallFailure;
   public output: unknown;
   public input: unknown;
-  public duration = 0;
+  public duration: number | undefined = 0;
 }
 
 export type WorksheetLoader = (address: Address) => SingleMethodInitDefinition;

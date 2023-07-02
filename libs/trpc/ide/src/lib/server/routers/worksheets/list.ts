@@ -5,7 +5,7 @@ import { worksheetsEntitySchema } from '@worksheets/data-access/worksheets';
 
 export default protectedProcedure
   .meta({
-    /* 👉 */ openapi: {
+    openapi: {
       enabled: true,
       protect: true,
       method: 'GET',

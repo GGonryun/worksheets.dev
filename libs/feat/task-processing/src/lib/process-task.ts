@@ -31,6 +31,8 @@ import {
 } from './util';
 import { durationRemaining, printDuration } from '@worksheets/util/time';
 import { TRPCError } from '@trpc/server';
+import { quotas } from '@worksheets/feat/user-management';
+import { limits } from '@worksheets/feat/server-management';
 
 const taskDb = newTasksDatabase();
 const snapshotsDb = newTaskSnapshotsDatabase();
@@ -53,6 +55,19 @@ const processorBus = newProcessTaskBus();
  * // => 'processing'
  */
 export const processTask = async (taskId: string): Promise<TaskState> => {
+  // reduce the system processing limit
+  if (
+    await limits.isEmpty({
+      id: 'task-processing-time',
+      meta: 'server',
+    })
+  ) {
+    throw new TRPCError({
+      code: 'CONFLICT',
+      message: 'Server is at maximum processing capacity. Please try again.',
+    });
+  }
+
   if (!(await taskDb.has(taskId))) {
     throw new TRPCError({
       code: 'NOT_FOUND',
@@ -154,7 +169,10 @@ export const processTask = async (taskId: string): Promise<TaskState> => {
   // get the most recent copy of a worksheet from the database
   const worksheet = await worksheetsdb.get(task.worksheetId);
   // create a new library that uses the user id from the worksheet
-  const library = newPrivateLibrary(worksheet.uid);
+  const library = newPrivateLibrary({
+    userId: worksheet.uid,
+    worksheetId: worksheet.id,
+  });
   // create a new task controller
   const { controller, startController } = newTaskController(task);
   const factory = new ExecutionFactory({
@@ -175,7 +193,39 @@ export const processTask = async (taskId: string): Promise<TaskState> => {
   const result = await execution.process();
 
   // TODO: create a boundary for shared pre-processing that occures before the execution is rescheduled or terminated.
-  task.duration = Number(result.duration); // keep the duration of the execution in sync with the task for easier querying
+  // keep the duration of the execution in sync with the task for easier querying
+  const duration = Number(
+    (result.duration ?? 0) > 0 ? result.duration : 0.00001
+  );
+  task.duration = duration;
+
+  await limits.throttle({
+    id: 'task-processing-time',
+    meta: 'server',
+    quantity: duration / 1000,
+  });
+
+  if (
+    !(await quotas.request({
+      uid: worksheet.uid,
+      type: 'processingTime',
+      quantity: duration,
+    }))
+  ) {
+    const message = 'User has reached maximum processing capacity.';
+    await logger.error(message, { duration });
+    // check to see if the user has enough processing time on their account to process the task
+    return await failTask(
+      task,
+      new ExecutionFailure({
+        code: 'insufficient-quota',
+        message: message,
+        data: {
+          duration,
+        },
+      })
+    );
+  }
 
   if (didExecutionFail(controller)) {
     const failure = controller.getFailure();

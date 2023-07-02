@@ -5,9 +5,11 @@ import React, { useEffect } from 'react';
 export const useConnectionBuilder = ({
   connectionId,
   canEdit = false,
+  onSaved,
 }: {
   connectionId: string;
   canEdit?: boolean;
+  onSaved?: (id: string) => void;
 }) => {
   // use query to get latest form data when loading for this ID.
   const [connection, setConnection] = React.useState<Required<ConnectionForm>>({
@@ -51,7 +53,7 @@ export const useConnectionBuilder = ({
   );
 
   const { data: relatedWorksheets } = trpc.connections.worksheets.get.useQuery(
-    connection.id,
+    { connectionId: connection.id },
     { enabled: !!connection.id }
   );
 
@@ -124,8 +126,12 @@ export const useConnectionBuilder = ({
   const save = async () => {
     if (cannotEdit) return;
     if (connection.id) {
-      await submitConnectionForm.mutateAsync(connection);
-      utils.connections.dataTable.invalidate();
+      submitConnectionForm.mutateAsync(connection).then(() => {
+        utils.connections.dataTable.invalidate().then(() => {
+          console.info('updating saved selection');
+          onSaved && onSaved(connection.id);
+        });
+      });
     }
   };
 

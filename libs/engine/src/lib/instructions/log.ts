@@ -17,11 +17,12 @@ export class Log implements Instruction {
     // check if the log definition is of type string if so use the logger to send an info log message
     if (typeof this.definition.log === 'string') {
       const data = await scripts.recursiveParse(this.definition.log);
-      logger.info(JSON.stringify(data));
+      logger.info(`${data}`);
       return;
     }
+
     // check if the log definition is of type object if so use the logger to send a log message with the specified level
-    if (typeof this.definition.log === 'object') {
+    if (typeof this.definition.log === 'object' && this.definition.log) {
       logger.log(
         this.definition.log.level,
         await scripts.recursiveParse(this.definition.log.message),
@@ -29,11 +30,12 @@ export class Log implements Instruction {
       );
       return;
     }
+
     // throw an error if the input wasnt a string or object
     throw new ExecutionFailure({
       code: 'invalid-definition',
-      message: `log definition can only process strings or objects`,
-      data: { order: this.definition },
+      message: `Log instruction has invalid syntax.`,
+      data: { ...this.definition },
     });
   }
 }
