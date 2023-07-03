@@ -1,6 +1,8 @@
 import { createOpenApiNextHandler } from 'trpc-openapi';
-
 import { appRouter, createContext } from '@worksheets/trpc/ide/server';
+import { errors } from '@worksheets/feat/error-reporting';
+import { getHTTPStatusCodeFromError } from '@trpc/server/http';
+
 export default createOpenApiNextHandler({
   router: appRouter,
   createContext,
@@ -14,4 +16,15 @@ export default createOpenApiNextHandler({
       'x-trpc-user-request': opts.ctx?.user ? '1' : '0',
     },
   }),
+  onError(opts) {
+    const { error, type, req } = opts;
+    errors.report(error, {
+      statusCode: getHTTPStatusCodeFromError(error),
+      url: req.url,
+      remoteAddress: (req.headers['x-forwarded-for'] ??
+        req.headers['x-real-ip'] ??
+        undefined) as string | undefined,
+      method: type,
+    });
+  },
 });

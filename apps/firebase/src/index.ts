@@ -14,18 +14,6 @@ admin.firestore().settings({
   ignoreUndefinedProperties: true,
 });
 
-export const limitsReaper = functions.pubsub
-  .schedule('every 30 minutes')
-  .onRun(async () => {
-    // send the fetch request to the worksheets.dev task reaper endpoint
-    const response = await fetcher(`/api/limits/reaper`, {
-      method: 'DELETE',
-      body: JSON.stringify({}),
-    });
-    // return the status code
-    return response.status;
-  });
-
 // TODO: do not rely on making calls back to the worksheets.dev API. Instead, use a shared library to process tasks.
 export const taskProcessor = functions.pubsub
   .topic('process-tasks')
@@ -42,10 +30,18 @@ export const taskProcessor = functions.pubsub
     return response.status;
   });
 
-// the task process observer is a pubsub function that executes every 10 minutes and sends a request to the task reaper to check for tasks that have been running for too long.
-export const taskProcessObserver = functions.pubsub
+// task complete is a pubsub function that executes when a task is completed. it sends a request to the internal notification system so that we can alert user's about task completion.
+export const taskComplete = functions.pubsub
+  .topic('task-complete')
+  .onPublish(async (message) => {
+    // log the message
+    functions.logger.info('Task processing is done', { message });
+  });
+
+// the task reaper is a pubsub function that executes every 10 minutes and sends a request to the api to check for tasks that have been running for too long.
+export const taskReaper = functions.pubsub
   // .schedule('* * * * *')
-  .schedule('every 30 minutes')
+  .schedule('every 5 minutes')
   .onRun(async (context) => {
     // send the fetch request to the worksheets.dev task reaper endpoint
     const response = await fetcher(`/api/executions/reaper`, {
@@ -59,10 +55,47 @@ export const taskProcessObserver = functions.pubsub
     return response.status;
   });
 
-// task complete is a pubsub function that executes when a task is completed. it sends a request to the internal notification system so that we can alert user's about task completion.
-export const taskComplete = functions.pubsub
-  .topic('task-complete')
-  .onPublish(async (message) => {
-    // log the message
-    functions.logger.info('Task processing is done', { message });
+export const limitsReaper = functions.pubsub
+  .schedule('every 3 hours')
+  .onRun(async () => {
+    const response = await fetcher(`/api/limits/reaper`, {
+      method: 'DELETE',
+      body: JSON.stringify({}),
+    });
+
+    return response.status;
+  });
+
+// TODO:
+export const handshakesReaper = functions.pubsub
+  .schedule('every 24 hours')
+  .onRun(async () => {
+    const response = await fetcher(`/api/garbage/reaper`, {
+      method: 'DELETE',
+      body: JSON.stringify({}),
+    });
+
+    return response.status;
+  });
+
+// TODO:
+export const loggingReaper = functions.pubsub
+  .schedule('every 24 hours')
+  .onRun(async () => {
+    const response = await fetcher(`/api/logging/reaper`, {
+      method: 'DELETE',
+      body: JSON.stringify({}),
+    });
+    return response.status;
+  });
+
+// TODO:
+export const tasksReaper = functions.pubsub
+  .schedule('every 24 hours')
+  .onRun(async () => {
+    const response = await fetcher(`/api/executions/reaper`, {
+      method: 'DELETE',
+      body: JSON.stringify({}),
+    });
+    return response.status;
   });
