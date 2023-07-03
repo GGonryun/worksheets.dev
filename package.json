@@ -45,6 +45,7 @@
     "lodash": "^4.17.21",
     "msw": "^1.2.2",
     "next": "13.3.0",
+    "node-fetch": "2.6.1",
     "nodemailer": "^6.9.3",
     "octokit": "^2.0.19",
     "openai": "^3.2.1",
