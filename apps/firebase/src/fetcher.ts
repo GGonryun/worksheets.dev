@@ -1,6 +1,7 @@
 // The Cloud Functions for Firebase SDK to create Cloud Functions and setup triggers.
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
+import fetch, { RequestInit } from 'node-fetch';
 
 // create a function that evaluates the baseurl from an envrionment variable
 export const baseUrl = () => {
