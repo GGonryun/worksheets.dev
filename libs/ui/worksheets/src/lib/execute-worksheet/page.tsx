@@ -25,21 +25,24 @@ import { VerticalResizerLayout } from '../shared/resizable-layout/vertical-resiz
 import { HorizontalResizerLayout } from '../shared/resizable-layout/horizontal-resizer-layout';
 import { JSONEditor } from './json-editor';
 import { YAMLViewer } from './yaml-viewer';
+import { useUser } from '@worksheets/util/auth/client';
 
 export const ExecuteWorksheetPage: React.FC = () => {
   const { query, push } = useRouter();
+  const { user } = useUser();
+
   const worksheetId = query.id as string;
   const replayId = query.replayId as string;
 
   const { data: replay } = trpc.worksheets.tasks.execution.useQuery(
     { executionId: replayId },
     {
-      enabled: !!replayId,
+      enabled: !!replayId && !!user,
     }
   );
   const { data: worksheet } = trpc.worksheets.get.useQuery(
     { worksheetId },
-    { enabled: !!worksheetId }
+    { enabled: !!worksheetId && !!user }
   );
 
   const [input, setInput] = useState('{}');

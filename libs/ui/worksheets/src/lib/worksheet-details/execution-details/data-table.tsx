@@ -17,6 +17,7 @@ import {
   prettyPrintMilliseconds,
 } from '@worksheets/util/time';
 import { TaskExecutionStatusChip } from '../../shared/task-execution-status-chip';
+import { useUser } from '@worksheets/util/auth/client';
 
 const columns = (worksheetId: string): GridColDef[] => [
   {
@@ -128,10 +129,12 @@ export const ExecutionDetailsDataTable: FC<
 > = () => {
   const { query } = useRouter();
   const worksheetId = query.id as string;
-  const { data: executions } = trpc.worksheets.tasks.history.useQuery(
-    { worksheetId },
-    { enabled: !!worksheetId }
-  );
+  const { user } = useUser();
+  const { data: executions, isLoading } =
+    trpc.worksheets.tasks.history.useQuery(
+      { worksheetId },
+      { enabled: !!worksheetId && !!user }
+    );
   return (
     <DataGrid
       sx={() => ({
@@ -139,6 +142,7 @@ export const ExecutionDetailsDataTable: FC<
       })}
       rows={executions ?? []}
       autoHeight
+      loading={isLoading}
       columns={columns(worksheetId)}
       density="compact"
       hideFooter

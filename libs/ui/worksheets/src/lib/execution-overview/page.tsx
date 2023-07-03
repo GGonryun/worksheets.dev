@@ -21,17 +21,19 @@ import { PlayArrowOutlined } from '@mui/icons-material';
 import { LogLevelVerbosityChip } from '../shared/log-level-verbosity-chip';
 import { LogList } from '../worksheet-details/log-list/log-list';
 import { OpenInNewTabLink } from '../shared/open-in-new-tab-link';
+import { useUser } from '@worksheets/util/auth/client';
 
 export const ExecutionOverviewPage: React.FC<{
   worksheetId: string;
   executionId: string;
 }> = ({ executionId, worksheetId }) => {
   const { back } = useRouter();
+  const { user } = useUser();
   // get the task
   const { data: execution } = trpc.worksheets.tasks.execution.useQuery(
     { executionId },
     {
-      enabled: !!executionId,
+      enabled: !!executionId && !!user,
       refetchInterval: 5000,
       refetchIntervalInBackground: false,
     }
@@ -41,7 +43,7 @@ export const ExecutionOverviewPage: React.FC<{
   const { data: worksheet } = trpc.worksheets.get.useQuery(
     { worksheetId },
     {
-      enabled: !!worksheetId,
+      enabled: !!worksheetId && !!user,
     }
   );
 
