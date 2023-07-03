@@ -28,9 +28,11 @@ import { TinyToggle } from '../../shared/tiny-toggle';
 import { EditTimeoutDialog } from './dialogs/edit-timeout';
 import { ConfigurationOption } from '../../shared/configuration-option';
 import { LogLevelVerbosityChip } from '../../shared/log-level-verbosity-chip';
+import { useUser } from '@worksheets/util/auth/client';
 
 export const GeneralConfiguration: React.FC = () => {
   const { query, push } = useRouter();
+  const { user } = useUser();
 
   const worksheetId = query.id as string;
 
@@ -53,7 +55,7 @@ export const GeneralConfiguration: React.FC = () => {
 
   const { data } = trpc.worksheets.get.useQuery(
     { worksheetId },
-    { enabled: !!worksheetId }
+    { enabled: !!worksheetId && !!user }
   );
 
   const updateWorksheet = trpc.worksheets.update.useMutation();

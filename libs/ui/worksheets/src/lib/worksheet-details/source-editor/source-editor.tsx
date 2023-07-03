@@ -11,7 +11,6 @@ export const SourceEditor = () => {
   const { query } = useRouter();
   const worksheetId = query.id as string;
   const editingQueryValue = query.edit as string;
-  console.log('editing', editingQueryValue, !!editingQueryValue);
 
   const utils = trpc.useContext();
   const { data: worksheet, isLoading } = trpc.worksheets.get.useQuery(
