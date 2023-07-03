@@ -5,10 +5,10 @@ const tasksDb = newTasksDatabase();
 export const getProcessingHistory = async (
   worksheetId: string
 ): Promise<TaskEntity[]> => {
-  const tasks = await tasksDb.query({
-    f: 'worksheetId',
-    o: '==',
-    v: worksheetId,
-  });
+  const docs = await tasksDb.collection
+    .where('worksheetId', '==', worksheetId)
+    .orderBy('createdAt', 'desc')
+    .get();
+  const tasks = tasksDb.parse(docs);
   return tasks;
 };
