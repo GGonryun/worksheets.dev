@@ -89,6 +89,7 @@
     "@types/esprima": "^4.0.3",
     "@types/jest": "^29.4.0",
     "@types/js-yaml": "^4.0.5",
+    "@types/jsonpath": "^0.2.0",
     "@types/node": "18.14.2",
     "@types/nodemailer": "^6.4.8",
     "@types/react": "18.0.28",
