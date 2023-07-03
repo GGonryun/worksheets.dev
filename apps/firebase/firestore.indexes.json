@@ -1,3 +1,53 @@
 {
-  "indexes": []
+  "indexes": [
+    {
+      "collectionGroup": "logs",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "taskId", "order": "DESCENDING" },
+        { "fieldPath": "worksheetId", "order": "DESCENDING" },
+        { "fieldPath": "createdAt", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "logs",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "worksheetId", "order": "DESCENDING" },
+        { "fieldPath": "createdAt", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "tasks",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "worksheetId", "order": "DESCENDING" },
+        { "fieldPath": "createdAt", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "tasks",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "worksheetId", "order": "DESCENDING" },
+        { "fieldPath": "updatedAt", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "tasks",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "worksheetId", "order": "DESCENDING" },
+        { "fieldPath": "state", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "worksheet-connections",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "worksheetId", "order": "DESCENDING" },
+        { "fieldPath": "appId", "order": "DESCENDING" }
+      ]
+    }
+  ]
 }

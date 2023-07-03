@@ -6,6 +6,7 @@ import { Context } from './context';
 import { prettyPrintMilliseconds } from '@worksheets/util/time';
 import { limits } from '@worksheets/feat/server-management';
 import { flags } from '@worksheets/feat/user-management';
+import { cleanseAlphaNumeric } from '@worksheets/util/strings';
 
 export enum Severity {
   INFO,
@@ -145,7 +146,7 @@ const limiters = middleware(async ({ meta, ctx, next }) => {
     keys.push(`timezone - ${timezone as string}`);
     promises.push(
       limits.throttle({
-        id: timezone as string,
+        id: cleanseAlphaNumeric(timezone as string),
         quantity: 1,
         meta: 'timezone',
         interval: 1.5,
