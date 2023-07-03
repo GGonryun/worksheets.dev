@@ -12,6 +12,7 @@ import { GridLinkAction } from '../shared/grid-action-link';
 import { trpc } from '@worksheets/trpc/ide';
 import { ApplicationDetails } from '../shared/types';
 import { TinyLogo } from '../shared/tiny-logo';
+import { useUser } from '@worksheets/util/auth/client';
 
 const columns: (onClick: (worksheetId: string) => void) => GridColDef[] = (
   onClick
@@ -108,7 +109,13 @@ const columns: (onClick: (worksheetId: string) => void) => GridColDef[] = (
 
 export function WorksheetsDataTable() {
   const utils = trpc.useContext();
-  const { data: worksheets } = trpc.worksheets.table.useQuery();
+  const { user } = useUser();
+  const { data: worksheets, isLoading } = trpc.worksheets.table.useQuery(
+    undefined,
+    {
+      enabled: !!user,
+    }
+  );
   const deleteWorksheet = trpc.worksheets.delete.useMutation();
 
   const handleDeleteWorksheet = async (worksheetId: string) => {
@@ -131,6 +138,7 @@ export function WorksheetsDataTable() {
       rowHeight={42}
       showCellVerticalBorder
       showColumnVerticalBorder
+      loading={isLoading}
       columns={columns(handleDeleteWorksheet)}
       density="compact"
       initialState={{

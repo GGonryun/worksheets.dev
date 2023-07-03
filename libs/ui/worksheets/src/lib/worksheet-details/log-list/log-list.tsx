@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import { CollapsingHorizontalResizableLayout } from '../../shared/resizable-layout/collapsing-horizontal-resizer';
 import { trpc } from '@worksheets/trpc/ide';
 import { JSONViewer } from '../../execute-worksheet/json-viewer';
+import { useUser } from '@worksheets/util/auth/client';
 
 export type LogListProps = {
   worksheetId: string;
@@ -20,10 +21,11 @@ export const LogList: React.FC<LogListProps> = ({
   showExecutionIds,
 }) => {
   const [viewingDetails, setViewingDetails] = useState<string>('');
+  const { user } = useUser();
 
   const { data, isLoading } = trpc.worksheets.logs.get.useQuery(
     { worksheetId, executionId },
-    { enabled: !!worksheetId, refetchInterval: refetchInterval }
+    { enabled: !!worksheetId && !!user, refetchInterval: refetchInterval }
   );
 
   return (
