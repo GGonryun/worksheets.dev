@@ -60,6 +60,9 @@
       "@worksheets/feat/applications-registry": [
         "libs/feat/applications-registry/src/index.ts"
       ],
+      "@worksheets/feat/error-reporting": [
+        "libs/feat/error-reporting/src/index.ts"
+      ],
       "@worksheets/feat/execution-settings": [
         "libs/feat/execution-settings/src/index.ts"
       ],

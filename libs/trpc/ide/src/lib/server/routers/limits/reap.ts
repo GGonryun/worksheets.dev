@@ -7,7 +7,7 @@ export const reap = publicProcedure
     openapi: {
       enabled: true,
       method: 'DELETE',
-      path: '/limits/reap',
+      path: '/limits/reaper',
       summary: 'Reap rate limits and quotas',
       description: 'Reap rate limits and quotas that have expired',
       tags: ['limits'],

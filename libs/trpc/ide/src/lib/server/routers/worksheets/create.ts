@@ -3,6 +3,7 @@ import { z } from 'zod';
 import * as WorksheetsManagement from '@worksheets/feat/worksheets-management';
 import { logLevelEntity } from '@worksheets/data-access/tasks';
 import { addWorksheetConnections } from '@worksheets/feat/worksheets-connections';
+import { TRPCError } from '@trpc/server';
 
 const sampleYaml = `
 name: iterating loops
