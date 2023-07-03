@@ -23,3 +23,8 @@ export function capitalizeFirstLetter(string: string) {
 export function reverseString(string: string) {
   return string.split('').reverse().join('');
 }
+
+// remove all non-alphanumeric characters
+export function cleanseAlphaNumeric(string: string) {
+  return string.replace(/[^a-zA-Z0-9]/g, '');
+}

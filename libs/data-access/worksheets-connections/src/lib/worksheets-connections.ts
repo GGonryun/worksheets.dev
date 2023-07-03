@@ -27,4 +27,4 @@ export type WorksheetsConnectionsDatabase =
   FirestoreDatabase<WorksheetConnectionEntity>;
 
 export const newWorksheetsConnectionsDatabase = (txn?: Txn) =>
-  newFirestore<WorksheetConnectionEntity>('worksheet-connection', txn);
+  newFirestore<WorksheetConnectionEntity>('worksheet-connections', txn);
