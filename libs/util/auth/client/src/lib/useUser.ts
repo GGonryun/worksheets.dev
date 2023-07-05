@@ -84,13 +84,15 @@ export const useUser = () => {
         });
       }
 
+      console.error('unexpected error during auth process', error);
       throw new UserAccessFailure({
         code: 'unexpected',
         cause: error,
         message: `unexpected failure during auth process`,
       });
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   const signOut: SignOutFunction = async () => {
