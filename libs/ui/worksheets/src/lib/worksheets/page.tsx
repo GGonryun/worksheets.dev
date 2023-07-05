@@ -72,7 +72,7 @@ const EvaluationDialog: React.FC<{ open: boolean; onClose: () => void }> = ({
             Rate limits have been increased and user quotas have been decreased.
             If you would like to <strong>continue using Worksheets.dev</strong>,
             please{' '}
-            <OpenInNewTabLink href="/settings/billing">
+            <OpenInNewTabLink href="https://docs.worksheets.dev/settings/billing">
               contact us
             </OpenInNewTabLink>
             .
