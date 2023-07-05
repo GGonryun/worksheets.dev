@@ -20,7 +20,17 @@ const updateUser = async (uid: string, body: Omit<UserProperties, 'uid'>) => {
     email: body.email,
     properties: body.properties,
   };
-  await fsClient.users.update(uid, req);
+  try {
+    await fsClient.users.update(uid, req);
+  } catch (error) {
+    if (
+      error instanceof Error &&
+      error.message.includes('Failed to get user by id')
+    ) {
+      console.warn('[FULLSTORY] user not found. attempting to create', uid);
+      await fsClient.users.create(req);
+    }
+  }
 };
 
 type UserProperties = {
