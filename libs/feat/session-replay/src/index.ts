@@ -29,6 +29,8 @@ const updateUser = async (uid: string, body: Omit<UserProperties, 'uid'>) => {
     ) {
       console.warn('[FULLSTORY] user not found. attempting to create', uid);
       await fsClient.users.create(req);
+    } else {
+      console.warn("[FULLSTORY] user couldn't be updated", uid, error);
     }
   }
 };
