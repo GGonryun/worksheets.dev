@@ -62,3 +62,7 @@ libs/ui/common/coverage/**
 */coverage/
 coverage/
 **/coverage
+
+# Generated Docusaurus files
+.docusaurus/
+.cache-loader/
