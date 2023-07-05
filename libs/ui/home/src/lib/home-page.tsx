@@ -9,6 +9,7 @@ export function HomePage(props: HomePageProps) {
   const { push } = useRouter();
   useEffect(() => {
     push('/login');
-  }, [push]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return <div className={styles['container']}></div>;
 }
