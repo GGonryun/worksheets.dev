@@ -11,11 +11,14 @@ import { useEffect, useState } from 'react';
 import { firebaseAuth } from '@worksheets/firebase/client';
 import { UserAccessFailure } from './failures';
 import { FirebaseFailure } from '@worksheets/firebase/client';
+import { trpc } from '@worksheets/trpc/ide';
 
 export const useUser = () => {
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(true);
+
+  const ack = trpc.user.acknowledge.useMutation();
 
   useEffect(() => {
     if (!firebaseAuth) return;
@@ -39,18 +42,29 @@ export const useUser = () => {
     };
   }, []);
 
+  const onSignIn = () => {
+    ack.mutate({
+      version: 1,
+    });
+  };
+
   const signIn: SignInFunction = async (e, p) => {
+    setLoading(true);
     if (!firebaseAuth)
       throw new UserAccessFailure({
         code: 'service-unavailable',
       });
 
-    return signInWithEmailAndPassword(firebaseAuth, e, p);
+    const rsp = await signInWithEmailAndPassword(firebaseAuth, e, p);
+    onSignIn();
+    setLoading(false);
+    return rsp;
   };
 
   const signInProvider: SignInProviderFunction = async (
     provider: AuthProvider
   ) => {
+    setLoading(true);
     if (!firebaseAuth)
       throw new UserAccessFailure({
         code: 'service-unavailable',
@@ -58,6 +72,7 @@ export const useUser = () => {
 
     try {
       const credentials = await signInWithPopup(firebaseAuth, provider);
+      onSignIn();
       return credentials.user;
     } catch (error) {
       if (error instanceof FirebaseFailure) {
@@ -75,6 +90,7 @@ export const useUser = () => {
         message: `unexpected failure during auth process`,
       });
     }
+    setLoading(false);
   };
 
   const signOut: SignOutFunction = async () => {
@@ -85,6 +101,7 @@ export const useUser = () => {
 
     await firebaseAuth.signOut();
   };
+
   const signUp: SignUpFunction = async (email: string, password: string) => {
     if (!email || !password) {
       throw new UserAccessFailure({

@@ -325,3 +325,22 @@ export const durationToMilliseconds = ({
   const secondsToMs = seconds * 1000;
   return daysToMs + hoursToMs + minutesToMs + secondsToMs;
 };
+
+// gets the first date of the month and the last day of the month
+// printed out as MMM DD - MMM DD
+export const calculateCycle = () => {
+  const today = new Date();
+  const firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
+  const lastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+
+  const firstDayString = firstDay.toLocaleString('default', {
+    month: 'short',
+    day: 'numeric',
+  });
+  const lastDayString = lastDay.toLocaleString('default', {
+    month: 'short',
+    day: 'numeric',
+  });
+
+  return `${firstDayString} - ${lastDayString}`;
+};

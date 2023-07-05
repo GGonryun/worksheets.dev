@@ -16,6 +16,7 @@ export const pushTasksToCompletion = async (max: number): Promise<number> => {
   const data = await db.collection
     // get all tasks that might be ready to process
     .where('state', 'in', ['queued', 'pending'])
+    .orderBy('createdAt', 'desc')
     // limit the number of tasks to process
     .limit(max)
     // get the data
@@ -29,7 +30,10 @@ export const pushTasksToCompletion = async (max: number): Promise<number> => {
 
   // parse the data into entities
   const entities = db.parse(data);
-  console.info('[REAPER] Searching for tasks to terminate.', entities.length);
+  console.info(
+    '[REAPER] Searching for tasks to drive to completion',
+    entities.length
+  );
 
   // filter out tasks that have a delay set with an offset greater than 2 minutes
   const now = new Date().getTime();

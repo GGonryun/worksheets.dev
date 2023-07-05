@@ -28,9 +28,9 @@ describe('searchForFunctions', () => {
       const text = `
       input: [args]
       steps:
-          - call: google-gmail/get-user-email
+          - call: google_gmail.get_user_email
               output: user
-          - call: google-gmail/send-email
+          - call: google_gmail.send_email
               input:
               to: \${args.email}
               subject: "Hello \${args.name}"
@@ -40,8 +40,8 @@ describe('searchForFunctions', () => {
           `;
       const apps = searchForFunctions(text);
       expect(apps).toEqual([
-        'google-gmail/get-user-email',
-        'google-gmail/send-email',
+        'google_gmail.get_user_email',
+        'google_gmail.send_email',
       ]);
     });
   });
@@ -49,7 +49,7 @@ describe('searchForFunctions', () => {
 
 describe('splitFunctionDeclaration', () => {
   it('splits a function declaration', () => {
-    const text = 'app/method@version';
+    const text = 'app.method@version';
     const declaration = splitFunctionDeclaration(text);
     expect(declaration).toEqual({
       app: 'app',
@@ -58,7 +58,7 @@ describe('splitFunctionDeclaration', () => {
     });
   });
   it('splits functions without versions', () => {
-    const text = 'app/method';
+    const text = 'app.method';
     const declaration = splitFunctionDeclaration(text);
     expect(declaration).toEqual({
       app: 'app',

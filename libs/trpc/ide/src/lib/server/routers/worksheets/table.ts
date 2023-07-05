@@ -1,12 +1,16 @@
-import { protectedProcedure } from '../../trpc';
+import { Severity, protectedProcedure } from '../../trpc';
 import * as WorksheetsManagement from '@worksheets/feat/worksheets-management';
 
-export default protectedProcedure.query(
-  async ({
-    ctx: {
-      user: { uid },
-    },
-  }) => {
-    return await WorksheetsManagement.getWorksheetsDataTable(uid);
-  }
-);
+export default protectedProcedure
+  .meta({
+    logging: Severity.ERROR,
+  })
+  .query(
+    async ({
+      ctx: {
+        user: { uid },
+      },
+    }) => {
+      return await WorksheetsManagement.getWorksheetsDataTable(uid);
+    }
+  );

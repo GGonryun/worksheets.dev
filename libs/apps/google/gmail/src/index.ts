@@ -11,4 +11,10 @@ export default newApplication({
     'Gmail is a free email service provided by Google. As of 2019, it had 1.5 billion active users worldwide making it the largest email service in the world.',
   methods: [sendEmail, getUserEmail],
   settings,
+  meta: {
+    enabled: true,
+    public: true,
+    gallery: true,
+    external: true,
+  },
 });

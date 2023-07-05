@@ -4,7 +4,7 @@ version: 1
 steps:
   - assign:
     - sum: \${2 + 2}
-return: \${sum}
+output: \${sum}
 `;
 
 const accumulator = `
@@ -25,7 +25,7 @@ steps:
       - assign:
         - data: \${data + v}
 
-return: \${data}
+output: \${data}
 `;
 
 const loops = `
@@ -42,7 +42,7 @@ steps:
       - assign:
         - data: \${v}
 
-return: \${data}
+output: \${data}
 `;
 
 const max = `
@@ -53,7 +53,7 @@ steps:
   - call: math.max
     input: \${list}
     output: max
-return: \${max}
+output: \${max}
 `;
 
 const http = `
@@ -70,8 +70,8 @@ steps:
 const idempotence = `
 name: idempotent function
 version: 1
-params: input
-return: \${input}
+input: input
+output: \${input}
 `;
 
 const interpolation = `

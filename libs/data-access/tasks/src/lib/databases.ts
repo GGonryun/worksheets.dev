@@ -126,6 +126,8 @@ export const taskEntity = z.object({
   delay: z.number().default(0),
   // the worksheet that started this task
   worksheetId: z.string(),
+  // the user id that the worksheet that started this task.
+  userId: z.string(),
   // the raw text that started this task.
   text: z.string(),
   // key value pairs of the SLA ID and a number of seconds or units until expiration or termination.
@@ -143,7 +145,7 @@ export const taskEntity = z.object({
   // dependencies: z.array(z.string()),
   // the processors that can pickup this task.
   // processors: z.union([
-  //   z.literal('worksheets@v1'),
+  //   z.literal('worksheets'),
   //   z.literal('worksheets@latest'),
   // ]),
   // references to shared memory for concurrent data access
@@ -166,3 +168,31 @@ export const newTaskSnapshotsDatabase = (txn?: Txn) =>
 
 export const newTaskLoggingDatabase = (txn?: Txn) =>
   newFirestore<TaskLogEntity>('logs', txn);
+
+export const findUsersQueuedExecutions = async (
+  db: TasksDatabase,
+  userId: string
+): Promise<TaskEntity[]> => {
+  const all = await db.query({
+    f: 'userId',
+    o: '==',
+    v: userId,
+  });
+
+  return all.filter(
+    (task) => task.state === 'pending' || task.state === 'queued'
+  );
+};
+
+export const findUsersRunningExecutions = async (
+  db: TasksDatabase,
+  userId: string
+): Promise<TaskEntity[]> => {
+  const all = await db.query({
+    f: 'userId',
+    o: '==',
+    v: userId,
+  });
+
+  return all.filter((task) => task.state === 'running');
+};

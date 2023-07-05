@@ -34,31 +34,33 @@ export const taskProcessor = functions.pubsub
 export const taskComplete = functions.pubsub
   .topic('task-complete')
   .onPublish(async (message) => {
+    // get the task id from the message
+    const taskId = message.json.taskId;
+
     // log the message
-    functions.logger.info('Task processing is done', { message });
+    functions.logger.info('Task processing is done', { message, taskId });
+
+    return taskId;
   });
 
 // the task reaper is a pubsub function that executes every 10 minutes and sends a request to the api to check for tasks that have been running for too long.
-export const taskReaper = functions.pubsub
-  // .schedule('* * * * *')
-  .schedule('every 5 minutes')
-  .onRun(async (context) => {
+export const taskProcessReaper = functions.pubsub
+  .schedule('* * * * *')
+  .onRun(async () => {
     // send the fetch request to the worksheets.dev task reaper endpoint
-    const response = await fetcher(`/api/executions/reaper`, {
+    const response = await fetcher(`/api/reapers/executions`, {
       method: 'DELETE',
       // send the request with a json body that contains the current time
-      body: JSON.stringify({
-        timestamp: context.timestamp,
-      }),
+      body: JSON.stringify({}),
     });
 
     return response.status;
   });
 
 export const limitsReaper = functions.pubsub
-  .schedule('every 3 hours')
+  .schedule('*/30 * * * *')
   .onRun(async () => {
-    const response = await fetcher(`/api/limits/reaper`, {
+    const response = await fetcher(`/api/reapers/limits`, {
       method: 'DELETE',
       body: JSON.stringify({}),
     });
@@ -66,11 +68,10 @@ export const limitsReaper = functions.pubsub
     return response.status;
   });
 
-// TODO:
 export const handshakesReaper = functions.pubsub
-  .schedule('every 24 hours')
+  .schedule('every 4 hours')
   .onRun(async () => {
-    const response = await fetcher(`/api/garbage/reaper`, {
+    const response = await fetcher(`/api/reapers/handshakes`, {
       method: 'DELETE',
       body: JSON.stringify({}),
     });
@@ -78,22 +79,20 @@ export const handshakesReaper = functions.pubsub
     return response.status;
   });
 
-// TODO:
 export const loggingReaper = functions.pubsub
-  .schedule('every 24 hours')
+  .schedule('*/30 * * * *')
   .onRun(async () => {
-    const response = await fetcher(`/api/logging/reaper`, {
+    const response = await fetcher(`/api/reapers/logging`, {
       method: 'DELETE',
       body: JSON.stringify({}),
     });
     return response.status;
   });
 
-// TODO:
-export const tasksReaper = functions.pubsub
-  .schedule('every 24 hours')
+export const historyReaper = functions.pubsub
+  .schedule('every 6 hours')
   .onRun(async () => {
-    const response = await fetcher(`/api/executions/reaper`, {
+    const response = await fetcher(`/api/reapers/history`, {
       method: 'DELETE',
       body: JSON.stringify({}),
     });

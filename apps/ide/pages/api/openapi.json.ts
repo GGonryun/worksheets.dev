@@ -22,7 +22,7 @@ export const openApiDocument = generateOpenApiDocument(appRouter, {
     'templates',
     'applications',
     'logs',
-    'limits',
+    'reapers',
   ],
   securitySchemes: {
     bearerAuth: {

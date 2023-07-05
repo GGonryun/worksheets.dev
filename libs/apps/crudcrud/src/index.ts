@@ -12,4 +12,10 @@ export default newApplication({
   id: 'crudcrud',
   logo: 'https://storage.googleapis.com/worksheets-test-app-logos/language-json-svgrepo-com.svg',
   settings,
+  meta: {
+    enabled: true,
+    public: true,
+    gallery: true,
+    external: true,
+  },
 });

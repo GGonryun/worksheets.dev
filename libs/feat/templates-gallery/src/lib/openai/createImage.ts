@@ -10,7 +10,7 @@ export const createImage: TemplateDefinition = {
 input: [args]
 
 steps:
-  - call: open-ai/create-image
+  - call: open_ai.create_image
     input: 
       prompt: \${args.prompt}
       output: image

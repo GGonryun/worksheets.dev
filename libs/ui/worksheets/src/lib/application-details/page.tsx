@@ -11,7 +11,6 @@ import {
 import { FloatingLayout } from '../floating-layout';
 import { trpc } from '@worksheets/trpc/ide';
 import { TinyLogo } from '../shared/tiny-logo';
-import { OpenInNewTabLink } from '../shared/open-in-new-tab-link';
 import { CheckCircle } from '@mui/icons-material';
 import { GetApplicationResponse, ListMethodsResponse } from '../shared/types';
 import { useRouter } from 'next/router';
@@ -21,6 +20,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import React, { useState } from 'react';
 import { CodeEditor } from '@worksheets/ui/code-editor';
 import { ResourcesFooter } from '../shared/resources-footer';
+import { OpenInNewTabLink } from '@worksheets/ui/common';
 
 type SingleMethodResponse = ListMethodsResponse[number];
 
@@ -51,7 +51,9 @@ const Header: React.FC<{ app: GetApplicationResponse }> = ({ app }) => (
       <TinyLogo area={100} label={app.name} src={app.logo} />
     </Box>
     <Box flexGrow={1}>
-      <Typography variant="h5">{app.name}</Typography>
+      <Typography variant="h5">
+        {app.name} ({app.id})
+      </Typography>
       <Typography variant="body1">{app.description}</Typography>
       <Box display="flex" flexDirection="column">
         <Typography variant="caption">
@@ -165,7 +167,14 @@ const MethodCard: React.FC<{
             },
           }}
           avatar={<TinyLogo label={app.name} src={app.logo} area={28} />}
-          title={method.label}
+          title={
+            <Box display="flex" alignItems="baseline" gap={4}>
+              <Typography>{method.label}</Typography>
+              <Typography variant="caption" color="text.secondary">
+                ({app.id}/{method.id})
+              </Typography>
+            </Box>
+          }
           subheader={method.description}
           action={
             <Box display="flex" alignItems="center" justifyContent="center">

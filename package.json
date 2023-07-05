@@ -7,7 +7,10 @@
   "dependencies": {
     "@emotion/react": "^11.11.0",
     "@emotion/styled": "^11.11.0",
+    "@fullstory/browser": "^1.7.1",
+    "@fullstory/server-api-client": "^1.0.0-beta.1",
     "@google-cloud/error-reporting": "^3.0.5",
+    "@google-cloud/monitoring": "^3.0.5",
     "@google-cloud/pubsub": "^3.6.0",
     "@google-cloud/storage": "^6.10.1",
     "@mui/icons-material": "^5.11.16",
@@ -23,6 +26,7 @@
     "@trpc/client": "^10.31.0",
     "@trpc/next": "^10.31.0",
     "@trpc/server": "^10.31.0",
+    "@vercel/analytics": "^1.0.1",
     "ace-builds": "^1.22.0",
     "axios": "^1.0.0",
     "client-oauth2": "^4.3.3",

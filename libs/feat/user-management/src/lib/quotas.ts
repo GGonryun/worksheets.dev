@@ -2,51 +2,86 @@ import {
   UserQuotasEntity,
   newUserQuotasDatabase,
 } from '@worksheets/data-access/user-agent';
-import { durationToMilliseconds } from '@worksheets/util/time';
+import { INITIAL_QUOTAS } from './constants';
 
 const db = newUserQuotasDatabase();
 
 const getQuotas = async (uid: string): Promise<UserQuotasEntity> => {
-  let q: UserQuotasEntity;
-  if (await db.has(uid)) {
-    q = await db.get(uid);
-  } else {
-    q = await db.insert({
-      ...INITIAL_QUOTAS,
-      id: uid,
-    });
-  }
-  return q;
+  return await db.get(uid);
 };
 
-// should replenish out of band every hour.
-const INITIAL_QUOTAS = {
-  tokenUses: 1000,
-  executions: 100,
-  methodCalls: 500,
-  processingTime: durationToMilliseconds({ minutes: 5 }),
+const createQuotas = async (uid: string): Promise<UserQuotasEntity> => {
+  return await db.insert({
+    ...INITIAL_QUOTAS,
+    createdAt: Date.now(),
+    id: uid,
+  });
 };
 
 export const quotas = {
+  exist: async (uid: string) => {
+    return await db.has(uid);
+  },
+  update: async (
+    uid: string,
+    opts: { enabled?: boolean; overclock?: boolean }
+  ) => {
+    const userQuotas = await getQuotas(uid);
+    if (opts.overclock != null) {
+      userQuotas.overclocked = opts.overclock;
+    }
+
+    if (opts.enabled != null) {
+      userQuotas.enabled = opts.enabled;
+    }
+
+    await db.update(userQuotas);
+    return true;
+  },
+  get: getQuotas,
+  create: createQuotas,
   request: async (opts: {
     uid: string;
-    type: keyof Omit<UserQuotasEntity, 'id'>;
+    type: keyof Omit<
+      UserQuotasEntity,
+      'id' | 'createdAt' | 'enabled' | 'overclocked'
+    >;
     quantity: number;
   }) => {
-    const quota = await getQuotas(opts.uid);
-    if (quota[opts.type] < opts.quantity) {
+    const userQuotas = await getQuotas(opts.uid);
+
+    if (!userQuotas.enabled) {
+      console.warn(`[QUOTAS][${opts.uid}] disabled for user`);
       return false;
     }
 
-    quota[opts.type] -= opts.quantity;
-    await db.update(quota);
+    const userQuota = userQuotas[opts.type];
+    if (userQuota.current <= 0) {
+      console.warn(`[QUOTAS][${opts.uid}] quota ${opts.type} exhausted`);
+      return false;
+    }
+
+    userQuota.current -= opts.quantity;
+    await db.update(userQuotas);
     return true;
   },
+
   isEmpty: async (opts: {
     uid: string;
-    type: keyof Omit<UserQuotasEntity, 'id'>;
+    type: keyof Omit<
+      UserQuotasEntity,
+      'id' | 'createdAt' | 'enabled' | 'overclocked'
+    >;
   }) => {
-    const quota = await getQuotas(opts.uid);
-    return quota[opts.type] <= 0;
+    const userQuotas = await getQuotas(opts.uid);
+
+    if (!userQuotas.enabled) {
+      console.warn(`[QUOTAS][${opts.uid}] disabled for user`);
+      return false;
+    }
+
+    const userQuota = userQuotas[opts.type];
+
+    return userQuota.current <= 0;
   },
 };

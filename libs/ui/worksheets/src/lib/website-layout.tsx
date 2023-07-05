@@ -238,7 +238,7 @@ export default function WebsiteLayout({ children }: LayoutProps) {
 const Title: React.FC = () => (
   <Typography variant="h6" noWrap component="div">
     <Link href="/" color="inherit" underline="hover">
-      Worksheets
+      Worksheets.dev
     </Link>
   </Typography>
 );

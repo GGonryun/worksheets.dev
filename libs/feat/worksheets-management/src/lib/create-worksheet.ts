@@ -25,7 +25,9 @@ export const createWorksheet = async (
   const records = await listUsersWorksheets(uid);
   const numRecords = Object.keys(records).length;
 
-  if (await limits.exceeds({ uid, key: 'maxWorksheets', value: numRecords })) {
+  if (
+    await limits.exceeds({ uid, type: 'maxWorksheets', value: numRecords + 1 })
+  ) {
     console.error(`user has exceeded their maximum number of worksheets`, {
       userId: uid,
     });

@@ -11,29 +11,13 @@ import { ConnectionsForm } from './connection-form';
 import { warn } from '@worksheets/ui/common';
 import { trpc } from '@worksheets/trpc/ide';
 import { CreateWorksheetRequest } from '../shared/types';
-
-const defaultYaml = `
-name: iterating loops
-assign:
-  - loop: [1, 2, 3, 4, apple]
-  - data:
-
-steps:
-  - for: loop
-    index: i
-    value: v
-    steps:
-      - assign:
-        - data: \${v}
-
-return: \${data}
-`;
+import { DEFAULT_SAMPLE_TEMPLATE } from '@worksheets/util/worksheets';
 
 const newWorksheetRequest: CreateWorksheetRequest = {
   name: '',
-  text: defaultYaml.trim(),
+  text: DEFAULT_SAMPLE_TEMPLATE,
   description: '',
-  logLevel: 'trace',
+  logLevel: 'info',
   connections: [],
 };
 

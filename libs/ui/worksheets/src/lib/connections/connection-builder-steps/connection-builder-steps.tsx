@@ -5,12 +5,16 @@ import Step from '@mui/material/Step';
 import Typography from '@mui/material/Typography';
 import { SharedTextField } from '../../shared/shared-text-field';
 import {
-  Alert,
   Divider,
   IconButton,
   Link,
   MenuItem,
+  StepLabel,
+  StepContent,
+  Alert,
   Tooltip,
+  CircularProgress,
+  Button,
 } from '@mui/material';
 import InfoIcon from '@mui/icons-material/Info';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
@@ -26,8 +30,11 @@ import { useConnectionBuilder } from '../useConnectionBuilder';
 import { ModificationBanner } from './modification-banner';
 import { AppLabel } from './app-label';
 import { useEffect, useState } from 'react';
-import { OpenInNewTabLink } from '../../shared/open-in-new-tab-link';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import { OpenInNewTabLink } from '@worksheets/ui/common';
+import { useUser } from '@worksheets/util/auth/client';
+import { trpc } from '@worksheets/trpc/ide';
+import ErrorOutlinedIcon from '@mui/icons-material/ErrorOutlined';
 
 const MAX_INDEX = 2;
 
@@ -38,6 +45,7 @@ export const ConnectionBuilderSteps: React.FC<{
   canEdit?: boolean;
   onSaved?: (connectionId: string) => void;
 }> = ({ connectionId, apps, onClose, canEdit, onSaved }) => {
+  const { user } = useUser();
   const {
     connection,
     fields,
@@ -51,6 +59,11 @@ export const ConnectionBuilderSteps: React.FC<{
     updateConnection,
   } = useConnectionBuilder({ connectionId, canEdit, onSaved });
   const [activeStep, setActiveStep] = React.useState(0);
+
+  const { data: canBuild } = trpc.user.connections.canCreate.useQuery(
+    undefined,
+    { enabled: !!user && !editing }
+  );
 
   useEffect(() => {
     setActiveStep(editing ? 2 : 0);
@@ -69,9 +82,59 @@ export const ConnectionBuilderSteps: React.FC<{
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
+  if (!editing && canBuild) {
+    return (
+      <Stepper activeStep={0} orientation="vertical">
+        <Step completed={true} key={0}>
+          {cannotEdit && <ModificationBanner connectionId={connectionId} />}
+
+          <StepLabel
+            icon={<ErrorOutlinedIcon color="error" />}
+            optional={
+              <Typography variant="caption">
+                Remove a connection to continue.
+              </Typography>
+            }
+          >
+            You have too many connections.
+          </StepLabel>
+          <StepContent>
+            <Box
+              display="flex"
+              flexDirection="column"
+              justifyContent="center"
+              alignItems="center"
+              gap={2}
+              pt={4}
+            >
+              <Typography variant="h6">
+                Delete inactive or unused connections from the
+              </Typography>
+              <Button
+                fullWidth
+                variant="contained"
+                endIcon={<OpenInNewIcon />}
+                href="/connections"
+                target="_blank"
+                size="large"
+              >
+                connections page
+              </Button>
+              <Typography variant="body2">
+                Return to this page when you're done and the creation form will
+                appear if you've deleted enough connections.
+              </Typography>
+              <CircularProgress />
+            </Box>
+          </StepContent>
+        </Step>
+      </Stepper>
+    );
+  }
+
   return (
     <Stepper activeStep={activeStep} nonLinear orientation="vertical">
-      <Step completed={editing} key={0}>
+      <Step completed={editing || activeStep <= 0} key={0}>
         {cannotEdit && <ModificationBanner connectionId={connectionId} />}
         <StepLabelWithCaption
           onClick={() => setActiveStep(0)}
@@ -125,7 +188,7 @@ export const ConnectionBuilderSteps: React.FC<{
           </Box>
         </StepContentWithActions>
       </Step>
-      <Step completed={editing} key={1}>
+      <Step completed={editing || activeStep <= 1} key={1}>
         <StepLabelWithCaption
           onClick={validation.details.ok ? () => setActiveStep(1) : undefined}
           label={'Connection settings'}
@@ -153,7 +216,7 @@ export const ConnectionBuilderSteps: React.FC<{
           </Box>
         </StepContentWithActions>
       </Step>
-      <Step completed={editing} key={2}>
+      <Step completed={editing || activeStep <= 2} key={2}>
         <StepLabelWithCaption
           onClick={
             validation.details.ok && validation.authentication.ok
@@ -179,7 +242,7 @@ export const ConnectionBuilderSteps: React.FC<{
               Connection details
             </Typography>
             <Divider />
-            <ReviewRowText label="ID">
+            <ReviewRowText label="ID" nonText>
               <HiddenField text={connection.id} />
             </ReviewRowText>
             <Divider />
@@ -240,7 +303,7 @@ export const ConnectionBuilderSteps: React.FC<{
 const HiddenField: React.FC<{ text: string }> = ({ text }) => {
   const [showText, setShowText] = useState(false);
   return (
-    <Box display="flex" alignItems="center" gap={1}>
+    <Box display="flex" alignItems="center" gap={2}>
       <Tooltip
         title="View your connection id. Protect this ID like you would a password."
         placement="top"
@@ -255,7 +318,9 @@ const HiddenField: React.FC<{ text: string }> = ({ text }) => {
           </IconButton>
         </span>
       </Tooltip>
-      {showText ? text : text.replace(/./g, '*')}
+      <Typography variant="caption">
+        {showText ? text : text.replace(/./g, '*')}
+      </Typography>
     </Box>
   );
 };

@@ -9,7 +9,7 @@ import { z } from 'zod';
 import { Octokit } from 'octokit';
 
 export const webhooksUpdate = newMethod({
-  id: 'webhooks.update',
+  id: 'webhooks_update',
   label: 'Update a repository webhook',
   description:
     'Updates a webhook configured in a repository. If you previously had a secret set, you must provide the same secret or set a new secret or the secret will be removed.',

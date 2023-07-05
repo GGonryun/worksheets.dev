@@ -15,9 +15,14 @@ import { SidecarLayout } from '../shared/sidecar-layout';
 import { ApplicationCard } from './application-card';
 import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 import TuneIcon from '@mui/icons-material/Tune';
+import { OpenInNewOutlined } from '@mui/icons-material';
 
 export function ApplicationsGalleryPage() {
-  const { data: applications } = trpc.applications.list.useQuery({});
+  const { data: applications } = trpc.applications.list.useQuery({
+    gallery: true,
+    enabled: true,
+    public: true,
+  });
   const [requesting, setRequesting] = useState(false);
 
   return (
@@ -96,15 +101,29 @@ export function ApplicationsGalleryPage() {
   );
 }
 
-const SpotlightButton: React.FC<{
+export const SpotlightButton: React.FC<{
   label: string;
   caption: string;
   icon: ReactNode;
   href?: string;
   onClick?: () => void;
-}> = ({ label, caption, icon, href, onClick }) => (
-  <Paper>
-    <ButtonBase href={href ?? ''} onClick={onClick} sx={{ width: '100%' }}>
+  elevation?: number;
+  openInNewTab?: boolean;
+}> = ({ label, caption, icon, href, onClick, elevation, openInNewTab }) => (
+  <Paper
+    elevation={elevation ?? 4}
+    sx={(theme) => ({
+      '&:hover': {
+        backgroundColor: theme.palette.action.hover,
+      },
+    })}
+  >
+    <ButtonBase
+      href={href ?? ''}
+      target={openInNewTab ? '_blank' : undefined}
+      onClick={onClick}
+      sx={{ width: '100%' }}
+    >
       <Box
         display="flex"
         alignItems="center"
@@ -144,6 +163,7 @@ const SpotlightButton: React.FC<{
             </Box>
           </Box>
         </Box>
+        {openInNewTab && <OpenInNewOutlined fontSize="small" color="primary" />}
       </Box>
     </ButtonBase>
   </Paper>

@@ -1,4 +1,4 @@
-import { protectedProcedure } from '../../../trpc';
+import { Severity, protectedProcedure } from '../../../trpc';
 import { z } from 'zod';
 import { loadWorksheetLogs } from '@worksheets/feat/structured-logging';
 import { taskLogEntity } from '@worksheets/data-access/tasks';
@@ -6,6 +6,7 @@ import { taskLogEntity } from '@worksheets/data-access/tasks';
 // TODO: we only return the latest 100 logs, but we should paginate
 export default protectedProcedure
   .meta({
+    logging: Severity.ERROR,
     openapi: {
       enabled: true,
       protect: true,
@@ -24,12 +25,6 @@ export default protectedProcedure
   )
   .output(z.array(taskLogEntity))
   .query(async ({ input: { worksheetId, executionId } }) => {
-    console.info(
-      `getting worksheet logs for worksheet ${worksheetId}${
-        executionId ? ` execution ${executionId}` : ``
-      }`
-    );
-
     const logs = await loadWorksheetLogs({
       worksheetId,
       taskId: executionId,

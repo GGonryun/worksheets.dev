@@ -1,10 +1,11 @@
 import { z } from 'zod';
-import { protectedProcedure } from '../../trpc';
+import { Severity, protectedProcedure } from '../../trpc';
 import * as WorksheetsManagement from '@worksheets/feat/worksheets-management';
 import { worksheetsEntitySchema } from '@worksheets/data-access/worksheets';
 
 export default protectedProcedure
   .meta({
+    logging: Severity.ERROR,
     openapi: {
       enabled: true,
       protect: true,

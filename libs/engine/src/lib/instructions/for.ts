@@ -22,14 +22,14 @@ export class For implements Instruction {
 
   async process(ctx: Context): Promise<void> {
     const { memory, instructions: stack } = ctx;
-    const { for: address, index } = this.definition;
+    const { for: address, index, value } = this.definition;
 
-    if (!index) {
-      throw new ExecutionFailure({
-        code: 'invalid-instruction',
-        message: `'for' instruction is missing required parameter: "index"`,
-      });
-    }
+    const loopDef = {
+      ...this.definition,
+      index: index ?? 'index',
+      value: value ?? 'value',
+    };
+
     const list = memory.getData(address);
     if (!list) {
       throw new ExecutionFailure({
@@ -45,7 +45,7 @@ export class For implements Instruction {
     }
 
     stack.push(new RestoreScope());
-    stack.push(new Loop(this.definition));
+    stack.push(new Loop(loopDef));
     stack.push(new CreateScope());
   }
 }

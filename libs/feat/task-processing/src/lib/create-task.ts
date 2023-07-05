@@ -1,5 +1,6 @@
 import {
   TaskEntity,
+  findUsersQueuedExecutions,
   newProcessTaskBus,
   newTaskLoggingDatabase,
   newTaskSnapshotsDatabase,
@@ -10,7 +11,6 @@ import { newEmptyLibrary } from '@worksheets/feat/execution-settings';
 import { getWorksheet } from '@worksheets/feat/worksheets-management';
 import { Maybe } from '@worksheets/util/types';
 import {
-  DEFAULT_TIMEOUT,
   TaskCreationOverrides,
   newDefaultDeadlines,
   newDefaultVerbosity,
@@ -20,7 +20,7 @@ import { TaskLogger } from './util';
 import { TRPCError } from '@trpc/server';
 import { limits as serverLimits } from '@worksheets/feat/server-management';
 import { quotas, limits as userLimits } from '@worksheets/feat/user-management';
-import { findActiveTasks } from './find-active-tasks';
+import { SERVER_SETTINGS } from '@worksheets/data-access/server-settings';
 
 const tasksDb = newTasksDatabase();
 const snapshotsDb = newTaskSnapshotsDatabase();
@@ -36,27 +36,12 @@ export const createTask = async (
 ): Promise<string> => {
   const worksheet = await getWorksheet(worksheetId);
 
-  // throttle system task executions to 10 per minute for any given worksheet
-  if (
-    !(await serverLimits.throttle({
-      id: worksheetId,
-      meta: 'worksheet',
-      quantity: 10,
-    }))
-  ) {
-    throw new TRPCError({
-      code: 'TOO_MANY_REQUESTS',
-      message:
-        "This worksheet has exceeded it's execution rate limit. Please try again in a minute.",
-    });
-  }
-
   // check the if the user has sufficient quota to execute the task
   if (
     !(await quotas.request({
       uid: worksheet.uid,
       type: 'executions',
-      quantity: 1,
+      quantity: SERVER_SETTINGS.RESOURCE_CONSUMPTION.USER_WORKSHEET_EXECUTION,
     }))
   ) {
     throw new TRPCError({
@@ -66,20 +51,34 @@ export const createTask = async (
     });
   }
 
-  // find active tasks
-  const activeTasks = await findActiveTasks(worksheetId);
-  console.info('active tasks', activeTasks.length);
+  const queuedTasks = await findUsersQueuedExecutions(tasksDb, worksheet.uid);
   if (
     await userLimits.exceeds({
       uid: worksheet.uid,
-      key: 'maxActiveTasks',
-      value: activeTasks.length,
+      type: 'maxQueuedExecutions',
+      value: queuedTasks.length,
     })
   ) {
     throw new TRPCError({
       code: 'TOO_MANY_REQUESTS',
       message:
-        'You have exceeded your concurrent task limit. Contact customer support to increase your limit.',
+        'You have too many queued worksheets. Try again later or contact customer support to increase your limits.',
+    });
+  }
+
+  // prevent this worksheet from executing too much
+  if (
+    !(await serverLimits.throttle({
+      id: worksheetId,
+      meta: 'worksheet-executions',
+      quantity:
+        SERVER_SETTINGS.RESOURCE_CONSUMPTION.INDIVIDUAL_WORKSHEET_EXECUTION,
+    }))
+  ) {
+    throw new TRPCError({
+      code: 'TOO_MANY_REQUESTS',
+      message:
+        'This worksheet has exceeded its execution rate limit. Please try again in a minute.',
     });
   }
 
@@ -88,11 +87,12 @@ export const createTask = async (
     !(await serverLimits.throttle({
       id: 'worksheet-executions',
       meta: 'system',
-      quantity: 1,
+      quantity:
+        SERVER_SETTINGS.RESOURCE_CONSUMPTION.SYSTEM_WORKSHEET_EXECUTIONS,
     }))
   ) {
     throw new TRPCError({
-      code: 'TOO_MANY_REQUESTS',
+      code: 'INTERNAL_SERVER_ERROR',
       message:
         "The system has exceeded it's execution rate limit. Please try again in a minute.",
     });
@@ -117,16 +117,21 @@ export const createTask = async (
   // set the task id to a new id if it is not provided
   taskId = taskId ?? tasksDb.id();
 
+  const timeout =
+    options?.timeout ??
+    worksheet.timeout ??
+    SERVER_SETTINGS.PROCESSING_DEADLINES.DEFAULT_TASK_TIMEOUT;
   // save the task early so that other processes don't try to start it too.
   task = await tasksDb.insert({
     id: taskId,
+    userId: worksheet.uid,
     worksheetId: worksheetId,
     text: worksheet.text,
     // do not save as queued otherwise the task will be picked up by the processor
     state: 'pending',
     input,
-    deadlines: newDefaultDeadlines(worksheet, options),
-    timeout: options.timeout ?? worksheet.timeout ?? DEFAULT_TIMEOUT,
+    timeout,
+    deadlines: newDefaultDeadlines(worksheet, timeout),
     verbosity: newDefaultVerbosity(worksheet, options),
     createdAt: Date.now(),
     updatedAt: Date.now(),

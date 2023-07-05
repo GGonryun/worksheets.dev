@@ -22,6 +22,7 @@ const getFlags = async (uid: string): Promise<UserFlagsEntity> => {
 };
 
 export const flags = {
+  get: getFlags,
   check: async (
     uid: string,
     key: TypeOf<typeof flagsSchema>,

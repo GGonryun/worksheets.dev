@@ -3,24 +3,8 @@ import { z } from 'zod';
 import * as WorksheetsManagement from '@worksheets/feat/worksheets-management';
 import { logLevelEntity } from '@worksheets/data-access/tasks';
 import { addWorksheetConnections } from '@worksheets/feat/worksheets-connections';
-import { TRPCError } from '@trpc/server';
+import { DEFAULT_SAMPLE_TEMPLATE } from '@worksheets/util/worksheets';
 
-const sampleYaml = `
-name: iterating loops
-assign:
-  - loop: [1, 2, 3, 4, apple]
-  - data:
-
-steps:
-  - for: loop
-    index: i
-    value: v
-    steps:
-      - assign:
-        - data: \${v}
-
-return: \${data}
-`.trim();
 export default protectedProcedure
   .meta({
     openapi: {
@@ -34,7 +18,7 @@ export default protectedProcedure
       example: {
         request: {
           name: 'My worksheet',
-          text: sampleYaml,
+          text: DEFAULT_SAMPLE_TEMPLATE,
           timeout: 10, // in seconds
           description: "My worksheet's description",
           logLevelEntity: 'warn',

@@ -25,23 +25,23 @@ describe('simple worksheets', () => {
       name: 'unit',
       expectation: 1,
       yaml: `
-    return: 1`,
+    output: 1`,
     },
     {
       name: 'identity',
       input: 'test',
       expectation: 'test',
       yaml: `
-    params: x
-    return: \${x}`,
+    input: x
+    output: \${x}`,
     },
     {
       name: 'interpolate',
       input: 'test',
       expectation: 'hello test!',
       yaml: `
-    params: x
-    return: hello \${x}!`,
+    input: x
+    output: hello \${x}!`,
     },
     {
       name: 'assign string',
@@ -49,7 +49,7 @@ describe('simple worksheets', () => {
       yaml: `
     assign:
     - word: hello
-    return: \${word} test!`,
+    output: \${word} test!`,
     },
     {
       name: 'assign multiple',
@@ -58,7 +58,7 @@ describe('simple worksheets', () => {
     assign:
     - word: hello
     - name: test
-    return: \${word} \${name}!`,
+    output: \${word} \${name}!`,
     },
     {
       name: 'returns number type',
@@ -66,7 +66,7 @@ describe('simple worksheets', () => {
       yaml: `
     assign:
     - count: 3
-    return: \${count}`,
+    output: \${count}`,
     },
     {
       name: 'assigns many types',
@@ -86,7 +86,7 @@ describe('simple worksheets', () => {
           - fire: 2
           - wind: 3
           - water: 4
-    return:
+    output:
       - phrase: \${word} user
       - tag: \${count}
       - seen: has been seen? \${available}`,
@@ -104,7 +104,7 @@ describe('simple worksheets', () => {
         - word: 'hello'
         - count: 3
         - truth: true
-    return:
+    output:
       - str: \${word}
       - num: \${count}
       - bool: \${truth}`,
@@ -129,10 +129,22 @@ describe('simple worksheets', () => {
         - a
         - b
         - c
-    return:
+    output:
       - obj: \${obj}
       - list: \${list}
       - alt: \${alt}`,
+    },
+    {
+      name: 'assigns in order',
+      expectation: '2+3*sqrt(4)',
+      yaml: `
+      assign:
+        - x: 2
+        - y: 3
+        - z: 4
+        - expr: "\${x}+\${y}*sqrt(\${z})"
+      output: \${expr}
+`,
     },
   ];
 
@@ -280,7 +292,7 @@ describe('switch', () => {
             - assign:
               - innerScope: yes
               - outerScope: no
-    return:
+    output:
       inner: \${innerScope}
       outer: \${outerScope}
 
@@ -317,7 +329,7 @@ describe('switch', () => {
             - assign:
               - innerScope: yes
               - outerScope: no
-    return:
+    output:
       inner: \${innerScope}
       outer: \${outerScope}
     `,
@@ -366,6 +378,29 @@ describe('for', () => {
           - for: list
             index: index
             value: value
+            steps:
+              - call: core.test.first
+                input: \${index}
+              - call: core.test.second
+                input: \${value}
+        `,
+      assert(_, m) {
+        expect(m).toBeCalledTimes(6);
+        expect(m).toBeCalledWith('core.test.second', 'apple');
+        expect(m).toBeCalledWith('core.test.first', 0);
+        expect(m).toBeCalledWith('core.test.second', 'banana');
+        expect(m).toBeCalledWith('core.test.second', 'cherry');
+        expect(m).toBeCalledWith('core.test.first', 1);
+        expect(m).toBeCalledWith('core.test.first', 2);
+      },
+    },
+    {
+      name: 'iterates over all items with shorthand syntax',
+      yaml: `
+        steps:
+          - assign:
+            - list: ["apple", "banana", "cherry"]
+          - for: list
             steps:
               - call: core.test.first
                 input: \${index}
@@ -567,7 +602,7 @@ describe('for', () => {
           - call: core.test.first
             input: \${value}
             output: \${value}
-        return: \${value}
+        output: \${value}
         `,
       assert(r, m) {
         expect(m).toBeCalledTimes(10);
@@ -598,7 +633,7 @@ describe('for', () => {
           steps:
           - assign:
             - cached: \${value}
-        return: \${cached}
+        output: \${cached}
         `,
       assert(r) {
         expect(r.output).toEqual('okay');
@@ -731,16 +766,16 @@ describe('call', () => {
       name: 'condense execution into one object before calling library functions',
       input: 'miguel',
       yaml: `
-  params: x
+  input: x
   steps:
     - assign:
       - data:
           name: \${x}
           seen: true
-          time: \${core.time.now()}
+          time: \${core_time.now()}
     - assign:
-      - primary_output: \${core.test.many(data)}
-    - call: core.test.many
+      - primary_output: \${core_test.many(data)}
+    - call: core_test.many
       input:
         name: \${data.name}
         seen: \${data.seen}
@@ -751,9 +786,9 @@ describe('call', () => {
       - b: \${secondary_output}
   `,
       arrange(m) {
-        when(m).calledWith('core.time.now', undefined).mockReturnValue(100);
+        when(m).calledWith('core_time.now', undefined).mockReturnValue(100);
         when(m)
-          .calledWith('core.test.many', {
+          .calledWith('core_test.many', {
             name: 'miguel',
             seen: true,
             time: 100,
@@ -769,14 +804,14 @@ describe('call', () => {
       name: 'read parameters for method call',
       input: { a: 1, b: 2 },
       yaml: `
-  params: data
+  input: data
   steps:
     - call: core.math.max
       input:
         a: \${data.a}
         b: \${data.b}
       output: max
-  return: \${max}`,
+  output: \${max}`,
       arrange(m) {
         when(m).calledWith('core.math.max', { a: 1, b: 2 }).mockReturnValue(2);
       },
@@ -877,7 +912,7 @@ describe('call', () => {
       name: 'shared memory overrides existing variables (in params)',
       input: 50,
       yaml: `
-  params: sum
+  input: sum
   steps:
     - call: core.math.add
       input:
@@ -2022,10 +2057,10 @@ describe('worksheet', () => {
             - worksheet: multiply_by_three
               input: \${num}
               output: result
-          return: \${result}
+          output: \${result}
 
         multiply_by_three:
-          params: val
+          input: val
           steps:
             - return: \${val * 3}
         `,
@@ -2047,7 +2082,7 @@ describe('worksheet', () => {
             - return: \${result}
 
         multiply_by_three:
-          params: x
+          input: x
           steps:
             - worksheet: multiply_by_two
               input: \${x}
@@ -2055,7 +2090,7 @@ describe('worksheet', () => {
             - return: \${data * 3}
 
         multiply_by_two:
-          params: y
+          input: y
           steps:
             - return: \${y * 2}
         `,
@@ -2080,7 +2115,7 @@ describe('worksheet', () => {
             - return: \${result}
 
         multiply_by_three:
-          params: x
+          input: x
           steps:
             - worksheet: multiply_by_two
               input: \${x}
@@ -2088,9 +2123,8 @@ describe('worksheet', () => {
             - return: \${data * 3}
 
         multiply_by_two:
-          params: y
-          steps:
-            - return: \${y * 2}
+          input: y
+          output: \${y * 2}
         `,
       assert(_, e) {
         expect(e.ctx.controller.hasFailure()).toBe(false);

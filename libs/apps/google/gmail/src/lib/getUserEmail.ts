@@ -5,7 +5,7 @@ import { z } from 'zod';
 import { StatusCodes } from 'http-status-codes';
 
 export const getUserEmail = newMethod({
-  id: 'get-user-email',
+  id: 'get_user_email',
   label: 'Get User Email',
   description:
     'Returns the email associated with the current connection to gmail',

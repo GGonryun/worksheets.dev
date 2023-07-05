@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { publicProcedure } from '../../trpc';
+import { Severity, publicProcedure } from '../../trpc';
 import {
   getTemplate,
   templateDetailsSchema,
@@ -7,6 +7,7 @@ import {
 import { TRPCError } from '@trpc/server';
 export default publicProcedure
   .meta({
+    logging: Severity.ERROR,
     openapi: {
       enabled: true,
       summary: 'Get template details',

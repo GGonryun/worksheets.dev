@@ -1,3 +1,4 @@
+// reverses and clones the contents of the array
 export function reverseArray<T>(arr?: T[]): T[] {
   if (!arr) return [];
   const reversedArray: T[] = [];

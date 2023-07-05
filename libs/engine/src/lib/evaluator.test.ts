@@ -414,7 +414,7 @@ describe('evaluate', () => {
       },
       {
         name: 'executing with multiple arguments',
-        exp: 'core.sys.sample(sys.test(map, "a"), "force")',
+        exp: 'core_sys.sample(sys.test(map, "a"), "force")',
         arrange(h, m) {
           h.putData('map', [1, 2, 3]);
           when(m)
@@ -422,7 +422,7 @@ describe('evaluate', () => {
             .mockReturnValue('overwhelming');
 
           when(m)
-            .calledWith('core.sys.sample', 'overwhelming', 'force')
+            .calledWith('core_sys.sample', 'overwhelming', 'force')
             .mockReturnValue('the sky is the limit');
         },
         assert(r) {

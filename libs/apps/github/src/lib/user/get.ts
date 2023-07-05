@@ -13,7 +13,7 @@ const githubUserSchema = z.object({
 });
 
 export const userGet = newMethod({
-  id: 'user.get',
+  id: 'user_get',
   label: 'Get User',
   description: null,
   settings,

@@ -4,7 +4,7 @@ import { Octokit } from 'octokit';
 import { settings } from '../common';
 
 export const webhooksPing = newMethod({
-  id: 'webhooks.ping',
+  id: 'webhooks_ping',
   label: 'Ping a repository webhook',
   description: 'This will trigger a ping event to be sent to the hook.',
   settings,

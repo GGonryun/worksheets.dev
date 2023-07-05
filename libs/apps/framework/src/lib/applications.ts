@@ -2,17 +2,38 @@ import { MethodCallFailure, MethodDefinition } from './methods';
 
 import { Heap } from '@worksheets/util/data-structures';
 import { StatusCodes } from 'http-status-codes';
-import { z } from 'zod';
+import { TypeOf, z } from 'zod';
 import { SettingType, Settings, parseSettings } from './settings';
 import {
   FUNCTION_DELIMITER,
   splitFunctionDeclaration,
 } from '@worksheets/util/worksheets';
 
+export const applicationMetadata = z.object({
+  enabled: z
+    .boolean()
+    .default(true)
+    .describe('if the application is enabled for all users'),
+  public: z
+    .boolean()
+    .default(false)
+    .describe('if the application can be used by anyone'),
+  gallery: z
+    .boolean()
+    .default(false)
+    .describe('if the app is visible on the gallery'),
+  external: z
+    .boolean()
+    .default(false)
+    .describe("if the application should count towards 'external' usage"),
+});
+
+export type ApplicationMetadata = TypeOf<typeof applicationMetadata>;
 export type ApplicationDefinition = {
   id: string;
   logo: string; // url to app logo
   label: string;
+  meta: ApplicationMetadata;
   description: string;
   settings: Settings | null;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -200,7 +221,7 @@ export class Clerk {
     if (!method) {
       throw new MethodCallFailure({
         code: StatusCodes.NOT_FOUND,
-        message: `method not found: ${path}`,
+        message: `method not found: ${JSON.stringify(path)}`,
         data: { path },
       });
     }
@@ -227,21 +248,18 @@ export class Technician {
     rawSettings: unknown,
     rawInput: unknown
   ): Promise<unknown> {
-    console.log('[TECHNICIAN] received process request');
+    const logHeader = `[TECHNICIAN][${method.id}]`;
+    console.debug(`${logHeader} received method processing request`);
 
     let input;
     if (method.input) {
-      console.log('[TECHNICIAN] processing input');
       input = method.input.parse(rawInput);
-      console.log('[TECHNICIAN] processed input');
     }
-    console.log('[TECHNICIAN] does method require settings?');
 
     let settings: Record<string, unknown> = {};
     if (method.settings) {
-      console.log('[TECHNICIAN] parsing settings');
+      console.debug(`${logHeader} parsing settings`);
       settings = parseSettings(method.settings, rawSettings);
-      console.log('[TECHNICIAN] parsed settings');
     }
 
     const result = await method.call({ input, settings });
@@ -251,6 +269,7 @@ export class Technician {
       output = method.output.parse(result);
     }
 
+    console.debug(`${logHeader} completed method processing`);
     return output;
   }
 }

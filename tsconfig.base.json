@@ -43,6 +43,9 @@
       "@worksheets/data-access/server-limits": [
         "libs/data-access/server-limits/src/index.ts"
       ],
+      "@worksheets/data-access/server-settings": [
+        "libs/data-access/server-settings/src/index.ts"
+      ],
       "@worksheets/data-access/settings": [
         "libs/data-access/settings/src/index.ts"
       ],
@@ -68,6 +71,12 @@
       ],
       "@worksheets/feat/server-management": [
         "libs/feat/server-management/src/index.ts"
+      ],
+      "@worksheets/feat/server-monitoring": [
+        "libs/feat/server-monitoring/src/index.ts"
+      ],
+      "@worksheets/feat/session-replay": [
+        "libs/feat/session-replay/src/index.ts"
       ],
       "@worksheets/feat/structured-logging": [
         "libs/feat/structured-logging/src/index.ts"

@@ -4,7 +4,7 @@ import { z } from 'zod';
 import { Octokit } from 'octokit';
 
 export const webhooksGet = newMethod({
-  id: 'webhooks.get',
+  id: 'webhooks_get',
   label: 'Get a repository webhook',
   description: null,
   settings,

@@ -23,18 +23,12 @@ import { cleanseObject } from '@worksheets/util/objects';
 import { TaskDeadlines } from '@worksheets/data-access/tasks';
 import { WorksheetEntity } from '@worksheets/data-access/worksheets';
 import { TRPCError } from '@trpc/server';
+import { SERVER_SETTINGS } from '@worksheets/data-access/server-settings';
 
 export type TaskCreationOverrides = {
   verbosity?: LogLevel;
   timeout?: number;
 };
-
-// we currently poll every 1 minute. any tasks that are delayed within 1 minute should be processed in band.
-const CRON_POLLING_FREQUENCY = 1;
-// defaults to 10 minutes in seconds
-export const DEFAULT_TIMEOUT = 600;
-
-const DEFAULT_VERBOSITY = 'silent';
 
 /**
  * @name newDefaultDeadlines
@@ -47,18 +41,18 @@ const DEFAULT_VERBOSITY = 'silent';
  */
 export function newDefaultDeadlines(
   worksheet: WorksheetEntity,
-  overrides?: {
-    timeout?: number; // seconds to add.
-  }
-): TaskDeadlines {
-  const timeout = overrides?.timeout ?? worksheet.timeout ?? DEFAULT_TIMEOUT;
 
+  timeout: number // seconds to add.
+): TaskDeadlines {
   return {
     // millisecond utc timestamp of expiration datetime
     'task-expiration': addSecondsToCurrentTime(timeout).getTime(),
-    'max-processor-runtime': 20 * 1000, // seconds
-    'method-call-timeout': 10 * 1000, // seconds
-    'task-requeue-limit': 30, // num repeats
+    'max-processor-runtime':
+      SERVER_SETTINGS.PROCESSING_DEADLINES.MAX_PROCESSOR_RUNTIME, // seconds
+    'method-call-timeout':
+      SERVER_SETTINGS.PROCESSING_DEADLINES.METHOD_CALL_TIMEOUT, // seconds
+    'task-requeue-limit':
+      SERVER_SETTINGS.PROCESSING_DEADLINES.TASK_REQUEUE_LIMIT, // num repeats
   };
 }
 
@@ -70,7 +64,11 @@ export const newDefaultVerbosity = (
   worksheet: WorksheetEntity,
   overrides: Pick<TaskCreationOverrides, 'verbosity'>
 ): LogLevel => {
-  return overrides?.verbosity ?? worksheet.logLevel ?? DEFAULT_VERBOSITY;
+  return (
+    overrides?.verbosity ??
+    worksheet.logLevel ??
+    SERVER_SETTINGS.TASK_CREATION.DEFAULT_VERBOSITY
+  );
 };
 
 /**
@@ -256,9 +254,11 @@ export class TaskLogger implements Logger {
 export const isTaskExpired = (task: TaskEntity): boolean => {
   // deadline is equal to the task deadlines global-timeout property
   let deadline = task.deadlines['task-expiration'];
-  // defaults to 5 minutes from now if a deadline isn't set
+  // defaults to server settings if not set
   if (!deadline) {
-    deadline = addMinutesToCurrentTime(5).getTime();
+    deadline = addMinutesToCurrentTime(
+      SERVER_SETTINGS.PROCESSING_DEADLINES.DEFAULT_TASK_TIMEOUT
+    ).getTime();
   }
   // check if the deadline has expired
   return deadline < Date.now();
@@ -397,5 +397,10 @@ export const isTaskDelayed = (task: TaskEntity): boolean => {
  */
 export const isWithinNearPollingLimit = (task: TaskEntity): boolean => {
   //check if the task's current delay is less than the cron polling frequency
-  return task.delay < addMinutesToCurrentTime(CRON_POLLING_FREQUENCY).getTime();
+  return (
+    task.delay <
+    addMinutesToCurrentTime(
+      SERVER_SETTINGS.PROCESSING_DEADLINES.CRON_POLLING_FREQUENCY
+    ).getTime()
+  );
 };

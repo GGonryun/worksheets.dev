@@ -4,7 +4,7 @@ import { z } from 'zod';
 import { settings } from '../common';
 
 export const gistsDelete = newMethod({
-  id: 'gists.delete',
+  id: 'gists_delete',
   label: 'Delete a gist',
   description: null,
   settings,

@@ -1,5 +1,6 @@
 import { newServerRateLimitDatabase } from '@worksheets/data-access/server-limits';
 import { addDurationToCurrentTime } from '@worksheets/util/time';
+import { SERVER_SETTINGS } from '@worksheets/data-access/server-settings';
 
 export type RequestOptions = {
   id: string;
@@ -9,8 +10,6 @@ export type RequestOptions = {
 };
 
 // TODO: move to settings
-const REPLENISH_INTERVAL = 1;
-const REPLENISH_QUANTITY = 100; // points. 1 request = X.Y points
 
 const db = newServerRateLimitDatabase();
 
@@ -28,15 +27,13 @@ export const getRateLimits = async (id: string, meta: string) => {
   }
 };
 
-export const getReplenishQuantity = async (): Promise<number> => {
-  return REPLENISH_QUANTITY;
-};
+export const getReplenishQuantity = async (): Promise<number> =>
+  SERVER_SETTINGS.RESOURCE_REPLENISH_QUANTITY;
 
 export const getReplenishInterval = async (
   override?: number
 ): Promise<number> => {
-  const setting = REPLENISH_INTERVAL;
-  const interval = override ?? setting;
+  const interval = override ?? SERVER_SETTINGS.RESOURCE_REPLENISH_THRESHOLD;
   return addDurationToCurrentTime({
     minutes: interval,
   }).getTime();

@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { protectedProcedure } from '../../trpc';
+import { Severity, protectedProcedure } from '../../trpc';
 import { listConnections } from '@worksheets/feat/execution-settings';
 import { newApplicationsDatabase } from '@worksheets/data-access/applications';
 import { formatTimestampLong } from '@worksheets/util/time';
@@ -31,6 +31,7 @@ type Result = z.infer<typeof output>;
 
 export default protectedProcedure
   .meta({
+    logging: Severity.ERROR,
     openapi: {
       enabled: true,
       protect: true,

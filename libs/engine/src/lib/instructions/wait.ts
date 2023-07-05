@@ -44,7 +44,7 @@ export class Wait implements Instruction {
     ctx.logger.info(
       `Execution paused until ${formatTimestampLong(
         offset
-      )}. Duration remaining: ${prettyPrintMilliseconds(this.definition.wait)}.`
+      )}. Duration remaining: ${prettyPrintMilliseconds(this.definition.wait)}`
     );
 
     // calculate the offset and push a delay instruction onto the stack

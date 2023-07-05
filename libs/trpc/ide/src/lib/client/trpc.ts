@@ -36,10 +36,10 @@ export const trpc = createTRPCNext<AppRouter>({
            **/
           url: `${getBaseUrl()}/api/trpc`,
           async headers() {
-            let authHeaders: {
+            const authHeaders: {
               Authorization?: string;
-              'x-test-header': string;
-            } = { 'x-test-header': 'miguelito' };
+              'x-worksheets-version': string;
+            } = { 'x-worksheets-version': '0.0.1' };
 
             const currentUser = firebaseAuth.currentUser;
             if (!currentUser) {
@@ -49,10 +49,7 @@ export const trpc = createTRPCNext<AppRouter>({
             try {
               const token = await currentUser.getIdToken();
               if (token) {
-                authHeaders = {
-                  'x-test-header': 'miguelito',
-                  Authorization: `Bearer ${token}`,
-                };
+                authHeaders.Authorization = `Bearer ${token}`;
               }
             } catch (error) {
               console.error(`failed to refresh id token`, error);

@@ -13,4 +13,10 @@ export default newApplication({
   description: '',
   settings: null,
   methods: [avg, calc, identity, max, min, abs],
+  meta: {
+    enabled: true,
+    public: true,
+    gallery: true,
+    external: false,
+  },
 });

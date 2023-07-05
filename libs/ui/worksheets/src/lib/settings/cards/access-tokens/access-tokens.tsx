@@ -16,7 +16,7 @@ import { CreateTokenForm } from './create-token-form';
 import { TokensDataTable } from './data-table';
 import { TokenModal } from './token-modal';
 import { warn } from '@worksheets/ui/common';
-
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 export const SettingsCardAccessTokens: React.FC = () => {
   const { user } = useUser();
   const [newToken, setNewToken] = useState('');
@@ -29,6 +29,7 @@ export const SettingsCardAccessTokens: React.FC = () => {
   const isValid = form.name.length > 0 && form.expiration > 0;
 
   const utils = trpc.useContext();
+
   const createToken = trpc.user.tokens.create.useMutation();
   const { data: tokens } = trpc.user.tokens.list.useQuery(
     {},
@@ -36,6 +37,12 @@ export const SettingsCardAccessTokens: React.FC = () => {
       enabled: Boolean(user),
     }
   );
+
+  const { data: limit } = trpc.user.tokens.limit.useQuery(undefined, {
+    enabled: Boolean(user),
+  });
+
+  const hasExceededMax = (tokens?.length ?? 0) >= (limit ?? 0);
 
   const handleCreateToken = async () => {
     try {
@@ -66,18 +73,28 @@ export const SettingsCardAccessTokens: React.FC = () => {
         <Divider />
         <Box display="flex" flexDirection="column" gap={1} sx={{ p: 1 }}>
           <Typography variant="caption">
-            Tokens provide other applications with access to your account.{' '}
-            <strong>You may have up to 3 tokens.</strong>
-          </Typography>
-          <Typography variant="caption"></Typography>
-          <Typography variant="caption">
-            <strong>We will never ask for these tokens.</strong> Secure them
-            like you would a password.
+            Tokens provide other applications with access to your account. We
+            will never ask for these tokens. Secure them as you would a
+            password.{' '}
+            <strong>
+              You are authorized to create up to ({limit}) tokens.
+            </strong>{' '}
+            View your billing page{' '}
+            <Link href="/settings/billing">for more information</Link>.
           </Typography>
         </Box>
         <Divider />
-        <Box display="flex" flexDirection="column" gap={1} sx={{ p: 1 }}>
-          <CreateTokenForm form={form} setForm={setForm} />
+        <Box display="flex" flexDirection="column" gap={2} sx={{ p: 2 }}>
+          {hasExceededMax && (
+            <Typography variant="caption" color="text.secondary">
+              You have exceeded your maximum number of tokens.
+            </Typography>
+          )}
+          <CreateTokenForm
+            form={form}
+            setForm={setForm}
+            disabled={hasExceededMax}
+          />
         </Box>
         <Divider />
         <Box display="flex" flexDirection="column" gap={1} sx={{ p: 1 }}>
@@ -94,23 +111,39 @@ export const SettingsCardAccessTokens: React.FC = () => {
               </Link>
             </Typography>
             <Box display="flex" justifyContent="flex-end">
-              <Tooltip
-                placement="top"
-                title={'Missing required fields.'}
-                disableHoverListener={isValid}
-              >
-                <span>
-                  <Button
-                    disabled={!isValid}
-                    variant="contained"
-                    color="primary"
-                    size="small"
-                    onClick={handleCreateToken}
+              <Box display="flex" alignItems="center" gap={2}>
+                {hasExceededMax && (
+                  <Tooltip
+                    title="Delete a token before adding a new one or contact customer support to increase your quotas."
+                    placement="top"
                   >
-                    Add new token
-                  </Button>
-                </span>
-              </Tooltip>
+                    <InfoOutlinedIcon color="primary" />
+                  </Tooltip>
+                )}
+                <Tooltip
+                  placement="top"
+                  title={
+                    isValid
+                      ? 'Missing required fields.'
+                      : hasExceededMax
+                      ? 'You have exceeded the maximum number of tokens.'
+                      : ''
+                  }
+                  disableHoverListener={isValid && !hasExceededMax}
+                >
+                  <span>
+                    <Button
+                      disabled={!isValid || hasExceededMax}
+                      variant="contained"
+                      color="primary"
+                      size="small"
+                      onClick={handleCreateToken}
+                    >
+                      Add new token
+                    </Button>
+                  </span>
+                </Tooltip>
+              </Box>
             </Box>
           </Box>
         </Box>

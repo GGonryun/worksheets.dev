@@ -5,3 +5,5 @@ export * from './lib/window';
 export * from './lib/Emoji';
 export * from './lib/useDebounce';
 export * from './lib/useClipboard';
+export * from './icons';
+export * from './components';

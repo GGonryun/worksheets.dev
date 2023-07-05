@@ -4,7 +4,7 @@ import { z } from 'zod';
 import { Octokit } from 'octokit';
 
 export const webhooksTest = newMethod({
-  id: 'webhooks.test',
+  id: 'webhooks_test',
   label: 'Test the push repository webhook',
   description:
     'This will trigger the hook with the latest push to the current repository if the hook is subscribed to push events. If the hook is not subscribed to push events, the server will respond with 204 but no test POST will be generated.',

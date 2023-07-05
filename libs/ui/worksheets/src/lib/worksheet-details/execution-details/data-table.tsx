@@ -142,6 +142,7 @@ export const ExecutionDetailsDataTable: FC<
       })}
       rows={executions ?? []}
       autoHeight
+      rowHeight={42}
       loading={isLoading}
       columns={columns(worksheetId)}
       density="compact"

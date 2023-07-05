@@ -1,15 +1,24 @@
-import { Button, CircularProgress, TextField, Typography } from '@mui/material';
-import styles from './login-page.module.css';
-import { GoogleAuthProvider } from 'firebase/auth';
-import { useTimeout, warn } from '@worksheets/ui/common';
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Link,
+  Paper,
+  Typography,
+} from '@mui/material';
+import { GithubAuthProvider, GoogleAuthProvider } from 'firebase/auth';
+import {
+  GitHubIcon,
+  GoogleIcon,
+  OpenInNewTabLink,
+  useTimeout,
+  warn,
+} from '@worksheets/ui/common';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useUser } from '@worksheets/util/auth/client';
 
-/* eslint-disable-next-line */
-export interface LoginPageProps {}
-
-export function LoginPage(props: LoginPageProps) {
+export function LoginPage() {
   const { push } = useRouter();
   const { user, signInProvider } = useUser();
   const [loading, setLoading] = useState(true);
@@ -22,6 +31,17 @@ export function LoginPage(props: LoginPageProps) {
     }
   }, 2500);
 
+  function handleLoginWithGithub() {
+    const provider = new GithubAuthProvider();
+
+    provider.addScope('profile');
+    provider.addScope('email');
+
+    signInProvider(provider)
+      .then(() => push(`/worksheets?evaluation=true`))
+      .catch(warn('failed to log in with github'));
+  }
+
   function handleLoginWithGoogle() {
     const provider = new GoogleAuthProvider();
 
@@ -29,27 +49,66 @@ export function LoginPage(props: LoginPageProps) {
     provider.addScope('email');
 
     signInProvider(provider)
-      .then(() => push(`/worksheets`))
+      .then(() => push(`/worksheets?evaluation=true`))
       .catch(warn('failed to log in with google'));
   }
 
-  // render a loading spinner if loading.
-  if (loading) {
-    return (
-      <div>
-        <CircularProgress />
-      </div>
-    );
-  }
-
   return (
-    <div className={styles['container']}>
-      <Typography variant="h4">Login Page</Typography>
-      <TextField label="email" required />
-      <TextField label="password" required />
-      <Button variant="contained" onClick={handleLoginWithGoogle}>
-        Login With Google
-      </Button>
-    </div>
+    <Box
+      width="100%"
+      height="100%"
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+    >
+      <Paper elevation={10}>
+        <Box
+          width="300px"
+          height="320px"
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          flexDirection="column"
+          gap={2}
+          p={3}
+        >
+          {loading ? (
+            <CircularProgress />
+          ) : (
+            <>
+              <Box pb={2}>
+                <Typography variant="h6">Log in to</Typography>
+                <Typography variant="h4" color="primary">
+                  <Link href="/docs">Worksheets.dev</Link>
+                </Typography>
+              </Box>
+              <Button
+                variant="outlined"
+                color="primary"
+                startIcon={<GoogleIcon />}
+                fullWidth
+                onClick={handleLoginWithGoogle}
+              >
+                Continue with Google
+              </Button>
+              <Button
+                variant="outlined"
+                color="inherit"
+                fullWidth
+                onClick={handleLoginWithGithub}
+                startIcon={<GitHubIcon />}
+              >
+                Continue with Github
+              </Button>
+              <Box display="flex" flexDirection="column" gap={1}>
+                <OpenInNewTabLink href="/contact-us">
+                  Contact Us
+                </OpenInNewTabLink>
+              </Box>
+            </>
+          )}
+        </Box>
+      </Paper>
+    </Box>
   );
 }

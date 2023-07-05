@@ -4,7 +4,7 @@ import { Octokit } from 'octokit';
 import { TypeOf, z } from 'zod';
 
 export const gistsListUser = newMethod({
-  id: 'list.user',
+  id: 'list_user',
   label: 'List gists for the authenticated user',
   description:
     "Lists the authenticated user's gists or if called anonymously, this endpoint returns all public gists",
