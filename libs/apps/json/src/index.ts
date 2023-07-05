@@ -10,4 +10,10 @@ export default newApplication({
   id: 'json',
   logo: '',
   settings: null,
+  meta: {
+    enabled: true,
+    public: true,
+    gallery: true,
+    external: false,
+  },
 });

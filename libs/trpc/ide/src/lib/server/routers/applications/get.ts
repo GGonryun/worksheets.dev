@@ -1,5 +1,5 @@
 import { newApplicationsDatabase } from '@worksheets/data-access/applications';
-import { publicProcedure } from '../../trpc';
+import { Severity, publicProcedure } from '../../trpc';
 import { z } from 'zod';
 import { settingTypeSchema } from '@worksheets/apps/framework';
 
@@ -17,6 +17,7 @@ type FormFields = z.infer<typeof formFields>;
 
 export default publicProcedure
   .meta({
+    logging: Severity.ERROR,
     openapi: {
       method: 'GET',
       path: '/applications/{appId}',

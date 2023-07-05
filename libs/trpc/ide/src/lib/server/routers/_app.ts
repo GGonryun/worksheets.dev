@@ -5,7 +5,7 @@ import applications from './applications/router';
 import connections from './connections/router';
 import tasks from './tasks/router';
 import templates from './templates/router';
-import limits from './limits/router';
+import reapers from './reapers/router';
 
 export const appRouter = router({
   worksheets,
@@ -14,7 +14,7 @@ export const appRouter = router({
   connections,
   tasks,
   templates,
-  limits,
+  reapers,
 });
 
 export type AppRouter = typeof appRouter;

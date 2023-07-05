@@ -1,10 +1,11 @@
 import { z } from 'zod';
-import { protectedProcedure } from '../../../trpc';
+import { Severity, protectedProcedure } from '../../../trpc';
 import { taskEntity } from '@worksheets/data-access/tasks';
 import { getTaskExecution } from '@worksheets/feat/task-processing';
 
 export default protectedProcedure
   .meta({
+    logging: Severity.ERROR,
     openapi: {
       enabled: true,
       protect: true,

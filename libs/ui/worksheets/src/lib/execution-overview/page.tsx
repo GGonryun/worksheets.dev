@@ -1,5 +1,12 @@
 import WebsiteLayout from '../website-layout';
-import { Box, Button, Divider, IconButton, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Divider,
+  IconButton,
+  Typography,
+  Link,
+} from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { trpc } from '@worksheets/trpc/ide';
 import { VerticalResizerLayout } from '../shared/resizable-layout/vertical-resizer-layout';
@@ -20,14 +27,13 @@ import {
 import { PlayArrowOutlined } from '@mui/icons-material';
 import { LogLevelVerbosityChip } from '../shared/log-level-verbosity-chip';
 import { LogList } from '../worksheet-details/log-list/log-list';
-import { OpenInNewTabLink } from '../shared/open-in-new-tab-link';
 import { useUser } from '@worksheets/util/auth/client';
 
 export const ExecutionOverviewPage: React.FC<{
   worksheetId: string;
   executionId: string;
 }> = ({ executionId, worksheetId }) => {
-  const { back } = useRouter();
+  const { push } = useRouter();
   const { user } = useUser();
   // get the task
   const { data: execution } = trpc.worksheets.tasks.execution.useQuery(
@@ -51,7 +57,9 @@ export const ExecutionOverviewPage: React.FC<{
     <WebsiteLayout>
       <Box height="100%" display="flex" flexDirection="column">
         <Box display="flex" alignItems="center" gap={3} margin={1}>
-          <IconButton onClick={() => back()}>
+          <IconButton
+            onClick={() => push(`/worksheets/${worksheetId}/executions`)}
+          >
             <ArrowBackIcon color="primary" />
           </IconButton>
           <Typography variant="h6">Execution details</Typography>
@@ -195,12 +203,7 @@ const TaskExecutionSummary: React.FC<{
         label={'Worksheet ID'}
         content={
           <Typography variant="body2">
-            <OpenInNewTabLink
-              href={`/worksheets/${worksheet?.id}`}
-              fontSize={14}
-            >
-              {worksheet?.id}
-            </OpenInNewTabLink>
+            <Link href={`/worksheets/${worksheet?.id}`}>{worksheet?.id}</Link>
           </Typography>
         }
       />

@@ -35,9 +35,11 @@ export type Document =
 export type Firestore<T extends Entity> = {
   transact(newTxn?: Txn): Firestore<T>;
   id(): string;
+  batch(): FirebaseFirestore.WriteBatch;
   has(id: string): Promise<boolean>;
   get(id: string): Promise<T>;
   query(...queries: Query<T>[]): Promise<T[]>;
+  count(...queries: Query<T>[]): Promise<number>;
   findOne(...queries: Query<T>[]): Promise<T>;
   create(data: T): Promise<T>;
   apply(id: string, data: Partial<Omit<T, 'id'>>): Promise<T>;
@@ -47,6 +49,10 @@ export type Firestore<T extends Entity> = {
 
 export function newFirestore<T extends Entity>(key: string, txn?: Txn) {
   const collection = firestore().collection(key);
+
+  function batch(): FirebaseFirestore.WriteBatch {
+    return firestore().batch();
+  }
 
   function parse(data: FirebaseFirestore.QuerySnapshot<DocumentData>): T[] {
     const items: T[] = [];
@@ -137,6 +143,18 @@ export function newFirestore<T extends Entity>(key: string, txn?: Txn) {
       });
     }
     return results[0];
+  }
+
+  async function count(...queries: Query<T>[]): Promise<number> {
+    let q: FirebaseFirestore.Query<DocumentData> = firestore().collection(key);
+    for (const query of queries) {
+      const { f, o, v } = query;
+      q = q.where(f as string, o, v);
+    }
+
+    const c = await q.count().get();
+
+    return c.data().count;
   }
 
   async function insert(entity: PartialBy<T, 'id'>): Promise<T> {
@@ -279,6 +297,7 @@ export function newFirestore<T extends Entity>(key: string, txn?: Txn) {
     get,
     query,
     findOne,
+    count,
     insert,
     update,
     updateOrInsert,
@@ -286,6 +305,7 @@ export function newFirestore<T extends Entity>(key: string, txn?: Txn) {
     apply,
     delete: del,
     parse,
+    batch,
   };
 }
 

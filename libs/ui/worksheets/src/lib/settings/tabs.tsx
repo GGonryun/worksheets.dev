@@ -1,12 +1,12 @@
 import { Box, Tabs, Tab, Divider, Button, Container } from '@mui/material';
 import { useRouter } from 'next/router';
 import { SettingsCardTextField } from './cards/text-field';
-import { v4 as uuidv4 } from 'uuid';
-import { SettingsCardPlans } from './cards/plans';
-import { SettingsCardPayments } from './cards/payments';
+import { SettingsCardBilling } from './cards/billing';
 import { SettingsCardAccessTokens } from './cards/access-tokens/access-tokens';
 import { SettingsCardGeneric } from './cards/generic';
 import { TabPanel, a11yProps } from '../shared/tab-panel';
+import { trpc } from '@worksheets/trpc/ide';
+import { useUser } from '@worksheets/util/auth/client';
 
 export enum SettingsTabIndex {
   General = 0,
@@ -26,6 +26,13 @@ export const SettingsTabs: React.FC<{
   tab: SettingsTabIndex;
 }> = ({ tab }) => {
   const { push } = useRouter();
+  const { user } = useUser();
+  const { data: overview } = trpc.user.overview.useQuery(
+    { acknowledge: true },
+    {
+      enabled: !!user,
+    }
+  );
 
   const handleChange = (
     event: React.SyntheticEvent,
@@ -64,29 +71,21 @@ export const SettingsTabs: React.FC<{
               readonly
               caption={'This is how we identify you in our system.'}
               helperText="You can't change this value."
-              value={uuidv4()}
+              value={overview?.uid}
             />
             <SettingsCardTextField
               title={'Your name'}
+              readonly
               caption={'Please enter a display name you are comfortable with.'}
               helperText="Display name is limited to 48 characters at most."
-              value={'Miguel Campos'}
+              value={overview?.meta.name ?? ''}
             />
             <SettingsCardTextField
               title={'Your email'}
               readonly
               caption={'The email address you use to log into your account.'}
               helperText="You can't change this value."
-              value={'miguel@worksheets.dev'}
-            />
-            <SettingsCardTextField
-              sensitive
-              title={'Your password'}
-              caption={
-                "Enter a password for your account, we'll send you an email to verify."
-              }
-              helperText="Please use 60 characters at most, and at least 8 characters, numbers, and symbols."
-              value={''}
+              value={overview?.meta.email ?? ''}
             />
           </Box>
         </Container>
@@ -94,10 +93,7 @@ export const SettingsTabs: React.FC<{
       <TabPanel value={tab} index={SettingsTabIndex.Billing}>
         <Container maxWidth="md">
           <Box p={3}>
-            <SettingsCardPlans plan="free" />
-          </Box>
-          <Box px={3} pb={3}>
-            <SettingsCardPayments />
+            <SettingsCardBilling plan="free" />
           </Box>
         </Container>
       </TabPanel>

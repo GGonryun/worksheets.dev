@@ -1,15 +1,14 @@
-import {
-  applicationDetailsSchema,
-  convertApplicationDefinition,
-  newApplicationsDatabase,
-} from '@worksheets/data-access/applications';
-import { publicProcedure } from '../../trpc';
+import { applicationDetailsSchema } from '@worksheets/data-access/applications';
+import { Severity, publicProcedure } from '../../trpc';
 import { z } from 'zod';
-
-const db = newApplicationsDatabase();
+import {
+  listApplications,
+  listApplicationsRequestSchema,
+} from '@worksheets/feat/applications-registry';
 
 export default publicProcedure
   .meta({
+    logging: Severity.ERROR,
     openapi: {
       method: 'GET',
       path: '/applications/',
@@ -18,18 +17,8 @@ export default publicProcedure
       description: 'List application information',
     },
   })
-  .input(
-    z.object({
-      customizable: z.boolean().default(false),
-    })
-  )
+  .input(listApplicationsRequestSchema)
   .output(z.array(applicationDetailsSchema))
-  .query(async ({ input: { customizable } }) => {
-    let all = db.list();
-
-    if (customizable) {
-      all = all.filter((app) => Boolean(app.settings));
-    }
-
-    return all.map(convertApplicationDefinition);
+  .query(async ({ input: req }) => {
+    return listApplications(req);
   });

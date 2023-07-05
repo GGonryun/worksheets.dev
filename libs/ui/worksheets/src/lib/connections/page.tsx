@@ -7,6 +7,7 @@ import { ConnectionBuilderSidecar } from './connection-builder-sidecar';
 import { v4 as uuidv4 } from 'uuid';
 import { useUser } from '@worksheets/util/auth/client';
 import { trpc } from '@worksheets/trpc/ide';
+import { Box } from '@mui/material';
 
 export const ConnectionsPage: React.FC<{ connectionId?: string }> = ({
   connectionId,
@@ -14,6 +15,10 @@ export const ConnectionsPage: React.FC<{ connectionId?: string }> = ({
   const { push } = useRouter();
   const [activeConnection, setActiveConnection] = useState('');
   const { user } = useUser();
+  const { data: overview } = trpc.user.overview.useQuery(undefined, {
+    enabled: !!user,
+  });
+
   const { data: connections, isLoading } = trpc.connections.dataTable.useQuery(
     undefined,
     {
@@ -31,7 +36,11 @@ export const ConnectionsPage: React.FC<{ connectionId?: string }> = ({
     <PageLayout
       title={'Connections'}
       primary={{
-        children: 'Create',
+        children: (
+          <Box>
+            Create ({connections?.length}/{overview?.limits.connections})
+          </Box>
+        ),
         startIcon: <AddIcon />,
         size: 'small',
         onClick() {

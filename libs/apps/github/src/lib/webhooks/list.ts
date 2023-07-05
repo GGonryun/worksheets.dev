@@ -4,7 +4,7 @@ import { z } from 'zod';
 import { Octokit } from 'octokit';
 
 export const webhooksList = newMethod({
-  id: 'webhooks.list',
+  id: 'webhooks_list',
   label: 'List repository webhooks',
   description:
     'Lists webhooks for a repository. last response may return null if there have not been any deliveries within 30 days.',

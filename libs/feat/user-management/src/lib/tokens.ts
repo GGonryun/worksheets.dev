@@ -12,7 +12,7 @@ import { hasher } from './util';
 const db = newApiTokenDatabase();
 
 const checkMaxTokens = async (uid: string, value: number) => {
-  if (await limits.exceeds({ uid, key: 'maxApiTokens', value })) {
+  if (await limits.exceeds({ uid, type: 'maxApiTokens', value })) {
     throw new TRPCError({
       code: 'PRECONDITION_FAILED',
       message:

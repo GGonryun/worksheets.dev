@@ -46,12 +46,9 @@ const isAuthed = middleware(({ next, ctx }) => {
 
 // improve the monitor metadata required for logging.
 const monitor = middleware(
-  async ({ ctx, rawInput, meta, path, type, next }) => {
+  async ({ ctx, meta, rawInput, path, type, next }) => {
     const header = `[${ctx.atom}][${path}][${type}]`;
-    const severity = meta?.logging ?? Severity.ERROR;
-    if (severity > Severity.ERROR) {
-      return await next();
-    }
+    const severity = meta?.logging ?? Severity.INFO;
 
     const start = Date.now();
 
@@ -60,6 +57,8 @@ const monitor = middleware(
     }
 
     const result = await next();
+
+    if (severity === Severity.SILENCE) return result;
 
     const end = `${prettyPrintMilliseconds(Date.now() - start)}`;
     if (result.ok) {
@@ -88,9 +87,8 @@ const limiters = middleware(async ({ meta, ctx, next }) => {
   promises.push(
     limits.throttle({
       id: 'trpc-requests',
-      quantity: 1,
+      quantity: 0.1,
       meta: 'system',
-      interval: 0.5,
     })
   );
 
@@ -99,9 +97,8 @@ const limiters = middleware(async ({ meta, ctx, next }) => {
     promises.push(
       limits.throttle({
         id: 'api-requests',
-        quantity: 1,
+        quantity: 0.1,
         meta: 'system',
-        interval: 1,
       })
     );
   }
@@ -111,9 +108,8 @@ const limiters = middleware(async ({ meta, ctx, next }) => {
     promises.push(
       limits.throttle({
         id: ctx.user.uid,
-        quantity: 1,
+        quantity: 0.5,
         meta: 'user',
-        interval: 2,
       })
     );
   }
@@ -123,9 +119,8 @@ const limiters = middleware(async ({ meta, ctx, next }) => {
     promises.push(
       limits.throttle({
         id: country as string,
-        quantity: 0.1,
+        quantity: 0.25,
         meta: 'country',
-        interval: 5,
       })
     );
   }
@@ -135,9 +130,8 @@ const limiters = middleware(async ({ meta, ctx, next }) => {
     promises.push(
       limits.throttle({
         id: region as string,
-        quantity: 1,
+        quantity: 0.5,
         meta: 'region',
-        interval: 1.25,
       })
     );
   }
@@ -147,9 +141,8 @@ const limiters = middleware(async ({ meta, ctx, next }) => {
     promises.push(
       limits.throttle({
         id: cleanseAlphaNumeric(timezone as string),
-        quantity: 1,
+        quantity: 0.5,
         meta: 'timezone',
-        interval: 1.5,
       })
     );
   }
@@ -159,9 +152,8 @@ const limiters = middleware(async ({ meta, ctx, next }) => {
     promises.push(
       limits.throttle({
         id: city as string,
-        quantity: 0.1,
+        quantity: 0.75,
         meta: 'city',
-        interval: 5,
       })
     );
   }
@@ -171,9 +163,8 @@ const limiters = middleware(async ({ meta, ctx, next }) => {
     promises.push(
       limits.throttle({
         id: ip as string,
-        quantity: 0.05,
+        quantity: 2,
         meta: 'ip',
-        interval: 60,
       })
     );
   }

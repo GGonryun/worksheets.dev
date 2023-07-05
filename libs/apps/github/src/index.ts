@@ -35,4 +35,10 @@ export default newApplication({
   id: 'github',
   logo: 'https://storage.googleapis.com/worksheets-test-app-logos/github-142-svgrepo-com.svg',
   settings,
+  meta: {
+    enabled: true,
+    public: true,
+    gallery: true,
+    external: true,
+  },
 });

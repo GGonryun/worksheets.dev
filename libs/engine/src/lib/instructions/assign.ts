@@ -1,3 +1,4 @@
+import { reverseArray } from '@worksheets/util/arrays';
 import { ExecutionFailure } from '../failures';
 import { Context, Instruction } from '../framework';
 import { Assignment } from './assignment';
@@ -26,7 +27,9 @@ export class Assign implements Instruction {
   }
 
   async process(ctx: Context): Promise<void> {
-    for (const pair of this.definition) {
+    // reverse the assignment so that they get added in the correct order
+    const pairs = reverseArray(this.definition);
+    for (const pair of pairs) {
       for (const key in pair) {
         // if (key === 'assign') continue; // should technically we skip here?
         const value = pair[key];

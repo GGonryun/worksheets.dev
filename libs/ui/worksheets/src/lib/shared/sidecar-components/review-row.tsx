@@ -21,13 +21,18 @@ export const ReviewRow: React.FC<{ label: string; children: ReactNode }> = ({
 
 export const ReviewRowText: React.FC<{
   label: string;
+  nonText?: boolean;
   children: ReactNode;
-}> = ({ label, children }) => {
+}> = ({ label, children, nonText }) => {
   return (
     <ReviewRow label={label}>
-      <Typography variant="body2" color="text.secondary">
-        {children}
-      </Typography>
+      {nonText ? (
+        children
+      ) : (
+        <Typography variant="body2" color="text.secondary">
+          {children}
+        </Typography>
+      )}
     </ReviewRow>
   );
 };

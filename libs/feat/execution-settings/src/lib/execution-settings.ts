@@ -7,7 +7,7 @@ import {
 } from '@worksheets/data-access/settings';
 import { OAuthClient } from '@worksheets/util/oauth/client';
 import { closeRedirect, errorRedirect } from './util';
-import { addSecondsToCurrentTime, isExpired } from '@worksheets/util/time';
+import { isExpired } from '@worksheets/util/time';
 import { TRPCError } from '@trpc/server';
 import { RequiredBy } from '@worksheets/util/types';
 import { z } from 'zod';
@@ -18,6 +18,7 @@ import { ExecutionFailure } from '@worksheets/engine';
 import { mapSecureProperties } from './common';
 import { dynamicSettingsResolver } from './dynamic-settings-resolver';
 import { applyConnectionUpdates } from './apply-connection-updates';
+import { SERVER_SETTINGS } from '@worksheets/data-access/server-settings';
 
 const connectionsDb = newConnectionDatabase();
 const worksheetsConnectionsDb = newWorksheetsConnectionsDatabase();
@@ -51,9 +52,46 @@ export const newPrivateLibrary = ({
     },
     beforeMethodCall: async (opts) => {
       if (
+        !(await serverLimits.throttle({
+          id: SERVER_SETTINGS.LIMIT_IDS.SPECIFIC_APPLICATION_METHOD_CALL(
+            opts.app.id,
+            opts.method.id
+          ),
+          meta: SERVER_SETTINGS.META_IDS.APPLICATION_METHODS,
+          quantity:
+            SERVER_SETTINGS.RESOURCE_CONSUMPTION
+              .SPECIFIC_APPLICATION_METHOD_CALL,
+        }))
+      ) {
+        throw new ExecutionFailure({
+          code: 'internal-error',
+          message: SERVER_SETTINGS.SYSTEM_ERRORS.TOO_MANY_SPECIFIC_METHOD_CALLS(
+            opts.app.id,
+            opts.method.id
+          ),
+        });
+      }
+
+      if (
+        !(await serverLimits.throttle({
+          id: SERVER_SETTINGS.LIMIT_IDS.SYSTEM_APPLICATION_METHOD_CALL,
+          meta: SERVER_SETTINGS.META_IDS.SYSTEM,
+          quantity:
+            SERVER_SETTINGS.RESOURCE_CONSUMPTION.SYSTEM_APPLICATION_METHOD_CALL,
+        }))
+      ) {
+        throw new ExecutionFailure({
+          code: 'internal-error',
+          message:
+            'Server does not have sufficient processing capability to handle this request.',
+        });
+      }
+
+      if (
+        opts.app.meta.external &&
         !(await userQuotas.request({
           type: `methodCalls`,
-          quantity: 1,
+          quantity: SERVER_SETTINGS.RESOURCE_CONSUMPTION.USER_METHOD_CALL,
           uid: userId,
         }))
       ) {
@@ -64,40 +102,10 @@ export const newPrivateLibrary = ({
         // prevent user from making too many requests.
         throw new ExecutionFailure({
           code: 'insufficient-quota',
-          message:
-            'You have exceeded your quota for executing method calls. Contact support to increase your limits.',
+          message: SERVER_SETTINGS.USER_ERRORS.TOO_MANY_METHOD_CALLS,
         });
       }
 
-      if (
-        !(await serverLimits.throttle({
-          id: `${opts.app.id}-${opts.method.id}`,
-          meta: 'methods',
-          quantity: 1,
-        }))
-      ) {
-        throw new ExecutionFailure({
-          code: 'retry',
-          message:
-            'Server does not have sufficient processing capability to handle this request.',
-          delay: addSecondsToCurrentTime(30).getTime(),
-        });
-      }
-
-      if (
-        !(await serverLimits.throttle({
-          id: 'method-calls',
-          meta: 'system',
-          quantity: 0.1,
-        }))
-      ) {
-        throw new ExecutionFailure({
-          code: 'retry',
-          message:
-            'Server does not have sufficient processing capability to handle this request.',
-          delay: addSecondsToCurrentTime(60).getTime(),
-        });
-      }
       console.info(
         `[APPLOADER][${opts.path}][private] user ${userId} passed pre-method throttle checks`
       );
@@ -253,7 +261,7 @@ export const resolveHandshake = async (
   }
 
   const { appId, uid, timestamp, settingId, connectionId } = handshake;
-  if (isExpired(timestamp + 10 * 60 * 1000)) {
+  if (isExpired(timestamp + SERVER_SETTINGS.HANDSHAKE_EXPIRATION_OFFSET)) {
     return errorRedirect('EXPIRED_HANDSHAKE');
   }
 

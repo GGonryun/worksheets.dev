@@ -9,4 +9,10 @@ export default newApplication({
   methods: [listEvents],
   logo: 'https://storage.googleapis.com/worksheets-test-app-logos/Google_Calendar_icon.svg',
   settings,
+  meta: {
+    enabled: true,
+    public: true,
+    gallery: true,
+    external: true,
+  },
 });

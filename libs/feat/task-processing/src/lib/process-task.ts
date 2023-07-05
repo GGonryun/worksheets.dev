@@ -3,6 +3,7 @@ import {
   TaskEntity,
   TaskProcessableState,
   TaskState,
+  findUsersRunningExecutions,
   newProcessTaskBus,
   newTaskCompleteBus,
   newTaskLoggingDatabase,
@@ -31,8 +32,9 @@ import {
 } from './util';
 import { durationRemaining, printDuration } from '@worksheets/util/time';
 import { TRPCError } from '@trpc/server';
-import { quotas } from '@worksheets/feat/user-management';
-import { limits } from '@worksheets/feat/server-management';
+import { quotas, limits as userLimits } from '@worksheets/feat/user-management';
+import { limits as serverLimits } from '@worksheets/feat/server-management';
+import { SERVER_SETTINGS } from '@worksheets/data-access/server-settings';
 
 const taskDb = newTasksDatabase();
 const snapshotsDb = newTaskSnapshotsDatabase();
@@ -55,16 +57,16 @@ const processorBus = newProcessTaskBus();
  * // => 'processing'
  */
 export const processTask = async (taskId: string): Promise<TaskState> => {
-  // reduce the system processing limit
+  // check the execution processing limit
   if (
-    await limits.isEmpty({
-      id: 'task-processing-time',
-      meta: 'server',
+    await serverLimits.isEmpty({
+      id: SERVER_SETTINGS.LIMIT_IDS.ENGINE_PROCESSING_TIME,
+      meta: SERVER_SETTINGS.META_IDS.SYSTEM,
     })
   ) {
     throw new TRPCError({
       code: 'CONFLICT',
-      message: 'Server is at maximum processing capacity. Please try again.',
+      message: SERVER_SETTINGS.SYSTEM_ERRORS.TOO_MUCH_PROCESSING_TIME,
     });
   }
 
@@ -80,6 +82,44 @@ export const processTask = async (taskId: string): Promise<TaskState> => {
 
   // create a new logger
   const logger = new TaskLogger({ db: loggingDb, task });
+
+  if (
+    await quotas.isEmpty({
+      uid: task.userId,
+      type: 'processingTime',
+    })
+  ) {
+    const message =
+      'You have depleted your processing capacity. Contact support to increase your quota.';
+    await logger.error(message);
+    // check to see if the user has enough processing time on their account to process the task
+    return await failTask(
+      task,
+      new ExecutionFailure({
+        code: 'insufficient-quota',
+        message: message,
+      })
+    );
+  }
+
+  // user cannot exceed their limit of concurrent tasks
+  const runningTasks = await findUsersRunningExecutions(taskDb, task.userId);
+  if (
+    await userLimits.exceeds({
+      uid: task.userId,
+      type: 'maxRunningExecutions',
+      // it's weird but give the user some wiggle room just in case.
+      value: runningTasks.length,
+    })
+  ) {
+    const message =
+      'You have too many concurrent tasks. This execution will try again shortly. Contact support to increase your quota.';
+    await logger.warn(message);
+    throw new TRPCError({
+      code: 'CONFLICT',
+      message: 'User is at maximum processing capacity. Ignoring request.',
+    });
+  }
 
   // if task has a delay and the delay is longer than cron polling limit allow out of band scheduler to take over
   if (isTaskDelayed(task) && !isWithinNearPollingLimit(task)) {
@@ -191,45 +231,34 @@ export const processTask = async (taskId: string): Promise<TaskState> => {
   // create a new execution from the snapshot
   const execution = factory.deserialize(snapshot);
 
+  const start = task.duration;
+
   // process the execution
   startController(); // TODO: make the execution responsible for starting the controller
   const result = await execution.process();
   stopController(); // TODO: make the execution responsible for starting the controller
 
+  const duration = result.duration && result.duration > 0 ? result.duration : 0;
+  const timeSpentProcessingThisRound = duration - start;
   // TODO: create a boundary for shared pre-processing that occures before the execution is rescheduled or terminated.
   // keep the duration of the execution in sync with the task for easier querying
-  const duration = Number(
-    (result.duration ?? 0) > 0 ? result.duration : 0.00001
-  );
   task.duration = duration;
 
-  await limits.throttle({
-    id: 'task-processing-time',
+  await serverLimits.throttle({
+    id: SERVER_SETTINGS.LIMIT_IDS.ENGINE_PROCESSING_TIME,
     meta: 'server',
-    quantity: duration / 1000,
+    quantity: SERVER_SETTINGS.RESOURCE_CONSUMPTION.ENGINE_PROCESSING_TIME(
+      timeSpentProcessingThisRound
+    ),
   });
 
-  if (
-    !(await quotas.request({
-      uid: worksheet.uid,
-      type: 'processingTime',
-      quantity: duration,
-    }))
-  ) {
-    const message = 'User has reached maximum processing capacity.';
-    await logger.error(message, { duration });
-    // check to see if the user has enough processing time on their account to process the task
-    return await failTask(
-      task,
-      new ExecutionFailure({
-        code: 'insufficient-quota',
-        message: message,
-        data: {
-          duration,
-        },
-      })
-    );
-  }
+  await quotas.request({
+    uid: worksheet.uid,
+    type: 'processingTime',
+    quantity: SERVER_SETTINGS.RESOURCE_CONSUMPTION.USER_PROCESSING_TIME(
+      timeSpentProcessingThisRound
+    ),
+  });
 
   if (didExecutionFail(controller)) {
     const failure = controller.getFailure();

@@ -10,7 +10,7 @@ export const createCompletion: TemplateDefinition = {
 input: [args]
 
 steps:
-  - call: open-ai/create-completion
+  - call: open_ai.create_completion
     input: 
       model: "text-davinci-003"
       prompt: \${args.prompt}

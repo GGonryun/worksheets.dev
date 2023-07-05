@@ -11,7 +11,7 @@ const modelSchema = z.object({
 });
 
 export const modelsRead = newMethod({
-  id: 'list-models',
+  id: 'list_models',
   label: 'List models',
   description:
     'Lists the currently available models, and provides basic information about each one such as the owner and availability.',

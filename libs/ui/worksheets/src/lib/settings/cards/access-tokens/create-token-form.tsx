@@ -8,10 +8,12 @@ export const CreateTokenForm: React.FC<{
     isNew: boolean;
   };
   setForm: (form: { name: string; expiration: number; isNew: boolean }) => void;
-}> = ({ form, setForm }) => {
+  disabled?: boolean;
+}> = ({ form, setForm, disabled }) => {
   return (
-    <Box display="flex" gap={2} flexDirection="column" py={3} px={1}>
+    <Box display="flex" gap={2} flexDirection="column" pt={1}>
       <SharedTextField
+        disabled={disabled}
         label="Token name"
         helperText="Enter a unique name for your token to differentiate it from other tokens."
         required
@@ -23,6 +25,7 @@ export const CreateTokenForm: React.FC<{
         error={!form.isNew && form.name.length < 1}
       />
       <SharedTextField
+        disabled={disabled}
         label="Expiration"
         helperText="The number of days until the token expires."
         required

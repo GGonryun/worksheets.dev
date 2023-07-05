@@ -9,7 +9,7 @@ import { z } from 'zod';
 import { Octokit } from 'octokit';
 
 export const webhooksCreate = newMethod({
-  id: 'webhooks.create',
+  id: 'webhooks_create',
   label: 'Create a repository webhook',
   description:
     'Repositories can have multiple webhooks installed. Each webhook should have a unique config. Multiple webhooks can share the same config as long as those webhooks do not have any events that overlap.',

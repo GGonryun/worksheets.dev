@@ -32,10 +32,16 @@ const flags = newMethod({
 });
 
 export const sysFlags = newApplication({
-  id: 'sys.flags',
+  id: 'sys_flags',
   label: 'System Flags',
   description: '',
   settings,
   methods: [flags],
   logo: 'https://storage.googleapis.com/worksheets-test-app-logos/paper-plane-svgrepo-com.svg',
+  meta: {
+    enabled: true,
+    public: false,
+    gallery: false,
+    external: false,
+  },
 });

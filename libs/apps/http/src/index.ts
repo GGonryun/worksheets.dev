@@ -8,4 +8,10 @@ export default newApplication({
   methods: [request],
   logo: '',
   settings: null,
+  meta: {
+    enabled: true,
+    public: true,
+    gallery: true,
+    external: true,
+  },
 });

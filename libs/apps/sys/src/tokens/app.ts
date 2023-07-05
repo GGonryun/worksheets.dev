@@ -36,10 +36,16 @@ const tokens = newMethod({
 });
 
 export const sysTokens = newApplication({
-  id: 'sys.tokens',
+  id: 'sys_tokens',
   label: 'System Tokens',
   description: '',
   settings,
   methods: [tokens],
   logo: 'https://storage.googleapis.com/worksheets-test-app-logos/paper-plane-svgrepo-com.svg',
+  meta: {
+    enabled: true,
+    public: false,
+    gallery: false,
+    external: false,
+  },
 });

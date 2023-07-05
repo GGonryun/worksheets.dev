@@ -2,16 +2,15 @@ import { limits } from '@worksheets/feat/server-management';
 import { publicProcedure } from '../../trpc';
 import { z } from 'zod';
 
-export const reap = publicProcedure
+export default publicProcedure
   .meta({
     openapi: {
       enabled: true,
       method: 'DELETE',
-      path: '/limits/reaper',
+      path: '/reapers/limits',
       summary: 'Reap rate limits and quotas',
       description: 'Reap rate limits and quotas that have expired',
-      tags: ['limits'],
-      protect: true,
+      tags: ['reapers'],
     },
   })
   .input(

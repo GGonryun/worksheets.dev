@@ -4,7 +4,7 @@ import { getCurrentUserEmail, newGmailClient, settings } from './common';
 import MailComposer from 'nodemailer/lib/mail-composer';
 
 export const sendEmail = newMethod({
-  id: 'send-email',
+  id: 'send_email',
   label: 'Send Email',
   description: 'Send an email to a user from the current gmail account',
   input: z.object({

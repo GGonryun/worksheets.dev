@@ -10,4 +10,10 @@ export const sysCore = newApplication({
   settings: null,
   methods: [log, now, noop],
   logo: 'https://storage.googleapis.com/worksheets-test-app-logos/paper-plane-svgrepo-com.svg',
+  meta: {
+    enabled: true,
+    public: true,
+    gallery: true,
+    external: false,
+  },
 });

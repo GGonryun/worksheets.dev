@@ -4,7 +4,7 @@ import { Octokit } from 'octokit';
 import { TypeOf, z } from 'zod';
 
 export const gistsListStarred = newMethod({
-  id: 'gists.list.starred',
+  id: 'gists_list_starred',
   label: 'List Gists',
   description:
     'Allows you to add a new gist with one or more files.\nNote: Don\'t name your files "gistfile" with a numerical suffix. This is the format of the automatic naming scheme that Gist uses internally.',

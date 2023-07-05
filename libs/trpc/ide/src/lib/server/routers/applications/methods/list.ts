@@ -1,13 +1,15 @@
 import { newApplicationsDatabase } from '@worksheets/data-access/applications';
 import { z } from 'zod';
-import { publicProcedure } from '../../../trpc';
+import { Severity, publicProcedure } from '../../../trpc';
 import { zodToJsonSchema } from 'zod-to-json-schema';
 import { createExample } from '@worksheets/feat/applications-registry';
 
 const db = newApplicationsDatabase();
 
 export default publicProcedure
+
   .meta({
+    logging: Severity.ERROR,
     openapi: {
       method: 'GET',
       path: '/applications/{appId}/methods',

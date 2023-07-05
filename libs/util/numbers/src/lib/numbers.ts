@@ -13,3 +13,8 @@ export function round(number: number, decimals = 2) {
     maximumFractionDigits: decimals,
   }).format(number);
 }
+
+export function calculatePercentage(current?: number, max?: number) {
+  if (!current || !max) return 0;
+  return Math.min(Math.round((current / max) * 100), 100);
+}

@@ -4,7 +4,7 @@ import { z } from 'zod';
 import { Octokit } from 'octokit';
 
 export const webhooksDelete = newMethod({
-  id: 'webhooks.delete',
+  id: 'webhooks_delete',
   label: 'Delete a repository webhook',
   description: null,
   settings,

@@ -334,7 +334,7 @@ describe('initializing and running serialized executions ', () => {
               - return: \${result}
   
           multiply_by_three:
-            params: x
+            input: x
             steps:
               - worksheet: multiply_by_two
                 input: \${x}
@@ -342,9 +342,8 @@ describe('initializing and running serialized executions ', () => {
               - return: \${data * 3}
   
           multiply_by_two:
-            params: y
-            steps:
-              - return: \${y * 2}
+            input: y
+            output: \${y * 2}
           `,
       assert(_, e) {
         expect(e.ctx.controller.hasFailure()).toBe(false);

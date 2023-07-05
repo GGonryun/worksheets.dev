@@ -20,11 +20,10 @@ export type MultiMethodInitDefinition = {
 };
 
 export type SingleMethodInitDefinition = {
-  params: string;
+  input: string;
   assign: { [key: string]: string }[];
-  return: number | string;
   steps: Definition[];
-  output?: unknown; // if set, this means we're processing an inline worksheet and we will place our output in the heap's address space specified.
+  output: string | number; // if set, this means we're processing an inline worksheet and we will place our output in the heap's address space specified.
 };
 
 export type InitDefinition = MethodMetadata &
@@ -47,8 +46,8 @@ export class Init implements Instruction {
 
     // prefer key words to prevent possible infinite recursion with steps
     const {
-      return: r,
-      params,
+      output: r,
+      input: params,
       assign,
       steps,
     } = this.definition as SingleMethodInitDefinition;

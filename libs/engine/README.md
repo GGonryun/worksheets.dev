@@ -6,7 +6,7 @@
 version: 1
 name: worksheet_name
 
-params: param_name
+input: param_name
 
 assign:
   #   key: value
@@ -108,16 +108,16 @@ version: 1
 
 # must specify a main function
 main:
-  params: data
+  input: data
   steps:
     - worksheet: multiply_by_three
       input: ${data}
       output: result
-  return: ${result}
+  output: ${result}
 
 multiply_by_three:
-  params: x
-  return: ${x * 3}
+  input: x
+  output: ${x * 3}
 ```
 
 # Engine
