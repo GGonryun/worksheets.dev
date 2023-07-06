@@ -10,28 +10,28 @@ type FeatureItem = {
 
 const FeatureList: FeatureItem[] = [
   {
-    title: 'Easy to Use',
-    Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
+    title: 'Orchestrate complex workflows',
+    Svg: require('@site/static/img/icon-1.svg').default,
     description: (
       <>
-        Docusaurus was designed from the ground up to be easily installed and
-        used to get your website up and running quickly.
+        Worksheets makes it easy for developers to integrate with applications,
+        parallelize operations, automate repetitive tasks, and more
       </>
     ),
   },
   {
-    title: 'Focus on What Matters',
-    Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
+    title: 'Integrate with your favorite applications',
+    Svg: require('@site/static/img/icon-3.svg').default,
     description: (
       <>
-        Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go
-        ahead and move your docs into the <code>docs</code> directory.
+        Worksheets provides a growing library of applications to connect to. If
+        you can't find what you need, you can always write your own.
       </>
     ),
   },
   {
-    title: 'Powered by React',
-    Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
+    title: 'Run tasks of any duration effortlessly',
+    Svg: require('@site/static/img/icon-2.svg').default,
     description: (
       <>
         Extend or customize your website layout by reusing React. Docusaurus can
@@ -39,11 +39,42 @@ const FeatureList: FeatureItem[] = [
       </>
     ),
   },
+  {
+    title: 'Prebuilt templates',
+    Svg: require('@site/static/img/icon-0.svg').default,
+    description: (
+      <>
+        Explore a wider ecosystem, fostering adaptability and the ability to
+        stay ahead in a rapidly evolving business landscape
+      </>
+    ),
+  },
+  {
+    title: 'API-first design',
+    Svg: require('@site/static/img/icon-5.svg').default,
+    description: (
+      <>
+        Worksheets provides an unopinionated framework that makes it easy to
+        integrate into your stack.
+      </>
+    ),
+  },
+  {
+    title: 'Intuitive YAML Syntax',
+    Svg: require('@site/static/img/icon-4.svg').default,
+    description: (
+      <>
+        Worksheets can use conditional logic, iterate over tables or lists of
+        data of data, execute other worksheets, parallelize multiple operations,
+        and more
+      </>
+    ),
+  },
 ];
 
 function Feature({ title, Svg, description }: FeatureItem) {
   return (
-    <div className={clsx('col col--4')}>
+    <div className={clsx('col col--4')} style={{ padding: 30 }}>
       <div className="text--center">
         <Svg className={styles.featureSvg} role="img" />
       </div>

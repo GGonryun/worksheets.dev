@@ -6,9 +6,10 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'My Site',
-  tagline: 'Dinosaurs are cool',
-  url: 'https://your-docusaurus-test-site.com',
+  title: 'Worksheets.dev',
+  tagline:
+    'Automate your workflows in minutes with our Low-Code Application Integration Platform.',
+  url: 'https://worksheets.com',
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
@@ -21,16 +22,9 @@ const config = {
       'classic',
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
-        docs: {
-          sidebarPath: require.resolve('./sidebars.js'),
-          // Please change this to your repo.
-          editUrl: 'https://github.com/facebook/docusaurus/edit/main/website/',
-        },
         blog: {
           showReadingTime: true,
-          // Please change this to your repo.
-          editUrl:
-            'https://github.com/facebook/docusaurus/edit/main/website/blog/',
+          editUrl: 'https://worksheets.dev/contact-us',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
@@ -43,9 +37,9 @@ const config = {
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       navbar: {
-        title: 'My Site',
+        title: 'Worksheets.dev',
         logo: {
-          alt: 'My Site Logo',
+          alt: 'Worksheets Logo',
           src: 'img/logo.svg',
         },
         items: [
@@ -53,12 +47,31 @@ const config = {
             type: 'doc',
             docId: 'intro',
             position: 'left',
-            label: 'Tutorial',
+            label: 'Getting Started',
           },
-          { to: '/blog', label: 'Blog', position: 'left' },
           {
-            href: 'https://github.com/facebook/docusaurus',
-            label: 'GitHub',
+            href: '/support',
+            label: 'Support',
+            position: 'left',
+          },
+          {
+            href: '/blog',
+            label: 'Blog',
+            position: 'left',
+          },
+          {
+            href: 'https://worksheets.dev/templates',
+            label: 'Templates',
+            position: 'left',
+          },
+          {
+            href: 'https://worksheets.dev/applications',
+            label: 'Applications',
+            position: 'left',
+          },
+          {
+            to: 'https://worksheets.dev/login',
+            label: 'Login',
             position: 'right',
           },
         ],
@@ -79,16 +92,12 @@ const config = {
             title: 'Community',
             items: [
               {
-                label: 'Stack Overflow',
-                href: 'https://stackoverflow.com/questions/tagged/docusaurus',
-              },
-              {
                 label: 'Discord',
-                href: 'https://discordapp.com/invite/docusaurus',
+                href: 'https://discord.gg/ujEmEdjCaY',
               },
               {
-                label: 'Twitter',
-                href: 'https://twitter.com/docusaurus',
+                label: 'Contact Us',
+                href: 'https://worksheets.dev/contact-us',
               },
             ],
           },
@@ -100,13 +109,13 @@ const config = {
                 to: '/blog',
               },
               {
-                label: 'GitHub',
-                href: 'https://github.com/facebook/docusaurus',
+                label: 'Login',
+                href: 'https://worksheets.dev',
               },
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+        copyright: `Copyright © ${new Date().getFullYear()} Gwenyth, Inc. Built with Docusaurus.`,
       },
       prism: {
         theme: lightCodeTheme,
