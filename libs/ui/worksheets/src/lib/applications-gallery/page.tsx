@@ -35,7 +35,7 @@ export function ApplicationsGalleryPage() {
       >
         TODO: A form for requesting applications.
       </SidecarLayout>
-      <FloatingLayout>
+      <FloatingLayout secure={false}>
         <Box
           display="flex"
           alignItems="center"

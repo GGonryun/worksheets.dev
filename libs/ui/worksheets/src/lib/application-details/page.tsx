@@ -35,7 +35,7 @@ export const ApplicationDetailsPage: React.FC<{ appId: string }> = ({
   if (!app) return <Box />;
 
   return (
-    <FloatingLayout>
+    <FloatingLayout secure={false}>
       <Header app={app} />
       <AdvertisementSection />
       <TemplatesGallery app={app} />
@@ -122,7 +122,7 @@ const TemplatesGallery: React.FC<{ app: GetApplicationResponse }> = ({
         justifyContent="center"
         width="100%"
       >
-        <Typography variant="h6">
+        <Typography variant="h5" sx={{ textDecoration: 'underline' }}>
           Automate workflows with our easy-to-use templates
         </Typography>
       </Box>
@@ -145,7 +145,9 @@ const MethodsGallery: React.FC<{ app: GetApplicationResponse }> = ({ app }) => {
         justifyContent="center"
         width="100%"
       >
-        <Typography variant="h6">Supported Methods</Typography>
+        <Typography variant="h6" sx={{ textDecoration: 'underline' }}>
+          Supported Methods
+        </Typography>
       </Box>
       <MethodGrid app={app} />
     </Box>

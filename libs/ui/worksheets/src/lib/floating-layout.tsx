@@ -2,11 +2,12 @@ import { Box, Container, Paper } from '@mui/material';
 import WebsiteLayout from './website-layout';
 import React from 'react';
 
-export const FloatingLayout: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
+export const FloatingLayout: React.FC<{
+  children: React.ReactNode;
+  secure?: boolean;
+}> = ({ children, secure }) => {
   return (
-    <WebsiteLayout>
+    <WebsiteLayout secure={secure}>
       <Box
         width="100%"
         minHeight="100%"

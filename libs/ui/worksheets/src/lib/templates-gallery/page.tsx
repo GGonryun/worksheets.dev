@@ -15,7 +15,7 @@ export function TemplatesPage() {
   const { data: applications } = trpc.applications.list.useQuery({});
 
   return (
-    <FloatingLayout>
+    <FloatingLayout secure={false}>
       <Box
         display="flex"
         alignItems="center"

@@ -10,7 +10,7 @@ import Logout from '@mui/icons-material/Logout';
 import { useRouter } from 'next/router';
 import { useUser } from '@worksheets/util/auth/client';
 
-export default function AccountMenu() {
+export default function AccountMenu({ secure }: { secure?: boolean }) {
   const { push } = useRouter();
   const { signOut } = useUser();
 
@@ -37,18 +37,20 @@ export default function AccountMenu() {
 
   return (
     <React.Fragment>
-      <Tooltip title="Account settings">
-        <IconButton
-          onClick={handleClick}
-          size="small"
-          sx={{ ml: 2 }}
-          aria-controls={open ? 'account-menu' : undefined}
-          aria-haspopup="true"
-          aria-expanded={open ? 'true' : undefined}
-        >
-          <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
-        </IconButton>
-      </Tooltip>
+      {secure && (
+        <Tooltip title="Account settings">
+          <IconButton
+            onClick={handleClick}
+            size="small"
+            sx={{ ml: 2 }}
+            aria-controls={open ? 'account-menu' : undefined}
+            aria-haspopup="true"
+            aria-expanded={open ? 'true' : undefined}
+          >
+            <Avatar sx={{ width: 32, height: 32 }}>:D</Avatar>
+          </IconButton>
+        </Tooltip>
+      )}
       <Menu
         anchorEl={anchorEl}
         id="account-menu"

@@ -24,12 +24,26 @@ function HomepageHeader() {
         <h1 className="hero__title">{siteConfig.title}</h1>
         <p className="hero__subtitle">{siteConfig.tagline}</p>
         <div className={styles.buttons}>
-          <Link
-            className="button button--secondary button--lg"
-            to="/docs/intro"
-          >
-            Learn More - 5min ⏱️
-          </Link>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+            <Link
+              className="button button--secondary button--lg"
+              href={'https://app.worksheets.dev/login'}
+            >
+              Sign up for free - 1 min 🚀
+            </Link>
+            <Link
+              className="button button--secondary button--lg"
+              to="/docs/intro"
+            >
+              Watch the demo - 3 min 🎥
+            </Link>
+            <Link
+              className="button button--secondary button--lg"
+              to="/docs/overview"
+            >
+              Read more - 5 min 📖
+            </Link>
+          </div>
         </div>
       </div>
     </header>

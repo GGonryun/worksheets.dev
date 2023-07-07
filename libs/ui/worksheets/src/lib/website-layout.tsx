@@ -101,18 +101,21 @@ const Drawer = styled(MuiDrawer, {
   }),
 }));
 
-export type LayoutProps = { children: React.ReactNode };
-export default function WebsiteLayout({ children }: LayoutProps) {
+export type LayoutProps = { children: React.ReactNode; secure?: boolean };
+export default function WebsiteLayout({
+  secure = true,
+  children,
+}: LayoutProps) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const { push } = useRouter();
   const { user, loading } = useUser();
 
   React.useEffect(() => {
-    if (!user && !loading) {
+    if (secure && !user && !loading) {
       push('/');
     }
-  }, [user, loading, push]);
+  }, [secure, user, loading, push]);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -122,7 +125,7 @@ export default function WebsiteLayout({ children }: LayoutProps) {
     setOpen(false);
   };
 
-  const topSections = [
+  let topSections = [
     { text: 'Worksheets', link: '/worksheets', icon: <ListAltIcon /> },
     { text: 'Connections', link: '/connections', icon: <HubIcon /> },
     { text: 'Settings', link: '/settings', icon: <SettingsIcon /> },
@@ -141,6 +144,10 @@ export default function WebsiteLayout({ children }: LayoutProps) {
       icon: <SupportAgentIcon />,
     },
   ];
+
+  if (!secure) {
+    topSections = [];
+  }
 
   return (
     <Box height="100%" display="flex">

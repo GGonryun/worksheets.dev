@@ -35,7 +35,7 @@ export const TemplateDetailsPage: React.FC<{ templateId: string }> = ({
   );
   const clipboard = useClipboard();
   return (
-    <FloatingLayout>
+    <FloatingLayout secure={false}>
       <Box p={3}>
         <Box
           pb={1}
