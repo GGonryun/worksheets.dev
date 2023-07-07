@@ -1,5 +1,7 @@
+import { OpenInNew } from '@mui/icons-material';
+import { Box, Button, Link, Typography } from '@mui/material';
+import { SERVER_SETTINGS } from '@worksheets/data-access/server-settings';
 import { NextPage } from 'next';
-import Link from 'next/link';
 import React from 'react';
 
 interface Error {
@@ -8,26 +10,45 @@ interface Error {
 
 const Error: NextPage<Error> = ({ statusCode }) => {
   return (
-    <section
-      className="flex flex-row items-center justify-center px-4 py-12 text-center"
-      style={{ minHeight: 'calc(100vh - 150px)' }}
+    <Box
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+      flexDirection="column"
+      gap={5}
+      width="100%"
+      height="100%"
     >
-      <div>
-        <p className="mb-6 text-xl">
-          {statusCode
-            ? `An error ${statusCode} occurred on server`
-            : 'An error occurred on client'}
-        </p>
-        <Link href="/">
-          <a
-            className="inline-block px-8 py-4 leading-none text-white rounded shadow bg-primary-500 hover:bg-green-400"
-            href="/"
-          >
-            Return to the homepage
-          </a>
+      <Button
+        data-test-id="the-error-bell"
+        onClick={() => {
+          alert('no, the other one.');
+        }}
+      >
+        🛎️
+      </Button>
+      <Typography variant="h2">
+        {statusCode
+          ? `A ${statusCode} error occurred on the server`
+          : 'An error occurred on client'}
+      </Typography>
+      <Button variant="contained" size="large" href="/">
+        Return to the homepage
+      </Button>
+
+      <Typography>We&apos;ve been alerted about this error.</Typography>
+      <Typography>
+        Please{' '}
+        <Link
+          href={`${SERVER_SETTINGS.WEBSITES.DOCS_URL('/contact-us')}`}
+          target="_blank"
+        >
+          contact us <OpenInNew fontSize="inherit" />{' '}
         </Link>
-      </div>
-    </section>
+        if you think this is a mistake. Or press this bell really hard.
+      </Typography>
+      <Button data-test-id="the-error-bell">🛎️</Button>
+    </Box>
   );
 };
 
