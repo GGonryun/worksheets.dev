@@ -14,7 +14,7 @@ input: param_name
 
 assign:
   #   key: value
-  - param_a: ${sys.time.now()}
+  - param_a: ${sys_time.now()}
   - param_b: ${env("my_auth_token")}
   - param_c: value
 
@@ -25,7 +25,7 @@ steps:
     - param_d: the current time is ${param_a}!
 
   # execute external methods or libraries
-  - call: module.function.path
+  - call: app_name.method_name
     input:
       # key: value
       key_a: ${param_a}
