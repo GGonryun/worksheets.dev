@@ -19,12 +19,14 @@ export const useConnectionBuilder = ({
     settings: {},
   });
 
+  const [loading, setLoading] = React.useState(false);
   const [editing, setEditing] = React.useState(false);
   const cannotEdit = !canEdit && editing;
 
   const form = trpc.connections.getForm.useMutation();
 
   useEffect(() => {
+    setLoading(true);
     if (connectionId) {
       form.mutateAsync(connectionId).then(({ connection, created }) => {
         if (!created) {
@@ -40,19 +42,28 @@ export const useConnectionBuilder = ({
     } else {
       setEditing(false);
     }
+    setLoading(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [connectionId]);
 
   const utils = trpc.useContext();
 
-  const { data: app } = trpc.applications.get.useQuery(
+  const {
+    data: app,
+    isLoading: isLoadingApp,
+    isFetching: isFetchingApp,
+  } = trpc.applications.get.useQuery(
     {
       appId: connection.appId,
     },
     { enabled: !!connection.appId }
   );
 
-  const { data: relatedWorksheets } = trpc.connections.worksheets.get.useQuery(
+  const {
+    data: relatedWorksheets,
+    isLoading: isLoadingRelatedWorksheets,
+    isFetching: isFetchingRelatedWorksheets,
+  } = trpc.connections.worksheets.get.useQuery(
     { connectionId: connection.id },
     { enabled: !!connection.id }
   );
@@ -172,6 +183,10 @@ export const useConnectionBuilder = ({
         message: 'You must set all required fields to continue.',
       },
     },
+    loading:
+      loading ||
+      (isLoadingApp && isFetchingApp) ||
+      (isLoadingRelatedWorksheets && isFetchingRelatedWorksheets),
     save,
     updateConnection,
     updateSettingsFieldHandler,

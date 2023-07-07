@@ -54,11 +54,12 @@ export const ConnectionBuilderSteps: React.FC<{
     editing,
     cannotEdit,
     relatedWorksheets,
+    loading,
     save,
     updateSettingsFieldHandler,
     updateConnection,
   } = useConnectionBuilder({ connectionId, canEdit, onSaved });
-  const [activeStep, setActiveStep] = React.useState(0);
+  const [activeStep, setActiveStep] = React.useState(2);
 
   const { data: canBuild } = trpc.user.connections.canCreate.useQuery(
     undefined,
@@ -81,6 +82,27 @@ export const ConnectionBuilderSteps: React.FC<{
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
+
+  if (loading) {
+    return (
+      <Stepper activeStep={0} orientation="vertical">
+        <Step completed={true} key={0}>
+          <StepContent>
+            <Box
+              display="flex"
+              flexDirection="column"
+              justifyContent="center"
+              alignItems="center"
+              gap={2}
+              pt={4}
+            >
+              <CircularProgress />
+            </Box>
+          </StepContent>
+        </Step>
+      </Stepper>
+    );
+  }
 
   if (!editing && canBuild) {
     return (
@@ -134,7 +156,7 @@ export const ConnectionBuilderSteps: React.FC<{
 
   return (
     <Stepper activeStep={activeStep} nonLinear orientation="vertical">
-      <Step completed={editing || activeStep <= 0} key={0}>
+      <Step completed={editing || activeStep > 0} key={0}>
         {cannotEdit && <ModificationBanner connectionId={connectionId} />}
         <StepLabelWithCaption
           onClick={() => setActiveStep(0)}
@@ -188,7 +210,7 @@ export const ConnectionBuilderSteps: React.FC<{
           </Box>
         </StepContentWithActions>
       </Step>
-      <Step completed={editing || activeStep <= 1} key={1}>
+      <Step completed={editing || activeStep > 1} key={1}>
         <StepLabelWithCaption
           onClick={validation.details.ok ? () => setActiveStep(1) : undefined}
           label={'Connection settings'}
@@ -216,7 +238,7 @@ export const ConnectionBuilderSteps: React.FC<{
           </Box>
         </StepContentWithActions>
       </Step>
-      <Step completed={editing || activeStep <= 2} key={2}>
+      <Step completed={editing || activeStep > 2} key={2}>
         <StepLabelWithCaption
           onClick={
             validation.details.ok && validation.authentication.ok
