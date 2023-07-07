@@ -4,8 +4,17 @@ import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
 import HomepageFeatures from '@site/src/components/HomepageFeatures';
+import { Analytics } from '@vercel/analytics/react';
+import * as FullStory from '@fullstory/browser';
 
 import styles from './index.module.css';
+
+if (typeof window !== 'undefined') {
+  FullStory.init({
+    orgId: 'o-1N7VNF-na1',
+    devMode: process.env.NODE_ENV !== 'production',
+  });
+}
 
 function HomepageHeader() {
   const { siteConfig } = useDocusaurusContext();
@@ -30,14 +39,18 @@ function HomepageHeader() {
 export default function Home(): JSX.Element {
   const { siteConfig } = useDocusaurusContext();
   return (
-    <Layout
-      title={`Welcome to ${siteConfig.title}`}
-      description="Documentation site for Worksheets.dev"
-    >
-      <HomepageHeader />
-      <main>
-        <HomepageFeatures />
-      </main>
-    </Layout>
+    <>
+      <Analytics />
+
+      <Layout
+        title={`Welcome to ${siteConfig.title}`}
+        description="Documentation site for Worksheets.dev"
+      >
+        <HomepageHeader />
+        <main>
+          <HomepageFeatures />
+        </main>
+      </Layout>
+    </>
   );
 }
