@@ -1,0 +1,8 @@
+{
+  "label": "Developer Tools",
+  "position": 4,
+  "link": {
+    "type": "generated-index",
+    "description": "Learn about the different tools available to help you develop your application."
+  }
+}

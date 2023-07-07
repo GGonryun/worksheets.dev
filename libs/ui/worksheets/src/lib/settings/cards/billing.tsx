@@ -508,7 +508,9 @@ const OverclockButton: React.FC<{ overclocked?: boolean }> = ({
           <b>Warning:</b> Overclocking will increasing your spending
           significantly.{' '}
           <Link
-            href={`${SERVER_SETTINGS.WEBSITES.DOCS_URL('/docs/overclocking')}`}
+            href={`${SERVER_SETTINGS.WEBSITES.DOCS_URL(
+              '/docs/api/overclocking'
+            )}`}
             target="_blank"
           >
             Learn more <OpenInNewIcon color="primary" fontSize={'small'} />.
