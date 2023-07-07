@@ -7,3 +7,4 @@ export * from './lib/useDebounce';
 export * from './lib/useClipboard';
 export * from './icons';
 export * from './components';
+export * from './lib/useMediaQuery';

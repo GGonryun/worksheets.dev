@@ -14,9 +14,10 @@ import {
   Link,
   DialogActions,
   Button,
+  useTheme,
+  useMediaQuery,
 } from '@mui/material';
 import { OpenInNewTabLink } from '@worksheets/ui/common';
-import { SpotlightButton } from './applications-gallery/page';
 import PeopleOutlinedIcon from '@mui/icons-material/PeopleOutlined';
 import ListAltIcon from '@mui/icons-material/ListAltOutlined';
 import ScannerIcon from '@mui/icons-material/ScannerOutlined';
@@ -26,6 +27,7 @@ import MemoryOutlinedIcon from '@mui/icons-material/MemoryOutlined';
 import AccountTreeOutlinedIcon from '@mui/icons-material/AccountTreeOutlined';
 import { useEffect, useState } from 'react';
 import { SERVER_SETTINGS } from '@worksheets/data-access/server-settings';
+import { SpotlightButton } from './shared/spotlight-button';
 
 const { DOCS_URL, APP_URL } = SERVER_SETTINGS.WEBSITES;
 const actions = [
@@ -35,9 +37,13 @@ const actions = [
 ];
 
 export function SupportSpeedDial() {
+  const theme = useTheme();
   const { push, query } = useRouter();
   const evaluation = query.evaluation === 'true';
 
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+
+  console.info('isMobile', isMobile);
   const [openSpeedDial, setOpenSpeedDial] = useState(false);
   const [openWelcomeDialog, setOpenWelcomeDialog] = useState(false);
 
@@ -71,31 +77,32 @@ export function SupportSpeedDial() {
         }}
       />
       <Backdrop open={openSpeedDial} sx={{ zIndex: 2000 }} />
-
-      <SpeedDial
-        ariaLabel="SpeedDial tooltip example"
-        sx={{
-          position: 'absolute',
-          bottom: 32,
-          right: 32,
-          zIndex: 2001,
-        }}
-        icon={<SpeedDialIcon />}
-        onClick={() => setOpenSpeedDial((b) => !b)}
-        open={openSpeedDial}
-      >
-        {actions.map((action) => (
-          <SpeedDialAction
-            key={action.name}
-            icon={action.icon}
-            tooltipTitle={action.name}
-            tooltipOpen
-            onClick={(e) => {
-              handleActionClick(action.name);
-            }}
-          />
-        ))}
-      </SpeedDial>
+      {!isMobile && (
+        <SpeedDial
+          ariaLabel="SpeedDial tooltip example"
+          sx={{
+            position: 'absolute',
+            bottom: 32,
+            right: 32,
+            zIndex: 2001,
+          }}
+          icon={<SpeedDialIcon />}
+          onClick={() => setOpenSpeedDial((b) => !b)}
+          open={openSpeedDial}
+        >
+          {actions.map((action) => (
+            <SpeedDialAction
+              key={action.name}
+              icon={action.icon}
+              tooltipTitle={action.name}
+              tooltipOpen
+              onClick={(e) => {
+                handleActionClick(action.name);
+              }}
+            />
+          ))}
+        </SpeedDial>
+      )}
     </>
   );
 }
@@ -135,7 +142,7 @@ const EvaluationDialog: React.FC<{ open: boolean; onClose: () => void }> = ({
             .
           </Typography>
         </Box>
-        <Box display="flex" flexDirection="column" gap={1} py={2}>
+        <Box display="flex" flexDirection="column" gap={1.25} py={2}>
           <SpotlightButton
             elevation={8}
             label={'Learn about Worksheets.dev'}

@@ -22,7 +22,7 @@ const Error: NextPage<Error> = ({ statusCode }) => {
       <Button
         data-test-id="the-error-bell"
         onClick={() => {
-          alert('no, the other one.');
+          alert('no, press the other one.');
         }}
       >
         🛎️
@@ -36,16 +36,18 @@ const Error: NextPage<Error> = ({ statusCode }) => {
         Return to the homepage
       </Button>
 
-      <Typography>We&apos;ve been alerted about this error.</Typography>
       <Typography>
-        Please{' '}
+        We&apos;ve been alerted about this error. Please{' '}
         <Link
           href={`${SERVER_SETTINGS.WEBSITES.DOCS_URL('/contact-us')}`}
           target="_blank"
         >
           contact us <OpenInNew fontSize="inherit" />{' '}
         </Link>
-        if you think this is a mistake. Or press this bell really hard.
+        if you think this is a mistake.{' '}
+      </Typography>
+      <Typography>
+        <strong>Or press this bell really hard.</strong> It might help.
       </Typography>
       <Button data-test-id="the-error-bell">🛎️</Button>
     </Box>
