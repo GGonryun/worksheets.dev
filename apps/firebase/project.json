@@ -61,7 +61,7 @@
           "node -e \"setTimeout(()=>{},5000)\"",
           "kill-port --port 9099,5001,8080,9000,5000,8085,9199,9299,4000,4400,4500",
           "firebase functions:config:get  --config firebase.json > dist/apps/firebase/.runtimeconfig.json",
-          "firebase emulators:start  --config firebase.json"
+          "APP_BASE_URL='memes' firebase emulators:start  --config firebase.json"
         ],
         "parallel": false
       }

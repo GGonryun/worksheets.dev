@@ -4,6 +4,7 @@ import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { CollapsingHorizontalResizableLayout } from './resizable-layout/collapsing-horizontal-resizer';
 import { ReactNode, useState } from 'react';
 import { useUser } from '@worksheets/util/auth/client';
+import { SERVER_SETTINGS } from '@worksheets/data-access/server-settings';
 
 export const SourceVisualizer: React.FC<{
   text: string;
@@ -46,7 +47,9 @@ export const SourceVisualizer: React.FC<{
                 color="primary"
                 sx={{ alignItems: 'flex-start' }}
                 endIcon={<OpenInNewIcon />}
-                href="/docs/worksheet-syntax"
+                href={`${SERVER_SETTINGS.WEBSITES.DOCS_URL(
+                  '/docs/syntax-guide'
+                )}`}
                 target="_blank"
               >
                 Syntax Reference

@@ -2,15 +2,16 @@ import { Severity, protectedProcedure } from '../../../trpc';
 import { z } from 'zod';
 import { loadWorksheetLogs } from '@worksheets/feat/structured-logging';
 import { taskLogEntity } from '@worksheets/data-access/tasks';
+import { addDaysToCurrentTime } from '@worksheets/util/time';
 
-// TODO: we only return the latest 100 logs, but we should paginate
 export default protectedProcedure
   .meta({
     logging: Severity.ERROR,
     openapi: {
       enabled: true,
       protect: true,
-      summary: 'Get logs for a worksheet',
+      summary:
+        'Gets your 20 most recent logs in the last 24 hours for a worksheet',
       description: 'Get logs for a worksheet',
       tags: ['logs'],
       method: 'GET',
@@ -25,15 +26,11 @@ export default protectedProcedure
   )
   .output(z.array(taskLogEntity))
   .query(async ({ input: { worksheetId, executionId } }) => {
-    const logs = await loadWorksheetLogs({
+    return await loadWorksheetLogs({
       worksheetId,
       taskId: executionId,
+      limit: 20,
+      start: addDaysToCurrentTime(-1).getTime(),
+      end: Date.now(),
     });
-
-    return logs.map((log) => ({
-      ...log,
-      // just in case clients insert bad data into message.
-      message: `${log.message}`,
-      data: JSON.stringify(log, null, 2),
-    }));
   });

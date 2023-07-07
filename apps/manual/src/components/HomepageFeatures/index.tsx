@@ -15,7 +15,7 @@ const FeatureList: FeatureItem[] = [
     description: (
       <>
         Worksheets makes it easy for developers to integrate with applications,
-        parallelize operations, automate repetitive tasks, and more
+        parallelize operations, automate repetitive tasks, and more.
       </>
     ),
   },
@@ -25,7 +25,8 @@ const FeatureList: FeatureItem[] = [
     description: (
       <>
         Worksheets provides a growing library of applications to connect to. If
-        you can't find what you need, you can always write your own.
+        you can't find what you need, you can always write your own. We provide
+        a simple SDK to get you started.
       </>
     ),
   },
@@ -34,8 +35,9 @@ const FeatureList: FeatureItem[] = [
     Svg: require('@site/static/img/icon-2.svg').default,
     description: (
       <>
-        Extend or customize your website layout by reusing React. Docusaurus can
-        be extended while reusing the same header and footer.
+        Enjoy extended task lifetimes, enabling high frequency polling and long
+        term scheduling for comprehensive performance. No more worrying about
+        timeouts.
       </>
     ),
   },
@@ -50,12 +52,13 @@ const FeatureList: FeatureItem[] = [
     ),
   },
   {
-    title: 'API-first design',
+    title: 'Works with your favorite languages',
     Svg: require('@site/static/img/icon-5.svg').default,
     description: (
       <>
-        Worksheets provides an unopinionated framework that makes it easy to
-        integrate into your stack.
+        Auto generate client libraries for your favorite languages, or use the
+        REST API directly to integrate with any application, service, or tool
+        that can make an HTTP request.
       </>
     ),
   },
@@ -64,9 +67,8 @@ const FeatureList: FeatureItem[] = [
     Svg: require('@site/static/img/icon-4.svg').default,
     description: (
       <>
-        Worksheets can use conditional logic, iterate over tables or lists of
-        data of data, execute other worksheets, parallelize multiple operations,
-        and more
+        Use conditional logic, iterate over tables or lists of data of data,
+        execute other worksheets, parallelize multiple operations, and more
       </>
     ),
   },

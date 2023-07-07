@@ -134,7 +134,8 @@ export const createTask = async (
     deadlines: newDefaultDeadlines(worksheet, timeout),
     verbosity: newDefaultVerbosity(worksheet, options),
     createdAt: Date.now(),
-    updatedAt: Date.now(),
+    updatedAt: 0,
+    finishedAt: 0,
     delay: 0,
     duration: 0,
     retries: 0,
@@ -172,7 +173,7 @@ export const createTask = async (
     });
   }
   // save a logging statement
-  logger.trace('Task queued for execution');
+  logger.info('🕰️ Task queued for execution');
   // update the task db to reflect the new state.
   await tasksDb.update({
     ...task,

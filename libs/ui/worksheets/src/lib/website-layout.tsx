@@ -27,6 +27,8 @@ import { Link } from '@mui/material';
 import AccountMenu from './account-menu';
 import { useUser } from '@worksheets/util/auth/client';
 import { useRouter } from 'next/router';
+import { SupportSpeedDial } from './support-speed-dial';
+import { SERVER_SETTINGS } from '@worksheets/data-access/server-settings';
 
 const drawerWidth = 240;
 
@@ -128,13 +130,22 @@ export default function WebsiteLayout({ children }: LayoutProps) {
   const bottomSections = [
     { text: 'Templates', link: '/templates', icon: <ScannerIcon /> },
     { text: 'Applications', link: '/applications', icon: <AppsIcon /> },
-    { text: 'Documentation', link: '/docs', icon: <AssignmenIcon /> },
-    { text: 'Support', link: '/support', icon: <SupportAgentIcon /> },
+    {
+      text: 'Documentation',
+      link: `${SERVER_SETTINGS.WEBSITES.DOCS_URL()}`,
+      icon: <AssignmenIcon />,
+    },
+    {
+      text: 'Support',
+      link: `${SERVER_SETTINGS.WEBSITES.DOCS_URL('/contact-us')}'`,
+      icon: <SupportAgentIcon />,
+    },
   ];
 
   return (
     <Box height="100%" display="flex">
       <CssBaseline />
+      <SupportSpeedDial />
       <AppBar position="fixed" open={open}>
         <Toolbar
           sx={{

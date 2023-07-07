@@ -1,19 +1,17 @@
+import { SERVER_SETTINGS } from '@worksheets/data-access/server-settings';
 import { appRouter } from '@worksheets/trpc/ide/server';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { generateOpenApiDocument } from 'trpc-openapi';
 
-const url =
-  process.env.BASE_URL ||
-  process.env.OAUTH_BASE_URL ||
-  process.env.NEXT_PUBLIC_HOST ||
-  'https://localhost:4200';
+const appUrl = SERVER_SETTINGS.WEBSITES.APP_URL();
+const docsUrl = SERVER_SETTINGS.WEBSITES.DOCS_URL();
 
 export const openApiDocument = generateOpenApiDocument(appRouter, {
   title: 'Worksheets API',
   description: 'OpenAPI compliant REST API built using tRPC with Next.js',
   version: '1.0.0',
-  baseUrl: `${url}/api`,
-  docsUrl: `${url}/docs`,
+  baseUrl: `${appUrl}/api`,
+  docsUrl: `${docsUrl}/docs`,
   tags: [
     'worksheets',
     'executions',

@@ -2,13 +2,14 @@ import { httpBatchLink, loggerLink } from '@trpc/client';
 import { createTRPCNext } from '@trpc/next';
 import { AppRouter } from '../server/routers/_app';
 import { firebaseAuth } from '@worksheets/firebase/client';
+import { SERVER_SETTINGS } from '@worksheets/data-access/server-settings';
 
 function getBaseUrl() {
   if (typeof window !== 'undefined')
     // browser should use relative path
     return '';
 
-  if (process.env.BASE_URL)
+  if (SERVER_SETTINGS.WEBSITES.APP_URL())
     // reference for vercel host.com
     return `https://${process.env.VERCEL_URL}`;
 

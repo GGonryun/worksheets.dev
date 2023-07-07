@@ -37,7 +37,7 @@ steps:
       url: http://api.mathjs.org/v4/?expr=\${expr}
       method: GET
     output: resp
-  - log: 💡 Data received \${json.stringify(resp.body)}.
+  - log: 💡 Data received \${json.stringify(resp.body)}
 
 output: \${data}
 `.trim();

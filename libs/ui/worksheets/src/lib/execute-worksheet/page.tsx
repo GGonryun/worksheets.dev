@@ -26,6 +26,7 @@ import { HorizontalResizerLayout } from '../shared/resizable-layout/horizontal-r
 import { JSONEditor } from './json-editor';
 import { YAMLViewer } from './yaml-viewer';
 import { useUser } from '@worksheets/util/auth/client';
+import { SERVER_SETTINGS } from '@worksheets/data-access/server-settings';
 
 export const ExecuteWorksheetPage: React.FC = () => {
   const { query, push } = useRouter();
@@ -240,7 +241,10 @@ const WorksheetHeader: React.FC<{ worksheet?: WorksheetEntity }> = ({
     <Typography variant="h6">{worksheet?.name}</Typography>
     <Typography variant="body2">
       Use JSON (JavaScript Object Notation) as input for your task.{' '}
-      <Link href="/docs/json" target="_blank">
+      <Link
+        href={`${SERVER_SETTINGS.WEBSITES.DOCS_URL('/docs/syntax-guide#json')}`}
+        target="_blank"
+      >
         Learn more{'  '}
         <OpenInNewIcon fontSize="small" />
       </Link>

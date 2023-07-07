@@ -21,7 +21,11 @@
   },
   "functions": {
     "codebase": "firebase",
-    "predeploy": ["npx nx build firebase"],
+    "predeploy": [
+      "npx nx build firebase --with-deps",
+      "npx nx lint firebase",
+      "cp apps/firebase/src/.env dist/apps/firebase/.env"
+    ],
     "runtime": "nodejs16",
     "source": "dist/apps/firebase"
   },

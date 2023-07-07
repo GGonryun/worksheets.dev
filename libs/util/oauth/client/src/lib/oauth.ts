@@ -1,3 +1,4 @@
+import { SERVER_SETTINGS } from '@worksheets/data-access/server-settings';
 import { Options } from 'client-oauth2';
 import ClientOAuth2 from 'client-oauth2';
 
@@ -20,7 +21,7 @@ export type SecureToken = {
 };
 
 function baseOAuthUrl() {
-  return process.env['OAUTH_BASE_URL'] ?? 'http://localhost:4200';
+  return SERVER_SETTINGS.WEBSITES.APP_URL();
 }
 
 export class OAuthClient {

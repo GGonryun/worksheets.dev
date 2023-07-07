@@ -41,7 +41,9 @@ export class Delay implements Instruction {
       // wait for a random interval up to 10 seconds or the offset whichever is smaller
       const wait = Math.min(Math.random() * 10000, offset);
       // log that we're gonna wait
-      ctx.logger.trace(`Execution paused for ${prettyPrintMilliseconds(wait)}`);
+      ctx.logger.trace(
+        `⏸️ Execution paused for ${prettyPrintMilliseconds(wait)}`
+      );
       await waitFor(wait);
       // push the delay instruction back onto the stack
       ctx.instructions.push(this);

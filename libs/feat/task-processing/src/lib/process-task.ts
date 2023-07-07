@@ -20,7 +20,6 @@ import {
 import { newPrivateLibrary } from '@worksheets/feat/execution-settings';
 import {
   TaskLogger,
-  isTaskProcessible,
   isTaskExpired,
   isTaskRequeueLimitReached,
   canExecutionBeRetried,
@@ -29,6 +28,7 @@ import {
   convertFailureToTaskState,
   isTaskDelayed,
   isWithinNearPollingLimit,
+  isTaskProcessible,
 } from './util';
 import { durationRemaining, printDuration } from '@worksheets/util/time';
 import { TRPCError } from '@trpc/server';
@@ -143,7 +143,7 @@ export const processTask = async (taskId: string): Promise<TaskState> => {
   }
 
   // start processing task
-  await logger.info('Task picked up by processor');
+  await logger.info('⚡️ Processing task');
   task = await taskDb.update({
     ...task,
     retries: task.retries + 1,
@@ -155,7 +155,7 @@ export const processTask = async (taskId: string): Promise<TaskState> => {
   if (isTaskExpired(task)) {
     // log that the task expired
     const message = 'Task expired';
-    await logger.info(message);
+    await logger.warn(message);
     return await failTask(
       task,
       new ExecutionFailure({
@@ -263,18 +263,18 @@ export const processTask = async (taskId: string): Promise<TaskState> => {
   if (didExecutionFail(controller)) {
     const failure = controller.getFailure();
     // if the execution failed, log that it failed
-    await logger.error('Execution failed', { failure });
+    await logger.error('❌ Execution failed', { failure });
     // complete the task with a failure.
     return await failTask(task, failure);
   } else if (canExecutionBeRetried(controller)) {
     // if the execution can be retried, log that it can be retried
-    await logger.info('Execution requires requeue');
+    await logger.trace('🔁 Execution requires requeue');
     // serialize the execution snapshot
     const snapshot = factory.serialize(execution);
     return await requeueTask(task, controller, snapshot);
   } else {
     // if the execution completed, log that it completed
-    await logger.info('Execution completed');
+    await logger.info('✅ Execution completed');
     return await completeTask(task, 'done', result.output);
   }
 };
@@ -319,6 +319,7 @@ export const completeTask = async (
     ...task,
     state,
     output,
+    finishedAt: Date.now(),
     updatedAt: Date.now(),
   });
   // cleanup the snapshot

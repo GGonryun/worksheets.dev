@@ -8,6 +8,7 @@ import ReceiptLongOutlinedIcon from '@mui/icons-material/ReceiptLongOutlined';
 import HelpIcon from '@mui/icons-material/Help';
 import ScannerIcon from '@mui/icons-material/ScannerOutlined';
 import { OpenInNew } from '@mui/icons-material';
+import { SERVER_SETTINGS } from '@worksheets/data-access/server-settings';
 
 export const ResourcesFooter: React.FC<{ apps?: boolean }> = ({ apps }) => (
   <Grid
@@ -22,7 +23,7 @@ export const ResourcesFooter: React.FC<{ apps?: boolean }> = ({ apps }) => (
         title="Pricing"
         caption="Pay as you go"
         icon={<LocalOfferOutlinedIcon color="primary" />}
-        href="/pricing"
+        href={`${SERVER_SETTINGS.WEBSITES.DOCS_URL('/pricing')}`}
         openInNewTab
       />
     </Grid>
@@ -32,7 +33,7 @@ export const ResourcesFooter: React.FC<{ apps?: boolean }> = ({ apps }) => (
         caption="Get help now"
         helpText="A live agent is standing by to help you."
         icon={<LiveHelpOutlinedIcon color="primary" />}
-        href="/support"
+        href={`${SERVER_SETTINGS.WEBSITES.DOCS_URL('/contact-us')}`}
         openInNewTab
       />
     </Grid>
@@ -59,7 +60,7 @@ export const ResourcesFooter: React.FC<{ apps?: boolean }> = ({ apps }) => (
         caption="Learn more"
         helpText="Learn more about how worksheets are written."
         icon={<ReceiptLongOutlinedIcon color="primary" />}
-        href="/docs/syntax-guide"
+        href={`${SERVER_SETTINGS.WEBSITES.DOCS_URL('/docs/syntax-guide')}`}
         openInNewTab
       />
     </Grid>

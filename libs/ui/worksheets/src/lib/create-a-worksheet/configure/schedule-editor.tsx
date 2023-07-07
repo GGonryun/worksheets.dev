@@ -22,6 +22,7 @@ import PanToolIcon from '@mui/icons-material/PanToolOutlined';
 import { ReviewRow } from '../../shared/sidecar-components/review-row';
 import { StepContentWithActions } from '../../shared/sidecar-components/step-content-with-actions';
 import { StepLabelWithCaption } from '../../shared/sidecar-components/step-label-with-caption';
+import { SERVER_SETTINGS } from '@worksheets/data-access/server-settings';
 export type ScheduleForm = {
   name: string;
   description: string;
@@ -158,7 +159,12 @@ export const ScheduleEditor: React.FC<ScheduleEditorProps> = ({ onSubmit }) => {
                   Jobs set in timezones affected by Daylight Saving Time (DST)
                   may execute outside of their scheduled cadence. Use UTC or a
                   non-DST timezone to avoid this problem.{' '}
-                  <Link href="/docs/cron" target="_blank">
+                  <Link
+                    href={`${SERVER_SETTINGS.WEBSITES.DOCS_URL(
+                      '/docs/scheduling'
+                    )}`}
+                    target="_blank"
+                  >
                     Learn more <OpenInNewIcon fontSize="small" />
                   </Link>
                   .

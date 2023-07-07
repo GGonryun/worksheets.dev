@@ -16,6 +16,7 @@ import { ApplicationCard } from './application-card';
 import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 import TuneIcon from '@mui/icons-material/Tune';
 import { OpenInNewOutlined } from '@mui/icons-material';
+import { SERVER_SETTINGS } from '@worksheets/data-access/server-settings';
 
 export function ApplicationsGalleryPage() {
   const { data: applications } = trpc.applications.list.useQuery({
@@ -64,7 +65,9 @@ export function ApplicationsGalleryPage() {
                 label="Customize workflows"
                 caption="Learn the worksheet syntax"
                 icon={<TuneIcon fontSize="large" />}
-                href={'/docs/create-worksheet'}
+                href={`${SERVER_SETTINGS.WEBSITES.DOCS_URL(
+                  '/docs/create-a-worksheet'
+                )}`}
               />
             </Grid>
             <Grid md={4}>

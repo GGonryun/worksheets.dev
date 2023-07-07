@@ -2,6 +2,7 @@ import { MethodCallFailure, newMethod } from '@worksheets/apps/framework';
 import { z } from 'zod';
 import { getCurrentUserEmail, newGmailClient, settings } from './common';
 import MailComposer from 'nodemailer/lib/mail-composer';
+import { SERVER_SETTINGS } from '@worksheets/data-access/server-settings';
 
 export const sendEmail = newMethod({
   id: 'send_email',
@@ -57,7 +58,7 @@ async function formatEmail(
     replyTo,
     subject,
     text: `${body}`,
-    html: `<p>🙋🏻‍♀️ &mdash; This is gmail was sent by a <b>worksheet</b> from <a href="https://worksheets.dev">worksheets.dev</a><br/>${body}</p>`,
+    html: `<p>🙋🏻‍♀️ &mdash; This is gmail was sent by a <b>worksheet</b> from <a href='${SERVER_SETTINGS.WEBSITES.MARKETING_URL()}'>worksheets.dev</a><br/>${body}</p>`,
   });
   const email = await message.compile().build();
   const raw = urlSafeEncoding(email);

@@ -24,6 +24,24 @@ export const SERVER_SETTINGS = {
       },
     },
   },
+  WEBSITES: {
+    ADMIN_URL: (route = '') =>
+      (process.env['ADMIN_BASE_URL'] ??
+        process.env['NEXT_PUBLIC_ADMIN_BASE_URL'] ??
+        '') + route,
+    MARKETING_URL: (route = '') =>
+      (process.env['MARKETING_BASE_URL'] ??
+        process.env['NEXT_PUBLIC_MARKETING_BASE_URL'] ??
+        '') + route,
+    APP_URL: (route = '') =>
+      (process.env['APP_BASE_URL'] ??
+        process.env['NEXT_PUBLICAPP_BASE_URL'] ??
+        '') + route,
+    DOCS_URL: (route = '') =>
+      (process.env['DOCS_BASE_URL'] ??
+        process.env['NEXT_PUBLIC_DOCS_BASE_URL'] ??
+        '') + route,
+  },
   HANDSHAKE_EXPIRATION_OFFSET: 5 * 60 * 1000, // expire handshakes older than 5 minutes in ms
   META_IDS: {
     SYSTEM: 'system',

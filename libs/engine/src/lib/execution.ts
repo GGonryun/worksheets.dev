@@ -58,7 +58,6 @@ export class Execution {
     const start = Date.now();
 
     const { controller, logger, register } = this.ctx;
-    await logger.info(`Starting execution`);
     while (!controller.isCancelled() && this.engine.hasNext()) {
       try {
         await this.engine.iterate();

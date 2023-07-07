@@ -50,8 +50,8 @@ const config = {
             label: 'Getting Started',
           },
           {
-            href: '/support',
-            label: 'Support',
+            href: '/contact-us',
+            label: 'Contact Us',
             position: 'left',
           },
           {
@@ -59,18 +59,14 @@ const config = {
             label: 'Blog',
             position: 'left',
           },
+
           {
-            href: 'https://worksheets.dev/templates',
-            label: 'Templates',
-            position: 'left',
-          },
-          {
-            href: 'https://worksheets.dev/applications',
+            href: 'https://app.worksheets.dev/applications',
             label: 'Applications',
             position: 'left',
           },
           {
-            to: 'https://worksheets.dev/login',
+            to: 'https://app.worksheets.dev/login',
             label: 'Login',
             position: 'right',
           },

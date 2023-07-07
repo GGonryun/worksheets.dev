@@ -8,6 +8,7 @@ import Button from '@mui/material/Button';
 import { FloatingLayout } from '../floating-layout';
 import { onlyUnique } from '@worksheets/util/functional';
 import { TemplatesGrid } from './templates-grid';
+import { SERVER_SETTINGS } from '@worksheets/data-access/server-settings';
 
 export function TemplatesPage() {
   const [selections, setSelections] = useState<ApplicationDetails[]>([]);
@@ -27,8 +28,14 @@ export function TemplatesPage() {
         <Typography variant="body1" textAlign="center" maxWidth={800}>
           Supercharge your workflows with templates that integrate the tools you
           use every day. Try our ready-to-go worksheets or{' '}
-          <Link href="/docs/create-worksheet">create your own</Link> using one
-          of our{' '}
+          <Link
+            href={`${SERVER_SETTINGS.WEBSITES.DOCS_URL(
+              '/docs/create-worksheet'
+            )}`}
+          >
+            create your own
+          </Link>{' '}
+          using one of our{' '}
           <Link href="/applications">{applications?.length} applications</Link>.
         </Typography>
       </Box>

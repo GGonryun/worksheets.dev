@@ -17,6 +17,7 @@ import {
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useUser } from '@worksheets/util/auth/client';
+import { SERVER_SETTINGS } from '@worksheets/data-access/server-settings';
 
 export function LoginPage() {
   const { push } = useRouter();
@@ -25,7 +26,7 @@ export function LoginPage() {
 
   useTimeout(() => {
     if (user) {
-      push('/worksheets');
+      push('/worksheets?evaluation=true');
     } else {
       setLoading(false);
     }
@@ -79,7 +80,9 @@ export function LoginPage() {
               <Box pb={2}>
                 <Typography variant="h6">Log in to</Typography>
                 <Typography variant="h4" color="primary">
-                  <Link href="/docs">Worksheets.dev</Link>
+                  <Link href={`${SERVER_SETTINGS.WEBSITES.DOCS_URL()}'`}>
+                    Worksheets.dev
+                  </Link>
                 </Typography>
               </Box>
               <Button
