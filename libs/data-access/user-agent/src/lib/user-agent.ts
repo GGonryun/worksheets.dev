@@ -24,21 +24,6 @@ export const userAgentSchema = z.object({
   }),
 });
 
-export const flagsSchema = z.enum([
-  'verified',
-  'suspended',
-  'beta',
-  'premium',
-  'overclock',
-  'admin',
-  'user',
-]);
-
-export const userFlagsEntity = z.object({
-  ...entitySchema.shape,
-  flags: z.array(flagsSchema),
-});
-
 export const userLimitsEntity = z.object({
   ...entitySchema.shape,
   executionHistoryRetention: z.number().describe('in days'),
@@ -78,15 +63,10 @@ export const userQuotasEntity = z.object({
 });
 
 export type UserLimitsEntity = z.infer<typeof userLimitsEntity>;
-export type UserFlagsEntity = z.infer<typeof userFlagsEntity>;
 export type UserQuotasEntity = z.infer<typeof userQuotasEntity>;
 
 export type UserLimitsDatabase = FirestoreDatabase<UserLimitsEntity>;
-export type UserFlagsDatabase = FirestoreDatabase<UserFlagsEntity>;
 export type UserQuotaDatabase = FirestoreDatabase<UserQuotasEntity>;
-
-export const newUserFlagsDatabase = (txn?: Txn) =>
-  newFirestore<UserFlagsEntity>('userflags', txn);
 
 export const newUserLimitsDatabase = (txn?: Txn) =>
   newFirestore<UserLimitsEntity>('userlimits', txn);

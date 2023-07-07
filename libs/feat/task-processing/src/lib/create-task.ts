@@ -82,7 +82,6 @@ export const createTask = async (
     });
   }
 
-  // throttle system executions to 100 per minute
   if (
     !(await serverLimits.throttle({
       id: 'worksheet-executions',
@@ -94,7 +93,7 @@ export const createTask = async (
     throw new TRPCError({
       code: 'INTERNAL_SERVER_ERROR',
       message:
-        "The system has exceeded it's execution rate limit. Please try again in a minute.",
+        "The system has exceeded it's worksheet creation rate limit. Please try again in a minute.",
     });
   }
 

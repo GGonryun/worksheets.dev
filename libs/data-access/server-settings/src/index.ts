@@ -43,28 +43,13 @@ export const SERVER_SETTINGS = {
         '') + route,
   },
   HANDSHAKE_EXPIRATION_OFFSET: 5 * 60 * 1000, // expire handshakes older than 5 minutes in ms
-  META_IDS: {
-    SYSTEM: 'system',
-    APPLICATION_METHODS: 'application-methods',
-  },
-  LIMIT_IDS: {
-    METHOD_PROCESSING_TIME: 'method-processing-time',
-    ENGINE_PROCESSING_TIME: 'engine-processing-time',
-    SYSTEM_APPLICATION_METHOD_CALL: 'application-method-call',
-    SPECIFIC_APPLICATION_METHOD_CALL: (appId: string, methodId: string) =>
-      `${appId}-${methodId}`,
-  },
   RESOURCE_REPLENISH_QUANTITY: 100, //replenishes every threshold minutes.
   RESOURCE_REPLENISH_THRESHOLD: 1,
   RESOURCE_CONSUMPTION: {
-    USER_WORKSHEET_EXECUTION: 1,
-    SYSTEM_WORKSHEET_EXECUTIONS: 1,
-    SPECIFIC_APPLICATION_METHOD_CALL: 0.5,
-    SYSTEM_APPLICATION_METHOD_CALL: 0.1,
+    USER_WORKSHEET_EXECUTION: 10,
+    SYSTEM_WORKSHEET_EXECUTIONS: 2,
     INDIVIDUAL_WORKSHEET_EXECUTION: 10,
     USER_METHOD_CALL: 1,
-    METHOD_PROCESSING_TIME: (ms: number) => ms / 200,
-    ENGINE_PROCESSING_TIME: (ms: number) => ms / 5000,
     USER_PROCESSING_TIME: (ms: number) => ms,
   },
   PROCESSING_DEADLINES: {

@@ -12,7 +12,6 @@ import { TRPCError } from '@trpc/server';
 import { RequiredBy } from '@worksheets/util/types';
 import { z } from 'zod';
 import { newWorksheetsConnectionsDatabase } from '@worksheets/data-access/worksheets-connections';
-import { limits as serverLimits } from '@worksheets/feat/server-management';
 import { quotas as userQuotas } from '@worksheets/feat/user-management';
 import { ExecutionFailure } from '@worksheets/engine';
 import { mapSecureProperties } from './common';
@@ -51,42 +50,6 @@ export const newPrivateLibrary = ({
       return connection?.settings ?? {};
     },
     beforeMethodCall: async (opts) => {
-      if (
-        !(await serverLimits.throttle({
-          id: SERVER_SETTINGS.LIMIT_IDS.SPECIFIC_APPLICATION_METHOD_CALL(
-            opts.app.id,
-            opts.method.id
-          ),
-          meta: SERVER_SETTINGS.META_IDS.APPLICATION_METHODS,
-          quantity:
-            SERVER_SETTINGS.RESOURCE_CONSUMPTION
-              .SPECIFIC_APPLICATION_METHOD_CALL,
-        }))
-      ) {
-        throw new ExecutionFailure({
-          code: 'internal-error',
-          message: SERVER_SETTINGS.SYSTEM_ERRORS.TOO_MANY_SPECIFIC_METHOD_CALLS(
-            opts.app.id,
-            opts.method.id
-          ),
-        });
-      }
-
-      if (
-        !(await serverLimits.throttle({
-          id: SERVER_SETTINGS.LIMIT_IDS.SYSTEM_APPLICATION_METHOD_CALL,
-          meta: SERVER_SETTINGS.META_IDS.SYSTEM,
-          quantity:
-            SERVER_SETTINGS.RESOURCE_CONSUMPTION.SYSTEM_APPLICATION_METHOD_CALL,
-        }))
-      ) {
-        throw new ExecutionFailure({
-          code: 'internal-error',
-          message:
-            'Server does not have sufficient processing capability to handle this request.',
-        });
-      }
-
       if (
         opts.app.meta.external &&
         !(await userQuotas.request({

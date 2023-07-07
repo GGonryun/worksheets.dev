@@ -15,9 +15,6 @@ export const ConnectionsPage: React.FC<{ connectionId?: string }> = ({
   const { push } = useRouter();
   const [activeConnection, setActiveConnection] = useState('');
   const { user } = useUser();
-  const { data: overview } = trpc.user.overview.useQuery(undefined, {
-    enabled: !!user,
-  });
 
   const { data: connections, isLoading } = trpc.connections.dataTable.useQuery(
     undefined,
@@ -36,11 +33,8 @@ export const ConnectionsPage: React.FC<{ connectionId?: string }> = ({
     <PageLayout
       title={'Connections'}
       primary={{
-        children: (
-          <Box>
-            Create ({connections?.length}/{overview?.limits.connections})
-          </Box>
-        ),
+        variant: 'contained',
+        children: <Box>Create</Box>,
         startIcon: <AddIcon />,
         size: 'small',
         onClick() {

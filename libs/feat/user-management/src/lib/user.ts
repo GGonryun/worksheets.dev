@@ -1,5 +1,4 @@
 import { auth } from '@worksheets/firebase/server';
-import { flags } from './flags';
 import { newApiTokenDatabase } from '@worksheets/data-access/api-tokens';
 import { API_TOKEN_PREFIX } from './constants';
 import { TRPCError } from '@trpc/server';
@@ -14,7 +13,6 @@ import { limits } from './limits';
 import { TypeOf, z } from 'zod';
 import {
   userAgentSchema,
-  userFlagsEntity,
   userQuotasEntity,
 } from '@worksheets/data-access/user-agent';
 import {
@@ -104,11 +102,6 @@ const getUser = async (
 ): Promise<TypeOf<typeof userAgentSchema>> => {
   const user = await auth().getUser(uid);
 
-  if (user.emailVerified && (await flags.check(uid, 'verified'))) {
-    // TODO: move the flag update to a separate function that gets invoked after a user clicks on our custom email verification link instead of doing this check everytime.
-    await flags.set(uid, 'verified');
-  }
-
   return {
     uid: user.uid,
     email: user.email,
@@ -180,7 +173,6 @@ export const userOverviewSchema = z.object({
     name: z.string().optional(),
   }),
   quotas: userQuotasEntity,
-  flags: userFlagsEntity,
   limits: z.object({
     worksheets: z.number(),
     tokens: z.number(),
@@ -206,7 +198,6 @@ const overview = async (
 ): Promise<TypeOf<typeof userOverviewSchema>> => {
   const userQuotas = await quotas.get(user.uid);
   const userLimits = await limits.get(user.uid);
-  const userFlags = await flags.get(user.uid);
 
   const numWorksheets = await worksheets.count({
     f: 'uid',
@@ -232,7 +223,6 @@ const overview = async (
   return {
     uid: user.uid,
     quotas: userQuotas,
-    flags: userFlags,
     meta: {
       plan: 'hobby',
       cycle: calculateCycle(),

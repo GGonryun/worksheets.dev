@@ -94,7 +94,10 @@ steps:
   # delay execution for up to 5 minutes per instruction.
   - wait: 500 # milliseconds
 
-return:
+# return a value after completion
+output: ${param_g}
+# OR return multiple values
+output:
   - param_i: "assigning this text as a value"
   - param_h: ${param_g} # reference outputs
   - param_j: 24

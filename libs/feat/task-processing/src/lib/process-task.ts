@@ -33,7 +33,6 @@ import {
 import { durationRemaining, printDuration } from '@worksheets/util/time';
 import { TRPCError } from '@trpc/server';
 import { quotas, limits as userLimits } from '@worksheets/feat/user-management';
-import { limits as serverLimits } from '@worksheets/feat/server-management';
 import { SERVER_SETTINGS } from '@worksheets/data-access/server-settings';
 
 const taskDb = newTasksDatabase();
@@ -57,19 +56,6 @@ const processorBus = newProcessTaskBus();
  * // => 'processing'
  */
 export const processTask = async (taskId: string): Promise<TaskState> => {
-  // check the execution processing limit
-  if (
-    await serverLimits.isEmpty({
-      id: SERVER_SETTINGS.LIMIT_IDS.ENGINE_PROCESSING_TIME,
-      meta: SERVER_SETTINGS.META_IDS.SYSTEM,
-    })
-  ) {
-    throw new TRPCError({
-      code: 'CONFLICT',
-      message: SERVER_SETTINGS.SYSTEM_ERRORS.TOO_MUCH_PROCESSING_TIME,
-    });
-  }
-
   if (!(await taskDb.has(taskId))) {
     throw new TRPCError({
       code: 'NOT_FOUND',
@@ -243,14 +229,6 @@ export const processTask = async (taskId: string): Promise<TaskState> => {
   // TODO: create a boundary for shared pre-processing that occures before the execution is rescheduled or terminated.
   // keep the duration of the execution in sync with the task for easier querying
   task.duration = duration;
-
-  await serverLimits.throttle({
-    id: SERVER_SETTINGS.LIMIT_IDS.ENGINE_PROCESSING_TIME,
-    meta: 'server',
-    quantity: SERVER_SETTINGS.RESOURCE_CONSUMPTION.ENGINE_PROCESSING_TIME(
-      timeSpentProcessingThisRound
-    ),
-  });
 
   await quotas.request({
     uid: worksheet.uid,

@@ -1,7 +1,6 @@
 import { newPrivateLibrary } from '@worksheets/feat/execution-settings';
 import { TRPCError } from '@trpc/server';
 import { quotas } from '@worksheets/feat/user-management';
-import { limits } from '@worksheets/feat/server-management';
 import { newApplicationsDatabase } from '@worksheets/data-access/applications';
 import { SERVER_SETTINGS } from '@worksheets/data-access/server-settings';
 
@@ -14,18 +13,6 @@ export const executeMethod = async (opts: {
   input: unknown;
   connectionId: string | undefined;
 }): Promise<unknown> => {
-  if (
-    await limits.isEmpty({
-      id: SERVER_SETTINGS.LIMIT_IDS.METHOD_PROCESSING_TIME,
-      meta: SERVER_SETTINGS.META_IDS.SYSTEM,
-    })
-  ) {
-    throw new TRPCError({
-      code: 'TOO_MANY_REQUESTS',
-      message: SERVER_SETTINGS.SYSTEM_ERRORS.TOO_MUCH_PROCESSING_TIME,
-    });
-  }
-
   if (
     await quotas.isEmpty({
       uid: opts.userId,
@@ -50,19 +37,11 @@ export const executeMethod = async (opts: {
   );
   const duration = Date.now() - start;
 
-  await Promise.all([
-    limits.throttle({
-      id: SERVER_SETTINGS.LIMIT_IDS.METHOD_PROCESSING_TIME,
-      meta: SERVER_SETTINGS.META_IDS.SYSTEM,
-      quantity:
-        SERVER_SETTINGS.RESOURCE_CONSUMPTION.METHOD_PROCESSING_TIME(duration),
-    }),
-    quotas.request({
-      uid: opts.userId,
-      type: 'processingTime',
-      quantity: duration,
-    }),
-  ]);
+  await quotas.request({
+    uid: opts.userId,
+    type: 'processingTime',
+    quantity: duration,
+  });
 
   return result ?? {};
 };
