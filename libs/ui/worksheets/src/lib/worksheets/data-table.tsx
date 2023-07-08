@@ -173,7 +173,6 @@ export function WorksheetsDataTable() {
               href={SERVER_SETTINGS.WEBSITES.DOCS_URL(
                 '/docs/tutorials/quick-start'
               )}
-              openInNewTab
             />
             <SpotlightButton
               label="Browse templates"

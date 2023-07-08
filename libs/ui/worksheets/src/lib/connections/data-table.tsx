@@ -240,8 +240,7 @@ export const ConnectionsDataTable: FC<DataTableProps> = ({
               action={{
                 variant: 'contained',
                 href: `/connections?create=true`,
-                target: '_blank',
-                endIcon: <OpenInNew />,
+                target: '_self',
                 children: <>Create a connection</>,
               }}
             >
@@ -252,14 +251,12 @@ export const ConnectionsDataTable: FC<DataTableProps> = ({
                 href={SERVER_SETTINGS.WEBSITES.DOCS_URL(
                   '/docs/tutorials/connections'
                 )}
-                openInNewTab
               />
               <SpotlightButton
                 label="Browse applications"
                 caption="Select from a growing list of pre-built integrations"
                 icon={<HubOutlinedIcon fontSize="large" />}
                 href={'/applications'}
-                openInNewTab
               />
             </NowRowsOverlay>
           ),

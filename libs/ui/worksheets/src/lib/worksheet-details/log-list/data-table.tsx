@@ -166,14 +166,12 @@ export const LogListDataTable: FC<LogListDataTableProps> = ({
               href={SERVER_SETTINGS.WEBSITES.DOCS_URL(
                 '/docs/tutorials/quick-start'
               )}
-              openInNewTab
             />
             <SpotlightButton
               label="Understand logging"
               caption="Learn how to use logging in your worksheets"
               icon={<EditNoteIcon fontSize="large" />}
               href={SERVER_SETTINGS.WEBSITES.DOCS_URL('/docs/overview#logging')}
-              openInNewTab
             />
           </NowRowsOverlay>
         ),

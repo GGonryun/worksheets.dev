@@ -179,14 +179,12 @@ export const ExecutionDetailsDataTable: FC<
               href={SERVER_SETTINGS.WEBSITES.DOCS_URL(
                 '/docs/tutorials/quick-start'
               )}
-              openInNewTab
             />
             <SpotlightButton
               label="Watch the video"
               caption="See our 1 minute interactive demo"
               icon={<OndemandVideoIcon fontSize="large" />}
               href={SERVER_SETTINGS.WEBSITES.DOCS_URL('/docs/intro')}
-              openInNewTab
             />
           </NowRowsOverlay>
         ),
