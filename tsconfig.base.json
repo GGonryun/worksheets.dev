@@ -69,6 +69,7 @@
       "@worksheets/feat/execution-settings": [
         "libs/feat/execution-settings/src/index.ts"
       ],
+      "@worksheets/feat/logging": ["libs/feat/logging/src/index.ts"],
       "@worksheets/feat/server-management": [
         "libs/feat/server-management/src/index.ts"
       ],

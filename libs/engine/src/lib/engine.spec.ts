@@ -182,7 +182,7 @@ describe('switch', () => {
       
     `,
       arrange(m) {
-        when(m).calledWith('core.time.now', undefined).mockReturnValue(100);
+        when(m).calledWith({ path: 'core.time.now' }).mockReturnValue(100);
       },
       assert(r, m) {
         expect(r.output).toEqual(100);
@@ -208,8 +208,8 @@ describe('switch', () => {
             - return: \${second}
     `,
       arrange(m) {
-        when(m).calledWith('core.test.first', undefined).mockReturnValue(100);
-        when(m).calledWith('core.test.second', undefined).mockReturnValue(1);
+        when(m).calledWith({ path: 'core.test.first' }).mockReturnValue(100);
+        when(m).calledWith({ path: 'core.test.second' }).mockReturnValue(1);
       },
       assert(r, m) {
         expect(r.output).toEqual(1);
@@ -235,8 +235,8 @@ describe('switch', () => {
             - return: \${second}
     `,
       arrange(m) {
-        when(m).calledWith('core.test.first', undefined).mockReturnValue(100);
-        when(m).calledWith('core.test.second', undefined).mockReturnValue(1);
+        when(m).calledWith({ path: 'core.test.first' }).mockReturnValue(100);
+        when(m).calledWith({ path: 'core.test.second' }).mockReturnValue(1);
       },
       assert(r, m) {
         expect(r.output).toEqual(undefined);
@@ -262,11 +262,9 @@ describe('switch', () => {
             - return: \${second}
     `,
       arrange(m) {
-        when(m).calledWith('bool', 0).mockReturnValue(false);
-        when(m).calledWith('bool', 1).mockReturnValue(true);
-        when(m)
-          .calledWith('core.test.second', undefined)
-          .mockReturnValue('yes');
+        when(m).calledWith({ path: 'bool', input: 0 }).mockReturnValue(false);
+        when(m).calledWith({ path: 'bool', input: 1 }).mockReturnValue(true);
+        when(m).calledWith({ path: 'core.test.second' }).mockReturnValue('yes');
       },
       assert(r, m) {
         expect(r.output).toEqual('yes');
@@ -298,11 +296,9 @@ describe('switch', () => {
 
     `,
       arrange(m) {
-        when(m).calledWith('bool', 0).mockReturnValue(false);
-        when(m).calledWith('bool', 1).mockReturnValue(true);
-        when(m)
-          .calledWith('core.test.second', undefined)
-          .mockReturnValue('yes');
+        when(m).calledWith({ path: 'bool', input: 0 }).mockReturnValue(false);
+        when(m).calledWith({ path: 'bool', input: 1 }).mockReturnValue(true);
+        when(m).calledWith({ path: 'core.test.second' }).mockReturnValue('yes');
       },
       assert(r, m) {
         expect(r.output).toEqual({ inner: undefined, outer: 'no' });
@@ -333,13 +329,6 @@ describe('switch', () => {
       inner: \${innerScope}
       outer: \${outerScope}
     `,
-      arrange(m) {
-        when(m).calledWith('bool', [0]).mockReturnValue(false);
-        when(m).calledWith('bool', [1]).mockReturnValue(true);
-        when(m)
-          .calledWith('core.test.second', undefined)
-          .mockReturnValue('yes');
-      },
       assert(r, m) {
         expect(r.output).toEqual({ inner: undefined, outer: 'no' });
         expect(m).toBeCalledTimes(1);
@@ -386,12 +375,12 @@ describe('for', () => {
         `,
       assert(_, m) {
         expect(m).toBeCalledTimes(6);
-        expect(m).toBeCalledWith('core.test.second', 'apple');
-        expect(m).toBeCalledWith('core.test.first', 0);
-        expect(m).toBeCalledWith('core.test.second', 'banana');
-        expect(m).toBeCalledWith('core.test.second', 'cherry');
-        expect(m).toBeCalledWith('core.test.first', 1);
-        expect(m).toBeCalledWith('core.test.first', 2);
+        expect(m).toBeCalledWith({ path: 'core.test.second', input: 'apple' });
+        expect(m).toBeCalledWith({ path: 'core.test.first', input: 0 });
+        expect(m).toBeCalledWith({ path: 'core.test.second', input: 'banana' });
+        expect(m).toBeCalledWith({ path: 'core.test.second', input: 'cherry' });
+        expect(m).toBeCalledWith({ path: 'core.test.first', input: 1 });
+        expect(m).toBeCalledWith({ path: 'core.test.first', input: 2 });
       },
     },
     {
@@ -409,12 +398,12 @@ describe('for', () => {
         `,
       assert(_, m) {
         expect(m).toBeCalledTimes(6);
-        expect(m).toBeCalledWith('core.test.second', 'apple');
-        expect(m).toBeCalledWith('core.test.first', 0);
-        expect(m).toBeCalledWith('core.test.second', 'banana');
-        expect(m).toBeCalledWith('core.test.second', 'cherry');
-        expect(m).toBeCalledWith('core.test.first', 1);
-        expect(m).toBeCalledWith('core.test.first', 2);
+        expect(m).toBeCalledWith({ path: 'core.test.second', input: 'apple' });
+        expect(m).toBeCalledWith({ path: 'core.test.first', input: 0 });
+        expect(m).toBeCalledWith({ path: 'core.test.second', input: 'banana' });
+        expect(m).toBeCalledWith({ path: 'core.test.second', input: 'cherry' });
+        expect(m).toBeCalledWith({ path: 'core.test.first', input: 1 });
+        expect(m).toBeCalledWith({ path: 'core.test.first', input: 2 });
       },
     },
     {
@@ -436,12 +425,15 @@ describe('for', () => {
                 input: \${value}
               `,
       assert(_, m) {
-        expect(m).toBeCalledWith('core.test.first', 0);
-        expect(m).toBeCalledWith('core.test.first', 1);
-        expect(m).not.toBeCalledWith('core.test.first', 2);
-        expect(m).toBeCalledWith('core.test.second', 'apple');
-        expect(m).toBeCalledWith('core.test.second', 'banana');
-        expect(m).not.toBeCalledWith('core.test.second', 'cherry');
+        expect(m).toBeCalledWith({ path: 'core.test.first', input: 0 });
+        expect(m).toBeCalledWith({ path: 'core.test.first', input: 1 });
+        expect(m).not.toBeCalledWith({ path: 'core.test.first', input: 2 });
+        expect(m).toBeCalledWith({ path: 'core.test.second', input: 'apple' });
+        expect(m).toBeCalledWith({ path: 'core.test.second', input: 'banana' });
+        expect(m).not.toBeCalledWith({
+          path: 'core.test.second',
+          input: 'cherry',
+        });
         expect(m).toBeCalledTimes(4);
       },
     },
@@ -464,12 +456,15 @@ describe('for', () => {
                 input: \${value}
         `,
       assert(_, m) {
-        expect(m).not.toBeCalledWith('core.test.first', 0);
-        expect(m).toBeCalledWith('core.test.first', 1);
-        expect(m).toBeCalledWith('core.test.first', 2);
-        expect(m).not.toBeCalledWith('core.test.second', 'apple');
-        expect(m).toBeCalledWith('core.test.second', 'banana');
-        expect(m).toBeCalledWith('core.test.second', 'cherry');
+        expect(m).not.toBeCalledWith({ path: 'core.test.first', input: 0 });
+        expect(m).toBeCalledWith({ path: 'core.test.first', input: 1 });
+        expect(m).toBeCalledWith({ path: 'core.test.first', input: 2 });
+        expect(m).not.toBeCalledWith({
+          path: 'core.test.second',
+          input: 'apple',
+        });
+        expect(m).toBeCalledWith({ path: 'core.test.second', input: 'banana' });
+        expect(m).toBeCalledWith({ path: 'core.test.second', input: 'cherry' });
         expect(m).toBeCalledTimes(4);
       },
     },
@@ -606,16 +601,16 @@ describe('for', () => {
         `,
       assert(r, m) {
         expect(m).toBeCalledTimes(10);
-        expect(m).toBeCalledWith('core.test.first', 0);
-        expect(m).toBeCalledWith('core.test.first', 1);
-        expect(m).toBeCalledWith('core.test.first', 2);
-        expect(m).toBeCalledWith('core.test.first', 3);
-        expect(m).toBeCalledWith('core.test.first', 4);
-        expect(m).toBeCalledWith('core.test.first', 5);
-        expect(m).toBeCalledWith('core.test.first', 6);
-        expect(m).toBeCalledWith('core.test.first', 7);
-        expect(m).toBeCalledWith('core.test.first', 8);
-        expect(m).toBeCalledWith('core.test.first', 'okay');
+        expect(m).toBeCalledWith({ path: 'core.test.first', input: 0 });
+        expect(m).toBeCalledWith({ path: 'core.test.first', input: 1 });
+        expect(m).toBeCalledWith({ path: 'core.test.first', input: 2 });
+        expect(m).toBeCalledWith({ path: 'core.test.first', input: 3 });
+        expect(m).toBeCalledWith({ path: 'core.test.first', input: 4 });
+        expect(m).toBeCalledWith({ path: 'core.test.first', input: 5 });
+        expect(m).toBeCalledWith({ path: 'core.test.first', input: 6 });
+        expect(m).toBeCalledWith({ path: 'core.test.first', input: 7 });
+        expect(m).toBeCalledWith({ path: 'core.test.first', input: 8 });
+        expect(m).toBeCalledWith({ path: 'core.test.first', input: 'okay' });
         expect(r.output).toEqual('okay');
       },
     },
@@ -673,7 +668,7 @@ describe('call', () => {
   `,
       arrange(m) {
         when(m)
-          .calledWith('core.time.now', undefined)
+          .calledWith({ path: 'core.time.now' })
           .mockReturnValue(CONSTANT_NOW);
       },
       assert(r) {
@@ -687,7 +682,7 @@ describe('call', () => {
     - return: \${core.time.now()}
   `,
       arrange(m) {
-        when(m).calledWith('core.time.now', undefined).mockReturnValue(100);
+        when(m).calledWith({ path: 'core.time.now' }).mockReturnValue(100);
       },
       assert(r, m) {
         expect(r.output).toEqual(100);
@@ -704,7 +699,7 @@ describe('call', () => {
   `,
       arrange(m) {
         when(m)
-          .calledWith('core.time.now', undefined)
+          .calledWith({ path: 'core.time.now' })
           .mockReturnValue(CONSTANT_NOW);
       },
       assert(r, m) {
@@ -726,7 +721,7 @@ describe('call', () => {
   `,
       arrange(m) {
         when(m)
-          .calledWith('core.time.now', undefined)
+          .calledWith({ path: 'core.time.now' })
           .mockReturnValue(CONSTANT_NOW);
       },
       assert(r, m) {
@@ -739,7 +734,7 @@ describe('call', () => {
       yaml: `
   steps:
     - assign:
-      - val: \${core.test.many(1, 2)}
+      - val: \${core.test.many(1)}
     - call: core.test.many
       input:
         first: 1
@@ -750,14 +745,22 @@ describe('call', () => {
       - time: \${time}
   `,
       arrange(m) {
-        when(m).calledWith('core.test.many', 1, 2).mockReturnValue('apple');
         when(m)
-          .calledWith('core.test.many', { first: 1, second: 2 })
+          .calledWith({ path: 'core.test.many', input: 1 })
+          .mockReturnValue('apple');
+        when(m)
+          .calledWith({
+            path: 'core.test.many',
+            input: { first: 1, second: 2 },
+          })
           .mockReturnValue('banana');
       },
       assert(r, m) {
-        expect(m).toBeCalledWith('core.test.many', { first: 1, second: 2 });
-        expect(m).toBeCalledWith('core.test.many', 1, 2);
+        expect(m).toBeCalledWith({
+          path: 'core.test.many',
+          input: { first: 1, second: 2 },
+        });
+        expect(m).toBeCalledWith({ path: 'core.test.many', input: 1 });
         expect(m).toBeCalledTimes(2);
         expect(r.output).toEqual({ time: 'banana', val: 'apple' });
       },
@@ -786,12 +789,15 @@ describe('call', () => {
       - b: \${secondary_output}
   `,
       arrange(m) {
-        when(m).calledWith('core_time.now', undefined).mockReturnValue(100);
+        when(m).calledWith({ path: 'core_time.now' }).mockReturnValue(100);
         when(m)
-          .calledWith('core_test.many', {
-            name: 'miguel',
-            seen: true,
-            time: 100,
+          .calledWith({
+            path: 'core_test.many',
+            input: {
+              name: 'miguel',
+              seen: true,
+              time: 100,
+            },
           })
           .mockReturnValue('apple');
       },
@@ -813,7 +819,9 @@ describe('call', () => {
       output: max
   output: \${max}`,
       arrange(m) {
-        when(m).calledWith('core.math.max', { a: 1, b: 2 }).mockReturnValue(2);
+        when(m)
+          .calledWith({ path: 'core.math.max', input: { a: 1, b: 2 } })
+          .mockReturnValue(2);
       },
       assert(r, m) {
         expect(r.output).toEqual(2);
@@ -827,7 +835,7 @@ describe('call', () => {
     - call: core.system.checkpoint`,
       arrange(m) {
         when(m)
-          .calledWith('core.system.checkpoint', undefined)
+          .calledWith({ path: 'core.system.checkpoint' })
           .mockReturnValue(2);
       },
       assert(r, m) {
@@ -851,10 +859,13 @@ describe('call', () => {
     - return: \${time}
   `,
       arrange(m) {
-        when(m).calledWith('core.time.now', undefined).mockReturnValue(100);
-        when(m).calledWith('core.system.sleep', 1000).mockReturnValue(true);
+        when(m).calledWith({ path: 'core.time.now' }).mockReturnValue(100);
         when(m)
-          .calledWith('core.math.add', { a: 100, b: 1000 })
+          .calledWith({ path: 'core.system.sleep', input: 1000 })
+          .mockReturnValue(true);
+        when(m)
+          .calledWith({ path: 'core.math.add', input: { a: 100, b: 1000 } })
+
           .mockReturnValue(1100);
       },
       assert(r, m) {
@@ -877,7 +888,8 @@ describe('call', () => {
   `,
       arrange(m) {
         when(m)
-          .calledWith('core.math.add', { a: 10, b: 1000 })
+          .calledWith({ path: 'core.math.add', input: { a: 10, b: 1000 } })
+
           .mockReturnValue(1010);
       },
       assert(r, m) {
@@ -900,7 +912,8 @@ describe('call', () => {
   `,
       arrange(m) {
         when(m)
-          .calledWith('core.math.add', { a: 10, b: 1000 })
+          .calledWith({ path: 'core.math.add', input: { a: 10, b: 1000 } })
+
           .mockReturnValue(1010);
       },
       assert(r, m) {
@@ -923,7 +936,7 @@ describe('call', () => {
   `,
       arrange(m) {
         when(m)
-          .calledWith('core.math.add', { a: 50, b: 5000 })
+          .calledWith({ path: 'core.math.add', input: { a: 50, b: 5000 } })
           .mockReturnValue(5050);
       },
       assert(r, m) {
@@ -971,9 +984,9 @@ describe('maps', () => {
   
   `,
       assert(_, m) {
-        expect(m).toBeCalledWith('test', 3);
-        expect(m).toBeCalledWith('sample', 3);
-        expect(m).toBeCalledWith('verify', 3);
+        expect(m).toBeCalledWith({ path: 'test', input: 3 });
+        expect(m).toBeCalledWith({ path: 'sample', input: 3 });
+        expect(m).toBeCalledWith({ path: 'verify', input: 3 });
       },
     },
     {
@@ -993,9 +1006,9 @@ describe('maps', () => {
   
   `,
       assert(_, m) {
-        expect(m).toBeCalledWith('test', 3);
-        expect(m).toBeCalledWith('sample', 3);
-        expect(m).toBeCalledWith('verify', 3);
+        expect(m).toBeCalledWith({ path: 'test', input: 3 });
+        expect(m).toBeCalledWith({ path: 'sample', input: 3 });
+        expect(m).toBeCalledWith({ path: 'verify', input: 3 });
       },
     },
   ];
@@ -1033,7 +1046,7 @@ describe('lists', () => {
           input: \${list}
       `,
       assert(_, m) {
-        expect(m).toBeCalledWith('read', [1, 2, 'x', 3, 4]);
+        expect(m).toBeCalledWith({ path: 'read', input: [1, 2, 'x', 3, 4] });
       },
     },
     {
@@ -1047,7 +1060,7 @@ describe('lists', () => {
       
       `,
       assert(_, m) {
-        expect(m).toBeCalledWith('test', 'data');
+        expect(m).toBeCalledWith({ path: 'test', input: 'data' });
         expect(m).toBeCalledTimes(1);
       },
     },
@@ -1113,7 +1126,7 @@ describe('try', () => {
             - call: test`,
       arrange(m) {
         when(m)
-          .calledWith('throws', undefined)
+          .calledWith({ path: 'throws' })
           .mockRejectedValue(
             new MethodCallFailure({
               code: StatusCodes.INTERNAL_SERVER_ERROR,
@@ -1144,7 +1157,7 @@ describe('try', () => {
     `,
       arrange(m) {
         when(m)
-          .calledWith('throws', undefined)
+          .calledWith({ path: 'throws' })
           .mockRejectedValue(
             new MethodCallFailure({
               code: StatusCodes.INTERNAL_SERVER_ERROR,
@@ -1154,15 +1167,18 @@ describe('try', () => {
       },
       assert(_, m) {
         expect(m).toBeCalledTimes(4);
-        expect(m).toBeCalledWith('handle', 500);
-        expect(m).toBeCalledWith(
-          'read',
-          'method execution failed unexpectedly'
-        );
-        expect(m).toBeCalledWith('print', {
-          code: 500,
-          message: 'method execution failed unexpectedly',
-          data: undefined,
+        expect(m).toBeCalledWith({ path: 'handle', input: 500 });
+        expect(m).toBeCalledWith({
+          path: 'read',
+          input: 'method execution failed unexpectedly',
+        });
+        expect(m).toBeCalledWith({
+          path: 'print',
+          input: {
+            code: 500,
+            message: 'method execution failed unexpectedly',
+            data: undefined,
+          },
         });
       },
     },
@@ -1186,22 +1202,22 @@ describe('try', () => {
                     input: \${error.message}`,
       arrange(m) {
         when(m)
-          .calledWith('throws', undefined)
+          .calledWith({ path: 'throws' })
           .mockRejectedValue(
             new MethodCallFailure({
               code: 500,
               message: 'method execution failed unexpectedly',
             })
           );
-        when(m).calledWith('wrong', undefined).mockRejectedValue(false);
-        when(m).calledWith('right', undefined).mockResolvedValue(true);
+        when(m).calledWith({ path: 'wrong' }).mockRejectedValue(false);
+        when(m).calledWith({ path: 'right' }).mockResolvedValue(true);
       },
       assert(_, m) {
         expect(m).toBeCalledTimes(2);
-        expect(m).toBeCalledWith(
-          'right',
-          'method execution failed unexpectedly'
-        );
+        expect(m).toBeCalledWith({
+          path: 'right',
+          input: 'method execution failed unexpectedly',
+        });
       },
     },
     {
@@ -1220,12 +1236,12 @@ describe('try', () => {
             - call: test`,
       arrange(m) {
         when(m)
-          .calledWith('throws', undefined)
+          .calledWith({ path: 'throws' })
           .mockRejectedValue(new MethodCallFailure({ code: 500 }));
       },
       assert(_, m) {
         expect(m).toBeCalledTimes(2);
-        expect(m).not.toHaveBeenCalledWith('ignore', undefined);
+        expect(m).not.toHaveBeenCalledWith({ path: 'ignore' });
       },
     },
     {
@@ -1244,14 +1260,14 @@ describe('try', () => {
             - call: ends`,
       arrange(m) {
         when(m)
-          .calledWith('throws', undefined)
+          .calledWith({ path: 'throws' })
           .mockRejectedValue(new MethodCallFailure({ code: 500 }));
       },
       assert(_, m) {
         expect(m).toBeCalledTimes(3);
-        expect(m).not.toHaveBeenCalledWith('ignore', undefined);
-        expect(m).toHaveBeenCalledWith('test', undefined);
-        expect(m).toHaveBeenCalledWith('ends', undefined);
+        expect(m).not.toHaveBeenCalledWith({ path: 'ignore' });
+        expect(m).toHaveBeenCalledWith({ path: 'test' });
+        expect(m).toHaveBeenCalledWith({ path: 'ends' });
       },
     },
     {
@@ -1269,9 +1285,9 @@ describe('try', () => {
             - call: ends`,
       assert(_, m) {
         expect(m).toBeCalledTimes(2);
-        expect(m).not.toHaveBeenCalledWith('test', undefined);
-        expect(m).toHaveBeenCalledWith('does.nothing', undefined);
-        expect(m).toHaveBeenCalledWith('ends', undefined);
+        expect(m).not.toHaveBeenCalledWith({ path: 'test' });
+        expect(m).toHaveBeenCalledWith({ path: 'does.nothing' });
+        expect(m).toHaveBeenCalledWith({ path: 'ends' });
       },
     },
     {
@@ -1291,13 +1307,13 @@ describe('try', () => {
               input: \${now}
       - return: \${now}`,
       arrange(m) {
-        when(m).calledWith('time.now', undefined).mockReturnValue(100);
+        when(m).calledWith({ path: 'time.now' }).mockReturnValue(100);
       },
       assert(r, m) {
         expect(r.output).toEqual(undefined);
         expect(m).toBeCalledTimes(3);
-        expect(m).toBeCalledWith('local', 100);
-        expect(m).toBeCalledWith('ends', 100);
+        expect(m).toBeCalledWith({ path: 'local', input: 100 });
+        expect(m).toBeCalledWith({ path: 'ends', input: 100 });
       },
     },
   ];
@@ -1342,9 +1358,9 @@ describe('steps', () => {
         `,
       assert(r, m) {
         expect(r.output).toEqual('yes');
-        expect(m).toBeCalledWith('sample', undefined);
-        expect(m).toBeCalledWith('apple', undefined);
-        expect(m).toBeCalledWith('vroom', undefined);
+        expect(m).toBeCalledWith({ path: 'sample' });
+        expect(m).toBeCalledWith({ path: 'apple' });
+        expect(m).toBeCalledWith({ path: 'vroom' });
       },
     },
     {
@@ -1363,10 +1379,10 @@ describe('steps', () => {
         `,
       assert(r, m) {
         expect(r.output).toEqual(true);
-        expect(m).toBeCalledWith('sample', undefined);
-        expect(m).toBeCalledWith('apple', undefined);
-        expect(m).toBeCalledWith('vroom', undefined);
-        expect(m).toBeCalledWith('wow', undefined);
+        expect(m).toBeCalledWith({ path: 'sample' });
+        expect(m).toBeCalledWith({ path: 'apple' });
+        expect(m).toBeCalledWith({ path: 'vroom' });
+        expect(m).toBeCalledWith({ path: 'wow' });
       },
     },
   ];
@@ -1403,9 +1419,9 @@ describe('return', () => {
       - return: false
     `,
       assert(r, m) {
-        expect(m).not.toBeCalledWith('apple', undefined);
+        expect(m).not.toBeCalledWith({ path: 'apple' });
         expect(m).toBeCalledTimes(1);
-        expect(m).toBeCalledWith('sample', undefined);
+        expect(m).toBeCalledWith({ path: 'sample' });
         expect(r.output).toEqual(true);
       },
     },
@@ -1551,7 +1567,7 @@ describe('logging', () => {
       - log: \${sample}
     `,
       arrange(m) {
-        when(m).calledWith('sample', undefined).mockReturnValue('hello');
+        when(m).calledWith({ path: 'sample' }).mockReturnValue('hello');
       },
       assert(l) {
         expect(l.findLog('info', 'hello')).toBeTruthy();
@@ -1676,10 +1692,13 @@ describe('throws', () => {
         expect(e.ctx.controller.isCancelled()).toBeFalsy();
         expect(e.ctx.controller.hasFailure()).toBeFalsy();
         expect(m).toBeCalledTimes(1);
-        expect(m).toBeCalledWith('error', {
-          code: 400,
-          data: undefined,
-          message: 'Bad Request',
+        expect(m).toBeCalledWith({
+          path: 'error',
+          input: {
+            code: 400,
+            data: undefined,
+            message: 'Bad Request',
+          },
         });
       },
     },
@@ -1719,7 +1738,7 @@ describe('retry', () => {
       `,
         arrange(m) {
           when(m)
-            .calledWith('test', undefined)
+            .calledWith({ path: 'test' })
             .mockRejectedValueOnce(new MethodCallFailure({ code: 429 }));
           // when arranging the mock, we need to make sure that the first call to test fails but the second call succeeds.
         },
@@ -1740,7 +1759,8 @@ describe('retry', () => {
       `,
         arrange(m) {
           when(m)
-            .calledWith('test', undefined)
+            .calledWith({ path: 'test' })
+
             .mockRejectedValue(new MethodCallFailure({ code: 429 }));
         },
         assert(m) {
@@ -1760,7 +1780,7 @@ describe('retry', () => {
       `,
         arrange(m) {
           when(m)
-            .calledWith('test', undefined)
+            .calledWith({ path: 'test' })
             .mockRejectedValue(new MethodCallFailure({ code: 400 }));
           // when arranging the mock, we need to make sure that the first call to test fails but the second call succeeds.
         },
@@ -1782,7 +1802,7 @@ describe('retry', () => {
       `,
         arrange(m) {
           when(m)
-            .calledWith('test')
+            .calledWith({ path: 'test' })
             .mockRejectedValue(new MethodCallFailure({ code: 400 }));
         },
         assert(m) {
@@ -1802,7 +1822,7 @@ describe('retry', () => {
       `,
         arrange(m) {
           when(m)
-            .calledWith('test', undefined)
+            .calledWith({ path: 'test' })
             .mockRejectedValueOnce(new MethodCallFailure({ code: 429 }))
             .mockResolvedValue({});
           // when arranging the mock, we need to make sure that the first call to test fails but the second call succeeds.
@@ -1842,7 +1862,9 @@ describe('retry', () => {
       `,
         arrange(m) {
           when(m)
-            .calledWith('test', undefined)
+            .calledWith({
+              path: 'test',
+            })
             .mockRejectedValueOnce(new MethodCallFailure({ code: 429 }));
         },
         assert(m, e) {
@@ -1865,7 +1887,9 @@ describe('retry', () => {
       `,
         arrange(m) {
           when(m)
-            .calledWith('throws', undefined)
+            .calledWith({
+              path: 'throws',
+            })
             .mockRejectedValue(new MethodCallFailure({ code: 429 }));
         },
         assert(m) {
@@ -1890,7 +1914,9 @@ describe('retry', () => {
         arrange(m) {
           // only throw an error the first time the mock is called
           when(m)
-            .calledWith('throws', undefined)
+            .calledWith({
+              path: 'throws',
+            })
             .mockRejectedValueOnce(new MethodCallFailure({ code: 429 }))
             .mockReturnValueOnce('hello');
         },

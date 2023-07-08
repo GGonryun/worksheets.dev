@@ -144,6 +144,7 @@ export type TaskLoggerOptions = {
  * // => void
  */
 export class TaskLogger implements Logger {
+  private count = 0;
   private readonly db: TaskLoggingDatabase;
   private readonly task: TaskEntity;
   private readonly verbosity: LogLevel;
@@ -160,6 +161,9 @@ export class TaskLogger implements Logger {
     this.db = db;
     this.task = task;
     this.verbosity = task.verbosity ?? 'silent';
+    db.count({ f: 'taskId', o: '==', v: task.id }).then((count) => {
+      this.count = count;
+    });
   }
 
   trace(message: string, data?: unknown): Promise<void> {
@@ -204,6 +208,7 @@ export class TaskLogger implements Logger {
     // check verbosity to see if log level is allowed
     if (!this.isLogLevelAllowed(level)) return;
 
+    if (this.hasReachedLogLimit()) return;
     // check to make sure the size of the data does not exceed the maximum size
     if (isDataVolumeTooLargeForFirestore(data, 10)) {
       console.warn(
@@ -236,6 +241,19 @@ export class TaskLogger implements Logger {
     const logLevel = this.order.indexOf(level);
     if (verbosityLevel === -1 || logLevel === -1) return false;
     return logLevel >= verbosityLevel;
+  }
+  /**
+   * a temporary check that will be removed once we have a better solution for log limits
+   * @returns {boolean} true if the task has reached the maximum number of logs, otherwise false
+   */
+  private hasReachedLogLimit(): boolean {
+    if (this.count === undefined) {
+      console.warn(
+        `[LOGGING][LIMIT-CHECK][${this.task.id}] max ${this.count} logs have been created for this task`
+      );
+      return false;
+    }
+    return this.count >= SERVER_SETTINGS.LOGGING.MAX_LOGS_PER_TASK;
   }
 }
 

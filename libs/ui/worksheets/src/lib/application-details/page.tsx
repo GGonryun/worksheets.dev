@@ -173,7 +173,7 @@ const MethodCard: React.FC<{
             <Box display="flex" alignItems="baseline" gap={4}>
               <Typography>{method.label}</Typography>
               <Typography variant="caption" color="text.secondary">
-                ({app.id}/{method.id})
+                ({app.id}.{method.id})
               </Typography>
             </Box>
           }
@@ -214,7 +214,7 @@ const MethodGrid: React.FC<{
   return (
     <Grid container spacing={2}>
       {methods?.map((method) => (
-        <Grid xs={6} key={method.id}>
+        <Grid xs={12} sm={12} md={6} lg={6} key={method.id}>
           <MethodCard app={app} method={method} />
         </Grid>
       ))}

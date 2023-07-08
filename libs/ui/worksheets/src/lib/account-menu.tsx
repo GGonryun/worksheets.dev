@@ -9,10 +9,12 @@ import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import { useRouter } from 'next/router';
 import { useUser } from '@worksheets/util/auth/client';
+import { Link, Typography } from '@mui/material';
+import { Person } from '@mui/icons-material';
 
 export default function AccountMenu({ secure }: { secure?: boolean }) {
   const { push } = useRouter();
-  const { signOut } = useUser();
+  const { user, signOut } = useUser();
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -37,7 +39,7 @@ export default function AccountMenu({ secure }: { secure?: boolean }) {
 
   return (
     <React.Fragment>
-      {secure && (
+      {secure || user ? (
         <Tooltip title="Account settings">
           <IconButton
             onClick={handleClick}
@@ -47,9 +49,17 @@ export default function AccountMenu({ secure }: { secure?: boolean }) {
             aria-haspopup="true"
             aria-expanded={open ? 'true' : undefined}
           >
-            <Avatar sx={{ width: 32, height: 32 }}>:D</Avatar>
+            <Avatar sx={{ width: 32, height: 32 }}>
+              <Person />
+            </Avatar>
           </IconButton>
         </Tooltip>
+      ) : (
+        <Typography variant="h6" noWrap component="div">
+          <Link href="/login" color="inherit" underline="hover">
+            Log In / Sign Up
+          </Link>
+        </Typography>
       )}
       <Menu
         anchorEl={anchorEl}

@@ -2,12 +2,12 @@ import { z } from 'zod';
 import { pushTasksToCompletion } from '@worksheets/feat/task-processing';
 import { publicProcedure } from '../../trpc';
 import { SERVER_SETTINGS } from '@worksheets/data-access/server-settings';
+import { logger } from '@worksheets/feat/logging';
 
 export default publicProcedure
   .meta({
     openapi: {
       enabled: true,
-      protect: true,
       method: 'DELETE',
       path: '/reapers/executions',
       summary:
@@ -24,6 +24,7 @@ export default publicProcedure
   )
   .output(z.string())
   .mutation(async ({ input }) => {
+    logger.info('Running task reaper');
     await pushTasksToCompletion(
       input?.quantity ?? SERVER_SETTINGS.REAPER.QUANTITIES.EXECUTIONS
     );

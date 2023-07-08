@@ -84,16 +84,17 @@ const findConnection = async ({
 
   if (worksheetId) {
     // find the worksheet's connection for this app.
-    const setting = await worksheetsConnectionsDb.findOne(
-      { f: 'worksheetId', o: '==', v: worksheetId },
-      { f: 'appId', o: '==', v: app.id }
-    );
+
     try {
+      const setting = await worksheetsConnectionsDb.findOne(
+        { f: 'worksheetId', o: '==', v: worksheetId },
+        { f: 'appId', o: '==', v: app.id }
+      );
       return await connectionsDb.get(setting.connectionId);
     } catch (error) {
       throw new ExecutionFailure({
         code: 'invalid-precondition',
-        message: `Selected connection does not exist. Add a new one.`,
+        message: `Connection to ${app.label} (${app.id}) does not exist. Add a new one.`,
       });
     }
   }

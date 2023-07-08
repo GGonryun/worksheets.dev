@@ -45,7 +45,11 @@ export function newApplication(opts: ApplicationDefinition) {
 }
 
 export interface Library {
-  call(path: string, ...inputs: unknown[]): Promise<unknown>;
+  call(options: {
+    path: string;
+    input: unknown;
+    connection?: string;
+  }): Promise<unknown>;
 }
 
 export type ApplicationLibraryOptions = {
@@ -59,6 +63,7 @@ export type SettingsLoader = (options: {
   method: MethodDefinition;
   path: string;
   input: unknown;
+  connection?: string;
 }) => Promise<Record<string, unknown>>;
 
 export type BeforeMethodCallHook = (opts: {
@@ -107,12 +112,26 @@ export class ApplicationLibrary {
    * @param input the input to the method
    * @returns
    */
-  async call(path: string, input: unknown): Promise<unknown> {
+  async call({
+    path,
+    input,
+    connection,
+  }: {
+    path: string;
+    input: unknown;
+    connection?: string;
+  }): Promise<unknown> {
     const { app, method } = this.clerk.parse(path);
     let settings;
     if (method.settings) {
       console.info(`[APPLAUNCHER][${path}] loading settings`);
-      settings = await this.settingsLoader({ app, method, path, input });
+      settings = await this.settingsLoader({
+        app,
+        method,
+        path,
+        input,
+        connection,
+      });
       console.info(
         `[APPLAUNCHER][${path}] found settings`,
         Object.keys(settings)
@@ -162,13 +181,17 @@ export class Clerk {
    * throws errors if the app or method is not found.
    */
   parse(path: MethodPathKey): ApplicationMethod {
+    return this.borrow(Clerk.splitPath(path));
+  }
+
+  static splitPath(path: MethodPathKey): { appId: string; methodId: string } {
     if (path.indexOf(FUNCTION_DELIMITER) === -1) {
       // alternative path for invoking a core app.
-      return this.borrow({ appId: 'core', methodId: path });
+      return { appId: 'core', methodId: path };
     } else {
       // split the path into app and method
       const { app, method } = splitFunctionDeclaration(path);
-      return this.borrow({ appId: app, methodId: method });
+      return { appId: app, methodId: method };
     }
   }
 

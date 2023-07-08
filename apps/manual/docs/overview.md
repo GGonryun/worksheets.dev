@@ -4,17 +4,30 @@ sidebar_position: 2
 
 # Overview
 
-Worksheets is a low code integration platform that allows you to connect to any API, database, or service. We provide two primary abstractions for integrating with other services: **Applications** and **Worksheets**. **Applications** contain the logic for interacting with a specific external system, and **Worksheets** contain the logic for orchestrating the execution of one or more Applications. Let's take a look at applications first.
+Worksheets is on a mission to simplify how developers integrate withe external services.
+
+## What is Worksheets?
+
+Worksheets is a low code integration platform that allows you to connect to any API, database, or service. We provide two primary abstractions for integrating with other services: **Applications** and **Worksheets**. **Applications** contain the logic for interacting with a specific external system, and **Worksheets** contain the logic for orchestrating the execution of one or more Applications. Let's take a look at some examples.
 
 ## Applications
 
+Every application can have multiple service **methods**. Each method encapsulates a **unit of work** which can be anything from simple json manipulation, to calling an external API, or even requesting human interaction. Applications are designed to be reusable and can be shared across multiple worksheets. We provide a set of [pre-built applications](https://app.worksheets.dev/applications) that you can use out of the box, but you can also create your own custom applications using our [Application-SDK](/docs/advanced/application-sdk).
+
 ### Calling a method
 
-Every application includes several service **methods**. Each method encapsulates a **unit of work** which can be anything from simple json manipulation, calling an external API, or requesting human interaction. Applications are designed to be reusable and can be shared across multiple worksheets. We provide a set of [pre-built applications](https://app.worksheets.dev/applications) that you can use out of the box, but you can also create your own custom applications using our [Application-SDK](/docs/advanced/application-sdk).
+Our framework aims to be consistent across our [Web Editor](/docs/tutorials/quick-start), [APIs](/docs/api/overview), and [SDKs](/docs/advanced/application-sdk). Calling an application follows the same pattern across all of our interfaces:
 
-#### Worksheet
+```yaml
+call: <application_method>
+  input: <request_parameters>
+  output: <response_parameters>
+  connection: <override_connection>
+```
 
-There are a few different ways to execute application methods. The most common way is to **call a method** from within a worksheet. You can do this by using the `call` keyword followed by the application name and method name. For example, if you wanted to call the `get` method from the `http` application, you would write the following:
+#### Worksheets
+
+There are a few different ways to execute application methods but the most common way is to **call a method** from within a worksheet. You can do this by using the `call` keyword followed by the application name and method name. For example, if you wanted to call the `get` method from the `http` application, you would write the following:
 
 ```yaml
 steps:
@@ -29,13 +42,15 @@ steps:
 
 #### API
 
-You can also invoke methods from the [API](/docs/api/overview) or [SDK](/docs/advanced/application-sdk). We provide a consistent interface for developers to easily integrate services into their own applications. Take a look at our public [public OpenAPI spec](https://app.worksheets.dev/api/openapi.json) and auto-generate client libraries with your preferred language. Tools like [Insomnia](https://docs.insomnia.rest/insomnia/import-export-data#import-data) make it easy to test API calls and generate code snippets.
+You can also invoke methods from the [API](/docs/api/overview) or [SDK](/docs/advanced/application-sdk). Take a look at our [public OpenAPI spec](https://app.worksheets.dev/api/openapi.json). OpenAPI can be used to auto-generate client libraries for your preferred language.
+
+Tools like [Insomnia](https://docs.insomnia.rest/insomnia/import-export-data#import-data) make it easy to test API calls and generate code snippets.
 
 ```bash
 # API
-curl -X POST https://app.worksheets.dev/application/http/method/request/execute
+curl -X POST https://app.worksheets.dev/api/call/http.request
     -H "Content-Type: application/json"
-    -d '{"method": "GET","url": " https://api.sampleapis.com/beers/ale"}'
+    -d '{ "input": {"method": "GET", "url": "https://api.sampleapis.com/beers/ale"} }'
 ```
 
 #### SDK
@@ -57,12 +72,20 @@ If you would like to beta-test our SDK please [contact us](/docs/faq#how-do-i-ge
 
 ### Connecting to an external service
 
-Some applications may require secure credentials. Worksheets makes it easy to manage your credentials through our [Application Connection platform](/docs/tutorials/connections). You can create a connection for each application and then reference it in your worksheets. This allows you to easily manage your credentials in one place and reuse them across multiple worksheets.
+Some applications require secure credentials. Worksheets makes it easy to manage your credentials through our [Application Connection platform](/docs/tutorials/connections). You can create a connection for any application and then reference it in your worksheets or use the connection id to call a method using our API. We provide a web editor where you can manage your credentials in one place and reuse them across multiple worksheets. Worksheets manages your connections for you. Connections are made on our servers and are never exposed to the client. This means that you can safely share your worksheets with other users without worrying about exposing your credentials.
+
+Create connections from the [Connections page](https://app.worksheets.dev/connections) or programatically (under construction). If you have suggestions for new connections, please [contact us](/docs/faq#how-do-i-get-in-touch).
+
+> TODO: INSERT_SCREENSHOT_OF_CONNECTIONS_IN_WORKSHEET_SETTINGS
+
+#### Using connections in worksheets
+
+You don't need to be explicit about connections when using worksheets. Simply reference the application in your worksheet and select the connections in the worksheet's settings. For example, if you wanted to send an email using the `gmail` application, you would write the following:
 
 ```yaml
 input: args
-
 steps:
+  # we will check your worksheet for a connection. If you don't have one, the task will fail to run.
   - call: gmail.send_email
     input:
       to: { args.to }
@@ -71,13 +94,57 @@ steps:
   - return: 'ok'
 ```
 
-Worksheets manages all your connections for you in the background, so you don't have to worry about it. You can also create [custom connections](/docs/tutorials/connections) for your own applications.
+When using worksheets you can be explicit about which connection you want to use by specifying the connection id in the worksheet. This is useful if you need to execute a workflow that uses multiple identities, such as an admin email and user email. Below is an equivalent worksheet for the API call above that uses a connection override when `call`ing a method.
 
-Connections are made on our servers and are never exposed to the client. This means that you can safely share your worksheets with other users without worrying about exposing your credentials.
+```yaml
+input: args
 
-Create connections from the [Connections page](https://app.worksheets.dev/connections) or programatically (under construction).
+steps:
+  - call: gmail.send_email
+    # explicit connection
+    connection: e01d3c9e-bd6a-4244-85b0-0579d99d5fe3
+    input:
+      to: { args.to }
+      subject: { args.subject }
+      body: { args.body }
+  - return: 'ok'
+```
 
 > TODO: INSERT_ARCADE_DEMO_OF_INTEGRATION_WITH_GMAIL
+
+#### Using connections in the API
+
+The API always needs to be explicit about which connections it's going to use. You can find your worksheet's connection id from the connection builder side car. Select a connection from the [Connections page](https://app.worksheets.dev/connections) to open the side car.
+
+> TODO: INSERT_SCREENSHOT_OF_CONNECTION_BUILDER_SIDE_CAR
+
+Here is an equivalent request using the API:
+
+```bash
+curl -X POST https://app.worksheets.dev/api/call/http.request
+    -H "Content-Type: application/json"
+    -d '{ "input": { "method": "GET", "url": "https://api.sampleapis.com/beers/ale"}, "connection": "e01d3c9e-bd6a-4244-85b0-0579d99d5fe3"} }'
+```
+
+#### Using connections in the SDK
+
+> This feature is currently under construction
+
+You can also use our [Javascript SDK](/docs/advanced/application-sdk) to call methods from within your own code without worrying about connections. Simply pass the connection id as an option to the `call` method.
+
+```javascript
+// Javascript SDK (not available yet)
+const result = await worksheets.call({
+  path: 'gmail.send_email',
+  connection: 'e01d3c9e-bd6a-4244-85b0-0579d99d5fe3'
+  input: {
+    to: 'user@example.com'
+    subject: 'Hello World',
+    body: 'This is a test email',
+  },
+});
+
+```
 
 ## Worksheets
 
@@ -86,11 +153,37 @@ Create connections from the [Connections page](https://app.worksheets.dev/connec
 Worksheets can be used to execute a single application method or to orchestrate a complex tasks. Worksheets use YAML and a simplified instruction syntax to help you control the flow of execution. We support retrying, error handling, branching, looping, and more. Take a look at our [syntax guide](/docs/syntax-guide) for more details. We provide a set of [pre-built worksheets](https://app.worksheets.dev/templates) we call templates. These templates help you get started quickly and can be customized to fit your needs. Most templates will require connections to external services. If you have suggestions for new templates, please [contact us](/docs/faq#how-do-i-get-in-touch).
 
 ```yaml
-# TODO: show am example of a worksheet that uses looping and a conditional switch statement.
+steps:
+  - assign:
+      - list: ['apple', 'banana', 'cherry']
+  - for: list
+    index: index
+    value: value
+    steps:
+      # we will skip the first item in the list
+      - switch:
+          - if: ${index == 0}
+            next: continue
+      - log: ${index}
+      - log: ${value}
 ```
 
+Worksheets can be used to call other worksheets. This allows you to create reusable components that can be shared across multiple worksheets. Take a look at our [syntax guide](/docs/syntax-guide) for more details.
+
 ```yaml
-# TODO: show an example of a worksheet that uses retrying to handle errors.
+main:
+  assign:
+    - num: 5
+  steps:
+    - worksheet: multiply_by_three
+      input: ${num}
+      output: result
+    - return: ${result}
+
+multiply_by_three:
+  input: val
+  steps:
+    - return: ${val * 3}
 ```
 
 ### Creating

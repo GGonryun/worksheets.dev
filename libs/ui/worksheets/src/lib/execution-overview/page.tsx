@@ -39,6 +39,7 @@ export const ExecutionOverviewPage: React.FC<{
 }> = ({ executionId, worksheetId }) => {
   const { push } = useRouter();
   const { user } = useUser();
+
   // get the task
   const { data: execution, isLoading: isExecutionLoading } =
     trpc.worksheets.tasks.execution.useQuery(
@@ -50,8 +51,8 @@ export const ExecutionOverviewPage: React.FC<{
         refetchOnReconnect: false,
       }
     );
-  // get the execution
 
+  // get the execution
   const { data: worksheet, isLoading: isWorksheetLoading } =
     trpc.worksheets.get.useQuery(
       { worksheetId },
@@ -169,7 +170,9 @@ const TaskExecutionSummary: React.FC<{
   const isDone = !!execution?.finishedAt;
   const refreshTooltip = isDone
     ? 'Task is finished'
-    : 'Waiting for new data...';
+    : allowRefresh
+    ? 'Waiting for new data...'
+    : 'Click to refresh';
 
   useEffect(() => {
     if (isDone) {
@@ -177,7 +180,7 @@ const TaskExecutionSummary: React.FC<{
     }
   }, [isDone]);
 
-  const stopLoading = useDebounce(3000, () => {
+  const stopLoading = useDebounce(6000, () => {
     setAllowRefresh(false);
   });
 
@@ -222,6 +225,13 @@ const TaskExecutionSummary: React.FC<{
 
                   utils.worksheets.get.invalidate({
                     worksheetId: worksheet?.id,
+                  });
+                  utils.worksheets.tasks.execution.invalidate({
+                    executionId: execution?.id,
+                  });
+                  utils.worksheets.logs.get.invalidate({
+                    worksheetId: worksheet?.id,
+                    executionId: execution?.id,
                   });
                 }}
                 startIcon={<RefreshIcon />}

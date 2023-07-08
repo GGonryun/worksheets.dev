@@ -27,14 +27,14 @@ export const executeMethod = async (opts: {
 
   const library = newPrivateLibrary({
     userId: opts.userId,
-    connectionIds: opts.connectionId ? [opts.connectionId] : [],
   });
 
   const start = Date.now();
-  const result = await library.call(
-    apps.stringifyBasic(opts.appId, opts.methodId),
-    opts.input
-  );
+  const result = await library.call({
+    path: apps.stringifyBasic(opts.appId, opts.methodId),
+    input: opts.input,
+    connection: opts.connectionId,
+  });
   const duration = Date.now() - start;
 
   await quotas.request({

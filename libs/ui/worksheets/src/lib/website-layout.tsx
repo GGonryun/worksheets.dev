@@ -145,7 +145,7 @@ export default function WebsiteLayout({
     },
   ];
 
-  if (!secure) {
+  if (!secure && !user) {
     topSections = [];
   }
 
@@ -177,7 +177,7 @@ export default function WebsiteLayout({
               </IconButton>
               {!open && <Title />}
             </Box>
-            <AccountMenu />
+            <AccountMenu secure={secure} />
           </Toolbar>
         </AppBar>
         <Drawer variant="permanent" open={open}>
@@ -257,7 +257,7 @@ export default function WebsiteLayout({
 
 const Title: React.FC = () => (
   <Typography variant="h6" noWrap component="div">
-    <Link href="/" color="inherit" underline="hover">
+    <Link href="/worksheets" color="inherit" underline="hover">
       Worksheets.dev
     </Link>
   </Typography>

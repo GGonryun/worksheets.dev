@@ -27,24 +27,21 @@ const handshakesDb = newHandshakesDatabase();
 type PrivateLibraryOptions = {
   userId: string;
   worksheetId?: string;
-  // a list of known connections.
-  connectionIds?: string[];
 };
 export const newPrivateLibrary = ({
   userId,
   worksheetId,
-  connectionIds,
 }: PrivateLibraryOptions) => {
   const library = new ApplicationLibrary({
     clerk: registry,
-    settingsLoader: async ({ path, app }) => {
+    settingsLoader: async ({ path, app, connection: connectionId }) => {
       console.info(
         `[APPLOADER][${path}][private] searching for user ${userId} settings`
       );
       const connection = await dynamicSettingsResolver({
         userId,
         worksheetId,
-        overrideConnectionIds: connectionIds,
+        overrideConnectionIds: connectionId ? [connectionId] : [],
         app,
       });
       return connection?.settings ?? {};

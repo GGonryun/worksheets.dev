@@ -130,6 +130,6 @@ describe('Controller in an Execution', () => {
 
     // mock should have been called once
     expect(mock).toHaveBeenCalledTimes(1);
-    expect(mock).toHaveBeenCalledWith('hello', undefined);
+    expect(mock).toHaveBeenCalledWith({ path: 'hello' });
   });
 });

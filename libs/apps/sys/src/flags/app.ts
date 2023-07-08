@@ -14,7 +14,7 @@ const settings = newSettings({
 });
 
 const flags = newMethod({
-  id: 'flags',
+  id: 'test',
   label: 'Flags Test',
   description:
     'Logs flags for testing/verification of the secure flags feature',
@@ -23,7 +23,7 @@ const flags = newMethod({
   output: null,
   async call({ settings }) {
     console.info(
-      '[CALL][sys.flags/flags]: received flags',
+      '[CALL][sys.flags.flags]: received flags',
       settings.primary,
       settings.secondary,
       settings.tertiary

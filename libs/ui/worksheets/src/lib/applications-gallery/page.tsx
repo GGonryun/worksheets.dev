@@ -1,4 +1,4 @@
-import { Box, Divider, TextField, Typography } from '@mui/material';
+import { Box, Divider, TextField, Tooltip, Typography } from '@mui/material';
 import { trpc } from '@worksheets/trpc/ide';
 import { FloatingLayout } from '../floating-layout';
 import Grid from '@mui/material/Unstable_Grid2';
@@ -10,6 +10,7 @@ import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 import TuneIcon from '@mui/icons-material/Tune';
 import { SERVER_SETTINGS } from '@worksheets/data-access/server-settings';
 import { SpotlightButton } from '../shared/spotlight-button';
+import { Emoji } from '@worksheets/ui/common';
 
 export function ApplicationsGalleryPage() {
   const { data: applications } = trpc.applications.list.useQuery({
@@ -75,18 +76,32 @@ export function ApplicationsGalleryPage() {
         </Box>
         <Divider />
         <Box p={3}>
-          <TextField
-            placeholder="Search for applications by name"
-            fullWidth
-            InputProps={{
-              startAdornment: <SearchIcon color="disabled" sx={{ mr: 1 }} />,
-            }}
-          />
+          <Tooltip
+            title={
+              <Box>
+                We only support a few applications, do you really need this?{' '}
+                <Emoji label="thinking face" symbol={129300} />
+              </Box>
+            }
+          >
+            <span>
+              <TextField
+                placeholder="Search for applications by name"
+                fullWidth
+                disabled
+                InputProps={{
+                  startAdornment: (
+                    <SearchIcon color="disabled" sx={{ mr: 1 }} />
+                  ),
+                }}
+              />
+            </span>
+          </Tooltip>
         </Box>
         <Box px={3} pb={6}>
           <Grid container spacing={2}>
             {applications?.map((a) => (
-              <Grid xs={3} key={a.id}>
+              <Grid xs={12} sm={6} md={4} lg={3} key={a.id}>
                 <ApplicationCard application={a} />
               </Grid>
             ))}

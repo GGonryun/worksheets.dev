@@ -21,7 +21,7 @@ export const createExample = (appId: string, method: MethodDefinition) => {
   lines.push('# {"type": "bool"} => true');
   lines.push('# {"type": "object"} => {"a": 1, "b": 2}');
   lines.push(`steps:`);
-  lines.push(`  - call: ${appId}/${method.id}`);
+  lines.push(`  - call: ${appId}.${method.id}`);
 
   if (method.input != null) {
     const schema = zodToJsonSchema(method.input);

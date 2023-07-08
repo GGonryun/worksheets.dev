@@ -38,7 +38,10 @@ describe('execution factory serialization through explicit halting', () => {
         - call: receives.input
           input: \${word}`,
       assert(m) {
-        expect(m).toBeCalledWith('receives.input', 'telephone');
+        expect(m).toBeCalledWith({
+          path: 'receives.input',
+          input: 'telephone',
+        });
         expect(m).toBeCalledTimes(1);
       },
     },
@@ -52,10 +55,10 @@ describe('execution factory serialization through explicit halting', () => {
         - call: test.input
           input: \${num}`,
       arrange(m) {
-        when(m).calledWith('test.output', undefined).mockReturnValue(314);
+        when(m).calledWith({ path: 'test.output' }).mockReturnValue(314);
       },
       assert(m) {
-        expect(m).toBeCalledWith('test.input', 314);
+        expect(m).toBeCalledWith({ path: 'test.input', input: 314 });
         expect(m).toBeCalledTimes(2);
       },
     },
@@ -97,11 +100,11 @@ describe('execution factory serialization through explicit halting', () => {
         - return: \${sum}
               `,
       assert(m, e) {
-        expect(m).toBeCalledWith('test.input', 'a');
-        expect(m).toBeCalledWith('test.input', 'b');
-        expect(m).toBeCalledWith('test.input', 'c');
-        expect(m).toBeCalledWith('test.input', 'd');
-        expect(m).toBeCalledWith('test.input', 'e');
+        expect(m).toBeCalledWith({ path: 'test.input', input: 'a' });
+        expect(m).toBeCalledWith({ path: 'test.input', input: 'b' });
+        expect(m).toBeCalledWith({ path: 'test.input', input: 'c' });
+        expect(m).toBeCalledWith({ path: 'test.input', input: 'd' });
+        expect(m).toBeCalledWith({ path: 'test.input', input: 'e' });
         expect(m).toBeCalledTimes(5);
         expect(e.ctx.register.output).toEqual('abcde');
       },
@@ -132,7 +135,7 @@ describe('execution factory serialization through explicit halting', () => {
               `,
       arrange(m) {
         when(m)
-          .calledWith('throws', undefined)
+          .calledWith({ path: 'throws' })
           .mockRejectedValue(
             new MethodCallFailure({
               code: StatusCodes.INTERNAL_SERVER_ERROR,
@@ -142,17 +145,20 @@ describe('execution factory serialization through explicit halting', () => {
           );
       },
       assert(m) {
-        expect(m).not.toBeCalledWith('ignore', undefined);
-        expect(m).toBeCalledWith('handle', 500);
-        expect(m).toBeCalledWith(
-          'read',
-          'method execution failed unexpectedly'
-        );
-        expect(m).toBeCalledWith('print', {
-          code: 500,
-          message: 'method execution failed unexpectedly',
-          data: {
-            a: 'test',
+        expect(m).not.toBeCalledWith({ path: 'ignore' });
+        expect(m).toBeCalledWith({ path: 'handle', input: 500 });
+        expect(m).toBeCalledWith({
+          path: 'read',
+          input: 'method execution failed unexpectedly',
+        });
+        expect(m).toBeCalledWith({
+          path: 'print',
+          input: {
+            code: 500,
+            message: 'method execution failed unexpectedly',
+            data: {
+              a: 'test',
+            },
           },
         });
       },
@@ -194,10 +200,10 @@ describe('execution factory serialization through explicit halting', () => {
             input: \${num}
       `,
       assert(m, e) {
-        expect(m).toBeCalledWith('override', 5);
-        expect(m).toBeCalledWith('specific', 7);
-        expect(m).toBeCalledWith('number', 4);
-        expect(m).toBeCalledWith('word', 'word');
+        expect(m).toBeCalledWith({ path: 'override', input: 5 });
+        expect(m).toBeCalledWith({ path: 'specific', input: 7 });
+        expect(m).toBeCalledWith({ path: 'number', input: 4 });
+        expect(m).toBeCalledWith({ path: 'word', input: 'word' });
         expect(e.ctx.register.output).toBe(5);
       },
     },
@@ -238,10 +244,10 @@ describe('execution factory serialization through explicit halting', () => {
             input: \${num}
       `,
       assert(m, e) {
-        expect(m).toBeCalledWith('override', 5);
-        expect(m).toBeCalledWith('specific', 7);
-        expect(m).toBeCalledWith('number', 4);
-        expect(m).toBeCalledWith('word', 'word');
+        expect(m).toBeCalledWith({ path: 'override', input: 5 });
+        expect(m).toBeCalledWith({ path: 'specific', input: 7 });
+        expect(m).toBeCalledWith({ path: 'number', input: 4 });
+        expect(m).toBeCalledWith({ path: 'word', input: 'word' });
         expect(e.ctx.register.output).toBe(5);
       },
     },
@@ -309,11 +315,11 @@ describe('initializing and running serialized executions ', () => {
         - return: \${sum}
               `,
       assert(m, e) {
-        expect(m).toBeCalledWith('test.input', 'a');
-        expect(m).toBeCalledWith('test.input', 'b');
-        expect(m).toBeCalledWith('test.input', 'c');
-        expect(m).toBeCalledWith('test.input', 'd');
-        expect(m).toBeCalledWith('test.input', 'e');
+        expect(m).toBeCalledWith({ path: 'test.input', input: 'a' });
+        expect(m).toBeCalledWith({ path: 'test.input', input: 'b' });
+        expect(m).toBeCalledWith({ path: 'test.input', input: 'c' });
+        expect(m).toBeCalledWith({ path: 'test.input', input: 'd' });
+        expect(m).toBeCalledWith({ path: 'test.input', input: 'e' });
         expect(m).toBeCalledTimes(5);
         expect(e.ctx.register.output).toEqual('abcde');
       },

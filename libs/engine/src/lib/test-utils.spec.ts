@@ -12,12 +12,21 @@ export class JestApplicationLibrary implements Library {
     this.callMock = opts?.call ?? jest.fn();
     this.listMock = opts?.list ?? jest.fn();
   }
+  call(options: {
+    path: string;
+    input?: unknown;
+    connection?: string;
+  }): Promise<unknown> {
+    if (options.input === undefined) {
+      delete options.input;
+    }
+    if (options.connection === undefined) {
+      delete options.connection;
+    }
+    return this.callMock(options);
+  }
   list(): MethodDefinition[] {
     throw new Error('Method not implemented.');
-  }
-
-  async call(path: string, ...inputs: unknown[]): Promise<unknown> {
-    return this.callMock(path, ...inputs);
   }
 
   mocks() {

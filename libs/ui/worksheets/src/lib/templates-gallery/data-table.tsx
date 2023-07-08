@@ -121,7 +121,7 @@ export const TemplatesDataTable: FC<TemplatesDataTableProps> = ({
   filterByApps = [],
 }) => {
   const { data: templates } = trpc.templates.list.useQuery({
-    appIds: filterByApps?.map((app) => app.id),
+    appIds: filterByApps?.map((app) => app.id).join(','),
   });
   return (
     <>

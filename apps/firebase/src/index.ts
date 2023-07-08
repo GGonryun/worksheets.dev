@@ -58,7 +58,7 @@ export const taskProcessReaper = functions.pubsub
   });
 
 export const limitsReaper = functions.pubsub
-  .schedule('*/30 * * * *')
+  .schedule('every 24 hours')
   .onRun(async () => {
     const response = await fetcher(`/api/reapers/limits`, {
       method: 'DELETE',
@@ -69,7 +69,7 @@ export const limitsReaper = functions.pubsub
   });
 
 export const handshakesReaper = functions.pubsub
-  .schedule('every 4 hours')
+  .schedule('every 24 hours')
   .onRun(async () => {
     const response = await fetcher(`/api/reapers/handshakes`, {
       method: 'DELETE',
@@ -80,7 +80,7 @@ export const handshakesReaper = functions.pubsub
   });
 
 export const loggingReaper = functions.pubsub
-  .schedule('*/30 * * * *')
+  .schedule('*/10 * * * *')
   .onRun(async () => {
     const response = await fetcher(`/api/reapers/logging`, {
       method: 'DELETE',
@@ -90,7 +90,7 @@ export const loggingReaper = functions.pubsub
   });
 
 export const historyReaper = functions.pubsub
-  .schedule('every 6 hours')
+  .schedule('every 8 hours')
   .onRun(async () => {
     const response = await fetcher(`/api/reapers/history`, {
       method: 'DELETE',

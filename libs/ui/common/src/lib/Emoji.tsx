@@ -1,7 +1,5 @@
 import React from 'react';
 
-// https://emojipedia.org/emoji/
-
 export const Emoji = React.memo(
   ({
     className,
@@ -10,7 +8,7 @@ export const Emoji = React.memo(
   }: {
     className?: string;
     label: string;
-    // https://www.w3schools.com/charsets/ref_emoji.asp
+    // https://emojiguide.org/thinking-face
     symbol: number;
   }) => (
     <span

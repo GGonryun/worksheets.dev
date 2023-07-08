@@ -421,11 +421,10 @@ export class ScriptsApplicationBridge implements CallExpressionBridge {
     );
 
     try {
-      const result = await this.library.call(
+      const result = await this.library.call({
         path,
-        // work around for passing in empty arguments.
-        ...(args.length ? args : [undefined])
-      );
+        input: args.length ? args[0] : undefined,
+      });
       return result;
     } catch (error) {
       console.error(

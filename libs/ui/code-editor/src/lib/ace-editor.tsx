@@ -80,7 +80,7 @@ export default function CodeEditor({
         </Box>
       )}
       {onCopy && (
-        <Box position="absolute" zIndex={9999} right={4} top={4}>
+        <Box position="absolute" zIndex={100} right={4} top={4}>
           <Tooltip
             placement="top"
             title="Copy contents of the editor into your clipboard"

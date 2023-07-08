@@ -63,7 +63,7 @@ export const TemplateCard: React.FC<{
           endIcon={<SendIcon />}
           onClick={() => push(`/worksheets/create?templateId=${template.id}`)}
         >
-          Create template
+          Create now
         </Button>
       </CardActions>
     </Card>

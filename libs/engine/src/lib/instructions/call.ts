@@ -5,7 +5,12 @@ import { ZodError } from 'zod';
 import { MethodCallFailure } from '@worksheets/apps/framework';
 import { StatusCodes } from 'http-status-codes';
 
-export type CallDefinition = { call: string; input?: unknown; output?: string };
+export type CallDefinition = {
+  call: string;
+  connection: string;
+  input?: unknown;
+  output?: string;
+};
 
 export function isCallDefinition(
   definition: unknown
@@ -23,10 +28,14 @@ export class Call implements Instruction {
   }
 
   async process(ctx: Context): Promise<void> {
-    const { call: path, input, output } = this.definition;
+    const { call: path, input, output, connection } = this.definition;
     const resolved = await ctx.scripts.recursiveParse(input);
     try {
-      const result = await ctx.library.call(path, resolved);
+      const result = await ctx.library.call({
+        input: resolved,
+        path,
+        connection,
+      });
       ctx.logger.trace(`Application method executed ${path}`);
       if (output) {
         ctx.instructions.push(

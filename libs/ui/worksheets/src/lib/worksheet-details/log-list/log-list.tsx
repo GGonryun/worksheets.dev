@@ -70,7 +70,7 @@ export const LogList: React.FC<LogListProps> = ({
             <Box display="flex" alignItems="center" gap={3}>
               <Typography variant="h6">Worksheet Logs</Typography>
               <Tooltip
-                title="We're actively working on our logging systems, we're only showing you your 20 most recent logs."
+                title="We're working on improving our logs, right now we're only showing you your 20 most recent logs. We won't collect more than 100 logs per task. If you need more logs, please contact us."
                 placement="top"
               >
                 <Warning color="warning" />

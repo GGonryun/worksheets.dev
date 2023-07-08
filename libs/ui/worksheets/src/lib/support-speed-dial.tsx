@@ -4,9 +4,6 @@ import Backdrop from '@mui/material/Backdrop';
 import SpeedDial from '@mui/material/SpeedDial';
 import SpeedDialIcon from '@mui/material/SpeedDialIcon';
 import SpeedDialAction from '@mui/material/SpeedDialAction';
-import FileCopyIcon from '@mui/icons-material/FileCopyOutlined';
-import SaveIcon from '@mui/icons-material/Save';
-import PrintIcon from '@mui/icons-material/Print';
 import {
   Dialog,
   DialogContent,
@@ -17,13 +14,11 @@ import {
   useTheme,
   useMediaQuery,
 } from '@mui/material';
-import { OpenInNewTabLink } from '@worksheets/ui/common';
+import { Emoji, OpenInNewTabLink } from '@worksheets/ui/common';
 import PeopleOutlinedIcon from '@mui/icons-material/PeopleOutlined';
 import ListAltIcon from '@mui/icons-material/ListAltOutlined';
 import ScannerIcon from '@mui/icons-material/ScannerOutlined';
-import AppsIcon from '@mui/icons-material/Apps';
 import { useRouter } from 'next/router';
-import MemoryOutlinedIcon from '@mui/icons-material/MemoryOutlined';
 import AccountTreeOutlinedIcon from '@mui/icons-material/AccountTreeOutlined';
 import { useEffect, useState } from 'react';
 import { SERVER_SETTINGS } from '@worksheets/data-access/server-settings';
@@ -31,9 +26,9 @@ import { SpotlightButton } from './shared/spotlight-button';
 
 const { DOCS_URL, APP_URL } = SERVER_SETTINGS.WEBSITES;
 const actions = [
-  { icon: <SaveIcon />, name: 'Help' },
-  { icon: <PrintIcon />, name: 'Contact' },
-  { icon: <FileCopyIcon />, name: 'Welcome' },
+  { icon: <Emoji label="Get help" symbol={128640} />, name: 'Help' },
+  { icon: <Emoji label="Contact us" symbol={128199} />, name: 'Contact' },
+  { icon: <Emoji label="Welcome" symbol={128075} />, name: 'Welcome' },
 ];
 
 export function SupportSpeedDial() {
@@ -43,7 +38,6 @@ export function SupportSpeedDial() {
 
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
-  console.info('isMobile', isMobile);
   const [openSpeedDial, setOpenSpeedDial] = useState(false);
   const [openWelcomeDialog, setOpenWelcomeDialog] = useState(false);
 
@@ -165,32 +159,12 @@ const EvaluationDialog: React.FC<{ open: boolean; onClose: () => void }> = ({
           />
           <SpotlightButton
             elevation={8}
-            label={'Execute an application method'}
-            caption={
-              'Gain free instant access to our application registry through our developer API.'
-            }
-            icon={<AppsIcon />}
-            href={`${DOCS_URL('/docs/tutorials/api')}`}
-            openInNewTab
-          />
-          <SpotlightButton
-            elevation={8}
             label={'Join our community'}
             caption={
               'Stay up to date with the latest Worksheets.dev news and announcements'
             }
             icon={<PeopleOutlinedIcon />}
             href={`${DOCS_URL('/contact-us')}`}
-            openInNewTab
-          />
-          <SpotlightButton
-            elevation={8}
-            label={'Increase your limits'}
-            caption={
-              'Learn more about your quotas and limits and how to increase them for free.'
-            }
-            icon={<MemoryOutlinedIcon />}
-            href={`${APP_URL('/settings/billing')}`}
             openInNewTab
           />
           <SpotlightButton

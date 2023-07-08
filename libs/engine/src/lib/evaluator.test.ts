@@ -380,7 +380,9 @@ describe('evaluate', () => {
         name: 'executing method',
         exp: 'sys.test(1)',
         arrange(_, m) {
-          when(m).calledWith('sys.test', 1).mockReturnValue('text is here');
+          when(m)
+            .calledWith({ path: 'sys.test', input: 1 })
+            .mockReturnValue('text is here');
         },
         assert(r) {
           expect(r).toEqual('text is here');
@@ -391,8 +393,12 @@ describe('evaluate', () => {
         exp: 'sys.test(1) + sys.sample(v)',
         arrange(h, m) {
           h.putData('v', true);
-          when(m).calledWith('sys.test', 1).mockReturnValue('text ');
-          when(m).calledWith('sys.sample', true).mockReturnValue('is here');
+          when(m)
+            .calledWith({ path: 'sys.test', input: 1 })
+            .mockReturnValue('text ');
+          when(m)
+            .calledWith({ path: 'sys.sample', input: true })
+            .mockReturnValue('is here');
         },
         assert(r) {
           expect(r).toEqual('text is here');
@@ -403,10 +409,18 @@ describe('evaluate', () => {
         exp: 'apple(banana(cherry(lemon))) + lime()',
         arrange(h, m) {
           h.putData('lemon', true);
-          when(m).calledWith('apple', { a: 1 }).mockReturnValue('text ');
-          when(m).calledWith('banana', 'tomato').mockReturnValue({ a: 1 });
-          when(m).calledWith('cherry', true).mockReturnValue('tomato');
-          when(m).calledWith('lime', undefined).mockReturnValue('is here');
+          when(m)
+            .calledWith({ path: 'apple', input: { a: 1 } })
+            .mockReturnValue('text ');
+          when(m)
+            .calledWith({ path: 'banana', input: 'tomato' })
+            .mockReturnValue({ a: 1 });
+          when(m)
+            .calledWith({ path: 'cherry', input: true })
+            .mockReturnValue('tomato');
+          when(m)
+            .calledWith({ path: 'lime', input: undefined })
+            .mockReturnValue('is here');
         },
         assert(r) {
           expect(r).toEqual('text is here');
@@ -418,11 +432,11 @@ describe('evaluate', () => {
         arrange(h, m) {
           h.putData('map', [1, 2, 3]);
           when(m)
-            .calledWith('sys.test', [1, 2, 3], 'a')
+            .calledWith({ path: 'sys.test', input: [1, 2, 3] })
             .mockReturnValue('overwhelming');
 
           when(m)
-            .calledWith('core_sys.sample', 'overwhelming', 'force')
+            .calledWith({ path: 'core_sys.sample', input: 'overwhelming' })
             .mockReturnValue('the sky is the limit');
         },
         assert(r) {
@@ -512,10 +526,10 @@ describe('parse text', () => {
       },
       {
         name: 'single evaluation function',
-        actual: '${sports.basket.ball(1,true)}',
+        actual: '${sports.basket.ball(1)}',
         arrange(_, m) {
           when(m)
-            .calledWith('sports.basket.ball', 1, true)
+            .calledWith({ path: 'sports.basket.ball', input: 1 })
             .mockReturnValue({ a: 1, b: true });
         },
         assert(result) {
@@ -552,9 +566,7 @@ describe('parse text', () => {
         actual: 'the ${ball + ball + ball + ball} ${sports.basket()} team',
         arrange(h, m) {
           h.putData('ball', 'basket');
-          when(m)
-            .calledWith('sports.basket', undefined)
-            .mockReturnValue('ball');
+          when(m).calledWith({ path: 'sports.basket' }).mockReturnValue('ball');
         },
         assert(result) {
           expect(result).toEqual('the basketbasketbasketbasket ball team');
@@ -629,7 +641,7 @@ describe('expression evaluator', () => {
       name: 'accepts a function',
       expression: 'test(1)',
       arrange(m) {
-        when(m).calledWith('test', 1).mockReturnValue('yay!');
+        when(m).calledWith({ path: 'test', input: 1 }).mockReturnValue('yay!');
       },
       assert(r, m) {
         expect(m).toBeCalledTimes(1);
@@ -640,8 +652,12 @@ describe('expression evaluator', () => {
       name: 'accepts nested functions',
       expression: 'nay(yay("chain"))',
       arrange(m) {
-        when(m).calledWith('yay', 'chain').mockReturnValue('yay');
-        when(m).calledWith('nay', 'yay').mockReturnValue('nay');
+        when(m)
+          .calledWith({ path: 'yay', input: 'chain' })
+          .mockReturnValue('yay');
+        when(m)
+          .calledWith({ path: 'nay', input: 'yay' })
+          .mockReturnValue('nay');
       },
       assert(r, m) {
         expect(m).toBeCalledTimes(2);
@@ -652,8 +668,8 @@ describe('expression evaluator', () => {
       name: 'accepts adding functions',
       expression: 'yay(1) + nay(1)',
       arrange(m) {
-        when(m).calledWith('yay', 1).mockReturnValue(2);
-        when(m).calledWith('nay', 1).mockReturnValue(3);
+        when(m).calledWith({ path: 'yay', input: 1 }).mockReturnValue(2);
+        when(m).calledWith({ path: 'nay', input: 1 }).mockReturnValue(3);
       },
       assert(r, m) {
         expect(m).toBeCalledTimes(2);
@@ -665,10 +681,14 @@ describe('expression evaluator', () => {
       expression: 'calc(example() + sample(test()))',
 
       arrange(m) {
-        when(m).calledWith('test', undefined).mockReturnValue('word');
-        when(m).calledWith('sample', 'word').mockReturnValue(2);
-        when(m).calledWith('example', undefined).mockReturnValue(2);
-        when(m).calledWith('calc', 4).mockReturnValue(['the', 'good', 'word']);
+        when(m).calledWith({ path: 'test' }).mockReturnValue('word');
+        when(m)
+          .calledWith({ path: 'sample', input: 'word' })
+          .mockReturnValue(2);
+        when(m).calledWith({ path: 'example' }).mockReturnValue(2);
+        when(m)
+          .calledWith({ path: 'calc', input: 4 })
+          .mockReturnValue(['the', 'good', 'word']);
       },
       assert(r, m) {
         expect(m).toBeCalledTimes(4);
@@ -679,7 +699,9 @@ describe('expression evaluator', () => {
       name: 'accepts object notation',
       expression: 'core.test(1)',
       arrange(m) {
-        when(m).calledWith('core.test', 1).mockReturnValue('word');
+        when(m)
+          .calledWith({ path: 'core.test', input: 1 })
+          .mockReturnValue('word');
       },
       assert(r, m) {
         expect(m).toBeCalledTimes(1);
@@ -690,7 +712,9 @@ describe('expression evaluator', () => {
       name: 'accepts adding object notation',
       expression: 'core.test(1) + core.test(1)',
       arrange(m) {
-        when(m).calledWith('core.test', 1).mockReturnValue(['word', 'test']);
+        when(m)
+          .calledWith({ path: 'core.test', input: 1 })
+          .mockReturnValue(['word', 'test']);
       },
       assert(r, m) {
         expect(m).toBeCalledTimes(2);
@@ -701,9 +725,11 @@ describe('expression evaluator', () => {
       name: 'accepts object notation as variable',
       expression: 'core.twice(core.test(1))',
       arrange(m) {
-        when(m).calledWith('core.test', 1).mockReturnValue(['word', 'test']);
         when(m)
-          .calledWith('core.twice', ['word', 'test'])
+          .calledWith({ path: 'core.test', input: 1 })
+          .mockReturnValue(['word', 'test']);
+        when(m)
+          .calledWith({ path: 'core.twice', input: ['word', 'test'] })
           .mockReturnValue(true);
       },
       assert(r, m) {
@@ -716,7 +742,7 @@ describe('expression evaluator', () => {
       expression: 'core.test(1, "apple", false)',
       arrange(m) {
         when(m)
-          .calledWith('core.test', 1, 'apple', false)
+          .calledWith({ path: 'core.test', input: 1 })
           .mockReturnValue('ok');
       },
       assert(r, m) {
@@ -729,11 +755,17 @@ describe('expression evaluator', () => {
       expression:
         'core.test(sample.apple("green"),sample.apple("red"),sample.apple("blue"))',
       arrange(m) {
-        when(m).calledWith('sample.apple', 'red').mockReturnValue('apple');
-        when(m).calledWith('sample.apple', 'green').mockReturnValue(1);
-        when(m).calledWith('sample.apple', 'blue').mockReturnValue(false);
         when(m)
-          .calledWith('core.test', 1, 'apple', false)
+          .calledWith({ path: 'sample.apple', input: 'red' })
+          .mockReturnValue('apple');
+        when(m)
+          .calledWith({ path: 'sample.apple', input: 'green' })
+          .mockReturnValue(1);
+        when(m)
+          .calledWith({ path: 'sample.apple', input: 'blue' })
+          .mockReturnValue(false);
+        when(m)
+          .calledWith({ path: 'core.test', input: 1 })
           .mockReturnValue('ok');
       },
       assert(r, m) {
@@ -1056,7 +1088,9 @@ describe('ScriptsApplicationBridge', () => {
       expression: isSimple,
       expected: 'yeah buddy',
       arrange(m) {
-        when(m).calledWith('test', 'sample').mockReturnValue('yeah buddy');
+        when(m)
+          .calledWith({ path: 'test', input: 'sample' })
+          .mockReturnValue('yeah buddy');
       },
     },
     {
@@ -1064,7 +1098,7 @@ describe('ScriptsApplicationBridge', () => {
       expression: isObject,
       expected: 2,
       arrange(m) {
-        when(m).calledWith('test.twice', 1).mockReturnValue(2);
+        when(m).calledWith({ path: 'test.twice', input: 1 }).mockReturnValue(2);
       },
     },
     {
@@ -1072,7 +1106,7 @@ describe('ScriptsApplicationBridge', () => {
       expression: isAdding,
       expected: 3,
       arrange(m) {
-        when(m).calledWith('test.once', 3).mockReturnValue(3);
+        when(m).calledWith({ path: 'test.once', input: 3 }).mockReturnValue(3);
       },
     },
     {
@@ -1081,8 +1115,8 @@ describe('ScriptsApplicationBridge', () => {
       expected: 3,
 
       arrange(m) {
-        when(m).calledWith('test.once', 2).mockReturnValue(3);
-        when(m).calledWith('test.twice', 1).mockReturnValue(2);
+        when(m).calledWith({ path: 'test.once', input: 2 }).mockReturnValue(3);
+        when(m).calledWith({ path: 'test.twice', input: 1 }).mockReturnValue(2);
       },
     },
     {
@@ -1091,10 +1125,12 @@ describe('ScriptsApplicationBridge', () => {
       expected: true,
 
       arrange(m) {
-        when(m).calledWith('test.test.test', 1, 2, 3).mockReturnValue(true);
-        when(m).calledWith('a', undefined).mockReturnValue(1);
-        when(m).calledWith('b', undefined).mockReturnValue(2);
-        when(m).calledWith('c', undefined).mockReturnValue(3);
+        when(m)
+          .calledWith({ path: 'test.test.test', input: 1 })
+          .mockReturnValue(true);
+        when(m).calledWith({ path: 'a' }).mockReturnValue(1);
+        when(m).calledWith({ path: 'b' }).mockReturnValue(2);
+        when(m).calledWith({ path: 'c' }).mockReturnValue(3);
       },
     },
     {
@@ -1103,9 +1139,13 @@ describe('ScriptsApplicationBridge', () => {
       expected: true,
 
       arrange(m) {
-        when(m).calledWith('test', 'yesundefined', 'yes').mockReturnValue(true);
-        when(m).calledWith('sample', 'yes').mockReturnValue('yes');
-        when(m).calledWith('now', undefined).mockReturnValue('yes');
+        when(m)
+          .calledWith({ path: 'test', input: 'yesundefined' })
+          .mockReturnValue(true);
+        when(m)
+          .calledWith({ path: 'sample', input: 'yes' })
+          .mockReturnValue('yes');
+        when(m).calledWith({ path: 'now' }).mockReturnValue('yes');
       },
     },
   ];
