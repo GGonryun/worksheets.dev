@@ -42,7 +42,7 @@ export class Wait implements Instruction {
     const offset = Date.now() + this.definition.wait;
 
     ctx.logger.info(
-      `Execution paused until ${formatTimestampLong(
+      `⏸️ Execution paused until ${formatTimestampLong(
         offset
       )}. Duration remaining: ${prettyPrintMilliseconds(this.definition.wait)}`
     );

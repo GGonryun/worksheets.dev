@@ -109,7 +109,7 @@ export const processTask = async (taskId: string): Promise<TaskState> => {
 
   // if task has a delay and the delay is longer than cron polling limit allow out of band scheduler to take over
   if (isTaskDelayed(task) && !isWithinNearPollingLimit(task)) {
-    await logger.info(
+    await logger.trace(
       `Task delay exceeds near polling limit. Delaying for ${printDuration(
         durationRemaining(task.delay)
       )}`
