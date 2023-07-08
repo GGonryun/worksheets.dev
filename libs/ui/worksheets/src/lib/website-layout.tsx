@@ -23,12 +23,14 @@ import ScannerIcon from '@mui/icons-material/ScannerOutlined';
 import SupportAgentIcon from '@mui/icons-material/SupportAgentOutlined';
 import AssignmenIcon from '@mui/icons-material/AssignmentOutlined';
 import AppsIcon from '@mui/icons-material/Apps';
-import { Link } from '@mui/material';
+import { Button, Link, Paper, useMediaQuery } from '@mui/material';
 import AccountMenu from './account-menu';
 import { useUser } from '@worksheets/util/auth/client';
 import { useRouter } from 'next/router';
 import { SupportSpeedDial } from './support-speed-dial';
 import { SERVER_SETTINGS } from '@worksheets/data-access/server-settings';
+import { useEffect } from 'react';
+import { Warning } from '@mui/icons-material';
 
 const drawerWidth = 240;
 
@@ -151,6 +153,7 @@ export default function WebsiteLayout({
 
   return (
     <>
+      <MobileWarning />
       <CssBaseline />
       <SupportSpeedDial />
       <Box height="100%" display="flex">
@@ -262,3 +265,66 @@ const Title: React.FC = () => (
     </Link>
   </Typography>
 );
+
+const MobileWarning: React.FC = () => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const [open, setOpen] = React.useState(false);
+
+  useEffect(() => {
+    if (isMobile) {
+      setOpen(true);
+    }
+  }, [isMobile]);
+
+  if (!open) return null;
+
+  return (
+    <Box
+      sx={{
+        position: 'fixed',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        top: 0,
+        zIndex: 10000,
+        p: 1,
+        backgroundColor: 'rgba(0,0,0,0.3)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      <Paper
+        elevation={10}
+        sx={{
+          p: 4,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          textAlign: 'center',
+        }}
+      >
+        <Box display="flex" alignItems="center" flexDirection="column" gap={4}>
+          <Warning sx={{ fontSize: 100 }} color="warning" />
+          <Typography variant="h6">
+            Worksheets.dev is not optimized for mobile devices.
+          </Typography>
+
+          <Button
+            data-test-id="accept-mobile-warning"
+            variant="contained"
+            onClick={() => {
+              setOpen(false);
+            }}
+          >
+            CONTINUE ANYWAY
+          </Button>
+          <Link href={`${SERVER_SETTINGS.WEBSITES.DOCS_URL()}`}>
+            Read our docs
+          </Link>
+        </Box>
+      </Paper>
+    </Box>
+  );
+};

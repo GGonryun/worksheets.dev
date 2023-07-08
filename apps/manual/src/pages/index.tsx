@@ -27,7 +27,8 @@ function HomepageHeader() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
             <Link
               className="button button--secondary button--lg"
-              href={'https://app.worksheets.dev/login'}
+              target="_self"
+              to={'https://app.worksheets.dev/login'}
             >
               Sign up for free - 1 min 🚀
             </Link>

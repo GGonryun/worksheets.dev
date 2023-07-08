@@ -61,14 +61,16 @@ const config = {
           },
 
           {
-            href: 'https://app.worksheets.dev/applications',
+            to: 'https://app.worksheets.dev/applications',
             label: 'Applications',
             position: 'left',
+            target: '_self',
           },
           {
             to: 'https://app.worksheets.dev/login',
             label: 'Login',
             position: 'right',
+            target: '_self',
           },
         ],
       },
