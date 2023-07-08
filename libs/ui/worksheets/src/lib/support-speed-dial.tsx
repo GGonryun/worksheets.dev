@@ -2,7 +2,6 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Backdrop from '@mui/material/Backdrop';
 import SpeedDial from '@mui/material/SpeedDial';
-import SpeedDialIcon from '@mui/material/SpeedDialIcon';
 import SpeedDialAction from '@mui/material/SpeedDialAction';
 import {
   Dialog,
@@ -13,6 +12,7 @@ import {
   Button,
   useTheme,
   useMediaQuery,
+  SpeedDialIcon,
 } from '@mui/material';
 import { Emoji, OpenInNewTabLink } from '@worksheets/ui/common';
 import PeopleOutlinedIcon from '@mui/icons-material/PeopleOutlined';
@@ -26,8 +26,8 @@ import MemoryOutlinedIcon from '@mui/icons-material/MemoryOutlined';
 
 const { DOCS_URL, APP_URL } = SERVER_SETTINGS.WEBSITES;
 const actions = [
-  { icon: <Emoji label="Get help" symbol={128640} />, name: 'Help' },
-  { icon: <Emoji label="Contact us" symbol={128199} />, name: 'Contact' },
+  { icon: <Emoji label="Feedback" symbol={129300} />, name: 'Feedback' },
+  { icon: <Emoji label="Contact us" symbol={128199} />, name: 'Contact Us' },
   { icon: <Emoji label="Welcome" symbol={128075} />, name: 'Welcome' },
 ];
 
@@ -53,11 +53,11 @@ export function SupportSpeedDial() {
       case 'Welcome':
         setOpenWelcomeDialog(true);
         break;
+      case 'Feedback':
+        push(DOCS_URL('/contact-us#contact-form'));
+        break;
       case 'Contact':
         push(DOCS_URL('/contact-us'));
-        break;
-      case 'Help':
-        push(DOCS_URL('/docs/faq'));
         break;
     }
   };
@@ -75,6 +75,12 @@ export function SupportSpeedDial() {
         <SpeedDial
           ariaLabel="SpeedDial tooltip example"
           sx={{
+            '& .MuiSpeedDialAction-staticTooltipLabel': {
+              width: '120px',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            },
             position: 'absolute',
             bottom: 32,
             right: 32,
@@ -86,6 +92,7 @@ export function SupportSpeedDial() {
         >
           {actions.map((action) => (
             <SpeedDialAction
+              sx={{ '& .MuiButtonBase-root': { color: 'rgba(0, 0, 0, 1.0)' } }}
               key={action.name}
               icon={action.icon}
               tooltipTitle={action.name}
@@ -109,6 +116,7 @@ const EvaluationDialog: React.FC<{ open: boolean; onClose: () => void }> = ({
     <Dialog
       open={open}
       sx={{
+        zIndex: 30000,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -128,8 +136,9 @@ const EvaluationDialog: React.FC<{ open: boolean; onClose: () => void }> = ({
             We are currently in <u>evaluation mode</u>.
           </Typography>
           <Typography variant="body1">
-            Rate limits have been increased and user quotas have been decreased.
-            If you would like to <strong>increase your limits</strong>,{' '}
+            Stricter rate limits are in place and user quotas have been
+            decreased. If you would like to{' '}
+            <strong>increase your limits</strong>,{' '}
             <OpenInNewTabLink href={`${DOCS_URL('/contact-us')}`}>
               contact us
             </OpenInNewTabLink>

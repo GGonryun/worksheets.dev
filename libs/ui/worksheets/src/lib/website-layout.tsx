@@ -30,7 +30,7 @@ import { useRouter } from 'next/router';
 import { SupportSpeedDial } from './support-speed-dial';
 import { SERVER_SETTINGS } from '@worksheets/data-access/server-settings';
 import { useEffect } from 'react';
-import { Warning } from '@mui/icons-material';
+import { Feedback, Warning } from '@mui/icons-material';
 import { Emoji } from '@worksheets/ui/common';
 
 const drawerWidth = 240;
@@ -181,7 +181,10 @@ export default function WebsiteLayout({
               </IconButton>
               {!open && <Title />}
             </Box>
-            <AccountMenu secure={secure} />
+            <Box>
+              <FeedbackButton />
+              <AccountMenu secure={secure} />
+            </Box>
           </Toolbar>
         </AppBar>
         <Drawer variant="permanent" open={open}>
@@ -258,6 +261,23 @@ export default function WebsiteLayout({
     </>
   );
 }
+
+const FeedbackButton = () => {
+  return (
+    <Tooltip title={'Share your thoughts with us'}>
+      <span>
+        <IconButton href={SERVER_SETTINGS.WEBSITES.DOCS_URL('/contact-us')}>
+          {/* contrast with the primary color */}
+          <Feedback
+            sx={(theme) => ({
+              color: theme.palette.primary.contrastText,
+            })}
+          />
+        </IconButton>
+      </span>
+    </Tooltip>
+  );
+};
 
 const Title: React.FC = () => (
   <Typography variant="h6" noWrap component="div">

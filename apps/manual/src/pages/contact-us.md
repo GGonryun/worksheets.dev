@@ -16,4 +16,4 @@ Alternatively, you can email us at [miguel@gwenyth.io](mailto:miguel@gwenyth.io)
 
 If you want to leave anonymous feedback, you can use the form below. We will not be able to respond to you directly, but we will read your message.
 
-** In Progress **
+[Google Form Link](https://docs.google.com/forms/d/e/1FAIpQLScbZCu3bRfRxhCY51j8agZCc2-3qwwVL-HPUH6SxVaVB6IVEA/viewform?usp=sf_link)
