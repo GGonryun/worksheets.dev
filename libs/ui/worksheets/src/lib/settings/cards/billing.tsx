@@ -103,7 +103,10 @@ export const SettingsCardBilling: React.FC<{ plan: 'free' | 'premium' }> = ({
             <Typography variant="h6">Processing Quotas</Typography>
             <Typography variant="body2">
               These quotas reset every cycle. Need more?{' '}
-              <OpenInNewTabLink fontSize={14} href="/contact-us">
+              <OpenInNewTabLink
+                fontSize={14}
+                href={`${SERVER_SETTINGS.WEBSITES.DOCS_URL('/contact-us')}`}
+              >
                 Contact us
               </OpenInNewTabLink>{' '}
               to increase your personal limits.
@@ -152,7 +155,10 @@ export const SettingsCardBilling: React.FC<{ plan: 'free' | 'premium' }> = ({
             <Typography variant="h6">Execution Power</Typography>
             <Typography variant="body2">
               Limits on your processing and execution.{' '}
-              <OpenInNewTabLink fontSize={14} href="/contact-us">
+              <OpenInNewTabLink
+                fontSize={14}
+                href={`${SERVER_SETTINGS.WEBSITES.DOCS_URL('/contact-us')}`}
+              >
                 Contact us
               </OpenInNewTabLink>{' '}
               to increase your personal processing power.
@@ -227,7 +233,10 @@ export const SettingsCardBilling: React.FC<{ plan: 'free' | 'premium' }> = ({
             <Typography variant="body2">
               API Tokens give automated systems or other users access to your
               resources. Protect these tokens like passwords.{' '}
-              <OpenInNewTabLink fontSize={14} href="/contact-us">
+              <OpenInNewTabLink
+                fontSize={14}
+                href={`${SERVER_SETTINGS.WEBSITES.DOCS_URL('/contact-us')}`}
+              >
                 Contact us
               </OpenInNewTabLink>{' '}
               to increase your personal limits.
@@ -457,7 +466,10 @@ const DisabledUserHeader: React.FC = () => (
     <Chip color="error" label="disabled" size="small" />
     <Typography variant="body2">
       Reach out to{' '}
-      <Link href="/contact-us" target="_blank">
+      <Link
+        href={`${SERVER_SETTINGS.WEBSITES.DOCS_URL('/contact-us')}`}
+        target="_blank"
+      >
         customer support
       </Link>{' '}
       or learn more{' '}

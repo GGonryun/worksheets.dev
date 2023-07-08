@@ -145,6 +145,7 @@ export const createTask = async (
     db: loggingDb,
     task,
   });
+
   // neither the library nor the controller serve any purpose during serialization
   const library = newEmptyLibrary();
   const controller = new Controller();

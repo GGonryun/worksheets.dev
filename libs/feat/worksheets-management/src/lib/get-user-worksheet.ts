@@ -5,10 +5,13 @@ const db = newWorksheetsDatabase();
 
 export const getUserWorksheet = async (userId: string, worksheetId: string) => {
   const exists = await db.has(worksheetId);
+
   if (!exists) {
     throw new TRPCError({ code: 'NOT_FOUND' });
   }
+
   const worksheet = await db.get(worksheetId);
+
   if (worksheet.uid !== userId) {
     throw new TRPCError({
       code: 'UNAUTHORIZED',

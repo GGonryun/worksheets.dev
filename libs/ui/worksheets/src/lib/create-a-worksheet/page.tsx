@@ -12,6 +12,7 @@ import { warn } from '@worksheets/ui/common';
 import { trpc } from '@worksheets/trpc/ide';
 import { CreateWorksheetRequest } from '../shared/types';
 import { DEFAULT_SAMPLE_TEMPLATE } from '@worksheets/util/worksheets';
+import { useUser } from '@worksheets/util/auth/client';
 
 const newWorksheetRequest: CreateWorksheetRequest = {
   name: '',
@@ -54,11 +55,18 @@ function worksheetBuilderReducer(
 export function CreateAWorksheetPage() {
   const { push, query } = useRouter();
   const templateId = query.templateId as string;
+
+  const { user } = useUser();
+
   const [step, setStep] = useState(0);
   const [state, dispatch] = useReducer(
     worksheetBuilderReducer,
     newWorksheetRequest
   );
+
+  const { data: worksheets } = trpc.worksheets.table.useQuery(undefined, {
+    enabled: !!user,
+  });
 
   const { data: template, isLoading } = trpc.templates.get.useQuery(
     { templateId },
@@ -121,6 +129,7 @@ export function CreateAWorksheetPage() {
         <Divider />
         {step === 0 && (
           <ConfigureForm
+            worksheets={worksheets}
             state={state}
             onCancel={leavePage}
             onSubmit={(values) => {

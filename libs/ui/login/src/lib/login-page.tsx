@@ -104,7 +104,9 @@ export function LoginPage() {
                 Continue with Github
               </Button>
               <Box display="flex" flexDirection="column" gap={1}>
-                <OpenInNewTabLink href="/contact-us">
+                <OpenInNewTabLink
+                  href={`${SERVER_SETTINGS.WEBSITES.DOCS_URL('/contact-us')}`}
+                >
                   Contact Us
                 </OpenInNewTabLink>
               </Box>

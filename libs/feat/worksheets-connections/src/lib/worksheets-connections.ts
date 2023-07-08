@@ -1,10 +1,7 @@
 import { WorksheetEntity } from '@worksheets/data-access/worksheets';
 import { newWorksheetsConnectionsDatabase } from '@worksheets/data-access/worksheets-connections';
 import { loadConnectionForm } from '@worksheets/feat/execution-settings';
-import {
-  getUserWorksheet,
-  listUsersWorksheets,
-} from '@worksheets/feat/worksheets-management';
+import { getUserWorksheet } from '@worksheets/feat/worksheets-management';
 
 const worksheetConnectionsDb = newWorksheetsConnectionsDatabase();
 

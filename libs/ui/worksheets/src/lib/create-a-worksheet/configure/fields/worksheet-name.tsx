@@ -1,26 +1,18 @@
 import { useState } from 'react';
-import { checkValidWorksheetName } from '../../../shared/util';
 import { SharedTextField } from '../../../shared/shared-text-field';
 
 export const WorksheetNameField: React.FC<{
+  error?: boolean;
+  helperText?: string;
   name: string;
   onUpdate: (name: string) => void;
-}> = ({ name, onUpdate }) => {
+}> = ({ name, onUpdate, error, helperText }) => {
   const [changed, setHasChanged] = useState(false);
-  const isWorksheetNameValid = checkValidWorksheetName(name);
-  const isWorksheetNameEmpty = name === '';
+
   return (
     <SharedTextField
-      error={changed && (!isWorksheetNameValid || isWorksheetNameEmpty)}
-      helperText={
-        changed
-          ? !isWorksheetNameValid
-            ? 'Name must only contain letters, numbers, hyphens, underscores, and spaces'
-            : isWorksheetNameEmpty
-            ? 'Name cannot be empty'
-            : ''
-          : ''
-      }
+      error={changed ? error : undefined}
+      helperText={changed ? helperText : undefined}
       label="Name"
       required
       value={name}

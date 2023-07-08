@@ -30,7 +30,7 @@ const isAuthed = middleware(({ next, ctx, type, path }) => {
   if (!ctx.user) {
     throw new TRPCError({
       code: 'UNAUTHORIZED',
-      message: `Authorization middleware stopped unauthorized user from completing request ${type} - ${path}.`,
+      message: `Authorization middleware stopped unauthorized user from completing request ${type} - ${path}`,
     });
   }
   return next({

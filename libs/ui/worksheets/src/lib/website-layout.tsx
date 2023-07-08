@@ -23,7 +23,7 @@ import ScannerIcon from '@mui/icons-material/ScannerOutlined';
 import SupportAgentIcon from '@mui/icons-material/SupportAgentOutlined';
 import AssignmenIcon from '@mui/icons-material/AssignmentOutlined';
 import AppsIcon from '@mui/icons-material/Apps';
-import { Button, Link, Paper, useMediaQuery } from '@mui/material';
+import { Button, Link, Paper, Tooltip, useMediaQuery } from '@mui/material';
 import AccountMenu from './account-menu';
 import { useUser } from '@worksheets/util/auth/client';
 import { useRouter } from 'next/router';
@@ -31,6 +31,7 @@ import { SupportSpeedDial } from './support-speed-dial';
 import { SERVER_SETTINGS } from '@worksheets/data-access/server-settings';
 import { useEffect } from 'react';
 import { Warning } from '@mui/icons-material';
+import { Emoji } from '@worksheets/ui/common';
 
 const drawerWidth = 240;
 
@@ -320,9 +321,19 @@ const MobileWarning: React.FC = () => {
           >
             CONTINUE ANYWAY
           </Button>
-          <Link href={`${SERVER_SETTINGS.WEBSITES.DOCS_URL()}`}>
-            Read our docs
-          </Link>
+          <Typography variant="body1">
+            Or visit our{' '}
+            <Link href={`${SERVER_SETTINGS.WEBSITES.DOCS_URL()}`}>
+              mobile optimized doc site.
+            </Link>
+          </Typography>
+          <Tooltip title={'Let us know you want a mobile optimized site!'}>
+            <span>
+              <Button data-test-id="feature-request-mobile-site">
+                <Emoji label={'bell'} symbol={128718} />
+              </Button>
+            </span>
+          </Tooltip>
         </Box>
       </Paper>
     </Box>

@@ -32,6 +32,9 @@ export type GetApplicationResponse =
 export type ExecutionOverrideForm =
   inferRouterInputs<AppRouter>['tasks']['execute']['overrides'];
 
+export type WorksheetsDataTable =
+  inferRouterOutputs<AppRouter>['worksheets']['table'];
+
 export type ExecutionDetailsDataRow =
   inferRouterOutputs<AppRouter>['worksheets']['tasks']['history'];
 

@@ -29,6 +29,7 @@ import { EditTimeoutDialog } from './dialogs/edit-timeout';
 import { ConfigurationOption } from '../../shared/configuration-option';
 import { LogLevelVerbosityChip } from '../../shared/log-level-verbosity-chip';
 import { useUser } from '@worksheets/util/auth/client';
+import { SERVER_SETTINGS } from '@worksheets/data-access/server-settings';
 
 export const GeneralConfiguration: React.FC = () => {
   const { query, push } = useRouter();
@@ -62,7 +63,6 @@ export const GeneralConfiguration: React.FC = () => {
 
   // TODO: import notistack.
   const { open, handleClose, handleClick } = useSnackbar();
-  const executableUrl = `http://worksheets.dev/api/execute/${data?.id}`;
   const [editingField, setEditingField] = useState('');
 
   const handleUpdateWorksheet = async (
@@ -124,7 +124,12 @@ export const GeneralConfiguration: React.FC = () => {
         />
         <ConfigurationOption
           label={'Execution URL'}
-          content={<InvocationUrl url={executableUrl} onClick={handleClick} />}
+          content={
+            <InvocationUrl
+              url={SERVER_SETTINGS.WEBSITES.APP_URL(`/api/execute/${data?.id}`)}
+              onClick={handleClick}
+            />
+          }
         />
         <Divider />
         <ConfigurationOption

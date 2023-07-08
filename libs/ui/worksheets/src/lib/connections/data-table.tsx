@@ -30,7 +30,7 @@ import { SpotlightButton } from '../shared/spotlight-button';
 import CableIcon from '@mui/icons-material/Cable';
 import { SERVER_SETTINGS } from '@worksheets/data-access/server-settings';
 import HubOutlinedIcon from '@mui/icons-material/HubOutlined';
-import { OpenInNew } from '@mui/icons-material';
+
 const columns: (
   onClick: (id: string) => void,
   onDelete: (id: string) => void,
