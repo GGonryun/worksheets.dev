@@ -26,12 +26,11 @@ export const t = initTRPC
 export const router = t.router;
 export const middleware = t.middleware;
 
-const isAuthed = middleware(({ next, ctx }) => {
+const isAuthed = middleware(({ next, ctx, type, path }) => {
   if (!ctx.user) {
     throw new TRPCError({
       code: 'UNAUTHORIZED',
-      message:
-        'Authorization middleware stopped unauthorized user from accessing this resource.',
+      message: `Authorization middleware stopped unauthorized user from completing request ${type} - ${path}.`,
     });
   }
   return next({
