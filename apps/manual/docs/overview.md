@@ -221,7 +221,11 @@ Our web UI allows you to execute worksheets manually. You can also view the [exe
 
 #### API
 
+** In Progress **
+
 #### Webhooks
+
+** In Progress **
 
 #### Schedule
 
@@ -233,6 +237,8 @@ If you are interested in beta-testing our event streaming triggers [contact us](
 
 #### Web Forms
 
+If you are interested in beta-testing our web form triggers [contact us](/docs/faq#how-do-i-get-in-touch).
+
 #### CLI
 
 If you are interested in beta-testing our CLI please [contact us](/docs/faq#how-do-i-get-in-touch).
@@ -243,22 +249,26 @@ If you are interested in beta-testing our web form triggers [contact us](/docs/f
 
 ** In Progress **: Worksheets do not currently support versioning and rolling back.
 
-### Creating a connection
-
-#### OAuth Tokens
-
-#### Flags
-
-#### Sensitive Fields
-
 ## Quotas & Limits
+
+** In Progress **
 
 ### Quotas
 
+** In Progress **
+
 #### Method Calls
+
+** In Progress **
 
 #### Processing Time
 
+** In Progress **
+
 ### Limits
 
+** In Progress **
+
 #### Rate Limits
+
+** In Progress **

@@ -2,6 +2,9 @@ import { Context, Instruction } from '../framework';
 import { Steps, StepsDefinition } from './steps';
 
 export type LoopDefinition = {
+  // address of the list to iterate, while this may seem strange at first it allows for
+  // the list to be mutated during the loop and it allows refernces to extremely large
+  // data sets.
   for: string;
   index: string;
   value: string;

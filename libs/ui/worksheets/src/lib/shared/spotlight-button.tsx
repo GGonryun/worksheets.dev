@@ -14,6 +14,7 @@ export const SpotlightButton: React.FC<{
   <Paper
     elevation={elevation ?? 4}
     sx={(theme) => ({
+      width: '100%',
       '&:hover': {
         backgroundColor: theme.palette.action.hover,
       },

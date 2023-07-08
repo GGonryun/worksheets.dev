@@ -129,7 +129,9 @@ export const processTask = async (taskId: string): Promise<TaskState> => {
   }
 
   // start processing task
-  await logger.info('⚡️ Processing task');
+  if (task.retries === 0) {
+    await logger.info('⚡️ Task processing started');
+  }
   task = await taskDb.update({
     ...task,
     retries: task.retries + 1,

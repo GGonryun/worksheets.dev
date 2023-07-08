@@ -7,7 +7,7 @@ import fetch, { RequestInit } from 'node-fetch';
 export const baseUrl = () => {
   // TODO: known issue with nx and firebase functions. The environment variables are not set correctly.
   // https://github.com/simondotm/nx-firebase/issues/29
-  const url = 'http://localhost:4200';
+  const url = process.env.APP_BASE_URL ?? 'http://localhost:4200';
   if (!url) {
     throw new Error('APP_BASE_URL environment variable not set');
   }

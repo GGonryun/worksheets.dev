@@ -13,6 +13,12 @@ import { trpc } from '@worksheets/trpc/ide';
 import { ApplicationDetails } from '../shared/types';
 import { TinyLogo } from '../shared/tiny-logo';
 import { useUser } from '@worksheets/util/auth/client';
+import { SpotlightButton } from '../shared/spotlight-button';
+import { Search } from '@mui/icons-material';
+import { SERVER_SETTINGS } from '@worksheets/data-access/server-settings';
+import ListAltIcon from '@mui/icons-material/ListAlt';
+
+import { NowRowsOverlay } from '../shared/no-rows-overlay';
 
 const columns: (onClick: (worksheetId: string) => void) => GridColDef[] = (
   onClick
@@ -134,13 +140,14 @@ export function WorksheetsDataTable() {
     <DataGrid
       sx={{ border: 0 }}
       rows={worksheets ?? []}
-      autoHeight
+      autoHeight={worksheets?.length ? true : false}
       rowHeight={42}
       showCellVerticalBorder
       showColumnVerticalBorder
       loading={isLoading}
       columns={columns(handleDeleteWorksheet)}
       density="compact"
+      hideFooter
       initialState={{
         pagination: {
           paginationModel: {
@@ -148,7 +155,35 @@ export function WorksheetsDataTable() {
           },
         },
       }}
-      hideFooter
+      slots={{
+        noRowsOverlay: () => (
+          <NowRowsOverlay
+            title="Get Started"
+            subtext="Create your first worksheet in as little as 3 minutes"
+            action={{
+              variant: 'contained',
+              href: '/worksheets/create',
+              children: <>Create a worksheet</>,
+            }}
+          >
+            <SpotlightButton
+              label="Follow a tutorial"
+              caption="Learn how to create a worksheet"
+              icon={<ListAltIcon fontSize="large" />}
+              href={SERVER_SETTINGS.WEBSITES.DOCS_URL(
+                '/docs/tutorials/quick-start'
+              )}
+              openInNewTab
+            />
+            <SpotlightButton
+              label="Browse templates"
+              caption="Search for worksheets"
+              icon={<Search fontSize="large" />}
+              href={'/templates'}
+            />
+          </NowRowsOverlay>
+        ),
+      }}
     />
   );
 }

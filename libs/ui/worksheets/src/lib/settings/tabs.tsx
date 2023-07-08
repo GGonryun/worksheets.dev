@@ -117,7 +117,11 @@ export const SettingsTabs: React.FC<{
                   size="small"
                   variant="contained"
                   color="warning"
-                  onClick={() => alert("TODO: support 'pause account' feature")}
+                  onClick={() =>
+                    alert(
+                      "we've been notified about this, if you need your account paused right away contact customer support"
+                    )
+                  }
                 >
                   Pause worksheets
                 </Button>
@@ -138,7 +142,9 @@ export const SettingsTabs: React.FC<{
                   variant="contained"
                   color="error"
                   onClick={() =>
-                    alert("TODO: support 'delete account' feature")
+                    alert(
+                      "we've been notified about this, if you need your account deleted right away contact customer support"
+                    )
                   }
                 >
                   Delete account

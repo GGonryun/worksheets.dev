@@ -17,6 +17,7 @@ import { TokensDataTable } from './data-table';
 import { TokenModal } from './token-modal';
 import { warn } from '@worksheets/ui/common';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import { SERVER_SETTINGS } from '@worksheets/data-access/server-settings';
 export const SettingsCardAccessTokens: React.FC = () => {
   const { user } = useUser();
   const [newToken, setNewToken] = useState('');
@@ -105,9 +106,14 @@ export const SettingsCardAccessTokens: React.FC = () => {
           >
             <Typography variant="caption">
               Learn more about{' '}
-              <Link href="/pricing" target="_blank">
+              <Link
+                href={SERVER_SETTINGS.WEBSITES.DOCS_URL(
+                  '/docs/api/overview#api-tokens'
+                )}
+                target="_blank"
+              >
                 access tokens{' '}
-                <OpenInNewIcon color="primary" fontSize={'small'} />.
+                <OpenInNewIcon color="primary" fontSize={'inherit'} />.
               </Link>
             </Typography>
             <Box display="flex" justifyContent="flex-end">

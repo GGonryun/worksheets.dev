@@ -235,7 +235,7 @@ export const SettingsCardBilling: React.FC<{ plan: 'free' | 'premium' }> = ({
             <Box display="flex" justifyContent="space-between" gap={1}>
               <RatiosBlock
                 href={`${SERVER_SETTINGS.WEBSITES.DOCS_URL(
-                  '/docs/overview#api-tokens'
+                  '/docs/api/overview#api-tokens'
                 )}`}
                 label="Total API tokens"
                 tooltip="You will not be able to create new tokens if you exceed this limit."
@@ -246,7 +246,7 @@ export const SettingsCardBilling: React.FC<{ plan: 'free' | 'premium' }> = ({
               />
               <RatiosBlock
                 href={`${SERVER_SETTINGS.WEBSITES.DOCS_URL(
-                  '/docs/overview#api-tokens'
+                  '/docs/api/overview#api-tokens'
                 )}`}
                 label="API token calls"
                 tooltip="Limits the total amount of worksheets API calls your account can make. Worksheets.dev's API endpoints will ignore your requests if you exceed this limit."

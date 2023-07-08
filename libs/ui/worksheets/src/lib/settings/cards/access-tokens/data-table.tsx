@@ -14,6 +14,8 @@ import HelpIcon from '@mui/icons-material/Help';
 import { trpc } from '@worksheets/trpc/ide';
 import { ListTokensResponse } from '../../../shared/types';
 import { Alarm } from '@mui/icons-material';
+import { OpenInNewTabLink } from '@worksheets/ui/common';
+import { SERVER_SETTINGS } from '@worksheets/data-access/server-settings';
 
 const columns: (onDelete: (id: string) => void) => GridColDef[] = (
   onDelete
@@ -155,6 +157,26 @@ export const TokensDataTable: FC<TokensDataTableProps> = ({
       loading={loading}
       slots={{
         loadingOverlay: LinearProgress,
+        noRowsOverlay: () => (
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            height="100%"
+            width="100%"
+          >
+            <Typography>
+              Fill out the form above to create a new token or go to docs to{' '}
+              <OpenInNewTabLink
+                href={SERVER_SETTINGS.WEBSITES.DOCS_URL(
+                  '/docs/api/overview#api-tokens'
+                )}
+              >
+                learn more
+              </OpenInNewTabLink>
+            </Typography>
+          </Box>
+        ),
       }}
       rows={tokens}
       hideFooter

@@ -18,6 +18,11 @@ import {
 } from '@worksheets/util/time';
 import { TaskExecutionStatusChip } from '../../shared/task-execution-status-chip';
 import { useUser } from '@worksheets/util/auth/client';
+import { NowRowsOverlay } from '../../shared/no-rows-overlay';
+import { SpotlightButton } from '../../shared/spotlight-button';
+import OndemandVideoIcon from '@mui/icons-material/OndemandVideo';
+import LocalLibraryIcon from '@mui/icons-material/LocalLibraryOutlined';
+import { SERVER_SETTINGS } from '@worksheets/data-access/server-settings';
 
 const columns = (worksheetId: string): GridColDef[] => [
   {
@@ -141,7 +146,7 @@ export const ExecutionDetailsDataTable: FC<
         border: 0,
       })}
       rows={executions ?? []}
-      autoHeight
+      autoHeight={!!executions?.length}
       rowHeight={42}
       loading={isLoading}
       columns={columns(worksheetId)}
@@ -155,6 +160,36 @@ export const ExecutionDetailsDataTable: FC<
             pageSize: 100,
           },
         },
+      }}
+      slots={{
+        noRowsOverlay: () => (
+          <NowRowsOverlay
+            title="No executions found"
+            subtext="Executing a worksheet will create an execution and display history."
+            action={{
+              variant: 'contained',
+              href: `/worksheets/${worksheetId}/execute`,
+              children: <>Execute worksheet</>,
+            }}
+          >
+            <SpotlightButton
+              label="Read the docs"
+              caption="Learn how to execute a worksheet"
+              icon={<LocalLibraryIcon fontSize="large" />}
+              href={SERVER_SETTINGS.WEBSITES.DOCS_URL(
+                '/docs/tutorials/quick-start'
+              )}
+              openInNewTab
+            />
+            <SpotlightButton
+              label="Watch the video"
+              caption="See our 1 minute interactive demo"
+              icon={<OndemandVideoIcon fontSize="large" />}
+              href={SERVER_SETTINGS.WEBSITES.DOCS_URL('/docs/intro')}
+              openInNewTab
+            />
+          </NowRowsOverlay>
+        ),
       }}
     />
   );

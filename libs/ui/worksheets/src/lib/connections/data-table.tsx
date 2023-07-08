@@ -25,7 +25,12 @@ import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import { trpc } from '@worksheets/trpc/ide';
 import { GetConnectionsDataTableResponse } from '../shared/types';
 import { TinyLogo } from '../shared/tiny-logo';
-
+import { NowRowsOverlay } from '../shared/no-rows-overlay';
+import { SpotlightButton } from '../shared/spotlight-button';
+import CableIcon from '@mui/icons-material/Cable';
+import { SERVER_SETTINGS } from '@worksheets/data-access/server-settings';
+import HubOutlinedIcon from '@mui/icons-material/HubOutlined';
+import { OpenInNew } from '@mui/icons-material';
 const columns: (
   onClick: (id: string) => void,
   onDelete: (id: string) => void,
@@ -197,7 +202,7 @@ export const ConnectionsDataTable: FC<DataTableProps> = ({
         sx={{ border: 0 }}
         rows={connections ?? []}
         rowHeight={42}
-        autoHeight={fill}
+        autoHeight={connections?.length ? fill : false}
         columns={columns(onConnectionClick, handleDelete, canModify)}
         density="compact"
         rowSelection={true}
@@ -228,6 +233,36 @@ export const ConnectionsDataTable: FC<DataTableProps> = ({
         loading={loading}
         slots={{
           loadingOverlay: LinearProgress,
+          noRowsOverlay: () => (
+            <NowRowsOverlay
+              title="No connections found"
+              subtext="Create your first connection and start integrating with external applications."
+              action={{
+                variant: 'contained',
+                href: `/connections?create=true`,
+                target: '_blank',
+                endIcon: <OpenInNew />,
+                children: <>Create a connection</>,
+              }}
+            >
+              <SpotlightButton
+                label="See the tutorial"
+                caption="Connect your first application in 1 minute or less"
+                icon={<CableIcon fontSize="large" />}
+                href={SERVER_SETTINGS.WEBSITES.DOCS_URL(
+                  '/docs/tutorials/connections'
+                )}
+                openInNewTab
+              />
+              <SpotlightButton
+                label="Browse applications"
+                caption="Select from a growing list of pre-built integrations"
+                icon={<HubOutlinedIcon fontSize="large" />}
+                href={'/applications'}
+                openInNewTab
+              />
+            </NowRowsOverlay>
+          ),
         }}
         isRowSelectable={() => !readonly}
         checkboxSelection={Boolean(onSelectionChange)}

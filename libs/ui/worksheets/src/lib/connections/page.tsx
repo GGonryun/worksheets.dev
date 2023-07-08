@@ -12,10 +12,10 @@ import { Box } from '@mui/material';
 export const ConnectionsPage: React.FC<{ connectionId?: string }> = ({
   connectionId,
 }) => {
-  const { push } = useRouter();
+  const { push, query } = useRouter();
   const [activeConnection, setActiveConnection] = useState('');
   const { user } = useUser();
-
+  const createConnection = query.create === 'true';
   const { data: connections, isLoading } = trpc.connections.dataTable.useQuery(
     undefined,
     {
@@ -27,7 +27,10 @@ export const ConnectionsPage: React.FC<{ connectionId?: string }> = ({
     if (connectionId) {
       setActiveConnection(connectionId);
     }
-  }, [connectionId]);
+    if (createConnection) {
+      setActiveConnection(uuidv4());
+    }
+  }, [connectionId, createConnection]);
 
   return (
     <PageLayout

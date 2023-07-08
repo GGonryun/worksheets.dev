@@ -253,6 +253,18 @@ const TaskExecutionSummary: React.FC<{
       </Box>
       <Divider />
       <Box py={2} px={4} display="flex" flexDirection="column" gap={1}>
+        <ConfigurationOption
+          label={'Worksheet ID'}
+          content={
+            <Typography variant="body2">
+              <Link href={`/worksheets/${worksheet?.id}`}>{worksheet?.id}</Link>
+            </Typography>
+          }
+        />
+        <ConfigurationOption
+          label={'Worksheet Name'}
+          content={worksheet?.name}
+        />
         <ConfigurationOption label={'Execution ID'} content={execution?.id} />
         <ConfigurationOption
           label={'Execution state'}
@@ -289,18 +301,7 @@ const TaskExecutionSummary: React.FC<{
             )}
           />
         )}
-        <ConfigurationOption
-          label={'Worksheet ID'}
-          content={
-            <Typography variant="body2">
-              <Link href={`/worksheets/${worksheet?.id}`}>{worksheet?.id}</Link>
-            </Typography>
-          }
-        />
-        <ConfigurationOption
-          label={'Worksheet Name'}
-          content={worksheet?.name}
-        />
+
         <ConfigurationOption
           label={'Log Level'}
           content={

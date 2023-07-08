@@ -15,7 +15,6 @@ export const logger = bunyan.createLogger({
 });
 
 if (SERVER_SETTINGS.ENVIRONMENT.IS_PRODUCTION()) {
-  logger.info('Adding GCP to log streams');
   // Creates a Bunyan Cloud Logging client
   const loggingBunyan = new LoggingBunyan({
     projectId: PROJECT_ID(),
@@ -27,5 +26,5 @@ if (SERVER_SETTINGS.ENVIRONMENT.IS_PRODUCTION()) {
   });
   logger.addStream(loggingBunyan.stream('info'));
 } else {
-  logger.info('Not adding GCP to log streams');
+  // logger.info('Not adding GCP to log streams');
 }

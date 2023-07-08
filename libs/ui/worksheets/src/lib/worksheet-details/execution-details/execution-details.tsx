@@ -3,7 +3,7 @@ import { ExecutionDetailsDataTable } from './data-table';
 import { Divider } from '@mui/material';
 export function ExecutionDetails() {
   return (
-    <Box sx={{ width: '100%' }}>
+    <Box sx={{ height: '100%', width: '100%' }}>
       <ExecutionDetailsDataTable />
       <Divider />
     </Box>

@@ -17,12 +17,12 @@ import {
 import { Emoji, OpenInNewTabLink } from '@worksheets/ui/common';
 import PeopleOutlinedIcon from '@mui/icons-material/PeopleOutlined';
 import ListAltIcon from '@mui/icons-material/ListAltOutlined';
-import ScannerIcon from '@mui/icons-material/ScannerOutlined';
 import { useRouter } from 'next/router';
 import AccountTreeOutlinedIcon from '@mui/icons-material/AccountTreeOutlined';
 import { useEffect, useState } from 'react';
 import { SERVER_SETTINGS } from '@worksheets/data-access/server-settings';
 import { SpotlightButton } from './shared/spotlight-button';
+import MemoryOutlinedIcon from '@mui/icons-material/MemoryOutlined';
 
 const { DOCS_URL, APP_URL } = SERVER_SETTINGS.WEBSITES;
 const actions = [
@@ -169,12 +169,12 @@ const EvaluationDialog: React.FC<{ open: boolean; onClose: () => void }> = ({
           />
           <SpotlightButton
             elevation={8}
-            label={'Browse premade templates'}
+            label={'See your limits & quotas'}
             caption={
-              'Discover new workflows. Browse through our library of premade templates.'
+              'Learn more about your quotas and limits and how to increase them for free.'
             }
-            icon={<ScannerIcon />}
-            href={`${APP_URL('/templates')}`}
+            icon={<MemoryOutlinedIcon />}
+            href={`${APP_URL('/settings/billing')}`}
             openInNewTab
           />
         </Box>

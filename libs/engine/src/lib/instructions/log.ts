@@ -28,6 +28,7 @@ export class Log implements Instruction {
         await scripts.recursiveParse(this.definition.log.message),
         await scripts.recursiveParse(this.definition.log.data)
       );
+
       return;
     }
 

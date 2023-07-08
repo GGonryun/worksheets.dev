@@ -9,6 +9,11 @@ import { LogLevel } from '@worksheets/data-access/tasks';
 import { capitalizeFirstLetter } from '@worksheets/util/strings';
 import ReadMoreOutlinedIcon from '@mui/icons-material/ReadMoreOutlined';
 import { LogListDataTableRows } from '../../shared/types';
+import { NowRowsOverlay } from '../../shared/no-rows-overlay';
+import { SpotlightButton } from '../../shared/spotlight-button';
+import BoltIcon from '@mui/icons-material/Bolt';
+import { SERVER_SETTINGS } from '@worksheets/data-access/server-settings';
+import EditNoteIcon from '@mui/icons-material/EditNote';
 const columns = (worksheetId: string): GridColDef[] => [
   {
     sortable: false,
@@ -136,7 +141,7 @@ export const LogListDataTable: FC<LogListDataTableProps> = ({
       })}
       rows={rows ?? []}
       rowHeight={42}
-      autoHeight
+      autoHeight={rows.length ? true : false}
       showCellVerticalBorder
       showColumnVerticalBorder
       columns={columns(query.id as string)}
@@ -144,6 +149,34 @@ export const LogListDataTable: FC<LogListDataTableProps> = ({
       hideFooter
       slots={{
         loadingOverlay: LinearProgress,
+        noRowsOverlay: () => (
+          <NowRowsOverlay
+            title="Get Started"
+            subtext="Execute your worksheet to create logs"
+            action={{
+              variant: 'contained',
+              href: `/worksheets/${query.id}/execute`,
+              children: <>Execute now</>,
+            }}
+          >
+            <SpotlightButton
+              label="Quick start"
+              caption="Get help executing your first worksheet"
+              icon={<BoltIcon fontSize="large" />}
+              href={SERVER_SETTINGS.WEBSITES.DOCS_URL(
+                '/docs/tutorials/quick-start'
+              )}
+              openInNewTab
+            />
+            <SpotlightButton
+              label="Understand logging"
+              caption="Learn how to use logging in your worksheets"
+              icon={<EditNoteIcon fontSize="large" />}
+              href={SERVER_SETTINGS.WEBSITES.DOCS_URL('/docs/overview#logging')}
+              openInNewTab
+            />
+          </NowRowsOverlay>
+        ),
       }}
       onRowClick={(params) => {
         onClick(params.id.toString());

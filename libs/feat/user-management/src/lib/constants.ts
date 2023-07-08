@@ -9,11 +9,11 @@ export const MACHINE_TOKEN_PREFIX = 'ms::';
 export const INITIAL_FLAGS = ['user' as const];
 export const INITIAL_LIMITS: Omit<UserLimitsEntity, 'id'> = {
   maxApiTokens: 3,
-  maxWorksheets: 6,
+  maxWorksheets: 5,
   logRetention: 24,
   executionHistoryRetention: 24,
-  maxConnections: 4,
-  maxQueuedExecutions: 10,
+  maxConnections: 3,
+  maxQueuedExecutions: 5,
   maxRunningExecutions: 5,
 };
 
@@ -25,15 +25,15 @@ export const INITIAL_QUOTAS: Omit<UserQuotasEntity, 'id' | 'createdAt'> = {
     resetTo: 100,
   },
   executions: {
-    current: 200,
-    resetTo: 200,
+    current: 100,
+    resetTo: 100,
   },
   methodCalls: {
-    current: 200,
-    resetTo: 200,
+    current: 100,
+    resetTo: 100,
   },
   processingTime: {
-    current: durationToMilliseconds({ minutes: 5 }),
-    resetTo: durationToMilliseconds({ minutes: 5 }),
+    current: durationToMilliseconds({ minutes: 2 }),
+    resetTo: durationToMilliseconds({ minutes: 2 }),
   },
 };
