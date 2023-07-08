@@ -215,6 +215,10 @@ We offer a wide variety of entrypoints for your worksheets. Worksheets can be ex
 
 #### Web UI
 
+Our web UI allows you to execute worksheets manually. You can also view the [execution history of each worksheet](https://app.worksheets.dev/worksheets) along with logs and metrics.
+
+> INSERT A SCREENSHOT OF THE UI HERE
+
 #### API
 
 #### Webhooks
@@ -229,11 +233,15 @@ If you are interested in beta-testing our event streaming triggers [contact us](
 
 #### Web Forms
 
+#### CLI
+
+If you are interested in beta-testing our CLI please [contact us](/docs/faq#how-do-i-get-in-touch).
+
 If you are interested in beta-testing our web form triggers [contact us](/docs/faq#how-do-i-get-in-touch).
 
 ### Versioning
 
-** In Progress **: Worksheets are versioned and you can view the history of each worksheet and rollback to a previous version if needed.
+** In Progress **: Worksheets do not currently support versioning and rolling back.
 
 ### Creating a connection
 

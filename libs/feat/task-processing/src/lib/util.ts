@@ -24,6 +24,7 @@ import { TaskDeadlines } from '@worksheets/data-access/tasks';
 import { WorksheetEntity } from '@worksheets/data-access/worksheets';
 import { TRPCError } from '@trpc/server';
 import { SERVER_SETTINGS } from '@worksheets/data-access/server-settings';
+import { logger } from '@worksheets/feat/logging';
 
 export type TaskCreationOverrides = {
   verbosity?: LogLevel;
@@ -144,7 +145,8 @@ export type TaskLoggerOptions = {
  * // => void
  */
 export class TaskLogger implements Logger {
-  private count = 0;
+  private count: number | undefined;
+  private disabled = false;
   private readonly db: TaskLoggingDatabase;
   private readonly task: TaskEntity;
   private readonly verbosity: LogLevel;
@@ -161,39 +163,43 @@ export class TaskLogger implements Logger {
     this.db = db;
     this.task = task;
     this.verbosity = task.verbosity ?? 'silent';
-    db.count({ f: 'taskId', o: '==', v: task.id }).then((count) => {
-      this.count = count;
-    });
   }
 
-  trace(message: string, data?: unknown): Promise<void> {
+  async trace(message: string, data?: unknown): Promise<void> {
+    if (this.disabled) return Promise.resolve();
     console.debug(`[TASK][TRACE][${this.task.id}] ${message}`, data);
-    return this.log('trace', message, data);
+    return await this.log('trace', message, data);
   }
 
-  debug(message: string, data?: unknown): Promise<void> {
+  async debug(message: string, data?: unknown): Promise<void> {
+    if (this.disabled) return Promise.resolve();
     console.debug(`[TASK][DEBUG][${this.task.id}] ${message}`, data);
-    return this.log('debug', message, data);
+    return await this.log('debug', message, data);
   }
 
-  info(message: string, data?: unknown): Promise<void> {
+  async info(message: string, data?: unknown): Promise<void> {
+    if (this.disabled) return Promise.resolve();
     console.info(`[TASK][INFO][${this.task.id}] ${message}`, data);
-    return this.log('info', message, data);
+    return await this.log('info', message, data);
   }
 
-  warn(message: string, data?: unknown): Promise<void> {
+  async warn(message: string, data?: unknown): Promise<void> {
+    if (this.disabled) return Promise.resolve();
     console.warn(`[TASK][WARN][${this.task.id}] ${message}`, data);
-    return this.log('warn', message, data);
+    return await this.log('warn', message, data);
   }
 
-  error(message: string, data?: unknown): Promise<void> {
+  async error(message: string, data?: unknown): Promise<void> {
+    if (this.disabled) return Promise.resolve();
     console.error(`[TASK][ERROR][${this.task.id}] ${message}`, data);
-    return this.log('error', message, data);
+    return await this.log('error', message, data);
   }
 
-  fatal(message: string, data?: unknown): Promise<void> {
+  async fatal(message: string, data?: unknown): Promise<void> {
+    if (this.disabled) return Promise.resolve();
     console.error(`[TASK][FATAL][${this.task.id}] ${message}`, data);
-    return this.log('fatal', message, data);
+
+    return await this.log('fatal', message, data);
   }
 
   /**
@@ -208,7 +214,7 @@ export class TaskLogger implements Logger {
     // check verbosity to see if log level is allowed
     if (!this.isLogLevelAllowed(level)) return;
 
-    if (this.hasReachedLogLimit()) return;
+    if (await this.hasReachedLogLimit()) return;
     // check to make sure the size of the data does not exceed the maximum size
     if (isDataVolumeTooLargeForFirestore(data, 10)) {
       console.warn(
@@ -218,16 +224,26 @@ export class TaskLogger implements Logger {
       data = 'Data too large to log';
     }
 
+    await this.saveEntry(level, message, data);
+  }
+
+  private async saveEntry(level: LogLevel, message: string, data: unknown) {
     // create a new log entry in the database
-    await this.db.insert({
-      id: this.db.id(),
-      taskId: this.task.id,
-      message,
-      level,
-      data: cleanseObject(data),
-      createdAt: Date.now(),
-      worksheetId: this.task.worksheetId,
-    });
+    try {
+      await this.db.insert({
+        id: this.db.id(),
+        taskId: this.task.id,
+        message,
+        level,
+        data: cleanseObject(data),
+        createdAt: Date.now(),
+        worksheetId: this.task.worksheetId,
+      });
+      return;
+    } catch (error) {
+      logger.error(error, 'failed to create log entry for task', this.task.id);
+      return;
+    }
   }
 
   /**
@@ -246,14 +262,35 @@ export class TaskLogger implements Logger {
    * a temporary check that will be removed once we have a better solution for log limits
    * @returns {boolean} true if the task has reached the maximum number of logs, otherwise false
    */
-  private hasReachedLogLimit(): boolean {
+  private async hasReachedLogLimit(): Promise<boolean> {
     if (this.count === undefined) {
-      console.warn(
-        `[LOGGING][LIMIT-CHECK][${this.task.id}] max ${this.count} logs have been created for this task`
-      );
-      return false;
+      this.count = await this.db.count({
+        f: 'taskId',
+        o: '==',
+        v: this.task.id,
+      });
+      // if we're fetching the count for the first time, we'll check to see if the count is greater than the maximum number of logs if so we've already sent the suppression method so we can fail early.
+      if (this.count >= SERVER_SETTINGS.LOGGING.MAX_LOGS_PER_TASK) {
+        return false;
+      }
     }
-    return this.count >= SERVER_SETTINGS.LOGGING.MAX_LOGS_PER_TASK;
+
+    // otherwise if we've already fetched the count, we'll check to see if we've reached the maximum number of logs
+    if (this.count >= SERVER_SETTINGS.LOGGING.MAX_LOGS_PER_TASK) {
+      logger.warn(
+        `[LOGGING][LIMIT][${this.task.id}] Suppressing logs task has reached the maximum number of logs`
+      );
+      await this.saveEntry(
+        'fatal',
+        '🔇 Max task logs exceeded. Suppressing future logs.',
+        { max: SERVER_SETTINGS.LOGGING.MAX_LOGS_PER_TASK }
+      );
+      this.disabled = true;
+      return true;
+    }
+
+    this.count++;
+    return false;
   }
 }
 

@@ -17,13 +17,13 @@ export class Log implements Instruction {
     // check if the log definition is of type string if so use the logger to send an info log message
     if (typeof this.definition.log === 'string') {
       const data = await scripts.recursiveParse(this.definition.log);
-      logger.info(`${data}`);
+      await logger.info(`${data}`);
       return;
     }
 
     // check if the log definition is of type object if so use the logger to send a log message with the specified level
     if (typeof this.definition.log === 'object' && this.definition.log) {
-      logger.log(
+      await logger.log(
         this.definition.log.level,
         await scripts.recursiveParse(this.definition.log.message),
         await scripts.recursiveParse(this.definition.log.data)
