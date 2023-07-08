@@ -91,14 +91,16 @@ export const ConnectionsForm: React.FC<ConnectionsFormProps> = ({
       </Box>
 
       <Divider />
-      <ConnectionsDataTable
-        validateRow={(row) => getConnectionErrorMessage(row) === ''}
-        onConnectionClick={openSidecar}
-        onSelectionChange={setSelections}
-        selections={selections}
-        connections={connections.data ?? []}
-        loading={connections.isLoading}
-      />
+      <Box height="calc(100% - 50px)">
+        <ConnectionsDataTable
+          validateRow={(row) => getConnectionErrorMessage(row) === ''}
+          onConnectionClick={openSidecar}
+          onSelectionChange={setSelections}
+          selections={selections}
+          connections={connections.data ?? []}
+          loading={connections.isLoading}
+        />
+      </Box>
       {activeConnection && (
         <ConnectionBuilderSidecar
           onSaved={handleSaved}
