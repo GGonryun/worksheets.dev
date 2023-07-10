@@ -6,9 +6,9 @@ export const baseUrl = () => {
   // TODO: known issue with nx and firebase functions. The environment variables are not set correctly.
   // https://github.com/simondotm/nx-firebase/issues/29
   // const url = process.env.ADMIN_BASE_URL ?? 'http://localhost:4202';
-  const url = 'http://localhost:4202';
+  const url = 'https://admin.worksheets.dev';
   if (!url) {
-    throw new Error('APP_BASE_URL environment variable not set');
+    throw new Error('ADMIN_BASE_URL environment variable not set');
   }
   return url;
 };
