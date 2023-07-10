@@ -1,4 +1,3 @@
-import { getAuth, connectAuthEmulator } from '@firebase/auth';
 import { getFirestore, connectFirestoreEmulator } from 'firebase/firestore';
 import {
   initializeApp,
@@ -7,6 +6,7 @@ import {
   FirebaseError,
 } from 'firebase/app';
 import { getDatabase, connectDatabaseEmulator } from 'firebase/database';
+import { getAuth, connectAuthEmulator } from '@firebase/auth';
 
 const clientCredentials = {
   apiKey: process.env['NEXT_PUBLIC_FIREBASE_API_KEY'],

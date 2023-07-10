@@ -11,6 +11,7 @@ export const cleanUpOldHandshakes = async (quantity: number) => {
     )
     .limit(quantity)
     .get();
+
   const batch = db.batch();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   handshakes.forEach((doc: any) => {

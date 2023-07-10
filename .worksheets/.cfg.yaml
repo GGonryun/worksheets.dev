@@ -1,0 +1,3 @@
+simple_wait:
+  timeout: 1000 # seconds
+  verbosity: 'warn'

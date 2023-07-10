@@ -1,25 +1,8 @@
 import { z } from 'zod';
-import { protectedProcedure } from '../../trpc';
 import { deleteConnection } from '@worksheets/feat/execution-settings';
+import { privateProcedure } from '../../procedures';
 
-export default protectedProcedure
-  .meta({
-    openapi: {
-      protect: true,
-      enabled: true,
-      summary: 'Delete connection',
-      tags: ['connections'],
-      method: 'DELETE',
-      path: '/connections/{connectionId}',
-      parameters: [
-        {
-          in: 'path',
-          name: 'connectionId',
-          required: true,
-        },
-      ],
-    },
-  })
+export default privateProcedure
   .input(z.object({ connectionId: z.string() }))
   .output(z.boolean())
   .mutation(

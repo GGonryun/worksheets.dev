@@ -1,25 +1,11 @@
 import { z } from 'zod';
-import { Severity, publicProcedure } from '../../trpc';
 import {
   listTemplates,
   templateDetailsSchema,
 } from '@worksheets/feat/templates-gallery';
+import { publicProcedure } from '../../procedures';
 
 export default publicProcedure
-  .meta({
-    logging: Severity.ERROR,
-    openapi: {
-      summary: 'List templates',
-      tags: ['templates'],
-      method: 'GET',
-      path: '/templates',
-      example: {
-        request: {
-          appIds: 'open-ai,',
-        },
-      },
-    },
-  })
   .input(
     z.object({
       appIds: z

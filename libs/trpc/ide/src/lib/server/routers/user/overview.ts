@@ -1,19 +1,9 @@
-import { z } from 'zod';
-import { Severity, protectedProcedure } from '../../trpc';
-import { userOverviewSchema, user } from '@worksheets/feat/user-management';
-export default protectedProcedure
-  .meta({
-    logging: Severity.ERROR,
-    openapi: {
-      enable: true,
-      protect: true,
-      method: 'GET',
-      path: '/user/overview',
-      summary: 'User Overview',
-      description: 'User Overview',
-      tags: ['user'],
-    },
-  })
+import { z } from '@worksheets/zod';
+import { user } from '@worksheets/feat/user-management';
+import { userOverviewSchema } from '@worksheets/schemas-user';
+import { privateProcedure } from '../../procedures';
+
+export default privateProcedure
   .input(
     z
       .object({

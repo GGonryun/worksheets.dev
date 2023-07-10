@@ -1,7 +1,7 @@
 import { Library, MethodDefinition } from '@worksheets/apps/framework';
 import { Logger } from './logger';
-import { LogLevel } from '@worksheets/data-access/tasks';
 import { Controller, ExecutionFactory } from '..';
+import { LogLevel } from '@worksheets/schemas-logging';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type Mock = jest.Mock<any, any, any>;

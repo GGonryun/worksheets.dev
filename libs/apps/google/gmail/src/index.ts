@@ -4,7 +4,7 @@ import { getUserEmail } from './lib/getUserEmail';
 import { settings } from './lib/common';
 
 export default newApplication({
-  id: 'google-gmail',
+  id: 'gmail',
   logo: 'https://storage.googleapis.com/worksheets-test-app-logos/logo-gmail-png-gmail-icon-download-png-and-vector-1.png',
   label: 'Gmail',
   description:

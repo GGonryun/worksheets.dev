@@ -42,7 +42,7 @@ export const ExecuteWorksheetPage: React.FC = () => {
     }
   );
   const { data: worksheet } = trpc.worksheets.get.useQuery(
-    { worksheetId },
+    { id: worksheetId },
     { enabled: !!worksheetId && !!user }
   );
 
@@ -54,7 +54,7 @@ export const ExecuteWorksheetPage: React.FC = () => {
     setInput(JSON.stringify(replay?.input ?? {}));
   }, [replay]);
 
-  const execute = trpc.tasks.execute.useMutation();
+  const execute = trpc.executions.create.useMutation();
 
   const validateInput = useDebounce(1500, (input: string) => {
     try {
@@ -71,7 +71,7 @@ export const ExecuteWorksheetPage: React.FC = () => {
 
   useEffect(() => {
     setOverrides({
-      logLevel: worksheet?.logLevel,
+      verbosity: worksheet?.logLevel,
       timeout: worksheet?.timeout,
     });
   }, [worksheet]);
@@ -279,8 +279,8 @@ const ExecutionSettings: React.FC<{
     <Divider />
     <Box p={3}>
       <WorksheetLogLevelField
-        level={value?.logLevel ?? 'silent'}
-        onUpdate={(logLevel) => onUpdate({ logLevel })}
+        level={value?.verbosity ?? 'silent'}
+        onUpdate={(verbosity) => onUpdate({ verbosity })}
         helperText={
           "Overwrite your worksheet's default log level exclusively for this execution."
         }

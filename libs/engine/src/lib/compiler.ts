@@ -1,4 +1,4 @@
-import { JSON_SCHEMA, load as loadYaml } from 'js-yaml';
+import { yaml } from '@worksheets/util-yaml';
 import { InitDefinition } from './instructions/init';
 
 export interface Compiler {
@@ -7,9 +7,6 @@ export interface Compiler {
 
 export class YAMLCompiler implements Compiler {
   async compile(text: string): Promise<InitDefinition> {
-    return loadYaml(text, {
-      json: true,
-      schema: JSON_SCHEMA,
-    }) as InitDefinition;
+    return yaml.read(text) as InitDefinition;
   }
 }

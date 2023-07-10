@@ -2,7 +2,7 @@ import { Box } from '@mui/material';
 import { useState, useEffect } from 'react';
 import { EditFieldDialog } from './base-dialog';
 import { WorksheetLogLevelField } from '../../../create-a-worksheet/configure/fields/worksheet-log-level';
-import { LogLevel } from '@worksheets/data-access/tasks';
+import { LogLevel } from '@worksheets/schemas-logging';
 
 export const EditLogLevelDialog: React.FC<{
   value: LogLevel; // starting value

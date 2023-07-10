@@ -1,18 +1,16 @@
-import { z } from 'zod';
-import { protectedProcedure } from '../../trpc';
 import {
   connectionFormSchema,
   submitConnectionForm,
 } from '@worksheets/feat/execution-settings';
+import { privateProcedure } from '../../procedures';
 
-export default protectedProcedure.input(connectionFormSchema).mutation(
+export default privateProcedure.input(connectionFormSchema).mutation(
   async ({
     input: { id, name, appId, settings },
     ctx: {
       user: { uid },
     },
   }) => {
-    console.info(`received request to update connection`);
     return await submitConnectionForm({
       id,
       uid,

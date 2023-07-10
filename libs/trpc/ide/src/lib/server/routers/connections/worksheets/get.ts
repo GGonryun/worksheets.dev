@@ -1,28 +1,9 @@
 import { z } from 'zod';
-import { Severity, protectedProcedure } from '../../../trpc';
-import { getConnectionWorksheets } from '@worksheets/feat/worksheets-connections';
-import { worksheetsEntitySchema } from '@worksheets/data-access/worksheets';
+import { privateProcedure } from '../../../procedures';
+import { worksheetsEntitySchema } from '@worksheets/schemas-worksheets';
+import { getConnectionWorksheets } from '@worksheets/feat/worksheets-management';
 
-export default protectedProcedure
-  .meta({
-    logging: Severity.ERROR,
-    openapi: {
-      enabled: true,
-      protect: true,
-      summary: 'Get worksheets for connection',
-      description: 'Get worksheets for connection',
-      tags: ['worksheets'],
-      method: 'GET',
-      path: '/connections/{connectionId}/worksheets',
-      parameters: [
-        {
-          in: 'path',
-          name: 'connectionId',
-          required: true,
-        },
-      ],
-    },
-  })
+export default privateProcedure
   .input(z.object({ connectionId: z.string() }))
   .output(z.array(worksheetsEntitySchema))
   .query(

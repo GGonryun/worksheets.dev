@@ -1,8 +1,8 @@
-import { TaskSnapshotEntity } from '@worksheets/data-access/tasks';
 import { Serializer } from './serializer';
 import { References } from '../framework';
 import { JSONSerializer } from './json';
 import { SingleMethodInitDefinition } from '../instructions';
+import { TaskSnapshotEntity } from '@worksheets/schemas-executions';
 
 export class ReferencesSerializer
   implements Serializer<References, TaskSnapshotEntity['references']>

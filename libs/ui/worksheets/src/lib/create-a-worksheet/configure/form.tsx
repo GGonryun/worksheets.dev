@@ -1,6 +1,5 @@
 import { Box } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { LogLevel } from '@worksheets/data-access/tasks';
 import { FormLayout } from '../form-layout';
 import { WorksheetNameField } from './fields/worksheet-name';
 import { checkValidWorksheetName } from '../../shared/util';
@@ -8,11 +7,12 @@ import { WorksheetDescriptionField } from './fields/worksheet-description';
 import { WorksheetLogLevelField } from './fields/worksheet-log-level';
 import { WorksheetTimeoutField } from './fields/worksheet-timeout';
 import { WorksheetsDataTable } from '../../shared/types';
+import { LogLevel } from '@worksheets/schemas-logging';
 
 export type ConfigFormValues = {
   name: string;
   description: string;
-  logLevel: LogLevel;
+  verbosity: LogLevel;
   timeout?: number;
 };
 
@@ -26,7 +26,7 @@ export type ConfigFormProps = {
 const DEFAULT_CONFIG_FORM_VALUES = {
   name: '',
   description: '',
-  logLevel: 'trace' as const,
+  verbosity: 'trace' as const,
   timeout: undefined,
 };
 
@@ -48,7 +48,7 @@ export const ConfigureForm: React.FC<ConfigFormProps> = ({
 
   const isWorksheetNameEmpty = form.name.length === 0;
 
-  const hasRequiredFields = !isWorksheetNameEmpty && Boolean(form.logLevel);
+  const hasRequiredFields = !isWorksheetNameEmpty && Boolean(form.verbosity);
 
   const isWorksheetNameValid = checkValidWorksheetName(form.name);
 
@@ -115,8 +115,8 @@ export const ConfigureForm: React.FC<ConfigFormProps> = ({
         />
 
         <WorksheetLogLevelField
-          level={form.logLevel}
-          onUpdate={(logLevel) => setForm({ ...form, logLevel })}
+          level={form.verbosity}
+          onUpdate={(verbosity) => setForm({ ...form, verbosity })}
         />
 
         <WorksheetTimeoutField

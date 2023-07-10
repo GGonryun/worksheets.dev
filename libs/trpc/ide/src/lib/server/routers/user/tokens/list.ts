@@ -1,18 +1,8 @@
 import { z } from 'zod';
-import { protectedProcedure } from '../../../trpc';
 import { tokens } from '@worksheets/feat/user-management';
+import { privateProcedure } from '../../../procedures';
 
-export default protectedProcedure
-  .meta({
-    openapi: {
-      enabled: true,
-      protect: true,
-      method: 'GET',
-      path: '/user/tokens',
-      summary: 'List your current api tokens',
-      tags: ['user'],
-    },
-  })
+export default privateProcedure
   .input(z.object({}).optional())
   .output(
     z.array(

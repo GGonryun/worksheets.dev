@@ -1,9 +1,9 @@
 import { z } from 'zod';
-import { protectedProcedure } from '../../trpc';
 import { user } from '@worksheets/feat/user-management';
 import { TRPCError } from '@trpc/server';
-// acknowledge user everytime they login.
-export default protectedProcedure
+import { privateProcedure } from '../../procedures';
+
+export default privateProcedure
   .input(z.object({}))
   .output(z.number())
   .mutation(async ({ input, ctx: { user: u } }) => {

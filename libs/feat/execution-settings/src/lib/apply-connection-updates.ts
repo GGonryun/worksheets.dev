@@ -4,7 +4,6 @@ import {
   newConnectionDatabase,
 } from '@worksheets/data-access/settings';
 import { limits } from '@worksheets/feat/user-management';
-import { RequiredBy } from '@worksheets/util/types';
 import { merge } from 'lodash';
 
 const db = newConnectionDatabase();

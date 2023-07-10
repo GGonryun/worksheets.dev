@@ -2,25 +2,21 @@ import { auth } from '@worksheets/firebase/server';
 import { newApiTokenDatabase } from '@worksheets/data-access/api-tokens';
 import { API_TOKEN_PREFIX } from './constants';
 import { TRPCError } from '@trpc/server';
-import { hasher, isApiToken, splitTokenFromHeader } from './util';
+import { hasher, splitTokenFromHeader } from './util';
 import { calculateCycle, isExpired } from '@worksheets/util/time';
 import { quotas } from './quotas';
-import { limits as serverLimits } from '@worksheets/feat/server-management';
 import { dxi } from '@worksheets/feat/session-replay';
 import { newWorksheetsDatabase } from '@worksheets/data-access/worksheets';
 import { newConnectionDatabase } from '@worksheets/data-access/settings';
 import { limits } from './limits';
-import { TypeOf, z } from 'zod';
-import {
-  userAgentSchema,
-  userQuotasEntity,
-} from '@worksheets/data-access/user-agent';
+import { TypeOf } from 'zod';
 import {
   findUsersQueuedExecutions,
   findUsersRunningExecutions,
   newTasksDatabase,
 } from '@worksheets/data-access/tasks';
 import { metrics } from '@worksheets/feat/server-monitoring';
+import { userAgentSchema, userOverviewSchema } from '@worksheets/schemas-user';
 
 const tasks = newTasksDatabase();
 const tokens = newApiTokenDatabase();
@@ -44,6 +40,7 @@ async function getUserIdFromApiToken(apiToken: string): Promise<string> {
     });
   }
 
+  // TODO: move to TRPC middleware instead.
   if (
     !(await quotas.request({ uid: table.uid, type: 'tokenUses', quantity: 1 }))
   ) {
@@ -53,48 +50,7 @@ async function getUserIdFromApiToken(apiToken: string): Promise<string> {
     });
   }
 
-  if (
-    !(await serverLimits.throttle({
-      id: id,
-      meta: 'api-token',
-      quantity: 5,
-    }))
-  ) {
-    throw new TRPCError({
-      code: 'TOO_MANY_REQUESTS',
-      message: "You've exceeded your rate-limit of API token uses.",
-    });
-  }
   return table.uid;
-}
-
-async function getUserIdFromFirebaseToken(idToken: string): Promise<string> {
-  try {
-    const user = await auth().verifyIdToken(idToken);
-
-    return user.uid;
-  } catch (error) {
-    throw new TRPCError({
-      code: 'UNAUTHORIZED',
-      message: 'Unexpected error verifying Firebase token.',
-      cause: error,
-    });
-  }
-}
-
-function getUserIdFromToken(unknownToken?: string): Promise<string> {
-  if (!unknownToken) {
-    throw new TRPCError({
-      code: 'UNAUTHORIZED',
-      message: 'authorization header cannot be empty',
-    });
-  }
-
-  if (isApiToken(unknownToken)) {
-    return getUserIdFromApiToken(unknownToken);
-  }
-
-  return getUserIdFromFirebaseToken(unknownToken);
 }
 
 const getUser = async (
@@ -117,12 +73,58 @@ const getUser = async (
   };
 };
 
-const getUserFromAuthrorization = async (authorization?: string) => {
+const getUserFromFirebaseIdToken = async (authorization?: string) => {
   if (authorization) {
     const token = splitTokenFromHeader(authorization);
-    const userId = await getUserIdFromToken(token);
+    try {
+      if (!token) {
+        throw new TRPCError({
+          code: 'UNAUTHORIZED',
+          message: 'authorization header cannot be empty',
+        });
+      }
 
-    return await getUser(userId);
+      const user = await auth().verifyIdToken(token);
+
+      return await getUser(user.uid);
+    } catch (error) {
+      if (error instanceof TRPCError) {
+        throw error;
+      }
+      throw new TRPCError({
+        code: 'UNAUTHORIZED',
+        message: 'Unexpected error verifying token.',
+        cause: error,
+      });
+    }
+  }
+  return undefined;
+};
+
+const getUserFromApiToken = async (authorization?: string) => {
+  if (authorization) {
+    const token = splitTokenFromHeader(authorization);
+    try {
+      if (!token) {
+        throw new TRPCError({
+          code: 'UNAUTHORIZED',
+          message: 'authorization header cannot be empty',
+        });
+      }
+
+      const userId = await getUserIdFromApiToken(token);
+
+      return await getUser(userId);
+    } catch (error) {
+      if (error instanceof TRPCError) {
+        throw error;
+      }
+      throw new TRPCError({
+        code: 'UNAUTHORIZED',
+        message: 'Unexpected error verifying token.',
+        cause: error,
+      });
+    }
   }
   return undefined;
 };
@@ -163,35 +165,6 @@ const acknowledge = async (
 
   // fullstory identify.
 };
-
-export const userOverviewSchema = z.object({
-  uid: z.string(),
-  meta: z.object({
-    plan: z.string(),
-    cycle: z.string(),
-    email: z.string().optional(),
-    name: z.string().optional(),
-  }),
-  quotas: userQuotasEntity,
-  limits: z.object({
-    worksheets: z.number(),
-    tokens: z.number(),
-    connections: z.number(),
-    executions: z.object({
-      queued: z.number(),
-      running: z.number(),
-    }),
-  }),
-  counts: z.object({
-    worksheets: z.number(),
-    tokens: z.number(),
-    connections: z.number(),
-    executions: z.object({
-      queued: z.number(),
-      running: z.number(),
-    }),
-  }),
-});
 
 const overview = async (
   user: TypeOf<typeof userAgentSchema>
@@ -257,7 +230,8 @@ const deleteUser = async (user: TypeOf<typeof userAgentSchema>) => {
 
 export const user = {
   get: getUser,
-  getFromAuthorization: getUserFromAuthrorization,
+  getUserFromFirebaseIdToken,
+  getUserFromApiToken,
   acknowledge,
   overview,
   delete: deleteUser,

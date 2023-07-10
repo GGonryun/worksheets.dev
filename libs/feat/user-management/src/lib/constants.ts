@@ -1,7 +1,4 @@
-import {
-  UserLimitsEntity,
-  UserQuotasEntity,
-} from '@worksheets/data-access/user-agent';
+import { UserLimitsEntity, UserQuotasEntity } from '@worksheets/schemas-user';
 import { durationToMilliseconds } from '@worksheets/util/time';
 
 export const API_TOKEN_PREFIX = 'ws::';

@@ -10,9 +10,9 @@ export const sendEmail: TemplateDefinition = {
 input: args
 
 steps:
-    - call: google_gmail.get_user_email
+    - call: gmail.get_user_email
       output: user
-    - call: google_gmail.send_email
+    - call: gmail.send_email
       input:
         to: \${args.email}
         subject: "Hello \${args.name}"

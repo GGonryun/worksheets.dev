@@ -1,19 +1,9 @@
 import { z } from 'zod';
-import { protectedProcedure } from '../../../trpc';
 import { tokens } from '@worksheets/feat/user-management';
 import { addDaysToCurrentTime } from '@worksheets/util/time';
+import { privateProcedure } from '../../../procedures';
 
-export default protectedProcedure
-  .meta({
-    openapi: {
-      enabled: true,
-      protect: true,
-      method: 'PUT',
-      path: '/user/tokens',
-      summary: 'Create a new API token',
-      tags: ['user'],
-    },
-  })
+export default privateProcedure
   .input(
     z.object({
       name: z.string().nonempty(),

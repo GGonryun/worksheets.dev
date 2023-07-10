@@ -36,6 +36,7 @@ export const errors = {
     err: Parameters<google.ErrorReporting['report']>[0],
     request?: Parameters<google.ErrorReporting['report']>[1]
   ) => {
+    console.error(err);
     metrics.increment({ type: 'errors' });
     reporting.report(err, request);
   },

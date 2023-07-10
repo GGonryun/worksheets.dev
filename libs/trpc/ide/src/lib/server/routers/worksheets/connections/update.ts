@@ -1,19 +1,8 @@
-import { protectedProcedure } from '../../../trpc';
+import { updateWorksheetConnections } from '@worksheets/feat/worksheets-management';
 import { z } from 'zod';
-import { updateWorksheetConnections } from '@worksheets/feat/worksheets-connections';
+import { privateProcedure } from '../../../procedures';
 
-export default protectedProcedure
-  .meta({
-    openapi: {
-      enabled: true,
-      protect: true,
-      summary: 'Update connections on a worksheet',
-      description: 'Update connections for worksheet',
-      tags: ['connections'],
-      method: 'POST',
-      path: '/worksheets/{worksheetId}/connections',
-    },
-  })
+export default privateProcedure
   .input(
     z.object({
       worksheetId: z.string(),

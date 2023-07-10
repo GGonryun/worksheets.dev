@@ -1,26 +1,13 @@
-import { Severity, protectedProcedure } from '../../trpc';
-import { z } from 'zod';
 import * as WorksheetsManagement from '@worksheets/feat/worksheets-management';
-import { worksheetsEntitySchema } from '@worksheets/data-access/worksheets';
+import { privateProcedure } from '../../procedures';
+import {
+  getWorksheetRequestSchema,
+  getWorksheetResponseSchema,
+} from '@worksheets/schemas-worksheets';
 
-export default protectedProcedure
-  .meta({
-    logging: Severity.ERROR,
-    openapi: {
-      enabled: true,
-      protect: true,
-      method: 'GET',
-      path: '/worksheets/{worksheetId}',
-      tags: ['worksheets'],
-      summary: 'Get a worksheet',
-    },
-  })
-  .input(
-    z.object({
-      worksheetId: z.string(),
-    })
-  )
-  .output(worksheetsEntitySchema)
-  .query(async ({ input: { worksheetId }, ctx: { user } }) => {
-    return await WorksheetsManagement.getUserWorksheet(user.uid, worksheetId);
+export default privateProcedure
+  .input(getWorksheetRequestSchema)
+  .output(getWorksheetResponseSchema)
+  .query(async ({ input: { id }, ctx: { user } }) => {
+    return await WorksheetsManagement.getUserWorksheet(user.uid, id);
   });

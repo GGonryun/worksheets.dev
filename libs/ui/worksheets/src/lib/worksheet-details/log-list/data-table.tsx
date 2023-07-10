@@ -5,7 +5,6 @@ import { useRouter } from 'next/router';
 import { formatTimestampLong } from '@worksheets/util/time';
 import { Help } from '@mui/icons-material';
 import { LogLevelVerbosityIcon } from '../../shared/log-level-verbosity-chip';
-import { LogLevel } from '@worksheets/data-access/tasks';
 import { capitalizeFirstLetter } from '@worksheets/util/strings';
 import ReadMoreOutlinedIcon from '@mui/icons-material/ReadMoreOutlined';
 import { LogListDataTableRows } from '../../shared/types';
@@ -14,6 +13,7 @@ import { SpotlightButton } from '../../shared/spotlight-button';
 import BoltIcon from '@mui/icons-material/Bolt';
 import { SERVER_SETTINGS } from '@worksheets/data-access/server-settings';
 import EditNoteIcon from '@mui/icons-material/EditNote';
+import { LogLevel } from '@worksheets/schemas-logging';
 const columns = (worksheetId: string): GridColDef[] => [
   {
     sortable: false,

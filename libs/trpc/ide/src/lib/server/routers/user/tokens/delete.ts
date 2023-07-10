@@ -1,18 +1,8 @@
 import { z } from 'zod';
-import { protectedProcedure } from '../../../trpc';
 import { tokens } from '@worksheets/feat/user-management';
+import { privateProcedure } from '../../../procedures';
 
-export default protectedProcedure
-  .meta({
-    openapi: {
-      enabled: true,
-      protect: true,
-      method: 'DELETE',
-      path: '/user/tokens',
-      summary: 'Delete an api token',
-      tags: ['user'],
-    },
-  })
+export default privateProcedure
   .input(z.object({ tokenId: z.string().nonempty() }))
   .output(z.string())
   .mutation(

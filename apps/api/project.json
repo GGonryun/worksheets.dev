@@ -28,6 +28,7 @@
       },
       "configurations": {
         "development": {
+          "port": 4201,
           "buildTarget": "api:build:development",
           "dev": true
         },

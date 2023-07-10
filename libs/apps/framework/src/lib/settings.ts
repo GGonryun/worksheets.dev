@@ -5,22 +5,13 @@ import {
   ZodString,
   ZodTypeAny,
   any,
-  boolean,
-  string,
   z,
-} from 'zod';
+} from '@worksheets/zod';
 import { Keys } from '@worksheets/util/types';
 import { OAuthOptions } from '@worksheets/util/oauth/client';
+import { SettingType } from '@worksheets/schemas-applications';
 
 /* Base Definitions */
-
-export const settingTypeSchema = z.union([
-  z.literal('flag'),
-  z.literal('token'),
-  z.literal('oauth'),
-]);
-
-export type SettingType = TypeOf<typeof settingTypeSchema>;
 
 export type BaseSetting<
   Type extends SettingType,
@@ -120,7 +111,7 @@ export const newFlagSetting = (
   ...opts,
   required: false,
   type: 'flag',
-  schema: boolean(),
+  schema: z.boolean(),
 });
 
 export const newTokenSetting = <R extends boolean>(
@@ -129,7 +120,7 @@ export const newTokenSetting = <R extends boolean>(
   ({
     ...opts,
     type: 'token',
-    schema: string(),
+    schema: z.string(),
   } as R extends true ? TokenSetting<true> : TokenSetting<false>);
 
 export const newOAuthSetting = <S extends ZodTypeAny, R extends boolean>(

@@ -1,5 +1,5 @@
 // TOOD: new logging instruction that saves something to the system log.
-import { LogLevel } from '@worksheets/data-access/tasks';
+import { LogLevel } from '@worksheets/schemas-logging';
 import { ExecutionFailure } from '../failures';
 import { Context, Instruction } from '../framework';
 

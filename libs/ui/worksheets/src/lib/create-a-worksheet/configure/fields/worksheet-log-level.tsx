@@ -1,4 +1,4 @@
-import { LogLevel } from '@worksheets/data-access/tasks';
+import { LogLevel } from '@worksheets/schemas-logging';
 import { SharedTextField } from '../../../shared/shared-text-field';
 import { MenuItem } from '@mui/material';
 

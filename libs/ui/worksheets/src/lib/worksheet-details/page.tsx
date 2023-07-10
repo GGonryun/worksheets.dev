@@ -15,7 +15,7 @@ export const WorksheetDetailsPage: React.FC<{
   const { user } = useUser();
   const worksheetId = query.id as string;
   const { data: worksheet } = trpc.worksheets.get.useQuery(
-    { worksheetId },
+    { id: worksheetId },
     { enabled: !!worksheetId && !!user }
   );
 

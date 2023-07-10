@@ -1,13 +1,13 @@
-import * as yaml from 'js-yaml';
+import { yaml, YAMLException } from '@worksheets/util-yaml';
 
 export function getYamlCodeValidationErrors(
   code: string
-): yaml.YAMLException | undefined {
-  let error: yaml.YAMLException | undefined;
+): YAMLException | undefined {
+  let error: YAMLException | undefined;
   try {
-    yaml.load(code);
+    yaml.read(code);
   } catch (e) {
-    error = e as yaml.YAMLException;
+    error = e as YAMLException;
   }
   return error;
 }

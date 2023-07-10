@@ -1,18 +1,8 @@
 import { z } from 'zod';
-import { protectedProcedure } from '../../trpc';
 import { quotas } from '@worksheets/feat/user-management';
+import { privateProcedure } from '../../procedures';
 
-export default protectedProcedure
-  .meta({
-    openapi: {
-      enabled: true,
-      protect: true,
-      method: 'POST',
-      path: '/user',
-      summary: 'Update the user',
-      tags: ['user'],
-    },
-  })
+export default privateProcedure
   .input(
     z.object({
       overclock: z.boolean(),

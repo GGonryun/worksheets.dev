@@ -1,8 +1,8 @@
-import { protectedProcedure } from '../../trpc';
 import { z } from 'zod';
 import { deleteConnectionField } from '@worksheets/feat/execution-settings';
+import { privateProcedure } from '../../procedures';
 
-export default protectedProcedure
+export default privateProcedure
   .input(
     z.object({
       settingId: z.string(),
@@ -10,8 +10,6 @@ export default protectedProcedure
     })
   )
   .mutation(async ({ input: { settingId, connectionId } }) => {
-    // TODO: validate that the user has access to this connection.
-
     return await deleteConnectionField({
       connectionId,
       settingId,

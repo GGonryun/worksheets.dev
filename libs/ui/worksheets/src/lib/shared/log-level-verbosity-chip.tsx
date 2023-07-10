@@ -1,4 +1,3 @@
-import { LogLevel } from '@worksheets/data-access/tasks';
 import PrivacyTipOutlinedIcon from '@mui/icons-material/PrivacyTipOutlined';
 import BugReportOutlinedIcon from '@mui/icons-material/BugReportOutlined';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
@@ -10,6 +9,7 @@ import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
 import { Chip, ChipProps, IconProps, SvgIconTypeMap } from '@mui/material';
 import { OverridableComponent } from '@mui/material/OverridableComponent';
 import React from 'react';
+import { LogLevel } from '@worksheets/schemas-logging';
 
 export const selectLogLevelStatusIcon = (
   verbosity?: LogLevel

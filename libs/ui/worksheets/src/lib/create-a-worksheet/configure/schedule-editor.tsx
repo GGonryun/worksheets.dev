@@ -10,7 +10,6 @@ import {
 } from '@mui/material';
 import { SharedTextField } from '../../shared/shared-text-field';
 import { SidecarLayout } from '../../shared/sidecar-layout';
-import { LogLevel } from '@worksheets/data-access/tasks';
 import React from 'react';
 import InfoIcon from '@mui/icons-material/Info';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
@@ -23,6 +22,7 @@ import { ReviewRow } from '../../shared/sidecar-components/review-row';
 import { StepContentWithActions } from '../../shared/sidecar-components/step-content-with-actions';
 import { StepLabelWithCaption } from '../../shared/sidecar-components/step-label-with-caption';
 import { SERVER_SETTINGS } from '@worksheets/data-access/server-settings';
+import { LogLevel } from '@worksheets/schemas-logging';
 export type ScheduleForm = {
   name: string;
   description: string;

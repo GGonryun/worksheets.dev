@@ -14,7 +14,7 @@ export const SourceEditor = () => {
 
   const utils = trpc.useContext();
   const { data: worksheet, isLoading } = trpc.worksheets.get.useQuery(
-    { worksheetId },
+    { id: worksheetId },
     { enabled: !!worksheetId }
   );
 
@@ -49,7 +49,7 @@ export const SourceEditor = () => {
     }
 
     await updateWorksheet.mutateAsync({
-      worksheetId,
+      id: worksheetId,
       text: yaml,
     });
     utils.worksheets.get.invalidate();

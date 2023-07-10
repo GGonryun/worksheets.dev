@@ -1,4 +1,5 @@
-import { TaskEntity, newTasksDatabase } from '@worksheets/data-access/tasks';
+import { newTasksDatabase } from '@worksheets/data-access/tasks';
+import { TaskEntity } from '@worksheets/schemas-executions';
 
 const tasksDb = newTasksDatabase();
 

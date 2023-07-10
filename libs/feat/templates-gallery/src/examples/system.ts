@@ -1,5 +1,4 @@
 const add = `
-name: add
 version: 1
 steps:
   - assign:
@@ -8,7 +7,6 @@ output: \${sum}
 `;
 
 const accumulator = `
-name: accumulator
 assign:
   - loop:
     - 'Hello'
@@ -29,7 +27,6 @@ output: \${data}
 `;
 
 const loops = `
-name: iterating loops
 assign:
   - loop: [1, 2, 3, 4, apple]
   - data:
@@ -46,7 +43,6 @@ output: \${data}
 `;
 
 const max = `
-name: get maximum number
 assign:
   - list: [1, 2, 3, 4, 5]
 steps:
@@ -57,9 +53,8 @@ output: \${max}
 `;
 
 const http = `
-name: html execution
 steps:
-  - call: http
+  - call: http.request
     input:
       url: https://api.sampleapis.com/beers/ale
       method: GET
@@ -75,7 +70,6 @@ output: \${input}
 `;
 
 const interpolation = `
-name: mathjs string interpolation
 assign:
   - x: 2
   - y: 3
@@ -83,12 +77,13 @@ assign:
 steps:
   - assign:
     - expr: "\${x}%2B\${y}*sqrt(\${z})"
-  - call: http
+  - call: http.request
     input:
       url: http://api.mathjs.org/v4/?expr=\${expr}
       method: GET
     output: resp
-  - return: \${resp.body}`;
+  - return: \${resp.body}
+  `;
 
 export const system = {
   add,

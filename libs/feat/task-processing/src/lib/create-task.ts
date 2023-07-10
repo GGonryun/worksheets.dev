@@ -1,5 +1,4 @@
 import {
-  TaskEntity,
   findUsersQueuedExecutions,
   newProcessTaskBus,
   newTaskLoggingDatabase,
@@ -21,6 +20,7 @@ import { TRPCError } from '@trpc/server';
 import { limits as serverLimits } from '@worksheets/feat/server-management';
 import { quotas, limits as userLimits } from '@worksheets/feat/user-management';
 import { SERVER_SETTINGS } from '@worksheets/data-access/server-settings';
+import { TaskEntity } from '@worksheets/schemas-executions';
 
 const tasksDb = newTasksDatabase();
 const snapshotsDb = newTaskSnapshotsDatabase();
@@ -130,7 +130,7 @@ export const createTask = async (
     state: 'pending',
     input,
     timeout,
-    deadlines: newDefaultDeadlines(worksheet, timeout),
+    deadlines: newDefaultDeadlines(timeout),
     verbosity: newDefaultVerbosity(worksheet, options),
     createdAt: Date.now(),
     updatedAt: 0,

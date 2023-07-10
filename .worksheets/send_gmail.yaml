@@ -1,0 +1,13 @@
+input: args
+
+steps:
+  - call: gmail.get_user_email
+    output: user
+  - call: gmail.send_email
+    input:
+      to: ${args.email}
+      subject: 'Hello ${args.name}'
+      body: 'This is a test message using my current identity as ${user}'
+    output: email
+
+return: ${email}

@@ -1,4 +1,3 @@
-import { TaskSnapshotEntity } from '@worksheets/data-access/tasks';
 import { Execution } from '../execution';
 import { Serializer } from './serializer';
 import { MemorySerializer } from './memory';
@@ -8,6 +7,7 @@ import { Entity } from '@worksheets/firebase/firestore';
 import { FactoryOptions } from '../factory';
 import { ReferencesSerializer } from './references';
 import { InstructionsSerializer } from './instructions';
+import { TaskSnapshotEntity } from '@worksheets/schemas-executions';
 
 export type Snapshot = Omit<
   TaskSnapshotEntity,

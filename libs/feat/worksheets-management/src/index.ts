@@ -7,3 +7,4 @@ export * from './lib/get-worksheet';
 export * from './lib/list-user-worksheets';
 export * from './lib/update-worksheet';
 export * from './lib/find-worksheet-by-name-or-id';
+export * from './lib/worksheets-connections';

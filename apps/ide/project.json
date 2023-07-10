@@ -28,6 +28,7 @@
       },
       "configurations": {
         "development": {
+          "port": 4200,
           "buildTarget": "ide:build:development",
           "dev": true
         },

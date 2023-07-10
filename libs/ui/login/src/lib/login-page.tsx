@@ -33,6 +33,7 @@ export function LoginPage() {
   }, 2500);
 
   function handleLoginWithGithub() {
+    setLoading(true);
     const provider = new GithubAuthProvider();
 
     provider.addScope('profile');
@@ -40,10 +41,12 @@ export function LoginPage() {
 
     signInProvider(provider)
       .then(() => push(`/worksheets?evaluation=true`))
-      .catch(warn('failed to log in with github'));
+      .catch(warn('failed to log in with github'))
+      .finally(() => setLoading(false));
   }
 
   function handleLoginWithGoogle() {
+    setLoading(true);
     const provider = new GoogleAuthProvider();
 
     provider.addScope('profile');
@@ -51,7 +54,8 @@ export function LoginPage() {
 
     signInProvider(provider)
       .then(() => push(`/worksheets?evaluation=true`))
-      .catch(warn('failed to log in with google'));
+      .catch(warn('failed to log in with google'))
+      .finally(() => setLoading(false));
   }
 
   return (

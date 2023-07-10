@@ -1,19 +1,9 @@
-import { protectedProcedure } from '../../../trpc';
-import { z } from 'zod';
-import { getWorksheetConnections } from '@worksheets/feat/worksheets-connections';
+import { getWorksheetConnections } from '@worksheets/feat/worksheets-management';
+import { z } from '@worksheets/zod';
+import { privateProcedure } from '../../../procedures';
 
-export default protectedProcedure
-  .meta({
-    openapi: {
-      enabled: true,
-      protect: true,
-      summary: 'Get current connections on a worksheet',
-      description: 'Get connections for worksheet',
-      tags: ['connections'],
-      method: 'GET',
-      path: '/worksheets/{worksheetId}/connections',
-    },
-  })
+export default privateProcedure
+
   .input(
     z.object({
       worksheetId: z.string(),

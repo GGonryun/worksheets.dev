@@ -11,7 +11,7 @@ import {
 } from '@mui/icons-material';
 import { SvgIconTypeMap, ChipProps, Tooltip, Chip } from '@mui/material';
 import { OverridableComponent } from '@mui/material/OverridableComponent';
-import { TaskState } from '@worksheets/data-access/tasks';
+import { TaskState } from '@worksheets/schemas-executions';
 import { capitalizeFirstLetter } from '@worksheets/util/strings';
 
 const selectStatusIcon: (state?: TaskState) => OverridableComponent<

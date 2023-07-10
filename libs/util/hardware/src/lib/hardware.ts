@@ -28,3 +28,13 @@ export function createYamlFile(filePath: string, text: string) {
   // save text to filePath
   return fs.writeFileSync(filePath, text);
 }
+
+/**
+ * removes the file extension on the file path if it exists
+ * @param name the file name to remove the extension from
+ */
+export function removeExtension(name: string) {
+  const split = name.split('.');
+  split.pop();
+  return split.join('.');
+}

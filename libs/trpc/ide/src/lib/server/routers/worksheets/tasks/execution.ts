@@ -1,20 +1,9 @@
 import { z } from 'zod';
-import { protectedProcedure } from '../../../trpc';
-import { taskEntity } from '@worksheets/data-access/tasks';
 import { getTaskExecution } from '@worksheets/feat/task-processing';
+import { taskEntity } from '@worksheets/schemas-executions';
+import { privateProcedure } from '../../../procedures';
 
-export default protectedProcedure
-  .meta({
-    openapi: {
-      enabled: true,
-      protect: true,
-      summary: 'Get execution details',
-      description: 'Get execution details for a worksheet',
-      tags: ['executions'],
-      method: 'GET',
-      path: '/executions/{executionId}',
-    },
-  })
+export default privateProcedure
   .input(
     z.object({
       executionId: z.string(),

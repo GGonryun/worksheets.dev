@@ -20,7 +20,6 @@ import { InvocationUrl } from './invocation-url';
 import { EditNameDialog } from './dialogs/edit-name';
 import { EditDescriptionDialog } from './dialogs/edit-description';
 import { EditLogLevelDialog } from './dialogs/edit-log-level';
-import { LogLevel } from '@worksheets/data-access/tasks';
 import { trpc } from '@worksheets/trpc/ide';
 import { UpdateWorksheetRequest } from '../../shared/types';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
@@ -30,6 +29,7 @@ import { ConfigurationOption } from '../../shared/configuration-option';
 import { LogLevelVerbosityChip } from '../../shared/log-level-verbosity-chip';
 import { useUser } from '@worksheets/util/auth/client';
 import { SERVER_SETTINGS } from '@worksheets/data-access/server-settings';
+import { LogLevel } from '@worksheets/schemas-logging';
 
 export const GeneralConfiguration: React.FC = () => {
   const { query, push } = useRouter();
@@ -55,7 +55,7 @@ export const GeneralConfiguration: React.FC = () => {
   const utils = trpc.useContext();
 
   const { data } = trpc.worksheets.get.useQuery(
-    { worksheetId },
+    { id: worksheetId },
     { enabled: !!worksheetId && !!user }
   );
 
@@ -69,7 +69,7 @@ export const GeneralConfiguration: React.FC = () => {
     applyChanges: Partial<UpdateWorksheetRequest>
   ) => {
     await updateWorksheet.mutateAsync({
-      worksheetId,
+      id: worksheetId,
       ...applyChanges,
     });
     utils.worksheets.get.invalidate();

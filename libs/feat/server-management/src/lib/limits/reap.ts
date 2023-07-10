@@ -32,9 +32,9 @@ export const reapRateLimits = async (
 
   try {
     await Promise.all(promises);
-    return true;
+    return promises.length;
   } catch (error) {
     console.error(`[REAP][LIMITS] failed to delete some limits`, error);
-    return false;
+    return 0;
   }
 };

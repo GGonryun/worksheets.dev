@@ -1,15 +1,11 @@
 import { newPrivateLibrary } from '@worksheets/feat/execution-settings';
 import { TRPCError } from '@trpc/server';
 import { quotas } from '@worksheets/feat/user-management';
-import { newApplicationsDatabase } from '@worksheets/data-access/applications';
 import { SERVER_SETTINGS } from '@worksheets/data-access/server-settings';
-
-const apps = newApplicationsDatabase();
 
 export const executeMethod = async (opts: {
   userId: string;
-  appId: string;
-  methodId: string;
+  path: string;
   input: unknown;
   connectionId: string | undefined;
 }): Promise<unknown> => {
@@ -31,7 +27,7 @@ export const executeMethod = async (opts: {
 
   const start = Date.now();
   const result = await library.call({
-    path: apps.stringifyBasic(opts.appId, opts.methodId),
+    path: opts.path,
     input: opts.input,
     connection: opts.connectionId,
   });

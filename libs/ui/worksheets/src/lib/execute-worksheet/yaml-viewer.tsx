@@ -3,7 +3,7 @@ import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { CodeEditor } from '@worksheets/ui/code-editor';
 import { WorksheetEntity } from '@worksheets/data-access/worksheets';
 import React from 'react';
-import { Edit, EditOutlined } from '@mui/icons-material';
+import { EditOutlined } from '@mui/icons-material';
 
 export const EXECUTION_HEADER_COMMENT = `
 # 👋 These comments are auto-generated and are

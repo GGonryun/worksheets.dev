@@ -1,10 +1,10 @@
 import { z } from 'zod';
-import { protectedProcedure } from '../../../trpc';
 import { limits, user } from '@worksheets/feat/user-management';
 import { TRPCError } from '@trpc/server';
 import { listConnections } from '@worksheets/feat/execution-settings';
+import { privateProcedure } from '../../../procedures';
 
-export default protectedProcedure
+export default privateProcedure
   .output(z.boolean())
   .query(async ({ ctx: { user: u } }) => {
     const overview = await user.overview(u);

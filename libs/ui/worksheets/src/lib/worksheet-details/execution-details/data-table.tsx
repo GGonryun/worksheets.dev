@@ -4,7 +4,6 @@ import { FC } from 'react';
 import { useRouter } from 'next/router';
 import { GridLinkAction } from '../../shared/grid-action-link';
 import { trpc } from '@worksheets/trpc/ide';
-import { TaskState } from '@worksheets/data-access/tasks';
 import {
   PlayArrowOutlined,
   Delete,
@@ -23,6 +22,7 @@ import { SpotlightButton } from '../../shared/spotlight-button';
 import OndemandVideoIcon from '@mui/icons-material/OndemandVideo';
 import LocalLibraryIcon from '@mui/icons-material/LocalLibraryOutlined';
 import { SERVER_SETTINGS } from '@worksheets/data-access/server-settings';
+import { TaskState } from '@worksheets/schemas-executions';
 
 const columns = (worksheetId: string): GridColDef[] => [
   {

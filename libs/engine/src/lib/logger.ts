@@ -1,4 +1,4 @@
-import { LogLevel } from '@worksheets/data-access/tasks';
+import { LogLevel } from '@worksheets/schemas-logging';
 
 /**
  * @name Logger

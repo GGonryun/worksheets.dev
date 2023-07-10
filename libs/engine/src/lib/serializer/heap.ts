@@ -1,7 +1,7 @@
-import { TaskSnapshotEntity } from '@worksheets/data-access/tasks';
 import { Heap } from '@worksheets/util/data-structures';
 import { JSONSerializer } from './json';
 import { Serializer } from './serializer';
+import { TaskSnapshotEntity } from '@worksheets/schemas-executions';
 
 export class HeapSerializer
   implements Serializer<Heap, TaskSnapshotEntity['memory'][number][number]>

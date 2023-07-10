@@ -1,8 +1,6 @@
-import {
-  UserLimitsEntity,
-  newUserLimitsDatabase,
-} from '@worksheets/data-access/user-agent';
+import { newUserLimitsDatabase } from '@worksheets/data-access/user-agent';
 import { INITIAL_LIMITS } from './constants';
+import { UserLimitsEntity } from '@worksheets/schemas-user';
 
 const db = newUserLimitsDatabase();
 

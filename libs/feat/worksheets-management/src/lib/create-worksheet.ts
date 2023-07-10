@@ -1,25 +1,15 @@
-import {
-  newWorksheetsDatabase,
-  worksheetsEntitySchema,
-} from '@worksheets/data-access/worksheets';
-import { z } from 'zod';
+import { newWorksheetsDatabase } from '@worksheets/data-access/worksheets';
 import { listUsersWorksheets } from './list-user-worksheets';
 import { TRPCError } from '@trpc/server';
 import { limits } from '@worksheets/feat/user-management';
+import { addWorksheetConnections } from './worksheets-connections';
+import { CreateWorksheetRequest } from '@worksheets/schemas-worksheets';
 
 const db = newWorksheetsDatabase();
 
-export const createWorksheetRequestSchema = worksheetsEntitySchema.pick({
-  name: true,
-  text: true,
-  description: true,
-  logLevel: true,
-  timeout: true,
-});
-
 export const createWorksheet = async (
   uid: string,
-  entity: z.infer<typeof createWorksheetRequestSchema>
+  entity: CreateWorksheetRequest
 ) => {
   console.info(`creating a new worksheet for user ${uid}`);
   const records = await listUsersWorksheets(uid);
@@ -41,12 +31,23 @@ export const createWorksheet = async (
 
   await db.insert({
     ...entity,
+    description: entity.description || '',
+    timeout: entity.timeout || 600,
     id,
     uid,
     createdAt: Date.now(),
     updatedAt: Date.now(),
     enabled: true,
+    logLevel: 'trace',
   });
+
+  if (entity.connections) {
+    await addWorksheetConnections({
+      worksheetId: id,
+      userId: uid,
+      connectionIds: entity.connections,
+    });
+  }
 
   return id;
 };

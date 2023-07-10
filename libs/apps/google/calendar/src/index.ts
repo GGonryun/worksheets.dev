@@ -3,7 +3,7 @@ import { listEvents } from './lib/listEvents';
 import { settings } from './lib/common';
 
 export default newApplication({
-  id: 'google.calendar',
+  id: 'google_calendar',
   label: 'Google Calendar',
   description: '',
   methods: [listEvents],

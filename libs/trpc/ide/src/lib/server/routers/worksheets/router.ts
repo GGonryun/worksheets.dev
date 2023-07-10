@@ -10,7 +10,6 @@ import get from './get';
 import list from './list';
 import update from './update';
 import table from './table';
-import execute from './execute';
 
 export default t.router({
   connections,
@@ -22,5 +21,4 @@ export default t.router({
   table,
   get,
   update,
-  execute,
 });

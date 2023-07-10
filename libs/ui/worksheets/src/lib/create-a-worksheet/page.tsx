@@ -11,14 +11,14 @@ import { ConnectionsForm } from './connection-form';
 import { warn } from '@worksheets/ui/common';
 import { trpc } from '@worksheets/trpc/ide';
 import { CreateWorksheetRequest } from '../shared/types';
-import { DEFAULT_SAMPLE_TEMPLATE } from '@worksheets/util/worksheets';
 import { useUser } from '@worksheets/util/auth/client';
+import { DEFAULT_SAMPLE_TEMPLATE } from '@worksheets/util-worksheets';
 
 const newWorksheetRequest: CreateWorksheetRequest = {
   name: '',
   text: DEFAULT_SAMPLE_TEMPLATE,
   description: '',
-  logLevel: 'info',
+  verbosity: 'info',
   connections: [],
 };
 

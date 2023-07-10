@@ -14,6 +14,10 @@
         "assets": ["libs/util/worksheets/*.md"]
       }
     },
+    "publish": {
+      "command": "node tools/scripts/publish.mjs util-worksheets {args.ver} {args.tag}",
+      "dependsOn": ["build"]
+    },
     "lint": {
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],

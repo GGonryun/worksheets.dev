@@ -2,31 +2,16 @@ import { MethodCallFailure, MethodDefinition } from './methods';
 
 import { Heap } from '@worksheets/util/data-structures';
 import { StatusCodes } from 'http-status-codes';
-import { TypeOf, z } from 'zod';
-import { SettingType, Settings, parseSettings } from './settings';
+import { Settings, parseSettings } from './settings';
 import {
   FUNCTION_DELIMITER,
   splitFunctionDeclaration,
-} from '@worksheets/util/worksheets';
-
-export const applicationMetadata = z.object({
-  enabled: z
-    .boolean()
-    .default(true)
-    .describe('if the application is enabled for all users'),
-  public: z
-    .boolean()
-    .default(false)
-    .describe('if the application can be used by anyone'),
-  gallery: z
-    .boolean()
-    .default(false)
-    .describe('if the app is visible on the gallery'),
-  external: z
-    .boolean()
-    .default(false)
-    .describe("if the application should count towards 'external' usage"),
-});
+} from '@worksheets/util-worksheets';
+import { z, TypeOf } from '@worksheets/zod';
+import {
+  SettingType,
+  applicationMetadata,
+} from '@worksheets/schemas-applications';
 
 export type ApplicationMetadata = TypeOf<typeof applicationMetadata>;
 export type ApplicationDefinition = {
@@ -181,10 +166,10 @@ export class Clerk {
    * throws errors if the app or method is not found.
    */
   parse(path: MethodPathKey): ApplicationMethod {
-    return this.borrow(Clerk.splitPath(path));
+    return this.borrow(this.splitPath(path));
   }
 
-  static splitPath(path: MethodPathKey): { appId: string; methodId: string } {
+  splitPath(path: MethodPathKey): { appId: string; methodId: string } {
     if (path.indexOf(FUNCTION_DELIMITER) === -1) {
       // alternative path for invoking a core app.
       return { appId: 'core', methodId: path };
@@ -204,10 +189,6 @@ export class Clerk {
    */
   stringify({ app, method }: ApplicationMethod): MethodPathKey {
     return `${app.id}${FUNCTION_DELIMITER}${method.id}`;
-  }
-
-  stringifyBasic(appId: string, methodId: string): MethodPathKey {
-    return `${appId}${FUNCTION_DELIMITER}${methodId}`;
   }
 
   // register an application, take all the specified paths and assign them.

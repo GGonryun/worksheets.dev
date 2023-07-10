@@ -5,7 +5,7 @@ import { enableFetchMocks } from 'jest-fetch-mock';
 
 const { aborter, applier } = fetcher;
 
-describe('my tests', () => {
+describe('fetcher', () => {
   // Create a mock server
   const server = setupServer(
     rest.get('/api', (_, res, ctx) => {

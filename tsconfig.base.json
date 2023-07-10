@@ -28,6 +28,7 @@
       "@worksheets/apps/math": ["libs/apps/math/src/index.ts"],
       "@worksheets/apps/open-ai": ["libs/apps/open-ai/src/index.ts"],
       "@worksheets/apps/sys": ["libs/apps/sys/src/index.ts"],
+      "@worksheets/cli": ["libs/cli/src/index.ts"],
       "@worksheets/data-access/api-tokens": [
         "libs/data-access/api-tokens/src/index.ts"
       ],
@@ -91,9 +92,6 @@
       "@worksheets/feat/user-management": [
         "libs/feat/user-management/src/index.ts"
       ],
-      "@worksheets/feat/worksheets-connections": [
-        "libs/feat/worksheets-connections/src/index.ts"
-      ],
       "@worksheets/feat/worksheets-management": [
         "libs/feat/worksheets-management/src/index.ts"
       ],
@@ -103,6 +101,25 @@
       ],
       "@worksheets/firebase/pubsub": ["libs/firebase/pubsub/src/index.ts"],
       "@worksheets/firebase/server": ["libs/firebase/server/src/index.ts"],
+      "@worksheets/schemas-applications": [
+        "libs/schemas/applications/src/index.ts"
+      ],
+      "@worksheets/schemas-deployments": [
+        "libs/schemas/deployments/src/index.ts"
+      ],
+      "@worksheets/schemas-executions": [
+        "libs/schemas/executions/src/index.ts"
+      ],
+      "@worksheets/schemas-logging": ["libs/schemas/logging/src/index.ts"],
+      "@worksheets/schemas-user": ["libs/schemas/user/src/index.ts"],
+      "@worksheets/schemas-worksheets": [
+        "libs/schemas/worksheets/src/index.ts"
+      ],
+      "@worksheets/sdk": ["libs/sdk/src/index.ts"],
+      "@worksheets/trpc/admin": ["libs/trpc/admin/src/index.ts"],
+      "@worksheets/trpc/admin/server": ["libs/trpc/admin/src/server.ts"],
+      "@worksheets/trpc/api/v1": ["libs/trpc/api/v1/src/index.ts"],
+      "@worksheets/trpc/api/v1/server": ["libs/trpc/api/v1/src/server.ts"],
       "@worksheets/trpc/ide": ["libs/trpc/ide/src/index.ts"],
       "@worksheets/trpc/ide/server": ["libs/trpc/ide/src/server.ts"],
       "@worksheets/ui/code-editor": ["libs/ui/code-editor/src/index.ts"],
@@ -113,6 +130,9 @@
       "@worksheets/ui/login/server": ["libs/ui/login/src/server.ts"],
       "@worksheets/ui/worksheets": ["libs/ui/worksheets/src/index.ts"],
       "@worksheets/ui/worksheets/server": ["libs/ui/worksheets/src/server.ts"],
+      "@worksheets/util-hardware": ["libs/util/hardware/src/index.ts"],
+      "@worksheets/util-worksheets": ["libs/util/worksheets/src/index.ts"],
+      "@worksheets/util-yaml": ["libs/util/yaml/src/index.ts"],
       "@worksheets/util/arrays": ["libs/util/arrays/src/index.ts"],
       "@worksheets/util/auth/client": ["libs/util/auth/client/src/index.ts"],
       "@worksheets/util/auth/server": ["libs/util/auth/server/src/index.ts"],
@@ -122,7 +142,6 @@
       ],
       "@worksheets/util/errors": ["libs/util/errors/src/index.ts"],
       "@worksheets/util/functional": ["libs/util/functional/src/index.ts"],
-      "@worksheets/util/hardware": ["libs/util/hardware/src/index.ts"],
       "@worksheets/util/http": ["libs/util/http/src/index.ts"],
       "@worksheets/util/numbers": ["libs/util/numbers/src/index.ts"],
       "@worksheets/util/oauth/client": ["libs/util/oauth/client/src/index.ts"],
@@ -130,7 +149,7 @@
       "@worksheets/util/strings": ["libs/util/strings/src/index.ts"],
       "@worksheets/util/time": ["libs/util/time/src/index.ts"],
       "@worksheets/util/types": ["libs/util/types/src/index.ts"],
-      "@worksheets/util/worksheets": ["libs/util/worksheets/src/index.ts"]
+      "@worksheets/zod": ["libs/util/zod/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

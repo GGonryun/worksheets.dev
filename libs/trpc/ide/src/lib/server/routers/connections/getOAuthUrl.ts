@@ -1,8 +1,8 @@
-import { protectedProcedure } from '../../trpc';
 import { z } from 'zod';
 import { createOAuthUrl } from '@worksheets/feat/execution-settings';
+import { privateProcedure } from '../../procedures';
 
-export default protectedProcedure
+export default privateProcedure
   .input(
     z.object({
       appId: z.string(),
@@ -18,8 +18,6 @@ export default protectedProcedure
         user: { uid },
       },
     }) => {
-      console.info('creating oauth url', connectionId);
-
       return await createOAuthUrl({
         userId: uid,
         connectionId,

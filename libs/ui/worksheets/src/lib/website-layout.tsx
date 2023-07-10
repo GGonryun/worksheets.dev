@@ -288,15 +288,16 @@ const Title: React.FC = () => (
 );
 
 const MobileWarning: React.FC = () => {
+  const { query } = useRouter();
+  const evaluation = query.evaluation === 'true';
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const [open, setOpen] = React.useState(false);
-
   useEffect(() => {
-    if (isMobile) {
+    if (evaluation && isMobile) {
       setOpen(true);
     }
-  }, [isMobile]);
+  }, [evaluation, isMobile]);
 
   if (!open) return null;
 

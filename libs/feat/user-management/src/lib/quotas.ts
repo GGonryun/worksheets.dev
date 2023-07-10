@@ -1,8 +1,6 @@
-import {
-  UserQuotasEntity,
-  newUserQuotasDatabase,
-} from '@worksheets/data-access/user-agent';
+import { newUserQuotasDatabase } from '@worksheets/data-access/user-agent';
 import { INITIAL_QUOTAS } from './constants';
+import { UserQuotasEntity } from '@worksheets/schemas-user';
 
 const db = newUserQuotasDatabase();
 
@@ -48,7 +46,13 @@ export const quotas = {
     >;
     quantity: number;
   }) => {
-    const userQuotas = await getQuotas(opts.uid);
+    let userQuotas;
+    try {
+      userQuotas = await getQuotas(opts.uid);
+    } catch (error) {
+      console.error(`[QUOTAS][${opts.uid}] failed to locate quotas for user`);
+      return false;
+    }
 
     if (!userQuotas.enabled) {
       console.warn(`[QUOTAS][${opts.uid}] disabled for user`);

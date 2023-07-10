@@ -19,7 +19,6 @@ import { JSONViewer } from '../execute-worksheet/json-viewer';
 import { YAMLViewer } from '../execute-worksheet/yaml-viewer';
 import { ConfigurationOption } from '../shared/configuration-option';
 import { WorksheetEntity } from '@worksheets/data-access/worksheets';
-import { TaskEntity } from '@worksheets/data-access/tasks';
 import { TaskExecutionStatusChip } from '../shared/task-execution-status-chip';
 import {
   formatTimestampLong,
@@ -32,6 +31,7 @@ import { LogList } from '../worksheet-details/log-list/log-list';
 import { useUser } from '@worksheets/util/auth/client';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { useDebounce } from '@worksheets/ui/common';
+import { TaskEntity } from '@worksheets/schemas-executions';
 
 export const ExecutionOverviewPage: React.FC<{
   worksheetId: string;
@@ -55,7 +55,7 @@ export const ExecutionOverviewPage: React.FC<{
   // get the execution
   const { data: worksheet, isLoading: isWorksheetLoading } =
     trpc.worksheets.get.useQuery(
-      { worksheetId },
+      { id: worksheetId },
       {
         enabled: !!worksheetId && !!user,
         refetchOnMount: false,
@@ -224,7 +224,7 @@ const TaskExecutionSummary: React.FC<{
                   stopLoading();
 
                   utils.worksheets.get.invalidate({
-                    worksheetId: worksheet?.id,
+                    id: worksheet?.id,
                   });
                   utils.worksheets.tasks.execution.invalidate({
                     executionId: execution?.id,
