@@ -7,6 +7,7 @@ const registry = newClient({
   baseUrl: `${process.env['NEXT_PUBLIC_API_BASE_URL']}/v1`,
 });
 
+//comment
 type Operations = ApplicationMethodData<'math', 'calc'>['input']['op'];
 type MathCalcResult = ApplicationMethodData<'math', 'calc'>['output'];
 
