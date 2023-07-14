@@ -12,17 +12,8 @@ export const openApiDocument = generateOpenApiDocument(appRouter, {
   description: 'OpenAPI compliant REST API built using tRPC with Next.js',
   version: '1.0.0',
   baseUrl: `${apiUrl}/${RELEASE_V1}`,
-  docsUrl: `${docsUrl}/docs`,
-  tags: [
-    'worksheets',
-    'executions',
-    'connections',
-    'user',
-    'templates',
-    'applications',
-    'logs',
-    'reapers',
-  ],
+  docsUrl: `${docsUrl}`,
+  tags: ['executions', 'applications'],
   securitySchemes: {
     bearerAuth: {
       type: 'http',

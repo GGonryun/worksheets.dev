@@ -8,7 +8,7 @@ import { listUserConnections } from '@worksheets/feat/worksheets-management';
 export default privateProcedure
   .meta({
     openapi: {
-      enabled: true,
+      enabled: false,
       protect: true,
       method: 'GET',
       path: '/connections',

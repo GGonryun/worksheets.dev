@@ -8,7 +8,7 @@ import {
 export default privateProcedure
   .meta({
     openapi: {
-      enabled: true,
+      enabled: false,
       protect: true,
       method: 'DELETE',
       path: '/worksheets',

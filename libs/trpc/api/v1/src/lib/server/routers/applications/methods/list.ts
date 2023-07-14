@@ -9,6 +9,7 @@ export default publicProcedure
 
   .meta({
     openapi: {
+      enabled: false,
       method: 'GET',
       path: '/applications/{appId}/methods',
       tags: ['applications'],

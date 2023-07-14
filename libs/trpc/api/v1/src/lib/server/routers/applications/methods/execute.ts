@@ -8,6 +8,7 @@ import {
 export default privateProcedure
   .meta({
     openapi: {
+      enabled: false,
       protect: true,
       method: 'POST',
       path: '/call/{path}',

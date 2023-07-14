@@ -9,7 +9,7 @@ import { publicProcedure } from '../../procedures';
 export default publicProcedure
   .meta({
     openapi: {
-      enabled: true,
+      enabled: false,
       method: 'POST',
       path: '/execute/{worksheetId}',
       summary:

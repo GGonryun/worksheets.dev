@@ -12,7 +12,7 @@ export const openApiDocument = generateOpenApiDocument(appRouter, {
     'Execute administrative operations against the worksheets system',
   version: '1.0.0',
   baseUrl: `${adminUrl}/api`,
-  docsUrl: `${docsUrl}/docs`,
+  docsUrl: `${docsUrl}`,
   tags: ['executions', 'reapers'],
   securitySchemes: {
     bearerAuth: {

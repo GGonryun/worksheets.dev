@@ -9,7 +9,7 @@ import {
 export default privateProcedure
   .meta({
     openapi: {
-      enabled: true,
+      enabled: false,
       protect: true,
       method: 'PUT',
       path: '/worksheets',

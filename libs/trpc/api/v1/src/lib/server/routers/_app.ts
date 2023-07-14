@@ -5,6 +5,7 @@ import applications from './applications/router';
 import connections from './connections/router';
 import executions from './executions/router';
 import execute from './execute/router';
+import call from './call/router';
 
 export const appRouter = router({
   worksheets,
@@ -13,6 +14,7 @@ export const appRouter = router({
   connections,
   executions,
   execute,
+  call,
 });
 
 export type AppRouter = typeof appRouter;

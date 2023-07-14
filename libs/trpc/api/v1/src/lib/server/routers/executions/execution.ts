@@ -8,7 +8,7 @@ import {
 export default privateProcedure
   .meta({
     openapi: {
-      enabled: true,
+      enabled: false,
       protect: true,
       summary: 'Get execution details',
       description: 'Get execution details for a worksheet',

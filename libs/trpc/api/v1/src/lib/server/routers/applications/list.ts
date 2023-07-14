@@ -8,6 +8,7 @@ import { publicProcedure } from '../../procedures';
 export default publicProcedure
   .meta({
     openapi: {
+      enabled: false,
       method: 'GET',
       path: '/applications/',
       tags: ['applications'],

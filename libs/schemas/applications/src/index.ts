@@ -52,6 +52,14 @@ export const callMethodRequestSchema = z.object({
     .describe("optional metadata to pass to the method's execution."),
 });
 
+export type CallMethodV2Request = z.infer<typeof callMethodV2RequestSchema>;
+export const callMethodV2RequestSchema = z.object({
+  appId: z.string(),
+  methodId: z.string(),
+  input: z.any().describe('any json data'),
+  context: z.any(),
+});
+
 export type CallMethodResponse = z.infer<typeof callMethodResponseSchema>;
 export const callMethodResponseSchema = z.any().describe('any json data');
 

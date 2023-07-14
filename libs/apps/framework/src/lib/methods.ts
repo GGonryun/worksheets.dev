@@ -54,3 +54,23 @@ export class MethodCallFailure extends Failure {
     };
   }
 }
+
+export type InferInputsFrom<T> = T extends MethodDefinition<
+  infer I,
+  infer O,
+  infer G
+>
+  ? I extends z.ZodTypeAny
+    ? z.infer<I>
+    : never
+  : never;
+
+export type InferOutputsFrom<T> = T extends MethodDefinition<
+  infer I,
+  infer O,
+  infer G
+>
+  ? O extends z.ZodTypeAny
+    ? z.infer<O>
+    : never
+  : never;

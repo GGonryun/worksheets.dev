@@ -11,7 +11,7 @@ export default privateProcedure
   .meta({
     openapi: {
       protect: true,
-      enabled: true,
+      enabled: false,
       method: 'POST',
       path: '/worksheets/{identifier}/execute',
       summary: 'Execute a worksheet',

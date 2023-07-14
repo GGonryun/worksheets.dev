@@ -33,6 +33,9 @@ export const executeWorksheetResponseSchema = z
   .string()
   .describe("the execution id of the worksheet's task");
 
+export type ExecuteWorksheetRequest = z.infer<
+  typeof executeWorksheetRequestSchema
+>;
 export const executeWorksheetRequestSchema = z.object({
   worksheetId: z
     .string()

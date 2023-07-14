@@ -15,6 +15,13 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@worksheets/apps-fetcher": ["libs/apps/fetcher/src/index.ts"],
+      "@worksheets/apps-handlers": ["libs/apps/handlers/src/index.ts"],
+      "@worksheets/apps-metadata": ["libs/apps/metadata/src/index.ts"],
+      "@worksheets/apps-registry": ["libs/apps/registry/src/index.ts"],
+      "@worksheets/apps-sensitive-fields-mask": [
+        "libs/apps/sensitive-fields/src/index.ts"
+      ],
       "@worksheets/apps/core": ["libs/apps/core/src/index.ts"],
       "@worksheets/apps/crudcrud": ["libs/apps/crudcrud/src/index.ts"],
       "@worksheets/apps/framework": ["libs/apps/framework/src/index.ts"],
