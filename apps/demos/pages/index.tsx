@@ -4,7 +4,7 @@ import { newClient, ApplicationMethodData } from '@worksheets/sdk';
 
 const registry = newClient({
   logging: 'verbose',
-  baseUrl: `${process.env['NEXT_PUBLIC_API_BASE_URL']}/v1`,
+  baseUrl: `https://api.worksheets.dev/v1`,
 });
 
 //comment

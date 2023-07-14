@@ -22,7 +22,7 @@
     },
     "publish": {
       "command": "node tools/scripts/publish.mjs sdk {args.ver} {args.tag}",
-      "dependsOn": ["bundlefy"]
+      "dependsOn": ["build"]
     },
     "lint": {
       "executor": "@nx/linter:eslint",
