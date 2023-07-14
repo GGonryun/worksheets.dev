@@ -39,7 +39,7 @@ export const SERVER_SETTINGS = {
         '') + route,
     API_URL: (route = '') =>
       (process.env['API_BASE_URL'] ??
-        process.env['NEXT_PUBLIC_APP_BASE_URL'] ??
+        process.env['NEXT_PUBLIC_API_BASE_URL'] ??
         '') + route,
     DOCS_URL: (route = '') =>
       (process.env['DOCS_BASE_URL'] ??
