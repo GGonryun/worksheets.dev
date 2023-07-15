@@ -7,7 +7,11 @@ export async function createContext({
 }: trpcNext.CreateNextContextOptions) {
   // prevents accidentally caching the user in memory
   async function getUserFromHeader() {
-    return await user.getUserFromApiToken(req.headers.authorization);
+    try {
+      return await user.getUserFromApiToken(req.headers.authorization);
+    } catch (error) {
+      console.error(`failed to get user from header`, error);
+    }
   }
 
   return {

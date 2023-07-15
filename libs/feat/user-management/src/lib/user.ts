@@ -84,14 +84,14 @@ const getUserFromFirebaseIdToken = async (authorization?: string) => {
 const getUserFromApiToken = async (authorization?: string) => {
   if (authorization) {
     const token = splitTokenFromHeader(authorization);
-    try {
-      if (!token) {
-        throw new TRPCError({
-          code: 'UNAUTHORIZED',
-          message: 'authorization header cannot be empty',
-        });
-      }
+    if (!token) {
+      throw new TRPCError({
+        code: 'UNAUTHORIZED',
+        message: 'authorization header contained invalid format',
+      });
+    }
 
+    try {
       const userId = await getUserIdFromApiToken(token);
 
       return await getUser(userId);
@@ -106,6 +106,7 @@ const getUserFromApiToken = async (authorization?: string) => {
       });
     }
   }
+
   return undefined;
 };
 

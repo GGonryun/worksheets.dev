@@ -1,9 +1,12 @@
 import { Box, Button, MenuItem, TextField, Typography } from '@mui/material';
 import { useState } from 'react';
-import { newClient, ApplicationMethodData } from '@worksheets/sdk';
+import { newRegistry, ApplicationMethodData } from '@worksheets/sdk';
 
-const registry = newClient({
+const apps = newRegistry({
   logging: 'verbose',
+  credentials: {
+    apiKey: process.env['NEXT_PUBLIC_DEMO_API_KEY'] ?? '',
+  },
   baseUrl: `${process.env['NEXT_PUBLIC_API_BASE_URL']}/v1`,
 });
 
@@ -33,7 +36,7 @@ export function Index() {
     }
 
     try {
-      const result = await registry.math().calc({
+      const result = await apps.math().calc({
         x,
         y,
         op: operation,
@@ -51,7 +54,7 @@ export function Index() {
       <Button
         onClick={async () => {
           try {
-            const time = await registry.time().now({});
+            const time = await apps.time().now({});
             setTime(`${time}`);
           } catch (error) {
             console.error(error);

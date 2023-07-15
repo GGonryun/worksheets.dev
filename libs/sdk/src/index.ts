@@ -6,4 +6,4 @@ export type {
   ApplicationMethodData,
 } from '@worksheets/apps-registry';
 
-export const newClient = newAppsClient;
+export const newRegistry = newAppsClient;

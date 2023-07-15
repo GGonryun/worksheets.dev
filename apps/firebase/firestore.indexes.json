@@ -56,6 +56,14 @@
         { "fieldPath": "worksheetId", "order": "DESCENDING" },
         { "fieldPath": "appId", "order": "DESCENDING" }
       ]
+    },
+    {
+      "collectionGroup": "methodexectuions",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "uid", "order": "ASCENDING" },
+        { "fieldPath": "startedAt", "order": "DESCENDING" }
+      ]
     }
   ]
 }

@@ -5,7 +5,7 @@ export const isAuthed = middleware(({ next, ctx, type, path }) => {
   if (!ctx.user) {
     throw new TRPCError({
       code: 'UNAUTHORIZED',
-      message: `${type} - ${path} Authorization middleware stopped unauthorized user from completing request `,
+      message: `You must be logged in to access ${type} ${path}`,
     });
   }
 

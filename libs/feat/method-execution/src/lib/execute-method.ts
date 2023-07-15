@@ -57,12 +57,16 @@ export const executeMethod = async <T extends ApplicationKeys>({
     result.finishedAt = Date.now();
     db.insert(result);
     return data;
+    // TODO: unify method exceptions and errors
   } catch (error) {
     console.error(`[${appId}.${methodId}] handler failed`, error);
     // TODO: better error handling. This is just a POC
     result.status = 500;
     result.finishedAt = Date.now();
     db.insert(result);
-    throw error;
+    throw new TRPCError({
+      code: 'INTERNAL_SERVER_ERROR',
+      message: `We are still improving our error handling.`,
+    });
   }
 };
