@@ -3,10 +3,6 @@ import {
   templateDefinitionSchema,
 } from '@worksheets/apps/framework';
 import { sendEmail } from './google-gmail/sendEmail';
-import {
-  newApplicationsDatabase,
-  convertApplicationDefinition,
-} from '@worksheets/data-access/applications';
 import { onlyUnique } from '@worksheets/util/functional';
 import { createImage } from './openai/createImage';
 import { createCompletion } from './openai/createCompletion';
@@ -21,8 +17,6 @@ export const templateDetailsSchema = z
   .object({ apps: z.array(applicationDetailsSchema) })
   .and(templateDefinitionSchema);
 export type TemplateDetails = z.infer<typeof templateDetailsSchema>;
-
-const apps = newApplicationsDatabase();
 
 const templates: TemplateDefinition[] = [
   sendEmail,
@@ -69,10 +63,10 @@ function createTemplateDetails(
   )
     return;
 
-  const appDetails = apps
-    .list()
-    .filter((app) => appIds.includes(app.id))
-    .map(convertApplicationDefinition);
+  // const appDetails = apps
+  //   .list()
+  //   .filter((app) => appIds.includes(app.id))
+  //   .map(convertApplicationDefinition);
 
-  return { ...template, text: template.text.trim(), apps: appDetails };
+  return { ...template, text: template.text.trim(), apps: [] };
 }

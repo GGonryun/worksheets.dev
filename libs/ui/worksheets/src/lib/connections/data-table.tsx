@@ -269,6 +269,7 @@ export const ConnectionsDataTable: FC<DataTableProps> = ({
     </>
   );
 };
+
 const getBackgroundColor = (color: string, mode: string) =>
   mode === 'dark' ? darken(color, 0.7) : lighten(color, 0.7);
 

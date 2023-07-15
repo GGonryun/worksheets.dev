@@ -344,3 +344,13 @@ export const calculateCycle = () => {
 
   return `${firstDayString} - ${lastDayString}`;
 };
+
+/**
+ * @name timeBetween
+ * @description returns the time between two dates in milliseconds
+ * @param {Date} date1 the first date
+ * @param {Date} date2 the second date
+ */
+export const timeBetween = (date1: number, date2: number) => {
+  return Math.abs(date1 - date2);
+};

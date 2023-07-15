@@ -78,8 +78,8 @@ export const listApplicationMethodsResponseSchema = z.array(
     id: z.string(),
     label: z.string(),
     description: z.string().optional(),
-    input: z.unknown(),
-    output: z.unknown(),
+    input: z.any(),
+    output: z.any(),
     example: z.string(),
   })
 );
@@ -117,6 +117,5 @@ export const getApplicationResponseSchema = z.object({
   id: z.string(),
   name: z.string(),
   logo: z.string(),
-  fields: formFieldsSchema,
   description: z.string(),
 });

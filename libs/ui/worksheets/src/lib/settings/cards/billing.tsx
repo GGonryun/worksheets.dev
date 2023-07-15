@@ -3,7 +3,6 @@ import {
   Button,
   ButtonProps,
   Chip,
-  CircularProgress,
   Divider,
   IconButton,
   LinearProgress,
@@ -11,7 +10,6 @@ import {
   Link,
   Palette,
   Paper,
-  Switch,
   Tooltip,
   TooltipProps,
   Typography,
@@ -19,10 +17,8 @@ import {
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import NavigateNextOutlinedIcon from '@mui/icons-material/NavigateNextOutlined';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import InfoIcon from '@mui/icons-material/Info';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import PauseCircleIcon from '@mui/icons-material/PauseCircle';
-import { useUser } from '@worksheets/util/auth/client';
 import { trpc } from '@worksheets/trpc/ide';
 import { HelpOutlineOutlined, RefreshOutlined } from '@mui/icons-material';
 import { calculatePercentage } from '@worksheets/util/numbers';
@@ -30,24 +26,13 @@ import { SettingsCardPayments } from './payments';
 import { prettyPrintMilliseconds } from '@worksheets/util/time';
 import { OpenInNewTabLink } from '@worksheets/ui/common';
 import { SERVER_SETTINGS } from '@worksheets/data-access/server-settings';
-export const SettingsCardBilling: React.FC<{ plan: 'free' | 'premium' }> = ({
-  plan,
-}) => {
-  const { user } = useUser();
+import { UserOverviewResponse } from '../../shared/types';
+export const SettingsCardBilling: React.FC<{
+  overview: UserOverviewResponse;
+}> = ({ overview }) => {
   const utils = trpc.useContext();
-  const { data: overview, isLoading } = trpc.user.overview.useQuery(undefined, {
-    enabled: !!user,
-  });
 
   const isUserEnabled = overview?.quotas.enabled;
-
-  if (isLoading) {
-    return (
-      <Box width="100%">
-        <CircularProgress />
-      </Box>
-    );
-  }
 
   return (
     <Box width="100%">
@@ -89,20 +74,20 @@ export const SettingsCardBilling: React.FC<{ plan: 'free' | 'premium' }> = ({
               <Button
                 size="small"
                 variant="contained"
-                href="/metrics"
+                href={SERVER_SETTINGS.WEBSITES.DOCS_URL('/pricing')}
                 target="_blank"
                 endIcon={<OpenInNewIcon fontSize={'small'} />}
               >
-                Metrics
+                Pricing
               </Button>
             </Box>
             <Divider />
           </Box>
 
           <Box display="flex" flexDirection="column" gap={1}>
-            <Typography variant="h6">Processing Quotas</Typography>
+            <Typography variant="h6">Execution Quotas</Typography>
             <Typography variant="body2">
-              These quotas reset every cycle. Need more?{' '}
+              This quota reset every cycle. Need more?{' '}
               <OpenInNewTabLink
                 fontSize={14}
                 href={`${SERVER_SETTINGS.WEBSITES.DOCS_URL('/contact-us')}`}
@@ -114,35 +99,10 @@ export const SettingsCardBilling: React.FC<{ plan: 'free' | 'premium' }> = ({
             <Box display="flex" justifyContent="space-between" gap={1}>
               <RatiosBlock
                 href={`${SERVER_SETTINGS.WEBSITES.DOCS_URL(
-                  '/docs/overview#processing-time'
-                )}`}
-                label="Processing time"
-                tooltip="The maximum amount of processing allowed. This is the sum of all processing time across all worksheet executions and method calls."
-                current={overview?.quotas.processingTime.current}
-                maximum={overview?.quotas.processingTime.resetTo}
-                time
-                unit="remaining"
-                colorOnEmpty="error"
-              />
-              <RatiosBlock
-                href={`${SERVER_SETTINGS.WEBSITES.DOCS_URL(
                   '/docs/overview#method-calls'
                 )}`}
-                label="Method calls"
-                tooltip="Your maximum amount of requests to external applications. This includes any individual method calls, as well as any worksheet executions that make external requests."
-                current={overview?.quotas.methodCalls.current}
-                maximum={overview?.quotas.methodCalls.resetTo}
-                unit="calls remaining"
-                colorOnEmpty="error"
-              />
-            </Box>
-            <Box display="flex" justifyContent="space-between" gap={1}>
-              <RatiosBlock
-                href={`${SERVER_SETTINGS.WEBSITES.DOCS_URL(
-                  '/docs/overview#executions'
-                )}`}
-                label="Total executions"
-                tooltip="The maximum amount of created executions. You cannot create new executions if you exceed this limit."
+                label="Daily Executions"
+                tooltip="Your execution quota reset every month."
                 current={overview?.quotas.executions.current}
                 maximum={overview?.quotas.executions.resetTo}
                 unit="executions remaining"
@@ -152,84 +112,7 @@ export const SettingsCardBilling: React.FC<{ plan: 'free' | 'premium' }> = ({
           </Box>
 
           <Box display="flex" flexDirection="column" gap={1}>
-            <Typography variant="h6">Execution Power</Typography>
-            <Typography variant="body2">
-              Limits on your processing and execution.{' '}
-              <OpenInNewTabLink
-                fontSize={14}
-                href={`${SERVER_SETTINGS.WEBSITES.DOCS_URL('/contact-us')}`}
-              >
-                Contact us
-              </OpenInNewTabLink>{' '}
-              to increase your personal processing power.
-            </Typography>
-            <Box display="flex" justifyContent="space-between" gap={1}>
-              <RatiosBlock
-                href={`${SERVER_SETTINGS.WEBSITES.DOCS_URL(
-                  '/docs/overview#executions'
-                )}`}
-                label="Queued executions"
-                tooltip="You will not be able to execute new worksheets if you exceed this limit."
-                current={overview?.counts.executions.queued}
-                maximum={overview?.limits?.executions.queued}
-                unit="queued executions"
-                colorOnFull="error"
-              />
-              <RatiosBlock
-                href={`${SERVER_SETTINGS.WEBSITES.DOCS_URL(
-                  '/docs/overview#executions'
-                )}`}
-                label="Concurrent processing"
-                tooltip="You can queue up new worksheets if you exceed this limit, but we won't process them until a slot is available."
-                current={overview?.counts.executions.running}
-                maximum={overview?.limits?.executions.running}
-                unit="active executions"
-                colorOnFull="error"
-              />
-            </Box>
-          </Box>
-
-          <Box display="flex" flexDirection="column" gap={1}>
-            <Typography variant="h6">Operational Limits</Typography>
-            <Typography variant="body2">
-              Operational limits will prevent you from creating new resources if
-              exceeded. You can still update existing resources.{' '}
-              <OpenInNewTabLink
-                fontSize={14}
-                href={`${SERVER_SETTINGS.WEBSITES.DOCS_URL('/contact-us')}`}
-              >
-                Contact us
-              </OpenInNewTabLink>{' '}
-              to increase your personal limits.
-            </Typography>
-            <Box display="flex" justifyContent="space-between" gap={1}>
-              <RatiosBlock
-                href={`${SERVER_SETTINGS.WEBSITES.DOCS_URL(
-                  '/docs/overview#worksheets'
-                )}`}
-                label="Total worksheets"
-                tooltip="You will not be able to create new worksheets if you exceed this limit"
-                current={overview?.counts.worksheets}
-                maximum={overview?.limits.worksheets}
-                unit="sheets"
-                colorOnFull="error"
-              />
-              <RatiosBlock
-                href={`${SERVER_SETTINGS.WEBSITES.DOCS_URL(
-                  '/docs/overview#connections'
-                )}`}
-                label="Total connections"
-                tooltip="You will not be able to create new connections if you exceed this limit."
-                current={overview?.counts.connections}
-                maximum={overview?.limits.connections}
-                unit="conns"
-                colorOnFull="error"
-              />
-            </Box>
-          </Box>
-
-          <Box display="flex" flexDirection="column" gap={1}>
-            <Typography variant="h6">Secure API Tokens</Typography>
+            <Typography variant="h6">API Tokens</Typography>
             <Typography variant="body2">
               API Tokens give automated systems or other users access to your
               resources. Protect these tokens like passwords.{' '}
@@ -241,6 +124,7 @@ export const SettingsCardBilling: React.FC<{ plan: 'free' | 'premium' }> = ({
               </OpenInNewTabLink>{' '}
               to increase your personal limits.
             </Typography>
+
             <Box display="flex" justifyContent="space-between" gap={1}>
               <RatiosBlock
                 href={`${SERVER_SETTINGS.WEBSITES.DOCS_URL(
@@ -253,20 +137,8 @@ export const SettingsCardBilling: React.FC<{ plan: 'free' | 'premium' }> = ({
                 unit="maximum tokens"
                 colorOnFull="error"
               />
-              <RatiosBlock
-                href={`${SERVER_SETTINGS.WEBSITES.DOCS_URL(
-                  '/docs/api/overview#api-tokens'
-                )}`}
-                label="API token calls"
-                tooltip="Limits the total amount of worksheets API calls your account can make. Worksheets.dev's API endpoints will ignore your requests if you exceed this limit."
-                current={overview?.quotas.tokenUses.current}
-                maximum={overview?.quotas.tokenUses.resetTo}
-                unit="remaining calls"
-                colorOnEmpty="error"
-              />
             </Box>
           </Box>
-
           <Box display="flex" flexDirection="column" gap={1}>
             <Box display="flex" flexDirection="column" gap={1}>
               <Typography variant="h6">System Health</Typography>
@@ -280,40 +152,13 @@ export const SettingsCardBilling: React.FC<{ plan: 'free' | 'premium' }> = ({
                 <QuotaBlock
                   color="success"
                   label="Rate limit"
-                  tooltip="The systems rate limit (1 min) for execution processing. If this rate limit is reached, new tasks will be queued until the rate limit is reset."
-                  caption={
-                    '25 worksheet executions every minute or 100 minutes of processing time every 1 minutes.'
-                  }
-                />
-              </Box>
-
-              <Box display="flex" justifyContent="space-between" gap={1}>
-                <QuotaBlock
-                  color="inherit"
-                  label="Time dilation"
-                  tooltip="The impact of a minute on processing time. A value of 0.5 would reduce processing costs by half. A value of 2.0 would double processing costs."
-                  caption={'(1.0) time'}
-                />
-                <QuotaBlock
-                  color="inherit"
-                  label="System efficiency"
-                  tooltip="The current cost of processing for a minute, as the system improves your average cost of operations will decrease."
-                  caption={'(0.01) speed'}
-                />
-              </Box>
-              <Box display="flex" justifyContent="flex-start">
-                <QuotaBlock
-                  color="success"
-                  label="System processing"
-                  tooltip="The current processing limitations of the entire worksheets task system."
-                  caption={'100 x processing-minutes every minute'}
+                  tooltip="The systems rate limit (1 min) for method processing. If this rate limit is reached, new methods will fail to execute."
+                  caption={'100 method executions every minute'}
                 />
               </Box>
             </Box>
           </Box>
         </Box>
-
-        <OverclockButton overclocked={overview?.quotas.overclocked} />
       </Paper>
       <Box py={3} pb={6}>
         <SettingsCardPayments />
@@ -495,40 +340,3 @@ const EnabledUserHeader: React.FC<{ plan?: string }> = ({ plan }) => (
     </Typography>
   </Box>
 );
-
-const OverclockButton: React.FC<{ overclocked?: boolean }> = ({
-  overclocked,
-}) => {
-  return (
-    <Box display="flex" flexDirection="column" gap={1}>
-      <Box py={1} display="flex" gap={1} alignItems="center">
-        <Typography variant="h6">Overclock</Typography>
-        <Tooltip title="Prioritizes your executions and allows system processing to temporarily exceed all operational limitations at a cost.">
-          <InfoIcon fontSize="small" color="primary" />
-        </Tooltip>
-      </Box>
-      <Box display="flex" gap={1} alignItems="center">
-        <Switch
-          checked={overclocked}
-          onChange={() => {
-            alert(
-              'This feature is experimental. Overclocking will allow you to bypass all operational limitations but during this time you will significantly increase your spending. Contact customer support if you want to proceed.'
-            );
-          }}
-        />
-        <Typography variant="caption">
-          <b>Warning:</b> Overclocking will increasing your spending
-          significantly.{' '}
-          <Link
-            href={`${SERVER_SETTINGS.WEBSITES.DOCS_URL(
-              '/docs/api/overclocking'
-            )}`}
-            target="_blank"
-          >
-            Learn more <OpenInNewIcon color="primary" fontSize={'small'} />.
-          </Link>
-        </Typography>
-      </Box>
-    </Box>
-  );
-};

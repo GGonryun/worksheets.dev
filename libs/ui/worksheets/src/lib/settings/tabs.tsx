@@ -1,12 +1,20 @@
-import { Box, Tabs, Tab, Divider, Button, Container } from '@mui/material';
+import {
+  Box,
+  Tabs,
+  Tab,
+  Divider,
+  Button,
+  Container,
+  CircularProgress,
+} from '@mui/material';
 import { useRouter } from 'next/router';
-import { SettingsCardTextField } from './cards/text-field';
 import { SettingsCardBilling } from './cards/billing';
 import { SettingsCardAccessTokens } from './cards/access-tokens/access-tokens';
 import { SettingsCardGeneric } from './cards/generic';
 import { TabPanel, a11yProps } from '../shared/tab-panel';
 import { trpc } from '@worksheets/trpc/ide';
 import { useUser } from '@worksheets/util/auth/client';
+import { GeneralSettings } from './cards/general-settings';
 
 export enum SettingsTabIndex {
   General = 0,
@@ -27,7 +35,7 @@ export const SettingsTabs: React.FC<{
 }> = ({ tab }) => {
   const { push } = useRouter();
   const { user } = useUser();
-  const { data: overview } = trpc.user.overview.useQuery(
+  const { data: overview, isLoading } = trpc.user.overview.useQuery(
     { acknowledge: true },
     {
       enabled: !!user,
@@ -53,6 +61,14 @@ export const SettingsTabs: React.FC<{
         break;
     }
   };
+
+  if (!overview || isLoading)
+    return (
+      <Box display="flex" height="100%" width="100%">
+        <CircularProgress />
+      </Box>
+    );
+
   return (
     <>
       <Tabs value={tab} onChange={handleChange} aria-label="execution tabs">
@@ -66,41 +82,21 @@ export const SettingsTabs: React.FC<{
       <TabPanel value={tab} index={SettingsTabIndex.General}>
         <Container maxWidth="md">
           <Box p={3} display="flex" gap={3} flexWrap={'wrap'}>
-            <SettingsCardTextField
-              title={'Your identifier'}
-              readonly
-              caption={'This is how we identify you in our system.'}
-              helperText="You can't change this value."
-              value={overview?.uid}
-            />
-            <SettingsCardTextField
-              title={'Your name'}
-              readonly
-              caption={'Please enter a display name you are comfortable with.'}
-              helperText="Display name is limited to 48 characters at most."
-              value={overview?.meta.name ?? ''}
-            />
-            <SettingsCardTextField
-              title={'Your email'}
-              readonly
-              caption={'The email address you use to log into your account.'}
-              helperText="You can't change this value."
-              value={overview?.meta.email ?? ''}
-            />
+            <GeneralSettings overview={overview} />
           </Box>
         </Container>
       </TabPanel>
       <TabPanel value={tab} index={SettingsTabIndex.Billing}>
         <Container maxWidth="md">
           <Box p={3}>
-            <SettingsCardBilling plan="free" />
+            <SettingsCardBilling overview={overview} />
           </Box>
         </Container>
       </TabPanel>
       <TabPanel value={tab} index={SettingsTabIndex.AccessTokens}>
         <Container maxWidth="md">
           <Box p={3}>
-            <SettingsCardAccessTokens />
+            <SettingsCardAccessTokens overview={overview} />
           </Box>
         </Container>
       </TabPanel>

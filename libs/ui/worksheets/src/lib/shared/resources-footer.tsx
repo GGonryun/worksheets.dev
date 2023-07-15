@@ -3,10 +3,8 @@ import React, { ReactNode } from 'react';
 import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 import LocalOfferOutlinedIcon from '@mui/icons-material/LocalOfferOutlined';
 import LiveHelpOutlinedIcon from '@mui/icons-material/LiveHelpOutlined';
-import AppsIcon from '@mui/icons-material/Apps';
 import ReceiptLongOutlinedIcon from '@mui/icons-material/ReceiptLongOutlined';
 import HelpIcon from '@mui/icons-material/Help';
-import ScannerIcon from '@mui/icons-material/ScannerOutlined';
 import { OpenInNew } from '@mui/icons-material';
 import { SERVER_SETTINGS } from '@worksheets/data-access/server-settings';
 
@@ -18,7 +16,7 @@ export const ResourcesFooter: React.FC<{ apps?: boolean }> = ({ apps }) => (
     justifyContent="center"
     width="100%"
   >
-    <Grid md={3}>
+    <Grid xs={12} sm={6} md={4}>
       <ResourceCard
         title="Pricing"
         caption="Pay as you go"
@@ -27,7 +25,7 @@ export const ResourcesFooter: React.FC<{ apps?: boolean }> = ({ apps }) => (
         openInNewTab
       />
     </Grid>
-    <Grid md={3}>
+    <Grid xs={12} sm={6} md={4}>
       <ResourceCard
         title="Support"
         caption="Get help now"
@@ -37,30 +35,13 @@ export const ResourcesFooter: React.FC<{ apps?: boolean }> = ({ apps }) => (
         openInNewTab
       />
     </Grid>
-    <Grid md={3}>
-      {apps ? (
-        <ResourceCard
-          title="Applications"
-          caption="Browse more apps"
-          icon={<AppsIcon color="primary" />}
-          href="/applications"
-        />
-      ) : (
-        <ResourceCard
-          title="Templates"
-          caption="Browse templates"
-          icon={<ScannerIcon color="primary" />}
-          href="/templates"
-        />
-      )}
-    </Grid>
-    <Grid md={3}>
+    <Grid xs={12} sm={6} md={4}>
       <ResourceCard
-        title="Syntax Guide"
+        title="Tutorials"
         caption="Learn more"
-        helpText="Learn more about how worksheets are written."
+        helpText="Learn more about how applications are used."
         icon={<ReceiptLongOutlinedIcon color="primary" />}
-        href={`${SERVER_SETTINGS.WEBSITES.DOCS_URL('/docs/syntax-guide')}`}
+        href={`${SERVER_SETTINGS.WEBSITES.DOCS_URL('/docs/quick-start')}`}
         openInNewTab
       />
     </Grid>

@@ -13,7 +13,7 @@ export const openApiDocument = generateOpenApiDocument(appRouter, {
   version: '1.0.0',
   baseUrl: `${adminUrl}/api`,
   docsUrl: `${docsUrl}`,
-  tags: ['executions', 'reapers'],
+  tags: ['replenishers', 'reapers'],
   securitySchemes: {
     bearerAuth: {
       type: 'http',

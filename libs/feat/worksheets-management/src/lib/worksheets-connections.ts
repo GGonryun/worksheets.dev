@@ -139,14 +139,15 @@ export const listUserConnections = async (
 
   for (const connection of connections) {
     const app = applicationRegistry.getApp(connection.appId);
-    const isIncomplete = areRequiredFieldsSet(
-      app.settings,
-      connection.settings
-    );
+    // const isIncomplete = areRequiredFieldsSet(
+    //   app.settings,
+    //   connection.settings
+    // );
+    const isIncomplete = false;
     rows.push({
       id: connection.id,
       connectionName: connection.name,
-      app: { id: app.id, label: app.label, logo: app.logo },
+      app: { id: app.id, label: app.name, logo: app.logo },
       validation: {
         status: isIncomplete ? 'active' : 'incomplete',
         message: isIncomplete ? '' : 'Connection has missing fields',

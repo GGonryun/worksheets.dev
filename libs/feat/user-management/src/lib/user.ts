@@ -6,22 +6,12 @@ import { hasher, splitTokenFromHeader } from './util';
 import { calculateCycle, isExpired } from '@worksheets/util/time';
 import { quotas } from './quotas';
 import { dxi } from '@worksheets/feat/session-replay';
-import { newWorksheetsDatabase } from '@worksheets/data-access/worksheets';
-import { newConnectionDatabase } from '@worksheets/data-access/settings';
 import { limits } from './limits';
 import { TypeOf } from 'zod';
-import {
-  findUsersQueuedExecutions,
-  findUsersRunningExecutions,
-  newTasksDatabase,
-} from '@worksheets/data-access/tasks';
 import { metrics } from '@worksheets/feat/server-monitoring';
 import { userAgentSchema, userOverviewSchema } from '@worksheets/schemas-user';
 
-const tasks = newTasksDatabase();
 const tokens = newApiTokenDatabase();
-const worksheets = newWorksheetsDatabase();
-const connections = newConnectionDatabase();
 
 async function getUserIdFromApiToken(apiToken: string): Promise<string> {
   const token = apiToken.split(API_TOKEN_PREFIX)[1];
@@ -37,16 +27,6 @@ async function getUserIdFromApiToken(apiToken: string): Promise<string> {
     throw new TRPCError({
       code: 'UNAUTHORIZED',
       message: 'token has expired',
-    });
-  }
-
-  // TODO: move to TRPC middleware instead.
-  if (
-    !(await quotas.request({ uid: table.uid, type: 'tokenUses', quantity: 1 }))
-  ) {
-    throw new TRPCError({
-      code: 'TOO_MANY_REQUESTS',
-      message: "You've exceeded your allocated quota of API token uses.",
     });
   }
 
@@ -171,27 +151,11 @@ const overview = async (
 ): Promise<TypeOf<typeof userOverviewSchema>> => {
   const userQuotas = await quotas.get(user.uid);
   const userLimits = await limits.get(user.uid);
-
-  const numWorksheets = await worksheets.count({
-    f: 'uid',
-    o: '==',
-    v: user.uid,
-  });
-
   const numTokens = await tokens.count({
     f: 'uid',
     o: '==',
     v: user.uid,
   });
-
-  const numConnections = await connections.count({
-    f: 'uid',
-    o: '==',
-    v: user.uid,
-  });
-
-  const numQueued = (await findUsersQueuedExecutions(tasks, user.uid)).length;
-  const numRunning = (await findUsersRunningExecutions(tasks, user.uid)).length;
 
   return {
     uid: user.uid,
@@ -203,22 +167,10 @@ const overview = async (
       name: user.displayName,
     },
     limits: {
-      worksheets: userLimits.maxWorksheets,
       tokens: userLimits.maxApiTokens,
-      connections: userLimits.maxConnections,
-      executions: {
-        queued: userLimits.maxQueuedExecutions,
-        running: userLimits.maxRunningExecutions,
-      },
     },
     counts: {
-      worksheets: numWorksheets,
       tokens: numTokens,
-      connections: numConnections,
-      executions: {
-        queued: numQueued,
-        running: numRunning,
-      },
     },
   };
 };

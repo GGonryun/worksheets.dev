@@ -7,4 +7,3 @@ export * from './lib/task-execution-details';
 export * from './lib/execute-method';
 export * from './lib/clean-up-old-tasks';
 export * from './lib/clean-up-old-logs';
-export * from './lib/execute-method-v2';

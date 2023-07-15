@@ -14,9 +14,6 @@ export type ListApplicationsResponse =
 export type ApplicationDetails =
   inferRouterOutputs<AppRouter>['applications']['list'][number];
 
-export type FormFieldsResponse =
-  inferRouterOutputs<AppRouter>['applications']['get']['fields'];
-
 export type ConnectionFieldOptions =
   inferRouterInputs<AppRouter>['connections']['getOAuthUrl'];
 
@@ -52,3 +49,6 @@ export type ListMethodsResponse =
 
 export type ListTokensResponse =
   inferRouterOutputs<AppRouter>['user']['tokens']['list'];
+
+export type UserOverviewResponse =
+  inferRouterOutputs<AppRouter>['user']['overview'];

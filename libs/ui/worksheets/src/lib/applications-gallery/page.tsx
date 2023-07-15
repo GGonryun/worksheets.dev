@@ -7,10 +7,10 @@ import { useState } from 'react';
 import { SidecarLayout } from '../shared/sidecar-layout';
 import { ApplicationCard } from './application-card';
 import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
-import TuneIcon from '@mui/icons-material/Tune';
 import { SERVER_SETTINGS } from '@worksheets/data-access/server-settings';
 import { SpotlightButton } from '../shared/spotlight-button';
 import { Emoji } from '@worksheets/ui/common';
+import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined';
 
 export function ApplicationsGalleryPage() {
   const { data: applications } = trpc.applications.list.useQuery({
@@ -48,20 +48,10 @@ export function ApplicationsGalleryPage() {
           >
             <Grid md={4}>
               <SpotlightButton
-                label="Browse templates"
-                caption="Search for worksheets"
-                icon={<SearchIcon fontSize="large" />}
-                href={'/templates'}
-              />
-            </Grid>
-            <Grid md={4}>
-              <SpotlightButton
-                label="Customize workflows"
-                caption="Learn the worksheet syntax"
-                icon={<TuneIcon fontSize="large" />}
-                href={`${SERVER_SETTINGS.WEBSITES.DOCS_URL(
-                  '/docs/create-a-worksheet'
-                )}`}
+                label="Learn more"
+                caption="Read our documentation"
+                icon={<ArticleOutlinedIcon fontSize="large" />}
+                href={SERVER_SETTINGS.WEBSITES.DOCS_URL()}
               />
             </Grid>
             <Grid md={4}>

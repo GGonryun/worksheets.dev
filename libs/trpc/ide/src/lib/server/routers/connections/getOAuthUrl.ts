@@ -18,11 +18,6 @@ export default privateProcedure
         user: { uid },
       },
     }) => {
-      return await createOAuthUrl({
-        userId: uid,
-        connectionId,
-        appId,
-        settingId,
-      });
+      return await createOAuthUrl();
     }
   );

@@ -1,27 +1,17 @@
 import { ApplicationLibrary, Clerk } from '@worksheets/apps/framework';
-import { newApplicationsDatabase } from '@worksheets/data-access/applications';
 import { newHandshakesDatabase } from '@worksheets/data-access/handshakes';
 import {
   ConnectionEntity,
   newConnectionDatabase,
 } from '@worksheets/data-access/settings';
-import { OAuthClient } from '@worksheets/util/oauth/client';
-import { closeRedirect, errorRedirect } from './util';
-import { isExpired } from '@worksheets/util/time';
 import { TRPCError } from '@trpc/server';
 import { RequiredBy } from '@worksheets/util/types';
 import { z } from 'zod';
 import { newWorksheetsConnectionsDatabase } from '@worksheets/data-access/worksheets-connections';
-import { quotas as userQuotas } from '@worksheets/feat/user-management';
-import { ExecutionFailure } from '@worksheets/engine';
-import { mapSecureProperties } from './common';
-import { dynamicSettingsResolver } from './dynamic-settings-resolver';
 import { applyConnectionUpdates } from './apply-connection-updates';
-import { SERVER_SETTINGS } from '@worksheets/data-access/server-settings';
 
 const connectionsDb = newConnectionDatabase();
 const worksheetsConnectionsDb = newWorksheetsConnectionsDatabase();
-const registry = newApplicationsDatabase();
 const handshakesDb = newHandshakesDatabase();
 
 type PrivateLibraryOptions = {
@@ -32,46 +22,27 @@ export const newPrivateLibrary = ({
   userId,
   worksheetId,
 }: PrivateLibraryOptions) => {
-  const library = new ApplicationLibrary({
-    clerk: registry,
-    settingsLoader: async ({ path, app, connection: connectionId }) => {
-      console.info(
-        `[APPLOADER][${path}][private] searching for user ${userId} settings`
-      );
-      const connection = await dynamicSettingsResolver({
-        userId,
-        worksheetId,
-        overrideConnectionIds: connectionId ? [connectionId] : [],
-        app,
-      });
-      return connection?.settings ?? {};
-    },
-    beforeMethodCall: async (opts) => {
-      if (
-        opts.app.meta.external &&
-        !(await userQuotas.request({
-          type: `methodCalls`,
-          quantity: SERVER_SETTINGS.RESOURCE_CONSUMPTION.USER_METHOD_CALL,
-          uid: userId,
-        }))
-      ) {
-        console.error('User ran out of method call processing capability.', {
-          userId: userId,
-          path: opts.path,
-        });
-        // prevent user from making too many requests.
-        throw new ExecutionFailure({
-          code: 'insufficient-quota',
-          message: SERVER_SETTINGS.USER_ERRORS.TOO_MANY_METHOD_CALLS,
-        });
-      }
-
-      console.info(
-        `[APPLOADER][${opts.path}][private] user ${userId} passed pre-method throttle checks`
-      );
-    },
-  });
-  return library;
+  // const library = new ApplicationLibrary({
+  //   clerk: registry,
+  //   settingsLoader: async ({ path, app, connection: connectionId }) => {
+  //     console.info(
+  //       `[APPLOADER][${path}][private] searching for user ${userId} settings`
+  //     );
+  //     const connection = await dynamicSettingsResolver({
+  //       userId,
+  //       worksheetId,
+  //       overrideConnectionIds: connectionId ? [connectionId] : [],
+  //       app,
+  //     });
+  //     return connection?.settings ?? {};
+  //   },
+  //   beforeMethodCall: async (opts) => {
+  //     console.info(
+  //       `[APPLOADER][${opts.path}][private] user ${userId} passed pre-method throttle checks`
+  //     );
+  //   },
+  // });
+  return null as any;
 };
 
 export const newEmptyLibrary = () =>
@@ -99,48 +70,49 @@ export const loadConnectionForm = async ({
   uid: string;
 }): Promise<{ created: boolean; connection: ConnectionForm }> => {
   console.info(`[CONNECTIONS] loading connection form for ${id}`);
-  // return empty form if connection doesn't exist
-  if (!id || !(await connectionsDb.has(id))) {
-    return {
-      created: true,
-      connection: {
-        id: '',
-        name: '',
-        appId: '',
-        settings: {},
-      },
-    };
-  }
-  const connection = await connectionsDb.get(id);
-  const app = registry.getApp(connection.appId);
-  // get settings
-  const appSettings = app.settings;
-  // for each connection setting, replace oauth tokens if they are set.
-  if (appSettings && connection.settings) {
-    // TODO: encryption audit, we will need to mask our non-oauth tokens here too.
-    connection.settings = await mapSecureProperties(
-      connection.settings,
-      appSettings,
-      async (v, k, s) => {
-        console.info(`[CONNECTIONS] mapping secure property ${k}`);
-        if (s.type === 'oauth') {
-          return Boolean(v);
-        } else {
-          return v;
-        }
-      }
-    );
-  }
+  // // return empty form if connection doesn't exist
+  // if (!id || !(await connectionsDb.has(id))) {
+  //   return {
+  //     created: true,
+  //     connection: {
+  //       id: '',
+  //       name: '',
+  //       appId: '',
+  //       settings: {},
+  //     },
+  //   };
+  // }
+  // const connection = await connectionsDb.get(id);
+  // const app = registry.getApp(connection.appId);
+  // // get settings
+  // const appSettings = app.settings;
+  // // for each connection setting, replace oauth tokens if they are set.
+  // if (appSettings && connection.settings) {
+  //   // TODO: encryption audit, we will need to mask our non-oauth tokens here too.
+  //   connection.settings = await mapSecureProperties(
+  //     connection.settings,
+  //     appSettings,
+  //     async (v, k, s) => {
+  //       console.info(`[CONNECTIONS] mapping secure property ${k}`);
+  //       if (s.type === 'oauth') {
+  //         return Boolean(v);
+  //       } else {
+  //         return v;
+  //       }
+  //     }
+  //   );
+  // }
 
-  return {
-    created: false,
-    connection: {
-      id: connection.id,
-      name: connection.name,
-      appId: connection.appId,
-      settings: connection.settings,
-    },
-  };
+  // return {
+  //   created: false,
+  //   connection: {
+  //     id: connection.id,
+  //     name: connection.name,
+  //     appId: connection.appId,
+  //     settings: connection.settings,
+  //   },
+  // };
+  return null as any;
 };
 
 // TODO: encryption audit? does this method need it?
@@ -207,84 +179,76 @@ export const resolveHandshake = async (
   url?: string,
   handshakeId?: string
 ): Promise<{ url: string }> => {
-  if (!url) {
-    return errorRedirect('INVALID_URL');
-  }
-
-  if (!handshakeId) {
-    return errorRedirect('INVALID_HANDSHAKE_ID');
-  }
-
-  const handshake = await getHandshake(handshakeId);
-  if (!handshake) {
-    return errorRedirect('INVALID_HANDSHAKE');
-  }
-
-  const { appId, uid, timestamp, settingId, connectionId } = handshake;
-  if (isExpired(timestamp + SERVER_SETTINGS.HANDSHAKE_EXPIRATION_OFFSET)) {
-    return errorRedirect('EXPIRED_HANDSHAKE');
-  }
-
-  const app = registry.getApp(appId);
-  const setting = app?.settings?.[settingId];
-
-  if (!setting) {
-    return errorRedirect('INVALID_SETTING');
-  }
-
-  if (setting.type !== 'oauth') {
-    return errorRedirect('INVALID_SETTING_TYPE');
-  }
-
-  try {
-    const client = new OAuthClient(setting.options);
-    const tokens = await client.parseUrl(url);
-
-    await applyConnectionUpdates(connectionId, {
-      uid: uid,
-      appId: appId,
-      settings: { [settingId]: tokens },
-    });
-
-    await deleteHandshake(handshakeId);
-    return closeRedirect();
-  } catch (error) {
-    if (error instanceof Error) {
-      console.error(`more details`, error.message);
-    }
-    console.error(`failed to complete oauth connection`, error);
-    return errorRedirect('UNKNOWN_FAILURE');
-  }
+  // if (!url) {
+  //   return errorRedirect('INVALID_URL');
+  // }
+  // if (!handshakeId) {
+  //   return errorRedirect('INVALID_HANDSHAKE_ID');
+  // }
+  // const handshake = await getHandshake(handshakeId);
+  // if (!handshake) {
+  //   return errorRedirect('INVALID_HANDSHAKE');
+  // }
+  // const { appId, uid, timestamp, settingId, connectionId } = handshake;
+  // if (isExpired(timestamp + SERVER_SETTINGS.HANDSHAKE_EXPIRATION_OFFSET)) {
+  //   return errorRedirect('EXPIRED_HANDSHAKE');
+  // }
+  // const app = registry.getApp(appId);
+  // const setting = app?.settings?.[settingId];
+  // if (!setting) {
+  //   return errorRedirect('INVALID_SETTING');
+  // }
+  // if (setting.type !== 'oauth') {
+  //   return errorRedirect('INVALID_SETTING_TYPE');
+  // }
+  // try {
+  //   const client = new OAuthClient(setting.options);
+  //   const tokens = await client.parseUrl(url);
+  //   await applyConnectionUpdates(connectionId, {
+  //     uid: uid,
+  //     appId: appId,
+  //     settings: { [settingId]: tokens },
+  //   });
+  //   await deleteHandshake(handshakeId);
+  //   return closeRedirect();
+  // } catch (error) {
+  //   if (error instanceof Error) {
+  //     console.error(`more details`, error.message);
+  //   }
+  //   console.error(`failed to complete oauth connection`, error);
+  //   return errorRedirect('UNKNOWN_FAILURE');
+  // }
+  return { url: 'url' };
 };
 
-export const createOAuthUrl = async (opts: ConnectionFieldOptions) => {
-  const { appId, settingId } = opts;
+export const createOAuthUrl = async () => {
+  // const { appId, settingId } = opts;
 
-  const app = registry.getApp(appId);
+  // const app = registry.getApp(appId);
 
-  const settings = app.settings;
-  if (!settings) {
-    throw new TRPCError({
-      code: 'BAD_REQUEST',
-      message: `cannot create oauth url for app ${appId} because it does not have any settings`,
-    });
-  }
+  // const settings = app.settings;
+  // if (!settings) {
+  //   throw new TRPCError({
+  //     code: 'BAD_REQUEST',
+  //     message: `cannot create oauth url for app ${appId} because it does not have any settings`,
+  //   });
+  // }
 
-  const setting = settings[settingId];
-  if (setting.type !== 'oauth') {
-    throw new TRPCError({
-      code: 'BAD_REQUEST',
-      message: 'setting is not of type oauth',
-    });
-  }
+  // const setting = settings[settingId];
+  // if (setting.type !== 'oauth') {
+  //   throw new TRPCError({
+  //     code: 'BAD_REQUEST',
+  //     message: 'setting is not of type oauth',
+  //   });
+  // }
 
-  const client = new OAuthClient(setting.options);
+  // const client = new OAuthClient(setting.options);
 
-  const handshakeId = await createHandshake(opts);
+  // const handshakeId = await createHandshake(opts);
 
-  const url = client.getUri(handshakeId);
+  // const url = client.getUri(handshakeId);
 
-  return { url };
+  return { url: 'handshakeId' };
 };
 
 export const submitConnectionForm = async (
@@ -293,26 +257,23 @@ export const submitConnectionForm = async (
   const settings = entity.settings;
   if (settings) {
     // get the app from the registry
-    const app = registry.getApp(entity.appId);
-
+    // const app = registry.getApp(entity.appId);
     // get the settings from the app
-    const fields = app.settings;
-    if (!fields) {
-      throw new TRPCError({
-        code: 'BAD_REQUEST',
-        message: `cannot save connection form for app ${entity.appId} because it does not have any settings`,
-      });
-    }
-
+    // const fields = app.settings;
+    // if (!fields) {
+    //   throw new TRPCError({
+    //     code: 'BAD_REQUEST',
+    //     message: `cannot save connection form for app ${entity.appId} because it does not have any settings`,
+    //   });
+    // }
     // remove any oauth settings from the entity
-    const obj = Object.keys(settings)
-      .filter((key) => fields[key]?.type !== 'oauth')
-      .reduce((acc, key) => {
-        acc[key] = settings[key];
-        return acc;
-      }, {} as Record<string, unknown>);
-
-    entity.settings = obj;
+    // const obj = Object.keys(settings)
+    //   .filter((key) => fields[key]?.type !== 'oauth')
+    //   .reduce((acc, key) => {
+    //     acc[key] = settings[key];
+    //     return acc;
+    //   }, {} as Record<string, unknown>);
+    // entity.settings = obj;
   }
 
   await applyConnectionUpdates(entity.id, entity);

@@ -17,9 +17,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import MenuIcon from '@mui/icons-material/Menu';
 import ListAltIcon from '@mui/icons-material/ListAltOutlined';
-import HubIcon from '@mui/icons-material/HubOutlined';
 import SettingsIcon from '@mui/icons-material/SettingsOutlined';
-import ScannerIcon from '@mui/icons-material/ScannerOutlined';
 import SupportAgentIcon from '@mui/icons-material/SupportAgentOutlined';
 import AssignmenIcon from '@mui/icons-material/AssignmentOutlined';
 import AppsIcon from '@mui/icons-material/Apps';
@@ -27,7 +25,6 @@ import { Button, Link, Paper, Tooltip, useMediaQuery } from '@mui/material';
 import AccountMenu from './account-menu';
 import { useUser } from '@worksheets/util/auth/client';
 import { useRouter } from 'next/router';
-import { SupportSpeedDial } from './support-speed-dial';
 import { SERVER_SETTINGS } from '@worksheets/data-access/server-settings';
 import { useEffect } from 'react';
 import { Feedback, Warning } from '@mui/icons-material';
@@ -129,12 +126,10 @@ export default function WebsiteLayout({
   };
 
   let topSections = [
-    { text: 'Worksheets', link: '/worksheets', icon: <ListAltIcon /> },
-    { text: 'Connections', link: '/connections', icon: <HubIcon /> },
+    { text: 'Dashboard', link: '/dashboard', icon: <ListAltIcon /> },
     { text: 'Settings', link: '/settings', icon: <SettingsIcon /> },
   ];
   const bottomSections = [
-    { text: 'Templates', link: '/templates', icon: <ScannerIcon /> },
     { text: 'Applications', link: '/applications', icon: <AppsIcon /> },
     {
       text: 'Documentation',
@@ -143,7 +138,7 @@ export default function WebsiteLayout({
     },
     {
       text: 'Support',
-      link: `${SERVER_SETTINGS.WEBSITES.DOCS_URL('/contact-us')}'`,
+      link: `${SERVER_SETTINGS.WEBSITES.DOCS_URL('/contact-us')}`,
       icon: <SupportAgentIcon />,
     },
   ];
@@ -156,7 +151,6 @@ export default function WebsiteLayout({
     <>
       <MobileWarning />
       <CssBaseline />
-      <SupportSpeedDial />
       <Box height="100%" display="flex">
         <AppBar position="fixed" open={open}>
           <Toolbar
@@ -181,7 +175,7 @@ export default function WebsiteLayout({
               </IconButton>
               {!open && <Title />}
             </Box>
-            <Box>
+            <Box display="flex" alignItems={'center'} gap={1}>
               <FeedbackButton />
               <AccountMenu secure={secure} />
             </Box>

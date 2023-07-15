@@ -1,11 +1,11 @@
 import { router } from '../trpc';
 
 import reapers from './reapers/router';
-import executions from './executions/router';
+import replenishers from './replenishers/router';
 
 export const appRouter = router({
   reapers,
-  executions,
+  replenishers,
 });
 
 export type AppRouter = typeof appRouter;

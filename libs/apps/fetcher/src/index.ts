@@ -84,6 +84,7 @@ const newHandler =
     return await defaultFetchInterceptor(request);
   };
 
+// TODO: import server settings without it importing everything else.
 export const DEFAULT_HOST_URL = `https://api.worksheets.dev/v1`;
 const defaultFetchInterceptor = async ({
   app,

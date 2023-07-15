@@ -105,3 +105,16 @@ export type ApplicationMethodDataMask<App extends ApplicationKeys, Mask> = {
       : { [N in keyof ApplicationMethodData<App, L>[M]]?: Mask };
   };
 };
+
+export type ApplicationSampleMask = {
+  [K in keyof Applications]: ApplicationSampleDataMask<K>;
+};
+
+export type ApplicationSampleDataMask<App extends ApplicationKeys> = {
+  [L in ApplicationMethodKeys<App>]: {
+    [M in keyof ApplicationMethodData<App, L>]: ApplicationMethodData<
+      App,
+      L
+    >[M];
+  };
+};

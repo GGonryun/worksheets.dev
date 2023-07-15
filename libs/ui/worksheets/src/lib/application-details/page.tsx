@@ -11,16 +11,15 @@ import {
 import { FloatingLayout } from '../floating-layout';
 import { trpc } from '@worksheets/trpc/ide';
 import { TinyLogo } from '../shared/tiny-logo';
-import { CheckCircle } from '@mui/icons-material';
+import { CheckCircle, OpenInNew } from '@mui/icons-material';
 import { GetApplicationResponse, ListMethodsResponse } from '../shared/types';
-import { useRouter } from 'next/router';
-import { TemplatesGrid } from '../templates-gallery/templates-grid';
 import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import React, { useState } from 'react';
 import { CodeEditor } from '@worksheets/ui/code-editor';
 import { ResourcesFooter } from '../shared/resources-footer';
 import { OpenInNewTabLink } from '@worksheets/ui/common';
+import { SERVER_SETTINGS } from '@worksheets/data-access/server-settings';
 
 type SingleMethodResponse = ListMethodsResponse[number];
 
@@ -38,7 +37,6 @@ export const ApplicationDetailsPage: React.FC<{ appId: string }> = ({
     <FloatingLayout secure={false}>
       <Header app={app} />
       <AdvertisementSection />
-      <TemplatesGallery app={app} />
       <MethodsGallery app={app} />
       <Footer />
     </FloatingLayout>
@@ -58,7 +56,7 @@ const Header: React.FC<{ app: GetApplicationResponse }> = ({ app }) => (
       <Box display="flex" flexDirection="column">
         <Typography variant="caption">
           By:{' '}
-          <OpenInNewTabLink fontSize={14} href={'/organizations/worksheets'}>
+          <OpenInNewTabLink fontSize={14} href={''}>
             Worksheets
           </OpenInNewTabLink>
         </Typography>
@@ -72,11 +70,16 @@ const Header: React.FC<{ app: GetApplicationResponse }> = ({ app }) => (
       width="325px"
       gap={2}
     >
-      <Button fullWidth variant="contained" href="/worksheets/create">
-        Try It Free
+      <Button fullWidth variant="contained" href="/dashboard">
+        Visit Dashboard
       </Button>
-      <Button fullWidth variant="contained" href="/templates">
-        Templates
+      <Button
+        startIcon={<OpenInNew />}
+        fullWidth
+        variant="contained"
+        href={SERVER_SETTINGS.WEBSITES.DOCS_URL()}
+      >
+        Quick Start Guide
       </Button>
     </Box>
   </Box>
@@ -109,35 +112,16 @@ const AdvertisementSection: React.FC = () => (
   </Box>
 );
 
-const TemplatesGallery: React.FC<{ app: GetApplicationResponse }> = ({
-  app,
-}) => {
-  const { push } = useRouter();
-  return (
-    <Box p={3} display="flex" flexDirection="column" gap={2} width="100%">
-      <Box
-        display="flex"
-        flexDirection="column"
-        alignItems="center"
-        justifyContent="center"
-        width="100%"
-      >
-        <Typography variant="h5" sx={{ textDecoration: 'underline' }}>
-          Automate workflows with our easy-to-use templates
-        </Typography>
-      </Box>
-
-      <TemplatesGrid
-        appIds={[app.id]}
-        onAppClick={(app) => push(`/applications/${app.id}`)}
-      />
-    </Box>
-  );
-};
-
 const MethodsGallery: React.FC<{ app: GetApplicationResponse }> = ({ app }) => {
   return (
-    <Box p={3} display="flex" flexDirection="column" gap={2} width="100%">
+    <Box
+      p={3}
+      pt={1}
+      display="flex"
+      flexDirection="column"
+      gap={2}
+      width="100%"
+    >
       <Box
         display="flex"
         flexDirection="column"
@@ -146,7 +130,7 @@ const MethodsGallery: React.FC<{ app: GetApplicationResponse }> = ({ app }) => {
         width="100%"
       >
         <Typography variant="h6" sx={{ textDecoration: 'underline' }}>
-          Supported Methods
+          Code Samples
         </Typography>
       </Box>
       <MethodGrid app={app} />
@@ -159,6 +143,7 @@ const MethodCard: React.FC<{
   method: SingleMethodResponse;
 }> = ({ app, method }) => {
   const [open, setOpen] = useState(false);
+
   return (
     <Card elevation={4}>
       <CardActionArea onClick={() => setOpen(!open)}>
@@ -186,14 +171,12 @@ const MethodCard: React.FC<{
         />
       </CardActionArea>
       <Divider />
-
       <Collapse in={open}>
         <Box height="300px">
           <CodeEditor
-            hideLineNumbers
             value={method.example ?? ''}
-            mode={'yaml'}
-            theme={'light'}
+            mode="typescript"
+            theme="light"
             height="100%"
             width="100%"
             disabled

@@ -1,7 +1,7 @@
 import { z } from 'zod';
-import { pushTasksToCompletion } from '@worksheets/feat/task-processing';
 import { SERVER_SETTINGS } from '@worksheets/data-access/server-settings';
 import { publicProcedure } from '../../procedures';
+import { reapOldExecutions } from '@worksheets/feat-method-execution';
 
 export default publicProcedure
   .meta({
@@ -9,8 +9,7 @@ export default publicProcedure
       enabled: true,
       method: 'DELETE',
       path: '/reapers/executions',
-      summary:
-        'Clean up active task executions on the system and drive them towards completion',
+      summary: 'Clean up old method executions on the system',
       tags: ['reapers'],
     },
   })
@@ -23,7 +22,7 @@ export default publicProcedure
   )
   .output(z.number())
   .mutation(async ({ input }) => {
-    return await pushTasksToCompletion(
+    return await reapOldExecutions(
       input?.quantity ?? SERVER_SETTINGS.REAPER.QUANTITIES.EXECUTIONS
     );
   });

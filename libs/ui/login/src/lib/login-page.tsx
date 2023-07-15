@@ -26,7 +26,7 @@ export function LoginPage() {
 
   useTimeout(() => {
     if (user) {
-      push('/worksheets?evaluation=true');
+      push('/dashboard');
     } else {
       setLoading(false);
     }
@@ -40,7 +40,7 @@ export function LoginPage() {
     provider.addScope('email');
 
     signInProvider(provider)
-      .then(() => push(`/worksheets?evaluation=true`))
+      .then(() => push(`/dashboard`))
       .catch(warn('failed to log in with github'))
       .finally(() => setLoading(false));
   }
@@ -53,7 +53,7 @@ export function LoginPage() {
     provider.addScope('email');
 
     signInProvider(provider)
-      .then(() => push(`/worksheets?evaluation=true`))
+      .then(() => push(`/dashboard`))
       .catch(warn('failed to log in with google'))
       .finally(() => setLoading(false));
   }

@@ -71,43 +71,43 @@ export const processTask = async (taskId: string): Promise<TaskState> => {
   // create a new logger
   const logger = new TaskLogger({ db: loggingDb, task });
 
-  if (
-    await quotas.isEmpty({
-      uid: task.userId,
-      type: 'processingTime',
-    })
-  ) {
-    const message =
-      'You have depleted your processing capacity. Contact support to increase your quota.';
-    await logger.error(message);
-    // check to see if the user has enough processing time on their account to process the task
-    return await failTask(
-      task,
-      new ExecutionFailure({
-        code: 'insufficient-quota',
-        message: message,
-      })
-    );
-  }
+  // if (
+  //   await quotas.isEmpty({
+  //     uid: task.userId,
+  //     type: 'processingTime',
+  //   })
+  // ) {
+  //   const message =
+  //     'You have depleted your processing capacity. Contact support to increase your quota.';
+  //   await logger.error(message);
+  //   // check to see if the user has enough processing time on their account to process the task
+  //   return await failTask(
+  //     task,
+  //     new ExecutionFailure({
+  //       code: 'insufficient-quota',
+  //       message: message,
+  //     })
+  //   );
+  // }
 
   // user cannot exceed their limit of concurrent tasks
   const runningTasks = await findUsersRunningExecutions(taskDb, task.userId);
-  if (
-    await userLimits.exceeds({
-      uid: task.userId,
-      type: 'maxRunningExecutions',
-      // it's weird but give the user some wiggle room just in case.
-      value: runningTasks.length,
-    })
-  ) {
-    const message =
-      'You have too many concurrent tasks. This execution will try again shortly. Contact support to increase your quota.';
-    await logger.warn(message);
-    throw new TRPCError({
-      code: 'CONFLICT',
-      message: 'User is at maximum processing capacity. Ignoring request.',
-    });
-  }
+  // if (
+  //   await userLimits.exceeds({
+  //     uid: task.userId,
+  //     type: 'maxRunningExecutions',
+  //     // it's weird but give the user some wiggle room just in case.
+  //     value: runningTasks.length,
+  //   })
+  // ) {
+  //   const message =
+  //     'You have too many concurrent tasks. This execution will try again shortly. Contact support to increase your quota.';
+  //   await logger.warn(message);
+  //   throw new TRPCError({
+  //     code: 'CONFLICT',
+  //     message: 'User is at maximum processing capacity. Ignoring request.',
+  //   });
+  // }
 
   // if task has a delay and the delay is longer than cron polling limit allow out of band scheduler to take over
   if (isTaskDelayed(task) && !isWithinNearPollingLimit(task)) {
@@ -234,13 +234,13 @@ export const processTask = async (taskId: string): Promise<TaskState> => {
   // keep the duration of the execution in sync with the task for easier querying
   task.duration = duration;
 
-  await quotas.request({
-    uid: worksheet.uid,
-    type: 'processingTime',
-    quantity: SERVER_SETTINGS.RESOURCE_CONSUMPTION.USER_PROCESSING_TIME(
-      timeSpentProcessingThisRound
-    ),
-  });
+  // await quotas.request({
+  //   uid: worksheet.uid,
+  //   type: 'processingTime',
+  //   quantity: SERVER_SETTINGS.RESOURCE_CONSUMPTION.USER_PROCESSING_TIME(
+  //     timeSpentProcessingThisRound
+  //   ),
+  // });
 
   if (didExecutionFail(controller)) {
     const failure = controller.getFailure();

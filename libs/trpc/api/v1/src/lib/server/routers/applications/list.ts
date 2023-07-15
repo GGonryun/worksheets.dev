@@ -18,6 +18,6 @@ export default publicProcedure
   })
   .input(listApplicationsRequestSchema)
   .output(listApplicationsResponseSchema)
-  .query(async ({ input: req }) => {
-    return listApplications(req);
+  .query(async ({ input }) => {
+    return listApplications();
   });

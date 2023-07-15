@@ -12,6 +12,7 @@ export async function createContext({
 
   return {
     user: await getUserFromHeader(),
+    req,
   };
 }
 

@@ -13,7 +13,7 @@ export const ApplicationCard: React.FC<{
   application: ApplicationDetails;
 }> = ({ application }) => (
   <Card variant="outlined">
-    <CardActionArea href={`/applications/${application.id}`}>
+    <CardActionArea href={`/applications/${application.id}`} sx={{ pb: 2 }}>
       <CardHeader
         avatar={
           <Box>

@@ -5,9 +5,12 @@ import { ReactNode, useEffect, useState } from 'react';
 
 import 'ace-builds/src-noconflict/mode-yaml';
 import 'ace-builds/src-noconflict/mode-json';
+import 'ace-builds/src-noconflict/mode-typescript';
 import 'ace-builds/src-noconflict/theme-textmate';
+import 'ace-builds/src-noconflict/theme-monokai';
 import 'ace-builds/src-noconflict/theme-terminal';
 import 'ace-builds/src-noconflict/ext-language_tools';
+
 import { getYamlCodeValidationErrors } from './yaml';
 import { Box, IconButton, Tooltip, Typography } from '@mui/material';
 import { ContentCopy } from '@mui/icons-material';
@@ -16,7 +19,7 @@ export type AceEditorProps = {
   width?: string;
   height?: string;
   value: string;
-  mode: 'yaml' | 'json';
+  mode: 'yaml' | 'json' | 'typescript';
   theme: 'light' | 'dark';
   onChange?: (newValue: string) => void;
   onCopy?: () => void; // if present enables the copy button at the top right corner
@@ -104,7 +107,9 @@ export default function CodeEditor({
           readOnly={disabled}
           height={height}
           width={width}
-          mode={mode === 'yaml' ? 'yaml' : 'json'}
+          mode={
+            mode === 'yaml' ? 'yaml' : mode === 'json' ? 'json' : 'typescript'
+          }
           theme={theme === 'light' ? 'textmate' : 'terminal'}
           value={value}
           fontSize={14}

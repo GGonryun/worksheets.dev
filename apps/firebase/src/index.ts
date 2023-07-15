@@ -14,43 +14,11 @@ admin.firestore().settings({
   ignoreUndefinedProperties: true,
 });
 
-// TODO: do not rely on making calls back to the worksheets.dev API. Instead, use a shared library to process tasks.
-export const taskProcessor = functions.pubsub
-  .topic('process-tasks')
-  .onPublish(async (message) => {
-    // get the task id from the message
-    const taskId = message.json.taskId;
-    // write a log message
-    functions.logger.info('Processing task', { taskId });
-    // send a post request to task processor at
-    const response = await fetcher(`/api/executions/${taskId}/process`, {
-      method: 'POST',
-    });
-
-    return response.status;
-  });
-
-// task complete is a pubsub function that executes when a task is completed. it sends a request to the internal notification system so that we can alert user's about task completion.
-export const taskComplete = functions.pubsub
-  .topic('task-complete')
-  .onPublish(async (message) => {
-    // get the task id from the message
-    const taskId = message.json.taskId;
-
-    // log the message
-    functions.logger.info('Task processing is done', { message, taskId });
-
-    return taskId;
-  });
-
-// the task reaper is a pubsub function that executes every 10 minutes and sends a request to the api to check for tasks that have been running for too long.
-export const taskProcessReaper = functions.pubsub
-  .schedule('* * * * *')
+export const methodExecutionReaper = functions.pubsub
+  .schedule('every 2 hours')
   .onRun(async () => {
-    // send the fetch request to the worksheets.dev task reaper endpoint
     const response = await fetcher(`/api/reapers/executions`, {
       method: 'DELETE',
-      // send the request with a json body that contains the current time
       body: JSON.stringify({}),
     });
 
@@ -58,7 +26,7 @@ export const taskProcessReaper = functions.pubsub
   });
 
 export const limitsReaper = functions.pubsub
-  .schedule('every 24 hours')
+  .schedule('every 8 hours')
   .onRun(async () => {
     const response = await fetcher(`/api/reapers/limits`, {
       method: 'DELETE',
@@ -68,33 +36,13 @@ export const limitsReaper = functions.pubsub
     return response.status;
   });
 
-export const handshakesReaper = functions.pubsub
-  .schedule('every 24 hours')
+export const userQuotaReplenisher = functions.pubsub
+  .schedule('every 2 hours')
   .onRun(async () => {
-    const response = await fetcher(`/api/reapers/handshakes`, {
-      method: 'DELETE',
+    const response = await fetcher(`/api/replenishers/quotas`, {
+      method: 'POST',
       body: JSON.stringify({}),
     });
 
-    return response.status;
-  });
-
-export const loggingReaper = functions.pubsub
-  .schedule('*/10 * * * *')
-  .onRun(async () => {
-    const response = await fetcher(`/api/reapers/logging`, {
-      method: 'DELETE',
-      body: JSON.stringify({}),
-    });
-    return response.status;
-  });
-
-export const historyReaper = functions.pubsub
-  .schedule('every 8 hours')
-  .onRun(async () => {
-    const response = await fetcher(`/api/reapers/history`, {
-      method: 'DELETE',
-      body: JSON.stringify({}),
-    });
     return response.status;
   });

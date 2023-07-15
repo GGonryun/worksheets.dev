@@ -2,19 +2,7 @@ import { z } from '@worksheets/zod';
 
 export const userLimitsEntity = z.object({
   id: z.string(),
-  executionHistoryRetention: z.number().describe('in days'),
-  logRetention: z.number().describe('in days'),
   maxApiTokens: z.number(),
-  maxConnections: z.number(),
-  maxWorksheets: z.number(),
-  maxQueuedExecutions: z
-    .number()
-    .describe(
-      'the maximum number of executions that can be queued at any given time, new tasks cannot be created if exceeded.'
-    ),
-  maxRunningExecutions: z
-    .number()
-    .describe('max number of concurrently running executions allowed per user'),
 });
 
 const quota = (resourceName: string) =>
@@ -32,10 +20,7 @@ export const userQuotasEntity = z.object({
   createdAt: z.number().describe('timestamp of creation date, in milliseconds'),
   enabled: z.boolean().default(true),
   overclocked: z.boolean().default(false),
-  tokenUses: quota('api token'),
-  executions: quota('worksheet execution'),
-  methodCalls: quota('method call'),
-  processingTime: quota('processing time').describe('in milliseconds'),
+  executions: quota('method execution'),
 });
 
 export type UserLimitsEntity = z.infer<typeof userLimitsEntity>;
@@ -69,21 +54,9 @@ export const userOverviewSchema = z.object({
   }),
   quotas: userQuotasEntity,
   limits: z.object({
-    worksheets: z.number(),
     tokens: z.number(),
-    connections: z.number(),
-    executions: z.object({
-      queued: z.number(),
-      running: z.number(),
-    }),
   }),
   counts: z.object({
-    worksheets: z.number(),
     tokens: z.number(),
-    connections: z.number(),
-    executions: z.object({
-      queued: z.number(),
-      running: z.number(),
-    }),
   }),
 });

@@ -1,6 +1,5 @@
 import { Box, Button, Divider, Tooltip, Typography } from '@mui/material';
 import { SettingSummary } from '@worksheets/apps/framework';
-import { FormFieldsResponse } from '../../shared/types';
 import { SharedTextField } from '../../shared/shared-text-field';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import LinkIcon from '@mui/icons-material/LinkOutlined';
@@ -14,15 +13,15 @@ declare global {
 }
 
 export const DynamicSettingsForm: React.FC<{
-  fields?: FormFieldsResponse;
+  fields?: any;
   settings: Record<string, unknown>;
   disabled?: boolean;
   // input is key/value pair of the updated property.
-  onFieldUpdate: (field: FormFieldsResponse[number], newValue: unknown) => void;
+  onFieldUpdate: (field: any, newValue: unknown) => void;
 }> = ({ fields, settings, onFieldUpdate, disabled }) => {
   return (
     <Box>
-      {fields?.map((field, index) => {
+      {/* {fields?.map((field, index) => {
         return (
           <Fragment key={index}>
             {field.type !== 'token' && index === 0 && <Divider />}
@@ -41,14 +40,14 @@ export const DynamicSettingsForm: React.FC<{
             {field.type !== 'token' && <Divider />}
           </Fragment>
         );
-      })}
+      })} */}
     </Box>
   );
 };
 
 /** OLD STUFF */
 export type MethodSettingsFormProps = {
-  settings: FormFieldsResponse;
+  settings: any;
   path: string;
 };
 

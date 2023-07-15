@@ -1,6 +1,8 @@
 import { zodToJsonSchema } from 'zod-to-json-schema';
 import { MethodDefinition } from '@worksheets/apps/framework';
 import { JsonSchema7ObjectType } from 'zod-to-json-schema/src/parsers/object';
+import { printSchema } from '@worksheets/util-json';
+
 import { newApplicationsDatabase } from '@worksheets/data-access/applications';
 
 export const db = newApplicationsDatabase();
@@ -64,12 +66,4 @@ const isJsonObject = (schema: unknown): schema is JsonSchema7ObjectType => {
     'type' in schema &&
     schema.type === 'object'
   );
-};
-
-type GenericSchemaType = ReturnType<typeof zodToJsonSchema>;
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const printSchema = ({ $schema, ...props }: GenericSchemaType) => {
-  // cleansing schema.
-  return JSON.stringify({ ...props });
 };

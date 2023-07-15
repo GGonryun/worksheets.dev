@@ -23,7 +23,7 @@ export const WorksheetDetailsPage: React.FC<{
     <WebsiteLayout>
       <Box height="100%" display="flex" flexDirection="column">
         <Box display="flex" alignItems="center" gap={3} margin={1}>
-          <IconButton onClick={() => push('/worksheets')}>
+          <IconButton onClick={() => push('/dashboard')}>
             <ArrowBackIcon color="primary" />
           </IconButton>
           <Typography variant="h6">Worksheet details</Typography>

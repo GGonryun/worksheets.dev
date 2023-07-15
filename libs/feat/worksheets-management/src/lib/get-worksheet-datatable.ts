@@ -1,7 +1,4 @@
-import {
-  convertApplicationDefinition,
-  newApplicationsDatabase,
-} from '@worksheets/data-access/applications';
+import { newApplicationsDatabase } from '@worksheets/data-access/applications';
 import { onlyUnique } from '@worksheets/util/functional';
 import { formatTimestamp } from '@worksheets/util/time';
 
@@ -14,7 +11,6 @@ import {
 } from '@worksheets/util-worksheets';
 import { applicationDetailsSchema } from '@worksheets/schemas-applications';
 
-const appsDb = newApplicationsDatabase();
 const tasksDb = newTasksDatabase();
 
 export const worksheetDataRowSchema = z.object({
@@ -50,15 +46,15 @@ export const getWorksheetsDataTable = async (
       .filter(Boolean)
       .filter(onlyUnique);
 
-    const appDetails = appsDb
-      .list()
-      .filter((app) => appIds.includes(app.id))
-      .map(convertApplicationDefinition);
+    // const appDetails = appsDb
+    //   .list()
+    //   .filter((app) => appIds.includes(app.id))
+    //   .map(convertApplicationDefinition);
 
     rows.push({
       name: worksheet.name,
       id: worksheet.id,
-      apps: appDetails,
+      apps: [],
       lastUpdated: formatTimestamp(worksheet.updatedAt),
       lastExecuted: entities.length
         ? formatTimestamp(entities[0].createdAt)

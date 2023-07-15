@@ -18,7 +18,10 @@ import { TokenModal } from './token-modal';
 import { warn } from '@worksheets/ui/common';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { SERVER_SETTINGS } from '@worksheets/data-access/server-settings';
-export const SettingsCardAccessTokens: React.FC = () => {
+import { UserOverviewResponse } from '../../../shared/types';
+export const SettingsCardAccessTokens: React.FC<{
+  overview: UserOverviewResponse;
+}> = () => {
   const { user } = useUser();
   const [newToken, setNewToken] = useState('');
   const [form, setForm] = useState({

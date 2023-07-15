@@ -1,5 +1,5 @@
 import { trpc } from '@worksheets/trpc/ide';
-import { ConnectionForm, FormFieldsResponse } from '../shared/types';
+import { ConnectionForm } from '../shared/types';
 import React, { useEffect } from 'react';
 
 export const useConnectionBuilder = ({
@@ -119,10 +119,7 @@ export const useConnectionBuilder = ({
     win.focus();
   };
 
-  const updateSettingsFieldHandler = (
-    field: FormFieldsResponse[number],
-    value: unknown
-  ) => {
+  const updateSettingsFieldHandler = (field: any, value: unknown) => {
     if (field.type === 'oauth') {
       if (value) {
         deleteOAuthField(field.id);
@@ -147,24 +144,25 @@ export const useConnectionBuilder = ({
   };
 
   const areRequiredFieldsSet = () => {
-    if (!app?.fields) return true;
+    // if (!app?.fields) return true;
 
-    return app?.fields.every((field) => {
-      if (field.required) {
-        if (field.type === 'oauth') {
-          return connection.settings[field.id];
-        }
+    // return app?.fields.every((field) => {
+    //   if (field.required) {
+    //     if (field.type === 'oauth') {
+    //       return connection.settings[field.id];
+    //     }
 
-        return !!connection.settings[field.id];
-      }
+    //     return !!connection.settings[field.id];
+    //   }
 
-      return true;
-    });
+    //   return true;
+    // });
+    return true;
   };
 
   return {
     connection,
-    fields: app?.fields || [],
+    fields: [],
     app,
     editing,
     cannotEdit,

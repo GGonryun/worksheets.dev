@@ -19,6 +19,7 @@
       "@worksheets/apps-handlers": ["libs/apps/handlers/src/index.ts"],
       "@worksheets/apps-metadata": ["libs/apps/metadata/src/index.ts"],
       "@worksheets/apps-registry": ["libs/apps/registry/src/index.ts"],
+      "@worksheets/apps-sample-data": ["libs/apps/sample-data/src/index.ts"],
       "@worksheets/apps-sensitive-fields-mask": [
         "libs/apps/sensitive-fields/src/index.ts"
       ],
@@ -45,6 +46,9 @@
       "@worksheets/data-access/handshakes": [
         "libs/data-access/handshakes/src/index.ts"
       ],
+      "@worksheets/data-access/method-executions": [
+        "libs/data-access/method-executions/src/index.ts"
+      ],
       "@worksheets/data-access/server-alerts": [
         "libs/data-access/server-alerts/src/index.ts"
       ],
@@ -68,6 +72,9 @@
         "libs/data-access/worksheets-connections/src/index.ts"
       ],
       "@worksheets/engine": ["libs/engine/src/index.ts"],
+      "@worksheets/feat-method-execution": [
+        "libs/feat/method-execution/src/index.ts"
+      ],
       "@worksheets/feat/applications-registry": [
         "libs/feat/applications-registry/src/index.ts"
       ],
@@ -138,6 +145,7 @@
       "@worksheets/ui/worksheets": ["libs/ui/worksheets/src/index.ts"],
       "@worksheets/ui/worksheets/server": ["libs/ui/worksheets/src/server.ts"],
       "@worksheets/util-hardware": ["libs/util/hardware/src/index.ts"],
+      "@worksheets/util-json": ["libs/util/json/src/index.ts"],
       "@worksheets/util-worksheets": ["libs/util/worksheets/src/index.ts"],
       "@worksheets/util-yaml": ["libs/util/yaml/src/index.ts"],
       "@worksheets/util/arrays": ["libs/util/arrays/src/index.ts"],

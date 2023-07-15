@@ -18,7 +18,6 @@ import {
 import { TaskLogger } from './util';
 import { TRPCError } from '@trpc/server';
 import { limits as serverLimits } from '@worksheets/feat/server-management';
-import { quotas, limits as userLimits } from '@worksheets/feat/user-management';
 import { SERVER_SETTINGS } from '@worksheets/data-access/server-settings';
 import { TaskEntity } from '@worksheets/schemas-executions';
 
@@ -36,35 +35,35 @@ export const createTask = async (
 ): Promise<string> => {
   const worksheet = await getWorksheet(worksheetId);
 
-  // check the if the user has sufficient quota to execute the task
-  if (
-    !(await quotas.request({
-      uid: worksheet.uid,
-      type: 'executions',
-      quantity: SERVER_SETTINGS.RESOURCE_CONSUMPTION.USER_WORKSHEET_EXECUTION,
-    }))
-  ) {
-    throw new TRPCError({
-      code: 'TOO_MANY_REQUESTS',
-      message:
-        'You have exceeded your execution quota. Contact customer support to increase your quota.',
-    });
-  }
+  // // check the if the user has sufficient quota to execute the task
+  // if (
+  //   !(await quotas.request({
+  //     uid: worksheet.uid,
+  //     type: 'executions',
+  //     quantity: SERVER_SETTINGS.RESOURCE_CONSUMPTION.USER_WORKSHEET_EXECUTION,
+  //   }))
+  // ) {
+  //   throw new TRPCError({
+  //     code: 'TOO_MANY_REQUESTS',
+  //     message:
+  //       'You have exceeded your execution quota. Contact customer support to increase your quota.',
+  //   });
+  // }
 
   const queuedTasks = await findUsersQueuedExecutions(tasksDb, worksheet.uid);
-  if (
-    await userLimits.exceeds({
-      uid: worksheet.uid,
-      type: 'maxQueuedExecutions',
-      value: queuedTasks.length,
-    })
-  ) {
-    throw new TRPCError({
-      code: 'TOO_MANY_REQUESTS',
-      message:
-        'You have too many queued worksheets. Try again later or contact customer support to increase your limits.',
-    });
-  }
+  // if (
+  //   await userLimits.exceeds({
+  //     uid: worksheet.uid,
+  //     type: 'maxQueuedExecutions',
+  //     value: queuedTasks.length,
+  //   })
+  // ) {
+  //   throw new TRPCError({
+  //     code: 'TOO_MANY_REQUESTS',
+  //     message:
+  //       'You have too many queued worksheets. Try again later or contact customer support to increase your limits.',
+  //   });
+  // }
 
   // prevent this worksheet from executing too much
   if (
