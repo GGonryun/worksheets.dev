@@ -266,28 +266,4 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
       },
     },
   },
-  '& .execution-success': {
-    backgroundColor: getBackgroundColor(
-      theme.palette.primary.main,
-      theme.palette.mode
-    ),
-    '&:hover': {
-      backgroundColor: getHoverBackgroundColor(
-        theme.palette.primary.main,
-        theme.palette.mode
-      ),
-    },
-    '&.Mui-selected': {
-      backgroundColor: getSelectedBackgroundColor(
-        theme.palette.primary.main,
-        theme.palette.mode
-      ),
-      '&:hover': {
-        backgroundColor: getSelectedHoverBackgroundColor(
-          theme.palette.primary.main,
-          theme.palette.mode
-        ),
-      },
-    },
-  },
 }));
