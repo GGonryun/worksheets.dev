@@ -1,0 +1,130 @@
+---
+sidebar_position: 2
+title: Getting Started
+---
+
+> Stop integrating APIs and SDKs. Start integrating APPs.
+
+## Features
+
+[Worksheets.dev](https://worksheets.dev) is a low-code integration platform built for developers to integrate applications into their code without having to learn the APIs or SDKs of those applications.
+
+- Static typesafety for all applications and their inputs and outputs
+- No more dependency hell, use one light-weight SDK for all applications.
+- Instant analytics and insights for your application usage on [Worksheets.dev](https://worksheets.dev)
+
+## Guide
+
+### Preparation
+
+- Learn how to get a token with our interactive tutorial, or skip to the next section if you already have a token.
+
+<div
+  style={{
+    position: 'relative',
+    paddingBottom: 'calc(71.41666666666666% + 41px)',
+    height: 0,
+    width: '100%',
+  }}
+>
+  <iframe
+    src="https://demo.arcade.software/6eJHSNcqb9jvgI2995Jc?embed"
+    frameborder="0"
+    loading="lazy"
+    webkitallowfullscreen
+    mozallowfullscreen
+    allowfullscreen
+    style={{
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      width: '100%',
+      height: '100%',
+      colorScheme: 'light',
+    }}
+    title="Worksheets IDE"
+  ></iframe>
+</div>
+
+#### Create an account
+
+Before you start using worksheets.dev, you need to create an account. You can do so by clicking on the "Login" button on the top right corner of the page. We only support google and github login at the moment.
+
+#### Get an access token
+
+Once you have created an account, you will need to get an access token. You can do so by navigating to your account settings. Click on your user profile in the top right
+
+clicking on the "Get API Key" button on the top right corner of the page. You will need to provide a name for your API key. Once you have created an API key, you will be able to see it on the API Keys page. You can copy the API key by clicking on the copy button next to the API key.
+
+### Using the SDK
+
+- Note: we currently only support Typescript.
+  ![SDK Example](/img/worksheets-basic-640.gif)
+
+#### Install the SDK
+
+```bash
+npm install @worksheets/sdk
+```
+
+#### Import the SDK
+
+```typescript
+import { newRegistry } from '@worksheets/sdk';
+```
+
+#### Initialize the SDK
+
+```typescript
+const apps = newRegistry({
+  credentials: {
+    apiKey: 'YOUR_API_KEY',
+  },
+});
+```
+
+- Optional parameters for debugging and development
+
+```typescript
+const apps = newRegistry({
+  credentials: {
+    apiKey: 'YOUR_API_KEY',
+  },
+  logging: "verbose" // enable verbose logging before sending requests.
+  baseUrl: 'http://localhost:420/v1', // use a local server for development
+  // if present, intercepts all calls before they are sent to our servers.
+  interceptor(request){
+    console.log(request.app, request.method, request.contex, request.input)
+  }
+});
+```
+
+#### Call an application
+
+```typescript
+apps
+  .math()
+  .calc({
+    op: '*'
+    x: 2,
+    y: 3,
+  }).then((result) => {
+    console.log(result)
+  })
+```
+
+### Monitor your usage
+
+- on the [dashboard](https://worksheets.dev/dashboard) you can see information about your most recent requests.
+
+[![Dashboard](/img/worksheets-dashboard-1.png)](https://worksheets.dev/dashboard)
+
+- on the [billing tab of the settings page](https://worksheets.dev/settings/billing) you can see information about your usage over time.
+
+[![Usage](/img/worksheets-billing-1.png)](https://worksheets.dev/usage)
+
+### Whats next?
+
+- See the [Application Gallery](https://app.worksheets.dev/applications) for a list of all available applications and their inputs and outputs.
+- Create a free account on [Worksheets.dev](https://worksheets.dev) to get started.
+- Join our [Discord](https://discord.gg/ujEmEdjCaY) to get help or provide feedback.

@@ -10,65 +10,37 @@ type FeatureItem = {
 
 const FeatureList: FeatureItem[] = [
   {
-    title: 'Orchestrate complex workflows',
+    title: 'Typesafe SDKs',
     Svg: require('@site/static/img/icon-1.svg').default,
     description: (
       <>
-        Worksheets makes it easy for developers to integrate with applications,
-        parallelize operations, automate repetitive tasks, and more.
+        Our SDK provides a typesafe interface for interacting with external
+        apps. No more guessing what the response will look like. No more
+        wondering what the parameters are. No more sifting through
+        documentation.
       </>
     ),
   },
   {
-    title: 'Integrate with your favorite applications',
-    Svg: require('@site/static/img/icon-3.svg').default,
-    description: (
-      <>
-        Worksheets provides a growing library of applications to connect to. If
-        you can't find what you need, you can always write your own. We provide
-        a simple SDK to get you started.
-      </>
-    ),
-  },
-  {
-    title: 'Run tasks of any duration effortlessly',
+    title: 'Analytics and Monitoring',
     Svg: require('@site/static/img/icon-2.svg').default,
     description: (
       <>
-        Enjoy extended task lifetimes, enabling high frequency polling and long
-        term scheduling for comprehensive performance. No more worrying about
-        timeouts.
+        Monitor your integrations in real time. See how many requests you're
+        making, how long they take, and how much they cost. Gain insight into
+        how your application communicates with other services and swap out
+        integrations with ease.
       </>
     ),
   },
   {
-    title: 'Prebuilt templates',
+    title: 'Security and Compliance',
     Svg: require('@site/static/img/icon-0.svg').default,
     description: (
       <>
-        Explore a wider ecosystem, fostering adaptability and the ability to
-        stay ahead in a rapidly evolving business landscape
-      </>
-    ),
-  },
-  {
-    title: 'Works with your favorite languages',
-    Svg: require('@site/static/img/icon-5.svg').default,
-    description: (
-      <>
-        Auto generate client libraries for your favorite languages, or use the
-        REST API directly to integrate with any application, service, or tool
-        that can make an HTTP request.
-      </>
-    ),
-  },
-  {
-    title: 'Intuitive YAML Syntax',
-    Svg: require('@site/static/img/icon-4.svg').default,
-    description: (
-      <>
-        Use conditional logic, iterate over tables or lists of data of data,
-        execute other worksheets, parallelize multiple operations, and more
+        When you download an external SDK, their vulnerabilities become your
+        vulnerabilities. With Worksheets, we proxy those requests so that you
+        only have to worry about your own code.
       </>
     ),
   },
@@ -92,6 +64,24 @@ export default function HomepageFeatures(): JSX.Element {
   return (
     <section className={styles.features}>
       <div className="container">
+        <div
+          className="row"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            flexDirection: 'column',
+            width: '100%',
+          }}
+        >
+          <div
+            className="text--center padding-horiz--md"
+            style={{ paddingBottom: '20px' }}
+          >
+            <h3>Stop integrating APIs and SDKs. Start integrating APPs.</h3>
+          </div>
+          <img src="/img/worksheets-basic-640.gif" alt="Worksheets" />
+        </div>
         <div className="row">
           {FeatureList.map((props, idx) => (
             <Feature key={idx} {...props} />

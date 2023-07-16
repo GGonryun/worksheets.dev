@@ -32,17 +32,8 @@ function HomepageHeader() {
             >
               Sign up for free - 1 min 🚀
             </Link>
-            <Link
-              className="button button--secondary button--lg"
-              to="/docs/intro"
-            >
-              Watch the demo - 3 min 🎥
-            </Link>
-            <Link
-              className="button button--secondary button--lg"
-              to="/docs/overview"
-            >
-              Read more - 5 min 📖
+            <Link className="button button--secondary button--lg" to="/intro">
+              Learn more - 5 min 📖
             </Link>
           </div>
         </div>

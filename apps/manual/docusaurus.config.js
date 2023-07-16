@@ -8,7 +8,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 const config = {
   title: 'Worksheets.dev',
   tagline:
-    'Automate your workflows in minutes with our Low-Code Application Integration Platform.',
+    'Connect to your favorite apps with just a single type-safe NPM package.',
   url: 'https://worksheets.com',
   baseUrl: '/',
   onBrokenLinks: 'throw',
@@ -22,6 +22,9 @@ const config = {
       'classic',
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
+        docs: {
+          routeBasePath: '/',
+        },
         blog: {
           showReadingTime: true,
           editUrl: 'https://worksheets.dev/contact-us',
@@ -45,7 +48,7 @@ const config = {
         items: [
           {
             type: 'doc',
-            docId: 'intro',
+            docId: 'getting-started',
             position: 'left',
             label: 'Getting Started',
           },
@@ -81,8 +84,8 @@ const config = {
             title: 'Docs',
             items: [
               {
-                label: 'Tutorial',
-                to: '/docs/intro',
+                label: 'Intro',
+                to: 'intro',
               },
             ],
           },

@@ -1,59 +1,85 @@
 ---
 sidebar_position: 1
+title: Introduction
 ---
+
+# Introduction
+
+> Stop integrating from APIs and SDKs. Start integrating APPs.
 
 # What is Worksheets.dev?
 
-Worksheets.dev is a low code automation platform built to help developers connect and deploy multi-application workflows or tasks. Our platform provides a web editor, API, and SDK for integrating with external applications, executing long-running workflows, and managing application credentials.
+Worksheets.dev is a low-code integration platform built for developers. We provide a simple TypeScript SDK that developers can use to integrate applications into their code without having to learn the APIs or SDKs of those applications.
 
-# Watch our product demo
+# Why Worksheets.dev?
 
-<div
-  style={{
-    position: 'relative',
-    paddingBottom: 'calc(66.66666666666666% + 41px)',
-    height: 0,
-    width: '100%',
-  }}
->
-  <iframe
-    src="https://demo.arcade.software/J7iGUt2RZ5WAQUki7kzu?embed"
-    frameborder="0"
-    loading="lazy"
-    webkitallowfullscreen
-    mozallowfullscreen
-    allowfullscreen
-    style={{
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      colorScheme: 'light',
-      height: '100%',
-      width: '100%',
-    }}
-    title="Worksheets IDE"
-  ></iframe>
-</div>
+Modern software integrates with hundreds of applications. Working within these ecosystems can be challenging because:
 
-**Demo may take a few seconds to load** made with [Arcade](https://arcade.software/)
+- Developers have to maintain hundreds of packages and when their dependencies become insecure these vulnerabilities also become a part of their codebase.
 
-- Worksheets uses a **YAML syntax** to describe your workflows enabling quick integration with any project. Our [OpenAPI specification file](/docs/api/overview#open-api) allows you to autogenerate client libraries for your favorite programming language.
-- Quickly connect with our growing list of **applications**. Don't integrate with the same apps over and over again across your projects. Let us handle the busy work so you can focus on building new services with speed.
-- **OAuth** is complicated but connecting to your favorite applications shouldn't be. Worksheets handles the OAuth flow for you making it easy to connect to your favorite applications with ease.
+- Developers have to learn the APIs and SDKs of each application they want to integrate with. This can be time consuming and can lead to errors.
 
-## Get started for free
+- Developers have to instrument their code to handle the different APIs and SDKs of each application. This can lead to a lot of boilerplate code.
 
-- Create a free account at [Worksheets.dev](https://app.worksheets.dev/login)
+Worksheets.dev solves this problem by providing a single typescript SDK with full static type safety that can be used to integrate with any application.
 
-## Try a 5 minute tutorial
+## How does it work?
 
-- Check out our [quick start guide](/docs/tutorials/quick-start) to get up and running in less than 5 minutes.
-- Check out our [advanced tutorial](/docs/tutorials/advanced-executions) for a more comprehensive walkthrough.
-- Check out our [API tutorial](/docs/tutorials/api) to learn how to use the Worksheets API.
-- Browse our [application and templates] gallery to see what you can build with Worksheets.
+![SDK Example](/img/worksheets-basic-640.gif)
 
-## No credit card required
+Our SDK acts as a proxy for your requests and forwards it to our servers. Our server's take care of routing the request to the appropriate application and returning the response back to you. We never store any of your data on our servers.
 
-- [Create an account at Worksheets.dev](https://app.worksheets.dev/login)
-  - We are currently in evaluation mode and are **free to use** for all users
-  - Contact [customer support](/contact-us) after signing up to **increase your initial limits**.
+## Quick Start
+
+For a more indepth guide refer to our [Getting Started](/docs/getting-started) guide.
+
+To get started, you need to install the worksheets.dev SDK. You can do this by running the following command:
+
+```bash
+npm install @worksheets-dev/sdk
+```
+
+Our SDK works best with React and Next.js projects but it can be used with any TypeScript 5.0.0+ project.
+
+Here is an example of how you can use the worksheets.dev SDK to integrate with [Open AI](https://platform.openai.com/docs/api-reference/completions/create).
+
+```typescript
+import { newRegistry } from '@worksheets/sdk';
+
+const registry = newRegistry({
+  credentials: 'YOUR_WORKSHEET_API_KEY',
+});
+
+const openai = registry.openai({ apiKey: 'YOUR_OPENAI_API_KEY' });
+
+const response = await openai.completions.create({
+  model: 'text-davinci-003',
+  prompt: 'Say this is a test',
+  max_tokens: 7,
+  temperature: 0,
+});
+
+console.log(response.choices);
+/*
+[
+  {
+    "text": "\n\nThis is indeed a test",
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "length"
+  }
+]
+*/
+```
+
+## What's next?
+
+Now that you have a basic understanding of how Worksheets.dev works, you can start integrating with your favorite applications.
+
+- Getting Started tutorial - [Learn how to integrate with your favorite applications](/getting-started)
+
+- Quick Start tutorial - [Visit our SDK package repostiory](https://www.npmjs.com/package/@worksheets/sdk)
+
+- See a list of all the [applications we support here](https://app.worksheets.dev/applications).
+
+- If you have any questions or feedback, please [feel free to reach out to us](/contact-us) or join our [Discord community](https://discord.gg/ujEmEdjCaY).
