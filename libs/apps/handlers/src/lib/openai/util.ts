@@ -1,11 +1,20 @@
-import { MethodCallFailure } from '@worksheets/apps/framework';
+import { TRPCError } from '@trpc/server';
+import { HTTP_STATUS_CODE_TRPC_ERROR } from '@worksheets/util/errors';
 
-export const handleOpenAIError = (error: any, message: string) => {
+export const handleOpenAIError = (error: any) => {
   const data = error?.response?.data ?? {};
-  console.error(`open-ai ${message}`, data);
-  throw new MethodCallFailure({
-    code: error?.response?.status ?? 500,
-    message: data?.error?.message ?? 'unknown open ai failure',
-    data,
+  const message = data?.error?.message ?? 'unknown open ai failure';
+  const status = error?.response?.status ?? 500;
+
+  if (status == 429) {
+    return new TRPCError({
+      code: 'TOO_MANY_REQUESTS',
+      message,
+    });
+  }
+
+  return new TRPCError({
+    code: HTTP_STATUS_CODE_TRPC_ERROR[status] ?? 'INTERNAL_SERVER_ERROR',
+    message,
   });
 };

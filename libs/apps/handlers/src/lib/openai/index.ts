@@ -14,13 +14,17 @@ const createCompletion: ApplicationMethodHandler<
   });
 
   const openai = new OpenAIApi(configuration);
-  const response = await openai.createCompletion({
-    ...input,
-  });
+  try {
+    const response = await openai.createCompletion({
+      ...input,
+    });
 
-  console.info(`open-ai created a completion`, response.data.id);
+    console.info(`open-ai created a completion`, response.data.id);
 
-  return response.data;
+    return response.data;
+  } catch (error) {
+    throw handleOpenAIError(error);
+  }
 };
 
 const createImage: ApplicationMethodHandler<'openai', 'createImage'> = async ({
@@ -38,8 +42,7 @@ const createImage: ApplicationMethodHandler<'openai', 'createImage'> = async ({
       ...input,
     });
   } catch (error) {
-    handleOpenAIError(error, 'failed to create image');
-    throw error;
+    throw handleOpenAIError(error);
   }
 
   console.info(`open-ai created an image`, response.data.data);
@@ -68,8 +71,7 @@ const listModels: ApplicationMethodHandler<'openai', 'listModels'> = async ({
     console.info(`open-ai read models`, models.length);
     return models;
   } catch (error) {
-    handleOpenAIError(error, 'failed to create image');
-    throw error;
+    throw handleOpenAIError(error);
   }
 };
 
