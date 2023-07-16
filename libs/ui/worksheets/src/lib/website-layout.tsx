@@ -275,7 +275,7 @@ const FeedbackButton = () => {
 
 const Title: React.FC = () => (
   <Typography variant="h6" noWrap component="div">
-    <Link href="/worksheets" color="inherit" underline="hover">
+    <Link href="/dashboard" color="inherit" underline="hover">
       Worksheets.dev
     </Link>
   </Typography>

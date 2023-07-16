@@ -56,10 +56,7 @@ const columns: (onClick: (worksheetId: string) => void) => GridColDef[] = (
       const status = params.value;
       return (
         <Box display="flex" alignItems="center">
-          <Tooltip
-            placement="top"
-            title={`[${status}] ${getReasonPhrase(status)}`}
-          >
+          <Tooltip placement="top" title={`${getReasonPhrase(status)}`}>
             {status > 499 ? (
               <NewReleasesIcon color="error" fontSize="small" />
             ) : status > 399 ? (
@@ -75,8 +72,30 @@ const columns: (onClick: (worksheetId: string) => void) => GridColDef[] = (
     },
   },
   {
+    field: 'code',
+    headerName: 'Status',
+    renderHeader() {
+      return null;
+    },
+    sortable: false,
+    disableColumnMenu: true,
+    disableReorder: true,
+    disableExport: true,
+    width: 40,
+    minWidth: 40,
+    renderCell: (params) => {
+      const status = params.row.status;
+      return (
+        <Tooltip placement="top" title={`${getReasonPhrase(status)}`}>
+          <Typography variant="caption">{status}</Typography>
+        </Tooltip>
+      );
+    },
+  },
+
+  {
     field: 'app',
-    headerName: 'Application Method',
+    headerName: 'Application',
     flex: 1,
     minWidth: 150,
     maxWidth: 300,
@@ -84,10 +103,10 @@ const columns: (onClick: (worksheetId: string) => void) => GridColDef[] = (
       console.log('field');
       const app: ApplicationDetails = params.value;
       return (
-        <Box display="flex" gap={2} alignItems="center">
+        <Box display="flex" alignItems="center" gap={2}>
           <TinyLogo key={app.id} label={app.name} src={app.logo} />
           <Typography variant="caption">
-            {app.name.toLowerCase()}.{params.row.method}
+            {app.id}.{params.row.method}
           </Typography>
         </Box>
       );
@@ -114,7 +133,7 @@ const columns: (onClick: (worksheetId: string) => void) => GridColDef[] = (
     headerName: 'Duration',
     align: 'right',
     headerAlign: 'right',
-    minWidth: 60,
+    width: 75,
     renderCell: (params) => (
       <Typography variant="caption">
         {prettyPrintMilliseconds(params.value)}

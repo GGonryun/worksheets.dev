@@ -5,6 +5,7 @@ import {
   ApplicationMethodKeys,
 } from '@worksheets/apps-registry';
 import { newMethodExecutionsDatabase } from '@worksheets/data-access/method-executions';
+import { TRPC_ERROR_CODE_HTTP_STATUS } from '@worksheets/util/errors';
 
 const db = newMethodExecutionsDatabase();
 
@@ -50,23 +51,26 @@ export const executeMethod = async <T extends ApplicationKeys>({
   };
 
   let data;
+  // all our methods handlers use TRPCError to signal failure. we convert
+  // them to http status codes when saving results. the TRPC OpenAPI
+  // middleware will convert them to http status codes and return
+  // the error as a text payload. and the SDK converts those http
+  // status codes to a domain specific "Failure" object.
   try {
     data = await method({ input, context });
-    console.log(`[${appId}.${methodId}] handler executed`);
     result.status = 200;
     result.finishedAt = Date.now();
     db.insert(result);
     return data;
-    // TODO: unify method exceptions and errors
   } catch (error) {
-    console.error(`[${appId}.${methodId}] handler failed`, error);
-    // TODO: better error handling. This is just a POC
-    result.status = 500;
+    if (error instanceof TRPCError) {
+      result.status = TRPC_ERROR_CODE_HTTP_STATUS[error.code];
+    } else {
+      result.status = 500;
+    }
     result.finishedAt = Date.now();
     db.insert(result);
-    throw new TRPCError({
-      code: 'INTERNAL_SERVER_ERROR',
-      message: `We are still improving our error handling.`,
-    });
+
+    throw error;
   }
 };

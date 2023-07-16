@@ -102,5 +102,7 @@ const accessData = (
   const aid = appId as ApplicationKeys;
   const mid = methodId as keyof Applications[typeof aid]['methods'];
   const data = sampleData[aid][mid][key];
+  if (!data && key != 'output') return '';
+
   return format(data);
 };

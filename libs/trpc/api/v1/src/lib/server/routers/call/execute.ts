@@ -11,6 +11,7 @@ import { privateProcedure } from '../../procedures';
 import { limits } from '@worksheets/feat/server-management';
 import { middleware } from '../../trpc';
 import { quotas } from '@worksheets/feat/user-management';
+import { TRPCError } from '@trpc/server';
 
 export const systemThrottle = middleware(async ({ next, ctx }) => {
   if (ctx.user) {
@@ -68,11 +69,23 @@ export default privateProcedure
   .input(callMethodV2RequestSchema)
   .output(callMethodResponseSchema)
   .mutation(async ({ input, ctx }) => {
-    return executeMethod({
-      userId: ctx.user?.uid ?? 'anonymous',
-      appId: input.appId as ApplicationKeys,
-      methodId: input.methodId as ApplicationMethodKeys<string>,
-      input: input.input,
-      context: input.context,
-    });
+    try {
+      return executeMethod({
+        userId: ctx.user?.uid ?? 'anonymous',
+        appId: input.appId as ApplicationKeys,
+        methodId: input.methodId as ApplicationMethodKeys<string>,
+        input: input.input,
+        context: input.context,
+      });
+    } catch (error) {
+      // convert all error codes to trpc errors.
+      if (!(error instanceof TRPCError)) {
+        throw new TRPCError({
+          code: 'INTERNAL_SERVER_ERROR',
+          message: 'Unknown error received',
+          cause: error,
+        });
+      }
+      throw error;
+    }
   });

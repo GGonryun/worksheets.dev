@@ -8,6 +8,7 @@ import {
 } from '@mui/material';
 import { GithubAuthProvider, GoogleAuthProvider } from 'firebase/auth';
 import {
+  Emoji,
   GitHubIcon,
   GoogleIcon,
   OpenInNewTabLink,
@@ -107,11 +108,14 @@ export function LoginPage() {
               >
                 Continue with Github
               </Button>
-              <Box display="flex" flexDirection="column" gap={1}>
+              <Box display="flex" flexDirection="column" gap={2}>
                 <OpenInNewTabLink
-                  href={`${SERVER_SETTINGS.WEBSITES.DOCS_URL('/contact-us')}`}
+                  href={`${SERVER_SETTINGS.WEBSITES.DOCS_URL('/')}`}
                 >
-                  Contact Us
+                  <Emoji label="docs page" symbol={128218} /> Learn more
+                </OpenInNewTabLink>{' '}
+                <OpenInNewTabLink href={'/apps'}>
+                  <Emoji label="apps page" symbol={127881} /> Applications
                 </OpenInNewTabLink>
               </Box>
             </>

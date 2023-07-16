@@ -1,4 +1,4 @@
-import { newClient as newAppsClient } from '@worksheets/apps-fetcher';
+import { newClient } from '@worksheets/apps-fetcher';
 export type {
   Applications,
   ApplicationKeys,
@@ -6,4 +6,6 @@ export type {
   ApplicationMethodData,
 } from '@worksheets/apps-registry';
 
-export const newRegistry = newAppsClient;
+export { ApplicationFailure } from '@worksheets/apps-registry';
+
+export const newRegistry = newClient;

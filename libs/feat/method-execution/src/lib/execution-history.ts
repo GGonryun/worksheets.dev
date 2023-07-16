@@ -31,7 +31,6 @@ export const listMethodExecutions = async (req: Request): Promise<Response> => {
 
   for (const methodExecution of methodExecutions) {
     const application = getApplication(methodExecution.appId);
-    console.log('application', application);
     response.push({
       id: methodExecution.id,
       app: {
