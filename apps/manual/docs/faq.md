@@ -24,7 +24,7 @@ title: FAQ
 
 ## What languages do you support?
 
-- We only support TypeScript. This is what enables us to provide a low-code experience. We plan to add support for other languages in the future. If you want to make API requests to our platform, you can use any language that supports HTTP requests and our openapi spec. Learn more about our [API](/docs/api).
+- We only support TypeScript. This is what enables us to provide a low-code experience. We plan to add support for other languages in the future. If you want to make API requests to our platform, you can use any language that supports HTTP requests and our openapi spec. We are actively working on our HTTP API guide.
 
 ## How do I get started?
 

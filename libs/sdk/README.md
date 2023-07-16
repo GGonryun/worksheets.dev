@@ -29,13 +29,13 @@
 1. Install the SDK
 
 ```bash
-npm install @worksheets-dev/sdk
+npm install @worksheets/sdk
 ```
 
 2. Import the SDK
 
 ```typescript
-import { newRegistry } from '@worksheets-dev/sdk';
+import { newRegistry } from '@worksheets/sdk';
 ```
 
 3. Create a new Registry
