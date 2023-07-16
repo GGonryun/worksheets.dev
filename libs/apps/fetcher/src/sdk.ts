@@ -1,7 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ApplicationRouter } from '@worksheets/apps-registry';
+import {
+  ApplicationFailure,
+  ApplicationRouter,
+} from '@worksheets/apps-registry';
 import { z } from '@worksheets/zod';
-import { Failure } from './failures';
 
 export const fetcherOptionsSchema = z.object({
   baseUrl: z.string().optional(),
@@ -114,9 +116,10 @@ const defaultFetchInterceptor = async ({
 
   console.error('failed to call', result.status, result.statusText);
 
-  const text = await result.text();
-  throw new Failure({
-    message: text,
+  const error = await result.json();
+
+  throw new ApplicationFailure({
+    message: error?.message || result.statusText,
     code: result.status,
     reason: result.statusText,
   });
