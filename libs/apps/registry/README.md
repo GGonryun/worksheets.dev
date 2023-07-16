@@ -1,11 +1,32 @@
-# apps-registry
+# Overview
 
-This library was generated with [Nx](https://nx.dev).
+See our growing list of applications at [worksheets.dev](https://worksheets.dev/applications).
 
-## Building
+This is the worksheets.dev registry of applications. You can download this package to get access to all of the metadata about inputs, outputs, contexts, titles, labels, logos and more about all of the applications in the registry.
 
-Run `nx build apps-registry` to build the library.
+This package also contains the application framework and all types required to build your own application interceptor.
 
-## Running unit tests
+## Installation
 
-Run `nx test apps-registry` to execute the unit tests via [Jest](https://jestjs.io).
+```bash
+npm install @worksheets/apps-registry
+```
+
+## Usage
+
+```js
+import { registry } from '@worksheets/apps-registry';
+
+console.log(registry.openai.name);
+```
+
+## Supported Applications
+
+- Open AI
+  - Create Completion
+  - Create Image
+  - List Models
+- Time
+  - Now
+- System
+  - Log
