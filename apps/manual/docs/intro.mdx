@@ -7,27 +7,37 @@ title: Introduction
 
 > Stop integrating from APIs and SDKs. Start integrating APPs.
 
-# What is Worksheets.dev?
+## What is Worksheets.dev?
 
-Worksheets.dev is a low-code integration platform built for developers. We provide a TypeScript SDK that developers can use to integrate applications into their code without having to learn the APIs or SDKs of those applications.
+Worksheets.dev is a low-code integration platform built for developers. We provide a set of software tools that developers can use to integrate applications into their code without having to learn the APIs or SDKs of those applications.
 
-# Why Worksheets.dev?
+## Why Worksheets.dev?
 
 Modern software integrates with hundreds of applications. Working within these ecosystems can be challenging because:
 
-- Developers have to maintain hundreds of packages and when their dependencies become insecure these vulnerabilities also become a part of their codebase.
+- Developers have to maintain hundreds of packages.
 
-- Developers have to learn the APIs and SDKs of each application they want to integrate with. This can be time consuming and can lead to errors.
+  - When their dependencies become insecure these vulnerabilities also become a part of their codebase.
 
-- Developers have to instrument their code to handle the different APIs and SDKs of each application. This can lead to a lot of boilerplate code.
+- Developers have to write tons of boilerplate code to integrate with these applications.
 
-Worksheets.dev solves this problem by providing a single typescript SDK with full static type safety that can be used to integrate with any application.
+  - Most APIs and SDKs don't support analytics, retrying, caching, emulating or mocking.
+
+- Developers have to manage these integrations across multiple platforms like test, staging and production.
+
+  - This makes it difficult to test and debug integrations.
+
+# What alternatives are there?
+
+There are tons of no-code integration platforms. Services like Zapier, n8n.io or IFTTT. These solutions are great for non-technical users but they don't provide the flexibility and control that developers need. There are solutions that lean closer to developers like Pipedream or Workato, but they require developers to write code outside of our codebase. This makes it difficult to maintain, test, and debug.
+
+Worksheets.dev solves this problem by providing developer tools (API's, SDK's and CLI's) that provide a consistent interface for interacting with applications. This allows developers to focus on building their applications instead of managing integrations.
 
 ## How does it work?
 
-![SDK Example](/img/worksheets-basic-640.gif)
+Our platform provides an application proxy that you can use via our API, SDK or CLI. Our server acts as a proxy for all of your requests and forwards them to the appropriate application. This allows you to interact with applications without having to install their SDKs or learn their APIs.
 
-Our SDK acts as a proxy for your requests and forwards it to our servers. Our server's take care of routing the request to the appropriate application and returning the response back to you. We never store any of your data on our servers.
+If you're worried about your data living on an external service, you can always host your own instance of our application proxy. [Contact us](/contact-us) to learn more about our self-hosting options.
 
 ## Quick Start
 

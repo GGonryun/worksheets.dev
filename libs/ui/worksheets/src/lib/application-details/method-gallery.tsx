@@ -126,7 +126,7 @@ const MethodDetailsListItem: React.FC<{
         alignItems="flex-start"
         flexDirection="column"
         gap={1}
-        pb={3}
+        pb={8}
       >
         <Link href={`#method-${method.methodId}`}>
           <Box display="flex" alignItems="baseline" gap={1}>
@@ -135,8 +135,8 @@ const MethodDetailsListItem: React.FC<{
             </Typography>
           </Box>
         </Link>
-        <Box display="flex" flexDirection="column" gap={5}>
-          <Box pb={2}>
+        <Box display="flex" flexDirection="column" gap={3}>
+          <Box>
             <Typography variant="body2">{method.description}</Typography>
           </Box>
           <MethodSchemaExample method={method} />
