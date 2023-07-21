@@ -1,11 +1,8 @@
 import {
+  callMethodRequestSchema,
   callMethodResponseSchema,
-  callMethodV2RequestSchema,
 } from '@worksheets/schemas-applications';
-import {
-  ApplicationKeys,
-  ApplicationMethodKeys,
-} from '@worksheets/apps-registry';
+
 import { executeMethod } from '@worksheets/feat-method-execution';
 import { privateProcedure } from '../../procedures';
 import { limits } from '@worksheets/feat/server-management';
@@ -66,14 +63,15 @@ export default privateProcedure
       },
     },
   })
-  .input(callMethodV2RequestSchema)
+  .input(callMethodRequestSchema)
   .output(callMethodResponseSchema)
   .mutation(async ({ input, ctx }) => {
     try {
+      console.log('request received', input);
       return executeMethod({
         userId: ctx.user?.uid ?? 'anonymous',
-        appId: input.appId as ApplicationKeys,
-        methodId: input.methodId as ApplicationMethodKeys<string>,
+        appId: input.appId,
+        methodId: input.methodId,
         input: input.input,
         context: input.context,
       });

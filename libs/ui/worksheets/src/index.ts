@@ -1,18 +1,7 @@
 // Use this file to export React client components (e.g. those with 'use client' directive) or other non-server utilities
 
-export * from './lib/worksheets/page';
-export * from './lib/connections/page';
 export * from './lib/settings/page';
 export * from './lib/settings/tabs';
-export * from './lib/templates-gallery/page';
-export * from './lib/documents-page';
-export * from './lib/support-page';
-export * from './lib/create-a-worksheet/page';
-export * from './lib/worksheet-details/page';
-export * from './lib/worksheet-details/tabs';
-export * from './lib/execute-worksheet/page';
-export * from './lib/execution-overview/page';
-export * from './lib/template-details/page';
 export * from './lib/applications-gallery/page';
 export * from './lib/application-details/page';
 export * from './lib/dashboard/page';

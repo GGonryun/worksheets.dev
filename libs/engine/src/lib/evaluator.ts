@@ -17,8 +17,7 @@ import {
 import { isString, isObject, isArray } from 'lodash';
 import { getExpressions, isExpression, isRecord } from './util';
 import { ExecutionFailure } from './failures';
-import { Library } from '@worksheets/apps/framework';
-import { Memory } from './framework';
+import { Library, Memory } from './framework';
 
 export type CallExpressionEvaluator = (
   evaluator: ScriptEvaluator,

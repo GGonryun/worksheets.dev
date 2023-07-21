@@ -1,15 +1,11 @@
 import { TRPCError } from '@trpc/server';
 import { handlers } from '@worksheets/apps-handlers';
-import {
-  ApplicationKeys,
-  ApplicationMethodKeys,
-} from '@worksheets/apps-registry';
 import { newMethodExecutionsDatabase } from '@worksheets/data-access/method-executions';
 import { TRPC_ERROR_CODE_HTTP_STATUS } from '@worksheets/util/errors';
 
 const db = newMethodExecutionsDatabase();
 
-export const executeMethod = async <T extends ApplicationKeys>({
+export const executeMethod = async ({
   userId,
   appId,
   methodId,
@@ -17,22 +13,24 @@ export const executeMethod = async <T extends ApplicationKeys>({
   context,
 }: {
   userId: string;
-  appId: T;
-  methodId: ApplicationMethodKeys<T>;
+  appId: string;
+  methodId: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   input: any;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   context: any;
 }): Promise<unknown> => {
   const start = Date.now();
-  console.log(`[${appId}.${methodId}] request received`);
-  const app = handlers[appId];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const anyHanders = handlers as any;
+  const app = anyHanders[appId];
   if (!app) {
     throw new TRPCError({
       code: 'NOT_FOUND',
       message: `App ${appId} not found`,
     });
   }
+
   const method = app[methodId];
   if (!method) {
     throw new TRPCError({

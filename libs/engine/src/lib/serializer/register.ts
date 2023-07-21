@@ -1,12 +1,11 @@
-import { MethodCallFailure } from '@worksheets/apps/framework';
-import { Register } from '../framework';
+import { MethodCallFailure, Register } from '../framework';
 import { ChainSerializers } from './chain';
 import { Serializer } from './serializer';
 import { JSONSerializer } from './json';
 import { MethodCallFailureSerializer } from './method-call-failure';
 import { SimpleErrorMessage } from './failures';
-import { TaskSnapshotEntity } from '@worksheets/schemas-executions';
 
+type TaskSnapshotEntity = any;
 export class RegisterSerializer
   implements Serializer<Register, TaskSnapshotEntity['register']>
 {

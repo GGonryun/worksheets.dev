@@ -1,18 +1,17 @@
 import { Box, Button, MenuItem, TextField, Typography } from '@mui/material';
 import { useState } from 'react';
-import { newRegistry, ApplicationMethodData } from '@worksheets/sdk';
+import { InferInput, InferOutput, newRegistry } from '@worksheets/sdk';
 
 const apps = newRegistry({
   logging: 'verbose',
   credentials: {
-    apiKey: process.env['NEXT_PUBLIC_DEMO_API_KEY'] ?? '',
+    apiKey: 'ws::UIPdakdBd7LGCYuVA3c9' ?? '',
   },
   baseUrl: `${process.env['NEXT_PUBLIC_API_BASE_URL']}/v1`,
 });
 
-//comment
-type Operations = ApplicationMethodData<'math', 'calc'>['input']['op'];
-type MathCalcResult = ApplicationMethodData<'math', 'calc'>['output'];
+type Operations = InferInput<'math', 'calc'>['op'];
+type MathCalcResult = InferOutput<'math', 'calc'>;
 
 const operations: Record<Operations, string> = {
   '*': 'Multiply',

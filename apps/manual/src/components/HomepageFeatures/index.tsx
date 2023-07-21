@@ -71,7 +71,8 @@ export default function HomepageFeatures(): JSX.Element {
             alignItems: 'center',
             justifyContent: 'center',
             flexDirection: 'column',
-            width: '100%',
+            paddingLeft: '20px',
+            paddingRight: '20px',
           }}
         >
           <div

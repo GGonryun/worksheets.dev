@@ -1,20 +1,64 @@
-import { ApplicationSampleMask } from '@worksheets/apps-registry';
+import { ApplicationRegistrySampleData } from './lib/framework';
 
-export const sampleData: ApplicationSampleMask = {
+export * from './lib/framework';
+
+export const sampleData: ApplicationRegistrySampleData = {
   time: {
+    context: null,
     now: {
-      context: null,
+      input: undefined,
+      output: 1234,
+    },
+  },
+  sys: {
+    context: null,
+    log: {
       input: {
-        timeZone: 'PST',
+        message: 'test',
+        structuredData: {
+          a: 1,
+          test: true,
+        },
       },
-      output: Date.now(),
+      output: null,
+    },
+  },
+  math: {
+    context: null,
+    abs: {
+      input: -123,
+      output: 123,
+    },
+    calc: {
+      input: {
+        op: '^',
+        x: 2,
+        y: 4,
+      },
+      output: 16,
+    },
+    identity: {
+      input: 1,
+      output: 1,
+    },
+    min: {
+      input: [1, 2, 3],
+      output: 1,
+    },
+    max: {
+      input: [1, 2, 3],
+      output: 3,
+    },
+    avg: {
+      input: [1, 2, 3],
+      output: 2,
     },
   },
   openai: {
+    context: {
+      apiKey: '',
+    },
     createCompletion: {
-      context: {
-        apiKey: '',
-      },
       input: {
         prompt: '',
         model: '',
@@ -33,9 +77,6 @@ export const sampleData: ApplicationSampleMask = {
       },
     },
     createImage: {
-      context: {
-        apiKey: '',
-      },
       input: {
         prompt: '',
         n: 0,
@@ -44,58 +85,8 @@ export const sampleData: ApplicationSampleMask = {
       output: [],
     },
     listModels: {
-      context: {
-        apiKey: '',
-      },
-      input: undefined,
-      output: [],
-    },
-  },
-  sys: {
-    log: {
-      context: null,
-      input: {
-        message: 'Log accepts any json input, even strings',
-      },
-      output: null,
-    },
-  },
-  math: {
-    calc: {
-      context: null,
-      input: {
-        op: '+',
-        x: 1,
-        y: 2,
-      },
-      output: 3,
-    },
-    identity: {
-      context: null,
-      input: 1,
-      output: 1,
-    },
-    min: {
-      context: null,
-      input: [1, 2, 3, 4],
-      output: 1,
-    },
-    max: {
-      context: null,
-      input: [1, 2, 3, 4],
-      output: 2,
-    },
-    abs: {
-      context: null,
-      input: -3,
-      output: 3,
-    },
-    avg: {
-      context: null,
-      input: [1, 2, 3, 4],
-      output: 2.5,
+      input: 'davinci',
+      output: [{ id: '', object: '', owned_by: '' }],
     },
   },
 };
-
-export default sampleData;

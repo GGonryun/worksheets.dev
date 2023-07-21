@@ -1,6 +1,5 @@
-import { MethodCallFailure } from '@worksheets/apps/framework';
 import { ExecutionFailure } from '../failures';
-import { Context, Instruction } from '../framework';
+import { Context, Instruction, MethodCallFailure } from '../framework';
 import { getReasonPhrase } from 'http-status-codes';
 
 export type ThrowDefinition = {

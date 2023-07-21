@@ -1,15 +1,15 @@
+import { newApp, newMethod } from '@worksheets/apps-core';
 import { z } from '@worksheets/zod';
-import { newApp, newMethod } from '../../framework';
 
-export const http = newApp(
-  {
-    appId: 'http',
-    label: 'HTTP Utilities',
-    description: 'Utilities for working with HTTP requests and responses',
-    context: z.null(),
-  },
-  {
+export const http = newApp({
+  appId: 'http',
+  label: 'HTTP Utilities',
+  description: 'Utilities for working with HTTP requests and responses',
+  context: z.null(),
+  methods: {
     request: newMethod({
+      appId: 'http',
+      methodId: 'request',
       label: 'HTTP Request',
       description:
         'Sends an HTTP request to the specified URL. Body should be stringified',
@@ -33,5 +33,5 @@ export const http = newApp(
         headers: z.record(z.string().optional()).optional(),
       }),
     }),
-  }
-);
+  },
+});

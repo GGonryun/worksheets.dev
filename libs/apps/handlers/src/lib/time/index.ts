@@ -1,5 +1,5 @@
-import { ApplicationMethodHandlers } from '@worksheets/apps-registry';
+import { ApplicationExecutors } from '../framework';
 
-export const time: ApplicationMethodHandlers<'time'> = {
+export const time: ApplicationExecutors<'time'> = {
   now: async () => Date.now(),
 };

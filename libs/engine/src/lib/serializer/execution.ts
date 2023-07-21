@@ -7,7 +7,8 @@ import { Entity } from '@worksheets/firebase/firestore';
 import { FactoryOptions } from '../factory';
 import { ReferencesSerializer } from './references';
 import { InstructionsSerializer } from './instructions';
-import { TaskSnapshotEntity } from '@worksheets/schemas-executions';
+
+type TaskSnapshotEntity = any;
 
 export type Snapshot = Omit<
   TaskSnapshotEntity,
@@ -51,10 +52,10 @@ export class ExecutionSerializer implements Serializer<Execution, Snapshot> {
     const { instructions, memory, register, references } = this.serializers;
 
     return new Execution({
-      instructions: instructions.deserialize(data.instructions),
-      register: register.deserialize(data.register),
-      memory: memory.deserialize(data.memory),
-      references: references.deserialize(data.references),
+      instructions: instructions.deserialize(data['instructions']),
+      register: register.deserialize(data['register']),
+      memory: memory.deserialize(data['memory']),
+      references: references.deserialize(data['references']),
       ...this.opts.execution,
     });
   }

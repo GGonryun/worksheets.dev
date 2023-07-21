@@ -1,10 +1,10 @@
-import { Library } from '@worksheets/apps/framework';
 import { Engine } from './engine';
 import { ScriptEvaluator, ScriptsApplicationBridge } from './evaluator';
 import { ExecutionFailure } from './failures';
 import {
   Context,
   Instructions,
+  Library,
   Memory,
   References,
   Register,

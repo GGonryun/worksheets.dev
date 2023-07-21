@@ -8,9 +8,9 @@ import {
   References,
   Instructions,
   StackLimits,
+  Library,
 } from './framework';
 import { Init } from './instructions';
-import { Library } from '@worksheets/apps/framework';
 import { ExecutionSerializer, Serializer, Snapshot } from './serializer';
 
 // The runtime can also decide which library we want to run, we can swap it out in the runtime we need to.

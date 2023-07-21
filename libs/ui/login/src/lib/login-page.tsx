@@ -11,7 +11,6 @@ import {
   Emoji,
   GitHubIcon,
   GoogleIcon,
-  OpenInNewTabLink,
   useTimeout,
   warn,
 } from '@worksheets/ui/common';
@@ -109,14 +108,12 @@ export function LoginPage() {
                 Continue with Github
               </Button>
               <Box display="flex" flexDirection="column" gap={2}>
-                <OpenInNewTabLink
-                  href={`${SERVER_SETTINGS.WEBSITES.DOCS_URL('/')}`}
-                >
+                <Link href={`${SERVER_SETTINGS.WEBSITES.DOCS_URL('/')}`}>
                   <Emoji label="docs page" symbol={128218} /> Learn more
-                </OpenInNewTabLink>{' '}
-                <OpenInNewTabLink href={'/apps'}>
+                </Link>{' '}
+                <Link href={'/apps'}>
                   <Emoji label="apps page" symbol={127881} /> Applications
-                </OpenInNewTabLink>
+                </Link>
               </Box>
             </>
           )}

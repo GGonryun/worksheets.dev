@@ -137,7 +137,7 @@ export const TokensDataTable: FC<TokensDataTableProps> = ({
     // eslint-disable-next-line no-restricted-globals
     if (confirm('Are you sure?')) {
       await deleteToken.mutateAsync({ tokenId });
-      utils.connections.dataTable.invalidate();
+      utils.user.tokens.list.invalidate();
     }
   };
 

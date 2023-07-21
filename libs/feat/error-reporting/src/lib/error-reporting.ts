@@ -1,7 +1,6 @@
 import * as google from '@google-cloud/error-reporting';
 import { ReportMode } from '@google-cloud/error-reporting/build/src/configuration';
 import { SERVER_SETTINGS } from '@worksheets/data-access/server-settings';
-import { metrics } from '@worksheets/feat/server-monitoring';
 
 const { PROJECT_ID, PRIVATE_KEY, PRIVATE_KEY_ID, CLIENT_EMAIL, CLIENT_ID } =
   SERVER_SETTINGS.ENVIRONMENT.VARIABLES.GCP;
@@ -37,7 +36,6 @@ export const errors = {
     request?: Parameters<google.ErrorReporting['report']>[1]
   ) => {
     console.error(err);
-    metrics.increment({ type: 'errors' });
     reporting.report(err, request);
   },
 };

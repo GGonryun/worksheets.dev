@@ -1,6 +1,6 @@
-import { ApplicationMethodHandlers } from '@worksheets/apps-registry';
+import { ApplicationExecutors } from '../framework';
 
-export const sys: ApplicationMethodHandlers<'sys'> = {
+export const sys: ApplicationExecutors<'sys'> = {
   log: async ({ input }) => {
     console.log(input);
     return null;

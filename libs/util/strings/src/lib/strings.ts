@@ -28,3 +28,12 @@ export function reverseString(string: string) {
 export function cleanseAlphaNumeric(string: string) {
   return string.replace(/[^a-zA-Z0-9]/g, '');
 }
+
+/**
+ * @description adds commas to large numbers over 1000
+ * @param {number} number
+ * @returns {string}
+ */
+export function addCommasToNumber(number: number): string {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}

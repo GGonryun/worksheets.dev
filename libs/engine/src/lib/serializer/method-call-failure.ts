@@ -1,8 +1,8 @@
-import { MethodCallFailure } from '@worksheets/apps/framework';
 import { FailureSerializer } from './failure';
 import { Serializer } from './serializer';
 import { JSONSerializer } from './json';
 import { SimpleErrorMessage } from './failures';
+import { MethodCallFailure } from '../framework';
 
 export class MethodCallFailureSerializer
   implements Serializer<MethodCallFailure, SimpleErrorMessage>

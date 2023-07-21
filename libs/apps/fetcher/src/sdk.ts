@@ -1,9 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {
-  ApplicationFailure,
-  ApplicationRouter,
-} from '@worksheets/apps-registry';
 import { z } from '@worksheets/zod';
+import { ApplicationFailure } from '@worksheets/apps-core';
+import { ApplicationRegistryRequests } from './framework';
 
 export const fetcherOptionsSchema = z.object({
   baseUrl: z.string().optional(),
@@ -27,27 +25,27 @@ export type FetcherOptions = z.infer<typeof fetcherOptionsSchema> &
 export function newClient({
   interceptor,
   ...opts
-}: FetcherOptions): ApplicationRouter {
+}: FetcherOptions): ApplicationRegistryRequests {
   const handler = newHandler(opts, interceptor);
   return {
+    time: () => ({
+      now: handler({}, 'time.now'),
+    }),
+    sys: () => ({
+      log: handler({}, 'sys.log'),
+    }),
+    math: () => ({
+      calc: handler({}, 'math.calc'),
+      identity: handler({}, 'math.identity'),
+      min: handler({}, 'math.min'),
+      max: handler({}, 'math.max'),
+      abs: handler({}, 'math.abs'),
+      avg: handler({}, 'math.avg'),
+    }),
     openai: (ctx) => ({
-      createCompletion: handler(ctx, 'openai', 'createCompletion'),
-      createImage: handler(ctx, 'openai', 'createImage'),
-      listModels: handler(ctx, 'openai', 'listModels'),
-    }),
-    time: (ctx) => ({
-      now: handler(ctx, 'time', 'now'),
-    }),
-    sys: (ctx) => ({
-      log: handler(ctx, 'sys', 'log'),
-    }),
-    math: (ctx) => ({
-      calc: handler(ctx, 'math', 'calc'),
-      abs: handler(ctx, 'math', 'abs'),
-      min: handler(ctx, 'math', 'min'),
-      max: handler(ctx, 'math', 'max'),
-      identity: handler(ctx, 'math', 'identity'),
-      avg: handler(ctx, 'math', 'avg'),
+      createCompletion: handler(ctx, 'openai.createCompletion'),
+      createImage: handler(ctx, 'openai.createImage'),
+      listModels: handler(ctx, 'openai.listModels'),
     }),
   };
 }
@@ -55,8 +53,7 @@ export function newClient({
 type MethodHandler = (request: MethodCallRequest) => Promise<any>;
 
 export const methodCallRequestSchema = z.object({
-  app: z.string(),
-  method: z.string(),
+  path: z.string(),
   options: fetcherOptionsSchema,
   input: z.any(),
   context: z.any(),
@@ -69,13 +66,11 @@ const newHandler =
   (
     context: any,
     // TODO: add type safety to app keys and id's.
-    appId: string,
-    methodId: string
+    path: string
   ): ((input: any) => Promise<any>) =>
   async (input: any) => {
     const request: MethodCallRequest = {
-      app: appId,
-      method: methodId,
+      path,
       options,
       input,
       context,
@@ -87,21 +82,28 @@ const newHandler =
     return await defaultFetchInterceptor(request);
   };
 
-// TODO: import server settings without it importing everything else.
 export const DEFAULT_HOST_URL = `https://api.worksheets.dev/v1`;
 const defaultFetchInterceptor = async ({
-  app,
-  method,
+  path,
   context,
   options,
   input,
 }: MethodCallRequest) => {
   const url = options.baseUrl || DEFAULT_HOST_URL;
   if (options.logging === 'verbose') {
-    console.log('calling', url, app, method, context, input);
+    console.log('calling', url, path, context, input);
   }
 
-  const result = await fetch(`${url}/call/${app}/${method}`, {
+  const [appId, methodId] = path.split('.');
+  if (!appId || !methodId) {
+    throw new ApplicationFailure({
+      message: `Application call path ${path} is invalid.`,
+      code: 400,
+      reason: 'bad_request',
+    });
+  }
+
+  const result = await fetch(`${url}/call/${appId}/${methodId}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -114,7 +116,9 @@ const defaultFetchInterceptor = async ({
     return await result.json();
   }
 
-  console.error('failed to call', result.status, result.statusText);
+  if (options.logging === 'verbose') {
+    console.error('failed to call', result.status, result.statusText);
+  }
 
   const error = await result.json();
 

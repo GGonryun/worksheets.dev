@@ -1,13 +1,13 @@
-import { listApplicationMethods } from '@worksheets/feat/applications-registry';
+import { listApplicationMethodDetails } from '@worksheets/feat/applications-registry';
 import {
-  listApplicationMethodsRequestSchema,
-  listApplicationMethodsResponseSchema,
+  listApplicationMethodDetailsRequestSchema,
+  listApplicationMethodDetailsResponseSchema,
 } from '@worksheets/schemas-applications';
 import { publicProcedure } from '../../../procedures';
 
 export default publicProcedure
-  .input(listApplicationMethodsRequestSchema)
-  .output(listApplicationMethodsResponseSchema)
+  .input(listApplicationMethodDetailsRequestSchema)
+  .output(listApplicationMethodDetailsResponseSchema)
   .query(async ({ input: { appId } }) => {
-    return listApplicationMethods(appId);
+    return listApplicationMethodDetails(appId);
   });

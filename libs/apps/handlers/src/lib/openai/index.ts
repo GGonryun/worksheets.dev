@@ -1,16 +1,13 @@
-import {
-  ApplicationMethodHandler,
-  ApplicationMethodHandlers,
-} from '@worksheets/apps-registry';
 import { Configuration, OpenAIApi } from 'openai';
 import { handleOpenAIError } from './util';
+import { ApplicationExecutors, ApplicationMethodExecutor } from '../framework';
 
-const createCompletion: ApplicationMethodHandler<
+export const createCompletion: ApplicationMethodExecutor<
   'openai',
   'createCompletion'
-> = async ({ context, input }) => {
+> = async ({ ctx: { apiKey }, input }) => {
   const configuration = new Configuration({
-    apiKey: context.apiKey,
+    apiKey,
   });
 
   const openai = new OpenAIApi(configuration);
@@ -19,20 +16,18 @@ const createCompletion: ApplicationMethodHandler<
       ...input,
     });
 
-    console.info(`open-ai created a completion`, response.data.id);
-
     return response.data;
   } catch (error) {
     throw handleOpenAIError(error);
   }
 };
 
-const createImage: ApplicationMethodHandler<'openai', 'createImage'> = async ({
-  context,
-  input,
-}) => {
+export const createImage: ApplicationMethodExecutor<
+  'openai',
+  'createImage'
+> = async ({ ctx: { apiKey }, input }) => {
   const configuration = new Configuration({
-    apiKey: context.apiKey,
+    apiKey,
   });
 
   const openai = new OpenAIApi(configuration);
@@ -45,14 +40,13 @@ const createImage: ApplicationMethodHandler<'openai', 'createImage'> = async ({
     throw handleOpenAIError(error);
   }
 
-  console.info(`open-ai created an image`, response.data.data);
   return response.data.data;
 };
 
-const listModels: ApplicationMethodHandler<'openai', 'listModels'> = async ({
-  context: { apiKey },
-  input,
-}) => {
+export const listModels: ApplicationMethodExecutor<
+  'openai',
+  'listModels'
+> = async ({ ctx: { apiKey }, input }) => {
   const configuration = new Configuration({
     apiKey,
   });
@@ -61,21 +55,17 @@ const listModels: ApplicationMethodHandler<'openai', 'listModels'> = async ({
   try {
     if (input) {
       const response = await openai.retrieveModel(input);
-      const model = response.data;
-      console.info(`open-ai read a model`, model.id);
-      return model;
+      return response.data;
     }
 
     const response = await openai.listModels();
-    const models = response.data.data;
-    console.info(`open-ai read models`, models.length);
-    return models;
+    return response.data.data;
   } catch (error) {
     throw handleOpenAIError(error);
   }
 };
 
-export const openai: ApplicationMethodHandlers<'openai'> = {
+export const openai: ApplicationExecutors<'openai'> = {
   createCompletion,
   createImage,
   listModels,

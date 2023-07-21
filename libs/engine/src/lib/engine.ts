@@ -1,5 +1,4 @@
-import { MethodCallFailure } from '@worksheets/apps/framework';
-import { Context, Instruction } from './framework';
+import { Context, Instruction, MethodCallFailure } from './framework';
 import { Catch } from './instructions/catch';
 import { ExecutionFailure } from './failures';
 import { Retry } from './instructions/retry';

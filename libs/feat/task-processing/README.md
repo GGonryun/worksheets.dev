@@ -1,11 +1,3 @@
-# feat-task-processing
+# Task Processing
 
-This library was generated with [Nx](https://nx.dev).
-
-## Building
-
-Run `nx build feat-task-processing` to build the library.
-
-## Running unit tests
-
-Run `nx test feat-task-processing` to execute the unit tests via [Jest](https://jestjs.io).
+A legacy feature that has been removed from the worksheets system. This feature would allow users to execute a series of instructions nicknamed: "worksheets".

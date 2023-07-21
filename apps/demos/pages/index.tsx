@@ -6,6 +6,7 @@ export default function Index() {
   return (
     <Box>
       <Button onClick={() => push('/calculator')}>Calculator</Button>
+      <Button onClick={() => push('/form-filler')}>Form Fillter</Button>
     </Box>
   );
 }

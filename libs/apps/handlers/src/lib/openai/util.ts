@@ -1,6 +1,7 @@
 import { TRPCError } from '@trpc/server';
 import { HTTP_STATUS_CODE_TRPC_ERROR } from '@worksheets/util/errors';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const handleOpenAIError = (error: any) => {
   const data = error?.response?.data ?? {};
   const message = data?.error?.message ?? 'unknown open ai failure';

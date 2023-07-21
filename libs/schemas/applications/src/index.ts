@@ -39,21 +39,6 @@ export const applicationMetadata = z.object({
 
 export type CallMethodRequest = z.infer<typeof callMethodRequestSchema>;
 export const callMethodRequestSchema = z.object({
-  path: z.string(),
-  input: z.any().describe('any json data'),
-  connection: z
-    .string()
-    .optional()
-    .describe(
-      'use a connection for the execution if this method requires sensitive tokens or data'
-    ),
-  metadata: z
-    .unknown()
-    .describe("optional metadata to pass to the method's execution."),
-});
-
-export type CallMethodV2Request = z.infer<typeof callMethodV2RequestSchema>;
-export const callMethodV2RequestSchema = z.object({
   appId: z.string(),
   methodId: z.string(),
   input: z.any().describe('any json data'),
@@ -63,25 +48,66 @@ export const callMethodV2RequestSchema = z.object({
 export type CallMethodResponse = z.infer<typeof callMethodResponseSchema>;
 export const callMethodResponseSchema = z.any().describe('any json data');
 
-export type ListApplicationMethodsRequest = z.infer<
-  typeof listApplicationMethodsRequestSchema
+export type GetApplicationDetailsRequest = z.infer<
+  typeof getApplicationDetailsRequestSchema
 >;
-export const listApplicationMethodsRequestSchema = z.object({
+export const getApplicationDetailsRequestSchema = z.object({
   appId: z.string(),
 });
 
-export type ListApplicationMethodsResponse = z.infer<
-  typeof listApplicationMethodsResponseSchema
+export type GetApplicationDetailsResponse = z.infer<
+  typeof getApplicationDetailsResponseSchema
 >;
-export const listApplicationMethodsResponseSchema = z.array(
-  z.object({
-    id: z.string(),
-    label: z.string(),
-    description: z.string().optional(),
-    input: z.any(),
-    output: z.any(),
-    example: z.string(),
-  })
+
+export const getApplicationDetailsResponseSchema = z.object({
+  appId: z.string(),
+  label: z.string(),
+  logo: z.string(),
+  description: z.string(),
+  lastUpdated: z.string(),
+  creator: z.string(),
+  overview: z.string(),
+  tutorial: z.string(),
+});
+
+export type ApplicationMethodDetailsResponse = z.infer<
+  typeof applicationMethodDetailsResponseSchema
+>;
+
+export const applicationMethodDetailsResponseSchema = z.object({
+  appId: z.string(),
+  methodId: z.string(),
+  label: z.string(),
+  description: z.string().optional(),
+  pricing: z.number(),
+  examples: z.object({
+    sdk: z.string(),
+    schema: z.object({
+      path: z.string(),
+      context: z.any(),
+      input: z.any(),
+      output: z.any(),
+    }),
+    curl: z.object({
+      request: z.string(),
+      response: z.string(),
+    }),
+  }),
+});
+
+export type ListApplicationMethodDetailsRequest = z.infer<
+  typeof listApplicationMethodDetailsRequestSchema
+>;
+export const listApplicationMethodDetailsRequestSchema = z.object({
+  appId: z.string(),
+});
+
+export type ListApplicationMethodDetailsResponse = z.infer<
+  typeof listApplicationMethodDetailsResponseSchema
+>;
+
+export const listApplicationMethodDetailsResponseSchema = z.array(
+  applicationMethodDetailsResponseSchema
 );
 
 export type ListApplicationsRequest = z.infer<

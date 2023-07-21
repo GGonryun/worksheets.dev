@@ -88,7 +88,6 @@ const Drawer = styled(MuiDrawer, {
   shouldForwardProp: (prop) => prop !== 'open',
 })(({ theme, open }) => ({
   width: drawerWidth,
-  flexShrink: 0,
   whiteSpace: 'nowrap',
   boxSizing: 'border-box',
   ...(open && {
@@ -276,7 +275,7 @@ const FeedbackButton = () => {
 const Title: React.FC = () => (
   <Typography variant="h6" noWrap component="div">
     <Link href="/dashboard" color="inherit" underline="hover">
-      Worksheets.dev
+      Worksheets
     </Link>
   </Typography>
 );

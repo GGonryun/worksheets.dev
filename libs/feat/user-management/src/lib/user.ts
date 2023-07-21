@@ -8,7 +8,6 @@ import { quotas } from './quotas';
 import { dxi } from '@worksheets/feat/session-replay';
 import { limits } from './limits';
 import { TypeOf } from 'zod';
-import { metrics } from '@worksheets/feat/server-monitoring';
 import { userAgentSchema, userOverviewSchema } from '@worksheets/schemas-user';
 
 const tokens = newApiTokenDatabase();
@@ -129,19 +128,15 @@ const acknowledge = async (
     },
   };
   if (await quotas.exist(user.uid)) {
-    const { id, ...userQuotas } = await quotas.get(user.uid);
+    const userQuotas = await quotas.get(user.uid);
 
     dxiUser.properties.quotas = userQuotas;
     await dxi.updateUser(user.uid, dxiUser);
-
-    metrics.increment({ type: 'returning-users', payload: { uid: id } });
   } else {
     const userQuotas = await quotas.create(user.uid);
 
     dxiUser.properties.quotas = userQuotas;
     await dxi.createUser(dxiUser);
-
-    metrics.increment({ type: 'new-users', payload: { uid: user.uid } });
   }
 
   // fullstory identify.

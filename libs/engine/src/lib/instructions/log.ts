@@ -1,7 +1,7 @@
 // TOOD: new logging instruction that saves something to the system log.
-import { LogLevel } from '@worksheets/schemas-logging';
+
 import { ExecutionFailure } from '../failures';
-import { Context, Instruction } from '../framework';
+import { Context, Instruction, LogLevel } from '../framework';
 
 export type LogDefinition = {
   log: string | { message: string; data: unknown; level: LogLevel };

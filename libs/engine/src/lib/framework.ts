@@ -3,8 +3,45 @@ import { Controller } from './controller';
 import { Logger } from './logger';
 import { ExecutionFailure } from './failures';
 import { SingleMethodInitDefinition } from './instructions';
-import { MethodCallFailure, Library } from '@worksheets/apps/framework';
 import { Heap, Stack } from '@worksheets/util/data-structures';
+import { Failure, FailureOptions } from '@worksheets/util/errors';
+import { StatusCodes } from 'http-status-codes';
+import { z } from '@worksheets/zod';
+
+export type LogLevel = z.infer<typeof logLevelEntity>;
+export const logLevelEntity = z.enum([
+  'trace',
+  'debug',
+  'info',
+  'warn',
+  'error',
+  'fatal',
+  'silent',
+]);
+
+export interface Library {
+  call(options: {
+    path: string;
+    input: unknown;
+    connection?: string;
+  }): Promise<unknown>;
+}
+
+export class MethodCallFailure extends Failure {
+  public readonly code: StatusCodes;
+  constructor(opts: FailureOptions & { code: StatusCodes }) {
+    super(opts);
+    this.code = opts.code;
+  }
+
+  toSimple() {
+    return {
+      code: this.code,
+      message: this.message,
+      data: this.data,
+    };
+  }
+}
 
 export type Address = string;
 

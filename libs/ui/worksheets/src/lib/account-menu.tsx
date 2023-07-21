@@ -9,7 +9,7 @@ import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import { useRouter } from 'next/router';
 import { useUser } from '@worksheets/util/auth/client';
-import { Link, Typography } from '@mui/material';
+import { ButtonBase, Link, Typography } from '@mui/material';
 import { Person } from '@mui/icons-material';
 
 export default function AccountMenu({ secure }: { secure?: boolean }) {
@@ -34,7 +34,6 @@ export default function AccountMenu({ secure }: { secure?: boolean }) {
 
   const handleLogout = async () => {
     await signOut();
-    push('/');
   };
 
   return (
@@ -55,11 +54,16 @@ export default function AccountMenu({ secure }: { secure?: boolean }) {
           </IconButton>
         </Tooltip>
       ) : (
-        <Typography variant="h6" noWrap component="div">
-          <Link href="/login" color="inherit" underline="hover">
-            Log In / Sign Up
-          </Link>
-        </Typography>
+        <ButtonBase href="/login">
+          <Typography
+            variant="h6"
+            noWrap
+            component="div"
+            sx={{ textDecoration: 'underline' }}
+          >
+            Log In
+          </Typography>
+        </ButtonBase>
       )}
       <Menu
         anchorEl={anchorEl}

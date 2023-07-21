@@ -1,8 +1,7 @@
 import { isObject } from 'lodash';
 import { Assignment } from './assignment';
-import { Context, Instruction } from '../framework';
+import { Context, Instruction, MethodCallFailure } from '../framework';
 import { ZodError } from 'zod';
-import { MethodCallFailure } from '@worksheets/apps/framework';
 import { StatusCodes } from 'http-status-codes';
 
 export type CallDefinition = {

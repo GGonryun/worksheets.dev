@@ -19,7 +19,7 @@ import { ApplicationDetails } from '../shared/types';
 import { TinyLogo } from '../shared/tiny-logo';
 import { useUser } from '@worksheets/util/auth/client';
 import { SpotlightButton } from '../shared/spotlight-button';
-import { Search } from '@mui/icons-material';
+import { KeyRounded, Search } from '@mui/icons-material';
 import { SERVER_SETTINGS } from '@worksheets/data-access/server-settings';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -100,7 +100,6 @@ const columns: (onClick: (worksheetId: string) => void) => GridColDef[] = (
     minWidth: 150,
     maxWidth: 300,
     renderCell: (params) => {
-      console.log('field');
       const app: ApplicationDetails = params.value;
       return (
         <Box display="flex" alignItems="center" gap={2}>
@@ -221,17 +220,21 @@ export function ApplicationExecutionHistory() {
               subtext="Execute your first application in as little as 5 minutes"
               action={{
                 variant: 'contained',
-                href: SERVER_SETTINGS.WEBSITES.DOCS_URL('/docs/faq'),
-                children: <>Learn More</>,
+                href: SERVER_SETTINGS.WEBSITES.DOCS_URL('/faq'),
+                children: <>Frequently Asked Questions</>,
               }}
             >
+              <SpotlightButton
+                label="Create an API Key"
+                caption="Execute your first application"
+                icon={<KeyRounded fontSize="large" />}
+                href={'/settings/access-tokens'}
+              />
               <SpotlightButton
                 label="Follow a tutorial"
                 caption="Learn how to execute your first application"
                 icon={<ListAltIcon fontSize="large" />}
-                href={SERVER_SETTINGS.WEBSITES.DOCS_URL(
-                  '/docs/tutorials/quick-start'
-                )}
+                href={SERVER_SETTINGS.WEBSITES.DOCS_URL('/getting-started')}
               />
               <SpotlightButton
                 label="Browse applications"

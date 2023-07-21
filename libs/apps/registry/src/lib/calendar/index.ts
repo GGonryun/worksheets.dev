@@ -1,18 +1,18 @@
+import { newApp, newMethod } from '@worksheets/apps-core';
 import { z } from '@worksheets/zod';
-import { newApp, newMethod } from '../../framework';
 
-export const googleCalendar = newApp(
-  {
-    appId: 'googleCalendar',
-    label: 'Google Calendar',
-    logo: 'https://storage.googleapis.com/worksheets-test-app-logos/Google_Calendar_icon.svg',
-    description: '',
-    context: z.object({
-      accessToken: z.string(),
-    }),
-  },
-  {
+export const googleCalendar = newApp({
+  appId: 'googleCalendar',
+  label: 'Google Calendar',
+  logo: 'https://storage.googleapis.com/worksheets-test-app-logos/Google_Calendar_icon.svg',
+  description: '',
+  context: z.object({
+    accessToken: z.string(),
+  }),
+  methods: {
     listEvents: newMethod({
+      appId: 'googleCalendar',
+      methodId: 'listEvents',
       label: 'List Events',
       description: 'Lists the next 10 events in your google calendar',
       input: z.object({
@@ -21,5 +21,5 @@ export const googleCalendar = newApp(
       }),
       output: z.null(),
     }),
-  }
-);
+  },
+});

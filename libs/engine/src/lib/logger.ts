@@ -1,4 +1,4 @@
-import { LogLevel } from '@worksheets/schemas-logging';
+import { LogLevel } from './framework';
 
 /**
  * @name Logger

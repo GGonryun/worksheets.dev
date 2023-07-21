@@ -1,4 +1,4 @@
-import styles from './styles.module.scss';
+import styles from './shared-text-field.module.scss';
 import { TextField, TextFieldProps } from '@mui/material';
 
 export const SharedTextField: React.FC<

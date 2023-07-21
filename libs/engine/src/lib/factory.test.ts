@@ -1,8 +1,8 @@
-import { MethodCallFailure } from '@worksheets/apps/framework';
 import { StatusCodes } from 'http-status-codes';
 import { Execution } from './execution';
 import { Mock, newTestExecutionFactory } from './test-utils.spec';
 import { when } from 'jest-when';
+import { MethodCallFailure } from './framework';
 
 describe('execution factory serialization through explicit halting', () => {
   type TestCases = {

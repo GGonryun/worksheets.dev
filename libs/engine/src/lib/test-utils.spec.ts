@@ -1,7 +1,5 @@
-import { Library, MethodDefinition } from '@worksheets/apps/framework';
 import { Logger } from './logger';
-import { Controller, ExecutionFactory } from '..';
-import { LogLevel } from '@worksheets/schemas-logging';
+import { Controller, ExecutionFactory, Library, LogLevel } from '..';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type Mock = jest.Mock<any, any, any>;
@@ -24,9 +22,6 @@ export class JestApplicationLibrary implements Library {
       delete options.connection;
     }
     return this.callMock(options);
-  }
-  list(): MethodDefinition[] {
-    throw new Error('Method not implemented.');
   }
 
   mocks() {

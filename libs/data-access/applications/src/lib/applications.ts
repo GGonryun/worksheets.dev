@@ -1,61 +1,109 @@
 import {
   ApplicationDetails,
-  ListApplicationMethodsResponse,
+  GetApplicationDetailsResponse,
+  ListApplicationMethodDetailsResponse,
   ListApplicationsResponse,
 } from '@worksheets/schemas-applications';
-import {
-  Application,
-  ApplicationKeys,
-  Applications,
-  Method,
-  registry,
-} from '@worksheets/apps-registry';
-import { printZodSchema } from '@worksheets/util-json';
-import { sampleData } from '@worksheets/apps-sample-data';
+import { ApplicationRegistry, registry } from '@worksheets/apps-registry';
+import { convertZodSchemaToJsonSchema } from '@worksheets/util-json';
+import { AnyApplication, AnyMethod } from '@worksheets/apps-core';
+import { createCurlExample, createTypeScriptExample } from './examples';
+import { metadata } from '@worksheets/apps-metadata';
+import { TRPCError } from '@trpc/server';
+
 export interface ApplicationsDatabase {
   getApp(id: string): ApplicationDetails;
   list(): ListApplicationsResponse;
-  getMethods(id: string): ListApplicationMethodsResponse;
+  listApplicationMethodDetails(
+    id: string
+  ): ListApplicationMethodDetailsResponse;
+  getApplicationDetails(appId: string): GetApplicationDetailsResponse;
 }
 
 export const newApplicationsDatabase = (): ApplicationsDatabase => {
   return {
     getApp: (id: string) => {
-      const key = id as ApplicationKeys;
+      const key = id as keyof ApplicationRegistry;
       const app = registry[key];
       return convertApplicationDefinition(key, app);
     },
     list: () => {
       return Object.keys(registry).map((id) => {
-        const key = id as ApplicationKeys;
+        const key = id as keyof ApplicationRegistry;
         const app = registry[key];
         return convertApplicationDefinition(key, app);
       });
     },
-    getMethods: (appId: string): ListApplicationMethodsResponse => {
-      const app = registry[appId as ApplicationKeys];
-      return Object.keys(app.methods).map((methodId) => {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const method: Method<any, any, any, any> =
-          app.methods[methodId as keyof typeof app.methods];
+    getApplicationDetails: (appId: string): GetApplicationDetailsResponse => {
+      const key = appId as keyof ApplicationRegistry;
+      const app = registry[key];
 
+      const { tutorial, overview, creator, lastUpdated } = metadata[key];
+
+      return {
+        appId: key,
+        label: app.label ?? key,
+        description: app.description ?? '',
+        logo: app.logo ?? '',
+        creator: creator,
+        overview: overview,
+        lastUpdated: lastUpdated,
+        tutorial: tutorial,
+      };
+    },
+    listApplicationMethodDetails: (
+      appId: string
+    ): ListApplicationMethodDetailsResponse => {
+      const key = appId as keyof ApplicationRegistry;
+      const app = registry[key] as AnyApplication;
+      const methods = app.methods;
+      if (!methods) {
+        return [];
+      }
+
+      return Object.keys(methods).map((methodId) => {
+        const method: AnyMethod = methods[methodId as keyof typeof app.methods];
         return {
-          id: methodId,
+          appId: methodId,
+          methodId: methodId,
           label: method.label ?? methodId,
           description: method.description ?? undefined,
-          input: printZodSchema(method.input),
-          output: printZodSchema(method.output),
-          example: createExample(appId, methodId),
+          pricing: getMethodPricing(appId, methodId),
+          examples: {
+            schema: createSchemaExample({ app, method }),
+            sdk: createTypeScriptExample({ appId, methodId }),
+            curl: createCurlExample({ appId, methodId }),
+          },
         };
       });
     },
   };
 };
 
+export const getMethodPricing = (appId: string, methodId: string) => {
+  const appKey = appId as keyof ApplicationRegistry;
+  const app = metadata[appKey];
+  if (!app) {
+    throw new TRPCError({
+      code: 'NOT_FOUND',
+      message: `Application ${appId} not found`,
+    });
+  }
+  const methodKey = methodId as keyof (typeof app)['pricing'];
+  const price = app['pricing'][methodKey];
+  if (price == null) {
+    throw new TRPCError({
+      code: 'NOT_FOUND',
+      message: `Method ${methodId} not found`,
+    });
+  }
+  return price;
+};
+
 export const convertApplicationDefinition = (
   id: string,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  app: Application<any, any, any, any>
+  app: AnyApplication
 ): ApplicationDetails => ({
   id: id,
   name: app.label ?? id,
@@ -63,46 +111,19 @@ export const convertApplicationDefinition = (
   description: app.description ?? '',
 });
 
-export const createExample = (
-  appId: string,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  methodId: string
-  // method: Method<any, any, any, any>
-) => {
-  const path = `${appId}.${methodId}`;
-  const clientContext = format({ apiKey: 'YOUR_API_KEY' });
-  const appContext = accessData(appId, methodId, 'context');
-  const inputData = accessData(appId, methodId, 'input');
-  return `
-// Example for ${path}
-const client = newClient(${clientContext})
+export const createSchemaExample = ({
+  app,
+  method,
+}: {
+  app: AnyApplication;
+  method: AnyMethod;
+}) => {
+  const path = `${app.appId}.${method?.methodId}`;
+  const context = convertZodSchemaToJsonSchema(app.context); // TODO: get app context from sample data.
 
-// SDK provides type-safety and intellisense
-const ${appId} = client.${appId}(${appContext})
+  const input = convertZodSchemaToJsonSchema(method.input);
 
-// Optional parameters are omitted from examples
-const data = ${path}(${inputData})
+  const output = convertZodSchemaToJsonSchema(method.output);
 
-console.log(data);
-/*
- ${accessData(appId, methodId, 'output')}
-*/
-`.trim();
-};
-
-const format = (input: unknown) => {
-  return JSON.stringify(input, null, 2);
-};
-
-const accessData = (
-  appId: string,
-  methodId: string,
-  key: 'input' | 'output' | 'context'
-) => {
-  const aid = appId as ApplicationKeys;
-  const mid = methodId as keyof Applications[typeof aid]['methods'];
-  const data = sampleData[aid][mid][key];
-  if (!data && key != 'output') return '';
-
-  return format(data);
+  return { path, context, input, output };
 };
