@@ -5,6 +5,7 @@ import {
   ApplicationRegistrySampleData,
   sampleData,
 } from '@worksheets/apps-sample-data';
+import { SERVER_SETTINGS } from '@worksheets/data-access/server-settings';
 
 const format = (input: unknown) => {
   if (input == null) return '';
@@ -42,7 +43,7 @@ export const createTypeScriptExample = ({
 
 // TODO: move to strings
 function stringifyWithSpace(obj: unknown) {
-  if (typeof obj !== 'object') return '';
+  if (!obj) return '';
   let result = JSON.stringify(obj, null, 1); // stringify, with line-breaks and indents
   result = result.replace(/^ +/gm, ' '); // remove all but the first space for each line
   result = result.replace(/\n/g, ''); // remove line-breaks
@@ -58,16 +59,16 @@ export const createCurlExample = ({
   appId: string;
   methodId: string;
 }) => {
-  const context = stringifyWithSpace(getAppContext(appId));
+  const context = stringifyWithSpace(getAppContext(appId) ?? {});
 
   const input = stringifyWithSpace(getMethodInputs({ appId, methodId }));
 
   const output = format(getMethodOutputs({ appId, methodId }));
 
   const request = `
-curl --request POST 'https://api.worksheets.dev/v1/call/${appId}/${methodId}'  \\
+curl --request POST '${SERVER_SETTINGS.WEBSITES.API_URL()}/v1/call/${appId}/${methodId}'  \\
   --header 'Content-Type: application/json' \\
-  --header 'Authorization: Bearer $WORKSHEETS_API_KEY' \\
+  --header 'Authorization: Bearer WORKSHEETS_API_KEY' \\
   -d '{ "context": ${context}, "input": ${input || format({})} }'
     `.trim();
 

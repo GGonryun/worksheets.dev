@@ -4,7 +4,8 @@ import { z } from '@worksheets/zod';
 export const http = newApp({
   appId: 'http',
   label: 'HTTP Utilities',
-  description: 'Utilities for working with HTTP requests and responses',
+  logo: 'https://storage.googleapis.com/worksheets-test-app-logos/http.svg',
+  description: 'Contains methods for executing HTTP requests.',
   context: z.null(),
   methods: {
     request: newMethod({

@@ -42,10 +42,62 @@ export function newClient({
       abs: handler({}, 'math.abs'),
       avg: handler({}, 'math.avg'),
     }),
+    json: () => ({
+      parse: handler({}, 'json.parse'),
+      stringify: handler({}, 'json.stringify'),
+      query: handler({}, 'json.query'),
+    }),
+    http: () => ({
+      request: handler({}, 'http.request'),
+    }),
     openai: (ctx) => ({
       createCompletion: handler(ctx, 'openai.createCompletion'),
       createImage: handler(ctx, 'openai.createImage'),
       listModels: handler(ctx, 'openai.listModels'),
+    }),
+    gmail: (ctx) => ({
+      sendEmail: handler(ctx, 'gmail.sendEmail'),
+      getUserEmail: handler(ctx, 'gmail.getUserEmail'),
+    }),
+    notion: (ctx) => ({
+      listUsers: handler(ctx, 'notion.listUsers'),
+      getUser: handler(ctx, 'notion.getUser'),
+      getBot: handler(ctx, 'notion.getBot'),
+      getDatabase: handler(ctx, 'notion.getDatabase'),
+      createPage: handler(ctx, 'notion.createPage'),
+    }),
+    slack: (ctx) => ({
+      postChatMessage: handler(ctx, 'slack.postChatMessage'),
+      listConversations: handler(ctx, 'slack.listConversations'),
+    }),
+    fullstory: (ctx) => ({
+      listSessions: handler(ctx, 'fullstory.listSessions'),
+      createEvent: handler(ctx, 'fullstory.createEvents'),
+      createUser: handler(ctx, 'fullstory.createUser'),
+      listUsers: handler(ctx, 'fullstory.listUsers'),
+      deleteUser: handler(ctx, 'fullstory.deleteUser'),
+      updateUser: handler(ctx, 'fullstory.updateUser'),
+      getUser: handler(ctx, 'fullstory.getUser'),
+    }),
+    googleCalendar: (ctx) => ({
+      listEvents: handler(ctx, 'googleCalendar.listEvents'),
+    }),
+    pagerDuty: (ctx) => ({
+      listPriorities: handler(ctx, 'pagerDuty.listPriorities'),
+      listServices: handler(ctx, 'pagerDuty.listServices'),
+      createIncident: handler(ctx, 'pagerDuty.createIncident'),
+      updateIncident: handler(ctx, 'pagerDuty.updateIncident'),
+      listIncidents: handler(ctx, 'pagerDuty.listIncidents'),
+    }),
+    segment: (ctx) => ({
+      alias: handler(ctx, 'segment.alias'),
+      group: handler(ctx, 'segment.group'),
+      page: handler(ctx, 'segment.page'),
+      track: handler(ctx, 'segment.track'),
+      identify: handler(ctx, 'segment.identify'),
+    }),
+    sendGrid: (ctx) => ({
+      sendEmail: handler(ctx, 'sendGrid.sendEmail'),
     }),
   };
 }

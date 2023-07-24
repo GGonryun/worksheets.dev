@@ -3,7 +3,7 @@ import { z } from '@worksheets/zod';
 
 export const math = newApp({
   appId: 'math',
-  logo: '',
+  logo: 'https://storage.googleapis.com/worksheets-test-app-logos/math.svg',
   label: 'Math',
   description: 'Methods for performing mathematical operations',
   context: z.null(),

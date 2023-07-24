@@ -111,7 +111,7 @@ export function LoginPage() {
                 <Link href={`${SERVER_SETTINGS.WEBSITES.DOCS_URL('/')}`}>
                   <Emoji label="docs page" symbol={128218} /> Learn more
                 </Link>{' '}
-                <Link href={'/apps'}>
+                <Link href={'/applications'}>
                   <Emoji label="apps page" symbol={127881} /> Applications
                 </Link>
               </Box>

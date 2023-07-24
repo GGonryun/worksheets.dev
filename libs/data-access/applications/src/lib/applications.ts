@@ -38,7 +38,7 @@ export const newApplicationsDatabase = (): ApplicationsDatabase => {
       const key = appId as keyof ApplicationRegistry;
       const app = registry[key];
 
-      const { tutorial, overview, creator, lastUpdated } = metadata[key];
+      const { tutorialUrl, overview, creator, lastUpdated } = metadata[key];
 
       return {
         appId: key,
@@ -48,7 +48,7 @@ export const newApplicationsDatabase = (): ApplicationsDatabase => {
         creator: creator,
         overview: overview,
         lastUpdated: lastUpdated,
-        tutorial: tutorial,
+        tutorial: tutorialUrl,
       };
     },
     listApplicationMethodDetails: (

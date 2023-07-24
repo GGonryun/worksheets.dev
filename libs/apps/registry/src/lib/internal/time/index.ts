@@ -3,9 +3,10 @@ import { z } from '@worksheets/zod';
 
 export const time = newApp({
   appId: 'time',
-  logo: '',
+  logo: 'https://storage.googleapis.com/worksheets-test-app-logos/time.svg',
   label: 'Time',
-  description: 'Methods for working with dates and times',
+  description:
+    'The time package supplies methods for manipulating dates and times.',
   context: z.null(),
   methods: {
     now: newMethod({

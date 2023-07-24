@@ -1,1 +1,1 @@
-export * from './lib/mask';
+export * from './lib/metadata';

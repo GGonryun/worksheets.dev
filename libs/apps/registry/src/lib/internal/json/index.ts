@@ -4,14 +4,16 @@ import { z } from '@worksheets/zod';
 export const json = newApp({
   appId: 'json',
   label: 'JSON',
-  description: 'JSON utilities',
+  logo: 'https://storage.googleapis.com/worksheets-test-app-logos/json.svg',
+  description:
+    'The JSON library provides methods for working with JSON data such as parsing and stringifying.',
   context: z.null(),
   methods: {
     parse: newMethod({
       appId: 'json',
       methodId: 'parse',
       label: 'JSON Parse',
-      description: 'Convert JSON strings back into objects',
+      description: 'Convert JSON strings back into data',
       input: z.string(),
       output: z.unknown(),
     }),
@@ -28,7 +30,7 @@ export const json = newApp({
       appId: 'json',
       methodId: 'stringify',
       label: 'JSON Stringify',
-      description: 'Turn anything into a JSON string',
+      description: 'Turn data into a JSON string',
       input: z.any(),
       output: z.string(),
     }),
