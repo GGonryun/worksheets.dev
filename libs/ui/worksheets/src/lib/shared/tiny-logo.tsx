@@ -18,7 +18,7 @@ export const TinyLogo: React.FC<{
       display="flex"
       alignItems="center"
       justifyContent={'center'}
-      padding={0.1}
+      padding={0.2}
     >
       {!src ? (
         <Box height={area} width={area} />

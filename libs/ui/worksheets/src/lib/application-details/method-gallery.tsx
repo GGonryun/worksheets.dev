@@ -56,7 +56,9 @@ const MethodCard: React.FC<{
 
   const setPricingLabel = () => {
     if (method.pricing) {
-      return `$1 = ${addCommasToNumber(1 / method.pricing)} executions`;
+      return `$1 = ${addCommasToNumber(
+        Math.round(1 / method.pricing)
+      )} executions`;
     }
     return undefined;
   };
@@ -70,7 +72,7 @@ const MethodCard: React.FC<{
               alignSelf: 'center',
             },
           }}
-          avatar={<TinyLogo label={app.label} src={app.logo} area={28} />}
+          avatar={<TinyLogo label={app.title} src={app.logo} area={28} />}
           title={
             <Box
               display="flex"
@@ -199,10 +201,11 @@ const SDKExample: React.FC<{
   const clipboard = useClipboard();
 
   return (
-    <CollapsibleItem label={label} subtitle={subtitle} startOpen>
+    <CollapsibleItem label={label} subtitle={subtitle}>
       <Box
         mt={1.5}
         height="500px"
+        minWidth="500px"
         border={(theme) => `2px solid ${theme.palette.divider}`}
       >
         <CodeEditor
@@ -211,6 +214,7 @@ const SDKExample: React.FC<{
             clipboard.copy(sdk);
           }}
           height="100%"
+          width="100%"
           value={sdk}
           mode={'typescript'}
           theme={'github'}
@@ -256,7 +260,7 @@ const MethodDataSchema: React.FC<{
   schema: any;
 }> = ({ schema, label, subtitle }) => {
   return (
-    <CollapsibleItem label={label} subtitle={subtitle} startOpen>
+    <CollapsibleItem label={label} subtitle={subtitle}>
       <Box pl={3.9}>
         <JsonSchemaViewer
           defaultExpandedDepth={0}
@@ -278,7 +282,7 @@ const CurlExample: React.FC<{
   const clipboard = useClipboard();
 
   return (
-    <CollapsibleItem label={label} subtitle={subtitle} startOpen>
+    <CollapsibleItem label={label} subtitle={subtitle}>
       <Box
         mt={1.5}
         height="200px"
@@ -290,6 +294,7 @@ const CurlExample: React.FC<{
             clipboard.copy(request);
           }}
           height="100%"
+          width="100%"
           value={request}
           mode={'sh'}
           theme={'github'}

@@ -8,6 +8,6 @@ import { publicProcedure } from '../../procedures';
 export default publicProcedure
   .input(listApplicationsRequestSchema)
   .output(listApplicationsResponseSchema)
-  .query(async () => {
-    return listApplications();
+  .query(async ({ input }) => {
+    return listApplications(input);
   });

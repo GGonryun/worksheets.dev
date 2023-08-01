@@ -26,7 +26,7 @@ export type ApplicationMethodExecutor<
   infer Output
 >
   ? (opts: {
-      ctx: ApplicationContext<ApplicationRegistry[T]>;
+      context: ApplicationContext<ApplicationRegistry[T]>;
       input: z.infer<Input>;
     }) => Promise<z.infer<Output>>
   : never;

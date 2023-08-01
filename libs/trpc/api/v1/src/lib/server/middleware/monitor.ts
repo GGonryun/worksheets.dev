@@ -20,7 +20,11 @@ export const monitor = middleware(
     if (result.ok) {
       console.info(`${header}[RES][${end}][OK]`, result.data);
     } else {
-      console.error(`${header}[RES][${end}][ERR]`, result.error);
+      console.error(
+        `${header}[RES][${end}][ERR]`,
+        result.error.code,
+        result.error.message
+      );
     }
 
     return result;

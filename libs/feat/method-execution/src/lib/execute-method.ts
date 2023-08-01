@@ -1,6 +1,7 @@
 import { TRPCError } from '@trpc/server';
 import { handlers } from '@worksheets/apps-handlers';
 import { newMethodExecutionsDatabase } from '@worksheets/data-access/method-executions';
+import { getFreshContext } from '@worksheets/feat/app-connections';
 import { TRPC_ERROR_CODE_HTTP_STATUS } from '@worksheets/util/errors';
 
 const db = newMethodExecutionsDatabase();
@@ -48,12 +49,18 @@ export const executeMethod = async ({
     status: 0,
   };
 
+  // TODO: if no context was provided try to fetch the connection and translate it to a context.
+  if (!context) {
+    context = await getFreshContext({ userId, appId });
+  }
+
   let data;
   // all our methods handlers use TRPCError to signal failure. we convert
   // them to http status codes when saving results. the TRPC OpenAPI
   // middleware will convert them to http status codes and return
   // the error as a text payload. and the SDK converts those http
   // status codes to a domain specific "Failure" object.
+
   try {
     data = await method({ input, context });
     result.status = 200;

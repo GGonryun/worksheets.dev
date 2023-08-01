@@ -21,8 +21,6 @@ export type Method<
 > = {
   appId?: StringLiteral<App>;
   methodId?: StringLiteral<Method>;
-  description?: string;
-  label?: string;
   input: Input;
   output: Output;
 };
@@ -35,9 +33,6 @@ export type Application<
     [K in MethodIds]: Method<App, K, ZodTypeAny, ZodTypeAny>;
   }
 > = {
-  logo?: string;
-  label?: string;
-  description?: string;
   appId?: App;
   methods: Methods;
   context: Context;
@@ -59,9 +54,6 @@ export function newApp<
   }
 >(opts: {
   appId: AppId;
-  logo?: string;
-  label?: string;
-  description?: string;
   context: Context;
   methods: MethodType;
 }): Application<AppId, Context, MethodId, MethodType> {
@@ -78,23 +70,17 @@ export function newMethod<
 >({
   appId,
   methodId,
-  description,
-  label,
   input,
   output,
 }: {
   appId: StringLiteral<AppId>;
   methodId: StringLiteral<MethodId>;
-  description?: string;
-  label?: string;
   input: Input;
   output: Output;
 }): Method<AppId, MethodId, Input, Output> {
   return {
     appId,
     methodId,
-    description,
-    label,
     input,
     output,
   };

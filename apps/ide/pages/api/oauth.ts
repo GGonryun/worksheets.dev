@@ -1,13 +1,10 @@
+import { resolveHandshake } from '@worksheets/feat/app-connections';
 import { NextApiHandler } from 'next';
 
 const handler: NextApiHandler = async (req, res) => {
-  const { query, url } = req;
+  const result = await resolveHandshake(req.url, req.query['state'] as string);
 
-  // const result = await resolveHandshake(url, query['state'] as string);
-
-  res.status(302).redirect('https://worksheets.dev');
-
-  console.info(`save oauth result handled`, { query, url });
+  res.status(302).redirect(result.url);
 
   return;
 };

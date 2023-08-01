@@ -1,8 +1,15 @@
-import { ListApplicationsResponse } from '@worksheets/schemas-applications';
+import {
+  ListApplicationsRequest,
+  ListApplicationsResponse,
+} from '@worksheets/schemas-applications';
 import { db } from './util';
 
-export const listApplications = (): ListApplicationsResponse => {
+export const listApplications = (
+  req: ListApplicationsRequest
+): ListApplicationsResponse => {
   const all = db.list();
-  // TODO: use the filters to filter the list of applications
+  if (req.gallery) {
+    return all.filter((e) => db.isVisibleInGallery(e.id));
+  }
   return all;
 };

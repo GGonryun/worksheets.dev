@@ -9,6 +9,7 @@ export const createNextApiHandler = trpcNext.createNextApiHandler({
   createContext: createContext,
   onError(opts) {
     const { error, type, req } = opts;
+
     errors.report(error, {
       statusCode: getHTTPStatusCodeFromError(error),
       url: req.url,

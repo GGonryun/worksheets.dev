@@ -1,4 +1,4 @@
-import { applicationDetailsSchema } from '@worksheets/schemas-applications';
+import { applicationBasicsSchema } from '@worksheets/schemas-applications';
 import { z } from '@worksheets/zod';
 
 // keyed by type, taskid, timestamp
@@ -18,7 +18,7 @@ export const getMethodExecutionRequestSchema = z.object({
 
 export const getMethodExecutionResponseSchema = z.object({
   id: z.string(),
-  app: applicationDetailsSchema,
+  app: applicationBasicsSchema,
   method: z.string(),
   startedAt: z.number(),
   finishedAt: z.number(),

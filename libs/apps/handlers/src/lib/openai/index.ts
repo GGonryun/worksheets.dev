@@ -5,7 +5,7 @@ import { ApplicationExecutors, ApplicationMethodExecutor } from '../framework';
 export const createCompletion: ApplicationMethodExecutor<
   'openai',
   'createCompletion'
-> = async ({ ctx: { apiKey }, input }) => {
+> = async ({ context: { apiKey }, input }) => {
   const configuration = new Configuration({
     apiKey,
   });
@@ -25,7 +25,7 @@ export const createCompletion: ApplicationMethodExecutor<
 export const createImage: ApplicationMethodExecutor<
   'openai',
   'createImage'
-> = async ({ ctx: { apiKey }, input }) => {
+> = async ({ context: { apiKey }, input }) => {
   const configuration = new Configuration({
     apiKey,
   });
@@ -46,7 +46,7 @@ export const createImage: ApplicationMethodExecutor<
 export const listModels: ApplicationMethodExecutor<
   'openai',
   'listModels'
-> = async ({ ctx: { apiKey }, input }) => {
+> = async ({ context: { apiKey }, input }) => {
   const configuration = new Configuration({
     apiKey,
   });

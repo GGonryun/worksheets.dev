@@ -46,7 +46,6 @@ export type Firestore<T extends Entity> = {
   update(data: T): Promise<T>;
   delete(id: string): Promise<void>;
 };
-
 export function newFirestore<T extends Entity>(key: string, txn?: Txn) {
   const collection = firestore().collection(key);
 

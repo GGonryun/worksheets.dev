@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@worksheets/apps-connections": ["libs/apps/connections/src/index.ts"],
       "@worksheets/apps-core": ["libs/apps/core/src/index.ts"],
       "@worksheets/apps-fetcher": ["libs/apps/fetcher/src/index.ts"],
       "@worksheets/apps-handlers": ["libs/apps/handlers/src/index.ts"],
@@ -39,6 +40,9 @@
       "@worksheets/data-access/applications": [
         "libs/data-access/applications/src/index.ts"
       ],
+      "@worksheets/data-access/connections": [
+        "libs/data-access/connections/src/index.ts"
+      ],
       "@worksheets/data-access/method-executions": [
         "libs/data-access/method-executions/src/index.ts"
       ],
@@ -54,6 +58,9 @@
       "@worksheets/engine": ["libs/engine/src/index.ts"],
       "@worksheets/feat-method-execution": [
         "libs/feat/method-execution/src/index.ts"
+      ],
+      "@worksheets/feat/app-connections": [
+        "libs/feat/app-connections/src/index.ts"
       ],
       "@worksheets/feat/applications-registry": [
         "libs/feat/applications-registry/src/index.ts"
@@ -82,6 +89,9 @@
       "@worksheets/firebase/server": ["libs/firebase/server/src/index.ts"],
       "@worksheets/schemas-applications": [
         "libs/schemas/applications/src/index.ts"
+      ],
+      "@worksheets/schemas-connections": [
+        "libs/schemas/connections/src/index.ts"
       ],
       "@worksheets/schemas-executions": [
         "libs/schemas/executions/src/index.ts"
