@@ -27,7 +27,7 @@ import { useUser } from '@worksheets/util/auth/client';
 import { useRouter } from 'next/router';
 import { SERVER_SETTINGS } from '@worksheets/data-access/server-settings';
 import { useEffect } from 'react';
-import { Feedback, Warning } from '@mui/icons-material';
+import { Feedback, HubOutlined, Warning } from '@mui/icons-material';
 import { Emoji } from '@worksheets/ui/common';
 
 const drawerWidth = 240;
@@ -126,6 +126,7 @@ export default function WebsiteLayout({
 
   let topSections = [
     { text: 'Dashboard', link: '/dashboard', icon: <ListAltIcon /> },
+    { text: 'Connections', link: '/connections', icon: <HubOutlined /> },
     { text: 'Settings', link: '/settings', icon: <SettingsIcon /> },
   ];
   const bottomSections = [
