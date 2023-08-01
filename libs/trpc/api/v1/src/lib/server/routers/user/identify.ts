@@ -4,7 +4,7 @@ import { privateProcedure } from '../../procedures';
 export default privateProcedure
   .meta({
     openapi: {
-      enabled: false,
+      enabled: true,
       protect: true,
       method: 'POST',
       path: '/user/echo',
