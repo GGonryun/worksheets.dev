@@ -45,11 +45,16 @@ export const ApplicationDetailsPage: React.FC<{ appId: string }> = ({
 const Header: React.FC<{ app: GetApplicationDetailsResponse }> = ({ app }) => (
   <Box p={3} display="flex" alignItems="center" gap={6}>
     <Box>
-      <TinyLogo area={100} label={app.title} src={app.logo} />
+      <TinyLogo
+        sx={{ height: 72, width: 72 }}
+        area={72}
+        label={app.title}
+        src={app.logo}
+      />
     </Box>
     <Box flexGrow={1}>
       <Typography variant="h5">{app.title}</Typography>
-      <Typography variant="body1">{app.description}</Typography>
+      <Typography variant="body1">{app.subtitle}</Typography>
       <Box display="flex" flexDirection="column">
         <Typography variant="caption">
           By: <Link>{app.creator}</Link>
