@@ -20,11 +20,11 @@ export const SupportBox: React.FC = () => (
     </Typography>
     <Typography variant="body2">
       <Link
-        href={SERVER_SETTINGS.WEBSITES.DOCS_URL('/tutorials/connections/gmail')}
+        href={SERVER_SETTINGS.WEBSITES.DOCS_URL('/contact-us/')}
         target="_blank"
         sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}
       >
-        View documentation
+        Customer Support
         <OpenInNew fontSize="inherit" />
       </Link>
     </Typography>

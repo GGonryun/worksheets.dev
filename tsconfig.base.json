@@ -40,6 +40,9 @@
       "@worksheets/data-access/applications": [
         "libs/data-access/applications/src/index.ts"
       ],
+      "@worksheets/data-access/connections": [
+        "libs/data-access/connections/src/index.ts"
+      ],
       "@worksheets/data-access/method-executions": [
         "libs/data-access/method-executions/src/index.ts"
       ],
@@ -55,6 +58,9 @@
       "@worksheets/engine": ["libs/engine/src/index.ts"],
       "@worksheets/feat-method-execution": [
         "libs/feat/method-execution/src/index.ts"
+      ],
+      "@worksheets/feat/app-connections": [
+        "libs/feat/app-connections/src/index.ts"
       ],
       "@worksheets/feat/applications-registry": [
         "libs/feat/applications-registry/src/index.ts"

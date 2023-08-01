@@ -42,12 +42,11 @@ export class OAuthClient {
     return this.client(state).code.getUri();
   }
 
-  async parseUrl(url: string): Promise<string> {
-    const token = await this.client().code.getToken(url);
-    return this.serializeToken(token);
+  async parseUrl(url: string): Promise<OAuthToken> {
+    return await this.client().code.getToken(url);
   }
 
-  serializeToken(token: ClientOAuth2.Token) {
+  serialize(token: OAuthToken): string {
     // suggested expiration:
     const suggestedExpiration =
       Number(token.data['expires_in'] || THIRTY_DAYS) * 1000; // ms
@@ -55,7 +54,7 @@ export class OAuthClient {
     return JSON.stringify({ ...token.data, expiry: `${expiry}` });
   }
 
-  convertToOAuthToken(raw: string): OAuthToken {
+  deserialize(raw: string): OAuthToken {
     if (typeof raw !== 'string') {
       throw Error('cannot check token expiration on non-stringified token');
     }

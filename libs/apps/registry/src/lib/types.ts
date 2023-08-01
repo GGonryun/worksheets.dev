@@ -39,6 +39,9 @@ export type InferOutput<
   K extends ApplicationMethodKeys<T>
 > = ApplicationMethodData<T, K>['output'];
 
+export type InferApplicationContext<T extends ApplicationRegistryKeys> =
+  z.infer<ApplicationContext<T>>;
+
 export type InferContext<
   T extends ApplicationRegistryKeys,
   K extends ApplicationMethodKeys<T>

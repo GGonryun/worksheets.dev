@@ -6,7 +6,7 @@ import {
   PowerOutlined,
   SettingsOutlined,
 } from '@mui/icons-material';
-import { ButtonProps, Button } from '@mui/material';
+import { ButtonProps, Button, CircularProgress } from '@mui/material';
 import { ConnectionStatuses } from '@worksheets/schemas-connections';
 
 const connectionButtonText: Record<ConnectionStatuses, string> = {
@@ -51,11 +51,13 @@ const connectionButtonIcons: Record<ConnectionStatuses, JSX.Element> = {
 
 export const ConnectionItemButton: React.FC<{
   status?: ConnectionStatuses;
-}> = ({ status = 'unknown' }) => {
+  onClick: () => void;
+  loading?: boolean;
+}> = ({ status = 'unknown', onClick, loading }) => {
   const message = connectionButtonText[status];
   const color = connectionButtonColors[status];
   const variant = connectionButtonVariants[status];
-  const icon = connectionButtonIcons[status];
+  const icon = !loading ? connectionButtonIcons[status] : undefined;
 
   return (
     <Button
@@ -64,8 +66,10 @@ export const ConnectionItemButton: React.FC<{
       size="small"
       startIcon={icon}
       fullWidth
+      onClick={onClick}
+      disabled={loading}
     >
-      {message}
+      {loading ? <CircularProgress size={20} /> : message}
     </Button>
   );
 };

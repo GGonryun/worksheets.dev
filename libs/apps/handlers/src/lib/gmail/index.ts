@@ -35,14 +35,7 @@ export const gmail: ApplicationExecutors<'gmail'> = {
   async getUserEmail({ context }) {
     const { accessToken } = context;
     const client = newGmailClient(accessToken);
-    try {
-      return await getCurrentUserEmail(client);
-    } catch (error) {
-      throw new TRPCError({
-        code: 'INTERNAL_SERVER_ERROR',
-        message: 'unexpected failure getting user email',
-      });
-    }
+    return await getCurrentUserEmail(client);
   },
 };
 
@@ -56,9 +49,22 @@ export function newGmailClient(accessToken: string) {
 }
 
 export async function getCurrentUserEmail(client: gmail_v1.Gmail) {
-  const profile = await client.users.getProfile({ userId: 'me' });
+  let profile;
+  try {
+    profile = await client.users.getProfile({ userId: 'me' });
+  } catch (error) {
+    throw new TRPCError({
+      code: 'INTERNAL_SERVER_ERROR',
+      message: 'Unexpected failure getting user profile',
+      cause: error,
+    });
+  }
+
   if (!profile.data.emailAddress) {
-    throw new Error('could not find email on profile');
+    throw new TRPCError({
+      code: 'INTERNAL_SERVER_ERROR',
+      message: `A valid email address could not be found on user profile`,
+    });
   }
   return profile.data.emailAddress;
 }
@@ -74,7 +80,7 @@ async function formatEmail(
     replyTo,
     subject,
     text: `${body}`,
-    html: `<p>🙋🏻‍♀️ &mdash; This is gmail was sent by a <b>worksheet</b> from <a href='${SERVER_SETTINGS.WEBSITES.MARKETING_URL()}'>worksheets.dev</a><br/>${body}</p>`,
+    html: `<p>🙋🏻‍♀️ &mdash; This is gmail was sent from <a href='${SERVER_SETTINGS.WEBSITES.MARKETING_URL()}'>worksheets.dev</a><br/>${body}</p>`,
   });
   const email = await message.compile().build();
   const raw = urlSafeEncoding(email);

@@ -67,7 +67,7 @@ export function newClient({
       createPage: handler(ctx, 'notion.createPage'),
     }),
     slack: (ctx) => ({
-      postChatMessage: handler(ctx, 'slack.postChatMessage'),
+      sendChatMessage: handler(ctx, 'slack.sendChatMessage'),
       listConversations: handler(ctx, 'slack.listConversations'),
     }),
     fullstory: (ctx) => ({
@@ -78,6 +78,7 @@ export function newClient({
       deleteUser: handler(ctx, 'fullstory.deleteUser'),
       updateUser: handler(ctx, 'fullstory.updateUser'),
       getUser: handler(ctx, 'fullstory.getUser'),
+      me: handler(ctx, 'fullstory.me'),
     }),
     googleCalendar: (ctx) => ({
       listEvents: handler(ctx, 'googleCalendar.listEvents'),

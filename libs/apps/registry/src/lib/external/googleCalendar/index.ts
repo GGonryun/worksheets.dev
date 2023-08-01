@@ -4,10 +4,6 @@ import { calendarEventSchema } from './schemas';
 
 export const googleCalendar = newApp({
   appId: 'googleCalendar',
-  label: 'Google Calendar',
-  logo: 'https://storage.googleapis.com/worksheets-test-app-logos/Google_Calendar_icon.svg',
-  description:
-    'Google Calendar is a time-management and scheduling calendar service developed by Google. Use this app to manage your Google Calendar.',
   context: z.object({
     accessToken: z.string(),
   }),
@@ -15,8 +11,6 @@ export const googleCalendar = newApp({
     listEvents: newMethod({
       appId: 'googleCalendar',
       methodId: 'listEvents',
-      label: 'List Events',
-      description: 'Lists the next 10 events in your google calendar',
       input: z.object({
         calendarId: z
           .string()

@@ -358,7 +358,7 @@ export const sampleData: ApplicationRegistrySampleData = {
         },
       },
     },
-    postChatMessage: {
+    sendChatMessage: {
       input: {
         channel: 'C123ABC456',
         text: 'Hello world :tada:',
@@ -490,6 +490,14 @@ export const sampleData: ApplicationRegistrySampleData = {
       },
       output: {
         id: '987654321',
+      },
+    },
+    me: {
+      input: undefined,
+      output: {
+        email: 'daniel@falko.com',
+        orgId: 'ABC',
+        role: 'ADMIN',
       },
     },
   },

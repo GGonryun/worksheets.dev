@@ -53,7 +53,7 @@ export const slack: ApplicationExecutors<'slack'> = {
     };
   },
 
-  async postChatMessage({ context: { botToken }, input: { channel, text } }) {
+  async sendChatMessage({ context: { botToken }, input: { channel, text } }) {
     const client = new WebClient(botToken);
 
     const result = await client.chat.postMessage({

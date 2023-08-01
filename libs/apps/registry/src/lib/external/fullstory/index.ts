@@ -5,9 +5,6 @@ import { sessionSchema, userSchema } from './schemas';
 const createUser = newMethod({
   appId: 'fullstory',
   methodId: 'createUser',
-  label: 'Create User',
-  description:
-    'Creates a user with the specified details. This request can be made idempotent.',
   input: z.object({
     userId: z.string(),
     email: z.string().optional(),
@@ -23,9 +20,6 @@ const createUser = newMethod({
 const getUser = newMethod({
   appId: 'fullstory',
   methodId: 'getUser',
-  label: 'Get User',
-  description:
-    'Get data about users who have been identified in the browser via the FS.identify Browser API function.',
   input: z.object({
     id: z.string().describe('The FullStory-generated id for the user'),
   }),
@@ -35,9 +29,6 @@ const getUser = newMethod({
 const listUsers = newMethod({
   appId: 'fullstory',
   methodId: 'listUsers',
-  label: 'List Users',
-  description:
-    'Retrieve a list of users matching the supplied filter criteria.',
   input: z.undefined(),
   output: z.object({
     results: z.array(userSchema),
@@ -49,9 +40,6 @@ const listUsers = newMethod({
 const deleteUser = newMethod({
   appId: 'fullstory',
   methodId: 'deleteUser',
-  label: 'Delete User',
-  description:
-    'Delete a user and all associated data. This operation is irreversible.',
   input: z.object({
     id: z
       .string()
@@ -72,8 +60,7 @@ const deleteUser = newMethod({
 const updateUser = newMethod({
   appId: 'fullstory',
   methodId: 'updateUser',
-  label: 'Update User',
-  description: 'Updates a user with the specified details',
+
   input: userSchema.partial().required({ id: true }),
   output: z.object({
     id: z.string(),
@@ -83,9 +70,7 @@ const updateUser = newMethod({
 const createEvent = newMethod({
   appId: 'fullstory',
   methodId: 'createEvent',
-  label: 'Create Event',
-  description:
-    'Creates one event with the specified details. This request can be made idempotent.',
+
   input: z.object({
     user: z
       .object({
@@ -109,9 +94,7 @@ const createEvent = newMethod({
 const listSessions = newMethod({
   appId: 'fullstory',
   methodId: 'listSessions',
-  label: 'List Sessions',
-  description:
-    'Retrieve a list of sessions matching the supplied filter criteria.',
+
   input: z.object({
     userId: z.string().optional(),
     limit: z.number().optional(),
@@ -122,15 +105,33 @@ const listSessions = newMethod({
   }),
 });
 
+const me = newMethod({
+  appId: 'fullstory',
+  methodId: 'me',
+  input: z.undefined(),
+  output: z.object({
+    email: z.string().optional(),
+    orgId: z.string().optional(),
+    embedPartnerId: z.string().optional(),
+    role: z
+      .enum([
+        'UNKNOWN',
+        'ADMIN',
+        'USER',
+        'VIEW_ONLY',
+        'UMBRELLA_MANAGER',
+        'ARCHITECT',
+      ])
+      .default('UNKNOWN')
+      .optional(),
+  }),
+});
+
 export const fullstory = newApp({
   appId: 'fullstory',
-  label: 'FullStory',
-  description:
-    'The FullStory API allows you to capture custom user and event data. This data will enrich your analysis with FullStory by giving you additional dimensions to create segments and data visualizations that are better tailored to your specific business needs.',
   context: z.object({
     apiKey: z.string(),
   }),
-  logo: 'https://storage.googleapis.com/worksheets-test-app-logos/fullstory.svg',
   methods: {
     createUser,
     getUser,
@@ -139,5 +140,6 @@ export const fullstory = newApp({
     updateUser,
     createEvent,
     listSessions,
+    me,
   },
 });

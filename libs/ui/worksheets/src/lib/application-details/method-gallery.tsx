@@ -72,7 +72,7 @@ const MethodCard: React.FC<{
               alignSelf: 'center',
             },
           }}
-          avatar={<TinyLogo label={app.label} src={app.logo} area={28} />}
+          avatar={<TinyLogo label={app.title} src={app.logo} area={28} />}
           title={
             <Box
               display="flex"

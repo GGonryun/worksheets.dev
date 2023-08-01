@@ -13,8 +13,6 @@ import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined';
 export function ApplicationsGalleryPage() {
   const { data: applications } = trpc.applications.list.useQuery({
     gallery: true,
-    enabled: true,
-    public: true,
   });
 
   return (

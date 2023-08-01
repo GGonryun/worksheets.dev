@@ -4,5 +4,5 @@ import { db } from './util';
 export const listApplicationMethodDetails = (
   appId: string
 ): ListApplicationMethodDetailsResponse => {
-  return db.listApplicationMethodDetails(appId);
+  return db.getMethodDetails(appId);
 };

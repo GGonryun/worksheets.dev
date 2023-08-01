@@ -1,13 +1,13 @@
 import { z } from '@worksheets/zod';
 
-export const applicationDetailsSchema = z.object({
+export const applicationBasicsSchema = z.object({
   id: z.string(),
   name: z.string(),
   logo: z.string(),
   description: z.string(),
 });
 
-export type ApplicationDetails = z.infer<typeof applicationDetailsSchema>;
+export type ApplicationBasics = z.infer<typeof applicationBasicsSchema>;
 
 export const settingTypeSchema = z.union([
   z.literal('flag'),
@@ -16,26 +16,6 @@ export const settingTypeSchema = z.union([
 ]);
 
 export type SettingType = z.infer<typeof settingTypeSchema>;
-
-export type ApplicationMetadata = z.infer<typeof applicationMetadata>;
-export const applicationMetadata = z.object({
-  enabled: z
-    .boolean()
-    .default(true)
-    .describe('if the application is enabled for all users'),
-  public: z
-    .boolean()
-    .default(false)
-    .describe('if the application can be used by anyone'),
-  gallery: z
-    .boolean()
-    .default(false)
-    .describe('if the app is visible on the gallery'),
-  external: z
-    .boolean()
-    .default(false)
-    .describe("if the application should count towards 'external' usage"),
-});
 
 export type CallMethodRequest = z.infer<typeof callMethodRequestSchema>;
 export const callMethodRequestSchema = z.object({
@@ -61,12 +41,13 @@ export type GetApplicationDetailsResponse = z.infer<
 
 export const getApplicationDetailsResponseSchema = z.object({
   appId: z.string(),
-  label: z.string(),
-  logo: z.string(),
-  description: z.string(),
   lastUpdated: z.string(),
+  title: z.string(),
+  subtitle: z.string(),
+  logo: z.string(),
+  categories: z.array(z.string()),
+  description: z.string(),
   creator: z.string(),
-  overview: z.string(),
   tutorial: z.string(),
 });
 
@@ -114,13 +95,12 @@ export type ListApplicationsRequest = z.infer<
   typeof listApplicationsRequestSchema
 >;
 export const listApplicationsRequestSchema = z.object({
-  ...applicationMetadata.partial().shape,
-  customizable: z.boolean().default(false),
+  gallery: z.boolean().default(false),
 });
 export type ListApplicationsResponse = z.infer<
   typeof listApplicationsResponseSchema
 >;
-export const listApplicationsResponseSchema = z.array(applicationDetailsSchema);
+export const listApplicationsResponseSchema = z.array(applicationBasicsSchema);
 
 export type FormField = z.infer<typeof formFieldSchema>;
 export const formFieldSchema = z.object({
@@ -144,4 +124,24 @@ export const getApplicationResponseSchema = z.object({
   name: z.string(),
   logo: z.string(),
   description: z.string(),
+});
+
+export type GetApplicationConnectionDetailsRequest = z.infer<
+  typeof getApplicationConnectionDetailsRequestSchema
+>;
+export const getApplicationConnectionDetailsRequestSchema = z.object({
+  appId: z.string(),
+});
+
+export type GetApplicationConnectionDetailsResponse = z.infer<
+  typeof getApplicationConnectionDetailsResponseSchema
+>;
+export const getApplicationConnectionDetailsResponseSchema = z.object({
+  appId: z.string(),
+  logo: z.string(),
+  title: z.string(),
+  setupTime: z.number(),
+  instructions: z.string(),
+  security: z.string(),
+  tutorialUrl: z.string(),
 });

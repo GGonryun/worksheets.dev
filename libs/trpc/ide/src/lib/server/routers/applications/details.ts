@@ -10,5 +10,5 @@ export default publicProcedure
   .output(getApplicationDetailsResponseSchema)
   .query(async ({ input: { appId } }) => {
     const db = newApplicationsDatabase();
-    return db.getApplicationDetails(appId);
+    return db.getDetails(appId);
   });

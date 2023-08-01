@@ -19,7 +19,7 @@ export const OverviewTabPanel: React.FC<{
             Overview
           </Typography>
         </Link>
-        <Typography whiteSpace="pre-line">{app.overview}</Typography>
+        <Typography whiteSpace="pre-line">{app.description}</Typography>
       </Box>
       <Box display="flex" alignItems="center" gap={3}>
         <Button

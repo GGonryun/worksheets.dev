@@ -3,17 +3,11 @@ import { z } from '@worksheets/zod';
 
 export const http = newApp({
   appId: 'http',
-  label: 'HTTP Utilities',
-  logo: 'https://storage.googleapis.com/worksheets-test-app-logos/http.svg',
-  description: 'Contains methods for executing HTTP requests.',
   context: z.null(),
   methods: {
     request: newMethod({
       appId: 'http',
       methodId: 'request',
-      label: 'HTTP Request',
-      description:
-        'Sends an HTTP request to the specified URL. Body should be stringified',
       input: z.object({
         url: z.string(),
         method: z

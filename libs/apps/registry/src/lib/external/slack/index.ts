@@ -5,8 +5,6 @@ import { channelSchema } from './schemas';
 const listConversations = newMethod({
   appId: 'slack',
   methodId: 'listConversations',
-  label: 'List Conversations',
-  description: `Returns a list of all channel-like conversations accessible to the user or app tied to the presented token. This method helps answer questions like: 1) Which conversations am I a member of? 2) Which public channels is my bot user in? 3) Do I have any direct messages open with my friend Suzy? 4) Is my bot a member of any private channels?`,
   input: z
     .object({
       cursor: z.string().optional(),
@@ -29,12 +27,9 @@ const listConversations = newMethod({
   }),
 });
 
-const postChatMessage = newMethod({
+const sendChatMessage = newMethod({
   appId: 'slack',
-  methodId: 'postChatMessage',
-  label: 'Publish a message to a channel',
-  description:
-    'Sends a message to a specific channel. This does not allow for direct messages to users. This function returns a timestamp of the new message, which also serves as a confirmation that the message was sent.',
+  methodId: 'sendChatMessage',
   input: z.object({
     channel: z.string(),
     text: z.string(),
@@ -57,15 +52,11 @@ const postChatMessage = newMethod({
 
 export const slack = newApp({
   appId: 'slack',
-  logo: 'https://storage.googleapis.com/worksheets-test-app-logos/slack.svg',
-  label: 'Slack',
-  description:
-    "Slack keeps your team's communication organized, efficient, and fun. Slack is where all your people, tools and partners stay connected",
   context: z.object({
     botToken: z.string(),
   }),
   methods: {
     listConversations,
-    postChatMessage,
+    sendChatMessage,
   },
 });
