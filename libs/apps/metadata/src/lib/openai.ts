@@ -1,7 +1,7 @@
 import { ApplicationMetadata } from '../framework';
 
 export const openai: ApplicationMetadata<'openai'> = {
-  enabled: false,
+  enabled: true,
   tutorialUrl: '',
   logo: 'https://storage.googleapis.com/worksheets-test-app-logos/openai-svgrepo-com.svg',
   title: 'Open AI',
@@ -13,8 +13,8 @@ export const openai: ApplicationMetadata<'openai'> = {
   creator: 'Worksheets.dev',
   lastUpdated: 1690615559053,
   methods: {
-    createCompletion: {
-      title: 'Create Completion',
+    createChatCompletion: {
+      title: 'Create Chat Completion',
       description:
         'Creates a completion for the provided prompt and parameters.',
       pricing: 0.001,

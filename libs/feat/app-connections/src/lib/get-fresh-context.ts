@@ -28,6 +28,13 @@ export const getFreshContext = async (opts: {
     });
   }
 
+  if (connection.status !== 'active') {
+    throw new TRPCError({
+      code: 'UNAUTHORIZED',
+      message: 'Connection is not active',
+    });
+  }
+
   // check if any oauth fields are stale and need refreshing before use.
   // if so, get their latest version and save them.
   const { refreshed, connection: refreshedConnection } =

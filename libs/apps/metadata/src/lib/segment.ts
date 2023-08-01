@@ -54,7 +54,6 @@ export const segment: ApplicationMetadata<'segment'> = {
       title: 'Identify',
       description:
         'Identify lets you tie a user to their actions and record traits about them. It includes a unique User ID and any optional traits you know about them.',
-
       pricing: 0.001,
       sourceUrl:
         'https://segment.com/docs/connections/sources/catalog/libraries/server/node/#identify',

@@ -121,7 +121,7 @@ export const newApplicationsDatabase = (): ApplicationsDatabase => {
         const methodMetadata: MethodMetadata = methods[methodId];
         const methodSchema = appSchema.methods[methodId];
         return {
-          appId: methodId,
+          appId: key,
           methodId: methodId,
           label: methodMetadata.title ?? methodId,
           description: methodMetadata.description ?? undefined,

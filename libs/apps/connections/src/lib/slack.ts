@@ -6,18 +6,24 @@ import {
 } from './framework';
 
 const instructions = `
-Lorem markdownum, spoliis dixit quid, una aquis murra fugaverat domos! Fuerat
-quid: atque ut mutatus, et est primusque, noverit fere hac? Mihi sed speciem
-quamvis *perforat domina dederis* rubetis geratur, ex ab.
+Create a new bot token by following these steps:
 
-- Iamque pari sitis hominum spectacula erat nunc. Angues exspectato detur, secuta est. Creditis pater, experiensque saltem.
-- Aries deos guttura subsidere formam conceptas inmensum.
-- *Pietas* alumni usum tenebris potiatur non potuit Clymene oculos, cum. Et bracchia dixerunt, candore, quem.
-- Pressum ut sustulit custos et superet caesumque semel; tenet moror se est equi deposuit. Pro cum tenuit fugio tamen labentia precor at et mea viros! Partim de tot scelerata vestigia.`;
+1. Navigate to https://api.slack.com/apps.
+2. On the top right click on 'your apps' and select 'create new app' or an existing one.
+3. On the left sidebar, click on 'OAuth & Permissions'.
+4. Scroll down to 'Scopes' and add the following scopes: \`chat:write\` and \`channels:read\`.
+5. Scroll up and click on 'Install to Workspace' and authorize the app.
+6. Copy the 'Bot User OAuth Token' and paste it in the field below.
 
-const security = `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ornare arcu odio ut sem nulla pharetra diam sit. Curabitur gravida arcu ac tortor dignissim convallis aenean. Fringilla est ullamcorper eget nulla facilisi etiam dignissim diam. Mi ipsum faucibus vitae aliquet. Tortor pretium viverra suspendisse potenti nullam ac tortor. Hac habitasse platea dictumst quisque sagittis. Ultrices in iaculis nunc sed augue lacus. Molestie at elementum eu facilisis sed odio morbi. A lacus vestibulum sed arcu non odio. Urna duis convallis convallis tellus id interdum velit laoreet id.
+Your bot will need to be a member of the channels you want to send messages to.
+`;
 
-Non sodales neque sodales ut etiam. In nibh mauris cursus mattis molestie a iaculis at erat. Nunc pulvinar sapien et ligula ullamcorper malesuada proin. Porttitor lacus luctus accumsan tortor. Aliquam ut porttitor leo a diam. Penatibus et magnis dis parturient montes nascetur. Elit ullamcorper dignissim cras tincidunt lobortis. In metus vulputate eu scelerisque felis imperdiet proin fermentum leo. Feugiat scelerisque varius morbi enim. Neque laoreet suspendisse interdum consectetur libero id faucibus.`;
+const security = `
+Slack Bot Tokens require permissions to write to channels and reading their messages.
+
+1. sendChatMessage requires the following scopes: \`chat:write\`
+2. listConversations requires the following scopes: \`channels:read\`
+`;
 
 const form: ConnectionForm<'slack'> = {
   setupTime: 5,

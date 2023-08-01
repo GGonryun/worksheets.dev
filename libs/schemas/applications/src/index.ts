@@ -70,6 +70,7 @@ export const applicationMethodDetailsResponseSchema = z.object({
       output: z.any(),
     }),
     curl: z.object({
+      curl: z.string(),
       request: z.string(),
       response: z.string(),
     }),

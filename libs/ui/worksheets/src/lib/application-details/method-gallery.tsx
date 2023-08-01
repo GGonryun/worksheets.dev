@@ -27,6 +27,8 @@ import React, { ReactNode, useState } from 'react';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { CodeEditor } from '@worksheets/ui/code-editor';
 import { useClipboard } from '@worksheets/ui/common';
+import { SERVER_SETTINGS } from '@worksheets/data-access/server-settings';
+import { CopyAllOutlined } from '@mui/icons-material';
 type MethodItem = ListApplicationMethodDetailsResponse[number];
 
 export const MethodsGallery: React.FC<{
@@ -142,8 +144,8 @@ const MethodDetailsListItem: React.FC<{
             <Typography variant="body2">{method.description}</Typography>
           </Box>
           <MethodSchemaExample method={method} />
-          <MethodSDKExample method={method} />
           <MethodAPIExample method={method} />
+          <MethodSDKExample method={method} />
         </Box>
       </Box>
     </MosaicProvider>
@@ -153,19 +155,37 @@ const MethodDetailsListItem: React.FC<{
 const MethodAPIExample: React.FC<{
   method: MethodItem;
 }> = ({ method }) => {
+  const clipboard = useClipboard();
+  const url = SERVER_SETTINGS.WEBSITES.API_URL(
+    `/v1/call/${method.appId}/${method.methodId}`
+  );
   return (
     <Box display="flex" flexDirection="column" gap={2}>
-      <Box display="flex" alignItems="baseline" gap={1}>
-        <Typography variant="h6" fontWeight={900}>
-          Application Public Interface (API)
+      <Typography variant="h6" fontWeight={900}>
+        Application Public Interface (API)
+      </Typography>
+      <Box display="Flex" alignItems="center" gap={1}>
+        <Typography variant="body1" fontWeight={900}>
+          URL:
         </Typography>
+        <Typography variant="body1" sx={{ textDecoration: 'underline' }}>
+          {url}
+        </Typography>
+        <Tooltip title="Copy URL to clipboard" placement="top">
+          <span>
+            <IconButton onClick={() => clipboard.copy(url)} size="small">
+              <CopyAllOutlined fontSize="small" />
+            </IconButton>
+          </span>
+        </Tooltip>
       </Box>
-      <CurlExample
+
+      <JsonExample
         label={'Request'}
-        subtitle={'cURL'}
+        subtitle={'JSON'}
         request={method.examples.curl.request}
       />
-      <CurlExample
+      <JsonExample
         label={'Response'}
         subtitle={'JSON'}
         request={method.examples.curl.response}
@@ -184,6 +204,11 @@ const MethodSDKExample: React.FC<{
           Software Development Kit (SDK)
         </Typography>
       </Box>
+      <CurlExample
+        label={'cURL'}
+        subtitle={'shell'}
+        request={method.examples.curl.curl}
+      />
       <SDKExample
         label={'Typescript'}
         subtitle="index.ts"
@@ -297,7 +322,37 @@ const CurlExample: React.FC<{
           width="100%"
           value={request}
           mode={'sh'}
-          theme={'github'}
+          theme={'cloud9_day'}
+        />
+      </Box>
+    </CollapsibleItem>
+  );
+};
+
+const JsonExample: React.FC<{
+  label: string;
+  subtitle: string;
+  request: string;
+}> = ({ label, subtitle, request }) => {
+  const clipboard = useClipboard();
+
+  return (
+    <CollapsibleItem label={label} subtitle={subtitle} startOpen>
+      <Box
+        mt={1.5}
+        height="200px"
+        border={(theme) => `2px solid ${theme.palette.divider}`}
+      >
+        <CodeEditor
+          disabled
+          onCopy={() => {
+            clipboard.copy(request);
+          }}
+          height="100%"
+          width="100%"
+          value={request || '// no data'}
+          mode={'json'}
+          theme={'cloud9_day'}
         />
       </Box>
     </CollapsibleItem>

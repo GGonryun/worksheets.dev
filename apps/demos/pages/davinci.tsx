@@ -24,17 +24,14 @@ export function Index() {
     try {
       setLoading(true);
 
-      const result = await openai.createCompletion({
+      const result = await openai.createChatCompletion({
         model: 'text-davinci-003',
         prompt: 'Say this is a test',
         max_tokens: 50,
-        temperature: 0,
-        top_p: 1,
-        n: 1,
-        echo: false,
+        temperature: 0.1,
       });
 
-      setResult(result.choices[0].text ?? 'N/A');
+      setResult(result.choices[0].message?.content ?? 'N/A');
     } catch (error) {
       if (error instanceof ApplicationFailure) {
         alert(`known: ${error.code}`);

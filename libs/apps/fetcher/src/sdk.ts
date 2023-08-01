@@ -51,7 +51,7 @@ export function newClient({
       request: handler({}, 'http.request'),
     }),
     openai: (ctx) => ({
-      createCompletion: handler(ctx, 'openai.createCompletion'),
+      createChatCompletion: handler(ctx, 'openai.createChatCompletion'),
       createImage: handler(ctx, 'openai.createImage'),
       listModels: handler(ctx, 'openai.listModels'),
     }),

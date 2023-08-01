@@ -8,17 +8,14 @@ export const openai = newApp({
     apiKey: z.string(),
   }),
   methods: {
-    createCompletion: newMethod({
+    createChatCompletion: newMethod({
       appId: 'openai',
-      methodId: 'createCompletion',
+      methodId: 'createChatCompletion',
       input: z.object({
         prompt: z.string(),
-        model: z.string().default('text-davinci-003'),
-        max_tokens: z.number().default(16),
-        temperature: z.number().default(1),
-        top_p: z.number().default(1),
-        n: z.number().default(1),
-        echo: z.boolean().default(false),
+        model: z.string(),
+        max_tokens: z.number(),
+        temperature: z.number(),
       }),
       output: z.object({
         id: z.string(),
@@ -27,9 +24,13 @@ export const openai = newApp({
         model: z.string(),
         choices: z.array(
           z.object({
-            text: z.string().optional(),
+            message: z
+              .object({
+                role: z.string().optional(),
+                content: z.string().optional(),
+              })
+              .optional(),
             index: z.number().optional(),
-            logprobs: z.unknown(),
             finish_reason: z.string().optional(),
           })
         ),

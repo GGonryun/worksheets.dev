@@ -2,9 +2,9 @@ import { Configuration, OpenAIApi } from 'openai';
 import { handleOpenAIError } from './util';
 import { ApplicationExecutors, ApplicationMethodExecutor } from '../framework';
 
-export const createCompletion: ApplicationMethodExecutor<
+export const createChatCompletion: ApplicationMethodExecutor<
   'openai',
-  'createCompletion'
+  'createChatCompletion'
 > = async ({ context: { apiKey }, input }) => {
   const configuration = new Configuration({
     apiKey,
@@ -12,8 +12,16 @@ export const createCompletion: ApplicationMethodExecutor<
 
   const openai = new OpenAIApi(configuration);
   try {
-    const response = await openai.createCompletion({
-      ...input,
+    const response = await openai.createChatCompletion({
+      model: input.model,
+      messages: [
+        {
+          role: 'system',
+          content: `${input.prompt}`,
+        },
+      ],
+      max_tokens: input.max_tokens,
+      temperature: input.temperature,
     });
 
     return response.data;
@@ -66,7 +74,7 @@ export const listModels: ApplicationMethodExecutor<
 };
 
 export const openai: ApplicationExecutors<'openai'> = {
-  createCompletion,
+  createChatCompletion,
   createImage,
   listModels,
 };

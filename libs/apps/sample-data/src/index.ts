@@ -58,22 +58,28 @@ export const sampleData: ApplicationRegistrySampleData = {
     context: {
       apiKey: '',
     },
-    createCompletion: {
+    createChatCompletion: {
       input: {
-        prompt: '',
-        model: '',
-        max_tokens: 0,
+        model: 'gpt-3.5-turbo',
+        prompt: 'Say this is a test',
+        max_tokens: 7,
         temperature: 0,
-        top_p: 0,
-        n: 0,
-        echo: false,
       },
       output: {
-        object: '',
-        model: '',
-        id: '',
+        object: 'chat.completion',
+        model: 'gpt-3.5-turbo',
+        id: 'chatcmpl-123',
         created: 0,
-        choices: [],
+        choices: [
+          {
+            index: 0,
+            message: {
+              role: 'assistant',
+              content: '\n\nHello there, how may I assist you today?',
+            },
+            finish_reason: 'stop',
+          },
+        ],
       },
     },
     createImage: {
@@ -85,7 +91,7 @@ export const sampleData: ApplicationRegistrySampleData = {
       output: [],
     },
     listModels: {
-      input: 'davinci',
+      input: '',
       output: [{ id: '', object: '', owned_by: '' }],
     },
   },

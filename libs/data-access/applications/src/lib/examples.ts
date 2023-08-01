@@ -65,16 +65,18 @@ export const createCurlExample = ({
 
   const output = format(getMethodOutputs({ appId, methodId }));
 
-  const request = `
+  const curl = `
 curl --request POST '${SERVER_SETTINGS.WEBSITES.API_URL()}/v1/call/${appId}/${methodId}'  \\
   --header 'Content-Type: application/json' \\
   --header 'Authorization: Bearer WORKSHEETS_API_KEY' \\
   -d '{ "context": ${context}, "input": ${input || format({})} }'
     `.trim();
 
-  const response = output;
-
-  return { request, response };
+  return {
+    curl,
+    request: format(getMethodInputs({ appId, methodId })),
+    response: output,
+  };
 };
 
 /** All of these methods fetch sample data */
