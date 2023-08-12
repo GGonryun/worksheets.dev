@@ -6,3 +6,5 @@ export * from './lib/applications-gallery/page';
 export * from './lib/application-details/page';
 export * from './lib/dashboard/page';
 export * from './lib/connections-list/page';
+export * from './lib/services-list/page';
+export * from './lib/service-details/page';

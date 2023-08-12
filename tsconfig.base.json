@@ -52,6 +52,9 @@
       "@worksheets/data-access/server-settings": [
         "libs/data-access/server-settings/src/index.ts"
       ],
+      "@worksheets/data-access/service-configurations": [
+        "libs/data-access/service-configurations/src/index.ts"
+      ],
       "@worksheets/data-access/user-agent": [
         "libs/data-access/user-agent/src/index.ts"
       ],
@@ -71,6 +74,9 @@
       "@worksheets/feat/logging": ["libs/feat/logging/src/index.ts"],
       "@worksheets/feat/server-management": [
         "libs/feat/server-management/src/index.ts"
+      ],
+      "@worksheets/feat/service-registry": [
+        "libs/feat/service-registry/src/index.ts"
       ],
       "@worksheets/feat/session-replay": [
         "libs/feat/session-replay/src/index.ts"
@@ -96,8 +102,12 @@
       "@worksheets/schemas-executions": [
         "libs/schemas/executions/src/index.ts"
       ],
+      "@worksheets/schemas-services": ["libs/schemas/services/src/index.ts"],
       "@worksheets/schemas-user": ["libs/schemas/user/src/index.ts"],
       "@worksheets/sdk": ["libs/sdk/src/index.ts"],
+      "@worksheets/services-bridges": ["libs/services/bridges/src/index.ts"],
+      "@worksheets/services-core": ["libs/services/core/src/index.ts"],
+      "@worksheets/services-registry": ["libs/services/registry/src/index.ts"],
       "@worksheets/trpc/admin": ["libs/trpc/admin/src/index.ts"],
       "@worksheets/trpc/admin/server": ["libs/trpc/admin/src/server.ts"],
       "@worksheets/trpc/api/v1": ["libs/trpc/api/v1/src/index.ts"],

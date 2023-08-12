@@ -4,6 +4,7 @@ import {
   ErrorOutline,
   WarningAmberOutlined,
   PowerOutlined,
+  QuestionMarkOutlined,
 } from '@mui/icons-material';
 import { ChipProps } from '@mui/material';
 import { ConnectionStatuses } from '@worksheets/schemas-connections';
@@ -14,8 +15,7 @@ export const statusIcon: Record<ConnectionStatuses, JSX.Element> = {
   error: <ErrorOutline />,
   warning: <WarningAmberOutlined />,
   uninstalled: <PowerOutlined />,
-  // eslint-disable-next-line react/jsx-no-useless-fragment
-  unknown: <></>,
+  unknown: <QuestionMarkOutlined />,
 };
 
 export const statusLabel: Record<ConnectionStatuses, string> = {
@@ -23,14 +23,14 @@ export const statusLabel: Record<ConnectionStatuses, string> = {
   disabled: 'Disabled',
   error: 'Error',
   warning: 'Warning',
-  uninstalled: 'Uninstalled',
-  unknown: '',
+  uninstalled: 'Disconnected',
+  unknown: 'Unknown',
 };
 
 export const statusTooltip: Record<ConnectionStatuses, string> = {
-  active: 'Your connection is active',
-  disabled: 'Your connection is disabled',
-  error: 'Your connection is broken, disconnect to fix it',
+  active: 'Click to disable your connection',
+  disabled: 'Click to enable your connection',
+  error: 'Your connection is broken, reconnect to fix it',
   warning: 'Your connection needs attention',
   uninstalled: 'Connect this app to your account',
   unknown: '',
@@ -38,7 +38,7 @@ export const statusTooltip: Record<ConnectionStatuses, string> = {
 
 export const statusColor: Record<ConnectionStatuses, ChipProps['color']> = {
   active: 'success',
-  disabled: 'warning',
+  disabled: 'default',
   error: 'error',
   warning: 'warning',
   uninstalled: 'primary',

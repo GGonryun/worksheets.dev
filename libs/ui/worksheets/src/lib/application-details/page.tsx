@@ -54,7 +54,6 @@ const Header: React.FC<{ app: GetApplicationDetailsResponse }> = ({ app }) => (
     </Box>
     <Box flexGrow={1}>
       <Typography variant="h5">{app.title}</Typography>
-      <Typography variant="body1">{app.subtitle}</Typography>
       <Box display="flex" flexDirection="column">
         <Typography variant="caption">
           By: <Link>{app.creator}</Link>
@@ -68,7 +67,7 @@ const Header: React.FC<{ app: GetApplicationDetailsResponse }> = ({ app }) => (
       display="flex"
       alignItems="flex-end"
       flexDirection="column"
-      width="325px"
+      width="200px"
       gap={2}
     >
       <Button

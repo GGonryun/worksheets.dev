@@ -4,10 +4,6 @@
 
 ### project dependencies
 
-```bash
-npm install -g firebase-tools
-```
-
 ### preparing the project
 
 from the root of the repository run:

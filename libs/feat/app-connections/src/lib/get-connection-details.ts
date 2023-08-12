@@ -49,7 +49,7 @@ type PresentationalConnection = {
   fields: PresentationalField[];
 };
 
-const getPresentiationalConnection = async (opts: {
+export const getPresentiationalConnection = async (opts: {
   userId: string;
   appId: string;
 }): Promise<PresentationalConnection> => {
