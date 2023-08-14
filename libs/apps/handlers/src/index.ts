@@ -14,6 +14,8 @@ import { googleCalendar } from './lib/googleCalendar';
 import { pagerDuty } from './lib/pagerDuty';
 import { segment } from './lib/segment';
 import { sendGrid } from './lib/sendGrid';
+import { tenor } from './lib/tenor';
+import { giphy } from './lib/giphy';
 
 export const handlers: ExecutorActions = {
   time,
@@ -30,4 +32,6 @@ export const handlers: ExecutorActions = {
   pagerDuty,
   segment,
   sendGrid,
+  tenor,
+  giphy,
 };

@@ -1,6 +1,6 @@
 import { newApp, newMethod } from '@worksheets/apps-core';
 import { z } from '@worksheets/zod';
-export const sys = newApp({
+export default newApp({
   appId: 'sys',
   context: z.null(),
   methods: {

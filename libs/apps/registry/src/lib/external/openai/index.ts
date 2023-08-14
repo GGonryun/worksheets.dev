@@ -2,7 +2,7 @@ import { z } from '@worksheets/zod';
 import { modelSchema } from './schemas';
 import { newApp, newMethod } from '@worksheets/apps-core';
 
-export const openai = newApp({
+export default newApp({
   appId: 'openai',
   context: z.object({
     apiKey: z.string(),

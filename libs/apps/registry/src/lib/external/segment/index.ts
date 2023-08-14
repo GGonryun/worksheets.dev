@@ -63,7 +63,7 @@ export const identify = newMethod({
   output: z.undefined(),
 });
 
-export const segment = newApp({
+export default newApp({
   appId: 'segment',
   context: z.object({
     apiKey: z.string(),

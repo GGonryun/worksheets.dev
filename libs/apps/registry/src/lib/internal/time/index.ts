@@ -1,7 +1,7 @@
 import { newApp, newMethod } from '@worksheets/apps-core';
 import { z } from '@worksheets/zod';
 
-export const time = newApp({
+export default newApp({
   appId: 'time',
   context: z.null(),
   methods: {

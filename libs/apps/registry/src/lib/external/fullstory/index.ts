@@ -127,7 +127,7 @@ const me = newMethod({
   }),
 });
 
-export const fullstory = newApp({
+export default newApp({
   appId: 'fullstory',
   context: z.object({
     apiKey: z.string(),

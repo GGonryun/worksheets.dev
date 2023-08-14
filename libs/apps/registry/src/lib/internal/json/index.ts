@@ -1,7 +1,7 @@
 import { newApp, newMethod } from '@worksheets/apps-core';
 import { z } from '@worksheets/zod';
 
-export const json = newApp({
+export default newApp({
   appId: 'json',
   context: z.null(),
   methods: {

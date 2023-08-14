@@ -16,7 +16,7 @@ export const sendEmail = newMethod({
   }),
 });
 
-export const sendGrid = newApp({
+export default newApp({
   appId: 'sendGrid',
   context: z.object({
     apiKey: z.string().describe('The API key for your SendGrid account.'),

@@ -2,7 +2,7 @@ import { newApp, newMethod } from '@worksheets/apps-core';
 import { z } from '@worksheets/zod';
 import { calendarEventSchema } from './schemas';
 
-export const googleCalendar = newApp({
+export default newApp({
   appId: 'googleCalendar',
   context: z.object({
     accessToken: z.string(),

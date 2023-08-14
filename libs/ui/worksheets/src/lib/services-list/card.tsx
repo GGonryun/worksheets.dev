@@ -9,6 +9,7 @@ import {
   Typography,
   useTheme,
   Tooltip,
+  alpha,
 } from '@mui/material';
 import {
   ConnectedServiceDescription,
@@ -20,7 +21,7 @@ import { ApplicationBasics } from '@worksheets/schemas-applications';
 const statusLabels: Record<ServiceStatus, string> = {
   connected: 'Connected',
   unstable: 'Unstable',
-  uninstalled: 'Pending',
+  uninstalled: 'Uninstalled',
   unknown: 'Unknown',
   disabled: 'Disabled',
 };
@@ -90,6 +91,7 @@ export const ServiceCard: React.FC<ConnectedServiceDescription> = ({
             <Box display="flex" alignItems="center" gap={1} height={30}>
               {providers.map((app) => (
                 <ProviderIcon
+                  key={app.id}
                   app={app}
                   selected={app.id === connection.appId}
                 />
@@ -107,14 +109,20 @@ const ProviderIcon: React.FC<{ selected: boolean; app: ApplicationBasics }> = ({
   app,
 }) => {
   const theme = useTheme();
-  const color = selected ? theme.palette.success.main : theme.palette.grey[400];
+  const color = selected ? theme.palette.success.dark : theme.palette.grey[400];
   const label = selected ? 'Connected' : 'Not connected';
+  const border = selected ? `1.5px solid ${color}` : `1px solid ${color}`;
+  const backgroundColor = selected
+    ? alpha(theme.palette.success.light, 0.1)
+    : theme.palette.grey[200];
+
   return (
     <Box
       sx={{
-        border: `1px solid ${color}`,
+        border,
         borderRadius: '5px',
         p: 0.25,
+        backgroundColor,
       }}
     >
       <TinyLogo

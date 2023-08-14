@@ -93,7 +93,7 @@ export const updateIncident = newMethod({
   }),
 });
 
-export const pagerDuty = newApp({
+export default newApp({
   appId: 'pagerDuty',
   context: z.object({
     token: z.string(),

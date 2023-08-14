@@ -21,20 +21,24 @@ export const ServicesPage: React.FC = () => {
       <Box
         height="100%"
         sx={(theme) => ({
-          backgroundColor: alpha(theme.palette.primary.light, 0.05),
+          backgroundColor: alpha(theme.palette.primary.light, 0.1),
         })}
       >
         <Box p={3}>
           <ServicesHeader />
         </Box>
-        {categorizedServices &&
-          Object.keys(categorizedServices).map((category) => (
-            <ServiceGroup
-              title={serviceCategoryLabel[category as ServiceCategory]}
-              key={category}
-              services={categorizedServices[category as ServiceCategory] ?? []}
-            />
-          ))}
+        <Box display="flex" flexWrap="wrap">
+          {categorizedServices &&
+            Object.keys(categorizedServices).map((category) => (
+              <ServiceGroup
+                title={serviceCategoryLabel[category as ServiceCategory]}
+                key={category}
+                services={
+                  categorizedServices[category as ServiceCategory] ?? []
+                }
+              />
+            ))}
+        </Box>
       </Box>
     </WebsiteLayout>
   );

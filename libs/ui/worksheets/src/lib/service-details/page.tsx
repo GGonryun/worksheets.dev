@@ -2,15 +2,10 @@ import {
   Box,
   Link,
   Typography,
-  Breadcrumbs,
-  Chip,
-  Paper,
   Tabs,
   Tab,
-  Switch,
   Divider,
   CircularProgress,
-  Tooltip,
   alpha,
 } from '@mui/material';
 import WebsiteLayout from '../website-layout';
@@ -19,11 +14,10 @@ import { TinyLogo } from '../shared/tiny-logo';
 import { trpc } from '@worksheets/trpc/ide';
 import { useUser } from '@worksheets/util/auth/client';
 import { GetServiceDetailsResponse } from '@worksheets/schemas-services';
-import { serviceCategoryLabel } from '../services-list/state-maps';
 import { PlatformSelectionTab } from './platforms';
 import { EndpointsTable } from './endpoints';
 import { a11yProps } from '../shared/tab-panel';
-
+import { ArrowBackIos } from '@mui/icons-material';
 export const ServiceDetailsPage: React.FC<{ serviceId: string }> = ({
   serviceId,
 }) => {
@@ -43,59 +37,43 @@ export const ServiceDetailsPage: React.FC<{ serviceId: string }> = ({
   return (
     <ServiceLayout
       header={<ServiceDetailsHeader {...details} />}
-      breadcrumbs={<ServicePathBreadcrumbs {...details} />}
       content={<ServiceContent {...details} />}
-      chip={<ServiceCategoryChip {...details} />}
     />
   );
 };
 
 export const ServiceLayout: React.FC<{
-  breadcrumbs: ReactNode;
   header: ReactNode;
   content: ReactNode;
-  chip: ReactNode;
-}> = ({ breadcrumbs, header, content, chip }) => (
+}> = ({ header, content }) => (
   <WebsiteLayout>
     <Box
       height="100%"
       sx={(theme) => ({
-        backgroundColor: alpha(theme.palette.primary.light, 0.05),
+        backgroundColor: alpha(theme.palette.primary.light, 0.1),
       })}
     >
-      <Box
-        p={3}
-        py={1}
-        sx={(theme) => ({ backgroundColor: theme.palette.background.paper })}
-      >
-        <Box
-          pt={1}
-          pb={2}
-          display="flex"
-          alignItems="flex-end"
-          justifyContent="space-between"
-        >
-          {breadcrumbs}
-          {chip}
-        </Box>
+      <Box px={2} pt={2} pb={1}>
+        <Typography variant="body2" color="text.secondary">
+          <Link
+            underline="hover"
+            color="inherit"
+            href="/services"
+            display="flex"
+            alignItems="center"
+            gap={0.5}
+          >
+            <ArrowBackIos fontSize="inherit" color="inherit" />
+            Services
+          </Link>
+        </Typography>
+      </Box>
+      <Box px={3} pb={2}>
         {header}
       </Box>
       {content}
     </Box>
   </WebsiteLayout>
-);
-
-const ServiceCategoryChip: React.FC<GetServiceDetailsResponse> = ({
-  service,
-}) => (
-  <Link href={`/services?category=${service.category}`} sx={{ pb: 0.2 }}>
-    <Chip
-      sx={{ cursor: 'pointer' }}
-      label={serviceCategoryLabel[service.category]}
-      size="small"
-      color="primary"
-    />
-  </Link>
 );
 
 const ServiceContent: React.FC<GetServiceDetailsResponse> = (props) => {
@@ -108,16 +86,15 @@ const ServiceContent: React.FC<GetServiceDetailsResponse> = (props) => {
     <>
       <Divider />
 
-      <Paper elevation={0} square>
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          aria-label="basic tabs example"
-        >
-          <Tab label="Platforms" {...a11yProps(0)} />
-          <Tab label="Endpoints" {...a11yProps(1)} />
-        </Tabs>
-      </Paper>
+      <Tabs
+        value={value}
+        onChange={handleChange}
+        aria-label="basic tabs example"
+      >
+        <Tab label="Platforms" {...a11yProps(0)} />
+        <Tab label="Endpoints" {...a11yProps(1)} />
+      </Tabs>
+      <Divider />
 
       <Box p={3}>
         {value === 0 && <PlatformSelectionTab {...props} />}
@@ -129,17 +106,7 @@ const ServiceContent: React.FC<GetServiceDetailsResponse> = (props) => {
 
 const ServiceDetailsHeader: React.FC<GetServiceDetailsResponse> = ({
   service,
-  configuration,
 }) => {
-  const utils = trpc.useContext();
-  const updateStatus = trpc.services.toggleStatus.useMutation();
-
-  const handleSwitchClick = async () => {
-    await updateStatus.mutateAsync({
-      serviceId: service.id,
-    });
-    utils.services.details.invalidate({ serviceId: service.id });
-  };
   return (
     <Box>
       <Box display="flex" alignItems="center" gap={3}>
@@ -154,49 +121,8 @@ const ServiceDetailsHeader: React.FC<GetServiceDetailsResponse> = ({
             {service.title}
           </Typography>
           <Typography>{service.subtitle}</Typography>
-          <Tooltip
-            title={
-              'You must select a provider before configuring this service.'
-            }
-            disableHoverListener={!!configuration}
-          >
-            <Box display="flex" gap={1} alignItems="center">
-              <Typography
-                variant="body2"
-                fontWeight={900}
-                color="text.secondary"
-              >
-                Enabled?
-              </Typography>
-              <span>
-                <Switch
-                  onClick={() => handleSwitchClick()}
-                  size="small"
-                  checked={configuration?.enabled ?? false}
-                  disabled={!configuration}
-                />
-              </span>
-            </Box>
-          </Tooltip>
         </Box>
       </Box>
     </Box>
   );
 };
-
-const ServicePathBreadcrumbs: React.FC<GetServiceDetailsResponse> = ({
-  service,
-}) => (
-  <Breadcrumbs aria-label="breadcrumb">
-    <Link underline="hover" color="inherit" href="/services">
-      Services
-    </Link>
-    <Link
-      underline="hover"
-      color="text.primary"
-      href={`/services/${service.id}`}
-    >
-      {service.title}
-    </Link>
-  </Breadcrumbs>
-);

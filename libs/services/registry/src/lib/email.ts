@@ -13,7 +13,7 @@ const send = newEndpoint({
   id: 'send',
   title: 'Send Email',
   subtitle: 'Send an email to a recipient',
-  logo: 'https://storage.googleapis.com/worksheets-test-app-logos/services/email/send-mail.svg',
+  logo: 'https://storage.googleapis.com/worksheets-test-app-logos/services/email/send.svg',
   input: commonEmailSchema,
   output: z.object({
     messageId: z.string(),
@@ -23,7 +23,7 @@ const send = newEndpoint({
 
 export const email = newService({
   id: 'email',
-  title: 'Email API',
+  title: 'Email',
   subtitle: 'Send and receive emails from your app',
   logo: 'https://storage.googleapis.com/worksheets-test-app-logos/services/email/email.svg',
   category: 'communication',

@@ -1,7 +1,7 @@
 import { newApp, newMethod } from '@worksheets/apps-core';
 import { z } from '@worksheets/zod';
 
-export const math = newApp({
+export default newApp({
   appId: 'math',
   context: z.null(),
   methods: {

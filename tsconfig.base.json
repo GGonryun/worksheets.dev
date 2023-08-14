@@ -17,7 +17,6 @@
     "paths": {
       "@worksheets/apps-connections": ["libs/apps/connections/src/index.ts"],
       "@worksheets/apps-core": ["libs/apps/core/src/index.ts"],
-      "@worksheets/apps-fetcher": ["libs/apps/fetcher/src/index.ts"],
       "@worksheets/apps-handlers": ["libs/apps/handlers/src/index.ts"],
       "@worksheets/apps-metadata": ["libs/apps/metadata/src/index.ts"],
       "@worksheets/apps-registry": ["libs/apps/registry/src/index.ts"],
@@ -104,7 +103,6 @@
       ],
       "@worksheets/schemas-services": ["libs/schemas/services/src/index.ts"],
       "@worksheets/schemas-user": ["libs/schemas/user/src/index.ts"],
-      "@worksheets/sdk": ["libs/sdk/src/index.ts"],
       "@worksheets/services-bridges": ["libs/services/bridges/src/index.ts"],
       "@worksheets/services-core": ["libs/services/core/src/index.ts"],
       "@worksheets/services-registry": ["libs/services/registry/src/index.ts"],

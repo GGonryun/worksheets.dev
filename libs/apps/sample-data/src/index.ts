@@ -542,7 +542,7 @@ export const sampleData: ApplicationRegistrySampleData = {
     sendEmail: {
       input: {
         to: 'test@example.com',
-        from: 'test@example.com', // Use the email address or domain you verified above
+        from: 'test@example.com',
         subject: 'Sending with Twilio SendGrid is Fun',
         text: 'and easy to do anywhere, even with Node.js',
         html: '<strong>and easy to do anywhere, even with Node.js</strong>',
@@ -745,6 +745,44 @@ export const sampleData: ApplicationRegistrySampleData = {
         },
       },
       output: undefined,
+    },
+  },
+  tenor: {
+    context: {
+      key: 'YOUR_TENOR_API_KEY',
+    },
+    search: {
+      input: {
+        query: 'cute cat birthday',
+        limit: 5,
+      },
+      output: {
+        results: [],
+      },
+    },
+  },
+  giphy: {
+    context: {
+      apiKey: 'YOUR_GIPHY_API_KEY',
+    },
+    search: {
+      input: {
+        query: 'cute cat birthday',
+        limit: 5,
+      },
+      output: {
+        data: [],
+        pagination: {
+          offset: 0,
+          totalCount: 0,
+          count: 0,
+        },
+        meta: {
+          status: 0,
+          msg: '',
+          responseId: '',
+        },
+      },
     },
   },
 };

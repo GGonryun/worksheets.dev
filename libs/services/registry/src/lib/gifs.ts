@@ -8,6 +8,8 @@ const search = newEndpoint({
   logo: 'https://storage.googleapis.com/worksheets-test-app-logos/services/gifs/search.svg',
   input: z.object({
     query: z.string(),
+    limit: z.number().optional(),
+    overrides: z.unknown(),
   }),
   output: z.object({
     gifs: z.array(
@@ -15,12 +17,10 @@ const search = newEndpoint({
         id: z.string(),
         url: z.string(),
         title: z.string(),
-        height: z.number(),
-        width: z.number(),
       })
     ),
   }),
-  providers: [],
+  providers: ['giphy', 'tenor'],
 });
 
 export const gifs = newService({
@@ -29,7 +29,7 @@ export const gifs = newService({
   subtitle: 'Search for GIFs',
   logo: 'https://storage.googleapis.com/worksheets-test-app-logos/services/gifs/gifs.svg',
   category: 'media',
-  providers: [],
+  providers: ['giphy', 'tenor'],
   endpoints: {
     search,
   },

@@ -50,7 +50,7 @@ const sendChatMessage = newMethod({
     .deepPartial(),
 });
 
-export const slack = newApp({
+export default newApp({
   appId: 'slack',
   context: z.object({
     botToken: z.string(),

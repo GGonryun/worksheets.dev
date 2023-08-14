@@ -56,7 +56,7 @@ const createPage = newMethod({
   output: pageSchema,
 });
 
-export const notion = newApp({
+export default newApp({
   appId: 'notion',
   context: z.object({
     apiKey: z.string(),

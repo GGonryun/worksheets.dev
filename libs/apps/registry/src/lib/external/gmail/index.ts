@@ -1,7 +1,7 @@
 import { newApp, newMethod } from '@worksheets/apps-core';
 import { z } from '@worksheets/zod';
 
-export const gmail = newApp({
+export default newApp({
   appId: 'gmail',
   context: z.object({
     accessToken: z.string(),

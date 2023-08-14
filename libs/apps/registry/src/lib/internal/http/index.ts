@@ -1,7 +1,7 @@
 import { newApp, newMethod } from '@worksheets/apps-core';
 import { z } from '@worksheets/zod';
 
-export const http = newApp({
+export default newApp({
   appId: 'http',
   context: z.null(),
   methods: {

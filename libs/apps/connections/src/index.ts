@@ -14,6 +14,8 @@ import pagerDuty from './lib/pagerDuty';
 import segment from './lib/segment';
 import sendGrid from './lib/sendGrid';
 import slack from './lib/slack';
+import tenor from './lib/tenor';
+import giphy from './lib/giphy';
 
 export const connections: ConnectionForms = {
   time: undefined,
@@ -32,6 +34,8 @@ export const connections: ConnectionForms = {
   segment: segment.form,
   sendGrid: sendGrid.form,
   slack: slack.form,
+  tenor: tenor.form,
+  giphy: giphy.form,
 };
 
 export const connectionValidationFunctions: ConnectionValidationFunctions = {
@@ -49,6 +53,8 @@ export const connectionValidationFunctions: ConnectionValidationFunctions = {
   segment: segment.validator,
   sendGrid: sendGrid.validator,
   slack: slack.validator,
+  tenor: tenor.validator,
+  giphy: giphy.validator,
 };
 
 export const connectionTranslationFunctions: ConnectionContextTranslationFunctions =
@@ -67,6 +73,8 @@ export const connectionTranslationFunctions: ConnectionContextTranslationFunctio
     segment: segment.translator,
     sendGrid: sendGrid.translator,
     slack: slack.translator,
+    giphy: giphy.translator,
+    tenor: tenor.translator,
   };
 
 export * from './lib/framework';

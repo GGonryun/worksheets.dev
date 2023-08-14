@@ -1,6 +1,5 @@
 import {
   FlashOffOutlined,
-  FlashOnOutlined,
   PowerOutlined,
   NotInterested,
   PersonAddOutlined,
@@ -13,7 +12,6 @@ import {
   Box,
   Card,
   CardHeader,
-  IconButton,
   Typography,
   Link,
   CardContent,
@@ -22,20 +20,21 @@ import {
   Tooltip,
   Button,
   Chip,
+  Switch,
+  CardActionArea,
 } from '@mui/material';
 import { ConnectionStatuses } from '@worksheets/schemas-connections';
 import {
   statusLabel,
   statusColor,
   statusIcon,
-  isActive,
+  isConnected,
 } from '../connections-list/state-maps';
 import { TinyLogo } from '../shared/tiny-logo';
 import {
   GetServiceDetailsResponse,
   ServiceProvider,
 } from '@worksheets/schemas-services';
-import Grid from '@mui/material/Unstable_Grid2';
 import { trpc } from '@worksheets/trpc/ide';
 
 export const PlatformSelectionTab: React.FC<GetServiceDetailsResponse> = ({
@@ -45,6 +44,7 @@ export const PlatformSelectionTab: React.FC<GetServiceDetailsResponse> = ({
 }) => {
   const utils = trpc.useContext();
   const selectProvider = trpc.services.selectProvider.useMutation();
+  const toggleServiceStatus = trpc.services.toggleStatus.useMutation();
 
   const handleSelection = async (providerId: string) => {
     await selectProvider.mutateAsync({ serviceId: service.id, providerId });
@@ -58,100 +58,112 @@ export const PlatformSelectionTab: React.FC<GetServiceDetailsResponse> = ({
     });
     utils.services.details.invalidate({ serviceId: service.id });
   };
+
+  const handleSwitchClick = async () => {
+    await toggleServiceStatus.mutateAsync({
+      serviceId: service.id,
+    });
+    utils.services.details.invalidate({ serviceId: service.id });
+  };
+
   return (
-    <Grid container spacing={2} width="100%">
+    <Box width="100%" display="flex" gap={1}>
       {providers.map((provider) => (
-        <Grid xs={10} sm={5} md={4} lg={3} xl={2} key={provider.id}>
+        <Box width={200} key={provider.id}>
           <IntegrationProviderCard
             selected={configuration?.providerId === provider.id}
+            enabled={configuration?.enabled}
             provider={provider}
+            onToggle={() => handleSwitchClick()}
             onInstall={() => handleSelection(provider.id)}
             onUninstall={() => handleUninstall(provider.id)}
           />
-        </Grid>
+        </Box>
       ))}
-    </Grid>
+    </Box>
   );
 };
 
 const IntegrationProviderCard: React.FC<{
   selected?: boolean;
   provider: ServiceProvider;
+  enabled?: boolean;
+  onToggle: () => void;
   onInstall: () => void;
   onUninstall: () => void;
-}> = ({ provider, selected, onInstall, onUninstall }) => (
+}> = ({ provider, selected, onInstall, onUninstall, onToggle, enabled }) => (
   <Card
-    elevation={4}
-    square
+    variant="outlined"
     sx={(theme) =>
       selected
         ? {
-            border: `3px solid ${theme.palette.info.light}`,
+            border: `2px solid ${theme.palette.info.light}`,
           }
         : {}
     }
   >
-    <CardHeader
-      sx={{ pb: 1, mb: 0 }}
-      avatar={
-        <TinyLogo
-          src={provider.logo}
-          label={provider.name}
-          borderless
-          area={32}
-        />
-      }
-      action={
-        selected ? (
-          <IconButton size="small" onClick={() => onUninstall()}>
-            <FlashOffOutlined color="inherit" fontSize="small" />
-          </IconButton>
-        ) : null
-      }
-      title={
-        <>
-          <Typography variant="body1" fontWeight={900}>
-            {provider.name}
-          </Typography>
-          <Link href={`/connections/${provider.id}`}>
-            <Typography variant="caption">View connection</Typography>
-          </Link>
-        </>
-      }
-    />
-    <CardContent sx={{ height: '100px', pb: 0.25 }}>
-      <Box
-        display="flex"
-        flexDirection="column"
-        justifyContent="space-between"
-        height="100%"
-        gap={2}
-      >
-        <IntegrationCardContent selected={selected} status={provider.status} />
-      </Box>
-    </CardContent>
-    <CardActions>
-      <IntegrationCardButton
-        onInstall={() => onInstall()}
-        selected={selected}
-        status={provider.status}
+    <CardActionArea disableRipple disableTouchRipple sx={{ cursor: 'default' }}>
+      <CardHeader
+        sx={{ pb: 1, mb: 0 }}
+        avatar={
+          <TinyLogo
+            src={provider.logo}
+            label={provider.name}
+            borderless
+            area={32}
+          />
+        }
+        title={
+          <>
+            <Typography variant="body1" fontWeight={900}>
+              {provider.name}
+            </Typography>
+            <Link href={`/connections/${provider.id}`}>
+              <Typography variant="caption">View connection</Typography>
+            </Link>
+          </>
+        }
       />
-    </CardActions>
+      <CardContent sx={{ height: '100px', pb: 0.25 }}>
+        <Box
+          display="flex"
+          flexDirection="column"
+          justifyContent="space-between"
+          height="100%"
+          gap={1}
+        >
+          <IntegrationCardContent
+            onToggle={onToggle}
+            enabled={enabled}
+            selected={selected}
+            status={provider.status}
+          />
+        </Box>
+      </CardContent>
+      <CardActions>
+        <IntegrationCardButton
+          onUninstall={() => onUninstall()}
+          onInstall={() => onInstall()}
+          selected={selected}
+          status={provider.status}
+        />
+      </CardActions>
+    </CardActionArea>
   </Card>
 );
 
 const integrationCardColors: Record<ConnectionStatuses, ButtonProps['color']> =
   {
-    active: 'info',
-    error: 'info',
-    warning: 'info',
-    disabled: 'info',
+    active: 'error',
+    error: 'error',
+    warning: 'error',
+    disabled: 'error',
     uninstalled: 'inherit',
     unknown: 'inherit',
   };
 
 const integrationCardButtonTooltips: Record<ConnectionStatuses, string> = {
-  active: 'Your connection is active.',
+  active: 'Remove your current connection.',
   error: 'Your connection needs attention',
   warning: 'Your connection needs attention',
   uninstalled: 'Connect this app to your account to enable it.',
@@ -163,27 +175,22 @@ const IntegrationCardButton: React.FC<{
   selected?: boolean;
   status: ConnectionStatuses;
   onInstall: () => void;
-}> = ({ status, selected, onInstall }) => (
+  onUninstall: () => void;
+}> = ({ status, selected, onInstall, onUninstall }) => (
   <>
     {selected && (
       <Tooltip title={integrationCardButtonTooltips[status]}>
         <span style={{ width: '100%' }}>
           <Button
-            variant="contained"
+            variant="outlined"
             fullWidth
             size="small"
             color={integrationCardColors[status]}
-            sx={{
-              cursor: 'default',
-            }}
-            disabled={!isActive[status]}
-            disableRipple
-            disableFocusRipple
-            disableElevation
-            disableTouchRipple
-            startIcon={<FlashOnOutlined />}
+            disabled={!isConnected[status]}
+            startIcon={<FlashOffOutlined />}
+            onClick={() => onUninstall()}
           >
-            Connected
+            Disconnect
           </Button>
         </span>
       </Tooltip>
@@ -264,50 +271,80 @@ const IntegrationCardButton: React.FC<{
 const IntegrationCardContent: React.FC<{
   selected?: boolean;
   status: ConnectionStatuses;
-}> = ({ status, selected }) => (
-  <>
-    {selected && (
-      <Box display="flex" alignItems="center" justifyContent="space-between">
-        <Typography variant="body2">Status:</Typography>
-        <Chip
-          label={statusLabel[status]}
-          color={statusColor[status]}
-          size="small"
-          icon={statusIcon[status]}
-        />
-      </Box>
-    )}
-    {!selected && status === 'active' && (
-      <Box display="flex" alignItems="center" gap={1}>
-        <CheckCircle color="success" fontSize="small" />
-        <Typography variant="body2">Connection available</Typography>
-      </Box>
-    )}
-    {(status === 'error' || status === 'warning') && (
-      <Box display="flex" alignItems="center" gap={1}>
-        <ErrorOutline color="error" fontSize="small" />
-        <Typography variant="body2">Connection unstable</Typography>
-      </Box>
-    )}
-    {status === 'disabled' && (
-      <Box display="flex" alignItems="center" gap={1}>
-        <ErrorOutline color="error" fontSize="small" />
-        <Typography variant="body2">Connection disabled</Typography>
-      </Box>
-    )}
-    {status === 'uninstalled' && (
-      <Box>
-        <Typography variant="caption" color="text.secondary">
-          No accounts connected
-        </Typography>
-      </Box>
-    )}
-    {status === 'unknown' && (
-      <Box>
-        <Typography variant="caption" color="text.secondary">
-          Failed to fetch integration provider status.
-        </Typography>
-      </Box>
-    )}
-  </>
-);
+  onToggle: () => void;
+  enabled?: boolean;
+}> = ({ status, selected, onToggle, enabled }) => {
+  return (
+    <>
+      {selected && (
+        <Box display="flex" flexDirection="column" gap={1}>
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="space-between"
+          >
+            <Typography variant="body2">Status</Typography>
+            <Chip
+              label={enabled ? statusLabel[status] : 'Disabled'}
+              color={enabled ? statusColor[status] : 'secondary'}
+              size="small"
+              icon={statusIcon[status]}
+            />
+          </Box>
+
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="space-between"
+          >
+            <Typography variant="body2">Enabled?</Typography>
+            <Tooltip
+              title={enabled ? 'Disable this endpoint' : 'Enable this endpoint'}
+            >
+              <span>
+                <Switch
+                  onClick={() => onToggle()}
+                  size="small"
+                  checked={enabled}
+                />
+              </span>
+            </Tooltip>
+          </Box>
+        </Box>
+      )}
+      {!selected && status === 'active' && (
+        <Box display="flex" alignItems="center" gap={1}>
+          <CheckCircle color="success" fontSize="small" />
+          <Typography variant="body2">Connection available</Typography>
+        </Box>
+      )}
+
+      {(status === 'error' || status === 'warning') && (
+        <Box display="flex" alignItems="center" gap={1}>
+          <ErrorOutline color="error" fontSize="small" />
+          <Typography variant="body2">Connection unstable</Typography>
+        </Box>
+      )}
+      {status === 'disabled' && (
+        <Box display="flex" alignItems="center" gap={1}>
+          <ErrorOutline color="error" fontSize="small" />
+          <Typography variant="body2">Connection disabled</Typography>
+        </Box>
+      )}
+      {status === 'uninstalled' && (
+        <Box>
+          <Typography variant="caption" color="text.secondary">
+            No accounts connected
+          </Typography>
+        </Box>
+      )}
+      {status === 'unknown' && (
+        <Box>
+          <Typography variant="caption" color="text.secondary">
+            Failed to fetch integration provider status.
+          </Typography>
+        </Box>
+      )}
+    </>
+  );
+};
