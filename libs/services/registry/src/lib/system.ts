@@ -2,20 +2,6 @@
 import { newService, newEndpoint } from '@worksheets/services-core';
 import { z } from '@worksheets/zod';
 
-const log = newEndpoint({
-  id: 'log',
-  title: 'Log',
-  subtitle: 'Log a message',
-  logo: 'https://storage.googleapis.com/worksheets-test-app-logos/services/system/log.svg',
-  input: z.object({
-    message: z.string(),
-  }),
-  output: z.object({
-    message: z.string(),
-  }),
-  providers: ['sys'],
-});
-
 const echo = newEndpoint({
   id: 'echo',
   title: 'Echo',
@@ -50,7 +36,6 @@ export const system = newService({
   category: 'internal',
   providers: ['sys'],
   endpoints: {
-    log,
     echo,
     ping,
   },

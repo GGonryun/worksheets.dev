@@ -32,6 +32,12 @@ const form: ConnectionForm<'sinch'> = {
       helpUrl: 'https://dashboard.sinch.com/sms/api/rest',
       schema: z.string(),
     },
+    virtualPhoneNumber: {
+      type: 'text',
+      title: 'Virtual Phone Number',
+      helpUrl: 'https://dashboard.sinch.com/sms/api/rest',
+      schema: z.string(),
+    },
   },
 };
 
@@ -43,6 +49,9 @@ const validator: ConnectionValidationFunction<'sinch'> = async (connection) => {
   }
   if (!connection.servicePlanId) {
     return { error: 'Service Plan ID is required' };
+  }
+  if (!connection.virtualPhoneNumber) {
+    return { error: 'Virtual Phone Number is required' };
   }
 
   console.error('TODO: implement validator for sinch connection');

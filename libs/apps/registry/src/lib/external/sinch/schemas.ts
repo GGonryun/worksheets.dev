@@ -1,15 +1,14 @@
 import { z } from '@worksheets/zod';
 
 export const sendBatchRequest = z.object({
-  from: z.string().describe('Your virtual number'),
   to: z.array(z.string()).describe("The list of recipients' phone numbers"),
   body: z.string().describe('The message you want to send'),
   parameters: z
     .record(z.record(z.string()))
+    .optional()
     .describe(
-      'Record<parameter_name, Record<recipient_phone_number, parameter_value>>'
-    )
-    .describe('The parameters you want to send with the message'),
+      'Parameters sent with the message, uses string interpolation. Record<parameter_name, Record<recipient_phone_number, parameter_value>>'
+    ),
 });
 
 export const dryRunResponse = z.object({

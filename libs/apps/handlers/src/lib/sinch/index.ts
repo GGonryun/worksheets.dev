@@ -62,7 +62,7 @@ export const dryRunBatch: ApplicationMethodExecutor<
       method: 'POST',
     },
     body: {
-      from: input.from,
+      from: context.virtualPhoneNumber,
       to: input.to,
       body: input.body,
       parameters: input.parameters,
@@ -94,7 +94,7 @@ export const sendBatch: ApplicationMethodExecutor<
       method: 'POST',
     },
     body: {
-      from: input.from,
+      from: context.virtualPhoneNumber,
       to: input.to,
       body: input.body,
       parameters: input.parameters,

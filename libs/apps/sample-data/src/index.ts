@@ -789,11 +789,11 @@ export const sampleData: ApplicationRegistrySampleData = {
     context: {
       apiToken: 'YOUR_SINCH_API_KEY',
       servicePlanId: 'YOUR_SERVICE_PLAN_ID',
+      virtualPhoneNumber: 'YOUR_VIRTUAL_PHONE_NUMBER',
     },
     dryRunBatch: {
       input: {
         to: ['Phone_number_of_recipient_1', 'Phone_number_of_recipient_2'],
-        from: 'YOUR_virtual_number',
         body: 'Hello ${name}! How are you?',
         parameters: {
           name: {
@@ -839,7 +839,6 @@ export const sampleData: ApplicationRegistrySampleData = {
     sendBatch: {
       input: {
         to: ['Phone_number_of_recipient_1', 'Phone_number_of_recipient_2'],
-        from: 'YOUR_virtual_number',
         body: 'Hello ${name}! How are you?',
         parameters: {
           name: {

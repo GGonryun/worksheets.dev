@@ -9,6 +9,7 @@ export default newApp({
   context: z.object({
     apiToken: z.string(),
     servicePlanId: z.string(),
+    virtualPhoneNumber: z.string(),
   }),
   methods: {
     dryRunBatch,

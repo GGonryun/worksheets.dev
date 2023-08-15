@@ -7,13 +7,13 @@ const send = newEndpoint({
   subtitle: 'Send a text message',
   logo: 'https://storage.googleapis.com/worksheets-test-app-logos/services/sms/send.svg',
   input: z.object({
-    to: z.string(),
-    message: z.string(),
+    to: z.array(z.string()).max(100),
+    body: z.string(),
   }),
   output: z.object({
-    message: z.string(),
+    total: z.number().describe('The number of messages'),
   }),
-  providers: [],
+  providers: ['sinch', 'twilio'],
 });
 
 export const sms = newService({
@@ -22,7 +22,7 @@ export const sms = newService({
   subtitle: 'Send text messages',
   logo: 'https://storage.googleapis.com/worksheets-test-app-logos/services/sms/sms.svg',
   category: 'communication',
-  providers: [],
+  providers: ['sinch', 'twilio'],
   endpoints: {
     send,
   },
