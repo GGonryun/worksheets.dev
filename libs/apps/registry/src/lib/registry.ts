@@ -15,6 +15,7 @@ import pagerDuty from './external/pagerDuty';
 import sendGrid from './external/sendGrid';
 import tenor from './external/tenor';
 import giphy from './external/giphy';
+import sinch from './external/sinch';
 
 export const registry = newRegistry({
   // external apps
@@ -29,6 +30,7 @@ export const registry = newRegistry({
   slack,
   tenor,
   giphy,
+  sinch,
   // internal apps
   time,
   sys,

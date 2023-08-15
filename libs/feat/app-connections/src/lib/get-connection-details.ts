@@ -85,6 +85,16 @@ export const getPresentiationalConnection = async (opts: {
         value: error ? 'error' : value ? 'true' : '',
         helpUrl: field.helpUrl,
       });
+    } else if (field.type === 'text') {
+      const value = connection?.fields[key] ?? '';
+
+      fields.push({
+        key,
+        label: field.title,
+        type: 'text',
+        helpUrl: field.helpUrl,
+        value,
+      });
     }
   }
 

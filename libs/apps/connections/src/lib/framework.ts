@@ -6,7 +6,7 @@ import {
 import { BaseOAuthOptions } from '@worksheets/util/oauth/client';
 import { ZodTypeAny } from '@worksheets/zod';
 
-export type ConnectionField = SensitiveField | OAuthField;
+export type ConnectionField = TextField | SensitiveField | OAuthField;
 // this type is used to hold all the fields for a connection.
 export type ConnectionFields = Record<string, ConnectionField>;
 
@@ -28,6 +28,13 @@ export type ConnectionForm<
         [prop in keyof InferApplicationContext<K>]: ConnectionField;
       };
     };
+
+export type TextField = {
+  type: 'text';
+  title: string;
+  helpUrl: string;
+  schema: ZodTypeAny;
+};
 
 export type SensitiveField = {
   type: 'sensitive';

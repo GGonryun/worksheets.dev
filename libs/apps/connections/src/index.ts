@@ -16,6 +16,7 @@ import sendGrid from './lib/sendGrid';
 import slack from './lib/slack';
 import tenor from './lib/tenor';
 import giphy from './lib/giphy';
+import sinch from './lib/sinch';
 
 export const connections: ConnectionForms = {
   time: undefined,
@@ -36,6 +37,7 @@ export const connections: ConnectionForms = {
   slack: slack.form,
   tenor: tenor.form,
   giphy: giphy.form,
+  sinch: sinch.form,
 };
 
 export const connectionValidationFunctions: ConnectionValidationFunctions = {
@@ -55,6 +57,7 @@ export const connectionValidationFunctions: ConnectionValidationFunctions = {
   slack: slack.validator,
   tenor: tenor.validator,
   giphy: giphy.validator,
+  sinch: sinch.validator,
 };
 
 export const connectionTranslationFunctions: ConnectionContextTranslationFunctions =
@@ -75,6 +78,7 @@ export const connectionTranslationFunctions: ConnectionContextTranslationFunctio
     slack: slack.translator,
     giphy: giphy.translator,
     tenor: tenor.translator,
+    sinch: sinch.translator,
   };
 
 export * from './lib/framework';

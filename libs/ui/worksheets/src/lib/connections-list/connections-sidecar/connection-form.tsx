@@ -87,7 +87,7 @@ export const ConnectionForm: React.FC<{
               label={name}
             />
           )}
-          {field.type === 'sensitive' && (
+          {(field.type === 'sensitive' || field.type === 'text') && (
             <SensitiveFormField field={field} appId={appId} />
           )}
         </Box>

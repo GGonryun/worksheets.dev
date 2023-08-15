@@ -785,4 +785,80 @@ export const sampleData: ApplicationRegistrySampleData = {
       },
     },
   },
+  sinch: {
+    context: {
+      apiToken: 'YOUR_SINCH_API_KEY',
+      servicePlanId: 'YOUR_SERVICE_PLAN_ID',
+    },
+    dryRunBatch: {
+      input: {
+        to: ['Phone_number_of_recipient_1', 'Phone_number_of_recipient_2'],
+        from: 'YOUR_virtual_number',
+        body: 'Hello ${name}! How are you?',
+        parameters: {
+          name: {
+            Phone_number_of_recipient_1: 'recipient_name',
+            Phone_number_of_recipient_2: 'recipient_name',
+            default: 'default_in_place_of_name',
+          },
+        },
+      },
+      output: {
+        numberOfRecipients: 2,
+        numberOfMessages: 2,
+        perRecipient: [
+          {
+            recipient: 'string',
+            messagePart: 'string',
+            body: 'string',
+            encoding: 'string',
+          },
+        ],
+      },
+    },
+    listBatches: {
+      input: {
+        startDate: 'YYYY-MM-DDThh:mm:ss.SSSZ',
+        endDate: 'YYYY-MM-DDThh:mm:ss.SSSZ',
+      },
+      output: {
+        batches: [
+          {
+            id: '01FC66621XXXXX119Z8PMV1QPQ',
+            to: ['15551231234', '15551256344'],
+            from: '15551231234',
+            canceled: false,
+            body: 'string',
+            createdAt: '2019-08-24T14:15:22Z',
+            modifiedAt: '2019-08-24T14:15:22Z',
+            expireAt: '2019-08-24T14:15:22Z',
+          },
+        ],
+      },
+    },
+    sendBatch: {
+      input: {
+        to: ['Phone_number_of_recipient_1', 'Phone_number_of_recipient_2'],
+        from: 'YOUR_virtual_number',
+        body: 'Hello ${name}! How are you?',
+        parameters: {
+          name: {
+            Phone_number_of_recipient_1: 'recipient_name',
+            Phone_number_of_recipient_2: 'recipient_name',
+            default: 'default_in_place_of_name',
+          },
+        },
+      },
+      output: {
+        id: '01FC66621XXXXX119Z8PMV1QPQ',
+        to: ['15551231234', '15551256344'],
+        from: '15551231234',
+        canceled: false,
+        body: 'string',
+        createdAt: '2019-08-24T14:15:22Z',
+        modifiedAt: '2019-08-24T14:15:22Z',
+        expireAt: '2019-08-24T14:15:22Z',
+      },
+    },
+  },
 };

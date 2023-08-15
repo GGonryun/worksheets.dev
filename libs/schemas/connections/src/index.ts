@@ -42,7 +42,7 @@ export type PresentationalField = z.infer<typeof presentationalFieldShema>;
 export const presentationalFieldShema = z.object({
   key: z.string(),
   label: z.string(),
-  type: z.enum(['sensitive', 'button']),
+  type: z.enum(['sensitive', 'button', 'text']),
   value: z.string(), // for oauth buttons, the value contains whether or not the user's token is valid
   helpUrl: z.string(),
 });

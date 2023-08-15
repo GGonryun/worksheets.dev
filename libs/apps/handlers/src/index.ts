@@ -16,6 +16,7 @@ import { segment } from './lib/segment';
 import { sendGrid } from './lib/sendGrid';
 import { tenor } from './lib/tenor';
 import { giphy } from './lib/giphy';
+import { sinch } from './lib/sinch';
 
 export const handlers: ExecutorActions = {
   time,
@@ -34,4 +35,5 @@ export const handlers: ExecutorActions = {
   sendGrid,
   tenor,
   giphy,
+  sinch,
 };

@@ -15,6 +15,7 @@ import { sys } from './lib/sys';
 import { time } from './lib/time';
 import { giphy } from './lib/giphy';
 import { tenor } from './lib/tenor';
+import { sinch } from './lib/sinch';
 
 export * from './framework';
 
@@ -37,4 +38,5 @@ export const metadata: ApplicationMetadataMask = {
   segment,
   tenor,
   giphy,
+  sinch,
 };
