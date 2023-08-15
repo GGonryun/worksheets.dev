@@ -111,7 +111,7 @@ export const MethodDetailsList: React.FC<{
   return (
     <Box>
       {methods.map((m) => (
-        <MethodDetailsListItem key={m.appId} method={m} />
+        <MethodDetailsListItem key={m.methodId} method={m} />
       ))}
     </Box>
   );

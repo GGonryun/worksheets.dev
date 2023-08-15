@@ -17,6 +17,7 @@ import { sendGrid } from './lib/sendGrid';
 import { tenor } from './lib/tenor';
 import { giphy } from './lib/giphy';
 import { sinch } from './lib/sinch';
+import { twilio } from './lib/twilio';
 
 export const handlers: ExecutorActions = {
   time,
@@ -36,4 +37,5 @@ export const handlers: ExecutorActions = {
   tenor,
   giphy,
   sinch,
+  twilio,
 };

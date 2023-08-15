@@ -16,6 +16,7 @@ import sendGrid from './external/sendGrid';
 import tenor from './external/tenor';
 import giphy from './external/giphy';
 import sinch from './external/sinch';
+import twilio from './external/twilio';
 
 export const registry = newRegistry({
   // external apps
@@ -31,6 +32,7 @@ export const registry = newRegistry({
   tenor,
   giphy,
   sinch,
+  twilio,
   // internal apps
   time,
   sys,

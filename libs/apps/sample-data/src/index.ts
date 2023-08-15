@@ -861,4 +861,53 @@ export const sampleData: ApplicationRegistrySampleData = {
       },
     },
   },
+  twilio: {
+    context: {
+      sid: 'YOUR_TWILIO_ACCOUNT_SID',
+      token: 'YOUR_TWILIO_AUTH_TOKEN',
+      phone: 'YOUR_TWILIO_VIRTUAL_NUMBER',
+    },
+    createMessage: {
+      input: {
+        to: '+15557122663',
+        body: 'Hi there',
+      },
+      output: {
+        status: 'sent',
+        to: '+15557122663',
+        body: 'Hi there',
+        from: '+15557122661',
+        sid: 'ACXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
+        dateCreated: 'Thu, 30 Jul 2015 20:12:31 +0000',
+        dateUpdated: 'Thu, 30 Jul 2015 20:12:33 +0000',
+        dateSent: 'Thu, 30 Jul 2015 20:12:33 +0000',
+        numMedia: 0,
+        numSegments: 1,
+        uri: '/2010-04-01/Accounts/ACXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/Messages/SMXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.json',
+      },
+    },
+    listMessages: {
+      input: {
+        to: '+15557122663',
+      },
+      output: {
+        pageSize: 20,
+        messages: [
+          {
+            status: 'sent',
+            to: '+15557122663',
+            body: 'Hi there',
+            from: '+15557122661',
+            sid: 'ACXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
+            dateCreated: 'Thu, 30 Jul 2015 20:12:31 +0000',
+            dateUpdated: 'Thu, 30 Jul 2015 20:12:33 +0000',
+            dateSent: 'Thu, 30 Jul 2015 20:12:33 +0000',
+            numMedia: 0,
+            numSegments: 1,
+            uri: '/2010-04-01/Accounts/ACXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/Messages/SMXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.json',
+          },
+        ],
+      },
+    },
+  },
 };

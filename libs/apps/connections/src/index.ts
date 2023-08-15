@@ -17,6 +17,7 @@ import slack from './lib/slack';
 import tenor from './lib/tenor';
 import giphy from './lib/giphy';
 import sinch from './lib/sinch';
+import twilio from './lib/twilio';
 
 export const connections: ConnectionForms = {
   time: undefined,
@@ -38,6 +39,7 @@ export const connections: ConnectionForms = {
   tenor: tenor.form,
   giphy: giphy.form,
   sinch: sinch.form,
+  twilio: twilio.form,
 };
 
 export const connectionValidationFunctions: ConnectionValidationFunctions = {
@@ -58,6 +60,7 @@ export const connectionValidationFunctions: ConnectionValidationFunctions = {
   tenor: tenor.validator,
   giphy: giphy.validator,
   sinch: sinch.validator,
+  twilio: twilio.validator,
 };
 
 export const connectionTranslationFunctions: ConnectionContextTranslationFunctions =
@@ -79,6 +82,7 @@ export const connectionTranslationFunctions: ConnectionContextTranslationFunctio
     giphy: giphy.translator,
     tenor: tenor.translator,
     sinch: sinch.translator,
+    twilio: twilio.translator,
   };
 
 export * from './lib/framework';

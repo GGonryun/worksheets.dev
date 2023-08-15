@@ -16,6 +16,7 @@ import { time } from './lib/time';
 import { giphy } from './lib/giphy';
 import { tenor } from './lib/tenor';
 import { sinch } from './lib/sinch';
+import { twilio } from './lib/twilio';
 
 export * from './framework';
 
@@ -39,4 +40,5 @@ export const metadata: ApplicationMetadataMask = {
   tenor,
   giphy,
   sinch,
+  twilio,
 };
