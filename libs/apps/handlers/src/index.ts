@@ -18,6 +18,7 @@ import { tenor } from './lib/tenor';
 import { giphy } from './lib/giphy';
 import { sinch } from './lib/sinch';
 import { twilio } from './lib/twilio';
+import { jsonbin } from './lib/jsonbin';
 
 export const handlers: ExecutorActions = {
   time,
@@ -38,4 +39,5 @@ export const handlers: ExecutorActions = {
   giphy,
   sinch,
   twilio,
+  jsonbin,
 };

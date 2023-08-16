@@ -18,7 +18,7 @@ const processResponse = async (response: Response) => {
   return await response.json();
 };
 
-export const createHeaders = (
+const createHeaders = (
   context: InferApplicationContext<'sinch'>
 ): Record<string, string> => ({
   'Content-Type': 'application/json',
@@ -51,10 +51,10 @@ const fetcher = async ({
   return await processResponse(response);
 };
 
-export const dryRunBatch: ApplicationMethodExecutor<
-  'sinch',
-  'dryRunBatch'
-> = async ({ context, input }) => {
+const dryRunBatch: ApplicationMethodExecutor<'sinch', 'dryRunBatch'> = async ({
+  context,
+  input,
+}) => {
   const json = await fetcher({
     context,
     request: {
@@ -83,10 +83,10 @@ export const dryRunBatch: ApplicationMethodExecutor<
   };
 };
 
-export const sendBatch: ApplicationMethodExecutor<
-  'sinch',
-  'sendBatch'
-> = async ({ context, input }) => {
+const sendBatch: ApplicationMethodExecutor<'sinch', 'sendBatch'> = async ({
+  context,
+  input,
+}) => {
   const json = await fetcher({
     context,
     request: {
@@ -104,10 +104,10 @@ export const sendBatch: ApplicationMethodExecutor<
   return convertRawBatchResult(json);
 };
 
-export const listBatches: ApplicationMethodExecutor<
-  'sinch',
-  'listBatches'
-> = async ({ context, input }) => {
+const listBatches: ApplicationMethodExecutor<'sinch', 'listBatches'> = async ({
+  context,
+  input,
+}) => {
   const query = new URLSearchParams();
   if (input.page) query.set('page', input.page.toString());
   if (input.pageSize) query.set('page_size', input.pageSize.toString());

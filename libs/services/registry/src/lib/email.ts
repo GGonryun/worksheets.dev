@@ -18,7 +18,7 @@ const send = newEndpoint({
   output: z.object({
     messageId: z.string(),
   }),
-  providers: ['gmail', 'sendGrid'],
+  providers: ['gmail'],
 });
 
 export const email = newService({
@@ -27,7 +27,7 @@ export const email = newService({
   subtitle: 'Send and receive emails from your app',
   logo: 'https://storage.googleapis.com/worksheets-test-app-logos/services/email/email.svg',
   category: 'communication',
-  providers: ['gmail', 'sendGrid'],
+  providers: ['gmail'],
   endpoints: {
     send,
   },

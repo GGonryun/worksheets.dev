@@ -17,6 +17,7 @@ import tenor from './external/tenor';
 import giphy from './external/giphy';
 import sinch from './external/sinch';
 import twilio from './external/twilio';
+import jsonbin from './external/jsonbin';
 
 export const registry = newRegistry({
   // external apps
@@ -33,6 +34,7 @@ export const registry = newRegistry({
   giphy,
   sinch,
   twilio,
+  jsonbin,
   // internal apps
   time,
   sys,

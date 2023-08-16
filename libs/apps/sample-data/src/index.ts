@@ -909,4 +909,97 @@ export const sampleData: ApplicationRegistrySampleData = {
       },
     },
   },
+  jsonbin: {
+    context: {
+      masterKey: 'X-MASTER-KEY',
+    },
+    createBin: {
+      input: {
+        name: "Bin's name",
+        data: {
+          a: 1,
+          b: true,
+          c: 'test',
+          d: {
+            e: 2,
+          },
+        },
+      },
+      output: {
+        data: {
+          a: 1,
+          b: true,
+          c: 'test',
+          d: {
+            e: 2,
+          },
+        },
+        metadata: {
+          id: '<Bin Id>',
+          createdAt: '<Date & Time>',
+          private: true,
+        },
+      },
+    },
+    deleteBin: {
+      input: {
+        binId: 'binId',
+      },
+      output: {
+        metadata: {
+          id: '<BIN_ID>',
+          versionsDeleted: 0,
+        },
+        message: 'Bin deleted successfully',
+      },
+    },
+    readBin: {
+      input: {
+        binId: 'binId',
+      },
+      output: {
+        data: {
+          sample: 'Hello World',
+        },
+        metadata: {
+          id: '<BIN_ID>',
+          createdAt: '<Date & Time>',
+          private: true,
+        },
+      },
+    },
+    updateBin: {
+      input: {
+        binId: 'binId',
+        data: {
+          sample: 'Hello World',
+        },
+      },
+      output: {
+        data: {
+          sample: 'Hello World',
+        },
+        metadata: {
+          id: '<BIN_ID>',
+          createdAt: '<Date & Time>',
+          private: true,
+        },
+      },
+    },
+    listBins: {
+      input: {
+        sortOrder: 'ascending',
+      },
+      output: {
+        bins: [
+          {
+            snippetMeta: {},
+            private: true,
+            binId: '<BIN_ID>',
+            createdAt: '<DATE_TIME>',
+          },
+        ],
+      },
+    },
+  },
 };

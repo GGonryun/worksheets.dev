@@ -17,6 +17,7 @@ import { giphy } from './lib/giphy';
 import { tenor } from './lib/tenor';
 import { sinch } from './lib/sinch';
 import { twilio } from './lib/twilio';
+import { jsonbin } from './lib/jsonbin';
 
 export * from './framework';
 
@@ -41,4 +42,5 @@ export const metadata: ApplicationMetadataMask = {
   giphy,
   sinch,
   twilio,
+  jsonbin,
 };

@@ -18,6 +18,7 @@ import tenor from './lib/tenor';
 import giphy from './lib/giphy';
 import sinch from './lib/sinch';
 import twilio from './lib/twilio';
+import jsonbin from './lib/jsonbin';
 
 export const connections: ConnectionForms = {
   time: undefined,
@@ -40,6 +41,7 @@ export const connections: ConnectionForms = {
   giphy: giphy.form,
   sinch: sinch.form,
   twilio: twilio.form,
+  jsonbin: jsonbin.form,
 };
 
 export const connectionValidationFunctions: ConnectionValidationFunctions = {
@@ -61,6 +63,7 @@ export const connectionValidationFunctions: ConnectionValidationFunctions = {
   giphy: giphy.validator,
   sinch: sinch.validator,
   twilio: twilio.validator,
+  jsonbin: jsonbin.validator,
 };
 
 export const connectionTranslationFunctions: ConnectionContextTranslationFunctions =
@@ -83,6 +86,7 @@ export const connectionTranslationFunctions: ConnectionContextTranslationFunctio
     tenor: tenor.translator,
     sinch: sinch.translator,
     twilio: twilio.translator,
+    jsonbin: jsonbin.translator,
   };
 
 export * from './lib/framework';

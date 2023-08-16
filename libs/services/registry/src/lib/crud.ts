@@ -2,9 +2,13 @@ import { newService, newEndpoint } from '@worksheets/services-core';
 import { z } from '@worksheets/zod';
 
 const entity = z.object({
-  resource: z.string(),
+  collection: z.string().optional(),
   key: z.string(),
-  value: z.string(),
+  value: z
+    .any()
+    .describe(
+      'The data you wish to store in the record. It can be any JSON data.'
+    ),
 });
 
 const create = newEndpoint({
@@ -12,9 +16,19 @@ const create = newEndpoint({
   title: 'Create',
   subtitle: 'Create a new record',
   logo: 'https://storage.googleapis.com/worksheets-test-app-logos/services/crud/create.svg',
-  input: entity,
-  output: entity,
-  providers: [],
+  input: z.object({
+    collection: z.string().optional(),
+    value: z
+      .any()
+      .describe(
+        'The data you wish to store in the record. It can be any JSON data.'
+      ),
+    overrides: z.any(),
+  }),
+  output: z.object({
+    key: z.string(),
+  }),
+  providers: ['jsonbin'],
 });
 
 const read = newEndpoint({
@@ -22,12 +36,9 @@ const read = newEndpoint({
   title: 'Read',
   subtitle: 'Read a record',
   logo: 'https://storage.googleapis.com/worksheets-test-app-logos/services/crud/read.svg',
-  input: z.object({
-    resource: z.string(),
-    key: z.string(),
-  }),
+  input: z.object({ key: z.string(), overrides: z.any() }),
   output: entity,
-  providers: [],
+  providers: ['jsonbin'],
 });
 
 const update = newEndpoint({
@@ -35,34 +46,49 @@ const update = newEndpoint({
   title: 'Update',
   subtitle: 'Update a record',
   logo: 'https://storage.googleapis.com/worksheets-test-app-logos/services/crud/update.svg',
-  input: entity,
+  input: z.object({ key: z.string(), value: z.any(), overrides: z.any() }),
   output: entity,
-  providers: [],
+  providers: ['jsonbin'],
 });
 
 const remove = newEndpoint({
   id: 'delete',
   title: 'Delete',
   subtitle: 'Delete a record',
-
   logo: 'https://storage.googleapis.com/worksheets-test-app-logos/services/crud/delete.svg',
-  input: entity,
-  output: entity,
-  providers: [],
+  input: z.object({ key: z.string(), overrides: z.any() }),
+  output: z.object({
+    success: z.boolean(),
+    message: z.string().optional(),
+  }),
+  providers: ['jsonbin'],
+});
+
+const list = newEndpoint({
+  id: 'list',
+  title: 'List',
+  subtitle: 'List records',
+  logo: 'https://storage.googleapis.com/worksheets-test-app-logos/services/crud/list.svg',
+  input: z.object({
+    collection: z.string().optional(),
+    overrides: z.any(),
+  }),
+  output: z.array(entity),
+  providers: ['jsonbin'],
 });
 
 export const crud = newService({
   id: 'crud',
-  title: 'CRUD Database',
-  subtitle: 'Create, read, update, and delete json data',
+  title: 'CRUD',
+  subtitle: 'Create, read, update, and delete json entities',
   logo: 'https://storage.googleapis.com/worksheets-test-app-logos/services/crud/crud.svg',
   category: 'data',
-  providers: [],
-  // providers: ['jsonbin'],
+  providers: ['jsonbin'],
   endpoints: {
     create,
     read,
     update,
     delete: remove,
+    list,
   },
 });
