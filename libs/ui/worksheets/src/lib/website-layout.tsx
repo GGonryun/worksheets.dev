@@ -1,5 +1,11 @@
 import * as React from 'react';
-import { styled, useTheme, Theme, CSSObject } from '@mui/material/styles';
+import {
+  styled,
+  useTheme,
+  Theme,
+  CSSObject,
+  alpha,
+} from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
@@ -33,7 +39,7 @@ import {
   Warning,
   WorkOutline,
 } from '@mui/icons-material';
-import { Emoji } from '@worksheets/ui/common';
+import { Emoji, useNavigateToHash } from '@worksheets/ui/common';
 
 const drawerWidth = 240;
 
@@ -153,6 +159,8 @@ export default function WebsiteLayout({
     topSections = [];
   }
 
+  useNavigateToHash();
+
   return (
     <>
       <MobileWarning />
@@ -252,10 +260,24 @@ export default function WebsiteLayout({
             ))}
           </List>
         </Drawer>
-        <Box component="main" sx={{ flexGrow: 1 }}>
-          <DrawerHeader />
-          {/* remove the offset created by the drawer header */}
-          <Box height="calc(100% - 64px)">{children}</Box>
+        <Box
+          component="main"
+          flexGrow={1}
+          height="100%"
+          display="flex"
+          flexDirection="column"
+        >
+          <Box flexShrink={0}>
+            <DrawerHeader />
+          </Box>
+          <Box
+            flex="1 0 auto"
+            sx={(theme) => ({
+              backgroundColor: alpha(theme.palette.primary.light, 0.1),
+            })}
+          >
+            {children}
+          </Box>
         </Box>
       </Box>
     </>
@@ -351,7 +373,7 @@ const MobileWarning: React.FC = () => {
           <Tooltip title={'Let us know you want a mobile optimized site!'}>
             <span>
               <Button data-test-id="feature-request-mobile-site">
-                <Emoji label={'bell'} symbol={128718} />
+                <Emoji code="bell" />
               </Button>
             </span>
           </Tooltip>

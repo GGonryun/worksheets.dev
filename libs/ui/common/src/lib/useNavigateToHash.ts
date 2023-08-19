@@ -11,7 +11,7 @@ export const useNavigateToHash = () => {
         const r = el?.getBoundingClientRect();
         window?.top?.scroll({
           // eslint-disable-next-line no-restricted-globals
-          top: pageYOffset + (r?.top ?? 0) + -75,
+          top: pageYOffset + (r?.top ?? 0),
           behavior: 'smooth',
         });
       }, 600);

@@ -6,6 +6,7 @@ import {
   sampleData,
 } from '@worksheets/apps-sample-data';
 import { SERVER_SETTINGS } from '@worksheets/data-access/server-settings';
+import { z } from '@worksheets/zod';
 
 const format = (input: unknown) => {
   if (input == null) return '';
@@ -59,9 +60,19 @@ export const createCurlExample = ({
   appId: string;
   methodId: string;
 }) => {
-  const context = stringifyWithSpace(getAppContext(appId) ?? {});
+  const context = stringifyWithSpace(getAppContext(appId) ?? z.undefined());
 
-  const input = stringifyWithSpace(getMethodInputs({ appId, methodId }));
+  const lines = JSON.stringify(
+    {
+      input: getMethodInputs({ appId, methodId }),
+      context: getAppContext(appId),
+    },
+    null,
+    2
+  ).split('\n');
+  const input = lines
+    .map((line, i) => (i != lines.length - 1 ? `${line} \\` : line))
+    .join('\n');
 
   const output = format(getMethodOutputs({ appId, methodId }));
 
@@ -69,7 +80,7 @@ export const createCurlExample = ({
 curl --request POST '${SERVER_SETTINGS.WEBSITES.API_URL()}/v1/call/${appId}/${methodId}'  \\
   --header 'Content-Type: application/json' \\
   --header 'Authorization: Bearer WORKSHEETS_API_KEY' \\
-  -d '{ "context": ${context}, "input": ${input || format({})} }'
+  -d ${input || format({})}
     `.trim();
 
   return {

@@ -57,7 +57,7 @@ export function ApplicationsGalleryPage() {
           title={
             <Box>
               We only support a few applications, do you really need this?{' '}
-              <Emoji label="thinking face" symbol={129300} />
+              <Emoji code="thinking" />
             </Box>
           }
         >

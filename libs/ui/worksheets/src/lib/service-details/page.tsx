@@ -47,13 +47,15 @@ export const ServiceLayout: React.FC<{
   content: ReactNode;
 }> = ({ header, content }) => (
   <WebsiteLayout>
-    <Box
-      height="100%"
-      sx={(theme) => ({
-        backgroundColor: alpha(theme.palette.primary.light, 0.1),
-      })}
-    >
-      <Box px={2} pt={2} pb={1}>
+    <Box>
+      <Box
+        px={2}
+        pt={2}
+        pb={1}
+        sx={(theme) => ({
+          backgroundColor: theme.palette.background.paper,
+        })}
+      >
         <Typography variant="body2" color="text.secondary">
           <Link
             underline="hover"
@@ -68,7 +70,13 @@ export const ServiceLayout: React.FC<{
           </Link>
         </Typography>
       </Box>
-      <Box px={3} pb={2}>
+      <Box
+        px={3}
+        pb={2}
+        // sx={(theme) => ({
+        //   backgroundColor: theme.palette.background.paper,
+        // })}
+      >
         {header}
       </Box>
       {content}
@@ -90,6 +98,9 @@ const ServiceContent: React.FC<GetServiceDetailsResponse> = (props) => {
         value={value}
         onChange={handleChange}
         aria-label="basic tabs example"
+        // sx={(theme) => ({
+        //   backgroundColor: theme.palette.background.paper,
+        // })}
       >
         <Tab label="Platforms" {...a11yProps(0)} />
         <Tab label="Endpoints" {...a11yProps(1)} />

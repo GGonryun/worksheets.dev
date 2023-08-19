@@ -18,6 +18,28 @@ export const fullstory: ApplicationMetadata<'fullstory'> = {
   creator: 'Worksheets.dev',
   lastUpdated: 1690615559053,
   tutorialUrl: 'https://developer.fullstory.com/overview/api-basics/',
+  faq: [
+    [
+      'What is FullStory?',
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Adipiscing elit ut aliquam purus sit amet luctus venenatis lectus. Facilisis mauris sit amet massa vitae tortor condimentum lacinia quis.',
+    ],
+    [
+      'Who is FullStory for?',
+      'Lorem ipsum dolor sit amet, consectetur cras. Facilisis mauris sit amet massa vitae tortor condimentum lacinia quis. Bibendum enim facilisis gravida neque convallis a cras semper.',
+    ],
+    [
+      'Why is FullStory necessary?',
+      'Lorem ipsum dolor sit amet; facili. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Facilisis mauris sit amet massa vitae tortor condimentum lacinia quis.',
+    ],
+    [
+      'How can I get the most out of FullStory?',
+      'Lorem ipsum dolor sit amet, simple. Gravida neque convallis a cras semper auctor neque vitae.',
+    ],
+    [
+      'How do I get started with FullStory?',
+      'Lorem ipsum dolor sit amet. Gravida neque convallis a cras semper or.',
+    ],
+  ],
   methods: {
     createUser: {
       title: 'Create User',

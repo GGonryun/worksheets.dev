@@ -29,6 +29,7 @@ import {
   ConnectionEntity,
 } from '@worksheets/schemas-connections';
 import { BaseOAuthOptions, OAuthClient } from '@worksheets/util/oauth/client';
+import { z } from '@worksheets/zod';
 
 export interface ApplicationsDatabase {
   get(appId: string): ApplicationBasics;
@@ -89,7 +90,7 @@ export const newApplicationsDatabase = (): ApplicationsDatabase => {
         creator,
         lastUpdated,
         categories,
-
+        faq,
         description,
         subtitle,
         logo,
@@ -100,6 +101,7 @@ export const newApplicationsDatabase = (): ApplicationsDatabase => {
         title: title ?? key,
         subtitle: subtitle,
         logo: logo,
+        faq,
         creator: creator,
         description: description,
         lastUpdated: formatTimestampLong(lastUpdated),
@@ -127,6 +129,10 @@ export const newApplicationsDatabase = (): ApplicationsDatabase => {
           description: methodMetadata.description ?? undefined,
           pricing: getMethodPricing(appId, methodId),
           examples: {
+            // what i need now are new data structures.
+            // for request i need: schema, examples.
+            // for response i need: Record<errorCode, {schema, examples, description}>
+            // for code samples i need: curl.
             schema: createSchemaExample({
               app: appSchema,
               method: methodSchema,
@@ -301,7 +307,14 @@ export const createSchemaExample = ({
 
   const output = convertZodSchemaToJsonSchema(method.output);
 
-  return { path, context, input, output };
+  const request = convertZodSchemaToJsonSchema(
+    z.object({
+      context: app.context,
+      input: method.input,
+    })
+  );
+
+  return { path, context, input, output, request };
 };
 
 const refreshOAuthToken = async (

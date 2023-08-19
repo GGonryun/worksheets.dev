@@ -7,7 +7,7 @@ export const jsonbin: ApplicationMetadata<'jsonbin'> = {
   subtitle: 'Store and retrieve JSON data in the cloud',
   categories: ['Data', 'Storage'],
   description:
-    'JSONBIN.io is a free JSON storage and JSON hosting service. It is ideal for small projects and applications that need to store and retrieve JSON data in the cloud.',
+    'Storing a simple JSON record on the Cloud would be cumbersome. There has been several services which tried to create a Simple process around Storing and Retrieving JSON records but JSONBin.io has come up with the simple CRUD API using which, you can store the JSON records with ease, Modify & Delete your data in no time.\n\nBins API is something you will need the most, as it allows you to take complete control on your JSON Data.',
   creator: 'Worksheets.dev',
   lastUpdated: 1692076251067,
   tutorialUrl: 'https://jsonbin.io/api-reference',

@@ -74,7 +74,13 @@ export const CardTabs: React.FC<{
   };
 
   return (
-    <Box sx={{ width: '100%', height: '100%' }}>
+    <Box
+      sx={(theme) => ({
+        width: '100%',
+        height: '100%',
+        backgroundColor: theme.palette.background.paper,
+      })}
+    >
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={value} onChange={handleChange} centered>
           <Tab label="Overview" {...a11yProps(0)} />

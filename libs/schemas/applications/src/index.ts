@@ -47,6 +47,7 @@ export const getApplicationDetailsResponseSchema = z.object({
   logo: z.string(),
   categories: z.array(z.string()),
   description: z.string(),
+  faq: z.array(z.array(z.string())),
   creator: z.string(),
   tutorial: z.string(),
 });
@@ -68,6 +69,7 @@ export const applicationMethodDetailsResponseSchema = z.object({
       context: z.any(),
       input: z.any(),
       output: z.any(),
+      request: z.any(),
     }),
     curl: z.object({
       curl: z.string(),

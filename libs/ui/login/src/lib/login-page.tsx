@@ -109,10 +109,10 @@ export function LoginPage() {
               </Button>
               <Box display="flex" flexDirection="column" gap={2}>
                 <Link href={`${SERVER_SETTINGS.WEBSITES.DOCS_URL('/')}`}>
-                  <Emoji label="docs page" symbol={128218} /> Learn more
+                  <Emoji code="pencil" /> Learn more
                 </Link>{' '}
                 <Link href={'/applications'}>
-                  <Emoji label="apps page" symbol={127881} /> Applications
+                  <Emoji code="books" /> Applications
                 </Link>
               </Box>
             </>

@@ -17,7 +17,7 @@ export type ApplicationMetadata<K extends keyof ApplicationRegistry> = {
   creator: string;
   lastUpdated: number; // utc milliseconds
   tutorialUrl: string;
-
+  faq: string[][];
   methods: {
     [MethodKey in ApplicationMethodKeys<K>]: MethodMetadata;
   };

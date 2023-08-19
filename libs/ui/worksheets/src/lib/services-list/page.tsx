@@ -18,12 +18,7 @@ export const ServicesPage: React.FC = () => {
 
   return (
     <WebsiteLayout>
-      <Box
-        height="100%"
-        sx={(theme) => ({
-          backgroundColor: alpha(theme.palette.primary.light, 0.1),
-        })}
-      >
+      <Box height="100%">
         <Box p={3}>
           <ServicesHeader />
         </Box>
