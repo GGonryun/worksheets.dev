@@ -10,9 +10,8 @@ import {
   ApplicationRegistryKeys,
   registry,
 } from '@worksheets/apps-registry';
-import { convertZodSchemaToJsonSchema } from '@worksheets/util-json';
-import { AnyApplication, AnyMethod } from '@worksheets/apps-core';
-import { createCurlExample, createTypeScriptExample } from './examples';
+import { AnyMethod } from '@worksheets/apps-core';
+import { createMethodExamples } from './examples';
 import { MethodMetadata, metadata } from '@worksheets/apps-metadata';
 import {
   ConnectionField,
@@ -21,15 +20,11 @@ import {
   connectionValidationFunctions,
   connectionTranslationFunctions,
   ConnectionContextTranslationFunctions,
+  GenericConnectionValidationFunction,
 } from '@worksheets/apps-connections';
 import { TRPCError } from '@trpc/server';
-import { formatTimestampLong } from '@worksheets/util/time';
-import {
-  ConnectionStatuses,
-  ConnectionEntity,
-} from '@worksheets/schemas-connections';
+import { ConnectionEntity } from '@worksheets/schemas-connections';
 import { BaseOAuthOptions, OAuthClient } from '@worksheets/util/oauth/client';
-import { z } from '@worksheets/zod';
 
 export interface ApplicationsDatabase {
   get(appId: string): ApplicationBasics;
@@ -41,10 +36,7 @@ export interface ApplicationsDatabase {
   getConnectionDetails(appId: string): GetApplicationConnectionDetailsResponse;
   getConnectionFields(appId: string): ConnectionFields;
   getConnectionField(appId: string, fieldId: string): ConnectionField;
-  validateConnection(
-    appId: string,
-    fields: Record<string, string>
-  ): Promise<{ status: ConnectionStatuses; error?: string }>;
+  getValidationFn(appId: string): GenericConnectionValidationFunction;
   refreshConnection(
     connection: ConnectionEntity
   ): Promise<{ connection: ConnectionEntity; refreshed: boolean }>;
@@ -65,6 +57,37 @@ const getConnectionFields = (appId: string): ConnectionFields => {
   return connection.fields;
 };
 
+const getDetails = (appId: string): GetApplicationDetailsResponse => {
+  const key = appId as keyof ApplicationRegistry;
+
+  const {
+    title,
+    tutorialUrl,
+    creator,
+    lastUpdated,
+    categories,
+    tags,
+    faq,
+    description,
+    subtitle,
+    logo,
+  } = metadata[key];
+
+  return {
+    appId: key,
+    title: title ?? key,
+    subtitle,
+    logo,
+    faq,
+    creator,
+    description,
+    lastUpdated,
+    tutorial: tutorialUrl,
+    categories,
+    tags,
+  };
+};
+
 export const newApplicationsDatabase = (): ApplicationsDatabase => {
   return {
     get: (appId: string) => {
@@ -73,47 +96,29 @@ export const newApplicationsDatabase = (): ApplicationsDatabase => {
     },
     list: () => {
       return Object.keys(registry).map((appId) => {
-        const key = appId as keyof ApplicationRegistry;
-        return convertApplicationDefinition(key);
+        const details = getDetails(appId);
+        return {
+          id: appId,
+          name: details.title,
+          logo: details.logo,
+          description: details.description,
+          categories: details.categories,
+          tags: details.tags,
+          lastUpdated: details.lastUpdated,
+        };
       });
     },
     isVisibleInGallery: (appId: string) => {
       const app = metadata[appId as ApplicationRegistryKeys];
       return app.enabled;
     },
-    getDetails: (appId: string): GetApplicationDetailsResponse => {
-      const key = appId as keyof ApplicationRegistry;
-
-      const {
-        title,
-        tutorialUrl,
-        creator,
-        lastUpdated,
-        categories,
-        faq,
-        description,
-        subtitle,
-        logo,
-      } = metadata[key];
-
-      return {
-        appId: key,
-        title: title ?? key,
-        subtitle: subtitle,
-        logo: logo,
-        faq,
-        creator: creator,
-        description: description,
-        lastUpdated: formatTimestampLong(lastUpdated),
-        tutorial: tutorialUrl,
-        categories: categories,
-      };
-    },
+    getDetails,
     getMethodDetails: (appId: string): ListApplicationMethodDetailsResponse => {
       const key = appId as keyof ApplicationRegistry;
       const appSchema = registry[key];
       const appMetadata = metadata[key];
       const methods = appMetadata.methods;
+
       if (!methods) {
         return [];
       }
@@ -121,25 +126,14 @@ export const newApplicationsDatabase = (): ApplicationsDatabase => {
       return Object.keys(methods).map((mid) => {
         const methodId = mid as keyof typeof appMetadata.methods;
         const methodMetadata: MethodMetadata = methods[methodId];
-        const methodSchema = appSchema.methods[methodId];
+        const methodSchema: AnyMethod = appSchema.methods[methodId];
         return {
           appId: key,
           methodId: methodId,
           label: methodMetadata.title ?? methodId,
           description: methodMetadata.description ?? undefined,
           pricing: getMethodPricing(appId, methodId),
-          examples: {
-            // what i need now are new data structures.
-            // for request i need: schema, examples.
-            // for response i need: Record<errorCode, {schema, examples, description}>
-            // for code samples i need: curl.
-            schema: createSchemaExample({
-              app: appSchema,
-              method: methodSchema,
-            }),
-            sdk: createTypeScriptExample({ appId, methodId }),
-            curl: createCurlExample({ appId, methodId }),
-          },
+          examples: createMethodExamples(appSchema, methodSchema),
         };
       });
     },
@@ -193,6 +187,7 @@ export const newApplicationsDatabase = (): ApplicationsDatabase => {
 
       return field;
     },
+    // TODO: what is refresh connection doing here? it _actually_ refreshes connections.
     refreshConnection: async (
       connection: ConnectionEntity
     ): Promise<{ connection: ConnectionEntity; refreshed: boolean }> => {
@@ -217,10 +212,7 @@ export const newApplicationsDatabase = (): ApplicationsDatabase => {
       };
     },
     // always refresh connection state before using it.
-    validateConnection: async (
-      appId: string,
-      fields: Record<string, string>
-    ): Promise<{ status: ConnectionStatuses; error?: string }> => {
+    getValidationFn: (appId: string): GenericConnectionValidationFunction => {
       const key = appId as ApplicationRegistryKeys;
 
       const validationFunction = connectionValidationFunctions[key];
@@ -232,15 +224,7 @@ export const newApplicationsDatabase = (): ApplicationsDatabase => {
       }
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const validation = await validationFunction(fields as any);
-      if (validation.error) {
-        return { status: 'error', error: validation.error };
-      } else if (validation.warning) {
-        return { status: 'warning', error: validation.warning };
-      } else {
-        // needs to clear the error by passing an empty string
-        return { status: 'active', error: '' };
-      }
+      return validationFunction as GenericConnectionValidationFunction;
     },
     // always refresh connection state before using it.
     translateConnectionToContext: async (connection: ConnectionEntity) => {
@@ -291,30 +275,6 @@ export const convertApplicationDefinition = (id: string): ApplicationBasics => {
     logo: app?.logo ?? '',
     description: app.description ?? '',
   };
-};
-
-export const createSchemaExample = ({
-  app,
-  method,
-}: {
-  app: AnyApplication;
-  method: AnyMethod;
-}) => {
-  const path = `${app.appId}.${method?.methodId}`;
-  const context = convertZodSchemaToJsonSchema(app.context); // TODO: get app context from sample data.
-
-  const input = convertZodSchemaToJsonSchema(method.input);
-
-  const output = convertZodSchemaToJsonSchema(method.output);
-
-  const request = convertZodSchemaToJsonSchema(
-    z.object({
-      context: app.context,
-      input: method.input,
-    })
-  );
-
-  return { path, context, input, output, request };
 };
 
 const refreshOAuthToken = async (

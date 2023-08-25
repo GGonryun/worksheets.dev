@@ -22,6 +22,7 @@ export const reapHandshakes = async (quantity: number) => {
 export const createHandshake = async (opts: {
   userId: string;
   appId: string;
+  connectionId: string;
   fieldId: string;
 }): Promise<string> => {
   const id = db.id();
@@ -31,6 +32,7 @@ export const createHandshake = async (opts: {
     userId: opts.userId,
     appId: opts.appId,
     fieldId: opts.fieldId,
+    connectionId: opts.connectionId,
     expiration: addMinutesToCurrentTime(
       SERVER_SETTINGS.HANDSHAKE_EXPIRATION_OFFSET
     ).getTime(),

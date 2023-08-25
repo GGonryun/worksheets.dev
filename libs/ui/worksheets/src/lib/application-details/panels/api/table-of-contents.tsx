@@ -2,7 +2,6 @@ import { KeyboardBackspace } from '@mui/icons-material';
 import {
   useMediaQuery,
   Box,
-  Typography,
   Link,
   useTheme,
   NativeSelect,
@@ -34,7 +33,7 @@ export const TableOfContents: React.FC<{
           sx={{ p: 1 }}
         >
           <option value={1}>Table of Contents</option>
-          <option value={app.appId}>{app.title} API</option>
+          <option value={app.appId}>API Overview</option>
           {methods.map((m) => (
             <option key={m.methodId} value={m.methodId}>
               {m.label}
@@ -57,22 +56,15 @@ export const TableOfContents: React.FC<{
       }}
     >
       <Flex column pl={2}>
-        <Typography
-          variant="body1"
-          fontWeight={900}
-          pb={1}
-          sx={{ textDecoration: 'underline' }}
-        >
-          Contents
-        </Typography>
         <Link
           variant="body2"
-          color="default"
+          fontWeight={900}
+          color="inherit"
           href={`#${app.appId}`}
           underline="hover"
           sx={{ mt: 1 }}
         >
-          {app.title} API
+          API Overview
         </Link>
         {methods.map((m) => (
           <Link
@@ -88,14 +80,13 @@ export const TableOfContents: React.FC<{
         ))}
         <Link
           variant="body2"
-          color="default"
+          color="inherit"
           href="/applications"
-          underline="hover"
           sx={{ mt: 1, pt: 3 }}
         >
           <Flex gap={1}>
             <KeyboardBackspace sx={{ fontSize: 14 }} />
-            Browse Apps
+            Applications
           </Flex>
         </Link>
       </Flex>

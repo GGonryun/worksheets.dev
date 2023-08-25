@@ -2,6 +2,10 @@ import {
   ApplicationMethodKeys,
   ApplicationRegistry,
 } from '@worksheets/apps-registry';
+import {
+  ApplicationCategory,
+  ApplicationTag,
+} from '@worksheets/schemas-applications';
 
 export type ApplicationMetadataMask = {
   [K in keyof ApplicationRegistry]: ApplicationMetadata<K>;
@@ -12,7 +16,8 @@ export type ApplicationMetadata<K extends keyof ApplicationRegistry> = {
   logo: string;
   title: string;
   subtitle: string;
-  categories: string[];
+  categories: ApplicationCategory[];
+  tags: ApplicationTag[];
   description: string; // markdown
   creator: string;
   lastUpdated: number; // utc milliseconds

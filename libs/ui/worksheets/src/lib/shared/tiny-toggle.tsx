@@ -3,13 +3,11 @@ import {
   Button,
   ButtonProps,
   PaletteColor,
-  Theme,
   Tooltip,
   alpha,
   useTheme,
 } from '@mui/material';
-
-type TinyButtonColor = ButtonProps['color'];
+import { selectPaletteColor } from './palettes';
 
 export const TinyToggle: React.FC<
   Pick<
@@ -18,8 +16,18 @@ export const TinyToggle: React.FC<
   > & {
     checked?: boolean;
     tooltip?: string;
+    fullWidth?: boolean;
   }
-> = ({ children, color, checked = false, onClick, tooltip, disabled }) => {
+> = ({
+  children,
+  color,
+  checked = false,
+  onClick,
+  tooltip,
+  disabled,
+  startIcon,
+  fullWidth,
+}) => {
   const theme = useTheme();
 
   const borderColor = createBorderColor(
@@ -47,6 +55,17 @@ export const TinyToggle: React.FC<
     checked
   );
 
+  const setStartIcon = () => {
+    // eslint-disable-next-line react/jsx-no-useless-fragment
+    if (startIcon) return <>{startIcon}</>;
+
+    return checked ? (
+      <Circle sx={{ height: 12, width: 12 }} />
+    ) : (
+      <RadioButtonUnchecked sx={{ height: 12, width: 12 }} />
+    );
+  };
+
   return (
     <Tooltip title={tooltip} disableHoverListener={!tooltip} placement="top">
       <span>
@@ -54,16 +73,12 @@ export const TinyToggle: React.FC<
           disabled={disabled}
           variant="outlined"
           size="small"
+          fullWidth={fullWidth}
           onClick={onClick}
           color={color}
-          startIcon={
-            checked ? (
-              <Circle sx={{ height: 12, width: 12, mr: -0.5 }} />
-            ) : (
-              <RadioButtonUnchecked sx={{ height: 12, width: 12, mr: -0.5 }} />
-            )
-          }
+          startIcon={setStartIcon()}
           sx={{
+            top: -2, // TODO: there's something causing a slight offset, not sure what.
             px: 1,
             py: 0,
             mx: 0,
@@ -79,6 +94,9 @@ export const TinyToggle: React.FC<
               color: hoverColor,
               backgroundColor: hoverBackgroundColor,
             },
+            '& .MuiSvgIcon-root': {
+              mr: -0.5,
+            },
           }}
         >
           {children}
@@ -87,25 +105,6 @@ export const TinyToggle: React.FC<
     </Tooltip>
   );
 };
-
-function selectPaletteColor(theme: Theme, color: TinyButtonColor) {
-  switch (color) {
-    case 'primary':
-      return theme.palette.primary;
-    case 'secondary':
-      return theme.palette.secondary;
-    case 'error':
-      return theme.palette.error;
-    case 'warning':
-      return theme.palette.warning;
-    case 'info':
-      return theme.palette.info;
-    case 'success':
-      return theme.palette.success;
-    default:
-      return theme.palette.primary;
-  }
-}
 
 function createBorderColor(color: PaletteColor, active: boolean) {
   return active ? color.main : alpha(color.main, 0.5);

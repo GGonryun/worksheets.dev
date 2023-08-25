@@ -46,10 +46,10 @@ const translator: ConnectionContextTranslationFunction<'tenor'> = ({
 
 const validator: ConnectionValidationFunction<'tenor'> = async (connection) => {
   if (connection.key === '') {
-    return { error: 'API Key is required' };
+    return { errors: { '': 'API Key is required' } };
   }
   console.error('TODO: implement validator for tenor connection');
-  return { error: undefined };
+  return {};
 };
 
 export default { form, validator, translator };

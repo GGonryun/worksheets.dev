@@ -79,7 +79,7 @@ export const validator: ConnectionValidationFunction<'gmail'> = async (
 ) => {
   const ctx = translator(connection);
   if (!ctx || !ctx.accessToken) {
-    return { error: 'A connection does not exist' };
+    return { errors: { '': 'A connection does not exist' } };
   }
 
   let userEmail;
@@ -91,16 +91,17 @@ export const validator: ConnectionValidationFunction<'gmail'> = async (
   } catch (error) {
     console.error('unexpected gmail validation error', error);
     return {
-      warning:
-        'There is an unexpected error with your Gmail connection, please reconnect or contact customer support for more assistance.',
+      errors: {
+        '': 'There is an unexpected error with your Gmail connection, please reconnect or contact customer support for more assistance.',
+      },
     };
   }
 
   if (!userEmail) {
-    return { error: 'This token does not have access to an email.' };
+    return { errors: { '': 'This token does not have access to an email.' } };
   }
 
-  return { error: undefined };
+  return {};
 };
 
 export default { form, translator, validator };

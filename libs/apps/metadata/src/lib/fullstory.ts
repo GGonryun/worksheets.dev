@@ -2,16 +2,12 @@ import { ApplicationMetadata } from '../framework';
 
 export const fullstory: ApplicationMetadata<'fullstory'> = {
   enabled: true,
-  logo: 'https://storage.googleapis.com/worksheets-test-app-logos/fullstory.svg',
+  logo: 'https://storage.googleapis.com/worksheets-test-app-logos/apps/fullstory.svg',
   title: 'FullStory',
   subtitle:
     'FullStory is a customer analytics platform that helps industry leading eCommerce and SaaS Companies understand and improve their digital experiences.',
-  categories: [
-    'Analytics',
-    'User Behavior',
-    'Digital Experience',
-    'Session Replay',
-  ],
+  categories: ['analytics', 'productivity'],
+  tags: ['new', 'popular', 'featured', 'trending', 'free'],
   description:
     'The FullStory API allows you to capture custom user and event data. This data will enrich your analysis with FullStory by giving you additional dimensions to create segments and data visualizations that are better tailored to your specific business needs.',
 

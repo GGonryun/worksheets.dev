@@ -34,11 +34,11 @@ const validator: ConnectionValidationFunction<'jsonbin'> = async (
   connection
 ) => {
   if (!connection.masterKey) {
-    return { error: 'Master Key is required' };
+    return { errors: { masterKey: 'Master Key is required' } };
   }
 
   console.error('TODO: implement validator for jsonbin connection');
-  return { error: undefined };
+  return {};
 };
 
 export default { form, translator, validator };

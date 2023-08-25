@@ -11,11 +11,16 @@ export default privateProcedure
   .output(getOAuthUrlResponseSchema)
   .mutation(
     async ({
-      input: { appId, fieldId },
+      input: { appId, fieldId, connectionId },
       ctx: {
         user: { uid },
       },
     }) => {
-      return await createOAuthUrl({ userId: uid, appId, fieldId });
+      return await createOAuthUrl({
+        userId: uid,
+        appId,
+        fieldId,
+        connectionId,
+      });
     }
   );

@@ -2,50 +2,74 @@ import { Close } from '@mui/icons-material';
 import { Box, Typography, IconButton } from '@mui/material';
 import { TinyLogo } from '../../shared/tiny-logo';
 import { GetConnectionDetailsResponse } from '@worksheets/schemas-connections';
+import { Flex } from '@worksheets/ui/common';
+import { ConnectionStatus } from './connection-status';
+import { formatTimestamp } from '@worksheets/util/time';
 
 export const SidecarTitle: React.FC<{
   onClose: () => void;
-  connection: GetConnectionDetailsResponse;
-}> = ({ onClose, connection }) => {
+  details: GetConnectionDetailsResponse;
+}> = ({ onClose, details }) => {
   return (
     <Box pt={2} pb={1}>
-      <Box display="flex" gap={3}>
+      <Flex gap={3}>
         <TinyLogo
           borderless
-          label={connection.header.name}
-          src={connection.header.logo}
-          area={72}
+          label={details.header.name}
+          src={details.header.logo}
+          area={108}
         />
         <Box width="100%">
-          <Box
-            display="flex"
-            alignItems="center"
-            justifyContent="space-between"
-            width="100%"
-          >
-            <Typography variant="h6" fontWeight={700}>
-              {connection.header.name}
+          <Flex spaceBetween fullWidth>
+            <Typography variant="h4" fontWeight={700}>
+              {details.header.name}
             </Typography>
-            <IconButton size="small" onClick={onClose}>
-              <Close fontSize="small" />
+            <IconButton size="small" onClick={onClose} sx={{ p: 0.25, m: 0 }}>
+              <Close fontSize="large" />
             </IconButton>
-          </Box>
-          <Box display="flex" gap={2} py={0.5}>
-            <Box display="flex" flexDirection="column" minWidth={100}>
-              <Typography variant="caption">Setup Time</Typography>
-              <Typography variant="caption" fontStyle="italic">
-                {connection.header.setupTime}
+          </Flex>
+          <Flex gap={2} py={0.5}>
+            <Flex column minWidth={100}>
+              <Typography variant="body2">
+                <u>Setup Time</u>
               </Typography>
-            </Box>
-            <Box display="flex" flexDirection="column">
-              <Typography variant="caption">Categories</Typography>
-              <Typography variant="caption" fontStyle="italic">
-                {connection.header.categories.join(', ')}
+              <Typography variant="body2" fontStyle="italic">
+                {details.header.setupTime}
               </Typography>
-            </Box>
-          </Box>
+            </Flex>
+            <Flex column>
+              <Typography variant="body2">
+                <u>Categories</u>
+              </Typography>
+              <Typography variant="body2" fontStyle="italic">
+                {details.header.categories.join(', ')}
+              </Typography>
+            </Flex>
+          </Flex>
         </Box>
-      </Box>
+      </Flex>
+      <Flex spaceBetween fullWidth alignItems="flex-start">
+        <Flex column>
+          <Typography variant="caption" color="text.secondary">
+            Connection ID: {details.id || <b>New Connection</b>}
+          </Typography>
+
+          {Boolean(details.header.updatedAt) && (
+            <Typography variant="caption" color="text.secondary">
+              Last updated: {formatTimestamp(details.header.updatedAt)}
+            </Typography>
+          )}
+        </Flex>
+        <ConnectionStatus
+          status={
+            !details.id
+              ? 'pending'
+              : details.configuration.enabled
+              ? details.credentials.status
+              : 'disabled'
+          }
+        />
+      </Flex>
     </Box>
   );
 };

@@ -41,10 +41,10 @@ const translator: ConnectionContextTranslationFunction<'giphy'> = ({
 
 const validator: ConnectionValidationFunction<'giphy'> = async (connection) => {
   if (connection.apiKey === '') {
-    return { error: 'API Key is required' };
+    return { errors: { '': 'API Key is required' } };
   }
   console.error('TODO: implement validator for giphy connection');
-  return { error: undefined };
+  return {};
 };
 
 export default { form, validator, translator };

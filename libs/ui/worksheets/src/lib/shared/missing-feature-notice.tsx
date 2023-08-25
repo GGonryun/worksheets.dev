@@ -10,6 +10,7 @@ type MissingFeatureProps = {
     href: string;
   };
 };
+
 export const MissingFeatureNotice: React.FC<MissingFeatureProps> = ({
   avatarId,
   feature,
@@ -19,7 +20,7 @@ export const MissingFeatureNotice: React.FC<MissingFeatureProps> = ({
     <TinyLogo
       borderless
       area={160}
-      src={`/icon/avatar-thinking-${avatarId}.svg`}
+      src={`/art/avatar-thinking/${avatarId}.svg`}
       label="Avatar Thinking"
     />
 
@@ -48,4 +49,23 @@ export const MissingFeatureNotice: React.FC<MissingFeatureProps> = ({
       </Box>
     </Box>
   </Flex>
+);
+
+export const SupportiveNotice: React.FC<MissingFeatureProps> = () => (
+  <Box pb={3} width="100%">
+    <Flex column alignItems={'center'}>
+      <TinyLogo
+        borderless
+        area={164}
+        src="/art/supportive-business-people.svg"
+        label="Supportive Business People"
+      />
+      <Typography variant="h6" fontWeight={900}>
+        No active connections
+      </Typography>
+      <Typography variant="body1" color="text.secondary">
+        Create a connection to your application to start using it in your API
+      </Typography>
+    </Flex>
+  </Box>
 );

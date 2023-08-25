@@ -78,11 +78,11 @@ const validator: ConnectionValidationFunction<'googleCalendar'> = async (
   connection
 ) => {
   if (connection.accessToken === '') {
-    return { error: 'Access Token is required' };
+    return { errors: { '': 'Access Token is required' } };
   }
 
   console.error('TODO: validate googleCalendar access token');
-  return { error: undefined };
+  return {};
 };
 
 export default { form, validator, translator };

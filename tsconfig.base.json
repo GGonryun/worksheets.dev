@@ -122,6 +122,7 @@
       "@worksheets/ui/worksheets/server": ["libs/ui/worksheets/src/server.ts"],
       "@worksheets/util-hardware": ["libs/util/hardware/src/index.ts"],
       "@worksheets/util-json": ["libs/util/json/src/index.ts"],
+      "@worksheets/util-sys": ["libs/util/sys/src/index.ts"],
       "@worksheets/util-worksheets": ["libs/util/worksheets/src/index.ts"],
       "@worksheets/util-yaml": ["libs/util/yaml/src/index.ts"],
       "@worksheets/util/arrays": ["libs/util/arrays/src/index.ts"],

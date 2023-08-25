@@ -7,7 +7,9 @@ export const time: ApplicationMetadata<'time'> = {
   tutorialUrl: 'https://docs.worksheets.dev/tutorials/apps/time',
   title: 'Time',
   subtitle: 'Supplies methods for manipulating dates and times',
-  categories: ['Date & Time', 'Core'],
+  categories: ['system'],
+  tags: ['free'],
+  faq: [['TODO', 'TODO']],
   description: '',
   lastUpdated: 1690615559053,
   methods: {

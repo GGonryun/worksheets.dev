@@ -5,7 +5,9 @@ export const sinch: ApplicationMetadata<'sinch'> = {
   logo: 'https://storage.googleapis.com/worksheets-test-app-logos/apps/sinch.svg',
   title: 'Sinch',
   subtitle: 'Send SMS messages to your customers with Sinch',
-  categories: ['Communication', 'SMS', 'Marketing'],
+  categories: ['communication', 'sms'],
+  tags: ['paid'],
+  faq: [['TODO', 'TODO']],
   description:
     'Build meaningful connections with your customers at every step of their journey and enable conversations across messaging, voice, or email — with unmatched scalability, deliverability, and cost-effectiveness. Sinch makes it easy!',
   creator: 'Worksheets.dev',

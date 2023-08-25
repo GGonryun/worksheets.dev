@@ -14,7 +14,7 @@ import {
 import { TinyLogo } from '../../shared/tiny-logo';
 import { ConnectionItemButton } from './button';
 import {
-  ConnectionDetails,
+  ConnectionBasics,
   ConnectionStatuses,
 } from '@worksheets/schemas-connections';
 import { useRouter } from 'next/router';
@@ -41,7 +41,7 @@ const switchColors: Record<ConnectionStatuses, SwitchProps['color']> = {
 };
 
 export const ConnectionItem: React.FC<
-  ConnectionDetails & { loading?: boolean }
+  ConnectionBasics & { loading?: boolean }
 > = ({ appId, name, logo, description, status, loading }) => {
   const [isLoadingToggleState, setIsLoadingToggleState] = useState(false);
   const { push } = useRouter();

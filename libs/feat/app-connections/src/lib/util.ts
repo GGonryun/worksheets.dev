@@ -4,7 +4,7 @@ import { newApplicationsDatabase } from '@worksheets/data-access/applications';
 import { newConnectionsDatabase } from '@worksheets/data-access/connections';
 import { DatabaseFailure } from '@worksheets/firebase/firestore';
 import { GetApplicationDetailsResponse } from '@worksheets/schemas-applications';
-import { ConnectionDetails } from '@worksheets/schemas-connections';
+import { ConnectionBasics } from '@worksheets/schemas-connections';
 
 const applications = newApplicationsDatabase();
 const connectionsDb = newConnectionsDatabase();
@@ -28,7 +28,7 @@ export const getApplicationDetails = () => {
 
 export const translateApplicationDetailsToConnectionDetails = (
   details: GetApplicationDetailsResponse
-): ConnectionDetails => {
+): ConnectionBasics => {
   return {
     appId: details.appId,
     name: details.title,
@@ -39,12 +39,12 @@ export const translateApplicationDetailsToConnectionDetails = (
 };
 
 export const getConnection = async (opts: {
-  appId: string;
+  connectionId: string;
   userId: string;
 }) => {
   try {
-    return await connectionsDb.getByApplication({
-      appId: opts.appId,
+    return await connectionsDb.getByConnectionId({
+      connectionId: opts.connectionId,
       userId: opts.userId,
     });
   } catch (error) {

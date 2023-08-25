@@ -3,18 +3,32 @@ import { Box, Divider, Drawer } from '@mui/material';
 export const SidecarLayout: React.FC<{
   open: boolean;
   onClose: () => void;
-  section1: React.ReactNode;
-  section2: React.ReactNode;
-  section3: React.ReactNode;
-  title: React.ReactNode;
+  section1?: React.ReactNode;
+  section2?: React.ReactNode;
+  section3?: React.ReactNode;
+  title?: React.ReactNode;
   width?: number | string;
-}> = ({ open, onClose, section1, section2, section3, title, width = 600 }) => (
-  <Drawer anchor="right" open={open} onClose={onClose}>
-    <Box mt={'64px'} width={width}>
-      <Box px={3} py={1}>
-        {title}
-      </Box>
-      <Divider />
+}> = ({ open, onClose, section1, section2, section3, title, width }) => (
+  <Drawer
+    anchor="right"
+    open={open}
+    onClose={onClose}
+    sx={{
+      '& .MuiDrawer-paper': {
+        width: width,
+        maxWidth: width,
+        minWidth: width,
+        padding: 0,
+      },
+    }}
+  >
+    <Box mt={'64px'}>
+      {title && (
+        <Box px={3} py={1}>
+          {title}
+        </Box>
+      )}
+      {title && <Divider />}
 
       {section1 && (
         <>

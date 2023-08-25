@@ -7,12 +7,9 @@ export const notion: ApplicationMetadata<'notion'> = {
   title: 'Notion',
   subtitle:
     "Developers can use Notion's public API to interact with Notion workspaces programmatically.",
-  categories: [
-    'Productivity',
-    'Notes',
-    'Task Management',
-    'Project Management',
-  ],
+  categories: ['productivity', 'notes'],
+  tags: ['paid'],
+  faq: [['TODO', 'TODO']],
   description:
     'Notion is a freemium productivity and note-taking web application developed by Notion Labs Inc. It offers organizational tools including task management, project tracking, to-do lists, bookmarking, and more.',
   creator: 'Worksheets.dev',

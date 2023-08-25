@@ -44,18 +44,18 @@ const form: ConnectionForm<'sinch'> = {
 const translator: ConnectionContextTranslationFunction<'sinch'> = (o) => o;
 
 const validator: ConnectionValidationFunction<'sinch'> = async (connection) => {
+  const errors: Record<string, string> = {};
   if (!connection.apiToken) {
-    return { error: 'API Token is required' };
+    errors['apiToken'] = 'API Token is required';
   }
   if (!connection.servicePlanId) {
-    return { error: 'Service Plan ID is required' };
+    errors['servicePlanId'] = 'Service Plan ID is required';
   }
   if (!connection.virtualPhoneNumber) {
-    return { error: 'Virtual Phone Number is required' };
+    errors['virtualPhoneNumber'] = 'Virtual Phone Number is required';
   }
 
-  console.error('TODO: implement validator for sinch connection');
-  return { error: undefined };
+  return { errors };
 };
 
 export default { form, translator, validator };

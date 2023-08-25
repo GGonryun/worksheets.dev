@@ -1,7 +1,7 @@
 import { Box, Paper } from '@mui/material';
 import { GetApplicationDetailsResponse } from '@worksheets/schemas-applications';
 import React from 'react';
-import { MissingFeatureNotice } from '../shared/missing-feature-notice';
+import { MissingFeatureNotice } from '../../shared/missing-feature-notice';
 
 export const TutorialPanel: React.FC<{
   app: GetApplicationDetailsResponse;

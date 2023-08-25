@@ -6,7 +6,9 @@ export const pagerDuty: ApplicationMetadata<'pagerDuty'> = {
   title: 'Pager Duty',
   subtitle:
     'PagerDuty is a digital operations management platform that empowers the right action, when seconds matter.',
-  categories: ['DevOps', 'Security', 'Incident Management'],
+  categories: ['productivity', 'calendar'],
+  tags: ['paid'],
+  faq: [['TODO', 'TODO']],
   description:
     "PagerDuty's easy to use, self-service developer account makes getting started with integrations simple. Over 12,000 happy customers around the world count on PagerDuty for DevOps, IT Ops, Security, Customer Service, Business Ops, Industrial Ops and IOT, and many other use cases.",
   creator: 'Worksheets.dev',

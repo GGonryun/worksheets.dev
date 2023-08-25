@@ -8,13 +8,14 @@ import {
 } from '@mui/icons-material';
 import { ChipProps } from '@mui/material';
 import { ConnectionStatuses } from '@worksheets/schemas-connections';
+import { TinyPill } from '../shared/tiny-pill';
 
 export const statusIcon: Record<ConnectionStatuses, JSX.Element> = {
   active: <CheckCircleOutline />,
   disabled: <Close />,
   error: <ErrorOutline />,
   warning: <WarningAmberOutlined />,
-  uninstalled: <PowerOutlined />,
+  pending: <PowerOutlined />,
   unknown: <QuestionMarkOutlined />,
 };
 
@@ -23,7 +24,7 @@ export const statusLabel: Record<ConnectionStatuses, string> = {
   disabled: 'Disabled',
   error: 'Error',
   warning: 'Warning',
-  uninstalled: 'Disconnected',
+  pending: 'Disconnected',
   unknown: 'Unknown',
 };
 
@@ -32,7 +33,7 @@ export const statusTooltip: Record<ConnectionStatuses, string> = {
   disabled: 'Click to enable your connection',
   error: 'Your connection is broken, reconnect to fix it',
   warning: 'Your connection needs attention',
-  uninstalled: 'Connect this app to your account',
+  pending: 'You must save this connection before you can toggle the status',
   unknown: '',
 };
 
@@ -41,7 +42,7 @@ export const statusColor: Record<ConnectionStatuses, ChipProps['color']> = {
   disabled: 'default',
   error: 'error',
   warning: 'warning',
-  uninstalled: 'primary',
+  pending: 'primary',
   unknown: 'default',
 };
 
@@ -50,7 +51,7 @@ export const isActive: Record<ConnectionStatuses, boolean> = {
   disabled: false,
   error: true,
   warning: true,
-  uninstalled: false,
+  pending: false,
   unknown: false,
 };
 
@@ -60,6 +61,18 @@ export const isConnected: Record<ConnectionStatuses, boolean> = {
   error: true,
   warning: true,
   // disable uninstalling if the app is not installed or failed to detect the state
-  uninstalled: false,
+  pending: false,
   unknown: false,
+};
+
+export const ConnectionStatusPill: React.FC<{ status: ConnectionStatuses }> = ({
+  status,
+}) => {
+  return (
+    <TinyPill
+      icon={statusIcon[status]}
+      label={statusLabel[status]}
+      color={statusColor[status]}
+    />
+  );
 };

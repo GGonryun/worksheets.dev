@@ -5,13 +5,9 @@ export const slack: ApplicationMetadata<'slack'> = {
   logo: 'https://storage.googleapis.com/worksheets-test-app-logos/slack.svg',
   title: 'Slack',
   subtitle: 'Send messages to Slack channels and users',
-  categories: [
-    'Communication',
-    'Collaboration',
-    'Productivity',
-    'Chat',
-    'Messaging',
-  ],
+  categories: ['productivity', 'chat'],
+  tags: ['paid'],
+  faq: [['TODO', 'TODO']],
   description:
     'Slack is a proprietary business communication platform developed by American software company Slack Technologies. Slack offers many IRC-style features, including persistent chat rooms organized by topic, private groups, and direct messaging.',
   creator: 'Worksheets.dev',

@@ -80,7 +80,9 @@ const MethodCard: React.FC<{
 }> = ({ method }) => (
   <Box sx={{ width: 240 }}>
     <Card variant="outlined">
-      <CardActionArea href={`/applications/${method.appId}/${method.methodId}`}>
+      <CardActionArea
+        href={`/applications/${method.appId}/api#${method.methodId}`}
+      >
         <CardContent sx={{ px: 2, m: 0 }}>
           <Flex column gap={1}>
             <Flex width="100%" justifyContent="space-between" gap={1}>

@@ -6,12 +6,9 @@ export const segment: ApplicationMetadata<'segment'> = {
   title: 'Segment',
   subtitle:
     'Segment is a customer data platform (CDP) that helps you collect, clean, and control your customer data.',
-  categories: [
-    'Analytics',
-    'Marketing',
-    'Customer Data Platform',
-    'Data Management Platform',
-  ],
+  categories: ['analytics', 'marketing'],
+  tags: ['paid', 'featured'],
+  faq: [['TODO', 'TODO']],
   description:
     'With Segment, you can collect, transform, send, and archive your first-party customer data. Segment simplifies the process of collecting data and connecting new tools, allowing you to spend more time using your data, and less time trying to collect it. You can use Segment to track events that happen when a user interacts with the interfaces. "Interfaces" is Segment\'s generic word for any digital properties you own: your website, mobile apps, and processes that run on a server or OTT device. When you capture interaction data in Segment, you can send it (often in real-time) to your marketing, product, and analytics tools, as well as to data warehouses. In most cases, you won\'t even need to touch your tracking code to connect to new tools.',
   creator: 'Worksheets.dev',

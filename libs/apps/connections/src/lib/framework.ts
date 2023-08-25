@@ -65,7 +65,12 @@ export type ConnectionValidationFunction<K extends keyof ApplicationRegistry> =
     : (data: {
         // calling clients will always provide us the original connection which is has all of it's properties decrypted but still stringified.
         [prop in keyof InferApplicationContext<K>]: string;
-      }) => Promise<{ error?: string; warning?: string }>;
+        // errors should map to the keys of the connection properties.
+      }) => Promise<{ errors?: object }>;
+
+export type GenericConnectionValidationFunction = (data: object) => Promise<{
+  errors?: object;
+}>;
 
 export type ConnectionContextTranslationFunctions = {
   [K in keyof ApplicationRegistry]: ConnectionContextTranslationFunction<K>;

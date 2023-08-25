@@ -128,6 +128,8 @@ export const waitFor = (wait: number): Promise<void> => {
  * @param {number} timestamp the timestamp to check
  * @param {number} minutes the number of minutes to check against
  * @param {Date} currentTime the current time to check against useful if testing and we need to set a fixed time.
+ * TODO: within is not absolute, the timestamp "within" 5 minutes here means a timestamp that less than 5 minutes in the past.
+ * or in other words, is timestamp approaching currentTime and is it within 5 minutes of currentTime? if late then it is not within 5 minutes.
  */
 export const withinMinutes = (
   timestamp: number,

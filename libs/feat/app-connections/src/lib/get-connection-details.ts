@@ -1,6 +1,6 @@
 import { newApplicationsDatabase } from '@worksheets/data-access/applications';
 import {
-  ConnectionStatuses,
+  CredentialStatuses,
   GetConnectionDetailsRequest,
   GetConnectionDetailsResponse,
   PresentationalField,
@@ -13,15 +13,25 @@ const applications = newApplicationsDatabase();
 export const getConnectionDetails: (
   uid: string,
   req: GetConnectionDetailsRequest
-) => Promise<GetConnectionDetailsResponse> = async (userId, { appId }) => {
+) => Promise<GetConnectionDetailsResponse> = async (
+  userId,
+  { appId, connectionId }
+) => {
   const appDetails = applications.getDetails(appId);
   const connectionDetails = applications.getConnectionDetails(appId);
 
-  const connection = await getPresentiationalConnection({ userId, appId });
+  const connection = await getPresentiationalConnection({
+    userId,
+    appId,
+    connectionId,
+  });
 
   return {
+    id: connectionId,
     appId: appId,
     header: {
+      updatedAt: connection.updatedAt,
+      createdAt: connection.createdAt,
       name: appDetails.title,
       logo: appDetails.logo,
       categories: appDetails.categories,
@@ -32,25 +42,34 @@ export const getConnectionDetails: (
       instructions: connectionDetails.instructions,
       security: connectionDetails.security,
     },
-    form: {
-      status: connection.status ?? 'uninstalled',
-      dialog: {
-        severity: connection.error ? 'error' : 'none',
-        content: connection.error ?? '',
-      },
+    credentials: {
+      status: connection.status,
       fields: [...connection.fields],
+      dialog: {
+        severity: 'none',
+        content: '',
+      },
+    },
+    configuration: {
+      name: connection.name,
+      enabled: connection.enabled,
     },
   };
 };
 
 type PresentationalConnection = {
-  status: ConnectionStatuses;
-  error?: string;
+  id: string;
+  status: CredentialStatuses;
   fields: PresentationalField[];
+  name: string;
+  enabled: boolean;
+  updatedAt: number;
+  createdAt: number;
 };
 
 export const getPresentiationalConnection = async (opts: {
   userId: string;
+  connectionId: string;
   appId: string;
 }): Promise<PresentationalConnection> => {
   // get the form field metadata.
@@ -76,13 +95,12 @@ export const getPresentiationalConnection = async (opts: {
     } else if (field.type === 'oauth') {
       // if the oauth access token exists, treat it as valid.
       const value = Boolean(connection?.fields[key]);
-      const error = connection?.error;
 
       fields.push({
         key,
         label: field.title,
-        type: 'button',
-        value: error ? 'error' : value ? 'true' : '',
+        type: 'oauth',
+        value: value ? 'true' : '',
         helpUrl: field.helpUrl,
       });
     } else if (field.type === 'text') {
@@ -99,8 +117,12 @@ export const getPresentiationalConnection = async (opts: {
   }
 
   return {
-    status: connection?.status ?? 'uninstalled',
-    error: connection?.error,
+    id: connection?.id ?? '',
+    status: connection ? 'active' : 'pending', // TODO: check status of connection
+    name: connection?.name ?? '',
+    enabled: connection?.enabled ?? false,
+    updatedAt: connection?.updatedAt ?? 0,
+    createdAt: connection?.createdAt ?? 0,
     fields: fields,
   };
 };

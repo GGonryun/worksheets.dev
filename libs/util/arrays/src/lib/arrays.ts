@@ -8,3 +8,7 @@ export function reverseArray<T>(arr?: T[]): T[] {
   }
   return reversedArray;
 }
+
+export function uniqueArray<T>(arr: T[]): T[] {
+  return [...new Set(arr)];
+}

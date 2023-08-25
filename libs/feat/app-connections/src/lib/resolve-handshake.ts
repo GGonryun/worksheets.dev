@@ -28,11 +28,12 @@ export const resolveHandshake = async (
     return errorRedirect('INVALID_HANDSHAKE');
   }
 
-  const { appId, fieldId, userId, expiration } = handshake;
+  const { appId, fieldId, userId, expiration, connectionId } = handshake;
   if (isExpired(expiration)) {
     return errorRedirect('EXPIRED_HANDSHAKE');
   }
 
+  const app = applications.get(appId);
   const field = applications.getConnectionField(appId, fieldId);
   if (!field) {
     return errorRedirect('INVALID_SETTING');
@@ -47,16 +48,17 @@ export const resolveHandshake = async (
     const tokens = await client.parseUrl(url);
     const serialized = client.serialize(tokens);
 
-    const id = connections.id();
-    await connections.insert({
-      id,
+    await connections.updateOrInsert({
+      id: connectionId,
       appId,
       userId,
       fields: {
         [fieldId]: serialized,
       },
-      status: 'active',
-      error: '',
+      name: `New ${app.name} Connection`,
+      enabled: true,
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
     });
 
     await deleteHandshake(handshakeId);

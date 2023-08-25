@@ -48,10 +48,10 @@ const validator: ConnectionValidationFunction<'pagerDuty'> = async (
   connection
 ) => {
   if (connection.token === '') {
-    return { error: 'API Token is required' };
+    return { errors: { token: 'API Token is required' } };
   }
   console.error('TODO: implement validator for pagerDuty connection');
-  return { error: undefined };
+  return {};
 };
 
 export default { form, validator, translator };

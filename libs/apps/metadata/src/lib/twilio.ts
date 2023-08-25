@@ -5,7 +5,9 @@ export const twilio: ApplicationMetadata<'twilio'> = {
   logo: 'https://storage.googleapis.com/worksheets-test-app-logos/apps/twilio.svg',
   title: 'Twilio',
   subtitle: "Send SMS messages to your customers with Twilio's API",
-  categories: ['Communication', 'SMS'],
+  categories: ['communication', 'sms'],
+  tags: ['paid'],
+  faq: [['TODO', 'TODO']],
   description:
     "Twilio's APIs (Application Programming Interfaces) power its platform for communications. Behind these APIs is a software layer connecting and optimizing communications networks around the world to allow your users to call and message anyone, globally.",
   creator: 'Worksheets.dev',

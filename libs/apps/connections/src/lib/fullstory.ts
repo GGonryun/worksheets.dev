@@ -43,7 +43,7 @@ const validator: ConnectionValidationFunction<'fullstory'> = async (
 ) => {
   const context = translator(connection);
   if (context.apiKey === '') {
-    return { error: 'API Key is required' };
+    return { errors: { '': 'An API Key is required to connect to FullStory' } };
   }
 
   try {
@@ -53,15 +53,19 @@ const validator: ConnectionValidationFunction<'fullstory'> = async (
     });
     if (user.role !== 'ADMIN') {
       return {
-        error: 'You API Key must have the ADMIN role to connect to FullStory',
+        errors: {
+          apiKey:
+            'Your API Key must have the ADMIN role to connect to FullStory',
+        },
       };
     }
-    return { error: undefined };
+    return {};
   } catch (error) {
     console.error('Unexpected FullStory validation error', error);
     return {
-      error:
-        'There is an unexpected error with your connection to FullStory, please resintall or reach out to Customer Support.',
+      errors: {
+        '': 'There is an unexpected error with your connection to FullStory, please resintall or reach out to Customer Support.',
+      },
     };
   }
 };

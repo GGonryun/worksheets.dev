@@ -1,7 +1,7 @@
 import { Flex } from '@worksheets/ui/common';
 import { Provider as MosaicProvider } from '@stoplight/mosaic';
 import { ListApplicationMethodDetailsResponse } from '@worksheets/schemas-applications';
-import { MethodDetailsListItem } from './method-details-list-item';
+import { MethodDetailsListItem } from './method-details-list-item/method-details-list-item';
 
 export const MethodDetailsList: React.FC<{
   methods: ListApplicationMethodDetailsResponse;

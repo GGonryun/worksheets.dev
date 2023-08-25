@@ -1,28 +1,19 @@
 import WebsiteLayout from '../website-layout';
 import React from 'react';
-import {
-  Box,
-  Button,
-  Divider,
-  Link,
-  Tab,
-  Tabs,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from '@mui/material';
+import { Box, Divider, Link, Tab, Tabs, Typography } from '@mui/material';
 import { trpc } from '@worksheets/trpc/ide';
 import { TinyLogo } from '../shared/tiny-logo';
 import { GetApplicationDetailsResponse } from '@worksheets/schemas-applications';
 import { ArrowBackIos } from '@mui/icons-material';
 import { a11yProps } from '../shared/tab-panel';
-import { OverviewPanel } from './overview-panel';
-import { SERVER_SETTINGS } from '@worksheets/data-access/server-settings';
-import { Flex } from '@worksheets/ui/common';
+import { OverviewPanel } from './panels/overview-panel';
 import { ApiPanel } from './panels/api/api-panel';
-import { TutorialPanel } from './tutorial-panel';
-import { ConnectionsPanel } from './connections-panel';
+import { TutorialPanel } from './panels/tutorial-panel';
+import { ConnectionsPanel } from './panels/connections/connections-panel';
 import { useRouter } from 'next/router';
+import { ApplicationsFooter } from '../applications-gallery/applications-footer';
+import { HorizontalSpreadLayout } from '../shared/horizontal-spread-layout';
+import { formatTimestamp } from '@worksheets/util/time';
 
 type ApplicationDetailsTabs = 'overview' | 'api' | 'tutorials' | 'connections';
 
@@ -50,35 +41,35 @@ export const ApplicationDetailsPage: React.FC<{
 
   return (
     <WebsiteLayout secure={false}>
-      <Box height="100%" display="flex" flexDirection="column">
-        <Box
-          flexShrink={0}
-          sx={(theme) => ({
-            backgroundColor: theme.palette.background.paper,
-          })}
-        >
-          <ApplicationsLink />
-          <Header app={appDetails} />
-          <Divider />
-          <AppTabs app={appDetails} resource={resource} />
-          <Divider />
-        </Box>
-        <Box flex="1 0 auto">
-          {(!resource || resource === 'overview') && (
-            <OverviewPanel app={appDetails} methods={methods} />
-          )}
-          {resource === 'api' && (
-            <ApiPanel app={appDetails} methods={methods} />
-          )}
-          {resource === 'tutorials' && <TutorialPanel app={appDetails} />}
-          {resource === 'connections' && (
-            <ConnectionsPanel app={appDetails} methods={methods} />
-          )}
-        </Box>
-        <Box flexShrink={0} pt={3}>
-          <FooterSection app={appDetails} />
-        </Box>
-      </Box>
+      <HorizontalSpreadLayout
+        header={
+          <Box
+            sx={(theme) => ({
+              backgroundColor: theme.palette.background.paper,
+            })}
+          >
+            <ApplicationsLink />
+            <Header app={appDetails} />
+            <Divider />
+            <AppTabs app={appDetails} resource={resource} />
+          </Box>
+        }
+        body={
+          <>
+            {(!resource || resource === 'overview') && (
+              <OverviewPanel app={appDetails} methods={methods} />
+            )}
+            {resource === 'api' && (
+              <ApiPanel app={appDetails} methods={methods} />
+            )}
+            {resource === 'tutorials' && <TutorialPanel app={appDetails} />}
+            {resource === 'connections' && (
+              <ConnectionsPanel app={appDetails} methods={methods} />
+            )}
+          </>
+        }
+        footer={<ApplicationsFooter app={appDetails} />}
+      />
     </WebsiteLayout>
   );
 };
@@ -108,7 +99,8 @@ const Header: React.FC<{ app: GetApplicationDetailsResponse }> = ({ app }) => (
           {app.title}
         </Typography>
         <Typography>
-          By: <Link>{app.creator}</Link>, Last Updated: {app.lastUpdated}
+          By: <Link>{app.creator}</Link>, Last Updated:{' '}
+          {formatTimestamp(app.lastUpdated)}
         </Typography>
       </Box>
     </Box>
@@ -157,48 +149,5 @@ const AppTabs: React.FC<{
       <Tab {...props('Tutorials', 2)} />
       <Tab {...props('Connections', 3)} />
     </Tabs>
-  );
-};
-
-const FooterSection: React.FC<{ app: GetApplicationDetailsResponse }> = ({
-  app,
-}) => {
-  // use media query and set smaller padding if screen is small
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-
-  return (
-    <Box
-      width="100%"
-      px={isMobile ? 3 : 12}
-      py={isMobile ? 4 : 9}
-      sx={(theme) => ({
-        backgroundColor: theme.palette.background.paper,
-      })}
-    >
-      <Box>
-        <Typography variant="h5" fontWeight={900}>
-          Ready to get started?
-        </Typography>
-        <Typography variant="body1" color="text.secondary">
-          The {app.title} API is free to try for 30 days. No credit card
-          required.
-        </Typography>
-        <Flex pt={2} gap={2}>
-          <Button
-            variant="contained"
-            color="primary"
-            size={isMobile ? 'small' : 'medium'}
-          >
-            Sign Up
-          </Button>
-          <Typography variant="body2">
-            <Link href={SERVER_SETTINGS.WEBSITES.DOCS_URL()}>
-              Learn more about Worksheets
-            </Link>
-          </Typography>
-        </Flex>
-      </Box>
-    </Box>
   );
 };

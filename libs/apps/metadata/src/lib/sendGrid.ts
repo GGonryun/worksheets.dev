@@ -6,7 +6,9 @@ export const sendGrid: ApplicationMetadata<'sendGrid'> = {
   subtitle:
     'SendGrid is a cloud-based email service that provides reliable transactional email delivery.',
   logo: 'https://storage.googleapis.com/worksheets-test-app-logos/sendgrid.svg',
-  categories: [],
+  categories: ['email', 'communication', 'productivity'],
+  tags: ['paid'],
+  faq: [['TODO', 'TODO']],
   description:
     'SendGrid is a cloud-based email delivery service that allows developers to send transactional and marketing emails through a simple and scalable API. The SendGrid API provides a set of endpoints that developers can use to send emails programmatically from their applications. Learn more at https://sendgrid.com/docs/API_Reference/index.html',
   creator: 'Worksheets.dev',

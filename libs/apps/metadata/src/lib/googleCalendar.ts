@@ -6,7 +6,9 @@ export const googleCalendar: ApplicationMetadata<'googleCalendar'> = {
   title: 'Google Calendar',
   subtitle:
     'Google Calendar is a time-management and scheduling calendar service developed by Google. Use this app to manage your Google Calendar.',
-  categories: ['Productivity', 'Calendar', 'Scheduling'],
+  categories: ['productivity', 'calendar'],
+  tags: ['paid'],
+  faq: [['TODO', 'TODO']],
   description:
     'Google Calendar is a time-management and scheduling calendar service developed by Google. The Google Calendar API is a RESTful API that exposes most of the features available in the Google Calendar Web interface.',
   creator: 'Worksheets.dev',

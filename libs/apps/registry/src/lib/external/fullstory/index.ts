@@ -129,12 +129,9 @@ const me = newMethod({
 
 export default newApp({
   appId: 'fullstory',
-  context: z
-    .object({
-      apiKey: z.string(),
-    })
-    .partial()
-    .optional(),
+  context: z.object({
+    apiKey: z.string(),
+  }),
   methods: {
     createUser,
     getUser,

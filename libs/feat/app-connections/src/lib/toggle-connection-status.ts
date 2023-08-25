@@ -51,7 +51,7 @@ export const toggleConnectionStatus = async (opts: {
   const { connection: refreshedConnection } =
     await applications.refreshConnection(connection);
 
-  const validation = await applications.validateConnection(
+  const validation = await applications.getValidationFn(
     refreshedConnection.appId,
     refreshedConnection.fields
   );

@@ -37,7 +37,37 @@ export const newConnectionsDatabase = (txn?: Txn) => {
     return result[0];
   };
 
-  return { ...firestoreDb, getByApplication, queryByApplication };
+  const getByConnectionId = (opts: {
+    userId: string;
+    connectionId: string;
+  }) => {
+    return firestoreDb.findOne(
+      { f: 'id', o: '==', v: opts.connectionId },
+      { f: 'userId', o: '==', v: opts.userId }
+    );
+  };
+
+  const queryByConnectionId = async (opts: {
+    userId: string;
+    connectionId: string;
+  }) => {
+    const result = await firestoreDb.query(
+      { f: 'id', o: '==', v: opts.connectionId },
+      { f: 'userId', o: '==', v: opts.userId }
+    );
+    if (result.length === 0) {
+      return undefined;
+    }
+    return result[0];
+  };
+
+  return {
+    ...firestoreDb,
+    getByApplication,
+    queryByApplication,
+    getByConnectionId,
+    queryByConnectionId,
+  };
 };
 
 export type HandshakesDatabase = FirestoreDatabase<HandshakeEntity>;

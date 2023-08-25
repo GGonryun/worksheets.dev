@@ -6,12 +6,14 @@ export const gmail: ApplicationMetadata<'gmail'> = {
   title: 'Gmail',
   subtitle:
     'Gmail is a free email service provided by Google. As of 2019, it had 1.5 billion active users worldwide making it the largest email service in the world.',
-  categories: ['Communication', 'Email', 'Google'],
+  categories: ['communication', 'email'],
+  tags: ['new', 'popular', 'featured', 'trending', 'free'],
   description:
     'Gmail is a free email service provided by Google. As of 2019, it had 1.5 billion active users worldwide making it the largest email service in the world. Gmail is available in 72 languages and offers 15 GB of free storage. Gmail can be accessed through web browsers or mobile apps on Android and iOS devices. Gmail also offers a paid version called G Suite which includes additional features such as custom email addresses, unlimited storage, and advanced security features.',
   creator: 'Worksheets.dev',
   lastUpdated: 1690615559053,
   tutorialUrl: 'https://docs.worksheets.dev/tutorials/apps/gmail',
+  faq: [['TODO', 'TODO']],
   methods: {
     sendEmail: {
       title: 'Send Email',

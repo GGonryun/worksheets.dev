@@ -52,10 +52,10 @@ const translator: ConnectionContextTranslationFunction<'slack'> = ({
 
 const validator: ConnectionValidationFunction<'slack'> = async (connection) => {
   if (connection.botToken === '') {
-    return { error: 'Bot Token is required' };
+    return { errors: { botToken: 'Bot Token is required' } };
   }
   console.error('TODO: implement validator for slack connection');
-  return { error: undefined };
+  return {};
 };
 
 export default { form, translator, validator };

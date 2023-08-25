@@ -1,11 +1,10 @@
-import { Box, Divider, Typography, useTheme } from '@mui/material';
+import { Box, Divider, Typography } from '@mui/material';
 import { Flex } from '@worksheets/ui/common';
 import { ApplicationMethodItem } from '../../../shared/types';
 import React from 'react';
 import { MissingFeatureNotice } from '../../../shared/missing-feature-notice';
 import { TinyToggle } from '../../../shared/tiny-toggle';
-import SyntaxHighlighter from 'react-syntax-highlighter';
-import { a11yLight } from 'react-syntax-highlighter/dist/cjs/styles/hljs';
+import { CodeBlock } from '../../../shared/code-block';
 
 enum CodeLanguages {
   curl = 'curl',
@@ -38,7 +37,7 @@ export const CodeSamplesSection: React.FC<{
   method: ApplicationMethodItem;
 }> = ({ method }) => {
   const [active, setActive] = React.useState<CodeLanguages>(CodeLanguages.curl);
-  const theme = useTheme();
+
   return (
     <Flex column width="100%" gap={1}>
       <Typography variant="body1" fontWeight={900}>
@@ -58,20 +57,7 @@ export const CodeSamplesSection: React.FC<{
         ))}
       </Flex>
       {active === CodeLanguages.curl && (
-        <SyntaxHighlighter
-          language="bash"
-          style={a11yLight}
-          customStyle={{
-            fontSize: 14,
-            padding: 12,
-            backgroundColor: theme.palette.grey[100],
-            border: `1px solid ${theme.palette.divider}`,
-            borderRadius: theme.shape.borderRadius,
-          }}
-          wrapLongLines
-        >
-          {method.examples.curl.curl}
-        </SyntaxHighlighter>
+        <CodeBlock language="bash">{method.examples.code.curl}</CodeBlock>
       )}
       {active !== CodeLanguages.curl && (
         <Box p={3}>

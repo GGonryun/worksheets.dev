@@ -46,25 +46,46 @@ export const MonoSpaceTextBox: React.FC<{
   code: string;
   fullWidth?: boolean;
   borderless?: boolean;
-}> = ({ code, fullWidth, borderless }) => (
-  <Paper
-    sx={(theme) => ({
-      backgroundColor: theme.palette.grey[100],
-      px: 1,
-      py: 0.25,
-      width: fullWidth ? '100%' : undefined,
-    })}
-    variant={borderless ? undefined : 'outlined'}
-    elevation={0}
-    square={borderless ? true : false}
-  >
-    <Typography
-      fontFamily="monospace"
-      variant="body2"
-      whiteSpace="pre-line"
-      sx={{ wordWrap: 'break-word' }}
+  copyable?: boolean;
+}> = ({ code, fullWidth, borderless, copyable }) => {
+  const { copy } = useClipboard();
+  return (
+    <Paper
+      sx={(theme) => ({
+        backgroundColor: theme.palette.grey[100],
+        px: 1,
+        py: 0.25,
+        width: fullWidth ? '100%' : undefined,
+        display: 'flex',
+        alignItems: 'center',
+        gap: 1,
+        '&:hover': {
+          backgroundColor: theme.palette.grey[300],
+        },
+        cursor: copyable ? 'pointer' : undefined,
+      })}
+      onClick={(e) => {
+        if (!copyable) return;
+        e.stopPropagation();
+        e.preventDefault();
+
+        copy(code).then(() => {
+          alert('Text copied to clipboard');
+        });
+      }}
+      variant={borderless ? undefined : 'outlined'}
+      elevation={0}
+      square={borderless ? true : false}
     >
-      {code}
-    </Typography>
-  </Paper>
-);
+      <Typography
+        fontFamily="monospace"
+        variant="body2"
+        whiteSpace="pre-line"
+        sx={{ wordWrap: 'break-word' }}
+      >
+        {code}
+      </Typography>
+      {copyable && <CopyAll fontSize="small" sx={{ mx: -0.5 }} />}
+    </Paper>
+  );
+};

@@ -6,7 +6,9 @@ export const json: ApplicationMetadata<'json'> = {
   title: 'JSON',
   subtitle:
     'Includes methods for working with JSON data such as parsing and stringifying',
-  categories: [],
+  categories: ['data', 'utilities'],
+  tags: ['paid'],
+  faq: [['TODO', 'TODO']],
   description:
     'The JSON package provides methods for parsing, querying, and stringifying JSON data. The query method uses the popular JSONPath syntax. It is useful for extracting data from JSON objects and arrays. The parse method converts a JSON string into a JavaScript object. The stringify method converts a JavaScript object into a JSON string.',
   creator: 'Worksheets.dev',

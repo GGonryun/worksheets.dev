@@ -7,7 +7,7 @@ export const ServicesHeader = () => (
       <TinyLogo
         borderless
         label="Services"
-        src="https://storage.googleapis.com/worksheets-test-app-logos/services/services.svg"
+        src="/icons/features/services.svg"
         area={40}
       />
       <Typography variant="h4" fontWeight={900}>

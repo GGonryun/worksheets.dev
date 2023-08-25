@@ -51,17 +51,17 @@ const validator: ConnectionValidationFunction<'twilio'> = async (
   connection
 ) => {
   if (!connection.token) {
-    return { error: 'Auth Token is required' };
+    return { error: { token: 'Auth Token is required' } };
   }
   if (!connection.sid) {
-    return { error: 'Account SID is required' };
+    return { error: { sid: 'Account SID is required' } };
   }
   if (!connection.phone) {
-    return { error: 'Phone Number is required' };
+    return { errors: { phone: 'Phone Number is required' } };
   }
 
   console.error('TODO: implement validator endpoint for twilio connection');
-  return { error: undefined };
+  return {};
 };
 
 export default { form, translator, validator };

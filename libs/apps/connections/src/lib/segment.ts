@@ -48,10 +48,10 @@ const validator: ConnectionValidationFunction<'segment'> = async (
   connection
 ) => {
   if (connection.apiKey === '') {
-    return { error: 'API Key is required' };
+    return { errors: { apiKey: 'API Key is required' } };
   }
   console.error('TODO: implement validator for segment connection');
-  return { error: undefined };
+  return {};
 };
 
 export default { form, validator, translator };
