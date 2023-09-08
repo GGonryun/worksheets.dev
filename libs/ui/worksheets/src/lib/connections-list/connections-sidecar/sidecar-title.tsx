@@ -1,23 +1,23 @@
 import { Close } from '@mui/icons-material';
 import { Box, Typography, IconButton } from '@mui/material';
-import { TinyLogo } from '../../shared/tiny-logo';
 import { GetConnectionDetailsResponse } from '@worksheets/schemas-connections';
-import { Flex } from '@worksheets/ui/common';
+import { Flex } from '@worksheets/ui-core';
 import { ConnectionStatus } from './connection-status';
 import { formatTimestamp } from '@worksheets/util/time';
+import { TinyLogo } from '@worksheets/ui-basic-style';
 
 export const SidecarTitle: React.FC<{
   onClose: () => void;
   details: GetConnectionDetailsResponse;
 }> = ({ onClose, details }) => {
   return (
-    <Box pt={2} pb={1}>
+    <Box pt={1}>
       <Flex gap={3}>
         <TinyLogo
           borderless
           label={details.header.name}
           src={details.header.logo}
-          area={108}
+          area={92}
         />
         <Box width="100%">
           <Flex spaceBetween fullWidth>
@@ -48,7 +48,7 @@ export const SidecarTitle: React.FC<{
           </Flex>
         </Box>
       </Flex>
-      <Flex spaceBetween fullWidth alignItems="flex-start">
+      <Flex spaceBetween fullWidth alignItems="center" py={1}>
         <Flex column>
           <Typography variant="caption" color="text.secondary">
             Connection ID: {details.id || <b>New Connection</b>}

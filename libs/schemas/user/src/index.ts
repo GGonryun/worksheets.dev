@@ -44,6 +44,7 @@ export const userAgentSchema = z.object({
   }),
 });
 
+export type UserOverview = z.infer<typeof userOverviewSchema>;
 export const userOverviewSchema = z.object({
   uid: z.string(),
   meta: z.object({

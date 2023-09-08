@@ -11,9 +11,10 @@ import { PresentationalField } from '@worksheets/schemas-connections';
 import { trpc } from '@worksheets/trpc/ide';
 import { useState } from 'react';
 import { OpenInNewLink } from '../../../shared/open-in-new-link';
-import { TinyLogo } from '../../../shared/tiny-logo';
-import { urls } from '../../../shared/urls';
 import { completeConnectionDetailsMessage } from './shared';
+import { urls } from '@worksheets/ui/common';
+import { TinyLogo } from '@worksheets/ui-basic-style';
+
 export const OAuthFormField: React.FC<{
   appId: string;
   label: string;

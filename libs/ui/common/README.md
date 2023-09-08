@@ -1,7 +1,3 @@
 # ui-common
 
-This library was generated with [Nx](https://nx.dev).
-
-## Running unit tests
-
-Run `nx test ui-common` to execute the unit tests via [Jest](https://jestjs.io).
+These libraries are shared across all our UI projects. Unlike core, these libraries are composed of higher level components that are not specific to a single project. Core libraries are used by these libraries. Core libraries are not allowed to use these libraries.

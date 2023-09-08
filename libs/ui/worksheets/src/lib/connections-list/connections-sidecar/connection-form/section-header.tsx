@@ -7,8 +7,7 @@ import {
 } from '@mui/icons-material';
 import { IconButton, Collapse, Link } from '@mui/material';
 import { FC, ReactNode } from 'react';
-
-import { Flex } from '@worksheets/ui/common';
+import { Flex } from '@worksheets/ui-core';
 import { CredentialStatuses } from '@worksheets/schemas-connections';
 
 export type SectionHeaderProps = {

@@ -7,7 +7,7 @@ export const math: ApplicationMetadata<'math'> = {
   subtitle: 'Includes methods for performing mathematical operations',
   description: '',
   categories: ['system'],
-  tags: ['free'],
+  tags: ['free', 'internal'],
   faq: [['TODO', 'TODO']],
   creator: 'Worksheets.dev',
   lastUpdated: 1690615559053,

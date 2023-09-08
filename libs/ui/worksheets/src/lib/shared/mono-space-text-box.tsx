@@ -1,6 +1,7 @@
 import { CopyAll } from '@mui/icons-material';
 import { Typography, Button, Paper } from '@mui/material';
-import { Flex, useClipboard } from '@worksheets/ui/common';
+import { useClipboard } from '@worksheets/ui/common';
+import { Flex } from '@worksheets/ui-core';
 
 export const LabeledMonoSpaceTextBox: React.FC<{
   title?: string;

@@ -1,5 +1,4 @@
 import { Box, Button, ButtonProps, Divider, Typography } from '@mui/material';
-import WebsiteLayout from './website-layout';
 import React, { ReactNode } from 'react';
 
 export const PageLayout: React.FC<{
@@ -10,7 +9,7 @@ export const PageLayout: React.FC<{
   children: ReactNode;
 }> = ({ title, primary, secondary, tertiary, children }) => {
   return (
-    <WebsiteLayout>
+    <>
       <Box paddingTop={1.25} paddingBottom={1} px={3} display="flex" gap={6}>
         <Typography variant="h6">{title}</Typography>
         <Box display="flex" gap={3}>
@@ -21,6 +20,6 @@ export const PageLayout: React.FC<{
       </Box>
       <Divider />
       {children}
-    </WebsiteLayout>
+    </>
   );
 };

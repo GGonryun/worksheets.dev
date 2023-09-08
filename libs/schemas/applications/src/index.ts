@@ -69,12 +69,11 @@ export const applicationFilterTypeSchema = z.union([
 export type ApplicationTag = z.infer<typeof applicationTagSchema>;
 export const applicationTagSchema = z.union([
   z.literal('new'),
+  z.literal('internal'),
   z.literal('popular'),
   z.literal('featured'),
-  z.literal('trending'),
   z.literal('free'),
   z.literal('paid'),
-  z.literal('open-source'),
   z.literal('beta'),
 ]);
 
@@ -162,6 +161,8 @@ export type ListApplicationsRequest = z.infer<
 >;
 export const listApplicationsRequestSchema = z.object({
   gallery: z.boolean().default(false),
+  featured: z.boolean().default(false),
+  features: z.array(z.enum(['connections'])).default([]),
 });
 export type ListApplicationsResponse = z.infer<
   typeof listApplicationsResponseSchema

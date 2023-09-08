@@ -67,11 +67,9 @@ export const serviceConfigurationEntity = z.object({
   id: z.string(),
   userId: z.string(),
   serviceId: z.string(),
-  providerId: z
+  connectionId: z
     .string()
-    .describe(
-      'the provider is the app id providing the context for each request'
-    ),
+    .describe("The connection is where we get the user's context from"),
   enabled: z.boolean().describe("whether this user's service is enabled"),
 });
 
@@ -98,7 +96,8 @@ export const getServiceDetailsResponseSchema = z.object({
   service: serviceDescriptionSchema,
   configuration: z
     .object({
-      providerId: z.string(),
+      // TODO: refactor the service page to use connections instead of providers.
+      // providerId: z.string(),
       enabled: z.boolean(),
     })
     .optional(),

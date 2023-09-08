@@ -1,7 +1,7 @@
 import { Divider, Typography } from '@mui/material';
-import { TinyToggle } from '../../../../shared/tiny-toggle';
+import { TinyToggle } from '@worksheets/ui-basic-style';
 import { ApplicationMethodItem } from '../../../../shared/types';
-import { Flex } from '@worksheets/ui/common';
+import { Flex } from '@worksheets/ui-core';
 import { useState } from 'react';
 import { MethodExampleDataViewer } from './method-example-data-viewer';
 import { ExpandLessOutlined, ExpandMoreOutlined } from '@mui/icons-material';

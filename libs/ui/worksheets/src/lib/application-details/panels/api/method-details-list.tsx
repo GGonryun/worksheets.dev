@@ -1,4 +1,4 @@
-import { Flex } from '@worksheets/ui/common';
+import { Flex } from '@worksheets/ui-core';
 import { Provider as MosaicProvider } from '@stoplight/mosaic';
 import { ListApplicationMethodDetailsResponse } from '@worksheets/schemas-applications';
 import { MethodDetailsListItem } from './method-details-list-item/method-details-list-item';

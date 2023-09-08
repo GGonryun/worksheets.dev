@@ -8,7 +8,7 @@ import {
 } from '@mui/icons-material';
 import { ChipProps } from '@mui/material';
 import { ConnectionStatuses } from '@worksheets/schemas-connections';
-import { TinyPill } from '../shared/tiny-pill';
+import { TinyPill } from '@worksheets/ui-basic-style';
 
 export const statusIcon: Record<ConnectionStatuses, JSX.Element> = {
   active: <CheckCircleOutline />,

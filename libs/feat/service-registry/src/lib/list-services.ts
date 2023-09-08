@@ -36,7 +36,8 @@ export const listServices = async (opts: {
     const service: ConnectedServiceDescription = {
       connection: {
         status: determineServiceStatus(config),
-        appId: config?.providerId,
+        // TODO: refactor configs, we may need to save the app id in the config to save a lookup here.
+        appId: undefined,
       },
       id: value.id,
       title: value.title,
@@ -56,7 +57,7 @@ export const listServices = async (opts: {
 const determineServiceStatus = (
   config: ServiceConfigurationEntity | undefined
 ): ServiceStatus => {
-  if (!config || !config.providerId) {
+  if (!config || !config.connectionId) {
     return 'uninstalled';
   }
 

@@ -1,23 +1,9 @@
-import { inferRouterInputs, inferRouterOutputs } from '@trpc/server';
-import { ListApplicationMethodDetailsResponse } from '@worksheets/schemas-applications';
-import { AppRouter } from '@worksheets/trpc/ide/server';
-
-export type RouterInputs = inferRouterInputs<AppRouter>;
-
-export type ListApplicationsResponse =
-  inferRouterOutputs<AppRouter>['applications']['list'];
-
-export type ApplicationDetails =
-  inferRouterOutputs<AppRouter>['applications']['list'][number];
-
-export type GetApplicationResponse =
-  inferRouterOutputs<AppRouter>['applications']['get'];
-
-export type ListTokensResponse =
-  inferRouterOutputs<AppRouter>['user']['tokens']['list'];
-
-export type UserOverviewResponse =
-  inferRouterOutputs<AppRouter>['user']['overview'];
+import {
+  ListApplicationMethodDetailsResponse,
+  ListApplicationsResponse,
+} from '@worksheets/schemas-applications';
 
 export type ApplicationMethodItem =
   ListApplicationMethodDetailsResponse[number];
+
+export type ApplicationDetails = ListApplicationsResponse[number];

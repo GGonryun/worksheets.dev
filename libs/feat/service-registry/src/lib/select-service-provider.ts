@@ -23,7 +23,7 @@ export const selectServiceProvider = async (
     id: config?.id ?? '',
     userId,
     serviceId,
-    providerId,
+    connectionId: '', // TODO: assign connections to services.
     enabled: true,
   });
 

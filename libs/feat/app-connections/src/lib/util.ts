@@ -4,7 +4,6 @@ import { newApplicationsDatabase } from '@worksheets/data-access/applications';
 import { newConnectionsDatabase } from '@worksheets/data-access/connections';
 import { DatabaseFailure } from '@worksheets/firebase/firestore';
 import { GetApplicationDetailsResponse } from '@worksheets/schemas-applications';
-import { ConnectionBasics } from '@worksheets/schemas-connections';
 
 const applications = newApplicationsDatabase();
 const connectionsDb = newConnectionsDatabase();
@@ -28,13 +27,12 @@ export const getApplicationDetails = () => {
 
 export const translateApplicationDetailsToConnectionDetails = (
   details: GetApplicationDetailsResponse
-): ConnectionBasics => {
+) => {
   return {
     appId: details.appId,
     name: details.title,
     logo: details.logo,
     description: details.description,
-    status: 'unknown',
   };
 };
 

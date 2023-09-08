@@ -6,18 +6,17 @@ import {
   Tab,
   Divider,
   CircularProgress,
-  alpha,
 } from '@mui/material';
-import WebsiteLayout from '../website-layout';
 import React, { ReactNode, useState } from 'react';
-import { TinyLogo } from '../shared/tiny-logo';
 import { trpc } from '@worksheets/trpc/ide';
-import { useUser } from '@worksheets/util/auth/client';
 import { GetServiceDetailsResponse } from '@worksheets/schemas-services';
 import { PlatformSelectionTab } from './platforms';
 import { EndpointsTable } from './endpoints';
 import { a11yProps } from '../shared/tab-panel';
 import { ArrowBackIos } from '@mui/icons-material';
+import { TinyLogo } from '@worksheets/ui-basic-style';
+import { useUser } from '@worksheets/ui/common';
+
 export const ServiceDetailsPage: React.FC<{ serviceId: string }> = ({
   serviceId,
 }) => {
@@ -46,42 +45,40 @@ export const ServiceLayout: React.FC<{
   header: ReactNode;
   content: ReactNode;
 }> = ({ header, content }) => (
-  <WebsiteLayout>
-    <Box>
-      <Box
-        px={2}
-        pt={2}
-        pb={1}
-        sx={(theme) => ({
-          backgroundColor: theme.palette.background.paper,
-        })}
-      >
-        <Typography variant="body2" color="text.secondary">
-          <Link
-            underline="hover"
-            color="inherit"
-            href="/services"
-            display="flex"
-            alignItems="center"
-            gap={0.5}
-          >
-            <ArrowBackIos fontSize="inherit" color="inherit" />
-            Services
-          </Link>
-        </Typography>
-      </Box>
-      <Box
-        px={3}
-        pb={2}
-        // sx={(theme) => ({
-        //   backgroundColor: theme.palette.background.paper,
-        // })}
-      >
-        {header}
-      </Box>
-      {content}
+  <Box>
+    <Box
+      px={2}
+      pt={2}
+      pb={1}
+      sx={(theme) => ({
+        backgroundColor: theme.palette.background.paper,
+      })}
+    >
+      <Typography variant="body2" color="text.secondary">
+        <Link
+          underline="hover"
+          color="inherit"
+          href="/services"
+          display="flex"
+          alignItems="center"
+          gap={0.5}
+        >
+          <ArrowBackIos fontSize="inherit" color="inherit" />
+          Services
+        </Link>
+      </Typography>
     </Box>
-  </WebsiteLayout>
+    <Box
+      px={3}
+      pb={2}
+      // sx={(theme) => ({
+      //   backgroundColor: theme.palette.background.paper,
+      // })}
+    >
+      {header}
+    </Box>
+    {content}
+  </Box>
 );
 
 const ServiceContent: React.FC<GetServiceDetailsResponse> = (props) => {

@@ -1,7 +1,7 @@
 import { Box, Divider } from '@mui/material';
 import { GetConnectionDetailsResponse } from '@worksheets/schemas-connections';
 import { useEffect, useState } from 'react';
-import { Flex } from '@worksheets/ui/common';
+import { Flex } from '@worksheets/ui-core';
 import { ConfigurationSection } from './configuration-section';
 import { CredentialsSection } from './credentials-section';
 import { ConnectionEstablishedNotice } from '../connection-established-notice';
@@ -16,7 +16,8 @@ declare global {
 export const ConnectionForm: React.FC<{
   details: GetConnectionDetailsResponse;
   onConnect: (connectionId: string) => void;
-}> = ({ details, onConnect }) => {
+  onClose: () => void;
+}> = ({ details, onConnect, onClose }) => {
   const [openTab, setOpenTab] = useState<string>(
     details.credentials.status === 'pending' ? 'connection' : 'configuration'
   );
@@ -37,7 +38,10 @@ export const ConnectionForm: React.FC<{
       {connectionEstablishedRecently && (
         <>
           <Box p={3}>
-            <ConnectionEstablishedNotice connectionId={details.id ?? ''} />
+            <ConnectionEstablishedNotice
+              connectionId={details.id ?? ''}
+              onClose={onClose}
+            />
           </Box>
           <Divider />
         </>

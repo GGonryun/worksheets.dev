@@ -1,6 +1,7 @@
 import { inferAsyncReturnType } from '@trpc/server';
 import * as trpcNext from '@trpc/server/adapters/next';
 import { user } from '@worksheets/feat/user-management';
+import { prisma } from '@worksheets/prisma';
 import { v4 as uuidv4 } from 'uuid';
 
 export async function createContext({
@@ -15,6 +16,7 @@ export async function createContext({
     req,
     atom: uuidv4().split('-')[0],
     user: await getUserFromHeader(),
+    db: prisma,
   };
 }
 

@@ -5,6 +5,13 @@ import { trpc } from '@worksheets/trpc/ide';
 import * as FullStory from '@fullstory/browser';
 import { Analytics } from '@vercel/analytics/react';
 import { SERVER_SETTINGS } from '@worksheets/data-access/server-settings';
+import CssBaseline from '@mui/material/CssBaseline';
+import { ReactElement } from 'react';
+import { NextPageWithLayout } from '@worksheets/util-next';
+
+type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout;
+};
 
 if (typeof window !== 'undefined') {
   FullStory.init({
@@ -13,13 +20,16 @@ if (typeof window !== 'undefined') {
   });
 }
 
-function CustomApp({ Component, pageProps }: AppProps) {
+function CustomApp({ Component, pageProps }: AppPropsWithLayout): ReactElement {
+  const getLayout = Component.getLayout ?? ((page) => page);
+
   return (
     <>
+      <CssBaseline />
       <Head>
         <title>Worksheets IDE</title>
       </Head>
-      <Component {...pageProps} />
+      {getLayout(<Component {...pageProps} />)}
       <Analytics />
     </>
   );

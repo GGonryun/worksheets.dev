@@ -1,10 +1,10 @@
 import { Box, Divider, Typography } from '@mui/material';
-import { Flex } from '@worksheets/ui/common';
+import { CodeBlock } from '@worksheets/ui/common';
 import { ApplicationMethodItem } from '../../../shared/types';
 import React from 'react';
 import { MissingFeatureNotice } from '../../../shared/missing-feature-notice';
-import { TinyToggle } from '../../../shared/tiny-toggle';
-import { CodeBlock } from '../../../shared/code-block';
+import { TinyToggle } from '@worksheets/ui-basic-style';
+import { Flex } from '@worksheets/ui-core';
 
 enum CodeLanguages {
   curl = 'curl',

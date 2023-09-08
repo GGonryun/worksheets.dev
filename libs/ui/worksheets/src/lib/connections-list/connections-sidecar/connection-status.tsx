@@ -1,7 +1,7 @@
 import { Tooltip } from '@mui/material';
 import { ConnectionStatuses } from '@worksheets/schemas-connections';
 import { statusIcon, statusLabel, statusColor } from '../state-maps';
-import { TinyPill } from '../../shared/tiny-pill';
+import { TinyPill } from '@worksheets/ui-basic-style';
 
 const sidecarStatusTooltip: Record<ConnectionStatuses, string> = {
   active: 'Your connection is working',

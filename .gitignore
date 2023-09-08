@@ -1,4 +1,5 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
+**/.env
 **/.env.local
 **/.env.test
 **/.env.staging
@@ -43,7 +44,6 @@ Thumbs.db
 
 # Next.js
 .next
-
 
 # Nx-Firebase
 .runtimeconfig.json

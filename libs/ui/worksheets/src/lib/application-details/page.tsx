@@ -1,8 +1,14 @@
-import WebsiteLayout from '../website-layout';
-import React from 'react';
-import { Box, Divider, Link, Tab, Tabs, Typography } from '@mui/material';
+import React, { useEffect } from 'react';
+import {
+  Box,
+  Container,
+  Divider,
+  Link,
+  Tab,
+  Tabs,
+  Typography,
+} from '@mui/material';
 import { trpc } from '@worksheets/trpc/ide';
-import { TinyLogo } from '../shared/tiny-logo';
 import { GetApplicationDetailsResponse } from '@worksheets/schemas-applications';
 import { ArrowBackIos } from '@mui/icons-material';
 import { a11yProps } from '../shared/tab-panel';
@@ -14,6 +20,8 @@ import { useRouter } from 'next/router';
 import { ApplicationsFooter } from '../applications-gallery/applications-footer';
 import { HorizontalSpreadLayout } from '../shared/horizontal-spread-layout';
 import { formatTimestamp } from '@worksheets/util/time';
+import { TinyLogo } from '@worksheets/ui-basic-style';
+import { useTitle } from '@worksheets/ui/common';
 
 type ApplicationDetailsTabs = 'overview' | 'api' | 'tutorials' | 'connections';
 
@@ -37,40 +45,49 @@ export const ApplicationDetailsPage: React.FC<{
     }
   );
 
+  const setTitle = useTitle();
+  useEffect(() => {
+    const title = appDetails?.title ?? 'Application Details';
+    const resourceLabel = resourceMapLabels[resource ?? 'overview'];
+    setTitle(`${title} - ${resourceLabel} - Worksheets`);
+  }, [appDetails, resource, setTitle]);
+
   if (!appDetails || !methods) return <Box />;
 
   return (
-    <WebsiteLayout secure={false}>
-      <HorizontalSpreadLayout
-        header={
-          <Box
-            sx={(theme) => ({
-              backgroundColor: theme.palette.background.paper,
-            })}
-          >
+    <HorizontalSpreadLayout
+      header={
+        <Box
+          sx={(theme) => ({
+            backgroundColor: theme.palette.background.paper,
+          })}
+        >
+          <Container maxWidth={'xl'}>
             <ApplicationsLink />
             <Header app={appDetails} />
-            <Divider />
+          </Container>
+          <Divider />
+          <Container maxWidth={'xl'}>
             <AppTabs app={appDetails} resource={resource} />
-          </Box>
-        }
-        body={
-          <>
-            {(!resource || resource === 'overview') && (
-              <OverviewPanel app={appDetails} methods={methods} />
-            )}
-            {resource === 'api' && (
-              <ApiPanel app={appDetails} methods={methods} />
-            )}
-            {resource === 'tutorials' && <TutorialPanel app={appDetails} />}
-            {resource === 'connections' && (
-              <ConnectionsPanel app={appDetails} methods={methods} />
-            )}
-          </>
-        }
-        footer={<ApplicationsFooter app={appDetails} />}
-      />
-    </WebsiteLayout>
+          </Container>
+        </Box>
+      }
+      body={
+        <>
+          {(!resource || resource === 'overview') && (
+            <OverviewPanel app={appDetails} methods={methods} />
+          )}
+          {resource === 'api' && (
+            <ApiPanel app={appDetails} methods={methods} />
+          )}
+          {resource === 'tutorials' && <TutorialPanel app={appDetails} />}
+          {resource === 'connections' && (
+            <ConnectionsPanel app={appDetails} methods={methods} />
+          )}
+        </>
+      }
+      footer={<ApplicationsFooter app={appDetails} />}
+    />
   );
 };
 
@@ -119,6 +136,13 @@ const resourceMapReverse: Record<number, ApplicationDetailsTabs> = {
   1: 'api',
   2: 'tutorials',
   3: 'connections',
+};
+
+const resourceMapLabels: Record<ApplicationDetailsTabs, string> = {
+  overview: 'Overview',
+  api: 'API',
+  tutorials: 'Tutorials',
+  connections: 'Connections',
 };
 
 const AppTabs: React.FC<{

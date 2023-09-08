@@ -2,9 +2,9 @@ import { Box } from '@mui/material';
 import { JsonSchemaViewer } from '@stoplight/json-schema-viewer';
 import { MethodExampleData } from '@worksheets/schemas-applications';
 import { useState } from 'react';
-import { CodeBlock } from '../../../../shared/code-block';
-import { TinyToggle } from '../../../../shared/tiny-toggle';
-import { Flex } from '@worksheets/ui/common';
+import { TinyToggle } from '@worksheets/ui-basic-style';
+import { CodeBlock } from '@worksheets/ui/common';
+import { Flex } from '@worksheets/ui-core';
 
 export const MethodExampleDataViewer = ({
   data,

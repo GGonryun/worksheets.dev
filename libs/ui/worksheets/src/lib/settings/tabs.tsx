@@ -13,8 +13,8 @@ import { SettingsCardAccessTokens } from './cards/access-tokens/access-tokens';
 import { SettingsCardGeneric } from './cards/generic';
 import { TabPanel, a11yProps } from '../shared/tab-panel';
 import { trpc } from '@worksheets/trpc/ide';
-import { useUser } from '@worksheets/util/auth/client';
 import { GeneralSettings } from './cards/general-settings';
+import { useUser } from '@worksheets/ui/common';
 
 export enum SettingsTabIndex {
   General = 0,

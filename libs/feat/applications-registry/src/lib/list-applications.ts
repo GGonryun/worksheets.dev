@@ -8,8 +8,19 @@ export const listApplications = (
   req: ListApplicationsRequest
 ): ListApplicationsResponse => {
   const all = db.list();
+
+  let filtered = all;
   if (req.gallery) {
-    return all.filter((e) => db.isVisibleInGallery(e.id));
+    filtered = all.filter((e) => db.isVisibleInGallery(e.id));
   }
-  return all;
+
+  if (req.featured) {
+    filtered = all.filter((e) => db.isFeatured(e.id));
+  }
+
+  if (req.features.includes('connections')) {
+    filtered = all.filter((e) => db.supportsConnections(e.id));
+  }
+
+  return filtered;
 };

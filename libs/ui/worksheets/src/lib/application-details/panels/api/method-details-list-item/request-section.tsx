@@ -1,6 +1,6 @@
 import { Typography, Divider } from '@mui/material';
 import { ApplicationMethodItem } from '../../../../shared/types';
-import { Flex } from '@worksheets/ui/common';
+import { Flex } from '@worksheets/ui-core';
 import { MethodExampleDataViewer } from './method-example-data-viewer';
 
 export const RequestSection = ({

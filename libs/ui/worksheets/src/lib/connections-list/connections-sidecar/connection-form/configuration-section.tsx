@@ -11,14 +11,13 @@ import {
 } from '@mui/material';
 import { FC, useEffect, useState } from 'react';
 import { RequiredAsterisk } from '../../../shared/required-asterisk';
-import { TinyTextField } from '../../../shared/tiny-text-field';
-import { urls } from '../../../shared/urls';
-import { Flex } from '@worksheets/ui/common';
+import { urls } from '@worksheets/ui/common';
+import { Flex } from '@worksheets/ui-core';
 import { CancelOutlined, Check, ErrorOutline, Save } from '@mui/icons-material';
 import { SectionHeader } from './section-header';
-import { TinyPill } from '../../../shared/tiny-pill';
 import { trpc } from '@worksheets/trpc/ide';
 import { GetConnectionDetailsResponse } from '@worksheets/schemas-connections';
+import { TinyPill, TinyTextField } from '@worksheets/ui-basic-style';
 
 const cancelButtonTooltip = 'You have no changes to restore';
 
@@ -238,7 +237,7 @@ const NameField: FC<{
   severity: 'error' | 'success' | 'none';
 }> = ({ value, onChange, comment, severity, disabled }) => {
   const friendlyTooltip =
-    "Use a name, at least 3 characters long, that will help you remember what this connection is for. Or not, it's up to you.";
+    "Use a name without special characters that is at least 3 characters long to help you remember what this connection is for. Or not, it's up to you.";
 
   const primaryColor = disabled
     ? 'text.disabled'

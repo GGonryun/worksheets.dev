@@ -1,8 +1,8 @@
 import { ArrowRightAlt } from '@mui/icons-material';
 import { Paper, alpha, Typography, Button } from '@mui/material';
 import { FC } from 'react';
-import { TinyLogo } from '../../shared/tiny-logo';
-import { Flex } from '@worksheets/ui/common';
+import { Flex } from '@worksheets/ui-core';
+import { TinyLogo } from '@worksheets/ui-basic-style';
 
 export const ConnectionInvalidNotice: FC = () => (
   <Paper

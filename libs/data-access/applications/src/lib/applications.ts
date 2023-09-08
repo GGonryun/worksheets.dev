@@ -30,6 +30,7 @@ export interface ApplicationsDatabase {
   get(appId: string): ApplicationBasics;
   list(): ListApplicationsResponse;
   isVisibleInGallery(appId: string): boolean;
+  isFeatured(appId: string): boolean;
   getMethodDetails(appId: string): ListApplicationMethodDetailsResponse;
   getDetails(appId: string): GetApplicationDetailsResponse;
   supportsConnections(appId: string): boolean;
@@ -111,6 +112,10 @@ export const newApplicationsDatabase = (): ApplicationsDatabase => {
     isVisibleInGallery: (appId: string) => {
       const app = metadata[appId as ApplicationRegistryKeys];
       return app.enabled;
+    },
+    isFeatured: (appId: string) => {
+      const app = metadata[appId as ApplicationRegistryKeys];
+      return app.tags.includes('featured' || 'popular');
     },
     getDetails,
     getMethodDetails: (appId: string): ListApplicationMethodDetailsResponse => {

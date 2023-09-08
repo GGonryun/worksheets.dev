@@ -16,8 +16,6 @@ import {
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import { trpc } from '@worksheets/trpc/ide';
 import { ApplicationDetails } from '../shared/types';
-import { TinyLogo } from '../shared/tiny-logo';
-import { useUser } from '@worksheets/util/auth/client';
 import { SpotlightButton } from '../shared/spotlight-button';
 import { KeyRounded, Search } from '@mui/icons-material';
 import { SERVER_SETTINGS } from '@worksheets/data-access/server-settings';
@@ -32,6 +30,8 @@ import {
   prettyPrintMilliseconds,
 } from '@worksheets/util/time';
 import { getReasonPhrase } from 'http-status-codes';
+import { TinyLogo } from '@worksheets/ui-basic-style';
+import { useUser } from '@worksheets/ui/common';
 
 const columns: (onClick: (worksheetId: string) => void) => GridColDef[] = (
   onClick

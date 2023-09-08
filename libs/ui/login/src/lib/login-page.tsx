@@ -11,22 +11,25 @@ import {
   Emoji,
   GitHubIcon,
   GoogleIcon,
+  urls,
+  useLayout,
   useTimeout,
+  useUser,
   warn,
 } from '@worksheets/ui/common';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { useUser } from '@worksheets/util/auth/client';
 import { SERVER_SETTINGS } from '@worksheets/data-access/server-settings';
 
 export function LoginPage() {
   const { push } = useRouter();
   const { user, signInProvider } = useUser();
   const [loading, setLoading] = useState(true);
+  const { isMobile } = useLayout();
 
   useTimeout(() => {
     if (user) {
-      push('/dashboard');
+      push(urls.app.projects);
     } else {
       setLoading(false);
     }
@@ -40,7 +43,7 @@ export function LoginPage() {
     provider.addScope('email');
 
     signInProvider(provider)
-      .then(() => push(`/dashboard`))
+      .then(() => push(urls.app.projects))
       .catch(warn('failed to log in with github'))
       .finally(() => setLoading(false));
   }
@@ -53,7 +56,7 @@ export function LoginPage() {
     provider.addScope('email');
 
     signInProvider(provider)
-      .then(() => push(`/dashboard`))
+      .then(() => push(urls.app.projects))
       .catch(warn('failed to log in with google'))
       .finally(() => setLoading(false));
   }
@@ -66,16 +69,16 @@ export function LoginPage() {
       alignItems="center"
       justifyContent="center"
     >
-      <Paper elevation={10}>
+      <Paper elevation={0} variant="outlined">
         <Box
-          width="300px"
-          height="320px"
           display="flex"
           alignItems="center"
           justifyContent="center"
           flexDirection="column"
+          width={isMobile ? '100%' : 400}
+          height={isMobile ? '100%' : 400}
           gap={2}
-          p={3}
+          p={isMobile ? 3 : 8}
         >
           {loading ? (
             <CircularProgress />
@@ -93,7 +96,6 @@ export function LoginPage() {
                 variant="outlined"
                 color="primary"
                 startIcon={<GoogleIcon />}
-                fullWidth
                 onClick={handleLoginWithGoogle}
               >
                 Continue with Google
@@ -101,7 +103,6 @@ export function LoginPage() {
               <Button
                 variant="outlined"
                 color="inherit"
-                fullWidth
                 onClick={handleLoginWithGithub}
                 startIcon={<GitHubIcon />}
               >

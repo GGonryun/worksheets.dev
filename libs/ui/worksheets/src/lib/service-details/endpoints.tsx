@@ -10,7 +10,7 @@ import {
   Typography,
 } from '@mui/material';
 import { GetServiceDetailsResponse } from '@worksheets/schemas-services';
-import { TinyLogo } from '../shared/tiny-logo';
+import { TinyLogo } from '@worksheets/ui-basic-style';
 
 export const EndpointsTable: React.FC<GetServiceDetailsResponse> = ({
   endpoints,

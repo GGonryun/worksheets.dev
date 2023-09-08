@@ -7,7 +7,7 @@ export const tenor: ApplicationMetadata<'tenor'> = {
   subtitle:
     'Search for GIFs and videos to share the perfect reaction or make your own.',
   categories: ['media', 'images'],
-  tags: ['paid'],
+  tags: ['paid', 'featured'],
   faq: [['TODO', 'TODO']],
   description:
     "Tenor is a GIF platform that powers GIF search for many of today's most popular apps and services. Tenor takes a data-centric approach to delivering the most relevant GIF search results. Tenor analyzes GIFs across hundreds of dimensions, from composition to category, to ensure that every GIF you discover via Tenor is tailored to exactly what you want to see.",

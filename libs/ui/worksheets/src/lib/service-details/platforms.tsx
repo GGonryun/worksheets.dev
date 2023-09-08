@@ -7,7 +7,6 @@ import {
   CheckCircle,
   ErrorOutline,
 } from '@mui/icons-material';
-
 import {
   Box,
   Card,
@@ -30,12 +29,12 @@ import {
   statusIcon,
   isConnected,
 } from '../connections-list/state-maps';
-import { TinyLogo } from '../shared/tiny-logo';
 import {
   GetServiceDetailsResponse,
   ServiceProvider,
 } from '@worksheets/schemas-services';
 import { trpc } from '@worksheets/trpc/ide';
+import { TinyLogo } from '@worksheets/ui-basic-style';
 
 export const PlatformSelectionTab: React.FC<GetServiceDetailsResponse> = ({
   service,
@@ -44,7 +43,6 @@ export const PlatformSelectionTab: React.FC<GetServiceDetailsResponse> = ({
 }) => {
   const utils = trpc.useContext();
   const selectProvider = trpc.services.selectProvider.useMutation();
-  const toggleServiceStatus = trpc.services.toggleStatus.useMutation();
 
   const handleSelection = async (providerId: string) => {
     await selectProvider.mutateAsync({ serviceId: service.id, providerId });
@@ -60,9 +58,7 @@ export const PlatformSelectionTab: React.FC<GetServiceDetailsResponse> = ({
   };
 
   const handleSwitchClick = async () => {
-    await toggleServiceStatus.mutateAsync({
-      serviceId: service.id,
-    });
+    alert('TODO: handle toggle switch');
     utils.services.details.invalidate({ serviceId: service.id });
   };
 
@@ -71,7 +67,7 @@ export const PlatformSelectionTab: React.FC<GetServiceDetailsResponse> = ({
       {providers.map((provider) => (
         <Box width={200} key={provider.id}>
           <IntegrationProviderCard
-            selected={configuration?.providerId === provider.id}
+            selected={false} // TODO
             enabled={configuration?.enabled}
             provider={provider}
             onToggle={() => handleSwitchClick()}
@@ -158,7 +154,7 @@ const integrationCardColors: Record<ConnectionStatuses, ButtonProps['color']> =
     error: 'error',
     warning: 'error',
     disabled: 'error',
-    uninstalled: 'inherit',
+    pending: 'inherit',
     unknown: 'inherit',
   };
 
@@ -166,7 +162,7 @@ const integrationCardButtonTooltips: Record<ConnectionStatuses, string> = {
   active: 'Remove your current connection.',
   error: 'Your connection needs attention',
   warning: 'Your connection needs attention',
-  uninstalled: 'Connect this app to your account to enable it.',
+  pending: 'Connect this app to your account to enable it.',
   disabled: 'Enable your account to use this app.',
   unknown: 'Failed to fetch integration provider status',
 };
@@ -227,7 +223,7 @@ const IntegrationCardButton: React.FC<{
           </span>
         </Tooltip>
       )}
-    {!selected && status === 'uninstalled' && (
+    {!selected && status === 'pending' && (
       <Tooltip
         title="Connect this app to your account to enable it for selection."
         placement="top"
@@ -331,7 +327,7 @@ const IntegrationCardContent: React.FC<{
           <Typography variant="body2">Connection disabled</Typography>
         </Box>
       )}
-      {status === 'uninstalled' && (
+      {status === 'pending' && (
         <Box>
           <Typography variant="caption" color="text.secondary">
             No accounts connected

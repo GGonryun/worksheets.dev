@@ -1,23 +1,22 @@
-import { Container, useMediaQuery, useTheme } from '@mui/material';
+import { Container } from '@mui/material';
 import {
   GetApplicationDetailsResponse,
   ListApplicationMethodDetailsResponse,
 } from '@worksheets/schemas-applications';
 import React from 'react';
 import { injectStyles } from '@stoplight/mosaic';
-import { Flex } from '@worksheets/ui/common';
-
+import { Flex } from '@worksheets/ui-core';
 import { TableOfContents } from './table-of-contents';
 
 import { ApiPanelHeader } from './api-panel-header';
 import { MethodDetailsList } from './method-details-list';
+import { useLayout } from '@worksheets/ui/common';
 
 export const ApiPanel: React.FC<{
   app: GetApplicationDetailsResponse;
   methods: ListApplicationMethodDetailsResponse;
 }> = ({ app, methods }) => {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const { isMobile } = useLayout();
 
   injectStyles();
 

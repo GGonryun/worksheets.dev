@@ -1,13 +1,13 @@
 import { ApplicationMetadata } from '../framework';
 
 export const pagerDuty: ApplicationMetadata<'pagerDuty'> = {
-  enabled: false,
+  enabled: true,
   logo: 'https://storage.googleapis.com/worksheets-test-app-logos/pagerduty.svg',
   title: 'Pager Duty',
   subtitle:
     'PagerDuty is a digital operations management platform that empowers the right action, when seconds matter.',
   categories: ['productivity', 'calendar'],
-  tags: ['paid'],
+  tags: ['paid', 'popular'],
   faq: [['TODO', 'TODO']],
   description:
     "PagerDuty's easy to use, self-service developer account makes getting started with integrations simple. Over 12,000 happy customers around the world count on PagerDuty for DevOps, IT Ops, Security, Customer Service, Business Ops, Industrial Ops and IOT, and many other use cases.",

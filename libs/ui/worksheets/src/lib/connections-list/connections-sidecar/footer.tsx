@@ -21,7 +21,6 @@ export const Footer: React.FC<{
   onUninstall: () => void;
   details: GetConnectionDetailsResponse;
 }> = ({ details, onUninstall }) => {
-  const utils = trpc.useContext();
   const uninstallConnection = trpc.connections.delete.useMutation();
 
   const handleUninstall = async () => {
@@ -29,7 +28,6 @@ export const Footer: React.FC<{
     if (!confirm('Are you sure you want to delete your connection?')) return;
 
     await uninstallConnection.mutateAsync({ connectionIds: [details.id] });
-    await utils.connections.getPage.invalidate();
     onUninstall();
   };
 

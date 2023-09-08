@@ -26,9 +26,9 @@ import { SettingsCardPayments } from './payments';
 import { prettyPrintMilliseconds } from '@worksheets/util/time';
 import { OpenInNewTabLink } from '@worksheets/ui/common';
 import { SERVER_SETTINGS } from '@worksheets/data-access/server-settings';
-import { UserOverviewResponse } from '../../shared/types';
+import { UserOverview } from '@worksheets/schemas-user';
 export const SettingsCardBilling: React.FC<{
-  overview: UserOverviewResponse;
+  overview: UserOverview;
 }> = ({ overview }) => {
   const utils = trpc.useContext();
 

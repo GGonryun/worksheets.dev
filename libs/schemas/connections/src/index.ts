@@ -146,14 +146,6 @@ export const updateConnectionPropertyResponseSchema = z.object({
   ok: z.boolean(),
 });
 
-export const toggleConnectionStatusRequestSchema = z.object({
-  appId: z.string(),
-});
-
-export const toggleConnectionStatusResponseSchema = z.object({
-  ok: z.boolean(),
-});
-
 /** Handshakes */
 export type HandshakeEntity = z.infer<typeof handshakeEntitySchema>;
 export const handshakeEntitySchema = z.object({
@@ -170,7 +162,7 @@ export type ListUserConnectionsRequest = z.infer<
   typeof listUserConnectionsRequestSchema
 >;
 export const listUserConnectionsRequestSchema = z.object({
-  appId: z.string(),
+  appId: z.string().optional(),
 });
 
 export type UserConnection = z.infer<typeof userConnectionSchema>;

@@ -1,13 +1,8 @@
-import { Box, Typography } from '@mui/material';
-import { TinyLogo } from '../shared/tiny-logo';
+import { Box, Container, Typography } from '@mui/material';
+import { TinyLogo } from '@worksheets/ui-basic-style';
 
 export const ApplicationsHeader = () => (
-  <Box
-    p={3}
-    sx={(theme) => ({
-      backgroundColor: theme.palette.background.paper,
-    })}
-  >
+  <Container maxWidth="xl" sx={{ py: 3 }}>
     <Box display="flex" gap={1} alignItems="center">
       <TinyLogo
         borderless
@@ -25,5 +20,5 @@ export const ApplicationsHeader = () => (
         workflows or custom solutions. Click on an application to learn more.
       </Typography>
     </Box>
-  </Box>
+  </Container>
 );

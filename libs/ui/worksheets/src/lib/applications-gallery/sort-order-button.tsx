@@ -1,9 +1,6 @@
 import { Sort } from '@mui/icons-material';
-import { Menu, MenuItem } from '@mui/material';
 import { FC, useState } from 'react';
-import { TinyToggle } from '../shared/tiny-toggle';
-import { TinyMenu } from '../shared/tiny-menu';
-import { TinyMenuItem } from '../shared/tiny-menu-list';
+import { TinyToggle, TinyMenu, TinyMenuItem } from '@worksheets/ui-basic-style';
 
 export enum SortOrder {
   AZ = 'az',
@@ -53,7 +50,12 @@ export const SortMenuButton: FC<{
       >
         Sort: {sortLabels[value]}
       </TinyToggle>
-      <TinyMenu anchorEl={anchorEl} open={open} onClose={() => handleClose()}>
+      <TinyMenu
+        anchorEl={anchorEl}
+        open={open}
+        onClose={() => handleClose()}
+        horizontal={'left'}
+      >
         {sortOrders.map((so) => (
           <TinyMenuItem
             key={so}

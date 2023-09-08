@@ -10,6 +10,7 @@ export const executeMethod = async ({
   userId,
   appId,
   methodId,
+  connectionId,
   input,
   context,
 }: {
@@ -20,6 +21,8 @@ export const executeMethod = async ({
   input: any;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   context: any;
+  // If available, use this connection as the context.
+  connectionId?: string;
 }): Promise<unknown> => {
   const start = Date.now();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -49,9 +52,15 @@ export const executeMethod = async ({
     status: 0,
   };
 
-  // TODO: if no context was provided try to fetch the connection and translate it to a context.
   if (!context) {
-    context = await getFreshContext({ userId, appId });
+    if (!connectionId) {
+      throw new TRPCError({
+        code: 'BAD_REQUEST',
+        message: 'No context or connectionId provided',
+      });
+    }
+
+    context = await getFreshContext({ userId, connectionId });
   }
 
   let data;

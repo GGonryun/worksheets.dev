@@ -1,5 +1,4 @@
 import { newApplicationsDatabase } from '@worksheets/data-access/applications';
-import { getPresentiationalConnection } from '@worksheets/feat/app-connections';
 import {
   GetServiceDetailsResponse,
   ServiceEndpointInfo,
@@ -78,10 +77,10 @@ const getAppProvider = async ({
 }: GetAppProviderOptions): Promise<ServiceProvider> => {
   // find the app in the registry
   const app = apps.get(appId);
-  let status: ConnectionStatuses = 'uninstalled';
+  let status: ConnectionStatuses = 'pending';
   try {
-    const connection = await getPresentiationalConnection({ appId, userId });
-    status = connection.status;
+    // const connection = await getPresentiationalConnection({ appId, userId });
+    // status = connection.status;
   } catch (error) {
     if (error instanceof TRPCError && error.code === 'METHOD_NOT_SUPPORTED') {
       status = 'active';

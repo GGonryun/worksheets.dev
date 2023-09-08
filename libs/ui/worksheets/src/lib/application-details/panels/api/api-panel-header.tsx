@@ -3,7 +3,7 @@ import {
   GetApplicationDetailsResponse,
   ListApplicationMethodDetailsResponse,
 } from '@worksheets/schemas-applications';
-import { Flex } from '@worksheets/ui/common';
+import { Flex } from '@worksheets/ui-core';
 import { AnchoredTitle } from '../../../shared/anchored-title';
 import { LabeledMonoSpaceTextBox } from '../../../shared/mono-space-text-box';
 import { SERVER_SETTINGS } from '@worksheets/data-access/server-settings';

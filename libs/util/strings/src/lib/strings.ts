@@ -37,3 +37,11 @@ export function cleanseAlphaNumeric(string: string) {
 export function addCommasToNumber(number: number): string {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
+
+/**
+ * @description replace spaces with any character
+ * @param {string} string
+ */
+export function replaceSpaces(string: string, character: string): string {
+  return string.replace(/\s/g, character);
+}

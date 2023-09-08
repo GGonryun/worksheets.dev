@@ -8,15 +8,24 @@ const connectionsDb = newConnectionsDatabase();
 
 type ListUserConnectionsOpts = {
   userId: string;
-  appId: string;
+  appId?: string;
 };
 export const listUserConnections = async (
   opts: ListUserConnectionsOpts
 ): Promise<UserConnection[]> => {
-  const connections = await connectionsDb.query(
-    { f: 'appId', o: '==', v: opts.appId },
-    { f: 'userId', o: '==', v: opts.userId }
-  );
+  let connections;
+  if (!opts.appId) {
+    connections = await connectionsDb.query({
+      f: 'userId',
+      o: '==',
+      v: opts.userId,
+    });
+  } else {
+    connections = await connectionsDb.query(
+      { f: 'appId', o: '==', v: opts.appId },
+      { f: 'userId', o: '==', v: opts.userId }
+    );
+  }
 
   const userConnections: UserConnection[] = connections.map((c) => ({
     id: c.id,

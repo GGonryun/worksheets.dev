@@ -13,7 +13,7 @@ import {
   ListApplicationMethodDetailsResponse,
 } from '@worksheets/schemas-applications';
 import React from 'react';
-import { Flex } from '@worksheets/ui/common';
+import { Flex } from '@worksheets/ui-core';
 import { addCommasToNumber } from '@worksheets/util/strings';
 
 export const OverviewPanel: React.FC<{

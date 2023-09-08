@@ -2,6 +2,9 @@
   "name": "worksheets",
   "version": "0.0.0",
   "license": "MIT",
+  "prisma": {
+    "schema": "./libs/prisma/src/schemas/main.prisma"
+  },
   "scripts": {
     "cli": "npx nx run cli:bundlefy && node dist/libs/cli",
     "build:cli": "npx nx run cli:bundlefy",
@@ -13,7 +16,9 @@
     "serve:manual": "npx nx run manual:serve",
     "serve:firebase": "npx nx serve firebase",
     "serve:demos": "npx nx serve demos",
-    "serve": "firebase logout; firebase login; concurrently --kill-others  \"npm run serve:demos\" \"npm run serve:admin\" \"npm run serve:ide\" \"npm run serve:manual\" \"npm run serve:firebase\" \"npm run serve:api\""
+    "serve": "firebase logout; firebase login; concurrently --kill-others  \"npm run serve:demos\" \"npm run serve:admin\" \"npm run serve:ide\" \"npm run serve:manual\" \"npm run serve:firebase\" \"npm run serve:api\"",
+    "prisma:studio": "npx prisma studio",
+    "prisma:generate": "npx prisma generate"
   },
   "private": true,
   "dependencies": {
@@ -38,6 +43,7 @@
     "@nx/next": "16.1.4",
     "@octokit/request-error": "^4.0.1",
     "@pagerduty/pdjs": "^2.2.4",
+    "@prisma/client": "^5.2.0",
     "@segment/analytics-node": "^1.1.0",
     "@sendgrid/mail": "^7.7.0",
     "@simondotm/nx-firebase": "^1.1.0-beta.0",
@@ -98,6 +104,7 @@
     "react-json-pretty": "^2.2.0",
     "react-markdown": "^8.0.7",
     "react-resizable-panels": "^0.0.51",
+    "react-singleton-hook": "^4.0.1",
     "react-syntax-highlighter": "^15.5.0",
     "really-relaxed-json": "^0.3.2",
     "swr": "^2.1.5",
@@ -176,6 +183,7 @@
     "nx": "16.1.4",
     "nx-cloud": "latest",
     "prettier": "^2.6.2",
+    "prisma": "^5.2.0",
     "react-refresh": "^0.10.0",
     "react-test-renderer": "18.2.0",
     "sass": "1.61.0",
@@ -185,7 +193,8 @@
     "typescript": "~5.0.2",
     "url-loader": "^4.1.1",
     "validate-npm-package-name": "^5.0.0",
-    "verdaccio": "^5.0.4"
+    "verdaccio": "^5.0.4",
+    "zod-prisma": "^0.5.4"
   },
   "nx": {
     "includedScripts": []

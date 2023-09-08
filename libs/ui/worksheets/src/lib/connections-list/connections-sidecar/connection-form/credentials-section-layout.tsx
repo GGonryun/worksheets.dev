@@ -1,7 +1,7 @@
 import { Collapse, Typography, Alert } from '@mui/material';
 import { FC, ReactNode } from 'react';
 import { SectionHeader } from './section-header';
-import { Flex } from '@worksheets/ui/common';
+import { Flex } from '@worksheets/ui-core';
 import { CredentialStatuses } from '@worksheets/schemas-connections';
 
 export const CredentialsSectionLayout: FC<{

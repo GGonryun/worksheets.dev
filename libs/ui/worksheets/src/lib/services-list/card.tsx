@@ -15,8 +15,9 @@ import {
   ConnectedServiceDescription,
   ServiceStatus,
 } from '@worksheets/schemas-services';
-import { TinyLogo } from '../shared/tiny-logo';
 import { ApplicationBasics } from '@worksheets/schemas-applications';
+import { TinyLogo } from '@worksheets/ui-basic-style';
+import { useProjectUrls } from '@worksheets/ui-projects';
 
 const statusLabels: Record<ServiceStatus, string> = {
   connected: 'Connected',
@@ -49,10 +50,11 @@ export const ServiceCard: React.FC<ConnectedServiceDescription> = ({
   providers,
   id,
 }) => {
+  const urls = useProjectUrls();
   return (
     <Box sx={{ width: 180 }}>
       <Card variant="outlined">
-        <CardActionArea href={`/services/${id}`}>
+        <CardActionArea href={urls.app.project.service(id)}>
           <CardHeader
             sx={{ px: 2, pt: 2, pb: 0, m: 0 }}
             avatar={<TinyLogo src={logo} label={title} borderless area={30} />}

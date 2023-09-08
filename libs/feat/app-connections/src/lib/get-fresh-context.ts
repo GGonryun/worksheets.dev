@@ -1,7 +1,7 @@
-import { TRPCError } from '@trpc/server';
 import { newApplicationsDatabase } from '@worksheets/data-access/applications';
 import { newConnectionsDatabase } from '@worksheets/data-access/connections';
 import { getConnection } from './util';
+import { ConnectionEntity } from '@worksheets/schemas-connections';
 
 const applications = newApplicationsDatabase();
 const connections = newConnectionsDatabase();
@@ -9,30 +9,18 @@ const connections = newConnectionsDatabase();
 // method execution relies on this.
 export const getFreshContext = async (opts: {
   userId: string;
-  appId: string;
-}): Promise<Record<string, unknown>> => {
-  if (!applications.supportsConnections(opts.appId)) {
-    return {};
-  }
-
+  connectionId: string;
+}): Promise<{
+  context?: Record<string, unknown>;
+  connection?: ConnectionEntity;
+}> => {
   const connection = await getConnection(opts);
   if (!connection) {
     return {};
   }
 
-  // check if we have an error if so terminate with an error.
-  if (connection.error) {
-    throw new TRPCError({
-      code: 'UNAUTHORIZED',
-      message: connection.error,
-    });
-  }
-
-  if (connection.status !== 'active') {
-    throw new TRPCError({
-      code: 'UNAUTHORIZED',
-      message: 'Connection is not active',
-    });
+  if (!applications.supportsConnections(connection.appId)) {
+    return {};
   }
 
   // check if any oauth fields are stale and need refreshing before use.
@@ -46,5 +34,5 @@ export const getFreshContext = async (opts: {
 
   const context = await applications.translateConnectionToContext(connection);
 
-  return context;
+  return { context, connection };
 };

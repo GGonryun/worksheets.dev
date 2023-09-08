@@ -1,12 +1,14 @@
-import { Paper, alpha, Typography } from '@mui/material';
+import { Paper, alpha, Typography, Button } from '@mui/material';
 import { FC } from 'react';
-import { TinyLogo } from '../../shared/tiny-logo';
-import { Flex } from '@worksheets/ui/common';
+import { Flex } from '@worksheets/ui-core';
 import { isLastBitOne } from '@worksheets/util-sys';
+import { East } from '@mui/icons-material';
+import { TinyLogo } from '@worksheets/ui-basic-style';
 
-export const ConnectionEstablishedNotice: FC<{ connectionId: string }> = ({
-  connectionId,
-}) => (
+export const ConnectionEstablishedNotice: FC<{
+  connectionId: string;
+  onClose: () => void;
+}> = ({ connectionId, onClose }) => (
   <Paper
     variant="outlined"
     sx={(theme) => ({
@@ -37,10 +39,18 @@ export const ConnectionEstablishedNotice: FC<{ connectionId: string }> = ({
               Connection established
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              Your connection was established successfully. Click on
-              configuration for advanced options.
+              Optionally, configure your connection's name or settings below.
             </Typography>
           </Flex>
+          <Button
+            size="small"
+            variant="contained"
+            color="success"
+            endIcon={<East sx={{ ml: 1 }} />}
+            onClick={onClose}
+          >
+            Close Sidecar
+          </Button>
         </Flex>
       </Flex>
     </Flex>

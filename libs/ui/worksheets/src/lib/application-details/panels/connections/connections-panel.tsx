@@ -1,4 +1,4 @@
-import { Button, CircularProgress, Paper } from '@mui/material';
+import { CircularProgress, Paper } from '@mui/material';
 import {
   GetApplicationDetailsResponse,
   ListApplicationMethodDetailsResponse,
@@ -6,15 +6,15 @@ import {
 import React, { useState } from 'react';
 import { Box, Typography } from '@mui/material';
 import { Add, Delete, List } from '@mui/icons-material';
-import { Flex } from '@worksheets/ui/common';
-import { ConnectionsDataTable } from './connections-data-table';
-import { TinyLogo } from '../../../shared/tiny-logo';
-import { useUser } from '@worksheets/util/auth/client';
-import { SignUpFirstNotice } from './sign-up-first-notice';
+import { urls, useLayout, useUser } from '@worksheets/ui/common';
+import { Flex } from '@worksheets/ui-core';
+import { ConnectionsDataTable } from '../../../connections-list/connections-data-table';
 import { useRouter } from 'next/router';
-import { urls } from '../../../shared/urls';
 import { trpc } from '@worksheets/trpc/ide';
 import { UnbiasedConnectionSidecar } from '../../../connections-list/connections-sidecar/container';
+import { SignUpFirstNotice } from '../../../connections-list/sign-up-first-notice';
+import { TinyButton, TinyLogo } from '@worksheets/ui-basic-style';
+import { ProjectSelector, useProjectId } from '@worksheets/ui-projects';
 
 export const ConnectionsPanel: React.FC<{
   app: GetApplicationDetailsResponse;
@@ -22,6 +22,8 @@ export const ConnectionsPanel: React.FC<{
 }> = ({ app }) => {
   const { push } = useRouter();
   const { user } = useUser();
+  const { isTablet } = useLayout();
+  const [projectId] = useProjectId();
 
   const utils = trpc.useContext();
 
@@ -41,8 +43,9 @@ export const ConnectionsPanel: React.FC<{
   const [selectedConnections, setSelectedConnections] = useState<string[]>([]);
 
   const handleSidecarClose = () => {
-    setConnectionId('');
+    setConnectionId(undefined);
     setOpen(false);
+    console.log('editing and setting new connection 3');
   };
 
   const handlePrimaryClick = () => {
@@ -50,7 +53,8 @@ export const ConnectionsPanel: React.FC<{
       push('/login');
     } else {
       setOpen(true);
-      setConnectionId('');
+      setConnectionId(undefined);
+      console.log('editing and setting new connection 2');
     }
   };
 
@@ -69,6 +73,7 @@ export const ConnectionsPanel: React.FC<{
   };
 
   const handleEdit = (id: string) => {
+    console.log('editing and setting new connection 1');
     setConnectionId(id);
     setOpen(true);
   };
@@ -83,93 +88,95 @@ export const ConnectionsPanel: React.FC<{
 
   return (
     <>
-      <Box
-        sx={{
-          m: 0,
-          maxWidth: 1200,
-          height: '100%',
-          p: 3,
-        }}
-      >
-        <Flex column gap={3}>
-          <Flex spaceBetween>
-            <Flex gap={2}>
-              <TinyLogo
-                borderless
-                label="Connections"
-                src="/icons/features/connections.svg"
-                area={40}
-              />
-              <Typography variant="h5" fontWeight={900}>
-                Manage connections
-              </Typography>
-            </Flex>
-            <Flex gap={1}>
-              {user && (
-                <Button
-                  size="small"
-                  variant="outlined"
-                  color="inherit"
-                  startIcon={<List />}
-                  href={urls.app.connections}
-                  sx={(theme) => ({
-                    backgroundColor: theme.palette.background.paper,
-                    borderColor: theme.palette.grey[400],
-                    '&:hover': {
-                      backgroundColor: theme.palette.grey[300],
-                      borderColor: theme.palette.grey[500],
-                    },
-                  })}
-                >
-                  View All
-                </Button>
-              )}
-              {selectedConnections.length ? (
-                <Button
-                  size="small"
-                  color="error"
-                  variant="contained"
-                  startIcon={<Delete />}
-                  onClick={handleDeleteSelected}
-                >
-                  Delete All
-                </Button>
-              ) : (
-                <Button
-                  size="small"
-                  variant="contained"
-                  startIcon={<Add />}
-                  onClick={handlePrimaryClick}
-                >
-                  {user ? 'Connect' : 'Sign up'}
-                </Button>
-              )}
-            </Flex>
+      <Flex column gap={3} py={3}>
+        <Flex spaceBetween wrap={isTablet} gap={2}>
+          <Flex gap={2}>
+            <TinyLogo
+              borderless
+              label="Connections"
+              src="/icons/features/connections.svg"
+              area={40}
+            />
+            <Typography variant="h5" fontWeight={900}>
+              Manage connections
+            </Typography>
           </Flex>
-          <Paper
-            variant="outlined"
-            sx={{
-              backgroundColor: 'background.default',
-            }}
-          >
-            {user ? (
-              <ConnectionsDataTable
-                onDelete={(id) => handleDeleteMulti([id])}
-                onEdit={(id) => handleEdit(id)}
-                rows={connections ?? []}
-                onSelectionChange={setSelectedConnections}
-              />
-            ) : (
-              <SignUpFirstNotice />
+          <Flex gap={1}>
+            {user && (
+              <>
+                <Paper elevation={0} sx={{ maxWidth: 200 }}>
+                  <ProjectSelector variant="outlined" />
+                </Paper>
+                <Paper elevation={0}>
+                  <TinyButton
+                    size="small"
+                    variant="outlined"
+                    disabled={!projectId}
+                    color="inherit"
+                    startIcon={<List />}
+                    href={
+                      projectId
+                        ? urls.app.project(projectId).connections
+                        : urls.app.projects
+                    }
+                  >
+                    View All
+                  </TinyButton>
+                </Paper>
+              </>
             )}
-          </Paper>
+            {selectedConnections.length ? (
+              <TinyButton
+                size="small"
+                color="error"
+                variant="contained"
+                startIcon={<Delete />}
+                onClick={handleDeleteSelected}
+              >
+                Delete All
+              </TinyButton>
+            ) : (
+              <TinyButton
+                size="small"
+                variant="contained"
+                disabled={!projectId}
+                startIcon={<Add />}
+                onClick={handlePrimaryClick}
+              >
+                {user ? 'Connect' : 'Sign up'}
+              </TinyButton>
+            )}
+          </Flex>
         </Flex>
-      </Box>
+        <Paper
+          variant="outlined"
+          sx={{
+            backgroundColor: 'background.default',
+          }}
+        >
+          {user ? (
+            <ConnectionsDataTable
+              onDelete={(id) => handleDeleteMulti([id])}
+              onEdit={(opts) => handleEdit(opts.connectionId)}
+              rows={connections ?? []}
+              onSelectionChange={setSelectedConnections}
+            />
+          ) : (
+            <SignUpFirstNotice />
+          )}
+        </Paper>
+      </Flex>
       <UnbiasedConnectionSidecar
         appId={app.appId}
         connectionId={connectionId}
         open={open}
         onClose={handleSidecarClose}
+        onSelectApp={() =>
+          alert(
+            'TODO: support app selection from application connections panel'
+          )
+        }
+        onSelectConnection={setConnectionId}
       />
     </>
   );

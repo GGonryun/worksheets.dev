@@ -2,9 +2,9 @@ import { Box, Typography } from '@mui/material';
 import { PresentationalField } from '@worksheets/schemas-connections';
 import { OpenInNewLink } from '../../../shared/open-in-new-link';
 import { RequiredAsterisk } from '../../../shared/required-asterisk';
-import { TinyTextField } from '../../../shared/tiny-text-field';
-import { Flex } from '@worksheets/ui/common';
+import { Flex } from '@worksheets/ui-core';
 import { PriorityHigh } from '@mui/icons-material';
+import { TinyTextField } from '@worksheets/ui-basic-style';
 
 export const SensitiveFormField: React.FC<{
   field: PresentationalField;
@@ -32,6 +32,7 @@ export const SensitiveFormField: React.FC<{
           How to get an {field.label}
         </OpenInNewLink>
       </Flex>
+      {/* TODO: can I remove this flex box safely? */}
       <Flex gap={1}>
         <span style={{ width: '100%' }}>
           <TinyTextField

@@ -1,26 +1,21 @@
 import { KeyboardBackspace } from '@mui/icons-material';
-import {
-  useMediaQuery,
-  Box,
-  Link,
-  useTheme,
-  NativeSelect,
-  Paper,
-} from '@mui/material';
+import { Box, Link, NativeSelect, Paper } from '@mui/material';
 import {
   GetApplicationDetailsResponse,
   ListApplicationMethodDetailsResponse,
 } from '@worksheets/schemas-applications';
-import { Flex } from '@worksheets/ui/common';
+import { Flex } from '@worksheets/ui-core';
+import { useLayout } from '@worksheets/ui/common';
 import { useRouter } from 'next/router';
 
 export const TableOfContents: React.FC<{
   app: GetApplicationDetailsResponse;
   methods: ListApplicationMethodDetailsResponse;
 }> = ({ methods, app }) => {
-  const theme = useTheme();
   const { push } = useRouter();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+
+  const { isMobile } = useLayout();
+
   if (isMobile)
     return (
       <Paper sx={{ width: '100%' }} elevation={0} variant="outlined">

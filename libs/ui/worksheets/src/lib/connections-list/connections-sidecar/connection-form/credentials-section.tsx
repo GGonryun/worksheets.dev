@@ -3,7 +3,7 @@ import { Box, Tooltip, Button, Typography, Alert } from '@mui/material';
 import { GetConnectionDetailsResponse } from '@worksheets/schemas-connections';
 import { FC, useEffect, useState } from 'react';
 import { SensitiveFormField } from './sensitive-form-field';
-import { Flex } from '@worksheets/ui/common';
+import { Flex } from '@worksheets/ui-core';
 import { CredentialsSectionLayout } from './credentials-section-layout';
 import { OAuthFormField } from './oauth-form-field';
 import { trpc } from '@worksheets/trpc/ide';

@@ -24,14 +24,18 @@ export const getUserServiceProviderContext = async ({
     return { error: 'service-disabled' };
   }
 
-  if (!config.providerId) {
-    return { error: 'service-provider-not-found' };
+  if (!config.connectionId) {
+    return { error: 'service-connection-required' };
   }
-  // get the freshest context for that service.
-  const context = await getFreshContext({
+  // TODO: use the connectionId from the config.
+  const { context, connection } = await getFreshContext({
     userId,
-    appId: config.providerId,
+    connectionId: config.connectionId,
   });
 
-  return { context, appId: config.providerId };
+  if (!connection) {
+    return { error: 'service-connection-not-found' };
+  }
+
+  return { context, appId: connection?.appId };
 };

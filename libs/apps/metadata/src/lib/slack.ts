@@ -6,7 +6,7 @@ export const slack: ApplicationMetadata<'slack'> = {
   title: 'Slack',
   subtitle: 'Send messages to Slack channels and users',
   categories: ['productivity', 'chat'],
-  tags: ['paid'],
+  tags: ['paid', 'new'],
   faq: [['TODO', 'TODO']],
   description:
     'Slack is a proprietary business communication platform developed by American software company Slack Technologies. Slack offers many IRC-style features, including persistent chat rooms organized by topic, private groups, and direct messaging.',

@@ -1,7 +1,7 @@
 import { Paper } from '@mui/material';
 import { ApplicationMethodItem } from '../../../../shared/types';
 import { CodeSamplesSection } from '../code-samples-section';
-import { Flex } from '@worksheets/ui/common';
+import { Flex } from '@worksheets/ui-core';
 import { MethodHeader } from './method-header';
 import { RequestSection } from './request-section';
 import { ResponseSection } from './response-section';

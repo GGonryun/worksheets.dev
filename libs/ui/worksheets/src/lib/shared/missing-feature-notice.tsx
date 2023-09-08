@@ -1,6 +1,6 @@
 import { Box, Typography, Link } from '@mui/material';
-import { Flex } from '@worksheets/ui/common';
-import { TinyLogo } from './tiny-logo';
+import { TinyLogo } from '@worksheets/ui-basic-style';
+import { Flex } from '@worksheets/ui-core';
 
 type MissingFeatureProps = {
   avatarId: number;

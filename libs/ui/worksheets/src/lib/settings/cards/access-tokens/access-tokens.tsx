@@ -11,16 +11,16 @@ import { SettingsCardGeneric } from '../generic';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { useState } from 'react';
 import { trpc } from '@worksheets/trpc/ide';
-import { useUser } from '@worksheets/util/auth/client';
 import { CreateTokenForm } from './create-token-form';
 import { TokensDataTable } from './data-table';
 import { TokenModal } from './token-modal';
-import { warn } from '@worksheets/ui/common';
+import { useUser, warn } from '@worksheets/ui/common';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { SERVER_SETTINGS } from '@worksheets/data-access/server-settings';
-import { UserOverviewResponse } from '../../../shared/types';
+import { UserOverview } from '@worksheets/schemas-user';
+
 export const SettingsCardAccessTokens: React.FC<{
-  overview: UserOverviewResponse;
+  overview: UserOverview;
 }> = () => {
   const { user } = useUser();
   const [newToken, setNewToken] = useState('');

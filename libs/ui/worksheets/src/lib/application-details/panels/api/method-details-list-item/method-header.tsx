@@ -2,7 +2,7 @@ import { Typography } from '@mui/material';
 import { AnchoredTitle } from '../../../../shared/anchored-title';
 import { ApplicationMethodItem } from '../../../../shared/types';
 import { MonoSpaceTextBox } from '../../../../shared/mono-space-text-box';
-import { Flex } from '@worksheets/ui/common';
+import { Flex } from '@worksheets/ui-core';
 
 export const MethodHeader = ({ method }: { method: ApplicationMethodItem }) => (
   <Flex column gap={2} alignItems="start">

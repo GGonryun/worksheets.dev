@@ -6,7 +6,7 @@ export const sys: ApplicationMetadata<'sys'> = {
   title: 'System',
   subtitle: 'Contains methods for interacting with the system',
   categories: ['system'],
-  tags: ['free'],
+  tags: ['free', 'internal'],
   faq: [['TODO', 'TODO']],
   description: '',
   creator: 'Worksheets.dev',

@@ -1,36 +1,26 @@
 import { trpc } from '@worksheets/trpc/ide';
 import Grid from '@mui/material/Unstable_Grid2';
 import { ApplicationCard } from './application-card';
-import WebsiteLayout from '../website-layout';
 import { HorizontalSpreadLayout } from '../shared/horizontal-spread-layout';
 import { ApplicationsHeader } from './applications-header';
 import { ApplicationsFooter } from './applications-footer';
-import { Flex } from '@worksheets/ui/common';
-import {
-  ButtonProps,
-  Collapse,
-  Container,
-  Paper,
-  Tooltip,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from '@mui/material';
+import { Flex } from '@worksheets/ui-core';
+import { Collapse, Paper, Tooltip, Typography } from '@mui/material';
 import {
   ApplicationCategory,
   ApplicationTag,
   ListApplicationsResponse,
 } from '@worksheets/schemas-applications';
 import { FC, ReactNode, useState } from 'react';
-import { TinyToggle } from '../shared/tiny-toggle';
+import { TinyToggle, TinyTextField } from '@worksheets/ui-basic-style';
 import {
   FilterAlt,
   FilterAltOutlined,
   SearchOutlined,
 } from '@mui/icons-material';
-import { TinyTextField } from '../shared/tiny-text-field';
 import { LinkButton } from '../shared/link-button';
 import { SortMenuButton, SortOrder } from './sort-order-button';
+import { useLayout } from '@worksheets/ui/common';
 
 export function ApplicationsGalleryPage() {
   const { data: applications } = trpc.applications.list.useQuery({
@@ -38,15 +28,11 @@ export function ApplicationsGalleryPage() {
   });
 
   return (
-    <WebsiteLayout secure={false}>
-      <HorizontalSpreadLayout
-        header={<ApplicationsHeader />}
-        body={<ApplicationsBody applications={applications ?? []} />}
-        footer={
-          <ApplicationsFooter app={{ title: 'Worksheets Application' }} />
-        }
-      />
-    </WebsiteLayout>
+    <HorizontalSpreadLayout
+      header={<ApplicationsHeader />}
+      body={<ApplicationsBody applications={applications ?? []} />}
+      footer={<ApplicationsFooter app={{ title: 'Worksheets Application' }} />}
+    />
   );
 }
 
@@ -95,23 +81,21 @@ export const ApplicationsBody: FC<{
   );
 
   return (
-    <Container maxWidth="xl" disableGutters sx={{ m: 0, p: 0 }}>
-      <Flex column gap={3} p={3}>
-        <ApplicationsFilterSection
-          applications={filteredApplications}
-          onChange={handleFilterChange}
-          onReset={handleFilterReset}
-          data={{
-            searchText,
-            tags: tagFilters,
-            categories: categoryFilters,
-            sortOrder,
-            hasChanges: hasFilters,
-          }}
-        />
-        <ApplicationsGrid applications={filteredApplications} />
-      </Flex>
-    </Container>
+    <Flex column gap={3} py={3}>
+      <ApplicationsFilterSection
+        applications={filteredApplications}
+        onChange={handleFilterChange}
+        onReset={handleFilterReset}
+        data={{
+          searchText,
+          tags: tagFilters,
+          categories: categoryFilters,
+          sortOrder,
+          hasChanges: hasFilters,
+        }}
+      />
+      <ApplicationsGrid applications={filteredApplications} />
+    </Flex>
   );
 };
 
@@ -153,7 +137,7 @@ const applyFilters: (
 
 type ApplicationFilterOption = ApplicationCategory | ApplicationTag;
 
-const filterLabel: Record<ApplicationFilterOption, string> = {
+export const filterLabel: Record<ApplicationFilterOption, string> = {
   data: 'Data',
   analytics: 'Analytics',
   media: 'Media',
@@ -171,20 +155,18 @@ const filterLabel: Record<ApplicationFilterOption, string> = {
   'artificial-intelligence': 'AI',
   notes: 'Notes',
   system: 'System',
-
   new: 'New',
-  popular: 'Popular',
   featured: 'Featured',
-  trending: 'Trending',
-  'open-source': 'Open Source',
+  internal: 'Internal',
+  popular: 'Popular',
   free: 'Free',
   paid: 'Paid',
   beta: 'Beta',
 };
 
-const filterOptionColors: Record<
+export const filterOptionColors: Record<
   ApplicationFilterOption,
-  ButtonProps['color']
+  'primary' | 'warning' | 'secondary' | 'success' | 'error'
 > = {
   data: 'primary',
   analytics: 'primary',
@@ -202,14 +184,13 @@ const filterOptionColors: Record<
   chat: 'primary',
   'artificial-intelligence': 'primary',
   notes: 'primary',
-  system: 'warning',
-  new: 'secondary',
-  popular: 'secondary',
+  system: 'primary',
+  internal: 'error',
+  new: 'warning',
   featured: 'secondary',
-  trending: 'secondary',
-  'open-source': 'secondary',
   free: 'success',
   paid: 'success',
+  popular: 'secondary',
   beta: 'success',
 };
 
@@ -235,12 +216,11 @@ const defaultCategoryFilters: Record<ApplicationCategory, boolean> = {
 
 const defaultTagFilters: Record<ApplicationTag, boolean> = {
   new: false,
-  popular: false,
+  internal: false,
   featured: false,
-  trending: false,
+  popular: false,
   free: false,
   paid: false,
-  'open-source': false,
   beta: false,
 };
 
@@ -269,8 +249,7 @@ export const ApplicationsFilterSection: FC<{
   onChange: (opts: Partial<ApplicationFilterData>) => void;
   onReset: () => void;
 }> = ({ applications, onChange, data, onReset }) => {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const { isMobile } = useLayout();
 
   const numActiveFilters = data.tags.length + data.categories.length;
 
@@ -424,7 +403,7 @@ export const ApplicationsGrid: FC<{
   return (
     <Grid container spacing={2}>
       {applications?.map((a) => (
-        <Grid xs={6} sm={4} md={3} lg={2} key={a.id}>
+        <Grid xs={12} sm={6} md={4} lg={3} xl={2} key={a.id}>
           <ApplicationCard application={a} />
         </Grid>
       ))}
