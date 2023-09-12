@@ -6,7 +6,7 @@ const Page: NextPageWithLayout = () => {
 };
 
 Page.getLayout = (page) => {
-  return <WebsiteLayout title="Analytics">{page}</WebsiteLayout>;
+  return <WebsiteLayout title="Events">{page}</WebsiteLayout>;
 };
 
 export default Page;

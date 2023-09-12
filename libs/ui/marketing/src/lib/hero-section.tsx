@@ -20,18 +20,18 @@ const primaryFeatures = [
   },
   {
     beta: true,
-    title: 'Connection Vault',
-    description: 'Interact with apps on behalf of your users.',
-    logo: '/icons/features/vault.svg',
+    title: 'Code Converter',
+    description: 'Translate HTTP requests across programming languages.',
+    logo: '/icons/features/converter.svg',
   },
 ];
 
 const secondaryFeatures = [
   {
     beta: true,
-    title: 'Analytics',
-    description: 'Instantly understand how your integrations are performing.',
-    logo: '/icons/features/analytics.svg',
+    title: 'Connection Vault',
+    description: 'Interact with apps on behalf of your users.',
+    logo: '/icons/features/vault.svg',
   },
   {
     beta: true,

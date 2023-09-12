@@ -11,6 +11,9 @@ import {
   FrequentlyAskedQuestionsMarketingSection,
   QuoteSection,
 } from '../../components';
+import { AvailableServicesSection } from '../../components/available-services-section';
+import { EarlyAccessProgramSection } from '../../components/early-access-program-section';
+import { SupportButtonsSection } from '../../components/support-buttons-section';
 
 const resources = [
   {
@@ -107,10 +110,7 @@ export const ServicesFeatureWedge = () => {
         <ResourceGridSection resources={resources} />
       </SectionLayout>
       <Divider />
-      <SectionLayout backgroundColor="success">
-        TODO: "What services do you support?" similar to connections but shows a
-        list of our supported services for the service layer.
-      </SectionLayout>
+      <AvailableServicesSection backgroundColor="success" />
       <Divider />
       <ExplanationWedge />
       <Divider />
@@ -136,6 +136,9 @@ export const ServicesFeatureWedge = () => {
         backgroundColor="warning"
         icon="/symbols/white/pyramid.svg"
       />
+      <Divider />
+      <EarlyAccessProgramSection />
+      <SupportButtonsSection />
     </Flex>
   );
 };

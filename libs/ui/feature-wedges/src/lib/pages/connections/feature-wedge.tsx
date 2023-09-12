@@ -7,17 +7,19 @@ import {
   VideoSection,
   SectionLayout,
   ResourceGridSection,
-  ApplicationsSection,
+  AvailableApplicationsSection,
   PricingMarketingSection,
   FrequentlyAskedQuestionsMarketingSection,
   QuoteSection,
 } from '../../components';
+import { EarlyAccessProgramSection } from '../../components/early-access-program-section';
+import { SupportButtonsSection } from '../../components/support-buttons-section';
 
 const connectionResources = [
   {
-    title: 'Programmatic OAuth 2.0',
+    title: 'Application registry',
     subtitle:
-      'Learn how to connect an app to **Gmail** in less than 2 minutes. This video teaches you how to access connections in your apps with our API.',
+      'All your documentation in one place. Use our intuitive API and gain access to hundreds of applications all with one simple API. We support a variety of authentication modes to ensure your data is secure.',
     icon: (
       <TinyLogo
         src="https://storage.googleapis.com/worksheets-test-app-logos/apps/gmail.svg"
@@ -30,7 +32,7 @@ const connectionResources = [
   {
     title: 'Rapid prototyping',
     subtitle:
-      "Create a custom discord webhook endpoint in less than 15 minutes. In this video we'll be triaging issues from Github and sending them to Discord.",
+      'Stop managing enviornment variables. We make it easy to prototype applications that connect to third-party services. No more scrolling and searching through documentation.',
     icon: (
       <TinyLogo
         src="https://storage.googleapis.com/worksheets-test-app-logos/apps/discord.svg"
@@ -41,9 +43,9 @@ const connectionResources = [
     href: '#',
   },
   {
-    title: 'Share connections',
+    title: 'Unlimited environments',
     subtitle:
-      "This tutorial creates a connection to **Notion** and shares it with your team. We'll be using the Notion API to create a new page in your workspace.",
+      "Stop mocking API requests and test real interactions with third party services securely. Easily swap between your production, staging, and test environments with a single click. We'll handle all of the authentication for you.",
     icon: (
       <TinyLogo
         src="https://storage.googleapis.com/worksheets-test-app-logos/apps/notion.svg"
@@ -76,10 +78,10 @@ export const ConnectionsFeatureWedge = () => {
   return (
     <Flex column>
       <TitleSection
-        title="Connections"
+        title="Connection"
         subtitle="Access data from any application"
         icon="/icons/features/connections.svg"
-        description="Connections bridge the gap between your application and third-party services. Use connections to build workflows or share resources across your organization."
+        description="Our application registry helps you gain instant access to third-party services with one simple API. Use applications to build workflows or share resources across your organization."
         buttons={{
           primary: {
             label: 'Request access',
@@ -90,14 +92,14 @@ export const ConnectionsFeatureWedge = () => {
       <Divider />
       <VideoSection
         src={'TODO'}
-        title="What are Connections?"
-        subtitle="Get a quick overview of how Connections can help you save time."
+        title="What are Applications and Connections?"
+        subtitle="Get a quick overview of how our Application Registry can help you save time."
       />
       <SectionLayout backgroundColor="white" maxWidth="md" pt={0} pb={12}>
         <ResourceGridSection resources={connectionResources} />
       </SectionLayout>
       <Divider />
-      <ApplicationsSection />
+      <AvailableApplicationsSection backgroundColor="secondary" />
       <Divider />
       <ExplanationWedge />
       <Divider />
@@ -121,6 +123,9 @@ export const ConnectionsFeatureWedge = () => {
         backgroundColor="primary"
         icon="/symbols/blue/bolt.svg"
       />
+      <Divider />
+      <EarlyAccessProgramSection />
+      <SupportButtonsSection />
     </Flex>
   );
 };

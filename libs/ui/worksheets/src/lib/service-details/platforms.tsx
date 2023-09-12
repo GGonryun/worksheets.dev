@@ -24,17 +24,17 @@ import {
 } from '@mui/material';
 import { ConnectionStatuses } from '@worksheets/schemas-connections';
 import {
-  statusLabel,
-  statusColor,
-  statusIcon,
-  isConnected,
-} from '../connections-list/state-maps';
-import {
   GetServiceDetailsResponse,
   ServiceProvider,
 } from '@worksheets/schemas-services';
 import { trpc } from '@worksheets/trpc/ide';
 import { TinyLogo } from '@worksheets/ui-basic-style';
+import {
+  isConnected,
+  statusColor,
+  statusIcon,
+  statusLabel,
+} from '@worksheets/ui/connections';
 
 export const PlatformSelectionTab: React.FC<GetServiceDetailsResponse> = ({
   service,

@@ -9,7 +9,7 @@ export const projectFeaturesSchema = z.enum([
   'services',
   'vault',
   'connections',
-  'analytics',
+  'converter',
   'events',
 ]);
 

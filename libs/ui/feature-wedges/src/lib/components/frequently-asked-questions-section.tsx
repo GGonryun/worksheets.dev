@@ -92,7 +92,7 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
 }));
 
 export type QuestionAnswerPair = {
-  question: string;
+  question: MicroMarkdownText;
   answer: MicroMarkdownText;
 };
 
@@ -115,7 +115,9 @@ const QuestionAnswerAccordion: FC<{ pairs: QuestionAnswerPair[] }> = ({
           onChange={handleChange(index)}
         >
           <AccordionSummary>
-            <Typography variant="body2">{pair.question}</Typography>
+            <Typography variant="body2">
+              <MicroMarkdown text={pair.question} />
+            </Typography>
           </AccordionSummary>
           <AccordionDetails>
             <Typography variant="caption">

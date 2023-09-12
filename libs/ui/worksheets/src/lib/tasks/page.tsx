@@ -1,3 +1,5 @@
-import { Box } from '@mui/material';
+import { TasksFeatureWedge } from '@worksheets/ui/feature-wedges';
 
-export const TasksPage = () => <Box>Hi Mom from Tasks Page!</Box>;
+export const TasksPage = () => {
+  return <TasksFeatureWedge />;
+};

@@ -39,6 +39,8 @@ export const serviceDescriptionSchema = z.object({
   subtitle: z.string(),
   logo: z.string(),
   category: serviceCategorySchema,
+  endpoints: z.array(z.string()),
+  providers: z.array(applicationBasicsSchema),
 });
 
 export type ConnectedServiceDescription = z.infer<
@@ -50,12 +52,15 @@ export const connectedServiceDescriptionSchema = z.object({
     status: serviceStatusSchema,
     appId: z.string().optional(),
   }),
-  endpoints: z.array(z.string()),
-  providers: z.array(applicationBasicsSchema),
 });
 
 export type ListServicesResponse = z.infer<typeof listServicesResponseSchema>;
-export const listServicesResponseSchema = z.record(
+export const listServicesResponseSchema = z.array(serviceDescriptionSchema);
+
+export type CategorizeServicesResponse = z.infer<
+  typeof categorizeServicesResponseSchema
+>;
+export const categorizeServicesResponseSchema = z.record(
   serviceCategorySchema,
   z.array(connectedServiceDescriptionSchema)
 );

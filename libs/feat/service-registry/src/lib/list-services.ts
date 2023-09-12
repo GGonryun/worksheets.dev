@@ -1,44 +1,18 @@
 import {
-  ConnectedServiceDescription,
+  ServiceDescription,
   ListServicesResponse,
-  ServiceConfigurationEntity,
-  ServiceStatus,
 } from '@worksheets/schemas-services';
-import { services } from '@worksheets/services-registry';
-import { findServiceConfiguration } from './util';
 import { newApplicationsDatabase } from '@worksheets/data-access/applications';
+import { services } from '@worksheets/services-registry';
 
 const apps = newApplicationsDatabase();
-export const listServices = async (opts: {
-  userId: string;
-}): Promise<ListServicesResponse> => {
-  const serviceDetails: ListServicesResponse = {
-    communication: [],
-    data: [],
-    media: [],
-    social: [],
-    storage: [],
-    finance: [],
-    location: [],
-    internal: [],
-    prediction: [],
-  };
-
+export const listServices = async (): Promise<ListServicesResponse> => {
+  const descriptions: ServiceDescription[] = [];
   for (const key in services) {
     const serviceId = key as keyof typeof services;
     const value = services[serviceId];
 
-    const config = await findServiceConfiguration({
-      userId: opts.userId,
-      serviceId,
-    });
-
-    const service: ConnectedServiceDescription = {
-      connection: {
-        status: determineServiceStatus(config),
-        // TODO: refactor configs, we may need to save the app id in the config to save a lookup here.
-        appId: undefined,
-      },
+    const service: ServiceDescription = {
       id: value.id,
       title: value.title,
       subtitle: value.subtitle,
@@ -48,25 +22,8 @@ export const listServices = async (opts: {
       endpoints: Object.keys(value.endpoints),
     };
 
-    serviceDetails[value.category]?.push(service);
+    descriptions.push(service);
   }
 
-  return serviceDetails;
-};
-
-const determineServiceStatus = (
-  config: ServiceConfigurationEntity | undefined
-): ServiceStatus => {
-  if (!config || !config.connectionId) {
-    return 'uninstalled';
-  }
-
-  if (!config.enabled) {
-    return 'disabled';
-  }
-
-  // TODO: add stability check.
-  // return "unstable";
-
-  return 'connected';
+  return descriptions;
 };

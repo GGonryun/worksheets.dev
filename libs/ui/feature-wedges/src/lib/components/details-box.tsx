@@ -1,8 +1,8 @@
 import { Box, Typography } from '@mui/material';
 import { TinyLink } from '@worksheets/ui-basic-style';
 import { MicroMarkdownText, MicroMarkdown, Flex } from '@worksheets/ui-core';
+import { PaddingStyles } from '@worksheets/ui/common';
 import { FC, ReactNode } from 'react';
-import { PaddingStyles } from './section-layout';
 
 export const DetailsBox: FC<
   PaddingStyles & {

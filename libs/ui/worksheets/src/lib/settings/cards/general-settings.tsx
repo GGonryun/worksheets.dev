@@ -1,9 +1,9 @@
 import { SettingsCardTextField } from './text-field';
 
 import React from 'react';
-import { UserOverviewResponse } from '../../shared/types';
+import { UserOverview } from '@worksheets/schemas-user';
 
-export const GeneralSettings: React.FC<{ overview: UserOverviewResponse }> = ({
+export const GeneralSettings: React.FC<{ overview: UserOverview }> = ({
   overview,
 }) => {
   return (

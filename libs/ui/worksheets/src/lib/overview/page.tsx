@@ -1,7 +1,7 @@
-import { FeatureLayout } from '../feature-layout';
 import { Flex } from '@worksheets/ui-core';
 import { useProjectUrls } from '@worksheets/ui-projects';
 import { OverviewSection } from './section';
+import { FeatureLayout } from '@worksheets/ui/common';
 
 const featureColors = {
   red: '#E99797',
@@ -91,25 +91,26 @@ export const OverviewPage = () => {
           ]}
         />
         <OverviewSection
-          title="Understand your data"
-          subtitle={`Don't debug problems when it's too late. Get real-time insights and metrics with [Events](${urls.app.feature.events}) and [Analytics](${urls.app.feature.analytics}).`}
+          title="Supporting tools"
+          subtitle={`Iterate faster with our one-shot developer tools. Give your application bidirectional real-time [Events](${urls.app.feature.events}) and instant [code conversion](${urls.app.feature.converter}).`}
           features={[
             {
               beta: true,
               color: featureColors.green,
-              title: 'Analytics',
+              title: 'Events',
               subtitle:
-                'Collect and visualize execution data across your apps.',
-              src: '/icons/features/analytics.svg',
-              href: urls.app.project.analytics,
+                'React to data across applications or on third-party services, instantly.',
+              src: '/icons/features/events.svg',
+              href: urls.app.project.events,
             },
             {
               beta: true,
               color: featureColors.green,
-              title: 'Events',
-              subtitle: 'React to data across applications, instantly.',
-              src: '/icons/features/events.svg',
-              href: urls.app.project.events,
+              title: 'Code Converter',
+              subtitle:
+                'Translate HTTP requests from one programming language to any other.',
+              src: '/icons/features/converter.svg',
+              href: urls.app.project.converter,
             },
           ]}
         />

@@ -14,7 +14,7 @@ const toggleableFeatures: ProjectFeatures[] = [
   'connections',
   'services',
   'tasks',
-  'analytics',
+  'converter',
   'vault',
   'events',
 ];

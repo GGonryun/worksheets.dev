@@ -26,9 +26,7 @@ export const ExplanationWedge = () => {
         right={
           <DetailsBox
             title={'Create'}
-            subtitle={
-              'Use our visual editor to create connections between your applications. We support over 100+ applications and are adding more every day.'
-            }
+            subtitle={`Use our visual editor to create connections between your applications. We currently support 10+ applications and are adding more every day.`}
             icon={
               <TinyLogo
                 borderless

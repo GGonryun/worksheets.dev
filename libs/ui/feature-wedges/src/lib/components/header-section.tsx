@@ -4,14 +4,16 @@ import { Flex, MicroMarkdown, MicroMarkdownText } from '@worksheets/ui-core';
 
 export const HeaderSection: FC<{
   icon?: ReactNode;
-  title: string;
+  title: MicroMarkdownText;
   subtitle?: MicroMarkdownText;
   dividerless?: boolean;
 }> = ({ icon, title, subtitle, dividerless }) => {
   return (
     <Flex centered column>
       {icon && <Box pb={2}>{icon}</Box>}
-      <Typography variant="h5">{title}</Typography>
+      <Typography variant="h5">
+        <MicroMarkdown text={title} />
+      </Typography>
       {subtitle && (
         <Typography
           variant="caption"

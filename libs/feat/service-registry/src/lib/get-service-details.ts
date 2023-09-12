@@ -27,7 +27,7 @@ export const getServiceDetails = async (
   const endpoints = getServiceEndpoints(service.endpoints);
 
   return {
-    service,
+    service: { ...service, providers, endpoints: endpoints.map((e) => e.id) },
     configuration,
     providers,
     endpoints,

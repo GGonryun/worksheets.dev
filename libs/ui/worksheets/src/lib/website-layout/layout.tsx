@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Box, useTheme } from '@mui/material';
+import { Box, Divider, useTheme } from '@mui/material';
 import {
   useLocalStorage,
   useNavigateToHash,
@@ -8,20 +8,14 @@ import {
 } from '@worksheets/ui/common';
 import { NavigationBar } from './navigation-bar';
 import { NavigationDrawer } from './navigation-drawer';
-import { WebsiteFooter, WebsiteFooterProps } from './footer';
+import { WebsiteFooter } from './footer';
 
 export type LayoutProps = {
   children: React.ReactNode;
   secure?: boolean;
   title?: string;
-  FooterProps?: WebsiteFooterProps;
 };
-export function WebsiteLayout({
-  secure = true,
-  children,
-  title,
-  FooterProps,
-}: LayoutProps) {
+export function WebsiteLayout({ secure = true, children, title }: LayoutProps) {
   const [open, setOpen, isLoading] = useLocalStorage(
     'navigation-drawer-open',
     false
@@ -58,12 +52,13 @@ export function WebsiteLayout({
         >
           {children}
         </Box>
+        <Divider />
         <Box
           sx={{
             backgroundColor: selectBackground(theme, 'primary'),
           }}
         >
-          <WebsiteFooter {...FooterProps} />
+          <WebsiteFooter />
         </Box>
       </Box>
     </Box>

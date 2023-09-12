@@ -11,6 +11,8 @@ import {
   Article,
   ChevronLeft,
   ChevronRight,
+  Code,
+  DashboardOutlined,
   HistoryEdu,
   Home,
   Hub,
@@ -18,7 +20,6 @@ import {
   OpenInNew,
   Schema,
   Star,
-  TrendingUp,
   VpnKey,
   Work,
 } from '@mui/icons-material';
@@ -111,7 +112,19 @@ export const NavigationDrawer: FC<{
         <Divider />
         <NavigationDrawerItems
           thin={!open}
-          title="All Features"
+          title="Analytics"
+          items={[
+            {
+              text: 'Dashboard',
+              href: urls.app.project.dashboard,
+              icon: <DashboardOutlined fontSize="small" />,
+            },
+          ]}
+        />
+        <Divider />
+        <NavigationDrawerItems
+          thin={!open}
+          title="Features"
           items={[
             {
               text: 'Connections',
@@ -124,14 +137,14 @@ export const NavigationDrawer: FC<{
               icon: <Work fontSize="small" />,
             },
             {
+              text: 'Converter',
+              href: urls.app.project.converter,
+              icon: <Code fontSize="small" />,
+            },
+            {
               text: 'Vault',
               href: urls.app.project.vault,
               icon: <VpnKey fontSize="small" />,
-            },
-            {
-              text: 'Analytics',
-              href: urls.app.project.analytics,
-              icon: <TrendingUp fontSize="small" />,
             },
             {
               text: 'Schemas',

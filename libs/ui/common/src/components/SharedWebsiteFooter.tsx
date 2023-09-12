@@ -1,6 +1,6 @@
 import { Link, Typography, Divider } from '@mui/material';
 import { TinyLogo, TinyButton } from '@worksheets/ui-basic-style';
-import { useLayout } from '../hooks';
+import { useLayout, useUser } from '../hooks';
 import { urls } from '../lib/urls';
 import { Flex } from '@worksheets/ui-core';
 
@@ -8,6 +8,7 @@ const currentYear = new Date().getFullYear();
 
 export const SharedWebsiteFooter = () => {
   const { isMobile } = useLayout();
+  const { user } = useUser();
   return (
     <Flex column={isMobile} gap={3} pb={2}>
       <Link color="inherit" underline="hover" href="/">
@@ -27,7 +28,7 @@ export const SharedWebsiteFooter = () => {
           </Link>
         </Typography>
         <Flex gap={2} wrap flexDirection="row-reverse">
-          {!isMobile && (
+          {!isMobile && !user && (
             <TinyButton href={urls.app.login} size="small">
               Sign Up
             </TinyButton>

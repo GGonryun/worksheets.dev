@@ -15,7 +15,7 @@ export const urls = {
       schemas: '/features/schemas',
       tasks: '/features/tasks',
       connections: '/features/connections',
-      analytics: '/features/analytics',
+      converter: '/features/converter',
       events: '/features/events',
       services: '/features/services',
     },
@@ -23,10 +23,11 @@ export const urls = {
     project(id: string) {
       return {
         overview: `/projects/${id}`,
+        dashboard: `/projects/${id}/dashboard`,
         vault: `/projects/${id}/vault`,
         schemas: `/projects/${id}/schemas`,
         tasks: `/projects/${id}/tasks`,
-        analytics: `/projects/${id}/analytics`,
+        converter: `/projects/${id}/converter`,
         events: `/projects/${id}/events`,
         settings: `/projects/${id}/settings`,
         connections: `/projects/${id}/connections`,

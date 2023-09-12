@@ -12,10 +12,10 @@ import { FC } from 'react';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import HelpIcon from '@mui/icons-material/Help';
 import { trpc } from '@worksheets/trpc/ide';
-import { ListTokensResponse } from '../../../shared/types';
 import { Alarm } from '@mui/icons-material';
-import { OpenInNewTabLink } from '@worksheets/ui/common';
+import { OpenInNewLink } from '@worksheets/ui/common';
 import { SERVER_SETTINGS } from '@worksheets/data-access/server-settings';
+import { ListUserTokensResponse } from '@worksheets/schemas-user';
 
 const columns: (onDelete: (id: string) => void) => GridColDef[] = (
   onDelete
@@ -119,7 +119,7 @@ const columns: (onDelete: (id: string) => void) => GridColDef[] = (
   },
 ];
 
-export type TokensTableRow = ListTokensResponse[number];
+export type TokensTableRow = ListUserTokensResponse[number];
 export type TokensDataTableProps = {
   tokens: TokensTableRow[];
   loading?: boolean;
@@ -167,13 +167,13 @@ export const TokensDataTable: FC<TokensDataTableProps> = ({
           >
             <Typography>
               Fill out the form above to create a new token or go to docs to{' '}
-              <OpenInNewTabLink
+              <OpenInNewLink
                 href={SERVER_SETTINGS.WEBSITES.DOCS_URL(
                   '/docs/api/overview#api-tokens'
                 )}
               >
                 learn more
-              </OpenInNewTabLink>
+              </OpenInNewLink>
             </Typography>
           </Box>
         ),

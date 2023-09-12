@@ -13,10 +13,3 @@ export function TabPanel<T>(props: TabPanelProps<T>) {
   }
   return <Box height="100%">{value === index && children}</Box>;
 }
-
-export function a11yProps(index: number) {
-  return {
-    id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
-  };
-}

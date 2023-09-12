@@ -1,3 +1,3 @@
-import { Box } from '@mui/material';
+import { EventsFeatureWedge } from '@worksheets/ui/feature-wedges';
 
-export const EventsPage = () => <Box>Hi Mom from Events Page!</Box>;
+export const EventsPage = () => <EventsFeatureWedge />;

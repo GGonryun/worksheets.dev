@@ -9,6 +9,7 @@ export type PaddingStyles = {
   px?: number;
   py?: number;
 };
+// TODO: create theme overrides.
 export type BackgroundColors =
   | 'primary'
   | 'secondary'
@@ -19,6 +20,7 @@ export type BackgroundColors =
   | 'grey'
   | 'white';
 
+// TODO: create theme overrides.
 export const selectBackground = (theme: Theme, color: BackgroundColors) => {
   switch (color) {
     case 'primary':
@@ -40,6 +42,7 @@ export const selectBackground = (theme: Theme, color: BackgroundColors) => {
   }
 };
 
+// TODO: create theme overrides.
 export const selectBorder = (theme: Theme, color: BackgroundColors) => {
   switch (color) {
     case 'primary':

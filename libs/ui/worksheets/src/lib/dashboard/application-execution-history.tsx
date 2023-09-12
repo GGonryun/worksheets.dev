@@ -15,7 +15,7 @@ import {
 } from '@mui/x-data-grid';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import { trpc } from '@worksheets/trpc/ide';
-import { ApplicationDetails } from '../shared/types';
+
 import { SpotlightButton } from '../shared/spotlight-button';
 import { KeyRounded, Search } from '@mui/icons-material';
 import { SERVER_SETTINGS } from '@worksheets/data-access/server-settings';
@@ -32,6 +32,9 @@ import {
 import { getReasonPhrase } from 'http-status-codes';
 import { TinyLogo } from '@worksheets/ui-basic-style';
 import { useUser } from '@worksheets/ui/common';
+import { ListApplicationsResponse } from '@worksheets/schemas-applications';
+
+type ApplicationDetails = ListApplicationsResponse[number];
 
 const columns: (onClick: (worksheetId: string) => void) => GridColDef[] = (
   onClick

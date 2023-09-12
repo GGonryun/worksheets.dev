@@ -5,7 +5,7 @@ export const projectFeatureLabels: Record<ProjectFeatures, string> = {
   services: 'Services',
   vault: 'Vault',
   connections: 'Connections',
-  analytics: 'Analytics',
+  converter: 'Converter',
   events: 'Events',
 };
 
@@ -14,6 +14,6 @@ export const projectFeatureIcons: Record<ProjectFeatures, string> = {
   services: '/icons/features/services.svg',
   vault: '/icons/features/vault.svg',
   connections: '/icons/features/connections.svg',
-  analytics: '/icons/features/analytics.svg',
+  converter: '/icons/features/converter.svg',
   events: '/icons/features/events.svg',
 };

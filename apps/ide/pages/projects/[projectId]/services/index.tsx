@@ -6,11 +6,7 @@ const Page: NextPageWithLayout = () => {
 };
 
 Page.getLayout = (page) => {
-  return (
-    <WebsiteLayout title="Services" FooterProps={{ withMarketing: true }}>
-      {page}
-    </WebsiteLayout>
-  );
+  return <WebsiteLayout title="Services">{page}</WebsiteLayout>;
 };
 
 export default Page;

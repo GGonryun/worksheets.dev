@@ -124,8 +124,16 @@
       "@worksheets/ui-core": ["libs/ui/core/src/index.ts"],
       "@worksheets/ui-projects": ["libs/ui/projects/src/index.ts"],
       "@worksheets/ui-projects/server": ["libs/ui/projects/src/server.ts"],
+      "@worksheets/ui/applications": ["libs/ui/applications/src/index.ts"],
+      "@worksheets/ui/applications/server": [
+        "libs/ui/applications/src/server.ts"
+      ],
       "@worksheets/ui/code-editor": ["libs/ui/code-editor/src/index.ts"],
       "@worksheets/ui/common": ["libs/ui/common/src/index.ts"],
+      "@worksheets/ui/connections": ["libs/ui/connections/src/index.ts"],
+      "@worksheets/ui/connections/server": [
+        "libs/ui/connections/src/server.ts"
+      ],
       "@worksheets/ui/feature-wedges": ["libs/ui/feature-wedges/src/index.ts"],
       "@worksheets/ui/feature-wedges/server": [
         "libs/ui/feature-wedges/src/server.ts"

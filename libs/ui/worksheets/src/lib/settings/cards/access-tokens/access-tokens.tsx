@@ -35,12 +35,9 @@ export const SettingsCardAccessTokens: React.FC<{
   const utils = trpc.useContext();
 
   const createToken = trpc.user.tokens.create.useMutation();
-  const { data: tokens } = trpc.user.tokens.list.useQuery(
-    {},
-    {
-      enabled: Boolean(user),
-    }
-  );
+  const { data: tokens } = trpc.user.tokens.list.useQuery(undefined, {
+    enabled: Boolean(user),
+  });
 
   const { data: limit } = trpc.user.tokens.limit.useQuery(undefined, {
     enabled: Boolean(user),

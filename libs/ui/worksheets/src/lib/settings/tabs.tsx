@@ -11,7 +11,8 @@ import { useRouter } from 'next/router';
 import { SettingsCardBilling } from './cards/billing';
 import { SettingsCardAccessTokens } from './cards/access-tokens/access-tokens';
 import { SettingsCardGeneric } from './cards/generic';
-import { TabPanel, a11yProps } from '../shared/tab-panel';
+import { TabPanel } from '../shared/tab-panel';
+import { tabA11yProps } from '@worksheets/ui/common';
 import { trpc } from '@worksheets/trpc/ide';
 import { GeneralSettings } from './cards/general-settings';
 import { useUser } from '@worksheets/ui/common';
@@ -72,10 +73,10 @@ export const SettingsTabs: React.FC<{
   return (
     <>
       <Tabs value={tab} onChange={handleChange} aria-label="execution tabs">
-        <Tab label="General" {...a11yProps(SettingsTabIndex.General)} />
-        <Tab label="Billing" {...a11yProps(SettingsTabIndex.Billing)} />
-        <Tab label="Tokens" {...a11yProps(SettingsTabIndex.AccessTokens)} />
-        <Tab label="Danger" {...a11yProps(SettingsTabIndex.DangerZone)} />
+        <Tab label="General" {...tabA11yProps(SettingsTabIndex.General)} />
+        <Tab label="Billing" {...tabA11yProps(SettingsTabIndex.Billing)} />
+        <Tab label="Tokens" {...tabA11yProps(SettingsTabIndex.AccessTokens)} />
+        <Tab label="Danger" {...tabA11yProps(SettingsTabIndex.DangerZone)} />
       </Tabs>
       <Divider />
 

@@ -1,3 +1,4 @@
+export * from './vault';
 import { applicationBasicsSchema } from '@worksheets/schemas-applications';
 import { z } from '@worksheets/zod';
 

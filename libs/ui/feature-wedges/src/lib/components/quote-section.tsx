@@ -1,8 +1,9 @@
 import { Typography, Avatar } from '@mui/material';
 import { TinyLogo } from '@worksheets/ui-basic-style';
 import { FC } from 'react';
-import { BackgroundColors, SectionLayout } from './section-layout';
 import { Flex } from '@worksheets/ui-core';
+import { BackgroundColors } from '@worksheets/ui/common';
+import { SectionLayout } from './section-layout';
 
 export const QuoteSection: FC<{
   quote: string;

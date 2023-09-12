@@ -1,7 +1,7 @@
-import { ConnectionsPage } from '@worksheets/ui/worksheets';
 import { useRouter } from 'next/router';
 import { WebsiteLayout } from '@worksheets/ui/worksheets';
 import { NextPageWithLayout } from '@worksheets/util-next';
+import { ConnectionsPage } from '@worksheets/ui/connections';
 
 const Page: NextPageWithLayout = () => {
   const { query } = useRouter();
@@ -10,14 +10,7 @@ const Page: NextPageWithLayout = () => {
 };
 
 Page.getLayout = (page) => {
-  return (
-    <WebsiteLayout
-      title={`Create App Connection`}
-      FooterProps={{ withMarketing: true }}
-    >
-      {page}
-    </WebsiteLayout>
-  );
+  return <WebsiteLayout title={`Create App Connection`}>{page}</WebsiteLayout>;
 };
 
 export default Page;

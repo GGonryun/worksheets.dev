@@ -1,7 +1,7 @@
 import * as trpcNext from '@trpc/server/adapters/next';
 import { inferAsyncReturnType } from '@trpc/server';
 import { user } from '@worksheets/feat/user-management';
-import prisma from '@worksheets/prisma';
+import { prisma } from '@worksheets/prisma';
 
 export async function createContext({
   req,

@@ -6,14 +6,16 @@ import {
   ServiceCategory,
 } from '@worksheets/schemas-services';
 import { serviceCategoryLabel } from './state-maps';
-import { useUser } from '@worksheets/ui/common';
-import { FeatureLayout } from '../feature-layout';
+import { FeatureLayout, useUser } from '@worksheets/ui/common';
 
 export const ServicesList: React.FC = () => {
   const { user } = useUser();
-  const { data: categorizedServices } = trpc.services.list.useQuery(undefined, {
-    enabled: !!user,
-  });
+  const { data: categorizedServices } = trpc.services.categorize.useQuery(
+    undefined,
+    {
+      enabled: !!user,
+    }
+  );
 
   return (
     <FeatureLayout

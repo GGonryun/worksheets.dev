@@ -1,5 +1,5 @@
 import { ArrowRight } from '@mui/icons-material';
-import { Typography, Divider, ButtonProps } from '@mui/material';
+import { Typography, Divider } from '@mui/material';
 import {
   TinyLogo,
   TinyButton,
@@ -26,6 +26,7 @@ export type TitleSectionProps = {
     secondary?: SimpleButtonProps;
   };
 };
+
 export const TitleSection: FC<TitleSectionProps> = ({
   title,
   subtitle,

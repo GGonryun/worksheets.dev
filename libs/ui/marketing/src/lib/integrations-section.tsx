@@ -40,6 +40,7 @@ export const IntegrationsSection: FC = () => (
         <Flex gap={0} wrap centered px={10}>
           {letters.map((letter) => (
             <TinyButton
+              key={letter}
               onClick={() => alert(`TODO: user redirect to ${letter}`)}
               sx={{ px: 1, py: 0, m: 0 }}
             >

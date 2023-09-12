@@ -51,8 +51,8 @@ export const FeatureBox: FC<{
           alignItems="center"
           spaceBetween
           sx={{
-            height: 320,
-            width: 240,
+            height: 340,
+            width: 260,
             p: 3,
             pt: 4,
           }}
@@ -69,8 +69,8 @@ export const FeatureBox: FC<{
               {description}
             </Typography>
           </Flex>
-          <Flex column alignItems="center" gap={2}>
-            <TinyLogo borderless area={80} src={logo} />
+          <Flex column alignItems="center" gap={3}>
+            <TinyLogo borderless area={108} src={logo} />
             <Link href="/" color="inherit" underline="hover">
               <Flex gap={0.5}>
                 <Typography variant="body2" fontWeight={900}>

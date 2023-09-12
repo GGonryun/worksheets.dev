@@ -1,3 +1,5 @@
+export * from './tokens';
+
 import { z } from '@worksheets/zod';
 
 export const userLimitsEntity = z.object({
@@ -43,6 +45,13 @@ export const userAgentSchema = z.object({
     creationTime: z.string(),
   }),
 });
+
+export type UserOverviewRequest = z.infer<typeof userOverviewRequestSchema>;
+export const userOverviewRequestSchema = z
+  .object({
+    acknowledge: z.boolean().optional(),
+  })
+  .optional();
 
 export type UserOverview = z.infer<typeof userOverviewSchema>;
 export const userOverviewSchema = z.object({

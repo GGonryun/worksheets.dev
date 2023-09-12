@@ -12,10 +12,10 @@ import { trpc } from '@worksheets/trpc/ide';
 import { GetServiceDetailsResponse } from '@worksheets/schemas-services';
 import { PlatformSelectionTab } from './platforms';
 import { EndpointsTable } from './endpoints';
-import { a11yProps } from '../shared/tab-panel';
 import { ArrowBackIos } from '@mui/icons-material';
 import { TinyLogo } from '@worksheets/ui-basic-style';
 import { useUser } from '@worksheets/ui/common';
+import { tabA11yProps } from '@worksheets/ui/common';
 
 export const ServiceDetailsPage: React.FC<{ serviceId: string }> = ({
   serviceId,
@@ -99,8 +99,8 @@ const ServiceContent: React.FC<GetServiceDetailsResponse> = (props) => {
         //   backgroundColor: theme.palette.background.paper,
         // })}
       >
-        <Tab label="Platforms" {...a11yProps(0)} />
-        <Tab label="Endpoints" {...a11yProps(1)} />
+        <Tab label="Platforms" {...tabA11yProps(0)} />
+        <Tab label="Endpoints" {...tabA11yProps(1)} />
       </Tabs>
       <Divider />
 

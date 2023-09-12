@@ -1,7 +1,7 @@
-import { ApplicationDetailsPage } from '@worksheets/ui/worksheets';
 import { useRouter } from 'next/router';
 import { NextPageWithLayout } from '@worksheets/util-next';
 import { MarketingLayout } from '@worksheets/ui/marketing';
+import { ApplicationDetailsPage } from '@worksheets/ui/applications';
 
 const Page: NextPageWithLayout = () => {
   const { query } = useRouter();

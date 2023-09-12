@@ -148,6 +148,9 @@ export const listApplicationMethodDetailsRequestSchema = z.object({
   appId: z.string(),
 });
 
+export type ApplicationMethodDetailsItem =
+  ListApplicationMethodDetailsResponse[number];
+
 export type ListApplicationMethodDetailsResponse = z.infer<
   typeof listApplicationMethodDetailsResponseSchema
 >;
@@ -156,6 +159,7 @@ export const listApplicationMethodDetailsResponseSchema = z.array(
   applicationMethodDetailsResponseSchema
 );
 
+export type ApplicationDetails = ListApplicationsResponse[number];
 export type ListApplicationsRequest = z.infer<
   typeof listApplicationsRequestSchema
 >;

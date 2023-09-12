@@ -6,6 +6,7 @@ import connections from './connections/router';
 import services from './services/router';
 import projects from './projects/router';
 import logging from './logging/router';
+import vault from './vault/router';
 
 export const appRouter = router({
   user,
@@ -15,6 +16,7 @@ export const appRouter = router({
   services,
   projects,
   logging,
+  vault,
 });
 
 export type AppRouter = typeof appRouter;

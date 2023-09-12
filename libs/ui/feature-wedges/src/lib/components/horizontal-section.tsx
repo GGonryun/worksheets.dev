@@ -1,7 +1,10 @@
 import { FC, ReactNode } from 'react';
-import { PaddingStyles, BackgroundColors } from './section-layout';
 import { Flex } from '@worksheets/ui-core';
-import { useLayout } from '@worksheets/ui/common';
+import {
+  BackgroundColors,
+  PaddingStyles,
+  useLayout,
+} from '@worksheets/ui/common';
 
 export const HorizontalSection: FC<
   PaddingStyles & {

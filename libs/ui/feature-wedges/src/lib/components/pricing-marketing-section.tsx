@@ -20,7 +20,7 @@ export const PricingMarketingSection: FC<{
   backgroundColor = 'success',
   title = 'How much does Worksheets cost?',
 }) => {
-  const { isTablet } = useLayout();
+  const { isMobile } = useLayout();
   return (
     <SectionLayout backgroundColor={backgroundColor} gap={3} py={8}>
       <HeaderSection
@@ -28,7 +28,7 @@ export const PricingMarketingSection: FC<{
         title={title}
         subtitle="Find a plan that works for your budget, team size, and use cases."
       />
-      <Flex gap={3} wrap centered column={isTablet}>
+      <Flex gap={3} wrap centered column={isMobile}>
         <PricingCard
           color={backgroundColor}
           icon={<MoneyOff color={backgroundColor} />}
@@ -74,7 +74,7 @@ const PricingCard: FC<{
     label: string;
   };
 }> = ({ icon, title, subtitle, cta, color }) => {
-  const { isTablet } = useLayout();
+  const { isMobile } = useLayout();
 
   return (
     <Paper
@@ -88,7 +88,7 @@ const PricingCard: FC<{
         spaceBetween
         py={3}
         px={2}
-        width={isTablet ? 300 : 220}
+        width={isMobile ? 300 : 220}
         minHeight={280}
       >
         <Flex column alignItems="start">

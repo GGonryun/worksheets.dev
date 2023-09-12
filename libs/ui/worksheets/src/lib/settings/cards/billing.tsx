@@ -24,7 +24,7 @@ import { HelpOutlineOutlined, RefreshOutlined } from '@mui/icons-material';
 import { calculatePercentage } from '@worksheets/util/numbers';
 import { SettingsCardPayments } from './payments';
 import { prettyPrintMilliseconds } from '@worksheets/util/time';
-import { OpenInNewTabLink } from '@worksheets/ui/common';
+import { OpenInNewLink } from '@worksheets/ui/common';
 import { SERVER_SETTINGS } from '@worksheets/data-access/server-settings';
 import { UserOverview } from '@worksheets/schemas-user';
 export const SettingsCardBilling: React.FC<{
@@ -88,12 +88,12 @@ export const SettingsCardBilling: React.FC<{
             <Typography variant="h6">Execution Quotas</Typography>
             <Typography variant="body2">
               This quota reset every cycle. Need more?{' '}
-              <OpenInNewTabLink
+              <OpenInNewLink
                 fontSize={14}
                 href={`${SERVER_SETTINGS.WEBSITES.DOCS_URL('/contact-us')}`}
               >
                 Contact us
-              </OpenInNewTabLink>{' '}
+              </OpenInNewLink>{' '}
               to increase your personal limits.
             </Typography>
             <Box display="flex" justifyContent="space-between" gap={1}>
@@ -116,12 +116,12 @@ export const SettingsCardBilling: React.FC<{
             <Typography variant="body2">
               API Tokens give automated systems or other users access to your
               resources. Protect these tokens like passwords.{' '}
-              <OpenInNewTabLink
+              <OpenInNewLink
                 fontSize={14}
                 href={`${SERVER_SETTINGS.WEBSITES.DOCS_URL('/contact-us')}`}
               >
                 Contact us
-              </OpenInNewTabLink>{' '}
+              </OpenInNewLink>{' '}
               to increase your personal limits.
             </Typography>
 
@@ -336,7 +336,7 @@ const EnabledUserHeader: React.FC<{ plan?: string }> = ({ plan }) => (
     )}
     <Typography variant="body2">
       plan. Free of charge.{' '}
-      <OpenInNewTabLink href="/pricing">Learn more</OpenInNewTabLink>
+      <OpenInNewLink href="/pricing">Learn more</OpenInNewLink>
     </Typography>
   </Box>
 );

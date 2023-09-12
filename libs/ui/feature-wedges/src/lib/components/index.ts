@@ -1,4 +1,4 @@
-export * from './applications-section';
+export * from './available-applications-section';
 export * from './details-box';
 export * from './frequently-asked-questions-section';
 export * from './header-section';
