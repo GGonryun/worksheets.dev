@@ -6,8 +6,8 @@ export const HeaderSection: FC<{
   icon?: ReactNode;
   title: MicroMarkdownText;
   subtitle?: MicroMarkdownText;
-  dividerless?: boolean;
-}> = ({ icon, title, subtitle, dividerless }) => {
+  dividerful?: boolean;
+}> = ({ icon, title, subtitle, dividerful }) => {
   return (
     <Flex centered column>
       {icon && <Box pb={2}>{icon}</Box>}
@@ -21,11 +21,12 @@ export const HeaderSection: FC<{
           px={4}
           pt={0.5}
           textAlign="center"
+          whiteSpace="pre-line"
         >
           <MicroMarkdown text={subtitle} />
         </Typography>
       )}
-      {dividerless && <Divider sx={{ width: 100, pt: 2 }} />}
+      {dividerful && <Divider sx={{ width: 100, pt: 2 }} />}
     </Flex>
   );
 };

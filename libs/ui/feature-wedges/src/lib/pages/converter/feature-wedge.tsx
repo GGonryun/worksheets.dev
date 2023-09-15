@@ -1,6 +1,4 @@
 import { Divider } from '@mui/material';
-import { TinyLogo } from '@worksheets/ui-basic-style';
-import { ExplanationWedge } from './explanation-wedge';
 import { Flex } from '@worksheets/ui-core';
 import {
   TitleSection,
@@ -11,53 +9,84 @@ import {
   FrequentlyAskedQuestionsMarketingSection,
   QuoteSection,
   QuestionAnswerPair,
+  EarlyAccessProgramSection,
+  SupportButtonsSection,
+  AvailableProgrammingLanguagesSection,
+  ExplanationSection,
+  ExplanationStepsSection,
+  ResourceGridItem,
 } from '../../components';
-import { AvailableConnectorsSection } from '../../components/available-connectors-section';
-import { EarlyAccessProgramSection } from '../../components/early-access-program-section';
-import { SupportButtonsSection } from '../../components/support-buttons-section';
 
-const resources = [
+const resources: ResourceGridItem[] = [
   {
-    title: 'OAuth2.0 and more',
+    title: 'Chrome extension',
     subtitle:
-      'We support a variety of authentication modes including OAuth 2.0, and API keys. We protect all of your credentials with industry standard encryption.',
-    icon: (
-      <TinyLogo
-        src="https://storage.googleapis.com/worksheets-test-app-logos/apps/gmail.svg"
-        borderless
-        area={32}
-      />
-    ),
+      'Our Chrome extension makes it easy to get started. Go to any **API documentation** page and our extension will automatically convert any requests and responses we can find.',
+    icon: '/art/products/chrome.svg',
     href: '#',
   },
   {
-    title: 'Analytics and insights',
+    title: 'Support for all languages',
     subtitle:
-      "Understand how your users are using your integrations. We'll provide you with analytics and insights so you can make informed decisions about your integrations.",
-    icon: (
-      <TinyLogo
-        src="https://storage.googleapis.com/worksheets-test-app-logos/apps/github.svg"
-        borderless
-        area={32}
-      />
-    ),
+      'Using our code converter, you can generate code in any language. Choose which AI model to use to generate code or ask multiple models at the same time. We support **Python**, **Javascript**, **Go**, **Java**, **C#**, and **TypeScript**.',
+    icon: '/art/languages/typescript.svg',
     href: '#',
   },
   {
-    title: 'Abstracted connections',
+    title: 'Reverse Engineering',
     subtitle:
-      "Let your user's manage their own connections. When you need to access their data, we'll handle the authentication for you. All you need to do is make a request to our API.",
-    icon: (
-      <TinyLogo
-        src="https://storage.googleapis.com/worksheets-test-app-logos/apps/slack.svg"
-        borderless
-        area={32}
-      />
-    ),
+      "Need to reverse engineer an API? No problem. Our Chrome extension can be used to proxy network requests and responses. We'll automatically generate code samples and **test data** for you.",
+    icon: 'https://storage.googleapis.com/worksheets-test-app-logos/apps/firebase.svg',
     href: '#',
   },
 ];
-const questions: QuestionAnswerPair[] = [];
+
+const questions: QuestionAnswerPair[] = [
+  {
+    question: 'TODO',
+    answer: 'TODO',
+  },
+  {
+    question: 'TODO',
+    answer: 'TODO',
+  },
+  {
+    question: 'TODO',
+    answer: 'TODO',
+  },
+  {
+    question: 'TODO',
+    answer: 'TODO',
+  },
+  {
+    question: 'TODO',
+    answer: 'TODO',
+  },
+];
+
+const sections: ExplanationSection[] = [
+  {
+    title: 'Enable Applications',
+    description: `Use our GUI interface to control which applications you'd like to enable for your users. We'll handle all of the authentication for you.`,
+    icon: '/art/pixels/first-place.svg',
+    image: '/placeholders/16x9.png',
+    href: '#',
+  },
+  {
+    title: 'Identify Users',
+    description: `Create a key for each user. We recommend using a UUID or a hash of the user's email address. This key will be used to identify the user when they make requests to our API. A user can be assigned as many keys as necessary.`,
+    icon: '/art/pixels/second-place.svg',
+    image: '/placeholders/16x9.png',
+    href: '#',
+  },
+  {
+    title: 'Create Connections',
+    description: `User's can manage their own connections, or you can manage them for them. When you need to access their data, we'll handle the authentication for you. All you need to do is make a request to our API.`,
+    icon: '/art/pixels/third-place.svg',
+    image: '/placeholders/16x9.png',
+    href: '#',
+  },
+];
 
 export const ConverterFeatureWedge = () => {
   return (
@@ -65,9 +94,9 @@ export const ConverterFeatureWedge = () => {
       <TitleSection
         title="Code Converter"
         backgroundColor="success"
-        subtitle="Transform your HTTP Requests"
-        icon="/icons/features/vault.svg"
-        description="Instantly generate code samples in any language from an HTTP request. We'll generate code samples in a variety of languages including **Python**, **Javascript**, and **Go**."
+        subtitle="Transform any HTTP request into code."
+        icon="/icons/features/converter.svg"
+        description="Generate code samples in any language from a simple HTTP request. We'll generate code samples in a variety of languages including **Python**, **Javascript**, and **Go**."
         buttons={{
           primary: {
             label: 'Request access',
@@ -78,19 +107,24 @@ export const ConverterFeatureWedge = () => {
       <Divider />
       <VideoSection
         src={'TODO'}
-        title="How do I use Code Converter?"
-        subtitle="Instantly provide code samples to your users in a variety of languages."
+        title="What is Code Converter?"
+        subtitle="Instant code samples in a variety of languages."
       />
       <SectionLayout backgroundColor="white" maxWidth="md" pt={0} pb={12}>
         <ResourceGridSection resources={resources} />
       </SectionLayout>
       <Divider />
-      <AvailableConnectorsSection backgroundColor="error" />
+      <AvailableProgrammingLanguagesSection backgroundColor="primary" />
       <Divider />
-      <ExplanationWedge />
+      <ExplanationStepsSection
+        logo="/art/pixels/help.svg"
+        title="How do I use Code Convert?"
+        subtitle={`Start converting code in just **3 steps**, it's that easy!\n(Don't like it hard? Use our [Chrome extension](#) to make it *even easier*.)`}
+        steps={sections}
+      />
       <Divider />
       <PricingMarketingSection
-        backgroundColor="error"
+        backgroundColor="secondary"
         title="Ready to get started?"
       />
       <Divider />
@@ -104,10 +138,10 @@ export const ConverterFeatureWedge = () => {
       />
       <Divider />
       <QuoteSection
-        quote={`"The connector vault is a critical piece of our own infrastructure. We use it to manage all of our user's credentials and access tokens. It's a huge time saver."`}
-        speaker="Miguel Campos"
-        title="Founder of Worksheets.Dev"
-        avatar="/people/miguel-campos.jpg"
+        quote={`"TODO"`}
+        speaker="TODO"
+        title="TODO"
+        avatar=""
         backgroundColor="warning"
         icon="/symbols/white/pyramid.svg"
       />

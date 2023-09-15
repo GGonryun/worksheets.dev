@@ -1,6 +1,4 @@
 import { Divider } from '@mui/material';
-import { TinyLogo } from '@worksheets/ui-basic-style';
-import { ExplanationWedge } from './explanation-wedge';
 import { Flex } from '@worksheets/ui-core';
 import {
   TitleSection,
@@ -11,51 +9,36 @@ import {
   PricingMarketingSection,
   FrequentlyAskedQuestionsMarketingSection,
   QuoteSection,
+  ExplanationStepsSection,
+  ExplanationSection,
+  EarlyAccessProgramSection,
+  SupportButtonsSection,
 } from '../../components';
-import { EarlyAccessProgramSection } from '../../components/early-access-program-section';
-import { SupportButtonsSection } from '../../components/support-buttons-section';
 
-const connectionResources = [
+const resources = [
   {
     title: 'Application registry',
     subtitle:
       'All your documentation in one place. Use our intuitive API and gain access to hundreds of applications all with one simple API. We support a variety of authentication modes to ensure your data is secure.',
-    icon: (
-      <TinyLogo
-        src="https://storage.googleapis.com/worksheets-test-app-logos/apps/gmail.svg"
-        borderless
-        area={32}
-      />
-    ),
+    icon: 'https://storage.googleapis.com/worksheets-test-app-logos/apps/gmail.svg',
     href: '#',
   },
   {
     title: 'Rapid prototyping',
     subtitle:
       'Stop managing enviornment variables. We make it easy to prototype applications that connect to third-party services. No more scrolling and searching through documentation.',
-    icon: (
-      <TinyLogo
-        src="https://storage.googleapis.com/worksheets-test-app-logos/apps/discord.svg"
-        borderless
-        area={32}
-      />
-    ),
+    icon: 'https://storage.googleapis.com/worksheets-test-app-logos/apps/discord.svg',
     href: '#',
   },
   {
     title: 'Unlimited environments',
     subtitle:
       "Stop mocking API requests and test real interactions with third party services securely. Easily swap between your production, staging, and test environments with a single click. We'll handle all of the authentication for you.",
-    icon: (
-      <TinyLogo
-        src="https://storage.googleapis.com/worksheets-test-app-logos/apps/notion.svg"
-        borderless
-        area={32}
-      />
-    ),
+    icon: 'https://storage.googleapis.com/worksheets-test-app-logos/apps/notion.svg',
     href: '#',
   },
 ];
+
 const questions = [
   {
     question: 'What is a connection?',
@@ -71,6 +54,33 @@ const questions = [
     question: 'What authentication modes do you support?',
     answer:
       'Right now we support OAuth 2.0, API Keys, and Basic Authentication. We are working on adding more authentication modes.',
+  },
+];
+
+const steps: ExplanationSection[] = [
+  {
+    title: 'Create',
+    description:
+      'Use our visual editor to create connections between your applications. We currently support 10+ applications and are adding more every day.',
+    icon: '/art/pixels/first-place.svg',
+    image: '/placeholders/16x9.png',
+    href: '#',
+  },
+  {
+    title: 'Access',
+    description:
+      "Access connections in your applications with our Connections API. We also provide SDK's for popular languages like **Javascript** and **Python**. Use our API to build workflows or share resources across your organization.",
+    icon: '/art/pixels/second-place.svg',
+    image: '/placeholders/16x9.png',
+    href: '#',
+  },
+  {
+    title: 'Share',
+    description:
+      "Use connections across your organization. Share connections with your team or the entire organization. We'll keep your connections up to date and notify you of any changes. Connections are versioned and can be rolled back at any time.",
+    icon: '/art/pixels/third-place.svg',
+    image: '/placeholders/16x9.png',
+    href: '#',
   },
 ];
 
@@ -92,16 +102,21 @@ export const ConnectionsFeatureWedge = () => {
       <Divider />
       <VideoSection
         src={'TODO'}
-        title="What are Applications and Connections?"
-        subtitle="Get a quick overview of how our Application Registry can help you save time."
+        title="What are Connections?"
+        subtitle="Learn about how our **Application Registry** can help you save time."
       />
       <SectionLayout backgroundColor="white" maxWidth="md" pt={0} pb={12}>
-        <ResourceGridSection resources={connectionResources} />
+        <ResourceGridSection resources={resources} />
       </SectionLayout>
       <Divider />
       <AvailableApplicationsSection backgroundColor="secondary" />
       <Divider />
-      <ExplanationWedge />
+      <ExplanationStepsSection
+        title={'How do I use Connections?'}
+        logo={'/art/pixels/support-call.svg'}
+        subtitle={'Quickly connect your apps and automate your workflows.'}
+        steps={steps}
+      />
       <Divider />
       <PricingMarketingSection />
       <Divider />
@@ -119,7 +134,7 @@ export const ConnectionsFeatureWedge = () => {
         quote={`"I've been using Connections for a few months now and it's been a game changer. I build my workflows in TypeScript and I can share them with my team on Github."`}
         speaker="Anthony Diaz"
         title="CEO of DiscGolfScoreCard.app"
-        avatar="/people/anthony-diaz.jpg"
+        avatar=""
         backgroundColor="primary"
         icon="/symbols/blue/bolt.svg"
       />

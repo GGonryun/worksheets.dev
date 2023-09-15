@@ -1,6 +1,4 @@
 import { Divider } from '@mui/material';
-import { TinyLogo } from '@worksheets/ui-basic-style';
-import { ExplanationWedge } from './explanation-wedge';
 import { Flex } from '@worksheets/ui-core';
 import {
   TitleSection,
@@ -11,53 +9,39 @@ import {
   FrequentlyAskedQuestionsMarketingSection,
   QuoteSection,
   QuestionAnswerPair,
+  ExplanationSection,
+  ExplanationStepsSection,
+  AvailableConnectorsSection,
+  EarlyAccessProgramSection,
+  SupportButtonsSection,
 } from '../../components';
-import { AvailableConnectorsSection } from '../../components/available-connectors-section';
-import { EarlyAccessProgramSection } from '../../components/early-access-program-section';
-import { SupportButtonsSection } from '../../components/support-buttons-section';
 
 const resources = [
   {
     title: 'OAuth2.0 and more',
     subtitle:
       'We support a variety of authentication modes including OAuth 2.0, and API keys. We protect all of your credentials with industry standard encryption.',
-    icon: (
-      <TinyLogo
-        src="https://storage.googleapis.com/worksheets-test-app-logos/apps/gmail.svg"
-        borderless
-        area={32}
-      />
-    ),
+    icon: 'https://storage.googleapis.com/worksheets-test-app-logos/apps/gmail.svg',
     href: '#',
   },
   {
     title: 'Analytics and insights',
     subtitle:
       "Understand how your users are using your integrations. We'll provide you with analytics and insights so you can make informed decisions about your integrations.",
-    icon: (
-      <TinyLogo
-        src="https://storage.googleapis.com/worksheets-test-app-logos/apps/github.svg"
-        borderless
-        area={32}
-      />
-    ),
+    icon: 'https://storage.googleapis.com/worksheets-test-app-logos/apps/github.svg',
     href: '#',
   },
   {
     title: 'Abstracted connections',
     subtitle:
       "Let your user's manage their own connections. When you need to access their data, we'll handle the authentication for you. All you need to do is make a request to our API.",
-    icon: (
-      <TinyLogo
-        src="https://storage.googleapis.com/worksheets-test-app-logos/apps/slack.svg"
-        borderless
-        area={32}
-      />
-    ),
+    icon: 'https://storage.googleapis.com/worksheets-test-app-logos/apps/slack.svg',
     href: '#',
   },
 ];
 const questions: QuestionAnswerPair[] = [];
+
+const steps: ExplanationSection[] = [];
 
 export const SchemasFeatureWedge = () => {
   return (
@@ -87,7 +71,12 @@ export const SchemasFeatureWedge = () => {
       <Divider />
       <AvailableConnectorsSection backgroundColor="error" />
       <Divider />
-      <ExplanationWedge />
+      <ExplanationStepsSection
+        title={'How do I use Connections?'}
+        logo={'/art/pixels/support-call.svg'}
+        subtitle={'Quickly connect your apps and automate your workflows.'}
+        steps={steps}
+      />
       <Divider />
       <PricingMarketingSection
         backgroundColor="error"
@@ -107,7 +96,7 @@ export const SchemasFeatureWedge = () => {
         quote={`"The connector vault is a critical piece of our own infrastructure. We use it to manage all of our user's credentials and access tokens. It's a huge time saver."`}
         speaker="Miguel Campos"
         title="Founder of Worksheets.Dev"
-        avatar="/people/miguel-campos.jpg"
+        avatar=""
         backgroundColor="warning"
         icon="/symbols/white/pyramid.svg"
       />

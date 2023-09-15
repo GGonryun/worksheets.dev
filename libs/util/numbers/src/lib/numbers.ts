@@ -22,3 +22,19 @@ export function calculatePercentage(current?: number, max?: number) {
 export function clamp(value: number, min: number, max: number) {
   return Math.min(Math.max(value, min), max);
 }
+
+export function isOdd(value: number) {
+  return value % 2 !== 0;
+}
+
+export function isEven(value: number) {
+  return value % 2 === 0;
+}
+
+export function isPositive(value: number) {
+  return value >= 0;
+}
+
+export function isNegative(value: number) {
+  return value < 0;
+}

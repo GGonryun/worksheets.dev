@@ -1,7 +1,6 @@
 import { Divider } from '@mui/material';
-import { TinyLogo } from '@worksheets/ui-basic-style';
-import { ExplanationWedge } from './explanation-wedge';
 import { Flex } from '@worksheets/ui-core';
+import { urls } from '@worksheets/ui/common';
 import {
   TitleSection,
   VideoSection,
@@ -11,53 +10,37 @@ import {
   FrequentlyAskedQuestionsMarketingSection,
   QuoteSection,
   QuestionAnswerPair,
+  ExplanationSection,
+  AvailableConnectorsSection,
+  EarlyAccessProgramSection,
+  SupportButtonsSection,
+  ExplanationStepsSection,
 } from '../../components';
-import { AvailableConnectorsSection } from '../../components/available-connectors-section';
-import { urls } from '@worksheets/ui/common';
-import { EarlyAccessProgramSection } from '../../components/early-access-program-section';
-import { SupportButtonsSection } from '../../components/support-buttons-section';
 
 const resources = [
   {
     title: 'OAuth2.0 and more',
     subtitle:
       'We support a variety of authentication modes including OAuth 2.0, and API keys. We protect all of your credentials with industry standard encryption.',
-    icon: (
-      <TinyLogo
-        src="https://storage.googleapis.com/worksheets-test-app-logos/apps/gmail.svg"
-        borderless
-        area={32}
-      />
-    ),
+    icon: 'https://storage.googleapis.com/worksheets-test-app-logos/apps/gmail.svg',
     href: '#',
   },
   {
     title: 'Analytics and insights',
     subtitle:
       "Understand how your users are using your integrations. We'll provide you with analytics and insights so you can make informed decisions about your integrations.",
-    icon: (
-      <TinyLogo
-        src="https://storage.googleapis.com/worksheets-test-app-logos/apps/github.svg"
-        borderless
-        area={32}
-      />
-    ),
+    icon: 'https://storage.googleapis.com/worksheets-test-app-logos/apps/github.svg',
     href: '#',
   },
   {
     title: 'Abstracted connections',
     subtitle:
       "Let your user's manage their own connections. When you need to access their data, we'll handle the authentication for you. All you need to do is make a request to our API.",
-    icon: (
-      <TinyLogo
-        src="https://storage.googleapis.com/worksheets-test-app-logos/apps/slack.svg"
-        borderless
-        area={32}
-      />
-    ),
+    icon: 'https://storage.googleapis.com/worksheets-test-app-logos/apps/slack.svg',
     href: '#',
   },
 ];
+
 const questions: QuestionAnswerPair[] = [
   {
     question: 'How do I get started?',
@@ -65,7 +48,7 @@ const questions: QuestionAnswerPair[] = [
   },
   {
     question: 'Do you provide **Frontend** or **GUI** elements?',
-    answer: `No, we integrate with existing no-code and low-code tools which can provide GUI elements for you. Historically, these elements only reduce your flexibility and make it harder to customize your integrations. We recommend using a tool like [Bubble](https://bubble.io) or [Adalo](https://adalo.com) or [Airplane](https://airplanes.dev) to build your GUI.`,
+    answer: `No, we integrate with existing no-code and low-code tools which can provide GUI elements for you. Pre-built GUI elements only reduce your flexibility and make it harder to customize your integrations. We recommend using a tool like [Bubble](https://bubble.io) or [Adalo](https://adalo.com) or [Airplane](https://airplanes.dev) to build your GUI.`,
   },
   {
     question:
@@ -75,6 +58,41 @@ const questions: QuestionAnswerPair[] = [
   {
     question: "How do user's manage their connections?",
     answer: `We provide an API to help you create tools to manage your user's connections. You can use this API to create, update, and delete connections. You can also use this API to retrieve information about your user's connections.`,
+  },
+];
+
+const steps: ExplanationSection[] = [
+  {
+    title: 'Enable Applications',
+    description:
+      "Use our GUI interface to control which applications you'd like to enable for your users. We'll handle all of the authentication for you.",
+    icon: '/art/pixels/first-place.svg',
+    image: '/placeholders/16x9.png',
+    href: '#',
+  },
+  {
+    title: 'Identify Users',
+    description:
+      "Create and assign keys from the vault to each user. A user can be assigned multiple keys. We recommend using a UUID or a hash of the user's email address. This key will be used to identify the user when they make requests to our API.",
+    icon: '/art/pixels/second-place.svg',
+    image: '/placeholders/16x9.png',
+    href: '#',
+  },
+  {
+    title: 'Create Connections',
+    description:
+      'Access data from a third-party application using connections. Users can manage their own connections, or you can manage connections yourself. These connections are assigned to a key for easy access.',
+    icon: '/art/pixels/third-place.svg',
+    image: '/placeholders/16x9.png',
+    href: '#',
+  },
+  {
+    title: 'Execute Applications',
+    description:
+      "Execute applications from the registry with the user's key and we'll take care of the rest. *It's that simple*.",
+    icon: '/art/trophy.svg',
+    image: '/placeholders/16x9.png',
+    href: '#',
   },
 ];
 
@@ -97,7 +115,7 @@ export const VaultFeatureWedge = () => {
       <Divider />
       <VideoSection
         src={'TODO'}
-        title="How do I use Vault?"
+        title="What are Vaults and Keys?"
         subtitle="See how teams integrate Vault into their applications."
       />
       <SectionLayout backgroundColor="white" maxWidth="md" pt={0} pb={12}>
@@ -106,7 +124,12 @@ export const VaultFeatureWedge = () => {
       <Divider />
       <AvailableConnectorsSection backgroundColor="error" />
       <Divider />
-      <ExplanationWedge />
+      <ExplanationStepsSection
+        title={'How does Vault work?'}
+        subtitle="Learn how to start using our connector **vault** in four easy steps."
+        logo={'/art/pixels/help.svg'}
+        steps={steps}
+      />
       <Divider />
       <PricingMarketingSection
         backgroundColor="error"
@@ -123,10 +146,10 @@ export const VaultFeatureWedge = () => {
       />
       <Divider />
       <QuoteSection
-        quote={`"The connector vault is a critical piece of our own infrastructure. We use it to manage all of our user's credentials and access tokens. It's a huge time saver."`}
+        quote={`"The connector vault is a critical piece of our infrastructure.\nWe even use it to manage all of **your credentials** on Worksheets."`}
         speaker="Miguel Campos"
-        title="Founder of Worksheets.Dev"
-        avatar="/people/miguel-campos.jpg"
+        title="Founder of [Worksheets.dev](https://worksheets.dev)"
+        avatar=""
         backgroundColor="warning"
         icon="/symbols/white/pyramid.svg"
       />

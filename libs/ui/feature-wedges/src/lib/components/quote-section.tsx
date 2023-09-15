@@ -1,12 +1,12 @@
 import { Typography, Avatar } from '@mui/material';
 import { TinyLogo } from '@worksheets/ui-basic-style';
 import { FC } from 'react';
-import { Flex } from '@worksheets/ui-core';
+import { Flex, MicroMarkdown, MicroMarkdownText } from '@worksheets/ui-core';
 import { BackgroundColors } from '@worksheets/ui/common';
 import { SectionLayout } from './section-layout';
 
 export const QuoteSection: FC<{
-  quote: string;
+  quote: MicroMarkdownText;
   speaker: string;
   title: string;
   avatar: string;
@@ -30,8 +30,11 @@ export const QuoteSection: FC<{
         fontFamily="serif"
         variant="h6"
         pt={3}
+        whiteSpace="pre-line"
       >
-        <i>{quote}</i>
+        <i>
+          <MicroMarkdown text={quote} />
+        </i>
       </Typography>
       <Flex gap={1} alignItems="center" pt={3}>
         <Avatar src={avatar} sx={{ width: 40, height: 40 }} />
@@ -40,7 +43,9 @@ export const QuoteSection: FC<{
             {speaker}
           </Typography>
           <Typography variant="caption">
-            <i>{title}</i>
+            <i>
+              <MicroMarkdown text={title} />
+            </i>
           </Typography>
         </Flex>
       </Flex>
