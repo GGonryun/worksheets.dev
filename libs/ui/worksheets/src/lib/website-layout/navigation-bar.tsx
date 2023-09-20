@@ -1,5 +1,10 @@
 import { Divider, IconButton, Theme, Toolbar, styled } from '@mui/material';
-import { AccountMenu, MarketingHeader, useLayout } from '@worksheets/ui/common';
+import {
+  AccountMenu,
+  MarketingHeader,
+  urls,
+  useLayout,
+} from '@worksheets/ui/common';
 import { Flex } from '@worksheets/ui-core';
 
 import { HelpOutline, Menu, MoreVert } from '@mui/icons-material';
@@ -107,6 +112,7 @@ const RightSide: FC<{
           color: theme.palette.primary.main,
         },
       }}
+      href={urls.app.contact}
     >
       <HelpOutline />
     </IconButton>

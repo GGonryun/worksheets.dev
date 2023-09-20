@@ -70,3 +70,13 @@ export const userOverviewSchema = z.object({
     tokens: z.number(),
   }),
 });
+
+export type UserContactEntity = z.infer<typeof userContactEntity>;
+export const userContactEntity = z.object({
+  id: z.string(),
+  firstName: z.string(),
+  lastName: z.string(),
+  email: z.string(),
+  message: z.string(),
+  createdAt: z.number().describe('timestamp of creation date, in milliseconds'),
+});

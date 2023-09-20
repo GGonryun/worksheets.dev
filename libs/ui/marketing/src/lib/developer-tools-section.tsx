@@ -1,7 +1,7 @@
 import { Add } from '@mui/icons-material';
 import { Box, Link, Tooltip, Typography, alpha, useTheme } from '@mui/material';
 import { TinyLogo } from '@worksheets/ui-basic-style';
-import { CodeBlock } from '@worksheets/ui/common';
+import { CodeBlock, urls } from '@worksheets/ui/common';
 import { Flex } from '@worksheets/ui-core';
 import { WhiteProductButton } from './product-buttons';
 import { MarketingSection } from './marketing-section';
@@ -16,7 +16,7 @@ export const DeveloperToolsSection = () => {
     to help you get started quickly."
       action={{
         text: 'Read the manual',
-        href: '/documentation',
+        href: urls.docs.home,
       }}
       footer={
         <Flex justifyContent="center" alignItems="center" p={3} gap={6}>

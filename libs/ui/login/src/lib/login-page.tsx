@@ -8,18 +8,17 @@ import {
 } from '@mui/material';
 import { GithubAuthProvider, GoogleAuthProvider } from 'firebase/auth';
 import {
-  Emoji,
   GitHubIcon,
   GoogleIcon,
   urls,
   useLayout,
-  useTimeout,
   useUser,
   warn,
 } from '@worksheets/ui/common';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { SERVER_SETTINGS } from '@worksheets/data-access/server-settings';
+import { useTimeout } from '@worksheets/ui-core';
 
 export function LoginPage() {
   const { push } = useRouter();
@@ -108,14 +107,6 @@ export function LoginPage() {
               >
                 Continue with Github
               </Button>
-              <Box display="flex" flexDirection="column" gap={2}>
-                <Link href={`${SERVER_SETTINGS.WEBSITES.DOCS_URL('/')}`}>
-                  <Emoji code="pencil" /> Learn more
-                </Link>{' '}
-                <Link href={'/applications'}>
-                  <Emoji code="books" /> Applications
-                </Link>
-              </Box>
             </>
           )}
         </Box>

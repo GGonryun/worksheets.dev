@@ -13,9 +13,12 @@ import {
   ChevronRight,
   Code,
   DashboardOutlined,
+  Help,
+  HelpOutline,
   HistoryEdu,
   Home,
   Hub,
+  NotificationAdd,
   NotificationAddOutlined,
   OpenInNew,
   Schema,
@@ -124,7 +127,7 @@ export const NavigationDrawer: FC<{
         <Divider />
         <NavigationDrawerItems
           thin={!open}
-          title="Features"
+          title="Project Services"
           items={[
             {
               text: 'Connections',
@@ -159,7 +162,7 @@ export const NavigationDrawer: FC<{
             {
               text: 'Events',
               href: urls.app.project.events,
-              icon: <NotificationAddOutlined fontSize="small" />,
+              icon: <NotificationAdd fontSize="small" />,
             },
           ]}
         />
@@ -178,7 +181,11 @@ export const NavigationDrawer: FC<{
               href: urls.app.applications,
               icon: <Apps fontSize="small" />,
             },
-
+            {
+              text: 'Support',
+              href: urls.app.contact,
+              icon: <Help fontSize="small" />,
+            },
             {
               text: 'Documentation',
               href: urls.docs.home,

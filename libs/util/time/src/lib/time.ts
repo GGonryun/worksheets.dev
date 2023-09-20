@@ -212,7 +212,8 @@ export const printDuration = ({
 /**
  * @name printCountdownDuration
  * @description returns a human readable string of the duration remaining
- * @param {Duration} duration the duration to print
+ * @param {Duration} duration in DD:HH:MM:SS format.
+ * @remark if any unit is 0 it will not be printed.
  */
 export const printCountdownDuration = ({
   days = 0,

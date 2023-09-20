@@ -13,8 +13,14 @@ export function uniqueArray<T>(arr: T[]): T[] {
   return [...new Set(arr)];
 }
 
+export const shuffleArray = randomizeArray;
+
 export function randomizeArray<T>(arr: T[]): T[] {
   return arr.sort(() => Math.random() - 0.5);
+}
+
+export function selectRandomItem<T>(arr: T[]): T {
+  return arr[Math.floor(Math.random() * arr.length)];
 }
 
 export const arrayFromLength = (length: number): number[] => {
@@ -48,3 +54,9 @@ export function splitArrayEqually<T>(arr: T[], splits: number): T[][] {
   const trimmedArray = trimDivisibly(arr, splits);
   return splitArray(trimmedArray, splits);
 }
+
+export const replaceItem = <T>(arr: T[], index: number, value: T) => {
+  const copy = [...arr];
+  copy[index] = value;
+  return copy;
+};

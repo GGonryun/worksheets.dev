@@ -20,6 +20,10 @@ export function capitalizeFirstLetter(string: string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
+export function uppercase(string: string) {
+  return string.toUpperCase();
+}
+
 export function reverseString(string: string) {
   return string.split('').reverse().join('');
 }

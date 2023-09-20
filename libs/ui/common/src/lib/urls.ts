@@ -9,6 +9,17 @@ export const urls = {
     contact: '/contact',
     features: '/features',
     earlyAccess: '/early-access',
+    about: '/about',
+    privacy: '/privacy',
+    terms: '/terms',
+    social: {
+      twitter: '/social/twitter',
+      facebook: '/social/facebook',
+      github: '/social/github',
+      discord: '/social/discord',
+      linkedin: '/social/linkedin',
+      instagram: '/social/instagram',
+    },
     feature: {
       overview: '/features',
       vault: '/features/vault',
@@ -39,5 +50,6 @@ export const urls = {
   docs: {
     home: SERVER_SETTINGS.WEBSITES.DOCS_URL(),
     contactUs: SERVER_SETTINGS.WEBSITES.DOCS_URL('/contact-us'),
+    blog: SERVER_SETTINGS.WEBSITES.DOCS_URL('/blog'),
   },
 };

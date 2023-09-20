@@ -19,13 +19,8 @@ export const SidecarFooter = () => {
           </Typography>
 
           <Typography variant="body2" component="span" color="text.secondary">
-            <Link href={urls.app.contact} component="a">
-              Contact us for help
-            </Link>{' '}
-            or{' '}
-            <Link href={urls.app.contact} component="a">
-              create a support ticket
-            </Link>
+            <Link href={urls.app.contact}>Contact us for help</Link> or{' '}
+            <Link href={urls.app.contact}>create a support ticket</Link>
           </Typography>
         </Flex>
       </Flex>

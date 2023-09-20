@@ -1,5 +1,5 @@
 import { ArrowRightAlt } from '@mui/icons-material';
-import { ButtonBase, Paper, Typography, Link, useTheme } from '@mui/material';
+import { ButtonBase, Paper, Typography, useTheme } from '@mui/material';
 import { TinyLogo } from '@worksheets/ui-basic-style';
 import { FC } from 'react';
 import { growOnHoverMixin } from './mixins';
@@ -11,11 +11,13 @@ export const FeatureBox: FC<{
   logo: string;
   big?: boolean;
   beta?: boolean;
-}> = ({ title, description, logo, big, beta }) => {
+  href?: string;
+}> = ({ title, description, logo, big, beta, href }) => {
   const theme = useTheme();
   return (
     <ButtonBase
       disableRipple
+      href={href ?? '#'}
       sx={{
         transform: big ? 'scale(1.10)' : 'scale(1.00)',
         backgroundColor: theme.palette.background.paper,
@@ -71,14 +73,12 @@ export const FeatureBox: FC<{
           </Flex>
           <Flex column alignItems="center" gap={3}>
             <TinyLogo borderless area={108} src={logo} />
-            <Link href="/" color="inherit" underline="hover">
-              <Flex gap={0.5}>
-                <Typography variant="body2" fontWeight={900}>
-                  Learn More
-                </Typography>
-                <ArrowRightAlt />
-              </Flex>
-            </Link>
+            <Flex gap={0.5}>
+              <Typography variant="body2" fontWeight={900}>
+                Learn More
+              </Typography>
+              <ArrowRightAlt />
+            </Flex>
           </Flex>
         </Flex>
       </Paper>

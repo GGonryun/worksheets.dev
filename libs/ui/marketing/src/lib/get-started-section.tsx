@@ -3,6 +3,7 @@ import { TinyLogo } from '@worksheets/ui-basic-style';
 import { Flex } from '@worksheets/ui-core';
 import { FC } from 'react';
 import { WhiteProductButton } from './product-buttons';
+import { urls } from '@worksheets/ui/common';
 
 export const GetStartedSection: FC = () => (
   <Flex column alignItems="center">
@@ -24,6 +25,7 @@ export const GetStartedSection: FC = () => (
         my: 3,
         width: 200,
       }}
+      href={urls.app.contact}
     >
       Get 30 days free
     </WhiteProductButton>

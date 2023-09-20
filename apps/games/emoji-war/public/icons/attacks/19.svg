@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg width="800px" height="800px" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="48" height="48" fill="white" fill-opacity="0.01"/>
+  <rect x="4" y="4" width="40" height="40" stroke="#000000" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M17 4V44" stroke="#000000" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M31 4V44" stroke="#000000" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M4 17H44" stroke="#000000" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M4 31H44" stroke="#000000" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="4.149" y="4.327" width="12.787" height="12.384" style="fill: rgb(0, 0, 0); stroke: rgb(0, 0, 0);"/>
+  <rect x="31.611" y="4.956" width="11.756" height="11.454" style="fill: rgb(0, 0, 0); stroke: rgb(0, 0, 0);"/>
+  <rect x="4.432" y="32.018" width="11.283" height="11.341" style="fill: rgb(0, 0, 0); stroke: rgb(0, 0, 0);"/>
+  <rect x="32.062" y="32.216" width="11.341" height="10.861" style="fill: rgb(0, 0, 0); stroke: rgb(0, 0, 0);"/>
+</svg>

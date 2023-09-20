@@ -12,3 +12,5 @@ export * from './application-card';
 export * from './required-asterisk';
 export * from './sign-up-first-notice';
 export * from './open-in-new-link';
+export * from './under-construction-notice';
+export * from './text-area';

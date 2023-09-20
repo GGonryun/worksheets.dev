@@ -1,3 +1,4 @@
+import { urls } from '@worksheets/ui/common';
 import { MarketingSection } from './marketing-section';
 import { TinyLogo } from '@worksheets/ui-basic-style';
 
@@ -8,7 +9,7 @@ export const UseCasesSection = () => {
       description="Use our products together to help you solve complex business problems. We provide a variety of use cases and corresponding samples to help you get started."
       action={{
         text: 'View all use cases',
-        href: '/use-cases',
+        href: urls.app.features,
       }}
     >
       <TinyLogo

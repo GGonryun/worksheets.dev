@@ -16,7 +16,14 @@ export function round(number: number, decimals = 2) {
 
 export function calculatePercentage(current?: number, max?: number) {
   if (!current || !max) return 0;
+  if (current > max) return 0;
+  if (current < 0 || max < 0) return 0;
+
   return Math.min(Math.round((current / max) * 100), 100);
+}
+
+export function toPercentage(current?: number, max?: number) {
+  return `${calculatePercentage(current, max)}%`;
 }
 
 export function clamp(value: number, min: number, max: number) {

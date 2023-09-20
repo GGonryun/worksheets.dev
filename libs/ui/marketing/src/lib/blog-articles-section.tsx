@@ -6,6 +6,7 @@ import { FC } from 'react';
 import { MarketingSection } from './marketing-section';
 import { TinyLogo } from '@worksheets/ui-basic-style';
 import { StandardProductButton } from './product-buttons';
+import { urls } from '@worksheets/ui/common';
 
 export const BlogArticlesSection = () => (
   <MarketingSection
@@ -43,21 +44,21 @@ export const BlogArticlesSection = () => (
         description={
           "Developer's don't have many options when it comes to IPaaS. Find out what your options are and how they differ. We'll also discuss the pros and cons of each and how Worksheets can help fill in the gaps."
         }
-        href={'/blog/low-code-vs-no-code'}
+        href={urls.docs.blog}
       />
       <BlogArticlesCard
         title="You won't believe how many apps we can fit in this API."
         description={
           "No, seriously, you won't believe it. We've got a lot of apps. Like, a lot. Our competitors actually have more than us. We're not sure why you'd need that many apps, but we've got them."
         }
-        href={'/blog/who-has-the-most-connectors'}
+        href={urls.docs.blog}
       />
       <BlogArticlesCard
         title="Build a Slack bot in less than 5 minutes or your money back, guaranteed."
         description={
-          "Join us while we discuss how to build a Slack bot as fast as possible using Worksheets. We'll also discuss the benefits of using Worksheets over other platforms. This tutorial is free and open to the public."
+          "Join us while we build a Slack bot as fast as possible using Worksheets. We'll also discuss the benefits of using Worksheets over other platforms. This tutorial is free and open to the public."
         }
-        href={''}
+        href={urls.docs.blog}
       />
     </Flex>
   </MarketingSection>

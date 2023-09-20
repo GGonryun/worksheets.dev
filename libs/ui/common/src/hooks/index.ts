@@ -9,7 +9,6 @@ export * from './useMediaQuery';
 export * from './useNavigateToHash';
 export * from './useScrollDirection';
 export * from './useScrollPosition';
-export * from './useTimeout';
 export * from './useTitle';
 export * from './useQueryParameter';
 export * from './useUser';

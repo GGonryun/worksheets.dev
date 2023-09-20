@@ -2,7 +2,7 @@ import { Box, Typography, Button, Link, TextField } from '@mui/material';
 import { SERVER_SETTINGS } from '@worksheets/data-access/server-settings';
 import { TinyButton, TinyLogo } from '@worksheets/ui-basic-style';
 import { Flex } from '@worksheets/ui-core';
-import { useLayout, useUser } from '@worksheets/ui/common';
+import { urls, useLayout, useUser } from '@worksheets/ui/common';
 
 export const ApplicationsFooter: React.FC<{
   app: { title: string };
@@ -44,10 +44,7 @@ const NewsletterCallToAction: React.FC<{
           </Typography>
           <Flex pt={3} gap={1}>
             <TextField size="small" placeholder="email address" />
-            <TinyButton
-              variant="contained"
-              onClick={() => alert('TODO: redirect to email subscription form')}
-            >
+            <TinyButton variant="contained" href={urls.app.contact}>
               Subscribe
             </TinyButton>
           </Flex>

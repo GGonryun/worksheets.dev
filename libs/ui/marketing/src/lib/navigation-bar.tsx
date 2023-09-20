@@ -58,12 +58,12 @@ const publicAppBarButtons = [
 type NavigationBarProps = { hideLinks?: boolean };
 
 export const NavigationBar: React.FC<NavigationBarProps> = ({ hideLinks }) => {
-  const { scroll, isLarge } = useLayout();
+  const { scroll, isTablet } = useLayout();
 
   return (
     <AppBar position="fixed" color="inherit" elevation={scroll > 10 ? 4 : 0}>
       <Toolbar variant="dense">
-        {isLarge ? (
+        {isTablet ? (
           <MobilePublicNavigationBarContents hideLinks={hideLinks} />
         ) : (
           <DesktopPublicNavigationBarContents hideLinks={hideLinks} />

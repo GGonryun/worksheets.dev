@@ -1,47 +1,47 @@
 import { Divider, Link, Typography, useTheme } from '@mui/material';
 import { Flex } from '@worksheets/ui-core';
-import { SharedWebsiteFooter } from '@worksheets/ui/common';
+import { SharedWebsiteFooter, urls } from '@worksheets/ui/common';
 import { FC } from 'react';
 
 const footerUrls = [
   {
     title: 'Docs',
     links: [
-      { title: 'Applications', url: '/applications' },
-      { title: 'Quick Start', url: '/docs/quick-start' },
-      { title: 'FAQ', url: '/docs/faq' },
-      { title: 'Roadmap', url: '/docs/roadmap' },
+      { title: 'Applications', url: urls.app.applications },
+      { title: 'Quick Start', url: urls.docs.home },
+      { title: 'FAQ', url: urls.docs.home },
+      { title: 'Roadmap', url: urls.docs.home },
     ],
   },
   {
     title: 'Company',
     links: [
-      { title: 'About', url: '/about' },
-      { title: 'Blog', url: '/blog' },
-      { title: 'Contact', url: '/contact' },
+      { title: 'About', url: urls.app.about },
+      { title: 'Blog', url: urls.docs.blog },
+      { title: 'Contact', url: urls.app.contact },
     ],
   },
   {
     title: 'Legal',
     links: [
-      { title: 'Privacy', url: '/privacy' },
-      { title: 'Terms', url: '/terms' },
+      { title: 'Privacy', url: urls.app.privacy },
+      { title: 'Terms', url: urls.app.terms },
     ],
   },
   {
     title: 'Social',
     links: [
-      { title: 'Twitter', url: 'https://worksheets.dev/twitter' },
-      { title: 'GitHub', url: 'https://worksheets.dev/github' },
-      { title: 'Discord', url: 'https://worksheets.dev/discord' },
-      { title: 'Facebook', url: 'https://worksheets.dev/facebook' },
+      { title: 'Twitter', url: urls.app.social.twitter },
+      { title: 'GitHub', url: urls.app.social.github },
+      { title: 'Discord', url: urls.app.social.discord },
+      { title: 'Facebook', url: urls.app.social.facebook },
     ],
   },
   {
     title: 'Newsletter',
     links: [
-      { title: 'Subscribe', url: '/subscribe' },
-      { title: 'Unsubscribe', url: '/unsubscribe' },
+      { title: 'Subscribe', url: urls.app.contact },
+      { title: 'Unsubscribe', url: urls.app.contact },
     ],
   },
 ];

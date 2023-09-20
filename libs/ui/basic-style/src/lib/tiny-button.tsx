@@ -58,6 +58,7 @@ export type TinyButtonProps = {
   | 'endIcon'
   | 'onClick'
   | 'color'
+  | 'fullWidth'
   | 'disabled'
   | 'href'
 >;

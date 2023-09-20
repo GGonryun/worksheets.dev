@@ -1,0 +1,32 @@
+.card-container {
+  height: 100%;
+  width: 100%;
+}
+
+.loading-overlay {
+  background-color: #ccc;
+  z-index: -1;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.card {
+  height: 100%;
+  width: 100%;
+  border: none;
+  border-radius: 6px;
+  border: 2px solid black;
+  display: inline-block;
+  background-color: transparent;
+}
+
+.disabled-overlay {
+  background-color: #ccc;
+  border-radius: 4px;
+  z-index: -1;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+}

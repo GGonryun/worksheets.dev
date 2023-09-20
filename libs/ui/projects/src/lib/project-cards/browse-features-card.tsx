@@ -1,7 +1,7 @@
 import { Lightbulb, OpenInNew } from '@mui/icons-material';
 import { Card, Typography, Button } from '@mui/material';
 import { TinyLogo } from '@worksheets/ui-basic-style';
-import { useLayout } from '@worksheets/ui/common';
+import { urls, useLayout } from '@worksheets/ui/common';
 import { FC } from 'react';
 import { cardHeight } from './custom-card';
 import { Flex } from '@worksheets/ui-core';
@@ -29,8 +29,9 @@ export const BrowseFeaturesCard: FC = () => {
               startIcon={<Lightbulb />}
               endIcon={<OpenInNew />}
               size="small"
+              href={urls.app.features}
               sx={{
-                pt: 3,
+                mt: 3,
                 textTransform: 'none',
                 color: 'primary.main',
                 border: 'transparent',

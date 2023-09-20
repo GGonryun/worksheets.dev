@@ -1,10 +1,11 @@
-import { ButtonBase, Typography } from '@mui/material';
+import { ButtonBase, Link, Typography } from '@mui/material';
 import { FC } from 'react';
 import { Flex } from '@worksheets/ui-core';
 import { ApplicationBasics } from '@worksheets/schemas-applications';
 import { TinyButton, TinyLogo } from '@worksheets/ui-basic-style';
 import { growOnHoverMixin } from './mixins';
 import { MarketingSection } from './marketing-section';
+import { urls } from '@worksheets/ui/common';
 
 const letters = [
   ...'0-9 A B C D E F G H I J K L M N O P Q R S T U V W X Y Z'.split(' '),
@@ -21,14 +22,15 @@ export const IntegrationsSection: FC = () => (
     footer={
       <Typography variant="body2" textAlign="center" py={2}>
         Don't see the app you're looking for?{' '}
-        <Typography
+        <Link
           variant="body2"
           component="a"
           color="primary"
-          href="/contact"
+          href={urls.app.contact}
+          underline="hover"
         >
           Request it here.
-        </Typography>
+        </Link>
       </Typography>
     }
   >
@@ -41,7 +43,7 @@ export const IntegrationsSection: FC = () => (
           {letters.map((letter) => (
             <TinyButton
               key={letter}
-              onClick={() => alert(`TODO: user redirect to ${letter}`)}
+              href={urls.app.applications}
               sx={{ px: 1, py: 0, m: 0 }}
             >
               <Typography variant="body2" color="text.secondary" key={letter}>

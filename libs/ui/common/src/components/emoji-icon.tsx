@@ -26,8 +26,8 @@ const shortCodeMap: Record<
     label: 'Thinking Face',
   },
   pencil: {
-    decimal: 128196,
-    label: 'Memo',
+    decimal: 9999,
+    label: 'Pencil',
   },
   books: {
     decimal: 128218,

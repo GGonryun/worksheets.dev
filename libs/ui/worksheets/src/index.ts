@@ -8,7 +8,6 @@ export * from './lib/service-details/page';
 export * from './lib/website-layout/layout';
 export * from './lib/overview/page';
 export * from './lib/contact/page';
-export * from './lib/features/page';
 export * from './lib/vault/page';
 export * from './lib/schemas/page';
 export * from './lib/tasks/page';
