@@ -1,6 +1,5 @@
 import { Typography } from '@mui/material';
 import { Flex } from '@worksheets/ui-core';
-import { usePlayer } from '../../hooks';
 import { Star, WaterDrop } from '@mui/icons-material';
 import { FC } from 'react';
 

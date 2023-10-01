@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { WordDefinition, WordMeaning } from '../types';
+import { WordDefinition } from '../types';
 
 export const useDefinition = (word: string) => {
   const [wordDefinition, setWordDefinition] = useState<WordDefinition | null>(

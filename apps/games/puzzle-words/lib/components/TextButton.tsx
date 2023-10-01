@@ -1,7 +1,7 @@
 import { Flex } from '@worksheets/ui-core';
 import { border } from '../layouts';
 import { FC } from 'react';
-import { Button, Typography } from '@mui/material';
+import { Button } from '@mui/material';
 
 export const TextButton: FC<{
   onClick: () => void;

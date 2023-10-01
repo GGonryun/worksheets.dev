@@ -34,12 +34,12 @@ export const HelpCenter: FC<{ open: boolean; onClose: () => void }> = ({
             <br />
             <br />
             Every word you find <WaterDrop color="info" sx={iconStyles} />{' '}
-            donates 1 milliliter of water to <WaterOrgLink />. After you've
+            donates 1 milliliter of water to <WaterOrgLink />. After you&apos;ve
             unlocked a word you can click on it to see the definition and
             pronunciation.
             <br />
             <br />
-            Once you've found all the words in the puzzle{' '}
+            Once you&apos;ve found all the words in the puzzle{' '}
             <EmojiEvents sx={{ ...iconStyles, color: '#FDCA40' }} />, the
             current puzzle will automatically end and you will be taken to the
             next puzzle.

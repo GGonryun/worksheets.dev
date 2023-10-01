@@ -15,7 +15,7 @@ import {
 } from '../constants';
 import { randomBetween } from '@worksheets/util/numbers';
 
-const firstPuzzle = puzzles[0];
+const firstPuzzle = puzzles[0]; // start with the first puzzle
 
 const initialState = {
   level: 0,

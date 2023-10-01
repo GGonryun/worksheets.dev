@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { Modal } from '../Modal';
 import { Definition } from './Definition';
-import { Discovered, WordMeaning } from '../../types';
+import { Discovered } from '../../types';
 import { Flex } from '@worksheets/ui-core';
 import { useDefinition } from '../../hooks';
 import { CircularProgress, Divider } from '@mui/material';
