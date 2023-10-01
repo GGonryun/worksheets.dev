@@ -18,16 +18,12 @@ export const Layout: FC<LayoutProps> = (props) => {
   return (
     <GridPaperLayout>
       <EnterDirectionally y={-50} delay={0.25}>
-        <Flex column fullWidth centered pt={2}>
-          {header}
-        </Flex>
+        {header}
       </EnterDirectionally>
-      <Flex fill centered py={1}>
+      <Flex grow centered pb={1}>
         <EnterDirectionally delay={0.25}>{puzzle}</EnterDirectionally>
       </Flex>
-      <Flex fullWidth centered pb={2} top={0}>
-        <Player {...props} />
-      </Flex>
+      <Player {...props} />
     </GridPaperLayout>
   );
 };

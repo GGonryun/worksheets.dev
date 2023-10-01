@@ -7,7 +7,7 @@ export const MoreGames = () => {
   const { push } = useRouter();
   return (
     <TextButton onClick={() => push(urls.games())}>
-      <Typography variant="body1">More Games</Typography>
+      <Typography variant="body2">More Games</Typography>
     </TextButton>
   );
 };

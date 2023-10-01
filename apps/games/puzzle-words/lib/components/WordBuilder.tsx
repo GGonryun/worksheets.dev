@@ -18,7 +18,7 @@ export const WordBuilder: FC<WordBuilderProps> = ({
   onRelease,
 }) => {
   const { detect, register } = useIntersectionObserver({ onIntersect });
-  const borderDiameter = 190;
+  const borderDiameter = 180;
   const dotDiameter = 130;
   const letterDiameter = 40;
 

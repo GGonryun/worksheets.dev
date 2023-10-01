@@ -13,6 +13,8 @@ const theme = createTheme({
 function CustomApp({ Component, pageProps }: AppProps) {
   return (
     <>
+      <meta name="mobile-web-app-capable" content="yes" />
+      <meta name="apple-mobile-web-app-capable" content="yes" />
       <link
         rel="preload"
         href="/fonts/FirstTimeWriting.woff2"
@@ -23,11 +25,11 @@ function CustomApp({ Component, pageProps }: AppProps) {
       <Head>
         <title>Puzzle Words</title>
       </Head>
-      <main className={styles['page']}>
-        <ThemeProvider theme={theme}>
+      <ThemeProvider theme={theme}>
+        <main className={styles['page']}>
           <Component {...pageProps} />
-        </ThemeProvider>
-      </main>
+        </main>
+      </ThemeProvider>
     </>
   );
 }

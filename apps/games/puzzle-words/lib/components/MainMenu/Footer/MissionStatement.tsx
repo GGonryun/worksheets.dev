@@ -7,6 +7,6 @@ export const MissionStatement: FC<FooterProps> = ({
   onShowMissionStatement,
 }) => (
   <TextButton onClick={onShowMissionStatement}>
-    <Typography variant="body1">Our Mission</Typography>
+    <Typography variant="body2">Our Mission</Typography>
   </TextButton>
 );

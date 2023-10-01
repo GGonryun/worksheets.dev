@@ -6,9 +6,12 @@ export const EnterDirectionally: FC<{
   x?: number;
   y?: number;
   delay?: number;
-}> = ({ children, x = 0, y = 0, delay = 0.5 }) => {
+  fullWidth?: boolean;
+}> = ({ children, x = 0, y = 0, delay = 0.5, fullWidth }) => {
+  const style = fullWidth ? { width: '100%' } : {};
   return (
     <motion.div
+      style={style}
       initial={{ opacity: 0, x, y }}
       whileInView={{
         opacity: 1,

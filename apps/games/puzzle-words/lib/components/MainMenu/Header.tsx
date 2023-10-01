@@ -3,6 +3,7 @@ import { IconButton } from '../IconButton';
 import { Add, Settings, WaterDrop } from '@mui/icons-material';
 import { border } from '../../layouts';
 import { FC } from 'react';
+import { EnterDirectionally } from '../Animators';
 
 export type HeaderProps = {
   onDonateWater: () => void;
@@ -11,10 +12,14 @@ export type HeaderProps = {
 
 export const Header: FC<HeaderProps> = (props) => (
   <Flex spaceBetween fullWidth position="relative">
-    <WaterDropButton {...props} />
-    <IconButton onClick={props.onSettings}>
-      <Settings />
-    </IconButton>
+    <EnterDirectionally y={-50} delay={0.5}>
+      <WaterDropButton {...props} />
+    </EnterDirectionally>
+    <EnterDirectionally y={-50} delay={0.5}>
+      <IconButton onClick={props.onSettings}>
+        <Settings />
+      </IconButton>
+    </EnterDirectionally>
   </Flex>
 );
 

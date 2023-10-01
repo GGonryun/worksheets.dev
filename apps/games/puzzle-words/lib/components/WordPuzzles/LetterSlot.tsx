@@ -11,8 +11,8 @@ export const LetterSlot: FC<{
 }> = ({ letter, discovered, unlocked }) => {
   return (
     <Flex
-      width={26}
-      height={26}
+      width={21}
+      height={21}
       centered
       sx={(theme) => ({
         border: thinBorder(theme),

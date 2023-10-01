@@ -24,7 +24,7 @@ export const MissionStatementModal: FC<MissionStatementModalProps> = ({
 }) => {
   return (
     <Modal open={open} onClose={onClose}>
-      <Flex column fill>
+      <Flex column p={2}>
         <EnterDirectionally delay={0.15}>
           <ModalHeader onClose={onClose}>Our Mission</ModalHeader>
         </EnterDirectionally>
@@ -36,7 +36,7 @@ export const MissionStatementModal: FC<MissionStatementModalProps> = ({
 };
 
 const MissionText = () => (
-  <Flex column fullWidth p={2} sx={{ overflowY: 'auto', flex: 1, gap: 2 }}>
+  <Flex column pt={1}>
     <EnterDirectionally delay={0.3}>
       <Typography fontFamily="sans-serif">
         <b>Puzzle Words</b> is a free, open-source, and ad-free game that helps

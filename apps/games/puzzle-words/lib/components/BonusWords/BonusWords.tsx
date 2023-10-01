@@ -20,7 +20,7 @@ export const BonusWords: FC<BonusWordsProps> = ({
 }) => {
   return (
     <Modal open={open ?? false} onClose={onClose}>
-      <Flex column gap={1}>
+      <Flex column gap={1} p={2}>
         <Header words={bonuses} onClose={onClose} />
         <Divider sx={{ backgroundColor: 'error.dark' }} />
         <WordList words={bonuses} defineWord={onDefine} />

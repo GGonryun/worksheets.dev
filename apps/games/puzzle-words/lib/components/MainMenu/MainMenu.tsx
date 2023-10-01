@@ -1,7 +1,6 @@
 import { FC, useState } from 'react';
 import { Header } from './Header';
 import { EnterDirectionally } from '../Animators';
-import { Logo } from './Logo';
 import { Footer } from './Footer';
 import { Producer } from './Producer';
 import { Title } from './Title';
@@ -23,25 +22,20 @@ export const MainMenu: FC = () => {
   return (
     <>
       <LinedPaperLayout>
-        <EnterDirectionally y={-50} delay={0}>
-          <Header
-            onDonateWater={() => setShowDonateWater(true)}
-            onSettings={() => setShowSettings(true)}
-          />
-        </EnterDirectionally>
+        <Header
+          onDonateWater={() => setShowDonateWater(true)}
+          onSettings={() => setShowSettings(true)}
+        />
         <EnterDirectionally y={-100} delay={0.5}>
           <Title />
         </EnterDirectionally>
         <EnterDirectionally y={-150} delay={0.75}>
           <Producer />
         </EnterDirectionally>
-        <EnterDirectionally y={-200} delay={1}>
-          <Logo />
-        </EnterDirectionally>
         <EnterDirectionally y={200} delay={0.25}>
           <StartPuzzle level={level} />
         </EnterDirectionally>
-        <Flex column centered fullWidth pt={3} gap={1}>
+        <Flex column centered grow gap={1}>
           <EnterDirectionally y={150} delay={0.5}>
             <PlayerPoints points={points} />
           </EnterDirectionally>

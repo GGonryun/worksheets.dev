@@ -7,12 +7,12 @@ import { Subscribe } from '../Subscribe';
 
 export type FooterProps = { onShowMissionStatement: () => void };
 export const Footer: FC<FooterProps> = (props) => (
-  <Flex fill alignItems="flex-end">
-    <Flex fullWidth column gap={2}>
+  <Flex alignItems="flex-end" flex={1}>
+    <Flex column gap={2} fullWidth>
       <EnterDirectionally delay={0.75}>
         <Subscribe />
       </EnterDirectionally>
-      <Flex px={1} spaceBetween fullWidth>
+      <Flex wrap centered gap={2}>
         <EnterDirectionally delay={0.25}>
           <MoreGames />
         </EnterDirectionally>

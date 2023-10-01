@@ -25,7 +25,7 @@ export const SettingsModal: FC<SettingsModalProps> = ({
 }) => {
   return (
     <Modal open={open} onClose={onClose}>
-      <Flex column fill>
+      <Flex column p={2}>
         <EnterDirectionally delay={0.15}>
           <ModalHeader onClose={onClose}>Settings</ModalHeader>
         </EnterDirectionally>
@@ -37,7 +37,7 @@ export const SettingsModal: FC<SettingsModalProps> = ({
 };
 
 const ModalBody: FC<ActionsProps> = (props) => (
-  <Flex column fullWidth p={2} sx={{ overflowY: 'auto', flex: 1, gap: 2 }}>
+  <Flex column fullWidth sx={{ overflowY: 'auto', flex: 1, gap: 2 }}>
     <EnterDirectionally delay={0.3}>
       <Actions {...props} />
     </EnterDirectionally>
@@ -57,16 +57,15 @@ const Actions: FC<ActionsProps> = ({ onLoad, onReset }) => {
   };
 
   return (
-    <Flex column fullWidth gap={2}>
+    <Flex column gap={2} pt={1}>
       <Typography fontFamily="sans-serif">
         These options will reset your progress and restart the game.{' '}
         <b>Do not use these options unless you want to start over.</b>
       </Typography>
       <Flex column gap={1}>
-        <Typography>Jump to a puzzle</Typography>
+        <Typography variant="h6">Jump to a puzzle</Typography>
         <NativeSelect
           size="small"
-          defaultValue={0}
           value={puzzle.toString()}
           onChange={handleChange}
         >
@@ -75,8 +74,6 @@ const Actions: FC<ActionsProps> = ({ onLoad, onReset }) => {
               Puzzle #{i + 1}: {randomizeArray(p.letters).join('')}
             </option>
           ))}
-          <MenuItem value={1}>Puzzle #2</MenuItem>
-          <MenuItem value={2}>Puzzle #3</MenuItem>
         </NativeSelect>
         <Button
           variant="contained"

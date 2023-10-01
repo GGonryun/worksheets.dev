@@ -15,10 +15,12 @@ export const Modal: FC<ModalProps> = ({ children, ...props }) => {
     <MuiModal {...props}>
       <div>
         <Flex
+          column
           position="absolute"
           width="90%"
+          height="90%"
           maxWidth={450}
-          height="500px"
+          maxHeight={450}
           sx={{
             bgcolor: 'background.paper',
             border: '2px solid black',
@@ -26,13 +28,10 @@ export const Modal: FC<ModalProps> = ({ children, ...props }) => {
             top: '50%',
             left: '50%',
             transform: 'translate(-50%, -50%)',
+            overflow: 'scroll',
           }}
         >
-          <Flex column fill p={2}>
-            <Flex column fill sx={{ zIndex: 1 }}>
-              {children}
-            </Flex>
-          </Flex>
+          {children}
         </Flex>
       </div>
     </MuiModal>

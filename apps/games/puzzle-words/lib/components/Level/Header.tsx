@@ -12,14 +12,8 @@ export const Header: FC<{
   openHelp: () => void;
 }> = ({ id, rules, exitLevel, openHelp }) => {
   return (
-    <Flex position="relative" fullWidth>
-      <Flex
-        column
-        centered
-        position="absolute"
-        fullWidth
-        pt={rules.length > 0 ? 3 : 0}
-      >
+    <Flex position="relative">
+      <Flex column centered position="absolute" fullWidth>
         <Typography fontSize={24}>Puzzle #{id + 1}</Typography>
         {rules.length > 0 && (
           <>
@@ -30,18 +24,14 @@ export const Header: FC<{
           </>
         )}
       </Flex>
-      <Flex spaceBetween fullWidth px={2}>
-        <Flex gap={1}>
-          <IconButton onClick={exitLevel}>
-            <ArrowBack />
-          </IconButton>
-        </Flex>
+      <Flex spaceBetween fullWidth>
+        <IconButton onClick={exitLevel}>
+          <ArrowBack />
+        </IconButton>
 
-        <Flex gap={1}>
-          <IconButton onClick={openHelp}>
-            <Help />
-          </IconButton>
-        </Flex>
+        <IconButton onClick={openHelp}>
+          <Help />
+        </IconButton>
       </Flex>
     </Flex>
   );

@@ -21,8 +21,8 @@ export const LevelComplete: FC<{
 
   return (
     <LinedPaperLayout>
-      <Flex fill centered pt={3} column>
-        <EnterDirectionally y={-100} delay={0}>
+      <Flex fill centered column pt={3}>
+        <EnterDirectionally y={-50} delay={0}>
           <Typography fontSize={34}>Puzzle #{level + 1} Complete</Typography>
         </EnterDirectionally>
         <EnterDirectionally y={-100} delay={0.15}>
@@ -58,7 +58,7 @@ export const LevelComplete: FC<{
             </TextButton>
           </Spacing>
         </EnterDirectionally>
-        <Flex centered column py={2}>
+        <Flex centered column gap={1} pt={1}>
           <EnterDirectionally y={-100} delay={0.6}>
             <Typography fontSize={28}>Total Score: {points} points</Typography>
           </EnterDirectionally>
@@ -66,10 +66,10 @@ export const LevelComplete: FC<{
             <Typography fontSize={20}>Water Donated: {water} ml</Typography>
           </EnterDirectionally>
           <EnterDirectionally y={-100} delay={0.9}>
-            <WaterDrop fontSize="large" color="primary" sx={{ mt: 3 }} />
+            <WaterDrop fontSize="large" color="primary" />
           </EnterDirectionally>
         </Flex>
-        <Flex column centered pt={4}>
+        <Flex column centered grow>
           <EnterDirectionally y={-100} delay={1.05}>
             <Link href={urls.waterOrg()}>
               <Image

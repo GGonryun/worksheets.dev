@@ -2,7 +2,7 @@ import { PowerUpCode } from './types';
 
 export const PUZZLE_GAP = 0.33;
 export const MAX_PUZZLE_HEIGHT = 10;
-export const MAX_WORDS_IN_PUZZLE = 20;
+export const MAX_WORDS_IN_PUZZLE = 16;
 export const MAX_BONUSES_IN_PUZZLE = 30;
 
 export const POWER_UP_COSTS: Record<PowerUpCode, number> = {

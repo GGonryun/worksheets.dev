@@ -1,6 +1,7 @@
 import { Flex } from '@worksheets/ui-core';
 import { border } from '../layouts';
 import { FC } from 'react';
+import { Button, Typography } from '@mui/material';
 
 export const TextButton: FC<{
   onClick: () => void;
@@ -8,7 +9,8 @@ export const TextButton: FC<{
   endIcon?: React.ReactNode;
   disabled?: boolean;
 }> = ({ onClick, children, endIcon, disabled }) => (
-  <Flex
+  <Button
+    size="small"
     sx={(theme) => ({
       border: border(theme),
       backgroundColor: theme.palette.grey[300],
@@ -35,5 +37,5 @@ export const TextButton: FC<{
       {children}
       {endIcon}
     </Flex>
-  </Flex>
+  </Button>
 );

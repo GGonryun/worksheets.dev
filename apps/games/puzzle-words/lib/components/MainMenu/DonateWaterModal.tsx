@@ -16,7 +16,7 @@ export const DonateWaterModal: FC<DonateWaterStatementModalProps> = ({
 }) => {
   return (
     <Modal open={open} onClose={onClose}>
-      <Flex column fill>
+      <Flex column p={2}>
         <EnterDirectionally delay={0.15}>
           <ModalHeader onClose={onClose}>Donate Water</ModalHeader>
         </EnterDirectionally>
@@ -28,7 +28,7 @@ export const DonateWaterModal: FC<DonateWaterStatementModalProps> = ({
 };
 
 const ModalText = () => (
-  <Flex column fullWidth p={2} sx={{ overflowY: 'auto', flex: 1, gap: 2 }}>
+  <Flex column pt={2}>
     <EnterDirectionally delay={0.3}>
       <Typography fontFamily="sans-serif">
         More than <b>500 million people</b> in the world lack access to clean

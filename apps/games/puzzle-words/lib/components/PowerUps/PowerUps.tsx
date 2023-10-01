@@ -19,12 +19,12 @@ export const PowerUps: FC<{
 }> = ({ points, open, onClose, onPurchase, onLearnMore, onInviteFriends }) => {
   return (
     <Modal open={open} onClose={onClose}>
-      <Flex column gap={1}>
+      <Flex column gap={1} p={2}>
         <EnterDirectionally delay={0.25}>
           <Header points={points} onClose={onClose} />
         </EnterDirectionally>
         <Divider sx={{ backgroundColor: 'error.dark', mb: 1 }} />
-        <Flex column gap={2} pb={3}>
+        <Flex column gap={2}>
           <EnterDirectionally y={-50} delay={0}>
             <PowerUp
               points={points}
@@ -75,8 +75,6 @@ export const PowerUps: FC<{
               label={POWER_UP_LABELS['finish-puzzle']}
             />
           </EnterDirectionally>
-        </Flex>
-        <Flex position="absolute" bottom={20}>
           <EnterDirectionally y={50} delay={0.3}>
             <Flex column gap={1}>
               <Typography fontSize={16} pl={0.5}>
