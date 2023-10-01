@@ -6,6 +6,7 @@
     "schema": "./libs/prisma/src/schemas/main.prisma"
   },
   "scripts": {
+    "postinstall": "prisma generate",
     "cli": "npx nx run cli:bundlefy && node dist/libs/cli",
     "build:cli": "npx nx run cli:bundlefy",
     "publish:cli": "echo \"TODO: publish cli\"",
