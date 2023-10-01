@@ -42,6 +42,7 @@ export const WordBuilder: FC<WordBuilderProps> = ({
           onPan={detect}
           onPanEnd={onRelease}
           style={{
+            zIndex: 10,
             position: 'absolute',
             left: -(panDiameter - borderDiameter + 4) / 2,
             top: -(panDiameter - borderDiameter + 4) / 2,
