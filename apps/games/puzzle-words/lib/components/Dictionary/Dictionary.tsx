@@ -28,10 +28,6 @@ export const Dictionary: FC<DictionaryProps> = ({
   const discovered = words[define] || bonuses[define];
   const { definition, loading, error } = useDefinition(define);
 
-  const playAudio = () => {
-    if (!definition?.audio) return;
-    new Audio(definition?.audio).play();
-  };
   return (
     <Modal open={open ?? false} onClose={onClose}>
       <Flex p={2} column>
@@ -40,7 +36,7 @@ export const Dictionary: FC<DictionaryProps> = ({
           discovered={discovered}
           pronounciation={definition?.pronounciation ?? '/ ??? /'}
           onClose={onClose}
-          onPlay={playAudio}
+          audio={definition?.audio}
         />
         <Divider sx={{ width: '100%', backgroundColor: 'error.main' }} />
         {loading && <CircularProgress />}{' '}

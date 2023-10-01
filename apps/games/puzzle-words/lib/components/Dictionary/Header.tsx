@@ -9,17 +9,26 @@ export const Header: FC<{
   word: string;
   pronounciation: string;
   discovered: number;
+  audio?: string;
   onClose: () => void;
-  onPlay: () => void;
-}> = ({ onPlay, onClose, word, pronounciation, discovered }) => {
+}> = ({ onClose, audio, word, pronounciation, discovered }) => {
+  const playAudio = () => {
+    if (!audio) return;
+    new Audio(audio).play();
+  };
   return (
     <Flex spaceBetween fullWidth pb={1}>
       <Flex gap={1}>
         <Typography fontSize={32}>{maskWord(word, !discovered)}</Typography>-{' '}
-        <Typography>{maskWord(pronounciation, !discovered)}</Typography>-
-        <IconButton size="small" onClick={onPlay}>
-          <VolumeUp fontSize="small" />
-        </IconButton>
+        <Typography>{maskWord(pronounciation, !discovered)}</Typography>
+        {audio && (
+          <>
+            -
+            <IconButton size="small" onClick={playAudio}>
+              <VolumeUp fontSize="small" />
+            </IconButton>
+          </>
+        )}
       </Flex>
       <IconButton size="small" onClick={onClose}>
         <Close fontSize="small" />
