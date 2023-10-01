@@ -5,7 +5,6 @@ export * from './useEventListener';
 export * from './useLayout';
 export * from './useMediaQuery';
 export * from './useNavigateToHash';
-export * from './useScrollDirection';
 export * from './useScrollPosition';
 export * from './useTitle';
 export * from './useQueryParameter';

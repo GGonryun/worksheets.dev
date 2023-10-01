@@ -3,26 +3,23 @@ import Head from 'next/head';
 import './styles.css';
 import { createTheme, ThemeProvider } from '@mui/material';
 import styles from './index.module.scss';
+import localFont from 'next/font/local';
+const FirstTimeWriting = localFont({
+  src: '../public/fonts/FirstTimeWriting.woff2',
+});
 
 const theme = createTheme({
   typography: {
-    fontFamily: ['FirstTimeWriting', 'sans-serif'].join(','),
+    fontFamily: [FirstTimeWriting.style.fontFamily, 'sans-serif'].join(','),
   },
 });
 
 function CustomApp({ Component, pageProps }: AppProps) {
   return (
     <>
-      <meta name="mobile-web-app-capable" content="yes" />
-      <meta name="apple-mobile-web-app-capable" content="yes" />
-      <link
-        rel="preload"
-        href="/fonts/FirstTimeWriting.woff2"
-        as="font"
-        type="font/woff2"
-        crossOrigin="anonymous"
-      />
       <Head>
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
         <title>Puzzle Words</title>
       </Head>
       <ThemeProvider theme={theme}>

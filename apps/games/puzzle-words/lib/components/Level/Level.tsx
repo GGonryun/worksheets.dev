@@ -145,8 +145,15 @@ export const Level: FC<{
         words={words}
         bonuses={bonuses}
         define={data}
+        onReportProblem={(word) => {
+          setModal('report-issue', word);
+        }}
       />
-      <ReportIssue open={modal === 'report-issue'} onClose={() => setModal()} />
+      <ReportIssue
+        data={data}
+        open={modal === 'report-issue'}
+        onClose={() => setModal()}
+      />
       <PowerUps
         points={points}
         open={modal === 'power-ups'}

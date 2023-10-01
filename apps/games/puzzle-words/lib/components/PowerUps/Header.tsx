@@ -15,16 +15,10 @@ export const Header: FC<{ points: number; onClose: () => void }> = ({
           <Typography fontSize={24}>
             <strong>Points Earned:</strong>
           </Typography>
-          <Typography fontSize={20}>
-            {points}
-            <Star
-              color="warning"
-              sx={{
-                ml: 0.5,
-                mb: 0.5,
-              }}
-            />
-          </Typography>
+          <Flex gap={0.5}>
+            <Typography fontSize={20}>{points}</Typography>
+            <Star color="warning" />
+          </Flex>
         </Flex>
         <IconButton onClick={onClose}>
           <Close fontSize="small" />

@@ -39,7 +39,7 @@ export const puzzles: Puzzle[] = [
   {
     letters: 'type'.split(''),
     words: ['type', 'yet', 'pet', 'yep'],
-    bonuses: ['pye'],
+    bonuses: ['tye'],
     rules: [],
   },
   {
@@ -49,9 +49,15 @@ export const puzzles: Puzzle[] = [
     rules: [],
   },
   {
+    letters: 'spank'.split(''),
+    words: ['spank', 'naps', 'pans', 'pan', 'sank', 'snap', 'span'],
+    bonuses: ['knaps', 'san'],
+    rules: [],
+  },
+  {
     letters: 'boat'.split(''),
-    words: ['boat', 'bat', 'boa', 'bot', 'tab'],
-    bonuses: ['oat', 'tao', 'bota', 'bato'],
+    words: ['boat', 'bat', 'boa', 'bot', 'tab', 'oat'],
+    bonuses: ['tao', 'bota', 'bato'],
     rules: [],
   },
   {
@@ -102,6 +108,7 @@ export const puzzles: Puzzle[] = [
       'spring',
       'grips',
       'rings',
+      'grip',
       'grin',
       'pigs',
       'pins',
@@ -109,6 +116,7 @@ export const puzzles: Puzzle[] = [
       'ring',
       'sign',
       'sing',
+      'spin',
       'snip',
     ],
     bonuses: [
@@ -152,32 +160,71 @@ export const puzzles: Puzzle[] = [
   },
   {
     letters: 'sight'.split(''),
-    words: [],
-    bonuses: [],
+    words: [
+      'sight',
+      'gist',
+      'sigh',
+      'hits',
+      'this',
+      'his',
+      'hit',
+      'its',
+      'sit',
+    ],
+    bonuses: ['hist', 'shit', 'sith'],
     rules: [],
   },
   {
     letters: 'camped'.split(''),
-    words: [],
-    bonuses: [],
-    rules: [],
+    words: [
+      'camped',
+      'caped',
+      'paced',
+      'maced',
+      'came',
+      'camp',
+      'cape',
+      'damp',
+      'mace',
+      'made',
+      'pace',
+    ],
+    bonuses: ['acme', 'aced', 'dace', 'mead', 'dame'],
+    rules: ['no-3-letter-words'],
   },
   {
     letters: 'bread'.split(''),
-    words: [],
-    bonuses: [],
-    rules: [],
+    words: [
+      'beard',
+      'bread',
+      'bard',
+      'bare',
+      'bead',
+      'bear',
+      'bred',
+      'dare',
+      'dear',
+      'drab',
+      'read',
+    ],
+    bonuses: ['barde', 'bared', 'bade', 'brad'],
+    rules: ['no-3-letter-words'],
   },
   {
     letters: 'blown'.split(''),
-    words: [],
-    bonuses: [],
-    rules: [],
-  },
-  {
-    letters: 'spank'.split(''),
-    words: [],
-    bonuses: [],
+    words: [
+      'blown',
+      'blow',
+      'bowl',
+      'bow',
+      'lob',
+      'low',
+      'now',
+      'owl',
+      'own',
+      'won',
+    ],
+    bonuses: ['lown', 'bon', 'nob'],
     rules: [],
   },
   {
@@ -274,56 +321,8 @@ export const puzzles: Puzzle[] = [
     bonuses: ['calms', 'alms', 'cals', 'salm', 'macs', 'mac', 'lam'],
     rules: [],
   },
-  {
-    letters: ''.split(''),
-    words: [],
-    bonuses: [],
-    rules: [],
-  },
-  {
-    letters: ''.split(''),
-    words: [],
-    bonuses: [],
-    rules: [],
-  },
-  {
-    letters: ''.split(''),
-    words: [],
-    bonuses: [],
-    rules: [],
-  },
-  {
-    letters: ''.split(''),
-    words: [],
-    bonuses: [],
-    rules: [],
-  },
-  {
-    letters: ''.split(''),
-    words: [],
-    bonuses: [],
-    rules: [],
-  },
-  {
-    letters: ''.split(''),
-    words: [],
-    bonuses: [],
-    rules: [],
-  },
-  {
-    letters: ''.split(''),
-    words: [],
-    bonuses: [],
-    rules: [],
-  },
 ];
 
 for (const puzzle of puzzles) {
   verifyPuzzle(puzzle);
 }
-
-console.log('total puzzles:', puzzles.length);
-console.log(
-  'total non-empty puzzles:',
-  puzzles.filter((p) => p.letters.length > 0).length
-);

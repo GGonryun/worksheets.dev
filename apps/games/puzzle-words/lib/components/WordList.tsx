@@ -9,7 +9,7 @@ import { Discovered } from '../types';
 export const WordList: FC<{
   words: Discovered;
   defineWord: (word: string) => void;
-}> = ({ words, defineWord }) => {
+}> = ({ words }) => {
   const sorted = sortWords(words);
 
   const multiple = 10;
@@ -25,7 +25,6 @@ export const WordList: FC<{
               key={word}
               word={word}
               index={index + groupNumber * multiple}
-              onClick={() => defineWord(word)}
               discovered={Boolean(words[word])}
             />
           ))}
@@ -38,7 +37,7 @@ export const WordList: FC<{
 export const WordLink: FC<{
   word: string;
   index: number;
-  onClick: () => void;
+  onClick?: () => void;
   discovered: boolean;
 }> = ({ word, index, onClick, discovered }) => {
   return (

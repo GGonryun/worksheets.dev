@@ -16,7 +16,7 @@ export const Header: FC<{
     <Flex spaceBetween fullWidth pb={1}>
       <Flex gap={1}>
         <Typography fontSize={32}>{maskWord(word, !discovered)}</Typography>-{' '}
-        <Typography>/ {maskWord(pronounciation, !discovered)} /</Typography>-
+        <Typography>{maskWord(pronounciation, !discovered)}</Typography>-
         <IconButton size="small" onClick={onPlay}>
           <VolumeUp fontSize="small" />
         </IconButton>

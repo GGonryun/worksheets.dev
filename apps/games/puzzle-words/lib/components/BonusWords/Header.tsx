@@ -18,16 +18,12 @@ export const Header: FC<{ words: Discovered; onClose: () => void }> = ({
           <Typography fontSize={24}>
             <strong>Bonus Words</strong>
           </Typography>
-          <Typography fontSize={16}>
-            ({discovered}/{total})
-            <Forest
-              color="success"
-              sx={{
-                ml: 0.5,
-                mb: 0.5,
-              }}
-            />
-          </Typography>
+          <Flex gap={0.5}>
+            <Typography fontSize={16}>
+              ({discovered}/{total})
+            </Typography>
+            <Forest color="success" sx={{ mb: 0.5 }} />
+          </Flex>
         </Flex>
         <IconButton onClick={onClose}>
           <Close fontSize="small" />

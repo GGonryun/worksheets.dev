@@ -18,51 +18,66 @@ export const WordBuilder: FC<WordBuilderProps> = ({
   onRelease,
 }) => {
   const { detect, register } = useIntersectionObserver({ onIntersect });
+  const panDiameter = 250;
   const borderDiameter = 180;
   const dotDiameter = 130;
-  const letterDiameter = 40;
+  const letterDiameter = 50;
 
   const theme = useTheme();
 
   return (
-    <motion.div
-      onPan={detect}
-      onPanEnd={onRelease}
-      style={{
-        width: `${borderDiameter}px`,
-        height: `${borderDiameter}px`,
-        position: 'relative',
-        borderRadius: '50%',
-        border: `2px solid ${theme.palette.grey[600]}`,
-        userSelect: 'none',
-        touchAction: 'none',
-      }}
-    >
-      {anagram.map((letter, index) => (
-        <div
-          key={index}
+    <>
+      <div
+        style={{
+          width: `${borderDiameter}px`,
+          height: `${borderDiameter}px`,
+          position: 'relative',
+          borderRadius: '50%',
+          border: `2px solid ${theme.palette.grey[600]}`,
+          userSelect: 'none',
+          touchAction: 'none',
+        }}
+      >
+        <motion.div
+          onPan={detect}
+          onPanEnd={onRelease}
           style={{
             position: 'absolute',
-            top: '50%',
-            left: '50%',
-            margin: `calc(-${letterDiameter}px/2)`,
+            left: -(panDiameter - borderDiameter + 4) / 2,
+            top: -(panDiameter - borderDiameter + 4) / 2,
+            width: `${panDiameter}px`,
+            height: `${panDiameter}px`,
+            borderRadius: '50%',
+            userSelect: 'none',
+            touchAction: 'none',
           }}
-        >
-          <LetterSelection
-            selected={intersections.includes(index)}
-            index={index}
-            letter={letter}
-            diameter={letterDiameter}
-            registerPosition={register}
-            transform={transformation({
-              index,
-              count: anagram.length,
-              width: dotDiameter,
-            })}
-          />
-        </div>
-      ))}
-    </motion.div>
+        />
+        {anagram.map((letter, index) => (
+          <div
+            key={index}
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              margin: `calc(-${letterDiameter}px/2)`,
+            }}
+          >
+            <LetterSelection
+              selected={intersections.includes(index)}
+              index={index}
+              letter={letter}
+              diameter={letterDiameter}
+              registerPosition={register}
+              transform={transformation({
+                index,
+                count: anagram.length,
+                width: dotDiameter,
+              })}
+            />
+          </div>
+        ))}
+      </div>
+    </>
   );
 };
 
