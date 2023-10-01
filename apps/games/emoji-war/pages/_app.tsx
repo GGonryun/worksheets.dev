@@ -2,6 +2,12 @@ import { AppProps } from 'next/app';
 import Head from 'next/head';
 import './styles.css';
 import styles from './index.module.scss';
+import * as FullStory from '@fullstory/browser';
+import { SERVICE_SETTINGS } from '@worksheets/data-access/server-settings';
+
+if (typeof window !== 'undefined') {
+  FullStory.init(SERVICE_SETTINGS.FULLSTORY);
+}
 
 function CustomApp({ Component, pageProps }: AppProps) {
   return (

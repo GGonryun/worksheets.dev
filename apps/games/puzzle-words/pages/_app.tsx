@@ -4,6 +4,13 @@ import './styles.css';
 import { createTheme, ThemeProvider } from '@mui/material';
 import styles from './index.module.scss';
 import localFont from 'next/font/local';
+import * as FullStory from '@fullstory/browser';
+import { SERVICE_SETTINGS } from '@worksheets/data-access/server-settings';
+
+if (typeof window !== 'undefined') {
+  FullStory.init(SERVICE_SETTINGS.FULLSTORY);
+}
+
 const FirstTimeWriting = localFont({
   src: '../public/fonts/FirstTimeWriting.woff2',
 });

@@ -21,7 +21,7 @@ export const WordBuilder: FC<WordBuilderProps> = ({
   const panDiameter = 250;
   const borderDiameter = 180;
   const dotDiameter = 130;
-  const letterDiameter = 50;
+  const letterDiameter = 70;
 
   const theme = useTheme();
 

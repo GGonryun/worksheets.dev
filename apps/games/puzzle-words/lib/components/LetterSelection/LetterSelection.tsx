@@ -57,7 +57,7 @@ export const LetterSelection: FC<LetterSelectionProps> = ({
               duration: 0.1,
             }}
           >
-            <Typography fontSize={40}>{uppercase(letter)}</Typography>
+            <Typography fontSize={50}>{uppercase(letter)}</Typography>
           </motion.div>
         )}
       </AnimatePresence>

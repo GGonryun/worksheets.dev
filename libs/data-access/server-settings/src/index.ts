@@ -1,5 +1,6 @@
 export const SERVER_SETTINGS = {
   VERSION: 0,
+
   ENVIRONMENT: {
     IS_PRODUCTION: () => process.env['NODE_ENV'] === 'production',
     CURRENT: () => process.env['NODE_ENV'] ?? 'unknown',
@@ -109,5 +110,12 @@ export const SERVER_SETTINGS = {
   },
   FIRESTORE: {
     BATCH_SIZE: 400, // firestore supports batch writes of up to 500. keeping the max batch at 400 to be safe.
+  },
+};
+
+export const SERVICE_SETTINGS = {
+  FULLSTORY: {
+    orgId: 'o-1N7VNF-na1',
+    devMode: !SERVER_SETTINGS.ENVIRONMENT.IS_PRODUCTION(),
   },
 };

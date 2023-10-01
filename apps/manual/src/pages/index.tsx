@@ -8,12 +8,10 @@ import { Analytics } from '@vercel/analytics/react';
 import * as FullStory from '@fullstory/browser';
 
 import styles from './index.module.css';
+import { SERVICE_SETTINGS } from '@worksheets/data-access/server-settings';
 
 if (typeof window !== 'undefined') {
-  FullStory.init({
-    orgId: 'o-1N7VNF-na1',
-    devMode: process.env.NODE_ENV !== 'production',
-  });
+  FullStory.init(SERVICE_SETTINGS.FULLSTORY);
 }
 
 function HomepageHeader() {
