@@ -5,8 +5,7 @@ export const DEFAULT_ANIMATION_TIMEOUT = 1000; // milliseconds
 export const DEFAULT_ANIMATION_SPEED = 0.3; // seconds
 
 export type UseTemporaryAnimationOptions = {
-  // in milliseconds
-  timeout: number;
+  timeout: number; // in milliseconds
 };
 
 export const useTemporaryAnimation = (opts?: UseTemporaryAnimationOptions) => {
