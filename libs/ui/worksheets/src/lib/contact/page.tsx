@@ -2,8 +2,8 @@ import { SendOutlined } from '@mui/icons-material';
 import { Button, Container, Paper, TextField, Typography } from '@mui/material';
 import { trpc } from '@worksheets/trpc/ide';
 import { TinyLogo } from '@worksheets/ui-basic-style';
-import { Flex, Spacing } from '@worksheets/ui-core';
-import { RequiredAsterisk, TextArea, useLayout } from '@worksheets/ui/common';
+import { Flex, Spacing, TextArea } from '@worksheets/ui-core';
+import { RequiredAsterisk, useLayout } from '@worksheets/ui/common';
 import { useState } from 'react';
 
 export const ContactPage = () => {

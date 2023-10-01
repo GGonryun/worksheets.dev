@@ -39,7 +39,6 @@ const cache: Record<string, WordDefinition> = {};
 
 async function memoRequest(word: string) {
   if (cache[word]) {
-    console.info('found in cache', word);
     return cache[word];
   }
   const data = await request(word);

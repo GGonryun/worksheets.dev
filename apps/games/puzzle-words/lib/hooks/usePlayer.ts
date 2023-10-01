@@ -6,7 +6,13 @@ import {
   uniqueArray,
 } from '@worksheets/util/arrays';
 import { puzzles } from '../puzzles';
-import { POWER_UP_COSTS } from '../constants';
+import {
+  BASIC_WATER_MODIFIER,
+  BONUS_POINTS_MODIFIER,
+  BONUS_WATER_MODIFIER,
+  POWER_UP_COSTS,
+  STARTING_PLAYER_POINTS,
+} from '../constants';
 import { randomBetween } from '@worksheets/util/numbers';
 
 const firstPuzzle = puzzles[0];
@@ -16,7 +22,7 @@ const initialState = {
   words: createMap(firstPuzzle.words, 0),
   bonuses: createMap(firstPuzzle.bonuses, 0),
   hints: {},
-  points: 0,
+  points: STARTING_PLAYER_POINTS,
   water: 0,
 };
 
@@ -69,7 +75,7 @@ export const usePlayer = () => {
 
     if (words[word] == 0) {
       setPoints(points + word.length);
-      setWater(water + 1);
+      setWater(water + BASIC_WATER_MODIFIER);
     }
 
     if (bonuses[word] != null) {
@@ -77,8 +83,8 @@ export const usePlayer = () => {
     }
 
     if (bonuses[word] == 0) {
-      setPoints(points + word.length);
-      setWater(water + 2);
+      setPoints(points + Math.floor(word.length * BONUS_POINTS_MODIFIER));
+      setWater(water + BONUS_WATER_MODIFIER);
     }
   };
 

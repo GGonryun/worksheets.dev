@@ -1,7 +1,8 @@
 import { FC } from 'react';
 import { Modal, ModalHeader } from '../Modal';
-import { Divider, Typography } from '@mui/material';
+import { Divider } from '@mui/material';
 import { Flex } from '@worksheets/ui-core';
+import { ReportForm } from './ReportForm';
 
 export const ReportIssue: FC<{
   data: string;
@@ -13,7 +14,11 @@ export const ReportIssue: FC<{
       <Flex column p={2}>
         <ModalHeader onClose={onClose}>Report Issue</ModalHeader>
         <Divider sx={{ backgroundColor: 'error.dark', mb: 1 }} />
-        {data && <Typography>data: {data}</Typography>}
+        <ReportForm
+          onClose={onClose}
+          text={data ? `I found a problem with ${data}` : ''}
+          category={data ? 'bug' : 'suggestion'}
+        />
       </Flex>
     </Modal>
   );

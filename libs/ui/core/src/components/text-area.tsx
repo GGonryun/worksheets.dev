@@ -2,7 +2,7 @@ import { TextareaAutosize, styled } from '@mui/material';
 
 export const TextArea = styled(TextareaAutosize)(
   ({ theme }) => `
-    font-family: IBM Plex Sans, sans-serif;
+    font-family: sans-serif;
     font-size: 0.875rem;
     font-weight: 400;
     line-height: 1.5;

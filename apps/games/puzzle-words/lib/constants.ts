@@ -5,6 +5,11 @@ export const MAX_PUZZLE_HEIGHT = 10;
 export const MAX_WORDS_IN_PUZZLE = 16;
 export const MAX_BONUSES_IN_PUZZLE = 30;
 
+export const STARTING_PLAYER_POINTS = 50;
+export const BONUS_WATER_MODIFIER = 2;
+export const BASIC_WATER_MODIFIER = 1;
+export const BONUS_POINTS_MODIFIER = 1.5;
+
 export const POWER_UP_COSTS: Record<PowerUpCode, number> = {
   'unlock-1-letter': 15,
   'unlock-3-letters': 40,

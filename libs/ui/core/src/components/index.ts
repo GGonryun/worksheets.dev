@@ -4,3 +4,4 @@ export * from './flex-box';
 export * from './micro-markdown';
 export * from './shapes';
 export * from './spacing-box';
+export * from './text-area';
