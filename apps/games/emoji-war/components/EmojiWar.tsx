@@ -2,13 +2,12 @@ import { useState } from 'react';
 import { SinglePlayerGame } from './Game';
 import { GameOverOverlay } from './GameOver';
 import { GameMenu, emojiCategories, selectRandomEmoji } from './GameMenu';
-import { Box } from '@mui/material';
 import { HowToPlay } from './HowToPlay';
 import { EnemyDifficulty } from './controllers';
 
 export const EmojiWar = () => {
   const [menu, setMenu] = useState(true);
-  const [gameOver, setGameOver] = useState(false);
+  const [gameOver, setGameOver] = useState<number>(-1);
   const [restart, setRestart] = useState(false);
   const [displayGame, setDisplayGame] = useState(false);
   const [displayHowToPlay, setDisplayHowToPlay] = useState(false);
@@ -18,7 +17,7 @@ export const EmojiWar = () => {
   const [paused, setPaused] = useState(false);
 
   return (
-    <Box>
+    <>
       {menu ? (
         <GameMenu
           emoji={emoji}
@@ -47,18 +46,21 @@ export const EmojiWar = () => {
         />
       )}
 
-      {gameOver ? (
+      {gameOver !== -1 ? (
         <GameOverOverlay
+          winner={gameOver}
+          player={emoji}
+          enemy={enemyEmoji}
           onRematch={() => {
             setEnemyEmoji(selectRandomEmoji());
             setRestart(true);
-            setGameOver(false);
+            setGameOver(-1);
           }}
           onReturnToMenu={() => {
             setPaused(true);
             setMenu(true);
             setRestart(true);
-            setGameOver(false);
+            setGameOver(-1);
           }}
         />
       ) : null}
@@ -71,16 +73,17 @@ export const EmojiWar = () => {
           difficulty={difficulty}
           onRestart={() => setRestart(false)}
           onGameOver={(slot) => {
-            setGameOver(true);
+            console.log('game over', slot);
+            setGameOver(slot);
           }}
           onExitGame={() => {
             setPaused(true);
             setMenu(true);
             setRestart(true);
           }}
-          paused={gameOver || paused}
+          paused={gameOver !== -1 || paused}
         />
       )}
-    </Box>
+    </>
   );
 };

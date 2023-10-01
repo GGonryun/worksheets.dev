@@ -147,7 +147,7 @@
       "@worksheets/util-hardware": ["libs/util/hardware/src/index.ts"],
       "@worksheets/util-json": ["libs/util/json/src/index.ts"],
       "@worksheets/util-next": ["libs/util/next/src/index.ts"],
-      "@worksheets/util-projects": ["libs/util/projects/src/index.ts"],
+      "@worksheets/util-shapes": ["libs/util/shapes/src/index.ts"],
       "@worksheets/util-sys": ["libs/util/sys/src/index.ts"],
       "@worksheets/util-worksheets": ["libs/util/worksheets/src/index.ts"],
       "@worksheets/util-yaml": ["libs/util/yaml/src/index.ts"],

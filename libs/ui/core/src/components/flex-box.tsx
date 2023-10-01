@@ -20,6 +20,10 @@ export type FlexProps = Pick<
   | 'my'
   | 'mr'
   | 'ml'
+  | 'top'
+  | 'bottom'
+  | 'left'
+  | 'right'
   | 'width'
   | 'height'
   | 'minWidth'
@@ -30,6 +34,9 @@ export type FlexProps = Pick<
   | 'flex'
   | 'onClick'
   | 'flexDirection'
+  | 'position'
+  | 'zIndex'
+  | 'className'
 > & {
   id?: string;
   children: ReactNode;

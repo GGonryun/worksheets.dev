@@ -1,8 +1,8 @@
-import { Divider } from '@mui/material';
+import { Divider, Link, Typography } from '@mui/material';
 import { TinySidecar, TinySidecarProps } from '@worksheets/ui-basic-style';
 import { Flex } from '@worksheets/ui-core';
-import { useLayout } from '@worksheets/ui/common';
-import { FC, useState } from 'react';
+import { urls, useLayout, useUser } from '@worksheets/ui/common';
+import { Dispatch, FC, SetStateAction, useState } from 'react';
 import { SidecarHeader } from './header';
 import { FirstStep } from './first-step';
 import { SecondStep } from './second-step';
@@ -19,6 +19,7 @@ import {
 export const CreateProjectSidecar: FC<
   Pick<TinySidecarProps, 'open' | 'onClose'>
 > = ({ open, onClose }) => {
+  const { user } = useUser();
   const data = useProjects();
   const { isMobile, isTablet } = useLayout();
 
@@ -49,60 +50,91 @@ export const CreateProjectSidecar: FC<
       <Flex column p={3} gap={3}>
         <SidecarHeader onClose={handleClose} activeStep={active} />
         <Divider sx={{ mb: 2 }} />
-        {active === 0 && (
-          <FirstStep
-            initialValue={form.title}
-            onContinue={(title) => {
-              setActive(1);
-              setForm({
-                ...form,
-                title,
-              });
-            }}
-          />
-        )}
-        {active === 1 && (
-          <SecondStep
-            initialValue={form.id || replaceSpaces(form.title, '-')}
-            onPrevious={() => {
-              setActive(0);
-            }}
-            onContinue={(id) => {
-              setActive(2);
-              setForm({
-                ...form,
-                id,
-              });
-            }}
-          />
-        )}
-        {active === 2 && (
-          <ThirdStep
-            initialValue={form.features}
-            onPrevious={() => {
-              setActive(1);
-            }}
-            onContinue={(features) => {
-              setActive(3);
-              setForm({
-                ...form,
-                features,
-              });
-            }}
-          />
-        )}
-        {active === 3 && (
-          <FourthStep
+        {user ? (
+          <SidecarContents
+            active={active}
             form={form}
-            onSave={handleSaveForm}
-            onPrevious={() => setActive(2)}
-            onJumpTo={(step) => setActive(step)}
+            setActive={setActive}
+            setForm={setForm}
+            saveForm={handleSaveForm}
           />
+        ) : (
+          <>
+            <Typography variant="h6">
+              You must be logged in to create a project.
+            </Typography>
+            <Typography>
+              Please <Link href={urls.app.login}>login</Link> or{' '}
+              <Link href={urls.app.login}>signup</Link> to continue.
+            </Typography>
+          </>
         )}
         <Divider sx={{ mb: 4 }} />
 
         <SidecarFooter />
       </Flex>
     </TinySidecar>
+  );
+};
+const SidecarContents: FC<{
+  active: number;
+  form: CreateProjectRequest;
+  setActive: Dispatch<SetStateAction<number>>;
+  setForm: Dispatch<SetStateAction<CreateProjectRequest>>;
+  saveForm: () => Promise<void>;
+}> = ({ active, form, setActive, setForm, saveForm }) => {
+  return (
+    <>
+      {active === 0 && (
+        <FirstStep
+          initialValue={form.title}
+          onContinue={(title) => {
+            setActive(1);
+            setForm({
+              ...form,
+              title,
+            });
+          }}
+        />
+      )}
+      {active === 1 && (
+        <SecondStep
+          initialValue={form.id || replaceSpaces(form.title, '-')}
+          onPrevious={() => {
+            setActive(0);
+          }}
+          onContinue={(id) => {
+            setActive(2);
+            setForm({
+              ...form,
+              id,
+            });
+          }}
+        />
+      )}
+      {active === 2 && (
+        <ThirdStep
+          initialValue={form.features}
+          onPrevious={() => {
+            setActive(1);
+          }}
+          onContinue={(features) => {
+            setActive(3);
+            setForm({
+              ...form,
+              features,
+            });
+          }}
+        />
+      )}
+      {active === 3 && (
+        <FourthStep
+          form={form}
+          onSave={saveForm}
+          onPrevious={() => setActive(2)}
+          onJumpTo={(step) => setActive(step)}
+        />
+      )}
+    </>
   );
 };

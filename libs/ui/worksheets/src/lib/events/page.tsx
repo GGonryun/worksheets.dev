@@ -1,3 +1,10 @@
-import { EventsFeatureWedge } from '@worksheets/ui/feature-wedges';
+import { Flex } from '@worksheets/ui-core';
+import { UnderConstructionNotice } from '@worksheets/ui/common';
 
-export const EventsPage = () => <EventsFeatureWedge />;
+export const EventsPage = () => {
+  return (
+    <Flex fill centered>
+      <UnderConstructionNotice />
+    </Flex>
+  );
+};

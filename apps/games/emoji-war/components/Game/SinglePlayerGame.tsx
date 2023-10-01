@@ -1,4 +1,4 @@
-import { Box, Divider } from '@mui/material';
+import { Divider } from '@mui/material';
 import { Flex, Spacing, useInterval } from '@worksheets/ui-core';
 import { StatusBar } from '../StatusBar';
 import { Board } from '../Board';
@@ -17,6 +17,7 @@ import {
   STARTING_PLAYER_HEALTH,
 } from '../settings';
 import { FC, useEffect, useState } from 'react';
+import { GameLayout } from '../Layouts';
 
 export const SinglePlayerGame: FC<{
   difficulty: EnemyDifficulty;
@@ -54,7 +55,8 @@ export const SinglePlayerGame: FC<{
     slot: enemySlot,
     hp: STARTING_PLAYER_HEALTH,
     onGameOver: () => {
-      onGameOver(enemySlot);
+      // player wins
+      onGameOver(playerSlot);
     },
   });
 
@@ -71,7 +73,8 @@ export const SinglePlayerGame: FC<{
     hp: STARTING_PLAYER_HEALTH,
     slot: playerSlot,
     onGameOver: () => {
-      onGameOver(playerSlot);
+      // enemy wins
+      onGameOver(enemySlot);
     },
   });
 
@@ -129,13 +132,13 @@ export const SinglePlayerGame: FC<{
   }, [restart]);
 
   return (
-    <Box>
+    <GameLayout>
       <StatusBar
         emojis={[enemy, emoji]}
         timer={timer}
         onExitGame={onExitGame}
       />
-      <Divider />
+      <Divider sx={{ width: '100%' }} />
       <Spacing y={1}>
         <Flex column centered gap={1}>
           <Board
@@ -165,10 +168,10 @@ export const SinglePlayerGame: FC<{
           />
         </Flex>
       </Spacing>
-      <Divider />
-      <Flex centered fullWidth>
+      <Divider sx={{ width: '100%' }} />
+      <Flex fill fullWidth>
         <PlayArea {...playArea} />
       </Flex>
-    </Box>
+    </GameLayout>
   );
 };

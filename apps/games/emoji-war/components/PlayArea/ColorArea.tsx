@@ -8,7 +8,7 @@ export const ColorPlayArea: FC<{ color: ShapeColor; count: number }> = ({
   count,
 }) => {
   return (
-    <Spacing bottom={2}>
+    <Spacing>
       <Flex column centered>
         <Typography variant="body1" fontWeight={900}>
           Combo

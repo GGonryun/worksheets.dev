@@ -49,3 +49,16 @@ export function addCommasToNumber(number: number): string {
 export function replaceSpaces(string: string, character: string): string {
   return string.replace(/\s/g, character);
 }
+
+// TODO: update with zod email validation
+export function isEmail(string: string): boolean {
+  if (!string) return false;
+  if (typeof string !== 'string') return false;
+  if (string.includes(' ')) return false;
+  // if string doesn't have an @ symbol, it's not an email
+  if (!string.includes('@')) return false;
+  // if string doesn't have a . somewhere, it's not an email
+  if (!string.includes('.')) return false;
+
+  return true;
+}

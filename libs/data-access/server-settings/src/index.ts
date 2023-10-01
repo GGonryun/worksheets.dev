@@ -45,6 +45,14 @@ export const SERVER_SETTINGS = {
       (process.env['DOCS_BASE_URL'] ??
         process.env['NEXT_PUBLIC_DOCS_BASE_URL'] ??
         '') + route,
+    EMOJI_WAR_URL: (route = '') =>
+      (process.env['EMOJI_WAR_BASE_URL'] ??
+        process.env['NEXT_PUBLIC_EMOJI_WAR_BASE_URL'] ??
+        '') + route,
+    PUZZLE_WORDS_URL: (route = '') =>
+      (process.env['PUZZLE_WORDS_BASE_URL'] ??
+        process.env['NEXT_PUBLIC_PUZZLE_WORDS_BASE_URL'] ??
+        '') + route,
   },
   HANDSHAKE_EXPIRATION_OFFSET: 5 * 60 * 1000, // expire handshakes older than 5 minutes in ms
   RESOURCE_REPLENISH_QUANTITY: 100, //replenishes every threshold minutes.

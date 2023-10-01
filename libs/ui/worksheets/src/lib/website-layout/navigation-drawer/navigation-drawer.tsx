@@ -14,12 +14,10 @@ import {
   Code,
   DashboardOutlined,
   Help,
-  HelpOutline,
   HistoryEdu,
   Home,
   Hub,
   NotificationAdd,
-  NotificationAddOutlined,
   OpenInNew,
   Schema,
   Star,
@@ -72,17 +70,13 @@ export const NavigationDrawer: FC<{
   open?: boolean;
   setOpen: (open: boolean) => void;
 }> = ({ open, setOpen }) => {
-  const { user } = useUser();
   const { isMobile } = useLayout();
   const urls = useProjectUrls();
+  const { user } = useUser();
 
   const [projectSettingsMenuAnchor, setProjectSettingsMenuAnchor] = useState<
     undefined | HTMLElement
   >();
-
-  if (!user) {
-    return null;
-  }
 
   return (
     <>
@@ -102,7 +96,7 @@ export const NavigationDrawer: FC<{
               icon: <Home fontSize="small" />,
               text: 'Overview',
               href: urls.app.project.overview,
-              endIcon: (
+              endIcon: user && (
                 <ProjectSettingsButton
                   onClick={(e) => {
                     setProjectSettingsMenuAnchor(e.currentTarget);
@@ -112,18 +106,22 @@ export const NavigationDrawer: FC<{
             },
           ]}
         />
-        <Divider />
-        <NavigationDrawerItems
-          thin={!open}
-          title="Analytics"
-          items={[
-            {
-              text: 'Dashboard',
-              href: urls.app.project.dashboard,
-              icon: <DashboardOutlined fontSize="small" />,
-            },
-          ]}
-        />
+        {user && (
+          <>
+            <Divider />
+            <NavigationDrawerItems
+              thin={!open}
+              title="Analytics"
+              items={[
+                {
+                  text: 'Dashboard',
+                  href: urls.app.project.dashboard,
+                  icon: <DashboardOutlined fontSize="small" />,
+                },
+              ]}
+            />
+          </>
+        )}
         <Divider />
         <NavigationDrawerItems
           thin={!open}
@@ -140,6 +138,11 @@ export const NavigationDrawer: FC<{
               icon: <Work fontSize="small" />,
             },
             {
+              text: 'Tasks',
+              href: urls.app.project.tasks,
+              icon: <HistoryEdu fontSize="small" />,
+            },
+            {
               text: 'Converter',
               href: urls.app.project.converter,
               icon: <Code fontSize="small" />,
@@ -153,11 +156,6 @@ export const NavigationDrawer: FC<{
               text: 'Schemas',
               href: urls.app.project.schemas,
               icon: <Schema fontSize="small" />,
-            },
-            {
-              text: 'Tasks',
-              href: urls.app.project.tasks,
-              icon: <HistoryEdu fontSize="small" />,
             },
             {
               text: 'Events',

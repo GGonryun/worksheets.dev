@@ -1,4 +1,4 @@
-import { ArrowRight } from '@mui/icons-material';
+import { ArrowRight, PriorityHigh } from '@mui/icons-material';
 import { Card, CardActionArea, Typography, Divider } from '@mui/material';
 import { Flex } from '@worksheets/ui-core';
 import { useLayout } from '@worksheets/ui/common';
@@ -9,7 +9,7 @@ export type OverviewCardProps = {
   title: string;
   subtitle: string;
   src: string;
-  href: string;
+  href?: string;
   color?: string;
   beta?: boolean;
 };
@@ -28,7 +28,7 @@ export const OverviewCard: FC<OverviewCardProps> = ({
       variant="outlined"
       sx={{ width: '100%', position: 'relative' }}
     >
-      <CardActionArea href={href}>
+      <CardActionArea href={href ?? ''} disabled={!href}>
         {beta && (
           <Flex
             sx={{
@@ -76,7 +76,11 @@ export const OverviewCard: FC<OverviewCardProps> = ({
                 {subtitle}
               </Typography>
             </Flex>
-            <ArrowRight color="action" fontSize="large" />
+            {href ? (
+              <ArrowRight color="action" fontSize="large" />
+            ) : (
+              <PriorityHigh color="action" />
+            )}
           </Flex>
         </Flex>
       </CardActionArea>

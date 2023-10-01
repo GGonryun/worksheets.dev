@@ -60,3 +60,16 @@ export const replaceItem = <T>(arr: T[], index: number, value: T) => {
   copy[index] = value;
   return copy;
 };
+
+/**
+ * From an array, convert them into a keys for a map, the values should be set to true/false.
+ */
+export const createMap = <T extends string | number, V>(
+  keys: T[],
+  defaultValue: V
+) => {
+  return keys.reduce((acc, key) => {
+    acc[key] = defaultValue;
+    return acc;
+  }, {} as Record<T, V>);
+};

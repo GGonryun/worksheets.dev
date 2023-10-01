@@ -7,11 +7,15 @@ export const urls = {
     applications: '/applications',
     application: (id: string) => `/applications/${id}`,
     contact: '/contact',
+    subscribe: '/subscribe',
+    unsubscribe: '/subscribe?unsubscribe=',
     features: '/features',
     earlyAccess: '/early-access',
+    games: '/games',
     about: '/about',
     privacy: '/privacy',
     terms: '/terms',
+    missionStatement: '/mission-statement',
     social: {
       twitter: '/social/twitter',
       facebook: '/social/facebook',
@@ -51,5 +55,14 @@ export const urls = {
     home: SERVER_SETTINGS.WEBSITES.DOCS_URL(),
     contactUs: SERVER_SETTINGS.WEBSITES.DOCS_URL('/contact-us'),
     blog: SERVER_SETTINGS.WEBSITES.DOCS_URL('/blog'),
+  },
+  games: {
+    emojiWar: SERVER_SETTINGS.WEBSITES.EMOJI_WAR_URL(),
+    puzzleWords: SERVER_SETTINGS.WEBSITES.PUZZLE_WORDS_URL(),
+  },
+  external: {
+    waterOrg: 'https://water.org',
+    charityWater: 'https://charitywater.org',
+    homeFirst: 'https://homefirst.org',
   },
 };

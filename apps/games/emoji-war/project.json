@@ -28,6 +28,7 @@
       },
       "configurations": {
         "development": {
+          "port": 7000,
           "buildTarget": "games-emoji-war:build:development",
           "dev": true
         },

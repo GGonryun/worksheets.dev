@@ -22,7 +22,6 @@ export const PlayArea: FC<PlayAreaProps> = ({
     <Flex
       column
       fullWidth
-      maxWidth={400}
       centered
       py={1}
       gap={1}

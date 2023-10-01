@@ -40,6 +40,7 @@ export type Firestore<T extends Entity> = {
   get(id: string): Promise<T>;
   query(...queries: Query<T>[]): Promise<T[]>;
   count(...queries: Query<T>[]): Promise<number>;
+  hasSome(...queries: Query<T>[]): Promise<boolean>;
   findOne(...queries: Query<T>[]): Promise<T>;
   create(data: T): Promise<T>;
   apply(id: string, data: Partial<Omit<T, 'id'>>): Promise<T>;
@@ -111,6 +112,23 @@ export function newFirestore<T extends Entity>(key: string, txn?: Txn) {
     }
 
     return parse(docs);
+  }
+
+  async function hasSome(...queries: Query<T>[]): Promise<boolean> {
+    try {
+      await findOne(...queries);
+      return true;
+    } catch (error) {
+      if (error instanceof DatabaseFailure && error.code === 'not-found') {
+        return false;
+      } else if (
+        error instanceof DatabaseFailure &&
+        error.code === 'multiple-results'
+      ) {
+        return true;
+      }
+      throw error;
+    }
   }
 
   async function findOne(...queries: Query<T>[]): Promise<T> {
@@ -296,6 +314,7 @@ export function newFirestore<T extends Entity>(key: string, txn?: Txn) {
     get,
     query,
     findOne,
+    hasSome,
     count,
     insert,
     update,

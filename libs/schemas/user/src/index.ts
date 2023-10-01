@@ -80,3 +80,32 @@ export const userContactEntity = z.object({
   message: z.string(),
   createdAt: z.number().describe('timestamp of creation date, in milliseconds'),
 });
+
+export type NewsletterMessage = z.infer<typeof newsletterMessageSchema>;
+export const newsletterMessageSchema = z.enum([
+  'ALREADY_SUBSCRIBED',
+  'NEW_SUBSCRIPTION',
+  'UNSUBSCRIBED',
+]);
+
+export type NewsletterError = z.infer<typeof newsletterErrorSchema>;
+export const newsletterErrorSchema = z.enum([
+  'INTERNAL_SERVER_ERROR',
+  'ALREADY_SUBSCRIBED',
+  'NOT_SUBSCRIBED',
+  'INVALID_EMAIL',
+  'INVALID_TOPIC',
+]);
+
+export type NewsletterTopic = z.infer<typeof newsletterTopicSchema>;
+export const newsletterTopicSchema = z.enum(['newsletter', 'product', 'games']);
+
+export type NewsletterSubscriptionEntity = z.infer<
+  typeof newsletterSubscriptionEntity
+>;
+export const newsletterSubscriptionEntity = z.object({
+  id: z.string(),
+  email: z.string(),
+  topics: z.array(newsletterTopicSchema),
+  createdAt: z.number().describe('timestamp of creation date, in milliseconds'),
+});

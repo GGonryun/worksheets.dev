@@ -20,3 +20,9 @@ npx nx g @nrwl/workspace:move --project oldNG newNG
 npx nx g @nx/js:lib apps/sys
 nx g @simondotm/nx-firebase:app <appname> [--directory=dir] [--project=proj]
 ```
+
+## moving projects
+
+```bash
+nx g mv --project games-scramble-jam games/puzzle-words
+```

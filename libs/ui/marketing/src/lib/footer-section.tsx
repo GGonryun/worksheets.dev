@@ -19,6 +19,7 @@ const footerUrls = [
       { title: 'About', url: urls.app.about },
       { title: 'Blog', url: urls.docs.blog },
       { title: 'Contact', url: urls.app.contact },
+      { title: 'Mission Statement', url: urls.app.missionStatement },
     ],
   },
   {
@@ -40,8 +41,8 @@ const footerUrls = [
   {
     title: 'Newsletter',
     links: [
-      { title: 'Subscribe', url: urls.app.contact },
-      { title: 'Unsubscribe', url: urls.app.contact },
+      { title: 'Subscribe', url: urls.app.subscribe },
+      { title: 'Unsubscribe', url: urls.app.unsubscribe },
     ],
   },
 ];
@@ -77,8 +78,8 @@ const FooterSectionLinks = () => {
           <Typography variant="body1" fontWeight={900}>
             {section.title}
           </Typography>
-          {section.links.map((link) => (
-            <Typography variant="body2" key={link.url}>
+          {section.links.map((link, i) => (
+            <Typography variant="body2" key={i}>
               <Link color="inherit" underline="hover" href={link.url}>
                 {link.title}
               </Link>

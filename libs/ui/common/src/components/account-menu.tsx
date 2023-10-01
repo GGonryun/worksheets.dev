@@ -6,15 +6,16 @@ import Tooltip from '@mui/material/Tooltip';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import { useRouter } from 'next/router';
-import { useTheme } from '@mui/material';
+import { Button, useTheme } from '@mui/material';
 import { Person } from '@mui/icons-material';
 import { TinyMenu, TinyMenuItem } from '@worksheets/ui-basic-style';
 import { useUser } from '../hooks';
+import { urls } from '../lib';
 
 export function AccountMenu() {
   const { push } = useRouter();
   const theme = useTheme();
-  const { signOut } = useUser();
+  const { user, signOut } = useUser();
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -38,42 +39,51 @@ export function AccountMenu() {
 
   return (
     <React.Fragment>
-      <Tooltip title="My account">
-        <IconButton onClick={handleClick} size="small">
-          <Avatar
-            sx={{
-              width: 32,
-              height: 32,
-              '&:hover': {
-                backgroundColor: theme.palette.primary.main,
-              },
-            }}
-          >
-            <Person />
-          </Avatar>
-        </IconButton>
-      </Tooltip>
+      {user && (
+        <>
+          <Tooltip title="My account">
+            <IconButton onClick={handleClick} size="small">
+              <Avatar
+                sx={{
+                  width: 32,
+                  height: 32,
+                  '&:hover': {
+                    backgroundColor: theme.palette.primary.main,
+                  },
+                }}
+              >
+                <Person />
+              </Avatar>
+            </IconButton>
+          </Tooltip>
 
-      <TinyMenu
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        showArrow
-        horizontal={'right'}
-      >
-        <TinyMenuItem onClick={handleGoToSettings}>
-          <ListItemIcon>
-            <Settings fontSize="small" />
-          </ListItemIcon>
-          Settings
-        </TinyMenuItem>
-        <TinyMenuItem onClick={handleLogout}>
-          <ListItemIcon>
-            <Logout fontSize="small" />
-          </ListItemIcon>
-          Logout
-        </TinyMenuItem>
-      </TinyMenu>
+          <TinyMenu
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            showArrow
+            horizontal={'right'}
+          >
+            <TinyMenuItem onClick={handleGoToSettings}>
+              <ListItemIcon>
+                <Settings fontSize="small" />
+              </ListItemIcon>
+              Settings
+            </TinyMenuItem>
+            <TinyMenuItem onClick={handleLogout}>
+              <ListItemIcon>
+                <Logout fontSize="small" />
+              </ListItemIcon>
+              Logout
+            </TinyMenuItem>
+          </TinyMenu>
+        </>
+      )}
+      {!user && (
+        <Button href={urls.app.login}>
+          <b>Sign In</b>
+        </Button>
+      )}
     </React.Fragment>
   );
 }

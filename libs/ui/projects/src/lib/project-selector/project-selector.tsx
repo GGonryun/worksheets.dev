@@ -3,6 +3,8 @@ import { useProjects } from '../../hooks';
 import { CreateProjectSidecar } from '../create-project-sidecar';
 import { SelectionMenu } from './menu';
 import { SelectionButton } from './button';
+import { useUser } from '@worksheets/ui/common';
+import { Box } from '@mui/material';
 
 export const ProjectSelector: FC<{ variant: 'outlined' | 'text' }> = ({
   variant,
@@ -10,6 +12,9 @@ export const ProjectSelector: FC<{ variant: 'outlined' | 'text' }> = ({
   const [openSidecar, setOpenSidecar] = useState(false);
   const [menuAnchor, setMenuAnchor] = useState<undefined | HTMLElement>();
   const { project, selectProject } = useProjects();
+  const { user } = useUser();
+
+  if (!user) return <Box />;
 
   return (
     <>

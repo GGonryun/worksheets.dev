@@ -1,5 +1,5 @@
 import { Flex, MicroMarkdown } from '@worksheets/ui-core';
-import { MenuLayout } from '../MenuLayout';
+import { MenuLayout } from '../Layouts';
 import {
   Accordion,
   AccordionDetails,
@@ -8,12 +8,15 @@ import {
   Box,
   Button,
   Divider,
+  Link,
   Typography,
   styled,
 } from '@mui/material';
 import { FC, useState } from 'react';
 import { ArrowBack, ExpandMore } from '@mui/icons-material';
 import { uppercase } from '@worksheets/util/strings';
+import { urls } from '../urls';
+import { TinyLogo } from '@worksheets/ui-basic-style';
 
 export const HowToPlay: FC<{ onBack: () => void }> = ({ onBack }) => {
   return (
@@ -44,13 +47,29 @@ export const HowToPlay: FC<{ onBack: () => void }> = ({ onBack }) => {
 };
 
 const Title = () => (
-  <Flex column gap={1} pb={2}>
+  <Flex column pb={1}>
     <Typography variant="h5" color="text.secondary">
       <strong>How to play?</strong>
     </Typography>
     <Typography variant="body1" color="text.secondary">
-      Emoji Wars is a real-time strategy battle game.
+      Emoji Wars is a real-time strategy battle game
     </Typography>
+    <Flex gap={1}>
+      <Link href={urls.worksheets()} color="text.secondary">
+        <Typography variant="caption">Made by Worksheets.dev</Typography>
+      </Link>
+      <TinyLogo
+        borderless
+        src={'/logo.svg'}
+        area={24}
+        sx={(theme) => ({
+          mt: -0.5,
+          backgroundColor: theme.palette.secondary.dark,
+          borderRadius: '5px',
+          p: 0.5,
+        })}
+      />
+    </Flex>
   </Flex>
 );
 
@@ -59,20 +78,6 @@ export type Instruction = {
   title: string;
   content: string;
 };
-
-// checkmark emoji
-
-// ❌
-// 🔴
-// 🟡
-// 🟠
-// blue dot.
-// 🔵
-// 🟢
-// 🟣
-
-// two fingers.
-// ✌️
 
 export const Instructions: Instruction[] = [
   {
@@ -85,13 +90,20 @@ export const Instructions: Instruction[] = [
     emoji: '🚀',
     title: 'Game Play',
     content:
-      '☝️ Each player is given a random assortment of movement and attack cards. Every card has a color value assigned to it.\n✌️ Playing three cards with matching colors will strike all tiles on the specified row or column.\n🤟 Getting hit will cause the player to lose a health point.',
+      '☝️ Each player is given a random assortment of movement and attack cards with a color value assigned to it.\n✌️ Playing three cards with matching colors will strike all tiles on the specified row or column.\n🤟 Getting hit will cause the player to lose a health point.',
   },
   {
     emoji: '🏆',
     title: 'Winning',
     content:
       '❤️ The first player to reach 0 hit points loses the game.\n⏲️ If the timer runs out the player with the most health points wins.\n🗡️ If both players reach 0 hit points at the same time, the game is a draw.',
+  },
+  {
+    emoji: '💧',
+    title: 'Charity',
+    content: `For every game you win we will donate **1 milliliter of water** to [Charity: Water](${urls.charityWater()}) and [Water.org](${urls.waterOrg()}). \n\nVisit [Worksheets.dev and read about our Mission Statement](${urls.worksheets(
+      '/mission-statement'
+    )})`,
   },
 ];
 
@@ -119,7 +131,12 @@ export const InstructionsAccordion = () => {
                 </Typography>
               </Flex>
             </AccordionSummary>
-            <AccordionDetails>
+            <AccordionDetails
+              sx={{
+                maxHeight: 175,
+                overflowY: 'auto',
+              }}
+            >
               <Typography whiteSpace={'pre-wrap'}>
                 <MicroMarkdown text={instruction.content} />
               </Typography>

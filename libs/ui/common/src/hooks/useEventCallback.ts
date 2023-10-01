@@ -1,5 +1,5 @@
+import { useIsomorphicLayoutEffect } from '@worksheets/ui-core';
 import { useRef, useCallback } from 'react';
-import { useIsomorphicLayoutEffect } from './useIsomorphicLayoutEffect';
 
 export default function useEventCallback<Args extends unknown[], R>(
   fn: (...args: Args) => R

@@ -1,4 +1,5 @@
-import { urls, useLocalStorage } from '@worksheets/ui/common';
+import { useLocalStorage } from '@worksheets/ui-core';
+import { urls } from '@worksheets/ui/common';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 

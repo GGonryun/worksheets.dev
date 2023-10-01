@@ -15,9 +15,9 @@
     "serve:api": "npx nx run api:serve",
     "serve:manual": "npx nx run manual:serve",
     "serve:firebase": "npx nx serve firebase",
-    "serve:demos": "npx nx serve demos",
     "serve:emojiwar": "npx nx run games-emoji-war:serve",
-    "serve": "firebase logout; firebase login; concurrently --kill-others  \"npm run serve:demos\" \"npm run serve:admin\" \"npm run serve:ide\" \"npm run serve:manual\" \"npm run serve:firebase\" \"npm run serve:api\"",
+    "serve:puzzlewords": "npx nx run games-puzzle-words:serve",
+    "serve": "firebase logout; firebase login; concurrently --kill-others \"npm run serve:admin\" \"npm run serve:ide\" \"npm run serve:manual\" \"npm run serve:firebase\" \"npm run serve:api\" \"npm run serve:emojiwar\" \"npm run serve:puzzlewords\"",
     "prisma:studio": "npx prisma studio",
     "prisma:generate": "npx prisma generate"
   },

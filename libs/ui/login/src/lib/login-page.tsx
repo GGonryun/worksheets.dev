@@ -107,6 +107,9 @@ export function LoginPage() {
               >
                 Continue with Github
               </Button>
+              <Link pt={3} href="/projects">
+                Continue without logging in
+              </Link>
             </>
           )}
         </Box>

@@ -1,14 +1,15 @@
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 import './styles.css';
+import styles from './index.module.scss';
 
 function CustomApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <title>Welcome to battleplan!</title>
+        <title>Emoji War</title>
       </Head>
-      <main className="app">
+      <main className={styles['app']}>
         <Component {...pageProps} />
       </main>
     </>

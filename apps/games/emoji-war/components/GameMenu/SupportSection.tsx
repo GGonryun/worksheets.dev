@@ -2,8 +2,8 @@ import { HelpOutline, OpenInNewRounded } from '@mui/icons-material';
 import { Typography } from '@mui/material';
 import { TinyButton } from '@worksheets/ui-basic-style';
 import { Flex } from '@worksheets/ui-core';
-import { WORKSHEETS_CONTACT_US } from '@worksheets/util-projects';
 import { FC } from 'react';
+import { urls } from '../urls';
 
 export const SupportSection: FC<{
   onShowInstructions: () => void;
@@ -19,7 +19,7 @@ export const SupportSection: FC<{
       <Typography variant="caption">How to play</Typography>
     </TinyButton>
     <TinyButton
-      href={WORKSHEETS_CONTACT_US}
+      href={urls.contact()}
       target="_blank"
       fullWidth
       color="inherit"

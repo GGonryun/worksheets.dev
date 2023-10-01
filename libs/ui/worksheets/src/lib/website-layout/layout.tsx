@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { Box, Divider, useTheme } from '@mui/material';
 import {
-  useLocalStorage,
   useNavigateToHash,
   useTitle,
   selectBackground,
@@ -9,6 +8,7 @@ import {
 import { NavigationBar } from './navigation-bar';
 import { NavigationDrawer } from './navigation-drawer';
 import { WebsiteFooter } from './footer';
+import { useLocalStorage } from '@worksheets/ui-core';
 
 export type LayoutProps = {
   children: React.ReactNode;

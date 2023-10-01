@@ -3,9 +3,12 @@ import { Flex, Spacing } from '@worksheets/ui-core';
 import { FC } from 'react';
 
 export const GameOverOverlay: FC<{
+  winner: number;
+  player: string;
+  enemy: string;
   onRematch: () => void;
   onReturnToMenu: () => void;
-}> = ({ onRematch, onReturnToMenu }) => {
+}> = ({ winner, player, enemy, onRematch, onReturnToMenu }) => {
   return (
     <Box
       position="absolute"
@@ -22,13 +25,22 @@ export const GameOverOverlay: FC<{
         backgroundColor: 'rgba(0,0,0,0.5)',
       }}
     >
-      <Paper>
+      <Paper
+        sx={{
+          borderRadius: 4,
+          border: '2px solid black',
+        }}
+      >
         <Spacing top={2} bottom={4} x={6}>
           <Flex column centered gap={1}>
-            <Typography variant="h4">Victory</Typography>
-            <Typography>Player 1</Typography>
+            <Typography variant="h4">
+              {winner === 1 ? 'Victory' : 'Defeat'}
+            </Typography>
+            <Typography>{winner === 1 ? 'You Win!' : 'You Lose!'}</Typography>
             <Spacing y={3}>
-              <Typography fontSize={64}>💎</Typography>
+              <Typography fontSize={64}>
+                {winner === 1 ? player : enemy}
+              </Typography>
             </Spacing>
             <Button
               variant="contained"

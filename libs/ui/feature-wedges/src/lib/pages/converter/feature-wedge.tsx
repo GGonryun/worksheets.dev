@@ -16,6 +16,7 @@ import {
   ExplanationStepsSection,
   ResourceGridItem,
 } from '../../components';
+import { UnderConstructionNotice } from '@worksheets/ui/common';
 
 const resources: ResourceGridItem[] = [
   {
@@ -115,6 +116,10 @@ export const ConverterFeatureWedge = () => {
       </SectionLayout>
       <Divider />
       <AvailableProgrammingLanguagesSection backgroundColor="primary" />
+      <Divider />
+      <SectionLayout backgroundColor="grey" maxWidth="md">
+        <UnderConstructionNotice />
+      </SectionLayout>
       <Divider />
       <ExplanationStepsSection
         logo="/art/pixels/help.svg"

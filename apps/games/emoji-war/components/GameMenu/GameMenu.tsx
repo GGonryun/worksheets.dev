@@ -5,7 +5,7 @@ import { GameTitle } from './GameTitle';
 import { DifficultySelection } from './DifficultySelection';
 import { SupportSection } from './SupportSection';
 import { StartGame } from './StartGame';
-import { MenuLayout } from '../MenuLayout';
+import { MenuLayout } from '../Layouts';
 import { EnemyDifficulty } from '../controllers';
 
 export const GameMenu: FC<{

@@ -8,6 +8,7 @@ import projects from './projects/router';
 import logging from './logging/router';
 import vault from './vault/router';
 import contact from './contact/router';
+import newsletter from './newsletter/router';
 
 export const appRouter = router({
   user,
@@ -19,6 +20,7 @@ export const appRouter = router({
   logging,
   vault,
   contact,
+  newsletter,
 });
 
 export type AppRouter = typeof appRouter;

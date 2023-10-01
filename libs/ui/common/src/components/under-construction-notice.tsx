@@ -33,7 +33,7 @@ export const UnderConstructionNotice: FC = () => {
               prioritize our roadmap based on customer feedback.
             </Typography>
             <Spacing top={2} />
-            <Link underline="hover" href={urls.app.contact}>
+            <Link underline="hover" href={urls.app.subscribe}>
               Sign up for our newsletter
             </Link>
             <Typography variant="body1" color="text.secondary" component="span">

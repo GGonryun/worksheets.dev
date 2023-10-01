@@ -4,6 +4,7 @@ import {
   Article,
   ContactSupport,
   MoreVert,
+  VideogameAsset,
 } from '@mui/icons-material';
 import {
   Toolbar,
@@ -31,12 +32,18 @@ import { useRouter } from 'next/router';
 import { Flex } from '@worksheets/ui-core';
 import { TinyMenu, TinyMenuItem } from '@worksheets/ui-basic-style';
 import React from 'react';
+import { SignInButton } from './sign-in-button';
 
 const publicAppBarButtons = [
   {
     text: 'Features',
     href: urls.app.features,
     icon: <Hub fontSize="small" />,
+  },
+  {
+    text: 'Games',
+    href: urls.app.games,
+    icon: <VideogameAsset fontSize="small" />,
   },
   {
     text: 'Applications',
@@ -162,34 +169,6 @@ const MobilePublicNavigationBarContents: React.FC<NavigationBarProps> = ({
         onClose={() => setAnchor(undefined)}
       />
     </>
-  );
-};
-
-const SignInButton = () => {
-  const { route } = useRouter();
-
-  const { user } = useUser();
-
-  const loginHref = urls.app.login;
-  const projectsHref = urls.app.projects;
-  const onProjectsPage = route.startsWith(projectsHref);
-
-  return user ? (
-    <Flex gap={1}>
-      <TextHoverButton href={urls.app.projects} active={onProjectsPage}>
-        {onProjectsPage ? 'Viewing' : 'View'} projects
-      </TextHoverButton>
-      <AccountMenu />
-    </Flex>
-  ) : (
-    <MarketingBarButton
-      disableRipple
-      color="primary"
-      href={loginHref}
-      active={route.startsWith(loginHref)}
-    >
-      <b>Sign In</b>
-    </MarketingBarButton>
   );
 };
 

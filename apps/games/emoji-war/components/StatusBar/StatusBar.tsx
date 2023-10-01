@@ -2,7 +2,7 @@ import { FC } from 'react';
 import { Timer } from './Timer';
 import { FightBanner } from './FightBanner';
 import { Flex } from '@worksheets/ui-core';
-import { Box, IconButton } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import { Logout } from '@mui/icons-material';
 
 export const StatusBar: FC<{
@@ -11,11 +11,21 @@ export const StatusBar: FC<{
   onExitGame: () => void;
 }> = ({ timer, emojis, onExitGame }) => {
   return (
-    <Flex spaceBetween px={2} sx={{ position: 'relative' }}>
-      <Timer value={timer} />
-      <IconButton size="small" sx={{ zIndex: 10 }} onClick={onExitGame}>
-        <Logout />
-      </IconButton>
+    <Flex position="relative">
+      <Flex fullWidth spaceBetween px={2} pt={1}>
+        <Timer value={timer} />
+        <Button
+          size="small"
+          color="inherit"
+          onClick={onExitGame}
+          endIcon={<Logout />}
+          sx={{
+            zIndex: 10,
+          }}
+        >
+          Exit
+        </Button>
+      </Flex>
       <Box
         sx={{
           position: 'absolute',
