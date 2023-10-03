@@ -27,31 +27,32 @@ const initialState = {
 };
 
 export const usePlayer = () => {
-  const [isFirstTime, setIsFirstTime] = useLocalStorage<boolean>(
-    'new-player',
-    true
-  );
-  const [level, setLevel] = useLocalStorage<number>(
+  const [isFirstTime, setIsFirstTime, loadingIsFirstTime] =
+    useLocalStorage<boolean>('new-player', true);
+  const [level, setLevel, loadingSetLevel] = useLocalStorage<number>(
     'level',
     initialState.level
   );
-  const [words, setWords] = useLocalStorage<Discovered>(
+  const [words, setWords, loadingWords] = useLocalStorage<Discovered>(
     'words',
     initialState.words
   );
-  const [bonuses, setBonuses] = useLocalStorage<Discovered>(
+  const [bonuses, setBonuses, loadingBonuses] = useLocalStorage<Discovered>(
     'bonuses',
     initialState.bonuses
   );
-  const [points, setPoints] = useLocalStorage<number>(
+  const [points, setPoints, loadingPoints] = useLocalStorage<number>(
     'points',
     initialState.points
   );
-  const [water, setWater] = useLocalStorage<number>(
+  const [water, setWater, loadingWater] = useLocalStorage<number>(
     'water',
     initialState.water
   );
-  const [hints, setHints] = useLocalStorage<Hints>('hints', initialState.hints);
+  const [hints, setHints, loadingHints] = useLocalStorage<Hints>(
+    'hints',
+    initialState.hints
+  );
 
   const saveWord = (word: string) => {
     setWords({
@@ -163,6 +164,14 @@ export const usePlayer = () => {
     bonuses,
     hints,
     isFirstTime,
+    loading:
+      loadingIsFirstTime ||
+      loadingSetLevel ||
+      loadingWords ||
+      loadingBonuses ||
+      loadingPoints ||
+      loadingWater ||
+      loadingHints,
     acknowledgeFirstTime,
     isComplete,
     submitWord,

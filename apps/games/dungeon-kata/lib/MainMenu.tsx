@@ -1,5 +1,3 @@
-import { Box } from '@mui/material';
-import { Layout } from './Layout';
 import styles from './Grid.module.scss';
 
 export const MainMenu = () => {
