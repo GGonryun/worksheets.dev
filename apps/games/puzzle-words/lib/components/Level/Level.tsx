@@ -49,14 +49,14 @@ export const Level: FC<{
   words: Discovered;
   bonuses: Discovered;
   hints: Hints;
-  points: number;
+  tokens: number;
   water: number;
   submitWord: (word: string) => void;
   shuffleLetters: () => void;
   purchasePowerUp: (code: PowerUpCode) => boolean;
 }> = ({
   id,
-  points,
+  tokens,
   water,
   rules,
   letters,
@@ -103,7 +103,7 @@ export const Level: FC<{
         }
         footer={
           <Footer
-            points={points}
+            tokens={tokens}
             water={water}
             words={words}
             bonuses={bonuses}
@@ -155,7 +155,7 @@ export const Level: FC<{
         onClose={() => setModal()}
       />
       <PowerUps
-        points={points}
+        tokens={tokens}
         open={modal === 'power-ups'}
         onClose={() => setModal()}
         onPurchase={(code) => {

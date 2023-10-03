@@ -3,11 +3,11 @@ import { Flex } from '@worksheets/ui-core';
 import { Star, WaterDrop } from '@mui/icons-material';
 import { FC } from 'react';
 
-export const PlayerPoints: FC<{ points: number }> = ({ points }) => {
+export const PlayerTokens: FC<{ tokens: number }> = ({ tokens }) => {
   return (
     <Flex gap={1}>
       <Star sx={{ color: 'warning.main' }} />
-      <Typography variant="h6">Current Points: {points}</Typography>
+      <Typography variant="h6">Available Tokens: {tokens}</Typography>
       <Star sx={{ color: 'warning.main' }} />
     </Flex>
   );

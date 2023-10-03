@@ -39,13 +39,13 @@ export const HelpCenter: FC<{ open: boolean; onClose: () => void }> = ({
             pronunciation.
             <br />
             <br />
-            Once you&apos;ve found all the words in the puzzle{' '}
-            <EmojiEvents sx={{ ...iconStyles, color: '#FDCA40' }} />, the
-            current puzzle will automatically end and you will be taken to the
-            next puzzle.
+            Once you&apos;ve found all the words{' '}
+            <EmojiEvents sx={{ ...iconStyles, color: '#FDCA40' }} /> in the
+            puzzle, the current puzzle will automatically end and you will be
+            taken to the next puzzle.
             <br />
             <br />
-            Every letter you find will earn you points. Points can be used to
+            Every letter you find will earn you tokens. Tokens can be used to
             buy hints or to unlock words. Click on the{' '}
             <Star color="warning" sx={iconStyles} /> icon to see the available
             hints.

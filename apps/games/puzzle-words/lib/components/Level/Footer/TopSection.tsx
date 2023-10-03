@@ -15,19 +15,19 @@ export const TopSection: FC<FooterProps> = (props) => {
           <Shuffle />
         </IconButton>
       </Flex>
-      <PointsButton {...props} />
+      <TokensBonus {...props} />
     </Flex>
   );
 };
 
-export const PointsButton: FC<FooterProps> = ({ points, openPowerUps }) => {
+export const TokensBonus: FC<FooterProps> = ({ tokens, openPowerUps }) => {
   return (
-    <Flex position="relative" right={-10} onClick={openPowerUps}>
-      <NumberPill number={points} />
+    <Flex position="relative" right={-20} onClick={openPowerUps}>
+      <NumberPill number={tokens} />
       <IconButton>
         <Star />
       </IconButton>
-      <LaunchIcon count={points}>
+      <LaunchIcon count={tokens}>
         <Star color="warning" />
       </LaunchIcon>
     </Flex>

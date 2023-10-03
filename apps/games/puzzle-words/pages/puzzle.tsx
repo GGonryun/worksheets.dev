@@ -33,7 +33,7 @@ const Page = () => {
       <LevelComplete
         level={player.level}
         loadPuzzle={player.loadPuzzle}
-        points={player.points}
+        tokens={player.tokens}
         water={player.water}
       />
     );
@@ -46,7 +46,7 @@ const Page = () => {
         letters={puzzle.letters}
         rules={puzzle.rules}
         shuffleLetters={puzzle.shuffleLetters}
-        points={player.points}
+        tokens={player.tokens}
         water={player.water}
         hints={player.hints}
         words={player.words}

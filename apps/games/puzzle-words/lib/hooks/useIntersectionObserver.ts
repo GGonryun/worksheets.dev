@@ -19,7 +19,7 @@ export const useIntersectionObserver = ({
       // for each shape that is registered.
       for (const stringKey in positions) {
         if (Number.isNaN(stringKey)) {
-          console.error('found an invalid key in letter map', stringKey);
+          throw new Error(`found an invalid key in letter map: ${stringKey}`);
         }
 
         const key = Number(stringKey);
@@ -29,9 +29,8 @@ export const useIntersectionObserver = ({
         const intersecting = isInRect(info.point, value);
         // if we haven't already intersected this point.
         if (intersecting) {
-          onIntersect(key);
-          //   console.log('found an intersection', key);
           // add to the end of our intersection list.
+          onIntersect(key);
         }
       }
     }

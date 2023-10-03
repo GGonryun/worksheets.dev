@@ -12,10 +12,10 @@ import { EnterDirectionally } from '../Animators';
 
 export const LevelComplete: FC<{
   level: number;
-  points: number;
+  tokens: number;
   water: number;
   loadPuzzle: (level: number) => void;
-}> = ({ level, points, water, loadPuzzle }) => {
+}> = ({ level, tokens, water, loadPuzzle }) => {
   const { push } = useRouter();
   const maxLevel = puzzles.length;
 
@@ -60,7 +60,7 @@ export const LevelComplete: FC<{
         </EnterDirectionally>
         <Flex centered column gap={1} pt={1}>
           <EnterDirectionally y={-100} delay={0.6}>
-            <Typography fontSize={28}>Total Score: {points} points</Typography>
+            <Typography fontSize={28}>Tokens: {tokens}</Typography>
           </EnterDirectionally>
           <EnterDirectionally y={-100} delay={0.75}>
             <Typography fontSize={20}>Water Donated: {water} ml</Typography>

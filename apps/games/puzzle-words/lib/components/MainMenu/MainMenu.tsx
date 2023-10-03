@@ -6,7 +6,7 @@ import { Producer } from './Producer';
 import { Title } from './Title';
 import { StartPuzzle } from './StartPuzzle';
 import { LinedPaperLayout } from '../Layouts';
-import { PlayerPoints, WaterDonated } from './PlayerStatistics';
+import { PlayerTokens, WaterDonated } from './PlayerStatistics';
 import { Flex } from '@worksheets/ui-core';
 import { MissionStatementModal } from './MissionStatementModal';
 import { DonateWaterModal } from './DonateWaterModal';
@@ -17,7 +17,7 @@ export const MainMenu: FC = () => {
   const [showMissionStatement, setShowMissionStatement] = useState(false);
   const [showDonateWater, setShowDonateWater] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
-  const { water, points, level, reset, loadPuzzle } = usePlayer();
+  const { water, tokens, level, reset, loadPuzzle } = usePlayer();
 
   return (
     <>
@@ -37,7 +37,7 @@ export const MainMenu: FC = () => {
         </EnterDirectionally>
         <Flex column centered grow gap={1}>
           <EnterDirectionally y={150} delay={0.5}>
-            <PlayerPoints points={points} />
+            <PlayerTokens tokens={tokens} />
           </EnterDirectionally>
           <EnterDirectionally y={100} delay={0.75}>
             <WaterDonated water={water} />

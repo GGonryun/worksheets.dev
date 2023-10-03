@@ -8,10 +8,9 @@ import {
 import { puzzles } from '../puzzles';
 import {
   BASIC_WATER_MODIFIER,
-  BONUS_POINTS_MODIFIER,
+  BONUS_TOKENS_MODIFIER,
   BONUS_WATER_MODIFIER,
   POWER_UP_COSTS,
-  STARTING_PLAYER_POINTS,
 } from '../constants';
 import { randomBetween } from '@worksheets/util/numbers';
 
@@ -22,7 +21,7 @@ const initialState = {
   words: createMap(firstPuzzle.words, 0),
   bonuses: createMap(firstPuzzle.bonuses, 0),
   hints: {},
-  points: STARTING_PLAYER_POINTS,
+  tokens: 0,
   water: 0,
 };
 
@@ -41,9 +40,9 @@ export const usePlayer = () => {
     'bonuses',
     initialState.bonuses
   );
-  const [points, setPoints, loadingPoints] = useLocalStorage<number>(
-    'points',
-    initialState.points
+  const [tokens, setTokens, loadingTokens] = useLocalStorage<number>(
+    'tokens',
+    0
   );
   const [water, setWater, loadingWater] = useLocalStorage<number>(
     'water',
@@ -79,7 +78,7 @@ export const usePlayer = () => {
     }
 
     if (words[word] == 0) {
-      setPoints(points + word.length);
+      setTokens(tokens + word.length);
       setWater(water + BASIC_WATER_MODIFIER);
     }
 
@@ -88,7 +87,7 @@ export const usePlayer = () => {
     }
 
     if (bonuses[word] == 0) {
-      setPoints(points + Math.floor(word.length * BONUS_POINTS_MODIFIER));
+      setTokens(tokens + Math.floor(word.length * BONUS_TOKENS_MODIFIER));
       setWater(water + BONUS_WATER_MODIFIER);
     }
   };
@@ -116,14 +115,14 @@ export const usePlayer = () => {
   const purchasePowerUp = (code: PowerUpCode) => {
     // depending on the code, we need to update the progress
     const cost = POWER_UP_COSTS[code];
-    // if I don't have enough points to purchase, return
-    if (cost > points) return false;
+    // if I don't have enough tokens to purchase, return
+    if (cost > tokens) return false;
     if (code === 'unlock-1-letter') {
-      setMultipleRandomHints(words, hints, 1, saveWord, setHints);
+      setMultipleRandomHints(words, hints, 1, setWords, setHints);
     } else if (code === 'unlock-3-letters') {
-      setMultipleRandomHints(words, hints, 3, saveWord, setHints);
+      setMultipleRandomHints(words, hints, 3, setWords, setHints);
     } else if (code === 'unlock-5-letters') {
-      setMultipleRandomHints(words, hints, 5, saveWord, setHints);
+      setMultipleRandomHints(words, hints, 5, setWords, setHints);
     } else if (code === 'unlock-1-word') {
       setRandomWords(words, 1, setWords);
     } else if (code === 'unlock-3-words') {
@@ -133,12 +132,12 @@ export const usePlayer = () => {
     } else {
       throw new Error(`Unknown power up code: ${code}`);
     }
-    setPoints(points - cost);
+    setTokens(tokens - cost);
     return true;
   };
 
-  const addPoints = (amount: number) => {
-    setPoints(points + amount);
+  const addTokens = (amount: number) => {
+    setTokens(tokens + amount);
   };
 
   const acknowledgeFirstTime = () => {
@@ -150,7 +149,7 @@ export const usePlayer = () => {
     setLevel(initialState.level);
     setWords(initialState.words);
     setBonuses(initialState.bonuses);
-    setPoints(initialState.points);
+    setTokens(initialState.tokens);
     setWater(initialState.water);
     setHints(initialState.hints);
     setIsFirstTime(true);
@@ -159,7 +158,7 @@ export const usePlayer = () => {
   return {
     level,
     water,
-    points,
+    tokens,
     words,
     bonuses,
     hints,
@@ -169,7 +168,7 @@ export const usePlayer = () => {
       loadingSetLevel ||
       loadingWords ||
       loadingBonuses ||
-      loadingPoints ||
+      loadingTokens ||
       loadingWater ||
       loadingHints,
     acknowledgeFirstTime,
@@ -178,7 +177,7 @@ export const usePlayer = () => {
     loadPuzzle,
     reset,
     purchasePowerUp,
-    addPoints,
+    addTokens,
   };
 };
 
@@ -186,61 +185,70 @@ const setMultipleRandomHints = (
   words: Discovered,
   hints: Hints,
   count: number,
-  saveWord: (word: string) => void,
+  setWords: (words: Discovered) => void,
   setHints: (hints: Hints) => void
 ): void => {
-  // check how many hints are left to unlock
-  const remaining = Object.keys(words).reduce((acc, word) => {
+  // create a map of words and missing letter indexes
+  const missingLetters = Object.keys(words).reduce((acc, word) => {
+    // if the word has been discoverd, we have no missing letters.
     if (words[word]) return acc;
 
     const wordHints = hints[word] || [];
-    return acc + (word.length - wordHints.length);
-  }, 0);
+    const missing = wordHints.reduce((acc, hint) => {
+      acc.delete(hint);
+      return acc;
+    }, new Set(Array.from(word).keys()));
 
-  if (remaining < count) {
-    count = remaining;
+    return {
+      ...acc,
+      [word]: Array.from(missing),
+    };
+  }, {} as Record<string, number[]>);
+
+  // count the number of missing letters
+  const totalMissing = Object.keys(missingLetters).reduce(
+    (acc, word) => acc + missingLetters[word].length,
+    0
+  );
+
+  // if there are more missing letters than the count, update the count.
+  if (totalMissing < count) {
+    count = totalMissing;
   }
 
   const updates = { ...hints };
+  // select random missing letters.
   for (let i = 0; i < count; i++) {
-    const result = selectRandomHint(words, hints, saveWord);
-    if (result) {
-      const { word, hint } = result;
-      const existingHints = updates[word] || [];
-      updates[word] = uniqueArray([...existingHints, hint]);
+    const word = selectRandomItem(Object.keys(missingLetters));
+    const missing = missingLetters[word];
+    const letter = selectRandomItem(missing);
+    const existingHints = updates[word] || [];
+
+    // sometimes we select a letter that is undefined, so we need to try again.
+    if (letter == null || existingHints.includes(letter)) {
+      // if the hint already exists, try again.
+      i--;
+      continue;
     }
+    // save the hint
+    updates[word] = [...existingHints, letter];
+    // update the missing letters
+    missingLetters[word] = missing.filter((l) => l !== letter);
   }
+
+  // check if any words have been completed
+  const completedWords = Object.keys(updates).filter(
+    // a word is complete if the number of hints is greater than or equal to the length of the word or if the word has not been discovered yet
+    (word) => updates[word].length >= word.length && words[word] === 0
+  );
+
+  // save all completed words
+  setWords({
+    ...words,
+    ...createMap(completedWords, 1),
+  });
 
   setHints(updates);
-};
-
-const selectRandomHint = (
-  words: Discovered,
-  hints: Hints,
-  saveWord: (word: string) => void
-): { word: string; hint: number } | undefined => {
-  const keys = Object.keys(words);
-  // filter out discovered words from keys.
-  const undiscovered = keys.filter((word) => words[word] === 0);
-
-  // if there are no undiscovered words, return undefined. Puzzle is complete. This should never happen.
-  if (undiscovered.length === 0) return undefined;
-  const word = selectRandomItem(undiscovered);
-
-  // if the word already has all hints unlocked save the word and try again.
-  const existingHints = hints[word] || [];
-  if (existingHints.length >= word.length - 1) {
-    saveWord(word);
-  }
-
-  // select a random hint
-  const hint = randomBetween(0, word.length - 1);
-  // if the hint already exists, try again.
-  if (existingHints.includes(hint)) {
-    return selectRandomHint(words, hints, saveWord);
-  }
-
-  return { word, hint };
 };
 
 const setRandomWords = (
@@ -251,7 +259,6 @@ const setRandomWords = (
   const keys = Object.keys(words);
   // filter out discovered words from keys.
   const undiscovered = keys.filter((word) => words[word] === 0);
-  console.log('total undiscovered', undiscovered.length);
   // if there are no undiscovered words, return undefined. Puzzle is complete. This should never happen.
   if (undiscovered.length === 0) return undefined;
   // if there aren't enough undiscovered words, just unlock them all.
@@ -266,7 +273,6 @@ const setRandomWords = (
     if (newWords.includes(word)) continue;
     newWords.push(word);
   }
-  console.log('saving new words', newWords);
   // save all new words found
   setWords({
     ...words,

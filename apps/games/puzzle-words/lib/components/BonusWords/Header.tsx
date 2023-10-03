@@ -30,7 +30,7 @@ export const Header: FC<{ words: Discovered; onClose: () => void }> = ({
         </IconButton>
       </Flex>
       <Typography fontSize={14} color={'text.secondary'}>
-        <b>Discover bonus words to earn extra points.</b>
+        <b>Discover bonus words to earn extra tokens.</b>
       </Typography>
     </Flex>
   );

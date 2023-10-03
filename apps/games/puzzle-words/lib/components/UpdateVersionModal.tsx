@@ -26,7 +26,7 @@ export const UpdateVersionModal: FC<{
         <br />
         <Typography variant="body1">
           You may lose your current level&apos;s progress, but you will receive{' '}
-          {UPDATE_BONUS} points as compensation.
+          {UPDATE_BONUS} tokens as compensation.
         </Typography>
         <br />
         <Flex fill alignItems="flex-end">
@@ -38,7 +38,7 @@ export const UpdateVersionModal: FC<{
             startIcon={<Refresh />}
             onClick={onUpdate}
           >
-            Update (+{UPDATE_BONUS} points)
+            Update (+{UPDATE_BONUS} tokens)
           </Button>
         </Flex>
       </Flex>

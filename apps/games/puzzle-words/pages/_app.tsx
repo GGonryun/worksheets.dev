@@ -46,9 +46,8 @@ function CustomApp({ Component, pageProps }: AppProps) {
               // force an update
               update();
               // assign player bonuses
-              player.addPoints(UPDATE_BONUS);
+              player.addTokens(UPDATE_BONUS);
               player.loadPuzzle(player.level);
-              player.addPoints(UPDATE_BONUS);
               // reload the page
               reload();
             }}

@@ -5,7 +5,7 @@ import { TopSection } from './TopSection';
 import { BottomSection } from './BottomSection';
 
 export type FooterProps = {
-  points: number;
+  tokens: number;
   water: number;
   bonuses: Discovered;
   words: Discovered;

@@ -10,84 +10,31 @@ import { PowerUpCode } from '../../types';
 import { POWER_UP_COSTS, POWER_UP_LABELS } from '../../constants';
 
 export const PowerUps: FC<{
-  points: number;
+  tokens: number;
   open: boolean;
   onClose: () => void;
   onPurchase: (code: PowerUpCode) => void;
   onLearnMore: () => void;
   onInviteFriends: () => void;
-}> = ({ points, open, onClose, onPurchase, onLearnMore, onInviteFriends }) => {
+}> = ({ tokens, open, onClose, onPurchase, onLearnMore, onInviteFriends }) => {
   return (
     <Modal open={open} onClose={onClose}>
       <Flex column gap={1} p={2}>
         <EnterDirectionally delay={0.25}>
-          <Header points={points} onClose={onClose} />
+          <Header tokens={tokens} onClose={onClose} />
         </EnterDirectionally>
         <Divider sx={{ backgroundColor: 'error.dark', mb: 1 }} />
         <Flex column gap={2}>
-          <EnterDirectionally y={-50} delay={0}>
-            <PowerUp
-              points={points}
-              onClick={() => onPurchase('unlock-1-letter')}
-              cost={POWER_UP_COSTS['unlock-1-letter']}
-              label={POWER_UP_LABELS['unlock-1-letter']}
-            />
-          </EnterDirectionally>
-
-          <EnterDirectionally y={-50} delay={0.1}>
-            <PowerUp
-              points={points}
-              onClick={() => onPurchase('unlock-3-letters')}
-              cost={POWER_UP_COSTS['unlock-3-letters']}
-              label={POWER_UP_LABELS['unlock-3-letters']}
-            />
-          </EnterDirectionally>
-
-          <EnterDirectionally y={-50} delay={0.2}>
-            <PowerUp
-              points={points}
-              cost={POWER_UP_COSTS['unlock-5-letters']}
-              label={POWER_UP_LABELS['unlock-5-letters']}
-              onClick={() => onPurchase('unlock-5-letters')}
-            />
-          </EnterDirectionally>
-          <EnterDirectionally y={-50} delay={0.3}>
-            <PowerUp
-              points={points}
-              onClick={() => onPurchase('unlock-1-word')}
-              cost={POWER_UP_COSTS['unlock-1-word']}
-              label={POWER_UP_LABELS['unlock-1-word']}
-            />
-          </EnterDirectionally>
-          <EnterDirectionally y={-50} delay={0.4}>
-            <PowerUp
-              points={points}
-              onClick={() => onPurchase('unlock-3-words')}
-              cost={POWER_UP_COSTS['unlock-3-words']}
-              label={POWER_UP_LABELS['unlock-3-words']}
-            />
-          </EnterDirectionally>
-          <EnterDirectionally y={-50} delay={0.5}>
-            <PowerUp
-              points={points}
-              onClick={() => onPurchase('finish-puzzle')}
-              cost={POWER_UP_COSTS['finish-puzzle']}
-              label={POWER_UP_LABELS['finish-puzzle']}
-            />
-          </EnterDirectionally>
-          <EnterDirectionally y={50} delay={0.3}>
-            <Flex column gap={1}>
-              <Typography fontSize={16} pl={0.5}>
-                <Link onClick={onLearnMore} color="inherit">
-                  Learn more about earning points
-                </Link>
-              </Typography>
-
-              <Flex>
-                <InviteFriends onClick={onInviteFriends} />
-              </Flex>
-            </Flex>
-          </EnterDirectionally>
+          {Object.entries(POWER_UP_COSTS).map(([code, cost], i) => (
+            <EnterDirectionally y={-50} delay={0.1 * i} key={i}>
+              <PowerUp
+                tokens={tokens}
+                cost={cost}
+                label={POWER_UP_LABELS[code as PowerUpCode]}
+                onClick={() => onPurchase(code as PowerUpCode)}
+              />
+            </EnterDirectionally>
+          ))}
         </Flex>
       </Flex>
     </Modal>
@@ -95,15 +42,15 @@ export const PowerUps: FC<{
 };
 
 const PowerUp: FC<{
-  points: number;
+  tokens: number;
   cost: number;
   label: string;
   onClick: () => void;
-}> = ({ points, cost, label, onClick }) => {
+}> = ({ tokens, cost, label, onClick }) => {
   return (
     <Flex gap={1}>
       <TextButton
-        disabled={cost > points}
+        disabled={cost > tokens}
         onClick={onClick}
         endIcon={
           <Flex pl={1} gap={0.5}>
@@ -115,16 +62,5 @@ const PowerUp: FC<{
         <u>{label}</u>
       </TextButton>
     </Flex>
-  );
-};
-const InviteFriends: FC<{ onClick: () => void }> = ({ onClick }) => {
-  return (
-    <TextButton onClick={onClick}>
-      <u>Invite Friends</u>
-      <b>+150</b>
-      <Star color="warning" />
-      <b>+10</b>
-      <WaterDrop color="primary" />
-    </TextButton>
   );
 };
