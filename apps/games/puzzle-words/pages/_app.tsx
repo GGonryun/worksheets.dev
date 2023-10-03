@@ -6,6 +6,9 @@ import styles from './index.module.scss';
 import localFont from 'next/font/local';
 import * as FullStory from '@fullstory/browser';
 import { SERVICE_SETTINGS } from '@worksheets/data-access/server-settings';
+import { useVersion } from '../lib/hooks';
+import { UpdateVersionModal } from '../lib/components';
+import { useRouter } from 'next/router';
 
 if (typeof window !== 'undefined') {
   FullStory.init(SERVICE_SETTINGS.FULLSTORY);
@@ -22,6 +25,9 @@ const theme = createTheme({
 });
 
 function CustomApp({ Component, pageProps }: AppProps) {
+  const { requiresUpdate, update, ignore } = useVersion();
+  const { reload } = useRouter();
+
   return (
     <>
       <Head>
@@ -31,6 +37,16 @@ function CustomApp({ Component, pageProps }: AppProps) {
       </Head>
       <ThemeProvider theme={theme}>
         <main className={styles['page']}>
+          <UpdateVersionModal
+            open={requiresUpdate}
+            onClose={ignore}
+            onUpdate={() => {
+              // force an update
+              update();
+              // reload the page
+              reload();
+            }}
+          />
           <Component {...pageProps} />
         </main>
       </ThemeProvider>

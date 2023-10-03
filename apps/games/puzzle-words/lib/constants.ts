@@ -1,5 +1,8 @@
 import { PowerUpCode } from './types';
 
+export const APP_VERSION = 1;
+export const UPDATE_BONUS = 200;
+
 export const PUZZLE_GAP = 0.33;
 export const MAX_PUZZLE_HEIGHT = 10;
 export const MAX_WORDS_IN_PUZZLE = 16;

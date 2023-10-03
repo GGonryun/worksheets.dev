@@ -5,3 +5,4 @@ export * from './useTabs';
 export * from './useObserver';
 export * from './usePlayer';
 export * from './useDefinition';
+export * from './useVersion';

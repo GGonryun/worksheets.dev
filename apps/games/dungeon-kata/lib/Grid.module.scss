@@ -1,0 +1,16 @@
+// Source: https://jsfiddle.net/6rwc2q5u/
+
+.container {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-gap: 10px;
+  padding: 10px;
+  max-width: 500px;
+}
+
+.square {
+  border: 1px solid;
+  aspect-ratio: 1/1;
+  display: grid;
+  place-items: center;
+}

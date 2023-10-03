@@ -27,6 +27,10 @@ const initialState = {
 };
 
 export const usePlayer = () => {
+  const [isFirstTime, setIsFirstTime] = useLocalStorage<boolean>(
+    'new-player',
+    true
+  );
   const [level, setLevel] = useLocalStorage<number>(
     'level',
     initialState.level
@@ -132,6 +136,14 @@ export const usePlayer = () => {
     return true;
   };
 
+  const addPoints = (amount: number) => {
+    setPoints(points + amount);
+  };
+
+  const acknowledgeFirstTime = () => {
+    setIsFirstTime(false);
+  };
+
   const reset = () => {
     //clear all local storage
     setLevel(initialState.level);
@@ -140,6 +152,7 @@ export const usePlayer = () => {
     setPoints(initialState.points);
     setWater(initialState.water);
     setHints(initialState.hints);
+    setIsFirstTime(true);
   };
 
   return {
@@ -149,11 +162,14 @@ export const usePlayer = () => {
     words,
     bonuses,
     hints,
+    isFirstTime,
+    acknowledgeFirstTime,
     isComplete,
     submitWord,
     loadPuzzle,
     reset,
     purchasePowerUp,
+    addPoints,
   };
 };
 

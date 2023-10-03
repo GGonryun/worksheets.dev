@@ -3,6 +3,7 @@ import {
   Modal as MuiModal,
   ModalProps as MuiModalProps,
   Typography,
+  TypographyProps,
 } from '@mui/material';
 import { Flex } from '@worksheets/ui-core';
 import { IconButton } from './IconButton';
@@ -41,10 +42,15 @@ export const Modal: FC<ModalProps> = ({ children, ...props }) => {
 export type ModalHeaderProps = {
   children: ReactNode;
   onClose: () => void | MuiModalProps['onClose'];
+  variant?: TypographyProps['variant'];
 };
-export const ModalHeader: FC<ModalHeaderProps> = ({ children, onClose }) => (
+export const ModalHeader: FC<ModalHeaderProps> = ({
+  variant = 'h4',
+  children,
+  onClose,
+}) => (
   <Flex spaceBetween fullWidth pb={1}>
-    <Typography variant="h4">{children}</Typography>
+    <Typography variant={variant}>{children}</Typography>
     <IconButton onClick={onClose}>
       <Close />
     </IconButton>

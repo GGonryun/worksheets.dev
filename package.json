@@ -18,7 +18,8 @@
     "serve:firebase": "npx nx serve firebase",
     "serve:emojiwar": "npx nx run games-emoji-war:serve",
     "serve:puzzlewords": "npx nx run games-puzzle-words:serve",
-    "serve": "firebase logout; firebase login; concurrently --kill-others \"npm run serve:admin\" \"npm run serve:ide\" \"npm run serve:manual\" \"npm run serve:firebase\" \"npm run serve:api\" \"npm run serve:emojiwar\" \"npm run serve:puzzlewords\"",
+    "serve:dungeonkata": "npx nx run games-dungeon-kata:serve",
+    "serve": "firebase logout; firebase login; concurrently --kill-others \"npm run serve:admin\" \"npm run serve:ide\" \"npm run serve:manual\" \"npm run serve:firebase\" \"npm run serve:api\" \"npm run serve:emojiwar\" \"npm run serve:puzzlewords\" \"npm run serve:dungeonkata\"",
     "prisma:studio": "npx prisma studio",
     "prisma:generate": "npx prisma generate"
   },

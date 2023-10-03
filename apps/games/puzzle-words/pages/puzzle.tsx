@@ -1,4 +1,4 @@
-import { Level, LevelComplete } from '../lib/components';
+import { FirstTimePlayerModal, Level, LevelComplete } from '../lib/components';
 import { usePlayer, usePuzzle } from '../lib/hooks';
 import { Box } from '@mui/material';
 import { puzzles } from '../lib/puzzles';
@@ -40,19 +40,26 @@ const Page = () => {
   }
 
   return (
-    <Level
-      id={player.level}
-      letters={puzzle.letters}
-      rules={puzzle.rules}
-      shuffleLetters={puzzle.shuffleLetters}
-      points={player.points}
-      water={player.water}
-      hints={player.hints}
-      words={player.words}
-      bonuses={player.bonuses}
-      submitWord={player.submitWord}
-      purchasePowerUp={player.purchasePowerUp}
-    />
+    <>
+      <Level
+        id={player.level}
+        letters={puzzle.letters}
+        rules={puzzle.rules}
+        shuffleLetters={puzzle.shuffleLetters}
+        points={player.points}
+        water={player.water}
+        hints={player.hints}
+        words={player.words}
+        bonuses={player.bonuses}
+        submitWord={player.submitWord}
+        purchasePowerUp={player.purchasePowerUp}
+      />
+
+      <FirstTimePlayerModal
+        open={player.isFirstTime}
+        onClose={player.acknowledgeFirstTime}
+      />
+    </>
   );
 };
 
