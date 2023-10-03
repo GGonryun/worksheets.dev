@@ -1,9 +1,7 @@
 import { useLocalStorage } from '@worksheets/ui-core';
 import { useEffect, useState } from 'react';
 
-export const APP_VERSION = 2;
-
-export const useVersion = () => {
+export const useVersion = (currentVersion: number) => {
   const [version, setVersion, loading] = useLocalStorage<number>('version', 0);
   const [requiresUpdate, setRequiresUpdate] = useState<boolean>(false);
   const [ignored, setIgnored] = useState<boolean>(false);
@@ -13,11 +11,11 @@ export const useVersion = () => {
       return;
     }
     if (!version) {
-      setVersion(APP_VERSION);
+      setVersion(currentVersion);
       return;
     }
     // check if the stored version is less than the current version
-    if (!requiresUpdate && version < APP_VERSION) {
+    if (!requiresUpdate && version < currentVersion) {
       // set the new version
       setRequiresUpdate(true);
     }
@@ -26,7 +24,7 @@ export const useVersion = () => {
   return {
     requiresUpdate: !ignored && requiresUpdate,
     update: () => {
-      return setVersion(APP_VERSION);
+      return setVersion(currentVersion);
     },
     ignore: () => setIgnored(true),
   };

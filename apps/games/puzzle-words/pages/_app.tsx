@@ -9,7 +9,7 @@ import { SERVICE_SETTINGS } from '@worksheets/data-access/server-settings';
 import { usePlayer, useVersion } from '../lib/hooks';
 import { UpdateVersionModal } from '../lib/components';
 import { useRouter } from 'next/router';
-import { UPDATE_BONUS } from '../lib/constants';
+import { APP_VERSION, UPDATE_BONUS } from '../lib/constants';
 
 if (typeof window !== 'undefined') {
   FullStory.init(SERVICE_SETTINGS.FULLSTORY);
@@ -27,7 +27,7 @@ const theme = createTheme({
 
 function CustomApp({ Component, pageProps }: AppProps) {
   const player = usePlayer();
-  const { requiresUpdate, update, ignore } = useVersion();
+  const { requiresUpdate, update, ignore } = useVersion(APP_VERSION);
   const { reload } = useRouter();
 
   return (

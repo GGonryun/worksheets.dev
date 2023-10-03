@@ -1,4 +1,5 @@
 import { PowerUpCode } from './types';
+export const APP_VERSION = 2;
 
 export const UPDATE_BONUS = 200;
 
