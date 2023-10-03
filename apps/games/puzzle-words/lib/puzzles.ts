@@ -38,8 +38,8 @@ export const puzzles: Puzzle[] = [
   },
   {
     letters: 'type'.split(''),
-    words: ['type', 'yet', 'pet', 'yep'],
-    bonuses: ['tye'],
+    words: ['type', 'yet', 'pet'],
+    bonuses: ['tye', 'pye', 'yep'],
     rules: [],
   },
   {
