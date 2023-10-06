@@ -10,8 +10,9 @@ import {
   Report,
   EmojiEvents,
 } from '@mui/icons-material';
-import { ContactLink, WaterOrgLink } from '../Links';
+import { ContactLink } from '../Links';
 import { EnterDirectionally } from '../Animators';
+import { WaterOrgLink } from '@worksheets/ui-charity';
 
 export const HelpCenter: FC<{ open: boolean; onClose: () => void }> = ({
   open,

@@ -1,5 +1,5 @@
-import { useLocalStorage } from '@worksheets/ui-core';
 import { useEffect, useState } from 'react';
+import { useLocalStorage } from './useLocalStorage';
 
 export const useVersion = (currentVersion: number) => {
   const [version, setVersion, loading] = useLocalStorage<number>('version', 0);

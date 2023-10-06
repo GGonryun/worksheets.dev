@@ -3,3 +3,8 @@ export * from './useTimeout';
 export * from './useIsomorphicLayoutEffect';
 export * from './useLocalStorage';
 export * from './useScrollDirection';
+export * from './usePositionRegistry';
+export * from './useResizing';
+export * from './useWindowResize';
+export * from './useEventListener';
+export * from './useVersion';

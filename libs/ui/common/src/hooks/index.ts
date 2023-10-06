@@ -1,7 +1,6 @@
 export * from './useClipboard';
 export * from './useDebounce';
 export * from './useEventCallback';
-export * from './useEventListener';
 export * from './useLayout';
 export * from './useMediaQuery';
 export * from './useNavigateToHash';

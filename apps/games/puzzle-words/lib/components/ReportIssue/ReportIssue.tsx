@@ -2,7 +2,7 @@ import { FC } from 'react';
 import { Modal, ModalHeader } from '../Modal';
 import { Divider } from '@mui/material';
 import { Flex } from '@worksheets/ui-core';
-import { ReportForm } from './ReportForm';
+import { ReportForm } from '@worksheets/ui-charity';
 
 export const ReportIssue: FC<{
   data: string;

@@ -1,6 +1,6 @@
+import { usePositionRegistry } from '@worksheets/ui-core';
 import { isInRect } from '@worksheets/util-shapes';
 import { PanHandlers } from 'framer-motion';
-import { usePositions } from './usePositionRegistry';
 
 type UseIntersectionObserver = {
   onIntersect: (index: number) => void;
@@ -12,7 +12,7 @@ type UseIntersectionObserver = {
 export const useIntersectionObserver = ({
   onIntersect,
 }: UseIntersectionObserver) => {
-  const { positions, register } = usePositions();
+  const { positions, register } = usePositionRegistry();
 
   const calculateIntersections: PanHandlers['onPan'] = (_, info) => {
     if (Object.keys(positions).length) {

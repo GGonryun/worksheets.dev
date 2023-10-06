@@ -1,13 +1,3 @@
-export type RegisterPositionHandler = (
-  index: number,
-  rect?: DOMRectReadOnly
-) => void;
-
-/**
- * A registry of positions for each shape. A number should be used as the index of the shape.
- */
-export type PositionRegistry = Record<number, DOMRectReadOnly>;
-
 export type Discovered = Record<string, number>;
 
 export type Hints = {

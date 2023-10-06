@@ -3,9 +3,9 @@ import { uppercase } from '@worksheets/util/strings';
 import { clsx } from 'clsx';
 import { AnimatePresence, motion } from 'framer-motion';
 import { FC } from 'react';
-import { RegisterPositionHandler } from '../../types';
 import * as layouts from '../../layouts';
 import styles from './LetterSelection.module.scss';
+import { RegisterPositionHandler } from '@worksheets/ui-core';
 
 export type LetterSelectionProps = {
   letter: string;

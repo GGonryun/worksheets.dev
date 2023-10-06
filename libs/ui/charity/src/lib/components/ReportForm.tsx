@@ -1,8 +1,7 @@
 import { Typography, NativeSelect, Button } from '@mui/material';
 import { Flex, TextArea } from '@worksheets/ui-core';
 import { FC, useState } from 'react';
-import { thinBorder } from '../../layouts';
-import { ContactLink } from '../Links';
+import { ContactLink } from './Links';
 
 type ReportCategory = 'bug' | 'suggestion' | 'other';
 
@@ -40,7 +39,10 @@ export const ReportForm: FC<{
           sx={(theme) => ({
             '.MuiNativeSelect-select': {
               paddingLeft: 1,
-              border: thinBorder(theme),
+              border: `1px solid black`,
+              '&:focus': {
+                border: `1px solid ${theme.palette.primary.main}`,
+              },
             },
           })}
         >

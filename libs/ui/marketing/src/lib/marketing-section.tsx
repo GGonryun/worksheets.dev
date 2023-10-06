@@ -18,7 +18,7 @@ export const MarketingSection: FC<{
   return (
     <Paper variant="outlined" sx={{ width: '100%', minHeight: 320 }}>
       <Flex fullWidth column alignItems="center" py={6} px={3} gap={2}>
-        <Typography variant="h4" fontWeight={900}>
+        <Typography variant="h4" fontWeight={900} textAlign="center">
           {title}
         </Typography>
         <Typography

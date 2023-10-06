@@ -5,7 +5,7 @@ import { FC, useState } from 'react';
 import { StandardProductButton, WhiteProductButton } from './product-buttons';
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import { FeatureBox } from './feature-box';
-import { urls } from '@worksheets/ui/common';
+import { urls, useLayout } from '@worksheets/ui/common';
 
 const primaryFeatures = [
   {
@@ -63,6 +63,12 @@ const secondaryFeatures = [
 
 export const HeroSection: FC = () => {
   const [showMoreFeatures, setShowMoreFeatures] = useState(false);
+  const { isTablet } = useLayout();
+  const features = primaryFeatures.concat(secondaryFeatures);
+  // if tablet split into 4/3 else split into 3/4
+  const primary = features.slice(0, isTablet ? 4 : 3);
+  const secondary = features.slice(isTablet ? 4 : 3);
+
   return (
     <Flex column gap={1} alignItems="center">
       <TinyLogo src="/logo.svg" borderless area={92} />
@@ -98,18 +104,18 @@ export const HeroSection: FC = () => {
             Request Demo
           </WhiteProductButton>
         </Flex>
-        <Flex gap={4} pt={2}>
-          {primaryFeatures.map((feature) => (
+        <Flex gap={4} pt={2} wrap centered>
+          {primary.map((feature) => (
             <FeatureBox
               key={feature.title}
               {...feature}
-              big={!showMoreFeatures && feature.big}
+              big={!showMoreFeatures && !isTablet && feature.big}
             />
           ))}
         </Flex>
         <Collapse in={showMoreFeatures}>
-          <Flex gap={4} pt={2}>
-            {secondaryFeatures.map((feature) => (
+          <Flex gap={4} pt={2} wrap centered>
+            {secondary.map((feature) => (
               <FeatureBox key={feature.title} {...feature} />
             ))}
           </Flex>

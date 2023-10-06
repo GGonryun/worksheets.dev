@@ -1,0 +1,37 @@
+import { Button, Typography, lighten } from '@mui/material';
+import { FC, ReactNode } from 'react';
+import { colors } from '../../util';
+
+export const Word: FC<{
+  children: ReactNode;
+  onClick: () => void;
+  found?: number;
+}> = ({ children, found, onClick }) => {
+  return (
+    <Button
+      disableRipple
+      onClick={onClick}
+      sx={{
+        py: 0.5,
+        my: 0,
+      }}
+    >
+      <Typography
+        color={(theme) =>
+          found
+            ? lighten(colors[found], 0.5)
+            : theme.palette.primary.contrastText
+        }
+        fontSize={{ xs: 16, sm: 18, md: 20, lg: 22, xl: 24 }}
+        fontWeight={900}
+        sx={{
+          textTransform: 'uppercase',
+          textShadow: '0 1px 1px rgba(0,0,0,0.5)',
+          textDecoration: found ? 'line-through' : 'none',
+        }}
+      >
+        {children}
+      </Typography>
+    </Button>
+  );
+};

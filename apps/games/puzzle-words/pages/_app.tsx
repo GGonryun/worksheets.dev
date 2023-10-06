@@ -6,10 +6,11 @@ import styles from './index.module.scss';
 import localFont from 'next/font/local';
 import * as FullStory from '@fullstory/browser';
 import { SERVICE_SETTINGS } from '@worksheets/data-access/server-settings';
-import { usePlayer, useVersion } from '../lib/hooks';
+import { usePlayer } from '../lib/hooks';
 import { UpdateVersionModal } from '../lib/components';
 import { useRouter } from 'next/router';
 import { APP_VERSION, UPDATE_BONUS } from '../lib/constants';
+import { useVersion } from '@worksheets/ui-core';
 
 if (typeof window !== 'undefined') {
   FullStory.init(SERVICE_SETTINGS.FULLSTORY);

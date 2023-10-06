@@ -4,6 +4,7 @@ import { TinyLogo } from '@worksheets/ui-basic-style';
 import { FC } from 'react';
 import { growOnHoverMixin } from './mixins';
 import { Flex } from '@worksheets/ui-core';
+import { useLayout } from '@worksheets/ui/common';
 
 export const FeatureBox: FC<{
   title: string;
@@ -14,6 +15,7 @@ export const FeatureBox: FC<{
   href?: string;
 }> = ({ title, description, logo, big, beta, href }) => {
   const theme = useTheme();
+  const { isTablet } = useLayout();
   return (
     <ButtonBase
       disableRipple
@@ -53,8 +55,8 @@ export const FeatureBox: FC<{
           alignItems="center"
           spaceBetween
           sx={{
-            height: 340,
-            width: 260,
+            height: isTablet ? 300 : 340,
+            width: isTablet ? 229 : 260,
             p: 3,
             pt: 4,
           }}
@@ -72,7 +74,7 @@ export const FeatureBox: FC<{
             </Typography>
           </Flex>
           <Flex column alignItems="center" gap={3}>
-            <TinyLogo borderless area={108} src={logo} />
+            <TinyLogo borderless area={isTablet ? 72 : 108} src={logo} />
             <Flex gap={0.5}>
               <Typography variant="body2" fontWeight={900}>
                 Learn More

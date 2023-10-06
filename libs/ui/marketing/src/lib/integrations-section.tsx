@@ -5,62 +5,72 @@ import { ApplicationBasics } from '@worksheets/schemas-applications';
 import { TinyButton, TinyLogo } from '@worksheets/ui-basic-style';
 import { growOnHoverMixin } from './mixins';
 import { MarketingSection } from './marketing-section';
-import { urls } from '@worksheets/ui/common';
+import { urls, useLayout } from '@worksheets/ui/common';
 
-const letters = [
-  ...'0-9 A B C D E F G H I J K L M N O P Q R S T U V W X Y Z'.split(' '),
-];
+const letters = '0-9 A B C D E F G H I J K L M N O P Q R S T U V W X Y Z'.split(
+  ' '
+);
 
-export const IntegrationsSection: FC = () => (
-  <MarketingSection
-    title="Integrate with your favorite apps"
-    description={`One API to rule them all! And by them, we mean your favorite apps.`}
-    action={{
-      text: 'All applications',
-      href: '/applications',
-    }}
-    footer={
-      <Typography variant="body2" textAlign="center" py={2}>
-        Don't see the app you're looking for?{' '}
-        <Link
-          variant="body2"
-          component="a"
-          color="primary"
-          href={urls.app.contact}
-          underline="hover"
-        >
-          Request it here.
-        </Link>
-      </Typography>
-    }
-  >
-    <Flex column centered gap={4}>
-      <Flex column centered gap={1}>
-        <Typography fontWeight={900} variant="caption">
-          See more apps
+export const IntegrationsSection: FC = () => {
+  const { isTablet } = useLayout();
+
+  return (
+    <MarketingSection
+      title="Integrate with your favorite apps"
+      description={`One API to rule them all! And by them, we mean your favorite apps.`}
+      action={{
+        text: 'All applications',
+        href: '/applications',
+      }}
+      footer={
+        <Typography variant="body2" textAlign="center" py={2}>
+          Don't see the app you're looking for?{' '}
+          <Link
+            variant="body2"
+            component="a"
+            color="primary"
+            href={urls.app.contact}
+            underline="hover"
+          >
+            Request it here.
+          </Link>
         </Typography>
-        <Flex gap={0} wrap centered px={10}>
-          {letters.map((letter) => (
-            <TinyButton
-              key={letter}
-              href={urls.app.applications}
-              sx={{ px: 1, py: 0, m: 0 }}
-            >
-              <Typography variant="body2" color="text.secondary" key={letter}>
-                {letter}
-              </Typography>
-            </TinyButton>
+      }
+    >
+      <Flex column centered gap={4}>
+        {!isTablet && (
+          <Flex column centered gap={1}>
+            <Typography fontWeight={900} variant="caption">
+              See more apps
+            </Typography>
+            <Flex gap={0} wrap centered px={10}>
+              {letters.map((letter) => (
+                <TinyButton
+                  key={letter}
+                  href={urls.app.applications}
+                  sx={{ px: 1, py: 0, m: 0 }}
+                >
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    key={letter}
+                  >
+                    {letter}
+                  </Typography>
+                </TinyButton>
+              ))}
+            </Flex>
+          </Flex>
+        )}
+        <Flex centered wrap gap={3} pt={2}>
+          {featuredIntegrations.map((integration) => (
+            <IntegrationItem key={integration.id} {...integration} />
           ))}
         </Flex>
       </Flex>
-      <Flex centered wrap gap={3} pt={2}>
-        {featuredIntegrations.map((integration) => (
-          <IntegrationItem key={integration.id} {...integration} />
-        ))}
-      </Flex>
-    </Flex>
-  </MarketingSection>
-);
+    </MarketingSection>
+  );
+};
 
 const featuredIntegrations = [
   {

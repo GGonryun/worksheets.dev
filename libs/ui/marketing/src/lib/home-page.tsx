@@ -1,12 +1,12 @@
 import { Flex } from '@worksheets/ui-core';
 import { Container, Divider } from '@mui/material';
-import { HeroSection } from './hero-section';
 import { UserTestimonialsSection } from './user-testimonials-section';
 import { IntegrationsSection } from './integrations-section';
 import { DeveloperToolsSection } from './developer-tools-section';
 import { UseCasesSection } from './use-cases-section';
 import { GetStartedSection } from './get-started-section';
 import { BlogArticlesSection } from './blog-articles-section';
+import { HeroSection } from './hero-section';
 
 /* eslint-disable-next-line */
 export interface HomePageProps {}

@@ -29,18 +29,25 @@ export const GamesPage = () => {
           subtitle={`We've partnered with [Water.org](${urls.external.waterOrg}) and [Charity: Water](${urls.external.charityWater}) to help provide clean water to struggling people around the world.`}
           features={[
             {
+              color: featureColors.yellow,
+              title: 'Puzzle Words',
+              subtitle: 'A puzzle game that helps you learn new words.',
+              src: '/games/puzzle-words.png',
+              href: urls.games.puzzleWords,
+            },
+            {
+              color: featureColors.blue,
+              title: 'Word Search',
+              subtitle: 'Find and highlight words in a grid of letters.',
+              src: '/games/word-search.svg',
+              href: urls.games.wordSearch,
+            },
+            {
               color: featureColors.purple,
               title: 'Emoji War',
               subtitle: 'A fast-paced, multiplayer, emoji-themed game.',
               src: '/games/emoji-war.png',
               href: urls.games.emojiWar,
-            },
-            {
-              color: featureColors.yellow,
-              title: 'Puzzle Words',
-              subtitle: 'A word search game that helps you learn new words.',
-              src: '/games/puzzle-words.png',
-              href: urls.games.puzzleWords,
             },
           ]}
         />
@@ -51,9 +58,9 @@ export const GamesPage = () => {
             {
               beta: true,
               color: featureColors.red,
-              title: 'Chess Kata',
+              title: 'Dungeon Kata',
               subtitle: 'A multiplayer chess game, with a twist.',
-              src: '/games/chess-kata.png',
+              src: '/games/dungeon-kata.png',
             },
           ]}
         />

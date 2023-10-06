@@ -54,6 +54,10 @@ export const SERVER_SETTINGS = {
       (process.env['PUZZLE_WORDS_BASE_URL'] ??
         process.env['NEXT_PUBLIC_PUZZLE_WORDS_BASE_URL'] ??
         '') + route,
+    WORD_SEARCH_URL: (route = '') =>
+      (process.env['WORD_SEARCH_BASE_URL'] ??
+        process.env['NEXT_PUBLIC_WORD_SEARCH_BASE_URL'] ??
+        '') + route,
   },
   HANDSHAKE_EXPIRATION_OFFSET: 5 * 60 * 1000, // expire handshakes older than 5 minutes in ms
   RESOURCE_REPLENISH_QUANTITY: 100, //replenishes every threshold minutes.

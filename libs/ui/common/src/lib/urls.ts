@@ -59,6 +59,7 @@ export const urls = {
   games: {
     emojiWar: SERVER_SETTINGS.WEBSITES.EMOJI_WAR_URL(),
     puzzleWords: SERVER_SETTINGS.WEBSITES.PUZZLE_WORDS_URL(),
+    wordSearch: SERVER_SETTINGS.WEBSITES.WORD_SEARCH_URL(),
   },
   external: {
     waterOrg: 'https://water.org',
