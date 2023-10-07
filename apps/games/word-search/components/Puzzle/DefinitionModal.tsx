@@ -27,9 +27,11 @@ export const DefinitionModal: FC<{
             <Typography variant="h5" fontWeight={900}>
               {word}
             </Typography>
-            <IconButton onClick={playAudio}>
-              <VolumeUp />
-            </IconButton>
+            {definition?.audio && (
+              <IconButton onClick={playAudio}>
+                <VolumeUp />
+              </IconButton>
+            )}
           </Flex>
           <IconButton size="small" onClick={onClose}>
             <Close fontSize="large" />
