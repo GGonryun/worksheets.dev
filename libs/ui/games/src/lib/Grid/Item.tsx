@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { FC, ReactNode } from 'react';
-import { ViewportEventHandler } from '../../types';
+import { ViewportEventHandler } from '../util';
 
 export const Item: FC<{
   children: ReactNode;

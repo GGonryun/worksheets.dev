@@ -1,6 +1,7 @@
 import { FC, ReactNode } from 'react';
 
 import { Box } from '@mui/material';
+import { borderRadius, boxShadow } from '../../util';
 
 export const PuzzleLayout: FC<{
   grid: ReactNode;
@@ -37,6 +38,9 @@ export const PuzzleLayout: FC<{
               userSelect: 'none',
               touchAction: 'none',
               position: 'relative',
+              backgroundColor: 'white',
+              borderRadius,
+              boxShadow,
             }}
           >
             {grid}

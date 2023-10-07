@@ -1,8 +1,8 @@
 import { useLocalStorage } from '@worksheets/ui-core';
 import { createMap } from '@worksheets/util/arrays';
 import { puzzles } from '../puzzles';
-import { Pair } from '../types';
 import { createPuzzle } from '../util';
+import { Pair } from '@worksheets/ui-games';
 
 export const usePuzzle = () => {
   const [water, setWater, loadingWater, clearWater] = useLocalStorage<number>(

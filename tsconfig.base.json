@@ -124,6 +124,8 @@
       "@worksheets/ui-charity": ["libs/ui/charity/src/index.ts"],
       "@worksheets/ui-charity/server": ["libs/ui/charity/src/server.ts"],
       "@worksheets/ui-core": ["libs/ui/core/src/index.ts"],
+      "@worksheets/ui-games": ["libs/ui/games/src/index.ts"],
+      "@worksheets/ui-games/server": ["libs/ui/games/src/server.ts"],
       "@worksheets/ui-projects": ["libs/ui/projects/src/index.ts"],
       "@worksheets/ui-projects/server": ["libs/ui/projects/src/server.ts"],
       "@worksheets/ui/applications": ["libs/ui/applications/src/index.ts"],

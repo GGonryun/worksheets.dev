@@ -1,15 +1,16 @@
 import { PanHandlers } from 'framer-motion';
 import { useState } from 'react';
-import { Registry, Pair } from '../types';
+import { useDistances } from './useDistances';
 import {
-  getTrackLine,
+  Registry,
+  Pair,
   indexToColumn,
   indexToRow,
-  indexToTrack,
   isOnTrack,
+  indexToTrack,
+  getTrackLine,
   trackToIndex,
-} from '../util';
-import { useDistances } from './useDistances';
+} from '@worksheets/ui-games';
 
 export const usePlayer = (
   words: string[],

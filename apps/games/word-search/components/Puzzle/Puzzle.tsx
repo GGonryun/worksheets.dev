@@ -1,5 +1,3 @@
-import { getCenter } from '../../util';
-import { Grid, Item } from '../Grid';
 import { PuzzleLayout } from './PuzzleLayout';
 import { SelectionLine } from './SelectionLine';
 import { Typography } from '@mui/material';
@@ -13,6 +11,7 @@ import { usePlayer } from '../../hooks/usePlayer';
 import { usePuzzle } from '../../hooks/usePuzzle';
 import { MenuButton } from '../MainMenu/MenuButton';
 import { DefinitionModal } from './DefinitionModal';
+import { Grid, Item, getCenter } from '@worksheets/ui-games';
 
 export type PuzzleProps = ReturnType<typeof usePlayer> &
   ReturnType<typeof useGrid> &

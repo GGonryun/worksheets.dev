@@ -1,5 +1,5 @@
+import { Registry, Rectangle } from '@worksheets/ui-games';
 import { useState } from 'react';
-import { Registry, Rectangle } from '../types';
 
 export const useGrid = () => {
   const [registry, setRegistry] = useState<Registry>({});

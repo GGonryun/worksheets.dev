@@ -1,5 +1,5 @@
+import { Registry } from '@worksheets/ui-games';
 import { Point } from 'framer-motion';
-import { Registry } from '../types';
 
 export const useDistances = (registry: Registry) => {
   const calculateDistances = (point: Point): Record<number, number> => {

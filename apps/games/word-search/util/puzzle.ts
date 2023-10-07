@@ -1,16 +1,16 @@
 import {
+  Direction,
+  alphabet,
+  directionToTrack,
+  directions,
+  indexToTrack,
+  trackToIndex,
+} from '@worksheets/ui-games';
+import {
   arrayFromLength,
   selectRandomItem,
   shuffleArray,
 } from '@worksheets/util/arrays';
-import {
-  directions,
-  Direction,
-  directionToTrack,
-  indexToTrack,
-  trackToIndex,
-  alphabet,
-} from '.';
 
 export type Entry = {
   word: string;

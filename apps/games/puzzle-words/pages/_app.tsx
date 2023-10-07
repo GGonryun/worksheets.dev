@@ -1,8 +1,8 @@
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 import './styles.css';
-import { createTheme, ThemeProvider } from '@mui/material';
 import styles from './index.module.scss';
+import { createTheme, ThemeProvider } from '@mui/material';
 import localFont from 'next/font/local';
 import * as FullStory from '@fullstory/browser';
 import { SERVICE_SETTINGS } from '@worksheets/data-access/server-settings';
