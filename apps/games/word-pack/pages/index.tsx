@@ -10,7 +10,7 @@ const t = true,
   f = false;
 
 export function Index() {
-  const seed = 0;
+  const seed = 1;
 
   const layout1 = [
     [t, t, t, f, f],
@@ -68,7 +68,9 @@ export function Index() {
   const slots = findSlots(layout);
   fillSlots(slots, testDictionary);
 
+  slots.down[0].constrain({ 3: ['rod'] });
   const g = constrainSlots(slots);
+  console.log('results', g);
 
   const props = {
     layout,

@@ -154,7 +154,8 @@ export const constrainSlots = (slots: WordSlots) => {
       } else {
         console.info('reduced possibilities for', [left, right]);
         // repeat the process with the slots flipped.
-        // worklist.push([right, left]);
+        worklist.unshift([right, left]);
+        worklist.unshift([left, right]);
       }
     }
   }
@@ -168,7 +169,6 @@ const reduce = (left: Slot, right: Slot) => {
   let reduced = false;
   for (let i = 0; i < left.possibilities.length; i++) {
     const leftWord = left.possibilities[i];
-    console.log('checking', leftWord);
     let satisfies = false;
     for (let j = 0; j < right.possibilities.length; j++) {
       const rightWord = right.possibilities[j];
