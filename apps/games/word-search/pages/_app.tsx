@@ -4,6 +4,12 @@ import './styles.css';
 import { useVersion } from '@worksheets/ui-core';
 import { APP_VERSION } from '../util';
 import { UpdateGameModal } from '../components/UpdateGameModal';
+import { SERVER_SETTINGS } from '@worksheets/data-access/server-settings';
+import { verifier } from '../puzzles/verifier';
+
+if (!SERVER_SETTINGS.ENVIRONMENT.IS_PRODUCTION()) {
+  verifier();
+}
 
 function CustomApp({ Component, pageProps }: AppProps) {
   const { requiresUpdate, update, ignore } = useVersion(APP_VERSION);

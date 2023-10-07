@@ -25,7 +25,7 @@ export const createPuzzle = (
   columns: number,
   rows: number
 ) => {
-  const grid = fillGrid(words, columns, rows);
+  const grid = fillGrid(shuffleArray(words), columns, rows);
 
   if (!grid) throw new Error('Failed to create puzzle.');
   // fill all empty spaces with random letters.
@@ -45,6 +45,7 @@ const fillGrid = (words: string[], columns: number, rows: number) => {
   // create the first word in the puzzle.
   const stack: Entry[] = [
     {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       word: remaining.shift()!,
       grid: arrayFromLength(size).map(() => ''),
       // keep track of all the possible indicies that the word can be placed.
@@ -53,7 +54,7 @@ const fillGrid = (words: string[], columns: number, rows: number) => {
     },
   ];
 
-  let attempts = 100000;
+  let attempts = 3000000;
   while (attempts-- > 0) {
     const current = stack[0];
     // console.log('current word: ', current.word);
@@ -68,7 +69,6 @@ const fillGrid = (words: string[], columns: number, rows: number) => {
     }
 
     const direction = current.directions.shift();
-    // console.log('current direction: ', direction);
     if (!direction) {
       // console.log('no directions left, try a new position');
       current.positions.shift();
@@ -89,11 +89,16 @@ const fillGrid = (words: string[], columns: number, rows: number) => {
     // if we placed the word, remove it from the remaining words.
     if (!remaining.length) return grid;
     stack.unshift({
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       word: remaining.shift()!,
       grid,
       positions: shuffleArray(arrayFromLength(size).map((_, i) => i)),
       directions: shuffleArray([...directions]),
     });
+  }
+
+  if (attempts <= 0) {
+    throw new Error('Failed to create puzzle. Too many attempts were made.');
   }
 
   return stack[0].grid;

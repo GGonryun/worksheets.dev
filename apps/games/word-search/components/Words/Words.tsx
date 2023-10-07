@@ -8,6 +8,10 @@ export type WordsProps = {
 };
 
 export const Words: FC<WordsProps> = ({ words, matches }) => {
+  // sort words. alphabetically, then by length
+  words.sort((a, b) => {
+    return a.localeCompare(b);
+  });
   return (
     <Flex fill centered wrap>
       {words.map((word) => (

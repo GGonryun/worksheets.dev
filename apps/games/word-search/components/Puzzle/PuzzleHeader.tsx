@@ -7,11 +7,16 @@ import { Word } from '../Words';
 import { FC } from 'react';
 
 export type PuzzleHeaderProps = {
+  level: number;
   onBack: () => void;
   onReport: () => void;
 };
 
-export const PuzzleHeader: FC<PuzzleHeaderProps> = ({ onBack, onReport }) => {
+export const PuzzleHeader: FC<PuzzleHeaderProps> = ({
+  level,
+  onBack,
+  onReport,
+}) => {
   const { push } = useRouter();
   const theme = useTheme();
   const iconProps: SvgIconProps = {
@@ -27,7 +32,7 @@ export const PuzzleHeader: FC<PuzzleHeaderProps> = ({ onBack, onReport }) => {
         <IconButton disableRipple onClick={onBack}>
           <ArrowBack {...iconProps} />
         </IconButton>
-        <Word onClick={() => push(urls.home())}>Puzzle #1</Word>
+        <Word onClick={() => push(urls.home())}>Puzzle #{level}</Word>
         <IconButton disableRipple onClick={onReport}>
           <ReportOutlined {...iconProps} />
         </IconButton>

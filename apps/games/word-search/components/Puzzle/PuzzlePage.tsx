@@ -42,6 +42,7 @@ export const PuzzlePage: FC = () => {
       <Layout
         header={
           <PuzzleHeader
+            level={puzzle.level + 1}
             onBack={() => push(urls.home())}
             onReport={() => setShowReport(true)}
           />
