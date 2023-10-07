@@ -13,7 +13,7 @@ import Confetti from 'react-confetti';
 import { ReportBugModal } from './ReportBugModal';
 
 export const PuzzlePage: FC = () => {
-  const { push } = useRouter();
+  const { push, reload } = useRouter();
   const [width, height] = useWindowSize();
 
   const puzzle = usePuzzle();
@@ -34,6 +34,11 @@ export const PuzzlePage: FC = () => {
   const resizing = useResizing(1000);
   if (resizing) return null;
 
+  const handleNextLevel = () => {
+    puzzle.loadNext();
+    reload();
+  };
+
   return (
     <>
       {puzzle.isComplete && (
@@ -52,10 +57,7 @@ export const PuzzlePage: FC = () => {
             {...player}
             {...grid}
             {...puzzle}
-            onNextLevel={() => {
-              setIgnore(false);
-              puzzle.loadNext();
-            }}
+            onNextLevel={handleNextLevel}
           />
         }
       />
@@ -67,7 +69,7 @@ export const PuzzlePage: FC = () => {
         open={!ignore && puzzle.isComplete}
         onClose={() => setIgnore(true)}
         onMenu={() => push(urls.home())}
-        onContinue={puzzle.loadNext}
+        onContinue={handleNextLevel}
       />
     </>
   );

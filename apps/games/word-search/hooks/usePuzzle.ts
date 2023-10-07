@@ -5,24 +5,32 @@ import { Pair } from '../types';
 import { createPuzzle } from '../util';
 
 export const usePuzzle = () => {
-  const [water, setWater, , clearWater] = useLocalStorage<number>('water', 0);
-  const [level, setLevel, , clearLevel] = useLocalStorage<number>('level', -1);
-  const [words, setWords, , clearWords] = useLocalStorage<string[]>(
+  const [water, setWater, loadingWater, clearWater] = useLocalStorage<number>(
+    'water',
+    0
+  );
+  const [level, setLevel, loadingLevel, clearLevel] = useLocalStorage<number>(
+    'level',
+    -1
+  );
+  const [words, setWords, loadingWords, clearWords] = useLocalStorage<string[]>(
     'words',
     []
   );
-  const [size, setSize, , clearSize] = useLocalStorage<{
+  const [size, setSize, loadingSize, clearSize] = useLocalStorage<{
     rows: number;
     columns: number;
   }>('size', { rows: 0, columns: 0 });
-  const [letters, setLetters, , clearLetters] = useLocalStorage<string[]>(
-    'puzzle',
-    []
-  );
-  const [matches, setMatches, , clearMatches] = useLocalStorage<
+  const [letters, setLetters, loadingLetters, clearLetters] = useLocalStorage<
+    string[]
+  >('puzzle', []);
+  const [matches, setMatches, loadingMatches, clearMatches] = useLocalStorage<
     Record<string, number>
   >('matches', {});
-  const [lines, setLines, , clearLines] = useLocalStorage<Pair[]>('pairs', []);
+  const [lines, setLines, loadingLines, clearLines] = useLocalStorage<Pair[]>(
+    'pairs',
+    []
+  );
 
   const isComplete =
     Object.values(matches).filter((m) => m).length === words.length;
@@ -64,6 +72,15 @@ export const usePuzzle = () => {
     clearLines();
   };
 
+  const loading = [
+    loadingWater,
+    loadingLevel,
+    loadingWords,
+    loadingSize,
+    loadingLetters,
+    loadingMatches,
+    loadingLines,
+  ].some((l) => l);
   return {
     loadNext,
     load,
@@ -74,6 +91,7 @@ export const usePuzzle = () => {
     columns: size.columns,
     level,
     letters,
+    loading,
     matches,
     lines,
     isComplete,
