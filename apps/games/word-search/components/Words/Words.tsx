@@ -3,11 +3,12 @@ import { FC } from 'react';
 import { Word } from './Word';
 
 export type WordsProps = {
+  onDefine: (word: string) => void;
   words: string[];
   matches: Record<string, number>;
 };
 
-export const Words: FC<WordsProps> = ({ words, matches }) => {
+export const Words: FC<WordsProps> = ({ onDefine, words, matches }) => {
   // sort words. alphabetically, then by length
   words.sort((a, b) => {
     return a.localeCompare(b);
@@ -15,13 +16,7 @@ export const Words: FC<WordsProps> = ({ words, matches }) => {
   return (
     <Flex fill centered wrap>
       {words.map((word) => (
-        <Word
-          found={matches[word]}
-          key={word}
-          onClick={() => {
-            alert(`clicked word ${word}`);
-          }}
-        >
+        <Word found={matches[word]} key={word} onClick={() => onDefine(word)}>
           {word}
         </Word>
       ))}

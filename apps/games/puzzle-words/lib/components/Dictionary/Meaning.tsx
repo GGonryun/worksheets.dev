@@ -1,7 +1,7 @@
 import { Typography } from '@mui/material';
+import { WordMeaning } from '@worksheets/ui-charity';
 import { Flex } from '@worksheets/ui-core';
 import { FC } from 'react';
-import { WordMeaning } from '../../types';
 
 export type MeaningProps = {
   word: string;

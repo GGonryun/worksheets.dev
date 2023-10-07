@@ -4,7 +4,7 @@ import { PuzzleLayout } from './PuzzleLayout';
 import { SelectionLine } from './SelectionLine';
 import { Typography } from '@mui/material';
 import { Flex, useResizing } from '@worksheets/ui-core';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { useGrid } from '../../hooks/useGrid';
 import { LineSelectionsLayer } from './SelectionsLayer';
 import { TouchLayer } from './TouchLayer';
@@ -12,6 +12,7 @@ import { Words } from '../Words';
 import { usePlayer } from '../../hooks/usePlayer';
 import { usePuzzle } from '../../hooks/usePuzzle';
 import { MenuButton } from '../MainMenu/MenuButton';
+import { DefinitionModal } from './DefinitionModal';
 
 export type PuzzleProps = ReturnType<typeof usePlayer> &
   ReturnType<typeof useGrid> &
@@ -37,6 +38,7 @@ export const Puzzle: FC<PuzzleProps> = ({
   getSize,
 }) => {
   const resizing = useResizing(1000);
+  const [word, setWord] = useState<string>('');
 
   if (resizing) return null;
 
@@ -74,7 +76,11 @@ export const Puzzle: FC<PuzzleProps> = ({
         }
         words={
           <Flex column centered gap={1}>
-            <Words words={words} matches={matches} />
+            <Words
+              words={words}
+              matches={matches}
+              onDefine={(word) => setWord(word)}
+            />
             {isComplete && (
               <MenuButton onClick={onNextLevel}>Next Level</MenuButton>
             )}
@@ -88,6 +94,7 @@ export const Puzzle: FC<PuzzleProps> = ({
         from={getCenter(selection.start, registry)}
         to={getCenter(selection.closest, registry)}
       />
+      <DefinitionModal word={word} open={!!word} onClose={() => setWord('')} />
     </>
   );
 };

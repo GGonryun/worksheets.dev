@@ -54,7 +54,7 @@ export const JumpToPuzzle: FC<JumpToPuzzleProps> = ({ onJumpTo }) => {
         value={puzzle.toString()}
         onChange={handleChange}
         sx={{
-          '&.MuiNativeSelect-root': {
+          '.MuiNativeSelect-select': {
             pl: 1,
             pt: 0.5,
             border: '1px solid',

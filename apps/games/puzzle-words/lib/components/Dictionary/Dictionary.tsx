@@ -3,10 +3,10 @@ import { Modal } from '../Modal';
 import { Definition } from './Definition';
 import { Discovered } from '../../types';
 import { Flex } from '@worksheets/ui-core';
-import { useDefinition } from '../../hooks';
 import { CircularProgress, Divider } from '@mui/material';
 import { Header } from './Header';
 import { ErrorMessage } from './ErrorMessage';
+import { useDefinition } from '@worksheets/ui-charity';
 
 export type DictionaryProps = {
   define: string; // the word we want to dictionary to be set to.

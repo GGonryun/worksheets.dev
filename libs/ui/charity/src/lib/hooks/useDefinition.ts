@@ -1,5 +1,19 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect } from 'react';
-import { WordDefinition } from '../types';
+export type WordDefinition = {
+  pronounciation: string;
+  audio: string;
+  meanings: WordMeaning[];
+  source: string;
+};
+
+export type WordMeaning = {
+  partOfSpeech: string;
+  definitions: {
+    definition: string;
+    example?: string;
+  }[];
+};
 
 export const useDefinition = (word: string) => {
   const [wordDefinition, setWordDefinition] = useState<WordDefinition | null>(
@@ -62,8 +76,7 @@ const request = async (word: string) => {
 
 const definer = async (data: any): Promise<WordDefinition> => {
   const wordDefinition = data[0];
-  const pronounciation = wordDefinition.phonetic;
-  const audio = wordDefinition.phonetics[0].audio;
+  const { audio, pronounciation } = audibles(data);
   const meanings = wordDefinition.meanings.map((meaning: any) => {
     return {
       partOfSpeech: meaning.partOfSpeech,
@@ -84,4 +97,18 @@ const definer = async (data: any): Promise<WordDefinition> => {
     meanings,
     source,
   };
+};
+
+const audibles = (data: any): { audio: string; pronounciation: string } => {
+  for (const word of data) {
+    for (const phonetic of word.phonetics) {
+      if (phonetic.audio) {
+        const audio = phonetic.audio;
+        const pronounciation = phonetic.text;
+        return { audio, pronounciation };
+      }
+    }
+  }
+
+  return { audio: '', pronounciation: '' };
 };
