@@ -100,15 +100,18 @@ const definer = async (data: any): Promise<WordDefinition> => {
 };
 
 const audibles = (data: any): { audio: string; pronounciation: string } => {
+  let audio = '';
+  let pronounciation = '';
   for (const word of data) {
     for (const phonetic of word.phonetics) {
-      if (phonetic.audio) {
-        const audio = phonetic.audio;
-        const pronounciation = phonetic.text;
-        return { audio, pronounciation };
+      if (!audio && phonetic.audio) {
+        audio = phonetic.audio;
+      }
+      if (!pronounciation && phonetic.text) {
+        pronounciation = phonetic.text;
       }
     }
   }
 
-  return { audio: '', pronounciation: '' };
+  return { audio, pronounciation };
 };

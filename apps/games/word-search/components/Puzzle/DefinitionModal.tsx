@@ -23,10 +23,15 @@ export const DefinitionModal: FC<{
     <Modal open={open} onClose={onClose}>
       <Flex column p={2} grow>
         <Flex spaceBetween fullWidth pb={1}>
-          <Flex gap={1}>
+          <Flex gap={1.5}>
             <Typography variant="h5" fontWeight={900}>
               {word}
             </Typography>
+            {definition?.pronounciation && (
+              <Typography variant="h6" color="text.secondary">
+                {definition.pronounciation}
+              </Typography>
+            )}
             {definition?.audio && (
               <IconButton onClick={playAudio}>
                 <VolumeUp />
