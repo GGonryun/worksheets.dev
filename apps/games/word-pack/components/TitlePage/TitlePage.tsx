@@ -1,10 +1,6 @@
 import { FC, useState } from 'react';
-import { MainMenuHeader } from './MainMenuHeader';
 import { urls } from '../../util';
-import { MainMenuFooter } from './MainMenuFooter';
 import { useRouter } from 'next/router';
-import { usePuzzle } from '../../hooks/usePuzzle';
-import { MainMenuContent } from './MainMenuContent';
 import {
   DonateWaterModal,
   MobileLayout,
@@ -13,22 +9,28 @@ import {
   backgroundColor,
 } from '@worksheets/ui-games';
 import { useTheme } from '@mui/material';
-import { puzzles } from '../../puzzles';
+import { TitleContent } from './TitleContent';
+import { useSavedPuzzle, useSavedSelections } from '../../hooks/useSaveData';
+import { MainMenuHeader } from './TitleHeader';
+import { MainMenuFooter } from './TitleFooter';
+import { usePlayer } from '../../hooks/usePlayer';
 
-export const MainMenu: FC = () => {
+export const TitlePage: FC = () => {
   const { push, reload } = useRouter();
   const theme = useTheme();
   const [showMission, setShowMission] = useState(false);
   const [showDonate, setShowDonate] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
-  const puzzle = usePuzzle();
+  const puzzleState = useSavedPuzzle();
+  const selectionsState = useSavedSelections();
+  const playerState = usePlayer();
 
   const handleStart = () => {
     // if the level is less than 0, then we need to start at the beginning
-    push(urls.puzzle());
-    if (puzzle.level < 0) {
-      puzzle.load(0);
+    if (puzzleState.level < 0) {
+      puzzleState.cacheLevel(0);
     }
+    push(urls.puzzle());
   };
 
   return (
@@ -36,10 +38,14 @@ export const MainMenu: FC = () => {
       <MobileLayout
         backgroundColor={backgroundColor(theme)}
         content={
-          <MainMenuContent
-            gameOver={puzzle.isGameOver}
-            water={puzzle.water}
-            level={puzzle.level + 1}
+          <TitleContent
+            gameOver={
+              puzzleState.level > puzzleState.maxLevel ||
+              (puzzleState.level === puzzleState.maxLevel &&
+                puzzleState.complete)
+            }
+            water={puzzleState.water}
+            level={puzzleState.level + 1}
             onDonate={() => setShowDonate(true)}
             onStart={handleStart}
             onSettings={() => setShowSettings(true)}
@@ -62,16 +68,19 @@ export const MainMenu: FC = () => {
         onClose={() => setShowDonate(false)}
       />
       <SettingsModal
-        options={puzzles.map((p, i) => ({ id: i, label: p.words[0] }))}
         open={showSettings}
+        options={puzzleState.labels}
         onClose={() => setShowSettings(false)}
         onJumpTo={(level) => {
-          puzzle.load(level);
+          puzzleState.cacheLevel(level);
+          selectionsState.clearSelections();
           alert(`Loaded puzzle ${level + 1}, reloading...`);
           reload();
         }}
         onReset={() => {
-          puzzle.reset();
+          puzzleState.clear();
+          selectionsState.clearSelections();
+          playerState.clear();
           alert('Progress reset, reloading...');
           reload();
         }}

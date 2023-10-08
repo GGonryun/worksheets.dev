@@ -18,6 +18,7 @@ export const Cell: FC<{
         flexGrow: 1,
         alignItems: 'center',
         justifyContent: 'center',
+        userSelect: 'none',
         ...style,
       }}
     >

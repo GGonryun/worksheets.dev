@@ -57,12 +57,10 @@ const fillGrid = (words: string[], columns: number, rows: number) => {
   let attempts = 3000000;
   while (attempts-- > 0) {
     const current = stack[0];
-    // console.log('current word: ', current.word);
     if (current == null) return undefined;
 
     const position = current.positions[0];
     if (position == null) {
-      // console.log('no positions left, try a new word');
       stack.shift();
       remaining.unshift(current.word);
       continue;
@@ -70,7 +68,6 @@ const fillGrid = (words: string[], columns: number, rows: number) => {
 
     const direction = current.directions.shift();
     if (!direction) {
-      // console.log('no directions left, try a new position');
       current.positions.shift();
       current.directions = shuffleArray([...directions]);
       continue;

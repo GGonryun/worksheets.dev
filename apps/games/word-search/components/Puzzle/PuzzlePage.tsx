@@ -4,12 +4,16 @@ import { PuzzleHeader } from './PuzzleHeader';
 import { Puzzle } from './Puzzle';
 import { usePlayer } from '../../hooks/usePlayer';
 import { usePuzzle } from '../../hooks/usePuzzle';
-import { PuzzleCompleteModal } from './PuzzleCompleteModal';
 import { useRouter } from 'next/router';
 import { urls } from '../../util';
 import Confetti from 'react-confetti';
-import { ReportBugModal } from './ReportBugModal';
-import { MobileLayout, backgroundColor, useGrid } from '@worksheets/ui-games';
+import {
+  MobileLayout,
+  PuzzleCompleteModal,
+  ReportBugModal,
+  backgroundColor,
+  useGrid,
+} from '@worksheets/ui-games';
 import { useTheme } from '@mui/material';
 
 export const PuzzlePage: FC = () => {

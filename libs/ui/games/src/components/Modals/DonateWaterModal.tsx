@@ -1,8 +1,9 @@
 import { FC } from 'react';
-import { Modal, ModalHeader } from '@worksheets/ui-games';
 import { Flex } from '@worksheets/ui-core';
 import { Divider } from '@mui/material';
 import { DonateWaterText } from '@worksheets/ui-charity';
+import { Modal } from '../Modal/Modal';
+import { ModalHeader } from '../Modal/ModalHeader';
 
 export const DonateWaterModal: FC<{ open: boolean; onClose: () => void }> = ({
   open,

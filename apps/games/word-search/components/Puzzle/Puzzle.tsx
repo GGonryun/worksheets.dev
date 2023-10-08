@@ -7,7 +7,6 @@ import { TouchLayer } from './TouchLayer';
 import { Words } from '../Words';
 import { usePlayer } from '../../hooks/usePlayer';
 import { usePuzzle } from '../../hooks/usePuzzle';
-import { MenuButton } from '../MainMenu/MenuButton';
 import { DefinitionModal } from './DefinitionModal';
 import {
   Grid,
@@ -17,6 +16,7 @@ import {
   useGrid,
   borderRadius,
   boxShadow,
+  MenuButton,
 } from '@worksheets/ui-games';
 
 export type PuzzleProps = ReturnType<typeof usePlayer> &

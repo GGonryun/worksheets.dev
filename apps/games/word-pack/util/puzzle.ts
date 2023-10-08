@@ -1,5 +1,6 @@
 import { Direction, Track } from '@worksheets/ui-games';
 import { shuffleArray } from '@worksheets/util/arrays';
+import { Level } from '../puzzles';
 
 export type Entry = {
   word: string;
@@ -76,7 +77,7 @@ export class Slot {
 
   constrain(dictionary: DictionaryByLength) {
     const words = dictionary[this.length] ?? [];
-    this.possibilities = [...words];
+    this.possibilities = shuffleArray([...words]);
   }
 
   constrainSingle(word: string) {
@@ -86,6 +87,38 @@ export class Slot {
     }
 
     this.possibilities = [word];
+  }
+
+  next(track: Track): Track | undefined {
+    // if the track is not in the slot, return undefined
+    if (!this.includes(track)) return undefined;
+    // pick the next track in the slot.
+    let next = undefined;
+    if (this.direction === 'down') {
+      next = { row: track.row + 1, column: track.column };
+    } else if (this.direction === 'right') {
+      next = { row: track.row, column: track.column + 1 };
+    } else {
+      throw new Error('invalid direction');
+    }
+    // if the next track is not in the slot, return undefined
+    if (!this.includes(next)) return undefined;
+    // otherwise return the next track
+    return next;
+  }
+
+  prev(track: Track): Track | undefined {
+    if (!this.includes(track)) return undefined;
+    let prev = undefined;
+    if (this.direction === 'down') {
+      prev = { row: track.row - 1, column: track.column };
+    } else if (this.direction === 'right') {
+      prev = { row: track.row, column: track.column - 1 };
+    } else {
+      throw new Error('invalid direction');
+    }
+    if (!this.includes(prev)) return undefined;
+    return prev;
   }
 
   cells(): Track[] {
@@ -112,6 +145,27 @@ export class Slot {
   includes(track: Track): boolean {
     return this.cells().some(
       (cell) => cell.row === track.row && cell.column === track.column
+    );
+  }
+
+  serialize(slot: Slot): string {
+    return JSON.stringify({
+      grid: slot.grid,
+      direction: slot.direction,
+      row: slot.row,
+      column: slot.column,
+      possibilities: slot.possibilities,
+    });
+  }
+
+  static deserialize(serialized: string): Slot {
+    const serializedSlot = JSON.parse(serialized);
+    return new Slot(
+      serializedSlot.grid,
+      serializedSlot.direction,
+      serializedSlot.row,
+      serializedSlot.column,
+      serializedSlot.possibilities
     );
   }
 }
@@ -220,6 +274,25 @@ export class WordSlots {
 
   words(): string[] {
     return this.spread().flatMap((slot) => slot.possibilities);
+  }
+
+  serialize(slots: WordSlots): string {
+    return JSON.stringify({
+      down: slots.down.map((slot) => slot.serialize(slot)),
+      right: slots.right.map((slot) => slot.serialize(slot)),
+    });
+  }
+
+  static deserialize(serialized: string): WordSlots {
+    const serializedSlots = JSON.parse(serialized);
+    const slots = new WordSlots();
+    slots.down = serializedSlots.down.map((slot: string) =>
+      Slot.deserialize(slot)
+    );
+    slots.right = serializedSlots.right.map((slot: string) =>
+      Slot.deserialize(slot)
+    );
+    return slots;
   }
 }
 
@@ -470,10 +543,17 @@ export const solvePuzzle = (options: PuzzleSolverOptions) => {
   }
 };
 
-export const generatePuzzle = (
-  layout: boolean[][],
-  dictionary: DictionaryByLength
-) => {
+export type GeneratedPuzzle = {
+  id: number;
+  title: string;
+  slots: WordSlots;
+  grid: string[][];
+  layout: boolean[][];
+};
+
+export const generatePuzzle = (id: number, puzzle: Level): GeneratedPuzzle => {
+  const { title, layout, dictionary } = puzzle;
+
   const slots = findSlots(layout);
   slots.fill(dictionary);
   const initialConstraints = constrainSlots(slots);
@@ -487,9 +567,10 @@ export const generatePuzzle = (
     if (!solution) {
       throw Error('failed to create puzzle, no solution found');
     } else {
-      // console.log('solution found', solution);
       return {
-        raw: slots,
+        id,
+        title: title,
+        layout: layout,
         slots: solution,
         grid: convertToGrid(layout, solution),
       };
@@ -522,4 +603,68 @@ const convertToGrid = (layout: boolean[][], slots: WordSlots): string[][] => {
   }
 
   return grid;
+};
+
+export const serializePuzzle = (puzzle: GeneratedPuzzle): string => {
+  const { id, title, grid, layout, slots } = puzzle;
+  const serialized = {
+    id,
+    title,
+    grid,
+    layout,
+    slots: slots.serialize(slots),
+  };
+  return JSON.stringify(serialized);
+};
+
+export const deserializePuzzle = (string: string): GeneratedPuzzle => {
+  const { id, title, grid, layout, slots } = JSON.parse(string);
+  return {
+    id,
+    title,
+    grid,
+    layout,
+    slots: WordSlots.deserialize(slots),
+  };
+};
+
+export const checkPuzzle = (slots: WordSlots, selections: string[][]) => {
+  // check if all the words have been placed
+  const target = slots.words();
+  const words = getWords(slots, selections);
+  if (target.length !== words.length) return false;
+  // make sure all the words match
+  for (const word of words) {
+    if (!target.includes(word)) return false;
+  }
+
+  return true;
+};
+
+export const getWords = (slots: WordSlots, selections: string[][]) => {
+  const words: string[] = [];
+  // check each slot's position against placements and push the word into the array
+  for (const down of slots.down) {
+    let letters = '';
+    for (let i = 0; i < down.length; i++) {
+      const row = selections[down.row + i];
+      if (selections[down.row + i]) {
+        letters += row[down.column] ?? '';
+      }
+    }
+    words.push(letters);
+  }
+
+  for (const right of slots.right) {
+    let letters = '';
+    for (let i = 0; i < right.length; i++) {
+      const row = selections[right.row];
+      if (row) {
+        letters += row[right.column + i] ?? '';
+      }
+    }
+    words.push(letters);
+  }
+
+  return words;
 };

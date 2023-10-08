@@ -3,14 +3,13 @@ import { motion } from 'framer-motion';
 import { useRouter } from 'next/router';
 import { urls } from '../../util';
 import { FC } from 'react';
-
 import { MenuButton, animate } from '@worksheets/ui-games';
 
-export type MainMenuFooterProps = {
+export type TitleFooterProps = {
   onShowMission: () => void;
 };
 
-export const MainMenuFooter: FC<MainMenuFooterProps> = ({ onShowMission }) => {
+export const MainMenuFooter: FC<TitleFooterProps> = ({ onShowMission }) => {
   const { push } = useRouter();
   return (
     <Flex fullWidth mx={'auto'} pb={2}>

@@ -4,7 +4,6 @@ export const useTemporaryModal = (delay: number) => {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    console.log('useTemporaryModal', open);
     const timeout = setTimeout(() => {
       setOpen(false);
     }, delay);
@@ -14,7 +13,6 @@ export const useTemporaryModal = (delay: number) => {
   }, [open, delay]);
 
   const onOpen = () => {
-    console.log('onOpen', true);
     setOpen(true);
   };
 

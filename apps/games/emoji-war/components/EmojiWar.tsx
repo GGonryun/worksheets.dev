@@ -73,7 +73,6 @@ export const EmojiWar = () => {
           difficulty={difficulty}
           onRestart={() => setRestart(false)}
           onGameOver={(slot) => {
-            console.log('game over', slot);
             setGameOver(slot);
           }}
           onExitGame={() => {

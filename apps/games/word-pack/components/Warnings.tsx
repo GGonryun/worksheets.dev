@@ -38,6 +38,7 @@ export const Warning: FC<{ open: boolean; children: ReactNode }> = ({
           }}
           style={{
             position: 'absolute',
+            zIndex: 100,
             top: 0,
             left: 0,
             right: 0,

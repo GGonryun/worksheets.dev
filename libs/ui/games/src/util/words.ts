@@ -1,5 +1,7 @@
-export const dictionary = [
+// this is a raw list of words, includes acronyms, proper nouns, etc.
+export const WORD_LIST = [
   'a',
+  'aah',
   'aardvark',
   'aardvarks',
   'ab',
@@ -7576,6 +7578,8 @@ export const dictionary = [
   'boysenberry',
   'bozo',
   'bozos',
+  'bpm',
+  'bps',
   'bra',
   'brace',
   'braced',
@@ -10918,6 +10922,8 @@ export const dictionary = [
   'chewing',
   'chews',
   'chewy',
+  'chg',
+  'chge',
   'chi',
   'chiaroscuro',
   'chic',
@@ -15174,6 +15180,9 @@ export const dictionary = [
   'cozily',
   'coziness',
   'cozy',
+  'cpd',
+  'cpl',
+  'cps',
   'crab',
   'crabbed',
   'crabber',
@@ -16667,8 +16676,13 @@ export const dictionary = [
   'dazzles',
   'dazzling',
   'dazzlingly',
+  'db',
+  'dbl',
+  'dc',
+  'dd',
   'dded',
   'dding',
+  'dds',
   'deacon',
   'deaconess',
   'deaconesses',
@@ -21461,12 +21475,14 @@ export const dictionary = [
   'ecstasy',
   'ecstatic',
   'ecstatically',
+  'ecu',
   'ecumenical',
   'ecumenically',
   'ecumenicism',
   'ecumenism',
   'ecus',
   'eczema',
+  'ed',
   'edamame',
   'eddied',
   'eddies',
@@ -32516,6 +32532,10 @@ export const dictionary = [
   'hoyden',
   'hoydenish',
   'hoydens',
+  'hp',
+  'hr',
+  'hrs',
+  'ht',
   'huarache',
   'huaraches',
   'hub',
@@ -33000,6 +33020,7 @@ export const dictionary = [
   'hysterical',
   'hysterically',
   'hysterics',
+  'i',
   'iPad',
   'iPhone',
   'iPod',
@@ -36055,9 +36076,11 @@ export const dictionary = [
   'irruptions',
   'irruptive',
   'irrupts',
+  'is',
   'ischemia',
   'ischemic',
   'isinglass',
+  'isl',
   'island',
   'islander',
   'islanders',
@@ -36834,6 +36857,10 @@ export const dictionary = [
   'juxtaposing',
   'juxtaposition',
   'juxtapositions',
+  'k',
+  'kHz',
+  'kW',
+  'kWh',
   'kabbalah',
   'kaboom',
   'kabuki',
@@ -58409,6 +58436,11 @@ export const dictionary = [
   'royals',
   'royalties',
   'royalty',
+  'rpm',
+  'rps',
+  'rs',
+  'rt',
+  'rte',
   'rub',
   'rubato',
   'rubatos',
@@ -77417,13 +77449,3 @@ export const dictionary = [
   'zygotic',
   'zymurgy',
 ];
-
-// pre-organize the dictionary by word length
-export const dictionaryByLength = dictionary.reduce((acc, word) => {
-  const length = word.length;
-  if (!acc[length]) {
-    acc[length] = [];
-  }
-  acc[length].push(word);
-  return acc;
-}, {} as Record<number, string[]>);

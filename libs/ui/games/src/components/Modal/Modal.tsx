@@ -7,9 +7,20 @@ import {
 } from '@mui/material';
 import { borderRadius } from '../../util';
 
-export type ModalProps = Pick<MuiModalProps, 'open' | 'onClose' | 'children'>;
+export type ModalProps = Pick<
+  MuiModalProps,
+  'open' | 'onClose' | 'children'
+> & {
+  maxWidth?: number;
+  maxHeight?: number;
+};
 
-export const Modal: FC<ModalProps> = ({ children, ...props }) => {
+export const Modal: FC<ModalProps> = ({
+  children,
+  maxWidth,
+  maxHeight,
+  ...props
+}) => {
   return (
     <MuiModal {...props}>
       <div>
@@ -18,8 +29,8 @@ export const Modal: FC<ModalProps> = ({ children, ...props }) => {
           sx={{
             borderRadius,
             position: 'absolute',
-            maxWidth: 450,
-            maxHeight: 450,
+            maxWidth: maxWidth ?? 450,
+            maxHeight: maxHeight ?? 450,
             display: 'flex',
             height: '90%',
             width: '90%',

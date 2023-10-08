@@ -1,22 +1,21 @@
 import { ChangeEventHandler, FC, useState } from 'react';
 import { Flex } from '@worksheets/ui-core';
-import {
-  Button,
-  Divider,
-  Modal,
-  NativeSelect,
-  Typography,
-} from '@mui/material';
+import { Button, Divider, NativeSelect, Typography } from '@mui/material';
 import { WarningAmber } from '@mui/icons-material';
-import { puzzles } from '../../puzzles';
-import { ModalHeader, borderRadius } from '@worksheets/ui-games';
+import { Modal, ModalHeader } from '../Modal';
+import { borderRadius } from '../../util';
 
+export type JumpToOption = {
+  id: number;
+  label: string;
+};
 export const SettingsModal: FC<{
   open: boolean;
+  options: JumpToOption[];
   onClose: () => void;
   onReset: () => void;
   onJumpTo: (puzzleId: number) => void;
-}> = ({ open, onClose, onReset, onJumpTo }) => {
+}> = ({ open, options, onClose, onReset, onJumpTo }) => {
   return (
     <Modal open={open} onClose={onClose}>
       <Flex column p={2} grow>
@@ -30,7 +29,7 @@ export const SettingsModal: FC<{
             </Typography>
             <WarningAmber color="error" />
           </Flex>
-          <JumpToPuzzle onJumpTo={onJumpTo} />
+          <JumpToPuzzle onJumpTo={onJumpTo} options={options} />
           <ResetProgress onReset={onReset} />
         </Flex>
       </Flex>
@@ -40,9 +39,10 @@ export const SettingsModal: FC<{
 
 type JumpToPuzzleProps = {
   onJumpTo: (puzzleId: number) => void;
+  options: JumpToOption[];
 };
 
-export const JumpToPuzzle: FC<JumpToPuzzleProps> = ({ onJumpTo }) => {
+export const JumpToPuzzle: FC<JumpToPuzzleProps> = ({ onJumpTo, options }) => {
   const [puzzle, setPuzzle] = useState(0);
 
   const handleChange: ChangeEventHandler<HTMLSelectElement> = (event) => {
@@ -66,9 +66,9 @@ export const JumpToPuzzle: FC<JumpToPuzzleProps> = ({ onJumpTo }) => {
           },
         }}
       >
-        {puzzles.map((p, i) => (
+        {options.map((p, i) => (
           <option key={i} value={i}>
-            Puzzle #{i + 1}: {p.words[0]}
+            Puzzle #{i + 1}: {p.label}
           </option>
         ))}
       </NativeSelect>

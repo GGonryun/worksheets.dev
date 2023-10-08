@@ -1,12 +1,19 @@
 import { Box } from '@mui/material';
 import { FC, ReactNode } from 'react';
 
-export const MobileLayout: FC<{
+export type MobileLayoutProps = {
   content: ReactNode;
   header: ReactNode;
   footer?: ReactNode;
   backgroundColor?: string;
-}> = ({ header, footer, content, backgroundColor }) => {
+};
+
+export const MobileLayout: FC<MobileLayoutProps> = ({
+  header,
+  footer,
+  content,
+  backgroundColor,
+}) => {
   return (
     <Box
       sx={{

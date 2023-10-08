@@ -3,7 +3,8 @@ import { Flex } from '@worksheets/ui-core';
 import { Divider } from '@mui/material';
 import { ReportForm } from '@worksheets/ui-charity';
 import { motion } from 'framer-motion';
-import { Modal, ModalHeader, animate } from '@worksheets/ui-games';
+import { Modal, ModalHeader } from '../Modal';
+import { animate } from '../../util';
 
 export const ReportBugModal: FC<{
   open: boolean;
