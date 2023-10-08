@@ -1,4 +1,4 @@
-import { Collapse, Divider, Typography } from '@mui/material';
+import { Divider, Typography } from '@mui/material';
 import { TinyLogo } from '@worksheets/ui-basic-style';
 import { Flex } from '@worksheets/ui-core';
 import { FC, useState } from 'react';
@@ -67,9 +67,6 @@ const features = [
 export const HeroSection: FC = () => {
   const [showMoreFeatures, setShowMoreFeatures] = useState(false);
   const { isTablet } = useLayout();
-  // if tablet split into 4/3 else split into 3/4
-  const primary = features.slice(0, isTablet ? 4 : 3);
-  const secondary = features.slice(isTablet ? 4 : 3);
 
   return (
     <Flex column gap={1} alignItems="center">
