@@ -1,10 +1,10 @@
 import { FC } from 'react';
 import { Flex } from '@worksheets/ui-core';
 import { Button, Link, Typography } from '@mui/material';
-import { urls } from '../../util';
 import Image from 'next/image';
 import { WaterDrop } from '@mui/icons-material';
-import { Modal, backgroundColor, borderRadius } from '@worksheets/ui-games';
+import { urls } from '../util';
+import { Modal } from '@worksheets/ui-games';
 
 export const PuzzleCompleteModal: FC<{
   water: number;
@@ -27,8 +27,7 @@ export const PuzzleCompleteModal: FC<{
             onClick={onContinue}
             disabled={gameOver}
             sx={{
-              borderRadius,
-              backgroundColor,
+              borderRadius: 3,
             }}
           >
             <Typography variant="h6">
@@ -39,8 +38,7 @@ export const PuzzleCompleteModal: FC<{
             variant="contained"
             onClick={onMenu}
             sx={{
-              borderRadius,
-              backgroundColor,
+              borderRadius: 3,
             }}
           >
             <Typography variant="body2">Main Menu</Typography>

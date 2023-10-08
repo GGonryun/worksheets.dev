@@ -3,6 +3,7 @@ import {
   Modal as MuiModal,
   ModalProps as MuiModalProps,
   Paper,
+  Theme,
 } from '@mui/material';
 import { borderRadius } from '../../util';
 

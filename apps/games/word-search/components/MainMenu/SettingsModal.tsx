@@ -1,10 +1,15 @@
 import { ChangeEventHandler, FC, useState } from 'react';
-import { Modal, ModalHeader } from '../Modal';
 import { Flex } from '@worksheets/ui-core';
-import { Button, Divider, NativeSelect, Typography } from '@mui/material';
-import { borderRadius } from '../../util';
+import {
+  Button,
+  Divider,
+  Modal,
+  NativeSelect,
+  Typography,
+} from '@mui/material';
 import { WarningAmber } from '@mui/icons-material';
 import { puzzles } from '../../puzzles';
+import { ModalHeader, borderRadius } from '@worksheets/ui-games';
 
 export const SettingsModal: FC<{
   open: boolean;

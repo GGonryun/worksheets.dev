@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { Flex } from '@worksheets/ui-core';
 import { Button, Divider, Typography } from '@mui/material';
-import { Modal, ModalHeader } from './Modal';
+import { Modal, ModalHeader } from '@worksheets/ui-games';
 
 export const UpdateGameModal: FC<{
   open: boolean;

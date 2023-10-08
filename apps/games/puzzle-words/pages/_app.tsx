@@ -11,6 +11,7 @@ import { UpdateVersionModal } from '../lib/components';
 import { useRouter } from 'next/router';
 import { APP_VERSION, UPDATE_BONUS } from '../lib/constants';
 import { useVersion } from '@worksheets/ui-core';
+import { MobileMeta } from '@worksheets/ui-games';
 
 if (typeof window !== 'undefined') {
   FullStory.init(SERVICE_SETTINGS.FULLSTORY);
@@ -34,8 +35,7 @@ function CustomApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <meta name="mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <MobileMeta />
         <title>Puzzle Words</title>
       </Head>
       <ThemeProvider theme={theme}>

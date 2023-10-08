@@ -1,5 +1,5 @@
-import { Registry, Rectangle } from '@worksheets/ui-games';
 import { useState } from 'react';
+import { Registry, Rectangle } from '../util';
 
 export const useGrid = () => {
   const [registry, setRegistry] = useState<Registry>({});
@@ -26,7 +26,7 @@ export const useGrid = () => {
   };
 
   // check a square to see the size of the square.
-  const getSize = (): number => {
+  const getCellSize = (): number => {
     const rect = Object.values(registry);
 
     if (rect.length === 0) return 0;
@@ -36,7 +36,7 @@ export const useGrid = () => {
 
   return {
     register,
-    getSize,
+    getCellSize,
     registry,
   };
 };

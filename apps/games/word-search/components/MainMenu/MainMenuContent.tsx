@@ -1,10 +1,11 @@
 import { FC } from 'react';
 import { Button, Link, Paper, Typography, useTheme } from '@mui/material';
 import { Flex } from '@worksheets/ui-core';
-import { animate, backgroundColor, urls } from '../../util';
+import { urls } from '../../util';
 import Image from 'next/image';
 import { WaterDrop } from '@mui/icons-material';
 import { motion } from 'framer-motion';
+import { animate, backgroundColor } from '@worksheets/ui-games';
 
 export type MainMenuContentProps = {
   onDonate: () => void;

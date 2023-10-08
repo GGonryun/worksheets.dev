@@ -1,11 +1,10 @@
 import { FC } from 'react';
-import { Modal } from '../Modal';
 import { Flex } from '@worksheets/ui-core';
 import { Divider, IconButton, Typography } from '@mui/material';
 import { useDefinition } from '@worksheets/ui-charity';
 import { motion } from 'framer-motion';
-import { animate } from '../../util';
 import { Close, VolumeUp } from '@mui/icons-material';
+import { Modal, animate } from '@worksheets/ui-games';
 
 export const DefinitionModal: FC<{
   open: boolean;

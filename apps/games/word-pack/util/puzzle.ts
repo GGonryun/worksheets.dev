@@ -1,4 +1,5 @@
-import { Direction } from '@worksheets/ui-games';
+import { Direction, Track } from '@worksheets/ui-games';
+import { shuffleArray } from '@worksheets/util/arrays';
 
 export type Entry = {
   word: string;
@@ -22,14 +23,15 @@ export class Slot {
     grid: boolean[][],
     direction: Direction,
     row: number,
-    column: number
+    column: number,
+    possibilities?: string[]
   ) {
     this.grid = grid;
     this.direction = direction;
     this.row = row;
     this.column = column;
     this.length = this.getLength();
-    this.possibilities = [];
+    this.possibilities = possibilities ?? [];
   }
 
   getLength(): number {
@@ -66,24 +68,163 @@ export class Slot {
     return count;
   }
 
+  clone(): Slot {
+    return new Slot(this.grid, this.direction, this.row, this.column, [
+      ...this.possibilities,
+    ]);
+  }
+
   constrain(dictionary: DictionaryByLength) {
-    this.possibilities = [...dictionary[this.length]];
+    const words = dictionary[this.length] ?? [];
+    this.possibilities = [...words];
+  }
+
+  constrainSingle(word: string) {
+    // cannot constrain to words of different length than the slot can hold
+    if (word.length !== this.length) {
+      throw new Error('Invalid word length');
+    }
+
+    this.possibilities = [word];
+  }
+
+  cells(): Track[] {
+    // if im going down, then the cells are the rows
+    if (this.direction === 'down') {
+      const cells: Track[] = [];
+      for (let i = 0; i < this.length; i++) {
+        cells.push({ row: this.row + i, column: this.column });
+      }
+      return cells;
+    }
+
+    if (this.direction === 'right') {
+      const cells: Track[] = [];
+      for (let i = 0; i < this.length; i++) {
+        cells.push({ row: this.row, column: this.column + i });
+      }
+      return cells;
+    }
+
+    throw new Error('Invalid direction');
+  }
+
+  includes(track: Track): boolean {
+    return this.cells().some(
+      (cell) => cell.row === track.row && cell.column === track.column
+    );
   }
 }
 
-export const createPuzzle = (words: string[], gridSize: number): string[] => {
-  return [];
-};
-
 const directions = ['down', 'right'];
 
-type WordSlots = Record<'down' | 'right', Slot[]>;
+export class WordSlots {
+  down: Slot[];
+  right: Slot[];
+  constructor() {
+    this.down = [];
+    this.right = [];
+  }
+
+  find(track: Track, direction: Direction): Slot | undefined {
+    // find the slot that contains the track
+    if (direction === 'down') {
+      return this.down.find((slot) => slot.includes(track));
+    }
+    if (direction === 'right') {
+      return this.right.find((slot) => slot.includes(track));
+    }
+    throw new Error('Invalid direction');
+  }
+
+  owns(track: Track): Slot[] {
+    const slots = [];
+    for (let i = 0; i < this.down.length; i++) {
+      const slot = this.down[i];
+      if (slot.includes(track)) {
+        slots.push(slot);
+      }
+    }
+    for (let i = 0; i < this.right.length; i++) {
+      const slot = this.right[i];
+      if (slot.includes(track)) {
+        slots.push(slot);
+      }
+    }
+
+    return slots;
+  }
+
+  fill(dictionary: DictionaryByLength) {
+    // for each slot, constrain the domain of possible words
+    for (let i = 0; i < this.down.length; i++) {
+      const slot = this.down[i];
+      slot.constrain(dictionary);
+    }
+    for (let i = 0; i < this.right.length; i++) {
+      const slot = this.right[i];
+      slot.constrain(dictionary);
+    }
+  }
+
+  add(slot: Slot) {
+    if (slot.direction === 'down') {
+      this.down.push(slot);
+    } else if (slot.direction === 'right') {
+      this.right.push(slot);
+    } else {
+      throw new Error('Invalid direction');
+    }
+  }
+
+  clone(): WordSlots {
+    const clone = new WordSlots();
+    clone.down = this.down.map((slot) => slot.clone());
+    clone.right = this.right.map((slot) => slot.clone());
+    return clone;
+  }
+
+  spread(): Slot[] {
+    const slots: Slot[] = [];
+    for (let i = 0; i < this.down.length; i++) {
+      const slot = this.down[i];
+      slots.push(slot);
+    }
+    for (let i = 0; i < this.right.length; i++) {
+      const slot = this.right[i];
+      slots.push(slot);
+    }
+    return slots;
+  }
+
+  solved(): boolean {
+    // each slot must only have one possibility
+    if (this.spread().some((slot) => slot.possibilities.length > 1))
+      return false;
+    // there can be no duplicates between remaining possibilities
+    if (this.hasDuplicates()) return false;
+
+    return true;
+  }
+
+  hasDuplicates(): boolean {
+    const remaining = this.spread().map((slot) => slot.possibilities[0]);
+    const set = new Set(remaining);
+    if (set.size !== remaining.length) {
+      // console.info('solution has duplicates', remaining);
+      return true;
+    }
+
+    return false;
+  }
+
+  words(): string[] {
+    return this.spread().flatMap((slot) => slot.possibilities);
+  }
+}
 
 export const findSlots = (layout: boolean[][]): WordSlots => {
-  const locations: WordSlots = {
-    down: [],
-    right: [],
-  };
+  const locations: WordSlots = new WordSlots();
 
   for (let i = 0; i < layout.length; i++) {
     for (let j = 0; j < layout[i].length; j++) {
@@ -126,46 +267,26 @@ export const findSlots = (layout: boolean[][]): WordSlots => {
   return locations;
 };
 
-export const fillSlots = (
-  slots: WordSlots,
-  wordsByLength: DictionaryByLength
-) => {
-  // for each slot, constrain the domain of possible words
-  for (let i = 0; i < slots.down.length; i++) {
-    const slot = slots.down[i];
-    slot.constrain(wordsByLength);
-  }
-  for (let i = 0; i < slots.right.length; i++) {
-    const slot = slots.right[i];
-    slot.constrain(wordsByLength);
-  }
-};
-
 export const constrainSlots = (slots: WordSlots) => {
-  // the working list contains pairs of perpendicular slots that intersect at a point.
+  // the working list contains pairs of orthogonal slots that intersect at a point.
   const worklist = findIntersecting(slots);
-  console.log('found worklist', worklist);
   while (worklist.length > 0) {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const [left, right] = worklist.pop()!;
     if (reduce(left, right)) {
       if (left.possibilities.length === 0) {
-        console.log('no possibilities left for', [left, right]);
+        return undefined;
       } else {
-        console.info('reduced possibilities for', [left, right]);
-        // repeat the process with the slots flipped.
-        worklist.unshift([right, left]);
         worklist.unshift([left, right]);
+        worklist.unshift([right, left]);
       }
     }
   }
-  console.log('puzzle constraints', slots);
   return slots;
 };
 
 const reduce = (left: Slot, right: Slot) => {
   const point = findIntersectingPoint(left, right);
-  console.log('reducing', [left, right], point);
   let reduced = false;
   for (let i = 0; i < left.possibilities.length; i++) {
     const leftWord = left.possibilities[i];
@@ -175,13 +296,11 @@ const reduce = (left: Slot, right: Slot) => {
       // do not allow intersecting words to be the same
       const doIntersect = leftWord[point.left] === rightWord[point.right];
       if (doIntersect) {
-        console.log('found intersecting word', [leftWord, rightWord]);
         satisfies = true;
         break;
       }
     }
     if (!satisfies) {
-      console.log('failed to satisfy', leftWord);
       left.possibilities.splice(i, 1);
       i--;
       reduced = true;
@@ -201,8 +320,6 @@ const findIntersectingPoint = (
     leftWordIndex = right.column - left.column;
     rightWordIndex = left.row - right.row;
   } else if (left.direction === 'down') {
-    // leftWordIndex = left.column - right.column;
-    // rightWordIndex = right.row - left.row;
     leftWordIndex = right.row - left.row;
     rightWordIndex = left.column - right.column;
   } else {
@@ -257,4 +374,152 @@ const doIntersect = (a: Slot, b: Slot): boolean => {
     );
   }
   throw new Error('Invalid direction');
+};
+
+type SolveEntry = {
+  slots: WordSlots;
+  index: number;
+  word: string;
+  visited: boolean;
+};
+
+// the depth protection prevents us from overwhelming the stack, but we may risk missing out on possible solutions to puzzles.
+const DEPTH_PROTECTION = 5;
+type PuzzleSolverOptions = {
+  slots: WordSlots;
+  protection?: number;
+  deterministic?: boolean;
+};
+export const solvePuzzle = (options: PuzzleSolverOptions) => {
+  const { slots } = options;
+  const protection = options.protection ?? DEPTH_PROTECTION;
+  const deterministic = options.deterministic ?? true;
+
+  // if the puzzle is solved, return the solution
+  if (!slots || slots.spread().length === 0 || slots.solved()) {
+    return slots;
+  }
+
+  // create the stack of possible solutions
+  const stack: SolveEntry[] = [];
+
+  const firstSlot = slots.spread()[0];
+  // if the puzzle is deterministic, we use the words in order of their appearance in the dictionary
+  const words = deterministic
+    ? firstSlot.possibilities
+    : shuffleArray(firstSlot.possibilities);
+
+  // push as many words as the protection allows
+  for (let i = 0; i < words.length && i < protection; i++) {
+    stack.push({
+      slots: slots.clone(),
+      index: 0,
+      word: words[i],
+      visited: false,
+    });
+  }
+
+  while (stack.length > 0) {
+    const current = stack.pop();
+    if (!current) {
+      throw new Error('Could not find viable solution');
+    }
+
+    // try to solve the current stack entry
+    const { slots, index, word, visited } = current;
+    if (visited) {
+      // we've been here before.
+      continue;
+    }
+    // mark this entry as visited
+    current.visited = true;
+    const clone = slots.clone();
+    const spread = clone.spread();
+
+    const slot = spread[index];
+    if (!slot) {
+      // ran out of slots, backtracking
+      continue;
+    }
+
+    slot.constrainSingle(word);
+
+    // attempt to restrict slots further
+    const solution = constrainSlots(clone);
+    // slots restricted
+    if (solution?.solved()) {
+      // solved, didn't repeat
+      return solution;
+    }
+    // possible solutions remaining
+    const nextIndex = index + 1;
+    const nextSlot = spread[nextIndex];
+    if (nextSlot) {
+      const words = deterministic
+        ? nextSlot.possibilities
+        : shuffleArray(nextSlot.possibilities);
+      for (let i = 0; i < words.length && i < protection; i++) {
+        stack.push({
+          slots: clone,
+          index: nextIndex,
+          word: words[i],
+          visited: false,
+        });
+      }
+    }
+  }
+};
+
+export const generatePuzzle = (
+  layout: boolean[][],
+  dictionary: DictionaryByLength
+) => {
+  const slots = findSlots(layout);
+  slots.fill(dictionary);
+  const initialConstraints = constrainSlots(slots);
+  if (!initialConstraints) {
+    throw Error('failed to create puzzle, unsatisfiable initial constraints');
+  } else {
+    const solution = solvePuzzle({
+      slots: initialConstraints,
+      deterministic: false,
+    });
+    if (!solution) {
+      throw Error('failed to create puzzle, no solution found');
+    } else {
+      // console.log('solution found', solution);
+      return {
+        raw: slots,
+        slots: solution,
+        grid: convertToGrid(layout, solution),
+      };
+    }
+  }
+};
+
+const convertToGrid = (layout: boolean[][], slots: WordSlots): string[][] => {
+  // create a string copy of the grid so we can place letters in it
+  const grid: string[][] = [];
+  for (let i = 0; i < layout.length; i++) {
+    grid[i] = [];
+    for (let j = 0; j < layout[i].length; j++) {
+      grid[i][j] = layout[i][j] ? '?' : '';
+    }
+  }
+  for (const slot of slots.spread()) {
+    const { row, column, direction, possibilities } = slot;
+    const word = possibilities[0];
+    const wordArray = word.split('');
+    if (direction === 'right') {
+      for (let i = 0; i < wordArray.length; i++) {
+        grid[row][column + i] = wordArray[i];
+      }
+    } else if (direction === 'down') {
+      for (let i = 0; i < wordArray.length; i++) {
+        grid[row + i][column] = wordArray[i];
+      }
+    }
+  }
+
+  return grid;
 };

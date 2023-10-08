@@ -1,5 +1,4 @@
 import { FC, useState } from 'react';
-import { Layout } from '../Layout';
 import { MainMenuHeader } from './MainMenuHeader';
 import { urls } from '../../util';
 import { MainMenuFooter } from './MainMenuFooter';
@@ -9,9 +8,12 @@ import { useRouter } from 'next/router';
 import { usePuzzle } from '../../hooks/usePuzzle';
 import { MainMenuContent } from './MainMenuContent';
 import { SettingsModal } from './SettingsModal';
+import { MobileLayout, backgroundColor } from '@worksheets/ui-games';
+import { useTheme } from '@mui/material';
 
 export const MainMenu: FC = () => {
   const { push, reload } = useRouter();
+  const theme = useTheme();
   const [showMission, setShowMission] = useState(false);
   const [showDonate, setShowDonate] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
@@ -27,7 +29,8 @@ export const MainMenu: FC = () => {
 
   return (
     <>
-      <Layout
+      <MobileLayout
+        backgroundColor={backgroundColor(theme)}
         content={
           <MainMenuContent
             gameOver={puzzle.isGameOver}

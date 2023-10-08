@@ -1,9 +1,10 @@
 import { Flex } from '@worksheets/ui-core';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/router';
-import { animate, urls } from '../../util';
+import { urls } from '../../util';
 import { FC } from 'react';
 import { MenuButton } from './MenuButton';
+import { animate } from '@worksheets/ui-games';
 
 export type MainMenuFooterProps = {
   onShowMission: () => void;

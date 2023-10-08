@@ -1,6 +1,6 @@
 import { Paper, Button, Typography } from '@mui/material';
+import { backgroundColor } from '@worksheets/ui-games';
 import { FC, ReactNode } from 'react';
-import { backgroundColor } from '../../util';
 
 export const MenuButton: FC<{ onClick: () => void; children: ReactNode }> = ({
   onClick,

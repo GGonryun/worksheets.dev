@@ -1,9 +1,7 @@
 import { FC, useState } from 'react';
 import { useResizing, useWindowSize } from '@worksheets/ui-core';
 import { PuzzleHeader } from './PuzzleHeader';
-import { Layout } from '../Layout';
 import { Puzzle } from './Puzzle';
-import { useGrid } from '../../hooks/useGrid';
 import { usePlayer } from '../../hooks/usePlayer';
 import { usePuzzle } from '../../hooks/usePuzzle';
 import { PuzzleCompleteModal } from './PuzzleCompleteModal';
@@ -11,8 +9,11 @@ import { useRouter } from 'next/router';
 import { urls } from '../../util';
 import Confetti from 'react-confetti';
 import { ReportBugModal } from './ReportBugModal';
+import { MobileLayout, backgroundColor, useGrid } from '@worksheets/ui-games';
+import { useTheme } from '@mui/material';
 
 export const PuzzlePage: FC = () => {
+  const theme = useTheme();
   const { push, reload } = useRouter();
   const [width, height] = useWindowSize();
 
@@ -44,7 +45,8 @@ export const PuzzlePage: FC = () => {
       {puzzle.isComplete && (
         <Confetti width={width} height={height} numberOfPieces={50} />
       )}
-      <Layout
+      <MobileLayout
+        backgroundColor={backgroundColor(theme)}
         header={
           <PuzzleHeader
             level={puzzle.level + 1}

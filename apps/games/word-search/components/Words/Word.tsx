@@ -25,7 +25,6 @@ export const Word: FC<{
         fontSize={{ xs: 16, sm: 18, md: 20, lg: 22, xl: 24 }}
         fontWeight={900}
         sx={{
-          textTransform: 'uppercase',
           textShadow: '0 1px 1px rgba(0,0,0,0.5)',
           textDecoration: found ? 'line-through' : 'none',
         }}

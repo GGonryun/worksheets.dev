@@ -1,14 +1,22 @@
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 import './styles.css';
-import styles from './index.module.scss';
+import * as FullStory from '@fullstory/browser';
+import { MobileMeta } from '@worksheets/ui-games';
+import { SERVICE_SETTINGS } from '@worksheets/data-access/server-settings';
+
+if (typeof window !== 'undefined') {
+  FullStory.init(SERVICE_SETTINGS.FULLSTORY);
+}
+
 function CustomApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <title>Welcome to word-pack!</title>
+        <title>Word Pack</title>
+        <MobileMeta />
       </Head>
-      <main className={styles['page']}>
+      <main>
         <Component {...pageProps} />
       </main>
     </>

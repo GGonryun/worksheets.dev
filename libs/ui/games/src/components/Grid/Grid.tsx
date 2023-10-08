@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 import { FC, Fragment, ReactNode } from 'react';
 import { arrayFromLength } from '@worksheets/util/arrays';
-import { indexToColumn, indexToRow } from '../util';
+import { indexToColumn, indexToRow } from '../../util';
 
 export const Grid: FC<{
   columns: number;
@@ -12,9 +12,7 @@ export const Grid: FC<{
   return (
     <Box
       sx={{
-        p: 2,
         display: 'grid',
-        height: '100%',
         gridTemplateColumns: `repeat(${columns}, 1fr)`,
         gridTemplateRows: `repeat(${rows}, 1fr)`,
       }}

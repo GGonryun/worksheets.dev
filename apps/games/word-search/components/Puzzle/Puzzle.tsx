@@ -1,9 +1,7 @@
-import { PuzzleLayout } from './PuzzleLayout';
 import { SelectionLine } from './SelectionLine';
-import { Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { Flex, useResizing } from '@worksheets/ui-core';
 import { FC, useState } from 'react';
-import { useGrid } from '../../hooks/useGrid';
 import { LineSelectionsLayer } from './SelectionsLayer';
 import { TouchLayer } from './TouchLayer';
 import { Words } from '../Words';
@@ -11,7 +9,15 @@ import { usePlayer } from '../../hooks/usePlayer';
 import { usePuzzle } from '../../hooks/usePuzzle';
 import { MenuButton } from '../MainMenu/MenuButton';
 import { DefinitionModal } from './DefinitionModal';
-import { Grid, Item, getCenter } from '@worksheets/ui-games';
+import {
+  Grid,
+  Cell,
+  getCenter,
+  PuzzleLayout,
+  useGrid,
+  borderRadius,
+  boxShadow,
+} from '@worksheets/ui-games';
 
 export type PuzzleProps = ReturnType<typeof usePlayer> &
   ReturnType<typeof useGrid> &
@@ -34,14 +40,14 @@ export const Puzzle: FC<PuzzleProps> = ({
   rows,
   letters,
   words,
-  getSize,
+  getCellSize,
 }) => {
   const resizing = useResizing(1000);
   const [word, setWord] = useState<string>('');
 
   if (resizing) return null;
 
-  const size = getSize();
+  const size = getCellSize();
   const lineSize = size * 0.75;
   const textSize = size * 0.5;
 
@@ -49,20 +55,27 @@ export const Puzzle: FC<PuzzleProps> = ({
     <>
       <PuzzleLayout
         grid={
-          <>
+          <Box
+            sx={{
+              p: 1,
+              backgroundColor: 'white',
+              borderRadius,
+              boxShadow,
+            }}
+          >
             <Grid
               columns={columns}
               rows={rows}
               gap={1}
               square={(c, r, i) => (
-                <Item
+                <Cell
                   key={i}
                   onViewportEnter={(e) => register(i, e?.boundingClientRect)}
                 >
                   <Typography fontWeight={900} fontSize={textSize}>
                     {letters[i]}
                   </Typography>
-                </Item>
+                </Cell>
               )}
             />
             <TouchLayer
@@ -71,10 +84,10 @@ export const Puzzle: FC<PuzzleProps> = ({
               onPan={onPan}
               onPanEnd={onPanEnd}
             />
-          </>
+          </Box>
         }
         words={
-          <Flex column centered gap={1}>
+          <Flex column centered mt={1} gap={1}>
             <Words
               words={words}
               matches={matches}

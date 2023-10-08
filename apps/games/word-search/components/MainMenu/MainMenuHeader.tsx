@@ -1,7 +1,7 @@
 import { Settings, WaterDropOutlined } from '@mui/icons-material';
 import { SvgIconProps, IconButton, useTheme } from '@mui/material';
 import { Flex } from '@worksheets/ui-core';
-import { animate } from '../../util';
+import { animate } from '@worksheets/ui-games';
 import { motion } from 'framer-motion';
 import { FC } from 'react';
 

@@ -1,8 +1,8 @@
 import { drawLine } from '@worksheets/util-shapes';
 import { motion } from 'framer-motion';
 import { FC, Fragment } from 'react';
-import { colors } from '../../util';
 import { Pair, Registry, getCenter } from '@worksheets/ui-games';
+import { colors } from '../../util';
 
 export const LineSelectionsLayer: FC<{
   lines: Pair[];

@@ -1,5 +1,3 @@
-import { Theme, lighten } from '@mui/material';
-
 // hopefully no puzzle has more than 70 words lmao.
 export const colors = [
   '#000000',
@@ -48,11 +46,3 @@ export const colors = [
   '#C71585',
   '#DB7093',
 ];
-
-export const backgroundColor = (theme: Theme) =>
-  lighten(theme.palette.primary.main, 0.25);
-
-export const borderRadius = (theme: Theme) => theme.spacing(3);
-
-export const boxShadow = () =>
-  'rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px';

@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Modal, ModalHeader } from '../Modal';
+import { Modal, ModalHeader } from '@worksheets/ui-games';
 import { Flex } from '@worksheets/ui-core';
 import { Divider } from '@mui/material';
 import { DonateWaterText } from '@worksheets/ui-charity';

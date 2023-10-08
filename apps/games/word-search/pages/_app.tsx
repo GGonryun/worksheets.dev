@@ -10,6 +10,7 @@ import {
   SERVICE_SETTINGS,
 } from '@worksheets/data-access/server-settings';
 import { verifier } from '../puzzles/verifier';
+import { MobileMeta } from '@worksheets/ui-games';
 
 if (!SERVER_SETTINGS.ENVIRONMENT.IS_PRODUCTION()) {
   verifier();
@@ -26,11 +27,7 @@ function CustomApp({ Component, pageProps }: AppProps) {
     <>
       <Head>
         <title>Word Search</title>
-        <meta name="HandheldFriendly" content="true" />
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-        />
+        <MobileMeta />
       </Head>
       <main>
         <Component {...pageProps} />

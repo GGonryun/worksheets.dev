@@ -1,12 +1,12 @@
 import { Box } from '@mui/material';
 import { FC, ReactNode } from 'react';
-import { backgroundColor } from '../util';
 
-export const Layout: FC<{
+export const MobileLayout: FC<{
   content: ReactNode;
   header: ReactNode;
   footer?: ReactNode;
-}> = ({ header, footer, content }) => {
+  backgroundColor?: string;
+}> = ({ header, footer, content, backgroundColor }) => {
   return (
     <Box
       sx={{

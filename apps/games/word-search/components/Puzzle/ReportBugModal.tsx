@@ -1,10 +1,9 @@
 import { FC } from 'react';
-import { Modal, ModalHeader } from '../Modal';
 import { Flex } from '@worksheets/ui-core';
 import { Divider } from '@mui/material';
 import { ReportForm } from '@worksheets/ui-charity';
 import { motion } from 'framer-motion';
-import { animate } from '../../util';
+import { Modal, ModalHeader, animate } from '@worksheets/ui-games';
 
 export const ReportBugModal: FC<{
   open: boolean;

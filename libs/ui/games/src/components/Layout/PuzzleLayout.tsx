@@ -1,17 +1,20 @@
 import { FC, ReactNode } from 'react';
-
 import { Box } from '@mui/material';
-import { borderRadius, boxShadow } from '../../util';
 
 export const PuzzleLayout: FC<{
   grid: ReactNode;
   words: ReactNode;
-}> = ({ grid, words }) => {
+  ratios?: {
+    content: `${number}%`;
+    footer: `${number}%`;
+  };
+}> = ({ grid, words, ratios = { content: '70%', footer: '30%' } }) => {
   return (
     <>
       <Box
+        className="puzzle-layout"
         sx={{
-          height: '70%',
+          height: ratios.content,
           width: '100%',
           display: 'flex',
           alignItems: 'flex-end',
@@ -19,6 +22,7 @@ export const PuzzleLayout: FC<{
         }}
       >
         <Box
+          className="puzzle-layout-container"
           sx={{
             aspectRatio: '1 / 1',
             width: '100%',
@@ -26,6 +30,7 @@ export const PuzzleLayout: FC<{
           }}
         >
           <Box
+            className="puzzle-layout-grid"
             sx={{
               aspectRatio: '1 / 1',
               height: '100%',
@@ -38,9 +43,6 @@ export const PuzzleLayout: FC<{
               userSelect: 'none',
               touchAction: 'none',
               position: 'relative',
-              backgroundColor: 'white',
-              borderRadius,
-              boxShadow,
             }}
           >
             {grid}
@@ -48,14 +50,12 @@ export const PuzzleLayout: FC<{
         </Box>
       </Box>
       <Box
+        className="puzzle-layout-footer"
         sx={{
           mt: 3,
           overflow: 'auto',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
           width: '100%',
-          maxHeight: '30%',
+          height: ratios.footer,
         }}
       >
         {words}
