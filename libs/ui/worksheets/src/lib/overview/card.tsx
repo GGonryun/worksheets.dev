@@ -12,6 +12,7 @@ export type OverviewCardProps = {
   href?: string;
   color?: string;
   beta?: boolean;
+  isNew?: boolean;
 };
 export const OverviewCard: FC<OverviewCardProps> = ({
   title,
@@ -20,6 +21,7 @@ export const OverviewCard: FC<OverviewCardProps> = ({
   href,
   color,
   beta,
+  isNew,
 }) => {
   const { isMobile, theme } = useLayout();
   return (
@@ -28,8 +30,14 @@ export const OverviewCard: FC<OverviewCardProps> = ({
       variant="outlined"
       sx={{ width: '100%', position: 'relative' }}
     >
-      <CardActionArea href={href ?? ''} disabled={!href}>
-        {beta && (
+      <CardActionArea
+        href={href ?? ''}
+        disabled={!href}
+        sx={{
+          height: '100%',
+        }}
+      >
+        {(isNew || beta) && (
           <Flex
             sx={{
               position: 'absolute',
@@ -43,12 +51,13 @@ export const OverviewCard: FC<OverviewCardProps> = ({
             }}
           >
             <Typography variant="caption" fontWeight={900}>
-              coming soon
+              {isNew ? 'new!' : 'coming soon'}
             </Typography>
           </Flex>
         )}
-        <Flex column>
+        <Flex column fill grow>
           <Flex
+            grow
             centered
             p={3}
             sx={{

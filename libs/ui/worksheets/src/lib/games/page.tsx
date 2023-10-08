@@ -29,13 +29,15 @@ export const GamesPage = () => {
           subtitle={`We've partnered with [Water.org](${urls.external.waterOrg}) and [Charity: Water](${urls.external.charityWater}) to help provide clean water to struggling people around the world.`}
           features={[
             {
-              color: featureColors.yellow,
-              title: 'Puzzle Words',
-              subtitle: 'A puzzle game that helps you learn new words.',
-              src: '/games/puzzle-words.png',
-              href: urls.games.puzzleWords,
+              isNew: true,
+              color: featureColors.purple,
+              title: 'Word Pack',
+              subtitle: 'A fill-in-the-blanks crossword game.',
+              src: '/games/word-pack.svg',
+              href: urls.games.wordPack,
             },
             {
+              isNew: true,
               color: featureColors.blue,
               title: 'Word Search',
               subtitle: 'Find and highlight words in a grid of letters.',
@@ -43,7 +45,14 @@ export const GamesPage = () => {
               href: urls.games.wordSearch,
             },
             {
-              color: featureColors.purple,
+              color: featureColors.yellow,
+              title: 'Puzzle Words',
+              subtitle: 'A puzzle game that helps you learn new words.',
+              src: '/games/puzzle-words.png',
+              href: urls.games.puzzleWords,
+            },
+            {
+              color: featureColors.green,
               title: 'Emoji War',
               subtitle: 'A fast-paced, multiplayer, emoji-themed game.',
               src: '/games/emoji-war.png',

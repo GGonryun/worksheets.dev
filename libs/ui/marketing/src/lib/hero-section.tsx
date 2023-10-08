@@ -7,18 +7,24 @@ import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import { FeatureBox } from './feature-box';
 import { urls, useLayout } from '@worksheets/ui/common';
 
-const primaryFeatures = [
+const features = [
+  {
+    title: 'App Registry',
+    description: 'Integrate with hundreds of third-party services.',
+    logo: '/icons/features/applications.svg',
+    href: urls.app.applications,
+  },
+  {
+    big: true,
+    title: 'Browser Games',
+    description: 'Play games without adds that donate money to charity.',
+    logo: '/icons/features/games.svg',
+    href: urls.app.games,
+  },
   {
     title: 'Unified APIs',
     description: 'Access common actions with a single API.',
     logo: '/icons/features/services.svg',
-    href: urls.app.features,
-  },
-  {
-    big: true,
-    title: 'App Registry',
-    description: 'Integrate with hundreds of third-party services.',
-    logo: '/icons/features/applications.svg',
     href: urls.app.features,
   },
   {
@@ -28,9 +34,6 @@ const primaryFeatures = [
     logo: '/icons/features/converter.svg',
     href: urls.app.features,
   },
-];
-
-const secondaryFeatures = [
   {
     beta: true,
     title: 'Connection Vault',
@@ -64,7 +67,6 @@ const secondaryFeatures = [
 export const HeroSection: FC = () => {
   const [showMoreFeatures, setShowMoreFeatures] = useState(false);
   const { isTablet } = useLayout();
-  const features = primaryFeatures.concat(secondaryFeatures);
   // if tablet split into 4/3 else split into 3/4
   const primary = features.slice(0, isTablet ? 4 : 3);
   const secondary = features.slice(isTablet ? 4 : 3);
@@ -105,21 +107,15 @@ export const HeroSection: FC = () => {
           </WhiteProductButton>
         </Flex>
         <Flex gap={4} pt={2} wrap centered>
-          {primary.map((feature) => (
+          {features.map((feature, index) => (
             <FeatureBox
+              hidden={!showMoreFeatures && index > 2}
               key={feature.title}
               {...feature}
               big={!showMoreFeatures && !isTablet && feature.big}
             />
           ))}
         </Flex>
-        <Collapse in={showMoreFeatures}>
-          <Flex gap={4} pt={2} wrap centered>
-            {secondary.map((feature) => (
-              <FeatureBox key={feature.title} {...feature} />
-            ))}
-          </Flex>
-        </Collapse>
 
         <WhiteProductButton
           disableElevation

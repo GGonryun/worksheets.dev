@@ -13,7 +13,8 @@ export const FeatureBox: FC<{
   big?: boolean;
   beta?: boolean;
   href?: string;
-}> = ({ title, description, logo, big, beta, href }) => {
+  hidden?: boolean;
+}> = ({ title, description, logo, big, beta, href, hidden }) => {
   const theme = useTheme();
   const { isTablet } = useLayout();
   return (
@@ -21,6 +22,8 @@ export const FeatureBox: FC<{
       disableRipple
       href={href ?? '#'}
       sx={{
+        display: hidden ? 'none' : 'inline-flex',
+
         transform: big ? 'scale(1.10)' : 'scale(1.00)',
         backgroundColor: theme.palette.background.paper,
         ...growOnHoverMixin(big),

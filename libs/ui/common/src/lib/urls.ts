@@ -60,6 +60,7 @@ export const urls = {
     emojiWar: SERVER_SETTINGS.WEBSITES.EMOJI_WAR_URL(),
     puzzleWords: SERVER_SETTINGS.WEBSITES.PUZZLE_WORDS_URL(),
     wordSearch: SERVER_SETTINGS.WEBSITES.WORD_SEARCH_URL(),
+    wordPack: SERVER_SETTINGS.WEBSITES.WORD_PACK_URL(),
   },
   external: {
     waterOrg: 'https://water.org',
