@@ -37,6 +37,7 @@ export type FlexProps = Pick<
   | 'position'
   | 'zIndex'
   | 'className'
+  | 'display'
 > & {
   id?: string;
   children: ReactNode;

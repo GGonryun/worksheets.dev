@@ -1,4 +1,5 @@
 // this is a raw list of words, includes acronyms, proper nouns, etc.
+// it has some bad words in it... sorry
 export const WORD_LIST = [
   'a',
   'aah',
