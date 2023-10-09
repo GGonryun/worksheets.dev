@@ -1,5 +1,5 @@
 import { FC, useState } from 'react';
-import { useResizing, useWindowSize } from '@worksheets/ui-core';
+import { useWindowSize } from '@worksheets/ui-core';
 import { PuzzleHeader } from './PuzzleHeader';
 import { Puzzle } from './Puzzle';
 import { usePlayer } from '../../hooks/usePlayer';

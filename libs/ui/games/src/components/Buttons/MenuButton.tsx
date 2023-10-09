@@ -1,13 +1,19 @@
-import { Paper, Button, Typography, ButtonProps } from '@mui/material';
+import {
+  Paper,
+  Button,
+  Typography,
+  ButtonProps,
+  TypographyProps,
+} from '@mui/material';
 import { FC, ReactNode } from 'react';
-import { backgroundColor } from '../../util';
 
 export const MenuButton: FC<{
   onClick: () => void;
   children: ReactNode;
   endIcon?: ButtonProps['endIcon'];
   disabled?: boolean;
-}> = ({ onClick, children, endIcon, disabled }) => {
+  color?: TypographyProps['color'];
+}> = ({ onClick, children, endIcon, disabled, color }) => {
   return (
     <Paper elevation={6}>
       <Button
@@ -16,7 +22,7 @@ export const MenuButton: FC<{
         endIcon={endIcon}
         disabled={disabled}
       >
-        <Typography fontWeight={900} color={backgroundColor}>
+        <Typography fontWeight={900} color={color ?? 'primary'}>
           {children}
         </Typography>
       </Button>

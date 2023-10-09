@@ -181,7 +181,7 @@ export const Puzzle: FC<PuzzleProps> = (props) => {
         }
         content={
           <PuzzleLayout
-            ratios={{ content: '50%', footer: '50%' }}
+            ratios={{ content: '60%', footer: '40%' }}
             grid={
               <Box
                 sx={{

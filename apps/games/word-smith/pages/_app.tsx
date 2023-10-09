@@ -15,15 +15,15 @@ if (typeof window !== 'undefined') {
 
 const theme = createTheme({
   palette: {
+    primary: {
+      light: '#F7D426',
+      main: '#EFCA08',
+      dark: '#C5A507',
+    },
     secondary: {
       light: '#42a5f5',
       main: '#1976d2',
       dark: '#1565c0',
-    },
-    primary: {
-      light: '#FBDF88',
-      main: '#2E7D32',
-      dark: '#F6BE13',
     },
   },
 });

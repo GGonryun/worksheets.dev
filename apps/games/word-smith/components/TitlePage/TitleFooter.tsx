@@ -15,11 +15,15 @@ export const MainMenuFooter: FC<TitleFooterProps> = ({ onShowMission }) => {
     <Flex fullWidth mx={'auto'} pb={2}>
       <Flex grow spaceBetween px={2}>
         <motion.div {...animate(-100, 0.3)}>
-          <MenuButton onClick={() => push(urls.games())}>More Games</MenuButton>
+          <MenuButton color="text.primary" onClick={() => push(urls.games())}>
+            More Games
+          </MenuButton>
         </motion.div>
 
         <motion.div {...animate(-100, 0.3)}>
-          <MenuButton onClick={onShowMission}>Our Mission</MenuButton>
+          <MenuButton color="text.primary" onClick={onShowMission}>
+            Our Mission
+          </MenuButton>
         </motion.div>
       </Flex>
     </Flex>
