@@ -36,9 +36,6 @@ export const PuzzlePage: FC = () => {
   const [ignore, setIgnore] = useState(false);
   const [showReport, setShowReport] = useState(false);
 
-  const resizing = useResizing(1000);
-  if (resizing) return null;
-
   const handleNextLevel = () => {
     puzzle.loadNext();
     reload();

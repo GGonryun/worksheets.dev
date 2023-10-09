@@ -62,6 +62,10 @@ export const SERVER_SETTINGS = {
       (process.env['WORD_PACK_BASE_URL'] ??
         process.env['NEXT_PUBLIC_WORD_PACK_BASE_URL'] ??
         '') + route,
+    WORD_SMITH_URL: (route = '') =>
+      (process.env['WORD_SMITH_BASE_URL'] ??
+        process.env['NEXT_PUBLIC_WORD_SMITH_BASE_URL'] ??
+        '') + route,
   },
   HANDSHAKE_EXPIRATION_OFFSET: 5 * 60 * 1000, // expire handshakes older than 5 minutes in ms
   RESOURCE_REPLENISH_QUANTITY: 100, //replenishes every threshold minutes.

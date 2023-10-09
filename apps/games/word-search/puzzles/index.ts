@@ -41,8 +41,8 @@ export const puzzles: Puzzle[] = [
     words: ['GUN', 'GUM', 'GEM', 'GAP', 'GAL', 'GOD', 'GAS', 'GAG'],
   },
   {
-    columns: 9,
-    rows: 9,
+    columns: 10,
+    rows: 10,
     words: [
       'APPLE',
       'BANANA',
@@ -56,8 +56,8 @@ export const puzzles: Puzzle[] = [
     ],
   },
   {
-    columns: 10,
-    rows: 10,
+    columns: 11,
+    rows: 11,
     words: [
       'TROUT',
       'SALMON',

@@ -106,7 +106,7 @@ export const HeroSection: FC = () => {
         <Flex gap={4} pt={2} wrap centered>
           {features.map((feature, index) => (
             <FeatureBox
-              hidden={!showMoreFeatures && index > 2}
+              hidden={!showMoreFeatures && index > (isTablet ? 1 : 2)}
               key={feature.title}
               {...feature}
               big={!showMoreFeatures && !isTablet && feature.big}

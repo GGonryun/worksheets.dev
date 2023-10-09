@@ -4,16 +4,8 @@ import './styles.css';
 import { useVersion } from '@worksheets/ui-core';
 import * as FullStory from '@fullstory/browser';
 import { APP_VERSION } from '../util';
-import {
-  SERVER_SETTINGS,
-  SERVICE_SETTINGS,
-} from '@worksheets/data-access/server-settings';
-import { verifier } from '../puzzles/verifier';
+import { SERVICE_SETTINGS } from '@worksheets/data-access/server-settings';
 import { MobileMeta, UpdateGameModal } from '@worksheets/ui-games';
-
-if (!SERVER_SETTINGS.ENVIRONMENT.IS_PRODUCTION()) {
-  verifier();
-}
 
 if (typeof window !== 'undefined') {
   FullStory.init(SERVICE_SETTINGS.FULLSTORY);

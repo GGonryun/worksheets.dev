@@ -54,7 +54,7 @@ const fillGrid = (words: string[], columns: number, rows: number) => {
     },
   ];
 
-  let attempts = 3000000;
+  let attempts = 5000000;
   while (attempts-- > 0) {
     const current = stack[0];
     if (current == null) return undefined;

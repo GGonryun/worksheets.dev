@@ -8,7 +8,7 @@ import { flatten } from 'lodash';
 import { AbsolutelyCentered } from '@worksheets/ui-core';
 
 export const PuzzlePage = () => {
-  const { push, reload } = useRouter();
+  const { push } = useRouter();
   const [refreshing, setRefreshing] = useState(false);
   const state = useSavedPuzzle();
   const selections = useSavedSelections();

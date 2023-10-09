@@ -57,17 +57,6 @@ export const puzzles: Level[] = [
     dictionary: { 5: ['hello', 'world'] },
   },
   {
-    title: 'The letter N',
-    layout: [
-      [o, o, o, o, o],
-      [o, x, x, x, o],
-      [o, x, o, x, o],
-      [o, x, o, x, o],
-      [o, o, o, o, o],
-    ],
-    dictionary: dictionaryByLength,
-  },
-  {
     title: 'A square, how original',
     layout: [
       [o, o, o, o, o],
@@ -79,19 +68,7 @@ export const puzzles: Level[] = [
     dictionary: dictionaryByLength,
   },
   {
-    title: 'The letter A',
-    layout: [
-      [o, x, x, x, o],
-      [o, x, o, x, o],
-      [o, x, x, x, o],
-      [o, x, o, x, o],
-      [o, o, o, o, o],
-    ],
-    dictionary: dictionaryByLength,
-  },
-
-  {
-    title: 'We need your help',
+    title: 'Every drop counts',
     layout: [
       //empty
       [x, x, x, o, o],
@@ -103,19 +80,7 @@ export const puzzles: Level[] = [
     dictionary: { ...dictionaryByLength, [5]: ['water'] },
   },
   {
-    title: 'Donate water to charity',
-    layout: [
-      //empty
-      [o, x, x, x, o],
-      [o, o, x, o, o],
-      [x, o, x, x, x],
-      [x, x, x, o, x],
-      [x, o, o, o, x],
-    ],
-    dictionary: { ...dictionaryByLength, [4]: ['help'] },
-  },
-  {
-    title: 'Every drop counts',
+    title: 'The first step',
     layout: [
       [o, x, o, o, o, x],
       [x, x, x, x, o, x],

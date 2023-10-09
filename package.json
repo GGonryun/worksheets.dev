@@ -21,7 +21,8 @@
     "serve:dungeonkata": "npx nx run games-dungeon-kata:serve",
     "serve:wordsearch": "npx nx run games-word-search:serve",
     "serve:wordpack": "npx nx run games-word-pack:serve",
-    "serve": "firebase logout; firebase login; concurrently --kill-others \"npm run serve:admin\" \"npm run serve:ide\" \"npm run serve:manual\" \"npm run serve:firebase\" \"npm run serve:api\" \"npm run serve:emojiwar\" \"npm run serve:puzzlewords\" \"npm run serve:dungeonkata\" \"npm run serve:wordsearch\" \"npm run serve:wordpack\"",
+    "serve:wordsmith": "npx nx run games-word-smith:serve",
+    "serve": "firebase logout; firebase login; concurrently --kill-others \"npm run serve:admin\" \"npm run serve:ide\" \"npm run serve:manual\" \"npm run serve:firebase\" \"npm run serve:api\" \"npm run serve:emojiwar\" \"npm run serve:puzzlewords\" \"npm run serve:dungeonkata\" \"npm run serve:wordsearch\" \"npm run serve:wordpack\" \"npm run serve:wordsmith\"",
     "prisma:studio": "npx prisma studio",
     "prisma:generate": "npx prisma generate"
   },
