@@ -77418,6 +77418,8 @@ export const dictionary = [
   'zymurgy',
 ];
 
+export const uppercaseDictionary = dictionary.map((d) => d.toUpperCase());
+
 // pre-organize the dictionary by word length
 export const dictionaryByLength = dictionary.reduce((acc, word) => {
   const length = word.length;

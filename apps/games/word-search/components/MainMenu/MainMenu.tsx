@@ -62,7 +62,7 @@ export const MainMenu: FC = () => {
         onClose={() => setShowDonate(false)}
       />
       <SettingsModal
-        options={puzzles.map((p, i) => ({ id: i, label: p.words[0] }))}
+        options={puzzles.map((p, i) => ({ id: i, label: p.theme }))}
         open={showSettings}
         onClose={() => setShowSettings(false)}
         onJumpTo={(level) => {

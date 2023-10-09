@@ -1,15 +1,13 @@
 import { FC, ReactNode } from 'react';
-import { useObserver } from '../../../hooks';
-import {
-  DEFAULT_ANIMATION_SPEED,
-  useTemporaryAnimation,
-} from '../../../animations';
 import { Variants, motion } from 'framer-motion';
+import { useObserver, useTemporaryAnimation } from '../../hooks';
+import { DEFAULT_ANIMATION_SPEED } from '../../util';
 
-export const LaunchIcon: FC<{ count: number; children: ReactNode }> = ({
-  count,
-  children,
-}) => {
+export const LaunchIcon: FC<{
+  count: number;
+  children: ReactNode;
+  zIndex?: number;
+}> = ({ count, children, zIndex = 0 }) => {
   const { trigger, variants, animate } = useLaunch();
 
   useObserver(count, {
@@ -32,6 +30,7 @@ export const LaunchIcon: FC<{ count: number; children: ReactNode }> = ({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+        zIndex: zIndex,
       }}
       id="star-icon"
     >
@@ -46,6 +45,7 @@ const useLaunch = () => {
   const variants: Variants = {
     launch: {
       y: [0, -30, -50],
+      scale: [1, 1.25, 1.5],
       opacity: [0, 1, 0],
       transition: { duration: DEFAULT_ANIMATION_SPEED * 2 },
     },

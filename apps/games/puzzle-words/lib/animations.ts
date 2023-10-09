@@ -1,44 +1,9 @@
+import {
+  UseTemporaryAnimationOptions,
+  useTemporaryAnimation,
+  DEFAULT_ANIMATION_SPEED,
+} from '@worksheets/ui-games';
 import { Variants } from 'framer-motion';
-import { useEffect, useState } from 'react';
-
-export const DEFAULT_ANIMATION_TIMEOUT = 1000; // milliseconds
-export const DEFAULT_ANIMATION_SPEED = 0.3; // seconds
-
-export type UseTemporaryAnimationOptions = {
-  timeout: number; // in milliseconds
-};
-
-export const useTemporaryAnimation = (opts?: UseTemporaryAnimationOptions) => {
-  const [animate, setAnimate] = useState(false);
-  const [trigger, setTrigger] = useState(false);
-  const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | undefined>(
-    undefined
-  );
-
-  useEffect(() => {
-    if (trigger) {
-      setAnimate(true);
-
-      setTimeoutId(
-        setTimeout(() => {
-          setAnimate(false);
-          setTrigger(false);
-          setTimeoutId(undefined);
-        }, opts?.timeout ?? DEFAULT_ANIMATION_TIMEOUT)
-      );
-    }
-
-    return () => timeoutId && clearTimeout(timeoutId);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [trigger]);
-
-  return {
-    animate,
-    trigger: () => {
-      setTrigger(true);
-    },
-  };
-};
 
 export const useRumble = (opts?: UseTemporaryAnimationOptions) => {
   const { animate, trigger } = useTemporaryAnimation(opts);

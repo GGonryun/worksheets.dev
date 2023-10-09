@@ -1,16 +1,16 @@
 import { Box } from '@mui/material';
-import { useObserver } from '../../../../hooks';
 import { IconButton } from '../../../IconButton';
 import { Park } from '@mui/icons-material';
 import { Variants, motion } from 'framer-motion';
 import { FC } from 'react';
 import { FooterProps } from '../Footer';
-import { LaunchIcon } from '../LaunchIcon';
 import { BonusWordsPill } from './BonusWordsPill';
 import {
-  DEFAULT_ANIMATION_SPEED,
+  useObserver,
   useTemporaryAnimation,
-} from '../../../../animations';
+  DEFAULT_ANIMATION_SPEED,
+  LaunchIcon,
+} from '@worksheets/ui-games';
 
 export const BonusWordsButton: FC<FooterProps> = ({
   bonuses,

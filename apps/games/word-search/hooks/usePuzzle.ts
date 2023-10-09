@@ -17,23 +17,25 @@ export const usePuzzle = () => {
     'words',
     []
   );
-  const [size, setSize, loadingSize, clearSize] = useLocalStorage<{
-    rows: number;
-    columns: number;
-  }>('size', { rows: 0, columns: 0 });
+  const [size, setSize, loadingSize, clearSize] = useLocalStorage<number>(
+    'size',
+    0
+  );
   const [letters, setLetters, loadingLetters, clearLetters] = useLocalStorage<
     string[]
   >('puzzle', []);
   const [matches, setMatches, loadingMatches, clearMatches] = useLocalStorage<
     Record<string, number>
   >('matches', {});
+  const [discoveries, setDiscoveries, loadingDiscoveries, clearDiscoveries] =
+    useLocalStorage<Record<string, number>>('discoveries', {});
+  // bonus matches are considered discoveries.
   const [lines, setLines, loadingLines, clearLines] = useLocalStorage<Pair[]>(
     'pairs',
     []
   );
 
-  const isComplete =
-    Object.values(matches).filter((m) => m).length === words.length;
+  const isComplete = words.every((word) => matches[word] > 0);
 
   const isGameOver = level === puzzles.length - 1 && isComplete;
 
@@ -46,15 +48,29 @@ export const usePuzzle = () => {
     setWater(water + 1);
   };
 
+  const onDiscovery = (word: string, line: Pair) => {
+    setDiscoveries({
+      ...discoveries,
+      [word]: Object.values(discoveries).filter((m) => m).length + 1,
+    });
+    setLines([...lines, line]);
+    setWater(water + 1);
+  };
+
   const load = (level: number) => {
-    const { words, rows, columns } = puzzles[level];
-    const letters = createPuzzle(words, rows, columns);
+    const { words, size } = puzzles[level];
+    const letters = createPuzzle(words, size, size);
     setLevel(level);
     setWords(words);
-    setSize({ rows, columns });
+    setSize(size);
     setLetters(letters);
     setLines([]);
     setMatches(createMap(words, 0));
+    setDiscoveries({});
+  };
+
+  const reload = () => {
+    load(level);
   };
 
   const loadNext = () => {
@@ -69,6 +85,7 @@ export const usePuzzle = () => {
     clearSize();
     clearLetters();
     clearMatches();
+    clearDiscoveries();
     clearLines();
   };
 
@@ -80,22 +97,26 @@ export const usePuzzle = () => {
     loadingLetters,
     loadingMatches,
     loadingLines,
+    loadingDiscoveries,
   ].some((l) => l);
+
   return {
     loadNext,
     load,
+    reload,
     reset,
     words,
     water,
-    rows: size.rows,
-    columns: size.columns,
+    size,
     level,
     letters,
     loading,
     matches,
+    discoveries,
     lines,
     isComplete,
     isGameOver,
     onMatch,
+    onDiscovery,
   };
 };

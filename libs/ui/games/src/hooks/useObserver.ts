@@ -12,6 +12,9 @@ type ObserverOptions<T> = {
 
 const DEFAULT_COMPARISON = <T>(a: T, b: T) => a === b;
 
+// a lot like use effect but comes with extra effects.
+// always triggers when the data changes.
+// and can fire an onIgnore callback if the data updated but the cache did not.
 export const useObserver = <T>(data: T, opts: ObserverOptions<T>) => {
   const { compare, onUpdate, onIgnore } = opts;
 

@@ -4,7 +4,7 @@ import { FooterProps } from './Footer';
 import { IconButton } from '../../IconButton';
 import { Flex } from '@worksheets/ui-core';
 import { border } from '../../../layouts';
-import { LaunchIcon } from './LaunchIcon';
+import { LaunchIcon } from '@worksheets/ui-games';
 
 export const TopSection: FC<FooterProps> = (props) => {
   const { shuffleBuilder } = props;

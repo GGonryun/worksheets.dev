@@ -8,6 +8,7 @@ import { Words } from '../Words';
 import { usePlayer } from '../../hooks/usePlayer';
 import { usePuzzle } from '../../hooks/usePuzzle';
 import { DefinitionModal } from './DefinitionModal';
+import { DiscoveriesModal } from './DiscoveriesModal';
 import {
   Grid,
   Cell,
@@ -33,23 +34,24 @@ export const Puzzle: FC<PuzzleProps> = ({
   onPanEnd,
   isComplete,
   matches,
+  discoveries,
   lines,
   registry,
   selection,
-  columns,
-  rows,
+  size,
   letters,
   words,
   getCellSize,
 }) => {
   const resizing = useResizing(1000);
   const [word, setWord] = useState<string>('');
+  const [showDiscoveriesModal, setShowDiscoveriesModal] = useState(false);
 
   if (resizing) return null;
 
-  const size = getCellSize();
-  const lineSize = size * 0.75;
-  const textSize = size * 0.5;
+  const shape = getCellSize();
+  const lineSize = shape * 0.75;
+  const textSize = shape * 0.5;
 
   return (
     <>
@@ -64,8 +66,8 @@ export const Puzzle: FC<PuzzleProps> = ({
             }}
           >
             <Grid
-              columns={columns}
-              rows={rows}
+              columns={size}
+              rows={size}
               gap={1}
               square={(c, r, i) => (
                 <Cell
@@ -90,8 +92,10 @@ export const Puzzle: FC<PuzzleProps> = ({
           <Flex column centered mt={1} gap={1}>
             <Words
               words={words}
+              discoveries={discoveries}
               matches={matches}
               onDefine={(word) => setWord(word)}
+              onViewDiscoveries={() => setShowDiscoveriesModal(true)}
             />
             {isComplete && (
               <MenuButton onClick={onNextLevel}>Next Level</MenuButton>
@@ -107,6 +111,11 @@ export const Puzzle: FC<PuzzleProps> = ({
         to={getCenter(selection.closest, registry)}
       />
       <DefinitionModal word={word} open={!!word} onClose={() => setWord('')} />
+      <DiscoveriesModal
+        discoveries={discoveries}
+        open={showDiscoveriesModal}
+        onClose={() => setShowDiscoveriesModal(false)}
+      />
     </>
   );
 };

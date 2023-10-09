@@ -3,8 +3,8 @@ import { FC, Fragment } from 'react';
 import { letter, thinBorder } from '../layouts';
 import { Typography, useTheme } from '@mui/material';
 import { Flex } from '@worksheets/ui-core';
-import { DEFAULT_ANIMATION_SPEED } from '../animations';
 import { Discovered } from '../types';
+import { DEFAULT_ANIMATION_SPEED } from '@worksheets/ui-games';
 
 export type WordSelectionProps = {
   words: Discovered;

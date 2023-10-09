@@ -1,8 +1,8 @@
 import { FC } from 'react';
 import { LetterSlots } from './LetterSlots';
 import { motion } from 'framer-motion';
-import { useObserver } from '../../hooks';
 import { useRumble } from '../../animations';
+import { useObserver } from '@worksheets/ui-games';
 
 export const WordPuzzle: FC<{
   word: string;

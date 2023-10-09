@@ -12,6 +12,7 @@ import {
   PuzzleCompleteModal,
   ReportBugModal,
   backgroundColor,
+  uppercaseDictionary,
   useGrid,
 } from '@worksheets/ui-games';
 import { useTheme } from '@mui/material';
@@ -25,12 +26,14 @@ export const PuzzlePage: FC = () => {
   const grid = useGrid();
   const player = usePlayer(
     puzzle.words,
-    puzzle.columns,
-    puzzle.rows,
+    uppercaseDictionary,
+    puzzle.size,
     puzzle.letters,
     puzzle.matches,
+    puzzle.discoveries,
     grid.registry,
-    puzzle.onMatch
+    puzzle.onMatch,
+    puzzle.onDiscovery
   );
 
   const [ignore, setIgnore] = useState(false);

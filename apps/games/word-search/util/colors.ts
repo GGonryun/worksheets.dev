@@ -46,3 +46,5 @@ export const colors = [
   '#C71585',
   '#DB7093',
 ];
+
+export const bonusYellow = '#EFCA08';

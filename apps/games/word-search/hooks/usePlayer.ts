@@ -14,12 +14,15 @@ import {
 
 export const usePlayer = (
   words: string[],
-  columns: number,
-  rows: number,
+  // a dictionary of words that have been discovered.
+  dictionary: string[],
+  size: number,
   letters: string[],
   matches: Record<string, number>,
+  discoveries: Record<string, number>,
   registry: Registry,
-  onMatch: (word: string, line: Pair) => void
+  onMatch: (word: string, line: Pair) => void,
+  onDiscovery: (word: string, line: Pair) => void
 ) => {
   const { detectIntersection, closestNeighbors } = useDistances(registry);
 
@@ -36,16 +39,16 @@ export const usePlayer = (
     if (start === null) return false;
 
     const startTrack = {
-      column: indexToColumn(start, columns),
-      row: indexToRow(start, columns),
+      column: indexToColumn(start, size),
+      row: indexToRow(start, size),
     };
 
     // filter neighbors out that aren't on the same track.
     const matching = neighbors
       .map((index) => ({
         index,
-        column: indexToColumn(index, columns),
-        row: indexToRow(index, columns),
+        column: indexToColumn(index, size),
+        row: indexToRow(index, size),
       }))
       .filter((neighbor) => isOnTrack(startTrack, neighbor));
 
@@ -65,6 +68,15 @@ export const usePlayer = (
       if (hasForward) onMatch(forward, [start, closest]);
       if (hasReversed) onMatch(reversed, [start, closest]);
     }
+    const hasDiscoveryForward = dictionary.includes(forward);
+    const hasDiscoveryReversed = dictionary.includes(reversed);
+    const hasDiscovered = discoveries[forward] || discoveries[reversed];
+
+    // don't count it as a discovery if it's already been matched.
+    if (!hasMatched && !hasForward && !hasReversed && !hasDiscovered) {
+      if (hasDiscoveryForward) onDiscovery(forward, [start, closest]);
+      if (hasDiscoveryReversed) onDiscovery(reversed, [start, closest]);
+    }
 
     setStart(null);
     setClosest(null);
@@ -72,11 +84,11 @@ export const usePlayer = (
 
   const checkSelection = (start: number, end: number) => {
     // get all values in between start and end
-    const startTrack = indexToTrack(start, columns);
-    const endTrack = indexToTrack(end, columns);
+    const startTrack = indexToTrack(start, size);
+    const endTrack = indexToTrack(end, size);
 
     const tracks = getTrackLine(startTrack, endTrack);
-    const word = tracks.map((track) => letters[trackToIndex(track, columns)]);
+    const word = tracks.map((track) => letters[trackToIndex(track, size)]);
     const forward = word.join('');
     const reversed = word.reverse().join('');
 
@@ -90,6 +102,8 @@ export const usePlayer = (
 
     if (words.includes(forward)) return true;
     if (words.includes(reverse)) return true;
+    if (dictionary.includes(forward)) return true;
+    if (dictionary.includes(reverse)) return true;
   };
 
   return {

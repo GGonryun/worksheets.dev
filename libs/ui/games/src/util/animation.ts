@@ -9,6 +9,10 @@ export const animate = (y: number, delay: number) => ({
   },
   transition: {
     delay,
-    duration: 0.5,
+    duration: DEFAULT_ANIMATION_DURATION,
   },
 });
+
+export const DEFAULT_ANIMATION_TIMEOUT = 1000; // milliseconds
+export const DEFAULT_ANIMATION_SPEED = 0.3; // seconds
+export const DEFAULT_ANIMATION_DURATION = 0.5; // seconds
