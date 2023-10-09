@@ -174,6 +174,7 @@ export const Puzzle: FC<PuzzleProps> = (props) => {
       <Layout
         header={
           <PuzzleHeader
+            level={id + 1}
             title={title}
             onMenu={(e) => setMenuAnchor(e.currentTarget)}
             onBack={() => push(urls.home())}

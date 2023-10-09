@@ -6,12 +6,14 @@ import { FC, MouseEventHandler } from 'react';
 
 export type PuzzleHeaderProps = {
   title: string;
+  level: number;
   onMenu: MouseEventHandler<HTMLButtonElement>;
   onBack: MouseEventHandler<HTMLButtonElement>;
 };
 
 export const PuzzleHeader: FC<PuzzleHeaderProps> = ({
   title,
+  level,
   onBack,
   onMenu,
 }) => {
@@ -35,7 +37,9 @@ export const PuzzleHeader: FC<PuzzleHeaderProps> = ({
           textTransform={'uppercase'}
           textAlign={'center'}
         >
-          <b>{title}</b>
+          <b>
+            {level}. {title}
+          </b>
         </Typography>
         <IconButton disableRipple onClick={onMenu}>
           <Menu {...iconProps} />
