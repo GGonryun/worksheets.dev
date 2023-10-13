@@ -40,7 +40,7 @@ export type FlexProps = Pick<
   | 'display'
 > & {
   id?: string;
-  children: ReactNode;
+  children?: ReactNode;
   column?: boolean;
   grow?: boolean;
   wrap?: boolean;

@@ -1,5 +1,6 @@
 import { PowerUpCode } from './types';
 export const APP_VERSION = 2;
+export const GAME_TITLE = 'Puzzle Words';
 
 export const UPDATE_BONUS = 200;
 

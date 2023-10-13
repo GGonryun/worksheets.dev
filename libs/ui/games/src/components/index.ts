@@ -4,3 +4,4 @@ export * from './Modal';
 export * from './Modals';
 export * from './Buttons';
 export * from './Animated';
+export * from './Links';

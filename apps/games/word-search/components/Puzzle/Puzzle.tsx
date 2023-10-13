@@ -7,7 +7,6 @@ import { TouchLayer } from './TouchLayer';
 import { Words } from '../Words';
 import { usePlayer } from '../../hooks/usePlayer';
 import { usePuzzle } from '../../hooks/usePuzzle';
-import { DefinitionModal } from './DefinitionModal';
 import { DiscoveriesModal } from './DiscoveriesModal';
 import {
   Grid,
@@ -18,6 +17,7 @@ import {
   borderRadius,
   boxShadow,
   MenuButton,
+  DefinitionModal,
 } from '@worksheets/ui-games';
 
 export type PuzzleProps = ReturnType<typeof usePlayer> &
@@ -110,7 +110,7 @@ export const Puzzle: FC<PuzzleProps> = ({
         from={getCenter(selection.start, registry)}
         to={getCenter(selection.closest, registry)}
       />
-      <DefinitionModal word={word} open={!!word} onClose={() => setWord('')} />
+      <DefinitionModal word={word} onClose={() => setWord('')} />
       <DiscoveriesModal
         discoveries={discoveries}
         open={showDiscoveriesModal}

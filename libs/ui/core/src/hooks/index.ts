@@ -8,3 +8,4 @@ export * from './useResizing';
 export * from './useWindowResize';
 export * from './useEventListener';
 export * from './useVersion';
+export * from './useComponentSize';

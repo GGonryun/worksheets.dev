@@ -73,3 +73,17 @@ export const createMap = <T extends string | number, V>(
     return acc;
   }, {} as Record<T, V>);
 };
+
+// Creates a list of all possible permutations of the given 2d array.
+export const combine = ([
+  head,
+  ...[headTail, ...tailTail]
+]: string[][]): string[] => {
+  if (!headTail) return head;
+
+  const combined = headTail.reduce((acc, x) => {
+    return acc.concat(head.map((h) => `${h}${x}`));
+  }, [] as string[]);
+
+  return combine([combined, ...tailTail]);
+};

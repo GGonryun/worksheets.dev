@@ -6,7 +6,7 @@ import { MobileMeta, UpdateGameModal } from '@worksheets/ui-games';
 import { SERVICE_SETTINGS } from '@worksheets/data-access/server-settings';
 import { ThemeProvider, createTheme } from '@mui/material';
 import { useVersion } from '@worksheets/ui-core';
-import { APP_VERSION } from '../util';
+import { APP_VERSION, GAME_TITLE } from '../util';
 import { useSavedPuzzle, useSavedSelections } from '../hooks/useSaveData';
 import { useRouter } from 'next/router';
 
@@ -45,7 +45,7 @@ function CustomApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <title>Word Pack</title>
+        <title>{GAME_TITLE}</title>
         <MobileMeta />
       </Head>
       <ThemeProvider theme={theme}>

@@ -1,0 +1,26 @@
+{
+  "name": "util-websters",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/util/websters/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/util/websters",
+        "main": "libs/util/websters/src/index.ts",
+        "tsConfig": "libs/util/websters/tsconfig.lib.json",
+        "assets": ["libs/util/websters/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/util/websters/**/*.ts"]
+      }
+    }
+  },
+  "tags": []
+}

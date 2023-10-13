@@ -45,6 +45,7 @@ export const colors = [
   '#FF1493',
   '#C71585',
   '#DB7093',
+  // REPEAT
   '#FF0000',
   '#FF7F00',
   '#FFFF00',

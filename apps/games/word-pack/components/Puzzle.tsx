@@ -12,6 +12,8 @@ import {
   MenuButton,
   ReportBugModal,
   alphabet,
+  PuzzleHeader,
+  PuzzleMenu,
 } from '@worksheets/ui-games';
 import { FC, useEffect, useState } from 'react';
 import { WordSlots, urls } from '../util';
@@ -21,12 +23,16 @@ import { useTemporaryModal } from '../hooks/useTemporaryModal';
 import { usePuzzle } from '../hooks/usePuzzle';
 import { Layout } from './Layout';
 import { Words } from './Words';
-import { PuzzleHeader } from './PuzzleHeader';
+
 import { useRouter } from 'next/router';
-import { PuzzleOptions } from './PuzzleOptions';
 import { ClearSelectionsModal } from './ClearSelectionsModal';
 import { HowToPlayModal } from './HowToPlayModal';
 import { usePlayer } from '../hooks/usePlayer';
+import {
+  HelpCenterOutlined,
+  Replay,
+  ReportOutlined,
+} from '@mui/icons-material';
 
 export type PuzzleProps = {
   id: number;
@@ -174,11 +180,20 @@ export const Puzzle: FC<PuzzleProps> = (props) => {
       <Layout
         header={
           <PuzzleHeader
-            level={id + 1}
-            title={title}
             onMenu={(e) => setMenuAnchor(e.currentTarget)}
             onBack={() => push(urls.home())}
-          />
+          >
+            <Typography
+              color={'primary.contrastText'}
+              fontSize={responsiveFontSize({ min: 8, max: 30 })}
+              textTransform={'uppercase'}
+              textAlign={'center'}
+            >
+              <b>
+                {id + 1}. {title}
+              </b>
+            </Typography>
+          </PuzzleHeader>
         }
         content={
           <PuzzleLayout
@@ -250,21 +265,27 @@ export const Puzzle: FC<PuzzleProps> = (props) => {
           />
         }
       />
-      <PuzzleOptions
+      <PuzzleMenu
+        autoclose
         anchor={menuAnchor}
         onClose={() => setMenuAnchor(undefined)}
-        onReport={() => {
-          setMenuAnchor(undefined);
-          setShowReportModal(true);
-        }}
-        onReplay={() => {
-          setMenuAnchor(undefined);
-          setShowClearSelectionsModal(true);
-        }}
-        onHelp={() => {
-          setMenuAnchor(undefined);
-          setShowHowToPlayModal(true);
-        }}
+        options={[
+          {
+            label: 'Restart Level',
+            icon: Replay,
+            onClick: () => setShowClearSelectionsModal(true),
+          },
+          {
+            label: 'Report Issue',
+            icon: ReportOutlined,
+            onClick: () => setShowReportModal(true),
+          },
+          {
+            label: 'How to Play',
+            icon: HelpCenterOutlined,
+            onClick: () => setShowHowToPlayModal(true),
+          },
+        ]}
       />
       <MakeSelectionWarning open={openSelectionWarning} />
       <ClearSelectionsModal

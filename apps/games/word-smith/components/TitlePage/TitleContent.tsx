@@ -10,19 +10,13 @@ import { animate, backgroundColor } from '@worksheets/ui-games';
 export type TitleContentProps = {
   onDonate: () => void;
   onStart: () => void;
-  onSettings: () => void;
-  level: number;
   water: number;
-  gameOver: boolean;
 };
 
 export const TitleContent: FC<TitleContentProps> = ({
   onDonate,
   onStart,
-  onSettings,
-  level,
   water,
-  gameOver,
 }) => {
   const theme = useTheme();
 
@@ -68,43 +62,12 @@ export const TitleContent: FC<TitleContentProps> = ({
             disableRipple
             onClick={onStart}
             variant="contained"
-            disabled={gameOver}
             sx={{
               backgroundColor,
             }}
           >
-            <Typography fontWeight={900}>
-              {gameOver
-                ? 'Game Over'
-                : !level
-                ? 'Start Game'
-                : `Start Puzzle #${level}`}
-            </Typography>
+            <Typography fontWeight={900}>{`Start Game`}</Typography>
           </Button>
-          {gameOver && (
-            <Flex column centered>
-              <Typography
-                variant="caption"
-                color="text.secondary"
-                textAlign="center"
-              >
-                You&apos;ve completed all the puzzles!
-              </Typography>
-              <Typography
-                variant="caption"
-                color="text.secondary"
-                textAlign="center"
-              >
-                <Link href={urls.subscribe()}>Get notified</Link> when new
-                puzzles are available.
-              </Typography>
-              <Typography variant="caption" color="text.secondary" pt={3}>
-                <Link onClick={onSettings} sx={{ cursor: 'pointer' }}>
-                  Start over at puzzle #1?
-                </Link>
-              </Typography>
-            </Flex>
-          )}
         </Paper>
       </motion.div>
       <motion.div {...animate(-125, 0.6)}>

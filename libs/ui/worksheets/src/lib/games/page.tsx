@@ -52,6 +52,13 @@ export const GamesPage = () => {
               href: urls.games.puzzleWords,
             },
             {
+              color: featureColors.pink,
+              title: 'Word Smith',
+              subtitle: 'Find the secret word from a random list of letters.',
+              src: '/games/word-smith.svg',
+              href: urls.games.wordSmith,
+            },
+            {
               color: featureColors.green,
               title: 'Emoji War',
               subtitle: 'A fast-paced, multiplayer, emoji-themed game.',

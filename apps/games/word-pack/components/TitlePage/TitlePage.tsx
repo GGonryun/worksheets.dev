@@ -1,5 +1,5 @@
 import { FC, useState } from 'react';
-import { urls } from '../../util';
+import { GAME_TITLE, urls } from '../../util';
 import { useRouter } from 'next/router';
 import {
   DonateWaterModal,
@@ -60,10 +60,12 @@ export const TitlePage: FC = () => {
         footer={<MainMenuFooter onShowMission={() => setShowMission(true)} />}
       />
       <OurMissionModal
+        game={GAME_TITLE}
         open={showMission}
         onClose={() => setShowMission(false)}
       />
       <DonateWaterModal
+        game={GAME_TITLE}
         open={showDonate}
         onClose={() => setShowDonate(false)}
       />

@@ -1,12 +1,8 @@
-import { SERVER_SETTINGS } from '@worksheets/data-access/server-settings';
-import * as charity from '@worksheets/ui-charity';
+import * as games from '@worksheets/ui-games';
+import { Difficulty } from './puzzle';
 
 export const urls = {
   home: () => '/',
-  puzzle: () => `/puzzle`,
-  waterOrg: charity.urls.waterOrg,
-  worksheets: () => SERVER_SETTINGS.WEBSITES.MARKETING_URL(),
-  games: () => SERVER_SETTINGS.WEBSITES.MARKETING_URL('/games'),
-  contact: () => SERVER_SETTINGS.WEBSITES.MARKETING_URL('/contact'),
-  subscribe: () => SERVER_SETTINGS.WEBSITES.MARKETING_URL('/subscribe'),
+  puzzle: (difficulty: Difficulty) => `/puzzle?difficulty=${difficulty}`,
+  ...games.urls,
 };

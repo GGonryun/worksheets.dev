@@ -10,11 +10,11 @@ import { WordPuzzles } from '../WordPuzzles';
 import { Dictionary } from '../Dictionary';
 import { PowerUpCode, Discovered, Hints } from '../../types';
 import { BonusWords } from '../BonusWords';
-import { ReportIssue } from '../ReportIssue';
 import { PowerUps } from '../PowerUps';
 import { HelpCenter } from '../HelpCenter';
 import { useRouter } from 'next/router';
 import { PuzzleRule } from '../../puzzles';
+import { ReportBugModal } from '@worksheets/ui-games';
 
 export type ModalType =
   | 'bonuses'
@@ -149,8 +149,7 @@ export const Level: FC<{
           setModal('report-issue', word);
         }}
       />
-      <ReportIssue
-        data={data}
+      <ReportBugModal
         open={modal === 'report-issue'}
         onClose={() => setModal()}
       />

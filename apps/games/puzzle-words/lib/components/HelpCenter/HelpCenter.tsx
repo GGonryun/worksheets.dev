@@ -12,7 +12,7 @@ import {
 } from '@mui/icons-material';
 import { ContactLink } from '../Links';
 import { EnterDirectionally } from '../Animators';
-import { WaterOrgLink } from '@worksheets/ui-charity';
+import { WaterOrgLink } from '@worksheets/ui-games';
 
 export const HelpCenter: FC<{ open: boolean; onClose: () => void }> = ({
   open,

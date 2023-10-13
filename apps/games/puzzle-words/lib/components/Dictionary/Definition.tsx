@@ -1,7 +1,7 @@
 import { Flex } from '@worksheets/ui-core';
 import { FC } from 'react';
 import { Meaning } from './Meaning';
-import { WordMeaning } from '@worksheets/ui-charity';
+import { WordMeaning } from '@worksheets/ui-games';
 
 export type DefinitionProps = {
   word: string;

@@ -1,41 +1,32 @@
 import { FC, useState } from 'react';
-import { useRouter } from 'next/router';
 import {
   DonateWaterModal,
-  MobileLayout,
   OurMissionModal,
   SettingsModal,
-  backgroundColor,
 } from '@worksheets/ui-games';
-import { useTheme } from '@mui/material';
 import { TitleContent } from './TitleContent';
 import { MainMenuHeader } from './TitleHeader';
 import { MainMenuFooter } from './TitleFooter';
-import { urls } from '../../util';
+import { GAME_TITLE } from '../../util';
+import { Layout } from '../Layout';
+import { usePlayer } from '../../hooks/usePlayer';
+import { SelectDifficultyModal } from '../Modals/SelectDifficulty';
 
 export const TitlePage: FC = () => {
-  const { push } = useRouter();
-  const theme = useTheme();
+  const player = usePlayer();
   const [showMission, setShowMission] = useState(false);
   const [showDonate, setShowDonate] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
-
-  const handleStart = () => {
-    push(urls.puzzle());
-  };
+  const [showDifficulty, setShowDifficulty] = useState(false);
 
   return (
     <>
-      <MobileLayout
-        backgroundColor={backgroundColor(theme)}
+      <Layout
         content={
           <TitleContent
-            gameOver={false}
-            water={0}
-            level={1}
+            water={Object.values(player.words).reduce((a, b) => a + b, 0)}
             onDonate={() => setShowDonate(true)}
-            onStart={handleStart}
-            onSettings={() => setShowSettings(true)}
+            onStart={() => setShowDifficulty(true)}
           />
         }
         header={
@@ -46,11 +37,14 @@ export const TitlePage: FC = () => {
         }
         footer={<MainMenuFooter onShowMission={() => setShowMission(true)} />}
       />
+
       <OurMissionModal
+        game={GAME_TITLE}
         open={showMission}
         onClose={() => setShowMission(false)}
       />
       <DonateWaterModal
+        game={GAME_TITLE}
         open={showDonate}
         onClose={() => setShowDonate(false)}
       />
@@ -58,12 +52,16 @@ export const TitlePage: FC = () => {
         open={showSettings}
         options={[]}
         onClose={() => setShowSettings(false)}
-        onJumpTo={(level) => {
-          alert(`TODO: load puzzle ${level + 1}`);
+        onJumpTo={() => {
+          // does not support jumping to levels
         }}
         onReset={() => {
-          alert('TODO: reset progress');
+          player.clear();
         }}
+      />
+      <SelectDifficultyModal
+        open={showDifficulty}
+        onClose={() => setShowDifficulty(false)}
       />
     </>
   );

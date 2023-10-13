@@ -29,7 +29,9 @@ export const SettingsModal: FC<{
             </Typography>
             <WarningAmber color="error" />
           </Flex>
-          <JumpToPuzzle onJumpTo={onJumpTo} options={options} />
+          {Boolean(options.length) && (
+            <JumpToPuzzle onJumpTo={onJumpTo} options={options} />
+          )}
           <ResetProgress onReset={onReset} />
         </Flex>
       </Flex>

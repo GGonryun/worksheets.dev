@@ -1,3 +1,5 @@
+import { organizeByLength } from './organization';
+
 export const dictionary = [
   'a',
   'aardvark',
@@ -77387,11 +77389,4 @@ export const dictionary = [
 export const uppercaseDictionary = dictionary.map((d) => d.toUpperCase());
 
 // pre-organize the dictionary by word length
-export const dictionaryByLength = dictionary.reduce((acc, word) => {
-  const length = word.length;
-  if (!acc[length]) {
-    acc[length] = [];
-  }
-  acc[length].push(word);
-  return acc;
-}, {} as Record<number, string[]>);
+export const dictionaryByLength = organizeByLength(dictionary);

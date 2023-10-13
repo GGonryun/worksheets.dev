@@ -4,7 +4,7 @@ import { Button, Link, Typography } from '@mui/material';
 import Image from 'next/image';
 import { WaterDrop } from '@mui/icons-material';
 import { Modal } from '../Modal';
-import { urls } from '@worksheets/ui-charity';
+import { urls } from '../../util';
 
 export const PuzzleCompleteModal: FC<{
   water: number;

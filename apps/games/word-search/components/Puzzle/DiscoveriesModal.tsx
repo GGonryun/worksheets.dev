@@ -23,7 +23,7 @@ export const DiscoveriesModal: FC<{
   return (
     <Modal open={open} onClose={onClose}>
       <Flex column p={2} grow>
-        <ModalHeader onClose={onClose} variant="h4">
+        <ModalHeader onClose={onClose} variant="h5">
           Bonus Words
         </ModalHeader>
         <Divider sx={{ backgroundColor: 'primary.main', mb: 2 }} />

@@ -8,10 +8,10 @@ import { StartPuzzle } from './StartPuzzle';
 import { LinedPaperLayout } from '../Layouts';
 import { PlayerTokens, WaterDonated } from './PlayerStatistics';
 import { Flex } from '@worksheets/ui-core';
-import { MissionStatementModal } from './MissionStatementModal';
-import { DonateWaterModal } from './DonateWaterModal';
 import { SettingsModal } from './SettingsModal';
 import { usePlayer } from '../../hooks';
+import { DonateWaterModal, OurMissionModal } from '@worksheets/ui-games';
+import { GAME_TITLE } from '../../constants';
 
 export const MainMenu: FC = () => {
   const [showMissionStatement, setShowMissionStatement] = useState(false);
@@ -46,11 +46,13 @@ export const MainMenu: FC = () => {
 
         <Footer onShowMissionStatement={() => setShowMissionStatement(true)} />
       </LinedPaperLayout>
-      <MissionStatementModal
+      <OurMissionModal
+        game="Puzzle Words"
         open={showMissionStatement}
         onClose={() => setShowMissionStatement(false)}
       />
       <DonateWaterModal
+        game={GAME_TITLE}
         open={showDonateWater}
         onClose={() => setShowDonateWater(false)}
       />

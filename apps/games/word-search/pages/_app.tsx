@@ -3,7 +3,7 @@ import Head from 'next/head';
 import './styles.css';
 import { useVersion } from '@worksheets/ui-core';
 import * as FullStory from '@fullstory/browser';
-import { APP_VERSION } from '../util';
+import { APP_VERSION, GAME_TITLE } from '../util';
 import {
   SERVER_SETTINGS,
   SERVICE_SETTINGS,
@@ -36,7 +36,7 @@ function CustomApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <title>Word Search</title>
+        <title>{GAME_TITLE}</title>
         <MobileMeta />
       </Head>
       <main>

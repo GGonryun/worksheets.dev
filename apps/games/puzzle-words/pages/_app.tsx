@@ -9,7 +9,7 @@ import { SERVICE_SETTINGS } from '@worksheets/data-access/server-settings';
 import { usePlayer } from '../lib/hooks';
 import { UpdateVersionModal } from '../lib/components';
 import { useRouter } from 'next/router';
-import { APP_VERSION, UPDATE_BONUS } from '../lib/constants';
+import { APP_VERSION, GAME_TITLE, UPDATE_BONUS } from '../lib/constants';
 import { useVersion } from '@worksheets/ui-core';
 import { MobileMeta } from '@worksheets/ui-games';
 
@@ -36,7 +36,7 @@ function CustomApp({ Component, pageProps }: AppProps) {
     <>
       <Head>
         <MobileMeta />
-        <title>Puzzle Words</title>
+        <title>{GAME_TITLE}</title>
       </Head>
       <ThemeProvider theme={theme}>
         <main className={styles['page']}>
