@@ -24,7 +24,7 @@ export const TitlePage: FC = () => {
       <Layout
         content={
           <TitleContent
-            water={Object.values(player.words).reduce((a, b) => a + b, 0)}
+            water={player.water}
             onDonate={() => setShowDonate(true)}
             onStart={() => setShowDifficulty(true)}
           />
