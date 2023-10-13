@@ -17,9 +17,9 @@ export type GeneratedPuzzle = {
 export type Difficulty = 'easy' | 'medium' | 'hard' | 'extreme';
 const extraLetters: Record<Difficulty, number[]> = {
   easy: [3, 5],
-  medium: [5, 7],
-  hard: [5, 10],
-  extreme: [5, 10],
+  medium: [5, 8],
+  hard: [7, 11],
+  extreme: [7, 11],
 };
 
 const wordSize: Record<Difficulty, number[]> = {
@@ -42,7 +42,7 @@ export const generatePuzzle = (difficulty: Difficulty): GeneratedPuzzle => {
 
   const dictionary = dictionaryOption[difficulty];
   // pick a random word from the dictionary
-  const target = selectRandomItem(dictionary[size]);
+  const word = selectRandomItem(dictionary[size]);
   // create a grid of the same size
   // fill the grid with random letters
   const empty = arrayFromLength(size);
@@ -52,7 +52,7 @@ export const generatePuzzle = (difficulty: Difficulty): GeneratedPuzzle => {
   // we'll also add the length of the word to the number of extra letters
   const possibleLetters = extraLetters[difficulty];
   const randomExtra = randomBetween(possibleLetters[0], possibleLetters[1]);
-  const extra = randomExtra + Math.floor(target.length / 3);
+  const extra = randomExtra + Math.floor(word.length / 3);
 
   // fill the grid with random letters
   for (let i = 0; i < extra; i++) {
@@ -60,16 +60,17 @@ export const generatePuzzle = (difficulty: Difficulty): GeneratedPuzzle => {
     grid[row].push(selectRandomItem(lowerCaseAlphabet));
   }
   // randomly insert the target word into the grid
-  for (let i = 0; i < target.length; i++) {
+  for (let i = 0; i < word.length; i++) {
     const row = grid[i];
+    const letter = word[i];
     // select a random position in the row
     const position = Math.floor(Math.random() * row.length);
     // insert the letter and shift the rest of the letters to the right
-    row.splice(position, 0, target[i]);
+    row.splice(position, 0, letter);
   }
 
   return {
     grid,
-    target,
+    target: word,
   };
 };

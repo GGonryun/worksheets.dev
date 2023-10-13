@@ -16,6 +16,8 @@ export const WordBag: FC<{
   const [rumble, setRumble] = useState(false);
   const [packedLetters, setPackedLetters] = useState(0);
 
+  const discovered = Object.keys(words).length;
+
   useEffect(() => {
     if (!packLetters) {
       setRumble(true);
@@ -97,19 +99,25 @@ export const WordBag: FC<{
         <Box
           sx={{
             position: 'absolute',
-            top: -10,
-            right: -10,
+            top: -slotSize * 0.4,
+            right: -slotSize * 0.4,
             backgroundColor: 'white',
             borderRadius: '50%',
-            width: 28,
-            height: 28,
+            width: slotSize * 0.7,
+            height: slotSize * 0.7,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             border: '2px solid black',
           }}
         >
-          <Typography>{Object.keys(words).length}</Typography>
+          <Typography
+            fontSize={
+              slotSize * (discovered > 999 ? 0.3 : discovered > 99 ? 0.35 : 0.4)
+            }
+          >
+            {discovered}
+          </Typography>
         </Box>
         <Backpack
           sx={{
