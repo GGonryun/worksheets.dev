@@ -81,7 +81,7 @@ export const Content: FC<{
               position: 'absolute',
             }}
           >
-            <ConfettiExplosion force={1} duration={3000} particleCount={250} />
+            <ConfettiExplosion force={1} duration={3000} particleCount={100} />
           </Box>
         )}
         <AnimatePresence>
