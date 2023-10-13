@@ -17,12 +17,6 @@ export const HowToPlayModal: FC<{
         </ModalHeader>
         <Divider />
         <Flex column pt={2} gap={1} centered>
-          <motion.div {...animate(-25, 0.15)}>
-            <Typography variant="caption" color="error">
-              This game is still in development. Please report any bugs you
-              find.
-            </Typography>
-          </motion.div>
           <motion.div {...animate(-25, 0.3)}>
             <Typography variant="body2">
               Word Pack is a crossword puzzle game. Rearrange the words into the
@@ -34,8 +28,8 @@ export const HowToPlayModal: FC<{
           <motion.div {...animate(-50, 0.3)} style={{ paddingTop: '12px' }}>
             <Image
               src="/clips/tutorial.gif"
-              width={200}
-              height={200}
+              width={180}
+              height={250}
               alt="tutorial gif"
             />
           </motion.div>
