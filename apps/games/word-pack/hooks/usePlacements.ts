@@ -1,5 +1,5 @@
 import { Track } from '@worksheets/ui-games';
-import { WordSlots, Slot, getWords, checkPuzzle } from '../util';
+import { WordSlots, Slot, getWords, checkPuzzle, getWord } from '../util';
 
 export const usePlacements = (
   slots: WordSlots,
@@ -71,6 +71,11 @@ export const usePlacements = (
     return checkPuzzle(slots, selections);
   };
 
+  const hasContent = (slot: Slot) => {
+    const word = getWord(slot, selections);
+    return word.length > 0;
+  };
+
   return {
     selections,
     setWord,
@@ -79,5 +84,6 @@ export const usePlacements = (
     clearSlots,
     scanPuzzle,
     setLetter,
+    hasContent,
   };
 };

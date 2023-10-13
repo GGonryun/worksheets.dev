@@ -630,12 +630,16 @@ export const deserializePuzzle = (string: string): GeneratedPuzzle => {
 
 export const checkPuzzle = (slots: WordSlots, selections: string[][]) => {
   // check if all the words have been placed
-  const target = slots.words();
+  const targets = slots.words();
   const words = getWords(slots, selections);
-  if (target.length !== words.length) return false;
-  // make sure all the words match
+  if (targets.length !== words.length) return false;
+  // make sure all the words exist in the targets
   for (const word of words) {
-    if (!target.includes(word)) return false;
+    if (!targets.includes(word)) return false;
+  }
+  // make sure all the targets are placed
+  for (const target of targets) {
+    if (!words.includes(target)) return false;
   }
 
   return true;
@@ -648,7 +652,7 @@ export const getWords = (slots: WordSlots, selections: string[][]) => {
     let letters = '';
     for (let i = 0; i < down.length; i++) {
       const row = selections[down.row + i];
-      if (selections[down.row + i]) {
+      if (row) {
         letters += row[down.column] ?? '';
       }
     }
@@ -667,4 +671,27 @@ export const getWords = (slots: WordSlots, selections: string[][]) => {
   }
 
   return words;
+};
+
+export const getWord = (slot: Slot, selections: string[][]) => {
+  let word = '';
+  if (slot.direction === 'down') {
+    for (let i = 0; i < slot.length; i++) {
+      const row = selections[slot.row + i];
+      if (row) {
+        word += selections[slot.row + i][slot.column] ?? '';
+      }
+    }
+  } else if (slot.direction === 'right') {
+    for (let i = 0; i < slot.length; i++) {
+      const row = selections[slot.row];
+      if (row) {
+        word += row[slot.column + i] ?? '';
+      }
+    }
+    return word;
+  } else {
+    throw new Error('Invalid direction');
+  }
+  return word;
 };
