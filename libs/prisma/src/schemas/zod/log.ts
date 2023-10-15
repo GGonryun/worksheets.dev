@@ -1,5 +1,5 @@
-import * as z from 'zod';
-import { Severity } from '@prisma/client';
+import * as z from "zod"
+import { Severity } from "@prisma/client"
 
 export const LogModel = z.object({
   id: z.string(),
@@ -7,4 +7,4 @@ export const LogModel = z.object({
   severity: z.nativeEnum(Severity),
   createdAt: z.date(),
   updatedAt: z.date(),
-});
+})

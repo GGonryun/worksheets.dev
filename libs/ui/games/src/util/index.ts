@@ -7,3 +7,4 @@ export * from './types';
 export * from './urls';
 export * from './elementary';
 export * from './organization';
+export * from './nonograms';
