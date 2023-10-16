@@ -17,6 +17,7 @@ export const PixelCell: FC<{
         display: 'grid',
         placeItems: 'center',
         textAlign: 'center',
+        userSelect: 'none',
       }}
     >
       {children}
