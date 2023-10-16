@@ -224,12 +224,13 @@ export const useNonogramPencil = (
   const onPanEnd = () => {
     if (!selections || !panSelections) return;
 
+    // clear the pan action.
+    setPanAction(undefined);
+
     // save pan selections into the selections.
     setSelections(panSelections);
     checkVictory(panSelections);
 
-    // clear the pan action.
-    setPanAction(undefined);
     // clear pan points.
     setPanSelections(undefined);
   };
@@ -241,8 +242,6 @@ export const useNonogramPencil = (
     if (i < 0 || i >= grid.length || j < 0 || j >= grid[i].length) return;
 
     // update the highlights
-    // if we've already highlighted the current point we'll just return.
-    if (highlights[i][j]) return;
     setHighlights((prev) => {
       // highlight the current point.
       prev[i][j] = true;
@@ -250,8 +249,6 @@ export const useNonogramPencil = (
     });
 
     // set the current point as the active point.
-    // if we have already panned over the current point we'll just return.
-    if (points[i][j]) return;
     setPoints(() => {
       // clear the previous selection
       const newPoints = emptyPoints(grid);
