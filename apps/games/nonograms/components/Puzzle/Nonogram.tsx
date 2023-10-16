@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import { GeneratedNonogram, borderRadius } from '@worksheets/ui-games';
+import { GeneratedNonogram } from '@worksheets/ui-games';
 import { ColumnHints } from './ColumnHints';
 import { PixelGrid } from './PixelGrid';
 import { RowHints } from './RowHints';
@@ -43,8 +43,8 @@ export const Nonogram: FC<NonogramProps> = ({
         justifyContent: 'flex-end',
         alignItems: 'flex-end',
         backgroundColor: 'white',
-        padding: 2,
-        borderRadius: borderRadius,
+        padding: 1,
+        borderRadius: 1,
         boxShadow: boxShadow,
       }}
     >
