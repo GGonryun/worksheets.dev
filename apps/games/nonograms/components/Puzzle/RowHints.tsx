@@ -72,6 +72,7 @@ export const RowHints: FC<RowHintsProps> = ({
               width="100%"
               alignItems="flex-end"
               justifyContent="flex-end"
+              pr="4px"
             >
               {row.map((hint, j) => (
                 <Typography
