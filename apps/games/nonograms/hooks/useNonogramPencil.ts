@@ -33,6 +33,9 @@ export const useNonogramPencil = (
   const [redos, setRedos] = useState<NonogramState[]>([]);
   // pan handling.
   const [panAction, setPanAction] = useState<Selection | undefined>(undefined);
+  const [panSelections, setPanSelections] = useState<
+    NonogramSelections | undefined
+  >(undefined);
 
   useEffect(() => {
     if (loading) return;
@@ -214,14 +217,21 @@ export const useNonogramPencil = (
 
     // update the selections
     const newSelections = panPaintSelection(selections, { i, j }, newPanAction);
-    setSelections(newSelections);
+    setPanSelections(newSelections);
     checkVictory(newSelections);
   };
 
-  const onPanEnd = (i: number, j: number) => {
-    if (!selections) return;
+  const onPanEnd = () => {
+    if (!selections || !panSelections) return;
+
+    // save pan selections into the selections.
+    setSelections(panSelections);
+    checkVictory(panSelections);
+
     // clear the pan action.
     setPanAction(undefined);
+    // clear pan points.
+    setPanSelections(undefined);
   };
 
   const onPan = (i: number, j: number) => {
@@ -232,6 +242,7 @@ export const useNonogramPencil = (
 
     // update the highlights
     // if we've already highlighted the current point we'll just return.
+    if (highlights[i][j]) return;
     setHighlights((prev) => {
       // highlight the current point.
       prev[i][j] = true;
@@ -240,6 +251,7 @@ export const useNonogramPencil = (
 
     // set the current point as the active point.
     // if we have already panned over the current point we'll just return.
+    if (points[i][j]) return;
     setPoints(() => {
       // clear the previous selection
       const newPoints = emptyPoints(grid);
@@ -248,9 +260,10 @@ export const useNonogramPencil = (
     });
 
     // update the selections
-    const newSelections = panPaintSelection(selections, { i, j }, panAction);
-    setSelections(newSelections);
-    checkVictory(newSelections);
+    setPanSelections((prev) => {
+      if (!prev) return;
+      return panPaintSelection(prev, { i, j }, panAction);
+    });
   };
 
   const panPaintSelection = (
@@ -262,7 +275,7 @@ export const useNonogramPencil = (
     const newSelections = cloneDeep([...selections]);
     const { i, j } = point;
     const isInverting = override === Selection.Empty && panAction !== action;
-
+    console.log('inverting?', isInverting, override, panAction, action);
     // check if we have a matching mark on the current point.
     if (selections[i][j] === action) {
       // if we're inverting
@@ -272,7 +285,7 @@ export const useNonogramPencil = (
       }
       // otherwise do nothing
     } else if (
-      override === Selection.Empty ||
+      action === Selection.Empty ||
       selections[i][j] === Selection.Empty
     ) {
       // place our action on the current point.
@@ -366,7 +379,7 @@ export const useNonogramPencil = (
 
   return {
     highlights,
-    selections,
+    selections: panSelections ?? selections,
     points,
     action,
     undos,
