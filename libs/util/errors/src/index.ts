@@ -17,6 +17,7 @@ export const TRPC_ERROR_CODE_HTTP_STATUS: Record<TRPCError['code'], number> = {
   METHOD_NOT_SUPPORTED: 405,
   TOO_MANY_REQUESTS: 429,
   UNPROCESSABLE_CONTENT: 422,
+  NOT_IMPLEMENTED: 501,
 };
 
 export const HTTP_STATUS_CODE_TRPC_ERROR: Record<number, TRPCError['code']> = {
@@ -33,4 +34,5 @@ export const HTTP_STATUS_CODE_TRPC_ERROR: Record<number, TRPCError['code']> = {
   405: 'METHOD_NOT_SUPPORTED',
   429: 'TOO_MANY_REQUESTS',
   422: 'UNPROCESSABLE_CONTENT',
+  501: 'NOT_IMPLEMENTED',
 };

@@ -5,7 +5,7 @@ import * as FullStory from '@fullstory/browser';
 import { MobileMeta, UpdateGameModal } from '@worksheets/ui-games';
 import { SERVICE_SETTINGS } from '@worksheets/data-access/server-settings';
 import { useVersion } from '@worksheets/ui-core';
-import { APP_VERSION, GAME_TITLE } from '../util';
+import { APP_VERSION, GAME_TITLE } from '../util/constants';
 import { useRouter } from 'next/router';
 
 if (typeof window !== 'undefined') {

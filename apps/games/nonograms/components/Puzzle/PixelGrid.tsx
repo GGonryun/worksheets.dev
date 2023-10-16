@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 import { FC } from 'react';
 import { PixelCell } from './PixelCell';
-import { bonusBorder } from '../../util';
+import { bonusBorder } from '../../util/tools';
 import {
   NonogramHighlights,
   NonogramPoints,
@@ -11,23 +11,35 @@ import {
 import { Clear } from '@mui/icons-material';
 import { useTheme } from '@mui/material';
 import { highlightColor } from '../../util/styles';
+import { useComponentSize } from '@worksheets/ui-core';
+import { motion } from 'framer-motion';
+import { GeneratedNonogram } from '@worksheets/ui-games';
 
 export type PixelGridProps = {
+  nonogram: GeneratedNonogram;
   boxSize: number;
-  selections: NonogramSelections;
+  selections?: NonogramSelections;
   highlights: NonogramHighlights;
   points: NonogramPoints;
   onClick: (i: number, j: number) => void;
+  onPanStart: (i: number, j: number) => void;
+  onPanEnd: (i: number, j: number) => void;
+  onPan: (i: number, j: number) => void;
 };
 
 export const PixelGrid: FC<PixelGridProps> = ({
+  nonogram,
   points,
   selections,
   highlights,
   boxSize,
   onClick,
+  onPanStart,
+  onPanEnd,
+  onPan,
 }) => {
   const theme = useTheme();
+  const { ref, dimensions } = useComponentSize();
 
   const suggestedSizing = () => {
     if (boxSize < 24) return boxSize - 2;
@@ -53,13 +65,71 @@ export const PixelGrid: FC<PixelGridProps> = ({
       : 'none';
   };
 
+  const pseudoGrid = () => {
+    // this is a hack to get positions of the grid to work
+    // with the motion library despite having borders and padding
+    const sizes: number[] = nonogram.solution?.map((_, i) => boxSize + 1) ?? [];
+    // every fourth row gets a bonus border
+    // to simulate the grid
+    sizes.forEach((_, i) => {
+      if (i % 4 === 0) sizes[i] += 2;
+    });
+
+    // accumulate the widths across the rows
+    // so that we can use them to calculate the position of the grid
+    const points = sizes.reduce(
+      (acc, curr) => {
+        const last = acc[acc.length - 1];
+        acc.push(last + curr);
+        return acc;
+      },
+      [0]
+    );
+
+    return points;
+  };
+
+  const getPoints = (clientX: number, clientY: number) => {
+    const offsetX = clientX - dimensions.x;
+    const offsetY = clientY - dimensions.y;
+    const points = pseudoGrid();
+    // find which point the click is closest to
+    const i = points.findIndex((point) => point > offsetY) - 1;
+    const j = points.findIndex((point) => point > offsetX) - 1;
+    return { i, j };
+  };
+
   return (
     <Box
+      ref={ref}
       sx={{
         border: '3px solid black',
       }}
     >
-      {selections.map((row, i) => {
+      <motion.div
+        onPanStart={(e) => {
+          const { i, j } = getPoints(e.clientX, e.clientY);
+          onPanStart(i, j);
+        }}
+        onPanEnd={(e) => {
+          const { i, j } = getPoints(e.clientX, e.clientY);
+          onPanEnd(i, j);
+        }}
+        onPan={(e) => {
+          const { i, j } = getPoints(e.clientX, e.clientY);
+          onPan(i, j);
+        }}
+        onClick={(e) => {
+          const { i, j } = getPoints(e.clientX, e.clientY);
+          onClick(i, j);
+        }}
+        style={{
+          position: 'absolute',
+          height: dimensions.height - 4,
+          width: dimensions.width - 4,
+        }}
+      />
+      {selections?.map((row, i) => {
         return (
           <Box
             key={i}
@@ -75,7 +145,6 @@ export const PixelGrid: FC<PixelGridProps> = ({
                 sx={{
                   backgroundColor: highlight(i, j),
                 }}
-                onClick={() => onClick(i, j)}
               >
                 <PixelCell height={boxSize} width={boxSize}>
                   <Box

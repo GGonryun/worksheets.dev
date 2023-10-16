@@ -2,18 +2,15 @@ import { Square, Clear, SquareOutlined, MoreHoriz } from '@mui/icons-material';
 import { borderRadius } from '@worksheets/ui-games';
 import { Box, useTheme } from '@mui/material';
 import { FC, useEffect, useState } from 'react';
-import { BonusPricing, GridAction } from '../../../util/types';
 import { boxShadow } from '../../../util/styles';
+import { Selection } from '../../../util/types';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ActionButton } from './ActionButton';
-import { BonusActions } from './BonusActions';
 import { ExtraActions } from './ExtraActions';
 
 export type ActionsBarProps = {
   size: number;
-  tokens: number;
-  action: GridAction;
-  prices: BonusPricing;
+  action: Selection;
   disabled: boolean;
   canUndo: boolean;
   canRedo: boolean;
@@ -21,14 +18,13 @@ export type ActionsBarProps = {
   onReset: () => void;
   onUndo: () => void;
   onRedo: () => void;
-  setAction: (action: GridAction) => void;
+  onHelp: () => void;
+  setAction: (action: Selection) => void;
 };
 
 export const ActionsBar: FC<ActionsBarProps> = ({
   size,
   action,
-  tokens,
-  prices,
   disabled,
   canUndo,
   canRedo,
@@ -36,17 +32,16 @@ export const ActionsBar: FC<ActionsBarProps> = ({
   onReset,
   onUndo,
   onRedo,
+  onHelp,
   setAction,
 }) => {
   const theme = useTheme();
   const [showExtraActions, setShowExtraActions] = useState(false);
-  const [showBonuses, setShowBonuses] = useState(false);
 
   useEffect(() => {
     // if disabled, close all menus
     if (disabled) {
       setShowExtraActions(false);
-      setShowBonuses(false);
     }
   }, [disabled]);
 
@@ -83,45 +78,13 @@ export const ActionsBar: FC<ActionsBarProps> = ({
               onReset={onReset}
               onUndo={onUndo}
               onRedo={onRedo}
-              tokens={tokens}
               size={size}
-              onBonus={() => {
-                setShowExtraActions(false);
-                setShowBonuses(true);
-              }}
+              onHelp={onHelp}
             />
           </motion.div>
         )}
       </AnimatePresence>
-      <AnimatePresence>
-        {showBonuses && (
-          <motion.div {...animation}>
-            <BonusActions
-              action={action}
-              prices={prices}
-              tokens={tokens}
-              size={size}
-              onBack={() => {
-                setShowExtraActions(true);
-                setShowBonuses(false);
-                setAction('draw');
-              }}
-              onCrosshair={() => {
-                setAction('crosshair');
-              }}
-              onBucket={() => {
-                setAction('bucket');
-              }}
-              onHelp={() => {
-                alert('TODO: show help modal');
-              }}
-              onStar={() => {
-                alert('TODO: show star modal');
-              }}
-            />
-          </motion.div>
-        )}
-      </AnimatePresence>
+
       <Box
         sx={{
           display: 'flex',
@@ -131,47 +94,36 @@ export const ActionsBar: FC<ActionsBarProps> = ({
           borderRadius: borderRadius,
           backgroundColor: 'white',
           boxShadow: boxShadow,
-          gap: size * 0.15,
+          gap: size * 0.1,
         }}
       >
         <ActionButton
           disabled={disabled}
-          active={action === 'draw'}
+          active={action === Selection.Square}
           size={size}
-          onClick={() => setAction('draw')}
+          onClick={() => setAction(Selection.Square)}
           Icon={Square}
         />
         <ActionButton
           disabled={disabled}
-          active={action === 'mark'}
+          active={action === Selection.Cross}
           size={size}
-          onClick={() => setAction('mark')}
+          onClick={() => setAction(Selection.Cross)}
           Icon={Clear}
           IconProps={{ color: theme.palette.error.main }}
         />
         <ActionButton
           disabled={disabled}
-          active={action === 'clear'}
+          active={action === Selection.Empty}
           size={size}
-          onClick={() => setAction('clear')}
+          onClick={() => setAction(Selection.Empty)}
           Icon={SquareOutlined}
         />
         <ActionButton
           circular
           disabled={disabled}
           size={size}
-          onClick={() => {
-            if (showBonuses) {
-              setShowBonuses(false);
-              if (action === 'bucket' || action === 'crosshair') {
-                setAction('draw');
-              }
-            } else if (showExtraActions) {
-              setShowExtraActions(false);
-            } else {
-              setShowExtraActions(true);
-            }
-          }}
+          onClick={() => setShowExtraActions((prev) => !prev)}
           Icon={MoreHoriz}
         />
       </Box>

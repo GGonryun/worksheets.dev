@@ -1,4 +1,4 @@
-import { Selection } from './types';
+import { NonogramHighlights, NonogramPoints, Selection } from './types';
 
 export const displayHints = (hints: number[]) => {
   if (hints.length === 0) return 0;
@@ -42,4 +42,22 @@ export const gather = (arr?: Selection[]): number[] => {
   }
   // remove any 0 or empty groups.
   return groups.filter((group) => group > 0);
+};
+
+export const convertToSelections = (arr: boolean[][]): Selection[][] => {
+  return arr.map((row) =>
+    row.map((cell) => (cell ? Selection.Square : Selection.Empty))
+  );
+};
+
+export const emptySelections = (arr: boolean[][]): Selection[][] => {
+  return arr.map((row) => row.map(() => Selection.Empty));
+};
+
+export const emptyPoints = (arr: boolean[][]): NonogramPoints => {
+  return arr.map((row) => row.map(() => false));
+};
+
+export const emptyHighlights = (arr: boolean[][]): NonogramHighlights => {
+  return arr.map((row) => row.map(() => false));
 };

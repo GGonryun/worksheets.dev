@@ -15,10 +15,13 @@ import {
 export type NonogramProps = {
   size: number;
   nonogram: GeneratedNonogram;
-  selections: NonogramSelections;
+  selections?: NonogramSelections;
   highlights: NonogramHighlights;
   points: NonogramPoints;
-  onClick: (i: number, j: number, o: NonogramObject) => void;
+  onClick?: (i: number, j: number, o: NonogramObject) => void;
+  onPanStart?: (i: number, j: number) => void;
+  onPanEnd?: (i: number, j: number) => void;
+  onPan?: (i: number, j: number) => void;
 };
 export const Nonogram: FC<NonogramProps> = ({
   size,
@@ -27,6 +30,9 @@ export const Nonogram: FC<NonogramProps> = ({
   highlights,
   points,
   onClick,
+  onPanStart,
+  onPanEnd,
+  onPan,
 }) => {
   return (
     <Box
@@ -48,7 +54,9 @@ export const Nonogram: FC<NonogramProps> = ({
         highlights={highlights}
         selections={selections}
         points={points}
-        onClick={(row: number) => onClick(row, -1, NonogramObject.Row)}
+        onClick={(row: number) =>
+          onClick && onClick(row, -1, NonogramObject.Row)
+        }
       />
       <Box>
         <ColumnHints
@@ -58,17 +66,25 @@ export const Nonogram: FC<NonogramProps> = ({
           highlights={highlights}
           points={points}
           onClick={(column: number) =>
-            onClick(-1, column, NonogramObject.Column)
+            onClick && onClick(-1, column, NonogramObject.Column)
           }
         />
         <PixelGrid
+          nonogram={nonogram}
           boxSize={size}
           highlights={highlights}
           selections={selections}
           points={points}
           onClick={(row: number, column: number) =>
-            onClick(row, column, NonogramObject.Cell)
+            onClick && onClick(row, column, NonogramObject.Cell)
           }
+          onPanStart={(row: number, column: number) =>
+            onPanStart && onPanStart(row, column)
+          }
+          onPanEnd={(row: number, column: number) =>
+            onPanEnd && onPanEnd(row, column)
+          }
+          onPan={(row: number, column: number) => onPan && onPan(row, column)}
         />
       </Box>
     </Box>

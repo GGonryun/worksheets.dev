@@ -62,6 +62,7 @@ export const urls = {
     wordSearch: SERVER_SETTINGS.WEBSITES.WORD_SEARCH_URL(),
     wordPack: SERVER_SETTINGS.WEBSITES.WORD_PACK_URL(),
     wordSmith: SERVER_SETTINGS.WEBSITES.WORD_SMITH_URL(),
+    nonograms: SERVER_SETTINGS.WEBSITES.NONOGRAMS_URL(),
   },
   external: {
     waterOrg: 'https://water.org',

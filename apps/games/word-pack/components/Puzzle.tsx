@@ -97,7 +97,6 @@ export const Puzzle: FC<PuzzleProps> = (props) => {
 
   useEffect(() => {
     if (isComplete) {
-      console.log('detected level complete');
       onCompleteLevel(isComplete);
     }
   }, [onCompleteLevel, isComplete]);

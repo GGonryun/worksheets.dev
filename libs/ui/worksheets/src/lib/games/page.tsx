@@ -38,6 +38,14 @@ export const GamesPage = () => {
             },
             {
               isNew: true,
+              color: featureColors.red,
+              title: 'Nonograms',
+              subtitle:
+                'A picture based crossword game, unlock cute pixel pictures.',
+              src: '/games/nonograms.svg',
+              href: urls.games.nonograms,
+            },
+            {
               color: featureColors.blue,
               title: 'Word Search',
               subtitle: 'Find and highlight words in a grid of letters.',

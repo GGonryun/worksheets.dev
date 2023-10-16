@@ -265,7 +265,6 @@ export class WordSlots {
     const remaining = this.spread().map((slot) => slot.possibilities[0]);
     const set = new Set(remaining);
     if (set.size !== remaining.length) {
-      // console.info('solution has duplicates', remaining);
       return true;
     }
 

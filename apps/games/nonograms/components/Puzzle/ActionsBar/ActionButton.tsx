@@ -43,7 +43,7 @@ export const ActionButton: FC<{
             cursor: 'pointer',
             display: 'grid',
             placeItems: 'center',
-            p: '1px',
+            p: '2px',
             borderRadius: circular ? '50%' : '4px',
             backgroundColor: disabled ? theme.palette.text.disabled : 'white',
             border: `${borderThickness()} solid ${
@@ -51,7 +51,7 @@ export const ActionButton: FC<{
             }`,
           }}
         >
-          <Icon sx={{ color: 'black', fontSize: size * 1.2, ...IconProps }} />
+          <Icon sx={{ color: 'black', fontSize: size * 0.8, ...IconProps }} />
         </Box>
 
         {active && (
@@ -73,7 +73,7 @@ export const ActionButton: FC<{
       </Box>
       {label && (
         <Typography
-          fontSize={size * 0.5}
+          fontSize={size * 0.4}
           fontWeight={900}
           sx={LabelProps}
           color={

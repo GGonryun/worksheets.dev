@@ -3,13 +3,12 @@ import {
   Modal as MuiModal,
   ModalProps as MuiModalProps,
   Paper,
-  Theme,
 } from '@mui/material';
 import { borderRadius } from '../../util';
 
 export type ModalProps = Pick<
   MuiModalProps,
-  'open' | 'onClose' | 'children'
+  'open' | 'onClose' | 'children' | 'sx'
 > & {
   maxWidth?: number;
   maxHeight?: number;
@@ -19,6 +18,7 @@ export const Modal: FC<ModalProps> = ({
   children,
   maxWidth,
   maxHeight,
+  sx,
   ...props
 }) => {
   return (
@@ -38,6 +38,7 @@ export const Modal: FC<ModalProps> = ({
             left: '50%',
             transform: 'translate(-50%, -50%)',
             overflow: 'scroll',
+            ...sx,
           }}
         >
           {children}

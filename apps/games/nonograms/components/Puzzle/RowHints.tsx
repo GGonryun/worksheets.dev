@@ -1,7 +1,7 @@
 import { Box, Typography, useTheme } from '@mui/material';
 import { PixelCell } from './PixelCell';
 import { FC } from 'react';
-import { bonusBorder, gather, longest } from '../../util';
+import { bonusBorder, gather, longest } from '../../util/tools';
 import {
   NonogramHighlights,
   NonogramPoints,
@@ -13,7 +13,7 @@ import { compareArrays } from '@worksheets/util/arrays';
 export type RowHintsProps = {
   boxSize: number;
   hints: number[][];
-  selections: NonogramSelections;
+  selections?: NonogramSelections;
   highlights: NonogramHighlights;
   points: NonogramPoints;
   onClick: (row: number) => void;
@@ -31,6 +31,8 @@ export const RowHints: FC<RowHintsProps> = ({
   const width = longest(hints);
 
   const highlight = (i: number) => {
+    if (!selections) return 'none';
+
     // check if the row is completed.
     const expected = hints[i].filter((hint) => hint > 0);
     // gather the number of selected cells

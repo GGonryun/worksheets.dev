@@ -1,9 +1,4 @@
-import {
-  CachedOutlined,
-  Undo,
-  Redo,
-  StarBorderOutlined,
-} from '@mui/icons-material';
+import { CachedOutlined, Undo, Redo, QuestionMark } from '@mui/icons-material';
 import {
   borderRadius,
   tabletBoxShadow,
@@ -11,31 +6,28 @@ import {
 } from '@worksheets/ui-games';
 import { FC } from 'react';
 import { ActionButton } from './ActionButton';
-import { Box, useTheme } from '@mui/material';
+import { Box } from '@mui/material';
 
 export type ExtraActionsProps = {
   size: number;
-  tokens: number;
   canUndo: boolean;
   canRedo: boolean;
   canReset: boolean;
   onReset: () => void;
   onUndo: () => void;
   onRedo: () => void;
-  onBonus: () => void;
+  onHelp: () => void;
 };
 export const ExtraActions: FC<ExtraActionsProps> = ({
   size,
-  tokens,
   canUndo,
   canRedo,
   canReset,
   onUndo,
   onRedo,
   onReset,
-  onBonus,
+  onHelp,
 }) => {
-  const theme = useTheme();
   return (
     <Box
       sx={{
@@ -45,7 +37,7 @@ export const ExtraActions: FC<ExtraActionsProps> = ({
         borderRadius: borderRadius,
         backgroundColor: 'white',
         boxShadow: `${tabletBoxShadow}, ${dokaBoxShadow}`,
-        gap: size * 0.15,
+        gap: size * 0.1,
         display: 'flex',
         zIndex: 10,
       }}
@@ -77,10 +69,9 @@ export const ExtraActions: FC<ExtraActionsProps> = ({
       <ActionButton
         circular
         size={size}
-        label={`${tokens}`}
-        onClick={onBonus}
-        LabelProps={{ color: theme.palette.success.main }}
-        Icon={StarBorderOutlined}
+        label="Help"
+        onClick={onHelp}
+        Icon={QuestionMark}
       />
     </Box>
   );

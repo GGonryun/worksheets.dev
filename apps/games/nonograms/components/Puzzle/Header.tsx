@@ -1,14 +1,26 @@
 import { ArrowBack, Menu } from '@mui/icons-material';
-import { Box } from '@mui/material';
-import { FC } from 'react';
+import { Box, Typography } from '@mui/material';
+import { FC, MouseEventHandler } from 'react';
 import { HeaderButton } from './HeaderButton';
+import { BasicButton } from '../BasicButton';
 
 export type HeaderProps = {
+  levelComplete: boolean;
   windowHeight: number;
   size: number;
+  onLevelComplete: () => void;
+  onMenu: MouseEventHandler<HTMLDivElement>;
+  onBack: MouseEventHandler<HTMLDivElement>;
 };
 
-export const Header: FC<HeaderProps> = ({ windowHeight, size }) => {
+export const Header: FC<HeaderProps> = ({
+  levelComplete,
+  windowHeight,
+  size,
+  onLevelComplete,
+  onBack,
+  onMenu,
+}) => {
   return (
     <Box
       position="absolute"
@@ -20,8 +32,17 @@ export const Header: FC<HeaderProps> = ({ windowHeight, size }) => {
       justifyContent="center"
     >
       <Box display="flex" width="90%" justifyContent="space-between">
-        <HeaderButton Icon={ArrowBack} size={size} />
-        <HeaderButton Icon={Menu} size={size} />
+        <HeaderButton Icon={ArrowBack} size={size} onClick={onBack} />
+        {levelComplete && (
+          <Box mt={1}>
+            <BasicButton color="white" onClick={() => onLevelComplete()}>
+              <Typography fontWeight={900} variant="body2">
+                🎉 Next Level
+              </Typography>
+            </BasicButton>
+          </Box>
+        )}
+        <HeaderButton Icon={Menu} size={size} onClick={onMenu} />
       </Box>
     </Box>
   );
