@@ -114,7 +114,10 @@ export const useNonogramPencil = (
     if (newSelections[i][j] === action) {
       // if so clear it.
       newSelections[i][j] = Selection.Empty;
-    } else if (newSelections[i][j] === Selection.Empty) {
+    } else if (
+      action === Selection.Empty ||
+      newSelections[i][j] === Selection.Empty
+    ) {
       // if it's empty place a mark on the current point.
       newSelections[i][j] = action;
     } else {
@@ -270,7 +273,10 @@ export const useNonogramPencil = (
         newSelections[i][j] = Selection.Empty;
       }
       // otherwise do nothing
-    } else if (selections[i][j] === Selection.Empty) {
+    } else if (
+      override === Selection.Empty ||
+      selections[i][j] === Selection.Empty
+    ) {
       // place our action on the current point.
       newSelections[i][j] = override;
     } else {
