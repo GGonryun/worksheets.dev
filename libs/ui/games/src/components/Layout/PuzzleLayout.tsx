@@ -14,6 +14,8 @@ export const PuzzleLayout: FC<{
       <Box
         className="puzzle-layout"
         sx={{
+          userSelect: 'none',
+          touchAction: 'none',
           height: ratios.content,
           width: '100%',
           display: 'flex',
@@ -52,6 +54,8 @@ export const PuzzleLayout: FC<{
       <Box
         className="puzzle-layout-footer"
         sx={{
+          userSelect: 'none',
+          touchAction: 'none',
           mt: 3,
           overflow: 'auto',
           width: '100%',

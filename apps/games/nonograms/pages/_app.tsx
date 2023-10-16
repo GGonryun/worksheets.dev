@@ -4,7 +4,7 @@ import './styles.css';
 import * as FullStory from '@fullstory/browser';
 import { MobileMeta, UpdateGameModal } from '@worksheets/ui-games';
 import { SERVICE_SETTINGS } from '@worksheets/data-access/server-settings';
-import { useEventListener, useVersion } from '@worksheets/ui-core';
+import { useVersion } from '@worksheets/ui-core';
 import { APP_VERSION, GAME_TITLE } from '../util/constants';
 import { useRouter } from 'next/router';
 
@@ -20,10 +20,6 @@ function CustomApp({ Component, pageProps }: AppProps) {
     update();
     reload();
   };
-
-  useEventListener('touchmove', (e) => e.preventDefault(), undefined, {
-    passive: false,
-  });
 
   return (
     <>

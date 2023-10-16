@@ -4,8 +4,11 @@ import { FC, ReactNode } from 'react';
 
 export const Layout: FC<{ children: ReactNode }> = ({ children }) => (
   <Box
+    className="gallery-layout"
     sx={{
       position: 'absolute',
+      userSelect: 'none',
+      touchAction: 'none',
       left: 0,
       right: 0,
       top: 0,

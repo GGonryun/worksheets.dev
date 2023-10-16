@@ -4,7 +4,10 @@ import { FC, ReactNode } from 'react';
 
 export const Layout: FC<{ children: ReactNode }> = ({ children }) => (
   <Box
+    className="levels-layout"
     sx={{
+      touchAction: 'none',
+      userSelect: 'none',
       position: 'absolute',
       left: 0,
       right: 0,

@@ -16,7 +16,10 @@ export const MobileLayout: FC<MobileLayoutProps> = ({
 }) => {
   return (
     <Box
+      className="mobile-layout"
       sx={{
+        touchAction: 'none',
+        userSelect: 'none',
         flex: 1,
         display: 'flex',
         flexDirection: 'column',
@@ -26,6 +29,8 @@ export const MobileLayout: FC<MobileLayoutProps> = ({
       {header}
       <Box
         sx={{
+          touchAction: 'none',
+          userSelect: 'none',
           display: 'flex',
           margin: 'auto',
           flexDirection: 'column',

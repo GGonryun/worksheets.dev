@@ -200,6 +200,8 @@ export const Layout: FC<{ children: ReactNode }> = ({ children }) => (
       right: 0,
       top: 0,
       bottom: 0,
+      touchAction: 'none',
+      userSelect: 'none',
       display: 'grid',
       placeItems: 'center',
       backgroundColor: (theme) => backgroundColor(theme),
