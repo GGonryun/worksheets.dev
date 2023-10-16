@@ -1,6 +1,13 @@
+html {
+  touch-action: none;
+  user-select: none;
+}
+
 body {
   margin: 0;
   padding: 0;
+  touch-action: none;
+  user-select: none;
 }
 
 main {
@@ -8,6 +15,4 @@ main {
   width: 100%;
   overflow: auto;
   display: flex;
-  touch-action: none;
-  user-select: none;
 }
