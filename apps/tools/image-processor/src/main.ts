@@ -1,13 +1,14 @@
+import fs from 'fs';
 import Jimp from 'jimp';
 // import fs from 'fs';
 import { arrayFromLength } from '@worksheets/util/arrays';
 
 const path = __dirname + '/assets';
-// fs.readdirSync(path).forEach((file) => {
-//   console.log(file);
-// });
+fs.readdirSync(path).forEach((file) => {
+  // console.log(file);
+});
 
-const file = 'balloon.png';
+const file = '/8x8/farm/shrub.png';
 
 Jimp.read(`${path}/${file}`)
   .then((image) => {
