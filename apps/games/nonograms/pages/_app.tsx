@@ -26,10 +26,6 @@ function CustomApp({ Component, pageProps }: AppProps) {
       <Head>
         <title>{GAME_TITLE}</title>
         <MobileMeta />
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"
-        />
       </Head>
       <main>
         <Component {...pageProps} />
