@@ -16,12 +16,12 @@ import { usePlayer } from '../../hooks/usePlayer';
 import { useNonogramStorage } from '../../hooks/useNonogramStorage';
 
 export const TitlePage: FC = () => {
-  const { push } = useRouter();
+  const { push, reload } = useRouter();
   const theme = useTheme();
   const [showDonate, setShowDonate] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const player = usePlayer();
-  const storage = useNonogramStorage('tutorial-1');
+  const storage = useNonogramStorage('tutorial1');
 
   return (
     <>
@@ -59,6 +59,8 @@ export const TitlePage: FC = () => {
         onReset={() => {
           player.clear();
           storage.clear();
+          alert('Data cleared. Page will reload.');
+          reload();
         }}
       />
     </>
