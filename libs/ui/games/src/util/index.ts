@@ -8,3 +8,4 @@ export * from './urls';
 export * from './elementary';
 export * from './organization';
 export * from './nonograms';
+export * from './box';

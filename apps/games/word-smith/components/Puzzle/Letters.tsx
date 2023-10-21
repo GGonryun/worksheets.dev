@@ -1,10 +1,10 @@
 import { arrayFromLength } from '@worksheets/util/arrays';
 import { AnimatePresence, DragHandlers, motion } from 'framer-motion';
 import { FC, useState } from 'react';
-import { Boxy, getBox } from '../../util';
 import { InnerBox } from './InnerBox';
 import { Box } from '@mui/material';
 import { clamp, randomBetween } from '@worksheets/util/numbers';
+import { Boxy, getBox } from '@worksheets/ui-games';
 
 // Letters represents a group of letters that can be dragged up and down.
 export const Letters: FC<{

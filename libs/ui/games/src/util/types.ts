@@ -3,4 +3,6 @@ export type GameTitle =
   | 'Puzzle Words'
   | 'Word Pack'
   | 'Word Smith'
-  | 'Nonograms';
+  | 'Nonograms'
+  | 'Solitaire'
+  | 'Emoji War';

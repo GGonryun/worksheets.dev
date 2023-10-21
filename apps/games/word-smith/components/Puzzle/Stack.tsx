@@ -1,6 +1,5 @@
 import { arrayFromLength } from '@worksheets/util/arrays';
-import { AnimatePresence } from 'framer-motion';
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import { Letters } from './Letters';
 import { OuterBox } from './OuterBox';
 import { Box } from '@mui/material';

@@ -1,6 +1,7 @@
 import { Divider, Link, Typography, useTheme } from '@mui/material';
 import { Flex } from '@worksheets/ui-core';
 import { SharedWebsiteFooter, urls } from '@worksheets/ui/common';
+import { motion } from 'framer-motion';
 import { FC } from 'react';
 
 const footerUrls = [
@@ -49,24 +50,31 @@ const footerUrls = [
 
 export const FooterSection: FC<{
   hideLinks?: boolean;
-}> = ({ hideLinks }) => {
+  onEnter?: (e: IntersectionObserverEntry) => void;
+  onExit?: (e: IntersectionObserverEntry) => void;
+}> = ({ hideLinks, onEnter, onExit }) => {
   const theme = useTheme();
   return (
-    <Flex
-      column
-      gap={4}
-      fullWidth
-      sx={{ backgroundColor: theme.palette.background.paper, p: 3, py: 4 }}
+    <motion.div
+      onViewportEnter={(e) => e && onEnter && onEnter(e)}
+      onViewportLeave={(e) => e && onExit && onExit(e)}
     >
-      {!hideLinks && (
-        <>
-          <FooterSectionLinks />
-          <Divider />
-        </>
-      )}
+      <Flex
+        column
+        gap={4}
+        fullWidth
+        sx={{ backgroundColor: theme.palette.background.paper, p: 3, py: 4 }}
+      >
+        {!hideLinks && (
+          <>
+            <FooterSectionLinks />
+            <Divider />
+          </>
+        )}
 
-      <SharedWebsiteFooter />
-    </Flex>
+        <SharedWebsiteFooter />
+      </Flex>
+    </motion.div>
   );
 };
 

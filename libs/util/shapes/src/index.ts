@@ -1,9 +1,7 @@
-export type Point = {
-  x: number;
-  y: number;
-};
-
 // web rectangles have x values that increase from left to right.
+
+import { Point } from '@worksheets/util-coordinates';
+
 // and y values and increase from top to bottom.
 export type WebRectangle = {
   left: number;

@@ -4,22 +4,26 @@ import { NavigationBar } from './navigation-bar';
 import { Divider } from '@mui/material';
 import { FooterSection } from './footer-section';
 import { useTitle, selectBackground } from '@worksheets/ui/common';
+import { ContactButton } from './contact-button';
 
 export type LayoutProps = {
   children: React.ReactNode;
   title?: string;
   FooterProps?: { hideLinks?: boolean };
   NavigationProps?: { hideLinks?: boolean };
+  hideContactButton?: boolean;
 };
 export function MarketingLayout({
   title,
   children,
   FooterProps,
   NavigationProps,
+  hideContactButton,
 }: LayoutProps) {
   const urlTitle = title ? `${title} - Worksheets` : undefined;
   useTitle(urlTitle);
 
+  const [offsetFooter, setOffsetFooter] = React.useState<number>(0);
   return (
     <Box height="100%" display="flex">
       <NavigationBar hideLinks={NavigationProps?.hideLinks} />
@@ -40,8 +44,14 @@ export function MarketingLayout({
           {children}
         </Box>
         <Divider />
-        <FooterSection {...FooterProps} />
+
+        <FooterSection
+          {...FooterProps}
+          onEnter={(e) => setOffsetFooter(e.boundingClientRect.height)}
+          onExit={(e) => setOffsetFooter(0)}
+        />
       </Box>
+      {!hideContactButton && <ContactButton offset={offsetFooter} />}
     </Box>
   );
 }

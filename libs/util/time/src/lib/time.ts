@@ -210,6 +210,21 @@ export const printDuration = ({
 };
 
 /**
+ * @name printShortCountdown
+ * @description Prints out the seconds as a formated string like 00:00:00
+ * @param seconds the number of seconds to print
+ * @returns a string in HH:MM:SS format
+ */
+export const printShortCountdown = (seconds: number) => {
+  const pad = (num: number) => num.toString().padStart(2, '0');
+  const minutes = Math.floor(seconds / 60);
+  const remainingSeconds = seconds % 60;
+  const hours = Math.floor(minutes / 60);
+  const remainingMinutes = minutes % 60;
+  return `${pad(hours)}:${pad(remainingMinutes)}:${pad(remainingSeconds)}`;
+};
+
+/**
  * @name printCountdownDuration
  * @description returns a human readable string of the duration remaining
  * @param {Duration} duration in DD:HH:MM:SS format.

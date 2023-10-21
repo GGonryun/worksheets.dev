@@ -146,6 +146,7 @@
       "@worksheets/ui/marketing": ["libs/ui/marketing/src/index.ts"],
       "@worksheets/ui/worksheets": ["libs/ui/worksheets/src/index.ts"],
       "@worksheets/ui/worksheets/server": ["libs/ui/worksheets/src/server.ts"],
+      "@worksheets/util-coordinates": ["libs/util/coordinates/src/index.ts"],
       "@worksheets/util-hardware": ["libs/util/hardware/src/index.ts"],
       "@worksheets/util-json": ["libs/util/json/src/index.ts"],
       "@worksheets/util-next": ["libs/util/next/src/index.ts"],

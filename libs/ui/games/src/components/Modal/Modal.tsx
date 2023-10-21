@@ -10,6 +10,7 @@ export type ModalProps = Pick<
   MuiModalProps,
   'open' | 'onClose' | 'children' | 'sx'
 > & {
+  dense?: boolean;
   maxWidth?: number;
   maxHeight?: number;
 };
@@ -18,6 +19,7 @@ export const Modal: FC<ModalProps> = ({
   children,
   maxWidth,
   maxHeight,
+  dense,
   sx,
   ...props
 }) => {
@@ -32,8 +34,8 @@ export const Modal: FC<ModalProps> = ({
             maxWidth: maxWidth ?? 450,
             maxHeight: maxHeight ?? 450,
             display: 'flex',
-            height: '90%',
-            width: '90%',
+            height: dense ? undefined : '90%',
+            width: dense ? undefined : '90%',
             top: '50%',
             left: '50%',
             transform: 'translate(-50%, -50%)',

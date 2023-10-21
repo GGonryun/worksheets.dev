@@ -7,7 +7,7 @@ const Page: NextPageWithLayout = () => {
 };
 
 Page.getLayout = (page) => {
-  return <MarketingLayout>{page}</MarketingLayout>;
+  return <MarketingLayout hideContactButton>{page}</MarketingLayout>;
 };
 
 export default Page;

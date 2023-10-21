@@ -92,3 +92,7 @@ export const compareArrays = <T>(arr1: T[], arr2: T[]): boolean => {
   if (arr1.length !== arr2.length) return false;
   return arr1.every((item, index) => item === arr2[index]);
 };
+
+export const firstElement = <T>(arr: T[]): T | undefined => {
+  return arr.find((i) => i != null) as T | undefined;
+};
