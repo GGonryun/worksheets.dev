@@ -52,6 +52,7 @@ export const useNonogramPencil = (
 
   const onClick = (i: number, j: number, o: NonogramObject) => {
     if (!selections) return;
+    if (panAction != null) return;
 
     // save the current state to the undo stack.
     const newUndos = cloneDeep(undos);
@@ -188,13 +189,18 @@ export const useNonogramPencil = (
     if (i < 0 || i >= grid.length || j < 0 || j >= grid[i].length) return;
 
     // save the current state to the undo stack.
-    setUndos((prev) => [
-      ...prev,
-      cloneDeep({
-        h: highlights,
-        s: selections,
-        p: points,
-      }),
+    const stack = cloneDeep(undos);
+    const h = cloneDeep(highlights);
+    const s = cloneDeep(selections);
+    const p = cloneDeep(points);
+
+    setUndos([
+      ...stack,
+      {
+        h,
+        s,
+        p,
+      },
     ]);
 
     const selection = selections[i][j];
@@ -272,7 +278,6 @@ export const useNonogramPencil = (
     const newSelections = cloneDeep([...selections]);
     const { i, j } = point;
     const isInverting = override === Selection.Empty && panAction !== action;
-    console.log('inverting?', isInverting, override, panAction, action);
     // check if we have a matching mark on the current point.
     if (selections[i][j] === action) {
       // if we're inverting

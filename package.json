@@ -17,6 +17,7 @@
     "serve:api": "npx nx run api:serve",
     "serve:manual": "npx nx run manual:serve",
     "serve:firebase": "npx nx serve firebase",
+    "serve:charity": "npx nx run charity:serve",
     "serve:emojiwar": "npx nx run games-emoji-war:serve",
     "serve:puzzlewords": "npx nx run games-puzzle-words:serve",
     "serve:dungeonkata": "npx nx run games-dungeon-kata:serve",
@@ -25,7 +26,7 @@
     "serve:wordsmith": "npx nx run games-word-smith:serve",
     "serve:nonograms": "npx nx run games-nonograms:serve",
     "serve:solitaire": "npx nx run games-solitaire:serve",
-    "serve": "firebase logout; firebase login; concurrently --kill-others \"npm run serve:admin\" \"npm run serve:ide\" \"npm run serve:manual\" \"npm run serve:firebase\" \"npm run serve:api\" \"npm run serve:emojiwar\" \"npm run serve:puzzlewords\" \"npm run serve:dungeonkata\" \"npm run serve:wordsearch\" \"npm run serve:wordpack\" \"npm run serve:wordsmith\" \"npm run serve:nonograms\" \"npm run serve:solitaire\"",
+    "serve": "firebase logout; firebase login; concurrently --kill-others \"npm run serve:admin\" \"npm run serve:charity\" \"npm run serve:ide\" \"npm run serve:manual\" \"npm run serve:firebase\" \"npm run serve:api\" \"npm run serve:emojiwar\" \"npm run serve:puzzlewords\" \"npm run serve:dungeonkata\" \"npm run serve:wordsearch\" \"npm run serve:wordpack\" \"npm run serve:wordsmith\" \"npm run serve:nonograms\" \"npm run serve:solitaire\"",
     "prisma:studio": "npx prisma studio",
     "prisma:generate": "npx prisma generate"
   },
