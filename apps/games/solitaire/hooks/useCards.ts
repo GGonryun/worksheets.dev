@@ -266,11 +266,15 @@ export const useCards = (difficulty: GameDifficulty) => {
   }, []);
 
   const autoCompleteGame = useCallback(() => {
-    timer.pause();
     // get all cards in the deck.
     const deck = piles[PileType.Deck];
     // get all cards that are peeked.
     const peek = piles[PileType.Peek];
+    if (hidden.length || deck.length || peek.length < 1) {
+      return;
+    }
+
+    timer.pause();
     // get all cards that are in the board piles.
     const boardPiles = piles.slice(PileType.Pile1, PileType.Pile7 + 1);
     // get all cards that are in the suite piles.
@@ -312,7 +316,7 @@ export const useCards = (difficulty: GameDifficulty) => {
 
     setGameOver(true);
     player.completeGame();
-  }, [piles, player, timer]);
+  }, [hidden.length, piles, player, timer]);
 
   const moveAcrossPiles = useCallback(
     (type: CardType, toPile: PileType) => {
@@ -339,17 +343,27 @@ export const useCards = (difficulty: GameDifficulty) => {
 
       // if we're coming from the peek pile, the card isn't a hidden card.
       if (fromPileType === PileType.Peek) {
+        autoCompleteGame();
         return;
       }
 
       // if we're coming from a board pile, check if the card before the card we moved is face down.
-      if (fromPileType < PileType.Pile1) return;
+      if (fromPileType < PileType.Pile1) {
+        autoCompleteGame();
+        return;
+      }
 
       // check if the card before the card we moved is face down.
       const previousCard = fromPile[cardIndex - 1];
-      if (previousCard == null) return;
+      if (previousCard == null) {
+        autoCompleteGame();
+        return;
+      }
       // the card is already revealed.
-      if (!hidden.includes(previousCard)) return;
+      if (!hidden.includes(previousCard)) {
+        autoCompleteGame();
+        return;
+      }
       // remove the card from the hidden pile.
       const oldHidden = cloneDeep(hidden).filter(
         (card) => card !== previousCard
@@ -358,13 +372,7 @@ export const useCards = (difficulty: GameDifficulty) => {
 
       // score 5 points for each card turned face-up in a row stack.
       setScore((score) => score + 5);
-
-      // check if the game is over.
-      const deck = piles[PileType.Deck];
-      const peek = piles[PileType.Peek];
-      if (!oldHidden.length && !deck.length && peek.length < 2) {
-        autoCompleteGame();
-      }
+      autoCompleteGame();
     },
     [gameOver, getPile, saveState, piles, scorePoints, hidden, autoCompleteGame]
   );

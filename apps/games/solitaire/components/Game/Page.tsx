@@ -133,7 +133,7 @@ export const GamePage = () => {
 
   return (
     <>
-      <GameCompleteScreen open={cards.gameOver} />
+      <GameCompleteScreen open={!showDifficultyModal && cards.gameOver} />
       <DeviceWarning
         open={!ignoreMobileWarning && !isMobile && !device.loading}
         onClose={(ack) => {
