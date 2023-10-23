@@ -2,9 +2,8 @@ import { Flex } from '@worksheets/ui-core';
 import { PuzzleItem } from '../../util/types';
 import { FC } from 'react';
 import { Typography } from '@mui/material';
-import { textShadow } from '@worksheets/ui-games';
+import { textShadow, TabletButton } from '@worksheets/ui-games';
 import { HomeOutlined, Lock } from '@mui/icons-material';
-import { BasicButton } from '../BasicButton';
 import { urls } from '../../util/urls';
 
 export const PuzzleLockedScreen: FC<{ puzzle: PuzzleItem }> = ({ puzzle }) => {
@@ -32,13 +31,13 @@ export const PuzzleLockedScreen: FC<{ puzzle: PuzzleItem }> = ({ puzzle }) => {
       >
         Complete {puzzle.requires} levels to unlock this puzzle.
       </Typography>
-      <BasicButton
+      <TabletButton
         color="white"
         startIcon={<HomeOutlined />}
         href={urls.home()}
       >
         <Typography variant="h5">Main Menu</Typography>
-      </BasicButton>
+      </TabletButton>
     </Flex>
   );
 };

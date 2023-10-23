@@ -3,10 +3,15 @@ import { Link, Paper, Typography, useTheme } from '@mui/material';
 import { Flex } from '@worksheets/ui-core';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { animate, tabletBoxShadow, textShadow } from '@worksheets/ui-games';
+import {
+  animate,
+  tabletBoxShadow,
+  textShadow,
+  TabletButton,
+} from '@worksheets/ui-games';
 import { urls } from '../../util/urls';
 import { GAME_TITLE } from '../../util/constants';
-import { BasicButton } from '../BasicButton';
+
 import { CollectionsOutlined, PlayArrow } from '@mui/icons-material';
 
 export type TitleContentProps = {
@@ -63,7 +68,7 @@ export const TitleContent: FC<TitleContentProps> = ({
           {gameOver ? (
             <GameOverPaper />
           ) : (
-            <BasicButton
+            <TabletButton
               onClick={onLevels}
               color="white"
               startIcon={<PlayArrow sx={{ pb: '2px' }} />}
@@ -71,9 +76,9 @@ export const TitleContent: FC<TitleContentProps> = ({
               <Typography fontWeight={900} fontSize="1.25rem">
                 Select Level
               </Typography>
-            </BasicButton>
+            </TabletButton>
           )}
-          <BasicButton
+          <TabletButton
             onClick={onGallery}
             color="white"
             startIcon={<CollectionsOutlined sx={{ pb: '2px' }} />}
@@ -81,7 +86,7 @@ export const TitleContent: FC<TitleContentProps> = ({
             <Typography fontWeight={900} fontSize="1rem">
               Gallery
             </Typography>
-          </BasicButton>
+          </TabletButton>
         </Flex>
       </motion.div>
     </Flex>

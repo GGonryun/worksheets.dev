@@ -1,11 +1,10 @@
 import { Typography, Button } from '@mui/material';
 import { Flex } from '@worksheets/ui-core';
-import { Modal } from '@worksheets/ui-games';
+import { Modal, TabletButton } from '@worksheets/ui-games';
 import { FC } from 'react';
 import { findPuzzle } from '../puzzles';
 import { capitalizeFirstLetter } from '@worksheets/util/strings';
 import Image from 'next/image';
-import { BasicButton } from './BasicButton';
 import { Cancel, RemoveRedEyeOutlined } from '@mui/icons-material';
 import { motion } from 'framer-motion';
 import {
@@ -52,12 +51,12 @@ export const DetailsModal: FC<DetailsModalProps> = ({
         </motion.div>
         <Flex column pt={2} centered gap={2}>
           <motion.div {...flyUpAnimation(0)}>
-            <BasicButton
+            <TabletButton
               onClick={onClose}
               startIcon={<Cancel sx={{ pb: '2px' }} />}
             >
               <Typography variant="h6">Cancel</Typography>
-            </BasicButton>
+            </TabletButton>
           </motion.div>
           <motion.div {...flyUpAnimation(0.1)}>
             <Button

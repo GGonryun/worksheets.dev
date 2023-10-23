@@ -1,3 +1,3 @@
-import { GamePage } from '../components/Game';
+import { TitlePage } from '../components/Title/TitlePage';
 
-export default GamePage;
+export default TitlePage;

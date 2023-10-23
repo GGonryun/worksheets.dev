@@ -1,9 +1,8 @@
 import { Typography } from '@mui/material';
 import { Flex } from '@worksheets/ui-core';
-import { Modal } from '@worksheets/ui-games';
+import { Modal, TabletButton } from '@worksheets/ui-games';
 import Image from 'next/image';
 import { FC } from 'react';
-import { BasicButton } from '../BasicButton';
 import { boxShadow } from '../../util/styles';
 
 export type InfoModalProps = {
@@ -29,11 +28,11 @@ export const InfoModal: FC<InfoModalProps> = ({ open, onClose }) => {
             Add pictures to your collection by finishing levels. Track your
             progress and replay your favorite puzzles anytime!
           </Typography>
-          <BasicButton onClick={onClose}>
+          <TabletButton onClick={onClose}>
             <Typography variant="body2" px={3} py={0.5} fontWeight={900}>
               Got it!
             </Typography>
-          </BasicButton>
+          </TabletButton>
         </Flex>
       </Flex>
     </Modal>

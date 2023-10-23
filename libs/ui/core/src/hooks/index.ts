@@ -9,3 +9,5 @@ export * from './useWindowResize';
 export * from './useEventListener';
 export * from './useVersion';
 export * from './useComponentSize';
+export * from './useDeviceDetect';
+export * from './useTimer';

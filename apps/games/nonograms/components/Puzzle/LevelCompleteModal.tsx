@@ -1,5 +1,5 @@
 import { Box, Button, Divider, Link, Typography } from '@mui/material';
-import { Modal } from '@worksheets/ui-games';
+import { Modal, TabletButton } from '@worksheets/ui-games';
 import { FC } from 'react';
 import { PuzzleItem } from '../../util/types';
 import { Flex } from '@worksheets/ui-core';
@@ -9,7 +9,6 @@ import { urls } from '../../util/urls';
 import { motion } from 'framer-motion';
 import ConfettiExplosion from 'react-confetti-explosion';
 import React from 'react';
-import { BasicButton } from '../BasicButton';
 import {
   growAnimation,
   spinAnimation,
@@ -93,9 +92,9 @@ export const LevelCompleteModal: FC<{
               </Typography>
             </motion.div>
             <motion.div {...flyUpAnimation(0.25)}>
-              <BasicButton href={urls.levels()}>
+              <TabletButton href={urls.levels()}>
                 <Typography variant="h6">Next Level</Typography>
-              </BasicButton>
+              </TabletButton>
             </motion.div>
             <motion.div {...flyUpAnimation(0.5)}>
               <Button

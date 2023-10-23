@@ -2,7 +2,7 @@ import { ArrowBack, Menu } from '@mui/icons-material';
 import { Box, Typography } from '@mui/material';
 import { FC, MouseEventHandler } from 'react';
 import { HeaderButton } from './HeaderButton';
-import { BasicButton } from '../BasicButton';
+import { TabletButton } from '@worksheets/ui-games';
 
 export type HeaderProps = {
   levelComplete: boolean;
@@ -35,11 +35,11 @@ export const Header: FC<HeaderProps> = ({
         <HeaderButton Icon={ArrowBack} size={size} onClick={onBack} />
         {levelComplete && (
           <Box mt={1}>
-            <BasicButton color="white" onClick={() => onLevelComplete()}>
+            <TabletButton color="white" onClick={() => onLevelComplete()}>
               <Typography fontWeight={900} variant="body2">
                 🎉 Next Level
               </Typography>
-            </BasicButton>
+            </TabletButton>
           </Box>
         )}
         <HeaderButton Icon={Menu} size={size} onClick={onMenu} />

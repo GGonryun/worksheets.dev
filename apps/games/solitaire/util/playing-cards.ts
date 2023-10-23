@@ -1,4 +1,40 @@
-import { GameDifficulty, PileType } from './enums';
+export enum GameDifficulty {
+  None = 'None',
+  Easy = 'Easy',
+  Hard = 'Hard',
+}
+
+export enum PileType {
+  Deck = 0,
+  Peek = 1,
+  Hearts = 2, // hearts
+  Diamonds = 3, // diamonds
+  Clubs = 4, // clubs
+  Spades = 5, // spades
+  Pile1 = 6,
+  Pile2 = 7,
+  Pile3 = 8,
+  Pile4 = 9,
+  Pile5 = 10,
+  Pile6 = 11,
+  Pile7 = 12,
+}
+
+export const difficultyName: Record<GameDifficulty, string> = {
+  [GameDifficulty.None]: 'Pick a difficulty',
+  [GameDifficulty.Easy]: 'Easy',
+  [GameDifficulty.Hard]: 'Hard',
+};
+
+export type Size = {
+  width: number;
+  height: number;
+};
+
+export type Location = {
+  left: number;
+  top: number;
+};
 
 export enum CardType {
   /** HEARTS **/
@@ -115,61 +151,61 @@ export const CARD_TO_SUITE: Record<CardType, PileType> = {
 };
 
 export const CARD_IMAGES: Record<CardType | GameDifficulty, string> = {
-  [GameDifficulty.None]: '/cards/back4.png',
-  [GameDifficulty.Easy]: '/cards/back3.png',
-  [GameDifficulty.Hard]: '/cards/back2.png',
-  [CardType.AceOfHearts]: '/cards/heart-1.png',
-  [CardType.TwoOfHearts]: '/cards/heart-2.png',
-  [CardType.ThreeOfHearts]: '/cards/heart-3.png',
-  [CardType.FourOfHearts]: '/cards/heart-4.png',
-  [CardType.FiveOfHearts]: '/cards/heart-5.png',
-  [CardType.SixOfHearts]: '/cards/heart-6.png',
-  [CardType.SevenOfHearts]: '/cards/heart-7.png',
-  [CardType.EightOfHearts]: '/cards/heart-8.png',
-  [CardType.NineOfHearts]: '/cards/heart-9.png',
-  [CardType.TenOfHearts]: '/cards/heart-10.png',
-  [CardType.JackOfHearts]: '/cards/heart-11.png',
-  [CardType.QueenOfHearts]: '/cards/heart-12.png',
-  [CardType.KingOfHearts]: '/cards/heart-13.png',
-  [CardType.AceOfDiamonds]: '/cards/diamond-1.png',
-  [CardType.TwoOfDiamonds]: '/cards/diamond-2.png',
-  [CardType.ThreeOfDiamonds]: '/cards/diamond-3.png',
-  [CardType.FourOfDiamonds]: '/cards/diamond-4.png',
-  [CardType.FiveOfDiamonds]: '/cards/diamond-5.png',
-  [CardType.SixOfDiamonds]: '/cards/diamond-6.png',
-  [CardType.SevenOfDiamonds]: '/cards/diamond-7.png',
-  [CardType.EightOfDiamonds]: '/cards/diamond-8.png',
-  [CardType.NineOfDiamonds]: '/cards/diamond-9.png',
-  [CardType.TenOfDiamonds]: '/cards/diamond-10.png',
-  [CardType.JackOfDiamonds]: '/cards/diamond-11.png',
-  [CardType.QueenOfDiamonds]: '/cards/diamond-12.png',
-  [CardType.KingOfDiamonds]: '/cards/diamond-13.png',
-  [CardType.AceOfClubs]: '/cards/club-1.png',
-  [CardType.TwoOfClubs]: '/cards/club-2.png',
-  [CardType.ThreeOfClubs]: '/cards/club-3.png',
-  [CardType.FourOfClubs]: '/cards/club-4.png',
-  [CardType.FiveOfClubs]: '/cards/club-5.png',
-  [CardType.SixOfClubs]: '/cards/club-6.png',
-  [CardType.SevenOfClubs]: '/cards/club-7.png',
-  [CardType.EightOfClubs]: '/cards/club-8.png',
-  [CardType.NineOfClubs]: '/cards/club-9.png',
-  [CardType.TenOfClubs]: '/cards/club-10.png',
-  [CardType.JackOfClubs]: '/cards/club-11.png',
-  [CardType.QueenOfClubs]: '/cards/club-12.png',
-  [CardType.KingOfClubs]: '/cards/club-13.png',
-  [CardType.AceOfSpades]: '/cards/spade-1.png',
-  [CardType.TwoOfSpades]: '/cards/spade-2.png',
-  [CardType.ThreeOfSpades]: '/cards/spade-3.png',
-  [CardType.FourOfSpades]: '/cards/spade-4.png',
-  [CardType.FiveOfSpades]: '/cards/spade-5.png',
-  [CardType.SixOfSpades]: '/cards/spade-6.png',
-  [CardType.SevenOfSpades]: '/cards/spade-7.png',
-  [CardType.EightOfSpades]: '/cards/spade-8.png',
-  [CardType.NineOfSpades]: '/cards/spade-9.png',
-  [CardType.TenOfSpades]: '/cards/spade-10.png',
-  [CardType.JackOfSpades]: '/cards/spade-11.png',
-  [CardType.QueenOfSpades]: '/cards/spade-12.png',
-  [CardType.KingOfSpades]: '/cards/spade-13.png',
+  [GameDifficulty.None]: '/cards/back/none.png',
+  [GameDifficulty.Easy]: '/cards/back/easy.png',
+  [GameDifficulty.Hard]: '/cards/back/hard.png',
+  [CardType.AceOfHearts]: '/cards/heart/1_heart.png',
+  [CardType.TwoOfHearts]: '/cards/heart/2_heart.png',
+  [CardType.ThreeOfHearts]: '/cards/heart/3_heart.png',
+  [CardType.FourOfHearts]: '/cards/heart/4_heart.png',
+  [CardType.FiveOfHearts]: '/cards/heart/5_heart.png',
+  [CardType.SixOfHearts]: '/cards/heart/6_heart.png',
+  [CardType.SevenOfHearts]: '/cards/heart/7_heart.png',
+  [CardType.EightOfHearts]: '/cards/heart/8_heart.png',
+  [CardType.NineOfHearts]: '/cards/heart/9_heart.png',
+  [CardType.TenOfHearts]: '/cards/heart/10_heart.png',
+  [CardType.JackOfHearts]: '/cards/heart/11_heart.png',
+  [CardType.QueenOfHearts]: '/cards/heart/12_heart.png',
+  [CardType.KingOfHearts]: '/cards/heart/13_heart.png',
+  [CardType.AceOfDiamonds]: '/cards/diamond/1_diamond.png',
+  [CardType.TwoOfDiamonds]: '/cards/diamond/2_diamond.png',
+  [CardType.ThreeOfDiamonds]: '/cards/diamond/3_diamond.png',
+  [CardType.FourOfDiamonds]: '/cards/diamond/4_diamond.png',
+  [CardType.FiveOfDiamonds]: '/cards/diamond/5_diamond.png',
+  [CardType.SixOfDiamonds]: '/cards/diamond/6_diamond.png',
+  [CardType.SevenOfDiamonds]: '/cards/diamond/7_diamond.png',
+  [CardType.EightOfDiamonds]: '/cards/diamond/8_diamond.png',
+  [CardType.NineOfDiamonds]: '/cards/diamond/9_diamond.png',
+  [CardType.TenOfDiamonds]: '/cards/diamond/10_diamond.png',
+  [CardType.JackOfDiamonds]: '/cards/diamond/11_diamond.png',
+  [CardType.QueenOfDiamonds]: '/cards/diamond/12_diamond.png',
+  [CardType.KingOfDiamonds]: '/cards/diamond/13_diamond.png',
+  [CardType.AceOfClubs]: '/cards/club/1_club.png',
+  [CardType.TwoOfClubs]: '/cards/club/2_club.png',
+  [CardType.ThreeOfClubs]: '/cards/club/3_club.png',
+  [CardType.FourOfClubs]: '/cards/club/4_club.png',
+  [CardType.FiveOfClubs]: '/cards/club/5_club.png',
+  [CardType.SixOfClubs]: '/cards/club/6_club.png',
+  [CardType.SevenOfClubs]: '/cards/club/7_club.png',
+  [CardType.EightOfClubs]: '/cards/club/8_club.png',
+  [CardType.NineOfClubs]: '/cards/club/9_club.png',
+  [CardType.TenOfClubs]: '/cards/club/10_club.png',
+  [CardType.JackOfClubs]: '/cards/club/11_club.png',
+  [CardType.QueenOfClubs]: '/cards/club/12_club.png',
+  [CardType.KingOfClubs]: '/cards/club/13_club.png',
+  [CardType.AceOfSpades]: '/cards/spade/1_spade.png',
+  [CardType.TwoOfSpades]: '/cards/spade/2_spade.png',
+  [CardType.ThreeOfSpades]: '/cards/spade/3_spade.png',
+  [CardType.FourOfSpades]: '/cards/spade/4_spade.png',
+  [CardType.FiveOfSpades]: '/cards/spade/5_spade.png',
+  [CardType.SixOfSpades]: '/cards/spade/6_spade.png',
+  [CardType.SevenOfSpades]: '/cards/spade/7_spade.png',
+  [CardType.EightOfSpades]: '/cards/spade/8_spade.png',
+  [CardType.NineOfSpades]: '/cards/spade/9_spade.png',
+  [CardType.TenOfSpades]: '/cards/spade/10_spade.png',
+  [CardType.JackOfSpades]: '/cards/spade/11_spade.png',
+  [CardType.QueenOfSpades]: '/cards/spade/12_spade.png',
+  [CardType.KingOfSpades]: '/cards/spade/13_spade.png',
 };
 
 // used to provide type safety for the cards list below
@@ -229,3 +265,15 @@ export const ACTIVE_CARDS: Record<CardType, boolean> = {
 };
 
 export const CARDS = Object.keys(ACTIVE_CARDS).map((key) => Number(key));
+
+export const areOppositeColors = (suite1: number, suite2: number) => {
+  // hearts and diamonds are red and are piles 2 and 3
+  // clubs and spades are black and are piles 4 and 5
+  return (
+    ((suite1 === 2 || suite1 === 3) && (suite2 === 4 || suite2 === 5)) ||
+    ((suite1 === 4 || suite1 === 5) && (suite2 === 2 || suite2 === 3))
+  );
+};
+
+export const CARDS_PER_SUITE = 13;
+export const MAX_CARD_VALUE = CARDS_PER_SUITE - 1; // 0-based index

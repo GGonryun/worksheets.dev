@@ -1,3 +1,4 @@
+import { cloneDeep } from 'lodash';
 // reverses and clones the contents of the array
 export function reverseArray<T>(arr?: T[]): T[] {
   if (!arr) return [];
@@ -95,4 +96,13 @@ export const compareArrays = <T>(arr1: T[], arr2: T[]): boolean => {
 
 export const firstElement = <T>(arr: T[]): T | undefined => {
   return arr.find((i) => i != null) as T | undefined;
+};
+
+export const lastElement = <T>(arr: T[]): T | undefined => {
+  const copy = cloneDeep(arr);
+  return copy.reverse().find((i) => i != null) as T | undefined;
+};
+
+export const lastIndex = <T>(arr: T[]): number => {
+  return arr.length - 1;
 };
