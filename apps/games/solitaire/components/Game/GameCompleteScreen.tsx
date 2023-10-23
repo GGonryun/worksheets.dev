@@ -3,8 +3,8 @@ import { tabletBoxShadow } from '@worksheets/ui-games';
 import Image from 'next/image';
 import { FC } from 'react';
 import ConfettiExplosion from 'react-confetti-explosion';
-import { CARD_HEIGHT, CARD_WIDTH } from '../../util/constants';
 import { motion } from 'framer-motion';
+import { CARD_IMAGES, CardType } from '../../util/playing-cards';
 
 export const GameCompleteScreen: FC<{ open: boolean }> = ({ open }) => {
   const theme = useTheme();
@@ -17,6 +17,7 @@ export const GameCompleteScreen: FC<{ open: boolean }> = ({ open }) => {
           left: '50%',
           top: '50%',
           transform: 'translate(-50%, -50%)',
+          zIndex: 1999,
         }}
       >
         <motion.div
@@ -26,7 +27,6 @@ export const GameCompleteScreen: FC<{ open: boolean }> = ({ open }) => {
           style={{
             position: 'relative',
             bottom: -20,
-            zIndex: 1999,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -37,10 +37,10 @@ export const GameCompleteScreen: FC<{ open: boolean }> = ({ open }) => {
               rotate: '-25deg',
               marginBottom: -30,
             }}
-            src="/cards/heart-1.png"
-            width={CARD_WIDTH * 0.8}
-            height={CARD_HEIGHT * 0.8}
-            alt={'Ace of Hearts'}
+            src={CARD_IMAGES[CardType.AceOfHearts]}
+            width={69}
+            height={100}
+            alt={'Victory Card'}
           />
           <Image
             style={{
@@ -48,10 +48,10 @@ export const GameCompleteScreen: FC<{ open: boolean }> = ({ open }) => {
               marginRight: -5,
               rotate: '-10deg',
             }}
-            src="/cards/diamond-1.png"
-            width={CARD_WIDTH * 0.8}
-            height={CARD_HEIGHT * 0.8}
-            alt={'Ace of Diamonds'}
+            src={CARD_IMAGES[CardType.AceOfDiamonds]}
+            width={69}
+            height={100}
+            alt={'Victory Card'}
           />
           <Image
             style={{
@@ -60,20 +60,20 @@ export const GameCompleteScreen: FC<{ open: boolean }> = ({ open }) => {
               marginBottom: -5,
               rotate: '10deg',
             }}
-            src="/cards/club-1.png"
-            width={CARD_WIDTH * 0.8}
-            height={CARD_HEIGHT * 0.8}
-            alt={'Ace of Clubs'}
+            src={CARD_IMAGES[CardType.AceOfClubs]}
+            width={69}
+            height={100}
+            alt={'Victory Card'}
           />
           <Image
             style={{
               rotate: '25deg',
               marginBottom: -35,
             }}
-            src="/cards/spade-1.png"
-            width={CARD_WIDTH * 0.8}
-            height={CARD_HEIGHT * 0.8}
-            alt={'Ace of Spades'}
+            src={CARD_IMAGES[CardType.AceOfSpades]}
+            width={69}
+            height={100}
+            alt={'Victory Card'}
           />
         </motion.div>
         <motion.div
@@ -88,14 +88,13 @@ export const GameCompleteScreen: FC<{ open: boolean }> = ({ open }) => {
             paddingTop: '14px',
             paddingBottom: '14px',
             boxShadow: tabletBoxShadow,
-            zIndex: 2000,
             border: '1px solid ' + theme.palette.grey[700],
             borderRadius: '8px',
             display: 'grid',
             placeItems: 'center',
           }}
         >
-          <Typography variant="h4" whiteSpace="nowrap">
+          <Typography variant="h3" whiteSpace="nowrap">
             Victory!
           </Typography>
         </motion.div>
