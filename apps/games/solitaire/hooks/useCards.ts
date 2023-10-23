@@ -270,7 +270,10 @@ export const useCards = (difficulty: GameDifficulty) => {
     const deck = piles[PileType.Deck];
     // get all cards that are peeked.
     const peek = piles[PileType.Peek];
-    if (hidden.length || deck.length || peek.length < 1) {
+    // if there are any cards in the deck, the game isn't over.
+    // or if there are more than 1 cards in the peek pile, the game isn't over.
+    // or if there are any cards in the board piles, the game isn't over.
+    if (hidden.length > 0 || deck.length > 0 || peek.length > 1) {
       return;
     }
 
