@@ -218,7 +218,12 @@ export const GameContainer: FC<GameContainerProps> = ({
     (type: CardType): { top?: number; left?: number; zIndex?: number } => {
       // check if the card is in the drag group.
       // if so return the group location.
-      if (groupLocation && dragGroup.includes(type)) {
+      if (
+        groupLocation &&
+        dragGroup.includes(type) &&
+        groupLocation.x &&
+        groupLocation.y
+      ) {
         // based on your location in the group, offset the card by a percentage of the card size like the pile offset
         const index = dragGroup.indexOf(type);
         return {
