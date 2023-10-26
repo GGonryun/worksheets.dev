@@ -5,17 +5,19 @@ import { Puzzle } from './Puzzle';
 import { usePlayer } from '../../hooks/usePlayer';
 import { usePuzzle } from '../../hooks/usePuzzle';
 import { useRouter } from 'next/router';
-import { urls } from '../../util';
+
 import Confetti from 'react-confetti';
 import {
   MobileLayout,
-  PuzzleCompleteModal,
   ReportBugModal,
   backgroundColor,
   uppercaseDictionary,
+  urls,
   useGrid,
 } from '@worksheets/ui-games';
 import { useTheme } from '@mui/material';
+import { PuzzleCompleteModal } from './PuzzleCompleteModal';
+import { Layout } from '../Layout';
 
 export const PuzzlePage: FC = () => {
   const theme = useTheme();
@@ -49,12 +51,11 @@ export const PuzzlePage: FC = () => {
       {puzzle.isComplete && (
         <Confetti width={width} height={height} numberOfPieces={50} />
       )}
-      <MobileLayout
-        backgroundColor={backgroundColor(theme)}
+      <Layout
         header={
           <PuzzleHeader
             level={puzzle.level + 1}
-            onBack={() => push(urls.home())}
+            onBack={() => push(urls.relative.home)}
             onReport={() => setShowReport(true)}
           />
         }
@@ -74,7 +75,7 @@ export const PuzzlePage: FC = () => {
         words={puzzle.words}
         open={!ignore && puzzle.isComplete}
         onClose={() => setIgnore(true)}
-        onMenu={() => push(urls.home())}
+        onMenu={() => push(urls.relative.home)}
         onContinue={handleNextLevel}
       />
     </>

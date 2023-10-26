@@ -1,20 +1,21 @@
-import { FC, useState } from 'react';
+import { FC, ReactNode, useState } from 'react';
 import { WordBuilder } from '../WordBuilder';
 import { WordSelection } from '../WordSelection';
 import { PanHandlers } from 'framer-motion';
 import { uniqueArray } from '@worksheets/util/arrays';
 import { Header } from './Header';
 import { Footer } from './Footer';
-import { Layout } from './Layout';
 import { WordPuzzles } from '../WordPuzzles';
-import { Dictionary } from '../Dictionary';
 import { PowerUpCode, Discovered, Hints } from '../../types';
 import { BonusWords } from '../BonusWords';
 import { PowerUps } from '../PowerUps';
 import { HelpCenter } from '../HelpCenter';
 import { useRouter } from 'next/router';
 import { PuzzleRule } from '../../puzzles';
-import { ReportBugModal } from '@worksheets/ui-games';
+import { DefinitionModal, ReportBugModal } from '@worksheets/ui-games';
+import { Box } from '@mui/material';
+import { Flex } from '@worksheets/ui-core';
+import { Layout } from '../Layout';
 
 export type ModalType =
   | 'bonuses'
@@ -40,6 +41,43 @@ const useModalController = () => {
     data,
     setModal: handleUpdateModal,
   };
+};
+
+export type LayoutProps = {
+  selection: ReactNode;
+  builder: ReactNode;
+  puzzle: ReactNode;
+  footer: ReactNode;
+};
+
+export const PuzzleLayout: FC<LayoutProps> = (props) => {
+  const { puzzle, selection, builder, footer } = props;
+
+  return (
+    <Box
+      sx={{
+        display: 'flex',
+        flex: 1,
+        flexDirection: 'column',
+        overflow: 'hidden',
+      }}
+    >
+      <Flex grow centered>
+        {puzzle}
+      </Flex>
+      <Flex pt="54px" position="relative" pb={2}>
+        <Flex centered fullWidth top={0} position="absolute">
+          {selection}
+        </Flex>
+        <Flex fullWidth centered position="relative">
+          {builder}
+          <Flex position="absolute" fill>
+            {footer}
+          </Flex>
+        </Flex>
+      </Flex>
+    </Box>
+  );
 };
 
 export const Level: FC<{
@@ -93,60 +131,62 @@ export const Level: FC<{
             openHelp={() => setModal('help-center')}
           />
         }
-        selection={
-          <WordSelection
-            bonuses={bonuses}
-            words={words}
-            letters={intersections}
-            anagram={letters}
-          />
-        }
-        footer={
-          <Footer
-            tokens={tokens}
-            water={water}
-            words={words}
-            bonuses={bonuses}
-            shuffleBuilder={() => shuffleLetters()}
-            openBonusWords={() => setModal('bonuses')}
-            openPowerUps={() => setModal('power-ups')}
-            openSubmitReport={() => setModal('report-issue')}
-          />
-        }
-        puzzle={
-          <WordPuzzles
-            words={words}
-            hints={hints}
-            onDefine={(word) => setModal('definition', word)}
-          />
-        }
-        builder={
-          <WordBuilder
-            intersections={intersections}
-            anagram={letters}
-            onRelease={submitIntersections}
-            onIntersect={(key) => {
-              if (!intersections.includes(key)) {
-                setIntersections((i) => uniqueArray(i.concat(key)));
-              }
-            }}
+        content={
+          <PuzzleLayout
+            selection={
+              <WordSelection
+                bonuses={bonuses}
+                words={words}
+                letters={intersections}
+                anagram={letters}
+              />
+            }
+            footer={
+              <Footer
+                tokens={tokens}
+                water={water}
+                words={words}
+                bonuses={bonuses}
+                shuffleBuilder={() => shuffleLetters()}
+                openBonusWords={() => setModal('bonuses')}
+                openPowerUps={() => setModal('power-ups')}
+                openSubmitReport={() => setModal('report-issue')}
+              />
+            }
+            puzzle={
+              <WordPuzzles
+                words={words}
+                hints={hints}
+                onDefine={(word) => setModal('definition', word)}
+              />
+            }
+            builder={
+              <WordBuilder
+                intersections={intersections}
+                anagram={letters}
+                onRelease={submitIntersections}
+                onIntersect={(key) => {
+                  if (!intersections.includes(key)) {
+                    setIntersections((i) => uniqueArray(i.concat(key)));
+                  }
+                }}
+              />
+            }
           />
         }
       />
+
       <BonusWords
         onDefine={(word) => setModal('definition', word)}
         open={modal === 'bonuses'}
         onClose={() => setModal()}
         bonuses={bonuses}
       />
-      <Dictionary
-        open={modal === 'definition'}
+      <DefinitionModal
         onClose={() => setModal()}
-        words={words}
-        bonuses={bonuses}
-        define={data}
-        onReportProblem={(word) => {
-          setModal('report-issue', word);
+        word={modal === 'definition' ? data : ''}
+        onReportProblem={() => {
+          setModal('report-issue', data);
         }}
       />
       <ReportBugModal
@@ -162,10 +202,6 @@ export const Level: FC<{
             setModal();
           }
         }}
-        onLearnMore={() => setModal('help-center')}
-        onInviteFriends={() =>
-          alert('TODO: navigate to invite friends modal on main menu')
-        }
       />
       <HelpCenter open={modal === 'help-center'} onClose={() => setModal()} />
     </>

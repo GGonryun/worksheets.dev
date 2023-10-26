@@ -33,6 +33,7 @@
       "@worksheets/apps/math": ["libs/apps/math/src/index.ts"],
       "@worksheets/apps/open-ai": ["libs/apps/open-ai/src/index.ts"],
       "@worksheets/apps/sys": ["libs/apps/sys/src/index.ts"],
+      "@worksheets/assets-common": ["libs/assets/common/src/index.ts"],
       "@worksheets/data-access-projects": [
         "libs/data-access/projects/src/index.ts"
       ],
@@ -147,6 +148,7 @@
       "@worksheets/ui/worksheets": ["libs/ui/worksheets/src/index.ts"],
       "@worksheets/ui/worksheets/server": ["libs/ui/worksheets/src/server.ts"],
       "@worksheets/util-coordinates": ["libs/util/coordinates/src/index.ts"],
+      "@worksheets/util-dictionary": ["libs/util/dictionary/src/index.ts"],
       "@worksheets/util-hardware": ["libs/util/hardware/src/index.ts"],
       "@worksheets/util-json": ["libs/util/json/src/index.ts"],
       "@worksheets/util-next": ["libs/util/next/src/index.ts"],

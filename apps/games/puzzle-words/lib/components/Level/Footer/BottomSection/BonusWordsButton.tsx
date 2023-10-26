@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Box, useTheme } from '@mui/material';
 import { IconButton } from '../../../IconButton';
 import { Park } from '@mui/icons-material';
 import { Variants, motion } from 'framer-motion';
@@ -10,12 +10,14 @@ import {
   useTemporaryAnimation,
   DEFAULT_ANIMATION_SPEED,
   LaunchIcon,
+  IconAction,
 } from '@worksheets/ui-games';
 
 export const BonusWordsButton: FC<FooterProps> = ({
   bonuses,
   openBonusWords,
 }) => {
+  const theme = useTheme();
   const { triggerSuccess, triggerFailure, ...anims } = useBonusIconAnimations();
 
   // whenever the total number of found bonus words changes, display a star.
@@ -39,12 +41,10 @@ export const BonusWordsButton: FC<FooterProps> = ({
   return (
     <Box position="relative" onClick={openBonusWords}>
       <motion.div {...anims} id="bonus-words-icon">
-        <IconButton>
-          <Park />
-        </IconButton>
+        <IconAction Icon={Park} color={theme.palette.primary.light} />
       </motion.div>
       <LaunchIcon count={foundBonusWords}>
-        <Park color="success" />
+        <Park color="secondary" />
       </LaunchIcon>
       <BonusWordsPill count={foundBonusWords} />
     </Box>

@@ -29,5 +29,3 @@ export const WordPuzzle: FC<{
     </motion.div>
   );
 };
-
-// this component triggers an event when a cached key changes.

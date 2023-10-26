@@ -8,15 +8,16 @@ import {
   colors,
   responsiveFontSize,
   denseBoxShadow,
-  PuzzleCompleteModal,
   MenuButton,
   ReportBugModal,
   alphabet,
-  PuzzleHeader,
   PuzzleMenu,
+  textShadow,
+  urls,
+  PuzzleCompleteModal,
 } from '@worksheets/ui-games';
 import { FC, useEffect, useState } from 'react';
-import { WordSlots, urls } from '../util';
+import { WordSlots } from '../util';
 import { Flex, useEventListener, useWindowSize } from '@worksheets/ui-core';
 import { InvalidSelectionWarning, MakeSelectionWarning } from './Warnings';
 import { useTemporaryModal } from '../hooks/useTemporaryModal';
@@ -33,6 +34,7 @@ import {
   Replay,
   ReportOutlined,
 } from '@mui/icons-material';
+import { PuzzleHeader } from './PuzzleHeader';
 
 export type PuzzleProps = {
   id: number;
@@ -61,6 +63,7 @@ export const Puzzle: FC<PuzzleProps> = (props) => {
     title,
     id,
   } = props;
+  const { push } = useRouter();
   const player = usePlayer();
   const [width, height] = useWindowSize();
   const [hideCompletionModal, setHideCompletionModal] = useState(false);
@@ -72,7 +75,6 @@ export const Puzzle: FC<PuzzleProps> = (props) => {
     undefined
   );
 
-  const { push } = useRouter();
   const {
     onCellClick,
     setWord,
@@ -90,6 +92,7 @@ export const Puzzle: FC<PuzzleProps> = (props) => {
     deleteLetter,
     reclick,
   } = usePuzzle(props);
+
   const { open: openSelectionWarning, onOpen: onOpenSelectionWarning } =
     useTemporaryModal(2500);
   const { open: openInvalidSelection, onOpen: onInvalidSelection } =
@@ -126,7 +129,7 @@ export const Puzzle: FC<PuzzleProps> = (props) => {
     }
   });
 
-  const goToMenu = () => push(urls.home());
+  const goToMenu = () => push(urls.relative.home);
 
   const clearSelections = () => {
     setSelections(layout.map((r) => r.map(() => '')));
@@ -153,6 +156,8 @@ export const Puzzle: FC<PuzzleProps> = (props) => {
   };
 
   const handleWordClick = (word: string) => {
+    if (isComplete) return;
+
     if (!active) {
       onOpenSelectionWarning();
     } else if (!isValidSelection(word)) {
@@ -180,13 +185,16 @@ export const Puzzle: FC<PuzzleProps> = (props) => {
         header={
           <PuzzleHeader
             onMenu={(e) => setMenuAnchor(e.currentTarget)}
-            onBack={() => push(urls.home())}
+            onBack={() => push(urls.relative.home)}
           >
             <Typography
               color={'primary.contrastText'}
               fontSize={responsiveFontSize({ min: 8, max: 30 })}
               textTransform={'uppercase'}
               textAlign={'center'}
+              sx={{
+                textShadow: textShadow(2, 1),
+              }}
             >
               <b>
                 {id + 1}. {title}
@@ -253,8 +261,13 @@ export const Puzzle: FC<PuzzleProps> = (props) => {
                 />
                 {levelFinished && (
                   <MenuButton
+                    border={(theme) =>
+                      `3px solid ${theme.palette.primary.dark}`
+                    }
+                    color={(theme) => theme.palette.primary.dark}
                     disabled={gameOver}
                     onClick={gameOver ? goToMenu : handleGoToNextLevel}
+                    variant="h5"
                   >
                     {gameOver ? 'Return To Menu' : 'Next Level'}
                   </MenuButton>
@@ -302,8 +315,6 @@ export const Puzzle: FC<PuzzleProps> = (props) => {
       />
       <PuzzleCompleteModal
         open={!hideCompletionModal && levelFinished}
-        water={water}
-        words={words}
         gameOver={gameOver}
         onClose={() => setHideCompletionModal(true)}
         onContinue={handleGoToNextLevel}

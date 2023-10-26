@@ -1,7 +1,7 @@
 import { Flex } from '@worksheets/ui-core';
 import { FC } from 'react';
-import { LayoutProps } from './Layout';
 import { Box } from '@mui/material';
+import { LayoutProps } from './Level';
 
 export const Player: FC<
   Pick<LayoutProps, 'builder' | 'selection' | 'footer'>

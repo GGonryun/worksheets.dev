@@ -19,5 +19,13 @@
     "src/**/*.spec.jsx",
     "src/**/*.test.jsx"
   ],
-  "include": ["src/**/*.js", "src/**/*.jsx", "src/**/*.ts", "src/**/*.tsx"]
+  "include": [
+    "src/**/*.js",
+    "src/**/*.jsx",
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "../../../apps/games/word-pack/components/TitlePage.tsx",
+    "../../util/dictionary/src/dictionary.ts",
+    "../../util/dictionary/src/elementary.ts"
+  ]
 }

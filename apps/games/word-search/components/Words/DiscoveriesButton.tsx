@@ -45,7 +45,7 @@ export const DiscoveriesButton: FC<DiscoveriesButtonProps> = ({
         <IconButton
           size="small"
           sx={{
-            border: `2px solid ${theme.palette.primary.contrastText}`,
+            border: `2px solid ${theme.palette.primary.dark}`,
             boxShadow: bubbleInsetBoxShadow,
           }}
         >
@@ -74,6 +74,7 @@ export const NumberPill: FC<{ count: number }> = ({ count }) => {
         height: 22,
         minWidth: 22,
         borderRadius: '50%',
+        border: `2px solid ${theme.palette.primary.dark}`,
         backgroundColor: theme.palette.background.paper,
         p: 0,
         m: 0,

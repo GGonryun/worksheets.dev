@@ -5,9 +5,9 @@ import { FC } from 'react';
 import { GameTitle, animate, urls } from '../../util';
 import {
   WaterOrgLink,
-  WorksheetsLink,
   ContactLink,
   FullStoryLink,
+  CharityGamesLink,
 } from '../Links';
 
 export type MissionStatementTextProps = {
@@ -35,15 +35,16 @@ export const MissionStatementText: FC<MissionStatementTextProps> = ({
         visit <WaterOrgLink /> and donate to them directly.
         <br />
         <br />
-        <WorksheetsLink /> is a collection of free, open-source, and ad-free
-        educational games and software services. We are committed to utilizing
-        software services for charitable and public welfare purposes. If you
-        have a game or software you would like to contribute, please{' '}
+        <CharityGamesLink /> is a collection of free browser-based games and
+        software services. We are committed to utilizing software services for
+        charitable and public welfare purposes. If you have a game or software
+        you would like to contribute, please{' '}
         <ContactLink>contact us</ContactLink>.
         <br />
         <br />
         The game is built with <FullStoryLink />, Next.js, and React. Source
-        code is available <Link href={urls.contact()}>upon request.</Link>
+        code is available{' '}
+        <Link href={urls.charityGames.contact()}>upon request.</Link>
       </Typography>
     </motion.div>
   </Flex>

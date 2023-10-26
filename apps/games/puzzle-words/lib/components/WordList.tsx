@@ -44,7 +44,13 @@ export const WordLink: FC<{
     <Flex key={word} gap={0.5}>
       <Typography fontSize={18}>
         {index + 1}.{' '}
-        <Link onClick={onClick} color="inherit">
+        <Link
+          onClick={onClick}
+          color="inherit"
+          sx={{
+            cursor: !discovered ? 'not-allowed' : 'pointer',
+          }}
+        >
           {maskWord(word, !discovered)}
         </Link>
       </Typography>

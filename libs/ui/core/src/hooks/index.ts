@@ -11,3 +11,4 @@ export * from './useVersion';
 export * from './useComponentSize';
 export * from './useDeviceDetect';
 export * from './useTimer';
+export * from './useDeviceSize';

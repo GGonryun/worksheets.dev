@@ -6,6 +6,11 @@ export type MobileLayoutProps = {
   header: ReactNode;
   footer?: ReactNode;
   backgroundColor?: string;
+  backgroundImage?: string;
+  backgroundSize?: string;
+  backgroundRepeat?: string;
+  backgroundPosition?: string;
+  backgroundClip?: string;
 };
 
 export const MobileLayout: FC<MobileLayoutProps> = ({
@@ -13,6 +18,11 @@ export const MobileLayout: FC<MobileLayoutProps> = ({
   footer,
   content,
   backgroundColor,
+  backgroundImage,
+  backgroundSize,
+  backgroundRepeat,
+  backgroundPosition,
+  backgroundClip,
 }) => {
   return (
     <Box
@@ -24,6 +34,11 @@ export const MobileLayout: FC<MobileLayoutProps> = ({
         display: 'flex',
         flexDirection: 'column',
         backgroundColor,
+        backgroundImage,
+        backgroundSize,
+        backgroundRepeat,
+        backgroundPosition,
+        backgroundClip,
       }}
     >
       {header}

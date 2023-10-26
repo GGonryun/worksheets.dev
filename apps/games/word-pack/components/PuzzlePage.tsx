@@ -1,4 +1,4 @@
-import { GeneratedPuzzle, WordSlots, deserializePuzzle, urls } from '../util';
+import { GeneratedPuzzle, WordSlots, deserializePuzzle } from '../util';
 import { useEffect, useState } from 'react';
 import { Puzzle } from './Puzzle';
 import { useSavedPuzzle, useSavedSelections } from '../hooks/useSaveData';
@@ -6,6 +6,7 @@ import { CircularProgress } from '@mui/material';
 import { useRouter } from 'next/router';
 import { flatten } from 'lodash';
 import { AbsolutelyCentered } from '@worksheets/ui-core';
+import { urls } from '@worksheets/ui-games';
 
 export const PuzzlePage = () => {
   const { push } = useRouter();
@@ -25,7 +26,7 @@ export const PuzzlePage = () => {
 
     // redirect to title page, player hasn't started yet
     if (state.level < 0) {
-      push(urls.home());
+      push(urls.relative.home);
       return;
     }
 

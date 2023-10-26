@@ -1,10 +1,6 @@
 import { useLocalStorage } from '@worksheets/ui-core';
 import { PowerUpCode, Discovered, Hints } from '../types';
-import {
-  createMap,
-  selectRandomItem,
-  uniqueArray,
-} from '@worksheets/util/arrays';
+import { createMap, selectRandomItem } from '@worksheets/util/arrays';
 import { puzzles } from '../puzzles';
 import {
   BASIC_WATER_MODIFIER,
@@ -12,7 +8,6 @@ import {
   BONUS_WATER_MODIFIER,
   POWER_UP_COSTS,
 } from '../constants';
-import { randomBetween } from '@worksheets/util/numbers';
 
 const firstPuzzle = puzzles[0]; // start with the first puzzle
 
@@ -44,6 +39,7 @@ export const usePlayer = () => {
     'tokens',
     0
   );
+  // TODO: remove this.
   const [water, setWater, loadingWater] = useLocalStorage<number>(
     'water',
     initialState.water
@@ -155,6 +151,11 @@ export const usePlayer = () => {
     setIsFirstTime(true);
   };
 
+  const isGameOver = () => {
+    console.log('isGameOver', isComplete(), puzzles.length, level);
+    return isComplete() && puzzles.length - 1 === level;
+  };
+
   return {
     level,
     water,
@@ -171,6 +172,7 @@ export const usePlayer = () => {
       loadingTokens ||
       loadingWater ||
       loadingHints,
+    isGameOver,
     acknowledgeFirstTime,
     isComplete,
     submitWord,

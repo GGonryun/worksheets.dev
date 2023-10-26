@@ -1,5 +1,5 @@
 import { SelectionLine } from './SelectionLine';
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, useTheme } from '@mui/material';
 import { Flex, useResizing } from '@worksheets/ui-core';
 import { FC, useState } from 'react';
 import { LineSelectionsLayer } from './SelectionsLayer';
@@ -18,6 +18,9 @@ import {
   boxShadow,
   MenuButton,
   DefinitionModal,
+  tabletBoxShadow,
+  dokaBoxShadow,
+  glowBoxShadow,
 } from '@worksheets/ui-games';
 
 export type PuzzleProps = ReturnType<typeof usePlayer> &
@@ -43,6 +46,7 @@ export const Puzzle: FC<PuzzleProps> = ({
   words,
   getCellSize,
 }) => {
+  const theme = useTheme();
   const resizing = useResizing(1000);
   const [word, setWord] = useState<string>('');
   const [showDiscoveriesModal, setShowDiscoveriesModal] = useState(false);
@@ -59,10 +63,11 @@ export const Puzzle: FC<PuzzleProps> = ({
         grid={
           <Box
             sx={{
+              m: 1,
               p: 1,
               backgroundColor: 'white',
               borderRadius,
-              boxShadow,
+              boxShadow: `${tabletBoxShadow}, ${dokaBoxShadow}, ${glowBoxShadow}`,
             }}
           >
             <Grid
@@ -98,7 +103,13 @@ export const Puzzle: FC<PuzzleProps> = ({
               onViewDiscoveries={() => setShowDiscoveriesModal(true)}
             />
             {isComplete && (
-              <MenuButton onClick={onNextLevel}>Next Level</MenuButton>
+              <MenuButton
+                border={`3px solid ${theme.palette.primary.dark}`}
+                color={theme.palette.primary.dark}
+                onClick={onNextLevel}
+              >
+                Next Level
+              </MenuButton>
             )}
           </Flex>
         }

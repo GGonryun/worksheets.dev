@@ -1,4 +1,4 @@
-import { MainMenu } from '../components/MainMenu/MainMenu';
+import { MainMenu } from '../components/TitlePage';
 
 export function Index() {
   return <MainMenu />;

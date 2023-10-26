@@ -17,7 +17,7 @@ export type FooterProps = {
 
 export const Footer: FC<FooterProps> = (props) => {
   return (
-    <Flex column fill position="relative" mx={2}>
+    <Flex column fill position="relative">
       <TopSection {...props} />
       <BottomSection {...props} />
     </Flex>

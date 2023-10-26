@@ -9,7 +9,7 @@ import {
   SERVICE_SETTINGS,
 } from '@worksheets/data-access/server-settings';
 import { verifier } from '../puzzles/verifier';
-import { MobileMeta, UpdateGameModal } from '@worksheets/ui-games';
+import { DocumentHead, UpdateGameModal } from '@worksheets/ui-games';
 import { usePuzzle } from '../hooks/usePuzzle';
 import { useRouter } from 'next/router';
 
@@ -35,18 +35,15 @@ function CustomApp({ Component, pageProps }: AppProps) {
 
   return (
     <>
-      <Head>
-        <title>{GAME_TITLE}</title>
-        <MobileMeta />
-      </Head>
+      <DocumentHead title={GAME_TITLE} />
       <main>
         <Component {...pageProps} />
-        <UpdateGameModal
-          open={requiresUpdate}
-          onClose={ignore}
-          onUpdate={handleUpdate}
-        />
       </main>
+      <UpdateGameModal
+        open={requiresUpdate}
+        onClose={ignore}
+        onUpdate={handleUpdate}
+      />
     </>
   );
 }

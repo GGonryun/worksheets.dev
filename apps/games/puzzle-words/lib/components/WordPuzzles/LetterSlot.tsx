@@ -1,7 +1,6 @@
 import { Typography, lighten } from '@mui/material';
 import { Flex } from '@worksheets/ui-core';
 import { FC } from 'react';
-import { thinBorder } from '../../layouts';
 import { motion } from 'framer-motion';
 
 export const LetterSlot: FC<{
@@ -11,17 +10,17 @@ export const LetterSlot: FC<{
 }> = ({ letter, discovered, unlocked }) => {
   return (
     <Flex
-      width={21}
-      height={21}
+      width={25}
+      height={25}
       centered
       sx={(theme) => ({
-        border: thinBorder(theme),
+        border: `1px solid black`,
         borderRadius: '4px',
         backgroundColor: discovered
-          ? lighten(theme.palette.primary.main, 0.4)
+          ? lighten(theme.palette.secondary.dark, 0.4)
           : unlocked
-          ? lighten(theme.palette.secondary.main, 0.4)
-          : 'transparent',
+          ? lighten(theme.palette.info.main, 0.4)
+          : 'white',
       })}
     >
       {discovered || unlocked ? (
@@ -38,7 +37,7 @@ export const LetterSlot: FC<{
             duration: 0.25,
           }}
         >
-          <Typography fontSize={20}>{letter}</Typography>
+          <Typography fontSize={24}>{letter}</Typography>
         </motion.div>
       ) : (
         <></>

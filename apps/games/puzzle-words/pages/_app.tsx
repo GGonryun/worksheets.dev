@@ -1,29 +1,30 @@
 import { AppProps } from 'next/app';
-import Head from 'next/head';
 import './styles.css';
-import styles from './index.module.scss';
 import { createTheme, ThemeProvider } from '@mui/material';
-import localFont from 'next/font/local';
 import * as FullStory from '@fullstory/browser';
 import { SERVICE_SETTINGS } from '@worksheets/data-access/server-settings';
 import { usePlayer } from '../lib/hooks';
-import { UpdateVersionModal } from '../lib/components';
 import { useRouter } from 'next/router';
 import { APP_VERSION, GAME_TITLE, UPDATE_BONUS } from '../lib/constants';
 import { useVersion } from '@worksheets/ui-core';
-import { MobileMeta } from '@worksheets/ui-games';
+import { DocumentHead, UpdateGameModal } from '@worksheets/ui-games';
 
 if (typeof window !== 'undefined') {
   FullStory.init(SERVICE_SETTINGS.FULLSTORY);
 }
 
-const FirstTimeWriting = localFont({
-  src: '../public/fonts/FirstTimeWriting.woff2',
-});
-
 const theme = createTheme({
-  typography: {
-    fontFamily: [FirstTimeWriting.style.fontFamily, 'sans-serif'].join(','),
+  palette: {
+    primary: {
+      light: '#633aa9',
+      main: '#532481',
+      dark: '#271346',
+    },
+    secondary: {
+      light: '#F7D778',
+      main: '#f5cb52',
+      dark: '#E7B10D',
+    },
   },
 });
 
@@ -34,28 +35,25 @@ function CustomApp({ Component, pageProps }: AppProps) {
 
   return (
     <>
-      <Head>
-        <MobileMeta />
-        <title>{GAME_TITLE}</title>
-      </Head>
-      <ThemeProvider theme={theme}>
-        <main className={styles['page']}>
-          <UpdateVersionModal
-            open={requiresUpdate}
-            onClose={ignore}
-            onUpdate={() => {
-              // force an update
-              update();
-              // assign player bonuses
-              player.addTokens(UPDATE_BONUS);
-              player.loadPuzzle(player.level);
-              // reload the page
-              reload();
-            }}
-          />
+      <DocumentHead title={GAME_TITLE} />
+      <main>
+        <ThemeProvider theme={theme}>
           <Component {...pageProps} />
-        </main>
-      </ThemeProvider>
+        </ThemeProvider>
+      </main>
+      <UpdateGameModal
+        open={requiresUpdate}
+        onClose={ignore}
+        onUpdate={() => {
+          // force an update
+          update();
+          // assign player bonuses
+          player.addTokens(UPDATE_BONUS);
+          player.loadPuzzle(player.level);
+          // reload the page
+          reload();
+        }}
+      />
     </>
   );
 }

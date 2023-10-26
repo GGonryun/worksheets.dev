@@ -26,9 +26,6 @@ export const LetterSelection: FC<LetterSelectionProps> = ({
 }) => {
   return (
     <div
-      className={clsx({
-        [styles['letter-selected']]: selected,
-      })}
       // the position of this element is controlled programatically
       style={{
         transform,

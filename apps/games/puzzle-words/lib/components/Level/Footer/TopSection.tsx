@@ -1,54 +1,61 @@
 import { Shuffle, Star } from '@mui/icons-material';
 import { FC } from 'react';
 import { FooterProps } from './Footer';
-import { IconButton } from '../../IconButton';
 import { Flex } from '@worksheets/ui-core';
-import { border } from '../../../layouts';
-import { LaunchIcon } from '@worksheets/ui-games';
+import { IconAction, LaunchIcon } from '@worksheets/ui-games';
+import { Typography, useTheme } from '@mui/material';
 
 export const TopSection: FC<FooterProps> = (props) => {
   const { shuffleBuilder } = props;
+  const theme = useTheme();
+  const color = theme.palette.primary.light;
+
   return (
-    <Flex fullWidth spaceBetween position="absolute" top={0}>
-      <Flex column>
-        <IconButton onClick={shuffleBuilder}>
-          <Shuffle />
-        </IconButton>
-      </Flex>
+    <Flex
+      fullWidth
+      spaceBetween
+      position="absolute"
+      alignItems="flex-start"
+      top={0}
+    >
+      <IconAction color={color} onClick={shuffleBuilder} Icon={Shuffle} />
       <TokensBonus {...props} />
     </Flex>
   );
 };
 
 export const TokensBonus: FC<FooterProps> = ({ tokens, openPowerUps }) => {
+  const theme = useTheme();
+  const color = theme.palette.primary.light;
+
   return (
-    <Flex position="relative" right={-20} onClick={openPowerUps}>
+    <Flex position="relative" onClick={openPowerUps}>
       <NumberPill number={tokens} />
-      <IconButton>
-        <Star />
-      </IconButton>
+      <IconAction dense color={color} Icon={Star} />
       <LaunchIcon count={tokens}>
-        <Star color="warning" />
+        <Star color="secondary" />
       </LaunchIcon>
     </Flex>
   );
 };
 
 const NumberPill: FC<{ number: number }> = ({ number }) => {
+  const theme = useTheme();
+  const color = theme.palette.primary.light;
   return (
     <Flex
-      sx={(theme) => ({
+      sx={{
         position: 'absolute',
         right: 12,
         backgroundColor: 'background.paper',
         borderRadius: '60px',
-        border: border(theme),
+        border: `3px solid ${color}`,
         pl: 1,
-        pr: 3.5,
+        pr: 4.5,
         fontSize: 16,
-      })}
+      }}
     >
-      {number >= 1000 ? '999+' : number}
+      <Typography>{number >= 1000 ? '999+' : number}</Typography>
     </Flex>
   );
 };

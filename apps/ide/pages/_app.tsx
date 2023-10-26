@@ -6,12 +6,8 @@ import * as FullStory from '@fullstory/browser';
 import { Analytics } from '@vercel/analytics/react';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ReactElement } from 'react';
-import { NextPageWithLayout } from '@worksheets/util-next';
+import { AppPropsWithLayout } from '@worksheets/util-next';
 import { SERVICE_SETTINGS } from '@worksheets/data-access/server-settings';
-
-type AppPropsWithLayout = AppProps & {
-  Component: NextPageWithLayout;
-};
 
 if (typeof window !== 'undefined') {
   FullStory.init(SERVICE_SETTINGS.FULLSTORY);

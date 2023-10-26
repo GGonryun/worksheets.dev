@@ -1,8 +1,9 @@
 import { DeleteForever } from '@mui/icons-material';
-import { IconButton, SxProps, Button, Typography } from '@mui/material';
 import { Flex } from '@worksheets/ui-core';
-import { textShadow, responsiveFontSize } from '@worksheets/ui-games';
-import { FC, ReactNode } from 'react';
+
+import { FC } from 'react';
+import { Word } from './Word';
+import { IconAction } from '@worksheets/ui-games';
 
 export type WordsProps = {
   onRemove: () => void;
@@ -50,74 +51,16 @@ export const Words: FC<WordsProps> = ({
               marginLeft: 'auto',
             }}
           >
-            <IconButton
+            <IconAction
               onClick={() => {
                 if (isLevelComplete) return;
                 onRemove();
               }}
-              size="small"
-              sx={{
-                boxShadow: textShadow(2.5, 0.5),
-                border: (theme) =>
-                  `2px solid ${theme.palette.secondary.contrastText}`,
-                color: 'secondary.contrastText',
-              }}
-            >
-              <DeleteForever
-                sx={{
-                  fontSize: responsiveFontSize({ min: 4, grow: 6, max: 42 }),
-                }}
-              />
-            </IconButton>
+              Icon={DeleteForever}
+            />
           </Flex>
         )}
       </Flex>
     </Flex>
-  );
-};
-
-export const Word: FC<{
-  children: ReactNode;
-  onClick: () => void;
-  found?: boolean;
-  active?: boolean;
-}> = ({ children, found, active, onClick }) => {
-  const backgroundColor = active ? `rgba(0, 0, 0, 0.20)` : undefined;
-  const sx: SxProps = {
-    py: 0.5,
-    my: 0.5,
-    borderRadius: 0,
-    backgroundColor,
-    '&:hover': {
-      backgroundColor,
-    },
-    '&:active': {
-      backgroundColor,
-    },
-    '&:focus': {
-      backgroundColor,
-    },
-  };
-
-  return (
-    <Button
-      disableRipple
-      disableFocusRipple
-      disableTouchRipple
-      onClick={onClick}
-      sx={sx}
-    >
-      <Typography
-        color={(theme) => theme.palette.primary.contrastText}
-        fontSize={responsiveFontSize({ min: 10, grow: 4 })}
-        fontWeight={900}
-        sx={{
-          opacity: found ? 0.4 : 1,
-          textShadow: textShadow(),
-        }}
-      >
-        {children}
-      </Typography>
-    </Button>
   );
 };

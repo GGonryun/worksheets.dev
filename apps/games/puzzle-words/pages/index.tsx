@@ -1,7 +1,7 @@
-import { MainMenu } from '../lib/components';
+import { TitlePage } from '../lib/components/TitlePage';
 
 export function Index() {
-  return <MainMenu />;
+  return <TitlePage />;
 }
 
 export default Index;

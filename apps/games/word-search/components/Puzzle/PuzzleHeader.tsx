@@ -1,10 +1,10 @@
 import { ArrowBack, ReportOutlined } from '@mui/icons-material';
-import { IconButton, SvgIconProps, useTheme } from '@mui/material';
+import { useTheme } from '@mui/material';
 import { Flex } from '@worksheets/ui-core';
-import { urls } from '../../util';
 import { useRouter } from 'next/router';
 import { Word } from '../Words';
 import { FC } from 'react';
+import { IconAction, urls } from '@worksheets/ui-games';
 
 export type PuzzleHeaderProps = {
   level: number;
@@ -19,23 +19,15 @@ export const PuzzleHeader: FC<PuzzleHeaderProps> = ({
 }) => {
   const { push } = useRouter();
   const theme = useTheme();
-  const iconProps: SvgIconProps = {
-    sx: {
-      color: theme.palette.primary.contrastText,
-    },
-    fontSize: 'large',
-  };
 
   return (
     <Flex fullWidth maxWidth={700} mx={'auto'} pt={1}>
       <Flex grow spaceBetween px={2}>
-        <IconButton disableRipple onClick={onBack}>
-          <ArrowBack {...iconProps} />
-        </IconButton>
-        <Word onClick={() => push(urls.home())}>Puzzle #{level}</Word>
-        <IconButton disableRipple onClick={onReport}>
-          <ReportOutlined {...iconProps} />
-        </IconButton>
+        <IconAction dense Icon={ArrowBack} onClick={onBack} />
+        <Word large onClick={() => push(urls.relative.home)}>
+          Puzzle #{level}
+        </Word>
+        <IconAction dense Icon={ReportOutlined} onClick={onReport} />
       </Flex>
     </Flex>
   );

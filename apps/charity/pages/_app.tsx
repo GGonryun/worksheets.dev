@@ -1,18 +1,22 @@
-import { AppProps } from 'next/app';
 import Head from 'next/head';
 import './styles.css';
-import { CssBaseline } from '@mui/material';
+import { CssBaseline, ThemeProvider } from '@mui/material';
+import theme from '../theme';
+import { AppPropsWithLayout } from '@worksheets/util-next';
 
-function CustomApp({ Component, pageProps }: AppProps) {
+function CustomApp({ Component, pageProps }: AppPropsWithLayout) {
+  const getLayout = Component.getLayout ?? ((page) => page);
+
   return (
     <>
       <CssBaseline />
       <Head>
-        <title>Charity Games!</title>
+        <title>Charity.Games</title>
       </Head>
-      <main className="app">
-        <Component {...pageProps} />
-      </main>
+
+      <ThemeProvider theme={theme}>
+        <main className="app">{getLayout(<Component {...pageProps} />)}</main>
+      </ThemeProvider>
     </>
   );
 }

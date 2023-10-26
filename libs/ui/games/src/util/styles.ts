@@ -29,6 +29,11 @@ export const glowBoxShadow = `rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 3
 
 export const dokaBoxShadow = `rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset`;
 
+export const svgBoxShadow = (height = 1.5, power = 0.5) =>
+  `drop-shadow(${height * 0.75}px ${
+    height * 0.75
+  }px ${height}px rgba(0, 0, 0, ${power}))`;
+
 export const textShadow = (height = 1.5, power = 0.5) =>
   `rgba(0, 0, 0, ${power}) ${height * 0.75}px ${height * 0.75}px ${height}px`;
 

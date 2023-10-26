@@ -1,8 +1,8 @@
 import { FC } from 'react';
-import { Modal, ModalHeader } from './Modal';
 import { Flex } from '@worksheets/ui-core';
 import { Button, Divider, Typography } from '@mui/material';
 import Image from 'next/image';
+import { Modal, ModalHeader } from '@worksheets/ui-games';
 
 export const FirstTimePlayerModal: FC<{
   open: boolean;

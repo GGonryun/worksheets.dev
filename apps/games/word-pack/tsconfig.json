@@ -24,6 +24,7 @@
     "**/*.js",
     "**/*.jsx",
     "next-env.d.ts",
+    "../../../libs/ui/games/src/components/Modals/PuzzleCompleteModal.tsx",
     "../../../libs/ui/games/src/components/Modals/PuzzleCompleteModal.tsx"
   ],
   "exclude": [

@@ -3,6 +3,7 @@
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/games/word-search",
   "projectType": "application",
+  "implicitDependencies": ["assets-common"],
   "targets": {
     "build": {
       "executor": "@nx/next:build",
@@ -10,7 +11,14 @@
       "defaultConfiguration": "production",
       "options": {
         "root": "apps/games/word-search",
-        "outputPath": "dist/apps/games/word-search"
+        "outputPath": "dist/apps/games/word-search",
+        "assets": [
+          {
+            "input": "libs/assets/common/src/lib",
+            "glob": "**/*",
+            "output": "common"
+          }
+        ]
       },
       "configurations": {
         "development": {

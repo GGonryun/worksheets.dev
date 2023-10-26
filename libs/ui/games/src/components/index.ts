@@ -5,3 +5,5 @@ export * from './Modals';
 export * from './Buttons';
 export * from './Animated';
 export * from './Links';
+export * from './Icons';
+export * from './TitleScreen';

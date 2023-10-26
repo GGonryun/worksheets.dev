@@ -4,7 +4,7 @@ import { letter, thinBorder } from '../layouts';
 import { Typography, useTheme } from '@mui/material';
 import { Flex } from '@worksheets/ui-core';
 import { Discovered } from '../types';
-import { DEFAULT_ANIMATION_SPEED } from '@worksheets/ui-games';
+import { DEFAULT_ANIMATION_SPEED, backgroundColor } from '@worksheets/ui-games';
 
 export type WordSelectionProps = {
   words: Discovered;
@@ -34,27 +34,26 @@ export const WordSelection: FC<WordSelectionProps> = (props) => {
   const exists = words[word] === 0 || bonuses[word] === 0;
 
   return (
-    <Typography variant="h4">
-      <AnimatePresence>
-        {letters.length && (
-          <motion.div variants={variants} exit={exists ? 'valid' : 'invalid'}>
-            <Flex
-              sx={
-                letters.length
-                  ? {
-                      border: thinBorder(theme),
-                      borderRadius: '5px',
-                      px: 2,
-                    }
-                  : undefined
-              }
-            >
-              <Letters {...props} />
-            </Flex>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </Typography>
+    <AnimatePresence>
+      {letters.length && (
+        <motion.div variants={variants} exit={exists ? 'valid' : 'invalid'}>
+          <Flex
+            sx={
+              letters.length
+                ? {
+                    backgroundColor: 'white',
+                    border: `2px solid ${theme.palette.primary.light}`,
+                    borderRadius: '5px',
+                    px: 2,
+                  }
+                : undefined
+            }
+          >
+            <Letters {...props} />
+          </Flex>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 };
 
@@ -84,6 +83,8 @@ const Letter: FC<{ layoutId: string; letter: string }> = ({
       duration: 0.05,
     }}
   >
-    {letter}
+    <Typography variant="h4" textTransform={'uppercase'}>
+      {letter}
+    </Typography>
   </motion.span>
 );

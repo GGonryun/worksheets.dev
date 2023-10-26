@@ -453,7 +453,7 @@ export const puzzles: Puzzle[] = [
   },
   {
     theme: 'Pokemon 1',
-    size: 13,
+    size: 14,
     words: [
       'PIKACHU',
       'CHARIZARD',
