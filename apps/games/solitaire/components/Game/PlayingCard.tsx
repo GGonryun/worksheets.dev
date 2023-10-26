@@ -149,6 +149,7 @@ export const PlayingCard: FC<{
       }}
     >
       <Image
+        priority
         draggable="false"
         style={{
           touchAction: 'none',
