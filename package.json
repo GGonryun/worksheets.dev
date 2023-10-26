@@ -24,7 +24,7 @@
     "serve:wordsmith": "npx nx run games-word-smith:serve",
     "serve:nonograms": "npx nx run games-nonograms:serve",
     "serve:solitaire": "npx nx run games-solitaire:serve",
-    "serve": "firebase logout; firebase login; concurrently --kill-others\"npm run serve:charity\" \"npm run serve:ide\" \"npm run serve:manual\" \"npm run serve:firebase\" \"npm run serve:emojiwar\" \"npm run serve:puzzlewords\" \"npm run serve:chesskata\" \"npm run serve:wordsearch\" \"npm run serve:wordpack\" \"npm run serve:wordsmith\" \"npm run serve:nonograms\" \"npm run serve:solitaire\"",
+    "serve": "firebase logout; firebase login; concurrently --kill-others \"npm run serve:charity\" \"npm run serve:ide\" \"npm run serve:manual\" \"npm run serve:firebase\" \"npm run serve:emojiwar\" \"npm run serve:puzzlewords\" \"npm run serve:chesskata\" \"npm run serve:wordsearch\" \"npm run serve:wordpack\" \"npm run serve:wordsmith\" \"npm run serve:nonograms\" \"npm run serve:solitaire\"",
     "prisma:studio": "npx prisma studio",
     "prisma:generate": "npx prisma generate"
   },
