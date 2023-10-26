@@ -2,8 +2,9 @@ import { Flex } from '@worksheets/ui-core';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/router';
 import { FC } from 'react';
-import { MenuButton, animate, urls } from '@worksheets/ui-games';
 import { useTheme } from '@mui/material';
+import { animate, urls } from '../../util';
+import { MenuButton } from '../Buttons';
 
 export type TitleFooterProps = {
   onShowMission: () => void;

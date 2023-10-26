@@ -3,6 +3,7 @@ import {
   PuzzleMenu,
   ReportBugModal,
   backgroundColor,
+  urls,
 } from '@worksheets/ui-games';
 import { FC, ReactNode, useState } from 'react';
 import { useWindowSize } from '@worksheets/ui-core';
@@ -31,7 +32,6 @@ import { PuzzleLockedScreen } from './PuzzleLockedScreen';
 import { TutorialDialog } from './TutorialDialog';
 import { hasPuzzle } from '../../puzzles';
 import { PuzzleNotFoundError } from './PuzzleNotFoundError';
-import { urls } from '../../util/urls';
 
 export const Page = () => {
   const { query } = useRouter();
@@ -113,7 +113,7 @@ export const Container: FC<{ id: string }> = ({ id }) => {
       <Layout>
         <Header
           levelComplete={levelComplete}
-          onLevelComplete={() => push(urls.levels())}
+          onLevelComplete={() => push(urls.relative.levels)}
           windowHeight={height}
           size={size}
           onBack={() => back()}

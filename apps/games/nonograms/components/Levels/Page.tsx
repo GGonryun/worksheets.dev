@@ -3,8 +3,6 @@ import { FC, ReactNode, useState } from 'react';
 import { Header } from './Header';
 import { PlayerStorage, usePlayer } from '../../hooks/usePlayer';
 import { useRouter } from 'next/router';
-import { urls } from '../../util/urls';
-
 import { Layout } from './Layout';
 import { InfoModal } from './InfoModal';
 import { listPuzzles } from '../../puzzles';
@@ -12,6 +10,7 @@ import {
   dokaBoxShadow,
   tabletBoxShadow,
   textShadow,
+  urls,
 } from '@worksheets/ui-games';
 import { PuzzleItem } from '../../util/types';
 import { Check, Lock, QuestionMark } from '@mui/icons-material';
@@ -28,7 +27,7 @@ export const Page: FC = () => {
     <>
       <Layout>
         <Header
-          onHome={() => push(urls.home())}
+          onHome={() => push(urls.relative.home)}
           onInfo={() => setShowInfo(true)}
         />
         <Box py={1}>
@@ -74,7 +73,7 @@ export const LevelCard: FC<{
         completed={completed}
         locked={locked}
         onClick={() => {
-          push(urls.puzzle(puzzle.id));
+          push(`${urls.relative.puzzle}?id=${puzzle.id}`);
         }}
       >
         <Box

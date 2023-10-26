@@ -80,7 +80,7 @@ async function formatEmail(
     replyTo,
     subject,
     text: `${body}`,
-    html: `<p>🙋🏻‍♀️ &mdash; This is gmail was sent from <a href='${SERVER_SETTINGS.WEBSITES.MARKETING_URL()}'>worksheets.dev</a><br/>${body}</p>`,
+    html: `<p>🙋🏻‍♀️ &mdash; This is gmail was sent from <a href='${SERVER_SETTINGS.WEBSITES.WORKSHEETS_URL()}'>worksheets.dev</a><br/>${body}</p>`,
   });
   const email = await message.compile().build();
   const raw = urlSafeEncoding(email);

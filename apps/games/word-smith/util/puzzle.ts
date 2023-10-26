@@ -1,9 +1,9 @@
+import { lowerCaseAlphabet } from '@worksheets/ui-games';
 import {
   OrganizedByLength,
   dictionaryByLength,
   elementaryDictionaryByLength,
-  lowerCaseAlphabet,
-} from '@worksheets/ui-games';
+} from '@worksheets/util-dictionary';
 import { arrayFromLength, selectRandomItem } from '@worksheets/util/arrays';
 import { randomBetween } from '@worksheets/util/numbers';
 

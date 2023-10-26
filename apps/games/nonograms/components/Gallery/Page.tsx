@@ -3,11 +3,11 @@ import { FC, useState } from 'react';
 import { GalleryHeader } from './Header';
 import { usePlayer } from '../../hooks/usePlayer';
 import { useRouter } from 'next/router';
-import { urls } from '../../util/urls';
 import { DetailsModal } from '../DetailsModal';
 import { InfoModal } from './InfoModal';
 import { Layout } from './Layout';
 import { ImageCard, LevelsCard } from './Cards';
+import { urls } from '@worksheets/ui-games';
 
 export const Page: FC = () => {
   const player = usePlayer();
@@ -19,7 +19,7 @@ export const Page: FC = () => {
     <>
       <Layout>
         <GalleryHeader
-          onHome={() => push(urls.home())}
+          onHome={() => push(urls.relative.home)}
           onInfo={() => setShowInfo(true)}
         />
         <Box py={1}>
@@ -39,14 +39,14 @@ export const Page: FC = () => {
             <ImageCard key={id} id={id} onClick={() => setShowDetails(id)} />
           ))}
 
-          <LevelsCard onClick={() => push(urls.levels())} />
+          <LevelsCard onClick={() => push(urls.relative.levels)} />
         </Box>
       </Layout>
       <DetailsModal
         id={showDetails}
         onClose={() => setShowDetails('')}
         onView={() => {
-          push(urls.puzzle(showDetails));
+          push(`${urls.relative.puzzle}?id=${showDetails}`);
         }}
       />
       <InfoModal open={showInfo} onClose={() => setShowInfo(false)} />

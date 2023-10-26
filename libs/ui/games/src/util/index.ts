@@ -4,6 +4,5 @@ export * from './styles';
 export * from './animation';
 export * from './types';
 export * from './urls';
-export * from './organization';
 export * from './nonograms';
 export * from './box';

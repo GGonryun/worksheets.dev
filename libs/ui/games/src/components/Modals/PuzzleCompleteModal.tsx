@@ -2,7 +2,8 @@ import { FC } from 'react';
 import { Flex } from '@worksheets/ui-core';
 import { Button, Link, Typography } from '@mui/material';
 import Image from 'next/image';
-import { Modal, urls } from '@worksheets/ui-games';
+import { Modal } from '../Modal/Modal';
+import { urls } from '../../util/urls';
 
 export const PuzzleCompleteModal: FC<{
   open: boolean;

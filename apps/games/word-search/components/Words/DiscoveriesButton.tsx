@@ -8,6 +8,7 @@ import {
   DEFAULT_ANIMATION_SPEED,
   LaunchIcon,
   bubbleInsetBoxShadow,
+  IconAction,
 } from '@worksheets/ui-games';
 import { Flex } from '@worksheets/ui-core';
 import { bonusYellow } from '../../util';
@@ -42,21 +43,9 @@ export const DiscoveriesButton: FC<DiscoveriesButtonProps> = ({
       }}
     >
       <motion.div {...anims} id="bonus-words-icon">
-        <IconButton
-          size="small"
-          sx={{
-            border: `2px solid ${theme.palette.primary.dark}`,
-            boxShadow: bubbleInsetBoxShadow,
-          }}
-        >
-          <Star
-            sx={{
-              color: theme.palette.primary.contrastText,
-            }}
-          />
-        </IconButton>
+        <IconAction Icon={Star} />
       </motion.div>
-      <LaunchIcon count={foundDiscoveries} zIndex={100}>
+      <LaunchIcon count={foundDiscoveries} zIndex={1000}>
         <Star fontSize="large" sx={{ color: bonusYellow }} />
       </LaunchIcon>
       <NumberPill count={foundDiscoveries} />
@@ -69,19 +58,19 @@ export const NumberPill: FC<{ count: number }> = ({ count }) => {
     <Box
       sx={(theme) => ({
         position: 'absolute',
-        top: -6,
-        right: -10,
+        top: -2,
+        right: -2,
         height: 22,
         minWidth: 22,
         borderRadius: '50%',
-        border: `2px solid ${theme.palette.primary.dark}`,
+        border: `3px solid ${theme.palette.primary.dark}`,
         backgroundColor: theme.palette.background.paper,
         p: 0,
         m: 0,
       })}
     >
       <Flex fill centered>
-        <Typography fontSize={14}>{count}</Typography>
+        <Typography fontSize={14}>{count > 9 ? '!' : count}</Typography>
       </Flex>
     </Box>
   );

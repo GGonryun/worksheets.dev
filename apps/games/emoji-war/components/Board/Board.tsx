@@ -35,6 +35,7 @@ export const Board: FC<{
             <Grid xs={4} key={i}>
               <Box
                 sx={{
+                  backgroundColor: 'white',
                   aspectRatio: '1/1',
                   border: '2px solid black',
                   borderRadius: 1,

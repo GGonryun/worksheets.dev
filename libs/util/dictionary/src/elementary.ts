@@ -1,4 +1,4 @@
-import { organizeByLength } from '../../../ui/games/src/util/organization';
+import { organizeByLength } from './organization';
 
 export const elementaryDictionary = [
   'a',

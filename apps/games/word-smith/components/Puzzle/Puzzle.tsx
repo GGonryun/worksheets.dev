@@ -94,7 +94,11 @@ export const Puzzle = () => {
         onDefine={(word) => setDefine(word)}
         discoveries={player.words}
       />
-      <DefinitionModal word={define} onClose={() => setDefine('')} />
+      <DefinitionModal
+        word={define}
+        onClose={() => setDefine('')}
+        onReportProblem={() => setShowReportModal(true)}
+      />
       <HowToPlayModal
         open={player.isNew || showHowToPlayModal}
         onClose={() => {

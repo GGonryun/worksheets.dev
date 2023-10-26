@@ -3,8 +3,10 @@ import { FC, ReactNode } from 'react';
 
 export type MobileLayoutProps = {
   content: ReactNode;
-  header: ReactNode;
+  header?: ReactNode;
   footer?: ReactNode;
+  height?: string;
+  width?: string;
   backgroundColor?: string;
   backgroundImage?: string;
   backgroundSize?: string;
@@ -17,6 +19,8 @@ export const MobileLayout: FC<MobileLayoutProps> = ({
   header,
   footer,
   content,
+  height,
+  width,
   backgroundColor,
   backgroundImage,
   backgroundSize,
@@ -43,14 +47,15 @@ export const MobileLayout: FC<MobileLayoutProps> = ({
     >
       {header}
       <Box
+        className="mobile-layout-content"
         sx={{
           touchAction: 'none',
           userSelect: 'none',
           display: 'flex',
           margin: 'auto',
           flexDirection: 'column',
-          width: '95%',
-          height: '90%',
+          width: width ?? '95%',
+          height: height ?? '90%',
           overflow: 'auto',
           maxWidth: 600,
           maxHeight: 1000,

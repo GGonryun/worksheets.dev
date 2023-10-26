@@ -4,6 +4,8 @@ export const urls = {
   relative: {
     home: '/',
     puzzle: `/puzzle`,
+    levels: `/levels`,
+    gallery: `/gallery`,
     game: `/game`,
     games: `/games`,
     play: `/play`,

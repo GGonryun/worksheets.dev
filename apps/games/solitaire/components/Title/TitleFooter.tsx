@@ -2,8 +2,12 @@ import { Flex } from '@worksheets/ui-core';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/router';
 import { FC } from 'react';
-import { MenuButton, animate, tabletBoxShadow } from '@worksheets/ui-games';
-import { urls } from '../../util/urls';
+import {
+  MenuButton,
+  animate,
+  tabletBoxShadow,
+  urls,
+} from '@worksheets/ui-games';
 import { Notifications, SportsEsports } from '@mui/icons-material';
 
 export type TitleFooterProps = {
@@ -19,7 +23,7 @@ export const TitleFooter: FC<TitleFooterProps> = () => {
           <MenuButton
             boxShadow={tabletBoxShadow}
             startIcon={<SportsEsports sx={{ pb: '2px' }} />}
-            onClick={() => push(urls.games())}
+            onClick={() => push(urls.charityGames.home())}
           >
             More Games
           </MenuButton>
@@ -29,7 +33,7 @@ export const TitleFooter: FC<TitleFooterProps> = () => {
           <MenuButton
             boxShadow={tabletBoxShadow}
             startIcon={<Notifications sx={{ pb: '2px' }} />}
-            onClick={() => push(urls.subscribe())}
+            onClick={() => push(urls.charityGames.contact())}
           >
             Subscribe
           </MenuButton>

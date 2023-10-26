@@ -17,7 +17,6 @@ import {
   STARTING_PLAYER_HEALTH,
 } from '../settings';
 import { FC, useEffect, useState } from 'react';
-import { GameLayout } from '../Layouts';
 
 export const SinglePlayerGame: FC<{
   difficulty: EnemyDifficulty;
@@ -132,46 +131,50 @@ export const SinglePlayerGame: FC<{
   }, [restart]);
 
   return (
-    <GameLayout>
+    <>
       <StatusBar
         emojis={[enemy, emoji]}
         timer={timer}
         onExitGame={onExitGame}
       />
-      <Divider sx={{ width: '100%' }} />
-      <Spacing y={1}>
-        <Flex column centered gap={1}>
-          <Board
-            emoji={enemy}
-            player={enemySlot}
-            position={enemyPosition}
-            attacks={playerAttacks}
-          />
-          <PlayerTag
-            emoji={enemy}
-            hp={enemyHealth}
-            slot={enemySlot}
-            max={STARTING_PLAYER_HEALTH}
-          />
-          <Divider sx={{ width: '100%' }} />
-          <PlayerTag
-            emoji={emoji}
-            hp={playerHealth}
-            slot={playerSlot}
-            max={STARTING_PLAYER_HEALTH}
-          />
-          <Board
-            emoji={emoji}
-            player={playerSlot}
-            position={playerPosition}
-            attacks={enemyAttacks}
-          />
-        </Flex>
-      </Spacing>
+      <Divider
+        sx={{
+          width: '100%',
+          height: '1px',
+          backgroundColor: (theme) => theme.palette.secondary.dark,
+        }}
+      />
+      <Flex column centered gap={1} py={1}>
+        <Board
+          emoji={enemy}
+          player={enemySlot}
+          position={enemyPosition}
+          attacks={playerAttacks}
+        />
+        <PlayerTag
+          emoji={enemy}
+          hp={enemyHealth}
+          slot={enemySlot}
+          max={STARTING_PLAYER_HEALTH}
+        />
+        <Divider sx={{ width: '100%' }} />
+        <PlayerTag
+          emoji={emoji}
+          hp={playerHealth}
+          slot={playerSlot}
+          max={STARTING_PLAYER_HEALTH}
+        />
+        <Board
+          emoji={emoji}
+          player={playerSlot}
+          position={playerPosition}
+          attacks={enemyAttacks}
+        />
+      </Flex>
       <Divider sx={{ width: '100%' }} />
       <Flex fill fullWidth>
         <PlayArea {...playArea} />
       </Flex>
-    </GameLayout>
+    </>
   );
 };

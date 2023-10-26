@@ -9,7 +9,7 @@ import {
 } from '@mui/material';
 import { Flex } from '@worksheets/ui-core';
 import { motion } from 'framer-motion';
-import { animate, urls } from '@worksheets/ui-games';
+import { animate, urls } from '../../util';
 
 export type TitleContentProps = {
   onStart: () => void;

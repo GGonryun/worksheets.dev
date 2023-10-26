@@ -15,7 +15,6 @@ import {
   PuzzleLayout,
   useGrid,
   borderRadius,
-  boxShadow,
   MenuButton,
   DefinitionModal,
   tabletBoxShadow,
@@ -27,6 +26,7 @@ export type PuzzleProps = ReturnType<typeof usePlayer> &
   ReturnType<typeof useGrid> &
   ReturnType<typeof usePuzzle> & {
     onNextLevel: () => void;
+    onReportProblem: () => void;
   };
 
 export const Puzzle: FC<PuzzleProps> = ({
@@ -45,6 +45,7 @@ export const Puzzle: FC<PuzzleProps> = ({
   letters,
   words,
   getCellSize,
+  onReportProblem,
 }) => {
   const theme = useTheme();
   const resizing = useResizing(1000);
@@ -121,7 +122,11 @@ export const Puzzle: FC<PuzzleProps> = ({
         from={getCenter(selection.start, registry)}
         to={getCenter(selection.closest, registry)}
       />
-      <DefinitionModal word={word} onClose={() => setWord('')} />
+      <DefinitionModal
+        word={word}
+        onClose={() => setWord('')}
+        onReportProblem={onReportProblem}
+      />
       <DiscoveriesModal
         discoveries={discoveries}
         open={showDiscoveriesModal}

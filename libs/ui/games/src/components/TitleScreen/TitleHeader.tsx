@@ -1,8 +1,9 @@
 import { Settings, WaterDropOutlined } from '@mui/icons-material';
 import { Flex } from '@worksheets/ui-core';
-import { IconAction, animate } from '@worksheets/ui-games';
 import { motion } from 'framer-motion';
 import { FC } from 'react';
+import { IconAction } from '../Buttons';
+import { animate } from '../../util';
 
 export type TitleHeaderProps = {
   color?: string;

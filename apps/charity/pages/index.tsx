@@ -1,10 +1,4 @@
-import {
-  Box,
-  BoxProps,
-  Typography,
-  TypographyProps,
-  styled,
-} from '@mui/material';
+import { Box, BoxProps, Link, LinkProps, styled } from '@mui/material';
 import Image from 'next/image';
 import { FC } from 'react';
 import {
@@ -67,10 +61,10 @@ const games: GameEntry[] = [
 type GameIconProps = {
   src: string;
   title: string;
-  onClick: () => void;
+  href: string;
 };
 
-const GameIcon: FC<GameIconProps> = ({ src, title, onClick }) => {
+const GameIcon: FC<GameIconProps> = ({ src, title, href }) => {
   const { onMouseEnter, onMouseLeave, hover } = useOnHover();
   return (
     <GameIconContainer gap={1}>
@@ -80,9 +74,9 @@ const GameIcon: FC<GameIconProps> = ({ src, title, onClick }) => {
         title={title}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
-        onClick={onClick}
+        href={href}
       />
-      <GameIconText onClick={onClick}>{title}</GameIconText>
+      <GameIconText href={href}>{title}</GameIconText>
     </GameIconContainer>
   );
 };
@@ -90,7 +84,7 @@ const GameIcon: FC<GameIconProps> = ({ src, title, onClick }) => {
 type GameIconImageProps = {
   src: string;
   title: string;
-  onClick: () => void;
+  href: string;
 } & HoverProps;
 
 const GameIconImage: FC<GameIconImageProps> = ({
@@ -99,42 +93,43 @@ const GameIconImage: FC<GameIconImageProps> = ({
   title,
   onMouseEnter,
   onMouseLeave,
-  onClick,
+  href,
 }) => (
-  <Box
-    sx={{
-      display: 'flex',
-      cursor: 'pointer',
-      borderRadius: '10px',
-      boxShadow: hover
-        ? `${glowBoxShadow}, ${dokaBoxShadow}, ${tabletBoxShadow}`
-        : tabletBoxShadow,
-      overflow: 'hidden',
-    }}
-  >
-    <Image
-      priority
-      onClick={onClick}
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
-      src={src}
-      alt={title}
-      width={100}
-      height={100}
-    />
-  </Box>
+  <Link href={href} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
+    <Box
+      sx={{
+        display: 'flex',
+        cursor: 'pointer',
+        borderRadius: '10px',
+        boxShadow: hover
+          ? `${glowBoxShadow}, ${dokaBoxShadow}, ${tabletBoxShadow}`
+          : tabletBoxShadow,
+        overflow: 'hidden',
+      }}
+    >
+      <Image
+        style={{ pointerEvents: 'none' }}
+        priority
+        src={src}
+        alt={title}
+        width={100}
+        height={100}
+      />
+    </Box>
+  </Link>
 );
 
-const GameIconText = styled((props) => (
-  <Typography {...props} />
-))<TypographyProps>(({ theme }) => ({
-  color: theme.palette.text.primary,
-  textShadow: textShadow(0.5, 0.5),
-  fontSize: '1rem',
-  cursor: 'pointer',
-  fontWeight: 600,
-  fontFamily: theme.typography.secondary.fontFamily,
-}));
+const GameIconText = styled((props) => <Link {...props} />)<LinkProps>(
+  ({ theme }) => ({
+    color: theme.palette.text.primary,
+    textShadow: textShadow(0.5, 0.5),
+    fontSize: '1rem',
+    cursor: 'pointer',
+    fontWeight: 600,
+    fontFamily: theme.typography.secondary.fontFamily,
+    textDecoration: 'none',
+  })
+);
 
 const GameIconContainer = styled((props) => <Box {...props} />)<BoxProps>({
   display: 'flex',
@@ -166,7 +161,7 @@ const Page: NextPageWithLayout = () => {
           key={game.title}
           title={game.title}
           src={game.src}
-          onClick={() => push(game.url)}
+          href={game.url}
         />
       ))}
     </GameIconsContainer>

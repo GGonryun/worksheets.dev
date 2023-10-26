@@ -88,19 +88,16 @@ export const ErrorMessage: FC<ErrorMessageProps> = ({
   onReportProblem,
 }) => {
   return (
-    <>
-      <Flex column pt={1} pr={2} gap={1}>
-        <Typography variant="h5" color="error.main">
-          {error}
-        </Typography>
-        <Typography fontFamily={'sans-serif'}>
-          Please try again later. If the problem persists, please submit a
-          report.
-        </Typography>
-        <Button variant="outlined" onClick={onReportProblem}>
-          Report A Problem
-        </Button>
-      </Flex>
-    </>
+    <Flex column pt={1} pr={2} gap={1}>
+      <Typography variant="h5" color="error.main">
+        {error}
+      </Typography>
+      <Typography fontFamily={'sans-serif'}>
+        Please try again later. If the problem persists, please submit a report.
+      </Typography>
+      <Button variant="outlined" onClick={onReportProblem}>
+        Report A Problem
+      </Button>
+    </Flex>
   );
 };

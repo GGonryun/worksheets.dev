@@ -4,9 +4,6 @@ export const assets = {
       logo: '/common/water-org/logo.png',
     },
   },
-  background: '/background.png',
-  banner: '/banner.jpg',
-  favicon: '/favicon.ico',
-  icon: '/icon.jpg',
   logo: '/logo.png',
+  background: '/background.jpg',
 };

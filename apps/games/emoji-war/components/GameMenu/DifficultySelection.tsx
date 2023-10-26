@@ -21,7 +21,7 @@ export const DifficultySelection: FC<{
     <Typography variant="body2">
       <strong>Select Difficulty</strong>
     </Typography>
-    <Flex spaceBetween gap={1} fullWidth>
+    <Flex justifyContent={'space-evenly'} gap={1} fullWidth>
       {difficulties.map((difficulty) => (
         <TinyButton
           key={difficulty}

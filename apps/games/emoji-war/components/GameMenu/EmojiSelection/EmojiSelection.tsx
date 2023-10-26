@@ -13,15 +13,14 @@ export const PlayerEmojiSelection: FC<{
 
   useEffect(() => {
     onUpdateEmoji(activeCategory.emojis[0]);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeCategory]);
 
   return (
     <Flex column gap={1} fullWidth>
-      <Typography variant="body2">
+      <Typography>
         <strong>Choose an Emoji</strong>
       </Typography>
-      <Flex spaceBetween pb={1} fullWidth>
+      <Flex justifyContent="space-evenly" pb={1} fullWidth>
         {emojiCategories.map((category) => (
           <TinyButton
             key={category.name}

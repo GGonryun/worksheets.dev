@@ -3,16 +3,18 @@ import {
   DonateWaterModal,
   OurMissionModal,
   SettingsModal,
+  TitleContent,
+  TitleFooter,
+  TitleHeader,
 } from '@worksheets/ui-games';
-import { TitleContent } from './TitleContent';
-import { MainMenuHeader } from './TitleHeader';
-import { MainMenuFooter } from './TitleFooter';
-import { GAME_TITLE } from '../../util';
-import { Layout } from '../Layout';
-import { usePlayer } from '../../hooks/usePlayer';
-import { SelectDifficultyModal } from '../Modals/SelectDifficulty';
+import { GAME_TITLE } from '../util';
+import { Layout } from './Layout';
+import { usePlayer } from '../hooks/usePlayer';
+import { SelectDifficultyModal } from './Modals/SelectDifficulty';
+import { Typography, useTheme } from '@mui/material';
 
 export const TitlePage: FC = () => {
+  const theme = useTheme();
   const player = usePlayer();
   const [showMission, setShowMission] = useState(false);
   const [showDonate, setShowDonate] = useState(false);
@@ -24,18 +26,31 @@ export const TitlePage: FC = () => {
       <Layout
         content={
           <TitleContent
-            water={player.water}
-            onDonate={() => setShowDonate(true)}
+            logo={
+              <Typography
+                color={theme.palette.primary.contrastText}
+                fontWeight={900}
+                variant="h3"
+                sx={{
+                  textShadow: '0 2px 2px rgba(0,0,0,0.3)',
+                }}
+              >
+                Word Smith
+              </Typography>
+            }
+            startText="Start Game"
+            gameOver={false}
+            onSettings={() => setShowSettings(true)}
             onStart={() => setShowDifficulty(true)}
           />
         }
         header={
-          <MainMenuHeader
+          <TitleHeader
             onSettings={() => setShowSettings(true)}
             onDonate={() => setShowDonate(true)}
           />
         }
-        footer={<MainMenuFooter onShowMission={() => setShowMission(true)} />}
+        footer={<TitleFooter onShowMission={() => setShowMission(true)} />}
       />
 
       <OurMissionModal

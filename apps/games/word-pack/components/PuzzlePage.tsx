@@ -7,6 +7,7 @@ import { useRouter } from 'next/router';
 import { flatten } from 'lodash';
 import { AbsolutelyCentered } from '@worksheets/ui-core';
 import { urls } from '@worksheets/ui-games';
+import { Layout } from './Layout';
 
 export const PuzzlePage = () => {
   const { push } = useRouter();
@@ -55,9 +56,13 @@ export const PuzzlePage = () => {
 
   if (refreshing || props.id < 0 || state.loading || state.level < 0) {
     return (
-      <AbsolutelyCentered>
-        <CircularProgress />
-      </AbsolutelyCentered>
+      <Layout
+        content={
+          <AbsolutelyCentered>
+            <CircularProgress size={128} />
+          </AbsolutelyCentered>
+        }
+      ></Layout>
     );
   }
 

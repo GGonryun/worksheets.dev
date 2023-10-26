@@ -1,5 +1,4 @@
 import { Flex, MicroMarkdown } from '@worksheets/ui-core';
-import { MenuLayout } from '../Layouts';
 import {
   Accordion,
   AccordionDetails,
@@ -15,61 +14,41 @@ import {
 import { FC, useState } from 'react';
 import { ArrowBack, ExpandMore } from '@mui/icons-material';
 import { uppercase } from '@worksheets/util/strings';
-import { urls } from '../urls';
-import { TinyLogo } from '@worksheets/ui-basic-style';
 
 export const HowToPlay: FC<{ onBack: () => void }> = ({ onBack }) => {
   return (
-    <MenuLayout>
-      <Flex column fullWidth centered gap={1}>
-        <Flex fullWidth column>
-          <Title />
-          <Divider />
-          <InstructionsAccordion />
-        </Flex>
-        <Flex fullWidth>
-          <Button
-            variant="contained"
-            color="success"
-            startIcon={<ArrowBack />}
-            sx={{
-              my: 2,
-              alignSelf: 'flex-start',
-            }}
-            onClick={onBack}
-          >
-            Back to Menu
-          </Button>
-        </Flex>
+    <Flex column fullWidth centered gap={1}>
+      <Flex fullWidth column>
+        <Title />
+        <Divider />
+        <InstructionsAccordion />
       </Flex>
-    </MenuLayout>
+      <Flex fullWidth>
+        <Button
+          variant="contained"
+          color="success"
+          startIcon={<ArrowBack />}
+          sx={{
+            my: 2,
+            alignSelf: 'flex-start',
+          }}
+          onClick={onBack}
+        >
+          Back to Menu
+        </Button>
+      </Flex>
+    </Flex>
   );
 };
 
 const Title = () => (
   <Flex column pb={1}>
-    <Typography variant="h5" color="text.secondary">
+    <Typography variant="h5">
       <strong>How to play?</strong>
     </Typography>
-    <Typography variant="body1" color="text.secondary">
-      Emoji Wars is a real-time strategy battle game
+    <Typography variant="body1">
+      Emoji Wars is a real-time strategy battle game.
     </Typography>
-    <Flex gap={1}>
-      <Link href={urls.worksheets()} color="text.secondary">
-        <Typography variant="caption">Made by Worksheets.dev</Typography>
-      </Link>
-      <TinyLogo
-        borderless
-        src={'/logo.svg'}
-        area={24}
-        sx={(theme) => ({
-          mt: -0.5,
-          backgroundColor: theme.palette.secondary.dark,
-          borderRadius: '5px',
-          p: 0.5,
-        })}
-      />
-    </Flex>
   </Flex>
 );
 
@@ -97,13 +76,6 @@ export const Instructions: Instruction[] = [
     title: 'Winning',
     content:
       '❤️ The first player to reach 0 hit points loses the game.\n⏲️ If the timer runs out the player with the most health points wins.\n🗡️ If both players reach 0 hit points at the same time, the game is a draw.',
-  },
-  {
-    emoji: '💧',
-    title: 'Charity',
-    content: `For every game you win we will donate **1 milliliter of water** to [Charity: Water](${urls.charityWater()}) and [Water.org](${urls.waterOrg()}). \n\nVisit [Worksheets.dev and read about our Mission Statement](${urls.worksheets(
-      '/mission-statement'
-    )})`,
   },
 ];
 

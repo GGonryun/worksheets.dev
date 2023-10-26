@@ -12,7 +12,7 @@ export const EmojiOptions: FC<{
   const emojis = splitArray(items, rows);
 
   return (
-    <Flex gap={1} column centered justifyContent="space-between">
+    <Flex gap={1} px={3} column centered justifyContent="space-between">
       {emojis.map((row, i) => (
         <Flex
           fullWidth

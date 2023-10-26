@@ -36,7 +36,7 @@ const publicAppBarButtons = [
   },
   {
     text: 'Games',
-    href: urls.app.games,
+    href: urls.external.charityGames,
     icon: <VideogameAsset fontSize="small" />,
   },
   {

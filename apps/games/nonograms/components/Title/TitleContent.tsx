@@ -8,8 +8,8 @@ import {
   tabletBoxShadow,
   textShadow,
   TabletButton,
+  urls,
 } from '@worksheets/ui-games';
-import { urls } from '../../util/urls';
 import { GAME_TITLE } from '../../util/constants';
 
 import { CollectionsOutlined, PlayArrow } from '@mui/icons-material';
@@ -40,28 +40,6 @@ export const TitleContent: FC<TitleContentProps> = ({
         >
           {GAME_TITLE}
         </Typography>
-      </motion.div>
-      <motion.div {...animate(-75, 0.3)}>
-        <Flex centered pb={2} gap={1}>
-          <Typography
-            color={theme.palette.primary.contrastText}
-            variant="caption"
-            sx={{
-              textShadow: textShadow(),
-            }}
-          >
-            A game by{' '}
-            <Link href={urls.worksheets()} color="primary.contrastText">
-              Worksheets.dev
-            </Link>
-          </Typography>
-          <Image
-            src="/logo.svg"
-            alt={'Worksheets Logo'}
-            height={24}
-            width={24}
-          />
-        </Flex>
       </motion.div>
       <motion.div {...animate(-100, 0.45)}>
         <Flex column centered gap={1.5}>
@@ -106,8 +84,8 @@ const GameOverPaper = () => {
           You&apos;ve completed all the puzzles!
         </Typography>
         <Typography variant="caption" color="text.secondary" textAlign="center">
-          <Link href={urls.subscribe()}>Get notified</Link> when new puzzles are
-          available.
+          <Link href={urls.charityGames.contact()}>Get notified</Link> when new
+          puzzles are available.
         </Typography>
       </Flex>
     </Paper>

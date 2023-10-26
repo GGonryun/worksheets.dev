@@ -56,15 +56,9 @@ export const urls = {
     contactUs: SERVER_SETTINGS.WEBSITES.DOCS_URL('/contact-us'),
     blog: SERVER_SETTINGS.WEBSITES.DOCS_URL('/blog'),
   },
-  games: {
-    emojiWar: SERVER_SETTINGS.WEBSITES.EMOJI_WAR_URL(),
-    puzzleWords: SERVER_SETTINGS.WEBSITES.PUZZLE_WORDS_URL(),
-    wordSearch: SERVER_SETTINGS.WEBSITES.WORD_SEARCH_URL(),
-    wordPack: SERVER_SETTINGS.WEBSITES.WORD_PACK_URL(),
-    wordSmith: SERVER_SETTINGS.WEBSITES.WORD_SMITH_URL(),
-    nonograms: SERVER_SETTINGS.WEBSITES.NONOGRAMS_URL(),
-  },
+
   external: {
+    charityGames: SERVER_SETTINGS.WEBSITES.CHARITY_GAMES_URL(),
     waterOrg: 'https://water.org',
     charityWater: 'https://charitywater.org',
     homeFirst: 'https://homefirst.org',

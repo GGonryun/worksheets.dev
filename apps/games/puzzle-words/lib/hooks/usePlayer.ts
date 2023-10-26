@@ -152,7 +152,6 @@ export const usePlayer = () => {
   };
 
   const isGameOver = () => {
-    console.log('isGameOver', isComplete(), puzzles.length, level);
     return isComplete() && puzzles.length - 1 === level;
   };
 

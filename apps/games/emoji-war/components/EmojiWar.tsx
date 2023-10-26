@@ -4,6 +4,7 @@ import { GameOverOverlay } from './GameOver';
 import { GameMenu, emojiCategories, selectRandomEmoji } from './GameMenu';
 import { HowToPlay } from './HowToPlay';
 import { EnemyDifficulty } from './controllers';
+import { Layout } from './Layout';
 
 export const EmojiWar = () => {
   const [menu, setMenu] = useState(true);
@@ -17,72 +18,79 @@ export const EmojiWar = () => {
   const [paused, setPaused] = useState(false);
 
   return (
-    <>
-      {menu ? (
-        <GameMenu
-          emoji={emoji}
-          difficulty={difficulty}
-          onUpdateEmoji={(emoji) => setEmoji(emoji)}
-          onUpdateDifficulty={(difficulty) => setDifficulty(difficulty)}
-          onStartGame={() => {
-            setPaused(false);
-            setMenu(false);
-            setDisplayGame(true);
-            setEnemyEmoji(selectRandomEmoji());
-          }}
-          onShowInstructions={() => {
-            setDisplayHowToPlay(true);
-            setMenu(false);
-          }}
-        />
-      ) : null}
+    <Layout
+      header={undefined}
+      content={
+        <>
+          {menu ? (
+            <GameMenu
+              emoji={emoji}
+              difficulty={difficulty}
+              onUpdateEmoji={(emoji) => setEmoji(emoji)}
+              onUpdateDifficulty={(difficulty) => setDifficulty(difficulty)}
+              onStartGame={() => {
+                setPaused(false);
+                setMenu(false);
+                setDisplayGame(true);
+                setEnemyEmoji(selectRandomEmoji());
+              }}
+              onShowInstructions={() => {
+                setDisplayHowToPlay(true);
+                setMenu(false);
+              }}
+            />
+          ) : null}
 
-      {displayHowToPlay && (
-        <HowToPlay
-          onBack={() => {
-            setDisplayHowToPlay(false);
-            setMenu(true);
-          }}
-        />
-      )}
+          {displayHowToPlay && (
+            <HowToPlay
+              onBack={() => {
+                setDisplayHowToPlay(false);
+                setMenu(true);
+              }}
+            />
+          )}
 
-      {gameOver !== -1 ? (
-        <GameOverOverlay
-          winner={gameOver}
-          player={emoji}
-          enemy={enemyEmoji}
-          onRematch={() => {
-            setEnemyEmoji(selectRandomEmoji());
-            setRestart(true);
-            setGameOver(-1);
-          }}
-          onReturnToMenu={() => {
-            setPaused(true);
-            setMenu(true);
-            setRestart(true);
-            setGameOver(-1);
-          }}
-        />
-      ) : null}
+          {gameOver !== -1 ? (
+            <GameOverOverlay
+              winner={gameOver}
+              player={emoji}
+              enemy={enemyEmoji}
+              onRematch={() => {
+                setEnemyEmoji(selectRandomEmoji());
+                setRestart(true);
+                setGameOver(-1);
+              }}
+              onReturnToMenu={() => {
+                setPaused(true);
+                setMenu(true);
+                setRestart(true);
+                setGameOver(-1);
+                setDisplayGame(false);
+              }}
+            />
+          ) : null}
 
-      {displayGame && (
-        <SinglePlayerGame
-          emoji={emoji}
-          enemy={enemyEmoji}
-          restart={restart}
-          difficulty={difficulty}
-          onRestart={() => setRestart(false)}
-          onGameOver={(slot) => {
-            setGameOver(slot);
-          }}
-          onExitGame={() => {
-            setPaused(true);
-            setMenu(true);
-            setRestart(true);
-          }}
-          paused={gameOver !== -1 || paused}
-        />
-      )}
-    </>
+          {displayGame && (
+            <SinglePlayerGame
+              emoji={emoji}
+              enemy={enemyEmoji}
+              restart={restart}
+              difficulty={difficulty}
+              onRestart={() => setRestart(false)}
+              onGameOver={(slot) => {
+                setGameOver(slot);
+              }}
+              onExitGame={() => {
+                setPaused(true);
+                setMenu(true);
+                setRestart(true);
+                setDisplayGame(false);
+              }}
+              paused={gameOver !== -1 || paused}
+            />
+          )}
+        </>
+      }
+    />
   );
 };

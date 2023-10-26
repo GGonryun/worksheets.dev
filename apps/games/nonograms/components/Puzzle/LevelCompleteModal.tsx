@@ -1,11 +1,10 @@
 import { Box, Button, Divider, Link, Typography } from '@mui/material';
-import { Modal, TabletButton } from '@worksheets/ui-games';
+import { Modal, TabletButton, urls } from '@worksheets/ui-games';
 import { FC } from 'react';
 import { PuzzleItem } from '../../util/types';
 import { Flex } from '@worksheets/ui-core';
 import Image from 'next/image';
 import { LibraryAddCheck } from '@mui/icons-material';
-import { urls } from '../../util/urls';
 import { motion } from 'framer-motion';
 import ConfettiExplosion from 'react-confetti-explosion';
 import React from 'react';
@@ -64,7 +63,7 @@ export const LevelCompleteModal: FC<{
             <Flex centered gap={1}>
               <LibraryAddCheck />
               <Typography variant="body1" align="center">
-                <Link color="inherit" href={urls.gallery()}>
+                <Link color="inherit" href={urls.relative.gallery}>
                   Added to My Collection
                 </Link>
               </Typography>
@@ -92,7 +91,7 @@ export const LevelCompleteModal: FC<{
               </Typography>
             </motion.div>
             <motion.div {...flyUpAnimation(0.25)}>
-              <TabletButton href={urls.levels()}>
+              <TabletButton href={urls.relative.levels}>
                 <Typography variant="h6">Next Level</Typography>
               </TabletButton>
             </motion.div>
@@ -100,7 +99,7 @@ export const LevelCompleteModal: FC<{
               <Button
                 disableFocusRipple
                 disableRipple
-                href={urls.home()}
+                href={urls.relative.home}
                 sx={{
                   mt: 2,
                   borderRadius: '50px',

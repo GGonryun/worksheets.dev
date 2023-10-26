@@ -11,9 +11,11 @@ export const StatusBar: FC<{
   onExitGame: () => void;
 }> = ({ timer, emojis, onExitGame }) => {
   return (
-    <Flex position="relative">
-      <Flex fullWidth spaceBetween px={2} pt={1}>
+    <Flex position="relative" sx={{ backgroundColor: '#f7baff' }}>
+      <Flex fullWidth spaceBetween px={1} py={'3px'}>
         <Timer value={timer} />
+        <FightBanner emojis={emojis} />
+
         <Button
           size="small"
           color="inherit"
@@ -26,18 +28,6 @@ export const StatusBar: FC<{
           Exit
         </Button>
       </Flex>
-      <Box
-        sx={{
-          position: 'absolute',
-          left: 0,
-          right: 0,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        <FightBanner emojis={emojis} />
-      </Box>
     </Flex>
   );
 };

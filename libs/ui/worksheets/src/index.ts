@@ -14,4 +14,3 @@ export * from './lib/schemas/page';
 export * from './lib/tasks/page';
 export * from './lib/events/page';
 export * from './lib/converter/page';
-export * from './lib/games/page';

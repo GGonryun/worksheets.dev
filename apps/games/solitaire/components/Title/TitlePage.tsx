@@ -4,6 +4,7 @@ import {
   MobileLayout,
   SettingsModal,
   backgroundColor,
+  urls,
 } from '@worksheets/ui-games';
 import { useTheme } from '@mui/material';
 import { TitleContent } from './TitleContent';
@@ -12,7 +13,6 @@ import { TitleFooter } from './TitleFooter';
 import { GAME_TITLE, WATER_PER_GAME } from '../../util/constants';
 import { useRouter } from 'next/router';
 import { usePlayer } from '../../hooks/usePlayer';
-import { urls } from '../../util/urls';
 
 export const TitlePage: FC = () => {
   const { push, reload } = useRouter();
@@ -25,7 +25,7 @@ export const TitlePage: FC = () => {
     <>
       <MobileLayout
         backgroundColor={backgroundColor(theme)}
-        content={<TitleContent onStart={() => push(urls.game())} />}
+        content={<TitleContent onStart={() => push(urls.relative.play)} />}
         header={
           <TitleHeader
             water={player.gamesPlayed * WATER_PER_GAME}

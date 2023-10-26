@@ -1,4 +1,4 @@
-import { dictionaryByLength } from '@worksheets/ui-games';
+import { dictionaryByLength } from '@worksheets/util-dictionary';
 
 const x = true,
   o = false;

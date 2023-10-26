@@ -10,10 +10,10 @@ import { Footer } from './Footer';
 import { useCards } from '../../hooks/useCards';
 import { GameContainer } from './GameContainer';
 import { useRouter } from 'next/router';
-import { urls } from '../../util/urls';
 import { DeviceWarning } from './DeviceWarning';
 import { GameCompleteScreen } from './GameCompleteScreen';
 import { GameDifficulty } from '../../util/playing-cards';
+import { urls } from '@worksheets/ui-games';
 
 export const GamePage = () => {
   const { push } = useRouter();
@@ -168,7 +168,7 @@ export const GamePage = () => {
           difficulty={difficulty}
           score={cards.score}
           timer={cards.time}
-          onHomeClick={() => push(urls.home())}
+          onHomeClick={() => push(urls.relative.home)}
         />
         <ScoreBar height={scorebarHeight} />
         <Footer

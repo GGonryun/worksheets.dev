@@ -19,7 +19,7 @@ const features = [
     title: 'Browser Games',
     description: 'Play games without ads that donate money to charity.',
     logo: '/icons/features/games.svg',
-    href: urls.app.games,
+    href: urls.external.charityGames,
   },
   {
     title: 'Unified APIs',

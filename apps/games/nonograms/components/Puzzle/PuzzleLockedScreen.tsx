@@ -2,9 +2,8 @@ import { Flex } from '@worksheets/ui-core';
 import { PuzzleItem } from '../../util/types';
 import { FC } from 'react';
 import { Typography } from '@mui/material';
-import { textShadow, TabletButton } from '@worksheets/ui-games';
+import { textShadow, TabletButton, urls } from '@worksheets/ui-games';
 import { HomeOutlined, Lock } from '@mui/icons-material';
-import { urls } from '../../util/urls';
 
 export const PuzzleLockedScreen: FC<{ puzzle: PuzzleItem }> = ({ puzzle }) => {
   return (
@@ -34,7 +33,7 @@ export const PuzzleLockedScreen: FC<{ puzzle: PuzzleItem }> = ({ puzzle }) => {
       <TabletButton
         color="white"
         startIcon={<HomeOutlined />}
-        href={urls.home()}
+        href={urls.relative.home}
       >
         <Typography variant="h5">Main Menu</Typography>
       </TabletButton>
