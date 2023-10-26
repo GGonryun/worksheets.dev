@@ -58,7 +58,11 @@ export const MainMenu: FC = () => {
                 width={300}
               />
             }
-            startText={`Start Puzzle #${puzzle.level + 1}`}
+            startText={
+              puzzle.level < 0
+                ? `Start Game`
+                : `Start Puzzle #${puzzle.level + 1}`
+            }
             gameOver={puzzle.isGameOver}
             onStart={handleStart}
             onSettings={() => setShowSettings(true)}
