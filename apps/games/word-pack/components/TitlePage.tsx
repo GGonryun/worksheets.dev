@@ -58,7 +58,11 @@ export const TitlePage: FC = () => {
               (puzzleState.level === puzzleState.maxLevel &&
                 puzzleState.complete)
             }
-            startText={`Start Puzzle #${puzzleState.level + 1}`}
+            startText={
+              puzzleState.level < 0
+                ? `Start Game`
+                : `Start Puzzle #${puzzleState.level + 1}`
+            }
             onStart={handleStart}
             onSettings={() => setShowSettings(true)}
           />
