@@ -20,7 +20,7 @@ export const WordBuilder: FC<WordBuilderProps> = ({
   const { detect, register } = useIntersectionObserver({ onIntersect });
   const panDiameter = 250;
   const borderDiameter = 180;
-  const dotDiameter = 125;
+  const dotDiameter = 130;
   const letterDiameter = 70;
 
   const theme = useTheme();
@@ -28,13 +28,12 @@ export const WordBuilder: FC<WordBuilderProps> = ({
   return (
     <div
       style={{
-        overflow: 'hidden',
         backgroundColor: 'white',
         width: `${borderDiameter}px`,
         height: `${borderDiameter}px`,
         position: 'relative',
         borderRadius: '50%',
-        border: `6px solid ${theme.palette.primary.light}`,
+        border: `2px solid ${theme.palette.primary.light}`,
         userSelect: 'none',
         touchAction: 'none',
       }}
