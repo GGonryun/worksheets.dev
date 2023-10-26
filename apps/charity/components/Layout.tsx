@@ -2,6 +2,7 @@ import {
   Facebook,
   GitHub,
   LinkedIn,
+  Reddit,
   SvgIconComponent,
   Twitter,
 } from '@mui/icons-material';
@@ -86,12 +87,8 @@ export const WebsiteLayout: FC<{
                   onClick={() => push(urls.social.linkedIn)}
                 />
                 <SocialIcon
-                  Icon={Facebook}
-                  onClick={() => push(urls.social.facebook)}
-                />
-                <SocialIcon
-                  Icon={Twitter}
-                  onClick={() => push(urls.social.twitter)}
+                  Icon={Reddit}
+                  onClick={() => push(urls.social.personalGithub)}
                 />
                 <SocialIcon
                   Icon={GitHub}
