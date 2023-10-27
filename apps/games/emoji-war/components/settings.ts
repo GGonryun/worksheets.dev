@@ -1,7 +1,7 @@
 export const GAME_SECOND = 1000;
 export const RESPAWN_CARD_TIMER = 2;
 export const BOARD_GRID_SIZE = 3;
-export const BOARD_LAYOUT_SIZE = '20vh';
+export const BOARD_LAYOUT_SIZE = '18vh';
 export const BOARD_MAX_LAYOUT_SIZE = '150px';
 export const CLEAR_ATTACKS_TIMER = 300;
 export const STARTING_PLAYER_HEALTH = 4;

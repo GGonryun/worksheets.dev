@@ -170,9 +170,7 @@ export const SinglePlayerGame: FC<{
           position={playerPosition}
           attacks={enemyAttacks}
         />
-      </Flex>
-      <Divider sx={{ width: '100%' }} />
-      <Flex fill fullWidth>
+        <Divider sx={{ width: '100%' }} />
         <PlayArea {...playArea} />
       </Flex>
     </>

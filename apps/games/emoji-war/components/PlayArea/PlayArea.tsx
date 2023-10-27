@@ -20,12 +20,13 @@ export const PlayArea: FC<PlayAreaProps> = ({
 }) => {
   return (
     <Flex
+      className="play-area"
       column
-      fullWidth
+      width={'min(45vh, 90vw)'}
       centered
-      py={1}
       gap={1}
       px={2}
+      pb={3}
       sx={{ overflow: 'hidden' }}
     >
       <ColorPlayArea color={color} count={combo} />
