@@ -1,13 +1,13 @@
 import { NextPageWithLayout } from '@worksheets/util-next';
 import { WebsiteLayout } from '../components/Layout';
-import { Box } from '@mui/material';
+import { Container } from '@mui/material';
 import { HeaderText, ParagraphText, QuoteText } from '../components/Typography';
 import { UnderConstruction } from '../components/UnderConstruction';
 
 const Page: NextPageWithLayout = () => (
-  <Box
+  <Container
     sx={{
-      p: 3,
+      py: 3,
       display: 'flex',
       flexDirection: 'column',
       gap: 3,
@@ -26,7 +26,7 @@ const Page: NextPageWithLayout = () => (
         />
       </>
     </UnderConstruction>
-  </Box>
+  </Container>
 );
 
 Page.getLayout = (page) => {

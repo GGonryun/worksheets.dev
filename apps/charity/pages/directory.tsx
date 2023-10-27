@@ -1,4 +1,4 @@
-import { Box, Link, styled } from '@mui/material';
+import { Box, Container, Link, styled } from '@mui/material';
 import { urls } from '@worksheets/ui-games';
 import { NextPageWithLayout } from '@worksheets/util-next';
 import { WebsiteLayout } from '../components/Layout';
@@ -45,9 +45,9 @@ const DirectoryListItem = styled('li')(({ theme }) => ({
 }));
 
 const Page: NextPageWithLayout = () => (
-  <Box
+  <Container
     sx={{
-      p: 3,
+      py: 3,
       display: 'flex',
       flexDirection: 'row',
       flexWrap: 'wrap',
@@ -84,7 +84,7 @@ const Page: NextPageWithLayout = () => (
         ))}
       </DirectoryList>
     </Box>
-  </Box>
+  </Container>
 );
 
 Page.getLayout = (page) => {

@@ -1,4 +1,11 @@
-import { Box, BoxProps, Link, LinkProps, styled } from '@mui/material';
+import {
+  Box,
+  BoxProps,
+  Container,
+  Link,
+  LinkProps,
+  styled,
+} from '@mui/material';
 import Image from 'next/image';
 import { FC } from 'react';
 import {
@@ -9,7 +16,6 @@ import {
   urls,
 } from '@worksheets/ui-games';
 import { HoverProps, useOnHover } from '../hooks/useOnHover';
-import { useRouter } from 'next/router';
 import { WebsiteLayout } from '../components/Layout';
 import { NextPageWithLayout } from '@worksheets/util-next';
 import { assets } from '../util/assets';
@@ -140,7 +146,6 @@ const GameIconContainer = styled((props) => <Box {...props} />)<BoxProps>({
 
 const GameIconsContainer = styled((props) => <Box {...props} />)<BoxProps>(
   ({ theme }) => ({
-    padding: theme.spacing(3),
     display: 'flex',
     flexWrap: 'wrap',
     width: '100%',
@@ -152,19 +157,19 @@ const GameIconsContainer = styled((props) => <Box {...props} />)<BoxProps>(
 );
 
 const Page: NextPageWithLayout = () => {
-  const { push } = useRouter();
-
   return (
-    <GameIconsContainer>
-      {games.map((game) => (
-        <GameIcon
-          key={game.title}
-          title={game.title}
-          src={game.src}
-          href={game.url}
-        />
-      ))}
-    </GameIconsContainer>
+    <Container sx={{ py: 3 }}>
+      <GameIconsContainer>
+        {games.map((game) => (
+          <GameIcon
+            key={game.title}
+            title={game.title}
+            src={game.src}
+            href={game.url}
+          />
+        ))}
+      </GameIconsContainer>
+    </Container>
   );
 };
 

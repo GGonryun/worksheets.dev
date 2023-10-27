@@ -27,7 +27,9 @@ export const SubHeaderText = styled<JSXElementConstructor<TypographyProps>>(
   },
 }));
 
-export const ParagraphText = styled(Typography)(({ theme }) => ({
+export const ParagraphText = styled<JSXElementConstructor<TypographyProps>>(
+  (props) => <Typography variant={'body1'} {...props} />
+)(({ theme }) => ({
   fontFamily: theme.typography.secondary.fontFamily,
   fontWeight: 400,
 }));
@@ -42,6 +44,33 @@ export const SmallHeaderText = styled<JSXElementConstructor<TypographyProps>>(
   },
   '@media (max-width: 600px)': {
     fontSize: '1.0rem',
+  },
+}));
+
+export const SecondarySmallHeaderText = styled<
+  JSXElementConstructor<TypographyProps>
+>((props) => <Typography variant={'h6'} {...props} />)(({ theme }) => ({
+  fontFamily: theme.typography.secondary.fontFamily,
+  fontWeight: 900,
+  '@media(min-width: 600px)': {
+    fontSize: '1.2rem',
+  },
+  '@media (max-width: 600px)': {
+    fontSize: '1.0rem',
+  },
+}));
+
+export const CaptionText = styled<JSXElementConstructor<TypographyProps>>(
+  (props) => <Typography variant={'caption'} {...props} />
+)(({ theme }) => ({
+  fontFamily: theme.typography.secondary.fontFamily,
+  fontWeight: 600,
+  color: theme.palette.grey[700],
+  '@media(min-width: 600px)': {
+    fontSize: '0.8rem',
+  },
+  '@media (max-width: 600px)': {
+    fontSize: '0.75rem',
   },
 }));
 

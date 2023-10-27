@@ -1,6 +1,6 @@
 import { NextPageWithLayout } from '@worksheets/util-next';
 import { WebsiteLayout } from '../components/Layout';
-import { Box } from '@mui/material';
+import { Box, Container } from '@mui/material';
 import {
   HeaderText,
   ParagraphText,
@@ -12,11 +12,12 @@ import { SubmissionButton } from '../components/Buttons';
 import { FullStoryLink, WaterOrgLink, urls } from '@worksheets/ui-games';
 import { SecondaryLink } from '../components/Links';
 import { LinkedIn } from '@mui/icons-material';
+import { blogAuthors } from '../util/blog-authors';
 
 const Page: NextPageWithLayout = () => (
-  <Box
+  <Container
     sx={{
-      p: 3,
+      pt: 3,
       pb: 6,
       display: 'flex',
       flexDirection: 'column',
@@ -47,7 +48,9 @@ const Page: NextPageWithLayout = () => (
       <SubmissionButton>Explore Games</SubmissionButton>
     </Box>
     <SubHeaderText>The Team</SubHeaderText>
-    <SmallHeaderText>Miguel Campos - Software Engineer</SmallHeaderText>
+    <SmallHeaderText id={blogAuthors.miguel}>
+      Miguel Campos - Software Engineer
+    </SmallHeaderText>
     <ParagraphText>
       <SecondaryLink href={urls.social.linkedIn}>Miguel</SecondaryLink> is
       currently a software engineer at <FullStoryLink /> and a graduate from San
@@ -79,7 +82,7 @@ const Page: NextPageWithLayout = () => (
         Connect With Miguel
       </SubmissionButton>
     </Box>
-  </Box>
+  </Container>
 );
 
 Page.getLayout = (page) => {

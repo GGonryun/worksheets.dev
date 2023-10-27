@@ -151,6 +151,7 @@
       "@worksheets/util-dictionary": ["libs/util/dictionary/src/index.ts"],
       "@worksheets/util-hardware": ["libs/util/hardware/src/index.ts"],
       "@worksheets/util-json": ["libs/util/json/src/index.ts"],
+      "@worksheets/util-markdown": ["libs/util/markdown/src/index.ts"],
       "@worksheets/util-next": ["libs/util/next/src/index.ts"],
       "@worksheets/util-shapes": ["libs/util/shapes/src/index.ts"],
       "@worksheets/util-sys": ["libs/util/sys/src/index.ts"],

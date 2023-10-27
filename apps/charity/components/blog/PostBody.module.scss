@@ -1,0 +1,126 @@
+$primary-color: #1976d2;
+$color-code-background: #272822;
+$color-code-color: #f8f8f2;
+
+@mixin header-mixin {
+  font-family: Corben, serif;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+}
+
+@mixin paragraph-mixin {
+  font-family: Montserrat, sans-serif;
+  font-size: 1rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  @media screen and (max-width: 600px) {
+    font-size: 0.9rem;
+  }
+}
+
+.markdown {
+  h1 {
+    @include header-mixin;
+    font-size: 2rem;
+    @media screen and (max-width: 600px) {
+      font-size: 1.75rem;
+    }
+  }
+
+  h2 {
+    @include header-mixin;
+    font-size: 1.75rem;
+    @media screen and (max-width: 600px) {
+      font-size: 1.5rem;
+    }
+  }
+
+  h3 {
+    @include header-mixin;
+    font-size: 1.5rem;
+    @media screen and (max-width: 600px) {
+      font-size: 1.25rem;
+    }
+  }
+
+  h4 {
+    @include header-mixin;
+    font-size: 1.25rem;
+    @media screen and (max-width: 600px) {
+      font-size: 1rem;
+    }
+  }
+
+  h5 {
+    @include header-mixin;
+    font-size: 1rem;
+    @media screen and (max-width: 600px) {
+      font-size: 0.9rem;
+    }
+  }
+
+  h6 {
+    @include header-mixin;
+    font-size: 0.9rem;
+    @media screen and (max-width: 600px) {
+      font-size: 0.8rem;
+    }
+  }
+
+  p {
+    @include paragraph-mixin;
+  }
+
+  a {
+    @include paragraph-mixin;
+
+    color: $primary-color;
+    :active {
+      color: $primary-color;
+    }
+    :visited {
+      color: $primary-color;
+    }
+  }
+
+  ul {
+    @include paragraph-mixin;
+    list-style-type: disc;
+    margin-left: 1.5rem;
+  }
+
+  ol {
+    @include paragraph-mixin;
+    list-style-type: decimal;
+    margin-left: 1.5rem;
+  }
+
+  blockquote {
+    background: #f9f9f9;
+    border-left: 6px solid #ccc;
+    margin: 1.5em 10px;
+    padding: 0.5em 10px;
+
+    :before {
+      color: #ccc;
+      font-size: 4em;
+      line-height: 0.1em;
+      margin-right: 0.25em;
+      vertical-align: -0.4em;
+    }
+
+    p {
+      display: inline;
+    }
+  }
+
+  code {
+    background-color: $color-code-background;
+    color: $color-code-color;
+    border-radius: 0.3em;
+    padding: 4px 5px 6px;
+    white-space: nowrap;
+    text-wrap: wrap;
+  }
+}

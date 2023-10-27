@@ -1,6 +1,6 @@
 import { NextPageWithLayout } from '@worksheets/util-next';
 import { WebsiteLayout } from '../components/Layout';
-import { Box, Link } from '@mui/material';
+import { Box, Container, Link } from '@mui/material';
 import {
   HeaderText,
   SmallHeaderText,
@@ -30,7 +30,19 @@ const QuestionAnswerBox: FC<{
       </Link>
     </SmallHeaderText>
     <ParagraphText>
-      <MicroMarkdown text={answer} />
+      <MicroMarkdown
+        text={answer}
+        sx={{
+          a: {
+            color: (theme) => theme.palette.primary.main,
+            textDecoration: 'underline',
+            textDecorationColor: (theme) => theme.palette.primary.main,
+          },
+          'a:visited': {
+            color: (theme) => theme.palette.primary.main,
+          },
+        }}
+      />
     </ParagraphText>
   </Box>
 );
@@ -39,7 +51,7 @@ const qa = [
   {
     question: 'How do you make money?',
     answer:
-      "We don't. We're a non-profit organization. We're funded by donations and grants.",
+      "We don't. We're a non-profit organization. We're broke. Please donate, but not to us because we don't have a bank account. Donate to our charity of choice, [Water.org](https://Water.org)",
     id: 'how-do-you-make-money',
   },
   {
@@ -76,9 +88,9 @@ const qa = [
 const Page: NextPageWithLayout = () => {
   const [openTableOfContents, setShowTableOfContents] = useState(true);
   return (
-    <Box
+    <Container
       sx={{
-        p: 3,
+        py: 3,
         display: 'flex',
         flexDirection: 'column',
         gap: 3,
@@ -156,7 +168,7 @@ const Page: NextPageWithLayout = () => {
           />
         ))}
       </Box>
-    </Box>
+    </Container>
   );
 };
 

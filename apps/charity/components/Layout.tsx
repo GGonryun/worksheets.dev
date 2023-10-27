@@ -1,10 +1,8 @@
 import {
-  Facebook,
   GitHub,
   LinkedIn,
   Reddit,
   SvgIconComponent,
-  Twitter,
 } from '@mui/icons-material';
 import {
   Box,

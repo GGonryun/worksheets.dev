@@ -1,6 +1,6 @@
 import { NextPageWithLayout } from '@worksheets/util-next';
 import { WebsiteLayout } from '../components/Layout';
-import { Box, TextField } from '@mui/material';
+import { Box, Container, TextField } from '@mui/material';
 
 import {
   HeaderText,
@@ -81,7 +81,7 @@ const BugsAndFeaturesSection: FC = () => (
 );
 
 const Page: NextPageWithLayout = () => (
-  <Box
+  <Container
     sx={{
       display: 'flex',
       flexDirection: 'column',
@@ -93,7 +93,7 @@ const Page: NextPageWithLayout = () => (
     <EmailUsSection />
     <JoinOurNewsletterSection />
     <BugsAndFeaturesSection />
-  </Box>
+  </Container>
 );
 
 Page.getLayout = (page) => {
