@@ -22,7 +22,8 @@ export const PlayArea: FC<PlayAreaProps> = ({
     <Flex
       className="play-area"
       column
-      width={'min(45vh, 90vw)'}
+      maxWidth={500}
+      width={'min(40vh, 80vw)'}
       centered
       gap={1}
       px={2}
