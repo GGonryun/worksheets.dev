@@ -6,9 +6,12 @@ export const getAllPostsMetadata = (postsPath: string): MarkdownMetadata[] => {
   const files = getFilePaths(postsPath);
 
   // for each file path, read the parsed file content.
-  const metadatas = files.map((file) => {
-    return getParsedFileContentBySlug(file.params.slug, postsPath).metadata;
-  });
+  const metadatas = files
+    .map(
+      (file) =>
+        getParsedFileContentBySlug(file.params.slug, postsPath)?.metadata
+    )
+    .filter((metadata) => metadata != null) as MarkdownMetadata[];
 
   // sort the posts by date
   return metadatas.sort((a, b) => {

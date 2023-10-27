@@ -6,22 +6,26 @@ import matter from 'gray-matter';
 export const getParsedFileContentBySlug = (
   slug: string,
   postsPath: string
-): MarkdownDocument => {
+): MarkdownDocument | undefined => {
   const postFilePath = join(postsPath, `${slug}.mdx`);
-  const fileContents = fs.readFileSync(postFilePath);
-  const { data, content } = matter(fileContents);
-
-  return {
-    metadata: {
-      title: data['title'],
-      excerpt: data['excerpt'],
-      coverImage: data['coverImage'],
-      date: data['date'],
-      author: data['author'],
-      ogImage: data['ogImage'],
-      tags: data['tags'],
-      slug,
-    },
-    content,
-  };
+  try {
+    const fileContents = fs.readFileSync(postFilePath);
+    const { data, content } = matter(fileContents);
+    return {
+      metadata: {
+        title: data['title'],
+        excerpt: data['excerpt'],
+        coverImage: data['coverImage'],
+        date: data['date'],
+        author: data['author'],
+        ogImage: data['ogImage'],
+        tags: data['tags'],
+        slug,
+      },
+      content,
+    };
+  } catch (error) {
+    console.error('Failed to load file contents for page', error);
+  }
+  return undefined;
 };

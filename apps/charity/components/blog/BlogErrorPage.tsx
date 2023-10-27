@@ -1,3 +1,17 @@
-import { Box } from '@mui/material';
+import { Container } from '@mui/material';
+import { ParagraphText, SubHeaderText } from '../Typography';
+import { PrimaryLink } from '../Links';
+import { urls } from '@worksheets/ui-games';
 
-export const BlogErrorPage = () => <Box>Error</Box>;
+export const BlogErrorPage = () => (
+  <Container sx={{ py: 3 }}>
+    <SubHeaderText>
+      This page doesn&apos;t exist. Sorry about that!
+    </SubHeaderText>
+    <ParagraphText sx={{ pt: 3 }}>
+      I don&apos;t know what you were looking for, but it&apos;s not here. Maybe
+      you can find it on the{' '}
+      <PrimaryLink href={urls.relative.blog}>Blog</PrimaryLink>?
+    </ParagraphText>
+  </Container>
+);

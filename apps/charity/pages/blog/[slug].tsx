@@ -7,6 +7,7 @@ import {
   getFilePaths,
   getParsedFileContentBySlug,
   markdownToHtml,
+  EMPTY_METADATA,
 } from '@worksheets/util-markdown';
 import { GetStaticPaths } from 'next';
 import Head from 'next/head';
@@ -74,6 +75,17 @@ export const getStaticProps = async ({
     params.slug,
     POSTS_PATH
   );
+
+  if (!articleMarkdownContent) {
+    // if the article doesn't exist return an empty object.
+    return {
+      props: {
+        metadata: EMPTY_METADATA,
+        slug: '',
+        content: '',
+      },
+    };
+  }
 
   const html = await markdownToHtml(articleMarkdownContent.content || '');
 
