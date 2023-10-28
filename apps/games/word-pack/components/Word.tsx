@@ -35,7 +35,7 @@ export const Word: FC<{
     >
       <Typography
         color={(theme) => theme.palette.primary.contrastText}
-        fontSize={responsiveFontSize({ min: 10, grow: 4 })}
+        fontSize={responsiveFontSize({ min: 14, grow: 3 })}
         fontWeight={900}
         sx={{
           opacity: found ? 0.4 : 1,

@@ -47,11 +47,12 @@ export const Words: FC<WordsProps> = ({
             gap={1.5}
             sx={{
               pl: 1,
-              mb: 0,
+              mb: -2,
               marginLeft: 'auto',
             }}
           >
             <IconAction
+              dense
               onClick={() => {
                 if (isLevelComplete) return;
                 onRemove();

@@ -44,7 +44,6 @@ export type PuzzleProps = {
   slots: WordSlots;
   selections: string[][];
   loading: boolean;
-  water: number;
   title: string;
   setSelections: (selections: string[][]) => void;
   goToNextLevel: () => void;
@@ -59,7 +58,6 @@ export const Puzzle: FC<PuzzleProps> = (props) => {
     onCompleteLevel,
     loading,
     maxLevel,
-    water,
     title,
     id,
   } = props;

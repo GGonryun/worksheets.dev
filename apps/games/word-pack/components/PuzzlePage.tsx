@@ -69,7 +69,6 @@ export const PuzzlePage = () => {
   return (
     <Puzzle
       {...props}
-      water={state.water}
       maxLevel={state.maxLevel}
       goToNextLevel={handleNextLevel}
       loading={state.loading}

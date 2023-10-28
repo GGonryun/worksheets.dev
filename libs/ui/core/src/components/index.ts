@@ -6,3 +6,4 @@ export * from './shapes';
 export * from './spacing-box';
 export * from './text-area';
 export * from './absolutely-center';
+export * from './redirect';
