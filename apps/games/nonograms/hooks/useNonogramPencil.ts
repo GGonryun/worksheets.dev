@@ -239,6 +239,9 @@ export const useNonogramPencil = (
 
     // clear pan points.
     setPanSelections(undefined);
+
+    // clear redos.
+    setRedos([]);
   };
 
   const onPan = (i: number, j: number) => {
