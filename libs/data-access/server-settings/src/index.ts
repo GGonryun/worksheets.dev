@@ -4,6 +4,7 @@ export const SERVER_SETTINGS = {
   ENVIRONMENT: {
     IS_PRODUCTION: () => process.env['NODE_ENV'] === 'production',
     CURRENT: () => process.env['NODE_ENV'] ?? 'unknown',
+    COOKIE_DOMAIN: () => process.env['COOKIE_DOMAIN'] ?? '',
     PRODUCTION: 'production',
     DEVELOPMENT: 'development',
     VARIABLES: {
@@ -143,5 +144,6 @@ export const SERVICE_SETTINGS = {
   FULLSTORY: {
     orgId: 'o-1N7VNF-na1',
     devMode: !SERVER_SETTINGS.ENVIRONMENT.IS_PRODUCTION(),
+    cookieDomain: SERVER_SETTINGS.ENVIRONMENT.COOKIE_DOMAIN(),
   },
 };

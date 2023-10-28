@@ -1,3 +1,4 @@
+import { SERVER_SETTINGS } from '@worksheets/data-access/server-settings';
 import { useCookies as useReactCookies } from 'react-cookie';
 import { CookieSetOptions } from 'universal-cookie';
 
@@ -14,8 +15,9 @@ export const useCookies = (dependencies: string[]) => {
       maxAge: Number.MAX_SAFE_INTEGER,
       ...(options ?? {}),
     };
-    if (process.env.COOKIE_DOMAIN) {
-      cookieOptions.domain = process.env.COOKIE_DOMAIN;
+    const cookieDomain = SERVER_SETTINGS.ENVIRONMENT.COOKIE_DOMAIN();
+    if (cookieDomain) {
+      cookieOptions.domain = cookieDomain;
     }
 
     setCookie(name, value, options);
