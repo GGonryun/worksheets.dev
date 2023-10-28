@@ -6,10 +6,11 @@ import { InnerBox } from './InnerBox';
 export type TargetWordProps = {
   text: string;
   size: number;
+  gap: number;
   onNextPuzzle: () => void;
 };
 
-export const TargetWord: FC<TargetWordProps> = ({ text, size }) => {
+export const TargetWord: FC<TargetWordProps> = ({ text, size, gap }) => {
   return (
     <Box
       className="target-word"
@@ -17,7 +18,7 @@ export const TargetWord: FC<TargetWordProps> = ({ text, size }) => {
         position: 'absolute',
         zIndex: 3,
         display: 'flex',
-        gap: 1,
+        gap,
       }}
     >
       {text.split('').map((letter, i) => (

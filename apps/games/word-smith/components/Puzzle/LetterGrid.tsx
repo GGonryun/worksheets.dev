@@ -46,6 +46,7 @@ export const LetterGrid: FC<{
     size: number;
     total: number;
     radius: number;
+    gap: number;
   };
   onSelectWord: (word: string) => void;
   puzzle: GeneratedPuzzle;
@@ -64,6 +65,7 @@ export const LetterGrid: FC<{
   const [positions, setPositions] = useState(puzzle.grid.map((_) => center));
 
   const handleUpdatePosition = (index: number, newPosition: number) => {
+    console.log('handleUpdatePosition', index, newPosition);
     const newPositions = [...positions];
     newPositions[index] = newPosition;
     setPositions(newPositions);
@@ -77,7 +79,7 @@ export const LetterGrid: FC<{
       className="player-grid"
       sx={{
         display: 'flex',
-        gap: 1,
+        gap: slotOptions.gap,
         zIndex: 2,
       }}
     >

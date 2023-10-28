@@ -23,10 +23,10 @@ const extraLetters: Record<Difficulty, number[]> = {
 };
 
 const wordSize: Record<Difficulty, number[]> = {
-  easy: [4, 5],
+  easy: [4, 6],
   medium: [4, 7],
-  hard: [4, 9],
-  extreme: [4, 12],
+  hard: [5, 9],
+  extreme: [6, 11],
 };
 
 const dictionaryOption: Record<Difficulty, OrganizedByLength> = {

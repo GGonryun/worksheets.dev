@@ -29,11 +29,14 @@ export const Content: FC<{
   const [showNextLevel, setShowNextLevel] = useState(false);
   const { ref, dimensions } = useComponentSize();
 
-  // total slots in the grid
+  // total vertical slots in the grid
   const slotTotal = 9;
   // half the distance from the center to the edge.
   const slotRadius = Math.ceil(slotTotal / 2);
-  const slotSize = (dimensions.width * 0.8) / slotTotal;
+  // 1.0 represents the full width of the grid.
+  const wallOffset = puzzle.target.length > 7 ? 0.75 : 0.8;
+  const slotGap = 3 / puzzle.target.length;
+  const slotSize = (dimensions.width * wallOffset) / slotTotal;
 
   const handleNextPuzzle = () => {
     refreshPuzzle();
@@ -67,7 +70,6 @@ export const Content: FC<{
     () => levelComplete && setShowNextLevel(true),
     [levelComplete]
   );
-
   return (
     <OuterContentContainer>
       <InnerContentContainer ref={ref}>
@@ -88,6 +90,7 @@ export const Content: FC<{
           {levelComplete && (
             <TargetWord
               size={slotSize}
+              gap={slotGap}
               text={puzzle.target}
               onNextPuzzle={handleNextPuzzle}
             />
@@ -106,6 +109,7 @@ export const Content: FC<{
             size: slotSize,
             total: slotTotal,
             radius: slotRadius,
+            gap: slotGap,
           }}
           onSelectWord={onSelectWord}
         />
