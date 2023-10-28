@@ -35,7 +35,7 @@
     "prisma:push:production": "dotenv -e .env.production -- npx prisma db push",
     "psql:local": "psql -h 192.168.0.26 -p 5432 -U prisma",
     "docker:psql:local": "docker run --name postgresql -e POSTGRES_PASSWORD=prisma -e POSTGRES_USER=prisma -e POSTGRES_DB=prisma -d -p 5432:5432 postgres",
-    "docker:compose": "docker-compose up -d"
+    "docker:compose:up": "docker-compose up -d"
   },
   "private": true,
   "dependencies": {
@@ -124,6 +124,7 @@
     "react-ace": "^10.1.0",
     "react-confetti": "^6.1.0",
     "react-confetti-explosion": "^2.1.2",
+    "react-cookie": "^6.1.1",
     "react-dom": "18.2.0",
     "react-json-pretty": "^2.2.0",
     "react-markdown": "^8.0.7",

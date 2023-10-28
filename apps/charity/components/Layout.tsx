@@ -17,6 +17,7 @@ import {
   TypographyProps,
   styled,
 } from '@mui/material';
+import { CookieConsentPopup } from '@worksheets/ui-cookie-consent';
 import { textShadow, urls, svgBoxShadow, Discord } from '@worksheets/ui-games';
 import { useRouter } from 'next/router';
 import { FC, JSXElementConstructor, ReactNode } from 'react';

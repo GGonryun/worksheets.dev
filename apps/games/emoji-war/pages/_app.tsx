@@ -1,9 +1,10 @@
 import { AppProps } from 'next/app';
-import Head from 'next/head';
 import './styles.css';
 import styles from './index.module.scss';
 import * as FullStory from '@fullstory/browser';
 import { SERVICE_SETTINGS } from '@worksheets/data-access/server-settings';
+import { CookieConsentPopup } from '@worksheets/ui-cookie-consent';
+import { DocumentHead } from '@worksheets/ui-games';
 
 if (typeof window !== 'undefined') {
   FullStory.init(SERVICE_SETTINGS.FULLSTORY);
@@ -12,14 +13,11 @@ if (typeof window !== 'undefined') {
 function CustomApp({ Component, pageProps }: AppProps) {
   return (
     <>
-      <meta name="mobile-web-app-capable" content="yes" />
-      <meta name="apple-mobile-web-app-capable" content="yes" />
-      <Head>
-        <title>Emoji War</title>
-      </Head>
+      <DocumentHead title={'Emoji War'} />
       <main className={styles['app']}>
         <Component {...pageProps} />
       </main>
+      <CookieConsentPopup />
     </>
   );
 }

@@ -8,6 +8,7 @@ import { useRouter } from 'next/router';
 import { APP_VERSION, GAME_TITLE, UPDATE_BONUS } from '../lib/constants';
 import { useVersion } from '@worksheets/ui-core';
 import { DocumentHead, UpdateGameModal } from '@worksheets/ui-games';
+import { CookieConsentPopup } from '@worksheets/ui-cookie-consent';
 
 if (typeof window !== 'undefined') {
   FullStory.init(SERVICE_SETTINGS.FULLSTORY);
@@ -36,24 +37,25 @@ function CustomApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <DocumentHead title={GAME_TITLE} />
-      <main>
-        <ThemeProvider theme={theme}>
+      <ThemeProvider theme={theme}>
+        <main>
           <Component {...pageProps} />
-        </ThemeProvider>
-      </main>
-      <UpdateGameModal
-        open={requiresUpdate}
-        onClose={ignore}
-        onUpdate={() => {
-          // force an update
-          update();
-          // assign player bonuses
-          player.addTokens(UPDATE_BONUS);
-          player.loadPuzzle(player.level);
-          // reload the page
-          reload();
-        }}
-      />
+        </main>
+        <CookieConsentPopup />
+        <UpdateGameModal
+          open={requiresUpdate}
+          onClose={ignore}
+          onUpdate={() => {
+            // force an update
+            update();
+            // assign player bonuses
+            player.addTokens(UPDATE_BONUS);
+            player.loadPuzzle(player.level);
+            // reload the page
+            reload();
+          }}
+        />
+      </ThemeProvider>
     </>
   );
 }

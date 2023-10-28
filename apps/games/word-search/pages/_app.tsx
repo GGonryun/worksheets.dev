@@ -1,5 +1,4 @@
 import { AppProps } from 'next/app';
-import Head from 'next/head';
 import './styles.css';
 import { useVersion } from '@worksheets/ui-core';
 import * as FullStory from '@fullstory/browser';
@@ -12,6 +11,7 @@ import { verifier } from '../puzzles/verifier';
 import { DocumentHead, UpdateGameModal } from '@worksheets/ui-games';
 import { usePuzzle } from '../hooks/usePuzzle';
 import { useRouter } from 'next/router';
+import { CookieConsentPopup } from '@worksheets/ui-cookie-consent';
 
 if (!SERVER_SETTINGS.ENVIRONMENT.IS_PRODUCTION()) {
   verifier();
@@ -44,6 +44,7 @@ function CustomApp({ Component, pageProps }: AppProps) {
         onClose={ignore}
         onUpdate={handleUpdate}
       />
+      <CookieConsentPopup />
     </>
   );
 }

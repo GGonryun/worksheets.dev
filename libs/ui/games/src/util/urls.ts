@@ -41,6 +41,7 @@ export const urls = {
   usd: () => 'https://www.sandiego.edu/',
   worksheets: () => SERVER_SETTINGS.WEBSITES.WORKSHEETS_URL(),
   charityGames: {
+    cookies: SERVER_SETTINGS.WEBSITES.CHARITY_GAMES_URL('/cookies'),
     home: () => SERVER_SETTINGS.WEBSITES.CHARITY_GAMES_URL(),
     games: () => SERVER_SETTINGS.WEBSITES.CHARITY_GAMES_URL('/games'),
     contact: () => SERVER_SETTINGS.WEBSITES.CHARITY_GAMES_URL('/contact'),

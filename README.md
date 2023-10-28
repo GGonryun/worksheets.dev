@@ -2,6 +2,16 @@
 
 ## getting started
 
+### Running the project locally.
+
+Before attempting to run the project, prepare your .env.local configuration.
+
+1. Start the docker engine.
+2. Start the postgres local server. `npm run docker:compose:up`
+3. If this is your first time running the project, you will need to push prisma changes `npm run prisma:generate:local && npm run prisma:push:local`
+4. Start applications. `npm run serve`
+5. Optionally: start prisma studio to observe database changes. `npm run prisma:studio:local`
+
 ### project dependencies
 
 ### preparing the project

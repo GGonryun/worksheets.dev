@@ -7,12 +7,11 @@ import {
   ParagraphText,
   SubHeaderText,
 } from '../components/Typography';
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import { CharityGamesLink, urls } from '@worksheets/ui-games';
 import { PrimaryLink } from '../components/Links';
 import { SubmissionButton } from '../components/Buttons';
-import { trpc } from '@worksheets/trpc-charity';
-import { handleEmailSubscribeError as parseEmailSubscribeError } from '../util/errors';
+import { useSubscribeEmail } from '../hooks/useSubscribeEmail';
 
 const EmailUsSection: FC = () => (
   <Box
@@ -37,26 +36,16 @@ const EmailUsSection: FC = () => (
 );
 
 const JoinOurNewsletterSection: FC = () => {
-  const [email, setEmail] = useState('');
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
+  const {
+    email,
+    error,
+    success,
+    isLoading,
+    setEmail,
+    subscribeEmail,
+    keyboardSubscribeEmail,
+  } = useSubscribeEmail();
 
-  const subscribe = trpc.emails.subscribe.useMutation();
-
-  const handleUpdateEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.target.value);
-    setError('');
-    setSuccess('');
-  };
-
-  const handleSubscribe = async () => {
-    try {
-      await subscribe.mutateAsync({ address: email });
-      setSuccess('You have been subscribed to our newsletter!');
-    } catch (error) {
-      setError(parseEmailSubscribeError(error));
-    }
-  };
   return (
     <Box
       sx={{
@@ -71,11 +60,12 @@ const JoinOurNewsletterSection: FC = () => {
         stay up to date. We promise not to spam you.
       </ParagraphText>
       <TextField
-        disabled={subscribe.isLoading}
+        disabled={isLoading}
         placeholder="Enter your email"
         variant="outlined"
         value={email}
-        onChange={handleUpdateEmail}
+        onChange={setEmail}
+        onKeyDown={keyboardSubscribeEmail}
       />
       {success && (
         <CaptionText
@@ -97,8 +87,8 @@ const JoinOurNewsletterSection: FC = () => {
       )}
       <Box pt={1}>
         <SubmissionButton
-          disabled={subscribe.isLoading || !email || !!success || !!error}
-          onClick={handleSubscribe}
+          disabled={isLoading || !!success || !!error}
+          onClick={subscribeEmail}
         >
           Join newsletter
         </SubmissionButton>

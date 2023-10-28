@@ -5,7 +5,6 @@ import method from './method/router';
 import connections from './connections/router';
 import services from './services/router';
 import projects from './projects/router';
-import logging from './logging/router';
 import vault from './vault/router';
 import contact from './contact/router';
 import newsletter from './newsletter/router';
@@ -17,7 +16,6 @@ export const appRouter = router({
   connections,
   services,
   projects,
-  logging,
   vault,
   contact,
   newsletter,

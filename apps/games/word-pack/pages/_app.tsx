@@ -8,6 +8,7 @@ import { APP_VERSION, GAME_TITLE } from '../util';
 import { useSavedPuzzle, useSavedSelections } from '../hooks/useSaveData';
 import { useRouter } from 'next/router';
 import { ThemeProvider, createTheme } from '@mui/material';
+import { CookieConsentPopup } from '@worksheets/ui-cookie-consent';
 
 if (typeof window !== 'undefined') {
   FullStory.init(SERVICE_SETTINGS.FULLSTORY);
@@ -41,12 +42,13 @@ function CustomApp({ Component, pageProps }: AppProps) {
       <ThemeProvider theme={theme}>
         <main>
           <Component {...pageProps} />
-          <UpdateGameModal
-            open={requiresUpdate}
-            onClose={ignore}
-            onUpdate={handleUpdate}
-          />
         </main>
+        <UpdateGameModal
+          open={requiresUpdate}
+          onClose={ignore}
+          onUpdate={handleUpdate}
+        />
+        <CookieConsentPopup />
       </ThemeProvider>
     </>
   );

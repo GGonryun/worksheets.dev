@@ -17,9 +17,9 @@ import {
   PostBody,
   PostHeader,
   PostTitle,
-  PostFooter,
 } from '../../components/blog';
 import { POSTS_PATH } from '../../util/paths';
+import { JoinNewsletterBox } from '../../components/JoinNewsletterBox';
 
 type Props = {
   metadata: MarkdownMetadata;
@@ -57,7 +57,16 @@ const Page: NextPageWithLayout<Props> = ({ slug, metadata, content }) => {
               author={metadata.author}
             />
             <PostBody content={content} />
-            <PostFooter />
+            <Box
+              sx={{
+                mt: 5,
+                p: 3,
+                border: (theme) => `1px solid ${theme.palette.grey[600]}`,
+                backgroundColor: (theme) => theme.palette.grey[100],
+              }}
+            >
+              <JoinNewsletterBox />
+            </Box>
           </Container>
         </article>
       )}
