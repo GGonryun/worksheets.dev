@@ -4,7 +4,10 @@ export const SERVER_SETTINGS = {
   ENVIRONMENT: {
     IS_PRODUCTION: () => process.env['NODE_ENV'] === 'production',
     CURRENT: () => process.env['NODE_ENV'] ?? 'unknown',
-    COOKIE_DOMAIN: () => process.env['COOKIE_DOMAIN'] ?? '',
+    COOKIE_DOMAIN: () =>
+      process.env['COOKIE_DOMAIN'] ??
+      process.env['NEXT_PUBLIC_COOKIE_DOMAIN'] ??
+      '',
     PRODUCTION: 'production',
     DEVELOPMENT: 'development',
     VARIABLES: {

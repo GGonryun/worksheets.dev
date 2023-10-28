@@ -16,6 +16,7 @@ export const useCookies = (dependencies: string[]) => {
       ...(options ?? {}),
     };
     const cookieDomain = SERVER_SETTINGS.ENVIRONMENT.COOKIE_DOMAIN();
+    console.log('detected global cookie domain', cookieDomain);
     if (cookieDomain) {
       cookieOptions.domain = cookieDomain;
     }
