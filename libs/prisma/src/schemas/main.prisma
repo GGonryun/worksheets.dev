@@ -8,23 +8,17 @@ datasource db {
   directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
-model Log {
+
+model Email {
   id            String    @default(cuid()) @id
-  content       String?
-  severity      Severity  @default(INFO)
+  address       String    @unique
   createdAt     DateTime  @default(now()) @map(name: "created_at")
   updatedAt     DateTime  @updatedAt @map(name: "updated_at")
 }
 
-enum Severity {
-    INFO
-    WARNING
-    ERROR
-}
-
 generator zod {
   provider                 = "zod-prisma"
-  output                   = "./zod" // (default) the directory where generated zod schemas will be saved
+  output                   = "../zod" // (default) the directory where generated zod schemas will be saved
 
   relationModel            = true // (default) Create and export both plain and related models.
   // relationModel         = "default" // Do not export model without relations.

@@ -98,6 +98,7 @@ export const puzzles: Puzzle[] = [
       'arm',
       'car',
       'ear',
+      'are',
     ],
     bonuses: ['acme', 'rec', 'rem', 'mac', 'era', 'cam', 'arc', 'mar'],
     rules: [],
@@ -143,6 +144,7 @@ export const puzzles: Puzzle[] = [
       'bot',
       'lob',
       'toe',
+      'let',
       'bet',
     ],
     bonuses: [
@@ -317,7 +319,7 @@ export const puzzles: Puzzle[] = [
   },
   {
     letters: 'clams'.split(''),
-    words: ['clams', 'cams', 'calm', 'scam', 'slam', 'cam'],
+    words: ['clams', 'clam', 'cams', 'calm', 'scam', 'slam', 'cam'],
     bonuses: ['calms', 'alms', 'cals', 'salm', 'macs', 'mac', 'lam'],
     rules: [],
   },

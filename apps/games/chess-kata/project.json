@@ -36,7 +36,7 @@
       },
       "configurations": {
         "development": {
-          "port": 7001,
+          "port": 7002,
           "buildTarget": "games-chess-kata:build:development",
           "dev": true
         },

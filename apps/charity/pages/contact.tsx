@@ -1,16 +1,18 @@
 import { NextPageWithLayout } from '@worksheets/util-next';
 import { WebsiteLayout } from '../components/Layout';
 import { Box, Container, TextField } from '@mui/material';
-
 import {
+  CaptionText,
   HeaderText,
   ParagraphText,
   SubHeaderText,
 } from '../components/Typography';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { CharityGamesLink, urls } from '@worksheets/ui-games';
 import { PrimaryLink } from '../components/Links';
 import { SubmissionButton } from '../components/Buttons';
+import { trpc } from '@worksheets/trpc-charity';
+import { handleEmailSubscribeError as parseEmailSubscribeError } from '../util/errors';
 
 const EmailUsSection: FC = () => (
   <Box
@@ -34,31 +36,76 @@ const EmailUsSection: FC = () => (
   </Box>
 );
 
-const JoinOurNewsletterSection: FC = () => (
-  <Box
-    sx={{
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 1,
-    }}
-  >
-    <SubHeaderText>Stay up to date</SubHeaderText>
-    <ParagraphText>
-      We&apos;re always adding new games and features. Join our newsletter to
-      stay up to date. We promise not to spam you.
-    </ParagraphText>
-    <TextField label="Email" variant="outlined" />
-    <Box pt={1}>
-      <SubmissionButton
-        onClick={() => {
-          alert('TODO: handle submission');
-        }}
-      >
-        Join newsletter
-      </SubmissionButton>
+const JoinOurNewsletterSection: FC = () => {
+  const [email, setEmail] = useState('');
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+
+  const subscribe = trpc.emails.subscribe.useMutation();
+
+  const handleUpdateEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(event.target.value);
+    setError('');
+    setSuccess('');
+  };
+
+  const handleSubscribe = async () => {
+    try {
+      await subscribe.mutateAsync({ address: email });
+      setSuccess('You have been subscribed to our newsletter!');
+    } catch (error) {
+      setError(parseEmailSubscribeError(error));
+    }
+  };
+  return (
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 1,
+      }}
+    >
+      <SubHeaderText>Stay up to date</SubHeaderText>
+      <ParagraphText>
+        We&apos;re always adding new games and features. Join our newsletter to
+        stay up to date. We promise not to spam you.
+      </ParagraphText>
+      <TextField
+        disabled={subscribe.isLoading}
+        placeholder="Enter your email"
+        variant="outlined"
+        value={email}
+        onChange={handleUpdateEmail}
+      />
+      {success && (
+        <CaptionText
+          sx={{
+            color: (theme) => theme.palette.success.main,
+          }}
+        >
+          {success}
+        </CaptionText>
+      )}
+      {error && (
+        <CaptionText
+          sx={{
+            color: (theme) => theme.palette.error.main,
+          }}
+        >
+          {error}
+        </CaptionText>
+      )}
+      <Box pt={1}>
+        <SubmissionButton
+          disabled={subscribe.isLoading || !email || !!success || !!error}
+          onClick={handleSubscribe}
+        >
+          Join newsletter
+        </SubmissionButton>
+      </Box>
     </Box>
-  </Box>
-);
+  );
+};
 
 const BugsAndFeaturesSection: FC = () => (
   <Box

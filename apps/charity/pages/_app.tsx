@@ -3,6 +3,7 @@ import './styles.css';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import theme from '../theme';
 import { AppPropsWithLayout } from '@worksheets/util-next';
+import { trpc } from '@worksheets/trpc-charity';
 
 function CustomApp({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => page);
@@ -21,4 +22,4 @@ function CustomApp({ Component, pageProps }: AppPropsWithLayout) {
   );
 }
 
-export default CustomApp;
+export default trpc.withTRPC(CustomApp);

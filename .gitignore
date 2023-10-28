@@ -66,3 +66,4 @@ coverage/
 # Generated Docusaurus files
 .docusaurus/
 .cache-loader/
+.vercel

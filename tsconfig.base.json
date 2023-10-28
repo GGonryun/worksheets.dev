@@ -115,6 +115,8 @@
       "@worksheets/services-bridges": ["libs/services/bridges/src/index.ts"],
       "@worksheets/services-core": ["libs/services/core/src/index.ts"],
       "@worksheets/services-registry": ["libs/services/registry/src/index.ts"],
+      "@worksheets/trpc-charity": ["libs/trpc/charity/src/index.ts"],
+      "@worksheets/trpc-charity/server": ["libs/trpc/charity/src/server.ts"],
       "@worksheets/trpc/admin": ["libs/trpc/admin/src/index.ts"],
       "@worksheets/trpc/admin/server": ["libs/trpc/admin/src/server.ts"],
       "@worksheets/trpc/api/v1": ["libs/trpc/api/v1/src/index.ts"],
