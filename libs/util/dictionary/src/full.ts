@@ -44042,8 +44042,6 @@ export const dictionary = [
   'negotiator',
   'negotiators',
   'negritude',
-  'negro',
-  'negroid',
   'neigh',
   'neighbor',
   'neighbored',

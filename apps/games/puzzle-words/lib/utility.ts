@@ -1,6 +1,7 @@
 import { MAX_WORDS_IN_PUZZLE, MAX_BONUSES_IN_PUZZLE } from './constants';
 import { Puzzle } from './puzzles';
 import { Discovered } from './types';
+import { cloneDeep } from 'lodash';
 
 export const painter = (debug?: boolean) => (color: string) => {
   return debug ? color : undefined;
@@ -32,9 +33,13 @@ export const verifyPuzzle = (puzzle?: Puzzle) => {
   const { letters, words, bonuses } = puzzle;
 
   if (words.length > MAX_WORDS_IN_PUZZLE)
-    throw Error(`Cannot have more than ${MAX_WORDS_IN_PUZZLE} primary words.`);
+    throw Error(
+      `${puzzle.letters}: Cannot have more than ${MAX_WORDS_IN_PUZZLE} primary words.`
+    );
   if (bonuses.length > MAX_BONUSES_IN_PUZZLE)
-    throw Error(`Cannot have more than ${MAX_BONUSES_IN_PUZZLE} bonus words`);
+    throw Error(
+      `${puzzle.letters}: Cannot have more than ${MAX_BONUSES_IN_PUZZLE} bonus words`
+    );
 
   // verify that every word uses only letters from the anagram.
   const wordsBuiltWithInvalidLetters = words.filter(
@@ -46,6 +51,22 @@ export const verifyPuzzle = (puzzle?: Puzzle) => {
         ', '
       )}`
     );
+
+  // make sure only existing letters are used, sometimes words may have multiple of the same letter, and the puzzle can't exceed the number of letters available.
+  for (let i = 0; i < words.length; i++) {
+    const allowableLetters = cloneDeep(letters);
+    const word = words[i];
+    for (let j = 0; j < word.length; j++) {
+      const letter = word[j];
+      const index = allowableLetters.indexOf(letter);
+      if (index === -1) {
+        throw Error(
+          `Detected word that uses more letters than are available: ${word}`
+        );
+      }
+      allowableLetters.splice(index, 1);
+    }
+  }
 
   // verify that every bonus word uses only letters from the anagram.
   const bonusesBuiltWithInvalidLetters = bonuses.filter(

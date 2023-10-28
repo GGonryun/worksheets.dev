@@ -6,7 +6,7 @@ export const UPDATE_BONUS = 200;
 
 export const PUZZLE_GAP = 0.33;
 export const MAX_PUZZLE_HEIGHT = 10;
-export const MAX_WORDS_IN_PUZZLE = 16;
+export const MAX_WORDS_IN_PUZZLE = 20;
 export const MAX_BONUSES_IN_PUZZLE = 30;
 
 export const STARTING_PLAYER_TOKENS = 50;
