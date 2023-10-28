@@ -269,6 +269,7 @@ export const puzzles: Puzzle[] = [
       'dire',
       'iced',
       'rice',
+      'ice',
       'ride',
       'die',
       'red',
