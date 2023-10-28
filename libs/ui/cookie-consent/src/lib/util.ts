@@ -22,12 +22,12 @@ export const readConsentCookie = (cookies?: {
       statistics: Boolean(consent['statistics']),
       marketing: Boolean(consent['marketing']),
     };
-  } else {
-    return {
-      necessary: false,
-      preferences: false,
-      statistics: false,
-      marketing: false,
-    };
   }
+
+  return {
+    necessary: false,
+    preferences: false,
+    statistics: false,
+    marketing: false,
+  };
 };
