@@ -1,6 +1,6 @@
 import { NextPageWithLayout } from '@worksheets/util-next';
 import { WebsiteLayout } from '../components/Layout';
-import { Box, Container, TextField } from '@mui/material';
+import { Box, CircularProgress, Container, TextField } from '@mui/material';
 import {
   CaptionText,
   HeaderText,
@@ -90,7 +90,7 @@ const JoinOurNewsletterSection: FC = () => {
           disabled={isLoading || !!success || !!error}
           onClick={subscribeEmail}
         >
-          Join newsletter
+          {isLoading ? <CircularProgress /> : 'Join Newsletter'}
         </SubmissionButton>
       </Box>
     </Box>

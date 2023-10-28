@@ -1,11 +1,11 @@
 import { useTimeout } from '@worksheets/ui-core';
 import { useState } from 'react';
-import { useCookies } from 'react-cookie';
 import { NewsletterPopup } from './NewsletterPopup';
 import {
   CONSENT_KEY,
   NEWSLETTER_POPUP_SEEN_KEY,
   readConsentCookie,
+  useCookies,
 } from '@worksheets/ui-cookie-consent';
 
 // 3 DAYS
@@ -15,7 +15,7 @@ const NEWSLETTER_POPUP_SHORT_IGNORE = 259200;
 const NEWSLETTER_POPUP_TIMEOUT = 10000;
 
 export const NewsletterPopupContainer = () => {
-  const [cookies, setCookie] = useCookies([
+  const { cookies, setCookie } = useCookies([
     NEWSLETTER_POPUP_SEEN_KEY,
     CONSENT_KEY,
   ]);

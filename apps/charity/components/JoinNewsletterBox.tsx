@@ -1,4 +1,4 @@
-import { Box, TextField } from '@mui/material';
+import { Box, CircularProgress, TextField } from '@mui/material';
 import { FC } from 'react';
 import { CaptionText, SmallHeaderText } from './Typography';
 import { SubmissionButton } from './Buttons';
@@ -43,7 +43,7 @@ export const JoinNewsletterBox: FC = () => {
           disabled={isLoading || !!success || !!error}
           onClick={subscribeEmail}
         >
-          Subscribe
+          {isLoading ? <CircularProgress /> : 'Subscribe'}
         </SubmissionButton>
         {success && (
           <CaptionText

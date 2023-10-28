@@ -1,8 +1,8 @@
+import { useCookies } from './use-cookies';
 import { CONSENT_KEY, CookieConsent, readConsentCookie } from './util';
-import { useCookies } from 'react-cookie';
 
 export const useCookieConsent = () => {
-  const [cookies, setCookie] = useCookies([CONSENT_KEY]);
+  const { cookies, setCookie } = useCookies([CONSENT_KEY]);
   return {
     consent: readConsentCookie(cookies),
     setConsent: (opt: CookieConsent) =>
