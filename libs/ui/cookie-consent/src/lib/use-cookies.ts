@@ -12,16 +12,14 @@ export const useCookies = (dependencies: string[]) => {
   ) => {
     const cookieOptions = {
       path: '/',
-      maxAge: Number.MAX_SAFE_INTEGER,
       ...(options ?? {}),
     };
     const cookieDomain = SERVER_SETTINGS.ENVIRONMENT.COOKIE_DOMAIN();
-    console.log('detected global cookie domain', cookieDomain);
     if (cookieDomain) {
       cookieOptions.domain = cookieDomain;
     }
 
-    setCookie(name, value, options);
+    setCookie(name, value, cookieOptions);
   };
 
   return {
