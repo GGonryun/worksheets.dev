@@ -17,10 +17,10 @@ import {
   TypographyProps,
   styled,
 } from '@mui/material';
-import { CookieConsentPopup } from '@worksheets/ui-cookie-consent';
 import { textShadow, urls, svgBoxShadow, Discord } from '@worksheets/ui-games';
 import { useRouter } from 'next/router';
 import { FC, JSXElementConstructor, ReactNode } from 'react';
+import { JoinNewsletterBox } from './JoinNewsletterBox';
 
 export const Layout: FC<{
   header: ReactNode;
@@ -65,17 +65,9 @@ export const WebsiteLayout: FC<{
         <>
           <SectionDivider />
           <CharityTextContainer>
-            <CharityText>
-              <LearnMoreLink href={urls.relative.about}>
-                Charity.Games
-              </LearnMoreLink>{' '}
-              is committed to providing fun, free games that help support
-              charitable causes.{' '}
-              <LearnMoreLink href={urls.relative.about}>
-                Learn More
-              </LearnMoreLink>
-              .
-            </CharityText>
+            <Box maxWidth={600}>
+              <JoinNewsletterBox />
+            </Box>
           </CharityTextContainer>
           <SectionDivider />
           <FooterContainer>
@@ -127,27 +119,6 @@ export const WebsiteLayout: FC<{
     />
   );
 };
-
-const CharityText = styled((props) => (
-  <Typography {...props} />
-))<TypographyProps>(({ theme }) => ({
-  textAlign: 'center',
-  fontFamily: theme.typography.primary.fontFamily,
-  fontWeight: 500,
-  paddingLeft: theme.spacing(4),
-  paddingRight: theme.spacing(4),
-  fontSize: '1.25rem',
-  '@media (max-width: 600px)': {
-    fontSize: '1rem',
-  },
-}));
-
-const LearnMoreLink = styled((props) => <Link {...props} />)<LinkProps>(
-  ({ theme }) => ({
-    color: theme.palette.text.primary,
-    textDecorationColor: theme.palette.text.primary,
-  })
-);
 
 const FooterLink = styled((props) => <Link {...props} />)<LinkProps>(
   ({ theme }) => ({
@@ -241,6 +212,7 @@ const CharityTextContainer = styled((props) => <Box {...props} />)<BoxProps>(
     backgroundColor: theme.palette.grey[300],
     padding: 20,
     gap: theme.spacing(3),
+    alignItems: 'center',
   })
 );
 
