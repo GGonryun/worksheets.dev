@@ -12,6 +12,7 @@ datasource db {
 model Email {
   id            String    @default(cuid()) @id
   address       String    @unique
+  verified      Boolean   @default(false)
   createdAt     DateTime  @default(now()) @map(name: "created_at")
   updatedAt     DateTime  @updatedAt @map(name: "updated_at")
 }
