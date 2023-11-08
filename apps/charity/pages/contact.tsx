@@ -28,7 +28,7 @@ const EmailUsSection: FC = () => (
       hours.
     </ParagraphText>
     <Box pt={1}>
-      <SubmissionButton href={urls.mailTo.gwenythAdmin}>
+      <SubmissionButton href={urls.mailTo.personalEmail}>
         Email support
       </SubmissionButton>
     </Box>

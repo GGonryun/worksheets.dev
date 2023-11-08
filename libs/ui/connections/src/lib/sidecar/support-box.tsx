@@ -30,8 +30,8 @@ export const SupportBox: React.FC = () => (
     </Typography>
     <Typography variant="body2">
       Contact us at{' '}
-      <Link href="mailto:miguel@gwenyth.io">admin@worksheets.dev</Link> for more
-      assistance
+      <Link href="mailto:amodestduck@gmail.com">admin@worksheets.dev</Link> for
+      more assistance
     </Typography>
   </Paper>
 );

@@ -79,7 +79,7 @@ export const WebsiteLayout: FC<{
                 />
                 <SocialIcon
                   Icon={Reddit}
-                  onClick={() => push(urls.social.personalGithub)}
+                  onClick={() => push(urls.social.reddit)}
                 />
                 <SocialIcon
                   Icon={GitHub}

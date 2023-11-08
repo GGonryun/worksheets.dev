@@ -1,3 +1,4 @@
+import { PlayerColor } from '../util/board';
 import { PLAYING_CARD_TYPES } from '../util/playing-cards';
 import { PlayingCard } from './PlayingCard';
 import { Box } from '@mui/material';
@@ -19,7 +20,12 @@ export const CardList = () => (
     >
       {/* <GameBoard /> */}
       {PLAYING_CARD_TYPES.map((type) => (
-        <PlayingCard key={type} size={120} type={type} />
+        <PlayingCard
+          key={type}
+          size={120}
+          type={type}
+          player={PlayerColor.Red}
+        />
       ))}
     </Box>
   </Box>

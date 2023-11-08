@@ -10,7 +10,7 @@ The best way to [contact us is via our discord community server](https://discord
 
 ## Email Support
 
-You can email us at [miguel@gwenyth.io](mailto:miguel@gwenyth.io) for inquiries about Worksheets.
+You can [email us](mailto:amodestduck@gmail.com) for inquiries about Worksheets.
 
 ## Anonymous Contact Form
 

@@ -21,14 +21,14 @@ export const urls = {
     faq: `/faq`,
   },
   mailTo: {
-    gwenythAdmin: `mailto:miguel@gwenyth.io`,
+    personalEmail: `mailto:amodestduck@gmail.com`,
   },
   social: {
+    reddit: `https://www.reddit.com/user/ggonryun/`,
     linkedIn: `https://www.linkedin.com/in/miguel-campos-5b1114172/`,
     twitter: `https://twitter.com/`,
     facebook: `https://www.facebook.com/`,
-    github: `https://github.com/GwenythIO/worksheets.dev`,
-    personalGithub: `https://github.com/ggonryun`,
+    github: `https://github.com/ggonryun/worksheets.dev`,
     discord: `https://discord.gg/Auatjee2BZ`,
   },
   freeRice: () => 'https://freerice.com/',
