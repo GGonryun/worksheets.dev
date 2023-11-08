@@ -18,6 +18,17 @@ export type RectPlane = {
   height: number;
 };
 
+export const areEqual = (a: Point, b: Point) => {
+  return a.x === b.x && a.y === b.y;
+};
+
+export const convertToPoint = (i: number, width: number): Point => {
+  return {
+    x: i % width,
+    y: Math.floor(i / width),
+  };
+};
+
 export const distanceBetween = (a: Point, b: Point) => {
   return Math.sqrt(Math.pow(a.x - b.x, 2) + Math.pow(a.y - b.y, 2));
 };
