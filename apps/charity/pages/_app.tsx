@@ -8,12 +8,16 @@ import { SERVICE_SETTINGS } from '@worksheets/data-access/server-settings';
 import * as FullStory from '@fullstory/browser';
 import { NewsletterPopupContainer } from '../components/NewsletterPopupContainer';
 import { CookieConsentPopup } from '@worksheets/ui-cookie-consent';
+import { SessionProvider } from 'next-auth/react';
 
 if (typeof window !== 'undefined') {
   FullStory.init(SERVICE_SETTINGS.FULLSTORY);
 }
 
-function CustomApp({ Component, pageProps }: AppPropsWithLayout) {
+function CustomApp({
+  Component,
+  pageProps: { session, ...pageProps },
+}: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => page);
 
   return (
@@ -24,7 +28,9 @@ function CustomApp({ Component, pageProps }: AppPropsWithLayout) {
       </Head>
 
       <ThemeProvider theme={theme}>
-        <main className="app">{getLayout(<Component {...pageProps} />)}</main>
+        <SessionProvider session={session}>
+          <main className="app">{getLayout(<Component {...pageProps} />)}</main>
+        </SessionProvider>
         <NewsletterPopupContainer />
         <CookieConsentPopup />
       </ThemeProvider>

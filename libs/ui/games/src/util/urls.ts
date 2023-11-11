@@ -19,6 +19,8 @@ export const urls = {
     blog: `/blog`,
     donate: `/donate`,
     faq: `/faq`,
+    login: `/login`,
+    logout: `/logout`,
   },
   mailTo: {
     personalEmail: `mailto:amodestduck@gmail.com`,

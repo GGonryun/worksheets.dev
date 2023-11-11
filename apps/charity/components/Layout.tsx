@@ -21,6 +21,8 @@ import { textShadow, urls, svgBoxShadow, Discord } from '@worksheets/ui-games';
 import { useRouter } from 'next/router';
 import { FC, JSXElementConstructor, ReactNode } from 'react';
 import { JoinNewsletterBox } from './JoinNewsletterBox';
+import { signOut, useSession } from 'next-auth/react';
+import { ConnectionButton } from './Buttons';
 
 export const Layout: FC<{
   header: ReactNode;
@@ -47,8 +49,7 @@ export const Layout: FC<{
 
 export const WebsiteLayout: FC<{
   children: ReactNode;
-  hideNavigationBar?: boolean;
-}> = ({ children, hideNavigationBar }) => {
+}> = ({ children }) => {
   const { push } = useRouter();
   return (
     <Layout
@@ -218,6 +219,7 @@ const CharityTextContainer = styled((props) => <Box {...props} />)<BoxProps>(
 
 const HeroSection: FC = () => {
   const { push } = useRouter();
+  const { data: session } = useSession();
 
   return (
     <TitleContainer>
@@ -229,19 +231,20 @@ const HeroSection: FC = () => {
         Charity.Games
       </TitleText>
       <SubtitleText>Play with Purpose</SubtitleText>
+      {session?.user ? <LogoutButton /> : <LoginButton />}
     </TitleContainer>
   );
 };
 
 const TitleContainer = styled((props) => <Box {...props} />)<BoxProps>(
   ({ theme }) => ({
+    position: 'relative',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
     width: '100%',
     height: '140px',
-    zIndex: -1,
     backgroundColor: theme.palette.primary.light,
     '@media (max-width: 600px)': {
       height: '120px',
@@ -358,3 +361,11 @@ const SubtitleText = styled((props) => (
     fontSize: '1.25rem',
   },
 }));
+
+const LoginButton = () => {
+  return <ConnectionButton href={urls.relative.login}>Login</ConnectionButton>;
+};
+
+const LogoutButton = () => {
+  return <ConnectionButton onClick={() => signOut()}>Logout</ConnectionButton>;
+};

@@ -53,7 +53,7 @@ const Page: NextPageWithLayout<Props> = ({ metadatas }) => (
 );
 
 Page.getLayout = (page) => {
-  return <WebsiteLayout hideNavigationBar>{page}</WebsiteLayout>;
+  return <WebsiteLayout>{page}</WebsiteLayout>;
 };
 
 export const getStaticProps = async (): Promise<{ props: Props }> => {

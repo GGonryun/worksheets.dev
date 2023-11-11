@@ -2,9 +2,11 @@ import { Button, ButtonProps, styled } from '@mui/material';
 import { tabletBoxShadow } from '@worksheets/ui-games';
 import { JSXElementConstructor } from 'react';
 
-export const SubmissionButton = styled<JSXElementConstructor<ButtonProps>>(
-  (props) => <Button variant="contained" color="primary" {...props} />
-)(({ theme }) => ({
+export type StyledButton = JSXElementConstructor<ButtonProps>;
+
+export const SubmissionButton = styled<StyledButton>((props) => (
+  <Button variant="contained" color="primary" {...props} />
+))(({ theme }) => ({
   fontWeight: 700,
   fontSize: '1.0rem',
   fontFamily: theme.typography.primary.fontFamily,
@@ -21,3 +23,15 @@ export const SubmissionButton = styled<JSXElementConstructor<ButtonProps>>(
     paddingRight: theme.spacing(3),
   },
 }));
+
+export const ConnectionButton = styled<StyledButton>((props) => (
+  <Button size="small" variant="contained" color="secondary" {...props} />
+))({
+  position: 'absolute',
+  right: 2,
+  top: 2,
+  fontSize: '0.85rem',
+  '@media (max-width: 600px)': {
+    fontSize: '0.65rem',
+  },
+});

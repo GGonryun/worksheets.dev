@@ -60,9 +60,9 @@ export const SecondarySmallHeaderText = styled<
   },
 }));
 
-export const CaptionText = styled<JSXElementConstructor<TypographyProps>>(
-  (props) => <Typography variant={'caption'} {...props} />
-)(({ theme }) => ({
+export const CaptionText = styled<
+  JSXElementConstructor<Omit<TypographyProps, 'color'>>
+>((props) => <Typography variant={'caption'} {...props} />)(({ theme }) => ({
   fontFamily: theme.typography.secondary.fontFamily,
   fontWeight: 600,
   color: theme.palette.grey[700],

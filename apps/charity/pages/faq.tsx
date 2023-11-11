@@ -83,6 +83,11 @@ const qa = [
     answer: `Please report it to us on our [GitHub](${urls.social.github}) page. Or visit our [Contact](${urls.relative.contact}) page to submit an email or join our Discord.`,
     id: 'i-found-a-bug-what-should-i-do',
   },
+  {
+    question: 'Do I need an account?',
+    answer: `An account lets you submit games to our platform. In the near future we'll be adding support for commenting, following, and creating lists of your favorite games.`,
+    id: 'do-i-need-an-account',
+  },
 ];
 
 const Page: NextPageWithLayout = () => {
@@ -173,7 +178,7 @@ const Page: NextPageWithLayout = () => {
 };
 
 Page.getLayout = (page) => {
-  return <WebsiteLayout hideNavigationBar>{page}</WebsiteLayout>;
+  return <WebsiteLayout>{page}</WebsiteLayout>;
 };
 
 export default Page;
