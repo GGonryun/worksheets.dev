@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { protectPages } from './middleware/protected-routes';
 
 export const config = {
   matcher: [
@@ -14,6 +15,11 @@ export const config = {
 };
 
 export default async function middleware(req: NextRequest) {
+  // redirect to login if not authenticated on protected pages
+  if (await protectPages(req)) {
+    return NextResponse.redirect(new URL('/login', req.url));
+  }
+
   const url = req.nextUrl;
 
   // Get the full host name of request (e.g. demo.vercel.pub, demo.charity.test:6969)
