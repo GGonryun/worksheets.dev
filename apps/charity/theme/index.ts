@@ -15,12 +15,23 @@ declare module '@mui/material/styles' {
     highlight: PaletteColor;
     love: PaletteColor;
     default: PaletteColor;
+    black: PaletteColor;
   }
 
   interface PaletteOptions {
     highlight?: PaletteColor;
     love?: PaletteColor;
     default?: PaletteColor;
+    black: PaletteColor;
+  }
+}
+
+declare module '@mui/material/Button' {
+  interface ButtonPropsColorOverrides {
+    highlight: true;
+    love: true;
+    default: true;
+    black: true;
   }
 }
 
@@ -58,6 +69,12 @@ const theme = createTheme({
       main: grey[600],
       dark: grey[700],
       contrastText: '#000',
+    },
+    black: {
+      light: '#000',
+      main: '#000',
+      dark: '#000',
+      contrastText: '#fff',
     },
   },
 });
