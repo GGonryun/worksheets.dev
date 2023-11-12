@@ -105,7 +105,7 @@ export const getStaticPaths: GetStaticPaths<ArticleProps> = async () => {
 };
 
 Page.getLayout = (page) => {
-  return <WebsiteLayout hideNavigationBar>{page}</WebsiteLayout>;
+  return <WebsiteLayout>{page}</WebsiteLayout>;
 };
 
 export default Page;
