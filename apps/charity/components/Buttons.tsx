@@ -11,7 +11,7 @@ export const SubmissionButton = styled<StyledButton>((props) => (
   fontSize: '1.0rem',
   fontFamily: theme.typography.primary.fontFamily,
   boxShadow: tabletBoxShadow,
-  paddingBottom: theme.spacing(1.5),
+  paddingBottom: theme.spacing(1),
   paddingLeft: theme.spacing(4),
   paddingRight: theme.spacing(4),
   '&:hover': {
