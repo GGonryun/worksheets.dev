@@ -18,7 +18,7 @@ const protect = async (
   }[]
 ) => {
   const pathname = req.nextUrl.pathname;
-  if (!session) {
+  if (!session || !session.user) {
     for (const opt of opts) {
       const guard = guards[opt.rule];
       console.log('guarding', pathname, opt.page);
@@ -38,6 +38,10 @@ export const protectPages = async (req: NextRequest) => {
     {
       rule: PathRule.startsWith,
       page: '/dashboard',
+    },
+    {
+      rule: PathRule.startsWith,
+      page: '/teams',
     },
   ]);
 };
