@@ -8,12 +8,67 @@ datasource db {
   directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
-model Email {
-  id            String    @default(cuid()) @id
-  address       String    @unique
-  verified      Boolean   @default(false)
-  createdAt     DateTime  @default(now()) @map(name: "created_at")
-  updatedAt     DateTime  @updatedAt @map(name: "updated_at")
+model Membership {
+  id      String          @id @default(cuid())
+  role    MembershipRole
+  team    Team            @relation(fields: [teamId], references: [id])
+  teamId  String 
+  user    User            @relation(fields: [userId], references: [id])
+  userId  String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@unique([userId, teamId])
+}
+
+model Team {
+  id            String       @id @default(cuid())
+  subdomain     String       @unique @db.VarChar(63)
+  name          String?      @db.VarChar(255)
+  description   String?      @db.VarChar(1023)
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  image         String?      @db.Text
+  logo          String?      @db.Text
+  memberships   Membership[]
+  games         Game[]
+}
+
+enum MembershipRole {
+  OWNER
+  MEMBER
+}
+
+model Game {
+  id            String        @id @default(cuid())
+  key           String        @db.VarChar(63)
+  status        GameStatus    @default(DRAFT)
+  name          String?       @db.VarChar(127)
+  headline      String?       @db.VarChar(256)
+  description   String?       @db.VarChar(2047)
+  banner        String?       @db.Text
+  logo          String?       @db.Text
+  video         String?       @db.Text
+  screenshots   String[]      @db.Text
+  file          String?      @db.Text
+  devices       GameDevices[] @default([WEB])
+  tags          String[]      @db.VarChar(63)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  team          Team          @relation(fields: [teamId], references: [id])
+  teamId        String
+}
+
+enum GameDevices {
+  MOBILE
+  WEB
+}
+
+enum GameStatus {
+  DRAFT
+  RESTRICTED
+  PUBLISHED
+  ARCHIVED
 }
 
 model User {
@@ -27,8 +82,8 @@ model User {
   updatedAt     DateTime  @updatedAt
   accounts      Account[]
   sessions      Session[]
+  memberships   Membership[]
 }
-
 model Account {
   id                 String  @id @default(cuid())
   userId             String
@@ -65,6 +120,14 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model Email {
+  id            String    @default(cuid()) @id
+  address       String    @unique
+  verified      Boolean   @default(false)
+  createdAt     DateTime  @default(now()) @map(name: "created_at")
+  updatedAt     DateTime  @updatedAt @map(name: "updated_at")
 }
 
 generator zod {
