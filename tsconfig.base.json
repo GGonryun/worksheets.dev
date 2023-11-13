@@ -124,6 +124,7 @@
       "@worksheets/trpc/ide": ["libs/trpc/ide/src/index.ts"],
       "@worksheets/trpc/ide/server": ["libs/trpc/ide/src/server.ts"],
       "@worksheets/ui-basic-style": ["libs/ui/basic-style/src/index.ts"],
+      "@worksheets/ui-charity": ["libs/ui/charity/src/index.ts"],
       "@worksheets/ui-cookie-consent": ["libs/ui/cookie-consent/src/index.ts"],
       "@worksheets/ui-core": ["libs/ui/core/src/index.ts"],
       "@worksheets/ui-games": ["libs/ui/games/src/index.ts"],

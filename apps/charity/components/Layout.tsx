@@ -22,7 +22,7 @@ import { useRouter } from 'next/router';
 import { FC, JSXElementConstructor, ReactNode } from 'react';
 import { JoinNewsletterBox } from './JoinNewsletterBox';
 import { signOut, useSession } from 'next-auth/react';
-import { ConnectionButton } from './Buttons';
+import { ConnectionButton } from '@worksheets/ui-charity';
 
 export const Layout: FC<{
   header: ReactNode;

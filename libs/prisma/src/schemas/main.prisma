@@ -24,7 +24,7 @@ model Membership {
 model Team {
   id            String       @id @default(cuid())
   subdomain     String       @unique @db.VarChar(63)
-  name          String?      @db.VarChar(255)
+  name          String      @db.VarChar(255)
   description   String?      @db.VarChar(1023)
   createdAt     DateTime     @default(now())
   updatedAt     DateTime     @updatedAt

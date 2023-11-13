@@ -1,10 +1,9 @@
 import { Box, Container } from '@mui/material';
-import { HeaderText } from '../components/Typography';
-import { TeamCard } from '../components/Cards';
 import { GroupAdd } from '@mui/icons-material';
-import { SubmissionButton } from '../components/Buttons';
 import { useState } from 'react';
-import { CreateTeamModal } from '../components/CreateTeamModal';
+import { CreateTeamModal } from '../../components/CreateTeamModal';
+import { HeaderText, SubmissionButton } from '@worksheets/ui-charity';
+import { MyTeamsContainer } from '../../components/MyTeamsContainer';
 
 const Page = () => {
   const [showModal, setShowModal] = useState(false);
@@ -29,24 +28,7 @@ const Page = () => {
             Create New Team
           </SubmissionButton>
         </Box>
-        <Box display="flex" flexWrap="wrap" gap={2}>
-          <TeamCard
-            name="Official"
-            id="b18394h134980"
-            subdomain="official"
-            growth={32}
-            games={2}
-            members={2}
-          />
-          <TeamCard
-            name="Test"
-            id={'y3799n6c6x8ju1'}
-            subdomain="reallylongsubdomainprobably"
-            growth={0}
-            games={0}
-            members={1}
-          />
-        </Box>
+        <MyTeamsContainer />
       </Container>
       <CreateTeamModal
         open={showModal}

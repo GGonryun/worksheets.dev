@@ -3,15 +3,15 @@ import { inferRouterInputs, inferRouterOutputs } from '@trpc/server';
 import { trpc } from '@worksheets/trpc-charity';
 import { AppRouter } from '@worksheets/trpc-charity/server';
 import { FC, useState } from 'react';
-import { DenseButton } from '../Buttons';
 import {
-  DenseInputLabel,
   DefaultInputBase,
+  DenseButton,
+  DenseInputLabel,
   InputErrorText,
+  SecondarySmallHeaderText,
   SubdomainTextField,
   TextAreaAutoSize,
-} from '../InputFields';
-import { SecondarySmallHeaderText } from '../Typography';
+} from '@worksheets/ui-charity';
 
 type CreateTeamInput = inferRouterInputs<AppRouter>['teams']['create'];
 type CreateTeamErrorOutput = Extract<

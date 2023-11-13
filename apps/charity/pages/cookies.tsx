@@ -2,7 +2,7 @@ import { Container } from '@mui/material';
 import { UnderConstruction } from '../components/UnderConstruction';
 import { NextPageWithLayout } from '@worksheets/util-next';
 import { WebsiteLayout } from '../components/Layout';
-import { HeaderText, QuoteText } from '../components/Typography';
+import { HeaderText, QuoteText } from '@worksheets/ui-charity';
 
 const Page: NextPageWithLayout = () => (
   <Container

@@ -1,14 +1,14 @@
 import { Box, Button, Container, Paper } from '@mui/material';
-import {
-  CaptionText,
-  SmallHeaderText,
-  SubHeaderText,
-} from '../components/Typography';
-import { SecondaryLink } from '../components/Links';
 import { urls } from '@worksheets/ui-games';
 import { signIn } from 'next-auth/react';
 import { ArrowBack, GitHub } from '@mui/icons-material';
 import { useRouter } from 'next/router';
+import {
+  SmallHeaderText,
+  SubHeaderText,
+  CaptionText,
+  SecondaryLink,
+} from '@worksheets/ui-charity';
 
 const Page = () => {
   const { back } = useRouter();

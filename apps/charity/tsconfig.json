@@ -24,7 +24,12 @@
     "**/*.js",
     "**/*.jsx",
     "next-env.d.ts",
-    "../../types/next-auth.d.ts"
+    "../../types/next-auth.d.ts",
+    "../../types/@mui.d.ts",
+    "../../libs/ui/charity/src/lib/Buttons.tsx",
+    "../../libs/ui/charity/src/lib/Cards.tsx",
+    "../../libs/ui/charity/src/lib/InputFields.tsx",
+    "../../libs/ui/charity/src/lib/Links.tsx"
   ],
   "exclude": [
     "node_modules",

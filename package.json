@@ -77,6 +77,7 @@
     "@stoplight/mosaic": "^1.42.0",
     "@stoplight/mosaic-code-viewer": "^1.42.0",
     "@stoplight/react-error-boundary": "^2.0.0",
+    "@storybook/nextjs": "^7.5.3",
     "@storybook/react": "^7.0.17",
     "@swc/helpers": "~0.5.0",
     "@trpc/client": "^10.31.0",

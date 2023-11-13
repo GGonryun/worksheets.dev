@@ -1,15 +1,15 @@
 import { NextPageWithLayout } from '@worksheets/util-next';
 import { WebsiteLayout } from '../components/Layout';
 import { Box, Container, Link } from '@mui/material';
-import {
-  HeaderText,
-  SmallHeaderText,
-  ParagraphText,
-} from '../components/Typography';
 import { FC, useState } from 'react';
 import { urls } from '@worksheets/ui-games';
 import { MicroMarkdown } from '@worksheets/ui-core';
 import { AnimatePresence, motion } from 'framer-motion';
+import {
+  SmallHeaderText,
+  ParagraphText,
+  HeaderText,
+} from '@worksheets/ui-charity';
 
 const QuestionAnswerBox: FC<{
   question: string;

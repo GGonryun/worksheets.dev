@@ -1,10 +1,13 @@
 import { Box } from '@mui/material';
 import { FC, ReactNode, useState } from 'react';
-import { ParagraphText, SmallHeaderText } from './Typography';
-import { SubmissionButton } from './Buttons';
 import Image from 'next/image';
 import { assets } from '../util/assets';
 import { NewsletterPopup } from './NewsletterPopup';
+import {
+  SmallHeaderText,
+  ParagraphText,
+  SubmissionButton,
+} from '@worksheets/ui-charity';
 
 export const UnderConstruction: FC<{ children?: ReactNode }> = ({
   children,

@@ -1,7 +1,6 @@
 import { Box, CircularProgress } from '@mui/material';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-
 import { NextPageWithLayout } from '@worksheets/util-next';
 import { WebsiteLayout } from '../components/Layout';
 

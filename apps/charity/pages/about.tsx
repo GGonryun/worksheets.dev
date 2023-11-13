@@ -1,18 +1,18 @@
 import { NextPageWithLayout } from '@worksheets/util-next';
 import { WebsiteLayout } from '../components/Layout';
 import { Box, Container } from '@mui/material';
-import {
-  HeaderText,
-  ParagraphText,
-  QuoteText,
-  SmallHeaderText,
-  SubHeaderText,
-} from '../components/Typography';
-import { SubmissionButton } from '../components/Buttons';
 import { FullStoryLink, WaterOrgLink, urls } from '@worksheets/ui-games';
-import { SecondaryLink } from '../components/Links';
 import { LinkedIn } from '@mui/icons-material';
 import { blogAuthors } from '../util/blog-authors';
+import {
+  HeaderText,
+  SubHeaderText,
+  ParagraphText,
+  SecondaryLink,
+  SubmissionButton,
+  SmallHeaderText,
+  QuoteText,
+} from '@worksheets/ui-charity';
 
 const Page: NextPageWithLayout = () => (
   <Container

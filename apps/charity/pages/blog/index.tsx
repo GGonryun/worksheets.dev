@@ -1,13 +1,13 @@
 import { NextPageWithLayout } from '@worksheets/util-next';
 import { WebsiteLayout } from '../../components/Layout';
 import { Box, Container } from '@mui/material';
-import { ParagraphText, SubHeaderText } from '../../components/Typography';
 import {
   MarkdownMetadata,
   getAllPostsMetadata,
 } from '@worksheets/util-markdown';
 import { POSTS_PATH } from '../../util/paths';
 import { PostPreview } from '../../components/blog';
+import { SubHeaderText, ParagraphText } from '@worksheets/ui-charity';
 
 type Props = {
   metadatas: MarkdownMetadata[];

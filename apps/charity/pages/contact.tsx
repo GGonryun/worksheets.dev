@@ -1,17 +1,17 @@
 import { NextPageWithLayout } from '@worksheets/util-next';
 import { WebsiteLayout } from '../components/Layout';
 import { Box, CircularProgress, Container, TextField } from '@mui/material';
+import { FC } from 'react';
+import { CharityGamesLink, urls } from '@worksheets/ui-games';
+import { useSubscribeEmail } from '../hooks/useSubscribeEmail';
 import {
   CaptionText,
   HeaderText,
   ParagraphText,
+  PrimaryLink,
   SubHeaderText,
-} from '../components/Typography';
-import { FC } from 'react';
-import { CharityGamesLink, urls } from '@worksheets/ui-games';
-import { PrimaryLink } from '../components/Links';
-import { SubmissionButton } from '../components/Buttons';
-import { useSubscribeEmail } from '../hooks/useSubscribeEmail';
+  SubmissionButton,
+} from '@worksheets/ui-charity';
 
 const EmailUsSection: FC = () => (
   <Box

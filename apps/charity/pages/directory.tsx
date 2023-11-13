@@ -2,7 +2,7 @@ import { Box, Container, Link, styled } from '@mui/material';
 import { urls } from '@worksheets/ui-games';
 import { NextPageWithLayout } from '@worksheets/util-next';
 import { WebsiteLayout } from '../components/Layout';
-import { SmallHeaderText } from '../components/Typography';
+import { SmallHeaderText } from '@worksheets/ui-charity';
 
 const pages = [
   { title: 'Home', href: urls.relative.home },

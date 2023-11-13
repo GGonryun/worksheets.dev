@@ -1,13 +1,13 @@
 import { NextPageWithLayout } from '@worksheets/util-next';
 import { WebsiteLayout } from '../components/Layout';
 import { Container } from '@mui/material';
-import { HeaderText, ParagraphText, QuoteText } from '../components/Typography';
 import { UnderConstruction } from '../components/UnderConstruction';
 import {
   WaterOrgLink,
   CharityWaterLink,
   FreeRiceLink,
 } from '@worksheets/ui-games';
+import { HeaderText, ParagraphText, QuoteText } from '@worksheets/ui-charity';
 
 const Page: NextPageWithLayout = () => (
   <Container

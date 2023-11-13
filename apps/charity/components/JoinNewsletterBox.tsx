@@ -1,9 +1,12 @@
 import { Box, CircularProgress, TextField } from '@mui/material';
 import { FC } from 'react';
-import { CaptionText, SmallHeaderText } from './Typography';
-import { SubmissionButton } from './Buttons';
 import { Flex } from '@worksheets/ui-core';
 import { useSubscribeEmail } from '../hooks/useSubscribeEmail';
+import {
+  SmallHeaderText,
+  CaptionText,
+  SubmissionButton,
+} from '@worksheets/ui-charity';
 
 export const JoinNewsletterBox: FC = () => {
   const {

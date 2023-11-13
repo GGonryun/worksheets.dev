@@ -2,7 +2,7 @@ import { Box, Button, IconButton, Modal, ModalProps } from '@mui/material';
 import { FC } from 'react';
 import { JoinNewsletterBox } from './JoinNewsletterBox';
 import { Close } from '@mui/icons-material';
-import { ParagraphText } from './Typography';
+import { ParagraphText } from '@worksheets/ui-charity';
 
 export const NewsletterPopup: FC<
   Pick<ModalProps, 'open'> & { onClose: () => void; onIgnore: () => void }

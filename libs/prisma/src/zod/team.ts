@@ -4,7 +4,7 @@ import { CompleteMembership, RelatedMembershipModel, CompleteGame, RelatedGameMo
 export const TeamModel = z.object({
   id: z.string(),
   subdomain: z.string(),
-  name: z.string().nullish(),
+  name: z.string(),
   description: z.string().nullish(),
   createdAt: z.date(),
   updatedAt: z.date(),
