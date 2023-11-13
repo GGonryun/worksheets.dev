@@ -11,7 +11,7 @@ export const authentication = middleware(({ next, ctx, type, path }) => {
 
   return next({
     ctx: {
-      session: ctx.session,
+      user: ctx.session.user,
     },
   });
 });
