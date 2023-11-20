@@ -19,8 +19,32 @@ export const theme = createTheme({
     secondary: {
       fontFamily: 'Montserrat,sans-serif',
     },
+    coiny: {
+      fontFamily: 'Coiny,serif',
+    },
+    dangrek: {
+      fontFamily: 'Dangrek,serif',
+    },
+    concertOne: {
+      fontFamily: 'Concert One,serif',
+    },
+    mPlus1p: {
+      fontFamily: "'M PLUS Rounded 1c', sans-serif",
+    },
   },
   palette: {
+    border: {
+      light: grey[300],
+      main: grey[400],
+      dark: grey[500],
+      contrastText: '#000',
+    },
+    white: {
+      light: '#fff',
+      main: '#fff',
+      dark: '#fff',
+      contrastText: '#000',
+    },
     highlight: {
       light: yellow[500],
       main: yellow[700],

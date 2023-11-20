@@ -22,7 +22,7 @@ import { useRouter } from 'next/router';
 import { FC, JSXElementConstructor, ReactNode } from 'react';
 import { JoinNewsletterBox } from './JoinNewsletterBox';
 import { signOut, useSession } from 'next-auth/react';
-import { ConnectionButton } from '@worksheets/ui-charity';
+import { ConnectionButton, Toolbar } from '@worksheets/ui-charity';
 
 export const Layout: FC<{
   header: ReactNode;
@@ -55,6 +55,7 @@ export const WebsiteLayout: FC<{
     <Layout
       header={
         <>
+          <Toolbar onDrawerToggle={() => alert('toggle drawer')} />
           <HeroSection />
           <SectionDivider />
           <NavigationBar />

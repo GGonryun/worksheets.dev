@@ -34,7 +34,7 @@ export const JoinNewsletterBox: FC = () => {
           variant="outlined"
           size="small"
           sx={{
-            backgroundColor: 'white',
+            backgroundColor: 'white.main',
           }}
           disabled={isLoading}
           value={email}
