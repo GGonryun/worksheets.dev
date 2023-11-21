@@ -5,8 +5,8 @@ import {
   Star,
   SvgIconComponent,
 } from '@mui/icons-material';
-import { Box, Link } from '@mui/material';
-import { FC } from 'react';
+import { Box, Link, Typography } from '@mui/material';
+import { FC, useState } from 'react';
 import { BannerBox } from './banner-box';
 import { ResponsiveImage } from '../images';
 
@@ -36,9 +36,12 @@ const PLACEHOLDER_IMAGE_URL =
   'https://storage.googleapis.com/game-logos/placeholder.png';
 export const GameIcon: FC<GameIconProps> = ({ name, iconUrl, banner }) => {
   const Icon = BannerIcon[banner ?? 'none'];
+  const [hover, setHover] = useState(false);
   return (
-    <Link href="#" underline="none" sx={{}}>
+    <Link href="#" underline="none">
       <Box
+        onMouseEnter={() => setHover(true)}
+        onMouseLeave={() => setHover(false)}
         sx={{
           position: 'relative',
           display: 'flex',
@@ -71,7 +74,43 @@ export const GameIcon: FC<GameIconProps> = ({ name, iconUrl, banner }) => {
         {banner && (
           <BannerBox>{<Icon sx={{ color: BannerColor[banner] }} />}</BannerBox>
         )}
-        {/* TODO: display name on hover */}
+        <Box
+          display="flex"
+          position="absolute"
+          bottom={0}
+          left={0}
+          width="100%"
+          alignItems="center"
+          textAlign="center"
+          overflow="hidden"
+          sx={{
+            transition: (theme) =>
+              theme.transitions.create('opacity', {
+                easing: theme.transitions.easing.easeIn,
+                duration: theme.transitions.duration.standard * 1.5,
+              }),
+            opacity: hover ? 1 : 0,
+
+            userSelect: 'none',
+            borderRadius: 'inherit',
+            borderTopLeftRadius: 0,
+            borderTopRightRadius: 0,
+          }}
+        >
+          <Typography
+            sx={{
+              width: '100%',
+              color: (theme) => theme.palette.white.main,
+              fontSize: '0.8rem',
+              fontWeight: 900,
+              fontFamily: (theme) => theme.typography.mPlus1p.fontFamily,
+              padding: '0.2rem 0.4rem',
+              background: `linear-gradient(0deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 100%)`,
+            }}
+          >
+            {name}
+          </Typography>
+        </Box>
       </Box>
     </Link>
   );
