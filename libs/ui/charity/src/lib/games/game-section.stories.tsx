@@ -27,16 +27,16 @@ export const Primary = {
     title: 'Popular This Week',
     children: (
       <>
+        <GameIcon name="solitaire" banner="hot" />
+        <GameIcon name="solitaire" banner="new" />
+        <GameIcon name="solitaire" />
+        <GameIcon name="solitaire" banner="new" />
+        <GameIcon name="solitaire" banner="played" />
         <GameIcon name="solitaire" />
         <GameIcon name="solitaire" />
+        <GameIcon name="solitaire" banner="new" />
         <GameIcon name="solitaire" />
-        <GameIcon name="solitaire" />
-        <GameIcon name="solitaire" />
-        <GameIcon name="solitaire" />
-        <GameIcon name="solitaire" />
-        <GameIcon name="solitaire" />
-        <GameIcon name="solitaire" />
-        <GameIcon name="solitaire" />
+        <GameIcon name="solitaire" banner="played" />
       </>
     ),
   },

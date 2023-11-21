@@ -1,11 +1,10 @@
 import { Box, Typography } from '@mui/material';
 import { FC, ReactNode } from 'react';
 import { ItemCarousel } from '../layout/drawer/item-carousel';
-import { EdgeBlur } from '../layout/drawer/edge-blur';
 
 export type GameSectionProps = { title: string; children: ReactNode };
 export const GameSection: FC<GameSectionProps> = ({ title, children }) => (
-  <Box mb={2} position="relative">
+  <Box mb={2}>
     <Typography
       variant="h5"
       gutterBottom
@@ -17,7 +16,6 @@ export const GameSection: FC<GameSectionProps> = ({ title, children }) => (
     >
       {title}
     </Typography>
-    <ItemCarousel sx={{ gap: 2 }}>{children}</ItemCarousel>
-    <EdgeBlur />
+    <ItemCarousel sx={{ gap: 2, px: 2 }}>{children}</ItemCarousel>
   </Box>
 );

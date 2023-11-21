@@ -5,6 +5,7 @@ const name = 'New-Rectangle';
 export const NewRectangle = createSvgIcon(
   <svg
     fill="#000000"
+    // I learned that by removing height/weight these icons work with createSvgIcon
     viewBox="0 0 36 36"
     version="1.1"
     preserveAspectRatio="xMidYMid meet"

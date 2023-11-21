@@ -2,7 +2,7 @@ import { FC } from 'react';
 import { Box, ButtonBase, IconButton, InputBase } from '@mui/material';
 import Image from 'next/image';
 import { CHARITY_LOGO_PATH } from '../util';
-import { ArrowBackIosNew, ArrowLeft, Clear, Search } from '@mui/icons-material';
+import { ArrowLeft, Clear, Search } from '@mui/icons-material';
 
 type SearchBarProps = {
   value?: string;
@@ -34,7 +34,7 @@ export const SearchBar: FC<SearchBarProps> = ({
         sx={{
           display: 'flex',
           alignItems: 'center',
-          paddingX: 2,
+          paddingX: { xs: 1, sm: 2 },
           height: '100%',
           borderRight: (theme) => `2px solid ${theme.palette.grey[100]}`,
         }}
@@ -42,6 +42,7 @@ export const SearchBar: FC<SearchBarProps> = ({
         <ArrowLeft
           fontSize="large"
           sx={{
+            mr: -1,
             display: { xs: 'block', sm: 'none' },
             color: (theme) => theme.palette.error.main,
           }}

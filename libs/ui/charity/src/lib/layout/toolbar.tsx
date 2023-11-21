@@ -14,10 +14,6 @@ import { DenseButton } from '../buttons';
 import { FC } from 'react';
 import { CHARITY_LOGO_PATH } from './util';
 interface ToolbarProps {
-  /**
-   * Injected by the documentation to work in an iframe.
-   * You won't need it on your project.
-   */
   onDrawerToggle: () => void;
   connected: boolean;
 }
@@ -51,7 +47,7 @@ const ConnectionButton: FC<{ connected: boolean }> = ({ connected }) => {
   if (connected) {
     return (
       <DenseButton startIcon={<AccountCircleOutlined />} color="error">
-        My Account
+        Account
       </DenseButton>
     );
   }

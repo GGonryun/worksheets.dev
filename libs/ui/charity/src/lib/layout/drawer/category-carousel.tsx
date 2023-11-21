@@ -1,6 +1,5 @@
 import { Box, Chip, ChipProps, styled } from '@mui/material';
 import { FC, JSXElementConstructor } from 'react';
-import { EdgeBlur } from './edge-blur';
 import { ItemCarousel } from './item-carousel';
 
 type CategoryCarouselProps = {
@@ -42,7 +41,6 @@ export const CategoryCarousel: FC<CategoryCarouselProps> = (props) => {
           />
         ))}
       </ItemCarousel>
-      <EdgeBlur />
     </Box>
   );
 };
@@ -54,8 +52,12 @@ const CategoryChip = styled<JSXElementConstructor<ChipProps>>((props) => (
   textTransform: 'uppercase',
   padding: theme.spacing(1, 1.5),
   boxShadow: theme.shadows[1],
+  top: 0,
+  transition: theme.transitions.create(['top', 'box-shadow'], {
+    duration: theme.transitions.duration.shortest,
+  }),
   '&:hover': {
-    top: -1,
+    top: -2,
     boxShadow: theme.shadows[3],
   },
   '& .MuiChip-label': {

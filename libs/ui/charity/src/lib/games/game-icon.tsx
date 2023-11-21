@@ -6,9 +6,9 @@ import {
   SvgIconComponent,
 } from '@mui/icons-material';
 import { Box, Link } from '@mui/material';
-import Image from 'next/image';
 import { FC } from 'react';
 import { BannerBox } from './banner-box';
+import { ResponsiveImage } from '../images';
 
 type GameIconBanner = 'hot' | 'new' | 'played' | 'none';
 
@@ -59,12 +59,10 @@ export const GameIcon: FC<GameIconProps> = ({ name, iconUrl, banner }) => {
           },
         }}
       >
-        <Image
+        <ResponsiveImage
           priority
           src={iconUrl ?? PLACEHOLDER_IMAGE_URL}
           alt={`${name} logo`}
-          height={94}
-          width={94}
           style={{
             overflow: 'hidden',
             borderRadius: 'inherit',
@@ -73,6 +71,7 @@ export const GameIcon: FC<GameIconProps> = ({ name, iconUrl, banner }) => {
         {banner && (
           <BannerBox>{<Icon sx={{ color: BannerColor[banner] }} />}</BannerBox>
         )}
+        {/* TODO: display name on hover */}
       </Box>
     </Link>
   );

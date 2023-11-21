@@ -5,17 +5,19 @@ import {
   lighten,
   styled,
 } from '@mui/material';
-import { FC } from 'react';
+import { FC, ReactNode } from 'react';
 import { SearchBar } from './search-bar';
 import { ArrowBack } from '@mui/icons-material';
-import { CategoryCarousel } from './category-carousel';
-import { GameSection } from '../../games/game-section';
-import { GameIcon } from '../../games/game-icon';
+import { TopEdgeBlur } from './edge-blur';
 
 const drawerWidth = 700;
 
-export type DrawerProps = { onDrawerToggle: () => void; open?: boolean };
-export const Drawer: FC<DrawerProps> = ({ open, onDrawerToggle }) => (
+export type DrawerProps = {
+  onDrawerToggle: () => void;
+  open?: boolean;
+  children?: ReactNode;
+};
+export const Drawer: FC<DrawerProps> = ({ open, onDrawerToggle, children }) => (
   <nav>
     <StyledDrawer
       variant="temporary"
@@ -30,7 +32,13 @@ export const Drawer: FC<DrawerProps> = ({ open, onDrawerToggle }) => (
         },
       }}
     >
-      <Box ml={{ xs: -3, sm: 0 }} pr={{ xs: 0, sm: 4 }} position="relative">
+      <Box
+        ml={{ xs: -3, sm: 0 }}
+        mt={2}
+        pl={2}
+        pr={{ xs: 1, sm: 6 }}
+        position="relative"
+      >
         <SearchBar onLogoClick={onDrawerToggle} />
         <FloatingButton
           onClick={onDrawerToggle}
@@ -40,19 +48,10 @@ export const Drawer: FC<DrawerProps> = ({ open, onDrawerToggle }) => (
         >
           <ArrowBack fontSize="large" />
         </FloatingButton>
+        <TopEdgeBlur />
       </Box>
-      <Box pt={1}>
-        <CategoryCarousel
-          onClick={(category) => alert(`TODO: handle ${category} click`)}
-        />
-      </Box>
-      <Box>
-        <GameSection title="Popular this week">
-          <GameIcon name="solitaire" />
-        </GameSection>
-        <GameSection title="Recently played">
-          <GameIcon name="solitaire" />
-        </GameSection>
+      <Box px={{ xs: 1, sm: 2 }} pt={2} pb={1} overflow={'auto'}>
+        {children}
       </Box>
     </StyledDrawer>
   </nav>
@@ -61,7 +60,6 @@ export const Drawer: FC<DrawerProps> = ({ open, onDrawerToggle }) => (
 const StyledDrawer = styled(MuiDrawer)(({ theme }) => ({
   '& .MuiDrawer-paper': {
     overflowY: 'visible',
-    padding: theme.spacing(2),
     backgroundColor: lighten(theme.palette.error.light, 0.7),
     boxSizing: 'border-box',
     maxWidth: drawerWidth,
@@ -71,10 +69,11 @@ const StyledDrawer = styled(MuiDrawer)(({ theme }) => ({
 const FloatingButton = styled(IconButton)(({ theme }) => ({
   position: 'absolute',
   backgroundColor: theme.palette.white.main,
-  right: -(32 + 14),
+  right: -32,
   top: 0,
   height: 64,
   width: 64,
+  zIndex: 100,
   boxShadow: theme.shadows[2],
   transition: theme.transitions.create(['top', 'box-shadow'], {
     easing: theme.transitions.easing.easeInOut,
