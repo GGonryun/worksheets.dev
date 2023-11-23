@@ -33,8 +33,8 @@ export const Toolbar = (props: ToolbarProps) => {
           backgroundColor: (theme) => theme.palette.background.paper,
           left: 0,
           right: 0,
-          bottom: -12,
-          height: 12,
+          bottom: { xs: -6, sm: -12 },
+          height: { xs: 6, sm: 12 },
           // clipPath: 'polygon(80.25% 100%, 100% 0%, 0% 0%, 16.25% 100%, 64% 0%)',
           // clipPath: 'polygon(83% 100%, 100% 0%, 0% 0%, 19.25% 100%, 50% 0%)',
           clipPath:

@@ -1,10 +1,8 @@
-import { Box, Link } from '@mui/material';
+import { Box } from '@mui/material';
 import { FC } from 'react';
 import { GameIcon } from '../../games/game-icon';
 import { GameSection } from '../../games/game-section';
 import { CategoryCarousel } from './category-carousel';
-import { GameSectionHeader } from '../../typography';
-import { ArrowUpRight } from '../../icons/arrow-up-right';
 
 export type GameRecommendationProps = {
   hideCategories?: boolean;
@@ -21,7 +19,7 @@ export const GameRecommendations: FC<GameRecommendationProps> = ({
         />
       )}
       <Box>
-        <GameSection title="Popular this week">
+        <GameSection title="Popular this week" href="/c/popular">
           <GameIcon
             size={94}
             id="solitaire"
@@ -50,7 +48,7 @@ export const GameRecommendations: FC<GameRecommendationProps> = ({
             iconUrl="https://storage.googleapis.com/game-logos/nonograms.jpg"
           />
         </GameSection>
-        <GameSection title="Recently played">
+        <GameSection title="Recently played" href="/c/recent">
           <GameIcon
             size={94}
             id="word-search"
@@ -73,7 +71,7 @@ export const GameRecommendations: FC<GameRecommendationProps> = ({
             iconUrl="https://storage.googleapis.com/game-logos/nonograms.jpg"
           />
         </GameSection>
-        <GameSection title="New games">
+        <GameSection title="New games" href="/c/new">
           <GameIcon
             size={94}
             id="word-pack"
@@ -90,31 +88,9 @@ export const GameRecommendations: FC<GameRecommendationProps> = ({
           />
           <GameIcon size={94} id="1" name="Placeholder" banner="new" />
         </GameSection>
+        <GameSection title="Browse Categories" href="/c" />
+        <GameSection title="Browse Games" href="/g" />
       </Box>
-      <GameSectionHeader
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: 1,
-        }}
-      >
-        <Link href="/c" color="inherit">
-          Browse Categories
-        </Link>
-        <ArrowUpRight />
-      </GameSectionHeader>
-      <GameSectionHeader
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: 1,
-        }}
-      >
-        <Link href="/g" color="inherit">
-          Browse Games
-        </Link>
-        <ArrowUpRight />
-      </GameSectionHeader>
     </Box>
   );
 };

@@ -150,7 +150,6 @@ const FooterContainer = styled((props) => <Box {...props} />)<BoxProps>(
     padding: 20,
     gap: theme.spacing(2),
     paddingBottom: theme.spacing(2),
-    boxShadow: theme.shadows[8],
     position: 'relative',
     bottom: 0,
     filter: 'drop-shadow(0px 0px 3px rgba(0, 0, 0, 0.3))',
