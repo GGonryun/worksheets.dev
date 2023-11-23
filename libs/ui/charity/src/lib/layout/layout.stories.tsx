@@ -1,6 +1,7 @@
 import type { Meta } from '@storybook/react';
 import { Layout } from './layout';
-import { Typography } from '@mui/material';
+import { Container, Typography } from '@mui/material';
+import { GameGrid } from '../games/game-grid';
 
 const Story: Meta<typeof Layout> = {
   component: Layout,
@@ -48,6 +49,27 @@ export const Primary = {
         impedit, nam facilis libero dolorem dolores sunt inventore perferendis,
         aut sapiente modi nesciunt.
       </Typography>
+    ),
+  },
+};
+
+export const WithGameGrid = {
+  args: {
+    children: (
+      <Container
+        maxWidth="xl"
+        sx={{
+          py: 2,
+        }}
+      >
+        <GameGrid
+          games={Array.from({ length: 100 }).map((_, i) => ({
+            id: `${i}`,
+            name: 'Game ' + i,
+            size: i % 7 === 3 ? 2 : i % 17 === 3 ? 3 : undefined,
+          }))}
+        />
+      </Container>
     ),
   },
 };
