@@ -9,13 +9,23 @@ import { Box, Link, Typography } from '@mui/material';
 import { FC, useState } from 'react';
 import { BannerBox } from './banner-box';
 import { ResponsiveImage } from '../images';
+import { PLACEHOLDER_IMAGE_URL } from '../layout/util';
 
 type GameIconBanner = 'hot' | 'new' | 'played' | 'none';
 
 export type GameIconProps = {
+  // the id will be used to link to the game page
+  id: string;
+  // href supports any relative or absolute url to redirect. used by our legacy games which are hosted on a different domain.
+  href?: string;
+  // name will be displayed as the icon label on hover.
   name: string;
+  // iconUrl will be displayed as the icon image.
   iconUrl?: string;
+  // banner will be displayed in the top left corner of the icon
   banner?: GameIconBanner;
+  // if size is not provided, the icon will fill the available space of its parent container
+  size?: number;
 };
 
 const BannerIcon: Record<GameIconBanner, SvgIconComponent> = {
@@ -32,13 +42,18 @@ const BannerColor: Record<GameIconBanner, string> = {
   played: 'primary.main',
 };
 
-const PLACEHOLDER_IMAGE_URL =
-  'https://storage.googleapis.com/game-logos/placeholder.png';
-export const GameIcon: FC<GameIconProps> = ({ name, iconUrl, banner }) => {
+export const GameIcon: FC<GameIconProps> = ({
+  id,
+  href,
+  name,
+  iconUrl,
+  banner,
+  size,
+}) => {
   const Icon = BannerIcon[banner ?? 'none'];
   const [hover, setHover] = useState(false);
   return (
-    <Link href="#" underline="none">
+    <Link href={href ?? `/g/${id}`} underline="none">
       <Box
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
@@ -47,8 +62,8 @@ export const GameIcon: FC<GameIconProps> = ({ name, iconUrl, banner }) => {
           display: 'flex',
           borderRadius: (theme) => theme.shape.borderRadius,
           top: 0,
-          height: 94,
-          width: 94,
+          height: size ?? '100%',
+          width: size ?? '100%',
           boxShadow: (theme) => theme.shadows[2],
           boxSizing: 'border-box',
           transition: (theme) =>

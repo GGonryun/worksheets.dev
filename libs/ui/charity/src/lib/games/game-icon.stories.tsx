@@ -1,24 +1,33 @@
-import type { Meta } from '@storybook/react';
+import type { Decorator, Meta, StoryObj } from '@storybook/react';
 import { GameIcon } from './game-icon';
 
-const Story: Meta<typeof GameIcon> = {
+const meta: Meta<typeof GameIcon> = {
   component: GameIcon,
   title: 'Games/GameIcon',
-  decorators: [
-    (Story) => (
-      <div style={{ backgroundColor: '#ccc', padding: '10px', width: '120px' }}>
-        <Story />
-      </div>
-    ),
-  ],
 };
-export default Story;
+
+export default meta;
+type Story = StoryObj<typeof GameIcon>;
+type StoryDecorator = Decorator<Story>;
+
+const smallDecorator: StoryDecorator = (Story) => (
+  <div style={{ backgroundColor: '#ccc', padding: '10px', width: '120px' }}>
+    <Story />
+  </div>
+);
+
+const largeDecorator: StoryDecorator = (Story) => (
+  <div style={{ backgroundColor: '#ccc', padding: '10px', width: '240px' }}>
+    <Story />
+  </div>
+);
 
 export const Primary = {
   args: {
     name: 'Solitaire',
     iconUrl: 'https://storage.googleapis.com/game-logos/solitaire.jpg',
   },
+  decorators: [smallDecorator],
 };
 
 export const Hot = {
@@ -27,6 +36,7 @@ export const Hot = {
     iconUrl: 'https://storage.googleapis.com/game-logos/solitaire.jpg',
     banner: 'hot',
   },
+  decorators: [smallDecorator],
 };
 
 export const New = {
@@ -35,6 +45,7 @@ export const New = {
     iconUrl: 'https://storage.googleapis.com/game-logos/solitaire.jpg',
     banner: 'new',
   },
+  decorators: [smallDecorator],
 };
 
 export const Played = {
@@ -43,10 +54,20 @@ export const Played = {
     iconUrl: 'https://storage.googleapis.com/game-logos/solitaire.jpg',
     banner: 'played',
   },
+  decorators: [smallDecorator],
 };
 
 export const WithoutIcon = {
   args: {
     name: 'Super Duper Game',
   },
+  decorators: [smallDecorator],
+};
+
+export const Large: Story = {
+  args: {
+    name: 'Solitaire',
+    iconUrl: 'https://storage.googleapis.com/game-logos/solitaire.jpg',
+  },
+  decorators: [largeDecorator],
 };
