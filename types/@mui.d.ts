@@ -37,6 +37,19 @@ declare module '@mui/material/styles' {
     white?: PaletteColor;
     border?: PaletteColor;
   }
+
+  interface BreakpointOverrides {
+    mobile1: true;
+    mobile2: true;
+    desktop1: true;
+    desktop2: true;
+    desktop3: true;
+    xs: true;
+    sm: true;
+    md: true;
+    lg: true;
+    xl: true;
+  }
 }
 
 declare module '@mui/material/Button' {

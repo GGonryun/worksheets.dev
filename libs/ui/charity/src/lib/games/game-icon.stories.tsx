@@ -25,7 +25,7 @@ const largeDecorator: StoryDecorator = (Story) => (
 export const Primary = {
   args: {
     name: 'Solitaire',
-    iconUrl: 'https://storage.googleapis.com/game-logos/solitaire.jpg',
+    imageUrl: 'https://storage.googleapis.com/game-logos/solitaire.jpg',
   },
   decorators: [smallDecorator],
 };
@@ -33,7 +33,7 @@ export const Primary = {
 export const Hot = {
   args: {
     name: 'Solitaire',
-    iconUrl: 'https://storage.googleapis.com/game-logos/solitaire.jpg',
+    imageUrl: 'https://storage.googleapis.com/game-logos/solitaire.jpg',
     banner: 'hot',
   },
   decorators: [smallDecorator],
@@ -42,7 +42,7 @@ export const Hot = {
 export const New = {
   args: {
     name: 'Solitaire',
-    iconUrl: 'https://storage.googleapis.com/game-logos/solitaire.jpg',
+    imageUrl: 'https://storage.googleapis.com/game-logos/solitaire.jpg',
     banner: 'new',
   },
   decorators: [smallDecorator],
@@ -51,7 +51,7 @@ export const New = {
 export const Played = {
   args: {
     name: 'Solitaire',
-    iconUrl: 'https://storage.googleapis.com/game-logos/solitaire.jpg',
+    imageUrl: 'https://storage.googleapis.com/game-logos/solitaire.jpg',
     banner: 'played',
   },
   decorators: [smallDecorator],
@@ -67,7 +67,7 @@ export const WithoutIcon = {
 export const Large: Story = {
   args: {
     name: 'Solitaire',
-    iconUrl: 'https://storage.googleapis.com/game-logos/solitaire.jpg',
+    imageUrl: 'https://storage.googleapis.com/game-logos/solitaire.jpg',
   },
   decorators: [largeDecorator],
 };

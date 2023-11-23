@@ -12,6 +12,20 @@ export type PaletteColor =
   | 'default';
 
 export const theme = createTheme({
+  breakpoints: {
+    values: {
+      xs: 0,
+      mobile1: 375,
+      mobile2: 480,
+      sm: 600,
+      desktop1: 768,
+      md: 900,
+      desktop2: 1024,
+      lg: 1200,
+      desktop3: 1440,
+      xl: 1536,
+    },
+  },
   typography: {
     primary: {
       fontFamily: 'Corben,serif',

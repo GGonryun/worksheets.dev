@@ -1,14 +1,9 @@
 import { Box, useMediaQuery, useTheme } from '@mui/material';
-import { FC, Fragment } from 'react';
-import { GameIcon, GameIconProps } from './game-icon';
-import { CategoryPill, CategoryPillProps } from './category-pill';
-
-type MixedGridItems =
-  | (GameIconProps & { type: 'game'; span?: number })
-  | (CategoryPillProps & { type: 'category' });
+import { FC } from 'react';
+import { MixedGridItem, MixedGridItems } from './mixed-grid-items';
 
 export type MixedGridProps = {
-  items: MixedGridItems[];
+  items: MixedGridItem[];
 };
 
 export const MixedGrid: FC<MixedGridProps> = ({ items }) => {
@@ -30,24 +25,7 @@ export const MixedGrid: FC<MixedGridProps> = ({ items }) => {
       justifyContent={'center'}
       gap={2}
     >
-      {items.map((item, index) => (
-        <Fragment key={index}>
-          {item.type === 'game' && (
-            <Box
-              key={item.id}
-              gridColumn={`span ${item.span ?? 1}`}
-              gridRow={`span ${item.span ?? 1}`}
-            >
-              <GameIcon {...item} />
-            </Box>
-          )}
-          {item.type === 'category' && (
-            <Box key={item.id} gridColumn={`span 3`} gridRow={`span 1`}>
-              <CategoryPill height={itemSize()} {...item} />
-            </Box>
-          )}
-        </Fragment>
-      ))}
+      <MixedGridItems items={items} />
     </Box>
   );
 };

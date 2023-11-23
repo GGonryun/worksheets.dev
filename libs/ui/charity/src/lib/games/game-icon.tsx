@@ -20,8 +20,8 @@ export type GameIconProps = {
   href?: string;
   // name will be displayed as the icon label on hover.
   name: string;
-  // iconUrl will be displayed as the icon image.
-  iconUrl?: string;
+  // imageUrl will be displayed as the icon image.
+  imageUrl?: string;
   // banner will be displayed in the top left corner of the icon
   banner?: GameIconBanner;
   // if size is not provided, the icon will fill the available space of its parent container
@@ -46,7 +46,7 @@ export const GameIcon: FC<GameIconProps> = ({
   id,
   href,
   name,
-  iconUrl,
+  imageUrl,
   banner,
   size,
 }) => {
@@ -79,7 +79,7 @@ export const GameIcon: FC<GameIconProps> = ({
       >
         <ResponsiveImage
           priority
-          src={iconUrl ?? PLACEHOLDER_IMAGE_URL}
+          src={imageUrl ?? PLACEHOLDER_IMAGE_URL}
           alt={`${name} logo`}
           style={{
             overflow: 'hidden',

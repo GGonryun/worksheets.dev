@@ -69,7 +69,7 @@ const FooterLink = styled((props) => <Link {...props} />)<LinkProps>(
   ({ theme }) => ({
     color: theme.palette.error.light,
     fontFamily: theme.typography.dangrek.fontFamily,
-    textShadow: textShadow(1, 0.5),
+    textShadow: textShadow(0.5, 0.5),
     fontSize: '1.15rem',
     textDecorationColor: theme.palette.error.light,
     textDecoration: 'none',

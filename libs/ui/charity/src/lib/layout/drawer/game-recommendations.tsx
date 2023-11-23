@@ -25,27 +25,27 @@ export const GameRecommendations: FC<GameRecommendationProps> = ({
             id="solitaire"
             name="Solitaire"
             banner="hot"
-            iconUrl="https://storage.googleapis.com/game-logos/solitaire.jpg"
+            imageUrl="https://storage.googleapis.com/game-logos/solitaire.jpg"
           />
           <GameIcon
             size={94}
             id="emoji-wars"
             name="Emoji Wars"
             banner="hot"
-            iconUrl="https://storage.googleapis.com/game-logos/emoji-war.jpg"
+            imageUrl="https://storage.googleapis.com/game-logos/emoji-war.jpg"
           />
           <GameIcon
             size={94}
             id="chess-kata"
             name="Chess Kata"
             banner="hot"
-            iconUrl="https://storage.googleapis.com/game-logos/chess-kata.jpg"
+            imageUrl="https://storage.googleapis.com/game-logos/chess-kata.jpg"
           />
           <GameIcon
             size={94}
             id="chess-kata"
             name="Nonograms"
-            iconUrl="https://storage.googleapis.com/game-logos/nonograms.jpg"
+            imageUrl="https://storage.googleapis.com/game-logos/nonograms.jpg"
           />
         </GameSection>
         <GameSection title="Recently played" href="/c/recent">
@@ -54,21 +54,21 @@ export const GameRecommendations: FC<GameRecommendationProps> = ({
             id="word-search"
             name="Word Search"
             banner="played"
-            iconUrl="https://storage.googleapis.com/game-logos/word-search.jpg"
+            imageUrl="https://storage.googleapis.com/game-logos/word-search.jpg"
           />
           <GameIcon
             size={94}
             id="word-smith"
             name="Word Smith"
             banner="played"
-            iconUrl="https://storage.googleapis.com/game-logos/word-smith.jpg"
+            imageUrl="https://storage.googleapis.com/game-logos/word-smith.jpg"
           />
           <GameIcon
             size={94}
             id="nonograms"
             name="Nonograms"
             banner="played"
-            iconUrl="https://storage.googleapis.com/game-logos/nonograms.jpg"
+            imageUrl="https://storage.googleapis.com/game-logos/nonograms.jpg"
           />
         </GameSection>
         <GameSection title="New games" href="/c/new">
@@ -77,14 +77,14 @@ export const GameRecommendations: FC<GameRecommendationProps> = ({
             id="word-pack"
             name="Word Pack"
             banner="new"
-            iconUrl="https://storage.googleapis.com/game-logos/word-pack.jpg"
+            imageUrl="https://storage.googleapis.com/game-logos/word-pack.jpg"
           />
           <GameIcon
             size={94}
             id="puzzle-words"
             name="Puzzle Words"
             banner="new"
-            iconUrl="https://storage.googleapis.com/game-logos/puzzle-words.jpg"
+            imageUrl="https://storage.googleapis.com/game-logos/puzzle-words.jpg"
           />
           <GameIcon size={94} id="1" name="Placeholder" banner="new" />
         </GameSection>

@@ -2,6 +2,7 @@ import type { Meta } from '@storybook/react';
 import { Layout } from './layout';
 import { Container, Typography } from '@mui/material';
 import { MixedGrid } from '../games/mixed-grid';
+import { GameScreen } from '../content/game-screen';
 
 const Story: Meta<typeof Layout> = {
   component: Layout,
@@ -102,6 +103,58 @@ export const CategoriesPage = {
               name: 'Category ' + i,
             };
           })}
+        />
+      </Container>
+    ),
+  },
+};
+
+export const GamePage = {
+  args: {
+    children: (
+      <Container maxWidth="lg" disableGutters sx={{ py: 2 }}>
+        <GameScreen
+          suggestions={[
+            ...Array.from({ length: 3 }).map((_, i) => ({
+              type: 'category' as const,
+              id: `${i}`,
+              name: 'Category ' + i,
+            })),
+            ...Array.from({ length: 20 }).map((_, i) => ({
+              type: 'game' as const,
+              id: `${i}`,
+              name: 'Game ' + i,
+              imageUrl:
+                i % 15 === 1 ? 'https://via.placeholder.com/150' : undefined,
+              span: i % 7 === 3 ? 2 : i % 17 === 7 ? 3 : 1,
+            })),
+            ...Array.from({ length: 3 }).map((_, i) => ({
+              type: 'category' as const,
+              id: `${i}`,
+              name: 'Category ' + i + 3,
+            })),
+            ...Array.from({ length: 20 }).map((_, i) => ({
+              type: 'game' as const,
+              id: `${i + 20}`,
+              name: 'Game ' + i + 20,
+              imageUrl:
+                i % 15 === 1 ? 'https://via.placeholder.com/150' : undefined,
+              span: i % 7 === 3 ? 2 : i % 17 === 7 ? 3 : 1,
+            })),
+            ...Array.from({ length: 3 }).map((_, i) => ({
+              type: 'category' as const,
+              id: `${i + 6}`,
+              name: 'Category ' + i + 6,
+            })),
+            ...Array.from({ length: 10 }).map((_, i) => ({
+              type: 'game' as const,
+              id: `${i + 40}`,
+              name: 'Game ' + i + 40,
+              imageUrl:
+                i % 15 === 1 ? 'https://via.placeholder.com/150' : undefined,
+              span: 1,
+            })),
+          ]}
         />
       </Container>
     ),
