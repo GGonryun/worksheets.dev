@@ -6,9 +6,9 @@ import { Toolbar } from './toolbar';
 import { Drawer } from './drawer/drawer';
 import { GameRecommendations } from './drawer/game-recommendations';
 import { useState } from 'react';
+import { lighten } from '@mui/system';
 
 type LayoutProps = {
-  // TODO: add props
   children: React.ReactNode;
 };
 
@@ -20,14 +20,19 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
   };
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box
+      sx={{
+        display: 'flex',
+        backgroundColor: (theme) => lighten(theme.palette.error.light, 0.7),
+      }}
+    >
       <Toolbar onDrawerToggle={handleDrawerToggle} connected={false} />
       <Drawer
         onDrawerToggle={handleDrawerToggle}
         open={open}
         children={<GameRecommendations />}
       />
-      <Box component="main">
+      <Box component="main" flexGrow={1}>
         <MuiToolbar />
         {children}
       </Box>

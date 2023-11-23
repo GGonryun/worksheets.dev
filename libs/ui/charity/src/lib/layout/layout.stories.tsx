@@ -1,7 +1,7 @@
 import type { Meta } from '@storybook/react';
 import { Layout } from './layout';
 import { Container, Typography } from '@mui/material';
-import { GameGrid } from '../games/game-grid';
+import { MixedGrid } from '../games/mixed-grid';
 
 const Story: Meta<typeof Layout> = {
   component: Layout,
@@ -53,7 +53,7 @@ export const Primary = {
   },
 };
 
-export const WithGameGrid = {
+export const HomePage = {
   args: {
     children: (
       <Container
@@ -62,12 +62,46 @@ export const WithGameGrid = {
           py: 2,
         }}
       >
-        <GameGrid
-          games={Array.from({ length: 100 }).map((_, i) => ({
-            id: `${i}`,
-            name: 'Game ' + i,
-            size: i % 7 === 3 ? 2 : i % 17 === 3 ? 3 : undefined,
-          }))}
+        <MixedGrid
+          items={Array.from({ length: 100 }).map((_, i) => {
+            if (i % 11 === 4) {
+              return {
+                type: 'category',
+                id: `${i}`,
+                name: 'Category ' + i,
+              };
+            } else {
+              return {
+                type: 'game',
+                id: `${i}`,
+                name: 'Game ' + i,
+                span: i % 7 === 3 ? 2 : i % 23 === 7 ? 3 : 1,
+              };
+            }
+          })}
+        />
+      </Container>
+    ),
+  },
+};
+
+export const CategoriesPage = {
+  args: {
+    children: (
+      <Container
+        maxWidth="xl"
+        sx={{
+          py: 2,
+        }}
+      >
+        <MixedGrid
+          items={Array.from({ length: 100 }).map((_, i) => {
+            return {
+              type: 'category',
+              id: `${i}`,
+              name: 'Category ' + i,
+            };
+          })}
         />
       </Container>
     ),

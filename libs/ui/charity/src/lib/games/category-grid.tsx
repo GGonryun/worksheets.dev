@@ -1,21 +1,14 @@
 import { Box, useMediaQuery, useTheme } from '@mui/material';
 import { FC } from 'react';
-import { GameIcon, GameIconProps } from './game-icon';
+import { CategoryPill, CategoryPillProps } from './category-pill';
 
-type GameItem = Omit<GameIconProps, 'size'> & { span: number };
-
-export type GameGridProps = {
-  games: GameItem[];
+export type CategoryGridProps = {
+  categories: CategoryPillProps[];
 };
 
-export const GameGrid: FC<GameGridProps> = ({ games }) => {
+export const CategoryGrid: FC<CategoryGridProps> = ({ categories }) => {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up('sm'));
-  const clamp = (size?: number) => {
-    if (!size) return 1;
-    if (matches) return size;
-    return Math.min(size, 2);
-  };
 
   const itemSize = () => {
     if (matches) return '94px';
@@ -32,13 +25,14 @@ export const GameGrid: FC<GameGridProps> = ({ games }) => {
       justifyContent={'center'}
       gap={2}
     >
-      {games.map((g, i) => (
+      {categories.map((category) => (
         <Box
-          key={g.id}
-          gridColumn={`span ${clamp(g.span)}`}
-          gridRow={`span ${clamp(g.span)}`}
+          key={category.id}
+          height={80}
+          gridRow={'span 1'}
+          gridColumn={'span 3'}
         >
-          <GameIcon key={g.id} {...g} />
+          <CategoryPill {...category} />
         </Box>
       ))}
     </Box>
