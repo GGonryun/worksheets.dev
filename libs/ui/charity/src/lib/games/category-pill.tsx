@@ -1,30 +1,36 @@
 import { Box, Typography } from '@mui/material';
 import { FC } from 'react';
-import { ResponsiveImage } from '../images';
 import { ArrowUpRight } from '../icons/arrow-up-right';
 import { ReferencePillSkeleton } from './reference-pill-skeleton';
+import { PLACEHOLDER_IMAGE_URL } from '../layout/util';
 
 export type CategoryPillProps = {
   name: string;
-  imageUrl: string;
-  href: string;
+  id: string;
+  href?: string;
+  hideArrow?: boolean;
+  height?: string;
+  imageUrl?: string;
 };
 
 export const CategoryPill: FC<CategoryPillProps> = ({
+  hideArrow,
   name,
-  imageUrl,
   href,
+  id,
+  height,
+  imageUrl,
 }) => {
   return (
-    <ReferencePillSkeleton href={href}>
-      <Box
-        sx={{
-          height: { xs: 60, sm: 68 },
-          width: { xs: 60, sm: 68 },
-        }}
-      >
-        <ResponsiveImage priority alt={`${name} logo`} src={imageUrl} />
-      </Box>
+    <ReferencePillSkeleton
+      href={href ?? `/c/${id}`}
+      height={height}
+      image={{
+        padding: 0,
+        src: imageUrl ?? PLACEHOLDER_IMAGE_URL,
+        alt: `${name} logo`,
+      }}
+    >
       <Box
         display="flex"
         alignItems="center"
@@ -44,6 +50,7 @@ export const CategoryPill: FC<CategoryPillProps> = ({
         </Typography>
         <ArrowUpRight
           sx={{
+            display: hideArrow ? 'none' : 'block',
             fontSize: '2rem',
             color: (theme) => theme.palette.primary.main,
           }}

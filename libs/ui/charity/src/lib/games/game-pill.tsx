@@ -1,6 +1,5 @@
 import { Box, Typography } from '@mui/material';
 import { FC } from 'react';
-import { ResponsiveImage } from '../images';
 import { ArrowUpRight } from '../icons/arrow-up-right';
 import { ReferencePillSkeleton } from './reference-pill-skeleton';
 
@@ -20,22 +19,12 @@ export const GamePill: FC<GamePillProps> = ({
   return (
     <ReferencePillSkeleton
       href={href}
-      sx={{
-        p: 1.5,
+      image={{
+        padding: 1,
+        src: imageUrl,
+        alt: `${name} logo`,
       }}
     >
-      <Box
-        sx={{
-          borderRadius: (theme) => theme.shape.borderRadius / 2,
-          overflow: 'hidden',
-          minWidth: 50,
-          minHeight: 50,
-          height: 50,
-          width: 50,
-        }}
-      >
-        <ResponsiveImage priority alt={`${name} logo`} src={imageUrl} />
-      </Box>
       <Box
         display="flex"
         alignItems="center"

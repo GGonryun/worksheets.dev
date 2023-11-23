@@ -19,20 +19,19 @@ export const SearchResults: FC<SearchResultsProps> = ({
     <Box
       display="grid"
       gridTemplateColumns={{ xs: '1fr', sm: '1fr 1fr' }}
-      gap={1.5}
       pt={1}
       overflow="auto"
       className="searc-results"
     >
       {!games.length && !categories.length && <NoResults />}
       {games.map((game) => (
-        <Box key={game.name}>
+        <Box height={80} p={1} key={game.name}>
           <GamePill {...game} />
         </Box>
       ))}
       {categories.map((category) => (
-        <Box key={category.name}>
-          <CategoryPill key={category.href} {...category} />
+        <Box height={80} p={1} key={category.name}>
+          <CategoryPill key={category.id} {...category} />
         </Box>
       ))}
     </Box>
