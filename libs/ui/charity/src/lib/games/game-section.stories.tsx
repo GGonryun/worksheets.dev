@@ -22,21 +22,40 @@ const Story: Meta<typeof GameSection> = {
 };
 export default Story;
 
-export const Primary = {
+export const LargeIcons = {
   args: {
     title: 'Popular This Week',
     children: (
       <>
-        <GameIcon name="solitaire" banner="hot" />
-        <GameIcon name="solitaire" banner="new" />
-        <GameIcon name="solitaire" />
-        <GameIcon name="solitaire" banner="new" />
-        <GameIcon name="solitaire" banner="played" />
-        <GameIcon name="solitaire" />
-        <GameIcon name="solitaire" />
-        <GameIcon name="solitaire" banner="new" />
-        <GameIcon name="solitaire" />
-        <GameIcon name="solitaire" banner="played" />
+        <GameIcon size={128} id="1" name="Solitaire" banner="hot" />
+        <GameIcon size={128} id="2" name="Solitaire" banner="new" />
+        <GameIcon size={128} id="3" name="Solitaire" />
+        <GameIcon size={128} id="4" name="Solitaire" banner="new" />
+        <GameIcon size={128} id="5" name="Solitaire" banner="played" />
+        <GameIcon size={128} id="6" name="Solitaire" />
+        <GameIcon size={128} id="7" name="Solitaire" />
+        <GameIcon size={128} id="8" name="Solitaire" banner="new" />
+        <GameIcon size={128} id="9" name="Solitaire" />
+        <GameIcon size={128} id="10" name="Solitaire" banner="played" />
+      </>
+    ),
+  },
+};
+
+export const SmallIcons = {
+  args: {
+    title: 'Popular This Week',
+    children: (
+      <>
+        <GameIcon size={64} id="1" name="Solitaire" banner="hot" />
+        <GameIcon size={64} id="2" name="Solitaire" banner="new" />
+        <GameIcon size={64} id="3" name="Solitaire" />
+        <GameIcon size={64} id="4" name="Solitaire" banner="new" />
+        <GameIcon size={64} id="5" name="Solitaire" banner="played" />
+        <GameIcon size={64} id="6" name="Solitaire" />
+        <GameIcon size={64} id="7" name="Solitaire" />
+        <GameIcon size={64} id="8" name="Solitaire" banner="new" />
+        <GameIcon size={64} id="9" name="Solitaire" />
       </>
     ),
   },
