@@ -46,7 +46,7 @@ export const WebsiteFooter: FC<WebsiteFooterProps> = () => {
         </Box>
         <Box display="flex" gap={3}>
           <FooterLink href={'/about'}>About</FooterLink>
-          <FooterLink href={'/developers'}>Developers</FooterLink>
+          <FooterLink href={'/blog'}>Blog</FooterLink>
           <FooterLink href={'/contact'}>Contact</FooterLink>
         </Box>
       </FooterLinksContainer>
@@ -56,6 +56,7 @@ export const WebsiteFooter: FC<WebsiteFooterProps> = () => {
         </Box>
         <Box display="flex" gap={2}>
           <FooterSubLink href={'/faq'}>FAQ</FooterSubLink>
+          <FooterSubLink href={'/developers'}>Developers</FooterSubLink>
           <FooterSubLink href={'/terms'}>Terms</FooterSubLink>
           <FooterSubLink href={'/privacy'}>Privacy</FooterSubLink>
           <FooterSubLink href={'/cookies'}>Cookies</FooterSubLink>
@@ -104,7 +105,7 @@ const FooterLinksContainer = styled((props) => <Box {...props} />)<BoxProps>(
 const FooterSubLinksContainer = styled((props) => <Box {...props} />)<BoxProps>(
   ({ theme }) => ({
     display: 'flex',
-    justifyContent: 'center',
+    justifyContent: 'space-evenly',
     alignItems: 'center',
     flexWrap: 'wrap',
     gap: theme.spacing(2),
