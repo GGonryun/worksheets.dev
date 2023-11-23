@@ -20,8 +20,30 @@ interface ToolbarProps {
 
 export const Toolbar = (props: ToolbarProps) => {
   return (
-    <AppBar component="nav" color="white">
-      <MuiToolbar>
+    <AppBar
+      component="nav"
+      color="white"
+      elevation={0}
+      sx={{
+        filter: 'drop-shadow(0px 0px 4px rgba(0, 0, 0, 0.3))',
+        '::after': {
+          content: "''",
+          zIndex: 2000,
+          position: 'absolute',
+          backgroundColor: (theme) => theme.palette.background.paper,
+          left: 0,
+          right: 0,
+          bottom: -12,
+          height: 12,
+          // clipPath: 'polygon(80.25% 100%, 100% 0%, 0% 0%, 16.25% 100%, 64% 0%)',
+          // clipPath: 'polygon(83% 100%, 100% 0%, 0% 0%, 19.25% 100%, 50% 0%)',
+          clipPath:
+            'polygon(89.25% 100%, 100% 0%, 0% 0%, 8.99% 100%, 31.73% 0%, 50.86% 78.48%, 68.98% 0%)',
+          filter: 'drop-shadow(0px 0px 4px rgba(0, 0, 0, 0.25))',
+        },
+      }}
+    >
+      <MuiToolbar variant="dense">
         <IconButton
           color="black"
           aria-label="open drawer"

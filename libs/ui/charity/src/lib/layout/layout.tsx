@@ -7,6 +7,7 @@ import { Drawer } from './drawer/drawer';
 import { GameRecommendations } from './drawer/game-recommendations';
 import { useState } from 'react';
 import { lighten } from '@mui/system';
+import { WebsiteFooter } from './footer';
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -35,6 +36,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
       <Box component="main" flexGrow={1}>
         <MuiToolbar />
         {children}
+        <WebsiteFooter />
       </Box>
     </Box>
   );
