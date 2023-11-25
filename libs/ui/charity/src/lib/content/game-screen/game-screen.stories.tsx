@@ -1,6 +1,10 @@
 import type { Meta } from '@storybook/react';
 import { GameScreen } from '.';
-import { SampleGameDescription, sampleMixedGridItems } from '../../util';
+import {
+  SampleGameDescription,
+  SampleGameLauncher,
+  sampleMixedGridItems,
+} from '../../util';
 
 const Story: Meta<typeof GameScreen> = {
   component: GameScreen,
@@ -22,8 +26,8 @@ export default Story;
 
 export const Primary = {
   args: {
+    game: <SampleGameLauncher />,
     description: <SampleGameDescription />,
     suggestions: sampleMixedGridItems(),
-    categories: [],
   },
 };

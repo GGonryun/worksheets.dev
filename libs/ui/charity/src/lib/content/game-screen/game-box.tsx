@@ -3,7 +3,6 @@ import { Box, styled } from '@mui/material';
 export const GameBox = styled(Box)(({ theme }) => ({
   height: 314,
   width: '100%',
-  backgroundColor: 'red',
   [theme.breakpoints.up('xs')]: {
     gridRow: '1 / span 3',
     gridColumn: '1 / span 3',

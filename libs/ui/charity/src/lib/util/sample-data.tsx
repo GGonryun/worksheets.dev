@@ -1,4 +1,21 @@
 import { GameDescription } from '../content/game-screen/game-description';
+import { GameLauncher } from '../content/game-screen/game-launcher/';
+
+export const SampleGameLauncher = () => (
+  <GameLauncher
+    backgroundUrl={
+      'https://storage.googleapis.com/game-art/solitaire/banner.png'
+    }
+    iconUrl={'https://storage.googleapis.com/game-art/solitaire/icon.jpg'}
+    gameUrl={'https://storage.googleapis.com/unity-2d/index.html'}
+    name={'Solitaire'}
+    developer={'Charity.Games'}
+    onReportBug={() => alert('TODO: show bug report form')}
+    onEnterFullscreen={() => alert('TODO: enter fullscreen')}
+    onExitFullscreen={() => alert('TODO: exit fullscreen')}
+    onPlay={() => alert('TODO: play game')}
+  />
+);
 
 export const SampleGameDescription = () => (
   <GameDescription

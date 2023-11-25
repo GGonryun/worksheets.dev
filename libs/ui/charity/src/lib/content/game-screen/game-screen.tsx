@@ -7,16 +7,18 @@ import { DescriptionBox } from './description-box';
 type GameScreenProps = {
   suggestions: MixedGridItem[];
   description: ReactNode;
+  game: ReactNode;
 };
 
 export const GameScreen: FC<GameScreenProps> = ({
   suggestions,
   description,
+  game,
 }) => {
   return (
     <ScreenBox>
       <MixedGridItems items={suggestions} />
-      <GameBox>Game Section</GameBox>
+      <GameBox>{game}</GameBox>
       <DescriptionBox>{description}</DescriptionBox>
     </ScreenBox>
   );

@@ -3,7 +3,11 @@ import { Layout } from './layout';
 import { Container, Typography } from '@mui/material';
 import { MixedGrid } from '../games/mixed-grid';
 import { GameScreen } from '../content/game-screen';
-import { SampleGameDescription, sampleMixedGridItems } from '../util';
+import {
+  SampleGameDescription,
+  SampleGameLauncher,
+  sampleMixedGridItems,
+} from '../util';
 
 const Story: Meta<typeof Layout> = {
   component: Layout,
@@ -116,6 +120,7 @@ export const GamePage = {
     children: (
       <Container maxWidth="lg" disableGutters sx={{ py: 2 }}>
         <GameScreen
+          game={<SampleGameLauncher />}
           description={<SampleGameDescription />}
           suggestions={sampleMixedGridItems()}
         />
