@@ -2,18 +2,24 @@ import type { Meta } from '@storybook/react';
 import { Layout } from './layout';
 import { Container, Typography } from '@mui/material';
 import { MixedGrid } from '../games/mixed-grid';
-import { GameScreen } from '../content/game-screen';
+import {} from '../content/game-screen';
 import {
   SampleGameDescription,
   SampleGameLauncher,
   sampleMixedGridItems,
 } from '../util';
-import { LoginScreen } from '../content';
+import { GameScreen, LoginScreen, AccountScreen } from '../content';
 
 const Story: Meta<typeof Layout> = {
   component: Layout,
   title: 'Layout/WebsiteLayout',
-  decorators: [],
+  decorators: [
+    (Story) => (
+      <main>
+        <Story />
+      </main>
+    ),
+  ],
 };
 export default Story;
 
@@ -132,6 +138,21 @@ export const GamePage = {
 
 export const LoginPage = {
   args: {
-    children: <LoginScreen />,
+    children: <LoginScreen onGithubLogin={() => alert('github login')} />,
+  },
+};
+
+export const AccountPage = {
+  args: {
+    connected: true,
+    children: (
+      <AccountScreen
+        recent={Array.from({ length: 5 }).map((_, i) => ({
+          type: 'game' as const,
+          id: `${i}`,
+          name: 'Game ' + i,
+        }))}
+      />
+    ),
   },
 };

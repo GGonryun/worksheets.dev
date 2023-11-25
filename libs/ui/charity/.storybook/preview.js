@@ -9,9 +9,7 @@ const preview = {
   decorators: [
     (Story) => (
       <ThemeProvider theme={theme}>
-        <main>
-          <Story />
-        </main>
+        <Story />
       </ThemeProvider>
     ),
   ],

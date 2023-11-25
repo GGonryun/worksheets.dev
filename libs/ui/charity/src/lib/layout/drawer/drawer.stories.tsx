@@ -69,16 +69,19 @@ export const WithSuccessfulSearch = {
         ]}
         categories={[
           {
+            id: '1',
             href: '#',
             name: 'Category Name 1',
             imageUrl: 'https://via.placeholder.com/150',
           },
           {
+            id: '2',
             href: '#',
             name: 'Category Name 2',
             imageUrl: 'https://via.placeholder.com/150',
           },
           {
+            id: '3',
             href: '#',
             name: 'Category Name 3',
             imageUrl: 'https://via.placeholder.com/150',

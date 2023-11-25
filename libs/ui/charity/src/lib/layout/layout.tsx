@@ -11,9 +11,10 @@ import { WebsiteFooter } from './footer';
 
 type LayoutProps = {
   children: React.ReactNode;
+  connected?: boolean;
 };
 
-export const Layout: React.FC<LayoutProps> = ({ children }) => {
+export const Layout: React.FC<LayoutProps> = ({ children, connected }) => {
   const [open, setOpen] = useState(false);
 
   const handleDrawerToggle = () => {
@@ -29,13 +30,16 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
         backgroundColor: (theme) => lighten(theme.palette.error.light, 0.7),
       }}
     >
-      <Toolbar onDrawerToggle={handleDrawerToggle} connected={false} />
+      <Toolbar
+        onDrawerToggle={handleDrawerToggle}
+        connected={connected ?? false}
+      />
       <Drawer
         onDrawerToggle={handleDrawerToggle}
         open={open}
         children={<GameRecommendations />}
       />
-      <Box flexGrow={1} pb={4}>
+      <Box flexGrow={1} pb={2}>
         <MuiToolbar />
         {children}
       </Box>
