@@ -119,7 +119,7 @@ const TitleBox = styled(Box)<BoxProps>(({ theme }) => ({
 
 const TitleText = styled(Typography)<TypographyProps>(({ theme }) => ({
   color: theme.palette.error.dark,
-  fontFamily: theme.typography.primary.fontFamily,
+  fontFamily: theme.typography.title.fontFamily,
   fontWeight: 900,
   fontSize: '0.8rem',
   lineHeight: '1rem',

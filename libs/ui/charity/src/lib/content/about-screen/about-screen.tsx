@@ -1,15 +1,6 @@
 import { LinkedIn } from '@mui/icons-material';
-import {
-  Box,
-  Button,
-  Container,
-  Link,
-  Paper,
-  Typography,
-  TypographyProps,
-  styled,
-} from '@mui/material';
-import { FC, JSXElementConstructor } from 'react';
+import { Box, Button, Container, Link, Paper, Typography } from '@mui/material';
+import { FC } from 'react';
 import { urls } from '../../layout/util';
 
 export type AboutScreenProps = {
@@ -35,13 +26,13 @@ export const AboutScreen: FC<AboutScreenProps> = (props) => {
             flexDirection: 'column',
           }}
         >
-          <HeaderText variant="h3">About Us</HeaderText>
-          <ParagraphText>
+          <Typography variant="h3">About Us</Typography>
+          <Typography>
             <Link href="/faq">Frequently Asked Questions</Link>
-          </ParagraphText>
+          </Typography>
           <br />
-          <HeaderText variant="h4">Our Mission</HeaderText>
-          <ParagraphText>
+          <Typography variant="h4">Our Mission</Typography>
+          <Typography>
             Charity.Games is a non-profit organization dedicated to creating fun
             and free games that help support charitable causes. At Charity.Games
             we believe that everyone should have access to clean water. We also
@@ -51,19 +42,19 @@ export const AboutScreen: FC<AboutScreenProps> = (props) => {
             platform generates water for people in need. We currently support{' '}
             <Link href={urls.external.waterOrg}>Water.Org</Link> as our charity
             of choice.
-          </ParagraphText>
+          </Typography>
           <br />
-          <ParagraphText>
+          <Typography>
             If you have a charity you would like to see us support, please{' '}
             <Link href={'/contact'}>contact us.</Link>
-          </ParagraphText>
+          </Typography>
           <br />
 
-          <HeaderText variant="h4">The Team</HeaderText>
-          <HeaderText variant="h6">
+          <Typography variant="h4">The Team</Typography>
+          <Typography variant="h6">
             Miguel Campos - Software Engineer
-          </HeaderText>
-          <ParagraphText>
+          </Typography>
+          <Typography>
             <Link href={urls.social.linkedIn}>Miguel</Link> is currently a
             software engineer at{' '}
             <Link href={urls.external.fullstory}>FullStory</Link> and a graduate
@@ -75,12 +66,12 @@ export const AboutScreen: FC<AboutScreenProps> = (props) => {
             <Link href={urls.external.usd}>University of San Diego</Link>, and{' '}
             <Link href={urls.external.navwar}>NAVWAR</Link> as a Software
             Engineer.
-          </ParagraphText>
-          <ParagraphText>
+          </Typography>
+          <Typography>
             When Miguel is not working, he enjoys rock climbing, hiking, and
             playing board games with his friends. Miguel really hates writing
             about himself in the third person, but he is doing it anyway.
-          </ParagraphText>
+          </Typography>
           <br />
           <QuoteText
             text="Individually, we are one drop. Together, we are an ocean."
@@ -111,21 +102,13 @@ export const AboutScreen: FC<AboutScreenProps> = (props) => {
   );
 };
 
-const HeaderText = styled(Typography)(({ theme }) => ({
-  fontFamily: 'Dangrek',
-}));
-
-const ParagraphText = styled<JSXElementConstructor<TypographyProps>>(
-  (props) => <Typography variant="body1" fontSize={'.95rem'} {...props} />
-)();
-
 const QuoteText: FC<{ text: string; author: string }> = ({ text, author }) => {
   return (
     <Box>
-      <ParagraphText fontStyle={'italic'} fontWeight={500}>
+      <Typography fontStyle={'italic'} fontWeight={500}>
         {text}
-      </ParagraphText>
-      <ParagraphText pl={4}>- {author}</ParagraphText>
+      </Typography>
+      <Typography pl={4}>- {author}</Typography>
     </Box>
   );
 };

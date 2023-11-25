@@ -1,11 +1,4 @@
-import {
-  Box,
-  Button,
-  Container,
-  Paper,
-  Typography,
-  styled,
-} from '@mui/material';
+import { Box, Button, Container, Paper, Typography } from '@mui/material';
 import { FC } from 'react';
 import { GameIcon, GameIconProps } from '../../games/game-icon';
 import { ArrowUpRight } from '../../icons/arrow-up-right';
@@ -30,7 +23,7 @@ export const AccountScreen: FC<AccountScreenProps> = ({
           p: { xs: 1, sm: 3 },
         }}
       >
-        <HeaderText>Recent</HeaderText>
+        <Typography variant="h4">Recent</Typography>
         <Box
           sx={{
             px: 1,
@@ -75,8 +68,3 @@ export const AccountScreen: FC<AccountScreenProps> = ({
     </Container>
   );
 };
-
-const HeaderText = styled(Typography)(({ theme }) => ({
-  fontSize: '2rem',
-  fontFamily: theme.typography.dangrek.fontFamily,
-}));

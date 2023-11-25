@@ -69,20 +69,17 @@ export const GameBanner: FC<GameBannerProps> = ({
       >
         <Box minWidth={0}>
           <Typography
+            variant="h6"
             sx={{
               lineHeight: '1rem',
-              fontSize: '1.2rem',
-              fontWeight: '900',
-              fontFamily: (theme) => theme.typography.mPlus1p.fontFamily,
             }}
           >
             {name}
           </Typography>
           <Typography
+            variant="body3"
             sx={{
-              fontSize: '0.75rem',
               color: (theme) => theme.palette.text.secondary,
-              fontFamily: (theme) => theme.typography.mPlus1p.fontFamily,
             }}
           >
             by {developer}

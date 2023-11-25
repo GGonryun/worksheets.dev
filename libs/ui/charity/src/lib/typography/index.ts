@@ -5,5 +5,4 @@ export * from './quote-text';
 export * from './secondary-small-header-text';
 export * from './small-header-text';
 export * from './sub-header-text';
-export * from './game-section-header';
 export * from './markdown';

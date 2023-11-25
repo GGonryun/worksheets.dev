@@ -27,11 +27,33 @@ export const theme = createTheme({
     },
   },
   typography: {
-    primary: {
+    title: {
       fontFamily: 'Corben,serif',
     },
-    secondary: {
-      fontFamily: 'Montserrat,sans-serif',
+    h1: {
+      fontFamily: 'Dangrek,serif',
+    },
+    h2: {
+      fontFamily: 'Dangrek,serif',
+    },
+    h3: {
+      fontFamily: 'Dangrek,serif',
+    },
+    h4: {
+      fontFamily: 'Dangrek,serif',
+    },
+    h5: {
+      fontFamily: 'Dangrek,serif',
+    },
+    h6: {
+      fontFamily: 'Dangrek,serif',
+    },
+    body2: {
+      fontFamily: "'M PLUS Rounded 1c', sans-serif",
+    },
+    body3: {
+      fontFamily: "'M PLUS Rounded 1c', sans-serif",
+      fontSize: '0.775rem',
     },
     coiny: {
       fontFamily: 'Coiny,serif',
@@ -44,6 +66,13 @@ export const theme = createTheme({
     },
     mPlus1p: {
       fontFamily: "'M PLUS Rounded 1c', sans-serif",
+    },
+    // TODO - remove primary and secondary variants
+    primary: {
+      fontFamily: 'Corben,serif',
+    },
+    secondary: {
+      fontFamily: 'Montserrat,sans-serif',
     },
   },
   palette: {

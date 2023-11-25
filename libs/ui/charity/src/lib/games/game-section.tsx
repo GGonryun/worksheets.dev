@@ -1,7 +1,6 @@
-import { Box, Link } from '@mui/material';
+import { Box, Link, Typography } from '@mui/material';
 import { FC, ReactNode } from 'react';
 import { ItemCarousel } from '../layout/drawer/item-carousel';
-import { GameSectionHeader } from '../typography/game-section-header/game-section-header';
 import { ArrowUpRight } from '../icons/arrow-up-right';
 
 export type GameSectionProps = {
@@ -15,8 +14,10 @@ export const GameSection: FC<GameSectionProps> = ({
   href,
 }) => (
   <Box>
-    <GameSectionHeader
+    <Typography
+      variant="h4"
       sx={{
+        marginLeft: 2,
         userSelect: 'none',
         display: 'flex',
         gap: 1,
@@ -27,7 +28,7 @@ export const GameSection: FC<GameSectionProps> = ({
         {title}
       </Link>
       <ArrowUpRight sx={{ fontSize: '2rem' }} />
-    </GameSectionHeader>
+    </Typography>
     <ItemCarousel sx={{ gap: 2, px: 2 }}>{children}</ItemCarousel>
   </Box>
 );

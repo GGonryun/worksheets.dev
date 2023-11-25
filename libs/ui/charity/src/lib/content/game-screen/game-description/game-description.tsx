@@ -43,7 +43,15 @@ export const GameDescription: FC<GameDescriptionProps> = ({
     <Box display="flex" flexDirection="column" p={{ xs: 2, sm: 4 }}>
       <CategoryBreadcrumbs categories={category} />
       <Box mt={1} display="flex" gap={3} alignItems="center">
-        <GameDescriptionTitle>{title}</GameDescriptionTitle>
+        <Typography
+          variant="h4"
+          sx={{
+            lineHeight: 1,
+            userSelect: 'none',
+          }}
+        >
+          {title}
+        </Typography>
         <SupportedDeviceIcons platforms={platforms} />
       </Box>
       <GameDeveloperLink href={`/d/${developer.id}`}>
@@ -85,13 +93,6 @@ const TagChip: FC<ChipProps & { tag: string }> = ({ tag }) => (
     })}
   />
 );
-
-const GameDescriptionTitle = styled(Typography)(({ theme }) => ({
-  fontFamily: theme.typography.dangrek.fontFamily,
-  fontSize: theme.typography.pxToRem(30),
-  lineHeight: 1,
-  userSelect: 'none',
-}));
 
 const GameDeveloperLink = styled((props) => (
   <Link underline="hover" color="inherit" {...props} />

@@ -27,10 +27,8 @@ export const LoginScreen: FC<LoginScreenProps> = ({ onGithubLogin }) => {
         }}
       >
         <Typography
+          variant="h4"
           sx={{
-            fontFamily: (theme) => theme.typography.dangrek.fontFamily,
-            fontSize: '2rem',
-            fontWeight: 'bold',
             pb: 1,
             mt: -1,
           }}

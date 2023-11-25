@@ -3,21 +3,28 @@ import { fontSizes } from '@stoplight/mosaic/components/Textarea/variants';
 
 declare module '@mui/material/styles' {
   interface TypographyVariants {
-    primary: React.CSSProperties;
-    secondary: React.CSSProperties;
+    title: React.CSSProperties;
+    body3: React.CSSProperties;
+
     coiny: React.CSSProperties;
     dangrek: React.CSSProperties;
     concertOne: React.CSSProperties;
     mPlus1p: React.CSSProperties;
+    // TODO - remove primary and secondary variants
+    primary: React.CSSProperties;
+    secondary: React.CSSProperties;
   }
 
   interface TypographyVariantsOptions {
-    primary?: React.CSSProperties;
-    secondary?: React.CSSProperties;
+    title?: React.CSSProperties;
+    body3?: React.CSSProperties;
     coiny?: React.CSSProperties;
     dangrek?: React.CSSProperties;
     concertOne?: React.CSSProperties;
     mPlus1p?: React.CSSProperties;
+    // TODO - remove primary and secondary variants
+    primary?: React.CSSProperties;
+    secondary?: React.CSSProperties;
   }
 
   interface Palette {
@@ -104,5 +111,7 @@ declare module '@mui/material/AppBar' {
 declare module '@mui/material/Typography' {
   interface TypographyPropsVariantOverrides {
     primary: true;
+    title: true;
+    body3: true;
   }
 }
