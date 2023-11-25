@@ -36,7 +36,6 @@ export const Layout: FC<{
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        height: '100%',
         width: '100%',
       }}
     >

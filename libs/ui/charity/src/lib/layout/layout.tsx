@@ -23,7 +23,9 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <Box
       sx={{
+        width: '100%',
         display: 'flex',
+        flexDirection: 'column',
         backgroundColor: (theme) => lighten(theme.palette.error.light, 0.7),
       }}
     >
@@ -33,11 +35,11 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
         open={open}
         children={<GameRecommendations />}
       />
-      <Box component="main" flexGrow={1}>
+      <Box flexGrow={1} pb={4}>
         <MuiToolbar />
         {children}
-        <WebsiteFooter />
       </Box>
+      <WebsiteFooter />
     </Box>
   );
 };
