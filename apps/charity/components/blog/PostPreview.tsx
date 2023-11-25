@@ -1,12 +1,15 @@
 import { Link } from '@mui/material';
 import { MarkdownMetadata } from '@worksheets/util-markdown';
 import { FC } from 'react';
-
-import { CaptionText, ParagraphText, SmallHeaderText } from '../Typography';
 import { urls } from '@worksheets/ui-games';
 import { Flex, useDeviceSize } from '@worksheets/ui-core';
 import Image from 'next/image';
 import { ArrowRightAlt } from '@mui/icons-material';
+import {
+  CaptionText,
+  ParagraphText,
+  SmallHeaderText,
+} from '@worksheets/ui-charity';
 
 export const PostPreview: FC<MarkdownMetadata> = ({
   title,

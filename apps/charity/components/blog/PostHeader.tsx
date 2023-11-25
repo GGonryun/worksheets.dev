@@ -4,7 +4,10 @@ import { PostTitle } from './PostTitle';
 import Image from 'next/image';
 import { Box } from '@mui/material';
 import { Flex } from '@worksheets/ui-core';
-import { ParagraphText, SecondarySmallHeaderText } from '../Typography';
+import {
+  ParagraphText,
+  SecondarySmallHeaderText,
+} from '@worksheets/ui-charity';
 
 export type PostHeaderProps = {
   title: string;

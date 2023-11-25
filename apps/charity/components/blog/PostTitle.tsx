@@ -1,5 +1,5 @@
+import { HeaderText } from '@worksheets/ui-charity';
 import { FC } from 'react';
-import { HeaderText } from '../Typography';
 
 export type PostTitleProps = {
   children: string;

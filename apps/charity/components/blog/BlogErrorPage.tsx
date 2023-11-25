@@ -1,6 +1,9 @@
 import { Container } from '@mui/material';
-import { ParagraphText, SubHeaderText } from '../Typography';
-import { PrimaryLink } from '../../../../libs/ui/charity/src/lib/Links';
+import {
+  ParagraphText,
+  PrimaryLink,
+  SubHeaderText,
+} from '@worksheets/ui-charity';
 import { urls } from '@worksheets/ui-games';
 
 export const BlogErrorPage = () => (
