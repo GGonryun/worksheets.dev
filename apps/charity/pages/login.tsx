@@ -1,4 +1,4 @@
-import { Box, Button, Container, Paper } from '@mui/material';
+import { Box, Button, Paper } from '@mui/material';
 import { urls } from '@worksheets/ui-games';
 import { signIn } from 'next-auth/react';
 import { ArrowBack, GitHub } from '@mui/icons-material';
@@ -13,8 +13,10 @@ import {
 const Page = () => {
   const { back } = useRouter();
   return (
-    <Container
+    <Box
       sx={{
+        height: '100vh',
+        width: '100vw',
         p: 3,
         display: 'grid',
         placeItems: 'center',
@@ -32,7 +34,7 @@ const Page = () => {
             sx={{ color: (theme) => theme.palette.primary.contrastText }}
           />
         }
-        onClick={() => back}
+        onClick={() => back()}
       >
         <SmallHeaderText color="primary.contrastText">Back</SmallHeaderText>
       </Button>
@@ -66,7 +68,7 @@ const Page = () => {
           <CaptionText sx={{ color: 'inherit' }}>Login with GitHub</CaptionText>
         </Button>
       </Paper>
-    </Container>
+    </Box>
   );
 };
 
