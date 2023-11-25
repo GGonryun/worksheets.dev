@@ -56,7 +56,6 @@ export const WebsiteFooter: FC<WebsiteFooterProps> = () => {
         </Box>
         <Box display="flex" gap={2}>
           <FooterSubLink href={'/faq'}>FAQ</FooterSubLink>
-          <FooterSubLink href={'/publish'}>Publish</FooterSubLink>
           <FooterSubLink href={'/terms'}>Terms</FooterSubLink>
           <FooterSubLink href={'/privacy'}>Privacy</FooterSubLink>
           <FooterSubLink href={'/cookies'}>Cookies</FooterSubLink>

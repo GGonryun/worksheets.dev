@@ -14,6 +14,7 @@ import {
   AccountScreen,
   AboutScreen,
   ContactScreen,
+  FAQScreen,
 } from '../content';
 
 const Story: Meta<typeof Layout> = {
@@ -172,5 +173,11 @@ export const AboutPage = {
 export const ContactPage = {
   args: {
     children: <ContactScreen />,
+  },
+};
+
+export const FAQPage = {
+  args: {
+    children: <FAQScreen />,
   },
 };
