@@ -1,15 +1,16 @@
 import type { Meta } from '@storybook/react';
-import { FAQScreen } from './faq-screen';
+import { BlogScreen } from './blog-screen';
+import { sampleBlogMetadata } from '../../util';
 
-const Story: Meta<typeof FAQScreen> = {
-  component: FAQScreen,
-  title: 'Content/FAQScreen',
+const Story: Meta<typeof BlogScreen> = {
+  component: BlogScreen,
+  title: 'Content/BlogScreen',
   decorators: [
     (Story) => (
       <div
         style={{
           backgroundColor: 'lightblue',
-          height: '100%',
+          height: '100vh',
         }}
       >
         <Story />
@@ -20,5 +21,7 @@ const Story: Meta<typeof FAQScreen> = {
 export default Story;
 
 export const Primary = {
-  args: {},
+  args: {
+    posts: sampleBlogMetadata,
+  },
 };

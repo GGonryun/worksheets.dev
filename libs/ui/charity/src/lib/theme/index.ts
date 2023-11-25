@@ -48,6 +48,9 @@ export const theme = createTheme({
     h6: {
       fontFamily: 'Dangrek,serif',
     },
+    body1: {
+      fontFamily: "'M PLUS Rounded 1c', sans-serif",
+    },
     body2: {
       fontFamily: "'M PLUS Rounded 1c', sans-serif",
     },

@@ -6,6 +6,8 @@ import {} from '../content/game-screen';
 import {
   SampleGameDescription,
   SampleGameLauncher,
+  sampleBlogMetadata,
+  sampleBlogPost,
   sampleMixedGridItems,
 } from '../util';
 import {
@@ -15,6 +17,8 @@ import {
   AboutScreen,
   ContactScreen,
   FAQScreen,
+  BlogPostScreen,
+  BlogScreen,
 } from '../content';
 
 const Story: Meta<typeof Layout> = {
@@ -179,5 +183,22 @@ export const ContactPage = {
 export const FAQPage = {
   args: {
     children: <FAQScreen />,
+  },
+};
+
+export const BlogPage = {
+  args: {
+    children: <BlogScreen posts={sampleBlogMetadata} />,
+  },
+};
+
+export const BlogPostPage = {
+  args: {
+    children: (
+      <BlogPostScreen
+        metadata={sampleBlogMetadata[0]}
+        content={sampleBlogPost}
+      />
+    ),
   },
 };

@@ -4,3 +4,4 @@ export * from './account-screen';
 export * from './about-screen';
 export * from './contact-screen';
 export * from './faq-screen';
+export * from './blog';
