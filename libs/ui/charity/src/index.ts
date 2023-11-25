@@ -5,3 +5,5 @@ export * from './lib/buttons';
 export * from './lib/cards';
 export * from './lib/inputs';
 export * from './lib/layout';
+export * from './lib/content';
+export * from './lib/games';

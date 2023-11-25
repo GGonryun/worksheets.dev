@@ -144,7 +144,6 @@ const FooterSubLink = styled((props) => <Link {...props} />)<LinkProps>(
 const FooterContainer = styled((props) => <Box {...props} />)<BoxProps>(
   ({ theme }) => ({
     flexShrink: 0,
-    marginTop: theme.spacing(4),
     display: 'flex',
     flexDirection: 'column',
     backgroundColor: theme.palette.background.paper,

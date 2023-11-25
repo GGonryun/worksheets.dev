@@ -8,6 +8,7 @@ import {
   SampleGameLauncher,
   sampleMixedGridItems,
 } from '../util';
+import { LoginScreen } from '../content';
 
 const Story: Meta<typeof Layout> = {
   component: Layout,
@@ -126,5 +127,11 @@ export const GamePage = {
         />
       </Container>
     ),
+  },
+};
+
+export const LoginPage = {
+  args: {
+    children: <LoginScreen />,
   },
 };
