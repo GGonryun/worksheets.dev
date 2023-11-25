@@ -8,11 +8,12 @@ import {
   TypographyProps,
   styled,
   BoxProps,
+  Link,
 } from '@mui/material';
-import Image from 'next/image';
 import { DenseButton } from '../buttons';
 import { FC } from 'react';
 import { CHARITY_LOGO_PATH } from './util';
+import { FillImage } from '../images/fill-image';
 interface ToolbarProps {
   onDrawerToggle: () => void;
   connected: boolean;
@@ -82,21 +83,38 @@ const ConnectionButton: FC<{ connected: boolean }> = ({ connected }) => {
 
 const LogoBox = () => (
   <TitleBox>
-    <Image src={CHARITY_LOGO_PATH} alt="Charity.Games" width={41} height={35} />
-    <Box pb={'2px'}>
-      <TitleText>charity</TitleText>
-      <TitleText>games</TitleText>
-    </Box>
+    <Link
+      underline="none"
+      href="/"
+      color="inherit"
+      sx={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        gap: 1,
+      }}
+    >
+      <Box
+        sx={{
+          position: 'relative',
+          width: { xs: '35px', sm: '41px' },
+          height: { xs: '30px', sm: '35px' },
+        }}
+      >
+        <FillImage src={CHARITY_LOGO_PATH} alt="Charity.Games" />
+      </Box>
+      <Box pb={'2px'}>
+        <TitleText>charity</TitleText>
+        <TitleText>games</TitleText>
+      </Box>
+    </Link>
   </TitleBox>
 );
 
 const TitleBox = styled(Box)<BoxProps>(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'flex-start',
-  gap: theme.spacing(1),
   flexGrow: 1,
   padding: theme.spacing(0, 1),
+  paddingTop: theme.spacing(0.5),
 }));
 
 const TitleText = styled(Typography)<TypographyProps>(({ theme }) => ({
@@ -107,6 +125,6 @@ const TitleText = styled(Typography)<TypographyProps>(({ theme }) => ({
   lineHeight: '1rem',
   '@media (min-width: 600px)': {
     fontSize: '1rem',
-    lineHeight: '1.2rem',
+    lineHeight: '1.1rem',
   },
 }));
