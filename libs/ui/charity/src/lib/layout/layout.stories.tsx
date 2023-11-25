@@ -8,7 +8,12 @@ import {
   SampleGameLauncher,
   sampleMixedGridItems,
 } from '../util';
-import { GameScreen, LoginScreen, AccountScreen } from '../content';
+import {
+  GameScreen,
+  LoginScreen,
+  AccountScreen,
+  AboutScreen,
+} from '../content';
 
 const Story: Meta<typeof Layout> = {
   component: Layout,
@@ -154,5 +159,11 @@ export const AccountPage = {
         }))}
       />
     ),
+  },
+};
+
+export const AboutPage = {
+  args: {
+    children: <AboutScreen />,
   },
 };

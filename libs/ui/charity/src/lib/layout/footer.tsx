@@ -159,7 +159,7 @@ const FooterContainer = styled((props) => <Box {...props} />)<BoxProps>(
       // clipPath: 'polygon(0 100%,30% 0,60% 100%,100% 0,100% 100%)',
       clipPath: 'polygon(83% 0%, 100% 100%, 0% 100%, 17.75% 0%, 45% 100%)',
       // clipPath: 'polygon(47% 100%, 87% 91%, 100% 100%, 0 100%, 13% 91%)',
-      top: -12,
+      top: -11,
       height: 12,
       left: 0,
       marginBottom: -1,
