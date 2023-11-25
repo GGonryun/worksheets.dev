@@ -19,6 +19,7 @@ import {
   FAQScreen,
   BlogPostScreen,
   BlogScreen,
+  UnderConstruction,
 } from '../content';
 
 const Story: Meta<typeof Layout> = {
@@ -200,5 +201,11 @@ export const BlogPostPage = {
         content={sampleBlogPost}
       />
     ),
+  },
+};
+
+export const UnderConstructionPage = {
+  args: {
+    children: <UnderConstruction />,
   },
 };
