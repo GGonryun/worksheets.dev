@@ -58,6 +58,7 @@ export const DeveloperScreen: FC<DeveloperScreenProps> = ({
           display: 'flex',
           flexDirection: 'column',
           borderRadius: 4,
+          gap: 1,
           p: { xs: 2, sm: 4 },
         }}
       >
@@ -65,7 +66,7 @@ export const DeveloperScreen: FC<DeveloperScreenProps> = ({
           {name}
         </Typography>
         <SocialButtons {...socials} />
-        <Divider sx={{ my: 2, mx: { xs: -2, sm: -4 } }} />
+        <Divider sx={{ my: 1, mx: { xs: -2, sm: -4 } }} />
         <Typography variant="h5" mb={1}>
           Games by {name}
         </Typography>
@@ -109,7 +110,7 @@ export const DeveloperScreen: FC<DeveloperScreenProps> = ({
                 fontSize: { xs: 16, sm: 18 },
               }}
             >
-              Explore Games
+              Explore All Games
             </Typography>
           </Button>
         </Box>
