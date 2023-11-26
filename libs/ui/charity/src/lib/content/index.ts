@@ -6,3 +6,4 @@ export * from './contact-screen';
 export * from './faq-screen';
 export * from './blog';
 export * from './under-construction';
+export * from './developer-screen';

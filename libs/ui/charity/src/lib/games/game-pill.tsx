@@ -2,11 +2,12 @@ import { Box, Typography } from '@mui/material';
 import { FC } from 'react';
 import { ArrowUpRight } from '../icons/arrow-up-right';
 import { ReferencePillSkeleton } from './reference-pill-skeleton';
+import { PLACEHOLDER_IMAGE_URL } from '../layout/util';
 
 export type GamePillProps = {
   name: string;
   developer: string;
-  imageUrl: string;
+  imageUrl?: string;
   href: string;
 };
 
@@ -21,7 +22,7 @@ export const GamePill: FC<GamePillProps> = ({
       href={href}
       image={{
         padding: 1,
-        src: imageUrl,
+        src: imageUrl ?? PLACEHOLDER_IMAGE_URL,
         alt: `${name} logo`,
       }}
     >

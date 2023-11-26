@@ -6,8 +6,10 @@ import {} from '../content/game-screen';
 import {
   SampleGameDescription,
   SampleGameLauncher,
+  dummySocials,
   sampleBlogMetadata,
   sampleBlogPost,
+  sampleGameDefinitions,
   sampleMixedGridItems,
 } from '../util';
 import {
@@ -20,6 +22,7 @@ import {
   BlogPostScreen,
   BlogScreen,
   UnderConstruction,
+  DeveloperScreen,
 } from '../content';
 
 const Story: Meta<typeof Layout> = {
@@ -199,6 +202,18 @@ export const BlogPostPage = {
       <BlogPostScreen
         metadata={sampleBlogMetadata[0]}
         content={sampleBlogPost}
+      />
+    ),
+  },
+};
+
+export const DeveloperPage = {
+  args: {
+    children: (
+      <DeveloperScreen
+        name={'Charity Games'}
+        socials={dummySocials}
+        games={sampleGameDefinitions}
       />
     ),
   },

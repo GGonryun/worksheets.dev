@@ -10,8 +10,7 @@ import { FC, useState } from 'react';
 import { BannerBox } from './banner-box';
 import { ResponsiveImage } from '../images';
 import { PLACEHOLDER_IMAGE_URL } from '../layout/util';
-
-type GameIconBanner = 'hot' | 'new' | 'played' | 'none';
+import { GameQualifier } from '../util/games';
 
 export type GameIconProps = {
   // the id will be used to link to the game page
@@ -23,19 +22,19 @@ export type GameIconProps = {
   // imageUrl will be displayed as the icon image.
   imageUrl?: string;
   // banner will be displayed in the top left corner of the icon
-  banner?: GameIconBanner;
+  banner?: GameQualifier;
   // if size is not provided, the icon will fill the available space of its parent container
   size?: number;
 };
 
-const BannerIcon: Record<GameIconBanner, SvgIconComponent> = {
+const BannerIcon: Record<GameQualifier, SvgIconComponent> = {
   none: QuestionMark,
   hot: LocalFireDepartmentOutlined,
   new: Star,
   played: Replay,
 };
 
-const BannerColor: Record<GameIconBanner, string> = {
+const BannerColor: Record<GameQualifier, string> = {
   none: '#fff',
   hot: 'error.main',
   new: 'highlight.main',

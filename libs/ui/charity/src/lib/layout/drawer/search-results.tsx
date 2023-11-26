@@ -21,7 +21,7 @@ export const SearchResults: FC<SearchResultsProps> = ({
       gridTemplateColumns={{ xs: '1fr', sm: '1fr 1fr' }}
       pt={1}
       overflow="auto"
-      className="searc-results"
+      className="search-results"
     >
       {!games.length && !categories.length && <NoResults />}
       {games.map((game) => (

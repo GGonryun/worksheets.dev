@@ -1,5 +1,6 @@
 import { GameDescription } from '../content/game-screen/game-description';
 import { GameLauncher } from '../content/game-screen/game-launcher/';
+import { GameDefinition } from './games';
 
 export const SampleGameLauncher = () => (
   <GameLauncher
@@ -138,3 +139,27 @@ export const sampleBlogPost = `<p>Welcome to Charity Games! This is a website wh
 <p>Games are used to help people and it was already happening around me. There are communities like <a href="https://gamesdonequick.com/">Games Done Quick</a> who do speedrunning marathons for charity. There are <a href="https://www.extra-life.org/">Extra Life</a> and <a href="https://childsplaycharity.org/">Child's Play</a> who raise money for children's hospitals. There is <a href="https://freerice.com/">Freerice</a> who donates rice to the hungry. There are so many examples of games being used to help people and I wanted to be a part of that. I found my inspiration.</p>
 <h2>Is it worth it?</h2>
 <p>Well, there's only one way to find out. I'm going to commit to this challenge. Worst case scenario? I learned a thing or two and helped a few people along the way. I'm okay with that. This isn't something I can do alone. I'll never ask for money. If you want to help, just play the games and share them with your friends. If you want to help even more, consider donating to any charity. I don't need to know, I don't need to be involved. Just do it. I'll be doing the same.</p>`;
+
+export const dummySocials = {
+  facebook: 'https://www.facebook.com/CharityGamesOfficial',
+  twitter: 'https://twitter.com/CharityGamesO',
+  instagram: 'https://www.instagram.com/charitygamesofficial/',
+  youtube: 'https://www.youtube.com/channel/UC1Jx7XJ1yYQ7WjQx0eQq6Og',
+  twitch: 'https://www.twitch.tv/charitygamesofficial',
+  discord: 'https://discord.gg/charitygames',
+  website: 'https://charitygames.io',
+  itchio: 'https://charitygames.itch.io/',
+  tiktok: 'https://www.tiktok.com/@charitygamesofficial',
+  steam: 'https://store.steampowered.com/charity/charitygames',
+  playstore: 'https://play.google.com/store/apps/dev?id=7196278445280289529',
+  appstore:
+    'https://apps.apple.com/us/developer/charity-games-llc/id1537154374',
+};
+
+export const sampleGameDefinitions: GameDefinition[] = Array.from({
+  length: 5,
+}).map((_, i) => ({
+  id: `${i}`,
+  name: 'Game ' + i,
+  developer: 'Charity.Games',
+}));
