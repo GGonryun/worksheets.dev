@@ -1,7 +1,8 @@
 import { LinkedIn } from '@mui/icons-material';
 import { Box, Button, Container, Link, Paper, Typography } from '@mui/material';
 import { FC } from 'react';
-import { urls } from '../../util/urls';
+import { urls } from '../../util';
+import { blogAuthors } from '../../../data/authors';
 
 export type AboutScreenProps = {
   // no props
@@ -43,7 +44,9 @@ export const AboutScreen: FC<AboutScreenProps> = (props) => {
         <br />
 
         <Typography variant="h4">The Team</Typography>
-        <Typography variant="h6">Miguel Campos - Software Engineer</Typography>
+        <Typography variant="h6" id={blogAuthors['miguel-campos'].id}>
+          Miguel Campos - Software Engineer
+        </Typography>
         <Typography>
           <Link href={urls.social.linkedIn}>Miguel</Link> is currently a
           software engineer at{' '}

@@ -1,6 +1,5 @@
 import { NextPageWithLayout } from '@worksheets/util-next';
-import { Box, Container } from '@mui/material';
-import { WebsiteLayout } from '../../components/Layout';
+import { Box, Typography } from '@mui/material';
 import {
   ArticleProps,
   MarkdownMetadata,
@@ -12,13 +11,9 @@ import {
 import { GetStaticPaths } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import {
-  BlogErrorPage,
-  PostBody,
-  PostHeader,
-  PostTitle,
-} from '../../components/blog';
+import { BlogErrorPage } from '../../components/blog';
 import { POSTS_PATH } from '../../util/paths';
+import { BlogPostScreen, Layout } from '@worksheets/ui-charity';
 
 type Props = {
   metadata: MarkdownMetadata;
@@ -36,28 +31,15 @@ const Page: NextPageWithLayout<Props> = ({ slug, metadata, content }) => {
   return (
     <Box>
       {router.isFallback ? (
-        <PostTitle>Loading . . .</PostTitle>
+        <Typography variant="h4">Loading . . .</Typography>
       ) : (
-        <article>
+        <>
           <Head>
             <title>{metadata.title}</title>
             <meta property="og:image" content={metadata.ogImage.url} />
           </Head>
-          <Container
-            maxWidth="md"
-            sx={{
-              py: 3,
-            }}
-          >
-            <PostHeader
-              title={metadata.title}
-              coverImage={metadata.coverImage}
-              date={metadata.date}
-              author={metadata.author}
-            />
-            <PostBody content={content} />
-          </Container>
-        </article>
+          <BlogPostScreen metadata={metadata} content={content} />
+        </>
       )}
     </Box>
   );
@@ -105,7 +87,7 @@ export const getStaticPaths: GetStaticPaths<ArticleProps> = async () => {
 };
 
 Page.getLayout = (page) => {
-  return <WebsiteLayout>{page}</WebsiteLayout>;
+  return <Layout>{page}</Layout>;
 };
 
 export default Page;

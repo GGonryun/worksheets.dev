@@ -10,7 +10,7 @@ export const urls = {
   social: {
     reddit: `https://www.reddit.com/user/ggonryun/`,
     linkedIn: `https://www.linkedin.com/in/miguel-campos-5b1114172/`,
-    twitter: `https://twitter.com/`,
+    twitter: `https://twitter.com/CharityGamesGo`,
     facebook: `https://www.facebook.com/`,
     github: `https://github.com/ggonryun/worksheets.dev`,
     discord: `https://discord.gg/Auatjee2BZ`,

@@ -17,7 +17,7 @@ export const getParsedFileContentBySlug = (
         excerpt: data['excerpt'],
         coverImage: data['coverImage'],
         date: data['date'],
-        author: data['author'],
+        authorId: data['authorId'],
         ogImage: data['ogImage'],
         tags: data['tags'],
         slug,

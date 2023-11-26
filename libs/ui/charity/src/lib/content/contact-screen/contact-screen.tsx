@@ -37,24 +37,23 @@ const EmailUsSection: FC = () => (
     <Typography variant="body1">
       Have a question about our platform or a game? Send us a message and
       we&apos;ll get back to you as soon as possible.
-      <Box mt={1}>
-        <Button
-          variant="contained"
-          color="error"
-          href="mailto:amodestduck@gmail.com"
-          size="small"
-          startIcon={<EmailOutlined />}
-          sx={{
-            fontWeight: 900,
-            lineHeight: 1,
-            borderRadius: 4,
-            px: 3,
-          }}
-        >
-          Email Us
-        </Button>
-      </Box>
     </Typography>
+    <Box mt={1}>
+      <Button
+        variant="contained"
+        color="error"
+        href="mailto:amodestduck@gmail.com"
+        startIcon={<EmailOutlined />}
+        sx={{
+          fontWeight: 900,
+          lineHeight: 1,
+          borderRadius: 4,
+          px: 3,
+        }}
+      >
+        Email Us
+      </Button>
+    </Box>
   </Box>
 );
 
@@ -70,7 +69,6 @@ const SignUpSection: FC = () => (
         variant="contained"
         color="error"
         href="/login"
-        size="small"
         endIcon={<ArrowUpRight sx={{ ml: -0.5 }} />}
         sx={{
           fontWeight: 900,
@@ -99,23 +97,22 @@ const BugsAndFeaturesSection: FC = () => (
       public issues tracker for organizing bugs and feature requests. Please use
       the links below to report bugs or request features. Do not share private
       data as our issues tracker is public.
-      <Box mt={1}>
-        <Button
-          variant="contained"
-          color="error"
-          href={urls.social.github}
-          size="small"
-          startIcon={<GitHub />}
-          sx={{
-            fontWeight: 900,
-            lineHeight: 1,
-            borderRadius: 4,
-            px: 3,
-          }}
-        >
-          GitHub
-        </Button>
-      </Box>
     </Typography>
+    <Box mt={1}>
+      <Button
+        variant="contained"
+        color="error"
+        href={urls.social.github}
+        startIcon={<GitHub />}
+        sx={{
+          fontWeight: 900,
+          lineHeight: 1,
+          borderRadius: 4,
+          px: 3,
+        }}
+      >
+        GitHub
+      </Button>
+    </Box>
   </Box>
 );

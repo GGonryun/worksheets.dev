@@ -15,15 +15,14 @@ export const JoinNewsletterBox: FC = () => (
         href="/login"
         variant="contained"
         color="error"
-        size="large"
         endIcon={<ArrowForward sx={{ ml: -0.5 }} />}
         sx={{
-          borderRadius: 8,
+          borderRadius: 6,
           px: 4,
           mt: 2,
         }}
       >
-        Sign Up
+        <b>Sign Up</b>
       </Button>
     </Box>
   </Box>

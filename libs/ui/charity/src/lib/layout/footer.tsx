@@ -15,6 +15,7 @@ import {
   LinkedIn,
   Reddit,
   SvgIconComponent,
+  Twitter,
 } from '@mui/icons-material';
 import { Discord } from '../icons/discord';
 import { useRouter } from 'next/router';
@@ -37,12 +38,16 @@ export const WebsiteFooter: FC<WebsiteFooterProps> = () => {
             Icon={LinkedIn}
             onClick={() => push(urls.social.linkedIn)}
           />
-          <SocialIcon Icon={Reddit} onClick={() => push(urls.social.reddit)} />
-          <SocialIcon Icon={GitHub} onClick={() => push(urls.social.github)} />
+          <SocialIcon
+            Icon={Twitter}
+            onClick={() => push(urls.social.twitter)}
+          />
           <SocialIcon
             Icon={Discord}
             onClick={() => push(urls.social.discord)}
           />
+          <SocialIcon Icon={Reddit} onClick={() => push(urls.social.reddit)} />
+          <SocialIcon Icon={GitHub} onClick={() => push(urls.social.github)} />
         </Box>
         <Box display="flex" gap={3}>
           <FooterLink href={'/about'}>About</FooterLink>
