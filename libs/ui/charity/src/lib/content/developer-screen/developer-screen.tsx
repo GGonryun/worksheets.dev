@@ -23,7 +23,7 @@ import { TikTok } from '../../icons/tiktok';
 import { SteamGames } from '../../icons/steam-games';
 import { PlayStore } from '../../icons/play-store';
 import { AppStore } from '../../icons/app-store';
-import { GamePill } from '../../games/game-pill';
+import { GamePill } from '../../games/pills/game-pill';
 import { GameDefinition } from '../../util/games';
 import { ArrowUpRight } from '../../icons/arrow-up-right';
 

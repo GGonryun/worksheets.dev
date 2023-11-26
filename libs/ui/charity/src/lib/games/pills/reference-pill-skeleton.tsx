@@ -1,12 +1,12 @@
 import { Box, Link } from '@mui/material';
 import { FC, ReactNode } from 'react';
-import { ResponsiveImage } from '../images';
+import { ResponsiveImage } from '../../images';
 
 export type ReferencePillSkeletonProps = {
   children: ReactNode;
-  href: string;
+  href?: string;
   height?: number | string;
-  image: { padding: number | string; src: string; alt: string };
+  image?: { padding: number | string; src: string; alt: string };
 };
 
 export const ReferencePillSkeleton: FC<ReferencePillSkeletonProps> = ({
@@ -15,8 +15,9 @@ export const ReferencePillSkeleton: FC<ReferencePillSkeletonProps> = ({
   image,
   children,
 }) => (
-  <Link href={href} underline="none">
+  <Link href={href} underline="none" color={href ? 'primary' : 'inherit'}>
     <Box
+      className="reference-pill-skeleton"
       sx={{
         backgroundColor: (theme) => theme.palette.background.paper,
         position: 'relative',
@@ -39,14 +40,16 @@ export const ReferencePillSkeleton: FC<ReferencePillSkeletonProps> = ({
         },
       }}
     >
-      <Box
-        sx={{
-          padding: image.padding ?? 0,
-          aspectRatio: '1 / 1',
-        }}
-      >
-        <ResponsiveImage priority alt={image.alt} src={image.src} />
-      </Box>
+      {image && (
+        <Box
+          sx={{
+            padding: image.padding ?? 0,
+            aspectRatio: '1 / 1',
+          }}
+        >
+          <ResponsiveImage priority alt={image.alt} src={image.src} />
+        </Box>
+      )}
       {children}
     </Box>
   </Link>

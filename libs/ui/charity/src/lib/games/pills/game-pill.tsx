@@ -1,8 +1,8 @@
 import { Box, Typography } from '@mui/material';
 import { FC } from 'react';
-import { ArrowUpRight } from '../icons/arrow-up-right';
+import { ArrowUpRight } from '../../icons/arrow-up-right';
 import { ReferencePillSkeleton } from './reference-pill-skeleton';
-import { PLACEHOLDER_IMAGE_URL } from '../layout/util';
+import { PLACEHOLDER_IMAGE_URL } from '../../layout/util';
 
 export type GamePillProps = {
   name: string;

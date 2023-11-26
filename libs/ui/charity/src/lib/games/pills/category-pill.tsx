@@ -1,15 +1,14 @@
 import { Box, Typography } from '@mui/material';
 import { FC } from 'react';
-import { ArrowUpRight } from '../icons/arrow-up-right';
+import { ArrowUpRight } from '../../icons/arrow-up-right';
 import { ReferencePillSkeleton } from './reference-pill-skeleton';
-import { PLACEHOLDER_IMAGE_URL } from '../layout/util';
+import { PLACEHOLDER_IMAGE_URL } from '../../layout/util';
 
 export type CategoryPillProps = {
   name: string;
   id: string;
   href?: string;
   hideArrow?: boolean;
-  height?: string;
   imageUrl?: string;
 };
 
@@ -18,13 +17,11 @@ export const CategoryPill: FC<CategoryPillProps> = ({
   name,
   href,
   id,
-  height,
   imageUrl,
 }) => {
   return (
     <ReferencePillSkeleton
       href={href ?? `/c/${id}`}
-      height={height}
       image={{
         padding: 0,
         src: imageUrl ?? PLACEHOLDER_IMAGE_URL,
@@ -36,9 +33,10 @@ export const CategoryPill: FC<CategoryPillProps> = ({
         alignItems="center"
         justifyContent="space-between"
         flexGrow={1}
-        px={1}
+        px={2}
       >
         <Typography
+          variant="body2"
           sx={{
             fontSize: '0.9rem',
             textTransform: 'uppercase',

@@ -14,21 +14,22 @@ export const GameSection: FC<GameSectionProps> = ({
   href,
 }) => (
   <Box>
-    <Typography
-      variant="h4"
-      sx={{
-        marginLeft: 2,
-        userSelect: 'none',
-        display: 'flex',
-        gap: 1,
-        alignItems: 'center',
-      }}
-    >
-      <Link underline="hover" color="inherit" href={href}>
+    <Link underline="hover" color="inherit" href={href}>
+      <Typography
+        variant="h4"
+        sx={{
+          marginLeft: 2,
+          userSelect: 'none',
+          display: 'flex',
+          gap: 1,
+          alignItems: 'center',
+          fontSize: { xs: '1.5rem', sm: '2rem' },
+        }}
+      >
         {title}
-      </Link>
-      <ArrowUpRight sx={{ fontSize: '2rem' }} />
-    </Typography>
+        <ArrowUpRight sx={{ fontSize: 'inherit' }} />
+      </Typography>
+    </Link>
     <ItemCarousel sx={{ gap: 2, px: 2 }}>{children}</ItemCarousel>
   </Box>
 );

@@ -18,7 +18,7 @@ export const GameRecommendations: FC<GameRecommendationProps> = ({
           onClick={(category) => alert(`TODO: handle ${category} click`)}
         />
       )}
-      <Box>
+      <Box display="flex" flexDirection="column" mt={1} gap={1}>
         <GameSection title="Popular this week" href="/c/popular">
           <GameIcon
             size={94}
@@ -88,8 +88,10 @@ export const GameRecommendations: FC<GameRecommendationProps> = ({
           />
           <GameIcon size={94} id="1" name="Placeholder" banner="new" />
         </GameSection>
-        <GameSection title="Browse Categories" href="/c" />
-        <GameSection title="Browse Games" href="/g" />
+        <Box mt={1}>
+          <GameSection title="Browse Categories" href="/c" />
+          <GameSection title="Browse Games" href="/g" />
+        </Box>
       </Box>
     </Box>
   );

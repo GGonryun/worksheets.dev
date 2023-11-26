@@ -146,3 +146,18 @@ export const Independent = {
     ],
   },
 };
+
+export const WithTextItem = {
+  args: {
+    items: [
+      { type: 'text', text: 'Sports Games' },
+      ...Array.from({ length: 20 }).map((_, i) => ({
+        type: 'game',
+        id: i,
+        name: 'Game ' + i,
+        imageUrl: 'https://via.placeholder.com/150',
+        span: 1,
+      })),
+    ],
+  },
+};
