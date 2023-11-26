@@ -1,1 +1,3 @@
-export type SupportedDevices = 'desktop' | 'mobile';
+import { GameSchema } from '../../types/game-schema';
+
+export type SupportedDevices = GameSchema['platforms'][number];

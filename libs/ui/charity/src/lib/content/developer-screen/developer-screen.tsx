@@ -26,23 +26,11 @@ import { AppStore } from '../../icons/app-store';
 import { GameDefinition } from '../../util/games';
 import { ArrowUpRight } from '../../icons/arrow-up-right';
 import { GamePill } from '../../pills';
+import { DeveloperSchema } from '../../../types/developer-schema';
 
 export type DeveloperScreenProps = {
   name: string;
-  socials: {
-    facebook?: string;
-    twitter?: string;
-    instagram?: string;
-    youtube?: string;
-    twitch?: string;
-    discord?: string;
-    itchio?: string;
-    tiktok?: string;
-    website?: string;
-    steam?: string;
-    playstore?: string;
-    appstore?: string;
-  };
+  socials: DeveloperSchema['socials'];
   games: GameDefinition[];
 };
 

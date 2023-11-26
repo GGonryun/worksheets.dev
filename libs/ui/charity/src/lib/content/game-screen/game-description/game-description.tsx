@@ -9,10 +9,10 @@ import {
 } from '@mui/material';
 import { FC } from 'react';
 import { Markdown, MarkdownText } from '../../../typography';
-import { GameTags, MarketLinks, SupportedDevices } from '../../../util';
 import { CategoryBreadcrumbs } from './category-breadcrumbs';
 import { SupportedDeviceIcons } from './supported-device-icons';
 import { MarketWidgets } from './market-widgets';
+import { GameSchema } from '../../../../types/game-schema';
 
 export type GameDescriptionProps = {
   title: string;
@@ -24,10 +24,10 @@ export type GameDescriptionProps = {
   created: string;
   updated: string;
   // category breadcrumbs are rendered from left to right, least specific to most specific category.
-  category: GameTags[];
-  tags: GameTags[];
-  platforms: SupportedDevices[];
-  markets?: Partial<MarketLinks>;
+  category: GameSchema['category'];
+  tags: GameSchema['tags'];
+  platforms: GameSchema['platforms'];
+  markets?: GameSchema['markets'];
 };
 
 export const GameDescription: FC<GameDescriptionProps> = ({

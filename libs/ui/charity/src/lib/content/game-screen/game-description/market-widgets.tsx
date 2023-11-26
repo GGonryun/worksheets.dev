@@ -1,9 +1,10 @@
 import { Box, Link, LinkProps, styled } from '@mui/material';
 import { FC, JSXElementConstructor } from 'react';
-import { MarketLinks } from '../../../util';
 import { ResponsiveImage } from '../../../images';
+import { GameSchema } from '../../../../types/game-schema';
+import { APP_STORE_BADGE_PATH, PLAY_STORE_BADGE_PATH } from '../../../util';
 
-export type MarketWidgetsProps = Partial<MarketLinks>;
+export type MarketWidgetsProps = GameSchema['markets'];
 export const MarketWidgets: FC<MarketWidgetsProps> = ({
   android,
   ios,
@@ -19,20 +20,20 @@ export const MarketWidgets: FC<MarketWidgetsProps> = ({
       gap={2}
       pt={2}
     >
-      <Box display={ios || android ? 'flex' : 'none'} gap={1}>
-        <ResponsiveImageLink
-          href={android}
-          src="/common/google-play/badge.svg"
-          alt="Google Play Badge"
-          height={{ xs: 44, sm: 54 }}
-          width={{ xs: 146, sm: 180 }}
-        />
+      <Box display={ios || android ? 'flex' : 'none'} gap={1} flexWrap={'wrap'}>
         <ResponsiveImageLink
           href={ios}
-          src="/common/app-store/badge.svg"
+          src={APP_STORE_BADGE_PATH}
           alt="App Store Badge"
-          height={{ xs: 44, sm: 54 }}
-          width={{ xs: 142, sm: 162 }}
+          height={54}
+          width={162}
+        />
+        <ResponsiveImageLink
+          href={android}
+          src={PLAY_STORE_BADGE_PATH}
+          alt="Google Play Badge"
+          height={54}
+          width={180}
         />
       </Box>
       <SteamWidgetBox display={steam ? 'block' : 'none'}>

@@ -13,7 +13,7 @@ import { SubdomainBox } from './subdomain-box';
 import { CaptionText, SecondarySmallHeaderText } from '../typography';
 import { CardSkeleton } from './card-skeleton';
 import { IconBox, IconBoxProps } from './icon-box';
-import { PROTOCOL, ROOT_DOMAIN } from '../util/env';
+import { PROTOCOL, ROOT_DOMAIN } from '../../env';
 
 export type GameStatus = 'published' | 'draft' | 'archived' | 'restricted';
 

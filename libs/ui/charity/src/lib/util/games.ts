@@ -1,4 +1,6 @@
-export type GameQualifier = 'hot' | 'new' | 'played' | 'none';
+import { GameSchema } from '../../types/game-schema';
+
+export type GameQualifier = GameSchema['qualifier'];
 
 export type GameDefinition = {
   // the id will be used to link to the game page
