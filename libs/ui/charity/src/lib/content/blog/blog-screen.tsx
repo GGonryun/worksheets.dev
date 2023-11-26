@@ -10,6 +10,8 @@ export type BlogScreenProps = {
 };
 
 export const BlogScreen: FC<BlogScreenProps> = ({ posts }) => {
+  // sort the posts by date.
+  posts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
   return (
     <Container maxWidth="lg" sx={{ py: 2 }}>
       <Paper

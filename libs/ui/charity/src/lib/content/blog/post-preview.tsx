@@ -6,6 +6,7 @@ import { Flex, useDeviceSize } from '@worksheets/ui-core';
 import Image from 'next/image';
 import { ArrowRightAlt } from '@mui/icons-material';
 import { blogAuthors } from '../../../data/authors';
+import { printDate } from '@worksheets/util/time';
 
 export const PostPreview: FC<MarkdownMetadata> = ({
   title,
@@ -21,6 +22,7 @@ export const PostPreview: FC<MarkdownMetadata> = ({
   const url = urls.relative.blog + '/' + slug;
   const author = blogAuthors[authorId];
   const authorUrl = urls.relative.about + '#' + author.id;
+  const prettyDate = printDate(date);
 
   return (
     <Flex spaceBetween fullWidth gap={4}>
@@ -32,7 +34,7 @@ export const PostPreview: FC<MarkdownMetadata> = ({
         </Typography>
         <Flex wrap gap={0.5}>
           <Typography variant="body3" sx={{ pr: 4 }}>
-            {date} by{' '}
+            {prettyDate} by{' '}
             <Link color="inherit" href={authorUrl}>
               {author.name}
             </Link>

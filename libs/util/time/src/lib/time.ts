@@ -15,6 +15,19 @@ export function convertMillisecondsToSeconds(milliseconds: number): number {
   return Math.round(milliseconds / 1000);
 }
 
+export const printDate = (stamp: string, locale = 'en-US') => {
+  const options: Intl.DateTimeFormatOptions = {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  };
+
+  const date = new Date(stamp);
+
+  return date.toLocaleDateString(locale, options);
+};
+
 export function expireAfter({
   minutes = 0,
   hours = 0,
