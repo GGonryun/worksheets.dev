@@ -7,3 +7,4 @@ export * from './faq-screen';
 export * from './blog';
 export * from './under-construction';
 export * from './developer-screen';
+export * from './category-screen';

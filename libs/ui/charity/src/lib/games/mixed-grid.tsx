@@ -15,17 +15,19 @@ export const MixedGrid: FC<MixedGridProps> = ({ items }) => {
     return '80px';
   };
 
+  const size = itemSize();
+
   return (
     <Box
       display="grid"
-      gridTemplateColumns={`repeat(auto-fit, ${itemSize()})`}
-      gridTemplateRows={`repeat(auto-fit, ${itemSize()})`}
+      gridTemplateColumns={`repeat(auto-fit, ${size})`}
+      gridTemplateRows={`repeat(auto-fit, ${size})`}
       gridAutoFlow={'dense'}
       alignItems={'center'}
       justifyContent={'center'}
       gap={2}
     >
-      <MixedGridItems items={items} />
+      <MixedGridItems items={items} size={size} />
     </Box>
   );
 };

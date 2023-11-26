@@ -9,7 +9,10 @@ import {
   dummySocials,
   sampleBlogMetadata,
   sampleBlogPost,
+  sampleCategoryDescription,
+  sampleCategoryItems,
   sampleGameDefinitions,
+  sampleGameItems,
   sampleMixedGridItems,
 } from '../util';
 import {
@@ -23,6 +26,7 @@ import {
   BlogScreen,
   UnderConstruction,
   DeveloperScreen,
+  CategoryScreen,
 } from '../content';
 
 const Story: Meta<typeof Layout> = {
@@ -110,6 +114,20 @@ export const HomePage = {
           })}
         />
       </Container>
+    ),
+  },
+};
+
+export const CategoryPage = {
+  args: {
+    children: (
+      <CategoryScreen
+        gamesHref={undefined}
+        text="Idle Games"
+        description={sampleCategoryDescription}
+        games={sampleGameItems}
+        categories={sampleCategoryItems}
+      />
     ),
   },
 };

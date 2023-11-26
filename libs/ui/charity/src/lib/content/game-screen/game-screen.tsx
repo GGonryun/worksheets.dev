@@ -1,7 +1,11 @@
 import { FC, ReactNode } from 'react';
 import { ScreenBox } from './screen-box';
 import { GameBox } from './game-box';
-import { MixedGridItem, MixedGridItems } from '../../games/mixed-grid-items';
+import {
+  GRID_ITEM_SIZE,
+  MixedGridItem,
+  MixedGridItems,
+} from '../../games/mixed-grid-items';
 import { DescriptionBox } from './description-box';
 
 type GameScreenProps = {
@@ -17,7 +21,7 @@ export const GameScreen: FC<GameScreenProps> = ({
 }) => {
   return (
     <ScreenBox>
-      <MixedGridItems items={suggestions} />
+      <MixedGridItems items={suggestions} size={GRID_ITEM_SIZE} />
       <GameBox>{game}</GameBox>
       <DescriptionBox>{description}</DescriptionBox>
     </ScreenBox>

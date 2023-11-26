@@ -13,12 +13,13 @@ export type MixedGridItem =
 
 export type MixedGridItemProps = {
   items: MixedGridItem[];
+  size: string;
 };
 
-export const MixedGridItems: FC<MixedGridItemProps> = ({ items }) => {
+export const MixedGridItems: FC<MixedGridItemProps> = ({ items, size }) => {
   return (
     <>
-      {items.map((item, index) => (
+      {items.map((item) => (
         <Fragment>
           {item.type === 'game' && (
             <Box
@@ -34,7 +35,7 @@ export const MixedGridItems: FC<MixedGridItemProps> = ({ items }) => {
               key={item.id}
               gridColumn={`span 3`}
               gridRow={`span 1`}
-              height={GRID_ITEM_SIZE}
+              height={size}
             >
               <CategoryPill {...item} />
             </Box>
@@ -44,7 +45,7 @@ export const MixedGridItems: FC<MixedGridItemProps> = ({ items }) => {
               key={item.text}
               gridColumn={`span 3`}
               gridRow={`span 1`}
-              height={GRID_ITEM_SIZE}
+              height={size}
             >
               <TextPill {...item} />
             </Box>
