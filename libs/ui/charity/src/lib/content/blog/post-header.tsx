@@ -1,14 +1,14 @@
-import { Author } from '@worksheets/util-markdown';
 import { FC } from 'react';
 import Image from 'next/image';
 import { Box, Typography } from '@mui/material';
 import { ResponsiveImage } from '../../images';
+import { BlogAuthor } from '../../../types/author';
 
 export type PostHeaderProps = {
   title: string;
   coverImage: string;
   date: string;
-  author: Author;
+  author: BlogAuthor;
 };
 
 export const PostHeader: FC<PostHeaderProps> = ({
@@ -33,7 +33,7 @@ export const PostHeader: FC<PostHeaderProps> = ({
             borderRadius: '50%',
           }}
         >
-          <Image alt={author.name} src={author.picture} fill />
+          <Image alt={author.name} src={author.avatar} fill />
         </Box>
         <Typography variant="h6" ml={2}>
           {author.name}

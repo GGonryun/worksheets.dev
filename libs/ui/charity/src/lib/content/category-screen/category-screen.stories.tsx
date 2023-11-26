@@ -1,10 +1,10 @@
 import type { Meta } from '@storybook/react';
 import { CategoryScreen } from './category-screen';
 import {
-  sampleCategoryDescription,
-  sampleCategoryItems,
   sampleGameItems,
-} from '../../util';
+  sampleCategoryItems,
+  sampleCategoryDescription,
+} from '../../_samples';
 
 const Story: Meta<typeof CategoryScreen> = {
   component: CategoryScreen,

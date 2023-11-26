@@ -9,7 +9,7 @@ import {
   styled,
 } from '@mui/material';
 import { FC, JSXElementConstructor } from 'react';
-import { textShadow, svgBoxShadow } from '../styles';
+import { textShadow, svgBoxShadow } from '../util/styles';
 import {
   GitHub,
   LinkedIn,
@@ -18,7 +18,7 @@ import {
 } from '@mui/icons-material';
 import { Discord } from '../icons/discord';
 import { useRouter } from 'next/router';
-import { urls } from './util';
+import { urls } from '../util/urls';
 
 export type WebsiteFooterProps = {
   // TODO: args

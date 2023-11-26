@@ -1,4 +1,4 @@
-import { urls } from '../../layout/util';
+import { urls } from '../../util';
 
 export const qa = [
   {

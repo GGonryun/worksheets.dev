@@ -1,10 +1,10 @@
 import type { Meta } from '@storybook/react';
 import { GameScreen } from '.';
 import {
-  SampleGameDescription,
   SampleGameLauncher,
+  SampleGameDescription,
   sampleMixedGridItems,
-} from '../../util';
+} from '../../_samples';
 
 const Story: Meta<typeof GameScreen> = {
   component: GameScreen,

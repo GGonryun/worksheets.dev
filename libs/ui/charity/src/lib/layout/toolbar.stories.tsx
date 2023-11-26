@@ -17,3 +17,9 @@ export const LoggedIn = {
     connected: true,
   },
 };
+
+export const disableLogin = {
+  args: {
+    disableLogin: true,
+  },
+};

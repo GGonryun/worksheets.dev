@@ -9,8 +9,8 @@ import { Box, Link, Typography } from '@mui/material';
 import { FC, useState } from 'react';
 import { BannerBox } from './banner-box';
 import { ResponsiveImage } from '../images';
-import { PLACEHOLDER_IMAGE_URL } from '../layout/util';
 import { GameQualifier } from '../util/games';
+import { PLACEHOLDER_LOGO_PATH } from '../util';
 
 export type GameIconProps = {
   // the id will be used to link to the game page
@@ -78,7 +78,7 @@ export const GameIcon: FC<GameIconProps> = ({
       >
         <ResponsiveImage
           priority
-          src={imageUrl ?? PLACEHOLDER_IMAGE_URL}
+          src={imageUrl ?? PLACEHOLDER_LOGO_PATH}
           alt={`${name} logo`}
           style={{
             overflow: 'hidden',

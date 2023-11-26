@@ -4,6 +4,7 @@ import { PostHeader } from './post-header';
 import { MarkdownMetadata } from '@worksheets/util-markdown';
 import { PostBody } from './post-body/post-body';
 import { JoinNewsletterBox } from './join-newsletter-box';
+import { blogAuthors } from '../../../data/authors';
 
 export type BlogPostScreenProps = {
   metadata: MarkdownMetadata;
@@ -14,6 +15,7 @@ export const BlogPostScreen: FC<BlogPostScreenProps> = ({
   metadata,
   content,
 }) => {
+  const author = blogAuthors[metadata.authorId];
   return (
     <article>
       <Container maxWidth="lg" sx={{ py: 2 }}>
@@ -32,7 +34,7 @@ export const BlogPostScreen: FC<BlogPostScreenProps> = ({
             title={metadata.title}
             coverImage={metadata.coverImage}
             date={metadata.date}
-            author={metadata.author}
+            author={author}
           />
           <PostBody content={content} />
         </Paper>

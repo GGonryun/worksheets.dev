@@ -9,7 +9,7 @@ import {
 } from '../typography';
 import { SubdomainBox } from './subdomain-box';
 import { IconBox } from './icon-box';
-import { ROOT_DOMAIN, PROTOCOL } from '../env';
+import { ROOT_DOMAIN, PROTOCOL } from '../util/env';
 
 export type TeamCardProps = {
   id: string;

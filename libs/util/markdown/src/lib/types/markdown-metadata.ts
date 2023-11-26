@@ -1,4 +1,3 @@
-import { Author } from './author';
 import { OgImage } from './og-image';
 
 export interface MarkdownMetadata {
@@ -7,7 +6,7 @@ export interface MarkdownMetadata {
   coverImage: string;
   tags: string[];
   date: string;
-  author: Author;
+  authorId: string;
   ogImage: OgImage;
   slug: string;
 }

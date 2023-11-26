@@ -1,7 +1,7 @@
 import { LinkedIn } from '@mui/icons-material';
 import { Box, Button, Container, Link, Paper, Typography } from '@mui/material';
 import { FC } from 'react';
-import { urls } from '../../layout/util';
+import { urls } from '../../util/urls';
 
 export type AboutScreenProps = {
   // no props

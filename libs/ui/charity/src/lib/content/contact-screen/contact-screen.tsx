@@ -2,7 +2,7 @@ import { EmailOutlined, GitHub } from '@mui/icons-material';
 import { Box, Button, Container, Link, Paper, Typography } from '@mui/material';
 import { FC } from 'react';
 import { ArrowUpRight } from '../../icons/arrow-up-right';
-import { urls } from '../../layout/util';
+import { urls } from '../../util/urls';
 
 export type ContactScreenProps = {
   // no props

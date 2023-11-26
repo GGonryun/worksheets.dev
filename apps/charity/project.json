@@ -16,7 +16,7 @@
           {
             "input": "libs/assets/common/src/lib",
             "glob": "**/*",
-            "output": "common"
+            "output": "assets"
           }
         ]
       },

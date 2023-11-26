@@ -1,8 +1,8 @@
 import { FC } from 'react';
 import { Box, ButtonBase, IconButton, InputBase } from '@mui/material';
 import Image from 'next/image';
-import { CHARITY_LOGO_PATH } from '../util';
 import { ArrowLeft, Clear, Search } from '@mui/icons-material';
+import { CHARITY_LOGO_PATH } from '../../util';
 
 type SearchBarProps = {
   value?: string;

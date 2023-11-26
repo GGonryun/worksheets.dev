@@ -5,19 +5,21 @@ import { urls } from '@worksheets/ui-games';
 import { Flex, useDeviceSize } from '@worksheets/ui-core';
 import Image from 'next/image';
 import { ArrowRightAlt } from '@mui/icons-material';
+import { blogAuthors } from '../../../data/authors';
 
 export const PostPreview: FC<MarkdownMetadata> = ({
   title,
   excerpt,
   coverImage,
   date,
-  author,
+  authorId,
   tags,
   slug,
 }) => {
   const { isMobile } = useDeviceSize();
   const trimmedExcerpt = excerpt.slice(0, 150) + '...';
   const url = urls.relative.blog + '/' + slug;
+  const author = blogAuthors[authorId];
   const authorUrl = urls.relative.about + '#' + author.id;
 
   return (

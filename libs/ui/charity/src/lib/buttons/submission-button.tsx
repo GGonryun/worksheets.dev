@@ -1,6 +1,6 @@
 import { Button, ButtonProps, styled } from '@mui/material';
 import { JSXElementConstructor } from 'react';
-import { tabletBoxShadow } from '../styles';
+import { tabletBoxShadow } from '../util/styles';
 
 export const SubmissionButton = styled<JSXElementConstructor<ButtonProps>>(
   (props) => <Button variant="contained" color="primary" {...props} />

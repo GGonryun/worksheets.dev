@@ -1,10 +1,11 @@
 import { Box, Typography } from '@mui/material';
 import { FC } from 'react';
-import { GamePill, GamePillProps } from '../../games/pills/game-pill';
 import {
   CategoryPill,
   CategoryPillProps,
-} from '../../games/pills/category-pill';
+  GamePill,
+  GamePillProps,
+} from '../../pills';
 
 export type SearchResultsProps = {
   games: GamePillProps[];

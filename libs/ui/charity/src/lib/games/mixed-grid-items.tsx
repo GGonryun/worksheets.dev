@@ -1,8 +1,12 @@
 import { Box } from '@mui/material';
 import { FC, Fragment } from 'react';
-import { CategoryPillProps, CategoryPill } from './pills/category-pill';
 import { GameIconProps, GameIcon } from './game-icon';
-import { TextPill, TextPillProps } from './pills/text-pill';
+import {
+  CategoryPillProps,
+  CategoryPill,
+  TextPillProps,
+  TextPill,
+} from '../pills';
 
 export const GRID_ITEM_SIZE = `94px`;
 

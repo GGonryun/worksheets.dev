@@ -2,19 +2,6 @@ import type { Meta } from '@storybook/react';
 import { Layout } from './layout';
 import { Container, Typography } from '@mui/material';
 import { MixedGrid } from '../games/mixed-grid';
-import {} from '../content/game-screen';
-import {
-  SampleGameDescription,
-  SampleGameLauncher,
-  dummySocials,
-  sampleBlogMetadata,
-  sampleBlogPost,
-  sampleCategoryDescription,
-  sampleCategoryItems,
-  sampleGameDefinitions,
-  sampleGameItems,
-  sampleMixedGridItems,
-} from '../util';
 import {
   GameScreen,
   LoginScreen,
@@ -28,6 +15,18 @@ import {
   DeveloperScreen,
   CategoryScreen,
 } from '../content';
+import {
+  SampleGameDescription,
+  SampleGameLauncher,
+  dummySocials,
+  sampleBlogMetadata,
+  sampleBlogPost,
+  sampleCategoryDescription,
+  sampleCategoryItems,
+  sampleGameDefinitions,
+  sampleGameItems,
+  sampleMixedGridItems,
+} from '../_samples';
 
 const Story: Meta<typeof Layout> = {
   component: Layout,

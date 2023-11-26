@@ -1,7 +1,8 @@
+import { MarkdownMetadata } from '@worksheets/util-markdown';
 import { GameDescription } from '../content/game-screen/game-description';
-import { GameLauncher } from '../content/game-screen/game-launcher/';
+import { GameLauncher } from '../content/game-screen/game-launcher';
 import { MixedGridItem } from '../games/mixed-grid-items';
-import { GameDefinition } from './games';
+import { GameDefinition } from '../util/games';
 
 export const SampleGameLauncher = () => (
   <GameLauncher
@@ -91,7 +92,7 @@ export const sampleMixedGridItems = () => [
   })),
 ];
 
-export const sampleBlogMetadata = [
+export const sampleBlogMetadata: MarkdownMetadata[] = [
   {
     title: 'Blog Post 1',
     excerpt:
@@ -99,11 +100,7 @@ export const sampleBlogMetadata = [
     coverImage: 'https://picsum.photos/seed/1/600/400',
     tags: ['tag1', 'tag2', 'tag3'],
     date: 'October 27, 2023',
-    author: {
-      name: 'Author 1',
-      picture: 'https://picsum.photos/seed/1/600/400',
-      id: 'author-1',
-    },
+    authorId: 'miguel-campos',
     ogImage: { url: 'https://picsum.photos/seed/1/600/400' },
     slug: 'blog-post-1',
   },
@@ -113,11 +110,7 @@ export const sampleBlogMetadata = [
       'This is the excerpt for blog post 2. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.',
     coverImage: 'https://picsum.photos/seed/2/600/400',
     tags: ['tag1', 'tag2', 'tag3'],
-    author: {
-      name: 'Author 1',
-      picture: 'https://picsum.photos/seed/2/600/400',
-      id: 'author-1',
-    },
+    authorId: 'miguel-campos',
     ogImage: { url: 'https://picsum.photos/seed/2/600/400' },
     date: 'November 11, 2023',
     slug: 'blog-post-2',

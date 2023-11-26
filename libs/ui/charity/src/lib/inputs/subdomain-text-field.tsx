@@ -2,7 +2,7 @@ import { Box, InputBaseProps } from '@mui/material';
 import { FC } from 'react';
 import { DefaultInputBase } from './default-input-base';
 import { DenseInputLabel } from './dense-input-label';
-import { ROOT_DOMAIN } from '../env';
+import { ROOT_DOMAIN } from '../util/env';
 
 export const SubdomainTextField: FC<InputBaseProps> = (props) => {
   return (

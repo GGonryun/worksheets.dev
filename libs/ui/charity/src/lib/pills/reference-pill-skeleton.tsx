@@ -1,6 +1,6 @@
 import { Box, Link } from '@mui/material';
 import { FC, ReactNode } from 'react';
-import { ResponsiveImage } from '../../images';
+import { ResponsiveImage } from '../images';
 
 export type ReferencePillSkeletonProps = {
   children: ReactNode;

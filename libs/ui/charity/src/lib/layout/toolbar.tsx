@@ -12,11 +12,13 @@ import {
 } from '@mui/material';
 import { DenseButton } from '../buttons';
 import { FC } from 'react';
-import { CHARITY_LOGO_PATH } from './util';
 import { FillImage } from '../images/fill-image';
+import { CHARITY_LOGO_PATH } from '../util';
+
 interface ToolbarProps {
   onDrawerToggle: () => void;
   connected: boolean;
+  disableLogin?: boolean;
 }
 
 export const Toolbar = (props: ToolbarProps) => {
@@ -60,7 +62,9 @@ export const Toolbar = (props: ToolbarProps) => {
         </IconButton>
         <LogoBox />
 
-        <ConnectionButton connected={props.connected} />
+        {!props.disableLogin && (
+          <ConnectionButton connected={props.connected} />
+        )}
       </MuiToolbar>
     </AppBar>
   );
