@@ -16,7 +16,7 @@ export const ContactScreen: FC<ContactScreenProps> = (props) => {
           display: 'flex',
           flexDirection: 'column',
           borderRadius: 4,
-          p: { xs: 1, sm: 3 },
+          p: { xs: 2, sm: 4 },
         }}
       >
         <Typography variant="h3">Contact Us</Typography>

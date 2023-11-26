@@ -20,7 +20,7 @@ export const AccountScreen: FC<AccountScreenProps> = ({
           display: 'flex',
           flexDirection: 'column',
           borderRadius: 4,
-          p: { xs: 1, sm: 3 },
+          p: { xs: 2, sm: 4 },
         }}
       >
         <Typography variant="h4">Recent</Typography>
@@ -37,7 +37,14 @@ export const AccountScreen: FC<AccountScreenProps> = ({
             <GameIcon key={d.id} size={94} {...d} />
           ))}
         </Box>
-        <Box mt={3} display="flex" justifyContent="space-between" width="100%">
+        <Box
+          mt={3}
+          display="flex"
+          justifyContent="space-between"
+          width="100%"
+          flexWrap="wrap"
+          gap={2}
+        >
           <Button
             variant="outlined"
             color="black"

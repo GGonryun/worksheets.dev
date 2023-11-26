@@ -31,6 +31,7 @@ export const UnderConstruction: FC<{ children?: ReactNode }> = ({
           sx={{
             display: 'flex',
             flexDirection: 'column',
+            borderRadius: 4,
             alignItems: 'flex-start',
             maxWidth: 400,
             p: 3,

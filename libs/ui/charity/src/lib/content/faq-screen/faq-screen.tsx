@@ -18,7 +18,7 @@ export const FAQScreen: FC<FAQScreenProps> = (props) => {
           display: 'flex',
           flexDirection: 'column',
           borderRadius: 4,
-          p: { xs: 1, sm: 3 },
+          p: { xs: 2, sm: 4 },
         }}
       >
         <Typography variant="h4">Frequently Asked Questions</Typography>
