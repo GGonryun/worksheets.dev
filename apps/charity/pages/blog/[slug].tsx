@@ -33,13 +33,13 @@ const Page: NextPageWithLayout<Props> = ({ slug, metadata, content }) => {
       {router.isFallback ? (
         <Typography variant="h4">Loading . . .</Typography>
       ) : (
-        <>
+        <article>
           <Head>
             <title>{metadata.title}</title>
             <meta property="og:image" content={metadata.ogImage.url} />
           </Head>
           <BlogPostScreen metadata={metadata} content={content} />
-        </>
+        </article>
       )}
     </Box>
   );
@@ -77,6 +77,7 @@ export const getStaticProps = async ({
     },
   };
 };
+
 export const getStaticPaths: GetStaticPaths<ArticleProps> = async () => {
   const paths = getFilePaths(POSTS_PATH);
 

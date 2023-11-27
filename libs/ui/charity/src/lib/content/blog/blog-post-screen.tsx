@@ -17,41 +17,39 @@ export const BlogPostScreen: FC<BlogPostScreenProps> = ({
 }) => {
   const author = blogAuthors[metadata.authorId];
   return (
-    <article>
-      <Container maxWidth="lg" sx={{ py: 2 }}>
-        <Paper
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            borderTopRightRadius: '16px',
-            borderTopLeftRadius: '16px',
-            borderBottomLeftRadius: 0,
-            borderBottomRightRadius: 0,
-            p: { xs: 2, sm: 4 },
-          }}
-        >
-          <PostHeader
-            title={metadata.title}
-            coverImage={metadata.coverImage}
-            date={metadata.date}
-            author={author}
-          />
-          <PostBody content={content} />
-        </Paper>
-        <Paper
-          sx={{
-            borderTop: (theme) => `1px solid ${theme.palette.divider}`,
-            backgroundColor: (theme) => theme.palette.grey[200],
-            p: { xs: 2, sm: 4 },
-            borderTopLeftRadius: 0,
-            borderTopRightRadius: 0,
-            borderBottomLeftRadius: '16px',
-            borderBottomRightRadius: '16px',
-          }}
-        >
-          <JoinNewsletterBox />
-        </Paper>
-      </Container>
-    </article>
+    <Container maxWidth="lg" sx={{ py: 2 }}>
+      <Paper
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          borderTopRightRadius: '16px',
+          borderTopLeftRadius: '16px',
+          borderBottomLeftRadius: 0,
+          borderBottomRightRadius: 0,
+          p: { xs: 2, sm: 4 },
+        }}
+      >
+        <PostHeader
+          title={metadata.title}
+          coverImage={metadata.coverImage}
+          date={metadata.date}
+          author={author}
+        />
+        <PostBody content={content} />
+      </Paper>
+      <Paper
+        sx={{
+          borderTop: (theme) => `1px solid ${theme.palette.divider}`,
+          backgroundColor: (theme) => theme.palette.grey[200],
+          p: { xs: 2, sm: 4 },
+          borderTopLeftRadius: 0,
+          borderTopRightRadius: 0,
+          borderBottomLeftRadius: '16px',
+          borderBottomRightRadius: '16px',
+        }}
+      >
+        <JoinNewsletterBox />
+      </Paper>
+    </Container>
   );
 };

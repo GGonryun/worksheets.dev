@@ -1,9 +1,0 @@
-assign:
-  - list: [1, 2, 3, 4, 5]
-
-steps:
-  - call: math.max
-    input: \${list}
-    output: max
-
-output: \${max}

@@ -162,7 +162,6 @@
       "@worksheets/util-shapes": ["libs/util/shapes/src/index.ts"],
       "@worksheets/util-sys": ["libs/util/sys/src/index.ts"],
       "@worksheets/util-websters": ["libs/util/websters/src/index.ts"],
-      "@worksheets/util-worksheets": ["libs/util/worksheets/src/index.ts"],
       "@worksheets/util-yaml": ["libs/util/yaml/src/index.ts"],
       "@worksheets/util/arrays": ["libs/util/arrays/src/index.ts"],
       "@worksheets/util/auth/client": ["libs/util/auth/client/src/index.ts"],
