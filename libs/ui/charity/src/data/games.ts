@@ -1,5 +1,5 @@
 import { GameSchema } from '../types/game-schema';
-import { PROTOCOL, ROOT_DOMAIN } from '../env';
+import { SOLITAIRE_URL } from '../env';
 
 export const games: GameSchema[] = [
   {
@@ -7,8 +7,8 @@ export const games: GameSchema[] = [
     name: 'Solitaire',
     size: 2,
     developerId: 'charity-games',
-    iconUrl: '/assets/games/solitaire/icon.jpg',
-    bannerSrc: '/assets/games/solitaire/banner.png',
+    iconUrl: '/games/solitaire/icon.jpg',
+    bannerSrc: '/games/solitaire/banner.png',
     qualifier: 'new',
     platforms: ['desktop', 'mobile'],
     tags: [
@@ -24,7 +24,7 @@ export const games: GameSchema[] = [
     category: ['card'],
     file: {
       type: 'redirect',
-      url: `${PROTOCOL}://solitaire.${ROOT_DOMAIN}`,
+      url: SOLITAIRE_URL,
     },
     createdAt: new Date('2023-10-16T00:00:00.000Z'),
     updatedAt: new Date('2021-11-23T00:00:00.000Z'),

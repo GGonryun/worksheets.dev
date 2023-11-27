@@ -4,7 +4,7 @@ export const tags: Record<GameTag, TagSchema> = {
   board: {
     id: 'board',
     name: 'Board Games',
-    iconUrl: '/assets/categories/board.svg',
+    iconUrl: '/games/categories/board.svg',
     relatedTags: ['puzzle', 'brain', 'card'],
     description: `
     ## Board Games
@@ -32,7 +32,7 @@ export const tags: Record<GameTag, TagSchema> = {
   puzzle: {
     id: 'puzzle',
     name: 'Puzzle Games',
-    iconUrl: '/assets/categories/puzzle.svg',
+    iconUrl: '/games/categories/puzzle.svg',
     relatedTags: ['board', 'brain'],
     description: `
     ## Puzzle Games
@@ -41,7 +41,7 @@ export const tags: Record<GameTag, TagSchema> = {
   brain: {
     id: 'brain',
     name: 'Brain Games',
-    iconUrl: '/assets/categories/brain.svg',
+    iconUrl: '/games/categories/brain.svg',
     relatedTags: ['board', 'puzzle'],
     description: `
     ## Brain Games
@@ -50,7 +50,7 @@ export const tags: Record<GameTag, TagSchema> = {
   card: {
     id: 'card',
     name: 'Card Games',
-    iconUrl: '/assets/categories/card.svg',
+    iconUrl: '/games/categories/card.svg',
     relatedTags: ['board', 'brain'],
     description: `
     ## Card Games
@@ -59,7 +59,7 @@ export const tags: Record<GameTag, TagSchema> = {
   new: {
     id: 'new',
     name: 'New Games',
-    iconUrl: '/assets/categories/new.svg',
+    iconUrl: '/games/categories/new.svg',
     relatedTags: ['popular'],
     description: `
     ## New Games
@@ -68,7 +68,7 @@ export const tags: Record<GameTag, TagSchema> = {
   popular: {
     id: 'popular',
     name: 'Popular Games',
-    iconUrl: '/assets/categories/popular.svg',
+    iconUrl: '/games/categories/popular.svg',
     relatedTags: ['mobile', 'new'],
     description: `
     ## Popular Games
@@ -77,7 +77,7 @@ export const tags: Record<GameTag, TagSchema> = {
   mobile: {
     id: 'mobile',
     name: 'Mobile Games',
-    iconUrl: '/assets/categories/mobile.svg',
+    iconUrl: '/games/categories/mobile.svg',
     relatedTags: ['desktop', 'popular'],
     description: `
     ## Mobile Games
@@ -86,7 +86,7 @@ export const tags: Record<GameTag, TagSchema> = {
   desktop: {
     id: 'desktop',
     name: 'Desktop Games',
-    iconUrl: '/assets/categories/desktop.svg',
+    iconUrl: '/games/categories/desktop.svg',
     relatedTags: ['mobile', 'popular'],
     description: `
     ## Desktop Games

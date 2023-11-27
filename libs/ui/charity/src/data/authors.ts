@@ -4,6 +4,6 @@ export const blogAuthors: Record<string, BlogAuthor> = {
   'miguel-campos': {
     id: 'miguel-campos',
     name: 'Miguel Campos',
-    avatar: '/assets/blog/authors/miguel.jpeg',
+    avatar: '/blog/authors/miguel.jpeg',
   },
 };

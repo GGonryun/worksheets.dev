@@ -205,37 +205,37 @@ export const sampleGameIconsOfRealGames: GameIconProps[] = [
   {
     id: 'solitaire',
     name: 'Solitaire',
-    imageUrl: '/assets/games/solitaire/icon.jpg',
+    imageUrl: '/games/solitaire/icon.jpg',
   },
   {
     id: 'emoji-war',
     name: 'Emoji War',
-    imageUrl: '/assets/games/emoji-war/icon.jpg',
+    imageUrl: '/games/emoji-war/icon.jpg',
   },
   {
     id: 'chess-kata',
     name: 'Chess Kata',
-    imageUrl: '/assets/games/chess-kata/icon.jpg',
+    imageUrl: '/games/chess-kata/icon.jpg',
   },
   {
     id: 'nonograms',
     name: 'Nonograms',
-    imageUrl: '/assets/games/nonograms/icon.jpg',
+    imageUrl: '/games/nonograms/icon.jpg',
   },
   {
     id: 'word-smith',
     name: 'Word Smith',
-    imageUrl: '/assets/games/word-smith/icon.jpg',
+    imageUrl: '/games/word-smith/icon.jpg',
   },
   {
     id: 'word-search',
     name: 'Word Search',
-    imageUrl: '/assets/games/word-search/icon.jpg',
+    imageUrl: '/games/word-search/icon.jpg',
   },
   {
     id: 'word-pack',
     name: 'Word Pack',
-    imageUrl: '/assets/games/word-pack/icon.jpg',
+    imageUrl: '/games/word-pack/icon.jpg',
   },
 ];
 

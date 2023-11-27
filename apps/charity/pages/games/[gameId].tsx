@@ -24,7 +24,6 @@ const Page: NextPageWithLayout = () => {
 
   const handleOnPlay = () => {
     if (game.file.type === 'redirect') {
-      console.log('performing push', game.file.url);
       push(game.file.url);
     } else {
       alert('TODO: show iframe');

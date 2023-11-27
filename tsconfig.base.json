@@ -33,7 +33,9 @@
       "@worksheets/apps/math": ["libs/apps/math/src/index.ts"],
       "@worksheets/apps/open-ai": ["libs/apps/open-ai/src/index.ts"],
       "@worksheets/apps/sys": ["libs/apps/sys/src/index.ts"],
+      "@worksheets/assets-blog": ["libs/assets/blog/src/index.ts"],
       "@worksheets/assets-common": ["libs/assets/common/src/index.ts"],
+      "@worksheets/assets-games": ["libs/assets/games/src/index.ts"],
       "@worksheets/data-access-projects": [
         "libs/data-access/projects/src/index.ts"
       ],

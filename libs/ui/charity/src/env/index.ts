@@ -1,6 +1,19 @@
-const ROOT_DOMAIN = process.env.NEXT_PUBLIC_ROOT_DOMAIN;
-if (!ROOT_DOMAIN) throw new Error('Missing NEXT_PUBLIC_ROOT_DOMAIN env var');
+const EMOJI_WAR_URL = process.env.NEXT_PUBLIC_EMOJI_WAR_BASE_URL ?? '';
+const PUZZLE_WORDS_URL = process.env.NEXT_PUBLIC_PUZZLE_WORDS_BASE_URL ?? '';
+const DUNGEON_KATA_URL = process.env.NEXT_PUBLIC_DUNGEON_KATA_BASE_URL ?? '';
+const WORD_SEARCH_URL = process.env.NEXT_PUBLIC_WORD_SEARCH_BASE_URL ?? '';
+const WORD_PACK_URL = process.env.NEXT_PUBLIC_WORD_PACK_BASE_URL ?? '';
+const WORD_SMITH_URL = process.env.NEXT_PUBLIC_WORD_SMITH_BASE_URL ?? '';
+const NONOGRAMS_URL = process.env.NEXT_PUBLIC_NONOGRAMS_BASE_URL ?? '';
+const SOLITAIRE_URL = process.env.NEXT_PUBLIC_SOLITAIRE_BASE_URL ?? '';
 
-const PROTOCOL = ROOT_DOMAIN.includes(':') ? 'http' : 'https';
-
-export { ROOT_DOMAIN, PROTOCOL };
+export {
+  EMOJI_WAR_URL,
+  PUZZLE_WORDS_URL,
+  DUNGEON_KATA_URL,
+  WORD_SEARCH_URL,
+  WORD_PACK_URL,
+  WORD_SMITH_URL,
+  NONOGRAMS_URL,
+  SOLITAIRE_URL,
+};

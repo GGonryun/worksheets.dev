@@ -1,7 +1,6 @@
 import { FC } from 'react';
-import Image from 'next/image';
 import { Box, Button, Typography } from '@mui/material';
-import { ResponsiveImage } from '../../images';
+import { FillImage, ResponsiveImage } from '../../images';
 import { BlogAuthor } from '../../../types/author';
 import { printDate } from '@worksheets/util/time';
 import { ArrowLeft } from '@mui/icons-material';
@@ -55,6 +54,7 @@ export const PostHeader: FC<PostHeaderProps> = ({
         }}
       >
         <ResponsiveImage
+          priority
           alt={`${title} cover`}
           src={coverImage}
           style={{
@@ -73,7 +73,7 @@ export const PostHeader: FC<PostHeaderProps> = ({
             borderRadius: '50%',
           }}
         >
-          <Image alt={author.name} src={author.avatar} fill />
+          <FillImage alt={author.name} src={author.avatar} />
         </Box>
         <Typography variant="h6" ml={2}>
           {author.name}

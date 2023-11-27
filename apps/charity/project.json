@@ -16,7 +16,17 @@
           {
             "input": "libs/assets/common/src/lib",
             "glob": "**/*",
-            "output": "assets"
+            "output": "common"
+          },
+          {
+            "input": "libs/assets/games/src/lib",
+            "glob": "**/*",
+            "output": "games"
+          },
+          {
+            "input": "libs/assets/blog/src/lib",
+            "glob": "**/*",
+            "output": "blog"
           }
         ]
       },

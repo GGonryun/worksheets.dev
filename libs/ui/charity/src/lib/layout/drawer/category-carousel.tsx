@@ -21,6 +21,8 @@ export const CategoryCarousel: FC<CategoryCarouselProps> = (props) => (
 const CategoryButton = styled<JSXElementConstructor<ButtonProps>>((props) => (
   <Button variant="contained" color="white" size="small" {...props} />
 ))(({ theme }) => ({
+  flexShrink: 0,
+  display: 'block',
   fontWeight: 700,
   textTransform: 'uppercase',
   padding: theme.spacing(0.5, 2.5),

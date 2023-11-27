@@ -99,10 +99,12 @@ export const AboutScreen: FC<AboutScreenProps> = (props) => {
 const QuoteText: FC<{ text: string; author: string }> = ({ text, author }) => {
   return (
     <Box>
-      <Typography fontStyle={'italic'} fontWeight={500}>
+      <Typography fontStyle={'italic'} fontWeight={500} variant="body2">
         {text}
       </Typography>
-      <Typography pl={4}>- {author}</Typography>
+      <Typography pl={4} variant="body2">
+        - {author}
+      </Typography>
     </Box>
   );
 };

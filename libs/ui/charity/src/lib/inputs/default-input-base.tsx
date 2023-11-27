@@ -1,7 +1,5 @@
 import { InputBase, InputBaseProps, styled } from '@mui/material';
 import { JSXElementConstructor } from 'react';
-const ROOT_DOMAIN = process.env.NEXT_PUBLIC_ROOT_DOMAIN;
-if (!ROOT_DOMAIN) throw new Error('Missing NEXT_PUBLIC_ROOT_DOMAIN env var');
 
 export const DefaultInputBase = styled<JSXElementConstructor<InputBaseProps>>(
   InputBase

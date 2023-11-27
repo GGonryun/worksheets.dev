@@ -5,7 +5,20 @@ const config = {
     name: '@storybook/nextjs',
     options: {},
   },
-  staticDirs: [{ from: '../../../assets/common/src/lib', to: '/assets' }],
+  staticDirs: [
+    {
+      from: '../../../assets/common/src/lib',
+      to: '/common',
+    },
+    {
+      from: '../../../assets/blog/src/lib',
+      to: '/blog',
+    },
+    {
+      from: '../../../assets/games/src/lib',
+      to: '/games',
+    },
+  ],
 };
 
 export default config;
