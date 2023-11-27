@@ -85,7 +85,7 @@ export const GameIcon: FC<GameIconProps> = ({
             borderRadius: 'inherit',
           }}
         />
-        {banner && (
+        {banner && banner !== 'none' && (
           <BannerBox>{<Icon sx={{ color: BannerColor[banner] }} />}</BannerBox>
         )}
         <Box

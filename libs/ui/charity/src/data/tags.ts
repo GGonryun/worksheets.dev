@@ -29,6 +29,24 @@ export const tags: Record<GameTag, TagSchema> = {
     If the game is too complicated, kids will lose interest. If the game is too easy, kids will get bored. The best board games for kids are those that are easy to learn and fun to play. If the game is too complicated, kids will lose interest.
     `,
   },
+  word: {
+    id: 'word',
+    name: 'Word Games',
+    iconUrl: '/games/categories/word.svg',
+    relatedTags: ['puzzle', 'popular', 'brain'],
+    description: `
+    ## Word Games
+    `,
+  },
+  action: {
+    id: 'action',
+    name: 'Action Games',
+    iconUrl: '/games/categories/action.svg',
+    relatedTags: [],
+    description: `
+    ## Action Games
+    `,
+  },
   puzzle: {
     id: 'puzzle',
     name: 'Puzzle Games',

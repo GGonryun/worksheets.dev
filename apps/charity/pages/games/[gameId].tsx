@@ -63,7 +63,7 @@ const Page: NextPageWithLayout = () => {
     <GameScreen
       game={
         <GameLauncher
-          backgroundUrl={game.bannerSrc}
+          backgroundUrl={game.bannerUrl}
           iconUrl={game.iconUrl}
           file={game.file}
           name={game.name}

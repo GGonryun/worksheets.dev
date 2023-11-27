@@ -8,7 +8,7 @@ export type GameSchema = {
   size: number;
   developerId: string;
   iconUrl: string;
-  bannerSrc: string;
+  bannerUrl: string;
   qualifier: 'hot' | 'new' | 'played' | 'none';
   platforms: GameDevices[];
   tags: GameTag[];

@@ -2,11 +2,13 @@ export type GameTag =
   | 'board'
   | 'puzzle'
   | 'brain'
+  | 'action'
   | 'card'
   | 'new'
   | 'popular'
   | 'mobile'
-  | 'desktop';
+  | 'desktop'
+  | 'word';
 
 export type TagSchema = {
   id: GameTag;

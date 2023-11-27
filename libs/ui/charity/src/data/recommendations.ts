@@ -1,7 +1,24 @@
 import { RecommendationsSchema } from '../types';
 
 export const recommendations: RecommendationsSchema = {
-  popular: ['solitaire'],
-  new: ['solitaire'],
-  categories: ['card', 'board', 'puzzle', 'brain'],
+  popular: ['solitaire', 'emoji-war', 'word-pack', 'puzzle-words'],
+  new: [
+    'solitaire',
+    'emoji-war',
+    'word-search',
+    'word-pack',
+    'puzzle-words',
+    'nonograms',
+    'word-smith',
+  ],
+  categories: [
+    'card',
+    'board',
+    'puzzle',
+    'brain',
+    'action',
+    'word',
+    'popular',
+    'mobile',
+  ],
 };
