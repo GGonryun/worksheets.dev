@@ -7,6 +7,7 @@ import {
   MixedGridItems,
 } from '../../games/mixed-grid-items';
 import { DescriptionBox } from './description-box';
+import { Container } from '@mui/material';
 
 type GameScreenProps = {
   suggestions: MixedGridItem[];
@@ -20,10 +21,12 @@ export const GameScreen: FC<GameScreenProps> = ({
   game,
 }) => {
   return (
-    <ScreenBox>
-      <MixedGridItems items={suggestions} size={GRID_ITEM_SIZE} />
-      <GameBox>{game}</GameBox>
-      <DescriptionBox>{description}</DescriptionBox>
-    </ScreenBox>
+    <Container maxWidth="lg" disableGutters sx={{ py: 2 }}>
+      <ScreenBox>
+        <MixedGridItems items={suggestions} size={GRID_ITEM_SIZE} />
+        <GameBox>{game}</GameBox>
+        <DescriptionBox>{description}</DescriptionBox>
+      </ScreenBox>
+    </Container>
   );
 };

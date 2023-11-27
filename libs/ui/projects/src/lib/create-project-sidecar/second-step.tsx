@@ -2,7 +2,7 @@ import { CircularProgress } from '@mui/material';
 import { CustomStep } from './custom-step';
 import { FC, useEffect, useState } from 'react';
 import { trpc } from '@worksheets/trpc/ide';
-import { useDebounce } from '@worksheets/ui/common';
+import { useDebounce } from '@worksheets/ui-core';
 import { projectIdValidationRules } from '@worksheets/schemas-projects';
 import { LargeTextField } from './large-text-field';
 import { PrimaryButton, SecondaryButton } from './buttons';

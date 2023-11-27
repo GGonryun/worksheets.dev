@@ -1,9 +1,9 @@
 import { NavigateNext } from '@mui/icons-material';
 import { Breadcrumbs, Link, LinkProps, styled } from '@mui/material';
 import { FC, JSXElementConstructor } from 'react';
-import { GameTags } from '../../../../types/tag-schema';
+import { GameTag } from '../../../../types/tag-schema';
 
-export const CategoryBreadcrumbs: FC<{ categories: GameTags[] }> = ({
+export const CategoryBreadcrumbs: FC<{ categories: GameTag[] }> = ({
   categories,
 }) => {
   const handleClick = (

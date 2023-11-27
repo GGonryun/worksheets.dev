@@ -211,7 +211,6 @@ export const CategoryPage = {
     recommendations: sampleRecommendations,
     children: (
       <CategoryScreen
-        gamesHref={undefined}
         text="Idle Games"
         description={sampleCategoryDescription}
         games={sampleGameItems}
@@ -255,13 +254,11 @@ export const GamePage = {
     },
     recommendations: sampleRecommendations,
     children: (
-      <Container maxWidth="lg" disableGutters sx={{ py: 2 }}>
-        <GameScreen
-          game={<SampleGameLauncher />}
-          description={<SampleGameDescription />}
-          suggestions={sampleMixedGridItems()}
-        />
-      </Container>
+      <GameScreen
+        game={<SampleGameLauncher />}
+        description={<SampleGameDescription />}
+        suggestions={sampleMixedGridItems()}
+      />
     ),
   },
 };

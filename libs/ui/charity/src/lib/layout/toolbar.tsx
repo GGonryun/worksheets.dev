@@ -87,17 +87,17 @@ const ConnectionButton: FC<{ connected: boolean }> = ({ connected }) => {
 
 const LogoBox = () => (
   <TitleBox>
-    <Box
-      sx={{
-        position: 'relative',
-        width: { xs: '35px', sm: '41px' },
-        height: { xs: '30px', sm: '35px' },
-      }}
-    >
-      <Link underline="none" href="/" color="inherit">
+    <Link underline="none" href="/" color="inherit">
+      <Box
+        sx={{
+          position: 'relative',
+          width: { xs: '35px', sm: '41px' },
+          height: { xs: '30px', sm: '35px' },
+        }}
+      >
         <FillImage src={CHARITY_LOGO_PATH} alt="Charity.Games" />
-      </Link>
-    </Box>
+      </Box>
+    </Link>
     <Link underline="none" href="/" color="inherit">
       <TitleText>charity</TitleText>
       <TitleText>games</TitleText>
@@ -106,6 +106,7 @@ const LogoBox = () => (
 );
 
 const TitleBox = styled(Box)<BoxProps>(({ theme }) => ({
+  userSelect: 'none',
   flexGrow: 1,
   padding: theme.spacing(0, 1),
   paddingTop: theme.spacing(0.5),

@@ -15,7 +15,7 @@ export function convertMillisecondsToSeconds(milliseconds: number): number {
   return Math.round(milliseconds / 1000);
 }
 
-export const printDate = (stamp: string, locale = 'en-US') => {
+export const printDate = (stamp: string | Date, locale = 'en-US') => {
   const options: Intl.DateTimeFormatOptions = {
     weekday: 'long',
     year: 'numeric',

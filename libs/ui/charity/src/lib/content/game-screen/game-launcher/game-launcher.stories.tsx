@@ -86,11 +86,24 @@ const baseProps: Partial<GameLauncherProps> = {
   iconUrl: 'https://storage.googleapis.com/game-art/solitaire/icon.jpg',
   name: 'Solitaire',
   developer: 'Charity.Games',
-  gameUrl: 'https://storage.googleapis.com/unity-2d/index.html',
+  file: {
+    type: 'iframe',
+    url: 'https://charity.games',
+  },
 };
 
 export const Responsive = {
   args: baseProps,
+  decorators: [responsive],
+};
+export const RedirectResponsive = {
+  args: {
+    ...baseProps,
+    file: {
+      type: 'redirect',
+      url: 'https://charity.games',
+    },
+  },
   decorators: [responsive],
 };
 

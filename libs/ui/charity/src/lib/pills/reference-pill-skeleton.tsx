@@ -47,7 +47,15 @@ export const ReferencePillSkeleton: FC<ReferencePillSkeletonProps> = ({
             aspectRatio: '1 / 1',
           }}
         >
-          <ResponsiveImage priority alt={image.alt} src={image.src} />
+          <ResponsiveImage
+            priority
+            alt={image.alt}
+            src={image.src}
+            style={{
+              borderRadius: '8px',
+              overflow: 'hidden',
+            }}
+          />
         </Box>
       )}
       {children}

@@ -2,17 +2,19 @@ import { Box } from '@mui/material';
 import { FC } from 'react';
 import { GameLoadingCover } from './game-loading-cover';
 import { GameBanner } from './game-banner';
+import { GameSchema } from '../../../../types';
 
 export type GameLauncherProps = {
   backgroundUrl: string;
   iconUrl: string;
-  gameUrl: string;
+  file: GameSchema['file'];
   name: string;
   developer: string;
   onPlay: () => void;
   onReportBug: () => void;
   onEnterFullscreen: () => void;
   onExitFullscreen: () => void;
+  onRedirect: () => void;
 };
 
 export const GameLauncher: FC<GameLauncherProps> = ({
@@ -20,10 +22,12 @@ export const GameLauncher: FC<GameLauncherProps> = ({
   iconUrl,
   name,
   developer,
+  file,
   onPlay,
   onReportBug,
   onEnterFullscreen,
   onExitFullscreen,
+  onRedirect,
 }) => {
   return (
     <Box
@@ -40,12 +44,14 @@ export const GameLauncher: FC<GameLauncherProps> = ({
         onPlay={onPlay}
       />
       <GameBanner
+        type={file.type}
         iconUrl={iconUrl}
         developer={developer}
         name={name}
         onReportBug={onReportBug}
         onEnterFullscreen={onEnterFullscreen}
         onExitFullscreen={onExitFullscreen}
+        onRedirect={onRedirect}
       />
     </Box>
   );

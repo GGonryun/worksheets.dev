@@ -54,54 +54,79 @@ export const DeveloperScreen: FC<DeveloperScreenProps> = ({
           {name}
         </Typography>
         <SocialButtons {...socials} />
-        <Divider sx={{ my: 1, mx: { xs: -2, sm: -4 } }} />
-        <Typography variant="h5" mb={1}>
-          Games by {name}
-        </Typography>
-        <Box
-          display="grid"
-          gridTemplateColumns={{
-            xs: '1fr',
-            desktop1: 'repeat(2, 1fr)',
-            lg: 'repeat(3, 1fr)',
+      </Paper>
+      <Box
+        my={2}
+        display="grid"
+        gridTemplateColumns={{
+          xs: '1fr',
+          desktop1: 'repeat(2, 1fr)',
+          lg: 'repeat(3, 1fr)',
+        }}
+      >
+        {games.map((d) => (
+          <Box height={80} p={1} key={d.id}>
+            <GamePill
+              key={d.id}
+              name={d.name}
+              developer={name}
+              imageUrl={d.imageUrl}
+              href={`/games/${d.id}`}
+            />
+          </Box>
+        ))}
+      </Box>
+      <Paper
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          borderRadius: 4,
+          gap: 1,
+          p: { xs: 2, sm: 4 },
+        }}
+      >
+        <Button
+          variant="contained"
+          color="error"
+          href="/games"
+          endIcon={<ArrowUpRight sx={{ ml: -0.5 }} />}
+          sx={{
+            borderRadius: 6,
+            width: { xs: '100%', sm: 'fit-content' },
+            px: { xs: 1, sm: 3 },
+            py: { xs: 0.5, sm: 1 },
           }}
         >
-          {games.map((d) => (
-            <Box height={80} p={1} key={d.id}>
-              <GamePill
-                key={d.id}
-                name={d.name}
-                developer={name}
-                imageUrl={d.imageUrl}
-                href={`/games/${d.id}`}
-              />
-            </Box>
-          ))}
-        </Box>
-        <Divider sx={{ my: 2, mx: { xs: -2, sm: -4 } }} />
-        <Box>
-          <Button
-            variant="contained"
-            color="error"
-            href="/g"
-            endIcon={<ArrowUpRight sx={{ ml: -0.5 }} />}
+          <Typography
+            fontWeight={900}
             sx={{
-              borderRadius: 6,
-              width: { xs: '100%', sm: 'auto' },
-              px: { xs: 1, sm: 3 },
-              py: { xs: 0.5, sm: 1 },
+              fontSize: { xs: 16, sm: 18 },
             }}
           >
-            <Typography
-              fontWeight={900}
-              sx={{
-                fontSize: { xs: 16, sm: 18 },
-              }}
-            >
-              Explore All Games
-            </Typography>
-          </Button>
-        </Box>
+            Explore All Games
+          </Typography>
+        </Button>
+        <Button
+          variant="outlined"
+          color="error"
+          href="/tags"
+          endIcon={<ArrowUpRight sx={{ ml: -0.5 }} />}
+          sx={{
+            borderRadius: 6,
+            width: { xs: '100%', sm: 'fit-content' },
+            px: { xs: 1, sm: 3 },
+            py: { xs: 0.5, sm: 1 },
+          }}
+        >
+          <Typography
+            fontWeight={900}
+            sx={{
+              fontSize: { xs: 16, sm: 18 },
+            }}
+          >
+            Explore All Tags
+          </Typography>
+        </Button>
       </Paper>
     </Container>
   );

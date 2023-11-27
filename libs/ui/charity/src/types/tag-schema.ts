@@ -1,16 +1,17 @@
-export type GameTags =
+export type GameTag =
   | 'board'
   | 'puzzle'
   | 'brain'
   | 'card'
   | 'new'
   | 'popular'
-  | 'top-rated'
   | 'mobile'
   | 'desktop';
 
 export type TagSchema = {
-  id: GameTags;
+  id: GameTag;
   name: string;
   iconUrl: string;
+  description: string;
+  relatedTags: GameTag[];
 };

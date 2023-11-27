@@ -15,5 +15,4 @@ export type DeveloperSchema = {
     playstore?: string;
     appstore?: string;
   };
-  gameIds: string[];
 };

@@ -40,7 +40,7 @@ export const GamePill: FC<GamePillProps> = ({
           },
         }}
       >
-        <Box minWidth={0} px={1}>
+        <Box minWidth={0} px={0.5}>
           <Typography
             sx={{
               lineHeight: '1rem',
@@ -64,6 +64,7 @@ export const GamePill: FC<GamePillProps> = ({
 
         <ArrowUpRight
           sx={{
+            mr: 1,
             fontSize: '2rem',
             color: (theme) => theme.palette.primary.main,
           }}

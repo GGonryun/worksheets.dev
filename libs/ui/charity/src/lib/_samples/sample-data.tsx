@@ -12,13 +12,17 @@ export const SampleGameLauncher = () => (
       'https://storage.googleapis.com/game-art/solitaire/banner.png'
     }
     iconUrl={'https://storage.googleapis.com/game-art/solitaire/icon.jpg'}
-    gameUrl={'https://storage.googleapis.com/unity-2d/index.html'}
+    file={{
+      type: 'iframe',
+      url: 'https://storage.googleapis.com/unity-2d/index.html',
+    }}
     name={'Solitaire'}
     developer={'Charity.Games'}
     onReportBug={() => alert('TODO: show bug report form')}
     onEnterFullscreen={() => alert('TODO: enter fullscreen')}
     onExitFullscreen={() => alert('TODO: exit fullscreen')}
     onPlay={() => alert('TODO: play game')}
+    onRedirect={() => alert('TODO: redirect to game page')}
   />
 );
 

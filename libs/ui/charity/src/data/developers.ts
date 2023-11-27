@@ -8,6 +8,5 @@ export const developers: DeveloperSchema[] = [
     socials: {
       twitter: urls.social.twitter,
     },
-    gameIds: ['solitaire'],
   },
 ];

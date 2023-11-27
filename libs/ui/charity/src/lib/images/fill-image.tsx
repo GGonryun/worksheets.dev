@@ -9,6 +9,7 @@ export const FillImage: FC<
       priority={priority}
       alt={alt}
       src={src}
+      sizes="100%"
       fill
       style={{ objectFit: 'cover', ...style }}
     />

@@ -54,7 +54,7 @@ export const GameDescription: FC<GameDescriptionProps> = ({
         </Typography>
         <SupportedDeviceIcons platforms={platforms} />
       </Box>
-      <GameDeveloperLink href={`/d/${developer.id}`}>
+      <GameDeveloperLink href={`/developers/${developer.id}`}>
         by {developer.name}
       </GameDeveloperLink>
       <Box mt={'28px'}>
@@ -99,7 +99,7 @@ const GameDeveloperLink = styled((props) => (
 ))<LinkProps>(({ theme }) => ({
   lineHeight: 1,
   color: theme.palette.grey[700],
-  fontFamily: theme.typography.dangrek.fontFamily,
+  fontFamily: theme.typography.mPlus1p.fontFamily,
   fontSize: theme.typography.pxToRem(16),
-  fontWeight: theme.typography.fontWeightBold,
+  fontWeight: 700,
 }));

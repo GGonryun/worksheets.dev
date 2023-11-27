@@ -1,25 +1,45 @@
 import { Box, IconButton, Typography } from '@mui/material';
 import { FC, useState } from 'react';
-import { FlagOutlined, Fullscreen, FullscreenExit } from '@mui/icons-material';
+import {
+  FlagOutlined,
+  Fullscreen,
+  FullscreenExit,
+  OpenInNew,
+} from '@mui/icons-material';
 import { ResponsiveImage } from '../../../images';
+import { GameSchema } from '../../../../types';
 
 export type GameBannerProps = {
+  type: GameSchema['file']['type'];
   iconUrl: string;
   developer: string;
   name: string;
   onReportBug: () => void;
-  onEnterFullscreen: () => void;
-  onExitFullscreen: () => void;
+  onEnterFullscreen?: () => void;
+  onExitFullscreen?: () => void;
+  onRedirect?: () => void;
 };
 
 export const GameBanner: FC<GameBannerProps> = ({
   iconUrl,
   name,
   developer,
+  type,
+  onEnterFullscreen,
+  onExitFullscreen,
+  onRedirect,
 }) => {
   const [fullscreen, setFullscreen] = useState(false);
+
   const handleFullscreen = () => {
-    setFullscreen((fs) => !fs);
+    if (fullscreen) {
+      if (onExitFullscreen) onExitFullscreen();
+    }
+    if (!fullscreen) {
+      if (onEnterFullscreen) onEnterFullscreen();
+    }
+
+    setFullscreen(!fullscreen);
   };
 
   const handleReportBug = () => {
@@ -89,9 +109,16 @@ export const GameBanner: FC<GameBannerProps> = ({
           <IconButton color="primary" onClick={handleReportBug}>
             <FlagOutlined />
           </IconButton>
-          <IconButton color="primary" onClick={handleFullscreen}>
-            {fullscreen ? <FullscreenExit /> : <Fullscreen />}
-          </IconButton>
+          {type === 'iframe' && (
+            <IconButton color="primary" onClick={handleFullscreen}>
+              {fullscreen ? <FullscreenExit /> : <Fullscreen />}
+            </IconButton>
+          )}
+          {type === 'redirect' && (
+            <IconButton color="primary" onClick={onRedirect}>
+              <OpenInNew />
+            </IconButton>
+          )}
         </Box>
       </Box>
     </Box>

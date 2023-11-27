@@ -23,10 +23,14 @@ const baseProps: Partial<GameBannerProps> = {
   iconUrl: 'https://storage.googleapis.com/game-art/solitaire/icon.jpg',
   name: 'Solitaire',
   developer: 'Charity.Games',
+  type: 'iframe',
 };
 
-export const Responsive = {
+export const ResponsiveIFrameBanner = {
   args: baseProps,
+};
+export const ResponsiveRedirectBanner = {
+  args: { ...baseProps, type: 'redirect' },
 };
 
 export const LongName = {

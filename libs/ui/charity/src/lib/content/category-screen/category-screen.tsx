@@ -10,11 +10,9 @@ export type CategoryScreenProps = {
   games: MixedGridItem[];
   categories: MixedGridItem[];
   description: string;
-  gamesHref: string | undefined;
 };
 
 export const CategoryScreen: FC<CategoryScreenProps> = ({
-  gamesHref,
   text,
   games,
   categories,
@@ -45,9 +43,9 @@ export const CategoryScreen: FC<CategoryScreenProps> = ({
           variant="contained"
           color="error"
           endIcon={<ArrowUpRight sx={{ ml: -0.5 }} />}
-          href={gamesHref}
+          href={'/games'}
           sx={{
-            mt: 2,
+            mt: 4,
             width: { xs: '100%', sm: 'fit-content' },
             borderRadius: 6,
             px: { xs: 3, sm: 4 },

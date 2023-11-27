@@ -1,5 +1,5 @@
 import { MarkdownText } from '../lib/typography';
-import { GameTags } from './tag-schema';
+import { GameTag } from './tag-schema';
 
 export type GameSchema = {
   id: string;
@@ -11,8 +11,8 @@ export type GameSchema = {
   bannerSrc: string;
   qualifier: 'hot' | 'new' | 'played' | 'none';
   platforms: GameDevices[];
-  tags: GameTags[];
-  category: GameTags[];
+  tags: GameTag[];
+  category: GameTag[];
   createdAt: Date;
   updatedAt: Date;
   description: MarkdownText;
