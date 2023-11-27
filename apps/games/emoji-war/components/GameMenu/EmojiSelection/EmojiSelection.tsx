@@ -1,9 +1,9 @@
 import { Typography } from '@mui/material';
-import { TinyButton } from '@worksheets/ui-basic-style';
 import { Flex } from '@worksheets/ui-core';
 import { FC, useEffect, useState } from 'react';
 import { EmojiOptions } from './EmojiOptions';
 import { emojiCategories } from './categories';
+import { TinyButton } from '../../buttons/tiny-button';
 
 export const PlayerEmojiSelection: FC<{
   emoji: string;
@@ -13,6 +13,7 @@ export const PlayerEmojiSelection: FC<{
 
   useEffect(() => {
     onUpdateEmoji(activeCategory.emojis[0]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeCategory]);
 
   return (

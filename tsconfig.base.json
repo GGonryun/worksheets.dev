@@ -15,13 +15,6 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@worksheets/apps-connections": ["libs/apps/connections/src/index.ts"],
-      "@worksheets/apps-core": ["libs/apps/core/src/index.ts"],
-      "@worksheets/apps-handlers": ["libs/apps/handlers/src/index.ts"],
-      "@worksheets/apps-metadata": ["libs/apps/metadata/src/index.ts"],
-      "@worksheets/apps-registry": ["libs/apps/registry/src/index.ts"],
-      "@worksheets/apps-sample-data": ["libs/apps/sample-data/src/index.ts"],
-      "@worksheets/apps/core": ["libs/apps/core/src/index.ts"],
       "@worksheets/apps/crudcrud": ["libs/apps/crudcrud/src/index.ts"],
       "@worksheets/apps/github": ["libs/apps/github/src/index.ts"],
       "@worksheets/apps/google/calendar": [
@@ -36,146 +29,25 @@
       "@worksheets/assets-blog": ["libs/assets/blog/src/index.ts"],
       "@worksheets/assets-common": ["libs/assets/common/src/index.ts"],
       "@worksheets/assets-games": ["libs/assets/games/src/index.ts"],
-      "@worksheets/data-access-projects": [
-        "libs/data-access/projects/src/index.ts"
-      ],
-      "@worksheets/data-access/api-tokens": [
-        "libs/data-access/api-tokens/src/index.ts"
-      ],
-      "@worksheets/data-access/applications": [
-        "libs/data-access/applications/src/index.ts"
-      ],
-      "@worksheets/data-access/connections": [
-        "libs/data-access/connections/src/index.ts"
-      ],
-      "@worksheets/data-access/method-executions": [
-        "libs/data-access/method-executions/src/index.ts"
-      ],
-      "@worksheets/data-access/server-limits": [
-        "libs/data-access/server-limits/src/index.ts"
-      ],
       "@worksheets/data-access/server-settings": [
         "libs/data-access/server-settings/src/index.ts"
       ],
-      "@worksheets/data-access/service-configurations": [
-        "libs/data-access/service-configurations/src/index.ts"
-      ],
-      "@worksheets/data-access/user-agent": [
-        "libs/data-access/user-agent/src/index.ts"
-      ],
-      "@worksheets/engine": ["libs/engine/src/index.ts"],
-      "@worksheets/feat-method-execution": [
-        "libs/feat/method-execution/src/index.ts"
-      ],
-      "@worksheets/feat-project-management": [
-        "libs/feat/project-management/src/index.ts"
-      ],
-      "@worksheets/feat/app-connections": [
-        "libs/feat/app-connections/src/index.ts"
-      ],
-      "@worksheets/feat/applications-registry": [
-        "libs/feat/applications-registry/src/index.ts"
-      ],
-      "@worksheets/feat/error-reporting": [
-        "libs/feat/error-reporting/src/index.ts"
-      ],
-      "@worksheets/feat/logging": ["libs/feat/logging/src/index.ts"],
-      "@worksheets/feat/server-management": [
-        "libs/feat/server-management/src/index.ts"
-      ],
-      "@worksheets/feat/service-registry": [
-        "libs/feat/service-registry/src/index.ts"
-      ],
-      "@worksheets/feat/session-replay": [
-        "libs/feat/session-replay/src/index.ts"
-      ],
-      "@worksheets/feat/task-processing": [
-        "libs/feat/task-processing/src/index.ts"
-      ],
-      "@worksheets/feat/user-management": [
-        "libs/feat/user-management/src/index.ts"
-      ],
-      "@worksheets/firebase/client": ["libs/firebase/client/src/index.ts"],
-      "@worksheets/firebase/firestore": [
-        "libs/firebase/firestore/src/index.ts"
-      ],
-      "@worksheets/firebase/pubsub": ["libs/firebase/pubsub/src/index.ts"],
-      "@worksheets/firebase/server": ["libs/firebase/server/src/index.ts"],
       "@worksheets/prisma": ["libs/prisma/src/index.ts"],
-      "@worksheets/schemas-applications": [
-        "libs/schemas/applications/src/index.ts"
-      ],
-      "@worksheets/schemas-connections": [
-        "libs/schemas/connections/src/index.ts"
-      ],
-      "@worksheets/schemas-executions": [
-        "libs/schemas/executions/src/index.ts"
-      ],
-      "@worksheets/schemas-projects": ["libs/schemas/projects/src/index.ts"],
-      "@worksheets/schemas-services": ["libs/schemas/services/src/index.ts"],
-      "@worksheets/schemas-user": ["libs/schemas/user/src/index.ts"],
-      "@worksheets/services-bridges": ["libs/services/bridges/src/index.ts"],
-      "@worksheets/services-core": ["libs/services/core/src/index.ts"],
-      "@worksheets/services-registry": ["libs/services/registry/src/index.ts"],
       "@worksheets/trpc-charity": ["libs/trpc/charity/src/index.ts"],
       "@worksheets/trpc-charity/server": ["libs/trpc/charity/src/server.ts"],
-      "@worksheets/trpc/admin": ["libs/trpc/admin/src/index.ts"],
-      "@worksheets/trpc/admin/server": ["libs/trpc/admin/src/server.ts"],
-      "@worksheets/trpc/api/v1": ["libs/trpc/api/v1/src/index.ts"],
-      "@worksheets/trpc/api/v1/server": ["libs/trpc/api/v1/src/server.ts"],
-      "@worksheets/trpc/ide": ["libs/trpc/ide/src/index.ts"],
-      "@worksheets/trpc/ide/server": ["libs/trpc/ide/src/server.ts"],
-      "@worksheets/ui-basic-style": ["libs/ui/basic-style/src/index.ts"],
       "@worksheets/ui-charity": ["libs/ui/charity/src/index.ts"],
       "@worksheets/ui-cookie-consent": ["libs/ui/cookie-consent/src/index.ts"],
       "@worksheets/ui-core": ["libs/ui/core/src/index.ts"],
       "@worksheets/ui-games": ["libs/ui/games/src/index.ts"],
       "@worksheets/ui-games/server": ["libs/ui/games/src/server.ts"],
-      "@worksheets/ui-projects": ["libs/ui/projects/src/index.ts"],
-      "@worksheets/ui-projects/server": ["libs/ui/projects/src/server.ts"],
-      "@worksheets/ui/applications": ["libs/ui/applications/src/index.ts"],
-      "@worksheets/ui/applications/server": [
-        "libs/ui/applications/src/server.ts"
-      ],
-      "@worksheets/ui/code-editor": ["libs/ui/code-editor/src/index.ts"],
-      "@worksheets/ui/common": ["libs/ui/common/src/index.ts"],
-      "@worksheets/ui/connections": ["libs/ui/connections/src/index.ts"],
-      "@worksheets/ui/connections/server": [
-        "libs/ui/connections/src/server.ts"
-      ],
-      "@worksheets/ui/feature-wedges": ["libs/ui/feature-wedges/src/index.ts"],
-      "@worksheets/ui/feature-wedges/server": [
-        "libs/ui/feature-wedges/src/server.ts"
-      ],
       "@worksheets/ui/home/server": ["libs/ui/home/src/server.ts"],
-      "@worksheets/ui/login": ["libs/ui/login/src/index.ts"],
-      "@worksheets/ui/login/server": ["libs/ui/login/src/server.ts"],
-      "@worksheets/ui/marketing": ["libs/ui/marketing/src/index.ts"],
-      "@worksheets/ui/worksheets": ["libs/ui/worksheets/src/index.ts"],
-      "@worksheets/ui/worksheets/server": ["libs/ui/worksheets/src/server.ts"],
       "@worksheets/util-coordinates": ["libs/util/coordinates/src/index.ts"],
       "@worksheets/util-dictionary": ["libs/util/dictionary/src/index.ts"],
-      "@worksheets/util-hardware": ["libs/util/hardware/src/index.ts"],
-      "@worksheets/util-json": ["libs/util/json/src/index.ts"],
       "@worksheets/util-markdown": ["libs/util/markdown/src/index.ts"],
       "@worksheets/util-next": ["libs/util/next/src/index.ts"],
       "@worksheets/util-shapes": ["libs/util/shapes/src/index.ts"],
-      "@worksheets/util-sys": ["libs/util/sys/src/index.ts"],
-      "@worksheets/util-websters": ["libs/util/websters/src/index.ts"],
-      "@worksheets/util-yaml": ["libs/util/yaml/src/index.ts"],
       "@worksheets/util/arrays": ["libs/util/arrays/src/index.ts"],
-      "@worksheets/util/auth/client": ["libs/util/auth/client/src/index.ts"],
-      "@worksheets/util/auth/server": ["libs/util/auth/server/src/index.ts"],
-      "@worksheets/util/cron": ["libs/util/cron/src/index.ts"],
-      "@worksheets/util/data-structures": [
-        "libs/util/data-structures/src/index.ts"
-      ],
-      "@worksheets/util/errors": ["libs/util/errors/src/index.ts"],
-      "@worksheets/util/functional": ["libs/util/functional/src/index.ts"],
-      "@worksheets/util/http": ["libs/util/http/src/index.ts"],
       "@worksheets/util/numbers": ["libs/util/numbers/src/index.ts"],
-      "@worksheets/util/oauth/client": ["libs/util/oauth/client/src/index.ts"],
-      "@worksheets/util/objects": ["libs/util/objects/src/index.ts"],
       "@worksheets/util/strings": ["libs/util/strings/src/index.ts"],
       "@worksheets/util/time": ["libs/util/time/src/index.ts"],
       "@worksheets/util/types": ["libs/util/types/src/index.ts"],

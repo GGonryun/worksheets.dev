@@ -1,5 +1,5 @@
 import { Divider } from '@mui/material';
-import { Flex, Spacing, useInterval } from '@worksheets/ui-core';
+import { Flex, useInterval } from '@worksheets/ui-core';
 import { StatusBar } from '../StatusBar';
 import { Board } from '../Board';
 import { PlayArea } from '../PlayArea';

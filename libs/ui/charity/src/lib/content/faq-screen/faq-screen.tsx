@@ -1,8 +1,8 @@
 import { Box, Container, Link, Paper, Typography } from '@mui/material';
 import { FC, useState } from 'react';
-import { Markdown } from '../../typography';
 import { AnimatePresence, motion } from 'framer-motion';
 import { qa } from './qa';
+import { Markdown } from '@worksheets/ui-core';
 
 export type FAQScreenProps = {
   // no props

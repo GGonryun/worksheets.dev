@@ -1,5 +1,5 @@
 import { Paper, Typography, Button, Box } from '@mui/material';
-import { Flex, Spacing } from '@worksheets/ui-core';
+import { Flex } from '@worksheets/ui-core';
 import { FC } from 'react';
 
 export const GameOverOverlay: FC<{
@@ -31,17 +31,17 @@ export const GameOverOverlay: FC<{
           border: '2px solid black',
         }}
       >
-        <Spacing top={2} bottom={4} x={6}>
+        <Box mt={2} mb={4} mx={6}>
           <Flex column centered gap={1}>
             <Typography variant="h4">
               {winner === 1 ? 'Victory' : 'Defeat'}
             </Typography>
             <Typography>{winner === 1 ? 'You Win!' : 'You Lose!'}</Typography>
-            <Spacing y={3}>
+            <Box my={3}>
               <Typography fontSize={64}>
                 {winner === 1 ? player : enemy}
               </Typography>
-            </Spacing>
+            </Box>
             <Button
               variant="contained"
               disableElevation
@@ -53,7 +53,7 @@ export const GameOverOverlay: FC<{
               Rematch
             </Button>
           </Flex>
-        </Spacing>
+        </Box>
       </Paper>
     </Box>
   );

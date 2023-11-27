@@ -43,7 +43,7 @@ export type AutoScrollProps = {
 };
 
 /**
- * AutoScroll pretends to do "inifite scroll" by duplicating the content and scrolling it, an unfortunate side effect of this hack is that we must specify a height for the container or else it will be 0px tall.
+ * AutoScroll pretends to do "infinite scroll" by duplicating the content and scrolling it, an unfortunate side effect of this hack is that we must specify a height for the container or else it will be 0px tall.
  */
 export const AutoScroll: FC<AutoScrollProps> = ({
   children,

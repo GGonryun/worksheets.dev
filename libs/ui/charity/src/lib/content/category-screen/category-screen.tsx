@@ -1,9 +1,9 @@
 import { Box, Button, Container, Paper, Typography } from '@mui/material';
 import { FC } from 'react';
-import { Markdown } from '../../typography';
 import { MixedGrid } from '../../games';
 import { MixedGridItem } from '../../games/mixed-grid-items';
 import { ArrowUpRight } from '../../icons/arrow-up-right';
+import { Markdown } from '@worksheets/ui-core';
 
 export type CategoryScreenProps = {
   text: string;

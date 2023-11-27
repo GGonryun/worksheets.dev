@@ -1,9 +1,9 @@
-import { TinyButtonProps, TinyButton } from '@worksheets/ui-basic-style';
 import { capitalizeFirstLetter } from '@worksheets/util/strings';
 import { FC } from 'react';
 import { EnemyDifficulty } from '../controllers';
 import { Flex } from '@worksheets/ui-core';
 import { Typography } from '@mui/material';
+import { TinyButton, TinyButtonProps } from '../buttons/tiny-button';
 
 const difficulties: EnemyDifficulty[] = ['easy', 'medium', 'hard', 'insane'];
 const difficultyColors: Record<EnemyDifficulty, TinyButtonProps['color']> = {

@@ -1,4 +1,4 @@
-import { Flex, MicroMarkdown } from '@worksheets/ui-core';
+import { Flex, Markdown } from '@worksheets/ui-core';
 import {
   Accordion,
   AccordionDetails,
@@ -110,7 +110,7 @@ export const InstructionsAccordion = () => {
               }}
             >
               <Typography whiteSpace={'pre-wrap'}>
-                <MicroMarkdown text={instruction.content} />
+                <Markdown text={instruction.content} />
               </Typography>
             </AccordionDetails>
           </ThemedAccordtion>

@@ -1,5 +1,4 @@
 import { PaletteColor } from '@mui/material';
-import { fontSizes } from '@stoplight/mosaic/components/Textarea/variants';
 
 declare module '@mui/material/styles' {
   interface TypographyVariants {

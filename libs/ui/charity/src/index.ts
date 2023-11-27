@@ -1,6 +1,5 @@
 export * from './data';
 export * from './types';
-export * from './lib/typography';
 export * from './lib/theme';
 export * from './lib/links';
 export * from './lib/inputs';

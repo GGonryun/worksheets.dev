@@ -1,4 +1,4 @@
-import { MarkdownText } from '../lib/typography';
+import { MarkdownText } from '@worksheets/ui-core';
 import { GameTag } from './tag-schema';
 
 export type GameSchema = {

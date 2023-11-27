@@ -1,7 +1,7 @@
 import styles from './Board.module.scss';
 import { Box } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
-import { Flex, Spacing } from '@worksheets/ui-core';
+import { Flex } from '@worksheets/ui-core';
 import { Layout } from './Layout';
 import { arrayFromLength } from '@worksheets/util/arrays';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -27,7 +27,7 @@ export const Board: FC<{
 }> = ({ emoji, player, position, attacks }) => {
   const attackPoints = attacks.map(pointToInt);
   return (
-    <Spacing bottom={player === 2 ? 3 : 0} top={player === 1 ? 3 : 0} x={3}>
+    <Box mb={player === 2 ? 3 : 0} mt={player === 1 ? 3 : 0} mx={3}>
       <Layout size={BOARD_LAYOUT_SIZE} maxSize={BOARD_MAX_LAYOUT_SIZE}>
         <BoardPoints top={player === 1} bot={player === 2} right />
         <Grid container spacing={0.5}>
@@ -71,6 +71,6 @@ export const Board: FC<{
           ))}
         </Grid>
       </Layout>
-    </Spacing>
+    </Box>
   );
 };

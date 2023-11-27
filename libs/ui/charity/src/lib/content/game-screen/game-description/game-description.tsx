@@ -8,11 +8,11 @@ import {
   styled,
 } from '@mui/material';
 import { FC } from 'react';
-import { Markdown, MarkdownText } from '../../../typography';
 import { CategoryBreadcrumbs } from './category-breadcrumbs';
 import { SupportedDeviceIcons } from './supported-device-icons';
 import { MarketWidgets } from './market-widgets';
 import { GameSchema } from '../../../../types/game-schema';
+import { MarkdownText, Markdown } from '@worksheets/ui-core';
 
 export type GameDescriptionProps = {
   title: string;

@@ -3,8 +3,8 @@ import { PuzzleItem } from '../../util/types';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Box, Link, Typography, useTheme } from '@mui/material';
 import { findDialog } from '../../puzzles/dialogs';
-import { MicroMarkdown } from '@worksheets/ui-core';
 import { tabletBoxShadow } from '@worksheets/ui-games';
+import { Markdown } from '@worksheets/ui-core';
 
 export const TutorialDialog: FC<{ puzzle: PuzzleItem }> = ({ puzzle }) => {
   const theme = useTheme();
@@ -56,7 +56,7 @@ export const TutorialDialog: FC<{ puzzle: PuzzleItem }> = ({ puzzle }) => {
             }}
           >
             <Typography color="primary.contrastText" variant="caption">
-              <MicroMarkdown text={dialog ?? ''} />
+              <Markdown text={dialog ?? ''} />
               <br />
               <br />
               <Link
