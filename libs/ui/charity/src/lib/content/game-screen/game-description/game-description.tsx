@@ -82,7 +82,7 @@ const TagChip: FC<ChipProps & { tag: string }> = ({ tag }) => (
     variant="outlined"
     label={tag}
     component="a"
-    href={`/c/${tag}`}
+    href={`/tags/${tag}`}
     clickable
     sx={(theme) => ({
       fontFamily: theme.typography.mPlus1p.fontFamily,

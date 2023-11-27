@@ -3,6 +3,7 @@ import { Drawer } from './drawer';
 import { GameRecommendations } from './game-recommendations';
 import { SearchResults } from './search-results';
 import { Box } from '@mui/material';
+import { sampleRecommendations } from '../../_samples';
 
 const Story: Meta<typeof Drawer> = {
   component: Drawer,
@@ -20,7 +21,7 @@ export const Empty = {
 export const WithRecommendations = {
   args: {
     open: true,
-    children: <GameRecommendations />,
+    children: <GameRecommendations recommendations={sampleRecommendations} />,
   },
 };
 
@@ -28,9 +29,12 @@ export const WithEmptySearch = {
   args: {
     open: true,
     children: (
-      <Box>
+      <Box width="100%">
         <SearchResults games={[]} categories={[]} />
-        <GameRecommendations hideCategories={true} />
+        <GameRecommendations
+          recommendations={sampleRecommendations}
+          hideCategories={true}
+        />
       </Box>
     ),
   },
@@ -44,7 +48,7 @@ export const WithSuccessfulSearch = {
         games={[
           {
             href: '#',
-            name: 'Game Name 1',
+            name: 'Game Name 1 Game Name 1 Game Name 1',
             developer: 'Developer Name',
             imageUrl: 'https://via.placeholder.com/150',
           },

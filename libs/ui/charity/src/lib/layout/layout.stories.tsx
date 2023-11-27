@@ -26,6 +26,7 @@ import {
   sampleGameDefinitions,
   sampleGameItems,
   sampleMixedGridItems,
+  sampleRecommendations,
 } from '../_samples';
 
 const Story: Meta<typeof Layout> = {
@@ -86,6 +87,91 @@ export const Primary = {
 
 export const HomePage = {
   args: {
+    onSearch: async () => {
+      return { games: [], categories: [] };
+    },
+    recommendations: sampleRecommendations,
+    children: (
+      <Container
+        maxWidth="xl"
+        sx={{
+          py: 2,
+        }}
+      >
+        <MixedGrid
+          items={Array.from({ length: 100 }).map((_, i) => {
+            if (i % 23 === 4 || i % 23 === 17) {
+              return {
+                type: 'category',
+                id: `${i}`,
+                name: 'Category ' + i,
+              };
+            } else {
+              return {
+                type: 'game',
+                id: `${i}`,
+                name: 'Game ' + i,
+                banner: i % 17 === 3 ? 'hot' : undefined,
+                span: i % 7 === 3 ? 2 : i % 23 === 7 ? 3 : 1,
+              };
+            }
+          })}
+        />
+      </Container>
+    ),
+  },
+};
+
+export const HomePageSuccessfulSearch = {
+  args: {
+    onSearch: async () => {
+      return {
+        games: [
+          {
+            href: '#',
+            name: 'Game Name 1',
+            developer: 'Developer Name',
+            imageUrl: 'https://via.placeholder.com/150',
+          },
+          {
+            href: '#',
+            name: 'Game Name 2',
+            developer: 'Developer Name',
+            imageUrl: 'https://via.placeholder.com/150',
+          },
+          {
+            href: '#',
+            name: 'Game Name 3',
+            developer: 'Developer Name',
+            imageUrl: 'https://via.placeholder.com/150',
+          },
+          {
+            href: '#',
+            name: 'Game Name 4',
+            developer: 'Developer Name',
+            imageUrl: 'https://via.placeholder.com/150',
+          },
+        ],
+        categories: [
+          {
+            href: '#',
+            name: 'Category Name 1',
+            imageUrl: 'https://via.placeholder.com/150',
+          },
+          {
+            href: '#',
+            name: 'Category Name 2',
+            imageUrl: 'https://via.placeholder.com/150',
+          },
+          {
+            href: '#',
+            name: 'Category Name 3',
+            imageUrl: 'https://via.placeholder.com/150',
+          },
+        ],
+      };
+    },
+    recommendations: sampleRecommendations,
     children: (
       <Container
         maxWidth="xl"
@@ -119,6 +205,10 @@ export const HomePage = {
 
 export const CategoryPage = {
   args: {
+    onSearch: async () => {
+      return { games: [], categories: [] };
+    },
+    recommendations: sampleRecommendations,
     children: (
       <CategoryScreen
         gamesHref={undefined}
@@ -133,6 +223,10 @@ export const CategoryPage = {
 
 export const CategoriesPage = {
   args: {
+    onSearch: async () => {
+      return { games: [], categories: [] };
+    },
+    recommendations: sampleRecommendations,
     children: (
       <Container
         maxWidth="xl"
@@ -156,6 +250,10 @@ export const CategoriesPage = {
 
 export const GamePage = {
   args: {
+    onSearch: async () => {
+      return { games: [], categories: [] };
+    },
+    recommendations: sampleRecommendations,
     children: (
       <Container maxWidth="lg" disableGutters sx={{ py: 2 }}>
         <GameScreen
@@ -170,13 +268,21 @@ export const GamePage = {
 
 export const LoginPage = {
   args: {
+    onSearch: async () => {
+      return { games: [], categories: [] };
+    },
+    recommendations: sampleRecommendations,
     children: <LoginScreen onGithubLogin={() => alert('github login')} />,
   },
 };
 
 export const AccountPage = {
   args: {
+    onSearch: async () => {
+      return { games: [], categories: [] };
+    },
     connected: true,
+    recommendations: sampleRecommendations,
     children: (
       <AccountScreen
         recent={Array.from({ length: 5 }).map((_, i) => ({
@@ -191,30 +297,50 @@ export const AccountPage = {
 
 export const AboutPage = {
   args: {
+    onSearch: async () => {
+      return { games: [], categories: [] };
+    },
+    recommendations: sampleRecommendations,
     children: <AboutScreen />,
   },
 };
 
 export const ContactPage = {
   args: {
+    onSearch: async () => {
+      return { games: [], categories: [] };
+    },
+    recommendations: sampleRecommendations,
     children: <ContactScreen />,
   },
 };
 
 export const FAQPage = {
   args: {
+    onSearch: async () => {
+      return { games: [], categories: [] };
+    },
+    recommendations: sampleRecommendations,
     children: <FAQScreen />,
   },
 };
 
 export const BlogPage = {
   args: {
+    onSearch: async () => {
+      return { games: [], categories: [] };
+    },
+    recommendations: sampleRecommendations,
     children: <BlogScreen posts={sampleBlogMetadata} />,
   },
 };
 
 export const BlogPostPage = {
   args: {
+    onSearch: async () => {
+      return { games: [], categories: [] };
+    },
+    recommendations: sampleRecommendations,
     children: (
       <BlogPostScreen
         metadata={sampleBlogMetadata[0]}
@@ -226,6 +352,10 @@ export const BlogPostPage = {
 
 export const DeveloperPage = {
   args: {
+    onSearch: async () => {
+      return { games: [], categories: [] };
+    },
+    recommendations: sampleRecommendations,
     children: (
       <DeveloperScreen
         name={'Charity Games'}
@@ -238,6 +368,10 @@ export const DeveloperPage = {
 
 export const UnderConstructionPage = {
   args: {
+    onSearch: async () => {
+      return { games: [], categories: [] };
+    },
+    recommendations: sampleRecommendations,
     children: <UnderConstruction />,
   },
 };

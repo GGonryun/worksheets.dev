@@ -21,9 +21,9 @@ export const CategoryPill: FC<CategoryPillProps> = ({
 }) => {
   return (
     <ReferencePillSkeleton
-      href={href ?? `/c/${id}`}
+      href={href ?? `/tags/${id}`}
       image={{
-        padding: 0,
+        padding: 1,
         src: imageUrl ?? PLACEHOLDER_LOGO_PATH,
         alt: `${name} logo`,
       }}

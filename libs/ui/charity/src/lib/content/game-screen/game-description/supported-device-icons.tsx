@@ -8,12 +8,12 @@ export const SupportedDeviceIcons: FC<{ platforms: SupportedDevices[] }> = ({
 }) => (
   <Box display="flex" alignItems="center">
     {platforms.includes('desktop') && (
-      <IconButton href="/c/desktop" size="small" disableRipple>
+      <IconButton href="/tags/desktop" size="small" disableRipple>
         <Laptop sx={{ fontSize: 20 }} />
       </IconButton>
     )}
     {platforms.includes('mobile') && (
-      <IconButton href="/c/mobile" size="small" disableRipple>
+      <IconButton href="/tags/mobile" size="small" disableRipple>
         <Smartphone sx={{ fontSize: 18 }} />
       </IconButton>
     )}

@@ -23,8 +23,8 @@ export type MixedGridItemProps = {
 export const MixedGridItems: FC<MixedGridItemProps> = ({ items, size }) => {
   return (
     <>
-      {items.map((item) => (
-        <Fragment>
+      {items.map((item, index) => (
+        <Fragment key={index}>
           {item.type === 'game' && (
             <Box
               key={item.id}

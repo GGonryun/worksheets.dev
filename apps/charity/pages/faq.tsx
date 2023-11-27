@@ -1,10 +1,11 @@
 import { NextPageWithLayout } from '@worksheets/util-next';
-import { Layout, FAQScreen } from '@worksheets/ui-charity';
+import { FAQScreen } from '@worksheets/ui-charity';
+import { LayoutContainer } from '../containers/layout-container';
 
 const Page: NextPageWithLayout = () => <FAQScreen />;
 
 Page.getLayout = (page) => {
-  return <Layout>{page}</Layout>;
+  return <LayoutContainer>{page}</LayoutContainer>;
 };
 
 export default Page;

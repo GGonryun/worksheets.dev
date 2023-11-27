@@ -3,6 +3,8 @@ import { GameDescription } from '../content/game-screen/game-description';
 import { GameLauncher } from '../content/game-screen/game-launcher';
 import { MixedGridItem } from '../games/mixed-grid-items';
 import { GameDefinition } from '../util/games';
+import { Recommendations } from '../../types';
+import { GameIconProps } from '../games/game-icon';
 
 export const SampleGameLauncher = () => (
   <GameLauncher
@@ -25,7 +27,7 @@ export const SampleGameDescription = () => (
     title="Solitaire"
     developer={{ id: '1', name: 'Charity.Games' }}
     platforms={['mobile', 'desktop']}
-    tags={['card', 'single-player', 'brain', 'board', 'puzzle']}
+    tags={['card', 'brain', 'board', 'puzzle']}
     category={['card']}
     created="October 2023"
     updated="October 2023"
@@ -194,3 +196,50 @@ The best way to play an idle game is by setting up your computer so that it runs
 ### Do idle games have an end?
 Some idle games do have an end, but most of them are endless. The goal is to get as far into the game as possible before you stop playing. This can be done by upgrading units in the game, or by using special abilities that allow you to progress further. Some games implement a prestige system that allows you to start over with additional bonuses after reaching certain milestones.
 `;
+
+export const sampleGameIconsOfRealGames: GameIconProps[] = [
+  {
+    id: 'solitaire',
+    name: 'Solitaire',
+    imageUrl: '/assets/games/solitaire/icon.jpg',
+  },
+  {
+    id: 'emoji-war',
+    name: 'Emoji War',
+    imageUrl: '/assets/games/emoji-war/icon.jpg',
+  },
+  {
+    id: 'chess-kata',
+    name: 'Chess Kata',
+    imageUrl: '/assets/games/chess-kata/icon.jpg',
+  },
+  {
+    id: 'nonograms',
+    name: 'Nonograms',
+    imageUrl: '/assets/games/nonograms/icon.jpg',
+  },
+  {
+    id: 'word-smith',
+    name: 'Word Smith',
+    imageUrl: '/assets/games/word-smith/icon.jpg',
+  },
+  {
+    id: 'word-search',
+    name: 'Word Search',
+    imageUrl: '/assets/games/word-search/icon.jpg',
+  },
+  {
+    id: 'word-pack',
+    name: 'Word Pack',
+    imageUrl: '/assets/games/word-pack/icon.jpg',
+  },
+];
+
+export const sampleRecommendations: Recommendations = {
+  new: sampleGameIconsOfRealGames.map((i) => ({ ...i, banner: 'new' })),
+  popular: sampleGameIconsOfRealGames.map((i) => ({ ...i, banner: 'hot' })),
+  categories: Array.from({ length: 10 }).map((_, i) => ({
+    id: i.toString(),
+    name: `Category ${i}`,
+  })),
+};

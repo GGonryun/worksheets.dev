@@ -7,7 +7,7 @@ export const games: GameSchema[] = [
     name: 'Solitaire',
     size: 2,
     developerId: 'charity-games',
-    iconUrl: '/assets/games/solitaire/icon.png',
+    iconUrl: '/assets/games/solitaire/icon.jpg',
     bannerSrc: '/assets/games/solitaire/banner.png',
     qualifier: 'new',
     platforms: ['desktop', 'mobile'],

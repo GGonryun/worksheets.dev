@@ -14,10 +14,20 @@ const drawerWidth = 700;
 
 export type DrawerProps = {
   onDrawerToggle: () => void;
+  onChange?: (query: string) => void;
+  onClear?: () => void;
+  query?: string;
   open?: boolean;
   children?: ReactNode;
 };
-export const Drawer: FC<DrawerProps> = ({ open, onDrawerToggle, children }) => (
+export const Drawer: FC<DrawerProps> = ({
+  open,
+  onDrawerToggle,
+  children,
+  onChange,
+  onClear,
+  query,
+}) => (
   <nav>
     <StyledDrawer
       variant="temporary"
@@ -39,7 +49,12 @@ export const Drawer: FC<DrawerProps> = ({ open, onDrawerToggle, children }) => (
         pr={{ xs: 1, sm: 6 }}
         position="relative"
       >
-        <SearchBar onLogoClick={onDrawerToggle} />
+        <SearchBar
+          onLogoClick={onDrawerToggle}
+          onChange={onChange}
+          onClear={onClear}
+          value={query}
+        />
         <FloatingButton
           onClick={onDrawerToggle}
           sx={{

@@ -22,5 +22,10 @@ const Story: Meta<typeof CategoryCarousel> = {
 export default Story;
 
 export const Primary = {
-  args: {},
+  args: {
+    categories: Array.from({ length: 10 }).map((_, i) => ({
+      id: i.toString(),
+      name: `Category ${i}`,
+    })),
+  },
 };

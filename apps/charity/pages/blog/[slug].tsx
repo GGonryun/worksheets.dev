@@ -11,9 +11,9 @@ import {
 import { GetStaticPaths } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { BlogErrorPage } from '../../components/blog';
 import { POSTS_PATH } from '../../util/paths';
-import { BlogPostScreen, Layout } from '@worksheets/ui-charity';
+import { BlogErrorScreen, BlogPostScreen } from '@worksheets/ui-charity';
+import { LayoutContainer } from '../../containers/layout-container';
 
 type Props = {
   metadata: MarkdownMetadata;
@@ -25,7 +25,7 @@ const Page: NextPageWithLayout<Props> = ({ slug, metadata, content }) => {
   const router = useRouter();
 
   if (!router.isFallback && !slug) {
-    return <BlogErrorPage />;
+    return <BlogErrorScreen />;
   }
 
   return (
@@ -87,7 +87,7 @@ export const getStaticPaths: GetStaticPaths<ArticleProps> = async () => {
 };
 
 Page.getLayout = (page) => {
-  return <Layout>{page}</Layout>;
+  return <LayoutContainer>{page}</LayoutContainer>;
 };
 
 export default Page;

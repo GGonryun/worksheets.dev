@@ -3,95 +3,42 @@ import { FC } from 'react';
 import { GameIcon } from '../../games/game-icon';
 import { GameSection } from '../../games/game-section';
 import { CategoryCarousel } from './category-carousel';
+import { Recommendations } from '../../../types';
 
 export type GameRecommendationProps = {
   hideCategories?: boolean;
+  hideSections?: boolean;
+  recommendations: Partial<Recommendations>;
 };
 
 export const GameRecommendations: FC<GameRecommendationProps> = ({
   hideCategories,
+  hideSections,
+  recommendations: { popular = [], new: newGames = [], categories = [] },
 }) => {
   return (
     <Box>
-      {!hideCategories && (
-        <CategoryCarousel
-          onClick={(category) => alert(`TODO: handle ${category} click`)}
-        />
-      )}
-      <Box display="flex" flexDirection="column" mt={1} gap={1}>
-        <GameSection title="Popular this week" href="/c/popular">
-          <GameIcon
-            size={94}
-            id="solitaire"
-            name="Solitaire"
-            banner="hot"
-            imageUrl="https://storage.googleapis.com/game-logos/solitaire.jpg"
-          />
-          <GameIcon
-            size={94}
-            id="emoji-wars"
-            name="Emoji Wars"
-            banner="hot"
-            imageUrl="https://storage.googleapis.com/game-logos/emoji-war.jpg"
-          />
-          <GameIcon
-            size={94}
-            id="chess-kata"
-            name="Chess Kata"
-            banner="hot"
-            imageUrl="https://storage.googleapis.com/game-logos/chess-kata.jpg"
-          />
-          <GameIcon
-            size={94}
-            id="chess-kata"
-            name="Nonograms"
-            imageUrl="https://storage.googleapis.com/game-logos/nonograms.jpg"
-          />
+      {!hideCategories && <CategoryCarousel categories={categories} />}
+      <Box
+        flexDirection="column"
+        mt={1}
+        gap={1}
+        display={hideSections ? 'none' : 'flex'}
+      >
+        <GameSection title="Popular this week" href="/tags/popular">
+          {popular.map((game) => (
+            <GameIcon key={game.id} size={94} {...game} />
+          ))}
         </GameSection>
-        <GameSection title="Recently played" href="/c/recent">
-          <GameIcon
-            size={94}
-            id="word-search"
-            name="Word Search"
-            banner="played"
-            imageUrl="https://storage.googleapis.com/game-logos/word-search.jpg"
-          />
-          <GameIcon
-            size={94}
-            id="word-smith"
-            name="Word Smith"
-            banner="played"
-            imageUrl="https://storage.googleapis.com/game-logos/word-smith.jpg"
-          />
-          <GameIcon
-            size={94}
-            id="nonograms"
-            name="Nonograms"
-            banner="played"
-            imageUrl="https://storage.googleapis.com/game-logos/nonograms.jpg"
-          />
+        <GameSection title="New games" href="/tags/new">
+          {newGames.map((game) => (
+            <GameIcon key={game.id} size={94} {...game} />
+          ))}
         </GameSection>
-        <GameSection title="New games" href="/c/new">
-          <GameIcon
-            size={94}
-            id="word-pack"
-            name="Word Pack"
-            banner="new"
-            imageUrl="https://storage.googleapis.com/game-logos/word-pack.jpg"
-          />
-          <GameIcon
-            size={94}
-            id="puzzle-words"
-            name="Puzzle Words"
-            banner="new"
-            imageUrl="https://storage.googleapis.com/game-logos/puzzle-words.jpg"
-          />
-          <GameIcon size={94} id="1" name="Placeholder" banner="new" />
-        </GameSection>
-        <Box mt={1}>
-          <GameSection title="Browse Categories" href="/c" />
-          <GameSection title="Browse Games" href="/g" />
-        </Box>
+      </Box>
+      <Box mt={1}>
+        <GameSection title="Browse Categories" href="/tags" />
+        <GameSection title="Browse Games" href="/games" />
       </Box>
     </Box>
   );

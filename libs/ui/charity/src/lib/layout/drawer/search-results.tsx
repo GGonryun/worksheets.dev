@@ -24,7 +24,7 @@ export const SearchResults: FC<SearchResultsProps> = ({
       {!games.length && !categories.length && <NoResults />}
       <Box
         display="grid"
-        gridTemplateColumns={{ xs: '1fr', sm: '1fr 1fr' }}
+        gridTemplateColumns={{ xs: '100%', sm: '50% 50%' }}
         pt={1}
         overflow="auto"
         className="search-results"

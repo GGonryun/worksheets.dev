@@ -14,7 +14,7 @@ export const CategoryBreadcrumbs: FC<{ categories: GameTags[] }> = ({
   };
 
   const gameTagBreadcrumbs = categories.map((tag) => (
-    <BreadcrumbLink key={tag} href={`/c/${tag}`} onClick={handleClick}>
+    <BreadcrumbLink key={tag} href={`/tags/${tag}`} onClick={handleClick}>
       {tag} games
     </BreadcrumbLink>
   ));

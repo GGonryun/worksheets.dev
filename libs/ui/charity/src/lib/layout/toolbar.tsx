@@ -87,30 +87,20 @@ const ConnectionButton: FC<{ connected: boolean }> = ({ connected }) => {
 
 const LogoBox = () => (
   <TitleBox>
-    <Link
-      underline="none"
-      href="/"
-      color="inherit"
+    <Box
       sx={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'flex-start',
-        gap: 1,
+        position: 'relative',
+        width: { xs: '35px', sm: '41px' },
+        height: { xs: '30px', sm: '35px' },
       }}
     >
-      <Box
-        sx={{
-          position: 'relative',
-          width: { xs: '35px', sm: '41px' },
-          height: { xs: '30px', sm: '35px' },
-        }}
-      >
+      <Link underline="none" href="/" color="inherit">
         <FillImage src={CHARITY_LOGO_PATH} alt="Charity.Games" />
-      </Box>
-      <Box pb={'2px'}>
-        <TitleText>charity</TitleText>
-        <TitleText>games</TitleText>
-      </Box>
+      </Link>
+    </Box>
+    <Link underline="none" href="/" color="inherit">
+      <TitleText>charity</TitleText>
+      <TitleText>games</TitleText>
     </Link>
   </TitleBox>
 );
@@ -119,6 +109,10 @@ const TitleBox = styled(Box)<BoxProps>(({ theme }) => ({
   flexGrow: 1,
   padding: theme.spacing(0, 1),
   paddingTop: theme.spacing(0.5),
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'flex-start',
+  gap: theme.spacing(1),
 }));
 
 const TitleText = styled(Typography)<TypographyProps>(({ theme }) => ({

@@ -1,43 +1,23 @@
 import { Box, Chip, ChipProps, styled } from '@mui/material';
 import { FC, JSXElementConstructor } from 'react';
 import { ItemCarousel } from './item-carousel';
+import { useRouter } from 'next/router';
 
 type CategoryCarouselProps = {
-  onClick: (category: string) => void;
+  categories: { id: string; name: string }[];
 };
 
-const CATEGORIES = [
-  'Popular Games',
-  'Car Games',
-  'Shooting Games',
-  'Sports Games',
-  'Action Games',
-  'Puzzle Games',
-  'Arcade Games',
-  'Strategy Games',
-  'Zombie Games',
-  'New Games',
-  'War Games',
-  'Racing Games',
-  'Cooking Games',
-  'Funny Games',
-  'Fighting Games',
-  'Adventure Games',
-  '2 Player Games',
-  'Stickman Games',
-  'Highscore Games',
-  'Multiplayer Games',
-];
-
 export const CategoryCarousel: FC<CategoryCarouselProps> = (props) => {
+  const { push } = useRouter();
+
   return (
     <Box position="relative">
       <ItemCarousel>
-        {CATEGORIES.map((category) => (
+        {props.categories.map((category) => (
           <CategoryChip
-            key={category}
-            label={category}
-            onClick={() => props.onClick(category)}
+            key={category.id}
+            label={category.name}
+            onClick={() => push(`tags/${category.id}`)}
           />
         ))}
       </ItemCarousel>

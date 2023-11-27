@@ -4,7 +4,8 @@ import {
   getAllPostsMetadata,
 } from '@worksheets/util-markdown';
 import { POSTS_PATH } from '../../util/paths';
-import { Layout, BlogScreen } from '@worksheets/ui-charity';
+import { BlogScreen } from '@worksheets/ui-charity';
+import { LayoutContainer } from '../../containers/layout-container';
 
 type Props = {
   posts: MarkdownMetadata[];
@@ -15,7 +16,7 @@ const Page: NextPageWithLayout<Props> = ({ posts }) => (
 );
 
 Page.getLayout = (page) => {
-  return <Layout>{page}</Layout>;
+  return <LayoutContainer>{page}</LayoutContainer>;
 };
 
 export const getStaticProps = async (): Promise<{ props: Props }> => {

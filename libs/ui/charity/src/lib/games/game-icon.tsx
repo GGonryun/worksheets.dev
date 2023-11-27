@@ -52,7 +52,7 @@ export const GameIcon: FC<GameIconProps> = ({
   const Icon = BannerIcon[banner ?? 'none'];
   const [hover, setHover] = useState(false);
   return (
-    <Link href={href ?? `/g/${id}`} underline="none">
+    <Link href={href ?? `/games/${id}`} underline="none">
       <Box
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
