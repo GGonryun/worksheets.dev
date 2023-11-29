@@ -100,9 +100,10 @@ export const HomePage = {
       >
         <MixedGrid
           items={Array.from({ length: 100 }).map((_, i) => {
-            if (i === 0) {
+            if (i === 3) {
               return {
                 type: 'progress',
+                color: 'error',
                 current: 33,
                 required: 100,
               };

@@ -3,6 +3,7 @@ import { ReferencePillSkeleton } from './reference-pill-skeleton';
 import {
   Box,
   LinearProgress,
+  LinearProgressProps,
   Typography,
   TypographyProps,
   styled,
@@ -11,8 +12,13 @@ import {
 export type ProgressPillProps = {
   current: number;
   required: number;
+  color?: LinearProgressProps['color'];
 };
-export const ProgressPill: FC<ProgressPillProps> = ({ current, required }) => (
+export const ProgressPill: FC<ProgressPillProps> = ({
+  color,
+  current,
+  required,
+}) => (
   <ReferencePillSkeleton href="/charity">
     <Box
       sx={{
@@ -27,7 +33,7 @@ export const ProgressPill: FC<ProgressPillProps> = ({ current, required }) => (
     >
       <LinearProgress
         variant="determinate"
-        color="success"
+        color={color ?? 'success'}
         value={(current / required) * 100}
         sx={{ width: '100%', height: 8 }}
       />
@@ -36,7 +42,9 @@ export const ProgressPill: FC<ProgressPillProps> = ({ current, required }) => (
           textAlign: 'center',
         }}
       >
-        <CurrentProgressText>${current}.00</CurrentProgressText>
+        <CurrentProgressText color={color ?? 'success.main'}>
+          ${current}.00
+        </CurrentProgressText>
         <RequiredFundingText>raised of ${required} goal</RequiredFundingText>
       </Box>
     </Box>
@@ -44,7 +52,6 @@ export const ProgressPill: FC<ProgressPillProps> = ({ current, required }) => (
 );
 
 const CurrentProgressText = styled(Typography)(({ theme }) => ({
-  color: theme.palette.success.main,
   fontWeight: 700,
   fontSize: '1.75rem',
   lineHeight: 1,
