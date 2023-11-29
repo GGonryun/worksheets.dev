@@ -5,7 +5,6 @@ import { AppPropsWithLayout } from '@worksheets/util-next';
 import { trpc } from '@worksheets/trpc-charity';
 import { SERVICE_SETTINGS } from '@worksheets/data-access/server-settings';
 import * as FullStory from '@fullstory/browser';
-import { CookieConsentPopup } from '@worksheets/ui-cookie-consent';
 import { SessionProvider } from 'next-auth/react';
 import { theme } from '@worksheets/ui-charity';
 
@@ -30,7 +29,6 @@ function CustomApp({
         <SessionProvider session={session}>
           <main className="app">{getLayout(<Component {...pageProps} />)}</main>
         </SessionProvider>
-        <CookieConsentPopup />
       </ThemeProvider>
     </>
   );

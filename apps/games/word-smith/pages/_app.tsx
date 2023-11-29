@@ -7,7 +7,6 @@ import { SERVICE_SETTINGS } from '@worksheets/data-access/server-settings';
 import { useVersion } from '@worksheets/ui-core';
 import { APP_VERSION, GAME_TITLE } from '../util';
 import { useRouter } from 'next/router';
-import { CookieConsentPopup } from '@worksheets/ui-cookie-consent';
 
 if (typeof window !== 'undefined') {
   FullStory.init(SERVICE_SETTINGS.FULLSTORY);
@@ -31,7 +30,6 @@ function CustomApp({ Component, pageProps }: AppProps) {
       <main>
         <Component {...pageProps} />
       </main>
-      <CookieConsentPopup />
       <UpdateGameModal
         open={requiresUpdate}
         onClose={ignore}

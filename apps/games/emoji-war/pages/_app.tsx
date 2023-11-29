@@ -3,7 +3,6 @@ import './styles.css';
 import styles from './index.module.scss';
 import * as FullStory from '@fullstory/browser';
 import { SERVICE_SETTINGS } from '@worksheets/data-access/server-settings';
-import { CookieConsentPopup } from '@worksheets/ui-cookie-consent';
 import { DocumentHead } from '@worksheets/ui-games';
 
 if (typeof window !== 'undefined') {
@@ -17,7 +16,6 @@ function CustomApp({ Component, pageProps }: AppProps) {
       <main className={styles['app']}>
         <Component {...pageProps} />
       </main>
-      <CookieConsentPopup />
     </>
   );
 }
