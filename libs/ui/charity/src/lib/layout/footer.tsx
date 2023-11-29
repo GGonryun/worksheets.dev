@@ -92,7 +92,7 @@ const FooterLink = styled((props) => <Link {...props} />)<LinkProps>(
 const SocialIcon = styled<
   JSXElementConstructor<SvgIconProps & { Icon: SvgIconComponent }>
 >(({ Icon, ...props }) => <Icon {...props} />)(({ theme }) => ({
-  color: theme.palette.error.light,
+  color: theme.palette.black.dark,
   filter: svgBoxShadow(1.5, 0.5),
   cursor: 'pointer',
 }));

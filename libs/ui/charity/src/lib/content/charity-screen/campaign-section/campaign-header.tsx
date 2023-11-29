@@ -1,0 +1,34 @@
+import { Box, Typography } from '@mui/material';
+import { MarkdownText, Markdown } from '@worksheets/ui-core';
+import { FC } from 'react';
+import { LevelBanner } from '../../../icons/level-banner';
+
+export const CampaignHeader: FC<{ description: MarkdownText }> = ({
+  description,
+}) => (
+  <>
+    <Box display="flex" gap={{ xs: 0.5, sm: 1 }} alignItems="flex-start">
+      <LevelBanner
+        sx={{
+          fontSize: { xs: '1.5rem', sm: '2rem' },
+        }}
+      />
+      <Typography
+        variant="h4"
+        sx={{
+          fontSize: { xs: '1.5rem', sm: '2rem' },
+        }}
+      >
+        Current Campaign
+      </Typography>
+      <LevelBanner
+        sx={{
+          fontSize: { xs: '1.5rem', sm: '2rem' },
+        }}
+      />
+    </Box>
+    <Typography variant="body2" textAlign="center">
+      <Markdown text={description} />
+    </Typography>
+  </>
+);
