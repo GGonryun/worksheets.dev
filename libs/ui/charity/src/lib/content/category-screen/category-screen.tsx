@@ -2,8 +2,8 @@ import { Box, Button, Container, Paper, Typography } from '@mui/material';
 import { FC } from 'react';
 import { MixedGrid } from '../../games';
 import { MixedGridItem } from '../../games/mixed-grid-items';
-import { ArrowUpRight } from '../../icons/arrow-up-right';
 import { Markdown } from '@worksheets/ui-core';
+import { ArrowRight } from '@mui/icons-material';
 
 export type CategoryScreenProps = {
   text: string;
@@ -42,8 +42,8 @@ export const CategoryScreen: FC<CategoryScreenProps> = ({
         <Button
           variant="contained"
           color="error"
-          endIcon={<ArrowUpRight sx={{ ml: -0.5 }} />}
-          href={'/games'}
+          endIcon={<ArrowRight sx={{ ml: -0.5 }} />}
+          href={'/'}
           sx={{
             mt: 4,
             width: { xs: '100%', sm: 'fit-content' },

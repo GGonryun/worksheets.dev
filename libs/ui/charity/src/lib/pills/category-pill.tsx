@@ -1,8 +1,8 @@
 import { Box, Typography } from '@mui/material';
 import { FC } from 'react';
-import { ArrowUpRight } from '../icons/arrow-up-right';
 import { ReferencePillSkeleton } from './reference-pill-skeleton';
 import { PLACEHOLDER_LOGO_PATH } from '../util';
+import { ArrowRight } from '@mui/icons-material';
 
 export type CategoryPillProps = {
   name: string;
@@ -46,7 +46,7 @@ export const CategoryPill: FC<CategoryPillProps> = ({
         >
           {name}
         </Typography>
-        <ArrowUpRight
+        <ArrowRight
           sx={{
             display: hideArrow ? 'none' : 'block',
             fontSize: '2rem',

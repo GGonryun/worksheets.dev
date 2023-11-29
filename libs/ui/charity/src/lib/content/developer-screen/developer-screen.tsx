@@ -1,4 +1,5 @@
 import {
+  ArrowRight,
   Facebook,
   Instagram,
   Language,
@@ -23,7 +24,6 @@ import { SteamGames } from '../../icons/steam-games';
 import { PlayStore } from '../../icons/play-store';
 import { AppStore } from '../../icons/app-store';
 import { GameDefinition } from '../../util/games';
-import { ArrowUpRight } from '../../icons/arrow-up-right';
 import { GamePill } from '../../pills';
 import { DeveloperSchema } from '../../../types/developer-schema';
 
@@ -87,8 +87,8 @@ export const DeveloperScreen: FC<DeveloperScreenProps> = ({
         <Button
           variant="contained"
           color="error"
-          href="/games"
-          endIcon={<ArrowUpRight sx={{ ml: -0.5 }} />}
+          href="/"
+          endIcon={<ArrowRight sx={{ ml: -0.5 }} />}
           sx={{
             borderRadius: 6,
             width: { xs: '100%', sm: 'fit-content' },
@@ -109,7 +109,7 @@ export const DeveloperScreen: FC<DeveloperScreenProps> = ({
           variant="outlined"
           color="error"
           href="/tags"
-          endIcon={<ArrowUpRight sx={{ ml: -0.5 }} />}
+          endIcon={<ArrowRight sx={{ ml: -0.5 }} />}
           sx={{
             borderRadius: 6,
             width: { xs: '100%', sm: 'fit-content' },
