@@ -38,7 +38,7 @@ export const GameRecommendations: FC<GameRecommendationProps> = ({
       </Box>
       <Box mt={1}>
         <GameSection title="Browse Categories" href="/tags" />
-        <GameSection title="Browse Games" href="/games" />
+        <GameSection title="Browse Games" href="/" />
       </Box>
     </Box>
   );
