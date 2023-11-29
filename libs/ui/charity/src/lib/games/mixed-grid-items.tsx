@@ -6,6 +6,8 @@ import {
   CategoryPill,
   TextPillProps,
   TextPill,
+  ProgressPillProps,
+  ProgressPill,
 } from '../pills';
 
 export const GRID_ITEM_SIZE = `94px`;
@@ -13,7 +15,8 @@ export const GRID_ITEM_SIZE = `94px`;
 export type MixedGridItem =
   | (GameIconProps & { type: 'game'; span?: number })
   | (CategoryPillProps & { type: 'category' })
-  | (TextPillProps & { type: 'text' });
+  | (TextPillProps & { type: 'text' })
+  | (ProgressPillProps & { type: 'progress' });
 
 export type MixedGridItemProps = {
   items: MixedGridItem[];
@@ -52,6 +55,16 @@ export const MixedGridItems: FC<MixedGridItemProps> = ({ items, size }) => {
               height={size}
             >
               <TextPill {...item} />
+            </Box>
+          )}
+          {item.type === 'progress' && (
+            <Box
+              key={item.current}
+              gridColumn={{ xs: `span 2`, sm: `span 3` }}
+              gridRow={`span 1`}
+              height={size}
+            >
+              <ProgressPill {...item} />
             </Box>
           )}
         </Fragment>

@@ -74,6 +74,11 @@ export const Interwoven = {
         imageUrl: 'https://via.placeholder.com/150',
       },
       {
+        type: 'progress',
+        required: 100,
+        current: 30,
+      },
+      {
         type: 'game',
         id: '2',
         name: 'Game Name 2',
@@ -151,6 +156,21 @@ export const WithTextItem = {
   args: {
     items: [
       { type: 'text', text: 'Sports Games' },
+      ...Array.from({ length: 20 }).map((_, i) => ({
+        type: 'game',
+        id: i,
+        name: 'Game ' + i,
+        imageUrl: 'https://via.placeholder.com/150',
+        span: 1,
+      })),
+    ],
+  },
+};
+
+export const WithProgress = {
+  args: {
+    items: [
+      { type: 'progress', required: 100, current: 30 },
       ...Array.from({ length: 20 }).map((_, i) => ({
         type: 'game',
         id: i,

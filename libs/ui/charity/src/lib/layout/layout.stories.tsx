@@ -100,7 +100,13 @@ export const HomePage = {
       >
         <MixedGrid
           items={Array.from({ length: 100 }).map((_, i) => {
-            if (i % 23 === 4 || i % 23 === 17) {
+            if (i === 0) {
+              return {
+                type: 'progress',
+                current: 33,
+                required: 100,
+              };
+            } else if (i % 23 === 4 || i % 23 === 17) {
               return {
                 type: 'category',
                 id: `${i}`,
@@ -181,7 +187,13 @@ export const HomePageSuccessfulSearch = {
       >
         <MixedGrid
           items={Array.from({ length: 100 }).map((_, i) => {
-            if (i % 23 === 4 || i % 23 === 17) {
+            if (i === 0) {
+              return {
+                type: 'progress',
+                current: 33,
+                required: 100,
+              };
+            } else if (i % 23 === 4 || i % 23 === 17) {
               return {
                 type: 'category',
                 id: `${i}`,
