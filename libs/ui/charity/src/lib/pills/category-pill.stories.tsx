@@ -3,7 +3,7 @@ import { CategoryPill } from './category-pill';
 
 const meta: Meta<typeof CategoryPill> = {
   component: CategoryPill,
-  title: 'Games/Pills/CategoryPill',
+  title: 'Pills/CategoryPill',
 };
 export default meta;
 type Story = StoryObj<typeof CategoryPill>;

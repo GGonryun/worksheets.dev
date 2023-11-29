@@ -22,7 +22,7 @@ const smallWidth: StoryDecorator = (Story) => (
 
 const meta: Meta<typeof TextPill> = {
   component: TextPill,
-  title: 'Games/Pills/TextPill',
+  title: 'Pills/TextPill',
 };
 
 export default meta;
