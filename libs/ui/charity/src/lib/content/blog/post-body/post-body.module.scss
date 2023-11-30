@@ -20,6 +20,10 @@ $color-code-color: #f8f8f2;
 }
 
 .markdown {
+  img {
+    max-width: 100%;
+  }
+
   h1 {
     @include header-mixin;
     font-size: 2rem;
@@ -112,10 +116,6 @@ $color-code-color: #f8f8f2;
 
     p {
       display: inline;
-    }
-
-    img {
-      max-width: 100%;
     }
   }
 
