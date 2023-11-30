@@ -21,7 +21,14 @@ export const FAQScreen: FC<FAQScreenProps> = (props) => {
           p: { xs: 2, sm: 4 },
         }}
       >
-        <Typography variant="h4">Frequently Asked Questions</Typography>
+        <Typography
+          variant="h3"
+          sx={{
+            fontSize: { xs: '2rem', sm: '3rem' },
+          }}
+        >
+          Frequently Asked Questions
+        </Typography>
         <Box
           sx={{
             my: 2,
