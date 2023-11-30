@@ -9,9 +9,8 @@ export const TitleSection: FC<{ pollUrl: string }> = ({ pollUrl }) => (
       Play With Purpose
     </Typography>
     <Typography>
-      Every game you play on this site will generate a small amount of revenue
-      that will be donated to charity. You get to choose which cause we support
-      next!
+      Every game you play generates a small amount of revenue that will be
+      donated to charity. You have the power to decide where the money goes!
     </Typography>
     <Typography variant="body3" sx={{ mt: 1 }}>
       <Link
@@ -23,7 +22,7 @@ export const TitleSection: FC<{ pollUrl: string }> = ({ pollUrl }) => (
         }}
       >
         <HowToVote fontSize="inherit" sx={{ mt: '-2px' }} />
-        Vote for the next campaign!
+        Vote for the next charity!
       </Link>
     </Typography>
   </CustomPaper>

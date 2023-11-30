@@ -3,9 +3,7 @@ import { MarkdownText, Markdown } from '@worksheets/ui-core';
 import { FC } from 'react';
 import { LevelBanner } from '../../../icons/level-banner';
 
-export const CampaignHeader: FC<{ description: MarkdownText }> = ({
-  description,
-}) => (
+export const CampaignHeader: FC<{ caption: MarkdownText }> = ({ caption }) => (
   <>
     <Box display="flex" gap={{ xs: 0.5, sm: 1 }} alignItems="flex-start">
       <LevelBanner
@@ -28,7 +26,7 @@ export const CampaignHeader: FC<{ description: MarkdownText }> = ({
       />
     </Box>
     <Typography variant="body2" textAlign="center">
-      <Markdown text={description} />
+      <Markdown text={caption} />
     </Typography>
   </>
 );

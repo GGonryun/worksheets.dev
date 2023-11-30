@@ -3,13 +3,16 @@ import { FC } from 'react';
 import { CampaignSection } from './campaign-section';
 import { TitleSection } from './title-section';
 import { StatisticsSection } from './statistics-section';
+import { MarkdownText } from '@worksheets/ui-core';
+import { CharityDescription } from './charity-description';
 
 export type CharityScreenProps = {
   pollUrl: string;
   charity: {
     imageUrl: string;
     name: string;
-    description: string;
+    caption: MarkdownText;
+    description: MarkdownText;
     url: string;
     category: string;
   };
@@ -39,12 +42,13 @@ export const CharityScreen: FC<CharityScreenProps> = ({
         py: 2,
         display: 'flex',
         flexDirection: 'column',
-        gap: { xs: 1, sm: 2 },
+        gap: 2,
       }}
     >
       <TitleSection pollUrl={pollUrl} />
       <CampaignSection charity={charity} pledge={pledge} pollUrl={pollUrl} />
       <StatisticsSection {...statistics} />
+      <CharityDescription description={charity.description} />
     </Container>
   );
 };

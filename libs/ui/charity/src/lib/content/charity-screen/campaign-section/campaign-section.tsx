@@ -18,7 +18,7 @@ export const CampaignSection: FC<
         borderBottomRightRadius: 0,
       }}
     >
-      <CampaignHeader description={charity.description} />
+      <CampaignHeader caption={charity.caption} />
       <Box
         sx={{
           mt: 1,

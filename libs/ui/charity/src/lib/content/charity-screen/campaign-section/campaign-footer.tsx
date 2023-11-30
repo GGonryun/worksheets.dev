@@ -8,6 +8,7 @@ import { GiftBox } from '../../../icons/gift-box';
 export const CampaignFooter: FC<{ pollUrl: string }> = ({ pollUrl }) => (
   <Box
     display="flex"
+    alignItems="flex-start"
     justifyContent="space-evenly"
     flexWrap={{ xs: 'wrap', sm: 'nowrap' }}
     gap={1.5}
