@@ -14,6 +14,9 @@ import {
   UnderConstruction,
   DeveloperScreen,
   CategoryScreen,
+  HelpScreen,
+  ReceiptScreen,
+  CharityScreen,
 } from '../content';
 import {
   SampleGameDescription,
@@ -23,6 +26,8 @@ import {
   sampleBlogPost,
   sampleCategoryDescription,
   sampleCategoryItems,
+  sampleCharityOrganization,
+  sampleDonationReceipts,
   sampleGameDefinitions,
   sampleGameItems,
   sampleMixedGridItems,
@@ -32,6 +37,12 @@ import {
 const Story: Meta<typeof Layout> = {
   component: Layout,
   title: 'Layout/WebsiteLayout',
+  args: {
+    onSearch: async () => {
+      return { games: [], categories: [] };
+    },
+    recommendations: sampleRecommendations,
+  },
   decorators: [
     (Story) => (
       <main>
@@ -87,10 +98,6 @@ export const Primary = {
 
 export const HomePage = {
   args: {
-    onSearch: async () => {
-      return { games: [], categories: [] };
-    },
-    recommendations: sampleRecommendations,
     children: (
       <Container
         maxWidth="xl"
@@ -178,7 +185,6 @@ export const HomePageSuccessfulSearch = {
         ],
       };
     },
-    recommendations: sampleRecommendations,
     children: (
       <Container
         maxWidth="xl"
@@ -218,10 +224,6 @@ export const HomePageSuccessfulSearch = {
 
 export const CategoryPage = {
   args: {
-    onSearch: async () => {
-      return { games: [], categories: [] };
-    },
-    recommendations: sampleRecommendations,
     children: (
       <CategoryScreen
         text="Idle Games"
@@ -262,10 +264,6 @@ export const CategoriesPage = {
 
 export const GamePage = {
   args: {
-    onSearch: async () => {
-      return { games: [], categories: [] };
-    },
-    recommendations: sampleRecommendations,
     children: (
       <GameScreen
         game={<SampleGameLauncher />}
@@ -278,21 +276,13 @@ export const GamePage = {
 
 export const LoginPage = {
   args: {
-    onSearch: async () => {
-      return { games: [], categories: [] };
-    },
-    recommendations: sampleRecommendations,
     children: <LoginScreen onGithubLogin={() => alert('github login')} />,
   },
 };
 
 export const AccountPage = {
   args: {
-    onSearch: async () => {
-      return { games: [], categories: [] };
-    },
     connected: true,
-    recommendations: sampleRecommendations,
     children: (
       <AccountScreen
         recent={Array.from({ length: 5 }).map((_, i) => ({
@@ -305,52 +295,86 @@ export const AccountPage = {
   },
 };
 
+export const CharityPage = {
+  args: {
+    children: (
+      <CharityScreen
+        {...{
+          pollUrl: 'https://strawpoll.com/GeZAOVdBRnV',
+          charity: {
+            ...sampleCharityOrganization,
+            imageUrl: '/common/water-org/francisco-hands.jpg',
+          },
+          pledge: { required: 100, current: 30, games: 7, players: 55 },
+          statistics: {
+            countries: [
+              { name: 'United States', hours: 9 },
+              { name: 'India', hours: 5 },
+              { name: 'United Kingdom', hours: 3 },
+              { name: 'Australia', hours: 2 },
+              { name: 'Germany', hours: 2 },
+              { name: 'Brazil', hours: 1 },
+              { name: 'Canada', hours: 1 },
+              { name: 'France', hours: 1 },
+            ],
+            games: [
+              { id: 'puzzle-words', name: 'Puzzle Words', plays: 128 },
+              { id: 'word-search', name: 'Word Search', plays: 68 },
+              { id: 'emoji-war', name: 'Emoji War', plays: 31 },
+              { id: 'solitaire', name: 'Solitaire', plays: 29 },
+              { id: 'word-pack', name: 'Word Pack', plays: 28 },
+              { id: 'word-smith', name: 'Word Smith', plays: 11 },
+              { id: 'nonograms', name: 'Nonograms', plays: 6 },
+            ],
+            players: {
+              new: 45,
+              returning: 10,
+            },
+          },
+        }}
+      />
+    ),
+  },
+};
+
+export const HelpPage = {
+  args: {
+    children: <HelpScreen />,
+  },
+};
+
+export const ReceiptPage = {
+  args: {
+    children: <ReceiptScreen rows={sampleDonationReceipts} />,
+  },
+};
+
 export const AboutPage = {
   args: {
-    onSearch: async () => {
-      return { games: [], categories: [] };
-    },
-    recommendations: sampleRecommendations,
     children: <AboutScreen />,
   },
 };
 
 export const ContactPage = {
   args: {
-    onSearch: async () => {
-      return { games: [], categories: [] };
-    },
-    recommendations: sampleRecommendations,
     children: <ContactScreen />,
   },
 };
 
 export const FAQPage = {
   args: {
-    onSearch: async () => {
-      return { games: [], categories: [] };
-    },
-    recommendations: sampleRecommendations,
     children: <FAQScreen />,
   },
 };
 
 export const BlogPage = {
   args: {
-    onSearch: async () => {
-      return { games: [], categories: [] };
-    },
-    recommendations: sampleRecommendations,
     children: <BlogScreen posts={sampleBlogMetadata} />,
   },
 };
 
 export const BlogPostPage = {
   args: {
-    onSearch: async () => {
-      return { games: [], categories: [] };
-    },
-    recommendations: sampleRecommendations,
     children: (
       <BlogPostScreen
         metadata={sampleBlogMetadata[0]}
@@ -362,10 +386,6 @@ export const BlogPostPage = {
 
 export const DeveloperPage = {
   args: {
-    onSearch: async () => {
-      return { games: [], categories: [] };
-    },
-    recommendations: sampleRecommendations,
     children: (
       <DeveloperScreen
         name={'Charity Games'}
@@ -378,10 +398,6 @@ export const DeveloperPage = {
 
 export const UnderConstructionPage = {
   args: {
-    onSearch: async () => {
-      return { games: [], categories: [] };
-    },
-    recommendations: sampleRecommendations,
     children: <UnderConstruction />,
   },
 };

@@ -45,3 +45,7 @@ export function isPositive(value: number) {
 export function isNegative(value: number) {
   return value < 0;
 }
+
+export function formatMoney(x: number) {
+  return `$${x.toFixed(2).replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')}`;
+}

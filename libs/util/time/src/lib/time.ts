@@ -28,6 +28,18 @@ export const printDate = (stamp: string | Date, locale = 'en-US') => {
   return date.toLocaleDateString(locale, options);
 };
 
+export const printShortDate = (stamp: string | Date, locale = 'en-US') => {
+  const options: Intl.DateTimeFormatOptions = {
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric',
+  };
+
+  const date = new Date(stamp);
+
+  return date.toLocaleDateString(locale, options);
+};
+
 export function expireAfter({
   minutes = 0,
   hours = 0,

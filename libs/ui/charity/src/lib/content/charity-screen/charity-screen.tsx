@@ -3,19 +3,12 @@ import { FC } from 'react';
 import { CampaignSection } from './campaign-section';
 import { TitleSection } from './title-section';
 import { StatisticsSection } from './statistics-section';
-import { MarkdownText } from '@worksheets/ui-core';
 import { CharityDescription } from './charity-description';
+import { CharityOrganization } from '../../../types';
 
 export type CharityScreenProps = {
   pollUrl: string;
-  charity: {
-    imageUrl: string;
-    name: string;
-    caption: MarkdownText;
-    description: MarkdownText;
-    url: string;
-    category: string;
-  };
+  charity: CharityOrganization & { imageUrl: string };
   pledge: {
     required: number;
     current: number;
