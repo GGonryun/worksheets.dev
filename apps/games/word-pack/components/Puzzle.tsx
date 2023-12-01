@@ -236,7 +236,7 @@ export const Puzzle: FC<PuzzleProps> = (props) => {
                       key={index}
                     >
                       <Typography
-                        fontSize={responsiveFontSize({ min: 0, grow: 4 })}
+                        fontSize={responsiveFontSize({ min: 0, grow: 2 })}
                         fontWeight={900}
                         zIndex={30}
                       >
