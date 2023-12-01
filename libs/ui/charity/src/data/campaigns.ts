@@ -1,29 +1,9 @@
-import type { Meta } from '@storybook/react';
-import { CharityScreen } from './charity-screen';
-import { sampleCharityOrganization } from '../../_samples';
+import { CharityCampaign } from '../types';
 
-const Story: Meta<typeof CharityScreen> = {
-  component: CharityScreen,
-  title: 'Content/CharityScreen',
-  decorators: [
-    (Story) => (
-      <div
-        style={{
-          backgroundColor: 'rgb(250, 203, 202)',
-          height: '100%',
-        }}
-      >
-        <Story />
-      </div>
-    ),
-  ],
-};
-export default Story;
-
-export const Primary = {
-  args: {
-    charity: sampleCharityOrganization,
-    pledge: { required: 100, current: 30, games: 7, players: 55 },
+export const campaigns: Record<string, CharityCampaign> = {
+  primary: {
+    organizationId: 'water-org',
+    pledge: { required: 100, current: 20, games: 7, players: 55 },
     statistics: {
       countries: [
         { name: 'United States', hours: 9 },

@@ -8,7 +8,7 @@ import { CampaignPledge } from './campaign-pledge';
 import { CampaignFooter } from './campaign-footer';
 
 export const CampaignSection: FC<
-  Pick<CharityScreenProps, 'charity' | 'pledge' | 'pollUrl'>
+  Pick<CharityScreenProps, 'charity' | 'pledge'> & { pollUrl: string }
 > = ({ charity, pledge, pollUrl }) => (
   <Box>
     <CustomPaper

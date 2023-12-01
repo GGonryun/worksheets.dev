@@ -21,7 +21,7 @@ export const CampaignImage: FC<Pick<CharityScreenProps, 'charity'>> = ({
         overflow: 'hidden',
       }}
     >
-      <ResponsiveImage src={charity.imageUrl} alt={charity.name} />
+      <ResponsiveImage src={charity.bannerSrc} alt={charity.name} />
     </Link>
     <Box
       display="flex"

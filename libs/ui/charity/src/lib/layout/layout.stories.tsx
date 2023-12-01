@@ -33,7 +33,6 @@ import {
   sampleMixedGridItems,
   sampleRecommendations,
 } from '../_samples';
-import { urls } from '../util';
 
 const Story: Meta<typeof Layout> = {
   component: Layout,
@@ -301,11 +300,7 @@ export const CharityPage = {
     children: (
       <CharityScreen
         {...{
-          pollUrl: urls.poll,
-          charity: {
-            ...sampleCharityOrganization,
-            imageUrl: '/common/water-org/francisco-hands.jpg',
-          },
+          charity: sampleCharityOrganization,
           pledge: { required: 100, current: 30, games: 7, players: 55 },
           statistics: {
             countries: [

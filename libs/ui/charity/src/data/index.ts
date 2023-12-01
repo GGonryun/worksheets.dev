@@ -4,3 +4,6 @@ export * from './games';
 export * from './tags';
 export * from './recommendations';
 export * from './faq';
+export * from './charities';
+export * from './donations';
+export * from './campaigns';

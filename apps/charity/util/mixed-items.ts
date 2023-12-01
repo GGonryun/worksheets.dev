@@ -1,4 +1,9 @@
-import { MixedGridItem, games, tagSchemas } from '@worksheets/ui-charity';
+import {
+  MixedGridItem,
+  campaigns,
+  games,
+  tagSchemas,
+} from '@worksheets/ui-charity';
 
 export const gameItems = (): MixedGridItem[] => {
   return games.map((game) => ({
@@ -23,7 +28,13 @@ export const tagItems = (): MixedGridItem[] => {
 };
 
 export const mixedItems = () => {
-  // get all categories.
+  const campaign = campaigns['primary'];
+  if (!campaign) throw new Error('Campaign not found');
+  const campaignItem: MixedGridItem = {
+    type: 'progress',
+    current: campaign.pledge.current,
+    required: campaign.pledge.required,
+  };
 
-  return [...gameItems(), ...tagItems()];
+  return [campaignItem, ...gameItems(), ...tagItems()];
 };

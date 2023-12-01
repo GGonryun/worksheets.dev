@@ -12,7 +12,7 @@ export const games: GameSchema[] = [
   {
     id: 'emoji-war',
     name: 'Emoji War',
-    size: 2,
+    size: 1,
     developerId: 'charity-games',
     iconUrl: '/games/emoji-war/icon.jpg',
     bannerUrl: '/games/emoji-war/banner.jpg',
@@ -82,7 +82,7 @@ export const games: GameSchema[] = [
   {
     id: 'word-search',
     name: 'Word Search',
-    size: 1,
+    size: 2,
     developerId: 'charity-games',
     iconUrl: '/games/word-search/icon.jpg',
     bannerUrl: '/games/word-search/banner.jpg',

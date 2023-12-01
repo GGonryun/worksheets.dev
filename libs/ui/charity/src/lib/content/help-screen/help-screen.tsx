@@ -223,7 +223,13 @@ const QuestionAnswerBox: FC<{ question: string; answer: string }> = ({
         <ChevronRight />
       </ButtonBase>
       <Collapse in={open}>
-        <Typography variant="body2" whiteSpace="pre-line" m={2} mt={0}>
+        <Typography
+          component="div"
+          variant="body2"
+          whiteSpace="pre-line"
+          m={2}
+          mt={0}
+        >
           <Markdown text={answer} />
         </Typography>
       </Collapse>

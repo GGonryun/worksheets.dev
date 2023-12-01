@@ -3,18 +3,19 @@ import { FC } from 'react';
 import { CustomPaper } from './custom-paper';
 import { HowToVote } from '@mui/icons-material';
 
-export const TitleSection: FC<{ pollUrl: string }> = ({ pollUrl }) => (
+export const TitleSection: FC = () => (
   <CustomPaper>
     <Typography variant="h3" sx={{ fontSize: { xs: '2rem', sm: '3rem' } }}>
       Play With Purpose
     </Typography>
     <Typography>
       Every game you play generates a small amount of revenue that will be
-      donated to charity. You have the power to decide where the money goes!
+      donated to charity. Every week we will donate the total amount of revenue
+      generated to a charity of your choice.
     </Typography>
     <Typography variant="body3" sx={{ mt: 1 }}>
       <Link
-        href={pollUrl}
+        href="/donations"
         sx={{
           display: 'flex',
           gap: 0.5,
@@ -22,7 +23,7 @@ export const TitleSection: FC<{ pollUrl: string }> = ({ pollUrl }) => (
         }}
       >
         <HowToVote fontSize="inherit" sx={{ mt: '-2px' }} />
-        Vote for the next charity!
+        See our previous donations
       </Link>
     </Typography>
   </CustomPaper>

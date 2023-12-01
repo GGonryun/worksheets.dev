@@ -79,10 +79,13 @@ export const ReceiptTable: FC<ReceiptTableProps> = ({ rows }) => {
                 {printShortDate(row.date)}
               </StyledTableCell>
               <StyledTableCell component="th" scope="row">
-                <Link href={row.organization.url}>{row.organization.name}</Link>
+                <Link target="_blank" href={row.organization.url}>
+                  {row.organization.name}
+                </Link>
               </StyledTableCell>
               <StyledTableCell align="right">
                 <Link
+                  target="_blank"
                   href={row.receipt}
                   sx={{
                     display: 'inline-flex',
@@ -90,7 +93,7 @@ export const ReceiptTable: FC<ReceiptTableProps> = ({ rows }) => {
                     gap: 1,
                   }}
                 >
-                  PDF
+                  Link
                   <Attachment fontSize="small" />
                 </Link>
               </StyledTableCell>

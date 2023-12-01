@@ -17,7 +17,6 @@ import {
   SvgIconComponent,
   Twitter,
 } from '@mui/icons-material';
-import { Discord } from '../icons/discord';
 import { useRouter } from 'next/router';
 import { urls } from '../util/urls';
 
@@ -42,14 +41,11 @@ export const WebsiteFooter: FC<WebsiteFooterProps> = () => {
             Icon={Twitter}
             onClick={() => push(urls.social.twitter)}
           />
-          <SocialIcon
-            Icon={Discord}
-            onClick={() => push(urls.social.discord)}
-          />
           <SocialIcon Icon={Reddit} onClick={() => push(urls.social.reddit)} />
           <SocialIcon Icon={GitHub} onClick={() => push(urls.social.github)} />
         </Box>
         <Box display="flex" gap={3}>
+          <FooterLink href={'/charity'}>Charity</FooterLink>
           <FooterLink href={'/about'}>About</FooterLink>
           <FooterLink href={'/blog'}>Blog</FooterLink>
           <FooterLink href={'/contact'}>Contact</FooterLink>
@@ -60,6 +56,7 @@ export const WebsiteFooter: FC<WebsiteFooterProps> = () => {
           <CopywriteText>Copyright © {currentYear} Charity.Games</CopywriteText>
         </Box>
         <Box display="flex" gap={2}>
+          <FooterSubLink href={'/help'}>Help</FooterSubLink>
           <FooterSubLink href={'/faq'}>FAQ</FooterSubLink>
           <FooterSubLink href={'/terms'}>Terms</FooterSubLink>
           <FooterSubLink href={'/privacy'}>Privacy</FooterSubLink>
@@ -92,7 +89,7 @@ const FooterLink = styled((props) => <Link {...props} />)<LinkProps>(
 const SocialIcon = styled<
   JSXElementConstructor<SvgIconProps & { Icon: SvgIconComponent }>
 >(({ Icon, ...props }) => <Icon {...props} />)(({ theme }) => ({
-  color: theme.palette.black.dark,
+  color: theme.palette.error.light,
   filter: svgBoxShadow(1.5, 0.5),
   cursor: 'pointer',
 }));

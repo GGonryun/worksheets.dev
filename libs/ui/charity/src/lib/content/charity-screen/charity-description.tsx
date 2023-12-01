@@ -13,7 +13,7 @@ export const CharityDescription: FC<CharityDescriptionProps> = ({
 }) => {
   return (
     <CustomPaper>
-      <Typography padding={0}>
+      <Typography padding={0} component="div">
         <Markdown
           text={description}
           sx={{ '& h2:first-child': { marginTop: 0 } }}

@@ -4,30 +4,21 @@ import { CampaignSection } from './campaign-section';
 import { TitleSection } from './title-section';
 import { StatisticsSection } from './statistics-section';
 import { CharityDescription } from './charity-description';
-import { CharityOrganization } from '../../../types';
+import { CharityCampaign, CharityOrganization } from '../../../types';
+import { urls } from '../../util';
 
 export type CharityScreenProps = {
-  pollUrl: string;
-  charity: CharityOrganization & { imageUrl: string };
-  pledge: {
-    required: number;
-    current: number;
-    games: number;
-    players: number;
-  };
-  statistics: {
-    countries: { name: string; hours: number }[];
-    games: { id: string; name: string; plays: number }[];
-    players: { new: number; returning: number };
-  };
+  charity: CharityOrganization;
+  pledge: CharityCampaign['pledge'];
+  statistics: CharityCampaign['statistics'];
 };
 
 export const CharityScreen: FC<CharityScreenProps> = ({
-  pollUrl,
   charity,
   pledge,
   statistics,
 }) => {
+  const pollUrl = urls.poll;
   return (
     <Container
       maxWidth="lg"
@@ -38,7 +29,7 @@ export const CharityScreen: FC<CharityScreenProps> = ({
         gap: 2,
       }}
     >
-      <TitleSection pollUrl={pollUrl} />
+      <TitleSection />
       <CampaignSection charity={charity} pledge={pledge} pollUrl={pollUrl} />
       <StatisticsSection {...statistics} />
       <CharityDescription description={charity.description} />
