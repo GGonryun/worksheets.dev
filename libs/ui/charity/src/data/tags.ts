@@ -36,6 +36,22 @@ export const tags: Record<GameTag, TagSchema> = {
     relatedTags: ['puzzle', 'popular', 'brain'],
     description: `
     ## Word Games
+
+    ### What are word games?
+    Word games are games that involve words. They can be played alone or with others. Some word games are played on paper, while others are played on a computer or mobile device.
+
+    ### Why are word games important?
+    Word games are important because they help people develop their vocabulary and spelling skills. They also help people learn new words and improve their memory. Word games can also be used to learn new languages.
+
+    ### What are the most popular word games?
+    The most popular word games currently trending are:
+    - [Word Search](/games/word-search)
+    - [Puzzle Words](/games/puzzle-words)
+    - [Word Smith](/games/word-smith)
+    - [Word Pack](/games/word-pack)
+
+    ### Are word games fun?
+    Word games are fun because they are challenging and require players to think creatively. They also help people improve their vocabulary and spelling skills. It's not for everyone, but it can be a great way to pass the time.
     `,
   },
   action: {
@@ -45,6 +61,17 @@ export const tags: Record<GameTag, TagSchema> = {
     relatedTags: [],
     description: `
     ## Action Games
+
+    ### What are action games?
+    Action games are video games that emphasize physical challenges, including hand-eye coordination and reaction-time. The genre includes diverse sub-genres such as fighting games, shooter games, and platform games, which are widely considered the most important action games, though some real-time strategy games are also considered to be action games.
+
+    ### Can kids play action games?
+    Most action games are suitable for kids, but some are not. It depends on the game and the age of the child. Some action games are violent, while others are not. Some action games are easy to play, while others are more difficult. Some action games are fast-paced, while others are slow-paced.
+
+    Please note that some action games may contain violence or other content that is not suitable for children. Parents should use their own judgment when deciding whether or not to allow their children to play action games.
+
+    ### Can action games be played on mobile?
+    Yes, action games can be played on mobile. Some action games are designed specifically for mobile devices, while others are designed for consoles or PCs.
     `,
   },
   puzzle: {
@@ -54,6 +81,15 @@ export const tags: Record<GameTag, TagSchema> = {
     relatedTags: ['board', 'brain'],
     description: `
     ## Puzzle Games
+
+    ### What are puzzle games?
+    Puzzle games are games that require players to solve puzzles. They can be played alone or with others. Some puzzle games are played on paper, while others are played on a computer or mobile device.
+
+    ### Why are puzzle games important?
+    Puzzle games are important because they help people develop their problem-solving skills. They also help people learn new skills and improve their memory. Puzzle games can also be used to learn new languages.
+
+    ### Are puzzle games hard?
+    Puzzle games are not hard. They are challenging and require players to think creatively. They also help people improve their problem-solving skills. It's not for everyone, but it can be a great way to pass the time.
     `,
   },
   brain: {
@@ -63,6 +99,23 @@ export const tags: Record<GameTag, TagSchema> = {
     relatedTags: ['board', 'puzzle'],
     description: `
     ## Brain Games
+
+    ### What are brain games?
+    Brain games are games that require players to use their brains. They can be played alone or with others. Some brain games are played on paper, while others are played on a computer or mobile device.
+
+    ### Why are brain games important?
+    Brain games are important because they help people develop their problem-solving skills. They also help people learn new skills and improve their memory. Brain games can also be used to learn new languages.
+
+    ### Are brain games hard?
+    Brain games are not hard. They are challenging and require players to think creatively. They also help people improve their problem-solving skills. It's not for everyone, but it can be a great way to pass the time.
+
+    ### Can brain games hurt your brain?
+    Brain games are not harmful. They are challenging and require players to think creatively. They also help people improve their problem-solving skills. It's not for everyone, but it can be a great way to pass the time.
+
+    If you're having trouble with brain games, try playing a different type of game. For example, if you're having trouble with word games, try playing a puzzle game instead.
+
+    ### Who likes brain games?
+    Brain games are popular among people who like to think. They are challenging and require players to think creatively. They also help people improve their problem-solving skills. It's not for everyone, but it can be a great way to pass the time.
     `,
   },
   card: {
@@ -72,6 +125,18 @@ export const tags: Record<GameTag, TagSchema> = {
     relatedTags: ['board', 'brain'],
     description: `
     ## Card Games
+
+    ### What are card games?
+    Card games are games that use playing cards as the main component. They can be played alone or with others. Some card games are played on paper, while others are played on a computer or mobile device.
+
+    ### Are card games fun?
+    Card games are fun because they are challenging and require players to think creatively. Many card games are easy to learn and fun to play. It's not for everyone, but it can be a great way to pass the time.
+
+    ### Are card games hard?
+    Card games are not hard. They are challenging and require players to think creatively. They also help people improve their problem-solving skills. It's not for everyone, but it can be a great way to pass the time.
+
+    ### Who can play card games?
+    Anyone can play card games. Some rules are more complicated than others, but most card games are easy to learn and fun to play. If you're having trouble with card games, try playing a different type of game. For example, most [action](/tags/action) or [word games](/tags/word) are easier to learn than card games.
     `,
   },
   new: {
@@ -81,6 +146,9 @@ export const tags: Record<GameTag, TagSchema> = {
     relatedTags: ['popular'],
     description: `
     ## New Games
+
+    ### What are new games?
+    New games are games that have been released recently. They can be played alone or with others. We vet all games before adding them to our site, so you can be sure that they are safe and fun to play.
     `,
   },
   popular: {
@@ -90,6 +158,9 @@ export const tags: Record<GameTag, TagSchema> = {
     relatedTags: ['mobile', 'new'],
     description: `
     ## Popular Games
+
+    ### What are popular games?
+    Popular games are games that are played by many people. The top 10 most popular games are reviewed every week and saved on this list. You can also find the most popular games by category or tag.
     `,
   },
   mobile: {
@@ -99,15 +170,24 @@ export const tags: Record<GameTag, TagSchema> = {
     relatedTags: ['desktop', 'popular'],
     description: `
     ## Mobile Games
+
+    ### What are mobile games?
+    Mobile games are games that can be played on a mobile device. Some games are designed specifically for mobile devices, while others are designed for [computers](/tags/desktop). Mobile games are popular because they are easy to play and can be played anywhere.
+
+    ### Are mobile games free?
+    All games on our site are free to play. Some games may display an advertisement, but you can play them without spending any money.
     `,
   },
   desktop: {
     id: 'desktop',
-    name: 'Desktop Games',
+    name: 'Computer Games',
     iconUrl: '/games/categories/desktop.svg',
     relatedTags: ['mobile', 'popular'],
     description: `
-    ## Desktop Games
+    ## Computer Games
+
+    ### What are computer games?
+    Computer games are games that can be played on a computer. Some games are designed specifically for computers, while others are designed for [mobile devices](/tags/mobile). Computer games require a mouse and keyboard to play.
     `,
   },
 };

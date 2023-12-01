@@ -46,16 +46,7 @@ export const games: GameSchema[] = [
     bannerUrl: '/games/solitaire/banner.png',
     qualifier: 'new',
     platforms: ['desktop', 'mobile'],
-    tags: [
-      'card',
-      'brain',
-      'board',
-      'puzzle',
-      'popular',
-      'new',
-      'desktop',
-      'mobile',
-    ],
+    tags: ['card', 'brain', 'board', 'puzzle', 'popular', 'new', 'mobile'],
     category: ['card'],
     file: {
       type: 'redirect',
