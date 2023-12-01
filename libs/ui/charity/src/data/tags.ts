@@ -26,7 +26,7 @@ export const tags: Record<GameTag, TagSchema> = {
     The rules of board games vary from game to game. Some games have simple rules, while others have more complex rules. Some games are played with a deck of cards, while others use dice or other objects. Some games are played on a board, while others are played on a table or other surface.
 
     ### What are the best board games for kids?
-    If the game is too complicated, kids will lose interest. If the game is too easy, kids will get bored. The best board games for kids are those that are easy to learn and fun to play. If the game is too complicated, kids will lose interest.
+    If the game is too complicated, kids will lose interest. If the game is too easy, kids will get bored. The best board games for kids are those that are easy to learn and fun to play.
     `,
   },
   word: {

@@ -2,6 +2,7 @@ export const urls = {
   email: {
     support: 'mailto:amodestduck@gmail.com',
   },
+  poll: 'https://strawpoll.com/GeZAOVdBRnV',
   external: {
     waterOrg: 'https://www.water.org/',
     fullstory: 'https://www.fullstory.com/',

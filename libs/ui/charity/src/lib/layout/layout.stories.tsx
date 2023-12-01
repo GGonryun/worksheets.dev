@@ -33,6 +33,7 @@ import {
   sampleMixedGridItems,
   sampleRecommendations,
 } from '../_samples';
+import { urls } from '../util';
 
 const Story: Meta<typeof Layout> = {
   component: Layout,
@@ -300,7 +301,7 @@ export const CharityPage = {
     children: (
       <CharityScreen
         {...{
-          pollUrl: 'https://strawpoll.com/GeZAOVdBRnV',
+          pollUrl: urls.poll,
           charity: {
             ...sampleCharityOrganization,
             imageUrl: '/common/water-org/francisco-hands.jpg',

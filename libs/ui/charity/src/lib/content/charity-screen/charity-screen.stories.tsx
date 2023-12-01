@@ -1,6 +1,7 @@
 import type { Meta } from '@storybook/react';
 import { CharityScreen } from './charity-screen';
 import { sampleCharityOrganization } from '../../_samples';
+import { urls } from '../../util';
 
 const Story: Meta<typeof CharityScreen> = {
   component: CharityScreen,
@@ -22,7 +23,7 @@ export default Story;
 
 export const Primary = {
   args: {
-    pollUrl: 'https://strawpoll.com/GeZAOVdBRnV',
+    pollUrl: urls.poll,
     charity: {
       ...sampleCharityOrganization,
       imageUrl: '/common/water-org/francisco-hands.jpg',

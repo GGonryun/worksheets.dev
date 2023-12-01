@@ -1,8 +1,9 @@
-import { Box, Container, Link, Paper, Typography } from '@mui/material';
+import { Box, Button, Container, Link, Paper, Typography } from '@mui/material';
 import { FC, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { qa } from './qa';
 import { Markdown } from '@worksheets/ui-core';
+import { faq } from '../../../data';
+import { ArrowRight } from '@mui/icons-material';
 
 export type FAQScreenProps = {
   // no props
@@ -70,7 +71,7 @@ export const FAQScreen: FC<FAQScreenProps> = (props) => {
                 exit={{ opacity: 0, height: 0 }}
               >
                 <Box px={2} py={1}>
-                  {qa.map((d) => (
+                  {faq.map((d) => (
                     <Typography
                       component="li"
                       key={d.id}
@@ -95,7 +96,7 @@ export const FAQScreen: FC<FAQScreenProps> = (props) => {
             gap: 2,
           }}
         >
-          {qa.map((d) => (
+          {faq.map((d) => (
             <QuestionAnswerBox
               key={d.id}
               question={d.question}
@@ -103,6 +104,37 @@ export const FAQScreen: FC<FAQScreenProps> = (props) => {
               id={d.id}
             />
           ))}
+        </Box>
+        <Box
+          display="flex"
+          mt={2}
+          alignItems="center"
+          gap={1}
+          flexDirection="column"
+          sx={{
+            border: (theme) => `2px solid ${theme.palette.divider}`,
+            borderRadius: 4,
+            p: 2,
+          }}
+        >
+          <Typography>Don't see what you're looking for?</Typography>
+          <Button
+            variant="outlined"
+            color="error"
+            size="small"
+            endIcon={<ArrowRight sx={{ ml: -0.5 }} />}
+            href="/contact"
+            sx={{
+              borderRadius: 6,
+              px: { xs: 1, sm: 3 },
+              width: {
+                xs: '100%',
+                sm: 'fit-content',
+              },
+            }}
+          >
+            Contact Us
+          </Button>
         </Box>
       </Paper>
     </Container>
@@ -115,7 +147,18 @@ const QuestionAnswerBox: FC<{
   id: string;
 }> = ({ id, question, answer }) => (
   <Box>
-    <Typography variant="h6" id={id}>
+    {/* Offset the anchor because of a fixed header */}
+    <Box
+      component="a"
+      id={id}
+      sx={{
+        display: 'block',
+        position: 'relative',
+        top: { xs: -60, sm: -80 },
+        visibility: 'hidden',
+      }}
+    />
+    <Typography variant="h6" sx={{}}>
       <Link
         color="inherit"
         href={'#' + id}
