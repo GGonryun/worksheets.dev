@@ -8,7 +8,6 @@ import * as FullStory from '@fullstory/browser';
 import { SessionProvider } from 'next-auth/react';
 import { theme } from '@worksheets/ui-charity';
 import { AdBlockingRecoveryScript, AdSenseScript } from '../scripts';
-import { AdSyndicationScript } from '../scripts/ad-syndication-script';
 
 if (typeof window !== 'undefined') {
   FullStory.init(SERVICE_SETTINGS.FULLSTORY);
@@ -23,7 +22,6 @@ function CustomApp({
   return (
     <>
       <CssBaseline />
-      <AdSyndicationScript />
       <AdSenseScript />
       <AdBlockingRecoveryScript />
       <Head>
