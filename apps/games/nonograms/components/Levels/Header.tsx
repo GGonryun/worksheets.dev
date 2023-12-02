@@ -1,10 +1,14 @@
 import { HomeOutlined, InfoOutlined } from '@mui/icons-material';
-import { IconButton, useTheme, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import { Flex } from '@worksheets/ui-core';
-import { animate, responsiveFontSize, textShadow } from '@worksheets/ui-games';
+import {
+  IconAction,
+  animate,
+  responsiveFontSize,
+  textShadow,
+} from '@worksheets/ui-games';
 import { motion } from 'framer-motion';
 import { FC } from 'react';
-import { iconProps } from '../../util/styles';
 
 export type HeaderProps = {
   onHome: () => void;
@@ -12,15 +16,11 @@ export type HeaderProps = {
 };
 
 export const Header: FC<HeaderProps> = ({ onHome, onInfo }) => {
-  const theme = useTheme();
-
   return (
     <Flex fullWidth>
       <Flex grow spaceBetween>
         <motion.div {...animate(-100, 0.3)}>
-          <IconButton disableRipple onClick={onHome}>
-            <HomeOutlined {...iconProps(theme)} />
-          </IconButton>
+          <IconAction Icon={HomeOutlined} onClick={onHome} />
         </motion.div>
         <motion.div {...animate(-100, 0.3)}>
           <Typography
@@ -36,9 +36,7 @@ export const Header: FC<HeaderProps> = ({ onHome, onInfo }) => {
           </Typography>
         </motion.div>
         <motion.div {...animate(-100, 0.3)}>
-          <IconButton disableRipple onClick={onInfo}>
-            <InfoOutlined {...iconProps(theme)} />
-          </IconButton>
+          <IconAction Icon={InfoOutlined} onClick={onInfo} />
         </motion.div>
       </Flex>
     </Flex>

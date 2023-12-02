@@ -1,6 +1,7 @@
 import { Box } from '@mui/material';
 import { backgroundColor } from '@worksheets/ui-games';
 import { FC, ReactNode } from 'react';
+import { assets } from '../../util/assets';
 
 export const Layout: FC<{ children: ReactNode }> = ({ children }) => (
   <Box
@@ -16,6 +17,10 @@ export const Layout: FC<{ children: ReactNode }> = ({ children }) => (
       px: 2,
       py: 1,
       backgroundColor: (theme) => backgroundColor(theme),
+      backgroundImage: `url("${assets.background}")`,
+      backgroundSize: 'cover',
+      backgroundRepeat: 'no-repeat',
+      backgroundPosition: 'center center',
     }}
   >
     {children}

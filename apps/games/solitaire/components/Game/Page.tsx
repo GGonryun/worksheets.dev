@@ -10,7 +10,6 @@ import { Footer } from './Footer';
 import { useCards } from '../../hooks/useCards';
 import { GameContainer } from './GameContainer';
 import { useRouter } from 'next/router';
-import { DeviceWarning } from './DeviceWarning';
 import { GameCompleteScreen } from './GameCompleteScreen';
 import { GameDifficulty } from '../../util/playing-cards';
 import { urls } from '@worksheets/ui-games';
@@ -19,21 +18,22 @@ export const GamePage = () => {
   const { push } = useRouter();
   const device = useDeviceDetect();
 
-  const [ignoreMobileWarning, setIgnoreMobileWarning] = useState(false);
   const [width, height] = useWindowSize();
   const [showDifficultyModal, setShowDifficultyModal] = useState(true);
   const [difficulty, setDifficulty] = useState<GameDifficulty>(
     GameDifficulty.None
   );
+
+  const trueWidth = Math.min(width, height - 200);
   // decide the game and card dimensions based on the screen size
   // the padding is 3% of the screen width.
-  const padding = useMemo(() => width * 0.03, [width]);
+  const padding = useMemo(() => trueWidth * 0.03, [trueWidth]);
   // the gap is 3% of the screen width.
-  const gap = useMemo(() => width * 0.03, [width]);
+  const gap = useMemo(() => trueWidth * 0.03, [trueWidth]);
   // each card is 1/7th of the screen width minus the padding from the edges and minus a gap between each card.
   const cardWidth = useMemo(
-    () => (width - padding * 2 - gap * 6) / 7,
-    [width, padding, gap]
+    () => (trueWidth - padding * 2 - gap * 6) / 7,
+    [trueWidth, padding, gap]
   );
   // the card height is the card width times the aspect ratio.
   const cardHeight = useMemo(() => cardWidth * CARD_ASPECT, [cardWidth]);
@@ -134,16 +134,9 @@ export const GamePage = () => {
   return (
     <>
       <GameCompleteScreen open={!showDifficultyModal && cards.gameOver} />
-      <DeviceWarning
-        open={!ignoreMobileWarning && !isMobile && !device.loading}
-        onClose={(ack) => {
-          if (ack) {
-            setIgnoreMobileWarning(true);
-          }
-        }}
-      />
+
       <DifficultyModal
-        open={(ignoreMobileWarning || isMobile) && showDifficultyModal}
+        open={showDifficultyModal}
         onClose={() => {
           if (difficulty !== GameDifficulty.None) {
             setShowDifficultyModal(false);

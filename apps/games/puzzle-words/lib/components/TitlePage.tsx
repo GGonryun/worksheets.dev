@@ -1,7 +1,6 @@
 import { FC, useState } from 'react';
 import { usePlayer } from '../hooks';
 import {
-  DonateWaterModal,
   OurMissionModal,
   SettingsModal,
   TitleContent,
@@ -9,7 +8,6 @@ import {
   TitleHeader,
   urls,
 } from '@worksheets/ui-games';
-import { GAME_TITLE } from '../constants';
 import { Layout } from './Layout';
 import { useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
@@ -21,7 +19,6 @@ export const TitlePage: FC = () => {
   const theme = useTheme();
   const { push } = useRouter();
   const [showMission, setShowMission] = useState(false);
-  const [showDonateWater, setShowDonateWater] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const { level, reset, loadPuzzle, isGameOver } = usePlayer();
   const handleStartPuzzle = () => {
@@ -34,7 +31,6 @@ export const TitlePage: FC = () => {
         header={
           <TitleHeader
             color={theme.palette.primary.light}
-            onDonate={() => setShowDonateWater(true)}
             onSettings={() => setShowSettings(true)}
           />
         }
@@ -68,11 +64,7 @@ export const TitlePage: FC = () => {
         open={showMission}
         onClose={() => setShowMission(false)}
       />
-      <DonateWaterModal
-        game={GAME_TITLE}
-        open={showDonateWater}
-        onClose={() => setShowDonateWater(false)}
-      />
+
       <SettingsModal
         options={puzzles.map((p, i) => ({
           id: i,

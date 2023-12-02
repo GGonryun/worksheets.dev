@@ -1,5 +1,11 @@
 {
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
-  "cSpell.words": ["cssmodule", "financials", "Nonogram", "NONOGRAMS"]
+  "cSpell.words": [
+    "cssmodule",
+    "financials",
+    "FULLSTORY",
+    "Nonogram",
+    "NONOGRAMS"
+  ]
 }

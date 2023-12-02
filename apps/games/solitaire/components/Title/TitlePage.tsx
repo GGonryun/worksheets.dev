@@ -1,23 +1,22 @@
 import { FC, useState } from 'react';
 import {
-  DonateWaterModal,
   MobileLayout,
   SettingsModal,
+  TitleContent,
+  TitleHeader,
   backgroundColor,
   urls,
 } from '@worksheets/ui-games';
 import { useTheme } from '@mui/material';
-import { TitleContent } from './TitleContent';
-import { TitleHeader } from './TitleHeader';
 import { TitleFooter } from './TitleFooter';
-import { GAME_TITLE, WATER_PER_GAME } from '../../util/constants';
 import { useRouter } from 'next/router';
 import { usePlayer } from '../../hooks/usePlayer';
+import Image from 'next/image';
+import { assets } from '../../util/assets';
 
 export const TitlePage: FC = () => {
   const { push, reload } = useRouter();
   const theme = useTheme();
-  const [showDonate, setShowDonate] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const player = usePlayer();
 
@@ -25,22 +24,27 @@ export const TitlePage: FC = () => {
     <>
       <MobileLayout
         backgroundColor={backgroundColor(theme)}
-        content={<TitleContent onStart={() => push(urls.relative.play)} />}
-        header={
-          <TitleHeader
-            water={player.gamesPlayed * WATER_PER_GAME}
+        content={
+          <TitleContent
+            logo={
+              <Image
+                priority
+                src={assets.logo}
+                alt={'Logo'}
+                height={99}
+                width={300}
+              />
+            }
+            startText={`Start Game`}
+            gameOver={false}
+            onStart={() => push(urls.relative.play)}
             onSettings={() => setShowSettings(true)}
-            onDonate={() => setShowDonate(true)}
           />
         }
+        header={<TitleHeader onSettings={() => setShowSettings(true)} />}
         footer={<TitleFooter />}
       />
 
-      <DonateWaterModal
-        game={GAME_TITLE}
-        open={showDonate}
-        onClose={() => setShowDonate(false)}
-      />
       <SettingsModal
         open={showSettings}
         options={[]}

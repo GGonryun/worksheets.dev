@@ -1,18 +1,17 @@
 import { FC } from 'react';
-import { Link, Paper, Typography, useTheme } from '@mui/material';
+import { Link, Paper, Typography } from '@mui/material';
 import { Flex } from '@worksheets/ui-core';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import {
   animate,
   tabletBoxShadow,
-  textShadow,
   TabletButton,
   urls,
 } from '@worksheets/ui-games';
-import { GAME_TITLE } from '../../util/constants';
 
 import { CollectionsOutlined, PlayArrow } from '@mui/icons-material';
+import { assets } from '../../util/assets';
 
 export type TitleContentProps = {
   onGallery: () => void;
@@ -25,21 +24,16 @@ export const TitleContent: FC<TitleContentProps> = ({
   onGallery,
   gameOver,
 }) => {
-  const theme = useTheme();
-
   return (
-    <Flex fill centered column>
+    <Flex fill centered column gap={2}>
       <motion.div {...animate(-50, 0.15)}>
-        <Typography
-          color={theme.palette.primary.contrastText}
-          fontWeight={900}
-          variant="h3"
-          sx={{
-            textShadow: textShadow(3, 0.5),
-          }}
-        >
-          {GAME_TITLE}
-        </Typography>
+        <Image
+          priority
+          src={assets.logo}
+          alt={'Nonograms Logo'}
+          height={52}
+          width={300}
+        />
       </motion.div>
       <motion.div {...animate(-100, 0.45)}>
         <Flex column centered gap={1.5}>
@@ -48,7 +42,7 @@ export const TitleContent: FC<TitleContentProps> = ({
           ) : (
             <TabletButton
               onClick={onLevels}
-              color="white"
+              color="primary"
               startIcon={<PlayArrow sx={{ pb: '2px' }} />}
             >
               <Typography fontWeight={900} fontSize="1.25rem">
@@ -58,7 +52,7 @@ export const TitleContent: FC<TitleContentProps> = ({
           )}
           <TabletButton
             onClick={onGallery}
-            color="white"
+            color="primary"
             startIcon={<CollectionsOutlined sx={{ pb: '2px' }} />}
           >
             <Typography fontWeight={900} fontSize="1rem">

@@ -5,6 +5,7 @@ import {
   PUZZLE_WORDS_URL,
   SOLITAIRE_URL,
   WORD_PACK_URL,
+  WORD_SEARCH_URL,
   WORD_SMITH_URL,
 } from '../env';
 
@@ -83,7 +84,7 @@ export const games: GameSchema[] = [
     category: ['puzzle'],
     file: {
       type: 'redirect',
-      url: 'https://word-search.charity.games',
+      url: WORD_SEARCH_URL,
     },
     createdAt: new Date('2023-10-09T00:00:00.000Z'),
     updatedAt: new Date('2021-11-23T00:00:00.000Z'),

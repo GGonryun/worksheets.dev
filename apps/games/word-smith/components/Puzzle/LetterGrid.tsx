@@ -65,7 +65,6 @@ export const LetterGrid: FC<{
   const [positions, setPositions] = useState(puzzle.grid.map((_) => center));
 
   const handleUpdatePosition = (index: number, newPosition: number) => {
-    console.log('handleUpdatePosition', index, newPosition);
     const newPositions = [...positions];
     newPositions[index] = newPosition;
     setPositions(newPositions);

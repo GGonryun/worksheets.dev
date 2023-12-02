@@ -4,7 +4,6 @@ import { FC, useState } from 'react';
 import { useSavedPuzzle, useSavedSelections } from '../hooks/useSaveData';
 import { usePlayer } from '../hooks/usePlayer';
 import {
-  DonateWaterModal,
   OurMissionModal,
   SettingsModal,
   TitleContent,
@@ -19,7 +18,6 @@ import { assets } from '../util/assets';
 export const TitlePage: FC = () => {
   const { push, reload } = useRouter();
   const [showMission, setShowMission] = useState(false);
-  const [showDonate, setShowDonate] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const puzzleState = useSavedPuzzle();
   const selectionsState = useSavedSelections();
@@ -36,12 +34,7 @@ export const TitlePage: FC = () => {
   return (
     <>
       <Layout
-        header={
-          <TitleHeader
-            onSettings={() => setShowSettings(true)}
-            onDonate={() => setShowDonate(true)}
-          />
-        }
+        header={<TitleHeader onSettings={() => setShowSettings(true)} />}
         content={
           <TitleContent
             logo={
@@ -73,11 +66,6 @@ export const TitlePage: FC = () => {
         game={GAME_TITLE}
         open={showMission}
         onClose={() => setShowMission(false)}
-      />
-      <DonateWaterModal
-        game={GAME_TITLE}
-        open={showDonate}
-        onClose={() => setShowDonate(false)}
       />
       <SettingsModal
         open={showSettings}

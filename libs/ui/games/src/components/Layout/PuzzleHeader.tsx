@@ -1,7 +1,7 @@
 import { ArrowBack, Menu } from '@mui/icons-material';
-import { IconButton, SvgIconProps, useTheme } from '@mui/material';
-import { Flex } from '@worksheets/ui-core';
+import { Flex, useDeviceSize } from '@worksheets/ui-core';
 import { FC, MouseEventHandler } from 'react';
+import { IconAction } from '../Buttons';
 
 export type PuzzleHeaderProps = {
   children?: React.ReactNode;
@@ -13,25 +13,16 @@ export const PuzzleHeader: FC<PuzzleHeaderProps> = ({
   onMenu,
   children,
 }) => {
-  const theme = useTheme();
-  const iconProps: SvgIconProps = {
-    sx: {
-      color: theme.palette.primary.contrastText,
-    },
-    fontSize: 'large',
-  };
+  const { isMobile } = useDeviceSize();
 
   return (
     <Flex fullWidth maxWidth={700} mx={'auto'} pt={1}>
       <Flex grow spaceBetween px={2}>
-        <IconButton disableRipple onClick={onBack}>
-          <ArrowBack {...iconProps} />
-        </IconButton>
+        <IconAction dense={isMobile} onClick={onBack} Icon={ArrowBack} />
+
         {children}
 
-        <IconButton disableRipple onClick={onMenu}>
-          <Menu {...iconProps} />
-        </IconButton>
+        <IconAction dense={isMobile} onClick={onMenu} Icon={Menu} />
       </Flex>
     </Flex>
   );

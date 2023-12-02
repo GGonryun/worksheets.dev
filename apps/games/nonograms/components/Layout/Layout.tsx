@@ -5,7 +5,7 @@ import {
   backgroundColor,
 } from '@worksheets/ui-games';
 import { FC } from 'react';
-import { assets } from '../util';
+import { assets } from '../../util/assets';
 
 export const Layout: FC<
   Omit<

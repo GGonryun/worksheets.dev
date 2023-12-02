@@ -12,12 +12,10 @@ import {
   urls,
   useGrid,
 } from '@worksheets/ui-games';
-import { useTheme } from '@mui/material';
 import { Layout } from '../Layout';
 import { uppercaseDictionary } from '@worksheets/util-dictionary';
 
 export const PuzzlePage: FC = () => {
-  const theme = useTheme();
   const { push, reload } = useRouter();
   const [width, height] = useWindowSize();
 

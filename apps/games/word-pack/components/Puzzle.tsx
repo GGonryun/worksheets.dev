@@ -15,6 +15,7 @@ import {
   textShadow,
   urls,
   PuzzleCompleteModal,
+  PuzzleHeader,
 } from '@worksheets/ui-games';
 import { FC, useEffect, useState } from 'react';
 import { WordSlots } from '../util';
@@ -34,7 +35,6 @@ import {
   Replay,
   ReportOutlined,
 } from '@mui/icons-material';
-import { PuzzleHeader } from './PuzzleHeader';
 
 export type PuzzleProps = {
   id: number;

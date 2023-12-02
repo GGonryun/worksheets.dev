@@ -1,23 +1,20 @@
 import { FC, useState } from 'react';
 import {
-  DonateWaterModal,
   OurMissionModal,
   SettingsModal,
   TitleContent,
   TitleFooter,
   TitleHeader,
 } from '@worksheets/ui-games';
-import { GAME_TITLE } from '../util';
+import { GAME_TITLE, assets } from '../util';
 import { Layout } from './Layout';
 import { usePlayer } from '../hooks/usePlayer';
 import { SelectDifficultyModal } from './Modals/SelectDifficulty';
-import { Typography, useTheme } from '@mui/material';
+import Image from 'next/image';
 
 export const TitlePage: FC = () => {
-  const theme = useTheme();
   const player = usePlayer();
   const [showMission, setShowMission] = useState(false);
-  const [showDonate, setShowDonate] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [showDifficulty, setShowDifficulty] = useState(false);
 
@@ -27,16 +24,13 @@ export const TitlePage: FC = () => {
         content={
           <TitleContent
             logo={
-              <Typography
-                color={theme.palette.primary.contrastText}
-                fontWeight={900}
-                variant="h3"
-                sx={{
-                  textShadow: '0 2px 2px rgba(0,0,0,0.3)',
-                }}
-              >
-                Word Smith
-              </Typography>
+              <Image
+                priority
+                src={assets.logo}
+                alt={'Logo'}
+                height={205}
+                width={300}
+              />
             }
             startText="Start Game"
             gameOver={false}
@@ -44,12 +38,7 @@ export const TitlePage: FC = () => {
             onStart={() => setShowDifficulty(true)}
           />
         }
-        header={
-          <TitleHeader
-            onSettings={() => setShowSettings(true)}
-            onDonate={() => setShowDonate(true)}
-          />
-        }
+        header={<TitleHeader onSettings={() => setShowSettings(true)} />}
         footer={<TitleFooter onShowMission={() => setShowMission(true)} />}
       />
 
@@ -57,11 +46,6 @@ export const TitlePage: FC = () => {
         game={GAME_TITLE}
         open={showMission}
         onClose={() => setShowMission(false)}
-      />
-      <DonateWaterModal
-        game={GAME_TITLE}
-        open={showDonate}
-        onClose={() => setShowDonate(false)}
       />
       <SettingsModal
         open={showSettings}

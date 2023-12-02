@@ -7,10 +7,21 @@ import { SERVICE_SETTINGS } from '@worksheets/data-access/server-settings';
 import { useVersion } from '@worksheets/ui-core';
 import { APP_VERSION, GAME_TITLE } from '../util';
 import { useRouter } from 'next/router';
+import { ThemeProvider, createTheme } from '@mui/material';
 
 if (typeof window !== 'undefined') {
   FullStory.init(SERVICE_SETTINGS.FULLSTORY);
 }
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      light: '#000',
+      main: '#000',
+      dark: '#000',
+    },
+  },
+});
 
 function CustomApp({ Component, pageProps }: AppProps) {
   const { reload } = useRouter();
@@ -27,14 +38,16 @@ function CustomApp({ Component, pageProps }: AppProps) {
         <title>{GAME_TITLE}</title>
         <MobileMeta />
       </Head>
-      <main>
-        <Component {...pageProps} />
-      </main>
-      <UpdateGameModal
-        open={requiresUpdate}
-        onClose={ignore}
-        onUpdate={handleUpdate}
-      />
+      <ThemeProvider theme={theme}>
+        <main>
+          <Component {...pageProps} />
+        </main>
+        <UpdateGameModal
+          open={requiresUpdate}
+          onClose={ignore}
+          onUpdate={handleUpdate}
+        />
+      </ThemeProvider>
     </>
   );
 }

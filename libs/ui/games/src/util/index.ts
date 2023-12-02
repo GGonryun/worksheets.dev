@@ -6,3 +6,4 @@ export * from './types';
 export * from './urls';
 export * from './nonograms';
 export * from './box';
+export * from './assets';

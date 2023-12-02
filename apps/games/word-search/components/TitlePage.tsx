@@ -1,22 +1,16 @@
 import { FC, useState } from 'react';
-
 import { GAME_TITLE } from '../util';
-
 import { useRouter } from 'next/router';
 import { usePuzzle } from '../hooks/usePuzzle';
 
 import {
-  DonateWaterModal,
-  MobileLayout,
   OurMissionModal,
   SettingsModal,
   TitleContent,
   TitleFooter,
   TitleHeader,
-  backgroundColor,
   urls,
 } from '@worksheets/ui-games';
-import { useTheme } from '@mui/material';
 import { puzzles } from '../puzzles';
 import { Layout } from './Layout';
 import Image from 'next/image';
@@ -24,9 +18,7 @@ import { assets } from '../util/assets';
 
 export const MainMenu: FC = () => {
   const { push, reload } = useRouter();
-  const theme = useTheme();
   const [showMission, setShowMission] = useState(false);
-  const [showDonate, setShowDonate] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const puzzle = usePuzzle();
 
@@ -41,12 +33,7 @@ export const MainMenu: FC = () => {
   return (
     <>
       <Layout
-        header={
-          <TitleHeader
-            onSettings={() => setShowSettings(true)}
-            onDonate={() => setShowDonate(true)}
-          />
-        }
+        header={<TitleHeader onSettings={() => setShowSettings(true)} />}
         content={
           <TitleContent
             logo={
@@ -75,11 +62,7 @@ export const MainMenu: FC = () => {
         open={showMission}
         onClose={() => setShowMission(false)}
       />
-      <DonateWaterModal
-        game={GAME_TITLE}
-        open={showDonate}
-        onClose={() => setShowDonate(false)}
-      />
+
       <SettingsModal
         options={puzzles.map((p, i) => ({ id: i, label: p.theme }))}
         open={showSettings}

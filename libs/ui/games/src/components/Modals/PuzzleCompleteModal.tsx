@@ -4,6 +4,7 @@ import { Button, Link, Typography } from '@mui/material';
 import Image from 'next/image';
 import { Modal } from '../Modal/Modal';
 import { urls } from '../../util/urls';
+import { assets } from '../../util';
 
 export const PuzzleCompleteModal: FC<{
   open: boolean;
@@ -11,11 +12,10 @@ export const PuzzleCompleteModal: FC<{
   onClose: () => void;
   onContinue: () => void;
   onMenu: () => void;
-  logo?: string;
-}> = ({ logo, open, gameOver, onClose, onContinue, onMenu }) => {
+}> = ({ open, gameOver, onClose, onContinue, onMenu }) => {
   return (
     <Modal open={open} onClose={onClose}>
-      <Flex column centered gap={2} grow>
+      <Flex column centered justifyContent="space-evenly" gap={2} grow>
         <Typography variant={'h6'} fontSize={32}>
           <b>Congratulations!</b>
         </Typography>
@@ -42,12 +42,12 @@ export const PuzzleCompleteModal: FC<{
             <Typography variant="body2">Main Menu</Typography>
           </Button>
         </Flex>
-        <Link href={urls.waterOrg()}>
+        <Link href={urls.charityGames.home()}>
           <Image
             priority
-            src={logo ?? '/common/water-org/logo.png'}
-            height={118}
-            width={252}
+            src={assets.charityGames.secondaryLogo}
+            height={125}
+            width={170}
             alt="water.org logo"
           />
         </Link>

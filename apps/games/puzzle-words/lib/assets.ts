@@ -1,9 +1,5 @@
 export const assets = {
-  common: {
-    waterOrg: {
-      logo: '/common/water-org/logo.png',
-    },
-  },
+  charityGames: '/common/charity-games/logos/secondary.png',
   background: '/background.jpg',
   icon: '/icon.jpg',
   favicon: '/favicon.ico',
