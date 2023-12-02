@@ -2,11 +2,13 @@
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
   "cSpell.words": [
+    "adsbygoogle",
     "cssmodule",
     "financials",
-    "FULLSTORY",
-    "Nonogram",
-    "NONOGRAMS",
-    "sidecade"
+    "fullstory",
+    "nonogram",
+    "nonograms",
+    "sidecade",
+    "trpc"
   ]
 }
