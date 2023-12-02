@@ -7,6 +7,8 @@ import { SERVICE_SETTINGS } from '@worksheets/data-access/server-settings';
 import * as FullStory from '@fullstory/browser';
 import { SessionProvider } from 'next-auth/react';
 import { theme } from '@worksheets/ui-charity';
+import Script from 'next/script';
+import { AdBlockingRecoveryScript } from '../scripts/ad-blocking-recovery-script';
 
 if (typeof window !== 'undefined') {
   FullStory.init(SERVICE_SETTINGS.FULLSTORY);
@@ -21,12 +23,13 @@ function CustomApp({
   return (
     <>
       <CssBaseline />
+      <Script
+        async
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1305399541775198"
+        crossOrigin="anonymous"
+      />
+      <AdBlockingRecoveryScript />
       <Head>
-        <script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1305399541775198"
-          crossOrigin="anonymous"
-        ></script>
         <title>Charity.Games</title>
       </Head>
 
