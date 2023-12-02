@@ -17,6 +17,7 @@ import {
   HelpScreen,
   ReceiptScreen,
   CharityScreen,
+  CookiePolicyScreen,
 } from '../content';
 import {
   SampleGameDescription,
@@ -33,6 +34,7 @@ import {
   sampleMixedGridItems,
   sampleRecommendations,
 } from '../_samples';
+import { PrivacyPolicyScreen } from '../content/privacy-policy-screen/privacy-policy-screen';
 
 const Story: Meta<typeof Layout> = {
   component: Layout,
@@ -389,6 +391,18 @@ export const DeveloperPage = {
         games={sampleGameDefinitions}
       />
     ),
+  },
+};
+
+export const PrivacyPolicyPage = {
+  args: {
+    children: <PrivacyPolicyScreen />,
+  },
+};
+
+export const CookiePolicyPage = {
+  args: {
+    children: <CookiePolicyScreen />,
   },
 };
 

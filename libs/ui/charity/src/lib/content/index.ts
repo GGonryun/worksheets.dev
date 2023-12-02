@@ -11,3 +11,5 @@ export * from './category-screen';
 export * from './charity-screen';
 export * from './receipt-screen';
 export * from './help-screen';
+export * from './privacy-policy-screen';
+export * from './cookie-policy-screen';

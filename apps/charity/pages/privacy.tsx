@@ -1,8 +1,8 @@
-import { UnderConstruction } from '@worksheets/ui-charity';
 import { NextPageWithLayout } from '@worksheets/util-next';
 import { LayoutContainer } from '../containers/layout-container';
+import { PrivacyPolicyScreen } from '@worksheets/ui-charity';
 
-const Page: NextPageWithLayout = () => <UnderConstruction />;
+const Page: NextPageWithLayout = () => <PrivacyPolicyScreen />;
 
 Page.getLayout = (page) => {
   return <LayoutContainer>{page}</LayoutContainer>;

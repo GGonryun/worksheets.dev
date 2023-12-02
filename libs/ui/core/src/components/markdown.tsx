@@ -19,6 +19,9 @@ export const Markdown: FC<{ text: MarkdownText } & Pick<BoxProps, 'sx'>> = ({
         a: {
           textDecoration: 'underline',
         },
+        li: {
+          pl: 2,
+        },
         ...sx,
       }}
     ></Box>
@@ -37,9 +40,8 @@ export const convertMicroMarkdown = (text: string) => {
   const headers2 = convertHeader2(headers3);
   const headers = convertHeaders(headers2);
   const lists = convertLists(headers);
-  const wrappedLists = wrapList(lists);
 
-  return wrappedLists;
+  return lists;
 };
 
 // convert bold markdown to bold text
@@ -86,10 +88,4 @@ const convertHeader4 = (text: string) => {
 const convertLists = (text: string) => {
   // any - or * with whitespace before or after and replace the - or * with a <li>
   return text.replace(/(\s[-*]\s)(.*)/g, '<li>$2</li>');
-};
-
-const wrapList = (text: string) => {
-  return text.replace(/<li>[\s\S]*<\/li>/g, function (x) {
-    return '<ul>' + x + '</ul>';
-  });
 };
