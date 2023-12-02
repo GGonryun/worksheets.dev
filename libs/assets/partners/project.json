@@ -1,0 +1,26 @@
+{
+  "name": "assets-partners",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/assets/partners/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/assets/partners",
+        "main": "libs/assets/partners/src/index.ts",
+        "tsConfig": "libs/assets/partners/tsconfig.lib.json",
+        "assets": ["libs/assets/partners/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/assets/partners/**/*.ts"]
+      }
+    }
+  },
+  "tags": []
+}

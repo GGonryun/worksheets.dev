@@ -2,6 +2,7 @@ import {
   MixedGridItem,
   campaigns,
   games,
+  sidecadePartnership,
   tagSchemas,
 } from '@worksheets/ui-charity';
 
@@ -36,5 +37,10 @@ export const mixedItems = () => {
     required: campaign.pledge.required,
   };
 
-  return [campaignItem, ...gameItems(), ...tagItems()];
+  const partnershipItem: MixedGridItem = {
+    type: 'image',
+    ...sidecadePartnership,
+  };
+
+  return [campaignItem, ...gameItems(), ...tagItems(), partnershipItem];
 };

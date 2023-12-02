@@ -7,3 +7,4 @@ export * from './faq';
 export * from './charities';
 export * from './donations';
 export * from './campaigns';
+export * from './partnerships';

@@ -27,6 +27,11 @@
             "input": "libs/assets/blog/src/lib",
             "glob": "**/*",
             "output": "blog"
+          },
+          {
+            "input": "libs/assets/partners/src/lib",
+            "glob": "**/*",
+            "output": "partners"
           }
         ]
       },

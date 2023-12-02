@@ -68,6 +68,13 @@ export const Interwoven = {
         name: 'Game Name 1',
       },
       {
+        type: 'image',
+        href: 'https://sidecade.com/',
+        src: '/partners/sidecade/logo_500.png',
+        alt: 'sidecade logo',
+        subtitle: 'Play games anywhere on the web',
+      },
+      {
         type: 'category',
         id: '1',
         name: 'Category Name 1',

@@ -29,6 +29,7 @@
       "@worksheets/assets-blog": ["libs/assets/blog/src/index.ts"],
       "@worksheets/assets-common": ["libs/assets/common/src/index.ts"],
       "@worksheets/assets-games": ["libs/assets/games/src/index.ts"],
+      "@worksheets/assets-partners": ["libs/assets/partners/src/index.ts"],
       "@worksheets/data-access/server-settings": [
         "libs/data-access/server-settings/src/index.ts"
       ],
