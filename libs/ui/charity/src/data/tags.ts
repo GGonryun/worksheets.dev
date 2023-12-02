@@ -74,6 +74,41 @@ export const tags: Record<GameTag, TagSchema> = {
     Yes, action games can be played on mobile. Some action games are designed specifically for mobile devices, while others are designed for consoles or PCs.
     `,
   },
+  adventure: {
+    id: 'adventure',
+    name: 'Adventure Games',
+    iconUrl: '/games/categories/adventure.svg',
+    relatedTags: ['action', 'popular', 'arcade'],
+    description: `
+    ## Adventure Games
+    Adventure games are games that involve exploration, puzzle-solving, and/or combat. Most adventure games are single-player. In some adventure games, the player controls a character who can interact with objects and other characters. In other adventure games, the player controls a character who can only move around the environment.
+
+    ### Should I play adventure games?
+    Adventure games are fun because they allow players to have a sense of adventure. They also help people improve their problem-solving skills. It's not for everyone, but it can be a great way to pass the time.
+
+    ### How do I get started with adventure games?
+    If you're new to adventure games we recommend playing lots of them. Some adventure games are easy to learn, while others are more difficult. Some adventure games are fast-paced, while others are slow-paced. Some adventure games are violent, while others are not. Some adventure games are designed for children, while others are designed for adults. Some adventure games are designed for mobile devices, while others are designed for consoles or PCs.
+    `,
+  },
+  arcade: {
+    id: 'arcade',
+    name: 'Arcade Games',
+    iconUrl: '/games/categories/arcade.svg',
+    relatedTags: ['action', 'popular'],
+    description: `
+    ## Arcade Games
+    Arcade games are games that are designed to be played in an arcade. They are usually coin-operated and require the player to perform a series of actions in order to win the game. Arcade games are usually fast-paced and require quick reflexes. They are also usually easy to learn and fun to play.
+
+    ### Are arcade games hard?
+    Arcade games are not hard. They are challenging and require players to think creatively. They also help people improve their problem-solving skills. It's not for everyone, but it can be a great way to pass the time.
+
+    ### Where can I play arcade games?
+    Arcade games can be played at home, in an arcade, or on a mobile device. Some arcade games are designed for mobile devices, while others are designed for consoles or PCs.
+
+    ### Should I play arcade games?
+    That's up to you! Some people enjoy playing arcade games, while others do not. If you're not sure if you'll like arcade games, try playing a few of them. If you like them, great! If not, that's okay too. There are plenty of other types of games to play.
+    `,
+  },
   puzzle: {
     id: 'puzzle',
     name: 'Puzzle Games',

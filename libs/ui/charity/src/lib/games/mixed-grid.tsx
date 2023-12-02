@@ -25,7 +25,7 @@ export const MixedGrid: FC<MixedGridProps> = ({ items }) => {
       gridAutoFlow={'dense'}
       alignItems={'center'}
       justifyContent={'center'}
-      gap={2}
+      gap={1}
     >
       <MixedGridItems items={items} size={size} />
     </Box>

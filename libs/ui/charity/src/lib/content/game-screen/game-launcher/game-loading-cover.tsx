@@ -7,12 +7,13 @@ import {
   PlayCircleOutline,
 } from '@mui/icons-material';
 import { FillImage } from '../../../images/fill-image';
+import { GameSchema } from '../../../../types/game-schema';
 
 export type GameLoadingCoverProps = {
   backgroundUrl: string;
   iconUrl: string;
   name: string;
-  doesNotSupportMobile?: boolean;
+  platforms?: GameSchema['platforms'];
   onPlay: () => void;
 };
 
@@ -20,7 +21,7 @@ export const GameLoadingCover: FC<GameLoadingCoverProps> = ({
   name,
   backgroundUrl,
   iconUrl,
-  doesNotSupportMobile,
+  platforms,
   onPlay,
 }) => {
   return (
@@ -63,10 +64,10 @@ export const GameLoadingCover: FC<GameLoadingCoverProps> = ({
           gap: 1,
         }}
       >
-        {doesNotSupportMobile ? (
-          <DoesNotSupportMobileOverlay />
-        ) : (
+        {platforms?.includes('mobile') ? (
           <PlayOverlay name={name} iconUrl={iconUrl} onPlay={onPlay} />
+        ) : (
+          <DoesNotSupportMobileOverlay />
         )}
       </Box>
     </Box>

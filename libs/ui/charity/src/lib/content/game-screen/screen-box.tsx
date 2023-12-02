@@ -10,7 +10,7 @@ export const ScreenBox = styled(Box)(({ theme }) => ({
   gridTemplateColumns: `repeat(3, ${GRID_ITEM_SIZE})`,
   gap: theme.spacing(2),
   [theme.breakpoints.down('mobile2')]: {
-    gap: theme.spacing(1),
+    gap: theme.spacing(1.5),
   },
   [theme.breakpoints.up('mobile2')]: {
     gridTemplateColumns: `repeat(4, ${GRID_ITEM_SIZE})`,

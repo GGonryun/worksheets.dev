@@ -3,6 +3,8 @@ export type GameTag =
   | 'puzzle'
   | 'brain'
   | 'action'
+  | 'adventure'
+  | 'arcade'
   | 'card'
   | 'new'
   | 'popular'

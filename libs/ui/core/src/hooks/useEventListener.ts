@@ -1,6 +1,12 @@
 import { RefObject, useEffect, useRef } from 'react';
 import { useIsomorphicLayoutEffect } from './useIsomorphicLayoutEffect';
-
+declare global {
+  interface DocumentEventMap {
+    webkitfullscreenchange: Event;
+    mozfullscreenchange: Event;
+    msfullscreenchange: Event;
+  }
+}
 // MediaQueryList Event based useEventListener interface
 function useEventListener<K extends keyof MediaQueryListEventMap>(
   eventName: K,

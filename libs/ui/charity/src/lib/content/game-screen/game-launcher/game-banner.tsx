@@ -1,5 +1,5 @@
 import { Box, IconButton, Typography } from '@mui/material';
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import {
   FlagOutlined,
   Fullscreen,
@@ -14,9 +14,9 @@ export type GameBannerProps = {
   iconUrl: string;
   developer: string;
   name: string;
+  isFullscreen?: boolean;
   onReportBug: () => void;
-  onEnterFullscreen?: () => void;
-  onExitFullscreen?: () => void;
+  onFullscreen?: () => void;
   onRedirect?: () => void;
 };
 
@@ -25,23 +25,10 @@ export const GameBanner: FC<GameBannerProps> = ({
   name,
   developer,
   type,
-  onEnterFullscreen,
-  onExitFullscreen,
+  isFullscreen,
+  onFullscreen,
   onRedirect,
 }) => {
-  const [fullscreen, setFullscreen] = useState(false);
-
-  const handleFullscreen = () => {
-    if (fullscreen) {
-      if (onExitFullscreen) onExitFullscreen();
-    }
-    if (!fullscreen) {
-      if (onEnterFullscreen) onEnterFullscreen();
-    }
-
-    setFullscreen(!fullscreen);
-  };
-
   const handleReportBug = () => {
     console.log('handleReportBug');
   };
@@ -110,8 +97,8 @@ export const GameBanner: FC<GameBannerProps> = ({
             <FlagOutlined />
           </IconButton>
           {type === 'iframe' && (
-            <IconButton color="primary" onClick={handleFullscreen}>
-              {fullscreen ? <FullscreenExit /> : <Fullscreen />}
+            <IconButton color="primary" onClick={onFullscreen}>
+              {isFullscreen ? <FullscreenExit /> : <Fullscreen />}
             </IconButton>
           )}
           {type === 'redirect' && (

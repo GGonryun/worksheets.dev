@@ -73,8 +73,8 @@ export const WindowSquare = {
   args: { ...baseProps },
   decorators: [sizeSquare],
 };
-export const DoesNotSupportMobile = {
-  args: { ...baseProps, doesNotSupportMobile: true },
+export const NoMobile = {
+  args: { ...baseProps, platforms: ['desktop'] },
   decorators: [sizeSquare],
 };
 

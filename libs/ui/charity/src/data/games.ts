@@ -232,4 +232,35 @@ export const games: GameSchema[] = [
     - Click on the squares to fill them in or remove them
     `,
   },
+  {
+    id: 'plants-vs-zombies',
+    name: 'Plants vs Zombies',
+    size: 2,
+    developerId: 'arcare-bomb',
+    iconUrl: '/games/plants-vs-zombies/icon.jpg',
+    bannerUrl: '/games/plants-vs-zombies/banner.jpeg',
+    qualifier: 'none',
+    platforms: ['desktop', 'mobile'],
+    tags: ['action', 'adventure', 'arcade', 'popular', 'desktop', 'mobile'],
+    category: ['action'],
+    file: {
+      type: 'iframe',
+      url: 'https://html5.gamemonetize.co/iz9n0kx3zqfl4mo657zpb5y7v7qfbxij/',
+    },
+    createdAt: new Date('2021-08-25T00:00:00.000Z'),
+    updatedAt: new Date('2021-08-25T00:00:00.000Z'),
+    markets: {},
+    description: `
+    Plants vs Zombies is a tower defense game. The goal of the game is to defend your house from the zombies by planting plants that will attack them. The zombies will try to eat your brains. You must stop them before they reach your house.
+
+    ### What is Plants vs Zombies?
+    Play the hit action-strategy adventure where you meet, greet, and defeat legions of hilarious zombies from the dawn of time, to the end of days. Amass an army of amazing plants, supercharge them with Plant Food, and devise the ultimate plan to protect your brain. DISCOVER HUNDREDS OF PLANTS AND ZOMBIES
+
+    ### How to Play Plants vs Zombies?
+    Drag plants to merge them.
+
+    ### Controls
+    - Click and drag to move plants
+    `,
+  },
 ];

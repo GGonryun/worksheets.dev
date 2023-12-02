@@ -13,7 +13,7 @@ import { CircularProgress } from '@mui/material';
 import { printDate } from '@worksheets/util/time';
 
 const Page: NextPageWithLayout = () => {
-  const { push, query } = useRouter();
+  const { query } = useRouter();
   const gameId = query.gameId as string;
   const game = games.find((game) => game.id === gameId);
   const developer = developers.find(
@@ -22,41 +22,9 @@ const Page: NextPageWithLayout = () => {
 
   if (!game || !developer) return <CircularProgress />;
 
-  const handleOnPlay = () => {
-    if (game.file.type === 'redirect') {
-      push(game.file.url);
-    } else {
-      alert('TODO: show iframe');
-    }
-  };
-
-  const handleRedirect = () => {
-    if (game.file.type === 'redirect') {
-      push(game.file.url);
-    } else {
-      alert("Unsupported action: game.file.type !== 'redirect'");
-    }
-  };
-
   const handleReportBug = () => {
     // TODO: improve bug handling
     alert('Our development team has been notified. Thank you!');
-  };
-
-  const handleEnterFullscreen = () => {
-    if (game.file.type === 'redirect') {
-      alert("Unsupported action: game.file.type !== 'iframe'");
-    } else {
-      alert('TODO: enter fullscreen');
-    }
-  };
-
-  const handleExitFullscreen = () => {
-    if (game.file.type === 'redirect') {
-      alert("Unsupported action: game.file.type !== 'iframe'");
-    } else {
-      alert('TODO: exit fullscreen');
-    }
   };
 
   return (
@@ -68,11 +36,8 @@ const Page: NextPageWithLayout = () => {
           file={game.file}
           name={game.name}
           developer={developer.name}
+          platforms={game.platforms}
           onReportBug={handleReportBug}
-          onEnterFullscreen={handleEnterFullscreen}
-          onExitFullscreen={handleExitFullscreen}
-          onRedirect={handleRedirect}
-          onPlay={handleOnPlay}
         />
       }
       description={

@@ -9,4 +9,11 @@ export const developers: DeveloperSchema[] = [
       twitter: urls.social.twitter,
     },
   },
+  {
+    id: 'arcare-bomb',
+    name: 'Arcare Bomb',
+    socials: {
+      website: 'https://gamemonetize.com/games?company=ArcareBomb#gamesall',
+    },
+  },
 ];

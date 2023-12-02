@@ -19,21 +19,21 @@ export const GameBox = styled(Box)(({ theme }) => ({
   },
   [theme.breakpoints.up('desktop1')]: {
     minHeight: 300,
-    gridRow: '1 / span 4',
+    gridRow: '1 / span 5',
     gridColumn: '2 / span 6',
   },
   [theme.breakpoints.up('md')]: {
-    gridRow: '1 / span 4',
+    gridRow: '1 / span 5',
     gridColumn: '2 / span 6',
   },
   [theme.breakpoints.up('desktop2')]: {
     minHeight: 400,
-    gridRow: '1 / span 5',
+    gridRow: '1 / span 6',
     gridColumn: '2 / span 8',
   },
   [theme.breakpoints.up('desktop3')]: {
     minHeight: 500,
-    gridRow: '1 / span 6',
+    gridRow: '1 / span 7',
     gridColumn: '2 / span 10',
   },
 }));

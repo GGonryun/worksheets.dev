@@ -11,10 +11,14 @@
     "fctype",
     "financials",
     "fullstory",
+    "gamemonetize",
+    "mozfullscreenchange",
+    "msfullscreenchange",
     "nonogram",
     "nonograms",
     "sidecade",
     "trpc",
-    "whatismybrowser"
+    "whatismybrowser",
+    "wscript"
   ]
 }
