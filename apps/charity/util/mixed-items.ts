@@ -30,13 +30,15 @@ export const tagItems = (): MixedGridItem[] => {
 };
 
 export type MixedItemOptions = {
-  maxGames: number;
-  maxTags: number;
+  maxGames?: number;
+  maxTags?: number;
+  hideAds?: boolean;
 };
 
 export const mixedItems = (options?: MixedItemOptions) => {
   const maxGames = options?.maxGames ?? 200;
   const maxTags = options?.maxTags ?? 50;
+  const hideAds = options?.hideAds ?? false;
 
   const campaign = campaigns['primary'];
   if (!campaign) throw new Error('Campaign not found');
@@ -73,7 +75,11 @@ export const mixedItems = (options?: MixedItemOptions) => {
     i++;
   }
 
-  return insertAdvertisements([campaignItem, ...mixedItems, partnershipItem]);
+  const collection = [campaignItem, ...mixedItems, partnershipItem];
+
+  if (hideAds) return collection;
+
+  return insertAdvertisements(collection);
 };
 
 const insertAdvertisements = (items: MixedGridItem[]) => {

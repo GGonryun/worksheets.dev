@@ -59,7 +59,9 @@ const Page: NextPageWithLayout = () => {
           markets={game.markets}
         />
       }
-      suggestions={mixedItems().map(shrinkGames)}
+      suggestions={mixedItems({
+        hideAds: true,
+      }).map(shrinkGames)}
     />
   );
 };
