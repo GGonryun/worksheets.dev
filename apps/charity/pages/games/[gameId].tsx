@@ -2,6 +2,7 @@ import {
   GameDescription,
   GameLauncher,
   GameScreen,
+  MixedGridItem,
 } from '@worksheets/ui-charity';
 import { NextPageWithLayout } from '@worksheets/util-next';
 import { LayoutContainer } from '../../containers/layout-container';
@@ -58,13 +59,19 @@ const Page: NextPageWithLayout = () => {
           markets={game.markets}
         />
       }
-      suggestions={mixedItems({ maxTags: 10, maxGames: 60 }).map((item) => ({
-        ...item,
-        span: 1,
-      }))}
+      suggestions={mixedItems().map(shrinkGames)}
     />
   );
 };
+
+function shrinkGames(item: MixedGridItem) {
+  if (item.type === 'game') {
+    return {
+      ...item,
+      span: 1,
+    };
+  } else return item;
+}
 
 Page.getLayout = (page) => {
   return <LayoutContainer>{page}</LayoutContainer>;

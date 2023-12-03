@@ -1,4 +1,5 @@
 import {
+  advertisementSquares,
   campaigns,
   games,
   sidecadePartnership,
@@ -55,10 +56,12 @@ export const mixedItems = (options?: MixedItemOptions) => {
 
   const mixedItems: MixedGridItem[] = [];
 
+  let i = 0;
   while (games.length || tags.length) {
-    // as long as the games aren't empty, push 5 games.
+    // as long as the games aren't empty, push 2, 4, or 8 games.
     if (games.length) {
-      mixedItems.push(...games.splice(0, 5));
+      const slot = i % 3 === 0 ? 2 : i % 3 === 1 ? 4 : 8;
+      mixedItems.push(...games.splice(0, slot));
     }
     // as long as the tags aren't empty, push one tag.
     if (tags.length) {
@@ -67,7 +70,21 @@ export const mixedItems = (options?: MixedItemOptions) => {
         mixedItems.push(tag);
       }
     }
+    i++;
   }
 
-  return [campaignItem, ...mixedItems, partnershipItem];
+  return insertAdvertisements([campaignItem, ...mixedItems, partnershipItem]);
+};
+
+const insertAdvertisements = (items: MixedGridItem[]) => {
+  advertisementSquares.forEach((ad) => {
+    items.splice(ad.position, 0, {
+      type: 'advertisement',
+      slot: ad.slot,
+      client: ad.client,
+      span: ad.size,
+    });
+  });
+
+  return items;
 };

@@ -1,18 +1,14 @@
-import { Box, useMediaQuery, useTheme } from '@mui/material';
 import { FC } from 'react';
 import { MixedGridItem, MixedGridItems } from './mixed-grid-items';
+import Box from '@mui/material/Box';
 
 export type MixedGridProps = {
   items: MixedGridItem[];
 };
 
 export const MixedGrid: FC<MixedGridProps> = ({ items }) => {
-  const theme = useTheme();
-  const matches = useMediaQuery(theme.breakpoints.up('sm'));
-
   const itemSize = () => {
-    if (matches) return '94px';
-    return '80px';
+    return '94px';
   };
 
   const size = itemSize();
