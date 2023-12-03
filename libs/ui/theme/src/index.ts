@@ -1,5 +1,5 @@
-import { createTheme } from '@mui/material';
 import { grey, pink, yellow } from '@mui/material/colors';
+import { createTheme } from '@mui/material/styles';
 
 export type PaletteColor =
   | 'success'
@@ -61,7 +61,6 @@ const theme = createTheme({
     mPlus1p: {
       fontFamily: "'M PLUS Rounded 1c', sans-serif",
     },
-    // TODO - remove primary and secondary variants
     corben: {
       fontFamily: 'Corben,serif',
     },

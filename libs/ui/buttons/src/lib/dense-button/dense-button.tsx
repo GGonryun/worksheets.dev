@@ -1,4 +1,6 @@
-import { Button, ButtonProps, styled } from '@mui/material';
+import Button, { ButtonProps } from '@mui/material/Button';
+import { styled } from '@mui/material/styles';
+
 import { JSXElementConstructor } from 'react';
 
 export const DenseButton = styled<JSXElementConstructor<ButtonProps>>(

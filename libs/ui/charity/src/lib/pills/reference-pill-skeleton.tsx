@@ -1,6 +1,7 @@
 import { Box, Link } from '@mui/material';
 import { FC, ReactNode } from 'react';
 import { ResponsiveImage } from '../images';
+import { PLACEHOLDER_LOGO_PATH } from '../util';
 
 export type ReferencePillSkeletonProps = {
   children: ReactNode;
@@ -48,7 +49,8 @@ export const ReferencePillSkeleton: FC<ReferencePillSkeletonProps> = ({
           }}
         >
           <ResponsiveImage
-            priority
+            placeholder="blur"
+            blurDataURL={PLACEHOLDER_LOGO_PATH}
             alt={image.alt}
             src={image.src}
             style={{

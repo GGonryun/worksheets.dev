@@ -422,7 +422,7 @@ export const tags: Record<GameTag, TagSchema> = {
     ## Grimace Games
     
     ### What are grimace games?
-    Grimace games are games that involve grimacing. Some grimace games also involve action or adventure.
+    Grimace games are games that involve Grimace. Some grimace games also involve action or adventure.
 
     ### Who is Grimace?
     Grimace is a character from the McDonald's franchise. He is a large, purple anthropomorphic being of indeterminate species with short arms and legs. He is known for his slow-witted demeanor and his love of milkshakes. He is also known for his catchphrase, "I'm lovin' it."
