@@ -1,6 +1,5 @@
 import { Box, Button, Typography } from '@mui/material';
 import { FC } from 'react';
-import { ResponsiveImage } from '../../../images';
 import {
   KeyboardDoubleArrowDown,
   MobileOff,
@@ -124,6 +123,7 @@ const PlayOverlay: FC<
     </Box>
     <Typography
       sx={(theme) => ({
+        textAlign: 'center',
         fontFamily: theme.typography.dangrek.fontFamily,
         color: theme.palette.white.main,
         fontSize: { xs: '1.5rem', sm: '2rem', lg: '2.5rem' },

@@ -55,6 +55,7 @@ export const GameBanner: FC<GameBannerProps> = ({
           alt={`${name} logo`}
           src={iconUrl}
           style={{
+            aspectRatio: '1 / 1',
             borderRadius: '10px',
             overflow: 'hidden',
           }}
@@ -66,18 +67,15 @@ export const GameBanner: FC<GameBannerProps> = ({
         flex={1}
         justifyContent="space-between"
         minWidth={0}
-        sx={{
-          '& *': {
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-            whiteSpace: 'nowrap',
-          },
-        }}
+        maxWidth="100%"
       >
         <Box minWidth={0}>
           <Typography
             variant="h6"
             sx={{
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
               lineHeight: '1rem',
             }}
           >
@@ -86,6 +84,9 @@ export const GameBanner: FC<GameBannerProps> = ({
           <Typography
             variant="body3"
             sx={{
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
               color: (theme) => theme.palette.text.secondary,
             }}
           >

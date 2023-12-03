@@ -11,6 +11,7 @@ import { mixedItems } from '../../util/mixed-items';
 import { useRouter } from 'next/router';
 import { CircularProgress } from '@mui/material';
 import { printDate } from '@worksheets/util/time';
+import { AbsolutelyCentered } from '@worksheets/ui-core';
 
 const Page: NextPageWithLayout = () => {
   const { query } = useRouter();
@@ -20,7 +21,12 @@ const Page: NextPageWithLayout = () => {
     (developer) => developer.id === game?.developerId
   );
 
-  if (!game || !developer) return <CircularProgress />;
+  if (!game || !developer)
+    return (
+      <AbsolutelyCentered>
+        <CircularProgress size={100} color="error" sx={{ mt: -10 }} />
+      </AbsolutelyCentered>
+    );
 
   const handleReportBug = () => {
     // TODO: improve bug handling
@@ -53,7 +59,10 @@ const Page: NextPageWithLayout = () => {
           markets={game.markets}
         />
       }
-      suggestions={mixedItems().map((item) => ({ ...item, span: 1 }))}
+      suggestions={mixedItems({ maxTags: 10, maxGames: 60 }).map((item) => ({
+        ...item,
+        span: 1,
+      }))}
     />
   );
 };

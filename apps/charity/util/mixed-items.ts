@@ -28,7 +28,15 @@ export const tagItems = (): MixedGridItem[] => {
   }));
 };
 
-export const mixedItems = () => {
+export type MixedItemOptions = {
+  maxGames: number;
+  maxTags: number;
+};
+
+export const mixedItems = (options?: MixedItemOptions) => {
+  const maxGames = options?.maxGames ?? 200;
+  const maxTags = options?.maxTags ?? 50;
+
   const campaign = campaigns['primary'];
   if (!campaign) throw new Error('Campaign not found');
   const campaignItem: MixedGridItem = {
@@ -42,8 +50,8 @@ export const mixedItems = () => {
     ...sidecadePartnership,
   };
 
-  const games = gameItems();
-  const tags = tagItems();
+  const games = gameItems().slice(0, maxGames);
+  const tags = tagItems().slice(0, maxTags);
 
   const mixedItems: MixedGridItem[] = [];
 
