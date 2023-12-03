@@ -1,7 +1,7 @@
 import { Box, Typography } from '@mui/material';
 import { MarkdownText, Markdown } from '@worksheets/ui-core';
+import { LevelBanner } from '@worksheets/ui/icons';
 import { FC } from 'react';
-import { LevelBanner } from '../../../icons/level-banner';
 
 export const CampaignHeader: FC<{ caption: MarkdownText }> = ({ caption }) => (
   <>

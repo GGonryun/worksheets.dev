@@ -15,17 +15,19 @@ import {
   Paper,
   Typography,
 } from '@mui/material';
-import { Discord } from '@worksheets/ui-games';
 import { FC } from 'react';
-import { TwitchTv } from '../../icons/twitch-tv';
-import { ItchIo } from '../../icons/itch-io';
-import { TikTok } from '../../icons/tiktok';
-import { SteamGames } from '../../icons/steam-games';
-import { PlayStore } from '../../icons/play-store';
-import { AppStore } from '../../icons/app-store';
 import { GameDefinition } from '../../util/games';
 import { GamePill } from '../../pills';
 import { DeveloperSchema } from '../../../types/developer-schema';
+import {
+  Discord,
+  TwitchTv,
+  ItchIo,
+  TikTok,
+  SteamGames,
+  PlayStore,
+  AppStore,
+} from '@worksheets/ui/icons';
 
 export type DeveloperScreenProps = {
   name: string;

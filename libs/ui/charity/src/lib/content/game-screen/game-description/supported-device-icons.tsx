@@ -1,7 +1,9 @@
 import { Laptop, Smartphone } from '@mui/icons-material';
 import { Box, IconButton } from '@mui/material';
+import { GameSchema } from '../../../../types/game-schema';
 import { FC } from 'react';
-import { SupportedDevices } from '../../../util';
+
+type SupportedDevices = GameSchema['platforms'][number];
 
 export const SupportedDeviceIcons: FC<{ platforms: SupportedDevices[] }> = ({
   platforms,

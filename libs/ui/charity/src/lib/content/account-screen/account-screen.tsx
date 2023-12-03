@@ -1,8 +1,8 @@
 import { Box, Button, Container, Paper, Typography } from '@mui/material';
 import { FC } from 'react';
 import { GameIcon, GameIconProps } from '../../games/game-icon';
-import { ArrowUpRight } from '../../icons/arrow-up-right';
 import { Logout } from '@mui/icons-material';
+import { ArrowUpRight } from '@worksheets/ui/icons';
 
 export type AccountScreenProps = {
   exploreHref?: string;

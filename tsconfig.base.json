@@ -43,6 +43,7 @@
       "@worksheets/ui-games/server": ["libs/ui/games/src/server.ts"],
       "@worksheets/ui/buttons": ["libs/ui/buttons/src/index.ts"],
       "@worksheets/ui/home/server": ["libs/ui/home/src/server.ts"],
+      "@worksheets/ui/icons": ["libs/ui/icons/src/index.ts"],
       "@worksheets/ui/theme": ["libs/ui/theme/src/index.ts"],
       "@worksheets/util-coordinates": ["libs/util/coordinates/src/index.ts"],
       "@worksheets/util-devices": ["libs/util/devices/src/index.ts"],

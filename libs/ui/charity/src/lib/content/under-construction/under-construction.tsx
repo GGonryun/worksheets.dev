@@ -1,8 +1,8 @@
 import { Box, Button, Link, Paper, Typography } from '@mui/material';
 import { FC, ReactNode } from 'react';
-import { Construction } from '../../icons/construction';
 import { useRouter } from 'next/router';
 import { ArrowBack } from '@mui/icons-material';
+import { Construction } from '@worksheets/ui/icons';
 
 export const UnderConstruction: FC<{ children?: ReactNode }> = ({
   children,

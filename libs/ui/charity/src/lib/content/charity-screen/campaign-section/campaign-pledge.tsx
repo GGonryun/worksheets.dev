@@ -15,8 +15,8 @@ import {
   TypographyProps,
 } from '@mui/material';
 import { FC, JSXElementConstructor } from 'react';
-import { Discord } from '../../../icons/discord';
 import { CharityScreenProps } from '../charity-screen';
+import { Discord } from '@worksheets/ui/icons';
 
 export const CampaignPledge: FC<
   Pick<CharityScreenProps, 'pledge' | 'charity'>

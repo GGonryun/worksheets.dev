@@ -13,6 +13,7 @@
     "tools:localip": "ifconfig -u | grep 'inet ' | grep -v 127.0.0.1 | cut -d\\  -f2 | head -1",
     "storybook:charity": "nx serve ui-charity:storybook",
     "storybook:buttons": "nx serve ui-buttons:storybook",
+    "storybook:icons": "nx serve ui-icons:storybook",
     "analyze:charity": "ANALYZE=true npx nx run charity:build",
     "serve:charity": "npx nx run charity:serve",
     "serve:emojiwar": "npx nx run games-emoji-war:serve",

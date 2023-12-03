@@ -1,9 +1,7 @@
 import { Box, Link, Typography, styled } from '@mui/material';
-import { HeartGem } from '../../../icons/heart-gem';
 import { FC } from 'react';
 import { SvgIconComponent } from '@mui/icons-material';
-import { BlueDiamond } from '../../../icons/blue-diamond';
-import { GiftBox } from '../../../icons/gift-box';
+import { HeartGem, GiftBox, BlueDiamond } from '@worksheets/ui/icons';
 
 export const CampaignFooter: FC<{ pollUrl: string }> = ({ pollUrl }) => (
   <Box

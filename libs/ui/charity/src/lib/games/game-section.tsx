@@ -1,7 +1,7 @@
 import { Box, Link, Typography } from '@mui/material';
 import { FC, ReactNode } from 'react';
 import { ItemCarousel } from '../layout/drawer/item-carousel';
-import { ArrowUpRight } from '../icons/arrow-up-right';
+import { ArrowUpRight } from '@worksheets/ui/icons';
 
 export type GameSectionProps = {
   title: string;
