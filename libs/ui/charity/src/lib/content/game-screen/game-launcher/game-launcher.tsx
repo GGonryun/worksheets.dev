@@ -1,12 +1,13 @@
-import { Box, useMediaQuery, useTheme } from '@mui/material';
-import { FC, useRef, useState } from 'react';
+import { Box } from '@mui/material';
+import { FC, useEffect, useRef, useState } from 'react';
 import { GameLoadingCover } from './game-loading-cover';
 import { GameBanner } from './game-banner';
 import { useRouter } from 'next/router';
 import { GameFrame } from './game-frame';
-import { useEventListener } from '@worksheets/ui-core';
 import { GameExitFullscreenButton } from './game-exit-fullscreen-button';
 import { GameSchema } from '@worksheets/util/types';
+import { isMobileOrTabletDeviceBrowser } from '@worksheets/util-devices';
+import { useFullscreen } from './useFullscreen';
 
 export type GameLauncherProps = {
   backgroundUrl: string;
@@ -27,21 +28,26 @@ export const GameLauncher: FC<GameLauncherProps> = ({
   platforms,
   onReportBug,
 }) => {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('mobile2'));
-
+  const { push } = useRouter();
   const [showLoadingCover, setShowLoadingCover] = useState(true);
   const frameRef = useRef<HTMLIFrameElement>(null);
   const boxRef = useRef<HTMLDivElement>(null);
-  const documentRef = useRef<Document>(document);
-  const [fullscreen, setFullscreen] = useState(false);
-  const { push } = useRouter();
+  const isMobileOrTablet = isMobileOrTabletDeviceBrowser();
+
+  const { fullscreen, requestFullScreen, exitFullScreen } =
+    useFullscreen(boxRef);
+
+  useEffect(() => {
+    if (isMobileOrTablet && !fullscreen) {
+      setShowLoadingCover(true);
+    }
+  }, [fullscreen, isMobileOrTablet]);
 
   const handleRedirect = () => {
     if (file.type === 'redirect') {
       push(file.url);
     } else {
-      alert("Unsupported action: game.file.type !== 'redirect'");
+      throw new Error("Unsupported action: game.file.type !== 'redirect'");
     }
   };
 
@@ -49,8 +55,8 @@ export const GameLauncher: FC<GameLauncherProps> = ({
     if (file.type === 'redirect') {
       push(file.url);
     } else {
-      if (isMobile) {
-        requestFullScreen(boxRef.current);
+      if (isMobileOrTablet) {
+        requestFullScreen();
       }
       setShowLoadingCover(false);
     }
@@ -58,38 +64,18 @@ export const GameLauncher: FC<GameLauncherProps> = ({
 
   const handleFullscreen = () => {
     if (file.type === 'redirect') {
-      alert("Unsupported action: game.file.type === 'redirect'");
+      throw new Error("Unsupported action: game.file.type === 'redirect'");
     } else {
       if (fullscreen) {
-        if (isMobile) {
+        if (isMobileOrTablet) {
           setShowLoadingCover(true);
         }
-        documentRef.current
-          .exitFullscreen()
-          .then(() => console.log('Document Exited from Full screen mode'))
-          .catch((err) => console.error(err));
+        exitFullScreen();
       } else {
-        requestFullScreen(boxRef.current);
+        requestFullScreen();
       }
     }
   };
-
-  const handleFullscreenChange = (e: Event) => {
-    const isFullscreen = documentRef.current.fullscreenElement !== null;
-    if (isMobile && !isFullscreen) {
-      setShowLoadingCover(true);
-    }
-    setFullscreen(isFullscreen);
-  };
-
-  useEventListener('fullscreenchange', handleFullscreenChange, documentRef);
-  useEventListener(
-    'webkitfullscreenchange',
-    handleFullscreenChange,
-    documentRef
-  );
-  useEventListener('mozfullscreenchange', handleFullscreenChange, documentRef);
-  useEventListener('msfullscreenchange', handleFullscreenChange, documentRef);
 
   return (
     <Box
@@ -111,7 +97,7 @@ export const GameLauncher: FC<GameLauncherProps> = ({
       ) : (
         <GameFrame url={file.url} ref={frameRef} />
       )}
-      {fullscreen && isMobile ? (
+      {fullscreen && isMobileOrTablet ? (
         <GameExitFullscreenButton onBack={handleFullscreen} />
       ) : (
         <GameBanner
@@ -120,7 +106,7 @@ export const GameLauncher: FC<GameLauncherProps> = ({
           developer={developer}
           name={name}
           onReportBug={onReportBug}
-          isFullscreen={documentRef.current.fullscreenElement !== null}
+          isFullscreen={!!fullscreen}
           onFullscreen={handleFullscreen}
           onRedirect={handleRedirect}
         />
@@ -128,24 +114,3 @@ export const GameLauncher: FC<GameLauncherProps> = ({
     </Box>
   );
 };
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function requestFullScreen(element: any) {
-  // Supports most browsers and their versions.
-  const requestMethod =
-    element.requestFullScreen ||
-    element.requestFullscreen ||
-    element.webkitRequestFullScreen ||
-    element.webkitRequestFullscreen ||
-    element.mozRequestFullScreen ||
-    element.mozRequestFullscreen ||
-    element.msRequestFullScreen ||
-    element.msRequestFullscreen;
-
-  if (requestMethod) {
-    // Native full screen.
-    requestMethod.call(element);
-  } else {
-    throw new Error('Unsupported action: requestFullScreen');
-  }
-}
