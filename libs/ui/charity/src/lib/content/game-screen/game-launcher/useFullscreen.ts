@@ -50,20 +50,25 @@ const usePseudoFullscreen = (
       if (!docRef.current) return;
       if (!boxRef.current) return;
       setFullscreen(true);
-      boxRef.current.style.position = 'absolute';
+      boxRef.current.style.position = 'fixed';
       boxRef.current.style.left = '0px';
       boxRef.current.style.top = '0px';
       boxRef.current.style.bottom = '0px';
       boxRef.current.style.right = '0px';
+      boxRef.current.style.minHeight = '100dvh';
       boxRef.current.style.height = '100dvh';
       boxRef.current.style.width = '100vw';
-
       boxRef.current.style.zIndex = '10000';
+
       docRef.current.documentElement.style.overflow = 'hidden';
       docRef.current.documentElement.style.userSelect = 'none';
+      docRef.current.documentElement.style.touchAction = 'none';
+
+      docRef.current.body.style.touchAction = 'none';
+      docRef.current.body.style.userSelect = 'none';
+
       docRef.current.documentElement.scrollTop = 0;
       docRef.current.body.scrollTop = 0;
-      docRef.current.body.style.userSelect = 'none';
     },
     canExitFullscreen: () => true,
     exitFullscreen: () => {
@@ -76,11 +81,15 @@ const usePseudoFullscreen = (
       boxRef.current.style.bottom = '';
       boxRef.current.style.right = '';
       boxRef.current.style.height = '';
+      boxRef.current.style.minHeight = '';
       boxRef.current.style.width = '';
       boxRef.current.style.zIndex = '1';
+
       docRef.current.documentElement.style.overflow = 'auto';
       docRef.current.documentElement.style.userSelect = 'auto';
+      docRef.current.documentElement.style.touchAction = 'auto';
       docRef.current.body.style.userSelect = 'auto';
+      docRef.current.body.style.touchAction = 'auto';
     },
   };
 };
@@ -92,19 +101,11 @@ export const useFullscreen = (boxRef: RefObject<HTMLDivElement>) => {
   const pseudo = usePseudoFullscreen(documentRef, boxRef);
 
   function requestFullScreen() {
-    if (native.canRequestFullscreen()) {
-      native.requestFullscreen();
-    } else {
-      pseudo.requestFullscreen();
-    }
+    pseudo.requestFullscreen();
   }
 
   function exitFullScreen() {
-    if (native.canExitFullscreen()) {
-      native.exitFullscreen();
-    } else {
-      pseudo.exitFullscreen();
-    }
+    pseudo.exitFullscreen();
   }
 
   return {

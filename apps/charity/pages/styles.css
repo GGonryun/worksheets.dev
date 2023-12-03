@@ -14,7 +14,7 @@ body {
 main {
   min-height: 100dvh;
   height: 100%;
-  width: 100dvw;
+  width: 100vw;
   overflow: auto;
   display: flex;
 }
