@@ -2,28 +2,17 @@ import { PaletteColor } from '@mui/material';
 
 declare module '@mui/material/styles' {
   interface TypographyVariants {
-    title: React.CSSProperties;
     body3: React.CSSProperties;
-
-    coiny: React.CSSProperties;
+    corben: React.CSSProperties;
     dangrek: React.CSSProperties;
-    concertOne: React.CSSProperties;
     mPlus1p: React.CSSProperties;
-    // TODO - remove primary and secondary variants
-    primary: React.CSSProperties;
-    secondary: React.CSSProperties;
   }
 
   interface TypographyVariantsOptions {
-    title?: React.CSSProperties;
     body3?: React.CSSProperties;
-    coiny?: React.CSSProperties;
+    corben?: React.CSSProperties;
     dangrek?: React.CSSProperties;
-    concertOne?: React.CSSProperties;
     mPlus1p?: React.CSSProperties;
-    // TODO - remove primary and secondary variants
-    primary?: React.CSSProperties;
-    secondary?: React.CSSProperties;
   }
 
   interface Palette {

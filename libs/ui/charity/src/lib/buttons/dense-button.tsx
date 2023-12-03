@@ -6,7 +6,7 @@ export const DenseButton = styled<JSXElementConstructor<ButtonProps>>(
 )(({ theme }) => ({
   fontWeight: 500,
   fontSize: '0.85rem',
-  fontFamily: theme.typography.secondary.fontFamily,
+  fontFamily: theme.typography.mPlus1p.fontFamily,
   textTransform: 'none',
   padding: theme.spacing(0.5, 2),
   '&:hover': {

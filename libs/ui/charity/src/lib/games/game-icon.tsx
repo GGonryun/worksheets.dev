@@ -78,7 +78,7 @@ export const GameIcon: FC<GameIconProps> = ({
       >
         <ResponsiveImage
           placeholder="blur"
-          blurDataURL={'/common/charity-games/logos/square.png  '}
+          blurDataURL={'/common/charity-games/logos/square.png'}
           src={imageUrl ?? PLACEHOLDER_LOGO_PATH}
           alt={`${name} logo`}
           style={{

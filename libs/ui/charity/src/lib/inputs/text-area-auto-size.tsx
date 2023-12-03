@@ -1,7 +1,7 @@
 import { TextareaAutosize, styled } from '@mui/material';
 
 export const TextAreaAutoSize = styled(TextareaAutosize)(({ theme }) => ({
-  fontFamily: theme.typography.secondary.fontFamily,
+  fontFamily: theme.typography.mPlus1p.fontFamily,
   fontWeight: 500,
   padding: theme.spacing(1),
   borderRadius: theme.shape.borderRadius,
