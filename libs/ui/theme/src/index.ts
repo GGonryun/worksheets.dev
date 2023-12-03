@@ -11,7 +11,7 @@ export type PaletteColor =
   | 'love'
   | 'default';
 
-export const theme = createTheme({
+const theme = createTheme({
   breakpoints: {
     values: {
       xs: 0,
@@ -105,3 +105,5 @@ export const theme = createTheme({
     },
   },
 });
+
+export default theme;

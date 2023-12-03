@@ -4,7 +4,7 @@ import { JSXElementConstructor } from 'react';
 export const DenseButton = styled<JSXElementConstructor<ButtonProps>>(
   (props) => <Button size="small" variant="contained" {...props} />
 )(({ theme }) => ({
-  fontWeight: 500,
+  fontWeight: 700,
   fontSize: '0.85rem',
   fontFamily: theme.typography.mPlus1p.fontFamily,
   textTransform: 'none',

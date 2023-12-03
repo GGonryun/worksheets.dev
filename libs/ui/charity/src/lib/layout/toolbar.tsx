@@ -10,10 +10,10 @@ import {
   BoxProps,
   Link,
 } from '@mui/material';
-import { DenseButton } from '../buttons';
 import { FC } from 'react';
 import { FillImage } from '../images/fill-image';
 import { CHARITY_TOOLBAR_LOGO_PATH } from '../util';
+import { DenseButton } from '@worksheets/ui/buttons';
 
 interface ToolbarProps {
   onDrawerToggle: () => void;
