@@ -13,7 +13,7 @@ import {
 import { DenseButton } from '../buttons';
 import { FC } from 'react';
 import { FillImage } from '../images/fill-image';
-import { CHARITY_LOGO_PATH } from '../util';
+import { CHARITY_TOOLBAR_LOGO_PATH } from '../util';
 
 interface ToolbarProps {
   onDrawerToggle: () => void;
@@ -38,8 +38,6 @@ export const Toolbar = (props: ToolbarProps) => {
           right: 0,
           bottom: { xs: -5, sm: -11 },
           height: { xs: 6, sm: 12 },
-          // clipPath: 'polygon(80.25% 100%, 100% 0%, 0% 0%, 16.25% 100%, 64% 0%)',
-          // clipPath: 'polygon(83% 100%, 100% 0%, 0% 0%, 19.25% 100%, 50% 0%)',
           clipPath:
             'polygon(89.25% 100%, 100% 0%, 0% 0%, 8.99% 100%, 31.73% 0%, 50.86% 78.48%, 68.98% 0%)',
           filter: 'drop-shadow(0px 0px 4px rgba(0, 0, 0, 0.25))',
@@ -95,7 +93,7 @@ const LogoBox = () => (
           height: { xs: '30px', sm: '35px' },
         }}
       >
-        <FillImage src={CHARITY_LOGO_PATH} alt="Charity.Games" />
+        <FillImage src={CHARITY_TOOLBAR_LOGO_PATH} alt="Charity.Games" />
       </Box>
     </Link>
     <Link underline="none" href="/" color="inherit">

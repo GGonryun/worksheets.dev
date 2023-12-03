@@ -2,7 +2,7 @@ import { FC } from 'react';
 import { Box, ButtonBase, IconButton, InputBase } from '@mui/material';
 import Image from 'next/image';
 import { ArrowLeft, Clear, Search } from '@mui/icons-material';
-import { CHARITY_LOGO_PATH } from '../../util';
+import { CHARITY_TOOLBAR_LOGO_PATH } from '../../util';
 
 type SearchBarProps = {
   value?: string;
@@ -48,7 +48,7 @@ export const SearchBar: FC<SearchBarProps> = ({
           }}
         />
         <Image
-          src={CHARITY_LOGO_PATH}
+          src={CHARITY_TOOLBAR_LOGO_PATH}
           alt="Charity.Games"
           width={30}
           height={26}
