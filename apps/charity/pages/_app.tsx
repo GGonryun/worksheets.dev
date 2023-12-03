@@ -33,11 +33,10 @@ function CustomApp({
         <meta name="apple-mobile-web-app-title" content="Charity.Games" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="HandheldFriendly" content="true" />
-
         <meta
           name="viewport"
-          content="width=device-width, initial-scale=1.0, minimal-ui, shrink-to-fit=no viewport-fit=cover"
-        ></meta>
+          content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no, viewport-fit=cover"
+        />
       </Head>
 
       <ThemeProvider theme={theme}>
