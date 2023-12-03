@@ -50,7 +50,7 @@ export const GameLauncher: FC<GameLauncherProps> = ({
       push(file.url);
     } else {
       if (isMobile) {
-        handleFullscreen();
+        requestFullScreen(boxRef.current);
       }
       setShowLoadingCover(false);
     }
