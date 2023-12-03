@@ -1,6 +1,17 @@
 import { useEventListener } from '@worksheets/ui-core';
 import { RefObject, useState, useRef } from 'react';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function customTouch(e: any) {
+  if (
+    e.target.id !== 'game-exit-fullscreen-button' &&
+    e.target.parentElement.id !== 'game-exit-fullscreen-button'
+  ) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+}
+
 const useNativeFullscreen = (
   docRef: RefObject<Document>,
   boxRef: RefObject<HTMLDivElement>
@@ -43,17 +54,6 @@ const usePseudoFullscreen = (
 ) => {
   const [fullscreen, setFullscreen] = useState(false);
 
-  const customTouch = (e: any) => {
-    // check if id = game-exit-fullscreen-button
-    if (
-      e.target.id !== 'game-exit-fullscreen-button' &&
-      e.target.parentElement.id !== 'game-exit-fullscreen-button'
-    ) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
-  };
-
   return {
     fullscreen,
     canRequestFullscreen: () => true,
@@ -66,23 +66,15 @@ const usePseudoFullscreen = (
       boxRef.current.style.top = '0px';
       boxRef.current.style.bottom = '0px';
       boxRef.current.style.right = '0px';
-      boxRef.current.style.minHeight = '100dvh';
-      boxRef.current.style.height = '100dvh';
+      boxRef.current.style.minHeight = '100.1%';
+      boxRef.current.style.height = '100.1%';
       boxRef.current.style.width = '100vw';
       boxRef.current.style.zIndex = '10000';
 
-      boxRef.current.addEventListener('touchstart', customTouch, {
-        passive: false,
-      });
-      boxRef.current.addEventListener('touchmove', customTouch, {
-        passive: false,
-      });
-      boxRef.current.addEventListener('touchend', customTouch, {
-        passive: false,
-      });
-      boxRef.current.addEventListener('touchcancel', customTouch, {
-        passive: false,
-      });
+      boxRef.current.addEventListener('touchstart', customTouch, true);
+      boxRef.current.addEventListener('touchmove', customTouch, true);
+      boxRef.current.addEventListener('touchend', customTouch, true);
+      boxRef.current.addEventListener('touchcancel', customTouch, true);
 
       docRef.current.documentElement.style.overflow = 'hidden';
       docRef.current.documentElement.style.userSelect = 'none';
@@ -109,10 +101,10 @@ const usePseudoFullscreen = (
       boxRef.current.style.width = '';
       boxRef.current.style.zIndex = '1';
 
-      boxRef.current.removeEventListener('touchstart', customTouch);
-      boxRef.current.removeEventListener('touchmove', customTouch);
-      boxRef.current.removeEventListener('touchend', customTouch);
-      boxRef.current.removeEventListener('touchcancel', customTouch);
+      boxRef.current.removeEventListener('touchstart', customTouch, true);
+      boxRef.current.removeEventListener('touchmove', customTouch, true);
+      boxRef.current.removeEventListener('touchend', customTouch, true);
+      boxRef.current.removeEventListener('touchcancel', customTouch, true);
 
       docRef.current.documentElement.style.overflow = 'auto';
       docRef.current.documentElement.style.userSelect = 'auto';

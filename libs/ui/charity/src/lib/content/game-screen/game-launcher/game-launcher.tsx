@@ -72,6 +72,9 @@ export const GameLauncher: FC<GameLauncherProps> = ({
         }
         exitFullScreen();
       } else {
+        if (isMobileOrTablet) {
+          setShowLoadingCover(false);
+        }
         requestFullScreen();
       }
     }
