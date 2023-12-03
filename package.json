@@ -12,7 +12,7 @@
     "tools:image-processor": "npx nx run tools-image-processor:serve",
     "tools:localip": "ifconfig -u | grep 'inet ' | grep -v 127.0.0.1 | cut -d\\  -f2 | head -1",
     "storybook:charity": "nx serve ui-charity:storybook",
-    "build:charity": "ANALYZE=true npx nx run charity:build",
+    "analyze:charity": "ANALYZE=true npx nx run charity:build",
     "serve:charity": "npx nx run charity:serve",
     "serve:emojiwar": "npx nx run games-emoji-war:serve",
     "serve:puzzlewords": "npx nx run games-puzzle-words:serve",
