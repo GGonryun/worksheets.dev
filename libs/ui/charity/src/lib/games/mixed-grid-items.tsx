@@ -2,14 +2,15 @@ import { Box } from '@mui/material';
 import { FC, Fragment } from 'react';
 import { GameIconProps, GameIcon } from './game-icon';
 import {
-  CategoryPillProps,
   CategoryPill,
-  TextPillProps,
-  TextPill,
-  ProgressPillProps,
+  CategoryPillProps,
+  ImagePill,
+  ImagePillProps,
   ProgressPill,
-} from '../pills';
-import { ImagePill, ImagePillProps } from '../pills/image-pill';
+  ProgressPillProps,
+  TextPill,
+  TextPillProps,
+} from '@worksheets/ui/pills';
 
 export const GRID_ITEM_SIZE = `94px`;
 

@@ -8,12 +8,12 @@ import {
 import { Box, Link, Typography } from '@mui/material';
 import { FC, useState } from 'react';
 import { BannerBox } from './banner-box';
-import { ResponsiveImage } from '../images';
 import {
   GameIcon as GameIconType,
   GameQualifier,
 } from '@worksheets/util/types';
 import { PLACEHOLDER_LOGO_PATH } from '@worksheets/util/assets';
+import { ResponsiveImage } from '@worksheets/ui/images';
 
 export type GameIconProps = GameIconType;
 

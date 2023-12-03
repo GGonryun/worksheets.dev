@@ -6,8 +6,8 @@ import {
   FullscreenExit,
   OpenInNew,
 } from '@mui/icons-material';
-import { ResponsiveImage } from '../../../images';
 import { GameSchema } from '@worksheets/util/types';
+import { ResponsiveImage } from '@worksheets/ui/images';
 
 export type GameBannerProps = {
   type: GameSchema['file']['type'];

@@ -5,9 +5,9 @@ import {
   MobileOff,
   PlayCircleOutline,
 } from '@mui/icons-material';
-import { FillImage } from '../../../images/fill-image';
 import { isMobileOrTabletDeviceBrowser } from '@worksheets/util-devices';
 import { GameSchema } from '@worksheets/util/types';
+import { FillImage } from '@worksheets/ui/images';
 
 export type GameLoadingCoverProps = {
   backgroundUrl: string;

@@ -16,7 +16,6 @@ import {
   Typography,
 } from '@mui/material';
 import { FC } from 'react';
-import { GamePill } from '../../pills';
 import {
   Discord,
   TwitchTv,
@@ -27,6 +26,7 @@ import {
   AppStore,
 } from '@worksheets/ui/icons';
 import { DeveloperSchema, GameDefinition } from '@worksheets/util/types';
+import { GamePill } from '@worksheets/ui/pills';
 
 export type DeveloperScreenProps = {
   name: string;

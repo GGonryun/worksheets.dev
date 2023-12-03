@@ -1,8 +1,8 @@
 import { ExploreOutlined, HelpOutline } from '@mui/icons-material';
 import { Box, Link, Typography } from '@mui/material';
 import { FC } from 'react';
-import { ResponsiveImage } from '../../../images';
 import { CharityScreenProps } from '../charity-screen';
+import { ResponsiveImage } from '@worksheets/ui/images';
 
 export const CampaignImage: FC<Pick<CharityScreenProps, 'charity'>> = ({
   charity,

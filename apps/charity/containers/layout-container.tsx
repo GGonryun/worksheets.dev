@@ -4,7 +4,7 @@ import {
   recommendations,
   tagSchemas,
 } from '@worksheets/data-access/charity-games';
-import { Layout } from '@worksheets/ui-charity';
+import { Layout } from '@worksheets/ui/layout';
 import { Recommendations } from '@worksheets/util/types';
 import { FC, ReactNode } from 'react';
 
