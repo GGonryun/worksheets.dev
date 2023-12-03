@@ -64,7 +64,6 @@ export const SearchBar: FC<SearchBarProps> = ({
           paddingX: 2.5,
           '& input': {
             padding: 0,
-            height: '32px',
             fontSize: '2rem',
           },
         }}
