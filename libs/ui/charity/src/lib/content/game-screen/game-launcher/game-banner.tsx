@@ -38,7 +38,9 @@ export const GameBanner: FC<GameBannerProps> = ({
       sx={{
         backgroundColor: (theme) => theme.palette.background.paper,
         display: 'flex',
-        height: 64,
+        height: { xs: '54px', sm: '64px' },
+        minHeight: { xs: '54px', sm: '64px' },
+        maxHeight: { xs: '54px', sm: '64px' },
         boxShadow: (theme) => theme.shadows[2],
         boxSizing: 'border-box',
         overflow: 'hidden',
