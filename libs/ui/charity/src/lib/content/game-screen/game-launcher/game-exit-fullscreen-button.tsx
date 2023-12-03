@@ -10,6 +10,7 @@ export const GameExitFullscreenButton: FC<GameExitFullscreenButtonProps> = ({
   onBack,
 }) => (
   <Box
+    id="game-exit-fullscreen-button"
     onClick={onBack}
     sx={{
       backgroundColor: (theme) => theme.palette.background.paper,

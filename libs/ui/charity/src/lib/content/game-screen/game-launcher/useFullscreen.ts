@@ -43,6 +43,17 @@ const usePseudoFullscreen = (
 ) => {
   const [fullscreen, setFullscreen] = useState(false);
 
+  const customTouch = (e: any) => {
+    // check if id = game-exit-fullscreen-button
+    if (
+      e.target.id !== 'game-exit-fullscreen-button' &&
+      e.target.parentElement.id !== 'game-exit-fullscreen-button'
+    ) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  };
+
   return {
     fullscreen,
     canRequestFullscreen: () => true,
@@ -59,6 +70,19 @@ const usePseudoFullscreen = (
       boxRef.current.style.height = '100dvh';
       boxRef.current.style.width = '100vw';
       boxRef.current.style.zIndex = '10000';
+
+      boxRef.current.addEventListener('touchstart', customTouch, {
+        passive: false,
+      });
+      boxRef.current.addEventListener('touchmove', customTouch, {
+        passive: false,
+      });
+      boxRef.current.addEventListener('touchend', customTouch, {
+        passive: false,
+      });
+      boxRef.current.addEventListener('touchcancel', customTouch, {
+        passive: false,
+      });
 
       docRef.current.documentElement.style.overflow = 'hidden';
       docRef.current.documentElement.style.userSelect = 'none';
@@ -85,6 +109,11 @@ const usePseudoFullscreen = (
       boxRef.current.style.width = '';
       boxRef.current.style.zIndex = '1';
 
+      boxRef.current.removeEventListener('touchstart', customTouch);
+      boxRef.current.removeEventListener('touchmove', customTouch);
+      boxRef.current.removeEventListener('touchend', customTouch);
+      boxRef.current.removeEventListener('touchcancel', customTouch);
+
       docRef.current.documentElement.style.overflow = 'auto';
       docRef.current.documentElement.style.userSelect = 'auto';
       docRef.current.documentElement.style.touchAction = 'auto';
@@ -101,11 +130,19 @@ export const useFullscreen = (boxRef: RefObject<HTMLDivElement>) => {
   const pseudo = usePseudoFullscreen(documentRef, boxRef);
 
   function requestFullScreen() {
-    pseudo.requestFullscreen();
+    if (native.canRequestFullscreen()) {
+      native.requestFullscreen();
+    } else {
+      pseudo.requestFullscreen();
+    }
   }
 
   function exitFullScreen() {
-    pseudo.exitFullscreen();
+    if (native.canExitFullscreen()) {
+      native.exitFullscreen();
+    } else {
+      pseudo.exitFullscreen();
+    }
   }
 
   return {
