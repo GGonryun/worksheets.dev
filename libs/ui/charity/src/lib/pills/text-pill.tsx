@@ -16,7 +16,14 @@ export const TextPill: FC<TextPillProps> = ({ text, variant }) => (
         userSelect: 'none',
       }}
     >
-      <Typography variant={variant ?? 'h4'}>{text}</Typography>
+      <Typography
+        variant={variant ?? 'h4'}
+        sx={{
+          fontSize: { xs: '1.5rem', sm: '2rem' },
+        }}
+      >
+        {text}
+      </Typography>
     </Box>
   </ReferencePillSkeleton>
 );
