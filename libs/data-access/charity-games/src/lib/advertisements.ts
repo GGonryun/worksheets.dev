@@ -1,5 +1,10 @@
 const adClient = 'ca-pub-1305399541775198';
 
+export const horizontalBannerAd = {
+  slot: '3067977464',
+  client: adClient,
+};
+
 const squareAd1 = {
   slot: '9379176890',
   client: adClient,
@@ -11,21 +16,21 @@ const squareAd2 = {
   slot: '2726084734',
   client: adClient,
   size: 2,
-  position: 30,
+  position: 50,
 };
 
 const squareAd3 = {
   slot: '3025521535',
   client: adClient,
   size: 3,
-  position: 55,
+  position: 100,
 };
 
 const squareAd4 = {
   slot: '2642378150',
   client: adClient,
   size: 2,
-  position: 80,
+  position: 150,
 };
 
 const squareAd5 = {
@@ -54,7 +59,4 @@ export const advertisementSquares = [
   squareAd2,
   squareAd3,
   squareAd4,
-  squareAd5,
-  squareAd6,
-  squareAd7,
 ];
