@@ -58,6 +58,7 @@ const usePseudoFullscreen = (
       boxRef.current.style.zIndex = '10000';
       docRef.current.documentElement.style.overflow = 'hidden';
       docRef.current.documentElement.scrollTop = 0;
+      docRef.current.body.scrollTop = 0;
     },
     canExitFullscreen: () => true,
     exitFullscreen: () => {

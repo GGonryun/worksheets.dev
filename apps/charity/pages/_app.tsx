@@ -7,10 +7,23 @@ import { SERVICE_SETTINGS } from '@worksheets/data-access/server-settings';
 import * as FullStory from '@fullstory/browser';
 import { SessionProvider } from 'next-auth/react';
 import theme from '@worksheets/ui/theme';
+import { FC } from 'react';
 
 if (typeof window !== 'undefined') {
   FullStory.init(SERVICE_SETTINGS.FULLSTORY);
 }
+
+export const MobileMeta: FC = () => (
+  <>
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="HandheldFriendly" content="true" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"
+    />
+  </>
+);
 
 function CustomApp({
   Component,
@@ -24,6 +37,7 @@ function CustomApp({
       {/* <AdSenseScript />
       <AdBlockingRecoveryScript /> */}
       <Head>
+        <MobileMeta />
         <title>Charity.Games</title>
       </Head>
 

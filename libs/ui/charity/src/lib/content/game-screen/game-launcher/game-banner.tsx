@@ -42,6 +42,7 @@ export const GameBanner: FC<GameBannerProps> = ({
         boxShadow: (theme) => theme.shadows[2],
         boxSizing: 'border-box',
         overflow: 'hidden',
+        userSelect: 'none',
       }}
     >
       <Box

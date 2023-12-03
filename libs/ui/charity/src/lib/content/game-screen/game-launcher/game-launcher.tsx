@@ -85,6 +85,9 @@ export const GameLauncher: FC<GameLauncherProps> = ({
       className="game-launcher"
       display="flex"
       flexDirection="column"
+      sx={{
+        userSelect: 'none',
+      }}
     >
       {showLoadingCover ? (
         <GameLoadingCover

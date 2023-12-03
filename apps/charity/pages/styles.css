@@ -10,7 +10,7 @@ body {
 main {
   min-height: 100dvh;
   height: 100%;
-  width: 100%;
+  width: 100dvw;
   overflow: auto;
   display: flex;
 }
