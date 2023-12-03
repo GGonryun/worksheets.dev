@@ -1,8 +1,7 @@
-import { Box, Container } from '@mui/material';
 import { MixedGrid } from '@worksheets/ui-charity';
 import { mixedItems } from '../util/mixed-items';
-import { HorizontalAdvertisementContainer } from './horizontal-advertisement-container';
 import { useGoogleAds } from './useGoogleAds';
+import Container from '@mui/material/Container';
 
 export const HomePageContainer = () => {
   useGoogleAds();
@@ -10,9 +9,6 @@ export const HomePageContainer = () => {
   return (
     <Container sx={{ py: 2 }}>
       <MixedGrid items={mixedItems()} />
-      <Box mt={2}>
-        <HorizontalAdvertisementContainer />
-      </Box>
     </Container>
   );
 };
