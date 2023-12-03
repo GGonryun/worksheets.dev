@@ -1,4 +1,4 @@
-import { cloneDeep } from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
 // reverses and clones the contents of the array
 export function reverseArray<T>(arr?: T[]): T[] {
   if (!arr) return [];

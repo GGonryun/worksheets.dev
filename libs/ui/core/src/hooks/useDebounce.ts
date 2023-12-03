@@ -1,4 +1,4 @@
-import { debounce } from 'lodash';
+import debounce from 'lodash/debounce';
 import { useMemo } from 'react';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

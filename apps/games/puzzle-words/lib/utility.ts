@@ -1,7 +1,7 @@
 import { MAX_WORDS_IN_PUZZLE, MAX_BONUSES_IN_PUZZLE } from './constants';
 import { Puzzle } from './puzzles';
 import { Discovered } from './types';
-import { cloneDeep } from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
 
 export const painter = (debug?: boolean) => (color: string) => {
   return debug ? color : undefined;

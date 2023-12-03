@@ -3,7 +3,7 @@ import {
   arrayFromLength,
   lastElement,
 } from '@worksheets/util/arrays';
-import { cloneDeep } from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
 import { useState, useCallback } from 'react';
 import {
   CardType,

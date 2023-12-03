@@ -4,7 +4,7 @@ import { Puzzle } from './Puzzle';
 import { useSavedPuzzle, useSavedSelections } from '../hooks/useSaveData';
 import { CircularProgress } from '@mui/material';
 import { useRouter } from 'next/router';
-import { flatten } from 'lodash';
+import flatten from 'lodash/flatten';
 import { AbsolutelyCentered } from '@worksheets/ui-core';
 import { urls } from '@worksheets/ui-games';
 import { Layout } from './Layout';
