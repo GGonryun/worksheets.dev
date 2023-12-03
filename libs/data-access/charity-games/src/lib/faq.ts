@@ -1,4 +1,4 @@
-import { urls } from '../lib/util';
+import urls from '@worksheets/util/urls';
 
 export const faq = [
   {

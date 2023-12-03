@@ -1,5 +1,5 @@
-import { urls } from '../lib/util';
-import { DeveloperSchema } from '../types/developer-schema';
+import { DeveloperSchema } from '@worksheets/util/types';
+import urls from '@worksheets/util/urls';
 
 export const developers: DeveloperSchema[] = [
   {

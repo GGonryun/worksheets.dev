@@ -1,11 +1,11 @@
 import {
-  Layout,
-  Recommendations,
   developers,
   games,
   recommendations,
   tagSchemas,
-} from '@worksheets/ui-charity';
+} from '@worksheets/data-access/charity-games';
+import { Layout } from '@worksheets/ui-charity';
+import { Recommendations } from '@worksheets/util/types';
 import { FC, ReactNode } from 'react';
 
 export const LayoutContainer: FC<{ children: ReactNode }> = ({ children }) => {

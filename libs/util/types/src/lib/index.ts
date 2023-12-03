@@ -4,3 +4,6 @@ export * from './developer-schema';
 export * from './author';
 export * from './recommendations';
 export * from './donations';
+export * from './types';
+export * from './game-icon';
+export * from './game-qualifier';

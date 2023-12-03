@@ -7,9 +7,9 @@ import {
   TypographyProps,
   styled,
 } from '@mui/material';
+import urls from '@worksheets/util/urls';
 import Image from 'next/image';
 import { FC, JSXElementConstructor } from 'react';
-import { urls } from '../util';
 export type ProgressWidgetProps = {
   current: number;
   required: number;

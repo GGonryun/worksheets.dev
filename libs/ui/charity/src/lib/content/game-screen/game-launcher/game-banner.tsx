@@ -7,7 +7,7 @@ import {
   OpenInNew,
 } from '@mui/icons-material';
 import { ResponsiveImage } from '../../../images';
-import { GameSchema } from '../../../../types';
+import { GameSchema } from '@worksheets/util/types';
 
 export type GameBannerProps = {
   type: GameSchema['file']['type'];

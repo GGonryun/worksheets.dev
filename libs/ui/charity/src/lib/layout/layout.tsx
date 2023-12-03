@@ -8,8 +8,8 @@ import { lighten } from '@mui/system';
 import { WebsiteFooter } from './footer';
 import { SearchResults } from './drawer/search-results';
 import { useDebounce } from '@worksheets/ui-core';
-import { Recommendations } from '../../types';
 import { CategoryPillProps, GamePillProps } from '../pills';
+import { Recommendations } from '@worksheets/util/types';
 
 type SearchResults = {
   games: GamePillProps[];

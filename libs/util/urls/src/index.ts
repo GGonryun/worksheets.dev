@@ -1,5 +1,5 @@
-export const urls = {
-  charityGames: process.env.NEXT_PUBLIC_CHARITY_GAMES_BASE_URL,
+const urls = {
+  charityGames: process.env['NEXT_PUBLIC_CHARITY_GAMES_BASE_URL'],
   email: {
     support: 'mailto:amodestduck@gmail.com',
   },
@@ -21,3 +21,5 @@ export const urls = {
     discord: `https://discord.gg/Auatjee2BZ`,
   },
 };
+
+export default urls;

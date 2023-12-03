@@ -1,4 +1,4 @@
-import { DonationReceipt } from '../types';
+import { DonationReceipt } from '@worksheets/util/types';
 
 export const donations: DonationReceipt[] = [
   {

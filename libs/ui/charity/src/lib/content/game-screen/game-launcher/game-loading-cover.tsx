@@ -6,8 +6,8 @@ import {
   PlayCircleOutline,
 } from '@mui/icons-material';
 import { FillImage } from '../../../images/fill-image';
-import { GameSchema } from '../../../../types/game-schema';
 import { isMobileOrTabletDeviceBrowser } from '@worksheets/util-devices';
+import { GameSchema } from '@worksheets/util/types';
 
 export type GameLoadingCoverProps = {
   backgroundUrl: string;

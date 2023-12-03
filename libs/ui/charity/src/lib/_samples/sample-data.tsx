@@ -3,9 +3,12 @@ import { GameDescription } from '../content/game-screen/game-description';
 import { GameLauncher } from '../content/game-screen/game-launcher';
 import { MixedGridItem } from '../games/mixed-grid-items';
 import { GameDefinition } from '../util/games';
-import { CharityOrganization, Recommendations } from '../../types';
-import { GameIconProps } from '../games/game-icon';
 import { ReceiptScreenProps } from '../content';
+import {
+  CharityOrganization,
+  GameIcon,
+  Recommendations,
+} from '@worksheets/util/types';
 
 export const SampleGameLauncher = () => (
   <GameLauncher
@@ -20,10 +23,7 @@ export const SampleGameLauncher = () => (
     name={'Solitaire'}
     developer={'Charity.Games'}
     onReportBug={() => alert('TODO: show bug report form')}
-    onEnterFullscreen={() => alert('TODO: enter fullscreen')}
-    onExitFullscreen={() => alert('TODO: exit fullscreen')}
-    onPlay={() => alert('TODO: play game')}
-    onRedirect={() => alert('TODO: redirect to game page')}
+    platforms={['mobile', 'desktop']}
   />
 );
 
@@ -202,7 +202,7 @@ The best way to play an idle game is by setting up your computer so that it runs
 Some idle games do have an end, but most of them are endless. The goal is to get as far into the game as possible before you stop playing. This can be done by upgrading units in the game, or by using special abilities that allow you to progress further. Some games implement a prestige system that allows you to start over with additional bonuses after reaching certain milestones.
 `;
 
-export const sampleGameIconsOfRealGames: GameIconProps[] = [
+export const sampleGameIconsOfRealGames: GameIcon[] = [
   {
     id: 'solitaire',
     name: 'Solitaire',

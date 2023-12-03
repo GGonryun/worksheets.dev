@@ -1,4 +1,4 @@
-import { CharityCampaign } from '../types';
+import { CharityCampaign } from '@worksheets/util/types';
 
 export const campaigns: Record<string, CharityCampaign> = {
   primary: {

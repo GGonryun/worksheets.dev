@@ -1,13 +1,9 @@
-import {
-  CategoryScreen,
-  GameTag,
-  TagSchema,
-  games,
-  tagSchemas,
-} from '@worksheets/ui-charity';
+import { CategoryScreen } from '@worksheets/ui-charity';
 import { NextPageWithLayout } from '@worksheets/util-next';
 import { LayoutContainer } from '../../containers/layout-container';
 import { useRouter } from 'next/router';
+import { GameTag, TagSchema } from '@worksheets/util/types';
+import { games, tagSchemas } from '@worksheets/data-access/charity-games';
 
 const Page: NextPageWithLayout = () => {
   const { query } = useRouter();

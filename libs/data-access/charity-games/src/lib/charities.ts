@@ -1,4 +1,4 @@
-import { CharityOrganization } from '../types';
+import { CharityOrganization } from '@worksheets/util/types';
 
 export const charities: Record<string, CharityOrganization> = {
   'water-org': {

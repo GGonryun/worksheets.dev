@@ -4,7 +4,7 @@ import { PostHeader } from './post-header';
 import { MarkdownMetadata } from '@worksheets/util-markdown';
 import { PostBody } from './post-body/post-body';
 import { JoinNewsletterBox } from './join-newsletter-box';
-import { blogAuthors } from '../../../data/authors';
+import { blogAuthors } from '@worksheets/data-access/charity-games';
 
 export type BlogPostScreenProps = {
   metadata: MarkdownMetadata;

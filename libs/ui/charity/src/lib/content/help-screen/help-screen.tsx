@@ -9,9 +9,9 @@ import {
   Typography,
 } from '@mui/material';
 import { FC, useState } from 'react';
-import { urls } from '../../util';
 import { ChevronRight } from '@mui/icons-material';
 import { Markdown } from '@worksheets/ui-core';
+import urls from '@worksheets/util/urls';
 
 export type HelpScreenProps = {
   // no props

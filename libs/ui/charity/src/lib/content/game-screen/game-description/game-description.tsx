@@ -11,8 +11,8 @@ import { FC } from 'react';
 import { CategoryBreadcrumbs } from './category-breadcrumbs';
 import { SupportedDeviceIcons } from './supported-device-icons';
 import { MarketWidgets } from './market-widgets';
-import { GameSchema } from '../../../../types/game-schema';
 import { MarkdownText, Markdown } from '@worksheets/ui-core';
+import { GameSchema } from '@worksheets/util/types';
 
 export type GameDescriptionProps = {
   title: string;

@@ -1,13 +1,11 @@
 import { NextPageWithLayout } from '@worksheets/util-next';
+import { ReceiptScreen, ReceiptScreenProps } from '@worksheets/ui-charity';
+import { LayoutContainer } from '../containers/layout-container';
+import { CharityOrganization, DonationReceipt } from '@worksheets/util/types';
 import {
-  CharityOrganization,
-  DonationReceipt,
-  ReceiptScreen,
-  ReceiptScreenProps,
   charityValues,
   donations,
-} from '@worksheets/ui-charity';
-import { LayoutContainer } from '../containers/layout-container';
+} from '@worksheets/data-access/charity-games';
 
 const Page: NextPageWithLayout = () => {
   return <ReceiptScreen rows={donations.map(createRow(charityValues))} />;

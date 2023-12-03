@@ -1,8 +1,8 @@
 import { Box, Link, LinkProps, styled } from '@mui/material';
 import { FC, JSXElementConstructor } from 'react';
 import { ResponsiveImage } from '../../../images';
-import { GameSchema } from '../../../../types/game-schema';
 import { APP_STORE_BADGE_PATH, PLAY_STORE_BADGE_PATH } from '../../../util';
+import { GameSchema } from '@worksheets/util/types';
 
 export type MarketWidgetsProps = GameSchema['markets'];
 export const MarketWidgets: FC<MarketWidgetsProps> = ({

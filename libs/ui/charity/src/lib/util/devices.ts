@@ -1,3 +1,3 @@
-import { GameSchema } from '../../types/game-schema';
+import { GameSchema } from '@worksheets/util/types';
 
 export type SupportedDevices = GameSchema['platforms'][number];

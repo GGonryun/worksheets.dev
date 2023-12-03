@@ -1,6 +1,6 @@
 import { Laptop, Smartphone } from '@mui/icons-material';
 import { Box, IconButton } from '@mui/material';
-import { GameSchema } from '../../../../types/game-schema';
+import { GameSchema } from '@worksheets/util/types';
 import { FC } from 'react';
 
 type SupportedDevices = GameSchema['platforms'][number];

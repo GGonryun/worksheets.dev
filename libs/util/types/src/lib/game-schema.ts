@@ -1,4 +1,4 @@
-import { MarkdownText } from '@worksheets/ui-core';
+import { GameQualifier } from './game-qualifier';
 import { GameTag } from './tag-schema';
 
 export type GameSchema = {
@@ -9,13 +9,13 @@ export type GameSchema = {
   developerId: string;
   iconUrl: string;
   bannerUrl: string;
-  qualifier: 'hot' | 'new' | 'played' | 'none';
+  qualifier: GameQualifier;
   platforms: GameDevices[];
   tags: GameTag[];
   category: GameTag[];
   createdAt: Date;
   updatedAt: Date;
-  description: MarkdownText;
+  description: string;
   markets: Partial<MarketLinks>;
   file: {
     type: 'redirect' | 'iframe';

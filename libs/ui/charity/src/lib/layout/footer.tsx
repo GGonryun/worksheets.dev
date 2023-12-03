@@ -18,7 +18,7 @@ import {
   Twitter,
 } from '@mui/icons-material';
 import { useRouter } from 'next/router';
-import { urls } from '../util/urls';
+import urls from '@worksheets/util/urls';
 
 export type WebsiteFooterProps = {
   // TODO: args

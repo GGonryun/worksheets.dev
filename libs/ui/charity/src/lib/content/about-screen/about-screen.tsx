@@ -1,8 +1,8 @@
 import { LinkedIn } from '@mui/icons-material';
 import { Box, Button, Container, Link, Paper, Typography } from '@mui/material';
+import { blogAuthors } from '@worksheets/data-access/charity-games';
+import urls from '@worksheets/util/urls';
 import { FC } from 'react';
-import { urls } from '../../util';
-import { blogAuthors } from '../../../data/authors';
 
 export type AboutScreenProps = {
   // no props

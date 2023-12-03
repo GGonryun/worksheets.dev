@@ -18,7 +18,6 @@ import {
 import { FC } from 'react';
 import { GameDefinition } from '../../util/games';
 import { GamePill } from '../../pills';
-import { DeveloperSchema } from '../../../types/developer-schema';
 import {
   Discord,
   TwitchTv,
@@ -28,6 +27,7 @@ import {
   PlayStore,
   AppStore,
 } from '@worksheets/ui/icons';
+import { DeveloperSchema } from '@worksheets/util/types';
 
 export type DeveloperScreenProps = {
   name: string;

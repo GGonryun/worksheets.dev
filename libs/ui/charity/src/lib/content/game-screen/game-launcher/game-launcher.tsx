@@ -2,11 +2,11 @@ import { Box, useMediaQuery, useTheme } from '@mui/material';
 import { FC, useRef, useState } from 'react';
 import { GameLoadingCover } from './game-loading-cover';
 import { GameBanner } from './game-banner';
-import { GameSchema } from '../../../../types';
 import { useRouter } from 'next/router';
 import { GameFrame } from './game-frame';
 import { useEventListener } from '@worksheets/ui-core';
 import { GameExitFullscreenButton } from './game-exit-fullscreen-button';
+import { GameSchema } from '@worksheets/util/types';
 
 export type GameLauncherProps = {
   backgroundUrl: string;

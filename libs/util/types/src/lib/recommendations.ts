@@ -1,8 +1,8 @@
-import { GameIconProps } from '../lib/games/game-icon';
+import { GameIcon } from './game-icon';
 
 export type Recommendations = {
-  popular: GameIconProps[];
-  new: GameIconProps[];
+  popular: GameIcon[];
+  new: GameIcon[];
   categories: { id: string; name: string }[];
 };
 

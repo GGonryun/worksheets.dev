@@ -4,8 +4,8 @@ import { CampaignSection } from './campaign-section';
 import { TitleSection } from './title-section';
 import { StatisticsSection } from './statistics-section';
 import { CharityDescription } from './charity-description';
-import { CharityCampaign, CharityOrganization } from '../../../types';
-import { urls } from '../../util';
+import { CharityCampaign, CharityOrganization } from '@worksheets/util/types';
+import urls from '@worksheets/util/urls';
 
 export type CharityScreenProps = {
   charity: CharityOrganization;

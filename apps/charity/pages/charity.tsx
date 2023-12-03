@@ -1,6 +1,7 @@
 import { NextPageWithLayout } from '@worksheets/util-next';
-import { CharityScreen, campaigns, charities } from '@worksheets/ui-charity';
+import { CharityScreen } from '@worksheets/ui-charity';
 import { LayoutContainer } from '../containers/layout-container';
+import { campaigns, charities } from '@worksheets/data-access/charity-games';
 
 const Page: NextPageWithLayout = () => {
   const campaign = campaigns['primary'];

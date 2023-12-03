@@ -26,6 +26,7 @@ export const GameExitFullscreenButton: FC<GameExitFullscreenButtonProps> = ({
       overflow: 'hidden',
       borderTopRightRadius: 16,
       borderBottomRightRadius: 16,
+      zIndex: 1000005,
     }}
   >
     <ArrowLeft

@@ -3,7 +3,7 @@ import { FC } from 'react';
 import { GameIcon } from '../../games/game-icon';
 import { GameSection } from '../../games/game-section';
 import { CategoryCarousel } from './category-carousel';
-import { Recommendations } from '../../../types';
+import { Recommendations } from '@worksheets/util/types';
 
 export type GameRecommendationProps = {
   hideCategories?: boolean;

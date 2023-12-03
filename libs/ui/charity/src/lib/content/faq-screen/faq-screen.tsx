@@ -2,8 +2,8 @@ import { Box, Button, Container, Link, Paper, Typography } from '@mui/material';
 import { FC, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Markdown } from '@worksheets/ui-core';
-import { faq } from '../../../data';
 import { ArrowRight } from '@mui/icons-material';
+import { faq } from '@worksheets/data-access/charity-games';
 
 export type FAQScreenProps = {
   // no props

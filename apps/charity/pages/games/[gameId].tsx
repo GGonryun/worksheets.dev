@@ -2,16 +2,15 @@ import {
   GameDescription,
   GameLauncher,
   GameScreen,
-  developers,
-  games,
 } from '@worksheets/ui-charity';
 import { NextPageWithLayout } from '@worksheets/util-next';
 import { LayoutContainer } from '../../containers/layout-container';
 import { mixedItems } from '../../util/mixed-items';
 import { useRouter } from 'next/router';
-import { CircularProgress } from '@mui/material';
+import CircularProgress from '@mui/material/CircularProgress';
 import { printDate } from '@worksheets/util/time';
 import { AbsolutelyCentered } from '@worksheets/ui-core';
+import { developers, games } from '@worksheets/data-access/charity-games';
 
 const Page: NextPageWithLayout = () => {
   const { query } = useRouter();

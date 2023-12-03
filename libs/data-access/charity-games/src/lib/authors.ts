@@ -1,4 +1,4 @@
-import { BlogAuthor } from '../types/author';
+import { BlogAuthor } from '@worksheets/util/types';
 
 export const blogAuthors: Record<string, BlogAuthor> = {
   'miguel-campos': {

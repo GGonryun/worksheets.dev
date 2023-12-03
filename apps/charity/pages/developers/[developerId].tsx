@@ -1,8 +1,9 @@
-import { DeveloperScreen, developers, games } from '@worksheets/ui-charity';
+import { DeveloperScreen } from '@worksheets/ui-charity';
 import { NextPageWithLayout } from '@worksheets/util-next';
 import { LayoutContainer } from '../../containers/layout-container';
 import { useRouter } from 'next/router';
-import { CircularProgress } from '@mui/material';
+import CircularProgress from '@mui/material/CircularProgress';
+import { developers, games } from '@worksheets/data-access/charity-games';
 
 const Page: NextPageWithLayout = () => {
   const { query } = useRouter();

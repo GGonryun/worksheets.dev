@@ -1,4 +1,4 @@
-import { GameTag, TagSchema } from '../types/tag-schema';
+import { GameTag, TagSchema } from '@worksheets/util/types';
 
 export const tags: Record<GameTag, TagSchema> = {
   board: {

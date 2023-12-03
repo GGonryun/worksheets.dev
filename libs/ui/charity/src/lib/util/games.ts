@@ -1,4 +1,4 @@
-import { GameSchema } from '../../types/game-schema';
+import { GameSchema } from '@worksheets/util/types';
 
 export type GameQualifier = GameSchema['qualifier'];
 

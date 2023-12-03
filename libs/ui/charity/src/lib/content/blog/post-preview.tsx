@@ -5,8 +5,8 @@ import { urls } from '@worksheets/ui-games';
 import { Flex, useDeviceSize } from '@worksheets/ui-core';
 import Image from 'next/image';
 import { ArrowRightAlt } from '@mui/icons-material';
-import { blogAuthors } from '../../../data/authors';
 import { printDate } from '@worksheets/util/time';
+import { blogAuthors } from '@worksheets/data-access/charity-games';
 
 export const PostPreview: FC<MarkdownMetadata> = ({
   title,
