@@ -134,9 +134,13 @@ function requestFullScreen(element: any) {
   // Supports most browsers and their versions.
   const requestMethod =
     element.requestFullScreen ||
+    element.requestFullscreen ||
     element.webkitRequestFullScreen ||
+    element.webkitRequestFullscreen ||
     element.mozRequestFullScreen ||
-    element.msRequestFullScreen;
+    element.mozRequestFullscreen ||
+    element.msRequestFullScreen ||
+    element.msRequestFullscreen;
 
   if (requestMethod) {
     // Native full screen.
