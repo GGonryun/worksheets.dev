@@ -16,7 +16,6 @@ import {
   Typography,
 } from '@mui/material';
 import { FC } from 'react';
-import { GameDefinition } from '../../util/games';
 import { GamePill } from '../../pills';
 import {
   Discord,
@@ -27,7 +26,7 @@ import {
   PlayStore,
   AppStore,
 } from '@worksheets/ui/icons';
-import { DeveloperSchema } from '@worksheets/util/types';
+import { DeveloperSchema, GameDefinition } from '@worksheets/util/types';
 
 export type DeveloperScreenProps = {
   name: string;

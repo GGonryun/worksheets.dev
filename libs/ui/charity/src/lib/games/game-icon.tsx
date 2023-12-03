@@ -9,9 +9,11 @@ import { Box, Link, Typography } from '@mui/material';
 import { FC, useState } from 'react';
 import { BannerBox } from './banner-box';
 import { ResponsiveImage } from '../images';
-import { GameQualifier } from '../util/games';
-import { PLACEHOLDER_LOGO_PATH } from '../util';
-import { GameIcon as GameIconType } from '@worksheets/util/types';
+import {
+  GameIcon as GameIconType,
+  GameQualifier,
+} from '@worksheets/util/types';
+import { PLACEHOLDER_LOGO_PATH } from '@worksheets/util/assets';
 
 export type GameIconProps = GameIconType;
 

@@ -2,10 +2,10 @@ import { MarkdownMetadata } from '@worksheets/util-markdown';
 import { GameDescription } from '../content/game-screen/game-description';
 import { GameLauncher } from '../content/game-screen/game-launcher';
 import { MixedGridItem } from '../games/mixed-grid-items';
-import { GameDefinition } from '../util/games';
 import { ReceiptScreenProps } from '../content';
 import {
   CharityOrganization,
+  GameDefinition,
   GameIcon,
   Recommendations,
 } from '@worksheets/util/types';

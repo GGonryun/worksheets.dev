@@ -2,7 +2,7 @@ import { FC } from 'react';
 import { Box, ButtonBase, IconButton, InputBase } from '@mui/material';
 import Image from 'next/image';
 import { ArrowLeft, Clear, Search } from '@mui/icons-material';
-import { CHARITY_TOOLBAR_LOGO_PATH } from '../../util';
+import { CHARITY_TOOLBAR_LOGO_PATH } from '@worksheets/util/assets';
 
 type SearchBarProps = {
   value?: string;

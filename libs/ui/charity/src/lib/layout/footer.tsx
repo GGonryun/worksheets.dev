@@ -9,7 +9,6 @@ import {
   styled,
 } from '@mui/material';
 import { FC, JSXElementConstructor } from 'react';
-import { textShadow, svgBoxShadow } from '../util/styles';
 import {
   GitHub,
   LinkedIn,
@@ -169,3 +168,11 @@ const FooterContainer = styled((props) => <Box {...props} />)<BoxProps>(
     },
   })
 );
+
+const svgBoxShadow = (height = 1.5, power = 0.5) =>
+  `drop-shadow(${height * 0.75}px ${
+    height * 0.75
+  }px ${height}px rgba(0, 0, 0, ${power}))`;
+
+const textShadow = (height = 1.5, power = 0.5) =>
+  `rgba(0, 0, 0, ${power}) ${height * 0.75}px ${height * 0.75}px ${height}px`;

@@ -12,8 +12,8 @@ import {
 } from '@mui/material';
 import { FC } from 'react';
 import { FillImage } from '../images/fill-image';
-import { CHARITY_TOOLBAR_LOGO_PATH } from '../util';
 import { DenseButton } from '@worksheets/ui/buttons';
+import { CHARITY_TOOLBAR_LOGO_PATH } from '@worksheets/util/assets';
 
 interface ToolbarProps {
   onDrawerToggle: () => void;

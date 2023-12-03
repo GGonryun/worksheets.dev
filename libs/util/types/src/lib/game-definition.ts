@@ -1,6 +1,4 @@
-import { GameSchema } from '@worksheets/util/types';
-
-export type GameQualifier = GameSchema['qualifier'];
+import { GameQualifier } from './game-qualifier';
 
 export type GameDefinition = {
   // the id will be used to link to the game page
