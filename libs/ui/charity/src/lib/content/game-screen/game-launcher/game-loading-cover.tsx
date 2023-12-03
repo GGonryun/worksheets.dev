@@ -119,7 +119,7 @@ const PlayOverlay: FC<
         border: '2px solid white',
       }}
     >
-      <FillImage alt={`${name} icon`} src={iconUrl} />
+      <FillImage priority alt={`${name} icon`} src={iconUrl} />
     </Box>
     <Typography
       sx={(theme) => ({
