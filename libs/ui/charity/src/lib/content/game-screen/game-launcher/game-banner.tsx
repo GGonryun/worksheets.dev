@@ -67,7 +67,7 @@ export const GameBanner: FC<GameBannerProps> = ({
         justifyContent="space-between"
         minWidth={0}
         sx={{
-          '& p': {
+          '& *': {
             overflow: 'hidden',
             textOverflow: 'ellipsis',
             whiteSpace: 'nowrap',

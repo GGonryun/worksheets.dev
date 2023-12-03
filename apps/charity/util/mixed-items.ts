@@ -42,5 +42,24 @@ export const mixedItems = () => {
     ...sidecadePartnership,
   };
 
-  return [campaignItem, ...gameItems(), ...tagItems(), partnershipItem];
+  const games = gameItems();
+  const tags = tagItems();
+
+  const mixedItems: MixedGridItem[] = [];
+
+  while (games.length || tags.length) {
+    // as long as the games aren't empty, push 5 games.
+    if (games.length) {
+      mixedItems.push(...games.splice(0, 5));
+    }
+    // as long as the tags aren't empty, push one tag.
+    if (tags.length) {
+      const tag = tags.shift();
+      if (tag) {
+        mixedItems.push(tag);
+      }
+    }
+  }
+
+  return [campaignItem, ...mixedItems, partnershipItem];
 };

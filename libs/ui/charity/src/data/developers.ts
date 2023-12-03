@@ -10,10 +10,10 @@ export const developers: DeveloperSchema[] = [
     },
   },
   {
-    id: 'arcare-bomb',
-    name: 'Arcare Bomb',
+    id: 'gamemonetize',
+    name: 'Game Monetize',
     socials: {
-      website: 'https://gamemonetize.com/games?company=ArcareBomb#gamesall',
+      website: 'https://gamemonetize.com/',
     },
   },
 ];

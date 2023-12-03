@@ -31,3 +31,17 @@ type MarketLinks = {
   itch: string;
   steam: string;
 };
+
+export type GameMonetizeSchema = {
+  id: string;
+  title: string;
+  description: string;
+  instructions: string;
+  url: string;
+  category: GameTag;
+  tags: string;
+  thumb: string;
+  mobile?: boolean;
+  height?: string;
+  width?: string;
+};

@@ -43,6 +43,7 @@
       "@worksheets/ui-games/server": ["libs/ui/games/src/server.ts"],
       "@worksheets/ui/home/server": ["libs/ui/home/src/server.ts"],
       "@worksheets/util-coordinates": ["libs/util/coordinates/src/index.ts"],
+      "@worksheets/util-devices": ["libs/util/devices/src/index.ts"],
       "@worksheets/util-dictionary": ["libs/util/dictionary/src/index.ts"],
       "@worksheets/util-markdown": ["libs/util/markdown/src/index.ts"],
       "@worksheets/util-next": ["libs/util/next/src/index.ts"],

@@ -8,6 +8,7 @@ import {
 } from '@mui/icons-material';
 import { FillImage } from '../../../images/fill-image';
 import { GameSchema } from '../../../../types/game-schema';
+import { isMobileOrTabletDeviceBrowser } from '@worksheets/util-devices';
 
 export type GameLoadingCoverProps = {
   backgroundUrl: string;
@@ -24,6 +25,9 @@ export const GameLoadingCover: FC<GameLoadingCoverProps> = ({
   platforms,
   onPlay,
 }) => {
+  const isMobileOrTablet = isMobileOrTabletDeviceBrowser();
+  const supportsMobile = platforms?.includes('mobile') && isMobileOrTablet;
+
   return (
     <Box
       sx={{
@@ -64,10 +68,10 @@ export const GameLoadingCover: FC<GameLoadingCoverProps> = ({
           gap: 1,
         }}
       >
-        {platforms?.includes('mobile') ? (
-          <PlayOverlay name={name} iconUrl={iconUrl} onPlay={onPlay} />
-        ) : (
+        {isMobileOrTablet && !supportsMobile ? (
           <DoesNotSupportMobileOverlay />
+        ) : (
+          <PlayOverlay name={name} iconUrl={iconUrl} onPlay={onPlay} />
         )}
       </Box>
     </Box>
@@ -112,10 +116,11 @@ const PlayOverlay: FC<
         width: { xs: 64, sm: 128, lg: 192 },
         borderRadius: (theme) => theme.shape.borderRadius,
         overflow: 'hidden',
+        position: 'relative',
         border: '2px solid white',
       }}
     >
-      <ResponsiveImage alt={`${name} icon`} src={iconUrl} />
+      <FillImage alt={`${name} icon`} src={iconUrl} />
     </Box>
     <Typography
       sx={(theme) => ({

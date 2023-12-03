@@ -57,7 +57,7 @@ export const GameDescription: FC<GameDescriptionProps> = ({
       <GameDeveloperLink href={`/developers/${developer.id}`}>
         by {developer.name}
       </GameDeveloperLink>
-      <Box mt={'28px'}>
+      <Box mt={3} mb={1}>
         <Markdown
           text={text}
           sx={{

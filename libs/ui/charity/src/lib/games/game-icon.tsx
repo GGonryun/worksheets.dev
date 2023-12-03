@@ -84,6 +84,7 @@ export const GameIcon: FC<GameIconProps> = ({
           style={{
             overflow: 'hidden',
             borderRadius: 'inherit',
+            aspectRatio: '1 / 1',
           }}
         />
         {banner && banner !== 'none' && (
