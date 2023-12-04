@@ -1,4 +1,5 @@
 export type GameTag =
+  | 'ad-free'
   | 'board'
   | 'puzzle'
   | 'brain'
@@ -20,6 +21,7 @@ export type GameTag =
   | 'girl'
   | 'idle'
   | 'fashion'
+  | 'skibidi'
   | 'drawing'
   | 'grimace'
   | '1p'

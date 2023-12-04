@@ -1,6 +1,66 @@
 import { GameTag, TagSchema } from '@worksheets/util/types';
 
 export const tags: Record<GameTag, TagSchema> = {
+  'ad-free': {
+    id: 'ad-free',
+    name: 'Ad Free',
+    iconUrl: '/games/categories/ad-free.svg',
+    relatedTags: ['popular', 'new', 'grimace'],
+    description: `
+    ## Ad Free Games
+
+    ### What are ad free games?
+    Ad free games are games that do not display advertisements. They can be played alone or with others. We vet all games before adding them to our site, so you can be sure that they are safe and fun to play.
+
+    ### Why play ad free games?
+    Ad free games are fun because they don't have any ads. But they don't support the developers who make them. If you like a game, consider supporting the developer by purchasing the game or watching an ad.
+    `,
+  },
+  popular: {
+    id: 'popular',
+    name: 'Popular Games',
+    iconUrl: '/games/categories/popular.svg',
+    relatedTags: ['mobile', 'new'],
+    description: `
+    ## Popular Games
+
+    ### What are popular games?
+    Popular games are games that are played by many people. The top 10 most popular games are reviewed every week and saved on this list. You can also find the most popular games by category or tag.
+    `,
+  },
+  mobile: {
+    id: 'mobile',
+    name: 'Mobile Games',
+    iconUrl: '/games/categories/mobile.svg',
+    relatedTags: ['desktop', 'popular'],
+    description: `
+    ## Mobile Games
+
+    ### What are mobile games?
+    Mobile games are games that can be played on a mobile device. Some games are designed specifically for mobile devices, while others are designed for [computers](/tags/desktop). Mobile games are popular because they are easy to play and can be played anywhere.
+
+    ### Are mobile games free?
+    All games on our site are free to play. Some games may display an advertisement, but you can play them without spending any money.
+    `,
+  },
+  skibidi: {
+    id: 'skibidi',
+    name: 'Skibidi Games',
+    iconUrl: '/games/categories/skibidi.png',
+    relatedTags: ['popular', 'grimace', 'action', 'boy', 'shooting'],
+    description: `
+    ## Skibidi Games
+
+    ### What are Skibidi games?
+    SkiBidi games are games that involve Skibidi. Some Skibidi games also involve action or adventure.
+
+    ### What is Skibidi?
+    Skibidi Toilet is a web series of YouTube videos and shorts created by animator Alexey Gerasimov and uploaded on his YouTube channel DaFuq!?Boom!. The series is known for its crude humor and surreal style. The series follows a plot about the Skibidi Toilets taking over the world and men with cameras for heads known as CameraHeads fighting against them. The first episode was uploaded as a YouTube Short in February 2023 and inspired more episodes over the following months, each gaining tens of millions of views. The series became a popular subject of memes, inspiring fan art and videos and other content on sites including YouTube, Twitter and TikTok.
+
+    ### Why play Skibidi games?
+    Skibidi games are fun because they allow players to play as Skibidi or defeat Skibidi. They also help people improve their problem-solving skills. It's not for everyone, but it can be a great way to pass the time. Checkout some [Grimace games](/tags/grimace) if you have time.
+    `,
+  },
   board: {
     id: 'board',
     name: 'Board Games',
@@ -116,6 +176,27 @@ export const tags: Record<GameTag, TagSchema> = {
     ### Should I play arcade games?
     That's up to you! Some people enjoy playing arcade games, while others do not. If you're not sure if you'll like arcade games, try playing a few of them. If you like them, great! If not, that's okay too. There are plenty of other types of games to play.
     `,
+  },
+  grimace: {
+    id: 'grimace',
+    name: 'Grimace Games',
+    iconUrl: '/games/categories/grimace.png',
+    description: `
+    ## Grimace Games
+    
+    ### What are grimace games?
+    Grimace games are games that involve Grimace. Some grimace games also involve action or adventure.
+
+    ### Who is Grimace?
+    Grimace is a character from the McDonald's franchise. He is a large, purple anthropomorphic being of indeterminate species with short arms and legs. He is known for his slow-witted demeanor and his love of milkshakes. He is also known for his catchphrase, "I'm lovin' it."
+
+    ### Are grimace games fun?
+    Yes. Grimace games are fun because they allow players to play as grimace. These are our best games. 
+
+    ### Are grimace games for kids?
+    Most grimace games are suitable for kids, but some are not. It depends on the game and the age of the child. Some grimace games are violent, while others are not. Some grimace games are easy to play, while others are more difficult. Some grimace games are fast-paced, while others are slow-paced.
+    `,
+    relatedTags: ['popular'],
   },
   endless: {
     id: 'endless',
@@ -318,7 +399,6 @@ export const tags: Record<GameTag, TagSchema> = {
       'gun',
     ],
   },
-
   gun: {
     id: 'gun',
     name: 'Gun Games',
@@ -414,27 +494,7 @@ export const tags: Record<GameTag, TagSchema> = {
     `,
     relatedTags: ['girl', 'fashion', '1p', 'arcade', 'ball'],
   },
-  grimace: {
-    id: 'grimace',
-    name: 'Grimace Games',
-    iconUrl: '/games/categories/grimace.png',
-    description: `
-    ## Grimace Games
-    
-    ### What are grimace games?
-    Grimace games are games that involve Grimace. Some grimace games also involve action or adventure.
 
-    ### Who is Grimace?
-    Grimace is a character from the McDonald's franchise. He is a large, purple anthropomorphic being of indeterminate species with short arms and legs. He is known for his slow-witted demeanor and his love of milkshakes. He is also known for his catchphrase, "I'm lovin' it."
-
-    ### Are grimace games fun?
-    Yes. Grimace games are fun because they allow players to play as grimace. These are our best games. 
-
-    ### Are grimace games for kids?
-    Most grimace games are suitable for kids, but some are not. It depends on the game and the age of the child. Some grimace games are violent, while others are not. Some grimace games are easy to play, while others are more difficult. Some grimace games are fast-paced, while others are slow-paced.
-    `,
-    relatedTags: ['popular'],
-  },
   '3d': {
     id: '3d',
     name: '3D Games',
@@ -483,33 +543,6 @@ export const tags: Record<GameTag, TagSchema> = {
 
     ### What are new games?
     New games are games that have been released recently. They can be played alone or with others. We vet all games before adding them to our site, so you can be sure that they are safe and fun to play.
-    `,
-  },
-  popular: {
-    id: 'popular',
-    name: 'Popular Games',
-    iconUrl: '/games/categories/popular.svg',
-    relatedTags: ['mobile', 'new'],
-    description: `
-    ## Popular Games
-
-    ### What are popular games?
-    Popular games are games that are played by many people. The top 10 most popular games are reviewed every week and saved on this list. You can also find the most popular games by category or tag.
-    `,
-  },
-  mobile: {
-    id: 'mobile',
-    name: 'Mobile Games',
-    iconUrl: '/games/categories/mobile.svg',
-    relatedTags: ['desktop', 'popular'],
-    description: `
-    ## Mobile Games
-
-    ### What are mobile games?
-    Mobile games are games that can be played on a mobile device. Some games are designed specifically for mobile devices, while others are designed for [computers](/tags/desktop). Mobile games are popular because they are easy to play and can be played anywhere.
-
-    ### Are mobile games free?
-    All games on our site are free to play. Some games may display an advertisement, but you can play them without spending any money.
     `,
   },
   desktop: {

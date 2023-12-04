@@ -51,6 +51,7 @@ const Page: NextPageWithLayout = () => {
       }
       description={
         <GameDescription
+          gameId={game.id}
           title={game.name}
           developer={developer}
           platforms={game.platforms}

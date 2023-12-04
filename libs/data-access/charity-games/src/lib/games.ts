@@ -22,7 +22,7 @@ const gameMonetizeGames: GameMonetizeSchema[] = [
     instructions: 'Mouse click or tap to play',
     url: 'https://html5.gamemonetize.com/ea9pxc7sygkekcm4vwludyadcaweojhx/',
     category: 'action',
-    tags: 'Action, sports, Grimace, Mobile',
+    tags: 'Action, sports, Skibidi, Grimace, Mobile',
     thumb:
       'https://img.gamemonetize.com/ea9pxc7sygkekcm4vwludyadcaweojhx/512x384.jpg',
     width: '800',
@@ -38,7 +38,7 @@ const gameMonetizeGames: GameMonetizeSchema[] = [
       'Desktop WASD or ZQSD for Player 1 Arrow Keys or UJHK for Player 2 Mobile Touch the left side of the screen to control Analog for Player 1 Touch the right side of the screen to control Analog for Player 2 ',
     url: 'https://html5.gamemonetize.com/obbpn7enkbxnl39fy12itcid6bc3vo75/',
     category: '3d',
-    tags: '2p, 3d, action',
+    tags: '2p, 3d, Skibidi,action',
     thumb:
       'https://img.gamemonetize.com/obbpn7enkbxnl39fy12itcid6bc3vo75/512x512.jpg',
     mobile: true,
@@ -64,7 +64,7 @@ const gameMonetizeGames: GameMonetizeSchema[] = [
     instructions: 'MOUSE',
     url: 'https://html5.gamemonetize.com/55askten4cbml9eqxif6lz1asjrbl77w/',
     category: 'arcade',
-    tags: 'arcade',
+    tags: 'Skibidi,arcade',
     thumb:
       'https://img.gamemonetize.com/55askten4cbml9eqxif6lz1asjrbl77w/512x512.jpg',
   },
@@ -90,7 +90,7 @@ const gameMonetizeGames: GameMonetizeSchema[] = [
       'Player1 use Arrow keys to move Player2 use WASD to move Mobile Touch Control',
     url: 'https://html5.gamemonetize.com/e87ffo4t0qliunpdrb2mha5th9osinov/',
     category: 'arcade',
-    tags: '2p, 2d, action, adventure, arcade',
+    tags: '2p, Skibidi, 2d, action, adventure, arcade',
     thumb:
       'https://img.gamemonetize.com/e87ffo4t0qliunpdrb2mha5th9osinov/512x512.jpg',
     mobile: true,
@@ -1260,7 +1260,7 @@ const gameMonetizeGames: GameMonetizeSchema[] = [
     instructions: 'Tap or click to shoot',
     url: 'https://html5.gamemonetize.com/d3rkszqi4fjxzuv900ibqo6v1cdo3xed/',
     category: 'shooting',
-    tags: 'shooting',
+    tags: 'shooting, Skibidi',
     thumb:
       'https://img.gamemonetize.com/d3rkszqi4fjxzuv900ibqo6v1cdo3xed/512x512.jpg',
     width: '720',
@@ -1430,7 +1430,7 @@ const gameMonetizeGames: GameMonetizeSchema[] = [
     instructions: 'Arrow keys - move space - drop z x - rotate',
     url: 'https://html5.gamemonetize.com/p99assgzcveimjue68riny6zzohwtirh/',
     category: 'puzzle',
-    tags: 'puzzle',
+    tags: 'puzzle, Skibidi',
     thumb:
       'https://img.gamemonetize.com/p99assgzcveimjue68riny6zzohwtirh/512x384.jpg',
     width: '460',
@@ -1538,7 +1538,7 @@ const gameMonetizeGames: GameMonetizeSchema[] = [
       'Press A-D keys to shoot You will move in the direction youre firing Press the Arrow keys to shoot Mobile gameplay is available ',
     url: 'https://html5.gamemonetize.com/4kbn6y0aadz1fssql42d6op1m3zgk2a6/',
     category: 'shooting',
-    tags: '2p, 2D, Action, Gun, Shooting',
+    tags: '2p, 2D, Action, Gun, Skibidi, Shooting',
     thumb:
       'https://img.gamemonetize.com/4kbn6y0aadz1fssql42d6op1m3zgk2a6/512x512.jpg',
     width: '800',
@@ -1706,7 +1706,7 @@ const gameMonetizeGames: GameMonetizeSchema[] = [
     instructions: 'Mouse click or tap to play',
     url: 'https://html5.gamemonetize.com/solbljhembpof7yo8r23hu90gu1n5d3v/',
     category: 'sports',
-    tags: 'Grimace, sports',
+    tags: 'Grimace, Skibidi, sports',
     thumb:
       'https://img.gamemonetize.com/solbljhembpof7yo8r23hu90gu1n5d3v/512x512.jpg',
     width: '768',
@@ -1767,7 +1767,7 @@ const gameMonetizeGames: GameMonetizeSchema[] = [
     instructions: 'Mouse click or tap to play',
     url: 'https://html5.gamemonetize.com/d072erc0bmwxni5l601mant1z5na8gxs/',
     category: 'grimace',
-    tags: 'Boy, Grimace, Mobile',
+    tags: 'Boy, Grimace, Skibidi, Mobile',
     thumb:
       'https://img.gamemonetize.com/d072erc0bmwxni5l601mant1z5na8gxs/512x512.jpg',
     width: '1024',
@@ -1908,7 +1908,15 @@ export const games: GameSchema[] = [
     bannerUrl: '/games/emoji-war/banner.jpg',
     qualifier: 'hot',
     platforms: ['desktop', 'mobile'],
-    tags: ['card', 'board', 'action', 'popular', 'desktop', 'mobile'],
+    tags: [
+      'ad-free',
+      'card',
+      'board',
+      'action',
+      'popular',
+      'desktop',
+      'mobile',
+    ],
     category: ['card'],
     file: {
       type: 'redirect',
@@ -1936,7 +1944,16 @@ export const games: GameSchema[] = [
     bannerUrl: '/games/solitaire/banner.png',
     qualifier: 'new',
     platforms: ['desktop', 'mobile'],
-    tags: ['card', 'brain', 'board', 'puzzle', 'popular', 'new', 'mobile'],
+    tags: [
+      'ad-free',
+      'card',
+      'brain',
+      'board',
+      'puzzle',
+      'popular',
+      'new',
+      'mobile',
+    ],
     category: ['card'],
     file: {
       type: 'redirect',
@@ -1969,7 +1986,15 @@ export const games: GameSchema[] = [
     bannerUrl: '/games/word-search/banner.jpg',
     qualifier: 'new',
     platforms: ['desktop', 'mobile'],
-    tags: ['puzzle', 'word', 'brain', 'desktop', 'mobile'],
+    tags: [
+      'ad-free',
+      'popular',
+      'puzzle',
+      'word',
+      'brain',
+      'desktop',
+      'mobile',
+    ],
     category: ['puzzle'],
     file: {
       type: 'redirect',
@@ -2001,7 +2026,16 @@ export const games: GameSchema[] = [
     bannerUrl: '/games/puzzle-words/banner.jpg',
     qualifier: 'hot',
     platforms: ['desktop', 'mobile'],
-    tags: ['puzzle', 'word', 'brain', 'popular', 'desktop', 'mobile'],
+    tags: [
+      'ad-free',
+      'popular',
+      'puzzle',
+      'word',
+      'brain',
+      'popular',
+      'desktop',
+      'mobile',
+    ],
     category: ['puzzle'],
     file: {
       type: 'redirect',
@@ -2029,7 +2063,15 @@ export const games: GameSchema[] = [
     bannerUrl: '/games/word-smith/banner.png',
     qualifier: 'new',
     platforms: ['desktop', 'mobile'],
-    tags: ['puzzle', 'word', 'brain', 'desktop', 'mobile'],
+    tags: [
+      'ad-free',
+      'popular',
+      'puzzle',
+      'word',
+      'brain',
+      'desktop',
+      'mobile',
+    ],
     category: ['puzzle'],
     file: {
       type: 'redirect',
@@ -2062,7 +2104,7 @@ export const games: GameSchema[] = [
     bannerUrl: '/games/nonograms/banner.png',
     qualifier: 'new',
     platforms: ['desktop', 'mobile'],
-    tags: ['puzzle', 'brain', 'desktop', 'mobile'],
+    tags: ['ad-free', 'popular', 'puzzle', 'brain', 'desktop', 'mobile'],
     category: ['puzzle'],
     file: {
       type: 'redirect',
@@ -2099,7 +2141,15 @@ export const games: GameSchema[] = [
     bannerUrl: '/games/word-pack/banner.jpg',
     qualifier: 'new',
     platforms: ['desktop', 'mobile'],
-    tags: ['puzzle', 'word', 'brain', 'desktop', 'mobile'],
+    tags: [
+      'ad-free',
+      'popular',
+      'puzzle',
+      'word',
+      'brain',
+      'desktop',
+      'mobile',
+    ],
     category: ['puzzle'],
     file: {
       type: 'redirect',

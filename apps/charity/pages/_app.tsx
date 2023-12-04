@@ -24,6 +24,7 @@ function CustomApp({
       <CssBaseline />
       <AdSenseScript />
       <Head>
+        <link rel="preconnect" href="https://edge.fullstory.com" />
         <meta name="mobile-web-app-capable" content="yes" />
         <meta
           name="apple-mobile-web-app-status-bar-style"

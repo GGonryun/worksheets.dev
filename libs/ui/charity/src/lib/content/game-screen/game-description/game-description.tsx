@@ -15,6 +15,7 @@ import { MarkdownText, Markdown } from '@worksheets/ui-core';
 import { GameSchema } from '@worksheets/util/types';
 
 export type GameDescriptionProps = {
+  gameId: string;
   title: string;
   text: MarkdownText;
   developer: {
@@ -31,6 +32,7 @@ export type GameDescriptionProps = {
 };
 
 export const GameDescription: FC<GameDescriptionProps> = ({
+  gameId,
   text,
   title,
   developer,
@@ -42,7 +44,7 @@ export const GameDescription: FC<GameDescriptionProps> = ({
   return (
     <Box display="flex" flexDirection="column" p={{ xs: 2, sm: 4 }}>
       <CategoryBreadcrumbs categories={category} />
-      <Box mt={1} display="flex" gap={3} alignItems="center">
+      <Box mt={1} mb={0.5} display="flex" gap={3} alignItems="center">
         <Typography
           variant="h4"
           sx={{
@@ -50,7 +52,9 @@ export const GameDescription: FC<GameDescriptionProps> = ({
             userSelect: 'none',
           }}
         >
-          {title}
+          <Link underline="hover" color="inherit" href={`/games/${gameId}`}>
+            {title}
+          </Link>
         </Typography>
         <SupportedDeviceIcons platforms={platforms} />
       </Box>

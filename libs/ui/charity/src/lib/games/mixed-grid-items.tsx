@@ -1,9 +1,11 @@
-import { Box } from '@mui/material';
+import { Box, BoxProps } from '@mui/material';
 import { FC, Fragment } from 'react';
 import { GameIconProps, GameIcon } from './game-icon';
 import {
   AdvertisementPill,
   AdvertisementPillProps,
+  ButtonPill,
+  ButtonPillProps,
   CategoryPill,
   CategoryPillProps,
   ImagePill,
@@ -19,10 +21,13 @@ export const GRID_ITEM_SIZE = `94px`;
 export type MixedGridItem =
   | (GameIconProps & { type: 'game'; span?: number })
   | (CategoryPillProps & { type: 'category' })
-  | (TextPillProps & { type: 'text' })
+  | (TextPillProps & { type: 'text'; width?: BoxProps['gridColumn'] })
   | (ProgressPillProps & { type: 'progress' })
   | (ImagePillProps & { type: 'image' })
-  | (AdvertisementPillProps & { type: 'advertisement'; span?: number });
+  | (ButtonPillProps & { type: 'button'; width?: BoxProps['gridColumn'] })
+  | (AdvertisementPillProps & {
+      type: 'advertisement';
+    });
 
 export type MixedGridItemProps = {
   items: MixedGridItem[];
@@ -56,7 +61,7 @@ export const MixedGridItems: FC<MixedGridItemProps> = ({ items, size }) => {
           {item.type === 'text' && (
             <Box
               key={item.text}
-              gridColumn={`span 3`}
+              gridColumn={item.width ?? `span 3`}
               gridRow={`span 1`}
               height={size}
             >
@@ -86,6 +91,16 @@ export const MixedGridItems: FC<MixedGridItemProps> = ({ items, size }) => {
           {item.type === 'advertisement' && (
             <Box key={index} gridColumn={`span 2`} gridRow={`span 2`}>
               <AdvertisementPill {...item} />
+            </Box>
+          )}
+          {item.type === 'button' && (
+            <Box
+              key={index}
+              gridColumn={item.width ?? { xs: `span 2`, sm: `span 3` }}
+              gridRow={`span 1`}
+              height={size}
+            >
+              <ButtonPill {...item} />
             </Box>
           )}
         </Fragment>
