@@ -3,7 +3,7 @@ import { GameTag, TagSchema } from '@worksheets/util/types';
 export const tags: Record<GameTag, TagSchema> = {
   'ad-free': {
     id: 'ad-free',
-    name: 'Ad Free',
+    name: 'Ad Free Games',
     iconUrl: '/games/categories/ad-free.svg',
     relatedTags: ['popular', 'new', 'grimace'],
     description: `
