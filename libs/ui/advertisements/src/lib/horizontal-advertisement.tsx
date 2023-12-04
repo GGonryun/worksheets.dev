@@ -57,18 +57,26 @@ export const ResponsiveAdvertisement: FC<{ slot: string; client: string }> = ({
   client,
 }) => {
   return (
-    <div>
+    <div
+      style={{
+        display: 'block',
+        minWidth: '250px',
+        maxWidth: '1070px',
+        width: '100%',
+        height: '90px',
+      }}
+    >
       <ins
         className="adsbygoogle"
         style={{
           display: 'block',
-          minWidth: '250px',
-          maxWidth: '1070px',
           width: '100%',
-          height: '90px',
+          height: '100%',
         }}
         data-ad-client={client}
         data-ad-slot={slot}
+        data-full-width-responsive="true"
+        // data-ad-format="auto"
       />
     </div>
   );
