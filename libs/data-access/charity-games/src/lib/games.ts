@@ -2021,37 +2021,6 @@ export const games: GameSchema[] = [
     `,
   },
   {
-    id: 'word-pack',
-    name: 'Word Pack',
-    size: 3,
-    developerId: 'charity-games',
-    iconUrl: '/games/word-pack/icon.jpg',
-    bannerUrl: '/games/word-pack/banner.jpg',
-    qualifier: 'new',
-    platforms: ['desktop', 'mobile'],
-    tags: ['puzzle', 'word', 'brain', 'desktop', 'mobile'],
-    category: ['puzzle'],
-    file: {
-      type: 'redirect',
-      url: WORD_PACK_URL,
-    },
-    createdAt: new Date('2023-10-21T00:00:00.000Z'),
-    updatedAt: new Date('2021-11-23T00:00:00.000Z'),
-    markets: {},
-    description: `
-    Word Pack is a twist on the classic word search game. The goal of the game is to find all the words hidden in the grid. The words may be placed horizontally, vertically, or diagonally. The words may also be placed backwards. You are given all the words that you need to place. The hard part is figuring out where to place them!
-
-    ### Who created Word Pack?
-    No idea. It's a mystery.
-
-    ### Is Word Pack hard?
-    Word Pack is not very hard. It's just a little bit tricky. The words are all there, you just have to find them. The game starts off easy but gets harder as you progress through the levels.
-
-    ### Controls
-    - Click on a word and then click on the grid to place it.
-    `,
-  },
-  {
     id: 'word-smith',
     name: 'Word Smith',
     size: 1,
@@ -2119,6 +2088,37 @@ export const games: GameSchema[] = [
 
     ### Controls
     - Click on the squares to fill them in or remove them
+    `,
+  },
+  {
+    id: 'word-pack',
+    name: 'Word Pack',
+    size: 3,
+    developerId: 'charity-games',
+    iconUrl: '/games/word-pack/icon.jpg',
+    bannerUrl: '/games/word-pack/banner.jpg',
+    qualifier: 'new',
+    platforms: ['desktop', 'mobile'],
+    tags: ['puzzle', 'word', 'brain', 'desktop', 'mobile'],
+    category: ['puzzle'],
+    file: {
+      type: 'redirect',
+      url: WORD_PACK_URL,
+    },
+    createdAt: new Date('2023-10-21T00:00:00.000Z'),
+    updatedAt: new Date('2021-11-23T00:00:00.000Z'),
+    markets: {},
+    description: `
+    Word Pack is a twist on the classic word search game. The goal of the game is to find all the words hidden in the grid. The words may be placed horizontally, vertically, or diagonally. The words may also be placed backwards. You are given all the words that you need to place. The hard part is figuring out where to place them!
+
+    ### Who created Word Pack?
+    No idea. It's a mystery.
+
+    ### Is Word Pack hard?
+    Word Pack is not very hard. It's just a little bit tricky. The words are all there, you just have to find them. The game starts off easy but gets harder as you progress through the levels.
+
+    ### Controls
+    - Click on a word and then click on the grid to place it.
     `,
   },
   ...gameMonetizeGames.map(gameMonetizeConverter),

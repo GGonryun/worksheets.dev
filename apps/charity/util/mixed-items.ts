@@ -1,5 +1,5 @@
 import {
-  advertisementSquares,
+  homeSquareAds,
   campaigns,
   games,
   sidecadePartnership,
@@ -83,12 +83,11 @@ export const mixedItems = (options?: MixedItemOptions) => {
 };
 
 const insertAdvertisements = (items: MixedGridItem[]) => {
-  advertisementSquares.forEach((ad) => {
+  homeSquareAds.forEach((ad) => {
     items.splice(ad.position, 0, {
       type: 'advertisement',
       slot: ad.slot,
       client: ad.client,
-      span: ad.size,
     });
   });
 

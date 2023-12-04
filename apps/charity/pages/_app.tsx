@@ -42,7 +42,7 @@ function CustomApp({
 
       <ThemeProvider theme={theme}>
         <SessionProvider session={session}>
-          <main className="app">{getLayout(<Component {...pageProps} />)}</main>
+          <main>{getLayout(<Component {...pageProps} />)}</main>
         </SessionProvider>
       </ThemeProvider>
     </>

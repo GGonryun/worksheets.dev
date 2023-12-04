@@ -29,5 +29,6 @@ export const Primary = {
     game: <SampleGameLauncher />,
     description: <SampleGameDescription />,
     suggestions: sampleMixedGridItems(),
+    advertisements: {},
   },
 };

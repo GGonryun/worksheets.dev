@@ -84,11 +84,7 @@ export const MixedGridItems: FC<MixedGridItemProps> = ({ items, size }) => {
             </Box>
           )}
           {item.type === 'advertisement' && (
-            <Box
-              key={index}
-              gridColumn={`span ${item.span ?? 2}`}
-              gridRow={`span ${item.span ?? 2}`}
-            >
+            <Box key={index} gridColumn={`span 2`} gridRow={`span 2`}>
               <AdvertisementPill {...item} />
             </Box>
           )}

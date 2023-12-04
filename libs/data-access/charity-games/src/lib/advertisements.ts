@@ -1,62 +1,28 @@
 const adClient = 'ca-pub-1305399541775198';
 
-export const horizontalBannerAd = {
-  slot: '3067977464',
-  client: adClient,
-};
-
-const squareAd1 = {
+const homeAd1 = {
   slot: '9379176890',
   client: adClient,
-  size: 2,
   position: 5,
 };
 
-const squareAd2 = {
+const homeAd2 = {
   slot: '2726084734',
   client: adClient,
-  size: 2,
-  position: 50,
+  position: 10,
 };
 
-const squareAd3 = {
+export const homeSquareAds = [homeAd1, homeAd2];
+
+export const gameHorizontalAd = {
+  client: adClient,
+  slot: '3360509554',
+};
+
+const categoryAd1 = {
   slot: '3025521535',
   client: adClient,
-  size: 3,
-  position: 100,
+  position: 4,
 };
 
-const squareAd4 = {
-  slot: '2642378150',
-  client: adClient,
-  size: 2,
-  position: 150,
-};
-
-const squareAd5 = {
-  slot: '1273456168',
-  client: adClient,
-  size: 3,
-  position: 105,
-};
-
-const squareAd6 = {
-  slot: '3711863347',
-  client: adClient,
-  size: 2,
-  position: 130,
-};
-
-const squareAd7 = {
-  slot: '3360509554',
-  client: adClient,
-  size: 2,
-  position: 155,
-};
-
-export const advertisementSquares = [
-  squareAd1,
-  squareAd2,
-  squareAd3,
-  squareAd4,
-];
+export const categorySquareAds = [categoryAd1];

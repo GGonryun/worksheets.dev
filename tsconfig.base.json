@@ -44,6 +44,7 @@
       "@worksheets/ui-core": ["libs/ui/core/src/index.ts"],
       "@worksheets/ui-games": ["libs/ui/games/src/index.ts"],
       "@worksheets/ui-games/server": ["libs/ui/games/src/server.ts"],
+      "@worksheets/ui/advertisements": ["libs/ui/advertisements/src/index.ts"],
       "@worksheets/ui/buttons": ["libs/ui/buttons/src/index.ts"],
       "@worksheets/ui/home/server": ["libs/ui/home/src/server.ts"],
       "@worksheets/ui/icons": ["libs/ui/icons/src/index.ts"],

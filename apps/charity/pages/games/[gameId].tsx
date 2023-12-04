@@ -12,8 +12,11 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { printDate } from '@worksheets/util/time';
 import { AbsolutelyCentered } from '@worksheets/ui-core';
 import { developers, games } from '@worksheets/data-access/charity-games';
+import { useGoogleAdsense } from '@worksheets/ui/advertisements';
 
 const Page: NextPageWithLayout = () => {
+  useGoogleAdsense();
+
   const { query } = useRouter();
   const gameId = query.gameId as string;
   const game = games.find((game) => game.id === gameId);
@@ -61,6 +64,8 @@ const Page: NextPageWithLayout = () => {
       }
       suggestions={mixedItems({
         hideAds: true,
+        maxGames: 50,
+        maxTags: 10,
       }).map(shrinkGames)}
     />
   );

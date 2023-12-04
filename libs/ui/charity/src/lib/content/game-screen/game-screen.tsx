@@ -8,6 +8,7 @@ import {
 } from '../../games/mixed-grid-items';
 import { DescriptionBox } from './description-box';
 import { Container } from '@mui/material';
+import { AdvertisementBox } from './advertisement-box';
 
 type GameScreenProps = {
   suggestions: MixedGridItem[];
@@ -26,6 +27,7 @@ export const GameScreen: FC<GameScreenProps> = ({
         <MixedGridItems items={suggestions} size={GRID_ITEM_SIZE} />
         <GameBox>{game}</GameBox>
         <DescriptionBox>{description}</DescriptionBox>
+        <AdvertisementBox />
       </ScreenBox>
     </Container>
   );

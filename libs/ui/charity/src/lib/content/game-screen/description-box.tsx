@@ -19,7 +19,7 @@ export const DescriptionBox = styled(Box)(({ theme }) => ({
     gridColumn: '1 / span 5',
   },
   [theme.breakpoints.up('desktop1')]: {
-    gridRow: '9 / span 5',
+    gridRow: '8 / span 5',
     gridColumn: '1 / span 7',
   },
   [theme.breakpoints.up('md')]: {
