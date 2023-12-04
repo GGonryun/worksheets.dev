@@ -7,7 +7,7 @@ import { SERVICE_SETTINGS } from '@worksheets/data-access/server-settings';
 import * as FullStory from '@fullstory/browser';
 import { SessionProvider } from 'next-auth/react';
 import theme from '@worksheets/ui/theme';
-import { AdSenseScript, AdBlockingRecoveryScript } from '../scripts';
+import { AdSenseScript } from '../scripts';
 
 if (typeof window !== 'undefined') {
   FullStory.init(SERVICE_SETTINGS.FULLSTORY);
@@ -23,7 +23,6 @@ function CustomApp({
     <>
       <CssBaseline />
       <AdSenseScript />
-      <AdBlockingRecoveryScript />
       <Head>
         <meta name="mobile-web-app-capable" content="yes" />
         <meta

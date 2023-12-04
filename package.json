@@ -82,6 +82,7 @@
     "mui-markdown": "^1.1.4",
     "next": "13.3.0",
     "next-auth": "^4.24.4",
+    "next-seo": "^6.4.0",
     "nextjs-cors": "^2.1.2",
     "node-fetch": "2.6.1",
     "postcss-flexbugs-fixes": "^5.0.2",
