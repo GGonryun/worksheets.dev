@@ -88,7 +88,7 @@ const LogoBox = () => (
         sx={{
           position: 'relative',
           width: { xs: '36px', sm: '42px' },
-          height: { xs: '30px', sm: '35px' },
+          height: { xs: '30px', sm: '36px' },
         }}
       >
         <FillImage src={CHARITY_TOOLBAR_LOGO_PATH} alt="Charity.Games" />

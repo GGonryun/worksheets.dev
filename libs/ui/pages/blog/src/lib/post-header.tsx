@@ -34,7 +34,7 @@ export const PostHeader: FC<PostHeaderProps> = ({
           py: { xs: 0.5, sm: 0.75 },
         }}
       >
-        All Posts
+        <Typography fontWeight={700}>All Posts</Typography>
       </Button>
       <Typography
         variant="h2"

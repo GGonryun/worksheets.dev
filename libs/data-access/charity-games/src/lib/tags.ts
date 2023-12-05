@@ -198,6 +198,23 @@ export const tags: Record<GameTag, TagSchema> = {
     `,
     relatedTags: ['popular'],
   },
+  defense: {
+    id: 'defense',
+    name: 'Defense Games',
+    iconUrl: '/games/categories/defense.svg',
+    relatedTags: ['popular', 'action', 'ad-free', 'gun'],
+    description: `
+    ## Defense Games
+    ### What are defense games?
+    Defense games are games that involve defending something. Some defense games also involve action or adventure. Most defense games are tower defense games, but some are not.
+
+    ### What are tower defense games?
+    In tower defense games you must defend your base from waves of enemies. You can do this by building towers that shoot at the enemies. You can also upgrade your towers to make them more powerful. Tower defense games are usually played on a computer or mobile device.
+
+    ### Are tower defense games fun?
+    Tower defense games are fun because they allow players to defend their base from waves of enemies. They also help people improve their problem-solving skills. It's not for everyone, but it can be a great way to pass the time.
+    `,
+  },
   endless: {
     id: 'endless',
     name: 'Endless Games',

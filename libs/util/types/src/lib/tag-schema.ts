@@ -19,6 +19,7 @@ export type GameTag =
   | 'fighting'
   | 'boy'
   | 'girl'
+  | 'defense'
   | 'idle'
   | 'fashion'
   | 'skibidi'

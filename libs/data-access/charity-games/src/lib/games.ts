@@ -15,6 +15,21 @@ import {
 
 const gameMonetizeGames: GameMonetizeSchema[] = [
   {
+    id: '21782',
+    title: 'Plants vs Zombies',
+    description:
+      'Play the hit action-strategy adventure where you meet, greet, and defeat legions of hilarious zombies from the dawn of time, to the end of days. Amass an army of amazing plants, supercharge them with Plant Food, and devise the ultimate plan to protect your brain. DISCOVER HUNDREDS OF PLANTS AND ZOMBIES',
+    instructions: 'Drag plants to merge them',
+    url: 'https://html5.gamemonetize.com/iz9n0kx3zqfl4mo657zpb5y7v7qfbxij/',
+    category: 'adventure',
+    tags: 'Action, Adventure, Arcade, Defense',
+    thumb:
+      'https://img.gamemonetize.com/iz9n0kx3zqfl4mo657zpb5y7v7qfbxij/512x512.jpg',
+    width: '800',
+    height: '600',
+    mobile: true,
+  },
+  {
     id: '49020',
     title: 'Skibidi vs Grimace Climber Race',
     description:
@@ -1863,6 +1878,67 @@ const gameMonetizeGames: GameMonetizeSchema[] = [
       'https://img.gamemonetize.com/a444wv2y6ce7cxrj5bp7jv6q8bi9esxr/512x512.jpg',
     width: '720',
     height: '1280',
+    mobile: true,
+  },
+  {
+    id: '10369',
+    title: 'Tower Defense',
+    description:
+      'A horde of horrible monsters is attacking your kingdom, build your towers fast and survive all the waves. If arrows or stones are not enough, use elements to your advantage and slay them all.',
+    instructions:
+      'Build towers on the free spots and they will automatically attack monsters that come near them Use different combinations of towers and elements to your advantage If you still feel pressured use spells and upgrade your towers to maximum ',
+    url: 'https://html5.gamemonetize.com/72sb39iym3ldmid69aivqfi1jmookexr/',
+    category: 'defense',
+    tags: 'Action, Adventure, Defense, Defense',
+    thumb:
+      'https://img.gamemonetize.com/72sb39iym3ldmid69aivqfi1jmookexr/512x512.jpg',
+    width: '800',
+    height: '600',
+    mobile: true,
+  },
+  {
+    id: '25431',
+    title: 'Kingdom Tower Defense',
+    description:
+      'Take control of the magic king and use your Skills to defend your castle from incoming enemy units. Engage in an epic battle to savethe kingdom with your heroes and magic from the monsters and enemies. Collect money to upgrade your weapons and buy new power upsbefore the final boss reach your castle. Use many special powers to stop the hordes and save the world in this fantasy defense game. Defend your tower from a wave of enemies that seek to invade and colonize your kingdom! Improve your weapons and properties to resist the terrible monsters much longer.',
+    instructions:
+      'Point and shoot with the mouse on desktopTouch the screen to aim and shoot on mobile devices ',
+    url: 'https://html5.gamemonetize.com/13fbwj9nn17h14l0uwyqf37b50dipusw/',
+    category: 'defense',
+    tags: 'Adventure, Defense',
+    thumb:
+      'https://img.gamemonetize.com/13fbwj9nn17h14l0uwyqf37b50dipusw/512x384.jpg',
+    width: '800',
+    height: '600',
+    mobile: true,
+  },
+  {
+    id: '11076',
+    title: 'Alien Creeps TD - Epic Tower Defense',
+    description:
+      'Alien Creeps TD is the tower defense game that has it all: frantic action battles! Hordes of devious enemies! Lightnings ! Helicopters! Explosions! Blast these monsters with powerful towers! Kill them with strong infantry units and armed heroes! Zap them with the Supercharged Tesla Tower! Upgrade your weapons, plan your strategy, and prepare for action!',
+    instructions: 'mouse only',
+    url: 'https://html5.gamemonetize.com/n49nayn1mjdnl46bpumr4pyy1kaj89vw/',
+    category: 'defense',
+    tags: '2D, defense, Shooting',
+    thumb:
+      'https://img.gamemonetize.com/n49nayn1mjdnl46bpumr4pyy1kaj89vw/512x512.jpg',
+    width: '800',
+    height: '600',
+  },
+  {
+    id: '20970',
+    title: 'Stickman Tower Defender',
+    description:
+      "Face countless challenging tower defense battles & taste hard earned victory as you shoot enemies. Aim and release the arrow and get a head-shot. Let's have fun",
+    instructions: 'aim to shoot',
+    url: 'https://html5.gamemonetize.com/gtaprsmat7o4o6vkg3unma7vxbw1w7dg/',
+    category: 'defense',
+    tags: '3D, Defense, Action, Boy',
+    thumb:
+      'https://img.gamemonetize.com/gtaprsmat7o4o6vkg3unma7vxbw1w7dg/512x512.jpg',
+    width: '800',
+    height: '600',
     mobile: true,
   },
 ];
