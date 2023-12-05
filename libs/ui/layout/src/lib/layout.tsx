@@ -21,7 +21,7 @@ type LayoutProps = {
   connected?: boolean;
   recommendations?: Partial<Recommendations>;
   onSearch: (query: string) => Promise<SearchResults>;
-  onRandomGame?: () => void;
+  onRandomGame: () => void;
 };
 
 const QUERY_DELAY = 500;
@@ -94,7 +94,10 @@ export const Layout: React.FC<LayoutProps> = ({
               />
             )}
             <GameRecommendations
-              onRandomGame={onRandomGame}
+              onRandomGame={() => {
+                onRandomGame();
+                setOpen(false);
+              }}
               hideSections={hasSearchResult}
               hideCategories={hasSearchResult}
               recommendations={recommendations ?? {}}

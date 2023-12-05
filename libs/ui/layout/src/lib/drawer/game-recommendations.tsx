@@ -11,7 +11,7 @@ export type GameRecommendationProps = {
   hideCategories?: boolean;
   hideSections?: boolean;
   recommendations: Partial<Recommendations>;
-  onRandomGame?: () => void;
+  onRandomGame: () => void;
 };
 
 export const GameRecommendations: FC<GameRecommendationProps> = ({

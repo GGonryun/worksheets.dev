@@ -44,6 +44,9 @@ const Story: Meta<typeof Layout> = {
     onSearch: async () => {
       return { games: [], categories: [] };
     },
+    onRandomGame: () => {
+      alert('random game');
+    },
     recommendations: sampleRecommendations,
   },
   decorators: [
