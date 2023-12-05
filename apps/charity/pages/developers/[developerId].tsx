@@ -1,4 +1,4 @@
-import { DeveloperScreen } from '@worksheets/ui-charity';
+import { DeveloperScreen } from '@worksheets/ui/pages/developer';
 import { NextPageWithLayout } from '@worksheets/util-next';
 import { LayoutContainer } from '../../containers/layout-container';
 import { useRouter } from 'next/router';

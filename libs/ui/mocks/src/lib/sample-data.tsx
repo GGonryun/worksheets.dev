@@ -1,9 +1,4 @@
-import {
-  GameDescription,
-  GameLauncher,
-  MixedGridItem,
-  ReceiptScreenProps,
-} from '@worksheets/ui-charity';
+import { MixedGridItem } from '@worksheets/ui/game-grid';
 import { MarkdownMetadata } from '@worksheets/util-markdown';
 import {
   CharityOrganization,
@@ -11,56 +6,6 @@ import {
   GameIcon,
   Recommendations,
 } from '@worksheets/util/types';
-
-export const SampleGameLauncher = () => (
-  <GameLauncher
-    backgroundUrl={
-      'https://storage.googleapis.com/game-art/solitaire/banner.png'
-    }
-    iconUrl={'https://storage.googleapis.com/game-art/solitaire/icon.jpg'}
-    file={{
-      type: 'iframe',
-      url: 'https://storage.googleapis.com/unity-2d/index.html',
-    }}
-    name={'Solitaire'}
-    developer={'Charity.Games'}
-    onReportBug={() => alert('TODO: show bug report form')}
-    platforms={['mobile', 'desktop']}
-  />
-);
-
-export const SampleGameDescription = () => (
-  <GameDescription
-    title="Solitaire"
-    developer={{ id: '1', name: 'Charity.Games' }}
-    platforms={['mobile', 'desktop']}
-    tags={['card', 'brain', 'board', 'puzzle']}
-    category={['card']}
-    created="October 2023"
-    updated="October 2023"
-    text={`
-    Solitaire is a card game that you play by yourself. You only need a standard deck of 52 cards to play, so it's a great game to play when traveling alone or just when you are bored and want something to do. There are a lot of different types of solitaire you can play.
-  
-    ### How to Play Solitaire?
-    The goal of solitaire is to get all 52 cards into four piles, each arranged by suit and in order from ace to king. Gameplay varies depending on the type of solitaire you play, but the main goal is always the same: to get all cards into the correct order.
-  
-    ### Who created Solitaire?
-    The first known solitaire game rules were recorded during the Napoleonic era. The author of the first known solitaire rules was Lady Adelaide Cadogan, who wrote her rules in the late 1870s or early 1880s. Lady Cadogan's book was titled Illustrated Games of Patience and it was published in the United Kingdom in 1875. The book was very popular among the upper classes and eventually became known as The Solitaire Bible.
-  
-    ### Controls
-    - Click and drag to move cards
-    - Double click to move cards to the foundation
-    - Click on the deck to draw cards
-    `}
-    markets={{
-      android:
-        'https://play.google.com/store/apps/details?id=com.charitygames.solitaire',
-      ios: 'https://apps.apple.com/us/app/solitaire/id1569874085',
-      steam: 'https://store.steampowered.com/widget/500',
-      itch: 'https://itch.io/embed/2257102',
-    }}
-  />
-);
 
 export const sampleMixedGridItems = () => [
   ...Array.from({ length: 3 }).map((_, i) => ({
@@ -250,45 +195,6 @@ export const sampleRecommendations: Recommendations = {
     name: `Category ${i}`,
   })),
 };
-
-export const sampleDonationReceipts: ReceiptScreenProps['rows'] = [
-  {
-    date: new Date('2021-10-01'),
-    organization: { name: 'Water.org', url: 'https://water.org/' },
-    receipt: 'https://www.charitywater.org/receipts/123',
-    quantity: 1193.0,
-  },
-  {
-    date: new Date('2021-10-02'),
-    organization: { name: 'Water.org', url: 'https://water.org/' },
-    receipt: 'https://www.charitywater.org/receipts/123',
-    quantity: 1230.0,
-  },
-  {
-    date: new Date('2021-10-03'),
-    organization: { name: 'Water.org', url: 'https://water.org/' },
-    receipt: 'https://www.charitywater.org/receipts/123',
-    quantity: 2214.0,
-  },
-  {
-    date: new Date('2021-10-04'),
-    organization: { name: 'Water.org', url: 'https://water.org/' },
-    receipt: 'https://www.charitywater.org/receipts/123',
-    quantity: 12.0,
-  },
-  {
-    date: new Date('2021-10-05'),
-    organization: { name: 'Water.org', url: 'https://water.org/' },
-    receipt: 'https://www.charitywater.org/receipts/123',
-    quantity: 56.0,
-  },
-  {
-    date: new Date('2021-10-06'),
-    organization: { name: 'Water.org', url: 'https://water.org/' },
-    receipt: 'https://www.charitywater.org/receipts/123',
-    quantity: 413.0,
-  },
-];
 
 export const sampleCharityOrganization: CharityOrganization = {
   name: 'Water.org',

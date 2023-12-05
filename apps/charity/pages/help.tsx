@@ -1,5 +1,5 @@
 import { NextPageWithLayout } from '@worksheets/util-next';
-import { HelpScreen } from '@worksheets/ui-charity';
+import { HelpScreen } from '@worksheets/ui/pages/help';
 import { LayoutContainer } from '../containers/layout-container';
 
 const Page: NextPageWithLayout = () => <HelpScreen />;

@@ -1,4 +1,4 @@
-import { CategoryScreen } from '@worksheets/ui-charity';
+import { CategoryScreen } from '@worksheets/ui/pages/category';
 import { NextPageWithLayout } from '@worksheets/util-next';
 import { LayoutContainer } from '../../containers/layout-container';
 import { useRouter } from 'next/router';

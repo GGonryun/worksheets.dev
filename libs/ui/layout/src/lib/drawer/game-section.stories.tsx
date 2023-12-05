@@ -1,6 +1,6 @@
 import type { Meta } from '@storybook/react';
 import { GameSection } from './game-section';
-import { GameIcon } from '@worksheets/ui-charity';
+import { GameIcon } from '@worksheets/ui/game-grid';
 
 const Story: Meta<typeof GameSection> = {
   component: GameSection,

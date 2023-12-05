@@ -1,5 +1,5 @@
 import { NextPageWithLayout } from '@worksheets/util-next';
-import { CookiePolicyScreen } from '@worksheets/ui-charity';
+import { CookiePolicyScreen } from '@worksheets/ui/pages/cookie-policy';
 import { LayoutContainer } from '../containers/layout-container';
 
 const Page: NextPageWithLayout = () => <CookiePolicyScreen />;

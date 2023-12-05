@@ -1,9 +1,4 @@
-import {
-  GameDescription,
-  GameLauncher,
-  GameScreen,
-  MixedGridItem,
-} from '@worksheets/ui-charity';
+import { MixedGridItem } from '@worksheets/ui/game-grid';
 import { NextPageWithLayout } from '@worksheets/util-next';
 import { LayoutContainer } from '../../containers/layout-container';
 import { mixedItems } from '../../util/mixed-items';
@@ -13,6 +8,11 @@ import { printDate } from '@worksheets/util/time';
 import { AbsolutelyCentered } from '@worksheets/ui-core';
 import { developers, games } from '@worksheets/data-access/charity-games';
 import { useGoogleAdsense } from '@worksheets/ui/advertisements';
+import {
+  GameDescription,
+  GameLauncher,
+  GameScreen,
+} from '@worksheets/ui/pages/game';
 
 const Page: NextPageWithLayout = () => {
   useGoogleAdsense();

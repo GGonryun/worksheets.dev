@@ -1,5 +1,5 @@
 import { NextPageWithLayout } from '@worksheets/util-next';
-import { AboutScreen } from '@worksheets/ui-charity';
+import { AboutScreen } from '@worksheets/ui/pages/about';
 import { LayoutContainer } from '../containers/layout-container';
 
 const Page: NextPageWithLayout = () => <AboutScreen />;

@@ -5,7 +5,7 @@ import {
   sidecadePartnership,
   tagSchemas,
 } from '@worksheets/data-access/charity-games';
-import { MixedGridItem } from '@worksheets/ui-charity';
+import { MixedGridItem } from '@worksheets/ui/game-grid';
 
 export const gameItems = (): MixedGridItem[] => {
   return games.map((game) => ({

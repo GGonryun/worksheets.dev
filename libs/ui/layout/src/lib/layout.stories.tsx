@@ -2,40 +2,40 @@ import type { Meta } from '@storybook/react';
 import { Layout } from './layout';
 import { Container, Typography } from '@mui/material';
 import {
-  SampleGameDescription,
-  SampleGameLauncher,
   dummySocials,
   sampleBlogMetadata,
   sampleBlogPost,
   sampleCategoryDescription,
   sampleCategoryItems,
   sampleCharityOrganization,
-  sampleDonationReceipts,
   sampleGameDefinitions,
   sampleGameItems,
   sampleMixedGridItems,
   sampleRecommendations,
 } from '@worksheets/ui/mocks';
-
+import { MixedGrid } from '@worksheets/ui/game-grid';
+import { CategoryScreen } from '@worksheets/ui/pages/category';
 import {
-  AboutScreen,
-  AccountScreen,
-  BlogPostScreen,
-  BlogScreen,
-  CategoryScreen,
-  CharityScreen,
-  ContactScreen,
-  CookiePolicyScreen,
-  DeveloperScreen,
-  FAQScreen,
   GameScreen,
-  HelpScreen,
-  LoginScreen,
-  MixedGrid,
-  PrivacyPolicyScreen,
+  SampleGameDescription,
+  SampleGameLauncher,
+} from '@worksheets/ui/pages/game';
+import { AccountScreen } from '@worksheets/ui/pages/account';
+import { LoginScreen } from '@worksheets/ui/pages/login';
+import { CharityScreen } from '@worksheets/ui/pages/charity';
+import { HelpScreen } from '@worksheets/ui/pages/help';
+import {
   ReceiptScreen,
-  UnderConstruction,
-} from '@worksheets/ui-charity';
+  sampleDonationReceipts,
+} from '@worksheets/ui/pages/receipts';
+import { AboutScreen } from '@worksheets/ui/pages/about';
+import { BlogScreen, BlogPostScreen } from '@worksheets/ui/pages/blog';
+import { ContactScreen } from '@worksheets/ui/pages/contact';
+import { CookiePolicyScreen } from '@worksheets/ui/pages/cookie-policy';
+import { DeveloperScreen } from '@worksheets/ui/pages/developer';
+import { FAQScreen } from '@worksheets/ui/pages/faq';
+import { PrivacyPolicyScreen } from '@worksheets/ui/pages/privacy-policy';
+import { UnderConstruction } from '@worksheets/ui/pages/under-construction';
 
 const Story: Meta<typeof Layout> = {
   component: Layout,

@@ -2,7 +2,7 @@ import { NextPageWithLayout } from '@worksheets/util-next';
 import { LayoutContainer } from '../../containers/layout-container';
 import { Container } from '@mui/material';
 import { tagItems } from '../../util/mixed-items';
-import { MixedGrid } from '@worksheets/ui-charity';
+import { MixedGrid } from '@worksheets/ui/game-grid';
 import SportsEsportsOutlinedIcon from '@mui/icons-material/SportsEsportsOutlined';
 
 const Page: NextPageWithLayout = () => (

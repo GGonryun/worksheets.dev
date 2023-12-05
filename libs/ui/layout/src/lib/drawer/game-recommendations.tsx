@@ -2,8 +2,10 @@ import { FC } from 'react';
 import { CategoryCarousel } from './category-carousel';
 import { Recommendations } from '@worksheets/util/types';
 import { GameSection } from './game-section';
-import { GameIcon } from '@worksheets/ui-charity';
+import { GameIcon } from '@worksheets/ui/game-grid';
 import Box from '@mui/material/Box';
+import { ButtonPill } from '@worksheets/ui/pills';
+import ShuffleIcon from '@mui/icons-material/Shuffle';
 
 export type GameRecommendationProps = {
   hideCategories?: boolean;
@@ -39,6 +41,16 @@ export const GameRecommendations: FC<GameRecommendationProps> = ({
       <Box mt={1}>
         <GameSection title="Browse Categories" href="/tags" />
         <GameSection title="Browse Games" href="/" />
+        <ButtonPill
+          href="/random"
+          text={{
+            content: 'Random Game',
+            color: 'text.primary',
+            variant: 'h4',
+          }}
+          backgroundColor="highlight.main"
+          Icon={ShuffleIcon}
+        />
       </Box>
     </Box>
   );

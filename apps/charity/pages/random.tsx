@@ -1,5 +1,5 @@
 import { NextPageWithLayout } from '@worksheets/util-next';
-import { UnderConstruction } from '@worksheets/ui-charity';
+import { UnderConstruction } from '@worksheets/ui/pages/under-construction';
 import { LayoutContainer } from '../containers/layout-container';
 
 const Page: NextPageWithLayout = () => <UnderConstruction />;

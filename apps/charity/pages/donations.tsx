@@ -1,5 +1,8 @@
 import { NextPageWithLayout } from '@worksheets/util-next';
-import { ReceiptScreen, ReceiptScreenProps } from '@worksheets/ui-charity';
+import {
+  ReceiptScreen,
+  ReceiptScreenProps,
+} from '@worksheets/ui/pages/receipts';
 import { LayoutContainer } from '../containers/layout-container';
 import { CharityOrganization, DonationReceipt } from '@worksheets/util/types';
 import {

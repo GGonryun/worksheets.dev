@@ -12,7 +12,7 @@ import { GetStaticPaths } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { POSTS_PATH } from '../../util/paths';
-import { BlogErrorScreen, BlogPostScreen } from '@worksheets/ui-charity';
+import { BlogErrorScreen, BlogPostScreen } from '@worksheets/ui/pages/blog';
 import { LayoutContainer } from '../../containers/layout-container';
 
 type Props = {

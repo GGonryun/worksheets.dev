@@ -1,4 +1,4 @@
-import { MixedGrid } from '@worksheets/ui-charity';
+import { MixedGrid } from '@worksheets/ui/game-grid';
 import { NextPageWithLayout } from '@worksheets/util-next';
 import { LayoutContainer } from '../../containers/layout-container';
 import { Container } from '@mui/material';

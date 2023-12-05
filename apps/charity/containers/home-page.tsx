@@ -1,10 +1,10 @@
 import { useGoogleAdsense } from '@worksheets/ui/advertisements';
-import { MixedGrid } from '@worksheets/ui-charity';
 import { mixedItems } from '../util/mixed-items';
 import Container from '@mui/material/Container';
 import LocalOfferOutlinedIcon from '@mui/icons-material/LocalOfferOutlined';
 import SportsEsportsOutlinedIcon from '@mui/icons-material/SportsEsportsOutlined';
 import ShuffleIcon from '@mui/icons-material/Shuffle';
+import { MixedGrid } from '@worksheets/ui/game-grid';
 
 export const HomePageContainer = () => {
   useGoogleAdsense();

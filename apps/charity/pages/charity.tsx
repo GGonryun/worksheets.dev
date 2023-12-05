@@ -1,5 +1,5 @@
 import { NextPageWithLayout } from '@worksheets/util-next';
-import { CharityScreen } from '@worksheets/ui-charity';
+import { CharityScreen } from '@worksheets/ui/pages/charity';
 import { LayoutContainer } from '../containers/layout-container';
 import { campaigns, charities } from '@worksheets/data-access/charity-games';
 

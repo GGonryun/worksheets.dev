@@ -39,19 +39,42 @@
       "@worksheets/prisma": ["libs/prisma/src/index.ts"],
       "@worksheets/trpc-charity": ["libs/trpc/charity/src/index.ts"],
       "@worksheets/trpc-charity/server": ["libs/trpc/charity/src/server.ts"],
-      "@worksheets/ui-charity": ["libs/ui/charity/src/index.ts"],
       "@worksheets/ui-cookie-consent": ["libs/ui/cookie-consent/src/index.ts"],
       "@worksheets/ui-core": ["libs/ui/core/src/index.ts"],
       "@worksheets/ui-games": ["libs/ui/games/src/index.ts"],
       "@worksheets/ui-games/server": ["libs/ui/games/src/server.ts"],
       "@worksheets/ui/advertisements": ["libs/ui/advertisements/src/index.ts"],
       "@worksheets/ui/buttons": ["libs/ui/buttons/src/index.ts"],
+      "@worksheets/ui/game-grid": ["libs/ui/game-grid/src/index.ts"],
       "@worksheets/ui/home/server": ["libs/ui/home/src/server.ts"],
       "@worksheets/ui/icons": ["libs/ui/icons/src/index.ts"],
       "@worksheets/ui/images": ["libs/ui/images/src/index.ts"],
       "@worksheets/ui/inputs": ["libs/ui/inputs/src/index.ts"],
       "@worksheets/ui/layout": ["libs/ui/layout/src/index.ts"],
       "@worksheets/ui/mocks": ["libs/ui/mocks/src/index.ts"],
+      "@worksheets/ui/pages/about": ["libs/ui/pages/about/src/index.ts"],
+      "@worksheets/ui/pages/account": ["libs/ui/pages/account/src/index.ts"],
+      "@worksheets/ui/pages/blog": ["libs/ui/pages/blog/src/index.ts"],
+      "@worksheets/ui/pages/category": ["libs/ui/pages/category/src/index.ts"],
+      "@worksheets/ui/pages/charity": ["libs/ui/pages/charity/src/index.ts"],
+      "@worksheets/ui/pages/contact": ["libs/ui/pages/contact/src/index.ts"],
+      "@worksheets/ui/pages/cookie-policy": [
+        "libs/ui/pages/cookie-policy/src/index.ts"
+      ],
+      "@worksheets/ui/pages/developer": [
+        "libs/ui/pages/developer/src/index.ts"
+      ],
+      "@worksheets/ui/pages/faq": ["libs/ui/pages/faq/src/index.ts"],
+      "@worksheets/ui/pages/game": ["libs/ui/pages/game/src/index.ts"],
+      "@worksheets/ui/pages/help": ["libs/ui/pages/help/src/index.ts"],
+      "@worksheets/ui/pages/login": ["libs/ui/pages/login/src/index.ts"],
+      "@worksheets/ui/pages/privacy-policy": [
+        "libs/ui/pages/privacy-policy/src/index.ts"
+      ],
+      "@worksheets/ui/pages/receipts": ["libs/ui/pages/receipts/src/index.ts"],
+      "@worksheets/ui/pages/under-construction": [
+        "libs/ui/pages/under-construction/src/index.ts"
+      ],
       "@worksheets/ui/pills": ["libs/ui/pills/src/index.ts"],
       "@worksheets/ui/theme": ["libs/ui/theme/src/index.ts"],
       "@worksheets/ui/widgets": ["libs/ui/widgets/src/index.ts"],
