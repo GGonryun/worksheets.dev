@@ -22,7 +22,7 @@ export const WebsiteFooter: FC<WebsiteFooterProps> = () => {
   const { push } = useRouter();
 
   return (
-    <FooterContainer>
+    <FooterContainer className="footer-container">
       <FooterLinksContainer>
         <Box display="flex" gap={2}>
           <SocialIcon
@@ -89,8 +89,9 @@ const SocialIcon = styled<
 const FooterLinksContainer = styled((props) => <Box {...props} />)<BoxProps>(
   ({ theme }) => ({
     display: 'flex',
-    justifyContent: 'space-evenly',
-    flexWrap: 'wrap',
+    flexDirection: 'column',
+    alignItems: 'center',
+
     gap: theme.spacing(2),
   })
 );
@@ -142,7 +143,7 @@ const FooterContainer = styled((props) => <Box {...props} />)<BoxProps>(
     backgroundColor: theme.palette.background.paper,
     padding: 20,
     gap: theme.spacing(2),
-    paddingBottom: theme.spacing(2),
+    paddingBottom: theme.spacing(1),
     position: 'relative',
     bottom: 0,
     filter: 'drop-shadow(0px 0px 3px rgba(0, 0, 0, 0.3))',
