@@ -1,4 +1,11 @@
-import { Box, Button, Container, Paper, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Container,
+  Paper,
+  Typography,
+  styled,
+} from '@mui/material';
 import { FC } from 'react';
 import { Markdown } from '@worksheets/ui-core';
 import { ArrowRight } from '@mui/icons-material';
@@ -63,25 +70,44 @@ export const CategoryScreen: FC<CategoryScreenProps> = ({
             fontFamily: (theme) => theme.typography.mPlus1p.fontFamily,
           }}
         />
-        <Button
-          variant="contained"
-          color="error"
-          endIcon={<ArrowRight sx={{ ml: -0.5 }} />}
-          href={'/'}
-          sx={{
-            mt: 4,
-            width: { xs: '100%', sm: 'fit-content' },
-            borderRadius: 6,
-            px: { xs: 3, sm: 4 },
-            py: { xs: 0.5, sm: 0.85 },
-          }}
+        <Box
+          display="flex"
+          justifyContent="space-between"
+          flexWrap="wrap"
+          gap={1}
+          mt={4}
         >
-          <Typography fontWeight={900}>Explore All Games</Typography>
-        </Button>
+          <StyledButton
+            variant="contained"
+            color="error"
+            endIcon={<ArrowRight />}
+            href={'/games'}
+          >
+            <Typography fontWeight={900}>All Games</Typography>
+          </StyledButton>
+          <StyledButton
+            variant="contained"
+            color="primary"
+            endIcon={<ArrowRight />}
+            href={'/tags'}
+          >
+            <Typography fontWeight={900}>All Tags</Typography>
+          </StyledButton>
+        </Box>
       </Paper>
     </Container>
   );
 };
+
+const StyledButton = styled(Button)(({ theme }) => ({
+  width: '100%',
+  borderRadius: theme.shape.borderRadius * 6,
+  padding: theme.spacing(0.5, 3),
+  [theme.breakpoints.up('sm')]: {
+    width: 'fit-content',
+    padding: theme.spacing(0.85, 4),
+  },
+}));
 
 const sharedHeaderStyles = {
   marginTop: 0,

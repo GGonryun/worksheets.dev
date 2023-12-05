@@ -1,4 +1,7 @@
-import { CategoryScreen } from '@worksheets/ui/pages/category';
+import {
+  CategoryDoesNotExistScreen,
+  CategoryScreen,
+} from '@worksheets/ui/pages/category';
 import { NextPageWithLayout } from '@worksheets/util-next';
 import { LayoutContainer } from '../../containers/layout-container';
 import { useRouter } from 'next/router';
@@ -16,7 +19,7 @@ const Page: NextPageWithLayout = () => {
   const { query } = useRouter();
   const tagId = query.tagId as GameTag;
   const tag = tagSchemas.find((tag) => tag.id === tagId);
-  if (!tag) return <></>;
+  if (!tag) return <CategoryDoesNotExistScreen tag={tagId} />;
 
   const tagGames = games.filter((game) => game.tags.includes(tagId));
   const relatedCategories = tag.relatedTags
