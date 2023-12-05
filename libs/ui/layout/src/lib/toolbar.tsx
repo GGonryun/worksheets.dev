@@ -87,7 +87,7 @@ const LogoBox = () => (
       <Box
         sx={{
           position: 'relative',
-          width: { xs: '36px', sm: '42px' },
+          width: { xs: '36px', sm: '43px' },
           height: { xs: '30px', sm: '36px' },
         }}
       >
