@@ -11,12 +11,14 @@ export type GameRecommendationProps = {
   hideCategories?: boolean;
   hideSections?: boolean;
   recommendations: Partial<Recommendations>;
+  onRandomGame?: () => void;
 };
 
 export const GameRecommendations: FC<GameRecommendationProps> = ({
   hideCategories,
   hideSections,
   recommendations: { popular = [], new: newGames = [], categories = [] },
+  onRandomGame,
 }) => {
   return (
     <Box>
@@ -42,7 +44,7 @@ export const GameRecommendations: FC<GameRecommendationProps> = ({
         <GameSection title="Browse Categories" href="/tags" />
         <GameSection title="Browse Games" href="/" />
         <ButtonPill
-          href="/random"
+          onClick={onRandomGame}
           text={{
             content: 'Random Game',
             color: 'text.primary',

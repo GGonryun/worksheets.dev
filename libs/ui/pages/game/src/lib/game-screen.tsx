@@ -7,8 +7,10 @@ import {
   MixedGridItems,
 } from '@worksheets/ui/game-grid';
 import { DescriptionBox } from './description-box';
-import { Container } from '@mui/material';
 import { AdvertisementBox } from './advertisement-box';
+import { gameHorizontalAd } from '@worksheets/data-access/charity-games';
+import { HorizontalAdvertisement } from '@worksheets/ui/advertisements';
+import Container from '@mui/material/Container';
 
 type GameScreenProps = {
   suggestions: MixedGridItem[];
@@ -27,7 +29,9 @@ export const GameScreen: FC<GameScreenProps> = ({
         <MixedGridItems items={suggestions} size={GRID_ITEM_SIZE} />
         <GameBox>{game}</GameBox>
         <DescriptionBox>{description}</DescriptionBox>
-        <AdvertisementBox />
+        <AdvertisementBox>
+          {<HorizontalAdvertisement {...gameHorizontalAd} />}
+        </AdvertisementBox>
       </ScreenBox>
     </Container>
   );

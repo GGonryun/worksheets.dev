@@ -7,11 +7,11 @@ export const DescriptionBox = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
   borderRadius: theme.shape.borderRadius * 4,
   [theme.breakpoints.up('xs')]: {
-    gridRow: '6 / span 6',
+    gridRow: '8 / span 6',
     gridColumn: '1 / span 3',
   },
   [theme.breakpoints.up('mobile2')]: {
-    gridRow: '6 / span 6',
+    gridRow: '7 / span 6',
     gridColumn: '1 / span 4',
   },
   [theme.breakpoints.up('sm')]: {

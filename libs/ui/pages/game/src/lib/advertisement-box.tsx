@@ -1,13 +1,9 @@
-import { Box, styled } from '@mui/material';
-import { gameHorizontalAd } from '@worksheets/data-access/charity-games';
-import { HorizontalAdvertisement } from '@worksheets/ui/advertisements';
+import Box from '@mui/material/Box';
+import { styled } from '@mui/material/styles';
+import { FC, ReactNode } from 'react';
 
-export const AdvertisementBox = () => {
-  return (
-    <HorizontalAdvertisementBox>
-      <HorizontalAdvertisement {...gameHorizontalAd} />
-    </HorizontalAdvertisementBox>
-  );
+export const AdvertisementBox: FC<{ children: ReactNode }> = ({ children }) => {
+  return <HorizontalAdvertisementBox>{children}</HorizontalAdvertisementBox>;
 };
 
 const HorizontalAdvertisementBox = styled(Box)(({ theme }) => ({
@@ -17,7 +13,7 @@ const HorizontalAdvertisementBox = styled(Box)(({ theme }) => ({
   width: '100%',
 
   [theme.breakpoints.up('xs')]: {
-    gridRow: '4 / span 1',
+    gridRow: '6 / span 1',
     gridColumn: '1 / span 3',
   },
   [theme.breakpoints.up('mobile2')]: {

@@ -26,3 +26,8 @@ const categoryAd1 = {
 };
 
 export const categorySquareAds = [categoryAd1];
+
+export const randomGameHorizontalAd = {
+  slot: '3067977464',
+  client: adClient,
+};

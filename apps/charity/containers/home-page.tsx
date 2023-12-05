@@ -5,9 +5,13 @@ import LocalOfferOutlinedIcon from '@mui/icons-material/LocalOfferOutlined';
 import SportsEsportsOutlinedIcon from '@mui/icons-material/SportsEsportsOutlined';
 import ShuffleIcon from '@mui/icons-material/Shuffle';
 import { MixedGrid } from '@worksheets/ui/game-grid';
+import { useRouter } from 'next/router';
+import { getRandomGame } from '../util/randomizer';
 
 export const HomePageContainer = () => {
   useGoogleAdsense();
+
+  const { push } = useRouter();
 
   return (
     <Container sx={{ py: 2 }}>
@@ -42,6 +46,10 @@ export const HomePageContainer = () => {
             width: { xs: '1/-1', sm: `span 3` },
           },
           {
+            onClick: () => {
+              const randomGame = getRandomGame(true);
+              push(`/games/${randomGame.id}`);
+            },
             type: 'button',
             text: {
               content: 'Random Game',
@@ -49,7 +57,6 @@ export const HomePageContainer = () => {
               variant: 'h4',
             },
             backgroundColor: 'highlight.main',
-            href: '/random',
             width: { xs: '1/-1' },
             Icon: ShuffleIcon,
           },

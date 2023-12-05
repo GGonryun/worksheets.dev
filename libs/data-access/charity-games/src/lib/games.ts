@@ -1900,42 +1900,6 @@ const gameMonetizeConverter = (game: GameMonetizeSchema): GameSchema => {
 
 export const games: GameSchema[] = [
   {
-    id: 'emoji-war',
-    name: 'Emoji War',
-    size: 1,
-    developerId: 'charity-games',
-    iconUrl: '/games/emoji-war/icon.jpg',
-    bannerUrl: '/games/emoji-war/banner.jpg',
-    qualifier: 'hot',
-    platforms: ['desktop', 'mobile'],
-    tags: [
-      'ad-free',
-      'card',
-      'board',
-      'action',
-      'popular',
-      'desktop',
-      'mobile',
-    ],
-    category: ['card'],
-    file: {
-      type: 'redirect',
-      url: EMOJI_WAR_URL,
-    },
-    createdAt: new Date('2023-10-01T00:00:00.000Z'),
-    updatedAt: new Date('2021-11-07T00:00:00.000Z'),
-    markets: {},
-    description: `
-    Emoji War is a fast-paced card game. Players are randomly dealt movement and attack cards. Players quickly play as many cards as they can at the same time to defeat their opponents. The first player to run out of health loses the game.
-    
-    ### How to Play Emoji War?
-    Emoji War is best played on mobile but it supports desktop too. All you need is a mouse or some fingers (toes would work too though, a nose might be pushing it). Click on the cards to play them. The game will automatically play the cards for you. The goal of the game is to defeat your opponents by playing cards faster than they can.
-
-    ### Controls
-    - Click on the cards to play them
-    `,
-  },
-  {
     id: 'solitaire',
     name: 'Solitaire',
     size: 1,
@@ -1975,6 +1939,42 @@ export const games: GameSchema[] = [
     - Click and drag to move cards
     - Double click to move cards to the foundation
     - Click on the deck to draw cards
+    `,
+  },
+  {
+    id: 'emoji-war',
+    name: 'Emoji War',
+    size: 1,
+    developerId: 'charity-games',
+    iconUrl: '/games/emoji-war/icon.jpg',
+    bannerUrl: '/games/emoji-war/banner.jpg',
+    qualifier: 'hot',
+    platforms: ['desktop', 'mobile'],
+    tags: [
+      'ad-free',
+      'card',
+      'board',
+      'action',
+      'popular',
+      'desktop',
+      'mobile',
+    ],
+    category: ['card'],
+    file: {
+      type: 'redirect',
+      url: EMOJI_WAR_URL,
+    },
+    createdAt: new Date('2023-10-01T00:00:00.000Z'),
+    updatedAt: new Date('2021-11-07T00:00:00.000Z'),
+    markets: {},
+    description: `
+    Emoji War is a fast-paced card game. Players are randomly dealt movement and attack cards. Players quickly play as many cards as they can at the same time to defeat their opponents. The first player to run out of health loses the game.
+    
+    ### How to Play Emoji War?
+    Emoji War is best played on mobile but it supports desktop too. All you need is a mouse or some fingers (toes would work too though, a nose might be pushing it). Click on the cards to play them. The game will automatically play the cards for you. The goal of the game is to defeat your opponents by playing cards faster than they can.
+
+    ### Controls
+    - Click on the cards to play them
     `,
   },
   {

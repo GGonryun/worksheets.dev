@@ -6,17 +6,27 @@ import { ResponsiveImage } from '@worksheets/ui/images';
 export type ReferencePillSkeletonProps = {
   children: ReactNode;
   href?: string;
+  onClick?: () => void;
   height?: number | string;
   image?: { padding: number | string; src: string; alt: string };
 };
 
 export const ReferencePillSkeleton: FC<ReferencePillSkeletonProps> = ({
   href,
+  onClick,
   height,
   image,
   children,
 }) => (
-  <Link href={href} underline="none" color={href ? 'primary' : 'inherit'}>
+  <Link
+    href={href}
+    onClick={onClick}
+    underline="none"
+    color={href ? 'primary' : 'inherit'}
+    sx={{
+      cursor: onClick || href ? 'pointer' : 'default',
+    }}
+  >
     <Box
       className="reference-pill-skeleton"
       sx={{

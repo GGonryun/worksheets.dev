@@ -13,11 +13,15 @@ import {
   GameLauncher,
   GameScreen,
 } from '@worksheets/ui/pages/game';
+import { getRandomGame } from '../../util/randomizer';
+import SportsEsportsOutlinedIcon from '@mui/icons-material/SportsEsportsOutlined';
+import LocalOfferOutlinedIcon from '@mui/icons-material/LocalOfferOutlined';
+import ShuffleIcon from '@mui/icons-material/Shuffle';
 
 const Page: NextPageWithLayout = () => {
   useGoogleAdsense();
 
-  const { query } = useRouter();
+  const { query, push } = useRouter();
   const gameId = query.gameId as string;
   const game = games.find((game) => game.id === gameId);
   const developer = developers.find(
@@ -35,6 +39,54 @@ const Page: NextPageWithLayout = () => {
     // TODO: improve bug handling
     alert('Our development team has been notified. Thank you!');
   };
+
+  const items: MixedGridItem[] = [
+    {
+      onClick: () => {
+        const randomGame = getRandomGame(true);
+        push(`/games/${randomGame.id}`);
+      },
+      type: 'button',
+      text: {
+        content: 'Random Game',
+        color: 'text.primary',
+        variant: 'h4',
+      },
+      backgroundColor: 'highlight.main',
+
+      width: { xs: '1/-1' },
+      Icon: ShuffleIcon,
+    },
+    ...mixedItems({
+      hideAds: true,
+      maxGames: 50,
+      maxTags: 10,
+    }).map(shrinkGames),
+    {
+      type: 'button',
+      text: {
+        content: 'More Games',
+        color: 'error.contrastText',
+        variant: 'h4',
+      },
+      backgroundColor: 'error.main',
+      href: '/games',
+      Icon: SportsEsportsOutlinedIcon,
+      width: { xs: '1/-1', sm: `span 3` },
+    },
+    {
+      type: 'button',
+      text: {
+        content: 'All Tags',
+        color: 'primary.contrastText',
+        variant: 'h4',
+      },
+      backgroundColor: 'primary.main',
+      href: '/tags',
+      Icon: LocalOfferOutlinedIcon,
+      width: { xs: '1/-1', sm: `span 3` },
+    },
+  ];
 
   return (
     <GameScreen
@@ -63,11 +115,7 @@ const Page: NextPageWithLayout = () => {
           markets={game.markets}
         />
       }
-      suggestions={mixedItems({
-        hideAds: true,
-        maxGames: 50,
-        maxTags: 10,
-      }).map(shrinkGames)}
+      suggestions={items}
     />
   );
 };

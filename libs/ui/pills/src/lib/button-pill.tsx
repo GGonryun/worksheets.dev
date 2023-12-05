@@ -6,6 +6,7 @@ import { SvgIconComponent } from '@mui/icons-material';
 
 export type ButtonPillProps = {
   href?: string;
+  onClick?: () => void;
   text?: {
     content?: TypographyProps['children'];
     color?: TypographyProps['color'];
@@ -17,11 +18,12 @@ export type ButtonPillProps = {
 
 export const ButtonPill: FC<ButtonPillProps> = ({
   href,
+  onClick,
   text,
   backgroundColor,
   Icon,
 }) => (
-  <ReferencePillSkeleton href={href}>
+  <ReferencePillSkeleton href={href} onClick={onClick}>
     <Box
       sx={{
         display: 'grid',

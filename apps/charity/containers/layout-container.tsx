@@ -6,11 +6,22 @@ import {
 } from '@worksheets/data-access/charity-games';
 import { Layout } from '@worksheets/ui/layout';
 import { Recommendations } from '@worksheets/util/types';
+import { useRouter } from 'next/router';
 import { FC, ReactNode } from 'react';
+import { getRandomGame } from '../util/randomizer';
 
 export const LayoutContainer: FC<{ children: ReactNode }> = ({ children }) => {
+  const { push } = useRouter();
+
   return (
-    <Layout recommendations={recommendationsFromSchema} onSearch={performQuery}>
+    <Layout
+      recommendations={recommendationsFromSchema}
+      onSearch={performQuery}
+      onRandomGame={() => {
+        const randomGame = getRandomGame(true);
+        push(`/games/${randomGame.id}`);
+      }}
+    >
       {children}
     </Layout>
   );
