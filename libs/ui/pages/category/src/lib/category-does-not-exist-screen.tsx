@@ -21,9 +21,9 @@ export const CategoryDoesNotExistScreen: FC<{ tag: string }> = ({ tag }) => {
           mb: 14,
         }}
       >
-        <Typography variant="h4">We couldn&apos;t find anything.</Typography>
-        <Typography>
-          <b>{tag}</b> does not exist in our list of categories.
+        <Typography variant="h4">We couldn&apos;t find anything</Typography>
+        <Typography variant="body2">
+          The category <b>{tag}</b> does not exist!
         </Typography>
         <Button
           href="/tags"
@@ -33,6 +33,7 @@ export const CategoryDoesNotExistScreen: FC<{ tag: string }> = ({ tag }) => {
           fullWidth
           endIcon={<ArrowRightIcon />}
           sx={{
+            mt: 2,
             borderRadius: 6,
           }}
         >
