@@ -13,6 +13,16 @@ export const faq = [
     id: 'i-do-not-trust-you',
   },
   {
+    question: 'How does playing games raise money for charity?',
+    answer: `We're using ad revenue to raise money for charity. We're also working on adding support for donations. Our primary focus is to raise awareness by creating a community of gamers who want to make a difference.`,
+    id: `how-does-playing-games-raise-money-for-charity`,
+  },
+  {
+    question: 'Where do games come from?',
+    answer: `From people like you! We're a community driven platform. We're working on adding support for uploading games directly to our platform. In the meantime, you can submit games to us by contacting us on our [Contact](/contact) page.`,
+    id: 'where-do-games-come-from',
+  },
+  {
     question: 'Who do you support?',
     answer: `We support a different charity each month. You can see the current campaign on our [Charity](/charity) page, and you can vote for next month's charity on our [Strawpoll](${urls.poll}) page.`,
     id: 'who-do-you-support',
