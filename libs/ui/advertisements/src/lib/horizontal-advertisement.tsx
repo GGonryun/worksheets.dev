@@ -64,6 +64,8 @@ export const ResponsiveAdvertisement: FC<{ slot: string; client: string }> = ({
         maxWidth: '1070px',
         width: '100%',
         height: '90px',
+        minHeight: '90px',
+        maxHeight: '90px',
       }}
     >
       <ins
