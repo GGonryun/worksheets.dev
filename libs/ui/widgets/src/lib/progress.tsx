@@ -26,7 +26,6 @@ export const ProgressWidget: FC<ProgressWidgetProps> = ({
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        gap: 1,
         width: '100%',
         userSelect: 'none',
       }}
@@ -49,7 +48,7 @@ export const ProgressWidget: FC<ProgressWidgetProps> = ({
           <Image
             src="/common/charity-games/logos/primary.png"
             alt="charity-games logo"
-            height={50}
+            height={85}
             width={85}
           />
         </Link>
