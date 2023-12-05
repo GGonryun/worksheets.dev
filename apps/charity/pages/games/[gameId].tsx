@@ -91,7 +91,6 @@ const Page: NextPageWithLayout = () => {
   ];
 
   const openGraph = {
-    url: `https://www.charity.games/games/${game.id}`,
     title: `${game.name} - Free Online Games that Support Charity`,
     description: `Want to play ${
       game.name
@@ -113,7 +112,6 @@ const Page: NextPageWithLayout = () => {
       <NextSeo
         title={openGraph.title}
         description={openGraph.description}
-        canonical={openGraph.url}
         openGraph={openGraph}
       />
       <GameScreen

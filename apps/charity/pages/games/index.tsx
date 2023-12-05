@@ -10,7 +10,6 @@ import { useRouter } from 'next/router';
 import { NextSeo } from 'next-seo';
 
 const openGraph = {
-  url: `https://www.charity.games/games`,
   title: `Charity Games - All Games`,
   description: `Find and play your favorite mobile and desktop games for free on Charity Games. The easiest way to donate to charity.`,
 };
@@ -23,7 +22,6 @@ const Page: NextPageWithLayout = () => {
       <NextSeo
         title={openGraph.title}
         description={openGraph.description}
-        canonical={openGraph.url}
         openGraph={openGraph}
       />
       <Container
