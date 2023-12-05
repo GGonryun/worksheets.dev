@@ -14,6 +14,8 @@ import { useRouter } from 'next/router';
 import { POSTS_PATH } from '../../util/paths';
 import { BlogErrorScreen, BlogPostScreen } from '@worksheets/ui/pages/blog';
 import { LayoutContainer } from '../../containers/layout-container';
+import { ArticleJsonLd, NextSeo } from 'next-seo';
+import { blogAuthors } from '@worksheets/data-access/charity-games';
 
 type Props = {
   metadata: MarkdownMetadata;
@@ -27,21 +29,64 @@ const Page: NextPageWithLayout<Props> = ({ slug, metadata, content }) => {
   if (!router.isFallback && !slug) {
     return <BlogErrorScreen />;
   }
+  const author = blogAuthors[metadata.authorId];
+  const openGraph = {
+    url: `https://www.charity.games/blog/${slug}`,
+    title: `${metadata.title} - Charity Games`,
+    description: metadata.excerpt,
+    type: 'article',
+    article: {
+      publishedTime: metadata.date,
+      modifiedTime: metadata.date,
+      authors: ['https://www.charity.games/about'],
+      tags: metadata.tags,
+    },
+    images: [
+      {
+        url: metadata.ogImage.url,
+        alt: metadata.title,
+      },
+    ],
+  };
 
   return (
-    <Box>
-      {router.isFallback ? (
-        <Typography variant="h4">Loading . . .</Typography>
-      ) : (
-        <article>
-          <Head>
-            <title>{metadata.title}</title>
-            <meta property="og:image" content={metadata.ogImage.url} />
-          </Head>
-          <BlogPostScreen metadata={metadata} content={content} />
-        </article>
-      )}
-    </Box>
+    <>
+      <NextSeo
+        title={openGraph.title}
+        description={openGraph.description}
+        canonical={openGraph.url}
+        openGraph={openGraph}
+      />
+
+      <Box>
+        {router.isFallback ? (
+          <Typography variant="h4">Loading . . .</Typography>
+        ) : (
+          <article>
+            <Head>
+              <title>{metadata.title}</title>
+              <meta property="og:image" content={metadata.ogImage.url} />
+            </Head>
+            <BlogPostScreen
+              metadata={metadata}
+              content={content}
+              author={author}
+            />
+          </article>
+        )}
+      </Box>
+
+      <ArticleJsonLd
+        type="BlogPosting"
+        url={openGraph.url}
+        title={openGraph.title}
+        images={[metadata.ogImage.url]}
+        datePublished={metadata.date}
+        dateModified={metadata.date}
+        authorName={author.name}
+        description={openGraph.description}
+      />
+    </>
   );
 };
 

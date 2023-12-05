@@ -11,7 +11,7 @@ export const developers: DeveloperSchema[] = [
   },
   {
     id: 'gamemonetize',
-    name: 'Game Monetize',
+    name: 'GameMonetize',
     socials: {
       website: 'https://gamemonetize.com/',
     },

@@ -2,16 +2,20 @@
 import { NextPageWithLayout } from '@worksheets/util-next';
 import { campaigns } from '@worksheets/data-access/charity-games';
 import { ProgressWidget } from '@worksheets/ui/widgets';
+import { NextSeo } from 'next-seo';
 
 const Page: NextPageWithLayout = () => {
   const campaign = campaigns['primary'];
   if (!campaign) throw new Error('Campaign not found');
 
   return (
-    <ProgressWidget
-      current={campaign.pledge.current}
-      required={campaign.pledge.required}
-    />
+    <>
+      <NextSeo noindex={true} />
+      <ProgressWidget
+        current={campaign.pledge.current}
+        required={campaign.pledge.required}
+      />
+    </>
   );
 };
 

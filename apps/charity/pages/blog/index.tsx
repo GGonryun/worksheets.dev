@@ -6,13 +6,28 @@ import {
 import { POSTS_PATH } from '../../util/paths';
 import { BlogScreen } from '@worksheets/ui/pages/blog';
 import { LayoutContainer } from '../../containers/layout-container';
+import { NextSeo } from 'next-seo';
 
 type Props = {
   posts: MarkdownMetadata[];
 };
 
+const openGraph = {
+  url: `https://www.charity.games/blog/`,
+  title: `Charity Games - Blog and Learn`,
+  description: `Stay up to date with the latest news and updates from Charity Games. Learn about our mission and how you can help us make a difference.`,
+};
+
 const Page: NextPageWithLayout<Props> = ({ posts }) => (
-  <BlogScreen posts={posts} />
+  <>
+    <NextSeo
+      title={openGraph.title}
+      description={openGraph.description}
+      canonical={openGraph.url}
+      openGraph={openGraph}
+    />
+    <BlogScreen posts={posts} />
+  </>
 );
 
 Page.getLayout = (page) => {

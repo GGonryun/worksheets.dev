@@ -4,18 +4,19 @@ import { PostHeader } from './post-header';
 import { MarkdownMetadata } from '@worksheets/util-markdown';
 import { PostBody } from './post-body/post-body';
 import { JoinNewsletterBox } from './join-newsletter-box';
-import { blogAuthors } from '@worksheets/data-access/charity-games';
+import { BlogAuthor } from '@worksheets/util/types';
 
 export type BlogPostScreenProps = {
   metadata: MarkdownMetadata;
   content: string;
+  author: BlogAuthor;
 };
 
 export const BlogPostScreen: FC<BlogPostScreenProps> = ({
   metadata,
   content,
+  author,
 }) => {
-  const author = blogAuthors[metadata.authorId];
   return (
     <Container maxWidth="lg" sx={{ py: 2 }}>
       <Paper

@@ -3,13 +3,12 @@ import { FC, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Markdown } from '@worksheets/ui-core';
 import { ArrowRight } from '@mui/icons-material';
-import { faq } from '@worksheets/data-access/charity-games';
 
 export type FAQScreenProps = {
-  // no props
+  faq: { question: string; answer: string; id: string }[];
 };
 
-export const FAQScreen: FC<FAQScreenProps> = (props) => {
+export const FAQScreen: FC<FAQScreenProps> = ({ faq }) => {
   const [openTableOfContents, setShowTableOfContents] = useState(true);
 
   return (

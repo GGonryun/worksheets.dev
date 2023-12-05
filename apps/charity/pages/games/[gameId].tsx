@@ -17,6 +17,8 @@ import { getRandomGame } from '../../util/randomizer';
 import SportsEsportsOutlinedIcon from '@mui/icons-material/SportsEsportsOutlined';
 import LocalOfferOutlinedIcon from '@mui/icons-material/LocalOfferOutlined';
 import ShuffleIcon from '@mui/icons-material/Shuffle';
+import { NextSeo, VideoGameJsonLd } from 'next-seo';
+import { DeveloperSchema } from '@worksheets/util/types';
 
 const Page: NextPageWithLayout = () => {
   useGoogleAdsense();
@@ -88,35 +90,75 @@ const Page: NextPageWithLayout = () => {
     },
   ];
 
+  const openGraph = {
+    url: `https://www.charity.games/games/${game.id}`,
+    title: `${game.name} - Free Online Games that Support Charity`,
+    description: `Want to play ${
+      game.name
+    }? Play this game online for free on Charity Games. ${
+      game.name
+    } is one of our top ${game.category} games. Supports ${game.platforms.join(
+      ','
+    )}.`,
+    images: [
+      {
+        url: game.bannerUrl,
+        alt: game.name,
+      },
+    ],
+  };
+
   return (
-    <GameScreen
-      game={
-        <GameLauncher
-          backgroundUrl={game.bannerUrl}
-          iconUrl={game.iconUrl}
-          file={game.file}
-          name={game.name}
-          developer={developer.name}
-          platforms={game.platforms}
-          onReportBug={handleReportBug}
-        />
-      }
-      description={
-        <GameDescription
-          gameId={game.id}
-          title={game.name}
-          developer={developer}
-          platforms={game.platforms}
-          tags={game.tags}
-          category={game.category}
-          created={printDate(game.createdAt)}
-          updated={printDate(game.updatedAt)}
-          text={game.description}
-          markets={game.markets}
-        />
-      }
-      suggestions={items}
-    />
+    <>
+      <NextSeo
+        title={openGraph.title}
+        description={openGraph.description}
+        canonical={openGraph.url}
+        openGraph={openGraph}
+      />
+      <GameScreen
+        game={
+          <GameLauncher
+            backgroundUrl={game.bannerUrl}
+            iconUrl={game.iconUrl}
+            file={game.file}
+            name={game.name}
+            developer={developer.name}
+            platforms={game.platforms}
+            onReportBug={handleReportBug}
+          />
+        }
+        description={
+          <GameDescription
+            gameId={game.id}
+            title={game.name}
+            developer={developer}
+            platforms={game.platforms}
+            tags={game.tags}
+            category={game.category}
+            created={printDate(game.createdAt)}
+            updated={printDate(game.updatedAt)}
+            text={game.description}
+            markets={game.markets}
+          />
+        }
+        suggestions={items}
+      />
+      <VideoGameJsonLd
+        name={game.name}
+        languageName={['English']}
+        description={game.description}
+        playMode="SinglePlayer"
+        applicationCategory="Game"
+        url={`https://charity.games/games/${game.id}`}
+        platformName={game.platforms}
+        keywords={game.tags.join(', ')}
+        datePublished={game.createdAt.toISOString()}
+        image={game.iconUrl}
+        publisherName={developer.name}
+        producerUrl={pickDeveloperSocial(developer)}
+      />
+    </>
   );
 };
 
@@ -127,6 +169,24 @@ function shrinkGames(item: MixedGridItem) {
       span: 1,
     };
   } else return item;
+}
+
+function pickDeveloperSocial(developer: DeveloperSchema) {
+  const socials = developer.socials ?? {};
+  return (
+    socials.website ||
+    socials.steam ||
+    socials.itchio ||
+    socials.facebook ||
+    socials.twitter ||
+    socials.instagram ||
+    socials.youtube ||
+    socials.twitch ||
+    socials.tiktok ||
+    socials.playstore ||
+    socials.appstore ||
+    socials.discord
+  );
 }
 
 Page.getLayout = (page) => {

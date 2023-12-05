@@ -59,9 +59,8 @@ export const DeveloperScreen: FC<DeveloperScreenProps> = ({
         my={2}
         display="grid"
         gridTemplateColumns={{
-          xs: '1fr',
-          desktop1: 'repeat(2, 1fr)',
-          lg: 'repeat(3, 1fr)',
+          sm: '1fr',
+          lg: 'repeat(2, 1fr)',
         }}
       >
         {games.map((d) => (

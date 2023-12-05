@@ -1953,7 +1953,7 @@ const gameMonetizeConverter = (game: GameMonetizeSchema): GameSchema => {
     size: 1,
     developerId: 'gamemonetize',
     iconUrl: game.thumb,
-    bannerUrl: '/games/generic/banners/black.jpg',
+    bannerUrl: game.thumb,
     qualifier: 'none',
     platforms,
     tags: game.tags.split(', ').map((t) => t.trim().toLowerCase()) as GameTag[],

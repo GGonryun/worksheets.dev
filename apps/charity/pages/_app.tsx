@@ -8,6 +8,7 @@ import * as FullStory from '@fullstory/browser';
 import { SessionProvider } from 'next-auth/react';
 import theme from '@worksheets/ui/theme';
 import { AdSenseScript } from '../scripts';
+import { DefaultSeo } from 'next-seo';
 
 if (typeof window !== 'undefined') {
   FullStory.init(SERVICE_SETTINGS.FULLSTORY);
@@ -21,6 +22,30 @@ function CustomApp({
 
   return (
     <>
+      <DefaultSeo
+        description="On Charity Games you can play free online HTML browser games. Every click donates money to charitable causes. Play alone or with friends. We support mobile and desktop games."
+        openGraph={{
+          type: 'website',
+          locale: 'en_IE',
+          siteName: 'Charity Games',
+          description:
+            'On Charity Games you can play free online HTML browser games. Every click donates money to charitable causes. Play alone or with friends. We support mobile and desktop games.',
+          images: [
+            {
+              url: 'https://www.charity.games/og-image.png',
+              width: 978,
+              height: 800,
+              alt: 'Charity Games Logo',
+              type: 'image/png',
+            },
+          ],
+        }}
+        twitter={{
+          handle: '@CharityGamesGo',
+          site: '@CharityGamesGo',
+          cardType: 'summary_large_image',
+        }}
+      />
       <CssBaseline />
       <AdSenseScript />
       <Head>
