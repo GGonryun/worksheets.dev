@@ -28,7 +28,7 @@ const Page: NextPageWithLayout = () => {
     .filter(Boolean) as TagSchema[];
 
   const openGraph = {
-    url: `https://www.charity.games/tags/${tagId}`,
+    url: `https://charity.games/tags/${tagId}`,
     title: `${tag.name} - Play Free Browser Games for Charity`,
     description: `Play ${tag.name} online for free on Charity Games. The easiest way to make a difference. Donate to charity by playing ${tag.name}.`,
   };

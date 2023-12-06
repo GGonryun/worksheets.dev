@@ -18,7 +18,7 @@ const Page: NextPageWithLayout = () => {
   const developerGames = games.filter((g) => g.developerId === developerId);
 
   const openGraph = {
-    url: `https://www.charity.games/developers/${developerId}`,
+    url: `https://charity.games/developers/${developerId}`,
     title: `${developer.name} - Charity Games - Play Free Web Browser Games`,
     description: `Play ${developer.name} games online for free on Charity Games. Turn your games into donations. Help us make a difference.`,
   };

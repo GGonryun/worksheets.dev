@@ -13,7 +13,7 @@ type Props = {
 };
 
 const openGraph = {
-  url: `https://www.charity.games/blog/`,
+  url: `https://charity.games/blog/`,
   title: `Charity Games - Blog and Learn`,
   description: `Stay up to date with the latest news and updates from Charity Games. Learn about our mission and how you can help us make a difference.`,
 };

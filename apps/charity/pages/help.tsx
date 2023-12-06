@@ -100,7 +100,7 @@ const qa = [
 ];
 
 const openGraph = {
-  url: 'https://www.charity.games/help',
+  url: 'https://charity.games/help',
   title: 'Charity Games - Get Involved',
   description:
     'There are many ways to help Charity Games. Whether you are a developer, player, teacher, charity, content creator, professional, student, or parent, we would love to hear from you!',

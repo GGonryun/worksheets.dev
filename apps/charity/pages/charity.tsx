@@ -5,7 +5,7 @@ import { campaigns, charities } from '@worksheets/data-access/charity-games';
 import { NextSeo } from 'next-seo';
 
 const openGraph = {
-  url: 'https://www.charity.games/charity',
+  url: 'https://charity.games/charity',
   title: 'Charity Games - Donate by Playing Free Online Games',
   description:
     'Charity Games is a non profit organization that donates money by playing free online browser games.',

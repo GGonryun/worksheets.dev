@@ -4,7 +4,7 @@ import { LayoutContainer } from '../containers/layout-container';
 import { NextSeo } from 'next-seo';
 
 const openGraph = {
-  url: 'https://www.charity.games/about',
+  url: 'https://charity.games/about',
   title: 'Charity Games - About Us',
 };
 const Page: NextPageWithLayout = () => (

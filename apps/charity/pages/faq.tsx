@@ -5,10 +5,10 @@ import { faq } from '@worksheets/data-access/charity-games';
 import { FAQPageJsonLd, NextSeo } from 'next-seo';
 
 const openGraph = {
-  url: 'https://www.charity.games/faq',
+  url: 'https://charity.games/faq',
   title: 'Charity Games - Frequently Asked Questions',
   description:
-    'There are many ways to help Charity Games. Whether you are a developer, player, teacher, charity, content creator, professional, student, or parent, we would love to hear from you!',
+    'Have a question about Charity Games? Check out our frequently asked questions to learn more about our mission and how you can help.',
 };
 
 const Page: NextPageWithLayout = () => {

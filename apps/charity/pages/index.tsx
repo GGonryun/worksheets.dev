@@ -4,7 +4,7 @@ import { LayoutContainer } from '../containers/layout-container';
 import { NextSeo } from 'next-seo';
 
 const openGraph = {
-  url: 'https://www.charity.games/',
+  url: 'https://charity.games/',
   title: 'Charity Games - Free Online Games that Support Charity',
   description:
     'On Charity Games you can play free online HTML browser games that donate money to charitable causes. Play alone or with friends. We support mobile and desktop games.',

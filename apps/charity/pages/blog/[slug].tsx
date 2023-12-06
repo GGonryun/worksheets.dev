@@ -31,14 +31,14 @@ const Page: NextPageWithLayout<Props> = ({ slug, metadata, content }) => {
   }
   const author = blogAuthors[metadata.authorId];
   const openGraph = {
-    url: `https://www.charity.games/blog/${slug}`,
+    url: `https://charity.games/blog/${slug}`,
     title: `${metadata.title} - Charity Games`,
     description: metadata.excerpt,
     type: 'article',
     article: {
       publishedTime: metadata.date,
       modifiedTime: metadata.date,
-      authors: ['https://www.charity.games/about'],
+      authors: ['https://charity.games/about'],
       tags: metadata.tags,
     },
     images: [

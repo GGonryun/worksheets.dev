@@ -32,7 +32,7 @@ function CustomApp({
             'On Charity Games you can play free online HTML browser games. Every click donates money to charitable causes. Play alone or with friends. We support mobile and desktop games.',
           images: [
             {
-              url: 'https://www.charity.games/og-image.png',
+              url: 'https://charity.games/og-image.png',
               width: 978,
               height: 800,
               alt: 'Charity Games Logo',
