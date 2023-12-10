@@ -1976,6 +1976,37 @@ const gameMonetizeConverter = (game: GameMonetizeSchema): GameSchema => {
 
 export const games: GameSchema[] = [
   {
+    id: 'freedom-run',
+    name: 'Freedom Run',
+    size: 3,
+    developerId: 'charity-games',
+    iconUrl: 'http://cdn.charity.games/freedom_run/icons/game-icon.png',
+    bannerUrl: 'http://cdn.charity.games/freedom_run/icons/banner.png',
+    qualifier: 'hot',
+    platforms: ['desktop', 'mobile'],
+    tags: [
+      'ad-free',
+      'popular',
+      'action',
+      'arcade',
+      'endless',
+      'desktop',
+      'mobile',
+    ],
+    category: ['arcade'],
+    file: {
+      type: 'iframe',
+      url: 'http://cdn.charity.games/freedom_run/index.html',
+    },
+    createdAt: new Date('2023-10-01T00:00:00.000Z'),
+    updatedAt: new Date('2021-11-23T00:00:00.000Z'),
+    markets: {},
+    description: `
+    TODO: Add description
+    TODO: Add credits
+    `,
+  },
+  {
     id: 'solitaire',
     name: 'Solitaire',
     size: 1,
