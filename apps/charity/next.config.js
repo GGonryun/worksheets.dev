@@ -22,7 +22,7 @@ const nextConfig = {
         hostname: 'img.gamemonetize.com',
       },
       {
-        protocol: 'http',
+        protocol: 'https',
         hostname: 'cdn.charity.games',
       },
     ],

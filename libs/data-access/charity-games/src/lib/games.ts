@@ -1980,8 +1980,8 @@ export const games: GameSchema[] = [
     name: 'Freedom Run',
     size: 3,
     developerId: 'charity-games',
-    iconUrl: 'http://cdn.charity.games/freedom_run/icons/game-icon.png',
-    bannerUrl: 'http://cdn.charity.games/freedom_run/icons/banner.png',
+    iconUrl: 'https://cdn.charity.games/freedom_run/icons/game-icon.png',
+    bannerUrl: 'https://cdn.charity.games/freedom_run/icons/banner.png',
     qualifier: 'hot',
     platforms: ['desktop', 'mobile'],
     tags: [
@@ -1996,7 +1996,7 @@ export const games: GameSchema[] = [
     category: ['arcade'],
     file: {
       type: 'iframe',
-      url: 'http://cdn.charity.games/freedom_run/index.html',
+      url: 'https://cdn.charity.games/freedom_run/index.html',
     },
     createdAt: new Date('2023-10-01T00:00:00.000Z'),
     updatedAt: new Date('2021-11-23T00:00:00.000Z'),
