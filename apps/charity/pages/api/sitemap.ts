@@ -9,8 +9,8 @@ import {
   tagSchemas,
 } from '@worksheets/data-access/charity-games';
 import path from 'path';
-
-const BLOG_DIR = path.resolve('_articles');
+import getConfig from 'next/config';
+const { serverRuntimeConfig } = getConfig();
 
 const LAST_UPDATE_DATE = `2023-12-10`;
 
@@ -53,7 +53,15 @@ const addBasicPages = () => {
 };
 
 const addBlogPosts = () => {
-  const posts = getAllPostsMetadata(BLOG_DIR);
+  const BLOG_DIR = path.join(
+    serverRuntimeConfig.PROJECT_ROOT,
+    '../../_articles'
+  );
+
+  const blogPostPath =
+    process.env['VERCEL_ENV'] === 'development' ? POSTS_PATH : BLOG_DIR;
+
+  const posts = getAllPostsMetadata(blogPostPath);
   return posts
     .map(
       (post) => `<url>
