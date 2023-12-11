@@ -13,6 +13,7 @@ export const recommendations: RecommendationsSchema = {
     'word-smith',
   ],
   categories: [
+    'ad-free',
     'card',
     'board',
     'puzzle',
