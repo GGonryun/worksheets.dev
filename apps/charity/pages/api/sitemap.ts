@@ -84,6 +84,8 @@ const addDevelopers = () =>
     .join('');
 
 // TODO: add support for specific blog posts in site map, vercel doesn't support reading files outside of the app folder
+// https://github.com/vercel/next.js/discussions/32236
+
 const handler: NextApiHandler = (req, res) => {
   res.statusCode = 200;
   res.setHeader('Content-Type', 'application/xml');
@@ -92,7 +94,6 @@ const handler: NextApiHandler = (req, res) => {
   res.setHeader('Cache-control', 'stale-while-revalidate, s-maxage=3600');
 
   // generate sitemap here
-
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
       <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"> 
       ${addHomePage()}
