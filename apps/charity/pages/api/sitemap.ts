@@ -52,9 +52,9 @@ const addGames = () =>
     .map(
       (game) => `<url>
         <loc>${BASE_URL}/play/${game.id}</loc>
-        <lastmod>${printShortDate(game.updatedAt)
-          .split('/')
-          .join('-')}</lastmod>
+        <lastmod>${
+          printShortDate(game.updatedAt, 'fr-CA') // use w3c date format yyyy-mm-dd
+        }</lastmod>
           <priority>0.5</priority>
         </url>
         `
