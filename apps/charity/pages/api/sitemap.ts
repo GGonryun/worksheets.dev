@@ -10,7 +10,7 @@ import {
 } from '@worksheets/data-access/charity-games';
 import path from 'path';
 
-const BLOG_DIR = path.resolve('./_articles');
+const BLOG_DIR = path.resolve('_articles');
 
 const LAST_UPDATE_DATE = `2023-12-10`;
 
