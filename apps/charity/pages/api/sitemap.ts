@@ -53,10 +53,7 @@ const addBasicPages = () => {
 };
 
 const addBlogPosts = () => {
-  const blogPostPath =
-    process.env['VERCEL_ENV'] === 'development' ? POSTS_PATH : BLOG_DIR;
-
-  const posts = getAllPostsMetadata(blogPostPath);
+  const posts = getAllPostsMetadata(BLOG_DIR);
   return posts
     .map(
       (post) => `<url>
