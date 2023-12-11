@@ -1998,12 +1998,31 @@ export const games: GameSchema[] = [
       type: 'iframe',
       url: 'https://cdn.charity.games/freedom_run/index.html',
     },
-    createdAt: new Date('2023-10-01T00:00:00.000Z'),
-    updatedAt: new Date('2021-11-23T00:00:00.000Z'),
+    createdAt: new Date('2023-12-11T00:00:00.000Z'),
+    updatedAt: new Date('2021-12-11T00:00:00.000Z'),
     markets: {},
     description: `
-    TODO: Add description
-    TODO: Add credits
+    Freedom Run is a one-button endless runner game. The goal of the game is to eat as many veggies as you can and avoid getting hit by birds or falling off the map.
+
+    ## How to Play Freedom Run?
+    Playing Freedom Run is easy! Just click or tap the screen to jump, double click or double tap to double jump and if you press and hold you'll stay in the air for much longer.
+
+    ## Who created Freedom Run?
+    Freedom Run is a free game created by Charity Games. We are a non-profit organization that creates free games to raise money for charity. We donate 100% of our profits to charity.
+
+    ## Where did you get the assets for Freedom Run?
+    The assets for freedom run come from the following artists on itch.io:
+    - [Land and Tiles by The Flavre](https://theflavare.itch.io/mondstadt-theme-background-pixel-art)
+    - [Background by Vnitti](https://vnitti.itch.io/grassy-mountains-parallax-background)
+    - [Character by Waters Create](https://waterscreate.itch.io/plastformer-animation-pack)
+    - [Fruits and Veggies by Helm3t](https://helm3t.itch.io/free-32x32-fruits-and-veggies-asset-pack)
+    - [GUI by Prinbles](https://prinbles.itch.io/robin)
+    - [Music by Sonatina](https://sonatina.itch.io/letsadventure)
+    - [Sound Effects by Shapeforms](https://shapeforms.itch.io/shapeforms-audio-free-sfx)
+    - [LPC Birds by bluecarrot16, commissioned by castelonia](https://opengameart.org/content/lpc-birds)
+    
+    ## Can I see the source code for Freedom Run?
+    Sure! all of our games are open source. You can find the source code for Freedom Run on [GitHub](https://github.com/GGonryun/worksheets.dev/tree/main/construct3/freedom_run)
     `,
   },
   {

@@ -29,7 +29,7 @@ export const HomePageContainer = () => {
               variant: 'h4',
             },
             backgroundColor: 'error.main',
-            href: '/games',
+            href: '/play',
             Icon: SportsEsportsOutlinedIcon,
             width: { xs: '1/-1', sm: `span 3` },
           },
@@ -48,7 +48,7 @@ export const HomePageContainer = () => {
           {
             onClick: () => {
               const randomGame = getRandomGame(true);
-              push(`/games/${randomGame.id}`);
+              push(`/play/${randomGame.id}`);
             },
             type: 'button',
             text: {

@@ -52,7 +52,7 @@ export const GameDescription: FC<GameDescriptionProps> = ({
             userSelect: 'none',
           }}
         >
-          <Link underline="hover" color="inherit" href={`/games/${gameId}`}>
+          <Link underline="hover" color="inherit" href={`/play/${gameId}`}>
             {title}
           </Link>
         </Typography>

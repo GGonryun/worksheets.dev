@@ -70,7 +70,7 @@ export const DeveloperScreen: FC<DeveloperScreenProps> = ({
               name={d.name}
               developer={name}
               imageUrl={d.imageUrl}
-              href={`/games/${d.id}`}
+              href={`/play/${d.id}`}
             />
           </Box>
         ))}

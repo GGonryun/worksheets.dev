@@ -19,7 +19,7 @@ export const LayoutContainer: FC<{ children: ReactNode }> = ({ children }) => {
       onSearch={performQuery}
       onRandomGame={() => {
         const randomGame = getRandomGame(true);
-        push(`/games/${randomGame.id}`);
+        push(`/play/${randomGame.id}`);
       }}
     >
       {children}
@@ -37,7 +37,7 @@ const recommendationsFromSchema: Recommendations = {
     return {
       id: game.id,
       name: game.name,
-      href: `/games/${game.id}`,
+      href: `/play/${game.id}`,
       imageUrl: game.iconUrl,
       banner: 'hot',
     };
@@ -48,7 +48,7 @@ const recommendationsFromSchema: Recommendations = {
     return {
       id: game.id,
       name: game.name,
-      href: `/games/${game.id}`,
+      href: `/play/${game.id}`,
       imageUrl: game.iconUrl,
       banner: 'new',
     };
@@ -75,7 +75,7 @@ const performQuery = async (q: string) => {
     games: found.map((game) => ({
       id: game.id,
       name: game.name,
-      href: `/games/${game.id}`,
+      href: `/play/${game.id}`,
       imageUrl: game.iconUrl,
       developer:
         developers.find((dev) => dev.id === game.developerId)?.name ??

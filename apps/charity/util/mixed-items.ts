@@ -11,7 +11,7 @@ export const gameItems = (): MixedGridItem[] => {
   return games.map((game) => ({
     type: 'game',
     id: game.id,
-    href: `/games/${game.id}`,
+    href: `/play/${game.id}`,
     imageUrl: game.iconUrl,
     name: game.name,
     banner: game.qualifier,

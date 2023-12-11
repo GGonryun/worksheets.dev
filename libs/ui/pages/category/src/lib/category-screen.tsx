@@ -81,7 +81,7 @@ export const CategoryScreen: FC<CategoryScreenProps> = ({
             variant="contained"
             color="error"
             endIcon={<ArrowRight />}
-            href={'/games'}
+            href={'/play'}
           >
             <Typography fontWeight={900}>All Games</Typography>
           </StyledButton>

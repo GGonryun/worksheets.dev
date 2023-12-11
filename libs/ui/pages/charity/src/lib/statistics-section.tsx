@@ -46,7 +46,7 @@ export const StatisticsSection: FC<StatisticsSectionProps> = ({
               alignItems="center"
             >
               <Typography variant="body1">
-                {index + 1}. <Link href={`/games/${id}`}>{name}</Link>
+                {index + 1}. <Link href={`/play/${id}`}>{name}</Link>
               </Typography>
               <Typography variant="body2">{plays} plays</Typography>
             </Box>

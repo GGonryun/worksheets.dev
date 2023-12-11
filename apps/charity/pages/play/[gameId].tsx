@@ -46,7 +46,7 @@ const Page: NextPageWithLayout = () => {
     {
       onClick: () => {
         const randomGame = getRandomGame(true);
-        push(`/games/${randomGame.id}`);
+        push(`/play/${randomGame.id}`);
       },
       type: 'button',
       text: {
@@ -72,7 +72,7 @@ const Page: NextPageWithLayout = () => {
         variant: 'h4',
       },
       backgroundColor: 'error.main',
-      href: '/games',
+      href: '/play',
       Icon: SportsEsportsOutlinedIcon,
       width: { xs: '1/-1', sm: `span 3` },
     },
@@ -91,7 +91,7 @@ const Page: NextPageWithLayout = () => {
   ];
 
   const openGraph = {
-    url: `https://charity.games/games/${game.id}`,
+    url: `https://charity.games/play/${game.id}`,
     title: `${game.name} - Free Online Games that Support Charity`,
     description: `Want to play ${
       game.name
@@ -150,7 +150,7 @@ const Page: NextPageWithLayout = () => {
         description={game.description}
         playMode="SinglePlayer"
         applicationCategory="Game"
-        url={`https://charity.games/games/${game.id}`}
+        url={`https://charity.games/play/${game.id}`}
         platformName={game.platforms}
         keywords={game.tags.join(', ')}
         datePublished={game.createdAt.toISOString()}

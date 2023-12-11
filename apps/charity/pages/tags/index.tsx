@@ -43,7 +43,7 @@ const Page: NextPageWithLayout = () => (
               variant: 'h4',
             },
             backgroundColor: 'error.main',
-            href: '/games',
+            href: '/play',
             Icon: SportsEsportsOutlinedIcon,
             width: { xs: '1/-1', sm: `span 3` },
           },

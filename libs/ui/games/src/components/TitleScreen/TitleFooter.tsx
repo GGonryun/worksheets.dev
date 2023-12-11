@@ -26,7 +26,7 @@ export const TitleFooter: FC<TitleFooterProps> = ({
           <MenuButton
             border={border}
             color={color}
-            onClick={() => push(urls.charityGames.games())}
+            onClick={() => push(urls.charityGames.play())}
           >
             More Games
           </MenuButton>

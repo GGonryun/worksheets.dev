@@ -6,8 +6,6 @@ export const urls = {
     puzzle: `/puzzle`,
     levels: `/levels`,
     gallery: `/gallery`,
-    game: `/game`,
-    games: `/games`,
     play: `/play`,
     about: `/about`,
     directory: `/directory`,
@@ -45,7 +43,7 @@ export const urls = {
   charityGames: {
     cookies: SERVER_SETTINGS.WEBSITES.CHARITY_GAMES_URL('/cookies'),
     home: () => SERVER_SETTINGS.WEBSITES.CHARITY_GAMES_URL(),
-    games: () => SERVER_SETTINGS.WEBSITES.CHARITY_GAMES_URL('/games'),
+    play: () => SERVER_SETTINGS.WEBSITES.CHARITY_GAMES_URL('/play'),
     contact: () => SERVER_SETTINGS.WEBSITES.CHARITY_GAMES_URL('/contact'),
     newsletter: () => SERVER_SETTINGS.WEBSITES.CHARITY_GAMES_URL('/subscribe'),
   },

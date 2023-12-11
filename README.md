@@ -1,4 +1,4 @@
-# Charity.GAmes
+# Charity.Games
 
 ## Getting Started
 
