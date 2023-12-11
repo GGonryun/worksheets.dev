@@ -5,8 +5,10 @@ const WORD_PACK_URL = process.env['NEXT_PUBLIC_WORD_PACK_BASE_URL'] ?? '';
 const WORD_SMITH_URL = process.env['NEXT_PUBLIC_WORD_SMITH_BASE_URL'] ?? '';
 const NONOGRAMS_URL = process.env['NEXT_PUBLIC_NONOGRAMS_BASE_URL'] ?? '';
 const SOLITAIRE_URL = process.env['NEXT_PUBLIC_SOLITAIRE_BASE_URL'] ?? '';
+const BASE_URL = process.env['NEXT_PUBLIC_CHARITY_GAMES_BASE_URL'] ?? '';
 
 export {
+  BASE_URL,
   EMOJI_WAR_URL,
   PUZZLE_WORDS_URL,
   WORD_SEARCH_URL,

@@ -11,6 +11,12 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
  * @type {import('@nx/next/plugins/with-nx').WithNxOptions}
  **/
 const nextConfig = {
+  rewrites: async () => [
+    {
+      source: '/sitemap.xml',
+      destination: '/api/sitemap',
+    },
+  ],
   images: {
     remotePatterns: [
       {
