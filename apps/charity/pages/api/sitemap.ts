@@ -1,7 +1,7 @@
 import { NextApiHandler } from 'next';
 import { BASE_URL } from '@worksheets/util/env';
 import { getAllPostsMetadata } from '@worksheets/util-markdown';
-import { POSTS_PATH } from '../../util/paths';
+import { POSTS_PATH_FROM_API } from '../../util/paths';
 import { printShortDate } from '@worksheets/util/time';
 import {
   developers,
@@ -50,7 +50,7 @@ const addBasicPages = () => {
 };
 
 const addBlogPosts = () => {
-  const posts = getAllPostsMetadata(POSTS_PATH);
+  const posts = getAllPostsMetadata(POSTS_PATH_FROM_API);
   return posts
     .map(
       (post) => `<url>
