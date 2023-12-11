@@ -1,16 +1,11 @@
 import { NextApiHandler } from 'next';
 import { BASE_URL } from '@worksheets/util/env';
-import { getAllPostsMetadata } from '@worksheets/util-markdown';
-import { POSTS_PATH } from '../../util/paths';
 import { printShortDate } from '@worksheets/util/time';
 import {
   developers,
   games,
   tagSchemas,
 } from '@worksheets/data-access/charity-games';
-import path from 'path';
-import getConfig from 'next/config';
-const { serverRuntimeConfig } = getConfig();
 
 const LAST_UPDATE_DATE = `2023-12-10`;
 
@@ -52,28 +47,6 @@ const addBasicPages = () => {
     .join('');
 };
 
-const addBlogPosts = () => {
-  const BLOG_DIR = path.join(
-    serverRuntimeConfig.PROJECT_ROOT,
-    '../../_articles'
-  );
-
-  const blogPostPath =
-    process.env['VERCEL_ENV'] === 'development' ? POSTS_PATH : BLOG_DIR;
-
-  const posts = getAllPostsMetadata(blogPostPath);
-  return posts
-    .map(
-      (post) => `<url>
-    <loc>${BASE_URL}/blog/${post.slug}</loc>
-    <lastmod>${post.date}</lastmod>
-    <priority>0.5</priority>
-    </url>
-    `
-    )
-    .join('');
-};
-
 const addGames = () =>
   games
     .map(
@@ -110,6 +83,7 @@ const addDevelopers = () =>
     )
     .join('');
 
+// TODO: add support for specific blog posts in site map, vercel doesn't support reading files outside of the app folder
 const handler: NextApiHandler = (req, res) => {
   res.statusCode = 200;
   res.setHeader('Content-Type', 'application/xml');
@@ -123,7 +97,6 @@ const handler: NextApiHandler = (req, res) => {
       <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"> 
       ${addHomePage()}
       ${addBasicPages()}
-      ${addBlogPosts()}
       ${addGames()}
       ${addTags()}
       ${addDevelopers()}
