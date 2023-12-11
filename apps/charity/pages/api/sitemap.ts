@@ -1,13 +1,16 @@
 import { NextApiHandler } from 'next';
 import { BASE_URL } from '@worksheets/util/env';
 import { getAllPostsMetadata } from '@worksheets/util-markdown';
-import { POSTS_PATH_FROM_API } from '../../util/paths';
+import { POSTS_PATH } from '../../util/paths';
 import { printShortDate } from '@worksheets/util/time';
 import {
   developers,
   games,
   tagSchemas,
 } from '@worksheets/data-access/charity-games';
+import path from 'path';
+
+const BLOG_DIR = path.resolve('./__articles');
 
 const LAST_UPDATE_DATE = `2023-12-10`;
 
@@ -50,7 +53,10 @@ const addBasicPages = () => {
 };
 
 const addBlogPosts = () => {
-  const posts = getAllPostsMetadata(POSTS_PATH_FROM_API);
+  const blogPostPath =
+    process.env['VERCEL_ENV'] === 'development' ? POSTS_PATH : BLOG_DIR;
+
+  const posts = getAllPostsMetadata(blogPostPath);
   return posts
     .map(
       (post) => `<url>
