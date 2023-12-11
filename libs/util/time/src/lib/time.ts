@@ -40,18 +40,6 @@ export const printShortDate = (stamp: string | Date, locale = 'en-US') => {
   return date.toLocaleDateString(locale, options);
 };
 
-export const printW3CShortDate = (stamp: string | Date, locale = 'en-US') => {
-  const options: Intl.DateTimeFormatOptions = {
-    year: 'numeric',
-    month: 'numeric',
-    day: 'numeric',
-  };
-
-  const date = new Date(stamp);
-
-  return date.toLocaleDateString(locale, options).split('/').join('-');
-};
-
 export function expireAfter({
   minutes = 0,
   hours = 0,
