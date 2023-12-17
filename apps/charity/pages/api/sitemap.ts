@@ -90,29 +90,30 @@ const addDevelopers = () =>
 const addBlogPosts = () => {
   const serverRuntimeConfig = getConfig().serverRuntimeConfig;
 
-  const BLOG_DIR = path.join(
-    serverRuntimeConfig.PROJECT_ROOT,
-    './public/articles'
-  );
+  // const BLOG_DIR = path.join(
+  //   serverRuntimeConfig.PROJECT_ROOT,
+  //   './public/articles'
+  // );
 
-  console.log('BLOG_DIR', BLOG_DIR);
+  // console.log('BLOG_DIR', BLOG_DIR);
 
   const filenames = fs.readdirSync(serverRuntimeConfig.PROJECT_ROOT);
 
   console.log('filenames', filenames);
 
-  const posts = getAllPostsMetadata(BLOG_DIR);
+  // const posts = getAllPostsMetadata(BLOG_DIR);
 
-  return posts
-    .map(
-      (post) => `<url>
-    <loc>${BASE_URL}/blog/${post.slug}</loc>
-    <lastmod>${formatAmericanDate(post.date)}</lastmod>
-    <priority>0.9</priority>
-    </url>
-    `
-    )
-    .join('');
+  // return posts
+  //   .map(
+  //     (post) => `<url>
+  //   <loc>${BASE_URL}/blog/${post.slug}</loc>
+  //   <lastmod>${formatAmericanDate(post.date)}</lastmod>
+  //   <priority>0.9</priority>
+  //   </url>
+  //   `
+  //   )
+  //   .join('');
+  return ``;
 };
 
 const handler: NextApiHandler = (req, res) => {
