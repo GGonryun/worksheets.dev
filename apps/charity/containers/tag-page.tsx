@@ -10,11 +10,8 @@ import {
   games,
   tagSchemas,
 } from '@worksheets/data-access/charity-games';
-import { useGoogleAdsense } from '@worksheets/ui/advertisements';
 
 export const TagPage: NextPageWithLayout = () => {
-  useGoogleAdsense();
-
   const { query } = useRouter();
   const tagId = query.tagId as GameTag;
   const tag = tagSchemas.find((tag) => tag.id === tagId);

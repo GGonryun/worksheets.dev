@@ -1,4 +1,3 @@
-import { useGoogleAdsense } from '@worksheets/ui/advertisements';
 import { mixedItems } from '../util/mixed-items';
 import Container from '@mui/material/Container';
 import LocalOfferOutlinedIcon from '@mui/icons-material/LocalOfferOutlined';
@@ -9,8 +8,6 @@ import { useRouter } from 'next/router';
 import { getRandomGame } from '../util/randomizer';
 
 export const HomePageContainer = () => {
-  useGoogleAdsense();
-
   const { push } = useRouter();
 
   return (

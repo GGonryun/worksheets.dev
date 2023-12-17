@@ -7,7 +7,6 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { printDate } from '@worksheets/util/time';
 import { AbsolutelyCentered } from '@worksheets/ui-core';
 import { developers, games } from '@worksheets/data-access/charity-games';
-import { useGoogleAdsense } from '@worksheets/ui/advertisements';
 import {
   GameDescription,
   GameLauncher,
@@ -21,8 +20,6 @@ import { NextSeo, VideoGameJsonLd } from 'next-seo';
 import { DeveloperSchema } from '@worksheets/util/types';
 
 const Page: NextPageWithLayout = () => {
-  useGoogleAdsense();
-
   const { query, push } = useRouter();
   const gameId = query.gameId as string;
   const game = games.find((game) => game.id === gameId);

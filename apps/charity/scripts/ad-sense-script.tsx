@@ -6,6 +6,9 @@ export const AdSenseScript = () => {
       async
       src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1305399541775198"
       crossOrigin="anonymous"
-    />
+      id="adsense"
+    >
+      {`(adsbygoogle = window.adsbygoogle || []).push({});`}
+    </Script>
   );
 };

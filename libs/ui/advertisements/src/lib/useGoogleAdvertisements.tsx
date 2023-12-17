@@ -24,7 +24,6 @@ export const useGoogleAdsense = () => {
     const handleScriptLoad = () => {
       try {
         if (window.adsbygoogle) {
-          console.log('pushing ads ');
           window.adsbygoogle.push({});
         } else {
           scriptElement?.addEventListener('load', handleScriptLoad);
