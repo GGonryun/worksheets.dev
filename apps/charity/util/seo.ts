@@ -165,8 +165,8 @@ export const gameSeo = (
 ): NextSeoProps =>
   createSeo({
     url: `https://www.charity.games/play/${game.id}`,
-    title: `${game.name} - Free Online Games that Support Charity`,
-    description: ` play ${game.name} by ${
+    title: `${game.name} - Charity Games - Free Online Arcade`,
+    description: `Play ${game.name} by ${
       developer.name
     } online for free on Charity Games. ${game.name} is one of our top ${
       game.category
