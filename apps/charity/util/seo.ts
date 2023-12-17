@@ -1,7 +1,17 @@
-import { ArticleJsonLdProps, DefaultSeoProps, NextSeoProps } from 'next-seo';
+import {
+  ArticleJsonLdProps,
+  DefaultSeoProps,
+  NextSeoProps,
+  VideoGameJsonLdProps,
+} from 'next-seo';
 import { TWITTER_SEO } from '@worksheets/util/seo';
 import { MarkdownMetadata } from '@worksheets/util-markdown';
-import { BlogAuthor, DeveloperSchema, TagSchema } from '@worksheets/util/types';
+import {
+  BlogAuthor,
+  DeveloperSchema,
+  GameSchema,
+  TagSchema,
+} from '@worksheets/util/types';
 
 export type OpenGraphProps = NonNullable<NextSeoProps['openGraph']>;
 
@@ -144,7 +154,45 @@ export const donationsSeo = createSeo({
 
 export const categorySeo = (tag: TagSchema): NextSeoProps =>
   createSeo({
-    url: `https://charity.games/tags/${tag.id}`,
+    url: `https://www.charity.games/tags/${tag.id}`,
     title: `${tag.name} - Play Free Browser Games for Charity`,
     description: `Play ${tag.name} online for free on Charity Games. The easiest way to make a difference. Donate to charity by playing ${tag.name}.`,
   });
+
+export const gameSeo = (
+  game: GameSchema,
+  developer: DeveloperSchema
+): NextSeoProps =>
+  createSeo({
+    url: `https://www.charity.games/play/${game.id}`,
+    title: `${game.name} - Free Online Games that Support Charity`,
+    description: ` play ${game.name} by ${
+      developer.name
+    } online for free on Charity Games. ${game.name} is one of our top ${
+      game.category
+    } games. Supports ${game.platforms.join(' and ')}.`,
+    images: [
+      {
+        url: game.bannerUrl,
+        alt: game.name,
+      },
+    ],
+  });
+
+export const gameJsonLd = (
+  game: GameSchema,
+  developer: DeveloperSchema
+): VideoGameJsonLdProps => ({
+  name: game.name,
+  languageName: 'English',
+  description: game.description,
+  playMode: 'SinglePlayer',
+  applicationCategory: 'Game',
+  url: `https://www.charity.games/play/${game.id}`,
+  platformName: game.platforms,
+  keywords: game.tags.join(', '),
+  datePublished: game.createdAt.toISOString(),
+  image: game.iconUrl,
+  publisherName: developer.name,
+  producerUrl: `https://www.charity.games/developers/${developer.id}`,
+});
