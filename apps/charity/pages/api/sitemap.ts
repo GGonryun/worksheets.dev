@@ -1,11 +1,15 @@
 import { NextApiHandler } from 'next';
 import { BASE_URL } from '@worksheets/util/env';
-import { printShortDate } from '@worksheets/util/time';
+import { formatAmericanDate, printShortDate } from '@worksheets/util/time';
 import {
   developers,
   games,
   tagSchemas,
 } from '@worksheets/data-access/charity-games';
+import path from 'path';
+import getConfig from 'next/config';
+import fs from 'fs';
+import { getAllPostsMetadata } from '@worksheets/util-markdown';
 
 const LAST_UPDATE_DATE = `2023-12-10`;
 
@@ -83,8 +87,33 @@ const addDevelopers = () =>
     )
     .join('');
 
-// TODO: add support for specific blog posts in site map, vercel doesn't support reading files outside of the app folder
-// https://github.com/vercel/next.js/discussions/32236
+const addBlogPosts = () => {
+  const serverRuntimeConfig = getConfig().serverRuntimeConfig;
+
+  const BLOG_DIR = path.join(
+    serverRuntimeConfig.PROJECT_ROOT,
+    './public/articles'
+  );
+
+  console.log('BLOG_DIR', BLOG_DIR);
+
+  const filenames = fs.readdirSync(BLOG_DIR);
+
+  console.log('filenames', filenames);
+
+  const posts = getAllPostsMetadata(BLOG_DIR);
+
+  return posts
+    .map(
+      (post) => `<url>
+    <loc>${BASE_URL}/blog/${post.slug}</loc>
+    <lastmod>${formatAmericanDate(post.date)}</lastmod>
+    <priority>0.9</priority>
+    </url>
+    `
+    )
+    .join('');
+};
 
 const handler: NextApiHandler = (req, res) => {
   res.statusCode = 200;
@@ -101,6 +130,7 @@ const handler: NextApiHandler = (req, res) => {
       ${addGames()}
       ${addTags()}
       ${addDevelopers()}
+      ${addBlogPosts()}
       </urlset>`;
 
   res.end(xml);

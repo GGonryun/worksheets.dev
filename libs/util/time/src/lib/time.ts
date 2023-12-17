@@ -40,6 +40,16 @@ export const printShortDate = (stamp: string | Date, locale = 'en-US') => {
   return date.toLocaleDateString(locale, options);
 };
 
+/**
+ *
+ * @param stamp Stamp is a string provided in the form MM-DD-YYYY
+ * @returns a date formatted as YYYY-MM-DD
+ */
+export const formatAmericanDate = (stamp: string) => {
+  const [month, day, year] = stamp.split('-');
+  return `${year}-${month}-${day}`;
+};
+
 export function expireAfter({
   minutes = 0,
   hours = 0,

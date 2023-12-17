@@ -11,6 +11,9 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
  * @type {import('@nx/next/plugins/with-nx').WithNxOptions}
  **/
 const nextConfig = {
+  serverRuntimeConfig: {
+    PROJECT_ROOT: __dirname,
+  },
   rewrites: async () => [
     {
       source: '/sitemap.xml',

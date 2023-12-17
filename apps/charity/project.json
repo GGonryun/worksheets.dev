@@ -32,6 +32,11 @@
             "input": "libs/assets/partners/src/lib",
             "glob": "**/*",
             "output": "partners"
+          },
+          {
+            "input": "_articles",
+            "glob": "**/*",
+            "output": "articles"
           }
         ]
       },
