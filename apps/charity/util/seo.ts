@@ -132,7 +132,7 @@ export const faqSeo = createSeo({
 export const developerSeo = (developer: DeveloperSchema): NextSeoProps =>
   createSeo({
     url: `https://www.charity.games/developers/${developer.id}`,
-    title: `${developer.name} - Charity Games - Play Free Web Browser Games`,
+    title: `${developer.name} - Charity Games - Developer Profile`,
     description: `Play ${developer.name} games online for free on Charity Games. Turn your games into donations. Help us make a difference.`,
   });
 
