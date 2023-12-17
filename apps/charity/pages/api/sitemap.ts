@@ -89,8 +89,6 @@ const addDevelopers = () =>
 
 const articles = path.resolve('public/articles');
 const addBlogPosts = () => {
-  const serverRuntimeConfig = getConfig().serverRuntimeConfig;
-
   // const BLOG_DIR = path.join(
   //   serverRuntimeConfig.PROJECT_ROOT,
   //   './public/articles'
@@ -100,9 +98,6 @@ const addBlogPosts = () => {
 
   const articleFilenames = fs.readdirSync(articles);
   console.log('articleFilenames', articleFilenames);
-
-  const filenames = fs.readdirSync(serverRuntimeConfig.PROJECT_ROOT);
-  console.log('filenames', filenames);
 
   // const posts = getAllPostsMetadata(BLOG_DIR);
 
