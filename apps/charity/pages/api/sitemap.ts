@@ -97,7 +97,7 @@ const addBlogPosts = () => {
 
   console.log('BLOG_DIR', BLOG_DIR);
 
-  const filenames = fs.readdirSync(BLOG_DIR);
+  const filenames = fs.readdirSync(serverRuntimeConfig.PROJECT_ROOT);
 
   console.log('filenames', filenames);
 
