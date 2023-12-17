@@ -6,13 +6,12 @@ const homeAd1 = {
   position: 5,
 };
 
-const homeAd2 = {
+export const longHomeAd = {
   slot: '2726084734',
   client: adClient,
-  position: 10,
 };
 
-export const homeSquareAds = [homeAd1, homeAd2];
+export const homeSquareAds = [homeAd1];
 
 export const gameHorizontalAd = {
   client: adClient,

@@ -6,12 +6,15 @@ import ShuffleIcon from '@mui/icons-material/Shuffle';
 import { MixedGrid } from '@worksheets/ui/game-grid';
 import { useRouter } from 'next/router';
 import { getRandomGame } from '../util/randomizer';
+import { HorizontalAdvertisement } from '@worksheets/ui/advertisements';
+import { longHomeAd } from '@worksheets/data-access/charity-games';
+import { Box } from '@mui/material';
 
 export const HomePageContainer = () => {
   const { push } = useRouter();
 
   return (
-    <Container sx={{ py: 2 }}>
+    <Container maxWidth="xl" sx={{ py: 2 }}>
       <MixedGrid
         items={[
           ...mixedItems({
@@ -59,6 +62,9 @@ export const HomePageContainer = () => {
           },
         ]}
       />
+      <Box pt={3} pb={1}>
+        <HorizontalAdvertisement {...longHomeAd} />
+      </Box>
     </Container>
   );
 };
