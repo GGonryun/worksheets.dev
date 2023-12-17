@@ -7,12 +7,6 @@ const NONOGRAMS_URL = process.env['NEXT_PUBLIC_NONOGRAMS_BASE_URL'] ?? '';
 const SOLITAIRE_URL = process.env['NEXT_PUBLIC_SOLITAIRE_BASE_URL'] ?? '';
 const BASE_URL = process.env['NEXT_PUBLIC_CHARITY_GAMES_BASE_URL'] ?? '';
 
-const TWITTER_SEO = {
-  handle: '@CharityGamesGo',
-  site: '@CharityGamesGo',
-  cardType: 'summary_large_image',
-};
-
 export {
   BASE_URL,
   EMOJI_WAR_URL,
@@ -22,5 +16,4 @@ export {
   WORD_SMITH_URL,
   NONOGRAMS_URL,
   SOLITAIRE_URL,
-  TWITTER_SEO,
 };

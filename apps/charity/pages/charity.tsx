@@ -3,13 +3,7 @@ import { CharityScreen } from '@worksheets/ui/pages/charity';
 import { LayoutContainer } from '../containers/layout-container';
 import { campaigns, charities } from '@worksheets/data-access/charity-games';
 import { NextSeo } from 'next-seo';
-
-const openGraph = {
-  url: 'https://charity.games/charity',
-  title: 'Charity Games - Donate by Playing Free Online Games',
-  description:
-    'Charity Games is a non profit organization that donates money by playing free online browser games.',
-};
+import { charitySeo } from '../util/seo';
 
 const Page: NextPageWithLayout = () => {
   const campaign = campaigns['primary'];
@@ -22,12 +16,7 @@ const Page: NextPageWithLayout = () => {
 
   return (
     <>
-      <NextSeo
-        title={openGraph.title}
-        description={openGraph.description}
-        canonical={openGraph.url}
-        openGraph={openGraph}
-      />
+      <NextSeo {...charitySeo} />
       <CharityScreen
         charity={charity}
         pledge={campaign.pledge}

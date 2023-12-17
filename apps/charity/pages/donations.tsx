@@ -9,14 +9,30 @@ import {
   charityValues,
   donations,
 } from '@worksheets/data-access/charity-games';
+import { NextSeo } from 'next-seo';
+import { donationsSeo } from '../util/seo';
+import { GetServerSideProps } from 'next';
 
-const Page: NextPageWithLayout = () => {
-  return <ReceiptScreen rows={donations.map(createRow(charityValues))} />;
+export type Props = {
+  receipts: ReceiptScreenProps['rows'];
+};
+
+const Page: NextPageWithLayout<Props> = ({ receipts }) => {
+  return (
+    <>
+      <NextSeo {...donationsSeo} />
+      <ReceiptScreen rows={receipts} />
+    </>
+  );
 };
 
 Page.getLayout = (page) => {
   return <LayoutContainer>{page}</LayoutContainer>;
 };
+
+export const getServerSideProps = (async ({ params }) => {
+  return { props: { receipts: donations.map(createRow(charityValues)) } };
+}) satisfies GetServerSideProps<Props>;
 
 export default Page;
 

@@ -4,6 +4,7 @@ export * from './lib/games';
 export * from './lib/tags';
 export * from './lib/recommendations';
 export * from './lib/faq';
+export * from './lib/help';
 export * from './lib/charities';
 export * from './lib/donations';
 export * from './lib/campaigns';

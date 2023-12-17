@@ -8,7 +8,7 @@ import { useVersion } from '@worksheets/ui-core';
 import { APP_VERSION } from '../util/constants';
 import { useRouter } from 'next/router';
 import { DefaultSeo } from 'next-seo';
-import { TWITTER_SEO } from '@worksheets/util/env';
+import { TWITTER_SEO } from '@worksheets/util/seo';
 
 if (typeof window !== 'undefined') {
   FullStory.init(SERVICE_SETTINGS.FULLSTORY);

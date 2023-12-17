@@ -14,48 +14,45 @@ import { useRouter } from 'next/router';
 import { POSTS_PATH } from '../../util/paths';
 import { BlogErrorScreen, BlogPostScreen } from '@worksheets/ui/pages/blog';
 import { LayoutContainer } from '../../containers/layout-container';
-import { ArticleJsonLd, NextSeo } from 'next-seo';
+import { ArticleJsonLd, ArticleJsonLdProps, NextSeo } from 'next-seo';
 import { blogAuthors } from '@worksheets/data-access/charity-games';
+import {
+  OpenGraphProps,
+  blogArticleJsonLd,
+  blogArticleSeo,
+} from '../../util/seo';
+import { BlogAuthor } from '@worksheets/util/types';
 
 type Props = {
   metadata: MarkdownMetadata;
   content: string;
   slug: string;
+  seo: OpenGraphProps;
+  articleJsonLd: ArticleJsonLdProps;
+  author: BlogAuthor;
 };
 
-const Page: NextPageWithLayout<Props> = ({ slug, metadata, content }) => {
+const Page: NextPageWithLayout<Props> = ({
+  slug,
+  metadata,
+  content,
+  seo,
+  articleJsonLd,
+  author,
+}) => {
   const router = useRouter();
 
   if (!router.isFallback && !slug) {
     return <BlogErrorScreen />;
   }
-  const author = blogAuthors[metadata.authorId];
-  const openGraph = {
-    url: `https://charity.games/blog/${slug}`,
-    title: `${metadata.title} - Charity Games`,
-    description: metadata.excerpt,
-    type: 'article',
-    article: {
-      publishedTime: metadata.date,
-      modifiedTime: metadata.date,
-      authors: ['https://charity.games/about'],
-      tags: metadata.tags,
-    },
-    images: [
-      {
-        url: metadata.ogImage.url,
-        alt: metadata.title,
-      },
-    ],
-  };
 
   return (
     <>
       <NextSeo
-        title={openGraph.title}
-        description={openGraph.description}
-        canonical={openGraph.url}
-        openGraph={openGraph}
+        title={seo.title}
+        description={seo.description}
+        canonical={seo.url}
+        openGraph={seo}
       />
 
       <Box>
@@ -75,17 +72,7 @@ const Page: NextPageWithLayout<Props> = ({ slug, metadata, content }) => {
           </article>
         )}
       </Box>
-
-      <ArticleJsonLd
-        type="BlogPosting"
-        url={openGraph.url}
-        title={openGraph.title}
-        images={[metadata.ogImage.url]}
-        datePublished={metadata.date}
-        dateModified={metadata.date}
-        authorName={author.name}
-        description={openGraph.description}
-      />
+      <ArticleJsonLd {...articleJsonLd} />
     </>
   );
 };
@@ -105,20 +92,43 @@ export const getStaticProps = async ({
     // if the article doesn't exist return an empty object.
     return {
       props: {
+        seo: {},
         metadata: EMPTY_METADATA,
         slug: '',
         content: '',
+        articleJsonLd: {
+          url: '',
+          title: '',
+          images: [],
+          datePublished: '',
+          authorName: undefined,
+          description: '',
+        },
+        author: {
+          id: '',
+          name: '',
+          avatar: '',
+        },
       },
     };
   }
 
-  const html = await markdownToHtml(articleMarkdownContent.content || '');
+  const metadata = articleMarkdownContent.metadata;
+  const slug = params.slug;
+  const author = blogAuthors[metadata.authorId];
+  const content = await markdownToHtml(articleMarkdownContent.content || '');
+
+  const seo = blogArticleSeo(slug, metadata);
+  const articleJsonLd = blogArticleJsonLd(slug, metadata, author);
 
   return {
     props: {
-      metadata: articleMarkdownContent.metadata,
-      slug: params.slug,
-      content: html,
+      seo,
+      metadata,
+      slug,
+      content,
+      articleJsonLd,
+      author,
     },
   };
 };

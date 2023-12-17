@@ -8,7 +8,7 @@ import { useRouter } from 'next/router';
 import { APP_VERSION, UPDATE_BONUS } from '../lib/constants';
 import { useVersion } from '@worksheets/ui-core';
 import { MobileMeta, UpdateGameModal } from '@worksheets/ui-games';
-import { TWITTER_SEO } from '@worksheets/util/env';
+import { TWITTER_SEO } from '@worksheets/util/seo';
 import Head from 'next/head';
 import { DefaultSeo } from 'next-seo';
 

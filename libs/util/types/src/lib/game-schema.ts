@@ -32,6 +32,14 @@ type MarketLinks = {
   steam: string;
 };
 
+export type SerializableGameSchema = Omit<
+  GameSchema,
+  'createdAt' | 'updatedAt'
+> & {
+  createdAt: string;
+  updatedAt: string;
+};
+
 export type GameMonetizeSchema = {
   id: string;
   title: string;

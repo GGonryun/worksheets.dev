@@ -1,50 +1,60 @@
 import { DeveloperScreen } from '@worksheets/ui/pages/developer';
 import { NextPageWithLayout } from '@worksheets/util-next';
 import { LayoutContainer } from '../../containers/layout-container';
-import { useRouter } from 'next/router';
-import CircularProgress from '@mui/material/CircularProgress';
 import { developers, games } from '@worksheets/data-access/charity-games';
-import { NextSeo } from 'next-seo';
+import { NextSeo, NextSeoProps } from 'next-seo';
+import { DeveloperSchema, GameQualifier } from '@worksheets/util/types';
+import { GetServerSideProps } from 'next';
+import { developerSeo } from '../../util/seo';
 
-const Page: NextPageWithLayout = () => {
-  const { query } = useRouter();
-  const developerId = query.developerId as string;
-  const developer = developers.find(
-    (developer) => developer.id === developerId
-  );
+type Props = {
+  developer: DeveloperSchema;
+  games: {
+    id: string;
+    name: string;
+    developer: string;
+    imageUrl: string;
+    qualifier: GameQualifier;
+  }[];
+  seo: NextSeoProps;
+};
 
-  if (!developer) return <CircularProgress />;
-
-  const developerGames = games.filter((g) => g.developerId === developerId);
-
-  const openGraph = {
-    url: `https://charity.games/developers/${developerId}`,
-    title: `${developer.name} - Charity Games - Play Free Web Browser Games`,
-    description: `Play ${developer.name} games online for free on Charity Games. Turn your games into donations. Help us make a difference.`,
-  };
-
+const Page: NextPageWithLayout<Props> = ({ developer, games, seo }) => {
   return (
     <>
-      <NextSeo
-        title={openGraph.title}
-        description={openGraph.description}
-        canonical={openGraph.url}
-        openGraph={openGraph}
-      />
+      <NextSeo {...seo} />
       <DeveloperScreen
         name={developer.name}
         socials={developer.socials}
-        games={developerGames.map((g) => ({
-          id: g.id,
-          name: g.name,
-          developer: developer.name,
-          imageUrl: g.iconUrl,
-          qualifier: g.qualifier,
-        }))}
+        games={games}
       />
     </>
   );
 };
+
+export const getServerSideProps = (async ({ params }) => {
+  const developerId = params?.developerId as string;
+
+  const developer = developers.find(
+    (developer) => developer.id === developerId
+  );
+
+  if (!developer) throw new Error('Developer does not exist');
+
+  const developerGames = games
+    .filter((g) => g.developerId === developerId)
+    .map((g) => ({
+      id: g.id,
+      name: g.name,
+      developer: developer.name,
+      imageUrl: g.iconUrl,
+      qualifier: g.qualifier,
+    }));
+
+  const seo = developerSeo(developer);
+
+  return { props: { developer, games: developerGames, seo } };
+}) satisfies GetServerSideProps<Props>;
 
 Page.getLayout = (page) => {
   return <LayoutContainer>{page}</LayoutContainer>;

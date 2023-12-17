@@ -14,7 +14,7 @@ import { useRouter } from 'next/router';
 import { MobileMeta } from '@worksheets/ui-games';
 import Head from 'next/head';
 import { DefaultSeo } from 'next-seo';
-import { TWITTER_SEO } from '@worksheets/util/env';
+import { TWITTER_SEO } from '@worksheets/util/seo';
 
 if (!SERVER_SETTINGS.ENVIRONMENT.IS_PRODUCTION()) {
   verifier();

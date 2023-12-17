@@ -6,7 +6,7 @@ import { SERVICE_SETTINGS } from '@worksheets/data-access/server-settings';
 import { MobileMeta } from '@worksheets/ui-games';
 import Head from 'next/head';
 import { DefaultSeo } from 'next-seo';
-import { TWITTER_SEO } from '@worksheets/util/env';
+import { TWITTER_SEO } from '@worksheets/util/seo';
 
 if (typeof window !== 'undefined') {
   FullStory.init(SERVICE_SETTINGS.FULLSTORY);
