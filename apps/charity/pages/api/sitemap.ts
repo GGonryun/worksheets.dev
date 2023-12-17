@@ -7,9 +7,8 @@ import {
   tagSchemas,
 } from '@worksheets/data-access/charity-games';
 import path from 'path';
-import getConfig from 'next/config';
-import fs from 'fs';
 import { getAllPostsMetadata } from '@worksheets/util-markdown';
+import { POSTS_PATH } from '../../util/paths';
 
 const LAST_UPDATE_DATE = `2023-12-10`;
 
@@ -87,30 +86,24 @@ const addDevelopers = () =>
     )
     .join('');
 
-const articles = path.resolve('public/articles');
+const BLOG_DIR =
+  process.env['VERCEL_ENV'] === 'development'
+    ? POSTS_PATH
+    : path.resolve('public/articles');
+
 const addBlogPosts = () => {
-  // const BLOG_DIR = path.join(
-  //   serverRuntimeConfig.PROJECT_ROOT,
-  //   './public/articles'
-  // );
+  const posts = getAllPostsMetadata(BLOG_DIR);
 
-  // console.log('BLOG_DIR', BLOG_DIR);
-
-  const articleFilenames = fs.readdirSync(articles);
-  console.log('articleFilenames', articleFilenames);
-
-  // const posts = getAllPostsMetadata(BLOG_DIR);
-
-  // return posts
-  //   .map(
-  //     (post) => `<url>
-  //   <loc>${BASE_URL}/blog/${post.slug}</loc>
-  //   <lastmod>${formatAmericanDate(post.date)}</lastmod>
-  //   <priority>0.9</priority>
-  //   </url>
-  //   `
-  //   )
-  //   .join('');
+  return posts
+    .map(
+      (post) => `<url>
+    <loc>${BASE_URL}/blog/${post.slug}</loc>
+    <lastmod>${formatAmericanDate(post.date)}</lastmod>
+    <priority>0.5</priority>
+    </url>
+    `
+    )
+    .join('');
   return ``;
 };
 
