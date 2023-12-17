@@ -1,7 +1,7 @@
 import { ArticleJsonLdProps, DefaultSeoProps, NextSeoProps } from 'next-seo';
 import { TWITTER_SEO } from '@worksheets/util/seo';
 import { MarkdownMetadata } from '@worksheets/util-markdown';
-import { BlogAuthor, DeveloperSchema } from '@worksheets/util/types';
+import { BlogAuthor, DeveloperSchema, TagSchema } from '@worksheets/util/types';
 
 export type OpenGraphProps = NonNullable<NextSeoProps['openGraph']>;
 
@@ -141,3 +141,10 @@ export const donationsSeo = createSeo({
   title: `Charity Games - Donation Receipts`,
   description: `View all donations made by Charity Games. See how much money has been donated to charity. Thank you for your support!`,
 });
+
+export const categorySeo = (tag: TagSchema): NextSeoProps =>
+  createSeo({
+    url: `https://charity.games/tags/${tag.id}`,
+    title: `${tag.name} - Play Free Browser Games for Charity`,
+    description: `Play ${tag.name} online for free on Charity Games. The easiest way to make a difference. Donate to charity by playing ${tag.name}.`,
+  });

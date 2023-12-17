@@ -1,64 +1,80 @@
-import {
-  CategoryDoesNotExistScreen,
-  CategoryScreen,
-} from '@worksheets/ui/pages/category';
+import { CategoryScreen } from '@worksheets/ui/pages/category';
 import { NextPageWithLayout } from '@worksheets/util-next';
 import { LayoutContainer } from '../../containers/layout-container';
-import { useRouter } from 'next/router';
 import { GameTag, TagSchema } from '@worksheets/util/types';
 import {
   categorySquareAds,
   games,
   tagSchemas,
 } from '@worksheets/data-access/charity-games';
-import { NextSeo } from 'next-seo';
+import { NextSeo, NextSeoProps } from 'next-seo';
+import { GetServerSideProps } from 'next';
+import { categorySeo } from '../../util/seo';
 
-const Page: NextPageWithLayout = () => {
-  const { query } = useRouter();
-  const tagId = query.tagId as GameTag;
-  const tag = tagSchemas.find((tag) => tag.id === tagId);
-  if (!tag) return <CategoryDoesNotExistScreen tag={tagId} />;
+type Props = {
+  tag: TagSchema;
+  seo: NextSeoProps;
+  games: {
+    type: 'game';
+    name: string;
+    id: string;
+    imageUrl: string;
+    span: number;
+  }[];
+  categories: {
+    type: 'category';
+    name: string;
+    id: string;
+    imageUrl: string;
+  }[];
+};
 
-  const tagGames = games.filter((game) => game.tags.includes(tagId));
-  const relatedCategories = tag.relatedTags
-    .map((tagId) => tagSchemas.find((tag) => tag.id === tagId))
-    .filter(Boolean) as TagSchema[];
-
-  const openGraph = {
-    url: `https://charity.games/tags/${tagId}`,
-    title: `${tag.name} - Play Free Browser Games for Charity`,
-    description: `Play ${tag.name} online for free on Charity Games. The easiest way to make a difference. Donate to charity by playing ${tag.name}.`,
-  };
-
+const Page: NextPageWithLayout<Props> = ({ tag, seo, games, categories }) => {
   return (
     <>
-      <NextSeo
-        title={openGraph.title}
-        description={openGraph.description}
-        canonical={openGraph.url}
-        openGraph={openGraph}
-      />
+      <NextSeo {...seo} />
       <CategoryScreen
         text={tag.name}
         description={tag.description}
-        games={tagGames.map((game) => ({
-          type: 'game',
-          name: game.name,
-          id: game.id,
-          imageUrl: game.iconUrl,
-          span: game.size,
-        }))}
-        categories={relatedCategories.map((category) => ({
-          type: 'category',
-          name: category.name,
-          id: category.id,
-          imageUrl: category.iconUrl,
-        }))}
+        games={games}
+        categories={categories}
         advertisements={categorySquareAds}
       />
     </>
   );
 };
+
+export const getServerSideProps = (async ({ params }) => {
+  const tagId = params?.tagId as GameTag;
+  const tag = tagSchemas.find((tag) => tag.id === tagId);
+
+  if (!tag) throw new Error('Tag does not exist');
+
+  const tagGames = games
+    .filter((game) => game.tags.includes(tagId))
+    .map((game) => ({
+      type: 'game' as const,
+      name: game.name,
+      id: game.id,
+      imageUrl: game.iconUrl,
+      span: game.size,
+    }));
+
+  const relatedCategories = tag.relatedTags
+    .map((tagId) => tagSchemas.find((tag) => tag.id === tagId))
+    .filter(Boolean) as TagSchema[];
+
+  const categories = relatedCategories.map((category) => ({
+    type: 'category' as const,
+    name: category.name,
+    id: category.id,
+    imageUrl: category.iconUrl,
+  }));
+
+  const seo = categorySeo(tag);
+
+  return { props: { tag, games: tagGames, categories, seo } };
+}) satisfies GetServerSideProps<Props>;
 
 Page.getLayout = (page) => {
   return <LayoutContainer>{page}</LayoutContainer>;
