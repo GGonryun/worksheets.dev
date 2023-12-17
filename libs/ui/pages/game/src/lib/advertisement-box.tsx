@@ -13,7 +13,7 @@ const HorizontalAdvertisementBox = styled(Box)(({ theme }) => ({
   width: '100%',
 
   [theme.breakpoints.up('xs')]: {
-    gridRow: '6 / span 1',
+    gridRow: '4 / span 1',
     gridColumn: '1 / span 3',
   },
   [theme.breakpoints.up('mobile2')]: {

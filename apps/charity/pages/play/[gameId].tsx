@@ -59,8 +59,8 @@ const Page: NextPageWithLayout<Props> = ({
             platforms={game.platforms}
             tags={game.tags}
             category={game.category}
-            created={printDate(game.createdAt)}
-            updated={printDate(game.updatedAt)}
+            created={game.createdAt}
+            updated={game.updatedAt}
             text={game.description}
             markets={game.markets}
           />
@@ -126,13 +126,11 @@ export const getServerSideProps = (async ({ params }) => {
     );
 
   const randomGame = getRandomGame(true);
-  const items: MixedGridItem[] = [
-    ...mixedItems({
-      hideAds: true,
-      maxGames: 50,
-      maxTags: 10,
-    }).map(shrinkGames),
-  ];
+  const items: MixedGridItem[] = mixedItems({
+    hideAds: true,
+    maxGames: 50,
+    maxTags: 10,
+  }).map(shrinkGames);
 
   const seo = gameSeo(game, developer);
   const jsonLd = gameJsonLd(game, developer);

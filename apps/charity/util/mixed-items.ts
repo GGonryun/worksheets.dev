@@ -56,26 +56,7 @@ export const mixedItems = (options?: MixedItemOptions) => {
   const games = gameItems().slice(0, maxGames);
   const tags = tagItems().slice(0, maxTags);
 
-  const mixedItems: MixedGridItem[] = [];
-
-  let i = 0;
-  while (games.length || tags.length) {
-    // as long as the games aren't empty, push 2, 4, or 8 games.
-    if (games.length) {
-      const slot = i % 3 === 0 ? 2 : i % 3 === 1 ? 4 : 8;
-      mixedItems.push(...games.splice(0, slot));
-    }
-    // as long as the tags aren't empty, push one tag.
-    if (tags.length) {
-      const tag = tags.shift();
-      if (tag) {
-        mixedItems.push(tag);
-      }
-    }
-    i++;
-  }
-
-  const collection = [campaignItem, ...mixedItems, partnershipItem];
+  const collection = [campaignItem, ...games, ...tags, partnershipItem];
 
   if (hideAds) return collection;
 
