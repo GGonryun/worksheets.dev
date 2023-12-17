@@ -2261,7 +2261,7 @@ export const games: GameSchema[] = [
   {
     id: 'word-pack',
     name: 'Word Pack',
-    size: 3,
+    size: 2,
     developerId: 'charity-games',
     iconUrl: '/games/word-pack/icon.jpg',
     bannerUrl: '/games/word-pack/banner.jpg',
