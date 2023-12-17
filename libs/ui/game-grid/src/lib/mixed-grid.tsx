@@ -22,6 +22,9 @@ export const MixedGrid: FC<MixedGridProps> = ({ items }) => {
       alignItems={'center'}
       justifyContent={'center'}
       gap={1}
+      sx={{
+        userSelect: 'none',
+      }}
     >
       <MixedGridItems items={items} size={size} />
     </Box>
