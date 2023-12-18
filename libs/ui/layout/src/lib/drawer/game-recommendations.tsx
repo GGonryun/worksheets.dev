@@ -6,6 +6,8 @@ import { GameIcon } from '@worksheets/ui/game-grid';
 import Box from '@mui/material/Box';
 import { ButtonPill } from '@worksheets/ui/pills';
 import ShuffleIcon from '@mui/icons-material/Shuffle';
+import SportsEsportsOutlinedIcon from '@mui/icons-material/SportsEsportsOutlined';
+import LocalOfferOutlinedIcon from '@mui/icons-material/LocalOfferOutlined';
 
 export type GameRecommendationProps = {
   hideCategories?: boolean;
@@ -40,13 +42,31 @@ export const GameRecommendations: FC<GameRecommendationProps> = ({
           ))}
         </GameSection>
       </Box>
-      <Box mt={1}>
-        <GameSection title="Browse Categories" href="/tags" />
-        <GameSection title="Browse Games" href="/" />
+      <Box mt={2} display="flex" gap={2} flexDirection="column">
+        <ButtonPill
+          href="/play"
+          text={{
+            content: 'All Games',
+            color: 'primary.contrastText',
+            variant: 'h4',
+          }}
+          backgroundColor="error.main"
+          Icon={SportsEsportsOutlinedIcon}
+        />
+        <ButtonPill
+          href="/tags"
+          text={{
+            content: 'All Categories',
+            color: 'primary.contrastText',
+            variant: 'h4',
+          }}
+          backgroundColor="primary.main"
+          Icon={LocalOfferOutlinedIcon}
+        />
         <ButtonPill
           onClick={onRandomGame}
           text={{
-            content: 'Random Game',
+            content: 'Random ',
             color: 'text.primary',
             variant: 'h4',
           }}
