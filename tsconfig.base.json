@@ -58,6 +58,9 @@
       "@worksheets/ui/pages/category": ["libs/ui/pages/category/src/index.ts"],
       "@worksheets/ui/pages/charity": ["libs/ui/pages/charity/src/index.ts"],
       "@worksheets/ui/pages/contact": ["libs/ui/pages/contact/src/index.ts"],
+      "@worksheets/ui/pages/contributions": [
+        "libs/ui/pages/contributions/src/index.ts"
+      ],
       "@worksheets/ui/pages/cookie-policy": [
         "libs/ui/pages/cookie-policy/src/index.ts"
       ],
