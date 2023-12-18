@@ -7,13 +7,7 @@ export const LevelBanner = createSvgIcon(
     <title>012-Flag</title>
     <desc>Created with Sketch.</desc>
     <defs></defs>
-    <g
-      id="Page-1"
-      stroke="none"
-      stroke-width="1"
-      fill="none"
-      fill-rule="evenodd"
-    >
+    <g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
       <g id="Artboard" transform="translate(-749.000000, -737.000000)">
         <g id="012-Flag" transform="translate(749.000000, 737.000000)">
           <path
