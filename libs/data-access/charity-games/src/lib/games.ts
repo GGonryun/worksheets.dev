@@ -2154,7 +2154,6 @@ export const games: GameSchema[] = [
     platforms: ['desktop', 'mobile'],
     tags: [
       'ad-free',
-      'popular',
       'puzzle',
       'word',
       'brain',
