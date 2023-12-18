@@ -1,8 +1,8 @@
 import { NextPageWithLayout } from '@worksheets/util-next';
-import { UnderConstruction } from '@worksheets/ui/pages/under-construction';
+import { TermsOfServiceScreen } from '@worksheets/ui/pages/terms-of-service';
 import { LayoutContainer } from '../containers/layout-container';
 
-const Page: NextPageWithLayout = () => <UnderConstruction />;
+const Page: NextPageWithLayout = () => <TermsOfServiceScreen />;
 
 Page.getLayout = (page) => {
   return <LayoutContainer>{page}</LayoutContainer>;

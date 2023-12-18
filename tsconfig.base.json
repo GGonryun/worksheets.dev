@@ -75,6 +75,9 @@
         "libs/ui/pages/privacy-policy/src/index.ts"
       ],
       "@worksheets/ui/pages/receipts": ["libs/ui/pages/receipts/src/index.ts"],
+      "@worksheets/ui/pages/terms-of-service": [
+        "libs/ui/pages/terms-of-service/src/index.ts"
+      ],
       "@worksheets/ui/pages/under-construction": [
         "libs/ui/pages/under-construction/src/index.ts"
       ],
