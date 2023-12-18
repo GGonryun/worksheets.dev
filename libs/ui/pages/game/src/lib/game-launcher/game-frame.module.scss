@@ -4,4 +4,19 @@
   overflow: 'hidden';
   border: none;
   background-color: transparent;
+  z-index: 1;
+}
+
+.placeholder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 0;
+  background-color: rgb(222, 222, 222);
 }
