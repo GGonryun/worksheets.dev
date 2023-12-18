@@ -1,4 +1,5 @@
 import { Markdown } from '@worksheets/ui-core';
+import { printDate } from '@worksheets/util/time';
 
 export const PrivacyStatement = () => {
   return (
@@ -11,11 +12,14 @@ export const PrivacyStatement = () => {
   );
 };
 
+const createdAtDate = printDate('12-01-2021');
+const updatedAtDate = printDate('12-01-2021');
+
 const privacyStatement = `
 # Global Privacy Statement
-__Released__: 12/01/2021
+__Released__: ${createdAtDate}
 <br/>
-__Last Updated__: 12/01/2021
+__Last Updated__: ${updatedAtDate}
 ## General Information:
 Welcome to CharityGames, where we are committed to protecting your privacy. This Privacy Statement explains how we collect, use, and safeguard your personal information when you visit our website and use our gaming services.
 
@@ -135,4 +139,4 @@ We reserve the right to amend this privacy notice at our discretion and at any t
 ## Contact Information
 If you have any questions or comments about this Privacy Notice, our Privacy Policy, the ways in which we collect and use your personal information, your choices and rights regarding such use, or wish to exercise your rights, please view our [contact page](/contact) for more information.
 
-This Privacy Statement is effective as of [Date] and may be updated periodically. Please check this page for the latest information.`;
+This Privacy Statement is effective as of ${createdAtDate} and may be updated periodically. Please check this page for the latest information.`;
