@@ -18,5 +18,3 @@ Page.getLayout = (page) => {
 };
 
 export default Page;
-
-// Want to play Cats Drop? Play this game online for free on Poki. Lots of fun to play when bored. Cats Drop is one of our favorite puzzle games.

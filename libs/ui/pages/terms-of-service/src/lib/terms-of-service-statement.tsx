@@ -92,7 +92,7 @@ It is strictly forbidden to:
 - remove, hide, or in any hinder the viewability of any copyright, trademark, or proprietary rights notice from the iframed portion of the site;
 - remove, block, hide, or in any hinder the viewability of any Charity Games branding, logo, or other Charity Games intellectual property from the iframed portion of the site;
 - use Charity Games's name, logo, or other Charity Games intellectual property in any way that would imply Charity Games's endorsement of your website or product;
-- add layerslaters, overlays, or other elements to the iframed portion of the site that would imply Charity Games's endorsement of your website or product;
+- add layers, overlays, or other elements to the iframed portion of the site that would imply Charity Games's endorsement of your website or product;
 <br/>
 If you have any questions about these linking policies you may contact us at [${urls.email.support}](mailto:${urls.email.support}).
 
