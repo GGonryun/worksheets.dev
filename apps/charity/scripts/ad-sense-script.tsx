@@ -10,6 +10,6 @@ export const AdSenseScript = () => (
 
 export const AdsensePushScript = () => (
   <Script id="adsense-push">
-    {`(adsbygoogle = window.adsbygoogle || []).push({});`}
+    {`var adsbygoogle; if (adsbygoogle && !adsbygoogle.loaded) (adsbygoogle = window.adsbygoogle || []).push({});`}
   </Script>
 );
