@@ -1,7 +1,7 @@
 const urls = {
   charityGames: process.env['NEXT_PUBLIC_CHARITY_GAMES_BASE_URL'],
   email: {
-    support: 'mailto:amodestduck@gmail.com',
+    support: 'mailto:support@charity.games',
   },
   poll: 'https://strawpoll.com/GeZAOVdBRnV',
   external: {

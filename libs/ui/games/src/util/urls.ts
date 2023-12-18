@@ -20,9 +20,6 @@ export const urls = {
     login: `/login`,
     logout: `/logout`,
   },
-  mailTo: {
-    personalEmail: `mailto:amodestduck@gmail.com`,
-  },
   social: {
     reddit: `https://www.reddit.com/user/ggonryun/`,
     linkedIn: `https://www.linkedin.com/in/miguel-campos-5b1114172/`,
