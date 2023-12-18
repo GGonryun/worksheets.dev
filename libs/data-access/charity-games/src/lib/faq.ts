@@ -19,7 +19,7 @@ export const faq = [
   },
   {
     question: 'Where do games come from?',
-    answer: `From people like you! We're a community driven platform. We're working on adding support for uploading games directly to our platform. In the meantime, you can submit games to us by contacting us on our [Contact](/contact) page.`,
+    answer: `From people like you! We're a community driven platform. We're working on adding support for uploading games directly to our platform. In the meantime, you can submit games to us through our [Contribution Portal](/contribute).`,
     id: 'where-do-games-come-from',
   },
   {

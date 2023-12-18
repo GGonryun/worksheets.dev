@@ -3,6 +3,9 @@ const urls = {
   email: {
     support: 'mailto:support@charity.games',
   },
+  forms: {
+    submission: 'https://forms.gle/J8B542yAduanvZSf6',
+  },
   poll: 'https://strawpoll.com/GeZAOVdBRnV',
   external: {
     waterOrg: 'https://www.water.org/',

@@ -5,7 +5,7 @@ export const helpFaq = [
     id: 'developer-help',
     question: "I'm a developer. How can I help?",
     answer: `We're glad you asked! As a developer, you can help us in a number of ways:
-        - Add your game to our platform. We're always looking for new games to add to our platform. If you have a game that you'd like to add, please [contact us](/contact).
+        - Add your game to our platform. We're always looking for new games to add to our platform. If you have a game that you'd like to add, please use our [contribution portal](/contribute).
         - Help us improve our platform. We're always looking for ways to improve our platform. If you have any suggestions, please [contact us](/contact).
         - Help us fix bugs. If you find a bug, please file a bug report on our [GitHub repository](${urls.social.github}).`,
   },

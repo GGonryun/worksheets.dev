@@ -37,7 +37,6 @@ export const WebsiteFooter: FC<WebsiteFooterProps> = () => {
           <SocialIcon Icon={GitHub} onClick={() => push(urls.social.github)} />
         </Box>
         <Box display="flex" gap={3}>
-          <FooterLink href={'/charity'}>Charity</FooterLink>
           <FooterLink href={'/about'}>About</FooterLink>
           <FooterLink href={'/blog'}>Blog</FooterLink>
           <FooterLink href={'/contact'}>Contact</FooterLink>
@@ -47,8 +46,16 @@ export const WebsiteFooter: FC<WebsiteFooterProps> = () => {
         <Box>
           <CopywriteText>Copyright © {currentYear} Charity.Games</CopywriteText>
         </Box>
-        <Box display="flex" gap={2}>
+        <Box
+          display="flex"
+          gap={2}
+          flexWrap="wrap"
+          alignItems="center"
+          justifyContent="center"
+        >
+          <FooterSubLink href={'/charity'}>Charity</FooterSubLink>
           <FooterSubLink href={'/help'}>Help</FooterSubLink>
+          <FooterSubLink href={'/contribute'}>Developers</FooterSubLink>
           <FooterSubLink href={'/faq'}>FAQ</FooterSubLink>
           <FooterSubLink href={'/terms'}>Terms</FooterSubLink>
           <FooterSubLink href={'/privacy'}>Privacy</FooterSubLink>

@@ -12,3 +12,4 @@ export * from './lib/play-store';
 export * from './lib/steam-games';
 export * from './lib/tiktok';
 export * from './lib/twitch-tv';
+export * from './lib/charity';
