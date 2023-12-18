@@ -9,6 +9,17 @@ export const GameFrame = forwardRef<HTMLIFrameElement, GameFrameProps>(
   ({ url }, ref) => {
     return (
       <Box width="100%" height="100%" position="relative">
+        <Box className={classes.placeholder}>
+          <Image
+            src={'/common/charity-games/logos/square.png'}
+            alt="charity games logo"
+            height={164}
+            width={164}
+          />
+          <Typography variant="h4" component="h1">
+            Loading...
+          </Typography>
+        </Box>
         <iframe
           ref={ref}
           style={{
@@ -21,17 +32,6 @@ export const GameFrame = forwardRef<HTMLIFrameElement, GameFrameProps>(
           // sandbox="allow-forms allow-modals allow-orientation-lock allow-pointer-lock allow-popups allow-popups-to-escape-sandbox allow-presentation allow-scripts allow-same-origin allow-downloads allow-gamepad"
           // allow="autoplay; fullscreen *; geolocation; microphone; camera; midi; xr-spatial-tracking; gamepad; gyroscope; accelerometer; cross-origin-isolated; keyboard-map *; clipboard-write;"
         />
-        <Box className={classes.placeholder}>
-          <Image
-            src={'/common/charity-games/logos/square.png'}
-            alt="charity games logo"
-            height={164}
-            width={164}
-          />
-          <Typography variant="h4" component="h1">
-            Loading...
-          </Typography>
-        </Box>
       </Box>
     );
   }
