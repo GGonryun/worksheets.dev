@@ -1,6 +1,5 @@
 import {
   homeSquareAds,
-  campaigns,
   games,
   sidecadePartnership,
   tagSchemas,
@@ -40,14 +39,6 @@ export const mixedItems = (options?: MixedItemOptions) => {
   const maxTags = options?.maxTags ?? 50;
   const hideAds = options?.hideAds ?? false;
 
-  const campaign = campaigns['primary'];
-  if (!campaign) throw new Error('Campaign not found');
-  const campaignItem: MixedGridItem = {
-    type: 'progress',
-    current: campaign.pledge.current,
-    required: campaign.pledge.required,
-  };
-
   const partnershipItem: MixedGridItem = {
     type: 'image',
     ...sidecadePartnership,
@@ -56,7 +47,7 @@ export const mixedItems = (options?: MixedItemOptions) => {
   const games = gameItems().slice(0, maxGames);
   const tags = tagItems().slice(0, maxTags);
 
-  const collection = [campaignItem, ...games, ...tags, partnershipItem];
+  const collection = [...games, ...tags, partnershipItem];
 
   if (hideAds) return collection;
 
