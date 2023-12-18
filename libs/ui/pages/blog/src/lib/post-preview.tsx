@@ -69,8 +69,10 @@ export const PostPreview: FC<MarkdownMetadata> = ({
           </Typography>
         </Link>
       </Flex>
-      <Box height={130} minWidth={275} position="relative">
-        {!isMobile && <CoverImage src={coverImage} alt={`${title} image`} />}
+      <Box height={130} minWidth={{ xs: 0, md: 275 }} position="relative">
+        {!isMobile && (
+          <CoverImage priority src={coverImage} alt={`${title} image`} />
+        )}
       </Box>
     </Flex>
   );
