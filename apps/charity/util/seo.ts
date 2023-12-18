@@ -196,3 +196,15 @@ export const gameJsonLd = (
   publisherName: developer.name,
   producerUrl: `https://www.charity.games/developers/${developer.id}`,
 });
+
+export const termsSeo = createSeo({
+  url: `https://www.charity.games/terms`,
+  title: `Charity Games - Terms of Service`,
+  description: `Read the Charity Games terms of service. Learn about our policies and guidelines. Thank you for your support!`,
+});
+
+export const contributeSeo = createSeo({
+  url: `https://www.charity.games/contribute`,
+  title: `Charity Games - Developer Contributions`,
+  description: `Learn how to contribute to Charity Games. Help us make a difference. Turn your games into donations.`,
+});
