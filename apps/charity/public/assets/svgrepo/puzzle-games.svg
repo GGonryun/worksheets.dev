@@ -1,17 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
-<svg width="800px" height="800px" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-<defs>
-<style>.cls-1{fill:#fff35f;}.cls-1,.cls-2,.cls-5{stroke:#54596e;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px;}.cls-2{fill:none;}.cls-3{fill:#54596e;}.cls-4{fill:#ff927d;}.cls-5{fill:#ffb8f2;}</style>
-</defs>
-<title>puzzle</title>
-<g id="puzzle">
-<circle class="cls-1" cx="22" cy="24" r="21"/>
-<path class="cls-2" d="M16.86,25.07A7,7,0,0,0,22,27a7,7,0,0,0,5.1-1.9"/>
-<circle class="cls-3" cx="13" cy="15" r="2"/>
-<circle class="cls-3" cx="31" cy="15" r="2"/>
-<circle class="cls-4" cx="31" cy="21" r="2"/>
-<circle class="cls-4" cx="13" cy="21" r="2"/>
-<path class="cls-5" d="M59,44a4,4,0,0,0-3,1.38V33H43.62a4,4,0,1,0-5.24,0H27V45.38a4,4,0,1,1,0,5.24V62H38.38a4,4,0,1,1,5.24,0H56V50.62A4,4,0,1,0,59,44Z"/>
-</g>
-</svg>
