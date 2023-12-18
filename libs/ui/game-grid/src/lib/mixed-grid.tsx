@@ -8,7 +8,7 @@ export type MixedGridProps = {
 
 export const MixedGrid: FC<MixedGridProps> = ({ items }) => {
   const itemSize = () => {
-    return '94px';
+    return '90px';
   };
 
   const size = itemSize();
@@ -21,7 +21,7 @@ export const MixedGrid: FC<MixedGridProps> = ({ items }) => {
       gridAutoFlow={'dense'}
       alignItems={'center'}
       justifyContent={'center'}
-      gap={1}
+      gap={1.5}
       sx={{
         userSelect: 'none',
       }}
