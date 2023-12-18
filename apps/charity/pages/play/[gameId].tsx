@@ -24,6 +24,7 @@ import {
 import { GetServerSideProps } from 'next';
 import { gameJsonLd, gameSeo } from '../../util/seo';
 import dynamic from 'next/dynamic';
+import { useGoogleAdsense } from '@worksheets/ui/advertisements';
 
 type Props = {
   game: SerializableGameSchema;
@@ -46,6 +47,8 @@ const Page: NextPageWithLayout<Props> = ({
   developer,
   randomGame,
 }) => {
+  useGoogleAdsense();
+
   return (
     <>
       <NextSeo {...seo} />

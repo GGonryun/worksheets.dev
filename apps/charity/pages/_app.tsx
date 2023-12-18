@@ -7,7 +7,7 @@ import { SERVICE_SETTINGS } from '@worksheets/data-access/server-settings';
 import * as FullStory from '@fullstory/browser';
 import { SessionProvider } from 'next-auth/react';
 import theme from '@worksheets/ui/theme';
-import { AdSenseScript, AdsensePushScript } from '../scripts';
+import { AdSenseScript } from '../scripts';
 import { DefaultSeo } from 'next-seo';
 import { defaultSeo } from '../util/seo';
 
@@ -47,7 +47,6 @@ function CustomApp({
           <main>{getLayout(<Component {...pageProps} />)}</main>
         </SessionProvider>
       </ThemeProvider>
-      <AdsensePushScript />
     </>
   );
 }

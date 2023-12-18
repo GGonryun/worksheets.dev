@@ -10,6 +10,7 @@ import {
 import { NextSeo, NextSeoProps } from 'next-seo';
 import { GetServerSideProps } from 'next';
 import { categorySeo } from '../../util/seo';
+import { useGoogleAdsense } from '@worksheets/ui/advertisements';
 
 type Props = {
   tag: TagSchema;
@@ -30,6 +31,8 @@ type Props = {
 };
 
 const Page: NextPageWithLayout<Props> = ({ tag, seo, games, categories }) => {
+  useGoogleAdsense();
+
   return (
     <>
       <NextSeo {...seo} />
