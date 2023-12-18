@@ -1,12 +1,12 @@
-import { Link, Typography } from '@mui/material';
+import { Box, Link, Typography } from '@mui/material';
 import { MarkdownMetadata } from '@worksheets/util-markdown';
 import { FC } from 'react';
 import { urls } from '@worksheets/ui-games';
 import { Flex, useDeviceSize } from '@worksheets/ui-core';
-import Image from 'next/image';
 import { ArrowRightAlt } from '@mui/icons-material';
 import { printDate } from '@worksheets/util/time';
 import { blogAuthors } from '@worksheets/data-access/charity-games';
+import { CoverImage } from '@worksheets/ui/images';
 
 export const PostPreview: FC<MarkdownMetadata> = ({
   title,
@@ -69,14 +69,9 @@ export const PostPreview: FC<MarkdownMetadata> = ({
           </Typography>
         </Link>
       </Flex>
-      {!isMobile && (
-        <Image
-          src={coverImage}
-          alt={`${title} image`}
-          height={130}
-          width={225}
-        />
-      )}
+      <Box height={130} minWidth={275} position="relative">
+        {!isMobile && <CoverImage src={coverImage} alt={`${title} image`} />}
+      </Box>
     </Flex>
   );
 };
