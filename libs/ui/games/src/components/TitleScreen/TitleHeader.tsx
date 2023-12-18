@@ -21,6 +21,7 @@ export const TitleHeader: FC<TitleHeaderProps> = ({ color, onSettings }) => {
             size={'medium'}
             disableRipple
             href={urls.charityGames.home()}
+            target="_blank"
           >
             <Image
               src={assets.charityGames.squareLogo}

@@ -23,7 +23,7 @@ export const PlayArea: FC<PlayAreaProps> = ({
       className="play-area"
       column
       maxWidth={500}
-      width={'min(40vh, 80vw)'}
+      width={'min(50vh, 80vw)'}
       centered
       gap={1}
       px={2}

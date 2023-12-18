@@ -20,6 +20,7 @@ export const MenuButton: FC<{
   boxShadow?: string;
   border?: BoxProps['border'];
   fullWidth?: ButtonProps['fullWidth'];
+  target?: '_blank';
 }> = ({
   onClick,
   children,
@@ -32,22 +33,30 @@ export const MenuButton: FC<{
   boxShadow,
   border,
   fullWidth,
+  target,
 }) => {
+  // button has a hard time accepting both the onClick and href props
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const props: any = {
+    target,
+    startIcon,
+    endIcon,
+    disabled,
+    disableRipple: true,
+    border,
+    fullWidth,
+    sx: {
+      boxShadow,
+      border,
+    },
+  };
+
+  if (onClick) props.onClick = onClick;
+  if (href) props.href = href;
+
   return (
     <Paper elevation={6}>
-      <Button
-        href={href}
-        fullWidth={fullWidth}
-        disableRipple
-        onClick={onClick}
-        startIcon={startIcon}
-        endIcon={endIcon}
-        disabled={disabled}
-        sx={{
-          boxShadow,
-          border,
-        }}
-      >
+      <Button {...props}>
         <Typography
           variant={variant ?? 'body1'}
           fontWeight={900}

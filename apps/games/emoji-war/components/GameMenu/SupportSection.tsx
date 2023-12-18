@@ -23,6 +23,7 @@ export const SupportSection: FC<{
         variant="body2"
         endIcon={<SportsEsportsOutlined color="secondary" />}
         href={urls.charityGames.home()}
+        target="_blank"
         color="secondary"
         border={`3px solid ${theme.palette.secondary.main}`}
       >

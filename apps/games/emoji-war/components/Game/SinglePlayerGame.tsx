@@ -144,7 +144,15 @@ export const SinglePlayerGame: FC<{
           backgroundColor: (theme) => theme.palette.secondary.dark,
         }}
       />
-      <Flex column centered gap={1} py={1}>
+      <Flex
+        column
+        centered
+        gap={1}
+        py={1}
+        sx={{
+          overflow: 'hidden',
+        }}
+      >
         <Board
           emoji={enemy}
           player={enemySlot}

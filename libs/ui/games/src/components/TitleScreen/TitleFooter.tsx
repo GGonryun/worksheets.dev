@@ -1,6 +1,5 @@
 import { Flex } from '@worksheets/ui-core';
 import { motion } from 'framer-motion';
-import { useRouter } from 'next/router';
 import { FC } from 'react';
 import { useTheme } from '@mui/material';
 import { animate, urls } from '../../util';
@@ -15,7 +14,6 @@ export const TitleFooter: FC<TitleFooterProps> = ({
   color: colorOverride,
   onShowMission,
 }) => {
-  const { push } = useRouter();
   const theme = useTheme();
   const color = colorOverride ?? theme.palette.primary.dark;
   const border = `2px solid ${color}`;
@@ -26,7 +24,8 @@ export const TitleFooter: FC<TitleFooterProps> = ({
           <MenuButton
             border={border}
             color={color}
-            onClick={() => push(urls.charityGames.play())}
+            href={urls.charityGames.play()}
+            target="_blank"
           >
             More Games
           </MenuButton>

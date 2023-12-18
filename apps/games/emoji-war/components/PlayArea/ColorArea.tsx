@@ -1,4 +1,3 @@
-import { Typography } from '@mui/material';
 import { ShapeColor, Flex, Circle } from '@worksheets/ui-core';
 import { motion } from 'framer-motion';
 import { FC } from 'react';
@@ -9,9 +8,6 @@ export const ColorPlayArea: FC<{ color: ShapeColor; count: number }> = ({
 }) => {
   return (
     <Flex column centered>
-      <Typography variant="body1" fontWeight={900}>
-        Combo
-      </Typography>
       <Flex gap={1}>
         <motion.div
           initial={{ scale: 0 }}

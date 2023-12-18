@@ -46,9 +46,9 @@ export const PuzzleCompleteModal: FC<{
           <Image
             priority
             src={assets.charityGames.secondaryLogo}
-            height={125}
+            height={170}
             width={170}
-            alt="water.org logo"
+            alt="charity games logo"
           />
         </Link>
       </Flex>
