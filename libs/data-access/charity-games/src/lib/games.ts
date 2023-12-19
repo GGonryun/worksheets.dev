@@ -2225,6 +2225,32 @@ export const games: GameSchema[] = [
     `,
   },
   {
+    id: 'stick-jump',
+    name: 'Stick Jump',
+    size: 1,
+    developerId: 'charity-games',
+    iconUrl: 'https://cdn.charity.games/stick-jump/assets/thumbnail.png',
+    bannerUrl: 'https://cdn.charity.games/stick-jump/assets/banner.png',
+    qualifier: 'new',
+    platforms: ['desktop', 'mobile'],
+    orientations: ['portrait'],
+    tags: ['ad-free', 'popular', 'arcade', 'endless', 'mobile'],
+    category: ['arcade'],
+    file: {
+      type: 'iframe',
+      url: 'https://cdn.charity.games/stick-jump/index.html',
+    },
+    createdAt: new Date('2023-12-20T00:00:00.000Z'),
+    updatedAt: new Date('2021-12-20:00:00.000Z'),
+    markets: {},
+    description: `
+    Stick Jump is an endless arcade game. Jump as high as you can and get the highest score.
+
+    ## How to Play Stick Jump?
+    - Press the left or right arrow keys to move
+    `,
+  },
+  {
     id: 'puzzle-words',
     name: 'Puzzle Words',
     size: 3,

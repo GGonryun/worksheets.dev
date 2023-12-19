@@ -32,6 +32,10 @@ These files are placed along side the game distribution files in the CDN bucket.
 
 The game should be uploaded to the CDN directly with no additional changes. The index.html file should be the entry point for the game. If additional files are required they should be placed in the same folder as the index.html file.
 
+### Construct 3
+
+These games are generally ready to go as is. Follow the instructions above for Native Javascript games.
+
 ### Unity 3D
 
 #### Brotli Compressed Game

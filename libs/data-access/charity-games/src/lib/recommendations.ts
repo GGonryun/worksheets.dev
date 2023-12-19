@@ -8,8 +8,10 @@ export const recommendations: RecommendationsSchema = {
     'puzzle-words',
     'word-pack',
     'word-smith',
+    'stick-jump',
   ],
   new: [
+    'stick-jump',
     'fragile-floor',
     'solitaire',
     'emoji-war',
