@@ -416,6 +416,36 @@ export const tags: Record<GameTag, TagSchema> = {
       'gun',
     ],
   },
+  platform: {
+    id: 'platform',
+    name: 'Platformer Games',
+    iconUrl: '/games/categories/platform.svg',
+    relatedTags: ['popular', '2d', 'action', 'mobile'],
+    description: `
+    ## Platformer Games
+
+    ### What are platformer games?
+    Platformer games are games that involve jumping from platform to platform. Some platformer games also involve action or adventure.
+
+    ### Are platformer games fun?
+    Platformer games are fun because they allow players to jump from platform to platform. They also help people improve their hand-eye coordination. It's not for everyone, but it can be a great way to pass the time.
+    `,
+  },
+  survival: {
+    id: 'survival',
+    name: 'Survival Games',
+    iconUrl: '/games/categories/survival.svg',
+    relatedTags: ['popular', 'action', 'adventure', 'mobile'],
+    description: `
+    ## Survival Games
+
+    ### What are survival games?
+    Survival games are games that involve not dying or taking damage. Some survival games also involve action or adventure. Some survival games require players to collect resources and build shelters to survive. Most of the time you're just trying to survive as long as possible.
+
+    ### Are survival games fun?
+    Survival games are fun because they allow players to survive. They also help people improve their problem-solving skills. It's not for everyone, but it can be a great way to pass the time.
+    `,
+  },
   gun: {
     id: 'gun',
     name: 'Gun Games',

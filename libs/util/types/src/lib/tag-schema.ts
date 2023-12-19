@@ -33,7 +33,9 @@ export type GameTag =
   | 'popular'
   | 'mobile'
   | 'desktop'
-  | 'word';
+  | 'word'
+  | 'platform'
+  | 'survival';
 
 export type TagSchema = {
   id: GameTag;
