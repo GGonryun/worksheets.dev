@@ -26,15 +26,16 @@ export const AboutScreen: FC<AboutScreenProps> = (props) => {
         <br />
         <Typography variant="h4">Our Mission</Typography>
         <Typography>
-          Charity.Games is a non-profit organization dedicated to creating fun
-          and free games that help support charitable causes. At Charity.Games
-          we believe that everyone should have access to clean water. We also
+          Charity.Games is an online arcade dedicated to creating fun and free
+          browser games that help support charitable causes. At Charity.Games we
+          believe that everyone should have access to clean water. We also
           believe that everyone should have access to fun games. We combine
           these two ideas to create a platform that allows you to play fun games
           while also helping people in need. Every game you play on our platform
           generates water for people in need. We currently support{' '}
           <Link href={urls.external.waterOrg}>Water.Org</Link> as our charity of
-          choice.
+          choice. Read more about our{' '}
+          <Link href="/charity">current donation campaign here</Link>.
         </Typography>
         <br />
         <Typography>
