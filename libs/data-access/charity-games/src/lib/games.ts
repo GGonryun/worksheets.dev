@@ -1976,9 +1976,46 @@ const gameMonetizeConverter = (game: GameMonetizeSchema): GameSchema => {
 
 export const games: GameSchema[] = [
   {
+    id: 'fragile-floor',
+    name: 'Fragile Floor',
+    size: 3,
+    developerId: 'wmgcat',
+    iconUrl: 'https://cdn.charity.games/fragile-floor/assets/thumbnail.png',
+    bannerUrl: 'https://cdn.charity.games/fragile-floor/assets/banner.png',
+    qualifier: 'new',
+    platforms: ['desktop', 'mobile'],
+    tags: [
+      'ad-free',
+      'popular',
+      'action',
+      'arcade',
+      'desktop',
+      'platform',
+      'survival',
+    ],
+    category: ['action'],
+    file: {
+      type: 'iframe',
+      url: 'https://cdn.charity.games/fragile-floor/index.html',
+    },
+    createdAt: new Date('2023-12-19T00:00:00.000Z'),
+    updatedAt: new Date('2021-12-19:00:00.000Z'),
+    markets: {
+      itch: 'https://itch.io/embed/2328837',
+    },
+    description: `
+    You will have to break the floor under your opponents to prevent them from surviving! Outsmart them and take first place for yourself!
+
+    ## How to Play Fragile Floor?
+    To move, use WASD or Arrow keys. If you are playing on a tablet or phone, use the joystick!
+    
+    To navigate the menu, use the mouse or touchscreen!
+    `,
+  },
+  {
     id: 'freedom-run',
     name: 'Freedom Run',
-    size: 3,
+    size: 2,
     developerId: 'charity-games',
     iconUrl: 'https://cdn.charity.games/freedom_run/icons/game-icon.png',
     bannerUrl: 'https://cdn.charity.games/freedom_run/icons/banner.png',
@@ -2028,7 +2065,7 @@ export const games: GameSchema[] = [
   {
     id: 'plane-fly',
     name: 'Plane Fly',
-    size: 2,
+    size: 1,
     developerId: 'charity-games',
     iconUrl: 'https://cdn.charity.games/plane-fly/assets/thumbnail.png',
     bannerUrl: 'https://cdn.charity.games/plane-fly/assets/banner.png',
@@ -2052,11 +2089,13 @@ export const games: GameSchema[] = [
     updatedAt: new Date('2021-12-18T00:00:00.000Z'),
     markets: {},
     description: `
-    Plane Fly
+    ** Use landscape mode on mobile for the best experience **
+
+    Plane Fly is an endless flappy bird style game. The goal of the game is to fly as far as you can without hitting any obstacles.
 
     ## How to Play Plane Fly?
-
-    ## Who created Plane Fly?
+    1. Tap the screen to fly
+    2. Avoid the obstacles
     `,
   },
   {

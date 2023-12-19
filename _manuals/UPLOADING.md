@@ -28,6 +28,10 @@ All games require an thumbnail and banner. The thumbnail is used for the game ic
 
 These files are placed along side the game distribution files in the CDN bucket. If the folder is `game-name` then the assets should be stored under `game-name/assets/` and named `thumbnail.png` and `banner.png`.
 
+### Native Javascript
+
+The game should be uploaded to the CDN directly with no additional changes. The index.html file should be the entry point for the game. If additional files are required they should be placed in the same folder as the index.html file.
+
 ### Unity 3D
 
 #### Brotli Compressed Game
