@@ -2026,6 +2026,40 @@ export const games: GameSchema[] = [
     `,
   },
   {
+    id: 'plane-fly',
+    name: 'Plane Fly',
+    size: 2,
+    developerId: 'charity-games',
+    iconUrl: 'https://cdn.charity.games/plane-fly/assets/thumbnail.png',
+    bannerUrl: 'https://cdn.charity.games/plane-fly/assets/banner.png',
+    qualifier: 'new',
+    platforms: ['desktop', 'mobile'],
+    tags: [
+      'ad-free',
+      'popular',
+      'action',
+      'arcade',
+      'endless',
+      'desktop',
+      'mobile',
+    ],
+    category: ['arcade'],
+    file: {
+      type: 'iframe',
+      url: 'https://cdn.charity.games/plane-fly/index.html',
+    },
+    createdAt: new Date('2023-12-18T00:00:00.000Z'),
+    updatedAt: new Date('2021-12-18T00:00:00.000Z'),
+    markets: {},
+    description: `
+    Plane Fly
+
+    ## How to Play Plane Fly?
+
+    ## Who created Plane Fly?
+    `,
+  },
+  {
     id: 'solitaire',
     name: 'Solitaire',
     size: 1,
