@@ -2,6 +2,7 @@ import { RecommendationsSchema } from '@worksheets/util/types';
 
 export const recommendations: RecommendationsSchema = {
   popular: [
+    'fragile-floor',
     'freedom-run',
     'plane-fly',
     'puzzle-words',
@@ -9,12 +10,13 @@ export const recommendations: RecommendationsSchema = {
     'word-smith',
   ],
   new: [
-    'freedom-run',
-    'plane-fly',
+    'fragile-floor',
     'solitaire',
     'emoji-war',
+    'plane-fly',
     'word-search',
     'word-pack',
+    'freedom-run',
     'puzzle-words',
     'nonograms',
     'word-smith',
