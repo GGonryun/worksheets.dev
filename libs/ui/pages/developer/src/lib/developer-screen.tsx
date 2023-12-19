@@ -100,6 +100,7 @@ export const DeveloperScreen: FC<DeveloperScreenProps> = ({
       <Paper
         sx={{
           display: 'flex',
+          flexDirection: { xs: 'column', sm: 'row' },
           justifyContent: 'space-between',
           borderRadius: 4,
           gap: 1,

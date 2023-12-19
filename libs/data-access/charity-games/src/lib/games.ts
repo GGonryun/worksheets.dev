@@ -1956,6 +1956,7 @@ const gameMonetizeConverter = (game: GameMonetizeSchema): GameSchema => {
     bannerUrl: game.thumb,
     qualifier: 'none',
     platforms,
+    orientations: ['portrait', 'landscape'],
     tags: game.tags.split(', ').map((t) => t.trim().toLowerCase()) as GameTag[],
     category: [game.category],
     file: {
@@ -1984,6 +1985,7 @@ export const games: GameSchema[] = [
     bannerUrl: 'https://cdn.charity.games/fragile-floor/assets/banner.png',
     qualifier: 'new',
     platforms: ['desktop', 'mobile'],
+    orientations: ['portrait', 'landscape'],
     tags: [
       'ad-free',
       'popular',
@@ -2021,6 +2023,7 @@ export const games: GameSchema[] = [
     bannerUrl: 'https://cdn.charity.games/freedom_run/icons/banner.png',
     qualifier: 'hot',
     platforms: ['desktop', 'mobile'],
+    orientations: ['portrait', 'landscape'],
     tags: [
       'ad-free',
       'popular',
@@ -2071,6 +2074,7 @@ export const games: GameSchema[] = [
     bannerUrl: 'https://cdn.charity.games/plane-fly/assets/banner.png',
     qualifier: 'new',
     platforms: ['desktop', 'mobile'],
+    orientations: ['landscape'],
     tags: [
       'ad-free',
       'popular',
@@ -2107,6 +2111,7 @@ export const games: GameSchema[] = [
     bannerUrl: '/games/solitaire/banner.png',
     qualifier: 'new',
     platforms: ['desktop', 'mobile'],
+    orientations: ['portrait'],
     tags: [
       'ad-free',
       'card',
@@ -2149,6 +2154,7 @@ export const games: GameSchema[] = [
     bannerUrl: '/games/emoji-war/banner.jpg',
     qualifier: 'hot',
     platforms: ['desktop', 'mobile'],
+    orientations: ['portrait', 'landscape'],
     tags: [
       'ad-free',
       'card',
@@ -2185,6 +2191,7 @@ export const games: GameSchema[] = [
     bannerUrl: '/games/word-search/banner.jpg',
     qualifier: 'new',
     platforms: ['desktop', 'mobile'],
+    orientations: ['portrait', 'landscape'],
     tags: [
       'ad-free',
       'popular',
@@ -2225,6 +2232,7 @@ export const games: GameSchema[] = [
     bannerUrl: '/games/puzzle-words/banner.jpg',
     qualifier: 'hot',
     platforms: ['desktop', 'mobile'],
+    orientations: ['portrait', 'landscape'],
     tags: [
       'ad-free',
       'puzzle',
@@ -2261,6 +2269,7 @@ export const games: GameSchema[] = [
     bannerUrl: '/games/word-smith/banner.png',
     qualifier: 'new',
     platforms: ['desktop', 'mobile'],
+    orientations: ['portrait', 'landscape'],
     tags: [
       'ad-free',
       'popular',
@@ -2302,6 +2311,7 @@ export const games: GameSchema[] = [
     bannerUrl: '/games/nonograms/banner.png',
     qualifier: 'new',
     platforms: ['desktop', 'mobile'],
+    orientations: ['portrait', 'landscape'],
     tags: ['ad-free', 'popular', 'puzzle', 'brain', 'desktop', 'mobile'],
     category: ['puzzle'],
     file: {
@@ -2339,6 +2349,7 @@ export const games: GameSchema[] = [
     bannerUrl: '/games/word-pack/banner.jpg',
     qualifier: 'new',
     platforms: ['desktop', 'mobile'],
+    orientations: ['portrait', 'landscape'],
     tags: [
       'ad-free',
       'popular',

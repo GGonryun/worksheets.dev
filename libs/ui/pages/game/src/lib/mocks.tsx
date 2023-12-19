@@ -3,15 +3,14 @@ import { GameLauncher } from './game-launcher';
 
 export const SampleGameLauncher = () => (
   <GameLauncher
-    backgroundUrl={
-      'https://storage.googleapis.com/game-art/solitaire/banner.png'
-    }
-    iconUrl={'https://storage.googleapis.com/game-art/solitaire/icon.jpg'}
+    backgroundUrl={'/games/solitaire/banner.png'}
+    iconUrl={'/games/solitaire/icon.jpg'}
     file={{
       type: 'iframe',
-      url: 'https://storage.googleapis.com/unity-2d/index.html',
+      url: 'https://solitaire.charity.games/',
     }}
     name={'Solitaire'}
+    orientations={['landscape', 'portrait']}
     developer={'Charity.Games'}
     onReportBug={() => alert('TODO: show bug report form')}
     platforms={['mobile', 'desktop']}

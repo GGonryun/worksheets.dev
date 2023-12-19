@@ -54,8 +54,8 @@ const sizeSquare: StoryDecorator = (Story) => (
 );
 
 const baseProps: Partial<GameLoadingCoverProps> = {
-  backgroundUrl: 'https://storage.googleapis.com/game-art/solitaire/banner.png',
-  iconUrl: 'https://storage.googleapis.com/game-art/solitaire/icon.jpg',
+  backgroundUrl: '/games/solitaire/banner.png',
+  iconUrl: '/games/solitaire/icon.jpg',
   name: 'Solitaire',
 };
 
@@ -74,7 +74,35 @@ export const WindowSquare = {
   decorators: [sizeSquare],
 };
 export const NoMobile = {
-  args: { ...baseProps, platforms: ['desktop'] },
+  args: {
+    ...baseProps,
+    platforms: ['desktop'],
+    orientations: ['landscape', 'portrait'],
+    isMobileOrTablet: true,
+    deviceOrientation: 'portrait-primary',
+  },
+  decorators: [sizeSquare],
+};
+
+export const NoPortrait = {
+  args: {
+    ...baseProps,
+    platforms: ['desktop', 'mobile'],
+    orientations: ['landscape'],
+    isMobileOrTablet: true,
+    deviceOrientation: 'portrait-primary',
+  },
+  decorators: [sizeSquare],
+};
+
+export const NoLandscape = {
+  args: {
+    ...baseProps,
+    platforms: ['desktop', 'mobile'],
+    orientations: ['portrait'],
+    isMobileOrTablet: true,
+    deviceOrientation: 'landscape-primary',
+  },
   decorators: [sizeSquare],
 };
 

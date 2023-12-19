@@ -8,6 +8,7 @@ import { GameExitFullscreenButton } from './game-exit-fullscreen-button';
 import { GameSchema } from '@worksheets/util/types';
 import { isMobileOrTabletDeviceBrowser } from '@worksheets/util-devices';
 import { useFullscreen } from './useFullscreen';
+import { useDeviceOrientation } from '@worksheets/ui-core';
 
 export type GameLauncherProps = {
   backgroundUrl: string;
@@ -16,6 +17,7 @@ export type GameLauncherProps = {
   name: string;
   developer: string;
   platforms: GameSchema['platforms'];
+  orientations: GameSchema['orientations'];
   onReportBug: () => void;
 };
 
@@ -26,6 +28,7 @@ export const GameLauncher: FC<GameLauncherProps> = ({
   developer,
   file,
   platforms,
+  orientations,
   onReportBug,
 }) => {
   const { push } = useRouter();
@@ -33,6 +36,7 @@ export const GameLauncher: FC<GameLauncherProps> = ({
   const frameRef = useRef<HTMLIFrameElement>(null);
   const boxRef = useRef<HTMLDivElement>(null);
   const isMobileOrTablet = isMobileOrTabletDeviceBrowser();
+  const orientation = useDeviceOrientation();
 
   const { fullscreen, requestFullScreen, exitFullScreen } =
     useFullscreen(boxRef);
@@ -99,6 +103,9 @@ export const GameLauncher: FC<GameLauncherProps> = ({
           name={name}
           onPlay={onPlay}
           platforms={platforms}
+          orientations={orientations}
+          deviceOrientation={orientation}
+          isMobileOrTablet={isMobileOrTablet}
         />
       ) : (
         <GameFrame url={file.url} ref={frameRef} />

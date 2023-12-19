@@ -11,6 +11,7 @@ export type GameSchema = {
   bannerUrl: string;
   qualifier: GameQualifier;
   platforms: GameDevices[];
+  orientations: DeviceOrientation[];
   tags: GameTag[];
   category: GameTag[];
   createdAt: Date;
@@ -24,6 +25,8 @@ export type GameSchema = {
 };
 
 type GameDevices = 'desktop' | 'mobile';
+
+type DeviceOrientation = 'landscape' | 'portrait';
 
 type MarketLinks = {
   android: string;

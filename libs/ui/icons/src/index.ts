@@ -13,3 +13,5 @@ export * from './lib/steam-games';
 export * from './lib/tiktok';
 export * from './lib/twitch-tv';
 export * from './lib/charity';
+export * from './lib/rotate-to-landscape';
+export * from './lib/rotate-to-portrait';

@@ -82,8 +82,8 @@ const sizeSquare: StoryDecorator = (Story) => (
 );
 
 const baseProps: Partial<GameLauncherProps> = {
-  backgroundUrl: 'https://storage.googleapis.com/game-art/solitaire/banner.png',
-  iconUrl: 'https://storage.googleapis.com/game-art/solitaire/icon.jpg',
+  backgroundUrl: '/games/solitaire/banner.png',
+  iconUrl: '/games/solitaire/icon.jpg',
   name: 'Solitaire',
   developer: 'Charity.Games',
   file: {

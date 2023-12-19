@@ -14,3 +14,4 @@ export * from './useTimer';
 export * from './useDeviceSize';
 export * from './useDebounce';
 export * from './useEventCallback';
+export * from './useDeviceOrientation';

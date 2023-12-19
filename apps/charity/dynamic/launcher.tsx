@@ -20,6 +20,7 @@ const DynamicGameLauncher: FC<{
       file={game.file}
       name={game.name}
       developer={developer.name}
+      orientations={game.orientations}
       platforms={game.platforms}
       onReportBug={handleReportBug}
     />

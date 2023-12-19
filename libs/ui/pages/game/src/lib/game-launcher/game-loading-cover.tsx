@@ -4,16 +4,20 @@ import {
   KeyboardDoubleArrowDown,
   MobileOff,
   PlayCircleOutline,
+  SvgIconComponent,
 } from '@mui/icons-material';
-import { isMobileOrTabletDeviceBrowser } from '@worksheets/util-devices';
 import { GameSchema } from '@worksheets/util/types';
 import { FillImage } from '@worksheets/ui/images';
+import { RotateToLandscape, RotateToPortrait } from '@worksheets/ui/icons';
 
 export type GameLoadingCoverProps = {
   backgroundUrl: string;
   iconUrl: string;
   name: string;
-  platforms?: GameSchema['platforms'];
+  platforms: GameSchema['platforms'];
+  orientations: GameSchema['orientations'];
+  isMobileOrTablet: boolean;
+  deviceOrientation: OrientationType;
   onPlay: () => void;
 };
 
@@ -22,10 +26,29 @@ export const GameLoadingCover: FC<GameLoadingCoverProps> = ({
   backgroundUrl,
   iconUrl,
   platforms,
+  orientations,
   onPlay,
+  isMobileOrTablet,
+  deviceOrientation,
 }) => {
-  const isMobileOrTablet = isMobileOrTabletDeviceBrowser();
+  const isPortrait =
+    deviceOrientation === 'portrait-primary' ||
+    deviceOrientation === 'portrait-secondary';
+
+  const isLandscape =
+    deviceOrientation === 'landscape-primary' ||
+    deviceOrientation === 'landscape-secondary';
+
   const supportsMobile = platforms?.includes('mobile') && isMobileOrTablet;
+
+  const showNoMobileOverlay = isMobileOrTablet && !supportsMobile;
+  const showNoPortraitOverlay =
+    isMobileOrTablet && isPortrait && !orientations.includes('portrait');
+  const showNoLandscapeOverlay =
+    isMobileOrTablet && !orientations?.includes('landscape') && isLandscape;
+
+  const showOverlays =
+    showNoMobileOverlay || showNoPortraitOverlay || showNoLandscapeOverlay;
 
   return (
     <Box
@@ -67,9 +90,11 @@ export const GameLoadingCover: FC<GameLoadingCoverProps> = ({
           gap: 1,
         }}
       >
-        {isMobileOrTablet && !supportsMobile ? (
-          <DoesNotSupportMobileOverlay />
-        ) : (
+        {showNoMobileOverlay && <DoesNotSupportMobileOverlay />}
+        {showNoLandscapeOverlay && <DoesNotSupportLandscapeOverlay />}
+        {showNoPortraitOverlay && <DoesNotSupportPortraitOverlay />}
+
+        {!showOverlays && (
           <PlayOverlay name={name} iconUrl={iconUrl} onPlay={onPlay} />
         )}
       </Box>
@@ -78,8 +103,36 @@ export const GameLoadingCover: FC<GameLoadingCoverProps> = ({
 };
 
 const DoesNotSupportMobileOverlay: FC = () => (
+  <DoesNotSupportOverlay
+    PrimaryIcon={MobileOff}
+    SecondaryIcon={KeyboardDoubleArrowDown}
+    primary="Play something else?"
+    secondary="This game does not support mobile."
+  />
+);
+
+const DoesNotSupportLandscapeOverlay: FC = () => (
+  <DoesNotSupportOverlay
+    PrimaryIcon={RotateToPortrait}
+    primary="Rotate your device"
+  />
+);
+
+const DoesNotSupportPortraitOverlay: FC = () => (
+  <DoesNotSupportOverlay
+    PrimaryIcon={RotateToLandscape}
+    primary="Rotate your device"
+  />
+);
+
+const DoesNotSupportOverlay: FC<{
+  PrimaryIcon: SvgIconComponent;
+  SecondaryIcon?: SvgIconComponent;
+  primary: string;
+  secondary?: string;
+}> = ({ PrimaryIcon, SecondaryIcon, primary, secondary }) => (
   <>
-    <MobileOff color="white" sx={{ fontSize: '3rem' }} />
+    <PrimaryIcon color="white" sx={{ fontSize: '3rem' }} />
     <Typography
       sx={{
         fontFamily: (theme) => theme.typography.mPlus1p.fontFamily,
@@ -89,19 +142,21 @@ const DoesNotSupportMobileOverlay: FC = () => (
         textAlign: 'center',
       }}
     >
-      Play something else?
+      {primary}
     </Typography>
-    <Typography
-      sx={{
-        fontFamily: (theme) => theme.typography.mPlus1p.fontFamily,
-        color: (theme) => theme.palette.white.main,
-        fontSize: { xs: '0.8rem', sm: '1rem', lg: '1.2rem' },
-        textAlign: 'center',
-      }}
-    >
-      This game does not support mobile.
-    </Typography>
-    <KeyboardDoubleArrowDown color="white" sx={{ fontSize: '3rem' }} />
+    {secondary && (
+      <Typography
+        sx={{
+          fontFamily: (theme) => theme.typography.mPlus1p.fontFamily,
+          color: (theme) => theme.palette.white.main,
+          fontSize: { xs: '0.8rem', sm: '1rem', lg: '1.2rem' },
+          textAlign: 'center',
+        }}
+      >
+        {secondary}
+      </Typography>
+    )}
+    {SecondaryIcon && <SecondaryIcon color="white" sx={{ fontSize: '3rem' }} />}
   </>
 );
 

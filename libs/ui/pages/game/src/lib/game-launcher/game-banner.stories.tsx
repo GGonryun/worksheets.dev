@@ -20,7 +20,7 @@ const meta: Meta<typeof GameBanner> = {
 export default meta;
 
 const baseProps: Partial<GameBannerProps> = {
-  iconUrl: 'https://storage.googleapis.com/game-art/solitaire/icon.jpg',
+  iconUrl: '/games/solitaire/icon.jpg',
   name: 'Solitaire',
   developer: 'Charity.Games',
   type: 'iframe',
