@@ -23,11 +23,7 @@ const Page: NextPageWithLayout<Props> = ({ developer, games, seo }) => {
   return (
     <>
       <NextSeo {...seo} />
-      <DeveloperScreen
-        name={developer.name}
-        socials={developer.socials}
-        games={games}
-      />
+      <DeveloperScreen {...developer} games={games} />
     </>
   );
 };

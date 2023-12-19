@@ -1,6 +1,7 @@
 import {
   ArrowRight,
   Facebook,
+  GitHub,
   Instagram,
   Language,
   Twitter,
@@ -27,17 +28,22 @@ import {
 } from '@worksheets/ui/icons';
 import { DeveloperSchema, GameDefinition } from '@worksheets/util/types';
 import { GamePill } from '@worksheets/ui/pills';
+import { FillImage } from '@worksheets/ui/images';
 
 export type DeveloperScreenProps = {
   name: string;
+  description: string;
+  avatarUrl: string;
   socials: DeveloperSchema['socials'];
   games: GameDefinition[];
 };
 
 export const DeveloperScreen: FC<DeveloperScreenProps> = ({
   name,
+  description,
   socials,
   games,
+  avatarUrl,
 }) => {
   return (
     <Container maxWidth="lg" sx={{ py: 2 }}>
@@ -50,8 +56,24 @@ export const DeveloperScreen: FC<DeveloperScreenProps> = ({
           p: { xs: 2, sm: 4 },
         }}
       >
-        <Typography variant="h4" mb={0.5}>
-          {name}
+        <Box display="flex" alignItems="center" gap={1}>
+          <Box
+            sx={{
+              position: 'relative',
+              overflow: 'hidden',
+              width: 48,
+              height: 48,
+              borderRadius: '50%',
+            }}
+          >
+            <FillImage alt={`${name} avatar`} src={avatarUrl} />
+          </Box>
+          <Typography variant="h4" mb={0.5}>
+            {name}
+          </Typography>
+        </Box>
+        <Typography variant="body1" mb={1}>
+          {description}
         </Typography>
         <SocialButtons {...socials} />
       </Paper>
@@ -144,6 +166,7 @@ const SocialButtons: FC<DeveloperScreenProps['socials']> = ({
   appstore,
   tiktok,
   website,
+  github,
 }) => {
   return (
     <Box m={-1}>
@@ -179,6 +202,9 @@ const SocialButtons: FC<DeveloperScreenProps['socials']> = ({
       </SocialIconButton>
       <SocialIconButton href={appstore}>
         <AppStore fontSize="large" />
+      </SocialIconButton>
+      <SocialIconButton href={github}>
+        <GitHub fontSize="large" />
       </SocialIconButton>
       <SocialIconButton href={website}>
         <Language fontSize="large" />

@@ -100,6 +100,7 @@ export const dummySocials = {
   tiktok: 'https://www.tiktok.com/@charitygamesofficial',
   steam: 'https://store.steampowered.com/charity/charitygames',
   playstore: 'https://play.google.com/store/apps/dev?id=7196278445280289529',
+  github: 'https://github.com/charity-games',
   appstore:
     'https://apps.apple.com/us/developer/charity-games-llc/id1537154374',
 };

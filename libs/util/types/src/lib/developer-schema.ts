@@ -1,6 +1,8 @@
 export type DeveloperSchema = {
   id: string;
   name: string;
+  description: string;
+  avatarUrl: string;
   socials: {
     facebook?: string;
     twitter?: string;
@@ -14,5 +16,6 @@ export type DeveloperSchema = {
     steam?: string;
     playstore?: string;
     appstore?: string;
+    github?: string;
   };
 };
