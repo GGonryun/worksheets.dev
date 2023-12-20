@@ -47,6 +47,16 @@ A brotli compressed unity game can be uploaded to the CDN by following these ste
 2. Make the html canvas responsive:
    - Uncommenting the line `config.matchWebGLToCanvasSize = false;`
    - Change the lines: `canvas.style.width = PIXEL_SIZE;` to `canvas.style.width = "100%"` and `canvas.style.height = PIXEL_SIZE;` to `canvas.style.height = "100%";`
+   - Remove the following code from the `index.html` file:
+
+```
+<div id="unity-footer">
+    <div id="unity-webgl-logo"></div>
+    <div id="unity-fullscreen-button"></div>
+    <div id="unity-build-title">Floppy Bird</div>
+</div>
+```
+
 3. Update CSS styles to make canvas responsive:
    - Update the following code in the `TemplateData/style.css` file:
 
@@ -76,17 +86,6 @@ body {
 }
 ```
 
-3. Remove the unity footer.
-   - Remove the following code from the `index.html` file:
-
-```
-<div id="unity-footer">
-    <div id="unity-webgl-logo"></div>
-    <div id="unity-fullscreen-button"></div>
-    <div id="unity-build-title">Floppy Bird</div>
-  </div>
-```
-
 4. Upload the game to the CDN manually.
 
 - You will be uploading the `Build` folder, the `index.html` file, and the `TemplateData` file.
@@ -109,7 +108,3 @@ body {
     - Change the `Content-Type` to `application/wasm`
     - Change the `Content-Encoding` to `br`
     - Change the `Cache-Control` to `no-transform`
-
-```
-
-```

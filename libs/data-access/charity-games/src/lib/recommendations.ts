@@ -14,6 +14,7 @@ export const recommendations: RecommendationsSchema = {
     'fragile-floor',
     'baku-gamu',
     'invention-timeline-game',
+    'dino-rush',
     'word-search',
     'word-pack',
     'puzzle-words',

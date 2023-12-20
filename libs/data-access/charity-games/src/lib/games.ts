@@ -2170,6 +2170,48 @@ export const games: GameSchema[] = [
     `,
   },
   {
+    id: 'dino-rush',
+    name: 'Dino Rush',
+    size: 1,
+    developerId: 'charity-games',
+    iconUrl: 'https://cdn.charity.games/dino-rush/assets/thumbnail.png',
+    bannerUrl: 'https://cdn.charity.games/dino-rush/assets/banner.png',
+    qualifier: 'new',
+    platforms: ['desktop', 'mobile'],
+    orientations: ['landscape'],
+    tags: [
+      'ad-free',
+      'popular',
+      'action',
+      'arcade',
+      'endless',
+      'desktop',
+      'mobile',
+    ],
+    category: ['endless'],
+    file: {
+      type: 'iframe',
+      url: 'https://cdn.charity.games/dino-rush/index.html',
+    },
+    markets: {},
+    createdAt: new Date('2023-12-21T00:00:00.000Z'),
+    updatedAt: new Date('2021-12-21T00:00:00.000Z'),
+    description: `
+    Dino Rush is an endless runner game. The goal of the game is to run as far as you can without hitting any obstacles.
+
+    ## How to Play Dino Rush?
+    - Tap the screen or press the space bar to jump
+    - Tap the screen or press the space bar while in the air to fall down immediately.
+    - Avoid the obstacles
+
+    ## Who created Dino Rush?
+    Dino Rush is a free game created by Charity Games. We are a non-profit organization that creates free games to raise money for charity. We donate 100% of our profits to charity.
+
+    ## Known issues:
+    - The game does not allow the user to mute sounds on mobile devices.
+    `,
+  },
+  {
     id: 'solitaire-2048',
     name: 'Solitaire 2048',
     size: 2,
