@@ -2330,13 +2330,39 @@ export const games: GameSchema[] = [
     `,
   },
   {
+    id: 'hyper-wheel',
+    name: 'Hyper Wheel',
+    size: 2,
+    developerId: 'charity-games',
+    iconUrl: 'https://cdn.charity.games/hyper-wheel/assets/thumbnail.png',
+    bannerUrl: 'https://cdn.charity.games/hyper-wheel/assets/banner.png',
+    qualifier: 'hot',
+    platforms: ['desktop', 'mobile'],
+    orientations: ['portrait', 'landscape'],
+    tags: ['ad-free', 'popular', 'action', 'arcade', 'desktop', 'mobile'],
+    category: ['arcade'],
+    file: {
+      type: 'iframe',
+      url: 'https://cdn.charity.games/hyper-wheel/index.html',
+    },
+    createdAt: new Date('2023-12-20T00:00:00.000Z'),
+    updatedAt: new Date('2021-12-20T00:00:00.000Z'),
+    markets: {},
+    description: `
+    Hyper Wheel is an endless arcade game. The goal of the game is to avoid the obstacles and get the highest score.
+
+    ## How to Play Hyper Wheel?
+    Tap on the screen to start spinning in the opposite direction.
+    `,
+  },
+  {
     id: 'nonograms',
     name: 'Nonograms',
     size: 1,
     developerId: 'charity-games',
     iconUrl: '/games/nonograms/icon.jpg',
     bannerUrl: '/games/nonograms/banner.png',
-    qualifier: 'new',
+    qualifier: 'none',
     platforms: ['desktop', 'mobile'],
     orientations: ['portrait', 'landscape'],
     tags: ['ad-free', 'popular', 'puzzle', 'brain', 'desktop', 'mobile'],
