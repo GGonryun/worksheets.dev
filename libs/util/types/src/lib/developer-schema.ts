@@ -13,6 +13,7 @@ export type DeveloperSchema = {
     itchio?: string;
     tiktok?: string;
     website?: string;
+    website2?: string;
     steam?: string;
     playstore?: string;
     appstore?: string;

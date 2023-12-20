@@ -34,4 +34,20 @@ export const developers: DeveloperSchema[] = [
       github: 'https://github.com/wmgcat',
     },
   },
+  {
+    id: 'syb-coin-coin',
+    name: 'Syb Coin Coin',
+    avatarUrl: 'https://cdn.charity.games/_developers/syb-coin-coin.png',
+    description:
+      'Syb Coin Coin is a french indie game studio. We make games for fun and to learn new things. We also make games for game jams.',
+    socials: {
+      twitter: 'https://twitter.com/coinsyb',
+      website: 'https://webandsorcery.com/',
+      website2: 'https://coin-coin.net/',
+      itchio: 'https://sybcoincoin.itch.io/',
+      instagram: 'https://www.instagram.com/sybcoincoin/',
+      twitch: 'https://www.twitch.tv/sybcoincoin',
+      youtube: 'https://www.youtube.com/channel/UCpFiNmH6CcXj4VWfga7xxwA',
+    },
+  },
 ];

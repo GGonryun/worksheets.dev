@@ -167,6 +167,7 @@ const SocialButtons: FC<DeveloperScreenProps['socials']> = ({
   appstore,
   tiktok,
   website,
+  website2,
   github,
 }) => {
   return (
@@ -208,6 +209,9 @@ const SocialButtons: FC<DeveloperScreenProps['socials']> = ({
         <GitHub fontSize="large" />
       </SocialIconButton>
       <SocialIconButton href={website}>
+        <Language fontSize="large" />
+      </SocialIconButton>
+      <SocialIconButton href={website2}>
         <Language fontSize="large" />
       </SocialIconButton>
     </Box>

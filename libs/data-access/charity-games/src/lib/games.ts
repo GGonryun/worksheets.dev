@@ -2015,6 +2015,43 @@ export const games: GameSchema[] = [
     `,
   },
   {
+    id: 'baku-gamu',
+    name: 'Baku Gamu',
+    size: 3,
+    developerId: 'syb-coin-coin',
+    iconUrl: 'https://cdn.charity.games/baku-gamu/assets/thumbnail.png',
+    bannerUrl: 'https://cdn.charity.games/baku-gamu/assets/banner.png',
+    qualifier: 'new',
+    platforms: ['desktop', 'mobile'],
+    orientations: ['portrait'],
+    tags: [
+      'ad-free',
+      'popular',
+      'action',
+      'arcade',
+      'desktop',
+      'mobile',
+      'funny',
+    ],
+    category: ['funny'],
+    file: {
+      type: 'iframe',
+      url: 'https://bakugamu.com/',
+    },
+    createdAt: new Date('2023-12-21T00:00:00.000Z'),
+    updatedAt: new Date('2021-12-21:00:00.000Z'),
+    markets: {},
+    description: `
+    Baku Gamu is a collection of fast-paced microgames developed by Syb Coin Coin. This game is in active development with new games being added regularly. The goal of the game is to complete as many microgames as you can before you run out of lives. Each microgame is randomly selected from the pool of available games.
+
+    ## How to Play Baku Gamu?
+    Each game is unique, follow the instructions on the screen to complete the microgame!
+
+    ## Who created Baku Gamu?
+    Baku Gamu is developed by Syb Coin Coin. Syb Coin Coin is a game development studio based in France. They have been making games since 2015.
+    `,
+  },
+  {
     id: 'plane-fly',
     name: 'Plane Fly',
     size: 2,
@@ -2133,6 +2170,42 @@ export const games: GameSchema[] = [
     `,
   },
   {
+    id: 'solitaire-2048',
+    name: 'Solitaire 2048',
+    size: 2,
+    developerId: 'charity-games',
+    iconUrl: 'https://cdn.charity.games/solitaire-2048/assets/thumbnail.png',
+    bannerUrl: 'https://cdn.charity.games/solitaire-2048/assets/banner.png',
+    qualifier: 'new',
+    platforms: ['desktop', 'mobile'],
+    orientations: ['portrait'],
+    tags: [
+      'ad-free',
+      'card',
+      'brain',
+      'board',
+      'puzzle',
+      'endless',
+      'popular',
+      'new',
+      'mobile',
+    ],
+    category: ['card'],
+    file: {
+      type: 'iframe',
+      url: 'https://cdn.charity.games/solitaire-2048/index.html',
+    },
+    createdAt: new Date('2023-12-21T00:00:00.000Z'),
+    updatedAt: new Date('2021-12-21T00:00:00.000Z'),
+    markets: {},
+    description: `
+    Solitaire 2048 is ultra casual card game. One of Very addictive kind.
+
+    ## How to Play Solitaire 2048?
+    Drag and drop the same value card to merge. Use special cards for benifits. Make 2048 to score bonus.
+  `,
+  },
+  {
     id: 'freedom-run',
     name: 'Freedom Run',
     size: 2,
@@ -2186,7 +2259,7 @@ export const games: GameSchema[] = [
   {
     id: 'word-search',
     name: 'Word Search',
-    size: 2,
+    size: 1,
     developerId: 'charity-games',
     iconUrl: '/games/word-search/icon.jpg',
     bannerUrl: '/games/word-search/banner.jpg',
@@ -2253,7 +2326,7 @@ export const games: GameSchema[] = [
   {
     id: 'puzzle-words',
     name: 'Puzzle Words',
-    size: 3,
+    size: 1,
     developerId: 'charity-games',
     iconUrl: '/games/puzzle-words/icon.jpg',
     bannerUrl: '/games/puzzle-words/banner.jpg',
@@ -2396,7 +2469,7 @@ export const games: GameSchema[] = [
   {
     id: 'word-pack',
     name: 'Word Pack',
-    size: 2,
+    size: 1,
     developerId: 'charity-games',
     iconUrl: '/games/word-pack/icon.jpg',
     bannerUrl: '/games/word-pack/banner.jpg',
