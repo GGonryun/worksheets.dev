@@ -50,4 +50,13 @@ export const developers: DeveloperSchema[] = [
       youtube: 'https://www.youtube.com/channel/UCpFiNmH6CcXj4VWfga7xxwA',
     },
   },
+  {
+    id: 'gordo-raba',
+    name: 'GordoRaba',
+    avatarUrl: 'https://cdn.charity.games/_developers/gordo-raba.png',
+    description: '',
+    socials: {
+      twitter: 'https://twitter.com/GordoRaba',
+    },
+  },
 ];

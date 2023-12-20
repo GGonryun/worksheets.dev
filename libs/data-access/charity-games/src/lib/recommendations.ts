@@ -9,6 +9,7 @@ export const recommendations: RecommendationsSchema = {
     'stick-jump',
     'air-hockey-neon',
     'solitaire',
+    'invention-timeline-game',
   ],
   new: [
     'fragile-floor',

@@ -2298,6 +2298,47 @@ export const games: GameSchema[] = [
     `,
   },
   {
+    id: 'invention-timeline-game',
+    name: 'Time Travel',
+    size: 3,
+    developerId: 'gordo-raba',
+    iconUrl:
+      'https://cdn.charity.games/invention-timeline-game/assets/thumbnail.png',
+    bannerUrl:
+      'https://cdn.charity.games/invention-timeline-game/assets/banner.png',
+    qualifier: 'new',
+    platforms: ['desktop', 'mobile'],
+    orientations: ['portrait', 'landscape'],
+    tags: [
+      'ad-free',
+      'popular',
+      'puzzle',
+      'brain',
+      'desktop',
+      'mobile',
+      'educational',
+    ],
+    category: ['educational'],
+    file: {
+      type: 'iframe',
+      url: 'https://timeline-bge.pages.dev/',
+    },
+    createdAt: new Date('2023-12-20T00:00:00.000Z'),
+    updatedAt: new Date('2021-12-20:00:00.000Z'),
+    markets: {},
+    description: `
+    Embark on a fascinating journey through history! Challenge your knowledge and speed in this exciting quest of invention discovery. Can you score the highest?
+
+    ## Objective
+    Players must correctly identify which of two or more presented inventions was invented first.
+
+    ## Gameplay Mechanics
+    Time Challenge: Players have a limited time to make their choice in each round, adding an element of speed and pressure.
+    <br/><br/>
+    Multiple Choices: Each question presents two or more inventions. The player selects the invention they believe is the oldest.
+    `,
+  },
+  {
     id: 'stick-jump',
     name: 'Stick Jump',
     size: 1,
