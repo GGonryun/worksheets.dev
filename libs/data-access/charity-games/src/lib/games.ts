@@ -2433,5 +2433,32 @@ export const games: GameSchema[] = [
     - Click on a word and then click on the grid to place it.
     `,
   },
+  {
+    id: 'air-hockey-neon',
+    name: 'Air Hockey Neon',
+    size: 2,
+    developerId: 'charity-games',
+    iconUrl: 'https://cdn.charity.games/air-hockey-neon/assets/thumbnail.png',
+    bannerUrl: 'https://cdn.charity.games/air-hockey-neon/assets/banner.png',
+    qualifier: 'new',
+    platforms: ['desktop', 'mobile'],
+    orientations: ['portrait'],
+    tags: ['ad-free', 'popular', 'action', 'arcade', 'desktop', 'mobile'],
+    category: ['arcade'],
+    file: {
+      type: 'iframe',
+      url: 'https://cdn.charity.games/air-hockey-neon/index.html',
+    },
+    createdAt: new Date('2023-12-21T00:00:00.000Z'),
+    updatedAt: new Date('2021-12-21T00:00:00.000Z'),
+    markets: {},
+    description: `
+    Air Hockey Neon is a fast-paced arcade game. The goal of the game is to score 5 points before your opponent does. You can play against the computer.
+
+    ## How to Play Air Hockey Neon?
+    - Use the mouse to move your paddle
+    - If you are playing on mobile, use your finger to move your paddle
+    `,
+  },
   ...gameMonetizeGames.map(gameMonetizeConverter),
 ];
