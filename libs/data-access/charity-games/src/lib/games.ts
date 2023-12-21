@@ -2133,60 +2133,6 @@ export const games: GameSchema[] = [
     `,
   },
   {
-    id: 'conquer-the-world',
-    name: 'RPG Conquer The World',
-    size: 3,
-    developerId: 'llstd',
-    iconUrl: 'https://cdn.charity.games/conquer-the-world/assets/thumbnail.png',
-    bannerUrl: 'https://cdn.charity.games/conquer-the-world/assets/banner.jpg',
-    qualifier: 'new',
-    platforms: ['desktop', 'mobile'],
-    orientations: ['portrait'],
-    tags: [
-      'ad-free',
-      'popular',
-      'action',
-      'arcade',
-      'desktop',
-      'platform',
-      'survival',
-    ],
-    category: ['action'],
-    file: {
-      type: 'iframe',
-      url: 'https://cdn.charity.games/conquer-the-world/index.html',
-    },
-    createdAt: new Date('2023-09-21T00:00:00.000Z'),
-    updatedAt: new Date('2021-09-21:00:00.000Z'),
-    markets: {},
-    description: `
-    RPG: Conquer the World ... at least our Village :-)
-    <br/>
-    <br/>
-    Experience the story of a common young boy, visit school, fight enemies, find your first love, and most importantly: Conquer the world!
-    <br/>
-    <br/>
-    Welcome, new soul, to the land of Lanthir Lamath! Since you can't have a mortgage, a car lease, or an empty credit card here, you can certainly have a bunch of other problems.
-    <br/>
-    <br/>
-    Pixel art topdown RPG adventure made with RPG Maker MV.
-    <br/>
-    <br/>
-    THIS IS A DEMO ONLY!
-    <br/>
-    <br/>
-    Full game: https://llstd.com/rpg-conquer-the-world/
-    <br/>
-    <br/>
-    As the main hero, you go by the name Jacob. You're an ordinary boy who lives with your parents, goes to school, fights with classmates, and falls in love with the teacher's daughter. Sometimes, you even die in a pool of blood while kicking your feet.
-    <br/>
-    <br/>
-    In the game, you'll learn to keep secrets, not trust anyone, and wash your hands after using the toilet. And the most important task? You want to conquer the entire world! Well, at least our village.
-    <br/>
-    <br/>
-    The game contains 8 chapters, several tasks, many sarcastic dialogues, and humorous situations. You'll enjoy a lot of pleasant fun.    `,
-  },
-  {
     id: 'baku-gamu',
     name: 'Baku Gamu',
     size: 3,
@@ -2264,6 +2210,55 @@ export const games: GameSchema[] = [
     ## Known issues:
     - The game does not allow the user to mute sounds on mobile devices.
     `,
+  },
+  {
+    id: 'conquer-the-world',
+    name: 'RPG Conquer The World',
+    size: 3,
+    developerId: 'llstd',
+    iconUrl: 'https://cdn.charity.games/conquer-the-world/assets/thumbnail.png',
+    bannerUrl: 'https://cdn.charity.games/conquer-the-world/assets/banner.jpg',
+    qualifier: 'new',
+    platforms: ['desktop', 'mobile'],
+    orientations: ['portrait'],
+    tags: ['ad-free', 'adventure', 'desktop', 'mobile'],
+    category: ['adventure'],
+    file: {
+      type: 'iframe',
+      url: 'https://cdn.charity.games/conquer-the-world/index.html',
+    },
+    createdAt: new Date('2023-12-21T00:00:00.000Z'),
+    updatedAt: new Date('2023-12-21:00:00.000Z'),
+    markets: {
+      ios: `https://apps.apple.com/us/app/rpg-conquer-the-world/id6473287154`,
+      itch: `https://itch.io/embed/2378162`,
+    },
+    description: `
+    RPG: Conquer the World ... at least our Village :-)
+    <br/>
+    <br/>
+    Experience the story of a common young boy, visit school, fight enemies, find your first love, and most importantly: Conquer the world!
+    <br/>
+    <br/>
+    Welcome, new soul, to the land of Lanthir Lamath! Since you can't have a mortgage, a car lease, or an empty credit card here, you can certainly have a bunch of other problems.
+    <br/>
+    <br/>
+    Pixel art topdown RPG adventure made with RPG Maker MV.
+    <br/>
+    <br/>
+    THIS IS A DEMO ONLY!
+    <br/>
+    <br/>
+    Full game: [https://llstd.com/rpg-conquer-the-world/](https://llstd.com/rpg-conquer-the-world/)
+    <br/>
+    <br/>
+    As the main hero, you go by the name Jacob. You're an ordinary boy who lives with your parents, goes to school, fights with classmates, and falls in love with the teacher's daughter. Sometimes, you even die in a pool of blood while kicking your feet.
+    <br/>
+    <br/>
+    In the game, you'll learn to keep secrets, not trust anyone, and wash your hands after using the toilet. And the most important task? You want to conquer the entire world! Well, at least our village.
+    <br/>
+    <br/>
+    The game contains 8 chapters, several tasks, many sarcastic dialogues, and humorous situations. You'll enjoy a lot of pleasant fun.    `,
   },
   {
     id: 'solitaire-2048',
@@ -2540,9 +2535,37 @@ export const games: GameSchema[] = [
     `,
   },
   {
+    id: 'quickbeat',
+    name: 'Quick Beat',
+    size: 3,
+    developerId: 'rainboworm',
+    iconUrl: 'https://cdn.charity.games/quickbeat/assets/thumbnail.png',
+    bannerUrl: 'https://cdn.charity.games/quickbeat/assets/banner.png',
+    qualifier: 'new',
+    platforms: ['desktop', 'mobile'],
+    orientations: ['portrait'],
+    tags: ['ad-free', 'popular', 'action', 'arcade', 'desktop', 'mobile'],
+    category: ['arcade'],
+    file: {
+      type: 'iframe',
+      url: 'https://cdn.charity.games/quickbeat/index.html',
+    },
+    createdAt: new Date('2023-12-21T00:00:00.000Z'),
+    updatedAt: new Date('2021-12-21T00:00:00.000Z'),
+    markets: {
+      itch: 'https://itch.io/embed/2380665',
+    },
+    description: `
+    Quick Beat is a simple rhythm game in which you try to match the letter shown on screen with your keyboard or touchscreen. There's no penalty for not pressing a button so you can play the game at your own pace.
+
+    ## How do you play Quick Beat?
+    Either use WASD on your keyboard or the buttons on screen to match the letter displayed. There are more points the bigger the letter is. The game ends when you mess up 3 times.
+    `,
+  },
+  {
     id: 'hyper-wheel',
     name: 'Hyper Wheel',
-    size: 2,
+    size: 1,
     developerId: 'charity-games',
     iconUrl: 'https://cdn.charity.games/hyper-wheel/assets/thumbnail.png',
     bannerUrl: 'https://cdn.charity.games/hyper-wheel/assets/banner.png',

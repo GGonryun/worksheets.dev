@@ -72,4 +72,14 @@ export const developers: DeveloperSchema[] = [
       website: 'https://llstd.com',
     },
   },
+  {
+    id: 'rainboworm',
+    name: 'Rainboworm',
+    avatarUrl: 'https://cdn.charity.games/_developers/rainboworm.png',
+    description:
+      "Hi! I'm an HTML game developer. I kind of just make whatever I want so my games are in a wide range of genres meaning everyone will probably find at least one of my games they enjoy!",
+    socials: {
+      itchio: 'https://stheismakesthings.itch.io/',
+    },
+  },
 ];
