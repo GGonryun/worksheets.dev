@@ -9,6 +9,7 @@ export type DeveloperSchema = {
     instagram?: string;
     youtube?: string;
     twitch?: string;
+    pintrest?: string;
     discord?: string;
     itchio?: string;
     tiktok?: string;

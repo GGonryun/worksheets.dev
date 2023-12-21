@@ -4,6 +4,7 @@ import {
   GitHub,
   Instagram,
   Language,
+  Pinterest,
   Twitter,
   YouTube,
 } from '@mui/icons-material';
@@ -164,6 +165,7 @@ const SocialButtons: FC<DeveloperScreenProps['socials']> = ({
   itchio,
   steam,
   playstore,
+  pintrest,
   appstore,
   tiktok,
   website,
@@ -204,6 +206,9 @@ const SocialButtons: FC<DeveloperScreenProps['socials']> = ({
       </SocialIconButton>
       <SocialIconButton href={appstore}>
         <AppStore fontSize="large" />
+      </SocialIconButton>
+      <SocialIconButton href={pintrest}>
+        <Pinterest fontSize="large" />
       </SocialIconButton>
       <SocialIconButton href={github}>
         <GitHub fontSize="large" />

@@ -59,4 +59,17 @@ export const developers: DeveloperSchema[] = [
       twitter: 'https://twitter.com/GordoRaba',
     },
   },
+  {
+    id: 'llstd',
+    name: 'LL studio, spol. s r.o.',
+    avatarUrl: 'https://cdn.charity.games/_developers/llstd.png',
+    description:
+      'We are graphic studio from Slovakia. Our last game: RPG Conquer the World - pixelart topdown adventure.',
+    socials: {
+      twitter: 'https://twitter.com/llstdcom',
+      pintrest: 'https://sk.pinterest.com/llstdcom/',
+      tiktok: 'https://www.tiktok.com/@llstdcom',
+      website: 'https://llstd.com',
+    },
+  },
 ];
