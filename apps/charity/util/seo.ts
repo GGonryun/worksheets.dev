@@ -135,7 +135,7 @@ export const blogSeo = createSeo({
 
 export const helpSeo = createSeo({
   siteName: `Charity Games | Help`,
-  url: 'https://charity.games/help',
+  url: 'https://www.charity.games/help',
   title: 'Charity Games - Get Involved',
   description:
     'There are many ways to help Charity Games. Whether you are a developer, player, teacher, charity, content creator, professional, student, or parent, we would love to hear from you!',
@@ -143,7 +143,7 @@ export const helpSeo = createSeo({
 
 export const faqSeo = createSeo({
   siteName: `Charity Games | FAQ`,
-  url: 'https://charity.games/faq',
+  url: 'https://www.charity.games/faq',
   title: 'Charity Games - Frequently Asked Questions',
   description:
     'Find answers to frequently asked questions about Charity Games. Learn how to play, donate, and get involved.',
