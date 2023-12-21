@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
 
 const getOrientation = (): OrientationType => {
+  // a work around when screen.orientation is not available which happens to ios-safari
   if (window.screen == null || window.screen.orientation == null) {
     if (window.innerHeight > window.innerWidth) return 'portrait-primary';
     else return 'landscape-primary';
   }
+
   return window.screen.orientation.type;
 };
 
