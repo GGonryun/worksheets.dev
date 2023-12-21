@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 const getOrientation = (): OrientationType => {
   // a work around when screen.orientation is not available which happens to ios-safari
@@ -13,16 +13,18 @@ const getOrientation = (): OrientationType => {
 export const useDeviceOrientation = () => {
   const [orientation, setOrientation] = useState(getOrientation());
 
-  const updateOrientation = () => {
+  const updateOrientation = useCallback(() => {
     setOrientation(getOrientation());
-  };
+  }, []);
 
   useEffect(() => {
-    window.addEventListener('orientationchange', updateOrientation);
+    // ios-safari doesn't fire the orientationchange event consistently. this should make it
+    // more reliable across devices.
+    window.addEventListener('resize', updateOrientation);
     return () => {
-      window.removeEventListener('orientationchange', updateOrientation);
+      window.removeEventListener('resize', updateOrientation);
     };
-  }, []);
+  }, [updateOrientation]);
 
   return orientation;
 };
