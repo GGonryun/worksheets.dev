@@ -2693,41 +2693,5 @@ export const games: GameSchema[] = [
     - If you are playing on mobile, use your finger to move your paddle
     `,
   },
-  {
-    id: 'custom-2048',
-    name: 'Experimental Solitaire 2048',
-    size: 1,
-    developerId: 'charity-games',
-    iconUrl: 'https://cdn.charity.games/solitaire-2048/assets/thumbnail.png',
-    bannerUrl: 'https://cdn.charity.games/solitaire-2048/assets/banner.png',
-    qualifier: 'new',
-    platforms: ['desktop', 'mobile'],
-    orientations: ['portrait'],
-    tags: [
-      'ad-free',
-      'card',
-      'brain',
-      'board',
-      'puzzle',
-      'endless',
-      'popular',
-      'new',
-      'mobile',
-    ],
-    category: ['card'],
-    file: {
-      type: 'iframe',
-      url: 'https://cdn.charity.games/customb-2048/index.html',
-    },
-    createdAt: new Date('2023-12-21T00:00:00.000Z'),
-    updatedAt: new Date('2021-12-21T00:00:00.000Z'),
-    markets: {},
-    description: `
-    Solitaire 2048 is ultra casual card game. One of Very addictive kind.
-
-    ## How to Play Solitaire 2048?
-    Drag and drop the same value card to merge. Use special cards for benifits. Make 2048 to score bonus.
-  `,
-  },
   ...gameMonetizeGames.map(gameMonetizeConverter),
 ];

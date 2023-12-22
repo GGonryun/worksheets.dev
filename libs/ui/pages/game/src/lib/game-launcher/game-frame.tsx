@@ -2,21 +2,11 @@ import { forwardRef } from 'react';
 import classes from './game-frame.module.scss';
 import { Box, Typography } from '@mui/material';
 import Image from 'next/image';
-import { useEventListener } from '@worksheets/ui-core';
 
 export type GameFrameProps = { url: string };
 
 export const GameFrame = forwardRef<HTMLIFrameElement, GameFrameProps>(
   ({ url }, ref) => {
-    useEventListener('message', (e) => {
-      const data = e.data;
-      if (data.type === 'log') {
-        console.log('received from child', data.args);
-      } else {
-        console.log('received alternative message', data);
-      }
-    });
-
     return (
       <Box width="100%" height="100%" position="relative">
         <Box className={classes.placeholder}>
@@ -41,7 +31,7 @@ export const GameFrame = forwardRef<HTMLIFrameElement, GameFrameProps>(
           title="game-frame"
           src={url}
           className={classes.iframe}
-          sandbox="allow-storage-access-by-user-activation allow-forms allow-orientation-lock allow-pointer-lock allow-presentation allow-scripts allow-same-origin allow-downloads allow-popup allow-modals allow-forms"
+          sandbox="allow-storage-access-by-user-activation allow-forms allow-orientation-lock allow-pointer-lock allow-presentation allow-scripts allow-same-origin allow-downloads"
           // allow="allow-storage-access-by-user-activation; autoplay; allow-scripts; fullscreen; camera; gamepad; keyboard-map *; xr-spatial-tracking; clipboard-write;"
         />
       </Box>
