@@ -32,7 +32,7 @@ export const GameFrame = forwardRef<HTMLIFrameElement, GameFrameProps>(
           src={url}
           className={classes.iframe}
           sandbox="allow-storage-access-by-user-activation allow-forms allow-orientation-lock allow-pointer-lock allow-presentation allow-scripts allow-same-origin allow-downloads"
-          // allow="allow-storage-access-by-user-activation; autoplay; allow-scripts; fullscreen; camera; gamepad; keyboard-map *; xr-spatial-tracking; clipboard-write;"
+          allow={`autoplay; payment; fullscreen; microphone; clipboard-read; clipboard-write 'self' ${url}`}
         />
       </Box>
     );
