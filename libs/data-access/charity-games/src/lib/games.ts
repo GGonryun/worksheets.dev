@@ -2717,7 +2717,7 @@ export const games: GameSchema[] = [
     category: ['card'],
     file: {
       type: 'iframe',
-      url: 'https://cdn.charity.games/custom-2048/index.html',
+      url: 'https://cdn.charity.games/customand-2048/index.html',
     },
     createdAt: new Date('2023-12-21T00:00:00.000Z'),
     updatedAt: new Date('2021-12-21T00:00:00.000Z'),

@@ -2,11 +2,21 @@ import { forwardRef } from 'react';
 import classes from './game-frame.module.scss';
 import { Box, Typography } from '@mui/material';
 import Image from 'next/image';
+import { useEventListener } from '@worksheets/ui-core';
 
 export type GameFrameProps = { url: string };
 
 export const GameFrame = forwardRef<HTMLIFrameElement, GameFrameProps>(
   ({ url }, ref) => {
+    useEventListener('message', (e) => {
+      const data = e.data;
+      if (data.type === 'log') {
+        console.log('received from child', data.args);
+      } else {
+        console.log('received alternative message', data);
+      }
+    });
+
     return (
       <Box width="100%" height="100%" position="relative">
         <Box className={classes.placeholder}>
