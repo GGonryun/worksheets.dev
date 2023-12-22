@@ -31,8 +31,8 @@ export const GameFrame = forwardRef<HTMLIFrameElement, GameFrameProps>(
           title="game-frame"
           src={url}
           className={classes.iframe}
-          sandbox="allow-forms allow-orientation-lock allow-pointer-lock allow-presentation allow-scripts allow-same-origin allow-downloads"
-          allow="autoplay; fullscreen; camera; gamepad; keyboard-map *; xr-spatial-tracking; clipboard-write;"
+          sandbox="allow-storage-access-by-user-activation allow-forms allow-orientation-lock allow-pointer-lock allow-presentation allow-scripts allow-same-origin allow-downloads"
+          // allow="autoplay allow-scripts allow-same-origin fullscreen camera gamepad keyboard-map * xr-spatial-tracking clipboard-write"
         />
       </Box>
     );
