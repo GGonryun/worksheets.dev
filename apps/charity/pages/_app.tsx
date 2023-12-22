@@ -28,6 +28,7 @@ function CustomApp({
       <AdSenseScript />
       <Head>
         <link rel="preconnect" href="https://edge.fullstory.com" />
+        <link rel="preconnect" href="https://cdn.charity.games" />
         <meta name="mobile-web-app-capable" content="yes" />
         <meta
           name="apple-mobile-web-app-status-bar-style"
