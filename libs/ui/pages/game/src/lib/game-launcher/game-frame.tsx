@@ -26,11 +26,13 @@ export const GameFrame = forwardRef<HTMLIFrameElement, GameFrameProps>(
             userSelect: 'none',
             zIndex: 1,
           }}
+          id="game-frame"
+          name="game-frame"
           title="game-frame"
           src={url}
           className={classes.iframe}
           sandbox="allow-forms allow-orientation-lock allow-pointer-lock allow-presentation allow-scripts allow-same-origin allow-downloads"
-          // allow="autoplay; fullscreen *; geolocation; microphone; camera; midi; xr-spatial-tracking; gamepad; gyroscope; accelerometer; cross-origin-isolated; keyboard-map *; clipboard-write;"
+          allow="autoplay; fullscreen; camera; gamepad; keyboard-map *; xr-spatial-tracking; clipboard-write;"
         />
       </Box>
     );
