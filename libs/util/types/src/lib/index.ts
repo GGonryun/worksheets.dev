@@ -8,3 +8,4 @@ export * from './types';
 export * from './game-icon';
 export * from './game-qualifier';
 export * from './game-definition';
+export * from './recently-played-schema';

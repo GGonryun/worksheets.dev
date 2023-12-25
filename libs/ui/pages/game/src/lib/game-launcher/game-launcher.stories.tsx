@@ -1,9 +1,14 @@
 import type { Decorator, Meta, StoryObj } from '@storybook/react';
+import { action } from '@storybook/addon-actions';
 import { GameLauncher, GameLauncherProps } from './game-launcher';
 
 const meta: Meta<typeof GameLauncher> = {
   component: GameLauncher,
   title: 'Content/GameLauncher',
+  args: {
+    onPlay: action('onPlay'),
+    onReportBug: action('onReportBug'),
+  },
 };
 export default meta;
 

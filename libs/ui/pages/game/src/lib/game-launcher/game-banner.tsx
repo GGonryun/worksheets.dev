@@ -1,11 +1,6 @@
 import { Box, IconButton, Typography } from '@mui/material';
 import { FC } from 'react';
-import {
-  FlagOutlined,
-  Fullscreen,
-  FullscreenExit,
-  OpenInNew,
-} from '@mui/icons-material';
+import { FlagOutlined, Fullscreen, FullscreenExit } from '@mui/icons-material';
 import { GameSchema } from '@worksheets/util/types';
 import { ResponsiveImage } from '@worksheets/ui/images';
 
@@ -17,7 +12,6 @@ export type GameBannerProps = {
   isFullscreen?: boolean;
   onReportBug: () => void;
   onFullscreen?: () => void;
-  onRedirect?: () => void;
 };
 
 export const GameBanner: FC<GameBannerProps> = ({
@@ -27,7 +21,6 @@ export const GameBanner: FC<GameBannerProps> = ({
   type,
   isFullscreen,
   onFullscreen,
-  onRedirect,
 }) => {
   const handleReportBug = () => {
     console.log('handleReportBug');
@@ -103,11 +96,6 @@ export const GameBanner: FC<GameBannerProps> = ({
           {type === 'iframe' && (
             <IconButton color="primary" onClick={onFullscreen}>
               {isFullscreen ? <FullscreenExit /> : <Fullscreen />}
-            </IconButton>
-          )}
-          {type === 'redirect' && (
-            <IconButton color="primary" onClick={onRedirect}>
-              <OpenInNew />
             </IconButton>
           )}
         </Box>

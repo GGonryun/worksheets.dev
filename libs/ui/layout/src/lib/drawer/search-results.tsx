@@ -49,7 +49,7 @@ export const NoResults: FC = () => {
   return (
     <Box
       sx={{
-        my: 2,
+        mt: 2,
         padding: 2,
         backgroundColor: (theme) => theme.palette.background.paper,
       }}

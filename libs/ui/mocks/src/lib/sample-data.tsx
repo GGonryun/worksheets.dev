@@ -1,6 +1,7 @@
 import { MixedGridItem } from '@worksheets/ui/game-grid';
 import { MarkdownMetadata } from '@worksheets/util-markdown';
 import {
+  BlogAuthor,
   CharityOrganization,
   GameDefinition,
   GameIcon,
@@ -45,6 +46,12 @@ export const sampleMixedGridItems = () => [
     span: 1,
   })),
 ];
+
+export const sampleAuthor: BlogAuthor = {
+  id: 'miguel-campos',
+  name: 'Miguel Campos',
+  avatar: 'https://via.placeholder.com/150',
+};
 
 export const sampleBlogMetadata: MarkdownMetadata[] = [
   {

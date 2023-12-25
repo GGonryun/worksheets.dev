@@ -93,6 +93,7 @@
       "@worksheets/util/arrays": ["libs/util/arrays/src/index.ts"],
       "@worksheets/util/assets": ["libs/util/assets/src/index.ts"],
       "@worksheets/util/env": ["libs/util/env/src/index.ts"],
+      "@worksheets/util/misc": ["libs/util/misc/src/index.ts"],
       "@worksheets/util/numbers": ["libs/util/numbers/src/index.ts"],
       "@worksheets/util/seo": ["libs/util/seo/src/index.ts"],
       "@worksheets/util/strings": ["libs/util/strings/src/index.ts"],

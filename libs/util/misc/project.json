@@ -1,0 +1,26 @@
+{
+  "name": "util-misc",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/util/misc/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/util/misc",
+        "main": "libs/util/misc/src/index.ts",
+        "tsConfig": "libs/util/misc/tsconfig.lib.json",
+        "assets": ["libs/util/misc/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/util/misc/**/*.ts"]
+      }
+    }
+  },
+  "tags": []
+}

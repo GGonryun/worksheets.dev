@@ -9,14 +9,20 @@ import { Recommendations } from '@worksheets/util/types';
 import { useRouter } from 'next/router';
 import { FC, ReactNode } from 'react';
 import { getRandomGame } from '../util/randomizer';
+import dynamic from 'next/dynamic';
+
+const DynamicGameSection = dynamic(() => import('../dynamic/recent-games'), {
+  ssr: false,
+});
 
 export const LayoutContainer: FC<{ children: ReactNode }> = ({ children }) => {
   const { push } = useRouter();
 
   return (
     <Layout
+      recentGamesSection={<DynamicGameSection />}
       recommendations={recommendationsFromSchema}
-      onSearch={performQuery}
+      onSearch={performSearch}
       onRandomGame={() => {
         const randomGame = getRandomGame(true);
         push(`/play/${randomGame.id}`);
@@ -28,7 +34,6 @@ export const LayoutContainer: FC<{ children: ReactNode }> = ({ children }) => {
 };
 
 // eventually this will migrate to a real data source
-
 const recommendationsFromSchema: Recommendations = {
   popular: recommendations.popular.map((id) => {
     const game = games.find((game) => game.id === id);
@@ -64,7 +69,7 @@ const recommendationsFromSchema: Recommendations = {
   }),
 };
 
-const performQuery = async (q: string) => {
+const performSearch = async (q: string) => {
   const found = games.filter((game) =>
     game.name.toLowerCase().includes(q.toLowerCase())
   );

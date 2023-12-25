@@ -19,6 +19,7 @@ export type GameLauncherProps = {
   platforms: GameSchema['platforms'];
   orientations: GameSchema['orientations'];
   onReportBug: () => void;
+  onPlay: () => void;
 };
 
 export const GameLauncher: FC<GameLauncherProps> = ({
@@ -30,6 +31,7 @@ export const GameLauncher: FC<GameLauncherProps> = ({
   platforms,
   orientations,
   onReportBug,
+  onPlay,
 }) => {
   const { push } = useRouter();
   const [showLoadingCover, setShowLoadingCover] = useState(true);
@@ -47,15 +49,9 @@ export const GameLauncher: FC<GameLauncherProps> = ({
     }
   }, [fullscreen, isMobileOrTablet]);
 
-  const handleRedirect = () => {
-    if (file.type === 'redirect') {
-      push(file.url);
-    } else {
-      throw new Error("Unsupported action: game.file.type !== 'redirect'");
-    }
-  };
+  const handlePlayGame = () => {
+    onPlay();
 
-  const onPlay = () => {
     if (file.type === 'redirect') {
       push(file.url);
     } else {
@@ -101,7 +97,7 @@ export const GameLauncher: FC<GameLauncherProps> = ({
           backgroundUrl={backgroundUrl}
           iconUrl={iconUrl}
           name={name}
-          onPlay={onPlay}
+          onPlay={handlePlayGame}
           platforms={platforms}
           orientations={orientations}
           deviceOrientation={orientation}
@@ -121,7 +117,6 @@ export const GameLauncher: FC<GameLauncherProps> = ({
           onReportBug={onReportBug}
           isFullscreen={!!fullscreen}
           onFullscreen={handleFullscreen}
-          onRedirect={handleRedirect}
         />
       )}
     </Box>

@@ -3,13 +3,14 @@ import MuiToolbar from '@mui/material/Toolbar';
 import { Toolbar } from './toolbar';
 import { Drawer } from './drawer/drawer';
 import { GameRecommendations } from './drawer/game-recommendations';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { lighten } from '@mui/system';
 import { WebsiteFooter } from './footer';
 import { SearchResults } from './drawer/search-results';
 import { useDebounce } from '@worksheets/ui-core';
 import { Recommendations } from '@worksheets/util/types';
 import { CategoryPillProps, GamePillProps } from '@worksheets/ui/pills';
+import { DrawerActions } from './drawer/drawer-actions';
 
 type SearchResults = {
   games: GamePillProps[];
@@ -20,6 +21,7 @@ type LayoutProps = {
   children: React.ReactNode;
   connected?: boolean;
   recommendations?: Partial<Recommendations>;
+  recentGamesSection: React.ReactNode;
   onSearch: (query: string) => Promise<SearchResults>;
   onRandomGame: () => void;
 };
@@ -30,9 +32,12 @@ export const Layout: React.FC<LayoutProps> = ({
   children,
   connected,
   recommendations,
+  recentGamesSection,
   onSearch,
   onRandomGame,
 }) => {
+  const contentRef = useRef<HTMLDivElement>(null);
+
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [searchResults, setSearchResults] = useState<
@@ -49,6 +54,7 @@ export const Layout: React.FC<LayoutProps> = ({
     if (q) {
       const results = await onSearch(q);
       setSearchResults(results);
+      contentRef.current?.scrollTo({ top: 0 });
     }
   });
 
@@ -62,9 +68,8 @@ export const Layout: React.FC<LayoutProps> = ({
     setQuery('');
   };
 
-  const hasSearchResult =
-    searchResults != null &&
-    (searchResults.games.length > 0 || searchResults.categories.length > 0);
+  const performedSearch = searchResults != null;
+
   return (
     <Box
       sx={{
@@ -85,22 +90,26 @@ export const Layout: React.FC<LayoutProps> = ({
         query={query}
         onChange={handleQueryChange}
         onClear={handleQueryClear}
+        contentRef={contentRef}
         children={
           <Box>
-            {searchResults != null && (
+            {performedSearch && (
               <SearchResults
                 games={searchResults.games}
                 categories={searchResults.categories}
               />
             )}
-            <GameRecommendations
+            {!performedSearch && (
+              <>
+                <GameRecommendations recommendations={recommendations ?? {}} />
+                {recentGamesSection}
+              </>
+            )}
+            <DrawerActions
               onRandomGame={() => {
                 onRandomGame();
                 setOpen(false);
               }}
-              hideSections={hasSearchResult}
-              hideCategories={hasSearchResult}
-              recommendations={recommendations ?? {}}
             />
           </Box>
         }

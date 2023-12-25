@@ -16,6 +16,7 @@ export type DrawerProps = {
   query?: string;
   open?: boolean;
   children?: ReactNode;
+  contentRef?: React.RefObject<HTMLDivElement>;
 };
 export const Drawer: FC<DrawerProps> = ({
   open,
@@ -24,50 +25,66 @@ export const Drawer: FC<DrawerProps> = ({
   onChange,
   onClear,
   query,
-}) => (
-  <nav>
-    <StyledDrawer
-      variant="temporary"
-      open={open}
-      onClose={onDrawerToggle}
-      ModalProps={{
-        keepMounted: true,
-      }}
-      sx={{
-        '& .MuiDrawer-paper': {
-          width: { xs: '100%', sm: '80%' },
-        },
-      }}
-    >
-      <Box
-        ml={{ xs: -3, sm: 0 }}
-        mt={2}
-        pl={2}
-        pr={{ xs: 1, sm: 6 }}
-        position="relative"
+  contentRef,
+}) => {
+  return (
+    <nav>
+      <StyledDrawer
+        variant="temporary"
+        open={open}
+        onClose={onDrawerToggle}
+        ModalProps={{
+          keepMounted: true,
+        }}
+        sx={{
+          '& .MuiDrawer-paper': {
+            width: { xs: '100%', sm: '80%' },
+          },
+        }}
       >
-        <SearchBar
-          onLogoClick={onDrawerToggle}
-          onChange={onChange}
-          onClear={onClear}
-          value={query}
-        />
-        <FloatingButton
-          onClick={onDrawerToggle}
+        <Box
+          ml={{ xs: -3, sm: 0 }}
+          mt={2}
+          pl={2}
+          pr={{ xs: 1, sm: 6 }}
+          position="relative"
+        >
+          <SearchBar
+            onLogoClick={onDrawerToggle}
+            onChange={onChange}
+            onClear={onClear}
+            value={query}
+          />
+          <FloatingButton
+            onClick={onDrawerToggle}
+            sx={{
+              display: { xs: 'none', sm: 'flex' },
+            }}
+          >
+            <ArrowBack fontSize="large" />
+          </FloatingButton>
+          <TopEdgeBlur />
+        </Box>
+        <Box
+          px={{ xs: 1, sm: 2 }}
+          pt={2}
+          pb={3}
+          overflow={'auto'}
+          ref={contentRef}
           sx={{
-            display: { xs: 'none', sm: 'flex' },
+            '&::-webkit-scrollbar': {
+              display: 'none',
+            },
+            msOverflowStyle: 'none',
+            scrollbarWidth: 'none',
           }}
         >
-          <ArrowBack fontSize="large" />
-        </FloatingButton>
-        <TopEdgeBlur />
-      </Box>
-      <Box px={{ xs: 1, sm: 2 }} pt={2} pb={1} overflow={'auto'}>
-        {children}
-      </Box>
-    </StyledDrawer>
-  </nav>
-);
+          {children}
+        </Box>
+      </StyledDrawer>
+    </nav>
+  );
+};
 
 const StyledDrawer = styled(MuiDrawer)(({ theme }) => ({
   '& .MuiDrawer-paper': {

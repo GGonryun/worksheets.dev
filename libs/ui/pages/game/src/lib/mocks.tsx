@@ -13,6 +13,7 @@ export const SampleGameLauncher = () => (
     orientations={['landscape', 'portrait']}
     developer={'Charity.Games'}
     onReportBug={() => alert('TODO: show bug report form')}
+    onPlay={() => alert('TODO: show play form')}
     platforms={['mobile', 'desktop']}
   />
 );

@@ -3,6 +3,7 @@ import { Layout } from './layout';
 import { Container, Typography } from '@mui/material';
 import {
   dummySocials,
+  sampleAuthor,
   sampleBlogMetadata,
   sampleBlogPost,
   sampleCategoryDescription,
@@ -36,6 +37,7 @@ import { DeveloperScreen } from '@worksheets/ui/pages/developer';
 import { FAQScreen } from '@worksheets/ui/pages/faq';
 import { PrivacyPolicyScreen } from '@worksheets/ui/pages/privacy-policy';
 import { UnderConstruction } from '@worksheets/ui/pages/under-construction';
+import { RecentGamesSection } from './recent-games-section';
 
 const Story: Meta<typeof Layout> = {
   component: Layout,
@@ -48,6 +50,9 @@ const Story: Meta<typeof Layout> = {
       alert('random game');
     },
     recommendations: sampleRecommendations,
+    recentGamesSection: (
+      <RecentGamesSection recent={sampleRecommendations.new} />
+    ),
   },
   decorators: [
     (Story) => (
@@ -61,6 +66,7 @@ export default Story;
 
 export const Primary = {
   args: {
+    recentGamesSection: <RecentGamesSection recent={[]} />,
     children: (
       <Typography>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique unde
@@ -104,6 +110,7 @@ export const Primary = {
 
 export const HomePage = {
   args: {
+    recentGamesSection: <RecentGamesSection recent={[]} />,
     children: (
       <Container
         maxWidth="xl"
@@ -341,7 +348,7 @@ export const CharityPage = {
 
 export const HelpPage = {
   args: {
-    children: <HelpScreen />,
+    children: <HelpScreen qa={[]} />,
   },
 };
 
@@ -365,7 +372,7 @@ export const ContactPage = {
 
 export const FAQPage = {
   args: {
-    children: <FAQScreen />,
+    children: <FAQScreen faq={[]} />,
   },
 };
 
@@ -379,6 +386,7 @@ export const BlogPostPage = {
   args: {
     children: (
       <BlogPostScreen
+        author={sampleAuthor}
         metadata={sampleBlogMetadata[0]}
         content={sampleBlogPost}
       />
@@ -393,6 +401,10 @@ export const DeveloperPage = {
         name={'Charity Games'}
         socials={dummySocials}
         games={sampleGameDefinitions}
+        description={
+          'Lorem ipsum dolor sit amet consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+        }
+        avatarUrl={'/common/charity-games/logos/quaternary-small.png'}
       />
     ),
   },
