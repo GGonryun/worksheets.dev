@@ -2017,7 +2017,7 @@ export const games: GameSchema[] = [
   {
     id: 'plane-fly',
     name: 'Plane Fly',
-    size: 2,
+    size: 1,
     developerId: 'charity-games',
     iconUrl: 'https://cdn.charity.games/plane-fly/assets/thumbnail.png',
     bannerUrl: 'https://cdn.charity.games/plane-fly/assets/banner.png',
@@ -2074,7 +2074,7 @@ export const games: GameSchema[] = [
     ],
     category: ['card'],
     file: {
-      type: 'iframe',
+      type: 'redirect',
       url: SOLITAIRE_URL,
     },
     createdAt: new Date('2023-10-16T00:00:00.000Z'),
@@ -2116,7 +2116,7 @@ export const games: GameSchema[] = [
     ],
     category: ['card'],
     file: {
-      type: 'iframe',
+      type: 'redirect',
       url: EMOJI_WAR_URL,
     },
     createdAt: new Date('2023-10-01T00:00:00.000Z'),
@@ -2214,7 +2214,7 @@ export const games: GameSchema[] = [
   {
     id: 'conquer-the-world',
     name: 'RPG Conquer The World',
-    size: 3,
+    size: 2,
     developerId: 'llstd',
     iconUrl: 'https://cdn.charity.games/conquer-the-world/assets/thumbnail.png',
     bannerUrl: 'https://cdn.charity.games/conquer-the-world/assets/banner.jpg',
@@ -2261,45 +2261,9 @@ export const games: GameSchema[] = [
     The game contains 8 chapters, several tasks, many sarcastic dialogues, and humorous situations. You'll enjoy a lot of pleasant fun.    `,
   },
   {
-    id: 'solitaire-2048',
-    name: 'Solitaire 2048',
-    size: 2,
-    developerId: 'charity-games',
-    iconUrl: 'https://cdn.charity.games/solitaire-2048/assets/thumbnail.png',
-    bannerUrl: 'https://cdn.charity.games/solitaire-2048/assets/banner.png',
-    qualifier: 'new',
-    platforms: ['desktop', 'mobile'],
-    orientations: ['portrait'],
-    tags: [
-      'ad-free',
-      'card',
-      'brain',
-      'board',
-      'puzzle',
-      'endless',
-      'popular',
-      'new',
-      'mobile',
-    ],
-    category: ['card'],
-    file: {
-      type: 'iframe',
-      url: 'https://cdn.charity.games/solitaire-2048/index.html',
-    },
-    createdAt: new Date('2023-12-21T00:00:00.000Z'),
-    updatedAt: new Date('2021-12-21T00:00:00.000Z'),
-    markets: {},
-    description: `
-    Solitaire 2048 is ultra casual card game. One of Very addictive kind.
-
-    ## How to Play Solitaire 2048?
-    Drag and drop the same value card to merge. Use special cards for benifits. Make 2048 to score bonus.
-  `,
-  },
-  {
     id: 'freedom-run',
     name: 'Freedom Run',
-    size: 2,
+    size: 1,
     developerId: 'charity-games',
     iconUrl: 'https://cdn.charity.games/freedom_run/icons/game-icon.png',
     bannerUrl: 'https://cdn.charity.games/freedom_run/icons/banner.png',
@@ -2368,7 +2332,7 @@ export const games: GameSchema[] = [
     ],
     category: ['puzzle'],
     file: {
-      type: 'iframe',
+      type: 'redirect',
       url: WORD_SEARCH_URL,
     },
     createdAt: new Date('2023-10-09T00:00:00.000Z'),
@@ -2391,7 +2355,7 @@ export const games: GameSchema[] = [
   {
     id: 'invention-timeline-game',
     name: 'Time Travel',
-    size: 3,
+    size: 2,
     developerId: 'gordo-raba',
     iconUrl:
       'https://cdn.charity.games/invention-timeline-game/assets/thumbnail.png',
@@ -2476,7 +2440,7 @@ export const games: GameSchema[] = [
     ],
     category: ['puzzle'],
     file: {
-      type: 'iframe',
+      type: 'redirect',
       url: PUZZLE_WORDS_URL,
     },
     createdAt: new Date('2023-10-07T00:00:00.000Z'),
@@ -2513,7 +2477,7 @@ export const games: GameSchema[] = [
     ],
     category: ['puzzle'],
     file: {
-      type: 'iframe',
+      type: 'redirect',
       url: WORD_SMITH_URL,
     },
     createdAt: new Date('2023-10-30T00:00:00.000Z'),
@@ -2537,7 +2501,7 @@ export const games: GameSchema[] = [
   {
     id: 'quickbeat',
     name: 'Quick Beat',
-    size: 3,
+    size: 2,
     developerId: 'rainboworm',
     iconUrl: 'https://cdn.charity.games/quickbeat/assets/thumbnail.png',
     bannerUrl: 'https://cdn.charity.games/quickbeat/assets/banner.png',
@@ -2601,7 +2565,7 @@ export const games: GameSchema[] = [
     tags: ['ad-free', 'popular', 'puzzle', 'brain', 'desktop', 'mobile'],
     category: ['puzzle'],
     file: {
-      type: 'iframe',
+      type: 'redirect',
       url: NONOGRAMS_URL,
     },
     createdAt: new Date('2023-11-01T00:00:00.000Z'),
@@ -2647,7 +2611,7 @@ export const games: GameSchema[] = [
     ],
     category: ['puzzle'],
     file: {
-      type: 'iframe',
+      type: 'redirect',
       url: WORD_PACK_URL,
     },
     createdAt: new Date('2023-10-21T00:00:00.000Z'),
@@ -2669,7 +2633,7 @@ export const games: GameSchema[] = [
   {
     id: 'air-hockey-neon',
     name: 'Air Hockey Neon',
-    size: 2,
+    size: 1,
     developerId: 'charity-games',
     iconUrl: 'https://cdn.charity.games/air-hockey-neon/assets/thumbnail.png',
     bannerUrl: 'https://cdn.charity.games/air-hockey-neon/assets/banner.png',
@@ -2692,6 +2656,42 @@ export const games: GameSchema[] = [
     - Use the mouse to move your paddle
     - If you are playing on mobile, use your finger to move your paddle
     `,
+  },
+  {
+    id: 'solitaire-2048',
+    name: 'Solitaire 2048',
+    size: 3,
+    developerId: 'charity-games',
+    iconUrl: 'https://cdn.charity.games/solitaire-2048/assets/thumbnail.png',
+    bannerUrl: 'https://cdn.charity.games/solitaire-2048/assets/banner.png',
+    qualifier: 'new',
+    platforms: ['desktop', 'mobile'],
+    orientations: ['portrait'],
+    tags: [
+      'ad-free',
+      'card',
+      'brain',
+      'board',
+      'puzzle',
+      'endless',
+      'popular',
+      'new',
+      'mobile',
+    ],
+    category: ['card'],
+    file: {
+      type: 'iframe',
+      url: 'https://cdn.charity.games/solitaire-2048/index.html',
+    },
+    createdAt: new Date('2023-12-21T00:00:00.000Z'),
+    updatedAt: new Date('2021-12-21T00:00:00.000Z'),
+    markets: {},
+    description: `
+    Solitaire 2048 is ultra casual card game. One of Very addictive kind.
+
+    ## How to Play Solitaire 2048?
+    Drag and drop the same value card to merge. Use special cards for benifits. Make 2048 to score bonus.
+  `,
   },
   ...gameMonetizeGames.map(gameMonetizeConverter),
 ];
