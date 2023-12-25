@@ -16,8 +16,6 @@ import {
   TextPillProps,
 } from '@worksheets/ui/pills';
 
-export const GRID_ITEM_SIZE = `94px`;
-
 export type MixedGridItem =
   | (GameIconProps & { type: 'game'; span?: number })
   | (CategoryPillProps & { type: 'category' })

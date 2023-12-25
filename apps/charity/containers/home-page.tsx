@@ -14,7 +14,7 @@ export const HomePageContainer = () => {
   const { push } = useRouter();
 
   return (
-    <Container maxWidth="xl" sx={{ py: 2 }}>
+    <Container maxWidth="desktop3" sx={{ py: 2 }}>
       <MixedGrid
         items={[
           ...mixedItems({
