@@ -69,13 +69,22 @@ export const Toolbar = (props: ToolbarProps) => {
 const ConnectionButton: FC<{ connected: boolean }> = ({ connected }) => {
   if (connected) {
     return (
-      <DenseButton startIcon={<AccountCircleOutlined />} color="error">
+      <DenseButton
+        href="/account"
+        startIcon={<AccountCircleOutlined />}
+        color="error"
+      >
         Account
       </DenseButton>
     );
   }
   return (
-    <DenseButton startIcon={<LockOpen />} color="error" variant="outlined">
+    <DenseButton
+      startIcon={<LockOpen />}
+      color="error"
+      variant="outlined"
+      href="/login"
+    >
       Log In
     </DenseButton>
   );

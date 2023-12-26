@@ -15,6 +15,9 @@ declare module 'next-auth' {
     username?: string;
     gh_username?: string;
   }
+  interface Profile {
+    email_verified?: boolean;
+  }
 }
 
 declare module 'next-auth/jwt' {

@@ -289,7 +289,7 @@ export const GamePage = {
 
 export const LoginPage = {
   args: {
-    children: <LoginScreen onGithubLogin={() => alert('github login')} />,
+    children: <LoginScreen onGithubAction={() => alert('github login')} />,
   },
 };
 

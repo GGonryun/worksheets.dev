@@ -1,20 +1,21 @@
 import { FC } from 'react';
 import { Logout } from '@mui/icons-material';
 import { ArrowUpRight } from '@worksheets/ui/icons';
-import { GameIcon, GameIconProps } from '@worksheets/ui/game-grid';
+import { GameIconProps } from '@worksheets/ui/game-grid';
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 
 export type AccountScreenProps = {
   exploreHref?: string;
+  onLogout: () => void;
   recent: GameIconProps[];
 };
 
 export const AccountScreen: FC<AccountScreenProps> = ({
   recent,
+  onLogout,
   exploreHref,
 }) => {
   return (
@@ -27,22 +28,7 @@ export const AccountScreen: FC<AccountScreenProps> = ({
           p: { xs: 2, sm: 4 },
         }}
       >
-        <Typography variant="h4">Recent</Typography>
         <Box
-          sx={{
-            px: 1,
-            display: 'flex',
-            flexDirection: 'row',
-            flexWrap: 'wrap',
-            gap: 2,
-          }}
-        >
-          {recent.map((d) => (
-            <GameIcon key={d.id} size={94} {...d} />
-          ))}
-        </Box>
-        <Box
-          mt={3}
           display="flex"
           justifyContent="space-between"
           width="100%"
@@ -66,6 +52,7 @@ export const AccountScreen: FC<AccountScreenProps> = ({
             variant="contained"
             color="error"
             endIcon={<Logout />}
+            onClick={onLogout}
             sx={{
               fontFamily: 'Dangrek',
               px: 3,

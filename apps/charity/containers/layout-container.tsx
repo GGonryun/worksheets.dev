@@ -10,6 +10,7 @@ import { useRouter } from 'next/router';
 import { FC, ReactNode } from 'react';
 import { getRandomGame } from '../util/randomizer';
 import dynamic from 'next/dynamic';
+import { useSession } from 'next-auth/react';
 
 const DynamicGameSection = dynamic(() => import('../dynamic/recent-games'), {
   ssr: false,
@@ -17,9 +18,11 @@ const DynamicGameSection = dynamic(() => import('../dynamic/recent-games'), {
 
 export const LayoutContainer: FC<{ children: ReactNode }> = ({ children }) => {
   const { push } = useRouter();
+  const { data: session } = useSession();
 
   return (
     <Layout
+      connected={Boolean(session?.user.id)}
       recentGamesSection={<DynamicGameSection />}
       recommendations={recommendationsFromSchema}
       onSearch={performSearch}

@@ -1,5 +1,7 @@
 # Charity.Games
 
+We are a community of developers, designers, artists, musicians, and gamers united by a common goal: using the power of gaming to create a positive impact on the world.
+
 ## Getting Started
 
 ### Preconditions
@@ -15,7 +17,7 @@ Charity.Games supports subdomains for multitenancy, when working locally we must
 2. replace the contents of the file with the following:
 
 ```
-127.0.0.1 localhost charity.local official.charity.local test.charity.local local.charity.local example.charity.local
+127.0.0.1 localhost charity.local official.charity.local teest.charity.local local.charity.local example.charity.local
 255.255.255.255 broadcasthost
 ::1 localhost
 ```

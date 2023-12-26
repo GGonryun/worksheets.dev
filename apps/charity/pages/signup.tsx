@@ -1,5 +1,5 @@
 import { NextPageWithLayout } from '@worksheets/util-next';
-import { LoginScreen } from '@worksheets/ui/pages/login';
+import { SignUpScreen } from '@worksheets/ui/pages/login';
 import { LayoutContainer } from '../containers/layout-container';
 import { signIn } from 'next-auth/react';
 import { NextSeo } from 'next-seo';
@@ -7,7 +7,7 @@ import { NextSeo } from 'next-seo';
 const Page: NextPageWithLayout = () => (
   <>
     <NextSeo noindex={true} />
-    <LoginScreen
+    <SignUpScreen
       onGoogleAction={() => signIn('google', { callbackUrl: '/' })}
       onFacebookAction={() => signIn('facebook', { callbackUrl: '/' })}
       onDiscordAction={() => signIn('discord', { callbackUrl: '/' })}

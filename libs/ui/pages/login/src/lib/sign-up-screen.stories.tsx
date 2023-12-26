@@ -1,8 +1,8 @@
 import type { Meta } from '@storybook/react';
-import { LoginScreen } from './login-screen';
+import { SignUpScreen } from './sign-up-screen';
 
-const Story: Meta<typeof LoginScreen> = {
-  component: LoginScreen,
+const Story: Meta<typeof SignUpScreen> = {
+  component: SignUpScreen,
   decorators: [
     (Story) => (
       <div
