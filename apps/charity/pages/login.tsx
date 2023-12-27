@@ -11,7 +11,6 @@ const Page: NextPageWithLayout = () => (
       onGoogleAction={() => signIn('google', { callbackUrl: '/' })}
       onDiscordAction={() => signIn('discord', { callbackUrl: '/' })}
       onGithubAction={() => signIn('github', { callbackUrl: '/' })}
-      onRedditAction={() => signIn('reddit', { callbackUrl: '/' })}
     />
   </>
 );

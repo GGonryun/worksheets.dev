@@ -1,7 +1,5 @@
 import GithubProvider from 'next-auth/providers/github';
 import GoogleProvider from 'next-auth/providers/google';
-import FacebookProvider from 'next-auth/providers/facebook';
-import RedditProvider from 'next-auth/providers/reddit';
 import DiscordProvider from 'next-auth/providers/discord';
 
 import { prisma } from '@worksheets/prisma';
@@ -13,10 +11,6 @@ const {
   GITHUB_CLIENT_SECRET,
   GOOGLE_CLIENT_ID,
   GOOGLE_CLIENT_SECRET,
-  FACEBOOK_CLIENT_ID,
-  FACEBOOK_CLIENT_SECRET,
-  REDDIT_CLIENT_ID,
-  REDDIT_CLIENT_SECRET,
   DISCORD_CLIENT_ID,
   DISCORD_CLIENT_SECRET,
   NEXT_PUBLIC_COOKIE_DOMAIN,
@@ -31,12 +25,6 @@ if (!GITHUB_CLIENT_ID || !GITHUB_CLIENT_SECRET)
 if (!GOOGLE_CLIENT_ID || !GOOGLE_CLIENT_SECRET)
   throw new Error('Failed to initialize Google authentication');
 
-if (!FACEBOOK_CLIENT_ID || !FACEBOOK_CLIENT_SECRET)
-  throw new Error('Failed to initialize Facebook authentication');
-
-if (!REDDIT_CLIENT_ID || !REDDIT_CLIENT_SECRET)
-  throw new Error('Failed to initialize Reddit authentication');
-
 if (!DISCORD_CLIENT_ID || !DISCORD_CLIENT_SECRET)
   throw new Error('Failed to initialize Discord authentication');
 
@@ -45,19 +33,6 @@ const AUTH_OPTIONS: AuthOptions = {
   adapter: PrismaAdapter(prisma),
   // Configure one or more authentication providers
   providers: [
-    RedditProvider({
-      clientId: REDDIT_CLIENT_ID,
-      clientSecret: REDDIT_CLIENT_SECRET,
-      authorization: {
-        params: {
-          duration: 'permanent',
-        },
-      },
-    }),
-    FacebookProvider({
-      clientId: FACEBOOK_CLIENT_ID,
-      clientSecret: FACEBOOK_CLIENT_SECRET,
-    }),
     GoogleProvider({
       clientId: GOOGLE_CLIENT_ID,
       clientSecret: GOOGLE_CLIENT_SECRET,
