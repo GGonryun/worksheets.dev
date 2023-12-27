@@ -15,7 +15,7 @@ model GamePlay {
   total         Int
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
-  game          Game          @relation(fields: [gameId], references: [id])
+  // game          Game          @relation(fields: [gameId], references: [id])
   user          User          @relation(fields: [userId], references: [id])
 }
 
@@ -25,25 +25,34 @@ model GameVote {
   userId        String
   createdAt     DateTime      @default(now())
   liked         Boolean       
-  game          Game          @relation(fields: [gameId], references: [id])
+  // game          Game          @relation(fields: [gameId], references: [id])
   user          User          @relation(fields: [userId], references: [id])
 }
 
-model GameComment {
+model GameFavorites {
   id            String        @id @default(cuid())
-  parentId      String?     
   gameId        String
   userId        String
-  text          String        @db.VarChar(255)
-  score         Int           @default(0)
-  hidden        Boolean       @default(false)
   createdAt     DateTime      @default(now())
-  game          Game          @relation(fields: [gameId], references: [id])
+  // game          Game          @relation(fields: [gameId], references: [id])
   user          User          @relation(fields: [userId], references: [id])
-  parent        GameComment?  @relation("GameCommentToGameComment", fields: [parentId], references: [id])
-  replies       GameComment[] @relation("GameCommentToGameComment")
+
 }
 
+// model GameComment {
+//   id            String        @id @default(cuid())
+//   parentId      String?     
+//   gameId        String
+//   userId        String
+//   text          String        @db.VarChar(255)
+//   score         Int           @default(0)
+//   hidden        Boolean       @default(false)
+//   createdAt     DateTime      @default(now())
+//   game          Game          @relation(fields: [gameId], references: [id])
+//   user          User          @relation(fields: [userId], references: [id])
+//   parent        GameComment?  @relation("GameCommentToGameComment", fields: [parentId], references: [id])
+//   replies       GameComment[] @relation("GameCommentToGameComment")
+// }
 
 model Game {
   id            String        @id @default(cuid())
@@ -61,9 +70,9 @@ model Game {
   tags          String[]      @db.VarChar(63)
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
-  plays         GamePlay[]
-  votes         GameVote[]
-  comments      GameComment[]
+  // plays         GamePlay[]
+  // votes         GameVote[]
+  // comments      GameComment[]
   teamId        String
 }
 
@@ -80,19 +89,20 @@ enum GameStatus {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  username      String?
-  email         String?   @unique
-  emailVerified DateTime?
-  image         String?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  plays         GamePlay[]
-  votes         GameVote[]
-  accounts      Account[]
-  sessions      Session[]
-  comments      GameComment[]
+  id                String    @id @default(cuid())
+  name              String?
+  username          String?
+  email             String?   @unique
+  emailVerified     DateTime?
+  image             String?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  favorites         GameFavorites[]
+  plays             GamePlay[]
+  votes             GameVote[]
+  accounts          Account[]
+  sessions          Session[]
+  // comments          GameComment[]
 }
 
 model Account {

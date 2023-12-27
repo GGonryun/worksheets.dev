@@ -1,10 +1,12 @@
 import { router } from '../trpc';
 import emails from './emails/router';
-import teams from './teams/router';
+import user from './user/router';
+import game from './game/router';
 
 export const appRouter = router({
   emails,
-  teams,
+  user,
+  game,
 });
 
 export type AppRouter = typeof appRouter;

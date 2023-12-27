@@ -1,7 +1,5 @@
 import { z } from '@worksheets/zod';
 import { protectedProcedure } from '../../procedures';
-import { TRPCError } from '@trpc/server';
-import { Prisma } from '@prisma/client';
 
 export default protectedProcedure
   .input(
@@ -15,20 +13,22 @@ export default protectedProcedure
       success: z.boolean(),
     })
   )
-  .mutation(async ({ input: { gameId, vote }, ctx: { db } }) => {
+  .mutation(async ({ input: { gameId, vote }, ctx: { user, db } }) => {
     let success = false;
 
     try {
-      const result = await db.gamePlay.create({
+      const result = await db.gameVote.create({
         data: {
-          address,
+          gameId: gameId,
+          userId: user.id,
+          liked: vote === 'up' ? true : false,
         },
       });
 
       console.info(`Added a game vote: ${JSON.stringify(result)}`);
       success = true;
     } catch (error) {
-      console.error(`An unexpected error occured while voting: ${error}`);
+      console.error(`An unexpected error occurred while voting: ${error}`);
     }
 
     return { success };
