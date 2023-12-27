@@ -9,7 +9,6 @@ const Page: NextPageWithLayout = () => (
     <NextSeo noindex={true} />
     <SignUpScreen
       onGoogleAction={() => signIn('google', { callbackUrl: '/' })}
-      onFacebookAction={() => signIn('facebook', { callbackUrl: '/' })}
       onDiscordAction={() => signIn('discord', { callbackUrl: '/' })}
       onGithubAction={() => signIn('github', { callbackUrl: '/' })}
       onRedditAction={() => signIn('reddit', { callbackUrl: '/' })}

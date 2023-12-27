@@ -1,7 +1,6 @@
 import { GitHub } from '@mui/icons-material';
 import {
   ColoredGoogle,
-  ColoredFacebook,
   ColoredReddit,
   ColoredDiscord,
 } from '@worksheets/ui/icons';
@@ -10,7 +9,6 @@ import { FC } from 'react';
 
 export type SocialProvidersProps = {
   onGoogleAction?: () => void;
-  onFacebookAction?: () => void;
   onDiscordAction?: () => void;
   onGithubAction?: () => void;
   onRedditAction?: () => void;
@@ -18,7 +16,6 @@ export type SocialProvidersProps = {
 
 export const SocialProviders: FC<SocialProvidersProps> = ({
   onGoogleAction,
-  onFacebookAction,
   onDiscordAction,
   onGithubAction,
   onRedditAction,
@@ -42,12 +39,7 @@ export const SocialProviders: FC<SocialProvidersProps> = ({
     >
       Reddit
     </SocialProviderButton>
-    <SocialProviderButton
-      startIcon={<ColoredFacebook />}
-      onClick={onFacebookAction}
-    >
-      Facebook
-    </SocialProviderButton>
+
     <SocialProviderButton startIcon={<GitHub />} onClick={onGithubAction}>
       GitHub
     </SocialProviderButton>
