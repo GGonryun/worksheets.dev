@@ -17,7 +17,7 @@ export default protectedProcedure
     const userId = user.id;
 
     try {
-      const exists = await db.gameFavorites.findFirst({
+      const exists = await db.gameFavorite.findFirst({
         where: {
           gameId: gameId,
           userId: userId,
@@ -33,7 +33,7 @@ export default protectedProcedure
           `creating new favorite for user ${userId} and game ${gameId}`
         );
 
-        await db.gameFavorites.create({
+        await db.gameFavorite.create({
           data: {
             gameId: gameId,
             userId: userId,

@@ -32,6 +32,7 @@ export type GameBannerProps = {
   plays: string;
   upVotes: string;
   downVotes: string;
+  favorites: string;
   onFavorite: () => void;
   onFullscreen?: () => void;
   onViewGamePlay: () => void;
@@ -47,6 +48,7 @@ export const GameBanner: FC<GameBannerProps> = ({
   plays,
   upVotes,
   downVotes,
+  favorites,
   isFavorite,
   userVote,
   onFullscreen,
@@ -121,7 +123,7 @@ export const GameBanner: FC<GameBannerProps> = ({
         display="flex"
         alignItems="flex-start"
         px={{ xs: 1, sm: 2 }}
-        gap={{ xs: 1, sm: 3 }}
+        gap={{ xs: 1, sm: 2 }}
       >
         <ActionBox>
           <ActionButton onClick={onViewGamePlay}>
@@ -141,9 +143,12 @@ export const GameBanner: FC<GameBannerProps> = ({
           </ActionButton>
           <ActionText>{downVotes}</ActionText>
         </ActionBox>
-        <ActionButton onClick={onFavorite}>
-          {isFavorite ? <Favorite /> : <FavoriteBorder />}
-        </ActionButton>
+        <ActionBox>
+          <ActionButton onClick={onFavorite}>
+            {isFavorite ? <Favorite /> : <FavoriteBorder />}
+          </ActionButton>
+          <ActionText>{favorites}</ActionText>
+        </ActionBox>
         {type === 'iframe' && (
           <ActionButton onClick={onFullscreen}>
             {isFullscreen ? <FullscreenExit /> : <Fullscreen />}

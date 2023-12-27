@@ -20,7 +20,7 @@ export const TopPlayers: FC<{ players: GamePlayerSchema[] }> = ({
           >
             <Typography>
               {index + 1}.{' '}
-              <Link href={`/players/${player.id}`}>{player.name}</Link> —{' '}
+              <Link href={`/players/${player.id}`}>{player.username}</Link> —{' '}
               {player.plays} plays
             </Typography>
           </ListItem>

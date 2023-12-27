@@ -1,6 +1,7 @@
 import type { Decorator, Meta, StoryObj } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { GameLauncher, GameLauncherProps } from './game-launcher';
+import { sampleAnalytics, sampleDeveloper, sampleGame } from '../mocks';
 
 const meta: Meta<typeof GameLauncher> = {
   component: GameLauncher,
@@ -87,14 +88,9 @@ const sizeSquare: StoryDecorator = (Story) => (
 );
 
 const baseProps: Partial<GameLauncherProps> = {
-  backgroundUrl: '/games/solitaire/banner.png',
-  iconUrl: '/games/solitaire/icon.jpg',
-  name: 'Solitaire',
-  developer: 'Charity.Games',
-  file: {
-    type: 'iframe',
-    url: 'https://charity.games',
-  },
+  game: sampleGame,
+  developer: sampleDeveloper,
+  analytics: sampleAnalytics,
 };
 
 export const Responsive = {

@@ -1,37 +1,26 @@
 import { Box, Chip, ChipProps, Typography } from '@mui/material';
 import { FC } from 'react';
 import { MarketWidgets } from './market-widgets';
-import { MarkdownText, Markdown } from '@worksheets/ui-core';
-import { GamePlayerSchema, GameSchema } from '@worksheets/util/types';
+import { Markdown } from '@worksheets/ui-core';
+import {
+  DeveloperSchema,
+  GameAnalyticsSchema,
+  SerializableGameSchema,
+} from '@worksheets/util/types';
 import { TopPlayers } from './top-players';
 import { GameHeader } from './game-header';
 import { GameActions } from './game-actions';
 
 export type GameDescriptionProps = {
-  title: string;
-  text: MarkdownText;
-  developer: {
-    id: string;
-    name: string;
-  };
-  created: string;
-  updated: string;
-  plays: string;
-  score: string;
-  // category breadcrumbs are rendered from left to right, least specific to most specific category.
-  category: GameSchema['category'];
-  tags: GameSchema['tags'];
-  platforms: GameSchema['platforms'];
-  markets?: GameSchema['markets'];
-  topPlayers: GamePlayerSchema[];
+  developer: DeveloperSchema;
+  game: SerializableGameSchema;
+  analytics: GameAnalyticsSchema;
 };
 
 export const GameDescription: FC<GameDescriptionProps> = ({
-  text,
-  tags,
-  markets,
-  topPlayers,
-  ...headerProps
+  game,
+  developer,
+  analytics,
 }) => {
   const handleShare = () => {
     alert('TODO: handle share');
@@ -50,25 +39,32 @@ export const GameDescription: FC<GameDescriptionProps> = ({
         flexWrap="wrap"
         gap={1}
       >
-        <GameHeader {...headerProps} />
+        <GameHeader
+          title={game.name}
+          developer={developer}
+          plays={analytics.plays}
+          score={analytics.score}
+          category={game.category}
+          platforms={game.platforms}
+        />
         <GameActions onReport={handleReport} onShare={handleShare} />
       </Box>
       <Box mt={2} mb={1} display="flex" flexDirection="column" gap={1}>
         <Typography variant="h4">About this game</Typography>
         <Markdown
-          text={text}
+          text={game.description}
           sx={{
             fontFamily: (theme) => theme.typography.mPlus1p.fontFamily,
           }}
         />
       </Box>
       <Box mt={1} mb={2} display="flex" flexWrap="wrap" gap={1}>
-        {tags.map((tag) => (
+        {game.tags.map((tag) => (
           <TagChip key={tag} tag={tag} />
         ))}
       </Box>
-      <TopPlayers players={topPlayers} />
-      <MarketWidgets {...markets} />
+      <TopPlayers players={analytics.topPlayers} />
+      <MarketWidgets {...game.markets} />
       {/* TODO: add support for commenting */}
     </Box>
   );

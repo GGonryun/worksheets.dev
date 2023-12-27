@@ -1,8 +1,9 @@
 import { inferAsyncReturnType } from '@trpc/server';
 import * as trpcNext from '@trpc/server/adapters/next';
 import { prisma } from '@worksheets/prisma';
-import { v4 as uuidv4 } from 'uuid';
+import { GetServerSidePropsContext, PreviewData } from 'next';
 import { getToken } from 'next-auth/jwt';
+import { ParsedUrlQuery } from 'querystring';
 
 export async function createContext({
   req,
@@ -10,8 +11,17 @@ export async function createContext({
   const session = await getToken({ req });
 
   return {
-    req,
-    atom: uuidv4().split('-')[0],
+    db: prisma,
+    session,
+  };
+}
+
+export async function createServerSideContext(
+  ctx: GetServerSidePropsContext<ParsedUrlQuery, PreviewData>
+) {
+  const session = await getToken(ctx);
+
+  return {
     db: prisma,
     session,
   };

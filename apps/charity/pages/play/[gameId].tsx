@@ -19,16 +19,18 @@ import {
 } from 'next-seo';
 import {
   DeveloperSchema,
+  GameAnalyticsSchema,
   SerializableGameSchema,
 } from '@worksheets/util/types';
 import { GetServerSideProps } from 'next';
 import { gameJsonLd, gameSeo } from '../../util/seo';
 import dynamic from 'next/dynamic';
 import { AdsensePushScript } from '../../scripts';
-import { round, shorthandNumber } from '@worksheets/util/numbers';
+import { createServerSideTRPC } from '@worksheets/trpc-charity/server';
 
 type Props = {
   game: SerializableGameSchema;
+  analytics: GameAnalyticsSchema;
   seo: NextSeoProps;
   jsonLd: VideoGameJsonLdProps;
   items: MixedGridItem[];
@@ -42,6 +44,7 @@ const DynamicGameLauncher = dynamic(() => import('../../dynamic/launcher'), {
 
 const Page: NextPageWithLayout<Props> = ({
   game,
+  analytics,
   seo,
   jsonLd,
   items,
@@ -52,21 +55,18 @@ const Page: NextPageWithLayout<Props> = ({
     <>
       <NextSeo {...seo} />
       <GameScreen
-        game={<DynamicGameLauncher game={game} developer={developer} />}
+        game={
+          <DynamicGameLauncher
+            game={game}
+            analytics={analytics}
+            developer={developer}
+          />
+        }
         description={
           <GameDescription
-            title={game.name}
+            game={game}
             developer={developer}
-            platforms={game.platforms}
-            tags={game.tags}
-            plays={shorthandNumber(game.plays)}
-            score={round(game.score, 2)}
-            category={game.category}
-            created={game.createdAt}
-            updated={game.updatedAt}
-            text={game.description}
-            markets={game.markets}
-            topPlayers={game.topPlayers}
+            analytics={analytics}
           />
         }
         suggestions={[
@@ -116,7 +116,9 @@ const Page: NextPageWithLayout<Props> = ({
   );
 };
 
-export const getServerSideProps = (async ({ params }) => {
+export const getServerSideProps = (async (ctx) => {
+  const { params } = ctx;
+
   const gameId = params?.gameId as string;
   const game = games.find((game) => game.id === gameId);
   const developer = developers.find(
@@ -129,6 +131,10 @@ export const getServerSideProps = (async ({ params }) => {
         <CircularProgress size={100} color="error" sx={{ mt: -10 }} />
       </AbsolutelyCentered>
     );
+
+  const helpers = await createServerSideTRPC(ctx);
+
+  const analytics = await helpers.game.analytics.fetch({ gameId });
 
   const randomGame = getRandomGame(true);
   const items: MixedGridItem[] = mixedItems({
@@ -144,16 +150,12 @@ export const getServerSideProps = (async ({ params }) => {
     props: {
       game: {
         ...game,
-        // TODO: fetch from api.
-        plays: 1300000,
-        score: 4.5,
-        upVotes: 37200,
-        downVotes: 1500,
+        // // TODO: fetch from api.
         updatedAt: printDate(game.updatedAt),
         createdAt: printDate(game.createdAt),
         // TODO: fetch from api.
-        topPlayers: [],
       },
+      analytics,
       developer,
       items,
       seo,

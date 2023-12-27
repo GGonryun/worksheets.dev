@@ -5,22 +5,19 @@ import { GameBanner } from './game-banner';
 import { useRouter } from 'next/router';
 import { GameFrame } from './game-frame';
 import { GameExitFullscreenButton } from './game-exit-fullscreen-button';
-import { GameSchema } from '@worksheets/util/types';
+import {
+  DeveloperSchema,
+  GameAnalyticsSchema,
+  SerializableGameSchema,
+} from '@worksheets/util/types';
 import { isMobileOrTabletDeviceBrowser } from '@worksheets/util-devices';
 import { useFullscreen } from './useFullscreen';
 import { useDeviceOrientation } from '@worksheets/ui-core';
 
 export type GameLauncherProps = {
-  backgroundUrl: string;
-  iconUrl: string;
-  file: GameSchema['file'];
-  name: string;
-  developer: string;
-  platforms: GameSchema['platforms'];
-  orientations: GameSchema['orientations'];
-  plays: string;
-  upVotes: string;
-  downVotes: string;
+  game: SerializableGameSchema;
+  analytics: GameAnalyticsSchema;
+  developer: DeveloperSchema;
   isFavorite: boolean;
   userVote: 'up' | 'down' | null;
   onFavorite: () => void;
@@ -30,16 +27,9 @@ export type GameLauncherProps = {
 };
 
 export const GameLauncher: FC<GameLauncherProps> = ({
-  backgroundUrl,
-  iconUrl,
-  name,
   developer,
-  file,
-  platforms,
-  orientations,
-  plays,
-  upVotes,
-  downVotes,
+  analytics,
+  game,
   isFavorite,
   userVote,
   onFavorite,
@@ -66,8 +56,8 @@ export const GameLauncher: FC<GameLauncherProps> = ({
   const handlePlayGame = () => {
     onPlay();
 
-    if (file.type === 'redirect') {
-      push(file.url);
+    if (game.file.type === 'redirect') {
+      push(game.file.url);
     } else {
       if (isMobileOrTablet) {
         requestFullScreen();
@@ -77,7 +67,7 @@ export const GameLauncher: FC<GameLauncherProps> = ({
   };
 
   const handleFullscreen = () => {
-    if (file.type === 'redirect') {
+    if (game.file.type === 'redirect') {
       throw new Error("Unsupported action: game.file.type === 'redirect'");
     } else {
       if (fullscreen) {
@@ -108,33 +98,34 @@ export const GameLauncher: FC<GameLauncherProps> = ({
     >
       {showLoadingCover ? (
         <GameLoadingCover
-          backgroundUrl={backgroundUrl}
-          iconUrl={iconUrl}
-          name={name}
+          backgroundUrl={game.bannerUrl}
+          iconUrl={game.iconUrl}
+          name={game.name}
           onPlay={handlePlayGame}
-          platforms={platforms}
-          orientations={orientations}
+          platforms={game.platforms}
+          orientations={game.orientations}
           deviceOrientation={orientation}
           isMobileOrTablet={isMobileOrTablet}
         />
       ) : (
-        <GameFrame url={file.url} ref={frameRef} />
+        <GameFrame url={game.file.url} ref={frameRef} />
       )}
       {fullscreen && isMobileOrTablet ? (
         <GameExitFullscreenButton onBack={handleFullscreen} />
       ) : (
         <GameBanner
-          type={file.type}
-          iconUrl={iconUrl}
-          developer={developer}
-          name={name}
-          upVotes={upVotes}
-          downVotes={downVotes}
-          plays={plays}
+          isFullscreen={!!fullscreen}
+          developer={developer.name}
+          type={game.file.type}
+          iconUrl={game.iconUrl}
+          name={game.name}
+          upVotes={analytics.votes.up}
+          downVotes={analytics.votes.down}
+          plays={analytics.plays}
+          favorites={analytics.favorites}
           isFavorite={isFavorite}
           userVote={userVote}
           onFavorite={onFavorite}
-          isFullscreen={!!fullscreen}
           onFullscreen={handleFullscreen}
           onVote={onVote}
           onViewGamePlay={onViewGamePlay}

@@ -1,16 +1,17 @@
 import { GameLauncher } from '@worksheets/ui/pages/game';
 import {
   DeveloperSchema,
+  GameAnalyticsSchema,
   SerializableGameSchema,
 } from '@worksheets/util/types';
 import { FC } from 'react';
 import { useRecentlyPlayedGames } from '../hooks/useRecentlyPlayedGames';
-import { shorthandNumber } from '@worksheets/util/numbers';
 
 const DynamicGameLauncher: FC<{
   game: SerializableGameSchema;
+  analytics: GameAnalyticsSchema;
   developer: DeveloperSchema;
-}> = ({ game, developer }) => {
+}> = ({ game, developer, analytics }) => {
   const { addRecentlyPlayed } = useRecentlyPlayedGames();
 
   const handleFavorite = () => {
@@ -18,9 +19,7 @@ const DynamicGameLauncher: FC<{
   };
 
   const handleVote = (vote: 'up' | 'down') => {
-    alert(
-      "Thanks for voting! We'll use this information to improve our games."
-    );
+    alert('TODO: handle user vote');
   };
 
   const handlePlayGame = () => {
@@ -31,22 +30,19 @@ const DynamicGameLauncher: FC<{
     alert('TODO: record game play in the database');
   };
 
+  const handleViewGameplay = () => {
+    alert('TODO: handle view game play');
+  };
+
   return (
     <GameLauncher
-      backgroundUrl={game.bannerUrl}
-      iconUrl={game.iconUrl}
-      file={game.file}
-      name={game.name}
-      developer={developer.name}
-      orientations={game.orientations}
-      platforms={game.platforms}
-      plays={shorthandNumber(game.plays)}
-      upVotes={shorthandNumber(game.upVotes)}
-      downVotes={shorthandNumber(game.downVotes)}
+      analytics={analytics}
+      game={game}
+      developer={developer}
       onFavorite={handleFavorite}
       onPlay={handlePlayGame}
       onVote={handleVote}
-      onViewGamePlay={() => alert('TODO: handle view game play')}
+      onViewGamePlay={handleViewGameplay}
       isFavorite={false}
       userVote={null}
     />

@@ -40,12 +40,15 @@ export type SerializableGameSchema = Omit<
   GameSchema,
   'createdAt' | 'updatedAt'
 > & {
-  upVotes: number;
-  downVotes: number;
-  plays: number;
-  score: number;
   createdAt: string;
   updatedAt: string;
+};
+
+export type GameAnalyticsSchema = {
+  votes: { up: string; down: string };
+  score: string;
+  plays: string;
+  favorites: string;
   topPlayers: GamePlayerSchema[];
 };
 

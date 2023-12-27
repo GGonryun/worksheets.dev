@@ -18,6 +18,7 @@ function getBaseUrl() {
 export const trpc = createTRPCNext<AppRouter>({
   config() {
     return {
+      ssr: true,
       links: [
         /**
          * The function passed to enabled is an example in case you want to the link to

@@ -29,7 +29,7 @@ model GameVote {
   user          User          @relation(fields: [userId], references: [id])
 }
 
-model GameFavorites {
+model GameFavorite {
   id            String        @id @default(cuid())
   gameId        String
   userId        String
@@ -97,7 +97,7 @@ model User {
   image             String?
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
-  favorites         GameFavorites[]
+  favorites         GameFavorite[]
   plays             GamePlay[]
   votes             GameVote[]
   accounts          Account[]

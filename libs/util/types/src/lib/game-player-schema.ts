@@ -1,5 +1,5 @@
 export type GamePlayerSchema = {
   id: string;
-  name: string;
+  username: string;
   plays: string;
 };

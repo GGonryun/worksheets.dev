@@ -18,7 +18,7 @@ export default protectedProcedure
 
     try {
       await db.$transaction(async (tx) => {
-        const favorite = await tx.gameFavorites.findFirst({
+        const favorite = await tx.gameFavorite.findFirst({
           where: {
             gameId: gameId,
             userId: userId,
@@ -34,7 +34,7 @@ export default protectedProcedure
           );
         } else {
           console.info('removing existing game play entry', favorite.id);
-          return await tx.gameFavorites.delete({
+          return await tx.gameFavorite.delete({
             where: { id: favorite.id },
           });
         }
