@@ -21,7 +21,7 @@ export const CategoryBreadcrumbs: FC<{ categories: GameTag[] }> = ({
 
   const breadcrumbs = [
     <BreadcrumbLink key="1" href="/" onClick={handleClick}>
-      all games
+      games
     </BreadcrumbLink>,
     ...gameTagBreadcrumbs,
   ];

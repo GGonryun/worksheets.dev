@@ -38,6 +38,7 @@ import { FAQScreen } from '@worksheets/ui/pages/faq';
 import { PrivacyPolicyScreen } from '@worksheets/ui/pages/privacy-policy';
 import { UnderConstruction } from '@worksheets/ui/pages/under-construction';
 import { RecentGamesSection } from './recent-games-section';
+import { action } from '@storybook/addon-actions/*';
 
 const Story: Meta<typeof Layout> = {
   component: Layout,
@@ -303,6 +304,7 @@ export const AccountPage = {
           id: `${i}`,
           name: 'Game ' + i,
         }))}
+        onLogout={action('onLogout')}
       />
     ),
   },

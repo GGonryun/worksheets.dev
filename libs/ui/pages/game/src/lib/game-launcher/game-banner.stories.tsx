@@ -24,11 +24,28 @@ const baseProps: Partial<GameBannerProps> = {
   name: 'Solitaire',
   developer: 'Charity.Games',
   type: 'iframe',
+  plays: '1.3m',
+  upVotes: '37.2k',
+  downVotes: '1.2k',
+  isFavorite: false,
+  userVote: null,
 };
 
 export const ResponsiveIFrameBanner = {
   args: baseProps,
 };
+
+export const FavoriteGame = {
+  args: { ...baseProps, isFavorite: true },
+};
+export const LikedGame = {
+  args: { ...baseProps, userVote: 'up' },
+};
+
+export const DislikedGame = {
+  args: { ...baseProps, userVote: 'down' },
+};
+
 export const ResponsiveRedirectBanner = {
   args: { ...baseProps, type: 'redirect' },
 };

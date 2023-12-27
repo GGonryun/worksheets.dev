@@ -25,6 +25,7 @@ import { GetServerSideProps } from 'next';
 import { gameJsonLd, gameSeo } from '../../util/seo';
 import dynamic from 'next/dynamic';
 import { AdsensePushScript } from '../../scripts';
+import { round, shorthandNumber } from '@worksheets/util/numbers';
 
 type Props = {
   game: SerializableGameSchema;
@@ -54,16 +55,18 @@ const Page: NextPageWithLayout<Props> = ({
         game={<DynamicGameLauncher game={game} developer={developer} />}
         description={
           <GameDescription
-            gameId={game.id}
             title={game.name}
             developer={developer}
             platforms={game.platforms}
             tags={game.tags}
+            plays={shorthandNumber(game.plays)}
+            score={round(game.score, 2)}
             category={game.category}
             created={game.createdAt}
             updated={game.updatedAt}
             text={game.description}
             markets={game.markets}
+            topPlayers={game.topPlayers}
           />
         }
         suggestions={[
@@ -141,8 +144,15 @@ export const getServerSideProps = (async ({ params }) => {
     props: {
       game: {
         ...game,
+        // TODO: fetch from api.
+        plays: 1300000,
+        score: 4.5,
+        upVotes: 37200,
+        downVotes: 1500,
         updatedAt: printDate(game.updatedAt),
         createdAt: printDate(game.createdAt),
+        // TODO: fetch from api.
+        topPlayers: [],
       },
       developer,
       items,

@@ -16,6 +16,30 @@ export const Markdown: FC<{ text: MarkdownText } & Pick<BoxProps, 'sx'>> = ({
       dangerouslySetInnerHTML={{ __html: convertMicroMarkdown(text) }}
       component="span"
       sx={{
+        h6: {
+          mt: 2,
+          mb: 1,
+        },
+        h5: {
+          mt: 2,
+          mb: 1,
+        },
+        h4: {
+          mt: 2,
+          mb: 1,
+        },
+        h3: {
+          mt: 2,
+          mb: 1,
+        },
+        h2: {
+          mt: 2,
+          mb: 1,
+        },
+        h1: {
+          mt: 2,
+          mb: 1,
+        },
         a: {
           textDecoration: 'underline',
         },

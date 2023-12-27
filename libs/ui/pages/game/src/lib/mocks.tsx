@@ -1,5 +1,14 @@
+import { GamePlayerSchema } from '@worksheets/util/types';
 import { GameDescription } from './game-description';
 import { GameLauncher } from './game-launcher';
+
+export const sampleTopPlayers: GamePlayerSchema[] = [
+  { id: `1`, name: 'Player 1', plays: `200` },
+  { id: `2`, name: 'Player 2', plays: `100` },
+  { id: `3`, name: 'Player 3', plays: `50` },
+  { id: `4`, name: 'Player 4', plays: `25` },
+  { id: `5`, name: 'Player 5', plays: `10` },
+];
 
 export const SampleGameLauncher = () => (
   <GameLauncher
@@ -12,16 +21,23 @@ export const SampleGameLauncher = () => (
     name={'Solitaire'}
     orientations={['landscape', 'portrait']}
     developer={'Charity.Games'}
-    onReportBug={() => alert('TODO: show bug report form')}
+    onFavorite={() => alert('TODO: add to favorites')}
     onPlay={() => alert('TODO: show play form')}
     platforms={['mobile', 'desktop']}
+    onVote={() => alert('TODO: handle vote')}
+    onViewGamePlay={() => alert('TODO: handle view game play')}
+    plays={'1.3m'}
+    upVotes={'30.2k'}
+    downVotes={'11.2k'}
+    isFavorite={true}
+    userVote={'up'}
   />
 );
 
 export const SampleGameDescription = () => (
   <GameDescription
-    gameId="1"
     title="Solitaire"
+    plays="1.3m"
     developer={{ id: '1', name: 'Charity.Games' }}
     platforms={['mobile', 'desktop']}
     tags={['card', 'brain', 'board', 'puzzle']}
@@ -49,5 +65,7 @@ export const SampleGameDescription = () => (
       steam: 'https://store.steampowered.com/widget/500',
       itch: 'https://itch.io/embed/2257102',
     }}
+    score={'3.5'}
+    topPlayers={sampleTopPlayers}
   />
 );

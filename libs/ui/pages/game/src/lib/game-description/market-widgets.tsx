@@ -1,4 +1,4 @@
-import { Box, Link, LinkProps, styled } from '@mui/material';
+import { Box, Link, LinkProps, Typography, styled } from '@mui/material';
 import { FC, JSXElementConstructor } from 'react';
 import { GameSchema } from '@worksheets/util/types';
 import {
@@ -14,15 +14,11 @@ export const MarketWidgets: FC<MarketWidgetsProps> = ({
   steam,
   itch,
 }) => {
+  if (!android && !ios && !steam && !itch) return null;
+
   return (
-    <Box
-      display="flex"
-      flexDirection="column"
-      alignItems="center"
-      justifyContent="center"
-      gap={2}
-      pt={2}
-    >
+    <Box display="flex" flexDirection="column" gap={2} my={2}>
+      <Typography variant="h4">Purchase</Typography>
       <Box display={ios || android ? 'flex' : 'none'} gap={1} flexWrap={'wrap'}>
         <ResponsiveImageLink
           href={ios}

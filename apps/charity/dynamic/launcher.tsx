@@ -5,6 +5,7 @@ import {
 } from '@worksheets/util/types';
 import { FC } from 'react';
 import { useRecentlyPlayedGames } from '../hooks/useRecentlyPlayedGames';
+import { shorthandNumber } from '@worksheets/util/numbers';
 
 const DynamicGameLauncher: FC<{
   game: SerializableGameSchema;
@@ -12,9 +13,14 @@ const DynamicGameLauncher: FC<{
 }> = ({ game, developer }) => {
   const { addRecentlyPlayed } = useRecentlyPlayedGames();
 
-  const handleReportBug = () => {
-    // TODO: improve bug handling
-    alert('Our development team has been notified. Thank you!');
+  const handleFavorite = () => {
+    alert('TODO: handle favorite');
+  };
+
+  const handleVote = (vote: 'up' | 'down') => {
+    alert(
+      "Thanks for voting! We'll use this information to improve our games."
+    );
   };
 
   const handlePlayGame = () => {
@@ -22,6 +28,7 @@ const DynamicGameLauncher: FC<{
       gameId: game.id,
       playedLast: new Date().getTime(),
     });
+    alert('TODO: record game play in the database');
   };
 
   return (
@@ -33,8 +40,15 @@ const DynamicGameLauncher: FC<{
       developer={developer.name}
       orientations={game.orientations}
       platforms={game.platforms}
-      onReportBug={handleReportBug}
+      plays={shorthandNumber(game.plays)}
+      upVotes={shorthandNumber(game.upVotes)}
+      downVotes={shorthandNumber(game.downVotes)}
+      onFavorite={handleFavorite}
       onPlay={handlePlayGame}
+      onVote={handleVote}
+      onViewGamePlay={() => alert('TODO: handle view game play')}
+      isFavorite={false}
+      userVote={null}
     />
   );
 };

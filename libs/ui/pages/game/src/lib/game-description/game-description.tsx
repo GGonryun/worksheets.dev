@@ -1,21 +1,13 @@
-import {
-  Box,
-  Chip,
-  ChipProps,
-  Link,
-  LinkProps,
-  Typography,
-  styled,
-} from '@mui/material';
+import { Box, Chip, ChipProps, Typography } from '@mui/material';
 import { FC } from 'react';
-import { CategoryBreadcrumbs } from './category-breadcrumbs';
-import { SupportedDeviceIcons } from './supported-device-icons';
 import { MarketWidgets } from './market-widgets';
 import { MarkdownText, Markdown } from '@worksheets/ui-core';
-import { GameSchema } from '@worksheets/util/types';
+import { GamePlayerSchema, GameSchema } from '@worksheets/util/types';
+import { TopPlayers } from './top-players';
+import { GameHeader } from './game-header';
+import { GameActions } from './game-actions';
 
 export type GameDescriptionProps = {
-  gameId: string;
   title: string;
   text: MarkdownText;
   developer: {
@@ -24,44 +16,45 @@ export type GameDescriptionProps = {
   };
   created: string;
   updated: string;
+  plays: string;
+  score: string;
   // category breadcrumbs are rendered from left to right, least specific to most specific category.
   category: GameSchema['category'];
   tags: GameSchema['tags'];
   platforms: GameSchema['platforms'];
   markets?: GameSchema['markets'];
+  topPlayers: GamePlayerSchema[];
 };
 
 export const GameDescription: FC<GameDescriptionProps> = ({
-  gameId,
   text,
-  title,
-  developer,
-  category,
   tags,
-  platforms,
   markets,
+  topPlayers,
+  ...headerProps
 }) => {
+  const handleShare = () => {
+    alert('TODO: handle share');
+  };
+
+  const handleReport = () => {
+    alert('TODO: handle report');
+  };
+
   return (
     <Box display="flex" flexDirection="column" p={{ xs: 2, sm: 4 }}>
-      <CategoryBreadcrumbs categories={category} />
-      <Box mt={1} mb={0.5} display="flex" gap={3} alignItems="center">
-        <Typography
-          variant="h4"
-          sx={{
-            lineHeight: 1,
-            userSelect: 'none',
-          }}
-        >
-          <Link underline="hover" color="inherit" href={`/play/${gameId}`}>
-            {title}
-          </Link>
-        </Typography>
-        <SupportedDeviceIcons platforms={platforms} />
+      <Box
+        display="flex"
+        alignItems="center"
+        justifyContent="space-between"
+        flexWrap="wrap"
+        gap={1}
+      >
+        <GameHeader {...headerProps} />
+        <GameActions onReport={handleReport} onShare={handleShare} />
       </Box>
-      <GameDeveloperLink href={`/developers/${developer.id}`}>
-        by {developer.name}
-      </GameDeveloperLink>
-      <Box mt={3} mb={1}>
+      <Box mt={2} mb={1} display="flex" flexDirection="column" gap={1}>
+        <Typography variant="h4">About this game</Typography>
         <Markdown
           text={text}
           sx={{
@@ -69,12 +62,14 @@ export const GameDescription: FC<GameDescriptionProps> = ({
           }}
         />
       </Box>
-      <Box py={1} display="flex" flexWrap="wrap" gap={1}>
+      <Box mt={1} mb={2} display="flex" flexWrap="wrap" gap={1}>
         {tags.map((tag) => (
           <TagChip key={tag} tag={tag} />
         ))}
       </Box>
-      {markets && <MarketWidgets {...markets} />}
+      <TopPlayers players={topPlayers} />
+      <MarketWidgets {...markets} />
+      {/* TODO: add support for commenting */}
     </Box>
   );
 };
@@ -97,13 +92,3 @@ const TagChip: FC<ChipProps & { tag: string }> = ({ tag }) => (
     })}
   />
 );
-
-const GameDeveloperLink = styled((props) => (
-  <Link underline="hover" color="inherit" {...props} />
-))<LinkProps>(({ theme }) => ({
-  lineHeight: 1,
-  color: theme.palette.grey[700],
-  fontFamily: theme.typography.mPlus1p.fontFamily,
-  fontSize: theme.typography.pxToRem(16),
-  fontWeight: 700,
-}));

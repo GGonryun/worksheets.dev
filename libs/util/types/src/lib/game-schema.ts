@@ -1,3 +1,4 @@
+import { GamePlayerSchema } from './game-player-schema';
 import { GameQualifier } from './game-qualifier';
 import { GameTag } from './tag-schema';
 
@@ -39,8 +40,13 @@ export type SerializableGameSchema = Omit<
   GameSchema,
   'createdAt' | 'updatedAt'
 > & {
+  upVotes: number;
+  downVotes: number;
+  plays: number;
+  score: number;
   createdAt: string;
   updatedAt: string;
+  topPlayers: GamePlayerSchema[];
 };
 
 export type GameMonetizeSchema = {

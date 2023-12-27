@@ -18,8 +18,15 @@ export type GameLauncherProps = {
   developer: string;
   platforms: GameSchema['platforms'];
   orientations: GameSchema['orientations'];
-  onReportBug: () => void;
+  plays: string;
+  upVotes: string;
+  downVotes: string;
+  isFavorite: boolean;
+  userVote: 'up' | 'down' | null;
+  onFavorite: () => void;
   onPlay: () => void;
+  onVote: (vote: 'up' | 'down') => void;
+  onViewGamePlay: () => void;
 };
 
 export const GameLauncher: FC<GameLauncherProps> = ({
@@ -30,8 +37,15 @@ export const GameLauncher: FC<GameLauncherProps> = ({
   file,
   platforms,
   orientations,
-  onReportBug,
+  plays,
+  upVotes,
+  downVotes,
+  isFavorite,
+  userVote,
+  onFavorite,
   onPlay,
+  onVote,
+  onViewGamePlay,
 }) => {
   const { push } = useRouter();
   const [showLoadingCover, setShowLoadingCover] = useState(true);
@@ -114,9 +128,16 @@ export const GameLauncher: FC<GameLauncherProps> = ({
           iconUrl={iconUrl}
           developer={developer}
           name={name}
-          onReportBug={onReportBug}
+          upVotes={upVotes}
+          downVotes={downVotes}
+          plays={plays}
+          isFavorite={isFavorite}
+          userVote={userVote}
+          onFavorite={onFavorite}
           isFullscreen={!!fullscreen}
           onFullscreen={handleFullscreen}
+          onVote={onVote}
+          onViewGamePlay={onViewGamePlay}
         />
       )}
     </Box>
