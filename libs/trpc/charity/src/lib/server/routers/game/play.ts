@@ -25,7 +25,7 @@ export default publicProcedure
         });
 
         if (!plays) {
-          console.log('creating new game play entry');
+          console.info('creating new game play entry');
           return await db.gamePlay.create({
             data: {
               gameId,
@@ -36,7 +36,7 @@ export default publicProcedure
         } else {
           const id = plays.id;
           const total = plays.total + 1;
-          console.log('updating existing game play entry', id, total);
+          console.info('updating existing game play entry', id, total);
 
           return await tx.gamePlay.update({
             where: { id },
@@ -44,7 +44,7 @@ export default publicProcedure
           });
         }
       });
-      console.log("updating game's total plays", result);
+      console.info("updating game's total plays", result);
       success = true;
     } catch (error) {
       console.error(

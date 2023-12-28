@@ -25,8 +25,6 @@ export default publicProcedure
     })
   )
   .query(async ({ input: { gameId }, ctx: { user, db } }) => {
-    console.log('gameId', gameId, 'user', user?.id);
-
     const success = true;
 
     const gamePlays = await db.gamePlay.findMany({

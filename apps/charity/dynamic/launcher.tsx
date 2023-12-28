@@ -1,4 +1,8 @@
-import { GameLauncher, TopPlayersModal } from '@worksheets/ui/pages/game';
+import {
+  GameLauncher,
+  NoUserAuthModal,
+  TopPlayersModal,
+} from '@worksheets/ui/pages/game';
 import {
   DeveloperSchema,
   GameAnalyticsSchema,
@@ -8,6 +12,8 @@ import { FC, useState } from 'react';
 import { useRecentlyPlayedGames } from '../hooks/useRecentlyPlayedGames';
 import { trpc } from '@worksheets/trpc-charity';
 import { useSession } from 'next-auth/react';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import ThumbsUpDownIcon from '@mui/icons-material/ThumbsUpDown';
 
 const DynamicGameLauncher: FC<{
   game: SerializableGameSchema;
@@ -31,6 +37,8 @@ const DynamicGameLauncher: FC<{
   const play = trpc.game.play.useMutation();
 
   const [showPlayers, setShowPlayers] = useState(false);
+  const [showVoteWarning, setShowVoteWarning] = useState(false);
+  const [showFavoriteWarning, setShowFavoriteWarning] = useState(false);
   const { addRecentlyPlayed } = useRecentlyPlayedGames();
 
   const invalidateStatistics = async () => {
@@ -51,34 +59,50 @@ const DynamicGameLauncher: FC<{
 
   const handleToggleFavorite = async () => {
     if (!hasUser) {
-      alert('TODO: You must be logged in to favorite games.');
-      return;
+      setShowFavoriteWarning(true);
+    } else {
+      await favorite.mutateAsync({
+        gameId: game.id,
+      });
+
+      await invalidateStatistics();
     }
-
-    await favorite.mutateAsync({
-      gameId: game.id,
-    });
-
-    await invalidateStatistics();
   };
 
   const handleMakeVote = async (action: 'up' | 'down') => {
     if (!hasUser) {
-      alert('TODO: You must be logged in to vote on games.');
-      return;
+      setShowVoteWarning(true);
+    } else {
+      await vote.mutateAsync({ gameId: game.id, vote: action });
+
+      await invalidateStatistics();
     }
-
-    await vote.mutateAsync({ gameId: game.id, vote: action });
-
-    await invalidateStatistics();
   };
 
   const handleShowPlayers = () => {
     setShowPlayers(true);
   };
 
+  const redirectToLogin = `/login?redirect=${encodeURIComponent(
+    `/play/${game.id}`
+  )}`;
+
   return (
     <>
+      <NoUserAuthModal
+        text="Save your favorite games"
+        icon={<FavoriteIcon fontSize="large" color="error" />}
+        href={redirectToLogin}
+        open={showFavoriteWarning}
+        onClose={() => setShowFavoriteWarning(false)}
+      />
+      <NoUserAuthModal
+        text="Vote for the best games"
+        href={redirectToLogin}
+        icon={<ThumbsUpDownIcon fontSize="large" color="success" />}
+        open={showVoteWarning}
+        onClose={() => setShowVoteWarning(false)}
+      />
       <TopPlayersModal
         players={analytics?.topPlayers ?? []}
         open={showPlayers}

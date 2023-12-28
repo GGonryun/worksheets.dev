@@ -23,7 +23,7 @@ export function useLocalStorage<T>(
       return item ? JSON.parse(item) : initialValue;
     } catch (error) {
       // If error also return initialValue
-      console.log(error);
+      console.error(`failed to initialize local storage`, error);
       return initialValue;
     } finally {
       setLoading(false);
@@ -53,7 +53,7 @@ export function useLocalStorage<T>(
       }
     } catch (error) {
       // A more advanced implementation would handle the error case
-      console.log(error);
+      console.error(`failed to set local storage value`, error);
     }
   };
 
@@ -62,7 +62,7 @@ export function useLocalStorage<T>(
       setValue(initialValue);
       window.localStorage.removeItem(key);
     } catch (error) {
-      console.log(error);
+      console.error(`failed to clear local storage`, error);
     }
   };
 

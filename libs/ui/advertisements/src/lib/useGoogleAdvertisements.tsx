@@ -15,9 +15,6 @@ export const useGoogleAdsense = () => {
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    // const url = `${pathname}?${searchParams}`;
-    // console.log('AdsenseComp -> router changed ', url);
-
     const scriptElement = document.querySelector(
       'script[src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4354027605127587"]'
     );
@@ -25,13 +22,9 @@ export const useGoogleAdsense = () => {
     const handleScriptLoad = () => {
       try {
         if (window.adsbygoogle) {
-          console.log('pushing ads ');
           window.adsbygoogle.push({});
         } else {
           scriptElement?.addEventListener('load', handleScriptLoad);
-          // console.log(
-          //   'waiting until adsense lib is loaded...This prevents adsbygoogle is not defined error'
-          // );
         }
       } catch (err) {
         console.error('error in adsense', err);

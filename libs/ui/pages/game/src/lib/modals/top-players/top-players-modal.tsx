@@ -1,11 +1,11 @@
 import { Box, Button, IconButton, Typography } from '@mui/material';
-import { BaseModal, ModalWrapper } from './base-modal';
+import { BaseModal, ModalWrapper } from '../base/base-modal';
 import { FC } from 'react';
 import { GamePlayerSchema } from '@worksheets/util/types';
 import {
   NoPlayersPlaceholder,
   TopPlayersList,
-} from '../game-description/top-players';
+} from '../../game-description/top-players';
 import CloseIcon from '@mui/icons-material/Close';
 
 export const TopPlayersModal: FC<

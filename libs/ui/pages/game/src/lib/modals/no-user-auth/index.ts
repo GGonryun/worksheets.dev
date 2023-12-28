@@ -1,2 +1,1 @@
-export * from './top-players';
 export * from './no-user-auth';
