@@ -11,12 +11,12 @@ datasource db {
 model GamePlay {
   id            String        @id @default(cuid())
   gameId        String
-  userId        String
+  userId        String?
   total         Int
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
   // game          Game          @relation(fields: [gameId], references: [id])
-  user          User          @relation(fields: [userId], references: [id])
+  user          User?          @relation(fields: [userId], references: [id])
 }
 
 model GameVote {

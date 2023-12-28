@@ -1,7 +1,6 @@
 import { t } from '../../trpc';
-
-import favorites from './favorites/router';
+import game from './game/router';
 
 export default t.router({
-  favorites,
+  game,
 });

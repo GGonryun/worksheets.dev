@@ -1,6 +1,7 @@
 import { z } from '@worksheets/zod';
 import { publicProcedure } from '../../procedures';
 import { round, shorthandNumber } from '@worksheets/util/numbers';
+import { ANONYMOUS_USER_ID } from '@worksheets/util/misc';
 
 export default publicProcedure
   .input(
@@ -56,11 +57,13 @@ export default publicProcedure
       take: 10,
     });
 
-    const topPlayers = rawTopPlayers.map((p) => ({
-      id: p.user.id,
-      username: p.user.username ?? 'Anonymous',
-      plays: shorthandNumber(p.total),
-    }));
+    const topPlayers = rawTopPlayers
+      .filter((p) => p.userId || p.user)
+      .map((p) => ({
+        id: p.user?.id ?? ANONYMOUS_USER_ID,
+        username: p.user?.username ?? p.user?.id ?? ANONYMOUS_USER_ID,
+        plays: shorthandNumber(p.total),
+      }));
 
     return {
       success,

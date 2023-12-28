@@ -17,28 +17,34 @@ export default protectedProcedure
     const userId = user.id;
 
     try {
-      await db.$transaction(async (tx) => {
-        const favorite = await tx.gameFavorite.findFirst({
+      const exists = await db.gameFavorite.findFirst({
+        where: {
+          gameId: gameId,
+          userId: userId,
+        },
+      });
+
+      if (exists) {
+        // delete existing favorite
+        await db.gameFavorite.delete({
           where: {
+            id: exists.id,
+          },
+        });
+
+        console.info(`deleted existing favorite: ${JSON.stringify(exists)}`);
+      } else {
+        await db.gameFavorite.create({
+          data: {
             gameId: gameId,
             userId: userId,
           },
         });
 
-        // Always try to stay in sync with the client
-        if (!favorite) {
-          console.warn(
-            'user favorite game entry does not exist',
-            userId,
-            gameId
-          );
-        } else {
-          console.info('removing existing game play entry', favorite.id);
-          return await tx.gameFavorite.delete({
-            where: { id: favorite.id },
-          });
-        }
-      });
+        console.info(
+          `created new favorite for user ${userId} and game ${gameId}`
+        );
+      }
 
       success = true;
     } catch (error) {

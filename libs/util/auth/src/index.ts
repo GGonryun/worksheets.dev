@@ -5,6 +5,7 @@ import DiscordProvider from 'next-auth/providers/discord';
 import { prisma } from '@worksheets/prisma';
 import { PrismaAdapter } from '@auth/prisma-adapter';
 import { AuthOptions } from 'next-auth';
+import { randomBetween } from '@worksheets/util/numbers';
 
 const {
   GITHUB_CLIENT_ID,
@@ -36,10 +37,33 @@ const AUTH_OPTIONS: AuthOptions = {
     GoogleProvider({
       clientId: GOOGLE_CLIENT_ID,
       clientSecret: GOOGLE_CLIENT_SECRET,
+      profile: async (profile) => {
+        return {
+          id: profile.sub.toString(),
+          username: `${profile.email.split('@')[0]}-${randomBetween(0, 999)}`,
+          email: profile.email,
+          image: profile.picture,
+          name: `${profile.given_name} ${profile.family_name}`,
+          emailVerified: profile.email_verified,
+        };
+      },
     }),
     DiscordProvider({
       clientId: DISCORD_CLIENT_ID,
       clientSecret: DISCORD_CLIENT_SECRET,
+      profile: async (profile) => {
+        const id = profile.id.toString();
+        const username = profile.username;
+        const avatar = profile.avatar;
+        return {
+          id,
+          username,
+          email: profile.email,
+          image: `https://cdn.discordapp.com/avatars/${id}/${avatar}?size=512`,
+          name: profile.global_name,
+          emailVerified: profile.verified,
+        };
+      },
     }),
     GithubProvider({
       clientId: GITHUB_CLIENT_ID,
@@ -51,6 +75,7 @@ const AUTH_OPTIONS: AuthOptions = {
           username: profile.login,
           email: profile.email,
           image: profile.avatar_url,
+          emailVerified: profile.email !== null,
         };
       },
     }),

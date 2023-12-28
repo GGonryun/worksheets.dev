@@ -26,11 +26,18 @@ import { GetServerSideProps } from 'next';
 import { gameJsonLd, gameSeo } from '../../util/seo';
 import dynamic from 'next/dynamic';
 import { AdsensePushScript } from '../../scripts';
-import { createServerSideTRPC } from '@worksheets/trpc-charity/server';
+import { trpc } from '@worksheets/trpc-charity';
+
+const emptyAnalyticsPayload: GameAnalyticsSchema = {
+  plays: '0',
+  votes: { up: '0', down: '0' },
+  favorites: '0',
+  score: '0',
+  topPlayers: [],
+};
 
 type Props = {
   game: SerializableGameSchema;
-  analytics: GameAnalyticsSchema;
   seo: NextSeoProps;
   jsonLd: VideoGameJsonLdProps;
   items: MixedGridItem[];
@@ -44,13 +51,16 @@ const DynamicGameLauncher = dynamic(() => import('../../dynamic/launcher'), {
 
 const Page: NextPageWithLayout<Props> = ({
   game,
-  analytics,
   seo,
   jsonLd,
   items,
   developer,
   randomGame,
 }) => {
+  const { data: analytics } = trpc.game.analytics.useQuery({
+    gameId: game.id,
+  });
+
   return (
     <>
       <NextSeo {...seo} />
@@ -58,15 +68,15 @@ const Page: NextPageWithLayout<Props> = ({
         game={
           <DynamicGameLauncher
             game={game}
-            analytics={analytics}
             developer={developer}
+            analytics={analytics ?? emptyAnalyticsPayload}
           />
         }
         description={
           <GameDescription
             game={game}
             developer={developer}
-            analytics={analytics}
+            analytics={analytics ?? emptyAnalyticsPayload}
           />
         }
         suggestions={[
@@ -132,10 +142,6 @@ export const getServerSideProps = (async (ctx) => {
       </AbsolutelyCentered>
     );
 
-  const helpers = await createServerSideTRPC(ctx);
-
-  const analytics = await helpers.game.analytics.fetch({ gameId });
-
   const randomGame = getRandomGame(true);
   const items: MixedGridItem[] = mixedItems({
     hideAds: true,
@@ -155,7 +161,6 @@ export const getServerSideProps = (async (ctx) => {
         createdAt: printDate(game.createdAt),
         // TODO: fetch from api.
       },
-      analytics,
       developer,
       items,
       seo,

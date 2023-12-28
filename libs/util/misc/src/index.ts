@@ -3,3 +3,4 @@ export function strict<T>(obj: T, errorMessage: string): NonNullable<T> {
 
   return obj;
 }
+export const ANONYMOUS_USER_ID = 'anonymous';

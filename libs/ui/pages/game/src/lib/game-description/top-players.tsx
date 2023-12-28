@@ -10,25 +10,31 @@ export const TopPlayers: FC<{ players: GamePlayerSchema[] }> = ({
     <Box mt={2}>
       <Typography variant="h4">Top Players</Typography>
       {players.length === 0 && <NoPlayersPlaceholder />}
-      <List>
-        {players.map((player, index) => (
-          <ListItem
-            key={player.id}
-            sx={{
-              padding: (theme) => theme.spacing(0, 2),
-            }}
-          >
-            <Typography>
-              {index + 1}.{' '}
-              <Link href={`/players/${player.id}`}>{player.username}</Link> —{' '}
-              {player.plays} plays
-            </Typography>
-          </ListItem>
-        ))}
-      </List>
+      <TopPlayersList players={players} />
     </Box>
   );
 };
+
+export const TopPlayersList: FC<{ players: GamePlayerSchema[] }> = ({
+  players,
+}) => (
+  <List>
+    {players.map((player, index) => (
+      <ListItem
+        key={player.id}
+        sx={{
+          padding: (theme) => theme.spacing(0, 2),
+        }}
+      >
+        <Typography>
+          {index + 1}.{' '}
+          <Link href={`/players/${player.id}`}>{player.username}</Link> —{' '}
+          {player.plays} plays
+        </Typography>
+      </ListItem>
+    ))}
+  </List>
+);
 
 export const NoPlayersPlaceholder = () => (
   <Box
@@ -44,7 +50,7 @@ export const NoPlayersPlaceholder = () => (
         This game is brand new!
       </Typography>
       <Typography variant="body2" color="text.secondary">
-        Be the first to play, rate, and review this game.
+        Be the first registered user to play this game.
       </Typography>
     </Box>
   </Box>

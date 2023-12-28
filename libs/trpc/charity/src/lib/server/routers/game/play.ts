@@ -14,22 +14,22 @@ export default publicProcedure
   )
   .mutation(async ({ input: { gameId }, ctx: { user, db } }) => {
     let success = false;
-    const userId = user?.id ?? 'anonymous';
 
     try {
       const result = await db.$transaction(async (tx) => {
         const plays = await tx.gamePlay.findFirst({
           where: {
             gameId,
-            userId,
+            userId: user?.id ?? null,
           },
         });
+
         if (!plays) {
           console.log('creating new game play entry');
           return await db.gamePlay.create({
             data: {
               gameId,
-              userId,
+              userId: user?.id,
               total: 1,
             },
           });

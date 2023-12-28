@@ -83,8 +83,8 @@ const TagChip: FC<ChipProps & { tag: string }> = ({ tag }) => (
       fontFamily: theme.typography.mPlus1p.fontFamily,
       fontSize: theme.typography.pxToRem(14),
       fontWeight: theme.typography.fontWeightBold,
-      color: theme.palette.grey[500],
-      border: `2px solid ${theme.palette.grey[500]}`,
+      color: theme.palette.grey[600],
+      border: `2px solid ${theme.palette.grey[600]}`,
     })}
   />
 );
