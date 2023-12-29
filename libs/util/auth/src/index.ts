@@ -8,7 +8,6 @@ import { AuthOptions } from 'next-auth';
 import { randomBetween } from '@worksheets/util/numbers';
 
 const {
-  VERCEL_ENV,
   GITHUB_CLIENT_ID,
   GITHUB_CLIENT_SECRET,
   GOOGLE_CLIENT_ID,
@@ -31,7 +30,7 @@ if (!DISCORD_CLIENT_ID || !DISCORD_CLIENT_SECRET)
   throw new Error('Failed to initialize Discord authentication');
 
 const AUTH_OPTIONS: AuthOptions = {
-  session: { strategy: 'jwt' },
+  session: { strategy: 'jwt', maxAge: 3000 },
   adapter: PrismaAdapter(prisma),
   // Configure one or more authentication providers
   providers: [
@@ -82,19 +81,6 @@ const AUTH_OPTIONS: AuthOptions = {
     }),
     // ...add more providers here
   ],
-  cookies: {
-    sessionToken: {
-      name: `next-auth.session-token`,
-      options: {
-        // httpOnly for local development
-        httpOnly: VERCEL_ENV === 'development',
-        sameSite: 'lax',
-        path: '/',
-        // support subdomains in production and local development
-        domain: `${NEXT_PUBLIC_COOKIE_DOMAIN}`,
-      },
-    },
-  },
   callbacks: {
     async signIn({ account, profile }) {
       if (account?.provider === 'google') {
