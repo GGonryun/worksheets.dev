@@ -102,6 +102,7 @@ model User {
   votes             GameVote[]
   accounts          Account[]
   sessions          Session[]
+  reports           GameReport[]
   // comments          GameComment[]
 }
 
@@ -149,6 +150,27 @@ model Email {
   verified      Boolean   @default(false)
   createdAt     DateTime  @default(now()) @map(name: "created_at")
   updatedAt     DateTime  @updatedAt @map(name: "updated_at")
+}
+
+enum ReportReason {
+  BROKEN
+  DEFAMATORY
+  HARMFUL
+  LEGAL
+  FRAUD
+  INAPPROPRIATE
+  OTHER
+}
+
+model GameReport {
+  id            String        @id @default(cuid())
+  gameId        String
+  userId        String?
+  reason        ReportReason  @default(OTHER)
+  text          String        @db.VarChar(255)
+  createdAt     DateTime      @default(now())
+  // game          Game          @relation(fields: [gameId], references: [id])
+  user          User?         @relation(fields: [userId], references: [id])
 }
 
 generator zod {

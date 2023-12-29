@@ -39,6 +39,7 @@ const DynamicGameLauncher: FC<{
   const [showPlayers, setShowPlayers] = useState(false);
   const [showVoteWarning, setShowVoteWarning] = useState(false);
   const [showFavoriteWarning, setShowFavoriteWarning] = useState(false);
+
   const { addRecentlyPlayed } = useRecentlyPlayedGames();
 
   const invalidateStatistics = async () => {
@@ -83,22 +84,20 @@ const DynamicGameLauncher: FC<{
     setShowPlayers(true);
   };
 
-  const redirectToLogin = `/login?redirect=${encodeURIComponent(
-    `/play/${game.id}`
-  )}`;
+  const loginHref = `/login?redirect=${encodeURIComponent(`/play/${game.id}`)}`;
 
   return (
     <>
       <NoUserAuthModal
         text="Save your favorite games"
         icon={<FavoriteIcon fontSize="large" color="error" />}
-        href={redirectToLogin}
+        href={loginHref}
         open={showFavoriteWarning}
         onClose={() => setShowFavoriteWarning(false)}
       />
       <NoUserAuthModal
         text="Vote for the best games"
-        href={redirectToLogin}
+        href={loginHref}
         icon={<ThumbsUpDownIcon fontSize="large" color="success" />}
         open={showVoteWarning}
         onClose={() => setShowVoteWarning(false)}

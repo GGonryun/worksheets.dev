@@ -1,5 +1,5 @@
 import { Box, Chip, ChipProps, Typography } from '@mui/material';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { MarketWidgets } from './market-widgets';
 import { Markdown } from '@worksheets/ui-core';
 import {
@@ -10,6 +10,8 @@ import {
 import { TopPlayers } from './top-players';
 import { GameHeader } from './game-header';
 import { GameActions } from './game-actions';
+import { ReportIssueModal, ShareGameModal } from '../modals';
+import { trpc } from '@worksheets/trpc-charity';
 
 export type GameDescriptionProps = {
   developer: DeveloperSchema;
@@ -22,51 +24,74 @@ export const GameDescription: FC<GameDescriptionProps> = ({
   developer,
   analytics,
 }) => {
+  const reportGame = trpc.game.report.useMutation();
+
+  const [showShare, setShowShare] = useState(false);
+  const [showReport, setShowReport] = useState(false);
+
   const handleShare = () => {
-    alert('TODO: handle share');
+    setShowShare(true);
   };
 
-  const handleReport = () => {
-    alert('TODO: handle report');
+  const handleStartReport = () => {
+    setShowReport(true);
   };
 
   return (
-    <Box display="flex" flexDirection="column" p={{ xs: 2, sm: 4 }}>
-      <Box
-        display="flex"
-        alignItems="center"
-        justifyContent="space-between"
-        flexWrap="wrap"
-        gap={1}
-      >
-        <GameHeader
-          title={game.name}
-          developer={developer}
-          plays={analytics.plays}
-          score={analytics.score}
-          category={game.category}
-          platforms={game.platforms}
-        />
-        <GameActions onReport={handleReport} onShare={handleShare} />
+    <>
+      <Box display="flex" flexDirection="column" p={{ xs: 2, sm: 4 }}>
+        <Box
+          display="flex"
+          alignItems="center"
+          justifyContent="space-between"
+          flexWrap="wrap"
+          gap={1}
+        >
+          <GameHeader
+            title={game.name}
+            developer={developer}
+            plays={analytics.plays}
+            score={analytics.score}
+            category={game.category}
+            platforms={game.platforms}
+          />
+          <GameActions onReport={handleStartReport} onShare={handleShare} />
+        </Box>
+        <Box mt={2} mb={1} display="flex" flexDirection="column" gap={1}>
+          <Typography variant="h4">About this game</Typography>
+          <Markdown
+            text={game.description}
+            sx={{
+              fontFamily: (theme) => theme.typography.mPlus1p.fontFamily,
+            }}
+          />
+        </Box>
+        <Box mt={1} mb={2} display="flex" flexWrap="wrap" gap={1}>
+          {game.tags.map((tag) => (
+            <TagChip key={tag} tag={tag} />
+          ))}
+        </Box>
+        <TopPlayers players={analytics.topPlayers} />
+        <MarketWidgets {...game.markets} />
+        {/* TODO: add support for commenting */}
       </Box>
-      <Box mt={2} mb={1} display="flex" flexDirection="column" gap={1}>
-        <Typography variant="h4">About this game</Typography>
-        <Markdown
-          text={game.description}
-          sx={{
-            fontFamily: (theme) => theme.typography.mPlus1p.fontFamily,
-          }}
-        />
-      </Box>
-      <Box mt={1} mb={2} display="flex" flexWrap="wrap" gap={1}>
-        {game.tags.map((tag) => (
-          <TagChip key={tag} tag={tag} />
-        ))}
-      </Box>
-      <TopPlayers players={analytics.topPlayers} />
-      <MarketWidgets {...game.markets} />
-      {/* TODO: add support for commenting */}
-    </Box>
+      <ShareGameModal
+        open={showShare}
+        onClose={() => setShowShare(false)}
+        game={game}
+      />
+      <ReportIssueModal
+        open={showReport}
+        onClose={() => setShowReport(false)}
+        onReport={async (reason, text) => {
+          await reportGame.mutateAsync({
+            gameId: game.id,
+            reason,
+            text,
+          });
+        }}
+      />
+    </>
   );
 };
 
