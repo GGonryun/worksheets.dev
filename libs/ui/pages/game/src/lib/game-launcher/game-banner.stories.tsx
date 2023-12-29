@@ -27,18 +27,13 @@ const baseProps: Partial<GameBannerProps> = {
   plays: '1.3m',
   upVotes: '37.2k',
   downVotes: '1.2k',
-  favorites: '312',
-  isFavorite: false,
-  userVote: null,
+  userVote: undefined,
 };
 
 export const ResponsiveIFrameBanner = {
   args: baseProps,
 };
 
-export const FavoriteGame = {
-  args: { ...baseProps, isFavorite: true },
-};
 export const LikedGame = {
   args: { ...baseProps, userVote: 'up' },
 };

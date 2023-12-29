@@ -1,19 +1,13 @@
 import { NextPageWithLayout } from '@worksheets/util-next';
-import { AccountScreen } from '@worksheets/ui/pages/account';
 import { LayoutContainer } from '../containers/layout-container';
 import { NextSeo } from 'next-seo';
-import { signOut } from 'next-auth/react';
-import { accountSeo } from '../util/seo';
+import { UnderConstruction } from '@worksheets/ui/pages/under-construction';
 
 const Page: NextPageWithLayout = () => {
-  const handleLogout = () => {
-    signOut({ callbackUrl: '/' });
-  };
-
   return (
     <>
-      <NextSeo {...accountSeo} />
-      <AccountScreen recent={[]} onLogout={handleLogout} />
+      <NextSeo noindex />
+      <UnderConstruction />
     </>
   );
 };

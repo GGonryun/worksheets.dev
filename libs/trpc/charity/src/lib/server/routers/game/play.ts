@@ -12,7 +12,7 @@ export default publicProcedure
       success: z.boolean(),
     })
   )
-  .mutation(async ({ input: { gameId }, ctx: { user, db } }) => {
+  .mutation(async ({ input: { gameId }, ctx: { db } }) => {
     let success = false;
 
     try {
@@ -20,7 +20,6 @@ export default publicProcedure
         const plays = await tx.gamePlay.findFirst({
           where: {
             gameId,
-            userId: user?.id ?? null,
           },
         });
 
@@ -29,7 +28,6 @@ export default publicProcedure
           return await db.gamePlay.create({
             data: {
               gameId,
-              userId: user?.id,
               total: 1,
             },
           });

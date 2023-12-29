@@ -1,49 +1,29 @@
-import {
-  GameLauncher,
-  NoUserAuthModal,
-  TopPlayersModal,
-} from '@worksheets/ui/pages/game';
+import { GameLauncher } from '@worksheets/ui/pages/game';
 import {
   DeveloperSchema,
   GameAnalyticsSchema,
   SerializableGameSchema,
+  UserVoteSchema,
 } from '@worksheets/util/types';
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import { useRecentlyPlayedGames } from '../hooks/useRecentlyPlayedGames';
 import { trpc } from '@worksheets/trpc-charity';
-import { useSession } from 'next-auth/react';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ThumbsUpDownIcon from '@mui/icons-material/ThumbsUpDown';
+import { useVoteHistory } from '../hooks/useVoteHistory';
 
 const DynamicGameLauncher: FC<{
   game: SerializableGameSchema;
   developer: DeveloperSchema;
   analytics: GameAnalyticsSchema;
 }> = ({ game, developer, analytics }) => {
-  const session = useSession();
-  const hasUser = !!session.data?.user?.id;
-  const { data: details } = trpc.user.game.details.useQuery(
-    {
-      gameId: game.id,
-    },
-    {
-      enabled: hasUser,
-    }
-  );
-
   const util = trpc.useUtils();
-  const favorite = trpc.user.game.favorite.useMutation();
-  const vote = trpc.user.game.vote.useMutation();
+  const vote = trpc.game.vote.useMutation();
   const play = trpc.game.play.useMutation();
 
-  const [showPlayers, setShowPlayers] = useState(false);
-  const [showVoteWarning, setShowVoteWarning] = useState(false);
-  const [showFavoriteWarning, setShowFavoriteWarning] = useState(false);
+  const voting = useVoteHistory();
 
   const { addRecentlyPlayed } = useRecentlyPlayedGames();
 
   const invalidateStatistics = async () => {
-    await util.user.game.details.invalidate({ gameId: game.id });
     await util.game.analytics.invalidate({ gameId: game.id });
   };
 
@@ -58,67 +38,34 @@ const DynamicGameLauncher: FC<{
     await invalidateStatistics();
   };
 
-  const handleToggleFavorite = async () => {
-    if (!hasUser) {
-      setShowFavoriteWarning(true);
-    } else {
-      await favorite.mutateAsync({
-        gameId: game.id,
-      });
+  const handleMakeVote = async (newVote: UserVoteSchema['vote']) => {
+    const submitVote = voting.addToVoteHistory({
+      vote: newVote,
+      gameId: game.id,
+    });
+    if (!submitVote) return;
 
-      await invalidateStatistics();
-    }
-  };
-
-  const handleMakeVote = async (action: 'up' | 'down') => {
-    if (!hasUser) {
-      setShowVoteWarning(true);
-    } else {
-      await vote.mutateAsync({ gameId: game.id, vote: action });
-
-      await invalidateStatistics();
-    }
+    // send a vote.
+    await vote.mutateAsync({
+      gameId: game.id,
+      vote: newVote,
+    });
   };
 
   const handleShowPlayers = () => {
-    setShowPlayers(true);
+    // Do nothing.
   };
 
-  const loginHref = `/login?redirect=${encodeURIComponent(`/play/${game.id}`)}`;
-
   return (
-    <>
-      <NoUserAuthModal
-        text="Save your favorite games"
-        icon={<FavoriteIcon fontSize="large" color="error" />}
-        href={loginHref}
-        open={showFavoriteWarning}
-        onClose={() => setShowFavoriteWarning(false)}
-      />
-      <NoUserAuthModal
-        text="Vote for the best games"
-        href={loginHref}
-        icon={<ThumbsUpDownIcon fontSize="large" color="success" />}
-        open={showVoteWarning}
-        onClose={() => setShowVoteWarning(false)}
-      />
-      <TopPlayersModal
-        players={analytics?.topPlayers ?? []}
-        open={showPlayers}
-        onClose={() => setShowPlayers(false)}
-      />
-      <GameLauncher
-        analytics={analytics}
-        game={game}
-        developer={developer}
-        onFavorite={handleToggleFavorite}
-        onPlay={handlePlayGame}
-        onVote={handleMakeVote}
-        onViewGamePlay={handleShowPlayers}
-        isFavorite={details?.favorite ?? false}
-        userVote={details?.vote ?? null}
-      />
-    </>
+    <GameLauncher
+      analytics={analytics}
+      game={game}
+      developer={developer}
+      onPlay={handlePlayGame}
+      onVote={handleMakeVote}
+      onViewGamePlay={handleShowPlayers}
+      userVote={voting.getVote(game.id)}
+    />
   );
 };
 

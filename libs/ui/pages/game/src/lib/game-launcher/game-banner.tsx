@@ -8,8 +8,6 @@ import {
 } from '@mui/material';
 import { FC, JSXElementConstructor } from 'react';
 import {
-  Favorite,
-  FavoriteBorder,
   Fullscreen,
   FullscreenExit,
   PlayCircleOutlineOutlined,
@@ -18,7 +16,7 @@ import {
   ThumbUpAlt,
   ThumbUpOffAlt,
 } from '@mui/icons-material';
-import { GameSchema } from '@worksheets/util/types';
+import { GameSchema, UserVoteSchema } from '@worksheets/util/types';
 import { ResponsiveImage } from '@worksheets/ui/images';
 
 export type GameBannerProps = {
@@ -27,16 +25,13 @@ export type GameBannerProps = {
   developer: string;
   name: string;
   isFullscreen?: boolean;
-  isFavorite: boolean;
-  userVote: 'up' | 'down' | null;
+  userVote?: UserVoteSchema['vote'];
   plays: string;
   upVotes: string;
   downVotes: string;
-  favorites: string;
-  onFavorite: () => void;
   onFullscreen?: () => void;
   onViewGamePlay: () => void;
-  onVote: (vote: 'up' | 'down') => void;
+  onVote: (vote: UserVoteSchema['vote']) => void;
 };
 
 export const GameBanner: FC<GameBannerProps> = ({
@@ -48,12 +43,9 @@ export const GameBanner: FC<GameBannerProps> = ({
   plays,
   upVotes,
   downVotes,
-  favorites,
-  isFavorite,
   userVote,
   onFullscreen,
   onVote,
-  onFavorite,
   onViewGamePlay,
 }) => (
   <Box
@@ -126,8 +118,8 @@ export const GameBanner: FC<GameBannerProps> = ({
         gap={{ xs: 1, sm: 2 }}
       >
         <ActionBox>
-          <ActionButton onClick={onViewGamePlay}>
-            <PlayCircleOutlineOutlined />
+          <ActionButton onClick={onViewGamePlay} disabled>
+            <PlayCircleOutlineOutlined color="primary" />
           </ActionButton>
           <ActionText>{plays}</ActionText>
         </ActionBox>
@@ -142,12 +134,6 @@ export const GameBanner: FC<GameBannerProps> = ({
             {userVote === 'down' ? <ThumbDownAlt /> : <ThumbDownOffAlt />}
           </ActionButton>
           <ActionText>{downVotes}</ActionText>
-        </ActionBox>
-        <ActionBox>
-          <ActionButton onClick={onFavorite}>
-            {isFavorite ? <Favorite /> : <FavoriteBorder />}
-          </ActionButton>
-          <ActionText>{favorites}</ActionText>
         </ActionBox>
         {type === 'iframe' && (
           <ActionButton onClick={onFullscreen}>

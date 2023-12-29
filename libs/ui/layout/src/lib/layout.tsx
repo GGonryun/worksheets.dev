@@ -80,6 +80,7 @@ export const Layout: React.FC<LayoutProps> = ({
       }}
     >
       <Toolbar
+        disableLogin={true}
         onDrawerToggle={handleDrawerToggle}
         connected={connected ?? false}
       />

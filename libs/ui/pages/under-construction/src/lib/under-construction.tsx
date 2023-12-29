@@ -3,6 +3,7 @@ import { FC, ReactNode } from 'react';
 import { useRouter } from 'next/router';
 import { ArrowBack } from '@mui/icons-material';
 import { Construction } from '@worksheets/ui/icons';
+import urls from '@worksheets/util/urls';
 
 export const UnderConstruction: FC<{ children?: ReactNode }> = ({
   children,
@@ -49,8 +50,9 @@ export const UnderConstruction: FC<{ children?: ReactNode }> = ({
           <Typography variant="h5">This Page is Under Construction</Typography>
           <Construction sx={{ height: 200, width: 200, py: 3 }} />
           <Typography>
-            Please check back later or stay up to date with our progress by{' '}
-            <Link href="/login">joining our newsletter</Link>.
+            Please check back later or{' '}
+            <Link href={urls.social.twitter}>follow us on social media</Link>{' '}
+            for updates.
           </Typography>
           {children}
         </Paper>

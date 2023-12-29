@@ -7,7 +7,6 @@ import {
   GameAnalyticsSchema,
   SerializableGameSchema,
 } from '@worksheets/util/types';
-import { TopPlayers } from './top-players';
 import { GameHeader } from './game-header';
 import { GameActions } from './game-actions';
 import { ReportIssueModal, ShareGameModal } from '../modals';
@@ -71,7 +70,6 @@ export const GameDescription: FC<GameDescriptionProps> = ({
             <TagChip key={tag} tag={tag} />
           ))}
         </Box>
-        <TopPlayers players={analytics.topPlayers} />
         <MarketWidgets {...game.markets} />
         {/* TODO: add support for commenting */}
       </Box>

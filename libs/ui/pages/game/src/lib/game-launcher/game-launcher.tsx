@@ -9,6 +9,7 @@ import {
   DeveloperSchema,
   GameAnalyticsSchema,
   SerializableGameSchema,
+  UserVoteSchema,
 } from '@worksheets/util/types';
 import { isMobileOrTabletDeviceBrowser } from '@worksheets/util-devices';
 import { useFullscreen } from './useFullscreen';
@@ -18,11 +19,9 @@ export type GameLauncherProps = {
   game: SerializableGameSchema;
   analytics: GameAnalyticsSchema;
   developer: DeveloperSchema;
-  isFavorite: boolean;
-  userVote: 'up' | 'down' | null;
-  onFavorite: () => void;
+  userVote?: UserVoteSchema['vote'];
   onPlay: () => void;
-  onVote: (vote: 'up' | 'down') => void;
+  onVote: (vote: UserVoteSchema['vote']) => void;
   onViewGamePlay: () => void;
 };
 
@@ -30,9 +29,7 @@ export const GameLauncher: FC<GameLauncherProps> = ({
   developer,
   analytics,
   game,
-  isFavorite,
   userVote,
-  onFavorite,
   onPlay,
   onVote,
   onViewGamePlay,
@@ -66,7 +63,7 @@ export const GameLauncher: FC<GameLauncherProps> = ({
     }
   };
 
-  const handleFullscreen = () => {
+  const handleFullscreen: () => void = () => {
     if (game.file.type === 'redirect') {
       throw new Error("Unsupported action: game.file.type === 'redirect'");
     } else {
@@ -122,10 +119,7 @@ export const GameLauncher: FC<GameLauncherProps> = ({
           upVotes={analytics.votes.up}
           downVotes={analytics.votes.down}
           plays={analytics.plays}
-          favorites={analytics.favorites}
-          isFavorite={isFavorite}
           userVote={userVote}
-          onFavorite={onFavorite}
           onFullscreen={handleFullscreen}
           onVote={onVote}
           onViewGamePlay={onViewGamePlay}

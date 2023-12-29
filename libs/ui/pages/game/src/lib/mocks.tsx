@@ -1,19 +1,10 @@
 import {
   DeveloperSchema,
   GameAnalyticsSchema,
-  GamePlayerSchema,
   SerializableGameSchema,
 } from '@worksheets/util/types';
 import { GameDescription } from './game-description';
 import { GameLauncher } from './game-launcher';
-
-export const sampleTopPlayers: GamePlayerSchema[] = [
-  { id: `1`, username: 'Player 1', plays: `200` },
-  { id: `2`, username: 'Player 2', plays: `100` },
-  { id: `3`, username: 'Player 3', plays: `50` },
-  { id: `4`, username: 'Player 4', plays: `25` },
-  { id: `5`, username: 'Player 5', plays: `10` },
-];
 
 export const sampleDeveloper: DeveloperSchema = {
   id: '1',
@@ -31,8 +22,6 @@ export const sampleAnalytics: GameAnalyticsSchema = {
     up: '32.2k',
     down: '12.2k',
   },
-  favorites: '1k',
-  topPlayers: sampleTopPlayers,
 };
 
 export const sampleGame: SerializableGameSchema = {
@@ -81,11 +70,9 @@ export const SampleGameLauncher = () => (
     game={sampleGame}
     analytics={sampleAnalytics}
     developer={sampleDeveloper}
-    onFavorite={() => alert('TODO: add to favorites')}
     onPlay={() => alert('TODO: show play form')}
     onVote={() => alert('TODO: handle vote')}
     onViewGamePlay={() => alert('TODO: handle view game play')}
-    isFavorite={true}
     userVote={'up'}
   />
 );

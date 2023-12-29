@@ -11,48 +11,30 @@ datasource db {
 model GamePlay {
   id            String        @id @default(cuid())
   gameId        String
-  userId        String?
   total         Int
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
   // game          Game          @relation(fields: [gameId], references: [id])
-  user          User?          @relation(fields: [userId], references: [id])
 }
 
 model GameVote {
   id            String        @id @default(cuid())
   gameId        String
-  userId        String
   createdAt     DateTime      @default(now())
-  liked         Boolean       
+  up            Int           @default(0)
+  down          Int           @default(0)
   // game          Game          @relation(fields: [gameId], references: [id])
-  user          User          @relation(fields: [userId], references: [id])
 }
 
-model GameFavorite {
+model GameVoteSubmission {
   id            String        @id @default(cuid())
   gameId        String
-  userId        String
   createdAt     DateTime      @default(now())
+  ip            String
+  vote          Int           @default(0)
   // game          Game          @relation(fields: [gameId], references: [id])
-  user          User          @relation(fields: [userId], references: [id])
-
+  // user          User          @relation(fields: [userId], references: [id])
 }
-
-// model GameComment {
-//   id            String        @id @default(cuid())
-//   parentId      String?     
-//   gameId        String
-//   userId        String
-//   text          String        @db.VarChar(255)
-//   score         Int           @default(0)
-//   hidden        Boolean       @default(false)
-//   createdAt     DateTime      @default(now())
-//   game          Game          @relation(fields: [gameId], references: [id])
-//   user          User          @relation(fields: [userId], references: [id])
-//   parent        GameComment?  @relation("GameCommentToGameComment", fields: [parentId], references: [id])
-//   replies       GameComment[] @relation("GameCommentToGameComment")
-// }
 
 model Game {
   id            String        @id @default(cuid())
@@ -97,13 +79,9 @@ model User {
   image             String?
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
-  favorites         GameFavorite[]
-  plays             GamePlay[]
-  votes             GameVote[]
+
   accounts          Account[]
   sessions          Session[]
-  reports           GameReport[]
-  // comments          GameComment[]
 }
 
 model Account {
@@ -165,12 +143,9 @@ enum ReportReason {
 model GameReport {
   id            String        @id @default(cuid())
   gameId        String
-  userId        String?
   reason        ReportReason  @default(OTHER)
   text          String        @db.VarChar(255)
   createdAt     DateTime      @default(now())
-  // game          Game          @relation(fields: [gameId], references: [id])
-  user          User?         @relation(fields: [userId], references: [id])
 }
 
 generator zod {

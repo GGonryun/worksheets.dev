@@ -1,4 +1,3 @@
-import { GamePlayerSchema } from './game-player-schema';
 import { GameQualifier } from './game-qualifier';
 import { GameTag } from './tag-schema';
 
@@ -50,8 +49,6 @@ export type GameAnalyticsSchema = {
   votes: { up: string; down: string };
   score: string;
   plays: string;
-  favorites: string;
-  topPlayers: GamePlayerSchema[];
 };
 
 export type GameMonetizeSchema = {

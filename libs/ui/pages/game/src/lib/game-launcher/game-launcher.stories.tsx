@@ -8,7 +8,6 @@ const meta: Meta<typeof GameLauncher> = {
   title: 'Content/GameLauncher',
   args: {
     onPlay: action('onPlay'),
-    onFavorite: action('onFavorite'),
   },
 };
 export default meta;

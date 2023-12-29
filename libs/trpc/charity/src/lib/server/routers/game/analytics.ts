@@ -1,7 +1,6 @@
 import { z } from '@worksheets/zod';
 import { publicProcedure } from '../../procedures';
 import { round, shorthandNumber } from '@worksheets/util/numbers';
-import { ANONYMOUS_USER_ID } from '@worksheets/util/misc';
 
 export default publicProcedure
   .input(
@@ -14,17 +13,13 @@ export default publicProcedure
       success: z.boolean(),
       plays: z.string(),
       score: z.string(),
-      favorites: z.string(),
       votes: z.object({
         up: z.string(),
         down: z.string(),
       }),
-      topPlayers: z.array(
-        z.object({ id: z.string(), username: z.string(), plays: z.string() })
-      ),
     })
   )
-  .query(async ({ input: { gameId }, ctx: { user, db } }) => {
+  .query(async ({ input: { gameId }, ctx: { db } }) => {
     const success = true;
 
     const gamePlays = await db.gamePlay.findMany({
@@ -32,48 +27,26 @@ export default publicProcedure
       select: { total: true },
     });
 
-    const upVotes = await db.gameVote.count({
-      where: { gameId, liked: true },
-    });
-
-    const downVotes = await db.gameVote.count({
-      where: { gameId, liked: false },
-    });
-
-    const favorites = await db.gameFavorite.count({
+    const votes = await db.gameVote.findFirst({
       where: { gameId },
     });
 
     const plays = gamePlays.reduce((acc, curr) => acc + curr.total, 0);
 
-    const score = calculateScore(upVotes, downVotes);
-
-    const rawTopPlayers = await db.gamePlay.findMany({
-      where: { gameId },
-      orderBy: { total: 'desc' },
-      include: { user: { select: { username: true, id: true } } },
-      take: 10,
-    });
-
-    const topPlayers = rawTopPlayers
-      .filter((p) => p.userId || p.user)
-      .map((p) => ({
-        id: p.user?.id ?? ANONYMOUS_USER_ID,
-        username: p.user?.username ?? p.user?.id ?? ANONYMOUS_USER_ID,
-        plays: shorthandNumber(p.total),
-      }));
+    const score = calculateScore(votes?.up, votes?.down);
 
     return {
       success,
       plays: shorthandNumber(plays),
-      favorites: shorthandNumber(favorites),
       score: round(score, 1),
-      votes: { up: shorthandNumber(upVotes), down: shorthandNumber(downVotes) },
-      topPlayers: topPlayers,
+      votes: {
+        up: shorthandNumber(votes?.up ?? 0),
+        down: shorthandNumber(votes?.down ?? 0),
+      },
     };
   });
 
-function calculateScore(upVotes: number, downVotes: number) {
+function calculateScore(upVotes = 0, downVotes = 0) {
   if (upVotes === 0 && downVotes === 0) return 0;
   if (upVotes > 0 && downVotes === 0) return 5;
   if (upVotes === 0 && downVotes > 0) return 0;

@@ -31,9 +31,7 @@ import { trpc } from '@worksheets/trpc-charity';
 const emptyAnalyticsPayload: GameAnalyticsSchema = {
   plays: '0',
   votes: { up: '0', down: '0' },
-  favorites: '0',
   score: '0',
-  topPlayers: [],
 };
 
 type Props = {
