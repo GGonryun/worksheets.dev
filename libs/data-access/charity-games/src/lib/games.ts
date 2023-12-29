@@ -2109,15 +2109,7 @@ export const games: GameSchema[] = [
     qualifier: 'new',
     platforms: ['desktop', 'mobile'],
     orientations: ['portrait', 'landscape'],
-    tags: [
-      'ad-free',
-      'popular',
-      'action',
-      'arcade',
-      'desktop',
-      'mobile',
-      'shooting',
-    ],
+    tags: ['ad-free', 'popular', 'action', 'arcade', 'desktop', 'shooting'],
     category: ['action'],
     file: {
       type: 'iframe',
@@ -2233,9 +2225,9 @@ export const games: GameSchema[] = [
       'https://cdn.charity.games/seredim/1d-chess/assets/screenshot4.jpg',
     ],
     qualifier: 'new',
-    platforms: ['mobile'],
+    platforms: ['desktop'],
     orientations: ['landscape'],
-    tags: ['ad-free', 'popular', 'board', 'mobile'],
+    tags: ['ad-free', 'popular', 'board', 'desktop'],
     category: ['board'],
     file: {
       type: 'iframe',
