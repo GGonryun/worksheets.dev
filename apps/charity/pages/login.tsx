@@ -7,7 +7,7 @@ import { useRouter } from 'next/router';
 
 const Page: NextPageWithLayout = () => {
   const { query } = useRouter();
-  const redirect = query.redirect as string;
+  const redirect = (query.redirect as string) || '/';
 
   return (
     <>
