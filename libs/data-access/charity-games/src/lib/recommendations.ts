@@ -13,6 +13,7 @@ export const recommendations: RecommendationsSchema = {
     'freedom-run',
   ],
   new: [
+    'blasteroids',
     'skwatta',
     '1d-chess',
     'feaare',
