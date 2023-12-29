@@ -2015,13 +2015,58 @@ export const games: GameSchema[] = [
     `,
   },
   {
+    id: 'kuttuk',
+    name: 'Kuttuk',
+    size: 1,
+    developerId: 'seredim',
+    iconUrl: 'https://cdn.charity.games/kuttuk/assets/thumbnail.png',
+    bannerUrl: 'https://cdn.charity.games/kuttuk/assets/banner.jpeg',
+    trailerUrl: `https://www.youtube.com/watch?v=yQyWqEvrSVs`,
+    screenshots: [
+      'https://cdn.charity.games/kuttuk/assets/screenshot1.jpg',
+      'https://cdn.charity.games/kuttuk/assets/screenshot2.jpg',
+      'https://cdn.charity.games/kuttuk/assets/screenshot3.jpg',
+      'https://cdn.charity.games/kuttuk/assets/screenshot4.jpg',
+    ],
+    qualifier: 'new',
+    platforms: ['desktop', 'mobile'],
+    orientations: ['portrait'],
+    tags: ['ad-free', 'popular', 'action', 'arcade', 'desktop', 'mobile'],
+    category: ['arcade'],
+    file: {
+      type: 'iframe',
+      url: 'https://cdn.charity.games/kuttuk/index.html',
+    },
+    createdAt: new Date('2023-12-29T00:00:00.000Z'),
+    updatedAt: new Date('2023-12-29T00:00:00.000Z'),
+    markets: {
+      android:
+        'https://play.google.com/store/apps/details?id=com.SereDim.Kuttuk',
+      itch: 'https://itch.io/embed/2269843',
+    },
+    description: `
+    Break the blocks in a center and dodge corners.
+
+    ### What is Kuttuk?
+    Kuttuk is a fast-paced arcade game. The goal of the game is to break up the blocks by hitting them on the flat side. If you get hit by the edge of a block you lose the game
+
+    ### What are the controls for Kuttuk?
+    Left 
+      - desktop: left arrow
+      - mobile: touch left
+    Right 
+      - right arrow
+      - mobile: touch right
+    `,
+  },
+  {
     id: 'plane-fly',
     name: 'Plane Fly',
     size: 1,
     developerId: 'charity-games',
     iconUrl: 'https://cdn.charity.games/plane-fly/assets/thumbnail.png',
     bannerUrl: 'https://cdn.charity.games/plane-fly/assets/banner.png',
-    qualifier: 'new',
+    qualifier: 'hot',
     platforms: ['desktop', 'mobile'],
     orientations: ['landscape'],
     tags: [
@@ -2059,7 +2104,7 @@ export const games: GameSchema[] = [
     developerId: 'charity-games',
     iconUrl: '/games/solitaire/icon.jpg',
     bannerUrl: '/games/solitaire/banner.png',
-    qualifier: 'new',
+    qualifier: 'none',
     platforms: ['desktop', 'mobile'],
     orientations: ['portrait'],
     tags: [
@@ -2102,7 +2147,7 @@ export const games: GameSchema[] = [
     developerId: 'charity-games',
     iconUrl: '/games/emoji-war/icon.jpg',
     bannerUrl: '/games/emoji-war/banner.jpg',
-    qualifier: 'hot',
+    qualifier: 'none',
     platforms: ['desktop', 'mobile'],
     orientations: ['portrait', 'landscape'],
     tags: [
@@ -2130,6 +2175,53 @@ export const games: GameSchema[] = [
 
     ### Controls
     - Click on the cards to play them
+    `,
+  },
+  {
+    id: '1d-chess',
+    name: '1D Chess',
+    size: 2,
+    developerId: 'seredim',
+    iconUrl: 'https://cdn.charity.games/1d-chess/assets/thumbnail.png',
+    bannerUrl: 'https://cdn.charity.games/1d-chess/assets/banner.jpeg',
+    trailerUrl: 'https://www.youtube.com/watch?v=duX09CCZ2uo',
+    qualifier: 'new',
+    platforms: ['desktop', 'mobile'],
+    orientations: ['landscape'],
+    tags: ['ad-free', 'popular', 'board', 'desktop', 'mobile'],
+    category: ['board'],
+    file: {
+      type: 'iframe',
+      url: 'https://cdn.charity.games/1d-chess/index.html',
+    },
+    createdAt: new Date('2023-12-29T00:00:00.000Z'),
+    updatedAt: new Date('2023-12-29T00:00:00.000Z'),
+    markets: {
+      android:
+        'https://play.google.com/store/apps/details?id=com.SereDim.OneDChess',
+      itch: 'https://itch.io/embed/2383094',
+    },
+    description: `
+    ### What is 1D Chess?
+    The main idea is to make a simple strategy system for two equal sides fighting, which will give the player the opportunity to control the strength of each side, but at the same time the winning choice will not be pattern.
+    <br/>
+    <br/>
+    Chess pieces in their original quantity are ideal for this idea. They move abstractly correctly to the original game, and each piece is balanced equal to the other pieces.
+    <br/>
+    <br/>
+    Player control is limited to selecting one of a random three non-repeating pieces from a pool of 5 pieces. This way he can choose for each side, and defeat will be counted as soon as at least one figure reaches the opposite edge.
+    <br/>
+    <br/>
+    Next, a little about the logic of the game:
+    <br/>
+    <br/>
+    The board has 11 cells, and there are kings on the edges, that is, there are only 9 playable cells. All pieces have health and damage for smoother game play. The game is real time turn based, and the steps have the following logic: all pieces of the same color acts in a row, starting from the farthest to the last one created, their action can be either an attack or a movement, if a piece can hit, then it hits, if it cannot, then it tries to move forward on one cell, then the second color moves and so on alternating.
+    <br/>
+    <br/>
+    The Rogue-like system here is replaced by a special balance, which depends on the player's actions. You can feel what is making a difference in consider mistakes for future tries.
+
+    ### How to Play 1D Chess?
+    Select one of the three pieces for each side, and defeat will be counted as soon as at least one figure reaches the opposite edge.
     `,
   },
   {
@@ -2318,7 +2410,7 @@ export const games: GameSchema[] = [
     developerId: 'charity-games',
     iconUrl: '/games/word-search/icon.jpg',
     bannerUrl: '/games/word-search/banner.jpg',
-    qualifier: 'new',
+    qualifier: 'none',
     platforms: ['desktop', 'mobile'],
     orientations: ['portrait', 'landscape'],
     tags: [
@@ -2336,7 +2428,7 @@ export const games: GameSchema[] = [
       url: WORD_SEARCH_URL,
     },
     createdAt: new Date('2023-10-09T00:00:00.000Z'),
-    updatedAt: new Date('2021-11-23T00:00:00.000Z'),
+    updatedAt: new Date('2023-11-23T00:00:00.000Z'),
     markets: {},
     description: `
     Word Search is a word puzzle game. The goal of the game is to find all the words hidden in the grid. The words may be placed horizontally, vertically, or diagonally. The words may also be placed backwards.
@@ -2351,6 +2443,49 @@ export const games: GameSchema[] = [
     - Swipe your finger across the letters to form words
     
     `,
+  },
+  {
+    id: 'feaare',
+    name: 'Feaare',
+    size: 1,
+    developerId: 'seredim',
+    iconUrl: 'https://cdn.charity.games/feaare/assets/thumbnail.png',
+    bannerUrl: 'https://cdn.charity.games/feaare/assets/banner.jpg',
+    trailerUrl: 'https://www.youtube.com/watch?v=WhHAp9I3KW8',
+    screenshots: [
+      'https://cdn.charity.games/feaare/assets/screenshot1.png',
+      'https://cdn.charity.games/feaare/assets/screenshot2.png',
+      'https://cdn.charity.games/feaare/assets/screenshot3.png',
+      'https://cdn.charity.games/feaare/assets/screenshot4.png',
+    ],
+    qualifier: 'new',
+    platforms: ['desktop', 'mobile'],
+    orientations: ['portrait'],
+    tags: ['ad-free', 'popular', 'action', 'arcade', 'desktop', 'mobile'],
+    category: ['arcade'],
+    file: {
+      type: 'iframe',
+      url: 'https://cdn.charity.games/feaare-4/index.html',
+    },
+    createdAt: new Date('2023-12-29T00:00:00.000Z'),
+    updatedAt: new Date('2023-12-29T00:00:00.000Z'),
+    markets: {
+      android:
+        'https://play.google.com/store/apps/details?id=com.SereDim.Feaare',
+      itch: 'https://itch.io/embed/2302991',
+    },
+    description: `
+    ### What is Feaare?
+    The main idea is to give the player not direct control over the game, but through game play elements. The player does not see enemies, but sees eyes that look at them.
+    <br/>
+    <br/>
+    Control is performed by clicking on an object in order to move each eye individually and understand where the enemy is approximately located and where he is moving, and then move away from the dangerous place and survive as long as possible. Only 4 eyes. Since invisible enemies are usually unpleasant to play against, I decided to make sure that they are always created from one point and the player knows for sure that no one can be behind him.
+    <br/>
+    <br/>
+    The graphic design is extremely simple - everything is black, only the white eyes are visible. There is no story in the game, everything is concentrated on the game play design and its complication, which depends on the actions of the player and makes each game unique and addictive.
+    ### How to Play Feaare?
+    Click on an eye to move it. The goal of the game is to survive as long as possible.
+`,
   },
   {
     id: 'invention-timeline-game',
@@ -2426,7 +2561,7 @@ export const games: GameSchema[] = [
     developerId: 'charity-games',
     iconUrl: '/games/puzzle-words/icon.jpg',
     bannerUrl: '/games/puzzle-words/banner.jpg',
-    qualifier: 'hot',
+    qualifier: 'none',
     platforms: ['desktop', 'mobile'],
     orientations: ['portrait', 'landscape'],
     tags: [
@@ -2463,7 +2598,7 @@ export const games: GameSchema[] = [
     developerId: 'charity-games',
     iconUrl: '/games/word-smith/icon.jpg',
     bannerUrl: '/games/word-smith/banner.png',
-    qualifier: 'new',
+    qualifier: 'none',
     platforms: ['desktop', 'mobile'],
     orientations: ['portrait', 'landscape'],
     tags: [
@@ -2597,7 +2732,7 @@ export const games: GameSchema[] = [
     developerId: 'charity-games',
     iconUrl: '/games/word-pack/icon.jpg',
     bannerUrl: '/games/word-pack/banner.jpg',
-    qualifier: 'new',
+    qualifier: 'none',
     platforms: ['desktop', 'mobile'],
     orientations: ['portrait', 'landscape'],
     tags: [
@@ -2684,7 +2819,7 @@ export const games: GameSchema[] = [
       url: 'https://cdn.charity.games/solitaire-2048/index.html',
     },
     createdAt: new Date('2023-12-21T00:00:00.000Z'),
-    updatedAt: new Date('2021-12-21T00:00:00.000Z'),
+    updatedAt: new Date('2023-12-21T00:00:00.000Z'),
     markets: {},
     description: `
     Solitaire 2048 is ultra casual card game. One of Very addictive kind.
@@ -2693,5 +2828,53 @@ export const games: GameSchema[] = [
     Drag and drop the same value card to merge. Use special cards for benifits. Make 2048 to score bonus.
   `,
   },
+  {
+    id: 'skwatta',
+    name: 'Skwatta',
+    size: 1,
+    developerId: 'seredim',
+    iconUrl: 'https://cdn.charity.games/skwatta/assets/thumbnail.png',
+    bannerUrl: 'https://cdn.charity.games/skwatta/assets/banner.jpg',
+    trailerUrl: 'https://www.youtube.com/watch?v=PKnPD1lnGLg',
+    screenshots: [
+      'https://cdn.charity.games/skwatta/assets/screenshot1.png',
+      'https://cdn.charity.games/skwatta/assets/screenshot2.png',
+      'https://cdn.charity.games/skwatta/assets/screenshot3.png',
+      'https://cdn.charity.games/skwatta/assets/screenshot4.png',
+    ],
+    qualifier: 'new',
+    platforms: ['desktop', 'mobile'],
+    orientations: ['portrait'],
+    tags: ['ad-free', 'popular', 'action', 'arcade', 'desktop', 'mobile'],
+    category: ['arcade'],
+    file: {
+      type: 'iframe',
+      url: 'https://cdn.charity.games/skwatta/index.html',
+    },
+    createdAt: new Date('2023-12-29T00:00:00.000Z'),
+    updatedAt: new Date('2023-12-29T00:00:00.000Z'),
+    markets: {
+      android:
+        'https://play.google.com/store/apps/details?id=com.SereDim.Skwatta',
+      itch: 'https://itch.io/embed/2350947',
+    },
+    description: `
+    ### What is Skwatta?
+    The main idea is to make a large army with different types of characters, which automatically grows, and the player only chooses who to place.
+    <br/>
+    <br/>
+    There are only 3 types of troops: warriors, spearmen and archers, each has an advantageous position for attack range, but this is not a key parameter for proper combat. For each situation, it is necessary to choose the right strategy, based on where the enemy will come from, what another type are nearby, the equality of unit types, and the small abilities of the characters.
+    <br/>
+    <br/>
+    The player must only click on one of the three types of troops, which will be installed in a spiral behind the algorithm and create a compact group. Also, for convenience and better results, the player can examine the map to find out where the enemies will come from.
+    <br/>
+    <br/>
+    Very simple design so that as many units as possible are visible on the screen and are distinguishable.
+    <br/>
+    <br/>
+    The difficulty increases extremely quickly and on average one game takes 3 minutes.
+    `,
+  },
+
   ...gameMonetizeGames.map(gameMonetizeConverter),
 ];

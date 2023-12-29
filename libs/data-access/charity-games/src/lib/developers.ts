@@ -82,4 +82,13 @@ export const developers: DeveloperSchema[] = [
       itchio: 'https://stheismakesthings.itch.io/',
     },
   },
+  {
+    id: 'seredim',
+    name: 'SereDim',
+    avatarUrl: 'https://cdn.charity.games/_developers/seredim.jpeg',
+    description: '',
+    socials: {
+      itchio: 'https://seredim.itch.io/',
+    },
+  },
 ];
