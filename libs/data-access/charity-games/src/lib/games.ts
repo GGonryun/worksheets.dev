@@ -2098,6 +2098,47 @@ export const games: GameSchema[] = [
     `,
   },
   {
+    id: 'blasteroids',
+    name: 'Blasteroids',
+    size: 2,
+    developerId: 'whitgroves',
+    iconUrl:
+      'https://cdn.charity.games/whitgroves/blasteroids/assets/thumbnail.png',
+    bannerUrl:
+      'https://cdn.charity.games/whitgroves/blasteroids/assets/banner.png',
+    qualifier: 'new',
+    platforms: ['desktop', 'mobile'],
+    orientations: ['portrait', 'landscape'],
+    tags: [
+      'ad-free',
+      'popular',
+      'action',
+      'arcade',
+      'desktop',
+      'mobile',
+      'shooting',
+    ],
+    category: ['action'],
+    file: {
+      type: 'iframe',
+      url: 'https://cdn.charity.games/whitgroves/blasteroids/index.html',
+    },
+    createdAt: new Date('2023-12-29T00:00:00.000Z'),
+    updatedAt: new Date('2021-12-29T00:00:00.000Z'),
+    markets: {
+      website: 'https://blasteroids.io/',
+      github: 'https://github.com/whitgroves/blasteroids',
+    },
+    description: `
+    ### What is Blasteroids?
+    A re-imagined classic. How far will you go?
+
+    ### How to play Blasteroids?
+    - Desktop: Space to move, Click to shoot, Esc to pause
+    - Mobile: Tilt to move, Tap to shoot, Hold to pause
+    `,
+  },
+  {
     id: 'solitaire',
     name: 'Solitaire',
     size: 1,

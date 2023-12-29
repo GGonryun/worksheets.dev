@@ -4,6 +4,7 @@ import {
   GitHub,
   Instagram,
   Language,
+  LinkedIn,
   Pinterest,
   Twitter,
   YouTube,
@@ -166,6 +167,7 @@ const SocialButtons: FC<DeveloperScreenProps['socials']> = ({
   steam,
   playstore,
   pintrest,
+  linkedin,
   appstore,
   tiktok,
   website,
@@ -191,6 +193,9 @@ const SocialButtons: FC<DeveloperScreenProps['socials']> = ({
       </SocialIconButton>
       <SocialIconButton href={discord}>
         <Discord fontSize="large" />
+      </SocialIconButton>
+      <SocialIconButton href={linkedin}>
+        <LinkedIn fontSize="large" />
       </SocialIconButton>
       <SocialIconButton href={itchio}>
         <ItchIo fontSize="large" />

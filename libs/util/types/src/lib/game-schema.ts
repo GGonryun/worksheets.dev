@@ -35,6 +35,8 @@ type MarketLinks = {
   ios: string;
   itch: string;
   steam: string;
+  website: string;
+  github: string;
 };
 
 export type SerializableGameSchema = Omit<

@@ -64,7 +64,7 @@ export const developers: DeveloperSchema[] = [
     name: 'LL studio, spol. s r.o.',
     avatarUrl: 'https://cdn.charity.games/_developers/llstd.png',
     description:
-      'We are graphic studio from Slovakia. Our last game: RPG Conquer the World - pixelart topdown adventure.',
+      'We are graphic studio from Slovakia. Our last game: RPG Conquer the World - pixel art top down adventure.',
     socials: {
       twitter: 'https://twitter.com/llstdcom',
       pintrest: 'https://sk.pinterest.com/llstdcom/',
@@ -89,6 +89,18 @@ export const developers: DeveloperSchema[] = [
     description: '',
     socials: {
       itchio: 'https://seredim.itch.io/',
+    },
+  },
+  {
+    id: 'whitgroves',
+    name: 'Whitgroves',
+    avatarUrl: 'https://cdn.charity.games/whitgroves/avatar.jpeg',
+    description:
+      'Whit is a developer from Houston, TX. When not working on projects, he likes to sleep.',
+    socials: {
+      website: 'https://blasteroids.io/',
+      github: 'https://github.com/whitgroves/',
+      linkedin: 'https://www.linkedin.com/in/whitgroves/',
     },
   },
 ];

@@ -11,6 +11,7 @@ export type DeveloperSchema = {
     twitch?: string;
     pintrest?: string;
     discord?: string;
+    linkedin?: string;
     itchio?: string;
     tiktok?: string;
     website?: string;
