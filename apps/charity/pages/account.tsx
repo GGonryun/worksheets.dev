@@ -2,8 +2,8 @@ import { NextPageWithLayout } from '@worksheets/util-next';
 import { AccountScreen } from '@worksheets/ui/pages/account';
 import { LayoutContainer } from '../containers/layout-container';
 import { NextSeo } from 'next-seo';
-import { aboutSeo } from '../util/seo';
 import { signOut } from 'next-auth/react';
+import { accountSeo } from '../util/seo';
 
 const Page: NextPageWithLayout = () => {
   const handleLogout = () => {
@@ -12,7 +12,7 @@ const Page: NextPageWithLayout = () => {
 
   return (
     <>
-      <NextSeo {...aboutSeo} />
+      <NextSeo {...accountSeo} />
       <AccountScreen recent={[]} onLogout={handleLogout} />
     </>
   );

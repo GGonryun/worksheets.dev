@@ -224,3 +224,8 @@ export const contributeSeo = createSeo({
   title: `Charity Games - Developer Contributions`,
   description: `Learn how to contribute to Charity Games. Help us make a difference. Turn your games into donations.`,
 });
+
+export const accountSeo = {
+  noindex: true,
+  title: 'Charity Games - Account',
+};
