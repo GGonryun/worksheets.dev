@@ -38,13 +38,9 @@ These games are generally ready to go as is. Follow the instructions above for N
 
 ### Unity 3D
 
-#### Brotli Compressed Game
+#### General Changes
 
-A brotli compressed unity game can be uploaded to the CDN by following these steps:
-
-1. Build the game in Unity 3D and select the WebGL platform.
-   - The game should already be compressed.
-2. Make the html canvas responsive:
+1. Make the html canvas responsive:
    - Uncommenting the line `config.matchWebGLToCanvasSize = false;`
    - Change the lines: `canvas.style.width = PIXEL_SIZE;` to `canvas.style.width = "100%"` and `canvas.style.height = PIXEL_SIZE;` to `canvas.style.height = "100%";`
    - Remove the following code from the `index.html` file:
@@ -57,7 +53,7 @@ A brotli compressed unity game can be uploaded to the CDN by following these ste
 </div>
 ```
 
-3. Update CSS styles to make canvas responsive:
+2. Update CSS styles to make canvas responsive:
    - Update the following code in the `TemplateData/style.css` file:
 
 ```diff
@@ -86,25 +82,39 @@ body {
 }
 ```
 
-4. Upload the game to the CDN manually.
+3. Upload the game to the CDN manually.
 
 - You will be uploading the `Build` folder, the `index.html` file, and the `TemplateData` file.
 
-5. Modify build files metadata (`GameName.data.br`, `GameName.framework.js.br`, `GameName.loader.js`, `GameName.wasm.br`)
+#### Uncompressed Game
+
+An uncompressed unity game can be uploaded to the CDN by following the general steps above exclusively.
+
+#### Brotli Compressed Game
+
+A brotli compressed unity game can be uploaded to the CDN by following these steps:
+
+1. Follow the general steps above to make the game window responsive.
+
+2. Build the game in Unity 3D and select the WebGL platform.
+
+   - The game should already be compressed.
+
+3. Modify build files metadata (`GameName.data.br`, `GameName.framework.js.br`, `GameName.loader.js`, `GameName.wasm.br`)
 
 - Metadata file types can be found in the [Unity Documentation: Server configuration for WebGL builds (Apache)](https://docs.unity3d.com/Manual/webgl-server-configuration-code-samples.html)
 
-1.  `GameName.data.br`:
-    - Change the `Content-Type` to `application/octet-stream`
-    - Change the `Content-Encoding` to `br`
-    - Change the `Cache-Control` to `no-transform`
-2.  `GameName.framework.js.br`
-    - Change the `Content-Type` to `application/javascript`
-    - Change the `Content-Encoding` to `br`
-    - Change the `Cache-Control` to `no-transform`
-3.  `GameName.loader.js`
-    - Change the `Content-Type` to `text/javascript`
-4.  `GameName.wasm.br`
-    - Change the `Content-Type` to `application/wasm`
-    - Change the `Content-Encoding` to `br`
-    - Change the `Cache-Control` to `no-transform`
+  1.  `GameName.data.br`:
+      - Change the `Content-Type` to `application/octet-stream`
+      - Change the `Content-Encoding` to `br`
+      - Change the `Cache-Control` to `no-transform`
+  2.  `GameName.framework.js.br`
+      - Change the `Content-Type` to `application/javascript`
+      - Change the `Content-Encoding` to `br`
+      - Change the `Cache-Control` to `no-transform`
+  3.  `GameName.loader.js`
+      - Change the `Content-Type` to `text/javascript`
+  4.  `GameName.wasm.br`
+      - Change the `Content-Type` to `application/wasm`
+      - Change the `Content-Encoding` to `br`
+      - Change the `Cache-Control` to `no-transform`

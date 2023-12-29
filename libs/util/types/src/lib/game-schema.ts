@@ -10,6 +10,8 @@ export type GameSchema = {
   developerId: string;
   iconUrl: string;
   bannerUrl: string;
+  trailerUrl?: string;
+  screenshots?: string[];
   qualifier: GameQualifier;
   platforms: GameDevices[];
   orientations: DeviceOrientation[];

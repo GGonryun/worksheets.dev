@@ -1,18 +1,5 @@
-import * as z from 'zod';
-import {
-  CompleteGameFavorite,
-  RelatedGameFavoriteModel,
-  CompleteGamePlay,
-  RelatedGamePlayModel,
-  CompleteGameVote,
-  RelatedGameVoteModel,
-  CompleteAccount,
-  RelatedAccountModel,
-  CompleteSession,
-  RelatedSessionModel,
-  CompleteGameReport,
-  RelatedGameReportModel,
-} from './index';
+import * as z from "zod"
+import { CompleteGameFavorite, RelatedGameFavoriteModel, CompleteGamePlay, RelatedGamePlayModel, CompleteGameVote, RelatedGameVoteModel, CompleteAccount, RelatedAccountModel, CompleteSession, RelatedSessionModel, CompleteGameReport, RelatedGameReportModel } from "./index"
 
 export const UserModel = z.object({
   id: z.string(),
@@ -23,15 +10,15 @@ export const UserModel = z.object({
   image: z.string().nullish(),
   createdAt: z.date(),
   updatedAt: z.date(),
-});
+})
 
 export interface CompleteUser extends z.infer<typeof UserModel> {
-  favorites: CompleteGameFavorite[];
-  plays: CompleteGamePlay[];
-  votes: CompleteGameVote[];
-  accounts: CompleteAccount[];
-  sessions: CompleteSession[];
-  reports: CompleteGameReport[];
+  favorites: CompleteGameFavorite[]
+  plays: CompleteGamePlay[]
+  votes: CompleteGameVote[]
+  accounts: CompleteAccount[]
+  sessions: CompleteSession[]
+  reports: CompleteGameReport[]
 }
 
 /**
@@ -39,13 +26,11 @@ export interface CompleteUser extends z.infer<typeof UserModel> {
  *
  * NOTE: Lazy required in case of potential circular dependencies within schema
  */
-export const RelatedUserModel: z.ZodSchema<CompleteUser> = z.lazy(() =>
-  UserModel.extend({
-    favorites: RelatedGameFavoriteModel.array(),
-    plays: RelatedGamePlayModel.array(),
-    votes: RelatedGameVoteModel.array(),
-    accounts: RelatedAccountModel.array(),
-    sessions: RelatedSessionModel.array(),
-    reports: RelatedGameReportModel.array(),
-  })
-);
+export const RelatedUserModel: z.ZodSchema<CompleteUser> = z.lazy(() => UserModel.extend({
+  favorites: RelatedGameFavoriteModel.array(),
+  plays: RelatedGamePlayModel.array(),
+  votes: RelatedGameVoteModel.array(),
+  accounts: RelatedAccountModel.array(),
+  sessions: RelatedSessionModel.array(),
+  reports: RelatedGameReportModel.array(),
+}))
