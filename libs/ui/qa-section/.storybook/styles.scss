@@ -1,10 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Corben:wght@700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Dangrek&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;900&display=swap');
-
-html {
-  padding: env(safe-area-inset);
-}
+@import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;900&display=swap');
 
 body {
   margin: 0;
@@ -12,8 +8,8 @@ body {
 }
 
 main {
-  min-height: 100dvh;
+  min-height: 100vh;
   height: 100%;
-  width: 100vw;
+  width: 100%;
   display: flex;
 }

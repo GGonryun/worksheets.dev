@@ -37,7 +37,7 @@ export const PostHeader: FC<PostHeaderProps> = ({
         <Typography fontWeight={700}>All Posts</Typography>
       </Button>
       <Typography
-        variant="h2"
+        variant="h1"
         sx={{
           fontSize: { xs: '2rem', sm: '3rem' },
         }}

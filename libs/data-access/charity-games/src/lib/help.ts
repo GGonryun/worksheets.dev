@@ -31,7 +31,7 @@ export const helpFaq = [
       We're also looking for teachers to help us create educational content for our website. If you're interested, please [contact us](/contact).`,
   },
   {
-    id: 'school-help',
+    id: 'charity-help',
     question: "I'm a charity. How can I help?",
     answer: `We'd love to have you on our platform! Please [contact us](/contact) for more information.
   
@@ -40,7 +40,7 @@ export const helpFaq = [
       Charities are eligible for our referral program. You will receive an affiliate link so all funds raised by your supporters will be credited to your charity. Please [contact us](/contact) for more information.`,
   },
   {
-    id: 'charity-help',
+    id: 'content-help',
     question: "I'm a content creator. How can I help?",
     answer: `We're glad you asked! As a content creator, you can help us in a number of ways:
       - Promote our platform on your stream. We have a number of assets that you can use to promote our platform on your stream. Please [contact us](/contact) for more information.

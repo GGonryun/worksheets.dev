@@ -7,7 +7,8 @@
   },
   "scripts": {
     "postinstall": "prisma generate",
-    "check": "npx nx format:check && npx nx affected -t lint --parallel=3 && npx nx affected -t test --parallel=3 --configuration=ci && npx nx affected -t build --parallel=3",
+    "check:all": "npx nx format:check && npm run check",
+    "check": "npx nx affected -t lint --parallel=3 && npx nx affected -t test --parallel=3 --configuration=ci && npx nx affected -t build --parallel=3",
     "graph": "npx nx graph",
     "tools:image-processor": "npx nx run tools-image-processor:serve",
     "tools:localip": "ifconfig -u | grep 'inet ' | grep -v 127.0.0.1 | cut -d\\  -f2 | head -1",
@@ -17,6 +18,7 @@
     "storybook:layout": "nx serve ui-layout:storybook",
     "storybook:pills": "nx serve ui-pills:storybook",
     "storybook:widgets": "nx serve ui-widgets:storybook",
+    "storybook:qa": "nx serve ui-qa-section:storybook",
     "storybook:pages:about": "nx serve ui-pages-about:storybook",
     "storybook:pages:account": "nx serve ui-pages-account:storybook",
     "storybook:pages:blog": "nx serve ui-pages-blog:storybook",

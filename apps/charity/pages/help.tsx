@@ -7,13 +7,13 @@ import { helpSeo } from '../util/seo';
 import { helpFaq } from '@worksheets/data-access/charity-games';
 
 const Page: NextPageWithLayout = () => {
-  const { query } = useRouter();
-  const id = query.id as string;
+  const { asPath } = useRouter();
+  const bookmark = asPath.split('#').at(-1);
 
   return (
     <>
       <NextSeo {...helpSeo} />
-      <HelpScreen defaultOpen={id} qa={helpFaq} />
+      <HelpScreen bookmark={bookmark} qa={helpFaq} />
       <FAQPageJsonLd
         mainEntity={helpFaq.map((data) => ({
           questionName: data.question,

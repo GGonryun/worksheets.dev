@@ -7,24 +7,6 @@ export const faq = [
       'We want to make the world a better place by using video games to raise money for charity.',
     id: 'whats-your-mission',
   },
-  {
-    question: 'Do I need an account?',
-    answer: `Creating a Charity.Games account unlocks several important features. You can:
-    <br/>
-    - Participate in raffles and giveaways.
-    - Compete on game leaderboards.
-    - Save your favorite games.
-    - Earn achievements.
-    - Vote on games and charities.
-    - Submit games to our platform.
-    <br/>
-    You can play all of our games without an account, but you won't be able to do any of the above.
-    <br/>
-    <br/>
-    [Create your account today](/signup)
-`,
-    id: 'do-i-need-an-account',
-  },
 
   {
     question: 'How does playing games raise money for charity?',
@@ -56,14 +38,11 @@ export const faq = [
   {
     question: "I don't trust you, how do I know you're legit?",
     answer: `That's understandable. We're a new organization. We'll never ask you for money, all of our services are provided for free at no expense to you, our players. Our platform aims to provide as much transparency as possible.
-    <br/>
-    <br/>
+
     Our code is publicly available on [GitHub](${urls.social.github}). 
-    <br/>
-    <br/>
+
     You can also see all of our donation receipts on our [Donations](/donations) page.
-    <br/>
-    <br/>
+   
     If you have any questions, please feel free to [contact us](/contact).`,
     id: 'i-do-not-trust-you',
   },
@@ -77,5 +56,21 @@ export const faq = [
     question: 'I found a bug, what should I do?',
     answer: `Please report it to us on our [GitHub](${urls.social.github}) page. Or visit our [Contact](/contact) page to submit an email or join our Discord.`,
     id: 'i-found-a-bug-what-should-i-do',
+  },
+  {
+    question: 'Do I need an account?',
+    answer: `Creating a Charity.Games account unlocks several important features. You can:
+    
+    - Participate in raffles and giveaways.
+    - Compete on game leaderboards.
+    - Save your favorite games.
+    - Earn achievements.
+    - Vote on games and charities.
+    - Submit games to our platform.
+
+    You can play all of our games without an account, but you won't be able to do any of the above.
+
+    [Create your account today](/signup)`,
+    id: 'do-i-need-an-account',
   },
 ];
