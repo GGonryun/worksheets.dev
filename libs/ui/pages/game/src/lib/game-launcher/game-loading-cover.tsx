@@ -1,6 +1,7 @@
 import { Box, Button, Typography } from '@mui/material';
 import { FC } from 'react';
 import {
+  DesktopAccessDisabled,
   KeyboardDoubleArrowDown,
   MobileOff,
   PlayCircleOutline,
@@ -40,6 +41,9 @@ export const GameLoadingCover: FC<GameLoadingCoverProps> = ({
     deviceOrientation === 'landscape-secondary';
 
   const supportsMobile = platforms?.includes('mobile') && isMobileOrTablet;
+  const supportsDesktop = platforms?.includes('desktop') && !isMobileOrTablet;
+
+  const showNoDesktopOverlay = !isMobileOrTablet && !supportsDesktop;
 
   const showNoMobileOverlay = isMobileOrTablet && !supportsMobile;
   const showNoPortraitOverlay =
@@ -48,7 +52,10 @@ export const GameLoadingCover: FC<GameLoadingCoverProps> = ({
     isMobileOrTablet && !orientations?.includes('landscape') && isLandscape;
 
   const showOverlays =
-    showNoMobileOverlay || showNoPortraitOverlay || showNoLandscapeOverlay;
+    showNoMobileOverlay ||
+    showNoPortraitOverlay ||
+    showNoLandscapeOverlay ||
+    showNoDesktopOverlay;
 
   return (
     <Box
@@ -90,6 +97,7 @@ export const GameLoadingCover: FC<GameLoadingCoverProps> = ({
           gap: 1,
         }}
       >
+        {showNoDesktopOverlay && <DoesNotSupportDesktopOverlay />}
         {showNoMobileOverlay && <DoesNotSupportMobileOverlay />}
         {showNoLandscapeOverlay && <DoesNotSupportLandscapeOverlay />}
         {showNoPortraitOverlay && <DoesNotSupportPortraitOverlay />}
@@ -102,12 +110,21 @@ export const GameLoadingCover: FC<GameLoadingCoverProps> = ({
   );
 };
 
+const DoesNotSupportDesktopOverlay: FC = () => (
+  <DoesNotSupportOverlay
+    PrimaryIcon={DesktopAccessDisabled}
+    SecondaryIcon={KeyboardDoubleArrowDown}
+    primary="Play something else?"
+    secondary="This game does not support computer devices."
+  />
+);
+
 const DoesNotSupportMobileOverlay: FC = () => (
   <DoesNotSupportOverlay
     PrimaryIcon={MobileOff}
     SecondaryIcon={KeyboardDoubleArrowDown}
     primary="Play something else?"
-    secondary="This game does not support mobile."
+    secondary="This game does not support mobile devices."
   />
 );
 
