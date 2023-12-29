@@ -83,8 +83,9 @@ export const DeveloperScreen: FC<DeveloperScreenProps> = ({
         my={2}
         display="grid"
         gridTemplateColumns={{
-          sm: '1fr',
-          lg: 'repeat(2, 1fr)',
+          xs: '100%',
+          sm: 'repeat(2, 50%)',
+          lg: 'repeat(3, 33%)',
         }}
       >
         {games.map((d) => (
