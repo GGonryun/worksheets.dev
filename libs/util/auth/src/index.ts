@@ -8,6 +8,7 @@ import { AuthOptions } from 'next-auth';
 import { randomBetween } from '@worksheets/util/numbers';
 
 const {
+  VERCEL_ENV,
   GITHUB_CLIENT_ID,
   GITHUB_CLIENT_SECRET,
   GOOGLE_CLIENT_ID,
@@ -85,7 +86,8 @@ const AUTH_OPTIONS: AuthOptions = {
     sessionToken: {
       name: `next-auth.session-token`,
       options: {
-        httpOnly: true,
+        // httpOnly for local development
+        httpOnly: VERCEL_ENV === 'development',
         sameSite: 'lax',
         path: '/',
         // support subdomains in production and local development
