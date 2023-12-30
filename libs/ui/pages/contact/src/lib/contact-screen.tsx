@@ -42,7 +42,7 @@ const EmailUsSection: FC = () => (
       <Button
         variant="contained"
         color="error"
-        href={urls.email.support}
+        href={`mailto:${urls.email.support}`}
         startIcon={<EmailOutlined />}
         sx={{
           fontWeight: 900,

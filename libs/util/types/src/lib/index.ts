@@ -10,3 +10,4 @@ export * from './game-qualifier';
 export * from './game-definition';
 export * from './recently-played-schema';
 export * from './user-vote-schema';
+export * from './website-statistics';

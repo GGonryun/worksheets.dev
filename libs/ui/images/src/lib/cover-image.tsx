@@ -7,6 +7,7 @@ export const CoverImage: FC<
   return (
     <Image
       priority={priority}
+      title={alt}
       alt={alt}
       src={src}
       sizes="100%"

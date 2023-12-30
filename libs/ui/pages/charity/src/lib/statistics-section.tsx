@@ -1,11 +1,11 @@
 import { Box, Divider, Link, Typography, styled } from '@mui/material';
 import { FC } from 'react';
 import { CustomPaper } from './custom-paper';
-import { CharityScreenProps } from './charity-screen';
+import { GamePopularityStatistics } from '@worksheets/util/types';
 
-export type StatisticsSectionProps = CharityScreenProps['statistics'];
+export type StatisticsSectionProps = GamePopularityStatistics;
 
-export const StatisticsSection: FC<StatisticsSectionProps> = ({
+export const StatisticsSection: FC<Partial<GamePopularityStatistics>> = ({
   countries,
   games,
   players,
@@ -18,7 +18,7 @@ export const StatisticsSection: FC<StatisticsSectionProps> = ({
             Top Countries
           </Typography>
           <Divider sx={{ my: 1 }} />
-          {countries.map(({ name, hours }, index) => (
+          {countries?.map(({ name, percent }, index) => (
             <Box
               key={name}
               display="flex"
@@ -28,7 +28,7 @@ export const StatisticsSection: FC<StatisticsSectionProps> = ({
               <Typography variant="body1">
                 {index + 1}. {name}
               </Typography>
-              <Typography variant="body2">{hours} hours</Typography>
+              <Typography variant="body2">{percent}%</Typography>
             </Box>
           ))}
         </Box>
@@ -38,7 +38,7 @@ export const StatisticsSection: FC<StatisticsSectionProps> = ({
             Most Popular Games
           </Typography>
           <Divider sx={{ my: 1 }} />
-          {games.map(({ name, id, plays }, index) => (
+          {games?.map(({ name, id, plays }, index) => (
             <Box
               key={name}
               display="flex"
@@ -58,7 +58,7 @@ export const StatisticsSection: FC<StatisticsSectionProps> = ({
       >
         <PlayerStatisticBox>
           <Typography variant="h6">New Players</Typography>
-          <Typography variant="h1">{players.new}</Typography>
+          <Typography variant="h1">{players?.new ?? '??'}</Typography>
           <Typography
             variant="body2"
             maxWidth={250}
@@ -82,7 +82,7 @@ export const StatisticsSection: FC<StatisticsSectionProps> = ({
         />
         <PlayerStatisticBox>
           <Typography variant="h6">Returning Players</Typography>
-          <Typography variant="h1">{players.returning}</Typography>
+          <Typography variant="h1">{players?.returning ?? '??'}</Typography>
           <Typography
             variant="body2"
             maxWidth={250}

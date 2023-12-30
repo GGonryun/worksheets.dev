@@ -13,7 +13,7 @@ import {
   SOLITAIRE_URL,
 } from '@worksheets/util/env';
 
-const gameMonetizeGames: GameMonetizeSchema[] = [
+export const gameMonetizeGames: GameMonetizeSchema[] = [
   {
     id: '21782',
     title: 'Plants vs Zombies',

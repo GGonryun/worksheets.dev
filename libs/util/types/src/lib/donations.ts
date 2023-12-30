@@ -1,5 +1,3 @@
-import { MarkdownText } from '@worksheets/ui-core';
-
 export type DonationReceipt = {
   date: Date;
   organizationId: string;
@@ -11,8 +9,8 @@ export type CharityOrganization = {
   id: string;
   name: string;
   bannerSrc: string;
-  caption: MarkdownText;
-  description: MarkdownText;
+  caption: string;
+  description: string;
   url: string;
   category: string;
 };
@@ -24,10 +22,5 @@ export type CharityCampaign = {
     current: number;
     games: number;
     players: number;
-  };
-  statistics: {
-    countries: { name: string; hours: number }[];
-    games: { id: string; name: string; plays: number }[];
-    players: { new: number; returning: number };
   };
 };

@@ -10,3 +10,4 @@ export * from './lib/donations';
 export * from './lib/campaigns';
 export * from './lib/partnerships';
 export * from './lib/advertisements';
+export * from './lib/popularity';

@@ -18,12 +18,12 @@ export type OpenGraphProps = NonNullable<NextSeoProps['openGraph']>;
 export const defaultSeo: DefaultSeoProps = {
   title: 'Charity Games',
   description:
-    'On Charity Games you can play free online HTML browser games and microgames. Every play donates money to charitable causes. Play alone or with friends. We support mobile and desktop.',
+    'On Charity Games you can play free online HTML browser games and microgames. Every play donates money to charitable causes. We support mobile and desktop.',
   openGraph: {
     type: 'website',
     siteName: 'Charity Games',
     description:
-      'On Charity Games you can play free online HTML browser games and microgames. Every play donates money to charitable causes. Play alone or with friends. We support mobile and desktop.',
+      'On Charity Games you can play free online HTML browser games and microgames. Every play donates money to charitable causes. We support mobile and desktop.',
     images: [
       {
         url: 'https://www.charity.games/og-image.png',
@@ -50,7 +50,7 @@ export const aboutSeo = createSeo({
   siteName: 'Charity Games | About',
   title: 'Charity Games - About Us',
   description:
-    'Charity Games provides access to free online HTML browser games. Every game donates money to charitable causes. We support mobile and desktop games. Play your favorite games and help make the world a better place.',
+    'Charity Games provides access to free online HTML browser games. Every game donates money to charitable causes. Play your favorite games and help make the world a better place.',
 });
 
 export const homeSeo = createSeo({
@@ -58,7 +58,7 @@ export const homeSeo = createSeo({
   siteName: 'Charity Games',
   title: 'Charity Games - Free Online Games that Support Charity',
   description:
-    'On Charity Games you can play free online HTML browser games that donate money to charitable causes. Play alone or with friends. We support mobile and desktop games.',
+    'On Charity Games you can play free online HTML browser games that donate money to charitable causes. Play your favorite mobile and desktop games.',
 });
 
 export const charitySeo = createSeo({

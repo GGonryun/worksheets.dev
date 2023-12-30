@@ -1,7 +1,8 @@
 const urls = {
   charityGames: process.env['NEXT_PUBLIC_CHARITY_GAMES_BASE_URL'],
   email: {
-    support: 'mailto:support@charity.games',
+    admin: 'admin@charity.games',
+    support: 'support@charity.games',
   },
   forms: {
     submission: 'https://forms.gle/J8B542yAduanvZSf6',
@@ -17,9 +18,9 @@ const urls = {
   },
   social: {
     reddit: `https://www.reddit.com/user/ggonryun/`,
-    linkedIn: `https://www.linkedin.com/in/miguel-campos-5b1114172/`,
-    twitter: `https://twitter.com/CharityGamesGo`,
-    facebook: `https://www.facebook.com/`,
+    linkedIn: `https://www.linkedin.com/company/charity-games`,
+    twitter: `https://twitter.com/charitydotgames`,
+    facebook: `https://www.facebook.com/profile.php?id=61554655570040`,
     github: `https://github.com/ggonryun/worksheets.dev`,
     discord: `https://discord.gg/Auatjee2BZ`,
   },

@@ -1,5 +1,6 @@
 import type { Meta } from '@storybook/react';
 import { ContributionScreen } from './contribution-screen';
+import { fakeWebsiteStatistics } from '@worksheets/ui/mocks';
 
 const Story: Meta<typeof ContributionScreen> = {
   component: ContributionScreen,
@@ -20,5 +21,7 @@ const Story: Meta<typeof ContributionScreen> = {
 export default Story;
 
 export const Primary = {
-  args: {},
+  args: {
+    statistics: fakeWebsiteStatistics,
+  },
 };

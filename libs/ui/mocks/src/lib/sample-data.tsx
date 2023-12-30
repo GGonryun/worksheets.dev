@@ -1,12 +1,22 @@
 import { MixedGridItem } from '@worksheets/ui/game-grid';
 import { MarkdownMetadata } from '@worksheets/util-markdown';
 import {
+  BasicWebsiteStatistics,
   BlogAuthor,
   CharityOrganization,
   GameDefinition,
   GameIcon,
+  GamePopularityStatistics,
   Recommendations,
 } from '@worksheets/util/types';
+
+export const fakeWebsiteStatistics: BasicWebsiteStatistics = {
+  donatedGames: 10,
+  uniquePlayers: 500,
+  totalGamePlays: 1000,
+  weeklyImpressions: 5000,
+  uniqueGames: 30,
+};
 
 export const sampleMixedGridItems = () => [
   ...Array.from({ length: 3 }).map((_, i) => ({
@@ -224,4 +234,32 @@ export const sampleCharityOrganization: CharityOrganization = {
   url: 'https://water.org/',
   category: 'Water and Sanitation',
   id: 'water-org',
+};
+
+export const sampleGamePopularityStatistics: GamePopularityStatistics = {
+  countries: [
+    { name: 'United States', percent: 70 },
+    { name: 'United Kingdom', percent: 4 },
+    { name: 'India', percent: 4 },
+    { name: 'Germany', percent: 2 },
+    { name: 'Argentina', percent: 1 },
+    { name: 'Canada', percent: 1 },
+    { name: 'Pakistan', percent: 1 },
+    { name: 'Brazil', percent: 1 },
+    { name: 'France', percent: 1 },
+    { name: 'Netherlands', percent: 1 },
+  ],
+  games: [
+    { id: 'puzzle-words', name: 'Puzzle Words', plays: 128 },
+    { id: 'word-search', name: 'Word Search', plays: 68 },
+    { id: 'emoji-war', name: 'Emoji War', plays: 31 },
+    { id: 'solitaire', name: 'Solitaire', plays: 29 },
+    { id: 'word-pack', name: 'Word Pack', plays: 28 },
+    { id: 'word-smith', name: 'Word Smith', plays: 11 },
+    { id: 'nonograms', name: 'Nonograms', plays: 6 },
+  ],
+  players: {
+    new: 512,
+    returning: 43,
+  },
 };

@@ -12,6 +12,7 @@ export const ResponsiveImage: FC<
       placeholder={placeholder}
       blurDataURL={blurDataURL}
       priority={priority}
+      title={alt}
       alt={alt}
       src={src}
       width={0}

@@ -1,4 +1,4 @@
-import Box from '@mui/material/Box';
+import Box, { BoxProps } from '@mui/material/Box';
 import ButtonBase from '@mui/material/ButtonBase';
 import IconButton from '@mui/material/IconButton';
 import LinkIcon from '@mui/icons-material/Link';
@@ -14,6 +14,7 @@ export type QuestionAnswerBoxProps = {
   answer: string;
   id: string;
   onOpen: () => void;
+  markdownSx?: BoxProps['sx'];
 };
 
 export const QuestionAnswerBox: FC<QuestionAnswerBoxProps> = ({
@@ -22,6 +23,7 @@ export const QuestionAnswerBox: FC<QuestionAnswerBoxProps> = ({
   answer,
   id,
   onOpen,
+  markdownSx,
 }) => {
   const [show, setShow] = useState(false);
 
@@ -85,7 +87,7 @@ export const QuestionAnswerBox: FC<QuestionAnswerBoxProps> = ({
           m={2}
           mt={0}
         >
-          <Markdown text={answer} />
+          <Markdown text={answer} sx={markdownSx} />
         </Typography>
       </Collapse>
     </Box>
