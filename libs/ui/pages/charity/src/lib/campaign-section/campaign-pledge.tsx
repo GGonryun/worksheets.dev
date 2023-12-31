@@ -19,8 +19,8 @@ import { CharityScreenProps } from '../charity-screen';
 import { Discord } from '@worksheets/ui/icons';
 
 export const CampaignPledge: FC<
-  Pick<CharityScreenProps, 'pledge' | 'charity'>
-> = ({ charity, pledge }) => (
+  Pick<CharityScreenProps, 'pledge' | 'charity' | 'statistics'>
+> = ({ charity, pledge, statistics }) => (
   <Box
     sx={{
       mt: 1,
@@ -41,11 +41,15 @@ export const CampaignPledge: FC<
       <SecondaryText>raised of ${pledge.required} goal</SecondaryText>
     </Box>
     <Box>
-      <PrimaryText color="text.secondary">{pledge.games}</PrimaryText>
+      <PrimaryText color="text.secondary">
+        {statistics?.uniqueGames ?? '??'}
+      </PrimaryText>
       <SecondaryText>unique games played</SecondaryText>
     </Box>
     <Box>
-      <PrimaryText color="text.secondary">{pledge.players}</PrimaryText>
+      <PrimaryText color="text.secondary">
+        {(statistics?.players.new ?? 0) + (statistics?.players.returning ?? 0)}
+      </PrimaryText>
       <SecondaryText>total players</SecondaryText>
     </Box>
     <Box display="flex" flexDirection="column" gap={2}>

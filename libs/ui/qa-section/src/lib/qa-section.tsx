@@ -1,11 +1,8 @@
 import Box, { BoxProps } from '@mui/material/Box';
 import { FC, useEffect, useState } from 'react';
 import { QuestionAnswerBox } from './qa-box';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import Link from '@mui/material/Link';
-
-export type QuestionAnswer = { question: string; answer: string; id: string };
+import { QuestionAnswer } from '@worksheets/util/types';
+import { StickyContactBox } from './sticky-contact-box';
 
 export type QuestionAnswerSectionProps = {
   qa: QuestionAnswer[];
@@ -57,49 +54,7 @@ export const QuestionAnswerSection: FC<QuestionAnswerSectionProps> = ({
           />
         ))}
       </Box>
-      <Box
-        sx={{
-          position: { xs: 'block', sm: 'sticky' },
-          top: 80,
-          bottom: 0,
-          height: 'fit-content',
-          paddingLeft: { xs: 0, sm: 2 },
-          borderLeft: (theme) => ({
-            xs: 'none',
-            sm: `3px solid ${theme.palette.divider}`,
-          }),
-        }}
-      >
-        <Typography variant="body2">
-          Don't see your question here? Ask us anything, we're here to help!
-        </Typography>
-        <Button
-          variant="contained"
-          fullWidth
-          sx={{
-            borderRadius: 8,
-            mt: 2,
-            textTransform: 'none',
-            fontWeight: 700,
-            fontFamily: (theme) => theme.typography.body1.fontFamily,
-          }}
-        >
-          Contact Us
-        </Button>
-        {!hideFAQRedirect && (
-          <Link href="/faq">
-            <Typography
-              variant="body2"
-              sx={{
-                mt: 2,
-                textAlign: { xs: 'center', sm: 'left' },
-              }}
-            >
-              Frequently Asked Questions
-            </Typography>
-          </Link>
-        )}
-      </Box>
+      <StickyContactBox hideFAQRedirect={hideFAQRedirect} />
     </Box>
   );
 };

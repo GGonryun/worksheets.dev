@@ -1,13 +1,14 @@
 import { publicProcedure } from '../../procedures';
 import { gamePopularityStatisticsSchema } from '@worksheets/util/types';
 import {
-  gamePopularityStatistics,
+  popularityStatisticsTemplate,
   games,
 } from '@worksheets/data-access/charity-games';
 
 export default publicProcedure
   .output(gamePopularityStatisticsSchema)
   .query(async ({ ctx: { db } }) => {
+    const uniqueGames = await db.gamePlay.count();
     const gamePlayStatistics = await db.gamePlay.findMany({
       take: 10,
       orderBy: {
@@ -36,7 +37,8 @@ export default publicProcedure
     console.info(`found game stats for ${gameStats.length} games`);
 
     return {
-      ...gamePopularityStatistics,
+      ...popularityStatisticsTemplate,
       games: gameStats,
+      uniqueGames,
     };
   });

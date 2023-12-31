@@ -4,3 +4,4 @@ export * from './charity-book';
 export * from './charity-box';
 export * from './charity-water';
 export * from './charity-group';
+export * from './charity-phone';

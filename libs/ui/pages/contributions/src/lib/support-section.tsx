@@ -2,7 +2,6 @@ import Box from '@mui/material/Box';
 import { RedirectBox } from './redirect-box';
 import Paper from '@mui/material/Paper';
 import { CharityBook, CharityBox, CharityWater } from '@worksheets/ui/icons';
-import urls from '@worksheets/util/urls';
 import { TitleText } from './title-text';
 
 export const SupportSection = () => (
@@ -44,8 +43,7 @@ export const SupportSection = () => (
         description="Donate a game to our platform and help us make a difference."
         Icon={CharityBox}
         action={{
-          href: urls.forms.submission,
-          target: '_blank',
+          href: '/contribute/submit',
           label: 'Submit a game',
           variant: 'contained',
         }}

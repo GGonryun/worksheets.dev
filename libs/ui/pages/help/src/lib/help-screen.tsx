@@ -1,9 +1,7 @@
 import { Container, Paper, Typography } from '@mui/material';
 import { FC } from 'react';
-import {
-  QuestionAnswer,
-  QuestionAnswerSection,
-} from '@worksheets/ui/qa-section';
+import { QuestionAnswerSection } from '@worksheets/ui/qa-section';
+import { QuestionAnswer } from '@worksheets/util/types';
 
 export type HelpScreenProps = {
   bookmark?: string;

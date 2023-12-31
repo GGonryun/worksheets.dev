@@ -18,6 +18,7 @@ export const gamePopularityStatisticsSchema = z.object({
     z.object({ id: z.string(), name: z.string(), plays: z.number() })
   ),
   players: z.object({ new: z.number(), returning: z.number() }),
+  uniqueGames: z.number(),
 });
 
 export type GamePopularityStatistics = z.infer<

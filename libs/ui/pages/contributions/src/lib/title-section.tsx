@@ -4,10 +4,9 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import { RoundedButton } from './rounded-button';
-import { styled } from '@mui/material/styles';
-import urls from '@worksheets/util/urls';
 import { FC } from 'react';
 import { BasicWebsiteStatistics } from '@worksheets/util/types';
+import { IconBox } from './icon-box';
 
 export const TitleSection: FC<{ statistics?: BasicWebsiteStatistics }> = ({
   statistics,
@@ -55,18 +54,10 @@ export const TitleSection: FC<{ statistics?: BasicWebsiteStatistics }> = ({
       <RoundedButton
         variant="contained"
         color="error"
-        href={urls.forms.submission}
-        target="_blank"
+        href={'/contribute/submit'}
       >
         Submit a game
       </RoundedButton>
     </Box>
   </Paper>
 );
-
-const IconBox = styled(Box)(({ theme }) => ({
-  marginTop: theme.spacing(1),
-  display: 'flex',
-  gap: theme.spacing(2),
-  alignItems: 'center',
-}));

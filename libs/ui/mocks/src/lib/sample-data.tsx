@@ -262,4 +262,5 @@ export const sampleGamePopularityStatistics: GamePopularityStatistics = {
     new: 512,
     returning: 43,
   },
+  uniqueGames: 7,
 };

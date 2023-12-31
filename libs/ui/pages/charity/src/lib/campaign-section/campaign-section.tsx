@@ -6,10 +6,14 @@ import { CampaignHeader } from './campaign-header';
 import { CampaignImage } from './campaign-image';
 import { CampaignPledge } from './campaign-pledge';
 import { CampaignFooter } from './campaign-footer';
+import { GamePopularityStatistics } from '@worksheets/util/types';
 
 export const CampaignSection: FC<
-  Pick<CharityScreenProps, 'charity' | 'pledge'> & { pollUrl: string }
-> = ({ charity, pledge, pollUrl }) => (
+  Pick<CharityScreenProps, 'charity' | 'pledge'> & {
+    pollUrl: string;
+    statistics?: GamePopularityStatistics;
+  }
+> = ({ charity, pledge, pollUrl, statistics }) => (
   <Box>
     <CustomPaper
       sx={{
@@ -31,7 +35,11 @@ export const CampaignSection: FC<
         }}
       >
         <CampaignImage charity={charity} />
-        <CampaignPledge pledge={pledge} charity={charity} />
+        <CampaignPledge
+          pledge={pledge}
+          charity={charity}
+          statistics={statistics}
+        />
       </Box>
     </CustomPaper>
     <CustomPaper

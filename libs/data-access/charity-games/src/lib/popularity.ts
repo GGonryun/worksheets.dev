@@ -1,6 +1,6 @@
 import { GamePopularityStatistics } from '@worksheets/util/types';
 
-export const gamePopularityStatistics: GamePopularityStatistics = {
+export const popularityStatisticsTemplate: GamePopularityStatistics = {
   countries: [
     { name: 'United States', percent: 70 },
     { name: 'United Kingdom', percent: 4 },
@@ -26,4 +26,5 @@ export const gamePopularityStatistics: GamePopularityStatistics = {
     new: 512,
     returning: 43,
   },
+  uniqueGames: 0,
 };

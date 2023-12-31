@@ -94,7 +94,9 @@ const convertLinks = (text: string) => {
 };
 
 const convertHeaders = (text: string) => {
-  return text.replace(/(#+)(.*)/g, '<h1>$2</h1>');
+  // only convert header 1 if it has a space before and after the #
+  // this is to prevent converting # in other places like links
+  return text.replace(/(\s#)(.*)/g, '<h1>$2</h1>');
 };
 
 const convertHeader2 = (text: string) => {

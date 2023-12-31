@@ -5,7 +5,6 @@ import { DevelopersSection } from './developers-section';
 import { QuestionsSection } from './questions-section';
 import { BasicWebsiteStatistics } from '@worksheets/util/types';
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface ContributionScreenProps {
   statistics?: BasicWebsiteStatistics;
 }

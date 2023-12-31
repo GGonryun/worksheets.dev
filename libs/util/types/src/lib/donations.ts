@@ -20,7 +20,5 @@ export type CharityCampaign = {
   pledge: {
     required: number;
     current: number;
-    games: number;
-    players: number;
   };
 };

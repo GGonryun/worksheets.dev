@@ -317,7 +317,7 @@ export const CharityPage = {
       <CharityScreen
         {...{
           charity: sampleCharityOrganization,
-          pledge: { required: 100, current: 30, games: 7, players: 55 },
+          pledge: { required: 100, current: 30 },
           statistics: sampleGamePopularityStatistics,
         }}
       />

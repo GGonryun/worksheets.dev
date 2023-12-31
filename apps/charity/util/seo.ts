@@ -224,3 +224,10 @@ export const contributeSeo = createSeo({
   title: `Charity Games - Developer Contributions`,
   description: `Learn how to contribute to Charity Games. Help us make a difference. Turn your games into donations.`,
 });
+
+export const submitGameSeo = createSeo({
+  siteName: `Charity Games | Submit Game`,
+  url: `https://www.charity.games/contribute/submit`,
+  title: `Charity Games - Submit a Game`,
+  description: `Learn how to submit a game to Charity Games. Help us make a difference. Turn your games into donations.`,
+});

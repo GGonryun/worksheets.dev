@@ -34,7 +34,12 @@ export const CharityScreen: FC<CharityScreenProps> = ({
       }}
     >
       <TitleSection />
-      <CampaignSection charity={charity} pledge={pledge} pollUrl={pollUrl} />
+      <CampaignSection
+        charity={charity}
+        pledge={pledge}
+        statistics={statistics}
+        pollUrl={pollUrl}
+      />
       <StatisticsSection {...statistics} />
       <CharityDescription description={charity.description} />
     </Container>

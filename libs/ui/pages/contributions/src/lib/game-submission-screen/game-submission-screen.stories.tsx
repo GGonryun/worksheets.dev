@@ -1,9 +1,8 @@
 import type { Meta } from '@storybook/react';
-import { ContributionScreen } from './contribution-screen';
-import { fakeWebsiteStatistics } from '@worksheets/ui/mocks';
+import { GameSubmissionScreen } from './game-submission-screen';
 
-const Story: Meta<typeof ContributionScreen> = {
-  component: ContributionScreen,
+const Story: Meta<typeof GameSubmissionScreen> = {
+  component: GameSubmissionScreen,
   decorators: [
     (Story) => (
       <div
@@ -21,6 +20,14 @@ export default Story;
 
 export const Primary = {
   args: {
-    statistics: fakeWebsiteStatistics,
+    invalidProfile: false,
+    formErrors: {},
+  },
+};
+
+export const InvalidProfile = {
+  args: {
+    invalidProfile: true,
+    formErrors: {},
   },
 };

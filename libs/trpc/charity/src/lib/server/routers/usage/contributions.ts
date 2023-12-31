@@ -24,8 +24,6 @@ export default publicProcedure
       return a + gp.total;
     }, 0);
 
-    console.log('totalGamePlays', totalGamePlays);
-
     return {
       donatedGames: allGames - countGameMonetizeGames,
       totalGamePlays: totalGamePlays,

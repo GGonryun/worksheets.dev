@@ -68,7 +68,7 @@ const CustomBox: FC<{ href: string; children: ReactNode }> = ({
         position: 'relative',
         borderRadius: 4,
         overflow: 'hidden',
-        transform: hover ? 'scale(1.1)' : 'scale(1)',
+        transform: hover ? 'scale(1.05)' : 'scale(1)',
         boxShadow: (theme) => theme.shadows[hover ? 5 : 2],
         transition: (theme) =>
           theme.transitions.create(['box-shadow', 'transform'], {

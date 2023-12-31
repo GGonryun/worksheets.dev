@@ -5,6 +5,7 @@ export const helpFaq = [
     id: 'developer-help',
     question: "I'm a developer. How can I help?",
     answer: `We're glad you asked! As a developer, you can help us in a number of ways:
+
         - Add your game to our platform. We're always looking for new games to add to our platform. If you have a game that you'd like to add, please use our [contribution portal](/contribute).
         - Help us improve our platform. We're always looking for ways to improve our platform. If you have any suggestions, please [contact us](/contact).
         - Help us fix bugs. If you find a bug, please file a bug report on our [GitHub repository](${urls.social.github}).`,
@@ -13,6 +14,7 @@ export const helpFaq = [
     id: 'player-help',
     question: "I'm a player. How can I help?",
     answer: `We're glad you asked! As a player, you can help us in a number of ways:
+
         - Play games on our platform. The more games you play, the more money we can raise for charity.
         - Help us spread the word. The more people that know about our platform, the more money we can raise for charity. If you have a following on social media, please consider sharing our platform with your followers.
         - Share your feedback. We're always looking for ways to improve our platform. If you have any suggestions, please [contact us](/contact).`,
@@ -43,6 +45,7 @@ export const helpFaq = [
     id: 'content-help',
     question: "I'm a content creator. How can I help?",
     answer: `We're glad you asked! As a content creator, you can help us in a number of ways:
+
       - Promote our platform on your stream. We have a number of assets that you can use to promote our platform on your stream. Please [contact us](/contact) for more information.
       - Help us spread the word. The more people that know about our platform, the more money we can raise for charity. If you have a following on social media, please consider sharing our platform with your followers.
       - All content creator get a free shirt if they raise at least $100 for charity. Please [contact us](/contact) to learn more!`,
@@ -51,6 +54,7 @@ export const helpFaq = [
     id: 'professional-help',
     question: "I'm a professional. How can I help?",
     answer: `We're glad you asked! Depending on what skills you have, you can help us in a number of ways:
+
       - If you're a graphic designer, you can help us design our website and marketing materials.
       - If you're a web developer, you can help us improve our platform.
       - If you're a lawyer, you can help us with our legal documents.
@@ -62,6 +66,7 @@ export const helpFaq = [
     id: 'student-help',
     question: "I'm a student. How can I help?",
     answer: `You should be focusing on your studies! But if you have some free time, you can help us in a number of ways:
+
       - Depending on what skills you have, you can help us in the same ways that professionals can help us. See the answer to the previous question for more information.
       - If you're a student in a computer science program, you can help us add new games to our platform.
       - If you can promote our platform on your campus, you can help us spread the word. 
@@ -71,6 +76,7 @@ export const helpFaq = [
     id: 'parent-help',
     question: "I'm a parent. How can I help?",
     answer: `We're glad you asked! As a parent, you can help us in a number of ways:
+
       - If you have a child that's a student, you can encourage them to help us. See the answer to the previous question for more information.
       - If you want to become an ambassador for your child's school, please [contact us](/contact) for a free shirt and other perks.
       - If you are a professional, you can help us in the same ways that professionals can help us. See the answer to the question about professionals for more information.
@@ -80,6 +86,7 @@ export const helpFaq = [
     id: 'sponsor-help',
     question: "I'm a sponsor. How can I help?",
     answer: `We're glad you asked! As a sponsor, you can help us in a number of ways:
+
       - Donate money to our current campaign. You can make direct contributions to our current campaign [here](/charity) or you can donate to our charity of the month [here](/charity).
       - Tell your friends about us. The more people that know about our platform, the more money we can raise for charity. If you have a following on social media, please consider sharing our platform with your followers.
       - Sponsor our platform. We're always looking for sponsors to help us cover our operating costs. If you're interested in sponsoring our platform, please [contact us](/contact).`,
@@ -88,6 +95,7 @@ export const helpFaq = [
     id: 'wealthy-help',
     question: 'I have a lot of money. How can I help?',
     answer: `We're glad you asked! As a wealthy individual, you can help us in a number of ways:
+    
       - Donate money to our current campaign. You can make direct contributions to our current campaign [here](/charity) or you can donate to our charity of the month [here](/charity).
       - Tell your millionaire buddies about us. The more people that know about our platform, the more money we can raise for charity. If you have a following on social media, please consider sharing our platform with your followers.
       - Sponsor our platform. We're always looking for sponsors to help us cover our operating costs. If you're interested in sponsoring our platform, please [contact us](/contact).`,

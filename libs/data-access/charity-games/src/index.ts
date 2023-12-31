@@ -11,3 +11,4 @@ export * from './lib/campaigns';
 export * from './lib/partnerships';
 export * from './lib/advertisements';
 export * from './lib/popularity';
+export * from './lib/contribution-faq';
