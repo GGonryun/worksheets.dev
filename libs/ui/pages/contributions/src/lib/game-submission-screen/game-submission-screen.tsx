@@ -24,13 +24,12 @@ const CustomPaper = styled(Paper)(({ theme }) => ({
 
 export const GameSubmissionScreen: FC<{
   invalidProfile: boolean;
-  formErrors: Record<string, string>;
-}> = ({ invalidProfile, formErrors }) => {
+}> = ({ invalidProfile }) => {
   return (
     <CustomContainer maxWidth="lg">
       <CustomPaper>
         <SubmissionHeader invalidProfile={invalidProfile} />
-        <SubmitGameForm errors={formErrors} />
+        <SubmitGameForm />
       </CustomPaper>
     </CustomContainer>
   );

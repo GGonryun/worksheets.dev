@@ -1,0 +1,71 @@
+import FormControl from '@mui/material/FormControl';
+import { FormFields, useFormContext } from '../../context';
+import InputLabel from '@mui/material/InputLabel';
+import { labelFor } from '@worksheets/util/misc';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import ListItemText from '@mui/material/ListItemText';
+import FormHelperText from '@mui/material/FormHelperText';
+
+export const gameCategories: Record<FormFields['category'], string> = {
+  action: 'Action',
+  adventure: 'Adventure',
+  arcade: 'Arcade',
+  board: 'Board',
+  card: 'Card',
+  educational: 'Educational',
+  fighting: 'Fighting',
+  idle: 'Idle',
+  novel: 'Novel',
+  platformer: 'Platformer',
+  puzzle: 'Puzzle',
+  racing: 'Racing',
+  rhythm: 'Rhythm',
+  'role-playing': 'Role Playing',
+  shooter: 'Shooter',
+  simulation: 'Simulation',
+  sports: 'Sports',
+  strategy: 'Strategy',
+  survival: 'Survival',
+  trivia: 'Trivia',
+  word: 'Word',
+};
+
+export const CategorySelectField = () => {
+  const { values, errors, setFieldValue } = useFormContext();
+
+  const id = 'category';
+  const label = 'Category';
+
+  const value = values[id];
+  const error = errors[id];
+
+  return (
+    <FormControl fullWidth>
+      <InputLabel size="small" id={labelFor(id)} error={Boolean(error)}>
+        {label}
+      </InputLabel>
+      <Select
+        id={id}
+        labelId={labelFor(id)}
+        error={Boolean(error)}
+        size="small"
+        label={label}
+        defaultValue={'automatic'}
+        value={value ?? ''}
+        onChange={(e) =>
+          setFieldValue(id, e.target.value as FormFields['category'])
+        }
+      >
+        {Object.entries(gameCategories).map(([key, value]) => (
+          <MenuItem dense value={key}>
+            <ListItemText primary={value} />
+          </MenuItem>
+        ))}
+      </Select>
+      <FormHelperText error={Boolean(error)}>
+        {error || 'The primary category of your game, max 50 characters'}
+      </FormHelperText>
+    </FormControl>
+  );
+};

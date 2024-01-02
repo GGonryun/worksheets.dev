@@ -21,13 +21,11 @@ export default Story;
 export const Primary = {
   args: {
     invalidProfile: false,
-    formErrors: {},
   },
 };
 
 export const InvalidProfile = {
   args: {
     invalidProfile: true,
-    formErrors: {},
   },
 };

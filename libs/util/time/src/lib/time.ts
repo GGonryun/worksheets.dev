@@ -1,4 +1,19 @@
 /**
+ * Create a timestamp in milliseconds relative to UTC time from a specific date, month, year, hour, minute, and second, and millisecond.
+ */
+export function createTimestamp(
+  year: number,
+  month: number,
+  date: number,
+  hour = 0,
+  minute = 0,
+  second = 0,
+  millisecond = 0
+) {
+  return Date.UTC(year, month - 1, date, hour, minute, second, millisecond);
+}
+
+/**
  * checks if a timestamp is older than `against` timestamp
  * @param timestamp
  * @param against
@@ -15,7 +30,7 @@ export function convertMillisecondsToSeconds(milliseconds: number): number {
   return Math.round(milliseconds / 1000);
 }
 
-export const printDate = (stamp: string | Date, locale = 'en-US') => {
+export const printDate = (stamp: string | Date | number, locale = 'en-US') => {
   const options: Intl.DateTimeFormatOptions = {
     weekday: 'long',
     year: 'numeric',
@@ -26,6 +41,109 @@ export const printDate = (stamp: string | Date, locale = 'en-US') => {
   const date = new Date(stamp);
 
   return date.toLocaleDateString(locale, options);
+};
+
+export const printDateLong = (
+  stamp: string | Date | number,
+  locale = 'en-US'
+) => {
+  const options: Intl.DateTimeFormatOptions = {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    second: 'numeric',
+  };
+
+  const date = new Date(stamp);
+
+  return date.toLocaleDateString(locale, options);
+};
+
+/**
+ * @name printRelativeDate
+ * @description prints a relative date like "2 days ago at 2:30 PM"
+ * @param stamp the date to print
+ * @param locale the locale to print in
+ * @returns a string of the relative date
+ * @example printRelativeDate(new Date()) // "Today at 2:30 PM"
+ * @example printRelativeDate(new Date(Date.now() - 86400000)) // "Yesterday at 2:30 PM"
+ * @example printRelativeDate(new Date(Date.now() - 86400000 * 2)) // "2 days ago at 2:30 PM"
+ * @example printRelativeDate(new Date(Date.now() - 86400000 * 7)) // "Last week at 2:30 PM"
+ * @example printRelativeDate(new Date(Date.now() - 86400000 * 7 * 2)) // "2 weeks ago at 2:30 PM"
+ * @example printRelativeDate(new Date(Date.now() - 86400000 * 30)) // "Last month at 2:30 PM"
+ * @example printRelativeDate(new Date(Date.now() - 86400000 * 30 * 2)) // "2 months ago at 2:30 PM"
+ * @example printRelativeDate(new Date(Date.now() - 86400000 * 365)) // "Last year at 2:30 PM"
+ *
+ * @todo we're currently estimating months as 30 days and years as 365 days, this is not accurate.
+ */
+export const printRelativeDate = (
+  stamp: string | Date | number,
+  locale = 'en-US',
+  now = new Date()
+) => {
+  const options: Intl.DateTimeFormatOptions = {
+    hour: 'numeric',
+    minute: 'numeric',
+  };
+
+  const date = new Date(stamp);
+
+  const diffInMilliseconds = now.getTime() - date.getTime();
+  const diffInMinutes = Math.round(diffInMilliseconds / (1000 * 60));
+  const diffInHours = Math.round(diffInMilliseconds / (1000 * 60 * 60));
+  const diffInDays = Math.round(diffInMilliseconds / (1000 * 60 * 60 * 24));
+  const diffInWeeks = Math.round(
+    diffInMilliseconds / (1000 * 60 * 60 * 24 * 7)
+  );
+  const diffInMonths = Math.round(
+    diffInMilliseconds / (1000 * 60 * 60 * 24 * 30)
+  );
+  const diffInYears = Math.round(
+    diffInMilliseconds / (1000 * 60 * 60 * 24 * 365)
+  );
+
+  if (diffInMinutes < 60) {
+    return `${diffInMinutes} minutes ago at ${date.toLocaleTimeString(
+      locale,
+      options
+    )}`;
+  } else if (diffInHours < 24) {
+    return `${diffInHours} hours ago at ${date.toLocaleTimeString(
+      locale,
+      options
+    )}`;
+  } else if (diffInDays < 7) {
+    return `${diffInDays} days ago at ${date.toLocaleTimeString(
+      locale,
+      options
+    )}`;
+  } else if (diffInWeeks === 1) {
+    return `Last week at ${date.toLocaleTimeString(locale, options)}`;
+  } else if (diffInWeeks < 4) {
+    return `${diffInWeeks} weeks ago at ${date.toLocaleTimeString(
+      locale,
+      options
+    )}`;
+  } else if (diffInMonths === 1) {
+    return `Last month at ${date.toLocaleTimeString(locale, options)}`;
+  } else if (diffInMonths < 12) {
+    return `${diffInMonths} months ago at ${date.toLocaleTimeString(
+      locale,
+      options
+    )}`;
+  } else if (diffInYears === 1) {
+    return `Last year at ${date.toLocaleTimeString(locale, options)}`;
+  } else if (diffInYears === 0) {
+    return `on ${date.toLocaleDateString(locale, options)}`;
+  } else {
+    return `${diffInYears} years ago at ${date.toLocaleTimeString(
+      locale,
+      options
+    )}`;
+  }
 };
 
 export const printShortDate = (stamp: string | Date, locale = 'en-US') => {
@@ -348,6 +466,10 @@ export const getCurrentHourInMilliseconds = (
 
 /**
  * print millseconds as a user friendly duration
+ * @example prettyPrintMilliseconds(1000) // 1s
+ * @example prettyPrintMilliseconds(10000) // 10s
+ * @example prettyPrintMilliseconds(60000) // 1m
+ * @example prettyPrintMilliseconds(650000) // 10m 50s
  */
 export const prettyPrintMilliseconds = (milliseconds: number) => {
   const seconds = Math.floor(milliseconds / 1000);
