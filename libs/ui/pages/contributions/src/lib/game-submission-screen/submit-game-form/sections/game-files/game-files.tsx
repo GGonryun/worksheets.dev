@@ -38,13 +38,19 @@ export const GameFiles: FC = () => {
 
 const GameFileInput = () => {
   const id = 'gameFile';
-  const { values, errors } = useFormContext();
+  const { values, errors, uploadGame, deleteGame } = useFormContext();
 
   const value = values[id];
   const error = errors[id];
 
   if (value) {
-    return <GameFile file={value} error={error} />;
+    return (
+      <GameFile
+        file={value}
+        error={error}
+        onDelete={async () => await deleteGame(value)}
+      />
+    );
   }
 
   return (
@@ -56,6 +62,12 @@ const GameFileInput = () => {
         disableUnderline
         inputProps={{
           accept: '.zip',
+        }}
+        onChange={async (e) => {
+          const target = e.target as HTMLInputElement;
+          const file = target.files?.[0];
+
+          file && (await uploadGame(file));
         }}
       />
       <GameFileHelperText />

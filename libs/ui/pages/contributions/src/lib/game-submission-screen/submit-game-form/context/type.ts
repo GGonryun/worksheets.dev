@@ -4,8 +4,22 @@ import { ChangeEvent, FocusEvent, FormEvent } from 'react';
 type ProjectType = 'html' | 'page';
 type SupportedDevice = 'computer' | 'mobile';
 type SupportedOrientation = 'landscape' | 'portrait';
-export type FileStatus = 'ready' | 'uploading' | 'uploaded' | 'error';
+export type FileStatus = 'idle' | 'uploading' | 'uploaded' | 'error';
 type ViewportType = 'fixed' | 'responsive';
+export type ImageFile = {
+  id: string;
+  name: string;
+} & (
+  | {
+      status: 'uploaded';
+      src: string;
+      height: number;
+      width: number;
+    }
+  | {
+      status: 'uploading';
+    }
+);
 
 const gameCategorySchema = z.union([
   z.literal('action'),
@@ -34,11 +48,23 @@ const gameCategorySchema = z.union([
 type GameCategory = z.infer<typeof gameCategorySchema>;
 
 type GameFile = {
+  id: string;
   status: FileStatus;
   name: string;
   size: number;
   lastModified: number;
   url?: string;
+};
+
+export type PurchaseOptions = {
+  steam: string;
+  itch: string;
+  googlePlay: string;
+  appStore: string;
+  windowsStore: string;
+  amazon: string;
+  gameJolt: string;
+  website: string;
 };
 
 export type FormFields = {
@@ -56,6 +82,11 @@ export type FormFields = {
   instructions: string;
   category: GameCategory;
   tags: string[];
+  thumbnail: ImageFile | undefined;
+  cover: ImageFile | undefined;
+  screenshots: ImageFile[];
+  trailer: string;
+  purchaseOptions: Partial<PurchaseOptions>;
 };
 
 export type FormFieldsKeys = keyof FormFields;
@@ -75,4 +106,15 @@ export type FormContextType = {
     field: T,
     touched: boolean
   ) => void;
+  uploadGame: (file: File) => Promise<void>;
+  deleteGame: (game: GameFile) => Promise<void>;
+
+  uploadThumbnail: (file: File | undefined) => Promise<void>;
+  deleteThumbnail: (image: ImageFile) => Promise<void>;
+
+  uploadCover: (file: File | undefined) => Promise<void>;
+  deleteCover: (image: ImageFile) => Promise<void>;
+
+  uploadScreenshots: (file: FileList | null) => Promise<void>;
+  deleteScreenshot: (image: ImageFile) => Promise<void>;
 };

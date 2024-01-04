@@ -5,6 +5,7 @@ import { FormContextProvider, FormContextType, FormFields } from './context';
 import { addMinutesToCurrentTime } from '@worksheets/util/time';
 
 const fakeGameFile: FormFields['gameFile'] = {
+  id: '1',
   name: 'game.zip',
   size: 123456,
   lastModified: addMinutesToCurrentTime(-61 * 3).getTime(),
@@ -28,6 +29,11 @@ const defaultValues: FormContextType = {
     viewport: '',
     dimensions: '',
     externalWebsiteUrl: '',
+    thumbnail: '',
+    cover: '',
+    screenshots: '',
+    trailer: '',
+    purchaseOptions: '',
   },
   values: {
     title: '',
@@ -50,6 +56,11 @@ const defaultValues: FormContextType = {
     viewport: undefined,
     dimensions: undefined,
     externalWebsiteUrl: '',
+    thumbnail: undefined,
+    cover: undefined,
+    screenshots: [],
+    trailer: '',
+    purchaseOptions: {},
   },
   touched: {
     title: false,
@@ -66,12 +77,61 @@ const defaultValues: FormContextType = {
     viewport: false,
     dimensions: false,
     externalWebsiteUrl: false,
+    thumbnail: false,
+    cover: false,
+    screenshots: false,
+    trailer: false,
+    purchaseOptions: false,
   },
   handleChange: action('handleChange'),
   handleBlur: action('handleBlur'),
   handleSubmit: action('handleSubmit'),
   setFieldValue: action('setFieldValue'),
   setFieldTouched: action('setFieldTouched'),
+  uploadThumbnail: (req) =>
+    new Promise((resolve) => {
+      action('uploadThumbnail')(req);
+      setTimeout(() => resolve(), 3000);
+    }),
+  deleteThumbnail: (req) =>
+    new Promise((resolve) => {
+      action('deleteThumbnail')(req);
+      setTimeout(() => resolve(), 3000);
+    }),
+
+  uploadCover: (req) =>
+    new Promise((resolve) => {
+      action('uploadCover')(req);
+      setTimeout(() => resolve(), 3000);
+    }),
+  deleteCover: (req) =>
+    new Promise((resolve) => {
+      action('deleteCover')(req);
+      setTimeout(() => resolve(), 3000);
+    }),
+
+  uploadScreenshots: (files) => {
+    return new Promise((resolve) => {
+      action('uploadScreenshots')(files);
+      setTimeout(() => resolve(), 3000);
+    });
+  },
+  deleteScreenshot: (req) =>
+    new Promise((resolve) => {
+      action('deleteScreenshot')(req);
+      setTimeout(() => resolve(), 3000);
+    }),
+
+  uploadGame: (req) =>
+    new Promise((resolve) => {
+      action('uploadGame')(req);
+      setTimeout(() => resolve(), 3000);
+    }),
+  deleteGame: (req) =>
+    new Promise((resolve) => {
+      action('deleteGame')(req);
+      setTimeout(() => resolve(), 3000);
+    }),
 };
 
 const prefilledValues: FormContextType = {
@@ -109,6 +169,60 @@ const prefilledValues: FormContextType = {
       computer: true,
       mobile: true,
     },
+    thumbnail: {
+      id: '1',
+      status: 'uploaded',
+      src: '/games/solitaire/icon.jpg',
+      name: 'Solitaire Icon',
+      height: 512,
+      width: 512,
+    },
+    cover: {
+      id: '2',
+      status: 'uploaded',
+      src: '/games/solitaire/banner.png',
+      name: 'Solitaire Icon',
+      width: 2208,
+      height: 1242,
+    },
+    screenshots: [
+      {
+        id: '3',
+        status: 'uploaded',
+        src: '/games/word-search/banner.jpg',
+        name: 'Solitaire Icon',
+        width: 2208,
+        height: 1242,
+      },
+      {
+        id: '4',
+        status: 'uploaded',
+        src: '/games/word-pack/banner.jpg',
+        name: 'Solitaire Icon',
+        width: 2208,
+        height: 1242,
+      },
+      {
+        id: '5',
+        status: 'uploaded',
+        src: '/games/nonograms/banner.png',
+        name: 'Solitaire Icon',
+        width: 2208,
+        height: 1242,
+      },
+    ],
+    trailer: 'https://www.youtube.com/watch?v=o8PWi-cJOx0',
+    purchaseOptions: {
+      steam: 'https://store.steampowered.com/app/1234567890/My_Game/',
+      itch: 'https://example.itch.io/my-game',
+      googlePlay:
+        'https://play.google.com/store/apps/details?id=com.example.mygame',
+      appStore: 'https://apps.apple.com/us/app/my-game/id1234567890',
+      windowsStore: 'https://www.microsoft.com/en-us/p/my-game/9nblggh4nns1',
+      amazon: 'https://www.amazon.com/My-Game-Example/dp/B08X3CQ8QZ',
+      gameJolt: 'https://gamejolt.com/games/my-game/123456',
+      website: 'https://example.com/my-game',
+    },
   },
 };
 
@@ -145,6 +259,62 @@ export const EmptyForm: Story = {
       <FormContextProvider
         value={{
           ...defaultValues,
+        }}
+      >
+        <Story />
+      </FormContextProvider>
+    ),
+  ],
+};
+
+export const UploadingFiles: Story = {
+  decorators: [
+    (Story) => (
+      <FormContextProvider
+        value={{
+          ...prefilledValues,
+          values: {
+            ...prefilledValues.values,
+            projectType: 'html',
+            viewport: 'responsive',
+            gameFile: {
+              id: '1',
+              name: 'game.zip',
+              size: 123456,
+              lastModified: addMinutesToCurrentTime(-61 * 3).getTime(),
+              status: 'uploading',
+            },
+            thumbnail: {
+              id: '1',
+              name: 'thumbnail.jpg',
+              status: 'uploading',
+            },
+            cover: {
+              id: '2',
+              name: 'cover.jpg',
+              status: 'uploading',
+            },
+            screenshots: [
+              {
+                id: '1',
+                name: 'thumbnail.jpg',
+                status: 'uploading',
+              },
+              {
+                id: '2',
+                name: 'thumbnail.jpg',
+                status: 'uploaded',
+                src: '/games/solitaire/icon.jpg',
+                width: 512,
+                height: 512,
+              },
+              {
+                id: '3',
+                name: 'thumbnail.jpg',
+                status: 'uploading',
+              },
+            ],
+          },
         }}
       >
         <Story />
@@ -215,6 +385,11 @@ export const ExternalWebsiteErrors: Story = {
               width: 200,
               height: 120,
             },
+            purchaseOptions: {
+              steam: 'http://store.steampowered.com/app/1234567890/My_Game/',
+              itch: 'store.itch.io/my-game',
+              googlePlay: 'an invalid url',
+            },
           },
           errors: {
             gameId: 'That Game ID is already taken. Please choose another.',
@@ -234,6 +409,12 @@ export const ExternalWebsiteErrors: Story = {
               'Your game must be at least 240 pixels wide and 160 pixels tall.',
             externalWebsiteUrl:
               'Your web page must not include "http://" or "https://"',
+            thumbnail: 'Failed to upload a thumbnail.',
+            cover: 'Failed to upload a cover.',
+            screenshots: 'Screenshot upload failed.',
+            trailer: 'Trailer must be a YouTube or Vimeo link.',
+            purchaseOptions:
+              'Invalid purchase options. Please check your links and try again.',
           },
         }}
       >
@@ -273,6 +454,11 @@ export const HTML5GameUploaded: Story = {
             ...defaultValues.values,
             ...prefilledValues.values,
             projectType: 'html',
+            purchaseOptions: {
+              steam: 'https://store.steampowered.com/app/1234567890/My_Game/',
+              itch: 'https://example.itch.io/my-game',
+              gameJolt: '',
+            },
           },
         }}
       >

@@ -13,7 +13,8 @@ import { CircularProgress } from '@mui/material';
 export const GameFile: FC<{
   file: NonNullable<FormFields['gameFile']>;
   error: string;
-}> = ({ file, error }) => (
+  onDelete: () => Promise<void>;
+}> = ({ file, error, onDelete }) => (
   <Box
     sx={{
       position: 'relative',
@@ -25,6 +26,7 @@ export const GameFile: FC<{
   >
     <Button
       variant="text"
+      onClick={async () => await onDelete()}
       sx={{
         position: 'absolute',
         top: 0,
@@ -77,14 +79,14 @@ export const GameFile: FC<{
 
 const fileStatusIcon: Record<FileStatus, ReactNode> = {
   error: <ErrorOutlineOutlinedIcon fontSize="large" color="error" />,
-  ready: <PendingOutlinedIcon fontSize="large" color="primary" />,
+  idle: <PendingOutlinedIcon fontSize="large" color="primary" />,
   uploading: <CircularProgress size={28} sx={{ px: '4px' }} />,
   uploaded: <CheckCircleOutlinedIcon fontSize="large" color="success" />,
 };
 
 const fileStatusLabel: Record<FileStatus, string> = {
   error: 'Error',
-  ready: 'Ready to upload',
+  idle: 'Ready to upload',
   uploading: 'Uploading...',
   uploaded: 'Finished',
 };

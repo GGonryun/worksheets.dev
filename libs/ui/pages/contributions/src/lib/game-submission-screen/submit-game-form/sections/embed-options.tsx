@@ -121,7 +121,13 @@ const ViewportDimensionsSelect: FC = () => {
         option.
       </FormHelperText>
 
-      <Select id={id} size="small" defaultValue={'automatic'} value={value}>
+      <Select
+        id={id}
+        size="small"
+        defaultValue={'automatic'}
+        value={value}
+        error={Boolean(error)}
+      >
         <MenuItem dense value={'responsive'}>
           <DetailedListItemText
             primary="Responsive"

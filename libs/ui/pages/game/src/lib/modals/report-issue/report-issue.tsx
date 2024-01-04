@@ -5,12 +5,12 @@ import {
   IconButton,
   Typography,
 } from '@mui/material';
-import { BaseModal, ModalWrapper } from '../base/base-modal';
 import { FC, useState } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 import { ReportReason, ReportReasonForm } from './report-reason-form';
 import { AdditionalComments } from './additional-comments';
 import { InfringementText } from './infringement-text';
+import { BaseModal, ModalWrapper } from '@worksheets/ui-core';
 
 export const ReportIssueModal: FC<
   ModalWrapper<{

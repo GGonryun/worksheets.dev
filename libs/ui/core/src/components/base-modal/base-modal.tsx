@@ -18,7 +18,7 @@ export const BaseModal: FC<BaseModalProps> = ({ children, sx, ...props }) => {
   return (
     <MuiModal {...props}>
       <div>
-        <CustomPaper>{children}</CustomPaper>
+        <CustomPaper sx={sx}>{children}</CustomPaper>
       </div>
     </MuiModal>
   );
@@ -31,6 +31,7 @@ const CustomPaper = styled<JSXElementConstructor<PaperProps>>((props) => (
   position: 'absolute',
   display: 'flex',
   maxHeight: '90vh',
+  maxWidth: '90vw',
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
