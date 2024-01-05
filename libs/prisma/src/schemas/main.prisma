@@ -36,27 +36,6 @@ model GameVoteSubmission {
   // user          User          @relation(fields: [userId], references: [id])
 }
 
-model Game {
-  id            String        @id @default(cuid())
-  key           String        @db.VarChar(63)
-  status        GameStatus    @default(DRAFT)
-  name          String?       @db.VarChar(127)
-  headline      String?       @db.VarChar(256)
-  description   String?       @db.VarChar(2047)
-  banner        String?       @db.Text
-  logo          String?       @db.Text
-  video         String?       @db.Text
-  screenshots   String[]      @db.Text
-  file          String?      @db.Text
-  devices       GameDevices[] @default([WEB])
-  tags          String[]      @db.VarChar(63)
-  createdAt     DateTime      @default(now())
-  updatedAt     DateTime      @updatedAt
-  // plays         GamePlay[]
-  // votes         GameVote[]
-  // comments      GameComment[]
-  teamId        String
-}
 
 enum GameDevices {
   MOBILE
@@ -65,7 +44,7 @@ enum GameDevices {
 
 enum GameStatus {
   DRAFT
-  RESTRICTED
+  ERROR
   PUBLISHED
   ARCHIVED
 }
@@ -79,7 +58,8 @@ model User {
   image             String?
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
-
+  
+  submissions       Game[]
   accounts          Account[]
   sessions          Session[]
 }
@@ -146,6 +126,95 @@ model GameReport {
   reason        ReportReason  @default(OTHER)
   text          String        @db.VarChar(255)
   createdAt     DateTime      @default(now())
+}
+
+enum ProjectType {
+  HTML
+  PAGE  
+}
+
+enum ViewportType {
+  FIXED
+  RESPONSIVE
+}
+
+enum GameCategory {
+  ACTION
+  ADVENTURE
+  ARCADE
+  BOARD
+  CARD
+  EDUCATIONAL
+  FIGHTING
+  IDLE
+  NOVEL
+  PLATFORMER
+  PUZZLE
+  RACING
+  RPG
+  RHYTHM
+  SHOOTER
+  SIMULATION
+  SPORTS
+  STRATEGY
+  SURVIVAL
+  OTHER
+  TRIVIA
+  WORD
+}
+
+model StoredFile {
+  id           String           @id @default(cuid())
+  userId       String           
+  type         String           @db.VarChar(63)
+  name         String           @db.VarChar(127)
+  path         String           @db.VarChar(255)
+  url          String           @db.VarChar(511)
+  size         Int              @default(0)
+  // Stored files that don't belong to a game submission are deleted after a while.
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+  // The gameId is assigned after the game is submitted.
+  gameId       String?          @unique
+  game         Game?            @relation(fields: [gameId], references: [id])
+}
+
+
+enum DeviceOrientations {
+  PORTRAIT
+  LANDSCAPE
+}
+
+
+model Game {
+  id                  String                @id @default(cuid())
+  slug                String                @db.VarChar(63) @unique
+  title               String                @db.VarChar(63)
+  tagline             String                @db.VarChar(255)
+  projectType         ProjectType           @default(HTML)
+  externalWebsiteUrl  String?               @db.VarChar(255)
+  viewport            ViewportType          @default(RESPONSIVE)
+  viewportWidth       Int? 
+  viewportHeight      Int?
+  devices             GameDevices[]         @default([WEB])
+  orientations        DeviceOrientations[]  @default([PORTRAIT])
+  description         String?               @db.VarChar(1023)
+  instructions        String?               @db.VarChar(1023)
+  category            GameCategory          @default(OTHER)
+  tags                String[]              @db.VarChar(63)
+  purchaseOptions     Json
+  createdAt           DateTime              @default(now())
+  updatedAt           DateTime              @updatedAt
+  // When a user submits a game, we update all stored files and assign the gameId.
+  gameFileId          String                @db.VarChar(63) @unique
+  thumbnailId         String                @db.VarChar(63) @unique
+  coverId             String                @db.VarChar(63) @unique
+  screenshotIds       String[]              @db.VarChar(63) @default([])
+  status              GameStatus            @default(DRAFT)
+  files               StoredFile[]      
+  // the user that submitted the game
+  ownerId             String 
+  owner               User                  @relation(fields: [ownerId], references: [id])    
 }
 
 generator zod {

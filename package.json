@@ -68,6 +68,7 @@
     "@fullhuman/postcss-purgecss": "^5.0.0",
     "@fullstory/browser": "^1.7.1",
     "@fullstory/server-api-client": "^1.0.0-beta.1",
+    "@google-cloud/storage": "^7.7.0",
     "@mui/icons-material": "^5.11.16",
     "@mui/lab": "^5.0.0-alpha.131",
     "@mui/material": "^5.13.2",

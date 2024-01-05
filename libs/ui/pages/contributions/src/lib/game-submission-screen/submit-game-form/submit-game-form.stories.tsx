@@ -1,7 +1,12 @@
 import type { Meta } from '@storybook/react';
 import { SubmitGameForm } from './submit-game-form';
 import { action } from '@storybook/addon-actions';
-import { FormContextProvider, FormContextType, FormFields } from './context';
+import {
+  FormContextProvider,
+  FormContextType,
+  FormFields,
+  DEFAULT_VALUES,
+} from './context';
 import { addMinutesToCurrentTime } from '@worksheets/util/time';
 
 const fakeGameFile: FormFields['gameFile'] = {
@@ -14,82 +19,13 @@ const fakeGameFile: FormFields['gameFile'] = {
 };
 
 const defaultValues: FormContextType = {
-  errors: {
-    title: '',
-    tagline: '',
-    gameId: '',
-    projectType: '',
-    supportedDevices: '',
-    supportedOrientations: '',
-    gameFile: '',
-    description: '',
-    instructions: '',
-    category: '',
-    tags: '',
-    viewport: '',
-    dimensions: '',
-    externalWebsiteUrl: '',
-    thumbnail: '',
-    cover: '',
-    screenshots: '',
-    trailer: '',
-    purchaseOptions: '',
-  },
-  values: {
-    title: '',
-    tagline: '',
-    gameId: '',
-    projectType: undefined,
-    supportedDevices: {
-      computer: true,
-      mobile: true,
-    },
-    supportedOrientations: {
-      portrait: true,
-      landscape: true,
-    },
-    gameFile: undefined,
-    description: '',
-    instructions: '',
-    category: 'action',
-    tags: [],
-    viewport: undefined,
-    dimensions: undefined,
-    externalWebsiteUrl: '',
-    thumbnail: undefined,
-    cover: undefined,
-    screenshots: [],
-    trailer: '',
-    purchaseOptions: {},
-  },
-  touched: {
-    title: false,
-    tagline: false,
-    gameId: false,
-    projectType: false,
-    supportedDevices: false,
-    supportedOrientations: false,
-    gameFile: false,
-    description: false,
-    instructions: false,
-    category: false,
-    tags: false,
-    viewport: false,
-    dimensions: false,
-    externalWebsiteUrl: false,
-    thumbnail: false,
-    cover: false,
-    screenshots: false,
-    trailer: false,
-    purchaseOptions: false,
-  },
-  handleChange: action('handleChange'),
-  handleBlur: action('handleBlur'),
-  handleSubmit: action('handleSubmit'),
+  ...DEFAULT_VALUES,
+  onSubmit: action('onSubmit'),
   setFieldValue: action('setFieldValue'),
-  setFieldTouched: action('setFieldTouched'),
+
   uploadThumbnail: (req) =>
     new Promise((resolve) => {
+      console.log('uploadThumbnail', req);
       action('uploadThumbnail')(req);
       setTimeout(() => resolve(), 3000);
     }),
@@ -124,6 +60,7 @@ const defaultValues: FormContextType = {
 
   uploadGame: (req) =>
     new Promise((resolve) => {
+      console.log('uploadGame', req);
       action('uploadGame')(req);
       setTimeout(() => resolve(), 3000);
     }),
@@ -142,7 +79,7 @@ const prefilledValues: FormContextType = {
     tagline: 'A game about stuff and doing things.',
     externalWebsiteUrl: 'example.com',
     gameFile: fakeGameFile,
-    projectType: 'page',
+    projectType: 'PAGE',
     description:
       'A game about stuff and doing things. It is very fun. 10/10. Play it now. You will not regret it. Trust me.',
     instructions: 'Use the arrow keys to move.',
@@ -155,8 +92,8 @@ const prefilledValues: FormContextType = {
       'advertising',
       'new-tag',
     ],
-    viewport: 'fixed',
-    category: 'action',
+    viewport: 'FIXED',
+    category: 'ACTION',
     dimensions: {
       width: 720,
       height: 480,
@@ -256,11 +193,7 @@ export default DefaultStory;
 export const EmptyForm: Story = {
   decorators: [
     (Story) => (
-      <FormContextProvider
-        value={{
-          ...defaultValues,
-        }}
-      >
+      <FormContextProvider value={defaultValues}>
         <Story />
       </FormContextProvider>
     ),
@@ -275,8 +208,8 @@ export const UploadingFiles: Story = {
           ...prefilledValues,
           values: {
             ...prefilledValues.values,
-            projectType: 'html',
-            viewport: 'responsive',
+            projectType: 'HTML',
+            viewport: 'RESPONSIVE',
             gameFile: {
               id: '1',
               name: 'game.zip',
@@ -331,7 +264,7 @@ export const ResponsiveMobileGame: Story = {
           ...defaultValues,
           values: {
             ...prefilledValues.values,
-            viewport: 'responsive',
+            viewport: 'RESPONSIVE',
             supportedDevices: {
               computer: true,
               mobile: true,
@@ -341,7 +274,7 @@ export const ResponsiveMobileGame: Story = {
               landscape: true,
             },
             dimensions: undefined,
-            projectType: 'page',
+            projectType: 'PAGE',
           },
         }}
       >
@@ -359,7 +292,7 @@ export const ExternalWebsite: Story = {
           ...defaultValues,
           values: {
             ...prefilledValues.values,
-            projectType: 'page',
+            projectType: 'PAGE',
           },
         }}
       >
@@ -380,7 +313,7 @@ export const ExternalWebsiteErrors: Story = {
             title: "@ My Game's Title %",
             tagline: "My Game's Tagline ".repeat(10),
             externalWebsiteUrl: 'https://example.com',
-            projectType: 'page',
+            projectType: 'PAGE',
             dimensions: {
               width: 200,
               height: 120,
@@ -433,7 +366,7 @@ export const HTML5Game: Story = {
           values: {
             ...defaultValues.values,
             ...prefilledValues.values,
-            projectType: 'html',
+            projectType: 'HTML',
             gameFile: undefined,
           },
         }}
@@ -453,7 +386,7 @@ export const HTML5GameUploaded: Story = {
           values: {
             ...defaultValues.values,
             ...prefilledValues.values,
-            projectType: 'html',
+            projectType: 'HTML',
             purchaseOptions: {
               steam: 'https://store.steampowered.com/app/1234567890/My_Game/',
               itch: 'https://example.itch.io/my-game',

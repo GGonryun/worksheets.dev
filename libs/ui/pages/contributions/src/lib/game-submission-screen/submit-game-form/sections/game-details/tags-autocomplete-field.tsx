@@ -6,6 +6,7 @@ import Chip from '@mui/material/Chip';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 
+// TODO: load tags from the backend
 const tags = [
   'action',
   'adventure',

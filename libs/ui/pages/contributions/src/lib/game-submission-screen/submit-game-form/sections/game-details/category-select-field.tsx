@@ -6,29 +6,31 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import ListItemText from '@mui/material/ListItemText';
 import FormHelperText from '@mui/material/FormHelperText';
+import { GameCategory } from '@worksheets/util/types';
 
-export const gameCategories: Record<FormFields['category'], string> = {
-  action: 'Action',
-  adventure: 'Adventure',
-  arcade: 'Arcade',
-  board: 'Board',
-  card: 'Card',
-  educational: 'Educational',
-  fighting: 'Fighting',
-  idle: 'Idle',
-  novel: 'Novel',
-  platformer: 'Platformer',
-  puzzle: 'Puzzle',
-  racing: 'Racing',
-  rhythm: 'Rhythm',
-  'role-playing': 'Role Playing',
-  shooter: 'Shooter',
-  simulation: 'Simulation',
-  sports: 'Sports',
-  strategy: 'Strategy',
-  survival: 'Survival',
-  trivia: 'Trivia',
-  word: 'Word',
+export const gameCategories: Record<GameCategory, string> = {
+  ACTION: 'Action',
+  ADVENTURE: 'Adventure',
+  ARCADE: 'Arcade',
+  BOARD: 'Board',
+  CARD: 'Card',
+  EDUCATIONAL: 'Educational',
+  FIGHTING: 'Fighting',
+  IDLE: 'Idle',
+  NOVEL: 'Novel',
+  PLATFORMER: 'Platformer',
+  PUZZLE: 'Puzzle',
+  RACING: 'Racing',
+  RPG: 'RPG',
+  RHYTHM: 'Rhythm',
+  SHOOTER: 'Shooter',
+  SIMULATION: 'Simulation',
+  SPORTS: 'Sports',
+  STRATEGY: 'Strategy',
+  SURVIVAL: 'Survival',
+  OTHER: 'Other',
+  TRIVIA: 'Trivia',
+  WORD: 'Word',
 };
 
 export const CategorySelectField = () => {

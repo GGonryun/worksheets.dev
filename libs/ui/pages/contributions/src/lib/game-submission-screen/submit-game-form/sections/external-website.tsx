@@ -9,7 +9,7 @@ import { useFormContext } from '../context';
 
 export const ExternalWebsiteSection: FC = () => {
   const { values, errors, setFieldValue } = useFormContext();
-  const isExternalWebsite = values.projectType === 'page';
+  const isExternalWebsite = values.projectType === 'PAGE';
 
   const id = 'externalWebsiteUrl';
   const error = errors[id];

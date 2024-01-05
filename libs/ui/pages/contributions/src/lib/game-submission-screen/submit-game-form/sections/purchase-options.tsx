@@ -45,7 +45,7 @@ export const PurchaseOptions = () => {
   const error = errors[id];
 
   return (
-    <Box display="flex" flexDirection="column" gap={2}>
+    <Box display="flex" flexDirection="column" gap={1}>
       <Typography variant="h5" mb={-1}>
         Purchase Options
       </Typography>
@@ -84,8 +84,14 @@ const MarketplaceTextFields: FC<{
     value: PurchaseOptions[T]
   ) => void;
 }> = ({ purchaseOptions, onChange }) => {
+  const hasContent = Object.values(purchaseOptions).some((v) => v != null);
   return (
-    <Box display="flex" flexDirection="column" gap={2}>
+    <Box
+      display={hasContent ? 'flex' : 'none'}
+      flexDirection="column"
+      gap={3}
+      my={1}
+    >
       {Object.entries(purchaseOptionLabels).map(([key, label]) => {
         //
         const k = key as PurchaseOptionKeys;
@@ -137,7 +143,7 @@ const MarketplaceButtons: FC<{
   purchaseOptions: PurchaseOptions;
   onClick: (key: PurchaseOptionKeys) => void;
 }> = ({ purchaseOptions, onClick }) => (
-  <Box display="flex" flexDirection="row" gap={1} flexWrap={'wrap'} mt={1}>
+  <Box display="flex" flexDirection="row" gap={1} flexWrap={'wrap'}>
     {Object.entries(purchaseOptionLabels).map(([key, label]) => {
       //
       const k = key as PurchaseOptionKeys;

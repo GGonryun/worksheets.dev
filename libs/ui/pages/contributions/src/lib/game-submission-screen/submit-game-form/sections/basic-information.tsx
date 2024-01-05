@@ -126,13 +126,13 @@ const ProjectTypeField: FC = () => {
           setFieldValue(id, e.target.value as FormFields['projectType'])
         }
       >
-        <MenuItem dense value={'html'}>
+        <MenuItem dense value={'HTML'}>
           <DetailedListItemText
             primary="HTML"
             secondary=" &#8212; You have a zip file containing an HTML5 game."
           />
         </MenuItem>
-        <MenuItem dense value={'page'}>
+        <MenuItem dense value={'PAGE'}>
           <DetailedListItemText
             primary="Web Embed"
             secondary=" &#8212; You have a website that hosts your game."

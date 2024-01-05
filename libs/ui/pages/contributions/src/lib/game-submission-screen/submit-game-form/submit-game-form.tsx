@@ -14,8 +14,11 @@ import {
   EmbedOptions,
 } from './sections';
 import { FC, JSXElementConstructor } from 'react';
+import { useFormContext } from './context';
 
 export const SubmitGameForm: FC = () => {
+  const { onSubmit } = useFormContext();
+
   return (
     <Box
       sx={{
@@ -49,7 +52,7 @@ export const SubmitGameForm: FC = () => {
 
         <InteractionPreferences />
 
-        <SubmitButton>Save & Submit</SubmitButton>
+        <SubmitButton onClick={onSubmit}>Save & Submit</SubmitButton>
       </Box>
 
       <StickyContactBox

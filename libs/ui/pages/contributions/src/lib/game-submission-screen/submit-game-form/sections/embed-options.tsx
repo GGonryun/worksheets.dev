@@ -41,7 +41,7 @@ export const EmbedOptions: FC = () => {
 const ManuallySetSizeOptions: FC = () => {
   const { values, errors } = useFormContext();
 
-  const shouldShow = values['viewport'] === 'fixed';
+  const shouldShow = values['viewport'] === 'FIXED';
   const value = values['dimensions'];
   const error = errors['dimensions'];
 
@@ -124,17 +124,17 @@ const ViewportDimensionsSelect: FC = () => {
       <Select
         id={id}
         size="small"
-        defaultValue={'automatic'}
+        defaultValue={'RESPONSIVE'}
         value={value}
         error={Boolean(error)}
       >
-        <MenuItem dense value={'responsive'}>
+        <MenuItem dense value={'RESPONSIVE'}>
           <DetailedListItemText
             primary="Responsive"
             secondary=" &#8212; Your game is responsive and will adapt to any viewport size."
           />
         </MenuItem>
-        <MenuItem dense value={'fixed'}>
+        <MenuItem dense value={'FIXED'}>
           <DetailedListItemText
             primary="Manually Set"
             secondary=" &#8212; Set a static viewport size for your game."
@@ -161,7 +161,7 @@ const SupportedDevicesOptions = () => (
 const SupportedOrientationsOptions = () => (
   <EmbedOption
     visible={(fields) =>
-      fields.viewport === 'responsive' && fields.supportedDevices['mobile']
+      fields.viewport === 'RESPONSIVE' && fields.supportedDevices['mobile']
     }
     id="supportedOrientations"
     label="Supported Orientations"

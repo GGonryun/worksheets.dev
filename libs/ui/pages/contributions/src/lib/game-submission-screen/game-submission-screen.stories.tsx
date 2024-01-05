@@ -1,7 +1,11 @@
 import type { Meta } from '@storybook/react';
 import { GameSubmissionScreen } from './game-submission-screen';
+import { FormContextProvider } from './submit-game-form/context';
+import { defaultValues } from './submit-game-form/submit-game-form.stories';
 
-const Story: Meta<typeof GameSubmissionScreen> = {
+type Story = Meta<typeof GameSubmissionScreen>;
+
+const Default: Story = {
   component: GameSubmissionScreen,
   decorators: [
     (Story) => (
@@ -14,9 +18,14 @@ const Story: Meta<typeof GameSubmissionScreen> = {
         <Story />
       </div>
     ),
+    (Story) => (
+      <FormContextProvider value={defaultValues}>
+        <Story />
+      </FormContextProvider>
+    ),
   ],
 };
-export default Story;
+export default Default;
 
 export const Primary = {
   args: {

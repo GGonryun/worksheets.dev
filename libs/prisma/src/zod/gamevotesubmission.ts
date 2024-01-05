@@ -1,4 +1,4 @@
-import * as z from 'zod';
+import * as z from "zod"
 
 export const GameVoteSubmissionModel = z.object({
   id: z.string(),
@@ -6,4 +6,4 @@ export const GameVoteSubmissionModel = z.object({
   createdAt: z.date(),
   ip: z.string(),
   vote: z.number().int(),
-});
+})
