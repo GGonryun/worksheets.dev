@@ -1,30 +1,29 @@
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import { ContainImage, CoverImage } from '@worksheets/ui/images';
 import { FC, useState } from 'react';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import Modal from '@mui/material/Modal';
 import ZoomInIcon from '@mui/icons-material/ZoomIn';
-import { CircularProgress } from '@mui/material';
-import { ImageFile } from '@worksheets/util/types';
+import { CircularProgress, Typography } from '@mui/material';
+import { CoverImage } from '../cover-image';
+import { useImageName } from '../hooks/useImageName';
+import { useImageSize } from '../hooks/useImageSize';
+import { ContainImage } from '../contain-image';
 
 export const ImageUpload: FC<{
-  progress?: number;
-  image: ImageFile;
+  src?: string;
   height: number;
   width: number;
   onDelete: () => void;
-}> = ({ image, height, width, onDelete }) => {
+}> = ({ src, height, width, onDelete }) => {
   const [open, setOpen] = useState(false);
 
-  const uploaded = image && image.status === 'uploaded';
+  const uploaded = Boolean(src);
   return (
     <>
-      <ZoomImageModal
-        image={image}
-        open={open}
-        onClose={() => setOpen(false)}
-      />
+      {src && (
+        <ZoomImageModal src={src} open={open} onClose={() => setOpen(false)} />
+      )}
       <Box
         onClick={() => setOpen(true)}
         sx={{
@@ -42,11 +41,7 @@ export const ImageUpload: FC<{
       >
         <DeleteImageButton visible={uploaded} onClick={onDelete} />
         <ZoomImageButton visible={uploaded} onClick={() => setOpen(true)} />
-        {uploaded ? (
-          <CoverImage alt={image.name} src={image.src} />
-        ) : (
-          <CircularProgress size={50} />
-        )}
+        {src ? <RenderImage src={src} /> : <CircularProgress size={50} />}
       </Box>
     </>
   );
@@ -137,14 +132,23 @@ const DeleteImageButton: FC<{ visible: boolean; onClick: () => void }> = ({
   </Button>
 );
 
+const RenderImage: FC<{
+  src: string;
+}> = ({ src }) => {
+  const { name } = useImageName(src);
+
+  return <CoverImage alt={name} src={src} />;
+};
+
 const ZoomImageModal: FC<{
   open: boolean;
   onClose: () => void;
-  image: ImageFile;
-}> = ({ image, open, onClose }) => {
+  src: string;
+}> = ({ src, open, onClose }) => {
   const handleClose = () => onClose();
 
-  if (!image || image.status !== 'uploaded') return null;
+  const { name } = useImageName(src);
+  const { dimensions, loading, error } = useImageSize(src);
 
   return (
     <Modal
@@ -156,19 +160,25 @@ const ZoomImageModal: FC<{
         justifyContent: 'center',
       }}
     >
-      <Box
-        onClick={handleClose}
-        sx={{
-          outline: 'none',
-          position: 'relative',
-          maxHeight: '90vh',
-          maxWidth: '90vw',
-          height: image.height,
-          width: image.width,
-          aspectRatio: image.width / image.height,
-        }}
-      >
-        <ContainImage alt={image.name} src={image.src} />
+      <Box>
+        {loading && <CircularProgress />}
+        {error && <Typography>error</Typography>}
+        {dimensions && (
+          <Box
+            onClick={handleClose}
+            sx={{
+              outline: 'none',
+              position: 'relative',
+              maxHeight: '90vh',
+              maxWidth: '90vw',
+              height: dimensions.height,
+              width: dimensions.width,
+              aspectRatio: dimensions.width / dimensions.height,
+            }}
+          >
+            <ContainImage alt={`${name} image preview`} src={src} />
+          </Box>
+        )}
       </Box>
     </Modal>
   );

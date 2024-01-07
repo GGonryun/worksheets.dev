@@ -1,6 +1,6 @@
 import * as z from "zod"
-import { ProjectType, ViewportType, GameDevices, DeviceOrientations, GameCategory, GameStatus } from "@prisma/client"
-import { CompleteStoredFile, RelatedStoredFileModel, CompleteUser, RelatedUserModel } from "./index"
+import { GameCategory } from "@prisma/client"
+import { CompleteGameFile, RelatedGameFileModel, CompleteViewport, RelatedViewportModel, CompleteProfile, RelatedProfileModel, CompleteGameVote, RelatedGameVoteModel, CompleteGamePlay, RelatedGamePlayModel } from "./index"
 
 // Helper schema for JSON fields
 type Literal = boolean | number | string
@@ -12,32 +12,29 @@ export const GameModel = z.object({
   id: z.string(),
   slug: z.string(),
   title: z.string(),
-  tagline: z.string(),
-  projectType: z.nativeEnum(ProjectType),
-  externalWebsiteUrl: z.string().nullish(),
-  viewport: z.nativeEnum(ViewportType),
-  viewportWidth: z.number().int().nullish(),
-  viewportHeight: z.number().int().nullish(),
-  devices: z.nativeEnum(GameDevices).array(),
-  orientations: z.nativeEnum(DeviceOrientations).array(),
-  description: z.string().nullish(),
-  instructions: z.string().nullish(),
+  headline: z.string(),
+  description: z.string(),
+  instructions: z.string(),
+  markets: jsonSchema,
   category: z.nativeEnum(GameCategory),
   tags: z.string().array(),
-  purchaseOptions: jsonSchema,
+  thumbnail: z.string(),
+  cover: z.string(),
+  screenshots: z.string().array(),
+  trailer: z.string().nullish(),
   createdAt: z.date(),
   updatedAt: z.date(),
-  gameFileId: z.string(),
-  thumbnailId: z.string(),
-  coverId: z.string(),
-  screenshotIds: z.string().array(),
-  status: z.nativeEnum(GameStatus),
-  ownerId: z.string(),
+  fileId: z.string(),
+  viewportId: z.string(),
+  ownerId: z.string().nullish(),
 })
 
 export interface CompleteGame extends z.infer<typeof GameModel> {
-  files: CompleteStoredFile[]
-  owner: CompleteUser
+  file: CompleteGameFile
+  viewport: CompleteViewport
+  owner?: CompleteProfile | null
+  votes: CompleteGameVote[]
+  plays: CompleteGamePlay[]
 }
 
 /**
@@ -46,6 +43,9 @@ export interface CompleteGame extends z.infer<typeof GameModel> {
  * NOTE: Lazy required in case of potential circular dependencies within schema
  */
 export const RelatedGameModel: z.ZodSchema<CompleteGame> = z.lazy(() => GameModel.extend({
-  files: RelatedStoredFileModel.array(),
-  owner: RelatedUserModel,
+  file: RelatedGameFileModel,
+  viewport: RelatedViewportModel,
+  owner: RelatedProfileModel.nullish(),
+  votes: RelatedGameVoteModel.array(),
+  plays: RelatedGamePlayModel.array(),
 }))

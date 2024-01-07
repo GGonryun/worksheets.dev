@@ -1,74 +1,15 @@
 import type { Meta } from '@storybook/react';
 import { SubmitGameForm } from './submit-game-form';
-import { action } from '@storybook/addon-actions';
-import {
-  FormContextProvider,
-  FormContextType,
-  FormFields,
-  DEFAULT_VALUES,
-} from './context';
+import { FormContextProvider, FormContextType, FormFields } from './context';
+import { defaultValues } from '../../__mocks__';
 import { addMinutesToCurrentTime } from '@worksheets/util/time';
 
 const fakeGameFile: FormFields['gameFile'] = {
-  id: '1',
   name: 'game.zip',
   size: 123456,
   lastModified: addMinutesToCurrentTime(-61 * 3).getTime(),
   status: 'uploaded',
   url: 'https://example.com/game.zip',
-};
-
-const defaultValues: FormContextType = {
-  ...DEFAULT_VALUES,
-  onSubmit: action('onSubmit'),
-  setFieldValue: action('setFieldValue'),
-
-  uploadThumbnail: (req) =>
-    new Promise((resolve) => {
-      console.log('uploadThumbnail', req);
-      action('uploadThumbnail')(req);
-      setTimeout(() => resolve(), 3000);
-    }),
-  deleteThumbnail: (req) =>
-    new Promise((resolve) => {
-      action('deleteThumbnail')(req);
-      setTimeout(() => resolve(), 3000);
-    }),
-
-  uploadCover: (req) =>
-    new Promise((resolve) => {
-      action('uploadCover')(req);
-      setTimeout(() => resolve(), 3000);
-    }),
-  deleteCover: (req) =>
-    new Promise((resolve) => {
-      action('deleteCover')(req);
-      setTimeout(() => resolve(), 3000);
-    }),
-
-  uploadScreenshots: (files) => {
-    return new Promise((resolve) => {
-      action('uploadScreenshots')(files);
-      setTimeout(() => resolve(), 3000);
-    });
-  },
-  deleteScreenshot: (req) =>
-    new Promise((resolve) => {
-      action('deleteScreenshot')(req);
-      setTimeout(() => resolve(), 3000);
-    }),
-
-  uploadGame: (req) =>
-    new Promise((resolve) => {
-      console.log('uploadGame', req);
-      action('uploadGame')(req);
-      setTimeout(() => resolve(), 3000);
-    }),
-  deleteGame: (req) =>
-    new Promise((resolve) => {
-      action('deleteGame')(req);
-      setTimeout(() => resolve(), 3000);
-    }),
 };
 
 const prefilledValues: FormContextType = {
@@ -122,32 +63,6 @@ const prefilledValues: FormContextType = {
       width: 2208,
       height: 1242,
     },
-    screenshots: [
-      {
-        id: '3',
-        status: 'uploaded',
-        src: '/games/word-search/banner.jpg',
-        name: 'Solitaire Icon',
-        width: 2208,
-        height: 1242,
-      },
-      {
-        id: '4',
-        status: 'uploaded',
-        src: '/games/word-pack/banner.jpg',
-        name: 'Solitaire Icon',
-        width: 2208,
-        height: 1242,
-      },
-      {
-        id: '5',
-        status: 'uploaded',
-        src: '/games/nonograms/banner.png',
-        name: 'Solitaire Icon',
-        width: 2208,
-        height: 1242,
-      },
-    ],
     trailer: 'https://www.youtube.com/watch?v=o8PWi-cJOx0',
     purchaseOptions: {
       steam: 'https://store.steampowered.com/app/1234567890/My_Game/',
@@ -211,7 +126,6 @@ export const UploadingFiles: Story = {
             projectType: 'HTML',
             viewport: 'RESPONSIVE',
             gameFile: {
-              id: '1',
               name: 'game.zip',
               size: 123456,
               lastModified: addMinutesToCurrentTime(-61 * 3).getTime(),
@@ -227,26 +141,6 @@ export const UploadingFiles: Story = {
               name: 'cover.jpg',
               status: 'uploading',
             },
-            screenshots: [
-              {
-                id: '1',
-                name: 'thumbnail.jpg',
-                status: 'uploading',
-              },
-              {
-                id: '2',
-                name: 'thumbnail.jpg',
-                status: 'uploaded',
-                src: '/games/solitaire/icon.jpg',
-                width: 512,
-                height: 512,
-              },
-              {
-                id: '3',
-                name: 'thumbnail.jpg',
-                status: 'uploading',
-              },
-            ],
           },
         }}
       >
@@ -344,7 +238,6 @@ export const ExternalWebsiteErrors: Story = {
               'Your web page must not include "http://" or "https://"',
             thumbnail: 'Failed to upload a thumbnail.',
             cover: 'Failed to upload a cover.',
-            screenshots: 'Screenshot upload failed.',
             trailer: 'Trailer must be a YouTube or Vimeo link.',
             purchaseOptions:
               'Invalid purchase options. Please check your links and try again.',

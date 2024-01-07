@@ -12,7 +12,7 @@ import { GameFile } from './game-file';
 
 export const GameFiles: FC = () => {
   const { values } = useFormContext();
-  const isHTML5 = values.projectType === 'html';
+  const isHTML5 = values.projectType === 'HTML';
   return (
     <Box display={isHTML5 ? 'flex' : 'none'} flexDirection="column" gap={2}>
       <Typography variant="h5" mb={-1}>

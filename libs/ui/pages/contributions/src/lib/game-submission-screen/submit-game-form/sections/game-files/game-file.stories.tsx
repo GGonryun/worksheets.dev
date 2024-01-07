@@ -30,21 +30,11 @@ const DefaultStory: Story = {
 };
 export default DefaultStory;
 
-export const Ready: Story = {
-  args: {
-    file: {
-      name: 'game.zip',
-      size: 123456,
-      lastModified: addMinutesToCurrentTime(-61 * 3).getTime(),
-      status: 'ready',
-    },
-    error: '',
-  },
-};
-
 export const Uploading: Story = {
   args: {
     file: {
+      id: '1',
+      type: 'application/zip',
       name: 'game.zip',
       size: 123456,
       lastModified: addMinutesToCurrentTime(-61 * 3).getTime(),
@@ -57,6 +47,8 @@ export const Uploading: Story = {
 export const Uploaded: Story = {
   args: {
     file: {
+      id: '1',
+      type: 'application/zip',
       name: 'game.zip',
       size: 123456,
       lastModified: addMinutesToCurrentTime(-61 * 3).getTime(),
@@ -69,10 +61,12 @@ export const Uploaded: Story = {
 export const Error: Story = {
   args: {
     file: {
+      id: '1',
+      type: 'application/zip',
       name: 'game.zip',
       size: 123456,
       lastModified: addMinutesToCurrentTime(-61 * 3).getTime(),
-      status: 'error',
+      status: 'uploading',
     },
     error: 'Failed to upload file. Please try again.',
   },

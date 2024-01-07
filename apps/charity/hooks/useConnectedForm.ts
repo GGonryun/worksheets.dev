@@ -1,12 +1,12 @@
 import { trpc } from '@worksheets/trpc-charity';
 import { FormContextType } from '@worksheets/ui/pages/contributions';
-import { GameFile, ImageFile } from '@worksheets/util/types';
+import { FileUpload } from '@worksheets/util/types';
 import { useState } from 'react';
 
 type FormContextErrors = FormContextType['errors'];
 type FormContextValues = FormContextType['values'];
 
-const initialErrors = {
+const initialErrors: FormContextErrors = {
   title: '',
   tagline: '',
   gameId: '',
@@ -23,9 +23,9 @@ const initialErrors = {
   tags: '',
   thumbnail: '',
   cover: '',
-  screenshots: '',
   trailer: '',
   purchaseOptions: '',
+  screenshots: '',
 };
 
 const initialValues: FormContextValues = {
@@ -51,89 +51,133 @@ const initialValues: FormContextValues = {
   tags: [],
   thumbnail: undefined,
   cover: undefined,
-  screenshots: [],
   trailer: '',
   purchaseOptions: {},
+  screenshots: [],
 };
 
 export const useConnectedForm = (): FormContextType => {
   const [errors, setErrors] = useState<FormContextErrors>(initialErrors);
   const [values, setValues] = useState<FormContextValues>(initialValues);
 
-  const submitForm = trpc.submissions.send.useMutation();
-  const prepare = trpc.files.prepare.useMutation();
+  const submitForm = trpc.games.submit.useMutation();
+  const { uploadFile, deleteFile } = useFileStorage();
 
   return {
     errors,
     values,
     onSubmit: async () => await submitForm.mutateAsync(values),
-    setFieldValue: (field, values) =>
-      setValues((prev) => ({ ...prev, [field]: values })),
+    setFieldValue: (field, values) => {
+      return setValues((prev) => ({ ...prev, [field]: values }));
+    },
     uploadGame: async (file) => {
-      const prepareData = await prepare.mutateAsync({
-        name: file.name,
-        type: file.type,
-        size: file.size,
-      });
-
-      const gameFile: GameFile = {
-        name: file.name,
-        status: 'uploading',
-        size: file.size,
-        lastModified: file.lastModified,
-        url: prepareData.downloadUrl,
-      };
-
-      setValues((prev) => ({
-        ...prev,
-        gameFile,
-      }));
-
-      await fetch(prepareData.uploadUrl, {
-        method: 'PUT',
-        body: file,
-        headers: {
-          // content type zip
-          'Content-Type': 'application/zip',
+      await uploadFile({
+        file,
+        onUpdate: (upload) => {
+          setValues((prev) => ({ ...prev, gameFile: upload }));
         },
       });
+    },
+    deleteGame: async (game) => {
+      await deleteFile(game);
+      setValues((prev) => ({ ...prev, gameFile: undefined }));
+    },
 
+    uploadThumbnail: async (file) => {
+      // TODO: after uploading an image, infer the dimensions from the image on the frontend.
+      await uploadFile({
+        file,
+        onUpdate: (upload) => {
+          setValues((prev) => ({ ...prev, thumbnail: upload }));
+        },
+      });
+    },
+    deleteThumbnail: async (image) => {
+      await deleteFile(image);
+      setValues((prev) => ({ ...prev, thumbnail: undefined }));
+    },
+
+    uploadCover: async (file) => {
+      // TODO: after uploading an image, infer the dimensions from the image on the frontend.
+      await uploadFile({
+        file,
+        onUpdate: (upload) => {
+          setValues((prev) => ({ ...prev, cover: upload }));
+        },
+      });
+    },
+    deleteCover: async (image) => {
+      await deleteFile(image);
+      setValues((prev) => ({ ...prev, cover: undefined }));
+    },
+
+    uploadScreenshots: async (files) => {
+      alert('TODO: support upload screenshots');
+    },
+    deleteScreenshot: async (image) => {
+      await deleteFile(image);
       setValues((prev) => ({
         ...prev,
-        gameFile: {
-          ...gameFile,
-          status: 'uploaded',
-        },
+        screenshots: prev.screenshots.filter(
+          (screenshot) => screenshot.id !== image.id
+        ),
       }));
-    },
-    deleteGame: function (game: GameFile): Promise<void> {
-      // TODO: update the game file field immediately.
-      // TODO: make a TRPC request to clean up the file from GCS Bucket
-      throw new Error('Function not implemented.');
-    },
-    uploadThumbnail: function (file: File | undefined): Promise<void> {
-      // TODO: update the thumbnail field with uploading status.
-      // TODO: make a request to get a signed url.
-      // TODO: upload the file to the signed url.
-      // TODO: update the field with the thumbnail file and url.
-      throw new Error('Function not implemented.');
-    },
-    deleteThumbnail: function (image: ImageFile): Promise<void> {
-      // TODO: update the thumbnail field immediately.
-      // TODO: make a TRPC request to clean up the file from GCS Bucket
-      throw new Error('Function not implemented.');
-    },
-    uploadCover: function (file: File | undefined): Promise<void> {
-      throw new Error('Function not implemented.');
-    },
-    deleteCover: function (image: ImageFile): Promise<void> {
-      throw new Error('Function not implemented.');
-    },
-    uploadScreenshots: function (file: FileList | null): Promise<void> {
-      throw new Error('Function not implemented.');
-    },
-    deleteScreenshot: function (image: ImageFile): Promise<void> {
-      throw new Error('Function not implemented.');
     },
   };
+};
+
+const useFileStorage = () => {
+  const prepare = trpc.files.prepare.useMutation();
+  const destroy = trpc.files.destroy.useMutation();
+
+  const uploadFile = async ({
+    file,
+    onUpdate,
+  }: {
+    file: File;
+    onUpdate: (upload: FileUpload) => void;
+  }): Promise<void> => {
+    const prepareData = await prepare.mutateAsync({
+      name: file.name,
+      type: file.type,
+      size: file.size,
+    });
+
+    const upload = {
+      name: file.name,
+      size: file.size,
+      type: file.type,
+      lastModified: file.lastModified,
+      url: prepareData.downloadUrl,
+    };
+
+    onUpdate({
+      ...upload,
+      status: 'uploading',
+    });
+
+    await fetch(prepareData.uploadUrl, {
+      method: 'PUT',
+      body: file,
+      headers: {
+        // content type zip
+        'Content-Type': 'application/zip',
+      },
+    });
+
+    onUpdate({
+      ...upload,
+      status: 'uploaded',
+    });
+  };
+
+  const deleteFile = async (file: FileUpload): Promise<void> => {
+    if (!file.id) {
+      return;
+    }
+
+    destroy.mutateAsync({ id: file.id });
+  };
+
+  return { uploadFile, deleteFile };
 };

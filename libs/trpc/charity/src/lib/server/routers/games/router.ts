@@ -1,6 +1,6 @@
 import { t } from '../../trpc';
-import send from './send';
+import submit from './submit';
 
 export default t.router({
-  send,
+  submit,
 });

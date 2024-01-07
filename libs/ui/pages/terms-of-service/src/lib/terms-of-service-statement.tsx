@@ -13,8 +13,8 @@ export const TermsOfServiceStatement = () => {
   );
 };
 
-const createdAtDate = printDate('12-17-2021');
-const updatedAtDate = printDate('12-17-2021');
+const createdAtDate = printDate('12-17-2023');
+const updatedAtDate = printDate('12-17-2023');
 
 const tosStatement = `
 # Terms of Use

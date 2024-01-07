@@ -1,7 +1,7 @@
 import type { Meta } from '@storybook/react';
 import { GameSubmissionScreen } from './game-submission-screen';
 import { FormContextProvider } from './submit-game-form/context';
-import { defaultValues } from './submit-game-form/submit-game-form.stories';
+import { defaultValues } from '../__mocks__';
 
 type Story = Meta<typeof GameSubmissionScreen>;
 

@@ -8,37 +8,22 @@ import { z } from '@worksheets/zod';
 export type GameCategory = NativeGameCategory;
 export type ProjectType = NativeProjectType;
 export type ViewportType = NativeViewportType;
+export type FileStatus = z.infer<typeof fileStatusSchema>;
 
-export const ImageFileSchema = z
-  .object({
-    id: z.string(),
-    name: z.string(),
-  })
-  .and(
-    z.union([
-      z.object({
-        status: z.literal('uploaded'),
-        src: z.string(),
-        height: z.number(),
-        width: z.number(),
-      }),
-      z.object({
-        status: z.literal('uploading'),
-      }),
-    ])
-  );
+export const fileStatusSchema = z.enum(['uploaded', 'uploading']);
 
-export type ImageFile = z.infer<typeof ImageFileSchema>;
-
-export const GameFileSchema = z.object({
-  status: z.enum(['uploaded', 'uploading']),
+export const FileUploadSchema = z.object({
   name: z.string(),
   size: z.number(),
+  type: z.string(),
   lastModified: z.number(),
+  path: z.string().optional(),
+  status: fileStatusSchema,
   url: z.string().optional(),
+  id: z.string().optional(),
 });
 
-export type GameFile = z.infer<typeof GameFileSchema>;
+export type FileUpload = z.infer<typeof FileUploadSchema>;
 
 export const PurchaseOptionSchema = z.object({
   steam: z.string(),
@@ -75,7 +60,7 @@ export const SubmitGameFormSchema = z.object({
   gameId: z.string(),
   projectType: z.nativeEnum(NativeProjectType).optional(),
   externalWebsiteUrl: z.string(),
-  gameFile: GameFileSchema.optional(),
+  gameFile: FileUploadSchema.optional(),
   viewport: z.nativeEnum(NativeViewportType).optional(),
   dimensions: z
     .object({
@@ -89,9 +74,9 @@ export const SubmitGameFormSchema = z.object({
   instructions: z.string(),
   category: z.nativeEnum(NativeGameCategory).optional(),
   tags: z.array(z.string()),
-  thumbnail: ImageFileSchema.optional(),
-  cover: ImageFileSchema.optional(),
-  screenshots: z.array(ImageFileSchema),
+  thumbnail: FileUploadSchema.optional(),
+  cover: FileUploadSchema.optional(),
+  screenshots: z.array(FileUploadSchema),
   trailer: z.string(),
   purchaseOptions: PurchaseOptionSchema.partial(),
 });

@@ -10,11 +10,15 @@ datasource db {
 
 model GamePlay {
   id            String        @id @default(cuid())
-  gameId        String
   total         Int
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
-  // game          Game          @relation(fields: [gameId], references: [id])
+  // reference to the game.
+  gameId        String
+  game          Game          @relation(fields: [gameId], references: [id])
+  // anonymous users can play games.
+  userId        String?
+  user          User?         @relation(fields: [userId], references: [id])
 }
 
 model GameVote {
@@ -23,7 +27,11 @@ model GameVote {
   createdAt     DateTime      @default(now())
   up            Int           @default(0)
   down          Int           @default(0)
-  // game          Game          @relation(fields: [gameId], references: [id])
+  game          Game          @relation(fields: [gameId], references: [id])
+
+  // only authenticated users can vote on games
+  userId        String
+  user          User         @relation(fields: [userId], references: [id])
 }
 
 model GameVoteSubmission {
@@ -36,50 +44,52 @@ model GameVoteSubmission {
   // user          User          @relation(fields: [userId], references: [id])
 }
 
-
 enum GameDevices {
   MOBILE
   WEB
 }
 
-enum GameStatus {
+enum GameSubmissionStatus {
   DRAFT
-  ERROR
-  PUBLISHED
-  ARCHIVED
+  REJECTED
+  PENDING
+  ACCEPTED
+  DELETED
 }
 
 model User {
   id                String    @id @default(cuid())
   name              String?
-  username          String?
-  email             String?   @unique
+  email             String   @unique
   emailVerified     DateTime?
   image             String?
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
   
-  submissions       Game[]
   accounts          Account[]
   sessions          Session[]
+  plays             GamePlay[]
+  votes             GameVote[]
+  profile           Profile?
+  purse             Purse?
 }
 
 model Account {
-  id                 String  @id @default(cuid())
-  userId             String
-  type               String
-  provider           String
-  providerAccountId  String
-  refresh_token      String?  @db.Text
-  refresh_token_expires_in Int?
-  access_token       String?  @db.Text
-  expires_at         Int?
-  token_type         String?
-  scope              String?
-  id_token           String?  @db.Text
-  session_state      String?
-  oauth_token_secret       String?
-  oauth_token              String?
+  id                        String  @id @default(cuid())
+  userId                    String
+  type                      String
+  provider                  String
+  providerAccountId         String
+  refresh_token             String?  @db.Text
+  refresh_token_expires_in  Int?
+  access_token              String?  @db.Text
+  expires_at                Int?
+  token_type                String?
+  scope                     String?
+  id_token                  String?  @db.Text
+  session_state             String?
+  oauth_token_secret        String?
+  oauth_token               String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -109,6 +119,35 @@ model Email {
   createdAt     DateTime  @default(now()) @map(name: "created_at")
   updatedAt     DateTime  @updatedAt @map(name: "updated_at")
 }
+
+model Profile {
+  id                String    @id @default(cuid())
+  // basic settings
+  username          String    @unique
+  bio               String?
+  // publisher settings
+  isPublisher       Boolean   @default(false)
+  // audit
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  // profiles may exist without a user.
+  // this lets us upload games on behalf of users (legacy).
+  userId            String?    @unique
+  user              User?      @relation(fields: [userId], references: [id])
+  // external references
+  games             Game[]
+  submissions       GameSubmission[]
+}
+
+model Purse {
+  id                String    @id @default(cuid())
+  userId            String    @unique
+  user              User      @relation(fields: [userId], references: [id])
+  balance           Int       @default(0)
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+}
+
 
 enum ReportReason {
   BROKEN
@@ -163,58 +202,124 @@ enum GameCategory {
   WORD
 }
 
-model StoredFile {
-  id           String           @id @default(cuid())
-  userId       String           
-  type         String           @db.VarChar(63)
-  name         String           @db.VarChar(127)
-  path         String           @db.VarChar(255)
-  url          String           @db.VarChar(511)
-  size         Int              @default(0)
-  // Stored files that don't belong to a game submission are deleted after a while.
-  createdAt    DateTime         @default(now())
-  updatedAt    DateTime         @updatedAt
-  // The gameId is assigned after the game is submitted.
-  gameId       String?          @unique
-  game         Game?            @relation(fields: [gameId], references: [id])
-}
-
-
 enum DeviceOrientations {
   PORTRAIT
   LANDSCAPE
 }
 
+model Viewport {
+  id            String                @id @default(cuid())
+  type          ViewportType          @default(RESPONSIVE)
+  width         Int?
+  height        Int?
+  devices       GameDevices[]         @default([WEB])
+  orientations  DeviceOrientations[]  @default([PORTRAIT])
+  games         Game[]
+}
+
+model GameFile {
+  id           String                @id @default(cuid())
+  type         ProjectType           @default(HTML)
+  url          String                @db.VarChar(511)
+  game         Game?    
+}
 
 model Game {
-  id                  String                @id @default(cuid())
-  slug                String                @db.VarChar(63) @unique
-  title               String                @db.VarChar(63)
-  tagline             String                @db.VarChar(255)
-  projectType         ProjectType           @default(HTML)
-  externalWebsiteUrl  String?               @db.VarChar(255)
-  viewport            ViewportType          @default(RESPONSIVE)
+  id            String          @id @default(cuid())
+  slug          String          @db.VarChar(63)
+
+  // Details
+  title         String          @db.VarChar(127)
+  headline      String          @db.VarChar(256)
+  description   String          @db.VarChar(2047)
+  instructions  String          @db.VarChar(2047)
+  markets       Json
+
+  // Search
+  category      GameCategory    @default(OTHER)
+  tags          String[]        @db.VarChar(63)
+
+  // Assets
+  thumbnail     String          @db.Text // URL
+  cover         String          @db.Text // URL
+  screenshots   String[]        @db.Text // URLs
+  trailer       String?         @db.Text // URL
+
+  // Audit
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+
+  // Game File
+  fileId        String          @unique
+  file          GameFile        @relation(fields: [fileId], references: [id])
+  viewportId    String
+  viewport      Viewport         @relation(fields: [viewportId], references: [id])
+
+  // Ownership
+  ownerId       String?
+  owner         Profile?            @relation(fields: [ownerId], references: [id])
+
+  // Analytics
+  votes         GameVote[]
+  plays         GamePlay[]
+}
+
+model StoredFile {
+  id            String           @id @default(cuid())
+  userId        String           
+  type          String           @db.VarChar(63)
+  name          String           @db.VarChar(127)
+  path          String           @db.VarChar(255)
+  url           String           @db.VarChar(511)
+  size          Int              @default(0)
+  // Stored files that don't belong to a game submission are deleted after a while.
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+  // The gameId is assigned after the game is submitted.
+  gameId        String?          @unique
+}
+
+model GameSubmission {
+  id                  String                    @id @default(cuid())
+  slug                String?                   @db.VarChar(63) @unique
+  title               String?                   @db.VarChar(63)
+  headline            String?                   @db.VarChar(255)
+  projectType         ProjectType?              @default(HTML)
+  externalWebsiteUrl  String?                   @db.VarChar(255)
+  viewport            ViewportType?             @default(RESPONSIVE)
   viewportWidth       Int? 
   viewportHeight      Int?
-  devices             GameDevices[]         @default([WEB])
-  orientations        DeviceOrientations[]  @default([PORTRAIT])
-  description         String?               @db.VarChar(1023)
-  instructions        String?               @db.VarChar(1023)
-  category            GameCategory          @default(OTHER)
-  tags                String[]              @db.VarChar(63)
-  purchaseOptions     Json
-  createdAt           DateTime              @default(now())
-  updatedAt           DateTime              @updatedAt
+  devices             GameDevices[]             @default([WEB])
+  orientations        DeviceOrientations[]      @default([PORTRAIT])
+  description         String?                   @db.VarChar(1023)
+  instructions        String?                   @db.VarChar(1023)
+  category            GameCategory?             @default(OTHER)
+  tags                String[]                  @db.VarChar(63)
+  markets             Json?
+  createdAt           DateTime                  @default(now())
+  updatedAt           DateTime                  @updatedAt
   // When a user submits a game, we update all stored files and assign the gameId.
-  gameFileId          String                @db.VarChar(63) @unique
-  thumbnailId         String                @db.VarChar(63) @unique
-  coverId             String                @db.VarChar(63) @unique
-  screenshotIds       String[]              @db.VarChar(63) @default([])
-  status              GameStatus            @default(DRAFT)
-  files               StoredFile[]      
-  // the user that submitted the game
+  gameFileUrl         String?                   @db.VarChar(63) @unique
+  thumbnailUrl        String?                   @db.VarChar(63) @unique
+  coverUrl            String?                   @db.VarChar(63) @unique
+  // The game status is updated when the game is submitted.
+  // approved submissions are deleted after the game is published.
+  status              GameSubmissionStatus      @default(DRAFT)
+  reviews             GameSubmissionFeedback[]
+  // the profile that submitted the game
   ownerId             String 
-  owner               User                  @relation(fields: [ownerId], references: [id])    
+  owner               Profile                  @relation(fields: [ownerId], references: [id])    
+}
+
+// Feedback for a game submission, written by an admin or moderator.
+// Feedback should be created if a game has some issues that need to be fixed before it can be published.
+// A game submission can have multiple feedback reports.
+model GameSubmissionFeedback {
+  id            String          @id @default(cuid())
+  gameId        String        
+  text          String          @db.VarChar(511)
+  createdAt     DateTime        @default(now())
+  game          GameSubmission  @relation(fields: [gameId], references: [id])
 }
 
 generator zod {

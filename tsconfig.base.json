@@ -84,6 +84,7 @@
       "@worksheets/ui/pills": ["libs/ui/pills/src/index.ts"],
       "@worksheets/ui/qa-section": ["libs/ui/qa-section/src/index.ts"],
       "@worksheets/ui/qa-section/server": ["libs/ui/qa-section/src/server.ts"],
+      "@worksheets/ui/snackbar": ["libs/ui/snackbar/src/index.ts"],
       "@worksheets/ui/theme": ["libs/ui/theme/src/index.ts"],
       "@worksheets/ui/widgets": ["libs/ui/widgets/src/index.ts"],
       "@worksheets/util-coordinates": ["libs/util/coordinates/src/index.ts"],

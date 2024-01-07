@@ -1,4 +1,4 @@
-import { GameFile, ImageFile, SubmitGameForm } from '@worksheets/util/types';
+import { FileUpload, SubmitGameForm } from '@worksheets/util/types';
 
 export type FormFields = SubmitGameForm;
 
@@ -13,15 +13,17 @@ export type FormContextType = {
     value: SubmitGameForm[T]
   ) => void;
 
+  // TODO: is it possible to fuse all the upload/delete methods into one?
+
   uploadGame: (file: File) => Promise<void>;
-  deleteGame: (game: GameFile) => Promise<void>;
+  deleteGame: (game: FileUpload) => Promise<void>;
 
-  uploadThumbnail: (file: File | undefined) => Promise<void>;
-  deleteThumbnail: (image: ImageFile) => Promise<void>;
+  uploadThumbnail: (file: File) => Promise<void>;
+  deleteThumbnail: (image: FileUpload) => Promise<void>;
 
-  uploadCover: (file: File | undefined) => Promise<void>;
-  deleteCover: (image: ImageFile) => Promise<void>;
+  uploadCover: (file: File) => Promise<void>;
+  deleteCover: (image: FileUpload) => Promise<void>;
 
-  uploadScreenshots: (file: FileList | null) => Promise<void>;
-  deleteScreenshot: (image: ImageFile) => Promise<void>;
+  uploadScreenshots: (file: FileList) => Promise<void>;
+  deleteScreenshot: (image: FileUpload) => Promise<void>;
 };

@@ -8,13 +8,9 @@ declare module 'next-auth' {
   interface Session {
     user: {
       id: string;
-      username: string | undefined;
     };
   }
-  interface User {
-    username?: string;
-    gh_username?: string;
-  }
+  interface User {}
   interface Profile {
     email_verified?: boolean;
   }

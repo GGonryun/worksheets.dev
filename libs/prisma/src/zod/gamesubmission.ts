@@ -1,6 +1,6 @@
 import * as z from "zod"
-import { ProjectType, ViewportType, GameDevices, DeviceOrientations, GameCategory } from "@prisma/client"
-import { CompleteUser, RelatedUserModel } from "./index"
+import { ProjectType, ViewportType, GameDevices, DeviceOrientations, GameCategory, GameSubmissionStatus } from "@prisma/client"
+import { CompleteGameSubmissionFeedback, RelatedGameSubmissionFeedbackModel, CompleteProfile, RelatedProfileModel } from "./index"
 
 // Helper schema for JSON fields
 type Literal = boolean | number | string
@@ -10,12 +10,11 @@ const jsonSchema: z.ZodSchema<Json> = z.lazy(() => z.union([literalSchema, z.arr
 
 export const GameSubmissionModel = z.object({
   id: z.string(),
-  userId: z.string(),
+  slug: z.string(),
   title: z.string(),
-  tagline: z.string(),
+  headline: z.string(),
   projectType: z.nativeEnum(ProjectType),
   externalWebsiteUrl: z.string().nullish(),
-  gameFileId: z.string(),
   viewport: z.nativeEnum(ViewportType),
   viewportWidth: z.number().int().nullish(),
   viewportHeight: z.number().int().nullish(),
@@ -25,17 +24,19 @@ export const GameSubmissionModel = z.object({
   instructions: z.string().nullish(),
   category: z.nativeEnum(GameCategory),
   tags: z.string().array(),
-  purchaseOptions: jsonSchema,
+  markets: jsonSchema,
   createdAt: z.date(),
   updatedAt: z.date(),
-  gameId: z.string(),
+  gameFileId: z.string(),
   thumbnailId: z.string(),
   coverId: z.string(),
-  screenshotIds: z.string().array(),
+  status: z.nativeEnum(GameSubmissionStatus),
+  ownerId: z.string(),
 })
 
 export interface CompleteGameSubmission extends z.infer<typeof GameSubmissionModel> {
-  user: CompleteUser
+  reviews: CompleteGameSubmissionFeedback[]
+  owner: CompleteProfile
 }
 
 /**
@@ -44,5 +45,6 @@ export interface CompleteGameSubmission extends z.infer<typeof GameSubmissionMod
  * NOTE: Lazy required in case of potential circular dependencies within schema
  */
 export const RelatedGameSubmissionModel: z.ZodSchema<CompleteGameSubmission> = z.lazy(() => GameSubmissionModel.extend({
-  user: RelatedUserModel,
+  reviews: RelatedGameSubmissionFeedbackModel.array(),
+  owner: RelatedProfileModel,
 }))

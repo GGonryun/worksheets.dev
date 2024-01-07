@@ -5,7 +5,7 @@ import FormHelperText from '@mui/material/FormHelperText';
 import Input from '@mui/material/Input';
 import Typography from '@mui/material/Typography';
 import { useFormContext } from '../../context';
-import { ImageUpload } from './image-upload';
+import { ImageUpload } from '@worksheets/ui/images';
 
 export const MediaAssets = () => (
   <Box
@@ -60,8 +60,8 @@ const ThumbnailImageField = () => {
 
       {value && (
         <ImageUpload
-          image={value}
           {...size}
+          src={value.url}
           onDelete={async () => await deleteThumbnail(value)}
         />
       )}
@@ -73,9 +73,13 @@ const ThumbnailImageField = () => {
           type="file"
           disableUnderline
           inputProps={{ accept: 'image/*' }}
-          onChange={async (e) =>
-            await uploadThumbnail((e.target as HTMLInputElement).files?.[0])
-          }
+          onChange={async (e) => {
+            const target = e.target as HTMLInputElement;
+            const file = target.files?.[0];
+            if (file) {
+              return await uploadThumbnail(file);
+            }
+          }}
         />
       )}
     </Box>
@@ -114,9 +118,9 @@ const CoverImageField = () => {
 
       {value && (
         <ImageUpload
-          image={value}
-          onDelete={async () => await deleteCover(value)}
           {...size}
+          src={value.url}
+          onDelete={async () => await deleteCover(value)}
         />
       )}
 
@@ -127,9 +131,13 @@ const CoverImageField = () => {
           type="file"
           disableUnderline
           inputProps={{ accept: 'image/*' }}
-          onChange={async (e) =>
-            await uploadCover((e.target as HTMLInputElement).files?.[0])
-          }
+          onChange={async (e) => {
+            const target = e.target as HTMLInputElement;
+            const file = target.files?.[0];
+            if (file) {
+              return await uploadCover(file);
+            }
+          }}
         />
       )}
     </Box>
@@ -175,9 +183,9 @@ const ScreenshotsImageField = () => {
       >
         {value.map((image, index) => (
           <ImageUpload
-            key={index}
-            image={image}
             {...size}
+            key={index}
+            src={image.url}
             onDelete={async () => {
               await deleteScreenshot(image);
             }}
@@ -193,9 +201,13 @@ const ScreenshotsImageField = () => {
           type="file"
           disableUnderline
           inputProps={{ multiple: true, accept: 'image/*' }}
-          onChange={async (e) =>
-            await uploadScreenshots((e.target as HTMLInputElement).files)
-          }
+          onChange={async (e) => {
+            const target = e.target as HTMLInputElement;
+            const files = target.files;
+            if (files) {
+              return await uploadScreenshots(files);
+            }
+          }}
         />
       )}
     </Box>

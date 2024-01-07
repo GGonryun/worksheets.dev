@@ -1,14 +1,13 @@
 import { FC, ReactNode } from 'react';
-import { FileStatus, FormFields } from '../../context';
+import { FormFields } from '../../context';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { printRelativeDate } from '@worksheets/util/time';
 import { printBytes } from '@worksheets/util/numbers';
 import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
-import ErrorOutlineOutlinedIcon from '@mui/icons-material/ErrorOutlineOutlined';
-import PendingOutlinedIcon from '@mui/icons-material/PendingOutlined';
 import { CircularProgress } from '@mui/material';
+import { FileStatus } from '@worksheets/util/types';
 
 export const GameFile: FC<{
   file: NonNullable<FormFields['gameFile']>;
@@ -78,15 +77,11 @@ export const GameFile: FC<{
 );
 
 const fileStatusIcon: Record<FileStatus, ReactNode> = {
-  error: <ErrorOutlineOutlinedIcon fontSize="large" color="error" />,
-  idle: <PendingOutlinedIcon fontSize="large" color="primary" />,
   uploading: <CircularProgress size={28} sx={{ px: '4px' }} />,
   uploaded: <CheckCircleOutlinedIcon fontSize="large" color="success" />,
 };
 
 const fileStatusLabel: Record<FileStatus, string> = {
-  error: 'Error',
-  idle: 'Ready to upload',
   uploading: 'Uploading...',
   uploaded: 'Finished',
 };
