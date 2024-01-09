@@ -1,0 +1,19 @@
+[
+    {
+        "origin": [
+            "https://charity.games",
+            "http://localhost:6969"
+        ],
+        "responseHeader": [
+            "Content-Type"
+        ],
+        "method": [
+            "GET",
+            "HEAD",
+            "DELETE",
+            "PUT",
+            "POST"
+        ],
+        "maxAgeSeconds": 120
+    }
+]

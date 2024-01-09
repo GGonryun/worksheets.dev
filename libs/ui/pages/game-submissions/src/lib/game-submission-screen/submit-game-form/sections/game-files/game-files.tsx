@@ -39,10 +39,9 @@ export const GameFiles: FC = () => {
 };
 
 const GameFileInput = () => {
-  const id = 'gameFileUrl';
+  const id = 'gameFile';
 
   const [uploading, setUploading] = useState(false);
-  const [file, setFile] = useState<File | null>(null);
 
   const { values, errors, upload, destroy } = useGameSubmissionFormContext();
 
@@ -52,13 +51,13 @@ const GameFileInput = () => {
   if (value) {
     return (
       <GameFile
-        url={value}
+        name={value.name}
+        timestamp={value.timestamp}
+        size={value.size}
         status={error ? 'error' : uploading ? 'uploading' : 'uploaded'}
-        size={file?.size ?? 0}
         error={error}
         onDelete={async () => {
-          setFile(null);
-          return await destroy(id, value);
+          return await destroy(id);
         }}
       />
     );
@@ -77,9 +76,7 @@ const GameFileInput = () => {
         onChange={async (e) => {
           const target = e.target as HTMLInputElement;
           const files = target.files;
-          const file = files?.[0] ?? null;
 
-          setFile(file);
           setUploading(true);
           await upload(id, files);
           setUploading(false);

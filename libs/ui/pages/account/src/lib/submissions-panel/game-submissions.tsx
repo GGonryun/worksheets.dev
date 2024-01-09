@@ -1,12 +1,13 @@
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import { GameSubmission, GameSubmissionProps } from './game-submission';
+import { GameSubmission } from './game-submission';
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
 import { NewWindow } from '@worksheets/ui/icons';
+import { BasicGameSubmission } from '../types';
 
 export const GameSubmissions: React.FC<{
-  submissions: GameSubmissionProps[];
+  submissions: BasicGameSubmission[];
 }> = ({ submissions }) => (
   <Box
     sx={{

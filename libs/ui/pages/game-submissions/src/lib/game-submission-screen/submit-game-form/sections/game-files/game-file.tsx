@@ -2,23 +2,22 @@ import { FC, ReactNode } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { printBytes } from '@worksheets/util/numbers';
+import { printBytes } from '@worksheets/util/data';
 import { CircularProgress } from '@mui/material';
 import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
-import { useFileName } from '@worksheets/ui-core';
 import WarningIcon from '@mui/icons-material/Warning';
+import { printRelativeDate } from '@worksheets/util/time';
 
 type FileStatus = 'uploading' | 'uploaded' | 'error';
 
 export const GameFile: FC<{
-  url?: string;
-  size?: number;
+  name: string;
+  size: number;
   status: FileStatus;
   error: string;
+  timestamp: number;
   onDelete: () => Promise<void>;
-}> = ({ url, size, status, error, onDelete }) => {
-  const { file } = useFileName(url ?? '/unknown.zip');
-
+}> = ({ name, size, status, timestamp, error, onDelete }) => {
   return (
     <Box
       sx={{
@@ -56,7 +55,7 @@ export const GameFile: FC<{
         <Box>
           <Box display="flex" gap={0.5} alignItems="baseline">
             <Typography variant="body2" fontWeight={700}>
-              {file}
+              {name}
             </Typography>
             {!!size && (
               <Typography variant="body3" color="text.primary">
@@ -70,6 +69,13 @@ export const GameFile: FC<{
               color={error ? 'error.main' : 'text.secondary'}
             >
               {error || fileStatusLabel[status]}
+            </Typography>
+            <Typography
+              display={status !== 'uploaded' ? 'none' : 'span'}
+              variant="body3"
+              color="text.secondary"
+            >
+              {printRelativeDate(timestamp)}
             </Typography>
           </Box>
         </Box>
@@ -86,6 +92,6 @@ const fileStatusIcon: Record<FileStatus, ReactNode> = {
 
 const fileStatusLabel: Record<FileStatus, string> = {
   uploading: 'Uploading...',
-  uploaded: 'Upload Successful',
+  uploaded: 'Finished',
   error: 'Failed to upload file. Please try again.',
 };

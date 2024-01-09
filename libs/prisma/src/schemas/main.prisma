@@ -15,7 +15,7 @@ model GamePlay {
   updatedAt     DateTime      @updatedAt
   // reference to the game.
   gameId        String
-  game          Game          @relation(fields: [gameId], references: [id])
+  // game          Game          @relation(fields: [gameId], references: [id])
   // anonymous users can play games.
   userId        String?
   user          User?         @relation(fields: [userId], references: [id])
@@ -23,11 +23,11 @@ model GamePlay {
 
 model GameVote {
   id            String        @id @default(cuid())
-  gameId        String
   createdAt     DateTime      @default(now())
-  up            Int           @default(0)
-  down          Int           @default(0)
-  game          Game          @relation(fields: [gameId], references: [id])
+  liked         Boolean       @default(true)
+
+  gameId        String
+  // game          Game          @relation(fields: [gameId], references: [id])
 
   // only authenticated users can vote on games
   userId        String
@@ -256,18 +256,25 @@ model Game {
   ownerId       String?
   owner         Profile?        @relation(fields: [ownerId], references: [id])
   // Analytics
-  votes         GameVote[]
-  plays         GamePlay[]
+  // votes         GameVote[]
+  // plays         GamePlay[]
 }
 
 model StoredFile {
   id            String           @id @default(cuid())
   submissionId  String
-  userId        String           
-  url           String           @db.VarChar(511)
-  // Stored files that don't belong to a game submission are deleted after a while.
+  userId        String
+  name          String           @db.VarChar(255)
+  path          String           @db.VarChar(511)
+  size          Int           
+  timestamp     Int              @default(0)
+  type          String           @db.VarChar(63)
   createdAt     DateTime         @default(now())
   updatedAt     DateTime         @updatedAt
+  
+  gameFileFor   GameSubmission?   @relation(name: "gameFile")
+  thumbnailFor  GameSubmission?   @relation(name: "thumbnailFile")
+  coverFor      GameSubmission?   @relation(name: "coverFile")
 }
 
 model GameSubmission {
@@ -291,10 +298,13 @@ model GameSubmission {
   // we use a string instead of JSON because our zod parser doesn't support JSON properly.
   // known-issue: https://github.com/microsoft/TypeScript/issues/34933
   markets             String?
-  // When a user submits a game, we update all stored files and assign the gameId.
-  gameFileUrl         String?                   @db.VarChar(63)
-  thumbnailUrl        String?                   @db.VarChar(63) 
-  coverUrl            String?                   @db.VarChar(63)
+  // assets
+  gameFileId          String?                   @db.VarChar(63) @unique
+  gameFile            StoredFile?               @relation(name: "gameFile", fields: [gameFileId], references: [id])
+  thumbnailId         String?                   @db.VarChar(63) @unique
+  thumbnailFile       StoredFile?               @relation(name: "thumbnailFile", fields: [thumbnailId], references: [id])
+  coverId             String?                   @db.VarChar(63) @unique
+  coverFile           StoredFile?               @relation(name: "coverFile", fields: [coverId], references: [id])
   trailerUrl          String?                   @db.VarChar(63)
   // The game status is updated when the game is submitted.
   // approved submissions are deleted after the game is published.

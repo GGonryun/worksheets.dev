@@ -9,19 +9,17 @@ import { GameSubmissionForm } from '@worksheets/ui/pages/game-submissions';
 import { Nullable } from '@worksheets/util/types';
 
 type Props = {
-  submission: Nullable<GameSubmissionForm>;
+  submissionId: string;
+  form: Nullable<GameSubmissionForm>;
   invalidProfile: boolean;
 };
 
-const Page: NextPageWithLayout<Props> = ({ submission, invalidProfile }) => {
+const Page: NextPageWithLayout<Props> = (props) => {
   // TODO: implement this page
   return (
     <>
       <NextSeo {...submitGameSeo} />
-      <GameSubmissionScreenContainer
-        submission={submission}
-        invalidProfile={invalidProfile}
-      />
+      <GameSubmissionScreenContainer {...props} />
     </>
   );
 };
@@ -31,33 +29,34 @@ export const getServerSideProps = (async (ctx) => {
 
   const submissionId = params?.submissionId as string | undefined;
 
+  if (!submissionId) {
+    return {
+      notFound: true,
+    };
+  }
+
   const trpc = await createServerSideTRPC(ctx);
 
   const terms = await trpc.profile.terms.get.fetch();
 
-  let submission: Nullable<GameSubmissionForm>;
-
   try {
-    submission = await trpc.game.submissions.get.fetch({
-      id: submissionId ?? '',
+    const form = await trpc.game.submissions.get.fetch({
+      id: submissionId,
     });
-  } catch (error) {
-    return {
-      notFound: true,
-    };
-  }
 
-  if (!submission || !submission.id) {
     return {
-      notFound: true,
+      props: {
+        submissionId,
+        form,
+        invalidProfile: !terms.hasApproved,
+      },
     };
+  } catch (error) {
+    console.error(`failed to fetch submission ${submissionId}`, error);
   }
 
   return {
-    props: {
-      submission,
-      invalidProfile: !terms.hasApproved,
-    },
+    notFound: true,
   };
 }) satisfies GetServerSideProps<Props>;
 

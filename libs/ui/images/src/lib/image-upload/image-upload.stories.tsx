@@ -36,14 +36,7 @@ export const UploadedThumbnail: Story = {
   args: {
     height: 200,
     width: 200,
-    image: {
-      id: 'thumbnail',
-      status: 'uploaded',
-      src: '/games/solitaire/icon.jpg',
-      name: 'Solitaire Icon',
-      height: 512,
-      width: 512,
-    },
+    src: '/games/solitaire/icon.jpg',
   },
 };
 
@@ -51,11 +44,14 @@ export const UploadingThumbnail: Story = {
   args: {
     height: 200,
     width: 200,
-    image: {
-      id: 'thumbnail',
-      status: 'uploading',
-      name: 'Solitaire Icon',
-    },
+  },
+};
+
+export const ErrorThumbnail: Story = {
+  args: {
+    height: 200,
+    width: 200,
+    error: 'Image must be at least 250x250 pixels.',
   },
 };
 
@@ -63,14 +59,7 @@ export const UploadedBanner: Story = {
   args: {
     height: 290,
     width: 430,
-    image: {
-      id: 'banner',
-      status: 'uploaded',
-      src: '/games/solitaire/banner.png',
-      name: 'Solitaire Icon',
-      width: 2208,
-      height: 1242,
-    },
+    src: '/games/solitaire/banner.png',
   },
 };
 
@@ -78,10 +67,5 @@ export const UploadingBanner: Story = {
   args: {
     height: 290,
     width: 430,
-    image: {
-      id: 'banner',
-      status: 'uploading',
-      name: 'Solitaire Icon',
-    },
   },
 };

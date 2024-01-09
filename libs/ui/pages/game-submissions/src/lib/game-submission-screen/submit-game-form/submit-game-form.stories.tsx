@@ -117,7 +117,7 @@ export const ExternalWebsiteErrors: Story = {
               'Your title cannot include characters such as %, $, #, @, or &.',
             headline: 'Your tagline is too long.',
             projectType: 'Invalid project type selected.',
-            gameFileUrl: '',
+            gameFile: '',
             description: 'Your description is invalid.',
             instructions: 'Your instructions are invalid.',
             category: 'You must select at least one category.',
@@ -127,8 +127,8 @@ export const ExternalWebsiteErrors: Story = {
             viewportHeight: 'Your viewport height must be at least 160 pixels.',
             externalWebsiteUrl:
               'Your web page must not include "http://" or "https://"',
-            thumbnailUrl: 'Failed to upload a thumbnail.',
-            coverUrl: 'Failed to upload a cover.',
+            thumbnailFile: 'Failed to upload a thumbnail.',
+            coverFile: 'Failed to upload a cover.',
             trailerUrl: 'Trailer must be a YouTube or Vimeo link.',
             markets:
               'Invalid purchase options. Please check your links and try again.',
@@ -150,7 +150,7 @@ export const HTML5Game: Story = {
           values: {
             ...prefilledValues.values,
             projectType: 'HTML',
-            gameFileUrl: '',
+            gameFile: null,
           },
         }}
       >
@@ -175,6 +175,30 @@ export const HTML5GameUploaded: Story = {
               gameJolt: '',
             },
           },
+        }}
+      >
+        <Story />
+      </GameSubmissionFormContextProvider>
+    ),
+  ],
+};
+
+export const HTML5GameErrors: Story = {
+  decorators: [
+    (Story) => (
+      <GameSubmissionFormContextProvider
+        value={{
+          ...prefilledValues,
+          values: {
+            ...prefilledValues.values,
+            projectType: 'HTML',
+            markets: {
+              steam: 'https://store.steampowered.com/app/1234567890/My_Game/',
+              itch: 'https://example.itch.io/my-game',
+              gameJolt: '',
+            },
+          },
+          errors: errorValues.errors,
         }}
       >
         <Story />

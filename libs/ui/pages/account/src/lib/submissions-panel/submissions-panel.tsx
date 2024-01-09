@@ -1,12 +1,12 @@
 import Box from '@mui/material/Box';
 import { GettingStarted } from './getting-started';
 import { GameSubmissions } from './game-submissions';
-import { GameSubmissionProps } from './game-submission';
 import { TermsApproval } from '@worksheets/util/types';
+import { BasicGameSubmission } from '../types';
 
 export const SubmissionsPanel: React.FC<{
   terms: TermsApproval;
-  submissions: GameSubmissionProps[];
+  submissions: BasicGameSubmission[];
   onApproveTermsOfService: () => void;
 }> = ({ terms, submissions, onApproveTermsOfService }) => (
   <Box>

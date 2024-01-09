@@ -1,0 +1,77 @@
+import { z } from '@worksheets/zod';
+import { protectedProcedure } from '../../../procedures';
+import { TRPCError } from '@trpc/server';
+import { createFileDownloadUrl } from '@worksheets/ui/environment/server';
+import { storedFileSchema } from '@worksheets/ui/pages/game-submissions';
+
+export default protectedProcedure
+  .input(
+    z.object({
+      submissionId: z.string(),
+      fieldId: z.union([
+        z.literal('gameFile'),
+        z.literal('coverFile'),
+        z.literal('thumbnailFile'),
+      ]),
+      fileId: z.string(),
+    })
+  )
+  .output(
+    z.union([
+      z
+        .object({
+          okay: z.literal(true),
+        })
+        .extend(storedFileSchema.shape),
+      z.object({
+        okay: z.literal(false),
+      }),
+    ])
+  )
+  .mutation(
+    async ({ input: { submissionId, fieldId, fileId }, ctx: { user, db } }) => {
+      console.info('completing file upload', { submissionId, fieldId, fileId });
+
+      const file = await db.storedFile.findFirst({
+        where: {
+          id: fileId,
+          userId: user.id,
+        },
+      });
+
+      if (!file) {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: 'File not found',
+        });
+      }
+
+      // TODO: move to a model where we create signed request urls for reading files.
+      const downloadUrl = createFileDownloadUrl(file.path);
+
+      const fieldMap = {
+        gameFile: 'gameFileId',
+        coverFile: 'coverFileId',
+        thumbnailFile: 'thumbnailFileId',
+      };
+
+      await db.gameSubmission.update({
+        where: {
+          id: submissionId,
+        },
+        data: {
+          [fieldMap[fieldId]]: fileId,
+        },
+      });
+
+      return {
+        okay: true,
+        fileId: file.id,
+        url: downloadUrl,
+        type: file.type,
+        size: file.size,
+        name: file.name,
+        timestamp: file.timestamp,
+      };
+    }
+  );

@@ -5,7 +5,7 @@ import { AccountScreenContainer } from '../../containers/account-screen-containe
 import { BasicInformationForm } from '@worksheets/ui/pages/account';
 import { GetServerSideProps } from 'next';
 import { createServerSideTRPC } from '@worksheets/trpc-charity/server';
-import { accountSeo } from '../../util/seo';
+import { profileSeo } from '../../util/seo';
 
 type Props = {
   profile: BasicInformationForm | null;
@@ -14,8 +14,8 @@ type Props = {
 const Page: NextPageWithLayout<Props> = (props) => {
   return (
     <>
-      <NextSeo noindex {...accountSeo} />
-      <AccountScreenContainer {...props} />
+      <NextSeo noindex {...profileSeo} />
+      <AccountScreenContainer {...props} submissions={[]} />
     </>
   );
 };

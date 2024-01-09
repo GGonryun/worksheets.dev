@@ -12,7 +12,7 @@ type SafeGlobalValidation<T extends string | number | symbol> =
     };
 export function useZodValidator<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  TSchema extends z.ZodObject<any, any, any>,
+  TSchema extends z.ZodObject<any, any, any> | z.ZodEffects<any, any>,
   TValues extends z.infer<TSchema>,
   TKey extends keyof TValues
 >(schema: TSchema) {

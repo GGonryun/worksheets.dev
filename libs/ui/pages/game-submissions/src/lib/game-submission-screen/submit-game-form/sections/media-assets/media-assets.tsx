@@ -32,7 +32,7 @@ const ThumbnailImageField = () => {
   const { values, errors, upload, destroy } = useGameSubmissionFormContext();
   const [uploading, setUploading] = useState(false);
 
-  const id = 'thumbnailUrl';
+  const id = 'thumbnailFile';
 
   const error = errors[id];
   const value = values[id];
@@ -42,7 +42,7 @@ const ThumbnailImageField = () => {
     width: 200,
   };
 
-  const shouldShow = Boolean(uploading || value);
+  const shouldShow = Boolean(uploading || value || error);
 
   return (
     <Box display="flex" flexDirection="column" gap={0.5}>
@@ -63,8 +63,9 @@ const ThumbnailImageField = () => {
       {shouldShow ? (
         <ImageUpload
           {...size}
-          src={value}
-          onDelete={async () => await destroy(id, value)}
+          error={error}
+          src={value?.url}
+          onDelete={async () => await destroy(id)}
         />
       ) : (
         <Input
@@ -88,7 +89,7 @@ const CoverImageField = () => {
   const { values, errors, upload, destroy } = useGameSubmissionFormContext();
   const [uploading, setUploading] = useState(false);
 
-  const id = 'coverUrl';
+  const id = 'coverFile';
 
   const error = errors[id];
   const value = values[id];
@@ -98,7 +99,7 @@ const CoverImageField = () => {
     width: 300,
   };
 
-  const shouldShow = Boolean(uploading || value);
+  const shouldShow = Boolean(uploading || value || error);
 
   return (
     <Box display="flex" flexDirection="column" gap={0.5}>
@@ -120,8 +121,9 @@ const CoverImageField = () => {
       {shouldShow ? (
         <ImageUpload
           {...size}
-          src={value}
-          onDelete={async () => await destroy(id, value)}
+          error={error}
+          src={value?.url}
+          onDelete={async () => await destroy(id)}
         />
       ) : (
         <Input

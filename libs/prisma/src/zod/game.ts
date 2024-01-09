@@ -7,10 +7,6 @@ import {
   RelatedViewportModel,
   CompleteProfile,
   RelatedProfileModel,
-  CompleteGameVote,
-  RelatedGameVoteModel,
-  CompleteGamePlay,
-  RelatedGamePlayModel,
 } from './index';
 
 export const GameModel = z.object({
@@ -38,8 +34,6 @@ export interface CompleteGame extends z.infer<typeof GameModel> {
   file: CompleteGameFile;
   viewport: CompleteViewport;
   owner?: CompleteProfile | null;
-  votes: CompleteGameVote[];
-  plays: CompleteGamePlay[];
 }
 
 /**
@@ -52,7 +46,5 @@ export const RelatedGameModel: z.ZodSchema<CompleteGame> = z.lazy(() =>
     file: RelatedGameFileModel,
     viewport: RelatedViewportModel,
     owner: RelatedProfileModel.nullish(),
-    votes: RelatedGameVoteModel.array(),
-    plays: RelatedGamePlayModel.array(),
   })
 );

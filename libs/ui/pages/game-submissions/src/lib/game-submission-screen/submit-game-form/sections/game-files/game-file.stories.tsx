@@ -31,27 +31,30 @@ export default DefaultStory;
 
 export const Uploading: Story = {
   args: {
-    url: 'https://example.com/game.zip',
+    name: 'game.zip',
     size: 123456789,
     status: 'uploading',
+    timestamp: new Date().getTime(),
     error: '',
   },
 };
 
 export const Uploaded: Story = {
   args: {
-    url: 'https://example.com/game.zip',
-    size: 0,
+    name: 'game.zip',
+    size: 123456789,
     status: 'uploaded',
+    timestamp: new Date().getTime(),
     error: '',
   },
 };
 
 export const Error: Story = {
   args: {
-    url: 'https://example.com/game.zip',
-    size: 0,
+    name: 'game.zip',
+    size: 123456789,
     status: 'error',
+    timestamp: new Date().getTime(),
     error: 'Failed to upload file. Please try again.',
   },
 };

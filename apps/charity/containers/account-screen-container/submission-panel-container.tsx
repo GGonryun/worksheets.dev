@@ -1,8 +1,13 @@
 import { trpc } from '@worksheets/trpc-charity';
-import { SubmissionsPanel } from '@worksheets/ui/pages/account';
+import {
+  BasicGameSubmission,
+  SubmissionsPanel,
+} from '@worksheets/ui/pages/account';
 import { FC } from 'react';
 
-export const SubmissionsPanelContainer: FC = () => {
+export const SubmissionsPanelContainer: FC<{
+  submissions: BasicGameSubmission[];
+}> = ({ submissions }) => {
   const { data: terms } = trpc.profile.terms.get.useQuery();
 
   const approveTerms = trpc.profile.terms.approve.useMutation();
@@ -21,7 +26,7 @@ export const SubmissionsPanelContainer: FC = () => {
           hasApproved: false,
         }
       }
-      submissions={[]}
+      submissions={submissions}
       onApproveTermsOfService={handleApproveTerms}
     />
   );

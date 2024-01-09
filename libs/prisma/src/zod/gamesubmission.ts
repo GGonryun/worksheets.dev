@@ -8,6 +8,8 @@ import {
   GameSubmissionStatus,
 } from '@prisma/client';
 import {
+  CompleteStoredFile,
+  RelatedStoredFileModel,
   CompleteGameSubmissionFeedback,
   RelatedGameSubmissionFeedbackModel,
   CompleteProfile,
@@ -31,9 +33,9 @@ export const GameSubmissionModel = z.object({
   category: z.nativeEnum(GameCategory).nullish(),
   tags: z.string().array(),
   markets: z.string().nullish(),
-  gameFileUrl: z.string().nullish(),
-  thumbnailUrl: z.string().nullish(),
-  coverUrl: z.string().nullish(),
+  gameFileId: z.string().nullish(),
+  thumbnailId: z.string().nullish(),
+  coverId: z.string().nullish(),
   trailerUrl: z.string().nullish(),
   status: z.nativeEnum(GameSubmissionStatus),
   profileId: z.string(),
@@ -43,6 +45,9 @@ export const GameSubmissionModel = z.object({
 
 export interface CompleteGameSubmission
   extends z.infer<typeof GameSubmissionModel> {
+  gameFile?: CompleteStoredFile | null;
+  thumbnailFile?: CompleteStoredFile | null;
+  coverFile?: CompleteStoredFile | null;
   reviews: CompleteGameSubmissionFeedback[];
   profile: CompleteProfile;
 }
@@ -55,6 +60,9 @@ export interface CompleteGameSubmission
 export const RelatedGameSubmissionModel: z.ZodSchema<CompleteGameSubmission> =
   z.lazy(() =>
     GameSubmissionModel.extend({
+      gameFile: RelatedStoredFileModel.nullish(),
+      thumbnailFile: RelatedStoredFileModel.nullish(),
+      coverFile: RelatedStoredFileModel.nullish(),
       reviews: RelatedGameSubmissionFeedbackModel.array(),
       profile: RelatedProfileModel,
     })

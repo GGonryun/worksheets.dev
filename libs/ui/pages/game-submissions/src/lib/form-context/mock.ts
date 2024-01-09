@@ -1,13 +1,31 @@
-import { addMinutesToCurrentTime } from '@worksheets/util/time';
 import { MockActionType } from '@worksheets/util/types';
 import { GameSubmissionFormContextType } from './type';
+
 export const FAKE_GAME_FILE = {
-  name: 'game.zip',
+  fileId: '1',
   type: 'application/zip',
-  size: 123456,
-  lastModified: addMinutesToCurrentTime(-61 * 3).getTime(),
-  status: 'uploaded',
+  size: 123456789,
+  name: 'game.zip',
+  timestamp: new Date().getTime(),
   url: 'https://example.com/game.zip',
+};
+
+export const FAKE_THUMBNAIL_FILE = {
+  fileId: '2',
+  type: 'image.jpg',
+  size: 123456789,
+  name: 'icon.jpg',
+  timestamp: new Date().getTime(),
+  url: '/games/puzzle-words/icon.jpg',
+};
+
+export const FAKE_COVER_FILE = {
+  fileId: '3',
+  type: 'image/jpg',
+  size: 123456789,
+  name: 'banner.jpg',
+  timestamp: new Date().getTime(),
+  url: '/games/puzzle-words/banner.jpg',
 };
 
 export const DEFAULT_VALUES = (
@@ -16,7 +34,6 @@ export const DEFAULT_VALUES = (
   isValid: false,
   isUpdated: false,
   errors: {
-    id: '',
     slug: '',
     title: '',
     headline: '',
@@ -32,17 +49,15 @@ export const DEFAULT_VALUES = (
     instructions: '',
     category: '',
     tags: '',
-    gameFileUrl: '',
-    thumbnailUrl: '',
-    coverUrl: '',
-    profileId: '',
     markets: '',
     trailerUrl: '',
+    gameFile: '',
+    thumbnailFile: '',
+    coverFile: '',
   },
   values: {
     title: '',
     status: 'DRAFT',
-    id: '',
     slug: '',
     headline: '',
     projectType: 'HTML',
@@ -50,18 +65,17 @@ export const DEFAULT_VALUES = (
     viewport: 'FIXED',
     viewportWidth: null,
     viewportHeight: null,
-    devices: [],
-    orientations: [],
+    devices: ['WEB', 'MOBILE'],
+    orientations: ['PORTRAIT', 'LANDSCAPE'],
     description: '',
     instructions: '',
     category: 'ACTION',
     tags: [],
-    gameFileUrl: '',
-    thumbnailUrl: '',
-    coverUrl: '',
-    profileId: '',
     markets: {},
     trailerUrl: '',
+    gameFile: null,
+    thumbnailFile: null,
+    coverFile: null,
   },
   onUpdate: action('onUpdate'),
   onSubmit: action('onSubmit'),
@@ -85,14 +99,11 @@ export const PREFILLED_VALUES = (
   isValid: true,
   isUpdated: false,
   values: {
-    id: '1',
-    profileId: 'abc-123',
     status: 'DRAFT',
     title: 'My Game',
     slug: 'my-game',
     headline: 'A game about stuff and doing things.',
     externalWebsiteUrl: 'example.com',
-    gameFileUrl: FAKE_GAME_FILE.url,
     projectType: 'PAGE',
     description:
       'A game about stuff and doing things. It is very fun. 10/10. Play it now. You will not regret it. Trust me.',
@@ -112,8 +123,7 @@ export const PREFILLED_VALUES = (
     viewportWidth: 720,
     orientations: ['LANDSCAPE', 'PORTRAIT'],
     devices: ['WEB', 'MOBILE'],
-    thumbnailUrl: '/games/solitaire/icon.jpg',
-    coverUrl: '/games/solitaire/banner.png',
+
     trailerUrl: 'https://www.youtube.com/watch?v=o8PWi-cJOx0',
     markets: {
       steam: 'https://store.steampowered.com/app/1234567890/My_Game/',
@@ -126,6 +136,9 @@ export const PREFILLED_VALUES = (
       gameJolt: 'https://gamejolt.com/games/my-game/123456',
       website: 'https://example.com/my-game',
     },
+    gameFile: FAKE_GAME_FILE,
+    thumbnailFile: FAKE_THUMBNAIL_FILE,
+    coverFile: FAKE_COVER_FILE,
   },
 });
 
@@ -136,7 +149,6 @@ export const ERROR_VALUES = (
   isValid: false,
   isUpdated: true,
   errors: {
-    id: 'Invalid ID format. Must be a UUID.',
     slug: 'Invalid slug format. Must be lowercase letters, numbers, and dashes.',
     title: 'Title must be between 3 and 50 characters.',
     headline: 'Headline must be between 3 and 50 characters.',
@@ -154,11 +166,10 @@ export const ERROR_VALUES = (
     category:
       'Category must be one of the following: ACTION, ADVENTURE, ART, MUSIC, PARTY, PUZZLE, SPORTS, STRATEGY.',
     tags: 'Tags must not include any special characters.',
-    gameFileUrl: 'Game file URL must be a valid URL.',
-    thumbnailUrl: 'Thumbnail URL must be a valid URL.',
+    gameFile: 'Game file failed to upload.',
+    thumbnailFile: 'Thumbnail failed to upload.',
     trailerUrl: 'Trail URL must be a valid URL.',
-    coverUrl: 'Cover URL must be a valid URL.',
-    profileId: 'Profile ID must be a valid UUID.',
+    coverFile: 'Cover failed to upload.',
     markets: 'A market contains an error.',
   },
 });

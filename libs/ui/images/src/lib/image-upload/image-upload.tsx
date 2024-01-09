@@ -4,6 +4,7 @@ import { FC, useState } from 'react';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import Modal from '@mui/material/Modal';
 import ZoomInIcon from '@mui/icons-material/ZoomIn';
+import WarningIcon from '@mui/icons-material/Warning';
 import { CircularProgress, Typography } from '@mui/material';
 import { CoverImage } from '../cover-image';
 import { useImageSize } from '../hooks/useImageSize';
@@ -14,11 +15,15 @@ export const ImageUpload: FC<{
   src?: string;
   height: number;
   width: number;
+  error?: string;
   onDelete: () => void;
-}> = ({ src, height, width, onDelete }) => {
+}> = ({ error, src, height, width, onDelete }) => {
   const [open, setOpen] = useState(false);
 
+  const erroring = Boolean(error);
   const uploaded = Boolean(src);
+  const actionable = uploaded || erroring;
+
   return (
     <>
       {src && (
@@ -39,13 +44,54 @@ export const ImageUpload: FC<{
           padding: (theme) => theme.spacing(1, 2),
         }}
       >
-        <DeleteImageButton visible={uploaded} onClick={onDelete} />
+        <DeleteImageButton visible={actionable} onClick={onDelete} />
+
         <ZoomImageButton visible={uploaded} onClick={() => setOpen(true)} />
-        {src ? <RenderImage src={src} /> : <CircularProgress size={50} />}
+
+        {erroring ? (
+          <WarningMessage visible={erroring} message={error ?? ''} />
+        ) : src ? (
+          <RenderImage src={src} />
+        ) : (
+          <CircularProgress size={50} />
+        )}
       </Box>
     </>
   );
 };
+
+const WarningMessage: FC<{ visible: boolean; message: string }> = ({
+  message,
+  visible,
+}) => (
+  <Box
+    sx={{
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: 1,
+    }}
+  >
+    <WarningIcon
+      color="error"
+      sx={{
+        height: 50,
+        width: 50,
+      }}
+    />
+    <Typography
+      sx={{
+        textAlign: 'center',
+        fontSize: (theme) => theme.typography.body3.fontSize,
+        fontFamily: (theme) => theme.typography.body3.fontFamily,
+        color: (theme) => theme.palette.error.main,
+      }}
+    >
+      {message}
+    </Typography>
+  </Box>
+);
 
 const ZoomImageButton: FC<{ visible: boolean; onClick: () => void }> = ({
   onClick,
@@ -160,14 +206,17 @@ const ZoomImageModal: FC<{
         justifyContent: 'center',
       }}
     >
-      <Box>
+      <Box
+        style={{
+          outline: 'none',
+        }}
+      >
         {loading && <CircularProgress />}
         {error && <Typography>error</Typography>}
         {dimensions && (
           <Box
             onClick={handleClose}
             sx={{
-              outline: 'none',
               position: 'relative',
               maxHeight: '90vh',
               maxWidth: '90vw',

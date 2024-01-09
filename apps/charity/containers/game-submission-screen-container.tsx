@@ -9,10 +9,11 @@ import { useGameSubmissionForm } from '../hooks/use-game-submission-form';
 import { Nullable } from '@worksheets/util/types';
 
 export const GameSubmissionScreenContainer: FC<{
-  submission: Nullable<GameSubmissionForm>;
+  submissionId: string;
+  form: Nullable<GameSubmissionForm>;
   invalidProfile: boolean;
-}> = ({ submission, invalidProfile }) => {
-  const form = useGameSubmissionForm(submission);
+}> = ({ submissionId, form: existingData, invalidProfile }) => {
+  const form = useGameSubmissionForm(submissionId, existingData);
 
   return (
     <GameSubmissionFormContextProvider value={form}>

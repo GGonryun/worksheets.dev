@@ -5,15 +5,7 @@ import Typography from '@mui/material/Typography';
 import { GameSubmissionStatus } from '@prisma/client';
 import { CoverImage } from '@worksheets/ui/images';
 import theme from '@worksheets/ui/theme';
-
-export type GameSubmissionProps = {
-  id: string;
-  status: GameSubmissionStatus;
-  slug?: string;
-  title?: string;
-  tooltip?: string;
-  thumbnail?: string;
-};
+import { BasicGameSubmission } from '../types';
 
 const statusColor: Record<GameSubmissionStatus, ChipProps['color']> = {
   [GameSubmissionStatus.DRAFT]: 'default',
@@ -23,7 +15,7 @@ const statusColor: Record<GameSubmissionStatus, ChipProps['color']> = {
   [GameSubmissionStatus.DELETED]: 'default',
 };
 
-export const GameSubmission: React.FC<GameSubmissionProps> = ({
+export const GameSubmission: React.FC<BasicGameSubmission> = ({
   id,
   title,
   slug,
@@ -143,7 +135,10 @@ export const GameSubmission: React.FC<GameSubmissionProps> = ({
   );
 };
 
-const Thumbnail: React.FC<{ src?: string; alt: string }> = ({ src, alt }) =>
+const Thumbnail: React.FC<{ src: string | null; alt: string }> = ({
+  src,
+  alt,
+}) =>
   src ? (
     <CoverImage src={src} alt={alt} />
   ) : (
@@ -151,8 +146,8 @@ const Thumbnail: React.FC<{ src?: string; alt: string }> = ({ src, alt }) =>
       variant="body3"
       sx={{
         border: (theme) => `1px solid ${theme.palette.divider}`,
-        height: '100%',
-        width: '100%',
+        height: 'calc(100% + 2px)',
+        width: 'calc(100% + 2px)',
         m: '-1px',
         display: 'grid',
         placeItems: 'center',

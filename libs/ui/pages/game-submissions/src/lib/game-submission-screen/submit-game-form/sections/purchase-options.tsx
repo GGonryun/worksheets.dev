@@ -14,6 +14,7 @@ import {
   GameSubmissionForm,
   useGameSubmissionFormContext,
 } from '../../../form-context';
+import { validateUrl } from '@worksheets/util/strings';
 
 type PurchaseOptions = GameSubmissionForm['markets'];
 type PurchaseOptionKeys = keyof PurchaseOptions;
@@ -123,23 +124,6 @@ const MarketplaceTextFields: FC<{
       })}
     </Box>
   );
-};
-
-const validateUrl = (url: string | undefined) => {
-  if (url == null) {
-    return;
-  }
-
-  try {
-    new URL(url);
-  } catch (e) {
-    return 'Must specify a valid URL starting with https://';
-  }
-
-  // url must start with https://
-  if (!url.startsWith('https://')) {
-    return 'URL must start with https://';
-  }
 };
 
 const MarketplaceButtons: FC<{

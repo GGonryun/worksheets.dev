@@ -232,9 +232,16 @@ export const submitGameSeo = createSeo({
   description: `Learn how to submit a game to Charity Games. Help us make a difference. Turn your games into donations.`,
 });
 
-export const accountSeo = createSeo({
-  siteName: `Charity Games | Account`,
+export const profileSeo = createSeo({
+  siteName: `Charity Games | Profile`,
   url: `https://www.charity.games/account`,
   title: `Charity Games - Account`,
-  description: `Manage your Charity Games account. View your donation history and manage your settings.`,
+  description: `Manage your Charity Games account. View your profile and manage your settings.`,
+});
+
+export const submissionsSeo = createSeo({
+  siteName: `Charity Games | Submissions`,
+  url: `https://www.charity.games/account`,
+  title: `Charity Games - Submissions`,
+  description: `Manage your Charity Games submissions. View your submission history.`,
 });

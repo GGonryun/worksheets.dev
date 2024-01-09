@@ -1,22 +1,15 @@
 import * as z from 'zod';
-import {
-  CompleteGame,
-  RelatedGameModel,
-  CompleteUser,
-  RelatedUserModel,
-} from './index';
+import { CompleteUser, RelatedUserModel } from './index';
 
 export const GameVoteModel = z.object({
   id: z.string(),
-  gameId: z.string(),
   createdAt: z.date(),
-  up: z.number().int(),
-  down: z.number().int(),
+  liked: z.boolean(),
+  gameId: z.string(),
   userId: z.string(),
 });
 
 export interface CompleteGameVote extends z.infer<typeof GameVoteModel> {
-  game: CompleteGame;
   user: CompleteUser;
 }
 
@@ -27,7 +20,6 @@ export interface CompleteGameVote extends z.infer<typeof GameVoteModel> {
  */
 export const RelatedGameVoteModel: z.ZodSchema<CompleteGameVote> = z.lazy(() =>
   GameVoteModel.extend({
-    game: RelatedGameModel,
     user: RelatedUserModel,
   })
 );

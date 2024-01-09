@@ -1,6 +1,7 @@
 import { signOut } from 'next-auth/react';
 import {
   AccountScreen,
+  BasicGameSubmission,
   BasicInformationForm,
 } from '@worksheets/ui/pages/account';
 import { ProfilePanelContainer } from './profile-panel-container';
@@ -9,7 +10,8 @@ import { useRouter } from 'next/router';
 
 export const AccountScreenContainer: React.FC<{
   profile: BasicInformationForm | null;
-}> = ({ profile }) => {
+  submissions: BasicGameSubmission[] | null;
+}> = ({ profile, submissions }) => {
   const handleLogout = () => {
     signOut({ callbackUrl: '/' });
   };
@@ -21,7 +23,9 @@ export const AccountScreenContainer: React.FC<{
       path={asPath}
       onLogout={handleLogout}
       profilePanel={<ProfilePanelContainer profile={profile} />}
-      submissionsPanel={<SubmissionsPanelContainer />}
+      submissionsPanel={
+        <SubmissionsPanelContainer submissions={submissions ?? []} />
+      }
     />
   );
 };

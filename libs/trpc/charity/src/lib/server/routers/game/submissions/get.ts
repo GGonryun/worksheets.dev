@@ -1,9 +1,13 @@
 import { z } from '@worksheets/zod';
 import { protectedProcedure } from '../../../procedures';
 import { TRPCError } from '@trpc/server';
-import { GameSubmissionForm } from '@worksheets/ui/pages/game-submissions';
+import {
+  GameSubmissionForm,
+  storedFileSchema,
+} from '@worksheets/ui/pages/game-submissions';
 import { Nullable } from '@worksheets/util/types';
-
+import { createFileDownloadUrl } from '@worksheets/ui/environment/server';
+import { StoredFileModel } from '@worksheets/prisma';
 export default protectedProcedure
   .input(
     z.object({
@@ -11,17 +15,11 @@ export default protectedProcedure
     })
   )
   .output(z.custom<Nullable<GameSubmissionForm>>())
-  .query(async ({ input: { id }, ctx: { user, db } }) => {
-    const profile = await db.profile.findUnique({
-      where: {
-        userId: user.id,
-      },
-      select: {
-        id: true,
-      },
-    });
+  .query(async ({ input: { id }, ctx: { user, profile, db } }) => {
+    console.info('Getting submission', { id, profileId: profile?.id });
 
     if (!profile) {
+      console.warn('No profile found for user', { userId: user.id });
       throw new TRPCError({
         message: "You don't have a profile yet!",
         code: 'PRECONDITION_FAILED',
@@ -32,6 +30,11 @@ export default protectedProcedure
       where: {
         id,
         profileId: profile.id,
+      },
+      include: {
+        gameFile: true,
+        thumbnailFile: true,
+        coverFile: true,
       },
     });
 
@@ -58,12 +61,29 @@ export default protectedProcedure
       instructions: submission.instructions,
       category: submission.category,
       tags: submission.tags,
-      gameFileUrl: submission.gameFileUrl,
-      thumbnailUrl: submission.thumbnailUrl,
+      gameFile: safelyCreateFile(submission.gameFile),
+      thumbnailFile: safelyCreateFile(submission.thumbnailFile),
+      coverFile: safelyCreateFile(submission.coverFile),
       trailerUrl: submission.trailerUrl,
-      coverUrl: submission.coverUrl,
       status: submission.status,
       profileId: submission.profileId,
       markets: JSON.parse(submission.markets ?? '{}'),
     };
   });
+
+type DatabaseStoredFile = z.infer<typeof StoredFileModel>;
+type FormStoredFile = z.infer<typeof storedFileSchema>;
+
+const safelyCreateFile = (
+  file: DatabaseStoredFile | null
+): FormStoredFile | null =>
+  file
+    ? {
+        fileId: file.id,
+        url: createFileDownloadUrl(file.path),
+        type: file.type,
+        name: file.name,
+        size: file.size,
+        timestamp: file.timestamp,
+      }
+    : null;

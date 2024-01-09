@@ -3,7 +3,7 @@ import {
   GameSubmissionForm,
   GameSubmissionFormContextType,
   GameSubmissionFormErrors,
-  gameSubmissionFormSchema,
+  strictGameSubmissionFormSchema,
 } from '@worksheets/ui/pages/game-submissions';
 import { Nullable } from '@worksheets/util/types';
 
@@ -16,7 +16,6 @@ const MAX_ZIP_UPLOAD_SIZE_MB = 50;
 const MAX_IMAGE_UPLOAD_SIZE_MB = 5;
 
 const initialErrors: GameSubmissionFormErrors = {
-  id: '',
   slug: '',
   title: '',
   headline: '',
@@ -32,16 +31,14 @@ const initialErrors: GameSubmissionFormErrors = {
   instructions: '',
   category: '',
   tags: '',
-  gameFileUrl: '',
-  thumbnailUrl: '',
-  trailerUrl: '',
-  coverUrl: '',
-  profileId: '',
   markets: '',
+  trailerUrl: '',
+  gameFile: '',
+  thumbnailFile: '',
+  coverFile: '',
 };
 
 const initialValues: GameSubmissionForm = {
-  id: '',
   slug: '',
   title: '',
   headline: '',
@@ -57,11 +54,10 @@ const initialValues: GameSubmissionForm = {
   instructions: '',
   category: 'OTHER',
   tags: [],
-  gameFileUrl: '',
-  thumbnailUrl: '',
+  gameFile: null,
+  thumbnailFile: null,
+  coverFile: null,
   trailerUrl: '',
-  coverUrl: '',
-  profileId: '',
   markets: {},
 };
 
@@ -88,6 +84,7 @@ const merge = (
 };
 
 export const useGameSubmissionForm = (
+  submissionId: string,
   submission: Nullable<GameSubmissionForm>
 ): GameSubmissionFormContextType => {
   const { push } = useRouter();
@@ -97,14 +94,15 @@ export const useGameSubmissionForm = (
   );
   const [updated, setUpdated] = useState(false);
   const { fieldValidator, globalValidator } = useZodValidator(
-    gameSubmissionFormSchema
+    strictGameSubmissionFormSchema
   );
 
   const submitForm = trpc.game.submissions.submit.useMutation();
   const updateForm = trpc.game.submissions.update.useMutation();
 
-  const prepare = trpc.files.prepare.useMutation();
-  const destroy = trpc.files.destroy.useMutation();
+  const prepare = trpc.game.files.prepare.useMutation();
+  const complete = trpc.game.files.complete.useMutation();
+  const destroy = trpc.game.files.destroy.useMutation();
 
   const onSubmit: GameSubmissionFormContextType['onSubmit'] = async () => {
     setUpdated(false);
@@ -113,15 +111,14 @@ export const useGameSubmissionForm = (
       setErrors(results.errors);
       return;
     } else {
-      await submitForm.mutateAsync(values);
+      await submitForm.mutateAsync({ ...values, id: submissionId });
       push('/account/submissions');
     }
   };
 
   const onUpdate: GameSubmissionFormContextType['onUpdate'] = async () => {
     setUpdated(false);
-    console.log('update', values.id);
-    await updateForm.mutateAsync(values);
+    await updateForm.mutateAsync({ ...values, id: submissionId });
   };
 
   const setFieldValue: GameSubmissionFormContextType['setFieldValue'] = (
@@ -133,6 +130,18 @@ export const useGameSubmissionForm = (
     setValues(updated);
 
     const error = fieldValidator(field, updated);
+
+    // TODO: how do we properly map and clear dependent field errors?
+    if (field === 'projectType' && value !== 'PAGE') {
+      setErrors((prev) => ({ ...prev, externalWebsiteUrl: '' }));
+    }
+
+    if (
+      field === 'devices' &&
+      !(value as GameSubmissionForm['devices']).includes('MOBILE')
+    ) {
+      setErrors((prev) => ({ ...prev, orientations: '' }));
+    }
 
     setErrors((prev) => ({ ...prev, [field]: error }));
 
@@ -172,10 +181,11 @@ export const useGameSubmissionForm = (
         prepareData = await prepare.mutateAsync({
           name: file.name,
           type: file.type,
-          submissionId: submission?.id || '',
+          size: file.size,
+          timestamp: file.lastModified,
+          submissionId,
         });
       } catch (error) {
-        console.error(error);
         setErrors((prev) => ({
           ...prev,
           [field]:
@@ -185,34 +195,74 @@ export const useGameSubmissionForm = (
       }
 
       try {
-        await fetch(prepareData.uploadUrl, {
+        const result = await fetch(prepareData.uploadUrl, {
           method: 'PUT',
           body: file,
           headers: {
-            // content type zip
-            'Content-Type': 'application/zip',
+            'Content-Type': file.type,
           },
         });
+        if (result.status !== 200) {
+          setErrors((prev) => ({
+            ...prev,
+            [field]:
+              'An unexpected error occurred during upload, please try again',
+          }));
+          return;
+        }
       } catch (error) {
-        console.error(error);
         setErrors((prev) => ({
           ...prev,
           [field]:
             'An unexpected error occurred during upload, please try again',
         }));
-      }
-
-      setFieldValue(field, prepareData.downloadUrl);
-    },
-    destroy: async (field) => {
-      const url = values[field];
-      if (!url) {
-        setErrors((prev) => ({ ...prev, [field]: 'No file to delete' }));
         return;
       }
-      destroy.mutateAsync({ url });
 
-      setFieldValue(field, '');
+      try {
+        const completeData = await complete.mutateAsync({
+          submissionId: submissionId,
+          fieldId: field,
+          fileId: prepareData.fileId,
+        });
+
+        if (completeData.okay) {
+          setFieldValue(field, completeData);
+        } else {
+          setErrors((prev) => ({
+            ...prev,
+            [field]:
+              'An unexpected error occurred while completing upload, please try again',
+          }));
+          return;
+        }
+      } catch (error) {
+        setErrors((prev) => ({
+          ...prev,
+          [field]:
+            'An unexpected error occurred while completing upload, please try again',
+        }));
+        return;
+      }
+    },
+    destroy: async (field) => {
+      const file = values[field];
+      if (file) {
+        destroy.mutateAsync({
+          fileId: file.fileId,
+          fieldId: field,
+          submissionId: submissionId,
+        });
+      } else {
+        setErrors((prev) => ({
+          ...prev,
+          [field]: 'No file to delete',
+        }));
+      }
+
+      // even if we fail to delete the file, we should always clear the field
+      setFieldValue(field, null);
+      setErrors((prev) => ({ ...prev, [field]: '' }));
     },
   };
 };
