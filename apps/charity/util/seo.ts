@@ -13,7 +13,9 @@ import {
   TagSchema,
 } from '@worksheets/util/types';
 
-export type OpenGraphProps = NonNullable<NextSeoProps['openGraph']>;
+export type OpenGraphProps = NonNullable<
+  NextSeoProps['openGraph'] & { noindex?: boolean }
+>;
 
 export const defaultSeo: DefaultSeoProps = {
   title: 'Charity Games',
@@ -37,9 +39,10 @@ export const defaultSeo: DefaultSeoProps = {
   twitter: TWITTER_SEO,
 };
 
-const createSeo = (props: OpenGraphProps): NextSeoProps => ({
+const createSeo = ({ noindex, ...props }: OpenGraphProps): NextSeoProps => ({
   canonical: props.url,
   title: props.title,
+  noindex: noindex ?? false,
   openGraph: {
     ...props,
   },
@@ -233,6 +236,7 @@ export const submitGameSeo = createSeo({
 });
 
 export const profileSeo = createSeo({
+  noindex: true,
   siteName: `Charity Games | Profile`,
   url: `https://www.charity.games/account`,
   title: `Charity Games - Account`,
@@ -240,8 +244,17 @@ export const profileSeo = createSeo({
 });
 
 export const submissionsSeo = createSeo({
+  noindex: true,
   siteName: `Charity Games | Submissions`,
   url: `https://www.charity.games/account`,
   title: `Charity Games - Submissions`,
   description: `Manage your Charity Games submissions. View your submission history.`,
+});
+
+export const createGameSubmissionSeo = createSeo({
+  noindex: true,
+  siteName: `Charity Games | Create Submission`,
+  url: `https://www.charity.games/account/submit/new`,
+  title: `Charity Games - Create Submission`,
+  description: `Create a new game submission on Charity Games.`,
 });

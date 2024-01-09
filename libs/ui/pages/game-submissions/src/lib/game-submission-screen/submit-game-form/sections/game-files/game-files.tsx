@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import React, { FC, useState } from 'react';
 import Box from '@mui/material/Box';
 import FormHelperText from '@mui/material/FormHelperText';
 import Link from '@mui/material/Link';
@@ -8,10 +8,20 @@ import Input from '@mui/material/Input';
 import FormControl from '@mui/material/FormControl';
 import urls from '@worksheets/util/urls';
 import { GameFile } from './game-file';
-import { useGameSubmissionFormContext } from '../../../../form-context';
+import {
+  GameSubmissionFileKeys,
+  GameSubmissionForm,
+  GameSubmissionFormContextType,
+  useGameSubmissionFormContext,
+} from '../../../../form-context';
 
 export const GameFiles: FC = () => {
-  const { values } = useGameSubmissionFormContext();
+  const id = 'gameFile';
+
+  const { values, errors, upload, destroy } = useGameSubmissionFormContext();
+
+  const value = values[id];
+  const error = errors[id];
 
   const isHTML5 = values.projectType === 'HTML';
 
@@ -20,33 +30,49 @@ export const GameFiles: FC = () => {
       <Typography variant="h5" mb={-1}>
         Game Files
       </Typography>
-      <FormHelperText>
-        <b>Upload a ZIP file containing your game.</b> Your ZIP file must
-        include an index.html file. For more information on the zip file
-        requirements, see the{' '}
-        <Link
-          href="/contribute#what-file-formats-are-supported"
-          target="_blank"
+      <Box>
+        <FormHelperText
+          component="span"
+          error={Boolean(error)}
+          sx={{
+            fontWeight: 900,
+          }}
         >
-          FAQ: 'How do I upload an HTML5 Game?'{' '}
-          <OpenInNewIcon fontSize="inherit" sx={{ mb: '-2px' }} />
-        </Link>
-        .
-      </FormHelperText>
-      <GameFileInput />
+          {error || 'Upload a ZIP file containing your game'}
+        </FormHelperText>
+        <FormHelperText component="span">
+          {' '}
+          &#8212; Your ZIP file must include an index.html file. For more
+          information on the zip file requirements, see the{' '}
+          <Link
+            href="/contribute#what-file-formats-are-supported"
+            target="_blank"
+          >
+            FAQ: 'How do I upload an HTML5 Game?'{' '}
+            <OpenInNewIcon fontSize="inherit" sx={{ mb: '-2px' }} />
+          </Link>
+          .
+        </FormHelperText>
+      </Box>
+      <GameFileInput
+        id={id}
+        value={value}
+        error={error}
+        destroy={destroy}
+        upload={upload}
+      />
     </Box>
   );
 };
 
-const GameFileInput = () => {
-  const id = 'gameFile';
-
+const GameFileInput: React.FC<{
+  id: Extract<GameSubmissionFileKeys, 'gameFile'>;
+  value: GameSubmissionForm['gameFile'];
+  error: string;
+  destroy: GameSubmissionFormContextType['destroy'];
+  upload: GameSubmissionFormContextType['upload'];
+}> = ({ id, value, upload, error, destroy }) => {
   const [uploading, setUploading] = useState(false);
-
-  const { values, errors, upload, destroy } = useGameSubmissionFormContext();
-
-  const value = values[id];
-  const error = errors[id];
 
   if (value) {
     return (
@@ -67,6 +93,7 @@ const GameFileInput = () => {
     <FormControl variant="standard">
       <Input
         id={id}
+        error={Boolean(error)}
         size="small"
         type="file"
         disableUnderline
@@ -82,17 +109,20 @@ const GameFileInput = () => {
           setUploading(false);
         }}
       />
-      <GameFileHelperText />
+      <GameFileHelperText error={error} />
     </FormControl>
   );
 };
 
-const GameFileHelperText = () => (
-  <FormHelperText>
-    File size limit: 50MB.{' '}
-    <Link href={`mailto:${urls.email.admin}`} target="_blank">
-      Contact us
-    </Link>{' '}
-    if you need more space.
-  </FormHelperText>
-);
+const GameFileHelperText: React.FC<{ error?: string }> = ({ error }) =>
+  error ? (
+    <FormHelperText error>{error}</FormHelperText>
+  ) : (
+    <FormHelperText>
+      File size limit: 50MB.{' '}
+      <Link href={`mailto:${urls.email.admin}`} target="_blank">
+        Contact us
+      </Link>{' '}
+      if you need more space.
+    </FormHelperText>
+  );

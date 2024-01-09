@@ -20,7 +20,8 @@ import { SvgIconComponent } from '@mui/icons-material';
 import { Typography } from '@mui/material';
 
 export const SubmitGameForm: FC = () => {
-  const { isValid, onSubmit, onUpdate } = useGameSubmissionFormContext();
+  const { isValid, isUpdated, onSubmit, onUpdate } =
+    useGameSubmissionFormContext();
 
   return (
     <Box
@@ -67,6 +68,7 @@ export const SubmitGameForm: FC = () => {
             </SubmitButton>
             <SubmitButton
               onClick={onUpdate}
+              disabled={!isUpdated}
               color="secondary"
               variant="outlined"
               StartIcon={DraftsIcon}

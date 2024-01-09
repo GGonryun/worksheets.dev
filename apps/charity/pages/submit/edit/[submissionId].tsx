@@ -15,7 +15,6 @@ type Props = {
 };
 
 const Page: NextPageWithLayout<Props> = (props) => {
-  // TODO: implement this page
   return (
     <>
       <NextSeo {...submitGameSeo} />

@@ -19,7 +19,7 @@ export const authentication = middleware(async ({ next, ctx, type, path }) => {
 
   const profile = await ctx.db.profile.findFirst({
     where: {
-      id: ctx.session.user.id,
+      userId: user?.id,
     },
   });
 

@@ -11,6 +11,7 @@ import { useState } from 'react';
 import { isImage, isZip, toMegabytes } from '@worksheets/util/data';
 import { useRouter } from 'next/router';
 import { useZodValidator } from '@worksheets/zod';
+import { UseSnackbarHook, useSnackbar } from '@worksheets/ui/snackbar';
 
 const MAX_ZIP_UPLOAD_SIZE_MB = 50;
 const MAX_IMAGE_UPLOAD_SIZE_MB = 5;
@@ -48,8 +49,8 @@ const initialValues: GameSubmissionForm = {
   viewport: 'RESPONSIVE',
   viewportWidth: null,
   viewportHeight: null,
-  devices: [],
-  orientations: [],
+  devices: ['MOBILE', 'WEB'],
+  orientations: ['LANDSCAPE', 'PORTRAIT'],
   description: '',
   instructions: '',
   category: 'OTHER',
@@ -86,8 +87,11 @@ const merge = (
 export const useGameSubmissionForm = (
   submissionId: string,
   submission: Nullable<GameSubmissionForm>
-): GameSubmissionFormContextType => {
+): { form: GameSubmissionFormContextType; snackbar: UseSnackbarHook } => {
   const { push } = useRouter();
+
+  const snackbar = useSnackbar();
+
   const [errors, setErrors] = useState<GameSubmissionFormErrors>(initialErrors);
   const [values, setValues] = useState<GameSubmissionForm>(
     merge(initialValues, submission)
@@ -112,13 +116,18 @@ export const useGameSubmissionForm = (
       return;
     } else {
       await submitForm.mutateAsync({ ...values, id: submissionId });
-      push('/account/submissions');
+      push('/submit/success');
     }
   };
 
   const onUpdate: GameSubmissionFormContextType['onUpdate'] = async () => {
     setUpdated(false);
     await updateForm.mutateAsync({ ...values, id: submissionId });
+
+    snackbar.trigger({
+      message: 'Submission updated',
+      severity: 'success',
+    });
   };
 
   const setFieldValue: GameSubmissionFormContextType['setFieldValue'] = (
@@ -143,12 +152,116 @@ export const useGameSubmissionForm = (
       setErrors((prev) => ({ ...prev, orientations: '' }));
     }
 
+    if (field === 'projectType' && value === 'PAGE') {
+      setErrors((prev) => ({ ...prev, gameFile: '' }));
+    }
+
     setErrors((prev) => ({ ...prev, [field]: error }));
 
     setUpdated(true);
   };
 
-  return {
+  const uploadFile: GameSubmissionFormContextType['upload'] = async (
+    field,
+    files
+  ) => {
+    const file = files?.item(0);
+    if (!file) {
+      setErrors((prev) => ({
+        ...prev,
+        [field]: 'A file is required for upload',
+      }));
+      return;
+    }
+
+    if (isZip(file) && toMegabytes(file.size) > MAX_ZIP_UPLOAD_SIZE_MB) {
+      setErrors((prev) => ({ ...prev, [field]: 'Zip file is too large' }));
+      return;
+    }
+
+    if (isImage(file) && toMegabytes(file.size) > MAX_IMAGE_UPLOAD_SIZE_MB) {
+      setErrors((prev) => ({ ...prev, [field]: 'Image file is too large' }));
+      return;
+    }
+
+    try {
+      const prepareData = await prepare.mutateAsync({
+        name: file.name,
+        type: file.type,
+        size: file.size,
+        timestamp: file.lastModified,
+        submissionId,
+      });
+
+      const result = await fetch(prepareData.uploadUrl, {
+        method: 'PUT',
+        body: file,
+        headers: {
+          'Content-Type': file.type,
+        },
+      });
+
+      if (result.status !== 200) {
+        throw new Error(`Unexpected status code ${result.status}`);
+      }
+
+      const completeData = await complete.mutateAsync({
+        submissionId: submissionId,
+        fieldId: field,
+        fileId: prepareData.fileId,
+      });
+
+      if (completeData.okay) {
+        setFieldValue(field, completeData);
+      } else {
+        throw new Error(
+          `Unexpected response completing upload ${completeData}`
+        );
+      }
+    } catch (error) {
+      console.error(`Error uploading file ${error}`);
+      setErrors((prev) => ({
+        ...prev,
+        [field]:
+          'An unexpected error occurred while completing upload, please try again',
+      }));
+      return;
+    }
+
+    snackbar.trigger({
+      message: 'File uploaded',
+      severity: 'success',
+    });
+  };
+
+  const destroyFile: GameSubmissionFormContextType['destroy'] = async (
+    field
+  ) => {
+    const file = values[field];
+    if (file) {
+      destroy.mutateAsync({
+        fileId: file.fileId,
+        fieldId: field,
+        submissionId: submissionId,
+      });
+    } else {
+      setErrors((prev) => ({
+        ...prev,
+        [field]: 'No file to delete',
+      }));
+    }
+
+    snackbar.trigger({
+      message: 'File deleted',
+      severity: 'success',
+    });
+
+    // even if we fail to delete the file, we should always clear the field
+    setFieldValue(field, null);
+    setErrors((prev) => ({ ...prev, [field]: '' }));
+  };
+
+  const form: GameSubmissionFormContextType = {
     errors,
     values,
     isValid: Object.values(errors).every((error) => !error),
@@ -156,113 +269,9 @@ export const useGameSubmissionForm = (
     onSubmit,
     onUpdate,
     setFieldValue,
-    upload: async (field, files) => {
-      const file = files?.item(0);
-      if (!file) {
-        setErrors((prev) => ({
-          ...prev,
-          [field]: 'A file is required for upload',
-        }));
-        return;
-      }
-
-      if (isZip(file) && toMegabytes(file.size) > MAX_ZIP_UPLOAD_SIZE_MB) {
-        setErrors((prev) => ({ ...prev, [field]: 'Zip file is too large' }));
-        return;
-      }
-
-      if (isImage(file) && toMegabytes(file.size) > MAX_IMAGE_UPLOAD_SIZE_MB) {
-        setErrors((prev) => ({ ...prev, [field]: 'Image file is too large' }));
-        return;
-      }
-
-      let prepareData;
-      try {
-        prepareData = await prepare.mutateAsync({
-          name: file.name,
-          type: file.type,
-          size: file.size,
-          timestamp: file.lastModified,
-          submissionId,
-        });
-      } catch (error) {
-        setErrors((prev) => ({
-          ...prev,
-          [field]:
-            'An unexpected error occurred during upload, please try again',
-        }));
-        return;
-      }
-
-      try {
-        const result = await fetch(prepareData.uploadUrl, {
-          method: 'PUT',
-          body: file,
-          headers: {
-            'Content-Type': file.type,
-          },
-        });
-        if (result.status !== 200) {
-          setErrors((prev) => ({
-            ...prev,
-            [field]:
-              'An unexpected error occurred during upload, please try again',
-          }));
-          return;
-        }
-      } catch (error) {
-        setErrors((prev) => ({
-          ...prev,
-          [field]:
-            'An unexpected error occurred during upload, please try again',
-        }));
-        return;
-      }
-
-      try {
-        const completeData = await complete.mutateAsync({
-          submissionId: submissionId,
-          fieldId: field,
-          fileId: prepareData.fileId,
-        });
-
-        if (completeData.okay) {
-          setFieldValue(field, completeData);
-        } else {
-          setErrors((prev) => ({
-            ...prev,
-            [field]:
-              'An unexpected error occurred while completing upload, please try again',
-          }));
-          return;
-        }
-      } catch (error) {
-        setErrors((prev) => ({
-          ...prev,
-          [field]:
-            'An unexpected error occurred while completing upload, please try again',
-        }));
-        return;
-      }
-    },
-    destroy: async (field) => {
-      const file = values[field];
-      if (file) {
-        destroy.mutateAsync({
-          fileId: file.fileId,
-          fieldId: field,
-          submissionId: submissionId,
-        });
-      } else {
-        setErrors((prev) => ({
-          ...prev,
-          [field]: 'No file to delete',
-        }));
-      }
-
-      // even if we fail to delete the file, we should always clear the field
-      setFieldValue(field, null);
-      setErrors((prev) => ({ ...prev, [field]: '' }));
-    },
+    upload: uploadFile,
+    destroy: destroyFile,
   };
+
+  return { form, snackbar };
 };

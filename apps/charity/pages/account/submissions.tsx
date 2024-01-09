@@ -30,8 +30,6 @@ export const getServerSideProps = (async (ctx) => {
   const profile = await trpc.profile.get.fetch();
   const submissions = await trpc.game.submissions.list.fetch();
 
-  console.log({ profile, submissions });
-
   await trpc.profile.terms.get.prefetch();
 
   return {

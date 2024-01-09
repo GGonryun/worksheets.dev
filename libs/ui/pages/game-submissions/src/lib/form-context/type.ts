@@ -50,7 +50,7 @@ export const gameSubmissionFormSchema = z.object({
     ),
   slug: z
     .string()
-    .min(10, 'Game ID must be at least 10 characters')
+    .min(4, 'Game ID must be at least 4 characters')
     .max(120, 'Game ID must be at most 120 characters')
     .regex(
       /^[a-z0-9-]+$/,
@@ -101,6 +101,7 @@ export const gameSubmissionFormSchema = z.object({
     .max(1000, 'Instructions should be brief; do not exceed 1000 characters'),
   category: z.nativeEnum(GameCategory),
   tags: z.string().array(),
+  // handle game file upload validation in strict form because of dependencies on other fields.
   gameFile: storedFileSchema.nullable(),
   thumbnailFile: storedFileSchema.nullable(),
   coverFile: storedFileSchema.nullable(),
@@ -156,6 +157,48 @@ export const strictGameSubmissionFormSchema = gameSubmissionFormSchema
       message: 'At least one tag is required',
       // message only applies to the tags field
       path: ['tags'],
+    }
+  )
+  .refine(
+    (values) => {
+      // do not allow empty game file if project type is html.
+      if (values.projectType === ProjectType.HTML && !values.gameFile?.url) {
+        return false;
+      }
+      return true;
+    },
+    {
+      message: 'A game file is required for HTML projects',
+      // message only applies to the gameFile field
+      path: ['gameFile'],
+    }
+  )
+  .refine(
+    (values) => {
+      // do not allow empty cover images
+      if (!values.coverFile?.url) {
+        return false;
+      }
+      return true;
+    },
+    {
+      message: 'A cover image is required',
+      // message only applies to the coverFile field
+      path: ['coverFile'],
+    }
+  )
+  .refine(
+    (values) => {
+      // do not allow empty thumbnail images
+      if (!values.thumbnailFile?.url) {
+        return false;
+      }
+      return true;
+    },
+    {
+      message: 'A thumbnail image is required',
+      // message only applies to the thumbnailFile field
+      path: ['thumbnailFile'],
     }
   );
 

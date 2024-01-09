@@ -71,7 +71,7 @@ export default protectedProcedure
         type: file.type,
         size: file.size,
         name: file.name,
-        timestamp: file.timestamp,
+        timestamp: file.createdAt.getTime(),
       };
     }
   );

@@ -71,13 +71,11 @@ export const validateUrl = (url: string | undefined): string | undefined => {
   try {
     new URL(url);
   } catch (e) {
-    console.warn('Invalid URL - 1', url);
     return 'Must specify a valid URL starting with https://';
   }
 
   // url must start with https://
   if (!url.startsWith('https://')) {
-    console.warn('Invalid URL - 2', url);
     return 'URL must start with https://';
   }
 

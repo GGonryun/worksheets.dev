@@ -8,7 +8,6 @@ export const StoredFileModel = z.object({
   name: z.string(),
   path: z.string(),
   size: z.number().int(),
-  timestamp: z.number().int(),
   type: z.string(),
   createdAt: z.date(),
   updatedAt: z.date(),

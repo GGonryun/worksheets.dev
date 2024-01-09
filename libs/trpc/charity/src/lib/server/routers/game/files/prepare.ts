@@ -6,6 +6,7 @@ import {
   GCP_SUBMISSION_BUCKET_ID,
   GCP_PRIVATE_KEY,
 } from '@worksheets/ui/environment/server';
+import { toMegabytes } from '@worksheets/util/data';
 
 export default protectedProcedure
   .input(
@@ -57,8 +58,7 @@ export default protectedProcedure
           userId: user.id,
           submissionId,
           path,
-          size,
-          timestamp,
+          size: toMegabytes(size),
           type,
           name,
         },

@@ -1,34 +1,41 @@
 import { NextPageWithLayout } from '@worksheets/util-next';
 import { LayoutContainer } from '../../containers/layout-container';
 
-import dynamic from 'next/dynamic';
 import { GetServerSideProps } from 'next/types';
-import { User } from '@prisma/client';
-import { getToken } from 'next-auth/jwt';
+import { createServerSideTRPC } from '@worksheets/trpc-charity/server';
+import { UserProfile } from '@worksheets/ui/pages/account';
+import { trpc } from '@worksheets/trpc-charity';
+import { CreateGameSubmissionScreen } from '@worksheets/ui/pages/game-submissions';
+import { NextSeo } from 'next-seo';
+import { createGameSubmissionSeo } from '../../util/seo';
 
 type Props = {
-  user: User;
+  profile: UserProfile;
 };
-
-const DynamicCreateGameSubmissionContainer = dynamic(
-  () => import('../../dynamic/create-game-submission'),
-  {
-    ssr: false,
-  }
-);
 
 const Page: NextPageWithLayout<Props> = () => {
-  return <DynamicCreateGameSubmissionContainer />;
+  const createSubmission = trpc.game.submissions.create.useMutation();
+
+  return (
+    <>
+      <NextSeo {...createGameSubmissionSeo} />
+      <CreateGameSubmissionScreen
+        createSubmission={createSubmission.mutateAsync}
+      />
+      ;
+    </>
+  );
 };
 
-export const getServerSideProps = (async (context) => {
-  const session = await getToken(context);
-  const user = session?.user as User;
+export const getServerSideProps = (async (ctx) => {
+  const trpc = await createServerSideTRPC(ctx);
 
-  if (!user) {
+  const profile = await trpc.profile.get.fetch();
+
+  if (!profile) {
     return {
       redirect: {
-        destination: '/login',
+        destination: '/account',
         permanent: false,
       },
     };
@@ -36,7 +43,7 @@ export const getServerSideProps = (async (context) => {
 
   return {
     props: {
-      user,
+      profile,
     },
   };
 }) satisfies GetServerSideProps<Props>;

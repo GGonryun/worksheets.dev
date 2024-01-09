@@ -45,6 +45,8 @@ export default protectedProcedure
       });
     }
 
+    console.info(`found submission`, { submissionId: submission.id });
+
     return {
       id: submission.id,
       slug: submission.slug,
@@ -84,6 +86,6 @@ const safelyCreateFile = (
         type: file.type,
         name: file.name,
         size: file.size,
-        timestamp: file.timestamp,
+        timestamp: file.createdAt.getTime(),
       }
     : null;

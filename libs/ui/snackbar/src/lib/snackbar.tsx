@@ -21,6 +21,7 @@ export const Snackbar: React.FC<SnackbarProps> = ({
       <Alert
         onClose={(e) => onClose && onClose(e, 'escapeKeyDown')}
         severity={severity}
+        variant="filled"
       >
         {message}
       </Alert>

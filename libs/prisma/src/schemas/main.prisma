@@ -266,8 +266,7 @@ model StoredFile {
   userId        String
   name          String           @db.VarChar(255)
   path          String           @db.VarChar(511)
-  size          Int           
-  timestamp     Int              @default(0)
+  size          Int              @default(0) // stored as MB
   type          String           @db.VarChar(63)
   createdAt     DateTime         @default(now())
   updatedAt     DateTime         @updatedAt
@@ -280,7 +279,7 @@ model StoredFile {
 model GameSubmission {
   id                  String                    @id @default(cuid())
   // form data
-  slug                String?                   @db.VarChar(63) @unique
+  slug                String?                   @db.VarChar(63)
   title               String?                   @db.VarChar(63)
   headline            String?                   @db.VarChar(255)
   projectType         ProjectType?             
@@ -301,10 +300,10 @@ model GameSubmission {
   // assets
   gameFileId          String?                   @db.VarChar(63) @unique
   gameFile            StoredFile?               @relation(name: "gameFile", fields: [gameFileId], references: [id])
-  thumbnailId         String?                   @db.VarChar(63) @unique
-  thumbnailFile       StoredFile?               @relation(name: "thumbnailFile", fields: [thumbnailId], references: [id])
-  coverId             String?                   @db.VarChar(63) @unique
-  coverFile           StoredFile?               @relation(name: "coverFile", fields: [coverId], references: [id])
+  thumbnailFileId     String?                   @db.VarChar(63) @unique
+  thumbnailFile       StoredFile?               @relation(name: "thumbnailFile", fields: [thumbnailFileId], references: [id])
+  coverFileId         String?                   @db.VarChar(63) @unique
+  coverFile           StoredFile?               @relation(name: "coverFile", fields: [coverFileId], references: [id])
   trailerUrl          String?                   @db.VarChar(63)
   // The game status is updated when the game is submitted.
   // approved submissions are deleted after the game is published.
@@ -312,7 +311,7 @@ model GameSubmission {
   reviews             GameSubmissionFeedback[]
   // the profile that submitted the game
   profileId             String 
-  profile               Profile                  @relation(fields: [profileId], references: [id])    
+  profile               Profile                 @relation(fields: [profileId], references: [id])    
   // auditing and analytics
   createdAt           DateTime                  @default(now())
   updatedAt           DateTime                  @updatedAt

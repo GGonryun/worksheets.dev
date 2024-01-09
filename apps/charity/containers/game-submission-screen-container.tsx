@@ -7,17 +7,24 @@ import {
 import { FC } from 'react';
 import { useGameSubmissionForm } from '../hooks/use-game-submission-form';
 import { Nullable } from '@worksheets/util/types';
+import { Snackbar } from '@worksheets/ui/snackbar';
 
 export const GameSubmissionScreenContainer: FC<{
   submissionId: string;
   form: Nullable<GameSubmissionForm>;
   invalidProfile: boolean;
 }> = ({ submissionId, form: existingData, invalidProfile }) => {
-  const form = useGameSubmissionForm(submissionId, existingData);
+  const { form, snackbar } = useGameSubmissionForm(submissionId, existingData);
 
   return (
     <GameSubmissionFormContextProvider value={form}>
       <GameSubmissionScreen invalidProfile={invalidProfile} />
+      <Snackbar
+        message={snackbar.message}
+        severity={snackbar.severity}
+        open={snackbar.open}
+        onClose={snackbar.terminate}
+      />
     </GameSubmissionFormContextProvider>
   );
 };

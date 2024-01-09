@@ -180,6 +180,8 @@ export const basicInformationFormSchema = z.object({
 
 export type BasicInformationForm = z.infer<typeof basicInformationFormSchema>;
 
+export type UserProfile = BasicInformationForm;
+
 export type BasicInformationFormErrors = Record<
   BasicInformationFormKeys,
   string

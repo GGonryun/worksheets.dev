@@ -23,6 +23,7 @@ export default protectedProcedure
     });
 
     console.info(`found ${result.length} submissions`);
+
     return result.map((submission) => ({
       id: submission.id,
       status: submission.status,
