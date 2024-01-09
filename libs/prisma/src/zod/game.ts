@@ -1,12 +1,17 @@
-import * as z from "zod"
-import { GameCategory } from "@prisma/client"
-import { CompleteGameFile, RelatedGameFileModel, CompleteViewport, RelatedViewportModel, CompleteProfile, RelatedProfileModel, CompleteGameVote, RelatedGameVoteModel, CompleteGamePlay, RelatedGamePlayModel } from "./index"
-
-// Helper schema for JSON fields
-type Literal = boolean | number | string
-type Json = Literal | { [key: string]: Json } | Json[]
-const literalSchema = z.union([z.string(), z.number(), z.boolean()])
-const jsonSchema: z.ZodSchema<Json> = z.lazy(() => z.union([literalSchema, z.array(jsonSchema), z.record(jsonSchema)]))
+import * as z from 'zod';
+import { GameCategory } from '@prisma/client';
+import {
+  CompleteGameFile,
+  RelatedGameFileModel,
+  CompleteViewport,
+  RelatedViewportModel,
+  CompleteProfile,
+  RelatedProfileModel,
+  CompleteGameVote,
+  RelatedGameVoteModel,
+  CompleteGamePlay,
+  RelatedGamePlayModel,
+} from './index';
 
 export const GameModel = z.object({
   id: z.string(),
@@ -15,7 +20,7 @@ export const GameModel = z.object({
   headline: z.string(),
   description: z.string(),
   instructions: z.string(),
-  markets: jsonSchema,
+  markets: z.string().nullish(),
   category: z.nativeEnum(GameCategory),
   tags: z.string().array(),
   thumbnail: z.string(),
@@ -27,14 +32,14 @@ export const GameModel = z.object({
   fileId: z.string(),
   viewportId: z.string(),
   ownerId: z.string().nullish(),
-})
+});
 
 export interface CompleteGame extends z.infer<typeof GameModel> {
-  file: CompleteGameFile
-  viewport: CompleteViewport
-  owner?: CompleteProfile | null
-  votes: CompleteGameVote[]
-  plays: CompleteGamePlay[]
+  file: CompleteGameFile;
+  viewport: CompleteViewport;
+  owner?: CompleteProfile | null;
+  votes: CompleteGameVote[];
+  plays: CompleteGamePlay[];
 }
 
 /**
@@ -42,10 +47,12 @@ export interface CompleteGame extends z.infer<typeof GameModel> {
  *
  * NOTE: Lazy required in case of potential circular dependencies within schema
  */
-export const RelatedGameModel: z.ZodSchema<CompleteGame> = z.lazy(() => GameModel.extend({
-  file: RelatedGameFileModel,
-  viewport: RelatedViewportModel,
-  owner: RelatedProfileModel.nullish(),
-  votes: RelatedGameVoteModel.array(),
-  plays: RelatedGamePlayModel.array(),
-}))
+export const RelatedGameModel: z.ZodSchema<CompleteGame> = z.lazy(() =>
+  GameModel.extend({
+    file: RelatedGameFileModel,
+    viewport: RelatedViewportModel,
+    owner: RelatedProfileModel.nullish(),
+    votes: RelatedGameVoteModel.array(),
+    plays: RelatedGamePlayModel.array(),
+  })
+);

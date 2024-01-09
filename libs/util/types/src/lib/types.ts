@@ -44,3 +44,8 @@ export type Split<S extends string, D extends string> = string extends S
   ? [T, ...Split<U, D>]
   : [S];
 
+export type Nullable<T> = { [K in keyof T]: T[K] | null };
+
+export type DeepNullable<T> = {
+  [K in keyof T]: DeepNullable<T[K]> | null;
+};

@@ -1,16 +1,22 @@
 import {
-  FormContextProvider,
+  GameSubmissionForm,
+  GameSubmissionFormContextProvider,
   GameSubmissionScreen,
-} from '@worksheets/ui/pages/contributions';
-import { FC } from 'react';
-import { useConnectedForm } from '../hooks/useConnectedForm';
+} from '@worksheets/ui/pages/game-submissions';
 
-export const GameSubmissionScreenContainer: FC = () => {
-  const form = useConnectedForm();
+import { FC } from 'react';
+import { useGameSubmissionForm } from '../hooks/use-game-submission-form';
+import { Nullable } from '@worksheets/util/types';
+
+export const GameSubmissionScreenContainer: FC<{
+  submission: Nullable<GameSubmissionForm>;
+  invalidProfile: boolean;
+}> = ({ submission, invalidProfile }) => {
+  const form = useGameSubmissionForm(submission);
 
   return (
-    <FormContextProvider value={form}>
-      <GameSubmissionScreen invalidProfile={true} />
-    </FormContextProvider>
+    <GameSubmissionFormContextProvider value={form}>
+      <GameSubmissionScreen invalidProfile={invalidProfile} />
+    </GameSubmissionFormContextProvider>
   );
 };

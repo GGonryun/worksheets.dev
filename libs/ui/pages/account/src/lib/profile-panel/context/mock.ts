@@ -1,9 +1,8 @@
+import { MockActionType } from '@worksheets/util/types';
 import { BasicInformationFormContextType } from './type';
 
-type ActionType = (name: string) => (req?: unknown) => unknown;
-
 export const DEFAULT_VALUES = (
-  action: ActionType
+  action: MockActionType
 ): BasicInformationFormContextType => ({
   errors: {
     username: '',
@@ -20,7 +19,7 @@ export const DEFAULT_VALUES = (
 });
 
 export const PREFILLED_VALUES = (
-  action: ActionType
+  action: MockActionType
 ): BasicInformationFormContextType => ({
   ...DEFAULT_VALUES(action),
   isValid: () => true,
@@ -32,7 +31,7 @@ export const PREFILLED_VALUES = (
 });
 
 export const ERROR_VALUES = (
-  action: ActionType
+  action: MockActionType
 ): BasicInformationFormContextType => ({
   ...DEFAULT_VALUES(action),
   isValid: () => false,

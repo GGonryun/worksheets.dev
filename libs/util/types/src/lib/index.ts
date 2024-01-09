@@ -12,5 +12,5 @@ export * from './recently-played-schema';
 export * from './user-vote-schema';
 export * from './website-statistics';
 export * from './question-answer';
-export * from './submit-game';
 export * from './terms-approval';
+export * from './mocks';

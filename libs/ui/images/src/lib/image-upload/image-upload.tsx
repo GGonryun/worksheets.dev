@@ -6,9 +6,9 @@ import Modal from '@mui/material/Modal';
 import ZoomInIcon from '@mui/icons-material/ZoomIn';
 import { CircularProgress, Typography } from '@mui/material';
 import { CoverImage } from '../cover-image';
-import { useImageName } from '../hooks/useImageName';
 import { useImageSize } from '../hooks/useImageSize';
 import { ContainImage } from '../contain-image';
+import { useFileName } from '@worksheets/ui-core';
 
 export const ImageUpload: FC<{
   src?: string;
@@ -135,7 +135,7 @@ const DeleteImageButton: FC<{ visible: boolean; onClick: () => void }> = ({
 const RenderImage: FC<{
   src: string;
 }> = ({ src }) => {
-  const { name } = useImageName(src);
+  const { name } = useFileName(src);
 
   return <CoverImage alt={name} src={src} />;
 };
@@ -147,7 +147,7 @@ const ZoomImageModal: FC<{
 }> = ({ src, open, onClose }) => {
   const handleClose = () => onClose();
 
-  const { name } = useImageName(src);
+  const { name } = useFileName(src);
   const { dimensions, loading, error } = useImageSize(src);
 
   return (

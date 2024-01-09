@@ -15,7 +15,7 @@ export const config = {
   ],
 };
 
-const protectedPages = ['/account'];
+const protectedPages = ['/account', '/submit'];
 
 export default async function middleware(req: NextRequest) {
   const session = await getToken({ req });
@@ -24,7 +24,12 @@ export default async function middleware(req: NextRequest) {
 
   // if the user is attempting to access a protected page and is not logged in redirect to login
   // TODO: one day we may need to protected nested routes or paths. This will need to be updated to use regex
-  if (protectedPages.includes(pathname) && !user) {
+  // check if pathname starts with a protected path
+  const isProtectedPath = protectedPages.some((path) =>
+    pathname.startsWith(path)
+  );
+
+  if (isProtectedPath && !user) {
     return NextResponse.redirect(new URL('/login', req.url));
   }
   // If the user is logged in, continue to the page

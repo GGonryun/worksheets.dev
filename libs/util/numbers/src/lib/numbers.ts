@@ -62,25 +62,3 @@ export function shorthandNumber(n: number): string {
   // else return n
   return `${n}`;
 }
-
-/**
- * @name printBytes
- * @description prints a shortened string of the bytes provided, e.g. 1000 bytes = 1KB
- * @param bytes the number of bytes to print
- * @returns a string of the bytes provided
- * @example printBytes(1000) // 1KB
- * @example printBytes(1000000) // 1MB
- * @example printBytes(1000000000) // 1GB
- */
-export function printBytes(bytes: number) {
-  if (bytes >= 1000000000) {
-    return `${round(bytes / 1000000000, 2)}GB`;
-  }
-  if (bytes >= 1000000) {
-    return `${round(bytes / 1000000, 2)}MB`;
-  }
-  if (bytes >= 1000) {
-    return `${round(bytes / 1000, 2)}KB`;
-  }
-  return `${bytes}B`;
-}

@@ -14,7 +14,7 @@ export const useBasicInformationForm = (
 ) => {
   const snackbar = useSnackbar();
 
-  const validator = useZodValidator(basicInformationFormSchema);
+  const { fieldValidator } = useZodValidator(basicInformationFormSchema);
 
   const [updated, setUpdated] = useState(false);
 
@@ -68,7 +68,7 @@ export const useBasicInformationForm = (
 
       setValues(updated);
 
-      const error = validator(field, updated);
+      const error = fieldValidator(field, updated);
 
       setErrors((prev) => ({ ...prev, [field]: error }));
 

@@ -1,10 +1,11 @@
+import { TRPCError } from '@trpc/server';
 import { protectedProcedure } from '../../procedures';
 import { z } from '@worksheets/zod';
 
 export default protectedProcedure
   .input(
     z.object({
-      id: z.string(),
+      url: z.string(),
     })
   )
   .output(
@@ -12,11 +13,24 @@ export default protectedProcedure
       okay: z.boolean(),
     })
   )
-  .mutation(async ({ input: { id }, ctx: { user, db } }) => {
+  .mutation(async ({ input: { url }, ctx: { user, db } }) => {
+    const file = await db.storedFile.findFirst({
+      where: {
+        url,
+        userId: user.id,
+      },
+    });
+
+    if (!file) {
+      throw new TRPCError({
+        code: 'NOT_FOUND',
+        message: 'File not found',
+      });
+    }
+
     await db.storedFile.delete({
       where: {
-        id,
-        userId: user.id,
+        id: file.id,
       },
     });
 

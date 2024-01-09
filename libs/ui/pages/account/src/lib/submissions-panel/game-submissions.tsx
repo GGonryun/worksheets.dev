@@ -45,7 +45,7 @@ export const GameSubmissions: React.FC<{
     </Button>
     <Typography variant="body3">
       For more information on how to submit a game, please visit our{' '}
-      <a href="/contribute#faq">contribution page</a>.
+      <a href="/contribute#submit-a-game">contribution page</a>.
     </Typography>
   </Box>
 );
@@ -59,6 +59,7 @@ const EmptySubmissionsPlaceholder: React.FC<{ visible: boolean }> = ({
       alignItems: { xs: 'flex-start', sm: 'center' },
       flexDirection: { xs: 'column', sm: 'row' },
       gap: 3,
+      pb: 1,
     }}
   >
     <NewWindow sx={{ fontSize: { xs: 64, sm: 72 } }} />
@@ -66,8 +67,8 @@ const EmptySubmissionsPlaceholder: React.FC<{ visible: boolean }> = ({
       <Typography
         variant="h5"
         fontSize={{
-          xs: '1.25rem',
-          sm: '1.5rem',
+          xs: '1.15rem',
+          sm: '1.25rem',
         }}
       >
         No submissions found

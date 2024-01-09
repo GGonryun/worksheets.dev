@@ -106,3 +106,11 @@ export const lastElement = <T>(arr: T[]): T | undefined => {
 export const lastIndex = <T>(arr: T[]): number => {
   return arr.length - 1;
 };
+
+export function checkboxGroup<T>(array: T[], value: T, checked: boolean): T[] {
+  if (checked) {
+    return uniqueArray([...array, value]);
+  } else {
+    return array.filter((v) => v !== value);
+  }
+}

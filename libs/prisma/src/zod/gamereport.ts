@@ -1,5 +1,5 @@
-import * as z from "zod"
-import { ReportReason } from "@prisma/client"
+import * as z from 'zod';
+import { ReportReason } from '@prisma/client';
 
 export const GameReportModel = z.object({
   id: z.string(),
@@ -7,4 +7,4 @@ export const GameReportModel = z.object({
   reason: z.nativeEnum(ReportReason),
   text: z.string(),
   createdAt: z.date(),
-})
+});
