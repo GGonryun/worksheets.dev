@@ -39,7 +39,6 @@ export const storedFileSchema = z.object({
 });
 
 export const gameSubmissionFormSchema = z.object({
-  status: z.nativeEnum(GameSubmissionStatus),
   title: z
     .string()
     .min(3, 'Title must be at least 3 characters')

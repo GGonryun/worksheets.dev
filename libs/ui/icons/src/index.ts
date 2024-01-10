@@ -23,3 +23,4 @@ export * from './lib/colored/microsoft';
 export * from './lib/colored/facebook';
 export * from './lib/colored/reddit';
 export * from './lib/new-window';
+export * from './lib/colored/gesture-thumbs-up';

@@ -52,7 +52,7 @@ export default protectedProcedure
         instructions: input.instructions,
         category: input.category,
         tags: input.tags ?? [],
-        status: input.status ?? 'DRAFT',
+        status: 'PENDING',
         markets: JSON.stringify(input.markets ?? {}),
         // file uploads are handled separately
       },

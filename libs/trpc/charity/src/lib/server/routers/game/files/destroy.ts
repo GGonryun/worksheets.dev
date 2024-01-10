@@ -51,7 +51,12 @@ export default protectedProcedure
       }
 
       // 1. delete from GCP
-      await storage.bucket(GCP_SUBMISSION_BUCKET_ID).file(file.path).delete();
+      try {
+        await storage.bucket(GCP_SUBMISSION_BUCKET_ID).file(file.path).delete();
+      } catch (error) {
+        // TODO: log this somewhere else so we can retry or handle manually.
+        console.error('Error deleting file from GCP', error);
+      }
       // 2. delete from DB
       await db.storedFile.delete({
         where: {

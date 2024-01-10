@@ -14,7 +14,6 @@ export default protectedProcedure
       type: z.string(),
       name: z.string(),
       size: z.number(),
-      timestamp: z.number(),
       submissionId: z.string(),
     })
   )
@@ -27,7 +26,7 @@ export default protectedProcedure
   )
   .mutation(
     async ({
-      input: { type, name, submissionId, size, timestamp },
+      input: { type, name, submissionId, size },
       ctx: { user, db },
     }) => {
       console.info('preparing file upload', { type, name, submissionId });

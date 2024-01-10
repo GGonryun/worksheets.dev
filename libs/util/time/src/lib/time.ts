@@ -30,6 +30,10 @@ export function convertMillisecondsToSeconds(milliseconds: number): number {
   return Math.round(milliseconds / 1000);
 }
 
+export function convertSecondsToMilliseconds(seconds: number): number {
+  return seconds * 1000;
+}
+
 export const printDate = (stamp: string | Date | number, locale = 'en-US') => {
   const options: Intl.DateTimeFormatOptions = {
     weekday: 'long',

@@ -5,6 +5,7 @@ import list from './list';
 import create from './create';
 import submit from './submit';
 import update from './update';
+// import destroy from './destroy';
 
 export default t.router({
   get,
@@ -12,4 +13,5 @@ export default t.router({
   update,
   submit,
   list,
+  // destroy,
 });

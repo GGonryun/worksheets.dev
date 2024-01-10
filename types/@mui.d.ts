@@ -55,6 +55,9 @@ declare module '@mui/material/Button' {
     black: true;
     white: true;
   }
+  interface ButtonPropsVariantOverrides {
+    round: true;
+  }
 }
 
 declare module '@mui/material/IconButton' {

@@ -12,4 +12,6 @@
 
 gcloud storage buckets update gs://game-submissions --cors-file=./gcs_cors.json
 
+gcloud storage buckets update gs://local-game-submissions --cors-file=./gcs_cors.json
+
 ```
