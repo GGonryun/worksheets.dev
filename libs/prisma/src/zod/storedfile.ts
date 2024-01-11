@@ -1,5 +1,5 @@
-import * as z from 'zod';
-import { CompleteGameSubmission, RelatedGameSubmissionModel } from './index';
+import * as z from "zod"
+import { CompleteGameSubmission, RelatedGameSubmissionModel } from "./index"
 
 export const StoredFileModel = z.object({
   id: z.string(),
@@ -11,12 +11,12 @@ export const StoredFileModel = z.object({
   type: z.string(),
   createdAt: z.date(),
   updatedAt: z.date(),
-});
+})
 
 export interface CompleteStoredFile extends z.infer<typeof StoredFileModel> {
-  gameFileFor?: CompleteGameSubmission | null;
-  thumbnailFor?: CompleteGameSubmission | null;
-  coverFor?: CompleteGameSubmission | null;
+  gameFileFor?: CompleteGameSubmission | null
+  thumbnailFor?: CompleteGameSubmission | null
+  coverFor?: CompleteGameSubmission | null
 }
 
 /**
@@ -24,11 +24,8 @@ export interface CompleteStoredFile extends z.infer<typeof StoredFileModel> {
  *
  * NOTE: Lazy required in case of potential circular dependencies within schema
  */
-export const RelatedStoredFileModel: z.ZodSchema<CompleteStoredFile> = z.lazy(
-  () =>
-    StoredFileModel.extend({
-      gameFileFor: RelatedGameSubmissionModel.nullish(),
-      thumbnailFor: RelatedGameSubmissionModel.nullish(),
-      coverFor: RelatedGameSubmissionModel.nullish(),
-    })
-);
+export const RelatedStoredFileModel: z.ZodSchema<CompleteStoredFile> = z.lazy(() => StoredFileModel.extend({
+  gameFileFor: RelatedGameSubmissionModel.nullish(),
+  thumbnailFor: RelatedGameSubmissionModel.nullish(),
+  coverFor: RelatedGameSubmissionModel.nullish(),
+}))

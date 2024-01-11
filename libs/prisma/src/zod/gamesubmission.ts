@@ -1,20 +1,6 @@
-import * as z from 'zod';
-import {
-  ProjectType,
-  ViewportType,
-  GameDevices,
-  DeviceOrientations,
-  GameCategory,
-  GameSubmissionStatus,
-} from '@prisma/client';
-import {
-  CompleteStoredFile,
-  RelatedStoredFileModel,
-  CompleteGameSubmissionFeedback,
-  RelatedGameSubmissionFeedbackModel,
-  CompleteProfile,
-  RelatedProfileModel,
-} from './index';
+import * as z from "zod"
+import { ProjectType, ViewportType, GameDevices, DeviceOrientations, GameCategory, GameSubmissionStatus } from "@prisma/client"
+import { CompleteStoredFile, RelatedStoredFileModel, CompleteGameSubmissionFeedback, RelatedGameSubmissionFeedbackModel, CompleteProfile, RelatedProfileModel } from "./index"
 
 export const GameSubmissionModel = z.object({
   id: z.string(),
@@ -41,15 +27,14 @@ export const GameSubmissionModel = z.object({
   profileId: z.string(),
   createdAt: z.date(),
   updatedAt: z.date(),
-});
+})
 
-export interface CompleteGameSubmission
-  extends z.infer<typeof GameSubmissionModel> {
-  gameFile?: CompleteStoredFile | null;
-  thumbnailFile?: CompleteStoredFile | null;
-  coverFile?: CompleteStoredFile | null;
-  reviews: CompleteGameSubmissionFeedback[];
-  profile: CompleteProfile;
+export interface CompleteGameSubmission extends z.infer<typeof GameSubmissionModel> {
+  gameFile?: CompleteStoredFile | null
+  thumbnailFile?: CompleteStoredFile | null
+  coverFile?: CompleteStoredFile | null
+  reviews: CompleteGameSubmissionFeedback[]
+  profile: CompleteProfile
 }
 
 /**
@@ -57,13 +42,10 @@ export interface CompleteGameSubmission
  *
  * NOTE: Lazy required in case of potential circular dependencies within schema
  */
-export const RelatedGameSubmissionModel: z.ZodSchema<CompleteGameSubmission> =
-  z.lazy(() =>
-    GameSubmissionModel.extend({
-      gameFile: RelatedStoredFileModel.nullish(),
-      thumbnailFile: RelatedStoredFileModel.nullish(),
-      coverFile: RelatedStoredFileModel.nullish(),
-      reviews: RelatedGameSubmissionFeedbackModel.array(),
-      profile: RelatedProfileModel,
-    })
-  );
+export const RelatedGameSubmissionModel: z.ZodSchema<CompleteGameSubmission> = z.lazy(() => GameSubmissionModel.extend({
+  gameFile: RelatedStoredFileModel.nullish(),
+  thumbnailFile: RelatedStoredFileModel.nullish(),
+  coverFile: RelatedStoredFileModel.nullish(),
+  reviews: RelatedGameSubmissionFeedbackModel.array(),
+  profile: RelatedProfileModel,
+}))

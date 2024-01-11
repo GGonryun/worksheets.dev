@@ -1,4 +1,4 @@
-import * as z from 'zod';
+import * as z from "zod"
 
 export const EmailModel = z.object({
   id: z.string(),
@@ -6,4 +6,4 @@ export const EmailModel = z.object({
   verified: z.boolean(),
   createdAt: z.date(),
   updatedAt: z.date(),
-});
+})

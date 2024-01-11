@@ -1,6 +1,6 @@
-import * as z from 'zod';
-import { ViewportType, GameDevices, DeviceOrientations } from '@prisma/client';
-import { CompleteGame, RelatedGameModel } from './index';
+import * as z from "zod"
+import { ViewportType, GameDevices, DeviceOrientations } from "@prisma/client"
+import { CompleteGame, RelatedGameModel } from "./index"
 
 export const ViewportModel = z.object({
   id: z.string(),
@@ -9,10 +9,10 @@ export const ViewportModel = z.object({
   height: z.number().int().nullish(),
   devices: z.nativeEnum(GameDevices).array(),
   orientations: z.nativeEnum(DeviceOrientations).array(),
-});
+})
 
 export interface CompleteViewport extends z.infer<typeof ViewportModel> {
-  games: CompleteGame[];
+  games: CompleteGame[]
 }
 
 /**
@@ -20,8 +20,6 @@ export interface CompleteViewport extends z.infer<typeof ViewportModel> {
  *
  * NOTE: Lazy required in case of potential circular dependencies within schema
  */
-export const RelatedViewportModel: z.ZodSchema<CompleteViewport> = z.lazy(() =>
-  ViewportModel.extend({
-    games: RelatedGameModel.array(),
-  })
-);
+export const RelatedViewportModel: z.ZodSchema<CompleteViewport> = z.lazy(() => ViewportModel.extend({
+  games: RelatedGameModel.array(),
+}))

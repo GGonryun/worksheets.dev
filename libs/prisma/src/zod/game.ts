@@ -1,13 +1,6 @@
-import * as z from 'zod';
-import { GameCategory } from '@prisma/client';
-import {
-  CompleteGameFile,
-  RelatedGameFileModel,
-  CompleteViewport,
-  RelatedViewportModel,
-  CompleteProfile,
-  RelatedProfileModel,
-} from './index';
+import * as z from "zod"
+import { GameCategory } from "@prisma/client"
+import { CompleteGameFile, RelatedGameFileModel, CompleteViewport, RelatedViewportModel, CompleteProfile, RelatedProfileModel } from "./index"
 
 export const GameModel = z.object({
   id: z.string(),
@@ -28,12 +21,12 @@ export const GameModel = z.object({
   fileId: z.string(),
   viewportId: z.string(),
   ownerId: z.string().nullish(),
-});
+})
 
 export interface CompleteGame extends z.infer<typeof GameModel> {
-  file: CompleteGameFile;
-  viewport: CompleteViewport;
-  owner?: CompleteProfile | null;
+  file: CompleteGameFile
+  viewport: CompleteViewport
+  owner?: CompleteProfile | null
 }
 
 /**
@@ -41,10 +34,8 @@ export interface CompleteGame extends z.infer<typeof GameModel> {
  *
  * NOTE: Lazy required in case of potential circular dependencies within schema
  */
-export const RelatedGameModel: z.ZodSchema<CompleteGame> = z.lazy(() =>
-  GameModel.extend({
-    file: RelatedGameFileModel,
-    viewport: RelatedViewportModel,
-    owner: RelatedProfileModel.nullish(),
-  })
-);
+export const RelatedGameModel: z.ZodSchema<CompleteGame> = z.lazy(() => GameModel.extend({
+  file: RelatedGameFileModel,
+  viewport: RelatedViewportModel,
+  owner: RelatedProfileModel.nullish(),
+}))
