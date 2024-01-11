@@ -27,15 +27,16 @@ const localSessionToken = {
   },
 };
 
-const productionSessionToken = {
-  name: `__Secure-next-auth.session-token`,
-  options: {
-    sameSite: 'lax' as const,
-    path: '/',
-    // support subdomains
-    domain: `${COOKIE_DOMAIN}`,
-  },
-};
+const productionSessionToken = undefined;
+// {
+//   name: `__Secure-next-auth.session-token`,
+//   options: {
+//     sameSite: 'lax' as const,
+//     path: '/',
+//     // support subdomains
+//     domain: `${COOKIE_DOMAIN}`,
+//   },
+// };
 
 export const AUTH_OPTIONS: AuthOptions = {
   session: { strategy: 'jwt', maxAge: 3000 },
