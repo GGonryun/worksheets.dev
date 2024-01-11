@@ -3,7 +3,7 @@ import Paper from '@mui/material/Paper';
 import { SubmissionsPanel } from './submissions-panel';
 import { action } from '@storybook/addon-actions';
 import { GameSubmissionStatus } from '@prisma/client';
-import { GameSubmissionProps } from './game-submission';
+import { BasicGameSubmission } from '../types';
 
 type Story = Meta<typeof SubmissionsPanel>;
 
@@ -31,17 +31,19 @@ const Default: Story = {
 };
 export default Default;
 
-const submissions: GameSubmissionProps[] = [
+const submissions: BasicGameSubmission[] = [
   {
     id: '1',
     title: 'Word Search',
     slug: 'word-search',
     status: GameSubmissionStatus.ACCEPTED,
     thumbnail: '/games/word-pack/banner.jpg',
+    tooltip: null,
   },
   {
     id: '2',
     title: 'Word Pack',
+    slug: null,
     status: GameSubmissionStatus.REJECTED,
     thumbnail: '/games/word-search/icon.jpg',
     tooltip:
@@ -50,9 +52,14 @@ const submissions: GameSubmissionProps[] = [
   {
     id: '3',
     status: GameSubmissionStatus.DRAFT,
+    slug: null,
+    title: null,
+    thumbnail: null,
+    tooltip: null,
   },
   {
     id: '4',
+    slug: null,
     title: 'Word Smith',
     status: GameSubmissionStatus.PENDING,
     thumbnail: '/games/word-smith/icon.jpg',

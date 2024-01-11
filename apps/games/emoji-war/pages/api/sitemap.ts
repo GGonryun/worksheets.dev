@@ -1,5 +1,5 @@
 import { NextApiHandler } from 'next';
-import { EMOJI_WAR_URL } from '@worksheets/util/env';
+import { EMOJI_WAR_URL } from '@worksheets/ui/env';
 
 const LAST_UPDATE_DATE = `2023-12-10`;
 

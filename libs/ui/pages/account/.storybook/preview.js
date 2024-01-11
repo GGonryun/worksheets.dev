@@ -1,5 +1,5 @@
 import './styles.scss';
-import { ThemeProvider } from '@mui/material';
+import { CssBaseline, ThemeProvider } from '@mui/material';
 import theme from '@worksheets/ui/theme';
 
 const preview = {
@@ -9,6 +9,7 @@ const preview = {
   decorators: [
     (Story) => (
       <ThemeProvider theme={theme}>
+        <CssBaseline />
         <Story />
       </ThemeProvider>
     ),

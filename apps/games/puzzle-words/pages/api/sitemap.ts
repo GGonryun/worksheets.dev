@@ -1,5 +1,5 @@
 import { NextApiHandler } from 'next';
-import { PUZZLE_WORDS_URL } from '@worksheets/util/env';
+import { PUZZLE_WORDS_URL } from '@worksheets/ui/env';
 
 const LAST_UPDATE_DATE = `2023-12-10`;
 

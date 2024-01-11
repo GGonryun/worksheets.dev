@@ -6,7 +6,7 @@ import {
   storedFileSchema,
 } from '@worksheets/ui/pages/game-submissions';
 import { Nullable } from '@worksheets/util/types';
-import { createFileDownloadUrl } from '@worksheets/ui/environment/server';
+import { createFileDownloadUrl } from '@worksheets/services/environment';
 import { StoredFileModel } from '@worksheets/prisma';
 export default protectedProcedure
   .input(

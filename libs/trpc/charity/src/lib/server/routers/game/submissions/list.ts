@@ -1,6 +1,6 @@
 import { protectedProcedure } from '../../../procedures';
 import { basicGameSubmissionSchema } from '@worksheets/ui/pages/account';
-import { createFileDownloadUrl } from '@worksheets/ui/environment/server';
+import { createFileDownloadUrl } from '@worksheets/services/environment';
 
 export default protectedProcedure
   .output(basicGameSubmissionSchema.array())

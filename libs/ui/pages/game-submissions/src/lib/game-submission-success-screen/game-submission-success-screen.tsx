@@ -82,7 +82,6 @@ export const GameSubmissionSuccessScreen = () => {
         width={width}
         height={height}
         recycle={recycle}
-        gravity={0.05}
       />
     </AbsolutelyCentered>
   );

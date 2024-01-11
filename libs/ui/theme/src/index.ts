@@ -1,5 +1,5 @@
 import { grey, pink, yellow } from '@mui/material/colors';
-import { createTheme, darken } from '@mui/material/styles';
+import { createTheme, darken, lighten } from '@mui/material/styles';
 
 export type PaletteColor =
   | 'success'
@@ -70,6 +70,7 @@ const theme = createTheme({
       variants: [
         {
           props: { variant: 'round' },
+          // There isn't a good type for the sx prop yet.
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           style: (tx: any) => {
             const currentColor = tx.theme.palette[tx.ownerState.color];
@@ -99,17 +100,61 @@ const theme = createTheme({
               },
               //small size
               ...(tx.ownerState.size === 'small' && {
-                padding: tx.theme.spacing(0.5, 1),
+                padding: tx.theme.spacing(0.25, 1),
                 fontSize: tx.theme.typography.pxToRem(12),
               }),
               //medium size
               ...(tx.ownerState.size === 'medium' && {
-                padding: tx.theme.spacing(0.625, 2),
+                padding: tx.theme.spacing(0.5, 2),
                 fontSize: tx.theme.typography.pxToRem(14),
               }),
               //large size
               ...(tx.ownerState.size === 'large' && {
                 padding: tx.theme.spacing(0.75, 3),
+                fontSize: tx.theme.typography.pxToRem(16),
+              }),
+            };
+          },
+        },
+        {
+          props: { variant: 'outlined-round' },
+          // There isn't a good type for the sx prop yet.
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          style: (tx: any) => {
+            const currentColor = tx.theme.palette[tx.ownerState.color];
+            return {
+              border: `1px solid ${currentColor.main}`,
+              borderColor: tx.ownerState.disabled
+                ? tx.theme.palette.grey[300]
+                : currentColor.main,
+              color: currentColor.main,
+              borderRadius: 50,
+              fontFamily: tx.theme.typography.dangrek.fontFamily,
+              // transition box-shadow and background-color .2s ease-in-out
+              transition: tx.theme.transitions.create(
+                ['box-shadow', 'background-color'],
+                {
+                  duration: tx.theme.transitions.duration.standard,
+                  easing: tx.theme.transitions.easing.easeInOut,
+                }
+              ),
+              '&:hover': {
+                boxShadow: 'none',
+                backgroundColor: lighten(currentColor.main, 0.9),
+              },
+              //small size
+              ...(tx.ownerState.size === 'small' && {
+                padding: tx.theme.spacing(0, 1),
+                fontSize: tx.theme.typography.pxToRem(12),
+              }),
+              //medium size
+              ...(tx.ownerState.size === 'medium' && {
+                padding: tx.theme.spacing(0, 2),
+                fontSize: tx.theme.typography.pxToRem(14),
+              }),
+              //large size
+              ...(tx.ownerState.size === 'large' && {
+                padding: tx.theme.spacing(0, 3),
                 fontSize: tx.theme.typography.pxToRem(16),
               }),
             };

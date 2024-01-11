@@ -1,12 +1,8 @@
 import { protectedProcedure } from '../../../procedures';
 import { z } from '@worksheets/zod';
-import { GetSignedUrlConfig, Storage } from '@google-cloud/storage';
-import {
-  GCP_CLIENT_EMAIL,
-  GCP_SUBMISSION_BUCKET_ID,
-  GCP_PRIVATE_KEY,
-} from '@worksheets/ui/environment/server';
+
 import { toMegabytes } from '@worksheets/util/data';
+import * as storage from '@worksheets/services/storage';
 
 export default protectedProcedure
   .input(
@@ -31,26 +27,12 @@ export default protectedProcedure
     }) => {
       console.info('preparing file upload', { type, name, submissionId });
 
-      const storage = new Storage({
-        credentials: {
-          client_email: GCP_CLIENT_EMAIL,
-          private_key: GCP_PRIVATE_KEY,
-        },
-      });
-
-      const options: GetSignedUrlConfig = {
-        version: 'v4',
-        action: 'write',
-        expires: Date.now() + 30 * 60 * 1000, // 30 minutes
-        contentType: type,
-      };
-
       const path = `uploads/${user.id}/${Date.now()}/${name}`;
 
-      const [uploadUrl] = await storage
-        .bucket(GCP_SUBMISSION_BUCKET_ID)
-        .file(path)
-        .getSignedUrl(options);
+      const uploadUrl = await storage.getSignedUrl({
+        path,
+        contentType: type,
+      });
 
       const storedFile = await db.storedFile.create({
         data: {

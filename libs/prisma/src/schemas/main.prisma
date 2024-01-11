@@ -24,7 +24,7 @@ model GamePlay {
 model GameVote {
   id            String        @id @default(cuid())
   createdAt     DateTime      @default(now())
-  liked         Boolean       @default(true)
+  vote          Int           @default(1)
 
   gameId        String
   // game          Game          @relation(fields: [gameId], references: [id])
@@ -32,16 +32,6 @@ model GameVote {
   // only authenticated users can vote on games
   userId        String
   user          User         @relation(fields: [userId], references: [id])
-}
-
-model GameVoteSubmission {
-  id            String        @id @default(cuid())
-  gameId        String
-  createdAt     DateTime      @default(now())
-  ip            String
-  vote          Int           @default(0)
-  // game          Game          @relation(fields: [gameId], references: [id])
-  // user          User          @relation(fields: [userId], references: [id])
 }
 
 enum GameDevices {
@@ -298,8 +288,9 @@ model GameSubmission {
   // known-issue: https://github.com/microsoft/TypeScript/issues/34933
   markets             String?
   // assets
-  gameFileId          String?                   @db.VarChar(63) @unique
-  gameFile            StoredFile?               @relation(name: "gameFile", fields: [gameFileId], references: [id])
+  // cascade delete the files when the submission is deleted.
+  gameFileId          String?                   @db.VarChar(63) @unique 
+  gameFile            StoredFile?               @relation(name: "gameFile", fields: [gameFileId], references: [id]) 
   thumbnailFileId     String?                   @db.VarChar(63) @unique
   thumbnailFile       StoredFile?               @relation(name: "thumbnailFile", fields: [thumbnailFileId], references: [id])
   coverFileId         String?                   @db.VarChar(63) @unique
@@ -322,10 +313,10 @@ model GameSubmission {
 // A game submission can have multiple feedback reports.
 model GameSubmissionFeedback {
   id            String          @id @default(cuid())
-  gameId        String        
+  submissionId        String        
   text          String          @db.VarChar(511)
   createdAt     DateTime        @default(now())
-  game          GameSubmission  @relation(fields: [gameId], references: [id])
+  game          GameSubmission  @relation(fields: [submissionId], references: [id])
 }
 
 generator zod {

@@ -6,8 +6,8 @@ export const CharityGamesLogo = () => (
   <Image
     src={CHARITY_GAMES_LOGO_PATH}
     alt="Charity.Games"
-    width={100}
-    height={100}
-    style={{ margin: `-16px 0` }}
+    width={128}
+    height={128}
+    style={{ margin: `-24px 0` }}
   />
 );

@@ -11,7 +11,7 @@ import {
   WORD_SMITH_URL,
   NONOGRAMS_URL,
   SOLITAIRE_URL,
-} from '@worksheets/util/env';
+} from '@worksheets/ui/env';
 
 export const gameMonetizeGames: GameMonetizeSchema[] = [
   {

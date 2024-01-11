@@ -44,13 +44,15 @@ export const EmbedOptions: FC = () => {
 };
 
 const ManuallySetSizeOptions: FC = () => {
-  const { values, errors } = useGameSubmissionFormContext();
+  const { values, errors, setFieldValue } = useGameSubmissionFormContext();
+  const widthId = 'viewportWidth';
+  const heightId = 'viewportHeight';
 
   const shouldShow = values['viewport'] === 'FIXED';
-  const heightValue = values['viewportHeight'];
-  const heightError = errors['viewportHeight'];
-  const widthValue = values['viewportWidth'];
-  const widthError = errors['viewportWidth'];
+  const heightValue = values[heightId];
+  const heightError = errors[heightId];
+  const widthValue = values[widthId];
+  const widthError = errors[widthId];
 
   return (
     <Box display={shouldShow ? 'block' : 'none'}>
@@ -59,12 +61,14 @@ const ManuallySetSizeOptions: FC = () => {
           dimension="width"
           error={Boolean(widthError)}
           value={widthValue ?? 0}
+          onChange={(e) => setFieldValue(widthId, Number(e.target.value))}
         />
         <CloseIcon sx={{ fontSize: '14px' }} color="action" />
         <DimensionInputField
           dimension="height"
           error={Boolean(heightError)}
           value={heightValue ?? 0}
+          onChange={(e) => setFieldValue(heightId, Number(e.target.value))}
         />
       </Box>
       <FormHelperText error={Boolean(heightError || widthError)}>

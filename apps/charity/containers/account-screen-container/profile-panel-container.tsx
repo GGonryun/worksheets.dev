@@ -15,10 +15,9 @@ export const ProfilePanelContainer: React.FC<{
     <BasicInformationFormContextProvider value={form}>
       <ProfilePanel />
       <Snackbar
+        {...snackbar}
         message={'Your profile has been updated!'}
         severity={'success'}
-        open={snackbar.open}
-        onClose={snackbar.terminate}
       />
     </BasicInformationFormContextProvider>
   );

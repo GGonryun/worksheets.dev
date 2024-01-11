@@ -17,7 +17,7 @@ export type UseSnackbarHook = {
    * @param severity A severity level (default: 'info')
    */
   trigger: (opt?: SnackbarTriggerOptions) => void;
-  terminate: (event?: React.SyntheticEvent | Event, reason?: string) => void;
+  onClose: (event?: React.SyntheticEvent | Event, reason?: string) => void;
 };
 
 const DEFAULT_MESSAGE = '';
@@ -37,7 +37,7 @@ export const useSnackbar = (): UseSnackbarHook => {
       setSeverity(opt?.severity ?? DEFAULT_SEVERITY);
       setMessage(opt?.message ?? DEFAULT_MESSAGE);
     },
-    terminate: (event?: React.SyntheticEvent | Event, reason?: string) => {
+    onClose: (event?: React.SyntheticEvent | Event, reason?: string) => {
       if (reason === 'clickaway') {
         return;
       }

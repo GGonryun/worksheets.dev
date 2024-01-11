@@ -39,7 +39,7 @@ import { FAQScreen } from '@worksheets/ui/pages/faq';
 import { PrivacyPolicyScreen } from '@worksheets/ui/pages/privacy-policy';
 import { UnderConstruction } from '@worksheets/ui/pages/under-construction';
 import { RecentGamesSection } from './recent-games-section';
-import { action } from '@storybook/addon-actions/*';
+import { action } from '@storybook/addon-actions';
 
 const Story: Meta<typeof Layout> = {
   component: Layout,
@@ -300,12 +300,10 @@ export const AccountPage = {
     connected: true,
     children: (
       <AccountScreen
-        recent={Array.from({ length: 5 }).map((_, i) => ({
-          type: 'game' as const,
-          id: `${i}`,
-          name: 'Game ' + i,
-        }))}
         onLogout={action('onLogout')}
+        path={''}
+        profilePanel={undefined}
+        submissionsPanel={undefined}
       />
     ),
   },

@@ -6,10 +6,11 @@ import { useRouter } from 'next/router';
 import { GameFrame } from './game-frame';
 import { GameExitFullscreenButton } from './game-exit-fullscreen-button';
 import {
+  CastVote,
   DeveloperSchema,
   GameAnalyticsSchema,
   SerializableGameSchema,
-  UserVoteSchema,
+  UserVote,
 } from '@worksheets/util/types';
 import { isMobileOrTabletDeviceBrowser } from '@worksheets/util-devices';
 import { useFullscreen } from './useFullscreen';
@@ -19,10 +20,9 @@ export type GameLauncherProps = {
   game: SerializableGameSchema;
   analytics: GameAnalyticsSchema;
   developer: DeveloperSchema;
-  userVote?: UserVoteSchema['vote'];
+  userVote: UserVote;
   onPlay: () => void;
-  onVote: (vote: UserVoteSchema['vote']) => void;
-  onViewGamePlay: () => void;
+  onVote: (vote: CastVote['vote']) => void;
 };
 
 export const GameLauncher: FC<GameLauncherProps> = ({
@@ -32,7 +32,6 @@ export const GameLauncher: FC<GameLauncherProps> = ({
   userVote,
   onPlay,
   onVote,
-  onViewGamePlay,
 }) => {
   const { push } = useRouter();
   const [showLoadingCover, setShowLoadingCover] = useState(true);
@@ -122,7 +121,6 @@ export const GameLauncher: FC<GameLauncherProps> = ({
           userVote={userVote}
           onFullscreen={handleFullscreen}
           onVote={onVote}
-          onViewGamePlay={onViewGamePlay}
         />
       )}
     </Box>

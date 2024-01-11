@@ -1,30 +1,42 @@
-import { GameLauncher } from '@worksheets/ui/pages/game';
+import { CannotVoteModal, GameLauncher } from '@worksheets/ui/pages/game';
 import {
+  CastVote,
   DeveloperSchema,
   GameAnalyticsSchema,
   SerializableGameSchema,
-  UserVoteSchema,
 } from '@worksheets/util/types';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { useRecentlyPlayedGames } from '../hooks/useRecentlyPlayedGames';
 import { trpc } from '@worksheets/trpc-charity';
-import { useVoteHistory } from '../hooks/useVoteHistory';
+import { useSession } from 'next-auth/react';
 
 const DynamicGameLauncher: FC<{
   game: SerializableGameSchema;
   developer: DeveloperSchema;
   analytics: GameAnalyticsSchema;
 }> = ({ game, developer, analytics }) => {
-  const util = trpc.useUtils();
-  const vote = trpc.game.vote.useMutation();
-  const play = trpc.game.play.useMutation();
+  const session = useSession();
+  const hasUser = !!session.data?.user?.id;
 
-  const voting = useVoteHistory();
+  const util = trpc.useUtils();
+  const castVote = trpc.game.vote.cast.useMutation();
+  const play = trpc.game.play.useMutation();
+  const { data: userVote } = trpc.game.vote.get.useQuery(
+    {
+      gameId: game.id,
+    },
+    {
+      enabled: hasUser,
+    }
+  );
 
   const { addRecentlyPlayed } = useRecentlyPlayedGames();
 
+  const [showVoteWarning, setShowVoteWarning] = useState(false);
+
   const invalidateStatistics = async () => {
     await util.game.analytics.invalidate({ gameId: game.id });
+    await util.game.vote.get.invalidate({ gameId: game.id });
   };
 
   const handlePlayGame = async () => {
@@ -38,34 +50,38 @@ const DynamicGameLauncher: FC<{
     await invalidateStatistics();
   };
 
-  const handleMakeVote = async (newVote: UserVoteSchema['vote']) => {
-    const submitVote = voting.addToVoteHistory({
-      vote: newVote,
-      gameId: game.id,
-    });
-    if (!submitVote) return;
+  const handleMakeVote = async (newVote: CastVote['vote']) => {
+    if (!hasUser) {
+      setShowVoteWarning(true);
+      return;
+    }
 
-    // send a vote.
-    await vote.mutateAsync({
+    await castVote.mutateAsync({
       gameId: game.id,
       vote: newVote,
     });
+
+    await invalidateStatistics();
   };
 
-  const handleShowPlayers = () => {
-    // Do nothing.
-  };
+  const loginHref = `/login?redirect=${encodeURIComponent(`/play/${game.id}`)}`;
 
   return (
-    <GameLauncher
-      analytics={analytics}
-      game={game}
-      developer={developer}
-      onPlay={handlePlayGame}
-      onVote={handleMakeVote}
-      onViewGamePlay={handleShowPlayers}
-      userVote={voting.getVote(game.id)}
-    />
+    <>
+      <CannotVoteModal
+        href={loginHref}
+        open={showVoteWarning}
+        onClose={() => setShowVoteWarning(false)}
+      />
+      <GameLauncher
+        analytics={analytics}
+        game={game}
+        developer={developer}
+        onPlay={handlePlayGame}
+        onVote={handleMakeVote}
+        userVote={userVote?.vote ?? 'none'}
+      />
+    </>
   );
 };
 

@@ -21,7 +21,6 @@ const initialErrors: GameSubmissionFormErrors = {
   title: '',
   headline: '',
   projectType: '',
-  status: '',
   externalWebsiteUrl: '',
   viewport: '',
   viewportWidth: '',
@@ -44,7 +43,6 @@ const initialValues: GameSubmissionForm = {
   title: '',
   headline: '',
   projectType: 'HTML',
-  status: 'DRAFT',
   externalWebsiteUrl: '',
   viewport: 'RESPONSIVE',
   viewportWidth: null,
@@ -123,6 +121,7 @@ export const useGameSubmissionForm = (
   const onUpdate: GameSubmissionFormContextType['onUpdate'] = async () => {
     setUpdated(false);
     await updateForm.mutateAsync({ ...values, id: submissionId });
+    push('/account/submissions');
 
     snackbar.trigger({
       message: 'Submission updated',
@@ -150,6 +149,22 @@ export const useGameSubmissionForm = (
       !(value as GameSubmissionForm['devices']).includes('MOBILE')
     ) {
       setErrors((prev) => ({ ...prev, orientations: '' }));
+    }
+
+    if (field === 'viewport' && value !== 'RESPONSIVE') {
+      setErrors((prev) => ({ ...prev, viewportWidth: '', viewportHeight: '' }));
+      setValues((prev) => ({
+        ...prev,
+        viewportWidth: initialValues.viewportWidth,
+        viewportHeight: initialValues.viewportHeight,
+      }));
+    } else if (field === 'viewport' && value === 'RESPONSIVE') {
+      setErrors((prev) => ({ ...prev, orientations: '', devices: '' }));
+      setValues((prev) => ({
+        ...prev,
+        orientations: initialValues.orientations,
+        devices: initialValues.devices,
+      }));
     }
 
     if (field === 'projectType' && value === 'PAGE') {
@@ -189,7 +204,6 @@ export const useGameSubmissionForm = (
         name: file.name,
         type: file.type,
         size: file.size,
-        timestamp: file.lastModified,
         submissionId,
       });
 

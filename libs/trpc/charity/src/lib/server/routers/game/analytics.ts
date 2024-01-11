@@ -27,18 +27,30 @@ export default publicProcedure
       select: { total: true },
     });
 
-    const votes = await db.gameVote.findFirst({
+    // get all votes for this game
+    const allVotes = await db.gameVote.findMany({
       where: { gameId },
     });
 
-    const plays = gamePlays.reduce((acc, curr) => acc + curr.total, 0);
+    // separate votes into up and down
+    const votes = allVotes.reduce(
+      (acc, curr) => {
+        if (curr.vote > 0) {
+          acc.up += 1;
+        } else {
+          acc.down += 1;
+        }
+        return acc;
+      },
+      { up: 0, down: 0 }
+    );
 
-    const score = calculateScore(votes?.up, votes?.down);
+    const plays = gamePlays.reduce((acc, curr) => acc + curr.total, 0);
 
     return {
       success,
       plays: shorthandNumber(plays),
-      score: round(score, 1),
+      score: round(calculateScore(votes.up, votes.down), 1),
       votes: {
         up: shorthandNumber(votes?.up ?? 0),
         down: shorthandNumber(votes?.down ?? 0),

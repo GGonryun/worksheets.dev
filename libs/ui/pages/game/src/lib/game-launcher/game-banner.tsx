@@ -16,7 +16,7 @@ import {
   ThumbUpAlt,
   ThumbUpOffAlt,
 } from '@mui/icons-material';
-import { GameSchema, UserVoteSchema } from '@worksheets/util/types';
+import { GameSchema, CastVote, UserVote } from '@worksheets/util/types';
 import { ResponsiveImage } from '@worksheets/ui/images';
 
 export type GameBannerProps = {
@@ -25,13 +25,12 @@ export type GameBannerProps = {
   developer: string;
   name: string;
   isFullscreen?: boolean;
-  userVote?: UserVoteSchema['vote'];
+  userVote: UserVote;
   plays: string;
   upVotes: string;
   downVotes: string;
   onFullscreen?: () => void;
-  onViewGamePlay: () => void;
-  onVote: (vote: UserVoteSchema['vote']) => void;
+  onVote: (vote: CastVote['vote']) => void;
 };
 
 export const GameBanner: FC<GameBannerProps> = ({
@@ -46,7 +45,6 @@ export const GameBanner: FC<GameBannerProps> = ({
   userVote,
   onFullscreen,
   onVote,
-  onViewGamePlay,
 }) => (
   <Box
     sx={{
@@ -93,7 +91,7 @@ export const GameBanner: FC<GameBannerProps> = ({
             overflow: 'hidden',
             textOverflow: 'ellipsis',
             whiteSpace: 'nowrap',
-            lineHeight: '1rem',
+            lineHeight: '1.2rem',
           },
         }}
       >
@@ -118,7 +116,7 @@ export const GameBanner: FC<GameBannerProps> = ({
         gap={{ xs: 1, sm: 2 }}
       >
         <ActionBox>
-          <ActionButton onClick={onViewGamePlay} disabled>
+          <ActionButton disabled>
             <PlayCircleOutlineOutlined color="primary" />
           </ActionButton>
           <ActionText>{plays}</ActionText>

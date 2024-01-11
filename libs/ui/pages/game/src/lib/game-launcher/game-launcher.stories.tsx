@@ -8,6 +8,7 @@ const meta: Meta<typeof GameLauncher> = {
   title: 'Content/GameLauncher',
   args: {
     onPlay: action('onPlay'),
+    onVote: action('onVote'),
   },
 };
 export default meta;

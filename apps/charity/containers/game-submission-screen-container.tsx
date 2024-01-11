@@ -19,12 +19,7 @@ export const GameSubmissionScreenContainer: FC<{
   return (
     <GameSubmissionFormContextProvider value={form}>
       <GameSubmissionScreen invalidProfile={invalidProfile} />
-      <Snackbar
-        message={snackbar.message}
-        severity={snackbar.severity}
-        open={snackbar.open}
-        onClose={snackbar.terminate}
-      />
+      <Snackbar {...snackbar} />
     </GameSubmissionFormContextProvider>
   );
 };

@@ -54,7 +54,6 @@ export default protectedProcedure
         category: input.category,
         tags: input.tags ?? [],
         trailerUrl: input.trailerUrl,
-        status: input.status ?? 'DRAFT',
         markets: JSON.stringify(input.markets ?? {}),
         // file uploads are handled separately using the files router.
       },

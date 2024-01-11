@@ -1,8 +1,11 @@
 import { z } from '@worksheets/zod';
 import { protectedProcedure } from '../../../procedures';
 import { TRPCError } from '@trpc/server';
-import { createFileDownloadUrl } from '@worksheets/ui/environment/server';
-import { storedFileSchema } from '@worksheets/ui/pages/game-submissions';
+import { createFileDownloadUrl } from '@worksheets/services/environment';
+import {
+  FILE_ID_FIELD_MAP,
+  storedFileSchema,
+} from '@worksheets/ui/pages/game-submissions';
 
 export default protectedProcedure
   .input(
@@ -49,18 +52,12 @@ export default protectedProcedure
       // TODO: move to a model where we create signed request urls for reading files.
       const downloadUrl = createFileDownloadUrl(file.path);
 
-      const fieldMap = {
-        gameFile: 'gameFileId',
-        coverFile: 'coverFileId',
-        thumbnailFile: 'thumbnailFileId',
-      };
-
       await db.gameSubmission.update({
         where: {
           id: submissionId,
         },
         data: {
-          [fieldMap[fieldId]]: fileId,
+          [FILE_ID_FIELD_MAP[fieldId]]: fileId,
         },
       });
 

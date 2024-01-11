@@ -1,6 +1,7 @@
-import { Box, Paper } from '@mui/material';
 import { FC } from 'react';
 import { CharityGamesLogo } from './charity-games-logo';
+import Paper from '@mui/material/Paper';
+import Box from '@mui/material/Box';
 
 export type ConnectionContainerProps = {
   children: React.ReactNode;
@@ -15,12 +16,14 @@ export const ConnectionContainer: FC<ConnectionContainerProps> = ({
       width: '100%',
       display: 'grid',
       placeItems: 'center',
+      mt: -4,
+      pt: 4,
+      pb: 4,
     }}
   >
     <Paper
-      variant="outlined"
+      elevation={8}
       sx={{
-        border: `2px solid black`,
         borderRadius: 4,
         display: 'flex',
         flexDirection: 'column',
@@ -29,7 +32,9 @@ export const ConnectionContainer: FC<ConnectionContainerProps> = ({
         p: 3,
       }}
     >
-      <CharityGamesLogo />
+      <Box mb={-1}>
+        <CharityGamesLogo />
+      </Box>
       {children}
     </Paper>
   </Box>

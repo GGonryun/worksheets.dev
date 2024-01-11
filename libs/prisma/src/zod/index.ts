@@ -1,6 +1,5 @@
 export * from './gameplay';
 export * from './gamevote';
-export * from './gamevotesubmission';
 export * from './user';
 export * from './account';
 export * from './session';

@@ -54,7 +54,6 @@ export default protectedProcedure
         tags: input.tags ?? [],
         status: 'PENDING',
         markets: JSON.stringify(input.markets ?? {}),
-        // file uploads are handled separately
       },
     });
 

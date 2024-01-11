@@ -1,5 +1,4 @@
 import { FC } from 'react';
-import { DenseButton } from '@worksheets/ui/buttons';
 import { CHARITY_TOOLBAR_LOGO_PATH } from '@worksheets/util/assets';
 import { FillImage } from '@worksheets/ui/images';
 import MuiToolbar from '@mui/material/Toolbar';
@@ -12,6 +11,7 @@ import Link from '@mui/material/Link';
 import Box, { BoxProps } from '@mui/material/Box';
 import { styled } from '@mui/material/styles';
 import Typography, { TypographyProps } from '@mui/material/Typography';
+import Button from '@mui/material/Button';
 
 interface ToolbarProps {
   onDrawerToggle: () => void;
@@ -69,24 +69,25 @@ export const Toolbar = (props: ToolbarProps) => {
 const ConnectionButton: FC<{ connected: boolean }> = ({ connected }) => {
   if (connected) {
     return (
-      <DenseButton
+      <Button
+        variant="round"
         href="/account"
         startIcon={<AccountCircleOutlined />}
         color="error"
       >
         Account
-      </DenseButton>
+      </Button>
     );
   }
   return (
-    <DenseButton
+    <Button
       startIcon={<LockOpen />}
       color="error"
-      variant="outlined"
+      variant="outlined-round"
       href="/login"
     >
       Log In
-    </DenseButton>
+    </Button>
   );
 };
 

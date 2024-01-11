@@ -1,5 +1,5 @@
 import { NextApiHandler } from 'next';
-import { WORD_SEARCH_URL } from '@worksheets/util/env';
+import { WORD_SEARCH_URL } from '@worksheets/ui/env';
 
 const LAST_UPDATE_DATE = `2023-12-10`;
 

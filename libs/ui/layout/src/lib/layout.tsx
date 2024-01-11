@@ -11,6 +11,7 @@ import { useDebounce } from '@worksheets/ui-core';
 import { Recommendations } from '@worksheets/util/types';
 import { CategoryPillProps, GamePillProps } from '@worksheets/ui/pills';
 import { DrawerActions } from './drawer/drawer-actions';
+import { WebsiteBackground } from './website-background';
 
 type SearchResults = {
   games: GamePillProps[];
@@ -76,9 +77,12 @@ export const Layout: React.FC<LayoutProps> = ({
         width: '100%',
         display: 'flex',
         flexDirection: 'column',
+        position: 'relative',
+        // TODO: remove this once the drawer and toolbar are fixed and updated to new design.
         backgroundColor: (theme) => lighten(theme.palette.error.light, 0.7),
       }}
     >
+      <WebsiteBackground />
       <Toolbar
         disableLogin={false}
         onDrawerToggle={handleDrawerToggle}

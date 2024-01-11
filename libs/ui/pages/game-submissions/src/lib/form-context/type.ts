@@ -229,3 +229,12 @@ export type GameSubmissionFormContextType = {
   ) => Promise<void>;
   destroy: (field: GameSubmissionFileKeys, url?: string) => Promise<void>;
 };
+
+export const FILE_ID_FIELD_MAP: {
+  [key in GameSubmissionFileKeys]: string;
+} = {
+  // TODO: use a union type to ensure that the keys are always in sync.
+  gameFile: 'gameFileId',
+  coverFile: 'coverFileId',
+  thumbnailFile: 'thumbnailFileId',
+};

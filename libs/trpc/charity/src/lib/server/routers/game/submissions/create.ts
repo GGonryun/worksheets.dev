@@ -25,6 +25,7 @@ export default protectedProcedure
     const submission = await db.gameSubmission.create({
       data: {
         profileId,
+        status: 'DRAFT',
       },
     });
 

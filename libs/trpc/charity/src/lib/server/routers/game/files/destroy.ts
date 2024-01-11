@@ -1,12 +1,9 @@
 import { TRPCError } from '@trpc/server';
 import { protectedProcedure } from '../../../procedures';
 import { z } from '@worksheets/zod';
-import { Storage } from '@google-cloud/storage';
-import {
-  GCP_CLIENT_EMAIL,
-  GCP_SUBMISSION_BUCKET_ID,
-  GCP_PRIVATE_KEY,
-} from '@worksheets/ui/environment/server';
+
+import * as storage from '@worksheets/services/storage';
+import { FILE_ID_FIELD_MAP } from '@worksheets/ui/pages/game-submissions';
 
 export default protectedProcedure
   .input(
@@ -29,13 +26,6 @@ export default protectedProcedure
     async ({ input: { fileId, fieldId, submissionId }, ctx: { user, db } }) => {
       console.info('destroying file', { fileId, fieldId, submissionId });
 
-      const storage = new Storage({
-        credentials: {
-          client_email: GCP_CLIENT_EMAIL,
-          private_key: GCP_PRIVATE_KEY,
-        },
-      });
-
       const file = await db.storedFile.findFirst({
         where: {
           id: fileId,
@@ -50,13 +40,14 @@ export default protectedProcedure
         });
       }
 
-      // 1. delete from GCP
       try {
-        await storage.bucket(GCP_SUBMISSION_BUCKET_ID).file(file.path).delete();
+        // 1. delete from GCP
+        await storage.deleteFile(file.path);
       } catch (error) {
         // TODO: log this somewhere else so we can retry or handle manually.
         console.error('Error deleting file from GCP', error);
       }
+
       // 2. delete from DB
       await db.storedFile.delete({
         where: {
@@ -64,11 +55,14 @@ export default protectedProcedure
         },
       });
 
-      // 3. remove from submission
-      console.info('TODO: update file submission', {
-        submissionId,
-        fieldId,
-        fileId,
+      // 3. update submission
+      await db.gameSubmission.update({
+        where: {
+          id: submissionId,
+        },
+        data: {
+          [FILE_ID_FIELD_MAP[fieldId]]: null,
+        },
       });
 
       return {

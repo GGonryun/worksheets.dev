@@ -38,7 +38,6 @@ export const DEFAULT_VALUES = (
     title: '',
     headline: '',
     projectType: '',
-    status: '',
     externalWebsiteUrl: '',
     viewport: '',
     viewportWidth: '',
@@ -57,7 +56,6 @@ export const DEFAULT_VALUES = (
   },
   values: {
     title: '',
-    status: 'DRAFT',
     slug: '',
     headline: '',
     projectType: 'HTML',
@@ -99,7 +97,6 @@ export const PREFILLED_VALUES = (
   isValid: true,
   isUpdated: false,
   values: {
-    status: 'DRAFT',
     title: 'My Game',
     slug: 'my-game',
     headline: 'A game about stuff and doing things.',
@@ -153,7 +150,6 @@ export const ERROR_VALUES = (
     title: 'Title must be between 3 and 50 characters.',
     headline: 'Headline must be between 3 and 50 characters.',
     projectType: 'Project type must be one of the following: HTML, PAGE.',
-    status: 'Status must be one of the following: DRAFT, PUBLISHED, ARCHIVED.',
     externalWebsiteUrl: 'External website URL must be a valid URL.',
     viewport: 'Viewport must be one of the following: FIXED, SCROLLING.',
     viewportWidth: 'Width must be a number.',

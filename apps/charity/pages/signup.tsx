@@ -1,12 +1,12 @@
 import { NextPageWithLayout } from '@worksheets/util-next';
 import { LayoutContainer } from '../containers/layout-container';
 import { NextSeo } from 'next-seo';
-import { UnderConstruction } from '@worksheets/ui/pages/under-construction';
+import { SignUpScreenContainer } from '../containers/sign-up-screen-container';
 
 const Page: NextPageWithLayout = () => (
   <>
     <NextSeo noindex={true} />
-    <UnderConstruction />
+    <SignUpScreenContainer />
   </>
 );
 

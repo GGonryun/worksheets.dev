@@ -6,11 +6,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { printDate } from '@worksheets/util/time';
 import { AbsolutelyCentered } from '@worksheets/ui-core';
 import { developers, games } from '@worksheets/data-access/charity-games';
-import { GameDescription, GameScreen } from '@worksheets/ui/pages/game';
 import { getRandomGame } from '../../util/randomizer';
-import SportsEsportsOutlinedIcon from '@mui/icons-material/SportsEsportsOutlined';
-import LocalOfferOutlinedIcon from '@mui/icons-material/LocalOfferOutlined';
-import ShuffleIcon from '@mui/icons-material/Shuffle';
 import {
   NextSeo,
   NextSeoProps,
@@ -19,20 +15,12 @@ import {
 } from 'next-seo';
 import {
   DeveloperSchema,
-  GameAnalyticsSchema,
   SerializableGameSchema,
 } from '@worksheets/util/types';
 import { GetServerSideProps } from 'next';
 import { gameJsonLd, gameSeo } from '../../util/seo';
-import dynamic from 'next/dynamic';
 import { AdsensePushScript } from '../../scripts';
-import { trpc } from '@worksheets/trpc-charity';
-
-const emptyAnalyticsPayload: GameAnalyticsSchema = {
-  plays: '0',
-  votes: { up: '0', down: '0' },
-  score: '0',
-};
+import { GameScreenContainer } from '../../containers/game-screen-container';
 
 type Props = {
   game: SerializableGameSchema;
@@ -43,10 +31,6 @@ type Props = {
   randomGame: string;
 };
 
-const DynamicGameLauncher = dynamic(() => import('../../dynamic/launcher'), {
-  ssr: false,
-});
-
 const Page: NextPageWithLayout<Props> = ({
   game,
   seo,
@@ -55,68 +39,14 @@ const Page: NextPageWithLayout<Props> = ({
   developer,
   randomGame,
 }) => {
-  const { data: analytics } = trpc.game.analytics.useQuery({
-    gameId: game.id,
-  });
-
   return (
     <>
       <NextSeo {...seo} />
-      <GameScreen
-        game={
-          <DynamicGameLauncher
-            game={game}
-            developer={developer}
-            analytics={analytics ?? emptyAnalyticsPayload}
-          />
-        }
-        description={
-          <GameDescription
-            game={game}
-            developer={developer}
-            analytics={analytics ?? emptyAnalyticsPayload}
-          />
-        }
-        suggestions={[
-          {
-            href: `/play/${randomGame}`,
-            type: 'button',
-            text: {
-              content: 'Random Game',
-              color: 'text.primary',
-              variant: 'h4',
-            },
-            backgroundColor: 'highlight.main',
-
-            width: { xs: '1/-1' },
-            Icon: ShuffleIcon,
-          },
-          ...items,
-          {
-            type: 'button',
-            text: {
-              content: 'More Games',
-              color: 'error.contrastText',
-              variant: 'h4',
-            },
-            backgroundColor: 'error.main',
-            href: '/play',
-            Icon: SportsEsportsOutlinedIcon,
-            width: { xs: '1/-1', sm: `span 3` },
-          },
-          {
-            type: 'button',
-            text: {
-              content: 'All Tags',
-              color: 'primary.contrastText',
-              variant: 'h4',
-            },
-            backgroundColor: 'primary.main',
-            href: '/tags',
-            Icon: LocalOfferOutlinedIcon,
-            width: { xs: '1/-1', sm: `span 3` },
-          },
-        ]}
+      <GameScreenContainer
+        game={game}
+        developer={developer}
+        randomGame={randomGame}
+        gridItems={items}
       />
       <VideoGameJsonLd {...jsonLd} />
       <AdsensePushScript />

@@ -3,7 +3,7 @@ import { CompleteGameSubmission, RelatedGameSubmissionModel } from './index';
 
 export const GameSubmissionFeedbackModel = z.object({
   id: z.string(),
-  gameId: z.string(),
+  submissionId: z.string(),
   text: z.string(),
   createdAt: z.date(),
 });

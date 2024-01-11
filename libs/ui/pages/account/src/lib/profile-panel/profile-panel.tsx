@@ -27,8 +27,7 @@ export const ProfilePanel: FC = () => {
       <Typography variant="h5">Basic Information</Typography>
 
       <CustomAlert visible={!hasRequiredFields}>
-        Your developer profile is incomplete. Please fill out the required
-        fields below.
+        Your profile is incomplete. Please fill out the required fields below.
       </CustomAlert>
 
       <UsernameField />

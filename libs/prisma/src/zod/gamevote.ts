@@ -4,7 +4,7 @@ import { CompleteUser, RelatedUserModel } from './index';
 export const GameVoteModel = z.object({
   id: z.string(),
   createdAt: z.date(),
-  liked: z.boolean(),
+  vote: z.number().int(),
   gameId: z.string(),
   userId: z.string(),
 });

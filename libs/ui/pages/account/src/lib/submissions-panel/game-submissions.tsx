@@ -8,7 +8,8 @@ import { BasicGameSubmission } from '../types';
 
 export const GameSubmissions: React.FC<{
   submissions: BasicGameSubmission[];
-}> = ({ submissions }) => (
+  onDelete: (id: string) => void;
+}> = ({ submissions, onDelete }) => (
   <Box
     sx={{
       display: 'flex',
@@ -26,13 +27,17 @@ export const GameSubmissions: React.FC<{
       }}
     >
       {submissions.map((submission) => (
-        <GameSubmission key={submission.id} {...submission} />
+        <GameSubmission
+          key={submission.id}
+          {...submission}
+          onDelete={() => onDelete(submission.id)}
+        />
       ))}
     </Box>
     <Button
       href="/submit/new"
       variant="contained"
-      color="primary"
+      color="success"
       startIcon={<AddIcon sx={{ mr: -0.5, mt: '-2px' }} />}
       sx={{
         borderRadius: 8,

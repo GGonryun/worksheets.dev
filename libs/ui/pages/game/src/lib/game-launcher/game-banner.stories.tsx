@@ -1,9 +1,14 @@
 import type { Meta } from '@storybook/react';
 import { GameBanner, GameBannerProps } from './game-banner';
+import { action } from '@storybook/addon-actions';
 
 const meta: Meta<typeof GameBanner> = {
   component: GameBanner,
   title: 'Content/GameLauncher/GameBanner',
+  args: {
+    onVote: action('onVote'),
+    onFullscreen: action('onFullscreen'),
+  },
   decorators: [
     (Story) => (
       <div

@@ -24,3 +24,6 @@ export * from './lib/colored/facebook';
 export * from './lib/colored/reddit';
 export * from './lib/new-window';
 export * from './lib/colored/gesture-thumbs-up';
+export * from './lib/colored/trash-can';
+export * from './lib/colored/cancel';
+export * from './lib/colored/gesture-thumbs-combo';
