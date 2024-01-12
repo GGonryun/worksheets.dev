@@ -19,7 +19,7 @@ const Page: NextPageWithLayout = () => {
           .filter((data) => Boolean(data.summary))
           .map((data) => ({
             questionName: data.question,
-            acceptedAnswerText: data.answer,
+            acceptedAnswerText: data.summary,
           }))}
       />
     </>
