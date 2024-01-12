@@ -1,4 +1,4 @@
-import Box, { BoxProps } from '@mui/material/Box';
+import Box from '@mui/material/Box';
 import { FC, useEffect, useState } from 'react';
 import { QuestionAnswerBox } from './qa-box';
 import { QuestionAnswer } from '@worksheets/util/types';
@@ -8,14 +8,12 @@ export type QuestionAnswerSectionProps = {
   qa: QuestionAnswer[];
   bookmark: string | undefined;
   hideFAQRedirect?: boolean;
-  markdownSx?: BoxProps['sx'];
 };
 
 export const QuestionAnswerSection: FC<QuestionAnswerSectionProps> = ({
   qa,
   bookmark,
   hideFAQRedirect,
-  markdownSx,
 }) => {
   const [open, setOpen] = useState<string | undefined>(bookmark);
 
@@ -50,7 +48,6 @@ export const QuestionAnswerSection: FC<QuestionAnswerSectionProps> = ({
             onOpen={() => setOpen(id === open ? undefined : id)}
             question={question}
             answer={answer}
-            markdownSx={markdownSx}
           />
         ))}
       </Box>

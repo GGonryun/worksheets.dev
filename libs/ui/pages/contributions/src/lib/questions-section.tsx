@@ -3,10 +3,13 @@ import { TitleText } from './title-text';
 import Box from '@mui/material/Box';
 import { QuestionAnswerSection } from '@worksheets/ui/qa-section';
 import { useRouter } from 'next/router';
-import { contributionFaq } from '@worksheets/data-access/charity-games';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useEventListener } from '@worksheets/ui-core';
+import { QuestionAnswer } from '@worksheets/util/types';
 
-export const QuestionsSection = () => {
+export const QuestionsSection: React.FC<{ faq: QuestionAnswer[] }> = ({
+  faq,
+}) => {
   const { asPath } = useRouter();
   const [bookmark, setBookmark] = useState<string | undefined>(undefined);
 
@@ -15,6 +18,14 @@ export const QuestionsSection = () => {
       setBookmark(asPath.split('#')[1]);
     }
   }, [asPath]);
+
+  // when the hash changes, update the bookmark state to the new hash
+  // TODO: verify if this is needed and if it works on all browsers
+  useEventListener('hashchange', (event) => {
+    if (event.newURL.includes('#')) {
+      setBookmark(event.newURL.split('#')[1]);
+    }
+  });
 
   return (
     <Box display="flex" flexDirection="column" gap={2}>
@@ -30,17 +41,7 @@ export const QuestionsSection = () => {
         <TitleText variant="h2" textAlign="center">
           Frequently Asked Questions
         </TitleText>
-        <QuestionAnswerSection
-          qa={contributionFaq}
-          bookmark={bookmark}
-          markdownSx={{
-            whiteSpace: 'normal',
-            p: {
-              margin: 0,
-              padding: 0,
-            },
-          }}
-        />
+        <QuestionAnswerSection qa={faq} bookmark={bookmark} />
       </Paper>
     </Box>
   );

@@ -1,20 +1,18 @@
-import Box, { BoxProps } from '@mui/material/Box';
+import Box from '@mui/material/Box';
 import ButtonBase from '@mui/material/ButtonBase';
 import IconButton from '@mui/material/IconButton';
 import LinkIcon from '@mui/icons-material/Link';
-import { FC, useEffect, useState } from 'react';
+import { FC, ReactNode, useEffect, useState } from 'react';
 import Typography from '@mui/material/Typography';
 import Collapse from '@mui/material/Collapse';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import { Markdown } from '@worksheets/ui-core';
 
 export type QuestionAnswerBoxProps = {
   open?: boolean;
   question: string;
-  answer: string;
+  answer: ReactNode;
   id: string;
   onOpen: () => void;
-  markdownSx?: BoxProps['sx'];
 };
 
 export const QuestionAnswerBox: FC<QuestionAnswerBoxProps> = ({
@@ -23,7 +21,6 @@ export const QuestionAnswerBox: FC<QuestionAnswerBoxProps> = ({
   answer,
   id,
   onOpen,
-  markdownSx,
 }) => {
   const [show, setShow] = useState(false);
 
@@ -57,6 +54,7 @@ export const QuestionAnswerBox: FC<QuestionAnswerBoxProps> = ({
           display: 'flex',
           width: '100%',
           pr: 1,
+          pb: 1.5,
           justifyContent: 'space-between',
         }}
       >
@@ -73,7 +71,7 @@ export const QuestionAnswerBox: FC<QuestionAnswerBoxProps> = ({
           >
             <LinkIcon color="primary" />
           </IconButton>
-          <Typography variant="h6" textAlign="left">
+          <Typography variant="h5" textAlign="left">
             {question}
           </Typography>
         </Box>
@@ -85,9 +83,9 @@ export const QuestionAnswerBox: FC<QuestionAnswerBoxProps> = ({
           variant="body2"
           whiteSpace="pre-line"
           m={2}
-          mt={0}
+          mt={1}
         >
-          <Markdown text={answer} sx={markdownSx} />
+          {answer}
         </Typography>
       </Collapse>
     </Box>

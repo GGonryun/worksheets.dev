@@ -3,10 +3,11 @@ import { TitleSection } from './title-section';
 import { SupportSection } from './support-section';
 import { DevelopersSection } from './developers-section';
 import { QuestionsSection } from './questions-section';
-import { BasicWebsiteStatistics } from '@worksheets/util/types';
+import { BasicWebsiteStatistics, QuestionAnswer } from '@worksheets/util/types';
 
 export interface ContributionScreenProps {
   statistics?: BasicWebsiteStatistics;
+  faq: QuestionAnswer[];
 }
 
 export function ContributionScreen(props: ContributionScreenProps) {
@@ -23,7 +24,7 @@ export function ContributionScreen(props: ContributionScreenProps) {
       <TitleSection statistics={props.statistics} />
       <DevelopersSection />
       <SupportSection />
-      <QuestionsSection />
+      <QuestionsSection faq={props.faq} />
     </Container>
   );
 }
