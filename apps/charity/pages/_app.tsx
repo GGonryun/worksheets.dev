@@ -1,10 +1,7 @@
 import './styles.css';
 
-import createCache from '@emotion/cache';
-import { CacheProvider } from '@emotion/react';
 import * as FullStory from '@fullstory/browser';
-import { StyledEngineProvider, ThemeProvider } from '@mui/material';
-import { AppCacheProvider } from '@mui/material-nextjs/v13-pagesRouter';
+import { ThemeProvider } from '@mui/material';
 import { trpc } from '@worksheets/trpc-charity';
 import { COOKIE_DOMAIN, IS_PRODUCTION } from '@worksheets/ui/env';
 import theme from '@worksheets/ui/theme';
@@ -22,11 +19,6 @@ if (typeof window !== 'undefined') {
   });
 }
 
-const cache = createCache({
-  key: 'css',
-  prepend: true,
-});
-
 function CustomApp({
   Component,
   pageProps: { session, ...pageProps },
@@ -34,7 +26,7 @@ function CustomApp({
   const getLayout = Component.getLayout ?? ((page) => page);
 
   return (
-    <AppCacheProvider {...pageProps}>
+    <>
       <DefaultSeo {...defaultSeo} />
 
       <Head>
@@ -44,16 +36,12 @@ function CustomApp({
         />
       </Head>
 
-      <StyledEngineProvider injectFirst>
-        <CacheProvider value={cache}>
-          <ThemeProvider theme={theme}>
-            <SessionProvider session={session}>
-              <main>{getLayout(<Component {...pageProps} />)}</main>
-            </SessionProvider>
-          </ThemeProvider>
-        </CacheProvider>
-      </StyledEngineProvider>
-    </AppCacheProvider>
+      <ThemeProvider theme={theme}>
+        <SessionProvider session={session}>
+          <main>{getLayout(<Component {...pageProps} />)}</main>
+        </SessionProvider>
+      </ThemeProvider>
+    </>
   );
 }
 
