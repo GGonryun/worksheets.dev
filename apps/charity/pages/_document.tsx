@@ -8,6 +8,7 @@ import {
 } from 'next/document';
 
 import { AdSenseScript } from '../scripts';
+import { ldJson } from '../util/seo';
 
 interface DocumentProps extends DocumentInitialProps {
   emotionStyleTags: React.ReactNode[];
@@ -29,6 +30,13 @@ export default function MyDocument(props: DocumentProps) {
         <meta name="apple-mobile-web-app-title" content="Charity.Games" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="HandheldFriendly" content="true" />
+        <script
+          type="application/ld+json"
+          id="ld-json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(ldJson),
+          }}
+        ></script>
       </Head>
       <body>
         <Main />

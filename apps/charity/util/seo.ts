@@ -37,20 +37,59 @@ export const defaultSeo: DefaultSeoProps = {
     ],
   },
   twitter: TWITTER_SEO,
+  robotsProps: {
+    nosnippet: true,
+    notranslate: true,
+    noimageindex: true,
+    noarchive: true,
+    maxSnippet: -1,
+    maxImagePreview: 'none',
+    maxVideoPreview: -1,
+  },
+  additionalMetaTags: [
+    {
+      property: 'dc:creator',
+      content: 'Miguel Campos',
+    },
+    {
+      name: 'application-name',
+      content: 'Charity Games',
+    },
+    {
+      name: 'keywords',
+      content:
+        'charity, games, browser, html, free, play, donate, arcade, prizes, html5, web, online, mobile, desktop, microgames, micro, casual, indie, developer, charity games, charitygames, charity.games, charity-games, charity-games',
+    },
+  ],
+};
+
+export const ldJson = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: defaultSeo.title,
+  url: 'https://www.charity.games/',
+  alternateName: [
+    'Charity.Games',
+    'CharityGames',
+    'Charity Games',
+    'www.charity.games',
+  ],
+  description: defaultSeo.description,
 };
 
 const createSeo = ({ noindex, ...props }: OpenGraphProps): NextSeoProps => ({
   canonical: props.url,
   title: props.title,
   noindex: noindex ?? false,
+  defaultTitle: 'Charity Games',
   openGraph: {
     ...props,
+    siteName: 'Charity Games',
   },
 });
 
 export const aboutSeo = createSeo({
   url: 'https://www.charity.games/about',
-  siteName: 'Charity Games | About',
   title: 'Charity Games - About Us',
   description:
     'Charity Games provides access to free online HTML browser games. Every game donates money to charitable causes. Play your favorite games and help make the world a better place.',
@@ -58,15 +97,13 @@ export const aboutSeo = createSeo({
 
 export const homeSeo = createSeo({
   url: 'https://www.charity.games/',
-  siteName: 'Charity Games',
-  title: 'Charity Games - Free Online Games that Support Charity',
+  title: 'Charity Games - Free Online Games',
   description:
     'On Charity Games you can play free online HTML browser games that donate money to charitable causes. Play your favorite mobile and desktop games.',
 });
 
 export const charitySeo = createSeo({
   url: 'https://www.charity.games/charity',
-  siteName: 'Charity Games | Charity',
   title: 'Charity Games - Donate by Playing Free Online Games',
   description:
     'Charity Games is an online web arcade that donates money by playing free online browser games. We have hundreds of microgames to choose from. Play with Purpose',
@@ -74,7 +111,6 @@ export const charitySeo = createSeo({
 
 export const contactSeo = createSeo({
   url: 'https://www.charity.games/contact',
-  siteName: 'Charity Games | Contact',
   title: 'Charity Games - Contact Us',
   description:
     'If you have any questions, comments, or concerns about Charity Games, please feel free to contact us. We typically respond within 48 hours.',
@@ -82,21 +118,18 @@ export const contactSeo = createSeo({
 
 export const tagsSeo = createSeo({
   url: `https://www.charity.games/tags`,
-  siteName: 'Charity Games | Categories',
   title: `Charity Games - All Categories`,
   description: `Find and play your favorite html and browser games for free on Charity Games. The easiest way to donate to charity.`,
 });
 
 export const gamesSeo = createSeo({
   url: `https://charity.games/play`,
-  siteName: 'Charity Games | Games',
   title: `Charity Games - All Games`,
   description: `Find and play your favorite mobile and desktop games for free on Charity Games. The easiest way to donate to charity.`,
 });
 
 export const blogArticleSeo = (slug: string, metadata: MarkdownMetadata) => ({
   url: `https://www.charity.games/blog/${slug}`,
-  siteName: `Charity Games | Blog`,
   title: `${metadata.title} - Charity Games`,
   description: metadata.excerpt,
   type: 'article',
@@ -130,14 +163,12 @@ export const blogArticleJsonLd = (
 });
 
 export const blogSeo = createSeo({
-  siteName: `Charity Games | Blog`,
   url: `https://www.charity.games/blog/`,
   title: `Charity Games - Blog`,
   description: `Stay up to date with the latest news and updates from Charity Games. Learn about our mission and how you can help us make a difference.`,
 });
 
 export const helpSeo = createSeo({
-  siteName: `Charity Games | Help`,
   url: 'https://www.charity.games/help',
   title: 'Charity Games - Get Involved',
   description:
@@ -145,7 +176,6 @@ export const helpSeo = createSeo({
 });
 
 export const faqSeo = createSeo({
-  siteName: `Charity Games | FAQ`,
   url: 'https://www.charity.games/faq',
   title: 'Charity Games - Frequently Asked Questions',
   description:
@@ -154,14 +184,12 @@ export const faqSeo = createSeo({
 
 export const developerSeo = (developer: DeveloperSchema): NextSeoProps =>
   createSeo({
-    siteName: `Charity Games | Developers`,
     url: `https://www.charity.games/developers/${developer.id}`,
     title: `${developer.name} - Charity Games - Developer Profile`,
     description: `Play ${developer.name} games online for free on Charity Games. Turn your games into donations. Help us make a difference.`,
   });
 
 export const donationsSeo = createSeo({
-  siteName: `Charity Games | Donations`,
   url: `https://www.charity.games/donations`,
   title: `Charity Games - Donation Receipts`,
   description: `View all donations made by Charity Games. See how much money has been donated to charity. Thank you for your support!`,
@@ -169,7 +197,6 @@ export const donationsSeo = createSeo({
 
 export const categorySeo = (tag: TagSchema): NextSeoProps =>
   createSeo({
-    siteName: `Charity Games | Categories`,
     url: `https://www.charity.games/tags/${tag.id}`,
     title: `${tag.name} - Play Free Browser Games for Charity`,
     description: `Play ${tag.name} online for free on Charity Games. The easiest way to make a difference. Donate to charity by playing ${tag.name}.`,
@@ -180,7 +207,6 @@ export const gameSeo = (
   developer: DeveloperSchema
 ): NextSeoProps =>
   createSeo({
-    siteName: `Charity Games | Games`,
     url: `https://www.charity.games/play/${game.id}`,
     title: `${game.name} - Charity Games - Free Online Arcade`,
     description: `Play ${game.name} by ${
@@ -215,21 +241,18 @@ export const gameJsonLd = (
 });
 
 export const termsSeo = createSeo({
-  siteName: `Charity Games | Terms`,
   url: `https://www.charity.games/terms`,
   title: `Charity Games - Terms of Service`,
   description: `Read the Charity Games terms of service. Learn about our policies and guidelines. Thank you for your support!`,
 });
 
 export const contributeSeo = createSeo({
-  siteName: `Charity Games | Contribute`,
   url: `https://www.charity.games/contribute`,
   title: `Charity Games - Developer Contributions`,
   description: `Learn how to contribute to Charity Games. Help us make a difference. Turn your games into donations.`,
 });
 
 export const submitGameSeo = createSeo({
-  siteName: `Charity Games | Submit Game`,
   url: `https://www.charity.games/contribute/submit`,
   title: `Charity Games - Submit a Game`,
   description: `Learn how to submit a game to Charity Games. Help us make a difference. Turn your games into donations.`,
@@ -237,7 +260,6 @@ export const submitGameSeo = createSeo({
 
 export const profileSeo = createSeo({
   noindex: true,
-  siteName: `Charity Games | Profile`,
   url: `https://www.charity.games/account`,
   title: `Charity Games - Account`,
   description: `Manage your Charity Games account. View your profile and manage your settings.`,
@@ -245,7 +267,6 @@ export const profileSeo = createSeo({
 
 export const submissionsSeo = createSeo({
   noindex: true,
-  siteName: `Charity Games | Submissions`,
   url: `https://www.charity.games/account`,
   title: `Charity Games - Submissions`,
   description: `Manage your Charity Games submissions. View your submission history.`,
@@ -253,7 +274,6 @@ export const submissionsSeo = createSeo({
 
 export const createGameSubmissionSeo = createSeo({
   noindex: true,
-  siteName: `Charity Games | Create Submission`,
   url: `https://www.charity.games/account/submit/new`,
   title: `Charity Games - Create Submission`,
   description: `Create a new game submission on Charity Games.`,
