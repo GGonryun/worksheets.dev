@@ -15,17 +15,6 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@worksheets/apps/crudcrud": ["libs/apps/crudcrud/src/index.ts"],
-      "@worksheets/apps/github": ["libs/apps/github/src/index.ts"],
-      "@worksheets/apps/google/calendar": [
-        "libs/apps/google/calendar/src/index.ts"
-      ],
-      "@worksheets/apps/google/gmail": ["libs/apps/google/gmail/src/index.ts"],
-      "@worksheets/apps/http": ["libs/apps/http/src/index.ts"],
-      "@worksheets/apps/json": ["libs/apps/json/src/index.ts"],
-      "@worksheets/apps/math": ["libs/apps/math/src/index.ts"],
-      "@worksheets/apps/open-ai": ["libs/apps/open-ai/src/index.ts"],
-      "@worksheets/apps/sys": ["libs/apps/sys/src/index.ts"],
       "@worksheets/assets-blog": ["libs/assets/blog/src/index.ts"],
       "@worksheets/assets-common": ["libs/assets/common/src/index.ts"],
       "@worksheets/assets-games": ["libs/assets/games/src/index.ts"],
