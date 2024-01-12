@@ -90,11 +90,13 @@ export const useGameSubmissionForm = (
 
   const snackbar = useSnackbar();
 
+  const [loading, setLoading] = useState(false);
+  const [updated, setUpdated] = useState(false);
   const [errors, setErrors] = useState<GameSubmissionFormErrors>(initialErrors);
   const [values, setValues] = useState<GameSubmissionForm>(
     merge(initialValues, submission)
   );
-  const [updated, setUpdated] = useState(false);
+
   const { fieldValidator, globalValidator } = useZodValidator(
     strictGameSubmissionFormSchema
   );
@@ -107,26 +109,34 @@ export const useGameSubmissionForm = (
   const destroy = trpc.game.files.destroy.useMutation();
 
   const onSubmit: GameSubmissionFormContextType['onSubmit'] = async () => {
-    setUpdated(false);
-    const results = globalValidator(values);
-    if (!results.success) {
-      setErrors(results.errors);
-      return;
-    } else {
-      await submitForm.mutateAsync({ ...values, id: submissionId });
-      push('/submit/success');
+    setLoading(true);
+    try {
+      const results = globalValidator(values);
+      if (!results.success) {
+        setErrors(results.errors);
+      } else {
+        await submitForm.mutateAsync({ ...values, id: submissionId });
+        push('/submit/success');
+      }
+    } finally {
+      setLoading(false);
+      setUpdated(false);
     }
   };
 
   const onUpdate: GameSubmissionFormContextType['onUpdate'] = async () => {
-    setUpdated(false);
-    await updateForm.mutateAsync({ ...values, id: submissionId });
-    push('/account/submissions');
+    setLoading(true);
+    try {
+      await updateForm.mutateAsync({ ...values, id: submissionId });
 
-    snackbar.trigger({
-      message: 'Submission updated',
-      severity: 'success',
-    });
+      snackbar.trigger({
+        message: 'Submission updated',
+        severity: 'success',
+      });
+    } finally {
+      setLoading(false);
+      setUpdated(false);
+    }
   };
 
   const setFieldValue: GameSubmissionFormContextType['setFieldValue'] = (
@@ -278,6 +288,7 @@ export const useGameSubmissionForm = (
   const form: GameSubmissionFormContextType = {
     errors,
     values,
+    loading,
     isValid: Object.values(errors).every((error) => !error),
     isUpdated: updated,
     onSubmit,

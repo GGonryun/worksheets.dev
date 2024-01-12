@@ -7,9 +7,10 @@ import SaveIcon from '@mui/icons-material/Save';
 import { BioField, UsernameField } from './fields';
 import { useBasicInformationFormContext } from './context';
 import Alert, { AlertProps } from '@mui/material/Alert';
+import { CircularProgress } from '@mui/material';
 
 export const ProfilePanel: FC = () => {
-  const { values, onSubmit, isValid, isUpdated } =
+  const { values, loading, onSubmit, isValid, isUpdated } =
     useBasicInformationFormContext();
 
   const canSave = isValid() && isUpdated();
@@ -34,8 +35,14 @@ export const ProfilePanel: FC = () => {
 
       <BioField />
 
-      <SubmissionButton onClick={() => onSubmit()} disabled={!canSave}>
-        Save
+      <SubmissionButton
+        loading={loading}
+        onClick={() => {
+          !loading && onSubmit();
+        }}
+        disabled={!canSave}
+      >
+        {loading ? 'Loading...' : 'Save'}
       </SubmissionButton>
     </Box>
   );
@@ -49,8 +56,16 @@ const CustomAlert = styled<
   display: visible ? 'flex' : 'none',
 }));
 
-const SubmissionButton = styled<JSXElementConstructor<ButtonProps>>((props) => (
-  <Button startIcon={<SaveIcon />} variant="contained" {...props} />
+const SubmissionButton = styled<
+  JSXElementConstructor<ButtonProps & { loading: boolean }>
+>(({ loading, ...props }) => (
+  <Button
+    startIcon={
+      loading ? <CircularProgress color="white" size="1rem" /> : <SaveIcon />
+    }
+    variant="contained"
+    {...props}
+  />
 ))(({ theme }) => ({
   borderRadius: theme.shape.borderRadius * 8,
   padding: theme.spacing(0.5, 4),

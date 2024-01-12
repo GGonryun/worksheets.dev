@@ -9,8 +9,8 @@ import { ConfirmDeletionModal } from './confirm-deletion-modal';
 export const SubmissionsPanel: React.FC<{
   terms: TermsApproval;
   submissions: BasicGameSubmission[];
-  onApproveTermsOfService: () => void;
-  onDeleteSubmission: (id: string) => void;
+  onApproveTermsOfService: () => Promise<void>;
+  onDeleteSubmission: (id: string) => Promise<void>;
 }> = ({ terms, submissions, onApproveTermsOfService, onDeleteSubmission }) => {
   const [requestDelete, setRequestDelete] = React.useState<string | undefined>(
     undefined
@@ -34,10 +34,10 @@ export const SubmissionsPanel: React.FC<{
       <ConfirmDeletionModal
         submission={submissions.find((s) => s.id === requestDelete)}
         onCancel={() => setRequestDelete(undefined)}
-        onConfirm={() => {
+        onConfirm={async () => {
           if (!requestDelete) return;
 
-          onDeleteSubmission(requestDelete);
+          await onDeleteSubmission(requestDelete);
           setRequestDelete(undefined);
         }}
       />

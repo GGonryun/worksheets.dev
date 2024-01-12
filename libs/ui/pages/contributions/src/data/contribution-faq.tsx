@@ -9,6 +9,7 @@ export const contributionFaq: QuestionAnswer[] = [
   {
     id: 'submit-a-game',
     question: 'How do I submit a game?',
+    summary: `We support most game engines and frameworks as long as they can be exported to a web build. Make sure that your game is responsive and works across a variety of different screen sizes. The most common of which are 4:3 and 16:9 aspect ratios. For more information on the file formats we support, please refer to the question: "What file formats are supported?"`,
     answer: (
       <Box>
         <Typography>
@@ -72,6 +73,7 @@ export const contributionFaq: QuestionAnswer[] = [
   {
     id: 'how-to-make-changes',
     question: 'How do I make changes to my game?',
+    summary: `A game can be edited at any time, but games that have already been submitted and approved will require a review before the changes are published. We recommend making updates to your existing game submission rather than creating a new submission. This will allow you to keep your game's play count and ratings. For more information on how to submit a game, please refer to the question: "How do I submit a game?"`,
     answer: (
       <Box>
         <Typography>
@@ -102,6 +104,7 @@ export const contributionFaq: QuestionAnswer[] = [
   {
     id: 'how-to-delete-game',
     question: 'How do I delete my game?',
+    summary: `Deleting a game is a permanent action and cannot be undone. If you would like to remove your game from the platform, please contact us. You must be the owner of the game and you must be contacting us from the email address associated with the account that created the game.`,
     answer: (
       <Typography>
         Deleting a game is a permanent action and cannot be undone. If you would
@@ -115,6 +118,7 @@ export const contributionFaq: QuestionAnswer[] = [
   {
     id: 'what-file-formats-are-supported',
     question: 'What file formats are supported for submission?',
+    summary: `We support most game engines and frameworks as long as they can be exported to a web build. Make sure that your game is responsive and works across a variety of different screen sizes. The most common of which are 4:3 and 16:9 aspect ratios. For more information on submitting a game, please refer to the question: "How do I submit a game?"`,
     answer: (
       <Box>
         <Typography variant="h6" mb={1}>
@@ -230,6 +234,65 @@ export const contributionFaq: QuestionAnswer[] = [
             our partners.
           </ListItem>
         </OrderedList>
+      </Box>
+    ),
+  },
+  {
+    id: 'what-makes-a-quality-game',
+    question: 'What makes a quality game?',
+    summary: `It depends. We review every game that is submitted to our platform. We do our best to play-test and review every game that is submitted to us. However, due to the high volume of submissions we receive, we cannot guarantee that your game will be accepted. For more information on submitting a game, please refer to the question: "How do I submit a game?"`,
+    answer: (
+      <Box>
+        <Typography>
+          A quality game is a game that is fun to play and adheres to our{' '}
+          <Link href="/terms">terms of service</Link>.
+          <br />
+          <br />
+          Our contribution standards are based on the following criteria:
+        </Typography>
+        <OrderedList>
+          <ListItem>The game should be fun to play.</ListItem>
+          <ListItem>
+            The game has unique art and sound assets. It should contain no more
+            than 20% of assets that are available in the public domain and it
+            should contain no more than 80% of assets that are generated using
+            artificial intelligence.
+          </ListItem>
+          <ListItem>
+            The game mechanics are original and not a direct clone of another
+            game on our platform. We look for games that contain some level of
+            originality and creativity.
+          </ListItem>
+          <ListItem>
+            The game should be responsive and work across a variety of different
+            screen sizes. The most common of which are 4:3 and 16:9 aspect
+            ratios.
+          </ListItem>
+          <ListItem>
+            The games user interface should be intuitive and easy to use. It
+            should not feature any broken links or buttons.
+          </ListItem>
+          <ListItem>
+            Sound should be using sparingly and should not be annoying or
+            repetitive. It should be easy to mute your game sound. We prefer
+            games that let players opt into sound rather than opt out of sound.
+          </ListItem>
+          <ListItem>
+            The game should be free of bugs and should not crash or freeze
+            during game play. We recommend play-testing your game on a variety
+            of different devices and browsers before submitting your game.
+          </ListItem>
+        </OrderedList>
+        <Typography>
+          Failing to adhere to the above standards does not guarantee that your
+          game will be rejected.
+          <br />
+          <br />
+          We personally review every game that is submitted to our platform. We
+          do our best to play-test and review every game that is submitted to
+          us. However, due to the high volume of submissions we receive, we
+          cannot guarantee that your game will be accepted.
+        </Typography>
       </Box>
     ),
   },

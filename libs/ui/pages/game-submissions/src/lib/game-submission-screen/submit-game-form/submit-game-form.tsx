@@ -16,11 +16,10 @@ import {
 import { FC, JSXElementConstructor } from 'react';
 import { useGameSubmissionFormContext } from '../../form-context';
 import DraftsIcon from '@mui/icons-material/Drafts';
-import { SvgIconComponent } from '@mui/icons-material';
-import { Typography } from '@mui/material';
+import { CircularProgress, Typography } from '@mui/material';
 
 export const SubmitGameForm: FC = () => {
-  const { isValid, isUpdated, onSubmit, onUpdate } =
+  const { loading, isValid, isUpdated, onSubmit, onUpdate } =
     useGameSubmissionFormContext();
 
   return (
@@ -61,17 +60,29 @@ export const SubmitGameForm: FC = () => {
           <Box display="flex" gap={2} flexWrap="wrap">
             <SubmitButton
               onClick={onSubmit}
-              StartIcon={PublishIcon}
-              disabled={!isValid}
+              startIcon={
+                loading ? (
+                  <CircularProgress color="inherit" size="1rem" />
+                ) : (
+                  <PublishIcon />
+                )
+              }
+              disabled={!isValid || loading}
             >
               Submit For Review
             </SubmitButton>
             <SubmitButton
               onClick={onUpdate}
-              disabled={!isUpdated}
+              disabled={!isUpdated || loading}
               color="secondary"
               variant="outlined"
-              StartIcon={DraftsIcon}
+              startIcon={
+                loading ? (
+                  <CircularProgress color="inherit" size="1rem" />
+                ) : (
+                  <DraftsIcon />
+                )
+              }
             >
               Save Draft
             </SubmitButton>
@@ -120,21 +131,11 @@ const ErrorWarning = () => {
   );
 };
 
-const SubmitButton = styled<
-  JSXElementConstructor<
-    Omit<ButtonProps, 'sx' | 'startIcon'> & {
-      StartIcon: SvgIconComponent;
-    }
-  >
->(({ StartIcon, ...props }) => (
-  <Button
-    variant="contained"
-    color="primary"
-    size="large"
-    startIcon={<StartIcon sx={{ mr: -0.5 }} />}
-    {...props}
-  />
-))(({ theme }) => ({
+const SubmitButton = styled<JSXElementConstructor<Omit<ButtonProps, 'sx'>>>(
+  (props) => (
+    <Button variant="contained" color="primary" size="large" {...props} />
+  )
+)(({ theme }) => ({
   fontWeight: 700,
   padding: theme.spacing(0.5, 4),
   borderRadius: theme.shape.borderRadius * 6,

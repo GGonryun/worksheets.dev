@@ -215,6 +215,7 @@ export type GameSubmissionFormContextType = {
   values: GameSubmissionForm;
   isValid: boolean;
   isUpdated: boolean;
+  loading: boolean;
   // a submission performs validation and then submits the form for review.
   onSubmit: () => void;
   // an update ignores validation and saves the form as a draft.

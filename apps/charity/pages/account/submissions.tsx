@@ -27,10 +27,11 @@ const Page: NextPageWithLayout<Props> = (props) => {
 export const getServerSideProps = (async (ctx) => {
   const trpc = await createServerSideTRPC(ctx);
 
-  const profile = await trpc.profile.get.fetch();
-  const submissions = await trpc.game.submissions.list.fetch();
-
-  await trpc.profile.terms.get.prefetch();
+  const [profile, submissions] = await Promise.all([
+    trpc.profile.get.fetch(),
+    trpc.game.submissions.list.fetch(),
+    trpc.profile.terms.get.prefetch(),
+  ]);
 
   return {
     props: { profile, submissions, trpcState: trpc.dehydrate() },

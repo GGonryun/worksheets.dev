@@ -12,6 +12,7 @@ export const DEFAULT_VALUES = (
     username: '',
     bio: null,
   },
+  loading: false,
   isValid: () => false,
   isUpdated: () => false,
   onSubmit: action('onSubmit'),
@@ -24,6 +25,7 @@ export const PREFILLED_VALUES = (
   ...DEFAULT_VALUES(action),
   isValid: () => true,
   isUpdated: () => false,
+  loading: false,
   values: {
     username: 'CharityGames',
     bio: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
@@ -36,6 +38,7 @@ export const ERROR_VALUES = (
   ...DEFAULT_VALUES(action),
   isValid: () => false,
   isUpdated: () => false,
+  loading: false,
   values: {
     username: 'Charity!Games',
     bio: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'.repeat(30),

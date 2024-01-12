@@ -33,6 +33,7 @@ export const DEFAULT_VALUES = (
 ): GameSubmissionFormContextType => ({
   isValid: false,
   isUpdated: false,
+  loading: false,
   errors: {
     slug: '',
     title: '',

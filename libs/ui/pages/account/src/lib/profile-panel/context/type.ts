@@ -192,6 +192,7 @@ export type BasicInformationFormKeys = keyof BasicInformationForm;
 export type BasicInformationFormContextType = {
   errors: BasicInformationFormErrors;
   values: BasicInformationForm;
+  loading: boolean;
   isValid: () => boolean;
   isUpdated: () => boolean;
   onSubmit: () => void;

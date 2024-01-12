@@ -13,12 +13,14 @@ import React from 'react';
 import { styled } from '@mui/material/styles';
 import { TermsOfServiceStatement } from '@worksheets/ui/pages/terms-of-service';
 import Alert from '@mui/material/Alert';
+import { CircularProgress } from '@mui/material';
 
 export const GettingStarted: React.FC<{
   canSubmit: boolean;
-  onSubmit: () => void;
+  onSubmit: () => Promise<void>;
 }> = ({ onSubmit, canSubmit }) => {
   const [checked, setChecked] = React.useState<boolean>(false);
+  const [loading, setLoading] = React.useState<boolean>(false);
 
   return (
     <Box
@@ -68,7 +70,15 @@ export const GettingStarted: React.FC<{
         setChecked={setChecked}
       />
 
-      <SubmissionButton disabled={!canSubmit || !checked} onClick={onSubmit} />
+      <SubmissionButton
+        loading={loading}
+        disabled={!canSubmit || !checked}
+        onClick={async () => {
+          setLoading(true);
+          await onSubmit();
+          setLoading(false);
+        }}
+      />
     </Box>
   );
 };
@@ -139,15 +149,22 @@ const CheckboxGroup: React.FC<{
   );
 };
 
-const SubmissionButton: React.FC<Pick<ButtonProps, 'disabled' | 'onClick'>> = (
-  props
-) => (
+const SubmissionButton: React.FC<
+  Pick<ButtonProps, 'disabled' | 'onClick'> & { loading: boolean }
+> = ({ loading, disabled, ...props }) => (
   <Button
     {...props}
+    disabled={disabled || loading}
     variant="contained"
     size="small"
     color="error"
-    startIcon={<CheckCircleOutlineIcon />}
+    startIcon={
+      loading ? (
+        <CircularProgress color="primary" size="1rem" />
+      ) : (
+        <CheckCircleOutlineIcon />
+      )
+    }
     sx={{
       width: 'fit-content',
       borderRadius: 8,

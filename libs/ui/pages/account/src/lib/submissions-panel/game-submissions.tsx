@@ -5,56 +5,69 @@ import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
 import { NewWindow } from '@worksheets/ui/icons';
 import { BasicGameSubmission } from '../types';
+import React from 'react';
+import { CircularProgress } from '@mui/material';
 
 export const GameSubmissions: React.FC<{
   submissions: BasicGameSubmission[];
   onDelete: (id: string) => void;
-}> = ({ submissions, onDelete }) => (
-  <Box
-    sx={{
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 3,
-    }}
-  >
-    <Typography variant="h5">Your Submissions</Typography>
-    <EmptySubmissionsPlaceholder visible={!submissions.length} />
+}> = ({ submissions, onDelete }) => {
+  const [loading, setLoading] = React.useState(false);
+
+  return (
     <Box
       sx={{
-        display: submissions.length ? 'flex' : 'none',
-        gap: 2,
-        flexWrap: 'wrap',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 3,
       }}
     >
-      {submissions.map((submission) => (
-        <GameSubmission
-          key={submission.id}
-          {...submission}
-          onDelete={() => onDelete(submission.id)}
-        />
-      ))}
+      <Typography variant="h5">Your Submissions</Typography>
+      <EmptySubmissionsPlaceholder visible={!submissions.length} />
+      <Box
+        sx={{
+          display: submissions.length ? 'flex' : 'none',
+          gap: 2,
+          flexWrap: 'wrap',
+        }}
+      >
+        {submissions.map((submission) => (
+          <GameSubmission
+            key={submission.id}
+            {...submission}
+            onDelete={() => onDelete(submission.id)}
+          />
+        ))}
+      </Box>
+      <Button
+        href="/submit/new"
+        onClick={() => setLoading(true)}
+        variant="contained"
+        color="success"
+        startIcon={
+          loading ? (
+            <CircularProgress color="white" size="1rem" />
+          ) : (
+            <AddIcon sx={{ mr: -0.5, mt: '-2px' }} />
+          )
+        }
+        sx={{
+          borderRadius: 8,
+          width: 'fit-content',
+          px: 4,
+          textTransform: 'none',
+          fontFamily: (theme) => theme.typography.h6.fontFamily,
+        }}
+      >
+        {loading ? 'Loading...' : 'Submit New Game'}
+      </Button>
+      <Typography variant="body3">
+        For more information on how to submit a game, please visit our{' '}
+        <a href="/contribute#submit-a-game">contribution page</a>.
+      </Typography>
     </Box>
-    <Button
-      href="/submit/new"
-      variant="contained"
-      color="success"
-      startIcon={<AddIcon sx={{ mr: -0.5, mt: '-2px' }} />}
-      sx={{
-        borderRadius: 8,
-        width: 'fit-content',
-        px: 4,
-        textTransform: 'none',
-        fontFamily: (theme) => theme.typography.h6.fontFamily,
-      }}
-    >
-      Submit New Game
-    </Button>
-    <Typography variant="body3">
-      For more information on how to submit a game, please visit our{' '}
-      <a href="/contribute#submit-a-game">contribution page</a>.
-    </Typography>
-  </Box>
-);
+  );
+};
 
 const EmptySubmissionsPlaceholder: React.FC<{ visible: boolean }> = ({
   visible,

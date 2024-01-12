@@ -17,6 +17,7 @@ export const useBasicInformationForm = (
   const { fieldValidator } = useZodValidator(basicInformationFormSchema);
 
   const [updated, setUpdated] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const [values, setValues] = useState<BasicInformationForm>(
     existing ?? {
@@ -35,22 +36,26 @@ export const useBasicInformationForm = (
   const connector: BasicInformationFormContextType = {
     errors,
     values,
+    loading,
 
     onSubmit: async () => {
+      setLoading(true);
+
       const result = await updateProfile.mutateAsync(values);
 
       // trigger snackbar
       if (result.okay) {
         snackbar.trigger();
         setUpdated(false);
-        return;
+      } else {
+        // display error on failed update
+        setErrors((prev) => ({
+          ...prev,
+          username: result.errors?.username ?? '',
+        }));
       }
 
-      // display error on failed update
-      setErrors((prev) => ({
-        ...prev,
-        username: result.errors?.username ?? '',
-      }));
+      setLoading(false);
     },
 
     isValid: () => {

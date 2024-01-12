@@ -98,6 +98,10 @@ export const getServerSideProps = (async (ctx) => {
   };
 }) satisfies GetServerSideProps<Props>;
 
+export const config = {
+  runtime: 'experimental-edge',
+};
+
 Page.getLayout = (page) => {
   return <LayoutContainer>{page}</LayoutContainer>;
 };

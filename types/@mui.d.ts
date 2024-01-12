@@ -107,3 +107,10 @@ declare module '@mui/material/Typography' {
     body3: true;
   }
 }
+
+declare module '@mui/material/CircularProgress' {
+  interface CircularProgressPropsColorOverrides {
+    white: true;
+    black: true;
+  }
+}
