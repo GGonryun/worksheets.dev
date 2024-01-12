@@ -74,12 +74,12 @@ const GameFileInput: React.FC<{
 }> = ({ id, value, upload, error, destroy }) => {
   const [uploading, setUploading] = useState(false);
 
-  if (value) {
+  if (value || uploading) {
     return (
       <GameFile
-        name={value.name}
-        timestamp={value.timestamp}
-        size={value.size}
+        name={value?.name ?? 'Uploading...'}
+        timestamp={value?.timestamp ?? new Date().getTime()}
+        size={value?.size ?? 0}
         status={error ? 'error' : uploading ? 'uploading' : 'uploaded'}
         error={error}
         onDelete={async () => {

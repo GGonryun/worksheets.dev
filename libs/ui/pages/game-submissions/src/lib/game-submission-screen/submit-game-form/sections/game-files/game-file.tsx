@@ -85,7 +85,7 @@ export const GameFile: FC<{
 };
 
 const fileStatusIcon: Record<FileStatus, ReactNode> = {
-  uploading: <CircularProgress size={28} sx={{ px: '4px' }} />,
+  uploading: <CircularProgress size={28} />,
   uploaded: <CheckCircleOutlinedIcon fontSize="large" color="success" />,
   error: <WarningIcon fontSize="large" color="error" />,
 };
