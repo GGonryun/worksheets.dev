@@ -7,7 +7,6 @@ import {
 } from '@worksheets/ui/pages/game-submissions';
 import { Nullable } from '@worksheets/util/types';
 import { createFileDownloadUrl } from '@worksheets/services/environment';
-import { StoredFileModel } from '@worksheets/prisma';
 export default protectedProcedure
   .input(
     z.object({
@@ -72,6 +71,15 @@ export default protectedProcedure
       markets: JSON.parse(submission.markets ?? '{}'),
     };
   });
+
+const StoredFileModel = z.object({
+  id: z.string(),
+  path: z.string(),
+  size: z.number(),
+  type: z.string(),
+  name: z.string(),
+  createdAt: z.date(),
+});
 
 type DatabaseStoredFile = z.infer<typeof StoredFileModel>;
 type FormStoredFile = z.infer<typeof storedFileSchema>;

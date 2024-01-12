@@ -6,12 +6,8 @@ import FormLabel from '@mui/material/FormLabel';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import Typography from '@mui/material/Typography';
-import { GameReportModel } from '@worksheets/prisma';
-import { z } from '@worksheets/zod';
+import { ReportReason } from '@prisma/client';
 import { FC } from 'react';
-
-type GameReportReason = z.infer<typeof GameReportModel>;
-export type ReportReason = GameReportReason['reason'];
 
 const reportReasonOptionOrder: Record<ReportReason, number> = {
   BROKEN: 0,

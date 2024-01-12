@@ -1,9 +1,15 @@
 import { z } from '@worksheets/zod';
 import { publicProcedure } from '../../procedures';
-import { GameReportModel } from '@worksheets/prisma';
+import { ReportReason } from '@prisma/client';
 
 export default publicProcedure
-  .input(GameReportModel.pick({ gameId: true, reason: true, text: true }))
+  .input(
+    z.object({
+      gameId: z.string(),
+      reason: z.nativeEnum(ReportReason),
+      text: z.string(),
+    })
+  )
   .output(
     z.object({
       success: z.boolean(),

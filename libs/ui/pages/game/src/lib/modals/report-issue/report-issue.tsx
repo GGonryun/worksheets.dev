@@ -7,10 +7,11 @@ import {
 } from '@mui/material';
 import { FC, useState } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
-import { ReportReason, ReportReasonForm } from './report-reason-form';
+import { ReportReasonForm } from './report-reason-form';
 import { AdditionalComments } from './additional-comments';
 import { InfringementText } from './infringement-text';
 import { BaseModal, ModalWrapper } from '@worksheets/ui-core';
+import { ReportReason } from '@prisma/client';
 
 export const ReportIssueModal: FC<
   ModalWrapper<{
