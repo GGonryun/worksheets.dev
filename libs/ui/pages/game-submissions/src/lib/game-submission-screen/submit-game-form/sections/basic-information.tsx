@@ -1,19 +1,20 @@
 import Box from '@mui/material/Box';
-import { FC } from 'react';
-import TextField from '@mui/material/TextField';
-import { PrefixTextField } from '@worksheets/ui/inputs';
-import { BASE_URL } from '@worksheets/ui/env';
 import FormControl from '@mui/material/FormControl';
+import FormHelperText from '@mui/material/FormHelperText';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
-import FormHelperText from '@mui/material/FormHelperText';
-import { DetailedListItemText } from '../detailed-list-item-text';
+import TextField from '@mui/material/TextField';
+import { BASE_URL } from '@worksheets/ui/env';
+import { PrefixTextField } from '@worksheets/ui/inputs';
 import { labelFor } from '@worksheets/util/misc';
+import { FC } from 'react';
+
 import {
   GameSubmissionForm,
   useGameSubmissionFormContext,
 } from '../../../form-context';
+import { DetailedListItemText } from '../detailed-list-item-text';
 
 export const BasicInformationSection: FC = () => {
   return (

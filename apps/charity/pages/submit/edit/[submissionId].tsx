@@ -1,12 +1,13 @@
-import { NextPageWithLayout } from '@worksheets/util-next';
-import { GameSubmissionScreenContainer } from '../../../containers/game-submission-screen-container';
-import { LayoutContainer } from '../../../containers/layout-container';
-import { submitGameSeo } from '../../../util/seo';
-import { NextSeo } from 'next-seo';
-import { GetServerSideProps } from 'next/types';
 import { createServerSideTRPC } from '@worksheets/trpc-charity/server';
 import { GameSubmissionForm } from '@worksheets/ui/pages/game-submissions';
 import { Nullable } from '@worksheets/util/types';
+import { NextPageWithLayout } from '@worksheets/util-next';
+import { GetServerSideProps } from 'next/types';
+import { NextSeo } from 'next-seo';
+
+import { GameSubmissionScreenContainer } from '../../../containers/game-submission-screen-container';
+import { LayoutContainer } from '../../../containers/layout-container';
+import { submitGameSeo } from '../../../util/seo';
 
 type Props = {
   submissionId: string;

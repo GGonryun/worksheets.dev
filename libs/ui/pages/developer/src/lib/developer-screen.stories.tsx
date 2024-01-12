@@ -1,6 +1,7 @@
 import type { Meta } from '@storybook/react';
-import { DeveloperScreen } from './developer-screen';
 import { dummySocials, sampleGameDefinitions } from '@worksheets/ui/mocks';
+
+import { DeveloperScreen } from './developer-screen';
 
 const Story: Meta<typeof DeveloperScreen> = {
   component: DeveloperScreen,

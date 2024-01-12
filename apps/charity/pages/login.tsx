@@ -1,6 +1,7 @@
 import { NextPageWithLayout } from '@worksheets/util-next';
-import { LayoutContainer } from '../containers/layout-container';
 import { NextSeo } from 'next-seo';
+
+import { LayoutContainer } from '../containers/layout-container';
 import { LoginScreenContainer } from '../containers/login-screen-container';
 
 const Page: NextPageWithLayout = () => {

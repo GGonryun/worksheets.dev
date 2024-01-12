@@ -1,22 +1,22 @@
+import CloseIcon from '@mui/icons-material/Close';
+import { TextField, TextFieldProps } from '@mui/material';
 import Box from '@mui/material/Box';
 import Checkbox from '@mui/material/Checkbox';
 import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormGroup from '@mui/material/FormGroup';
 import FormHelperText from '@mui/material/FormHelperText';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
 import Typography from '@mui/material/Typography';
+import { checkboxGroup } from '@worksheets/util/arrays';
 import React, { FC } from 'react';
 
-import { DetailedListItemText } from '../detailed-list-item-text';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import { TextField, TextFieldProps } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
 import {
   GameSubmissionFormKeys,
   useGameSubmissionFormContext,
 } from '../../../form-context';
-import { checkboxGroup } from '@worksheets/util/arrays';
+import { DetailedListItemText } from '../detailed-list-item-text';
 
 export const EmbedOptions: FC = () => {
   const { values } = useGameSubmissionFormContext();

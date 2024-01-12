@@ -1,11 +1,11 @@
-import { Box, Link, LinkProps, Typography, styled } from '@mui/material';
-import { FC, JSXElementConstructor } from 'react';
-import { GameSchema } from '@worksheets/util/types';
+import { Box, Link, LinkProps, styled, Typography } from '@mui/material';
+import { ResponsiveImage } from '@worksheets/ui/images';
 import {
   APP_STORE_BADGE_PATH,
   PLAY_STORE_BADGE_PATH,
 } from '@worksheets/util/assets';
-import { ResponsiveImage } from '@worksheets/ui/images';
+import { GameSchema } from '@worksheets/util/types';
+import { FC, JSXElementConstructor } from 'react';
 
 export type MarketWidgetsProps = GameSchema['markets'];
 export const MarketWidgets: FC<MarketWidgetsProps> = ({

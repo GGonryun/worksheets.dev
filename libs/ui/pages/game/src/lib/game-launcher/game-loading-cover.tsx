@@ -1,5 +1,3 @@
-import { Box, Button, Typography } from '@mui/material';
-import { FC } from 'react';
 import {
   DesktopAccessDisabled,
   KeyboardDoubleArrowDown,
@@ -7,9 +5,13 @@ import {
   PlayCircleOutline,
   SvgIconComponent,
 } from '@mui/icons-material';
-import { GameSchema } from '@worksheets/util/types';
+import { Box, Button, Typography } from '@mui/material';
 import { FillImage } from '@worksheets/ui/images';
-import { RotateToLandscape, RotateToPortrait } from '@worksheets/ui/icons';
+import { GameSchema } from '@worksheets/util/types';
+import { FC } from 'react';
+
+import { RotateToLandscape } from '../icons/rotate-to-landscape';
+import { RotateToPortrait } from '../icons/rotate-to-portrait';
 
 export type GameLoadingCoverProps = {
   backgroundUrl: string;

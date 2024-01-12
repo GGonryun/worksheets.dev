@@ -1,4 +1,5 @@
 import type { Meta } from '@storybook/react';
+
 import { GameFile } from './game-file';
 
 type Story = Meta<typeof GameFile>;

@@ -1,4 +1,5 @@
 import { TRPCError } from '@trpc/server';
+
 import { middleware } from '../trpc';
 
 export const authentication = middleware(async ({ next, ctx, type, path }) => {

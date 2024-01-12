@@ -1,10 +1,10 @@
 import { games } from '@worksheets/data-access/charity-games';
-import { useLocalStorageAlt } from '@worksheets/ui-core';
+import { useLocalStorage } from '@worksheets/ui-core';
 import { strict } from '@worksheets/util/misc';
 import { GameIcon, RecentlyPlayedSchema } from '@worksheets/util/types';
 
 export const useRecentlyPlayedGames = () => {
-  const [storage, setStorage] = useLocalStorageAlt<RecentlyPlayedSchema[]>(
+  const [storage, setStorage] = useLocalStorage<RecentlyPlayedSchema[]>(
     'recently-played-games',
     []
   );

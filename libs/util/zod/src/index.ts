@@ -10,6 +10,7 @@ type SafeGlobalValidation<T extends string | number | symbol> =
   | {
       success: true;
     };
+
 export function useZodValidator<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   TSchema extends z.ZodObject<any, any, any> | z.ZodEffects<any, any>,

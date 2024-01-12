@@ -1,7 +1,8 @@
 import type { Meta } from '@storybook/react';
-import { BlogPostScreen } from './blog-post-screen';
-import { sampleBlogMetadata, sampleBlogPost } from '@worksheets/ui/mocks';
 import { blogAuthors } from '@worksheets/data-access/charity-games';
+import { sampleBlogMetadata, sampleBlogPost } from '@worksheets/ui/mocks';
+
+import { BlogPostScreen } from './blog-post-screen';
 
 const Story: Meta<typeof BlogPostScreen> = {
   component: BlogPostScreen,

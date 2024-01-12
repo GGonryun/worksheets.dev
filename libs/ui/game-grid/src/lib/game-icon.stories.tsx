@@ -1,4 +1,5 @@
 import type { Decorator, Meta, StoryObj } from '@storybook/react';
+
 import { GameIcon } from './game-icon';
 
 const meta: Meta<typeof GameIcon> = {

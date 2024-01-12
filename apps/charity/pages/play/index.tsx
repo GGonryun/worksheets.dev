@@ -1,13 +1,14 @@
-import { MixedGrid } from '@worksheets/ui/game-grid';
-import { NextPageWithLayout } from '@worksheets/util-next';
-import { LayoutContainer } from '../../containers/layout-container';
-import { Container } from '@mui/material';
-import { gameItems } from '../../util/mixed-items';
 import LocalOfferOutlinedIcon from '@mui/icons-material/LocalOfferOutlined';
 import ShuffleIcon from '@mui/icons-material/Shuffle';
-import { getRandomGame } from '../../util/randomizer';
+import { Container } from '@mui/material';
+import { MixedGrid } from '@worksheets/ui/game-grid';
+import { NextPageWithLayout } from '@worksheets/util-next';
 import { useRouter } from 'next/router';
 import { NextSeo } from 'next-seo';
+
+import { LayoutContainer } from '../../containers/layout-container';
+import { gameItems } from '../../util/mixed-items';
+import { getRandomGame } from '../../util/randomizer';
 import { gamesSeo } from '../../util/seo';
 
 const Page: NextPageWithLayout = () => {

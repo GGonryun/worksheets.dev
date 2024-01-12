@@ -1,22 +1,23 @@
-import Box from '@mui/material/Box';
+import DraftsIcon from '@mui/icons-material/Drafts';
 import PublishIcon from '@mui/icons-material/Publish';
+import { CircularProgress, Typography } from '@mui/material';
+import Box from '@mui/material/Box';
 import Button, { ButtonProps } from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
 import { StickyContactBox } from '@worksheets/ui/qa-section';
+import { FC, JSXElementConstructor } from 'react';
+
+import { useGameSubmissionFormContext } from '../../form-context';
 import {
   BasicInformationSection,
+  EmbedOptions,
   ExternalWebsiteSection,
   GameDetails,
   GameFiles,
   InteractionPreferences,
   MediaAssets,
   PurchaseOptions,
-  EmbedOptions,
 } from './sections';
-import { FC, JSXElementConstructor } from 'react';
-import { useGameSubmissionFormContext } from '../../form-context';
-import DraftsIcon from '@mui/icons-material/Drafts';
-import { CircularProgress, Typography } from '@mui/material';
 
 export const SubmitGameForm: FC = () => {
   const { loading, isValid, isUpdated, onSubmit, onUpdate } =

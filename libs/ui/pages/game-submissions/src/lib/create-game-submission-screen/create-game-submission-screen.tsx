@@ -1,12 +1,12 @@
+import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import { AbsolutelyCentered } from '@worksheets/ui-core';
+import { waitFor } from '@worksheets/util/time';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
-import WarningAmberIcon from '@mui/icons-material/WarningAmber';
-import { waitFor } from '@worksheets/util/time';
 
 export const CreateGameSubmissionScreen: React.FC<{
   createSubmission: () => Promise<{ id: string }>;

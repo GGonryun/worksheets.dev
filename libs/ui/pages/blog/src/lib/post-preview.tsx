@@ -1,12 +1,11 @@
-import { Box, Link, Typography } from '@mui/material';
-import { MarkdownMetadata } from '@worksheets/util-markdown';
-import { FC } from 'react';
-import { urls } from '@worksheets/ui-games';
-import { Flex, useDeviceSize } from '@worksheets/ui-core';
 import { ArrowRightAlt } from '@mui/icons-material';
-import { printDate } from '@worksheets/util/time';
+import { Box, Link, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { blogAuthors } from '@worksheets/data-access/charity-games';
 import { CoverImage } from '@worksheets/ui/images';
+import { Flex } from '@worksheets/ui-core';
+import { printDate } from '@worksheets/util/time';
+import { MarkdownMetadata } from '@worksheets/util-markdown';
+import { FC } from 'react';
 
 export const PostPreview: FC<MarkdownMetadata> = ({
   title,
@@ -17,11 +16,12 @@ export const PostPreview: FC<MarkdownMetadata> = ({
   tags,
   slug,
 }) => {
-  const { isMobile } = useDeviceSize();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const trimmedExcerpt = excerpt.slice(0, 150) + '...';
-  const url = urls.relative.blog + '/' + slug;
+  const url = `/blog/${slug}`;
   const author = blogAuthors[authorId];
-  const authorUrl = urls.relative.about + '#' + author.id;
+  const authorUrl = `/about#${author.id}`;
   const prettyDate = printDate(date);
 
   return (

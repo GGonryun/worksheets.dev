@@ -1,7 +1,8 @@
-import type { Meta } from '@storybook/react';
-import { GameSubmissionStatus } from '@prisma/client';
-import { GameSubmission } from '.';
 import Box from '@mui/material/Box';
+import { GameSubmissionStatus } from '@prisma/client';
+import type { Meta } from '@storybook/react';
+
+import { GameSubmission } from '.';
 
 type Story = Meta<typeof GameSubmission>;
 

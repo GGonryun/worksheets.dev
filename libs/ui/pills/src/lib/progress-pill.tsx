@@ -1,11 +1,12 @@
-import { FC, JSXElementConstructor } from 'react';
-import { ReferencePillSkeleton } from './reference-pill-skeleton';
 import Box from '@mui/material/Box';
 import LinearProgress, {
   LinearProgressProps,
 } from '@mui/material/LinearProgress';
 import { styled } from '@mui/material/styles';
 import Typography, { TypographyProps } from '@mui/material/Typography';
+import { FC, JSXElementConstructor } from 'react';
+
+import { ReferencePillSkeleton } from './reference-pill-skeleton';
 
 export type ProgressPillProps = {
   current: number;

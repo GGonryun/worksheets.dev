@@ -1,7 +1,8 @@
-import { forwardRef } from 'react';
-import classes from './game-frame.module.scss';
 import { Box, Typography } from '@mui/material';
 import Image from 'next/image';
+import { forwardRef } from 'react';
+
+import classes from './game-frame.module.scss';
 
 export type GameFrameProps = { url: string };
 

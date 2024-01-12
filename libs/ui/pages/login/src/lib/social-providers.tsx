@@ -1,7 +1,8 @@
 import { GitHub } from '@mui/icons-material';
-import { ColoredGoogle, ColoredDiscord } from '@worksheets/ui/icons';
-import { SocialProviderButton } from './social-provider-button';
+import { ColoredDiscord, ColoredGoogle } from '@worksheets/icons/companies';
 import { FC } from 'react';
+
+import { SocialProviderButton } from './social-provider-button';
 
 export type SocialProvidersProps = {
   onGoogleAction?: () => void;

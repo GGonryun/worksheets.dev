@@ -1,6 +1,7 @@
-import { z } from '@worksheets/zod';
-import { protectedProcedure } from '../../../procedures';
 import { castVoteSchema } from '@worksheets/util/types';
+import { z } from '@worksheets/zod';
+
+import { protectedProcedure } from '../../../procedures';
 
 export default protectedProcedure
   .input(castVoteSchema)

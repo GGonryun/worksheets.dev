@@ -1,11 +1,12 @@
-import { styled } from '@mui/material/styles';
+import { ArrowRightAlt } from '@mui/icons-material';
 import Box from '@mui/material/Box';
+import Button, { ButtonProps } from '@mui/material/Button';
+import Link from '@mui/material/Link';
+import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import { FC, JSXElementConstructor } from 'react';
-import Link from '@mui/material/Link';
+
 import { InvalidProfileAlert } from './invalid-profile-alert';
-import { ArrowRightAlt } from '@mui/icons-material';
-import Button, { ButtonProps } from '@mui/material/Button';
 
 const SubmissionBox = styled(Box)(({ theme }) => ({
   display: 'flex',

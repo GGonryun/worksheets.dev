@@ -3,8 +3,8 @@ import LinearProgress, {
   LinearProgressProps,
 } from '@mui/material/LinearProgress';
 import Link from '@mui/material/Link';
-import Typography, { TypographyProps } from '@mui/material/Typography';
 import { styled } from '@mui/material/styles';
+import Typography, { TypographyProps } from '@mui/material/Typography';
 import urls from '@worksheets/util/urls';
 import Image from 'next/image';
 import { FC, JSXElementConstructor } from 'react';

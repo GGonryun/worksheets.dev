@@ -1,6 +1,7 @@
 import type { Meta } from '@storybook/react';
-import { ReceiptTable } from './receipt-table';
+
 import { sampleDonationReceipts } from './mocks';
+import { ReceiptTable } from './receipt-table';
 
 const Story: Meta<typeof ReceiptTable> = {
   component: ReceiptTable,

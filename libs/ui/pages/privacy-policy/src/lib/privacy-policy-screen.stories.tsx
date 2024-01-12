@@ -1,4 +1,5 @@
 import type { Meta } from '@storybook/react';
+
 import { PrivacyPolicyScreen } from './privacy-policy-screen';
 
 const Story: Meta<typeof PrivacyPolicyScreen> = {

@@ -1,22 +1,22 @@
 import {
-  OpenInNew,
-  Mail,
   Facebook,
-  Twitter,
   LinkedIn,
+  Mail,
+  OpenInNew,
+  Twitter,
 } from '@mui/icons-material';
 import {
-  LinearProgress,
-  Button,
-  Typography,
-  IconButton,
   Box,
+  Button,
+  IconButton,
+  LinearProgress,
   styled,
+  Typography,
   TypographyProps,
 } from '@mui/material';
 import { FC, JSXElementConstructor } from 'react';
+
 import { CharityScreenProps } from '../charity-screen';
-import { Discord } from '@worksheets/ui/icons';
 
 export const CampaignPledge: FC<
   Pick<CharityScreenProps, 'pledge' | 'charity' | 'statistics'>
@@ -76,9 +76,6 @@ export const CampaignPledge: FC<
         </IconButton>
         <IconButton size="small">
           <Twitter fontSize="small" color="black" />
-        </IconButton>
-        <IconButton size="small">
-          <Discord fontSize="small" color="black" />
         </IconButton>
         <IconButton size="small">
           <LinkedIn fontSize="small" color="black" />

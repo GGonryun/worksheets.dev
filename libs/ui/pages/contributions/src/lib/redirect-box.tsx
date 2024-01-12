@@ -1,10 +1,11 @@
 import { SvgIconComponent } from '@mui/icons-material';
 import Box from '@mui/material/Box';
 import { ButtonProps } from '@mui/material/Button';
-import { FC } from 'react';
-import { SubtitleText } from './subtitle-text';
 import Typography from '@mui/material/Typography';
+import { FC } from 'react';
+
 import { RoundedButton } from './rounded-button';
+import { SubtitleText } from './subtitle-text';
 
 export const RedirectBox: FC<{
   title: string;

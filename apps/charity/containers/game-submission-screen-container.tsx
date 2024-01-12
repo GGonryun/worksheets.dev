@@ -3,11 +3,11 @@ import {
   GameSubmissionFormContextProvider,
   GameSubmissionScreen,
 } from '@worksheets/ui/pages/game-submissions';
-
-import { FC } from 'react';
-import { useGameSubmissionForm } from '../hooks/use-game-submission-form';
-import { Nullable } from '@worksheets/util/types';
 import { Snackbar } from '@worksheets/ui/snackbar';
+import { Nullable } from '@worksheets/util/types';
+import { FC } from 'react';
+
+import { useGameSubmissionForm } from '../hooks/use-game-submission-form';
 
 export const GameSubmissionScreenContainer: FC<{
   submissionId: string;

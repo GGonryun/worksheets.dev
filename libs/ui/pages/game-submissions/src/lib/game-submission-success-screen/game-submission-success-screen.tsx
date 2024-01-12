@@ -3,23 +3,10 @@ import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-import { AbsolutelyCentered, useWindowSize } from '@worksheets/ui-core';
-import { ColoredGestureThumbsUp } from '@worksheets/ui/icons';
-import { convertSecondsToMilliseconds } from '@worksheets/util/time';
-import { useState } from 'react';
-import Confetti from 'react-confetti';
-
-const STOP_CONFETTI_TIMER = convertSecondsToMilliseconds(15);
+import { ColoredGestureThumbsUp } from '@worksheets/icons/youtube';
+import { AbsolutelyCentered } from '@worksheets/ui-core';
 
 export const GameSubmissionSuccessScreen = () => {
-  const [width, height] = useWindowSize();
-
-  const [recycle, setRecycle] = useState(true);
-  setTimeout(() => {
-    setRecycle(false);
-    console.log('stopped recycling');
-  }, STOP_CONFETTI_TIMER);
-
   return (
     <AbsolutelyCentered>
       <Paper
@@ -77,12 +64,6 @@ export const GameSubmissionSuccessScreen = () => {
           My Submissions
         </Button>
       </Paper>
-      <Confetti
-        numberOfPieces={200}
-        width={width}
-        height={height}
-        recycle={recycle}
-      />
     </AbsolutelyCentered>
   );
 };

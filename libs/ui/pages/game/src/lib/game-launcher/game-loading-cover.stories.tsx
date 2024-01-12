@@ -1,4 +1,5 @@
 import type { Decorator, Meta, StoryObj } from '@storybook/react';
+
 import { GameLoadingCover, GameLoadingCoverProps } from './game-loading-cover';
 
 const meta: Meta<typeof GameLoadingCover> = {

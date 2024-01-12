@@ -1,10 +1,11 @@
-import { FC, ReactNode } from 'react';
-import { ArrowUpRight } from '@worksheets/ui/icons';
-import { ItemCarousel } from '../item-carousel';
+import { styled } from '@mui/material';
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
-import { styled } from '@mui/material';
+import { ArrowUpRight } from '@worksheets/icons/arrows';
+import { FC, ReactNode } from 'react';
+
+import { ItemCarousel } from '../item-carousel';
 
 export type GameSectionProps = {
   title: string;

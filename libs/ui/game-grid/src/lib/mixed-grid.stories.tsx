@@ -1,6 +1,7 @@
-import type { Meta } from '@storybook/react';
-import { MixedGrid } from './mixed-grid';
 import { Box, lighten } from '@mui/material';
+import type { Meta } from '@storybook/react';
+
+import { MixedGrid } from './mixed-grid';
 
 const Story: Meta<typeof MixedGrid> = {
   component: MixedGrid,

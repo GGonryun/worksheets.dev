@@ -1,12 +1,13 @@
-import { NextPageWithLayout } from '@worksheets/util-next';
-import {
-  MarkdownMetadata,
-  getAllPostsMetadata,
-} from '@worksheets/util-markdown';
-import { POSTS_PATH } from '../../util/paths';
 import { BlogScreen } from '@worksheets/ui/pages/blog';
-import { LayoutContainer } from '../../containers/layout-container';
+import {
+  getAllPostsMetadata,
+  MarkdownMetadata,
+} from '@worksheets/util-markdown';
+import { NextPageWithLayout } from '@worksheets/util-next';
 import { NextSeo } from 'next-seo';
+
+import { LayoutContainer } from '../../containers/layout-container';
+import { POSTS_PATH } from '../../util/paths';
 import { blogSeo } from '../../util/seo';
 
 type Props = {

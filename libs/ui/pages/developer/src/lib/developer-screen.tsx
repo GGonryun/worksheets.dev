@@ -18,19 +18,20 @@ import {
   Paper,
   Typography,
 } from '@mui/material';
-import { FC } from 'react';
-import {
-  Discord,
-  TwitchTv,
-  ItchIo,
-  TikTok,
-  SteamGames,
-  PlayStore,
-  AppStore,
-} from '@worksheets/ui/icons';
-import { DeveloperSchema, GameDefinition } from '@worksheets/util/types';
-import { GamePill } from '@worksheets/ui/pills';
 import { FillImage } from '@worksheets/ui/images';
+import { GamePill } from '@worksheets/ui/pills';
+import { DeveloperSchema, GameDefinition } from '@worksheets/util/types';
+import { FC } from 'react';
+
+import {
+  AppStore,
+  Discord,
+  ItchIo,
+  PlayStore,
+  SteamGames,
+  TikTok,
+  TwitchTv,
+} from './icons';
 
 export type DeveloperScreenProps = {
   name: string;

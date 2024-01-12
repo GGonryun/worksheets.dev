@@ -1,7 +1,7 @@
-import { NextPageWithLayout } from '@worksheets/util-next';
-import { LayoutContainer } from '../../containers/layout-container';
-
 import { GameSubmissionSuccessScreen } from '@worksheets/ui/pages/game-submissions';
+import { NextPageWithLayout } from '@worksheets/util-next';
+
+import { LayoutContainer } from '../../containers/layout-container';
 
 const Page: NextPageWithLayout = () => {
   return <GameSubmissionSuccessScreen />;

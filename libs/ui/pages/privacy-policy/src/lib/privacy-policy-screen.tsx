@@ -1,5 +1,6 @@
 import { Box, Container, Link, Paper, Typography } from '@mui/material';
 import { FC } from 'react';
+
 import { PrivacyStatement } from './privacy-policy-statement';
 
 export type PrivacyPolicyScreenProps = {

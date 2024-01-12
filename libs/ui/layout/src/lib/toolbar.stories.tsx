@@ -1,4 +1,5 @@
 import type { Meta } from '@storybook/react';
+
 import { Toolbar } from './toolbar';
 
 const Story: Meta<typeof Toolbar> = {

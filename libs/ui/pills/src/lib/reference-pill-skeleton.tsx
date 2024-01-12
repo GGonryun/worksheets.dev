@@ -1,7 +1,7 @@
 import { Box, Link } from '@mui/material';
-import { FC, ReactNode } from 'react';
-import { PLACEHOLDER_LOGO_PATH } from '@worksheets/util/assets';
 import { ResponsiveImage } from '@worksheets/ui/images';
+import { PLACEHOLDER_LOGO_PATH } from '@worksheets/util/assets';
+import { FC, ReactNode } from 'react';
 
 export type ReferencePillSkeletonProps = {
   children: ReactNode;

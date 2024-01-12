@@ -1,6 +1,4 @@
-import { Box, BoxProps } from '@mui/material';
-import { FC, Fragment } from 'react';
-import { GameIconProps, GameIcon } from './game-icon';
+import Box, { BoxProps } from '@mui/material/Box';
 import {
   AdvertisementPill,
   AdvertisementPillProps,
@@ -15,6 +13,9 @@ import {
   TextPill,
   TextPillProps,
 } from '@worksheets/ui/pills';
+import { FC, Fragment } from 'react';
+
+import { GameIcon, GameIconProps } from './game-icon';
 
 export type MixedGridItem =
   | (GameIconProps & { type: 'game'; span?: number })

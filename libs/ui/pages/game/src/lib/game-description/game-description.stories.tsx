@@ -1,6 +1,7 @@
 import type { Meta } from '@storybook/react';
-import { GameDescription } from './game-description';
+
 import { sampleAnalytics, sampleDeveloper, sampleGame } from '../mocks';
+import { GameDescription } from './game-description';
 
 type StoryObj = Meta<typeof GameDescription>;
 
@@ -22,6 +23,6 @@ export const WithoutAnything: StoryObj = {
   args: {
     game: { ...sampleGame, markets: {} },
     developer: sampleDeveloper,
-    analytics: { ...sampleAnalytics, topPlayers: [] },
+    analytics: { ...sampleAnalytics },
   },
 };

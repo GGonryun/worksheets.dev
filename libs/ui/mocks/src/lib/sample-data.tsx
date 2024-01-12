@@ -1,5 +1,4 @@
 import { MixedGridItem } from '@worksheets/ui/game-grid';
-import { MarkdownMetadata } from '@worksheets/util-markdown';
 import {
   BasicWebsiteStatistics,
   BlogAuthor,
@@ -9,6 +8,7 @@ import {
   GamePopularityStatistics,
   Recommendations,
 } from '@worksheets/util/types';
+import { MarkdownMetadata } from '@worksheets/util-markdown';
 
 export const fakeWebsiteStatistics: BasicWebsiteStatistics = {
   donatedGames: 10,

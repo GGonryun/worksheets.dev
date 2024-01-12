@@ -1,11 +1,12 @@
-import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
-import { autocompleteFor } from '@worksheets/util/misc';
-import MenuItem from '@mui/material/MenuItem';
-import Chip from '@mui/material/Chip';
-import Typography from '@mui/material/Typography';
-import TextField from '@mui/material/TextField';
-import { useGameSubmissionFormContext } from '../../../../form-context';
 import { inputBaseClasses } from '@mui/material';
+import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
+import Chip from '@mui/material/Chip';
+import MenuItem from '@mui/material/MenuItem';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
+import { autocompleteFor } from '@worksheets/util/misc';
+
+import { useGameSubmissionFormContext } from '../../../../form-context';
 
 // TODO: load tags from the backend
 const tags = [

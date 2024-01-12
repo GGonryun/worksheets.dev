@@ -1,15 +1,15 @@
 import {
-  CategoryDoesNotExistScreen,
-  CategoryScreen,
-} from '@worksheets/ui/pages/category';
-import { NextPageWithLayout } from '@worksheets/util-next';
-import { useRouter } from 'next/router';
-import { GameTag, TagSchema } from '@worksheets/util/types';
-import {
   categorySquareAds,
   games,
   tagSchemas,
 } from '@worksheets/data-access/charity-games';
+import {
+  CategoryDoesNotExistScreen,
+  CategoryScreen,
+} from '@worksheets/ui/pages/category';
+import { GameTag, TagSchema } from '@worksheets/util/types';
+import { NextPageWithLayout } from '@worksheets/util-next';
+import { useRouter } from 'next/router';
 
 export const TagPage: NextPageWithLayout = () => {
   const { query } = useRouter();

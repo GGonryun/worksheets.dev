@@ -1,12 +1,13 @@
 import { Box } from '@mui/material';
+import { GamePopularityStatistics } from '@worksheets/util/types';
 import { FC } from 'react';
+
 import { CharityScreenProps } from '../charity-screen';
 import { CustomPaper } from '../custom-paper';
+import { CampaignFooter } from './campaign-footer';
 import { CampaignHeader } from './campaign-header';
 import { CampaignImage } from './campaign-image';
 import { CampaignPledge } from './campaign-pledge';
-import { CampaignFooter } from './campaign-footer';
-import { GamePopularityStatistics } from '@worksheets/util/types';
 
 export const CampaignSection: FC<
   Pick<CharityScreenProps, 'charity' | 'pledge'> & {

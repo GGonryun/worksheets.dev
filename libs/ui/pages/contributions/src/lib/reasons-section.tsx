@@ -1,7 +1,8 @@
 import Paper from '@mui/material/Paper';
-import { TitleText } from './title-text';
-import { CharityGroup } from '@worksheets/ui/icons';
 import { styled } from '@mui/material/styles';
+import { CharityGroup } from '@worksheets/icons/charity';
+
+import { TitleText } from './title-text';
 
 export const ReasonsSection = () => (
   <Paper

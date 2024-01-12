@@ -1,7 +1,12 @@
 import Box from '@mui/material/Box';
-import { RedirectBox } from './redirect-box';
 import Paper from '@mui/material/Paper';
-import { CharityBook, CharityBox, CharityWater } from '@worksheets/ui/icons';
+import {
+  CharityBook,
+  CharityBox,
+  CharityWater,
+} from '@worksheets/icons/charity';
+
+import { RedirectBox } from './redirect-box';
 import { TitleText } from './title-text';
 
 export const SupportSection = () => (

@@ -1,9 +1,10 @@
-import { publicProcedure } from '../../procedures';
-import { gamePopularityStatisticsSchema } from '@worksheets/util/types';
 import {
-  popularityStatisticsTemplate,
   games,
+  popularityStatisticsTemplate,
 } from '@worksheets/data-access/charity-games';
+import { gamePopularityStatisticsSchema } from '@worksheets/util/types';
+
+import { publicProcedure } from '../../procedures';
 
 export default publicProcedure
   .output(gamePopularityStatisticsSchema)

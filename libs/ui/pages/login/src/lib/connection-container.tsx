@@ -1,7 +1,8 @@
-import { FC } from 'react';
-import { CharityGamesLogo } from './charity-games-logo';
-import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
+import { FC } from 'react';
+
+import { CharityGamesLogo } from './charity-games-logo';
 
 export type ConnectionContainerProps = {
   children: React.ReactNode;

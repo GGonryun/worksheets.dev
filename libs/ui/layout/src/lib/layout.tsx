@@ -1,16 +1,17 @@
 import Box from '@mui/material/Box';
 import MuiToolbar from '@mui/material/Toolbar';
-import { Toolbar } from './toolbar';
-import { Drawer } from './drawer/drawer';
-import { GameRecommendations } from './drawer/game-recommendations';
-import { useRef, useState } from 'react';
 import { lighten } from '@mui/system';
-import { WebsiteFooter } from './footer';
-import { SearchResults } from './drawer/search-results';
+import { CategoryPillProps, GamePillProps } from '@worksheets/ui/pills';
 import { useDebounce } from '@worksheets/ui-core';
 import { Recommendations } from '@worksheets/util/types';
-import { CategoryPillProps, GamePillProps } from '@worksheets/ui/pills';
+import { useRef, useState } from 'react';
+
+import { Drawer } from './drawer/drawer';
 import { DrawerActions } from './drawer/drawer-actions';
+import { GameRecommendations } from './drawer/game-recommendations';
+import { SearchResults } from './drawer/search-results';
+import { WebsiteFooter } from './footer';
+import { Toolbar } from './toolbar';
 import { WebsiteBackground } from './website-background';
 
 type SearchResults = {

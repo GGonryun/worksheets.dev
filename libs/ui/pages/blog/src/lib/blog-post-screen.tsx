@@ -1,10 +1,11 @@
 import { Container, Paper } from '@mui/material';
-import { FC } from 'react';
-import { PostHeader } from './post-header';
-import { MarkdownMetadata } from '@worksheets/util-markdown';
-import { PostBody } from './post-body/post-body';
-import { JoinNewsletterBox } from './join-newsletter-box';
 import { BlogAuthor } from '@worksheets/util/types';
+import { MarkdownMetadata } from '@worksheets/util-markdown';
+import { FC } from 'react';
+
+import { JoinNewsletterBox } from './join-newsletter-box';
+import { PostBody } from './post-body/post-body';
+import { PostHeader } from './post-header';
 
 export type BlogPostScreenProps = {
   metadata: MarkdownMetadata;

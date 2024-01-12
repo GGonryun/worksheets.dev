@@ -1,13 +1,12 @@
 import { t } from '../../trpc';
-
-// sub-routers
-import vote from './vote/router';
-import submissions from './submissions/router';
+import analytics from './analytics';
 import files from './files/router';
 // procedures
 import play from './play';
-import analytics from './analytics';
 import report from './report';
+import submissions from './submissions/router';
+// sub-routers
+import vote from './vote/router';
 
 export default t.router({
   // sub-routers

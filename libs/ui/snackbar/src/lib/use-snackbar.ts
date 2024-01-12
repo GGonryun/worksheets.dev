@@ -1,4 +1,5 @@
 import { useState } from 'react';
+
 import { SnackbarProps } from './snackbar';
 
 type SnackbarSeverity = SnackbarProps['severity'];

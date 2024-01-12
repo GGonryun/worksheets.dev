@@ -1,12 +1,13 @@
-import { signOut } from 'next-auth/react';
 import {
   AccountScreen,
   BasicGameSubmission,
   BasicInformationForm,
 } from '@worksheets/ui/pages/account';
+import { useRouter } from 'next/router';
+import { signOut } from 'next-auth/react';
+
 import { ProfilePanelContainer } from './profile-panel-container';
 import { SubmissionsPanelContainer } from './submission-panel-container';
-import { useRouter } from 'next/router';
 
 export const AccountScreenContainer: React.FC<{
   profile: BasicInformationForm | null;

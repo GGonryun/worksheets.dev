@@ -1,8 +1,8 @@
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import { FC, useState } from 'react';
 
 export const ClipboardText: FC<{ url: string }> = ({ url }) => {

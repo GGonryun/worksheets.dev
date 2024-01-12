@@ -1,4 +1,5 @@
 import { useContext } from 'react';
+
 import { GameSubmissionFormContext } from './context';
 
 export const useGameSubmissionFormContext = () => {

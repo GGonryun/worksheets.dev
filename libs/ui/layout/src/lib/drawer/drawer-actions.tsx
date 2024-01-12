@@ -1,8 +1,8 @@
-import Box from '@mui/material/Box';
-import { ButtonPill } from '@worksheets/ui/pills';
+import LocalOfferOutlinedIcon from '@mui/icons-material/LocalOfferOutlined';
 import ShuffleIcon from '@mui/icons-material/Shuffle';
 import SportsEsportsOutlinedIcon from '@mui/icons-material/SportsEsportsOutlined';
-import LocalOfferOutlinedIcon from '@mui/icons-material/LocalOfferOutlined';
+import Box from '@mui/material/Box';
+import { ButtonPill } from '@worksheets/ui/pills';
 import { FC } from 'react';
 
 export const DrawerActions: FC<{ onRandomGame: () => void }> = ({

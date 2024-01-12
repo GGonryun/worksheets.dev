@@ -1,9 +1,10 @@
 import {
-  ProfilePanel,
-  BasicInformationFormContextProvider,
   BasicInformationForm,
+  BasicInformationFormContextProvider,
+  ProfilePanel,
 } from '@worksheets/ui/pages/account';
 import { Snackbar } from '@worksheets/ui/snackbar';
+
 import { useBasicInformationForm } from './use-basic-information-form';
 
 export const ProfilePanelContainer: React.FC<{

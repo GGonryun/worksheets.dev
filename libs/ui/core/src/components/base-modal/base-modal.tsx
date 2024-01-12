@@ -1,4 +1,3 @@
-import { FC, JSXElementConstructor } from 'react';
 import {
   Modal as MuiModal,
   ModalProps as MuiModalProps,
@@ -6,6 +5,7 @@ import {
   PaperProps,
   styled,
 } from '@mui/material';
+import { FC, JSXElementConstructor } from 'react';
 
 export type BaseModalProps = Pick<
   MuiModalProps,

@@ -1,13 +1,4 @@
 import {
-  Box,
-  IconButton,
-  IconButtonProps,
-  Typography,
-  TypographyProps,
-  styled,
-} from '@mui/material';
-import { FC, JSXElementConstructor } from 'react';
-import {
   Fullscreen,
   FullscreenExit,
   PlayCircleOutlineOutlined,
@@ -16,8 +7,17 @@ import {
   ThumbUpAlt,
   ThumbUpOffAlt,
 } from '@mui/icons-material';
-import { GameSchema, CastVote, UserVote } from '@worksheets/util/types';
+import {
+  Box,
+  IconButton,
+  IconButtonProps,
+  styled,
+  Typography,
+  TypographyProps,
+} from '@mui/material';
 import { ResponsiveImage } from '@worksheets/ui/images';
+import { CastVote, GameSchema, UserVote } from '@worksheets/util/types';
+import { FC, JSXElementConstructor } from 'react';
 
 export type GameBannerProps = {
   type: GameSchema['file']['type'];

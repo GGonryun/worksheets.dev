@@ -1,8 +1,9 @@
-import { Box, Typography } from '@mui/material';
-import { FC } from 'react';
-import { ReferencePillSkeleton } from './reference-pill-skeleton';
 import { ArrowRight } from '@mui/icons-material';
+import { Box, Typography } from '@mui/material';
 import { PLACEHOLDER_LOGO_PATH } from '@worksheets/util/assets';
+import { FC } from 'react';
+
+import { ReferencePillSkeleton } from './reference-pill-skeleton';
 
 export type CategoryPillProps = {
   name: string;

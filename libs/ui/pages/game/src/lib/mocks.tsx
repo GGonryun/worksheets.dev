@@ -3,6 +3,7 @@ import {
   GameAnalyticsSchema,
   SerializableGameSchema,
 } from '@worksheets/util/types';
+
 import { GameDescription } from './game-description';
 import { GameLauncher } from './game-launcher';
 

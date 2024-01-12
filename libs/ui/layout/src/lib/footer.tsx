@@ -1,16 +1,16 @@
-import { FC, JSXElementConstructor } from 'react';
+import { SvgIconComponent } from '@mui/icons-material';
+import GitHub from '@mui/icons-material/GitHub';
 import LinkedIn from '@mui/icons-material/LinkedIn';
 import Reddit from '@mui/icons-material/Reddit';
-import GitHub from '@mui/icons-material/GitHub';
 import Twitter from '@mui/icons-material/Twitter';
-import Link, { LinkProps } from '@mui/material/Link';
-import Typography, { TypographyProps } from '@mui/material/Typography';
-import { useRouter } from 'next/router';
-import urls from '@worksheets/util/urls';
 import Box, { BoxProps } from '@mui/material/Box';
+import Link, { LinkProps } from '@mui/material/Link';
 import { styled } from '@mui/material/styles';
 import { SvgIconProps } from '@mui/material/SvgIcon';
-import { SvgIconComponent } from '@mui/icons-material';
+import Typography, { TypographyProps } from '@mui/material/Typography';
+import urls from '@worksheets/util/urls';
+import { useRouter } from 'next/router';
+import { FC, JSXElementConstructor } from 'react';
 
 export type WebsiteFooterProps = {
   // TODO: args

@@ -1,9 +1,9 @@
-import { FC } from 'react';
-import { Box, Button, Typography } from '@mui/material';
-import { printDate } from '@worksheets/util/time';
 import { ArrowLeft } from '@mui/icons-material';
+import { Box, Button, Typography } from '@mui/material';
+import { FillImage, ResponsiveImage } from '@worksheets/ui/images';
+import { printDate } from '@worksheets/util/time';
 import { BlogAuthor } from '@worksheets/util/types';
-import { ResponsiveImage, FillImage } from '@worksheets/ui/images';
+import { FC } from 'react';
 
 export type PostHeaderProps = {
   title: string;

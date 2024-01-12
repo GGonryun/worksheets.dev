@@ -1,4 +1,5 @@
 import { RefObject, useEffect, useRef } from 'react';
+
 import { useIsomorphicLayoutEffect } from './useIsomorphicLayoutEffect';
 declare global {
   interface DocumentEventMap {

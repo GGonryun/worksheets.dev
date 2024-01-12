@@ -1,4 +1,5 @@
 import type { Decorator, Meta, StoryObj } from '@storybook/react';
+
 import { ProgressWidget } from './progress';
 
 type Story = StoryObj<typeof ProgressWidget>;

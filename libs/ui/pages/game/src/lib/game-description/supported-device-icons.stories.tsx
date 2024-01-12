@@ -1,4 +1,5 @@
 import type { Meta } from '@storybook/react';
+
 import { SupportedDeviceIcons } from './supported-device-icons';
 
 const Story: Meta<typeof SupportedDeviceIcons> = {

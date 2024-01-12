@@ -1,17 +1,17 @@
-import {
-  ArticleJsonLdProps,
-  DefaultSeoProps,
-  NextSeoProps,
-  VideoGameJsonLdProps,
-} from 'next-seo';
 import { TWITTER_SEO } from '@worksheets/util/seo';
-import { MarkdownMetadata } from '@worksheets/util-markdown';
 import {
   BlogAuthor,
   DeveloperSchema,
   GameSchema,
   TagSchema,
 } from '@worksheets/util/types';
+import { MarkdownMetadata } from '@worksheets/util-markdown';
+import {
+  ArticleJsonLdProps,
+  DefaultSeoProps,
+  NextSeoProps,
+  VideoGameJsonLdProps,
+} from 'next-seo';
 
 export type OpenGraphProps = NonNullable<
   NextSeoProps['openGraph'] & { noindex?: boolean }

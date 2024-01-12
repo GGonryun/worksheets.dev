@@ -1,6 +1,7 @@
-import { FC } from 'react';
-import { MixedGridItem, MixedGridItems } from './mixed-grid-items';
 import Box from '@mui/material/Box';
+import { FC } from 'react';
+
+import { MixedGridItem, MixedGridItems } from './mixed-grid-items';
 import { GRID_ITEM_SIZE } from './util';
 
 export type MixedGridProps = {

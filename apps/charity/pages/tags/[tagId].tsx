@@ -1,16 +1,17 @@
-import { CategoryScreen } from '@worksheets/ui/pages/category';
-import { NextPageWithLayout } from '@worksheets/util-next';
-import { LayoutContainer } from '../../containers/layout-container';
-import { GameTag, TagSchema } from '@worksheets/util/types';
 import {
   categorySquareAds,
   games,
   tagSchemas,
 } from '@worksheets/data-access/charity-games';
-import { NextSeo, NextSeoProps } from 'next-seo';
+import { CategoryScreen } from '@worksheets/ui/pages/category';
+import { GameTag, TagSchema } from '@worksheets/util/types';
+import { NextPageWithLayout } from '@worksheets/util-next';
 import { GetServerSideProps } from 'next';
-import { categorySeo } from '../../util/seo';
+import { NextSeo, NextSeoProps } from 'next-seo';
+
+import { LayoutContainer } from '../../containers/layout-container';
 import { AdsensePushScript } from '../../scripts';
+import { categorySeo } from '../../util/seo';
 
 type Props = {
   tag: TagSchema;

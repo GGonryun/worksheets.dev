@@ -1,4 +1,5 @@
 import type { Decorator, Meta, StoryObj } from '@storybook/react';
+
 import { CategoryPill } from './category-pill';
 
 const meta: Meta<typeof CategoryPill> = {

@@ -1,7 +1,7 @@
+import { Box, lighten } from '@mui/material';
 import type { Meta } from '@storybook/react';
 
 import { GameRecommendations } from './game-recommendations';
-import { Box, lighten } from '@mui/material';
 
 const Story: Meta<typeof GameRecommendations> = {
   component: GameRecommendations,

@@ -1,8 +1,9 @@
-import { FC } from 'react';
-import { ReferencePillSkeleton } from './reference-pill-skeleton';
+import { SvgIconComponent } from '@mui/icons-material';
 import Box from '@mui/material/Box';
 import Typography, { TypographyProps } from '@mui/material/Typography';
-import { SvgIconComponent } from '@mui/icons-material';
+import { FC } from 'react';
+
+import { ReferencePillSkeleton } from './reference-pill-skeleton';
 
 export type ButtonPillProps = {
   href?: string;

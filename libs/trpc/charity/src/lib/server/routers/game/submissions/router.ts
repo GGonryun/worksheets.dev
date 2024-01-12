@@ -1,11 +1,10 @@
 import { t } from '../../../trpc';
-
+import create from './create';
+import destroy from './destroy';
 import get from './get';
 import list from './list';
-import create from './create';
 import submit from './submit';
 import update from './update';
-import destroy from './destroy';
 
 export default t.router({
   get,

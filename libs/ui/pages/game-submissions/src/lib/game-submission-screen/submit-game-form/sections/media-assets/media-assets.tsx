@@ -5,8 +5,9 @@ import FormHelperText from '@mui/material/FormHelperText';
 import Input from '@mui/material/Input';
 import Typography from '@mui/material/Typography';
 import { ImageUpload } from '@worksheets/ui/images';
-import { useGameSubmissionFormContext } from '../../../../form-context';
 import { useState } from 'react';
+
+import { useGameSubmissionFormContext } from '../../../../form-context';
 
 export const MediaAssets = () => (
   <Box

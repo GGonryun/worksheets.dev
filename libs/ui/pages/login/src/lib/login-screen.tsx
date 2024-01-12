@@ -1,7 +1,8 @@
 import { Box, Link, Typography } from '@mui/material';
 import { FC } from 'react';
-import { SocialProviders, SocialProvidersProps } from './social-providers';
+
 import { ConnectionContainer } from './connection-container';
+import { SocialProviders, SocialProvidersProps } from './social-providers';
 
 export type LoginScreenProps = SocialProvidersProps;
 

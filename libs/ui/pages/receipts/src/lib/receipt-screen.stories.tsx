@@ -1,6 +1,7 @@
 import type { Meta } from '@storybook/react';
-import { ReceiptScreen } from './receipt-screen';
+
 import { sampleDonationReceipts } from './mocks';
+import { ReceiptScreen } from './receipt-screen';
 
 const Story: Meta<typeof ReceiptScreen> = {
   component: ReceiptScreen,

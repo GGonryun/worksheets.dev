@@ -1,7 +1,8 @@
-import type { Meta } from '@storybook/react';
-import { AccountScreen } from './account-screen';
-import { action } from '@storybook/addon-actions';
 import Box from '@mui/material/Box';
+import { action } from '@storybook/addon-actions';
+import type { Meta } from '@storybook/react';
+
+import { AccountScreen } from './account-screen';
 import { AccountTabsHref } from './tabs';
 
 type Story = Meta<typeof AccountScreen>;

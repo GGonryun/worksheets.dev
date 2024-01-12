@@ -1,9 +1,9 @@
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
+import { ListItem, OrderedList } from '@worksheets/ui-core';
 import { QuestionAnswer } from '@worksheets/util/types';
 import urls from '@worksheets/util/urls';
-import { ListItem, OrderedList } from '@worksheets/ui-core';
 
 export const faq: QuestionAnswer[] = [
   {

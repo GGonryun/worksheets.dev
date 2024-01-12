@@ -1,4 +1,5 @@
 import type { Meta } from '@storybook/react';
+
 import { CookiePolicyScreen } from './cookie-policy-screen';
 
 const Story: Meta<typeof CookiePolicyScreen> = {

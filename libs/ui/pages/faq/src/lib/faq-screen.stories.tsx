@@ -1,4 +1,5 @@
 import type { Meta } from '@storybook/react';
+
 import { FAQScreen } from './faq-screen';
 
 const Story: Meta<typeof FAQScreen> = {

@@ -6,11 +6,12 @@ import {
 } from '@worksheets/data-access/charity-games';
 import { Layout } from '@worksheets/ui/layout';
 import { Recommendations } from '@worksheets/util/types';
-import { useRouter } from 'next/router';
-import { FC, ReactNode } from 'react';
-import { getRandomGame } from '../util/randomizer';
 import dynamic from 'next/dynamic';
+import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
+import { FC, ReactNode } from 'react';
+
+import { getRandomGame } from '../util/randomizer';
 
 const DynamicGameSection = dynamic(() => import('../dynamic/recent-games'), {
   ssr: false,

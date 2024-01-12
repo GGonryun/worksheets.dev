@@ -1,8 +1,9 @@
-import { FC, JSXElementConstructor } from 'react';
-import { ItemCarousel } from './item-carousel';
 import Box from '@mui/material/Box';
 import Button, { ButtonProps } from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
+import { FC, JSXElementConstructor } from 'react';
+
+import { ItemCarousel } from './item-carousel';
 
 type CategoryCarouselProps = {
   categories: { id: string; name: string }[];

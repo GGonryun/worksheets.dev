@@ -1,4 +1,5 @@
 import type { Meta } from '@storybook/react';
+
 import { TermsOfServiceScreen } from './terms-of-service-screen';
 
 const Story: Meta<typeof TermsOfServiceScreen> = {

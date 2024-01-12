@@ -1,6 +1,7 @@
-import Container from '@mui/material/Container';
 import { Paper, styled } from '@mui/material';
+import Container from '@mui/material/Container';
 import { FC } from 'react';
+
 import { SubmissionHeader } from './submission-header';
 import { SubmitGameForm } from './submit-game-form';
 

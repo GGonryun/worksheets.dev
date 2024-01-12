@@ -1,7 +1,8 @@
-import { FC, ReactNode } from 'react';
+import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
-import Box from '@mui/material/Box';
+import { FC, ReactNode } from 'react';
+
 import { AccountHeader } from './account-header';
 import { AccountTabs } from './account-tabs';
 import { TabPanel } from './tab-panel';

@@ -1,8 +1,9 @@
+import { helpFaq, HelpScreen } from '@worksheets/ui/pages/help';
 import { NextPageWithLayout } from '@worksheets/util-next';
-import { HelpScreen, helpFaq } from '@worksheets/ui/pages/help';
-import { LayoutContainer } from '../containers/layout-container';
 import { useRouter } from 'next/router';
 import { FAQPageJsonLd, NextSeo } from 'next-seo';
+
+import { LayoutContainer } from '../containers/layout-container';
 import { helpSeo } from '../util/seo';
 
 const Page: NextPageWithLayout = () => {

@@ -1,14 +1,14 @@
+import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import { trpc } from '@worksheets/trpc-charity';
 import { AbsolutelyCentered } from '@worksheets/ui-core';
-import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
-import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import { waitFor } from '@worksheets/util/time';
+import { useRouter } from 'next/router';
+import { useSession } from 'next-auth/react';
+import { useEffect, useState } from 'react';
 
 const CreateGameSubmission = () => {
   const router = useRouter();

@@ -1,9 +1,9 @@
+import LogoutIcon from '@mui/icons-material/Logout';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
+import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import LogoutIcon from '@mui/icons-material/Logout';
 import { FC } from 'react';
 
 export const AccountHeader: FC<{ onLogout: () => void }> = ({ onLogout }) => {

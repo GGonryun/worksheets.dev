@@ -1,6 +1,7 @@
 import { FC, ReactNode } from 'react';
-import { GameSubmissionFormContextType } from './type';
+
 import { GameSubmissionFormContext } from './context';
+import { GameSubmissionFormContextType } from './type';
 
 export const GameSubmissionFormContextProvider: FC<{
   children: ReactNode;

@@ -1,6 +1,7 @@
 import type { Meta } from '@storybook/react';
-import { RecentGamesSection } from '../recent-games-section';
 import { sampleRecommendations } from '@worksheets/ui/mocks';
+
+import { RecentGamesSection } from '../recent-games-section';
 
 const Story: Meta<typeof RecentGamesSection> = {
   component: RecentGamesSection,

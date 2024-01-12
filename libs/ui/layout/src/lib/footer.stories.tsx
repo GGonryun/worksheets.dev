@@ -1,4 +1,5 @@
 import type { Meta } from '@storybook/react';
+
 import { WebsiteFooter } from './footer';
 
 const Story: Meta<typeof WebsiteFooter> = {

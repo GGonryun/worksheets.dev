@@ -1,10 +1,4 @@
-import GithubProvider from 'next-auth/providers/github';
-import GoogleProvider from 'next-auth/providers/google';
-import DiscordProvider from 'next-auth/providers/discord';
-
 import { prisma } from '@worksheets/prisma';
-import { AuthOptions } from 'next-auth';
-import { customPrismaAdapter } from './prisma-adapter';
 import {
   DISCORD_CLIENT_ID,
   DISCORD_CLIENT_SECRET,
@@ -13,6 +7,12 @@ import {
   GOOGLE_CLIENT_ID,
   GOOGLE_CLIENT_SECRET,
 } from '@worksheets/services/environment';
+import { AuthOptions } from 'next-auth';
+import DiscordProvider from 'next-auth/providers/discord';
+import GithubProvider from 'next-auth/providers/github';
+import GoogleProvider from 'next-auth/providers/google';
+
+import { customPrismaAdapter } from './prisma-adapter';
 
 export const AUTH_OPTIONS: AuthOptions = {
   session: { strategy: 'jwt', maxAge: 3000 },

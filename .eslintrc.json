@@ -1,7 +1,7 @@
 {
   "root": true,
   "ignorePatterns": ["**/*"],
-  "plugins": ["@nx"],
+  "plugins": ["@nx", "simple-import-sort"],
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
@@ -24,7 +24,15 @@
     {
       "files": ["*.ts", "*.tsx"],
       "extends": ["plugin:@nx/typescript"],
-      "rules": {}
+      "rules": {
+        "simple-import-sort/imports": "error",
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": ["@mui/*/*/*"]
+          }
+        ]
+      }
     },
     {
       "files": ["*.js", "*.jsx"],

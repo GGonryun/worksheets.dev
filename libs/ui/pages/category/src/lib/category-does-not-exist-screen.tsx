@@ -1,8 +1,8 @@
+import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import { AbsolutelyCentered } from '@worksheets/ui-core';
-import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import { FC } from 'react';
 
 export const CategoryDoesNotExistScreen: FC<{ tag: string }> = ({ tag }) => {

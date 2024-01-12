@@ -1,12 +1,13 @@
-import type { Meta } from '@storybook/react';
+import { Box } from '@mui/material';
 import { action } from '@storybook/addon-actions';
+import type { Meta } from '@storybook/react';
+import { sampleRecommendations } from '@worksheets/ui/mocks';
+
+import { RecentGamesSection } from '../recent-games-section';
 import { Drawer } from './drawer';
+import { DrawerActions } from './drawer-actions';
 import { GameRecommendations } from './game-recommendations';
 import { SearchResults } from './search-results';
-import { Box } from '@mui/material';
-import { sampleRecommendations } from '@worksheets/ui/mocks';
-import { DrawerActions } from './drawer-actions';
-import { RecentGamesSection } from '../recent-games-section';
 
 const Story: Meta<typeof Drawer> = {
   component: Drawer,

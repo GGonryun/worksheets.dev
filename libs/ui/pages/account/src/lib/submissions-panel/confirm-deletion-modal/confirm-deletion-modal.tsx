@@ -1,13 +1,14 @@
-import { BaseModal } from '@worksheets/ui-core';
-import { BasicGameSubmission } from '../../types';
-import Typography from '@mui/material/Typography';
+import CancelIcon from '@mui/icons-material/Cancel';
+import { CircularProgress } from '@mui/material';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import { ColoredCancel } from '@worksheets/ui/icons';
-import CancelIcon from '@mui/icons-material/Cancel';
 import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import { BaseModal } from '@worksheets/ui-core';
 import React from 'react';
-import { CircularProgress } from '@mui/material';
+
+import ColoredCancelIcon from '../../icons/cancel';
+import { BasicGameSubmission } from '../../types';
 
 export const ConfirmDeletionModal: React.FC<{
   submission: BasicGameSubmission | undefined;
@@ -43,7 +44,7 @@ export const ConfirmDeletionModal: React.FC<{
             gap: 2,
           }}
         >
-          <ColoredCancel
+          <ColoredCancelIcon
             sx={{
               fontSize: 150,
             }}

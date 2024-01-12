@@ -4,7 +4,7 @@ import {
   ColoredFacebook,
   ColoredReddit,
   ColoredTwitter,
-} from '@worksheets/ui/icons';
+} from '@worksheets/icons/companies';
 import { FC } from 'react';
 
 const CHARITY_GAMES_TWITTER_HANDLE = 'charitydotgames';

@@ -1,7 +1,8 @@
 import Box from '@mui/material/Box';
-import { FC, useEffect, useState } from 'react';
-import { QuestionAnswerBox } from './qa-box';
 import { QuestionAnswer } from '@worksheets/util/types';
+import { FC, useEffect, useState } from 'react';
+
+import { QuestionAnswerBox } from './qa-box';
 import { StickyContactBox } from './sticky-contact-box';
 
 export type QuestionAnswerSectionProps = {

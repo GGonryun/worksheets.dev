@@ -1,4 +1,5 @@
 import { FC } from 'react';
+
 import styles from './post-body.module.scss';
 
 export const PostBody: FC<{ content: string }> = ({ content }) => {

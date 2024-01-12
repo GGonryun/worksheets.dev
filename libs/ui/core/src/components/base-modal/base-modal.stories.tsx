@@ -1,7 +1,8 @@
 import { Box } from '@mui/material';
-import type { Meta } from '@storybook/react';
-import { BaseModal } from './base-modal';
 import { action } from '@storybook/addon-actions';
+import type { Meta } from '@storybook/react';
+
+import { BaseModal } from './base-modal';
 
 const Story: Meta<typeof BaseModal> = {
   component: BaseModal,

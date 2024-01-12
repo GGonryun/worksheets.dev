@@ -1,13 +1,14 @@
-import { FC, JSXElementConstructor } from 'react';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import { styled } from '@mui/material/styles';
-import Button, { ButtonProps } from '@mui/material/Button';
 import SaveIcon from '@mui/icons-material/Save';
-import { BioField, UsernameField } from './fields';
-import { useBasicInformationFormContext } from './context';
-import Alert, { AlertProps } from '@mui/material/Alert';
 import { CircularProgress } from '@mui/material';
+import Alert, { AlertProps } from '@mui/material/Alert';
+import Box from '@mui/material/Box';
+import Button, { ButtonProps } from '@mui/material/Button';
+import { styled } from '@mui/material/styles';
+import Typography from '@mui/material/Typography';
+import { FC, JSXElementConstructor } from 'react';
+
+import { useBasicInformationFormContext } from './context';
+import { BioField, UsernameField } from './fields';
 
 export const ProfilePanel: FC = () => {
   const { values, loading, onSubmit, isValid, isUpdated } =

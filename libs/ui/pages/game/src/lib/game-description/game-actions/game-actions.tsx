@@ -1,9 +1,9 @@
+import ReportIcon from '@mui/icons-material/Flag';
+import ShareIcon from '@mui/icons-material/Share';
 import Box from '@mui/material/Box';
 import Button, { ButtonProps } from '@mui/material/Button';
-import { FC, JSXElementConstructor } from 'react';
-import ShareIcon from '@mui/icons-material/Share';
-import ReportIcon from '@mui/icons-material/Flag';
 import { styled } from '@mui/material/styles';
+import { FC, JSXElementConstructor } from 'react';
 
 export const GameActions: FC<{ onShare: () => void; onReport: () => void }> = ({
   onShare,

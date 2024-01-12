@@ -1,11 +1,11 @@
-import CancelIcon from '@mui/icons-material/Cancel';
-import IconButton from '@mui/material/IconButton';
-import { BaseModal, ModalWrapper } from '@worksheets/ui-core';
-import { ColoredGestureThumbsCombo } from '@worksheets/ui/icons';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
+import CancelIcon from '@mui/icons-material/Cancel';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import { ColoredGestureThumbsCombo } from '@worksheets/icons/youtube';
+import { BaseModal, ModalWrapper } from '@worksheets/ui-core';
 
 export const CannotVoteModal: React.FC<
   ModalWrapper<{

@@ -4,6 +4,7 @@ import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 import { useRouter } from 'next/router';
 import { FC } from 'react';
+
 import { AccountTabsHref } from './tabs';
 
 export const AccountTabs: FC<{

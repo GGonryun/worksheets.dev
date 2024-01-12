@@ -1,14 +1,15 @@
-import { NextPageWithLayout } from '@worksheets/util-next';
-import { LayoutContainer } from '../../containers/layout-container';
-import { FAQPageJsonLd, NextSeo } from 'next-seo';
-import { contributeSeo } from '../../util/seo';
-import { GetServerSideProps } from 'next';
 import { createServerSideTRPC } from '@worksheets/trpc-charity/server';
-import { BasicWebsiteStatistics } from '@worksheets/util/types';
 import {
-  ContributionScreen,
   contributionFaq,
+  ContributionScreen,
 } from '@worksheets/ui/pages/contributions';
+import { BasicWebsiteStatistics } from '@worksheets/util/types';
+import { NextPageWithLayout } from '@worksheets/util-next';
+import { GetServerSideProps } from 'next';
+import { FAQPageJsonLd, NextSeo } from 'next-seo';
+
+import { LayoutContainer } from '../../containers/layout-container';
+import { contributeSeo } from '../../util/seo';
 
 type Props = {
   statistics: BasicWebsiteStatistics;

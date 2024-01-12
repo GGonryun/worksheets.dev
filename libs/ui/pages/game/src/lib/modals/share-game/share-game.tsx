@@ -1,13 +1,14 @@
-import { FC } from 'react';
-import { SerializableGameSchema } from '@worksheets/util/types';
-import { SocialButtons } from './social-buttons';
-import { ClipboardText } from './clipboard-text';
 import CloseIcon from '@mui/icons-material/Close';
 import Box from '@mui/material/Box';
+import Button, { ButtonProps } from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import Button, { ButtonProps } from '@mui/material/Button';
-import { ModalWrapper, BaseModal } from '@worksheets/ui-core';
+import { BaseModal, ModalWrapper } from '@worksheets/ui-core';
+import { SerializableGameSchema } from '@worksheets/util/types';
+import { FC } from 'react';
+
+import { ClipboardText } from './clipboard-text';
+import { SocialButtons } from './social-buttons';
 
 export const ShareGameModal: FC<
   ModalWrapper<{

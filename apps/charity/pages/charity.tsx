@@ -1,10 +1,11 @@
-import { NextPageWithLayout } from '@worksheets/util-next';
-import { CharityScreen } from '@worksheets/ui/pages/charity';
-import { LayoutContainer } from '../containers/layout-container';
 import { campaigns, charities } from '@worksheets/data-access/charity-games';
-import { NextSeo } from 'next-seo';
-import { charitySeo } from '../util/seo';
 import { trpc } from '@worksheets/trpc-charity';
+import { CharityScreen } from '@worksheets/ui/pages/charity';
+import { NextPageWithLayout } from '@worksheets/util-next';
+import { NextSeo } from 'next-seo';
+
+import { LayoutContainer } from '../containers/layout-container';
+import { charitySeo } from '../util/seo';
 
 const Page: NextPageWithLayout = () => {
   const { data: gamePopularity } = trpc.usage.popularity.useQuery();

@@ -1,11 +1,12 @@
-import MuiDrawer from '@mui/material/Drawer';
-import { FC, ReactNode } from 'react';
-import { SearchBar } from './search-bar';
 import { ArrowBack } from '@mui/icons-material';
-import { TopEdgeBlur } from './edge-blur';
 import Box from '@mui/material/Box';
-import { lighten, styled } from '@mui/material/styles';
+import MuiDrawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
+import { lighten, styled } from '@mui/material/styles';
+import { FC, ReactNode } from 'react';
+
+import { TopEdgeBlur } from './edge-blur';
+import { SearchBar } from './search-bar';
 
 const drawerWidth = 700;
 

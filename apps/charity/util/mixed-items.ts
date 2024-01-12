@@ -1,7 +1,6 @@
 import {
-  homeSquareAds,
   games,
-  sidecadePartnership,
+  homeSquareAds,
   tagSchemas,
 } from '@worksheets/data-access/charity-games';
 import { MixedGridItem } from '@worksheets/ui/game-grid';
@@ -39,15 +38,10 @@ export const mixedItems = (options?: MixedItemOptions) => {
   const maxTags = options?.maxTags ?? 50;
   const hideAds = options?.hideAds ?? false;
 
-  const partnershipItem: MixedGridItem = {
-    type: 'image',
-    ...sidecadePartnership,
-  };
-
   const games = gameItems().slice(0, maxGames);
   const tags = tagItems().slice(0, maxTags);
 
-  const collection = [...games, ...tags, partnershipItem];
+  const collection = [...games, ...tags];
 
   if (hideAds) return collection;
 

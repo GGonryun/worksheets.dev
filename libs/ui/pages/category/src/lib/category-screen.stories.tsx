@@ -1,10 +1,11 @@
 import type { Meta } from '@storybook/react';
-import { CategoryScreen } from './category-screen';
 import {
-  sampleGameItems,
-  sampleCategoryItems,
   sampleCategoryDescription,
+  sampleCategoryItems,
+  sampleGameItems,
 } from '@worksheets/ui/mocks';
+
+import { CategoryScreen } from './category-screen';
 
 const Story: Meta<typeof CategoryScreen> = {
   component: CategoryScreen,

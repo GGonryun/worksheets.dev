@@ -1,5 +1,5 @@
-import { Box, Typography } from '@mui/material';
 import HistoryIcon from '@mui/icons-material/History';
+import { Box, Typography } from '@mui/material';
 
 export const NoRecentGamesPlaceholder = () => (
   <Box

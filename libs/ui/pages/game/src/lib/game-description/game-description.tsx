@@ -1,16 +1,17 @@
 import { Box, Chip, ChipProps, Typography } from '@mui/material';
-import { FC, useState } from 'react';
-import { MarketWidgets } from './market-widgets';
+import { trpc } from '@worksheets/trpc-charity';
 import { Markdown } from '@worksheets/ui-core';
 import {
   DeveloperSchema,
   GameAnalyticsSchema,
   SerializableGameSchema,
 } from '@worksheets/util/types';
-import { GameHeader } from './game-header';
-import { GameActions } from './game-actions';
+import { FC, useState } from 'react';
+
 import { ReportIssueModal, ShareGameModal } from '../modals';
-import { trpc } from '@worksheets/trpc-charity';
+import { GameActions } from './game-actions';
+import { GameHeader } from './game-header';
+import { MarketWidgets } from './market-widgets';
 
 export type GameDescriptionProps = {
   developer: DeveloperSchema;

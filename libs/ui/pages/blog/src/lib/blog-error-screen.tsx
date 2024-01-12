@@ -1,4 +1,4 @@
-import { Typography, Link, Box, Paper } from '@mui/material';
+import { Box, Link, Paper, Typography } from '@mui/material';
 
 export const BlogErrorScreen = () => (
   <Box

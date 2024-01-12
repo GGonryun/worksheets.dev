@@ -1,9 +1,10 @@
+import { faq, FAQScreen } from '@worksheets/ui/pages/faq';
 import { NextPageWithLayout } from '@worksheets/util-next';
-import { FAQScreen, faq } from '@worksheets/ui/pages/faq';
-import { LayoutContainer } from '../containers/layout-container';
-import { FAQPageJsonLd, NextSeo } from 'next-seo';
-import { faqSeo } from '../util/seo';
 import { useRouter } from 'next/router';
+import { FAQPageJsonLd, NextSeo } from 'next-seo';
+
+import { LayoutContainer } from '../containers/layout-container';
+import { faqSeo } from '../util/seo';
 
 const Page: NextPageWithLayout = () => {
   const { asPath } = useRouter();

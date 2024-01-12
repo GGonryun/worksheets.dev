@@ -1,6 +1,6 @@
-import MuiListItemText from '@mui/material/ListItemText';
-import MuiListItem from '@mui/material/ListItem';
 import { TypographyProps } from '@mui/material';
+import MuiListItem from '@mui/material/ListItem';
+import MuiListItemText from '@mui/material/ListItemText';
 
 export const ListItem: React.FC<{
   children: TypographyProps['children'];

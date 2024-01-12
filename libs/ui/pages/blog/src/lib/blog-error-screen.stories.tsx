@@ -1,4 +1,5 @@
 import type { Meta } from '@storybook/react';
+
 import { BlogErrorScreen } from './blog-error-screen';
 
 const Story: Meta<typeof BlogErrorScreen> = {

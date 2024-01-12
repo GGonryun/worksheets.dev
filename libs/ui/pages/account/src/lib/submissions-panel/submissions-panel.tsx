@@ -1,10 +1,11 @@
 import Box from '@mui/material/Box';
-import { GettingStarted } from './getting-started';
-import { GameSubmissions } from './game-submissions';
 import { TermsApproval } from '@worksheets/util/types';
-import { BasicGameSubmission } from '../types';
 import React from 'react';
+
+import { BasicGameSubmission } from '../types';
 import { ConfirmDeletionModal } from './confirm-deletion-modal';
+import { GameSubmissions } from './game-submissions';
+import { GettingStarted } from './getting-started';
 
 export const SubmissionsPanel: React.FC<{
   terms: TermsApproval;

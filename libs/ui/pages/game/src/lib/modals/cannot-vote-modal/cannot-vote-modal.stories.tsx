@@ -1,5 +1,6 @@
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
+
 import { CannotVoteModal } from './cannot-vote-modal';
 
 const Story: Meta<typeof CannotVoteModal> = {

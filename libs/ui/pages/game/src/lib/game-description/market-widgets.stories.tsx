@@ -1,4 +1,5 @@
 import type { Meta } from '@storybook/react';
+
 import { MarketWidgets } from './market-widgets';
 
 const Story: Meta<typeof MarketWidgets> = {

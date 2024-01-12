@@ -1,3 +1,6 @@
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import { CircularProgress } from '@mui/material';
+import Alert from '@mui/material/Alert';
 import Box from '@mui/material/Box';
 import Button, { ButtonProps } from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
@@ -7,13 +10,10 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormGroup from '@mui/material/FormGroup';
 import FormHelperText from '@mui/material/FormHelperText';
 import Link from '@mui/material/Link';
-import Typography from '@mui/material/Typography';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import React from 'react';
 import { styled } from '@mui/material/styles';
+import Typography from '@mui/material/Typography';
 import { TermsOfServiceStatement } from '@worksheets/ui/pages/terms-of-service';
-import Alert from '@mui/material/Alert';
-import { CircularProgress } from '@mui/material';
+import React from 'react';
 
 export const GettingStarted: React.FC<{
   canSubmit: boolean;

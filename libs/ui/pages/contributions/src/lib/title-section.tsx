@@ -1,12 +1,13 @@
-import { CharityBallot } from '@worksheets/ui/icons';
-import { TitleText } from './title-text';
-import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
-import { RoundedButton } from './rounded-button';
-import { FC } from 'react';
+import Typography from '@mui/material/Typography';
+import { CharityBallot } from '@worksheets/icons/charity';
 import { BasicWebsiteStatistics } from '@worksheets/util/types';
+import { FC } from 'react';
+
 import { IconBox } from './icon-box';
+import { RoundedButton } from './rounded-button';
+import { TitleText } from './title-text';
 
 export const TitleSection: FC<{ statistics?: BasicWebsiteStatistics }> = ({
   statistics,

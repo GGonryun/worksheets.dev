@@ -1,17 +1,17 @@
-import { FC } from 'react';
-import { CHARITY_TOOLBAR_LOGO_PATH } from '@worksheets/util/assets';
-import { FillImage } from '@worksheets/ui/images';
-import MuiToolbar from '@mui/material/Toolbar';
-import AppBar from '@mui/material/AppBar';
-import IconButton from '@mui/material/IconButton';
-import Menu from '@mui/icons-material/Menu';
 import AccountCircleOutlined from '@mui/icons-material/AccountCircleOutlined';
 import LockOpen from '@mui/icons-material/LockOpen';
-import Link from '@mui/material/Link';
+import Menu from '@mui/icons-material/Menu';
+import AppBar from '@mui/material/AppBar';
 import Box, { BoxProps } from '@mui/material/Box';
-import { styled } from '@mui/material/styles';
-import Typography, { TypographyProps } from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import Link from '@mui/material/Link';
+import { styled } from '@mui/material/styles';
+import MuiToolbar from '@mui/material/Toolbar';
+import Typography, { TypographyProps } from '@mui/material/Typography';
+import { CHARITY_TOOLBAR_LOGO_PATH } from '@worksheets/util/assets';
+import Image from 'next/image';
+import { FC } from 'react';
 
 interface ToolbarProps {
   onDrawerToggle: () => void;
@@ -94,15 +94,13 @@ const ConnectionButton: FC<{ connected: boolean }> = ({ connected }) => {
 const LogoBox = () => (
   <TitleBox>
     <Link underline="none" href="/" color="inherit">
-      <Box
-        sx={{
-          position: 'relative',
-          width: { xs: '36px', sm: '43px' },
-          height: { xs: '30px', sm: '36px' },
-        }}
-      >
-        <FillImage src={CHARITY_TOOLBAR_LOGO_PATH} alt="Charity.Games" />
-      </Box>
+      <Image
+        src={CHARITY_TOOLBAR_LOGO_PATH}
+        alt="Charity.Games"
+        height={36}
+        width={43}
+        priority
+      />
     </Link>
     <Link underline="none" href="/" color="inherit">
       <TitleText>charity</TitleText>

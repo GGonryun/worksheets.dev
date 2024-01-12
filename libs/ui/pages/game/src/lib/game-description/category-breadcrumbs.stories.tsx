@@ -1,4 +1,5 @@
 import type { Meta } from '@storybook/react';
+
 import { CategoryBreadcrumbs } from './category-breadcrumbs';
 
 const Story: Meta<typeof CategoryBreadcrumbs> = {

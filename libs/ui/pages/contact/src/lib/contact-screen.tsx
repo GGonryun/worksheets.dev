@@ -1,8 +1,8 @@
 import { EmailOutlined, GitHub } from '@mui/icons-material';
 import { Box, Button, Container, Link, Paper, Typography } from '@mui/material';
-import { FC } from 'react';
-import { ArrowUpRight } from '@worksheets/ui/icons';
+import { ArrowUpRight } from '@worksheets/icons/arrows';
 import urls from '@worksheets/util/urls';
+import { FC } from 'react';
 
 export type ContactScreenProps = {
   // no props

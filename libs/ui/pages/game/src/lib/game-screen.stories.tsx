@@ -1,7 +1,8 @@
 import type { Meta } from '@storybook/react';
 import { sampleMixedGridItems } from '@worksheets/ui/mocks';
+
 import { GameScreen } from './game-screen';
-import { SampleGameLauncher, SampleGameDescription } from './mocks';
+import { SampleGameDescription, SampleGameLauncher } from './mocks';
 
 const Story: Meta<typeof GameScreen> = {
   component: GameScreen,

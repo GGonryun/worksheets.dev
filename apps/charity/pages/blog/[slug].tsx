@@ -1,27 +1,28 @@
-import { NextPageWithLayout } from '@worksheets/util-next';
 import { Box, Typography } from '@mui/material';
+import { blogAuthors } from '@worksheets/data-access/charity-games';
+import { BlogErrorScreen, BlogPostScreen } from '@worksheets/ui/pages/blog';
+import { BlogAuthor } from '@worksheets/util/types';
 import {
   ArticleProps,
-  MarkdownMetadata,
+  EMPTY_METADATA,
   getFilePaths,
   getParsedFileContentBySlug,
+  MarkdownMetadata,
   markdownToHtml,
-  EMPTY_METADATA,
 } from '@worksheets/util-markdown';
+import { NextPageWithLayout } from '@worksheets/util-next';
 import { GetStaticPaths } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { POSTS_PATH } from '../../util/paths';
-import { BlogErrorScreen, BlogPostScreen } from '@worksheets/ui/pages/blog';
-import { LayoutContainer } from '../../containers/layout-container';
 import { ArticleJsonLd, ArticleJsonLdProps, NextSeo } from 'next-seo';
-import { blogAuthors } from '@worksheets/data-access/charity-games';
+
+import { LayoutContainer } from '../../containers/layout-container';
+import { POSTS_PATH } from '../../util/paths';
 import {
-  OpenGraphProps,
   blogArticleJsonLd,
   blogArticleSeo,
+  OpenGraphProps,
 } from '../../util/seo';
-import { BlogAuthor } from '@worksheets/util/types';
 
 type Props = {
   metadata: MarkdownMetadata;

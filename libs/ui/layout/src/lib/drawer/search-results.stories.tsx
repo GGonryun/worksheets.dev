@@ -1,6 +1,7 @@
-import type { Meta } from '@storybook/react';
-import { SearchResults } from './search-results';
 import { Box, lighten } from '@mui/material';
+import type { Meta } from '@storybook/react';
+
+import { SearchResults } from './search-results';
 
 const Story: Meta<typeof SearchResults> = {
   component: SearchResults,

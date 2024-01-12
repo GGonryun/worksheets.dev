@@ -1,6 +1,7 @@
 import type { Meta } from '@storybook/react';
-import { ContributionScreen } from './contribution-screen';
 import { fakeWebsiteStatistics } from '@worksheets/ui/mocks';
+
+import { ContributionScreen } from './contribution-screen';
 
 const Story: Meta<typeof ContributionScreen> = {
   component: ContributionScreen,

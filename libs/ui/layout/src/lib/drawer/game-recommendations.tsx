@@ -1,9 +1,10 @@
-import { FC } from 'react';
-import { CategoryCarousel } from './category-carousel';
-import { Recommendations } from '@worksheets/util/types';
-import { GameSection } from './game-section/game-section';
-import { GameIcon } from '@worksheets/ui/game-grid';
 import Box from '@mui/material/Box';
+import { GameIcon } from '@worksheets/ui/game-grid';
+import { Recommendations } from '@worksheets/util/types';
+import { FC } from 'react';
+
+import { CategoryCarousel } from './category-carousel';
+import { GameSection } from './game-section/game-section';
 
 export type GameRecommendationProps = {
   hideCategories?: boolean;

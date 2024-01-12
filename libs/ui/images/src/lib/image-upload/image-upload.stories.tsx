@@ -1,6 +1,7 @@
-import type { Meta } from '@storybook/react';
-import { ImageUpload } from './image-upload';
 import { action } from '@storybook/addon-actions';
+import type { Meta } from '@storybook/react';
+
+import { ImageUpload } from './image-upload';
 
 type Story = Meta<typeof ImageUpload>;
 const DefaultStory: Story = {

@@ -1,14 +1,15 @@
-import { mixedItems } from '../util/mixed-items';
-import Container from '@mui/material/Container';
 import LocalOfferOutlinedIcon from '@mui/icons-material/LocalOfferOutlined';
-import SportsEsportsOutlinedIcon from '@mui/icons-material/SportsEsportsOutlined';
 import ShuffleIcon from '@mui/icons-material/Shuffle';
+import SportsEsportsOutlinedIcon from '@mui/icons-material/SportsEsportsOutlined';
+import { Box } from '@mui/material';
+import Container from '@mui/material/Container';
+import { longHomeAd } from '@worksheets/data-access/charity-games';
+import { HorizontalAdvertisement } from '@worksheets/ui/advertisements';
 import { MixedGrid } from '@worksheets/ui/game-grid';
 import { useRouter } from 'next/router';
+
+import { mixedItems } from '../util/mixed-items';
 import { getRandomGame } from '../util/randomizer';
-import { HorizontalAdvertisement } from '@worksheets/ui/advertisements';
-import { longHomeAd } from '@worksheets/data-access/charity-games';
-import { Box } from '@mui/material';
 
 export const HomePageContainer = () => {
   const { push } = useRouter();

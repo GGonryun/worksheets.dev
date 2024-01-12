@@ -1,7 +1,8 @@
-import { JSXElementConstructor } from 'react';
-import { LeftEdgeBlur, RightEdgeBlur } from './edge-blur';
 import Box, { BoxProps } from '@mui/material/Box';
 import { styled } from '@mui/material/styles';
+import { JSXElementConstructor } from 'react';
+
+import { LeftEdgeBlur, RightEdgeBlur } from './edge-blur';
 
 export const ItemCarousel = styled<JSXElementConstructor<BoxProps>>((props) => (
   <Box position="relative">

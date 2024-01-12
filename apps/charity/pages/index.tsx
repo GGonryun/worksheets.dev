@@ -1,9 +1,10 @@
 import { NextPageWithLayout } from '@worksheets/util-next';
+import { NextSeo } from 'next-seo';
+
 import { HomePageContainer } from '../containers/home-page';
 import { LayoutContainer } from '../containers/layout-container';
-import { NextSeo } from 'next-seo';
-import { homeSeo } from '../util/seo';
 import { AdsensePushScript } from '../scripts';
+import { homeSeo } from '../util/seo';
 
 const Page: NextPageWithLayout = () => {
   return (

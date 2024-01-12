@@ -1,10 +1,11 @@
-import { DeveloperScreen } from '@worksheets/ui/pages/developer';
-import { NextPageWithLayout } from '@worksheets/util-next';
-import { LayoutContainer } from '../../containers/layout-container';
 import { developers, games } from '@worksheets/data-access/charity-games';
-import { NextSeo, NextSeoProps } from 'next-seo';
+import { DeveloperScreen } from '@worksheets/ui/pages/developer';
 import { DeveloperSchema, GameQualifier } from '@worksheets/util/types';
+import { NextPageWithLayout } from '@worksheets/util-next';
 import { GetServerSideProps } from 'next';
+import { NextSeo, NextSeoProps } from 'next-seo';
+
+import { LayoutContainer } from '../../containers/layout-container';
 import { developerSeo } from '../../util/seo';
 
 type Props = {

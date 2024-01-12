@@ -1,11 +1,11 @@
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import LinkIcon from '@mui/icons-material/Link';
 import Box from '@mui/material/Box';
 import ButtonBase from '@mui/material/ButtonBase';
-import IconButton from '@mui/material/IconButton';
-import LinkIcon from '@mui/icons-material/Link';
-import { FC, ReactNode, useEffect, useState } from 'react';
-import Typography from '@mui/material/Typography';
 import Collapse from '@mui/material/Collapse';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import { FC, ReactNode, useEffect, useState } from 'react';
 
 export type QuestionAnswerBoxProps = {
   open?: boolean;

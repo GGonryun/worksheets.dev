@@ -1,6 +1,7 @@
-import type { Meta } from '@storybook/react';
-import { Layout } from './layout';
 import { Container, Typography } from '@mui/material';
+import { action } from '@storybook/addon-actions';
+import type { Meta } from '@storybook/react';
+import { MixedGrid } from '@worksheets/ui/game-grid';
 import {
   dummySocials,
   sampleAuthor,
@@ -15,31 +16,31 @@ import {
   sampleMixedGridItems,
   sampleRecommendations,
 } from '@worksheets/ui/mocks';
-import { MixedGrid } from '@worksheets/ui/game-grid';
+import { AboutScreen } from '@worksheets/ui/pages/about';
+import { AccountScreen } from '@worksheets/ui/pages/account';
+import { BlogPostScreen, BlogScreen } from '@worksheets/ui/pages/blog';
 import { CategoryScreen } from '@worksheets/ui/pages/category';
+import { CharityScreen } from '@worksheets/ui/pages/charity';
+import { ContactScreen } from '@worksheets/ui/pages/contact';
+import { CookiePolicyScreen } from '@worksheets/ui/pages/cookie-policy';
+import { DeveloperScreen } from '@worksheets/ui/pages/developer';
+import { FAQScreen } from '@worksheets/ui/pages/faq';
 import {
   GameScreen,
   SampleGameDescription,
   SampleGameLauncher,
 } from '@worksheets/ui/pages/game';
-import { AccountScreen } from '@worksheets/ui/pages/account';
-import { LoginScreen } from '@worksheets/ui/pages/login';
-import { CharityScreen } from '@worksheets/ui/pages/charity';
 import { HelpScreen } from '@worksheets/ui/pages/help';
+import { LoginScreen } from '@worksheets/ui/pages/login';
+import { PrivacyPolicyScreen } from '@worksheets/ui/pages/privacy-policy';
 import {
   ReceiptScreen,
   sampleDonationReceipts,
 } from '@worksheets/ui/pages/receipts';
-import { AboutScreen } from '@worksheets/ui/pages/about';
-import { BlogScreen, BlogPostScreen } from '@worksheets/ui/pages/blog';
-import { ContactScreen } from '@worksheets/ui/pages/contact';
-import { CookiePolicyScreen } from '@worksheets/ui/pages/cookie-policy';
-import { DeveloperScreen } from '@worksheets/ui/pages/developer';
-import { FAQScreen } from '@worksheets/ui/pages/faq';
-import { PrivacyPolicyScreen } from '@worksheets/ui/pages/privacy-policy';
 import { UnderConstruction } from '@worksheets/ui/pages/under-construction';
+
+import { Layout } from './layout';
 import { RecentGamesSection } from './recent-games-section';
-import { action } from '@storybook/addon-actions';
 
 const Story: Meta<typeof Layout> = {
   component: Layout,

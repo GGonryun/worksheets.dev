@@ -1,15 +1,16 @@
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import WarningIcon from '@mui/icons-material/Warning';
+import ZoomInIcon from '@mui/icons-material/ZoomIn';
+import { CircularProgress, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import { FC, useState } from 'react';
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import Modal from '@mui/material/Modal';
-import ZoomInIcon from '@mui/icons-material/ZoomIn';
-import WarningIcon from '@mui/icons-material/Warning';
-import { CircularProgress, Typography } from '@mui/material';
+import { useFileName } from '@worksheets/ui-core';
+import { FC, useState } from 'react';
+
+import { ContainImage } from '../contain-image';
 import { CoverImage } from '../cover-image';
 import { useImageSize } from '../hooks/useImageSize';
-import { ContainImage } from '../contain-image';
-import { useFileName } from '@worksheets/ui-core';
 
 export const ImageUpload: FC<{
   src?: string;

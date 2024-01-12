@@ -1,3 +1,4 @@
+import { trpc } from '@worksheets/trpc-charity';
 import { CannotVoteModal, GameLauncher } from '@worksheets/ui/pages/game';
 import {
   CastVote,
@@ -5,10 +6,10 @@ import {
   GameAnalyticsSchema,
   SerializableGameSchema,
 } from '@worksheets/util/types';
-import { FC, useState } from 'react';
-import { useRecentlyPlayedGames } from '../hooks/useRecentlyPlayedGames';
-import { trpc } from '@worksheets/trpc-charity';
 import { useSession } from 'next-auth/react';
+import { FC, useState } from 'react';
+
+import { useRecentlyPlayedGames } from '../hooks/useRecentlyPlayedGames';
 
 const DynamicGameLauncher: FC<{
   game: SerializableGameSchema;

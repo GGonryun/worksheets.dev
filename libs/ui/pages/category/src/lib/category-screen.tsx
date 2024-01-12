@@ -1,15 +1,15 @@
+import { ArrowRight } from '@mui/icons-material';
 import {
   Box,
   Button,
   Container,
   Paper,
-  Typography,
   styled,
+  Typography,
 } from '@mui/material';
-import { FC } from 'react';
-import { Markdown } from '@worksheets/ui-core';
-import { ArrowRight } from '@mui/icons-material';
 import { MixedGrid, MixedGridItem } from '@worksheets/ui/game-grid';
+import { Markdown } from '@worksheets/ui-core';
+import { FC } from 'react';
 
 export type CategoryScreenProps = {
   text: string;

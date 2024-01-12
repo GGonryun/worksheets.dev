@@ -1,12 +1,13 @@
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import { GameSubmission } from './game-submission';
-import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
-import { NewWindow } from '@worksheets/ui/icons';
-import { BasicGameSubmission } from '../types';
-import React from 'react';
 import { CircularProgress } from '@mui/material';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import React from 'react';
+
+import NewWindowIcon from '../icons/new-window';
+import { BasicGameSubmission } from '../types';
+import { GameSubmission } from './game-submission';
 
 export const GameSubmissions: React.FC<{
   submissions: BasicGameSubmission[];
@@ -81,7 +82,7 @@ const EmptySubmissionsPlaceholder: React.FC<{ visible: boolean }> = ({
       pb: 1,
     }}
   >
-    <NewWindow sx={{ fontSize: { xs: 64, sm: 72 } }} />
+    <NewWindowIcon sx={{ fontSize: { xs: 64, sm: 72 } }} />
     <Box>
       <Typography
         variant="h5"

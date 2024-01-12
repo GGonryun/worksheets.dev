@@ -1,4 +1,5 @@
 import type { Meta } from '@storybook/react';
+
 import { AboutScreen } from './about-screen';
 
 const Story: Meta<typeof AboutScreen> = {

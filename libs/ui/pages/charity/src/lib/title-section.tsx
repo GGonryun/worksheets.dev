@@ -1,7 +1,8 @@
-import { Typography, Link } from '@mui/material';
-import { FC } from 'react';
-import { CustomPaper } from './custom-paper';
 import { HowToVote } from '@mui/icons-material';
+import { Link, Typography } from '@mui/material';
+import { FC } from 'react';
+
+import { CustomPaper } from './custom-paper';
 
 export const TitleSection: FC = () => (
   <CustomPaper>

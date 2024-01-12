@@ -1,70 +1,54 @@
-import { useState } from 'react';
-import { useIsomorphicLayoutEffect } from './useIsomorphicLayoutEffect';
+/* `useLocalStorage`
+ *
+ * Features:
+ *  - JSON Serializing
+ *  - Also value will be updated everywhere, when value updated (via `storage` event)
+ */
 
-const isServer = typeof window === 'undefined';
+import { useEffect, useState } from 'react';
 
 export function useLocalStorage<T>(
   key: string,
-  initialValue: T
-): [T, (value: T) => void, boolean, () => void] {
-  // State to store our value
-  // Pass initial state function to useState so logic is only executed once
-  const [storedValue, setStoredValue] = useState(initialValue);
-  const [loading, setLoading] = useState(true);
+  defaultValue: T
+): [T, (value: T) => void] {
+  const [value, setValue] = useState(defaultValue);
 
-  const initialize = () => {
-    if (isServer) {
-      return initialValue;
-    }
-    try {
-      // Get from local storage by key
-      const item = window.localStorage.getItem(key);
-      // Parse stored json or if none return initialValue
-      return item ? JSON.parse(item) : initialValue;
-    } catch (error) {
-      // If error also return initialValue
-      console.error(`failed to initialize local storage`, error);
-      return initialValue;
-    } finally {
-      setLoading(false);
-    }
-  };
+  useEffect(() => {
+    const item = localStorage.getItem(key);
 
-  /* prevents hydration error so that state is only initialized after server is defined */
-  useIsomorphicLayoutEffect(() => {
-    if (!isServer) {
-      setStoredValue(initialize());
+    if (!item) {
+      localStorage.setItem(key, JSON.stringify(defaultValue));
     }
+
+    setValue(item ? JSON.parse(item) : defaultValue);
+
+    function handler(e: StorageEvent) {
+      if (e.key !== key) return;
+
+      const lsi = localStorage.getItem(key);
+      setValue(JSON.parse(lsi ?? ''));
+    }
+
+    window.addEventListener('storage', handler);
+
+    return () => {
+      window.removeEventListener('storage', handler);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Return a wrapped version of useState's setter function that ...
-  // ... persists the new value to localStorage.
-  const setValue = (value: T) => {
+  const setValueWrap = (value: T) => {
     try {
-      // Allow value to be a function so we have same API as useState
-      const valueToStore =
-        value instanceof Function ? value(storedValue) : value;
-      // Save state
-      setStoredValue(valueToStore);
-      // Save to local storage
+      setValue(value);
+
+      localStorage.setItem(key, JSON.stringify(value));
       if (typeof window !== 'undefined') {
-        window.localStorage.setItem(key, JSON.stringify(valueToStore));
+        window.dispatchEvent(new StorageEvent('storage', { key }));
       }
-    } catch (error) {
-      // A more advanced implementation would handle the error case
-      console.error(`failed to set local storage value`, error);
+    } catch (e) {
+      console.error(e);
     }
   };
 
-  const clear = () => {
-    try {
-      setValue(initialValue);
-      window.localStorage.removeItem(key);
-    } catch (error) {
-      console.error(`failed to clear local storage`, error);
-    }
-  };
-
-  return [storedValue, setValue, loading, clear];
+  return [value, setValueWrap];
 }

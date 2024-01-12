@@ -1,4 +1,8 @@
+import LocalOfferOutlinedIcon from '@mui/icons-material/LocalOfferOutlined';
+import ShuffleIcon from '@mui/icons-material/Shuffle';
+import SportsEsportsOutlinedIcon from '@mui/icons-material/SportsEsportsOutlined';
 import { trpc } from '@worksheets/trpc-charity';
+import { MixedGridItem } from '@worksheets/ui/game-grid';
 import { GameDescription, GameScreen } from '@worksheets/ui/pages/game';
 import {
   DeveloperSchema,
@@ -6,10 +10,6 @@ import {
   SerializableGameSchema,
 } from '@worksheets/util/types';
 import dynamic from 'next/dynamic';
-import SportsEsportsOutlinedIcon from '@mui/icons-material/SportsEsportsOutlined';
-import LocalOfferOutlinedIcon from '@mui/icons-material/LocalOfferOutlined';
-import ShuffleIcon from '@mui/icons-material/Shuffle';
-import { MixedGridItem } from '@worksheets/ui/game-grid';
 
 const DynamicGameLauncher = dynamic(() => import('../dynamic/launcher'), {
   ssr: false,

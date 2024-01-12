@@ -5,15 +5,18 @@ import {
   Star,
   SvgIconComponent,
 } from '@mui/icons-material';
-import { Box, Link, Typography } from '@mui/material';
-import { FC, useState } from 'react';
-import { BannerBox } from './banner-box';
+import Box from '@mui/material/Box';
+import Link from '@mui/material/Link';
+import Typography from '@mui/material/Typography';
+import { ResponsiveImage } from '@worksheets/ui/images';
+import { PLACEHOLDER_LOGO_PATH } from '@worksheets/util/assets';
 import {
   GameIcon as GameIconType,
   GameQualifier,
 } from '@worksheets/util/types';
-import { PLACEHOLDER_LOGO_PATH } from '@worksheets/util/assets';
-import { ResponsiveImage } from '@worksheets/ui/images';
+import { FC, useState } from 'react';
+
+import { BannerBox } from './banner-box';
 
 export type GameIconProps = GameIconType;
 
@@ -71,6 +74,7 @@ export const GameIcon: FC<GameIconProps> = ({
           blurDataURL={PLACEHOLDER_LOGO_PATH}
           src={imageUrl ?? PLACEHOLDER_LOGO_PATH}
           alt={`${name} logo`}
+          priority
           style={{
             overflow: 'hidden',
             borderRadius: 'inherit',

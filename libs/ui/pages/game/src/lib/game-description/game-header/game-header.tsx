@@ -1,13 +1,14 @@
-import Box from '@mui/material/Box';
-import { CategoryBreadcrumbs } from '../category-breadcrumbs';
-import Typography, { TypographyProps } from '@mui/material/Typography';
-import { SupportedDeviceIcons } from '../supported-device-icons';
-import Link, { LinkProps } from '@mui/material/Link';
-import { FC, JSXElementConstructor } from 'react';
-import { styled } from '@mui/material/styles';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import StarIcon from '@mui/icons-material/Star';
+import Box from '@mui/material/Box';
+import Link, { LinkProps } from '@mui/material/Link';
+import { styled } from '@mui/material/styles';
+import Typography, { TypographyProps } from '@mui/material/Typography';
 import { GameSchema } from '@worksheets/util/types';
+import { FC, JSXElementConstructor } from 'react';
+
+import { CategoryBreadcrumbs } from '../category-breadcrumbs';
+import { SupportedDeviceIcons } from '../supported-device-icons';
 
 export const GameHeader: FC<{
   title: string;

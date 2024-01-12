@@ -1,7 +1,8 @@
-import type { Meta } from '@storybook/react';
-import { ConfirmDeletionModal } from './confirm-deletion-modal';
-import { action } from '@storybook/addon-actions';
 import { GameSubmissionStatus } from '@prisma/client';
+import { action } from '@storybook/addon-actions';
+import type { Meta } from '@storybook/react';
+
+import { ConfirmDeletionModal } from './confirm-deletion-modal';
 
 type Story = Meta<typeof ConfirmDeletionModal>;
 

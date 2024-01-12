@@ -1,4 +1,4 @@
-import { Box, Typography, Button, Link } from '@mui/material';
+import { Box, Button, Link, Typography } from '@mui/material';
 import { FC } from 'react';
 
 export const StickyContactBox: FC<{

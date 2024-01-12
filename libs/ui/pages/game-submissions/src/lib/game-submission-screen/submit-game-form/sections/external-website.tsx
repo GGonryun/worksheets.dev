@@ -1,10 +1,11 @@
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import Box from '@mui/material/Box';
 import FormHelperText from '@mui/material/FormHelperText';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import { PrefixTextField } from '@worksheets/ui/inputs';
 import { FC } from 'react';
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+
 import { useGameSubmissionFormContext } from '../../../form-context';
 
 export const ExternalWebsiteSection: FC = () => {

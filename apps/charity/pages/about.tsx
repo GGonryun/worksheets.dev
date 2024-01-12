@@ -1,7 +1,8 @@
-import { NextPageWithLayout } from '@worksheets/util-next';
 import { AboutScreen } from '@worksheets/ui/pages/about';
-import { LayoutContainer } from '../containers/layout-container';
+import { NextPageWithLayout } from '@worksheets/util-next';
 import { NextSeo } from 'next-seo';
+
+import { LayoutContainer } from '../containers/layout-container';
 import { aboutSeo } from '../util/seo';
 
 const Page: NextPageWithLayout = () => (

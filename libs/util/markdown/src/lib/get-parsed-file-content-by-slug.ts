@@ -1,7 +1,8 @@
-import { join } from 'path';
 import fs from 'fs';
-import { MarkdownDocument } from './types';
 import matter from 'gray-matter';
+import { join } from 'path';
+
+import { MarkdownDocument } from './types';
 
 export const getParsedFileContentBySlug = (
   slug: string,

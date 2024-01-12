@@ -1,11 +1,12 @@
+import { ButtonBase } from '@mui/material';
+import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
-import { TitleText } from './title-text';
+import { developers } from '@worksheets/data-access/charity-games';
 import { CoverImage } from '@worksheets/ui/images';
 import { DeveloperSchema } from '@worksheets/util/types';
-import { developers } from '@worksheets/data-access/charity-games';
-import Box from '@mui/material/Box';
 import { FC, ReactNode, useState } from 'react';
-import { ButtonBase } from '@mui/material';
+
+import { TitleText } from './title-text';
 
 export const DevelopersSection = () => (
   <Box display="flex" flexDirection="column" gap={2}>

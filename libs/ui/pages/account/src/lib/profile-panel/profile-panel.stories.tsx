@@ -1,13 +1,14 @@
-import type { Meta } from '@storybook/react';
-import { ProfilePanel } from './profile-panel';
 import Paper from '@mui/material/Paper';
+import { action } from '@storybook/addon-actions';
+import type { Meta } from '@storybook/react';
+
 import {
   BasicInformationFormContextProvider,
   DEFAULT_VALUES,
   ERROR_VALUES,
   PREFILLED_VALUES,
 } from './context';
-import { action } from '@storybook/addon-actions';
+import { ProfilePanel } from './profile-panel';
 
 type Story = Meta<typeof ProfilePanel>;
 

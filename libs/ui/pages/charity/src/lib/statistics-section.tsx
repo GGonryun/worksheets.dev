@@ -1,7 +1,8 @@
-import { Box, Divider, Link, Typography, styled } from '@mui/material';
-import { FC } from 'react';
-import { CustomPaper } from './custom-paper';
+import { Box, Divider, Link, styled, Typography } from '@mui/material';
 import { GamePopularityStatistics } from '@worksheets/util/types';
+import { FC } from 'react';
+
+import { CustomPaper } from './custom-paper';
 
 export type StatisticsSectionProps = GamePopularityStatistics;
 

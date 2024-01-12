@@ -1,12 +1,12 @@
-import { FC, ReactNode } from 'react';
+import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
+import WarningIcon from '@mui/icons-material/Warning';
+import { CircularProgress } from '@mui/material';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { printBytes } from '@worksheets/util/data';
-import { CircularProgress } from '@mui/material';
-import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
-import WarningIcon from '@mui/icons-material/Warning';
 import { printRelativeDate } from '@worksheets/util/time';
+import { FC, ReactNode } from 'react';
 
 type FileStatus = 'uploading' | 'uploaded' | 'error';
 

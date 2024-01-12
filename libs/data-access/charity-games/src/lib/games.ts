@@ -1,17 +1,17 @@
 import {
+  EMOJI_WAR_URL,
+  NONOGRAMS_URL,
+  PUZZLE_WORDS_URL,
+  SOLITAIRE_URL,
+  WORD_PACK_URL,
+  WORD_SEARCH_URL,
+  WORD_SMITH_URL,
+} from '@worksheets/ui/env';
+import {
   GameMonetizeSchema,
   GameSchema,
   GameTag,
 } from '@worksheets/util/types';
-import {
-  EMOJI_WAR_URL,
-  PUZZLE_WORDS_URL,
-  WORD_SEARCH_URL,
-  WORD_PACK_URL,
-  WORD_SMITH_URL,
-  NONOGRAMS_URL,
-  SOLITAIRE_URL,
-} from '@worksheets/ui/env';
 
 export const gameMonetizeGames: GameMonetizeSchema[] = [
   {

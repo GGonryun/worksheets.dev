@@ -1,4 +1,5 @@
 import type { Meta } from '@storybook/react';
+
 import { LoginScreen } from './login-screen';
 
 const Story: Meta<typeof LoginScreen> = {

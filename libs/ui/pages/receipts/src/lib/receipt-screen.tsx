@@ -1,7 +1,8 @@
+import { ArrowRight, FavoriteBorder } from '@mui/icons-material';
 import { Box, Button, Container, Link, Paper, Typography } from '@mui/material';
 import { FC } from 'react';
+
 import { ReceiptTable, ReceiptTableProps } from './receipt-table';
-import { ArrowRight, FavoriteBorder } from '@mui/icons-material';
 
 export type ReceiptScreenProps = {
   rows: ReceiptTableProps['rows'];

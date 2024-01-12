@@ -1,6 +1,6 @@
-import { z } from '@worksheets/zod';
-import { protectedProcedure } from '../../../procedures';
 import { termsApprovalSchema } from '@worksheets/util/types';
+
+import { protectedProcedure } from '../../../procedures';
 
 export default protectedProcedure
   .output(termsApprovalSchema)

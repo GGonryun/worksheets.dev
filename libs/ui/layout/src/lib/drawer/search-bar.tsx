@@ -1,11 +1,11 @@
-import { FC } from 'react';
-import Image from 'next/image';
 import { ArrowLeft, Clear, Search } from '@mui/icons-material';
-import { CHARITY_TOOLBAR_LOGO_PATH } from '@worksheets/util/assets';
 import Box from '@mui/material/Box';
 import ButtonBase from '@mui/material/ButtonBase';
-import InputBase from '@mui/material/InputBase';
 import IconButton from '@mui/material/IconButton';
+import InputBase from '@mui/material/InputBase';
+import { CHARITY_TOOLBAR_LOGO_PATH } from '@worksheets/util/assets';
+import Image from 'next/image';
+import { FC } from 'react';
 
 type SearchBarProps = {
   value?: string;

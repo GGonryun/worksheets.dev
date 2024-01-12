@@ -1,3 +1,4 @@
+import CloseIcon from '@mui/icons-material/Close';
 import {
   Box,
   Button,
@@ -5,13 +6,13 @@ import {
   IconButton,
   Typography,
 } from '@mui/material';
+import { ReportReason } from '@prisma/client';
+import { BaseModal, ModalWrapper } from '@worksheets/ui-core';
 import { FC, useState } from 'react';
-import CloseIcon from '@mui/icons-material/Close';
-import { ReportReasonForm } from './report-reason-form';
+
 import { AdditionalComments } from './additional-comments';
 import { InfringementText } from './infringement-text';
-import { BaseModal, ModalWrapper } from '@worksheets/ui-core';
-import { ReportReason } from '@prisma/client';
+import { ReportReasonForm } from './report-reason-form';
 
 export const ReportIssueModal: FC<
   ModalWrapper<{

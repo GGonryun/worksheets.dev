@@ -1,12 +1,13 @@
-import type { Meta } from '@storybook/react';
-import { SubmitGameForm } from './submit-game-form';
 import { action } from '@storybook/addon-actions';
+import type { Meta } from '@storybook/react';
+
 import {
   DEFAULT_VALUES,
   ERROR_VALUES,
   GameSubmissionFormContextProvider,
   PREFILLED_VALUES,
 } from '../../form-context';
+import { SubmitGameForm } from './submit-game-form';
 
 const defaultValues = DEFAULT_VALUES(action);
 const prefilledValues = PREFILLED_VALUES(action);

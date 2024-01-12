@@ -1,5 +1,6 @@
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
+
 import { ReportIssueModal } from './report-issue';
 
 const Story: Meta<typeof ReportIssueModal> = {

@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 const getOrientation = (): OrientationType => {
   // a work around when screen.orientation is not available which happens to ios-safari

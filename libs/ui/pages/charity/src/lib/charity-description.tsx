@@ -1,8 +1,9 @@
+import { ArrowRight } from '@mui/icons-material';
+import { Button, Typography } from '@mui/material';
 import { Markdown, MarkdownText } from '@worksheets/ui-core';
 import { FC } from 'react';
+
 import { CustomPaper } from './custom-paper';
-import { Button, Typography } from '@mui/material';
-import { ArrowRight } from '@mui/icons-material';
 
 export type CharityDescriptionProps = {
   description: MarkdownText;

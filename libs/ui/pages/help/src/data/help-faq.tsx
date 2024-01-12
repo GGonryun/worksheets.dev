@@ -2,8 +2,8 @@ import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import { ListItem, OrderedList } from '@worksheets/ui-core';
-import { urls } from '@worksheets/ui-games';
 import { QuestionAnswer } from '@worksheets/util/types';
+import urls from '@worksheets/util/urls';
 
 export const helpFaq: QuestionAnswer[] = [
   {

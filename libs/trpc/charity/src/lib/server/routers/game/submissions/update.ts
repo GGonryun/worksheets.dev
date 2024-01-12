@@ -1,8 +1,9 @@
-import { protectedProcedure } from '../../../procedures';
 import { TRPCError } from '@trpc/server';
 import { GameSubmissionForm } from '@worksheets/ui/pages/game-submissions';
 import { Nullable } from '@worksheets/util/types';
 import { z } from '@worksheets/zod';
+
+import { protectedProcedure } from '../../../procedures';
 
 export default protectedProcedure
   // removes form validation on server side

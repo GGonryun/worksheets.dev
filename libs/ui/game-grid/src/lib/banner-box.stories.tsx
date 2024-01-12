@@ -1,11 +1,12 @@
-import type { Meta } from '@storybook/react';
-import { BannerBox } from './banner-box';
 import {
   Favorite,
   LocalFireDepartmentOutlined,
   Replay,
 } from '@mui/icons-material';
 import { Typography } from '@mui/material';
+import type { Meta } from '@storybook/react';
+
+import { BannerBox } from './banner-box';
 
 const Story: Meta<typeof BannerBox> = {
   component: BannerBox,

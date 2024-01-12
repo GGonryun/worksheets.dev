@@ -1,8 +1,9 @@
-import { FC } from 'react';
-import { ReferencePillSkeleton } from './reference-pill-skeleton';
 import Box from '@mui/material/Box';
-import { ContainImage } from '@worksheets/ui/images';
 import Typography from '@mui/material/Typography';
+import { ContainImage } from '@worksheets/ui/images';
+import { FC } from 'react';
+
+import { ReferencePillSkeleton } from './reference-pill-skeleton';
 
 export type ImagePillProps = {
   subtitle?: string;

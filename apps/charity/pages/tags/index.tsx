@@ -1,10 +1,11 @@
-import { NextPageWithLayout } from '@worksheets/util-next';
-import { LayoutContainer } from '../../containers/layout-container';
-import { Container } from '@mui/material';
-import { tagItems } from '../../util/mixed-items';
-import { MixedGrid } from '@worksheets/ui/game-grid';
 import SportsEsportsOutlinedIcon from '@mui/icons-material/SportsEsportsOutlined';
+import { Container } from '@mui/material';
+import { MixedGrid } from '@worksheets/ui/game-grid';
+import { NextPageWithLayout } from '@worksheets/util-next';
 import { NextSeo } from 'next-seo';
+
+import { LayoutContainer } from '../../containers/layout-container';
+import { tagItems } from '../../util/mixed-items';
 import { tagsSeo } from '../../util/seo';
 
 const Page: NextPageWithLayout = () => (

@@ -1,7 +1,8 @@
-import { FC } from 'react';
-import { ReferencePillSkeleton } from './reference-pill-skeleton';
 import Box from '@mui/material/Box';
 import Typography, { TypographyProps } from '@mui/material/Typography';
+import { FC } from 'react';
+
+import { ReferencePillSkeleton } from './reference-pill-skeleton';
 
 export type TextPillProps = {
   text?: string;

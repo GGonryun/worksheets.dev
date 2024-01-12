@@ -1,4 +1,5 @@
 import type { Meta } from '@storybook/react';
+
 import { CategoryCarousel } from './category-carousel';
 
 const Story: Meta<typeof CategoryCarousel> = {

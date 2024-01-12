@@ -6,6 +6,8 @@ const WORD_SMITH_URL = process.env['NEXT_PUBLIC_WORD_SMITH_BASE_URL'] ?? '';
 const NONOGRAMS_URL = process.env['NEXT_PUBLIC_NONOGRAMS_BASE_URL'] ?? '';
 const SOLITAIRE_URL = process.env['NEXT_PUBLIC_SOLITAIRE_BASE_URL'] ?? '';
 const BASE_URL = process.env['NEXT_PUBLIC_CHARITY_GAMES_BASE_URL'] ?? '';
+const COOKIE_DOMAIN = process.env['NEXT_PUBLIC_COOKIE_DOMAIN'] ?? '';
+const IS_PRODUCTION = process.env['NODE_ENV'] === 'production';
 
 export {
   BASE_URL,
@@ -16,4 +18,6 @@ export {
   WORD_SMITH_URL,
   NONOGRAMS_URL,
   SOLITAIRE_URL,
+  COOKIE_DOMAIN,
+  IS_PRODUCTION,
 };

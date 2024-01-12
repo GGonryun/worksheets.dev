@@ -1,6 +1,7 @@
-import type { Meta } from '@storybook/react';
-import { GameBanner, GameBannerProps } from './game-banner';
 import { action } from '@storybook/addon-actions';
+import type { Meta } from '@storybook/react';
+
+import { GameBanner, GameBannerProps } from './game-banner';
 
 const meta: Meta<typeof GameBanner> = {
   component: GameBanner,

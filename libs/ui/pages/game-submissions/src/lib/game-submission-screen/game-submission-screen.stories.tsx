@@ -1,10 +1,11 @@
+import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import { GameSubmissionScreen } from './game-submission-screen';
+
 import {
   DEFAULT_VALUES,
   GameSubmissionFormContextProvider,
 } from '../form-context';
-import { action } from '@storybook/addon-actions';
+import { GameSubmissionScreen } from './game-submission-screen';
 
 type Story = Meta<typeof GameSubmissionScreen>;
 

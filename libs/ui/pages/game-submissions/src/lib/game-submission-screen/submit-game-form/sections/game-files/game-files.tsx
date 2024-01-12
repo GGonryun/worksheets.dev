@@ -1,19 +1,20 @@
-import React, { FC, useState } from 'react';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import Box from '@mui/material/Box';
+import FormControl from '@mui/material/FormControl';
 import FormHelperText from '@mui/material/FormHelperText';
+import Input from '@mui/material/Input';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import Input from '@mui/material/Input';
-import FormControl from '@mui/material/FormControl';
 import urls from '@worksheets/util/urls';
-import { GameFile } from './game-file';
+import React, { FC, useState } from 'react';
+
 import {
   GameSubmissionFileKeys,
   GameSubmissionForm,
   GameSubmissionFormContextType,
   useGameSubmissionFormContext,
 } from '../../../../form-context';
+import { GameFile } from './game-file';
 
 export const GameFiles: FC = () => {
   const id = 'gameFile';

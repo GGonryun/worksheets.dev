@@ -1,6 +1,7 @@
 import type { Meta } from '@storybook/react';
-import { CharityScreen } from './charity-screen';
 import { sampleCharityOrganization } from '@worksheets/ui/mocks';
+
+import { CharityScreen } from './charity-screen';
 
 const Story: Meta<typeof CharityScreen> = {
   component: CharityScreen,

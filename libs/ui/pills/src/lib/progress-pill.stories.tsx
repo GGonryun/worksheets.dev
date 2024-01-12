@@ -1,4 +1,5 @@
 import type { Decorator, Meta, StoryObj } from '@storybook/react';
+
 import { ProgressPill } from './progress-pill';
 
 type Story = StoryObj<typeof ProgressPill>;

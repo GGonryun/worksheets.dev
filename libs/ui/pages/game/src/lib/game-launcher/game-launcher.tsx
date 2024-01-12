@@ -1,10 +1,5 @@
 import { Box } from '@mui/material';
-import { FC, useEffect, useRef, useState } from 'react';
-import { GameLoadingCover } from './game-loading-cover';
-import { GameBanner } from './game-banner';
-import { useRouter } from 'next/router';
-import { GameFrame } from './game-frame';
-import { GameExitFullscreenButton } from './game-exit-fullscreen-button';
+import { useDeviceOrientation } from '@worksheets/ui-core';
 import {
   CastVote,
   DeveloperSchema,
@@ -13,8 +8,14 @@ import {
   UserVote,
 } from '@worksheets/util/types';
 import { isMobileOrTabletDeviceBrowser } from '@worksheets/util-devices';
+import { useRouter } from 'next/router';
+import { FC, useEffect, useRef, useState } from 'react';
+
+import { GameBanner } from './game-banner';
+import { GameExitFullscreenButton } from './game-exit-fullscreen-button';
+import { GameFrame } from './game-frame';
+import { GameLoadingCover } from './game-loading-cover';
 import { useFullscreen } from './useFullscreen';
-import { useDeviceOrientation } from '@worksheets/ui-core';
 
 export type GameLauncherProps = {
   game: SerializableGameSchema;

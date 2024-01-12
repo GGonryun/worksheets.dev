@@ -1,4 +1,5 @@
 import type { Meta } from '@storybook/react';
+
 import { NoRecentGamesPlaceholder } from './no-recent-games-placeholder';
 
 const Story: Meta<typeof NoRecentGamesPlaceholder> = {

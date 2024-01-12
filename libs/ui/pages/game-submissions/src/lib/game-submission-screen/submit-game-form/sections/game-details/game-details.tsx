@@ -1,9 +1,10 @@
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
+
+import { useGameSubmissionFormContext } from '../../../../form-context';
 import { CategorySelectField } from './category-select-field';
 import { TagsAutocompleteField } from './tags-autocomplete-field';
-import { useGameSubmissionFormContext } from '../../../../form-context';
 
 export const GameDetails = () => (
   <Box

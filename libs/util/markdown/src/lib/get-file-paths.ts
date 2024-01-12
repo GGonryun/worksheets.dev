@@ -1,4 +1,5 @@
 import fs from 'fs';
+
 import { MarkdownPath } from './types';
 
 export const getFilePaths = (postsPath: string): MarkdownPath[] => {

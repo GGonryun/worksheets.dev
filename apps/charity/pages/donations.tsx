@@ -1,17 +1,18 @@
-import { NextPageWithLayout } from '@worksheets/util-next';
-import {
-  ReceiptScreen,
-  ReceiptScreenProps,
-} from '@worksheets/ui/pages/receipts';
-import { LayoutContainer } from '../containers/layout-container';
-import { CharityOrganization, DonationReceipt } from '@worksheets/util/types';
 import {
   charityValues,
   donations,
 } from '@worksheets/data-access/charity-games';
-import { NextSeo } from 'next-seo';
-import { donationsSeo } from '../util/seo';
+import {
+  ReceiptScreen,
+  ReceiptScreenProps,
+} from '@worksheets/ui/pages/receipts';
+import { CharityOrganization, DonationReceipt } from '@worksheets/util/types';
+import { NextPageWithLayout } from '@worksheets/util-next';
 import { GetServerSideProps } from 'next';
+import { NextSeo } from 'next-seo';
+
+import { LayoutContainer } from '../containers/layout-container';
+import { donationsSeo } from '../util/seo';
 
 export type Props = {
   receipts: ReceiptScreenProps['rows'];

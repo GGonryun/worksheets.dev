@@ -1,4 +1,5 @@
 import type { Meta } from '@storybook/react';
+
 import { UnderConstruction } from './under-construction';
 
 const Story: Meta<typeof UnderConstruction> = {

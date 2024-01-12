@@ -1,12 +1,13 @@
-import { Chip, ChipProps, Tooltip, styled } from '@mui/material';
+import { Chip, ChipProps, styled, Tooltip } from '@mui/material';
 import Box from '@mui/material/Box';
 import Link, { LinkProps } from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import { GameSubmissionStatus } from '@prisma/client';
 import { CoverImage } from '@worksheets/ui/images';
 import theme from '@worksheets/ui/theme';
-import { BasicGameSubmission } from '../../types';
 import React, { JSXElementConstructor } from 'react';
+
+import { BasicGameSubmission } from '../../types';
 
 const statusColor: Record<GameSubmissionStatus, ChipProps['color']> = {
   [GameSubmissionStatus.DRAFT]: 'default',

@@ -1,4 +1,5 @@
 import type { Decorator, Meta, StoryObj } from '@storybook/react';
+
 import { TextPill } from './text-pill';
 
 type Story = StoryObj<typeof TextPill>;

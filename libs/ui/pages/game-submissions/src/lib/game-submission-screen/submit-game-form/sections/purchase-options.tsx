@@ -1,20 +1,21 @@
+import AddIcon from '@mui/icons-material/Add';
+import CloseIcon from '@mui/icons-material/Close';
+import RemoveIcon from '@mui/icons-material/Remove';
 import Box from '@mui/material/Box';
 import Button, { ButtonProps } from '@mui/material/Button';
 import FormHelperText from '@mui/material/FormHelperText';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
+import { styled } from '@mui/material/styles';
 import TextField, { TextFieldProps } from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import AddIcon from '@mui/icons-material/Add';
-import CloseIcon from '@mui/icons-material/Close';
-import RemoveIcon from '@mui/icons-material/Remove';
+import { validateUrl } from '@worksheets/util/strings';
 import { FC, JSXElementConstructor } from 'react';
-import { styled } from '@mui/material/styles';
+
 import {
   GameSubmissionForm,
   useGameSubmissionFormContext,
 } from '../../../form-context';
-import { validateUrl } from '@worksheets/util/strings';
 
 type PurchaseOptions = GameSubmissionForm['markets'];
 type PurchaseOptionKeys = keyof PurchaseOptions;

@@ -5,13 +5,12 @@ import {
   GameSubmissionFormErrors,
   strictGameSubmissionFormSchema,
 } from '@worksheets/ui/pages/game-submissions';
-import { Nullable } from '@worksheets/util/types';
-
-import { useState } from 'react';
+import { useSnackbar, UseSnackbarHook } from '@worksheets/ui/snackbar';
 import { isImage, isZip, toMegabytes } from '@worksheets/util/data';
-import { useRouter } from 'next/router';
+import { Nullable } from '@worksheets/util/types';
 import { useZodValidator } from '@worksheets/zod';
-import { UseSnackbarHook, useSnackbar } from '@worksheets/ui/snackbar';
+import { useRouter } from 'next/router';
+import { useState } from 'react';
 
 const MAX_ZIP_UPLOAD_SIZE_MB = 50;
 const MAX_IMAGE_UPLOAD_SIZE_MB = 5;

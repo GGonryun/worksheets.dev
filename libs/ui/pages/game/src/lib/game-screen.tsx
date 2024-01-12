@@ -1,16 +1,17 @@
-import { FC, ReactNode } from 'react';
-import { ScreenBox } from './screen-box';
-import { GameBox } from './game-box';
+import Container from '@mui/material/Container';
+import { gameHorizontalAd } from '@worksheets/data-access/charity-games';
+import { HorizontalAdvertisement } from '@worksheets/ui/advertisements';
 import {
   GRID_ITEM_SIZE,
   MixedGridItem,
   MixedGridItems,
 } from '@worksheets/ui/game-grid';
-import { DescriptionBox } from './description-box';
+import { FC, ReactNode } from 'react';
+
 import { AdvertisementBox } from './advertisement-box';
-import { gameHorizontalAd } from '@worksheets/data-access/charity-games';
-import { HorizontalAdvertisement } from '@worksheets/ui/advertisements';
-import Container from '@mui/material/Container';
+import { DescriptionBox } from './description-box';
+import { GameBox } from './game-box';
+import { ScreenBox } from './screen-box';
 
 type GameScreenProps = {
   suggestions: MixedGridItem[];

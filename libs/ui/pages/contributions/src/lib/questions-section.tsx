@@ -1,11 +1,12 @@
-import Paper from '@mui/material/Paper';
-import { TitleText } from './title-text';
 import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
 import { QuestionAnswerSection } from '@worksheets/ui/qa-section';
-import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
 import { useEventListener } from '@worksheets/ui-core';
 import { QuestionAnswer } from '@worksheets/util/types';
+import { useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react';
+
+import { TitleText } from './title-text';
 
 export const QuestionsSection: React.FC<{ faq: QuestionAnswer[] }> = ({
   faq,

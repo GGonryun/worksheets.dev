@@ -1,16 +1,19 @@
-import type { Meta } from '@storybook/react';
 import Paper from '@mui/material/Paper';
-import { SubmissionsPanel } from './submissions-panel';
-import { action } from '@storybook/addon-actions';
 import { GameSubmissionStatus } from '@prisma/client';
+import { action } from '@storybook/addon-actions';
+import type { Meta } from '@storybook/react';
+
 import { BasicGameSubmission } from '../types';
+import { SubmissionsPanel } from './submissions-panel';
 
 type Story = Meta<typeof SubmissionsPanel>;
 
 const Default: Story = {
   component: SubmissionsPanel,
   args: {
-    onApproveTermsOfService: action('onApproveTermsOfService'),
+    onApproveTermsOfService: async () => {
+      action('onApproveTermsOfService');
+    },
     submissions: [],
   },
   decorators: [
