@@ -30,7 +30,10 @@ export default async function middleware(req: NextRequest) {
   );
 
   if (isProtectedPath && !user) {
-    return NextResponse.redirect(new URL('/login', req.url));
+    // add the original destination to the redirect url
+    const redirect = new URL('/login', req.url);
+    redirect.searchParams.append('redirect', pathname);
+    return NextResponse.redirect(redirect.toString());
   }
   // If the user is logged in, continue to the page
   return NextResponse.next();
