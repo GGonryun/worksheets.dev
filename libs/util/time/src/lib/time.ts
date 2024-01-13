@@ -149,3 +149,35 @@ export const formatAmericanDate = (stamp: string) => {
 export const waitFor = (wait: number): Promise<void> => {
   return new Promise((resolve) => setTimeout(resolve, wait));
 };
+
+/**
+ * @name timeUntil
+ * @definition used to calculate the amount of time until a specified date and time.
+ * @params {number} timestamp - the timestamp to calculate the amount of time until.
+ * @returns {number} the amount of time in milliseconds until the specified time.
+ */
+
+export const timeUntil = (timestamp: number): number => {
+  return timestamp - Date.now();
+};
+
+/**
+ * @name millisecondsToDuration
+ * @definition used to convert a number of milliseconds into a duration string.
+ * @params {number} milliseconds - the number of milliseconds to convert.
+ * @returns {string} the duration string.
+ * @example millisecondsToDuration(1000) // "00:00:01"
+ * @example millisecondsToDuration(1000 * 60) // "00:01:00"
+ * @example millisecondsToDuration(1000 * 60 * 60) // "01:00:00"
+ */
+export const millisecondsToDuration = (milliseconds: number): string => {
+  // count the number of hours, minutes, and seconds in the milliseconds
+  const hours = Math.floor(milliseconds / (1000 * 60 * 60));
+  const minutes = Math.floor(milliseconds / (1000 * 60)) % 60;
+  const seconds = Math.floor(milliseconds / 1000) % 60;
+
+  // print the hours, minutes, and seconds in the format HH:MM:SS
+  return `${hours.toString().padStart(2, '0')}:${minutes
+    .toString()
+    .padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+};

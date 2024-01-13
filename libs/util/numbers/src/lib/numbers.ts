@@ -20,3 +20,15 @@ export function shorthandNumber(n: number): string {
   // else return n
   return `${n}`;
 }
+
+export function calculatePercentage(current?: number, max?: number) {
+  if (!current || !max) return 0;
+  if (current > max) return 0;
+  if (current < 0 || max < 0) return 0;
+
+  return Math.min(Math.round((current / max) * 100), 100);
+}
+
+export function toPercentage(current?: number, max?: number) {
+  return `${calculatePercentage(current, max)}%`;
+}
