@@ -1,4 +1,3 @@
-import { CssBaseline } from '@mui/material';
 import {
   DocumentInitialProps,
   Head,
@@ -7,7 +6,6 @@ import {
   NextScript,
 } from 'next/document';
 
-import { AdSenseScript } from '../scripts';
 import { ldJson } from '../util/seo';
 
 interface DocumentProps extends DocumentInitialProps {
@@ -17,8 +15,6 @@ interface DocumentProps extends DocumentInitialProps {
 export default function MyDocument(props: DocumentProps) {
   return (
     <Html lang="en">
-      <CssBaseline />
-      <AdSenseScript />
       <Head title="Charity Games">
         <link rel="preconnect" href="https://edge.fullstory.com" />
         <link rel="preconnect" href="https://cdn.charity.games" />

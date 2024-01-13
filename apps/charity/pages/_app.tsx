@@ -1,7 +1,7 @@
 import './styles.css';
 
 import * as FullStory from '@fullstory/browser';
-import { ThemeProvider } from '@mui/material';
+import { CssBaseline, ThemeProvider } from '@mui/material';
 import { trpc } from '@worksheets/trpc-charity';
 import { COOKIE_DOMAIN, IS_PRODUCTION } from '@worksheets/ui/env';
 import theme from '@worksheets/ui/theme';
@@ -10,6 +10,7 @@ import Head from 'next/head';
 import { SessionProvider } from 'next-auth/react';
 import { DefaultSeo } from 'next-seo';
 
+import { AdSenseScript } from '../scripts';
 import { defaultSeo } from '../util/seo';
 if (typeof window !== 'undefined') {
   FullStory.init({
@@ -28,7 +29,8 @@ function CustomApp({
   return (
     <>
       <DefaultSeo {...defaultSeo} />
-
+      <CssBaseline />
+      <AdSenseScript />
       <Head>
         <meta
           name="viewport"
