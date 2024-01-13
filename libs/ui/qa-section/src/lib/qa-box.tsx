@@ -1,4 +1,5 @@
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import LinkIcon from '@mui/icons-material/Link';
 import Box from '@mui/material/Box';
 import ButtonBase from '@mui/material/ButtonBase';
@@ -56,6 +57,8 @@ export const QuestionAnswerBox: FC<QuestionAnswerBoxProps> = ({
           pr: 1,
           pb: 1.5,
           justifyContent: 'space-between',
+          alignItems: 'center',
+          gap: 2,
         }}
       >
         <Box display="flex" gap={1} alignItems={'flex-start'}>
@@ -75,16 +78,10 @@ export const QuestionAnswerBox: FC<QuestionAnswerBoxProps> = ({
             {question}
           </Typography>
         </Box>
-        <ChevronRightIcon />
+        {show ? <ExpandLessIcon /> : <ChevronRightIcon />}
       </ButtonBase>
       <Collapse in={show}>
-        <Typography
-          component="div"
-          variant="body2"
-          whiteSpace="pre-line"
-          m={2}
-          mt={1}
-        >
+        <Typography component="div" variant="body2" m={2} mt={1}>
           {answer}
         </Typography>
       </Collapse>
