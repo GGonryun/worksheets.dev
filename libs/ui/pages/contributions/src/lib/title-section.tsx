@@ -55,7 +55,7 @@ export const TitleSection: FC<{ statistics?: BasicWebsiteStatistics }> = ({
       <RoundedButton
         variant="contained"
         color="error"
-        href={'/contribute/submit'}
+        href={`/account/submissions`}
       >
         Submit a game
       </RoundedButton>

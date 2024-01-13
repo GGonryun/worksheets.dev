@@ -48,7 +48,7 @@ export const SupportSection = () => (
         description="Donate a game to our platform and help us make a difference."
         Icon={CharityBox}
         action={{
-          href: '/contribute/submit',
+          href: '/account/submissions',
           label: 'Submit a game',
           variant: 'contained',
         }}
