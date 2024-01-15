@@ -21,10 +21,16 @@ export function shorthandNumber(n: number): string {
   return `${n}`;
 }
 
+/**
+ * Does a simple calculation to get a percentage. Does not work with negative numbers.
+ * @param current
+ * @param max
+ * @returns A number between 0 and 100.
+ */
 export function calculatePercentage(current?: number, max?: number) {
   if (!current || !max) return 0;
-  if (current > max) return 0;
   if (current < 0 || max < 0) return 0;
+  if (current > max) return 100;
 
   return Math.min(Math.round((current / max) * 100), 100);
 }

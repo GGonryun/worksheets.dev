@@ -105,6 +105,7 @@ declare module '@mui/material/Typography' {
     primary: true;
     title: true;
     body3: true;
+    dangrek: true;
   }
 }
 

@@ -8,8 +8,6 @@ import {
   CategoryPillProps,
   ImagePill,
   ImagePillProps,
-  ProgressPill,
-  ProgressPillProps,
   TextPill,
   TextPillProps,
 } from '@worksheets/ui/pills';
@@ -21,7 +19,6 @@ export type MixedGridItem =
   | (GameIconProps & { type: 'game'; span?: number })
   | (CategoryPillProps & { type: 'category' })
   | (TextPillProps & { type: 'text'; width?: BoxProps['gridColumn'] })
-  | (ProgressPillProps & { type: 'progress' })
   | (ImagePillProps & { type: 'image' })
   | (ButtonPillProps & { type: 'button'; width?: BoxProps['gridColumn'] })
   | (AdvertisementPillProps & {
@@ -67,16 +64,7 @@ export const MixedGridItems: FC<MixedGridItemProps> = ({ items, size }) => {
               <TextPill {...item} />
             </Box>
           )}
-          {item.type === 'progress' && (
-            <Box
-              key={item.current}
-              gridColumn={{ xs: `span 2`, sm: `span 3` }}
-              gridRow={`span 1`}
-              height={size}
-            >
-              <ProgressPill {...item} />
-            </Box>
-          )}
+
           {item.type === 'image' && (
             <Box
               key={item.alt}

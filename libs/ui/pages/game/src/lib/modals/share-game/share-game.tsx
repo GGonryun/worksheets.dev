@@ -3,12 +3,12 @@ import Box from '@mui/material/Box';
 import Button, { ButtonProps } from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
+import { shareGame, SocialButtons } from '@worksheets/ui/social-media';
 import { BaseModal, ModalWrapper } from '@worksheets/ui-core';
 import { SerializableGameSchema } from '@worksheets/util/types';
 import { FC } from 'react';
 
 import { ClipboardText } from './clipboard-text';
-import { SocialButtons } from './social-buttons';
 
 export const ShareGameModal: FC<
   ModalWrapper<{
@@ -42,7 +42,7 @@ export const ShareGameModal: FC<
           <Typography variant="h5" fontSize={{ xs: '2rem', sm: '2.5rem' }}>
             Share this game
           </Typography>
-          <SocialButtons title={gameTitle} url={gameUrl} />
+          <SocialButtonsWrapper title={gameTitle} url={gameUrl} />
           <Box mt={1} mb={3}>
             <ClipboardText url={gameUrl} />
           </Box>
@@ -50,6 +50,24 @@ export const ShareGameModal: FC<
         </Box>
       </Box>
     </BaseModal>
+  );
+};
+
+const SocialButtonsWrapper: FC<{ title: string; url: string }> = ({
+  title,
+  url,
+}) => {
+  const encodedProps = {
+    title: encodeURIComponent(title),
+    url: encodeURIComponent(url),
+  };
+
+  return (
+    <SocialButtons
+      twitter={shareGame.twitter(encodedProps)}
+      facebook={shareGame.facebook(encodedProps)}
+      reddit={shareGame.reddit(encodedProps)}
+    />
   );
 };
 

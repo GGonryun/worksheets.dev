@@ -1,0 +1,46 @@
+import { Paper } from '@mui/material';
+import { action } from '@storybook/addon-actions';
+import type { Meta } from '@storybook/react';
+
+import { DailyRewardSection } from './daily-reward-section';
+
+type Story = Meta<typeof DailyRewardSection>;
+
+const Default: Story = {
+  component: DailyRewardSection,
+  args: {
+    onClaim: action('onClaim'),
+  },
+  decorators: [
+    (Story) => (
+      <div
+        style={{
+          backgroundColor: 'lightblue',
+          height: '100%',
+          padding: '1rem',
+        }}
+      >
+        <Paper sx={{ p: 1 }}>
+          <Story />
+        </Paper>
+      </div>
+    ),
+  ],
+};
+export default Default;
+
+export const Unclaimed: Story = {
+  args: {
+    timeRemaining: '00:01:43',
+    claimed: false,
+    momentum: 2.5,
+  },
+};
+
+export const Claimed: Story = {
+  args: {
+    timeRemaining: '00:01:43',
+    claimed: true,
+    momentum: 3.5,
+  },
+};

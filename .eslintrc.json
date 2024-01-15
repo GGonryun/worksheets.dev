@@ -1,6 +1,13 @@
 {
   "root": true,
-  "ignorePatterns": ["**/*"],
+  "ignorePatterns": [
+    "**/*",
+    "/package.json",
+    "package-lock.json",
+    "node_modules",
+    "dist",
+    "coverage"
+  ],
   "plugins": ["@nx", "simple-import-sort"],
   "overrides": [
     {
@@ -37,6 +44,10 @@
     {
       "files": ["*.js", "*.jsx"],
       "extends": ["plugin:@nx/javascript"],
+      "rules": {}
+    },
+    {
+      "files": ["*.json"],
       "rules": {}
     }
   ]

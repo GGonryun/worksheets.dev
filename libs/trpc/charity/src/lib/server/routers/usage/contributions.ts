@@ -1,7 +1,4 @@
-import {
-  gameMonetizeGames,
-  games,
-} from '@worksheets/data-access/charity-games';
+import { games } from '@worksheets/data-access/charity-games';
 import { basicWebsiteStatisticsSchema } from '@worksheets/util/types';
 
 import { publicProcedure } from '../../procedures';
@@ -10,7 +7,6 @@ export default publicProcedure
   .output(basicWebsiteStatisticsSchema)
   .query(async ({ ctx: { db } }) => {
     // donated games exclude game monetize games
-    const countGameMonetizeGames = gameMonetizeGames.length;
     const allGames = games.length;
 
     // game plays is the sum of all game plays
@@ -26,7 +22,7 @@ export default publicProcedure
     }, 0);
 
     return {
-      donatedGames: allGames - countGameMonetizeGames,
+      donatedGames: allGames,
       totalGamePlays: totalGamePlays,
       uniqueGames: gamesPlayed.length,
       uniquePlayers: 500,

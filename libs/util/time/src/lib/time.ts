@@ -21,6 +21,27 @@ export function convertSecondsToMilliseconds(seconds: number): number {
   return seconds * 1000;
 }
 
+export const minutesFromNow = (minutes: number) =>
+  new Date(Date.now() + 60000 * minutes);
+export const hoursFromNow = (hours: number) =>
+  new Date(Date.now() + 3600000 * hours);
+export const daysFromNow = (days: number) =>
+  new Date(Date.now() + 86400000 * days);
+export const weeksFromNow = (weeks: number) =>
+  new Date(Date.now() + 604800000 * weeks);
+export const monthsFromNow = (months: number) =>
+  new Date(Date.now() + 2629800000 * months);
+
+export const minutesAgo = (minutes: number) =>
+  new Date(Date.now() - 60000 * minutes);
+export const hoursAgo = (hours: number) =>
+  new Date(Date.now() - 3600000 * hours);
+export const daysAgo = (days: number) => new Date(Date.now() - 86400000 * days);
+export const weeksAgo = (weeks: number) =>
+  new Date(Date.now() - 604800000 * weeks);
+export const monthsAgo = (months: number) =>
+  new Date(Date.now() - 2629800000 * months);
+
 export const printDate = (stamp: string | Date | number, locale = 'en-US') => {
   const options: Intl.DateTimeFormatOptions = {
     weekday: 'long',
@@ -51,11 +72,17 @@ export const printDate = (stamp: string | Date | number, locale = 'en-US') => {
  *
  * @todo we're currently estimating months as 30 days and years as 365 days, this is not accurate.
  */
-export const printRelativeDate = (
-  stamp: string | Date | number,
+export const printRelativeDate = ({
+  stamp,
   locale = 'en-US',
-  now = new Date()
-) => {
+  now = new Date(),
+  includeTime = true,
+}: {
+  stamp: string | Date | number;
+  locale?: string;
+  now?: Date;
+  includeTime?: boolean;
+}) => {
   const options: Intl.DateTimeFormatOptions = {
     hour: 'numeric',
     minute: 'numeric',
@@ -77,48 +104,36 @@ export const printRelativeDate = (
     diffInMilliseconds / (1000 * 60 * 60 * 24 * 365)
   );
 
+  const printTime = (text: string) =>
+    includeTime
+      ? `${text} at ${date.toLocaleTimeString(locale, options)}`
+      : text;
+
   if (diffInMinutes < 60) {
-    return `${diffInMinutes} minutes ago at ${date.toLocaleTimeString(
-      locale,
-      options
-    )}`;
+    return printTime(`${diffInMinutes} minutes ago`);
   } else if (diffInHours < 24) {
-    return `${diffInHours} hours ago at ${date.toLocaleTimeString(
-      locale,
-      options
-    )}`;
+    return printTime(`${diffInHours} hours ago`);
   } else if (diffInDays < 7) {
-    return `${diffInDays} days ago at ${date.toLocaleTimeString(
-      locale,
-      options
-    )}`;
+    return printTime(`${diffInDays} days ago`);
   } else if (diffInWeeks === 1) {
-    return `Last week at ${date.toLocaleTimeString(locale, options)}`;
+    return printTime(`Last week`);
   } else if (diffInWeeks < 4) {
-    return `${diffInWeeks} weeks ago at ${date.toLocaleTimeString(
-      locale,
-      options
-    )}`;
+    return printTime(`${diffInWeeks} weeks ago`);
   } else if (diffInMonths === 1) {
-    return `Last month at ${date.toLocaleTimeString(locale, options)}`;
+    return printTime(`Last month`);
   } else if (diffInMonths < 12) {
-    return `${diffInMonths} months ago at ${date.toLocaleTimeString(
-      locale,
-      options
-    )}`;
+    return printTime(`${diffInMonths} months ago`);
   } else if (diffInYears === 1) {
-    return `Last year at ${date.toLocaleTimeString(locale, options)}`;
-  } else if (diffInYears === 0) {
-    return `on ${date.toLocaleDateString(locale, options)}`;
+    return printTime(`Last year`);
   } else {
-    return `${diffInYears} years ago at ${date.toLocaleTimeString(
-      locale,
-      options
-    )}`;
+    return printTime(`${diffInYears} years ago`);
   }
 };
 
-export const printShortDate = (stamp: string | Date, locale = 'en-US') => {
+export const printShortDate = (
+  stamp: number | string | Date,
+  locale = 'en-US'
+) => {
   const options: Intl.DateTimeFormatOptions = {
     year: 'numeric',
     month: 'numeric',

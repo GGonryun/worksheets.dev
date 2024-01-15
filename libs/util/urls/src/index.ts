@@ -1,3 +1,5 @@
+import { GameInfo } from '@worksheets/util/types';
+
 const urls = {
   charityGames: process.env['NEXT_PUBLIC_CHARITY_GAMES_BASE_URL'],
   email: {

@@ -113,7 +113,8 @@ model Email {
 model Profile {
   id                String    @id @default(cuid())
   // basic settings
-  username          String    @unique
+  // TODO: handle unique usernames, return an error if the username is taken.
+  username          String?    @unique @db.VarChar(63)
   bio               String?
   // publisher settings
   isPublisher       Boolean   @default(false)
