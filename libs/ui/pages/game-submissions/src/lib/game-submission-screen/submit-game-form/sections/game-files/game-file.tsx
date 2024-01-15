@@ -75,7 +75,7 @@ export const GameFile: FC<{
               variant="body3"
               color="text.secondary"
             >
-              {printRelativeDate(timestamp)}
+              {printRelativeDate({ stamp: timestamp })}
             </Typography>
           </Box>
         </Box>
