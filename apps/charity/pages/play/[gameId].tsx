@@ -1,7 +1,5 @@
-import CircularProgress from '@mui/material/CircularProgress';
 import { developers, games } from '@worksheets/data-access/charity-games';
 import { MixedGridItem } from '@worksheets/ui/game-grid';
-import { AbsolutelyCentered } from '@worksheets/ui-core';
 import { printDate } from '@worksheets/util/time';
 import {
   DeveloperSchema,
@@ -9,6 +7,7 @@ import {
 } from '@worksheets/util/types';
 import { NextPageWithLayout } from '@worksheets/util-next';
 import { GetServerSideProps } from 'next';
+import dynamic from 'next/dynamic';
 import {
   NextSeo,
   NextSeoProps,
@@ -16,12 +15,18 @@ import {
   VideoGameJsonLdProps,
 } from 'next-seo';
 
-import { GameScreenContainer } from '../../containers/game-screen-container';
 import { LayoutContainer } from '../../containers/layout-container';
 import { AdsensePushScript } from '../../scripts';
 import { mixedItems } from '../../util/mixed-items';
 import { getRandomGame } from '../../util/randomizer';
 import { gameJsonLd, gameSeo } from '../../util/seo';
+
+const DynamicGameScreenContainer = dynamic(
+  () => import('../../containers/game-screen-container'),
+  {
+    ssr: false,
+  }
+);
 
 type Props = {
   game: SerializableGameSchema;
@@ -43,7 +48,7 @@ const Page: NextPageWithLayout<Props> = ({
   return (
     <>
       <NextSeo {...seo} />
-      <GameScreenContainer
+      <DynamicGameScreenContainer
         game={game}
         developer={developer}
         randomGame={randomGame}
@@ -65,11 +70,9 @@ export const getServerSideProps = (async (ctx) => {
   );
 
   if (!game || !developer)
-    return (
-      <AbsolutelyCentered>
-        <CircularProgress size={100} color="error" sx={{ mt: -10 }} />
-      </AbsolutelyCentered>
-    );
+    return {
+      notFound: true,
+    };
 
   const randomGame = getRandomGame(true);
   const items: MixedGridItem[] = mixedItems({
@@ -85,10 +88,8 @@ export const getServerSideProps = (async (ctx) => {
     props: {
       game: {
         ...game,
-        // // TODO: fetch from api.
         updatedAt: printDate(game.updatedAt),
         createdAt: printDate(game.createdAt),
-        // TODO: fetch from api.
       },
       developer,
       items,

@@ -11,7 +11,7 @@ import { FC, useState } from 'react';
 
 import { useRecentlyPlayedGames } from '../hooks/useRecentlyPlayedGames';
 
-const DynamicGameLauncher: FC<{
+const GameLauncherContainer: FC<{
   game: SerializableGameSchema;
   developer: DeveloperSchema;
   analytics: GameAnalyticsSchema;
@@ -86,4 +86,4 @@ const DynamicGameLauncher: FC<{
   );
 };
 
-export default DynamicGameLauncher;
+export default GameLauncherContainer;

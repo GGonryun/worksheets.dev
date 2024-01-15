@@ -11,7 +11,7 @@ import {
 } from '@worksheets/util/types';
 import dynamic from 'next/dynamic';
 
-const DynamicGameLauncher = dynamic(() => import('../dynamic/launcher'), {
+const DynamicGameLauncher = dynamic(() => import('./game-launcher-container'), {
   ssr: false,
 });
 
@@ -21,7 +21,7 @@ const emptyAnalyticsPayload: GameAnalyticsSchema = {
   score: '0',
 };
 
-export const GameScreenContainer: React.FC<{
+const GameScreenContainer: React.FC<{
   game: SerializableGameSchema;
   developer: DeveloperSchema;
   randomGame: string;
@@ -90,3 +90,5 @@ export const GameScreenContainer: React.FC<{
     />
   );
 };
+
+export default GameScreenContainer;
