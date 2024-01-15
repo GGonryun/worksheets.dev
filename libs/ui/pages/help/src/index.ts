@@ -1,2 +1,2 @@
 export * from './lib/help-screen';
-export * from './data/help-faq';
+export * from './lib/__data__/help-faq';

@@ -19,6 +19,7 @@ import { useTimeUntil } from '../../__hooks__/use-time-until';
 import { BulletPoints } from '../../bullet-points';
 import { CollapsibleSection } from '../../collapsible-section';
 import { MAX_TOKENS_FROM_REFERRAL_PLAYS } from '../../const';
+import { PanelFooter } from '../../panel-footer';
 import { RewardsTimer } from '../../rewards-timer';
 
 export const ReferredPlaysSection: React.FC<{
@@ -125,6 +126,16 @@ export const ReferredPlaysSection: React.FC<{
               someone plays a game, and have no daily limit.
             </>,
           ]}
+        />
+        <PanelFooter
+          learn={{
+            text: 'Tokens & Rewards',
+            href: '/learn/rewards',
+          }}
+          action={{
+            text: 'Get Tokens',
+            href: '/account/tokens',
+          }}
         />
       </Box>
     </CollapsibleSection>

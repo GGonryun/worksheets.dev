@@ -1,11 +1,9 @@
 import type { Meta } from '@storybook/react';
 
-import { helpFaq } from './__data__/help-faq';
-import { HelpScreen } from './help-screen';
+import { HelpCenterScreen } from './help-center-screen';
 
-const Story: Meta<typeof HelpScreen> = {
-  component: HelpScreen,
-  title: 'Content/HelpScreen',
+const Story: Meta<typeof HelpCenterScreen> = {
+  component: HelpCenterScreen,
   decorators: [
     (Story) => (
       <div
@@ -22,7 +20,5 @@ const Story: Meta<typeof HelpScreen> = {
 export default Story;
 
 export const Primary = {
-  args: {
-    qa: helpFaq,
-  },
+  args: {},
 };

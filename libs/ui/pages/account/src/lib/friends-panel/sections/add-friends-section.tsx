@@ -80,12 +80,9 @@ export const AddFriendsSection: React.FC<{ friendCode: string }> = (props) => {
         </Box>
         <Divider />
         <Box>
-          <Typography variant="h6" mb={-0.8}>
-            Add Friends
-          </Typography>
-          <Typography variant="body3">
-            Don't be shy! Ask your friends for their friend code and earn tokens
-            together.
+          <Typography variant="h6">Add Friends</Typography>
+          <Typography variant="body2">
+            Ask your friends for their friend code and earn tokens together.
           </Typography>
         </Box>
         <TextField

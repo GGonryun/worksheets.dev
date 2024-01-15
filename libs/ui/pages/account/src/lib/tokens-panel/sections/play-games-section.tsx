@@ -116,6 +116,17 @@ export const PlayGamesSection: React.FC<{ tokens: number }> = ({ tokens }) => {
             : `Play more games to earn ${MAX_TOKENS_PER_DAY - tokens} 
             tokens.`}
         </Typography>
+
+        <BulletPoints
+          title="Bonus Games"
+          icon={<Star fontSize="small" color="highlight" />}
+          points={[
+            <Link href="/play">Sudoku</Link>,
+            <Link href="/play">Solitaire 2048</Link>,
+            <Link href="/play">Emoji War</Link>,
+          ]}
+        />
+
         <BulletPoints
           title="How It Works"
           icon={<InfoOutlined fontSize="small" color="info" />}
@@ -130,16 +141,6 @@ export const PlayGamesSection: React.FC<{ tokens: number }> = ({ tokens }) => {
               <Link href="/help/vip">VIP Members</Link> earn twice as many
               tokens per game and have no daily limit.
             </>,
-          ]}
-        />
-        <BulletPoints
-          title="Bonus Games"
-          icon={<Star fontSize="small" color="highlight" />}
-          points={[
-            <Link href="/play">Sudoku</Link>,
-            <Link href="/play">Solitaire 2048</Link>,
-            <Link href="/play">Emoji War</Link>,
-            <Link href="/play">Hyper Wheel</Link>,
           ]}
         />
 
