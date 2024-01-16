@@ -2,8 +2,8 @@ import { Box, Typography, useMediaQuery, useTheme } from '@mui/material';
 
 export const PanelHeader: React.FC<{
   primary: string;
-  secondary: string;
-  icon: React.ReactNode;
+  secondary?: string;
+  icon?: React.ReactNode;
 }> = (props) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
@@ -17,16 +17,18 @@ export const PanelHeader: React.FC<{
       }}
     >
       <Typography variant={isMobile ? 'h5' : 'h4'}>{props.primary}</Typography>
-      <Box
-        sx={{
-          display: 'flex',
-          gap: 1,
-          alignItems: 'center',
-        }}
-      >
-        {props.icon}
-        <Typography variant="h6">{props.secondary}</Typography>
-      </Box>
+      {props.icon && props.secondary && (
+        <Box
+          sx={{
+            display: 'flex',
+            gap: 1,
+            alignItems: 'center',
+          }}
+        >
+          {props.icon}
+          <Typography variant="h6">{props.secondary}</Typography>
+        </Box>
+      )}
     </Box>
   );
 };

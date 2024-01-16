@@ -27,6 +27,9 @@ export const AccountTabs: FC<{
         scrollButtons={true}
       >
         <Tab label="Profile" value={AccountTabsHref.PROFILE} />
+        <Tab label="Tokens" value={AccountTabsHref.TOKENS} />
+        <Tab label="Friends" value={AccountTabsHref.FRIENDS} />
+        <Tab label="Referrals" value={AccountTabsHref.REFERRALS} />
         <Tab label="Submissions" value={AccountTabsHref.SUBMISSIONS} />
       </Tabs>
       <Divider />

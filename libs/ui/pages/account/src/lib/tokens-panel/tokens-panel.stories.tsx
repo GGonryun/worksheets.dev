@@ -1,8 +1,8 @@
 import { Paper } from '@mui/material';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
+import { MAX_TOKENS_PER_DAY } from '@worksheets/util/settings';
 
-import { MAX_TOKENS_PER_DAY } from '../const';
 import { TokensPanel } from './tokens-panel';
 
 type Story = Meta<typeof TokensPanel>;
@@ -10,7 +10,7 @@ type Story = Meta<typeof TokensPanel>;
 const Default: Story = {
   component: TokensPanel,
   args: {
-    onClaimDailyGift: action('onClaimDailyGift'),
+    onClaimDailyReward: action('onClaimDailyGift'),
     onClaimGiftBox: action('onClaimGiftBox'),
   },
   decorators: [
@@ -44,7 +44,7 @@ export const Empty: Story = {
       tokens: 0,
       link: 'https://www.charity.games/referral/137647813',
     },
-    claimedDailyGift: false,
+    claimedDailyReward: false,
   },
 };
 
@@ -61,6 +61,6 @@ export const Primary: Story = {
       tokens: 513,
       link: 'https://charity.games/referral/137647813',
     },
-    claimedDailyGift: false,
+    claimedDailyReward: false,
   },
 };

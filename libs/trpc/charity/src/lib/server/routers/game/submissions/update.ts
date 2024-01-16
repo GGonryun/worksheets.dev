@@ -13,19 +13,12 @@ export default protectedProcedure
       okay: z.boolean(),
     })
   )
-  .mutation(async ({ input, ctx: { user, profile, db } }) => {
+  .mutation(async ({ input, ctx: { user, db } }) => {
+    const userId = user.id;
     console.info('Updating submission', {
       id: input.id,
-      profileId: profile?.id,
-      userId: user.id,
+      userId,
     });
-
-    if (!profile) {
-      throw new TRPCError({
-        message: "You don't have a profile yet!",
-        code: 'PRECONDITION_FAILED',
-      });
-    }
 
     if (!input.id) {
       throw new TRPCError({
@@ -37,7 +30,7 @@ export default protectedProcedure
     const submission = await db.gameSubmission.update({
       where: {
         id: input.id,
-        profileId: profile.id,
+        userId,
       },
       data: {
         slug: input.slug,

@@ -1,7 +1,7 @@
 import { Paper } from '@mui/material';
 import type { Meta } from '@storybook/react';
+import { MAX_TOKENS_PER_DAY } from '@worksheets/util/settings';
 
-import { MAX_TOKENS_PER_DAY } from '../../const';
 import { PlayGamesSection } from './play-games-section';
 
 type Story = Meta<typeof PlayGamesSection>;

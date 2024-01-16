@@ -6,7 +6,7 @@ import { NextPageWithLayout } from '@worksheets/util-next';
 import { useRouter } from 'next/router';
 import { NextSeo } from 'next-seo';
 
-import { LayoutContainer } from '../../containers/layout-container';
+import { DynamicLayout } from '../../dynamic/dynamic-layout';
 import { gameItems } from '../../util/mixed-items';
 import { getRandomGame } from '../../util/randomizer';
 import { gamesSeo } from '../../util/seo';
@@ -69,7 +69,7 @@ const Page: NextPageWithLayout = () => {
 };
 
 Page.getLayout = (page) => {
-  return <LayoutContainer>{page}</LayoutContainer>;
+  return <DynamicLayout>{page}</DynamicLayout>;
 };
 
 export default Page;

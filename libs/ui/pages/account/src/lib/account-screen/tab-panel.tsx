@@ -8,17 +8,17 @@ export type TabPanelProps = {
 };
 
 export const TabPanel: FC<TabPanelProps> = (props: TabPanelProps) => {
-  const { children, target, current, ...other } = props;
+  const { children, target, current } = props;
 
   return (
-    <div
+    <Box
+      className={`tab-panel`}
       role="tabpanel"
       hidden={target !== current}
       id={`settings-tabpanel-${target}`}
       aria-labelledby={`settings-tab-${target}`}
-      {...other}
     >
       {target === current && <Box sx={{ p: { xs: 2, sm: 4 } }}>{children}</Box>}
-    </div>
+    </Box>
   );
 };

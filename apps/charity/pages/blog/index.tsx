@@ -6,7 +6,7 @@ import {
 import { NextPageWithLayout } from '@worksheets/util-next';
 import { NextSeo } from 'next-seo';
 
-import { LayoutContainer } from '../../containers/layout-container';
+import { DynamicLayout } from '../..//dynamic/dynamic-layout';
 import { POSTS_PATH } from '../../util/paths';
 import { blogSeo } from '../../util/seo';
 
@@ -22,7 +22,7 @@ const Page: NextPageWithLayout<Props> = ({ posts }) => (
 );
 
 Page.getLayout = (page) => {
-  return <LayoutContainer>{page}</LayoutContainer>;
+  return <DynamicLayout>{page}</DynamicLayout>;
 };
 
 export const getStaticProps = async (): Promise<{ props: Props }> => {

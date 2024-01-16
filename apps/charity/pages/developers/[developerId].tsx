@@ -5,7 +5,7 @@ import { NextPageWithLayout } from '@worksheets/util-next';
 import { GetServerSideProps } from 'next';
 import { NextSeo, NextSeoProps } from 'next-seo';
 
-import { LayoutContainer } from '../../containers/layout-container';
+import { DynamicLayout } from '../../dynamic/dynamic-layout';
 import { developerSeo } from '../../util/seo';
 
 type Props = {
@@ -54,7 +54,7 @@ export const getServerSideProps = (async ({ params }) => {
 }) satisfies GetServerSideProps<Props>;
 
 Page.getLayout = (page) => {
-  return <LayoutContainer>{page}</LayoutContainer>;
+  return <DynamicLayout>{page}</DynamicLayout>;
 };
 
 export default Page;

@@ -4,13 +4,13 @@ import {
   ValentinesGift,
   ValentinesMailbox,
 } from '@worksheets/icons/valentines';
+import { MAX_DAILY_GIFT_BOX_SHARES } from '@worksheets/util/settings';
 import { useRouter } from 'next/router';
 import React from 'react';
 
 import { useTimeUntil } from '../../__hooks__/use-time-until';
 import { BulletPoints } from '../../bullet-points';
 import { CollapsibleSection } from '../../collapsible-section';
-import { MAX_DAILY_GIFT_BOX_SHARES } from '../../const';
 import { PanelFooter } from '../../panel-footer';
 import { RewardsTimer } from '../../rewards-timer';
 import { Friend } from '../../types';

@@ -7,7 +7,7 @@ import {
 } from '@worksheets/ui/pages/account';
 import { useSnackbar } from '@worksheets/ui/snackbar';
 import { useZodValidator } from '@worksheets/zod';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export const useBasicInformationForm = (
   existing: BasicInformationForm | undefined | null
@@ -31,7 +31,13 @@ export const useBasicInformationForm = (
     bio: '',
   });
 
-  const updateProfile = trpc.profile.upsert.useMutation();
+  useEffect(() => {
+    if (existing) {
+      setValues(existing);
+    }
+  }, [existing]);
+
+  const updateProfile = trpc.user.profile.update.useMutation();
 
   const connector: BasicInformationFormContextType = {
     errors,

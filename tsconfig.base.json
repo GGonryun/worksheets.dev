@@ -61,12 +61,14 @@
       "@worksheets/ui/pages/developer": [
         "libs/ui/pages/developer/src/index.ts"
       ],
+      "@worksheets/ui/pages/errors": ["libs/ui/pages/errors/src/index.ts"],
       "@worksheets/ui/pages/faq": ["libs/ui/pages/faq/src/index.ts"],
       "@worksheets/ui/pages/game": ["libs/ui/pages/game/src/index.ts"],
       "@worksheets/ui/pages/game-submissions": [
         "libs/ui/pages/game-submissions/src/index.ts"
       ],
       "@worksheets/ui/pages/help": ["libs/ui/pages/help/src/index.ts"],
+      "@worksheets/ui/pages/loading": ["libs/ui/pages/loading/src/index.ts"],
       "@worksheets/ui/pages/login": ["libs/ui/pages/login/src/index.ts"],
       "@worksheets/ui/pages/privacy-policy": [
         "libs/ui/pages/privacy-policy/src/index.ts"
@@ -95,6 +97,7 @@
       "@worksheets/util/misc": ["libs/util/misc/src/index.ts"],
       "@worksheets/util/numbers": ["libs/util/numbers/src/index.ts"],
       "@worksheets/util/seo": ["libs/util/seo/src/index.ts"],
+      "@worksheets/util/settings": ["libs/util/settings/src/index.ts"],
       "@worksheets/util/strings": ["libs/util/strings/src/index.ts"],
       "@worksheets/util/time": ["libs/util/time/src/index.ts"],
       "@worksheets/util/types": ["libs/util/types/src/index.ts"],

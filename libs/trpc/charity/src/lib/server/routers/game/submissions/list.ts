@@ -5,17 +5,13 @@ import { protectedProcedure } from '../../../procedures';
 
 export default protectedProcedure
   .output(basicGameSubmissionSchema.array())
-  .query(async ({ ctx: { db, user, profile } }) => {
-    console.info(`finding submissions for profile`, { profileId: profile?.id });
-
-    if (!profile) {
-      console.warn('User has no profile', { userId: user.id });
-      return [];
-    }
+  .query(async ({ ctx: { db, user } }) => {
+    const userId = user.id;
+    console.info(`finding submissions for user`, { userId });
 
     const result = await db.gameSubmission.findMany({
       where: {
-        profileId: profile.id,
+        userId,
       },
       include: {
         thumbnailFile: true,

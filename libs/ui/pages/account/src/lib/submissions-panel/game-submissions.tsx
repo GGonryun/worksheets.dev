@@ -6,6 +6,7 @@ import Typography from '@mui/material/Typography';
 import React from 'react';
 
 import NewWindowIcon from '../icons/new-window';
+import { PanelHeader } from '../panel-header';
 import { BasicGameSubmission } from '../types';
 import { GameSubmission } from './game-submission';
 
@@ -23,7 +24,7 @@ export const GameSubmissions: React.FC<{
         gap: 3,
       }}
     >
-      <Typography variant="h5">Your Submissions</Typography>
+      <PanelHeader primary="Game Submissions" />
       <EmptySubmissionsPlaceholder visible={!submissions.length} />
       <Box
         sx={{

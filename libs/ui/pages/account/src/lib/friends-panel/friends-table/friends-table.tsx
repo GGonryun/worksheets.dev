@@ -24,10 +24,10 @@ import TableRow from '@mui/material/TableRow';
 import { ValentinesGift } from '@worksheets/icons/valentines';
 import { WebGamepad } from '@worksheets/icons/web';
 import { shorthandNumber } from '@worksheets/util/numbers';
+import { MAX_DAILY_GIFT_BOX_SHARES } from '@worksheets/util/settings';
 import { printRelativeDate } from '@worksheets/util/time';
 import * as React from 'react';
 
-import { MAX_DAILY_GIFT_BOX_SHARES } from '../../const';
 import { Friend } from '../../types';
 
 const StyledBox = styled(Box)(({ theme }) => ({

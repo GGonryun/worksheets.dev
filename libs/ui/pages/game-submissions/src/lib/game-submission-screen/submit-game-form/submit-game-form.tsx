@@ -88,7 +88,6 @@ export const SubmitGameForm: FC = () => {
               Save Draft
             </SubmitButton>
           </Box>
-
           <Typography variant="caption" color="text.secondary">
             You are allowed to edit your submission after it has been submitted.
             <br />

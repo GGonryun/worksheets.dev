@@ -1,7 +1,7 @@
-import { GameInfo } from '@worksheets/util/types';
+const BASE_URL = process.env['NEXT_PUBLIC_CHARITY_GAMES_BASE_URL'];
 
 const urls = {
-  charityGames: process.env['NEXT_PUBLIC_CHARITY_GAMES_BASE_URL'],
+  charityGames: BASE_URL,
   email: {
     admin: 'admin@charity.games',
     support: 'support@charity.games',
@@ -29,3 +29,7 @@ const urls = {
 };
 
 export default urls;
+
+export const createReferralLink = (userId: string) => {
+  return `${BASE_URL}/referral/${userId}`;
+};

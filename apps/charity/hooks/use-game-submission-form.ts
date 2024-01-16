@@ -61,7 +61,7 @@ const initialValues: GameSubmissionForm = {
 
 const merge = (
   initialValues: GameSubmissionForm,
-  existingValues: Nullable<GameSubmissionForm>
+  existingValues: Nullable<GameSubmissionForm> | undefined
 ): GameSubmissionForm => {
   if (!existingValues) {
     return initialValues;
@@ -83,7 +83,7 @@ const merge = (
 
 export const useGameSubmissionForm = (
   submissionId: string,
-  submission: Nullable<GameSubmissionForm>
+  submission: Nullable<GameSubmissionForm> | undefined
 ): { form: GameSubmissionFormContextType; snackbar: UseSnackbarHook } => {
   const { push } = useRouter();
 
@@ -132,6 +132,8 @@ export const useGameSubmissionForm = (
         message: 'Submission updated',
         severity: 'success',
       });
+
+      push('/account/submissions');
     } finally {
       setLoading(false);
       setUpdated(false);

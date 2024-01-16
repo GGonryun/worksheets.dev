@@ -16,7 +16,7 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { ArticleJsonLd, ArticleJsonLdProps, NextSeo } from 'next-seo';
 
-import { LayoutContainer } from '../../containers/layout-container';
+import { DynamicLayout } from '../../dynamic/dynamic-layout';
 import { POSTS_PATH } from '../../util/paths';
 import {
   blogArticleJsonLd,
@@ -144,7 +144,7 @@ export const getStaticPaths: GetStaticPaths<ArticleProps> = async () => {
 };
 
 Page.getLayout = (page) => {
-  return <LayoutContainer>{page}</LayoutContainer>;
+  return <DynamicLayout>{page}</DynamicLayout>;
 };
 
 export default Page;

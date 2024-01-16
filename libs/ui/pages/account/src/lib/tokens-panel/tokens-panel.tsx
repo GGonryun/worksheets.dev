@@ -21,9 +21,9 @@ export const TokensPanel: FC<{
   gameProgressTokens: number;
   referralProgress: ReferralProgress;
   giftBoxes: number;
-  claimedDailyGift: boolean;
+  claimedDailyReward: boolean;
   dailyGiftMomentum: number;
-  onClaimDailyGift: () => void;
+  onClaimDailyReward: () => void;
   onClaimGiftBox: () => void;
 }> = ({
   tokens,
@@ -32,9 +32,9 @@ export const TokensPanel: FC<{
   giftBoxes,
   referralProgress,
   dailyGiftMomentum,
-  claimedDailyGift,
+  claimedDailyReward,
   onClaimGiftBox,
-  onClaimDailyGift,
+  onClaimDailyReward,
 }) => {
   const timeRemaining = useTimeUntil(refreshTimestamp);
 
@@ -60,9 +60,9 @@ export const TokensPanel: FC<{
 
       <DailyRewardSection
         momentum={dailyGiftMomentum}
-        claimed={claimedDailyGift}
+        claimed={claimedDailyReward}
         timeRemaining={timeRemaining}
-        onClaim={onClaimDailyGift}
+        onClaim={onClaimDailyReward}
       />
 
       <GiftBoxSection amount={giftBoxes} onClaim={onClaimGiftBox} />

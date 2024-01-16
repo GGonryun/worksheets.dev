@@ -258,14 +258,14 @@ export const submitGameSeo = createSeo({
   description: `Learn how to submit a game to Charity Games. Help us make a difference. Turn your games into donations.`,
 });
 
-export const profileSeo = createSeo({
+export const accountProfileSeo = createSeo({
   noindex: true,
   url: `https://www.charity.games/account`,
   title: `Charity Games - Account`,
   description: `Manage your Charity Games account. View your profile and manage your settings.`,
 });
 
-export const submissionsSeo = createSeo({
+export const accountSubmissionsSeo = createSeo({
   noindex: true,
   url: `https://www.charity.games/account`,
   title: `Charity Games - Submissions`,
@@ -277,4 +277,25 @@ export const createGameSubmissionSeo = createSeo({
   url: `https://www.charity.games/account/submit/new`,
   title: `Charity Games - Create Submission`,
   description: `Create a new game submission on Charity Games.`,
+});
+
+export const accountTokensSeo = createSeo({
+  noindex: true,
+  url: `https://www.charity.games/account/tokens`,
+  title: `Charity Games - Tokens`,
+  description: `Manage your Charity Games tokens. Earn tokens by playing games and referring friends.`,
+});
+
+export const accountReferralsSeo = createSeo({
+  noindex: true,
+  url: `https://www.charity.games/account/referrals`,
+  title: `Charity Games - Referrals`,
+  description: `Manage your Charity Games referrals. Earn tokens by referring friends.`,
+});
+
+export const accountFriendsSeo = createSeo({
+  noindex: true,
+  url: `https://www.charity.games/account/friends`,
+  title: `Charity Games - Friends`,
+  description: `Manage your Charity Games friends. Earn tokens by sharing gifts with friends.`,
 });

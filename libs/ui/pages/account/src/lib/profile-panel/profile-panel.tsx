@@ -4,9 +4,9 @@ import Alert, { AlertProps } from '@mui/material/Alert';
 import Box from '@mui/material/Box';
 import Button, { ButtonProps } from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
-import Typography from '@mui/material/Typography';
 import { FC, JSXElementConstructor } from 'react';
 
+import { PanelHeader } from '../panel-header';
 import { useBasicInformationFormContext } from './context';
 import { BioField, UsernameField } from './fields';
 
@@ -26,7 +26,7 @@ export const ProfilePanel: FC = () => {
         gap: 3,
       }}
     >
-      <Typography variant="h5">Basic Information</Typography>
+      <PanelHeader primary="Profile" />
 
       <CustomAlert visible={!hasRequiredFields}>
         Your profile is incomplete. Please fill out the required fields below.

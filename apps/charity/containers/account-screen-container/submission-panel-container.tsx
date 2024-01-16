@@ -1,32 +1,24 @@
 import { trpc } from '@worksheets/trpc-charity';
-import {
-  BasicGameSubmission,
-  SubmissionsPanel,
-} from '@worksheets/ui/pages/account';
+import { SubmissionsPanel } from '@worksheets/ui/pages/account';
+import { LoadingScreen } from '@worksheets/ui/pages/loading';
 import { Snackbar, useSnackbar } from '@worksheets/ui/snackbar';
 import { useRouter } from 'next/router';
-import { FC } from 'react';
 
-export const SubmissionsPanelContainer: FC<{
-  submissions: BasicGameSubmission[];
-}> = ({ submissions }) => {
+export const SubmissionsPanelContainer: React.FC = () => {
   const router = useRouter();
-  const { data: rawTerms } = trpc.profile.terms.get.useQuery();
   const snackbar = useSnackbar();
-
-  const approveTerms = trpc.profile.terms.approve.useMutation();
-  const destroySubmission = trpc.game.submissions.destroy.useMutation();
   const utils = trpc.useUtils();
 
-  const terms = rawTerms ?? {
-    canApprove: false,
-    hasApproved: false,
-  };
+  const submissions = trpc.game.submissions.list.useQuery();
+  const terms = trpc.user.profile.terms.get.useQuery();
+
+  const approveTerms = trpc.user.profile.terms.approve.useMutation();
+  const destroySubmission = trpc.game.submissions.destroy.useMutation();
 
   const onApproveTermsOfService = async () => {
     try {
       await approveTerms.mutateAsync();
-      await utils.profile.terms.get.invalidate();
+      await utils.user.profile.terms.get.invalidate();
     } catch (error) {
       snackbar.trigger({
         message:
@@ -51,11 +43,19 @@ export const SubmissionsPanelContainer: FC<{
     }
   };
 
+  if (terms.isLoading || submissions.isLoading) {
+    return <LoadingScreen />;
+  }
+
+  if (terms.error || submissions.error) {
+    return <div>error</div>;
+  }
+
   return (
     <>
       <SubmissionsPanel
-        terms={terms}
-        submissions={submissions}
+        terms={terms.data}
+        submissions={submissions.data}
         onApproveTermsOfService={onApproveTermsOfService}
         onDeleteSubmission={onDeleteSubmission}
       />

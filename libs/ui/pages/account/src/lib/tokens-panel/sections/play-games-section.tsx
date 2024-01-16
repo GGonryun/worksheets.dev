@@ -15,10 +15,13 @@ import {
 } from '@mui/material';
 import { WebGamepad } from '@worksheets/icons/web';
 import { calculatePercentage, toPercentage } from '@worksheets/util/numbers';
+import {
+  MAX_TOKENS_PER_DAY,
+  MAX_TOKENS_PER_GAME,
+} from '@worksheets/util/settings';
 
 import { BulletPoints } from '../../bullet-points';
 import { CollapsibleSection } from '../../collapsible-section';
-import { MAX_TOKENS_PER_DAY, MAX_TOKENS_PER_GAME } from '../../const';
 import { PanelFooter } from '../../panel-footer';
 
 export const PlayGamesSection: React.FC<{ tokens: number }> = ({ tokens }) => {

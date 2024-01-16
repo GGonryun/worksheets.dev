@@ -7,14 +7,14 @@ import {
 } from '@mui/icons-material';
 import { Box, Button, Link, Typography } from '@mui/material';
 import { ValentinesGift } from '@worksheets/icons/valentines';
-
-import { BulletPoints } from '../../bullet-points';
-import { CollapsibleSection } from '../../collapsible-section';
 import {
   GIFT_BOX_DROP_RATE,
   MAX_DAILY_GIFT_BOX_SHARES,
   MAX_TOKENS_IN_GIFT_BOX,
-} from '../../const';
+} from '@worksheets/util/settings';
+
+import { BulletPoints } from '../../bullet-points';
+import { CollapsibleSection } from '../../collapsible-section';
 import { PanelFooter } from '../../panel-footer';
 
 export const GiftBoxSection: React.FC<{

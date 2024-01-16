@@ -71,6 +71,12 @@ declare module '@mui/material/IconButton' {
   }
 }
 
+declare module '@mui/material/LinearProgress' {
+  interface LinearProgressPropsColorOverrides {
+    love: true;
+  }
+}
+
 declare module '@mui/material/Chip' {
   interface ChipPropsColorOverrides {
     highlight: true;

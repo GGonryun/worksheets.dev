@@ -9,7 +9,7 @@ import { NextPageWithLayout } from '@worksheets/util-next';
 import { GetServerSideProps } from 'next';
 import { NextSeo, NextSeoProps } from 'next-seo';
 
-import { LayoutContainer } from '../../containers/layout-container';
+import { DynamicLayout } from '../../dynamic/dynamic-layout';
 import { AdsensePushScript } from '../../scripts';
 import { categorySeo } from '../../util/seo';
 
@@ -80,7 +80,7 @@ export const getServerSideProps = (async ({ params }) => {
 }) satisfies GetServerSideProps<Props>;
 
 Page.getLayout = (page) => {
-  return <LayoutContainer>{page}</LayoutContainer>;
+  return <DynamicLayout>{page}</DynamicLayout>;
 };
 
 export default Page;

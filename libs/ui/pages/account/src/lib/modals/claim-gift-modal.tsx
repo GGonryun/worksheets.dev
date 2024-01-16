@@ -10,6 +10,7 @@ export const ClaimGiftModal: React.FC<ModalWrapper<{ amount: number }>> = ({
   amount,
 }) => {
   const handleClose = () => onClose && onClose({}, 'escapeKeyDown');
+
   return (
     <BaseModal open={open} onClose={onClose}>
       <Box
@@ -57,9 +58,8 @@ export const ClaimGiftModal: React.FC<ModalWrapper<{ amount: number }>> = ({
           variant="round"
           size="large"
           color="error"
-          startIcon={<Add fontSize="small" />}
         >
-          Claim Tokens
+          acknowledge
         </Button>
       </Box>
     </BaseModal>

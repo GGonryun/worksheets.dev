@@ -15,6 +15,8 @@ import Typography from '@mui/material/Typography';
 import { TermsOfServiceStatement } from '@worksheets/ui/pages/terms-of-service';
 import React from 'react';
 
+import { PanelHeader } from '../panel-header';
+
 export const GettingStarted: React.FC<{
   canSubmit: boolean;
   onSubmit: () => Promise<void>;
@@ -30,15 +32,8 @@ export const GettingStarted: React.FC<{
         gap: 2,
       }}
     >
-      <Typography
-        variant="h6"
-        fontSize={{
-          xs: '1.25rem',
-          sm: '1.5rem',
-        }}
-      >
-        Become a Charity Games Publisher
-      </Typography>
+      <PanelHeader primary="Become a Publisher" />
+
       <Divider
         sx={{
           mt: -1,

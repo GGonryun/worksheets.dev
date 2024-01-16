@@ -1,16 +1,16 @@
 import { AccountCircleOutlined, InfoOutlined } from '@mui/icons-material';
 import { Box, Link } from '@mui/material';
 import { ValentinesChat } from '@worksheets/icons/valentines';
-import React from 'react';
-
-import { BulletPoints } from '../../bullet-points';
-import { CollapsibleSection } from '../../collapsible-section';
 import {
   MAX_TOKENS_FROM_REFERRAL_PLAYS,
   TOKENS_PER_REFERRAL_ACCOUNT,
   TOKENS_PER_REFERRAL_PLAY,
   TOKENS_PER_REFERRAL_PURCHASE,
-} from '../../const';
+} from '@worksheets/util/settings';
+import React from 'react';
+
+import { BulletPoints } from '../../bullet-points';
+import { CollapsibleSection } from '../../collapsible-section';
 import { PanelFooter } from '../../panel-footer';
 import { ReferralInfo } from '../../referral-info';
 import { ReferralProgress } from '../types';

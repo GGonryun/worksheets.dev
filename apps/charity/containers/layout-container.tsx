@@ -17,7 +17,7 @@ const DynamicGameSection = dynamic(() => import('../dynamic/recent-games'), {
   ssr: false,
 });
 
-export const LayoutContainer: FC<{ children: ReactNode }> = ({ children }) => {
+const LayoutContainer: FC<{ children: ReactNode }> = ({ children }) => {
   const { push } = useRouter();
   const { data: session } = useSession();
 
@@ -98,3 +98,5 @@ const performSearch = async (q: string) => {
     })),
   };
 };
+
+export default LayoutContainer;

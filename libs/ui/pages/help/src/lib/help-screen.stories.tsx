@@ -5,7 +5,6 @@ import { HelpScreen } from './help-screen';
 
 const Story: Meta<typeof HelpScreen> = {
   component: HelpScreen,
-  title: 'Content/HelpScreen',
   decorators: [
     (Story) => (
       <div

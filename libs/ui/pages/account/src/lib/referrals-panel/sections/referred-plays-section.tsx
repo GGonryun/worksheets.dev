@@ -13,12 +13,12 @@ import {
 } from '@mui/material';
 import { ValentinesTicket } from '@worksheets/icons/valentines';
 import { calculatePercentage, toPercentage } from '@worksheets/util/numbers';
+import { MAX_TOKENS_FROM_REFERRAL_PLAYS } from '@worksheets/util/settings';
 import React from 'react';
 
 import { useTimeUntil } from '../../__hooks__/use-time-until';
 import { BulletPoints } from '../../bullet-points';
 import { CollapsibleSection } from '../../collapsible-section';
-import { MAX_TOKENS_FROM_REFERRAL_PLAYS } from '../../const';
 import { PanelFooter } from '../../panel-footer';
 import { RewardsTimer } from '../../rewards-timer';
 

@@ -1,8 +1,10 @@
 import { Box } from '@mui/material';
 
-export const AbsolutelyCentered: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
+export const AbsolutelyCentered: React.FC<{
+  children: React.ReactNode;
+  blur?: boolean;
+  pointerEvents?: 'none' | 'auto';
+}> = ({ children, blur, pointerEvents = 'none' }) => {
   return (
     <Box
       sx={{
@@ -13,6 +15,8 @@ export const AbsolutelyCentered: React.FC<{ children: React.ReactNode }> = ({
         bottom: 0,
         display: 'grid',
         placeItems: 'center',
+        pointerEvents,
+        backdropFilter: blur ? 'blur(10px)' : 'none',
       }}
     >
       {children}

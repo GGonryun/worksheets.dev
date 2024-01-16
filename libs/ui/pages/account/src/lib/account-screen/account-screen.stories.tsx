@@ -11,6 +11,11 @@ const Default: Story = {
   component: AccountScreen,
   args: {
     onLogout: action('onLogout'),
+    profilePanel: <Box>Profile Panel</Box>,
+    submissionsPanel: <Box>Submissions Panel</Box>,
+    tokensPanel: <Box>Tokens Panel</Box>,
+    referralsPanel: <Box>Referrals Panel</Box>,
+    friendsPanel: <Box>Friends Panel</Box>,
   },
   decorators: [
     (Story) => (
@@ -30,15 +35,29 @@ export default Default;
 export const Profile: Story = {
   args: {
     path: AccountTabsHref.PROFILE,
-    profilePanel: <Box>Profile Panel</Box>,
-    submissionsPanel: <Box>Submissions Panel</Box>,
   },
 };
 
 export const Submissions: Story = {
   args: {
     path: AccountTabsHref.SUBMISSIONS,
-    profilePanel: <Box>Profile Panel</Box>,
-    submissionsPanel: <Box>Submissions Panel</Box>,
+  },
+};
+
+export const Tokens: Story = {
+  args: {
+    path: AccountTabsHref.TOKENS,
+  },
+};
+
+export const Referrals: Story = {
+  args: {
+    path: AccountTabsHref.REFERRALS,
+  },
+};
+
+export const Friends: Story = {
+  args: {
+    path: AccountTabsHref.FRIENDS,
   },
 };

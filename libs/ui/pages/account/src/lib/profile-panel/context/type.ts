@@ -167,8 +167,7 @@ export const basicInformationFormSchema = z.object({
       // username must have at least one letter
       (value) => /[a-zA-Z]/.test(value),
       `Username must contain at least one letter.`
-    )
-    .nullable(),
+    ),
   bio: z
     .string()
     .max(160, `Bio cannot be more than 160 characters.`)

@@ -1,11 +1,14 @@
 import { AccountCircleOutlined, InfoOutlined } from '@mui/icons-material';
 import { Box, Link, Typography } from '@mui/material';
 import { ValentinesWings } from '@worksheets/icons/valentines';
+import {
+  TOKENS_PER_REFERRAL_ACCOUNT,
+  TOKENS_PER_REFERRAL_PURCHASE,
+} from '@worksheets/util/settings';
 import React from 'react';
 
 import { BulletPoints } from '../../bullet-points';
 import { CollapsibleSection } from '../../collapsible-section';
-import { TOKENS_PER_REFERRAL_ACCOUNT } from '../../const';
 import { PanelFooter } from '../../panel-footer';
 import { Referral } from '../../types';
 import { ReferralsTable } from '../referral-table';
@@ -37,7 +40,7 @@ export const ReferredAccountsSection: React.FC<{
           points={[
             `Earn ${TOKENS_PER_REFERRAL_ACCOUNT} tokens, when someone makes an account using your referral link.`,
             <>
-              Earn {TOKENS_PER_REFERRAL_ACCOUNT} tokens when someone spends
+              Earn {TOKENS_PER_REFERRAL_PURCHASE} tokens when someone spends
               money at the <Link href="/store">Charity Store</Link> using your
               referral link.
             </>,

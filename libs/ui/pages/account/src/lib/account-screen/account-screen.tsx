@@ -13,6 +13,9 @@ export type AccountScreenProps = {
   onLogout: () => void;
   profilePanel: ReactNode;
   submissionsPanel: ReactNode;
+  tokensPanel: ReactNode;
+  referralsPanel: ReactNode;
+  friendsPanel: ReactNode;
 };
 
 export const AccountScreen: FC<AccountScreenProps> = ({
@@ -20,6 +23,9 @@ export const AccountScreen: FC<AccountScreenProps> = ({
   onLogout,
   profilePanel,
   submissionsPanel,
+  tokensPanel,
+  referralsPanel,
+  friendsPanel,
 }) => {
   return (
     <Container maxWidth="lg" sx={{ py: 2 }}>
@@ -35,6 +41,15 @@ export const AccountScreen: FC<AccountScreenProps> = ({
           <AccountTabs path={path} />
           <TabPanel target={AccountTabsHref.PROFILE} current={path}>
             {profilePanel}
+          </TabPanel>
+          <TabPanel target={AccountTabsHref.TOKENS} current={path}>
+            {tokensPanel}
+          </TabPanel>
+          <TabPanel target={AccountTabsHref.FRIENDS} current={path}>
+            {friendsPanel}
+          </TabPanel>
+          <TabPanel target={AccountTabsHref.REFERRALS} current={path}>
+            {referralsPanel}
           </TabPanel>
           <TabPanel target={AccountTabsHref.SUBMISSIONS} current={path}>
             {submissionsPanel}

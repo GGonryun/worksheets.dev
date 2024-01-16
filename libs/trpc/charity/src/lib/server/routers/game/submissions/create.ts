@@ -1,4 +1,3 @@
-import { TRPCError } from '@trpc/server';
 import { z } from '@worksheets/zod';
 
 import { protectedProcedure } from '../../../procedures';
@@ -10,22 +9,13 @@ export default protectedProcedure
       id: z.string(),
     })
   )
-  .mutation(async ({ ctx: { user, profile, db } }) => {
-    console.info('Creating submission for profile', { profileId: profile?.id });
-
-    if (!profile) {
-      console.warn('No profile found for user', { userId: user.id });
-      throw new TRPCError({
-        message: "You don't have a profile yet!",
-        code: 'PRECONDITION_FAILED',
-      });
-    }
-
-    const profileId = profile.id;
+  .mutation(async ({ ctx: { user, db } }) => {
+    const userId = user.id;
+    console.info('Creating submission for user', { userId });
 
     const submission = await db.gameSubmission.create({
       data: {
-        profileId,
+        userId,
         status: 'DRAFT',
       },
     });

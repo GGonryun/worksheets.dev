@@ -7,26 +7,17 @@ import { protectedProcedure } from '../../../procedures';
 export default protectedProcedure
   .input(z.object({ submissionId: z.string() }))
   .output(z.object({}))
-  .mutation(async ({ input: { submissionId }, ctx: { user, profile, db } }) => {
+  .mutation(async ({ input: { submissionId }, ctx: { user, db } }) => {
+    const userId = user.id;
     console.info('destroying game submission', {
-      profileId: profile?.id,
+      userId,
       submissionId,
     });
-
-    if (!profile) {
-      console.warn('User does not have a profile. Cannot delete submission.', {
-        userId: user.id,
-      });
-      throw new TRPCError({
-        code: 'PRECONDITION_FAILED',
-        message: 'You must have a profile to delete a submission.',
-      });
-    }
 
     const submission = await db.gameSubmission.findFirst({
       where: {
         id: submissionId,
-        profileId: profile.id,
+        userId,
       },
       select: {
         status: true,

@@ -15,7 +15,7 @@ import {
   VideoGameJsonLdProps,
 } from 'next-seo';
 
-import { LayoutContainer } from '../../containers/layout-container';
+import { DynamicLayout } from '../../dynamic/dynamic-layout';
 import { AdsensePushScript } from '../../scripts';
 import { mixedItems } from '../../util/mixed-items';
 import { getRandomGame } from '../../util/randomizer';
@@ -101,7 +101,7 @@ export const getServerSideProps = (async (ctx) => {
 }) satisfies GetServerSideProps<Props>;
 
 Page.getLayout = (page) => {
-  return <LayoutContainer>{page}</LayoutContainer>;
+  return <DynamicLayout>{page}</DynamicLayout>;
 };
 
 export default Page;

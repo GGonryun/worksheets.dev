@@ -1,24 +1,52 @@
+import { trpc } from '@worksheets/trpc-charity';
+import { ErrorScreen } from '@worksheets/ui/pages/errors';
 import {
-  GameSubmissionForm,
   GameSubmissionFormContextProvider,
   GameSubmissionScreen,
 } from '@worksheets/ui/pages/game-submissions';
+import { LoadingScreen } from '@worksheets/ui/pages/loading';
 import { Snackbar } from '@worksheets/ui/snackbar';
-import { Nullable } from '@worksheets/util/types';
-import { FC } from 'react';
+import { useSession } from 'next-auth/react';
 
 import { useGameSubmissionForm } from '../hooks/use-game-submission-form';
 
-export const GameSubmissionScreenContainer: FC<{
+export const GameSubmissionScreenContainer: React.FC<{
   submissionId: string;
-  form: Nullable<GameSubmissionForm>;
-  invalidProfile: boolean;
-}> = ({ submissionId, form: existingData, invalidProfile }) => {
-  const { form, snackbar } = useGameSubmissionForm(submissionId, existingData);
+}> = ({ submissionId }) => {
+  const session = useSession();
+
+  const enableQueries = session.status === 'authenticated';
+  const terms = trpc.user.profile.terms.get.useQuery(undefined, {
+    enabled: enableQueries,
+  });
+
+  const submission = trpc.game.submissions.get.useQuery(
+    { id: submissionId },
+    { enabled: enableQueries }
+  );
+
+  const { form, snackbar } = useGameSubmissionForm(
+    submissionId,
+    submission.data
+  );
+
+  if (submission.isLoading || terms.isLoading) {
+    return <LoadingScreen />;
+  }
+
+  if (submission.error || terms.error) {
+    return (
+      <ErrorScreen
+        onRetry={() => {
+          submission.refetch();
+        }}
+      />
+    );
+  }
 
   return (
     <GameSubmissionFormContextProvider value={form}>
-      <GameSubmissionScreen invalidProfile={invalidProfile} />
+      <GameSubmissionScreen invalidProfile={!terms.data.hasApproved} />
       <Snackbar {...snackbar} />
     </GameSubmissionFormContextProvider>
   );

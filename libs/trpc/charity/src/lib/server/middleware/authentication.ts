@@ -18,12 +18,6 @@ export const authentication = middleware(async ({ next, ctx, type, path }) => {
     },
   });
 
-  const profile = await ctx.db.profile.findFirst({
-    where: {
-      userId: user?.id,
-    },
-  });
-
   if (!user) {
     throw new TRPCError({
       code: `UNAUTHORIZED`,
@@ -34,7 +28,6 @@ export const authentication = middleware(async ({ next, ctx, type, path }) => {
   return next({
     ctx: {
       user,
-      profile,
     },
   });
 });

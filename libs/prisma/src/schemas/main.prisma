@@ -50,18 +50,29 @@ enum GameSubmissionStatus {
 model User {
   id                String    @id @default(cuid())
   name              String?
-  email             String   @unique
+  email             String    @unique
   emailVerified     DateTime?
   image             String?
+  referredByUserId  String?
+  username          String    @default(cuid())
+  bio               String?
+  isPublisher       Boolean   @default(false)
+
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
-  
+
   accounts          Account[]
   sessions          Session[]
+  
   plays             GamePlay[]
   votes             GameVote[]
-  profile           Profile?
-  purse             Purse?
+  rewards           Rewards[]
+  games             Game[]
+  submissions       GameSubmission[]
+
+  // users can refer other users
+  referredBy        User? @relation(name: "Referred", fields: [referredByUserId], references: [id])
+  referred          User[] @relation(name: "Referred")
 }
 
 model Account {
@@ -102,42 +113,22 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
-model Email {
-  id            String    @default(cuid()) @id
-  address       String    @unique
-  verified      Boolean   @default(false)
-  createdAt     DateTime  @default(now()) @map(name: "created_at")
-  updatedAt     DateTime  @updatedAt @map(name: "updated_at")
+model Rewards {
+  id                        String    @id @default(cuid())
+  userId                    String
+  totalTokens               Int       
+  // available tokens to earn from game play
+  availableGamePlayTokens   Int      
+  availableReferralTokens   Int       
+  giftBoxes                 Int
+  // momentum is used to calculate the daily reward.       
+  dailyRewardMomentum       Int
+  claimedDailyReward        Boolean   
+  user                      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  updatedAt                 DateTime  @updatedAt
 }
 
-model Profile {
-  id                String    @id @default(cuid())
-  // basic settings
-  // TODO: handle unique usernames, return an error if the username is taken.
-  username          String?    @unique @db.VarChar(63)
-  bio               String?
-  // publisher settings
-  isPublisher       Boolean   @default(false)
-  // audit
-  createdAt         DateTime  @default(now())
-  updatedAt         DateTime  @updatedAt
-  // profiles may exist without a user.
-  // this lets us upload games on behalf of users (legacy).
-  userId            String?    @unique
-  user              User?      @relation(fields: [userId], references: [id])
-  // external references
-  games             Game[]
-  submissions       GameSubmission[]
-}
-
-model Purse {
-  id                String    @id @default(cuid())
-  userId            String    @unique
-  user              User      @relation(fields: [userId], references: [id])
-  balance           Int       @default(0)
-  createdAt         DateTime  @default(now())
-  updatedAt         DateTime  @updatedAt
-}
 
 
 enum ReportReason {
@@ -245,7 +236,7 @@ model Game {
   viewport      Viewport        @relation(fields: [viewportId], references: [id])
   // Ownership
   ownerId       String?
-  owner         Profile?        @relation(fields: [ownerId], references: [id])
+  owner         User?        @relation(fields: [ownerId], references: [id])
   // Analytics
   // votes         GameVote[]
   // plays         GamePlay[]
@@ -302,8 +293,8 @@ model GameSubmission {
   status              GameSubmissionStatus      @default(DRAFT)
   reviews             GameSubmissionFeedback[]
   // the profile that submitted the game
-  profileId             String 
-  profile               Profile                 @relation(fields: [profileId], references: [id])    
+  userId           String 
+  user             User                 @relation(fields: [userId], references: [id])    
   // auditing and analytics
   createdAt           DateTime                  @default(now())
   updatedAt           DateTime                  @updatedAt

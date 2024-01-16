@@ -1,11 +1,11 @@
 import { InfoOutlined, LinkOutlined } from '@mui/icons-material';
 import { Box, Divider, Link } from '@mui/material';
 import { ValentinesWorld } from '@worksheets/icons/valentines';
+import { TOKENS_PER_REFERRAL_ACCOUNT } from '@worksheets/util/settings';
 import React from 'react';
 
 import { BulletPoints } from '../../bullet-points';
 import { CollapsibleSection } from '../../collapsible-section';
-import { TOKENS_PER_REFERRAL_ACCOUNT } from '../../const';
 import { PanelFooter } from '../../panel-footer';
 import { ReferralInfo } from '../../referral-info';
 

@@ -196,3 +196,9 @@ export const millisecondsToDuration = (milliseconds: number): string => {
     .toString()
     .padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 };
+
+export const getNextUTCMidnight = (): Date => {
+  const nextMidnight = new Date();
+  nextMidnight.setUTCHours(24, 0, 0, 0);
+  return nextMidnight;
+};

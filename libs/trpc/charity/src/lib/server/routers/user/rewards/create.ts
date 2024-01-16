@@ -1,0 +1,41 @@
+import {
+  MAX_TOKENS_FROM_REFERRAL_PLAYS,
+  MAX_TOKENS_PER_DAY,
+  STARTING_GIFT_BOXES,
+  STARTING_MOMENTUM,
+  STARTING_TOKENS,
+} from '@worksheets/util/settings';
+import { z } from '@worksheets/zod';
+
+import { protectedProcedure } from '../../../procedures';
+
+export default protectedProcedure
+  .output(
+    z.object({
+      okay: z.boolean(),
+    })
+  )
+  .mutation(async ({ ctx: { user, db } }) => {
+    const userId = user.id;
+    console.info('Creating rewards for user', { userId });
+
+    try {
+      await db.rewards.create({
+        data: {
+          userId,
+          giftBoxes: STARTING_GIFT_BOXES,
+          totalTokens: STARTING_TOKENS,
+          dailyRewardMomentum: STARTING_MOMENTUM,
+          availableGamePlayTokens: MAX_TOKENS_PER_DAY,
+          availableReferralTokens: MAX_TOKENS_FROM_REFERRAL_PLAYS,
+          claimedDailyReward: false,
+        },
+      });
+    } catch (error) {
+      console.warn('Rewards already created for user', { userId, error });
+    }
+
+    return {
+      okay: true,
+    };
+  });

@@ -38,6 +38,9 @@ const addBasicPages = () => {
     '/developers',
     '/play',
     '/tags',
+    '/auctions',
+    '/prizes',
+    '/store',
   ];
 
   return slugs

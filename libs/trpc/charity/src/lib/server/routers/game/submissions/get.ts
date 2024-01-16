@@ -15,21 +15,15 @@ export default protectedProcedure
     })
   )
   .output(z.custom<Nullable<GameSubmissionForm>>())
-  .query(async ({ input: { id }, ctx: { user, profile, db } }) => {
-    console.info('Getting submission', { id, profileId: profile?.id });
+  .query(async ({ input: { id }, ctx: { user, db } }) => {
+    const userId = user.id;
 
-    if (!profile) {
-      console.warn('No profile found for user', { userId: user.id });
-      throw new TRPCError({
-        message: "You don't have a profile yet!",
-        code: 'PRECONDITION_FAILED',
-      });
-    }
+    console.info('Getting submission', { id, userId });
 
     const submission = await db.gameSubmission.findUnique({
       where: {
         id,
-        profileId: profile.id,
+        userId,
       },
       include: {
         gameFile: true,
@@ -68,7 +62,7 @@ export default protectedProcedure
       coverFile: safelyCreateFile(submission.coverFile),
       trailerUrl: submission.trailerUrl,
       status: submission.status,
-      profileId: submission.profileId,
+      userId: submission.userId,
       markets: JSON.parse(submission.markets ?? '{}'),
     };
   });

@@ -8,15 +8,15 @@ import {
 } from '@mui/icons-material';
 import { Box, Button, Link, Typography } from '@mui/material';
 import { ValentinesMail, ValentinesTicket } from '@worksheets/icons/valentines';
-import React from 'react';
-
-import { BulletPoints, TitleText } from '../../bullet-points';
-import { CollapsibleSection } from '../../collapsible-section';
 import {
   BASE_DAILY_REWARD,
   MAX_MOMENTUM,
   MOMENTUM_MULTIPLIER,
-} from '../../const';
+} from '@worksheets/util/settings';
+import React from 'react';
+
+import { BulletPoints, TitleText } from '../../bullet-points';
+import { CollapsibleSection } from '../../collapsible-section';
 import { PanelFooter } from '../../panel-footer';
 
 export const DailyRewardSection: React.FC<{

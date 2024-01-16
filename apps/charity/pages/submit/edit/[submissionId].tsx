@@ -1,18 +1,14 @@
 import { createServerSideTRPC } from '@worksheets/trpc-charity/server';
-import { GameSubmissionForm } from '@worksheets/ui/pages/game-submissions';
-import { Nullable } from '@worksheets/util/types';
 import { NextPageWithLayout } from '@worksheets/util-next';
 import { GetServerSideProps } from 'next/types';
 import { NextSeo } from 'next-seo';
 
 import { GameSubmissionScreenContainer } from '../../../containers/game-submission-screen-container';
-import { LayoutContainer } from '../../../containers/layout-container';
+import { DynamicLayout } from '../../../dynamic/dynamic-layout';
 import { submitGameSeo } from '../../../util/seo';
 
 type Props = {
   submissionId: string;
-  form: Nullable<GameSubmissionForm>;
-  invalidProfile: boolean;
 };
 
 const Page: NextPageWithLayout<Props> = (props) => {
@@ -37,31 +33,21 @@ export const getServerSideProps = (async (ctx) => {
 
   const trpc = await createServerSideTRPC(ctx);
 
-  const terms = await trpc.profile.terms.get.fetch();
-
-  try {
-    const form = await trpc.game.submissions.get.fetch({
-      id: submissionId,
-    });
-
-    return {
-      props: {
-        submissionId,
-        form,
-        invalidProfile: !terms.hasApproved,
-      },
-    };
-  } catch (error) {
-    console.error(`failed to fetch submission ${submissionId}`, error);
-  }
+  await trpc.user.profile.terms.get.prefetch();
+  await trpc.game.submissions.get.prefetch({
+    id: submissionId,
+  });
 
   return {
-    notFound: true,
+    props: {
+      submissionId,
+      dehydratedState: trpc.dehydrate(),
+    },
   };
 }) satisfies GetServerSideProps<Props>;
 
 Page.getLayout = (page) => {
-  return <LayoutContainer>{page}</LayoutContainer>;
+  return <DynamicLayout>{page}</DynamicLayout>;
 };
 
 export default Page;

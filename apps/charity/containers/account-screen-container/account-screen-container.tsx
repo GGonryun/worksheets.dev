@@ -1,18 +1,14 @@
-import {
-  AccountScreen,
-  BasicGameSubmission,
-  BasicInformationForm,
-} from '@worksheets/ui/pages/account';
+import { AccountScreen } from '@worksheets/ui/pages/account';
 import { useRouter } from 'next/router';
 import { signOut } from 'next-auth/react';
 
+import { FriendsPanelContainer } from './friends-panel-container';
 import { ProfilePanelContainer } from './profile-panel-container';
+import { ReferralsPanelContainer } from './referrals-panel-container';
 import { SubmissionsPanelContainer } from './submission-panel-container';
+import { TokensPanelContainer } from './tokens-panel-container';
 
-export const AccountScreenContainer: React.FC<{
-  profile: BasicInformationForm | null;
-  submissions: BasicGameSubmission[] | null;
-}> = ({ profile, submissions }) => {
+export const AccountScreenContainer: React.FC = () => {
   const handleLogout = () => {
     signOut({ callbackUrl: '/' });
   };
@@ -23,10 +19,11 @@ export const AccountScreenContainer: React.FC<{
     <AccountScreen
       path={asPath}
       onLogout={handleLogout}
-      profilePanel={<ProfilePanelContainer profile={profile} />}
-      submissionsPanel={
-        <SubmissionsPanelContainer submissions={submissions ?? []} />
-      }
+      profilePanel={<ProfilePanelContainer />}
+      submissionsPanel={<SubmissionsPanelContainer />}
+      friendsPanel={<FriendsPanelContainer />}
+      referralsPanel={<ReferralsPanelContainer />}
+      tokensPanel={<TokensPanelContainer />}
     />
   );
 };

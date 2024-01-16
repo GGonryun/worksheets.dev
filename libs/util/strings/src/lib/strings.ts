@@ -24,3 +24,7 @@ export const validateHttpsUrl = (url: string | undefined): boolean => {
 
   return regex.test(url ?? '');
 };
+
+export const createRandomUserName = (): string => {
+  return `user${Math.floor(Math.random() * 1000000)}`;
+};

@@ -6,7 +6,7 @@ import { NextPageWithLayout } from '@worksheets/util-next';
 import { GetServerSideProps } from 'next/types';
 import { NextSeo } from 'next-seo';
 
-import { LayoutContainer } from '../../containers/layout-container';
+import { DynamicLayout } from '../../dynamic/dynamic-layout';
 import { createGameSubmissionSeo } from '../../util/seo';
 
 type Props = {
@@ -30,7 +30,7 @@ const Page: NextPageWithLayout<Props> = () => {
 export const getServerSideProps = (async (ctx) => {
   const trpc = await createServerSideTRPC(ctx);
 
-  const profile = await trpc.profile.get.fetch();
+  const profile = await trpc.user.get.fetch();
 
   if (!profile) {
     return {
@@ -49,7 +49,7 @@ export const getServerSideProps = (async (ctx) => {
 }) satisfies GetServerSideProps<Props>;
 
 Page.getLayout = (page) => {
-  return <LayoutContainer>{page}</LayoutContainer>;
+  return <DynamicLayout>{page}</DynamicLayout>;
 };
 
 export default Page;

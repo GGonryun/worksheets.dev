@@ -2,7 +2,7 @@ import { AboutScreen } from '@worksheets/ui/pages/about';
 import { NextPageWithLayout } from '@worksheets/util-next';
 import { NextSeo } from 'next-seo';
 
-import { LayoutContainer } from '../containers/layout-container';
+import { DynamicLayout } from '../dynamic/dynamic-layout';
 import { aboutSeo } from '../util/seo';
 
 const Page: NextPageWithLayout = () => (
@@ -13,7 +13,7 @@ const Page: NextPageWithLayout = () => (
 );
 
 Page.getLayout = (page) => {
-  return <LayoutContainer>{page}</LayoutContainer>;
+  return <DynamicLayout>{page}</DynamicLayout>;
 };
 
 export default Page;
