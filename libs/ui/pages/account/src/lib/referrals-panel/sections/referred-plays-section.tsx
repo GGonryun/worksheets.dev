@@ -11,7 +11,7 @@ import {
   useMediaQuery,
   useTheme,
 } from '@mui/material';
-import { ValentinesDiamond } from '@worksheets/icons/valentines';
+import { ValentinesTicket } from '@worksheets/icons/valentines';
 import { calculatePercentage, toPercentage } from '@worksheets/util/numbers';
 import React from 'react';
 
@@ -41,7 +41,7 @@ export const ReferredPlaysSection: React.FC<{
           <PendingOutlined fontSize="large" color="info" />
         )
       }
-      Icon={ValentinesDiamond}
+      Icon={ValentinesTicket}
     >
       <Box
         sx={{
@@ -134,7 +134,7 @@ export const ReferredPlaysSection: React.FC<{
           }}
           action={{
             text: 'Get Tokens',
-            href: '/account/tokens',
+            href: '/account/tokens-rewards#referrals',
           }}
         />
       </Box>

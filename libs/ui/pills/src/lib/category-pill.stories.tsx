@@ -40,7 +40,7 @@ export const Primary = {
   args: {
     name: 'Popular Games',
     href: '#',
-    imageUrl: '/common/charity-games/art/trophy.svg',
+    imageUrl: '/games/categories/trophy.svg',
   },
   decorators: [short],
 };
@@ -49,7 +49,7 @@ export const WithoutArrow = {
   args: {
     name: 'Popular Games',
     href: '#',
-    imageUrl: '/common/charity-games/art/trophy.svg',
+    imageUrl: '/games/categories/trophy.svg',
     hideArrow: true,
   },
   decorators: [short],
@@ -59,7 +59,7 @@ export const IsTall = {
   args: {
     name: 'Popular Games',
     href: '#',
-    imageUrl: '/common/charity-games/art/trophy.svg',
+    imageUrl: '/games/categories/trophy.svg',
   },
   decorators: [tall],
 };

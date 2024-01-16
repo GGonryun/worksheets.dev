@@ -1,8 +1,8 @@
 import { createSvgIcon } from '@mui/material';
 
-const name = 'ValentinesHeart';
+const name = 'WebHeart';
 
-export const ValentinesHeart = createSvgIcon(
+export const WebHeart = createSvgIcon(
   <svg
     version="1.1"
     id="Layer_1"

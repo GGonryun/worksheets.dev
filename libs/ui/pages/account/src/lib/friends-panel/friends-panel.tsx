@@ -1,6 +1,6 @@
 import { InfoOutlined } from '@mui/icons-material';
 import { Box, Divider, Link, Typography } from '@mui/material';
-import { ValentinesHeart } from '@worksheets/icons/valentines';
+import { WebHeart } from '@worksheets/icons/web';
 
 import { PanelFooter } from '../panel-footer';
 import { PanelHeader } from '../panel-header';
@@ -27,7 +27,7 @@ export const FriendsPanel: React.FC<{
       <PanelHeader
         primary="Friends"
         secondary={`${props.friends.length} friends`}
-        icon={<ValentinesHeart fontSize="large" />}
+        icon={<WebHeart fontSize="large" />}
       />
 
       <Divider />

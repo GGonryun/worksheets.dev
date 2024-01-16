@@ -113,7 +113,7 @@ export const GiftBoxSection: React.FC<{
         <PanelFooter
           learn={{
             text: 'Gift Boxes',
-            href: '/help/gift-boxes',
+            href: '/help/tokens-rewards#gift-boxes',
           }}
           action={{
             text: 'Send Gift Boxes',

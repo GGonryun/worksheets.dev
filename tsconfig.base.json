@@ -25,6 +25,8 @@
       "@worksheets/icons/arrows": ["libs/icons/arrows/src/index.ts"],
       "@worksheets/icons/charity": ["libs/icons/charity/src/index.ts"],
       "@worksheets/icons/companies": ["libs/icons/companies/src/index.ts"],
+      "@worksheets/icons/ecommerce": ["libs/icons/ecommerce/src/index.ts"],
+      "@worksheets/icons/learning": ["libs/icons/learning/src/index.ts"],
       "@worksheets/icons/valentines": ["libs/icons/valentines/src/index.ts"],
       "@worksheets/icons/web": ["libs/icons/web/src/index.ts"],
       "@worksheets/icons/youtube": ["libs/icons/youtube/src/index.ts"],

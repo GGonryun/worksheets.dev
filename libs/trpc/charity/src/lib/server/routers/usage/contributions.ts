@@ -1,4 +1,7 @@
-import { games } from '@worksheets/data-access/charity-games';
+import {
+  gameMonetizeGames,
+  games,
+} from '@worksheets/data-access/charity-games';
 import { basicWebsiteStatisticsSchema } from '@worksheets/util/types';
 
 import { publicProcedure } from '../../procedures';
@@ -7,7 +10,7 @@ export default publicProcedure
   .output(basicWebsiteStatisticsSchema)
   .query(async ({ ctx: { db } }) => {
     // donated games exclude game monetize games
-    const allGames = games.length;
+    const allGames = games.length - gameMonetizeGames.length;
 
     // game plays is the sum of all game plays
     const gamesPlayed = await db.gamePlay.findMany({

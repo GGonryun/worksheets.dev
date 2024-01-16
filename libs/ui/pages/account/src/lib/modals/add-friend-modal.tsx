@@ -1,6 +1,6 @@
 import { Add, Cancel } from '@mui/icons-material';
 import { Box, Button, IconButton, Typography } from '@mui/material';
-import { ValentinesHeart } from '@worksheets/icons/valentines';
+import { WebHeart } from '@worksheets/icons/web';
 import { BaseModal, ModalWrapper } from '@worksheets/ui-core';
 
 export const AddFriendModal: React.FC<
@@ -46,7 +46,7 @@ export const AddFriendModal: React.FC<
           Would you like to add <b>{friendUsername}</b> to your friends list?
         </Typography>
 
-        <ValentinesHeart sx={{ width: 128, height: 128, mt: 2, mb: 4 }} />
+        <WebHeart sx={{ width: 128, height: 128, mt: 2, mb: 4 }} />
 
         <Button
           onClick={handleAdd}

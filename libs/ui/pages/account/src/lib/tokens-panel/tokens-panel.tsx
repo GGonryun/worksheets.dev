@@ -1,9 +1,10 @@
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import { FavoriteBorder } from '@mui/icons-material';
 import { Box, Divider, Link, Typography } from '@mui/material';
 import { ValentinesTicket } from '@worksheets/icons/valentines';
 import { FC } from 'react';
 
 import { useTimeUntil } from '../__hooks__/use-time-until';
+import { PanelFooter } from '../panel-footer';
 import { PanelHeader } from '../panel-header';
 import { RewardsTimer } from '../rewards-timer';
 import {
@@ -77,17 +78,20 @@ export const TokensPanel: FC<{
           mt: 1,
         }}
       >
-        <InfoOutlinedIcon fontSize="small" color="primary" />
+        <FavoriteBorder fontSize="small" color="love" />
         <Typography>
           Redeem tokens for real world rewards at the{' '}
           <Link href="/prizes">prize wall</Link> or at the{' '}
           <Link href="/auctions">auction house</Link>.
         </Typography>
       </Box>
-      <Typography variant="body3" color="text.secondary" mt={1}>
-        Learn more about tokens and rewards in the{' '}
-        <Link href="/help/tokens">Help Center</Link>.
-      </Typography>
+
+      <PanelFooter
+        learn={{
+          href: '/help/tokens-rewards',
+          text: 'Tokens & Rewards',
+        }}
+      />
     </Box>
   );
 };

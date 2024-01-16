@@ -110,7 +110,10 @@ export const SendGiftsSection: React.FC<{
         />
 
         <PanelFooter
-          learn={{ text: 'Gift Boxes', href: '/help/gift-boxes' }}
+          learn={{
+            text: 'Sending Gifts',
+            href: '/help/tokens-rewards#gift-boxes',
+          }}
           action={{ text: 'Add Friends', href: addFriendsLink }}
         />
       </Box>
