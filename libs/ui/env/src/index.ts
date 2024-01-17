@@ -5,7 +5,11 @@ const WORD_PACK_URL = process.env['NEXT_PUBLIC_WORD_PACK_BASE_URL'] ?? '';
 const WORD_SMITH_URL = process.env['NEXT_PUBLIC_WORD_SMITH_BASE_URL'] ?? '';
 const NONOGRAMS_URL = process.env['NEXT_PUBLIC_NONOGRAMS_BASE_URL'] ?? '';
 const SOLITAIRE_URL = process.env['NEXT_PUBLIC_SOLITAIRE_BASE_URL'] ?? '';
-const BASE_URL = process.env['NEXT_PUBLIC_CHARITY_GAMES_BASE_URL'] ?? '';
+const BASE_URL =
+  (process.env['NEXT_PUBLIC_CHARITY_GAMES_BASE_URL'] ||
+    process.env['CHARITY_GAMES_BASE_URL'] ||
+    process.env['BASE_URL']) ??
+  '';
 const COOKIE_DOMAIN = process.env['NEXT_PUBLIC_COOKIE_DOMAIN'] ?? '';
 const IS_PRODUCTION = process.env['NODE_ENV'] === 'production';
 

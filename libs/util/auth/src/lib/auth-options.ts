@@ -92,9 +92,6 @@ export const AUTH_OPTIONS: AuthOptions = {
     }),
     // ...add more providers here
   ],
-  cookies: {
-    sessionToken: IS_DEVELOPMENT ? localSessionToken : productionSessionToken,
-  },
   callbacks: {
     async signIn({ account, profile }) {
       if (account?.provider === 'google') {

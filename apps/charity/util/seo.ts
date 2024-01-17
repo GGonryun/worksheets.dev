@@ -1,3 +1,4 @@
+import { BASE_URL } from '@worksheets/ui/env';
 import { TWITTER_SEO } from '@worksheets/util/seo';
 import {
   BlogAuthor,
@@ -12,6 +13,8 @@ import {
   NextSeoProps,
   VideoGameJsonLdProps,
 } from 'next-seo';
+
+const createCanonicalUrl = (url?: string) => `${BASE_URL}${url}`;
 
 export type OpenGraphProps = NonNullable<
   NextSeoProps['openGraph'] & { noindex?: boolean }
@@ -28,7 +31,7 @@ export const defaultSeo: DefaultSeoProps = {
       'On Charity Games you can play free online HTML browser games and microgames. Every play donates money to charitable causes. We support mobile and desktop.',
     images: [
       {
-        url: 'https://www.charity.games/og-image.png',
+        url: `${BASE_URL}/og-image.png`,
         width: 978,
         height: 800,
         alt: 'Charity Games Logo',
@@ -67,7 +70,7 @@ export const ldJson = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
   name: defaultSeo.title,
-  url: 'https://www.charity.games/',
+  url: createCanonicalUrl(),
   alternateName: [
     'Charity.Games',
     'CharityGames',
@@ -78,7 +81,7 @@ export const ldJson = {
 };
 
 const createSeo = ({ noindex, ...props }: OpenGraphProps): NextSeoProps => ({
-  canonical: props.url,
+  canonical: createCanonicalUrl(props.url),
   title: props.title,
   noindex: noindex ?? false,
   defaultTitle: 'Charity Games',
@@ -89,47 +92,47 @@ const createSeo = ({ noindex, ...props }: OpenGraphProps): NextSeoProps => ({
 });
 
 export const aboutSeo = createSeo({
-  url: 'https://www.charity.games/about',
+  url: '/about',
   title: 'Charity Games - About Us',
   description:
     'Charity Games provides access to free online HTML browser games. Every game donates money to charitable causes. Play your favorite games and help make the world a better place.',
 });
 
 export const homeSeo = createSeo({
-  url: 'https://www.charity.games/',
+  url: '/',
   title: 'Charity Games - Free Online Games',
   description:
     'On Charity Games you can play free online HTML browser games that donate money to charitable causes. Play your favorite mobile and desktop games.',
 });
 
 export const charitySeo = createSeo({
-  url: 'https://www.charity.games/charity',
+  url: '/charity',
   title: 'Charity Games - Donate by Playing Free Online Games',
   description:
     'Charity Games is an online web arcade that donates money by playing free online browser games. We have hundreds of microgames to choose from. Play with Purpose',
 });
 
 export const contactSeo = createSeo({
-  url: 'https://www.charity.games/contact',
+  url: '/contact',
   title: 'Charity Games - Contact Us',
   description:
     'If you have any questions, comments, or concerns about Charity Games, please feel free to contact us. We typically respond within 48 hours.',
 });
 
 export const tagsSeo = createSeo({
-  url: `https://www.charity.games/tags`,
+  url: `/tags`,
   title: `Charity Games - All Categories`,
   description: `Find and play your favorite html and browser games for free on Charity Games. The easiest way to donate to charity.`,
 });
 
 export const gamesSeo = createSeo({
-  url: `https://charity.games/play`,
+  url: `/play`,
   title: `Charity Games - All Games`,
   description: `Find and play your favorite mobile and desktop games for free on Charity Games. The easiest way to donate to charity.`,
 });
 
 export const blogArticleSeo = (slug: string, metadata: MarkdownMetadata) => ({
-  url: `https://www.charity.games/blog/${slug}`,
+  url: createCanonicalUrl(`/blog/${slug}`),
   title: `${metadata.title} - Charity Games`,
   description: metadata.excerpt,
   type: 'article',
@@ -153,7 +156,7 @@ export const blogArticleJsonLd = (
   author: BlogAuthor
 ): ArticleJsonLdProps => ({
   type: 'BlogPosting',
-  url: `https://www.charity.games/blog/${slug}`,
+  url: createCanonicalUrl(`/blog/${slug}`),
   title: `${metadata.title} - Charity Games`,
   images: [metadata.ogImage.url],
   datePublished: metadata.date,
@@ -163,27 +166,27 @@ export const blogArticleJsonLd = (
 });
 
 export const blogSeo = createSeo({
-  url: `https://www.charity.games/blog/`,
+  url: `/blog`,
   title: `Charity Games - Blog`,
   description: `Stay up to date with the latest news and updates from Charity Games. Learn about our mission and how you can help us make a difference.`,
 });
 
 export const developerSeo = (developer: DeveloperSchema): NextSeoProps =>
   createSeo({
-    url: `https://www.charity.games/developers/${developer.id}`,
+    url: `/developers/${developer.id}`,
     title: `${developer.name} - Charity Games - Developer Profile`,
     description: `Play ${developer.name} games online for free on Charity Games. Turn your games into donations. Help us make a difference.`,
   });
 
 export const donationsSeo = createSeo({
-  url: `https://www.charity.games/donations`,
+  url: `/donations`,
   title: `Charity Games - Donation Receipts`,
   description: `View all donations made by Charity Games. See how much money has been donated to charity. Thank you for your support!`,
 });
 
 export const categorySeo = (tag: TagSchema): NextSeoProps =>
   createSeo({
-    url: `https://www.charity.games/tags/${tag.id}`,
+    url: `/tags/${tag.id}`,
     title: `${tag.name} - Play Free Browser Games for Charity`,
     description: `Play ${tag.name} online for free on Charity Games. The easiest way to make a difference. Donate to charity by playing ${tag.name}.`,
   });
@@ -193,7 +196,7 @@ export const gameSeo = (
   developer: DeveloperSchema
 ): NextSeoProps =>
   createSeo({
-    url: `https://www.charity.games/play/${game.id}`,
+    url: `/play/${game.id}`,
     title: `${game.name} - Charity Games - Free Online Arcade`,
     description: `Play ${game.name} by ${
       developer.name
@@ -217,140 +220,140 @@ export const gameJsonLd = (
   description: game.description,
   playMode: 'SinglePlayer',
   applicationCategory: 'Game',
-  url: `https://www.charity.games/play/${game.id}`,
+  url: createCanonicalUrl(`/play/${game.id}`),
   platformName: game.platforms,
   keywords: game.tags.join(', '),
   datePublished: game.createdAt.toISOString(),
   image: game.iconUrl,
   publisherName: developer.name,
-  producerUrl: `https://www.charity.games/developers/${developer.id}`,
+  producerUrl: createCanonicalUrl(`/developers/${developer.id}`),
 });
 
 export const termsSeo = createSeo({
-  url: `https://www.charity.games/terms`,
+  url: `/terms`,
   title: `Charity Games - Terms of Service`,
   description: `Read the Charity Games terms of service. Learn about our policies and guidelines. Thank you for your support!`,
 });
 
 export const submitGameSeo = createSeo({
-  url: `https://www.charity.games/contribute/submit`,
+  url: `/contribute/submit`,
   title: `Charity Games - Submit a Game`,
   description: `Learn how to submit a game to Charity Games. Help us make a difference. Turn your games into donations.`,
 });
 
 export const accountProfileSeo = createSeo({
   noindex: true,
-  url: `https://www.charity.games/account`,
+  url: `/account`,
   title: `Charity Games - Account`,
   description: `Manage your Charity Games account. View your profile and manage your settings.`,
 });
 
 export const accountSubmissionsSeo = createSeo({
   noindex: true,
-  url: `https://www.charity.games/account`,
+  url: `/account/submissions`,
   title: `Charity Games - Submissions`,
   description: `Manage your Charity Games submissions. View your submission history.`,
 });
 
 export const createGameSubmissionSeo = createSeo({
   noindex: true,
-  url: `https://www.charity.games/account/submit/new`,
+  url: `/account/submit/new`,
   title: `Charity Games - Create Submission`,
   description: `Create a new game submission on Charity Games.`,
 });
 
 export const accountTokensSeo = createSeo({
   noindex: true,
-  url: `https://www.charity.games/account/tokens`,
+  url: `/account/tokens`,
   title: `Charity Games - Tokens`,
   description: `Manage your Charity Games tokens. Earn tokens by playing games and referring friends.`,
 });
 
 export const accountReferralsSeo = createSeo({
   noindex: true,
-  url: `https://www.charity.games/account/referrals`,
+  url: `/account/referrals`,
   title: `Charity Games - Referrals`,
   description: `Manage your Charity Games referrals. Earn tokens by referring friends.`,
 });
 
 export const accountFriendsSeo = createSeo({
   noindex: true,
-  url: `https://www.charity.games/account/friends`,
+  url: `/account/friends`,
   title: `Charity Games - Friends`,
   description: `Manage your Charity Games friends. Earn tokens by sharing gifts with friends.`,
 });
 
 export const helpCenterSeo = createSeo({
-  url: 'https://www.charity.games/help',
+  url: '/help',
   title: 'Charity Games - Help Center',
   description:
     'Find answers to frequently asked questions about Charity Games. Learn how to play, donate, and get involved.',
 });
 
 export const helpContributionsSeo = createSeo({
-  url: 'https://www.charity.games/help/contributions',
+  url: '/help/contributions',
   title: 'Charity Games - Contributions',
   description:
     'There are many ways to help Charity Games. Whether you are a developer, player, teacher, charity, content creator, professional, student, or parent, we would love to hear from you!',
 });
 
 export const helpFaqSeo = createSeo({
-  url: 'https://www.charity.games/help/faq',
+  url: '/help/faq',
   title: 'Charity Games - Frequently Asked Questions',
   description:
     'Find answers to frequently asked questions about Charity Games. Learn how to play, donate, and get involved.',
 });
 
 export const helpAccountsSeo = createSeo({
-  url: 'https://www.charity.games/help/accounts',
+  url: '/help/accounts',
   title: 'Charity Games - Accounts',
   description:
     'Find answers to questions about accounts, profiles, and settings on Charity Games.',
 });
 
 export const helpPlayingGamesSeo = createSeo({
-  url: 'https://www.charity.games/help/playing-games',
+  url: '/help/playing-games',
   title: 'Charity Games - Playing Games',
   description:
     'Find answers to questions about playing games on Charity Games. Learn how to play games and earn tokens.',
 });
 
 export const helpReferralsSeo = createSeo({
-  url: 'https://www.charity.games/help/referrals',
+  url: '/help/referrals',
   title: 'Charity Games - Referrals',
   description:
     'Find answers to questions about referrals on Charity Games. Learn how to earn tokens by referring friends.',
 });
 export const helpFriendsSeo = createSeo({
-  url: 'https://www.charity.games/help/friends',
+  url: '/help/friends',
   title: 'Charity Games - Friends',
   description:
     'Find answers to questions about friends on Charity Games. Learn how to earn tokens by sharing gifts with friends.',
 });
 
 export const helpVIPSeo = createSeo({
-  url: 'https://www.charity.games/help/vip',
+  url: '/help/vip',
   title: 'Charity Games - VIP',
   description:
     'Find answers to questions about VIP membership on Charity Games. Learn how to earn tokens by becoming a VIP.',
 });
 
 export const helpAuctionsSeo = createSeo({
-  url: 'https://www.charity.games/help/auctions',
+  url: '/help/auctions',
   title: 'Charity Games - Auctions',
   description:
     'Find answers to questions about auctions on Charity Games. Learn about winning real world prizes at the auction house.',
 });
 
 export const helpPrizeWallSeo = createSeo({
-  url: 'https://www.charity.games/help/prize-wall',
+  url: '/help/prize-wall',
   title: 'Charity Games - Prize Wall',
   description:
     'Find answers to questions about the prize wall on Charity Games. Learn about redeeming tokens for real world prizes.',
 });
 
 export const helpDevelopersSeo = createSeo({
-  url: 'https://www.charity.games/help/developers',
+  url: '/help/developers',
   title: 'Charity Games - Developers',
   description:
     'Find answers to questions about contributing games to the Charity Games Platform. Turn your games into donations.',
