@@ -11,6 +11,8 @@ import {
 } from '@worksheets/util/types';
 import dynamic from 'next/dynamic';
 
+import { AdsensePushScript } from '../scripts';
+
 const DynamicGameLauncher = dynamic(() => import('./game-launcher-container'), {
   ssr: false,
 });
@@ -32,62 +34,65 @@ const GameScreenContainer: React.FC<{
   });
 
   return (
-    <GameScreen
-      game={
-        <DynamicGameLauncher
-          game={game}
-          developer={developer}
-          analytics={analytics ?? emptyAnalyticsPayload}
-        />
-      }
-      description={
-        <GameDescription
-          game={game}
-          developer={developer}
-          analytics={analytics ?? emptyAnalyticsPayload}
-        />
-      }
-      suggestions={[
-        {
-          href: `/play/${randomGame}`,
-          type: 'button',
-          text: {
-            content: 'Random Game',
-            color: 'text.primary',
-            variant: 'h4',
-          },
-          backgroundColor: 'highlight.main',
+    <>
+      <GameScreen
+        game={
+          <DynamicGameLauncher
+            game={game}
+            developer={developer}
+            analytics={analytics ?? emptyAnalyticsPayload}
+          />
+        }
+        description={
+          <GameDescription
+            game={game}
+            developer={developer}
+            analytics={analytics ?? emptyAnalyticsPayload}
+          />
+        }
+        suggestions={[
+          {
+            href: `/play/${randomGame}`,
+            type: 'button',
+            text: {
+              content: 'Random Game',
+              color: 'text.primary',
+              variant: 'h4',
+            },
+            backgroundColor: 'highlight.main',
 
-          width: { xs: '1/-1' },
-          Icon: ShuffleIcon,
-        },
-        ...gridItems,
-        {
-          type: 'button',
-          text: {
-            content: 'More Games',
-            color: 'error.contrastText',
-            variant: 'h4',
+            width: { xs: '1/-1' },
+            Icon: ShuffleIcon,
           },
-          backgroundColor: 'error.main',
-          href: '/play',
-          Icon: SportsEsportsOutlinedIcon,
-          width: { xs: '1/-1', sm: `span 3` },
-        },
-        {
-          type: 'button',
-          text: {
-            content: 'All Tags',
-            color: 'primary.contrastText',
-            variant: 'h4',
+          ...gridItems,
+          {
+            type: 'button',
+            text: {
+              content: 'More Games',
+              color: 'error.contrastText',
+              variant: 'h4',
+            },
+            backgroundColor: 'error.main',
+            href: '/play',
+            Icon: SportsEsportsOutlinedIcon,
+            width: { xs: '1/-1', sm: `span 3` },
           },
-          backgroundColor: 'primary.main',
-          href: '/tags',
-          Icon: LocalOfferOutlinedIcon,
-          width: { xs: '1/-1', sm: `span 3` },
-        },
-      ]}
-    />
+          {
+            type: 'button',
+            text: {
+              content: 'All Tags',
+              color: 'primary.contrastText',
+              variant: 'h4',
+            },
+            backgroundColor: 'primary.main',
+            href: '/tags',
+            Icon: LocalOfferOutlinedIcon,
+            width: { xs: '1/-1', sm: `span 3` },
+          },
+        ]}
+      />
+      <AdsensePushScript />
+    </>
   );
 };
 

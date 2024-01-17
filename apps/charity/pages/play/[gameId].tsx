@@ -16,7 +16,6 @@ import {
 } from 'next-seo';
 
 import { DynamicLayout } from '../../dynamic/dynamic-layout';
-import { AdsensePushScript } from '../../scripts';
 import { mixedItems } from '../../util/mixed-items';
 import { getRandomGame } from '../../util/randomizer';
 import { gameJsonLd, gameSeo } from '../../util/seo';
@@ -55,7 +54,6 @@ const Page: NextPageWithLayout<Props> = ({
         gridItems={items}
       />
       <VideoGameJsonLd {...jsonLd} />
-      <AdsensePushScript />
     </>
   );
 };

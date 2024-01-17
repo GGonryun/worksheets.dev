@@ -9,9 +9,7 @@ export const AdSenseScript = () => (
 );
 
 export const AdsensePushScript = () => (
-  <Script id="adsense-push">
-    {`if (adsbygoogle && !adsbygoogle.loaded) (adsbygoogle = window.adsbygoogle || []).push({});`}
-    {/* Check if the above code works for ads if not we'll need to change how we render game containers. */}
-    {/* {`(adsbygoogle = window.adsbygoogle || []).push({});`} */}
+  <Script id="adsense-push" async>
+    {`(adsbygoogle = window.adsbygoogle || []).push({});`}
   </Script>
 );
