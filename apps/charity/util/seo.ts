@@ -290,13 +290,6 @@ export const helpCenterSeo = createSeo({
     'Find answers to frequently asked questions about Charity Games. Learn how to play, donate, and get involved.',
 });
 
-export const helpContributionsSeo = createSeo({
-  url: '/help/contributions',
-  title: 'Charity Games - Contributions',
-  description:
-    'There are many ways to help Charity Games. Whether you are a developer, player, teacher, charity, content creator, professional, student, or parent, we would love to hear from you!',
-});
-
 export const helpFaqSeo = createSeo({
   url: '/help/faq',
   title: 'Charity Games - Frequently Asked Questions',
@@ -306,55 +299,62 @@ export const helpFaqSeo = createSeo({
 
 export const helpAccountsSeo = createSeo({
   url: '/help/accounts',
-  title: 'Charity Games - Accounts',
+  title: 'Charity Games - Accounts Help Center',
   description:
     'Find answers to questions about accounts, profiles, and settings on Charity Games.',
 });
 
 export const helpPlayingGamesSeo = createSeo({
   url: '/help/playing-games',
-  title: 'Charity Games - Playing Games',
+  title: 'Charity Games - Games Help Center',
   description:
     'Find answers to questions about playing games on Charity Games. Learn how to play games and earn tokens.',
 });
 
 export const helpReferralsSeo = createSeo({
   url: '/help/referrals',
-  title: 'Charity Games - Referrals',
+  title: 'Charity Games - Referrals Help Center',
   description:
     'Find answers to questions about referrals on Charity Games. Learn how to earn tokens by referring friends.',
 });
 export const helpFriendsSeo = createSeo({
   url: '/help/friends',
-  title: 'Charity Games - Friends',
+  title: 'Charity Games - Friends Help Center',
   description:
     'Find answers to questions about friends on Charity Games. Learn how to earn tokens by sharing gifts with friends.',
 });
 
 export const helpVIPSeo = createSeo({
   url: '/help/vip',
-  title: 'Charity Games - VIP',
+  title: 'Charity Games - VIP Help Center',
   description:
     'Find answers to questions about VIP membership on Charity Games. Learn how to earn tokens by becoming a VIP.',
 });
 
 export const helpAuctionsSeo = createSeo({
   url: '/help/auctions',
-  title: 'Charity Games - Auctions',
+  title: 'Charity Games - Auctions Help Center',
   description:
     'Find answers to questions about auctions on Charity Games. Learn about winning real world prizes at the auction house.',
 });
 
 export const helpPrizeWallSeo = createSeo({
   url: '/help/prize-wall',
-  title: 'Charity Games - Prize Wall',
+  title: 'Charity Games - Prize Wall Help Center',
   description:
     'Find answers to questions about the prize wall on Charity Games. Learn about redeeming tokens for real world prizes.',
 });
 
+export const helpContributionsSeo = createSeo({
+  url: '/help/contributions',
+  title: 'Charity Games - Contributions Help Center',
+  description:
+    'There are many ways to help Charity Games. Whether you are a developer, player, teacher, charity, content creator, professional, student, or parent, we would love to hear from you!',
+});
+
 export const helpDevelopersSeo = createSeo({
   url: '/help/developers',
-  title: 'Charity Games - Developers',
+  title: 'Charity Games - Developer Help Center',
   description:
     'Find answers to questions about contributing games to the Charity Games Platform. Turn your games into donations.',
 });
