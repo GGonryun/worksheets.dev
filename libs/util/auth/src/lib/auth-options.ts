@@ -29,13 +29,8 @@ const localSessionToken = {
 };
 
 const productionSessionToken = {
-  name: `__Secure-next-auth.session-token`,
-  options: {
-    sameSite: 'lax' as const,
-    path: '/',
-    // support subdomains
-    domain: `${COOKIE_DOMAIN}`,
-  },
+  name: `next-auth.session-token`,
+  options: {},
 };
 
 export const AUTH_OPTIONS: AuthOptions = {
