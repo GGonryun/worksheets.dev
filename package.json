@@ -32,7 +32,6 @@
     "storybook:pages:cookie": "nx serve ui-pages-cookie-policy:storybook",
     "storybook:pages:developer": "nx serve ui-pages-developer:storybook",
     "storybook:pages:errors": "nx serve ui-pages-errors:storybook",
-    "storybook:pages:faq": "nx serve ui-pages-faq:storybook",
     "storybook:pages:game": "nx serve ui-pages-game:storybook",
     "storybook:pages:loading": "nx serve ui-pages-loading:storybook",
     "storybook:pages:submissions": "nx serve ui-pages-game-submissions:storybook",

@@ -1,11 +1,13 @@
 import { prisma } from '@worksheets/prisma';
 import {
+  COOKIE_DOMAIN,
   DISCORD_CLIENT_ID,
   DISCORD_CLIENT_SECRET,
   GITHUB_CLIENT_ID,
   GITHUB_CLIENT_SECRET,
   GOOGLE_CLIENT_ID,
   GOOGLE_CLIENT_SECRET,
+  IS_DEVELOPMENT,
 } from '@worksheets/services/environment';
 import { AuthOptions } from 'next-auth';
 import DiscordProvider from 'next-auth/providers/discord';
@@ -13,6 +15,27 @@ import GithubProvider from 'next-auth/providers/github';
 import GoogleProvider from 'next-auth/providers/google';
 
 import { customPrismaAdapter } from './prisma-adapter';
+
+const localSessionToken = {
+  name: `next-auth.session-token`,
+  options: {
+    httpOnly: true,
+    sameSite: 'lax' as const,
+    path: '/',
+    // support subdomains
+    domain: `${COOKIE_DOMAIN}`,
+  },
+};
+
+const productionSessionToken = {
+  name: `__Secure-next-auth.session-token`,
+  options: {
+    sameSite: 'lax' as const,
+    path: '/',
+    // support subdomains
+    domain: `${COOKIE_DOMAIN}`,
+  },
+};
 
 export const AUTH_OPTIONS: AuthOptions = {
   session: { strategy: 'jwt', maxAge: 3000 },
@@ -69,7 +92,9 @@ export const AUTH_OPTIONS: AuthOptions = {
     }),
     // ...add more providers here
   ],
-
+  cookies: {
+    sessionToken: IS_DEVELOPMENT ? localSessionToken : productionSessionToken,
+  },
   callbacks: {
     async signIn({ account, profile }) {
       if (account?.provider === 'google') {
