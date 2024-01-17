@@ -11,7 +11,7 @@ import path from 'path';
 
 import { POSTS_PATH } from '../../util/paths';
 
-const LAST_UPDATE_DATE = `2023-12-10`;
+const LAST_UPDATE_DATE = `2024-01-16`;
 
 const addHomePage = () => {
   return `<url>
@@ -29,13 +29,22 @@ const addBasicPages = () => {
     '/contact',
     '/cookies',
     '/donations',
-    '/faq',
     '/help',
+    '/help/account',
+    '/help/faq',
+    '/help/playing-games',
+    '/help/tokens-rewards',
+    '/help/referrals',
+    '/help/friends',
+    '/help/vip',
+    '/help/auctions',
+    '/help/prize-wall',
+    '/help/contributions',
+    '/help/developers',
     '/login',
     '/privacy',
     '/terms',
     '/blog',
-    '/developers',
     '/play',
     '/tags',
     '/auctions',

@@ -9,7 +9,7 @@ import { NextPageWithLayout } from '@worksheets/util-next';
 import { FAQPageJsonLd, NextSeo } from 'next-seo';
 
 import { DynamicLayout } from '../../dynamic/dynamic-layout';
-import { contributeSeo } from '../../util/seo';
+import { helpDevelopersSeo } from '../../util/seo';
 
 const Page: NextPageWithLayout = () => {
   const statistics = trpc.usage.contributions.useQuery();
@@ -19,7 +19,7 @@ const Page: NextPageWithLayout = () => {
 
   return (
     <>
-      <NextSeo {...contributeSeo} />
+      <NextSeo {...helpDevelopersSeo} />
       <ContributionScreen statistics={statistics.data} faq={contributionFaq} />
       <FAQPageJsonLd
         mainEntity={contributionFaq

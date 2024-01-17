@@ -27,14 +27,14 @@ const categories: HelpCenterCategoryProps[] = [
     icon: ValentinesLock,
   },
   {
-    title: 'Frequently Asked Questions',
-    description: 'Find answers to common questions',
+    title: 'Common Questions',
+    description: 'Answers to our most frequently asked questions',
     href: '/help/faq',
     icon: WebQuestion,
   },
   {
     title: 'Playing Games',
-    description: 'Learn how to play games',
+    description: 'Learn how to play games on our arcade',
     href: '/help/playing-games',
     icon: WebGamepad,
   },
@@ -89,7 +89,7 @@ const categories: HelpCenterCategoryProps[] = [
   {
     title: 'Contact Us',
     description: 'Reach out to our support team',
-    href: '/contact-us',
+    href: '/contact',
     icon: ECommerceCustomerService,
   },
 ];

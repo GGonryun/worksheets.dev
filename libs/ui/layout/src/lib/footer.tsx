@@ -44,7 +44,7 @@ export const WebsiteFooter: FC<WebsiteFooterProps> = () => {
       </FooterLinksContainer>
       <FooterSubLinksContainer>
         <Box>
-          <CopywriteText>Copyright © {currentYear} Charity.Games</CopywriteText>
+          <CopyrightText>Copyright © {currentYear} Charity.Games</CopyrightText>
         </Box>
         <Box
           display="flex"
@@ -55,8 +55,6 @@ export const WebsiteFooter: FC<WebsiteFooterProps> = () => {
         >
           <FooterSubLink href={'/charity'}>Charity</FooterSubLink>
           <FooterSubLink href={'/help'}>Help</FooterSubLink>
-          <FooterSubLink href={'/contribute'}>Developers</FooterSubLink>
-          <FooterSubLink href={'/faq'}>FAQ</FooterSubLink>
           <FooterSubLink href={'/terms'}>Terms</FooterSubLink>
           <FooterSubLink href={'/privacy'}>Privacy</FooterSubLink>
           <FooterSubLink href={'/cookies'}>Cookies</FooterSubLink>
@@ -113,7 +111,7 @@ const FooterSubLinksContainer = styled((props) => <Box {...props} />)<BoxProps>(
   })
 );
 
-const CopywriteText = styled((props) => (
+const CopyrightText = styled((props) => (
   <Typography {...props} />
 ))<TypographyProps>(({ theme }) => ({
   color: theme.palette.error.light,

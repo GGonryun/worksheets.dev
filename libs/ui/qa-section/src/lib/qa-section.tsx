@@ -8,13 +8,11 @@ import { StickyContactBox } from './sticky-contact-box';
 export type QuestionAnswerSectionProps = {
   qa: QuestionAnswer[];
   bookmark: string | undefined;
-  hideFAQRedirect?: boolean;
 };
 
 export const QuestionAnswerSection: FC<QuestionAnswerSectionProps> = ({
   qa,
   bookmark,
-  hideFAQRedirect,
 }) => {
   const [open, setOpen] = useState<string | undefined>(bookmark);
 
@@ -52,7 +50,7 @@ export const QuestionAnswerSection: FC<QuestionAnswerSectionProps> = ({
           />
         ))}
       </Box>
-      <StickyContactBox hideFAQRedirect={hideFAQRedirect} />
+      <StickyContactBox />
     </Box>
   );
 };

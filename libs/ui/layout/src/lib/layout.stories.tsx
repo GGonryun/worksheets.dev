@@ -1,5 +1,4 @@
 import { Container, Typography } from '@mui/material';
-import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import { MixedGrid } from '@worksheets/ui/game-grid';
 import {
@@ -24,7 +23,6 @@ import { CharityScreen } from '@worksheets/ui/pages/charity';
 import { ContactScreen } from '@worksheets/ui/pages/contact';
 import { CookiePolicyScreen } from '@worksheets/ui/pages/cookie-policy';
 import { DeveloperScreen } from '@worksheets/ui/pages/developer';
-import { FAQScreen } from '@worksheets/ui/pages/faq';
 import {
   GameScreen,
   SampleGameDescription,
@@ -123,14 +121,7 @@ export const HomePage = {
       >
         <MixedGrid
           items={Array.from({ length: 100 }).map((_, i) => {
-            if (i === 3) {
-              return {
-                type: 'progress',
-                color: 'error',
-                current: 33,
-                required: 100,
-              };
-            } else if (i % 23 === 4 || i % 23 === 17) {
+            if (i % 23 === 4 || i % 23 === 17) {
               return {
                 type: 'category',
                 id: `${i}`,
@@ -210,13 +201,7 @@ export const HomePageSuccessfulSearch = {
       >
         <MixedGrid
           items={Array.from({ length: 100 }).map((_, i) => {
-            if (i === 0) {
-              return {
-                type: 'progress',
-                current: 33,
-                required: 100,
-              };
-            } else if (i % 23 === 4 || i % 23 === 17) {
+            if (i % 23 === 4 || i % 23 === 17) {
               return {
                 type: 'category',
                 id: `${i}`,
@@ -301,10 +286,12 @@ export const AccountPage = {
     connected: true,
     children: (
       <AccountScreen
-        onLogout={action('onLogout')}
         path={''}
-        profilePanel={undefined}
+        settingsPanel={undefined}
         submissionsPanel={undefined}
+        tokensPanel={undefined}
+        referralsPanel={undefined}
+        friendsPanel={undefined}
       />
     ),
   },
@@ -326,7 +313,7 @@ export const CharityPage = {
 
 export const HelpPage = {
   args: {
-    children: <HelpScreen qa={[]} />,
+    children: <HelpScreen qa={[]} title={''} description={''} />,
   },
 };
 
@@ -345,12 +332,6 @@ export const AboutPage = {
 export const ContactPage = {
   args: {
     children: <ContactScreen />,
-  },
-};
-
-export const FAQPage = {
-  args: {
-    children: <FAQScreen faq={[]} bookmark="" />,
   },
 };
 

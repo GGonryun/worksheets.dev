@@ -20,22 +20,30 @@ export default protectedProcedure
     const userId = user.id;
     console.info('Creating rewards for user', { userId });
 
-    try {
-      await db.rewards.create({
-        data: {
-          userId,
-          giftBoxes: STARTING_GIFT_BOXES,
-          totalTokens: STARTING_TOKENS,
-          dailyRewardMomentum: STARTING_MOMENTUM,
-          availableGamePlayTokens: MAX_TOKENS_FROM_GAME_PLAY_PER_DAY,
-          availableReferralTokens: MAX_TOKENS_FROM_REFERRAL_PLAYS,
-          sharableGiftBoxes: MAX_DAILY_GIFT_BOX_SHARES,
-          claimedDailyReward: null,
-        },
-      });
-    } catch (error) {
-      console.warn('Rewards already created for user', { userId, error });
+    const rewards = await db.rewards.findFirst({
+      where: {
+        userId,
+      },
+    });
+    if (rewards) {
+      console.warn('Rewards already created for user', { userId });
+      return {
+        okay: true,
+      };
     }
+
+    await db.rewards.create({
+      data: {
+        userId,
+        giftBoxes: STARTING_GIFT_BOXES,
+        totalTokens: STARTING_TOKENS,
+        dailyRewardMomentum: STARTING_MOMENTUM,
+        availableGamePlayTokens: MAX_TOKENS_FROM_GAME_PLAY_PER_DAY,
+        availableReferralTokens: MAX_TOKENS_FROM_REFERRAL_PLAYS,
+        sharableGiftBoxes: MAX_DAILY_GIFT_BOX_SHARES,
+        claimedDailyReward: null,
+      },
+    });
 
     return {
       okay: true,

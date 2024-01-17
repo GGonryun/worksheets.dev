@@ -32,7 +32,7 @@ export const PlayWithPurposeIcon = () => (
   <PlayWithPurposeBox
     sx={{
       aspectRatio: '1/1',
-      maxWidth: 512,
+      maxWidth: 300,
     }}
   >
     <ContainImage src={iconUri} alt={playWithPurposeAlt} />

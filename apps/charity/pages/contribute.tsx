@@ -6,7 +6,7 @@ const Page = () => <ErrorScreen />;
 export const getServerSideProps = (async () => {
   return {
     redirect: {
-      destination: '/help/faq',
+      destination: '/help/contributions',
       permanent: false,
     },
   };

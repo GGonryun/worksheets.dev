@@ -6,33 +6,26 @@ import { FC, JSXElementConstructor } from 'react';
 export const CategoryBreadcrumbs: FC<{ categories: GameTag[] }> = ({
   categories,
 }) => {
-  const handleClick = (
-    event: React.MouseEvent<HTMLAnchorElement, MouseEvent>
-  ) => {
-    event.preventDefault();
-    console.info('You clicked a breadcrumb.');
-  };
-
   const gameTagBreadcrumbs = categories.map((tag) => (
-    <BreadcrumbLink key={tag} href={`/tags/${tag}`} onClick={handleClick}>
+    <BreadcrumbLink key={tag} href={`/tags/${tag}`}>
       {tag} games
     </BreadcrumbLink>
   ));
 
   const breadcrumbs = [
-    <BreadcrumbLink key="1" href="/" onClick={handleClick}>
+    <BreadcrumbLink key="1" href="/play">
       games
     </BreadcrumbLink>,
     ...gameTagBreadcrumbs,
   ];
 
   return (
-    <StyledBreadcrumb
+    <StyledBreadcrumbs
       separator={<BreadcrumbSeparator />}
       aria-label="category-breadcrumbs"
     >
       {breadcrumbs}
-    </StyledBreadcrumb>
+    </StyledBreadcrumbs>
   );
 };
 
@@ -40,7 +33,7 @@ const BreadcrumbSeparator = styled(NavigateNext)(({ theme }) => ({
   fontSize: theme.typography.pxToRem(16),
 }));
 
-const StyledBreadcrumb = styled(Breadcrumbs)(({ theme }) => ({
+const StyledBreadcrumbs = styled(Breadcrumbs)(({ theme }) => ({
   '& .MuiBreadcrumbs-separator': {
     margin: 0,
     marginBottom: -1,

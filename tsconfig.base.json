@@ -62,7 +62,6 @@
         "libs/ui/pages/developer/src/index.ts"
       ],
       "@worksheets/ui/pages/errors": ["libs/ui/pages/errors/src/index.ts"],
-      "@worksheets/ui/pages/faq": ["libs/ui/pages/faq/src/index.ts"],
       "@worksheets/ui/pages/game": ["libs/ui/pages/game/src/index.ts"],
       "@worksheets/ui/pages/game-submissions": [
         "libs/ui/pages/game-submissions/src/index.ts"

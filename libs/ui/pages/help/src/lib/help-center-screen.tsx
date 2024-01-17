@@ -14,14 +14,16 @@ export const HelpCenterScreen: React.FC = () => {
     <Container maxWidth="lg" sx={{ py: 2 }}>
       <Paper
         sx={{
+          //background opacity
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           borderRadius: (theme) => theme.shape.borderRadius,
-          p: { xs: 2, sm: 4 },
+          p: { xs: 1, sm: 2 },
+          m: { xs: 1, sm: 4 },
         }}
       >
-        <Box my={{ xs: 2, sm: 4 }} />
+        <Box my={{ xs: 1, sm: 2 }} />
         <HelpCenterTitle />
         <Box my={{ xs: 4, sm: 6 }} />
         <Box width={{ xs: '95%', sm: '85%' }}>

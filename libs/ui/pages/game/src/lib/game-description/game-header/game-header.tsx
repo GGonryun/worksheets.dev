@@ -24,7 +24,7 @@ export const GameHeader: FC<{
   return (
     <Box>
       <CategoryBreadcrumbs categories={category} />
-      <Box mt={1} mb={0.5} display="flex" gap={3} alignItems="center">
+      <Box mt={2} mb={0.5} display="flex" gap={3} alignItems="center">
         <Typography
           variant="h4"
           sx={{

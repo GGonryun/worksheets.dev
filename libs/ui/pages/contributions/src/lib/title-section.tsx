@@ -1,6 +1,5 @@
-import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
-import Typography from '@mui/material/Typography';
+import { KeyboardBackspace } from '@mui/icons-material';
+import { Box, Button, Paper, Typography } from '@mui/material';
 import { CharityBallot } from '@worksheets/icons/charity';
 import { BasicWebsiteStatistics } from '@worksheets/util/types';
 import { FC } from 'react';
@@ -21,6 +20,18 @@ export const TitleSection: FC<{ statistics?: BasicWebsiteStatistics }> = ({
       gap: 2,
     }}
   >
+    <Button
+      size="small"
+      href="/help"
+      startIcon={<KeyboardBackspace />}
+      sx={{
+        width: 'fit-content',
+        alignSelf: 'flex-start',
+        mb: 2,
+      }}
+    >
+      <Typography textTransform="none">Help Center</Typography>
+    </Button>
     <IconBox>
       <CharityBallot sx={{ fontSize: '4rem', mt: -2 }} />
       <TitleText variant="h1">Contribute a game</TitleText>

@@ -21,7 +21,7 @@ export const HelpCenterCategory: React.FC<{
         p: 3,
         textDecoration: 'none',
         cursor: 'pointer',
-        height: 200,
+        height: 240,
       }}
     >
       <props.icon

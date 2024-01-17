@@ -2,10 +2,8 @@ import { Box, Button, Link, Typography } from '@mui/material';
 import { FC } from 'react';
 
 export const StickyContactBox: FC<{
-  hideFAQRedirect?: boolean;
   text?: string;
 }> = ({
-  hideFAQRedirect,
   text = "Don't see your question here? Ask us anything, we're here to help!",
 }) => (
   <Box
@@ -35,18 +33,16 @@ export const StickyContactBox: FC<{
     >
       Contact Us
     </Button>
-    {!hideFAQRedirect && (
-      <Link href="/faq">
-        <Typography
-          variant="body2"
-          sx={{
-            mt: 2,
-            textAlign: { xs: 'center', sm: 'left' },
-          }}
-        >
-          Frequently Asked Questions
-        </Typography>
-      </Link>
-    )}
+    <Link href="/help">
+      <Typography
+        variant="body2"
+        sx={{
+          mt: 2,
+          textAlign: { xs: 'center', sm: 'left' },
+        }}
+      >
+        Help Center
+      </Typography>
+    </Link>
   </Box>
 );

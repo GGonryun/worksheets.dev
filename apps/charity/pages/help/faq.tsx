@@ -1,19 +1,21 @@
 import { helpFaq, HelpScreen } from '@worksheets/ui/pages/help';
 import { NextPageWithLayout } from '@worksheets/util-next';
-import { useRouter } from 'next/router';
 import { FAQPageJsonLd, NextSeo } from 'next-seo';
 
-import { DynamicLayout } from '../dynamic/dynamic-layout';
-import { helpSeo } from '../util/seo';
+import { DynamicLayout } from '../../dynamic/dynamic-layout';
+import { helpFaqSeo } from '../../util/seo';
 
 const Page: NextPageWithLayout = () => {
-  const { asPath } = useRouter();
-  const bookmark = asPath.split('#').at(-1);
-
   return (
     <>
-      <NextSeo {...helpSeo} />
-      <HelpScreen bookmark={bookmark} qa={helpFaq} />
+      <NextSeo {...helpFaqSeo} />
+      <HelpScreen
+        title={'Frequently Asked Questions'}
+        description={
+          'Get the answers to the most common questions about Charity Games.'
+        }
+        qa={helpFaq}
+      />
       <FAQPageJsonLd
         mainEntity={helpFaq
           .filter((data) => Boolean(data.summary))
