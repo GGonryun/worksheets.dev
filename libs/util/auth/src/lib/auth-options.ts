@@ -99,7 +99,7 @@ export const AUTH_OPTIONS: AuthOptions = {
 
   callbacks: {
     async redirect(opt) {
-      console.info(`redirecting user`, opt);
+      console.log(`redirecting user`, opt);
       return opt.baseUrl;
     },
     async signIn({ account, profile }) {
