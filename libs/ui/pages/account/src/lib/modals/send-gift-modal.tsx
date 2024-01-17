@@ -3,12 +3,14 @@ import { Box, Button, IconButton, Typography } from '@mui/material';
 import { ValentinesMailbox } from '@worksheets/icons/valentines';
 import { BaseModal, ModalWrapper } from '@worksheets/ui-core';
 
-export const SendGiftModal: React.FC<
-  ModalWrapper<{ onRemove: () => void }>
-> = ({ open, onClose, onRemove }) => {
+export const SendGiftModal: React.FC<ModalWrapper<{ onSend: () => void }>> = ({
+  open,
+  onClose,
+  onSend,
+}) => {
   const handleClose = () => onClose && onClose({}, 'escapeKeyDown');
-  const handleRemove = () => {
-    onRemove();
+  const handleSend = () => {
+    onSend();
     handleClose();
   };
   return (
@@ -49,7 +51,7 @@ export const SendGiftModal: React.FC<
         <ValentinesMailbox sx={{ width: 128, height: 128, mt: 2, mb: 4 }} />
 
         <Button
-          onClick={handleRemove}
+          onClick={handleSend}
           fullWidth
           variant="round"
           size="large"

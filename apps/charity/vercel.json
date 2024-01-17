@@ -1,0 +1,8 @@
+{
+    "crons": [
+        {
+            "path": "/api/cron/refresh-rewards",
+            "schedule": "0 0 * * *"
+        }
+    ]
+}

@@ -1,6 +1,7 @@
 import { AccountCircleOutlined, InfoOutlined } from '@mui/icons-material';
 import { Box, Link } from '@mui/material';
 import { ValentinesChat } from '@worksheets/icons/valentines';
+import { TokensPanels } from '@worksheets/util/enums';
 import {
   MAX_TOKENS_FROM_REFERRAL_PLAYS,
   TOKENS_PER_REFERRAL_ACCOUNT,
@@ -15,12 +16,17 @@ import { PanelFooter } from '../../panel-footer';
 import { ReferralInfo } from '../../referral-info';
 import { ReferralProgress } from '../types';
 
-export const InviteFriendsSection: React.FC<ReferralProgress> = ({
-  link,
-  tokens,
-  referrals,
-}) => (
+export const InviteFriendsSection: React.FC<
+  ReferralProgress & {
+    id: TokensPanels;
+    active: TokensPanels | undefined;
+    onClick: (id: string) => void;
+  }
+> = ({ link, tokens, referrals, id, active, onClick }) => (
   <CollapsibleSection
+    id={id}
+    active={active}
+    onClick={onClick}
     text="Invite Friends"
     description="Refer your friends and get extra tokens when they play our games."
     Icon={ValentinesChat}
@@ -33,7 +39,7 @@ export const InviteFriendsSection: React.FC<ReferralProgress> = ({
         gap: 2,
       }}
     >
-      <ReferralInfo tokens={tokens} link={link} referrals={referrals} />
+      <ReferralInfo link={link} referrals={referrals} />
 
       <BulletPoints
         icon={<InfoOutlined fontSize="small" color="info" />}

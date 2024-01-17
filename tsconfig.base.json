@@ -94,6 +94,7 @@
       "@worksheets/util/assets": ["libs/util/assets/src/index.ts"],
       "@worksheets/util/auth": ["libs/util/auth/src/index.ts"],
       "@worksheets/util/data": ["libs/util/data/src/index.ts"],
+      "@worksheets/util/enums": ["libs/util/enums/src/index.ts"],
       "@worksheets/util/misc": ["libs/util/misc/src/index.ts"],
       "@worksheets/util/numbers": ["libs/util/numbers/src/index.ts"],
       "@worksheets/util/seo": ["libs/util/seo/src/index.ts"],

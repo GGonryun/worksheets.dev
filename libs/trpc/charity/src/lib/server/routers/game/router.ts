@@ -2,7 +2,7 @@ import { t } from '../../trpc';
 import analytics from './analytics';
 import files from './files/router';
 // procedures
-import play from './play';
+import play from './play/router';
 import report from './report';
 import submissions from './submissions/router';
 // sub-routers

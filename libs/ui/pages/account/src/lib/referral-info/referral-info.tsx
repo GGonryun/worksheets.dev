@@ -1,6 +1,5 @@
 import { Diversity1Outlined } from '@mui/icons-material';
 import { Box, Typography } from '@mui/material';
-import { ValentinesTicket } from '@worksheets/icons/valentines';
 import { ClipboardText } from '@worksheets/ui/inputs';
 import { SocialButtons } from '@worksheets/ui/social-media';
 import { shorthandNumber } from '@worksheets/util/numbers';
@@ -8,8 +7,7 @@ import { shorthandNumber } from '@worksheets/util/numbers';
 export const ReferralInfo: React.FC<{
   referrals: number;
   link: string;
-  tokens: number;
-}> = ({ referrals, link, tokens }) => {
+}> = ({ referrals, link }) => {
   return (
     <Box
       sx={{
@@ -38,35 +36,15 @@ export const ReferralInfo: React.FC<{
       <Box
         sx={{
           display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'flex-start',
+          alignItems: 'center',
           gap: 1,
+          mb: 1,
         }}
       >
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 1,
-          }}
-        >
-          <Diversity1Outlined color="error" />
-          <Typography variant="body2" fontWeight={900}>
-            {shorthandNumber(referrals)} Accounts Referred
-          </Typography>
-        </Box>
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 1,
-          }}
-        >
-          <ValentinesTicket />
-          <Typography variant="body2" fontWeight={900}>
-            {shorthandNumber(tokens)} Tokens Earned
-          </Typography>
-        </Box>
+        <Diversity1Outlined color="error" />
+        <Typography variant="body2" fontWeight={900}>
+          {shorthandNumber(referrals)} Accounts Referred
+        </Typography>
       </Box>
     </Box>
   );

@@ -3,6 +3,7 @@ import {
   InfoOutlined,
   NewReleasesOutlined,
   PendingOutlined,
+  Replay,
   Star,
 } from '@mui/icons-material';
 import {
@@ -14,27 +15,43 @@ import {
   useTheme,
 } from '@mui/material';
 import { WebGamepad } from '@worksheets/icons/web';
+import { TokensPanels } from '@worksheets/util/enums';
 import { calculatePercentage, toPercentage } from '@worksheets/util/numbers';
 import {
-  MAX_TOKENS_PER_DAY,
+  BONUS_GAMES_MULTIPLIER,
+  MAX_TOKENS_FROM_GAME_PLAY_PER_DAY,
   MAX_TOKENS_PER_GAME,
 } from '@worksheets/util/settings';
+import { BasicGameDetails } from '@worksheets/util/types';
 
 import { BulletPoints } from '../../bullet-points';
 import { CollapsibleSection } from '../../collapsible-section';
 import { PanelFooter } from '../../panel-footer';
 
-export const PlayGamesSection: React.FC<{ tokens: number }> = ({ tokens }) => {
+export const PlayGamesSection: React.FC<{
+  tokens: number;
+  id: TokensPanels;
+  active: TokensPanels | undefined;
+  recentGames: BasicGameDetails[];
+  bonusGames: BasicGameDetails[];
+  onClick: (id: string) => void;
+}> = ({ tokens, id, active, bonusGames, recentGames, onClick }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-  const isComplete = tokens >= MAX_TOKENS_PER_DAY;
+  const isComplete = tokens >= MAX_TOKENS_FROM_GAME_PLAY_PER_DAY;
   const isFresh = tokens === 0;
 
-  const percentProgress: string = toPercentage(tokens, MAX_TOKENS_PER_DAY);
+  const percentProgress: string = toPercentage(
+    tokens,
+    MAX_TOKENS_FROM_GAME_PLAY_PER_DAY
+  );
 
   return (
     <CollapsibleSection
+      id={id}
+      active={active}
+      onClick={onClick}
       text="Play Games"
       description="Win tokens every time you play a game."
       Icon={WebGamepad}
@@ -64,7 +81,7 @@ export const PlayGamesSection: React.FC<{ tokens: number }> = ({ tokens }) => {
           }}
         >
           <Typography variant="h6" fontSize={{ xs: '1rem', sm: '1.25rem' }}>
-            {tokens} / {MAX_TOKENS_PER_DAY} Tokens Earned
+            {tokens} / {MAX_TOKENS_FROM_GAME_PLAY_PER_DAY} Tokens Earned
           </Typography>
           <Box
             sx={{
@@ -105,7 +122,7 @@ export const PlayGamesSection: React.FC<{ tokens: number }> = ({ tokens }) => {
         <LinearProgress
           variant="determinate"
           color={isComplete ? 'success' : 'primary'}
-          value={calculatePercentage(tokens, MAX_TOKENS_PER_DAY)}
+          value={calculatePercentage(tokens, MAX_TOKENS_FROM_GAME_PLAY_PER_DAY)}
           sx={{
             my: { xs: -1, sm: -1.5 },
             height: 16,
@@ -116,18 +133,30 @@ export const PlayGamesSection: React.FC<{ tokens: number }> = ({ tokens }) => {
         <Typography variant="body2">
           {isComplete
             ? `You have received all your tokens today. Play again tomorrow!`
-            : `Play more games to earn ${MAX_TOKENS_PER_DAY - tokens} 
+            : `Play more games to earn ${
+                MAX_TOKENS_FROM_GAME_PLAY_PER_DAY - tokens
+              } 
             tokens.`}
         </Typography>
 
         <BulletPoints
           title="Bonus Games"
           icon={<Star fontSize="small" color="highlight" />}
-          points={[
-            <Link href="/play">Sudoku</Link>,
-            <Link href="/play">Solitaire 2048</Link>,
-            <Link href="/play">Emoji War</Link>,
-          ]}
+          points={bonusGames.slice(0, 5).map((game) => (
+            <Link key={game.id} href={`/play/${game.id}`}>
+              {game.name}
+            </Link>
+          ))}
+        />
+
+        <BulletPoints
+          title="Recent Games"
+          icon={<Replay fontSize="small" color="error" />}
+          points={recentGames.map((game) => (
+            <Link key={game.id} href={`/play/${game.id}`}>
+              {game.name}
+            </Link>
+          ))}
         />
 
         <BulletPoints
@@ -136,9 +165,9 @@ export const PlayGamesSection: React.FC<{ tokens: number }> = ({ tokens }) => {
           points={[
             <>
               Select a game from the <Link href="/play">Arcade</Link>, bonus
-              games earn x2 tokens.
+              games earn x{BONUS_GAMES_MULTIPLIER} tokens.
             </>,
-            `Press the play game button and you'll immediately earn ${MAX_TOKENS_PER_GAME} tokens.`,
+            `Press the play game button and you'll immediately earn 1 to ${MAX_TOKENS_PER_GAME} tokens.`,
             `There is no time limit or score requirement to earn tokens.`,
             <>
               <Link href="/help/vip">VIP Members</Link> earn twice as many

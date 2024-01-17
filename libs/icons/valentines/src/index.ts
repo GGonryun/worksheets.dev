@@ -13,3 +13,6 @@ export * from './lib/heartbreak';
 export * from './lib/world';
 export * from './lib/hand';
 export * from './lib/wings';
+export * from './lib/lock';
+export * from './lib/profile';
+export * from './lib/search';

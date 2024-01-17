@@ -80,27 +80,28 @@ export const LoadingScreen: React.FC<{ message?: string }> = ({ message }) => {
           placeItems: 'center',
           m: 2,
           p: 2,
-          mb: { xs: 8, sm: 4 },
+          mb: { xs: 12, sm: 6 },
           textAlign: 'center',
           maxWidth: 400,
         }}
       >
         <Image
+          priority
           src="/common/charity-games/logos/square.png"
           alt="Charity Games Logo"
-          width={isMobile ? 100 : 200}
-          height={isMobile ? 100 : 200}
+          width={isMobile ? 64 : 128}
+          height={isMobile ? 64 : 128}
         />
         <LinearProgress
           color="love"
           sx={{
             mb: 4,
             width: '100%',
-            height: isMobile ? 8 : 12,
+            height: isMobile ? 6 : 12,
             borderRadius: 6,
           }}
         />
-        <Typography variant={isMobile ? 'body2' : 'body1'}>
+        <Typography variant={isMobile ? 'body3' : 'body2'}>
           {loadingMessage}
         </Typography>
       </Paper>

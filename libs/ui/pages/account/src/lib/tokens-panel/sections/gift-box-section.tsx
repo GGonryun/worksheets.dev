@@ -7,6 +7,7 @@ import {
 } from '@mui/icons-material';
 import { Box, Button, Link, Typography } from '@mui/material';
 import { ValentinesGift } from '@worksheets/icons/valentines';
+import { TokensPanels } from '@worksheets/util/enums';
 import {
   GIFT_BOX_DROP_RATE,
   MAX_DAILY_GIFT_BOX_SHARES,
@@ -20,12 +21,18 @@ import { PanelFooter } from '../../panel-footer';
 export const GiftBoxSection: React.FC<{
   amount: number;
   onClaim: () => void;
-}> = ({ amount, onClaim }) => {
+  id: TokensPanels;
+  active: TokensPanels | undefined;
+  onClick: (id: string) => void;
+}> = ({ amount, onClaim, id, active, onClick }) => {
   const isComplete = amount === 0;
 
   return (
     <CollapsibleSection
-      text="Gift Boxes"
+      id={id}
+      active={active}
+      onClick={onClick}
+      text={`Gift Boxes (${amount})`}
       description="Open gift boxes to win bonus tokens and prizes."
       Icon={ValentinesGift}
       status={

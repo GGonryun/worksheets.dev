@@ -8,6 +8,7 @@ import {
 } from '@mui/icons-material';
 import { Box, Button, Link, Typography } from '@mui/material';
 import { ValentinesMail, ValentinesTicket } from '@worksheets/icons/valentines';
+import { TokensPanels } from '@worksheets/util/enums';
 import {
   BASE_DAILY_REWARD,
   MAX_MOMENTUM,
@@ -24,11 +25,17 @@ export const DailyRewardSection: React.FC<{
   momentum: number;
   timeRemaining: string;
   onClaim: () => void;
-}> = ({ claimed, momentum, timeRemaining, onClaim }) => {
+  id: TokensPanels;
+  active: TokensPanels | undefined;
+  onClick: (id: string) => void;
+}> = ({ claimed, momentum, timeRemaining, onClaim, id, active, onClick }) => {
   const isComplete = claimed;
 
   return (
     <CollapsibleSection
+      id={id}
+      active={active}
+      onClick={onClick}
       text="Daily Reward"
       description="Get extra tokens every time you claim the daily reward."
       Icon={ValentinesMail}

@@ -1,15 +1,28 @@
+import { TRPCClientError } from '@trpc/client';
 import { trpc } from '@worksheets/trpc-charity';
 import { ClaimGiftModal, TokensPanel } from '@worksheets/ui/pages/account';
 import { ErrorComponent } from '@worksheets/ui/pages/errors';
 import { LoadingScreen } from '@worksheets/ui/pages/loading';
-import { getNextUTCMidnight } from '@worksheets/util/time';
+import { Snackbar, useSnackbar } from '@worksheets/ui/snackbar';
+import { useBookmark } from '@worksheets/ui-core';
+import { TokensPanels } from '@worksheets/util/enums';
 import { useSession } from 'next-auth/react';
-import React from 'react';
+import React, { useCallback } from 'react';
 
-export const TokensPanelContainer: React.FC = (props) => {
+import { useRecentlyPlayedGames } from '../../hooks/useRecentlyPlayedGames';
+
+export const TokensPanelContainer: React.FC<{ refreshTimestamp: number }> = ({
+  refreshTimestamp,
+}) => {
+  const bookmark = useBookmark<TokensPanels>();
+  const snackbar = useSnackbar();
   const session = useSession();
+  const { recentlyPlayed } = useRecentlyPlayedGames();
 
   const enabled = session.status === 'authenticated';
+
+  const claimDailyReward = trpc.user.rewards.dailyReward.claim.useMutation();
+  const openGiftBox = trpc.user.rewards.giftBoxes.open.useMutation();
 
   const rewards = trpc.user.rewards.get.useQuery(undefined, {
     enabled,
@@ -19,25 +32,58 @@ export const TokensPanelContainer: React.FC = (props) => {
   const [showClaimGiftBox, setShowClaimGiftBox] = React.useState(false);
   const [giftBoxTokens, setGiftBoxTokens] = React.useState(0);
 
-  const handleClaimDailyReward = React.useCallback(() => {
-    alert('Claiming daily reward');
-    alert("Show snackbar saying 'You've claimed your daily reward'");
-  }, []);
+  const handleClaimDailyReward = React.useCallback(async () => {
+    try {
+      await claimDailyReward.mutateAsync();
+      await rewards.refetch();
 
-  const handleClaimGiftBox = React.useCallback(() => {
-    alert(
-      'TODO: perform a network to claiming the gift box & set the amount of tokens for modal'
-    );
-    setGiftBoxTokens(123);
-    setShowClaimGiftBox(true);
-  }, []);
+      snackbar.trigger({
+        message: 'You have claimed your daily reward',
+        severity: 'success',
+      });
+    } catch (error) {
+      if (error instanceof TRPCClientError) {
+        snackbar.trigger({
+          message: error.message,
+          severity: 'error',
+        });
+      }
+    }
+  }, [claimDailyReward, rewards, snackbar]);
 
-  const handleCloseClaimGiftBox = React.useCallback(() => {
-    alert("TODO: show a snackbar saying 'You've claimed your gift box'");
+  const handleClaimGiftBox = useCallback(() => {
+    openGiftBox
+      .mutateAsync()
+      .then((result) => {
+        rewards.refetch();
+        setGiftBoxTokens(result.tokensAwarded);
+        setShowClaimGiftBox(true);
+      })
+      .catch((error) => {
+        if (error instanceof TRPCClientError) {
+          snackbar.trigger({
+            message: error.message,
+            severity: 'error',
+          });
+        } else {
+          snackbar.trigger({
+            message:
+              'An unknown error occurred. Please try again, or contact us if the problem persists.',
+            severity: 'error',
+          });
+        }
+      });
+  }, [rewards, snackbar, openGiftBox]);
 
+  const handleCloseClaimGiftBox = useCallback(() => {
     setGiftBoxTokens(0);
     setShowClaimGiftBox(false);
-  }, []);
+
+    snackbar.trigger({
+      message: "You've claimed your gift box!",
+      severity: 'success',
+    });
+  }, [snackbar]);
 
   if (rewards.isLoading) {
     return <LoadingScreen />;
@@ -54,13 +100,17 @@ export const TokensPanelContainer: React.FC = (props) => {
     giftBoxes,
     dailyMomentum,
     claimedDailyReward,
+    bonusGames,
   } = rewards.data;
 
   return (
     <>
       <TokensPanel
+        recentGames={recentlyPlayed}
+        bonusGames={bonusGames}
+        bookmark={bookmark}
         tokens={totalTokens}
-        refreshTimestamp={getNextUTCMidnight().getTime()}
+        refreshTimestamp={refreshTimestamp}
         gameProgressTokens={gamePlayTokens}
         referralProgress={{
           referrals: numReferrals,
@@ -78,6 +128,7 @@ export const TokensPanelContainer: React.FC = (props) => {
         onClose={handleCloseClaimGiftBox}
         amount={giftBoxTokens}
       />
+      <Snackbar {...snackbar} />
     </>
   );
 };

@@ -9,13 +9,12 @@ const Default: Story = {
   component: SendGiftModal,
   args: {
     onClose: action('onClose'),
-    onRemove: action('onRemove'),
+    onSend: action('onSend'),
+    open: true,
   },
 };
 export default Default;
 
 export const Primary: Story = {
-  args: {
-    open: true,
-  },
+  args: {},
 };

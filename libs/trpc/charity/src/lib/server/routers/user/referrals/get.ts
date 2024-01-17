@@ -9,11 +9,13 @@ export default protectedProcedure
     z.object({
       referrals: z.array(
         z.object({
-          username: z.string(),
+          id: z.string(),
+          username: z.string().nullable(),
           createdAt: z.number(),
         })
       ),
       numReferrals: z.number(),
+      availableReferralTokens: z.number(),
       referralLink: z.string(),
       okay: z.literal(true),
     })
@@ -28,24 +30,29 @@ export default protectedProcedure
       },
       include: {
         referred: true,
+        rewards: true,
+        referralCode: true,
       },
     });
 
-    if (!userData) {
+    if (!userData || !userData.referralCode || !userData.rewards) {
       console.error('Referrals for user were not found', { userId });
       throw new TRPCError({
         code: 'NOT_FOUND',
-        message: 'Referrals for user was not found',
+        message:
+          'Referrals information was not found. Try again. If the problem persists, contact support.',
       });
     }
 
     return {
       okay: true,
       referrals: userData.referred.map((referral) => ({
+        id: referral.id,
         username: referral.username,
         createdAt: referral.createdAt.getTime(),
       })),
+      availableReferralTokens: userData.rewards.availableReferralTokens,
       numReferrals: userData.referred.length,
-      referralLink: createReferralLink(user.id),
+      referralLink: createReferralLink(userData.referralCode.code),
     };
   });

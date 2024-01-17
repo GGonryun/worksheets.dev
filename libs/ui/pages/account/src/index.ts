@@ -1,5 +1,5 @@
 export * from './lib/account-screen';
-export * from './lib/profile-panel';
+export * from './lib/settings-panel';
 export * from './lib/submissions-panel';
 export * from './lib/tokens-panel';
 export * from './lib/referrals-panel';

@@ -1,3 +1,7 @@
+import {
+  GIFT_BOXES_PER_REFERRAL_ACCOUNT,
+  TOKENS_PER_REFERRAL_ACCOUNT,
+} from '@worksheets/util/settings';
 import { z } from '@worksheets/zod';
 
 import { protectedProcedure } from '../../../procedures';
@@ -5,7 +9,7 @@ import { protectedProcedure } from '../../../procedures';
 export default protectedProcedure
   .input(
     z.object({
-      referredByUserId: z.string().nullable(),
+      referralCode: z.string().nullable(),
     })
   )
   .output(
@@ -13,32 +17,70 @@ export default protectedProcedure
       okay: z.boolean(),
     })
   )
-  .mutation(async ({ ctx: { user, db }, input: { referredByUserId } }) => {
+  .mutation(async ({ ctx: { user, db }, input: { referralCode } }) => {
     const userId = user.id;
     const okay = {
       okay: true,
     };
 
-    if (!referredByUserId) {
-      console.info('Ignoring empty referredByUserId', { userId });
+    if (!referralCode) {
+      console.info('Ignoring empty referralCode', { userId });
       return okay;
     }
 
     if (user.referredByUserId) {
       console.warn(
-        `User ${userId} attempted to set referredByUserId to ${referredByUserId} but they already have a referral set.`
+        `User ${userId} attempted to set a new referrer to ${referralCode} but they already have a referral set.`
       );
       return okay;
     }
 
-    await db.user.update({
+    const referral = await db.referralCode.findFirst({
       where: {
-        id: userId,
-      },
-      data: {
-        referredByUserId,
+        code: referralCode,
       },
     });
+
+    if (!referral) {
+      console.error('User attempted to set invalid referral code', {
+        userId,
+        referralCode,
+      });
+      return okay;
+    }
+
+    if (referral.userId === userId) {
+      console.error('User attempted to refer themselves', {
+        userId,
+        referralCode,
+      });
+      return okay;
+    }
+
+    await Promise.all([
+      db.user.update({
+        where: {
+          id: userId,
+        },
+        data: {
+          referredByUserId: referral.userId,
+        },
+      }),
+
+      db.rewards.update({
+        where: {
+          userId: referral.userId,
+        },
+        data: {
+          totalTokens: {
+            increment: TOKENS_PER_REFERRAL_ACCOUNT,
+          },
+          giftBoxes: {
+            increment: GIFT_BOXES_PER_REFERRAL_ACCOUNT,
+          },
+        },
+      }),
+    ]);
 
     return okay;
   });

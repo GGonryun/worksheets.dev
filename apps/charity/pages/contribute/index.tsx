@@ -1,25 +1,26 @@
-import { createServerSideTRPC } from '@worksheets/trpc-charity/server';
+import { trpc } from '@worksheets/trpc-charity';
 import {
   contributionFaq,
   ContributionScreen,
 } from '@worksheets/ui/pages/contributions';
-import { BasicWebsiteStatistics } from '@worksheets/util/types';
+import { ErrorScreen } from '@worksheets/ui/pages/errors';
+import { LoadingScreen } from '@worksheets/ui/pages/loading';
 import { NextPageWithLayout } from '@worksheets/util-next';
-import { GetServerSideProps } from 'next';
 import { FAQPageJsonLd, NextSeo } from 'next-seo';
 
 import { DynamicLayout } from '../../dynamic/dynamic-layout';
 import { contributeSeo } from '../../util/seo';
 
-type Props = {
-  statistics: BasicWebsiteStatistics;
-};
+const Page: NextPageWithLayout = () => {
+  const statistics = trpc.usage.contributions.useQuery();
 
-const Page: NextPageWithLayout<Props> = ({ statistics }) => {
+  if (statistics.error) return <ErrorScreen />;
+  if (statistics.isLoading) return <LoadingScreen />;
+
   return (
     <>
       <NextSeo {...contributeSeo} />
-      <ContributionScreen statistics={statistics} faq={contributionFaq} />
+      <ContributionScreen statistics={statistics.data} faq={contributionFaq} />
       <FAQPageJsonLd
         mainEntity={contributionFaq
           .filter((data) => Boolean(data.summary))
@@ -31,18 +32,6 @@ const Page: NextPageWithLayout<Props> = ({ statistics }) => {
     </>
   );
 };
-
-export const getServerSideProps = (async (ctx) => {
-  const trpc = await createServerSideTRPC(ctx);
-
-  const statistics = await trpc.usage.contributions.fetch();
-
-  return {
-    props: {
-      statistics,
-    },
-  };
-}) satisfies GetServerSideProps<Props>;
 
 Page.getLayout = (page) => {
   return <DynamicLayout>{page}</DynamicLayout>;

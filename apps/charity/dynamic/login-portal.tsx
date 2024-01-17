@@ -13,7 +13,7 @@ const LOADING_MESSAGE =
 const DynamicLoginPortal = () => {
   const { query, push } = useRouter();
 
-  const [referralCode] = useReferralCode();
+  const [referralCode, setReferralCode] = useReferralCode();
   const [, setSkipPortal] = useSkipPortal();
 
   // where we'll redirect the user after we've finished processing their login
@@ -23,13 +23,16 @@ const DynamicLoginPortal = () => {
   // create user resources if they don't exist.
   const setReferrer = trpc.user.referrals.set.useMutation();
   const createRewards = trpc.user.rewards.create.useMutation();
+  const createReferralCode = trpc.user.referrals.codes.create.useMutation();
 
   const createResources = useCallback(async () => {
     await Promise.all([
       createRewards.mutateAsync(),
-      setReferrer.mutateAsync({ referredByUserId: referralCode }),
+      createReferralCode.mutateAsync(),
+      setReferrer.mutateAsync({ referralCode: referralCode }),
     ]);
 
+    setReferralCode('');
     setSkipPortal(true);
 
     // wait for one more second to make sure we've created the resources
@@ -37,7 +40,16 @@ const DynamicLoginPortal = () => {
     await waitFor(1000);
 
     push(redirect);
-  }, [createRewards, redirect, referralCode, setReferrer, push, setSkipPortal]);
+  }, [
+    createRewards,
+    setReferrer,
+    referralCode,
+    createReferralCode,
+    setSkipPortal,
+    setReferralCode,
+    push,
+    redirect,
+  ]);
 
   // wait .5 seconds before creating resources
   // this gives us time to load from local storage

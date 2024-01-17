@@ -22,6 +22,13 @@ export const AUTH_OPTIONS: AuthOptions = {
     GoogleProvider({
       clientId: GOOGLE_CLIENT_ID,
       clientSecret: GOOGLE_CLIENT_SECRET,
+      authorization: {
+        params: {
+          prompt: 'consent',
+          access_type: 'offline',
+          response_type: 'code',
+        },
+      },
       profile: async (profile) => {
         return {
           id: profile.sub.toString(),

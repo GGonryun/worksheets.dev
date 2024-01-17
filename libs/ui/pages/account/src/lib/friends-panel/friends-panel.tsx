@@ -1,21 +1,42 @@
-import { InfoOutlined } from '@mui/icons-material';
+import {
+  CheckCircleOutline,
+  Diversity1Outlined,
+  FavoriteBorder,
+  InfoOutlined,
+} from '@mui/icons-material';
 import { Box, Divider, Link, Typography } from '@mui/material';
+import {
+  ValentinesHearts,
+  ValentinesMailbox,
+  ValentinesSearch,
+} from '@worksheets/icons/valentines';
 import { WebHeart } from '@worksheets/icons/web';
+import { FriendsPanels } from '@worksheets/util/enums';
 
+import { usePanelController } from '../__hooks__/use-panel-controller';
+import { CollapsibleSection } from '../collapsible-section';
 import { PanelFooter } from '../panel-footer';
 import { PanelHeader } from '../panel-header';
 import { Friend } from '../types';
 import { SendGiftsSection } from './sections';
 import { AddFriendsSection } from './sections/add-friends-section';
+import { FriendsListSection } from './sections/friends-list-section';
 
 export const FriendsPanel: React.FC<{
+  bookmark: FriendsPanels | undefined;
   friends: Friend[];
   refreshTimestamp: number;
   giftsRemaining: number;
   friendCode: string;
   onRemove: (friend: Friend) => void;
   onFavorite: (friend: Friend) => void;
+  onAdd: (username: string) => void;
+  onSendGift: (friend: Friend) => void;
 }> = (props) => {
+  const { active, toggleActive } = usePanelController(props.bookmark);
+
+  const canSendGifts = props.giftsRemaining > 0;
+
   return (
     <Box
       sx={{
@@ -32,15 +53,59 @@ export const FriendsPanel: React.FC<{
 
       <Divider />
 
-      <AddFriendsSection friendCode={props.friendCode} />
+      <CollapsibleSection
+        id={FriendsPanels.AddFriends}
+        text="Add Friends"
+        description="Play with friends and earn more tokens for prizes."
+        Icon={ValentinesSearch}
+        status={<FavoriteBorder fontSize="large" color="error" />}
+        active={active}
+        onClick={toggleActive}
+      >
+        <AddFriendsSection friendCode={props.friendCode} onAdd={props.onAdd} />
+      </CollapsibleSection>
 
-      <SendGiftsSection
-        friends={props.friends}
-        giftsRemaining={props.giftsRemaining}
-        refreshTimestamp={props.refreshTimestamp}
-        onRemove={props.onRemove}
-        onFavorite={props.onFavorite}
-      />
+      <CollapsibleSection
+        id={FriendsPanels.FriendsList}
+        text="Friends List"
+        description="Manage your friends list. Add favorites, and remove friends."
+        Icon={ValentinesHearts}
+        status={<Diversity1Outlined fontSize="large" color="error" />}
+        active={active}
+        onClick={toggleActive}
+      >
+        <FriendsListSection
+          friends={props.friends}
+          onRemove={props.onRemove}
+          onFavorite={props.onFavorite}
+        />
+      </CollapsibleSection>
+
+      <CollapsibleSection
+        id={FriendsPanels.SendGifts}
+        text="Send Gifts"
+        description="Earn a gift box for every friend you send a gift to."
+        Icon={ValentinesMailbox}
+        active={active}
+        onClick={toggleActive}
+        status={
+          canSendGifts ? (
+            <InfoOutlined fontSize="large" color="info" />
+          ) : (
+            <CheckCircleOutline fontSize="large" color="success" />
+          )
+        }
+      >
+        <SendGiftsSection
+          canSendGifts={canSendGifts}
+          friends={props.friends}
+          giftsRemaining={props.giftsRemaining}
+          refreshTimestamp={props.refreshTimestamp}
+          onRemove={props.onRemove}
+          onFavorite={props.onFavorite}
+          onSendGift={props.onSendGift}
+        />
+      </CollapsibleSection>
 
       <Divider />
 

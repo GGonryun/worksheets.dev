@@ -4,7 +4,7 @@ import MuiSnackbar, {
 } from '@mui/material/Snackbar';
 
 export type SnackbarProps = Pick<MuiSnackbarProps, 'open' | 'onClose'> & {
-  message: string;
+  message?: React.ReactNode;
   severity: AlertProps['severity'];
   duration?: number;
 };

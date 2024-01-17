@@ -14,17 +14,17 @@ export type BasicGameSubmission = z.infer<typeof basicGameSubmissionSchema>;
 
 export type Referral = {
   id: string;
-  username?: string;
+  username: string | null;
   createdAt: number;
-  gamesRemaining: number;
-  tokensEarned: number;
 };
 
-export type Friend = {
-  id: string;
-  username?: string;
-  lastSeen: number;
-  gamesPlayed: number;
-  isFavorite: boolean;
-  hasSentGiftToday: boolean;
-};
+export const friendSchema = z.object({
+  id: z.string(),
+  username: z.string(),
+  lastSeen: z.number(),
+  gamesPlayed: z.number(),
+  isFavorite: z.boolean(),
+  giftSentAt: z.number().nullable(),
+});
+
+export type Friend = z.infer<typeof friendSchema>;

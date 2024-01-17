@@ -66,9 +66,16 @@ model User {
   
   plays             GamePlay[]
   votes             GameVote[]
-  rewards           Rewards[]
+  rewards           Rewards?
   games             Game[]
   submissions       GameSubmission[]
+
+  referralCode      ReferralCode?
+
+  // people i added.
+  friends           Friendship[] @relation(name: "Friends")
+  // people who added me.
+  followers         Friendship[] @relation(name: "Followers")
 
   // users can refer other users
   referredBy        User? @relation(name: "Referred", fields: [referredByUserId], references: [id])
@@ -113,23 +120,45 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
+model Friendship {
+  id            String    @id @default(cuid())
+  userId        String
+  friendId      String
+  isFavorite    Boolean   @default(false)
+  // TODO: there's a glitch that theoreticall makes it possible to send a gift to a friend, delete the friendship, and then recreate the friendship
+  // which allows you to send multiple gifts to the same person.
+  giftSentAt    DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  user          User      @relation(name: "Friends", fields: [userId], references: [id], onDelete: Cascade)
+  friend        User      @relation(name: "Followers", fields: [friendId], references: [id], onDelete: Cascade)
+}
+
 model Rewards {
   id                        String    @id @default(cuid())
-  userId                    String
+  userId                    String    @unique
   totalTokens               Int       
   // available tokens to earn from game play
   availableGamePlayTokens   Int      
   availableReferralTokens   Int       
   giftBoxes                 Int
+  sharableGiftBoxes         Int
   // momentum is used to calculate the daily reward.       
   dailyRewardMomentum       Int
-  claimedDailyReward        Boolean   
+  claimedDailyReward        DateTime?     
   user                      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   updatedAt                 DateTime  @updatedAt
 }
 
+model ReferralCode {
+  id           String    @id @default(cuid())
+  code         String    @unique
 
+  userId       String    @unique
+  User         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
 
 enum ReportReason {
   BROKEN

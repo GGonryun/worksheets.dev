@@ -1,5 +1,5 @@
 import { ArrowRightAlt } from '@mui/icons-material';
-import { Box, Button, Link, Typography } from '@mui/material';
+import { Box, Button, ButtonProps, Link, Typography } from '@mui/material';
 import React from 'react';
 
 export const PanelFooter: React.FC<{
@@ -10,6 +10,7 @@ export const PanelFooter: React.FC<{
   action?: {
     text: string;
     href: string;
+    color?: ButtonProps['color'];
   };
 }> = ({ learn, action }) => (
   <Box
@@ -31,7 +32,7 @@ export const PanelFooter: React.FC<{
     {action && (
       <Button
         endIcon={<ArrowRightAlt sx={{ ml: '-2px', mt: '-3px' }} />}
-        color="primary"
+        color={action.color ?? 'primary'}
         variant="round"
         disableElevation
         href={action.href}

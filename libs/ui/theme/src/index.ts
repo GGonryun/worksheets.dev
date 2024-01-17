@@ -1,5 +1,5 @@
 import { grey, pink, yellow } from '@mui/material/colors';
-import { createTheme, darken, lighten } from '@mui/material/styles';
+import { alpha, createTheme, darken } from '@mui/material/styles';
 
 export type PaletteColor =
   | 'success'
@@ -129,7 +129,8 @@ const theme = createTheme({
                 : currentColor.main,
               color: currentColor.main,
               borderRadius: 50,
-              fontFamily: tx.theme.typography.dangrek.fontFamily,
+              fontFamily: tx.theme.typography.body1.fontFamily,
+              textTransform: 'none',
               // transition box-shadow and background-color .2s ease-in-out
               transition: tx.theme.transitions.create(
                 ['box-shadow', 'background-color'],
@@ -140,7 +141,7 @@ const theme = createTheme({
               ),
               '&:hover': {
                 boxShadow: 'none',
-                backgroundColor: lighten(currentColor.main, 0.9),
+                backgroundColor: alpha(currentColor.main, 0.3),
               },
               //small size
               ...(tx.ownerState.size === 'small' && {

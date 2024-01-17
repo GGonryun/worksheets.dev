@@ -1,5 +1,11 @@
 import { trpc } from '@worksheets/trpc-charity';
-import { CannotVoteModal, GameLauncher } from '@worksheets/ui/pages/game';
+import {
+  CannotVoteModal,
+  GameLauncher,
+  LoginToEarnTokensSnackbarMessage,
+  TokensEarnedSnackbarMessage,
+} from '@worksheets/ui/pages/game';
+import { Snackbar, useSnackbar } from '@worksheets/ui/snackbar';
 import {
   CastVote,
   DeveloperSchema,
@@ -7,8 +13,9 @@ import {
   SerializableGameSchema,
 } from '@worksheets/util/types';
 import { useSession } from 'next-auth/react';
-import { FC, useState } from 'react';
+import React, { FC, useState } from 'react';
 
+import { useReferralCode } from '../hooks/local-storage-hooks';
 import { useRecentlyPlayedGames } from '../hooks/useRecentlyPlayedGames';
 
 const GameLauncherContainer: FC<{
@@ -16,18 +23,29 @@ const GameLauncherContainer: FC<{
   developer: DeveloperSchema;
   analytics: GameAnalyticsSchema;
 }> = ({ game, developer, analytics }) => {
+  const loginHref = `/login?redirect=${encodeURIComponent(`/play/${game.id}`)}`;
+
   const session = useSession();
-  const hasUser = !!session.data?.user?.id;
+  const authenticated = session.status === 'authenticated';
+
+  const snackbar = useSnackbar();
+  const [referralCode] = useReferralCode();
 
   const util = trpc.useUtils();
+
   const castVote = trpc.game.vote.cast.useMutation();
-  const play = trpc.game.play.useMutation();
+  const playAnonymous = trpc.game.play.anonymous.useMutation();
+  const playAuthorized = trpc.game.play.authorized.useMutation();
+
+  const rewardAuthorized = trpc.user.rewards.gamePlay.authorized.useMutation();
+  const rewardAnonymous = trpc.user.rewards.gamePlay.anonymous.useMutation();
+
   const { data: userVote } = trpc.game.vote.get.useQuery(
     {
       gameId: game.id,
     },
     {
-      enabled: hasUser,
+      enabled: authenticated,
     }
   );
 
@@ -40,19 +58,51 @@ const GameLauncherContainer: FC<{
     await util.game.vote.get.invalidate({ gameId: game.id });
   };
 
+  const handleRewardPlay = async () => {
+    if (authenticated) {
+      const result = await rewardAuthorized.mutateAsync({
+        gameId: game.id,
+      });
+
+      snackbar.trigger({
+        message: (
+          <TokensEarnedSnackbarMessage
+            earnedGiftBox={result.earnedGiftBox}
+            tokensEarned={result.tokensEarned}
+          />
+        ),
+        severity: 'success',
+      });
+    } else {
+      await rewardAnonymous.mutateAsync({ referralCode });
+      snackbar.trigger({
+        message: <LoginToEarnTokensSnackbarMessage href={loginHref} />,
+        severity: 'info',
+      });
+    }
+  };
+
+  const handleIncrementPlayCount = async () => {
+    if (authenticated) {
+      await playAuthorized.mutateAsync({ gameId: game.id });
+    } else {
+      await playAnonymous.mutateAsync({ gameId: game.id });
+    }
+  };
+
   const handlePlayGame = async () => {
     addRecentlyPlayed({
       gameId: game.id,
       playedLast: new Date().getTime(),
     });
 
-    await play.mutateAsync({ gameId: game.id });
+    await Promise.all([handleRewardPlay(), handleIncrementPlayCount()]);
 
     await invalidateStatistics();
   };
 
   const handleMakeVote = async (newVote: CastVote['vote']) => {
-    if (!hasUser) {
+    if (!authenticated) {
       setShowVoteWarning(true);
       return;
     }
@@ -64,8 +114,6 @@ const GameLauncherContainer: FC<{
 
     await invalidateStatistics();
   };
-
-  const loginHref = `/login?redirect=${encodeURIComponent(`/play/${game.id}`)}`;
 
   return (
     <>
@@ -82,6 +130,7 @@ const GameLauncherContainer: FC<{
         onVote={handleMakeVote}
         userVote={userVote?.vote ?? 'none'}
       />
+      <Snackbar {...snackbar} />
     </>
   );
 };

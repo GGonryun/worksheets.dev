@@ -1,8 +1,11 @@
 import { FavoriteBorder } from '@mui/icons-material';
 import { Box, Divider, Link, Typography } from '@mui/material';
 import { ValentinesTicket } from '@worksheets/icons/valentines';
+import { TokensPanels } from '@worksheets/util/enums';
+import { BasicGameDetails } from '@worksheets/util/types';
 import { FC } from 'react';
 
+import { usePanelController } from '../__hooks__/use-panel-controller';
 import { useTimeUntil } from '../__hooks__/use-time-until';
 import { PanelFooter } from '../panel-footer';
 import { PanelHeader } from '../panel-header';
@@ -16,6 +19,7 @@ import {
 import { ReferralProgress } from './types';
 
 export const TokensPanel: FC<{
+  bookmark: TokensPanels | undefined;
   tokens: number;
   refreshTimestamp: number;
   gameProgressTokens: number;
@@ -23,9 +27,12 @@ export const TokensPanel: FC<{
   giftBoxes: number;
   claimedDailyReward: boolean;
   dailyGiftMomentum: number;
+  recentGames: BasicGameDetails[];
+  bonusGames: BasicGameDetails[];
   onClaimDailyReward: () => void;
   onClaimGiftBox: () => void;
 }> = ({
+  bookmark,
   tokens,
   refreshTimestamp,
   gameProgressTokens,
@@ -33,9 +40,13 @@ export const TokensPanel: FC<{
   referralProgress,
   dailyGiftMomentum,
   claimedDailyReward,
+  recentGames,
+  bonusGames,
   onClaimGiftBox,
   onClaimDailyReward,
 }) => {
+  const { active, toggleActive } = usePanelController(bookmark);
+
   const timeRemaining = useTimeUntil(refreshTimestamp);
 
   return (
@@ -56,18 +67,39 @@ export const TokensPanel: FC<{
 
       <RewardsTimer timeRemaining={timeRemaining} />
 
-      <PlayGamesSection tokens={gameProgressTokens} />
+      <PlayGamesSection
+        recentGames={recentGames}
+        bonusGames={bonusGames}
+        id={TokensPanels.PlayGames}
+        active={active}
+        onClick={toggleActive}
+        tokens={gameProgressTokens}
+      />
 
       <DailyRewardSection
+        id={TokensPanels.DailyReward}
+        active={active}
+        onClick={toggleActive}
         momentum={dailyGiftMomentum}
         claimed={claimedDailyReward}
         timeRemaining={timeRemaining}
         onClaim={onClaimDailyReward}
       />
 
-      <GiftBoxSection amount={giftBoxes} onClaim={onClaimGiftBox} />
+      <GiftBoxSection
+        id={TokensPanels.GiftBoxes}
+        active={active}
+        onClick={toggleActive}
+        amount={giftBoxes}
+        onClaim={onClaimGiftBox}
+      />
 
-      <InviteFriendsSection {...referralProgress} />
+      <InviteFriendsSection
+        id={TokensPanels.InviteFriends}
+        active={active}
+        onClick={toggleActive}
+        {...referralProgress}
+      />
 
       <Divider sx={{ mt: 1 }} />
       <Box

@@ -32,7 +32,6 @@ export const Empty: Story = {
   args: {
     referrals: [],
     link: 'https://www.worksheets.dev',
-    tokens: 0,
     refreshTimestamp: Date.now() + 1000 * 60 * 60 * 23,
     gamesPlayed: 0,
   },
@@ -42,7 +41,6 @@ export const WithReferrals: Story = {
   args: {
     referrals: mockReferrals,
     link: 'https://www.worksheets.dev',
-    tokens: 123561,
     refreshTimestamp: Date.now() + 1000 * 60 * 60 * 23,
     gamesPlayed: 33,
   },

@@ -3,15 +3,13 @@ import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
 import { FC, ReactNode } from 'react';
 
-import { AccountHeader } from './account-header';
 import { AccountTabs } from './account-tabs';
 import { TabPanel } from './tab-panel';
 import { AccountTabsHref } from './tabs';
 
 export type AccountScreenProps = {
   path: string;
-  onLogout: () => void;
-  profilePanel: ReactNode;
+  settingsPanel: ReactNode;
   submissionsPanel: ReactNode;
   tokensPanel: ReactNode;
   referralsPanel: ReactNode;
@@ -20,8 +18,7 @@ export type AccountScreenProps = {
 
 export const AccountScreen: FC<AccountScreenProps> = ({
   path,
-  onLogout,
-  profilePanel,
+  settingsPanel,
   submissionsPanel,
   tokensPanel,
   referralsPanel,
@@ -37,10 +34,10 @@ export const AccountScreen: FC<AccountScreenProps> = ({
         }}
       >
         <Box display="flex" flexDirection="column">
-          <AccountHeader onLogout={onLogout} />
+          <Box my={{ xs: 1, sm: 1.5 }} />
           <AccountTabs path={path} />
-          <TabPanel target={AccountTabsHref.PROFILE} current={path}>
-            {profilePanel}
+          <TabPanel target={AccountTabsHref.SETTINGS} current={path}>
+            {settingsPanel}
           </TabPanel>
           <TabPanel target={AccountTabsHref.TOKENS} current={path}>
             {tokensPanel}

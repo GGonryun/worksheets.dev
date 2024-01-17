@@ -1,6 +1,7 @@
 import {
+  MAX_DAILY_GIFT_BOX_SHARES,
+  MAX_TOKENS_FROM_GAME_PLAY_PER_DAY,
   MAX_TOKENS_FROM_REFERRAL_PLAYS,
-  MAX_TOKENS_PER_DAY,
   STARTING_GIFT_BOXES,
   STARTING_MOMENTUM,
   STARTING_TOKENS,
@@ -26,9 +27,10 @@ export default protectedProcedure
           giftBoxes: STARTING_GIFT_BOXES,
           totalTokens: STARTING_TOKENS,
           dailyRewardMomentum: STARTING_MOMENTUM,
-          availableGamePlayTokens: MAX_TOKENS_PER_DAY,
+          availableGamePlayTokens: MAX_TOKENS_FROM_GAME_PLAY_PER_DAY,
           availableReferralTokens: MAX_TOKENS_FROM_REFERRAL_PLAYS,
-          claimedDailyReward: false,
+          sharableGiftBoxes: MAX_DAILY_GIFT_BOX_SHARES,
+          claimedDailyReward: null,
         },
       });
     } catch (error) {

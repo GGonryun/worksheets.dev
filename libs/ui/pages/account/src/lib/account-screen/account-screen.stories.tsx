@@ -1,5 +1,4 @@
 import Box from '@mui/material/Box';
-import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 
 import { AccountScreen } from './account-screen';
@@ -10,8 +9,7 @@ type Story = Meta<typeof AccountScreen>;
 const Default: Story = {
   component: AccountScreen,
   args: {
-    onLogout: action('onLogout'),
-    profilePanel: <Box>Profile Panel</Box>,
+    settingsPanel: <Box>Settings Panel</Box>,
     submissionsPanel: <Box>Submissions Panel</Box>,
     tokensPanel: <Box>Tokens Panel</Box>,
     referralsPanel: <Box>Referrals Panel</Box>,
@@ -32,9 +30,9 @@ const Default: Story = {
 };
 export default Default;
 
-export const Profile: Story = {
+export const Settings: Story = {
   args: {
-    path: AccountTabsHref.PROFILE,
+    path: AccountTabsHref.SETTINGS,
   },
 };
 

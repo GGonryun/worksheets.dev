@@ -13,26 +13,22 @@ import {
   useMediaQuery,
   useTheme,
 } from '@mui/material';
-import { FC, ReactNode, useState } from 'react';
+import { FC, ReactNode } from 'react';
 
 export const CollapsibleSection: FC<{
+  id: string;
   text: string;
   description: string;
   children: ReactNode;
   status: ReactNode;
   Icon: SvgIconComponent;
-  open?: boolean;
-}> = ({
-  text,
-  description,
-  status,
-  children,
-  Icon,
-  open: defaultOpen = false,
-}) => {
+  active: string | undefined;
+  onClick: (id: string) => void;
+}> = ({ id, text, description, status, children, Icon, active, onClick }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-  const [open, setOpen] = useState(defaultOpen); // TODO: default to false after testing
+
+  const open = active === id;
 
   return (
     <Box
@@ -42,8 +38,18 @@ export const CollapsibleSection: FC<{
         overflow: 'hidden',
       }}
     >
+      <Box
+        component="a"
+        id={id}
+        sx={{
+          display: 'block',
+          position: 'relative',
+          top: { xs: -60, sm: -80 },
+          visibility: 'hidden',
+        }}
+      />
       <ButtonBase
-        onClick={() => setOpen((o) => !o)}
+        onClick={() => onClick(id)}
         sx={{
           width: '100%',
           display: 'flex',
@@ -86,7 +92,7 @@ export const CollapsibleSection: FC<{
           }}
         >
           {status}
-          <RewardPanelAction open={open} />
+          <RewardPanelAction open={open ?? false} />
         </Box>
       </ButtonBase>
       <Collapse in={open}>

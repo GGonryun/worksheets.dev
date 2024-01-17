@@ -30,6 +30,6 @@ const urls = {
 
 export default urls;
 
-export const createReferralLink = (userId: string) => {
-  return `${BASE_URL}/referral/${userId}`;
+export const createReferralLink = (code: string) => {
+  return `${BASE_URL}/ref/${code}`;
 };

@@ -1,3 +1,4 @@
+import { waitFor } from '@worksheets/util/time';
 import { useState } from 'react';
 
 import { SnackbarProps } from './snackbar';
@@ -5,12 +6,12 @@ import { SnackbarProps } from './snackbar';
 type SnackbarSeverity = SnackbarProps['severity'];
 
 type SnackbarTriggerOptions = {
-  message?: string;
+  message?: React.ReactNode;
   severity?: SnackbarSeverity;
 };
 export type UseSnackbarHook = {
   open: boolean;
-  message: string;
+  message: React.ReactNode;
   severity: SnackbarSeverity;
   /**
    * Triggers the snackbar
@@ -26,7 +27,7 @@ const DEFAULT_SEVERITY: SnackbarSeverity = 'info';
 
 export const useSnackbar = (): UseSnackbarHook => {
   const [open, setOpen] = useState(false);
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState<React.ReactNode>('');
   const [severity, setSeverity] = useState<SnackbarSeverity>(DEFAULT_SEVERITY);
 
   return {
@@ -38,12 +39,14 @@ export const useSnackbar = (): UseSnackbarHook => {
       setSeverity(opt?.severity ?? DEFAULT_SEVERITY);
       setMessage(opt?.message ?? DEFAULT_MESSAGE);
     },
-    onClose: (event?: React.SyntheticEvent | Event, reason?: string) => {
+    onClose: async (event?: React.SyntheticEvent | Event, reason?: string) => {
       if (reason === 'clickaway') {
         return;
       }
 
       setOpen(false);
+      //wait for a bit before resetting the message
+      await waitFor(100);
       setMessage(DEFAULT_MESSAGE);
       setSeverity(DEFAULT_SEVERITY);
     },

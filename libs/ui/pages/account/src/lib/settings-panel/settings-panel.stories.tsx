@@ -8,18 +8,22 @@ import {
   ERROR_VALUES,
   PREFILLED_VALUES,
 } from './context';
-import { ProfilePanel } from './profile-panel';
+import { SettingsPanel } from './settings-panel';
 
-type Story = Meta<typeof ProfilePanel>;
+type Story = Meta<typeof SettingsPanel>;
 
 const Default: Story = {
-  component: ProfilePanel,
+  component: SettingsPanel,
+  args: {
+    onClearLocalStorage: action('onClearLocalStorage'),
+    onDeleteAccount: action('onDeleteAccount'),
+  },
   decorators: [
     (Story) => (
       <div
         style={{
           backgroundColor: 'lightblue',
-          height: '100vh',
+          height: '100%',
           padding: '2rem',
         }}
       >

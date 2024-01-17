@@ -1,4 +1,5 @@
 import { t } from '../../trpc';
+import friends from './friends/router';
 import get from './get';
 import profile from './profile/router';
 import referrals from './referrals/router';
@@ -9,4 +10,5 @@ export default t.router({
   rewards,
   profile,
   get,
+  friends,
 });

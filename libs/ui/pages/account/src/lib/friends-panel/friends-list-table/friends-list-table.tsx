@@ -6,12 +6,9 @@ import {
 } from '@mui/icons-material';
 import {
   Box,
-  Button,
   IconButton,
-  Link,
   styled,
   Tooltip,
-  Typography,
   useMediaQuery,
   useTheme,
 } from '@mui/material';
@@ -21,14 +18,13 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import { ValentinesGift } from '@worksheets/icons/valentines';
 import { WebGamepad } from '@worksheets/icons/web';
 import { shorthandNumber } from '@worksheets/util/numbers';
-import { MAX_DAILY_GIFT_BOX_SHARES } from '@worksheets/util/settings';
 import { printRelativeDate } from '@worksheets/util/time';
 import * as React from 'react';
 
 import { Friend } from '../../types';
+import { EmptyFriendsPlaceholder } from '../table-placeholder';
 
 const StyledBox = styled(Box)(({ theme }) => ({
   border: `1px solid ${theme.palette.divider}`,
@@ -36,19 +32,11 @@ const StyledBox = styled(Box)(({ theme }) => ({
   overflow: 'hidden',
 }));
 
-export type FriendsTableProps = {
+export const FriendsListTable: React.FC<{
   friends: Friend[];
-  canSendGifts: boolean;
   onRemove: (friend: Friend) => void;
   onFavorite: (friend: Friend) => void;
-};
-
-export const FriendsTable: React.FC<FriendsTableProps> = ({
-  friends,
-  canSendGifts,
-  onRemove,
-  onFavorite,
-}) => {
+}> = ({ friends, onRemove, onFavorite }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -87,7 +75,7 @@ export const FriendsTable: React.FC<FriendsTableProps> = ({
             <TableCell width="60%">Username</TableCell>
             {/* Total Games */}
             <TableCell
-              align="left"
+              align="center"
               sx={{
                 display: isMobile ? 'none' : 'table-cell',
               }}
@@ -98,7 +86,7 @@ export const FriendsTable: React.FC<FriendsTableProps> = ({
             </TableCell>
             {/* Last Seen */}
             <TableCell
-              align="left"
+              align="center"
               sx={{
                 display: isMobile ? 'none' : 'table-cell',
               }}
@@ -111,8 +99,6 @@ export const FriendsTable: React.FC<FriendsTableProps> = ({
                 />
               </Tooltip>
             </TableCell>
-            {/* Gift Sent */}
-            <TableCell align="center" width={50}></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -152,7 +138,7 @@ export const FriendsTable: React.FC<FriendsTableProps> = ({
               <TableCell>{friend.username ?? friend.id}</TableCell>
 
               <TableCell
-                align="left"
+                align="center"
                 sx={{
                   display: isMobile ? 'none' : 'table-cell',
                   fontSize: '0.8rem',
@@ -162,7 +148,7 @@ export const FriendsTable: React.FC<FriendsTableProps> = ({
               </TableCell>
 
               <TableCell
-                align="left"
+                align="center"
                 sx={{
                   textWrap: 'nowrap',
                   display: isMobile ? 'none' : 'table-cell',
@@ -174,35 +160,6 @@ export const FriendsTable: React.FC<FriendsTableProps> = ({
                   includeTime: false,
                 })}
               </TableCell>
-
-              <TableCell
-                align="center"
-                sx={{
-                  textWrap: 'nowrap',
-                }}
-              >
-                <Tooltip
-                  title={
-                    !canSendGifts
-                      ? 'All gifts sent today'
-                      : 'Gift already sent today'
-                  }
-                  disableHoverListener={
-                    !friend.hasSentGiftToday && canSendGifts
-                  }
-                >
-                  <span>
-                    <Button
-                      size="small"
-                      variant="round"
-                      color="love"
-                      disabled={!canSendGifts || friend.hasSentGiftToday}
-                    >
-                      Send Gift
-                    </Button>
-                  </span>
-                </Tooltip>
-              </TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -211,38 +168,4 @@ export const FriendsTable: React.FC<FriendsTableProps> = ({
   );
 };
 
-const EmptyFriendsPlaceholder = () => (
-  <Box
-    sx={{
-      width: '100%',
-      display: 'grid',
-      placeItems: 'center',
-      flexDirection: 'column',
-      border: (theme) => `1px solid ${theme.palette.divider}`,
-      padding: 3,
-    }}
-  >
-    <ValentinesGift
-      sx={{
-        height: 150,
-        width: 150,
-        py: 2,
-      }}
-    />
-    <Typography variant="h4" color="error">
-      Add Friends
-    </Typography>
-    <Box my={1} mb={2} textAlign="center">
-      <Typography variant="body2">
-        Share up to <b>{MAX_DAILY_GIFT_BOX_SHARES}</b> gift boxes with your
-        friends every day.
-      </Typography>
-      <Typography variant="body2">
-        <Link href="/help/vip">VIP Members</Link> can share 3x gift boxes.
-      </Typography>
-    </Box>
-    <Link href="/help/friends" variant="dangrek" color="error">
-      Learn More
-    </Link>
-  </Box>
-);
+export type FriendsTableProps = React.ComponentProps<typeof FriendsListTable>;

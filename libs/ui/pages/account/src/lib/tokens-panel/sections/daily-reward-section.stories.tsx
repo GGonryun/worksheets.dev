@@ -1,6 +1,7 @@
 import { Paper } from '@mui/material';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
+import { TokensPanels } from '@worksheets/util/enums';
 
 import { DailyRewardSection } from './daily-reward-section';
 
@@ -10,6 +11,9 @@ const Default: Story = {
   component: DailyRewardSection,
   args: {
     onClaim: action('onClaim'),
+    id: TokensPanels.DailyReward,
+    active: TokensPanels.DailyReward,
+    onClick: action('onClick'),
   },
   decorators: [
     (Story) => (

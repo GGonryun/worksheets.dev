@@ -7,3 +7,4 @@ export * from './useEventCallback';
 export * from './useDeviceOrientation';
 export * from './useLocalStorage';
 export * from './useFileName';
+export * from './useBookmark';

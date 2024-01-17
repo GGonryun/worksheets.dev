@@ -8,15 +8,11 @@ import {
 } from '@worksheets/icons/ecommerce';
 import { LearningCode } from '@worksheets/icons/learning';
 import {
+  ValentinesLock,
   ValentinesTicket,
   ValentinesWorld,
 } from '@worksheets/icons/valentines';
-import {
-  WebGamepad,
-  WebHeart,
-  WebPower,
-  WebQuestion,
-} from '@worksheets/icons/web';
+import { WebGamepad, WebHeart, WebQuestion } from '@worksheets/icons/web';
 
 import {
   HelpCenterCategory,
@@ -25,10 +21,10 @@ import {
 
 const categories: HelpCenterCategoryProps[] = [
   {
-    title: 'Getting Started',
-    description: 'Learn how to get started with Charity Games',
-    href: '/help/getting-started',
-    icon: WebPower,
+    title: 'Accounts & Profiles',
+    description: 'Learn about accounts and profile settings',
+    href: '/help/account',
+    icon: ValentinesLock,
   },
   {
     title: 'Frequently Asked Questions',

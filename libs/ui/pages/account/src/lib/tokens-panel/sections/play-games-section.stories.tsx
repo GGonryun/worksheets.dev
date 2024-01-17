@@ -1,14 +1,23 @@
 import { Paper } from '@mui/material';
+import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
+import { TokensPanels } from '@worksheets/util/enums';
 import { MAX_TOKENS_PER_DAY } from '@worksheets/util/settings';
 
+import { basicGameDetails } from '../../__mocks__/game-details';
 import { PlayGamesSection } from './play-games-section';
 
 type Story = Meta<typeof PlayGamesSection>;
 
 const Default: Story = {
   component: PlayGamesSection,
-  args: {},
+  args: {
+    onClick: action('onClick'),
+    id: TokensPanels.PlayGames,
+    active: TokensPanels.PlayGames,
+    recentGames: basicGameDetails,
+    bonusGames: basicGameDetails,
+  },
   decorators: [
     (Story) => (
       <div

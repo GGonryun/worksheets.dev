@@ -1,5 +1,5 @@
 export enum AccountTabsHref {
-  PROFILE = '/account',
+  SETTINGS = '/account',
   SUBMISSIONS = '/account/submissions',
   TOKENS = '/account/tokens',
   FRIENDS = '/account/friends',

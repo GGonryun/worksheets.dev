@@ -3,12 +3,12 @@ import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 
 import { mockFriends } from '../../__mocks__';
-import { FriendsTable } from './friends-table';
+import { FriendsListTable } from './friends-list-table';
 
-type Story = Meta<typeof FriendsTable>;
+type Story = Meta<typeof FriendsListTable>;
 
 const Default: Story = {
-  component: FriendsTable,
+  component: FriendsListTable,
   args: {
     onRemove: action('onRemove'),
     onFavorite: action('onFavorite'),
@@ -34,20 +34,17 @@ export default Default;
 export const Empty: Story = {
   args: {
     friends: [],
-    canSendGifts: true,
   },
 };
 
 export const WithPeople: Story = {
   args: {
     friends: mockFriends,
-    canSendGifts: true,
   },
 };
 
 export const SentGifts: Story = {
   args: {
     friends: mockFriends,
-    canSendGifts: false,
   },
 };

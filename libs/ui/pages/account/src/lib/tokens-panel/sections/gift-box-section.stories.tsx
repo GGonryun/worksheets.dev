@@ -1,5 +1,7 @@
 import { Paper } from '@mui/material';
+import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
+import { TokensPanels } from '@worksheets/util/enums';
 
 import { GiftBoxSection } from './gift-box-section';
 
@@ -7,7 +9,11 @@ type Story = Meta<typeof GiftBoxSection>;
 
 const Default: Story = {
   component: GiftBoxSection,
-  args: {},
+  args: {
+    id: TokensPanels.GiftBoxes,
+    active: TokensPanels.GiftBoxes,
+    onClick: action('onClick'),
+  },
   decorators: [
     (Story) => (
       <div

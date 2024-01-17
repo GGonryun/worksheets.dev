@@ -3,6 +3,7 @@ import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import { MAX_TOKENS_PER_DAY } from '@worksheets/util/settings';
 
+import { basicGameDetails } from '../__mocks__/game-details';
 import { TokensPanel } from './tokens-panel';
 
 type Story = Meta<typeof TokensPanel>;
@@ -12,6 +13,8 @@ const Default: Story = {
   args: {
     onClaimDailyReward: action('onClaimDailyGift'),
     onClaimGiftBox: action('onClaimGiftBox'),
+    recentGames: basicGameDetails,
+    bonusGames: basicGameDetails,
   },
   decorators: [
     (Story) => (
