@@ -9,6 +9,7 @@ import {
   GOOGLE_CLIENT_SECRET,
   IS_DEVELOPMENT,
 } from '@worksheets/services/environment';
+import { BASE_URL } from '@worksheets/ui/env';
 import { AuthOptions } from 'next-auth';
 import DiscordProvider from 'next-auth/providers/discord';
 import GithubProvider from 'next-auth/providers/github';
@@ -95,7 +96,12 @@ export const AUTH_OPTIONS: AuthOptions = {
   cookies: {
     sessionToken: productionSessionToken,
   },
+
   callbacks: {
+    async redirect(opt) {
+      console.info(`redirecting user`, opt);
+      return opt.baseUrl;
+    },
     async signIn({ account, profile }) {
       if (account?.provider === 'google') {
         return Boolean(profile?.email_verified);
