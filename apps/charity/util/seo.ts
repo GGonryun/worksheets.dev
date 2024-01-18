@@ -75,7 +75,7 @@ export const ldJson = {
     'Charity.Games',
     'CharityGames',
     'Charity Games',
-    'www.charity.games',
+    'Charity.Games',
   ],
   description: defaultSeo.description,
 };

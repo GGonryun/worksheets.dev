@@ -3,4 +3,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.charity.games/sitemap.xml
+Sitemap: https://charity.games/sitemap.xml

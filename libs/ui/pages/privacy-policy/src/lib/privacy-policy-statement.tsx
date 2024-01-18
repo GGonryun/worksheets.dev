@@ -23,7 +23,7 @@ __Last Updated__: ${updatedAtDate}
 ## General Information:
 Welcome to CharityGames, where we are committed to protecting your privacy. This Privacy Statement explains how we collect, use, and safeguard your personal information when you visit our website and use our gaming services.
 
-This privacy notice applies to all information collected through our website (such as www.charity.games), and/or any related services, sales, marketing, or events (we refer to them collectively in this privacy notice as the "Services"). We refer to CharityGames as "we", "us", or "our" in this privacy notice. By using our Services, you agree to the terms of this Privacy Statement.
+This privacy notice applies to all information collected through our website (such as charity.games), and/or any related services, sales, marketing, or events (we refer to them collectively in this privacy notice as the "Services"). We refer to CharityGames as "we", "us", or "our" in this privacy notice. By using our Services, you agree to the terms of this Privacy Statement.
 
 ## What Data Do We Collect?
 We collect information that identifies, relates to, describes, references, is capable of being associated with, or could reasonably be linked, directly or indirectly, with a particular consumer or device (“personal information”). In particular, we have collected the following categories of personal information from consumers within the last twelve (12) months:
@@ -134,7 +134,7 @@ We endeavor to respond to a verifiable consumer request within 45 days of its re
 We do not charge a fee to process or respond to your verifiable consumer request unless it is excessive, repetitive, or manifestly unfounded. If we determine that the request warrants a fee, we will tell you why we made that decision and provide you with a cost estimate before completing your request.
 
 ## Changes to Our Privacy Statement
-We reserve the right to amend this privacy notice at our discretion and at any time. When we make changes to this privacy notice, we will notify you by email or through a notice on our website homepage (www.charity.games). You are responsible for periodically visiting our website website and this Privacy Notice to check for any changes.
+We reserve the right to amend this privacy notice at our discretion and at any time. When we make changes to this privacy notice, we will notify you by email or through a notice on our website homepage (https://charity.games). You are responsible for periodically visiting our website website and this Privacy Notice to check for any changes.
 
 ## Contact Information
 If you have any questions or comments about this Privacy Notice, our Privacy Policy, the ways in which we collect and use your personal information, your choices and rights regarding such use, or wish to exercise your rights, please view our [contact page](/contact) for more information.

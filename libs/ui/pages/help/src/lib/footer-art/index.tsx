@@ -2,7 +2,7 @@ import { Box, BoxProps, styled } from '@mui/material';
 import { ContainImage } from '@worksheets/ui/images';
 import { JSXElementConstructor } from 'react';
 
-const purposeHref = 'https://www.charity.games/charity';
+const purposeHref = 'https://charity.games/charity';
 const bannerUri = '/common/charity-games/banners/play-with-purpose.png';
 const iconUri = '/common/charity-games/art/play-with-purpose.png';
 const playWithPurposeAlt = 'Play With Purpose';

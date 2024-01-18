@@ -1,7 +1,7 @@
 import { Paper } from '@mui/material';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import { MAX_TOKENS_PER_DAY } from '@worksheets/util/settings';
+import { MAX_TOKENS_FROM_GAME_PLAY_PER_DAY } from '@worksheets/util/settings';
 
 import { basicGameDetails } from '../__mocks__/game-details';
 import { TokensPanel } from './tokens-panel';
@@ -45,7 +45,7 @@ export const Empty: Story = {
     referralProgress: {
       referrals: 0,
       tokens: 0,
-      link: 'https://www.charity.games/referral/137647813',
+      link: 'https://charity.games/referral/137647813',
     },
     claimedDailyReward: false,
   },
@@ -56,7 +56,7 @@ export const Primary: Story = {
     tokens: 100,
     // 5 minutes from now, in milliseconds
     refreshTimestamp: Date.now() + 1000 * 60 * 5,
-    gameProgressTokens: MAX_TOKENS_PER_DAY - 23,
+    gameProgressTokens: MAX_TOKENS_FROM_GAME_PLAY_PER_DAY - 23,
     giftBoxes: 3,
     dailyGiftMomentum: 2.5,
     referralProgress: {

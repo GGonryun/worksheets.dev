@@ -15,7 +15,7 @@ export const ShareGameModal: FC<
     game: SerializableGameSchema;
   }>
 > = ({ game, open, onClose }) => {
-  const gameUrl = `https://www.charity.games/play/${game.id}`;
+  const gameUrl = `https://charity.games/play/${game.id}`;
   const gameTitle = `Play ${game.name} on Charity.Games and earn money for charity!`;
 
   const handleClose = () => {
