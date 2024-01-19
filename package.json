@@ -38,6 +38,7 @@
     "storybook:pages:help": "nx serve ui-pages-help:storybook",
     "storybook:pages:login": "nx serve ui-pages-login:storybook",
     "storybook:pages:privacy": "nx serve ui-pages-privacy-policy:storybook",
+    "storybook:pages:prizes": "nx serve ui-pages-prizes:storybook",
     "storybook:pages:receipts": "nx serve ui-pages-receipts:storybook",
     "storybook:pages:terms": "nx serve ui-pages-terms-of-service:storybook",
     "storybook:pages:under-construction": "nx serve ui-pages-under-construction:storybook",

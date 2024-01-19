@@ -72,6 +72,7 @@
       "@worksheets/ui/pages/privacy-policy": [
         "libs/ui/pages/privacy-policy/src/index.ts"
       ],
+      "@worksheets/ui/pages/prizes": ["libs/ui/pages/prizes/src/index.ts"],
       "@worksheets/ui/pages/receipts": ["libs/ui/pages/receipts/src/index.ts"],
       "@worksheets/ui/pages/terms-of-service": [
         "libs/ui/pages/terms-of-service/src/index.ts"
