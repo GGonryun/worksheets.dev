@@ -97,7 +97,7 @@ export const RaffleInfo: React.FC<{
             Get It On Steam
           </Button>
         </Box>
-        <Box my={1} />
+        <Box my={1.5} />
       </Box>
     </Box>
   );
