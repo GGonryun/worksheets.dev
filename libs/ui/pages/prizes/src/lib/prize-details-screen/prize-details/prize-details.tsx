@@ -20,7 +20,7 @@ export const PrizeDetails: React.FC<PrizeSchema> = ({
   value,
 }) => (
   <Paper
-    elevation={0}
+    elevation={10}
     sx={{
       p: { xs: 2, sm: 3 },
       backgroundColor: (theme) => theme.palette.background['solid-blue'],

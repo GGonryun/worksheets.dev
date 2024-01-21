@@ -28,7 +28,7 @@ export const PrizeHeader: React.FC<{
       position="relative"
       sx={{ aspectRatio: '1/1', maxHeight: { xs: 128, sm: 256 } }}
     >
-      <ContainImage src={imageUrl} alt={title} />
+      <ContainImage priority src={imageUrl} alt={title} />
     </Box>
   </Box>
 );
