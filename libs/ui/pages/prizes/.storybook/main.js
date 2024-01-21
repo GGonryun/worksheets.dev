@@ -11,16 +11,8 @@ const config = {
       to: '/common',
     },
     {
-      from: '../../../../assets/blog/src/lib',
-      to: '/blog',
-    },
-    {
-      from: '../../../../assets/games/src/lib',
-      to: '/games',
-    },
-    {
-      from: '../../../../assets/partners/src/lib',
-      to: '/partners',
+      from: '../../../../assets/prizes/src/lib',
+      to: '/prizes',
     },
   ],
 };

@@ -9,3 +9,9 @@ export function checkboxGroup<T>(array: T[], value: T, checked: boolean): T[] {
     return array.filter((v) => v !== value);
   }
 }
+
+// array from number.
+
+export function arrayFromNumber(num: number): number[] {
+  return Array.from(Array(num).keys());
+}

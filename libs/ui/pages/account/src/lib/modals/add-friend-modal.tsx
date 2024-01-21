@@ -51,8 +51,7 @@ export const AddFriendModal: React.FC<
         <Button
           onClick={handleAdd}
           fullWidth
-          variant="round"
-          size="large"
+          variant="arcade"
           color="error"
           startIcon={<Add fontSize="small" />}
         >

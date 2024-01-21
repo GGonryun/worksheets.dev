@@ -1,1 +1,2 @@
-export * from './lib/ui-pages-prizes';
+export * from './lib/prize-wall-screen';
+export * from './lib/prize-details-screen';

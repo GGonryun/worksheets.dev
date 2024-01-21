@@ -1,15 +1,70 @@
-import { grey, pink, yellow } from '@mui/material/colors';
-import { alpha, createTheme, darken } from '@mui/material/styles';
+import { grey } from '@mui/material/colors';
+import { createTheme, darken } from '@mui/material/styles';
 
 export type PaletteColor =
   | 'success'
   | 'error'
   | 'warning'
   | 'primary'
-  | 'secondary'
-  | 'highlight'
-  | 'love'
-  | 'default';
+  | 'secondary';
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const arcadeButtonStyle = (square?: boolean) => (tx: any) => {
+  const currentColor = tx.theme.palette[tx.ownerState.color];
+  const disabled = tx.ownerState.disabled;
+  const shadow = disabled ? tx.theme.palette.grey[500] : currentColor.shadow;
+  return {
+    backgroundColor: disabled ? tx.theme.palette.grey[300] : currentColor.main,
+    background: disabled ? undefined : currentColor.gradient,
+    borderRadius: 13,
+    color: currentColor.contrastText,
+    boxShadow: `0px 7px 0px 0px ${shadow}`,
+    fontFamily: tx.theme.typography.mPlus1p.fontFamily,
+    fontWeight: 700,
+    minWidth: square ? 0 : 64,
+    minHeight: square ? 0 : 36,
+    transition: tx.theme.transitions.create(
+      ['box-shadow', 'background-color', 'transform'],
+      {
+        duration: tx.theme.transitions.duration.standard,
+        easing: tx.theme.transitions.easing.easeInOut,
+      }
+    ),
+    '&:hover': {
+      backgroundColor: darken(currentColor.main, 0.05),
+    },
+    '&:active': {
+      boxShadow: `0px 2px 0px 0px ${shadow}`,
+      transform: 'translateY(5px)',
+    },
+    //small size
+    ...(tx.ownerState.size === 'small' && {
+      boxShadow: `0px 5px 0px 0px ${shadow}`,
+      '&:active': {
+        boxShadow: `0px 1px 0px 0px ${shadow}`,
+        transform: 'translateY(4px)',
+      },
+      height: square ? tx.theme.spacing(5) : undefined,
+      width: square ? tx.theme.spacing(5.25) : undefined,
+      padding: square ? tx.theme.spacing(0.5) : tx.theme.spacing(0.5, 2),
+      fontSize: tx.theme.typography.pxToRem(16),
+    }),
+    //medium size
+    ...(tx.ownerState.size === 'medium' && {
+      height: square ? tx.theme.spacing(6) : undefined,
+      width: square ? tx.theme.spacing(6.5) : undefined,
+      padding: square ? tx.theme.spacing(1, 1) : tx.theme.spacing(1, 4),
+      fontSize: tx.theme.typography.pxToRem(24),
+    }),
+    //large size
+    ...(tx.ownerState.size === 'large' && {
+      height: square ? tx.theme.spacing(8) : undefined,
+      width: square ? tx.theme.spacing(8.5) : undefined,
+      padding: square ? tx.theme.spacing(1.5, 1.5) : tx.theme.spacing(1.5, 6),
+      fontSize: tx.theme.typography.pxToRem(32),
+    }),
+  };
+};
 
 const theme = createTheme({
   breakpoints: {
@@ -28,22 +83,28 @@ const theme = createTheme({
   },
   typography: {
     h1: {
-      fontFamily: 'Dangrek,serif',
+      fontFamily: "'M PLUS Rounded 1c', sans-serif",
+      fontWeight: 700,
     },
     h2: {
-      fontFamily: 'Dangrek,serif',
+      fontFamily: "'M PLUS Rounded 1c', sans-serif",
+      fontWeight: 700,
     },
     h3: {
-      fontFamily: 'Dangrek,serif',
+      fontFamily: "'M PLUS Rounded 1c', sans-serif",
+      fontWeight: 700,
     },
     h4: {
-      fontFamily: 'Dangrek,serif',
+      fontFamily: "'M PLUS Rounded 1c', sans-serif",
+      fontWeight: 700,
     },
     h5: {
-      fontFamily: 'Dangrek,serif',
+      fontFamily: "'M PLUS Rounded 1c', sans-serif",
+      fontWeight: 700,
     },
     h6: {
-      fontFamily: 'Dangrek,serif',
+      fontFamily: "'M PLUS Rounded 1c', sans-serif",
+      fontWeight: 700,
     },
     body1: {
       fontFamily: "'M PLUS Rounded 1c', sans-serif",
@@ -61,110 +122,79 @@ const theme = createTheme({
     mPlus1p: {
       fontFamily: "'M PLUS Rounded 1c', sans-serif",
     },
-    corben: {
-      fontFamily: 'Corben,serif',
-    },
   },
   components: {
     MuiButton: {
+      defaultProps: {
+        disableRipple: true,
+      },
       variants: [
         {
-          props: { variant: 'round' },
+          props: { variant: 'arcade' },
           // There isn't a good type for the sx prop yet.
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          style: (tx: any) => {
-            const currentColor = tx.theme.palette[tx.ownerState.color];
-            const boxShadow = tx.theme.shadows[2];
-            return {
-              backgroundColor: tx.ownerState.disabled
-                ? tx.theme.palette.grey[300]
-                : currentColor.main,
-              color: currentColor.contrastText,
-              borderRadius: 50,
-              boxShadow:
-                tx.ownerState.disabled || tx.ownerState.disableElevation
-                  ? 'none'
-                  : boxShadow,
-              fontFamily: tx.theme.typography.dangrek.fontFamily,
-              // transition box-shadow and background-color .2s ease-in-out
-              transition: tx.theme.transitions.create(
-                ['box-shadow', 'background-color'],
-                {
-                  duration: tx.theme.transitions.duration.standard,
-                  easing: tx.theme.transitions.easing.easeInOut,
-                }
-              ),
-              '&:hover': {
-                boxShadow: 'none',
-                backgroundColor: darken(currentColor.main, 0.2),
-              },
-              //small size
-              ...(tx.ownerState.size === 'small' && {
-                padding: tx.theme.spacing(0.25, 1),
-                fontSize: tx.theme.typography.pxToRem(12),
-              }),
-              //medium size
-              ...(tx.ownerState.size === 'medium' && {
-                padding: tx.theme.spacing(0.5, 2),
-                fontSize: tx.theme.typography.pxToRem(14),
-              }),
-              //large size
-              ...(tx.ownerState.size === 'large' && {
-                padding: tx.theme.spacing(0.75, 3),
-                fontSize: tx.theme.typography.pxToRem(16),
-              }),
-            };
-          },
+          style: arcadeButtonStyle(),
         },
         {
-          props: { variant: 'outlined-round' },
+          props: { variant: 'square' },
           // There isn't a good type for the sx prop yet.
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          style: (tx: any) => {
-            const currentColor = tx.theme.palette[tx.ownerState.color];
-            return {
-              border: `1px solid ${currentColor.main}`,
-              borderColor: tx.ownerState.disabled
-                ? tx.theme.palette.grey[300]
-                : currentColor.main,
-              color: currentColor.main,
-              borderRadius: 50,
-              fontFamily: tx.theme.typography.body1.fontFamily,
-              textTransform: 'none',
-              // transition box-shadow and background-color .2s ease-in-out
-              transition: tx.theme.transitions.create(
-                ['box-shadow', 'background-color'],
-                {
-                  duration: tx.theme.transitions.duration.standard,
-                  easing: tx.theme.transitions.easing.easeInOut,
-                }
-              ),
-              '&:hover': {
-                boxShadow: 'none',
-                backgroundColor: alpha(currentColor.main, 0.3),
-              },
-              //small size
-              ...(tx.ownerState.size === 'small' && {
-                padding: tx.theme.spacing(0, 1),
-                fontSize: tx.theme.typography.pxToRem(12),
-              }),
-              //medium size
-              ...(tx.ownerState.size === 'medium' && {
-                padding: tx.theme.spacing(0, 2),
-                fontSize: tx.theme.typography.pxToRem(14),
-              }),
-              //large size
-              ...(tx.ownerState.size === 'large' && {
-                padding: tx.theme.spacing(0, 3),
-                fontSize: tx.theme.typography.pxToRem(16),
-              }),
-            };
-          },
+          style: arcadeButtonStyle(true),
         },
       ],
     },
   },
   palette: {
+    primary: {
+      light: '#61E8FF',
+      main: '#2477F4',
+      dark: '#3D68BC',
+      contrastText: '#FFF',
+      gradient: 'linear-gradient(181deg, #70BAFF 0.5%, #2477F4 177.86%)',
+      shadow: '#3D68BC',
+    },
+    error: {
+      light: '#FE697D',
+      main: '#F4243C', // hand-picked.
+      dark: '',
+      contrastText: '#FFF',
+      gradient:
+        'linear-gradient(181deg, #FF596F 0.5%, #FF7183 15.66%, #FE697D 30.81%, #F4243C 177.3%)',
+      shadow: '#BC3D4D',
+    },
+    secondary: {
+      light: '',
+      main: '#FF70C6',
+      dark: '',
+      contrastText: '#FFF',
+      gradient: 'linear-gradient(181deg, #FF70C6 0.5%, #F4243C 242.97%)',
+      shadow: '#BC3D4D',
+    },
+    success: {
+      light: '',
+      main: '#5BB83C',
+      dark: '#156B07',
+      contrastText: '#FFF',
+      gradient:
+        'linear-gradient(181deg, #61EA31 0.5%, #5BB83C 121.74%, #156B07 242.97%)',
+      shadow: '#2B8E23',
+    },
+    warning: {
+      light: '#FFB470',
+      main: '#FF810A', // hand-picked.
+      dark: '#B54E48',
+      contrastText: '#FFF',
+      gradient: 'linear-gradient(181deg, #FFB470 0.5%, #F4243C 242.97%)',
+      shadow: '#BC3D3D',
+    },
+    'dark-grey': {
+      light: grey[500],
+      main: grey[600],
+      dark: grey[700],
+      contrastText: '#FFF',
+      gradient: `linear-gradient(181deg, ${grey[500]} 0.5%, ${grey[600]} 242.97%)`,
+      shadow: grey[700],
+    },
     border: {
       light: grey[300],
       main: grey[400],
@@ -177,29 +207,27 @@ const theme = createTheme({
       dark: '#fff',
       contrastText: '#000',
     },
-    highlight: {
-      light: yellow[500],
-      main: yellow[700],
-      dark: yellow[900],
-      contrastText: '#fff',
-    },
-    love: {
-      light: pink[200],
-      main: pink[400],
-      dark: pink[600],
-      contrastText: '#fff',
-    },
-    default: {
-      light: grey[500],
-      main: grey[600],
-      dark: grey[700],
-      contrastText: '#000',
-    },
     black: {
       light: '#000',
       main: '#000',
       dark: '#000',
       contrastText: '#fff',
+    },
+    background: {
+      'transparent-blue': 'rgba(12,98,176,0.8)',
+      'solid-blue': `#0C62B0`,
+      'gradient-blue':
+        'linear-gradient(177deg, #106FBC 38.27%, rgba(16, 111, 188, 0.00) 153.53%)',
+      'gradient-soft': 'linear-gradient(180deg, #FFF 0%, #D0EEFF 100%)',
+      soft: '#E3F2FF',
+    },
+    text: {
+      blue: {
+        light: '#61E8FF',
+        main: '#106FBC',
+      },
+      arcade: '#D8F1FF',
+      darkRed: '#841B2E',
     },
   },
 });

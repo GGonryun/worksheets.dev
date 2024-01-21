@@ -1,9 +1,12 @@
 import { styled } from '@mui/material';
 import Box from '@mui/material/Box';
+import React from 'react';
 
 const WALLPAPER_URL = '/common/wallpaper/coins.png';
 
-export const WebsiteBackground = () => (
+export const WebsiteBackground: React.FC<{ hideBlobs?: boolean }> = ({
+  hideBlobs,
+}) => (
   <FullscreenBox overflow="hidden">
     <Box
       sx={{
@@ -34,10 +37,11 @@ export const WebsiteBackground = () => (
     />
     <Box
       sx={{
+        display: hideBlobs ? 'none' : 'block',
         zIndex: -1,
         position: 'absolute',
         top: '-20%',
-        left: 0,
+        left: -64,
         width: '100%',
         height: '100%',
         opacity: 1,
@@ -47,10 +51,11 @@ export const WebsiteBackground = () => (
     </Box>
     <Box
       sx={{
+        display: hideBlobs ? 'none' : 'block',
         zIndex: -1,
         position: 'absolute',
         top: '25%',
-        right: 0,
+        right: -64,
         flexShrink: 0,
         opacity: 1,
       }}
@@ -59,10 +64,11 @@ export const WebsiteBackground = () => (
     </Box>
     <Box
       sx={{
+        display: hideBlobs ? 'none' : 'block',
         zIndex: -1,
         position: 'absolute',
         top: 'max(1000px, 70%)',
-        left: 0,
+        left: -64,
         width: '100%',
         height: '100%',
         opacity: 1,

@@ -4,3 +4,4 @@ export * from './markdown';
 export * from './base-modal';
 export * from './lists';
 export * from './internally-center';
+export * from './pagination';

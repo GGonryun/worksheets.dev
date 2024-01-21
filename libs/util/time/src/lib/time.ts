@@ -130,6 +130,55 @@ export const printRelativeDate = ({
   }
 };
 
+/**
+ * Prints the amount of time remaining using the largest unit of time possible.
+ * @param opts
+ * @param locale
+ * @param now
+ * @example printTimeRemaining({ stamp: new Date(Date.now() + 86400000 * 2) }) // "2 days"
+ * @example printTimeRemaining({ stamp: new Date(Date.now() + 86400000 * 2) }) // "2 days"
+ * @example printTimeRemaining({ stamp: new Date(Date.now() + 3600000 * 2)) }) // "2 hours"
+ * @example printTimeRemaining({ stamp: new Date(Date.now() + 3600000 * 1/2) }) // "30 minutes"
+ */
+export const printTimeRemaining = (stamp: string | number | Date) => {
+  // print the largest unit of time possible
+  const date = new Date(stamp);
+  const now = new Date();
+  const diffInMilliseconds = date.getTime() - now.getTime();
+  const diffInMinutes = Math.round(diffInMilliseconds / (1000 * 60));
+  const diffInHours = Math.round(diffInMilliseconds / (1000 * 60 * 60));
+  const diffInDays = Math.round(diffInMilliseconds / (1000 * 60 * 60 * 24));
+  const diffInWeeks = Math.round(
+    diffInMilliseconds / (1000 * 60 * 60 * 24 * 7)
+  );
+  const diffInMonths = Math.round(
+    diffInMilliseconds / (1000 * 60 * 60 * 24 * 30)
+  );
+  const diffInYears = Math.round(
+    diffInMilliseconds / (1000 * 60 * 60 * 24 * 365)
+  );
+
+  if (diffInMinutes === 1) return `${diffInMinutes} min`;
+  if (diffInMinutes < 60) {
+    return `${diffInMinutes} mins`;
+  }
+  if (diffInHours < 24) {
+    return `${diffInHours} hrs`;
+  }
+  if (diffInDays < 7) {
+    return `${diffInDays} days`;
+  }
+  if (diffInWeeks < 4) {
+    return `${diffInWeeks} weeks`;
+  }
+  if (diffInMonths < 12) {
+    return `${diffInMonths} months`;
+  }
+  if (diffInYears === 1) return `${diffInYears} year`;
+  if (diffInYears > 1) return `${diffInYears} years`;
+  return '0 minutes';
+};
+
 export const printShortDate = (
   stamp: number | string | Date,
   locale = 'en-US'

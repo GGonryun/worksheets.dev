@@ -3,34 +3,50 @@ import { PaletteColor } from '@mui/material';
 declare module '@mui/material/styles' {
   interface TypographyVariants {
     body3: React.CSSProperties;
-    corben: React.CSSProperties;
     dangrek: React.CSSProperties;
     mPlus1p: React.CSSProperties;
   }
 
   interface TypographyVariantsOptions {
     body3?: React.CSSProperties;
-    corben?: React.CSSProperties;
     dangrek?: React.CSSProperties;
     mPlus1p?: React.CSSProperties;
   }
 
+  interface SimplePaletteColorOptions {
+    gradient?: string;
+    shadow?: string;
+  }
+
   interface Palette {
-    highlight: PaletteColor;
-    love: PaletteColor;
-    default: PaletteColor;
-    black: PaletteColor;
-    white: PaletteColor;
-    border: PaletteColor;
+    black: SimplePaletteColorOptions;
+    white: SimplePaletteColorOptions;
+    border: SimplePaletteColorOptions;
+    'dark-grey': SimplePaletteColorOptions;
+  }
+
+  interface TypeText {
+    arcade: string;
+    darkRed: string;
+    blue: {
+      light: string;
+      main: string;
+    };
+  }
+
+  interface TypeBackground {
+    ['transparent-blue']: string;
+    ['solid-blue']: string;
+    ['gradient-blue']: string;
+    ['gradient-soft']: string;
+    ['soft']: string;
   }
 
   interface PaletteOptions {
-    highlight?: PaletteColor;
-    love?: PaletteColor;
-    default?: PaletteColor;
-    black: PaletteColor;
-    white?: PaletteColor;
-    border?: PaletteColor;
+    black: SimplePaletteColorOptions;
+    white?: SimplePaletteColorOptions;
+    border?: SimplePaletteColorOptions;
+    'dark-grey'?: SimplePaletteColorOptions;
   }
 
   interface BreakpointOverrides {
@@ -49,38 +65,28 @@ declare module '@mui/material/styles' {
 
 declare module '@mui/material/Button' {
   interface ButtonPropsColorOverrides {
-    highlight: true;
-    love: true;
     default: true;
     black: true;
     white: true;
+    'dark-grey': true;
   }
+
   interface ButtonPropsVariantOverrides {
-    round: true;
-    ['outlined-round']: true;
+    arcade: true;
+    square: true;
   }
 }
 
 declare module '@mui/material/IconButton' {
   interface IconButtonPropsColorOverrides {
-    highlight: true;
-    love: true;
     default: true;
     black: true;
     white: true;
   }
 }
 
-declare module '@mui/material/LinearProgress' {
-  interface LinearProgressPropsColorOverrides {
-    love: true;
-  }
-}
-
 declare module '@mui/material/Chip' {
   interface ChipPropsColorOverrides {
-    highlight: true;
-    love: true;
     default: true;
     black: true;
     white: true;
@@ -91,8 +97,6 @@ declare module '@mui/material/Chip' {
 // https://github.com/mui/material-ui/issues/33054
 declare module '@mui/material/SvgIcon' {
   interface SvgIconPropsColorOverrides {
-    highlight: true;
-    love: true;
     default: true;
     black: true;
     white: true;

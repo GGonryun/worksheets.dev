@@ -2,6 +2,7 @@ import Box from '@mui/material/Box';
 import MuiToolbar from '@mui/material/Toolbar';
 import { lighten } from '@mui/system';
 import { CategoryPillProps, GamePillProps } from '@worksheets/ui/pills';
+import { WebsiteBackground } from '@worksheets/ui/wallpaper';
 import { useDebounce } from '@worksheets/ui-core';
 import { Recommendations } from '@worksheets/util/types';
 import { useRef, useState } from 'react';
@@ -12,7 +13,6 @@ import { GameRecommendations } from './drawer/game-recommendations';
 import { SearchResults } from './drawer/search-results';
 import { WebsiteFooter } from './footer';
 import { Toolbar } from './toolbar';
-import { WebsiteBackground } from './website-background';
 
 type SearchResults = {
   games: GamePillProps[];

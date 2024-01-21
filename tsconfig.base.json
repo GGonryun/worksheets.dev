@@ -19,6 +19,7 @@
       "@worksheets/assets-common": ["libs/assets/common/src/index.ts"],
       "@worksheets/assets-games": ["libs/assets/games/src/index.ts"],
       "@worksheets/assets-partners": ["libs/assets/partners/src/index.ts"],
+      "@worksheets/assets/prizes": ["libs/assets/prizes/src/index.ts"],
       "@worksheets/data-access/charity-games": [
         "libs/data-access/charity-games/src/index.ts"
       ],
@@ -27,6 +28,7 @@
       "@worksheets/icons/companies": ["libs/icons/companies/src/index.ts"],
       "@worksheets/icons/ecommerce": ["libs/icons/ecommerce/src/index.ts"],
       "@worksheets/icons/learning": ["libs/icons/learning/src/index.ts"],
+      "@worksheets/icons/native": ["libs/icons/native/src/index.ts"],
       "@worksheets/icons/valentines": ["libs/icons/valentines/src/index.ts"],
       "@worksheets/icons/web": ["libs/icons/web/src/index.ts"],
       "@worksheets/icons/youtube": ["libs/icons/youtube/src/index.ts"],
@@ -45,6 +47,7 @@
       "@worksheets/ui/images": ["libs/ui/images/src/index.ts"],
       "@worksheets/ui/inputs": ["libs/ui/inputs/src/index.ts"],
       "@worksheets/ui/layout": ["libs/ui/layout/src/index.ts"],
+      "@worksheets/ui/logos": ["libs/ui/logos/src/index.ts"],
       "@worksheets/ui/mocks": ["libs/ui/mocks/src/index.ts"],
       "@worksheets/ui/pages/about": ["libs/ui/pages/about/src/index.ts"],
       "@worksheets/ui/pages/account": ["libs/ui/pages/account/src/index.ts"],
@@ -86,6 +89,7 @@
       "@worksheets/ui/snackbar": ["libs/ui/snackbar/src/index.ts"],
       "@worksheets/ui/social-media": ["libs/ui/social-media/src/index.ts"],
       "@worksheets/ui/theme": ["libs/ui/theme/src/index.ts"],
+      "@worksheets/ui/wallpaper": ["libs/ui/wallpaper/src/index.ts"],
       "@worksheets/ui/widgets": ["libs/ui/widgets/src/index.ts"],
       "@worksheets/util-devices": ["libs/util/devices/src/index.ts"],
       "@worksheets/util-markdown": ["libs/util/markdown/src/index.ts"],
