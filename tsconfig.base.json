@@ -41,6 +41,7 @@
       "@worksheets/trpc-charity/server": ["libs/trpc/charity/src/server.ts"],
       "@worksheets/ui-core": ["libs/ui/core/src/index.ts"],
       "@worksheets/ui/advertisements": ["libs/ui/advertisements/src/index.ts"],
+      "@worksheets/ui/carousel": ["libs/ui/carousel/src/index.ts"],
       "@worksheets/ui/env": ["libs/ui/env/src/index.ts"],
       "@worksheets/ui/game-grid": ["libs/ui/game-grid/src/index.ts"],
       "@worksheets/ui/home/server": ["libs/ui/home/src/server.ts"],
@@ -70,6 +71,7 @@
         "libs/ui/pages/game-submissions/src/index.ts"
       ],
       "@worksheets/ui/pages/help": ["libs/ui/pages/help/src/index.ts"],
+      "@worksheets/ui/pages/home": ["libs/ui/pages/home/src/index.ts"],
       "@worksheets/ui/pages/loading": ["libs/ui/pages/loading/src/index.ts"],
       "@worksheets/ui/pages/login": ["libs/ui/pages/login/src/index.ts"],
       "@worksheets/ui/pages/privacy-policy": [
@@ -83,6 +85,7 @@
       "@worksheets/ui/pages/under-construction": [
         "libs/ui/pages/under-construction/src/index.ts"
       ],
+      "@worksheets/ui/pagination": ["libs/ui/pagination/src/index.ts"],
       "@worksheets/ui/pills": ["libs/ui/pills/src/index.ts"],
       "@worksheets/ui/qa-section": ["libs/ui/qa-section/src/index.ts"],
       "@worksheets/ui/qa-section/server": ["libs/ui/qa-section/src/server.ts"],

@@ -1,37 +1,45 @@
 import { Box } from '@mui/material';
-import { Pagination } from '@worksheets/ui-core';
-import React, { useState } from 'react';
+import {
+  ITEMS_PER_PAGE,
+  Pagination,
+  usePagination,
+} from '@worksheets/ui/pagination';
+import React from 'react';
 
 import { Prize } from '../../shared/prize';
 import { useRaffleScreenContext } from '../context';
 
-const ITEMS_PER_PAGE = 15;
-
 export const PrizesGroup: React.FC = () => {
   const { list } = useRaffleScreenContext();
-  const [page, setPage] = useState(0);
 
-  const max = Math.ceil(list.length / ITEMS_PER_PAGE);
+  const { page, items, max, setPage } = usePagination(list, ITEMS_PER_PAGE);
 
-  const start = page * ITEMS_PER_PAGE;
-  const last = start + ITEMS_PER_PAGE;
-
-  const items = list.slice(start, last);
+  const ref = React.useRef<HTMLDivElement>(null);
+  const handleSetPage = (page: number) => {
+    setPage(page);
+    ref.current?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   return (
     <Box
       sx={{
+        position: 'relative',
         display: 'flex',
         flexDirection: 'column',
         gap: 6,
       }}
     >
+      <Box position="absolute" top={-128} ref={ref} visibility="hidden" />
       <Box
         sx={{
           display: 'flex',
           flexWrap: 'wrap',
           gap: { xs: 2, sm: 2, md: 3, lg: 4 },
-          justifyContent: 'center',
+          justifyContent: {
+            xs: 'center',
+            mobile1: 'space-around',
+            sm: 'space-between',
+          },
         }}
       >
         {items.map((item) => (
@@ -39,14 +47,14 @@ export const PrizesGroup: React.FC = () => {
             key={item.id}
             sx={{
               height: 'auto',
-              width: { xs: 160, sm: 192, md: 224 },
+              width: { xs: '100%', mobile1: 128, sm: 160, md: 192 },
             }}
           >
             <Prize {...item} />
           </Box>
         ))}
       </Box>
-      <Pagination page={page} setPage={setPage} pages={max} />
+      <Pagination page={page} setPage={handleSetPage} pages={max} />
     </Box>
   );
 };

@@ -1,4 +1,4 @@
-import { Box, Button, Theme, Typography, useMediaQuery } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 
 import { PrizeSchema } from '../../types/prizes';
 import { CustomPaper } from './custom-paper';
@@ -7,8 +7,7 @@ import { PrizesCarousel } from './prizes-carousel';
 export const TitledPrizeCarousel: React.FC<{
   items: PrizeSchema[];
   title: string;
-  disableAction?: boolean;
-}> = ({ items, title, disableAction }) => {
+}> = ({ items, title }) => {
   return (
     <Box width="100%">
       <Typography
@@ -27,27 +26,7 @@ export const TitledPrizeCarousel: React.FC<{
         }}
       >
         <PrizesCarousel items={items} />
-        {!disableAction && <SeeMoreButton />}
       </CustomPaper>
     </Box>
-  );
-};
-
-const SeeMoreButton = () => {
-  const isMobile = useMediaQuery((theme: Theme) =>
-    theme.breakpoints.down('sm')
-  );
-  return (
-    <Button
-      href="/prizes/hottest"
-      variant="arcade"
-      color="error"
-      size={isMobile ? 'small' : 'medium'}
-      sx={{
-        alignSelf: 'flex-end',
-      }}
-    >
-      See More
-    </Button>
   );
 };

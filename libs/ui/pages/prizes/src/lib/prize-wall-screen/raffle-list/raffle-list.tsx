@@ -11,8 +11,8 @@ export const RaffleList: React.FC = () => (
     <ChangeCategory />
     <CustomPaper
       sx={{
+        padding: 4,
         background: (theme) => theme.palette.background['transparent-blue'],
-        gap: 4,
       }}
     >
       <PrizesGroup />

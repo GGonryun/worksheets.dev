@@ -6,6 +6,9 @@ export const CustomPaper = styled(Paper)(({ theme }) => ({
   flexDirection: 'column',
   borderRadius: theme.shape.borderRadius * 4,
   [theme.breakpoints.up('sm')]: {
-    padding: theme.spacing(3),
+    padding: theme.spacing(2),
+  },
+  [theme.breakpoints.up('md')]: {
+    padding: theme.spacing(4),
   },
 }));

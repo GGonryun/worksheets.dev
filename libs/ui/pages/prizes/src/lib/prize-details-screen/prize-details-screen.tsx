@@ -32,11 +32,7 @@ export const PrizeDetailsScreen: React.FC<{
 
     <Gutter />
 
-    <TitledPrizeCarousel
-      disableAction
-      items={suggestedPrizes}
-      title="Prizes for you"
-    />
+    <TitledPrizeCarousel items={suggestedPrizes} title="Prizes for you" />
   </CustomContainer>
 );
 

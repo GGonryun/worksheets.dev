@@ -2,7 +2,7 @@ import { Container, ContainerProps, styled } from '@mui/material';
 import { JSXElementConstructor } from 'react';
 
 export const CustomContainer = styled<JSXElementConstructor<ContainerProps>>(
-  (props) => <Container maxWidth="xl" {...props} />
+  (props) => <Container maxWidth="lg" {...props} />
 )(({ theme }) => ({
   paddingTop: theme.spacing(4),
   paddingBottom: theme.spacing(4),

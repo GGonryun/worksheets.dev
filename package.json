@@ -36,6 +36,7 @@
     "storybook:pages:loading": "nx serve ui-pages-loading:storybook",
     "storybook:pages:submissions": "nx serve ui-pages-game-submissions:storybook",
     "storybook:pages:help": "nx serve ui-pages-help:storybook",
+    "storybook:pages:home": "nx serve ui-pages-home:storybook",
     "storybook:pages:login": "nx serve ui-pages-login:storybook",
     "storybook:pages:privacy": "nx serve ui-pages-privacy-policy:storybook",
     "storybook:pages:prizes": "nx serve ui-pages-prizes:storybook",
