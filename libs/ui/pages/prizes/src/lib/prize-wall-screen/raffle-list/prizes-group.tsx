@@ -4,9 +4,9 @@ import {
   Pagination,
   usePagination,
 } from '@worksheets/ui/pagination';
+import { Prize } from '@worksheets/ui/prizes';
 import React from 'react';
 
-import { Prize } from '../../shared/prize';
 import { useRaffleScreenContext } from '../context';
 
 export const PrizesGroup: React.FC = () => {

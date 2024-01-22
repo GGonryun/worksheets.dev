@@ -54,7 +54,7 @@ export const Prize: React.FC<PrizeSchema> = ({
         display: 'flex',
         flexDirection: 'column',
         textDecoration: 'none',
-        gap: { xs: 1, sm: 1.5, md: 1.75 },
+        gap: 1,
       }}
     >
       <Tooltip

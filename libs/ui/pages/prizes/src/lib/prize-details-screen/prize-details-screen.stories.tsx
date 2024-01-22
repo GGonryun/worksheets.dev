@@ -1,7 +1,7 @@
 import { Meta } from '@storybook/react';
-import { StoryWallpaper, WebsiteBackground } from '@worksheets/ui/wallpaper';
+import { mockPrizes } from '@worksheets/ui/prizes';
+import { StoryWallpaper } from '@worksheets/ui/wallpaper';
 
-import { mockPrizes } from '../__mock__/prizes';
 import { PrizeDetailsScreen } from './prize-details-screen';
 
 type Story = Meta<typeof PrizeDetailsScreen>;
@@ -11,7 +11,6 @@ const Default: Story = {
   decorators: [
     (Story) => (
       <StoryWallpaper>
-        <WebsiteBackground />
         <Story />
       </StoryWallpaper>
     ),

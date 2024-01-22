@@ -19,7 +19,7 @@ export const prizeCategorySchema = z.enum([
 
 export type PrizeCategory = z.infer<typeof prizeCategorySchema>;
 
-export const categoryLabels: Record<PrizeCategory, string> = {
+export const prizeCategoryLabels: Record<PrizeCategory, string> = {
   all: 'All',
   newest: 'Newest',
   hottest: 'Hottest',
@@ -28,7 +28,7 @@ export const categoryLabels: Record<PrizeCategory, string> = {
   expiring: 'Ending Soon',
 };
 
-export const categoryIcons: Record<PrizeCategory, React.ReactNode> = {
+export const prizeCategoryIcons: Record<PrizeCategory, React.ReactNode> = {
   all: <AllInclusive fontSize="large" color="black" />,
   newest: <NewReleasesOutlined fontSize="large" color="black" />,
   hottest: <LocalFireDepartmentOutlined fontSize="large" color="black" />,

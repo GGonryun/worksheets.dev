@@ -20,6 +20,7 @@
     "storybook:images": "nx serve ui-images:storybook",
     "storybook:layout": "nx serve ui-layout:storybook",
     "storybook:pills": "nx serve ui-pills:storybook",
+    "storybook:prizes": "nx serve ui-prizes:storybook",
     "storybook:widgets": "nx serve ui-widgets:storybook",
     "storybook:qa": "nx serve ui-qa-section:storybook",
     "storybook:pages:about": "nx serve ui-pages-about:storybook",

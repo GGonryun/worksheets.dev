@@ -1,8 +1,8 @@
 import { ExpandMore } from '@mui/icons-material';
 import { Box, Typography } from '@mui/material';
+import { prizeCategoryLabels } from '@worksheets/ui/prizes';
 import React from 'react';
 
-import { categoryLabels } from '../../../types/categories';
 import { useRaffleScreenContext } from '../context';
 import { CategoryMenu } from './category-menu';
 
@@ -34,7 +34,7 @@ export const ChangeCategory: React.FC = () => {
             typography: { xs: 'h6', sm: 'h4' },
           }}
         >
-          {categoryLabels[category]}
+          {prizeCategoryLabels[category]}
         </Typography>
         <ExpandMore
           color="white"

@@ -3,9 +3,9 @@ import { Carousel } from '@worksheets/ui/carousel';
 import React from 'react';
 
 import { PrizeSchema } from '../../types/prizes';
-import { Prize } from './prize';
+import { Prize } from '../prize/prize';
 
-export const PrizesCarousel: React.FC<{
+export const PrizeCarousel: React.FC<{
   items: PrizeSchema[];
 }> = ({ items }) => {
   return (

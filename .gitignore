@@ -67,3 +67,10 @@ coverage/
 .docusaurus/
 .cache-loader/
 .vercel
+
+# Ignore nx cache
+.nx/**/*
+/.nx-cache
+/.nx
+.nx
+.nx/cache

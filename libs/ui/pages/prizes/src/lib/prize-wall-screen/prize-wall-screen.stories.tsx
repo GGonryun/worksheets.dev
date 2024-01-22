@@ -1,6 +1,6 @@
 import { action } from '@storybook/addon-actions';
 import { Meta } from '@storybook/react';
-import { StoryWallpaper, WebsiteBackground } from '@worksheets/ui/wallpaper';
+import { StoryWallpaper } from '@worksheets/ui/wallpaper';
 
 import { PrizeWallScreen } from '.';
 import {
@@ -16,7 +16,6 @@ const Default: Story = {
   decorators: [
     (Story) => (
       <StoryWallpaper>
-        <WebsiteBackground />
         <Story />
       </StoryWallpaper>
     ),

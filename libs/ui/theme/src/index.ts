@@ -16,7 +16,7 @@ const arcadeButtonStyle = (square?: boolean) => (tx: any) => {
   return {
     backgroundColor: disabled ? tx.theme.palette.grey[300] : currentColor.main,
     background: disabled ? undefined : currentColor.gradient,
-    borderRadius: 13,
+    borderRadius: tx.theme.shape.borderRadius * 2,
     color: currentColor.contrastText,
     boxShadow: `0px 7px 0px 0px ${shadow}`,
     fontFamily: tx.theme.typography.mPlus1p.fontFamily,
@@ -173,7 +173,7 @@ const theme = createTheme({
     success: {
       light: '',
       main: '#5BB83C',
-      dark: '#156B07',
+      dark: '#32812B',
       contrastText: '#FFF',
       gradient:
         'linear-gradient(181deg, #61EA31 0.5%, #5BB83C 121.74%, #156B07 242.97%)',

@@ -1,7 +1,7 @@
+import { mockPrizes } from '@worksheets/ui/prizes';
 import { arrayFromNumber } from '@worksheets/util/arrays';
 import { MockActionType } from '@worksheets/util/types';
 
-import { mockPrizes } from '../../__mock__/prizes';
 import { RaffleScreenContextType } from './type';
 
 export const EMPTY_VALUES = (

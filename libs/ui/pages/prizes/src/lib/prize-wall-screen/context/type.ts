@@ -1,5 +1,4 @@
-import { PrizeCategory } from '../../../types/categories';
-import { PrizeSchema } from '../../../types/prizes';
+import { PrizeCategory, PrizeSchema } from '@worksheets/ui/prizes';
 
 export type RaffleScreenContextType = {
   hottest: PrizeSchema[];

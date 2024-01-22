@@ -1,6 +1,6 @@
 import { Box, Paper } from '@mui/material';
+import { PrizeSchema } from '@worksheets/ui/prizes';
 
-import { PrizeSchema } from '../../../types/prizes';
 import {
   BottomPunchOut,
   LeftPunchOut,

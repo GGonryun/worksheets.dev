@@ -8,6 +8,7 @@ export const Carousel = styled<JSXElementConstructor<BoxProps>>((props) => (
     <RightEdgeBlur />
   </CarouselWrapper>
 ))(({ theme }) => ({
+  backgroundColor: theme.palette.background['solid-blue'],
   display: 'flex',
   overflow: 'auto',
   gap: theme.spacing(2),

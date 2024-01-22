@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
+import { TitledPrizeCarousel } from '@worksheets/ui/prizes';
 
 import { CustomContainer } from '../shared/custom-container';
-import { TitledPrizeCarousel } from '../shared/titled-prize-carousel';
 import { useRaffleScreenContext } from './context';
 import { FancySearch } from './fancy-search';
 import { RaffleList } from './raffle-list';

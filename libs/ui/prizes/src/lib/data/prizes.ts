@@ -5,7 +5,7 @@ import {
   weeksFromNow,
 } from '@worksheets/util/time';
 
-import { PrizeSchema } from '../../types/prizes';
+import { PrizeSchema } from '../types';
 
 export const mockPrizes: PrizeSchema[] = [
   {

@@ -87,6 +87,7 @@
       ],
       "@worksheets/ui/pagination": ["libs/ui/pagination/src/index.ts"],
       "@worksheets/ui/pills": ["libs/ui/pills/src/index.ts"],
+      "@worksheets/ui/prizes": ["libs/ui/prizes/src/index.ts"],
       "@worksheets/ui/qa-section": ["libs/ui/qa-section/src/index.ts"],
       "@worksheets/ui/qa-section/server": ["libs/ui/qa-section/src/server.ts"],
       "@worksheets/ui/snackbar": ["libs/ui/snackbar/src/index.ts"],
