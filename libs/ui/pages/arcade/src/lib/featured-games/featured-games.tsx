@@ -15,7 +15,7 @@ export const FeaturedGames: React.FC<{
     <Box display="flex" gap={3} alignItems="center" justifyContent="center">
       <Box
         sx={{
-          flexGrow: 2.4,
+          flexGrow: 1.95,
           height: { xs: 200, mobile1: 280, sm: 'unset' },
           maxHeight: 480,
           maxWidth: 890,
