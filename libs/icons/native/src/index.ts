@@ -1,1 +1,1 @@
-export * from './lib/play';
+export * from './lib/shuffle';

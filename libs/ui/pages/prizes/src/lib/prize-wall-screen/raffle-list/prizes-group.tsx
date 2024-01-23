@@ -50,7 +50,13 @@ export const PrizesGroup: React.FC = () => {
               width: { xs: '100%', mobile1: 128, sm: 160, md: 192 },
             }}
           >
-            <Prize {...item} />
+            <Prize
+              id={item.id}
+              name={item.title}
+              imageUrl={item.imageUrl}
+              expires={item.expires}
+              company={item.company}
+            />
           </Box>
         ))}
       </Box>

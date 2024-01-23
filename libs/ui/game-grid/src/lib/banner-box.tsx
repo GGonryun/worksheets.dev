@@ -6,7 +6,7 @@ export const BannerBox: FC<{ children: ReactNode }> = ({ children }) => (
   <Box
     sx={{
       left: -6,
-      top: 8,
+      top: 12,
       right: 0,
       padding: '0 8px 0 6px',
       pointerEvents: 'none',
@@ -18,7 +18,7 @@ export const BannerBox: FC<{ children: ReactNode }> = ({ children }) => (
 );
 
 const BannerBoxContent = styled(Box)(({ theme }) => ({
-  height: 28,
+  height: 30,
   backgroundColor: '#fff',
   borderRadius: '3px 14px 14px 0',
   bottom: 0,

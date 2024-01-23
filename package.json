@@ -25,6 +25,7 @@
     "storybook:qa": "nx serve ui-qa-section:storybook",
     "storybook:pages:about": "nx serve ui-pages-about:storybook",
     "storybook:pages:account": "nx serve ui-pages-account:storybook",
+    "storybook:pages:arcade": "nx serve ui-pages-arcade:storybook",
     "storybook:pages:blog": "nx serve ui-pages-blog:storybook",
     "storybook:pages:category": "nx serve ui-pages-category:storybook",
     "storybook:pages:charity": "nx serve ui-pages-charity:storybook",

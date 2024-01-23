@@ -16,13 +16,13 @@ const arcadeButtonStyle = (square?: boolean) => (tx: any) => {
   return {
     backgroundColor: disabled ? tx.theme.palette.grey[300] : currentColor.main,
     background: disabled ? undefined : currentColor.gradient,
-    borderRadius: tx.theme.shape.borderRadius * 2,
+    borderRadius: 13,
     color: currentColor.contrastText,
-    boxShadow: `0px 7px 0px 0px ${shadow}`,
+    boxShadow: `0px 6px 0px 0px ${shadow}`,
     fontFamily: tx.theme.typography.mPlus1p.fontFamily,
     fontWeight: 700,
+    textTransform: 'none' as const,
     minWidth: square ? 0 : 64,
-    minHeight: square ? 0 : 36,
     transition: tx.theme.transitions.create(
       ['box-shadow', 'background-color', 'transform'],
       {
@@ -34,7 +34,7 @@ const arcadeButtonStyle = (square?: boolean) => (tx: any) => {
       backgroundColor: darken(currentColor.main, 0.05),
     },
     '&:active': {
-      boxShadow: `0px 2px 0px 0px ${shadow}`,
+      boxShadow: `0px 1px 0px 0px ${shadow}`,
       transform: 'translateY(5px)',
     },
     //small size
@@ -44,24 +44,24 @@ const arcadeButtonStyle = (square?: boolean) => (tx: any) => {
         boxShadow: `0px 1px 0px 0px ${shadow}`,
         transform: 'translateY(4px)',
       },
-      height: square ? tx.theme.spacing(5) : undefined,
-      width: square ? tx.theme.spacing(5.25) : undefined,
+      height: square ? tx.theme.spacing(4) : undefined,
+      width: square ? tx.theme.spacing(4.25) : undefined,
       padding: square ? tx.theme.spacing(0.5) : tx.theme.spacing(0.5, 2),
-      fontSize: tx.theme.typography.pxToRem(16),
+      fontSize: 12,
     }),
     //medium size
     ...(tx.ownerState.size === 'medium' && {
-      height: square ? tx.theme.spacing(6) : undefined,
-      width: square ? tx.theme.spacing(6.5) : undefined,
+      height: square ? tx.theme.spacing(5) : undefined,
+      width: square ? tx.theme.spacing(5.5) : undefined,
       padding: square ? tx.theme.spacing(1, 1) : tx.theme.spacing(1, 4),
-      fontSize: tx.theme.typography.pxToRem(24),
+      fontSize: tx.theme.typography.body1.fontSize,
     }),
     //large size
     ...(tx.ownerState.size === 'large' && {
-      height: square ? tx.theme.spacing(8) : undefined,
-      width: square ? tx.theme.spacing(8.5) : undefined,
-      padding: square ? tx.theme.spacing(1.5, 1.5) : tx.theme.spacing(1.5, 6),
-      fontSize: tx.theme.typography.pxToRem(32),
+      height: square ? tx.theme.spacing(6) : undefined,
+      width: square ? tx.theme.spacing(6.5) : undefined,
+      padding: square ? tx.theme.spacing(1.5, 1.5) : tx.theme.spacing(1.25, 5),
+      fontSize: tx.theme.typography.h6.fontSize,
     }),
   };
 };

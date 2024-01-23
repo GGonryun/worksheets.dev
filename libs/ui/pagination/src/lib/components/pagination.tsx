@@ -1,5 +1,6 @@
 import {
   Box,
+  BoxProps,
   Button,
   styled,
   Theme,
@@ -12,7 +13,8 @@ export const Pagination: React.FC<{
   page: number;
   pages: number;
   setPage: (num: number) => void;
-}> = ({ page, setPage, pages }) => {
+  sx?: BoxProps['sx'];
+}> = ({ page, setPage, pages, sx }) => {
   const isMobile = useMediaQuery((theme: Theme) =>
     theme.breakpoints.down('sm')
   );
@@ -60,7 +62,7 @@ export const Pagination: React.FC<{
     );
 
   return (
-    <PagesBox>
+    <PagesBox sx={sx}>
       <PageButton i={0} />
       {showLeftEllipsis && <Ellipses />}
       {pagesToShow.map((i) => (

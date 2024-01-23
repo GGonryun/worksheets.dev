@@ -12,5 +12,7 @@ export function usePagination<T>(list: T[], itemsPerPage: number) {
 
   const items = list.slice(start, last);
 
+  console.log('items', items);
+
   return { page, setPage, max, items };
 }

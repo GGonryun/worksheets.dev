@@ -16,7 +16,7 @@ export const StoryWallpaper: React.FC<{
       position: 'relative',
     }}
   >
-    <WebsiteBackground hideBlobs={hideBlobs} />
+    <WebsiteBackground />
     {children}
   </Box>
 );

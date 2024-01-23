@@ -26,7 +26,6 @@ export const WebsiteBackground: React.FC = () => (
         width: '100%',
         height: '100%',
         backgroundColor: `rgb(43,217,255)`,
-        backgroundSize: '10%',
         backgroundImage: `url('${WALLPAPER_URL}')`,
         backgroundBlendMode: 'color-dodge',
         backgroundRepeat: 'repeat',
