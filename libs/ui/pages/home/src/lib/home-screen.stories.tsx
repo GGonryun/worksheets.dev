@@ -1,5 +1,5 @@
 import { Meta } from '@storybook/react';
-import { StoryWallpaper, WebsiteBackground } from '@worksheets/ui/wallpaper';
+import { StoryWallpaper } from '@worksheets/ui/components/wallpaper';
 
 import { HomeScreen } from './home-screen';
 
@@ -11,7 +11,6 @@ export default {
   decorators: [
     (Story) => (
       <StoryWallpaper>
-        <WebsiteBackground />
         <Story />
       </StoryWallpaper>
     ),

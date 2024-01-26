@@ -1,6 +1,9 @@
 import { NavigateBefore } from '@mui/icons-material';
 import { Box, Container, Link, Typography } from '@mui/material';
-import { PrizeSchema, TitledPrizeCarousel } from '@worksheets/ui/prizes';
+import {
+  PrizeSchema,
+  TitledPrizeCarousel,
+} from '@worksheets/ui/components/prizes';
 
 import { CustomContainer } from '../shared/custom-container';
 import { PrizeDescription } from './prize-description';

@@ -1,12 +1,10 @@
-import { ButtonBase } from '@mui/material';
+import { ButtonBase, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import { developers } from '@worksheets/data-access/charity-games';
-import { CoverImage } from '@worksheets/ui/images';
+import { CoverImage } from '@worksheets/ui/components/images';
 import { DeveloperSchema } from '@worksheets/util/types';
 import { FC, ReactNode, useState } from 'react';
-
-import { TitleText } from './title-text';
 
 export const DevelopersSection = () => (
   <Box display="flex" flexDirection="column" gap={2}>
@@ -17,21 +15,30 @@ export const DevelopersSection = () => (
         borderRadius: 4,
         gap: 4,
         p: { xs: 2, sm: 4 },
+        color: (theme) => theme.palette.text.arcade,
+        backgroundColor: (theme) => theme.palette.background['solid-blue'],
+        background: (theme) => theme.palette.background['gradient-blue'],
       }}
     >
-      <TitleText variant="h2" textAlign="center">
+      <Typography
+        component="h2"
+        sx={{
+          textAlign: 'center',
+          typography: { xs: 'h4', sm: 'h3' },
+        }}
+      >
         Contributors &amp; Developers
-      </TitleText>
+      </Typography>
       <Box
         sx={{
           display: 'grid',
           gridTemplateColumns: {
             xs: 'repeat(3, 1fr)',
-            mobile2: 'repeat(3, 1fr)',
-            sm: 'repeat(4, 1fr)',
-            md: 'repeat(5, 1fr)',
-            lg: 'repeat(5, 1fr)',
-            xl: 'repeat(6, 1fr)',
+            mobile2: 'repeat(4, 1fr)',
+            sm: 'repeat(5, 1fr)',
+            md: 'repeat(6, 1fr)',
+            lg: 'repeat(7, 1fr)',
+            xl: 'repeat(8, 1fr)',
           },
           gridTemplateRows: 'auto',
           gap: 2,
@@ -70,6 +77,7 @@ const CustomBox: FC<{ href: string; children: ReactNode }> = ({
         borderRadius: 4,
         overflow: 'hidden',
         transform: hover ? 'scale(1.05)' : 'scale(1)',
+        backgroundColor: (theme) => theme.palette.background.paper,
         boxShadow: (theme) => theme.shadows[hover ? 5 : 2],
         transition: (theme) =>
           theme.transitions.create(['box-shadow', 'transform'], {

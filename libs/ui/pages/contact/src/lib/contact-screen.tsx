@@ -1,81 +1,129 @@
-import { EmailOutlined, GitHub } from '@mui/icons-material';
-import { Box, Button, Container, Link, Paper, Typography } from '@mui/material';
-import { ArrowUpRight } from '@worksheets/icons/arrows';
+import {
+  EmailOutlined,
+  Favorite,
+  GitHub,
+  HelpCenter,
+  Login,
+} from '@mui/icons-material';
+import {
+  Box,
+  Button,
+  Container,
+  Link,
+  Paper,
+  Typography,
+  TypographyProps,
+} from '@mui/material';
 import urls from '@worksheets/util/urls';
-import { FC } from 'react';
+import React, { FC } from 'react';
 
-export type ContactScreenProps = {
-  // no props
-};
+const Title: React.FC<TypographyProps> = (props) => (
+  <Typography
+    color="text.arcade"
+    sx={{
+      typography: { xs: 'h4', sm: 'h3' },
+    }}
+    {...props}
+  />
+);
+const Subtitle: React.FC<TypographyProps> = (props) => (
+  <Typography
+    color="text.arcade"
+    sx={{
+      typography: { xs: 'h6', sm: 'h5' },
+    }}
+    {...props}
+  />
+);
 
-export const ContactScreen: FC<ContactScreenProps> = (props) => {
-  return (
-    <Container maxWidth="lg" sx={{ py: 2 }}>
-      <Paper
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          borderRadius: 4,
-          p: { xs: 2, sm: 4 },
-        }}
+const Text: React.FC<TypographyProps> = (props) => (
+  <Typography
+    color="text.arcade"
+    sx={{
+      typography: { xs: 'body2', sm: 'body1' },
+    }}
+    {...props}
+  />
+);
+
+export const ContactScreen: React.FC = () => (
+  <Container maxWidth="lg" sx={{ py: 2 }}>
+    <Paper
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        p: { xs: 2, sm: 4 },
+        gap: 2,
+        backgroundColor: (theme) => theme.palette.background['solid-blue'],
+        background: (theme) => theme.palette.background['gradient-blue'],
+      }}
+    >
+      <Box
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
+        gap={2}
       >
-        <Typography variant="h3">Contact Us</Typography>
-        <br />
-        <EmailUsSection />
-        <br />
-        <SignUpSection />
-        <br />
-        <BugsAndFeaturesSection />
-      </Paper>
-    </Container>
+        <Title>Contact Us</Title>
+        <Box display="flex" gap={1}>
+          <Button variant="square" size="small" href="/help" color="warning">
+            <HelpCenter />
+          </Button>
+          <Button
+            variant="square"
+            size="small"
+            href="/charity"
+            color="secondary"
+          >
+            <Favorite />
+          </Button>
+        </Box>
+      </Box>
+      <EmailUsSection />
+      <br />
+      <SignUpSection />
+      <br />
+      <BugsAndFeaturesSection />
+      <br />
+    </Paper>
+  </Container>
+);
+
+const EmailUsSection: FC = () => {
+  return (
+    <Box>
+      <Subtitle>Need help?</Subtitle>
+      <Text>
+        Have a question about our platform or a game? Send us a message and
+        we&apos;ll get back to you as soon as possible.
+      </Text>
+      <Box mt={2}>
+        <Button
+          variant="arcade"
+          color="error"
+          href={`mailto:${urls.email.support}`}
+          startIcon={<EmailOutlined />}
+        >
+          Email Us
+        </Button>
+      </Box>
+    </Box>
   );
 };
 
-const EmailUsSection: FC = () => (
-  <Box>
-    <Typography variant="h5">Need help?</Typography>
-    <Typography variant="body1">
-      Have a question about our platform or a game? Send us a message and
-      we&apos;ll get back to you as soon as possible.
-    </Typography>
-    <Box mt={1}>
-      <Button
-        variant="contained"
-        color="error"
-        href={`mailto:${urls.email.support}`}
-        startIcon={<EmailOutlined />}
-        sx={{
-          fontWeight: 900,
-          lineHeight: 1,
-          borderRadius: 4,
-          px: 3,
-        }}
-      >
-        Email Us
-      </Button>
-    </Box>
-  </Box>
-);
-
 const SignUpSection: FC = () => (
   <Box>
-    <Typography variant="h5">Stay up to date</Typography>
-    <Typography variant="body1">
+    <Subtitle>Stay up to date</Subtitle>
+    <Text>
       We&apos;re always adding new games and features. Create an account to join
       our newsletter and stay up to date. We promise not to spam you!
-    </Typography>
-    <Box mt={1}>
+    </Text>
+    <Box mt={2}>
       <Button
-        variant="contained"
+        variant="arcade"
         color="error"
         href="/login"
-        endIcon={<ArrowUpRight sx={{ ml: -0.5 }} />}
-        sx={{
-          fontWeight: 900,
-          lineHeight: 1,
-          borderRadius: 4,
-          px: 3,
-        }}
+        startIcon={<Login />}
       >
         Sign Up
       </Button>
@@ -91,25 +139,22 @@ const BugsAndFeaturesSection: FC = () => (
       gap: 1,
     }}
   >
-    <Typography variant="h5">Report bugs and request features</Typography>
-    <Typography>
-      Charity Games uses <Link href={urls.social.github}>GitHub</Link> as our
-      public issues tracker for organizing bugs and feature requests. Please use
-      the links below to report bugs or request features. Do not share private
-      data as our issues tracker is public.
-    </Typography>
-    <Box mt={1}>
+    <Subtitle>Report bugs and request features</Subtitle>
+    <Text>
+      Charity Games uses{' '}
+      <Link color="inherit" href={urls.social.github}>
+        GitHub
+      </Link>{' '}
+      as our public issues tracker for organizing bugs and feature requests.
+      Please use the links below to report bugs or request features. Do not
+      share private data as our issues tracker is public.
+    </Text>
+    <Box mt={2}>
       <Button
-        variant="contained"
+        variant="arcade"
         color="error"
         href={urls.social.github}
         startIcon={<GitHub />}
-        sx={{
-          fontWeight: 900,
-          lineHeight: 1,
-          borderRadius: 4,
-          px: 3,
-        }}
       >
         GitHub
       </Button>

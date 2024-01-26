@@ -8,7 +8,7 @@ import {
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
-import { ResponsiveImage } from '@worksheets/ui/images';
+import { ResponsiveImage } from '@worksheets/ui/components/images';
 import { PLACEHOLDER_LOGO_PATH } from '@worksheets/util/assets';
 import {
   GameIcon as GameIconType,

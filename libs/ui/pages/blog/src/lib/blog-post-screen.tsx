@@ -22,6 +22,8 @@ export const BlogPostScreen: FC<BlogPostScreenProps> = ({
     <Container maxWidth="lg" sx={{ py: 2 }}>
       <Paper
         sx={{
+          backgroundColor: (theme) =>
+            theme.palette.background['transparent-blue'],
           display: 'flex',
           flexDirection: 'column',
           borderTopRightRadius: '16px',
@@ -41,8 +43,9 @@ export const BlogPostScreen: FC<BlogPostScreenProps> = ({
       </Paper>
       <Paper
         sx={{
-          borderTop: (theme) => `1px solid ${theme.palette.divider}`,
-          backgroundColor: (theme) => theme.palette.grey[200],
+          borderTop: (theme) => `1px solid ${theme.palette.white.main}`,
+          backgroundColor: (theme) =>
+            theme.palette.background['transparent-blue'],
           p: { xs: 2, sm: 4 },
           borderTopLeftRadius: 0,
           borderTopRightRadius: 0,

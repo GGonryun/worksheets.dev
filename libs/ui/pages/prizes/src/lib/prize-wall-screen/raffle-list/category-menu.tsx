@@ -3,7 +3,7 @@ import {
   PrizeCategory,
   prizeCategoryIcons,
   prizeCategoryLabels,
-} from '@worksheets/ui/prizes';
+} from '@worksheets/ui/components/prizes';
 import React from 'react';
 
 import { useRaffleScreenContext } from '../context';

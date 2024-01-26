@@ -1,5 +1,5 @@
 import { TRPCError } from '@trpc/server';
-import { gameSubmissionFormSchema } from '@worksheets/ui/pages/game-submissions';
+import { gameSubmissionFormSchema } from '@worksheets/util/types';
 import { makeOptionalPropsNullable, z } from '@worksheets/zod';
 
 import { protectedProcedure } from '../../../procedures';

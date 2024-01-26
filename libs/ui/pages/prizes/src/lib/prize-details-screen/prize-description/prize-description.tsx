@@ -1,6 +1,6 @@
 import { ArrowDropDown } from '@mui/icons-material';
 import { Box, ButtonBase, Collapse, Paper, Typography } from '@mui/material';
-import { PoweredByLogo } from '@worksheets/ui/logos';
+import { PoweredByLogo } from '@worksheets/ui/components/logos';
 import { Markdown } from '@worksheets/ui-core';
 import React, { useState } from 'react';
 

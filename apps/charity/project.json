@@ -3,11 +3,15 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/charity",
   "projectType": "application",
-  "implicitDependencies": ["assets-common"],
+  "implicitDependencies": [
+    "assets-common"
+  ],
   "targets": {
     "build": {
       "executor": "@nx/next:build",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "defaultConfiguration": "production",
       "options": {
         "root": "apps/charity",
@@ -24,19 +28,14 @@
             "output": "games"
           },
           {
-            "input": "libs/assets/blog/src/lib",
+            "input": "libs/assets/icons/src/lib",
             "glob": "**/*",
-            "output": "blog"
+            "output": "icons"
           },
           {
             "input": "libs/assets/partners/src/lib",
             "glob": "**/*",
             "output": "partners"
-          },
-          {
-            "input": "_articles",
-            "glob": "**/*",
-            "output": "articles"
           }
         ]
       },
@@ -74,7 +73,9 @@
     },
     "test": {
       "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
       "options": {
         "jestConfig": "apps/charity/jest.config.ts",
         "passWithNoTests": true
@@ -88,9 +89,13 @@
     },
     "lint": {
       "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
+      "outputs": [
+        "{options.outputFile}"
+      ],
       "options": {
-        "lintFilePatterns": ["apps/charity/**/*.{ts,tsx,js,jsx}"]
+        "lintFilePatterns": [
+          "apps/charity/**/*.{ts,tsx,js,jsx}"
+        ]
       }
     }
   },

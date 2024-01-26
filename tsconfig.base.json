@@ -19,6 +19,7 @@
       "@worksheets/assets-common": ["libs/assets/common/src/index.ts"],
       "@worksheets/assets-games": ["libs/assets/games/src/index.ts"],
       "@worksheets/assets-partners": ["libs/assets/partners/src/index.ts"],
+      "@worksheets/assets/icons": ["libs/assets/icons/src/index.ts"],
       "@worksheets/assets/prizes": ["libs/assets/prizes/src/index.ts"],
       "@worksheets/data-access/charity-games": [
         "libs/data-access/charity-games/src/index.ts"
@@ -40,20 +41,67 @@
       "@worksheets/trpc-charity": ["libs/trpc/charity/src/index.ts"],
       "@worksheets/trpc-charity/server": ["libs/trpc/charity/src/server.ts"],
       "@worksheets/ui-core": ["libs/ui/core/src/index.ts"],
-      "@worksheets/ui/advertisements": ["libs/ui/advertisements/src/index.ts"],
-      "@worksheets/ui/arcade": ["libs/ui/arcade/src/index.ts"],
-      "@worksheets/ui/carousel": ["libs/ui/carousel/src/index.ts"],
+      "@worksheets/ui/components/advertisements": [
+        "libs/ui/components/advertisements/src/index.ts"
+      ],
+      "@worksheets/ui/components/arcade": [
+        "libs/ui/components/arcade/src/index.ts"
+      ],
+      "@worksheets/ui/components/carousel": [
+        "libs/ui/components/carousel/src/index.ts"
+      ],
+      "@worksheets/ui/components/categories": [
+        "libs/ui/components/categories/src/index.ts"
+      ],
+      "@worksheets/ui/components/games": [
+        "libs/ui/components/games/src/index.ts"
+      ],
+      "@worksheets/ui/components/images": [
+        "libs/ui/components/images/src/index.ts"
+      ],
+      "@worksheets/ui/components/inputs": [
+        "libs/ui/components/inputs/src/index.ts"
+      ],
+      "@worksheets/ui/components/logos": [
+        "libs/ui/components/logos/src/index.ts"
+      ],
+      "@worksheets/ui/components/pagination": [
+        "libs/ui/components/pagination/src/index.ts"
+      ],
+      "@worksheets/ui/components/prizes": [
+        "libs/ui/components/prizes/src/index.ts"
+      ],
+      "@worksheets/ui/components/qa-section": [
+        "libs/ui/components/qa-section/src/index.ts"
+      ],
+      "@worksheets/ui/components/snackbar": [
+        "libs/ui/components/snackbar/src/index.ts"
+      ],
+      "@worksheets/ui/components/social-media": [
+        "libs/ui/components/social-media/src/index.ts"
+      ],
+      "@worksheets/ui/components/wallpaper": [
+        "libs/ui/components/wallpaper/src/index.ts"
+      ],
       "@worksheets/ui/env": ["libs/ui/env/src/index.ts"],
       "@worksheets/ui/game-grid": ["libs/ui/game-grid/src/index.ts"],
-      "@worksheets/ui/games": ["libs/ui/games/src/index.ts"],
       "@worksheets/ui/home/server": ["libs/ui/home/src/server.ts"],
+      "@worksheets/ui/hooks/use-google-adsense": [
+        "libs/ui/hooks/use-google-adsense/src/index.ts"
+      ],
       "@worksheets/ui/hooks/use-media-query": [
         "libs/ui/hooks/use-media-query/src/index.ts"
       ],
-      "@worksheets/ui/images": ["libs/ui/images/src/index.ts"],
-      "@worksheets/ui/inputs": ["libs/ui/inputs/src/index.ts"],
+      "@worksheets/ui/hooks/use-recently-played-games": [
+        "libs/ui/hooks/use-recently-played-games/src/index.ts"
+      ],
+      "@worksheets/ui/hooks/use-referral-code": [
+        "libs/ui/hooks/use-referral-code/src/index.ts"
+      ],
+      "@worksheets/ui/hooks/use-skip-portal": [
+        "libs/ui/hooks/use-skip-portal/src/index.ts"
+      ],
       "@worksheets/ui/layout": ["libs/ui/layout/src/index.ts"],
-      "@worksheets/ui/logos": ["libs/ui/logos/src/index.ts"],
       "@worksheets/ui/mocks": ["libs/ui/mocks/src/index.ts"],
       "@worksheets/ui/pages/about": ["libs/ui/pages/about/src/index.ts"],
       "@worksheets/ui/pages/account": ["libs/ui/pages/account/src/index.ts"],
@@ -91,15 +139,9 @@
       "@worksheets/ui/pages/under-construction": [
         "libs/ui/pages/under-construction/src/index.ts"
       ],
-      "@worksheets/ui/pagination": ["libs/ui/pagination/src/index.ts"],
       "@worksheets/ui/pills": ["libs/ui/pills/src/index.ts"],
-      "@worksheets/ui/prizes": ["libs/ui/prizes/src/index.ts"],
-      "@worksheets/ui/qa-section": ["libs/ui/qa-section/src/index.ts"],
       "@worksheets/ui/qa-section/server": ["libs/ui/qa-section/src/server.ts"],
-      "@worksheets/ui/snackbar": ["libs/ui/snackbar/src/index.ts"],
-      "@worksheets/ui/social-media": ["libs/ui/social-media/src/index.ts"],
       "@worksheets/ui/theme": ["libs/ui/theme/src/index.ts"],
-      "@worksheets/ui/wallpaper": ["libs/ui/wallpaper/src/index.ts"],
       "@worksheets/ui/widgets": ["libs/ui/widgets/src/index.ts"],
       "@worksheets/util-devices": ["libs/util/devices/src/index.ts"],
       "@worksheets/util-markdown": ["libs/util/markdown/src/index.ts"],

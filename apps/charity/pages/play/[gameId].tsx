@@ -1,5 +1,7 @@
 import { developers, games } from '@worksheets/data-access/charity-games';
 import { MixedGridItem } from '@worksheets/ui/game-grid';
+import { DynamicLayout } from '@worksheets/ui/layout';
+import { DynamicGameScreenContainer } from '@worksheets/ui/pages/game';
 import { printDate } from '@worksheets/util/time';
 import {
   DeveloperSchema,
@@ -7,7 +9,6 @@ import {
 } from '@worksheets/util/types';
 import { NextPageWithLayout } from '@worksheets/util-next';
 import { GetServerSideProps } from 'next';
-import dynamic from 'next/dynamic';
 import {
   NextSeo,
   NextSeoProps,
@@ -15,17 +16,8 @@ import {
   VideoGameJsonLdProps,
 } from 'next-seo';
 
-import { DynamicLayout } from '../../dynamic/dynamic-layout';
 import { mixedItems } from '../../util/mixed-items';
-import { getRandomGame } from '../../util/randomizer';
 import { gameJsonLd, gameSeo } from '../../util/seo';
-
-const DynamicGameScreenContainer = dynamic(
-  () => import('../../containers/game-screen-container'),
-  {
-    ssr: false,
-  }
-);
 
 type Props = {
   game: SerializableGameSchema;
@@ -33,7 +25,6 @@ type Props = {
   jsonLd: VideoGameJsonLdProps;
   items: MixedGridItem[];
   developer: DeveloperSchema;
-  randomGame: string;
 };
 
 const Page: NextPageWithLayout<Props> = ({
@@ -42,7 +33,6 @@ const Page: NextPageWithLayout<Props> = ({
   jsonLd,
   items,
   developer,
-  randomGame,
 }) => {
   return (
     <>
@@ -72,7 +62,6 @@ export const getServerSideProps = (async (ctx) => {
       notFound: true,
     };
 
-  const randomGame = getRandomGame(true);
   const items: MixedGridItem[] = mixedItems({
     hideAds: true,
     maxGames: 50,
@@ -93,7 +82,6 @@ export const getServerSideProps = (async (ctx) => {
       items,
       seo,
       jsonLd,
-      randomGame: randomGame.id,
     },
   };
 }) satisfies GetServerSideProps<Props>;

@@ -1,3 +1,4 @@
+import { Container } from '@mui/material';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import { FC } from 'react';
@@ -11,15 +12,13 @@ export type ConnectionContainerProps = {
 export const ConnectionContainer: FC<ConnectionContainerProps> = ({
   children,
 }) => (
-  <Box
+  <Container
     sx={{
       height: '100%',
       width: '100%',
       display: 'grid',
       placeItems: 'center',
-      mt: -4,
-      pt: 4,
-      pb: 4,
+      mb: 4,
     }}
   >
     <Paper
@@ -38,5 +37,5 @@ export const ConnectionContainer: FC<ConnectionContainerProps> = ({
       </Box>
       {children}
     </Paper>
-  </Box>
+  </Container>
 );

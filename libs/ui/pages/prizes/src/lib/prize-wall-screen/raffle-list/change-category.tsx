@@ -1,6 +1,6 @@
 import { ExpandMore } from '@mui/icons-material';
 import { Box, Typography } from '@mui/material';
-import { prizeCategoryLabels } from '@worksheets/ui/prizes';
+import { prizeCategoryLabels } from '@worksheets/ui/components/prizes';
 import React from 'react';
 
 import { useRaffleScreenContext } from '../context';

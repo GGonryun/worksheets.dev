@@ -1,33 +1,16 @@
-import { BlogScreen } from '@worksheets/ui/pages/blog';
-import {
-  getAllPostsMetadata,
-  MarkdownMetadata,
-} from '@worksheets/util-markdown';
-import { NextPageWithLayout } from '@worksheets/util-next';
-import { NextSeo } from 'next-seo';
+import { BLOG_BASE_URL } from '@worksheets/ui/env';
+import { LoadingScreen } from '@worksheets/ui/pages/loading';
+import { GetServerSideProps, NextPage } from 'next';
 
-import { DynamicLayout } from '../..//dynamic/dynamic-layout';
-import { POSTS_PATH } from '../../util/paths';
-import { blogSeo } from '../../util/seo';
+const Page: NextPage = () => <LoadingScreen />;
 
-type Props = {
-  posts: MarkdownMetadata[];
-};
-
-const Page: NextPageWithLayout<Props> = ({ posts }) => (
-  <>
-    <NextSeo {...blogSeo} />
-    <BlogScreen posts={posts} />
-  </>
-);
-
-Page.getLayout = (page) => {
-  return <DynamicLayout>{page}</DynamicLayout>;
-};
-
-export const getStaticProps = async (): Promise<{ props: Props }> => {
-  const posts = getAllPostsMetadata(POSTS_PATH);
-  return { props: { posts } };
-};
+export const getServerSideProps = (async (ctx) => {
+  return {
+    redirect: {
+      destination: BLOG_BASE_URL,
+      permanent: false,
+    },
+  };
+}) satisfies GetServerSideProps;
 
 export default Page;

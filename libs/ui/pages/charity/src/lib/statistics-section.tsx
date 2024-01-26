@@ -15,7 +15,7 @@ export const StatisticsSection: FC<Partial<GamePopularityStatistics>> = ({
     <CustomPaper sx={{ gap: 2 }}>
       <CustomBox>
         <Box>
-          <Typography variant="h5" textAlign="center">
+          <Typography variant="h5" textAlign="center" color="text.arcade">
             Top Countries
           </Typography>
           <Divider sx={{ my: 1 }} />
@@ -26,16 +26,18 @@ export const StatisticsSection: FC<Partial<GamePopularityStatistics>> = ({
               justifyContent="space-between"
               alignItems="center"
             >
-              <Typography variant="body1">
+              <Typography variant="body1" color="text.arcade">
                 {index + 1}. {name}
               </Typography>
-              <Typography variant="body2">{percent}%</Typography>
+              <Typography variant="body2" color="text.arcade">
+                {percent}%
+              </Typography>
             </Box>
           ))}
         </Box>
         <Divider orientation="vertical" sx={{ visibility: 'hidden' }} />
         <Box>
-          <Typography variant="h5" textAlign="center">
+          <Typography variant="h5" textAlign="center" color="text.arcade">
             Most Popular Games
           </Typography>
           <Divider sx={{ my: 1 }} />
@@ -46,10 +48,15 @@ export const StatisticsSection: FC<Partial<GamePopularityStatistics>> = ({
               justifyContent="space-between"
               alignItems="center"
             >
-              <Typography variant="body1">
-                {index + 1}. <Link href={`/play/${id}`}>{name}</Link>
+              <Typography variant="body1" color="text.arcade">
+                {index + 1}.{' '}
+                <Link color="text.arcade" href={`/play/${id}`}>
+                  {name}
+                </Link>
               </Typography>
-              <Typography variant="body2">{plays} plays</Typography>
+              <Typography variant="body2" color="text.arcade">
+                {plays} plays
+              </Typography>
             </Box>
           ))}
         </Box>
@@ -58,14 +65,13 @@ export const StatisticsSection: FC<Partial<GamePopularityStatistics>> = ({
         sx={{ border: (theme) => `1px solid ${theme.palette.divider}` }}
       >
         <PlayerStatisticBox>
-          <Typography variant="h6">New Players</Typography>
-          <Typography variant="h1">{players?.new ?? '??'}</Typography>
-          <Typography
-            variant="body2"
-            maxWidth={250}
-            color="text.secondary"
-            px={2}
-          >
+          <Typography variant="h6" color="text.arcade">
+            New Players
+          </Typography>
+          <Typography variant="h1" color="text.arcade">
+            {players?.new ?? '??'}
+          </Typography>
+          <Typography variant="body2" maxWidth={250} color="text.arcade" px={2}>
             Players that played their first game during the current campaign.
           </Typography>
         </PlayerStatisticBox>
@@ -82,14 +88,13 @@ export const StatisticsSection: FC<Partial<GamePopularityStatistics>> = ({
           }}
         />
         <PlayerStatisticBox>
-          <Typography variant="h6">Returning Players</Typography>
-          <Typography variant="h1">{players?.returning ?? '??'}</Typography>
-          <Typography
-            variant="body2"
-            maxWidth={250}
-            color="text.secondary"
-            px={2}
-          >
+          <Typography variant="h6" color="text.arcade">
+            Returning Players
+          </Typography>
+          <Typography variant="h1" color="text.arcade">
+            {players?.returning ?? '??'}
+          </Typography>
+          <Typography variant="body2" maxWidth={250} color="text.arcade" px={2}>
             Players that have played at least one game during the previous
             campaign.
           </Typography>

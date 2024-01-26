@@ -1,5 +1,5 @@
 import { ArrowRight, FavoriteBorder } from '@mui/icons-material';
-import { Box, Button, Container, Link, Paper, Typography } from '@mui/material';
+import { Button, Container, Link, Paper, Typography } from '@mui/material';
 import { FC } from 'react';
 
 import { ReceiptTable, ReceiptTableProps } from './receipt-table';
@@ -20,27 +20,28 @@ export const ReceiptScreen: FC<ReceiptScreenProps> = ({ rows }) => {
           flexDirection: 'column',
           borderRadius: 4,
           p: { xs: 2, sm: 4 },
+          color: 'text.arcade',
+          backgroundColor: 'background.solid-blue',
         }}
       >
-        <Box>
-          <Typography
-            variant="h3"
-            sx={{
-              fontSize: { xs: '2rem', sm: '3rem' },
-            }}
-          >
-            Previous Donations
-          </Typography>
-        </Box>
+        <Typography typography={{ xs: 'h4', sm: 'h3' }}>
+          Previous Donations
+        </Typography>
         <Typography variant="body2" mt={1}>
           All of our donations are made directly to the named charity
           organization. We do not take any fees. Please see our{' '}
-          <Link href="/faq">frequently asked questions</Link> for more
-          information about how donations are handled. Thank you for your
-          support!
+          <Link color="inherit" href="/faq">
+            frequently asked questions
+          </Link>{' '}
+          for more information about how donations are handled. Thank you for
+          your support!
           <br />
           <br />
-          Wan't to help? <Link href="/help">Become a volunteer</Link>.
+          Wan't to help?{' '}
+          <Link color="inherit" href="/help">
+            Become a volunteer
+          </Link>
+          .
         </Typography>
       </Paper>
       <ReceiptTable rows={rows} />
@@ -52,36 +53,28 @@ export const ReceiptScreen: FC<ReceiptScreenProps> = ({ rows }) => {
           borderRadius: 4,
           gap: 2,
           p: { xs: 2, sm: 2 },
+          color: 'text.arcade',
+          backgroundColor: 'background.solid-blue',
         }}
       >
         <Button
-          variant="contained"
-          color="error"
+          variant="arcade"
+          color="warning"
           size="small"
           startIcon={<FavoriteBorder />}
           endIcon={<FavoriteBorder />}
           href="/help"
-          sx={{
-            borderRadius: 4,
-            px: { xs: 2, sm: 4 },
-            width: { xs: '100%', sm: 'fit-content' },
-          }}
         >
-          <Typography>How to help</Typography>
+          How to Help
         </Button>
         <Button
-          variant="outlined"
-          color="error"
+          variant="arcade"
+          color="secondary"
           size="small"
           endIcon={<ArrowRight sx={{ ml: -0.5 }} />}
           href={'/charity'}
-          sx={{
-            borderRadius: 4,
-            px: { xs: 2, sm: 4 },
-            width: { xs: '100%', sm: 'fit-content' },
-          }}
         >
-          <Typography>See Current Campaign</Typography>
+          See Current Campaign
         </Button>
       </Paper>
     </Container>

@@ -144,8 +144,6 @@ model Rewards {
   availableReferralTokens   Int       
   giftBoxes                 Int
   sharableGiftBoxes         Int
-  // momentum is used to calculate the daily reward.       
-  dailyRewardMomentum       Int
   claimedDailyReward        DateTime?     
   user                      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 

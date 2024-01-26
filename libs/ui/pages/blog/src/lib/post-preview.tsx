@@ -1,7 +1,7 @@
 import { ArrowRightAlt } from '@mui/icons-material';
 import { Box, Link, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { blogAuthors } from '@worksheets/data-access/charity-games';
-import { CoverImage } from '@worksheets/ui/images';
+import { CoverImage } from '@worksheets/ui/components/images';
 import { Flex } from '@worksheets/ui-core';
 import { printDate } from '@worksheets/util/time';
 import { MarkdownMetadata } from '@worksheets/util-markdown';
@@ -26,9 +26,15 @@ export const PostPreview: FC<MarkdownMetadata> = ({
 
   return (
     <Flex spaceBetween fullWidth gap={4}>
-      <Flex column gap={1}>
+      <Flex
+        column
+        gap={1}
+        sx={{
+          color: 'text.arcade',
+        }}
+      >
         <Typography variant="h5">
-          <Link href={url} color="error.main">
+          <Link href={url} color="inherit">
             {title}
           </Link>
         </Typography>
@@ -42,10 +48,10 @@ export const PostPreview: FC<MarkdownMetadata> = ({
           <Flex gap={1}>
             {tags.map((tag) => (
               <Typography
+                color="warning.main"
                 variant="body3"
                 key={tag}
                 fontStyle="italic"
-                color="error.main"
               >
                 #{tag}
               </Typography>
@@ -60,7 +66,6 @@ export const PostPreview: FC<MarkdownMetadata> = ({
               gap: 0.5,
               textDecoration: 'underline',
               fontWeight: '500',
-              color: (theme) => theme.palette.grey[700],
               fontStyle: 'italic',
             }}
           >

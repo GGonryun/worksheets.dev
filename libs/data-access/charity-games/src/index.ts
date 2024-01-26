@@ -2,7 +2,7 @@ export * from './lib/authors';
 export * from './lib/developers';
 export * from './lib/games';
 export * from './lib/tags';
-export * from './lib/recommendations';
+
 export * from './lib/charities';
 export * from './lib/donations';
 export * from './lib/campaigns';

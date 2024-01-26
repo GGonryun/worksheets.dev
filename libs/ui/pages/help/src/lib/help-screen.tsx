@@ -1,19 +1,10 @@
-import { NavigateNext } from '@mui/icons-material';
-import {
-  Box,
-  Breadcrumbs,
-  Container,
-  Link,
-  LinkProps,
-  Paper,
-  styled,
-  Typography,
-} from '@mui/material';
+import { KeyboardBackspace } from '@mui/icons-material';
+import { Box, Button, Container, Paper, Typography } from '@mui/material';
+import { QuestionAnswerSection } from '@worksheets/ui/components/qa-section';
 import { UnderConstruction } from '@worksheets/ui/pages/under-construction';
-import { QuestionAnswerSection } from '@worksheets/ui/qa-section';
 import { useBookmark } from '@worksheets/ui-core';
 import { QuestionAnswer } from '@worksheets/util/types';
-import { FC, JSXElementConstructor } from 'react';
+import { FC } from 'react';
 
 export type HelpScreenProps = {
   title: string;
@@ -32,13 +23,28 @@ export const HelpScreen: FC<HelpScreenProps> = ({ title, description, qa }) => {
           flexDirection: 'column',
           borderRadius: 4,
           p: { xs: 2, sm: 4 },
+          backgroundColor: (theme) => theme.palette.background['solid-blue'],
+          background: (theme) => theme.palette.background['gradient-blue'],
+          color: 'text.arcade',
         }}
       >
-        <HelpCenterBreadcrumbs crumb={{ title }} />
-        <Typography
-          variant="h3"
+        <Button
+          variant="arcade"
+          color="warning"
+          size="small"
+          startIcon={<KeyboardBackspace />}
+          href="/help"
           sx={{
-            fontSize: { xs: '2rem', sm: '3rem' },
+            width: 'fit-content',
+            mb: 2,
+          }}
+        >
+          Back to Help Center
+        </Button>
+        <Typography
+          typography={{
+            xs: 'h5',
+            sm: 'h4',
           }}
         >
           {title}
@@ -57,49 +63,3 @@ export const HelpScreen: FC<HelpScreenProps> = ({ title, description, qa }) => {
     </Container>
   );
 };
-
-const HelpCenterBreadcrumbs: FC<{ crumb: { title: string } }> = ({ crumb }) => {
-  return (
-    <StyledBreadcrumbs
-      separator={<BreadcrumbSeparator />}
-      aria-label="category-breadcrumbs"
-    >
-      <BreadcrumbLink key="1" href="/help">
-        Help Center
-      </BreadcrumbLink>
-      <BreadcrumbLink key="1" underline="none">
-        {crumb.title}
-      </BreadcrumbLink>
-    </StyledBreadcrumbs>
-  );
-};
-
-const BreadcrumbSeparator = styled(NavigateNext)(({ theme }) => ({
-  fontSize: theme.typography.pxToRem(16),
-}));
-
-const StyledBreadcrumbs = styled(Breadcrumbs)(({ theme }) => ({
-  marginBottom: theme.spacing(4),
-  '& .MuiBreadcrumbs-separator': {
-    margin: 0,
-    marginBottom: -1,
-    padding: 0,
-  },
-  '& .MuiBreadcrumbs-li': {
-    lineHeight: 1,
-  },
-}));
-
-const BreadcrumbLink = styled<JSXElementConstructor<LinkProps>>((props) => (
-  <Link color="inherit" underline="hover" {...props} />
-))(({ theme, underline }) => ({
-  fontFamily: theme.typography.body1.fontFamily,
-  fontSize: theme.typography.pxToRem(14),
-  fontWeight: 700,
-  textTransform: 'none',
-  cursor: underline ? 'default' : 'pointer',
-  color: theme.palette.text.primary,
-  '&:hover, &:focus': {
-    color: theme.palette.text.secondary,
-  },
-}));

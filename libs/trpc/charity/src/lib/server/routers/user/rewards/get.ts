@@ -3,7 +3,6 @@ import { dailyBonusGames } from '@worksheets/data-access/charity-games';
 import {
   MAX_TOKENS_FROM_GAME_PLAY_PER_DAY,
   MAX_TOKENS_FROM_REFERRAL_PLAYS,
-  MOMENTUM_MULTIPLIER,
 } from '@worksheets/util/settings';
 import { basicGameDetailsSchema } from '@worksheets/util/types';
 import { createReferralLink } from '@worksheets/util/urls';
@@ -21,7 +20,6 @@ export default protectedProcedure
       referralTokens: z.number(),
       numReferrals: z.number(),
       referralLink: z.string(),
-      dailyMomentum: z.number(),
       bonusGames: basicGameDetailsSchema.array(),
     })
   )
@@ -62,7 +60,6 @@ export default protectedProcedure
       claimedDailyReward: userData.rewards.claimedDailyReward != null,
       numReferrals: userData.referred.length,
       referralLink: createReferralLink(userData.referralCode.code),
-      dailyMomentum: userData.rewards.dailyRewardMomentum * MOMENTUM_MULTIPLIER,
       bonusGames: dailyBonusGames,
     };
   });

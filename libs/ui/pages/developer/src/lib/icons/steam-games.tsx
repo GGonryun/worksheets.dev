@@ -1,8 +1,8 @@
 import { createSvgIcon } from '@mui/material';
 
-const name = 'ColoredSteamGames';
+const name = 'SteamGames';
 
-export const ColoredSteamGames = createSvgIcon(
+export const SteamGames = createSvgIcon(
   <svg
     fill="#000000"
     viewBox="0 0 32 32"

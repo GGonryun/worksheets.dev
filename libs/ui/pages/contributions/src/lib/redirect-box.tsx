@@ -1,11 +1,8 @@
 import { SvgIconComponent } from '@mui/icons-material';
 import Box from '@mui/material/Box';
-import { ButtonProps } from '@mui/material/Button';
+import Button, { ButtonProps } from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { FC } from 'react';
-
-import { RoundedButton } from './rounded-button';
-import { SubtitleText } from './subtitle-text';
 
 export const RedirectBox: FC<{
   title: string;
@@ -15,7 +12,7 @@ export const RedirectBox: FC<{
     href: string;
     target?: '_blank';
     label: string;
-    variant: ButtonProps['variant'];
+    color: ButtonProps['color'];
   };
 }> = ({ title, description, Icon, action }) => {
   return (
@@ -27,19 +24,20 @@ export const RedirectBox: FC<{
         justifyContent: 'center',
         gap: 2,
         maxWidth: 270,
+        textAlign: 'center',
       }}
     >
       <Icon sx={{ fontSize: '5rem' }} />
-      <SubtitleText variant="h2">{title}</SubtitleText>
-      <Typography textAlign="center">{description}</Typography>
-      <RoundedButton
-        variant={action.variant}
-        color="error"
+      <Typography variant="h5">{title}</Typography>
+      <Typography variant="body2">{description}</Typography>
+      <Button
+        variant="arcade"
+        color={action.color}
         href={action.href}
         target={action.target}
       >
         {action.label}
-      </RoundedButton>
+      </Button>
     </Box>
   );
 };

@@ -1,4 +1,4 @@
-import { mockPrizes } from '@worksheets/ui/prizes';
+import { mockPrizes } from '@worksheets/ui/components/prizes';
 import { arrayFromNumber } from '@worksheets/util/arrays';
 import { MockActionType } from '@worksheets/util/types';
 

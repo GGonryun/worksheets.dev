@@ -3,8 +3,8 @@ import {
   ITEMS_PER_PAGE,
   Pagination,
   usePagination,
-} from '@worksheets/ui/pagination';
-import { Prize } from '@worksheets/ui/prizes';
+} from '@worksheets/ui/components/pagination';
+import { Prize } from '@worksheets/ui/components/prizes';
 import React from 'react';
 
 import { useRaffleScreenContext } from '../context';

@@ -1,14 +1,15 @@
+import { GameIconProps } from '@worksheets/ui/components/games';
 import { MixedGridItem } from '@worksheets/ui/game-grid';
 import {
   BasicWebsiteStatistics,
   BlogAuthor,
   CharityOrganization,
   GameDefinition,
-  GameIcon,
   GamePopularityStatistics,
-  Recommendations,
 } from '@worksheets/util/types';
 import { MarkdownMetadata } from '@worksheets/util-markdown';
+
+// TODO: destroy this file.
 
 export const fakeWebsiteStatistics: BasicWebsiteStatistics = {
   donatedGames: 10,
@@ -105,23 +106,6 @@ export const sampleBlogPost = `<p>Welcome to Charity Games! This is a website wh
 <h2>Is it worth it?</h2>
 <p>Well, there's only one way to find out. I'm going to commit to this challenge. Worst case scenario? I learned a thing or two and helped a few people along the way. I'm okay with that. This isn't something I can do alone. I'll never ask for money. If you want to help, just play the games and share them with your friends. If you want to help even more, consider donating to any charity. I don't need to know, I don't need to be involved. Just do it. I'll be doing the same.</p>`;
 
-export const dummySocials = {
-  facebook: 'https://www.facebook.com/CharityGamesOfficial',
-  twitter: 'https://twitter.com/CharityGamesO',
-  instagram: 'https://www.instagram.com/charitygamesofficial/',
-  youtube: 'https://www.youtube.com/channel/UC1Jx7XJ1yYQ7WjQx0eQq6Og',
-  twitch: 'https://www.twitch.tv/charitygamesofficial',
-  discord: 'https://discord.gg/charitygames',
-  website: 'https://charitygames.io',
-  itchio: 'https://charitygames.itch.io/',
-  tiktok: 'https://www.tiktok.com/@charitygamesofficial',
-  steam: 'https://store.steampowered.com/charity/charitygames',
-  playstore: 'https://play.google.com/store/apps/dev?id=7196278445280289529',
-  github: 'https://github.com/charity-games',
-  appstore:
-    'https://apps.apple.com/us/developer/charity-games-llc/id1537154374',
-};
-
 export const sampleGameDefinitions: GameDefinition[] = Array.from({
   length: 5,
 }).map((_, i) => ({
@@ -147,78 +131,56 @@ export const sampleCategoryItems: MixedGridItem[] = Array.from({
   name: 'Category ' + i,
 }));
 
-export const sampleCategoryDescription = `
-# About Idle Games
-Idle games don't require much interaction from the player. They are a great way to pass the time. These games keep going even when you're not playing, so you can come back later to see how things have progressed.
-
-### What are some other names for idle games?
-Idle games are also known as incremental games, clicker games, or idle clickers. These names all refer to the same type of game.
-
-### What's the appeal of idle games?
-Idle games are popular because they don't require much effort to play. You can just sit back and watch the numbers go up! They're also great for people who want to play a game but don't have time to commit to something more involved.
-
-### What are some examples of idle games?
-Some popular idle games include Cookie Clicker, Clicker Heroes, and Adventure Capitalist. These games are all available on Kongregate.com!
-
-### Any tips for playing idle games?
-The best way to play an idle game is by setting up your computer so that it runs in the background while you do other things. This will allow you to earn more points without having to actively play the game. You can also use scripts or bots to automate certain tasks in the game.
-
-### Do idle games have an end?
-Some idle games do have an end, but most of them are endless. The goal is to get as far into the game as possible before you stop playing. This can be done by upgrading units in the game, or by using special abilities that allow you to progress further. Some games implement a prestige system that allows you to start over with additional bonuses after reaching certain milestones.
-`;
-
-export const sampleGameIconsOfRealGames: GameIcon[] = [
+export const sampleGameIconsOfRealGames: GameIconProps[] = [
   {
     id: 'solitaire',
     name: 'Solitaire',
     imageUrl: '/games/solitaire/icon.jpg',
+    caption: '',
   },
   {
     id: 'emoji-war',
     name: 'Emoji War',
     imageUrl: '/games/emoji-war/icon.jpg',
+    caption: '',
   },
   {
     id: 'chess-kata',
     name: 'Chess Kata',
     imageUrl: '/games/chess-kata/icon.jpg',
+    caption: '',
   },
   {
     id: 'nonograms',
     name: 'Nonograms',
     imageUrl: '/games/nonograms/icon.jpg',
+    caption: '',
   },
   {
     id: 'word-smith',
     name: 'Word Smith',
     imageUrl: '/games/word-smith/icon.jpg',
+    caption: '',
   },
   {
     id: 'word-search',
     name: 'Word Search',
     imageUrl: '/games/word-search/icon.jpg',
+    caption: '',
   },
   {
     id: 'word-pack',
     name: 'Word Pack',
     imageUrl: '/games/word-pack/icon.jpg',
+    caption: '',
   },
 ];
-
-export const sampleRecommendations: Recommendations = {
-  new: sampleGameIconsOfRealGames.map((i) => ({ ...i, banner: 'new' })),
-  popular: sampleGameIconsOfRealGames.map((i) => ({ ...i, banner: 'hot' })),
-  categories: Array.from({ length: 10 }).map((_, i) => ({
-    id: i.toString(),
-    name: `Category ${i}`,
-  })),
-};
 
 export const sampleCharityOrganization: CharityOrganization = {
   name: 'Water.org',
   bannerSrc: '/common/water-org/francisco-hands.jpg',
   caption:
-    '[Water.org](https://water.org/) is an international nonprofit organization that has transformed millions of lives around the world with access to safe water and sanitation.',
+    'Water.Org is an international nonprofit organization that has transformed millions of lives around the world with access to safe water and sanitation.',
   description: `
   ## What is Water.org?
   

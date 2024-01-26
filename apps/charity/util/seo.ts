@@ -1,24 +1,9 @@
 import { BASE_URL } from '@worksheets/ui/env';
-import { TWITTER_SEO } from '@worksheets/util/seo';
-import {
-  BlogAuthor,
-  DeveloperSchema,
-  GameSchema,
-  TagSchema,
-} from '@worksheets/util/types';
-import { MarkdownMetadata } from '@worksheets/util-markdown';
-import {
-  ArticleJsonLdProps,
-  DefaultSeoProps,
-  NextSeoProps,
-  VideoGameJsonLdProps,
-} from 'next-seo';
+import { OpenGraphProps, TWITTER_SEO } from '@worksheets/util/seo';
+import { DeveloperSchema, GameSchema, TagSchema } from '@worksheets/util/types';
+import { DefaultSeoProps, NextSeoProps, VideoGameJsonLdProps } from 'next-seo';
 
 const createCanonicalUrl = (url?: string) => `${BASE_URL}${url}`;
-
-export type OpenGraphProps = NonNullable<
-  NextSeoProps['openGraph'] & { noindex?: boolean }
->;
 
 export const defaultSeo: DefaultSeoProps = {
   title: 'Charity Games',
@@ -129,46 +114,6 @@ export const gamesSeo = createSeo({
   url: `/play`,
   title: `Charity Games - All Games`,
   description: `Find and play your favorite mobile and desktop games for free on Charity Games. The easiest way to donate to charity.`,
-});
-
-export const blogArticleSeo = (slug: string, metadata: MarkdownMetadata) => ({
-  url: createCanonicalUrl(`/blog/${slug}`),
-  title: `${metadata.title} - Charity Games`,
-  description: metadata.excerpt,
-  type: 'article',
-  article: {
-    publishedTime: metadata.date,
-    modifiedTime: metadata.date,
-    authors: ['https://charity.games/about'],
-    tags: metadata.tags,
-  },
-  images: [
-    {
-      url: metadata.ogImage.url,
-      alt: metadata.title,
-    },
-  ],
-});
-
-export const blogArticleJsonLd = (
-  slug: string,
-  metadata: MarkdownMetadata,
-  author: BlogAuthor
-): ArticleJsonLdProps => ({
-  type: 'BlogPosting',
-  url: createCanonicalUrl(`/blog/${slug}`),
-  title: `${metadata.title} - Charity Games`,
-  images: [metadata.ogImage.url],
-  datePublished: metadata.date,
-  dateModified: metadata.date,
-  authorName: author.name,
-  description: metadata.excerpt,
-});
-
-export const blogSeo = createSeo({
-  url: `/blog`,
-  title: `Charity Games - Blog`,
-  description: `Stay up to date with the latest news and updates from Charity Games. Learn about our mission and how you can help us make a difference.`,
 });
 
 export const developerSeo = (developer: DeveloperSchema): NextSeoProps =>

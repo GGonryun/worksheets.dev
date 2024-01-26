@@ -1,19 +1,11 @@
+import { DynamicLayout } from '@worksheets/ui/layout';
+import { DynamicApplyReferralCode } from '@worksheets/ui/pages/login';
 import { NextPageWithLayout } from '@worksheets/util-next';
 import { GetServerSideProps } from 'next';
-import dynamic from 'next/dynamic';
-
-import { DynamicLayout } from '../../dynamic/dynamic-layout';
 
 type Props = {
   referralCode: string;
 };
-
-const DynamicApplyReferralCode = dynamic(
-  () => import('../../dynamic/apply-referral-code'),
-  {
-    ssr: false,
-  }
-);
 
 const Page: NextPageWithLayout<Props> = ({ referralCode }) => (
   <DynamicApplyReferralCode referralCode={referralCode} />

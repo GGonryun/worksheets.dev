@@ -1,27 +1,25 @@
 import type { Meta } from '@storybook/react';
+import { StoryWallpaper } from '@worksheets/ui/components/wallpaper';
 import { fakeWebsiteStatistics } from '@worksheets/ui/mocks';
 
+import { contributionFaq } from '../data/contribution-faq';
 import { ContributionScreen } from './contribution-screen';
 
-const Story: Meta<typeof ContributionScreen> = {
+type Story = Meta<typeof ContributionScreen>;
+export default {
   component: ContributionScreen,
   decorators: [
     (Story) => (
-      <div
-        style={{
-          backgroundColor: 'lightblue',
-          height: '100%',
-        }}
-      >
+      <StoryWallpaper>
         <Story />
-      </div>
+      </StoryWallpaper>
     ),
   ],
-};
-export default Story;
+} satisfies Story;
 
-export const Primary = {
+export const Primary: Story = {
   args: {
     statistics: fakeWebsiteStatistics,
+    faq: contributionFaq,
   },
 };

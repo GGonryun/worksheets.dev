@@ -2,9 +2,9 @@ import { TRPCError } from '@trpc/server';
 import { createFileDownloadUrl } from '@worksheets/services/environment';
 import {
   GameSubmissionForm,
+  Nullable,
   storedFileSchema,
-} from '@worksheets/ui/pages/game-submissions';
-import { Nullable } from '@worksheets/util/types';
+} from '@worksheets/util/types';
 import { z } from '@worksheets/zod';
 
 import { protectedProcedure } from '../../../procedures';

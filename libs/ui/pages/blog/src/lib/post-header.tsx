@@ -1,6 +1,6 @@
 import { ArrowLeft } from '@mui/icons-material';
 import { Box, Button, Typography } from '@mui/material';
-import { FillImage, ResponsiveImage } from '@worksheets/ui/images';
+import { FillImage, ResponsiveImage } from '@worksheets/ui/components/images';
 import { printDate } from '@worksheets/util/time';
 import { BlogAuthor } from '@worksheets/util/types';
 import { FC } from 'react';
@@ -21,15 +21,20 @@ export const PostHeader: FC<PostHeaderProps> = ({
   const prettyDate = printDate(date);
 
   return (
-    <Box display="flex" flexDirection="column" gap={2} pb={2}>
+    <Box
+      display="flex"
+      flexDirection="column"
+      gap={2}
+      pb={2}
+      color="text.arcade"
+    >
       <Button
-        variant="contained"
+        variant="arcade"
         color="error"
         startIcon={<ArrowLeft fontSize="inherit" />}
         href="/blog"
         sx={{
           width: 'fit-content',
-          borderRadius: 8,
           px: { xs: 1, sm: 2 },
           py: { xs: 0.5, sm: 0.75 },
         }}
@@ -75,12 +80,11 @@ export const PostHeader: FC<PostHeaderProps> = ({
         >
           <FillImage alt={author.name} src={author.avatar} />
         </Box>
-        <Typography variant="h6" ml={2}>
-          {author.name}
-        </Typography>
+        <Box ml={2}>
+          <Typography variant="h6">{author.name}</Typography>
+          <Typography variant="body3">{prettyDate}</Typography>
+        </Box>
       </Box>
-
-      <Typography variant="body3">{prettyDate}</Typography>
     </Box>
   );
 };

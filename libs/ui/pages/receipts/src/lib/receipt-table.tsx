@@ -13,7 +13,7 @@ import { FC } from 'react';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.error.main,
+    backgroundColor: theme.palette.background['solid-blue'],
     color: theme.palette.common.white,
     textDecoration: 'underline',
   },

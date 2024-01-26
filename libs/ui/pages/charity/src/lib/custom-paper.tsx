@@ -3,10 +3,8 @@ import { Paper, styled } from '@mui/material';
 export const CustomPaper = styled(Paper)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
-  borderRadius: theme.shape.borderRadius * 4,
+  backgroundColor: theme.palette.background['solid-blue'],
+  background: theme.palette.background['gradient-blue'],
   gap: theme.spacing(1),
-  padding: theme.spacing(2),
-  [theme.breakpoints.up('sm')]: {
-    padding: theme.spacing(4),
-  },
+  padding: theme.spacing(4),
 }));

@@ -1,4 +1,5 @@
 import type { Meta } from '@storybook/react';
+import { StoryWallpaper } from '@worksheets/ui/components/wallpaper';
 
 import { ContactScreen } from './contact-screen';
 
@@ -7,14 +8,9 @@ const Story: Meta<typeof ContactScreen> = {
   title: 'Content/ContactScreen',
   decorators: [
     (Story) => (
-      <div
-        style={{
-          backgroundColor: 'lightblue',
-          height: '100vh',
-        }}
-      >
+      <StoryWallpaper>
         <Story />
-      </div>
+      </StoryWallpaper>
     ),
   ],
 };

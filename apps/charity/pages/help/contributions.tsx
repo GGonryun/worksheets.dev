@@ -1,8 +1,8 @@
+import { DynamicLayout } from '@worksheets/ui/layout';
 import { helpContributions, HelpScreen } from '@worksheets/ui/pages/help';
 import { NextPageWithLayout } from '@worksheets/util-next';
 import { FAQPageJsonLd, NextSeo } from 'next-seo';
 
-import { DynamicLayout } from '../../dynamic/dynamic-layout';
 import { helpContributionsSeo } from '../../util/seo';
 
 const Page: NextPageWithLayout = () => {

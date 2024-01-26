@@ -19,7 +19,7 @@ export const HelpCenterFooter = () => (
     <Box
       sx={{
         display: 'flex',
-        gap: 1,
+        gap: 2,
         flexDirection: { xs: 'column', sm: 'row' },
         width: '100%',
         alignItems: 'center',
@@ -27,8 +27,7 @@ export const HelpCenterFooter = () => (
       }}
     >
       <Button
-        variant="round"
-        size="large"
+        variant="arcade"
         startIcon={<ContactPage />}
         sx={{
           width: { xs: '100%', sm: 'auto' },
@@ -38,8 +37,8 @@ export const HelpCenterFooter = () => (
         Contact Us
       </Button>
       <Button
-        variant="round"
-        size="large"
+        variant="arcade"
+        color="secondary"
         startIcon={<Gamepad />}
         sx={{
           width: { xs: '100%', sm: 'auto' },

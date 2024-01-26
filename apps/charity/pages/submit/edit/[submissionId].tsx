@@ -1,10 +1,10 @@
 import { createServerSideTRPC } from '@worksheets/trpc-charity/server';
+import { DynamicLayout } from '@worksheets/ui/layout';
+import { DynamicGameSubmissionScreen } from '@worksheets/ui/pages/game-submissions';
 import { NextPageWithLayout } from '@worksheets/util-next';
 import { GetServerSideProps } from 'next/types';
 import { NextSeo } from 'next-seo';
 
-import { GameSubmissionScreenContainer } from '../../../containers/game-submission-screen-container';
-import { DynamicLayout } from '../../../dynamic/dynamic-layout';
 import { submitGameSeo } from '../../../util/seo';
 
 type Props = {
@@ -15,7 +15,7 @@ const Page: NextPageWithLayout<Props> = (props) => {
   return (
     <>
       <NextSeo {...submitGameSeo} />
-      <GameSubmissionScreenContainer {...props} />
+      <DynamicGameSubmissionScreen {...props} />
     </>
   );
 };

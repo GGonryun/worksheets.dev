@@ -1,34 +1,24 @@
-import {
-  categorySquareAds,
-  games,
-  tagSchemas,
-} from '@worksheets/data-access/charity-games';
+import { games, tagSchemas } from '@worksheets/data-access/charity-games';
+import { AdsensePushScript } from '@worksheets/ui/components/advertisements';
+import { DynamicLayout } from '@worksheets/ui/layout';
 import { CategoryScreen } from '@worksheets/ui/pages/category';
-import { GameTag, TagSchema } from '@worksheets/util/types';
+import {
+  BasicCategoryInfo,
+  BasicGameInfo,
+  GameTag,
+  TagSchema,
+} from '@worksheets/util/types';
 import { NextPageWithLayout } from '@worksheets/util-next';
 import { GetServerSideProps } from 'next';
 import { NextSeo, NextSeoProps } from 'next-seo';
 
-import { DynamicLayout } from '../../dynamic/dynamic-layout';
-import { AdsensePushScript } from '../../scripts';
 import { categorySeo } from '../../util/seo';
 
 type Props = {
   tag: TagSchema;
   seo: NextSeoProps;
-  games: {
-    type: 'game';
-    name: string;
-    id: string;
-    imageUrl: string;
-    span: number;
-  }[];
-  categories: {
-    type: 'category';
-    name: string;
-    id: string;
-    imageUrl: string;
-  }[];
+  games: BasicGameInfo[];
+  categories: BasicCategoryInfo[];
 };
 
 const Page: NextPageWithLayout<Props> = ({ tag, seo, games, categories }) => {
@@ -36,11 +26,10 @@ const Page: NextPageWithLayout<Props> = ({ tag, seo, games, categories }) => {
     <>
       <NextSeo {...seo} />
       <CategoryScreen
-        text={tag.name}
+        name={tag.name}
         description={tag.description}
         games={games}
-        categories={categories}
-        advertisements={categorySquareAds}
+        relatedCategories={categories}
       />
       <AdsensePushScript />
     </>
@@ -51,16 +40,17 @@ export const getServerSideProps = (async ({ params }) => {
   const tagId = params?.tagId as GameTag;
   const tag = tagSchemas.find((tag) => tag.id === tagId);
 
-  if (!tag) throw new Error('Tag does not exist');
+  if (!tag)
+    return {
+      notFound: true,
+    };
 
   const tagGames = games
     .filter((game) => game.tags.includes(tagId))
     .map((game) => ({
-      type: 'game' as const,
       name: game.name,
       id: game.id,
-      imageUrl: game.iconUrl,
-      span: game.size,
+      image: game.iconUrl,
     }));
 
   const relatedCategories = tag.relatedTags
@@ -68,10 +58,9 @@ export const getServerSideProps = (async ({ params }) => {
     .filter(Boolean) as TagSchema[];
 
   const categories = relatedCategories.map((category) => ({
-    type: 'category' as const,
     name: category.name,
     id: category.id,
-    imageUrl: category.iconUrl,
+    image: category.iconUrl,
   }));
 
   const seo = categorySeo(tag);

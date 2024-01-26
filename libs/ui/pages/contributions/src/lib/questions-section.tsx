@@ -1,11 +1,10 @@
+import { Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
-import { QuestionAnswerSection } from '@worksheets/ui/qa-section';
+import { QuestionAnswerSection } from '@worksheets/ui/components/qa-section';
 import { useBookmark } from '@worksheets/ui-core';
 import { QuestionAnswer } from '@worksheets/util/types';
 import React from 'react';
-
-import { TitleText } from './title-text';
 
 export const QuestionsSection: React.FC<{ faq: QuestionAnswer[] }> = ({
   faq,
@@ -21,11 +20,18 @@ export const QuestionsSection: React.FC<{ faq: QuestionAnswer[] }> = ({
           borderRadius: 4,
           gap: 4,
           p: { xs: 2, sm: 4 },
+          color: 'text.arcade',
+          backgroundColor: 'background.solid-blue',
         }}
       >
-        <TitleText variant="h2" textAlign="center">
+        <Typography
+          sx={{
+            typography: { xs: 'h5', sm: 'h4' },
+          }}
+          textAlign="center"
+        >
           Frequently Asked Questions
-        </TitleText>
+        </Typography>
         <QuestionAnswerSection qa={faq} bookmark={bookmark} />
       </Paper>
     </Box>

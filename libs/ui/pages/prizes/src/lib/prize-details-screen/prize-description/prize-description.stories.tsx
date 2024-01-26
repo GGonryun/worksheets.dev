@@ -1,6 +1,6 @@
 import { Meta } from '@storybook/react';
-import { mockPrizes } from '@worksheets/ui/prizes';
-import { StoryWallpaper } from '@worksheets/ui/wallpaper';
+import { mockPrizes } from '@worksheets/ui/components/prizes';
+import { StoryWallpaper } from '@worksheets/ui/components/wallpaper';
 
 import { PrizeDescription } from './prize-description';
 

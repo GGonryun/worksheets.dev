@@ -1,4 +1,4 @@
-const adClient = 'ca-pub-1305399541775198';
+export const adClient = 'ca-pub-1305399541775198';
 
 const homeAd1 = {
   slot: '9379176890',

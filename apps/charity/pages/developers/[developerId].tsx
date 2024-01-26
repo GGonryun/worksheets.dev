@@ -1,22 +1,16 @@
 import { developers, games } from '@worksheets/data-access/charity-games';
+import { DynamicLayout } from '@worksheets/ui/layout';
 import { DeveloperScreen } from '@worksheets/ui/pages/developer';
-import { DeveloperSchema, GameQualifier } from '@worksheets/util/types';
+import { BasicGameInfo, DeveloperSchema } from '@worksheets/util/types';
 import { NextPageWithLayout } from '@worksheets/util-next';
 import { GetServerSideProps } from 'next';
 import { NextSeo, NextSeoProps } from 'next-seo';
 
-import { DynamicLayout } from '../../dynamic/dynamic-layout';
 import { developerSeo } from '../../util/seo';
 
 type Props = {
   developer: DeveloperSchema;
-  games: {
-    id: string;
-    name: string;
-    developer: string;
-    imageUrl: string;
-    qualifier: GameQualifier;
-  }[];
+  games: BasicGameInfo[];
   seo: NextSeoProps;
 };
 
@@ -38,14 +32,12 @@ export const getServerSideProps = (async ({ params }) => {
 
   if (!developer) throw new Error('Developer does not exist');
 
-  const developerGames = games
+  const developerGames: BasicGameInfo[] = games
     .filter((g) => g.developerId === developerId)
     .map((g) => ({
       id: g.id,
       name: g.name,
-      developer: developer.name,
-      imageUrl: g.iconUrl,
-      qualifier: g.qualifier,
+      image: g.iconUrl,
     }));
 
   const seo = developerSeo(developer);

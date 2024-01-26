@@ -96,18 +96,19 @@ const categories: HelpCenterCategoryProps[] = [
 
 export const HelpCenterCategories: React.FC = () => {
   return (
-    <Box
-      sx={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))',
-        gridTemplateRows: 'auto',
-        gridGap: 32,
-        width: '100%',
-      }}
-    >
-      {categories.map((category) => (
-        <HelpCenterCategory key={category.title} {...category} />
-      ))}
+    <Box width="90%">
+      <Box
+        sx={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))',
+          gridTemplateRows: 'auto',
+          gridGap: 32,
+        }}
+      >
+        {categories.map((category) => (
+          <HelpCenterCategory key={category.title} {...category} />
+        ))}
+      </Box>
     </Box>
   );
 };

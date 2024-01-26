@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Box, Divider } from '@mui/material';
 import { GamePopularityStatistics } from '@worksheets/util/types';
 import { FC } from 'react';
 
@@ -17,41 +17,38 @@ export const CampaignSection: FC<
 > = ({ charity, pledge, pollUrl, statistics }) => (
   <Box>
     <CustomPaper
+      elevation={0}
       sx={{
+        p: 0,
+        m: 0,
         alignItems: 'center',
-        borderBottomLeftRadius: 0,
-        borderBottomRightRadius: 0,
       }}
     >
-      <CampaignHeader caption={charity.caption} />
-      <Box
-        sx={{
-          mt: 1,
-          width: '100%',
-          display: 'flex',
-          alignItems: 'flex-start',
-          justifyContent: 'space-between',
-          flexDirection: { xs: 'column', sm: 'row' },
-          gap: { xs: 2, sm: 0 },
-        }}
-      >
-        <CampaignImage charity={charity} />
-        <CampaignPledge
-          pledge={pledge}
-          charity={charity}
-          statistics={statistics}
-        />
+      <Box p={4}>
+        <CampaignHeader caption={charity.caption} />
+        <Box
+          sx={{
+            mt: 2,
+            width: '100%',
+            display: 'flex',
+            alignItems: 'flex-start',
+            justifyContent: 'space-between',
+            flexDirection: { xs: 'column', sm: 'row' },
+            gap: { xs: 2, sm: 0 },
+          }}
+        >
+          <CampaignImage charity={charity} />
+          <CampaignPledge
+            pledge={pledge}
+            charity={charity}
+            statistics={statistics}
+          />
+        </Box>
       </Box>
-    </CustomPaper>
-    <CustomPaper
-      sx={{
-        borderTop: (theme) => `1px solid ${theme.palette.divider}`,
-        backgroundColor: (theme) => theme.palette.grey[100],
-        borderTopLeftRadius: 0,
-        borderTopRightRadius: 0,
-      }}
-    >
-      <CampaignFooter pollUrl={pollUrl} />
+      <Divider color="white" sx={{ width: '100%' }} />
+      <Box p={4}>
+        <CampaignFooter pollUrl={pollUrl} />
+      </Box>
     </CustomPaper>
   </Box>
 );

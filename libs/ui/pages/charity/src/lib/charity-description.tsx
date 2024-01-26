@@ -1,5 +1,6 @@
 import { ArrowRight } from '@mui/icons-material';
-import { Button, Typography } from '@mui/material';
+import { Box, Button } from '@mui/material';
+import { useMediaQuery } from '@worksheets/ui/hooks/use-media-query';
 import { Markdown, MarkdownText } from '@worksheets/ui-core';
 import { FC } from 'react';
 
@@ -12,36 +13,27 @@ export type CharityDescriptionProps = {
 export const CharityDescription: FC<CharityDescriptionProps> = ({
   description,
 }) => {
+  const isMobile = useMediaQuery((theme) => theme.breakpoints.down('sm'));
   return (
     <CustomPaper>
-      <Typography padding={0} component="div">
-        <Markdown
-          text={description}
-          sx={{ '& h2:first-child': { marginTop: 0 } }}
-        />
-      </Typography>
-      <Button
-        variant="contained"
-        color="error"
-        href="/"
-        endIcon={<ArrowRight sx={{ ml: -0.5 }} />}
+      <Markdown
+        text={description}
         sx={{
-          mt: 2,
-          borderRadius: 6,
-          width: { xs: '100%', sm: 'fit-content' },
-          px: { xs: 1, sm: 3 },
-          py: { xs: 0.5, sm: 1 },
+          '& h2:first-child': { marginTop: 0 },
+          color: (theme) => theme.palette.text.arcade,
         }}
-      >
-        <Typography
-          fontWeight={900}
-          sx={{
-            fontSize: { xs: 16, sm: 18 },
-          }}
+      />
+      <Box mt={2}>
+        <Button
+          variant="arcade"
+          color="error"
+          size={isMobile ? 'small' : 'large'}
+          href="/"
+          endIcon={<ArrowRight />}
         >
-          Explore All Games
-        </Typography>
-      </Button>
+          All Games
+        </Button>
+      </Box>
     </CustomPaper>
   );
 };

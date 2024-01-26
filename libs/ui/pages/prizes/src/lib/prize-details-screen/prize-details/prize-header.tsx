@@ -1,5 +1,5 @@
 import { Box, Typography } from '@mui/material';
-import { ContainImage } from '@worksheets/ui/images';
+import { ContainImage } from '@worksheets/ui/components/images';
 
 export const PrizeHeader: React.FC<{
   headline: string;

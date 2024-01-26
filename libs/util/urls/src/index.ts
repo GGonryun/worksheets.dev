@@ -19,12 +19,19 @@ const urls = {
     usd: 'https://www.sandiego.edu/',
   },
   social: {
+    instagram: 'https://www.instagram.com/charity.games/', // TODO
     reddit: `https://www.reddit.com/user/ggonryun/`,
     linkedIn: `https://www.linkedin.com/company/charity-games`,
     twitter: `https://twitter.com/charitydotgames`,
     facebook: `https://www.facebook.com/profile.php?id=61554655570040`,
     github: `https://github.com/ggonryun/worksheets.dev`,
     discord: `https://discord.gg/Auatjee2BZ`,
+  },
+  personal: {
+    linkedIn: {
+      miguel: 'https://www.linkedin.com/in/miguel-campos-5b1114172/',
+      esbeidy: 'https://www.linkedin.com/in/esbeidy-campos-776352172',
+    },
   },
 };
 

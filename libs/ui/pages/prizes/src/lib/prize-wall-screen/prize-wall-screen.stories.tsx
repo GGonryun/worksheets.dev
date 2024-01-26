@@ -1,6 +1,6 @@
 import { action } from '@storybook/addon-actions';
 import { Meta } from '@storybook/react';
-import { StoryWallpaper } from '@worksheets/ui/wallpaper';
+import { StoryWallpaper } from '@worksheets/ui/components/wallpaper';
 
 import { PrizeWallScreen } from '.';
 import {

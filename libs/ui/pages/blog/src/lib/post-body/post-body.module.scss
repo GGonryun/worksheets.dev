@@ -1,9 +1,8 @@
-$primary-color: #1976d2;
 $color-code-background: #272822;
 $color-code-color: #f8f8f2;
 
 @mixin header-mixin {
-  font-family: Dangrek, serif;
+  font-family: 'M PLUS Rounded 1c', sans-serif;
   margin-top: 1.5rem;
   margin-bottom: 0.5rem;
   font-weight: 700;
@@ -79,12 +78,12 @@ $color-code-color: #f8f8f2;
   a {
     @include paragraph-mixin;
 
-    color: $primary-color;
+    color: inherit;
     :active {
-      color: $primary-color;
+      color: inherit;
     }
     :visited {
-      color: $primary-color;
+      color: inherit;
     }
   }
 

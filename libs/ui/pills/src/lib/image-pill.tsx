@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import { ContainImage } from '@worksheets/ui/images';
+import { ContainImage } from '@worksheets/ui/components/images';
 import { FC } from 'react';
 
 import { ReferencePillSkeleton } from './reference-pill-skeleton';

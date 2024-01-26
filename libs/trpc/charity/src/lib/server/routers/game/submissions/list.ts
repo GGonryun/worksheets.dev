@@ -1,5 +1,5 @@
 import { createFileDownloadUrl } from '@worksheets/services/environment';
-import { basicGameSubmissionSchema } from '@worksheets/ui/pages/account';
+import { basicGameSubmissionSchema } from '@worksheets/util/types';
 
 import { protectedProcedure } from '../../../procedures';
 

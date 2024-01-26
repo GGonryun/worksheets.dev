@@ -1,5 +1,6 @@
 import type { Meta } from '@storybook/react';
 import { blogAuthors } from '@worksheets/data-access/charity-games';
+import { StoryWallpaper } from '@worksheets/ui/components/wallpaper';
 import { sampleBlogMetadata, sampleBlogPost } from '@worksheets/ui/mocks';
 
 import { BlogPostScreen } from './blog-post-screen';
@@ -9,14 +10,9 @@ const Story: Meta<typeof BlogPostScreen> = {
   title: 'Content/BlogPostScreen',
   decorators: [
     (Story) => (
-      <div
-        style={{
-          backgroundColor: 'lightblue',
-          height: '100%',
-        }}
-      >
+      <StoryWallpaper>
         <Story />
-      </div>
+      </StoryWallpaper>
     ),
   ],
 };

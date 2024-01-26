@@ -1,3 +1,4 @@
+import { Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import {
@@ -7,7 +8,6 @@ import {
 } from '@worksheets/icons/charity';
 
 import { RedirectBox } from './redirect-box';
-import { TitleText } from './title-text';
 
 export const SupportSection = () => (
   <Paper
@@ -19,11 +19,14 @@ export const SupportSection = () => (
       borderRadius: 4,
       p: { xs: 2, sm: 4 },
       gap: 4,
+      color: 'text.arcade',
+      backgroundColor: 'background.solid-blue',
+      background: (theme) => theme.palette.background['gradient-blue'],
     }}
   >
-    <TitleText variant="h1" textAlign="center" my={1}>
+    <Typography typography={{ xs: 'h5', sm: 'h4' }} textAlign="center" my={1}>
       Together, we can make a difference
-    </TitleText>
+    </Typography>
     <Box
       sx={{
         display: 'flex',
@@ -40,7 +43,7 @@ export const SupportSection = () => (
         action={{
           href: '/blog',
           label: 'Read More',
-          variant: 'outlined',
+          color: 'warning',
         }}
       />
       <RedirectBox
@@ -50,7 +53,7 @@ export const SupportSection = () => (
         action={{
           href: '/account/submissions',
           label: 'Submit a game',
-          variant: 'contained',
+          color: 'secondary',
         }}
       />
       <RedirectBox
@@ -60,7 +63,7 @@ export const SupportSection = () => (
         action={{
           href: '/about',
           label: 'About us',
-          variant: 'outlined',
+          color: 'warning',
         }}
       />
     </Box>

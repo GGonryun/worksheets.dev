@@ -1,4 +1,5 @@
 import { trpc } from '@worksheets/trpc-charity';
+import { DynamicLayout } from '@worksheets/ui/layout';
 import {
   contributionFaq,
   ContributionScreen,
@@ -8,7 +9,6 @@ import { LoadingScreen } from '@worksheets/ui/pages/loading';
 import { NextPageWithLayout } from '@worksheets/util-next';
 import { FAQPageJsonLd, NextSeo } from 'next-seo';
 
-import { DynamicLayout } from '../../dynamic/dynamic-layout';
 import { helpDevelopersSeo } from '../../util/seo';
 
 const Page: NextPageWithLayout = () => {

@@ -16,6 +16,8 @@ export const PrivacyPolicyScreen: FC<PrivacyPolicyScreenProps> = () => {
           flexDirection: 'column',
           borderRadius: 4,
           p: { xs: 2, sm: 4 },
+          color: 'text.arcade',
+          backgroundColor: (theme) => theme.palette.background['solid-blue'],
         }}
       >
         <Box
@@ -36,8 +38,12 @@ export const PrivacyPolicyScreen: FC<PrivacyPolicyScreenProps> = () => {
             mt: { xs: 2, sm: 4 },
           }}
         >
-          <Link href="#top">Back to the top</Link>
-          <Link href="/">Home Page</Link>
+          <Link href="#top" color="inherit">
+            Back to the top
+          </Link>
+          <Link href="/" color="inherit">
+            Home Page
+          </Link>
         </Typography>
       </Paper>
     </Container>

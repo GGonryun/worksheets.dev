@@ -5,7 +5,7 @@ export const charities: Record<string, CharityOrganization> = {
     name: 'Water.org',
     bannerSrc: '/common/water-org/francisco-hands.jpg',
     caption:
-      '[Water.org](https://water.org/) is an international nonprofit organization that has transformed millions of lives around the world with access to safe water and sanitation.',
+      'Water.Org is an international nonprofit organization that has transformed millions of lives around the world with access to safe water and sanitation.',
     description: `
     ## What is Water.org?
     

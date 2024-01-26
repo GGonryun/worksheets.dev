@@ -1,4 +1,5 @@
 import { Markdown } from '@worksheets/ui-core';
+import { printDate } from '@worksheets/util/time';
 
 export const CookiesStatement = () => {
   return (
@@ -11,8 +12,14 @@ export const CookiesStatement = () => {
   );
 };
 
+const createdAtDate = printDate('12-01-2021');
+const updatedAtDate = printDate('12-01-2021');
+
 const cookiesText = `
 # Global Cookie Policy
+**Released**: ${createdAtDate}
+<br/>
+**Last Updated**: ${updatedAtDate}
 ## What are cookies?
 Cookies are small files that are saved on your computer when you visit web pages. They contain information linked to a web browser and the specific website. They are saved in a specific folder on your hard drive. If you return to a specific website, this page can recognize the visitor by means of the cookie and further elaborate the history. A web beacon is an (often transparent) graphic image, usually no larger than 1 pixel, that is placed on a website and that is used to monitor the behavior of the user visiting the website.
 <br/><br/>

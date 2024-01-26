@@ -10,11 +10,17 @@ const BASE_URL =
     process.env['CHARITY_GAMES_BASE_URL'] ||
     process.env['BASE_URL']) ??
   '';
+const BLOG_BASE_URL =
+  process.env['NEXT_PUBLIC_BLOG_BASE_URL'] ??
+  process.env['BLOG_BASE_URL'] ??
+  '';
+
 const COOKIE_DOMAIN = process.env['NEXT_PUBLIC_COOKIE_DOMAIN'] ?? '';
 const IS_PRODUCTION = process.env['NODE_ENV'] === 'production';
 
 export {
   BASE_URL,
+  BLOG_BASE_URL,
   EMOJI_WAR_URL,
   PUZZLE_WORDS_URL,
   WORD_SEARCH_URL,

@@ -9,20 +9,21 @@ export type PaletteColor =
   | 'secondary';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const arcadeButtonStyle = (square?: boolean) => (tx: any) => {
+const arcadeButtonStyle = (tx: any) => {
   const currentColor = tx.theme.palette[tx.ownerState.color];
   const disabled = tx.ownerState.disabled;
   const shadow = disabled ? tx.theme.palette.grey[500] : currentColor.shadow;
+
   return {
     backgroundColor: disabled ? tx.theme.palette.grey[300] : currentColor.main,
     background: disabled ? undefined : currentColor.gradient,
-    borderRadius: 13,
+    borderRadius: 10,
     color: currentColor.contrastText,
-    boxShadow: `0px 6px 0px 0px ${shadow}`,
+    boxShadow: `0px 4px 0px 0px ${shadow}`,
     fontFamily: tx.theme.typography.mPlus1p.fontFamily,
     fontWeight: 700,
     textTransform: 'none' as const,
-    minWidth: square ? 0 : 64,
+    lineHeight: 'unset' as const,
     transition: tx.theme.transitions.create(
       ['box-shadow', 'background-color', 'transform'],
       {
@@ -34,33 +35,74 @@ const arcadeButtonStyle = (square?: boolean) => (tx: any) => {
       backgroundColor: darken(currentColor.main, 0.05),
     },
     '&:active': {
-      boxShadow: `0px 1px 0px 0px ${shadow}`,
-      transform: 'translateY(5px)',
+      boxShadow: `0px 0px 0px 0px ${shadow}`,
+      transform: 'translateY(4px)',
     },
     //small size
     ...(tx.ownerState.size === 'small' && {
-      boxShadow: `0px 5px 0px 0px ${shadow}`,
-      '&:active': {
-        boxShadow: `0px 1px 0px 0px ${shadow}`,
-        transform: 'translateY(4px)',
-      },
-      height: square ? tx.theme.spacing(4) : undefined,
-      width: square ? tx.theme.spacing(4.25) : undefined,
-      padding: square ? tx.theme.spacing(0.5) : tx.theme.spacing(0.5, 2),
-      fontSize: 12,
+      borderRadius: 8,
+      padding: tx.theme.spacing(0.75, 2),
+      fontSize: tx.theme.typography.body2.fontSize,
     }),
     //medium size
     ...(tx.ownerState.size === 'medium' && {
-      height: square ? tx.theme.spacing(5) : undefined,
-      width: square ? tx.theme.spacing(5.5) : undefined,
-      padding: square ? tx.theme.spacing(1, 1) : tx.theme.spacing(1, 4),
+      padding: tx.theme.spacing(1, 4),
       fontSize: tx.theme.typography.body1.fontSize,
     }),
     //large size
     ...(tx.ownerState.size === 'large' && {
-      height: square ? tx.theme.spacing(6) : undefined,
-      width: square ? tx.theme.spacing(6.5) : undefined,
-      padding: square ? tx.theme.spacing(1.5, 1.5) : tx.theme.spacing(1.25, 5),
+      padding: tx.theme.spacing(1.25, 5),
+      fontSize: tx.theme.typography.h6.fontSize,
+    }),
+  };
+};
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const arcadeSquareButtonStyle = (tx: any) => {
+  const currentColor = tx.theme.palette[tx.ownerState.color];
+  const disabled = tx.ownerState.disabled;
+  const shadow = disabled ? tx.theme.palette.grey[500] : currentColor.shadow;
+  return {
+    backgroundColor: disabled ? tx.theme.palette.grey[300] : currentColor.main,
+    background: disabled ? undefined : currentColor.gradient,
+    borderRadius: 10,
+    color: currentColor.contrastText,
+    boxShadow: `0px 4px 0px 0px ${shadow}`,
+    fontFamily: tx.theme.typography.mPlus1p.fontFamily,
+    fontWeight: 700,
+    textTransform: 'none' as const,
+    minWidth: 0,
+    minHeight: 0,
+    aspectRatio: '1/1',
+    linHeight: 'unset' as const,
+    transition: tx.theme.transitions.create(
+      ['box-shadow', 'background-color', 'transform'],
+      {
+        duration: tx.theme.transitions.duration.standard,
+        easing: tx.theme.transitions.easing.easeInOut,
+      }
+    ),
+    '&:hover': {
+      backgroundColor: darken(currentColor.main, 0.05),
+    },
+    '&:active': {
+      boxShadow: `0px 0px 0px 0px ${shadow}`,
+      transform: 'translateY(4px)',
+    },
+    //small size
+    ...(tx.ownerState.size === 'small' && {
+      borderRadius: 8,
+      padding: tx.theme.spacing(1),
+      fontSize: tx.theme.typography.body3.fontSize,
+    }),
+    //medium size
+    ...(tx.ownerState.size === 'medium' && {
+      padding: tx.theme.spacing(1.25),
+      fontSize: tx.theme.typography.body2.fontSize,
+    }),
+    //large size
+    ...(tx.ownerState.size === 'large' && {
+      padding: tx.theme.spacing(1.5),
       fontSize: tx.theme.typography.h6.fontSize,
     }),
   };
@@ -124,22 +166,39 @@ const theme = createTheme({
     },
   },
   components: {
+    MuiPaper: {
+      defaultProps: {
+        elevation: 8,
+      },
+      styleOverrides: {
+        root: {
+          borderRadius: '16px',
+        },
+      },
+    },
     MuiButton: {
       defaultProps: {
         disableRipple: true,
       },
+      styleOverrides: {
+        text: {
+          textTransform: 'none',
+          fontFamily: "'M PLUS Rounded 1c', sans-serif",
+        },
+      },
+
       variants: [
         {
           props: { variant: 'arcade' },
           // There isn't a good type for the sx prop yet.
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          style: arcadeButtonStyle(),
+          style: arcadeButtonStyle,
         },
         {
           props: { variant: 'square' },
           // There isn't a good type for the sx prop yet.
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          style: arcadeButtonStyle(true),
+          style: arcadeSquareButtonStyle,
         },
       ],
     },
@@ -227,7 +286,10 @@ const theme = createTheme({
         main: '#106FBC',
       },
       arcade: '#D8F1FF',
-      darkRed: '#841B2E',
+      red: {
+        light: '#DA3A4C',
+        dark: '#841B2E',
+      },
     },
   },
 });

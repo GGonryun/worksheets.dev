@@ -16,3 +16,6 @@ export * from './lib/wings';
 export * from './lib/lock';
 export * from './lib/profile';
 export * from './lib/search';
+export * from './lib/valentines-diamond';
+export * from './lib/valentines-gift';
+export * from './lib/valentines-love-letter';

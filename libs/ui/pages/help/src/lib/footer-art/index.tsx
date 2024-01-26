@@ -1,5 +1,5 @@
 import { Box, BoxProps, styled } from '@mui/material';
-import { ContainImage } from '@worksheets/ui/images';
+import { ContainImage } from '@worksheets/ui/components/images';
 import { JSXElementConstructor } from 'react';
 
 const purposeHref = 'https://charity.games/charity';

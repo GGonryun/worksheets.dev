@@ -19,8 +19,8 @@ const config = {
       to: '/games',
     },
     {
-      from: '../../../../assets/partners/src/lib',
-      to: '/partners',
+      from: '../../../../assets/icons/src/lib',
+      to: '/icons',
     },
   ],
 };

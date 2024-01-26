@@ -1,6 +1,6 @@
 import { ExploreOutlined, HelpOutline } from '@mui/icons-material';
 import { Box, Link, Typography } from '@mui/material';
-import { ResponsiveImage } from '@worksheets/ui/images';
+import { ResponsiveImage } from '@worksheets/ui/components/images';
 import { FC } from 'react';
 
 import { CharityScreenProps } from '../charity-screen';
@@ -36,6 +36,7 @@ export const CampaignImage: FC<Pick<CharityScreenProps, 'charity'>> = ({
         display="flex"
         alignItems={'center'}
         gap={0.5}
+        color="text.arcade"
       >
         <ExploreOutlined fontSize="inherit" />
         {charity.category}
@@ -43,11 +44,14 @@ export const CampaignImage: FC<Pick<CharityScreenProps, 'charity'>> = ({
       <Typography
         variant="body2"
         display="flex"
-        alignItems={'center'}
+        alignItems="center"
         gap={0.5}
+        color="text.arcade"
+        component={Link}
+        href="/help"
       >
         <HelpOutline fontSize="inherit" />
-        <Link href="/help">How can I help?</Link>
+        How can I help?
       </Typography>
     </Box>
   </Box>

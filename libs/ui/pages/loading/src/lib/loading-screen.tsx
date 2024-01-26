@@ -93,7 +93,7 @@ export const LoadingScreen: React.FC<{ message?: string }> = ({ message }) => {
           height={isMobile ? 64 : 128}
         />
         <LinearProgress
-          color="love"
+          color="secondary"
           sx={{
             mb: 4,
             width: '100%',

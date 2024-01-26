@@ -16,6 +16,7 @@ export const Markdown: FC<{ text: MarkdownText } & Pick<BoxProps, 'sx'>> = ({
       dangerouslySetInnerHTML={{ __html: convertMicroMarkdown(text) }}
       component="span"
       sx={{
+        fontFamily: (theme) => theme.typography.mPlus1p.fontFamily,
         h6: {
           mt: 2,
           mb: 1,
@@ -41,6 +42,7 @@ export const Markdown: FC<{ text: MarkdownText } & Pick<BoxProps, 'sx'>> = ({
           mb: 1,
         },
         a: {
+          color: 'inherit',
           textDecoration: 'underline',
         },
         li: {
@@ -48,7 +50,7 @@ export const Markdown: FC<{ text: MarkdownText } & Pick<BoxProps, 'sx'>> = ({
         },
         ...sx,
       }}
-    ></Box>
+    />
   );
 };
 

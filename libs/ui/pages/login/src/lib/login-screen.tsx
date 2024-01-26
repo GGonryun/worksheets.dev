@@ -10,7 +10,12 @@ export const LoginScreen: FC<LoginScreenProps> = (props) => {
   return (
     <ConnectionContainer>
       <Box>
-        <Typography variant="h4" textAlign="center">
+        <br />
+        <Typography
+          variant="h4"
+          textAlign="center"
+          display={{ xs: 'none', sm: 'block' }}
+        >
           Log In
         </Typography>
         <Typography variant="body2" textAlign="center" pt={0.5}>

@@ -1,8 +1,5 @@
 import { TRPCError } from '@trpc/server';
-import {
-  BASE_DAILY_REWARD,
-  MOMENTUM_MULTIPLIER,
-} from '@worksheets/util/settings';
+import { BASE_DAILY_REWARD } from '@worksheets/util/settings';
 import { z } from '@worksheets/zod';
 
 import { protectedProcedure } from '../../../../procedures';
@@ -47,14 +44,8 @@ export default protectedProcedure
       },
       data: {
         claimedDailyReward: new Date(),
-        dailyRewardMomentum: {
-          increment: 1,
-        },
         totalTokens: {
-          increment:
-            reward.dailyRewardMomentum *
-            MOMENTUM_MULTIPLIER *
-            BASE_DAILY_REWARD,
+          increment: BASE_DAILY_REWARD,
         },
       },
     });

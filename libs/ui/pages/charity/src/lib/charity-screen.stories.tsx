@@ -1,40 +1,38 @@
 import type { Meta } from '@storybook/react';
+import { StoryWallpaper } from '@worksheets/ui/components/wallpaper';
 import { sampleCharityOrganization } from '@worksheets/ui/mocks';
 
 import { CharityScreen } from './charity-screen';
 
-const Story: Meta<typeof CharityScreen> = {
+type Story = Meta<typeof CharityScreen>;
+
+export default {
   component: CharityScreen,
   title: 'Content/CharityScreen',
   decorators: [
     (Story) => (
-      <div
-        style={{
-          backgroundColor: 'rgb(250, 203, 202)',
-          height: '100%',
-        }}
-      >
+      <StoryWallpaper>
         <Story />
-      </div>
+      </StoryWallpaper>
     ),
   ],
-};
-export default Story;
+} satisfies Story;
 
-export const Primary = {
+export const Primary: Story = {
   args: {
     charity: sampleCharityOrganization,
-    pledge: { required: 100, current: 30, games: 7, players: 55 },
+    pledge: { required: 100, current: 30 },
     statistics: {
+      uniqueGames: 7,
       countries: [
-        { name: 'United States', hours: 9 },
-        { name: 'India', hours: 5 },
-        { name: 'United Kingdom', hours: 3 },
-        { name: 'Australia', hours: 2 },
-        { name: 'Germany', hours: 2 },
-        { name: 'Brazil', hours: 1 },
-        { name: 'Canada', hours: 1 },
-        { name: 'France', hours: 1 },
+        { name: 'United States', percent: 9 },
+        { name: 'India', percent: 5 },
+        { name: 'United Kingdom', percent: 3 },
+        { name: 'Australia', percent: 2 },
+        { name: 'Germany', percent: 2 },
+        { name: 'Brazil', percent: 1 },
+        { name: 'Canada', percent: 1 },
+        { name: 'France', percent: 1 },
       ],
       games: [
         { id: 'puzzle-words', name: 'Puzzle Words', plays: 128 },

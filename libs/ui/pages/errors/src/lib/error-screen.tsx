@@ -16,6 +16,7 @@ export const ErrorScreen: React.FC<{
           m: 2,
           p: 2,
           mb: { xs: 8, sm: 4 },
+          backgroundColor: (theme) => theme.palette.background['solid-blue'],
         }}
       >
         <ErrorComponent message={message} onRetry={onRetry} />

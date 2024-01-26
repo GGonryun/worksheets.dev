@@ -1,5 +1,5 @@
 import { TRPCError } from '@trpc/server';
-import { friendSchema } from '@worksheets/ui/pages/account';
+import { friendSchema } from '@worksheets/util/types';
 import { z } from '@worksheets/zod';
 
 import { protectedProcedure } from '../../../procedures';

@@ -3,7 +3,6 @@ import {
   MAX_TOKENS_FROM_GAME_PLAY_PER_DAY,
   MAX_TOKENS_FROM_REFERRAL_PLAYS,
   STARTING_GIFT_BOXES,
-  STARTING_MOMENTUM,
   STARTING_TOKENS,
 } from '@worksheets/util/settings';
 import { z } from '@worksheets/zod';
@@ -37,7 +36,6 @@ export default protectedProcedure
         userId,
         giftBoxes: STARTING_GIFT_BOXES,
         totalTokens: STARTING_TOKENS,
-        dailyRewardMomentum: STARTING_MOMENTUM,
         availableGamePlayTokens: MAX_TOKENS_FROM_GAME_PLAY_PER_DAY,
         availableReferralTokens: MAX_TOKENS_FROM_REFERRAL_PLAYS,
         sharableGiftBoxes: MAX_DAILY_GIFT_BOX_SHARES,

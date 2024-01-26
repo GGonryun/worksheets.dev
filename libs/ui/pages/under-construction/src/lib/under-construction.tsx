@@ -31,28 +31,42 @@ export const UnderConstruction: FC<{ children?: ReactNode }> = ({
         <Paper
           variant="outlined"
           sx={{
+            backgroundColor: 'background.solid-blue',
             display: 'flex',
             flexDirection: 'column',
-            borderRadius: 4,
             alignItems: 'flex-start',
             maxWidth: 400,
             p: 3,
             mb: 6,
+            gap: 3,
+            color: 'text.arcade',
           }}
         >
           <Button
             color="error"
+            variant="arcade"
             size="small"
             onClick={back}
             startIcon={<ArrowBack />}
           >
-            <Typography variant="h6">Back</Typography>
+            Back
           </Button>
           <Typography variant="h5">This Page is Under Construction</Typography>
-          <Construction sx={{ height: 200, width: 200, py: 3 }} />
+          <Box
+            sx={{
+              backgroundColor: 'background.paper',
+              borderRadius: 4,
+              p: 2,
+              pb: 0,
+            }}
+          >
+            <Construction sx={{ height: 200, width: 200 }} />
+          </Box>
           <Typography>
             Please check back later or{' '}
-            <Link href={urls.social.twitter}>follow us on social media</Link>{' '}
+            <Link color="inherit" href={urls.social.twitter}>
+              follow us on social media
+            </Link>{' '}
             for updates.
           </Typography>
           {children}

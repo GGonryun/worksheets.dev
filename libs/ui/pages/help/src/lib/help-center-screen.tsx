@@ -19,20 +19,19 @@ export const HelpCenterScreen: React.FC = () => {
           flexDirection: 'column',
           alignItems: 'center',
           borderRadius: (theme) => theme.shape.borderRadius,
-          p: { xs: 1, sm: 2 },
-          m: { xs: 1, sm: 4 },
+          p: 4,
         }}
       >
         <Box my={{ xs: 1, sm: 2 }} />
         <HelpCenterTitle />
         <Box my={{ xs: 4, sm: 6 }} />
-        <Box width={{ xs: '95%', sm: '85%' }}>
-          <HelpCenterCategories />
-        </Box>
+        <HelpCenterCategories />
         <Box my={{ xs: 3, sm: 5 }} />
         {isMobile ? <PlayWithPurposeIcon /> : <PlayWithPurposeBanner />}
         <Box my={{ xs: 3, sm: 5 }} />
         <HelpCenterFooter />
+        <br />
+        <br />
       </Paper>
     </Container>
   );

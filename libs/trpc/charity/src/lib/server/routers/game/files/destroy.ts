@@ -1,6 +1,6 @@
 import { TRPCError } from '@trpc/server';
 import * as storage from '@worksheets/services/storage';
-import { FILE_ID_FIELD_MAP } from '@worksheets/ui/pages/game-submissions';
+import { FILE_ID_FIELD_MAP } from '@worksheets/util/types';
 import { z } from '@worksheets/zod';
 
 import { protectedProcedure } from '../../../procedures';

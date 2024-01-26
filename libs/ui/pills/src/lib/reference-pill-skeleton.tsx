@@ -1,5 +1,5 @@
 import { Box, Link } from '@mui/material';
-import { ResponsiveImage } from '@worksheets/ui/images';
+import { ResponsiveImage } from '@worksheets/ui/components/images';
 import { PLACEHOLDER_LOGO_PATH } from '@worksheets/util/assets';
 import { FC, ReactNode } from 'react';
 

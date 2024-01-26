@@ -1,1 +1,1 @@
-export * from './lib/arcade-screen';
+export * from './lib/dynamic';

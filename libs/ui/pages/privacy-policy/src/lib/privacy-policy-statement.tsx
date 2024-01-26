@@ -12,8 +12,8 @@ export const PrivacyStatement = () => {
   );
 };
 
-const createdAtDate = printDate('12-01-2021');
-const updatedAtDate = printDate('12-01-2021');
+const createdAtDate = printDate('12-01-2023');
+const updatedAtDate = printDate('12-01-2023');
 
 const privacyStatement = `
 # Global Privacy Statement

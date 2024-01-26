@@ -10,7 +10,12 @@ export const SignUpScreen: FC<SignUpScreenProps> = (props) => {
   return (
     <ConnectionContainer>
       <Box>
-        <Typography variant="h4" textAlign="center">
+        <br />
+        <Typography
+          variant="h4"
+          textAlign="center"
+          display={{ xs: 'none', sm: 'block' }}
+        >
           Sign Up
         </Typography>
         <Typography variant="body2" textAlign="center" pt={0.5}>

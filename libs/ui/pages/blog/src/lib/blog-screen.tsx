@@ -1,8 +1,7 @@
-import { Container, Paper, Typography } from '@mui/material';
+import { Container, Divider, Paper, Typography } from '@mui/material';
 import { MarkdownMetadata } from '@worksheets/util-markdown';
-import { FC } from 'react';
+import { FC, Fragment } from 'react';
 
-import { BlogFilter } from './blog-filter';
 import { PostPreview } from './post-preview';
 import { PostPreviews } from './post-previews';
 
@@ -21,15 +20,20 @@ export const BlogScreen: FC<BlogScreenProps> = ({ posts }) => {
           flexDirection: 'column',
           borderRadius: 4,
           p: { xs: 2, sm: 4 },
+          backgroundColor: (theme) =>
+            theme.palette.background['transparent-blue'],
         }}
       >
-        <Typography variant="h3">Blog</Typography>
-        <br />
-        <BlogFilter />
+        <Typography variant="h3" color="text.arcade">
+          Blog
+        </Typography>
         <br />
         <PostPreviews>
           {posts.map((post) => (
-            <PostPreview key={post.slug} {...post} />
+            <Fragment key={post.slug}>
+              <Divider color="white" />
+              <PostPreview {...post} />
+            </Fragment>
           ))}
         </PostPreviews>
       </Paper>

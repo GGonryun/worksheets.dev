@@ -24,6 +24,7 @@ export const ErrorComponent: React.FC<{
           p: 2,
           textAlign: 'center',
           maxWidth: 400,
+          color: (theme) => theme.palette.text.arcade,
         }}
       >
         <Image
@@ -43,7 +44,7 @@ export const ErrorComponent: React.FC<{
         <Box py={2} />
         {onRetry && (
           <Button
-            variant="round"
+            variant="arcade"
             color="error"
             sx={{ mt: 1 }}
             onClick={onRetry}
@@ -53,9 +54,9 @@ export const ErrorComponent: React.FC<{
           </Button>
         )}
         <Button
-          variant="outlined-round"
-          color="error"
-          sx={{ mt: 1 }}
+          variant="arcade"
+          color="warning"
+          sx={{ mt: 2 }}
           href="/"
           endIcon={<ArrowRightAlt />}
         >

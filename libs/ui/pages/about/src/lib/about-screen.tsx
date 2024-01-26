@@ -1,7 +1,9 @@
 import { LinkedIn } from '@mui/icons-material';
 import { Box, Button, Container, Link, Paper, Typography } from '@mui/material';
 import { blogAuthors } from '@worksheets/data-access/charity-games';
+import { Markdown } from '@worksheets/ui-core';
 import urls from '@worksheets/util/urls';
+import Image from 'next/image';
 import { FC } from 'react';
 
 export type AboutScreenProps = {
@@ -16,16 +18,20 @@ export const AboutScreen: FC<AboutScreenProps> = (props) => {
           display: 'flex',
           flexDirection: 'column',
           borderRadius: 4,
+          background: (theme) => theme.palette.background['gradient-blue'],
           p: { xs: 2, sm: 4 },
         }}
       >
-        <Typography variant="h3">About Us</Typography>
-        <Typography>
-          <Link href="/faq">Frequently Asked Questions</Link>
+        <Typography variant="h3" color="text.arcade">
+          About Us
         </Typography>
         <br />
-        <Typography variant="h4">Our Mission</Typography>
-        <Typography>
+        <br />
+        <Typography variant="h4" color="text.arcade">
+          Our Mission
+        </Typography>
+        <br />
+        <Typography color="text.arcade">
           Charity Games is a community of developers, designers, artists,
           musicians, and gamers united by a common goal: using the power of
           gaming to create a positive impact on the world.
@@ -38,73 +44,162 @@ export const AboutScreen: FC<AboutScreenProps> = (props) => {
           to create a platform that allows you to play fun games while also
           helping people in need. Every game you play on our platform generates
           water for people in need. We currently support{' '}
-          <Link href={urls.external.waterOrg}>Water.Org</Link> as our charity of
-          choice. Read more about our{' '}
-          <Link href="/charity">current donation campaign here</Link>.
+          <Link color="text.arcade" href={urls.external.waterOrg}>
+            Water.Org
+          </Link>{' '}
+          as our charity of choice. Read more about our{' '}
+          <Link color="text.arcade" href="/charity">
+            current donation campaign here
+          </Link>
+          .
           <br />
           <br />
           If you have a charity you would like to see us support, please{' '}
-          <Link href={'/contact'}>contact us.</Link>
+          <Link color="text.arcade" href={'/contact'}>
+            contact us.
+          </Link>
         </Typography>
         <br />
-        <Typography variant="h4">The Team</Typography>
-        <Typography variant="h6" id={blogAuthors['miguel-campos'].id}>
-          Miguel Campos - Software Engineer
-        </Typography>
-        <Typography>
-          <Link href={urls.social.linkedIn}>Miguel</Link> is currently a
-          software engineer at{' '}
-          <Link href={urls.external.fullstory}>FullStory</Link> and a graduate
-          from San Diego State University. He is passionate about creating
-          software that makes the world a better place. He is currently the lead
-          developer of Charity.Games. Before working at FullStory, he worked at{' '}
-          <Link href={urls.external.g2ss}>G2 Software Systems</Link>,{' '}
-          <Link href={urls.external.sdsu}>San Diego State University</Link>,{' '}
-          <Link href={urls.external.usd}>University of San Diego</Link>, and{' '}
-          <Link href={urls.external.navwar}>NAVWAR</Link> as a Software
-          Engineer.
-          <br />
-          <br />
-          When Miguel is not working, he enjoys rock climbing, hiking, and
-          playing board games with his friends. Miguel really hates writing
-          about himself in the third person, but he is doing it anyway.
-        </Typography>
         <br />
-        <QuoteText
-          text="Individually, we are one drop. Together, we are an ocean."
-          author="Ryunosuke Satoro"
-        />
         <br />
-        <Box>
-          <Button
-            variant="contained"
-            color="error"
-            size="small"
-            startIcon={<LinkedIn sx={{ height: 30, width: 30 }} />}
-            href={urls.social.linkedIn}
-            sx={{
-              width: { xs: '100%', sm: 'auto' },
-              lineHeight: 1,
-              fontFamily: 'Dangrek',
-              px: 3,
-              borderRadius: 6,
+        <Typography variant="h4" color="text.arcade">
+          The Team
+        </Typography>
+        <Box
+          sx={{
+            display: 'grid',
+            gridTemplateColumns: {
+              xs: '1fr',
+              sm: '1fr 1fr',
+              md: '1fr 1fr 1fr',
+            },
+            gap: 4,
+          }}
+        >
+          <TeamMember
+            name={'Taki The Dog'}
+            image="/blog/authors/taki.png"
+            title="Chief Executive Officer"
+            description={
+              "Taki is a 7 year old Yorkie who is currently working as the interim Charity Games CEO. Before coming to Charity Games, Taki served as Chief Financial Officer of Luna Cosmetics and Director of Enterprise Customer Success at Patty's Creations.\n\n He enjoys spending his working days sitting with Miguel as they work on charity games. He is very passionate about his meal choices, he prefers to eat chicken and salmon over anything else.\n\nOn his free time Taki enjoys walking outside with Miguel, sleeping on Miguel's bed, and cuddling with Miguel."
+            }
+            linkedIn={urls.social.linkedIn}
+            quote={{
+              text: 'Time is the moving image of the unmoving eternity.',
+              author: 'Plato',
             }}
-          >
-            Connect With Miguel
-          </Button>
+          />
+
+          <TeamMember
+            name={'Miguel Campos'}
+            image="/blog/authors/miguel.jpeg"
+            title="Software Engineer"
+            description={
+              'Miguel is currently a software engineer at [FullStory]("https://fullstory.com") and a graduate from San Diego State University. He is passionate about creating software that makes the world a better place. He is currently developing Charity.Games on his free time. Before working at FullStory, he worked at [G2 Software Systems]("https://g2-inc.com"), [San Diego State University]("https://sdsu.edu"), [University of San Diego]("https://sandiego.edu"), and [NAVWAR]("https://navwar.navy.mil") as a Software Engineer.\n\nWhen Miguel is not working, he enjoys rock climbing, hiking, and playing board games with his friends. Miguel really hates writing about himself in the third person, but he is doing it anyway.'
+            }
+            linkedIn={urls.personal.linkedIn.miguel}
+            quote={{
+              text: 'Individually, we are one drop. Together, we are an ocean.',
+              author: 'Ryunosuke Satoro',
+            }}
+          />
+
+          <TeamMember
+            name={'Esbeidy Campos'}
+            image="/blog/authors/esbeidy.png"
+            title="Project Manager"
+            description={
+              'Esbeidy recently graduated from the University of California, San Diego with a BS in business economics and is currently working as a business support intern for Outsiders Branding. She is passionate about project success and has a genuine commitment to fostering the success of individuals which was evident during her voluntary work with her sorority Delta Delta Delta where she served as Vice President of Operations. She hopes to find full time professional work as a Customer Success Specialist or as a Business support specialist.\n\nOn her free time Esbeidy also enjoys rock climbing, going to the gym, watching criminal minds and hanging out with her friends.'
+            }
+            linkedIn={urls.personal.linkedIn.esbeidy}
+            quote={{
+              text: "No, I'm not giving you a quote. No, I don't want to be on your website. ",
+              author: 'Esbeidy Campos',
+            }}
+          />
         </Box>
       </Paper>
     </Container>
   );
 };
 
+const TeamMember: React.FC<{
+  name: string;
+  image: string;
+  title: string;
+  description: string;
+  linkedIn: string;
+  quote: {
+    text: string;
+    author: string;
+  };
+}> = (props) => (
+  <Box py={3}>
+    <Box display="flex" gap={1.5} alignItems="center">
+      <Button
+        variant="square"
+        color="warning"
+        size="small"
+        href={props.linkedIn}
+      >
+        <LinkedIn sx={{ height: 30, width: 30 }} />
+      </Button>
+      <Box>
+        <Typography
+          variant="h6"
+          id={blogAuthors['miguel-campos'].id}
+          color="text.arcade"
+        >
+          {props.name}
+        </Typography>
+        <Typography color="text.arcade" variant="body2">
+          {props.title}
+        </Typography>
+      </Box>
+    </Box>
+    <Image
+      src={props.image}
+      width={128}
+      height={128}
+      alt={props.name}
+      style={{
+        paddingTop: 16,
+        borderRadius: '50%',
+        overflow: 'hidden',
+        paddingBottom: 16,
+      }}
+    />
+    <br />
+
+    <Markdown
+      text={props.description}
+      sx={{
+        whiteSpace: 'pre-line',
+        color: 'text.arcade',
+        '& a': {
+          color: 'inherit',
+        },
+      }}
+    />
+    <br />
+    <br />
+    <QuoteText text={props.quote.text} author={props.quote.author} />
+    <br />
+  </Box>
+);
+
 const QuoteText: FC<{ text: string; author: string }> = ({ text, author }) => {
   return (
     <Box>
-      <Typography fontStyle={'italic'} fontWeight={500} variant="body2">
+      <Typography
+        color="text.arcade"
+        fontStyle={'italic'}
+        fontWeight={500}
+        variant="body2"
+      >
         {text}
       </Typography>
-      <Typography pl={4} variant="body2">
+      <Typography color="text.arcade" pl={2} variant="body2">
         - {author}
       </Typography>
     </Box>

@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import { TitledPrizeCarousel } from '@worksheets/ui/prizes';
+import { TitledPrizeCarousel } from '@worksheets/ui/components/prizes';
 
 import { CustomContainer } from '../shared/custom-container';
 import { useRaffleScreenContext } from './context';
