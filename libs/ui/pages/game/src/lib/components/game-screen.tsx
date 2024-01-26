@@ -1,38 +1,46 @@
-import { PlayArrow } from '@mui/icons-material';
-import { Box, Paper, styled, Typography } from '@mui/material';
+import { Box, Paper, styled } from '@mui/material';
 import Container from '@mui/material/Container';
 import { GameIcon, PaginatedGamesList } from '@worksheets/ui/components/games';
-import { CoverImage, FillImage } from '@worksheets/ui/components/images';
 import {
+  CastVote,
   DetailedGameInfo,
+  DeveloperSchema,
+  GameAnalyticsSchema,
   SerializableGameSchema,
+  UserVote,
 } from '@worksheets/util/types';
 import { FC } from 'react';
+
+import { GameLauncher } from './game-launcher';
 
 type GameScreenProps = {
   suggestions: DetailedGameInfo[];
   game: SerializableGameSchema;
-  statistics: {
-    plays: number;
-    likes: number;
-    dislikes: number;
-  };
+  analytics: GameAnalyticsSchema;
+  developer: DeveloperSchema;
+  userVote: UserVote;
+  onPlay: () => void;
+  onVote: (vote: CastVote['vote']) => void;
 };
 
 export const GameScreen: FC<GameScreenProps> = ({
   suggestions,
   game,
-  statistics,
+  developer,
+  analytics,
+  userVote,
+  onPlay,
+  onVote,
 }) => {
   const leftBar = suggestions.splice(0, 5);
   const rightBar = suggestions.splice(0, 5);
   return (
-    <Container maxWidth="lg" sx={{ py: 2 }}>
+    <Container maxWidth="xl" sx={{ py: 2 }}>
       <Box
         display="flex"
         gap={3}
         sx={{
-          aspectRatio: { xs: '1/1', sm: '4/3', md: '16/9' },
+          aspectRatio: { xs: '1/1', sm: '4/3', md: '14/9', lg: '16/9' },
         }}
       >
         <PaperSidebar
@@ -52,49 +60,14 @@ export const GameScreen: FC<GameScreenProps> = ({
         </PaperSidebar>
 
         <GameBox>
-          <LauncherBox>
-            <CoverImage src={game.bannerUrl} alt={game.name} />
-          </LauncherBox>
-          <BannerBox>
-            <Box
-              position="relative"
-              sx={{
-                aspectRatio: '1/1',
-                height: '100%',
-                width: 'auto',
-              }}
-            >
-              <FillImage
-                src={game.iconUrl}
-                alt={game.name}
-                style={{
-                  borderRadius: '16px',
-                  overflow: 'hidden',
-                }}
-              />
-            </Box>
-            <Box>
-              <Typography
-                typography={{ xs: 'h6', sm: 'h5' }}
-                color="text.blue.main"
-              >
-                {game.name}
-              </Typography>
-              <Box display="flex" gap={2}>
-                <Box display="flex" alignItems="center" gap={0.5}>
-                  <PlayArrow
-                    fontSize="small"
-                    sx={{ color: (theme) => theme.palette.text.blue.main }}
-                  />
-                  <Typography variant="body2" color="text.blue.main">
-                    {statistics.plays}
-                  </Typography>
-                </Box>
-                <Box>{statistics.likes}</Box>
-                <Box>{statistics.dislikes}</Box>
-              </Box>
-            </Box>
-          </BannerBox>
+          <GameLauncher
+            game={game}
+            developer={developer}
+            onPlay={onPlay}
+            onVote={onVote}
+            userVote={userVote}
+            analytics={analytics}
+          />
         </GameBox>
         <PaperSidebar
           sx={{
@@ -127,40 +100,15 @@ export const GameScreen: FC<GameScreenProps> = ({
   );
 };
 
-const BannerBox = styled(Box)(({ theme }) => ({
-  flex: 1,
-  maxHeight: 80,
-  display: 'flex',
-  alignItems: 'center',
-  gap: theme.spacing(1.5),
-  [theme.breakpoints.down('sm')]: {
-    maxHeight: 64,
-    gap: theme.spacing(1),
-  },
-}));
-
-const LauncherBox = styled(Paper)(({ theme }) => ({
-  position: 'relative',
-  backgroundColor: theme.palette.background['solid-blue'],
-  flex: 7,
-  borderRadius: theme.shape.borderRadius * 8,
-  overflow: 'hidden',
-}));
-
 const GameBox = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.background.soft,
   background: theme.palette.background['gradient-soft'],
   flex: 1,
-  display: 'flex',
-  flexDirection: 'column',
-  boxSizing: 'content-box',
-  gap: theme.spacing(3),
-  justifyContent: 'space-between',
+  overflow: 'hidden',
   borderRadius: theme.shape.borderRadius * 8,
-  padding: theme.spacing(4),
+  padding: theme.spacing(2, 3),
   [theme.breakpoints.down('sm')]: {
     padding: theme.spacing(2),
-    gap: theme.spacing(2),
   },
 }));
 
@@ -170,12 +118,19 @@ const PaperSidebar = styled(Paper)(({ theme }) => ({
   justifyContent: 'space-between',
   backgroundColor: theme.palette.background.soft,
   background: theme.palette.background['gradient-soft'],
-  minWidth: 100,
+  minWidth: 90,
+
   padding: theme.spacing(2),
   boxSizing: 'content-box',
   overflow: 'scroll',
   borderRadius: theme.shape.borderRadius * 8,
-  [theme.breakpoints.up('lg')]: {
+  [theme.breakpoints.up('desktop2')]: {
     minWidth: 100,
+  },
+  [theme.breakpoints.up('lg')]: {
+    minWidth: 110,
+  },
+  [theme.breakpoints.up('desktop3')]: {
+    minWidth: 128,
   },
 }));

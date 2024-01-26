@@ -1,13 +1,18 @@
+import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import { StoryWallpaper } from '@worksheets/ui/components/wallpaper';
 
 import { GameScreen } from './game-screen';
-import { sampleGame } from './mocks';
+import { sampleAnalytics, sampleDeveloper, sampleGame } from './mocks';
 
 type Story = Meta<typeof GameScreen>;
 
 export default {
   component: GameScreen,
+  args: {
+    onPlay: action('onPlay'),
+    onVote: action('onVote'),
+  },
   decorators: [
     (Story) => (
       <StoryWallpaper>
@@ -26,10 +31,8 @@ export const Primary: Story = {
       plays: Math.floor(Math.random() * 1000),
     })),
     game: sampleGame,
-    statistics: {
-      plays: 123,
-      likes: 123,
-      dislikes: 123,
-    },
+    analytics: sampleAnalytics,
+    developer: sampleDeveloper,
+    userVote: 'up',
   },
 };

@@ -83,13 +83,15 @@ export const GameLauncher: FC<GameLauncherProps> = ({
 
   return (
     <Box
-      ref={boxRef}
-      height="100%"
-      width="100%"
       className="game-launcher"
-      display="flex"
-      flexDirection="column"
+      ref={boxRef}
       sx={{
+        height: '100%',
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        borderRadius: (theme) => theme.shape.borderRadius * 2,
+        overflow: 'hidden',
         userSelect: 'none',
       }}
     >

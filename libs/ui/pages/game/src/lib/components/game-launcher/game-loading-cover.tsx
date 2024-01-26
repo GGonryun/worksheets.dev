@@ -7,6 +7,7 @@ import {
 } from '@mui/icons-material';
 import { Box, Button, Typography } from '@mui/material';
 import { FillImage } from '@worksheets/ui/components/images';
+import { useMediaQuery } from '@worksheets/ui/hooks/use-media-query';
 import { GameSchema } from '@worksheets/util/types';
 import { FC } from 'react';
 
@@ -67,6 +68,7 @@ export const GameLoadingCover: FC<GameLoadingCoverProps> = ({
         height: '100%',
         width: '100%',
         overflow: 'hidden',
+        borderRadius: (theme) => theme.shape.borderRadius * 2,
       }}
     >
       <Box
@@ -156,7 +158,7 @@ const DoesNotSupportOverlay: FC<{
       sx={{
         fontFamily: (theme) => theme.typography.mPlus1p.fontFamily,
         color: (theme) => theme.palette.white.main,
-        fontWeight: '900',
+        fontWeight: '700',
         fontSize: { xs: '1.25rem', sm: '1.5rem', lg: '1.75rem' },
         textAlign: 'center',
       }}
@@ -181,44 +183,41 @@ const DoesNotSupportOverlay: FC<{
 
 const PlayOverlay: FC<
   Pick<GameLoadingCoverProps, 'name' | 'iconUrl' | 'onPlay'>
-> = ({ name, iconUrl, onPlay }) => (
-  <>
-    <Box
-      sx={{
-        height: { xs: 64, sm: 128, lg: 192 },
-        width: { xs: 64, sm: 128, lg: 192 },
-        borderRadius: (theme) => theme.shape.borderRadius,
-        overflow: 'hidden',
-        position: 'relative',
-        border: '2px solid white',
-      }}
-    >
-      <FillImage priority alt={`${name} icon`} src={iconUrl} />
-    </Box>
-    <Typography
-      sx={(theme) => ({
-        textAlign: 'center',
-        fontFamily: theme.typography.dangrek.fontFamily,
-        color: theme.palette.white.main,
-        fontSize: { xs: '1.5rem', sm: '2rem', lg: '2.5rem' },
-      })}
-    >
-      {name}
-    </Typography>
-    <Button
-      variant="contained"
-      endIcon={<PlayCircleOutline fontSize="inherit" />}
-      color="error"
-      onClick={onPlay}
-      sx={{
-        paddingX: 6,
-        paddingY: { xs: 0.5, sm: 0.75, lg: 1 },
-        borderRadius: 20,
-        fontFamily: (theme) => theme.typography.dangrek.fontFamily,
-        fontSize: { xs: '1rem', sm: '1.25rem', lg: '1.5rem' },
-      }}
-    >
-      Play now
-    </Button>
-  </>
-);
+> = ({ name, iconUrl, onPlay }) => {
+  const isMobile = useMediaQuery((theme) => theme.breakpoints.down('sm'));
+  return (
+    <>
+      <Box
+        sx={{
+          height: { xs: 64, sm: 128, lg: 192 },
+          width: { xs: 64, sm: 128, lg: 192 },
+          borderRadius: (theme) => theme.shape.borderRadius,
+          overflow: 'hidden',
+          position: 'relative',
+          border: '2px solid white',
+        }}
+      >
+        <FillImage priority alt={`${name} icon`} src={iconUrl} />
+      </Box>
+      <Typography
+        sx={(theme) => ({
+          textAlign: 'center',
+          fontFamily: theme.typography.dangrek.fontFamily,
+          color: theme.palette.white.main,
+          fontSize: { xs: '1.5rem', sm: '2rem', lg: '2.5rem' },
+        })}
+      >
+        {name}
+      </Typography>
+      <Button
+        variant="arcade"
+        startIcon={<PlayCircleOutline fontSize="inherit" />}
+        size={isMobile ? 'small' : 'large'}
+        color="success"
+        onClick={onPlay}
+      >
+        Play now
+      </Button>
+    </>
+  );
+};

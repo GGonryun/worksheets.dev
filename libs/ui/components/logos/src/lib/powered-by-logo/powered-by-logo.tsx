@@ -17,7 +17,7 @@ export const PoweredByLogo = () => (
       fontWeight={700}
       fontSize="14px"
       lineHeight="19px"
-      color="text.blue.light"
+      color="text.blue.alt"
       sx={{
         position: 'absolute',
         top: 2,

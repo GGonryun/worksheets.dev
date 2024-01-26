@@ -282,6 +282,7 @@ const theme = createTheme({
     },
     text: {
       blue: {
+        alt: '#1C9FEA',
         light: '#61E8FF',
         main: '#106FBC',
       },

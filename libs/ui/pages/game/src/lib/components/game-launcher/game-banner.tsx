@@ -1,7 +1,7 @@
 import {
   Fullscreen,
   FullscreenExit,
-  PlayCircleOutlineOutlined,
+  PlayArrow,
   ThumbDownAlt,
   ThumbDownOffAlt,
   ThumbUpAlt,
@@ -16,6 +16,7 @@ import {
   TypographyProps,
 } from '@mui/material';
 import { ResponsiveImage } from '@worksheets/ui/components/images';
+import theme from '@worksheets/ui/theme';
 import { CastVote, GameSchema, UserVote } from '@worksheets/util/types';
 import { FC, JSXElementConstructor } from 'react';
 
@@ -48,15 +49,15 @@ export const GameBanner: FC<GameBannerProps> = ({
 }) => (
   <Box
     sx={{
-      backgroundColor: (theme) => theme.palette.background.paper,
       display: 'flex',
-      height: { xs: '54px', sm: '64px' },
-      minHeight: { xs: '54px', sm: '64px' },
-      maxHeight: { xs: '54px', sm: '64px' },
-      boxShadow: (theme) => theme.shadows[2],
+      mt: { xs: 1, sm: 2 },
+      height: { xs: '64px', sm: '80px' },
+      minHeight: { xs: '64px', sm: '80px' },
+      maxHeight: { xs: '64px', sm: '80px' },
       boxSizing: 'border-box',
       overflow: 'hidden',
       userSelect: 'none',
+      gap: { xs: 0.5, sm: 1 },
     }}
   >
     <Box
@@ -91,19 +92,22 @@ export const GameBanner: FC<GameBannerProps> = ({
             overflow: 'hidden',
             textOverflow: 'ellipsis',
             whiteSpace: 'nowrap',
-            lineHeight: '1.2rem',
           },
         }}
       >
-        <Typography variant="h6" component="h6">
+        <Typography
+          color="text.blue.alt"
+          typography={{ xs: 'h5', sm: 'h4' }}
+          component="h6"
+        >
           {name}
         </Typography>
         <Typography
-          variant="body3"
+          typography={{ xs: 'body3', sm: 'body2' }}
           component="h6"
+          color="text.blue.alt"
           sx={{
-            fontWeight: 400,
-            color: (theme) => theme.palette.text.secondary,
+            fontWeight: 500,
           }}
         >
           by {developer}
@@ -117,7 +121,11 @@ export const GameBanner: FC<GameBannerProps> = ({
       >
         <ActionBox>
           <ActionButton disabled>
-            <PlayCircleOutlineOutlined color="primary" />
+            <PlayArrow
+              sx={{
+                color: theme.palette.text.blue.alt,
+              }}
+            />
           </ActionButton>
           <ActionText>{plays}</ActionText>
         </ActionBox>
@@ -144,9 +152,9 @@ export const GameBanner: FC<GameBannerProps> = ({
 );
 
 const ActionButton = styled<JSXElementConstructor<IconButtonProps>>((props) => (
-  <IconButton size="small" color="primary" {...props} />
+  <IconButton size="small" {...props} />
 ))(({ theme }) => ({
-  color: theme.palette.primary.main,
+  color: theme.palette.text.blue.alt,
 }));
 
 const ActionBox = styled(Box)(({ theme }) => ({
@@ -161,6 +169,6 @@ const ActionBox = styled(Box)(({ theme }) => ({
 const ActionText = styled<JSXElementConstructor<TypographyProps>>((props) => (
   <Typography variant="body2" {...props} />
 ))(({ theme }) => ({
-  color: theme.palette.text.secondary,
-  fontFamily: theme.typography.dangrek.fontFamily,
+  color: theme.palette.text.blue.alt,
+  fontWeight: 500,
 }));

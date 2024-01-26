@@ -29,6 +29,7 @@ declare module '@mui/material/styles' {
     arcade: string;
     red: { light: string; dark: string };
     blue: {
+      alt: string;
       light: string;
       main: string;
     };
