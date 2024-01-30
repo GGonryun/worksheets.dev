@@ -76,7 +76,7 @@ export const Layout: React.FC<LayoutProps> = ({
         }
       />
       <Box flexGrow={1} pb={2}>
-        <MuiToolbar sx={{ mb: 2 }} />
+        <MuiToolbar sx={{ mb: 4 }} />
         {children}
       </Box>
       <WebsiteFooter

@@ -76,7 +76,7 @@ export const Category: React.FC<CategoryProps> = ({
               : theme.typography.body1.fontSize
           }
           textAlign="left"
-          minWidth={isMobile ? 56 : 72}
+          minWidth={80}
           whiteSpace={'pre-wrap'}
           pl={0.25}
           pr={0.5}

@@ -38,6 +38,7 @@ export const Drawer: FC<DrawerProps> = ({
         }}
         sx={{
           '& .MuiDrawer-paper': {
+            borderRadius: 0,
             width: { xs: '100%', sm: '80%' },
           },
         }}
