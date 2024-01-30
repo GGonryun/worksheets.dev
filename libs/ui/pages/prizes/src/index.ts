@@ -1,2 +1,1 @@
-export * from './lib/prize-wall-screen';
-export * from './lib/prize-details-screen';
+export * from './lib/dynamic';

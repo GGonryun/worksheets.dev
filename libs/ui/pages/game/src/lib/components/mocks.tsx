@@ -4,7 +4,6 @@ import {
   SerializableGameSchema,
 } from '@worksheets/util/types';
 
-import { GameDescription } from './game-description';
 import { GameLauncher } from './game-launcher';
 
 export const sampleDeveloper: DeveloperSchema = {
@@ -39,7 +38,6 @@ export const sampleGame: SerializableGameSchema = {
   },
   tags: ['card', 'brain', 'board', 'puzzle'],
   category: ['card'],
-  qualifier: 'new',
   size: 2,
   markets: {
     android:
@@ -50,20 +48,7 @@ export const sampleGame: SerializableGameSchema = {
   },
   createdAt: 'October 2023',
   updatedAt: 'October 2023',
-  description: `
-    Solitaire is a card game that you play by yourself. You only need a standard deck of 52 cards to play, so it's a great game to play when traveling alone or just when you are bored and want something to do. There are a lot of different types of solitaire you can play.
-  
-    ### How to Play Solitaire?
-    The goal of solitaire is to get all 52 cards into four piles, each arranged by suit and in order from ace to king. Game play varies depending on the type of solitaire you play, but the main goal is always the same: to get all cards into the correct order.
-  
-    ### Who created Solitaire?
-    The first known solitaire game rules were recorded during the Napoleonic era. The author of the first known solitaire rules was Lady Adelaide Cadogan, who wrote her rules in the late 1870s or early 1880s. Lady Cadogan's book was titled Illustrated Games of Patience and it was published in the United Kingdom in 1875. The book was very popular among the upper classes and eventually became known as The Solitaire Bible.
-  
-    ### Controls
-    - Click and drag to move cards
-    - Double click to move cards to the foundation
-    - Click on the deck to draw cards
-    `,
+  description: `<p>Solitaire is a card game that you play by yourself. You only need a standard deck of 52 cards to play, so it's a great game to play when traveling alone or just when you are bored and want something to do. There are a lot of different types of solitaire you can play.</p><br/><h3>How to Play Solitaire?</h3><p>The goal of solitaire is to get all 52 cards into four piles, each arranged by suit and in order from ace to king. Game play varies depending on the type of solitaire you play, but the main goal is always the same: to get all cards into the correct order.</p><br/><h3>Who created Solitaire?</h3><p>The first known solitaire game rules were recorded during the Napoleonic era. The author of the first known solitaire rules was Lady Adelaide Cadogan, who wrote her rules in the late 1870s or early 1880s. Lady Cadogan's book was titled Illustrated Games of Patience and it was published in the United Kingdom in 1875. The book was very popular among the upper classes and eventually became known as The Solitaire Bible.</p><br/><h3>Controls</h3><ul><li>Click and drag to move cards</li><li>Double click to move cards to the foundation</li><li>Click on the deck to draw cards</li></ul>`,
 };
 
 export const SampleGameLauncher = () => (
@@ -74,13 +59,5 @@ export const SampleGameLauncher = () => (
     onPlay={() => alert('TODO: show play form')}
     onVote={() => alert('TODO: handle vote')}
     userVote={'up'}
-  />
-);
-
-export const SampleGameDescription = () => (
-  <GameDescription
-    game={sampleGame}
-    analytics={sampleAnalytics}
-    developer={sampleDeveloper}
   />
 );

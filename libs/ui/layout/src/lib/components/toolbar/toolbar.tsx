@@ -18,8 +18,8 @@ export const Toolbar = (props: ToolbarProps) => {
       elevation={0}
       sx={{
         background: (theme) => theme.palette.background['gradient-soft'],
-        borderBottomLeftRadius: 16,
-        borderBottomRightRadius: 16,
+        borderTopLeftRadius: 0,
+        borderTopRightRadius: 0,
       }}
     >
       <MuiToolbar

@@ -35,6 +35,11 @@ export default async function middleware(req: NextRequest) {
     redirect.searchParams.append('redirect', pathname);
     return NextResponse.redirect(redirect.toString());
   }
+
+  if (user && pathname === '/login') {
+    const redirect = new URL('/account', req.url);
+    return NextResponse.redirect(redirect.toString());
+  }
   // If the user is logged in, continue to the page
   return NextResponse.next();
 }

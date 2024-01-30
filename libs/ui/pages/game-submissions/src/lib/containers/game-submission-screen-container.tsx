@@ -47,7 +47,7 @@ const GameSubmissionScreenContainer: React.FC<{
   return (
     <GameSubmissionFormContextProvider value={form}>
       <GameSubmissionScreen invalidProfile={!terms.data.hasApproved} />
-      <Snackbar {...snackbar} />
+      <Snackbar {...snackbar.props} />
     </GameSubmissionFormContextProvider>
   );
 };

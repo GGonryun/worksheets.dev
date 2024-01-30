@@ -11,7 +11,7 @@ import React from 'react';
 
 export const LogoBox: React.FC = () => {
   return (
-    <TitleBox component="a" href="/">
+    <TitleBox component="a" href={'/'}>
       <Image
         src={CHARITY_TOOLBAR_LOGO_PATH}
         alt="Charity.Games"
@@ -38,7 +38,7 @@ const TitleText = styled(
   Typography,
   {}
 )<TypographyProps>(({ theme }) => ({
-  color: theme.palette.text.red.dark,
+  color: theme.palette.text.red.light,
   fontFamily: theme.typography.mPlus1p.fontFamily,
   fontWeight: 600,
   fontSize: '1.25rem',

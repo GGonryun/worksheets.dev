@@ -15,7 +15,6 @@ const Default: Story = {
     onClick: action('onClick'),
     id: TokensPanels.PlayGames,
     active: TokensPanels.PlayGames,
-    recentGames: basicGameDetails,
     bonusGames: basicGameDetails,
   },
   decorators: [

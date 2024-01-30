@@ -26,7 +26,6 @@ export const TokensPanel: FC<{
   referralProgress: ReferralProgress;
   giftBoxes: number;
   claimedDailyReward: boolean;
-  recentGames: BasicGameDetails[];
   bonusGames: BasicGameDetails[];
   onClaimDailyReward: () => void;
   onClaimGiftBox: () => void;
@@ -38,7 +37,6 @@ export const TokensPanel: FC<{
   giftBoxes,
   referralProgress,
   claimedDailyReward,
-  recentGames,
   bonusGames,
   onClaimGiftBox,
   onClaimDailyReward,
@@ -66,7 +64,6 @@ export const TokensPanel: FC<{
       <RewardsTimer timeRemaining={timeRemaining} />
 
       <PlayGamesSection
-        recentGames={recentGames}
         bonusGames={bonusGames}
         id={TokensPanels.PlayGames}
         active={active}

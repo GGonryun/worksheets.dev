@@ -1,7 +1,7 @@
 import { Box, Theme, useMediaQuery } from '@mui/material';
+import { PromotedGame } from '@worksheets/util/types';
 import React from 'react';
 
-import { PromotedGame } from '../../types/promotion';
 import { PrimaryFeatured } from './primary-featured';
 
 export const FeaturedGames: React.FC<{

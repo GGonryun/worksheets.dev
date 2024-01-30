@@ -1,14 +1,8 @@
-import {
-  LinearProgress,
-  Paper,
-  Theme,
-  Typography,
-  useMediaQuery,
-} from '@mui/material';
+import { Paper, Typography } from '@mui/material';
+import { LoadingBar } from '@worksheets/ui/components/loading';
+import { useMediaQuery } from '@worksheets/ui/hooks/use-media-query';
 import { AbsolutelyCentered, useInterval } from '@worksheets/ui-core';
-import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
-
 const emptyLoadingMessage =
   'Loading... Lorem ipsum dolor sit amet, consectetur adipiscing elit.';
 
@@ -49,9 +43,7 @@ const selectRandomLoadingMessage = () => {
 
 const LOADING_INTERVAL = 6000;
 export const LoadingScreen: React.FC<{ message?: string }> = ({ message }) => {
-  const isMobile = useMediaQuery((theme: Theme) =>
-    theme.breakpoints.down('sm')
-  );
+  const isMobile = useMediaQuery((theme) => theme.breakpoints.down('sm'));
   const [loadingMessage, setLoadingMessage] = useState<string>(
     message ?? emptyLoadingMessage
   );
@@ -85,22 +77,7 @@ export const LoadingScreen: React.FC<{ message?: string }> = ({ message }) => {
           maxWidth: 400,
         }}
       >
-        <Image
-          priority
-          src="/common/charity-games/logos/square.png"
-          alt="Charity Games Logo"
-          width={isMobile ? 64 : 128}
-          height={isMobile ? 64 : 128}
-        />
-        <LinearProgress
-          color="secondary"
-          sx={{
-            mb: 4,
-            width: '100%',
-            height: isMobile ? 6 : 12,
-            borderRadius: 6,
-          }}
-        />
+        <LoadingBar />
         <Typography variant={isMobile ? 'body3' : 'body2'}>
           {loadingMessage}
         </Typography>

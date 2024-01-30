@@ -606,7 +606,7 @@ export const tags: Record<GameTag, TagSchema> = {
   },
   '1p': {
     id: '1p',
-    name: 'Single Player Games',
+    name: '1-Player Games',
     iconUrl: '/games/categories/1p.svg',
     description: `
     ## Single Player Games
@@ -620,7 +620,7 @@ export const tags: Record<GameTag, TagSchema> = {
   },
   '2p': {
     id: '2p',
-    name: 'Multiplayer Games',
+    name: '2-Player Games',
     iconUrl: '/games/categories/2p.svg',
     relatedTags: ['popular', 'action', 'arcade', 'board'],
     description: `

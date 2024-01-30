@@ -19,9 +19,9 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { printRelativeDate } from '@worksheets/util/time';
+import { Friend } from '@worksheets/util/types';
 import * as React from 'react';
 
-import { Friend } from '../../../types';
 import { EmptyFriendsPlaceholder } from '../table-placeholder';
 
 const StyledBox = styled(Box)(({ theme }) => ({

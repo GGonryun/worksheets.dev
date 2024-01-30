@@ -10,12 +10,10 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import Typography from '@mui/material/Typography';
 import { checkboxGroup } from '@worksheets/util/arrays';
+import { GameSubmissionFormKeys } from '@worksheets/util/types';
 import React, { FC } from 'react';
 
-import {
-  GameSubmissionFormKeys,
-  useGameSubmissionFormContext,
-} from '../../../form-context';
+import { useGameSubmissionFormContext } from '../../../form-context';
 import { DetailedListItemText } from '../detailed-list-item-text';
 
 export const EmbedOptions: FC = () => {

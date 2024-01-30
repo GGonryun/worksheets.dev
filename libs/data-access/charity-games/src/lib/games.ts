@@ -342,22 +342,6 @@ export const gameMonetizeGames: GameMonetizeSchema[] = [
     mobile: true,
   },
   {
-    id: '48586',
-    title: 'Speed Demons Race',
-    description:
-      'Huge, powerful, brutal Monster Trucks. And what if we arrange a race on them? In the game Speed Demons Race you will be able to assemble your own Monster Truck and surpass all rivals! Each rider is faced with the task of driving a difficult track with hills, slopes, overcoming metal jumps, driving through containers, destroying wooden boxes. Only cool pilots can do it all! Winning and performing tricks, please the audience and earn coins for it, and use them to improve your Monster Truck. To prove that you are the best, come to the finish line first on all tracks!',
-    instructions:
-      'The right arrow key or the pedal on the right on the screen is gas The left arrow key or the pedal on the right on the screen is the brake reverse gear The space bar or the acceleration button on the screen is turbo ',
-    url: 'https://html5.gamemonetize.com/ispiubqetu8nido89byhvrdvot9x6n91/',
-    category: 'racing',
-    tags: '2D, Car, Mobile, Racing',
-    thumb:
-      'https://img.gamemonetize.com/ispiubqetu8nido89byhvrdvot9x6n91/512x512.jpg',
-    width: '1280',
-    height: '720',
-    mobile: true,
-  },
-  {
     id: '49274',
     title: 'Stickman fall',
     description:
@@ -1954,7 +1938,6 @@ const gameMonetizeConverter = (game: GameMonetizeSchema): GameSchema => {
     developerId: 'gamemonetize',
     iconUrl: game.thumb,
     bannerUrl: game.thumb,
-    qualifier: 'none',
     platforms,
     orientations: ['portrait', 'landscape'],
     tags: game.tags.split(', ').map((t) => t.trim().toLowerCase()) as GameTag[],
@@ -1983,7 +1966,6 @@ export const games: GameSchema[] = [
     developerId: 'wmgcat',
     iconUrl: 'https://cdn.charity.games/fragile-floor/assets/thumbnail.png',
     bannerUrl: 'https://cdn.charity.games/fragile-floor/assets/banner.png',
-    qualifier: 'new',
     platforms: ['desktop', 'mobile'],
     orientations: ['portrait', 'landscape'],
     tags: [
@@ -2028,7 +2010,6 @@ export const games: GameSchema[] = [
       'https://cdn.charity.games/seredim/kuttuk/assets/screenshot3.jpg',
       'https://cdn.charity.games/seredim/kuttuk/assets/screenshot4.jpg',
     ],
-    qualifier: 'new',
     platforms: ['desktop'],
     orientations: ['portrait'],
     tags: ['ad-free', 'popular', 'action', 'arcade', 'desktop'],
@@ -2066,7 +2047,6 @@ export const games: GameSchema[] = [
     developerId: 'charity-games',
     iconUrl: 'https://cdn.charity.games/plane-fly/assets/thumbnail.png',
     bannerUrl: 'https://cdn.charity.games/plane-fly/assets/banner.png',
-    qualifier: 'hot',
     platforms: ['desktop', 'mobile'],
     orientations: ['landscape'],
     tags: [
@@ -2106,7 +2086,6 @@ export const games: GameSchema[] = [
       'https://cdn.charity.games/whitgroves/blasteroids/assets/thumbnail.png',
     bannerUrl:
       'https://cdn.charity.games/whitgroves/blasteroids/assets/banner.png',
-    qualifier: 'new',
     platforms: ['desktop', 'mobile'],
     orientations: ['portrait', 'landscape'],
     tags: ['ad-free', 'popular', 'action', 'arcade', 'desktop', 'shooting'],
@@ -2137,7 +2116,6 @@ export const games: GameSchema[] = [
     developerId: 'charity-games',
     iconUrl: '/games/solitaire/icon.jpg',
     bannerUrl: '/games/solitaire/banner.png',
-    qualifier: 'none',
     platforms: ['desktop', 'mobile'],
     orientations: ['portrait'],
     tags: [
@@ -2180,7 +2158,6 @@ export const games: GameSchema[] = [
     developerId: 'charity-games',
     iconUrl: '/games/emoji-war/icon.jpg',
     bannerUrl: '/games/emoji-war/banner.jpg',
-    qualifier: 'none',
     platforms: ['desktop', 'mobile'],
     orientations: ['portrait', 'landscape'],
     tags: [
@@ -2224,7 +2201,6 @@ export const games: GameSchema[] = [
       'https://cdn.charity.games/seredim/1d-chess/assets/screenshot3.jpg',
       'https://cdn.charity.games/seredim/1d-chess/assets/screenshot4.jpg',
     ],
-    qualifier: 'new',
     platforms: ['desktop'],
     orientations: ['landscape'],
     tags: ['ad-free', 'popular', 'board', 'desktop'],
@@ -2270,7 +2246,6 @@ export const games: GameSchema[] = [
     developerId: 'syb-coin-coin',
     iconUrl: 'https://cdn.charity.games/baku-gamu/assets/thumbnail.png',
     bannerUrl: 'https://cdn.charity.games/baku-gamu/assets/banner.png',
-    qualifier: 'new',
     platforms: ['desktop', 'mobile'],
     orientations: ['portrait'],
     tags: [
@@ -2307,7 +2282,6 @@ export const games: GameSchema[] = [
     developerId: 'charity-games',
     iconUrl: 'https://cdn.charity.games/dino-rush/assets/thumbnail.png',
     bannerUrl: 'https://cdn.charity.games/dino-rush/assets/banner.png',
-    qualifier: 'new',
     platforms: ['desktop', 'mobile'],
     orientations: ['landscape'],
     tags: [
@@ -2349,7 +2323,6 @@ export const games: GameSchema[] = [
     developerId: 'llstd',
     iconUrl: 'https://cdn.charity.games/conquer-the-world/assets/thumbnail.png',
     bannerUrl: 'https://cdn.charity.games/conquer-the-world/assets/banner.jpg',
-    qualifier: 'new',
     platforms: ['desktop', 'mobile'],
     orientations: ['portrait'],
     tags: ['ad-free', 'adventure', 'desktop', 'mobile'],
@@ -2398,7 +2371,6 @@ export const games: GameSchema[] = [
     developerId: 'charity-games',
     iconUrl: 'https://cdn.charity.games/freedom_run/icons/game-icon.png',
     bannerUrl: 'https://cdn.charity.games/freedom_run/icons/banner.png',
-    qualifier: 'hot',
     platforms: ['desktop', 'mobile'],
     orientations: ['portrait', 'landscape'],
     tags: [
@@ -2449,7 +2421,6 @@ export const games: GameSchema[] = [
     developerId: 'charity-games',
     iconUrl: '/games/word-search/icon.jpg',
     bannerUrl: '/games/word-search/banner.jpg',
-    qualifier: 'none',
     platforms: ['desktop', 'mobile'],
     orientations: ['portrait', 'landscape'],
     tags: [
@@ -2497,7 +2468,6 @@ export const games: GameSchema[] = [
       'https://cdn.charity.games/seredim/feaare/assets/screenshot3.png',
       'https://cdn.charity.games/seredim/feaare/assets/screenshot4.png',
     ],
-    qualifier: 'new',
     platforms: ['mobile'],
     orientations: ['portrait'],
     tags: ['ad-free', 'popular', 'action', 'arcade', 'mobile'],
@@ -2535,7 +2505,6 @@ export const games: GameSchema[] = [
       'https://cdn.charity.games/invention-timeline-game/assets/thumbnail.png',
     bannerUrl:
       'https://cdn.charity.games/invention-timeline-game/assets/banner.png',
-    qualifier: 'new',
     platforms: ['desktop', 'mobile'],
     orientations: ['portrait', 'landscape'],
     tags: [
@@ -2574,7 +2543,6 @@ export const games: GameSchema[] = [
     developerId: 'charity-games',
     iconUrl: 'https://cdn.charity.games/stick-jump/assets/thumbnail.png',
     bannerUrl: 'https://cdn.charity.games/stick-jump/assets/banner.png',
-    qualifier: 'new',
     platforms: ['desktop', 'mobile'],
     orientations: ['portrait'],
     tags: ['ad-free', 'popular', 'arcade', 'endless', 'mobile'],
@@ -2600,7 +2568,6 @@ export const games: GameSchema[] = [
     developerId: 'charity-games',
     iconUrl: '/games/puzzle-words/icon.jpg',
     bannerUrl: '/games/puzzle-words/banner.jpg',
-    qualifier: 'none',
     platforms: ['desktop', 'mobile'],
     orientations: ['portrait', 'landscape'],
     tags: [
@@ -2637,7 +2604,6 @@ export const games: GameSchema[] = [
     developerId: 'charity-games',
     iconUrl: '/games/word-smith/icon.jpg',
     bannerUrl: '/games/word-smith/banner.png',
-    qualifier: 'none',
     platforms: ['desktop', 'mobile'],
     orientations: ['portrait', 'landscape'],
     tags: [
@@ -2679,7 +2645,6 @@ export const games: GameSchema[] = [
     developerId: 'rainboworm',
     iconUrl: 'https://cdn.charity.games/quickbeat/assets/thumbnail.png',
     bannerUrl: 'https://cdn.charity.games/quickbeat/assets/banner.png',
-    qualifier: 'new',
     platforms: ['desktop', 'mobile'],
     orientations: ['portrait'],
     tags: ['ad-free', 'popular', 'action', 'arcade', 'desktop', 'mobile'],
@@ -2707,7 +2672,6 @@ export const games: GameSchema[] = [
     developerId: 'charity-games',
     iconUrl: 'https://cdn.charity.games/hyper-wheel/assets/thumbnail.png',
     bannerUrl: 'https://cdn.charity.games/hyper-wheel/assets/banner.png',
-    qualifier: 'hot',
     platforms: ['desktop', 'mobile'],
     orientations: ['portrait', 'landscape'],
     tags: ['ad-free', 'popular', 'action', 'arcade', 'desktop', 'mobile'],
@@ -2733,7 +2697,6 @@ export const games: GameSchema[] = [
     developerId: 'charity-games',
     iconUrl: '/games/nonograms/icon.jpg',
     bannerUrl: '/games/nonograms/banner.png',
-    qualifier: 'none',
     platforms: ['desktop', 'mobile'],
     orientations: ['portrait', 'landscape'],
     tags: ['ad-free', 'popular', 'puzzle', 'brain', 'desktop', 'mobile'],
@@ -2771,7 +2734,6 @@ export const games: GameSchema[] = [
     developerId: 'charity-games',
     iconUrl: '/games/word-pack/icon.jpg',
     bannerUrl: '/games/word-pack/banner.jpg',
-    qualifier: 'none',
     platforms: ['desktop', 'mobile'],
     orientations: ['portrait', 'landscape'],
     tags: [
@@ -2811,7 +2773,6 @@ export const games: GameSchema[] = [
     developerId: 'charity-games',
     iconUrl: 'https://cdn.charity.games/air-hockey-neon/assets/thumbnail.png',
     bannerUrl: 'https://cdn.charity.games/air-hockey-neon/assets/banner.png',
-    qualifier: 'new',
     platforms: ['desktop', 'mobile'],
     orientations: ['portrait'],
     tags: ['ad-free', 'popular', 'action', 'arcade', 'desktop', 'mobile'],
@@ -2838,7 +2799,6 @@ export const games: GameSchema[] = [
     developerId: 'charity-games',
     iconUrl: 'https://cdn.charity.games/solitaire-2048/assets/thumbnail.png',
     bannerUrl: 'https://cdn.charity.games/solitaire-2048/assets/banner.png',
-    qualifier: 'new',
     platforms: ['desktop', 'mobile'],
     orientations: ['portrait'],
     tags: [
@@ -2881,7 +2841,6 @@ export const games: GameSchema[] = [
       'https://cdn.charity.games/seredim/skwatta/assets/screenshot3.png',
       'https://cdn.charity.games/seredim/skwatta/assets/screenshot4.png',
     ],
-    qualifier: 'new',
     platforms: ['mobile'],
     orientations: ['portrait'],
     tags: ['ad-free', 'popular', 'action', 'arcade', 'mobile'],

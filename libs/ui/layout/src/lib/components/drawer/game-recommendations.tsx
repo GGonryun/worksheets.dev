@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box';
+import { Recommendations } from '@worksheets/util/types';
 import { FC } from 'react';
 
-import { Recommendations } from '../../types/recommendations';
 import { CategorySection } from './category-section/category-section';
 import { GameSection } from './game-section/game-section';
 import { NoRecentGamesPlaceholder } from './no-recent-games-placeholder/no-recent-games-placeholder';

@@ -9,6 +9,7 @@ export const ActionBox = () => {
   return (
     <Box display="flex" gap={1} alignItems="center" pb={1}>
       <Button
+        href="/tags/popular"
         variant="arcade"
         color="primary"
         size={isMedium ? 'small' : 'medium'}
@@ -20,6 +21,7 @@ export const ActionBox = () => {
         Top Games
       </Button>
       <Button
+        href="/tags/ad-free"
         variant="arcade"
         color="error"
         size={isMedium ? 'small' : 'medium'}
@@ -31,6 +33,7 @@ export const ActionBox = () => {
         Free Games
       </Button>
       <Button
+        href="/tags/new"
         variant="arcade"
         color="error"
         size={isMedium ? 'small' : 'medium'}
@@ -42,6 +45,7 @@ export const ActionBox = () => {
         New Games
       </Button>
       <Button
+        href="/prizes"
         variant="arcade"
         color="success"
         size={isMedium ? 'small' : 'medium'}

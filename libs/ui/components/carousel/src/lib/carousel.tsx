@@ -22,7 +22,7 @@ const CarouselWrapper = styled(Box)({
   position: 'relative',
   display: 'flex',
   alignItems: 'center',
-  justifyContent: 'center',
+  justifyContent: 'start',
 });
 
 export const RightEdgeBlur = styled(Box)({

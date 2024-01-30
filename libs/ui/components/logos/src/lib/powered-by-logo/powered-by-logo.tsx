@@ -14,17 +14,17 @@ export const PoweredByLogo = () => (
     }}
   >
     <Typography
-      fontWeight={700}
+      fontWeight={500}
       fontSize="14px"
       lineHeight="19px"
-      color="text.blue.alt"
+      color="text.blue.light"
       sx={{
         position: 'absolute',
         top: 2,
         right: 16,
       }}
     >
-      Powered By
+      Powered by
     </Typography>
     <Box
       sx={{

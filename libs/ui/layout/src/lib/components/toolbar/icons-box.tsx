@@ -11,6 +11,7 @@ export const IconsBox: React.FC<{
   return (
     <Box display="flex" gap={1} pb={1}>
       <Button
+        href="/login"
         variant="square"
         color="primary"
         size={isMedium ? 'small' : 'medium'}

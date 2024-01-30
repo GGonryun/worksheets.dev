@@ -5,13 +5,12 @@ import ListItemText from '@mui/material/ListItemText';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import { labelFor } from '@worksheets/util/misc';
+import { GameSubmissionForm } from '@worksheets/util/types';
 
-import {
-  GameSubmissionForm,
-  useGameSubmissionFormContext,
-} from '../../../../form-context';
+import { useGameSubmissionFormContext } from '../../../../form-context';
 
 type GameCategory = GameSubmissionForm['category'];
+
 export const gameCategories: Record<GameCategory, string> = {
   ACTION: 'Action',
   ADVENTURE: 'Adventure',

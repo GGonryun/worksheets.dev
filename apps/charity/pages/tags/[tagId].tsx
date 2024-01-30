@@ -1,5 +1,4 @@
 import { games, tagSchemas } from '@worksheets/data-access/charity-games';
-import { AdsensePushScript } from '@worksheets/ui/components/advertisements';
 import { DynamicLayout } from '@worksheets/ui/layout';
 import { CategoryScreen } from '@worksheets/ui/pages/category';
 import {
@@ -31,7 +30,6 @@ const Page: NextPageWithLayout<Props> = ({ tag, seo, games, categories }) => {
         games={games}
         relatedCategories={categories}
       />
-      <AdsensePushScript />
     </>
   );
 };

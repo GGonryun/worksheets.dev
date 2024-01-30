@@ -158,9 +158,6 @@ const theme = createTheme({
       fontFamily: "'M PLUS Rounded 1c', sans-serif",
       fontSize: '0.775rem',
     },
-    dangrek: {
-      fontFamily: 'Dangrek,serif',
-    },
     mPlus1p: {
       fontFamily: "'M PLUS Rounded 1c', sans-serif",
     },

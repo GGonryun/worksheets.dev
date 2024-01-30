@@ -2,7 +2,6 @@ export * from './lib/authors';
 export * from './lib/developers';
 export * from './lib/games';
 export * from './lib/tags';
-
 export * from './lib/charities';
 export * from './lib/donations';
 export * from './lib/campaigns';
@@ -10,3 +9,4 @@ export * from './lib/partnerships';
 export * from './lib/advertisements';
 export * from './lib/popularity';
 export * from './lib/bonus-games';
+export * from './lib/recommendations';

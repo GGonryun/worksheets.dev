@@ -1,8 +1,8 @@
 import type { Meta } from '@storybook/react';
 import { StoryWallpaper } from '@worksheets/ui/components/wallpaper';
-import { sampleCharityOrganization } from '@worksheets/ui/mocks';
 
 import { CharityScreen } from './charity-screen';
+import { sampleCharityOrganization } from './data';
 
 type Story = Meta<typeof CharityScreen>;
 

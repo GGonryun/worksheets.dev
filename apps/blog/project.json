@@ -13,27 +13,28 @@
       "options": {
         "root": "apps/blog",
         "outputPath": "dist/apps/blog",
-        "options": {
-          "root": "apps/charity",
-          "outputPath": "dist/apps/charity",
-          "assets": [
-            {
-              "input": "libs/assets/common/src/lib",
-              "glob": "**/*",
-              "output": "common"
-            },
-            {
-              "input": "libs/assets/blog/src/lib",
-              "glob": "**/*",
-              "output": "blog"
-            },
-            {
-              "input": "_articles",
-              "glob": "**/*",
-              "output": "articles"
-            }
-          ]
-        }
+        "assets": [
+          {
+            "input": "libs/assets/common/src/lib",
+            "glob": "**/*",
+            "output": "common"
+          },
+          {
+            "input": "libs/assets/icons/src/lib",
+            "glob": "**/*",
+            "output": "icons"
+          },
+          {
+            "input": "libs/assets/blog/src/lib",
+            "glob": "**/*",
+            "output": "blog"
+          },
+          {
+            "input": "_articles",
+            "glob": "**/*",
+            "output": "articles"
+          }
+        ]
       },
       "configurations": {
         "development": {

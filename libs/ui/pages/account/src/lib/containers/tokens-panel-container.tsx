@@ -1,8 +1,6 @@
 import { TRPCClientError } from '@trpc/client';
 import { trpc } from '@worksheets/trpc-charity';
 import { Snackbar, useSnackbar } from '@worksheets/ui/components/snackbar';
-import { useRecentlyPlayedGames } from '@worksheets/ui/hooks/use-recently-played-games';
-import { ClaimGiftModal, TokensPanel } from '@worksheets/ui/pages/account';
 import { ErrorComponent } from '@worksheets/ui/pages/errors';
 import { LoadingScreen } from '@worksheets/ui/pages/loading';
 import { useBookmark } from '@worksheets/ui-core';
@@ -10,13 +8,15 @@ import { TokensPanels } from '@worksheets/util/enums';
 import { useSession } from 'next-auth/react';
 import React, { useCallback } from 'react';
 
+import { TokensPanel } from '../components';
+import { ClaimGiftModal } from '../components/modals';
+
 export const TokensPanelContainer: React.FC<{ refreshTimestamp: number }> = ({
   refreshTimestamp,
 }) => {
   const bookmark = useBookmark<TokensPanels>();
   const snackbar = useSnackbar();
   const session = useSession();
-  const { recentlyPlayed } = useRecentlyPlayedGames();
 
   const enabled = session.status === 'authenticated';
 
@@ -104,7 +104,6 @@ export const TokensPanelContainer: React.FC<{ refreshTimestamp: number }> = ({
   return (
     <>
       <TokensPanel
-        recentGames={recentlyPlayed}
         bonusGames={bonusGames}
         bookmark={bookmark}
         tokens={totalTokens}
@@ -125,7 +124,7 @@ export const TokensPanelContainer: React.FC<{ refreshTimestamp: number }> = ({
         onClose={handleCloseClaimGiftBox}
         amount={giftBoxTokens}
       />
-      <Snackbar {...snackbar} />
+      <Snackbar {...snackbar.props} />
     </>
   );
 };

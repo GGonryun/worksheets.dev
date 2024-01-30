@@ -1,6 +1,5 @@
+import { GameSubmissionFormContextType } from '@worksheets/util/types';
 import { createContext } from 'react';
-
-import { GameSubmissionFormContextType } from './type';
 
 export const GameSubmissionFormContext =
   createContext<GameSubmissionFormContextType | null>(null);

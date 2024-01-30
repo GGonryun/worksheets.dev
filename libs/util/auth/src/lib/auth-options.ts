@@ -70,10 +70,6 @@ export const AUTH_OPTIONS: AuthOptions = {
     // ...add more providers here
   ],
   callbacks: {
-    async redirect(opt) {
-      console.log(`redirecting user`, opt);
-      return opt.baseUrl;
-    },
     async signIn({ account, profile }) {
       if (account?.provider === 'google') {
         return Boolean(profile?.email_verified);

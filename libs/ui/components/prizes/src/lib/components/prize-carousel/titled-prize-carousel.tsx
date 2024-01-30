@@ -1,7 +1,7 @@
 import { Box, Paper, Typography } from '@mui/material';
+import { PrizeSchema } from '@worksheets/util/types';
 import { ReactNode } from 'react';
 
-import { PrizeSchema } from '../../types';
 import { PrizeCarousel } from './prize-carousel';
 
 export const TitledPrizeCarousel: React.FC<{

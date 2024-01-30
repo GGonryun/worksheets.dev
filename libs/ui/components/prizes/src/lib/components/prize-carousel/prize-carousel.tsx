@@ -1,8 +1,8 @@
 import { Box } from '@mui/material';
 import { Carousel } from '@worksheets/ui/components/carousel';
+import { PrizeSchema } from '@worksheets/util/types';
 import React from 'react';
 
-import { PrizeSchema } from '../../types/prizes';
 import { Prize } from '../prize/prize';
 
 export const PrizeCarousel: React.FC<{

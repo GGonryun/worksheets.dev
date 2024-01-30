@@ -1,19 +1,17 @@
 import { Typography } from '@mui/material';
+import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 
 import { sampleCategories, sampleGames, sampleRecommendations } from '../data';
 import { Layout } from './layout';
 
-const Story: Meta<typeof Layout> = {
+type Story = Meta<typeof Layout>;
+export default {
   component: Layout,
   title: 'Layout/WebsiteLayout',
   args: {
-    onSearch: async () => {
-      return { games: [], categories: [] };
-    },
-    onRandomGame: () => {
-      alert('random game');
-    },
+    onSearch: action('onSearch'),
+
     recommendations: sampleRecommendations,
   },
   decorators: [
@@ -23,10 +21,9 @@ const Story: Meta<typeof Layout> = {
       </main>
     ),
   ],
-};
-export default Story;
+} satisfies Story;
 
-export const Primary = {
+export const Primary: Story = {
   args: {
     children: (
       <Typography>
@@ -68,11 +65,13 @@ export const Primary = {
     ),
   },
 };
-export const OnSearchSuccess = {
+export const OnSearchSuccess: Story = {
   args: {
-    onSearch: async () => {
-      return { games: sampleGames, categories: sampleCategories };
+    searchResults: {
+      games: sampleGames,
+      categories: sampleCategories,
     },
+    searchQuery: 'test',
     children: (
       <Typography>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique unde

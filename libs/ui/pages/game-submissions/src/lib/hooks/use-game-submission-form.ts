@@ -3,14 +3,14 @@ import {
   useSnackbar,
   UseSnackbarHook,
 } from '@worksheets/ui/components/snackbar';
+import { isImage, isZip, toMegabytes } from '@worksheets/util/data';
 import {
   GameSubmissionForm,
   GameSubmissionFormContextType,
   GameSubmissionFormErrors,
+  Nullable,
   strictGameSubmissionFormSchema,
-} from '@worksheets/ui/pages/game-submissions';
-import { isImage, isZip, toMegabytes } from '@worksheets/util/data';
-import { Nullable } from '@worksheets/util/types';
+} from '@worksheets/util/types';
 import { useZodValidator } from '@worksheets/zod';
 import { useRouter } from 'next/router';
 import { useState } from 'react';

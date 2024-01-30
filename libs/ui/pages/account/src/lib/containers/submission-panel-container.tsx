@@ -1,8 +1,9 @@
 import { trpc } from '@worksheets/trpc-charity';
-import { SubmissionsPanel } from '@worksheets/ui/pages/account';
-import { LoadingScreen } from '@worksheets/ui/pages/loading';
 import { Snackbar, useSnackbar } from '@worksheets/ui/components/snackbar';
+import { LoadingScreen } from '@worksheets/ui/pages/loading';
 import { useRouter } from 'next/router';
+
+import { SubmissionsPanel } from '../components';
 
 export const SubmissionsPanelContainer: React.FC = () => {
   const router = useRouter();
@@ -59,7 +60,7 @@ export const SubmissionsPanelContainer: React.FC = () => {
         onApproveTermsOfService={onApproveTermsOfService}
         onDeleteSubmission={onDeleteSubmission}
       />
-      <Snackbar {...snackbar} />
+      <Snackbar {...snackbar.props} />
     </>
   );
 };

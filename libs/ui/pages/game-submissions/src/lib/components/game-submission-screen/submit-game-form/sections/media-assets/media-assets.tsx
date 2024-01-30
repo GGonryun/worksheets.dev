@@ -4,7 +4,7 @@ import FormControl from '@mui/material/FormControl';
 import FormHelperText from '@mui/material/FormHelperText';
 import Input from '@mui/material/Input';
 import Typography from '@mui/material/Typography';
-import { ImageUpload } from '@worksheets/ui/components/images';
+import { ImageUpload } from '@worksheets/ui/components/uploads';
 import { useState } from 'react';
 
 import { useGameSubmissionFormContext } from '../../../../form-context';

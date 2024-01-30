@@ -6,11 +6,14 @@ import urls from '@worksheets/util/urls';
 import Image from 'next/image';
 import { JSXElementConstructor } from 'react';
 
+import { LayoutLinks } from '../../types';
 import { LogoBox } from '../shared/logo-box';
 
 const currentYear = new Date().getFullYear();
 
-export const WebsiteFooter: React.FC = () => {
+export const WebsiteFooter: React.FC<{
+  href: LayoutLinks;
+}> = ({ href }) => {
   return (
     <FooterContainer className="footer-container">
       <Box
@@ -21,40 +24,43 @@ export const WebsiteFooter: React.FC = () => {
       >
         <Box component="a" href={urls.social.instagram}>
           <Image
-            src="/common/icons/instagram.png"
+            src="/icons/social/instagram.png"
             alt={'Instagram Logo'}
             height={24}
             width={24}
           />
         </Box>
-        <Image
-          src="/common/icons/reddit.png"
-          alt={'Instagram Logo'}
-          height={24}
-          width={24}
-        />
-        <Image
-          src="/common/icons/github.png"
-          alt={'Instagram Logo'}
-          height={24}
-          width={24}
-        />
-        <Image
-          src="/common/icons/twitter.png"
-          alt={'Instagram Logo'}
-          height={24}
-          width={24}
-        />
+        <Box component="a" href={urls.social.reddit}>
+          <Image
+            src="/icons/social/reddit.png"
+            alt={'Reddit Logo'}
+            height={24}
+            width={24}
+          />
+        </Box>
+        <Box component="a" href={urls.social.github}>
+          <Image
+            src="/icons/social/github.png"
+            alt={'GitHub Logo'}
+            height={24}
+            width={24}
+          />
+        </Box>
+        <Box component="a" href={urls.social.twitter}>
+          <Image
+            src="/icons/social/twitter.png"
+            alt={'Twitter Logo'}
+            height={24}
+            width={24}
+          />
+        </Box>
       </Box>
-
       <Box
-        position={{ sm: 'relative', desktop2: 'absolute' }}
-        left={0}
-        right={0}
         display="flex"
         flexDirection="column"
         alignItems="center"
         justifyContent="center"
+        my={-2}
       >
         <LogoBox />
         <CopyrightText>© {currentYear} Charity.Games</CopyrightText>
@@ -71,11 +77,11 @@ export const WebsiteFooter: React.FC = () => {
           desktop2: 'center',
         }}
       >
-        <FooterLinkTypography href={'/charity'}>Charity</FooterLinkTypography>
-        <FooterLinkTypography href={'/help'}>Help</FooterLinkTypography>
-        <FooterLinkTypography href={'/cookies'}>Cookies</FooterLinkTypography>
-        <FooterLinkTypography href={'/privacy'}>Privacy</FooterLinkTypography>
-        <FooterLinkTypography href={'/terms'}>Terms</FooterLinkTypography>
+        <FooterLinkTypography href={href.about}>About</FooterLinkTypography>
+        <FooterLinkTypography href={href.help}>Help</FooterLinkTypography>
+        <FooterLinkTypography href={href.cookies}>Cookies</FooterLinkTypography>
+        <FooterLinkTypography href={href.privacy}>Privacy</FooterLinkTypography>
+        <FooterLinkTypography href={href.terms}>Terms</FooterLinkTypography>
       </Box>
     </FooterContainer>
   );
@@ -98,7 +104,7 @@ const FooterLinkTypography = styled<JSXElementConstructor<LinkProps>>(
 const CopyrightText = styled((props) => (
   <Typography {...props} />
 ))<TypographyProps>(({ theme }) => ({
-  color: theme.palette.text.red.dark,
+  color: theme.palette.text.red.light,
   fontFamily: theme.typography.body3.fontFamily,
   fontWeight: 700,
   fontSize: theme.typography.body3.fontSize,
@@ -119,8 +125,8 @@ const FooterContainer = styled((props) => <Box {...props} />)<BoxProps>(
     borderTopLeftRadius: 16,
     borderTopRightRadius: 16,
     [theme.breakpoints.up('desktop2')]: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
+      display: 'grid',
+      gridTemplateColumns: '1fr 1fr 1fr',
       alignItems: 'center',
       padding: theme.spacing(4),
     },

@@ -1,4 +1,3 @@
-import { AdsensePushScript } from '@worksheets/ui/components/advertisements';
 import { DynamicLayout } from '@worksheets/ui/layout';
 import { DynamicArcadeScreen } from '@worksheets/ui/pages/arcade';
 import { NextPageWithLayout } from '@worksheets/util-next';
@@ -11,7 +10,6 @@ const Page: NextPageWithLayout = () => {
     <>
       <NextSeo {...homeSeo} />
       <DynamicArcadeScreen />
-      <AdsensePushScript />
     </>
   );
 };

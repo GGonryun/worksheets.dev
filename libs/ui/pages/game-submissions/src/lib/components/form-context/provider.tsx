@@ -1,7 +1,7 @@
+import { GameSubmissionFormContextType } from '@worksheets/util/types';
 import { FC, ReactNode } from 'react';
 
 import { GameSubmissionFormContext } from './context';
-import { GameSubmissionFormContextType } from './type';
 
 export const GameSubmissionFormContextProvider: FC<{
   children: ReactNode;

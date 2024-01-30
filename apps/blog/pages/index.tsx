@@ -1,5 +1,4 @@
-import { Box } from '@mui/material';
-import { DynamicLayout } from '@worksheets/ui/layout';
+import { BlogScreen } from '@worksheets/ui/pages/blog';
 import {
   getAllPostsMetadata,
   MarkdownMetadata,
@@ -7,6 +6,7 @@ import {
 import { NextPageWithLayout } from '@worksheets/util-next';
 import { NextSeo } from 'next-seo';
 
+import { Layout } from '../components/layout';
 import { POSTS_PATH } from '../util/paths';
 import { blogSeo } from '../util/seo';
 
@@ -17,13 +17,12 @@ type Props = {
 const Page: NextPageWithLayout<Props> = ({ posts }) => (
   <>
     <NextSeo {...blogSeo} />
-    <Box>TODO: Blog Home Screen</Box>
-    {/* <BlogHomeScreen posts={posts} /> */}
+    <BlogScreen posts={posts} />
   </>
 );
 
 Page.getLayout = (page) => {
-  return <DynamicLayout>{page}</DynamicLayout>;
+  return <Layout>{page}</Layout>;
 };
 
 export const getStaticProps = async (): Promise<{ props: Props }> => {

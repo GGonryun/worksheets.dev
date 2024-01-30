@@ -1,9 +1,8 @@
 import Box from '@mui/material/Box';
 import { Carousel } from '@worksheets/ui/components/carousel';
 import { Category } from '@worksheets/ui/components/categories';
+import { BasicCategoryInfo } from '@worksheets/util/types';
 import { FC } from 'react';
-
-import { BasicCategoryInfo } from '../../../types/category-info';
 
 type CategorySectionProps = {
   categories: BasicCategoryInfo[];

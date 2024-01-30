@@ -5,15 +5,15 @@ import FormHelperText from '@mui/material/FormHelperText';
 import Input from '@mui/material/Input';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
-import urls from '@worksheets/util/urls';
-import React, { FC, useState } from 'react';
-
 import {
   GameSubmissionFileKeys,
   GameSubmissionForm,
   GameSubmissionFormContextType,
-  useGameSubmissionFormContext,
-} from '../../../../form-context';
+} from '@worksheets/util/types';
+import urls from '@worksheets/util/urls';
+import React, { FC, useState } from 'react';
+
+import { useGameSubmissionFormContext } from '../../../../form-context';
 import { GameFile } from './game-file';
 
 export const GameFiles: FC = () => {

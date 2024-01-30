@@ -1,21 +1,22 @@
 import { TRPCClientError } from '@trpc/client';
 import { trpc } from '@worksheets/trpc-charity';
-import {
-  AddFriendModal,
-  Friend,
-  FriendsPanel,
-  RemoveFriendModal,
-  SendGiftModal,
-} from '@worksheets/ui/pages/account';
-import { ErrorComponent } from '@worksheets/ui/pages/errors';
-import { SharedGiftSnackbarMessage } from '@worksheets/ui/pages/game';
-import { LoadingScreen } from '@worksheets/ui/pages/loading';
 import { Snackbar, useSnackbar } from '@worksheets/ui/components/snackbar';
+import { ErrorComponent } from '@worksheets/ui/pages/errors';
+import { LoadingScreen } from '@worksheets/ui/pages/loading';
 import { useBookmark } from '@worksheets/ui-core';
 import { FriendsPanels } from '@worksheets/util/enums';
+import { Friend } from '@worksheets/util/types';
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
 import { useState } from 'react';
+
+import {
+  AddFriendModal,
+  FriendsPanel,
+  RemoveFriendModal,
+  SendGiftModal,
+  SharedGiftSnackbarMessage,
+} from '../components';
 
 const genericUnexpectedErrorMessage = {
   message: 'An unexpected error occurred. Please try again later.',
@@ -188,7 +189,7 @@ export const FriendsPanelContainer: React.FC<{ refreshTimestamp: number }> = ({
         onSend={handleSendGift}
         onClose={() => setSendGiftFriendship(undefined)}
       />
-      <Snackbar {...snackbar} />
+      <Snackbar {...snackbar.props} />
     </>
   );
 };

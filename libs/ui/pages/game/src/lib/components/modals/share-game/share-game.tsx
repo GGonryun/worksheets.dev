@@ -8,18 +8,18 @@ import {
   SocialButtons,
 } from '@worksheets/ui/components/social-media';
 import { BaseModal, ModalWrapper } from '@worksheets/ui-core';
-import { SerializableGameSchema } from '@worksheets/util/types';
 import { FC } from 'react';
 
 import { ClipboardText } from './clipboard-text';
 
 export const ShareGameModal: FC<
   ModalWrapper<{
-    game: SerializableGameSchema;
+    id: string;
+    name: string;
   }>
-> = ({ game, open, onClose }) => {
-  const gameUrl = `https://charity.games/play/${game.id}`;
-  const gameTitle = `Play ${game.name} on Charity.Games and earn money for charity!`;
+> = ({ id, name, open, onClose }) => {
+  const gameUrl = `https://charity.games/play/${id}`;
+  const gameTitle = `Play ${name} on Charity.Games and earn money for charity!`;
 
   const handleClose = () => {
     onClose && onClose({}, 'backdropClick');

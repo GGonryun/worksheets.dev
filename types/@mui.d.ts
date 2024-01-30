@@ -3,13 +3,11 @@ import { PaletteColor } from '@mui/material';
 declare module '@mui/material/styles' {
   interface TypographyVariants {
     body3: React.CSSProperties;
-    dangrek: React.CSSProperties;
     mPlus1p: React.CSSProperties;
   }
 
   interface TypographyVariantsOptions {
     body3?: React.CSSProperties;
-    dangrek?: React.CSSProperties;
     mPlus1p?: React.CSSProperties;
   }
 

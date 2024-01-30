@@ -9,9 +9,8 @@ import {
 } from '@mui/material';
 import { FillImage } from '@worksheets/ui/components/images';
 import { useInterval } from '@worksheets/ui-core';
+import { PromotedGame } from '@worksheets/util/types';
 import React from 'react';
-
-import { PromotedGame } from '../../types/promotion';
 
 export const PROMOTION_INTERVAL = 5000;
 

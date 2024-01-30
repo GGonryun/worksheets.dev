@@ -24,7 +24,6 @@
     "src/**/*.jsx",
     "src/**/*.ts",
     "src/**/*.tsx",
-    "../../../types/@mui.d.ts",
-    "src/utils"
+    "../../../types/@mui.d.ts"
   ]
 }

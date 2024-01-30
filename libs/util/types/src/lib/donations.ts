@@ -22,3 +22,10 @@ export type CharityCampaign = {
     current: number;
   };
 };
+
+export type ReceiptInfo = {
+  date: string;
+  organization: { name: string; url: string };
+  receipt: string;
+  quantity: number;
+};

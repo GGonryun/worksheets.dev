@@ -1,10 +1,10 @@
 import { campaigns, charities } from '@worksheets/data-access/charity-games';
 import { trpc } from '@worksheets/trpc-charity';
+import { DynamicLayout } from '@worksheets/ui/layout';
 import { CharityScreen } from '@worksheets/ui/pages/charity';
 import { NextPageWithLayout } from '@worksheets/util-next';
 import { NextSeo } from 'next-seo';
 
-import { DynamicLayout } from '../dynamic/dynamic-layout';
 import { charitySeo } from '../util/seo';
 
 const Page: NextPageWithLayout = () => {

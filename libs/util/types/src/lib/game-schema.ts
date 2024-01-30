@@ -1,4 +1,3 @@
-import { GameQualifier } from './game-qualifier';
 import { GameTag } from './tag-schema';
 
 export type GameSchema = {
@@ -11,7 +10,6 @@ export type GameSchema = {
   bannerUrl: string;
   trailerUrl?: string;
   screenshots?: string[];
-  qualifier: GameQualifier;
   platforms: GameDevices[];
   orientations: DeviceOrientation[];
   tags: GameTag[];

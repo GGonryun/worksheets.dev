@@ -53,6 +53,9 @@
       "@worksheets/ui/components/categories": [
         "libs/ui/components/categories/src/index.ts"
       ],
+      "@worksheets/ui/components/description": [
+        "libs/ui/components/description/src/index.ts"
+      ],
       "@worksheets/ui/components/games": [
         "libs/ui/components/games/src/index.ts"
       ],
@@ -61,6 +64,9 @@
       ],
       "@worksheets/ui/components/inputs": [
         "libs/ui/components/inputs/src/index.ts"
+      ],
+      "@worksheets/ui/components/loading": [
+        "libs/ui/components/loading/src/index.ts"
       ],
       "@worksheets/ui/components/logos": [
         "libs/ui/components/logos/src/index.ts"
@@ -80,11 +86,13 @@
       "@worksheets/ui/components/social-media": [
         "libs/ui/components/social-media/src/index.ts"
       ],
+      "@worksheets/ui/components/uploads": [
+        "libs/ui/components/uploads/src/index.ts"
+      ],
       "@worksheets/ui/components/wallpaper": [
         "libs/ui/components/wallpaper/src/index.ts"
       ],
       "@worksheets/ui/env": ["libs/ui/env/src/index.ts"],
-      "@worksheets/ui/game-grid": ["libs/ui/game-grid/src/index.ts"],
       "@worksheets/ui/home/server": ["libs/ui/home/src/server.ts"],
       "@worksheets/ui/hooks/use-google-adsense": [
         "libs/ui/hooks/use-google-adsense/src/index.ts"
@@ -102,7 +110,6 @@
         "libs/ui/hooks/use-skip-portal/src/index.ts"
       ],
       "@worksheets/ui/layout": ["libs/ui/layout/src/index.ts"],
-      "@worksheets/ui/mocks": ["libs/ui/mocks/src/index.ts"],
       "@worksheets/ui/pages/about": ["libs/ui/pages/about/src/index.ts"],
       "@worksheets/ui/pages/account": ["libs/ui/pages/account/src/index.ts"],
       "@worksheets/ui/pages/arcade": ["libs/ui/pages/arcade/src/index.ts"],
@@ -139,7 +146,6 @@
       "@worksheets/ui/pages/under-construction": [
         "libs/ui/pages/under-construction/src/index.ts"
       ],
-      "@worksheets/ui/pills": ["libs/ui/pills/src/index.ts"],
       "@worksheets/ui/qa-section/server": ["libs/ui/qa-section/src/server.ts"],
       "@worksheets/ui/theme": ["libs/ui/theme/src/index.ts"],
       "@worksheets/ui/widgets": ["libs/ui/widgets/src/index.ts"],

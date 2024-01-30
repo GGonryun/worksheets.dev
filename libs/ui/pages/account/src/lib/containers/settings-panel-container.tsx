@@ -1,19 +1,19 @@
 import { trpc } from '@worksheets/trpc-charity';
-import {
-  BasicInformationFormContextProvider,
-  ClearStorageModal,
-  DeleteAccountModal,
-  SettingsPanel,
-} from '@worksheets/ui/pages/account';
+import { Snackbar } from '@worksheets/ui/components/snackbar';
 import { ErrorComponent } from '@worksheets/ui/pages/errors';
 import { LoadingScreen } from '@worksheets/ui/pages/loading';
-import { Snackbar } from '@worksheets/ui/components/snackbar';
 import { useBookmark } from '@worksheets/ui-core';
 import { SettingsPanels } from '@worksheets/util/enums';
 import { signOut, useSession } from 'next-auth/react';
 import { useState } from 'react';
 
-import { useBasicInformationForm } from './use-basic-information-form';
+import {
+  BasicInformationFormContextProvider,
+  ClearStorageModal,
+  DeleteAccountModal,
+  SettingsPanel,
+} from '../components';
+import { useBasicInformationForm } from '../hooks';
 
 export const SettingsPanelContainer: React.FC = () => {
   const bookmark = useBookmark<SettingsPanels>();
@@ -56,7 +56,7 @@ export const SettingsPanelContainer: React.FC = () => {
           onDeleteAccount={() => setShowDeleteAccountModal(true)}
         />
         <Snackbar
-          {...snackbar}
+          {...snackbar.props}
           message={'Your profile has been updated!'}
           severity={'success'}
         />

@@ -77,7 +77,7 @@ export const AboutScreen: FC<AboutScreenProps> = (props) => {
           }}
         >
           <TeamMember
-            name={'Taki The Dog'}
+            name={'Taki Pineda'}
             image="/blog/authors/taki.png"
             title="Chief Executive Officer"
             description={
@@ -163,10 +163,10 @@ const TeamMember: React.FC<{
       height={128}
       alt={props.name}
       style={{
-        paddingTop: 16,
+        marginTop: 16,
         borderRadius: '50%',
         overflow: 'hidden',
-        paddingBottom: 16,
+        marginBottom: 16,
       }}
     />
     <br />

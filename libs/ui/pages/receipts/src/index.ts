@@ -1,2 +1,1 @@
-export * from './lib/receipt-screen';
-export * from './lib/mocks';
+export * from './lib/dynamic';

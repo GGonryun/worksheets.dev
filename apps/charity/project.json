@@ -28,6 +28,11 @@
             "output": "games"
           },
           {
+            "input": "libs/assets/blog/src/lib",
+            "glob": "**/*",
+            "output": "blog"
+          },
+          {
             "input": "libs/assets/icons/src/lib",
             "glob": "**/*",
             "output": "icons"

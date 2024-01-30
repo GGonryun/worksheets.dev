@@ -1,11 +1,12 @@
 import { trpc } from '@worksheets/trpc-charity';
-import { ReferralsPanel } from '@worksheets/ui/pages/account';
 import { ErrorComponent } from '@worksheets/ui/pages/errors';
 import { LoadingScreen } from '@worksheets/ui/pages/loading';
 import { useBookmark } from '@worksheets/ui-core';
 import { ReferralsPanels } from '@worksheets/util/enums';
 import { MAX_TOKENS_FROM_REFERRAL_PLAYS } from '@worksheets/util/settings';
 import { useSession } from 'next-auth/react';
+
+import { ReferralsPanel } from '../components';
 
 export const ReferralsPanelContainer: React.FC<{
   refreshTimestamp: number;

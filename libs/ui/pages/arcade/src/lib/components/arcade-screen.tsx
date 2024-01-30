@@ -4,8 +4,11 @@ import {
   GameIconProps,
   PaginatedGamesList,
 } from '@worksheets/ui/components/games';
-import { PrizeProps } from '@worksheets/ui/components/prizes';
-import { BasicCategoryInfo, BasicGameInfo } from '@worksheets/util/types';
+import {
+  BasicCategoryInfo,
+  BasicGameInfo,
+  BasicPrizeDetails,
+} from '@worksheets/util/types';
 
 import { FeaturedGames, FeaturedGamesProps } from './featured-games';
 import { HottestRaffles } from './hottest-raffles';
@@ -14,7 +17,7 @@ import { TopGames } from './top-games';
 export const ArcadeScreen: React.FC<{
   categories: BasicCategoryInfo[];
   featured: FeaturedGamesProps;
-  topRaffles: PrizeProps[];
+  topRaffles: BasicPrizeDetails[];
   topGames: BasicGameInfo[];
   allGames: BasicGameInfo[];
 }> = (props) => (

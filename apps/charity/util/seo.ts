@@ -1,6 +1,11 @@
 import { BASE_URL } from '@worksheets/ui/env';
 import { OpenGraphProps, TWITTER_SEO } from '@worksheets/util/seo';
-import { DeveloperSchema, GameSchema, TagSchema } from '@worksheets/util/types';
+import {
+  DeveloperSchema,
+  PrizeSchema,
+  SerializableGameSchema,
+  TagSchema,
+} from '@worksheets/util/types';
 import { DefaultSeoProps, NextSeoProps, VideoGameJsonLdProps } from 'next-seo';
 
 const createCanonicalUrl = (url?: string) => `${BASE_URL}${url}`;
@@ -137,7 +142,7 @@ export const categorySeo = (tag: TagSchema): NextSeoProps =>
   });
 
 export const gameSeo = (
-  game: GameSchema,
+  game: SerializableGameSchema,
   developer: DeveloperSchema
 ): NextSeoProps =>
   createSeo({
@@ -157,7 +162,7 @@ export const gameSeo = (
   });
 
 export const gameJsonLd = (
-  game: GameSchema,
+  game: SerializableGameSchema,
   developer: DeveloperSchema
 ): VideoGameJsonLdProps => ({
   name: game.name,
@@ -168,7 +173,7 @@ export const gameJsonLd = (
   url: createCanonicalUrl(`/play/${game.id}`),
   platformName: game.platforms,
   keywords: game.tags.join(', '),
-  datePublished: game.createdAt.toISOString(),
+  datePublished: game.createdAt,
   image: game.iconUrl,
   publisherName: developer.name,
   producerUrl: createCanonicalUrl(`/developers/${developer.id}`),
@@ -303,3 +308,23 @@ export const helpDevelopersSeo = createSeo({
   description:
     'Find answers to questions about contributing games to the Charity Games Platform. Turn your games into donations.',
 });
+
+export const prizesSeo = createSeo({
+  url: '/prizes',
+  title: 'Charity Games - Prize Wall',
+  description:
+    'Redeem your tokens for real world prizes and free games. Every token you spend is a donation towards charity. Win free prizes by playing browser games and referring friends',
+});
+
+export const prizeSeo = (prize: PrizeSchema): NextSeoProps =>
+  createSeo({
+    url: `/prizes/${prize.id}`,
+    title: `${prize.title} - Charity Games`,
+    description: `Redeem your tokens for ${prize.title}. Every token you spend is a donation to charity. Win free prizes by playing browser games and referring friends.`,
+    images: [
+      {
+        url: prize.imageUrl,
+        alt: prize.title,
+      },
+    ],
+  });

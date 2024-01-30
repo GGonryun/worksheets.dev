@@ -15,6 +15,7 @@ const Page: NextPageWithLayout = () => {
   const statistics = trpc.usage.contributions.useQuery();
 
   if (statistics.error) return <ErrorScreen />;
+
   if (statistics.isLoading) return <LoadingScreen />;
 
   return (

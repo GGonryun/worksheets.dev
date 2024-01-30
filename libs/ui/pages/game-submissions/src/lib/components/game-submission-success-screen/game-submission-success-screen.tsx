@@ -52,10 +52,10 @@ export const GameSubmissionSuccessScreen = () => {
         </Typography>
         <Button
           href="/account/submissions"
-          variant="round"
+          variant="arcade"
           color="error"
           size="large"
-          endIcon={<ArrowRightAltIcon sx={{ ml: '2px', mt: '-2px' }} />}
+          endIcon={<ArrowRightAltIcon />}
           sx={{
             mt: 4,
             width: 'fit-content',

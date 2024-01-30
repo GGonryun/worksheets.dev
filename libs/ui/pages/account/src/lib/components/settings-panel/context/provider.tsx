@@ -1,7 +1,7 @@
+import { BasicInformationFormContextType } from '@worksheets/util/types';
 import { FC, ReactNode } from 'react';
 
 import { BasicInformationFormContext } from './context';
-import { BasicInformationFormContextType } from './type';
 
 export const BasicInformationFormContextProvider: FC<{
   children: ReactNode;

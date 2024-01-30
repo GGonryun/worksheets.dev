@@ -10,12 +10,10 @@ import { styled } from '@mui/material/styles';
 import TextField, { TextFieldProps } from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { validateUrl } from '@worksheets/util/strings';
+import { GameSubmissionForm } from '@worksheets/util/types';
 import { FC, JSXElementConstructor } from 'react';
 
-import {
-  GameSubmissionForm,
-  useGameSubmissionFormContext,
-} from '../../../form-context';
+import { useGameSubmissionFormContext } from '../../../form-context';
 
 type PurchaseOptions = GameSubmissionForm['markets'];
 type PurchaseOptionKeys = keyof PurchaseOptions;

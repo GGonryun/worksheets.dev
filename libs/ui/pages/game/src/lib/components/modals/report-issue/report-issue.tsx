@@ -26,8 +26,15 @@ export const ReportIssueModal: FC<
   };
 
   return (
-    <BaseModal open={open} onClose={onClose}>
-      <Box display="flex" flexDirection="column" minWidth={250} maxWidth={600}>
+    <BaseModal
+      open={open}
+      onClose={onClose}
+      sx={{
+        width: '90%',
+        maxWidth: 600,
+      }}
+    >
+      <Box display="flex" flexDirection="column">
         <IconButton
           onClick={handleClose}
           size="small"

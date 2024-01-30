@@ -1,7 +1,5 @@
-import { games } from '@worksheets/data-access/charity-games';
 import { useLocalStorage } from '@worksheets/ui-core';
-import { strict } from '@worksheets/util/misc';
-import { GameIcon, RecentlyPlayedSchema } from '@worksheets/util/types';
+import { RecentlyPlayedSchema } from '@worksheets/util/types';
 
 export const useRecentlyPlayedGames = () => {
   const [storage, setStorage] = useLocalStorage<RecentlyPlayedSchema[]>(
@@ -27,21 +25,5 @@ export const useRecentlyPlayedGames = () => {
     // update the state
   };
 
-  return { recentlyPlayed: convertGames(storage), addRecentlyPlayed };
-};
-
-const convertGames = (recent: RecentlyPlayedSchema[]): GameIcon[] => {
-  return recent
-    .map((r) => {
-      const game = strict(
-        games.find((game) => game.id === r.gameId),
-        `Game ${r.gameId} not found`
-      );
-      return game;
-    })
-    .map((game) => ({
-      id: game.id,
-      name: game.name,
-      imageUrl: game.iconUrl,
-    }));
+  return { recentlyPlayed: storage, addRecentlyPlayed };
 };

@@ -90,8 +90,6 @@ export const GameLauncher: FC<GameLauncherProps> = ({
         width: '100%',
         display: 'flex',
         flexDirection: 'column',
-        borderRadius: (theme) => theme.shape.borderRadius * 2,
-        overflow: 'hidden',
         userSelect: 'none',
       }}
     >

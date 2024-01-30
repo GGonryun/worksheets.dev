@@ -5,15 +5,13 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
-import { BASE_URL } from '@worksheets/ui/env';
 import { PrefixTextField } from '@worksheets/ui/components/inputs';
+import { BASE_URL } from '@worksheets/ui/env';
 import { labelFor } from '@worksheets/util/misc';
+import { GameSubmissionForm } from '@worksheets/util/types';
 import { FC } from 'react';
 
-import {
-  GameSubmissionForm,
-  useGameSubmissionFormContext,
-} from '../../../form-context';
+import { useGameSubmissionFormContext } from '../../../form-context';
 import { DetailedListItemText } from '../detailed-list-item-text';
 
 export const BasicInformationSection: FC = () => {

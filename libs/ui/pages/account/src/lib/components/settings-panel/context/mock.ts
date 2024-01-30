@@ -1,6 +1,7 @@
-import { MockActionType } from '@worksheets/util/types';
-
-import { BasicInformationFormContextType } from './type';
+import {
+  BasicInformationFormContextType,
+  MockActionType,
+} from '@worksheets/util/types';
 
 export const DEFAULT_VALUES = (
   action: MockActionType

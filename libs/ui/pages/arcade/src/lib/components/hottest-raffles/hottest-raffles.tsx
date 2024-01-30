@@ -1,12 +1,13 @@
 import { Box } from '@mui/material';
 import { TitledSection } from '@worksheets/ui/components/arcade';
-import { Prize, PrizeProps } from '@worksheets/ui/components/prizes';
+import { Prize } from '@worksheets/ui/components/prizes';
 import { useMediaQuery } from '@worksheets/ui/hooks/use-media-query';
+import { BasicPrizeDetails } from '@worksheets/util/types';
 import React from 'react';
 
 export type HottestRafflesProps = React.ComponentProps<typeof HottestRaffles>;
 
-export const HottestRaffles: React.FC<{ prizes: PrizeProps[] }> = ({
+export const HottestRaffles: React.FC<{ prizes: BasicPrizeDetails[] }> = ({
   prizes,
 }) => {
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down('sm'));

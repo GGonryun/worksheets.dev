@@ -184,7 +184,7 @@ const DoesNotSupportOverlay: FC<{
 const PlayOverlay: FC<
   Pick<GameLoadingCoverProps, 'name' | 'iconUrl' | 'onPlay'>
 > = ({ name, iconUrl, onPlay }) => {
-  const isMobile = useMediaQuery((theme) => theme.breakpoints.down('sm'));
+  const isSmall = useMediaQuery((theme) => theme.breakpoints.down('md'));
   return (
     <>
       <Box
@@ -202,7 +202,8 @@ const PlayOverlay: FC<
       <Typography
         sx={(theme) => ({
           textAlign: 'center',
-          fontFamily: theme.typography.dangrek.fontFamily,
+          fontFamily: theme.typography.mPlus1p.fontFamily,
+          fontWeight: '700',
           color: theme.palette.white.main,
           fontSize: { xs: '1.5rem', sm: '2rem', lg: '2.5rem' },
         })}
@@ -212,7 +213,7 @@ const PlayOverlay: FC<
       <Button
         variant="arcade"
         startIcon={<PlayCircleOutline fontSize="inherit" />}
-        size={isMobile ? 'small' : 'large'}
+        size={isSmall ? 'small' : 'large'}
         color="success"
         onClick={onPlay}
       >

@@ -30,11 +30,20 @@ export const TitledSection: React.FC<{
         justifyContent="space-between"
         alignItems={{ xs: 'centered', sm: 'flex-end' }}
       >
-        <Typography color="white.main" variant={isMobile ? 'h6' : 'h5'} mb={-1}>
+        <Typography
+          color="white.main"
+          typography={{
+            xs: 'h6',
+            sm: 'h5',
+            md: 'h4',
+          }}
+          mb={-1}
+        >
           {props.title}
         </Typography>
         {props.action && (
           <Button
+            href={props.action.href}
             color={props.action.color}
             variant={'arcade'}
             size={isMobile ? 'small' : 'medium'}

@@ -2,8 +2,8 @@ import { Box, Paper, styled } from '@mui/material';
 import Container from '@mui/material/Container';
 import { GameIcon, PaginatedGamesList } from '@worksheets/ui/components/games';
 import {
+  BasicGameInfo,
   CastVote,
-  DetailedGameInfo,
   DeveloperSchema,
   GameAnalyticsSchema,
   SerializableGameSchema,
@@ -11,16 +11,19 @@ import {
 } from '@worksheets/util/types';
 import { FC } from 'react';
 
+import { GameDescription } from './game-description';
 import { GameLauncher } from './game-launcher';
 
 type GameScreenProps = {
-  suggestions: DetailedGameInfo[];
+  suggestions: BasicGameInfo[];
   game: SerializableGameSchema;
   analytics: GameAnalyticsSchema;
   developer: DeveloperSchema;
   userVote: UserVote;
   onPlay: () => void;
   onVote: (vote: CastVote['vote']) => void;
+  onShare: () => void;
+  onReport: () => void;
 };
 
 export const GameScreen: FC<GameScreenProps> = ({
@@ -31,11 +34,22 @@ export const GameScreen: FC<GameScreenProps> = ({
   userVote,
   onPlay,
   onVote,
+  onShare,
+  onReport,
 }) => {
-  const leftBar = suggestions.splice(0, 5);
-  const rightBar = suggestions.splice(0, 5);
+  const leftBar = suggestions.slice(0, 5);
+  const rightBar = suggestions.slice(6, 11);
+  const remaining = suggestions.slice(12);
   return (
-    <Container maxWidth="xl" sx={{ py: 2 }}>
+    <Container
+      maxWidth="xl"
+      sx={{
+        py: 2,
+        display: 'flex',
+        flexDirection: 'column',
+        gap: { xs: 2, sm: 4 },
+      }}
+    >
       <Box
         display="flex"
         gap={3}
@@ -85,14 +99,20 @@ export const GameScreen: FC<GameScreenProps> = ({
           ))}
         </PaperSidebar>
       </Box>
-      <Box>Game Description</Box>
-      <Box>Suggested Categories</Box>
+      <GameDescription
+        description={game.description}
+        id={game.id}
+        name={game.name}
+        platforms={game.platforms}
+        onShare={onShare}
+        onReport={onReport}
+      />
       <PaginatedGamesList
         title="More Games"
-        games={suggestions.map((g) => ({
+        games={remaining.map((g) => ({
           id: g.id,
           name: g.name,
-          caption: `${g.plays}+ Plays`,
+          caption: '',
           imageUrl: g.image,
         }))}
       />

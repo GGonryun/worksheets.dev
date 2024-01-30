@@ -4,12 +4,8 @@ import {
   tagSchemas,
 } from '@worksheets/data-access/charity-games';
 import { BASE_URL } from '@worksheets/ui/env';
-import { formatAmericanDate, printShortDate } from '@worksheets/util/time';
-import { getAllPostsMetadata } from '@worksheets/util-markdown';
+import { printShortDate } from '@worksheets/util/time';
 import { NextApiHandler } from 'next';
-import path from 'path';
-
-import { POSTS_PATH } from '../../util/paths';
 
 const LAST_UPDATE_DATE = `2024-01-16`;
 
@@ -99,27 +95,6 @@ const addDevelopers = () =>
     )
     .join('');
 
-const BLOG_DIR =
-  process.env['VERCEL_ENV'] === 'development'
-    ? POSTS_PATH
-    : path.resolve('public/articles');
-
-const addBlogPosts = () => {
-  const posts = getAllPostsMetadata(BLOG_DIR);
-
-  return posts
-    .map(
-      (post) => `<url>
-    <loc>${BASE_URL}/blog/${post.slug}</loc>
-    <lastmod>${formatAmericanDate(post.date)}</lastmod>
-    <priority>0.5</priority>
-    </url>
-    `
-    )
-    .join('');
-  return ``;
-};
-
 const handler: NextApiHandler = (req, res) => {
   res.statusCode = 200;
   res.setHeader('Content-Type', 'application/xml');
@@ -135,7 +110,6 @@ const handler: NextApiHandler = (req, res) => {
       ${addGames()}
       ${addTags()}
       ${addDevelopers()}
-      ${addBlogPosts()}
       </urlset>`;
 
   res.end(xml);

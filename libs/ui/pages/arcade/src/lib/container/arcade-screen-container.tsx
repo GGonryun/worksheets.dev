@@ -1,40 +1,25 @@
-import { games, tags } from '@worksheets/data-access/charity-games';
-import { BasicCategoryInfo } from '@worksheets/util/types';
+import { trpc } from '@worksheets/trpc-charity';
+import { ErrorScreen } from '@worksheets/ui/pages/errors';
+import { LoadingScreen } from '@worksheets/ui/pages/loading';
 
 import { ArcadeScreen } from '../components/arcade-screen';
-import { PromotedGame } from '../types/promotion';
 
 const ArcadeScreenContainer: React.FC = () => {
-  const categories: BasicCategoryInfo[] = Object.entries(tags).map(
-    ([, tag]) => ({
-      id: tag.id,
-      name: tag.name,
-      image: tag.iconUrl,
-    })
-  );
+  const { data, isLoading, error } = trpc.arcade.details.useQuery(undefined, {
+    enabled: true,
+  });
 
-  const promotedGames: PromotedGame[] = games
-    .filter((game) => game.qualifier === 'hot')
-    .map((game) => ({
-      href: `/play/${game.id}`,
-      image: game.bannerUrl,
-      name: game.name,
-    }));
+  if (isLoading) return <LoadingScreen />;
 
-  const primary = promotedGames.slice(0, -1);
-
-  const secondary = primary[primary.length - 1];
+  if (error) return <ErrorScreen />;
 
   return (
     <ArcadeScreen
-      categories={categories}
-      featured={{
-        primary: primary,
-        secondary: secondary,
-      }}
-      topRaffles={[]}
-      topGames={[]}
-      allGames={[]}
+      categories={data.categories}
+      featured={data.featured}
+      topRaffles={data.topRaffles}
+      topGames={data.topGames}
+      allGames={data.allGames}
     />
   );
 };

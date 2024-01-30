@@ -63,7 +63,7 @@ export const SearchBar: FC<SearchBarProps> = ({
         value={value}
         onChange={(e) => onChange && onChange(e.target.value)}
         sx={{
-          fontFamily: (theme) => theme.typography.dangrek.fontFamily,
+          fontFamily: (theme) => theme.typography.mPlus1p.fontFamily,
           paddingX: 2.5,
           '& input': {
             padding: 0,

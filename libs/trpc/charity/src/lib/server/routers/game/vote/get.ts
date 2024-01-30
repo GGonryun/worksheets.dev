@@ -12,12 +12,7 @@ export default protectedProcedure
       gameId: z.string(),
     })
   )
-  .output(
-    z.object({
-      success: z.boolean(),
-      vote: voteSchema,
-    })
-  )
+  .output(voteSchema)
   .query(async ({ input: { gameId }, ctx: { user, db } }) => {
     const userId = user.id;
 
@@ -28,10 +23,10 @@ export default protectedProcedure
     });
 
     if (!vote) {
-      return { success: true, vote: 'none' };
+      return 'none';
     }
 
     console.info(`found vote for game`, { gameId, userId: user.id, vote });
 
-    return { success: true, vote: vote.vote > 0 ? 'up' : 'down' };
+    return vote.vote > 0 ? 'up' : 'down';
   });

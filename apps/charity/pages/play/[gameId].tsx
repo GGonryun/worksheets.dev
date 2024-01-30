@@ -1,5 +1,4 @@
-import { developers, games } from '@worksheets/data-access/charity-games';
-import { MixedGridItem } from '@worksheets/ui/game-grid';
+import { createServerSideTRPC } from '@worksheets/trpc-charity/server';
 import { DynamicLayout } from '@worksheets/ui/layout';
 import { DynamicGameScreenContainer } from '@worksheets/ui/pages/game';
 import { printDate } from '@worksheets/util/time';
@@ -16,33 +15,20 @@ import {
   VideoGameJsonLdProps,
 } from 'next-seo';
 
-import { mixedItems } from '../../util/mixed-items';
 import { gameJsonLd, gameSeo } from '../../util/seo';
 
 type Props = {
   game: SerializableGameSchema;
   seo: NextSeoProps;
   jsonLd: VideoGameJsonLdProps;
-  items: MixedGridItem[];
   developer: DeveloperSchema;
 };
 
-const Page: NextPageWithLayout<Props> = ({
-  game,
-  seo,
-  jsonLd,
-  items,
-  developer,
-}) => {
+const Page: NextPageWithLayout<Props> = ({ game, seo, jsonLd, developer }) => {
   return (
     <>
       <NextSeo {...seo} />
-      <DynamicGameScreenContainer
-        game={game}
-        developer={developer}
-        randomGame={randomGame}
-        gridItems={items}
-      />
+      <DynamicGameScreenContainer game={game} developer={developer} />
       <VideoGameJsonLd {...jsonLd} />
     </>
   );
@@ -50,40 +36,44 @@ const Page: NextPageWithLayout<Props> = ({
 
 export const getServerSideProps = (async (ctx) => {
   const { params } = ctx;
+  const trpc = await createServerSideTRPC(ctx);
 
   const gameId = params?.gameId as string;
-  const game = games.find((game) => game.id === gameId);
-  const developer = developers.find(
-    (developer) => developer.id === game?.developerId
-  );
 
-  if (!game || !developer)
+  if (!gameId) {
     return {
       notFound: true,
     };
+  }
 
-  const items: MixedGridItem[] = mixedItems({
-    hideAds: true,
-    maxGames: 50,
-    maxTags: 10,
-  }).map(shrinkGames);
+  try {
+    const { game, developer } = await trpc.game.find.fetch({
+      gameId,
+    });
+    const seo = gameSeo(game, developer);
+    const jsonLd = gameJsonLd(game, developer);
 
-  const seo = gameSeo(game, developer);
-  const jsonLd = gameJsonLd(game, developer);
-
-  return {
-    props: {
-      game: {
-        ...game,
-        updatedAt: printDate(game.updatedAt),
-        createdAt: printDate(game.createdAt),
+    return {
+      props: {
+        game: {
+          ...game,
+          updatedAt: printDate(game.updatedAt),
+          createdAt: printDate(game.createdAt),
+        },
+        developer,
+        seo,
+        jsonLd,
       },
-      developer,
-      items,
-      seo,
-      jsonLd,
-    },
-  };
+    };
+  } catch (error) {
+    console.error(`Error fetching game ${gameId}`, error);
+    return {
+      redirect: {
+        destination: '/play',
+        permanent: false,
+      },
+    };
+  }
 }) satisfies GetServerSideProps<Props>;
 
 Page.getLayout = (page) => {
@@ -91,12 +81,3 @@ Page.getLayout = (page) => {
 };
 
 export default Page;
-
-function shrinkGames(item: MixedGridItem) {
-  if (item.type === 'game') {
-    return {
-      ...item,
-      span: 1,
-    };
-  } else return item;
-}

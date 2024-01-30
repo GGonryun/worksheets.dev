@@ -3,7 +3,6 @@ import {
   InfoOutlined,
   NewReleasesOutlined,
   PendingOutlined,
-  Replay,
   Star,
 } from '@mui/icons-material';
 import {
@@ -32,10 +31,9 @@ export const PlayGamesSection: React.FC<{
   tokens: number;
   id: TokensPanels;
   active: TokensPanels | undefined;
-  recentGames: BasicGameDetails[];
   bonusGames: BasicGameDetails[];
   onClick: (id: string) => void;
-}> = ({ tokens, id, active, bonusGames, recentGames, onClick }) => {
+}> = ({ tokens, id, active, bonusGames, onClick }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -143,16 +141,6 @@ export const PlayGamesSection: React.FC<{
           title="Bonus Games"
           icon={<Star fontSize="small" color="secondary" />}
           points={bonusGames.slice(0, 5).map((game) => (
-            <Link key={game.id} href={`/play/${game.id}`}>
-              {game.name}
-            </Link>
-          ))}
-        />
-
-        <BulletPoints
-          title="Recent Games"
-          icon={<Replay fontSize="small" color="error" />}
-          points={recentGames.map((game) => (
             <Link key={game.id} href={`/play/${game.id}`}>
               {game.name}
             </Link>

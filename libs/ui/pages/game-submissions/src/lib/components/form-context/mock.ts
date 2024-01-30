@@ -1,6 +1,7 @@
-import { MockActionType } from '@worksheets/util/types';
-
-import { GameSubmissionFormContextType } from './type';
+import {
+  GameSubmissionFormContextType,
+  MockActionType,
+} from '@worksheets/util/types';
 
 export const FAKE_GAME_FILE = {
   fileId: '1',
