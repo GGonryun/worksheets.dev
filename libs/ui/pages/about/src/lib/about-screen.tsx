@@ -113,7 +113,7 @@ export const AboutScreen: FC<AboutScreenProps> = (props) => {
             }
             linkedIn={urls.personal.linkedIn.esbeidy}
             quote={{
-              text: "No, I'm not giving you a quote. No, I don't want to be on your website. ",
+              text: "No, I'm not giving you a quote. Don't put me on your website. ",
               author: 'Esbeidy Campos',
             }}
           />
