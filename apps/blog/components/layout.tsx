@@ -2,7 +2,7 @@ import { AppBar, Button } from '@mui/material';
 import Box from '@mui/material/Box';
 import MuiToolbar from '@mui/material/Toolbar';
 import { WebsiteBackground } from '@worksheets/ui/components/wallpaper';
-import { BASE_URL } from '@worksheets/ui/env';
+import { CHARITY_GAMES_BASE_URL } from '@worksheets/ui/env';
 import { LayoutLinks, LogoBox, WebsiteFooter } from '@worksheets/ui/layout';
 
 type LayoutProps = {
@@ -11,12 +11,12 @@ type LayoutProps = {
 
 export const Layout: React.FC<LayoutProps> = ({ children }) => {
   const href: LayoutLinks = {
-    root: BASE_URL,
-    about: `${BASE_URL}/about`,
-    help: `${BASE_URL}/help`,
-    privacy: `${BASE_URL}/privacy`,
-    cookies: `${BASE_URL}/cookies`,
-    terms: `${BASE_URL}/terms`,
+    root: CHARITY_GAMES_BASE_URL,
+    about: `${CHARITY_GAMES_BASE_URL}/about`,
+    help: `${CHARITY_GAMES_BASE_URL}/help`,
+    privacy: `${CHARITY_GAMES_BASE_URL}/privacy`,
+    cookies: `${CHARITY_GAMES_BASE_URL}/cookies`,
+    terms: `${CHARITY_GAMES_BASE_URL}/terms`,
   };
   return (
     <Box

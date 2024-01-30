@@ -3,7 +3,7 @@ import {
   games,
   tagSchemas,
 } from '@worksheets/data-access/charity-games';
-import { BASE_URL } from '@worksheets/ui/env';
+import { CHARITY_GAMES_BASE_URL } from '@worksheets/ui/env';
 import { printShortDate } from '@worksheets/util/time';
 import { NextApiHandler } from 'next';
 
@@ -11,7 +11,7 @@ const LAST_UPDATE_DATE = `2024-01-16`;
 
 const addHomePage = () => {
   return `<url>
-        <loc>${BASE_URL}</loc>
+        <loc>${CHARITY_GAMES_BASE_URL}</loc>
         <lastmod>${LAST_UPDATE_DATE}</lastmod>
         <changefreq>weekly</changefreq>
         <priority>1.0</priority>
@@ -51,7 +51,7 @@ const addBasicPages = () => {
   return slugs
     .map(
       (slug) => `<url>
-      <loc>${BASE_URL}${slug}</loc>
+      <loc>${CHARITY_GAMES_BASE_URL}${slug}</loc>
       <lastmod>${LAST_UPDATE_DATE}</lastmod>
       <priority>0.8</priority>
     </url>`
@@ -63,7 +63,7 @@ const addGames = () =>
   games
     .map(
       (game) => `<url>
-        <loc>${BASE_URL}/play/${game.id}</loc>
+        <loc>${CHARITY_GAMES_BASE_URL}/play/${game.id}</loc>
         <lastmod>${
           printShortDate(game.updatedAt, 'fr-CA') // use w3c date format yyyy-mm-dd
         }</lastmod>
@@ -77,7 +77,7 @@ const addTags = () =>
   tagSchemas
     .map(
       (tag) => `<url>
-            <loc>${BASE_URL}/tags/${tag.id}</loc>
+            <loc>${CHARITY_GAMES_BASE_URL}/tags/${tag.id}</loc>
             <lastmod>${LAST_UPDATE_DATE}</lastmod>
             <priority>0.5</priority>
         </url>`
@@ -88,7 +88,7 @@ const addDevelopers = () =>
   developers
     .map(
       (developer) => `<url>
-<loc>${BASE_URL}/developers/${developer.id}</loc>
+<loc>${CHARITY_GAMES_BASE_URL}/developers/${developer.id}</loc>
 <lastmod>${LAST_UPDATE_DATE}</lastmod>
 <priority>0.3</priority>
 </url>`

@@ -1,6 +1,6 @@
 import { httpBatchLink, loggerLink } from '@trpc/client';
 import { createTRPCNext } from '@trpc/next';
-import { BASE_URL } from '@worksheets/ui/env';
+import { CHARITY_GAMES_BASE_URL } from '@worksheets/ui/env';
 
 import { AppRouter } from '../server/routers/_app';
 
@@ -9,7 +9,7 @@ function getBaseUrl() {
     // browser should use relative path
     return '';
 
-  if (BASE_URL) return BASE_URL;
+  if (CHARITY_GAMES_BASE_URL) return CHARITY_GAMES_BASE_URL;
 
   // assume localhost
   return `http://localhost:6969`;

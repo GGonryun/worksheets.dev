@@ -1,4 +1,4 @@
-import { BASE_URL } from '@worksheets/ui/env';
+import { CHARITY_GAMES_BASE_URL } from '@worksheets/ui/env';
 import { OpenGraphProps, TWITTER_SEO } from '@worksheets/util/seo';
 import {
   DeveloperSchema,
@@ -8,7 +8,7 @@ import {
 } from '@worksheets/util/types';
 import { DefaultSeoProps, NextSeoProps, VideoGameJsonLdProps } from 'next-seo';
 
-const createCanonicalUrl = (url?: string) => `${BASE_URL}${url}`;
+const createCanonicalUrl = (url?: string) => `${CHARITY_GAMES_BASE_URL}${url}`;
 
 export const defaultSeo: DefaultSeoProps = {
   title: 'Charity Games',
@@ -21,7 +21,7 @@ export const defaultSeo: DefaultSeoProps = {
       'On Charity Games you can play free online HTML browser games and microgames. Every play donates money to charitable causes. We support mobile and desktop.',
     images: [
       {
-        url: `${BASE_URL}/og-image.png`,
+        url: `${CHARITY_GAMES_BASE_URL}/og-image.png`,
         width: 978,
         height: 800,
         alt: 'Charity Games Logo',

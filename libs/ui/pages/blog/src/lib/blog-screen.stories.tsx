@@ -6,7 +6,6 @@ import { sampleBlogMetadata } from './data';
 
 const Story: Meta<typeof BlogScreen> = {
   component: BlogScreen,
-  title: 'Content/BlogScreen',
   decorators: [
     (Story) => (
       <StoryWallpaper>

@@ -1,4 +1,4 @@
-import { BASE_URL, BLOG_BASE_URL } from '@worksheets/ui/env';
+import { BLOG_BASE_URL, CHARITY_GAMES_BASE_URL } from '@worksheets/ui/env';
 import { OpenGraphProps, TWITTER_SEO } from '@worksheets/util/seo';
 import { BlogAuthor } from '@worksheets/util/types';
 import { MarkdownMetadata } from '@worksheets/util-markdown';
@@ -84,7 +84,7 @@ export const blogArticleSeo = (slug: string, metadata: MarkdownMetadata) => ({
   article: {
     publishedTime: metadata.date,
     modifiedTime: metadata.date,
-    authors: [`${BASE_URL}/about`],
+    authors: [`${CHARITY_GAMES_BASE_URL}/about`],
     tags: metadata.tags,
   },
   images: [

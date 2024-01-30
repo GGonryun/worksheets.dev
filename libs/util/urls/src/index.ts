@@ -1,7 +1,8 @@
-const BASE_URL = process.env['NEXT_PUBLIC_CHARITY_GAMES_BASE_URL'];
+const CHARITY_GAMES_BASE_URL =
+  process.env['NEXT_PUBLIC_CHARITY_GAMES_BASE_URL'];
 
 const urls = {
-  charityGames: BASE_URL,
+  charityGames: CHARITY_GAMES_BASE_URL,
   email: {
     admin: 'admin@charity.games',
     support: 'support@charity.games',
@@ -38,5 +39,5 @@ const urls = {
 export default urls;
 
 export const createReferralLink = (code: string) => {
-  return `${BASE_URL}/ref/${code}`;
+  return `${CHARITY_GAMES_BASE_URL}/ref/${code}`;
 };

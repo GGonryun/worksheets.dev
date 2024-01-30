@@ -6,7 +6,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
 import { PrefixTextField } from '@worksheets/ui/components/inputs';
-import { BASE_URL } from '@worksheets/ui/env';
+import { CHARITY_GAMES_BASE_URL } from '@worksheets/ui/env';
 import { labelFor } from '@worksheets/util/misc';
 import { GameSubmissionForm } from '@worksheets/util/types';
 import { FC } from 'react';
@@ -76,7 +76,7 @@ const GameIdField: FC = () => {
         error ||
         'Used in to identify and share your game link. Only letters, numbers, and dashes are allowed.'
       }
-      prefix={`${BASE_URL}/play/`}
+      prefix={`${CHARITY_GAMES_BASE_URL}/play/`}
     />
   );
 };
