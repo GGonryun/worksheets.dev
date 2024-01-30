@@ -2130,7 +2130,7 @@ export const games: GameSchema[] = [
     ],
     category: ['card'],
     file: {
-      type: 'redirect',
+      type: 'iframe',
       url: SOLITAIRE_URL,
     },
     createdAt: new Date('2023-10-16T00:00:00.000Z'),
@@ -2171,7 +2171,7 @@ export const games: GameSchema[] = [
     ],
     category: ['card'],
     file: {
-      type: 'redirect',
+      type: 'iframe',
       url: EMOJI_WAR_URL,
     },
     createdAt: new Date('2023-10-01T00:00:00.000Z'),
@@ -2434,7 +2434,7 @@ export const games: GameSchema[] = [
     ],
     category: ['puzzle'],
     file: {
-      type: 'redirect',
+      type: 'iframe',
       url: WORD_SEARCH_URL,
     },
     createdAt: new Date('2023-10-09T00:00:00.000Z'),
@@ -2581,7 +2581,7 @@ export const games: GameSchema[] = [
     ],
     category: ['puzzle'],
     file: {
-      type: 'redirect',
+      type: 'iframe',
       url: PUZZLE_WORDS_URL,
     },
     createdAt: new Date('2023-10-07T00:00:00.000Z'),
@@ -2617,7 +2617,7 @@ export const games: GameSchema[] = [
     ],
     category: ['puzzle'],
     file: {
-      type: 'redirect',
+      type: 'iframe',
       url: WORD_SMITH_URL,
     },
     createdAt: new Date('2023-10-30T00:00:00.000Z'),
@@ -2702,7 +2702,7 @@ export const games: GameSchema[] = [
     tags: ['ad-free', 'popular', 'puzzle', 'brain', 'desktop', 'mobile'],
     category: ['puzzle'],
     file: {
-      type: 'redirect',
+      type: 'iframe',
       url: NONOGRAMS_URL,
     },
     createdAt: new Date('2023-11-01T00:00:00.000Z'),
@@ -2747,7 +2747,7 @@ export const games: GameSchema[] = [
     ],
     category: ['puzzle'],
     file: {
-      type: 'redirect',
+      type: 'iframe',
       url: WORD_PACK_URL,
     },
     createdAt: new Date('2023-10-21T00:00:00.000Z'),
