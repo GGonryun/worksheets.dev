@@ -18,11 +18,9 @@ export const getServerSideProps = (async () => {
   const randomGame = getRandomGame(false);
 
   return {
-    props: {
-      redirect: {
-        destination: `/play/${randomGame.id}`,
-        permanent: false,
-      },
+    redirect: {
+      destination: `/play/${randomGame.id}`,
+      permanent: false,
     },
   };
 }) satisfies GetServerSideProps;

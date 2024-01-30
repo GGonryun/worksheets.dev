@@ -40,7 +40,7 @@ export const PaginatedGamesList: React.FC<{
           <Button
             variant="arcade"
             color="warning"
-            href="/random"
+            href="/play/random"
             size={isMobile ? 'medium' : 'large'}
             fullWidth
             startIcon={<ShuffleIcon size={isMobile ? 18 : 23} />}

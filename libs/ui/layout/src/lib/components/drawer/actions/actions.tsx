@@ -1,4 +1,4 @@
-import { LocalOffer, SportsEsports } from '@mui/icons-material';
+import { Book, LocalOffer, SportsEsports } from '@mui/icons-material';
 import { Button } from '@mui/material';
 import Box from '@mui/material/Box';
 import { ShuffleIcon } from '@worksheets/icons/native';
@@ -15,7 +15,7 @@ export const Actions: FC = () => {
         color="success"
         startIcon={<SportsEsports />}
       >
-        All Games
+        Browse Games
       </Button>
       <Button
         variant="arcade"
@@ -36,6 +36,16 @@ export const Actions: FC = () => {
         startIcon={<ShuffleIcon size={20} />}
       >
         Random Game
+      </Button>
+      <Button
+        href="/blog"
+        variant="arcade"
+        fullWidth
+        size="large"
+        color="secondary"
+        startIcon={<Book />}
+      >
+        Read The Blog
       </Button>
     </Box>
   );

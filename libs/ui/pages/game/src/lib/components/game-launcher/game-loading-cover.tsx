@@ -54,12 +54,6 @@ export const GameLoadingCover: FC<GameLoadingCoverProps> = ({
   const showNoLandscapeOverlay =
     isMobileOrTablet && !orientations?.includes('landscape') && isLandscape;
 
-  const showOverlays =
-    showNoMobileOverlay ||
-    showNoPortraitOverlay ||
-    showNoLandscapeOverlay ||
-    showNoDesktopOverlay;
-
   return (
     <Box
       sx={{
@@ -101,12 +95,15 @@ export const GameLoadingCover: FC<GameLoadingCoverProps> = ({
           gap: 1,
         }}
       >
-        {showNoDesktopOverlay && <DoesNotSupportDesktopOverlay />}
-        {showNoMobileOverlay && <DoesNotSupportMobileOverlay />}
-        {showNoLandscapeOverlay && <DoesNotSupportLandscapeOverlay />}
-        {showNoPortraitOverlay && <DoesNotSupportPortraitOverlay />}
-
-        {!showOverlays && (
+        {showNoDesktopOverlay ? (
+          <DoesNotSupportDesktopOverlay />
+        ) : showNoMobileOverlay ? (
+          <DoesNotSupportMobileOverlay />
+        ) : showNoLandscapeOverlay ? (
+          <DoesNotSupportLandscapeOverlay />
+        ) : showNoPortraitOverlay ? (
+          <DoesNotSupportPortraitOverlay />
+        ) : (
           <PlayOverlay name={name} iconUrl={iconUrl} onPlay={onPlay} />
         )}
       </Box>
@@ -154,30 +151,32 @@ const DoesNotSupportOverlay: FC<{
 }> = ({ PrimaryIcon, SecondaryIcon, primary, secondary }) => (
   <>
     <PrimaryIcon color="white" sx={{ fontSize: '3rem' }} />
-    <Typography
-      sx={{
-        fontFamily: (theme) => theme.typography.mPlus1p.fontFamily,
-        color: (theme) => theme.palette.white.main,
-        fontWeight: '700',
-        fontSize: { xs: '1.25rem', sm: '1.5rem', lg: '1.75rem' },
-        textAlign: 'center',
-      }}
-    >
-      {primary}
-    </Typography>
-    {secondary && (
+    <Box>
       <Typography
         sx={{
           fontFamily: (theme) => theme.typography.mPlus1p.fontFamily,
           color: (theme) => theme.palette.white.main,
-          fontSize: { xs: '0.8rem', sm: '1rem', lg: '1.2rem' },
+          fontWeight: '700',
+          fontSize: { xs: '1.25rem', sm: '1.5rem', lg: '1.75rem' },
           textAlign: 'center',
         }}
       >
-        {secondary}
+        {primary}
       </Typography>
-    )}
-    {SecondaryIcon && <SecondaryIcon color="white" sx={{ fontSize: '3rem' }} />}
+      {secondary && (
+        <Typography
+          sx={{
+            fontFamily: (theme) => theme.typography.mPlus1p.fontFamily,
+            color: (theme) => theme.palette.white.main,
+            fontSize: { xs: '0.8rem', sm: '1rem', lg: '1.2rem' },
+            textAlign: 'center',
+          }}
+        >
+          {secondary}
+        </Typography>
+      )}
+    </Box>
+    {SecondaryIcon && <SecondaryIcon color="white" sx={{ fontSize: '2rem' }} />}
   </>
 );
 
