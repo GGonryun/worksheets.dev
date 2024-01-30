@@ -14,7 +14,7 @@ export const ActionBox = () => {
         color="primary"
         size={isMedium ? 'small' : 'medium'}
         sx={{
-          display: isTiny ? 'none' : 'block',
+          display: isTiny ? 'none' : 'flex',
           width: isSmall ? 'unset' : 164,
         }}
       >
@@ -26,7 +26,7 @@ export const ActionBox = () => {
         color="error"
         size={isMedium ? 'small' : 'medium'}
         sx={{
-          display: isMedium ? 'none' : 'block',
+          display: isMedium ? 'none' : 'flex',
           width: 164,
         }}
       >
@@ -38,7 +38,7 @@ export const ActionBox = () => {
         color="error"
         size={isMedium ? 'small' : 'medium'}
         sx={{
-          display: isSmall ? 'none' : 'block',
+          display: isSmall ? 'none' : 'flex',
           width: 164,
         }}
       >
@@ -50,7 +50,7 @@ export const ActionBox = () => {
         color="success"
         size={isMedium ? 'small' : 'medium'}
         sx={{
-          display: isTiny ? 'none' : 'block',
+          display: isTiny ? 'none' : 'flex',
           width: isSmall ? 'unset' : 164,
         }}
       >
