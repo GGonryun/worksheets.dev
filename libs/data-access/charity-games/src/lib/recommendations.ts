@@ -3,13 +3,14 @@ import { RecommendationsSchema } from '@worksheets/util/types';
 // TODO: this should be fetched from a database.
 export const recommendations: RecommendationsSchema = {
   featured: [
-    'blasteroids',
     'baku-gamu',
-    'solitaire-2048',
+    'blasteroids',
     'stick-jump',
+    'solitaire',
     'air-hockey-neon',
     'quickbeat',
-    'freedom-run',
+    'solitaire-2048',
+    'puzzle-words',
   ],
   popular: [
     'baku-gamu',
