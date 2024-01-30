@@ -7,11 +7,37 @@ html {
 body {
   margin: 0;
   padding: 0;
+  background: radial-gradient(
+    circle,
+    rgba(43, 217, 255, 1) 0%,
+    rgba(13, 106, 215, 1) 50%,
+    rgba(0, 33, 71, 1) 100%
+  );
 }
 
 main {
   min-height: 100dvh;
   height: 100%;
-  width: 100vw;
+  width: 100%;
   display: flex;
+}
+
+.website-content {
+  position: 'relative';
+}
+
+.website-content::before {
+  position: absolute;
+  display: block;
+  opacity: 0.1;
+  top: 0;
+  left: 0;
+  content: '';
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  background-color: rgb(43, 217, 255);
+  background-image: url('/common/wallpaper/coins.png');
+  background-blend-mode: color-dodge;
+  background-repeat: repeat;
 }

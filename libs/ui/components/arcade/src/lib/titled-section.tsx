@@ -90,3 +90,5 @@ export const TitledSection: React.FC<{
     </Box>
   );
 };
+
+export type TitledSectionProps = React.ComponentProps<typeof TitledSection>;

@@ -14,8 +14,6 @@ const LoginScreenContainer = () => {
     callbackUrl: createCallbackUrl({ query, skipPortal }).toString(),
   };
 
-  console.log('callback url created: ', opts.callbackUrl);
-
   return (
     <LoginScreen
       onGoogleAction={() => signIn('google', opts)}

@@ -14,6 +14,11 @@ import { z } from '@worksheets/zod';
 import { publicProcedure } from '../../procedures';
 
 export default publicProcedure
+  .input(
+    z.object({
+      recentGames: z.string().array(),
+    })
+  )
   .output(
     z.object({
       categories: z.custom<BasicCategoryInfo[]>(),
@@ -24,9 +29,10 @@ export default publicProcedure
       topRaffles: z.custom<BasicPrizeDetails[]>(),
       topGames: z.custom<BasicGameInfo[]>(),
       allGames: z.custom<BasicGameInfo[]>(),
+      recentGames: z.custom<BasicGameInfo[]>(),
     })
   )
-  .query(() => {
+  .query(({ input: { recentGames } }) => {
     const categories: BasicCategoryInfo[] = Object.entries(tags).map(
       ([, tag]) => ({
         id: tag.id,
@@ -76,7 +82,19 @@ export default publicProcedure
       categories,
       featured: { primary, secondary },
       topRaffles: [], // TODO: add raffles
+      recentGames: recentGames.map(convertGame),
       topGames,
       allGames,
     };
   });
+
+const convertGame = (id: string) => {
+  const game = games.find((game) => game.id === id);
+  if (!game) throw new Error(`Game with id ${id} not found`);
+
+  return {
+    id: game.id,
+    name: game.name,
+    image: game.iconUrl,
+  };
+};

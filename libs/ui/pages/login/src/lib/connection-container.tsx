@@ -18,7 +18,6 @@ export const ConnectionContainer: FC<ConnectionContainerProps> = ({
       width: '100%',
       display: 'grid',
       placeItems: 'center',
-      mb: 4,
     }}
   >
     <Paper

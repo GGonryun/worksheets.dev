@@ -12,8 +12,8 @@ import { LogoBox } from '../shared/logo-box';
 const currentYear = new Date().getFullYear();
 
 export const WebsiteFooter: React.FC<{
-  href: LayoutLinks;
-}> = ({ href }) => {
+  links?: LayoutLinks;
+}> = ({ links }) => {
   return (
     <FooterContainer className="footer-container">
       <Box
@@ -77,11 +77,21 @@ export const WebsiteFooter: React.FC<{
           desktop2: 'center',
         }}
       >
-        <FooterLinkTypography href={href.about}>About</FooterLinkTypography>
-        <FooterLinkTypography href={href.help}>Help</FooterLinkTypography>
-        <FooterLinkTypography href={href.cookies}>Cookies</FooterLinkTypography>
-        <FooterLinkTypography href={href.privacy}>Privacy</FooterLinkTypography>
-        <FooterLinkTypography href={href.terms}>Terms</FooterLinkTypography>
+        <FooterLinkTypography href={links?.about ?? '/about'}>
+          About
+        </FooterLinkTypography>
+        <FooterLinkTypography href={links?.help ?? '/help'}>
+          Help
+        </FooterLinkTypography>
+        <FooterLinkTypography href={links?.cookies ?? '/cookies'}>
+          Cookies
+        </FooterLinkTypography>
+        <FooterLinkTypography href={links?.privacy ?? '/privacy'}>
+          Privacy
+        </FooterLinkTypography>
+        <FooterLinkTypography href={links?.terms ?? '/terms'}>
+          Terms
+        </FooterLinkTypography>
       </Box>
     </FooterContainer>
   );

@@ -1,8 +1,39 @@
+import { trpc } from '@worksheets/trpc-charity';
+import { useRecentlyPlayedGames } from '@worksheets/ui/hooks/use-recently-played-games';
+import { ErrorScreen } from '@worksheets/ui/pages/errors';
 import { LoadingScreen } from '@worksheets/ui/pages/loading';
 import dynamic from 'next/dynamic';
 
+import { ArcadeScreen } from '../components/arcade-screen';
+
+const ArcadeScreenContainer: React.FC = () => {
+  const { recentlyPlayed } = useRecentlyPlayedGames();
+
+  const { data, isLoading, error } = trpc.arcade.details.useQuery(
+    { recentGames: recentlyPlayed.map((r) => r.gameId) },
+    {
+      enabled: true,
+    }
+  );
+
+  if (isLoading) return <LoadingScreen />;
+
+  if (error) return <ErrorScreen />;
+
+  return (
+    <ArcadeScreen
+      categories={data.categories}
+      featured={data.featured}
+      topRaffles={data.topRaffles}
+      topGames={data.topGames}
+      allGames={data.allGames}
+      recentGames={data.recentGames}
+    />
+  );
+};
+
 export const DynamicArcadeScreen = dynamic(
-  () => import('../container/arcade-screen-container'),
+  () => Promise.resolve(ArcadeScreenContainer),
   {
     ssr: false,
     loading: () => <LoadingScreen />,

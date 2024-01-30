@@ -5,4 +5,6 @@ export type LayoutLinks = {
   cookies: string;
   privacy: string;
   terms: string;
+  account: string;
+  login: string;
 };

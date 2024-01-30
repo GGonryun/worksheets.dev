@@ -11,8 +11,8 @@ import {
 } from '@worksheets/util/types';
 
 import { FeaturedGames, FeaturedGamesProps } from './featured-games';
+import { GameSection } from './game-section';
 import { HottestRaffles } from './hottest-raffles';
-import { TopGames } from './top-games';
 
 export const ArcadeScreen: React.FC<{
   categories: BasicCategoryInfo[];
@@ -20,6 +20,7 @@ export const ArcadeScreen: React.FC<{
   topRaffles: BasicPrizeDetails[];
   topGames: BasicGameInfo[];
   allGames: BasicGameInfo[];
+  recentGames: BasicGameInfo[];
 }> = (props) => (
   <Box
     sx={{
@@ -49,8 +50,23 @@ export const ArcadeScreen: React.FC<{
       }}
     >
       <FeaturedGames {...props.featured} />
-      <HottestRaffles prizes={props.topRaffles} />
-      <TopGames games={props.topGames.map(translateGames)} />
+
+      {props.topRaffles.length > 0 && (
+        <HottestRaffles prizes={props.topRaffles} />
+      )}
+
+      {props.recentGames.length > 0 && (
+        <GameSection
+          title="Recently Played"
+          games={props.recentGames.map(translateGames)}
+        />
+      )}
+
+      <GameSection
+        title="Top Games"
+        games={props.topGames.map(translateGames)}
+      />
+
       <PaginatedGamesList
         title="All Games"
         games={props.allGames.map(translateGames)}
