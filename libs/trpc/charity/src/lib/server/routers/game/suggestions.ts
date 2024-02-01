@@ -12,9 +12,6 @@ export default publicProcedure
   .output(z.array(detailedGameInfoSchema))
   .query(async ({ ctx: { db }, input: { gameId } }) => {
     const games = await db.game.findMany({
-      where: {
-        id: gameId,
-      },
       select: {
         id: true,
         title: true,
@@ -22,7 +19,11 @@ export default publicProcedure
         plays: true,
       },
     });
-    return games.map((game) => ({
+
+    // filter out the game that is being viewed
+    const filteredGames = games.filter((game) => game.id !== gameId);
+
+    return filteredGames.map((game) => ({
       id: game.id,
       name: game.title,
       image: game.thumbnail,

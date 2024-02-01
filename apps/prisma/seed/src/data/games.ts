@@ -1514,7 +1514,7 @@ export const games: SeedableGameSchema[] = [
     createdAt: new Date('2023-12-21T00:00:00.000Z'),
     updatedAt: new Date('2021-12-21:00:00.000Z'),
     markets: {},
-    description: `<p>Baku Gamu is a collection of fast-paced microgames developed by Syb Coin Coin. This game is in active development with new games being added regularly. The goal of the game is to complete as many microgames as you can before you run out of lives. Each microgame is randomly selected from the pool of available games.</p><h3>How to Play Baku Gamu?</h3><p>Each game is unique, follow the instructions on the screen to complete the microgame!</p><h3>Who created Baku Gamu?</h3><p>Baku Gamu is developed by Syb Coin Coin. Syb Coin Coin is a game development studio based in France. They have been making games since 2015.</p>`,
+    description: `<p>Baku Gamu is a collection of fast-paced microgames developed by Syb Coin Coin. This game is in active development with new games being added regularly. The goal of the game is to complete as many microgames as you can before you run out of lives. Each microgame is randomly selected from the pool of available games.</p><br/><br/><h3>How to Play Baku Gamu?</h3><p>Each game is unique, follow the instructions on the screen to complete the microgame!</p><h3>Who created Baku Gamu?</h3><p>Baku Gamu is developed by Syb Coin Coin. Syb Coin Coin is a game development studio based in France. They have been making games since 2015.</p>`,
   },
   {
     id: 'dino-rush',

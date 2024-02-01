@@ -45,6 +45,9 @@ export default publicProcedure
       game: {
         id: game.id,
         name: game.title,
+        plays: game.plays,
+        likes: game.likes,
+        dislikes: game.dislikes,
         description: game.description,
         developerId: game.developerId,
         iconUrl: game.thumbnail,

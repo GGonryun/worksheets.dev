@@ -115,7 +115,6 @@
       "@worksheets/ui/pages/arcade": ["libs/ui/pages/arcade/src/index.ts"],
       "@worksheets/ui/pages/blog": ["libs/ui/pages/blog/src/index.ts"],
       "@worksheets/ui/pages/category": ["libs/ui/pages/category/src/index.ts"],
-      "@worksheets/ui/pages/charity": ["libs/ui/pages/charity/src/index.ts"],
       "@worksheets/ui/pages/contact": ["libs/ui/pages/contact/src/index.ts"],
       "@worksheets/ui/pages/contributions": [
         "libs/ui/pages/contributions/src/index.ts"
@@ -139,7 +138,6 @@
         "libs/ui/pages/privacy-policy/src/index.ts"
       ],
       "@worksheets/ui/pages/prizes": ["libs/ui/pages/prizes/src/index.ts"],
-      "@worksheets/ui/pages/receipts": ["libs/ui/pages/receipts/src/index.ts"],
       "@worksheets/ui/pages/terms-of-service": [
         "libs/ui/pages/terms-of-service/src/index.ts"
       ],

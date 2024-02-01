@@ -1,6 +1,6 @@
 import { GameCategory } from '@prisma/client';
 import { prisma } from '@worksheets/prisma';
-import { TagSchema } from '@worksheets/util/types';
+import { SeedableGameSchema, TagSchema } from '@worksheets/util/types';
 
 import { developers } from './data/developer';
 import { games } from './data/games';
@@ -10,7 +10,9 @@ import { viewports } from './data/viewports';
 async function main() {
   // clean up the database before seeding
   await prisma.$transaction(async (tx) => {
+    await tx.categoriesOnGame.deleteMany({});
     await tx.game.deleteMany({});
+    await tx.developer.deleteMany({});
     await tx.gameCategory.deleteMany({});
     await tx.gameFile.deleteMany({});
     await tx.viewport.deleteMany({});
@@ -46,52 +48,53 @@ async function main() {
         })),
         skipDuplicates: true,
       });
-
-      // insert all games
-      for (const game of games) {
-        const entity = await tx.game.create({
-          data: {
-            id: game.id,
-            plays: 0,
-            likes: 0,
-            dislikes: 0,
-            title: game.name,
-            description: game.description,
-            thumbnail: game.iconUrl,
-            cover: game.bannerUrl,
-            developer: {
-              connect: {
-                id: game.developerId,
-              },
-            },
-            file: {
-              create: {
-                type: game.file.type,
-                url: game.file.url,
-              },
-            },
-            viewport: {
-              connect: {
-                id: game.viewport.id,
-              },
-            },
-          },
-        });
-        await tx.categoriesOnGame.createMany({
-          data: game.categories.map((category) => ({
-            gameId: entity.id,
-            categoryId: category,
-          })),
-          skipDuplicates: true,
-        });
-      }
-
-      // insert all categories on games
     });
+
+    // insert all games
+    await Promise.all(games.map(insertGame));
   } catch (error) {
     console.error(error);
   }
 }
+
+const insertGame = async (game: SeedableGameSchema) => {
+  const entity = await prisma.game.create({
+    data: {
+      id: game.id,
+      plays: 0,
+      likes: 0,
+      dislikes: 0,
+      title: game.name,
+      description: game.description,
+      thumbnail: game.iconUrl,
+      cover: game.bannerUrl,
+      developer: {
+        connect: {
+          id: game.developerId,
+        },
+      },
+      file: {
+        create: {
+          type: game.file.type,
+          url: game.file.url,
+        },
+      },
+      viewport: {
+        connect: {
+          id: game.viewport.id,
+        },
+      },
+    },
+  });
+
+  await prisma.categoriesOnGame.createMany({
+    data: game.categories.map((category) => ({
+      gameId: entity.id,
+      categoryId: category,
+    })),
+    skipDuplicates: true,
+  });
+};
 
 const convertTag: (tag: TagSchema) => GameCategory = (tag) => ({
   id: tag.id,
