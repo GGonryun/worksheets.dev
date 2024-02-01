@@ -1,4 +1,4 @@
-import { createServerSideTRPC } from '@worksheets/trpc-charity/server';
+import { createStaticTRPC } from '@worksheets/trpc-charity/server';
 import { DynamicLayout } from '@worksheets/ui/layout';
 import { DynamicGameScreenContainer } from '@worksheets/ui/pages/game';
 import { printDate } from '@worksheets/util/time';
@@ -7,7 +7,7 @@ import {
   SerializableGameSchema,
 } from '@worksheets/util/types';
 import { NextPageWithLayout } from '@worksheets/util-next';
-import { GetServerSideProps } from 'next';
+import { GetStaticPaths, GetStaticProps } from 'next';
 import {
   NextSeo,
   NextSeoProps,
@@ -34,9 +34,9 @@ const Page: NextPageWithLayout<Props> = ({ game, seo, jsonLd, developer }) => {
   );
 };
 
-export const getServerSideProps = (async (ctx) => {
+export const getStaticProps = (async (ctx) => {
   const { params } = ctx;
-  const trpc = await createServerSideTRPC(ctx);
+  const trpc = await createStaticTRPC(ctx);
 
   const gameId = params?.gameId as string;
 
@@ -50,6 +50,7 @@ export const getServerSideProps = (async (ctx) => {
     const { game, developer } = await trpc.game.find.fetch({
       gameId,
     });
+
     const seo = gameSeo(game, developer);
     const jsonLd = gameJsonLd(game, developer);
 
@@ -74,7 +75,22 @@ export const getServerSideProps = (async (ctx) => {
       },
     };
   }
-}) satisfies GetServerSideProps<Props>;
+}) satisfies GetStaticProps<Props>;
+
+export const getStaticPaths = (async (ctx) => {
+  const trpc = await createStaticTRPC(ctx);
+
+  const games = await trpc.game.list.fetch();
+
+  return {
+    paths: games.map((game) => ({
+      params: {
+        gameId: game,
+      },
+    })),
+    fallback: false,
+  };
+}) satisfies GetStaticPaths<{ gameId: string }>;
 
 Page.getLayout = (page) => {
   return <DynamicLayout>{page}</DynamicLayout>;
