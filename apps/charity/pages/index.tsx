@@ -15,7 +15,7 @@ const Page: NextPageWithLayout = () => {
   );
 };
 
-export const getServerSideProps = (async (ctx) => {
+export const getServerSideProps = (async () => {
   return {
     props: {},
   };
