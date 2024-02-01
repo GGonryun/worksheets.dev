@@ -1,4 +1,4 @@
-import { z } from '@worksheets/zod';
+import { z } from 'zod';
 
 export const gameInfoSchema = z.object({
   title: z.string(),

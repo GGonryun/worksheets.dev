@@ -1,5 +1,5 @@
 import { GameSubmissionStatus } from '@prisma/client';
-import { z } from '@worksheets/zod';
+import { z } from 'zod';
 
 export const basicGameSubmissionSchema = z.object({
   id: z.string(),
@@ -22,7 +22,6 @@ export const friendSchema = z.object({
   id: z.string(),
   username: z.string(),
   lastSeen: z.number(),
-  gamesPlayed: z.number(),
   isFavorite: z.boolean(),
   giftSentAt: z.number().nullable(),
 });

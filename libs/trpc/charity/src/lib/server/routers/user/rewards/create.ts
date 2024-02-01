@@ -5,7 +5,7 @@ import {
   STARTING_GIFT_BOXES,
   STARTING_TOKENS,
 } from '@worksheets/util/settings';
-import { z } from '@worksheets/zod';
+import { z } from 'zod';
 
 import { protectedProcedure } from '../../../procedures';
 

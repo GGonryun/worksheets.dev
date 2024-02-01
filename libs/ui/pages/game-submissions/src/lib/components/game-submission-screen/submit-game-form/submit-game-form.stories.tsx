@@ -61,7 +61,7 @@ export const ResponsiveMobileGame: Story = {
             viewport: 'RESPONSIVE',
             devices: ['MOBILE'],
             orientations: ['PORTRAIT', 'LANDSCAPE'],
-            projectType: 'PAGE',
+            projectType: 'EXTERNAL',
           },
         }}
       >
@@ -79,7 +79,7 @@ export const ExternalWebsite: Story = {
           ...prefilledValues,
           values: {
             ...prefilledValues.values,
-            projectType: 'PAGE',
+            projectType: 'EXTERNAL',
           },
         }}
       >
@@ -100,7 +100,7 @@ export const ExternalWebsiteErrors: Story = {
             title: "@ My Game's Title %",
             headline: "My Game's Tagline ".repeat(10),
             externalWebsiteUrl: 'https://example.com',
-            projectType: 'PAGE',
+            projectType: 'EXTERNAL',
             viewportHeight: 120,
             viewportWidth: 120,
             markets: {
@@ -121,8 +121,7 @@ export const ExternalWebsiteErrors: Story = {
             gameFile: '',
             description: 'Your description is invalid.',
             instructions: 'Your instructions are invalid.',
-            category: 'You must select at least one category.',
-            tags: 'You must select at least one tag.',
+            categories: 'You must select at least one category.',
             viewport: 'You must select a viewport.',
             viewportWidth: 'Your viewport width must be at least 240 pixels.',
             viewportHeight: 'Your viewport height must be at least 160 pixels.',

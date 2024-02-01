@@ -1,10 +1,9 @@
 import { t } from '../../trpc';
-import analytics from './analytics';
 import files from './files/router';
 import find from './find';
+import findRandom from './findRandom';
 import play from './play/router';
 import report from './report';
-import search from './search';
 import submissions from './submissions/router';
 import suggestions from './suggestions';
 import vote from './vote/router';
@@ -17,8 +16,7 @@ export default t.router({
   // procedures
   suggestions,
   find,
+  findRandom,
   play,
-  analytics,
   report,
-  search,
 });

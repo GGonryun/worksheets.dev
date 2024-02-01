@@ -1,12 +1,12 @@
 import { PrismaClient } from '@prisma/client';
-import { dailyBonusGames } from '@worksheets/data-access/charity-games';
 import {
   BONUS_GAMES_MULTIPLIER,
+  dailyBonusGames,
   GIFT_BOX_DROP_RATE,
   MAX_TOKENS_PER_GAME,
   TOKENS_PER_REFERRAL_PLAY,
 } from '@worksheets/util/settings';
-import { z } from '@worksheets/zod';
+import { z } from 'zod';
 
 import { protectedProcedure } from '../../../../procedures';
 

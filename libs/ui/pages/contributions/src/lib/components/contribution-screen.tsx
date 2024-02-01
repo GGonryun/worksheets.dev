@@ -1,5 +1,9 @@
 import Container from '@mui/material/Container';
-import { BasicWebsiteStatistics, QuestionAnswer } from '@worksheets/util/types';
+import {
+  BasicWebsiteStatistics,
+  DeveloperSchema,
+  QuestionAnswer,
+} from '@worksheets/util/types';
 
 import { DevelopersSection } from './developers-section';
 import { QuestionsSection } from './questions-section';
@@ -8,6 +12,7 @@ import { TitleSection } from './title-section';
 
 export interface ContributionScreenProps {
   statistics?: BasicWebsiteStatistics;
+  developers: DeveloperSchema[];
   faq: QuestionAnswer[];
 }
 
@@ -23,7 +28,7 @@ export function ContributionScreen(props: ContributionScreenProps) {
       }}
     >
       <TitleSection statistics={props.statistics} />
-      <DevelopersSection />
+      <DevelopersSection developers={props.developers} />
       <SupportSection />
       <QuestionsSection faq={props.faq} />
     </Container>

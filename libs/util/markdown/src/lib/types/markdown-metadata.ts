@@ -1,3 +1,5 @@
+import { BlogAuthorId } from '@worksheets/util/blog';
+
 import { OgImage } from './og-image';
 
 export interface MarkdownMetadata {
@@ -6,7 +8,7 @@ export interface MarkdownMetadata {
   coverImage: string;
   tags: string[];
   date: string;
-  authorId: string;
+  authorId: BlogAuthorId;
   ogImage: OgImage;
   slug: string;
 }

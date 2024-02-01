@@ -1,32 +1,53 @@
+import {
+  DeviceOrientations,
+  GameDevices,
+  ProjectType,
+  ViewportType,
+} from '@prisma/client';
+
 import { GameTag } from './tag-schema';
+
+export type ViewportKeys =
+  | 'ALL-DEVICES'
+  | 'COMPUTER-ONLY'
+  | 'DESKTOP-PORTRAIT'
+  | 'DESKTOP-LANDSCAPE'
+  | 'MOBILE-ONLY'
+  | 'MOBILE-LANDSCAPE'
+  | 'MOBILE-PORTRAIT'
+  | 'LANDSCAPE-ONLY'
+  | 'PORTRAIT-ONLY';
 
 export type GameSchema = {
   id: string;
   name: string;
-  // used by the home page and game page to display the game's size in the grid. a larger number should correspond to a more popular game.
-  size: number;
+  description: string;
   developerId: string;
   iconUrl: string;
   bannerUrl: string;
-  trailerUrl?: string;
-  screenshots?: string[];
-  platforms: GameDevices[];
-  orientations: DeviceOrientation[];
-  tags: GameTag[];
-  category: GameTag[];
+  categories: GameTag[];
   createdAt: Date;
   updatedAt: Date;
-  description: string;
   markets: Partial<MarketLinks>;
+  plays: number;
+  likes: number;
+  dislikes: number;
   file: {
-    type: 'redirect' | 'iframe';
+    type: ProjectType;
     url: string;
+  };
+  viewport: {
+    id: string;
+    type: ViewportType;
+    devices: GameDevices[];
+    orientations: DeviceOrientations[];
   };
 };
 
-type GameDevices = 'desktop' | 'mobile';
-
-type DeviceOrientation = 'landscape' | 'portrait';
+export type SeedableGameSchema = Omit<
+  GameSchema,
+  'likes' | 'dislikes' | 'plays'
+>;
 
 type MarketLinks = {
   android: string;
@@ -45,12 +66,6 @@ export type SerializableGameSchema = Omit<
   updatedAt: string;
 };
 
-export type GameAnalyticsSchema = {
-  votes: { up: string; down: string };
-  score: string;
-  plays: string;
-};
-
 export type GameMonetizeSchema = {
   id: string;
   title: string;
@@ -60,7 +75,4 @@ export type GameMonetizeSchema = {
   category: GameTag;
   tags: string;
   thumb: string;
-  mobile?: boolean;
-  height?: string;
-  width?: string;
 };

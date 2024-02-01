@@ -1,7 +1,5 @@
 import { z } from 'zod';
 
-export * from 'zod';
-
 type SafeGlobalValidation<T extends string | number | symbol> =
   | {
       success: false;

@@ -1,5 +1,5 @@
+import { createServerSideTRPC } from '@worksheets/trpc-charity/server';
 import { DynamicLayout } from '@worksheets/ui/layout';
-import { getRandomGame } from '@worksheets/ui/pages/game';
 import { LoadingScreen } from '@worksheets/ui/pages/loading';
 import { NextPageWithLayout } from '@worksheets/util-next';
 import { GetServerSideProps } from 'next';
@@ -14,8 +14,10 @@ const Page: NextPageWithLayout = () => {
   );
 };
 
-export const getServerSideProps = (async () => {
-  const randomGame = getRandomGame(false);
+export const getServerSideProps = (async (ctx) => {
+  const trpc = await createServerSideTRPC(ctx);
+
+  const randomGame = await trpc.game.findRandom.fetch();
 
   return {
     redirect: {

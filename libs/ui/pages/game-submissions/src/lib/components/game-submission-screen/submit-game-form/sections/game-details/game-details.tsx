@@ -3,8 +3,7 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 
 import { useGameSubmissionFormContext } from '../../../../form-context';
-import { CategorySelectField } from './category-select-field';
-import { TagsAutocompleteField } from './tags-autocomplete-field';
+import { CategoriesAutocompleteField } from './categories-autocomplete-field';
 
 export const GameDetails = () => (
   <Box
@@ -20,9 +19,7 @@ export const GameDetails = () => (
 
     <InstructionsField />
 
-    <CategorySelectField />
-
-    <TagsAutocompleteField />
+    <CategoriesAutocompleteField />
   </Box>
 );
 

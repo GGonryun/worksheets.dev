@@ -18,8 +18,6 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import { WebGamepad } from '@worksheets/icons/web';
-import { shorthandNumber } from '@worksheets/util/numbers';
 import { printRelativeDate } from '@worksheets/util/time';
 import { Friend } from '@worksheets/util/types';
 import * as React from 'react';
@@ -73,17 +71,6 @@ export const FriendsListTable: React.FC<{
               </Tooltip>
             </TableCell>
             <TableCell width="60%">Username</TableCell>
-            {/* Total Games */}
-            <TableCell
-              align="center"
-              sx={{
-                display: isMobile ? 'none' : 'table-cell',
-              }}
-            >
-              <Tooltip title="Total games played by this user">
-                <WebGamepad fontSize="small" sx={{ mb: '-6px' }} />
-              </Tooltip>
-            </TableCell>
             {/* Last Seen */}
             <TableCell
               align="center"
@@ -139,16 +126,6 @@ export const FriendsListTable: React.FC<{
               </TableCell>
 
               <TableCell>{friend.username ?? friend.id}</TableCell>
-
-              <TableCell
-                align="center"
-                sx={{
-                  display: isMobile ? 'none' : 'table-cell',
-                  fontSize: '0.8rem',
-                }}
-              >
-                {shorthandNumber(friend.gamesPlayed)}
-              </TableCell>
 
               <TableCell
                 align="center"

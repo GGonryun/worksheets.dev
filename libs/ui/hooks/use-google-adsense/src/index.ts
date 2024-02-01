@@ -1,4 +1,4 @@
-import { adClient } from '@worksheets/data-access/charity-games';
+import { adClient } from '@worksheets/util/adsense';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
 

@@ -1,8 +1,6 @@
 import { t } from '../../../trpc';
-import anonymous from './anonymous';
-import authorized from './authorized';
+import record from './record';
 
 export default t.router({
-  anonymous,
-  authorized,
+  record,
 });

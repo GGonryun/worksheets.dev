@@ -1,7 +1,7 @@
 import { TRPCError } from '@trpc/server';
 import { createFileDownloadUrl } from '@worksheets/services/environment';
 import { FILE_ID_FIELD_MAP, storedFileSchema } from '@worksheets/util/types';
-import { z } from '@worksheets/zod';
+import { z } from 'zod';
 
 import { protectedProcedure } from '../../../procedures';
 

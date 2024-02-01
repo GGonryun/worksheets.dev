@@ -8,45 +8,6 @@ datasource db {
   directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
-model GamePlay {
-  id            String        @id @default(cuid())
-  total         Int
-  createdAt     DateTime      @default(now())
-  updatedAt     DateTime      @updatedAt
-  // reference to the game.
-  gameId        String
-  // game          Game          @relation(fields: [gameId], references: [id])
-  // anonymous users can play games.
-  userId        String?
-  user          User?         @relation(fields: [userId], references: [id])
-}
-
-model GameVote {
-  id            String        @id @default(cuid())
-  createdAt     DateTime      @default(now())
-  vote          Int           @default(1)
-
-  gameId        String
-  // game          Game          @relation(fields: [gameId], references: [id])
-
-  // only authenticated users can vote on games
-  userId        String
-  user          User         @relation(fields: [userId], references: [id])
-}
-
-enum GameDevices {
-  MOBILE
-  WEB
-}
-
-enum GameSubmissionStatus {
-  DRAFT
-  REJECTED
-  PENDING
-  ACCEPTED
-  DELETED
-}
-
 model User {
   id                String    @id @default(cuid())
   name              String?
@@ -60,14 +21,12 @@ model User {
 
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
+  lastSeen          DateTime? @default(now())
 
   accounts          Account[]
   sessions          Session[]
   
-  plays             GamePlay[]
-  votes             GameVote[]
   rewards           Rewards?
-  games             Game[]
   submissions       GameSubmission[]
 
   referralCode      ReferralCode?
@@ -176,9 +135,22 @@ model GameReport {
   createdAt     DateTime      @default(now())
 }
 
+enum GameDevices {
+  MOBILE
+  COMPUTER
+}
+
+enum GameSubmissionStatus {
+  DRAFT
+  REJECTED
+  PENDING
+  ACCEPTED
+  DELETED
+}
+
 enum ProjectType {
   HTML
-  PAGE  
+  EXTERNAL  
 }
 
 enum ViewportType {
@@ -186,30 +158,6 @@ enum ViewportType {
   RESPONSIVE
 }
 
-enum GameCategory {
-  ACTION
-  ADVENTURE
-  ARCADE
-  BOARD
-  CARD
-  EDUCATIONAL
-  FIGHTING
-  IDLE
-  NOVEL
-  PLATFORMER
-  PUZZLE
-  RACING
-  RPG
-  RHYTHM
-  SHOOTER
-  SIMULATION
-  SPORTS
-  STRATEGY
-  SURVIVAL
-  OTHER
-  TRIVIA
-  WORD
-}
 
 enum DeviceOrientations {
   PORTRAIT
@@ -221,8 +169,8 @@ model Viewport {
   type          ViewportType          @default(RESPONSIVE)
   width         Int?
   height        Int?
-  devices       GameDevices[]         @default([WEB])
-  orientations  DeviceOrientations[]  @default([PORTRAIT])
+  devices       GameDevices[]         @default([COMPUTER, MOBILE])
+  orientations  DeviceOrientations[]  @default([PORTRAIT, LANDSCAPE])
   games         Game[]
 }
 
@@ -233,26 +181,47 @@ model GameFile {
   game         Game?    
 }
 
+model CategoriesOnGame {
+  @@id([gameId, categoryId])
+  
+  gameId        String
+  categoryId    String
+  game          Game            @relation(fields: [gameId], references: [id])
+  category      GameCategory    @relation(fields: [categoryId], references: [id])
+}
+
+model GameCategory {
+  id                    String        @id @default(cuid())
+  name                  String        @unique
+  description           String        @db.VarChar(4095)
+  iconUrl               String        @db.VarChar(255)
+  relatedCategoryIds    String[]      @db.VarChar(63)
+  games                 CategoriesOnGame[]
+}
+
+
+model Developer {
+  id            String          @id @default(cuid())
+  name          String          @unique
+  description   String          @db.VarChar(4095)
+  logoUrl       String          @db.VarChar(255)
+  links         String            
+  games         Game[]
+}
+
 model Game {
   id            String          @id @default(cuid())
-  slug          String          @db.VarChar(63)
   // Details
   title         String          @db.VarChar(127)
-  headline      String          @db.VarChar(256)
-  description   String          @db.VarChar(2047)
-  instructions  String          @db.VarChar(2047)
-  // a JSON object with the game's supported markets
-  // we use a string instead of JSON because our zod parser doesn't support JSON properly.
-  // known-issue: https://github.com/microsoft/TypeScript/issues/34933
-  markets       String?
+  description   String          @db.VarChar(4095)
+  plays         Int             @default(0)
+  likes         Int             @default(0)
+  dislikes      Int             @default(0)
   // Search
-  category      GameCategory    @default(OTHER)
-  tags          String[]        @db.VarChar(63)
+  categories    CategoriesOnGame[]
   // Assets
   thumbnail     String          @db.Text // URL
   cover         String          @db.Text // URL
-  screenshots   String[]        @db.Text // URLs
-  trailer       String?         @db.Text // URL
   // Audit
   createdAt     DateTime        @default(now())
   updatedAt     DateTime        @updatedAt
@@ -261,12 +230,9 @@ model Game {
   file          GameFile        @relation(fields: [fileId], references: [id])
   viewportId    String
   viewport      Viewport        @relation(fields: [viewportId], references: [id])
-  // Ownership
-  ownerId       String?
-  owner         User?        @relation(fields: [ownerId], references: [id])
-  // Analytics
-  // votes         GameVote[]
-  // plays         GamePlay[]
+  // Developer
+  developerId   String
+  developer     Developer       @relation(fields: [developerId], references: [id])
 }
 
 model StoredFile {
@@ -300,8 +266,7 @@ model GameSubmission {
   orientations        DeviceOrientations[]      
   description         String?                   @db.VarChar(1023)
   instructions        String?                   @db.VarChar(1023)
-  category            GameCategory?             
-  tags                String[]                  @db.VarChar(63) @default([])
+  categories          String[]                  @db.VarChar(63) @default([])
   // a JSON object with the game's supported markets
   // we use a string instead of JSON because our zod parser doesn't support JSON properly.
   // known-issue: https://github.com/microsoft/TypeScript/issues/34933

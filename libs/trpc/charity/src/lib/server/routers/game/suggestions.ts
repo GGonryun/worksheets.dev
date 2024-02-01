@@ -1,6 +1,5 @@
-import { games } from '@worksheets/data-access/charity-games';
 import { detailedGameInfoSchema } from '@worksheets/util/types';
-import { z } from '@worksheets/zod';
+import { z } from 'zod';
 
 import { publicProcedure } from '../../procedures';
 
@@ -11,12 +10,22 @@ export default publicProcedure
     })
   )
   .output(z.array(detailedGameInfoSchema))
-  .query(({ ctx: { db }, input: { gameId } }) => {
+  .query(async ({ ctx: { db }, input: { gameId } }) => {
+    const games = await db.game.findMany({
+      where: {
+        id: gameId,
+      },
+      select: {
+        id: true,
+        title: true,
+        thumbnail: true,
+        plays: true,
+      },
+    });
     return games.map((game) => ({
       id: game.id,
-      name: game.name,
-      image: game.iconUrl,
-      // TODO: replace with actual data
-      plays: 0,
+      name: game.title,
+      image: game.thumbnail,
+      plays: game.plays,
     }));
   });

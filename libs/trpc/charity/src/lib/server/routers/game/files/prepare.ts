@@ -1,6 +1,6 @@
 import * as storage from '@worksheets/services/storage';
 import { toMegabytes } from '@worksheets/util/data';
-import { z } from '@worksheets/zod';
+import { z } from 'zod';
 
 import { protectedProcedure } from '../../../procedures';
 

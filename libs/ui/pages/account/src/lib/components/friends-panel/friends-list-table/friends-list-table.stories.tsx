@@ -42,9 +42,3 @@ export const WithPeople: Story = {
     friends: mockFriends,
   },
 };
-
-export const SentGifts: Story = {
-  args: {
-    friends: mockFriends,
-  },
-};

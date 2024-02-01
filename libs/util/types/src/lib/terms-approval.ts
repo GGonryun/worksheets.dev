@@ -1,4 +1,4 @@
-import { z } from '@worksheets/zod';
+import { z } from 'zod';
 
 export const termsApprovalSchema = z.object({
   hasApproved: z.boolean(),

@@ -1,4 +1,5 @@
+import { BasicGameInfo } from './basic-game-info';
+
 export type RecentlyPlayedSchema = {
-  gameId: string;
   playedLast: number;
-};
+} & BasicGameInfo;

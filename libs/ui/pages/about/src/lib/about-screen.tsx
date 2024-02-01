@@ -1,7 +1,7 @@
 import { LinkedIn } from '@mui/icons-material';
 import { Box, Button, Container, Link, Paper, Typography } from '@mui/material';
-import { blogAuthors } from '@worksheets/data-access/charity-games';
 import { Markdown } from '@worksheets/ui-core';
+import { blogAuthors } from '@worksheets/util/blog';
 import urls from '@worksheets/util/urls';
 import Image from 'next/image';
 import { FC } from 'react';

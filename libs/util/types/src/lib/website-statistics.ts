@@ -1,4 +1,4 @@
-import { z } from '@worksheets/zod';
+import { z } from 'zod';
 
 export const basicWebsiteStatisticsSchema = z.object({
   donatedGames: z.number(),

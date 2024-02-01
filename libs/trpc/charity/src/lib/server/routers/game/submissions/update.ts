@@ -1,6 +1,6 @@
 import { TRPCError } from '@trpc/server';
 import { GameSubmissionForm, Nullable } from '@worksheets/util/types';
-import { z } from '@worksheets/zod';
+import { z } from 'zod';
 
 import { protectedProcedure } from '../../../procedures';
 
@@ -44,8 +44,7 @@ export default protectedProcedure
         orientations: input.orientations ?? [],
         description: input.description,
         instructions: input.instructions,
-        category: input.category,
-        tags: input.tags ?? [],
+        categories: input.categories ?? [],
         trailerUrl: input.trailerUrl,
         markets: JSON.stringify(input.markets ?? {}),
         // file uploads are handled separately using the files router.

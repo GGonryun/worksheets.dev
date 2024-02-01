@@ -2,19 +2,17 @@ import { Report, Share } from '@mui/icons-material';
 import { Box, IconButton } from '@mui/material';
 import { Description } from '@worksheets/ui/components/description';
 import { useMediaQuery } from '@worksheets/ui/hooks/use-media-query';
-import { SerializableGameSchema } from '@worksheets/util/types';
+import { GameDevices } from '@worksheets/util/types';
 import { FC } from 'react';
 
 import { SupportedDeviceIcons } from './supported-device-icons';
 
 export const GameDescription: FC<{
-  id: string;
-  name: string;
   description: string;
-  platforms: SerializableGameSchema['platforms'];
+  devices: GameDevices[];
   onShare: () => void;
   onReport: () => void;
-}> = ({ description, id, name, platforms, onShare, onReport }) => {
+}> = ({ description, devices, onShare, onReport }) => {
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down('sm'));
 
   return (
@@ -32,7 +30,7 @@ export const GameDescription: FC<{
           </Box>
         }
         description={description}
-        ancillary={<SupportedDeviceIcons platforms={platforms} />}
+        ancillary={<SupportedDeviceIcons devices={devices} />}
       />
     </Box>
   );

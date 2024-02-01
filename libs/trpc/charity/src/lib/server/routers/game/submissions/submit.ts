@@ -1,6 +1,7 @@
 import { TRPCError } from '@trpc/server';
 import { gameSubmissionFormSchema } from '@worksheets/util/types';
-import { makeOptionalPropsNullable, z } from '@worksheets/zod';
+import { makeOptionalPropsNullable } from '@worksheets/zod';
+import { z } from 'zod';
 
 import { protectedProcedure } from '../../../procedures';
 
@@ -44,8 +45,7 @@ export default protectedProcedure
         orientations: input.orientations ?? [],
         description: input.description,
         instructions: input.instructions,
-        category: input.category,
-        tags: input.tags ?? [],
+        categories: input.categories ?? [],
         status: 'PENDING',
         markets: JSON.stringify(input.markets ?? {}),
       },

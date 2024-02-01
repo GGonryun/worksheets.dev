@@ -1,6 +1,5 @@
 import {
   DeveloperSchema,
-  GameAnalyticsSchema,
   SerializableGameSchema,
 } from '@worksheets/util/types';
 
@@ -15,30 +14,26 @@ export const sampleDeveloper: DeveloperSchema = {
   socials: {},
 };
 
-export const sampleAnalytics: GameAnalyticsSchema = {
-  plays: '1.3m',
-  score: '3.5',
-  votes: {
-    up: '32.2k',
-    down: '12.2k',
-  },
-};
-
 export const sampleGame: SerializableGameSchema = {
   id: 'solitaire',
   name: 'Solitaire',
-  orientations: ['landscape', 'portrait'],
-  platforms: ['mobile', 'desktop'],
+  plays: 530123,
+  likes: 126634,
+  dislikes: 5125,
+  viewport: {
+    id: '1',
+    type: 'RESPONSIVE',
+    devices: ['MOBILE', 'COMPUTER'],
+    orientations: ['LANDSCAPE', 'PORTRAIT'],
+  },
   developerId: sampleDeveloper.id,
   bannerUrl: '/games/solitaire/banner.png',
   iconUrl: '/games/solitaire/icon.jpg',
   file: {
-    type: 'iframe',
+    type: 'HTML',
     url: 'https://solitaire.charity.games/',
   },
-  tags: ['card', 'brain', 'board', 'puzzle'],
-  category: ['card'],
-  size: 2,
+  categories: ['card', 'brain', 'board', 'puzzle'],
   markets: {
     android:
       'https://play.google.com/store/apps/details?id=com.charitygames.solitaire',
@@ -54,10 +49,9 @@ export const sampleGame: SerializableGameSchema = {
 export const SampleGameLauncher = () => (
   <GameLauncher
     game={sampleGame}
-    analytics={sampleAnalytics}
     developer={sampleDeveloper}
     onPlay={() => alert('TODO: show play form')}
     onVote={() => alert('TODO: handle vote')}
-    userVote={'up'}
+    userVote={true}
   />
 );

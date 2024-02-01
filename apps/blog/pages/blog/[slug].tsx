@@ -1,6 +1,6 @@
 import { Box, Typography } from '@mui/material';
-import { blogAuthors } from '@worksheets/data-access/charity-games';
 import { BlogErrorScreen, BlogPostScreen } from '@worksheets/ui/pages/blog';
+import { blogAuthors } from '@worksheets/util/blog';
 import { OpenGraphProps } from '@worksheets/util/seo';
 import { BlogAuthor } from '@worksheets/util/types';
 import {

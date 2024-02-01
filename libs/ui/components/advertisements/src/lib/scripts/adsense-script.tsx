@@ -1,4 +1,4 @@
-import { adClient } from '@worksheets/data-access/charity-games';
+import { adClient } from '@worksheets/util/adsense';
 import Script from 'next/script';
 
 export const AdSenseScript = () => (

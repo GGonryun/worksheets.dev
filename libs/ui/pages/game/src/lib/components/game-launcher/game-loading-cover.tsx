@@ -8,7 +8,7 @@ import {
 import { Box, Button, Typography } from '@mui/material';
 import { FillImage } from '@worksheets/ui/components/images';
 import { useMediaQuery } from '@worksheets/ui/hooks/use-media-query';
-import { GameSchema } from '@worksheets/util/types';
+import { DeviceOrientations, GameDevices } from '@worksheets/util/types';
 import { FC } from 'react';
 
 import { RotateToLandscape } from '../icons/rotate-to-landscape';
@@ -18,8 +18,8 @@ export type GameLoadingCoverProps = {
   backgroundUrl: string;
   iconUrl: string;
   name: string;
-  platforms: GameSchema['platforms'];
-  orientations: GameSchema['orientations'];
+  devices: GameDevices[];
+  orientations: DeviceOrientations[];
   isMobileOrTablet: boolean;
   deviceOrientation: OrientationType;
   onPlay: () => void;
@@ -29,7 +29,7 @@ export const GameLoadingCover: FC<GameLoadingCoverProps> = ({
   name,
   backgroundUrl,
   iconUrl,
-  platforms,
+  devices,
   orientations,
   onPlay,
   isMobileOrTablet,
@@ -43,16 +43,16 @@ export const GameLoadingCover: FC<GameLoadingCoverProps> = ({
     deviceOrientation === 'landscape-primary' ||
     deviceOrientation === 'landscape-secondary';
 
-  const supportsMobile = platforms?.includes('mobile') && isMobileOrTablet;
-  const supportsDesktop = platforms?.includes('desktop') && !isMobileOrTablet;
+  const supportsMobile = devices.includes('MOBILE') && isMobileOrTablet;
+  const supportsDesktop = devices.includes('COMPUTER') && !isMobileOrTablet;
 
   const showNoDesktopOverlay = !isMobileOrTablet && !supportsDesktop;
 
   const showNoMobileOverlay = isMobileOrTablet && !supportsMobile;
   const showNoPortraitOverlay =
-    isMobileOrTablet && isPortrait && !orientations.includes('portrait');
+    isMobileOrTablet && isPortrait && !orientations.includes('PORTRAIT');
   const showNoLandscapeOverlay =
-    isMobileOrTablet && !orientations?.includes('landscape') && isLandscape;
+    isMobileOrTablet && !orientations?.includes('LANDSCAPE') && isLandscape;
 
   return (
     <Box

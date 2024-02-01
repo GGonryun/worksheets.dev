@@ -1,11 +1,11 @@
 import { TRPCError } from '@trpc/server';
-import { developers, games } from '@worksheets/data-access/charity-games';
 import { printDate } from '@worksheets/util/time';
 import {
   DeveloperSchema,
+  GameTag,
   SerializableGameSchema,
 } from '@worksheets/util/types';
-import { z } from '@worksheets/zod';
+import { z } from 'zod';
 
 import { publicProcedure } from '../../procedures';
 
@@ -21,29 +21,55 @@ export default publicProcedure
       developer: z.custom<DeveloperSchema>(),
     })
   )
-  .query(({ input: { gameId } }) => {
-    const game = games.find((game) => game.id === gameId);
+  .query(async ({ input: { gameId }, ctx: { db } }) => {
+    const game = await db.game.findFirst({
+      where: {
+        id: gameId,
+      },
+      include: {
+        developer: true,
+        file: true,
+        viewport: true,
+        categories: true,
+      },
+    });
+
     if (!game) {
       throw new TRPCError({
         code: 'NOT_FOUND',
-        message: 'Game not found',
+        message: `Game with id ${gameId} not found`,
       });
     }
-    const developer = developers.find(
-      (developer) => developer.id === game?.developerId
-    );
-    if (!developer) {
-      throw new TRPCError({
-        code: 'NOT_FOUND',
-        message: 'Developer not found',
-      });
-    }
+
     return {
       game: {
-        ...game,
+        id: game.id,
+        name: game.title,
+        description: game.description,
+        developerId: game.developerId,
+        iconUrl: game.thumbnail,
+        bannerUrl: game.cover,
+        categories: game.categories.map((c) => c.categoryId) as GameTag[],
         updatedAt: printDate(game.updatedAt),
         createdAt: printDate(game.createdAt),
+        markets: {},
+        file: {
+          type: game.file.type,
+          url: game.file.url,
+        },
+        viewport: {
+          id: game.viewport.id,
+          type: game.viewport.type,
+          devices: game.viewport.devices,
+          orientations: game.viewport.orientations,
+        },
       },
-      developer,
+      developer: {
+        id: game.developer.id,
+        name: game.developer.name,
+        description: game.developer.description,
+        avatarUrl: game.developer.logoUrl,
+        socials: JSON.parse(game.developer.links ?? '{}'),
+      },
     };
   });

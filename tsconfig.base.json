@@ -21,9 +21,6 @@
       "@worksheets/assets-partners": ["libs/assets/partners/src/index.ts"],
       "@worksheets/assets/icons": ["libs/assets/icons/src/index.ts"],
       "@worksheets/assets/prizes": ["libs/assets/prizes/src/index.ts"],
-      "@worksheets/data-access/charity-games": [
-        "libs/data-access/charity-games/src/index.ts"
-      ],
       "@worksheets/icons/arrows": ["libs/icons/arrows/src/index.ts"],
       "@worksheets/icons/charity": ["libs/icons/charity/src/index.ts"],
       "@worksheets/icons/companies": ["libs/icons/companies/src/index.ts"],
@@ -94,6 +91,9 @@
       ],
       "@worksheets/ui/env": ["libs/ui/env/src/index.ts"],
       "@worksheets/ui/home/server": ["libs/ui/home/src/server.ts"],
+      "@worksheets/ui/hooks/use-game-votes": [
+        "libs/ui/hooks/use-game-votes/src/index.ts"
+      ],
       "@worksheets/ui/hooks/use-google-adsense": [
         "libs/ui/hooks/use-google-adsense/src/index.ts"
       ],
@@ -152,9 +152,11 @@
       "@worksheets/util-devices": ["libs/util/devices/src/index.ts"],
       "@worksheets/util-markdown": ["libs/util/markdown/src/index.ts"],
       "@worksheets/util-next": ["libs/util/next/src/index.ts"],
+      "@worksheets/util/adsense": ["libs/util/adsense/src/index.ts"],
       "@worksheets/util/arrays": ["libs/util/arrays/src/index.ts"],
       "@worksheets/util/assets": ["libs/util/assets/src/index.ts"],
       "@worksheets/util/auth": ["libs/util/auth/src/index.ts"],
+      "@worksheets/util/blog": ["libs/util/blog/src/index.ts"],
       "@worksheets/util/data": ["libs/util/data/src/index.ts"],
       "@worksheets/util/enums": ["libs/util/enums/src/index.ts"],
       "@worksheets/util/misc": ["libs/util/misc/src/index.ts"],

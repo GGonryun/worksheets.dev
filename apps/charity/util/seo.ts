@@ -95,13 +95,6 @@ export const homeSeo = createSeo({
     'On Charity Games you can play free online HTML browser games that donate money to charitable causes. Play your favorite mobile and desktop games.',
 });
 
-export const charitySeo = createSeo({
-  url: '/charity',
-  title: 'Charity Games - Donate by Playing Free Online Games',
-  description:
-    'Charity Games is an online web arcade that donates money by playing free online browser games. We have hundreds of microgames to choose from. Play with Purpose',
-});
-
 export const contactSeo = createSeo({
   url: '/contact',
   title: 'Charity Games - Contact Us',
@@ -134,7 +127,9 @@ export const donationsSeo = createSeo({
   description: `View all donations made by Charity Games. See how much money has been donated to charity. Thank you for your support!`,
 });
 
-export const categorySeo = (tag: TagSchema): NextSeoProps =>
+export const categorySeo = (
+  tag: Omit<TagSchema, 'relatedTags'>
+): NextSeoProps =>
   createSeo({
     url: `/tags/${tag.id}`,
     title: `${tag.name} - Play Free Browser Games for Charity`,
@@ -148,11 +143,7 @@ export const gameSeo = (
   createSeo({
     url: `/play/${game.id}`,
     title: `${game.name} - Charity Games - Free Online Arcade`,
-    description: `Play ${game.name} by ${
-      developer.name
-    } online for free on Charity Games. ${game.name} is one of our top ${
-      game.category
-    } games. Supports ${game.platforms.join(' and ')}.`,
+    description: `Play ${game.name} by ${developer.name} online for free on Charity Games. ${game.name} is one of our top ${game.categories[0]} games. `,
     images: [
       {
         url: game.bannerUrl,
@@ -171,8 +162,7 @@ export const gameJsonLd = (
   playMode: 'SinglePlayer',
   applicationCategory: 'Game',
   url: createCanonicalUrl(`/play/${game.id}`),
-  platformName: game.platforms,
-  keywords: game.tags.join(', '),
+  keywords: game.categories.join(', '),
   datePublished: game.createdAt,
   image: game.iconUrl,
   publisherName: developer.name,

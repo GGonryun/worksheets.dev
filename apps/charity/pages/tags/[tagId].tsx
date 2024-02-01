@@ -1,4 +1,4 @@
-import { games, tagSchemas } from '@worksheets/data-access/charity-games';
+import { createServerSideTRPC } from '@worksheets/trpc-charity/server';
 import { DynamicLayout } from '@worksheets/ui/layout';
 import { CategoryScreen } from '@worksheets/ui/pages/category';
 import {
@@ -14,13 +14,13 @@ import { NextSeo, NextSeoProps } from 'next-seo';
 import { categorySeo } from '../../util/seo';
 
 type Props = {
-  tag: TagSchema;
   seo: NextSeoProps;
+  tag: Omit<TagSchema, 'relatedTags'>;
   games: BasicGameInfo[];
-  categories: BasicCategoryInfo[];
+  related: BasicCategoryInfo[];
 };
 
-const Page: NextPageWithLayout<Props> = ({ tag, seo, games, categories }) => {
+const Page: NextPageWithLayout<Props> = ({ tag, seo, games, related }) => {
   return (
     <>
       <NextSeo {...seo} />
@@ -28,42 +28,27 @@ const Page: NextPageWithLayout<Props> = ({ tag, seo, games, categories }) => {
         name={tag.name}
         description={tag.description}
         games={games}
-        relatedCategories={categories}
+        relatedCategories={related}
       />
     </>
   );
 };
 
-export const getServerSideProps = (async ({ params }) => {
+export const getServerSideProps = (async (ctx) => {
+  const { params } = ctx;
   const tagId = params?.tagId as GameTag;
-  const tag = tagSchemas.find((tag) => tag.id === tagId);
 
-  if (!tag)
+  if (!tagId)
     return {
       notFound: true,
     };
 
-  const tagGames = games
-    .filter((game) => game.tags.includes(tagId))
-    .map((game) => ({
-      name: game.name,
-      id: game.id,
-      image: game.iconUrl,
-    }));
-
-  const relatedCategories = tag.relatedTags
-    .map((tagId) => tagSchemas.find((tag) => tag.id === tagId))
-    .filter(Boolean) as TagSchema[];
-
-  const categories = relatedCategories.map((category) => ({
-    name: category.name,
-    id: category.id,
-    image: category.iconUrl,
-  }));
+  const trpc = await createServerSideTRPC(ctx);
+  const { tag, games, related } = await trpc.categories.find.fetch({ tagId });
 
   const seo = categorySeo(tag);
 
-  return { props: { tag, games: tagGames, categories, seo } };
+  return { props: { tag, games, related, seo } };
 }) satisfies GetServerSideProps<Props>;
 
 Page.getLayout = (page) => {

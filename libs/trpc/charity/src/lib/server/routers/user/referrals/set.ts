@@ -2,7 +2,7 @@ import {
   GIFT_BOXES_PER_REFERRAL_ACCOUNT,
   TOKENS_PER_REFERRAL_ACCOUNT,
 } from '@worksheets/util/settings';
-import { z } from '@worksheets/zod';
+import { z } from 'zod';
 
 import { protectedProcedure } from '../../../procedures';
 

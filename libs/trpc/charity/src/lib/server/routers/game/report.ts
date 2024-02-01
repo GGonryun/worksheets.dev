@@ -1,5 +1,5 @@
 import { ReportReason } from '@prisma/client';
-import { z } from '@worksheets/zod';
+import { z } from 'zod';
 
 import { publicProcedure } from '../../procedures';
 

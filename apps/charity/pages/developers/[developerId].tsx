@@ -1,4 +1,4 @@
-import { developers, games } from '@worksheets/data-access/charity-games';
+import { createServerSideTRPC } from '@worksheets/trpc-charity/server';
 import { DynamicLayout } from '@worksheets/ui/layout';
 import { DeveloperScreen } from '@worksheets/ui/pages/developer';
 import { BasicGameInfo, DeveloperSchema } from '@worksheets/util/types';
@@ -23,26 +23,22 @@ const Page: NextPageWithLayout<Props> = ({ developer, games, seo }) => {
   );
 };
 
-export const getServerSideProps = (async ({ params }) => {
+export const getServerSideProps = (async (ctx) => {
+  const { params } = ctx;
+  const trpc = await createServerSideTRPC(ctx);
   const developerId = params?.developerId as string;
 
-  const developer = developers.find(
-    (developer) => developer.id === developerId
-  );
+  if (!developerId) {
+    return {
+      notFound: true,
+    };
+  }
 
-  if (!developer) throw new Error('Developer does not exist');
+  const { developer, games } = await trpc.developers.find.fetch({
+    developerId,
+  });
 
-  const developerGames: BasicGameInfo[] = games
-    .filter((g) => g.developerId === developerId)
-    .map((g) => ({
-      id: g.id,
-      name: g.name,
-      image: g.iconUrl,
-    }));
-
-  const seo = developerSeo(developer);
-
-  return { props: { developer, games: developerGames, seo } };
+  return { props: { developer, games, seo: developerSeo(developer) } };
 }) satisfies GetServerSideProps<Props>;
 
 Page.getLayout = (page) => {

@@ -17,7 +17,8 @@ import {
 } from '@mui/material';
 import { ResponsiveImage } from '@worksheets/ui/components/images';
 import theme from '@worksheets/ui/theme';
-import { CastVote, GameSchema, UserVote } from '@worksheets/util/types';
+import { shorthandNumber } from '@worksheets/util/numbers';
+import { CastVote, GameSchema } from '@worksheets/util/types';
 import { FC, JSXElementConstructor } from 'react';
 
 export type GameBannerProps = {
@@ -26,10 +27,10 @@ export type GameBannerProps = {
   developer: string;
   name: string;
   isFullscreen?: boolean;
-  userVote: UserVote;
-  plays: string;
-  upVotes: string;
-  downVotes: string;
+  userVote: boolean | undefined;
+  plays: number;
+  likes: number;
+  dislikes: number;
   onFullscreen?: () => void;
   onVote: (vote: CastVote['vote']) => void;
 };
@@ -41,8 +42,8 @@ export const GameBanner: FC<GameBannerProps> = ({
   type,
   isFullscreen,
   plays,
-  upVotes,
-  downVotes,
+  likes,
+  dislikes,
   userVote,
   onFullscreen,
   onVote,
@@ -127,21 +128,29 @@ export const GameBanner: FC<GameBannerProps> = ({
               }}
             />
           </ActionButton>
-          <ActionText>{plays}</ActionText>
+          <ActionText>{shorthandNumber(plays)}</ActionText>
         </ActionBox>
         <ActionBox>
           <ActionButton onClick={() => onVote('up')}>
-            {userVote === 'up' ? <ThumbUpAlt /> : <ThumbUpOffAlt />}
+            {userVote != null && userVote === true ? (
+              <ThumbUpAlt />
+            ) : (
+              <ThumbUpOffAlt />
+            )}
           </ActionButton>
-          <ActionText>{upVotes}</ActionText>
+          <ActionText>{shorthandNumber(likes)}</ActionText>
         </ActionBox>
         <ActionBox>
           <ActionButton onClick={() => onVote('down')}>
-            {userVote === 'down' ? <ThumbDownAlt /> : <ThumbDownOffAlt />}
+            {userVote != null && userVote === false ? (
+              <ThumbDownAlt />
+            ) : (
+              <ThumbDownOffAlt />
+            )}
           </ActionButton>
-          <ActionText>{downVotes}</ActionText>
+          <ActionText>{shorthandNumber(dislikes)}</ActionText>
         </ActionBox>
-        {type === 'iframe' && (
+        {type === 'HTML' && (
           <ActionButton onClick={onFullscreen}>
             {isFullscreen ? <FullscreenExit /> : <Fullscreen />}
           </ActionButton>

@@ -5,9 +5,7 @@ import {
   BasicGameInfo,
   CastVote,
   DeveloperSchema,
-  GameAnalyticsSchema,
   SerializableGameSchema,
-  UserVote,
 } from '@worksheets/util/types';
 import { FC } from 'react';
 
@@ -17,9 +15,8 @@ import { GameLauncher } from './game-launcher';
 type GameScreenProps = {
   suggestions: BasicGameInfo[];
   game: SerializableGameSchema;
-  analytics: GameAnalyticsSchema;
   developer: DeveloperSchema;
-  userVote: UserVote;
+  userVote: boolean | undefined;
   onPlay: () => void;
   onVote: (vote: CastVote['vote']) => void;
   onShare: () => void;
@@ -30,7 +27,6 @@ export const GameScreen: FC<GameScreenProps> = ({
   suggestions,
   game,
   developer,
-  analytics,
   userVote,
   onPlay,
   onVote,
@@ -80,7 +76,6 @@ export const GameScreen: FC<GameScreenProps> = ({
             onPlay={onPlay}
             onVote={onVote}
             userVote={userVote}
-            analytics={analytics}
           />
         </GameBox>
         <PaperSidebar
@@ -101,9 +96,7 @@ export const GameScreen: FC<GameScreenProps> = ({
       </Box>
       <GameDescription
         description={game.description}
-        id={game.id}
-        name={game.name}
-        platforms={game.platforms}
+        devices={game.viewport.devices}
         onShare={onShare}
         onReport={onReport}
       />

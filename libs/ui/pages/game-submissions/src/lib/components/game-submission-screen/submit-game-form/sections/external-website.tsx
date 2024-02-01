@@ -10,7 +10,7 @@ import { useGameSubmissionFormContext } from '../../../form-context';
 
 export const ExternalWebsiteSection: FC = () => {
   const { values, errors, setFieldValue } = useGameSubmissionFormContext();
-  const isExternalWebsite = values.projectType === 'PAGE';
+  const isExternalWebsite = values.projectType === 'EXTERNAL';
 
   const id = 'externalWebsiteUrl';
   const error = errors[id];

@@ -1,6 +1,6 @@
 import { TRPCError } from '@trpc/server';
 import * as storage from '@worksheets/services/storage';
-import { z } from '@worksheets/zod';
+import { z } from 'zod';
 
 import { protectedProcedure } from '../../../procedures';
 

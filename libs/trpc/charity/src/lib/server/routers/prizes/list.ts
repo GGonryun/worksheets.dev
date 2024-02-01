@@ -1,5 +1,5 @@
 import { prizeCategorySchema, prizeSchema } from '@worksheets/util/types';
-import { z } from '@worksheets/zod';
+import { z } from 'zod';
 
 import { publicProcedure } from '../../procedures';
 

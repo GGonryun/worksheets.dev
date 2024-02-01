@@ -1,5 +1,5 @@
 import { initTRPC } from '@trpc/server';
-import { ZodError } from '@worksheets/zod';
+import { ZodError } from 'zod';
 
 import { Context } from './context/context';
 

@@ -1,4 +1,4 @@
-import { z } from '@worksheets/zod';
+import { z } from 'zod';
 
 const reservedUsernames = [
   'charity-games',

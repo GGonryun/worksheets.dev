@@ -1,6 +1,6 @@
 import { TRPCError } from '@trpc/server';
 import { friendSchema } from '@worksheets/util/types';
-import { z } from '@worksheets/zod';
+import { z } from 'zod';
 
 import { protectedProcedure } from '../../../procedures';
 
@@ -15,14 +15,17 @@ export default protectedProcedure
   .query(async ({ ctx: { db, user } }) => {
     const userId = user.id;
     console.info('finding user friendships', { userId });
+
     const friendships = await db.friendship.findMany({
       where: {
         userId,
       },
       include: {
         friend: {
-          include: {
-            plays: true,
+          select: {
+            lastSeen: true,
+            username: true,
+            createdAt: true,
           },
         },
       },
@@ -49,18 +52,8 @@ export default protectedProcedure
         username: friendship.friend.username,
         // this is the last time they played a game or performed a reward action.
         lastSeen:
-          friendship.friend.plays
-            ?.sort(
-              (a, b) =>
-                // get latest game play
-                b.updatedAt.getTime() - a.updatedAt.getTime()
-            )
-            .at(0)
-            ?.updatedAt.getTime() ?? friendship.friend.createdAt.getTime(),
-        gamesPlayed: friendship.friend.plays.reduce(
-          (acc, curr) => acc + curr.total,
-          0
-        ),
+          friendship.friend.lastSeen?.getTime() ??
+          friendship.friend.createdAt.getTime(),
         isFavorite: friendship.isFavorite,
         giftSentAt: friendship.giftSentAt?.getTime() ?? null,
       })),

@@ -178,7 +178,7 @@ const SupportedDevicesOptions = () => {
   const hasError = Boolean(error);
 
   const options = [
-    { label: 'Computer & Laptop', value: 'WEB' as const },
+    { label: 'Computer & Laptop', value: 'COMPUTER' as const },
     { label: 'Mobile & Tablet', value: 'MOBILE' as const },
   ];
 

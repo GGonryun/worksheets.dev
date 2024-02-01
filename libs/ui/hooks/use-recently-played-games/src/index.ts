@@ -9,7 +9,7 @@ export const useRecentlyPlayedGames = () => {
 
   const addRecentlyPlayed = (game: RecentlyPlayedSchema) => {
     // check if game is already in the list
-    const index = storage.findIndex((r) => r.gameId === game.gameId);
+    const index = storage.findIndex((r) => r.id === game.id);
     if (index !== -1) {
       // if it is, remove it
       storage.splice(index, 1);

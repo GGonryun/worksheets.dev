@@ -6,7 +6,7 @@ export const EMPTY_METADATA: MarkdownMetadata = {
   coverImage: '',
   tags: [],
   date: '',
-  authorId: '',
+  authorId: 'miguel-campos',
   ogImage: {
     url: '',
   },

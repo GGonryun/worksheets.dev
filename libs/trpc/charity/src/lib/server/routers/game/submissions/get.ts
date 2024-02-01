@@ -2,10 +2,11 @@ import { TRPCError } from '@trpc/server';
 import { createFileDownloadUrl } from '@worksheets/services/environment';
 import {
   GameSubmissionForm,
+  GameTag,
   Nullable,
   storedFileSchema,
 } from '@worksheets/util/types';
-import { z } from '@worksheets/zod';
+import { z } from 'zod';
 
 import { protectedProcedure } from '../../../procedures';
 export default protectedProcedure
@@ -55,8 +56,7 @@ export default protectedProcedure
       orientations: submission.orientations ?? [],
       description: submission.description,
       instructions: submission.instructions,
-      category: submission.category,
-      tags: submission.tags,
+      categories: submission.categories as GameTag[],
       gameFile: safelyCreateFile(submission.gameFile),
       thumbnailFile: safelyCreateFile(submission.thumbnailFile),
       coverFile: safelyCreateFile(submission.coverFile),

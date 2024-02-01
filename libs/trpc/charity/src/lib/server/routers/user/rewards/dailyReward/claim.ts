@@ -1,6 +1,6 @@
 import { TRPCError } from '@trpc/server';
 import { BASE_DAILY_REWARD } from '@worksheets/util/settings';
-import { z } from '@worksheets/zod';
+import { z } from 'zod';
 
 import { protectedProcedure } from '../../../../procedures';
 

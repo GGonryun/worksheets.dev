@@ -1,5 +1,5 @@
 import { termsApprovalSchema } from '@worksheets/util/types';
-import { z } from '@worksheets/zod';
+import { z } from 'zod';
 
 import { protectedProcedure } from '../../../../procedures';
 

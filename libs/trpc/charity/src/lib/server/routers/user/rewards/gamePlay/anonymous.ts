@@ -1,5 +1,5 @@
 import { TOKENS_PER_REFERRAL_PLAY } from '@worksheets/util/settings';
-import { z } from '@worksheets/zod';
+import { z } from 'zod';
 
 import { publicProcedure } from '../../../../procedures';
 

@@ -1,12 +1,13 @@
 import { ButtonBase, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
-import { developers } from '@worksheets/data-access/charity-games';
 import { CoverImage } from '@worksheets/ui/components/images';
 import { DeveloperSchema } from '@worksheets/util/types';
 import { FC, ReactNode, useState } from 'react';
 
-export const DevelopersSection = () => (
+export const DevelopersSection: React.FC<{ developers: DeveloperSchema[] }> = ({
+  developers,
+}) => (
   <Box display="flex" flexDirection="column" gap={2}>
     <Paper
       sx={{

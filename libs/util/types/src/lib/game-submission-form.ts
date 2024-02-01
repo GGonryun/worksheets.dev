@@ -1,17 +1,16 @@
 import {
   DeviceOrientations,
-  GameCategory,
   GameDevices,
   GameSubmissionStatus,
   ProjectType,
   ViewportType,
 } from '@prisma/client';
 import { validateHttpsUrl } from '@worksheets/util/strings';
-import { z } from '@worksheets/zod';
+import { z } from 'zod';
 
+import { gameTagSchema } from './tag-schema';
 export type {
   DeviceOrientations,
-  GameCategory,
   GameDevices,
   GameSubmissionStatus,
   ProjectType,
@@ -98,8 +97,7 @@ export const gameSubmissionFormSchema = z.object({
     .string()
     .min(12, 'Instructions must be at least 12 characters')
     .max(1000, 'Instructions should be brief; do not exceed 1000 characters'),
-  category: z.nativeEnum(GameCategory),
-  tags: z.string().array(),
+  categories: z.union([z.string(), gameTagSchema]).array(),
   // handle game file upload validation in strict form because of dependencies on other fields.
   gameFile: storedFileSchema.nullable(),
   thumbnailFile: storedFileSchema.nullable(),
@@ -128,7 +126,7 @@ export const strictGameSubmissionFormSchema = gameSubmissionFormSchema
   .refine(
     (schema) => {
       // external website url is required if project type is web
-      if (schema.projectType === ProjectType.PAGE) {
+      if (schema.projectType === ProjectType.HTML) {
         // external website url is valid url
         if (schema.externalWebsiteUrl === null) {
           return false;
@@ -147,15 +145,15 @@ export const strictGameSubmissionFormSchema = gameSubmissionFormSchema
   .refine(
     (values) => {
       // do not allow empty tags
-      if (values.tags.length === 0) {
+      if (values.categories.length === 0) {
         return false;
       }
       return true;
     },
     {
-      message: 'At least one tag is required',
+      message: 'At least one category is required',
       // message only applies to the tags field
-      path: ['tags'],
+      path: ['categories'],
     }
   )
   .refine(

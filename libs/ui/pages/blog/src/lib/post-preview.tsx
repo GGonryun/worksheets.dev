@@ -1,9 +1,9 @@
 import { ArrowRightAlt } from '@mui/icons-material';
 import { Box, Link, Typography, useMediaQuery, useTheme } from '@mui/material';
-import { blogAuthors } from '@worksheets/data-access/charity-games';
 import { CoverImage } from '@worksheets/ui/components/images';
 import { CHARITY_GAMES_BASE_URL } from '@worksheets/ui/env';
 import { Flex } from '@worksheets/ui-core';
+import { blogAuthors } from '@worksheets/util/blog';
 import { printDate } from '@worksheets/util/time';
 import { MarkdownMetadata } from '@worksheets/util-markdown';
 import { FC } from 'react';

@@ -1,12 +1,12 @@
 import { TRPCError } from '@trpc/server';
-import { dailyBonusGames } from '@worksheets/data-access/charity-games';
 import {
+  dailyBonusGames,
   MAX_TOKENS_FROM_GAME_PLAY_PER_DAY,
   MAX_TOKENS_FROM_REFERRAL_PLAYS,
 } from '@worksheets/util/settings';
 import { basicGameDetailsSchema } from '@worksheets/util/types';
 import { createReferralLink } from '@worksheets/util/urls';
-import { z } from '@worksheets/zod';
+import { z } from 'zod';
 
 import { protectedProcedure } from '../../../procedures';
 

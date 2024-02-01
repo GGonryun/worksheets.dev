@@ -1,4 +1,4 @@
-import { z } from '@worksheets/zod';
+import { z } from 'zod';
 
 export const castVoteSchema = z.object({
   gameId: z.string(),

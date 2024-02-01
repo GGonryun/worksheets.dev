@@ -1,5 +1,5 @@
 import { PrizeSchema, prizeSchema } from '@worksheets/util/types';
-import { z } from '@worksheets/zod';
+import { z } from 'zod';
 
 import { publicProcedure } from '../../procedures';
 
@@ -24,6 +24,6 @@ export default publicProcedure
   )
   .output(prizeSchema)
   .query(({ input: { prizeId } }) => {
-    console.info(`listing prize ${prizeId}`);
+    console.info(`getting prize info ${prizeId}`);
     return emptyPrizeSchema;
   });

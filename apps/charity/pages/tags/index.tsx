@@ -1,4 +1,4 @@
-import { tagSchemas } from '@worksheets/data-access/charity-games';
+import { createServerSideTRPC } from '@worksheets/trpc-charity/server';
 import { DynamicLayout } from '@worksheets/ui/layout';
 import { CategoriesScreen } from '@worksheets/ui/pages/category';
 import { BasicCategoryInfo } from '@worksheets/util/types';
@@ -20,12 +20,9 @@ const Page: NextPageWithLayout<Props> = ({ seo, categories }) => (
   </>
 );
 
-export const getServerSideProps = (async ({ params }) => {
-  const categories = tagSchemas.map((category) => ({
-    name: category.name,
-    id: category.id,
-    image: category.iconUrl,
-  }));
+export const getServerSideProps = (async (ctx) => {
+  const trpc = await createServerSideTRPC(ctx);
+  const categories = await trpc.categories.list.fetch();
 
   const seo = tagsSeo;
 
