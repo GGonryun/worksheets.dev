@@ -91,6 +91,9 @@
       ],
       "@worksheets/ui/env": ["libs/ui/env/src/index.ts"],
       "@worksheets/ui/home/server": ["libs/ui/home/src/server.ts"],
+      "@worksheets/ui/hooks/use-device-checks": [
+        "libs/ui/hooks/use-device-checks/src/index.ts"
+      ],
       "@worksheets/ui/hooks/use-game-votes": [
         "libs/ui/hooks/use-game-votes/src/index.ts"
       ],

@@ -1,9 +1,9 @@
-import { createServerSideTRPC } from '@worksheets/trpc-charity/server';
+import { createStaticTRPC } from '@worksheets/trpc-charity/server';
 import { DynamicLayout } from '@worksheets/ui/layout';
 import { DeveloperScreen } from '@worksheets/ui/pages/developer';
 import { BasicGameInfo, DeveloperSchema } from '@worksheets/util/types';
 import { NextPageWithLayout } from '@worksheets/util-next';
-import { GetServerSideProps } from 'next';
+import { GetStaticPaths, GetStaticProps } from 'next';
 import { NextSeo, NextSeoProps } from 'next-seo';
 
 import { developerSeo } from '../../util/seo';
@@ -23,9 +23,10 @@ const Page: NextPageWithLayout<Props> = ({ developer, games, seo }) => {
   );
 };
 
-export const getServerSideProps = (async (ctx) => {
+export const getStaticProps = (async (ctx) => {
   const { params } = ctx;
-  const trpc = await createServerSideTRPC(ctx);
+  const trpc = await createStaticTRPC(ctx);
+
   const developerId = params?.developerId as string;
 
   if (!developerId) {
@@ -39,7 +40,22 @@ export const getServerSideProps = (async (ctx) => {
   });
 
   return { props: { developer, games, seo: developerSeo(developer) } };
-}) satisfies GetServerSideProps<Props>;
+}) satisfies GetStaticProps<Props>;
+
+export const getStaticPaths = (async (ctx) => {
+  const trpc = await createStaticTRPC(ctx);
+
+  const devs = await trpc.developers.list.fetch();
+
+  return {
+    paths: devs.map((dev) => ({
+      params: {
+        developerId: dev.id,
+      },
+    })),
+    fallback: false,
+  };
+}) satisfies GetStaticPaths<{ developerId: string }>;
 
 Page.getLayout = (page) => {
   return <DynamicLayout>{page}</DynamicLayout>;

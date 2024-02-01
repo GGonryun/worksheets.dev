@@ -1,1 +1,1 @@
-export * from './lib/developer-screen';
+export * from './lib/components';

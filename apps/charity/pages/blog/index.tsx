@@ -4,7 +4,7 @@ import { GetServerSideProps, NextPage } from 'next';
 
 const Page: NextPage = () => <LoadingScreen />;
 
-export const getServerSideProps = (async (ctx) => {
+export const getServerSideProps = (async () => {
   return {
     redirect: {
       destination: BLOG_BASE_URL,

@@ -1,0 +1,40 @@
+{
+  "name": "ui-hooks-use-device-checks",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/ui/hooks/use-device-checks/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/ui/hooks/use-device-checks",
+        "main": "libs/ui/hooks/use-device-checks/src/index.ts",
+        "tsConfig": "libs/ui/hooks/use-device-checks/tsconfig.lib.json",
+        "assets": ["libs/ui/hooks/use-device-checks/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/ui/hooks/use-device-checks/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/ui/hooks/use-device-checks/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    }
+  },
+  "tags": []
+}
