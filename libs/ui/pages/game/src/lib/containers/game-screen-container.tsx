@@ -5,9 +5,9 @@ import { useGameVotes } from '@worksheets/ui/hooks/use-game-votes';
 import { useRecentlyPlayedGames } from '@worksheets/ui/hooks/use-recently-played-games';
 import { useReferralCode } from '@worksheets/ui/hooks/use-referral-code';
 import {
-  CastVote,
   DeveloperSchema,
   SerializableGameSchema,
+  Vote,
 } from '@worksheets/util/types';
 import { useSession } from 'next-auth/react';
 import { useState } from 'react';
@@ -101,13 +101,21 @@ const GameScreenContainer: React.FC<{
     });
   };
 
-  const handleMakeVote = async (newVote: CastVote['vote']) => {
+  const handleMakeVote = async (newVote: Vote) => {
     if (!authenticated) {
       setShowVoteWarning(true);
       return;
     }
 
+    const currentVote = userVotes.getVote(game.id);
+
     await castVote.mutateAsync({
+      gameId: game.id,
+      currentVote: currentVote?.vote,
+      newVote,
+    });
+
+    userVotes.addGameVote({
       gameId: game.id,
       vote: newVote,
     });
@@ -119,7 +127,7 @@ const GameScreenContainer: React.FC<{
         suggestions={suggestions ?? []}
         game={game}
         developer={developer}
-        userVote={userVotes.getVote(game.id)?.liked}
+        userVote={userVotes.getVote(game.id)?.vote}
         onPlay={handlePlayGame}
         onVote={handleMakeVote}
         onShare={() => setShowShare(true)}

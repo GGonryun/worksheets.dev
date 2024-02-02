@@ -8,6 +8,7 @@ import {
   BasicCategoryInfo,
   BasicGameInfo,
   BasicPrizeDetails,
+  DetailedGameInfo,
 } from '@worksheets/util/types';
 
 import { FeaturedGames, FeaturedGamesProps } from './featured-games';
@@ -18,8 +19,8 @@ export const ArcadeScreen: React.FC<{
   categories: BasicCategoryInfo[];
   featured: FeaturedGamesProps;
   topRaffles: BasicPrizeDetails[];
-  topGames: BasicGameInfo[];
-  allGames: BasicGameInfo[];
+  topGames: DetailedGameInfo[];
+  allGames: DetailedGameInfo[];
   recentGames: BasicGameInfo[];
 }> = (props) => (
   <Box
@@ -58,26 +59,33 @@ export const ArcadeScreen: React.FC<{
       {props.recentGames.length > 0 && (
         <GameSection
           title="Recently Played"
-          games={props.recentGames.map(translateGames)}
+          games={props.recentGames.map(translateBasicGames)}
         />
       )}
 
       <GameSection
         title="Top Games"
-        games={props.topGames.map(translateGames)}
+        games={props.topGames.map(translateDetailedGames)}
       />
 
       <PaginatedGamesList
         title="All Games"
-        games={props.allGames.map(translateGames)}
+        games={props.allGames.map(translateDetailedGames)}
       />
     </Container>
   </Box>
 );
 
-const translateGames = (game: BasicGameInfo): GameIconProps => ({
+const translateBasicGames = (game: BasicGameInfo): GameIconProps => ({
   id: game.id,
   imageUrl: game.image,
   name: game.name,
-  caption: '',
+  caption: ``,
+});
+
+const translateDetailedGames = (game: DetailedGameInfo): GameIconProps => ({
+  id: game.id,
+  imageUrl: game.image,
+  name: game.name,
+  caption: `${game.plays} plays`,
 });

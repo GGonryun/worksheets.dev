@@ -18,7 +18,7 @@ import {
 import { ResponsiveImage } from '@worksheets/ui/components/images';
 import theme from '@worksheets/ui/theme';
 import { shorthandNumber } from '@worksheets/util/numbers';
-import { CastVote, GameSchema } from '@worksheets/util/types';
+import { CastVote, GameSchema, Vote } from '@worksheets/util/types';
 import { FC, JSXElementConstructor } from 'react';
 
 export type GameBannerProps = {
@@ -27,7 +27,7 @@ export type GameBannerProps = {
   developer: string;
   name: string;
   isFullscreen?: boolean;
-  userVote: boolean | undefined;
+  userVote?: Vote;
   plays: number;
   likes: number;
   dislikes: number;
@@ -132,7 +132,7 @@ export const GameBanner: FC<GameBannerProps> = ({
         </ActionBox>
         <ActionBox>
           <ActionButton onClick={() => onVote('up')}>
-            {userVote != null && userVote === true ? (
+            {userVote != null && userVote === 'up' ? (
               <ThumbUpAlt />
             ) : (
               <ThumbUpOffAlt />
@@ -142,7 +142,7 @@ export const GameBanner: FC<GameBannerProps> = ({
         </ActionBox>
         <ActionBox>
           <ActionButton onClick={() => onVote('down')}>
-            {userVote != null && userVote === false ? (
+            {userVote != null && userVote === 'down' ? (
               <ThumbDownAlt />
             ) : (
               <ThumbDownOffAlt />

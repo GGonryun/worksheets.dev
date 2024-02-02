@@ -12,18 +12,23 @@ export default publicProcedure
   .output(z.array(detailedGameInfoSchema))
   .query(async ({ ctx: { db }, input: { gameId } }) => {
     const games = await db.game.findMany({
+      where: {
+        id: {
+          notIn: [gameId],
+        },
+      },
       select: {
         id: true,
         title: true,
         thumbnail: true,
         plays: true,
       },
+      orderBy: {
+        plays: 'desc',
+      },
     });
 
-    // filter out the game that is being viewed
-    const filteredGames = games.filter((game) => game.id !== gameId);
-
-    return filteredGames.map((game) => ({
+    return games.map((game) => ({
       id: game.id,
       name: game.title,
       image: game.thumbnail,

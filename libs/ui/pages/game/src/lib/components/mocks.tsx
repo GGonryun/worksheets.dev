@@ -52,6 +52,6 @@ export const SampleGameLauncher = () => (
     developer={sampleDeveloper}
     onPlay={() => alert('TODO: show play form')}
     onVote={() => alert('TODO: handle vote')}
-    userVote={true}
+    userVote={'up'}
   />
 );

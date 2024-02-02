@@ -1,9 +1,9 @@
 import { Box } from '@mui/material';
 import { useDeviceOrientation } from '@worksheets/ui-core';
 import {
-  CastVote,
   DeveloperSchema,
   SerializableGameSchema,
+  Vote,
 } from '@worksheets/util/types';
 import { isMobileOrTabletDeviceBrowser } from '@worksheets/util-devices';
 import { useRouter } from 'next/router';
@@ -18,9 +18,9 @@ import { useFullscreen } from './useFullscreen';
 export type GameLauncherProps = {
   game: SerializableGameSchema;
   developer: DeveloperSchema;
-  userVote: boolean | undefined;
+  userVote?: Vote;
   onPlay: () => void;
-  onVote: (vote: CastVote['vote']) => void;
+  onVote: (vote: Vote) => void;
 };
 
 export const GameLauncher: FC<GameLauncherProps> = ({

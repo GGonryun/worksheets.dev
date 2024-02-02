@@ -6,6 +6,7 @@ import {
   CastVote,
   DeveloperSchema,
   SerializableGameSchema,
+  Vote,
 } from '@worksheets/util/types';
 import { FC } from 'react';
 
@@ -16,7 +17,7 @@ type GameScreenProps = {
   suggestions: BasicGameInfo[];
   game: SerializableGameSchema;
   developer: DeveloperSchema;
-  userVote: boolean | undefined;
+  userVote?: Vote;
   onPlay: () => void;
   onVote: (vote: CastVote['vote']) => void;
   onShare: () => void;

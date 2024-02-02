@@ -98,7 +98,7 @@ const giveRefererReward = async (
   referralUserId: string | null
 ) => {
   if (!referralUserId) {
-    console.debug('No referral user id set');
+    console.info('No referral user id set');
     return;
   }
 
@@ -114,7 +114,7 @@ const giveRefererReward = async (
   }
 
   if (rewards.availableReferralTokens < 1) {
-    console.debug('Referrer has already received max tokens', {
+    console.info('Referrer has already received max tokens', {
       referralUserId,
     });
     return;

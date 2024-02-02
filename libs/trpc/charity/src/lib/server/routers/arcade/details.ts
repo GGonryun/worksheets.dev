@@ -1,8 +1,8 @@
 import { recommendations } from '@worksheets/util/settings';
 import {
   BasicCategoryInfo,
-  BasicGameInfo,
   BasicPrizeDetails,
+  DetailedGameInfo,
   PromotedGame,
 } from '@worksheets/util/types';
 import { z } from 'zod';
@@ -18,8 +18,8 @@ export default publicProcedure
         secondary: z.custom<PromotedGame>(),
       }),
       topRaffles: z.custom<BasicPrizeDetails[]>(),
-      topGames: z.custom<BasicGameInfo[]>(),
-      allGames: z.custom<BasicGameInfo[]>(),
+      topGames: z.custom<DetailedGameInfo[]>(),
+      allGames: z.custom<DetailedGameInfo[]>(),
     })
   )
   .query(async ({ ctx: { db } }) => {
@@ -43,6 +43,7 @@ export default publicProcedure
         title: true,
         thumbnail: true,
         cover: true,
+        plays: true,
       },
     });
 
@@ -57,6 +58,7 @@ export default publicProcedure
         id: game.id,
         name: game.title,
         image: game.thumbnail,
+        plays: game.plays,
       };
     });
 
@@ -64,6 +66,7 @@ export default publicProcedure
       id: g.id,
       name: g.title,
       image: g.thumbnail,
+      plays: g.plays,
     }));
 
     const featured = recommendations.featured.map((id) => {
