@@ -1,5 +1,4 @@
 import { Meta } from '@storybook/react';
-import { GameIconProps } from '@worksheets/ui/components/games';
 import { StoryWallpaper } from '@worksheets/ui/components/wallpaper';
 import { arrayFromNumber } from '@worksheets/util/arrays';
 import {
@@ -7,49 +6,49 @@ import {
   hoursFromNow,
   minutesFromNow,
 } from '@worksheets/util/time';
-import { BasicGameInfo } from '@worksheets/util/types';
+import { DetailedGameInfo } from '@worksheets/util/types';
 
 import { ArcadeScreen } from './arcade-screen';
 import { GAME_CATEGORIES } from './data/categories';
 
 type Story = Meta<typeof ArcadeScreen>;
 
-const fakeGames: BasicGameInfo[] = [
+const fakeGames: DetailedGameInfo[] = [
   {
     id: '1',
     name: 'Solitaire',
-    imageUrl: '/games/solitaire/icon.jpg',
-    caption: '100+ Plays',
+    image: '/games/solitaire/icon.jpg',
+    plays: 11234,
   },
   {
     id: '2',
     name: 'Word Search',
-    imageUrl: '/games/word-search/icon.jpg',
-    caption: '100+ Plays',
+    image: '/games/word-search/icon.jpg',
+    plays: 69234,
   },
   {
     id: '3',
-    imageUrl: '/games/puzzle-words/icon.jpg',
     name: 'Puzzle Words',
-    caption: '100+ Plays',
+    image: '/games/puzzle-words/icon.jpg',
+    plays: 51234,
   },
   {
     id: '4',
-    imageUrl: '/games/nonograms/icon.jpg',
+    image: '/games/nonograms/icon.jpg',
     name: 'Nonograms',
-    caption: '100+ Plays',
+    plays: 12347,
   },
   {
     id: '5',
-    imageUrl: '/games/emoji-war/icon.jpg',
+    image: '/games/emoji-war/icon.jpg',
     name: 'Emoji War',
-    caption: '100+ Plays',
+    plays: 87651,
   },
   {
     id: '6',
-    imageUrl: '/games/word-smith/icon.jpg',
+    image: '/games/word-smith/icon.jpg',
     name: 'Nonograms',
-    caption: '100+ Plays',
+    plays: 87651,
   },
 ];
 
@@ -67,6 +66,7 @@ export default {
 
 export const Primary: Story = {
   args: {
+    soonestRaffleExpiration: minutesFromNow(5).getTime(),
     categories: GAME_CATEGORIES,
     featured: {
       primary: [
@@ -144,5 +144,6 @@ export const Primary: Story = {
         name: `${g.name} ${i}`,
       }))
     ),
+    recentGames: fakeGames,
   },
 };

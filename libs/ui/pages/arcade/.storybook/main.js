@@ -18,6 +18,10 @@ const config = {
       from: '../../../../assets/prizes/src/lib',
       to: '/prizes',
     },
+    {
+      from: '../../../../assets/icons/src/lib',
+      to: '/icons',
+    },
   ],
 };
 

@@ -246,6 +246,17 @@ export const millisecondsToDuration = (milliseconds: number): string => {
     .padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 };
 
+export const millisecondsAsDuration = (
+  milliseconds: number
+): { days: number; hours: number; minutes: number; seconds: number } => {
+  const days = Math.floor(milliseconds / (1000 * 60 * 60 * 24));
+  const hours = Math.floor(milliseconds / (1000 * 60 * 60)) % 24;
+  const minutes = Math.floor(milliseconds / (1000 * 60)) % 60;
+  const seconds = Math.floor(milliseconds / 1000) % 60;
+
+  return { days, hours, minutes, seconds };
+};
+
 export const getNextUTCMidnight = (): Date => {
   const nextMidnight = new Date();
   nextMidnight.setUTCHours(24, 0, 0, 0);

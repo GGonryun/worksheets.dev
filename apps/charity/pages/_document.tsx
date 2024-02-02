@@ -5,9 +5,8 @@ import {
   Main,
   NextScript,
 } from 'next/document';
-import { DefaultSeo } from 'next-seo';
 
-import { defaultSeo, ldJson } from '../util/seo';
+import { ldJson } from '../util/seo';
 
 interface DocumentProps extends DocumentInitialProps {
   emotionStyleTags: React.ReactNode[];
@@ -16,8 +15,6 @@ interface DocumentProps extends DocumentInitialProps {
 export default function MyDocument(props: DocumentProps) {
   return (
     <Html lang="en">
-      <DefaultSeo {...defaultSeo} />
-
       <Head title="Charity Games">
         <link rel="preconnect" href="https://edge.fullstory.com" />
         <link rel="preconnect" href="https://cdn.charity.games" />

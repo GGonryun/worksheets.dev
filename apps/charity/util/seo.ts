@@ -73,8 +73,9 @@ export const ldJson = {
 const createSeo = ({ noindex, ...props }: OpenGraphProps): NextSeoProps => ({
   canonical: createCanonicalUrl(props.url),
   title: props.title,
+  description: props.description,
   noindex: noindex ?? false,
-  defaultTitle: 'Charity Games',
+  defaultTitle: props.title,
   openGraph: {
     ...props,
     siteName: 'Charity Games',
