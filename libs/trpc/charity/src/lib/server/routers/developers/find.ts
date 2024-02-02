@@ -13,8 +13,6 @@ export default publicProcedure
     })
   )
   .query(async ({ input: { developerId }, ctx: { db } }) => {
-    console.info('searching for developerId', developerId);
-
     const data = await db.developer.findUnique({
       where: {
         id: developerId,
