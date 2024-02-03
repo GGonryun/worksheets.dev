@@ -1,5 +1,5 @@
 import { createStaticTRPC } from '@worksheets/trpc-charity/server';
-import { CHARITY_GAMES_BASE_URL } from '@worksheets/ui/env';
+import { SEO } from '@worksheets/ui/components/seo';
 import { DynamicLayout } from '@worksheets/ui/layout';
 import { DynamicGameScreenContainer } from '@worksheets/ui/pages/game';
 import { printDate } from '@worksheets/util/time';
@@ -9,12 +9,8 @@ import {
 } from '@worksheets/util/types';
 import { NextPageWithLayout } from '@worksheets/util-next';
 import { GetStaticPaths, GetStaticProps } from 'next';
-import {
-  NextSeo,
-  NextSeoProps,
-  VideoGameJsonLd,
-  VideoGameJsonLdProps,
-} from 'next-seo';
+import Head from 'next/head';
+import { NextSeoProps, VideoGameJsonLd, VideoGameJsonLdProps } from 'next-seo';
 
 import { gameJsonLd, gameSeo } from '../../util/seo';
 
@@ -28,23 +24,17 @@ type Props = {
 const Page: NextPageWithLayout<Props> = ({ game, seo, jsonLd, developer }) => {
   return (
     <>
-      <NextSeo
-        canonical={`${CHARITY_GAMES_BASE_URL}/play/${game.id}`}
-        title={`${game.name} - Charity Games - Free Online Arcade`}
-        description={`Play ${game.name} by ${developer.name} online for free on Charity Games. ${game.name} is one of our top ${game.categories[0]} games.`}
-        openGraph={{
-          url: `${CHARITY_GAMES_BASE_URL}/play/${game.id}`,
-          title: `${game.name} - Charity Games - Free Online Arcade`,
-          description: `Play ${game.name} by ${developer.name} online for free on Charity Games. ${game.name} is one of our top ${game.categories[0]} games.`,
-          images: [
-            {
-              url: game.bannerUrl,
-              alt: game.name,
-            },
-          ],
-          site_name: 'Charity Games',
-        }}
-      />
+      <Head>
+        <SEO
+          title={`${game.name} - Charity Games - Free Online Arcade`}
+          path={`/play/${game.id}`}
+          description={`Play ${game.name} by ${developer.name} online for free on Charity Games. ${game.name} is one of our top ${game.categories[0]} games. `}
+          image={{
+            url: game.bannerUrl,
+            alt: game.name,
+          }}
+        />
+      </Head>
       <DynamicGameScreenContainer game={game} developer={developer} />
       <VideoGameJsonLd {...jsonLd} />
     </>

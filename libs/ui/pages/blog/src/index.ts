@@ -1,3 +1,3 @@
-export * from './lib/blog-screen';
-export * from './lib/blog-post-screen';
-export * from './lib/blog-error-screen';
+export * from './lib/components/blog-screen';
+export * from './lib/components/blog-post-screen';
+export * from './lib/components/blog-error-screen';

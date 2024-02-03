@@ -8,6 +8,17 @@ import theme from '@worksheets/ui/theme';
 import { AppPropsWithLayout } from '@worksheets/util-next';
 import Head from 'next/head';
 import { SessionProvider } from 'next-auth/react';
+import { DefaultSeo } from 'next-seo';
+
+import { defaultSeo } from '../util/seo';
+
+if (typeof window !== 'undefined') {
+  FullStory.init({
+    orgId: 'o-1N7VNF-na1',
+    devMode: !IS_PRODUCTION,
+    cookieDomain: COOKIE_DOMAIN,
+  });
+}
 
 function CustomApp({
   Component,
@@ -30,6 +41,7 @@ function CustomApp({
           <main>{getLayout(<Component {...pageProps} />)}</main>
         </SessionProvider>
       </ThemeProvider>
+      <DefaultSeo {...defaultSeo} />
     </>
   );
 }
