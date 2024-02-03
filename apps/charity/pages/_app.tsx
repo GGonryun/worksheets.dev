@@ -9,14 +9,6 @@ import { AppPropsWithLayout } from '@worksheets/util-next';
 import Head from 'next/head';
 import { SessionProvider } from 'next-auth/react';
 
-if (typeof window !== 'undefined') {
-  FullStory.init({
-    orgId: 'o-1N7VNF-na1',
-    devMode: !IS_PRODUCTION,
-    cookieDomain: COOKIE_DOMAIN,
-  });
-}
-
 function CustomApp({
   Component,
   pageProps: { session, ...pageProps },
