@@ -1,4 +1,4 @@
-import { DynamicLayout } from '@worksheets/ui/layout';
+import { Layout } from '@worksheets/ui/layout';
 import { TermsOfServiceScreen } from '@worksheets/ui/pages/terms-of-service';
 import { NextPageWithLayout } from '@worksheets/util-next';
 import { NextSeo } from 'next-seo';
@@ -13,7 +13,7 @@ const Page: NextPageWithLayout = () => (
 );
 
 Page.getLayout = (page) => {
-  return <DynamicLayout>{page}</DynamicLayout>;
+  return <Layout>{page}</Layout>;
 };
 
 export default Page;
