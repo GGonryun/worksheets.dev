@@ -1,5 +1,4 @@
 import { createStaticTRPC } from '@worksheets/trpc-charity/server';
-import { SEO } from '@worksheets/ui/components/seo';
 import { LayoutContainer } from '@worksheets/ui/layout';
 import { DynamicGameScreenContainer } from '@worksheets/ui/pages/game';
 import { printDate } from '@worksheets/util/time';
@@ -9,8 +8,12 @@ import {
 } from '@worksheets/util/types';
 import { NextPageWithLayout } from '@worksheets/util-next';
 import { GetStaticPaths, GetStaticProps } from 'next';
-import Head from 'next/head';
-import { NextSeoProps, VideoGameJsonLd, VideoGameJsonLdProps } from 'next-seo';
+import {
+  NextSeo,
+  NextSeoProps,
+  VideoGameJsonLd,
+  VideoGameJsonLdProps,
+} from 'next-seo';
 
 import { gameJsonLd, gameSeo } from '../../util/seo';
 
@@ -24,17 +27,7 @@ type Props = {
 const Page: NextPageWithLayout<Props> = ({ game, seo, jsonLd, developer }) => {
   return (
     <>
-      <Head>
-        <SEO
-          title={`${game.name} - Charity Games - Free Online Arcade`}
-          path={`/play/${game.id}`}
-          description={`Play ${game.name} by ${developer.name} online for free on Charity Games. ${game.name} is one of our top ${game.categories[0]} games. `}
-          image={{
-            url: game.bannerUrl,
-            alt: game.name,
-          }}
-        />
-      </Head>
+      <NextSeo {...seo} />
       <DynamicGameScreenContainer game={game} developer={developer} />
       <VideoGameJsonLd {...jsonLd} />
     </>
