@@ -13,6 +13,7 @@ import GithubProvider from 'next-auth/providers/github';
 import GoogleProvider from 'next-auth/providers/google';
 
 import { customPrismaAdapter } from './prisma-adapter';
+import { googleRefreshAccessToken } from './refresh/google-oauth-refresh';
 
 export const AUTH_OPTIONS: AuthOptions = {
   session: { strategy: 'jwt', maxAge: 3000 },
@@ -78,10 +79,30 @@ export const AUTH_OPTIONS: AuthOptions = {
       // Do different verification for other providers that don't have `email_verified`
       return true;
     },
-    jwt: async ({ token, user }) => {
+    jwt: async ({ token, user, account }) => {
+      // initial sign in
+      if (account) {
+        // jwt tokens return the expiration time in seconds initially
+        // https://stackoverflow.com/questions/39926104/what-format-is-the-exp-expiration-time-claim-in-a-jwt#comment102247100_39926886
+        token.expiresAt = account.expires_at
+          ? account.expires_at * 1000
+          : undefined;
+        token.refreshToken = account.refresh_token;
+        token.provider = account.provider;
+      }
+
+      // initial sign in
       if (user) {
         token.user = user;
       }
+
+      // refresh google access tokens
+      if (token.provider === 'google') {
+        console.log('inspecting google token', token);
+        return googleRefreshAccessToken(token);
+      }
+
+      // Access token has expired, try to update it
       return token;
     },
     session: async ({ session, token }) => {
