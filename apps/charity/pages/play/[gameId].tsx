@@ -1,4 +1,5 @@
 import { createStaticTRPC } from '@worksheets/trpc-charity/server';
+import { CHARITY_GAMES_BASE_URL } from '@worksheets/ui/env';
 import { DynamicLayout } from '@worksheets/ui/layout';
 import { DynamicGameScreenContainer } from '@worksheets/ui/pages/game';
 import { printDate } from '@worksheets/util/time';
@@ -27,7 +28,23 @@ type Props = {
 const Page: NextPageWithLayout<Props> = ({ game, seo, jsonLd, developer }) => {
   return (
     <>
-      <NextSeo {...seo} />
+      <NextSeo
+        canonical={`${CHARITY_GAMES_BASE_URL}/play/${game.id}`}
+        title={`${game.name} - Charity Games - Free Online Arcade`}
+        description={`Play ${game.name} by ${developer.name} online for free on Charity Games. ${game.name} is one of our top ${game.categories[0]} games.`}
+        openGraph={{
+          url: `${CHARITY_GAMES_BASE_URL}/play/${game.id}`,
+          title: `${game.name} - Charity Games - Free Online Arcade`,
+          description: `Play ${game.name} by ${developer.name} online for free on Charity Games. ${game.name} is one of our top ${game.categories[0]} games.`,
+          images: [
+            {
+              url: game.bannerUrl,
+              alt: game.name,
+            },
+          ],
+          site_name: 'Charity Games',
+        }}
+      />
       <DynamicGameScreenContainer game={game} developer={developer} />
       <VideoGameJsonLd {...jsonLd} />
     </>

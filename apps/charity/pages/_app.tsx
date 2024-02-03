@@ -8,9 +8,6 @@ import theme from '@worksheets/ui/theme';
 import { AppPropsWithLayout } from '@worksheets/util-next';
 import Head from 'next/head';
 import { SessionProvider } from 'next-auth/react';
-import { DefaultSeo } from 'next-seo';
-
-import { defaultSeo } from '../util/seo';
 
 if (typeof window !== 'undefined') {
   FullStory.init({
@@ -28,7 +25,6 @@ function CustomApp({
 
   return (
     <>
-      <DefaultSeo {...defaultSeo} />
       <CssBaseline />
       <Head>
         <meta
