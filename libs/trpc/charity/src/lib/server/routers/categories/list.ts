@@ -4,8 +4,13 @@ import { z } from 'zod';
 import { publicProcedure } from '../../procedures';
 
 export default publicProcedure
+  .input(
+    z.object({
+      showEmpty: z.boolean().optional(),
+    })
+  )
   .output(z.custom<BasicCategoryInfo[]>())
-  .query(async ({ ctx: { db } }) => {
+  .query(async ({ input: { showEmpty }, ctx: { db } }) => {
     const tags = await db.gameCategory.findMany({
       select: {
         id: true,
@@ -19,11 +24,13 @@ export default publicProcedure
       },
     });
 
-    return tags
-      .filter((tag) => tag.games.length > 0)
-      .map((tag) => ({
-        id: tag.id,
-        name: tag.name,
-        image: tag.iconUrl,
-      }));
+    const filtered = showEmpty
+      ? tags
+      : tags.filter((tag) => tag.games.length > 0);
+
+    return filtered.map((tag) => ({
+      id: tag.id,
+      name: tag.name,
+      image: tag.iconUrl,
+    }));
   });

@@ -54,7 +54,7 @@ export const getStaticProps = (async (ctx) => {
 export const getStaticPaths = (async (ctx) => {
   const trpc = await createStaticTRPC(ctx);
 
-  const tags = await trpc.categories.list.fetch();
+  const tags = await trpc.categories.list.fetch({ showEmpty: true });
 
   return {
     paths: tags.map((tag) => ({
