@@ -1,3 +1,3 @@
 export * from './lib/components';
-export * from './lib/dynamic';
+export * from './lib/containers';
 export * from './lib/types';

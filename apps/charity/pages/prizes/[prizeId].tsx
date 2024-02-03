@@ -1,5 +1,5 @@
 import { createServerSideTRPC } from '@worksheets/trpc-charity/server';
-import { DynamicLayout } from '@worksheets/ui/layout';
+import { LayoutContainer } from '@worksheets/ui/layout';
 import { DynamicPrizeDetailsScreen } from '@worksheets/ui/pages/prizes';
 import { PrizeSchema } from '@worksheets/util/types';
 import { NextPageWithLayout } from '@worksheets/util-next';
@@ -21,7 +21,7 @@ const Page: NextPageWithLayout<Props> = ({ seo, prize }) => (
 );
 
 Page.getLayout = (page) => {
-  return <DynamicLayout>{page}</DynamicLayout>;
+  return <LayoutContainer>{page}</LayoutContainer>;
 };
 
 export const getServerSideProps = (async (ctx) => {

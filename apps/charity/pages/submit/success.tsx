@@ -1,4 +1,4 @@
-import { DynamicLayout } from '@worksheets/ui/layout';
+import { LayoutContainer } from '@worksheets/ui/layout';
 import { GameSubmissionSuccessScreen } from '@worksheets/ui/pages/game-submissions';
 import { NextPageWithLayout } from '@worksheets/util-next';
 
@@ -7,7 +7,7 @@ const Page: NextPageWithLayout = () => {
 };
 
 Page.getLayout = (page) => {
-  return <DynamicLayout>{page}</DynamicLayout>;
+  return <LayoutContainer>{page}</LayoutContainer>;
 };
 
 export default Page;

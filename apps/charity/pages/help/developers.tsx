@@ -1,4 +1,4 @@
-import { DynamicLayout } from '@worksheets/ui/layout';
+import { LayoutContainer } from '@worksheets/ui/layout';
 import {
   contributionFaq,
   DynamicContributionScreen,
@@ -28,7 +28,7 @@ const Page: NextPageWithLayout = () => {
 };
 
 Page.getLayout = (page) => {
-  return <DynamicLayout>{page}</DynamicLayout>;
+  return <LayoutContainer>{page}</LayoutContainer>;
 };
 
 export default Page;

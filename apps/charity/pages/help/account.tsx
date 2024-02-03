@@ -1,4 +1,4 @@
-import { DynamicLayout } from '@worksheets/ui/layout';
+import { LayoutContainer } from '@worksheets/ui/layout';
 import { HelpScreen } from '@worksheets/ui/pages/help';
 import { QuestionAnswer } from '@worksheets/util/types';
 import { NextPageWithLayout } from '@worksheets/util-next';
@@ -31,7 +31,7 @@ const Page: NextPageWithLayout = () => {
 };
 
 Page.getLayout = (page) => {
-  return <DynamicLayout>{page}</DynamicLayout>;
+  return <LayoutContainer>{page}</LayoutContainer>;
 };
 
 export default Page;

@@ -1,4 +1,4 @@
-import { DynamicLayout } from '@worksheets/ui/layout';
+import { LayoutContainer } from '@worksheets/ui/layout';
 import { DynamicApplyReferralCode } from '@worksheets/ui/pages/login';
 import { NextPageWithLayout } from '@worksheets/util-next';
 import { GetServerSideProps } from 'next';
@@ -30,7 +30,7 @@ export const getServerSideProps = (async (ctx) => {
 }) satisfies GetServerSideProps<Props>;
 
 Page.getLayout = (page) => {
-  return <DynamicLayout>{page}</DynamicLayout>;
+  return <LayoutContainer>{page}</LayoutContainer>;
 };
 
 export default Page;

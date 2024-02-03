@@ -1,6 +1,6 @@
 import { createStaticTRPC } from '@worksheets/trpc-charity/server';
 import { SEO } from '@worksheets/ui/components/seo';
-import { DynamicLayout } from '@worksheets/ui/layout';
+import { LayoutContainer } from '@worksheets/ui/layout';
 import { DynamicGameScreenContainer } from '@worksheets/ui/pages/game';
 import { printDate } from '@worksheets/util/time';
 import {
@@ -100,7 +100,7 @@ export const getStaticPaths = (async (ctx) => {
 }) satisfies GetStaticPaths<{ gameId: string }>;
 
 Page.getLayout = (page) => {
-  return <DynamicLayout>{page}</DynamicLayout>;
+  return <LayoutContainer>{page}</LayoutContainer>;
 };
 
 export default Page;

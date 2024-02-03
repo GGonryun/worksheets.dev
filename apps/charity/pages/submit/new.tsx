@@ -1,5 +1,5 @@
 import { createServerSideTRPC } from '@worksheets/trpc-charity/server';
-import { DynamicLayout } from '@worksheets/ui/layout';
+import { LayoutContainer } from '@worksheets/ui/layout';
 import { DynamicCreateGameSubmissionScreen } from '@worksheets/ui/pages/game-submissions';
 import { NextPageWithLayout } from '@worksheets/util-next';
 import { GetServerSideProps } from 'next/types';
@@ -34,7 +34,7 @@ export const getServerSideProps = (async (ctx) => {
 }) satisfies GetServerSideProps;
 
 Page.getLayout = (page) => {
-  return <DynamicLayout>{page}</DynamicLayout>;
+  return <LayoutContainer>{page}</LayoutContainer>;
 };
 
 export default Page;

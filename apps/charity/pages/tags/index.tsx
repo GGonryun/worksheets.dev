@@ -1,5 +1,5 @@
 import { createStaticTRPC } from '@worksheets/trpc-charity/server';
-import { DynamicLayout } from '@worksheets/ui/layout';
+import { LayoutContainer } from '@worksheets/ui/layout';
 import { CategoriesScreen } from '@worksheets/ui/pages/category';
 import { BasicCategoryInfo } from '@worksheets/util/types';
 import { NextPageWithLayout } from '@worksheets/util-next';
@@ -30,7 +30,7 @@ export const getStaticProps = (async (ctx) => {
 }) satisfies GetStaticProps<Props>;
 
 Page.getLayout = (page) => {
-  return <DynamicLayout>{page}</DynamicLayout>;
+  return <LayoutContainer>{page}</LayoutContainer>;
 };
 
 export default Page;

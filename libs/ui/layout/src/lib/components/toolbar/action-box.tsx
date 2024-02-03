@@ -1,4 +1,5 @@
 import { Box, Button } from '@mui/material';
+import { CHARITY_GAMES_BASE_URL } from '@worksheets/ui/env';
 import { useMediaQuery } from '@worksheets/ui/hooks/use-media-query';
 
 export const ActionBox = () => {
@@ -9,7 +10,7 @@ export const ActionBox = () => {
   return (
     <Box display="flex" gap={1} alignItems="center" pb={1}>
       <Button
-        href="/tags/popular"
+        href={`${CHARITY_GAMES_BASE_URL}/tags/popular`}
         variant="arcade"
         color="primary"
         size={isMedium ? 'small' : 'medium'}
@@ -21,7 +22,7 @@ export const ActionBox = () => {
         Top Games
       </Button>
       <Button
-        href="/tags/ad-free"
+        href={`${CHARITY_GAMES_BASE_URL}/tags/ad-free`}
         variant="arcade"
         color="error"
         size={isMedium ? 'small' : 'medium'}
@@ -33,7 +34,7 @@ export const ActionBox = () => {
         Free Games
       </Button>
       <Button
-        href="/tags/new"
+        href={`${CHARITY_GAMES_BASE_URL}/tags/new`}
         variant="arcade"
         color="error"
         size={isMedium ? 'small' : 'medium'}
@@ -45,7 +46,7 @@ export const ActionBox = () => {
         New Games
       </Button>
       <Button
-        href="/prizes"
+        href={`${CHARITY_GAMES_BASE_URL}/prizes`}
         variant="arcade"
         color="success"
         size={isMedium ? 'small' : 'medium'}
@@ -54,7 +55,7 @@ export const ActionBox = () => {
           width: isSmall ? 'unset' : 164,
         }}
       >
-        All Raffles
+        Win Prizes
       </Button>
     </Box>
   );
