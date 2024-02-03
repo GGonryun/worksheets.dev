@@ -22,7 +22,7 @@ const Page: NextPageWithLayout<Props> = ({ seo, categories }) => (
 
 export const getStaticProps = (async (ctx) => {
   const trpc = await createStaticTRPC(ctx);
-  const categories = await trpc.categories.list.fetch();
+  const categories = await trpc.categories.list.fetch({});
 
   const seo = tagsSeo;
 
