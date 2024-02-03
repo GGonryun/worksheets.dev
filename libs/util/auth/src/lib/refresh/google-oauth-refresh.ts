@@ -17,11 +17,9 @@ export async function googleRefreshAccessToken(token: JWT): Promise<JWT> {
 
   // Return previous token if the access token has not expired yet
   if (!hasExpired(token.expiresAt)) {
-    console.info('Token has not expired yet');
     return token;
   }
 
-  console.info('Refreshing expired token');
   try {
     const url =
       'https://oauth2.googleapis.com/token?' +

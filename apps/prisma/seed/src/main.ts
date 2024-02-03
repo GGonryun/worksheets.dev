@@ -8,6 +8,14 @@ import { tags } from './data/tags';
 import { viewports } from './data/viewports';
 
 async function main() {
+  // wait for user input to continue
+  await new Promise((resolve) => {
+    // ask the user to press enter to continue
+    console.log('Press enter to continue seeding database.');
+    process.stdin.resume();
+    process.stdin.on('data', resolve);
+  });
+
   // clean up the database before seeding
   await prisma.$transaction(async (tx) => {
     await tx.categoriesOnGame.deleteMany({});
@@ -26,6 +34,7 @@ async function main() {
         data: newCategories,
         skipDuplicates: true,
       });
+      console.info('Inserted categories');
 
       // insert all viewports
       await tx.viewport.createMany({
@@ -37,6 +46,7 @@ async function main() {
         })),
         skipDuplicates: true,
       });
+      console.info('Inserted viewports');
 
       await tx.developer.createMany({
         data: developers.map((developer) => ({
@@ -48,6 +58,7 @@ async function main() {
         })),
         skipDuplicates: true,
       });
+      console.info('Inserted developers');
     });
 
     // insert all games
@@ -55,19 +66,27 @@ async function main() {
   } catch (error) {
     console.error(error);
   }
+  console.info('Finished seeding database');
 }
 
 const insertGame = async (game: SeedableGameSchema) => {
+  // TODO: remove after we've added all new games
+  const plays = Math.floor(Math.random() * 5000);
+  const likes = Math.floor(Math.random() * 1000);
+  const dislikes = Math.floor(Math.random() * 100);
+
   const entity = await prisma.game.create({
     data: {
       id: game.id,
-      plays: 0,
-      likes: 0,
-      dislikes: 0,
+      plays,
+      likes,
+      dislikes,
       title: game.name,
       description: game.description,
       thumbnail: game.iconUrl,
       cover: game.bannerUrl,
+      createdAt: new Date(game.createdAt),
+      updatedAt: new Date(game.updatedAt),
       developer: {
         connect: {
           id: game.developerId,
@@ -94,6 +113,8 @@ const insertGame = async (game: SeedableGameSchema) => {
     })),
     skipDuplicates: true,
   });
+
+  console.info(`Inserted game ${game.name}`);
 };
 
 const convertTag: (tag: TagSchema) => GameCategory = (tag) => ({

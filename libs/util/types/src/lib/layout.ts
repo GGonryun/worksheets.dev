@@ -8,13 +8,6 @@ export type Recommendations = {
   categories: BasicCategoryInfo[];
 };
 
-export type RecommendationsSchema = {
-  featured: string[];
-  popular: string[];
-  new: string[];
-  categories: string[];
-};
-
 export type SearchResultsData = {
   games: BasicGameInfo[];
   categories: BasicCategoryInfo[];

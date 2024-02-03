@@ -3,7 +3,7 @@ import { RecentlyPlayedSchema } from '@worksheets/util/types';
 
 export const useRecentlyPlayedGames = () => {
   const [storage, setStorage] = useLocalStorage<RecentlyPlayedSchema[]>(
-    'recently-played-games',
+    'recent-games-v1',
     []
   );
 

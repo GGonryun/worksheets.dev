@@ -98,7 +98,6 @@ export const AUTH_OPTIONS: AuthOptions = {
 
       // refresh google access tokens
       if (token.provider === 'google') {
-        console.log('inspecting google token', token);
         return googleRefreshAccessToken(token);
       }
 

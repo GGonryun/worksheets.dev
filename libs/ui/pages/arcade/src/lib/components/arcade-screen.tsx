@@ -4,6 +4,7 @@ import {
   GameIconProps,
   PaginatedGamesList,
 } from '@worksheets/ui/components/games';
+import { shorthandNumber } from '@worksheets/util/numbers';
 import {
   BasicCategoryInfo,
   BasicGameInfo,
@@ -20,6 +21,7 @@ export const ArcadeScreen: React.FC<{
   featured: FeaturedGamesProps;
   topRaffles: BasicPrizeDetails[];
   topGames: DetailedGameInfo[];
+  newGames: DetailedGameInfo[];
   allGames: DetailedGameInfo[];
   recentGames: BasicGameInfo[];
 }> = (props) => (
@@ -68,6 +70,11 @@ export const ArcadeScreen: React.FC<{
         games={props.topGames.map(translateDetailedGames)}
       />
 
+      <GameSection
+        title="New Games"
+        games={props.newGames.map(translateDetailedGames)}
+      />
+
       <PaginatedGamesList
         title="All Games"
         games={props.allGames.map(translateDetailedGames)}
@@ -87,5 +94,5 @@ const translateDetailedGames = (game: DetailedGameInfo): GameIconProps => ({
   id: game.id,
   imageUrl: game.image,
   name: game.name,
-  caption: `${game.plays} plays`,
+  caption: `${shorthandNumber(game.plays)} plays`,
 });

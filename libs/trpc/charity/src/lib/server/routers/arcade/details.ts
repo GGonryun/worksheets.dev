@@ -1,4 +1,4 @@
-import { recommendations } from '@worksheets/util/settings';
+import { FEATURED_GAMES } from '@worksheets/util/settings';
 import {
   BasicCategoryInfo,
   BasicPrizeDetails,
@@ -20,6 +20,7 @@ export default publicProcedure
       topRaffles: z.custom<BasicPrizeDetails[]>(),
       topGames: z.custom<DetailedGameInfo[]>(),
       allGames: z.custom<DetailedGameInfo[]>(),
+      newGames: z.custom<DetailedGameInfo[]>(),
     })
   )
   .query(async ({ ctx: { db } }) => {
@@ -28,14 +29,22 @@ export default publicProcedure
         id: true,
         name: true,
         iconUrl: true,
+        games: {
+          select: {
+            gameId: true,
+          },
+        },
       },
     });
 
-    const categories: BasicCategoryInfo[] = tags.map((tag) => ({
-      id: tag.id,
-      name: tag.name,
-      image: tag.iconUrl,
-    }));
+    const categories: BasicCategoryInfo[] = tags
+      .filter((tag) => tag.games.length > 0)
+      .sort((a, b) => b.games.length - a.games.length)
+      .map((tag) => ({
+        id: tag.id,
+        name: tag.name,
+        image: tag.iconUrl,
+      }));
 
     const games = await db.game.findMany({
       select: {
@@ -44,32 +53,38 @@ export default publicProcedure
         thumbnail: true,
         cover: true,
         plays: true,
+        createdAt: true,
       },
     });
 
-    const topGames = recommendations.popular.map((id) => {
-      const game = games.find((g) => g.id === id);
+    const topGames = [...games]
+      .sort((a, b) => b.plays - a.plays)
+      .slice(0, 10)
+      .map((g) => ({
+        id: g.id,
+        name: g.title,
+        image: g.thumbnail,
+        plays: g.plays,
+      }));
 
-      if (!game) {
-        throw new Error(`Game with id ${id} not found`);
-      }
+    const newGames = [...games]
+      .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
+      .slice(0, 10)
+      .map((g) => ({
+        id: g.id,
+        name: g.title,
+        image: g.thumbnail,
+        plays: g.plays,
+      }));
 
-      return {
-        id: game.id,
-        name: game.title,
-        image: game.thumbnail,
-        plays: game.plays,
-      };
-    });
-
-    const allGames = games.map((g) => ({
+    const allGames = [...games].map((g) => ({
       id: g.id,
       name: g.title,
       image: g.thumbnail,
       plays: g.plays,
     }));
 
-    const featured = recommendations.featured.map((id) => {
+    const featured = FEATURED_GAMES.map((id) => {
       const game = games.find((g) => g.id === id);
 
       if (!game) {
@@ -91,6 +106,7 @@ export default publicProcedure
       categories,
       featured: { primary, secondary },
       topRaffles: [], // TODO: add raffles
+      newGames,
       topGames,
       allGames,
     };

@@ -24,6 +24,7 @@ const ArcadeScreenContainer: React.FC = () => {
       topRaffles={data.topRaffles}
       topGames={data.topGames}
       allGames={data.allGames}
+      newGames={data.newGames}
       recentGames={recentlyPlayed}
     />
   );
