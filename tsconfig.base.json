@@ -77,7 +77,6 @@
       "@worksheets/ui/components/qa-section": [
         "libs/ui/components/qa-section/src/index.ts"
       ],
-      "@worksheets/ui/components/seo": ["libs/ui/components/seo/src/index.ts"],
       "@worksheets/ui/components/snackbar": [
         "libs/ui/components/snackbar/src/index.ts"
       ],
