@@ -70,7 +70,6 @@ async function main() {
 }
 
 const insertGame = async (game: SeedableGameSchema) => {
-  // TODO: remove after we've added all new games
   const plays = Math.floor(Math.random() * 5000);
   const likes = Math.floor(Math.random() * 1000);
   const dislikes = Math.floor(Math.random() * 100);
