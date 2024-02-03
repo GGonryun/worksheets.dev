@@ -15,16 +15,20 @@ export const HTMLinator: FC<{ text: DangerousHTML } & Pick<BoxProps, 'sx'>> = ({
     <Box
       sx={{
         fontFamily: (theme) => theme.typography.mPlus1p.fontFamily,
-        '& p, h6, h5, h4, h3, h2, h1, ul': {
+        '& p, ul': {
           margin: 0,
+        },
+        '& h6, h5, h4, h3, h2, h1': {
+          marginTop: 2,
+          marginBottom: 1,
         },
         a: {
           color: 'inherit',
           textDecoration: 'underline',
         },
         '& li': {
-          margin: 0,
-          pl: 2,
+          marginTop: 0,
+          pl: 0.5,
         },
         ...sx,
       }}
