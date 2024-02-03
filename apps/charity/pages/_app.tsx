@@ -28,6 +28,7 @@ function CustomApp({
 
   return (
     <>
+      <DefaultSeo {...defaultSeo} />
       <CssBaseline />
       <Head>
         <meta
@@ -41,7 +42,6 @@ function CustomApp({
           <main>{getLayout(<Component {...pageProps} />)}</main>
         </SessionProvider>
       </ThemeProvider>
-      <DefaultSeo {...defaultSeo} />
     </>
   );
 }
