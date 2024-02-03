@@ -1,10 +1,10 @@
 import { CHARITY_GAMES_BASE_URL } from '@worksheets/ui/env';
-import { DynamicLayout } from '@worksheets/ui/layout';
+import { Layout as BaseLayout } from '@worksheets/ui/layout';
 import { ReactNode } from 'react';
 
 export const Layout: React.FC<{ children: ReactNode }> = ({ children }) => {
   return (
-    <DynamicLayout
+    <BaseLayout
       links={{
         root: '/',
         about: `${CHARITY_GAMES_BASE_URL}/about`,
@@ -17,6 +17,6 @@ export const Layout: React.FC<{ children: ReactNode }> = ({ children }) => {
       }}
     >
       {children}
-    </DynamicLayout>
+    </BaseLayout>
   );
 };
