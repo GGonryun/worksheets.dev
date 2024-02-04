@@ -1,4 +1,4 @@
-import { BlogScreen } from '@worksheets/ui/pages/blog';
+import { DynamicBlogListScreen } from '@worksheets/ui/pages/blog';
 import {
   getAllPostsMetadata,
   MarkdownMetadata,
@@ -14,12 +14,14 @@ type Props = {
   posts: MarkdownMetadata[];
 };
 
-const Page: NextPageWithLayout<Props> = ({ posts }) => (
-  <>
-    <NextSeo {...blogSeo} />
-    <BlogScreen posts={posts} />
-  </>
-);
+const Page: NextPageWithLayout<Props> = ({ posts }) => {
+  return (
+    <>
+      <NextSeo {...blogSeo} />
+      <DynamicBlogListScreen posts={posts} />
+    </>
+  );
+};
 
 Page.getLayout = (page) => {
   return <Layout>{page}</Layout>;

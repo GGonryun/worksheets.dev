@@ -1,7 +1,6 @@
-import { ArrowRightAlt } from '@mui/icons-material';
+import { ArrowRight } from '@mui/icons-material';
 import { Box, Link, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { CoverImage } from '@worksheets/ui/components/images';
-import { CHARITY_GAMES_BASE_URL } from '@worksheets/ui/env';
 import { Flex } from '@worksheets/ui-core';
 import { blogAuthors } from '@worksheets/util/blog';
 import { printDate } from '@worksheets/util/time';
@@ -22,7 +21,7 @@ export const PostPreview: FC<MarkdownMetadata> = ({
   const trimmedExcerpt = excerpt.slice(0, 150) + '...';
   const url = `/blog/${slug}`;
   const author = blogAuthors[authorId];
-  const authorUrl = `${CHARITY_GAMES_BASE_URL}/about#${author.id}`;
+  const authorUrl = `/blog/authors/${authorId}`;
   const prettyDate = printDate(date);
 
   return (
@@ -34,7 +33,10 @@ export const PostPreview: FC<MarkdownMetadata> = ({
           color: 'text.arcade',
         }}
       >
-        <Typography variant="h5">
+        <Typography
+          typography={{ xs: 'body1', sm: 'h6', md: 'h5' }}
+          fontWeight={{ xs: 700, sm: 700 }}
+        >
           <Link href={url} color="inherit">
             {title}
           </Link>
@@ -49,10 +51,16 @@ export const PostPreview: FC<MarkdownMetadata> = ({
           <Flex gap={1}>
             {tags.map((tag) => (
               <Typography
+                component={Link}
+                href={`/blog?tag=${tag}`}
                 color="warning.main"
                 variant="body3"
                 key={tag}
                 fontStyle="italic"
+                sx={{
+                  textDecoration: 'underline',
+                  textDecorationColor: 'inherit',
+                }}
               >
                 #{tag}
               </Typography>
@@ -60,22 +68,34 @@ export const PostPreview: FC<MarkdownMetadata> = ({
           </Flex>
         </Flex>
         <Link href={url} underline="none" color="inherit">
-          <Typography sx={{ display: 'inline' }}>{trimmedExcerpt}</Typography>{' '}
           <Typography
+            display="inline"
+            typography={{ xs: 'body2', sm: 'body1' }}
+          >
+            {trimmedExcerpt}
+          </Typography>{' '}
+          <Typography
+            typography={{ xs: 'body2', sm: 'body1' }}
             sx={{
               display: 'inline-flex',
-              gap: 0.5,
+              alignItems: 'center',
               textDecoration: 'underline',
               fontWeight: '500',
               fontStyle: 'italic',
             }}
           >
             Continue Reading
-            <ArrowRightAlt color="inherit" />
+            <ArrowRight color="inherit" sx={{ mb: -0.5 }} />
           </Typography>
         </Link>
       </Flex>
-      <Box height={130} minWidth={{ xs: 0, md: 275 }} position="relative">
+      <Box
+        component={Link}
+        href={url}
+        height={130}
+        minWidth={{ xs: 0, md: 275 }}
+        position="relative"
+      >
         {!isMobile && (
           <CoverImage priority src={coverImage} alt={`${title} image`} />
         )}

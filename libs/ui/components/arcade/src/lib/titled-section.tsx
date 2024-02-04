@@ -58,7 +58,7 @@ export const TitledSection: React.FC<{
           display: 'flex',
           flexDirection: 'column',
           p: { xs: 3, sm: 3, md: 4, lg: 5 },
-          gap: { xs: 2, sm: 3, md: 4, lg: 5 },
+          gap: { xs: 3, sm: 3, md: 4, lg: 5 },
           borderRadius: (theme) => theme.shape.borderRadius * 2,
           backgroundColor: (theme) => theme.palette.background['solid-blue'],
         }}
@@ -85,6 +85,7 @@ export const TitledSection: React.FC<{
         >
           {props.children}
         </Box>
+
         {props.footer}
       </Paper>
     </Box>

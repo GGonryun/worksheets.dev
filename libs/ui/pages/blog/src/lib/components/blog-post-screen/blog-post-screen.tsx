@@ -3,8 +3,8 @@ import { BlogAuthor } from '@worksheets/util/types';
 import { MarkdownMetadata } from '@worksheets/util-markdown';
 import { FC } from 'react';
 
-import { JoinNewsletterBox } from './join-newsletter-box';
-import { PostBody } from './post-body/post-body';
+import { JoinNewsletterBox } from '../blog-post-screen/join-newsletter-box';
+import { PostBody } from './post-body';
 import { PostHeader } from './post-header';
 
 export type BlogPostScreenProps = {

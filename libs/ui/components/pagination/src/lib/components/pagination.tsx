@@ -50,13 +50,11 @@ export const Pagination: React.FC<{
     </Button>
   );
 
-  if (pages <= 1) return null;
-
   if (pages < 6)
     return (
       <PagesBox>
         {arrayFromNumber(pages).map((i) => (
-          <PageButton i={i} />
+          <PageButton i={i} key={i} />
         ))}
       </PagesBox>
     );

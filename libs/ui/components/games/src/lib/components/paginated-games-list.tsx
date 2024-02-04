@@ -17,9 +17,8 @@ export const PaginatedGamesList: React.FC<{
 }> = (props) => {
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down('sm'));
 
-  const { page, items, max, setPage } = usePagination(props.games, 18);
+  const { page, items, max, setPage, ref } = usePagination(props.games, 18);
 
-  const ref = React.useRef<HTMLDivElement>(null);
   const handleSetPage = (page: number) => {
     setPage(page);
     ref.current?.scrollIntoView({ behavior: 'smooth' });

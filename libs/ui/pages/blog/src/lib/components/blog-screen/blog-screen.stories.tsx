@@ -1,8 +1,8 @@
 import type { Meta } from '@storybook/react';
 import { StoryWallpaper } from '@worksheets/ui/components/wallpaper';
 
+import { sampleBlogMetadata } from '../data';
 import { BlogScreen } from './blog-screen';
-import { sampleBlogMetadata } from './data';
 
 const Story: Meta<typeof BlogScreen> = {
   component: BlogScreen,

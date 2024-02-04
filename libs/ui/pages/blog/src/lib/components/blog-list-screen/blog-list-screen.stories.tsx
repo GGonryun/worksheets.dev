@@ -1,11 +1,11 @@
 import type { Meta } from '@storybook/react';
 import { StoryWallpaper } from '@worksheets/ui/components/wallpaper';
 
-import { BlogErrorScreen } from './blog-error-screen';
+import { BlogScreen } from '../blog-screen/blog-screen';
+import { sampleBlogMetadata } from '../data';
 
-const Story: Meta<typeof BlogErrorScreen> = {
-  component: BlogErrorScreen,
-  title: 'Content/BlogErrorScreen',
+const Story: Meta<typeof BlogScreen> = {
+  component: BlogScreen,
   decorators: [
     (Story) => (
       <StoryWallpaper>
@@ -17,5 +17,7 @@ const Story: Meta<typeof BlogErrorScreen> = {
 export default Story;
 
 export const Primary = {
-  args: {},
+  args: {
+    posts: sampleBlogMetadata,
+  },
 };

@@ -1,49 +1,37 @@
-import { Box, Typography } from '@mui/material';
-import { BlogErrorScreen, BlogPostScreen } from '@worksheets/ui/pages/blog';
+import { BlogPostScreen } from '@worksheets/ui/pages/blog';
 import { blogAuthors } from '@worksheets/util/blog';
 import { OpenGraphProps } from '@worksheets/util/seo';
 import { BlogAuthor } from '@worksheets/util/types';
 import {
   ArticleProps,
-  EMPTY_METADATA,
   getFilePaths,
   getParsedFileContentBySlug,
   MarkdownMetadata,
   markdownToHtml,
 } from '@worksheets/util-markdown';
 import { NextPageWithLayout } from '@worksheets/util-next';
-import { GetStaticPaths } from 'next';
-import Head from 'next/head';
-import { useRouter } from 'next/router';
+import { GetStaticPaths, GetStaticProps } from 'next';
 import { ArticleJsonLd, ArticleJsonLdProps, NextSeo } from 'next-seo';
 
 import { Layout } from '../../components/layout';
 import { POSTS_PATH } from '../../util/paths';
 import { blogArticleJsonLd, blogArticleSeo } from '../../util/seo';
 
-type Props = {
+type ComponentProps = {
   metadata: MarkdownMetadata;
   content: string;
-  slug: string;
   seo: OpenGraphProps;
   articleJsonLd: ArticleJsonLdProps;
   author: BlogAuthor;
 };
 
-const Page: NextPageWithLayout<Props> = ({
-  slug,
+const Page: NextPageWithLayout<ComponentProps> = ({
   metadata,
   content,
   seo,
   articleJsonLd,
   author,
 }) => {
-  const router = useRouter();
-
-  if (!router.isFallback && !slug) {
-    return <BlogErrorScreen />;
-  }
-
   return (
     <>
       <NextSeo
@@ -52,34 +40,14 @@ const Page: NextPageWithLayout<Props> = ({
         canonical={seo.url}
         openGraph={seo}
       />
-
-      <Box>
-        {router.isFallback ? (
-          <Typography variant="h4">Loading . . .</Typography>
-        ) : (
-          <article>
-            <Head>
-              <title>{metadata.title}</title>
-              <meta property="og:image" content={metadata.ogImage.url} />
-            </Head>
-            <BlogPostScreen
-              metadata={metadata}
-              content={content}
-              author={author}
-            />
-          </article>
-        )}
-      </Box>
+      <BlogPostScreen metadata={metadata} content={content} author={author} />
       <ArticleJsonLd {...articleJsonLd} />
     </>
   );
 };
 
-export const getStaticProps = async ({
-  params,
-}: {
-  params: ArticleProps;
-}): Promise<{ props: Props }> => {
+export const getStaticProps = (async (ctx) => {
+  const params = ctx.params as ArticleProps;
   // read markdown file into content and frontmatter
   const articleMarkdownContent = getParsedFileContentBySlug(
     params.slug,
@@ -87,27 +55,8 @@ export const getStaticProps = async ({
   );
 
   if (!articleMarkdownContent) {
-    // if the article doesn't exist return an empty object.
     return {
-      props: {
-        seo: {},
-        metadata: EMPTY_METADATA,
-        slug: '',
-        content: '',
-        articleJsonLd: {
-          url: '',
-          title: '',
-          images: [],
-          datePublished: '',
-          authorName: undefined,
-          description: '',
-        },
-        author: {
-          id: '',
-          name: '',
-          avatar: '',
-        },
-      },
+      notFound: true,
     };
   }
 
@@ -121,15 +70,16 @@ export const getStaticProps = async ({
 
   return {
     props: {
+      // marketing
       seo,
-      metadata,
-      slug,
-      content,
       articleJsonLd,
+      // content
+      metadata,
+      content,
       author,
     },
   };
-};
+}) satisfies GetStaticProps<ComponentProps>;
 
 export const getStaticPaths: GetStaticPaths<ArticleProps> = async () => {
   const paths = getFilePaths(POSTS_PATH);

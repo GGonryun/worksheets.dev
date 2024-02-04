@@ -1,8 +1,10 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
 export const ITEMS_PER_PAGE = 15;
 
 export function usePagination<T>(list: T[], itemsPerPage = ITEMS_PER_PAGE) {
+  const ref = useRef<HTMLDivElement>(null);
+
   const [page, setPage] = useState(0);
 
   const max = Math.ceil(list.length / itemsPerPage);
@@ -12,5 +14,5 @@ export function usePagination<T>(list: T[], itemsPerPage = ITEMS_PER_PAGE) {
 
   const items = list.slice(start, last);
 
-  return { page, setPage, max, items };
+  return { page, setPage, max, items, ref };
 }
