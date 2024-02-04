@@ -16,6 +16,10 @@ declare module '@mui/material/styles' {
     shadow?: string;
   }
 
+  interface PaletteColor {
+    shadow: string;
+  }
+
   interface Palette {
     black: SimplePaletteColorOptions;
     white: SimplePaletteColorOptions;

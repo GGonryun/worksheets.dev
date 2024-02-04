@@ -37,7 +37,7 @@ export const ArcadeItemLayout: React.FC<{
           borderRadius: (theme) => theme.shape.borderRadius,
           aspectRatio: '1/1',
           cursor: 'pointer',
-          boxShadow: (theme) => (hover ? theme.shadows[10] : theme.shadows[0]),
+          boxShadow: (theme) => (hover ? theme.shadows[10] : theme.shadows[4]),
           transform: hover ? 'scale(1.025)' : 'scale(1)',
           transition: 'all 0.5s ease',
         }}

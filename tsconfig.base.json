@@ -148,6 +148,7 @@
         "libs/ui/pages/under-construction/src/index.ts"
       ],
       "@worksheets/ui/qa-section/server": ["libs/ui/qa-section/src/server.ts"],
+      "@worksheets/ui/styles": ["libs/ui/styles/src/index.ts"],
       "@worksheets/ui/theme": ["libs/ui/theme/src/index.ts"],
       "@worksheets/ui/widgets": ["libs/ui/widgets/src/index.ts"],
       "@worksheets/util-devices": ["libs/util/devices/src/index.ts"],

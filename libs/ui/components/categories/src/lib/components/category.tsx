@@ -1,22 +1,16 @@
 import {
   Box,
   Button,
-  ButtonProps,
-  Palette,
   Typography,
   useMediaQuery,
   useTheme,
 } from '@mui/material';
+import { AcceptableColors, buttonBoxShadow } from '@worksheets/ui/styles';
 import Image from 'next/image';
-
-type AcceptableColors = Extract<
-  keyof Palette,
-  'primary' | 'warning' | 'success' | 'error' | 'secondary'
->;
 
 export type CategoryProps = {
   id: string;
-  color: ButtonProps['color'];
+  color: AcceptableColors;
   text: string;
   imageSrc: string;
 };
@@ -40,6 +34,7 @@ export const Category: React.FC<CategoryProps> = ({
         sx={{
           px: isMobile ? 1.25 : 1.75,
           py: isMobile ? 0.75 : 1.25,
+          ...buttonBoxShadow(color),
         }}
         startIcon={
           <Box

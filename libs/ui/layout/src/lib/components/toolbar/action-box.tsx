@@ -1,6 +1,7 @@
 import { Box, Button } from '@mui/material';
 import { CHARITY_GAMES_BASE_URL } from '@worksheets/ui/env';
 import { useMediaQuery } from '@worksheets/ui/hooks/use-media-query';
+import { buttonBoxShadow } from '@worksheets/ui/styles';
 
 export const ActionBox = () => {
   const isMedium = useMediaQuery((theme) => theme.breakpoints.down('lg'));
@@ -17,6 +18,7 @@ export const ActionBox = () => {
         sx={{
           display: isTiny ? 'none' : 'flex',
           width: isSmall ? 'unset' : 164,
+          ...buttonBoxShadow('primary'),
         }}
       >
         Top Games
@@ -29,6 +31,7 @@ export const ActionBox = () => {
         sx={{
           display: isMedium ? 'none' : 'flex',
           width: 164,
+          ...buttonBoxShadow('error'),
         }}
       >
         Free Games
@@ -41,6 +44,7 @@ export const ActionBox = () => {
         sx={{
           display: isSmall ? 'none' : 'flex',
           width: 164,
+          ...buttonBoxShadow('error'),
         }}
       >
         New Games
@@ -53,6 +57,7 @@ export const ActionBox = () => {
         sx={{
           display: isTiny ? 'none' : 'flex',
           width: isSmall ? 'unset' : 164,
+          ...buttonBoxShadow('success'),
         }}
       >
         Win Prizes

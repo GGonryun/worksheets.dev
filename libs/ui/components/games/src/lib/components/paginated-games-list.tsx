@@ -6,6 +6,7 @@ import {
   usePagination,
 } from '@worksheets/ui/components/pagination';
 import { useMediaQuery } from '@worksheets/ui/hooks/use-media-query';
+import { buttonBoxShadow } from '@worksheets/ui/styles';
 import React from 'react';
 
 import { GameIcon, GameIconProps } from './game-icon';
@@ -44,7 +45,10 @@ export const PaginatedGamesList: React.FC<{
             size={isMobile ? 'medium' : 'large'}
             fullWidth
             startIcon={<ShuffleIcon size={isMobile ? 18 : 23} />}
-            sx={{ py: { xs: 1, sm: 2 } }}
+            sx={{
+              py: { xs: 1, sm: 2 },
+              ...buttonBoxShadow('warning'),
+            }}
           >
             Play Random Game
           </Button>
