@@ -3,14 +3,18 @@ import { Box, Container, Link, Typography } from '@mui/material';
 import { TitledPrizeCarousel } from '@worksheets/ui/components/prizes';
 import { PrizeSchema } from '@worksheets/util/types';
 
+import { PrizesGroup } from '../prize-wall-screen/prizes-group';
 import { CustomContainer } from '../shared/custom-container';
 import { PrizeDescription } from './prize-description';
 import { PrizeDetails } from './prize-details';
 
 export const PrizeDetailsScreen: React.FC<{
   suggestedPrizes: PrizeSchema[];
+  allPrizes: PrizeSchema[];
   prize: PrizeSchema;
-}> = ({ suggestedPrizes, prize }) => (
+  yourEntries: number;
+  connected: boolean;
+}> = ({ suggestedPrizes, allPrizes, prize, yourEntries, connected }) => (
   <CustomContainer>
     <Container
       maxWidth="md"
@@ -23,23 +27,43 @@ export const PrizeDetailsScreen: React.FC<{
       }}
     >
       <AllPrizesLink />
-      <PrizeDetails {...prize} />
+      <PrizeDetails
+        {...prize}
+        onShare={() => alert('TODO: show share modal')}
+        onRaffleClick={() => alert('TODO: show enter raffle modal')}
+        yourEntries={yourEntries}
+        connected={connected}
+      />
     </Container>
 
     <Gutter />
 
-    <PrizeDescription description={prize.description} />
+    <PrizeDescription
+      prize={prize}
+      onShare={() => alert('TODO: show share modal')}
+    />
 
     <Gutter />
 
-    <TitledPrizeCarousel items={suggestedPrizes} title="Prizes for you" />
+    {Boolean(suggestedPrizes.length) && (
+      <TitledPrizeCarousel items={suggestedPrizes} title="Prizes For You" />
+    )}
+
+    <Gutter />
+
+    <PrizesGroup
+      header={
+        <Typography typography={{ xs: 'h5', sm: 'h4' }}>All Prizes</Typography>
+      }
+      prizes={allPrizes}
+    />
   </CustomContainer>
 );
 
 const AllPrizesLink = () => (
   <Link
     href="/prizes"
-    color="white.main"
+    color="text.arcade"
     sx={{
       display: 'flex',
       gap: 0.5,

@@ -4,36 +4,45 @@ export const prizeCategorySchema = z.enum([
   'all',
   'newest',
   'hottest',
-  'cheapest',
   'qualified',
   'expiring',
+  'entered',
+  'expired',
 ]);
 
 export type PrizeCategory = z.infer<typeof prizeCategorySchema>;
 
-const company = z.union([z.literal('steam-games'), z.literal('epic-games')]);
+const prizeType = z.union([
+  z.literal('steam-key'),
+  z.literal('epic-games-key'),
+]);
 
 export const prizeSchema = z.object({
   id: z.string(),
   title: z.string(),
   headline: z.string(),
   description: z.string(),
-  value: z.number(),
   expires: z.number(),
-  company: company,
+  value: z.number(),
+  type: prizeType,
+  sourceUrl: z.string(),
   imageUrl: z.string(),
-  entered: z.number(),
-  tokens: z.number(),
+  winners: z.number(),
+  cost: z.number(),
+  sponsor: z.object({
+    name: z.string(),
+    url: z.string(),
+  }),
 });
 
 export type PrizeSchema = z.infer<typeof prizeSchema>;
 
-export type PrizeCompany = 'steam-games' | 'epic-games';
+export type PrizeType = z.infer<typeof prizeType>;
 
 export type BasicPrizeDetails = {
   id: string;
   name: string;
   imageUrl: string;
   expires: number;
-  company: PrizeCompany;
+  type: PrizeType;
 };

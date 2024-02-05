@@ -11,7 +11,7 @@ export const ActionBox = () => {
   return (
     <Box display="flex" gap={1} alignItems="center" pb={1}>
       <Button
-        href={`${CHARITY_GAMES_BASE_URL}/tags/popular`}
+        href={`${CHARITY_GAMES_BASE_URL}/play`}
         variant="arcade"
         color="primary"
         size={isMedium ? 'small' : 'medium'}
@@ -21,10 +21,10 @@ export const ActionBox = () => {
           ...buttonBoxShadow('primary'),
         }}
       >
-        Top Games
+        All Games
       </Button>
       <Button
-        href={`${CHARITY_GAMES_BASE_URL}/tags/ad-free`}
+        href={`${CHARITY_GAMES_BASE_URL}/tags/popular`}
         variant="arcade"
         color="error"
         size={isMedium ? 'small' : 'medium'}
@@ -34,7 +34,7 @@ export const ActionBox = () => {
           ...buttonBoxShadow('error'),
         }}
       >
-        Free Games
+        Top Games
       </Button>
       <Button
         href={`${CHARITY_GAMES_BASE_URL}/tags/new`}

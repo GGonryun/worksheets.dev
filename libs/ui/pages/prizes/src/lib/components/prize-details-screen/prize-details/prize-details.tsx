@@ -10,14 +10,27 @@ import {
 import { PrizeHeader } from './prize-header';
 import { RaffleInfo } from './raffle-info';
 
-export const PrizeDetails: React.FC<PrizeSchema> = ({
+export const PrizeDetails: React.FC<
+  PrizeSchema & {
+    yourEntries: number;
+    connected: boolean;
+    onRaffleClick: () => void;
+    onShare: () => void;
+  }
+> = ({
   headline,
   expires,
   imageUrl,
   title,
-  tokens,
-  entered,
+  cost,
+  winners,
+  type,
+  yourEntries,
   value,
+  connected,
+  sourceUrl,
+  onRaffleClick,
+  onShare,
 }) => (
   <Paper
     elevation={10}
@@ -35,7 +48,12 @@ export const PrizeDetails: React.FC<PrizeSchema> = ({
       }}
     >
       <Box textAlign="center">
-        <PrizeHeader title={title} imageUrl={imageUrl} headline={headline} />
+        <PrizeHeader
+          title={title}
+          imageUrl={imageUrl}
+          headline={headline}
+          expires={expires}
+        />
       </Box>
       <Box
         sx={{
@@ -72,10 +90,16 @@ export const PrizeDetails: React.FC<PrizeSchema> = ({
           }}
         />
         <RaffleInfo
-          tokens={tokens}
+          cost={cost}
           value={value}
           expires={expires}
-          entered={entered}
+          winners={winners}
+          sourceUrl={sourceUrl}
+          connected={connected}
+          type={type}
+          yourEntries={yourEntries}
+          onRaffleClick={onRaffleClick}
+          onShare={onShare}
         />
       </Box>
     </Paper>

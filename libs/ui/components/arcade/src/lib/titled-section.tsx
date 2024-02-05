@@ -8,6 +8,8 @@ import {
   useMediaQuery,
 } from '@mui/material';
 
+import { ArcadeItemGrid } from './arcade-item-grid';
+
 export const TitledSection: React.FC<{
   title: string;
   children: React.ReactNode[];
@@ -65,26 +67,7 @@ export const TitledSection: React.FC<{
       >
         {props.header}
 
-        <Box
-          sx={{
-            display: 'grid',
-            gridTemplateColumns: {
-              xs: `repeat(2, minmax(72px, 200px))`,
-              mobile1: `repeat(2, minmax(72px, 200px))`,
-              mobile2: `repeat(3, minmax(72px, 200px))`,
-              sm: `repeat(3, minmax(100px, 200px))`,
-              desktop1: `repeat(4, minmax(100px, 200px))`,
-              md: `repeat(5, minmax(100px, 200px))`,
-              lg: `repeat(6, minmax(100px, 200px))`,
-              xl: `repeat(6, minmax(100px, 200px))`,
-            },
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            gap: { xs: 2, sm: 3, md: 4 },
-          }}
-        >
-          {props.children}
-        </Box>
+        <ArcadeItemGrid>{props.children}</ArcadeItemGrid>
 
         {props.footer}
       </Paper>

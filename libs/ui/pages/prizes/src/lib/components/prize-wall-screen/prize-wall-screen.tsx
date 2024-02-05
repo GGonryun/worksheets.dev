@@ -1,25 +1,64 @@
 import { Box } from '@mui/material';
-import { TitledPrizeCarousel } from '@worksheets/ui/components/prizes';
+import { FilterablePrizeCategory } from '@worksheets/ui/components/prizes';
+import { PrizeSchema } from '@worksheets/util/types';
 
 import { CustomContainer } from '../shared/custom-container';
-import { useRaffleScreenContext } from './context';
 import { FancySearch } from './fancy-search';
-import { RaffleList } from './raffle-list';
+import { PrizeContents } from './prize-contents';
+import { SearchResults } from './search-results';
 import { TitleText } from './title-text';
 
-export const PrizeWallScreen: React.FC = () => {
-  const { hottest } = useRaffleScreenContext();
-
+export const PrizeWallScreen: React.FC<{
+  hottest: PrizeSchema[];
+  entered: PrizeSchema[];
+  list: PrizeSchema[];
+  category: FilterablePrizeCategory;
+  setCategory: (c: FilterablePrizeCategory) => void;
+  searched: PrizeSchema[];
+  search: string;
+  setSearch: (s: string) => void;
+}> = ({
+  search,
+  setSearch,
+  hottest,
+  entered,
+  list,
+  category,
+  setCategory,
+  searched,
+}) => {
   return (
     <CustomContainer>
       <TitleText />
+      <Box
+        width="100%"
+        display="flex"
+        gap={{ xs: 4, sm: 4, md: 6 }}
+        flexDirection="column"
+        alignItems="center"
+      >
+        <Box
+          sx={{
+            display: 'grid',
+            placeItems: 'center',
+            width: '100%',
+          }}
+        >
+          <FancySearch search={search} setSearch={setSearch} />
+        </Box>
 
-      <Box my={{ xs: 0.5, sm: 1 }} />
-      <FancySearch />
-      <Box my={{ xs: 1, sm: 2, md: 3 }} />
-      <TitledPrizeCarousel items={hottest} title="Hottest Prizes" />
-
-      <RaffleList />
+        {search ? (
+          <SearchResults searched={searched} />
+        ) : (
+          <PrizeContents
+            hottest={hottest}
+            entered={entered}
+            list={list}
+            category={category}
+            setCategory={setCategory}
+          />
+        )}
+      </Box>
     </CustomContainer>
   );
 };

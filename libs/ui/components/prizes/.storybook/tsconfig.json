@@ -21,7 +21,6 @@
     "../src/**/*.stories.jsx",
     "../src/**/*.stories.tsx",
     "../src/**/*.stories.mdx",
-    "../../../../types/@mui.d.ts",
-    "*.js"
+    "../../../../types/@mui.d.ts"
   ]
 }

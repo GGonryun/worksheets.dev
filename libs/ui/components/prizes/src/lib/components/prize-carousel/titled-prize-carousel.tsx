@@ -11,27 +11,35 @@ export const TitledPrizeCarousel: React.FC<{
 }> = ({ items, title, action }) => {
   return (
     <Box width="100%">
-      <Typography
-        color="primary.contrastText"
-        pb={{ xs: 1, sm: 2 }}
+      <Box
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
+        pb={{ xs: 1.5, sm: 2.5 }}
         sx={{
-          typography: { xs: 'h6', sm: 'h4' },
+          color: 'text.arcade',
         }}
       >
-        {title}
-      </Typography>
+        <Typography
+          sx={{
+            typography: { xs: 'h5', sm: 'h4' },
+          }}
+        >
+          {title}
+        </Typography>
+        {Boolean(action) && action}
+      </Box>
       <Paper
         sx={{
           display: 'flex',
           flexDirection: 'column',
           borderRadius: (theme) => theme.shape.borderRadius,
           background: (theme) => theme.palette.background['solid-blue'],
-          padding: { xs: 2, sm: 4 },
+          padding: { xs: 1, sm: 2 },
           gap: { xs: 2, sm: 4 },
         }}
       >
         <PrizeCarousel items={items} />
-        {action ? null : action}
       </Paper>
     </Box>
   );

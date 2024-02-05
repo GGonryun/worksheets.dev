@@ -194,6 +194,23 @@ export const printShortDate = (
   return date.toLocaleDateString(locale, options);
 };
 
+export const printShortDateTime = (
+  stamp: number | string | Date,
+  locale = 'en-US'
+) => {
+  const options: Intl.DateTimeFormatOptions = {
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+  };
+
+  const date = new Date(stamp);
+
+  return date.toLocaleDateString(locale, options);
+};
+
 /**
  *
  * @param stamp Stamp is a string provided in the form MM-DD-YYYY
@@ -261,4 +278,18 @@ export const getNextUTCMidnight = (): Date => {
   const nextMidnight = new Date();
   nextMidnight.setUTCHours(24, 0, 0, 0);
   return nextMidnight;
+};
+
+export const durationToString = (duration: {
+  days: number;
+  hours: number;
+  minutes: number;
+  seconds: number;
+}): string => {
+  const { days, hours, minutes, seconds } = duration;
+  if (days > 0) return `${days}d ${hours}h ${minutes}m ${seconds}s`;
+  if (hours > 0) return `${hours}h ${minutes}m ${seconds}s`;
+  if (minutes > 0) return `${minutes}m ${seconds}s`;
+
+  return `${seconds}s`;
 };

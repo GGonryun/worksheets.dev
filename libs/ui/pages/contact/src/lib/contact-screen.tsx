@@ -74,11 +74,12 @@ export const ContactScreen: React.FC = () => (
           </Button>
         </Box>
       </Box>
+      <br />
       <EmailUsSection />
       <br />
       <SignUpSection />
       <br />
-      <BugsAndFeaturesSection />
+      <BugsSection />
       <br />
     </Paper>
   </Container>
@@ -89,8 +90,9 @@ const EmailUsSection: FC = () => {
     <Box>
       <Subtitle>Need help?</Subtitle>
       <Text>
-        Have a question about our platform or a game? Send us a message and
-        we&apos;ll get back to you as soon as possible.
+        Have a question about our platform or a game? Or maybe some feedback
+        you'd like to share? Send us a message and we&apos;ll get back to you as
+        soon as possible.
       </Text>
       <Box mt={2}>
         <Button
@@ -126,7 +128,7 @@ const SignUpSection: FC = () => (
   </Box>
 );
 
-const BugsAndFeaturesSection: FC = () => (
+const BugsSection: FC = () => (
   <Box
     sx={{
       display: 'flex',
@@ -134,15 +136,15 @@ const BugsAndFeaturesSection: FC = () => (
       gap: 1,
     }}
   >
-    <Subtitle>Report bugs and request features</Subtitle>
+    <Subtitle>Report bugs</Subtitle>
     <Text>
       Charity Games uses{' '}
       <Link color="inherit" href={urls.social.github}>
         GitHub
       </Link>{' '}
-      as our public issues tracker for organizing bugs and feature requests.
-      Please use the links below to report bugs or request features. Do not
-      share private data as our issues tracker is public.
+      as our public issues tracker for organizing bugs. Please use the link
+      below to report bugs. Do not share private data as our issues tracker is
+      public.
     </Text>
     <Box mt={2}>
       <Button

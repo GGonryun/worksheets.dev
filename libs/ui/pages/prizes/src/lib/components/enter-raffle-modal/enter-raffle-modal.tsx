@@ -10,8 +10,12 @@ import {
 import { BaseModal, ModalWrapper } from '@worksheets/ui-core';
 
 export const EnterRaffleModal: React.FC<
-  ModalWrapper<{ onEnter: (entries: number) => void; tokens: number }>
-> = ({ open, onClose, onEnter, tokens }) => {
+  ModalWrapper<{
+    onEnter: (entries: number) => void;
+    cost: number;
+    tokens: number;
+  }>
+> = ({ open, onClose, onEnter, cost, tokens }) => {
   const isMobile = useMediaQuery((theme: Theme) =>
     theme.breakpoints.down('sm')
   );
@@ -56,17 +60,18 @@ export const EnterRaffleModal: React.FC<
         </Typography>
         <Box my={2}>
           <Typography fontWeight={700}>
-            1 ticket = {tokens} token{tokens > 1 ? 's' : ''}
+            1 ticket = {cost} token{cost > 1 ? 's' : ''}
           </Typography>
           <Typography fontWeight={700}>
-            5 tickets = {tokens * 5} tokens
+            5 tickets = {cost * 5} tokens
           </Typography>
           <Typography fontWeight={700}>
-            10 tickets = {tokens * 10} tokens
+            10 tickets = {cost * 10} tokens
           </Typography>
         </Box>
 
         <Button
+          disabled={tokens < cost}
           onClick={() => handleEnter(1)}
           fullWidth
           size={isMobile ? 'small' : 'medium'}
@@ -76,6 +81,7 @@ export const EnterRaffleModal: React.FC<
           Raffle Ticket x1
         </Button>
         <Button
+          disabled={tokens < cost * 5}
           onClick={() => handleEnter(5)}
           fullWidth
           size={isMobile ? 'small' : 'medium'}
@@ -85,6 +91,7 @@ export const EnterRaffleModal: React.FC<
           Raffle Ticket x5
         </Button>
         <Button
+          disabled={tokens < cost * 10}
           onClick={() => handleEnter(5)}
           fullWidth
           size={isMobile ? 'small' : 'medium'}
@@ -92,6 +99,9 @@ export const EnterRaffleModal: React.FC<
           color="success"
         >
           Raffle Ticket x10
+        </Button>
+        <Button href="/help/tokens-rewards" sx={{ mt: 1 }}>
+          Need more tokens?
         </Button>
       </Box>
     </BaseModal>

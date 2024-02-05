@@ -1,21 +1,36 @@
-import { Search } from '@mui/icons-material';
-import { TextField, Theme, useMediaQuery } from '@mui/material';
+import { Clear, Search } from '@mui/icons-material';
+import { IconButton, TextField, Theme, useMediaQuery } from '@mui/material';
 
-export const FancySearch = () => {
+export const FancySearch: React.FC<{
+  search: string;
+  setSearch: (value: string) => void;
+}> = ({ search, setSearch }) => {
   const isMobile = useMediaQuery((theme: Theme) =>
     theme.breakpoints.down('sm')
   );
 
   return (
     <TextField
-      disabled
+      value={search}
+      onChange={(e) => setSearch(e.target.value)}
       size={isMobile ? 'small' : 'medium'}
-      placeholder={'Search is coming soon!'}
+      placeholder={'Search for a prize'}
       fullWidth
       InputProps={{
         disableUnderline: true,
         startAdornment: (
           <Search color="primary" fontSize="large" sx={{ pl: 1 }} />
+        ),
+        endAdornment: (
+          <IconButton
+            sx={{
+              mr: 1,
+              display: search ? 'inline-flex' : 'none',
+            }}
+            onClick={() => setSearch('')}
+          >
+            <Clear color="primary" fontSize="large" />
+          </IconButton>
         ),
         sx: {
           p: isMobile ? 0.25 : 1,
@@ -42,7 +57,7 @@ export const FancySearch = () => {
       }}
       inputProps={{
         sx: {
-          pl: 1,
+          pl: 2,
           '&::placeholder': {
             fontWeight: 700,
           },

@@ -10,10 +10,15 @@ const emptyPrizeSchema: PrizeSchema = {
   description: '',
   value: 0,
   expires: 0,
-  company: 'steam-games',
   imageUrl: '',
-  entered: 0,
-  tokens: 0,
+  cost: 0,
+  type: 'steam-key',
+  sourceUrl: '',
+  winners: 0,
+  sponsor: {
+    name: '',
+    url: '',
+  },
 };
 
 export default publicProcedure

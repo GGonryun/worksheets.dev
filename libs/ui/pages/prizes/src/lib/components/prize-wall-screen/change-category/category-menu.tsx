@@ -1,18 +1,17 @@
 import { ListItemIcon, ListItemText, Menu, MenuItem } from '@mui/material';
 import {
+  FilterablePrizeCategory,
   prizeCategoryIcons,
   prizeCategoryLabels,
 } from '@worksheets/ui/components/prizes';
-import { PrizeCategory } from '@worksheets/util/types';
 import React from 'react';
-
-import { useRaffleScreenContext } from '../context';
 
 export const CategoryMenu: React.FC<{
   anchorEl: null | HTMLElement;
   onClose: () => void;
-}> = ({ anchorEl, onClose }) => {
-  const { category, setCategory } = useRaffleScreenContext();
+  category: FilterablePrizeCategory;
+  setCategory: (category: FilterablePrizeCategory) => void;
+}> = ({ anchorEl, onClose, category, setCategory }) => {
   return (
     <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={onClose}>
       {Object.entries(prizeCategoryLabels).map(([key, value]) => (
@@ -20,12 +19,12 @@ export const CategoryMenu: React.FC<{
           key={key}
           disabled={category === key}
           onClick={() => {
-            setCategory(key as PrizeCategory);
+            setCategory(key as FilterablePrizeCategory);
             onClose();
           }}
         >
           <ListItemIcon>
-            {prizeCategoryIcons[key as PrizeCategory]}
+            {prizeCategoryIcons[key as FilterablePrizeCategory]}
           </ListItemIcon>
           <ListItemText
             sx={{ px: 4 }}

@@ -1,147 +1,118 @@
-import { ArrowDropDown } from '@mui/icons-material';
-import { Box, ButtonBase, Collapse, Paper, Typography } from '@mui/material';
-import { PoweredByLogo } from '@worksheets/ui/components/logos';
-import { Markdown } from '@worksheets/ui-core';
-import React, { useState } from 'react';
+import { Diversity1, HelpCenter, Share } from '@mui/icons-material';
+import { Box, Button, Divider, Link, Typography } from '@mui/material';
+import { Description } from '@worksheets/ui/components/description';
+import { prizeTypeLabel } from '@worksheets/ui/components/prizes';
+import { HTMLinator } from '@worksheets/ui-core';
+import { printShortDateTime } from '@worksheets/util/time';
+import { PrizeSchema } from '@worksheets/util/types';
 
-export const PrizeDescription: React.FC<{ description: string }> = ({
-  description,
-}) => {
-  const [open, setOpen] = useState(false);
-
-  return (
-    <Paper
-      elevation={0}
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        width: '100%',
-        overflow: 'hidden',
-        borderRadius: (theme) => theme.shape.borderRadius,
-        backgroundColor: (theme) =>
-          theme.palette.background['transparent-blue'],
-      }}
-    >
-      <ButtonBase
-        disableRipple
-        disabled={open}
-        onClick={() => setOpen(true)}
-        sx={{
-          width: '100%',
-          display: 'flex',
-          flexWrap: 'wrap',
-          alignItems: 'center',
-          justifyContent: { xs: 'center', sm: 'space-between' },
-          gap: { xs: 2, sm: 1 },
-          p: { xs: 2, sm: 3 },
-        }}
+export const PrizeDescription: React.FC<{
+  onShare: () => void;
+  prize: PrizeSchema;
+}> = ({ prize, onShare }) => (
+  <Description
+    title="About This Prize"
+    ancillary={
+      <Box
+        width={{ xs: '100%', sm: 'auto' }}
+        display="flex"
+        gap={{ xs: 2, sm: 1.5 }}
+        flexDirection={{ xs: 'column', sm: 'row' }}
       >
-        <Typography
-          color="text.arcade"
-          sx={{
-            typography: { xs: 'h6', sm: 'h5', md: 'h4' },
-          }}
+        <Button
+          size="small"
+          variant="arcade"
+          color="secondary"
+          startIcon={<Share />}
+          onClick={onShare}
         >
-          About This Prize
-        </Typography>
-        <ReadMore visible={!open} />
-      </ButtonBase>
-      <Collapse in={open}>
-        <Box
-          sx={{
-            position: 'relative',
-            px: 3,
-            pb: 3,
-            pt: 1,
-          }}
+          Share
+        </Button>
+        <Button
+          size="small"
+          variant="arcade"
+          color="success"
+          href={prize.sponsor.url}
+          target="_blank"
+          startIcon={<Diversity1 />}
         >
-          <Typography
-            component="div"
-            variant="body1"
-            color="white.main"
-            fontFamily={(theme) => theme.typography.mPlus1p.fontFamily}
-            whiteSpace={'pre-wrap'}
-          >
-            <Markdown text={description} />
-          </Typography>
-          <Box pb={1} pt={{ xs: 5, sm: 10 }}>
-            <ReadLess visible={open} onClick={() => setOpen(false)} />
-          </Box>
-          <Box
-            position="absolute"
-            right={16}
-            bottom={16}
-            display={{ xs: 'none', sm: 'block' }}
-          >
-            <PoweredByLogo />
-          </Box>
-        </Box>
-      </Collapse>
-    </Paper>
+          Sponsor
+        </Button>
+        <Button
+          size="small"
+          variant="arcade"
+          color="warning"
+          href="/help/prize-wall"
+          startIcon={<HelpCenter />}
+        >
+          Get Help
+        </Button>
+      </Box>
+    }
+    description={
+      <Box display="flex" flexDirection="column" gap={{ xs: 3, sm: 4 }}>
+        <DetailsGrid prize={prize} />
+
+        <HTMLinator text={prize.description} />
+      </Box>
+    }
+  />
+);
+
+const DetailsGrid: React.FC<{ prize: PrizeSchema }> = ({ prize }) => {
+  const isOver = prize.expires < Date.now();
+  return (
+    <Box>
+      <Divider sx={{ backgroundColor: 'text.arcade' }} />
+      <Box my={2} />
+      <DetailPair
+        label="Sponsor"
+        value={prize.sponsor.name}
+        href={prize.sponsor.url}
+        target="_blank"
+      />
+      <DetailPair
+        label={isOver ? 'Ended On' : 'Ends On'}
+        value={printShortDateTime(prize.expires)}
+      />
+      <DetailPair label="Winners" value={prize.winners} />
+      <DetailPair label="Retail Value" value={`$${prize.value} USD`} />
+      <DetailPair label="Entry Fee" value={`${prize.cost} Tokens`} />
+      <DetailPair label="Prize Type" value={prizeTypeLabel[prize.type]} />
+      <DetailPair
+        label="Prize ID"
+        value={prize.id}
+        href={`/prizes/${prize.id}`}
+      />
+      <Box my={2} />
+      <Divider sx={{ backgroundColor: 'text.arcade' }} />
+    </Box>
   );
 };
 
-const ReadMore: React.FC<{ visible: boolean }> = ({ visible }) => (
-  <Box display={visible ? 'flex' : 'none'} alignItems="center" gap={0.25}>
-    <Typography
-      color="text.blue.light"
-      textTransform="none"
-      sx={{
-        typography: { xs: 'h6', sm: 'h5' },
-        fontWeight: { xs: 700, sm: 500 },
-      }}
-    >
-      Read More
-    </Typography>
-    <ArrowDropDown
-      sx={{
-        color: (theme) => theme.palette.text.blue.light,
-        height: '2rem',
-        width: '2rem',
-      }}
-    />
-  </Box>
-);
-
-const ReadLess: React.FC<{ visible: boolean; onClick: () => void }> = ({
-  visible,
-  onClick,
-}) => (
-  <Box
-    display="flex"
-    width="100%"
-    justifyContent="center"
-    visibility={visible ? 'visible' : 'hidden'}
-  >
-    <ButtonBase
-      onClick={onClick}
-      disableRipple
-      sx={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: 0.25,
-        cursor: 'pointer',
-        width: 'fit-content',
-      }}
-    >
+const DetailPair: React.FC<{
+  label: string;
+  value: string | number;
+  href?: string;
+  target?: string;
+}> = ({ label, value, href, target }) => {
+  return (
+    <Box display="grid" gridTemplateColumns={'130px 1fr'} my={0.5}>
+      <Typography typography="body2" fontWeight="bold">
+        {label}
+      </Typography>
       <Typography
-        color="primary.light"
-        textTransform="none"
+        component={Link}
+        typography="body2"
+        href={href}
+        target={target}
         sx={{
-          typography: { xs: 'h6', sm: 'h5' },
-          fontWeight: { xs: 700, sm: 500 },
+          color: 'inherit',
+          textDecoration: href ? 'underline' : 'none',
         }}
       >
-        Read Less
+        {value}
       </Typography>
-      <ArrowDropDown
-        sx={{
-          color: (theme) => theme.palette.primary.light,
-          height: '2rem',
-          width: '2rem',
-          transform: 'rotate(180deg)',
-        }}
-      />
-    </ButtonBase>
-  </Box>
-);
+    </Box>
+  );
+};

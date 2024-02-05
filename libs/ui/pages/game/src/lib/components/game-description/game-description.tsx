@@ -2,6 +2,7 @@ import { Report, Share } from '@mui/icons-material';
 import { Box, IconButton } from '@mui/material';
 import { Description } from '@worksheets/ui/components/description';
 import { useMediaQuery } from '@worksheets/ui/hooks/use-media-query';
+import { HTMLinator } from '@worksheets/ui-core';
 import { GameDevices } from '@worksheets/util/types';
 import { FC } from 'react';
 
@@ -29,7 +30,7 @@ export const GameDescription: FC<{
             </IconButton>
           </Box>
         }
-        description={description}
+        description={<HTMLinator text={description} />}
         ancillary={<SupportedDeviceIcons devices={devices} />}
       />
     </Box>

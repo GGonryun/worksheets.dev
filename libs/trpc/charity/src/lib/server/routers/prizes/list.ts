@@ -7,6 +7,7 @@ export const list = publicProcedure
   .input(
     z.object({
       category: prizeCategorySchema,
+      search: z.string().optional(),
     })
   )
   .output(z.array(prizeSchema))

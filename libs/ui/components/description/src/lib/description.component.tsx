@@ -1,16 +1,16 @@
 import { ArrowDropDown } from '@mui/icons-material';
 import { Box, ButtonBase, Collapse, Paper, Typography } from '@mui/material';
 import { PoweredByLogo } from '@worksheets/ui/components/logos';
-import { HTMLinator } from '@worksheets/ui-core';
 import React, { ReactNode, useState } from 'react';
 
 export const Description: React.FC<{
   title: ReactNode;
   icons?: ReactNode;
   ancillary?: ReactNode;
-  description: string;
-}> = ({ title, icons, ancillary, description }) => {
-  const [open, setOpen] = useState(false);
+  description: ReactNode;
+  open?: boolean;
+}> = ({ title, icons, ancillary, description, open: initialState = false }) => {
+  const [open, setOpen] = useState(initialState);
 
   const styles = {
     display: 'flex',
@@ -36,7 +36,7 @@ export const Description: React.FC<{
         typography: { xs: 'h6', sm: 'h5', md: 'h4' },
       }}
     >
-      <Box display="flex" alignItems="center" gap={{ xs: 1, sm: 3 }}>
+      <Box display="flex" alignItems="center" gap={{ xs: 2, sm: 3 }}>
         {title}
         {open && icons}
       </Box>
@@ -80,7 +80,7 @@ export const Description: React.FC<{
             color="white.main"
             fontFamily={(theme) => theme.typography.mPlus1p.fontFamily}
           >
-            <HTMLinator text={description} />
+            {description}
           </Typography>
           <Box pb={1} pt={{ xs: 4, sm: 8 }}>
             <ReadLess visible={open} onClick={() => setOpen(false)} />

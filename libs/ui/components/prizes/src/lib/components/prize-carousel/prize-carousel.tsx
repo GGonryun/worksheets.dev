@@ -23,7 +23,7 @@ export const PrizeCarousel: React.FC<{
             name={item.title}
             imageUrl={item.imageUrl}
             expires={item.expires}
-            company={item.company}
+            type={item.type}
           />
         </Box>
       ))}
