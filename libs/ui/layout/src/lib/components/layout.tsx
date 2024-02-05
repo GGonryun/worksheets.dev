@@ -10,12 +10,14 @@ type LayoutProps = {
   children: React.ReactNode;
   connected?: boolean;
   links?: LayoutLinks;
+  disableLogin?: boolean;
 };
 
 export const Layout: React.FC<LayoutProps> = ({
   children,
   connected,
   links,
+  disableLogin,
 }) => {
   return (
     <Box
@@ -28,6 +30,7 @@ export const Layout: React.FC<LayoutProps> = ({
     >
       <WebsiteBackground />
       <Toolbar
+        disableLogin={disableLogin}
         connected={connected ?? false}
         loginHref={links?.login ?? '/login'}
         accountHref={links?.account ?? '/account'}

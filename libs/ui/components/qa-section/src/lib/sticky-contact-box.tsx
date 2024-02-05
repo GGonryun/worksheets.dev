@@ -29,6 +29,7 @@ export const StickyContactBox: FC<{
       {text}
     </Typography>
     <Button
+      href="/contact"
       variant="arcade"
       color="success"
       fullWidth

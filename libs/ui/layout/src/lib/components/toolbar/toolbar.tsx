@@ -11,6 +11,7 @@ interface ToolbarProps {
   connected: boolean;
   loginHref: string;
   accountHref: string;
+  disableLogin?: boolean;
 }
 
 export const Toolbar = (props: ToolbarProps) => {
@@ -46,6 +47,7 @@ export const Toolbar = (props: ToolbarProps) => {
           size={isMedium ? 'small' : 'medium'}
           sx={{
             mb: 1,
+            visibility: props.disableLogin ? 'hidden' : 'visible',
           }}
         >
           {props.connected ? (

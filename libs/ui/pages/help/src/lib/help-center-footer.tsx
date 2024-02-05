@@ -27,6 +27,7 @@ export const HelpCenterFooter = () => (
       }}
     >
       <Button
+        href="/contact"
         variant="arcade"
         startIcon={<ContactPage />}
         sx={{
@@ -37,6 +38,7 @@ export const HelpCenterFooter = () => (
         Contact Us
       </Button>
       <Button
+        href="/play"
         variant="arcade"
         color="secondary"
         startIcon={<Gamepad />}

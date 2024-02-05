@@ -24,7 +24,7 @@ export function ContributionScreen(props: ContributionScreenProps) {
         py: 2,
         display: 'flex',
         flexDirection: 'column',
-        gap: 2,
+        gap: 4,
       }}
     >
       <TitleSection statistics={props.statistics} />

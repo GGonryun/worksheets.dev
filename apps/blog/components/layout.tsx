@@ -5,6 +5,7 @@ import { ReactNode } from 'react';
 export const Layout: React.FC<{ children: ReactNode }> = ({ children }) => {
   return (
     <BaseLayout
+      disableLogin
       links={{
         root: '/',
         about: `${CHARITY_GAMES_BASE_URL}/about`,

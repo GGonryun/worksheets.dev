@@ -1,5 +1,6 @@
 import { ArrowRightAlt, KeyboardBackspace } from '@mui/icons-material';
 import { Box, Button, Paper, Typography } from '@mui/material';
+import { shorthandNumber } from '@worksheets/util/numbers';
 import { BasicWebsiteStatistics } from '@worksheets/util/types';
 import { FC, ReactNode } from 'react';
 
@@ -29,7 +30,7 @@ export const TitleSection: FC<{ statistics?: BasicWebsiteStatistics }> = ({
         mb: 1,
       }}
     >
-      <Typography textTransform="none">Help Center</Typography>
+      Help Center
     </Button>
     <Typography
       component="h1"
@@ -51,7 +52,7 @@ export const TitleSection: FC<{ statistics?: BasicWebsiteStatistics }> = ({
         {statistics?.uniquePlayers ?? '?'}+ Monthly Unique Players
       </TextPoint>
       <TextPoint>
-        {statistics?.totalGamePlays ?? '?'} Total Game Plays
+        {shorthandNumber(statistics?.totalGamePlays ?? 0)}+ Total Game Plays
       </TextPoint>
       <TextPoint>
         {statistics?.uniqueGames ?? '?'} Unique Games Played

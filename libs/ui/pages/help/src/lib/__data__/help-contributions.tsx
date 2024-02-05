@@ -292,12 +292,6 @@ export const helpContributions: QuestionAnswer[] = [
         </Typography>
         <OrderedList>
           <ListItem>
-            Donate money to our current campaign. You can make direct
-            contributions to our current campaign{' '}
-            <Link href="/charity">here</Link> or you can donate to our charity
-            of the month <Link href="/charity">here</Link>.
-          </ListItem>
-          <ListItem>
             Tell your friends about us. The more people that know about our
             platform, the more money we can raise for charity. If you have a
             following on social media, please consider sharing our platform with
@@ -329,12 +323,6 @@ export const helpContributions: QuestionAnswer[] = [
           number of ways:
         </Typography>
         <OrderedList>
-          <ListItem>
-            Donate money to our current campaign. You can make direct
-            contributions to our current campaign{' '}
-            <Link href="/charity">here</Link> or you can donate to our charity
-            of the month <Link href="/charity">here</Link>.
-          </ListItem>
           <ListItem>
             Tell your millionaire buddies about us. The more people that know
             about our platform, the more money we can raise for charity. If you

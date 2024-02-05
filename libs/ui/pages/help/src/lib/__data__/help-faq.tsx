@@ -55,9 +55,7 @@ export const helpFaq: QuestionAnswer[] = [
     answer: (
       <Typography>
         We are currently supporting the{' '}
-        <Link href="https://water.org/">Water.org</Link> organization. You can
-        see the current campaign on our <Link href="/charity">Charity</Link>{' '}
-        page.
+        <Link href="https://water.org/">Water.org</Link> organization.
         <br />
         <br />
         If you have a charity you would like us to support, please{' '}

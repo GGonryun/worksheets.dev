@@ -151,6 +151,7 @@ export const contributionFaq: QuestionAnswer[] = [
           <ListItem disablePadding>Native JavaScript</ListItem>
           <ListItem disablePadding>and more!</ListItem>
         </OrderedList>
+        <br />
         <Typography>
           For more information on how to export your game to a web build, please
           refer to the documentation for your game engine or framework.
@@ -166,7 +167,6 @@ export const contributionFaq: QuestionAnswer[] = [
           <Link href="/contact">contact us</Link> and we will do our best to
           help you.
         </Typography>
-        <br />
         <br />
         <Typography variant="h6" mb={1}>
           Game Assets

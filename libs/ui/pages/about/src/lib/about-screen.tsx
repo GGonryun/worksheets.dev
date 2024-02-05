@@ -48,7 +48,7 @@ export const AboutScreen: FC<AboutScreenProps> = (props) => {
             Water.Org
           </Link>{' '}
           as our charity of choice. Read more about our{' '}
-          <Link color="text.arcade" href="/charity">
+          <Link color="text.arcade" href="/help">
             current donation campaign here
           </Link>
           .

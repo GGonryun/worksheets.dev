@@ -69,12 +69,7 @@ export const ContactScreen: React.FC = () => (
           <Button variant="square" size="small" href="/help" color="warning">
             <HelpCenter />
           </Button>
-          <Button
-            variant="square"
-            size="small"
-            href="/charity"
-            color="secondary"
-          >
+          <Button variant="square" size="small" href="/about" color="secondary">
             <Favorite />
           </Button>
         </Box>

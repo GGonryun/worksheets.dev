@@ -21,7 +21,7 @@ export const QuestionsSection: React.FC<{ faq: QuestionAnswer[] }> = ({
           gap: 4,
           p: { xs: 2, sm: 4 },
           color: 'text.arcade',
-          backgroundColor: 'background.solid-blue',
+          background: (theme) => theme.palette.background['gradient-blue'],
         }}
       >
         <Typography
