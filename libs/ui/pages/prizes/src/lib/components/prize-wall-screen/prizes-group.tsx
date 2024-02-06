@@ -56,9 +56,9 @@ export const PrizesGroup: React.FC<{
                   <Prize
                     key={item.id}
                     id={item.id}
-                    name={item.title}
+                    name={item.name}
                     imageUrl={item.imageUrl}
-                    expires={item.expires}
+                    expiresAt={item.expiresAt}
                     type={item.type}
                   />
                 </Box>

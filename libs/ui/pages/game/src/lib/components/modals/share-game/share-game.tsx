@@ -3,14 +3,13 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
+import { ClipboardText } from '@worksheets/ui/components/inputs';
 import {
   shareGame,
   SocialButtons,
 } from '@worksheets/ui/components/social-media';
 import { BaseModal, ModalWrapper } from '@worksheets/ui-core';
 import { FC } from 'react';
-
-import { ClipboardText } from './clipboard-text';
 
 export const ShareGameModal: FC<
   ModalWrapper<{
@@ -47,7 +46,7 @@ export const ShareGameModal: FC<
           </Typography>
           <SocialButtonsWrapper title={gameTitle} url={gameUrl} />
           <Box mt={1} mb={3}>
-            <ClipboardText url={gameUrl} />
+            <ClipboardText label="Game URL" text={gameUrl} />
           </Box>
           <Button variant="arcade" size="small" onClick={handleClose}>
             Close

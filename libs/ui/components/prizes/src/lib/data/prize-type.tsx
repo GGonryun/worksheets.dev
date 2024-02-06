@@ -1,17 +1,17 @@
-import { QuestionMark, SvgIconComponent } from '@mui/icons-material';
+import { CardGiftcard, SvgIconComponent } from '@mui/icons-material';
+import { PrizeType } from '@prisma/client';
 import { ColoredSteamGames } from '@worksheets/icons/companies';
-import { PrizeType } from '@worksheets/util/types';
 
 export const prizeTypeLabel: Record<PrizeType, string> = {
-  'steam-key': 'Steam Key',
-  'epic-games-key': 'Epic Games Key',
+  STEAM_KEY: 'Steam Key',
+  GIFT_CARD: 'Gift Card',
 };
 export const prizeTypeActionLabel: Record<PrizeType, string> = {
-  'steam-key': 'Get It On Steam',
-  'epic-games-key': 'Get It On Epic Games',
+  STEAM_KEY: 'Get It On Steam',
+  GIFT_CARD: 'Redeem Gift Card',
 };
 
 export const prizeTypeLogos: Record<PrizeType, SvgIconComponent> = {
-  'steam-key': ColoredSteamGames,
-  'epic-games-key': QuestionMark,
+  STEAM_KEY: ColoredSteamGames,
+  GIFT_CARD: CardGiftcard,
 };

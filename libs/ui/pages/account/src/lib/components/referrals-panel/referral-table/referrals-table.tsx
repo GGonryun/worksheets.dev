@@ -96,7 +96,7 @@ const EmptyReferralsPlaceholder = () => (
         When they sign up, you'll both get a bonus!
       </Typography>
     </Box>
-    <Link href="/help/referrals" variant="dangrek" color="error">
+    <Link href="/help/referrals" variant="body1" color="error">
       Learn More
     </Link>
   </Box>

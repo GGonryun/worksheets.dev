@@ -11,7 +11,6 @@ export const SearchResults: React.FC<{ searched: PrizeSchema[] }> = ({
     <PrizesGroup
       header={
         <Typography
-          pb={{ xs: 1, sm: 2 }}
           sx={{
             typography: { xs: 'h6', sm: 'h4' },
           }}

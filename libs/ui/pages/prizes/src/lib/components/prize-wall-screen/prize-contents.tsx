@@ -1,11 +1,8 @@
 import { NavigateNext } from '@mui/icons-material';
 import { Box, Button } from '@mui/material';
-import {
-  FilterablePrizeCategory,
-  TitledPrizeCarousel,
-} from '@worksheets/ui/components/prizes';
+import { TitledPrizeCarousel } from '@worksheets/ui/components/prizes';
 import { useMediaQuery } from '@worksheets/ui/hooks/use-media-query';
-import { PrizeSchema } from '@worksheets/util/types';
+import { FilterablePrizeCategory, PrizeSchema } from '@worksheets/util/types';
 
 import { ChangeCategory } from './change-category';
 import { PrizesGroup } from './prizes-group';

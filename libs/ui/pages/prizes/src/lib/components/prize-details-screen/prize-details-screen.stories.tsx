@@ -1,3 +1,4 @@
+import { action } from '@storybook/addon-actions';
 import { Meta } from '@storybook/react';
 import { mockPrizes } from '@worksheets/ui/components/prizes';
 import { StoryWallpaper } from '@worksheets/ui/components/wallpaper';
@@ -15,6 +16,9 @@ const Default: Story = {
   args: {
     allPrizes,
     suggestedPrizes: mockPrizes,
+    youWon: false,
+    onShare: action('onShare'),
+    onRaffleClick: action('onRaffleClick'),
   },
   decorators: [
     (Story) => (
@@ -48,6 +52,15 @@ export const NotLoggedIn: Story = {
     prize: mockPrizes[5],
     yourEntries: 0,
     connected: false,
+  },
+};
+
+export const YouWon: Story = {
+  args: {
+    prize: mockPrizes[3],
+    yourEntries: 1,
+    connected: true,
+    youWon: true,
   },
 };
 

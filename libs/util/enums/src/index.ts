@@ -18,5 +18,11 @@ export enum TokensPanels {
 
 export enum SettingsPanels {
   EditProfile = 'edit-profile',
+  Communication = 'communication',
   DangerZone = 'danger-zone',
+}
+
+export enum PrizesPanels {
+  Raffles = 'raffles',
+  Prizes = 'prizes',
 }

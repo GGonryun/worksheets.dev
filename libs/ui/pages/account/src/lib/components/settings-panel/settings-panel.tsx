@@ -8,12 +8,14 @@ import { usePanelController } from '../hooks/use-panel-controller';
 import { PanelFooter } from '../panel-footer';
 import { PanelHeader } from '../panel-header';
 import { DangerZoneSection, ProfileSection } from './sections';
+import { CommunicationSection } from './sections/communication-section';
 
 export const SettingsPanel: FC<{
   bookmark?: SettingsPanels;
+  primaryEmail: string;
   onClearLocalStorage: () => void;
   onDeleteAccount: () => void;
-}> = ({ bookmark, onClearLocalStorage, onDeleteAccount }) => {
+}> = ({ bookmark, onClearLocalStorage, onDeleteAccount, primaryEmail }) => {
   const { active, toggleActive } = usePanelController(bookmark);
 
   return (
@@ -29,6 +31,12 @@ export const SettingsPanel: FC<{
       <Divider />
 
       <ProfileSection active={active} onClick={toggleActive} />
+
+      <CommunicationSection
+        active={active}
+        onClick={toggleActive}
+        primaryEmail={primaryEmail}
+      />
 
       <DangerZoneSection
         active={active}

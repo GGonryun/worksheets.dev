@@ -27,18 +27,16 @@ export default protectedProcedure
     const userId = user.id;
     console.info(`Getting rewards for user ${userId}`);
 
-    const [userData] = await Promise.all([
-      db.user.findFirst({
-        where: {
-          id: userId,
-        },
-        include: {
-          referred: true,
-          rewards: true,
-          referralCode: true,
-        },
-      }),
-    ]);
+    const userData = await db.user.findFirst({
+      where: {
+        id: userId,
+      },
+      include: {
+        referred: true,
+        rewards: true,
+        referralCode: true,
+      },
+    });
 
     if (!userData || !userData.referralCode || !userData.rewards) {
       console.error('Required user data was not found', { userId });

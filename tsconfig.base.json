@@ -31,6 +31,7 @@
       "@worksheets/icons/web": ["libs/icons/web/src/index.ts"],
       "@worksheets/icons/youtube": ["libs/icons/youtube/src/index.ts"],
       "@worksheets/prisma": ["libs/prisma/src/index.ts"],
+      "@worksheets/services/discord": ["libs/services/discord/src/index.ts"],
       "@worksheets/services/environment": [
         "libs/services/environment/src/index.ts"
       ],

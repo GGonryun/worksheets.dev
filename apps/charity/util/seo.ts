@@ -224,6 +224,13 @@ export const accountFriendsSeo = createSeo({
   description: `Manage your Charity Games friends. Earn tokens by sharing gifts with friends.`,
 });
 
+export const accountPrizesSeo = createSeo({
+  noindex: true,
+  url: `/account/prizes`,
+  title: `Charity Games - Prizes`,
+  description: `Manage your Charity Games prizes. Redeem tokens for real world prizes.`,
+});
+
 export const helpCenterSeo = createSeo({
   url: '/help',
   title: 'Charity Games - Help Center',
@@ -310,12 +317,19 @@ export const prizesSeo = createSeo({
 export const prizeSeo = (prize: PrizeSchema): NextSeoProps =>
   createSeo({
     url: `/prizes/${prize.id}`,
-    title: `${prize.title} - Charity Games`,
-    description: `Redeem your tokens for ${prize.title}. Every token you spend is a donation to charity. Win free prizes by playing browser games and referring friends.`,
+    title: `${prize.name} - Charity Games - Prize Wall`,
+    description: `Enter our raffle for a chance to win a free copy of ${prize.name}. Every token you spend is a donation to charity. Win prizes by playing browser games and referring friends.`,
     images: [
       {
         url: prize.imageUrl,
-        alt: prize.title,
+        alt: prize.name,
       },
     ],
   });
+
+export const expiredRafflesSeo = createSeo({
+  url: '/raffles/expired',
+  title: 'Charity Games - Expired Raffles',
+  description:
+    'View all expired raffles on Charity Games. See what prizes were given away. Every token you spend is a donation towards a better world.',
+});

@@ -1,6 +1,5 @@
 import { Box } from '@mui/material';
-import { FilterablePrizeCategory } from '@worksheets/ui/components/prizes';
-import { PrizeSchema } from '@worksheets/util/types';
+import { FilterablePrizeCategory, PrizeSchema } from '@worksheets/util/types';
 
 import { CustomContainer } from '../shared/custom-container';
 import { FancySearch } from './fancy-search';

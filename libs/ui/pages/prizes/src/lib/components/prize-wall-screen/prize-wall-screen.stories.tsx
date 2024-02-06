@@ -44,6 +44,7 @@ const SEARCH_RESULT_VALUES: PrizeWallScreenProps = {
 };
 
 type Story = Meta<typeof PrizeWallScreen>;
+
 const Default: Story = {
   component: PrizeWallScreen,
   args: {},

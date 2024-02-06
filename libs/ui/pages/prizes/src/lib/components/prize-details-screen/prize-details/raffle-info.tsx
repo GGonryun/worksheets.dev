@@ -13,48 +13,55 @@ import {
   Typography,
   TypographyProps,
 } from '@mui/material';
+import { PrizeType } from '@prisma/client';
 import { ColoredSteamGames } from '@worksheets/icons/companies';
 import {
   prizeTypeActionLabel,
   prizeTypeLabel,
   prizeTypeLogos,
 } from '@worksheets/ui/components/prizes';
+import { PrizesPanels } from '@worksheets/util/enums';
 import {
   daysFromNow,
   durationToString,
   millisecondsAsDuration,
   printShortDateTime,
 } from '@worksheets/util/time';
-import { PrizeType } from '@worksheets/util/types';
 import React, { JSXElementConstructor } from 'react';
 
 export const RaffleInfo: React.FC<{
-  expires: number;
-  cost: number;
+  id: string;
+  expiresAt: number;
+  costPerEntry: number;
   yourEntries: number;
-  winners: number;
-  value: number;
+  numWinners: number;
+  monetaryValue: number;
   connected: boolean;
   type: PrizeType;
   sourceUrl: string;
+  youWon: boolean;
   onRaffleClick: () => void;
   onShare: () => void;
 }> = ({
+  id,
   sourceUrl,
-  expires,
-  winners,
+  expiresAt,
+  numWinners,
   yourEntries,
-  cost,
+  costPerEntry,
   type,
-  value,
+  monetaryValue,
   connected,
+  youWon,
   onRaffleClick,
   onShare,
 }) => {
-  const soon = expires < daysFromNow(1).getTime();
-  const expired = expires < Date.now();
+  const soon = expiresAt < daysFromNow(1).getTime();
+  const expired = expiresAt < Date.now();
 
   const PlatformLogo = prizeTypeLogos[type];
+  const loginHref = `/login?redirect=${encodeURIComponent(`/prizes/${id}`)}`;
+  const accountHref = `/account/prizes#${PrizesPanels.Prizes}`;
 
   return (
     <Box
@@ -88,18 +95,26 @@ export const RaffleInfo: React.FC<{
             {expired ? 'Raffle Over!' : 'Raffle Ends In'}
           </SectionHeaderTypography>
           <Box display="flex" gap={1} alignItems="center" pt={0.5}>
-            <AccessTime color={expired ? 'error' : 'action'} />
+            <AccessTime
+              color={youWon ? 'success' : expired ? 'error' : 'action'}
+            />
             <Typography
               typography={expired ? 'body2' : 'h6'}
               fontWeight={{ xs: 700, sm: 700 }}
               color={
-                expired ? 'error.main' : soon ? 'primary.main' : 'text.primary'
+                youWon
+                  ? 'success.main'
+                  : expired
+                  ? 'error.main'
+                  : soon
+                  ? 'primary.main'
+                  : 'text.primary'
               }
             >
               {expired
-                ? printShortDateTime(expires)
+                ? printShortDateTime(expiresAt)
                 : durationToString(
-                    millisecondsAsDuration(expires - Date.now())
+                    millisecondsAsDuration(expiresAt - Date.now())
                   )}
             </Typography>
           </Box>
@@ -107,20 +122,21 @@ export const RaffleInfo: React.FC<{
         <Divider />
         <PrizeTypeInfo type={type} />
         <Divider />
-        <PrizeValueSection winners={winners} value={value} />
+        <PrizeValueSection winners={numWinners} value={monetaryValue} />
         <Divider />
-        <EntryFeeSection cost={cost} entered={yourEntries} />
+        <EntryFeeSection cost={costPerEntry} entered={yourEntries} />
         <Divider />
 
         <Box display="flex" flexDirection="column" gap={2} mt={1}>
           <Button
             size="small"
             variant="arcade"
-            color={connected ? 'success' : 'secondary'}
+            color={youWon ? 'success' : connected ? 'secondary' : 'warning'}
             fullWidth
-            disabled={expired}
+            disabled={expired && !youWon}
             sx={{ px: 1 }}
-            onClick={onRaffleClick}
+            onClick={youWon || !connected ? undefined : onRaffleClick}
+            href={youWon ? accountHref : !connected ? loginHref : undefined}
             startIcon={
               expired ? (
                 <Check sx={{ height: '1.5rem', width: '1.5rem' }} />
@@ -131,8 +147,10 @@ export const RaffleInfo: React.FC<{
               )
             }
           >
-            {expired
-              ? 'Raffle Complete'
+            {youWon
+              ? 'Claim Prize'
+              : expired
+              ? 'Raffle Over!'
               : connected
               ? 'Enter Raffle'
               : 'Login To Participate'}

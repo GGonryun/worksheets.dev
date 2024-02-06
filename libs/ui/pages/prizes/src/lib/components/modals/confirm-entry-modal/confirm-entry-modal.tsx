@@ -10,18 +10,21 @@ import {
 import { BaseModal, ModalWrapper } from '@worksheets/ui-core';
 
 export const ConfirmEntryModal: React.FC<
-  ModalWrapper<{ onConfirm: () => void; tokens: number; tickets: number }>
-> = ({ open, onClose, onConfirm, tickets, tokens }) => {
+  ModalWrapper<{
+    onConfirm: () => void;
+    costPerEntry: number;
+    numEntries: number;
+  }>
+> = ({ open, onClose, onConfirm, costPerEntry, numEntries }) => {
   const isMobile = useMediaQuery((theme: Theme) =>
     theme.breakpoints.down('sm')
   );
 
-  const total = tokens * tickets;
+  const total = costPerEntry * numEntries;
 
   const handleClose = () => onClose && onClose({}, 'escapeKeyDown');
   const handleConfirm = () => {
     onConfirm();
-    handleClose();
   };
   return (
     <BaseModal open={open} onClose={onClose}>
@@ -64,8 +67,8 @@ export const ConfirmEntryModal: React.FC<
           </b>{' '}
           for{' '}
           <b>
-            {tickets} raffle ticket
-            {tickets > 1 ? 's' : ''}
+            {numEntries} raffle ticket
+            {numEntries > 1 ? 's' : ''}
           </b>
           !
         </Typography>

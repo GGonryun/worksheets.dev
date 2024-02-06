@@ -19,3 +19,4 @@ export * from './lib/user-profile';
 export * from './lib/prizes';
 export * from './lib/layout';
 export * from './lib/arcade';
+export * from './lib/sponsors';

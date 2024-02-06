@@ -8,11 +8,11 @@ import { prizeTypeLogos } from '../../data/prize-type';
 export const Prize: React.FC<BasicPrizeDetails> = ({
   id,
   name,
-  expires,
+  expiresAt,
   type,
   imageUrl,
 }) => {
-  const expired = expires < Date.now();
+  const expired = expiresAt < Date.now();
 
   const PlatformLogo = prizeTypeLogos[type];
 
@@ -22,7 +22,9 @@ export const Prize: React.FC<BasicPrizeDetails> = ({
       imageUrl={imageUrl}
       icon={PlatformLogo}
       name={name}
-      caption={expired ? 'Raffle Over' : `${printTimeRemaining(expires)} left`}
+      caption={
+        expired ? 'Raffle Over' : `${printTimeRemaining(expiresAt)} left`
+      }
     />
   );
 };

@@ -35,7 +35,7 @@ export const EmptyFriendsPlaceholder = () => (
     </Box>
     <Link
       href={`/account/friends#${FriendsPanels.AddFriends}`}
-      variant="dangrek"
+      variant="body1"
       color="error"
     >
       Add Friends

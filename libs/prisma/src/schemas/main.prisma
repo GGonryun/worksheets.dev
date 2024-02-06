@@ -39,6 +39,9 @@ model User {
   // users can refer other users
   referredBy        User? @relation(name: "Referred", fields: [referredByUserId], references: [id])
   referred          User[] @relation(name: "Referred")
+
+  // raffles
+  raffleTickets     RaffleTicket[]
 }
 
 model Account {
@@ -301,4 +304,58 @@ model GameSubmissionFeedback {
   text          String          @db.VarChar(511)
   createdAt     DateTime        @default(now())
   game          GameSubmission  @relation(fields: [submissionId], references: [id])
+}
+
+enum PrizeType {
+  STEAM_KEY
+  GIFT_CARD
+}
+
+model PrizeSponsor {
+  id            String          @id @default(cuid())
+  name          String          @db.VarChar(127)
+  url           String          @db.VarChar(255)
+
+  prizes        RafflePrize[]
+}
+
+model RafflePrize {
+  id            String          @id @default(cuid())
+  // the redemption code for the prize.
+  code          String          @unique        
+  name          String          @db.VarChar(127)
+  headline      String          @db.VarChar(255)
+  description   String          @db.VarChar(2047)
+  expiresAt     DateTime
+  costPerEntry  Int             
+  monetaryValue Int
+  type          PrizeType
+  sourceUrl     String          @db.VarChar(255)
+  imageUrl      String          @db.VarChar(255)
+  numWinners    Int            
+  // analytics
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  // sponsors.
+  sponsorId     String          @db.VarChar(127)
+  sponsor       PrizeSponsor    @relation(fields: [sponsorId], references: [id])
+  // external
+  tickets       RaffleTicket[]
+}
+
+model RaffleTicket {
+  id              String          @id @default(cuid())
+  // the user who bought the ticket
+  userId          String
+  user            User            @relation(fields: [userId], references: [id])
+  // the raffle the ticket is for
+  prizeId         String 
+  prize           RafflePrize     @relation(fields: [prizeId], references: [id])
+  // analytics
+  createdAt       DateTime        @default(now())
+  // this ticket is a winner
+  isWinner        Boolean         @default(false)
+  lastNotifiedAt  DateTime?
+  claimedAt       DateTime?
+  claimBefore     DateTime?
 }

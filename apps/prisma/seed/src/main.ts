@@ -4,6 +4,7 @@ import { SeedableGameSchema, TagSchema } from '@worksheets/util/types';
 
 import { developers } from './data/developer';
 import { games } from './data/games';
+import { sponsors } from './data/sponsors';
 import { tags } from './data/tags';
 import { viewports } from './data/viewports';
 
@@ -18,6 +19,7 @@ async function main() {
 
   // clean up the database before seeding
   await prisma.$transaction(async (tx) => {
+    await tx.prizeSponsor.deleteMany({});
     await tx.categoriesOnGame.deleteMany({});
     await tx.game.deleteMany({});
     await tx.developer.deleteMany({});
@@ -29,6 +31,13 @@ async function main() {
   const newCategories = Object.values(tags).map(convertTag);
   try {
     await prisma.$transaction(async (tx) => {
+      // insert all sponsors
+      await tx.prizeSponsor.createMany({
+        data: sponsors,
+        skipDuplicates: true,
+      });
+      console.info('Inserted prize sponsors');
+
       // insert all categories
       await tx.gameCategory.createMany({
         data: newCategories,

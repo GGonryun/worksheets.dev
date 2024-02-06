@@ -13,8 +13,20 @@ export const PrizeDetailsScreen: React.FC<{
   allPrizes: PrizeSchema[];
   prize: PrizeSchema;
   yourEntries: number;
+  youWon: boolean;
   connected: boolean;
-}> = ({ suggestedPrizes, allPrizes, prize, yourEntries, connected }) => (
+  onRaffleClick: () => void;
+  onShare: () => void;
+}> = ({
+  suggestedPrizes,
+  youWon,
+  allPrizes,
+  prize,
+  yourEntries,
+  connected,
+  onRaffleClick,
+  onShare,
+}) => (
   <CustomContainer>
     <Container
       maxWidth="md"
@@ -29,8 +41,9 @@ export const PrizeDetailsScreen: React.FC<{
       <AllPrizesLink />
       <PrizeDetails
         {...prize}
-        onShare={() => alert('TODO: show share modal')}
-        onRaffleClick={() => alert('TODO: show enter raffle modal')}
+        youWon={youWon}
+        onShare={onShare}
+        onRaffleClick={onRaffleClick}
         yourEntries={yourEntries}
         connected={connected}
       />

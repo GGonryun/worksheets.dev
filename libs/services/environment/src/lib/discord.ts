@@ -1,0 +1,9 @@
+const { DISCORD_WEBHOOK_URL: DISCORD_WEBHOOK_URL_RAW } = process.env;
+
+if (!DISCORD_WEBHOOK_URL_RAW) {
+  throw new Error('DISCORD_WEBHOOK_URL is not defined');
+}
+
+const DISCORD_WEBHOOK_URL: string = DISCORD_WEBHOOK_URL_RAW;
+
+export { DISCORD_WEBHOOK_URL };

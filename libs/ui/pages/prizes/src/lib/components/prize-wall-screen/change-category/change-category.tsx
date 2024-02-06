@@ -1,9 +1,7 @@
 import { ExpandMore } from '@mui/icons-material';
 import { Box, Typography } from '@mui/material';
-import {
-  FilterablePrizeCategory,
-  prizeCategoryLabels,
-} from '@worksheets/ui/components/prizes';
+import { prizeCategoryLabels } from '@worksheets/ui/components/prizes';
+import { FilterablePrizeCategory } from '@worksheets/util/types';
 import React from 'react';
 
 import { CategoryMenu } from './category-menu';

@@ -1,9 +1,9 @@
 import { ListItemIcon, ListItemText, Menu, MenuItem } from '@mui/material';
 import {
-  FilterablePrizeCategory,
   prizeCategoryIcons,
   prizeCategoryLabels,
 } from '@worksheets/ui/components/prizes';
+import { FilterablePrizeCategory } from '@worksheets/util/types';
 import React from 'react';
 
 export const CategoryMenu: React.FC<{

@@ -55,3 +55,9 @@ export const Friends: Story = {
     path: AccountTabsHref.FRIENDS,
   },
 };
+
+export const Prizes: Story = {
+  args: {
+    path: AccountTabsHref.PRIZES,
+  },
+};

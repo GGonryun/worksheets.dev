@@ -9,7 +9,7 @@ import { useState } from 'react';
 
 export const ClipboardText: React.FC<{
   text: string;
-  label: string;
+  label?: string;
   helperText?: string;
   onCopy?: () => void;
 }> = ({ text, label, helperText, onCopy }) => {

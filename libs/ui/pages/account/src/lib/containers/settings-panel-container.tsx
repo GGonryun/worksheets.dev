@@ -51,6 +51,7 @@ export const SettingsPanelContainer: React.FC = () => {
     <>
       <BasicInformationFormContextProvider value={form}>
         <SettingsPanel
+          primaryEmail={profile.data?.email}
           bookmark={bookmark}
           onClearLocalStorage={() => setShowClearStorageModal(true)}
           onDeleteAccount={() => setShowDeleteAccountModal(true)}

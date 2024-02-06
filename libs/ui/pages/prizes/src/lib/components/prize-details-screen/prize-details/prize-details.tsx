@@ -12,21 +12,24 @@ import { RaffleInfo } from './raffle-info';
 
 export const PrizeDetails: React.FC<
   PrizeSchema & {
+    youWon: boolean;
     yourEntries: number;
     connected: boolean;
     onRaffleClick: () => void;
     onShare: () => void;
   }
 > = ({
+  id,
   headline,
-  expires,
+  expiresAt,
   imageUrl,
-  title,
-  cost,
-  winners,
+  name,
+  costPerEntry,
+  numWinners,
   type,
   yourEntries,
-  value,
+  monetaryValue,
+  youWon,
   connected,
   sourceUrl,
   onRaffleClick,
@@ -49,10 +52,11 @@ export const PrizeDetails: React.FC<
     >
       <Box textAlign="center">
         <PrizeHeader
-          title={title}
+          youWon={youWon}
+          name={name}
           imageUrl={imageUrl}
           headline={headline}
-          expires={expires}
+          expiresAt={expiresAt}
         />
       </Box>
       <Box
@@ -90,10 +94,12 @@ export const PrizeDetails: React.FC<
           }}
         />
         <RaffleInfo
-          cost={cost}
-          value={value}
-          expires={expires}
-          winners={winners}
+          id={id}
+          youWon={youWon}
+          costPerEntry={costPerEntry}
+          monetaryValue={monetaryValue}
+          expiresAt={expiresAt}
+          numWinners={numWinners}
           sourceUrl={sourceUrl}
           connected={connected}
           type={type}

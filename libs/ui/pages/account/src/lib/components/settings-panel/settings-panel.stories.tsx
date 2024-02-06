@@ -18,6 +18,7 @@ const Default: Story = {
   args: {
     onClearLocalStorage: action('onClearLocalStorage'),
     onDeleteAccount: action('onDeleteAccount'),
+    primaryEmail: 'miguel@example.com',
   },
   decorators: [
     (Story) => (

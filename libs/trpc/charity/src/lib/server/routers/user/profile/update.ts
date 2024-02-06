@@ -21,6 +21,8 @@ export default protectedProcedure
           .object({
             username: z.string(),
             bio: z.string(),
+            phone: z.string(),
+            secondaryEmail: z.string(),
           })
           .partial(),
       }),

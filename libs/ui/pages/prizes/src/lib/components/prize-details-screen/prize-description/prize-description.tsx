@@ -60,11 +60,16 @@ export const PrizeDescription: React.FC<{
 );
 
 const DetailsGrid: React.FC<{ prize: PrizeSchema }> = ({ prize }) => {
-  const isOver = prize.expires < Date.now();
+  const isOver = prize.expiresAt < Date.now();
   return (
     <Box>
       <Divider sx={{ backgroundColor: 'text.arcade' }} />
       <Box my={2} />
+      <DetailPair
+        label="Prize ID"
+        value={prize.id}
+        href={`/prizes/${prize.id}`}
+      />
       <DetailPair
         label="Sponsor"
         value={prize.sponsor.name}
@@ -73,17 +78,12 @@ const DetailsGrid: React.FC<{ prize: PrizeSchema }> = ({ prize }) => {
       />
       <DetailPair
         label={isOver ? 'Ended On' : 'Ends On'}
-        value={printShortDateTime(prize.expires)}
+        value={printShortDateTime(prize.expiresAt)}
       />
-      <DetailPair label="Winners" value={prize.winners} />
-      <DetailPair label="Retail Value" value={`$${prize.value} USD`} />
-      <DetailPair label="Entry Fee" value={`${prize.cost} Tokens`} />
+      <DetailPair label="Winners" value={prize.numWinners} />
+      <DetailPair label="Retail Value" value={`$${prize.monetaryValue} USD`} />
+      <DetailPair label="Entry Fee" value={`${prize.costPerEntry} Tokens`} />
       <DetailPair label="Prize Type" value={prizeTypeLabel[prize.type]} />
-      <DetailPair
-        label="Prize ID"
-        value={prize.id}
-        href={`/prizes/${prize.id}`}
-      />
       <Box my={2} />
       <Divider sx={{ backgroundColor: 'text.arcade' }} />
     </Box>

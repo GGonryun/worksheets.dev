@@ -14,6 +14,7 @@ export type AccountScreenProps = {
   tokensPanel: ReactNode;
   referralsPanel: ReactNode;
   friendsPanel: ReactNode;
+  prizesPanel: ReactNode;
 };
 
 export const AccountScreen: FC<AccountScreenProps> = ({
@@ -23,6 +24,7 @@ export const AccountScreen: FC<AccountScreenProps> = ({
   tokensPanel,
   referralsPanel,
   friendsPanel,
+  prizesPanel,
 }) => {
   return (
     <Container maxWidth="lg" sx={{ py: 2 }}>
@@ -41,6 +43,9 @@ export const AccountScreen: FC<AccountScreenProps> = ({
           </TabPanel>
           <TabPanel target={AccountTabsHref.TOKENS} current={path}>
             {tokensPanel}
+          </TabPanel>
+          <TabPanel target={AccountTabsHref.PRIZES} current={path}>
+            {prizesPanel}
           </TabPanel>
           <TabPanel target={AccountTabsHref.FRIENDS} current={path}>
             {friendsPanel}

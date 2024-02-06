@@ -9,6 +9,7 @@ export default protectedProcedure
       isPublisher: z.boolean(),
       username: z.string(),
       bio: z.string().nullable(),
+      email: z.string(),
     })
   )
   .query(async ({ ctx: { user } }) => {

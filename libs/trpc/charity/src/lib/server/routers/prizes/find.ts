@@ -1,25 +1,8 @@
-import { PrizeSchema, prizeSchema } from '@worksheets/util/types';
+import { TRPCError } from '@trpc/server';
+import { convertPrize, prizeSchema } from '@worksheets/util/types';
 import { z } from 'zod';
 
 import { publicProcedure } from '../../procedures';
-
-const emptyPrizeSchema: PrizeSchema = {
-  id: '',
-  title: '',
-  headline: '',
-  description: '',
-  value: 0,
-  expires: 0,
-  imageUrl: '',
-  cost: 0,
-  type: 'steam-key',
-  sourceUrl: '',
-  winners: 0,
-  sponsor: {
-    name: '',
-    url: '',
-  },
-};
 
 export default publicProcedure
   .input(
@@ -28,7 +11,19 @@ export default publicProcedure
     })
   )
   .output(prizeSchema)
-  .query(({ input: { prizeId } }) => {
-    console.info(`getting prize info ${prizeId}`);
-    return emptyPrizeSchema;
+  .query(async ({ input: { prizeId }, ctx: { db } }) => {
+    console.info(`finding prize ${prizeId}ssq`);
+    const prize = await db.rafflePrize.findFirst({
+      where: {
+        id: prizeId,
+      },
+      include: {
+        sponsor: true,
+      },
+    });
+
+    if (!prize)
+      throw new TRPCError({ code: 'NOT_FOUND', message: 'Prize not found' });
+
+    return convertPrize(prize);
   });
