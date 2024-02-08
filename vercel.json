@@ -3,18 +3,6 @@
         {
             "path": "/api/cron/refresh-rewards",
             "schedule": "0 0 * * *"
-        },
-        {
-            "path": "/api/cron/find-expired-prizes",
-            "schedule": "0 0 1 1 1"
-        },
-        {
-            "path": "/api/cron/notify-winners",
-            "schedule": "0 0 1 1 1"
-        },
-        {
-            "path": "/api/cron/find-unclaimed-prizes",
-            "schedule": "0 0 1 1 1"
         }
     ]
 }
