@@ -1,13 +1,13 @@
 import { Box } from '@mui/material';
 import { TitledSection } from '@worksheets/ui/components/arcade';
-import { Prize } from '@worksheets/ui/components/prizes';
+import { Raffle } from '@worksheets/ui/components/raffles';
 import { useMediaQuery } from '@worksheets/ui/hooks/use-media-query';
-import { BasicPrizeDetails } from '@worksheets/util/types';
+import { BasicRaffleDetails } from '@worksheets/util/types';
 import React from 'react';
 
 export type HottestRafflesProps = React.ComponentProps<typeof HottestRaffles>;
 
-export const HottestRaffles: React.FC<{ prizes: BasicPrizeDetails[] }> = ({
+export const HottestRaffles: React.FC<{ prizes: BasicRaffleDetails[] }> = ({
   prizes,
 }) => {
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down('sm'));
@@ -43,7 +43,7 @@ export const HottestRaffles: React.FC<{ prizes: BasicPrizeDetails[] }> = ({
     >
       {prizes.map((prize) => (
         <Box key={prize.id}>
-          <Prize {...prize} />
+          <Raffle {...prize} />
         </Box>
       ))}
     </TitledSection>

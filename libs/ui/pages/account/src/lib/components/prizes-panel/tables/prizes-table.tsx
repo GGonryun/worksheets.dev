@@ -13,7 +13,7 @@ import {
   durationToString,
   millisecondsAsDuration,
 } from '@worksheets/util/time';
-import { WonPrizeDetails } from '@worksheets/util/types';
+import { WonRaffleDetails } from '@worksheets/util/types';
 import * as React from 'react';
 
 const StyledBox = styled(Box)(({ theme }) => ({
@@ -23,8 +23,8 @@ const StyledBox = styled(Box)(({ theme }) => ({
 }));
 
 export const PrizesTable: React.FC<{
-  prizes: WonPrizeDetails[];
-  onClaim: (prize: WonPrizeDetails) => void;
+  prizes: WonRaffleDetails[];
+  onClaim: (prize: WonRaffleDetails) => void;
 }> = ({ prizes, onClaim }) => {
   const isMobile = useMediaQueryDown('sm');
 
@@ -59,7 +59,7 @@ export const PrizesTable: React.FC<{
         </TableHead>
         <TableBody>
           {prizes.map((prize) => (
-            <PrizeRow key={prize.id} prize={prize} onClaim={onClaim} />
+            <PrizeRow key={prize.ticketId} prize={prize} onClaim={onClaim} />
           ))}
         </TableBody>
       </Table>
@@ -68,14 +68,14 @@ export const PrizesTable: React.FC<{
 };
 
 const PrizeRow: React.FC<{
-  prize: WonPrizeDetails;
-  onClaim: (prize: WonPrizeDetails) => void;
+  prize: WonRaffleDetails;
+  onClaim: (prize: WonRaffleDetails) => void;
 }> = ({ prize, onClaim }) => {
   const isMobile = useMediaQueryDown('sm');
   const PrizeTypeLogo = prizeTypeLogos[prize.type];
   return (
     <TableRow
-      key={prize.id}
+      key={prize.ticketId}
       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
     >
       <TableCell width={12}>
@@ -94,7 +94,7 @@ const PrizeRow: React.FC<{
           whiteSpace: 'nowrap',
         }}
       >
-        <Link href={`/prizes/${prize.id}`}>{prize.id}</Link>
+        <Link href={`/raffles/${prize.raffleId}`}>{prize.raffleId}</Link>
       </TableCell>
 
       <TableCell
@@ -153,7 +153,7 @@ const PrizeRow: React.FC<{
   );
 };
 
-const expired = (prize: WonPrizeDetails) => prize.claimBy < Date.now();
+const expired = (prize: WonRaffleDetails) => prize.claimBy < Date.now();
 
 const EmptyPrizesPlaceholder = () => {
   const isMobile = useMediaQueryDown('sm');

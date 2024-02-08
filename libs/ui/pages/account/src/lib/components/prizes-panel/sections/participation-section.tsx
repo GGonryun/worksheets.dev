@@ -1,7 +1,7 @@
 import { InfoOutlined } from '@mui/icons-material';
 import { Box, Link, Typography } from '@mui/material';
 import { PrizesPanels } from '@worksheets/util/enums';
-import { BasicPrizeDetails } from '@worksheets/util/types';
+import { BasicRaffleDetails } from '@worksheets/util/types';
 import React from 'react';
 
 import { BulletPoints } from '../../bullet-points';
@@ -9,7 +9,7 @@ import { PanelFooter } from '../../panel-footer';
 import { ParticipationTable } from '../tables/participation-table';
 
 export const ParticipationSection: React.FC<{
-  prizes: BasicPrizeDetails[];
+  prizes: BasicRaffleDetails[];
 }> = ({ prizes }) => {
   return (
     <Box

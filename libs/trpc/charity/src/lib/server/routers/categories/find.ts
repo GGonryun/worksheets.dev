@@ -40,6 +40,7 @@ export default publicProcedure
                 id: true,
                 title: true,
                 thumbnail: true,
+                plays: true,
               },
             },
           },
@@ -76,15 +77,16 @@ export default publicProcedure
         description: tag.description,
         iconUrl: tag.iconUrl,
       },
-      games: tag.games.map((g) => ({
-        id: g.game.id,
-        name: g.game.title,
-        image: g.game.thumbnail,
-      })),
       related: related.map((r) => ({
         id: r.id,
         name: r.name,
         image: r.iconUrl,
+      })),
+      games: tag.games.map((g) => ({
+        id: g.game.id,
+        name: g.game.title,
+        imageUrl: g.game.thumbnail,
+        plays: g.game.plays,
       })),
     };
   });

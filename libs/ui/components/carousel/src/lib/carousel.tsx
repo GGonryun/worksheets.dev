@@ -11,11 +11,14 @@ export const Carousel = styled<JSXElementConstructor<BoxProps>>((props) => (
   backgroundColor: theme.palette.background['solid-blue'],
   display: 'flex',
   overflow: 'auto',
+  padding: theme.spacing(2),
   gap: theme.spacing(2),
   '&::-webkit-scrollbar': {
     display: 'none',
   },
-  padding: theme.spacing(2),
+  [theme.breakpoints.up('sm')]: {
+    gap: theme.spacing(4),
+  },
 }));
 
 const CarouselWrapper = styled(Box)({

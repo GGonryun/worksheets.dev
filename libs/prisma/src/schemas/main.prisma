@@ -3,65 +3,65 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
   directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
+enum UserType {
+  USER
+  MODERATOR
+  ADMIN
+}
+
 model User {
-  id                String    @id @default(cuid())
-  name              String?
-  email             String    @unique
-  emailVerified     DateTime?
-  image             String?
-  referredByUserId  String?
-  username          String    @default(cuid())
-  bio               String?
-  isPublisher       Boolean   @default(false)
-
-  createdAt         DateTime  @default(now())
-  updatedAt         DateTime  @updatedAt
-  lastSeen          DateTime? @default(now())
-
-  accounts          Account[]
-  sessions          Session[]
-  
-  rewards           Rewards?
-  submissions       GameSubmission[]
-
-  referralCode      ReferralCode?
-
+  id               String                     @id @default(cuid())
+  name             String?
+  email            String                     @unique
+  emailVerified    DateTime?
+  image            String?
+  referredByUserId String?
+  username         String                     @default(cuid())
+  bio              String?
+  isPublisher      Boolean                    @default(false)
+  createdAt        DateTime                   @default(now())
+  updatedAt        DateTime                   @updatedAt
+  lastSeen         DateTime?                  @default(now())
+  type             UserType                   @default(USER)
+  accounts         Account[]
+  sessions         Session[]
+  rewards          Rewards?
+  submissions      GameSubmission[]
+  referralCode     ReferralCode?
   // people i added.
-  friends           Friendship[] @relation(name: "Friends")
+  friends          Friendship[]               @relation(name: "Friends")
   // people who added me.
-  followers         Friendship[] @relation(name: "Followers")
-
+  followers        Friendship[]               @relation(name: "Followers")
   // users can refer other users
-  referredBy        User? @relation(name: "Referred", fields: [referredByUserId], references: [id])
-  referred          User[] @relation(name: "Referred")
-
+  referredBy       User?                      @relation(name: "Referred", fields: [referredByUserId], references: [id])
+  referred         User[]                     @relation(name: "Referred")
   // raffles
-  raffleTickets     RaffleTicket[]
+  raffleTickets    RaffleTicket[]
+  activationCodes  ActivationCodeAssignment[]
 }
 
 model Account {
-  id                        String  @id @default(cuid())
-  userId                    String
-  type                      String
-  provider                  String
-  providerAccountId         String
-  refresh_token             String?  @db.Text
-  refresh_token_expires_in  Int?
-  access_token              String?  @db.Text
-  expires_at                Int?     
-  token_type                String?
-  scope                     String?
-  id_token                  String?  @db.Text
-  session_state             String?
-  oauth_token_secret        String?
-  oauth_token               String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id                       String  @id @default(cuid())
+  userId                   String
+  type                     String
+  provider                 String
+  providerAccountId        String
+  refresh_token            String? @db.Text
+  refresh_token_expires_in Int?
+  access_token             String? @db.Text
+  expires_at               Int?
+  token_type               String?
+  scope                    String?
+  id_token                 String? @db.Text
+  session_state            String?
+  oauth_token_secret       String?
+  oauth_token              String?
+  user                     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }
@@ -83,41 +83,46 @@ model VerificationToken {
 }
 
 model Friendship {
-  id            String    @id @default(cuid())
-  userId        String
-  friendId      String
-  isFavorite    Boolean   @default(false)
-  // TODO: there's a glitch that theoreticall makes it possible to send a gift to a friend, delete the friendship, and then recreate the friendship
+  id         String    @id @default(cuid())
+  userId     String
+  friendId   String
+  isFavorite Boolean   @default(false)
+  // TODO: there's a glitch that theoretically makes it possible to send a gift to a friend, delete the friendship, and then recreate the friendship
   // which allows you to send multiple gifts to the same person.
-  giftSentAt    DateTime?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-
-  user          User      @relation(name: "Friends", fields: [userId], references: [id], onDelete: Cascade)
-  friend        User      @relation(name: "Followers", fields: [friendId], references: [id], onDelete: Cascade)
+  giftSentAt DateTime?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  user       User      @relation(name: "Friends", fields: [userId], references: [id], onDelete: Cascade)
+  friend     User      @relation(name: "Followers", fields: [friendId], references: [id], onDelete: Cascade)
 }
 
-model Rewards {
-  id                        String    @id @default(cuid())
-  userId                    String    @unique
-  totalTokens               Int       
-  // available tokens to earn from game play
-  availableGamePlayTokens   Int      
-  availableReferralTokens   Int       
-  giftBoxes                 Int
-  sharableGiftBoxes         Int
-  claimedDailyReward        DateTime?     
-  user                      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+// TODO: use a direct gift model instead of a friendship with a giftSentAt field.
+// model Gift {
+//   id           String   @id @default(cuid())
+//   senderId     String
+//   recipientId  String
+//   sentAt       DateTime @default(now())
+//   claimedAt    DateTime?
+// }
 
-  updatedAt                 DateTime  @updatedAt
+model Rewards {
+  id                      String    @id @default(cuid())
+  userId                  String    @unique
+  totalTokens             Int
+  availableGamePlayTokens Int
+  availableReferralTokens Int
+  giftBoxes               Int
+  sharableGiftBoxes       Int
+  claimedDailyReward      DateTime?
+  updatedAt               DateTime  @updatedAt
+  user                    User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model ReferralCode {
-  id           String    @id @default(cuid())
-  code         String    @unique
-
-  userId       String    @unique
-  User         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id     String @id @default(cuid())
+  code   String @unique
+  userId String @unique
+  User   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 enum ReportReason {
@@ -131,11 +136,11 @@ enum ReportReason {
 }
 
 model GameReport {
-  id            String        @id @default(cuid())
-  gameId        String
-  reason        ReportReason  @default(OTHER)
-  text          String        @db.VarChar(255)
-  createdAt     DateTime      @default(now())
+  id        String       @id @default(cuid())
+  gameId    String
+  reason    ReportReason @default(OTHER)
+  text      String       @db.VarChar(255)
+  createdAt DateTime     @default(now())
 }
 
 enum GameDevices {
@@ -153,7 +158,7 @@ enum GameSubmissionStatus {
 
 enum ProjectType {
   HTML
-  EXTERNAL  
+  EXTERNAL
 }
 
 enum ViewportType {
@@ -161,149 +166,156 @@ enum ViewportType {
   RESPONSIVE
 }
 
-
 enum DeviceOrientations {
   PORTRAIT
   LANDSCAPE
 }
 
 model Viewport {
-  id            String                @id @default(cuid())
-  type          ViewportType          @default(RESPONSIVE)
-  width         Int?
-  height        Int?
-  devices       GameDevices[]         @default([COMPUTER, MOBILE])
-  orientations  DeviceOrientations[]  @default([PORTRAIT, LANDSCAPE])
-  games         Game[]
+  id           String               @id @default(cuid())
+  type         ViewportType         @default(RESPONSIVE)
+  width        Int?
+  height       Int?
+  devices      GameDevices[]        @default([COMPUTER, MOBILE])
+  orientations DeviceOrientations[] @default([PORTRAIT, LANDSCAPE])
+  games        Game[]
 }
 
 model GameFile {
-  id           String                @id @default(cuid())
-  type         ProjectType           @default(HTML)
-  url          String                @db.VarChar(511)
-  game         Game?    
+  id   String      @id @default(cuid())
+  type ProjectType @default(HTML)
+  url  String      @db.VarChar(511)
+  game Game?
 }
 
 model CategoriesOnGame {
+  gameId     String
+  categoryId String
+  game       Game         @relation(fields: [gameId], references: [id])
+  category   GameCategory @relation(fields: [categoryId], references: [id])
+
   @@id([gameId, categoryId])
-  
-  gameId        String
-  categoryId    String
-  game          Game            @relation(fields: [gameId], references: [id])
-  category      GameCategory    @relation(fields: [categoryId], references: [id])
 }
 
 model GameCategory {
-  id                    String        @id @default(cuid())
-  name                  String        @unique
-  description           String        @db.VarChar(4095)
-  iconUrl               String        @db.VarChar(255)
-  relatedCategoryIds    String[]      @db.VarChar(63)
-  games                 CategoriesOnGame[]
+  id                 String             @id @default(cuid())
+  name               String             @unique
+  description        String             @db.VarChar(4095)
+  iconUrl            String             @db.VarChar(255)
+  relatedCategoryIds String[]           @db.VarChar(63)
+  games              CategoriesOnGame[]
+  // analytics
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @default(now()) @updatedAt
 }
 
-
 model Developer {
-  id            String          @id @default(cuid())
-  name          String          @unique
-  description   String          @db.VarChar(4095)
-  logoUrl       String          @db.VarChar(255)
-  links         String            
-  games         Game[]
+  id          String @id @default(cuid())
+  name        String @unique
+  description String @db.VarChar(4095)
+  logoUrl     String @db.VarChar(255)
+  links       String
+  games       Game[]
 }
 
 model Game {
-  id            String          @id @default(cuid())
+  id          String             @id @default(cuid())
   // Details
-  title         String          @db.VarChar(127)
-  description   String          @db.VarChar(4095)
-  plays         Int             @default(0)
-  likes         Int             @default(0)
-  dislikes      Int             @default(0)
+  title       String             @db.VarChar(127)
+  description String             @db.VarChar(4095)
+  plays       Int                @default(0)
+  likes       Int                @default(0)
+  dislikes    Int                @default(0)
   // Search
-  categories    CategoriesOnGame[]
+  categories  CategoriesOnGame[]
   // Assets
-  thumbnail     String          @db.Text // URL
-  cover         String          @db.Text // URL
+  thumbnail   String             @db.Text // URL
+  cover       String             @db.Text // URL
   // Audit
-  createdAt     DateTime        @default(now())
-  updatedAt     DateTime        @updatedAt
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
   // Game File
-  fileId        String          @unique
-  file          GameFile        @relation(fields: [fileId], references: [id]) 
-  viewportId    String
-  viewport      Viewport        @relation(fields: [viewportId], references: [id])
+  fileId      String             @unique
+  file        GameFile           @relation(fields: [fileId], references: [id])
+  viewportId  String
+  viewport    Viewport           @relation(fields: [viewportId], references: [id])
   // Developer
-  developerId   String
-  developer     Developer       @relation(fields: [developerId], references: [id])
+  developerId String
+  developer   Developer          @relation(fields: [developerId], references: [id])
 }
 
 model StoredFile {
-  id            String           @id @default(cuid())
-  submissionId  String
-  userId        String
-  name          String           @db.VarChar(255)
-  path          String           @db.VarChar(511)
-  size          Int              @default(0) // stored as MB
-  type          String           @db.VarChar(63)
-  createdAt     DateTime         @default(now())
-  updatedAt     DateTime         @updatedAt
-  
-  gameFileFor   GameSubmission?   @relation(name: "gameFile")
-  thumbnailFor  GameSubmission?   @relation(name: "thumbnailFile")
-  coverFor      GameSubmission?   @relation(name: "coverFile")
+  id           String          @id @default(cuid())
+  submissionId String
+  userId       String
+  name         String          @db.VarChar(255)
+  path         String          @db.VarChar(511)
+  size         Int             @default(0) // stored as MB
+  type         String          @db.VarChar(63)
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+  gameFileFor  GameSubmission? @relation(name: "gameFile")
+  thumbnailFor GameSubmission? @relation(name: "thumbnailFile")
+  coverFor     GameSubmission? @relation(name: "coverFile")
 }
 
 model GameSubmission {
-  id                  String                    @id @default(cuid())
+  id                 String                   @id @default(cuid())
   // form data
-  slug                String?                   @db.VarChar(63)
-  title               String?                   @db.VarChar(63)
-  headline            String?                   @db.VarChar(255)
-  projectType         ProjectType?             
-  externalWebsiteUrl  String?                   @db.VarChar(255)
-  viewport            ViewportType?             @default(RESPONSIVE)
-  viewportWidth       Int? 
-  viewportHeight      Int?
-  devices             GameDevices[]             
-  orientations        DeviceOrientations[]      
-  description         String?                   @db.VarChar(1023)
-  instructions        String?                   @db.VarChar(1023)
-  categories          String[]                  @db.VarChar(63) @default([])
+  slug               String?                  @db.VarChar(63)
+  title              String?                  @db.VarChar(63)
+  headline           String?                  @db.VarChar(255)
+  projectType        ProjectType?
+  externalWebsiteUrl String?                  @db.VarChar(255)
+  viewport           ViewportType?            @default(RESPONSIVE)
+  viewportWidth      Int?
+  viewportHeight     Int?
+  devices            GameDevices[]
+  orientations       DeviceOrientations[]
+  description        String?                  @db.VarChar(1023)
+  instructions       String?                  @db.VarChar(1023)
+  categories         String[]                 @default([]) @db.VarChar(63)
   // a JSON object with the game's supported markets
   // we use a string instead of JSON because our zod parser doesn't support JSON properly.
   // known-issue: https://github.com/microsoft/TypeScript/issues/34933
-  markets             String?
+  markets            String?
   // assets
   // cascade delete the files when the submission is deleted.
-  gameFileId          String?                   @db.VarChar(63) @unique 
-  gameFile            StoredFile?               @relation(name: "gameFile", fields: [gameFileId], references: [id]) 
-  thumbnailFileId     String?                   @db.VarChar(63) @unique
-  thumbnailFile       StoredFile?               @relation(name: "thumbnailFile", fields: [thumbnailFileId], references: [id])
-  coverFileId         String?                   @db.VarChar(63) @unique
-  coverFile           StoredFile?               @relation(name: "coverFile", fields: [coverFileId], references: [id])
-  trailerUrl          String?                   @db.VarChar(63)
+  gameFileId         String?                  @unique @db.VarChar(63)
+  gameFile           StoredFile?              @relation(name: "gameFile", fields: [gameFileId], references: [id])
+  thumbnailFileId    String?                  @unique @db.VarChar(63)
+  thumbnailFile      StoredFile?              @relation(name: "thumbnailFile", fields: [thumbnailFileId], references: [id])
+  coverFileId        String?                  @unique @db.VarChar(63)
+  coverFile          StoredFile?              @relation(name: "coverFile", fields: [coverFileId], references: [id])
+  trailerUrl         String?                  @db.VarChar(63)
   // The game status is updated when the game is submitted.
   // approved submissions are deleted after the game is published.
-  status              GameSubmissionStatus      @default(DRAFT)
-  reviews             GameSubmissionFeedback[]
+  status             GameSubmissionStatus     @default(DRAFT)
+  reviews            GameSubmissionFeedback[]
   // the profile that submitted the game
-  userId           String 
-  user             User                 @relation(fields: [userId], references: [id])    
+  userId             String
+  user               User                     @relation(fields: [userId], references: [id])
   // auditing and analytics
-  createdAt           DateTime                  @default(now())
-  updatedAt           DateTime                  @updatedAt
+  createdAt          DateTime                 @default(now())
+  updatedAt          DateTime                 @updatedAt
 }
 
 // Feedback for a game submission, written by an admin or moderator.
 // Feedback should be created if a game has some issues that need to be fixed before it can be published.
 // A game submission can have multiple feedback reports.
 model GameSubmissionFeedback {
-  id            String          @id @default(cuid())
-  submissionId        String        
-  text          String          @db.VarChar(511)
-  createdAt     DateTime        @default(now())
-  game          GameSubmission  @relation(fields: [submissionId], references: [id])
+  id           String         @id @default(cuid())
+  submissionId String
+  text         String         @db.VarChar(511)
+  createdAt    DateTime       @default(now())
+  game         GameSubmission @relation(fields: [submissionId], references: [id])
+}
+
+model Sponsor {
+  id     String   @id @default(cuid())
+  name   String   @db.VarChar(127)
+  url    String   @db.VarChar(255)
+  raffle Raffle[]
 }
 
 enum PrizeType {
@@ -311,51 +323,100 @@ enum PrizeType {
   GIFT_CARD
 }
 
-model PrizeSponsor {
-  id            String          @id @default(cuid())
-  name          String          @db.VarChar(127)
-  url           String          @db.VarChar(255)
-
-  prizes        RafflePrize[]
+model Prize {
+  id            String           @id @default(cuid())
+  name          String           @db.VarChar(127)
+  headline      String           @db.VarChar(255)
+  description   String           @db.VarChar(2047)
+  monetaryValue Int
+  sourceUrl     String           @db.VarChar(255)
+  imageUrl      String           @db.VarChar(255)
+  // the type of activation code it is. (e.g. steam key or gift card key)
+  type          PrizeType
+  // external
+  raffles       Raffle[]
+  codes         ActivationCode[]
+  // analytics
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
 }
 
-model RafflePrize {
-  id            String          @id @default(cuid())
-  // the redemption code for the prize.
-  code          String          @unique        
-  name          String          @db.VarChar(127)
-  headline      String          @db.VarChar(255)
-  description   String          @db.VarChar(2047)
-  expiresAt     DateTime
-  costPerEntry  Int             
-  monetaryValue Int
-  type          PrizeType
-  sourceUrl     String          @db.VarChar(255)
-  imageUrl      String          @db.VarChar(255)
-  numWinners    Int            
-  // analytics
-  createdAt     DateTime        @default(now())
-  updatedAt     DateTime        @updatedAt
+model Raffle {
+  id           String                     @id @default(cuid())
+  expiresAt    DateTime
+  costPerEntry Int
+  numWinners   Int
   // sponsors.
-  sponsorId     String          @db.VarChar(127)
-  sponsor       PrizeSponsor    @relation(fields: [sponsorId], references: [id])
-  // external
-  tickets       RaffleTicket[]
+  sponsorId    String                     @db.VarChar(127)
+  sponsor      Sponsor                    @relation(fields: [sponsorId], references: [id])
+  // analytics
+  createdAt    DateTime                   @default(now())
+  updatedAt    DateTime                   @updatedAt
+  prizeId      String
+  prize        Prize                      @relation(fields: [prizeId], references: [id])
+  tickets      RaffleTicket[]
+  codes        ActivationCodeAssignment[]
 }
 
 model RaffleTicket {
-  id              String          @id @default(cuid())
+  id        String         @id @default(cuid())
   // the user who bought the ticket
-  userId          String
-  user            User            @relation(fields: [userId], references: [id])
-  // the raffle the ticket is for
-  prizeId         String 
-  prize           RafflePrize     @relation(fields: [prizeId], references: [id])
+  userId    String
+  user      User           @relation(fields: [userId], references: [id])
+  // raffle the ticket is for
+  raffleId  String
+  raffle    Raffle         @relation(fields: [raffleId], references: [id])
   // analytics
-  createdAt       DateTime        @default(now())
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
   // this ticket is a winner
-  isWinner        Boolean         @default(false)
-  lastNotifiedAt  DateTime?
-  claimedAt       DateTime?
-  claimBefore     DateTime?
+  winner    WinningTicket?
+}
+
+model WinningTicket {
+  id             String                    @id @default(cuid())
+  lastNotifiedAt DateTime?
+  claimedAt      DateTime?
+  claimBefore    DateTime
+  // the ticket that won
+  ticketId       String                    @unique
+  ticket         RaffleTicket              @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  // analytics
+  createdAt      DateTime                  @default(now())
+  updatedAt      DateTime                  @updatedAt
+  // the activation code that was won
+  assignment     ActivationCodeAssignment?
+}
+
+model ActivationCode {
+  id         String                    @id @default(cuid())
+  // the redemption/secret code for the prize.
+  content    String                    @unique
+  // the prize the code is for
+  prizeId    String
+  prize      Prize                     @relation(fields: [prizeId], references: [id])
+  // if the code has been assigned to a raffle or purchased directly.
+  assignment ActivationCodeAssignment?
+  // analytics
+  createdAt  DateTime                  @default(now())
+  updatedAt  DateTime                  @updatedAt
+}
+
+model ActivationCodeAssignment {
+  id               String         @id @default(cuid())
+  // the code that was assigned
+  activationCodeId String         @unique
+  activationCode   ActivationCode @relation(fields: [activationCodeId], references: [id], onDelete: Cascade)
+  // analytics
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+  // the raffle the code was won in
+  raffleId         String?
+  raffle           Raffle?        @relation(fields: [raffleId], references: [id])
+  // the ticket that won the code
+  winningTicketId  String?        @unique
+  winningTicket    WinningTicket? @relation(fields: [winningTicketId], references: [id])
+  // the user who claimed the code if purchased directly.
+  userId           String?
+  user             User?          @relation(fields: [userId], references: [id])
 }

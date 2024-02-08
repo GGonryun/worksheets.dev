@@ -3,6 +3,7 @@ import { OpenGraphProps, TWITTER_SEO } from '@worksheets/util/seo';
 import {
   DeveloperSchema,
   PrizeSchema,
+  RaffleSchema,
   SerializableGameSchema,
   TagSchema,
 } from '@worksheets/util/types';
@@ -307,22 +308,22 @@ export const helpDevelopersSeo = createSeo({
     'Find answers to questions about contributing games to the Charity Games Platform. Turn your games into donations.',
 });
 
-export const prizesSeo = createSeo({
-  url: '/prizes',
-  title: 'Charity Games - Prize Wall',
+export const rafflesSeo = createSeo({
+  url: '/raffles',
+  title: 'Charity Games - Raffles',
   description:
-    'Redeem your tokens for real world prizes and free games. Every token you spend is a donation towards charity. Win free prizes by playing browser games and referring friends',
+    'Redeem your tokens for raffle tickets and win real world prizes. Every token you spend is a donation towards charity. Win free prizes by playing browser games and referring friends',
 });
 
-export const prizeSeo = (prize: PrizeSchema): NextSeoProps =>
+export const raffleSeo = (raffle: RaffleSchema): NextSeoProps =>
   createSeo({
-    url: `/prizes/${prize.id}`,
-    title: `${prize.name} - Charity Games - Prize Wall`,
-    description: `Enter our raffle for a chance to win a free copy of ${prize.name}. Every token you spend is a donation to charity. Win prizes by playing browser games and referring friends.`,
+    url: `/raffles/${raffle.id}`,
+    title: `${raffle.name} - Charity Games - Raffles`,
+    description: `Enter our raffle for a chance to win a free copy of ${raffle.name}. Every token you spend is a donation to charity. Win prizes by playing browser games and referring friends.`,
     images: [
       {
-        url: prize.imageUrl,
-        alt: prize.name,
+        url: raffle.imageUrl,
+        alt: raffle.name,
       },
     ],
   });
@@ -333,3 +334,23 @@ export const expiredRafflesSeo = createSeo({
   description:
     'View all expired raffles on Charity Games. See what prizes were given away. Every token you spend is a donation towards a better world.',
 });
+
+export const prizesSeo = createSeo({
+  url: '/prizes',
+  title: 'Charity Games - Prizes',
+  description:
+    'Redeem your tokens for real world prizes and free games. Every token you spend is a donation towards charity. Win free prizes by playing browser games and referring friends',
+});
+
+export const prizeSeo = (prize: PrizeSchema): NextSeoProps =>
+  createSeo({
+    url: `/prizes/${prize.id}`,
+    title: `${prize.name} - Charity Games - Prizes`,
+    description: `Redeem your tokens for a free copy of ${prize.name}. Every token you spend is a donation to charity. Win prizes by playing browser games and referring friends.`,
+    images: [
+      {
+        url: prize.imageUrl,
+        alt: prize.name,
+      },
+    ],
+  });

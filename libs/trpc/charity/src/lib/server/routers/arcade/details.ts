@@ -1,8 +1,8 @@
 import { FEATURED_GAMES } from '@worksheets/util/settings';
 import {
   BasicCategoryInfo,
-  BasicPrizeDetails,
-  DetailedGameInfo,
+  BasicGameInfo,
+  BasicRaffleDetails,
   PromotedGame,
 } from '@worksheets/util/types';
 import { z } from 'zod';
@@ -17,10 +17,10 @@ export default publicProcedure
         primary: z.custom<PromotedGame[]>(),
         secondary: z.custom<PromotedGame>(),
       }),
-      topRaffles: z.custom<BasicPrizeDetails[]>(),
-      topGames: z.custom<DetailedGameInfo[]>(),
-      allGames: z.custom<DetailedGameInfo[]>(),
-      newGames: z.custom<DetailedGameInfo[]>(),
+      topRaffles: z.custom<BasicRaffleDetails[]>(),
+      topGames: z.custom<BasicGameInfo[]>(),
+      allGames: z.custom<BasicGameInfo[]>(),
+      newGames: z.custom<BasicGameInfo[]>(),
     })
   )
   .query(async ({ ctx: { db } }) => {
@@ -63,7 +63,7 @@ export default publicProcedure
       .map((g) => ({
         id: g.id,
         name: g.title,
-        image: g.thumbnail,
+        imageUrl: g.thumbnail,
         plays: g.plays,
       }));
 
@@ -73,14 +73,14 @@ export default publicProcedure
       .map((g) => ({
         id: g.id,
         name: g.title,
-        image: g.thumbnail,
+        imageUrl: g.thumbnail,
         plays: g.plays,
       }));
 
     const allGames = [...games].map((g) => ({
       id: g.id,
       name: g.title,
-      image: g.thumbnail,
+      imageUrl: g.thumbnail,
       plays: g.plays,
     }));
 

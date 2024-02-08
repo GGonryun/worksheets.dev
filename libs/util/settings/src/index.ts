@@ -21,6 +21,8 @@ export const STARTING_TOKENS = 100;
 export const STARTING_GIFT_BOXES = 5;
 // raffles
 export const BULK_ENTRY_DISCOUNT = 0.8;
+// prizes
+export const PRIZE_TOKEN_MODIFIER = 1000;
 
 export const dailyBonusGames: BasicGameDetails[] = [
   {

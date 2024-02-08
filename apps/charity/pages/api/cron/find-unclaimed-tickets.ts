@@ -1,3 +1,4 @@
+import { WinningTicket } from '@prisma/client';
 import { sendDiscordMessage } from '@worksheets/services/discord';
 import {
   CRON_SECRET,
@@ -20,38 +21,39 @@ export default async function handler(
     }
   }
 
-  const expiredUnclaimedTickets = await prisma.raffleTicket.findMany({
+  const expiredUnclaimedTickets = await prisma.winningTicket.findMany({
     where: {
       claimBefore: {
         lte: new Date(),
       },
       claimedAt: null,
     },
-    include: {
-      prize: {
-        select: {
-          name: true,
-        },
-      },
-    },
   });
 
-  // send a message to the discord channel with the unclaimed tickets.
-  await sendDiscordMessage({
-    content: `The following raffle tickets as of ${printShortDateTime(
-      Date.now()
-    )} have expired and have not been claimed:`,
-    embeds: expiredUnclaimedTickets.map((ticket) => ({
-      title: `Ticket ID: ${ticket.id}`,
-      url: `https://charity.games/prizes/${ticket.prizeId}`,
-      description: `This raffle ticket was purchased for the prize "${
-        ticket.prize.name
-      }" and has not been claimed. The ticket expired at ${printShortDateTime(
-        ticket.claimBefore ?? new Date()
-      )}.\n\nPlease select a new winner or runner-up for this prize. This can be done by removing the 'isWinner' flag from the current winner and letting the system select a new winner automatically.`,
-    })),
-    webhookUrl: DISCORD_WEBHOOK_URL,
-  });
+  if (expiredUnclaimedTickets.length === 0) {
+    console.info('No expired unclaimed tickets found.');
+  } else {
+    console.info('Expired unclaimed tickets found:', expiredUnclaimedTickets);
+    await sendMessage(expiredUnclaimedTickets);
+    console.info('Discord message sent.');
+  }
 
   response.status(200).json({ success: true });
 }
+
+export const sendMessage = async (winners: WinningTicket[]) => {
+  // send a message to the discord channel with the unclaimed tickets.
+  await sendDiscordMessage({
+    content: `The following winning tickets have not been claimed as of ${printShortDateTime(
+      Date.now()
+    )}:`,
+    embeds: winners.map((winner) => ({
+      title: `Winning Ticket ID: ${winner.id}`,
+      url: `https://charity.games/admin/tickets/${winner.ticketId}`,
+      description: `The ticket expired at ${printShortDateTime(
+        winner.claimBefore
+      )}.\n\nPlease select a new winner or runner-up for this prize. This can be done by deleting this WinningTicket entity and letting the system select a new winner automatically.\n\nVisit the admin panel to manage this ticket.`,
+    })),
+    webhookUrl: DISCORD_WEBHOOK_URL,
+  });
+};

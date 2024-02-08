@@ -13,24 +13,15 @@ import {
   Box,
   Button,
   Container,
+  Divider,
   IconButton,
   IconButtonProps,
-  Paper,
   Typography,
 } from '@mui/material';
 import { GamesGroup } from '@worksheets/ui/components/games';
 import { FillImage } from '@worksheets/ui/components/images';
 import { BasicGameInfo, DeveloperSchema } from '@worksheets/util/types';
 import { FC } from 'react';
-
-// TODO: support the following icons.
-// AppStore,
-// Discord,
-// ItchIo,
-// PlayStore,
-// SteamGames,
-// TikTok,
-// TwitchTv,
 
 export type DeveloperScreenProps = {
   name: string;
@@ -49,73 +40,71 @@ export const DeveloperScreen: FC<DeveloperScreenProps> = ({
 }) => {
   return (
     <Container maxWidth="lg" sx={{ py: 2 }}>
-      <Paper
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 1,
-          p: { xs: 2, sm: 4 },
-          color: 'text.arcade',
-          backgroundColor: 'background.solid-blue',
-        }}
-      >
-        <Box display="flex" alignItems="center" gap={1}>
+      <br />
+      <GamesGroup
+        title={
+          <Box display="flex" alignItems="center" gap={{ xs: 1.5, sm: 2 }}>
+            <Box
+              sx={{
+                position: 'relative',
+                overflow: 'hidden',
+                width: 48,
+                height: 48,
+                borderRadius: '50%',
+              }}
+            >
+              <FillImage alt={`${name} avatar`} src={avatarUrl} />
+            </Box>
+            <Typography variant="h4" mb={0.5}>
+              {name}
+            </Typography>
+          </Box>
+        }
+        header={
           <Box
             sx={{
-              position: 'relative',
-              overflow: 'hidden',
-              width: 48,
-              height: 48,
-              borderRadius: '50%',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 1,
             }}
           >
-            <FillImage alt={`${name} avatar`} src={avatarUrl} />
+            <Typography variant="body1" mb={1}>
+              {description}
+            </Typography>
+            <SocialButtons {...socials} />
+            <Divider sx={{ backgroundColor: 'text.arcade', mt: 2 }} />
           </Box>
-          <Typography variant="h4" mb={0.5}>
-            {name}
-          </Typography>
-        </Box>
-        <Typography variant="body1" mb={1}>
-          {description}
-        </Typography>
-        <SocialButtons {...socials} />
-        <br />
-        <GamesGroup
-          games={games.map((g) => ({
-            id: g.id,
-            name: g.name,
-            imageUrl: g.image,
-            caption: '',
-          }))}
-        />
-        <br />
-        <br />
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: { xs: 'column', sm: 'row' },
-            justifyContent: 'space-between',
-            gap: 1,
-          }}
-        >
-          <Button
-            variant="arcade"
-            color="error"
-            href="/"
-            endIcon={<ArrowRight />}
+        }
+        pageSize={50}
+        games={games}
+        footer={
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: { xs: 'column', sm: 'row' },
+              justifyContent: 'space-between',
+              gap: 1,
+            }}
           >
-            All Games
-          </Button>
-          <Button
-            variant="arcade"
-            color="warning"
-            href="/tags"
-            endIcon={<ArrowRight />}
-          >
-            All Tags
-          </Button>
-        </Box>
-      </Paper>
+            <Button
+              variant="arcade"
+              color="error"
+              href="/"
+              endIcon={<ArrowRight />}
+            >
+              All Games
+            </Button>
+            <Button
+              variant="arcade"
+              color="warning"
+              href="/tags"
+              endIcon={<ArrowRight />}
+            >
+              All Tags
+            </Button>
+          </Box>
+        }
+      />
     </Container>
   );
 };

@@ -1,5 +1,5 @@
 import { TRPCError } from '@trpc/server';
-import { convertPrize, prizeSchema } from '@worksheets/util/types';
+import { detailedPrizeSchema } from '@worksheets/util/types';
 import { z } from 'zod';
 
 import { publicProcedure } from '../../procedures';
@@ -10,20 +10,47 @@ export default publicProcedure
       prizeId: z.string(),
     })
   )
-  .output(prizeSchema)
+  .output(detailedPrizeSchema)
   .query(async ({ input: { prizeId }, ctx: { db } }) => {
-    console.info(`finding prize ${prizeId}ssq`);
-    const prize = await db.rafflePrize.findFirst({
+    const prize = await db.prize.findFirst({
       where: {
         id: prizeId,
       },
-      include: {
-        sponsor: true,
+      select: {
+        id: true,
+        name: true,
+        type: true,
+        monetaryValue: true,
+        imageUrl: true,
+        headline: true,
+        description: true,
+        sourceUrl: true,
+        raffles: {
+          where: {
+            expiresAt: {
+              gte: new Date(),
+            },
+          },
+        },
       },
     });
 
-    if (!prize)
-      throw new TRPCError({ code: 'NOT_FOUND', message: 'Prize not found' });
+    if (!prize) {
+      throw new TRPCError({
+        code: 'NOT_FOUND',
+        message: 'Prize not found',
+      });
+    }
 
-    return convertPrize(prize);
+    return {
+      id: prize.id,
+      name: prize.name,
+      type: prize.type,
+      monetaryValue: prize.monetaryValue,
+      imageUrl: prize.imageUrl,
+      numRaffles: prize.raffles.length,
+      headline: prize.headline,
+      description: prize.description,
+      sourceUrl: prize.sourceUrl,
+    };
   });

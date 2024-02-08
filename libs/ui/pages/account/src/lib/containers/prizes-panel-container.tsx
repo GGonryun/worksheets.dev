@@ -1,7 +1,7 @@
 import { trpc } from '@worksheets/trpc-charity';
 import { useBookmark } from '@worksheets/ui-core';
 import { PrizesPanels } from '@worksheets/util/enums';
-import { WonPrizeDetails } from '@worksheets/util/types';
+import { WonRaffleDetails } from '@worksheets/util/types';
 import { useState } from 'react';
 
 import { ClaimPrizeModal } from '../components/modals/claim-prize-modal';
@@ -14,20 +14,20 @@ export const PrizesPanelContainer = () => {
   const [openClaimPrizeModal, setOpenClaimPrizeModal] = useState(false);
   const [showRedemptionCodeModal, setShowRedemptionCodeModal] = useState(false);
 
-  const [claiming, setClaiming] = useState<WonPrizeDetails | undefined>(
+  const [claiming, setClaiming] = useState<WonRaffleDetails | undefined>(
     undefined
   );
   const [code, setCode] = useState('');
 
-  const { data: enteredRaffles } = trpc.user.prizes.entered.useQuery({
+  const { data: enteredRaffles } = trpc.user.raffles.entered.useQuery({
     filter: 'all',
   });
 
-  const { data: wonPrizes } = trpc.user.prizes.won.useQuery(undefined);
+  const { data: wonRaffles } = trpc.user.raffles.won.useQuery(undefined);
 
-  const claimPrize = trpc.user.prizes.claim.useMutation();
+  const claimPrize = trpc.user.raffles.claim.useMutation();
 
-  const handleStartClaim = async (prize: WonPrizeDetails) => {
+  const handleStartClaim = async (prize: WonRaffleDetails) => {
     setClaiming(prize);
 
     if (prize.claimedAt) {
@@ -43,7 +43,7 @@ export const PrizesPanelContainer = () => {
     }
 
     const claimed = await claimPrize.mutateAsync({
-      prizeId: claiming.id,
+      ticketId: claiming.ticketId,
     });
 
     setCode(claimed.code);
@@ -55,7 +55,7 @@ export const PrizesPanelContainer = () => {
       <PrizesPanel
         bookmark={bookmark}
         previous={enteredRaffles ?? []}
-        prizes={wonPrizes ?? []}
+        prizes={wonRaffles ?? []}
         onClaim={handleStartClaim}
       />
       <ClaimPrizeModal

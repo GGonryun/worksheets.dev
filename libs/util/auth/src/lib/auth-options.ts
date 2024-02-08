@@ -18,7 +18,6 @@ import { googleRefreshAccessToken } from './refresh/google-oauth-refresh';
 export const AUTH_OPTIONS: AuthOptions = {
   session: { strategy: 'jwt', maxAge: 3000 },
   adapter: customPrismaAdapter(prisma),
-  // Configure one or more authentication providers
   providers: [
     GoogleProvider({
       clientId: GOOGLE_CLIENT_ID,
@@ -70,6 +69,16 @@ export const AUTH_OPTIONS: AuthOptions = {
     }),
     // ...add more providers here
   ],
+  // TODO: Set the domain for the cookies for admin subdomain
+  // cookies: {
+  //   name: `__Secure-next-auth.session-token`,
+  //   options: {
+  //     httpOnly: true,
+  //     sameSite: 'lax' as const,
+  //     path: '/',
+  //     domain: `${COOKIE_DOMAIN}`,
+  //   },
+  // },
   callbacks: {
     async signIn({ account, profile }) {
       if (account?.provider === 'google') {

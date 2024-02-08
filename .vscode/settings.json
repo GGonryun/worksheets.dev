@@ -78,5 +78,8 @@
     "wordpack",
     "wordsearch",
     "wscript"
-  ]
+  ],
+  "[prisma]": {
+    "editor.defaultFormatter": "Prisma.prisma"
+  }
 }

@@ -3,7 +3,7 @@ import { CHARITY_GAMES_BASE_URL } from '@worksheets/ui/env';
 import { printShortDate } from '@worksheets/util/time';
 import { NextApiHandler } from 'next';
 
-const LAST_UPDATE_DATE = `2024-01-16`;
+const LAST_UPDATE_DATE = `2024-02-07`;
 
 const addHomePage = () => {
   return `<url><loc>${CHARITY_GAMES_BASE_URL}</loc><lastmod>${LAST_UPDATE_DATE}</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>`;
@@ -32,6 +32,7 @@ const addBasicPages = () => {
     '/play',
     '/tags',
     '/prizes',
+    '/raffles',
   ];
 
   return slugs
@@ -49,6 +50,7 @@ const getGames = async () => {
       updatedAt: true,
     },
   });
+
   return games
     .map(
       (game) =>
@@ -64,18 +66,18 @@ const getTags = async () => {
   const tags = await prisma.gameCategory.findMany({
     select: {
       id: true,
+      updatedAt: true,
     },
   });
 
   return tags
     .map(
       (tag) =>
-        `<url><loc>${CHARITY_GAMES_BASE_URL}/tags/${tag.id}</loc><lastmod>${LAST_UPDATE_DATE}</lastmod><priority>0.5</priority></url>`
+        `<url><loc>${CHARITY_GAMES_BASE_URL}/tags/${tag.id}</loc><lastmod>${tag.updatedAt}</lastmod><priority>0.5</priority></url>`
     )
     .join('');
 };
 
-// TODO: query developers from the database
 const getDevelopers = async () => {
   const developers = await prisma.developer.findMany({
     select: {
@@ -91,6 +93,48 @@ const getDevelopers = async () => {
     .join('');
 };
 
+const getRaffles = async () => {
+  const raffles = await prisma.raffle.findMany({
+    select: {
+      id: true,
+      updatedAt: true,
+    },
+  });
+
+  return raffles
+    .map(
+      (raffle) =>
+        `<url><loc>${CHARITY_GAMES_BASE_URL}/raffles/${
+          raffle.id
+        }</loc><lastmod>${printShortDate(
+          raffle.updatedAt,
+          'fr-CA'
+        )}</lastmod><priority>0.3</priority></url>`
+    )
+    .join('');
+};
+
+const getPrizes = async () => {
+  const prizes = await prisma.prize.findMany({
+    select: {
+      id: true,
+      updatedAt: true,
+    },
+  });
+
+  return prizes
+    .map(
+      (prize) =>
+        `<url><loc>${CHARITY_GAMES_BASE_URL}/prizes/${
+          prize.id
+        }</loc><lastmod>${printShortDate(
+          prize.updatedAt,
+          'fr-CA'
+        )}</lastmod><priority>0.6</priority></url>`
+    )
+    .join('');
+};
+
 const handler: NextApiHandler = async (req, res) => {
   res.statusCode = 200;
   res.setHeader('Content-Type', 'application/xml');
@@ -98,10 +142,12 @@ const handler: NextApiHandler = async (req, res) => {
   // Instructing the Vercel edge to cache the file
   res.setHeader('Cache-control', 'stale-while-revalidate, s-maxage=3600');
 
-  const [games, tags, developers] = await Promise.all([
+  const [games, tags, developers, raffles, prizes] = await Promise.all([
     getGames(),
     getTags(),
     getDevelopers(),
+    getRaffles(),
+    getPrizes(),
   ]);
 
   // generate sitemap here
@@ -110,6 +156,8 @@ const handler: NextApiHandler = async (req, res) => {
       ${addHomePage()}
       ${addBasicPages()}
       ${games}
+      ${prizes}
+      ${raffles}
       ${tags}
       ${developers}
       </urlset>`;

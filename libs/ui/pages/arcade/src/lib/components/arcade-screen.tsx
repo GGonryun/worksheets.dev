@@ -1,28 +1,26 @@
 import { Box, Container } from '@mui/material';
 import { Categories } from '@worksheets/ui/components/categories';
 import {
-  GameIconProps,
-  PaginatedGamesList,
+  GameCarousel,
+  GamesGroup,
+  RandomGameButton,
 } from '@worksheets/ui/components/games';
-import { shorthandNumber } from '@worksheets/util/numbers';
 import {
   BasicCategoryInfo,
   BasicGameInfo,
-  BasicPrizeDetails,
-  DetailedGameInfo,
+  BasicRaffleDetails,
 } from '@worksheets/util/types';
 
 import { FeaturedGames, FeaturedGamesProps } from './featured-games';
-import { GameSection } from './game-section';
 import { HottestRaffles } from './hottest-raffles';
 
 export const ArcadeScreen: React.FC<{
   categories: BasicCategoryInfo[];
   featured: FeaturedGamesProps;
-  topRaffles: BasicPrizeDetails[];
-  topGames: DetailedGameInfo[];
-  newGames: DetailedGameInfo[];
-  allGames: DetailedGameInfo[];
+  topRaffles: BasicRaffleDetails[];
+  topGames: BasicGameInfo[];
+  newGames: BasicGameInfo[];
+  allGames: BasicGameInfo[];
   recentGames: BasicGameInfo[];
 }> = (props) => (
   <Box
@@ -59,40 +57,18 @@ export const ArcadeScreen: React.FC<{
       )}
 
       {props.recentGames.length > 0 && (
-        <GameSection
-          title="Recently Played"
-          games={props.recentGames.map(translateBasicGames)}
-        />
+        <GameCarousel title="Recently Played" items={props.recentGames} />
       )}
 
-      <GameSection
-        title="Top Games"
-        games={props.topGames.map(translateDetailedGames)}
-      />
+      <GameCarousel title="Top Games" items={props.topGames} />
 
-      <GameSection
-        title="New Games"
-        games={props.newGames.map(translateDetailedGames)}
-      />
+      <GameCarousel title="New Games" items={props.newGames} />
 
-      <PaginatedGamesList
+      <GamesGroup
         title="All Games"
-        games={props.allGames.map(translateDetailedGames)}
+        header={<RandomGameButton />}
+        games={props.allGames}
       />
     </Container>
   </Box>
 );
-
-const translateBasicGames = (game: BasicGameInfo): GameIconProps => ({
-  id: game.id,
-  imageUrl: game.image,
-  name: game.name,
-  caption: ``,
-});
-
-const translateDetailedGames = (game: DetailedGameInfo): GameIconProps => ({
-  id: game.id,
-  imageUrl: game.image,
-  name: game.name,
-  caption: `${shorthandNumber(game.plays)} plays`,
-});

@@ -17,30 +17,6 @@ export const Markdown: FC<{ text: MarkdownText } & Pick<BoxProps, 'sx'>> = ({
       component="span"
       sx={{
         fontFamily: (theme) => theme.typography.mPlus1p.fontFamily,
-        h6: {
-          mt: 0,
-          mb: 0,
-        },
-        h5: {
-          mt: 0,
-          mb: 0,
-        },
-        h4: {
-          mt: 0,
-          mb: 0,
-        },
-        h3: {
-          mt: 0,
-          mb: 0,
-        },
-        h2: {
-          mt: 0,
-          mb: 0,
-        },
-        h1: {
-          mt: 0,
-          mb: 0,
-        },
         a: {
           color: 'inherit',
           textDecoration: 'underline',

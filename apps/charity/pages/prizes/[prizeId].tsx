@@ -1,7 +1,7 @@
 import { createStaticTRPC } from '@worksheets/trpc-charity/server';
 import { LayoutContainer } from '@worksheets/ui/layout';
-import { DynamicPrizeDetailsScreen } from '@worksheets/ui/pages/prizes';
-import { PrizeSchema } from '@worksheets/util/types';
+import { DynamicPrizeScreen } from '@worksheets/ui/pages/prizes';
+import { DetailedPrizeSchema } from '@worksheets/util/types';
 import { NextPageWithLayout } from '@worksheets/util-next';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { NextSeo, NextSeoProps } from 'next-seo';
@@ -10,13 +10,13 @@ import { prizeSeo } from '../../util/seo';
 
 type Props = {
   seo: NextSeoProps;
-  prize: PrizeSchema;
+  prize: DetailedPrizeSchema;
 };
 
 const Page: NextPageWithLayout<Props> = ({ seo, prize }) => (
   <>
     <NextSeo {...seo} />
-    <DynamicPrizeDetailsScreen prize={prize} />
+    <DynamicPrizeScreen prize={prize} />
   </>
 );
 

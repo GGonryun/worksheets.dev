@@ -1,6 +1,6 @@
 import { InfoOutlined } from '@mui/icons-material';
 import { Box, Link, Typography } from '@mui/material';
-import { WonPrizeDetails } from '@worksheets/util/types';
+import { WonRaffleDetails } from '@worksheets/util/types';
 import React from 'react';
 
 import { BulletPoints } from '../../bullet-points';
@@ -8,8 +8,8 @@ import { PanelFooter } from '../../panel-footer';
 import { PrizesTable } from '../tables/prizes-table';
 
 export const PrizesSection: React.FC<{
-  prizes: WonPrizeDetails[];
-  onClaim: (prize: WonPrizeDetails) => void;
+  prizes: WonRaffleDetails[];
+  onClaim: (prize: WonRaffleDetails) => void;
 }> = ({ prizes, onClaim }) => {
   return (
     <Box

@@ -6,13 +6,13 @@ import {
   millisecondsAsDuration,
   printShortDateTime,
 } from '@worksheets/util/time';
-import { WonPrizeDetails } from '@worksheets/util/types';
+import { WonRaffleDetails } from '@worksheets/util/types';
 import Image from 'next/image';
 
 import { ParentModal } from './parent-modal';
 
 export const ClaimPrizeModal: React.FC<
-  ModalWrapper<{ prize?: WonPrizeDetails; onClaim: () => void }>
+  ModalWrapper<{ prize?: WonRaffleDetails; onClaim: () => void }>
 > = ({ open, onClose, prize, onClaim }) => {
   return (
     <ParentModal open={open} onClose={onClose}>

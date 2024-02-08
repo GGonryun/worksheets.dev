@@ -8,7 +8,7 @@ import TableRow from '@mui/material/TableRow';
 import { ValentinesLetter } from '@worksheets/icons/valentines';
 import { useMediaQueryDown } from '@worksheets/ui/hooks/use-media-query';
 import { printShortDateTime } from '@worksheets/util/time';
-import { BasicPrizeDetails } from '@worksheets/util/types';
+import { BasicRaffleDetails } from '@worksheets/util/types';
 import * as React from 'react';
 
 const StyledBox = styled(Box)(({ theme }) => ({
@@ -18,7 +18,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
 }));
 
 export const ParticipationTable: React.FC<{
-  prizes: BasicPrizeDetails[];
+  prizes: BasicRaffleDetails[];
 }> = ({ prizes }) => {
   if (prizes.length === 0) {
     return <EmptyParticipationTable />;

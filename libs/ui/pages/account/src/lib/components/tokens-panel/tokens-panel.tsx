@@ -107,8 +107,8 @@ export const TokensPanel: FC<{
         <FavoriteBorder fontSize="small" color="primary" />
         <Typography>
           Redeem tokens for real world rewards at the{' '}
-          <Link href="/prizes">prize wall</Link> or at the{' '}
-          <Link href="/auctions">auction house</Link>.
+          <Link href="/prizes">prize wall</Link> or use them to{' '}
+          <Link href="/raffles">enter raffles</Link>.
         </Typography>
       </Box>
 

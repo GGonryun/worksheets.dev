@@ -6,7 +6,7 @@ import {
 import { Box, Divider, Typography } from '@mui/material';
 import { ValentinesGift, ValentinesLetter } from '@worksheets/icons/valentines';
 import { PrizesPanels } from '@worksheets/util/enums';
-import { BasicPrizeDetails, WonPrizeDetails } from '@worksheets/util/types';
+import { BasicRaffleDetails, WonRaffleDetails } from '@worksheets/util/types';
 
 import { CollapsibleSection } from '../collapsible-section';
 import { usePanelController } from '../hooks/use-panel-controller';
@@ -17,9 +17,9 @@ import { PrizesSection } from './sections/prizes-section';
 
 export const PrizesPanel: React.FC<{
   bookmark?: PrizesPanels;
-  previous: BasicPrizeDetails[];
-  prizes: WonPrizeDetails[];
-  onClaim: (prize: WonPrizeDetails) => void;
+  previous: BasicRaffleDetails[];
+  prizes: WonRaffleDetails[];
+  onClaim: (prize: WonRaffleDetails) => void;
 }> = ({ prizes, previous, bookmark, onClaim }) => {
   const { active: activeBookmark, toggleActive } = usePanelController(bookmark);
 

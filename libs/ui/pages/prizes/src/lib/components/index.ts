@@ -1,2 +1,2 @@
-export * from './prize-details-screen';
-export * from './prize-wall-screen';
+export * from './prize-screen';
+export * from './prizes-screen';

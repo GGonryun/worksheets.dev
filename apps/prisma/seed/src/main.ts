@@ -19,7 +19,7 @@ async function main() {
 
   // clean up the database before seeding
   await prisma.$transaction(async (tx) => {
-    await tx.prizeSponsor.deleteMany({});
+    await tx.sponsor.deleteMany({});
     await tx.categoriesOnGame.deleteMany({});
     await tx.game.deleteMany({});
     await tx.developer.deleteMany({});
@@ -32,7 +32,7 @@ async function main() {
   try {
     await prisma.$transaction(async (tx) => {
       // insert all sponsors
-      await tx.prizeSponsor.createMany({
+      await tx.sponsor.createMany({
         data: sponsors,
         skipDuplicates: true,
       });
@@ -125,7 +125,9 @@ const insertGame = async (game: SeedableGameSchema) => {
   console.info(`Inserted game ${game.name}`);
 };
 
-const convertTag: (tag: TagSchema) => GameCategory = (tag) => ({
+const convertTag: (
+  tag: TagSchema
+) => Omit<GameCategory, 'createdAt' | 'updatedAt'> = (tag) => ({
   id: tag.id,
   name: tag.name,
   description: tag.description,

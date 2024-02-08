@@ -1,3 +1,4 @@
+import { WinningTicket } from '@prisma/client';
 import { sendDiscordMessage } from '@worksheets/services/discord';
 import {
   CRON_SECRET,
@@ -20,10 +21,8 @@ export default async function handler(
     }
   }
 
-  const unclaimedTickets = await prisma.raffleTicket.findMany({
+  const unclaimedTickets = await prisma.winningTicket.findMany({
     where: {
-      // ticket has been assigned as a winner.
-      isWinner: true,
       // ticket has not expired yet
       claimBefore: {
         gte: new Date(),
@@ -35,23 +34,26 @@ export default async function handler(
         lte: new Date(Date.now() - 1000 * 60 * 60 * 24),
       },
     },
-    include: {
-      prize: {
-        select: {
-          name: true,
-        },
-      },
-    },
   });
 
+  if (unclaimedTickets.length === 0) {
+    console.info('No unclaimed tickets found.');
+  } else {
+    console.info('Unclaimed tickets found:', unclaimedTickets);
+    await sendMessage(unclaimedTickets);
+    console.info('Discord message sent.');
+  }
+
+  response.status(200).json({ success: true });
+}
+
+const sendMessage = async (winners: WinningTicket[]) => {
   await sendDiscordMessage({
-    content: `24 hours have passed since the raffle ended and the winner has not claimed their prize. Please send a reminder to the winner to claim their prize.`,
-    embeds: unclaimedTickets.map((ticket) => ({
+    content: `A raffle winner has not claimed their prize. Please send a reminder to the winner to claim their prize.`,
+    embeds: winners.map((ticket) => ({
       title: `Ticket ID: ${ticket.id}`,
-      url: `https://charity.games/prizes/${ticket.prizeId}`,
-      description: `This raffle ticket was purchased for the prize "${
-        ticket.prize.name
-      }" and has not been claimed. The ticket will expire at ${printShortDateTime(
+      url: `https://charity.games/admin/tickets/${ticket.id}`,
+      description: `The ticket will expire at ${printShortDateTime(
         ticket.claimBefore ?? new Date()
       )}. The user was last notified at ${printShortDateTime(
         ticket.lastNotifiedAt ?? new Date()
@@ -59,6 +61,4 @@ export default async function handler(
     })),
     webhookUrl: DISCORD_WEBHOOK_URL,
   });
-
-  response.status(200).json({ success: true });
-}
+};

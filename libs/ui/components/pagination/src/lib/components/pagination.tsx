@@ -50,6 +50,8 @@ export const Pagination: React.FC<{
     </Button>
   );
 
+  if (pages <= 1) return null;
+
   if (pages < 6)
     return (
       <PagesBox>

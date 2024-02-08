@@ -1,24 +1,28 @@
-import { Box } from '@mui/material';
-import React from 'react';
+import { ArcadeItemGroup } from '@worksheets/ui/components/arcade';
+import { BasicGameInfo } from '@worksheets/util/types';
+import React, { ReactNode } from 'react';
 
-import { GameIcon, GameIconProps } from './game-icon';
+import { Game } from './game';
 
-export const GamesGroup: React.FC<{ games: GameIconProps[]; size?: number }> = (
-  props
-) => (
-  <Box
-    gap={2}
-    sx={{
-      display: 'grid',
-      gridTemplateColumns: `repeat(auto-fill, minmax(${
-        props.size ?? 108
-      }px, 1fr))`,
-      gridGap: (theme) => theme.spacing(3),
-      justifyContent: 'center',
-    }}
-  >
-    {props.games.map((g) => (
-      <GameIcon key={g.id} {...g} />
-    ))}
-  </Box>
-);
+export const GamesGroup: React.FC<{
+  title: ReactNode;
+  pageSize?: number;
+  header?: ReactNode;
+  games: BasicGameInfo[];
+  empty?: ReactNode;
+  footer?: ReactNode;
+  action?: ReactNode;
+}> = ({ title, pageSize, header, action, games, footer, empty }) => {
+  return (
+    <ArcadeItemGroup
+      pageSize={pageSize}
+      title={title}
+      footer={footer}
+      header={header}
+      action={action}
+      empty={empty}
+      items={games}
+      render={(item) => <Game {...item} />}
+    />
+  );
+};

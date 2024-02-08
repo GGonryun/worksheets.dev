@@ -1,11 +1,7 @@
 import { Box, Container } from '@mui/material';
 import { Meta } from '@storybook/react';
+import { mockRaffles } from '@worksheets/ui/components/raffles';
 import { StoryWallpaper } from '@worksheets/ui/components/wallpaper';
-import {
-  daysFromNow,
-  hoursFromNow,
-  minutesFromNow,
-} from '@worksheets/util/time';
 
 import { HottestRaffles } from './hottest-raffles';
 
@@ -27,49 +23,6 @@ export default {
 
 export const Primary: Story = {
   args: {
-    prizes: [
-      {
-        id: '1',
-        name: "Baldur's Gate 3",
-        expires: daysFromNow(3).getTime(),
-        company: 'steam-games',
-        imageUrl: '/prizes/steam-games/bg3.jpeg',
-      },
-      {
-        id: '2',
-        name: 'City Skylines II',
-        expires: hoursFromNow(-1).getTime(),
-        company: 'steam-games',
-        imageUrl: '/prizes/steam-games/csii-2.png',
-      },
-      {
-        id: '6',
-        name: 'Ragnarok Online II',
-        expires: minutesFromNow(12).getTime(),
-        company: 'steam-games',
-        imageUrl: '/prizes/steam-games/ro.jpeg',
-      },
-      {
-        id: '3',
-        name: 'Palworld',
-        expires: minutesFromNow(32).getTime(),
-        company: 'steam-games',
-        imageUrl: '/prizes/steam-games/pw.jpeg',
-      },
-      {
-        id: '5',
-        name: 'Roller Coaster Tycoon 3',
-        expires: minutesFromNow(12341).getTime(),
-        company: 'steam-games',
-        imageUrl: '/prizes/steam-games/rct3.webp',
-      },
-      {
-        id: '4',
-        name: 'EA Sports FC 24',
-        expires: hoursFromNow(-1).getTime(),
-        company: 'steam-games',
-        imageUrl: '/prizes/steam-games/fc24.jpg',
-      },
-    ],
+    prizes: mockRaffles,
   },
 };

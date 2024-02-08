@@ -9,7 +9,15 @@ export const Description: React.FC<{
   ancillary?: ReactNode;
   description: ReactNode;
   open?: boolean;
-}> = ({ title, icons, ancillary, description, open: initialState = false }) => {
+  hideLogo?: boolean;
+}> = ({
+  title,
+  icons,
+  ancillary,
+  description,
+  open: initialState = false,
+  hideLogo = false,
+}) => {
   const [open, setOpen] = useState(initialState);
 
   const styles = {
@@ -89,7 +97,7 @@ export const Description: React.FC<{
             position="absolute"
             right={16}
             bottom={16}
-            display={{ xs: 'none', sm: 'block' }}
+            display={hideLogo ? 'none' : { xs: 'none', sm: 'block' }}
           >
             <PoweredByLogo />
           </Box>

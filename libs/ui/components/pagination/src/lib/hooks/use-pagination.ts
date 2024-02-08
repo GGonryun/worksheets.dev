@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 
-export const ITEMS_PER_PAGE = 15;
+export const ITEMS_PER_PAGE = 20;
 
 export function usePagination<T>(list: T[], itemsPerPage = ITEMS_PER_PAGE) {
   const ref = useRef<HTMLDivElement>(null);

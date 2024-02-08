@@ -1,6 +1,10 @@
 import { Box, Paper, styled } from '@mui/material';
 import Container from '@mui/material/Container';
-import { GameIcon, PaginatedGamesList } from '@worksheets/ui/components/games';
+import {
+  Game,
+  GamesGroup,
+  RandomGameButton,
+} from '@worksheets/ui/components/games';
 import {
   BasicGameInfo,
   CastVote,
@@ -60,13 +64,7 @@ export const GameScreen: FC<GameScreenProps> = ({
           }}
         >
           {leftBar.map((g) => (
-            <GameIcon
-              key={g.id}
-              id={g.id}
-              name={''}
-              caption={''}
-              imageUrl={g.image}
-            />
+            <Game key={g.id} id={g.id} name={''} imageUrl={g.imageUrl} />
           ))}
         </PaperSidebar>
 
@@ -79,19 +77,14 @@ export const GameScreen: FC<GameScreenProps> = ({
             userVote={userVote}
           />
         </GameBox>
+
         <PaperSidebar
           sx={{
             display: { xs: 'none', sm: 'none', md: 'none', lg: 'flex' },
           }}
         >
           {rightBar.map((g) => (
-            <GameIcon
-              key={g.id}
-              id={g.id}
-              name={''}
-              caption={''}
-              imageUrl={g.image}
-            />
+            <Game key={g.id} id={g.id} name={''} imageUrl={g.imageUrl} />
           ))}
         </PaperSidebar>
       </Box>
@@ -101,14 +94,10 @@ export const GameScreen: FC<GameScreenProps> = ({
         onShare={onShare}
         onReport={onReport}
       />
-      <PaginatedGamesList
+      <GamesGroup
         title="More Games"
-        games={remaining.map((g) => ({
-          id: g.id,
-          name: g.name,
-          caption: '',
-          imageUrl: g.image,
-        }))}
+        header={<RandomGameButton />}
+        games={remaining}
       />
     </Container>
   );

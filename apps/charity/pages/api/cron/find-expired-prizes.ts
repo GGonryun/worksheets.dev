@@ -1,3 +1,4 @@
+import { Prisma } from '@prisma/client';
 import { sendDiscordMessage } from '@worksheets/services/discord';
 import {
   CRON_SECRET,
@@ -20,44 +21,73 @@ export default async function handler(
     }
   }
 
-  const expiredPrizes = await prisma.rafflePrize.findMany({
+  const expiredRaffles = await prisma.raffle.findMany({
     where: {
       expiresAt: {
         lte: new Date(),
       },
       tickets: {
         none: {
-          isWinner: true,
+          winner: {},
         },
       },
     },
     include: {
-      tickets: true,
+      tickets: {
+        include: {
+          winner: true,
+        },
+      },
+      prize: true,
     },
   });
 
+  if (expiredRaffles.length === 0) {
+    console.info('No expired raffles found.');
+    return response.status(200).json({ success: true });
+  } else {
+    console.info('Expired Raffles found:', expiredRaffles);
+    await sendMessage(expiredRaffles);
+    console.info('Discord message sent.');
+  }
+
+  response.status(200).json({ success: true });
+}
+
+const sendMessage = async (
+  raffles: Prisma.RaffleGetPayload<{
+    include: {
+      tickets: {
+        include: {
+          winner: true;
+        };
+      };
+      prize: true;
+    };
+  }>[]
+) => {
   // send a message to the discord channel with the winners and the prizes.
   await sendDiscordMessage({
     content: `The following prizes as of ${printShortDateTime(
       Date.now()
     )} have expired and have not been assigned winners:`,
-    embeds: expiredPrizes.map((prize) => ({
-      title: `${prize.name} - ${prize.id}`,
-      url: `https://charity.games/prizes/${prize.id}`,
+    embeds: raffles.map((raffle) => ({
+      title: `Raffle #${raffle.id} Expired`,
+      url: `https://charity.games/raffles/${raffle.id}`,
       color: 16734296,
       description: `This raffle ended at ${printShortDateTime(
-        prize.expiresAt
+        raffle.expiresAt
       )} and there was a total of ${
-        prize.tickets.length
+        raffle.tickets.length
       } raffle tickets purchased. ${
-        prize.numWinners
+        raffle.numWinners
       } winners must be assigned. Below is a list of suggested winners and runner-ups. Extra tickets were picked to ensure enough winners are available for selection.`,
       fields: [
         {
           name: 'Winners and Runner-ups',
-          value: prize.tickets
+          value: raffle.tickets
             .sort(() => Math.random() - 0.5)
-            .slice(0, prize.numWinners)
+            .slice(0, raffle.numWinners)
             .map((winner, i) => `${i + 1}. Ticket ID: ${winner.id}`)
             .join('\n'),
         },
@@ -70,6 +100,4 @@ export default async function handler(
     })),
     webhookUrl: DISCORD_WEBHOOK_URL,
   });
-
-  response.status(200).json({ success: true });
-}
+};

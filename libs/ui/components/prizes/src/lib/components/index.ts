@@ -1,2 +1,2 @@
-export * from './prize';
-export * from './prize-carousel';
+export * from './prizes';
+export * from './prizes-group';

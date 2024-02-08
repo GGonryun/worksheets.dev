@@ -9,7 +9,6 @@ export const RedemptionCodeModal: React.FC<
   ModalWrapper<{
     prize?: {
       name: string;
-      id: string;
       imageUrl: string;
     };
     code: string;

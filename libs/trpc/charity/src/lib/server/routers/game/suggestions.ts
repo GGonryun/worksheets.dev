@@ -1,4 +1,4 @@
-import { detailedGameInfoSchema } from '@worksheets/util/types';
+import { basicGameInfoSchema } from '@worksheets/util/types';
 import { z } from 'zod';
 
 import { publicProcedure } from '../../procedures';
@@ -9,7 +9,7 @@ export default publicProcedure
       gameId: z.string(),
     })
   )
-  .output(z.array(detailedGameInfoSchema))
+  .output(z.array(basicGameInfoSchema))
   .query(async ({ ctx: { db }, input: { gameId } }) => {
     const games = await db.game.findMany({
       where: {
@@ -31,7 +31,7 @@ export default publicProcedure
     return games.map((game) => ({
       id: game.id,
       name: game.title,
-      image: game.thumbnail,
+      imageUrl: game.thumbnail,
       plays: game.plays,
     }));
   });
