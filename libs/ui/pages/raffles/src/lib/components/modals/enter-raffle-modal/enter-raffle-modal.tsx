@@ -55,19 +55,16 @@ export const EnterRaffleModal: React.FC<
           Enter Raffle
         </Typography>
 
-        <Typography variant={isMobile ? 'body2' : 'body1'}>
+        <Typography>
           How many raffle tickets would you like to purchase?
         </Typography>
-        <Box my={2}>
-          <Typography fontWeight={700}>
+        <Typography fontWeight={700}>You own {tokensOwned} tokens</Typography>
+        <Box mb={2}>
+          <Typography>
             1 ticket = {costPerEntry} token{costPerEntry > 1 ? 's' : ''}
           </Typography>
-          <Typography fontWeight={700}>
-            5 tickets = {costPerEntry * 5} tokens
-          </Typography>
-          <Typography fontWeight={700}>
-            10 tickets = {costPerEntry * 10} tokens
-          </Typography>
+          <Typography>5 tickets = {costPerEntry * 5} tokens</Typography>
+          <Typography>10 tickets = {costPerEntry * 10} tokens</Typography>
         </Box>
 
         <Button
@@ -92,7 +89,7 @@ export const EnterRaffleModal: React.FC<
         </Button>
         <Button
           disabled={tokensOwned < costPerEntry * 10}
-          onClick={() => handleEnter(5)}
+          onClick={() => handleEnter(10)}
           fullWidth
           size={isMobile ? 'small' : 'medium'}
           variant="arcade"

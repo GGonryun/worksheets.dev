@@ -6,13 +6,17 @@ import {
 } from '@worksheets/ui/components/raffles';
 import { useMediaQuery } from '@worksheets/ui/hooks/use-media-query';
 import { PrizesPanels } from '@worksheets/util/enums';
-import { FilterableRaffleCategory, RaffleSchema } from '@worksheets/util/types';
+import {
+  EnteredRaffleSchema,
+  FilterableRaffleCategory,
+  RaffleSchema,
+} from '@worksheets/util/types';
 
 import { ChangeCategory } from './change-category';
 
 export const RaffleContents: React.FC<{
   hottest: RaffleSchema[];
-  entered: RaffleSchema[];
+  entered: EnteredRaffleSchema[];
   list: RaffleSchema[];
   category: FilterableRaffleCategory;
   setCategory: (c: FilterableRaffleCategory) => void;

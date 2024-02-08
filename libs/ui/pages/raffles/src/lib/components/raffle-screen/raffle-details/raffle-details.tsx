@@ -53,6 +53,7 @@ export const RaffleDetails: React.FC<
     >
       <Box textAlign="center">
         <RaffleHeader
+          yourEntries={yourEntries}
           prizeId={prizeId}
           youWon={youWon}
           name={name}

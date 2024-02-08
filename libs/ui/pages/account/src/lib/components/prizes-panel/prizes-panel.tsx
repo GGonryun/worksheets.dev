@@ -6,7 +6,7 @@ import {
 import { Box, Divider, Typography } from '@mui/material';
 import { ValentinesGift, ValentinesLetter } from '@worksheets/icons/valentines';
 import { PrizesPanels } from '@worksheets/util/enums';
-import { BasicRaffleDetails, WonRaffleDetails } from '@worksheets/util/types';
+import { EnteredRaffleSchema, WonRaffleDetails } from '@worksheets/util/types';
 
 import { CollapsibleSection } from '../collapsible-section';
 import { usePanelController } from '../hooks/use-panel-controller';
@@ -17,7 +17,7 @@ import { PrizesSection } from './sections/prizes-section';
 
 export const PrizesPanel: React.FC<{
   bookmark?: PrizesPanels;
-  previous: BasicRaffleDetails[];
+  previous: EnteredRaffleSchema[];
   prizes: WonRaffleDetails[];
   onClaim: (prize: WonRaffleDetails) => void;
 }> = ({ prizes, previous, bookmark, onClaim }) => {
@@ -60,7 +60,7 @@ export const PrizesPanel: React.FC<{
         status={<FormatListNumbered fontSize="large" color="info" />}
         Icon={ValentinesLetter}
       >
-        <ParticipationSection prizes={previous} />
+        <ParticipationSection raffles={previous} />
       </CollapsibleSection>
 
       <Divider />

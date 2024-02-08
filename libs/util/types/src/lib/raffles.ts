@@ -15,7 +15,7 @@ export type RaffleCategory = z.infer<typeof raffleCategorySchema>;
 
 export type FilterableRaffleCategory = Extract<
   RaffleCategory,
-  'active' | 'newest' | 'hottest' | 'expiring'
+  'newest' | 'expiring'
 >;
 
 export const raffleSchema = z.object({
@@ -75,3 +75,15 @@ export const convertRaffle = (
     url: raffle.sponsor.url,
   },
 });
+
+export const enteredRaffleSchema = z.object({
+  id: z.string(), // raffleId
+  type: z.nativeEnum(PrizeType),
+  prizeId: z.string(),
+  name: z.string(),
+  imageUrl: z.string(),
+  entries: z.number(),
+  expiresAt: z.number(),
+});
+
+export type EnteredRaffleSchema = z.infer<typeof enteredRaffleSchema>;

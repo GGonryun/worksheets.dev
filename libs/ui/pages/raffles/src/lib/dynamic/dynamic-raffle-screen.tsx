@@ -20,7 +20,7 @@ const RaffleScreenContainer: React.FC<{ raffle: RaffleSchema }> = ({
 
   const enterRaffle = trpc.user.raffles.enterRaffle.useMutation();
 
-  const { data: participation } = trpc.user.raffles.participation.useQuery(
+  const participation = trpc.user.raffles.participation.useQuery(
     {
       raffleId: raffle.id,
     },
@@ -29,12 +29,13 @@ const RaffleScreenContainer: React.FC<{ raffle: RaffleSchema }> = ({
     }
   );
 
-  const { data: rewards } = trpc.user.rewards.get.useQuery(undefined, {
+  const rewards = trpc.user.rewards.get.useQuery(undefined, {
     enabled: isConnected,
   });
 
   const { data: suggestedRaffles } = trpc.raffles.list.useQuery({
     category: 'suggested',
+    limit: 7,
   });
 
   const { data: activeRaffles } = trpc.raffles.list.useQuery({
@@ -46,7 +47,7 @@ const RaffleScreenContainer: React.FC<{ raffle: RaffleSchema }> = ({
   const [raffleEntries, setRaffleEntries] = useState(0);
 
   const handleRaffleClick = () => {
-    if (!participation?.youWon) {
+    if (participation.data?.youWon) {
       snackbar.trigger({
         message: 'You already won this prize!',
         severity: 'warning',
@@ -81,6 +82,9 @@ const RaffleScreenContainer: React.FC<{ raffle: RaffleSchema }> = ({
         numEntries: raffleEntries,
       });
 
+      participation.refetch();
+      rewards.refetch();
+
       snackbar.trigger({
         message: 'Raffle entry submitted!',
         severity: 'success',
@@ -102,8 +106,8 @@ const RaffleScreenContainer: React.FC<{ raffle: RaffleSchema }> = ({
         raffle={raffle}
         activeRaffles={activeRaffles ?? []}
         connected={isConnected}
-        yourEntries={participation?.entries ?? 0}
-        youWon={participation?.youWon ?? false}
+        yourEntries={participation.data?.entries ?? 0}
+        youWon={participation.data?.youWon ?? false}
         onRaffleClick={handleRaffleClick}
         onShare={() => setShowShareRaffleModal(true)}
       />
@@ -131,7 +135,7 @@ const RaffleScreenContainer: React.FC<{ raffle: RaffleSchema }> = ({
           setShowEnterRaffleModal(false);
         }}
         costPerEntry={raffle.costPerEntry}
-        tokensOwned={rewards?.totalTokens ?? 0}
+        tokensOwned={rewards.data?.totalTokens ?? 0}
       />
       <Snackbar {...snackbar.props} />
     </>

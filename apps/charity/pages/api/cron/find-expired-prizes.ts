@@ -28,17 +28,27 @@ export default async function handler(
       },
       tickets: {
         none: {
-          winner: {},
+          winner: {
+            id: {},
+          },
         },
       },
     },
-    include: {
+    select: {
+      id: true,
+      expiresAt: true,
+      numWinners: true,
       tickets: {
-        include: {
+        select: {
+          id: true,
           winner: true,
         },
       },
-      prize: true,
+      prize: {
+        select: {
+          name: true,
+        },
+      },
     },
   });
 
@@ -56,13 +66,16 @@ export default async function handler(
 
 const sendMessage = async (
   raffles: Prisma.RaffleGetPayload<{
-    include: {
+    select: {
+      id: true;
+      expiresAt: true;
+      numWinners: true;
       tickets: {
-        include: {
+        select: {
+          id: true;
           winner: true;
         };
       };
-      prize: true;
     };
   }>[]
 ) => {
@@ -87,7 +100,7 @@ const sendMessage = async (
           name: 'Winners and Runner-ups',
           value: raffle.tickets
             .sort(() => Math.random() - 0.5)
-            .slice(0, raffle.numWinners)
+            .slice(0, raffle.numWinners * 3)
             .map((winner, i) => `${i + 1}. Ticket ID: ${winner.id}`)
             .join('\n'),
         },

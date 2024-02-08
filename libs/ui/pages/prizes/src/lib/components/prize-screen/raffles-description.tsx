@@ -12,69 +12,73 @@ export const RafflesDescription: React.FC<{
   prizeName: string;
   activeRaffles: BasicRaffleDetails[];
   expiredRaffles: BasicRaffleDetails[];
-}> = ({ prizeName, activeRaffles, expiredRaffles }) => (
-  <Description
-    title="Recent Raffles"
-    ancillary={
-      <Box
-        width={{ xs: '100%', sm: 'auto' }}
-        display="flex"
-        gap={{ xs: 2, sm: 1.5 }}
-        flexDirection={{ xs: 'column', sm: 'row' }}
-      >
-        <Button
-          size="small"
-          variant="arcade"
-          color="success"
-          startIcon={<HowToVote />}
-          href={
-            activeRaffles.length > 0
-              ? `/raffles?search=${encodeURIComponent(prizeName)}`
-              : '/raffles'
-          }
+}> = ({ prizeName, activeRaffles, expiredRaffles }) => {
+  activeRaffles.sort((a, b) => a.expiresAt - b.expiresAt);
+  expiredRaffles.sort((a, b) => b.expiresAt - a.expiresAt);
+  return (
+    <Description
+      title="Recent Raffles"
+      ancillary={
+        <Box
+          width={{ xs: '100%', sm: 'auto' }}
+          display="flex"
+          gap={{ xs: 2, sm: 1.5 }}
+          flexDirection={{ xs: 'column', sm: 'row' }}
         >
-          {activeRaffles.length > 0 ? 'Enter Raffle' : 'All Raffles'}
-        </Button>
-        <Button
-          size="small"
-          variant="arcade"
-          color="warning"
-          href="/help/prizes"
-          startIcon={<HelpCenter />}
-        >
-          Get Help
-        </Button>
-      </Box>
-    }
-    description={
-      <Box display="flex" flexDirection="column" textAlign="left">
-        <Typography variant="h6">Active Raffles</Typography>
-        {activeRaffles.length > 0 ? (
-          <>
-            <RafflePseudoGridHeader active />
-            {activeRaffles.map((raffle) => (
-              <RafflePseudoGridRow key={raffle.id} raffle={raffle} active />
-            ))}
-          </>
-        ) : (
-          <Typography>No active raffles</Typography>
-        )}
-        <Box my={2} />
-        <Typography variant="h6">Past Raffles</Typography>
-        {expiredRaffles.length > 0 ? (
-          <>
-            <RafflePseudoGridHeader />
-            {expiredRaffles.map((raffle) => (
-              <RafflePseudoGridRow key={raffle.id} raffle={raffle} />
-            ))}
-          </>
-        ) : (
-          <Typography>No past raffles</Typography>
-        )}
-      </Box>
-    }
-  />
-);
+          <Button
+            size="small"
+            variant="arcade"
+            color="success"
+            startIcon={<HowToVote />}
+            href={
+              activeRaffles.length > 0
+                ? `/raffles?search=${encodeURIComponent(prizeName)}`
+                : '/raffles'
+            }
+          >
+            {activeRaffles.length > 0 ? 'Enter Raffle' : 'All Raffles'}
+          </Button>
+          <Button
+            size="small"
+            variant="arcade"
+            color="warning"
+            href="/help/prizes"
+            startIcon={<HelpCenter />}
+          >
+            Get Help
+          </Button>
+        </Box>
+      }
+      description={
+        <Box display="flex" flexDirection="column" textAlign="left">
+          <Typography variant="h6">Active Raffles</Typography>
+          {activeRaffles.length > 0 ? (
+            <>
+              <RafflePseudoGridHeader active />
+              {activeRaffles.map((raffle) => (
+                <RafflePseudoGridRow key={raffle.id} raffle={raffle} active />
+              ))}
+            </>
+          ) : (
+            <Typography>No active raffles</Typography>
+          )}
+          <Box my={2} />
+          <Typography variant="h6">Past Raffles</Typography>
+          {expiredRaffles.length > 0 ? (
+            <>
+              <RafflePseudoGridHeader />
+              {expiredRaffles.map((raffle) => (
+                <RafflePseudoGridRow key={raffle.id} raffle={raffle} />
+              ))}
+            </>
+          ) : (
+            <Typography>No past raffles</Typography>
+          )}
+        </Box>
+      }
+    />
+  );
+};
 export const RafflePseudoGridHeader: React.FC<{ active?: boolean }> = ({
   active,
 }) => (
@@ -82,6 +86,7 @@ export const RafflePseudoGridHeader: React.FC<{ active?: boolean }> = ({
     pt={1}
     display="grid"
     gridTemplateColumns="1fr 2fr"
+    gap={2}
     flexDirection="row"
     alignItems="center"
   >
@@ -99,6 +104,7 @@ export const RafflePseudoGridRow: React.FC<{
   <Box
     display="grid"
     gridTemplateColumns={'1fr 2fr'}
+    gap={2}
     flexDirection="row"
     alignItems="center"
     component={Link}
@@ -111,7 +117,16 @@ export const RafflePseudoGridRow: React.FC<{
       },
     }}
   >
-    <Typography variant="body2">{raffle.id}</Typography>
+    <Typography
+      variant="body2"
+      sx={{
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+        whiteSpace: 'nowrap',
+      }}
+    >
+      {raffle.id}
+    </Typography>
     <Typography variant="body2">
       {active
         ? `${durationToString(

@@ -5,10 +5,8 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import { ValentinesLetter } from '@worksheets/icons/valentines';
-import { useMediaQueryDown } from '@worksheets/ui/hooks/use-media-query';
 import { printShortDateTime } from '@worksheets/util/time';
-import { BasicRaffleDetails } from '@worksheets/util/types';
+import { EnteredRaffleSchema } from '@worksheets/util/types';
 import * as React from 'react';
 
 const StyledBox = styled(Box)(({ theme }) => ({
@@ -18,11 +16,8 @@ const StyledBox = styled(Box)(({ theme }) => ({
 }));
 
 export const ParticipationTable: React.FC<{
-  prizes: BasicRaffleDetails[];
-}> = ({ prizes }) => {
-  if (prizes.length === 0) {
-    return <EmptyParticipationTable />;
-  }
+  raffles: EnteredRaffleSchema[];
+}> = ({ raffles }) => {
   return (
     <TableContainer component={StyledBox}>
       <Table
@@ -33,68 +28,49 @@ export const ParticipationTable: React.FC<{
       >
         <TableHead>
           <TableRow>
-            <TableCell>ID</TableCell>
-            <TableCell>Name</TableCell>
-            <TableCell align="right">Expired</TableCell>
+            <TableCell>Raffle ID</TableCell>
+            <TableCell>Prize</TableCell>
+            <TableCell>Entries</TableCell>
+            <TableCell>Status</TableCell>
+            <TableCell>Expiration</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {prizes.map((prize) => (
+          {raffles.map((raffle) => (
             <TableRow
-              key={prize.id}
+              key={raffle.id}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell component="th" scope="row">
-                <Link href={`/prizes/${prize.id}`}>{prize.id}</Link>
+                <Link href={`/raffles/${raffle.id}`}>
+                  {raffle.id.slice(0, 10)}...
+                </Link>
               </TableCell>
-
+              <TableCell
+                sx={{
+                  fontWeight: 700,
+                }}
+              >
+                <Link href={`/prizes/${raffle.prizeId}`}>{raffle.name}</Link>
+              </TableCell>
+              <TableCell>{raffle.entries}</TableCell>
               <TableCell>
-                <b>{prize.name}</b>
+                <Typography
+                  fontWeight={700}
+                  color={
+                    raffle.expiresAt < Date.now()
+                      ? 'error.main'
+                      : 'success.main'
+                  }
+                >
+                  {raffle.expiresAt < Date.now() ? 'Expired' : 'Active'}
+                </Typography>
               </TableCell>
-              <TableCell align="right">
-                {printShortDateTime(prize.expiresAt)}
-              </TableCell>
+              <TableCell>{printShortDateTime(raffle.expiresAt)}</TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
     </TableContainer>
-  );
-};
-
-const EmptyParticipationTable = () => {
-  const isMobile = useMediaQueryDown('sm');
-  return (
-    <Box
-      sx={{
-        width: '100%',
-        display: 'grid',
-        placeItems: 'center',
-        flexDirection: 'column',
-        border: (theme) => `1px solid ${theme.palette.divider}`,
-        padding: 3,
-        gap: 2,
-      }}
-    >
-      <ValentinesLetter
-        sx={{
-          height: isMobile ? 100 : 150,
-          width: isMobile ? 100 : 150,
-          py: 2,
-        }}
-      />
-      <Typography typography={{ xs: 'h6', sm: 'h5', md: 'h4' }} color="error">
-        You haven't participated in any raffles yet
-      </Typography>
-      <Typography variant="body2">
-        Redeem your tokens for Raffle Tickets or Prizes.
-      </Typography>
-      <Typography variant="body2">
-        Play games and refer friends to earn more tokens.
-      </Typography>
-      <Link href="/help/prize-wall" variant="body1" color="error">
-        Learn More
-      </Link>
-    </Box>
   );
 };

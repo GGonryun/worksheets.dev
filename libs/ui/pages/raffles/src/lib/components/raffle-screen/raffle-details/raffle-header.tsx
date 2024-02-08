@@ -9,7 +9,16 @@ export const RaffleHeader: React.FC<{
   name: string;
   expiresAt: number;
   youWon: boolean;
-}> = ({ prizeId, headline, imageUrl, name, expiresAt, youWon }) => {
+  yourEntries: number;
+}> = ({
+  prizeId,
+  headline,
+  yourEntries,
+  imageUrl,
+  name,
+  expiresAt,
+  youWon,
+}) => {
   const expired = Date.now() > expiresAt;
   return (
     <Box
@@ -42,15 +51,17 @@ export const RaffleHeader: React.FC<{
       </Box>
       <Box
         position="relative"
-        sx={{ aspectRatio: '1/1', maxHeight: { xs: 128, sm: 256 } }}
+        sx={{ aspectRatio: '1/1', maxHeight: { xs: 180, sm: 300 } }}
       >
         <ContainImage priority src={imageUrl} alt={name} />
       </Box>
       <Typography
-        display={youWon || expired ? 'block' : 'none'}
+        display={yourEntries || youWon || expired ? 'block' : 'none'}
         typography={{ xs: 'body3', sm: 'body2' }}
         textAlign={'center'}
-        color={youWon ? 'success.main' : 'error.main'}
+        color={
+          youWon ? 'success.main' : expired ? 'error.main' : 'success.main'
+        }
         fontWeight={{ xs: 700, sm: 700 }}
         my={-1}
       >
@@ -62,8 +73,15 @@ export const RaffleHeader: React.FC<{
           >
             View Prize in Account
           </Link>
-        ) : (
+        ) : expired ? (
           'Raffle Expired'
+        ) : (
+          <Link
+            color="inherit"
+            href={`/account/prizes#${PrizesPanels.Raffles}`}
+          >
+            You have {yourEntries} entr{yourEntries > 1 ? 'ies' : 'y'}!
+          </Link>
         )}
       </Typography>
     </Box>

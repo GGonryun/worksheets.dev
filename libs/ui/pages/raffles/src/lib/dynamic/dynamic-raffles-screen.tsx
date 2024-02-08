@@ -1,25 +1,34 @@
 import { trpc } from '@worksheets/trpc-charity';
 import { LoadingBar } from '@worksheets/ui/components/loading';
-import { RaffleCategory } from '@worksheets/util/types';
+import { FilterableRaffleCategory } from '@worksheets/util/types';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { RafflesScreen } from '../components';
 
 const RafflesContainer = () => {
   const router = useRouter();
-  const search = router.query.search as string | undefined;
 
   const session = useSession();
   const isConnected = session.status === 'authenticated';
 
-  const [category, setCategory] = useState<RaffleCategory>('all');
-  const [query, setQuery] = useState<string>(search ?? '');
+  const [category, setCategory] =
+    useState<FilterableRaffleCategory>('expiring');
+  const [query, setQuery] = useState<string>('');
+
+  useEffect(() => {
+    const search = router.query.search as string | undefined;
+
+    if (search) {
+      setQuery(search);
+    }
+  }, [router.query.search]);
 
   const { data: hottestPrizes } = trpc.raffles.list.useQuery({
     category: 'hottest',
+    limit: 7,
   });
 
   const { data: listPrizes } = trpc.raffles.list.useQuery({
@@ -45,7 +54,7 @@ const RafflesContainer = () => {
       hottest={hottestPrizes ?? []}
       entered={enteredRaffles ?? []}
       list={listPrizes ?? []}
-      category={'active'}
+      category={category}
       setCategory={setCategory}
       searched={searchPrizes ?? []}
       query={query}

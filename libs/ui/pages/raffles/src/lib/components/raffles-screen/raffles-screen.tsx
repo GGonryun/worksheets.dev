@@ -1,5 +1,9 @@
 import { Box } from '@mui/material';
-import { FilterableRaffleCategory, RaffleSchema } from '@worksheets/util/types';
+import {
+  EnteredRaffleSchema,
+  FilterableRaffleCategory,
+  RaffleSchema,
+} from '@worksheets/util/types';
 
 import { CustomContainer } from '../shared/custom-container';
 import { FancySearch } from './fancy-search';
@@ -9,7 +13,7 @@ import { TitleText } from './title-text';
 
 export const RafflesScreen: React.FC<{
   hottest: RaffleSchema[];
-  entered: RaffleSchema[];
+  entered: EnteredRaffleSchema[];
   list: RaffleSchema[];
   category: FilterableRaffleCategory;
   setCategory: (c: FilterableRaffleCategory) => void;

@@ -92,6 +92,7 @@ export const AddFriendsSection: React.FC<{
         placeholder="awesome-friend-code-1234"
         size="small"
         label="Friend Code"
+        helperText="Friend codes are case-sensitive."
       />
       <Button
         onClick={handleAddFriend}

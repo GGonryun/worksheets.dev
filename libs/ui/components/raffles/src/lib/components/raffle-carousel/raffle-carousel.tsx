@@ -1,11 +1,17 @@
+import { PrizeType } from '@prisma/client';
 import { ArcadeItemCarousel } from '@worksheets/ui/components/arcade';
-import { RaffleSchema } from '@worksheets/util/types';
 import { ReactNode } from 'react';
 
 import { Raffle } from '../raffle';
 
 export const RaffleCarousel: React.FC<{
-  items: RaffleSchema[];
+  items: {
+    id: string;
+    name: string;
+    imageUrl: string;
+    expiresAt: number;
+    type: PrizeType;
+  }[];
   title: string;
   action?: ReactNode;
 }> = ({ items, title, action }) => {

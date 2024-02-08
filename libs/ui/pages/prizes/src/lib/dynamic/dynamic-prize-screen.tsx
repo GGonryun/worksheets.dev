@@ -1,6 +1,6 @@
 import { trpc } from '@worksheets/trpc-charity';
 import { LoadingScreen } from '@worksheets/ui/pages/loading';
-import { DetailedPrizeSchema, PrizeSchema } from '@worksheets/util/types';
+import { DetailedPrizeSchema } from '@worksheets/util/types';
 import dynamic from 'next/dynamic';
 
 import { PrizeScreen } from '../components';

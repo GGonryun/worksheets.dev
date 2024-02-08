@@ -51,12 +51,13 @@ export const PrizeScreen: React.FC<{
 const PrizeHeader: React.FC<{ prize: DetailedPrizeSchema }> = ({ prize }) => {
   const theme = useTheme();
   return (
-    <Box display="flex" flexDirection="column" gap={2}>
+    <Box display="flex" flexDirection="column" alignItems="center" gap={2}>
       <Typography variant="h4">{prize.name}</Typography>
       <Typography>{prize.headline}</Typography>
       <Box
-        width="auto"
+        width="100%"
         height="100%"
+        maxWidth={{ xs: '90%', sm: 600 }}
         position="relative"
         px={{ xs: 2, sm: 4 }}
         py={2}

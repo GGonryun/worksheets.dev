@@ -50,7 +50,7 @@ export const ActionBox = () => {
         New Games
       </Button>
       <Button
-        href={`${CHARITY_GAMES_BASE_URL}/prizes`}
+        href={`${CHARITY_GAMES_BASE_URL}/raffles`}
         variant="arcade"
         color="success"
         size={isMedium ? 'small' : 'medium'}

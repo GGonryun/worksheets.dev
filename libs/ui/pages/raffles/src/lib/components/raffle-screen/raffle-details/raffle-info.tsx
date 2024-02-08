@@ -199,10 +199,13 @@ const SectionHeaderTypography = styled<JSXElementConstructor<TypographyProps>>(
       variant="body3"
       fontWeight={500}
       textTransform="uppercase"
+      color="text.primary"
       {...props}
     />
   )
-)();
+)({
+  textDecorationColor: 'inherit',
+});
 
 const PrizeValueSection: React.FC<{ winners: number; value: number }> = ({
   winners,
@@ -230,7 +233,16 @@ const EntryFeeSection: React.FC<{ cost: number; entered: number }> = ({
       <Typography fontWeight={700}>{cost} Tokens</Typography>
     </Box>
     <Box width="50%">
-      <SectionHeaderTypography>Your Entries</SectionHeaderTypography>
+      <Typography
+        component={'a'}
+        variant="body3"
+        fontWeight={500}
+        textTransform="uppercase"
+        color="text.primary"
+        href={`/account/prizes#${PrizesPanels.Raffles}`}
+      >
+        Your Entries
+      </Typography>
       <Typography
         fontWeight={700}
         color={entered ? 'success.main' : 'text.primary'}
