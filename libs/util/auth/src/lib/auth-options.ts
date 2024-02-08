@@ -15,8 +15,12 @@ import GoogleProvider from 'next-auth/providers/google';
 import { customPrismaAdapter } from './prisma-adapter';
 import { googleRefreshAccessToken } from './refresh/google-oauth-refresh';
 
+const SEVEN_DAYS_IN_SECONDS = 60 * 60 * 24 * 7;
 export const AUTH_OPTIONS: AuthOptions = {
-  session: { strategy: 'jwt', maxAge: 3000 },
+  session: { strategy: 'jwt', maxAge: SEVEN_DAYS_IN_SECONDS },
+  jwt: {
+    maxAge: SEVEN_DAYS_IN_SECONDS,
+  },
   adapter: customPrismaAdapter(prisma),
   providers: [
     GoogleProvider({
@@ -118,6 +122,7 @@ export const AUTH_OPTIONS: AuthOptions = {
         ...session.user,
         id: token.sub ?? '',
       };
+
       return session;
     },
   },
