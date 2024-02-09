@@ -19,7 +19,7 @@ export const mockFriends: Friend[] = [
     friendshipId: '2',
     username: 'joey-jo-jo-junior-shabadoo-iii-esquire',
     lastSeen: hoursAgo(21).getTime(),
-    isFavorite: true,
+    isFavorite: false,
     giftSentAt: Date.now(),
   },
   {
@@ -33,7 +33,7 @@ export const mockFriends: Friend[] = [
     friendshipId: '4',
     username: 'kyle-the-bard',
     lastSeen: weeksAgo(2).getTime(),
-    isFavorite: false,
+    isFavorite: true,
     giftSentAt: Date.now(),
   },
   {

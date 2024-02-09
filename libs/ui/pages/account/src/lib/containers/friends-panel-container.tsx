@@ -153,10 +153,6 @@ export const FriendsPanelContainer: React.FC<{ refreshTimestamp: number }> = ({
     } catch (error) {
       handleError(error);
     }
-    // send a backend request to send the gift.
-    // clear the friend id.
-    // close the modal.
-    // trigger snackbar saying that the gift has been sent.
   };
 
   if (friends.isLoading) return <LoadingScreen />;

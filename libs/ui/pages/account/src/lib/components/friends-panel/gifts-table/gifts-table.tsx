@@ -22,6 +22,7 @@ import { printRelativeDate } from '@worksheets/util/time';
 import { Friend } from '@worksheets/util/types';
 import * as React from 'react';
 
+import { sortByGiftSentAt } from '../../../util/sorting';
 import { EmptyFriendsPlaceholder } from '../empty-friends-placeholder';
 
 const StyledBox = styled(Box)(({ theme }) => ({
@@ -35,13 +36,22 @@ export const GiftsTable: React.FC<{
   canSendGifts: boolean;
   onFavorite: (friend: Friend) => void;
   onSendGift: (friend: Friend) => void;
-}> = ({ friends, canSendGifts, onFavorite, onSendGift }) => {
+}> = ({ friends: mixedFriends, canSendGifts, onFavorite, onSendGift }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-  if (friends.length === 0) {
+  if (mixedFriends.length === 0) {
     return <EmptyFriendsPlaceholder />;
   }
+
+  const favorites = mixedFriends
+    .filter((f) => f.isFavorite)
+    .sort(sortByGiftSentAt);
+  const others = mixedFriends
+    .filter((f) => !f.isFavorite)
+    .sort(sortByGiftSentAt);
+
+  const friends = [...favorites, ...others];
 
   return (
     <TableContainer component={StyledBox}>

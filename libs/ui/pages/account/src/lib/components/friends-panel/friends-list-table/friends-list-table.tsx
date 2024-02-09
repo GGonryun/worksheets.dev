@@ -22,6 +22,8 @@ import { printRelativeDate } from '@worksheets/util/time';
 import { Friend } from '@worksheets/util/types';
 import * as React from 'react';
 
+import { sortByLastSeen } from '../../../util/sorting';
+
 const StyledBox = styled(Box)(({ theme }) => ({
   border: `1px solid ${theme.palette.divider}`,
   borderRadius: theme.shape.borderRadius,
@@ -32,9 +34,16 @@ export const FriendsListTable: React.FC<{
   friends: Friend[];
   onRemove: (friend: Friend) => void;
   onFavorite: (friend: Friend) => void;
-}> = ({ friends, onRemove, onFavorite }) => {
+}> = ({ friends: mixedFriends, onRemove, onFavorite }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
+  const favorites = mixedFriends
+    .filter((f) => f.isFavorite)
+    .sort(sortByLastSeen);
+  const others = mixedFriends.filter((f) => !f.isFavorite).sort(sortByLastSeen);
+
+  const friends = [...favorites, ...others];
 
   return (
     <TableContainer component={StyledBox}>
