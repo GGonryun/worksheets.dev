@@ -51,7 +51,10 @@ export const useBasicInformationForm = (
 
       // trigger snackbar
       if (result.okay) {
-        snackbar.trigger();
+        snackbar.trigger({
+          message: 'Profile updated!',
+          severity: 'success',
+        });
         setUpdated(false);
       } else {
         // display error on failed update
