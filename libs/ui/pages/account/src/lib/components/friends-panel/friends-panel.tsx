@@ -12,7 +12,7 @@ import {
 } from '@worksheets/icons/valentines';
 import { WebHeart } from '@worksheets/icons/web';
 import { FriendsPanels } from '@worksheets/util/enums';
-import { Friend } from '@worksheets/util/types';
+import { Follower, Friend } from '@worksheets/util/types';
 
 import { CollapsibleSection } from '../collapsible-section';
 import { usePanelController } from '../hooks/use-panel-controller';
@@ -26,12 +26,13 @@ export const FriendsPanel: React.FC<{
   addFriendCode?: string;
   bookmark: FriendsPanels | undefined;
   friends: Friend[];
+  followers: Follower[];
   refreshTimestamp: number;
   giftsRemaining: number;
   friendCode?: string;
   onRemove: (friend: Friend) => void;
   onFavorite: (friend: Friend) => void;
-  onAdd: (username: string) => void;
+  onAdd: (code: string) => void;
   onSendGift: (friend: Friend) => void;
 }> = (props) => {
   const { active, toggleActive } = usePanelController(props.bookmark);
@@ -73,14 +74,16 @@ export const FriendsPanel: React.FC<{
       <CollapsibleSection
         id={FriendsPanels.FriendsList}
         text="Friends List"
-        description="Manage your friends list. Add favorites, and remove friends."
+        description="Manage your followers, friends, and best friends."
         Icon={ValentinesHearts}
         status={<Diversity1Outlined fontSize="large" color="error" />}
         active={active}
         onClick={toggleActive}
       >
         <FriendsListSection
+          followers={props.followers}
           friends={props.friends}
+          onAdd={props.onAdd}
           onRemove={props.onRemove}
           onFavorite={props.onFavorite}
         />

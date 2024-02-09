@@ -46,7 +46,7 @@ const CustomButton: React.FC<{
     color={active === type ? 'secondary' : 'primary'}
     size="small"
     startIcon={active === type ? <Check /> : undefined}
-    sx={{ width: 'fit-content' }}
+    sx={{ width: 'fit-content', py: 0.5, px: 1 }}
     onClick={() => onClick(type)}
   >
     {buttonLabels[type]}

@@ -53,7 +53,7 @@ const NotificationListItem: React.FC<NotificationSchema> = ({
     alignItems="flex-start"
     gap={{ xs: 1, sm: 2 }}
     sx={{
-      backgroundColor: read
+      backgroundColor: !read
         ? (theme) => alpha(theme.palette.primary.main, 0.1)
         : undefined,
       boxSizing: 'border-box',

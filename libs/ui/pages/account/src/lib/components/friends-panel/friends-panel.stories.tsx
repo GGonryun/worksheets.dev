@@ -3,7 +3,7 @@ import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import { StoryWallpaper } from '@worksheets/ui/components/wallpaper';
 
-import { mockFriends } from '../mocks';
+import { mockFollowers, mockFriends } from '../mocks';
 import { FriendsPanel } from './friends-panel';
 
 type Story = Meta<typeof FriendsPanel>;
@@ -13,6 +13,7 @@ const Default: Story = {
   args: {
     onRemove: action('onRemove'),
     onFavorite: action('onFavorite'),
+    onAdd: action('onAdd'),
   },
   decorators: [
     (Story) => (
@@ -29,6 +30,7 @@ export default Default;
 export const Empty: Story = {
   args: {
     friends: [],
+    followers: [],
     refreshTimestamp: Date.now() + 1000 * 60 * 60 * 3,
     friendCode: 'ABC123',
     giftsRemaining: 5,
@@ -38,6 +40,17 @@ export const Empty: Story = {
 export const WithFriends: Story = {
   args: {
     friends: mockFriends,
+    followers: [],
+    refreshTimestamp: Date.now() + 1000 * 60 * 60 * 12,
+    friendCode: 'ABC123',
+    giftsRemaining: 5,
+  },
+};
+
+export const WithFollowers: Story = {
+  args: {
+    friends: mockFriends,
+    followers: mockFollowers,
     refreshTimestamp: Date.now() + 1000 * 60 * 60 * 12,
     friendCode: 'ABC123',
     giftsRemaining: 5,
@@ -47,6 +60,7 @@ export const WithFriends: Story = {
 export const SentGifts: Story = {
   args: {
     friends: mockFriends,
+    followers: mockFollowers,
     refreshTimestamp: Date.now() + 1000 * 60 * 60 * 12,
     friendCode: 'ABC123',
     giftsRemaining: 0,

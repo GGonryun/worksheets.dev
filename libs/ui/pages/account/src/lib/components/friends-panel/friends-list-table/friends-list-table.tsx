@@ -22,8 +22,6 @@ import { printRelativeDate } from '@worksheets/util/time';
 import { Friend } from '@worksheets/util/types';
 import * as React from 'react';
 
-import { EmptyFriendsPlaceholder } from '../table-placeholder';
-
 const StyledBox = styled(Box)(({ theme }) => ({
   border: `1px solid ${theme.palette.divider}`,
   borderRadius: theme.shape.borderRadius,
@@ -38,18 +36,9 @@ export const FriendsListTable: React.FC<{
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-  if (friends.length === 0) {
-    return <EmptyFriendsPlaceholder />;
-  }
-
   return (
     <TableContainer component={StyledBox}>
-      <Table
-        size="small"
-        sx={{
-          minWidth: 400,
-        }}
-      >
+      <Table size="small">
         <TableHead>
           <TableRow sx={{ th: { textWrap: 'nowrap' } }}>
             <TableCell align="left" width={32}>
@@ -91,7 +80,7 @@ export const FriendsListTable: React.FC<{
         <TableBody>
           {friends.map((friend) => (
             <TableRow
-              key={friend.id}
+              key={friend.friendshipId}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell align="left" width={32}>
@@ -125,7 +114,7 @@ export const FriendsListTable: React.FC<{
                 </Tooltip>
               </TableCell>
 
-              <TableCell>{friend.username ?? friend.id}</TableCell>
+              <TableCell>{friend.username}</TableCell>
 
               <TableCell
                 align="center"

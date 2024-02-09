@@ -36,7 +36,9 @@ export const FriendsPanelContainer: React.FC<{ refreshTimestamp: number }> = ({
   const [sendGiftFriendship, setSendGiftFriendship] = useState<
     Friend | undefined
   >(undefined);
-  const [addFriendUsername, setAddFriendUsername] = useState<string>('');
+  const [friendRequest, setFriendRequest] = useState<
+    { username: string; code: string } | undefined
+  >(undefined);
 
   const friends = trpc.user.friends.list.useQuery(undefined);
 
@@ -57,18 +59,20 @@ export const FriendsPanelContainer: React.FC<{ refreshTimestamp: number }> = ({
     }
   };
 
-  const handleFindFriend = async (username: string) => {
+  const handleFindFriend = async (code: string) => {
     try {
-      await findFriend.mutateAsync({ code: username });
-      setAddFriendUsername(username);
+      const { username } = await findFriend.mutateAsync({ code });
+      setFriendRequest({ username, code });
     } catch (error) {
       handleError(error);
     }
   };
 
   const handleAddFriend = async () => {
+    if (!friendRequest) return;
+
     try {
-      await addFriend.mutateAsync({ code: addFriendUsername });
+      await addFriend.mutateAsync(friendRequest);
       await friends.refetch();
       push(`/account/friends#${FriendsPanels.FriendsList}`, undefined, {
         shallow: true,
@@ -77,7 +81,7 @@ export const FriendsPanelContainer: React.FC<{ refreshTimestamp: number }> = ({
       snackbar.trigger({
         message: (
           <>
-            You are now friends with <b>{addFriendUsername}</b>!
+            You are now friends with <b>{friendRequest.username}</b>!
           </>
         ),
         severity: 'success',
@@ -91,7 +95,9 @@ export const FriendsPanelContainer: React.FC<{ refreshTimestamp: number }> = ({
     if (!removeFriendship) return;
 
     try {
-      await removeFriend.mutateAsync({ friendshipId: removeFriendship.id });
+      await removeFriend.mutateAsync({
+        friendshipId: removeFriendship.friendshipId,
+      });
       await friends.refetch();
 
       snackbar.trigger({
@@ -111,8 +117,9 @@ export const FriendsPanelContainer: React.FC<{ refreshTimestamp: number }> = ({
   const handleFavoriteFriend = async (friend: Friend) => {
     try {
       const result = await favoriteFriend.mutateAsync({
-        friendshipId: friend.id,
+        friendshipId: friend.friendshipId,
       });
+
       await friends.refetch();
 
       snackbar.trigger({
@@ -132,7 +139,9 @@ export const FriendsPanelContainer: React.FC<{ refreshTimestamp: number }> = ({
   const handleSendGift = async () => {
     if (!sendGiftFriendship) return;
     try {
-      await sendGift.mutateAsync({ friendshipId: sendGiftFriendship.id });
+      await sendGift.mutateAsync({
+        friendshipId: sendGiftFriendship.friendshipId,
+      });
       await friends.refetch();
 
       snackbar.trigger({
@@ -159,7 +168,8 @@ export const FriendsPanelContainer: React.FC<{ refreshTimestamp: number }> = ({
       <FriendsPanel
         addFriendCode={addFriendCode}
         bookmark={bookmark}
-        friends={friends.data.list}
+        friends={friends.data.friends}
+        followers={friends.data.followers}
         refreshTimestamp={refreshTimestamp}
         giftsRemaining={friends.data.giftsRemaining}
         friendCode={friends.data.code}
@@ -174,10 +184,10 @@ export const FriendsPanelContainer: React.FC<{ refreshTimestamp: number }> = ({
         onRemove={handleRemoveFriend}
       />
       <AddFriendModal
-        open={Boolean(addFriendUsername)}
-        friendUsername={addFriendUsername}
+        open={Boolean(friendRequest)}
+        friendUsername={friendRequest?.username ?? 'ERROR'}
         onClose={() => {
-          setAddFriendUsername('');
+          setFriendRequest(undefined);
         }}
         onAdd={handleAddFriend}
       />

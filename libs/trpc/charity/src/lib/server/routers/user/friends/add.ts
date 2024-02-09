@@ -7,30 +7,37 @@ import { protectedProcedure } from '../../../procedures';
 export default protectedProcedure
   .input(
     z.object({
-      // TODO: for now we're using the username as the code
-      code: z.string(),
+      code: z.string(), // the referral code is used as a friend code too
     })
   )
-  .mutation(async ({ ctx: { db, user }, input: { code: username } }) => {
-    console.info('user is adding friend with code', { username });
+  .mutation(async ({ ctx: { db, user }, input: { code } }) => {
+    console.info('user is adding friend with code', { referralCode: code });
 
-    const friendUser = await db.user.findFirst({
+    const profile = await db.referralCode.findFirst({
       where: {
-        username,
+        code,
+      },
+      select: {
+        user: {
+          select: {
+            id: true,
+            username: true,
+          },
+        },
       },
     });
 
-    if (!friendUser) {
+    if (!profile) {
       throw new TRPCError({
         code: 'NOT_FOUND',
-        message: 'A user with that username does not exist.',
+        message: 'A user with that friend code does not exist.',
       });
     }
 
     const friendship = await db.friendship.findFirst({
       where: {
         userId: user.id,
-        friendId: friendUser.id,
+        friendId: profile.user.id,
       },
     });
 
@@ -41,18 +48,31 @@ export default protectedProcedure
       });
     }
 
+    const referral = await db.referralCode.findFirst({
+      where: {
+        userId: user.id,
+      },
+    });
+
+    if (!referral) {
+      throw new TRPCError({
+        code: 'NOT_FOUND',
+        message: 'You do not have a referral code set. Contact support.',
+      });
+    }
+
     await db.friendship.create({
       data: {
         userId: user.id,
-        friendId: friendUser.id,
+        friendId: profile.user.id,
       },
     });
 
     await db.notification.create({
       data: {
-        userId: friendUser.id,
+        userId: profile.user.id,
         type: 'FRIEND',
-        text: `<b>${user.username}</b> has added you as a friend! Visit your <a href="/account/friends#${FriendsPanels.AddFriends}">friends list</a> to add them back.`,
+        text: `<b>${user.username}</b> has started <a href="/account/friends#${FriendsPanels.FriendsList}">following you</a>!`,
       },
     });
   });

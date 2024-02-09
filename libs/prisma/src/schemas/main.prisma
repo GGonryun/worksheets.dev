@@ -123,7 +123,7 @@ model ReferralCode {
   id     String @id @default(cuid())
   code   String @unique
   userId String @unique
-  User   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 enum ReportReason {

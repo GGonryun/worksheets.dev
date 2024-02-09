@@ -22,7 +22,7 @@ import { printRelativeDate } from '@worksheets/util/time';
 import { Friend } from '@worksheets/util/types';
 import * as React from 'react';
 
-import { EmptyFriendsPlaceholder } from '../table-placeholder';
+import { EmptyFriendsPlaceholder } from '../empty-friends-placeholder';
 
 const StyledBox = styled(Box)(({ theme }) => ({
   border: `1px solid ${theme.palette.divider}`,
@@ -45,12 +45,7 @@ export const GiftsTable: React.FC<{
 
   return (
     <TableContainer component={StyledBox}>
-      <Table
-        size="small"
-        sx={{
-          minWidth: 400,
-        }}
-      >
+      <Table size="small">
         <TableHead>
           <TableRow sx={{ th: { textWrap: 'nowrap' } }}>
             <TableCell align="left" width={32}>
@@ -85,7 +80,7 @@ export const GiftsTable: React.FC<{
         <TableBody>
           {friends.map((friend) => (
             <TableRow
-              key={friend.id}
+              key={friend.friendshipId}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell align="left" width={32}>
@@ -101,7 +96,7 @@ export const GiftsTable: React.FC<{
                 </IconButton>
               </TableCell>
 
-              <TableCell>{friend.username ?? friend.id}</TableCell>
+              <TableCell>{friend.username}</TableCell>
 
               <TableCell
                 align="center"

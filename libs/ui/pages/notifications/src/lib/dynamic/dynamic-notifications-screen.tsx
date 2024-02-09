@@ -26,6 +26,8 @@ const NotificationsScreenContainer = () => {
       ids: notifications.data?.map((n) => n.id) ?? [],
     });
 
+    await notifications.refetch();
+
     snackbar.trigger({
       message: 'All notifications cleared',
       severity: 'success',

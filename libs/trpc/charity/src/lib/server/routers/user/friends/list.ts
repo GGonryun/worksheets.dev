@@ -1,5 +1,5 @@
 import { TRPCError } from '@trpc/server';
-import { friendSchema } from '@worksheets/util/types';
+import { followerSchema, friendSchema } from '@worksheets/util/types';
 import { z } from 'zod';
 
 import { protectedProcedure } from '../../../procedures';
@@ -7,37 +7,80 @@ import { protectedProcedure } from '../../../procedures';
 export default protectedProcedure
   .output(
     z.object({
-      list: z.array(friendSchema),
+      friends: z.array(friendSchema),
+      followers: z.array(followerSchema),
       giftsRemaining: z.number(),
-      code: z.string().optional(), // code is the username for now.
+      code: z.string(), // equal to the referral code
     })
   )
   .query(async ({ ctx: { db, user } }) => {
     const userId = user.id;
+
     console.info('finding user friendships', { userId });
 
-    const friendships = await db.friendship.findMany({
+    const profile = await db.user.findFirst({
       where: {
-        userId,
+        id: userId,
       },
-      include: {
-        friend: {
+      select: {
+        rewards: {
           select: {
-            lastSeen: true,
-            username: true,
-            createdAt: true,
+            sharableGiftBoxes: true,
+          },
+        },
+        referralCode: {
+          select: {
+            code: true,
+          },
+        },
+        friends: {
+          select: {
+            id: true,
+            isFavorite: true,
+            giftSentAt: true,
+            friend: {
+              select: {
+                lastSeen: true,
+                username: true,
+                createdAt: true,
+              },
+            },
+          },
+        },
+        followers: {
+          select: {
+            id: true,
+            user: {
+              select: {
+                username: true,
+                referralCode: {
+                  select: {
+                    code: true,
+                  },
+                },
+              },
+            },
           },
         },
       },
     });
 
-    const rewards = await db.rewards.findFirst({
-      where: {
-        userId,
-      },
-    });
+    if (!profile) {
+      throw new TRPCError({
+        code: 'NOT_FOUND',
+        message: 'Could not find user profile. Contact support for assistance.',
+      });
+    }
 
-    if (!rewards) {
+    if (!profile.referralCode) {
+      throw new TRPCError({
+        code: 'NOT_FOUND',
+        message:
+          'Could not find user referral code. Contact support for assistance.',
+      });
+    }
+
+    if (!profile.rewards) {
       throw new TRPCError({
         code: 'NOT_FOUND',
         message: 'Could not find user rewards. Contact support for assistance.',
@@ -45,10 +88,10 @@ export default protectedProcedure
     }
 
     return {
-      code: user.username,
-      giftsRemaining: rewards.sharableGiftBoxes,
-      list: friendships.map((friendship) => ({
-        id: friendship.id,
+      code: profile.referralCode.code,
+      giftsRemaining: profile.rewards.sharableGiftBoxes,
+      friends: profile.friends.map((friendship) => ({
+        friendshipId: friendship.id,
         username: friendship.friend.username,
         // this is the last time they played a game or performed a reward action.
         lastSeen:
@@ -56,6 +99,14 @@ export default protectedProcedure
           friendship.friend.createdAt.getTime(),
         isFavorite: friendship.isFavorite,
         giftSentAt: friendship.giftSentAt?.getTime() ?? null,
+      })),
+      followers: profile.followers.map((follower) => ({
+        friendshipId: follower.id,
+        username: follower.user.username,
+        friendCode: follower.user?.referralCode?.code ?? 'ERROR',
+        isFriend: profile.friends.some(
+          (friendship) => friendship.friend.username === follower.user.username
+        ),
       })),
     };
   });

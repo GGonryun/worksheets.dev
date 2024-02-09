@@ -19,7 +19,7 @@ export type Referral = {
 };
 
 export const friendSchema = z.object({
-  id: z.string(),
+  friendshipId: z.string(),
   username: z.string(),
   lastSeen: z.number(),
   isFavorite: z.boolean(),
@@ -27,3 +27,12 @@ export const friendSchema = z.object({
 });
 
 export type Friend = z.infer<typeof friendSchema>;
+
+export const followerSchema = z.object({
+  friendshipId: z.string(),
+  username: z.string(),
+  friendCode: z.string(),
+  isFriend: z.boolean(),
+});
+
+export type Follower = z.infer<typeof followerSchema>;
