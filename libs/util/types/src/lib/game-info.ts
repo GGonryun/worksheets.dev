@@ -10,4 +10,5 @@ export const basicGameDetailsSchema = z.object({
   id: z.string(),
   name: z.string(),
 });
+
 export type BasicGameDetails = z.infer<typeof basicGameDetailsSchema>;

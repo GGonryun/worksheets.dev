@@ -14,7 +14,6 @@ const Default: Story = {
   args: {
     onClaimDailyReward: action('onClaimDailyGift'),
     onClaimGiftBox: action('onClaimGiftBox'),
-    recentGames: basicGameDetails,
     bonusGames: basicGameDetails,
   },
   decorators: [

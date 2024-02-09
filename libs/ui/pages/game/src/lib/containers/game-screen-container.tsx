@@ -69,7 +69,7 @@ const GameScreenContainer: React.FC<{
         ),
         severity: 'success',
       });
-    } else {
+    } else if (referralCode) {
       await rewardAnonymous.mutateAsync({ referralCode });
       snackbar.trigger({
         message: <LoginToEarnTokensSnackbarMessage href={loginHref} />,

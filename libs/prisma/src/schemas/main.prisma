@@ -43,6 +43,7 @@ model User {
   // raffles
   raffleTickets    RaffleTicket[]
   activationCodes  ActivationCodeAssignment[]
+  notifications    Notification[]
 }
 
 model Account {
@@ -365,7 +366,7 @@ model RaffleTicket {
   user      User           @relation(fields: [userId], references: [id])
   // raffle the ticket is for
   raffleId  String
-  raffle    Raffle         @relation(fields: [raffleId], references: [id])
+  raffle    Raffle         @relation(fields: [raffleId], references: [id], onDelete: Cascade)
   // analytics
   createdAt DateTime       @default(now())
   updatedAt DateTime       @updatedAt
@@ -419,4 +420,23 @@ model ActivationCodeAssignment {
   // the user who claimed the code if purchased directly.
   userId           String?
   user             User?          @relation(fields: [userId], references: [id])
+}
+
+enum NotificationType {
+  SYSTEM
+  FRIEND
+  RAFFLE
+  REWARD
+  GAME
+}
+
+model Notification {
+  id        String           @id @default(cuid())
+  type      NotificationType
+  text      String           @db.VarChar(511)
+  read      Boolean          @default(false)
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+  userId    String
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

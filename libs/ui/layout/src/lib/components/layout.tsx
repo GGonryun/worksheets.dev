@@ -1,6 +1,7 @@
 import Box from '@mui/material/Box';
 import MuiToolbar from '@mui/material/Toolbar';
 import { WebsiteBackground } from '@worksheets/ui/components/wallpaper';
+import React from 'react';
 
 import { LayoutLinks } from '../types';
 import { WebsiteFooter } from './footer';
@@ -8,16 +9,16 @@ import { Toolbar } from './toolbar';
 
 type LayoutProps = {
   children: React.ReactNode;
-  connected?: boolean;
   links?: LayoutLinks;
-  disableLogin?: boolean;
+  notificationButton?: React.ReactNode;
+  connectionButton?: React.ReactNode;
 };
 
 export const Layout: React.FC<LayoutProps> = ({
   children,
-  connected,
+  connectionButton,
   links,
-  disableLogin,
+  notificationButton,
 }) => {
   return (
     <Box
@@ -30,8 +31,8 @@ export const Layout: React.FC<LayoutProps> = ({
     >
       <WebsiteBackground />
       <Toolbar
-        disableLogin={disableLogin}
-        connected={connected ?? false}
+        notificationButton={notificationButton}
+        connectionButton={connectionButton}
         loginHref={links?.login ?? '/login'}
         accountHref={links?.account ?? '/account'}
       />

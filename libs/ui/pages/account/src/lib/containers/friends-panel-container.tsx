@@ -7,7 +7,6 @@ import { useBookmark } from '@worksheets/ui-core';
 import { FriendsPanels } from '@worksheets/util/enums';
 import { Friend } from '@worksheets/util/types';
 import { useRouter } from 'next/router';
-import { useSession } from 'next-auth/react';
 import { useState } from 'react';
 
 import {
@@ -27,9 +26,9 @@ export const FriendsPanelContainer: React.FC<{ refreshTimestamp: number }> = ({
   refreshTimestamp,
 }) => {
   const bookmark = useBookmark<FriendsPanels>();
-  const session = useSession();
   const snackbar = useSnackbar();
-  const { push } = useRouter();
+  const { query, push } = useRouter();
+  const addFriendCode = query.code as string | undefined;
 
   const [removeFriendship, setRemoveFriendship] = useState<Friend | undefined>(
     undefined
@@ -38,11 +37,8 @@ export const FriendsPanelContainer: React.FC<{ refreshTimestamp: number }> = ({
     Friend | undefined
   >(undefined);
   const [addFriendUsername, setAddFriendUsername] = useState<string>('');
-  const enabled = session.status === 'authenticated';
 
-  const friends = trpc.user.friends.list.useQuery(undefined, {
-    enabled,
-  });
+  const friends = trpc.user.friends.list.useQuery(undefined);
 
   const removeFriend = trpc.user.friends.remove.useMutation();
   const favoriteFriend = trpc.user.friends.favorite.useMutation();
@@ -161,6 +157,7 @@ export const FriendsPanelContainer: React.FC<{ refreshTimestamp: number }> = ({
   return (
     <>
       <FriendsPanel
+        addFriendCode={addFriendCode}
         bookmark={bookmark}
         friends={friends.data.list}
         refreshTimestamp={refreshTimestamp}

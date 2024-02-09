@@ -1,7 +1,10 @@
 import { Diversity1Outlined } from '@mui/icons-material';
 import { Box, Typography } from '@mui/material';
 import { ClipboardText } from '@worksheets/ui/components/inputs';
-import { SocialButtons } from '@worksheets/ui/components/social-media';
+import {
+  shareReferralIntent,
+  SocialButtons,
+} from '@worksheets/ui/components/social-media';
 import { shorthandNumber } from '@worksheets/util/numbers';
 
 export const ReferralInfo: React.FC<{
@@ -28,7 +31,7 @@ export const ReferralInfo: React.FC<{
           }}
         >
           <Typography variant="h6">Share your link</Typography>
-          <SocialButtons facebook={'#'} twitter={'#'} reddit={'#'} />
+          <SocialButtonsWrapper link={link} />
         </Box>
         <ClipboardText text={link} label="My Referral Link" />
       </Box>
@@ -48,4 +51,10 @@ export const ReferralInfo: React.FC<{
       </Box>
     </Box>
   );
+};
+
+const SocialButtonsWrapper: React.FC<{ link: string }> = ({ link }) => {
+  const intent = shareReferralIntent(link);
+
+  return <SocialButtons facebook={intent.facebook} twitter={intent.twitter} />;
 };

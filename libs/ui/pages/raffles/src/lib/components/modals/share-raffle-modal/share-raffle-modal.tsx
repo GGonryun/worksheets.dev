@@ -5,7 +5,7 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import { ClipboardText } from '@worksheets/ui/components/inputs';
 import {
-  sharePrize,
+  shareRaffleIntent,
   SocialButtons,
 } from '@worksheets/ui/components/social-media';
 import { CHARITY_GAMES_BASE_URL } from '@worksheets/ui/env';
@@ -19,7 +19,6 @@ export const ShareRaffleModal: FC<
   }>
 > = ({ id, name, open, onClose }) => {
   const url = `${CHARITY_GAMES_BASE_URL}/raffles/${id}`;
-  const title = `Play ${name} on Charity.Games and earn money for charity!`;
 
   const handleClose = () => {
     onClose && onClose({}, 'backdropClick');
@@ -45,7 +44,7 @@ export const ShareRaffleModal: FC<
           <Typography typography={{ xs: 'h6', sm: 'h5' }}>
             Share this Raffle
           </Typography>
-          <SocialButtonsWrapper title={title} url={url} />
+          <SocialButtonsWrapper name={name} id={id} />
           <Box mt={1} mb={3}>
             <ClipboardText text={url} />
           </Box>
@@ -58,20 +57,11 @@ export const ShareRaffleModal: FC<
   );
 };
 
-const SocialButtonsWrapper: FC<{ title: string; url: string }> = ({
-  title,
-  url,
+const SocialButtonsWrapper: React.FC<{ name: string; id: string }> = ({
+  id,
+  name,
 }) => {
-  const encodedProps = {
-    title: encodeURIComponent(title),
-    url: encodeURIComponent(url),
-  };
+  const intent = shareRaffleIntent({ name, id });
 
-  return (
-    <SocialButtons
-      twitter={sharePrize.twitter(encodedProps)}
-      facebook={sharePrize.facebook(encodedProps)}
-      reddit={sharePrize.reddit(encodedProps)}
-    />
-  );
+  return <SocialButtons facebook={intent.facebook} twitter={intent.twitter} />;
 };

@@ -1,5 +1,6 @@
 import { Add, FavoriteBorder, InfoOutlined } from '@mui/icons-material';
 import {
+  Alert,
   Box,
   Button,
   Divider,
@@ -8,22 +9,30 @@ import {
   Typography,
 } from '@mui/material';
 import { ClipboardText } from '@worksheets/ui/components/inputs';
-import { SocialButtons } from '@worksheets/ui/components/social-media';
-import { FriendsPanels, ReferralsPanels } from '@worksheets/util/enums';
+import {
+  addFriendsIntent,
+  SocialButtons,
+} from '@worksheets/ui/components/social-media';
+import {
+  FriendsPanels,
+  ReferralsPanels,
+  SettingsPanels,
+} from '@worksheets/util/enums';
 import { useState } from 'react';
 
 import { BulletPoints } from '../../bullet-points';
 import { PanelFooter } from '../../panel-footer';
 
 export const AddFriendsSection: React.FC<{
-  friendCode: string;
+  addFriendCode?: string;
+  friendCode?: string;
   onAdd: (username: string) => void;
 }> = (props) => {
   const referralsHref = `/account/referrals#${ReferralsPanels.ShareYourLink}`;
   const friendsListHref = `/account/friends#${FriendsPanels.FriendsList}`;
   const shareGiftsHref = `/account/friends#${FriendsPanels.SendGifts}`;
 
-  const [username, setUsername] = useState('');
+  const [username, setUsername] = useState(props.addFriendCode || '');
   const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(e.target.value);
   };
@@ -58,17 +67,25 @@ export const AddFriendsSection: React.FC<{
           }}
         >
           <Typography variant="h6">Share your Friend Code</Typography>
-          <SocialButtons
-            facebook={'#TODO'}
-            twitter={'#TODO'}
-            reddit={'#TODO'}
-          />
+          {props.friendCode && (
+            <SocialButtonsWrapper friendCode={props.friendCode} />
+          )}
         </Box>
-        <ClipboardText text={props.friendCode} label="My Friend Code" />
+        {!props.friendCode ? (
+          <Alert severity="error" sx={{ mb: 1 }}>
+            <Link href={`/account#${SettingsPanels.EditProfile}`}>
+              Your profile is incomplete!
+            </Link>{' '}
+            Pick a username to get your friend code. You can share your friend
+            code with your friends to earn tokens together.
+          </Alert>
+        ) : (
+          <ClipboardText text={props.friendCode} label="My Friend Code" />
+        )}
       </Box>
       <Box
         sx={{
-          display: 'flex',
+          display: props.friendCode ? 'flex' : 'none',
           alignItems: 'center',
           gap: 1,
         }}
@@ -137,4 +154,12 @@ export const AddFriendsSection: React.FC<{
       />
     </Box>
   );
+};
+
+const SocialButtonsWrapper: React.FC<{ friendCode: string }> = ({
+  friendCode,
+}) => {
+  const intent = addFriendsIntent({ friendCode });
+
+  return <SocialButtons facebook={intent.facebook} twitter={intent.twitter} />;
 };

@@ -1,5 +1,6 @@
 import { prisma } from '@worksheets/prisma';
 import { CRON_SECRET, IS_PRODUCTION } from '@worksheets/services/environment';
+import { TokensPanels } from '@worksheets/util/enums';
 import {
   MAX_DAILY_GIFT_BOX_SHARES,
   MAX_TOKENS_FROM_GAME_PLAY_PER_DAY,
@@ -28,11 +29,23 @@ export default async function handler(
 
 // find all friends that have been sent a gift in the last 48 hours.
 // use a two day window to account for timezones and other edge cases.
-const resetRewards = async () =>
-  prisma.rewards.updateMany({
+const resetRewards = async () => {
+  const updating = await prisma.rewards.findMany({
     where: {
       updatedAt: {
         gte: new Date(Date.now() - 48 * 60 * 60 * 1000),
+      },
+    },
+    select: {
+      id: true,
+      userId: true,
+    },
+  });
+
+  const updateRewards = prisma.rewards.updateMany({
+    where: {
+      id: {
+        in: updating.map((reward) => reward.id),
       },
     },
     data: {
@@ -42,6 +55,17 @@ const resetRewards = async () =>
       claimedDailyReward: null,
     },
   });
+
+  const sendNotifications = prisma.notification.createMany({
+    data: updating.map((reward) => ({
+      userId: reward.userId,
+      text: `Your daily reward has reset! Visit your <a href="/account/tokens#${TokensPanels.DailyReward}">account</a> to claim your daily reward.`,
+      type: 'REWARD',
+    })),
+  });
+
+  await Promise.all([updateRewards, sendNotifications]);
+};
 
 // clear all the giftSentAt fields.
 // use a two day window to account for timezones and other edge cases.

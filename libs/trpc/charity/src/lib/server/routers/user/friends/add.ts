@@ -1,4 +1,5 @@
 import { TRPCError } from '@trpc/server';
+import { FriendsPanels } from '@worksheets/util/enums';
 import { z } from 'zod';
 
 import { protectedProcedure } from '../../../procedures';
@@ -44,6 +45,14 @@ export default protectedProcedure
       data: {
         userId: user.id,
         friendId: friendUser.id,
+      },
+    });
+
+    await db.notification.create({
+      data: {
+        userId: friendUser.id,
+        type: 'FRIEND',
+        text: `<b>${user.username}</b> has added you as a friend! Visit your <a href="/account/friends#${FriendsPanels.AddFriends}">friends list</a> to add them back.`,
       },
     });
   });

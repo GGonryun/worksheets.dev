@@ -9,11 +9,7 @@ export default publicProcedure
       referralCode: z.string(),
     })
   )
-  .output(
-    z.object({
-      okay: z.boolean(),
-    })
-  )
+  .output(z.boolean())
   .mutation(async ({ input: { referralCode }, ctx: { db } }) => {
     const referral = await db.referralCode.findFirst({
       where: {
@@ -23,7 +19,7 @@ export default publicProcedure
 
     if (!referral) {
       console.warn('Referral code does not exist', { referralCode });
-      return { okay: false };
+      return false;
     }
 
     const rewards = await db.rewards.findFirst({
@@ -33,15 +29,15 @@ export default publicProcedure
     });
 
     if (!rewards) {
-      console.error('Rewards not found', { userId: referral.userId });
-      return { okay: false };
+      console.error('Rewards not found for user', { userId: referral.userId });
+      return false;
     }
 
     if (rewards.availableReferralTokens <= 0) {
       console.info('All referral tokens consumed for user', {
         userId: referral.userId,
       });
-      return { okay: false };
+      return false;
     }
 
     await db.rewards.update({
@@ -59,7 +55,5 @@ export default publicProcedure
     });
 
     console.info(`Added referral game play reward`, { referral: referral.id });
-    return {
-      okay: true,
-    };
+    return true;
   });

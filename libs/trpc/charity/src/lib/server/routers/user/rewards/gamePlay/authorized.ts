@@ -1,4 +1,6 @@
-import { PrismaClient } from '@prisma/client';
+import { Prisma, PrismaClient } from '@prisma/client';
+import { TRPCError } from '@trpc/server';
+import { TokensPanels } from '@worksheets/util/enums';
 import {
   BONUS_GAMES_MULTIPLIER,
   dailyBonusGames,
@@ -27,8 +29,25 @@ export default protectedProcedure
     const userId = user.id;
     console.info(`registering game play for user`, { userId, gameId });
 
+    const game = await db.game.findFirst({
+      where: {
+        id: gameId,
+      },
+      select: {
+        id: true,
+        title: true,
+      },
+    });
+
+    if (!game) {
+      throw new TRPCError({
+        code: 'NOT_FOUND',
+        message: 'Game not found',
+      });
+    }
+
     const [result] = await Promise.all([
-      giveUserReward(db, userId, gameId),
+      giveUserReward(db, userId, game),
       giveRefererReward(db, user.referredByUserId),
     ]);
 
@@ -39,10 +58,17 @@ export default protectedProcedure
     };
   });
 
+type GameType = Prisma.GameGetPayload<{
+  select: {
+    id: true;
+    title: true;
+  };
+}>;
+
 const giveUserReward = async (
   db: PrismaClient,
   userId: string,
-  gameId: string
+  game: GameType
 ) => {
   const rewards = await db.rewards.findFirst({
     where: {
@@ -62,27 +88,30 @@ const giveUserReward = async (
 
   // roll for gift box
   const wonGiftBox = Math.random() < GIFT_BOX_DROP_RATE / 100;
-  const isBonusGame = dailyBonusGames.some((game) => game.id === gameId);
+  const isBonusGame = dailyBonusGames.some((g) => g.id === game.id);
   const tokenMultiplier = isBonusGame ? BONUS_GAMES_MULTIPLIER : 1;
   const possibleTokensEarned = MAX_TOKENS_PER_GAME * tokenMultiplier;
   const tokensEarned = Math.floor(Math.random() * possibleTokensEarned) + 1;
 
-  await db.rewards.update({
-    where: {
-      id: rewards.id,
-    },
-    data: {
-      giftBoxes: {
-        increment: wonGiftBox ? 1 : 0,
+  await Promise.all([
+    sendNotificationOnGiftBox(db, userId, game, wonGiftBox),
+    db.rewards.update({
+      where: {
+        id: rewards.id,
       },
-      availableGamePlayTokens: {
-        decrement: tokensEarned,
+      data: {
+        giftBoxes: {
+          increment: wonGiftBox ? 1 : 0,
+        },
+        availableGamePlayTokens: {
+          decrement: tokensEarned,
+        },
+        totalTokens: {
+          increment: tokensEarned,
+        },
       },
-      totalTokens: {
-        increment: tokensEarned,
-      },
-    },
-  });
+    }),
+  ]);
 
   console.info(`Added game play reward for user`, {
     wonGiftBox,
@@ -91,6 +120,23 @@ const giveUserReward = async (
   });
 
   return { wonGiftBox, tokensEarned };
+};
+
+const sendNotificationOnGiftBox = async (
+  db: PrismaClient,
+  userId: string,
+  game: GameType,
+  wonGiftBox: boolean
+) => {
+  if (wonGiftBox) {
+    await db.notification.create({
+      data: {
+        userId,
+        type: 'REWARD',
+        text: `You found a gift box while playing <a href="/play/${game.id}">${game.title}</a>! Visit your <a href="/account/tokens#${TokensPanels.GiftBoxes}">account</a> to claim your reward.`,
+      },
+    });
+  }
 };
 
 const giveRefererReward = async (

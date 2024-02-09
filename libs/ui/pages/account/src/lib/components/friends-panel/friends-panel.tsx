@@ -23,11 +23,12 @@ import { AddFriendsSection } from './sections/add-friends-section';
 import { FriendsListSection } from './sections/friends-list-section';
 
 export const FriendsPanel: React.FC<{
+  addFriendCode?: string;
   bookmark: FriendsPanels | undefined;
   friends: Friend[];
   refreshTimestamp: number;
   giftsRemaining: number;
-  friendCode: string;
+  friendCode?: string;
   onRemove: (friend: Friend) => void;
   onFavorite: (friend: Friend) => void;
   onAdd: (username: string) => void;
@@ -62,7 +63,11 @@ export const FriendsPanel: React.FC<{
         active={active}
         onClick={toggleActive}
       >
-        <AddFriendsSection friendCode={props.friendCode} onAdd={props.onAdd} />
+        <AddFriendsSection
+          addFriendCode={props.addFriendCode}
+          friendCode={props.friendCode}
+          onAdd={props.onAdd}
+        />
       </CollapsibleSection>
 
       <CollapsibleSection

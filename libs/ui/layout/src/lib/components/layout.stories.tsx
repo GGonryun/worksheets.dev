@@ -1,19 +1,13 @@
 import { Typography } from '@mui/material';
-import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 
-import { sampleCategories, sampleGames, sampleRecommendations } from '../data';
 import { Layout } from './layout';
 
 type Story = Meta<typeof Layout>;
 export default {
   component: Layout,
   title: 'Layout/WebsiteLayout',
-  args: {
-    onSearch: action('onSearch'),
-
-    recommendations: sampleRecommendations,
-  },
+  args: {},
   decorators: [
     (Story) => (
       <main>
@@ -67,11 +61,6 @@ export const Primary: Story = {
 };
 export const OnSearchSuccess: Story = {
   args: {
-    searchResults: {
-      games: sampleGames,
-      categories: sampleCategories,
-    },
-    searchQuery: 'test',
     children: (
       <Typography>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique unde

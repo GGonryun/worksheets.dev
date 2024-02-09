@@ -21,3 +21,4 @@ export * from './lib/layout';
 export * from './lib/arcade';
 export * from './lib/sponsors';
 export * from './lib/prizes';
+export * from './lib/notifications';

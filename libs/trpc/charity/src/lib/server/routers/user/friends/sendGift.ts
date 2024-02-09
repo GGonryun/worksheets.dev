@@ -1,4 +1,5 @@
 import { TRPCError } from '@trpc/server';
+import { TokensPanels } from '@worksheets/util/enums';
 import { z } from 'zod';
 
 import { protectedProcedure } from '../../../procedures';
@@ -63,7 +64,7 @@ export default protectedProcedure
       });
     }
 
-    await Promise.all([
+    await db.$transaction([
       // user loses a sharable gift box.
       db.rewards.update({
         where: {
@@ -98,6 +99,15 @@ export default protectedProcedure
           giftBoxes: {
             increment: 1,
           },
+        },
+      }),
+
+      // notify friend that they have received a gift.
+      db.notification.create({
+        data: {
+          userId: friendship.friendId,
+          type: 'REWARD',
+          text: `<b>${user.username}</b> has sent you a gift box! Visit your <a href="/account/tokens#${TokensPanels.GiftBoxes}">account</a> to claim your reward.`,
         },
       }),
     ]);

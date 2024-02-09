@@ -5,9 +5,10 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import { ClipboardText } from '@worksheets/ui/components/inputs';
 import {
-  shareGame,
+  shareGameIntent,
   SocialButtons,
 } from '@worksheets/ui/components/social-media';
+import { CHARITY_GAMES_BASE_URL } from '@worksheets/ui/env';
 import { BaseModal, ModalWrapper } from '@worksheets/ui-core';
 import { FC } from 'react';
 
@@ -17,8 +18,7 @@ export const ShareGameModal: FC<
     name: string;
   }>
 > = ({ id, name, open, onClose }) => {
-  const gameUrl = `https://charity.games/play/${id}`;
-  const gameTitle = `Play ${name} on Charity.Games and earn money for charity!`;
+  const gameUrl = `${CHARITY_GAMES_BASE_URL}/play/${id}`;
 
   const handleClose = () => {
     onClose && onClose({}, 'backdropClick');
@@ -44,7 +44,7 @@ export const ShareGameModal: FC<
           <Typography typography={{ xs: 'h6', sm: 'h5' }}>
             Share this game
           </Typography>
-          <SocialButtonsWrapper title={gameTitle} url={gameUrl} />
+          <SocialButtonsWrapper title={name} id={id} />
           <Box mt={1} mb={3}>
             <ClipboardText label="Game URL" text={gameUrl} />
           </Box>
@@ -57,20 +57,17 @@ export const ShareGameModal: FC<
   );
 };
 
-const SocialButtonsWrapper: FC<{ title: string; url: string }> = ({
+const SocialButtonsWrapper: FC<{ title: string; id: string }> = ({
   title,
-  url,
+  id,
 }) => {
-  const encodedProps = {
-    title: encodeURIComponent(title),
-    url: encodeURIComponent(url),
-  };
+  const intent = shareGameIntent({ title, id });
 
   return (
     <SocialButtons
-      twitter={shareGame.twitter(encodedProps)}
-      facebook={shareGame.facebook(encodedProps)}
-      reddit={shareGame.reddit(encodedProps)}
+      twitter={intent.twitter}
+      facebook={intent.facebook}
+      reddit={intent.reddit}
     />
   );
 };

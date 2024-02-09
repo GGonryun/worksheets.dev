@@ -12,7 +12,7 @@ export const SocialButtons: React.FC<{
 }> = ({ twitter, facebook, reddit }) => (
   <Box>
     {twitter && (
-      <IconButton href={'#'} target="_blank" size="large">
+      <IconButton href={twitter} target="_blank" size="large">
         <ColoredTwitter fontSize="large" />
       </IconButton>
     )}

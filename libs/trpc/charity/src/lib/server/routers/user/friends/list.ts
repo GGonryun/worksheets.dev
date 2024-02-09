@@ -9,7 +9,7 @@ export default protectedProcedure
     z.object({
       list: z.array(friendSchema),
       giftsRemaining: z.number(),
-      code: z.string(), // code is the username for now.
+      code: z.string().optional(), // code is the username for now.
     })
   )
   .query(async ({ ctx: { db, user } }) => {

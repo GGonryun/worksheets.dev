@@ -1,4 +1,4 @@
-import { AccountCircleOutlined, Save } from '@mui/icons-material';
+import { AccountCircleOutlined, Error, Save } from '@mui/icons-material';
 import {
   Alert,
   AlertProps,
@@ -37,7 +37,13 @@ export const ProfileSection: React.FC<{
       text={`Edit Profile`}
       description="Change your public settings like your username, bio, and avatar."
       Icon={ValentinesProfile}
-      status={<AccountCircleOutlined fontSize="large" color="info" />}
+      status={
+        hasRequiredFields ? (
+          <AccountCircleOutlined fontSize="large" color="info" />
+        ) : (
+          <Error fontSize="large" color="error" />
+        )
+      }
     >
       <Box
         sx={{

@@ -163,6 +163,17 @@ const theme = createTheme({
     },
   },
   components: {
+    MuiAlert: {
+      // green and orange alerts use wrong contrast text
+      // https://github.com/mui/material-ui/issues/33512
+      styleOverrides: {
+        root: ({ ownerState }) => ({
+          ...(ownerState.variant === 'filled' && {
+            color: '#fff',
+          }),
+        }),
+      },
+    },
     MuiPaper: {
       defaultProps: {
         elevation: 8,
@@ -205,7 +216,7 @@ const theme = createTheme({
       light: '#61E8FF',
       main: '#2477F4',
       dark: '#3D68BC',
-      contrastText: '#FFF',
+      contrastText: '#FFFFFF',
       gradient: 'linear-gradient(181deg, #70BAFF 0.5%, #2477F4 177.86%)',
       shadow: '#3D68BC',
     },
@@ -213,7 +224,7 @@ const theme = createTheme({
       light: '#FE697D',
       main: '#F4243C', // hand-picked.
       dark: '',
-      contrastText: '#FFF',
+      contrastText: '#FFFFFF',
       gradient:
         'linear-gradient(181deg, #FF596F 0.5%, #FF7183 15.66%, #FE697D 30.81%, #F4243C 177.3%)',
       shadow: '#BC3D4D',
@@ -222,7 +233,7 @@ const theme = createTheme({
       light: '',
       main: '#FF70C6',
       dark: '',
-      contrastText: '#FFF',
+      contrastText: '#FFFFFF',
       gradient: 'linear-gradient(181deg, #FF70C6 0.5%, #F4243C 242.97%)',
       shadow: '#BC3D4D',
     },
@@ -230,7 +241,7 @@ const theme = createTheme({
       light: '',
       main: '#5BB83C',
       dark: '#32812B',
-      contrastText: '#FFF',
+      contrastText: '#FFFFFF',
       gradient:
         'linear-gradient(181deg, #61EA31 0.5%, #5BB83C 121.74%, #156B07 242.97%)',
       shadow: '#2B8E23',
@@ -239,7 +250,7 @@ const theme = createTheme({
       light: '#FFB470',
       main: '#FF810A', // hand-picked.
       dark: '#B54E48',
-      contrastText: '#FFF',
+      contrastText: '#FFFFFF',
       gradient: 'linear-gradient(181deg, #FFB470 0.5%, #F4243C 242.97%)',
       shadow: '#BC3D3D',
     },
@@ -247,7 +258,7 @@ const theme = createTheme({
       light: grey[500],
       main: grey[600],
       dark: grey[700],
-      contrastText: '#FFF',
+      contrastText: '#FFFFFF',
       gradient: `linear-gradient(181deg, ${grey[500]} 0.5%, ${grey[600]} 242.97%)`,
       shadow: grey[700],
     },

@@ -141,6 +141,9 @@
       "@worksheets/ui/pages/home": ["libs/ui/pages/home/src/index.ts"],
       "@worksheets/ui/pages/loading": ["libs/ui/pages/loading/src/index.ts"],
       "@worksheets/ui/pages/login": ["libs/ui/pages/login/src/index.ts"],
+      "@worksheets/ui/pages/notifications": [
+        "libs/ui/pages/notifications/src/index.ts"
+      ],
       "@worksheets/ui/pages/privacy-policy": [
         "libs/ui/pages/privacy-policy/src/index.ts"
       ],

@@ -7,12 +7,19 @@ import { FC } from 'react';
 
 export type DangerousHTML = string;
 
-export const HTMLinator: FC<{ text: DangerousHTML } & Pick<BoxProps, 'sx'>> = ({
-  text,
-  sx,
-}) => {
+export const HTMLinator: FC<
+  ({ text: DangerousHTML } | { children: DangerousHTML }) &
+    Pick<BoxProps, 'sx' | 'component'>
+> = ({ sx, component, ...props }) => {
+  let content = '';
+  if ('text' in props) {
+    content = props.text;
+  } else if ('children' in props) {
+    content = props.children;
+  }
   return (
     <Box
+      component={component ?? 'div'}
       sx={{
         fontFamily: (theme) => theme.typography.mPlus1p.fontFamily,
         '& p, ul': {
@@ -33,7 +40,7 @@ export const HTMLinator: FC<{ text: DangerousHTML } & Pick<BoxProps, 'sx'>> = ({
         ...sx,
       }}
     >
-      <Box dangerouslySetInnerHTML={{ __html: text }} component="span" />
+      <Box dangerouslySetInnerHTML={{ __html: content }} component="span" />
     </Box>
   );
 };

@@ -1,22 +1,19 @@
-import { AccountCircle, Login } from '@mui/icons-material';
-import { Button } from '@mui/material';
+import { Box } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
 import MuiToolbar from '@mui/material/Toolbar';
-import { useMediaQuery } from '@worksheets/ui/hooks/use-media-query';
+import React from 'react';
 
 import { LogoBox } from '../shared/logo-box';
 import { ActionBox } from './action-box';
 
 interface ToolbarProps {
-  connected: boolean;
+  connectionButton?: React.ReactNode;
+  notificationButton?: React.ReactNode;
   loginHref: string;
   accountHref: string;
-  disableLogin?: boolean;
 }
 
 export const Toolbar = (props: ToolbarProps) => {
-  const isMedium = useMediaQuery((theme) => theme.breakpoints.down('lg'));
-
   return (
     <AppBar
       component="nav"
@@ -40,22 +37,10 @@ export const Toolbar = (props: ToolbarProps) => {
 
         <ActionBox />
 
-        <Button
-          href={props.connected ? props.accountHref : props.loginHref}
-          variant="square"
-          color="primary"
-          size={isMedium ? 'small' : 'medium'}
-          sx={{
-            mb: 1,
-            visibility: props.disableLogin ? 'hidden' : 'visible',
-          }}
-        >
-          {props.connected ? (
-            <AccountCircle fontSize="small" />
-          ) : (
-            <Login fontSize="small" />
-          )}
-        </Button>
+        <Box mb={1} display="flex" flexDirection="row" gap={1}>
+          {props.notificationButton}
+          {props.connectionButton}
+        </Box>
       </MuiToolbar>
     </AppBar>
   );
