@@ -1,9 +1,11 @@
 import { Clear } from '@mui/icons-material';
 import { Box, Button, Typography } from '@mui/material';
+import { NotificationSchema } from '@worksheets/util/types';
 
 export const NotificationsHeader: React.FC<{
+  notifications: NotificationSchema[];
   onClear: () => void;
-}> = ({ onClear }) => {
+}> = ({ onClear, notifications }) => {
   return (
     <Box
       display="flex"
@@ -15,6 +17,7 @@ export const NotificationsHeader: React.FC<{
       <Typography typography={{ xs: 'h4', sm: 'h3' }}>Notifications</Typography>
 
       <Button
+        disabled={notifications.length === 0}
         onClick={onClear}
         size="small"
         variant="arcade"

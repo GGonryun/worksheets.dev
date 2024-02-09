@@ -1,5 +1,6 @@
 import { Container, Paper } from '@mui/material';
 import { LoadingBar } from '@worksheets/ui/components/loading';
+import { useMediaQueryUp } from '@worksheets/ui/hooks/use-media-query';
 import {
   FilterableNotificationType,
   NotificationSchema,
@@ -18,6 +19,7 @@ export const NotificationsScreen: React.FC<{
   activeFilter: FilterableNotificationType;
   onChangeFilter: (type: FilterableNotificationType) => void;
 }> = ({ loading, notifications, onClear, activeFilter, onChangeFilter }) => {
+  const isBiggerThanPhone = useMediaQueryUp('sm');
   return (
     <Container
       maxWidth="lg"
@@ -33,12 +35,14 @@ export const NotificationsScreen: React.FC<{
           gap: { xs: 2, sm: 3 },
         }}
       >
-        <NotificationsHeader onClear={onClear} />
+        <NotificationsHeader notifications={notifications} onClear={onClear} />
 
-        <NotificationsTypeFilter
-          active={activeFilter}
-          onChange={onChangeFilter}
-        />
+        {isBiggerThanPhone && (
+          <NotificationsTypeFilter
+            active={activeFilter}
+            onChange={onChangeFilter}
+          />
+        )}
 
         {loading ? (
           <LoadingBar />
