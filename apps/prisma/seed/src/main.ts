@@ -1,11 +1,10 @@
 import { GameCategory } from '@prisma/client';
+import { developers } from '@worksheets/data/developers';
+import { games } from '@worksheets/data/games';
+import { tags } from '@worksheets/data/tags';
+import { viewports } from '@worksheets/data/viewports';
 import { prisma } from '@worksheets/prisma';
 import { SeedableGameSchema, TagSchema } from '@worksheets/util/types';
-
-import { developers } from './data/developer';
-import { games } from './data/games';
-import { tags } from './data/tags';
-import { viewports } from './data/viewports';
 
 async function main() {
   // wait for user input to continue
@@ -93,6 +92,7 @@ const insertGame = async (game: SeedableGameSchema) => {
       },
       file: {
         create: {
+          id: game.id,
           type: game.file.type,
           url: game.file.url,
         },

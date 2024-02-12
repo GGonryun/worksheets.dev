@@ -38,7 +38,7 @@ export const getStaticProps = (async (ctx) => {
 
   try {
     const prize = await trpc.prizes.find.fetch({
-      prizeId,
+      prizeId: Number(prizeId),
     });
 
     const seo = prizeSeo(prize);
@@ -68,7 +68,7 @@ export const getStaticPaths = (async (ctx) => {
   return {
     paths: prizes.map((prize) => ({
       params: {
-        prizeId: prize.id,
+        prizeId: prize.id.toString(),
       },
     })),
     // generate and cache new paths on the fly, we'll optimize and pre-build all active prizes for now.

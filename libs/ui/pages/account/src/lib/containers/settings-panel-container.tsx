@@ -24,7 +24,6 @@ export const SettingsPanelContainer: React.FC = () => {
   const profile = trpc.user.get.useQuery(undefined, {
     enabled: session.status === 'authenticated',
     retry: false,
-    refetchOnMount: false,
   });
 
   const { form, snackbar } = useBasicInformationForm(profile.data);
@@ -51,7 +50,7 @@ export const SettingsPanelContainer: React.FC = () => {
     <>
       <BasicInformationFormContextProvider value={form}>
         <SettingsPanel
-          primaryEmail={profile.data?.email}
+          primaryEmail={profile.data.email}
           bookmark={bookmark}
           onClearLocalStorage={() => setShowClearStorageModal(true)}
           onDeleteAccount={() => setShowDeleteAccountModal(true)}

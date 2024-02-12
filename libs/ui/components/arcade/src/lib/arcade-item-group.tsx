@@ -19,7 +19,7 @@ export type ArcadeItemGroupProps<T> = {
   pageSize?: number;
 };
 
-export function ArcadeItemGroup<T extends { id: string }>(
+export function ArcadeItemGroup<T extends { id: string | number }>(
   props: ArcadeItemGroupProps<T>
 ) {
   const { page, items, max, setPage } = usePagination<T>(

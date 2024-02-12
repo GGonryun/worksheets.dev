@@ -6,7 +6,7 @@ import { protectedProcedure } from '../../../procedures';
 export default protectedProcedure
   .input(
     z.object({
-      ticketId: z.string(),
+      winnerId: z.string(),
     })
   )
   .output(
@@ -14,58 +14,48 @@ export default protectedProcedure
       code: z.string(),
     })
   )
-  .mutation(async ({ ctx: { user, db }, input: { ticketId } }) => {
-    const ticket = await db.raffleTicket.findFirst({
+  .mutation(async ({ ctx: { user, db }, input: { winnerId } }) => {
+    const winner = await db.raffleWinner.findFirst({
       where: {
-        id: ticketId,
+        id: winnerId,
         userId: user.id,
       },
-      include: {
-        winner: {
-          include: {
-            assignment: {
-              include: {
-                activationCode: true,
-              },
-            },
+      select: {
+        id: true,
+        claimedAt: true,
+        code: {
+          select: {
+            content: true,
           },
         },
       },
     });
 
-    if (!ticket) {
+    if (!winner) {
       throw new TRPCError({
         code: 'NOT_FOUND',
         message: 'The ticket does not exist',
       });
     }
 
-    if (!ticket.winner) {
-      throw new TRPCError({
-        code: 'PRECONDITION_FAILED',
-        message: 'Ticket is not a winner',
-      });
-    }
-
-    if (!ticket.winner.assignment) {
-      throw new TRPCError({
-        code: 'INTERNAL_SERVER_ERROR',
-        message: 'Ticket has not been assigned an activation code',
-      });
-    }
-
-    if (!ticket.winner.claimedAt) {
-      await db.winningTicket.update({
+    if (!winner.claimedAt) {
+      await db.raffleWinner.update({
         where: {
-          id: ticket.winner.id,
+          id: winner.id,
         },
         data: {
           claimedAt: new Date(),
         },
       });
+      // delete any outstanding alerts
+      await db.claimAlert.deleteMany({
+        where: {
+          winnerId: winner.id,
+        },
+      });
     }
 
     return {
-      code: ticket.winner.assignment.activationCode.content,
+      code: winner.code.content,
     };
   });

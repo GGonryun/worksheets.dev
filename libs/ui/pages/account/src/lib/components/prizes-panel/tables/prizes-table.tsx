@@ -1,4 +1,4 @@
-import { Alarm, Cancel, Check, InfoOutlined } from '@mui/icons-material';
+import { Alarm, Check, InfoOutlined } from '@mui/icons-material';
 import { Box, Button, Link, styled, Typography } from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -9,10 +9,6 @@ import TableRow from '@mui/material/TableRow';
 import { ValentinesGift } from '@worksheets/icons/valentines';
 import { prizeTypeLogos } from '@worksheets/ui/components/prizes';
 import { useMediaQueryDown } from '@worksheets/ui/hooks/use-media-query';
-import {
-  durationToString,
-  millisecondsAsDuration,
-} from '@worksheets/util/time';
 import { WonRaffleDetails } from '@worksheets/util/types';
 import * as React from 'react';
 
@@ -112,48 +108,23 @@ const PrizeRow: React.FC<{
           display: isMobile ? 'none' : 'table-cell',
         }}
       >
-        {expired(prize) ? (
-          <i>Expired</i>
-        ) : prize.claimedAt ? (
-          <i>Claimed</i>
-        ) : (
-          <b>
-            {durationToString(
-              millisecondsAsDuration(prize.claimBy - Date.now())
-            )}
-          </b>
-        )}
+        <i>{prize.claimedAt ? 'Claimed' : 'Unclaimed'}</i>
       </TableCell>
       <TableCell align="right" width={180}>
         <Button
           onClick={() => onClaim(prize)}
-          disabled={expired(prize)}
           size="small"
           variant="arcade"
           color={prize.claimedAt ? 'success' : 'secondary'}
-          startIcon={
-            expired(prize) ? (
-              <Cancel />
-            ) : prize.claimedAt ? (
-              <Check />
-            ) : (
-              <Alarm />
-            )
-          }
+          startIcon={prize.claimedAt ? <Check /> : <Alarm />}
           sx={{ mb: 0.5, minWidth: 135 }}
         >
-          {expired(prize)
-            ? 'Expired'
-            : prize.claimedAt
-            ? 'View Code'
-            : 'Claim Now'}
+          {prize.claimedAt ? 'View Code' : 'Claim Now'}
         </Button>
       </TableCell>
     </TableRow>
   );
 };
-
-const expired = (prize: WonRaffleDetails) => prize.claimBy < Date.now();
 
 const EmptyPrizesPlaceholder = () => {
   const isMobile = useMediaQueryDown('sm');

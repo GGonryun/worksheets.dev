@@ -21,6 +21,12 @@
       "@worksheets/assets-partners": ["libs/assets/partners/src/index.ts"],
       "@worksheets/assets/icons": ["libs/assets/icons/src/index.ts"],
       "@worksheets/assets/prizes": ["libs/assets/prizes/src/index.ts"],
+      "@worksheets/data/developers": ["libs/data/developers/src/index.ts"],
+      "@worksheets/data/games": ["libs/data/games/src/index.ts"],
+      "@worksheets/data/prizes": ["libs/data/prizes/src/index.ts"],
+      "@worksheets/data/sponsors": ["libs/data/sponsors/src/index.ts"],
+      "@worksheets/data/tags": ["libs/data/tags/src/index.ts"],
+      "@worksheets/data/viewports": ["libs/data/viewports/src/index.ts"],
       "@worksheets/icons/arrows": ["libs/icons/arrows/src/index.ts"],
       "@worksheets/icons/charity": ["libs/icons/charity/src/index.ts"],
       "@worksheets/icons/companies": ["libs/icons/companies/src/index.ts"],
@@ -35,6 +41,7 @@
       "@worksheets/services/environment": [
         "libs/services/environment/src/index.ts"
       ],
+      "@worksheets/services/gmail": ["libs/services/gmail/src/index.ts"],
       "@worksheets/services/storage": ["libs/services/storage/src/index.ts"],
       "@worksheets/trpc-charity": ["libs/trpc/charity/src/index.ts"],
       "@worksheets/trpc-charity/server": ["libs/trpc/charity/src/server.ts"],
@@ -119,6 +126,7 @@
       "@worksheets/ui/layout": ["libs/ui/layout/src/index.ts"],
       "@worksheets/ui/pages/about": ["libs/ui/pages/about/src/index.ts"],
       "@worksheets/ui/pages/account": ["libs/ui/pages/account/src/index.ts"],
+      "@worksheets/ui/pages/admin": ["libs/ui/pages/admin/src/index.ts"],
       "@worksheets/ui/pages/arcade": ["libs/ui/pages/arcade/src/index.ts"],
       "@worksheets/ui/pages/blog": ["libs/ui/pages/blog/src/index.ts"],
       "@worksheets/ui/pages/category": ["libs/ui/pages/category/src/index.ts"],

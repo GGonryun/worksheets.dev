@@ -25,6 +25,7 @@ export default publicProcedure
     const game = await db.game.findFirst({
       where: {
         id: gameId,
+        status: 'PUBLISHED',
       },
       include: {
         developer: true,

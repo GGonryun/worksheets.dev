@@ -1,8 +1,7 @@
+import { prizes } from '@worksheets/data/prizes';
+import { sponsors } from '@worksheets/data/sponsors';
 import { prisma } from '@worksheets/prisma';
 import { hoursFromNow } from '@worksheets/util/time';
-
-import { prizes } from './data/prizes';
-import { sponsors } from './data/sponsors';
 
 async function main() {
   // wait for user input to continue
@@ -61,7 +60,8 @@ export const generateRandomRaffles = () =>
     expiresAt: hoursFromNow(Math.floor(Math.random() * 24 * i) + 1),
     costPerEntry: Math.floor(Math.random() * 5 * i) + 1,
     numWinners: 1,
-    sponsorId: 'charity-games',
+    sponsorId: sponsors[0].id,
+    status: 'ACTIVE' as const,
   }));
 
 main()

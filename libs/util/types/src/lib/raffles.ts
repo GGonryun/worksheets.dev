@@ -19,8 +19,8 @@ export type FilterableRaffleCategory = Extract<
 >;
 
 export const raffleSchema = z.object({
-  id: z.string(),
-  prizeId: z.string(),
+  id: z.number(),
+  prizeId: z.number(),
   name: z.string(),
   headline: z.string(),
   description: z.string(),
@@ -48,10 +48,10 @@ export type WonRaffleDetails = Pick<
   RaffleSchema,
   'name' | 'imageUrl' | 'type' | 'expiresAt'
 > & {
-  raffleId: string;
-  prizeId: string;
+  winnerId: string;
+  raffleId: number;
+  prizeId: number;
   ticketId: string;
-  claimBy: number;
   claimedAt?: number;
 };
 
@@ -77,9 +77,9 @@ export const convertRaffle = (
 });
 
 export const enteredRaffleSchema = z.object({
-  id: z.string(), // raffleId
+  id: z.number(),
   type: z.nativeEnum(PrizeType),
-  prizeId: z.string(),
+  prizeId: z.number(),
   name: z.string(),
   imageUrl: z.string(),
   entries: z.number(),

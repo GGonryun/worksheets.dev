@@ -23,6 +23,9 @@ export const STARTING_GIFT_BOXES = 5;
 export const BULK_ENTRY_DISCOUNT = 0.8;
 // prizes
 export const PRIZE_TOKEN_MODIFIER = 1000;
+// alerts
+export const CLAIM_ALERT_LAST_SENT_THRESHOLD = 3 * 24; // 3 days
+export const CLAIM_ALERT_SENT_COUNT_THRESHOLD = 6;
 
 export const dailyBonusGames: BasicGameDetails[] = [
   {

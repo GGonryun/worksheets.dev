@@ -6,7 +6,7 @@ import { Raffle } from '../raffle';
 
 export const RaffleCarousel: React.FC<{
   items: {
-    id: string;
+    id: number;
     name: string;
     imageUrl: string;
     expiresAt: number;

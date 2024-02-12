@@ -9,7 +9,7 @@ type ArcadeItemCarousel<T> = {
   render: (item: T) => ReactNode;
 };
 
-export function ArcadeItemCarousel<T extends { id: string }>(
+export function ArcadeItemCarousel<T extends { id: string | number }>(
   props: ArcadeItemCarousel<T>
 ) {
   return (

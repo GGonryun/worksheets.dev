@@ -14,7 +14,7 @@ import { FC } from 'react';
 
 export const ShareRaffleModal: FC<
   ModalWrapper<{
-    id: string;
+    id: number;
     name: string;
   }>
 > = ({ id, name, open, onClose }) => {
@@ -57,7 +57,7 @@ export const ShareRaffleModal: FC<
   );
 };
 
-const SocialButtonsWrapper: React.FC<{ name: string; id: string }> = ({
+const SocialButtonsWrapper: React.FC<{ name: string; id: number }> = ({
   id,
   name,
 }) => {

@@ -47,6 +47,9 @@ export default publicProcedure
       }));
 
     const games = await db.game.findMany({
+      where: {
+        status: 'PUBLISHED',
+      },
       select: {
         id: true,
         title: true,

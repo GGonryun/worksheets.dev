@@ -16,6 +16,7 @@ export default publicProcedure
         id: {
           notIn: [gameId],
         },
+        status: 'PUBLISHED',
       },
       select: {
         id: true,

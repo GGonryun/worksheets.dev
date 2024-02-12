@@ -1,4 +1,4 @@
-import { BasicGameInfo } from './basic-game-info';
+import { BasicGameInfo } from './arcade';
 
 export type RecentlyPlayedSchema = {
   playedLast: number;

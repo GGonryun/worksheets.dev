@@ -2,7 +2,7 @@ import { PrizeType } from '@prisma/client';
 import { z } from 'zod';
 
 export const prizeSchema = z.object({
-  id: z.string(),
+  id: z.number(),
   name: z.string(),
   type: z.nativeEnum(PrizeType),
   monetaryValue: z.number(),

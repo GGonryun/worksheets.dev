@@ -1,11 +1,5 @@
-import { Alarm } from '@mui/icons-material';
-import { Box, Button, Typography } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import { ModalWrapper } from '@worksheets/ui-core';
-import {
-  durationToString,
-  millisecondsAsDuration,
-  printShortDateTime,
-} from '@worksheets/util/time';
 import { WonRaffleDetails } from '@worksheets/util/types';
 import Image from 'next/image';
 
@@ -28,22 +22,8 @@ export const ClaimPrizeModal: React.FC<
         <Image height={150} width={150} src={prize.imageUrl} alt={prize.name} />
       )}
       <Typography textAlign="center">
-        Claim your prize before{' '}
-        {prize ? printShortDateTime(prize.claimBy) : '??'}.
-        <br />
-        If you don't claim it by then, it will expire.
+        Claim your prize and access the activation code!
       </Typography>
-      <Box display="flex" alignItems="center" justifyContent="center" gap={1}>
-        <Alarm />
-        <Typography textAlign="center" fontWeight={700}>
-          Expires in{' '}
-          {prize
-            ? durationToString(
-                millisecondsAsDuration(prize.claimBy - Date.now())
-              )
-            : '??'}
-        </Typography>
-      </Box>
 
       <Button
         onClick={onClaim}

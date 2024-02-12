@@ -20,7 +20,7 @@ export const PrizesPanelContainer = () => {
   const [code, setCode] = useState('');
 
   const { data: enteredRaffles } = trpc.user.raffles.entered.useQuery({
-    filter: 'all',
+    filter: null,
   });
 
   const { data: wonRaffles } = trpc.user.raffles.won.useQuery(undefined);
@@ -43,7 +43,7 @@ export const PrizesPanelContainer = () => {
     }
 
     const claimed = await claimPrize.mutateAsync({
-      ticketId: claiming.ticketId,
+      winnerId: claiming.winnerId,
     });
 
     setCode(claimed.code);

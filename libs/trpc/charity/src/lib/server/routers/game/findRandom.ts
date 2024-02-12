@@ -22,6 +22,7 @@ export default publicProcedure
           id: true,
         },
         where: {
+          status: 'PUBLISHED',
           viewport: {
             devices: {
               has: isMobileOrTablet ? 'MOBILE' : 'COMPUTER',

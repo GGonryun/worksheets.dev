@@ -85,12 +85,13 @@ export const RafflePseudoGridHeader: React.FC<{ active?: boolean }> = ({
   <Box
     pt={1}
     display="grid"
-    gridTemplateColumns="1fr 2fr"
+    gridTemplateColumns={{ xs: '1fr 1fr 2fr', sm: '1fr 1fr 3fr' }}
     gap={2}
     flexDirection="row"
     alignItems="center"
   >
     <Typography fontWeight={700}>ID</Typography>
+    <Typography fontWeight={700}>Type</Typography>
     <Typography fontWeight={700}>
       {active ? 'Time Remaining' : 'Expired At'}
     </Typography>
@@ -103,7 +104,7 @@ export const RafflePseudoGridRow: React.FC<{
 }> = ({ raffle, active }) => (
   <Box
     display="grid"
-    gridTemplateColumns={'1fr 2fr'}
+    gridTemplateColumns={{ xs: '1fr 1fr 2fr', sm: '1fr 1fr 3fr' }}
     gap={2}
     flexDirection="row"
     alignItems="center"
@@ -126,6 +127,9 @@ export const RafflePseudoGridRow: React.FC<{
       }}
     >
       {raffle.id}
+    </Typography>
+    <Typography textTransform="capitalize">
+      {raffle.type.split('_').join(' ').toLowerCase()}
     </Typography>
     <Typography variant="body2">
       {active

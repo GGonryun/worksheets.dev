@@ -1,5 +1,4 @@
-import { BasicCategoryInfo } from './basic-category-info';
-import { BasicGameInfo } from './basic-game-info';
+import { BasicCategoryInfo, BasicGameInfo } from './arcade';
 
 export type Recommendations = {
   popular: BasicGameInfo[];

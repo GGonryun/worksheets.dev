@@ -6,68 +6,40 @@ import { protectedProcedure } from '../../../procedures';
 export default protectedProcedure
   .input(
     z.object({
-      raffleId: z.string(),
+      raffleId: z.number(),
       numEntries: z.number().int().positive(),
     })
   )
-  .output(z.object({}))
+  .output(z.unknown())
   .mutation(async ({ input: { raffleId, numEntries }, ctx: { db, user } }) => {
-    // get the prize to compute the cost.
-    const prize = await db.raffle.findFirst({
-      where: {
-        id: raffleId,
-      },
-    });
-
-    if (!prize) {
-      throw new TRPCError({
-        code: 'NOT_FOUND',
-        message: 'Prize does not exist',
-      });
-    }
-
-    if (prize.expiresAt < new Date()) {
-      throw new TRPCError({
-        code: 'PRECONDITION_FAILED',
-        message: 'Prize has expired',
-      });
-    }
-
-    const totalCost = prize.costPerEntry * numEntries;
-
-    // check if the user has enough points
-    const rewards = await db.rewards.findFirst({
-      where: {
-        userId: user.id,
-      },
-    });
-
-    if (!rewards) {
-      throw new TRPCError({
-        code: 'NOT_FOUND',
-        message: 'User rewards not found',
-      });
-    }
-
-    if (rewards.totalTokens < totalCost) {
-      throw new TRPCError({
-        code: 'PRECONDITION_FAILED',
-        message: 'insufficient points',
-      });
-    }
-
-    // purchase the tickets
-    await db.$transaction(async (tx) => {
-      await tx.raffleTicket.createMany({
-        data: Array.from({ length: numEntries }, () => ({
-          userId: user.id,
-          raffleId,
-        })),
-      });
-
-      await tx.rewards.update({
+    return db.$transaction(async (tx) => {
+      // get the prize to compute the cost.
+      const raffle = await db.raffle.findFirst({
         where: {
-          id: rewards.id,
+          id: raffleId,
+        },
+      });
+
+      if (!raffle) {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: 'Raffle does not exist',
+        });
+      }
+
+      if (raffle.expiresAt < new Date()) {
+        throw new TRPCError({
+          code: 'PRECONDITION_FAILED',
+          message: 'Raffle has expired',
+        });
+      }
+
+      const totalCost = raffle.costPerEntry * numEntries;
+
+      // purchase the tickets
+      const result = await tx.rewards.update({
+        where: {
+          userId: user.id,
         },
         data: {
           totalTokens: {
@@ -75,8 +47,33 @@ export default protectedProcedure
           },
         },
       });
-    });
 
-    // all good
-    return {};
+      // check if the user has enough tokens to purchase the tickets
+      if (result.totalTokens < 0) {
+        throw new TRPCError({
+          code: 'PRECONDITION_FAILED',
+          message: 'User has insufficient tokens to purchase tickets',
+        });
+      }
+
+      // create or update the participation
+      await tx.raffleParticipation.upsert({
+        where: {
+          userId_raffleId: {
+            raffleId: raffleId,
+            userId: user.id,
+          },
+        },
+        update: {
+          numTickets: {
+            increment: numEntries,
+          },
+        },
+        create: {
+          numTickets: numEntries,
+          raffleId: raffleId,
+          userId: user.id,
+        },
+      });
+    });
   });

@@ -6,6 +6,9 @@ export default publicProcedure
   .output(z.string().array())
   .query(async ({ ctx: { db } }) => {
     const games = await db.game.findMany({
+      where: {
+        status: 'PUBLISHED',
+      },
       select: {
         id: true,
       },

@@ -1,8 +1,4 @@
-import {
-  CrisisAlert,
-  FormatListNumbered,
-  HowToVote,
-} from '@mui/icons-material';
+import { CrisisAlert, HowToVote, PendingOutlined } from '@mui/icons-material';
 import { Box, Divider, Typography } from '@mui/material';
 import { ValentinesGift, ValentinesLetter } from '@worksheets/icons/valentines';
 import { PrizesPanels } from '@worksheets/util/enums';
@@ -45,7 +41,13 @@ export const PrizesPanel: React.FC<{
         id={PrizesPanels.Prizes}
         active={activeBookmark}
         onClick={toggleActive}
-        status={<CrisisAlert fontSize="large" color="error" />}
+        status={
+          prizes.length ? (
+            <CrisisAlert fontSize="large" color="error" />
+          ) : (
+            <PendingOutlined fontSize="large" color="info" />
+          )
+        }
         Icon={ValentinesGift}
       >
         <PrizesSection prizes={prizes} onClaim={onClaim} />
@@ -57,7 +59,7 @@ export const PrizesPanel: React.FC<{
         description="See a list of raffles that you've participated in and their status."
         active={activeBookmark}
         onClick={toggleActive}
-        status={<FormatListNumbered fontSize="large" color="info" />}
+        status={<HowToVote fontSize="large" color="info" />}
         Icon={ValentinesLetter}
       >
         <ParticipationSection raffles={previous} />

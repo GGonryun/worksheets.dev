@@ -55,7 +55,7 @@ export const sharePrizeIntent = ({
   id,
 }: {
   name: string;
-  id: string;
+  id: number;
 }) => {
   const url = `${CHARITY_GAMES_BASE_URL}/prizes/${id}`;
   const text = `Win ${name} on Charity.Games, and earn money for charity!`;
@@ -76,7 +76,7 @@ export const shareRaffleIntent = ({
   id,
 }: {
   name: string;
-  id: string;
+  id: number;
 }) => {
   const url = `${CHARITY_GAMES_BASE_URL}/raffles/${id}`;
   const text = `Enter to win ${name} on Charity.Games, and earn money for charity!`;

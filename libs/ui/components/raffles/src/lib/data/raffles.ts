@@ -8,8 +8,8 @@ import { RaffleSchema } from '@worksheets/util/types';
 
 export const mockRaffles: RaffleSchema[] = [
   {
-    id: '1',
-    prizeId: '1',
+    id: 1,
+    prizeId: 1,
     name: "Baldur's Gate 3",
     headline:
       'A role-playing video game that is being developed and published by Larian Studios.',
@@ -28,8 +28,8 @@ export const mockRaffles: RaffleSchema[] = [
     },
   },
   {
-    id: '2',
-    prizeId: '2',
+    id: 2,
+    prizeId: 2,
     name: 'City Skylines II',
     headline:
       'A city-building game developed by Colossal Order and published by Paradox Interactive.',
@@ -48,8 +48,8 @@ export const mockRaffles: RaffleSchema[] = [
     },
   },
   {
-    id: '3',
-    prizeId: '3',
+    id: 3,
+    prizeId: 3,
     name: 'Palworld',
     headline:
       'A multiplayer, open-world survival crafting game set in a beautiful, low-poly world.',
@@ -68,8 +68,8 @@ export const mockRaffles: RaffleSchema[] = [
     },
   },
   {
-    id: '4',
-    prizeId: '4',
+    id: 4,
+    prizeId: 4,
     name: 'EA Sports FC 24',
     headline: 'A football simulation video game published by Electronic Arts.',
     description:
@@ -87,8 +87,8 @@ export const mockRaffles: RaffleSchema[] = [
     },
   },
   {
-    id: '5',
-    prizeId: '5',
+    id: 5,
+    prizeId: 5,
     name: 'Roller Coaster Tycoon 3',
     headline: 'A construction and management simulation video game.',
     description:
@@ -107,8 +107,8 @@ export const mockRaffles: RaffleSchema[] = [
     },
   },
   {
-    id: '6',
-    prizeId: '6',
+    id: 6,
+    prizeId: 6,
     name: 'Ragnarok Online II',
     headline: 'A massively multiplayer online role-playing game.',
     description:

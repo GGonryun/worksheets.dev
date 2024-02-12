@@ -4,7 +4,7 @@ import { PrizesPanels } from '@worksheets/util/enums';
 
 export const RaffleHeader: React.FC<{
   headline: string;
-  prizeId: string;
+  prizeId: number;
   imageUrl: string;
   name: string;
   expiresAt: number;

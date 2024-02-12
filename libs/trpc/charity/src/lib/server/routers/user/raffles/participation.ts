@@ -5,7 +5,7 @@ import { protectedProcedure } from '../../../procedures';
 export default protectedProcedure
   .input(
     z.object({
-      raffleId: z.string(),
+      raffleId: z.number(),
     })
   )
   .output(
@@ -15,20 +15,30 @@ export default protectedProcedure
     })
   )
   .query(async ({ input: { raffleId }, ctx: { db, user } }) => {
-    const tickets = await db.raffleTicket.findMany({
+    const participation = await db.raffleParticipation.findFirst({
       where: {
         raffleId,
         userId: user.id,
       },
-      include: {
-        winner: true,
+      select: {
+        numTickets: true,
+        winner: {
+          select: {
+            id: true,
+          },
+        },
       },
     });
 
-    const winningTicket = tickets.find((ticket) => ticket.winner != null);
+    if (!participation) {
+      return {
+        youWon: false,
+        entries: 0,
+      };
+    }
 
     return {
-      youWon: Boolean(winningTicket),
-      entries: tickets.length,
+      youWon: Boolean(participation.winner?.id),
+      entries: participation.numTickets,
     };
   });

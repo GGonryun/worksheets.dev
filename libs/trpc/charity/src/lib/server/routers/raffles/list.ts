@@ -16,7 +16,7 @@ export default publicProcedure
   .input(
     z.object({
       category: raffleCategorySchema,
-      prizeId: z.string().optional(),
+      prizeId: z.number().optional(),
       query: z.string().optional(),
       limit: z.number().optional(),
     })
@@ -49,14 +49,14 @@ const normalized = (text: string) => text.toLowerCase();
 type RaffleQuery = (
   db: PrismaClient,
   limit: number,
-  prizeId?: string
+  prizeId?: number
 ) => Promise<RaffleSchema[]>;
 
 const getRaffles = (
   db: PrismaClient,
   category: RaffleCategory,
   limit: number,
-  prizeId?: string
+  prizeId?: number
 ): Promise<RaffleSchema[]> => {
   switch (category) {
     case 'active':
@@ -82,7 +82,7 @@ const allRaffles: RaffleQuery = async (db, limit, prizeId) =>
     await db.raffle.findMany({
       take: limit,
       where: {
-        prizeId: prizeId ? prizeId : { not: '' },
+        prizeId: prizeId ? prizeId : undefined,
       },
       include: {
         prize: true,
@@ -96,7 +96,7 @@ const activePrizes: RaffleQuery = async (db, limit, prizeId) =>
     await db.raffle.findMany({
       take: limit,
       where: {
-        prizeId: prizeId ? prizeId : { not: '' },
+        prizeId: prizeId ? prizeId : undefined,
         expiresAt: {
           gt: new Date(),
         },
@@ -112,7 +112,7 @@ const hottestPrizes: RaffleQuery = async (db, limit, prizeId) => {
   const prizes = await db.raffle.findMany({
     take: limit,
     where: {
-      prizeId: prizeId ? prizeId : { not: '' },
+      prizeId: prizeId ? prizeId : undefined,
       expiresAt: {
         gt: new Date(),
       },
@@ -136,7 +136,7 @@ const newestPrizes: RaffleQuery = async (db, limit, prizeId) =>
     await db.raffle.findMany({
       take: limit,
       where: {
-        prizeId: prizeId ? prizeId : { not: '' },
+        prizeId: prizeId ? prizeId : undefined,
       },
       orderBy: {
         createdAt: 'desc',
@@ -153,7 +153,7 @@ const expiredPrizes: RaffleQuery = async (db, limit, prizeId) =>
     await db.raffle.findMany({
       take: limit,
       where: {
-        prizeId: prizeId ? prizeId : { not: '' },
+        prizeId: prizeId ? prizeId : undefined,
         expiresAt: {
           lte: new Date(),
         },
@@ -173,7 +173,7 @@ const expiringPrizes: RaffleQuery = async (db, limit, prizeId) =>
     await db.raffle.findMany({
       take: limit,
       where: {
-        prizeId: prizeId ? prizeId : { not: '' },
+        prizeId: prizeId ? prizeId : undefined,
         expiresAt: {
           gt: new Date(),
         },

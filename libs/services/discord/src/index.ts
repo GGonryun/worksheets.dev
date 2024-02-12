@@ -4,6 +4,7 @@ type SendMessageOptions = {
     title: string;
     description?: string;
     color?: number;
+    url?: string;
     fields?: {
       name: string;
       value: string;

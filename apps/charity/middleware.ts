@@ -15,7 +15,7 @@ export const config = {
   ],
 };
 
-const protectedPages = ['/account', '/submit', '/notifications'];
+const protectedPages = ['/account', '/submit', '/notifications', '/admin'];
 
 export default async function middleware(req: NextRequest) {
   const session = await getToken({ req });

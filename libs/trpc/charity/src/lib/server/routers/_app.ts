@@ -1,4 +1,5 @@
 import { router } from '../trpc';
+import admin from './admin/router';
 import arcade from './arcade/router';
 import categories from './categories/router';
 import developers from './developers/router';
@@ -9,6 +10,7 @@ import usage from './usage/router';
 import user from './user/router';
 
 export const appRouter = router({
+  admin,
   game,
   raffles,
   user,

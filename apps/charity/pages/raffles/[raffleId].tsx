@@ -39,7 +39,7 @@ export const getStaticProps = (async (ctx) => {
 
   try {
     const raffle = await trpc.raffles.find.fetch({
-      raffleId,
+      raffleId: Number(raffleId),
     });
 
     const seo = raffleSeo(raffle);
@@ -73,7 +73,7 @@ export const getStaticPaths = (async (ctx) => {
   return {
     paths: raffles.map((raffle) => ({
       params: {
-        raffleId: raffle.id,
+        raffleId: raffle.id.toString(),
       },
     })),
     // generate and cache new paths on the fly, we'll optimize and pre-build all active prizes for now.

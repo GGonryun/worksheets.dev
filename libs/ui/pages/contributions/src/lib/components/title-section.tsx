@@ -47,15 +47,26 @@ export const TitleSection: FC<{ statistics?: BasicWebsiteStatistics }> = ({
       difference.
     </Typography>
     <Box>
-      <TextPoint>{statistics?.donatedGames ?? '?'}+ Games Donated</TextPoint>
       <TextPoint>
-        {statistics?.uniquePlayers ?? '?'}+ Monthly Unique Players
+        {shorthandNumber(statistics?.uniqueGames ?? 0)}+ Games Donated
+      </TextPoint>
+      <TextPoint>
+        {shorthandNumber(statistics?.uniquePlayers ?? 0)}+ Monthly Unique
+        Players
       </TextPoint>
       <TextPoint>
         {shorthandNumber(statistics?.totalGamePlays ?? 0)}+ Total Game Plays
       </TextPoint>
       <TextPoint>
-        {statistics?.uniqueGames ?? '?'} Unique Games Played
+        {shorthandNumber(statistics?.tokensAccumulated ?? 0)}+ Tokens
+        Accumulated
+      </TextPoint>
+      <TextPoint>
+        {shorthandNumber(statistics?.rafflesParticipated ?? 0)}+ Raffle Tickets
+        Purchased
+      </TextPoint>
+      <TextPoint>
+        {shorthandNumber(statistics?.prizesDelivered ?? 0)}+ Prizes Distributed
       </TextPoint>
     </Box>
     <Button

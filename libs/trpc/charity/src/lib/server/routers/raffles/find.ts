@@ -7,7 +7,7 @@ import { publicProcedure } from '../../procedures';
 export default publicProcedure
   .input(
     z.object({
-      raffleId: z.string(),
+      raffleId: z.number(),
     })
   )
   .output(raffleSchema)

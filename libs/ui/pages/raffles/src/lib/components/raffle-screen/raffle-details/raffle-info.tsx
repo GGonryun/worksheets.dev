@@ -30,8 +30,8 @@ import {
 import React, { JSXElementConstructor } from 'react';
 
 export const RaffleInfo: React.FC<{
-  id: string;
-  prizeId: string;
+  id: number;
+  prizeId: number;
   expiresAt: number;
   costPerEntry: number;
   yourEntries: number;

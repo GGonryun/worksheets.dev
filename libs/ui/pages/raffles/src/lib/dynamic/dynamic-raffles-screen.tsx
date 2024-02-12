@@ -37,7 +37,7 @@ const RafflesContainer = () => {
 
   const { data: enteredRaffles } = trpc.user.raffles.entered.useQuery(
     {
-      filter: 'active',
+      filter: 'ACTIVE',
     },
     {
       enabled: isConnected,
