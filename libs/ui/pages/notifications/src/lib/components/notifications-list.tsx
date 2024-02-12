@@ -1,7 +1,6 @@
 import {
   Diversity1,
   HowToVote,
-  Inventory,
   LocalActivity,
   Mail,
   VideogameAsset,
@@ -97,9 +96,8 @@ const NotificationListItem: React.FC<NotificationSchema> = ({
 
 const notificationIcon: Record<NotificationType, ReactNode> = {
   SYSTEM: <Mail color="primary" />,
-  GIFT: <Inventory color="secondary" />,
   FRIEND: <Diversity1 color="secondary" />,
-  RAFFLE: <HowToVote color="warning" />,
-  REWARD: <LocalActivity color="success" />,
+  RAFFLE: <HowToVote color="success" />,
+  REWARD: <LocalActivity color="warning" />,
   GAME: <VideogameAsset color="error" />,
 };

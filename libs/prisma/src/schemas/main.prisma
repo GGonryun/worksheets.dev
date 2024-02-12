@@ -449,7 +449,6 @@ enum NotificationType {
   SYSTEM
   FRIEND
   RAFFLE
-  GIFT
   REWARD
   GAME
 }

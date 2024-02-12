@@ -106,7 +106,7 @@ export default protectedProcedure
       db.notification.create({
         data: {
           userId: friendship.friendId,
-          type: 'GIFT',
+          type: 'REWARD',
           text: `<b>${user.username}</b> has sent you a gift box! Visit your <a href="/account/tokens#${TokensPanels.GiftBoxes}">account</a> to claim your reward.`,
         },
       }),
