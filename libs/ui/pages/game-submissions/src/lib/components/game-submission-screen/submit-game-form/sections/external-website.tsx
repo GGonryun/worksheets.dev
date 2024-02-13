@@ -37,7 +37,7 @@ export const ExternalWebsiteSection: FC = () => {
         &#8212; Your web page must be fully responsive across a wide variety of
         devices. For more information on our embedded web page requirements see
         the{' '}
-        <Link href="/contribute#how-do-i-embed-a-web-page" target="_blank">
+        <Link href="/help/developers#how-do-i-embed-a-web-page" target="_blank">
           FAQ: 'How do I embed a web page?'{' '}
           <OpenInNewIcon fontSize="inherit" sx={{ mb: '-2px' }} />
         </Link>

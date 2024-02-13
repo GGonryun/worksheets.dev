@@ -61,7 +61,7 @@ export const GameSubmissions: React.FC<{
       </Button>
       <Typography variant="body3">
         For more information on how to submit a game, please visit our{' '}
-        <a href="/contribute#submit-a-game">contribution page</a>.
+        <a href="/help/developers#submit-a-game">contribution page</a>.
       </Typography>
     </Box>
   );

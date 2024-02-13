@@ -21,7 +21,8 @@ export const helpContributions: QuestionAnswer[] = [
           <ListItem>
             Add your game to our platform. We're always looking for new games to
             add to our platform. If you have a game that you'd like to add,
-            please use our <Link href="/contribute">contribution portal</Link>.
+            please use our{' '}
+            <Link href="/help/developers">contribution portal</Link>.
           </ListItem>
           <ListItem>
             Help us improve our platform. We're always looking for ways to

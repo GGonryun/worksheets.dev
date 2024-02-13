@@ -178,7 +178,7 @@ export const termsSeo = createSeo({
 });
 
 export const submitGameSeo = createSeo({
-  url: `/contribute/submit`,
+  url: `/submit/new`,
   title: `Charity Games - Submit a Game`,
   description: `Learn how to submit a game to Charity Games. Help us make a difference. Turn your games into donations.`,
 });

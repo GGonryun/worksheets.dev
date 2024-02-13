@@ -46,7 +46,7 @@ export const GameFiles: FC = () => {
           &#8212; Your ZIP file must include an index.html file. For more
           information on the zip file requirements, see the{' '}
           <Link
-            href="/contribute#what-file-formats-are-supported"
+            href="/help/developers#what-file-formats-are-supported"
             target="_blank"
           >
             FAQ: 'How do I upload an HTML5 Game?'{' '}

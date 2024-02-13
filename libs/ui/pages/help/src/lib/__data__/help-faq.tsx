@@ -44,7 +44,7 @@ export const helpFaq: QuestionAnswer[] = [
         From people like you! We're a community driven platform. We're working
         on adding support for uploading games directly to our platform. In the
         meantime, you can submit games to us through our{' '}
-        <Link href="/contribute">Contribution Portal</Link>.
+        <Link href="/developers">Contribution Portal</Link>.
       </Typography>
     ),
   },

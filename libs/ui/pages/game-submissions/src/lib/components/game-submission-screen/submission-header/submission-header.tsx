@@ -68,7 +68,7 @@ export const SubmissionHeader: FC<{ invalidProfile: boolean | undefined }> = ({
       </Typography>
       <Typography variant="body2">
         Review our{' '}
-        <Link href="/contribute#what-makes-a-quality-game">
+        <Link href="/help/developers#what-makes-a-quality-game">
           quality guidelines
         </Link>{' '}
         before submitting your game.
