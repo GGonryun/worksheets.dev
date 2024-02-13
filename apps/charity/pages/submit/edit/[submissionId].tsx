@@ -1,50 +1,27 @@
-import { createServerSideTRPC } from '@worksheets/trpc-charity/server';
 import { LayoutContainer } from '@worksheets/ui/layout';
+import { ErrorScreen } from '@worksheets/ui/pages/errors';
 import { DynamicGameSubmissionScreen } from '@worksheets/ui/pages/game-submissions';
 import { NextPageWithLayout } from '@worksheets/util-next';
-import { GetServerSideProps } from 'next/types';
+import { useRouter } from 'next/router';
 import { NextSeo } from 'next-seo';
 
 import { submitGameSeo } from '../../../util/seo';
 
-type Props = {
-  submissionId: string;
-};
+const Page: NextPageWithLayout = () => {
+  const { query } = useRouter();
+  const submissionId = query.submissionId as string | undefined;
 
-const Page: NextPageWithLayout<Props> = (props) => {
+  if (!submissionId) {
+    return <ErrorScreen />;
+  }
+
   return (
     <>
       <NextSeo {...submitGameSeo} />
-      <DynamicGameSubmissionScreen {...props} />
+      <DynamicGameSubmissionScreen submissionId={submissionId} />
     </>
   );
 };
-
-export const getServerSideProps = (async (ctx) => {
-  const { params } = ctx;
-
-  const submissionId = params?.submissionId as string | undefined;
-
-  if (!submissionId) {
-    return {
-      notFound: true,
-    };
-  }
-
-  const trpc = await createServerSideTRPC(ctx);
-
-  await trpc.user.profile.terms.get.prefetch();
-  await trpc.game.submissions.get.prefetch({
-    id: submissionId,
-  });
-
-  return {
-    props: {
-      submissionId,
-      dehydratedState: trpc.dehydrate(),
-    },
-  };
-}) satisfies GetServerSideProps<Props>;
 
 Page.getLayout = (page) => {
   return <LayoutContainer>{page}</LayoutContainer>;
