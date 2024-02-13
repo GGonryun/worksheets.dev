@@ -10,7 +10,9 @@ declare module 'next-auth' {
       id: string;
     };
   }
-  interface User {}
+  interface User {
+    id: string;
+  }
   interface Profile {
     email_verified?: boolean;
   }

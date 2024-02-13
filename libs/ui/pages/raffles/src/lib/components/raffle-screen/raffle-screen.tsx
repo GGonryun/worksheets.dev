@@ -1,35 +1,46 @@
 import { NavigateBefore } from '@mui/icons-material';
-import { Box, Button, Container, Typography } from '@mui/material';
+import { Button, Container, Typography } from '@mui/material';
 import {
   RaffleCarousel,
   RafflesGroup,
 } from '@worksheets/ui/components/raffles';
-import { RaffleSchema } from '@worksheets/util/types';
+import {
+  DetailedRaffleSchema,
+  RaffleParticipation,
+  RaffleSchema,
+} from '@worksheets/util/types';
 
 import { CustomContainer } from '../shared/custom-container';
+import { ParticipantsDescription } from './participants-description';
 import { RaffleDescription } from './raffle-description';
 import { RaffleDetails } from './raffle-details';
 
 export const RaffleScreen: React.FC<{
+  userId: string;
   suggestedRaffles: RaffleSchema[];
   activeRaffles: RaffleSchema[];
-  raffle: RaffleSchema;
-  yourEntries: number;
-  youWon: boolean;
-  connected: boolean;
+  raffle: DetailedRaffleSchema;
+  participation?: RaffleParticipation;
+  //
   onRaffleClick: () => void;
   onShare: () => void;
 }> = ({
+  userId,
   suggestedRaffles,
-  youWon,
   activeRaffles,
   raffle,
-  yourEntries,
-  connected,
+  participation,
+  //
   onRaffleClick,
   onShare,
 }) => (
-  <CustomContainer>
+  <CustomContainer
+    sx={{
+      display: 'flex',
+      flexDirection: 'column',
+      gap: { xs: 4, sm: 6 },
+    }}
+  >
     <Container
       maxWidth="md"
       disableGutters
@@ -43,26 +54,23 @@ export const RaffleScreen: React.FC<{
       <AllRafflesLink />
       <RaffleDetails
         {...raffle}
-        youWon={youWon}
+        userId={userId}
         onShare={onShare}
         onRaffleClick={onRaffleClick}
-        yourEntries={yourEntries}
-        connected={connected}
+        participation={participation}
       />
     </Container>
 
-    <Gutter />
-
     <RaffleDescription raffle={raffle} onShare={onShare} />
 
-    {Boolean(suggestedRaffles.length) && (
-      <>
-        <Gutter />
-        <RaffleCarousel items={suggestedRaffles} title="Raffles For You" />
-      </>
-    )}
+    <ParticipantsDescription
+      winners={raffle.winners}
+      participants={raffle.participants}
+    />
 
-    <Gutter />
+    {Boolean(suggestedRaffles.length) && (
+      <RaffleCarousel items={suggestedRaffles} title="Raffles For You" />
+    )}
 
     <RafflesGroup title={'More Raffles'} raffles={activeRaffles} />
   </CustomContainer>
@@ -82,5 +90,3 @@ const AllRafflesLink = () => (
     <Typography>All Raffles</Typography>
   </Button>
 );
-
-const Gutter = () => <Box my={{ xs: 1, sm: 2 }} />;

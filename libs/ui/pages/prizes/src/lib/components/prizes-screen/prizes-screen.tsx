@@ -1,13 +1,18 @@
-import { HowToVote, PlayCircleOutline } from '@mui/icons-material';
+import {
+  ArrowForward,
+  HowToVote,
+  PlayCircleOutline,
+} from '@mui/icons-material';
 import { Box, Button, Typography } from '@mui/material';
-import { PrizesGroup } from '@worksheets/ui/components/prizes';
+import { PrizesCarousel, PrizesGroup } from '@worksheets/ui/components/prizes';
 import { PrizeSchema } from '@worksheets/util/types';
 
 import { CustomContainer } from '../shared/custom-container';
 
-export const PrizesScreen: React.FC<{ prizes: PrizeSchema[] }> = ({
-  prizes,
-}) => (
+export const PrizesScreen: React.FC<{
+  activePrizes: PrizeSchema[];
+  allPrizes: PrizeSchema[];
+}> = ({ activePrizes, allPrizes }) => (
   <CustomContainer>
     <Typography>The Prize Wall</Typography>
     <Typography typography={{ xs: 'h4', sm: 'h3', md: 'h2' }}>
@@ -47,6 +52,17 @@ export const PrizesScreen: React.FC<{ prizes: PrizeSchema[] }> = ({
         How It Works
       </Button>
     </Box>
-    <PrizesGroup title={'All Prizes'} prizes={prizes} />
+    <Box display="flex" flexDirection="column" gap={{ xs: 2, sm: 4, md: 6 }}>
+      <PrizesCarousel title={'Active Prizes'} prizes={activePrizes} />
+      <PrizesGroup
+        title={'More Prizes'}
+        prizes={allPrizes}
+        action={
+          <Button variant="arcade" color="error" endIcon={<ArrowForward />}>
+            View Raffles
+          </Button>
+        }
+      />
+    </Box>
   </CustomContainer>
 );

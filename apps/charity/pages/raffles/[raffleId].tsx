@@ -1,7 +1,7 @@
 import { createStaticTRPC } from '@worksheets/trpc-charity/server';
 import { LayoutContainer } from '@worksheets/ui/layout';
 import { DynamicRaffleScreen } from '@worksheets/ui/pages/raffles';
-import { RaffleSchema } from '@worksheets/util/types';
+import { DetailedRaffleSchema } from '@worksheets/util/types';
 import { NextPageWithLayout } from '@worksheets/util-next';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { NextSeo, NextSeoProps } from 'next-seo';
@@ -11,7 +11,7 @@ import { raffleSeo } from '../../util/seo';
 
 type Props = {
   seo: NextSeoProps;
-  raffle: RaffleSchema;
+  raffle: DetailedRaffleSchema;
 };
 
 const Page: NextPageWithLayout<Props> = ({ seo, raffle }) => (

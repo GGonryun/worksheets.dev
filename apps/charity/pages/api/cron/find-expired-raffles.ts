@@ -120,19 +120,26 @@ const assignWinners = async (raffle: ExpiredRaffle) => {
 
       const winners = await pickWinners(1, raffle.participants, codes);
 
-      await tx.raffleWinner.createMany({
-        data: winners.map((winner) => ({
-          raffleId: raffle.id,
-          userId: winner.userId,
-          participationId: winner.participationId,
-          codeId: winner.codeId,
-          prizeId: raffle.prize.id,
-        })),
-      });
+      const raffleWinners = await Promise.all(
+        winners.map((winner) => {
+          return tx.raffleWinner.create({
+            data: {
+              raffleId: raffle.id,
+              userId: winner.userId,
+              participationId: winner.participationId,
+              codeId: winner.codeId,
+              prizeId: raffle.prize.id,
+            },
+            select: {
+              id: true,
+            },
+          });
+        })
+      );
 
       await tx.claimAlert.createMany({
-        data: winners.map((winner) => ({
-          winnerId: winner.userId,
+        data: raffleWinners.map((winner) => ({
+          winnerId: winner.id,
         })),
       });
 

@@ -1,4 +1,4 @@
-import { HelpCenter, HowToVote } from '@mui/icons-material';
+import { ArrowForward, HelpCenter, HowToVote } from '@mui/icons-material';
 import { Box, Button, Link, Typography } from '@mui/material';
 import { Description } from '@worksheets/ui/components/description';
 import {
@@ -51,28 +51,52 @@ export const RafflesDescription: React.FC<{
       }
       description={
         <Box display="flex" flexDirection="column" textAlign="left">
-          <Typography variant="h6">Active Raffles</Typography>
-          {activeRaffles.length > 0 ? (
-            <>
-              <RafflePseudoGridHeader active />
-              {activeRaffles.map((raffle) => (
-                <RafflePseudoGridRow key={raffle.id} raffle={raffle} active />
-              ))}
-            </>
+          {activeRaffles.length < 1 && expiredRaffles.length < 1 ? (
+            <Box>
+              <Typography variant="h6">No raffle history</Typography>
+              <Typography>
+                Check back later for raffles on this prize!
+              </Typography>
+              <Button
+                variant="arcade"
+                href="/raffles"
+                color="error"
+                sx={{ mt: 2 }}
+                endIcon={<ArrowForward />}
+              >
+                Find active raffles
+              </Button>
+            </Box>
           ) : (
-            <Typography>No active raffles</Typography>
-          )}
-          <Box my={2} />
-          <Typography variant="h6">Past Raffles</Typography>
-          {expiredRaffles.length > 0 ? (
             <>
-              <RafflePseudoGridHeader />
-              {expiredRaffles.map((raffle) => (
-                <RafflePseudoGridRow key={raffle.id} raffle={raffle} />
-              ))}
+              <Typography variant="h6">Active Raffles</Typography>
+              {activeRaffles.length > 0 ? (
+                <>
+                  <RafflePseudoGridHeader active />
+                  {activeRaffles.map((raffle) => (
+                    <RafflePseudoGridRow
+                      key={raffle.id}
+                      raffle={raffle}
+                      active
+                    />
+                  ))}
+                </>
+              ) : (
+                <Typography>No active raffles</Typography>
+              )}
+              <Box my={2} />
+              <Typography variant="h6">Past Raffles</Typography>
+              {expiredRaffles.length > 0 ? (
+                <>
+                  <RafflePseudoGridHeader />
+                  {expiredRaffles.map((raffle) => (
+                    <RafflePseudoGridRow key={raffle.id} raffle={raffle} />
+                  ))}
+                </>
+              ) : (
+                <Typography>No past raffles</Typography>
+              )}
             </>
-          ) : (
-            <Typography>No past raffles</Typography>
           )}
         </Box>
       }

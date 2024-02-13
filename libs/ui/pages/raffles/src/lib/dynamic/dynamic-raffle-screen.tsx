@@ -1,6 +1,6 @@
 import { trpc } from '@worksheets/trpc-charity';
 import { Snackbar, useSnackbar } from '@worksheets/ui/components/snackbar';
-import { RaffleSchema } from '@worksheets/util/types';
+import { DetailedRaffleSchema } from '@worksheets/util/types';
 import dynamic from 'next/dynamic';
 import { useSession } from 'next-auth/react';
 import { useState } from 'react';
@@ -10,7 +10,7 @@ import { ConfirmEntryModal } from '../components/modals/confirm-entry-modal';
 import { EnterRaffleModal } from '../components/modals/enter-raffle-modal';
 import { ShareRaffleModal } from '../components/modals/share-raffle-modal';
 
-const RaffleScreenContainer: React.FC<{ raffle: RaffleSchema }> = ({
+const RaffleScreenContainer: React.FC<{ raffle: DetailedRaffleSchema }> = ({
   raffle,
 }) => {
   const session = useSession();
@@ -47,23 +47,6 @@ const RaffleScreenContainer: React.FC<{ raffle: RaffleSchema }> = ({
   const [raffleEntries, setRaffleEntries] = useState(0);
 
   const handleRaffleClick = () => {
-    if (participation.data?.youWon) {
-      snackbar.trigger({
-        message: 'You already won this prize!',
-        severity: 'warning',
-      });
-
-      return;
-    }
-
-    if (!isConnected) {
-      snackbar.trigger({
-        message: 'You must be logged in to enter a raffle.',
-        severity: 'warning',
-      });
-      return;
-    }
-
     setShowEnterRaffleModal(true);
   };
 
@@ -102,12 +85,11 @@ const RaffleScreenContainer: React.FC<{ raffle: RaffleSchema }> = ({
   return (
     <>
       <RaffleScreen
+        userId={session.data?.user?.id ?? ''}
         suggestedRaffles={suggestedRaffles ?? []}
         raffle={raffle}
         activeRaffles={activeRaffles ?? []}
-        connected={isConnected}
-        yourEntries={participation.data?.entries ?? 0}
-        youWon={participation.data?.youWon ?? false}
+        participation={participation.data}
         onRaffleClick={handleRaffleClick}
         onShare={() => setShowShareRaffleModal(true)}
       />

@@ -1,22 +1,31 @@
 import { trpc } from '@worksheets/trpc-charity';
+import { ErrorScreen } from '@worksheets/ui/pages/errors';
 import { LoadingScreen } from '@worksheets/ui/pages/loading';
 import dynamic from 'next/dynamic';
 
 import { PrizesScreen } from '../components';
 
 const PrizesScreenContainer = () => {
-  const prizes = trpc.prizes.list.useQuery({
+  const activePrizes = trpc.prizes.list.useQuery({
     category: 'active',
   });
-  if (prizes.status === 'loading') {
+
+  const allPrizes = trpc.prizes.list.useQuery({
+    category: 'all',
+    filter: activePrizes.data?.map((p) => p.id),
+  });
+
+  if (activePrizes.isLoading || allPrizes.isLoading) {
     return <LoadingScreen />;
   }
 
-  if (prizes.status === 'error') {
-    return <div>Error: {prizes.error.message}</div>;
+  if (activePrizes.error || allPrizes.error) {
+    return <ErrorScreen />;
   }
 
-  return <PrizesScreen prizes={prizes.data} />;
+  return (
+    <PrizesScreen activePrizes={activePrizes.data} allPrizes={allPrizes.data} />
+  );
 };
 
 export const DynamicPrizesScreen = dynamic(

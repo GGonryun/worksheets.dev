@@ -83,6 +83,7 @@ const insertGame = async (game: SeedableGameSchema) => {
       description: game.description,
       thumbnail: game.iconUrl,
       cover: game.bannerUrl,
+      status: 'PUBLISHED',
       createdAt: new Date(game.createdAt),
       updatedAt: new Date(game.updatedAt),
       developer: {

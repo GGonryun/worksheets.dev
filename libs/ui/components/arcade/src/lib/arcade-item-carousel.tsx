@@ -26,7 +26,7 @@ export function ArcadeItemCarousel<T extends { id: string | number }>(
         <Typography
           component="div"
           sx={{
-            typography: { xs: 'h5', sm: 'h4' },
+            typography: { xs: 'h6', sm: 'h5', md: 'h4' },
           }}
         >
           {props.title}

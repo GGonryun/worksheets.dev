@@ -1,25 +1,33 @@
 import { Box, Link, Typography } from '@mui/material';
 import { ContainImage } from '@worksheets/ui/components/images';
 import { PrizesPanels } from '@worksheets/util/enums';
+import {
+  DetailedRaffleSchema,
+  RaffleParticipation,
+} from '@worksheets/util/types';
 
 export const RaffleHeader: React.FC<{
   headline: string;
+  userId: string;
   prizeId: number;
   imageUrl: string;
   name: string;
   expiresAt: number;
-  youWon: boolean;
-  yourEntries: number;
+  participation: RaffleParticipation | undefined;
+  winners: DetailedRaffleSchema['winners'];
 }> = ({
   prizeId,
   headline,
-  yourEntries,
+  userId,
+  participation,
+  winners,
   imageUrl,
   name,
   expiresAt,
-  youWon,
 }) => {
   const expired = Date.now() > expiresAt;
+  const youWon = winners.some((winner) => winner.userId === userId);
+  const yourEntries = participation?.numTickets ?? 0;
   return (
     <Box
       p={{ xs: 2, sm: 4, md: 6 }}

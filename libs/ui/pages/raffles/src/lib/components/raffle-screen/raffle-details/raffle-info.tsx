@@ -27,20 +27,24 @@ import {
   millisecondsAsDuration,
   printShortDateTime,
 } from '@worksheets/util/time';
+import {
+  DetailedRaffleSchema,
+  RaffleParticipation,
+} from '@worksheets/util/types';
 import React, { JSXElementConstructor } from 'react';
 
 export const RaffleInfo: React.FC<{
   id: number;
+  userId: string;
   prizeId: number;
   expiresAt: number;
   costPerEntry: number;
-  yourEntries: number;
   numWinners: number;
   monetaryValue: number;
-  connected: boolean;
   type: PrizeType;
   sourceUrl: string;
-  youWon: boolean;
+  participation: RaffleParticipation | undefined;
+  winners: DetailedRaffleSchema['winners'];
   onRaffleClick: () => void;
   onShare: () => void;
 }> = ({
@@ -48,18 +52,21 @@ export const RaffleInfo: React.FC<{
   sourceUrl,
   expiresAt,
   numWinners,
-  yourEntries,
+  userId,
+  winners,
+  participation,
   costPerEntry,
   type,
   monetaryValue,
-  connected,
-  youWon,
   onRaffleClick,
   onShare,
 }) => {
   const soon = expiresAt < daysFromNow(1).getTime();
   const expired = expiresAt < Date.now();
 
+  const youWon = winners.some((winner) => winner.userId === userId);
+  const connected = participation !== undefined;
+  const yourEntries = participation?.numTickets ?? 0;
   const PlatformLogo = prizeTypeLogos[type];
   const loginHref = `/login?redirect=${encodeURIComponent(`/raffles/${id}`)}`;
   const accountHref = `/account/prizes#${PrizesPanels.Prizes}`;

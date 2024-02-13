@@ -27,6 +27,13 @@ export default protectedProcedure
         });
       }
 
+      if (raffle.status !== 'ACTIVE') {
+        throw new TRPCError({
+          code: 'PRECONDITION_FAILED',
+          message: 'Raffle is not active',
+        });
+      }
+
       if (raffle.expiresAt < new Date()) {
         throw new TRPCError({
           code: 'PRECONDITION_FAILED',

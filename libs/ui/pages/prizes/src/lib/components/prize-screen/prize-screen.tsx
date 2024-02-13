@@ -1,10 +1,11 @@
 import { NavigateBefore } from '@mui/icons-material';
-import { Box, Button, Link, Typography, useTheme } from '@mui/material';
+import { Box, Button, Typography, useTheme } from '@mui/material';
 import { ResponsiveImage } from '@worksheets/ui/components/images';
-import { PrizesGroup } from '@worksheets/ui/components/prizes';
+import { PrizesCarousel, PrizesGroup } from '@worksheets/ui/components/prizes';
 import {
   BasicRaffleDetails,
   DetailedPrizeSchema,
+  PrizeSchema,
 } from '@worksheets/util/types';
 
 import { CustomContainer } from '../shared/custom-container';
@@ -15,7 +16,7 @@ export const PrizeScreen: React.FC<{
   prize: DetailedPrizeSchema;
   activeRaffles: BasicRaffleDetails[];
   expiredRaffles: BasicRaffleDetails[];
-  suggestions: DetailedPrizeSchema[];
+  suggestions: { similar: PrizeSchema[]; active: PrizeSchema[] };
   onShare: () => void;
 }> = ({ prize, activeRaffles, expiredRaffles, suggestions, onShare }) => (
   <CustomContainer>
@@ -32,9 +33,6 @@ export const PrizeScreen: React.FC<{
       >
         All Prizes
       </Button>
-      <Link color="inherit" underline="hover" variant="body1" href="/prizes">
-        The Prize Wall
-      </Link>
 
       <PrizeHeader prize={prize} />
       <PrizeDescription prize={prize} onShare={onShare} />
@@ -43,7 +41,12 @@ export const PrizeScreen: React.FC<{
         activeRaffles={activeRaffles}
         expiredRaffles={expiredRaffles}
       />
-      <PrizesGroup title={'Similar Prizes'} prizes={suggestions} />
+      {Boolean(suggestions.active.length) && (
+        <PrizesCarousel title="Active Prizes" prizes={suggestions.active} />
+      )}
+      {Boolean(suggestions.similar) && (
+        <PrizesGroup title="Similar Prizes" prizes={suggestions.similar} />
+      )}
     </Box>
   </CustomContainer>
 );
@@ -52,7 +55,9 @@ const PrizeHeader: React.FC<{ prize: DetailedPrizeSchema }> = ({ prize }) => {
   const theme = useTheme();
   return (
     <Box display="flex" flexDirection="column" alignItems="center" gap={2}>
-      <Typography variant="h4">{prize.name}</Typography>
+      <Typography typography={{ xs: 'h5', sm: 'h4', md: 'h3' }}>
+        {prize.name}
+      </Typography>
       <Typography>{prize.headline}</Typography>
       <Box
         width="100%"

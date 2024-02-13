@@ -1,5 +1,8 @@
 import { Box, Paper } from '@mui/material';
-import { RaffleSchema } from '@worksheets/util/types';
+import {
+  DetailedRaffleSchema,
+  RaffleParticipation,
+} from '@worksheets/util/types';
 
 import {
   BottomPunchOut,
@@ -11,15 +14,15 @@ import { RaffleHeader } from './raffle-header';
 import { RaffleInfo } from './raffle-info';
 
 export const RaffleDetails: React.FC<
-  RaffleSchema & {
-    youWon: boolean;
-    yourEntries: number;
-    connected: boolean;
+  DetailedRaffleSchema & {
+    userId: string;
+    participation: RaffleParticipation | undefined;
     onRaffleClick: () => void;
     onShare: () => void;
   }
 > = ({
   id,
+  userId,
   prizeId,
   headline,
   expiresAt,
@@ -28,10 +31,9 @@ export const RaffleDetails: React.FC<
   costPerEntry,
   numWinners,
   type,
-  yourEntries,
+  participation,
   monetaryValue,
-  youWon,
-  connected,
+  winners,
   sourceUrl,
   onRaffleClick,
   onShare,
@@ -53,9 +55,10 @@ export const RaffleDetails: React.FC<
     >
       <Box textAlign="center">
         <RaffleHeader
-          yourEntries={yourEntries}
+          userId={userId}
+          participation={participation}
           prizeId={prizeId}
-          youWon={youWon}
+          winners={winners}
           name={name}
           imageUrl={imageUrl}
           headline={headline}
@@ -98,16 +101,16 @@ export const RaffleDetails: React.FC<
         />
         <RaffleInfo
           id={id}
+          userId={userId}
+          winners={winners}
+          participation={participation}
           prizeId={prizeId}
-          youWon={youWon}
           costPerEntry={costPerEntry}
           monetaryValue={monetaryValue}
           expiresAt={expiresAt}
           numWinners={numWinners}
           sourceUrl={sourceUrl}
-          connected={connected}
           type={type}
-          yourEntries={yourEntries}
           onRaffleClick={onRaffleClick}
           onShare={onShare}
         />

@@ -22,8 +22,6 @@ export const PrizesTable: React.FC<{
   prizes: WonRaffleDetails[];
   onClaim: (prize: WonRaffleDetails) => void;
 }> = ({ prizes, onClaim }) => {
-  const isMobile = useMediaQueryDown('sm');
-
   if (prizes.length === 0) {
     return <EmptyPrizesPlaceholder />;
   }
@@ -42,14 +40,6 @@ export const PrizesTable: React.FC<{
             </TableCell>
             <TableCell align="left">ID</TableCell>
             <TableCell width="50%">Name</TableCell>
-            <TableCell
-              align="center"
-              sx={{
-                display: isMobile ? 'none' : 'table-cell',
-              }}
-            >
-              Claim By
-            </TableCell>
             <TableCell align="right" width={180}></TableCell>
           </TableRow>
         </TableHead>
@@ -67,7 +57,6 @@ const PrizeRow: React.FC<{
   prize: WonRaffleDetails;
   onClaim: (prize: WonRaffleDetails) => void;
 }> = ({ prize, onClaim }) => {
-  const isMobile = useMediaQueryDown('sm');
   const PrizeTypeLogo = prizeTypeLogos[prize.type];
   return (
     <TableRow
@@ -101,15 +90,7 @@ const PrizeRow: React.FC<{
       >
         <b>{prize.name}</b>
       </TableCell>
-      <TableCell
-        align="center"
-        sx={{
-          whiteSpace: 'nowrap',
-          display: isMobile ? 'none' : 'table-cell',
-        }}
-      >
-        <i>{prize.claimedAt ? 'Claimed' : 'Unclaimed'}</i>
-      </TableCell>
+
       <TableCell align="right" width={180}>
         <Button
           onClick={() => onClaim(prize)}

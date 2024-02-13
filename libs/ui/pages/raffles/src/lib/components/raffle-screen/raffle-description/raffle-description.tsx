@@ -4,11 +4,11 @@ import { Description } from '@worksheets/ui/components/description';
 import { prizeTypeLabel } from '@worksheets/ui/components/prizes';
 import { HTMLinator } from '@worksheets/ui-core';
 import { printShortDateTime } from '@worksheets/util/time';
-import { RaffleSchema } from '@worksheets/util/types';
+import { DetailedRaffleSchema } from '@worksheets/util/types';
 
 export const RaffleDescription: React.FC<{
   onShare: () => void;
-  raffle: RaffleSchema;
+  raffle: DetailedRaffleSchema;
 }> = ({ raffle, onShare }) => (
   <Description
     title="About This Prize"
@@ -59,7 +59,9 @@ export const RaffleDescription: React.FC<{
   />
 );
 
-const DetailsGrid: React.FC<{ raffle: RaffleSchema }> = ({ raffle }) => {
+const DetailsGrid: React.FC<{ raffle: DetailedRaffleSchema }> = ({
+  raffle,
+}) => {
   const isOver = raffle.expiresAt < Date.now();
   return (
     <Box>
@@ -80,7 +82,7 @@ const DetailsGrid: React.FC<{ raffle: RaffleSchema }> = ({ raffle }) => {
         label={isOver ? 'Ended On' : 'Ends On'}
         value={printShortDateTime(raffle.expiresAt)}
       />
-      <DetailPair label="Winners" value={raffle.numWinners} />
+      <DetailPair label="Possible Winners" value={raffle.numWinners} />
       <DetailPair label="Retail Value" value={`$${raffle.monetaryValue} USD`} />
       <DetailPair label="Entry Fee" value={`${raffle.costPerEntry} Tokens`} />
       <DetailPair label="Prize Type" value={prizeTypeLabel[raffle.type]} />

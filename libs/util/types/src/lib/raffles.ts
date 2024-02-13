@@ -39,6 +39,24 @@ export const raffleSchema = z.object({
 
 export type RaffleSchema = z.infer<typeof raffleSchema>;
 
+export const detailedRaffleSchema = raffleSchema.extend({
+  participants: z
+    .object({
+      userId: z.string(),
+      username: z.string(),
+      numTickets: z.number(),
+    })
+    .array(),
+  winners: z
+    .object({
+      userId: z.string(),
+      username: z.string(),
+    })
+    .array(),
+});
+
+export type DetailedRaffleSchema = z.infer<typeof detailedRaffleSchema>;
+
 export type BasicRaffleDetails = Pick<
   RaffleSchema,
   'id' | 'name' | 'imageUrl' | 'type' | 'expiresAt'
@@ -87,3 +105,10 @@ export const enteredRaffleSchema = z.object({
 });
 
 export type EnteredRaffleSchema = z.infer<typeof enteredRaffleSchema>;
+
+export const raffleParticipation = z.object({
+  userId: z.string(),
+  numTickets: z.number(),
+});
+
+export type RaffleParticipation = z.infer<typeof raffleParticipation>;

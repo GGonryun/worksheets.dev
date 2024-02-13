@@ -7,23 +7,30 @@ export default publicProcedure
   .input(
     z.object({
       category: z.enum(['active', 'all']).optional(),
+      filter: z.number().array().optional(),
     })
   )
   .output(prizeSchema.array())
-  .query(async ({ input: { category }, ctx: { db } }) => {
+  .query(async ({ input: { filter, category }, ctx: { db } }) => {
     // only show prizes that are in an active raffle
     const prizes = await db.prize.findMany({
-      include: {
-        raffles: {
-          where:
-            category === 'active'
-              ? {
-                  expiresAt: {
-                    gte: new Date(),
-                  },
-                }
-              : {},
+      where: {
+        id: {
+          notIn: filter ? filter : [],
         },
+        raffles:
+          category === 'active'
+            ? {
+                some: {
+                  expiresAt: {
+                    gt: new Date(),
+                  },
+                },
+              }
+            : undefined,
+      },
+      include: {
+        raffles: true,
       },
     });
 

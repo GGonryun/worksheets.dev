@@ -28,6 +28,7 @@ const PENDING_ALERT_PROPS = {
       id: true as const,
       user: {
         select: {
+          id: true as const,
           email: true as const,
         },
       },
@@ -149,7 +150,7 @@ const sendFirstTimeAlertEmail = async (alert: PendingAlert) => {
   return sendEmail({
     to: [alert.winner.user.email],
     subject: 'You won a new prize!',
-    html: `You won a new prize!<br/>${claimYourPrizeText}`,
+    html: `You won a new prize!<br/><br/>${claimYourPrizeText}`,
   });
 };
 
@@ -177,7 +178,7 @@ const updateAlert = async (alert: PendingAlert) => {
     prisma.notification.create({
       data: {
         type: 'RAFFLE',
-        userId: alert.winner.id,
+        userId: alert.winner.user.id,
         text: `You won a prize! <a href="${ACCOUNT_URL}">Go to your account</a> to redeem your copy of <a href="${PRIZE_URL(
           alert.winner.prize.id
         )}">${alert.winner.prize.name}</a>.`,

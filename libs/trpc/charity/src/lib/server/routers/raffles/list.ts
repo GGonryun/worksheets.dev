@@ -83,6 +83,9 @@ const allRaffles: RaffleQuery = async (db, limit, prizeId) =>
       take: limit,
       where: {
         prizeId: prizeId ? prizeId : undefined,
+        status: {
+          notIn: ['CANCELLED', 'DRAFT'],
+        },
       },
       include: {
         prize: true,
@@ -97,9 +100,7 @@ const activePrizes: RaffleQuery = async (db, limit, prizeId) =>
       take: limit,
       where: {
         prizeId: prizeId ? prizeId : undefined,
-        expiresAt: {
-          gt: new Date(),
-        },
+        status: 'ACTIVE',
       },
       include: {
         prize: true,
@@ -113,18 +114,17 @@ const hottestPrizes: RaffleQuery = async (db, limit, prizeId) => {
     take: limit,
     where: {
       prizeId: prizeId ? prizeId : undefined,
-      expiresAt: {
-        gt: new Date(),
-      },
+      status: 'ACTIVE',
     },
     orderBy: {
-      prize: {
-        monetaryValue: 'desc',
+      participants: {
+        _count: 'desc',
       },
     },
     include: {
       prize: true,
       sponsor: true,
+      participants: true,
     },
   });
 
@@ -137,6 +137,7 @@ const newestPrizes: RaffleQuery = async (db, limit, prizeId) =>
       take: limit,
       where: {
         prizeId: prizeId ? prizeId : undefined,
+        status: 'ACTIVE',
       },
       orderBy: {
         createdAt: 'desc',
@@ -154,9 +155,7 @@ const expiredPrizes: RaffleQuery = async (db, limit, prizeId) =>
       take: limit,
       where: {
         prizeId: prizeId ? prizeId : undefined,
-        expiresAt: {
-          lte: new Date(),
-        },
+        status: 'COMPLETE',
       },
       orderBy: {
         expiresAt: 'asc',
@@ -174,9 +173,7 @@ const expiringPrizes: RaffleQuery = async (db, limit, prizeId) =>
       take: limit,
       where: {
         prizeId: prizeId ? prizeId : undefined,
-        expiresAt: {
-          gt: new Date(),
-        },
+        status: 'ACTIVE',
       },
       orderBy: {
         expiresAt: 'asc',
