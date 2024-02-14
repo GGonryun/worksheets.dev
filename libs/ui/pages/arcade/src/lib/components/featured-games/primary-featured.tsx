@@ -52,7 +52,7 @@ export const PrimaryFeatured: React.FC<{
           overflow: 'hidden',
         }}
       >
-        <FillImage src={item.image} alt={item.name} />
+        <FillImage priority src={item.image} alt={item.name} />
         <Box
           position="absolute"
           bottom={{ xs: 12, sm: 16 }}

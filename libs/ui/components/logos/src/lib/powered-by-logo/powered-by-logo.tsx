@@ -1,6 +1,6 @@
 import { Typography } from '@mui/material';
 import Box from '@mui/material/Box';
-import Image from 'next/image';
+import { ResponsiveImage } from '@worksheets/ui/components/images';
 
 // Hard coded to match the design
 export const PoweredByLogo = () => (
@@ -49,12 +49,12 @@ export const PoweredByLogo = () => (
       </Typography>
     </Box>
     <Box position="absolute" top={18}>
-      <Image
-        src="/common/charity-games/logos/tertiary-small.png"
-        alt={'Powered by Charity Games'}
-        width={72}
-        height={60.5}
-      />
+      <Box position="relative" width={72} height={60.5}>
+        <ResponsiveImage
+          src="/common/charity-games/logos/tertiary-small.png"
+          alt={'Powered by Charity Games'}
+        />
+      </Box>
     </Box>
   </Box>
 );
