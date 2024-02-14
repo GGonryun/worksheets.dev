@@ -12,8 +12,8 @@ export const CookiesStatement = () => {
   );
 };
 
-const createdAtDate = printDate('12-01-2021');
-const updatedAtDate = printDate('12-01-2021');
+const createdAtDate = printDate('12-01-2023');
+const updatedAtDate = printDate('02-14-2024');
 
 const cookiesText = `
 # Global Cookie Policy
@@ -50,14 +50,14 @@ The Site may therefore use third party cookies such as cookies from:
 Google Ad Exchange — [Privacy Policy](https://policies.google.com/privacy)
 <br/>
 Google Adsense — [Privacy Policy](https://policies.google.com/privacy)
+<br/>
+FullStory — [Privacy Policy](https://www.fullstory.com/legal/privacy-policy/)
 <br/><br/>
 In addition, the Site also uses third party cookies such as cookies from Google Analytics.
 <br/><br/>
 Google Analytics is a free service by Google to collect statistics of websites and to represent them in detail. The website administrator thus has a clear view on visitor flows, traffic flows and page displays. This way it is possible to adapt parts of a website or complete websites to the behavior and interests of the visitors.
 ## How to manage cookies?
 You can do so by adapting your browser settings. Modern browsers allow you to choose to block cookies or to accept only cookies from specific websites. Contact us if you need any help in doing so.
-<br/><br/>
-We also work with the following ID providers:
 <br/><br/>
 Cookie settings website.
 
@@ -75,7 +75,7 @@ In other jurisdictions — for example the member states of the EU and UK — we
 Your precise geolocation and information about your device characteristics can be used to ensure that the content and advertisements that are presented to you are relevant to you. Advertisement and content performance can be measured and can be personalized based on a profile. Data can be used to build or improve user experience, systems and software; and whether
 cookies, device identifiers, or other information can be stored or accessed on your device for the purposes presented to you.
 
-## Functioning of the Website.
+## General Website Functionality
 If you choose to block or delete certain cookies, it is possible the Charity Games website or functions on our website do not work properly anymore. Deleting or refusing cookies also does not mean you will no longer see advertisements. However, as a result of disabling cookies, the advertisements shown may be less relevant to you.
 
 ## How to change or delete cookie settings in your browser. 

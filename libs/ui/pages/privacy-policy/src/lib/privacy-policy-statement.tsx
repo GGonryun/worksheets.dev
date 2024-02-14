@@ -17,9 +17,9 @@ const updatedAtDate = printDate('12-01-2023');
 
 const privacyStatement = `
 # Global Privacy Statement
-__Released__: ${createdAtDate}
+**Released**: ${createdAtDate}
 <br/>
-__Last Updated__: ${updatedAtDate}
+**Last Updated**: ${updatedAtDate}
 ## General Information:
 Welcome to CharityGames, where we are committed to protecting your privacy. This Privacy Statement explains how we collect, use, and safeguard your personal information when you visit our website and use our gaming services.
 

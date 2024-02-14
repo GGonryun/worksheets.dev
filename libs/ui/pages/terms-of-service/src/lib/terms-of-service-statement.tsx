@@ -18,9 +18,9 @@ const updatedAtDate = printDate('12-17-2023');
 
 const tosStatement = `
 # Terms of Use
-__Released__: ${createdAtDate}
+**Released**: ${createdAtDate}
 <br/>
-__Last Updated__: ${updatedAtDate}
+**Last Updated**: ${updatedAtDate}
 <br/>
 <br/>
 Welcome to Charity.Games (Charity Games, LLC is company established in the United States — referred to as "Charity Games", "We", "Our" or "Us"!) 
