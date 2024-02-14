@@ -33,12 +33,12 @@ const RaffleScreenContainer: React.FC<{ raffle: DetailedRaffleSchema }> = ({
     enabled: isConnected,
   });
 
-  const { data: suggestedRaffles } = trpc.raffles.list.useQuery({
+  const { data: suggestedRaffles } = trpc.public.raffles.list.useQuery({
     category: 'suggested',
     limit: 7,
   });
 
-  const { data: activeRaffles } = trpc.raffles.list.useQuery({
+  const { data: activeRaffles } = trpc.public.raffles.list.useQuery({
     category: 'active',
   });
 

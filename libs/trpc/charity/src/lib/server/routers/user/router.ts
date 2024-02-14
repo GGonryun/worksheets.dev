@@ -1,5 +1,6 @@
 import { t } from '../../trpc';
 import friends from './friends/router';
+import game from './game/router';
 import get from './get';
 import notifications from './notifications/router';
 import profile from './profile/router';
@@ -15,4 +16,5 @@ export default t.router({
   get,
   friends,
   raffles,
+  game,
 });

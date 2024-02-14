@@ -20,7 +20,7 @@ const GameSubmissionScreenContainer: React.FC<{
     enabled: enableQueries,
   });
 
-  const submission = trpc.game.submissions.get.useQuery(
+  const submission = trpc.user.game.submissions.get.useQuery(
     { id: submissionId },
     { enabled: enableQueries }
   );

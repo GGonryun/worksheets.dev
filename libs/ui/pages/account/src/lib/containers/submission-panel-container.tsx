@@ -8,18 +8,17 @@ import { SubmissionsPanel } from '../components';
 export const SubmissionsPanelContainer: React.FC = () => {
   const router = useRouter();
   const snackbar = useSnackbar();
-  const utils = trpc.useUtils();
 
-  const submissions = trpc.game.submissions.list.useQuery();
+  const submissions = trpc.user.game.submissions.list.useQuery();
   const terms = trpc.user.profile.terms.get.useQuery();
 
   const approveTerms = trpc.user.profile.terms.approve.useMutation();
-  const destroySubmission = trpc.game.submissions.destroy.useMutation();
+  const destroySubmission = trpc.user.game.submissions.destroy.useMutation();
 
   const onApproveTermsOfService = async () => {
     try {
       await approveTerms.mutateAsync();
-      await utils.user.profile.terms.get.invalidate();
+      await terms.refetch();
     } catch (error) {
       snackbar.trigger({
         message:
@@ -32,7 +31,7 @@ export const SubmissionsPanelContainer: React.FC = () => {
   const onDeleteSubmission = async (submissionId: string) => {
     try {
       await destroySubmission.mutateAsync({ submissionId });
-      await utils.game.submissions.list.invalidate();
+      await submissions.refetch();
 
       router.reload();
     } catch {

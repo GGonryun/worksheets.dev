@@ -6,11 +6,11 @@ import dynamic from 'next/dynamic';
 import { PrizesScreen } from '../components';
 
 const PrizesScreenContainer = () => {
-  const activePrizes = trpc.prizes.list.useQuery({
+  const activePrizes = trpc.public.prizes.list.useQuery({
     category: 'active',
   });
 
-  const allPrizes = trpc.prizes.list.useQuery({
+  const allPrizes = trpc.public.prizes.list.useQuery({
     category: 'all',
     filter: activePrizes.data?.map((p) => p.id),
   });

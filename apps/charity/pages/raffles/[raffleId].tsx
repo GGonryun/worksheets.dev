@@ -38,7 +38,7 @@ export const getStaticProps = (async (ctx) => {
   }
 
   try {
-    const raffle = await trpc.raffles.find.fetch({
+    const raffle = await trpc.public.raffles.find.fetch({
       raffleId: Number(raffleId),
     });
 
@@ -68,7 +68,7 @@ type PathProps = ParsedUrlQuery & {
 export const getStaticPaths = (async (ctx) => {
   const trpc = await createStaticTRPC(ctx);
 
-  const raffles = await trpc.raffles.list.fetch({ category: 'active' });
+  const raffles = await trpc.public.raffles.list.fetch({ category: 'active' });
 
   return {
     paths: raffles.map((raffle) => ({

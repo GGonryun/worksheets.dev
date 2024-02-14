@@ -39,14 +39,14 @@ const GameScreenContainer: React.FC<{
 
   const userVotes = useGameVotes();
 
-  const castVote = trpc.game.vote.cast.useMutation();
-  const play = trpc.game.play.record.useMutation();
-  const reportGame = trpc.game.report.useMutation();
+  const castVote = trpc.public.games.vote.cast.useMutation();
+  const play = trpc.public.games.play.record.useMutation();
+  const reportGame = trpc.public.games.report.useMutation();
 
   const rewardAuthorized = trpc.user.rewards.gamePlay.authorized.useMutation();
   const rewardAnonymous = trpc.user.rewards.gamePlay.anonymous.useMutation();
 
-  const { data: suggestions } = trpc.game.suggestions.useQuery({
+  const { data: suggestions } = trpc.public.games.suggestions.useQuery({
     gameId: game.id,
   });
 

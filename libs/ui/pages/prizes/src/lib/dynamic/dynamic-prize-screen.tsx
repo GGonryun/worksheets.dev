@@ -12,17 +12,17 @@ const PrizeScreenContainer: React.FC<{ prize: DetailedPrizeSchema }> = ({
 }) => {
   const [sharePrizeModal, setSharePrizeModal] = useState(false);
 
-  const activeRaffles = trpc.raffles.list.useQuery({
+  const activeRaffles = trpc.public.raffles.list.useQuery({
     prizeId: prize.id,
     category: 'active',
   });
 
-  const expiredRaffles = trpc.raffles.list.useQuery({
+  const expiredRaffles = trpc.public.raffles.list.useQuery({
     prizeId: prize.id,
     category: 'expired',
   });
 
-  const suggestedPrizes = trpc.prizes.suggestions.useQuery({
+  const suggestedPrizes = trpc.public.prizes.suggestions.useQuery({
     prizeId: prize.id,
   });
 

@@ -35,7 +35,7 @@ export const getStaticProps = (async (ctx) => {
     };
   }
 
-  const { developer, games } = await trpc.developers.find.fetch({
+  const { developer, games } = await trpc.public.developers.find.fetch({
     developerId,
   });
 
@@ -45,7 +45,7 @@ export const getStaticProps = (async (ctx) => {
 export const getStaticPaths = (async (ctx) => {
   const trpc = await createStaticTRPC(ctx);
 
-  const devs = await trpc.developers.list.fetch();
+  const devs = await trpc.public.developers.list.fetch();
 
   return {
     paths: devs.map((dev) => ({

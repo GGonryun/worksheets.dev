@@ -3,11 +3,16 @@ import { ZodError } from 'zod';
 
 import { Context } from './context/context';
 
-export type Meta = Record<string, unknown>;
+export type Meta = {
+  cache: {
+    enabled: boolean;
+    maxAge: number;
+  };
+};
 
 export const t = initTRPC
-  .meta<Meta>()
   .context<Context>()
+  .meta<Meta>()
   .create({
     errorFormatter(opts) {
       const { shape, error } = opts;

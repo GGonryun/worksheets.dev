@@ -47,7 +47,7 @@ export const getStaticProps = (async (ctx) => {
   }
 
   try {
-    const { game, developer } = await trpc.game.find.fetch({
+    const { game, developer } = await trpc.public.games.find.fetch({
       gameId,
     });
 
@@ -80,7 +80,7 @@ export const getStaticProps = (async (ctx) => {
 export const getStaticPaths = (async (ctx) => {
   const trpc = await createStaticTRPC(ctx);
 
-  const games = await trpc.game.list.fetch();
+  const games = await trpc.public.games.list.fetch({});
 
   return {
     paths: games.map((game) => ({
@@ -88,7 +88,7 @@ export const getStaticPaths = (async (ctx) => {
         gameId: game,
       },
     })),
-    fallback: false,
+    fallback: 'blocking',
   };
 }) satisfies GetStaticPaths<{ gameId: string }>;
 

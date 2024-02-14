@@ -9,9 +9,12 @@ import { ArcadeScreen } from '../components/arcade-screen';
 const ArcadeScreenContainer: React.FC = () => {
   const { recentlyPlayed } = useRecentlyPlayedGames();
 
-  const { data, isLoading, error } = trpc.arcade.details.useQuery(undefined, {
-    enabled: true,
-  });
+  const { data, isLoading, error } = trpc.public.arcade.details.useQuery(
+    undefined,
+    {
+      enabled: true,
+    }
+  );
 
   if (isLoading) return <LoadingScreen />;
 

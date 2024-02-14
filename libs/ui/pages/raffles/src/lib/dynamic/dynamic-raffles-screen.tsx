@@ -26,12 +26,12 @@ const RafflesContainer = () => {
     }
   }, [router.query.search]);
 
-  const { data: hottestPrizes } = trpc.raffles.list.useQuery({
+  const { data: hottestPrizes } = trpc.public.raffles.list.useQuery({
     category: 'hottest',
     limit: 7,
   });
 
-  const { data: listPrizes } = trpc.raffles.list.useQuery({
+  const { data: listPrizes } = trpc.public.raffles.list.useQuery({
     category,
   });
 
@@ -44,7 +44,7 @@ const RafflesContainer = () => {
     }
   );
 
-  const { data: searchPrizes } = trpc.raffles.list.useQuery({
+  const { data: searchPrizes } = trpc.public.raffles.list.useQuery({
     category: 'active',
     query,
   });

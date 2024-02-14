@@ -37,7 +37,7 @@ export const getStaticProps = (async (ctx) => {
   }
 
   try {
-    const prize = await trpc.prizes.find.fetch({
+    const prize = await trpc.public.prizes.find.fetch({
       prizeId: Number(prizeId),
     });
 
@@ -63,7 +63,7 @@ export const getStaticProps = (async (ctx) => {
 export const getStaticPaths = (async (ctx) => {
   const trpc = await createStaticTRPC(ctx);
 
-  const prizes = await trpc.prizes.list.fetch({ category: 'active' });
+  const prizes = await trpc.public.prizes.list.fetch({ category: 'active' });
 
   return {
     paths: prizes.map((prize) => ({

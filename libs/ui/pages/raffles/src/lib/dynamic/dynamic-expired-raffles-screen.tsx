@@ -10,7 +10,7 @@ const ExpiredRafflesScreenContainer = () => {
     data: expiredPrizes,
     isLoading,
     error,
-  } = trpc.raffles.list.useQuery({
+  } = trpc.public.raffles.list.useQuery({
     category: 'expired',
   });
 

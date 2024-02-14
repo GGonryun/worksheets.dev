@@ -101,12 +101,12 @@ export const useGameSubmissionForm = (
     strictGameSubmissionFormSchema
   );
 
-  const submitForm = trpc.game.submissions.submit.useMutation();
-  const updateForm = trpc.game.submissions.update.useMutation();
+  const submitForm = trpc.user.game.submissions.submit.useMutation();
+  const updateForm = trpc.user.game.submissions.update.useMutation();
 
-  const prepare = trpc.game.files.prepare.useMutation();
-  const complete = trpc.game.files.complete.useMutation();
-  const destroy = trpc.game.files.destroy.useMutation();
+  const prepare = trpc.user.game.files.prepare.useMutation();
+  const complete = trpc.user.game.files.complete.useMutation();
+  const destroy = trpc.user.game.files.destroy.useMutation();
 
   const onSubmit: GameSubmissionFormContextType['onSubmit'] = async () => {
     setLoading(true);

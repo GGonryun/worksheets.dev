@@ -8,8 +8,8 @@ import { ContributionScreen } from '../components';
 import { contributionFaq } from '../data';
 
 const ContributionScreenContainer = () => {
-  const statistics = trpc.usage.contributions.useQuery();
-  const developers = trpc.developers.list.useQuery();
+  const statistics = trpc.public.usage.contributions.useQuery();
+  const developers = trpc.public.developers.list.useQuery();
   if (statistics.error || developers.error) return <ErrorScreen />;
 
   if (statistics.isLoading || developers.isLoading) return <LoadingScreen />;

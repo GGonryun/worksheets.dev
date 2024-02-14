@@ -44,7 +44,9 @@ export const getStaticProps = (async (ctx) => {
     };
 
   const trpc = await createStaticTRPC(ctx);
-  const { tag, games, related } = await trpc.categories.find.fetch({ tagId });
+  const { tag, games, related } = await trpc.public.categories.find.fetch({
+    tagId,
+  });
 
   const seo = categorySeo(tag);
 
@@ -54,7 +56,7 @@ export const getStaticProps = (async (ctx) => {
 export const getStaticPaths = (async (ctx) => {
   const trpc = await createStaticTRPC(ctx);
 
-  const tags = await trpc.categories.list.fetch({ showEmpty: true });
+  const tags = await trpc.public.categories.list.fetch({ showEmpty: true });
 
   return {
     paths: tags.map((tag) => ({
