@@ -1,9 +1,8 @@
 import './styles.css';
 
-import * as FullStory from '@fullstory/browser';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { trpc } from '@worksheets/trpc-charity';
-import { COOKIE_DOMAIN, IS_PRODUCTION } from '@worksheets/ui/env';
+import { DynamicSessionReplay } from '@worksheets/ui/components/session-replay';
 import theme from '@worksheets/ui/theme';
 import { AppPropsWithLayout } from '@worksheets/util-next';
 import Head from 'next/head';
@@ -11,14 +10,6 @@ import { SessionProvider } from 'next-auth/react';
 import { DefaultSeo } from 'next-seo';
 
 import { defaultSeo } from '../util/seo';
-
-if (typeof window !== 'undefined') {
-  FullStory.init({
-    orgId: 'o-1N7VNF-na1',
-    devMode: !IS_PRODUCTION,
-    cookieDomain: COOKIE_DOMAIN,
-  });
-}
 
 function CustomApp({
   Component,
@@ -39,6 +30,7 @@ function CustomApp({
 
       <ThemeProvider theme={theme}>
         <SessionProvider session={session}>
+          <DynamicSessionReplay />
           <main>{getLayout(<Component {...pageProps} />)}</main>
         </SessionProvider>
       </ThemeProvider>

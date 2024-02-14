@@ -88,6 +88,9 @@
       "@worksheets/ui/components/raffles": [
         "libs/ui/components/raffles/src/index.ts"
       ],
+      "@worksheets/ui/components/session-replay": [
+        "libs/ui/components/session-replay/src/index.ts"
+      ],
       "@worksheets/ui/components/snackbar": [
         "libs/ui/components/snackbar/src/index.ts"
       ],
