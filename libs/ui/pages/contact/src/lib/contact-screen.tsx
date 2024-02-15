@@ -1,7 +1,6 @@
 import {
   EmailOutlined,
   Favorite,
-  GitHub,
   HelpCenter,
   Login,
 } from '@mui/icons-material';
@@ -9,7 +8,6 @@ import {
   Box,
   Button,
   Container,
-  Link,
   Paper,
   Typography,
   TypographyProps,
@@ -79,8 +77,6 @@ export const ContactScreen: React.FC = () => (
       <br />
       <SignUpSection />
       <br />
-      <BugsSection />
-      <br />
     </Paper>
   </Container>
 );
@@ -90,9 +86,9 @@ const EmailUsSection: FC = () => {
     <Box>
       <Subtitle>Need help?</Subtitle>
       <Text>
-        Have a question about our platform or a game? Or maybe some feedback
-        you'd like to share? Send us a message and we&apos;ll get back to you as
-        soon as possible.
+        Have a question about our platform or a game? Did you find a bug on our
+        website? Or maybe there is some feedback you would like to share? Send
+        us a message and we will get back to you as soon as possible.
       </Text>
       <Box mt={2}>
         <Button
@@ -112,8 +108,8 @@ const SignUpSection: FC = () => (
   <Box>
     <Subtitle>Stay up to date</Subtitle>
     <Text>
-      We&apos;re always adding new games and features. Create an account to join
-      our newsletter and stay up to date. We promise not to spam you!
+      We are always adding new games and features. Create an account to join our
+      newsletter and stay up to date. We promise not to spam you!
     </Text>
     <Box mt={2}>
       <Button
@@ -123,37 +119,6 @@ const SignUpSection: FC = () => (
         startIcon={<Login />}
       >
         Sign Up
-      </Button>
-    </Box>
-  </Box>
-);
-
-const BugsSection: FC = () => (
-  <Box
-    sx={{
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 1,
-    }}
-  >
-    <Subtitle>Report bugs</Subtitle>
-    <Text>
-      Charity Games uses{' '}
-      <Link color="inherit" href={urls.social.github}>
-        GitHub
-      </Link>{' '}
-      as our public issues tracker for organizing bugs. Please use the link
-      below to report bugs. Do not share private data as our issues tracker is
-      public.
-    </Text>
-    <Box mt={2}>
-      <Button
-        variant="arcade"
-        color="error"
-        href={urls.social.github}
-        startIcon={<GitHub />}
-      >
-        GitHub
       </Button>
     </Box>
   </Box>

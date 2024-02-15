@@ -9,7 +9,8 @@ import {
 } from '@worksheets/util/types';
 import { DefaultSeoProps, NextSeoProps, VideoGameJsonLdProps } from 'next-seo';
 
-const createCanonicalUrl = (url?: string) => `${CHARITY_GAMES_BASE_URL}${url}`;
+export const createCanonicalUrl = (url?: string) =>
+  `${CHARITY_GAMES_BASE_URL}${url}`;
 
 export const defaultSeo: DefaultSeoProps = {
   title: 'Charity Games',
@@ -177,6 +178,18 @@ export const termsSeo = createSeo({
   description: `Read the Charity Games terms of service. Learn about our policies and guidelines. Thank you for your support!`,
 });
 
+export const privacySeo = createSeo({
+  url: `/privacy`,
+  title: `Charity Games - Privacy Policy`,
+  description: `Read the Charity Games privacy policy. Learn about our data usage and privacy practices. Thank you for your support!`,
+});
+
+export const cookiesSeo = createSeo({
+  url: `/cookies`,
+  title: `Charity Games - Cookies Policy`,
+  description: `Read the Charity Games cookies policy. Learn about our cookie usage and privacy practices. Thank you for your support!`,
+});
+
 export const submitGameSeo = createSeo({
   url: `/submit/new`,
   title: `Charity Games - Submit a Game`,
@@ -232,6 +245,20 @@ export const accountPrizesSeo = createSeo({
   description: `Manage your Charity Games prizes. Redeem tokens for real world prizes.`,
 });
 
+export const signUpSeo = createSeo({
+  url: '/signup',
+  title: 'Charity Games - Sign Up',
+  description:
+    'Sign up for Charity Games and start playing free online HTML browser games. Every play donates money to charitable causes. We support mobile and desktop.',
+});
+
+export const loginSeo = createSeo({
+  url: '/login',
+  title: 'Charity Games - Log In',
+  description:
+    'Log in to Charity Games and start playing free online HTML browser games. Every play donates money to charitable causes. We support mobile and desktop.',
+});
+
 export const helpCenterSeo = createSeo({
   url: '/help',
   title: 'Charity Games - Help Center',
@@ -253,6 +280,13 @@ export const helpAccountsSeo = createSeo({
     'Find answers to questions about accounts, profiles, and settings on Charity Games.',
 });
 
+export const helpTokensSeo = createSeo({
+  url: '/help/tokens',
+  title: 'Charity Games - Tokens Help Center',
+  description:
+    'Find answers to questions about tokens on Charity Games. Learn how to earn tokens and redeem them for rewards.',
+});
+
 export const helpPlayingGamesSeo = createSeo({
   url: '/help/playing-games',
   title: 'Charity Games - Games Help Center',
@@ -266,6 +300,7 @@ export const helpReferralsSeo = createSeo({
   description:
     'Find answers to questions about referrals on Charity Games. Learn how to earn tokens by referring friends.',
 });
+
 export const helpFriendsSeo = createSeo({
   url: '/help/friends',
   title: 'Charity Games - Friends Help Center',
@@ -280,18 +315,18 @@ export const helpVIPSeo = createSeo({
     'Find answers to questions about VIP membership on Charity Games. Learn how to earn tokens by becoming a VIP.',
 });
 
-export const helpAuctionsSeo = createSeo({
-  url: '/help/auctions',
-  title: 'Charity Games - Auctions Help Center',
+export const helpNotificationsSeo = createSeo({
+  url: '/help/notifications',
+  title: 'Charity Games - Notifications Help Center',
   description:
-    'Find answers to questions about auctions on Charity Games. Learn about winning real world prizes at the auction house.',
+    'Find answers to questions about notifications on Charity Games. Learn about notification settings and alerts.',
 });
 
-export const helpPrizeWallSeo = createSeo({
-  url: '/help/prize-wall',
-  title: 'Charity Games - Prize Wall Help Center',
+export const helpPrizesSeo = createSeo({
+  url: '/help/prizes',
+  title: 'Charity Games - Prizes Help Center',
   description:
-    'Find answers to questions about the prize wall on Charity Games. Learn about redeeming tokens for real world prizes.',
+    'Find answers to questions about prizes on Charity Games. Learn about redeeming tokens for real world prizes.',
 });
 
 export const helpContributionsSeo = createSeo({
@@ -354,3 +389,10 @@ export const prizeSeo = (prize: PrizeSchema): NextSeoProps =>
       },
     ],
   });
+
+export const vipSeo = createSeo({
+  url: '/vip',
+  title: 'Charity Games - VIP Membership',
+  description:
+    'Join the VIP membership program and receive exclusive benefits. Every token you spend is a donation towards charity. Win free prizes by playing browser games and referring friends',
+});

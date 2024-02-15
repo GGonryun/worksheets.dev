@@ -5,11 +5,15 @@ import Image from 'next/image';
 import React from 'react';
 
 const DEFAULT_ERROR_MESSAGE = 'If the problem persists, please contact us.';
+const DEFAULT_HEADER_MESSAGE = 'Something went wrong.';
+const DEFAULT_TITLE = 'Oops!';
 
 export const ErrorComponent: React.FC<{
   message?: string;
+  title?: string;
+  header?: string;
   onRetry?: () => void;
-}> = ({ message, onRetry }) => {
+}> = ({ title, header, message, onRetry }) => {
   const isMobile = useMediaQuery((theme: Theme) =>
     theme.breakpoints.down('sm')
   );
@@ -34,9 +38,11 @@ export const ErrorComponent: React.FC<{
           height={isMobile ? 100 : 200}
         />
 
-        <Typography variant={isMobile ? 'h5' : 'h4'}>Oops!</Typography>
+        <Typography variant={isMobile ? 'h5' : 'h4'}>
+          {title ?? DEFAULT_TITLE}
+        </Typography>
         <Typography variant={isMobile ? 'h6' : 'h5'} gutterBottom>
-          Something went wrong.
+          {header ?? DEFAULT_HEADER_MESSAGE}
         </Typography>
         <Typography variant={isMobile ? 'body2' : 'body1'}>
           {message ?? DEFAULT_ERROR_MESSAGE}

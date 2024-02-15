@@ -97,7 +97,7 @@ export const EnterRaffleModal: React.FC<
         >
           Raffle Ticket x10
         </Button>
-        <Button href="/help/tokens-rewards" sx={{ mt: 1 }}>
+        <Button href="/help/tokens" sx={{ mt: 1 }}>
           Need more tokens?
         </Button>
       </Box>

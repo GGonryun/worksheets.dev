@@ -67,7 +67,7 @@ export const ParticipationSection: React.FC<{
       <PanelFooter
         learn={{
           text: 'Prizes',
-          href: '/help/prize-wall',
+          href: '/help/prizes',
         }}
         action={{
           text: 'My Prizes',
@@ -109,7 +109,7 @@ const EmptyParticipationTable = () => {
       <Typography variant="body2">
         Play games and refer friends to earn more tokens.
       </Typography>
-      <Link href="/help/prize-wall" variant="body1" color="error">
+      <Link href="/help/prizes" variant="body1" color="error">
         Learn More
       </Link>
     </Box>

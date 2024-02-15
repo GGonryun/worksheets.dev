@@ -1,13 +1,15 @@
 import { LayoutContainer } from '@worksheets/ui/layout';
-import { HelpScreen } from '@worksheets/ui/pages/help';
-import { QuestionAnswer } from '@worksheets/util/types';
+import {
+  helpFriends,
+  helpPageJson,
+  HelpScreen,
+} from '@worksheets/ui/pages/help';
 import { NextPageWithLayout } from '@worksheets/util-next';
 import { FAQPageJsonLd, NextSeo } from 'next-seo';
 
 import { helpFriendsSeo } from '../../util/seo';
 
 const Page: NextPageWithLayout = () => {
-  const qa: QuestionAnswer[] = [];
   return (
     <>
       <NextSeo {...helpFriendsSeo} />
@@ -16,16 +18,9 @@ const Page: NextPageWithLayout = () => {
         description={
           'Get help with adding, managing, and removing friends. Friends can help you earn tokens and rewards. Find out how to add friends and how to remove friends.'
         }
-        qa={qa}
+        qa={helpFriends}
       />
-      <FAQPageJsonLd
-        mainEntity={qa
-          .filter((data) => Boolean(data.summary))
-          .map((data) => ({
-            questionName: data.question,
-            acceptedAnswerText: data.summary,
-          }))}
-      />
+      <FAQPageJsonLd mainEntity={helpPageJson(helpFriends)} />
     </>
   );
 };

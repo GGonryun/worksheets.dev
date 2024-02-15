@@ -114,8 +114,8 @@ export const TokensPanel: FC<{
 
       <PanelFooter
         learn={{
-          href: '/help/tokens-rewards',
-          text: 'Tokens & Rewards',
+          href: '/help/prizes',
+          text: 'Rewards',
         }}
       />
     </Box>

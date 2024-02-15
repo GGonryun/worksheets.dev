@@ -24,11 +24,11 @@ export const HelpCenterScreen: React.FC = () => {
       >
         <Box my={{ xs: 1, sm: 2 }} />
         <HelpCenterTitle />
-        <Box my={{ xs: 4, sm: 6 }} />
+        <Box my={{ xs: 3, sm: 5 }} />
         <HelpCenterCategories />
         <Box my={{ xs: 3, sm: 5 }} />
         {isMobile ? <PlayWithPurposeIcon /> : <PlayWithPurposeBanner />}
-        <Box my={{ xs: 3, sm: 5 }} />
+        <Box my={{ xs: 2, sm: 4 }} />
         <HelpCenterFooter />
         <br />
         <br />

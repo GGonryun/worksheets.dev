@@ -1,5 +1,5 @@
 import { LayoutContainer } from '@worksheets/ui/layout';
-import { helpFaq, HelpScreen } from '@worksheets/ui/pages/help';
+import { helpFaq, helpPageJson, HelpScreen } from '@worksheets/ui/pages/help';
 import { NextPageWithLayout } from '@worksheets/util-next';
 import { FAQPageJsonLd, NextSeo } from 'next-seo';
 
@@ -16,14 +16,7 @@ const Page: NextPageWithLayout = () => {
         }
         qa={helpFaq}
       />
-      <FAQPageJsonLd
-        mainEntity={helpFaq
-          .filter((data) => Boolean(data.summary))
-          .map((data) => ({
-            questionName: data.question,
-            acceptedAnswerText: data.summary,
-          }))}
-      />
+      <FAQPageJsonLd mainEntity={helpPageJson(helpFaq)} />
     </>
   );
 };

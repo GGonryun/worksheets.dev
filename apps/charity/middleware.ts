@@ -15,7 +15,13 @@ export const config = {
   ],
 };
 
-const protectedPages = ['/account', '/submit', '/notifications', '/admin'];
+const protectedPages = [
+  '/account',
+  '/submit',
+  '/notifications',
+  '/admin',
+  '/vip',
+];
 
 export default async function middleware(req: NextRequest) {
   const session = await getToken({ req });

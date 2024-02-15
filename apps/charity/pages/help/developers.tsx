@@ -3,6 +3,7 @@ import {
   contributionFaq,
   DynamicContributionScreen,
 } from '@worksheets/ui/pages/contributions';
+import { helpPageJson } from '@worksheets/ui/pages/help';
 import { NextPageWithLayout } from '@worksheets/util-next';
 import { FAQPageJsonLd, NextSeo } from 'next-seo';
 
@@ -15,14 +16,7 @@ const Page: NextPageWithLayout = () => {
 
       <DynamicContributionScreen />
 
-      <FAQPageJsonLd
-        mainEntity={contributionFaq
-          .filter((data) => Boolean(data.summary))
-          .map((data) => ({
-            questionName: data.question,
-            acceptedAnswerText: data.summary,
-          }))}
-      />
+      <FAQPageJsonLd mainEntity={helpPageJson(contributionFaq)} />
     </>
   );
 };

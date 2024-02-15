@@ -63,7 +63,7 @@ export const SettingsPanel: FC<{
       </Box>
 
       <PanelFooter
-        learn={{ text: 'Account Settings', href: '/help/account' }}
+        learn={{ text: 'Account Settings', href: '/help/accounts' }}
         action={{
           text: 'Log Out',
           href: '/logout',

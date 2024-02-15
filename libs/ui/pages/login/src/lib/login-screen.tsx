@@ -21,7 +21,7 @@ export const LoginScreen: FC<LoginScreenProps> = (props) => {
         <Typography variant="body2" textAlign="center" pt={0.5}>
           Connect to your Charity.Games account
           <br />
-          <Link href={`/faq#do-i-need-an-account`}>
+          <Link href={`/help/accounts#do-i-need-an-account`}>
             <b>Do I need an account?</b>
           </Link>
         </Typography>

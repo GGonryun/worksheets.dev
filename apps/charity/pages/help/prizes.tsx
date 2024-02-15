@@ -1,31 +1,26 @@
 import { LayoutContainer } from '@worksheets/ui/layout';
-import { HelpScreen } from '@worksheets/ui/pages/help';
-import { QuestionAnswer } from '@worksheets/util/types';
+import {
+  helpPageJson,
+  helpPrizes,
+  HelpScreen,
+} from '@worksheets/ui/pages/help';
 import { NextPageWithLayout } from '@worksheets/util-next';
 import { FAQPageJsonLd, NextSeo } from 'next-seo';
 
-import { helpPrizeWallSeo } from '../../util/seo';
+import { helpPrizesSeo } from '../../util/seo';
 
 const Page: NextPageWithLayout = () => {
-  const qa: QuestionAnswer[] = [];
   return (
     <>
-      <NextSeo {...helpPrizeWallSeo} />
+      <NextSeo {...helpPrizesSeo} />
       <HelpScreen
-        title={'Prize Wall'}
+        title={'Prizes'}
         description={
           'Get instant prizes and rewards. The Prize Wall is a great way to earn instant prizes and rewards. Find out how to earn prizes and how to win prizes.'
         }
-        qa={qa}
+        qa={helpPrizes}
       />
-      <FAQPageJsonLd
-        mainEntity={qa
-          .filter((data) => Boolean(data.summary))
-          .map((data) => ({
-            questionName: data.question,
-            acceptedAnswerText: data.summary,
-          }))}
-      />
+      <FAQPageJsonLd mainEntity={helpPageJson(helpPrizes)} />
     </>
   );
 };

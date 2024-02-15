@@ -3,7 +3,34 @@ import { CHARITY_GAMES_BASE_URL } from '@worksheets/ui/env';
 import { printShortDate } from '@worksheets/util/time';
 import { NextApiHandler } from 'next';
 
-const LAST_UPDATE_DATE = `2024-02-07`;
+import {
+  aboutSeo,
+  contactSeo,
+  cookiesSeo,
+  gamesSeo,
+  helpAccountsSeo,
+  helpCenterSeo,
+  helpContributionsSeo,
+  helpDevelopersSeo,
+  helpFaqSeo,
+  helpFriendsSeo,
+  helpNotificationsSeo,
+  helpPlayingGamesSeo,
+  helpPrizesSeo,
+  helpReferralsSeo,
+  helpTokensSeo,
+  helpVIPSeo,
+  loginSeo,
+  privacySeo,
+  prizesSeo,
+  rafflesSeo,
+  signUpSeo,
+  tagsSeo,
+  termsSeo,
+  vipSeo,
+} from '../../util/seo';
+
+const LAST_UPDATE_DATE = `2024-02-14`;
 
 const addHomePage = () => {
   return `<url><loc>${CHARITY_GAMES_BASE_URL}</loc><lastmod>${LAST_UPDATE_DATE}</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>`;
@@ -11,34 +38,36 @@ const addHomePage = () => {
 
 const addBasicPages = () => {
   const slugs = [
-    '/about',
-    '/contact',
-    '/cookies',
-    '/help',
-    '/help/account',
-    '/help/faq',
-    '/help/playing-games',
-    '/help/tokens-rewards',
-    '/help/referrals',
-    '/help/friends',
-    '/help/vip',
-    '/help/auctions',
-    '/help/prize-wall',
-    '/help/contributions',
-    '/help/developers',
-    '/login',
-    '/privacy',
-    '/terms',
-    '/play',
-    '/tags',
-    '/prizes',
-    '/raffles',
+    aboutSeo.canonical,
+    contactSeo.canonical,
+    cookiesSeo.canonical,
+    loginSeo.canonical,
+    signUpSeo.canonical,
+    privacySeo.canonical,
+    termsSeo.canonical,
+    gamesSeo.canonical,
+    tagsSeo.canonical,
+    prizesSeo.canonical,
+    rafflesSeo.canonical,
+    vipSeo.canonical,
+    helpCenterSeo.canonical,
+    helpAccountsSeo.canonical,
+    helpFaqSeo.canonical,
+    helpPlayingGamesSeo.canonical,
+    helpTokensSeo.canonical,
+    helpReferralsSeo.canonical,
+    helpFriendsSeo.canonical,
+    helpVIPSeo.canonical,
+    helpNotificationsSeo.canonical,
+    helpPrizesSeo.canonical,
+    helpContributionsSeo.canonical,
+    helpDevelopersSeo.canonical,
   ];
 
   return slugs
     .map(
       (slug) =>
-        `<url><loc>${CHARITY_GAMES_BASE_URL}${slug}</loc><lastmod>${LAST_UPDATE_DATE}</lastmod><priority>0.8</priority></url>`
+        `<url><loc>${slug}</loc><lastmod>${LAST_UPDATE_DATE}</lastmod><priority>0.8</priority></url>`
     )
     .join('');
 };

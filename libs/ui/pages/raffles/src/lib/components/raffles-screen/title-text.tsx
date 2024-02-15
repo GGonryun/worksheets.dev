@@ -64,7 +64,7 @@ export const TitleText = () => {
             View Prizes
           </Button>
           <Button
-            href="/help/raffles"
+            href="/help/prizes"
             variant="arcade"
             color="success"
             size={isMobile ? 'medium' : 'large'}

@@ -60,9 +60,6 @@ export const FriendsListSection: React.FC<{
             You earn a gift box for every friend you{' '}
             <Link href={sendGiftLink}>send a gift to</Link>.
           </>,
-          <>
-            <b>Friends</b> are people you follow that follow you back.
-          </>,
         ]}
       />
       <PanelFooter

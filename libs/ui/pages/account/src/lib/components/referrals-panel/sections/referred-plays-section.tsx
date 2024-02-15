@@ -115,8 +115,8 @@ export const ReferredPlaysSection: React.FC<{
       />
       <PanelFooter
         learn={{
-          text: 'Tokens & Rewards',
-          href: '/learn/rewards',
+          text: 'Tokens',
+          href: '/learn/tokens',
         }}
         action={{
           text: 'Get Tokens',

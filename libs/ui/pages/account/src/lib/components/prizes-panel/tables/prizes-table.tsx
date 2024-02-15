@@ -139,7 +139,7 @@ const EmptyPrizesPlaceholder = () => {
         Keep playing games and referring friends to earn more tokens and win
         prizes!
       </Typography>
-      <Link href="/help/prize-wall" variant="body1" color="error">
+      <Link href="/help/prizes" variant="body1" color="error">
         Learn More
       </Link>
     </Box>

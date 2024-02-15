@@ -1,31 +1,26 @@
 import { LayoutContainer } from '@worksheets/ui/layout';
-import { HelpScreen } from '@worksheets/ui/pages/help';
-import { QuestionAnswer } from '@worksheets/util/types';
+import {
+  helpPageJson,
+  HelpScreen,
+  helpTokens,
+} from '@worksheets/ui/pages/help';
 import { NextPageWithLayout } from '@worksheets/util-next';
 import { FAQPageJsonLd, NextSeo } from 'next-seo';
 
-import { helpPlayingGamesSeo } from '../../util/seo';
+import { helpTokensSeo } from '../../util/seo';
 
 const Page: NextPageWithLayout = () => {
-  const qa: QuestionAnswer[] = [];
   return (
     <>
-      <NextSeo {...helpPlayingGamesSeo} />
+      <NextSeo {...helpTokensSeo} />
       <HelpScreen
-        title={'Tokens & Rewards'}
+        title="Tokens"
         description={
           'Charity Games converts your playtime into tokens, which you can use to redeem rewards. Find out how to earn tokens and how to redeem them for real world prize sand rewards'
         }
-        qa={qa}
+        qa={helpTokens}
       />
-      <FAQPageJsonLd
-        mainEntity={qa
-          .filter((data) => Boolean(data.summary))
-          .map((data) => ({
-            questionName: data.question,
-            acceptedAnswerText: data.summary,
-          }))}
-      />
+      <FAQPageJsonLd mainEntity={helpPageJson(helpTokens)} />
     </>
   );
 };

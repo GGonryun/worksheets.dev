@@ -144,7 +144,7 @@ export const DailyRewardSection: React.FC<{
         <PanelFooter
           learn={{
             text: 'Daily Rewards',
-            href: '/help/tokens-rewards#daily-rewards',
+            href: '/help/tokens#daily-rewards',
           }}
           action={{
             text: 'Play Games',

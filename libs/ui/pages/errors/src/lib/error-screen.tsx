@@ -6,8 +6,10 @@ import { ErrorComponent } from './error-component';
 
 export const ErrorScreen: React.FC<{
   message?: string;
+  title?: string;
+  header?: string;
   onRetry?: () => void;
-}> = ({ message, onRetry }) => {
+}> = ({ title, header, message, onRetry }) => {
   return (
     <AbsolutelyCentered pointerEvents="auto">
       <Paper
@@ -19,7 +21,12 @@ export const ErrorScreen: React.FC<{
           backgroundColor: (theme) => theme.palette.background['solid-blue'],
         }}
       >
-        <ErrorComponent message={message} onRetry={onRetry} />
+        <ErrorComponent
+          title={title}
+          header={header}
+          message={message}
+          onRetry={onRetry}
+        />
       </Paper>
     </AbsolutelyCentered>
   );

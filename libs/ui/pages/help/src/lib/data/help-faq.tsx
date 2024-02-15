@@ -1,7 +1,5 @@
-import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
-import { ListItem, OrderedList } from '@worksheets/ui-core';
 import { QuestionAnswer } from '@worksheets/util/types';
 import urls from '@worksheets/util/urls';
 
@@ -146,34 +144,5 @@ export const helpFaq: QuestionAnswer[] = [
       </Typography>
     ),
     summary: `Please report it to us on our Github page. Or visit our Contact page to submit an email.`,
-  },
-  {
-    id: 'do-i-need-an-account',
-    question: 'Do I need an account?',
-    summary: `Creating a Charity.Games account unlocks several important features. You can win prizes, participate in auctions and giveaways, save your favorite games, earn achievements, vote on games and charities, compete on leaderboards, events, and tournaments, and submit games to our platform. You can play all of our games without an account, but you won't be able to do any of the above.`,
-    answer: (
-      <Box>
-        <Typography>
-          Creating a Charity.Games account unlocks several important features.
-          You can:
-        </Typography>
-        <OrderedList>
-          <ListItem>Start earning tokens for prizes.</ListItem>
-          <ListItem>Participate in auctions and giveaways.</ListItem>
-          <ListItem>Save your favorite games.</ListItem>
-          <ListItem>Earn achievements.</ListItem>
-          <ListItem>Vote on games and charities.</ListItem>
-          <ListItem>Compete on leaderboards, events, and tournaments.</ListItem>
-          <ListItem>Submit games to our platform.</ListItem>
-        </OrderedList>
-        <Typography>
-          You can play all of our games without an account, but you won't be
-          able to do any of the above.
-          <br />
-          <br />
-          <Link href="/signup">Create your account today!</Link>
-        </Typography>
-      </Box>
-    ),
   },
 ];

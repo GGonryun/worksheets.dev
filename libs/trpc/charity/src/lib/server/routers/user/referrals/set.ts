@@ -80,6 +80,28 @@ export default protectedProcedure
           },
         },
       }),
+
+      db.notification.create({
+        data: {
+          userId: referral.userId,
+          type: 'SYSTEM',
+          text: `You have a new referral! Someone has used your referral code to sign up. You have received ${TOKENS_PER_REFERRAL_ACCOUNT} tokens and ${GIFT_BOXES_PER_REFERRAL_ACCOUNT} gift boxes.`,
+        },
+      }),
+
+      db.friendship.create({
+        data: {
+          userId,
+          friendId: referral.userId,
+        },
+      }),
+
+      db.friendship.create({
+        data: {
+          userId: referral.userId,
+          friendId: userId,
+        },
+      }),
     ]);
 
     return okay;

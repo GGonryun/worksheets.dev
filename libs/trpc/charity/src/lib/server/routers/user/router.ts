@@ -7,6 +7,7 @@ import profile from './profile/router';
 import raffles from './raffles/router';
 import referrals from './referrals/router';
 import rewards from './rewards/router';
+import vip from './vip/router';
 
 export default t.router({
   referrals,
@@ -17,4 +18,5 @@ export default t.router({
   friends,
   raffles,
   game,
+  vip,
 });

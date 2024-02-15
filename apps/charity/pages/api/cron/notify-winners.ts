@@ -15,6 +15,7 @@ import {
 import { hoursAgo, printShortDateTime } from '@worksheets/util/time';
 import { NextApiRequest, NextApiResponse } from 'next';
 
+const CONTACT_URL = `${CHARITY_GAMES_BASE_URL}/contact`;
 const ACCOUNT_URL = `${CHARITY_GAMES_BASE_URL}/account/prizes#${PrizesPanels.Prizes}`;
 const PRIZE_URL = (prizeId: number) =>
   `${CHARITY_GAMES_BASE_URL}/prizes/${prizeId}`;
@@ -136,6 +137,7 @@ const sendExpiredDiscordNotification = async (alert: PendingAlert) => {
 };
 
 const claimYourPrizeText = `Please visit <a href="${ACCOUNT_URL}">Charity Games</a> to claim your prize.`;
+const claimPrizeWarningText = `If you are unable to claim a prize, please <a href="${CONTACT_URL}">contact us</a> for assistance. You may receive an alternative prize or tokens equal to the prize value.`;
 
 const sendAlertEmail = async (alert: PendingAlert) => {
   // if the alert hasn't been sent, send a special first-time email
@@ -150,7 +152,7 @@ const sendFirstTimeAlertEmail = async (alert: PendingAlert) => {
   return sendEmail({
     to: [alert.winner.user.email],
     subject: 'You won a new prize!',
-    html: `You won a new prize!<br/><br/>${claimYourPrizeText}`,
+    html: `You won a new prize! <br/><br/>${claimYourPrizeText}<br/><br/><i>Don't forget to claim your prize within 14 days.</i>${claimPrizeWarningText}`,
   });
 };
 
@@ -158,7 +160,7 @@ const sendReminderEmail = async (alert: PendingAlert) => {
   return sendEmail({
     to: [alert.winner.user.email],
     subject: 'Remember to claim your prize!',
-    html: `You've won a raffle and you have a new prize in your inventory! Don't forget to claim your prize. ${claimYourPrizeText}`,
+    html: `You've won a raffle and you have a prize waiting for you in your inventory!<br/><br/>${claimYourPrizeText}<br/><br/>Don't forget to claim your prize! ${claimPrizeWarningText}`,
   });
 };
 

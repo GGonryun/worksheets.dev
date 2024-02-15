@@ -15,19 +15,19 @@ enum UserType {
 }
 
 model User {
-  id               String                @id @default(cuid())
+  id               String                 @id @default(cuid())
   name             String?
-  email            String                @unique
+  email            String                 @unique
   emailVerified    DateTime?
   image            String?
   referredByUserId String?
-  username         String                @default(cuid())
+  username         String                 @default(cuid())
   bio              String?
-  isPublisher      Boolean               @default(false)
-  createdAt        DateTime              @default(now())
-  updatedAt        DateTime              @updatedAt
-  lastSeen         DateTime?             @default(now())
-  type             UserType              @default(USER)
+  isPublisher      Boolean                @default(false)
+  createdAt        DateTime               @default(now())
+  updatedAt        DateTime               @updatedAt
+  lastSeen         DateTime?              @default(now())
+  type             UserType               @default(USER)
   accounts         Account[]
   sessions         Session[]
   rewards          Rewards?
@@ -36,14 +36,16 @@ model User {
   participation    RaffleParticipation[]
   winnings         RaffleWinner[]
   // friendships
-  friends          Friendship[]          @relation(name: "Friends")
-  followers        Friendship[]          @relation(name: "Followers")
+  friends          Friendship[]           @relation(name: "Friends")
+  followers        Friendship[]           @relation(name: "Followers")
   // socials
   referralCode     ReferralCode?
-  referredBy       User?                 @relation(name: "Referred", fields: [referredByUserId], references: [id])
-  referred         User[]                @relation(name: "Referred")
+  referredBy       User?                  @relation(name: "Referred", fields: [referredByUserId], references: [id])
+  referred         User[]                 @relation(name: "Referred")
   // system
   notifications    Notification[]
+  // vip membership
+  vip              VipMembershipWaitlist?
 }
 
 model Account {
@@ -462,4 +464,12 @@ model Notification {
   updatedAt DateTime         @updatedAt
   userId    String
   user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VipMembershipWaitlist {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

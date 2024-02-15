@@ -6,7 +6,6 @@ import { appRouter } from '../routers/_app';
 // https://trpc.io/docs/server/caching
 export const responseMeta: ResponseMetaFn<typeof appRouter> = (opts) => {
   const { ctx, paths, errors, type } = opts;
-  console.log('path', paths);
   // assuming you have all your public routes with the keyword `public` in them
   const allPublic = paths && paths.every((path) => path.includes('public'));
   // checking that no procedures errored

@@ -106,7 +106,7 @@ export const DangerZoneSection: React.FC<{
         <PanelFooter
           learn={{
             text: 'Accounts & Profiles',
-            href: '/help/account',
+            href: '/help/accounts',
           }}
           action={{
             text: 'Contact Us',

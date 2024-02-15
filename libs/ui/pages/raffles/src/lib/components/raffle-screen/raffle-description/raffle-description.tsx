@@ -42,7 +42,7 @@ export const RaffleDescription: React.FC<{
           size="small"
           variant="arcade"
           color="warning"
-          href="/help/raffles"
+          href="/help/prizes"
           startIcon={<HelpCenter />}
         >
           Get Help

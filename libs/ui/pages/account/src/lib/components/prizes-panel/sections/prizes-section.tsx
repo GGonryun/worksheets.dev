@@ -43,7 +43,7 @@ export const PrizesSection: React.FC<{
       <PanelFooter
         learn={{
           text: 'Prizes',
-          href: '/help/prize-wall',
+          href: '/help/prizes',
         }}
         action={{
           text: 'Redeem Tokens',

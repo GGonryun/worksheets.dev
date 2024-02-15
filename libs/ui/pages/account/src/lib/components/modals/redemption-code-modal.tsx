@@ -43,9 +43,7 @@ export const RedemptionCodeModal: React.FC<
       >
         Close
       </Button>
-      <Button href="/help/prize-wall#how-do-i-redeem-my-prize">
-        Need Help?
-      </Button>
+      <Button href="/help/prizes#how-do-i-redeem-my-prize">Need Help?</Button>
     </ParentModal>
   );
 };

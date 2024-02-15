@@ -74,7 +74,7 @@ export const ProfileSection: React.FC<{
         <PanelFooter
           learn={{
             text: 'Accounts & Profiles',
-            href: '/help/account',
+            href: '/help/accounts',
           }}
         />
       </Box>

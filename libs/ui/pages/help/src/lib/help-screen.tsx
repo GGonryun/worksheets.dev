@@ -24,7 +24,6 @@ export const HelpScreen: FC<HelpScreenProps> = ({ title, description, qa }) => {
           borderRadius: 4,
           p: { xs: 2, sm: 4 },
           backgroundColor: (theme) => theme.palette.background['solid-blue'],
-          background: (theme) => theme.palette.background['gradient-blue'],
           color: 'text.arcade',
         }}
       >
@@ -36,7 +35,7 @@ export const HelpScreen: FC<HelpScreenProps> = ({ title, description, qa }) => {
           href="/help"
           sx={{
             width: 'fit-content',
-            mb: 2,
+            mb: { xs: 3, sm: 6 },
           }}
         >
           Back to Help Center
@@ -45,11 +44,12 @@ export const HelpScreen: FC<HelpScreenProps> = ({ title, description, qa }) => {
           typography={{
             xs: 'h5',
             sm: 'h4',
+            md: 'h3',
           }}
         >
           {title}
         </Typography>
-        <Typography variant="body2" my={1}>
+        <Typography typography={{ xs: 'body2', sm: 'body1' }} my={1}>
           {description}
         </Typography>
         {qa.length ? (

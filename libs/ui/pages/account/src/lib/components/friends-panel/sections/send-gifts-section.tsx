@@ -74,10 +74,13 @@ export const SendGiftsSection: React.FC<{
         icon={<InfoOutlined color="info" fontSize="small" />}
         points={[
           <>
-            Add friends by sharing your{' '}
-            <Link href={addFriendsLink}>Friend Code</Link>.
+            You can send one gift box to at most {MAX_DAILY_GIFT_BOX_SHARES}{' '}
+            friends per day.
           </>,
-          `You can send a gift to ${MAX_DAILY_GIFT_BOX_SHARES} friends per day.`,
+          <>
+            <Link href="/help/vip">VIP members</Link> can send more gift boxes
+            every day.
+          </>,
           `You earn a gift box for every friend you send a gift to.`,
           <>
             Open gift boxes on the{' '}
@@ -90,7 +93,7 @@ export const SendGiftsSection: React.FC<{
       <PanelFooter
         learn={{
           text: 'Sending Gifts',
-          href: '/help/tokens-rewards#gift-boxes',
+          href: '/help/tokens#gift-boxes',
         }}
         action={{ text: 'Add Friends', href: addFriendsLink }}
       />

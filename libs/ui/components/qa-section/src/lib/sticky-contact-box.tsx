@@ -1,3 +1,4 @@
+import { ArrowForward } from '@mui/icons-material';
 import { Box, Button, Link, Typography } from '@mui/material';
 import { FC } from 'react';
 
@@ -25,7 +26,7 @@ export const StickyContactBox: FC<{
       p: 2,
     }}
   >
-    <Typography color="text.arcade" variant="body2">
+    <Typography fontWeight={500} color="text.arcade" variant="body2">
       {text}
     </Typography>
     <Button
@@ -33,6 +34,7 @@ export const StickyContactBox: FC<{
       variant="arcade"
       color="success"
       fullWidth
+      endIcon={<ArrowForward />}
       sx={{
         my: 2,
       }}
@@ -41,11 +43,14 @@ export const StickyContactBox: FC<{
     </Button>
 
     <Typography
+      fontWeight={500}
       component={Link}
       href="/help"
-      color="text.arcade"
       variant="body2"
       sx={{
+        color: 'text.arcade',
+        textDecorationColor: 'text.arcade',
+        textDecoration: 'underline',
         textAlign: { xs: 'center', sm: 'left' },
       }}
     >

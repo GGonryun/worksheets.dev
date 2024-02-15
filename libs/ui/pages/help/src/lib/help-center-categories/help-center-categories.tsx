@@ -1,6 +1,5 @@
 import { Box } from '@mui/material';
 import {
-  ECommerceAuction,
   ECommerceCustomerService,
   ECommerceGift,
   ECommercePrizes,
@@ -9,6 +8,7 @@ import {
 import { LearningCode } from '@worksheets/icons/learning';
 import {
   ValentinesLock,
+  ValentinesPhones,
   ValentinesTicket,
   ValentinesWorld,
 } from '@worksheets/icons/valentines';
@@ -21,16 +21,22 @@ import {
 
 const categories: HelpCenterCategoryProps[] = [
   {
-    title: 'Accounts & Profiles',
-    description: 'Learn about accounts and profile settings',
-    href: '/help/account',
-    icon: ValentinesLock,
-  },
-  {
     title: 'Common Questions',
     description: 'Answers to our most frequently asked questions',
     href: '/help/faq',
     icon: WebQuestion,
+  },
+  {
+    title: 'Accounts & Profiles',
+    description: 'Learn about accounts and profile settings',
+    href: '/help/accounts',
+    icon: ValentinesLock,
+  },
+  {
+    title: 'Notifications',
+    href: '/help/notifications',
+    description: 'Get notified about new games and rewards',
+    icon: ValentinesPhones,
   },
   {
     title: 'Playing Games',
@@ -39,8 +45,8 @@ const categories: HelpCenterCategoryProps[] = [
     icon: WebGamepad,
   },
   {
-    title: 'Tokens & Rewards',
-    href: '/help/tokens-rewards',
+    title: 'Tokens',
+    href: '/help/tokens',
     description: 'Play games at our arcade and win real world prizes',
     icon: ValentinesTicket,
   },
@@ -57,20 +63,8 @@ const categories: HelpCenterCategoryProps[] = [
     icon: WebHeart,
   },
   {
-    title: 'VIP Membership',
-    href: '/help/vip',
-    description: 'Help support our mission and earn more rewards',
-    icon: ECommerceQuality,
-  },
-  {
-    title: 'Auctions',
-    href: '/help/auctions',
-    description: 'Win prizes by bidding on auctions',
-    icon: ECommerceAuction,
-  },
-  {
-    title: 'Prize Wall',
-    href: '/help/prize-wall',
+    title: 'Prizes',
+    href: '/help/prizes',
     description: 'Redeem your tokens for real world prizes',
     icon: ECommercePrizes,
   },
@@ -79,6 +73,12 @@ const categories: HelpCenterCategoryProps[] = [
     href: '/help/contributions',
     description: 'Help us build a better world, one game at a time',
     icon: ECommerceGift,
+  },
+  {
+    title: 'VIP Membership',
+    href: '/help/vip',
+    description: 'Help support our mission and earn more rewards',
+    icon: ECommerceQuality,
   },
   {
     title: 'Developer',

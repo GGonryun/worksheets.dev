@@ -81,8 +81,8 @@ export const PrizesPanel: React.FC<{
       </Box>
 
       <PanelFooter
-        learn={{ text: 'The Prize Wall', href: '/help/prize-wall' }}
-        action={{ text: 'Prize Wall', href: '/prizes', color: 'secondary' }}
+        learn={{ text: 'The Prize Wall', href: '/help/prizes' }}
+        action={{ text: 'Get Prizes', href: '/prizes', color: 'secondary' }}
       />
     </Box>
   );
