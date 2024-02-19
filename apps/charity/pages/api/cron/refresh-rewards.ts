@@ -32,18 +32,13 @@ export default async function handler(
 // use a two day window to account for timezones and other edge cases.
 const resetRewards = async () => {
   const updating = await prisma.rewards.findMany({
-    where: {
-      updatedAt: {
-        gte: new Date(Date.now() - 48 * 60 * 60 * 1000),
-      },
-    },
     select: {
       id: true,
       userId: true,
     },
   });
 
-  const updateRewards = prisma.rewards.updateMany({
+  await prisma.rewards.updateMany({
     where: {
       id: {
         in: updating.map((reward) => reward.id),
@@ -56,20 +51,6 @@ const resetRewards = async () => {
       claimedDailyReward: null,
     },
   });
-
-  const sendNotifications = prisma.notification.createMany({
-    data: updating.map((reward) => ({
-      userId: reward.userId,
-      text: `Your daily reward has reset! Visit your <a href="${routes.account.tokens.path(
-        {
-          bookmark: TokensPanels.DailyReward,
-        }
-      )}">account</a> to claim your daily reward.`,
-      type: 'REWARD',
-    })),
-  });
-
-  await Promise.all([updateRewards, sendNotifications]);
 };
 
 // clear all the giftSentAt fields.
