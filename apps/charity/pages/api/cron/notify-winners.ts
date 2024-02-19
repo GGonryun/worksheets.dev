@@ -7,10 +7,15 @@ import {
 } from '@worksheets/services/environment';
 import { sendEmail } from '@worksheets/services/gmail';
 import { routes } from '@worksheets/ui/routes';
-import { PrizesPanels } from '@worksheets/util/enums';
+import {
+  HelpPrizesQuestions,
+  PrizesPanels,
+  SettingsPanels,
+} from '@worksheets/util/enums';
 import {
   CLAIM_ALERT_LAST_SENT_THRESHOLD,
   CLAIM_ALERT_SENT_COUNT_THRESHOLD,
+  PRIZE_FORFEITURE_DAYS,
 } from '@worksheets/util/settings';
 import { hoursAgo, printShortDateTime } from '@worksheets/util/time';
 import { NextApiRequest, NextApiResponse } from 'next';
@@ -18,6 +23,12 @@ import { NextApiRequest, NextApiResponse } from 'next';
 const CONTACT_URL = routes.contact.url();
 const ACCOUNT_URL = routes.account.prizes.url({
   bookmark: PrizesPanels.Prizes,
+});
+const CLAIM_URL = routes.help.prizes.url({
+  bookmark: HelpPrizesQuestions.HowToClaim,
+});
+const UNSUBSCRIBE_URL = routes.account.url({
+  bookmark: SettingsPanels.Communication,
 });
 
 const PRIZE_URL = (prizeId: number) =>
@@ -38,12 +49,18 @@ const PENDING_ALERT_PROPS = {
         select: {
           id: true as const,
           email: true as const,
+          notificationPreferences: {
+            select: {
+              email: true as const,
+            },
+          },
         },
       },
       prize: {
         select: {
           id: true as const,
           name: true as const,
+          type: true as const,
         },
       },
     },
@@ -123,10 +140,10 @@ const processExpiredAlert = async (alert: PendingAlert) => {
     },
   });
 
-  await sendExpiredDiscordNotification(alert);
+  await sendExpiredAlertDiscordNotification(alert);
 };
 
-const sendExpiredDiscordNotification = async (alert: PendingAlert) => {
+const sendExpiredAlertDiscordNotification = async (alert: PendingAlert) => {
   return sendDiscordMessage({
     content: `The following users have not claimed their prize in ${
       CLAIM_ALERT_SENT_COUNT_THRESHOLD * CLAIM_ALERT_LAST_SENT_THRESHOLD
@@ -143,10 +160,16 @@ const sendExpiredDiscordNotification = async (alert: PendingAlert) => {
   });
 };
 
-const claimYourPrizeText = `Please visit <a href="${ACCOUNT_URL}">Charity Games</a> to claim your prize.`;
-const claimPrizeWarningText = `If you are unable to claim a prize, please <a href="${CONTACT_URL}">contact us</a> for assistance. You may receive an alternative prize or tokens equal to the prize value.`;
+const claimHelpText = `Please visit <a href="${ACCOUNT_URL}">Charity Games</a> to claim your prize. If you are unable to claim a prize, please <a href="${CONTACT_URL}">contact us</a> for assistance. You may receive an alternative prize or tokens equal to the prize value. If you need help, please visit our <a href="${CLAIM_URL}">Help Center</a>.<br/><br/>If you do not claim your prize within ${PRIZE_FORFEITURE_DAYS} days of winning, it may be forfeited.`;
+const unsubscribedText = `<i>If you no longer wish to receive these emails, you can unsubscribe from your <a href="${UNSUBSCRIBE_URL}">account settings</a>.</i>`;
 
 const sendAlertEmail = async (alert: PendingAlert) => {
+  // if the user does not have email notifications enabled, skip
+  if (alert.winner.user.notificationPreferences?.email) {
+    console.info('Skipping email notification for user', alert.winner.user.id);
+    return;
+  }
+
   // if the alert hasn't been sent, send a special first-time email
   if (!alert.sentCount) {
     return sendFirstTimeAlertEmail(alert);
@@ -155,11 +178,25 @@ const sendAlertEmail = async (alert: PendingAlert) => {
   }
 };
 
+const printPrizeName = (prize: PendingAlert['winner']['prize']) => {
+  if (prize.type === 'STEAM_KEY') {
+    return `a steam key for <a href="${PRIZE_URL(prize.id)}">${prize.name}</a>`;
+  }
+
+  if (prize.type === 'GIFT_CARD') {
+    return `a ${prize.name} gift card`;
+  }
+
+  return `a ${prize.name}`;
+};
+
 const sendFirstTimeAlertEmail = async (alert: PendingAlert) => {
   return sendEmail({
     to: [alert.winner.user.email],
-    subject: 'You won a new prize!',
-    html: `You won a new prize! <br/><br/>${claimYourPrizeText}<br/><br/><i>Don't forget to claim your prize within 14 days.</i>${claimPrizeWarningText}`,
+    subject: ` 🎉 You won a raffle!`,
+    html: `Congratulations! You've won ${printPrizeName(
+      alert.winner.prize
+    )}.<br/><br/>${claimHelpText}<br/><br/>${unsubscribedText}`,
   });
 };
 
@@ -167,7 +204,9 @@ const sendReminderEmail = async (alert: PendingAlert) => {
   return sendEmail({
     to: [alert.winner.user.email],
     subject: 'Remember to claim your prize!',
-    html: `You've won a raffle and you have a prize waiting for you in your inventory!<br/><br/>${claimYourPrizeText}<br/><br/>Don't forget to claim your prize! ${claimPrizeWarningText}`,
+    html: `You've won a raffle and you have ${printPrizeName(
+      alert.winner.prize
+    )} waiting for you in your inventory!<br/><br/>${claimHelpText}<br/><br/>${unsubscribedText}`,
   });
 };
 

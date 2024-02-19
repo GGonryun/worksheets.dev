@@ -25,6 +25,8 @@ export const PRIZE_TOKEN_MODIFIER = 1000;
 // alerts
 export const CLAIM_ALERT_LAST_SENT_THRESHOLD = 3 * 24; // 3 days
 export const CLAIM_ALERT_SENT_COUNT_THRESHOLD = 6;
+// forfeitures
+export const PRIZE_FORFEITURE_DAYS = 15;
 
 export const dailyBonusGames: BasicGameDetails[] = [
   {

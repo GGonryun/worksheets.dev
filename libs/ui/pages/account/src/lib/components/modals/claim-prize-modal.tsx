@@ -1,7 +1,7 @@
-import { Button, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
+import { ResponsiveImage } from '@worksheets/ui/components/images';
 import { ModalWrapper } from '@worksheets/ui-core';
 import { WonRaffleDetails } from '@worksheets/util/types';
-import Image from 'next/image';
 
 import { ParentModal } from './parent-modal';
 
@@ -15,11 +15,13 @@ export const ClaimPrizeModal: React.FC<
       </Typography>
 
       <Typography textAlign="center">
-        You've earned won a copy of {prize?.name ?? '??'}.
+        You've won a copy of {prize?.name ?? '??'}.
       </Typography>
 
       {prize && (
-        <Image height={150} width={150} src={prize.imageUrl} alt={prize.name} />
+        <Box position="relative" height={150}>
+          <ResponsiveImage src={prize.imageUrl} alt={prize.name} />
+        </Box>
       )}
       <Typography textAlign="center">
         Claim your prize and access the activation code!

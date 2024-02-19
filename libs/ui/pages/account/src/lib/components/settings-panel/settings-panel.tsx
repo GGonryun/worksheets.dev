@@ -3,6 +3,7 @@ import { Divider, Link, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import { routes } from '@worksheets/ui/routes';
 import { SettingsPanels } from '@worksheets/util/enums';
+import { NotificationPreferencesSchema } from '@worksheets/util/types';
 import { FC } from 'react';
 
 import { usePanelController } from '../hooks/use-panel-controller';
@@ -13,10 +14,19 @@ import { CommunicationSection } from './sections/communication-section';
 
 export const SettingsPanel: FC<{
   bookmark?: SettingsPanels;
-  primaryEmail: string;
+  preferences: NotificationPreferencesSchema;
+  onUpdatePreferences: (
+    preferences: Omit<NotificationPreferencesSchema, 'email'>
+  ) => void;
   onClearLocalStorage: () => void;
   onDeleteAccount: () => void;
-}> = ({ bookmark, onClearLocalStorage, onDeleteAccount, primaryEmail }) => {
+}> = ({
+  bookmark,
+  onClearLocalStorage,
+  onDeleteAccount,
+  onUpdatePreferences,
+  preferences,
+}) => {
   const { active, toggleActive } = usePanelController(bookmark);
 
   return (
@@ -36,7 +46,8 @@ export const SettingsPanel: FC<{
       <CommunicationSection
         active={active}
         onClick={toggleActive}
-        primaryEmail={primaryEmail}
+        preferences={preferences}
+        onUpdatePreferences={onUpdatePreferences}
       />
 
       <DangerZoneSection

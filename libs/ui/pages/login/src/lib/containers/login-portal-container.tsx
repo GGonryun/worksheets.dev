@@ -22,6 +22,8 @@ const LoginPortalContainer = () => {
     : routes.account.path();
 
   // create user resources if they don't exist.
+  const createNotificationPreferences =
+    trpc.user.notifications.preferences.create.useMutation();
   const setReferrer = trpc.user.referrals.set.useMutation();
   const createRewards = trpc.user.rewards.create.useMutation();
   const createReferralCode = trpc.user.referrals.codes.create.useMutation();
@@ -30,6 +32,7 @@ const LoginPortalContainer = () => {
     await Promise.all([
       createRewards.mutateAsync(),
       createReferralCode.mutateAsync(),
+      createNotificationPreferences.mutateAsync(),
       setReferrer.mutateAsync({ referralCode: referralCode }),
     ]);
 
@@ -43,9 +46,10 @@ const LoginPortalContainer = () => {
     push(redirect);
   }, [
     createRewards,
+    createReferralCode,
+    createNotificationPreferences,
     setReferrer,
     referralCode,
-    createReferralCode,
     setReferralCode,
     push,
     redirect,
