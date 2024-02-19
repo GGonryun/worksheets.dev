@@ -1,3 +1,5 @@
+import { Author } from '@worksheets/util/blog';
+
 import { MarkdownMetadata } from './types';
 
 export const EMPTY_METADATA: MarkdownMetadata = {
@@ -6,7 +8,7 @@ export const EMPTY_METADATA: MarkdownMetadata = {
   coverImage: '',
   tags: [],
   date: '',
-  authorId: 'miguel-campos',
+  authorId: Author.MiguelCampos,
   ogImage: {
     url: '',
   },

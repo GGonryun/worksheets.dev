@@ -1,8 +1,8 @@
 import { LinkedIn } from '@mui/icons-material';
 import { Box, Button, Container, Link, Paper, Typography } from '@mui/material';
 import { routes } from '@worksheets/ui/routes';
-import { Markdown } from '@worksheets/ui-core';
-import { blogAuthors } from '@worksheets/util/blog';
+import { BookmarkAnchor, Markdown } from '@worksheets/ui-core';
+import { Author, blogAuthors } from '@worksheets/util/blog';
 import urls from '@worksheets/util/urls';
 import Image from 'next/image';
 import { FC } from 'react';
@@ -78,8 +78,7 @@ export const AboutScreen: FC<AboutScreenProps> = (props) => {
           }}
         >
           <TeamMember
-            name={'Taki Pineda'}
-            image="/blog/authors/taki.png"
+            {...blogAuthors[Author.TakiPineda]}
             title="Chief Executive Officer"
             description={
               "Taki is a 7 year old Yorkie who is currently working as the interim Charity Games CEO. Before coming to Charity Games, Taki served as Chief Financial Officer of Luna Cosmetics and Director of Enterprise Customer Success at Patty's Creations.\n\n He enjoys spending his working days sitting with Miguel as they work on charity games. He is very passionate about his meal choices, he prefers to eat chicken and salmon over anything else.\n\nOn his free time Taki enjoys walking outside with Miguel, sleeping on Miguel's bed, and cuddling with Miguel."
@@ -92,8 +91,7 @@ export const AboutScreen: FC<AboutScreenProps> = (props) => {
           />
 
           <TeamMember
-            name={'Miguel Campos'}
-            image="/blog/authors/miguel.jpeg"
+            {...blogAuthors[Author.MiguelCampos]}
             title="Software Engineer"
             description={
               'Miguel is currently a software engineer at [P0 Security]("https://p0.dev") and a graduate from San Diego State University. He is passionate about creating software that makes the world a better place. He is currently developing Charity.Games on his free time. \n\nBefore working at [P0 Security]("https://p0.dev"), he worked at: \n- [FullStory]("https://fullstory.com/") as an Ecosystem Software Engineer, \n- [G2 Software Systems]("https://g2-inc.com") as a Software Engineer I,\n- [University of San Diego]("https://sandiego.edu") as a Volunteer Software Engineer,\n- [SDSU Research Foundation]("https://sdsu.edu") as a Software Engineer Intern,\n- [NAVWAR]("https://navwar.navy.mil") as a Software Engineer Intern.\nWhen Miguel is not working, he enjoys rock climbing, hiking, and playing board games with his friends. Miguel really hates writing about himself in the third person, but he is doing it anyway.'
@@ -106,8 +104,7 @@ export const AboutScreen: FC<AboutScreenProps> = (props) => {
           />
 
           <TeamMember
-            name={'Esbeidy Campos'}
-            image="/blog/authors/esbeidy.png"
+            {...blogAuthors[Author.EsbeidyCampos]}
             title="Project Manager"
             description={
               'Esbeidy recently graduated from the University of California, San Diego with a BS in business economics and is currently working as a business support intern for Outsiders Branding. She is passionate about project success and has a genuine commitment to fostering the success of individuals which was evident during her voluntary work with her sorority Delta Delta Delta where she served as Vice President of Operations. She hopes to find full time professional work as a Customer Success Specialist or as a Business support specialist.\n\nOn her free time Esbeidy also enjoys rock climbing, going to the gym, watching criminal minds and hanging out with her friends.'
@@ -125,8 +122,9 @@ export const AboutScreen: FC<AboutScreenProps> = (props) => {
 };
 
 const TeamMember: React.FC<{
+  id: string;
   name: string;
-  image: string;
+  avatar: string;
   title: string;
   description: string;
   linkedIn: string;
@@ -146,11 +144,8 @@ const TeamMember: React.FC<{
         <LinkedIn sx={{ height: 30, width: 30 }} />
       </Button>
       <Box>
-        <Typography
-          variant="h6"
-          id={blogAuthors['miguel-campos'].id}
-          color="text.arcade"
-        >
+        <BookmarkAnchor id={props.id} />
+        <Typography variant="h6" color="text.arcade">
           {props.name}
         </Typography>
         <Typography color="text.arcade" variant="body2">
@@ -159,7 +154,7 @@ const TeamMember: React.FC<{
       </Box>
     </Box>
     <Image
-      src={props.image}
+      src={props.avatar}
       width={128}
       height={128}
       alt={props.name}

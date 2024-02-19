@@ -1,11 +1,12 @@
 import { Prisma, prisma } from '@worksheets/prisma';
 import { sendDiscordMessage } from '@worksheets/services/discord';
 import {
-  CHARITY_GAMES_BASE_URL,
   CRON_SECRET,
   DISCORD_WEBHOOK_URL,
   IS_PRODUCTION,
 } from '@worksheets/services/environment';
+import { postTweet } from '@worksheets/services/twitter';
+import { routes } from '@worksheets/ui/routes';
 import { printShortDateTime } from '@worksheets/util/time';
 import { NextApiRequest, NextApiResponse } from 'next';
 
@@ -83,6 +84,7 @@ const processExpiredRaffle = async (raffle: ExpiredRaffle) => {
   try {
     await assignWinners(raffle);
     await notifyOnDiscord(raffle);
+    await notifyOnTwitter(raffle);
   } catch (error) {
     await notifyOnDiscord(raffle, error as Error);
   }
@@ -188,7 +190,11 @@ const notifyOnDiscord = async (raffle: ExpiredRaffle, error?: Error) => {
     embeds: [
       {
         title: `Raffle ID: ${raffle.id}`,
-        url: `${CHARITY_GAMES_BASE_URL}/admin/raffles/${raffle.id}`,
+        url: routes.admin.raffle.url({
+          params: {
+            raffleId: raffle.id,
+          },
+        }),
         description: `This raffle ended at ${printShortDateTime(
           raffle.expiresAt
         )}.`,
@@ -204,4 +210,16 @@ const notifyOnDiscord = async (raffle: ExpiredRaffle, error?: Error) => {
     ],
     webhookUrl: DISCORD_WEBHOOK_URL,
   });
+};
+
+const notifyOnTwitter = async (raffle: ExpiredRaffle) => {
+  await postTweet(
+    `🎉 The raffle for ${
+      raffle.prize.name
+    } has ended! 🎉\n\nCheck out the winners here: ${routes.raffle.url({
+      params: {
+        raffleId: raffle.id,
+      },
+    })}`
+  );
 };

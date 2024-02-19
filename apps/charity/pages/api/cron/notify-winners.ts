@@ -1,7 +1,6 @@
 import { Prisma, prisma } from '@worksheets/prisma';
 import { sendDiscordMessage } from '@worksheets/services/discord';
 import {
-  CHARITY_GAMES_BASE_URL,
   CRON_SECRET,
   DISCORD_WEBHOOK_URL,
   IS_PRODUCTION,
@@ -16,12 +15,17 @@ import {
 import { hoursAgo, printShortDateTime } from '@worksheets/util/time';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-const CONTACT_URL = `${CHARITY_GAMES_BASE_URL}${routes.contact.path()}`;
-const ACCOUNT_URL = `${CHARITY_GAMES_BASE_URL}${routes.account.prizes.path({
+const CONTACT_URL = routes.contact.url();
+const ACCOUNT_URL = routes.account.prizes.url({
   bookmark: PrizesPanels.Prizes,
-})}`;
+});
+
 const PRIZE_URL = (prizeId: number) =>
-  `${CHARITY_GAMES_BASE_URL}/prizes/${prizeId}`;
+  routes.prize.url({
+    params: {
+      prizeId,
+    },
+  });
 
 const PENDING_ALERT_PROPS = {
   id: true as const,

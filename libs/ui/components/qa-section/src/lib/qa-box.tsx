@@ -6,6 +6,7 @@ import ButtonBase from '@mui/material/ButtonBase';
 import Collapse from '@mui/material/Collapse';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
+import { BookmarkAnchor } from '@worksheets/ui-core';
 import { FC, ReactNode, useEffect, useState } from 'react';
 
 export type QuestionAnswerBoxProps = {
@@ -39,16 +40,7 @@ export const QuestionAnswerBox: FC<QuestionAnswerBoxProps> = ({
       }}
     >
       {/* Offset the anchor because of a fixed header */}
-      <Box
-        component="a"
-        id={id}
-        sx={{
-          display: 'block',
-          position: 'relative',
-          top: { xs: -60, sm: -80 },
-          visibility: 'hidden',
-        }}
-      />
+      <BookmarkAnchor id={id} />
       <ButtonBase
         onClick={onOpen}
         sx={{

@@ -1,6 +1,6 @@
-import { CHARITY_GAMES_BASE_URL } from '@worksheets/ui/env';
 import { LoadingScreen } from '@worksheets/ui/pages/loading';
-import { BlogAuthorId, blogAuthors } from '@worksheets/util/blog';
+import { routes } from '@worksheets/ui/routes';
+import { Author, blogAuthors } from '@worksheets/util/blog';
 import { NextPageWithLayout } from '@worksheets/util-next';
 import { GetServerSideProps } from 'next';
 import { NextSeo } from 'next-seo';
@@ -19,7 +19,7 @@ const BlogAuthorPage: NextPageWithLayout = () => {
 BlogAuthorPage.getLayout = (page) => <Layout>{page}</Layout>;
 
 export const getServerSideProps = (async (ctx) => {
-  const authorId = ctx.params?.authorId as BlogAuthorId;
+  const authorId = ctx.params?.authorId as Author;
   const author = blogAuthors[authorId];
 
   if (!author) {
@@ -28,7 +28,9 @@ export const getServerSideProps = (async (ctx) => {
     };
   }
 
-  const authorUrl = `${CHARITY_GAMES_BASE_URL}/about#${author.id}`;
+  const authorUrl = routes.about.url({
+    bookmark: authorId,
+  });
 
   return {
     redirect: {

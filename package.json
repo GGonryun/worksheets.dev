@@ -69,6 +69,7 @@
     "remark-html": "^16.0.1",
     "swr": "^2.1.5",
     "tslib": "^2.3.0",
+    "twitter-api-v2": "^1.16.0",
     "universal-cookie": "^6.1.1",
     "zod": "^3.21.4"
   },

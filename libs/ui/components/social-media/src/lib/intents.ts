@@ -1,4 +1,4 @@
-import { CHARITY_GAMES_BASE_URL } from '@worksheets/ui/env';
+import { routes } from '@worksheets/ui/routes';
 import { FriendsPanels } from '@worksheets/util/enums';
 
 const CHARITY_GAMES_TWITTER_HANDLE = 'charitydotgames';
@@ -16,7 +16,11 @@ export const shareGameIntent = ({
   title: string;
   id: string;
 }): SocialProviderIntent => {
-  const url = `${CHARITY_GAMES_BASE_URL}/play/${id}`;
+  const url = routes.game.url({
+    params: {
+      gameId: id,
+    },
+  });
   const text = `Play ${title} on Charity.Games, win free prizes, and earn money for charity!`;
 
   return {
@@ -36,7 +40,13 @@ export const addFriendsIntent = ({
 }: {
   friendCode: string;
 }): SocialProviderIntent => {
-  const url = `${CHARITY_GAMES_BASE_URL}/account/friends?code=${friendCode}#${FriendsPanels.AddFriends}`;
+  const url = routes.account.friends.url({
+    query: {
+      code: friendCode,
+    },
+    bookmark: FriendsPanels.AddFriends,
+  });
+
   const text = `Add me as a friend on Charity.Games!`;
 
   return {
@@ -57,7 +67,11 @@ export const sharePrizeIntent = ({
   name: string;
   id: number;
 }) => {
-  const url = `${CHARITY_GAMES_BASE_URL}/prizes/${id}`;
+  const url = routes.prize.url({
+    params: {
+      prizeId: id,
+    },
+  });
   const text = `Win ${name} on Charity.Games, and earn money for charity!`;
 
   return {
@@ -78,7 +92,11 @@ export const shareRaffleIntent = ({
   name: string;
   id: number;
 }) => {
-  const url = `${CHARITY_GAMES_BASE_URL}/raffles/${id}`;
+  const url = routes.raffle.url({
+    params: {
+      raffleId: id,
+    },
+  });
   const text = `Enter to win ${name} on Charity.Games, and earn money for charity!`;
 
   return {

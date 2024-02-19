@@ -13,6 +13,7 @@ import {
   useMediaQuery,
   useTheme,
 } from '@mui/material';
+import { BookmarkAnchor } from '@worksheets/ui-core';
 import { FC, ReactNode } from 'react';
 
 export const CollapsibleSection: FC<{
@@ -38,16 +39,7 @@ export const CollapsibleSection: FC<{
         overflow: 'hidden',
       }}
     >
-      <Box
-        component="a"
-        id={id}
-        sx={{
-          display: 'block',
-          position: 'relative',
-          top: { xs: -60, sm: -80 },
-          visibility: 'hidden',
-        }}
-      />
+      <BookmarkAnchor id={id} />
       <ButtonBase
         onClick={() => onClick(id)}
         sx={{

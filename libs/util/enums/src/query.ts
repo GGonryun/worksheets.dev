@@ -9,3 +9,7 @@ export enum BlogQueryParams {
 export enum LoginQueryParams {
   Redirect = 'redirect',
 }
+
+export enum AccountFriendsQueryParams {
+  Code = 'code',
+}

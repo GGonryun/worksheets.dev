@@ -1,4 +1,3 @@
-import { CHARITY_GAMES_BASE_URL } from '@worksheets/ui/env';
 import { routes } from '@worksheets/ui/routes';
 import { OpenGraphProps, TWITTER_SEO } from '@worksheets/util/seo';
 import {
@@ -21,7 +20,7 @@ export const defaultSeo: DefaultSeoProps = {
       'On Charity Games you can play free online HTML browser games and microgames. Every play donates money to charitable causes. We support mobile and desktop.',
     images: [
       {
-        url: `${CHARITY_GAMES_BASE_URL}/og-image.png`,
+        url: `${routes.baseUrl}/og-image.png`,
         width: 978,
         height: 800,
         alt: 'Charity Games Logo',

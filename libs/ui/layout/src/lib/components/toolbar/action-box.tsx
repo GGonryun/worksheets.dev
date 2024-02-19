@@ -1,6 +1,6 @@
 import { Box, Button } from '@mui/material';
-import { CHARITY_GAMES_BASE_URL } from '@worksheets/ui/env';
 import { useMediaQuery } from '@worksheets/ui/hooks/use-media-query';
+import { routes } from '@worksheets/ui/routes';
 import { buttonBoxShadow } from '@worksheets/ui/styles';
 
 export const ActionBox = () => {
@@ -11,7 +11,7 @@ export const ActionBox = () => {
   return (
     <Box display="flex" gap={1} alignItems="center" pb={1}>
       <Button
-        href={`${CHARITY_GAMES_BASE_URL}/play`}
+        href={routes.games.url()}
         variant="arcade"
         color="primary"
         size={isMedium ? 'small' : 'medium'}
@@ -24,7 +24,11 @@ export const ActionBox = () => {
         All Games
       </Button>
       <Button
-        href={`${CHARITY_GAMES_BASE_URL}/tags/popular`}
+        href={routes.category.url({
+          params: {
+            tagId: 'popular',
+          },
+        })}
         variant="arcade"
         color="error"
         size={isMedium ? 'small' : 'medium'}
@@ -37,7 +41,11 @@ export const ActionBox = () => {
         Top Games
       </Button>
       <Button
-        href={`${CHARITY_GAMES_BASE_URL}/tags/new`}
+        href={routes.category.url({
+          params: {
+            tagId: 'new',
+          },
+        })}
         variant="arcade"
         color="error"
         size={isMedium ? 'small' : 'medium'}
@@ -50,7 +58,7 @@ export const ActionBox = () => {
         New Games
       </Button>
       <Button
-        href={`${CHARITY_GAMES_BASE_URL}/raffles`}
+        href={routes.raffles.url()}
         variant="arcade"
         color="success"
         size={isMedium ? 'small' : 'medium'}

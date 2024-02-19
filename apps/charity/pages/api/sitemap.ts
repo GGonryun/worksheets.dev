@@ -1,5 +1,5 @@
 import { prisma } from '@worksheets/prisma';
-import { CHARITY_GAMES_BASE_URL } from '@worksheets/ui/env';
+import { routes } from '@worksheets/ui/routes';
 import { printShortDate } from '@worksheets/util/time';
 import { NextApiHandler } from 'next';
 
@@ -33,7 +33,7 @@ import {
 const LAST_UPDATE_DATE = `2024-02-14`;
 
 const addHomePage = () => {
-  return `<url><loc>${CHARITY_GAMES_BASE_URL}</loc><lastmod>${LAST_UPDATE_DATE}</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>`;
+  return `<url><loc>${routes.baseUrl}</loc><lastmod>${LAST_UPDATE_DATE}</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>`;
 };
 
 const addBasicPages = () => {
@@ -83,7 +83,11 @@ const getGames = async () => {
   return games
     .map(
       (game) =>
-        `<url><loc>${CHARITY_GAMES_BASE_URL}/play/${game.id}</loc><lastmod>${
+        `<url><loc>${routes.game.url({
+          params: {
+            gameId: game.id,
+          },
+        })}</loc><lastmod>${
           // use w3c date format yyyy-mm-dd
           printShortDate(game.updatedAt, 'fr-CA')
         }</lastmod><priority>0.5</priority></url>`
@@ -102,7 +106,13 @@ const getTags = async () => {
   return tags
     .map(
       (tag) =>
-        `<url><loc>${CHARITY_GAMES_BASE_URL}/tags/${tag.id}</loc><lastmod>${tag.updatedAt}</lastmod><priority>0.5</priority></url>`
+        `<url><loc>${routes.category.url({
+          params: {
+            tagId: tag.id,
+          },
+        })}</loc><lastmod>${
+          tag.updatedAt
+        }</lastmod><priority>0.5</priority></url>`
     )
     .join('');
 };
@@ -117,7 +127,11 @@ const getDevelopers = async () => {
   return developers
     .map(
       (developer) =>
-        `<url><loc>${CHARITY_GAMES_BASE_URL}/developers/${developer.id}</loc><lastmod>${LAST_UPDATE_DATE}</lastmod><priority>0.3</priority></url>`
+        `<url><loc>${routes.developer.url({
+          params: {
+            developerId: developer.id,
+          },
+        })}</loc><lastmod>${LAST_UPDATE_DATE}</lastmod><priority>0.3</priority></url>`
     )
     .join('');
 };
@@ -133,9 +147,11 @@ const getRaffles = async () => {
   return raffles
     .map(
       (raffle) =>
-        `<url><loc>${CHARITY_GAMES_BASE_URL}/raffles/${
-          raffle.id
-        }</loc><lastmod>${printShortDate(
+        `<url><loc>${routes.raffle.url({
+          params: {
+            raffleId: raffle.id,
+          },
+        })}</loc><lastmod>${printShortDate(
           raffle.updatedAt,
           'fr-CA'
         )}</lastmod><priority>0.3</priority></url>`
@@ -154,9 +170,11 @@ const getPrizes = async () => {
   return prizes
     .map(
       (prize) =>
-        `<url><loc>${CHARITY_GAMES_BASE_URL}/prizes/${
-          prize.id
-        }</loc><lastmod>${printShortDate(
+        `<url><loc>${routes.prize.url({
+          params: {
+            prizeId: prize.id,
+          },
+        })}</loc><lastmod>${printShortDate(
           prize.updatedAt,
           'fr-CA'
         )}</lastmod><priority>0.6</priority></url>`

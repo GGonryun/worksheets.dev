@@ -1,14 +1,10 @@
-const CHARITY_GAMES_BASE_URL =
-  process.env['NEXT_PUBLIC_CHARITY_GAMES_BASE_URL'];
+import { CHARITY_GAMES_BASE_URL } from '@worksheets/ui/env';
 
 const urls = {
   charityGames: CHARITY_GAMES_BASE_URL,
   email: {
     admin: 'admin@charity.games',
     support: 'support@charity.games',
-  },
-  forms: {
-    submission: 'https://forms.gle/J8B542yAduanvZSf6',
   },
   poll: 'https://strawpoll.com/GeZAOVdBRnV',
   external: {

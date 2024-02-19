@@ -1,5 +1,7 @@
 import { CHARITY_GAMES_BASE_URL } from '@worksheets/ui/env';
+import { Author } from '@worksheets/util/blog';
 import {
+  AccountFriendsQueryParams,
   FriendsPanels,
   HelpAccountQuestions,
   HelpCommonQuestions,
@@ -31,6 +33,7 @@ export const routes = {
   }),
   about: createRoute({
     path: '/about',
+    bookmarks: Author,
   }),
   contact: createRoute({
     path: '/contact',
@@ -40,6 +43,9 @@ export const routes = {
   }),
   categories: createRoute({
     path: '/tags',
+  }),
+  referral: createRoute({
+    path: '/ref/[code]',
   }),
   games: createRoute({
     path: '/play',
@@ -232,6 +238,7 @@ export const routes = {
       friends: createRoute({
         path: '/account/friends',
         bookmarks: FriendsPanels,
+        query: AccountFriendsQueryParams,
       }),
       prizes: createRoute({
         path: '/account/prizes',

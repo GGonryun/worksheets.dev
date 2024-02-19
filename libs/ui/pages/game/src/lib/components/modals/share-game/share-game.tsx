@@ -8,7 +8,7 @@ import {
   shareGameIntent,
   SocialButtons,
 } from '@worksheets/ui/components/social-media';
-import { CHARITY_GAMES_BASE_URL } from '@worksheets/ui/env';
+import { routes } from '@worksheets/ui/routes';
 import { BaseModal, ModalWrapper } from '@worksheets/ui-core';
 import { FC } from 'react';
 
@@ -18,7 +18,11 @@ export const ShareGameModal: FC<
     name: string;
   }>
 > = ({ id, name, open, onClose }) => {
-  const gameUrl = `${CHARITY_GAMES_BASE_URL}/play/${id}`;
+  const gameUrl = routes.game.url({
+    params: {
+      gameId: id,
+    },
+  });
 
   const handleClose = () => {
     onClose && onClose({}, 'backdropClick');

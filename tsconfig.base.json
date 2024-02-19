@@ -43,6 +43,7 @@
       ],
       "@worksheets/services/gmail": ["libs/services/gmail/src/index.ts"],
       "@worksheets/services/storage": ["libs/services/storage/src/index.ts"],
+      "@worksheets/services/twitter": ["libs/services/twitter/src/index.ts"],
       "@worksheets/trpc-charity": ["libs/trpc/charity/src/index.ts"],
       "@worksheets/trpc-charity/server": ["libs/trpc/charity/src/server.ts"],
       "@worksheets/ui-core": ["libs/ui/core/src/index.ts"],

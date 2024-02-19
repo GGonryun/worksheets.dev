@@ -1,5 +1,6 @@
-import { Box, Container, Link, Paper, Typography } from '@mui/material';
+import { Container, Link, Paper, Typography } from '@mui/material';
 import { routes } from '@worksheets/ui/routes';
+import { BookmarkAnchor } from '@worksheets/ui-core';
 import { FC } from 'react';
 
 import { TermsOfServiceStatement } from './terms-of-service-statement';
@@ -21,16 +22,7 @@ export const TermsOfServiceScreen: FC<TermsOfServiceScreenProps> = () => {
           backgroundColor: 'background.solid-blue',
         }}
       >
-        <Box
-          component="a"
-          id={'top'}
-          sx={{
-            display: 'block',
-            position: 'relative',
-            top: { xs: -40, sm: -60 },
-            visibility: 'hidden',
-          }}
-        />
+        <BookmarkAnchor id={'top'} />
         <TermsOfServiceStatement />
         <Typography
           sx={{

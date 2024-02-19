@@ -8,7 +8,7 @@ import {
   sharePrizeIntent,
   SocialButtons,
 } from '@worksheets/ui/components/social-media';
-import { CHARITY_GAMES_BASE_URL } from '@worksheets/ui/env';
+import { routes } from '@worksheets/ui/routes';
 import { BaseModal, ModalWrapper } from '@worksheets/ui-core';
 import { FC } from 'react';
 
@@ -18,7 +18,11 @@ export const SharePrizeModal: FC<
     name: string;
   }>
 > = ({ id, name, open, onClose }) => {
-  const url = `${CHARITY_GAMES_BASE_URL}/prizes/${id}`;
+  const url = routes.prize.url({
+    params: {
+      prizeId: id,
+    },
+  });
 
   const handleClose = () => {
     onClose && onClose({}, 'backdropClick');
