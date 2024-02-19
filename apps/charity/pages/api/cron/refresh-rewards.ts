@@ -1,7 +1,5 @@
 import { prisma } from '@worksheets/prisma';
 import { CRON_SECRET, IS_PRODUCTION } from '@worksheets/services/environment';
-import { routes } from '@worksheets/ui/routes';
-import { TokensPanels } from '@worksheets/util/enums';
 import {
   MAX_DAILY_GIFT_BOX_SHARES,
   MAX_TOKENS_FROM_GAME_PLAY_PER_DAY,
