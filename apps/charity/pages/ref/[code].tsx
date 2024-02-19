@@ -1,5 +1,6 @@
 import { LayoutContainer } from '@worksheets/ui/layout';
 import { DynamicApplyReferralCode } from '@worksheets/ui/pages/login';
+import { routes } from '@worksheets/ui/routes';
 import { NextPageWithLayout } from '@worksheets/util-next';
 import { GetServerSideProps } from 'next';
 
@@ -17,7 +18,7 @@ export const getServerSideProps = (async (ctx) => {
   if (!code) {
     return {
       redirect: {
-        destination: '/',
+        destination: routes.home.path(),
         permanent: false,
       },
     };

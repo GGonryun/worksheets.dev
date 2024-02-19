@@ -1,5 +1,6 @@
 import { Casino } from '@mui/icons-material';
 import { Box, Link, Paper, Typography } from '@mui/material';
+import { routes } from '@worksheets/ui/routes';
 import { useInterval } from '@worksheets/ui-core';
 import { millisecondsAsDuration } from '@worksheets/util/time';
 import { useState } from 'react';
@@ -37,7 +38,7 @@ export const RaffleCountdown: React.FC<{ expires: number }> = ({ expires }) => {
         </Box>
         <Typography
           component={Link}
-          href="/prizes"
+          href={routes.prizes.path()}
           color="inherit"
           underline="always"
           sx={{

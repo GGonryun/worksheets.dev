@@ -5,6 +5,8 @@ import FormHelperText from '@mui/material/FormHelperText';
 import Input from '@mui/material/Input';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
+import { routes } from '@worksheets/ui/routes';
+import { HelpDevelopersQuestions } from '@worksheets/util/enums';
 import {
   GameSubmissionFileKeys,
   GameSubmissionForm,
@@ -46,7 +48,9 @@ export const GameFiles: FC = () => {
           &#8212; Your ZIP file must include an index.html file. For more
           information on the zip file requirements, see the{' '}
           <Link
-            href="/help/developers#what-file-formats-are-supported"
+            href={routes.help.developers.path({
+              bookmark: HelpDevelopersQuestions.FileFormats,
+            })}
             target="_blank"
           >
             FAQ: 'How do I upload an HTML5 Game?'{' '}

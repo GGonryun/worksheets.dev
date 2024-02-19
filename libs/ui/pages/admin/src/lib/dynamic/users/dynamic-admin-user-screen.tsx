@@ -2,6 +2,7 @@ import { Box, Typography } from '@mui/material';
 import { trpc } from '@worksheets/trpc-charity';
 import { ErrorScreen } from '@worksheets/ui/pages/errors';
 import { LoadingScreen } from '@worksheets/ui/pages/loading';
+import { routes } from '@worksheets/ui/routes';
 import { printShortDateTime } from '@worksheets/util/time';
 import dynamic from 'next/dynamic';
 import React from 'react';
@@ -20,7 +21,7 @@ const AdminUserScreen: React.FC<{ userId: string }> = ({ userId }) => {
 
   return (
     <CustomContainer>
-      <ListButton href="/admin/users">All Users</ListButton>
+      <ListButton href={routes.admin.users.path()}>All Users</ListButton>
       <CustomPaper title={`User Details`}>
         <Box>
           <Typography variant="h5" gutterBottom>
@@ -70,7 +71,11 @@ const AdminUserScreen: React.FC<{ userId: string }> = ({ userId }) => {
               key: participation.raffleId.toString(),
               label: 'Raffle ID',
               value: `${participation.raffleId} (${participation.numTickets} tickets)`,
-              href: `/admin/raffles/${participation.raffleId}`,
+              href: routes.admin.raffle.path({
+                params: {
+                  raffleId: participation.raffleId,
+                },
+              }),
             })}
           />
 
@@ -81,7 +86,11 @@ const AdminUserScreen: React.FC<{ userId: string }> = ({ userId }) => {
               key: winning.winnerId,
               label: 'Winner ID',
               value: winning.winnerId,
-              href: `/admin/winner/${winning.winnerId}`,
+              href: routes.admin.winner.path({
+                params: {
+                  winnerId: winning.winnerId,
+                },
+              }),
             })}
           />
 
@@ -92,7 +101,11 @@ const AdminUserScreen: React.FC<{ userId: string }> = ({ userId }) => {
               key: friend.userId,
               label: 'User ID',
               value: friend.userId,
-              href: `/admin/users/${friend.userId}`,
+              href: routes.admin.user.path({
+                params: {
+                  userId: friend.userId,
+                },
+              }),
             })}
           />
 
@@ -103,7 +116,11 @@ const AdminUserScreen: React.FC<{ userId: string }> = ({ userId }) => {
               key: follower.userId,
               label: 'User ID',
               value: follower.userId,
-              href: `/admin/users/${follower.userId}`,
+              href: routes.admin.user.path({
+                params: {
+                  userId: follower.userId,
+                },
+              }),
             })}
           />
 
@@ -114,7 +131,11 @@ const AdminUserScreen: React.FC<{ userId: string }> = ({ userId }) => {
               key: referral.userId,
               label: 'User ID',
               value: referral.userId,
-              href: `/admin/users/${referral.userId}`,
+              href: routes.admin.user.path({
+                params: {
+                  userId: referral.userId,
+                },
+              }),
             })}
           />
 
@@ -125,7 +146,11 @@ const AdminUserScreen: React.FC<{ userId: string }> = ({ userId }) => {
               key: submission.submissionId,
               label: 'Submission ID',
               value: submission.submissionId,
-              href: `/admin/submissions/${submission.submissionId}`,
+              href: routes.admin.submission.path({
+                params: {
+                  submissionId: submission.submissionId,
+                },
+              }),
             })}
           />
         </Box>

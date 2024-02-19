@@ -6,7 +6,8 @@ import {
 } from '@mui/icons-material';
 import { Box, Button, Link, Typography } from '@mui/material';
 import { ValentinesMail } from '@worksheets/icons/valentines';
-import { TokensPanels } from '@worksheets/util/enums';
+import { routes } from '@worksheets/ui/routes';
+import { HelpTokensQuestions, TokensPanels } from '@worksheets/util/enums';
 import { BASE_DAILY_REWARD } from '@worksheets/util/settings';
 import React from 'react';
 
@@ -135,8 +136,8 @@ export const DailyRewardSection: React.FC<{
             `Each daily reward is worth ${BASE_DAILY_REWARD} tokens.`,
             `If you miss a claim, you won't be able to claim the reward.`,
             <>
-              <Link href="/help/vip">VIP members</Link> earn x3 the daily
-              reward.
+              <Link href={routes.help.vip.path()}>VIP members</Link> earn x3 the
+              daily reward.
             </>,
           ]}
         />
@@ -144,11 +145,13 @@ export const DailyRewardSection: React.FC<{
         <PanelFooter
           learn={{
             text: 'Daily Rewards',
-            href: '/help/tokens#daily-rewards',
+            href: routes.help.tokens.path({
+              bookmark: HelpTokensQuestions.DailyRewards,
+            }),
           }}
           action={{
             text: 'Play Games',
-            href: '/play',
+            href: routes.games.path(),
           }}
         />
       </Box>

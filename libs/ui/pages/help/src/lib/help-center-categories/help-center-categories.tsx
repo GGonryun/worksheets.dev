@@ -13,6 +13,7 @@ import {
   ValentinesWorld,
 } from '@worksheets/icons/valentines';
 import { WebGamepad, WebHeart, WebQuestion } from '@worksheets/icons/web';
+import { routes } from '@worksheets/ui/routes';
 
 import {
   HelpCenterCategory,
@@ -23,73 +24,73 @@ const categories: HelpCenterCategoryProps[] = [
   {
     title: 'Common Questions',
     description: 'Answers to our most frequently asked questions',
-    href: '/help/faq',
+    href: routes.help.faq.path(),
     icon: WebQuestion,
   },
   {
     title: 'Accounts & Profiles',
     description: 'Learn about accounts and profile settings',
-    href: '/help/accounts',
+    href: routes.help.accounts.path(),
     icon: ValentinesLock,
   },
   {
     title: 'Notifications',
-    href: '/help/notifications',
+    href: routes.help.notifications.path(),
     description: 'Get notified about new games and rewards',
     icon: ValentinesPhones,
   },
   {
     title: 'Playing Games',
+    href: routes.help.playingGames.path(),
     description: 'Learn how to play games on our arcade',
-    href: '/help/playing-games',
     icon: WebGamepad,
   },
   {
     title: 'Tokens',
-    href: '/help/tokens',
+    href: routes.help.tokens.path(),
     description: 'Play games at our arcade and win real world prizes',
     icon: ValentinesTicket,
   },
   {
     title: 'Referrals',
-    href: '/help/referrals',
+    href: routes.help.referrals.path(),
     description: 'Refer your friends and earn rewards',
     icon: ValentinesWorld,
   },
   {
     title: 'Friends',
-    href: '/help/friends',
+    href: routes.help.friends.path(),
     description: 'Playing with friends is more fun and rewarding',
     icon: WebHeart,
   },
   {
     title: 'Prizes',
-    href: '/help/prizes',
+    href: routes.help.prizes.path(),
     description: 'Redeem your tokens for real world prizes',
     icon: ECommercePrizes,
   },
   {
     title: 'Contributions',
-    href: '/help/contributions',
+    href: routes.help.contributions.path(),
     description: 'Help us build a better world, one game at a time',
     icon: ECommerceGift,
   },
   {
     title: 'VIP Membership',
-    href: '/help/vip',
+    href: routes.help.vip.path(),
     description: 'Help support our mission and earn more rewards',
     icon: ECommerceQuality,
   },
   {
     title: 'Developer',
-    href: '/help/developers',
+    href: routes.help.developers.path(),
     description: 'Contribute a game to our arcade',
     icon: LearningCode,
   },
   {
     title: 'Contact Us',
     description: 'Reach out to our support team',
-    href: '/contact',
+    href: routes.contact.path(),
     icon: ECommerceCustomerService,
   },
 ];

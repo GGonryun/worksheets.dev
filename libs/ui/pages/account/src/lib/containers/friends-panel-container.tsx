@@ -3,6 +3,7 @@ import { trpc } from '@worksheets/trpc-charity';
 import { Snackbar, useSnackbar } from '@worksheets/ui/components/snackbar';
 import { ErrorComponent } from '@worksheets/ui/pages/errors';
 import { LoadingScreen } from '@worksheets/ui/pages/loading';
+import { routes } from '@worksheets/ui/routes';
 import { useBookmark } from '@worksheets/ui-core';
 import { FriendsPanels } from '@worksheets/util/enums';
 import { Friend } from '@worksheets/util/types';
@@ -17,7 +18,7 @@ import {
   SharedGiftSnackbarMessage,
 } from '../components';
 
-const genericUnexpectedErrorMessage = {
+export const genericUnexpectedErrorMessage = {
   message: 'An unexpected error occurred. Please try again later.',
   severity: 'error' as const,
 };
@@ -74,9 +75,15 @@ export const FriendsPanelContainer: React.FC<{ refreshTimestamp: number }> = ({
     try {
       await addFriend.mutateAsync(friendRequest);
       await friends.refetch();
-      push(`/account/friends#${FriendsPanels.FriendsList}`, undefined, {
-        shallow: true,
-      });
+      push(
+        routes.account.friends.path({
+          bookmark: FriendsPanels.FriendsList,
+        }),
+        undefined,
+        {
+          shallow: true,
+        }
+      );
 
       snackbar.trigger({
         message: (

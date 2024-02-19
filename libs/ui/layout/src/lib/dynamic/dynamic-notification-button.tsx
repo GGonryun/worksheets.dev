@@ -1,5 +1,6 @@
 import { NotificationImportant, Notifications } from '@mui/icons-material';
 import { trpc } from '@worksheets/trpc-charity';
+import { routes } from '@worksheets/ui/routes';
 import dynamic from 'next/dynamic';
 
 import { LoadingButton } from '../components/shared/loading-button';
@@ -22,7 +23,10 @@ const NotificationButton: React.FC<{ connected: boolean }> = ({
   if (isLoading) return <LoadingButton />;
 
   return (
-    <SquareButton href={'/notifications'} color={data ? 'error' : 'primary'}>
+    <SquareButton
+      href={routes.notifications.path()}
+      color={data ? 'error' : 'primary'}
+    >
       {data ? (
         <NotificationImportant fontSize="small" />
       ) : (

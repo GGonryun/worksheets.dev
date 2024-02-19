@@ -1,4 +1,5 @@
 import { ArcadeItemLayout } from '@worksheets/ui/components/arcade';
+import { routes } from '@worksheets/ui/routes';
 import { BasicPrizeDetails } from '@worksheets/util/types';
 import React from 'react';
 
@@ -15,7 +16,7 @@ export const Prize: React.FC<BasicPrizeDetails> = ({
 
   return (
     <ArcadeItemLayout
-      href={`/prizes/${id}`}
+      href={routes.prize.path({ params: { prizeId: id } })}
       imageUrl={imageUrl}
       icon={PlatformLogo}
       name={name}

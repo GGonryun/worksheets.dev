@@ -5,6 +5,7 @@ import {
   RafflesGroup,
 } from '@worksheets/ui/components/raffles';
 import { useMediaQuery } from '@worksheets/ui/hooks/use-media-query';
+import { routes } from '@worksheets/ui/routes';
 import { PrizesPanels } from '@worksheets/util/enums';
 import {
   EnteredRaffleSchema,
@@ -35,7 +36,9 @@ export const RaffleContents: React.FC<{
               size={isMobile ? 'small' : 'medium'}
               sx={{ width: 'fit-content', alignSelf: 'flex-end' }}
               endIcon={isMobile ? undefined : <NavigateNext />}
-              href={`/account/prizes#${PrizesPanels.Prizes}`}
+              href={routes.account.prizes.path({
+                bookmark: PrizesPanels.Prizes,
+              })}
             >
               Raffles Won
             </Button>
@@ -54,7 +57,7 @@ export const RaffleContents: React.FC<{
           <Button
             variant="arcade"
             color="error"
-            href="/raffles/expired"
+            href={routes.raffles.expired.path()}
             size={isMobile ? 'small' : 'medium'}
             endIcon={isMobile ? undefined : <NavigateNext />}
           >

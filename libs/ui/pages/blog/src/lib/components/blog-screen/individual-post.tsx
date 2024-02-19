@@ -1,5 +1,6 @@
 import { Box, Link, Typography } from '@mui/material';
 import { ResponsiveImage } from '@worksheets/ui/components/images';
+import { blogRoutes } from '@worksheets/ui/routes';
 import { printDate } from '@worksheets/util/time';
 import { MarkdownMetadata } from '@worksheets/util-markdown';
 
@@ -9,7 +10,9 @@ import { AuthorBox } from './author-box';
 export const IndividualPost: React.FC<{ post: MarkdownMetadata }> = ({
   post,
 }) => {
-  const postUrl = `/blog/${post.slug}`;
+  const postUrl = blogRoutes.article.path({
+    params: { slug: post.slug },
+  });
 
   return (
     <Box

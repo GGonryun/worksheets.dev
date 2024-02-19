@@ -6,7 +6,7 @@ import { NextPageWithLayout } from '@worksheets/util-next';
 import { GetStaticProps } from 'next';
 import { NextSeo, NextSeoProps } from 'next-seo';
 
-import { tagsSeo } from '../../util/seo';
+import { categoriesSeo } from '../../util/seo';
 
 type Props = {
   seo: NextSeoProps;
@@ -24,7 +24,7 @@ export const getStaticProps = (async (ctx) => {
   const trpc = await createStaticTRPC(ctx);
   const categories = await trpc.public.categories.list.fetch({});
 
-  const seo = tagsSeo;
+  const seo = categoriesSeo;
 
   return { props: { categories, seo } };
 }) satisfies GetStaticProps<Props>;

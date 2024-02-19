@@ -1,6 +1,7 @@
 import { CardGiftcard, PlayCircleOutlined } from '@mui/icons-material';
 import { Box, Button, Typography } from '@mui/material';
 import { useMediaQueryDown } from '@worksheets/ui/hooks/use-media-query';
+import { routes } from '@worksheets/ui/routes';
 
 import { CustomPaper } from '../shared/custom-paper';
 
@@ -52,7 +53,7 @@ export const TitleText = () => {
           width="100%"
         >
           <Button
-            href="/prizes"
+            href={routes.prizes.path()}
             variant="arcade"
             color="warning"
             size={isMobile ? 'medium' : 'large'}
@@ -64,7 +65,7 @@ export const TitleText = () => {
             View Prizes
           </Button>
           <Button
-            href="/help/prizes"
+            href={routes.help.prizes.path()}
             variant="arcade"
             color="success"
             size={isMobile ? 'medium' : 'large'}

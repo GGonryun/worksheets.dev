@@ -2,6 +2,7 @@ import { KeyboardBackspace } from '@mui/icons-material';
 import { Box, Button, Container, Paper, Typography } from '@mui/material';
 import { QuestionAnswerSection } from '@worksheets/ui/components/qa-section';
 import { UnderConstruction } from '@worksheets/ui/pages/under-construction';
+import { routes } from '@worksheets/ui/routes';
 import { useBookmark } from '@worksheets/ui-core';
 import { QuestionAnswer } from '@worksheets/util/types';
 import { FC } from 'react';
@@ -32,7 +33,7 @@ export const HelpScreen: FC<HelpScreenProps> = ({ title, description, qa }) => {
           color="warning"
           size="small"
           startIcon={<KeyboardBackspace />}
-          href="/help"
+          href={routes.help.path()}
           sx={{
             width: 'fit-content',
             mb: { xs: 3, sm: 6 },

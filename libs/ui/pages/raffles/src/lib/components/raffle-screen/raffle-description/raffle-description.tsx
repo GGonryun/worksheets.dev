@@ -2,6 +2,7 @@ import { Diversity1, HelpCenter, Share } from '@mui/icons-material';
 import { Box, Button, Divider, Link, Typography } from '@mui/material';
 import { Description } from '@worksheets/ui/components/description';
 import { prizeTypeLabel } from '@worksheets/ui/components/prizes';
+import { routes } from '@worksheets/ui/routes';
 import { HTMLinator } from '@worksheets/ui-core';
 import { printShortDateTime } from '@worksheets/util/time';
 import { DetailedRaffleSchema } from '@worksheets/util/types';
@@ -42,7 +43,7 @@ export const RaffleDescription: React.FC<{
           size="small"
           variant="arcade"
           color="warning"
-          href="/help/prizes"
+          href={routes.help.prizes.path()}
           startIcon={<HelpCenter />}
         >
           Get Help
@@ -70,7 +71,7 @@ const DetailsGrid: React.FC<{ raffle: DetailedRaffleSchema }> = ({
       <DetailPair
         label="Prize"
         value={raffle.name}
-        href={`/prizes/${raffle.prizeId}`}
+        href={routes.prize.path({ params: { prizeId: raffle.prizeId } })}
       />
       <DetailPair
         label="Sponsor"

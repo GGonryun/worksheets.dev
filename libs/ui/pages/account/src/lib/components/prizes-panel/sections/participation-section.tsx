@@ -2,7 +2,8 @@ import { InfoOutlined } from '@mui/icons-material';
 import { Box, Link, Typography } from '@mui/material';
 import { ValentinesLetter } from '@worksheets/icons/valentines';
 import { useMediaQueryDown } from '@worksheets/ui/hooks/use-media-query';
-import { PrizesPanels } from '@worksheets/util/enums';
+import { routes } from '@worksheets/ui/routes';
+import { PrizesPanels, SettingsPanels } from '@worksheets/util/enums';
 import { EnteredRaffleSchema } from '@worksheets/util/types';
 import React from 'react';
 
@@ -54,12 +55,19 @@ export const ParticipationSection: React.FC<{
           `Play games, refer friends, and make purchases to earn tokens.`,
           <>
             Redeem tokens for Raffle Tickets and Prizes from the{' '}
-            <Link href="/prizes">Prize Wall</Link>.
+            <Link href={routes.prizes.path()}>Prize Wall</Link>.
           </>,
           `If you win a prize, you'll have 72 hours to claim it. If you don't, it will expire.`,
           <>
-            Configure your <Link href="/account">notification settings</Link> to
-            receive reminders about your prizes.
+            Configure your{' '}
+            <Link
+              href={routes.account.path({
+                bookmark: SettingsPanels.Communication,
+              })}
+            >
+              notification settings
+            </Link>{' '}
+            to receive reminders about your prizes.
           </>,
         ]}
       />
@@ -67,11 +75,13 @@ export const ParticipationSection: React.FC<{
       <PanelFooter
         learn={{
           text: 'Prizes',
-          href: '/help/prizes',
+          href: routes.help.prizes.path(),
         }}
         action={{
           text: 'My Prizes',
-          href: `/account/prizes#${PrizesPanels.Prizes}`,
+          href: routes.account.prizes.path({
+            bookmark: PrizesPanels.Prizes,
+          }),
           color: 'success',
         }}
       />
@@ -109,7 +119,7 @@ const EmptyParticipationTable = () => {
       <Typography variant="body2">
         Play games and refer friends to earn more tokens.
       </Typography>
-      <Link href="/help/prizes" variant="body1" color="error">
+      <Link href={routes.help.prizes.path()} variant="body1" color="error">
         Learn More
       </Link>
     </Box>

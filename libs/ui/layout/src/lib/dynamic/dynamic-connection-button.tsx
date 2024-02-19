@@ -1,4 +1,5 @@
 import { AccountCircle, Login } from '@mui/icons-material';
+import { routes } from '@worksheets/ui/routes';
 import dynamic from 'next/dynamic';
 import React from 'react';
 
@@ -10,7 +11,7 @@ const ConnectionButton: React.FC<{
 }> = ({ connected }) => {
   return (
     <SquareButton
-      href={connected ? '/account' : '/login'}
+      href={connected ? routes.account.path() : routes.login.path()}
       color={connected ? 'primary' : 'warning'}
     >
       {connected ? (

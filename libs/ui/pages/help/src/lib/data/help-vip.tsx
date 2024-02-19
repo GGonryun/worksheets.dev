@@ -1,12 +1,14 @@
 import { Box, Typography } from '@mui/material';
+import { routes } from '@worksheets/ui/routes';
 import { ListItem, OrderedList } from '@worksheets/ui-core';
+import { HelpVIPQuestions } from '@worksheets/util/enums';
 import { QuestionAnswer } from '@worksheets/util/types';
 
 import { HelpfulLinks } from '../helpful-links';
 
 export const helpVip: QuestionAnswer[] = [
   {
-    id: 'what-is-vip',
+    id: HelpVIPQuestions.Description,
     question: 'What is VIP?',
     summary: 'VIP is a membership program that offers exclusive benefits.',
     answer: (
@@ -26,14 +28,14 @@ export const helpVip: QuestionAnswer[] = [
         <br />
         <HelpfulLinks
           links={[
-            { text: 'Join the wait list', href: '/vip' },
+            { text: 'Join the wait list', href: routes.vip.path() },
             {
               text: 'Learn more about Tokens',
-              href: '/help/tokens',
+              href: routes.help.tokens.path(),
             },
             {
               text: 'Create an account',
-              href: '/account',
+              href: routes.account.path(),
             },
           ]}
         />
@@ -41,7 +43,7 @@ export const helpVip: QuestionAnswer[] = [
     ),
   },
   {
-    id: 'what-are-the-benefits-of-vip',
+    id: HelpVIPQuestions.Benefits,
     question: 'What are the benefits of VIP?',
     summary:
       'VIP members receive additional tokens, gift boxes, and other perks.',
@@ -60,14 +62,14 @@ export const helpVip: QuestionAnswer[] = [
         <br />
         <HelpfulLinks
           links={[
-            { text: 'Join the wait list', href: '/vip' },
+            { text: 'Join the wait list', href: routes.vip.path() },
             {
               text: 'Learn more about Tokens',
-              href: '/help/tokens',
+              href: routes.help.tokens.path(),
             },
             {
               text: 'Create an account',
-              href: '/account',
+              href: routes.account.path(),
             },
           ]}
         />
@@ -75,7 +77,7 @@ export const helpVip: QuestionAnswer[] = [
     ),
   },
   {
-    id: 'how-do-i-become-a-vip-member',
+    id: HelpVIPQuestions.Membership,
     question: 'How do I become a VIP member?',
     summary: 'VIP membership is currently in development.',
     answer: (
@@ -92,14 +94,14 @@ export const helpVip: QuestionAnswer[] = [
         <br />
         <HelpfulLinks
           links={[
-            { text: 'Join the wait list', href: '/vip' },
+            { text: 'Join the wait list', href: routes.vip.path() },
             {
               text: 'Learn more about Tokens',
-              href: '/help/tokens',
+              href: routes.help.tokens.path(),
             },
             {
               text: 'Create an account',
-              href: '/account',
+              href: routes.account.path(),
             },
           ]}
         />

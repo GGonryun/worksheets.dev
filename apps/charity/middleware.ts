@@ -1,3 +1,4 @@
+import { routes } from '@worksheets/ui/routes';
 import { NextRequest, NextResponse } from 'next/server';
 import { getToken } from 'next-auth/jwt';
 
@@ -16,11 +17,10 @@ export const config = {
 };
 
 const protectedPages = [
-  '/account',
-  '/submit',
-  '/notifications',
-  '/admin',
-  '/vip',
+  routes.account.path(),
+  routes.notifications.path(),
+  routes.admin.path(),
+  routes.vip.path(),
 ];
 
 export default async function middleware(req: NextRequest) {
@@ -36,13 +36,13 @@ export default async function middleware(req: NextRequest) {
 
   if (isProtectedPath && !user) {
     // add the original destination to the redirect url
-    const redirect = new URL('/login', req.url);
+    const redirect = new URL(routes.login.path(), req.url);
     redirect.searchParams.append('redirect', pathname);
     return NextResponse.redirect(redirect.toString());
   }
 
-  if (user && pathname === '/login') {
-    const redirect = new URL('/account', req.url);
+  if (user && pathname === routes.login.path()) {
+    const redirect = new URL(routes.account.path(), req.url);
     return NextResponse.redirect(redirect.toString());
   }
   // If the user is logged in, continue to the page

@@ -13,6 +13,7 @@ import {
   addFriendsIntent,
   SocialButtons,
 } from '@worksheets/ui/components/social-media';
+import { routes } from '@worksheets/ui/routes';
 import {
   FriendsPanels,
   ReferralsPanels,
@@ -28,9 +29,15 @@ export const AddFriendsSection: React.FC<{
   friendCode?: string;
   onAdd: (username: string) => void;
 }> = (props) => {
-  const referralsHref = `/account/referrals#${ReferralsPanels.ShareYourLink}`;
-  const friendsListHref = `/account/friends#${FriendsPanels.FriendsList}`;
-  const shareGiftsHref = `/account/friends#${FriendsPanels.SendGifts}`;
+  const referralsHref = routes.account.referrals.path({
+    bookmark: ReferralsPanels.ShareYourLink,
+  });
+  const friendsListHref = routes.account.friends.path({
+    bookmark: FriendsPanels.FriendsList,
+  });
+  const shareGiftsHref = routes.account.friends.path({
+    bookmark: FriendsPanels.SendGifts,
+  });
 
   const [username, setUsername] = useState(props.addFriendCode || '');
   const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -73,7 +80,11 @@ export const AddFriendsSection: React.FC<{
         </Box>
         {!props.friendCode ? (
           <Alert severity="error" sx={{ mb: 1 }}>
-            <Link href={`/account#${SettingsPanels.EditProfile}`}>
+            <Link
+              href={routes.account.path({
+                bookmark: SettingsPanels.EditProfile,
+              })}
+            >
               Your profile is incomplete!
             </Link>{' '}
             Pick a username to get your friend code. You can share your friend
@@ -148,7 +159,7 @@ export const AddFriendsSection: React.FC<{
       <PanelFooter
         learn={{
           text: 'Friends',
-          href: '/help/friends',
+          href: routes.help.friends.path(),
         }}
         action={{ text: 'Referrals', href: referralsHref }}
       />

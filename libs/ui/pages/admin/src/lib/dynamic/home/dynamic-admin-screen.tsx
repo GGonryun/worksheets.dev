@@ -1,5 +1,6 @@
 import { Divider, Link } from '@mui/material';
 import { LoadingScreen } from '@worksheets/ui/pages/loading';
+import { routes } from '@worksheets/ui/routes';
 import dynamic from 'next/dynamic';
 
 import { CustomContainer } from '../../shared/custom-container';
@@ -11,33 +12,33 @@ const AdminScreenContainer = () => {
       <CustomPaper title="Admin Directory">
         <Spacer />
 
-        <Link href="/admin/users" color="inherit">
+        <Link href={routes.admin.users.path()} color="inherit">
           View all users
         </Link>
 
         <Spacer />
 
-        <Link href="/admin/games" color="inherit">
+        <Link href={routes.admin.games.path()} color="inherit">
           View all games
         </Link>
-        <Link href="/admin/reports" color="inherit">
+        <Link href={routes.admin.reports.path()} color="inherit">
           View all game reports
         </Link>
-        <Link href="/admin/submissions" color="inherit">
+        <Link href={routes.admin.submissions.path()} color="inherit">
           View all game submissions
         </Link>
         <Spacer />
 
-        <Link href="/admin/prizes" color="inherit">
+        <Link href={routes.admin.prizes.path()} color="inherit">
           View all prizes
         </Link>
-        <Link href="/admin/raffles" color="inherit">
+        <Link href={routes.admin.raffles.path()} color="inherit">
           View all raffles
         </Link>
-        <Link href="/admin/winners" color="inherit">
+        <Link href={routes.admin.winners.path()} color="inherit">
           View all winners
         </Link>
-        <Link href="/admin/codes" color="inherit">
+        <Link href={routes.admin.codes.path()} color="inherit">
           View all activation codes
         </Link>
       </CustomPaper>

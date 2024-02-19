@@ -1,6 +1,7 @@
 import { Box, Link, Typography } from '@mui/material';
 import { trpc } from '@worksheets/trpc-charity';
 import { LoadingScreen } from '@worksheets/ui/pages/loading';
+import { routes } from '@worksheets/ui/routes';
 import { printShortDateTime } from '@worksheets/util/time';
 import { UserSummary } from '@worksheets/util/types';
 import dynamic from 'next/dynamic';
@@ -25,7 +26,7 @@ const AdminUsersScreen = () => {
 
   return (
     <CustomContainer>
-      <ListButton href="/admin">Directory</ListButton>
+      <ListButton href={routes.admin.path()}>Directory</ListButton>
       <CustomPaper title="Users List">
         <ListHeader />
 
@@ -68,7 +69,11 @@ const ListItem: React.FC<{
   <Box
     component={Link}
     color="text.arcade"
-    href={`/admin/users/${user.userId}`}
+    href={routes.admin.user.path({
+      params: {
+        userId: user.userId,
+      },
+    })}
     display="grid"
     gridTemplateColumns="1fr 1fr 1fr 1fr"
   >

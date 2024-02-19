@@ -1,5 +1,6 @@
 import { ErrorScreen } from '@worksheets/ui/pages/errors';
 import { LoadingScreen } from '@worksheets/ui/pages/loading';
+import { routes } from '@worksheets/ui/routes';
 import { waitFor } from '@worksheets/util/time';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
@@ -15,7 +16,11 @@ export const CreateGameSubmissionScreen: React.FC<{
     waitFor(1000).then(() => {
       createSubmission()
         .then(({ id }) => {
-          router.replace(`/submit/edit/${id}`);
+          router.replace(
+            routes.account.submissions.edit.path({
+              params: { submissionId: id },
+            })
+          );
         })
         .catch((e) => {
           setError(true);

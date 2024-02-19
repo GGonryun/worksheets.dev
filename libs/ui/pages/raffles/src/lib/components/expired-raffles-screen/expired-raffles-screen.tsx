@@ -5,6 +5,7 @@ import {
   usePagination,
 } from '@worksheets/ui/components/pagination';
 import { useMediaQueryDown } from '@worksheets/ui/hooks/use-media-query';
+import { routes } from '@worksheets/ui/routes';
 import { BasicRaffleDetails } from '@worksheets/util/types';
 import * as React from 'react';
 
@@ -39,7 +40,7 @@ export const ExpiredRafflesScreen: React.FC<{
           </Typography>
           <Button
             size={isMobile ? 'small' : 'medium'}
-            href="/raffles"
+            href={routes.raffles.path()}
             variant="arcade"
             color="error"
             endIcon={<ArrowRightAlt />}

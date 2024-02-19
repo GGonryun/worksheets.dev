@@ -3,6 +3,7 @@ import { Box, Button, Container, Paper } from '@mui/material';
 import { ShuffleIcon } from '@worksheets/icons/native';
 import { Categories } from '@worksheets/ui/components/categories';
 import { GamesGroup } from '@worksheets/ui/components/games';
+import { routes } from '@worksheets/ui/routes';
 import { Markdown } from '@worksheets/ui-core';
 import { BasicCategoryInfo, BasicGameInfo } from '@worksheets/util/types';
 import { FC } from 'react';
@@ -52,7 +53,7 @@ export const CategoryScreen: FC<CategoryScreenProps> = ({
               variant="arcade"
               color="success"
               endIcon={<ArrowRight />}
-              href={'/tags'}
+              href={routes.categories.path()}
               sx={{
                 width: { xs: '100%', sm: 'auto' },
               }}
@@ -88,7 +89,7 @@ export const CategoryScreen: FC<CategoryScreenProps> = ({
               variant="arcade"
               color="error"
               endIcon={<ArrowRight />}
-              href={'/play'}
+              href={routes.games.path()}
             >
               All Games
             </Button>
@@ -96,7 +97,7 @@ export const CategoryScreen: FC<CategoryScreenProps> = ({
               variant="arcade"
               color="warning"
               startIcon={<ShuffleIcon size={20} />}
-              href={'/play/random'}
+              href={routes.games.random.path()}
             >
               Random Game
             </Button>

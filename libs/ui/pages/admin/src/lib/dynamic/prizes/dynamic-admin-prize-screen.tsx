@@ -1,6 +1,7 @@
 import { trpc } from '@worksheets/trpc-charity';
 import { ErrorScreen } from '@worksheets/ui/pages/errors';
 import { LoadingScreen } from '@worksheets/ui/pages/loading';
+import { routes } from '@worksheets/ui/routes';
 import { printShortDateTime } from '@worksheets/util/time';
 import dynamic from 'next/dynamic';
 import React from 'react';
@@ -21,12 +22,16 @@ const AdminPrizeScreen: React.FC<{ prizeId: number }> = ({ prizeId }) => {
 
   return (
     <CustomContainer>
-      <ListButton href="/admin/prizes">All Prizes</ListButton>
+      <ListButton href={routes.admin.prizes.path()}>All Prizes</ListButton>
       <CustomPaper title={`Prize Details`}>
         <DataPair
           label="ID"
           value={prize.data.prizeId}
-          href={`/prizes/${prize.data.prizeId}`}
+          href={routes.admin.prize.path({
+            params: {
+              prizeId: prize.data.prizeId,
+            },
+          })}
         />
         <DataPair label="Name" value={prize.data.name} />
         <DataPair label="Description" value={prize.data.description} />
@@ -46,7 +51,11 @@ const AdminPrizeScreen: React.FC<{ prizeId: number }> = ({ prizeId }) => {
             key: raffle.raffleId,
             label: `Raffle ID`,
             value: `${raffle.raffleId} (${raffle.participants} participants)`,
-            href: `/admin/raffles/${raffle.raffleId}`,
+            href: routes.admin.raffle.path({
+              params: {
+                raffleId: raffle.raffleId,
+              },
+            }),
           })}
         />
 
@@ -57,7 +66,11 @@ const AdminPrizeScreen: React.FC<{ prizeId: number }> = ({ prizeId }) => {
             key: winner.winnerId,
             label: `Winner ID`,
             value: winner.winnerId,
-            href: `/admin/winners/${winner.winnerId}`,
+            href: routes.admin.winner.path({
+              params: {
+                winnerId: winner.winnerId,
+              },
+            }),
           })}
         />
 
@@ -68,7 +81,11 @@ const AdminPrizeScreen: React.FC<{ prizeId: number }> = ({ prizeId }) => {
             key: code.codeId,
             label: `Code ID`,
             value: code.codeId,
-            href: `/admin/codes/${code.codeId}`,
+            href: routes.admin.code.path({
+              params: {
+                codeId: code.codeId,
+              },
+            }),
           })}
         />
       </CustomPaper>

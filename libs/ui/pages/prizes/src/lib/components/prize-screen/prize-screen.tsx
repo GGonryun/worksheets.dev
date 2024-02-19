@@ -2,6 +2,7 @@ import { NavigateBefore } from '@mui/icons-material';
 import { Box, Button, Typography, useTheme } from '@mui/material';
 import { ResponsiveImage } from '@worksheets/ui/components/images';
 import { PrizesCarousel, PrizesGroup } from '@worksheets/ui/components/prizes';
+import { routes } from '@worksheets/ui/routes';
 import {
   BasicRaffleDetails,
   DetailedPrizeSchema,
@@ -22,7 +23,7 @@ export const PrizeScreen: React.FC<{
   <CustomContainer>
     <Box display="flex" flexDirection="column" gap={4}>
       <Button
-        href="/prizes"
+        href={routes.prizes.path()}
         color="white"
         startIcon={<NavigateBefore />}
         sx={{

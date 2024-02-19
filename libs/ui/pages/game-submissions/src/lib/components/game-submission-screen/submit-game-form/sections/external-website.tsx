@@ -4,6 +4,8 @@ import FormHelperText from '@mui/material/FormHelperText';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import { PrefixTextField } from '@worksheets/ui/components/inputs';
+import { routes } from '@worksheets/ui/routes';
+import { HelpDevelopersQuestions } from '@worksheets/util/enums';
 import { FC } from 'react';
 
 import { useGameSubmissionFormContext } from '../../../form-context';
@@ -37,7 +39,12 @@ export const ExternalWebsiteSection: FC = () => {
         &#8212; Your web page must be fully responsive across a wide variety of
         devices. For more information on our embedded web page requirements see
         the{' '}
-        <Link href="/help/developers#how-do-i-embed-a-web-page" target="_blank">
+        <Link
+          href={routes.help.developers.path({
+            bookmark: HelpDevelopersQuestions.EmbeddedWebPage,
+          })}
+          target="_blank"
+        >
           FAQ: 'How do I embed a web page?'{' '}
           <OpenInNewIcon fontSize="inherit" sx={{ mb: '-2px' }} />
         </Link>

@@ -11,6 +11,7 @@ import {
   ValentinesSearch,
 } from '@worksheets/icons/valentines';
 import { WebHeart } from '@worksheets/icons/web';
+import { routes } from '@worksheets/ui/routes';
 import { FriendsPanels } from '@worksheets/util/enums';
 import { Follower, Friend } from '@worksheets/util/types';
 
@@ -127,10 +128,12 @@ export const FriendsPanel: React.FC<{
         <InfoOutlined color="info" fontSize="small" />
         <Typography>
           Earn tokens when people play games with our{' '}
-          <Link href="/account/referrals">Referral Program</Link>.
+          <Link href={routes.account.referrals.path()}>Referral Program</Link>.
         </Typography>
       </Box>
-      <PanelFooter learn={{ text: 'Friends', href: '/help/friends' }} />
+      <PanelFooter
+        learn={{ text: 'Friends', href: routes.help.friends.path() }}
+      />
     </Box>
   );
 };

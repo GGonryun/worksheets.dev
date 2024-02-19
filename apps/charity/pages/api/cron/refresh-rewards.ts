@@ -1,5 +1,6 @@
 import { prisma } from '@worksheets/prisma';
 import { CRON_SECRET, IS_PRODUCTION } from '@worksheets/services/environment';
+import { routes } from '@worksheets/ui/routes';
 import { TokensPanels } from '@worksheets/util/enums';
 import {
   MAX_DAILY_GIFT_BOX_SHARES,
@@ -59,7 +60,11 @@ const resetRewards = async () => {
   const sendNotifications = prisma.notification.createMany({
     data: updating.map((reward) => ({
       userId: reward.userId,
-      text: `Your daily reward has reset! Visit your <a href="/account/tokens#${TokensPanels.DailyReward}">account</a> to claim your daily reward.`,
+      text: `Your daily reward has reset! Visit your <a href="${routes.account.tokens.path(
+        {
+          bookmark: TokensPanels.DailyReward,
+        }
+      )}">account</a> to claim your daily reward.`,
       type: 'REWARD',
     })),
   });

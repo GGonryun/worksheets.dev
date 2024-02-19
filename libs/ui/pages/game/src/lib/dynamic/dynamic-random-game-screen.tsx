@@ -3,6 +3,7 @@ import { useDeviceChecks } from '@worksheets/ui/hooks/use-device-checks';
 import { useRecentlyPlayedGames } from '@worksheets/ui/hooks/use-recently-played-games';
 import { ErrorScreen } from '@worksheets/ui/pages/errors';
 import { LoadingScreen } from '@worksheets/ui/pages/loading';
+import { routes } from '@worksheets/ui/routes';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
@@ -19,9 +20,15 @@ const RandomGameScreen = () => {
 
   useEffect(() => {
     if (data && !isLoading && !error) {
-      push(`/play/${data.id}`);
+      push(
+        routes.game.path({
+          params: {
+            gameId: data.id,
+          },
+        })
+      );
     } else if (error) {
-      push('/');
+      push(routes.home.path());
     }
   }, [data, error, isLoading, push]);
 

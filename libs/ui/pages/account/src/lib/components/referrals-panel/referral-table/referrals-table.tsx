@@ -6,6 +6,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { ValentinesLetter } from '@worksheets/icons/valentines';
+import { routes } from '@worksheets/ui/routes';
 import { printShortDate } from '@worksheets/util/time';
 import { Referral } from '@worksheets/util/types';
 import * as React from 'react';
@@ -96,7 +97,7 @@ const EmptyReferralsPlaceholder = () => (
         When they sign up, you'll both get a bonus!
       </Typography>
     </Box>
-    <Link href="/help/referrals" variant="body1" color="error">
+    <Link href={routes.help.referrals.path()} variant="body1" color="error">
       Learn More
     </Link>
   </Box>

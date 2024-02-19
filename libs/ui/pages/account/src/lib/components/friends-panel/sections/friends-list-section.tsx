@@ -1,5 +1,6 @@
 import { InfoOutlined } from '@mui/icons-material';
 import { Box, Divider, Link, Typography } from '@mui/material';
+import { routes } from '@worksheets/ui/routes';
 import { FriendsPanels } from '@worksheets/util/enums';
 import { Follower, Friend } from '@worksheets/util/types';
 import React from 'react';
@@ -17,8 +18,12 @@ export const FriendsListSection: React.FC<{
   onRemove: (friend: Friend) => void;
   onFavorite: (friend: Friend) => void;
 }> = (props) => {
-  const addFriendsLink = `/account/friends#${FriendsPanels.AddFriends}`;
-  const sendGiftLink = `/account/friends#${FriendsPanels.SendGifts}`;
+  const addFriendsLink = routes.account.friends.path({
+    bookmark: FriendsPanels.AddFriends,
+  });
+  const sendGiftLink = routes.account.friends.path({
+    bookmark: FriendsPanels.SendGifts,
+  });
 
   return (
     <Box
@@ -65,7 +70,7 @@ export const FriendsListSection: React.FC<{
       <PanelFooter
         learn={{
           text: 'Friends',
-          href: '/help/friends',
+          href: routes.help.friends.path(),
         }}
         action={{ text: 'Add Friends', href: addFriendsLink }}
       />

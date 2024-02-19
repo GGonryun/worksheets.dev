@@ -1,6 +1,7 @@
 import { ArrowForward, HelpCenter, HowToVote } from '@mui/icons-material';
 import { Box, Button, Link, Typography } from '@mui/material';
 import { Description } from '@worksheets/ui/components/description';
+import { routes } from '@worksheets/ui/routes';
 import {
   durationToString,
   millisecondsAsDuration,
@@ -32,8 +33,12 @@ export const RafflesDescription: React.FC<{
             startIcon={<HowToVote />}
             href={
               activeRaffles.length > 0
-                ? `/raffles?search=${encodeURIComponent(prizeName)}`
-                : '/raffles'
+                ? routes.raffles.path({
+                    query: {
+                      search: prizeName,
+                    },
+                  })
+                : routes.raffles.path()
             }
           >
             {activeRaffles.length > 0 ? 'Enter Raffle' : 'All Raffles'}
@@ -42,7 +47,7 @@ export const RafflesDescription: React.FC<{
             size="small"
             variant="arcade"
             color="warning"
-            href="/help/prizes"
+            href={routes.help.prizes.path()}
             startIcon={<HelpCenter />}
           >
             Get Help
@@ -59,7 +64,7 @@ export const RafflesDescription: React.FC<{
               </Typography>
               <Button
                 variant="arcade"
-                href="/raffles"
+                href={routes.raffles.path()}
                 color="error"
                 sx={{ mt: 2 }}
                 endIcon={<ArrowForward />}
@@ -133,7 +138,9 @@ export const RafflePseudoGridRow: React.FC<{
     flexDirection="row"
     alignItems="center"
     component={Link}
-    href={`/raffles/${raffle.id}`}
+    href={routes.raffle.path({
+      params: { raffleId: raffle.id },
+    })}
     sx={{
       textDecoration: 'none',
       color: 'inherit',

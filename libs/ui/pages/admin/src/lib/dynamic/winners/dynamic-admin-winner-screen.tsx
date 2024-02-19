@@ -2,6 +2,7 @@ import { Typography } from '@mui/material';
 import { trpc } from '@worksheets/trpc-charity';
 import { ErrorScreen } from '@worksheets/ui/pages/errors';
 import { LoadingScreen } from '@worksheets/ui/pages/loading';
+import { routes } from '@worksheets/ui/routes';
 import { printShortDateTime } from '@worksheets/util/time';
 import dynamic from 'next/dynamic';
 import React from 'react';
@@ -21,19 +22,27 @@ const AdminWinnerScreen: React.FC<{ winnerId: string }> = ({ winnerId }) => {
 
   return (
     <CustomContainer>
-      <ListButton href="/admin/winners">All Winners</ListButton>
+      <ListButton href={routes.admin.winners.path()}>All Winners</ListButton>
       <CustomPaper title={`Winner Details`}>
         <DataPair label="ID" value={winner.data.winnerId} />
         <DataPair
           label="Raffle ID"
           value={winner.data.raffleId}
-          href={`/admin/raffles/${winner.data.raffleId}`}
+          href={routes.admin.raffle.path({
+            params: {
+              raffleId: winner.data.raffleId,
+            },
+          })}
         />
 
         <DataPair
           label="Prize ID"
           value={winner.data.prizeId}
-          href={`/admin/prizes/${winner.data.prizeId}`}
+          href={routes.admin.prize.path({
+            params: {
+              prizeId: winner.data.prizeId,
+            },
+          })}
         />
         <DataPair
           label="Participation ID"
@@ -41,13 +50,25 @@ const AdminWinnerScreen: React.FC<{ winnerId: string }> = ({ winnerId }) => {
         />
         <DataPair
           label="Code ID"
-          value={winner.data.codeId}
-          href={`/admin/codes/${winner.data.codeId}`}
+          value={winner.data.codeId ?? 'N/A'}
+          href={
+            winner.data.codeId
+              ? routes.admin.code.path({
+                  params: {
+                    codeId: winner.data.codeId,
+                  },
+                })
+              : undefined
+          }
         />
         <DataPair
           label="User ID"
           value={winner.data.userId}
-          href={`/admin/users/${winner.data.userId}`}
+          href={routes.admin.user.path({
+            params: {
+              userId: winner.data.userId,
+            },
+          })}
         />
         <DataPair
           label="Created At"

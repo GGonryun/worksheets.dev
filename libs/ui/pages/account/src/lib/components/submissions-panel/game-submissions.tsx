@@ -3,6 +3,8 @@ import { CircularProgress } from '@mui/material';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import { routes } from '@worksheets/ui/routes';
+import { HelpDevelopersQuestions } from '@worksheets/util/enums';
 import { BasicGameSubmission } from '@worksheets/util/types';
 import React from 'react';
 
@@ -42,7 +44,7 @@ export const GameSubmissions: React.FC<{
         ))}
       </Box>
       <Button
-        href="/submit/new"
+        href={routes.account.submissions.create.path()}
         onClick={() => setLoading(true)}
         variant="arcade"
         color="success"
@@ -61,7 +63,14 @@ export const GameSubmissions: React.FC<{
       </Button>
       <Typography variant="body3">
         For more information on how to submit a game, please visit our{' '}
-        <a href="/help/developers#submit-a-game">contribution page</a>.
+        <a
+          href={routes.help.developers.path({
+            bookmark: HelpDevelopersQuestions.SubmitGame,
+          })}
+        >
+          contribution page
+        </a>
+        .
       </Typography>
     </Box>
   );

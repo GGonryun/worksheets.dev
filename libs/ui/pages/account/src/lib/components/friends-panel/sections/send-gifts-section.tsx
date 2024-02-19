@@ -1,7 +1,8 @@
 import { InfoOutlined } from '@mui/icons-material';
 import { Box, Divider, Link, Typography } from '@mui/material';
 import { ValentinesGift } from '@worksheets/icons/valentines';
-import { FriendsPanels } from '@worksheets/util/enums';
+import { routes } from '@worksheets/ui/routes';
+import { FriendsPanels, HelpFriendsQuestions } from '@worksheets/util/enums';
 import { MAX_DAILY_GIFT_BOX_SHARES } from '@worksheets/util/settings';
 import { Friend } from '@worksheets/util/types';
 import React from 'react';
@@ -23,7 +24,9 @@ export const SendGiftsSection: React.FC<{
 }> = (props) => {
   const timeRemaining = useTimeUntil(props.refreshTimestamp);
 
-  const addFriendsLink = `/account/friends#${FriendsPanels.AddFriends}`;
+  const addFriendsLink = routes.account.friends.path({
+    bookmark: FriendsPanels.AddFriends,
+  });
 
   return (
     <Box
@@ -78,13 +81,13 @@ export const SendGiftsSection: React.FC<{
             friends per day.
           </>,
           <>
-            <Link href="/help/vip">VIP members</Link> can send more gift boxes
-            every day.
+            <Link href={routes.help.vip.path()}>VIP members</Link> can send more
+            gift boxes every day.
           </>,
           `You earn a gift box for every friend you send a gift to.`,
           <>
             Open gift boxes on the{' '}
-            <Link href="/account/tokens">Tokens Page</Link>.
+            <Link href={routes.account.tokens.path()}>Tokens Page</Link>.
           </>,
           `Your favorite friends are listed at the top of the table.`,
         ]}
@@ -93,7 +96,9 @@ export const SendGiftsSection: React.FC<{
       <PanelFooter
         learn={{
           text: 'Sending Gifts',
-          href: '/help/tokens#gift-boxes',
+          href: routes.help.friends.path({
+            bookmark: HelpFriendsQuestions.SendingGifts,
+          }),
         }}
         action={{ text: 'Add Friends', href: addFriendsLink }}
       />

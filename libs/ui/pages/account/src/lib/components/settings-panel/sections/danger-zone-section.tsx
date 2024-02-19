@@ -1,6 +1,7 @@
 import { GppMaybeOutlined } from '@mui/icons-material';
 import { Alert, Box, Button, Divider, Link, Typography } from '@mui/material';
 import { ValentinesLock } from '@worksheets/icons/valentines';
+import { routes } from '@worksheets/ui/routes';
 import { SettingsPanels } from '@worksheets/util/enums';
 
 import { CollapsibleSection } from '../../collapsible-section';
@@ -36,7 +37,7 @@ export const DangerZoneSection: React.FC<{
           these actions!
           <br />
           <br />
-          <Link href="/contact" color="inherit">
+          <Link href={routes.contact.path()} color="inherit">
             Contact us
           </Link>{' '}
           if you need assistance.
@@ -105,12 +106,12 @@ export const DangerZoneSection: React.FC<{
 
         <PanelFooter
           learn={{
-            text: 'Accounts & Profiles',
-            href: '/help/accounts',
+            text: 'Account & Profile',
+            href: routes.help.accounts.path(),
           }}
           action={{
             text: 'Contact Us',
-            href: '/contact',
+            href: routes.contact.path(),
           }}
         />
       </Box>

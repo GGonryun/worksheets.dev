@@ -3,6 +3,7 @@ import {
   useSnackbar,
   UseSnackbarHook,
 } from '@worksheets/ui/components/snackbar';
+import { routes } from '@worksheets/ui/routes';
 import { isImage, isZip, toMegabytes } from '@worksheets/util/data';
 import {
   GameSubmissionForm,
@@ -13,7 +14,7 @@ import {
 } from '@worksheets/util/types';
 import { useZodValidator } from '@worksheets/zod';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const MAX_ZIP_UPLOAD_SIZE_MB = 50;
 const MAX_IMAGE_UPLOAD_SIZE_MB = 5;
@@ -97,6 +98,10 @@ export const useGameSubmissionForm = (
     merge(initialValues, submission)
   );
 
+  useEffect(() => {
+    setValues(merge(initialValues, submission));
+  }, [submission]);
+
   const { fieldValidator, globalValidator } = useZodValidator(
     strictGameSubmissionFormSchema
   );
@@ -116,7 +121,7 @@ export const useGameSubmissionForm = (
         setErrors(results.errors);
       } else {
         await submitForm.mutateAsync({ ...values, id: submissionId });
-        push('/submit/success');
+        push(routes.account.submissions.success.path());
       }
     } finally {
       setLoading(false);
@@ -134,7 +139,7 @@ export const useGameSubmissionForm = (
         severity: 'success',
       });
 
-      push('/account/submissions');
+      push(routes.account.submissions.path());
     } finally {
       setLoading(false);
       setUpdated(false);

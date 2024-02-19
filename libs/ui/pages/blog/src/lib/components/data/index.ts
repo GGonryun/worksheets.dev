@@ -34,7 +34,7 @@ export const sampleBlogMetadata: MarkdownMetadata[] = [
 
 export const sampleBlogPost = `<p>Welcome to Charity Games! This is a website where you can play games with a purpose. All the games are free to play and I pledge to donate all proceeds to charity. The website is currently in beta and I'm looking for feedback. If you have any suggestions or comments, please let me know!</p>
   <h2>How it works</h2>
-  <p>In the future the goal is to place one unobtrusive ad on the title screens of every game page and donate the revenue to charity. Right now donations will come out of my pocket. I'm not sure how much money I'll be able to donate, but I'll do my best. I'll be posting updates on the <a href="/blog">blog</a> and receipts on the <a href="/donations">donations</a> page.</p>
+  <p>In the future the goal is to place one unobtrusive ad on the title screens of every game page and donate the revenue to charity. Right now donations will come out of my pocket. I'm not sure how much money I'll be able to donate, but I'll do my best. I'll be posting updates on the <a>blog</a> and receipts on the <a>donations</a> page.</p>
   <h2>Why am I doing this?</h2>
   <p>My journey started when I tried to create an IPaaS competitor to Zapier last year, called Gwenyth.IO which later evolved to <a href="https://worksheets.dev">Worksheets.dev</a>. I went to some meetups and promoted myself but I felt empty. Everyone was cheering me on, telling me it was a great idea but deep down I knew it wasn't. Zapier was an excellent product and I didn't want to sell my mediocre alternative. I went back to the drawing board, taking note of what was really important to me:</p>
   <ol>

@@ -134,14 +134,14 @@
       "@worksheets/ui/pages/blog": ["libs/ui/pages/blog/src/index.ts"],
       "@worksheets/ui/pages/category": ["libs/ui/pages/category/src/index.ts"],
       "@worksheets/ui/pages/contact": ["libs/ui/pages/contact/src/index.ts"],
-      "@worksheets/ui/pages/contributions": [
-        "libs/ui/pages/contributions/src/index.ts"
-      ],
       "@worksheets/ui/pages/cookie-policy": [
         "libs/ui/pages/cookie-policy/src/index.ts"
       ],
       "@worksheets/ui/pages/developer": [
         "libs/ui/pages/developer/src/index.ts"
+      ],
+      "@worksheets/ui/pages/developers-portal": [
+        "libs/ui/pages/developers-portal/src/index.ts"
       ],
       "@worksheets/ui/pages/errors": ["libs/ui/pages/errors/src/index.ts"],
       "@worksheets/ui/pages/game": ["libs/ui/pages/game/src/index.ts"],
@@ -168,6 +168,7 @@
       ],
       "@worksheets/ui/pages/vip": ["libs/ui/pages/vip/src/index.ts"],
       "@worksheets/ui/qa-section/server": ["libs/ui/qa-section/src/server.ts"],
+      "@worksheets/ui/routes": ["libs/ui/routes/src/index.ts"],
       "@worksheets/ui/styles": ["libs/ui/styles/src/index.ts"],
       "@worksheets/ui/theme": ["libs/ui/theme/src/index.ts"],
       "@worksheets/ui/widgets": ["libs/ui/widgets/src/index.ts"],

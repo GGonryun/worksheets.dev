@@ -1,5 +1,6 @@
 import { Prisma, PrismaClient } from '@prisma/client';
 import { TRPCError } from '@trpc/server';
+import { routes } from '@worksheets/ui/routes';
 import { TokensPanels } from '@worksheets/util/enums';
 import {
   BONUS_GAMES_MULTIPLIER,
@@ -133,7 +134,13 @@ const sendNotificationOnGiftBox = async (
       data: {
         userId,
         type: 'REWARD',
-        text: `You found a gift box while playing <a href="/play/${game.id}">${game.title}</a>! Visit your <a href="/account/tokens#${TokensPanels.GiftBoxes}">account</a> to claim your reward.`,
+        text: `You found a gift box while playing <a href="${routes.game.path({
+          params: { gameId: game.id },
+        })}">${
+          game.title
+        }</a>! Visit your <a href="${routes.account.tokens.path({
+          bookmark: TokensPanels.GiftBoxes,
+        })}">account</a> to claim your reward.`,
       },
     });
   }

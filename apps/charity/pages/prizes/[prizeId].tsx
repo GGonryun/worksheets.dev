@@ -1,6 +1,7 @@
 import { createStaticTRPC } from '@worksheets/trpc-charity/server';
 import { LayoutContainer } from '@worksheets/ui/layout';
 import { DynamicPrizeScreen } from '@worksheets/ui/pages/prizes';
+import { routes } from '@worksheets/ui/routes';
 import { DetailedPrizeSchema } from '@worksheets/util/types';
 import { NextPageWithLayout } from '@worksheets/util-next';
 import { GetStaticPaths, GetStaticProps } from 'next';
@@ -53,7 +54,7 @@ export const getStaticProps = (async (ctx) => {
     console.error(`Error fetching prize ${prizeId}`, error);
     return {
       redirect: {
-        destination: '/prizes',
+        destination: routes.prizes.path(),
         permanent: false,
       },
     };

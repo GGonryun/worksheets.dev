@@ -2,6 +2,7 @@ import Alert from '@mui/material/Alert';
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
+import { routes } from '@worksheets/ui/routes';
 import { FC } from 'react';
 
 export const InvalidProfileAlert: FC<{ visible: boolean | undefined }> = ({
@@ -11,7 +12,7 @@ export const InvalidProfileAlert: FC<{ visible: boolean | undefined }> = ({
     <Alert severity="error">
       <Typography variant="body2" fontWeight={900}>
         Incomplete Developer Profile &#8212;{' '}
-        <Link href="/account" color="primary">
+        <Link href={routes.account.path()} color="primary">
           Edit Account
         </Link>
       </Typography>

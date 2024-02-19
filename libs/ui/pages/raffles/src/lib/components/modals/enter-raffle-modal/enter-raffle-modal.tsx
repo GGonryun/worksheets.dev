@@ -7,6 +7,7 @@ import {
   Typography,
   useMediaQuery,
 } from '@mui/material';
+import { routes } from '@worksheets/ui/routes';
 import { BaseModal, ModalWrapper } from '@worksheets/ui-core';
 
 export const EnterRaffleModal: React.FC<
@@ -97,7 +98,7 @@ export const EnterRaffleModal: React.FC<
         >
           Raffle Ticket x10
         </Button>
-        <Button href="/help/tokens" sx={{ mt: 1 }}>
+        <Button href={routes.help.tokens.path()} sx={{ mt: 1 }}>
           Need more tokens?
         </Button>
       </Box>

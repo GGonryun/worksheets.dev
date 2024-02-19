@@ -1,5 +1,6 @@
 import { ArcadeItemLayout } from '@worksheets/ui/components/arcade';
 import { prizeTypeLogos } from '@worksheets/ui/components/prizes';
+import { routes } from '@worksheets/ui/routes';
 import { printTimeRemaining } from '@worksheets/util/time';
 import { BasicRaffleDetails } from '@worksheets/util/types';
 import React from 'react';
@@ -17,7 +18,7 @@ export const Raffle: React.FC<BasicRaffleDetails> = ({
 
   return (
     <ArcadeItemLayout
-      href={`/raffles/${id}`}
+      href={routes.raffle.path({ params: { raffleId: id } })}
       imageUrl={imageUrl}
       icon={PlatformLogo}
       name={name}

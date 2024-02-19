@@ -1,4 +1,5 @@
 import { CHARITY_GAMES_BASE_URL } from '@worksheets/ui/env';
+import { routes } from '@worksheets/ui/routes';
 import { OpenGraphProps, TWITTER_SEO } from '@worksheets/util/seo';
 import {
   DeveloperSchema,
@@ -8,9 +9,6 @@ import {
   TagSchema,
 } from '@worksheets/util/types';
 import { DefaultSeoProps, NextSeoProps, VideoGameJsonLdProps } from 'next-seo';
-
-export const createCanonicalUrl = (url?: string) =>
-  `${CHARITY_GAMES_BASE_URL}${url}`;
 
 export const defaultSeo: DefaultSeoProps = {
   title: 'Charity Games',
@@ -62,7 +60,7 @@ export const ldJson = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
   name: defaultSeo.title,
-  url: createCanonicalUrl(),
+  url: routes.home.url(),
   alternateName: [
     'Charity.Games',
     'CharityGames',
@@ -72,80 +70,78 @@ export const ldJson = {
   description: defaultSeo.description,
 };
 
-const createSeo = ({ noindex, ...props }: OpenGraphProps): NextSeoProps => ({
-  canonical: createCanonicalUrl(props.url),
+export const createSeo = ({
+  noindex,
+  ...props
+}: OpenGraphProps): NextSeoProps => ({
+  canonical: routes.baseUrl + props.path,
   title: props.title,
+  titleTemplate: `%s | ${defaultSeo.title}`,
+  defaultTitle: defaultSeo.title,
   description: props.description,
   noindex: noindex ?? false,
-  defaultTitle: props.title,
   openGraph: {
     ...props,
+    url: routes.baseUrl + props.path,
     siteName: 'Charity Games',
   },
 });
 
-export const aboutSeo = createSeo({
-  url: '/about',
-  title: 'Charity Games - About Us',
-  description:
-    'Charity Games provides access to free online HTML browser games. Every game donates money to charitable causes. Play your favorite games and help make the world a better place.',
-});
-
 export const homeSeo = createSeo({
-  url: '/',
-  title: 'Charity Games - Free Online Games',
+  path: routes.home.path(),
   description:
     'On Charity Games you can play free online HTML browser games that donate money to charitable causes. Play your favorite mobile and desktop games.',
 });
 
+export const aboutSeo = createSeo({
+  path: routes.about.path(),
+  title: 'About Us',
+  description:
+    'Charity Games provides access to free online HTML browser games. Every game donates money to charitable causes. Play your favorite games and help make the world a better place.',
+});
+
 export const contactSeo = createSeo({
-  url: '/contact',
-  title: 'Charity Games - Contact Us',
+  path: routes.contact.path(),
+  title: 'Contact Us',
   description:
     'If you have any questions, comments, or concerns about Charity Games, please feel free to contact us. We typically respond within 48 hours.',
 });
 
-export const tagsSeo = createSeo({
-  url: `/tags`,
-  title: `Charity Games - All Categories`,
+export const categoriesSeo = createSeo({
+  path: routes.categories.path(),
+  title: `All Categories`,
   description: `Find and play your favorite html and browser games for free on Charity Games. The easiest way to donate to charity.`,
-});
-
-export const gamesSeo = createSeo({
-  url: `/play`,
-  title: `Charity Games - All Games`,
-  description: `Find and play your favorite mobile and desktop games for free on Charity Games. The easiest way to donate to charity.`,
-});
-
-export const developerSeo = (developer: DeveloperSchema): NextSeoProps =>
-  createSeo({
-    url: `/developers/${developer.id}`,
-    title: `${developer.name} - Charity Games - Developer Profile`,
-    description: `Play ${developer.name} games online for free on Charity Games. Turn your games into donations. Help us make a difference.`,
-  });
-
-export const donationsSeo = createSeo({
-  url: `/donations`,
-  title: `Charity Games - Donation Receipts`,
-  description: `View all donations made by Charity Games. See how much money has been donated to charity. Thank you for your support!`,
 });
 
 export const categorySeo = (
   tag: Omit<TagSchema, 'relatedTags'>
 ): NextSeoProps =>
   createSeo({
-    url: `/tags/${tag.id}`,
-    title: `${tag.name} - Play Free Browser Games for Charity`,
+    path: routes.category.path({ params: { tagId: tag.id } }),
+    title: `${tag.name} Category`,
     description: `Play ${tag.name} online for free on Charity Games. The easiest way to make a difference. Donate to charity by playing ${tag.name}.`,
   });
+
+export const developerSeo = (developer: DeveloperSchema): NextSeoProps =>
+  createSeo({
+    path: routes.developer.path({ params: { developerId: developer.id } }),
+    title: `${developer.name} Profile`,
+    description: `Play ${developer.name} games online for free on Charity Games. Turn your games into donations. Help us make a difference.`,
+  });
+
+export const gamesSeo = createSeo({
+  path: routes.games.path(),
+  title: `All Games`,
+  description: `Find and play your favorite mobile and desktop games for free on Charity Games. The easiest way to donate to charity.`,
+});
 
 export const gameSeo = (
   game: SerializableGameSchema,
   developer: DeveloperSchema
 ): NextSeoProps =>
   createSeo({
-    url: `/play/${game.id}`,
-    title: `${game.name} - Charity Games - Free Online Arcade`,
+    path: routes.game.path({ params: { gameId: game.id } }),
+    title: `Play ${game.name}`,
     description: `Play ${game.name} by ${developer.name} online for free on Charity Games. ${game.name} is one of our top ${game.categories[0]} games. `,
     images: [
       {
@@ -164,196 +160,198 @@ export const gameJsonLd = (
   description: game.description,
   playMode: 'SinglePlayer',
   applicationCategory: 'Game',
-  url: createCanonicalUrl(`/play/${game.id}`),
+  url: routes.game.url({ params: { gameId: game.id } }),
   keywords: game.categories.join(', '),
   datePublished: game.createdAt,
   image: game.iconUrl,
   publisherName: developer.name,
-  producerUrl: createCanonicalUrl(`/developers/${developer.id}`),
+  producerUrl: routes.developer.path({ params: { developerId: developer.id } }),
 });
 
 export const termsSeo = createSeo({
-  url: `/terms`,
-  title: `Charity Games - Terms of Service`,
+  path: routes.terms.path(),
+  title: `Terms of Service`,
   description: `Read the Charity Games terms of service. Learn about our policies and guidelines. Thank you for your support!`,
 });
 
 export const privacySeo = createSeo({
-  url: `/privacy`,
-  title: `Charity Games - Privacy Policy`,
+  path: routes.privacy.path(),
+  title: `Privacy Policy`,
   description: `Read the Charity Games privacy policy. Learn about our data usage and privacy practices. Thank you for your support!`,
 });
 
 export const cookiesSeo = createSeo({
-  url: `/cookies`,
-  title: `Charity Games - Cookies Policy`,
+  path: routes.cookies.path(),
+  title: `Cookies Policy`,
   description: `Read the Charity Games cookies policy. Learn about our cookie usage and privacy practices. Thank you for your support!`,
-});
-
-export const submitGameSeo = createSeo({
-  url: `/submit/new`,
-  title: `Charity Games - Submit a Game`,
-  description: `Learn how to submit a game to Charity Games. Help us make a difference. Turn your games into donations.`,
 });
 
 export const accountProfileSeo = createSeo({
   noindex: true,
-  url: `/account`,
-  title: `Charity Games - Account`,
+  path: routes.account.path(),
+  title: `Account`,
   description: `Manage your Charity Games account. View your profile and manage your settings.`,
 });
 
 export const accountSubmissionsSeo = createSeo({
   noindex: true,
-  url: `/account/submissions`,
-  title: `Charity Games - Submissions`,
+  path: routes.account.submissions.path(),
+  title: `Submissions`,
   description: `Manage your Charity Games submissions. View your submission history.`,
 });
 
 export const createGameSubmissionSeo = createSeo({
   noindex: true,
-  url: `/account/submit/new`,
-  title: `Charity Games - Create Submission`,
+  path: routes.account.submissions.create.path(),
+  title: `Create Submission`,
   description: `Create a new game submission on Charity Games.`,
 });
 
+export const editGameSubmissionSeo = (submissionId: string) =>
+  createSeo({
+    noindex: true,
+    path: routes.account.submissions.edit.path({ params: { submissionId } }),
+    title: `Edit Submission`,
+    description: `Edit a game submission on Charity Games.`,
+  });
+
 export const accountTokensSeo = createSeo({
   noindex: true,
-  url: `/account/tokens`,
-  title: `Charity Games - Tokens`,
+  path: routes.account.tokens.path(),
+  title: `Tokens`,
   description: `Manage your Charity Games tokens. Earn tokens by playing games and referring friends.`,
 });
 
 export const accountReferralsSeo = createSeo({
   noindex: true,
-  url: `/account/referrals`,
-  title: `Charity Games - Referrals`,
+  path: routes.account.referrals.path(),
+  title: `Referrals`,
   description: `Manage your Charity Games referrals. Earn tokens by referring friends.`,
 });
 
 export const accountFriendsSeo = createSeo({
   noindex: true,
-  url: `/account/friends`,
-  title: `Charity Games - Friends`,
+  path: routes.account.friends.path(),
+  title: `Friends`,
   description: `Manage your Charity Games friends. Earn tokens by sharing gifts with friends.`,
 });
 
 export const accountPrizesSeo = createSeo({
   noindex: true,
-  url: `/account/prizes`,
-  title: `Charity Games - Prizes`,
+  path: routes.account.prizes.path(),
+  title: `Prizes`,
   description: `Manage your Charity Games prizes. Redeem tokens for real world prizes.`,
 });
 
 export const signUpSeo = createSeo({
-  url: '/signup',
-  title: 'Charity Games - Sign Up',
+  path: routes.signUp.path(),
+  title: 'Sign Up',
   description:
     'Sign up for Charity Games and start playing free online HTML browser games. Every play donates money to charitable causes. We support mobile and desktop.',
 });
 
 export const loginSeo = createSeo({
-  url: '/login',
-  title: 'Charity Games - Log In',
+  path: routes.login.path(),
+  title: 'Log In',
   description:
     'Log in to Charity Games and start playing free online HTML browser games. Every play donates money to charitable causes. We support mobile and desktop.',
 });
 
 export const helpCenterSeo = createSeo({
-  url: '/help',
-  title: 'Charity Games - Help Center',
+  path: routes.help.path(),
+  title: 'Help Center',
   description:
     'Find answers to frequently asked questions about Charity Games. Learn how to play, donate, and get involved.',
 });
 
 export const helpFaqSeo = createSeo({
-  url: '/help/faq',
-  title: 'Charity Games - Frequently Asked Questions',
+  path: routes.help.faq.path(),
+  title: 'Frequently Asked Questions',
   description:
     'Find answers to frequently asked questions about Charity Games. Learn how to play, donate, and get involved.',
 });
 
 export const helpAccountsSeo = createSeo({
-  url: '/help/accounts',
-  title: 'Charity Games - Accounts Help Center',
+  path: routes.help.accounts.path(),
+  title: 'Accounts Help Center',
   description:
     'Find answers to questions about accounts, profiles, and settings on Charity Games.',
 });
 
 export const helpTokensSeo = createSeo({
-  url: '/help/tokens',
-  title: 'Charity Games - Tokens Help Center',
+  path: routes.help.tokens.path(),
+  title: 'Tokens Help Center',
   description:
     'Find answers to questions about tokens on Charity Games. Learn how to earn tokens and redeem them for rewards.',
 });
 
 export const helpPlayingGamesSeo = createSeo({
-  url: '/help/playing-games',
-  title: 'Charity Games - Games Help Center',
+  path: routes.help.playingGames.path(),
+  title: 'Games Help Center',
   description:
     'Find answers to questions about playing games on Charity Games. Learn how to play games and earn tokens.',
 });
 
 export const helpReferralsSeo = createSeo({
-  url: '/help/referrals',
+  path: routes.help.referrals.path(),
   title: 'Charity Games - Referrals Help Center',
   description:
     'Find answers to questions about referrals on Charity Games. Learn how to earn tokens by referring friends.',
 });
 
 export const helpFriendsSeo = createSeo({
-  url: '/help/friends',
-  title: 'Charity Games - Friends Help Center',
+  path: routes.help.friends.path(),
+  title: 'Friends Help Center',
   description:
     'Find answers to questions about friends on Charity Games. Learn how to earn tokens by sharing gifts with friends.',
 });
 
 export const helpVIPSeo = createSeo({
-  url: '/help/vip',
-  title: 'Charity Games - VIP Help Center',
+  path: routes.help.vip.path(),
+  title: 'VIP Help Center',
   description:
     'Find answers to questions about VIP membership on Charity Games. Learn how to earn tokens by becoming a VIP.',
 });
 
 export const helpNotificationsSeo = createSeo({
-  url: '/help/notifications',
-  title: 'Charity Games - Notifications Help Center',
+  path: routes.help.notifications.path(),
+  title: 'Notifications Help Center',
   description:
     'Find answers to questions about notifications on Charity Games. Learn about notification settings and alerts.',
 });
 
 export const helpPrizesSeo = createSeo({
-  url: '/help/prizes',
-  title: 'Charity Games - Prizes Help Center',
+  path: routes.help.prizes.path(),
+  title: 'Prizes Help Center',
   description:
     'Find answers to questions about prizes on Charity Games. Learn about redeeming tokens for real world prizes.',
 });
 
 export const helpContributionsSeo = createSeo({
-  url: '/help/contributions',
-  title: 'Charity Games - Contributions Help Center',
+  path: routes.help.contributions.path(),
+  title: 'Contributions Help Center',
   description:
     'There are many ways to help Charity Games. Whether you are a developer, player, teacher, charity, content creator, professional, student, or parent, we would love to hear from you!',
 });
 
 export const helpDevelopersSeo = createSeo({
-  url: '/help/developers',
-  title: 'Charity Games - Developer Help Center',
+  path: routes.help.developers.path(),
+  title: 'Developer Help Center',
   description:
     'Find answers to questions about contributing games to the Charity Games Platform. Turn your games into donations.',
 });
 
 export const rafflesSeo = createSeo({
-  url: '/raffles',
-  title: 'Charity Games - Raffles',
+  path: routes.raffles.path(),
+  title: 'Raffles',
   description:
     'Redeem your tokens for raffle tickets and win real world prizes. Every token you spend is a donation towards charity. Win free prizes by playing browser games and referring friends',
 });
 
 export const raffleSeo = (raffle: RaffleSchema): NextSeoProps =>
   createSeo({
-    url: `/raffles/${raffle.id}`,
-    title: `${raffle.name} - Charity Games - Raffles`,
+    path: routes.raffle.path({ params: { raffleId: raffle.id } }),
+    title: `${raffle.name} Raffle #${raffle.id}`,
     description: `Enter our raffle for a chance to win a free copy of ${raffle.name}. Every token you spend is a donation to charity. Win prizes by playing browser games and referring friends.`,
     images: [
       {
@@ -364,23 +362,23 @@ export const raffleSeo = (raffle: RaffleSchema): NextSeoProps =>
   });
 
 export const expiredRafflesSeo = createSeo({
-  url: '/raffles/expired',
-  title: 'Charity Games - Expired Raffles',
+  path: routes.raffles.expired.path(),
+  title: 'Expired Raffles',
   description:
     'View all expired raffles on Charity Games. See what prizes were given away. Every token you spend is a donation towards a better world.',
 });
 
 export const prizesSeo = createSeo({
-  url: '/prizes',
-  title: 'Charity Games - Prizes',
+  path: routes.prizes.path(),
+  title: 'Prizes',
   description:
     'Redeem your tokens for real world prizes and free games. Every token you spend is a donation towards charity. Win free prizes by playing browser games and referring friends',
 });
 
 export const prizeSeo = (prize: PrizeSchema): NextSeoProps =>
   createSeo({
-    url: `/prizes/${prize.id}`,
-    title: `${prize.name} - Charity Games - Prizes`,
+    path: routes.prize.path({ params: { prizeId: prize.id } }),
+    title: `${prize.name} Prize`,
     description: `Redeem your tokens for a free copy of ${prize.name}. Every token you spend is a donation to charity. Win prizes by playing browser games and referring friends.`,
     images: [
       {
@@ -391,8 +389,8 @@ export const prizeSeo = (prize: PrizeSchema): NextSeoProps =>
   });
 
 export const vipSeo = createSeo({
-  url: '/vip',
-  title: 'Charity Games - VIP Membership',
+  path: routes.vip.path(),
+  title: 'VIP Membership',
   description:
     'Join the VIP membership program and receive exclusive benefits. Every token you spend is a donation towards charity. Win free prizes by playing browser games and referring friends',
 });

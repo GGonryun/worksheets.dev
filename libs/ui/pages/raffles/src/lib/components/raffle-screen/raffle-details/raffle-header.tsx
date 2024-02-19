@@ -1,5 +1,6 @@
 import { Box, Link, Typography } from '@mui/material';
 import { ContainImage } from '@worksheets/ui/components/images';
+import { routes } from '@worksheets/ui/routes';
 import { PrizesPanels } from '@worksheets/util/enums';
 import {
   DetailedRaffleSchema,
@@ -39,7 +40,9 @@ export const RaffleHeader: React.FC<{
       <Box>
         <Typography
           component={Link}
-          href={`/prizes/${prizeId}`}
+          href={routes.prize.path({
+            params: { prizeId },
+          })}
           color="inherit"
           sx={{
             textDecorationColor: 'inherit',
@@ -77,7 +80,9 @@ export const RaffleHeader: React.FC<{
           <Link
             color="inherit"
             underline="hover"
-            href={`/account/prizes#${PrizesPanels.Prizes}`}
+            href={routes.account.prizes.path({
+              bookmark: PrizesPanels.Prizes,
+            })}
           >
             View Prize in Account
           </Link>
@@ -86,7 +91,9 @@ export const RaffleHeader: React.FC<{
         ) : (
           <Link
             color="inherit"
-            href={`/account/prizes#${PrizesPanels.Raffles}`}
+            href={routes.account.prizes.path({
+              bookmark: PrizesPanels.Raffles,
+            })}
           >
             You have {yourEntries} entr{yourEntries > 1 ? 'ies' : 'y'}!
           </Link>

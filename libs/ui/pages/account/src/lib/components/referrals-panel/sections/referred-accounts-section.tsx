@@ -1,9 +1,8 @@
 import { InfoOutlined } from '@mui/icons-material';
-import { Box, Link, Typography } from '@mui/material';
-import {
-  TOKENS_PER_REFERRAL_ACCOUNT,
-  TOKENS_PER_REFERRAL_PURCHASE,
-} from '@worksheets/util/settings';
+import { Box, Typography } from '@mui/material';
+import { routes } from '@worksheets/ui/routes';
+import { FriendsPanels, ReferralsPanels } from '@worksheets/util/enums';
+import { TOKENS_PER_REFERRAL_ACCOUNT } from '@worksheets/util/settings';
 import { Referral } from '@worksheets/util/types';
 import React from 'react';
 
@@ -31,11 +30,6 @@ export const ReferredAccountsSection: React.FC<{
         title={'How It Works'}
         points={[
           `Earn ${TOKENS_PER_REFERRAL_ACCOUNT} tokens, when someone makes an account using your referral link.`,
-          <>
-            Earn {TOKENS_PER_REFERRAL_PURCHASE} tokens when someone spends money
-            at the <Link href="/store">Charity Store</Link> using your referral
-            link.
-          </>,
           `Users cannot remove their referral link once they've created an account.`,
           `Users can add a referral link to their account if they don't have one.`,
         ]}
@@ -44,11 +38,15 @@ export const ReferredAccountsSection: React.FC<{
       <PanelFooter
         learn={{
           text: 'Referred Accounts',
-          href: '/account/referrals#referred-accounts',
+          href: routes.account.referrals.path({
+            bookmark: ReferralsPanels.ReferredAccounts,
+          }),
         }}
         action={{
           text: 'Friends List',
-          href: '/account/friends',
+          href: routes.account.friends.path({
+            bookmark: FriendsPanels.FriendsList,
+          }),
         }}
       />
     </Box>

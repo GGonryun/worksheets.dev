@@ -2,12 +2,13 @@ import './styles.css';
 
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { trpc } from '@worksheets/trpc-charity';
-import { DynamicSessionReplay } from '@worksheets/ui/components/session-replay';
+import { DynamicInitializeSessionReplay } from '@worksheets/ui/components/session-replay';
 import theme from '@worksheets/ui/theme';
 import { AppPropsWithLayout } from '@worksheets/util-next';
 import Head from 'next/head';
 import { SessionProvider } from 'next-auth/react';
 import { DefaultSeo } from 'next-seo';
+import React from 'react';
 
 import { defaultSeo } from '../util/seo';
 
@@ -30,7 +31,7 @@ function CustomApp({
 
       <ThemeProvider theme={theme}>
         <SessionProvider session={session}>
-          <DynamicSessionReplay />
+          <DynamicInitializeSessionReplay />
           <main>{getLayout(<Component {...pageProps} />)}</main>
         </SessionProvider>
       </ThemeProvider>

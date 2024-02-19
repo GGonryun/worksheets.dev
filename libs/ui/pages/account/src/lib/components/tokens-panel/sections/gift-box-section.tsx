@@ -7,7 +7,12 @@ import {
 } from '@mui/icons-material';
 import { Box, Button, Link, Typography } from '@mui/material';
 import { ValentinesGift } from '@worksheets/icons/valentines';
-import { TokensPanels } from '@worksheets/util/enums';
+import { routes } from '@worksheets/ui/routes';
+import {
+  FriendsPanels,
+  HelpTokensQuestions,
+  TokensPanels,
+} from '@worksheets/util/enums';
 import {
   GIFT_BOX_DROP_RATE,
   MAX_DAILY_GIFT_BOX_SHARES,
@@ -106,25 +111,24 @@ export const GiftBoxSection: React.FC<{
             `Send up to ${MAX_DAILY_GIFT_BOX_SHARES} gift boxes every day and Get a free gift box every time you send a gift box to a friend.`,
             <>
               {' '}
-              Buy more gift boxes from the{' '}
-              <Link href="/store">Charity Store</Link>.
-            </>,
-            <>
-              {' '}
-              <Link href="/help/vip">VIP members</Link> get x2 tokens per gift
-              box, x2 drop rates while playing games, and can send x2 gift
-              boxes.
+              <Link href={routes.help.vip.path()}>VIP members</Link> get x2
+              tokens per gift box, x2 drop rates while playing games, and can
+              send x2 gift boxes.
             </>,
           ]}
         />
         <PanelFooter
           learn={{
             text: 'Gift Boxes',
-            href: '/help/tokens#gift-boxes',
+            href: routes.help.tokens.path({
+              bookmark: HelpTokensQuestions.GiftBoxes,
+            }),
           }}
           action={{
             text: 'Send Gift Boxes',
-            href: '/account/friends',
+            href: routes.account.friends.path({
+              bookmark: FriendsPanels.SendGifts,
+            }),
           }}
         />
       </Box>

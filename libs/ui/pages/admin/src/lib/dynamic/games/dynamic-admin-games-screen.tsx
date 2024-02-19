@@ -2,6 +2,7 @@ import { Box, Link, Typography } from '@mui/material';
 import { trpc } from '@worksheets/trpc-charity';
 import { ErrorScreen } from '@worksheets/ui/pages/errors';
 import { LoadingScreen } from '@worksheets/ui/pages/loading';
+import { routes } from '@worksheets/ui/routes';
 import { printShortDateTime } from '@worksheets/util/time';
 import { GameSummary } from '@worksheets/util/types';
 import dynamic from 'next/dynamic';
@@ -27,7 +28,7 @@ const AdminGameScreen = () => {
 
   return (
     <CustomContainer>
-      <ListButton href="/admin">Directory</ListButton>
+      <ListButton href={routes.admin.path()}>Directory</ListButton>
 
       <CustomPaper title={`Games List`}>
         <ListTitle />
@@ -71,7 +72,7 @@ const GameItem: React.FC<{ game: GameSummary }> = ({ game }) => {
     <Box
       component={Link}
       color="text.arcade"
-      href={`/admin/games/${game.gameId}`}
+      href={routes.admin.game.path({ params: { gameId: game.gameId } })}
       display="grid"
       gridTemplateColumns={'1fr 1fr 1fr 1fr'}
     >

@@ -1,6 +1,7 @@
 import { ArrowRight } from '@mui/icons-material';
 import { Box, Link, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { CoverImage } from '@worksheets/ui/components/images';
+import { blogRoutes } from '@worksheets/ui/routes';
 import { Flex } from '@worksheets/ui-core';
 import { blogAuthors } from '@worksheets/util/blog';
 import { printDate } from '@worksheets/util/time';
@@ -19,9 +20,11 @@ export const PostPreview: FC<MarkdownMetadata> = ({
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const trimmedExcerpt = excerpt.slice(0, 150) + '...';
-  const url = `/blog/${slug}`;
+  const url = blogRoutes.article.path({ params: { slug } });
   const author = blogAuthors[authorId];
-  const authorUrl = `/blog/authors/${authorId}`;
+  const authorUrl = blogRoutes.author.path({
+    params: { authorId },
+  });
   const prettyDate = printDate(date);
 
   return (
@@ -52,7 +55,11 @@ export const PostPreview: FC<MarkdownMetadata> = ({
             {tags.map((tag) => (
               <Typography
                 component={Link}
-                href={`/blog?tag=${tag}`}
+                href={blogRoutes.articles.path({
+                  query: {
+                    tag,
+                  },
+                })}
                 color="warning.main"
                 variant="body3"
                 key={tag}

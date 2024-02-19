@@ -1,4 +1,5 @@
 import { Box, Container, Link, Paper, Typography } from '@mui/material';
+import { routes } from '@worksheets/ui/routes';
 import { FC } from 'react';
 
 import { TermsOfServiceStatement } from './terms-of-service-statement';
@@ -41,7 +42,7 @@ export const TermsOfServiceScreen: FC<TermsOfServiceScreenProps> = () => {
           <Link href="#top" color="inherit">
             Back to the top
           </Link>
-          <Link href="/" color="inherit">
+          <Link href={routes.home.path()} color="inherit">
             Home Page
           </Link>
         </Typography>

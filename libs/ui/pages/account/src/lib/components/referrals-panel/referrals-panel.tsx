@@ -11,6 +11,7 @@ import {
   ValentinesWings,
   ValentinesWorld,
 } from '@worksheets/icons/valentines';
+import { routes } from '@worksheets/ui/routes';
 import { ReferralsPanels } from '@worksheets/util/enums';
 import { MAX_TOKENS_FROM_REFERRAL_PLAYS } from '@worksheets/util/settings';
 import { Referral } from '@worksheets/util/types';
@@ -113,7 +114,9 @@ export const ReferralsPanel: React.FC<{
         </Typography>
       </Box>
 
-      <PanelFooter learn={{ text: 'Referrals', href: '/help/referrals' }} />
+      <PanelFooter
+        learn={{ text: 'Referrals', href: routes.help.referrals.path() }}
+      />
     </Box>
   );
 };

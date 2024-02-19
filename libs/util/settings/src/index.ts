@@ -10,7 +10,6 @@ export const BASE_DAILY_REWARD = 20;
 export const TOKENS_PER_REFERRAL_PLAY = 1;
 export const MAX_TOKENS_FROM_REFERRAL_PLAYS = 100;
 export const TOKENS_PER_REFERRAL_ACCOUNT = 100;
-export const TOKENS_PER_REFERRAL_PURCHASE = 100;
 export const GIFT_BOXES_PER_REFERRAL_ACCOUNT = 5;
 // gift boxes
 export const GIFT_BOX_DROP_RATE = 2.5;

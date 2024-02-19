@@ -1,6 +1,7 @@
 import { ContactSupport, SearchOff } from '@mui/icons-material';
 import { Box, Button, Typography } from '@mui/material';
 import { RafflesGroup } from '@worksheets/ui/components/raffles';
+import { routes } from '@worksheets/ui/routes';
 import { RaffleSchema } from '@worksheets/util/types';
 
 export const SearchResults: React.FC<{ searched: RaffleSchema[] }> = ({
@@ -20,7 +21,7 @@ export const SearchResults: React.FC<{ searched: RaffleSchema[] }> = ({
           <Button
             variant="arcade"
             color="secondary"
-            href="/contact"
+            href={routes.contact.path()}
             sx={{
               alignSelf: 'flex-end',
               width: 'fit-content',

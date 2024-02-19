@@ -1,4 +1,6 @@
 import { Box, Link, Typography } from '@mui/material';
+import { routes } from '@worksheets/ui/routes';
+import { HelpAccountQuestions } from '@worksheets/util/enums';
 import { FC } from 'react';
 
 import { ConnectionContainer } from './connection-container';
@@ -21,7 +23,11 @@ export const LoginScreen: FC<LoginScreenProps> = (props) => {
         <Typography variant="body2" textAlign="center" pt={0.5}>
           Connect to your Charity.Games account
           <br />
-          <Link href={`/help/accounts#do-i-need-an-account`}>
+          <Link
+            href={routes.help.accounts.path({
+              bookmark: HelpAccountQuestions.AccountRequired,
+            })}
+          >
             <b>Do I need an account?</b>
           </Link>
         </Typography>
@@ -31,7 +37,7 @@ export const LoginScreen: FC<LoginScreenProps> = (props) => {
 
       <Typography variant="body2" textAlign="center" display="flex" gap={2}>
         New to Charity.Games?{' '}
-        <Link href={`/signup`}>
+        <Link href={routes.signUp.path()}>
           <b>Join now</b>
         </Link>
       </Typography>

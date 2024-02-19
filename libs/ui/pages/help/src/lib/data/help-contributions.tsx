@@ -1,13 +1,14 @@
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
+import { routes } from '@worksheets/ui/routes';
 import { ListItem, OrderedList } from '@worksheets/ui-core';
+import { HelpContributionsQuestions } from '@worksheets/util/enums';
 import { QuestionAnswer } from '@worksheets/util/types';
-import urls from '@worksheets/util/urls';
 
 export const helpContributions: QuestionAnswer[] = [
   {
-    id: 'developer-help',
+    id: HelpContributionsQuestions.Developers,
     question: "I'm a developer. How can I help?",
     summary:
       "We're always looking for new games to add to our platform. If you have a game that you'd like to add, please use our contribution portal.",
@@ -22,23 +23,26 @@ export const helpContributions: QuestionAnswer[] = [
             Add your game to our platform. We're always looking for new games to
             add to our platform. If you have a game that you'd like to add,
             please use our{' '}
-            <Link href="/help/developers">contribution portal</Link>.
+            <Link href={routes.help.developers.path()}>
+              contribution portal
+            </Link>
+            .
           </ListItem>
           <ListItem>
             Help us improve our platform. We're always looking for ways to
             improve our platform. If you have any suggestions, please{' '}
-            <Link href="/contact">contact us</Link>.
+            <Link href={routes.contact.path()}>contact us</Link>.
           </ListItem>
           <ListItem>
-            Help us fix bugs. If you find a bug, please file a bug report on our{' '}
-            <Link href={urls.social.github}>GitHub repository</Link>.
+            Help us fix bugs. If you find a bug, please
+            <Link href={routes.contact.path()}>contact us</Link> via email.
           </ListItem>
         </OrderedList>
       </Box>
     ),
   },
   {
-    id: 'player-help',
+    id: HelpContributionsQuestions.Players,
     question: "I'm a player. How can I help?",
     answer: (
       <Box>
@@ -60,7 +64,7 @@ export const helpContributions: QuestionAnswer[] = [
           <ListItem>
             Share your feedback. We're always looking for ways to improve our
             platform. If you have any suggestions, please{' '}
-            <Link href="/contact">contact us</Link>.
+            <Link href={routes.contact.path()}>contact us</Link>.
           </ListItem>
         </OrderedList>
       </Box>
@@ -69,7 +73,7 @@ export const helpContributions: QuestionAnswer[] = [
     summary: `The more games you play, the more money we can raise for charity.`,
   },
   {
-    id: 'teacher-help',
+    id: HelpContributionsQuestions.Teachers,
     question: "I'm a teacher. How can I help?",
     answer: (
       <Box>
@@ -89,15 +93,15 @@ export const helpContributions: QuestionAnswer[] = [
           educational content for our website.
           <br />
           <br />
-          Please <Link href="/contact">contact us</Link> for more information on
-          our affiliate and referral programs.
+          Please <Link href={routes.contact.path()}>contact us</Link> for more
+          information on our affiliate and referral programs.
         </Typography>
       </Box>
     ),
     summary: `We appreciate your support! As a teacher, we'd like to help you raise money for your school and your classroom.`,
   },
   {
-    id: 'charity-help',
+    id: HelpContributionsQuestions.Charities,
     question: "I'm a charity. How can I help?",
     summary: `Let us feature your charity on our platform! We'd love to help you raise money for your cause.`,
     answer: (
@@ -112,14 +116,14 @@ export const helpContributions: QuestionAnswer[] = [
           will receive special links so that all funds raised by your supporters
           go straight to your charity.
           <br /> <br />
-          Please <Link href="/contact">contact us</Link> for more information on
-          our ambassador and affiliate programs.
+          Please <Link href={routes.contact.path()}>contact us</Link> for more
+          information on our ambassador and affiliate programs.
         </Typography>
       </Box>
     ),
   },
   {
-    id: 'content-help',
+    id: HelpContributionsQuestions.ContentCreators,
     question: "I'm a content creator. How can I help?",
     summary: `Content creators are eligible for our ambassador program. We support content creators who are interested in helping us create content about our website.`,
     answer: (
@@ -132,7 +136,8 @@ export const helpContributions: QuestionAnswer[] = [
           <ListItem>
             Promote our platform on your stream. We have a number of assets that
             you can use to promote our platform on your stream. Please{' '}
-            <Link href="/contact">contact us</Link> for more information.
+            <Link href={routes.contact.path()}>contact us</Link> for more
+            information.
           </ListItem>
           <ListItem>
             Help us spread the word. The more people that know about our
@@ -142,15 +147,16 @@ export const helpContributions: QuestionAnswer[] = [
           </ListItem>
           <ListItem>
             All content creator get a free shirt if they become members of our
-            ambassador program. Please <Link href="/contact">contact us</Link>{' '}
-            to learn more about this program!
+            ambassador program. Please{' '}
+            <Link href={routes.contact.path()}>contact us</Link> to learn more
+            about this program!
           </ListItem>
         </OrderedList>
       </Box>
     ),
   },
   {
-    id: 'professional-help',
+    id: HelpContributionsQuestions.Professionals,
     question: "I'm a professional. How can I help?",
     summary: `Depending on what skills you have, you can help us in a number of ways. Contact us to learn more!`,
     answer: (
@@ -177,15 +183,15 @@ export const helpContributions: QuestionAnswer[] = [
           </ListItem>
           <ListItem>
             If you're a professional in another field, we still need your help!
-            Please <Link href="/contact">contact us</Link> and we'll find a way
-            for you to help.
+            Please <Link href={routes.contact.path()}>contact us</Link> and
+            we'll find a way for you to help.
           </ListItem>
         </OrderedList>
       </Box>
     ),
   },
   {
-    id: 'student-help',
+    id: HelpContributionsQuestions.Students,
     question: "I'm a student. How can I help?",
     summary: `You should be focusing on your studies! But if you have some free time, you can help us by spreading awareness about our platform, playing games, and building content.`,
     answer: (
@@ -210,15 +216,15 @@ export const helpContributions: QuestionAnswer[] = [
           </ListItem>
           <ListItem>
             If you want to become a campus ambassador, please{' '}
-            <Link href="/contact">contact us</Link> for a free shirt and other
-            perks.
+            <Link href={routes.contact.path()}>contact us</Link> for a free
+            shirt and other perks.
           </ListItem>
         </OrderedList>
       </Box>
     ),
   },
   {
-    id: 'parent-help',
+    id: HelpContributionsQuestions.Parents,
     question: "I'm a parent. How can I help?",
     answer: (
       <Box>
@@ -233,8 +239,8 @@ export const helpContributions: QuestionAnswer[] = [
           </ListItem>
           <ListItem>
             If you want to become an ambassador for your child's school, please{' '}
-            <Link href="/contact">contact us</Link> for a free shirt and other
-            perks.
+            <Link href={routes.contact.path()}>contact us</Link> for a free
+            shirt and other perks.
           </ListItem>
           <ListItem>
             If you are a professional, you can help us in the same ways that
@@ -243,7 +249,8 @@ export const helpContributions: QuestionAnswer[] = [
           </ListItem>
           <ListItem>
             If you have a child with a disability, you can help us improve our
-            platform. Please <Link href="/contact">contact us</Link> for more
+            platform. Please{' '}
+            <Link href={routes.contact.path()}>contact us</Link> for more
             information.
           </ListItem>
         </OrderedList>
@@ -252,7 +259,7 @@ export const helpContributions: QuestionAnswer[] = [
     summary: `Thank you for being a great parent and taking an interest in our platform! If you want to donate time or money, please contact us. If you want to help us spread the word, please share our platform with your friends and family.`,
   },
   {
-    id: 'organization-help',
+    id: HelpContributionsQuestions.Organizations,
     question: "I'm an organization. How can I help?",
     summary: `Organizations can help donate goods or services, help us spread the word, or sponsor our platform.`,
     answer: (
@@ -276,14 +283,15 @@ export const helpContributions: QuestionAnswer[] = [
           <ListItem>
             Sponsor our platform. We're always looking for sponsors to help us
             cover our operating costs. If you're interested in sponsoring our
-            platform, please <Link href="/contact">contact us</Link>.
+            platform, please{' '}
+            <Link href={routes.contact.path()}>contact us</Link>.
           </ListItem>
         </OrderedList>
       </Box>
     ),
   },
   {
-    id: 'sponsor-help',
+    id: HelpContributionsQuestions.Sponsors,
     question: "I'm a sponsor. How can I help?",
     answer: (
       <Box>
@@ -302,12 +310,14 @@ export const helpContributions: QuestionAnswer[] = [
             Sponsor a hackathon or game jam on our platform. We want to
             encourage the next generation of developers to build games. If
             you're interested in sponsoring a hackathon or game jam on our
-            platform, please <Link href="/contact">contact us</Link>.
+            platform, please{' '}
+            <Link href={routes.contact.path()}>contact us</Link>.
           </ListItem>
           <ListItem>
             Sponsor our platform. We're always looking for sponsors to help us
             cover our operating costs. If you're interested in sponsoring our
-            platform, please <Link href="/contact">contact us</Link>.
+            platform, please{' '}
+            <Link href={routes.contact.path()}>contact us</Link>.
           </ListItem>
         </OrderedList>
       </Box>
@@ -315,7 +325,7 @@ export const helpContributions: QuestionAnswer[] = [
     summary: `Sponsors can help host special events, donate money, and help us spread the word.`,
   },
   {
-    id: 'wealthy-help',
+    id: HelpContributionsQuestions.Wealthy,
     question: 'I have a lot of money. How can I help?',
     answer: (
       <Box>
@@ -333,7 +343,8 @@ export const helpContributions: QuestionAnswer[] = [
           <ListItem>
             Sponsor our platform. We're always looking for sponsors to help us
             cover our operating costs. If you're interested in sponsoring our
-            platform, please <Link href="/contact">contact us</Link>.
+            platform, please{' '}
+            <Link href={routes.contact.path()}>contact us</Link>.
           </ListItem>
         </OrderedList>
       </Box>
@@ -341,7 +352,7 @@ export const helpContributions: QuestionAnswer[] = [
     summary: `Wealthy individuals can help donate money, host special events, and help us cover operating costs.`,
   },
   {
-    id: 'im-broke-help',
+    id: HelpContributionsQuestions.Broke,
     question: "I'm broke. How can I help?",
     summary: `You can help us spread the word! The more people that know about our platform, the more money we can raise for charity.`,
     answer: (
@@ -353,8 +364,9 @@ export const helpContributions: QuestionAnswer[] = [
           <br />
           <br />
           If you are eager to help, please{' '}
-          <Link href="/contact">contact us</Link> and we will find a way for you
-          to make a difference and help us raise money for charity.
+          <Link href={routes.contact.path()}>contact us</Link> and we will find
+          a way for you to make a difference and help us raise money for
+          charity.
         </Typography>
       </Box>
     ),

@@ -7,24 +7,34 @@ import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
 import { useEffect } from 'react';
 
-const DEVELOPMENT_ORG_ID = '14WHHS';
 const PRODUCTION_ORG_ID = 'o-1N7VNF-na1';
 
-const SessionReplay = () => {
+const InitializeSessionReplay = () => {
+  useEffect(() => {
+    FullStory.init({
+      orgId: PRODUCTION_ORG_ID,
+      devMode: !IS_PRODUCTION,
+      cookieDomain: COOKIE_DOMAIN,
+    });
+  }, []);
+
+  return <Box display="none" />;
+};
+
+export const DynamicInitializeSessionReplay = dynamic(
+  () => Promise.resolve(InitializeSessionReplay),
+  {
+    ssr: false,
+  }
+);
+
+const IdentifyUserSessionReplay = () => {
   const router = useRouter();
   const session = useSession();
 
   const user = trpc.user.get.useQuery(undefined, {
     enabled: session.status === 'authenticated',
   });
-
-  useEffect(() => {
-    FullStory.init({
-      orgId: IS_PRODUCTION ? PRODUCTION_ORG_ID : DEVELOPMENT_ORG_ID,
-      devMode: !IS_PRODUCTION,
-      cookieDomain: COOKIE_DOMAIN,
-    });
-  }, []);
 
   useEffect(() => {
     if (user.data) {
@@ -46,8 +56,8 @@ const SessionReplay = () => {
   return <Box display="none" />;
 };
 
-export const DynamicSessionReplay = dynamic(
-  () => Promise.resolve(SessionReplay),
+export const DynamicIdentifyUserSessionReplay = dynamic(
+  () => Promise.resolve(IdentifyUserSessionReplay),
   {
     ssr: false,
   }

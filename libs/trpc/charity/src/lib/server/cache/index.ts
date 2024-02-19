@@ -13,12 +13,12 @@ export const responseMeta: ResponseMetaFn<typeof appRouter> = (opts) => {
   // checking we're doing a query request
   const isQuery = type === 'query';
   if (ctx?.res && allPublic && allOk && isQuery) {
-    // cache request for one day + revalidate once every minute
-    const ONE_MINUTE_IN_SECONDS = 60 * 5;
     const ONE_DAY_IN_SECONDS = 60 * 60 * 24;
     return {
       headers: {
-        'cache-control': `s-maxage=${ONE_MINUTE_IN_SECONDS}, stale-while-revalidate=${ONE_DAY_IN_SECONDS}`,
+        'cache-control': `s-maxage=${ONE_DAY_IN_SECONDS}, stale-while-revalidate=${
+          3 * ONE_DAY_IN_SECONDS
+        }`,
       },
     };
   }

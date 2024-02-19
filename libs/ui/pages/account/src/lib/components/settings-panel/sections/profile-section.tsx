@@ -10,6 +10,7 @@ import {
   Typography,
 } from '@mui/material';
 import { ValentinesProfile } from '@worksheets/icons/valentines';
+import { routes } from '@worksheets/ui/routes';
 import { SettingsPanels } from '@worksheets/util/enums';
 import { JSXElementConstructor } from 'react';
 
@@ -73,8 +74,8 @@ export const ProfileSection: React.FC<{
         </SubmissionButton>
         <PanelFooter
           learn={{
-            text: 'Accounts & Profiles',
-            href: '/help/accounts',
+            text: 'Account & Profile',
+            href: routes.help.accounts.path(),
           }}
         />
       </Box>

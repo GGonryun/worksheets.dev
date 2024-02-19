@@ -73,16 +73,6 @@ export const AUTH_OPTIONS: AuthOptions = {
     }),
     // ...add more providers here
   ],
-  // TODO: Set the domain for the cookies for admin subdomain
-  // cookies: {
-  //   name: `__Secure-next-auth.session-token`,
-  //   options: {
-  //     httpOnly: true,
-  //     sameSite: 'lax' as const,
-  //     path: '/',
-  //     domain: `${COOKIE_DOMAIN}`,
-  //   },
-  // },
   callbacks: {
     async signIn({ account, profile }) {
       if (account?.provider === 'google') {

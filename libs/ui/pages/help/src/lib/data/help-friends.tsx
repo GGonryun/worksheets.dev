@@ -1,5 +1,10 @@
 import { Box, Link, Typography } from '@mui/material';
-import { FriendsPanels, TokensPanels } from '@worksheets/util/enums';
+import { routes } from '@worksheets/ui/routes';
+import {
+  FriendsPanels,
+  HelpFriendsQuestions,
+  HelpTokensQuestions,
+} from '@worksheets/util/enums';
 import { MAX_DAILY_GIFT_BOX_SHARES } from '@worksheets/util/settings';
 import { QuestionAnswer } from '@worksheets/util/types';
 
@@ -7,7 +12,7 @@ import { HelpfulLinks } from '../helpful-links';
 
 export const helpFriends: QuestionAnswer[] = [
   {
-    id: 'what-are-friends',
+    id: HelpFriendsQuestions.Description,
     question: 'What are friends?',
     summary: `Friends are other users who you have added to your friends list. You can send gifts to your friends to help them enter raffles and win prizes.`,
     answer: (
@@ -24,13 +29,15 @@ export const helpFriends: QuestionAnswer[] = [
         <br />
         <HelpfulLinks
           links={[
-            { href: '/account/friends', text: 'See Your Friends' },
+            { href: routes.account.friends.path(), text: 'See Your Friends' },
             {
-              href: '/help/tokens#what-is-a-gift-box',
+              href: routes.help.tokens.path({
+                bookmark: HelpTokensQuestions.GiftBoxes,
+              }),
               text: 'Learn more about Gift Boxes',
             },
             {
-              href: '/help/referrals',
+              href: routes.help.referrals.path(),
               text: 'Learn more about Referrals',
             },
           ]}
@@ -39,7 +46,7 @@ export const helpFriends: QuestionAnswer[] = [
     ),
   },
   {
-    id: 'what-are-followers',
+    id: HelpFriendsQuestions.Followers,
     question: 'What are followers?',
     summary:
       'Followers are other users who have added you to their friends list.',
@@ -55,13 +62,15 @@ export const helpFriends: QuestionAnswer[] = [
         <br />
         <HelpfulLinks
           links={[
-            { href: '/account/friends', text: 'See Your Friends' },
+            { href: routes.account.friends.path(), text: 'See Your Friends' },
             {
-              href: '/help/tokens#what-is-a-gift-box',
+              href: routes.help.tokens.path({
+                bookmark: HelpTokensQuestions.GiftBoxes,
+              }),
               text: 'Learn more about Gift Boxes',
             },
             {
-              href: '/help/referrals',
+              href: routes.help.referrals.path(),
               text: 'Learn more about Referrals',
             },
           ]}
@@ -70,7 +79,7 @@ export const helpFriends: QuestionAnswer[] = [
     ),
   },
   {
-    id: 'how-do-i-remove-a-friend',
+    id: HelpFriendsQuestions.Removing,
     question: 'How do I remove a friend?',
     summary:
       'You can remove a friend by visiting your account settings and clicking the remove button next to their name.',
@@ -78,7 +87,11 @@ export const helpFriends: QuestionAnswer[] = [
       <Box>
         <Typography>
           You can remove a friend by visiting your{' '}
-          <Link href={`/account/friends#${FriendsPanels.FriendsList}`}>
+          <Link
+            href={routes.account.friends.path({
+              bookmark: FriendsPanels.FriendsList,
+            })}
+          >
             Friends List
           </Link>{' '}
           in your account settings and clicking the remove button next to their
@@ -86,14 +99,23 @@ export const helpFriends: QuestionAnswer[] = [
           <br />
           <br />
           You cannot remove friends if you've marked them as{' '}
-          <Link href="/help/friends#what-is-a-best-friend">Best Friends</Link>.
+          <Link
+            href={routes.help.friends.path({
+              bookmark: HelpFriendsQuestions.BestFriends,
+            })}
+          >
+            Best Friends
+          </Link>
+          .
         </Typography>
         <br />
         <HelpfulLinks
           links={[
-            { href: '/account/friends', text: 'See Your Friends' },
+            { href: routes.help.friends.path(), text: 'See Your Friends' },
             {
-              href: '/help/friends#what-is-a-best-friend',
+              href: routes.help.friends.path({
+                bookmark: HelpFriendsQuestions.BestFriends,
+              }),
               text: 'Learn more about Best Friends',
             },
           ]}
@@ -102,7 +124,7 @@ export const helpFriends: QuestionAnswer[] = [
     ),
   },
   {
-    id: 'what-is-a-best-friend',
+    id: HelpFriendsQuestions.BestFriends,
     question: 'What is a Best Friend?',
     summary:
       "A Best Friend is a friend who you've marked as a Best Friend. You can only have one Best Friend at a time.",
@@ -117,7 +139,11 @@ export const helpFriends: QuestionAnswer[] = [
           <br />
           <br />
           You can mark a friend as your Best Friend by visiting your{' '}
-          <Link href={`/account/friends#${FriendsPanels.FriendsList}`}>
+          <Link
+            href={routes.account.friends.path({
+              bookmark: FriendsPanels.FriendsList,
+            })}
+          >
             Friends List
           </Link>{' '}
           in your account settings and clicking the heart next to their name.
@@ -128,9 +154,16 @@ export const helpFriends: QuestionAnswer[] = [
         <br />
         <HelpfulLinks
           links={[
-            { href: '/account/friends', text: 'See Your Friends' },
             {
-              href: '/help/friends#how-do-i-remove-a-friend',
+              href: routes.account.friends.path({
+                bookmark: FriendsPanels.FriendsList,
+              }),
+              text: 'See Your Friends',
+            },
+            {
+              href: routes.help.friends.path({
+                bookmark: HelpFriendsQuestions.Removing,
+              }),
               text: 'Learn more about Removing Friends',
             },
           ]}
@@ -139,7 +172,7 @@ export const helpFriends: QuestionAnswer[] = [
     ),
   },
   {
-    id: 'why-should-i-invite-friends',
+    id: HelpFriendsQuestions.WhyInvite,
     question: 'Why should I invite friends?',
     summary: `Invite friends to Charity.Games and earn tokens for prizes!`,
     answer: (
@@ -157,15 +190,17 @@ export const helpFriends: QuestionAnswer[] = [
         <HelpfulLinks
           links={[
             {
-              href: '/help/referrals',
+              href: routes.help.referrals.path(),
               text: 'Learn more about Referrals',
             },
             {
-              href: '/help/prizes',
+              href: routes.help.prizes.path(),
               text: 'Learn more about Prizes',
             },
             {
-              href: '/help/tokens#what-are-tokens',
+              href: routes.help.tokens.path({
+                bookmark: HelpTokensQuestions.Description,
+              }),
               text: 'Learn more about Tokens',
             },
           ]}
@@ -174,7 +209,7 @@ export const helpFriends: QuestionAnswer[] = [
     ),
   },
   {
-    id: 'how-do-i-invite-friends',
+    id: HelpFriendsQuestions.Inviting,
     question: 'How do I invite friends?',
     summary: `You can invite friends by sharing your referral link. You can find your referral link in your account settings.`,
     answer: (
@@ -182,25 +217,41 @@ export const helpFriends: QuestionAnswer[] = [
         <Typography>
           Other people can add you as a friend by sharing your friend code. You
           can find your friend code in your{' '}
-          <Link href={`/account/friends#${FriendsPanels.AddFriends}`}>
+          <Link
+            href={routes.account.friends.path({
+              bookmark: FriendsPanels.AddFriends,
+            })}
+          >
             Account settings
           </Link>
           . When another user enters your friend code they will be added to your{' '}
-          <Link href={`/account/friends#${FriendsPanels.FriendsList}`}>
+          <Link
+            href={routes.account.friends.path({
+              bookmark: FriendsPanels.FriendsList,
+            })}
+          >
             Friends List
           </Link>{' '}
           as a follower.
           <br />
           <br />
           If you add another user's friend code, they will be added to your{' '}
-          <Link href={`/account/friends#${FriendsPanels.FriendsList}`}>
+          <Link
+            href={routes.account.friends.path({
+              bookmark: FriendsPanels.FriendsList,
+            })}
+          >
             Friends list
           </Link>{' '}
           and you will be added to their follower's list.
           <br />
           <br />
           If you are friends with another user you can send them a{' '}
-          <Link href={'/help/friends#what-is-a-gift-box'}>
+          <Link
+            href={routes.help.friends.path({
+              bookmark: HelpFriendsQuestions.SendingGifts,
+            })}
+          >
             free gift box
           </Link>{' '}
           to help them enter raffles and win prizes.
@@ -208,17 +259,19 @@ export const helpFriends: QuestionAnswer[] = [
         <br />
         <HelpfulLinks
           links={[
-            { href: '/account/friends', text: 'See Your Friends' },
+            { href: routes.account.friends.path(), text: 'See Your Friends' },
             {
-              href: `/account/tokens#${TokensPanels.GiftBoxes}`,
+              href: routes.account.tokens.path(),
               text: 'See Your Tokens',
             },
             {
-              href: '/help/tokens#what-is-a-gift-box',
+              href: routes.help.tokens.path({
+                bookmark: HelpTokensQuestions.GiftBoxes,
+              }),
               text: 'Learn more about Gift Boxes',
             },
             {
-              href: '/help/referrals',
+              href: routes.help.referrals.path(),
               text: 'Learn more about Referrals',
             },
           ]}
@@ -227,7 +280,7 @@ export const helpFriends: QuestionAnswer[] = [
     ),
   },
   {
-    id: 'how-to-send-a-gift-box',
+    id: HelpFriendsQuestions.SendingGifts,
     question: 'How do I send a Gift Box?',
     summary:
       'You can send a Gift Box to a friend by adding them as a friend and then sending a gift through the accounts page.',
@@ -236,18 +289,30 @@ export const helpFriends: QuestionAnswer[] = [
         <Typography>
           You can send gifts to people you've added as your friends. Add them as
           friends by visiting your{' '}
-          <Link href={`/account/friends#${FriendsPanels.AddFriends}`}>
+          <Link
+            href={routes.account.friends.path({
+              bookmark: FriendsPanels.AddFriends,
+            })}
+          >
             Account settings
           </Link>{' '}
           and then send a gift through the{' '}
-          <Link href={`/account/friends#${FriendsPanels.SendGifts}`}>
+          <Link
+            href={routes.account.friends.path({
+              bookmark: FriendsPanels.SendGifts,
+            })}
+          >
             Send Gifts
           </Link>{' '}
           section.
           <br />
           <br />
           You can find your friends by visiting your{' '}
-          <Link href={`/account/friends#${FriendsPanels.FriendsList}`}>
+          <Link
+            href={routes.account.friends.path({
+              bookmark: FriendsPanels.FriendsList,
+            })}
+          >
             Friends List
           </Link>{' '}
           in your account settings.
@@ -258,13 +323,15 @@ export const helpFriends: QuestionAnswer[] = [
         </Typography>
         <HelpfulLinks
           links={[
-            { href: '/account/friends', text: 'See Your Friends' },
+            { href: routes.account.friends.path(), text: 'See Your Friends' },
             {
-              href: '/help/tokens#what-is-a-gift-box',
+              href: routes.help.tokens.path({
+                bookmark: HelpTokensQuestions.GiftBoxes,
+              }),
               text: 'Learn more about Gift Boxes',
             },
             {
-              href: '/help/vip',
+              href: routes.help.vip.path(),
               text: 'Learn more about VIP',
             },
           ]}

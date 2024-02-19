@@ -23,7 +23,7 @@ main {
 }
 
 .website-content {
-  position: 'relative';
+  position: relative;
 }
 
 .website-content::before {

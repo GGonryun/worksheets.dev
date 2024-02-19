@@ -1,6 +1,7 @@
 import { EmailOutlined } from '@mui/icons-material';
 import { Box, Link, TextField, Typography } from '@mui/material';
 import { ValentinesPhones } from '@worksheets/icons/valentines';
+import { routes } from '@worksheets/ui/routes';
 import { SettingsPanels } from '@worksheets/util/enums';
 
 import { CollapsibleSection } from '../../collapsible-section';
@@ -47,14 +48,14 @@ export const CommunicationSection: React.FC<{
           More communication settings will be available soon. Stay tuned!
         </Typography>
         <Typography>
-          <Link href="/contact">Contact us</Link> if you have suggestions or
-          need help.
+          <Link href={routes.contact.path()}>Contact us</Link> if you have
+          suggestions or need help.
         </Typography>
 
         <PanelFooter
           learn={{
-            text: 'Accounts & Profiles',
-            href: '/help/accounts',
+            text: 'Account & Profile',
+            href: routes.help.accounts.path(),
           }}
         />
       </Box>

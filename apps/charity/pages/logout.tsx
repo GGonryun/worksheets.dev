@@ -1,5 +1,6 @@
 import { LayoutContainer } from '@worksheets/ui/layout';
 import { LoadingScreen } from '@worksheets/ui/pages/loading';
+import { routes } from '@worksheets/ui/routes';
 import { NextPageWithLayout } from '@worksheets/util-next';
 import { useRouter } from 'next/router';
 import { signOut, useSession } from 'next-auth/react';
@@ -14,9 +15,9 @@ const Page: NextPageWithLayout = () => {
     if (session.status === 'loading') {
       return;
     } else if (session.status === 'unauthenticated') {
-      router.replace('/');
+      router.replace(routes.home.path());
     } else {
-      signOut({ callbackUrl: '/' });
+      signOut({ callbackUrl: routes.home.path() });
     }
   }, [router, session]);
 

@@ -9,8 +9,6 @@ import { ActionBox } from './action-box';
 interface ToolbarProps {
   connectionButton?: React.ReactNode;
   notificationButton?: React.ReactNode;
-  loginHref: string;
-  accountHref: string;
 }
 
 export const Toolbar = (props: ToolbarProps) => {

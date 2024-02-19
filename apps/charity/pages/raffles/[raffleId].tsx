@@ -1,6 +1,7 @@
 import { createStaticTRPC } from '@worksheets/trpc-charity/server';
 import { LayoutContainer } from '@worksheets/ui/layout';
 import { DynamicRaffleScreen } from '@worksheets/ui/pages/raffles';
+import { routes } from '@worksheets/ui/routes';
 import { DetailedRaffleSchema } from '@worksheets/util/types';
 import { NextPageWithLayout } from '@worksheets/util-next';
 import { GetStaticPaths, GetStaticProps } from 'next';
@@ -54,7 +55,7 @@ export const getStaticProps = (async (ctx) => {
     console.error(`Error fetching raffle ${raffleId}`, error);
     return {
       redirect: {
-        destination: '/raffles',
+        destination: routes.raffles.path(),
         permanent: false,
       },
     };

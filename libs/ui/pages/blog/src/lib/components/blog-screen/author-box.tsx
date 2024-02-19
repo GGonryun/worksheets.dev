@@ -1,10 +1,13 @@
 import { Box, Link, Typography } from '@mui/material';
 import { CoverImage } from '@worksheets/ui/components/images';
+import { blogRoutes } from '@worksheets/ui/routes';
 import { BlogAuthor } from '@worksheets/util/types';
 import { FC } from 'react';
 
 export const AuthorBox: FC<{ author: BlogAuthor }> = ({ author }) => {
-  const authorUrl = `/blog/author/${author.id}`;
+  const authorUrl = blogRoutes.author.path({
+    params: { authorId: author.id },
+  });
 
   return (
     <Box

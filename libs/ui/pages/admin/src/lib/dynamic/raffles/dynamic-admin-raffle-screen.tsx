@@ -1,6 +1,7 @@
 import { trpc } from '@worksheets/trpc-charity';
 import { ErrorScreen } from '@worksheets/ui/pages/errors';
 import { LoadingScreen } from '@worksheets/ui/pages/loading';
+import { routes } from '@worksheets/ui/routes';
 import { printShortDateTime } from '@worksheets/util/time';
 import dynamic from 'next/dynamic';
 import React from 'react';
@@ -21,17 +22,25 @@ const AdminRaffleScreen: React.FC<{ raffleId: number }> = ({ raffleId }) => {
 
   return (
     <CustomContainer>
-      <ListButton href="/admin/raffles">All Raffles</ListButton>
+      <ListButton href={routes.admin.raffles.path()}>All Raffles</ListButton>
       <CustomPaper title={`Raffle Details`}>
         <DataPair
           label="ID"
           value={raffle.data.raffleId}
-          href={`/raffles/${raffle.data.raffleId}`}
+          href={routes.raffle.path({
+            params: {
+              raffleId: raffle.data.raffleId,
+            },
+          })}
         />
         <DataPair
           label="Prize ID"
           value={raffle.data.prizeId}
-          href={`/admin/prizes/${raffle.data.prizeId}`}
+          href={routes.admin.prize.path({
+            params: {
+              prizeId: raffle.data.prizeId,
+            },
+          })}
         />
         <DataPair label="Status" value={raffle.data.status} />
         <DataPair label="Max Winners" value={raffle.data.numWinners} />
@@ -51,7 +60,11 @@ const AdminRaffleScreen: React.FC<{ raffleId: number }> = ({ raffleId }) => {
             key: participant.userId,
             label: `User ID`,
             value: `${participant.userId} (${participant.numTickets} entries)`,
-            href: `/admin/users/${participant.userId}`,
+            href: routes.admin.user.path({
+              params: {
+                userId: participant.userId,
+              },
+            }),
           })}
         />
 
@@ -62,7 +75,11 @@ const AdminRaffleScreen: React.FC<{ raffleId: number }> = ({ raffleId }) => {
             key: winner.winnerId,
             label: `Winner ID`,
             value: winner.winnerId,
-            href: `/admin/winners/${winner.winnerId}`,
+            href: routes.admin.winner.path({
+              params: {
+                winnerId: winner.winnerId,
+              },
+            }),
           })}
         />
 
@@ -73,7 +90,11 @@ const AdminRaffleScreen: React.FC<{ raffleId: number }> = ({ raffleId }) => {
             key: code.codeId,
             label: `Code ID`,
             value: code.codeId,
-            href: `/admin/codes/${code.codeId}`,
+            href: routes.admin.code.path({
+              params: {
+                codeId: code.codeId,
+              },
+            }),
           })}
         />
       </CustomPaper>

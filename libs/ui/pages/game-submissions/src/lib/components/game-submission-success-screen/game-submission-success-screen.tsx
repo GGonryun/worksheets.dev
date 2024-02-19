@@ -1,23 +1,25 @@
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
+import { Container } from '@mui/material';
 import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import { ColoredGestureThumbsUp } from '@worksheets/icons/youtube';
-import { AbsolutelyCentered } from '@worksheets/ui-core';
+import { routes } from '@worksheets/ui/routes';
 
 export const GameSubmissionSuccessScreen = () => {
   return (
-    <AbsolutelyCentered>
+    <Container maxWidth="sm">
       <Paper
         sx={{
+          my: 12,
           mx: 4,
           p: 4,
-          mb: 12,
-          maxWidth: 400,
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
+          justifyContent: 'center',
+          textAlign: 'center',
           gap: 1,
         }}
       >
@@ -48,10 +50,10 @@ export const GameSubmissionSuccessScreen = () => {
         </Typography>
         <Typography variant="body3" textAlign="center">
           If you have any questions, please{' '}
-          <Link href="/contact">contact us</Link>
+          <Link href={routes.contact.path()}>contact us</Link>
         </Typography>
         <Button
-          href="/account/submissions"
+          href={routes.account.submissions.path()}
           variant="arcade"
           color="error"
           size="large"
@@ -64,6 +66,6 @@ export const GameSubmissionSuccessScreen = () => {
           My Submissions
         </Button>
       </Paper>
-    </AbsolutelyCentered>
+    </Container>
   );
 };

@@ -1,4 +1,5 @@
 import { TRPCError } from '@trpc/server';
+import { routes } from '@worksheets/ui/routes';
 import { TokensPanels } from '@worksheets/util/enums';
 import { z } from 'zod';
 
@@ -107,7 +108,13 @@ export default protectedProcedure
         data: {
           userId: friendship.friendId,
           type: 'REWARD',
-          text: `<b>${user.username}</b> has sent you a gift box! Visit your <a href="/account/tokens#${TokensPanels.GiftBoxes}">account</a> to claim your reward.`,
+          text: `<b>${
+            user.username
+          }</b> has sent you a gift box! Visit your <a href="${routes.account.tokens.path(
+            {
+              bookmark: TokensPanels.GiftBoxes,
+            }
+          )}">account</a> to claim your reward.`,
         },
       }),
     ]);

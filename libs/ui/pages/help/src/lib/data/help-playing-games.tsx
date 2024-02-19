@@ -1,5 +1,10 @@
 import { Box, Link, Typography } from '@mui/material';
+import { routes } from '@worksheets/ui/routes';
 import { ListItem, OrderedList } from '@worksheets/ui-core';
+import {
+  HelpPlayingGamesQuestions,
+  HelpTokensQuestions,
+} from '@worksheets/util/enums';
 import {
   MAX_TOKENS_IN_GIFT_BOX,
   MAX_TOKENS_PER_GAME,
@@ -10,7 +15,7 @@ import { HelpfulLinks } from '../helpful-links';
 
 export const helpPlayingGames: QuestionAnswer[] = [
   {
-    id: 'what-are-games',
+    id: HelpPlayingGamesQuestions.WhatAre,
     question: 'What are games?',
     summary:
       'Games are fun and interactive activities that you can play to win prizes and tokens.',
@@ -28,11 +33,16 @@ export const helpPlayingGames: QuestionAnswer[] = [
         <br />
         <HelpfulLinks
           links={[
-            { text: 'View all game categories', href: '/tags' },
-            { text: 'Play Games', href: '/play' },
+            {
+              text: 'View all game categories',
+              href: routes.categories.path(),
+            },
+            { text: 'Play Games', href: routes.games.path() },
             {
               text: 'How to Play Games',
-              href: '/help/playing-games#how-to-play-games',
+              href: routes.help.playingGames.path({
+                bookmark: HelpPlayingGamesQuestions.HowToPlay,
+              }),
             },
           ]}
         />
@@ -40,7 +50,7 @@ export const helpPlayingGames: QuestionAnswer[] = [
     ),
   },
   {
-    id: 'what-games-do-you-have',
+    id: HelpPlayingGamesQuestions.GameCategories,
     question: 'What games do you have?',
     summary:
       'We have a variety of games for you to play. All our games have no advertisements and are free to play.',
@@ -55,33 +65,76 @@ export const helpPlayingGames: QuestionAnswer[] = [
         <Typography variant="h6">Game Categories</Typography>
         <OrderedList>
           <ListItem>
-            <Link href="/tags/popular">Popular Games</Link>
+            <Link
+              href={routes.category.path({
+                params: {
+                  tagId: 'popular',
+                },
+              })}
+            >
+              Popular Games
+            </Link>
           </ListItem>
           <ListItem>
-            <Link href="/tags/arcade">Arcade Games</Link>
+            <Link
+              href={routes.category.path({
+                params: {
+                  tagId: 'arcade',
+                },
+              })}
+            >
+              Arcade Games
+            </Link>
           </ListItem>
           <ListItem>
-            <Link href="/tags/puzzle">Puzzle Games</Link>
+            <Link
+              href={routes.category.path({
+                params: {
+                  tagId: 'puzzle',
+                },
+              })}
+            >
+              Puzzle Games
+            </Link>
           </ListItem>
           <ListItem>
-            <Link href="/tags/action">Action Games</Link>
+            <Link
+              href={routes.category.path({
+                params: {
+                  tagId: 'action',
+                },
+              })}
+            >
+              Action Games
+            </Link>
           </ListItem>
           <ListItem>
-            <Link href="/tags/word">Word Games</Link>
+            <Link
+              href={routes.category.path({
+                params: {
+                  tagId: 'word',
+                },
+              })}
+            >
+              Word Games
+            </Link>
           </ListItem>
         </OrderedList>
         <br />
         <HelpfulLinks
           links={[
-            { text: 'View all game categories', href: '/tags' },
-            { text: 'Play Games', href: '/play' },
+            {
+              text: 'View all game categories',
+              href: routes.categories.path(),
+            },
+            { text: 'Play Games', href: routes.games.path() },
           ]}
         />
       </Box>
     ),
   },
   {
-    id: 'what-devices-can-i-play-games-on',
+    id: HelpPlayingGamesQuestions.SupportedDevices,
     question: 'What devices can I play games on?',
     summary:
       'You can play games on any device that has a web browser. This includes desktop computers, laptops, tablets, and smartphones.',
@@ -95,7 +148,7 @@ export const helpPlayingGames: QuestionAnswer[] = [
     ),
   },
   {
-    id: 'how-to-play-games',
+    id: HelpPlayingGamesQuestions.HowToPlay,
     question: 'How do I play games?',
     summary:
       'You can play games by visiting the games page, selecting a game, and clicking the play button.',
@@ -112,15 +165,15 @@ export const helpPlayingGames: QuestionAnswer[] = [
         <br />
         <HelpfulLinks
           links={[
-            { text: 'Play Games', href: '/play' },
-            { text: 'Connect to your account', href: '/login' },
+            { text: 'Play Games', href: routes.games.path() },
+            { text: 'Connect to your account', href: routes.login.path() },
           ]}
         />
       </Box>
     ),
   },
   {
-    id: 'why-are-games-not-loading',
+    id: HelpPlayingGamesQuestions.NotLoading,
     question: 'Why are games not loading?',
     summary:
       'Games may not load due to a slow internet connection or an outdated web browser.',
@@ -135,12 +188,14 @@ export const helpPlayingGames: QuestionAnswer[] = [
           If you are still having trouble, please contact our support team.
         </Typography>
         <br />
-        <HelpfulLinks links={[{ text: 'Contact support', href: '/contact' }]} />
+        <HelpfulLinks
+          links={[{ text: 'Contact support', href: routes.contact.path() }]}
+        />
       </Box>
     ),
   },
   {
-    id: 'why-are-my-scores-not-saving',
+    id: HelpPlayingGamesQuestions.StorageIssues,
     question: 'Why are my scores not saving?',
     summary:
       "Your scores may not save if you're not logged in or if you're playing in private browsing mode.",
@@ -163,8 +218,8 @@ export const helpPlayingGames: QuestionAnswer[] = [
         <br />
         <HelpfulLinks
           links={[
-            { text: 'Connect to your account', href: '/login' },
-            { text: 'Contact support', href: '/contact' },
+            { text: 'Connect to your account', href: routes.login.path() },
+            { text: 'Contact support', href: routes.contact.path() },
             {
               text: 'Enable Cross-Site Tracking',
               href: '"https://support.apple.com/en-is/guide/safari/sfri11471/16.0/mac/11.0#:~:text=In%20the%20Safari%20app%20on,Prevent%20cross%2Dsite%20tracking.%E2%80%9D"',
@@ -175,7 +230,7 @@ export const helpPlayingGames: QuestionAnswer[] = [
     ),
   },
   {
-    id: 'who-makes-the-games',
+    id: HelpPlayingGamesQuestions.Developers,
     question: 'Who makes the games?',
     summary: 'Our games are developed by independent game developers.',
     answer: (
@@ -189,23 +244,26 @@ export const helpPlayingGames: QuestionAnswer[] = [
           We are constantly adding new games and improving existing ones to
           provide you with the best gaming experience. If you are a game
           developer interested in contributing games, please{' '}
-          <Link href="/contact">contact us</Link> or visit our{' '}
-          <Link href="/help/developers">contribution portal</Link> to get
-          started.
+          <Link href={routes.contact.path()}>contact us</Link> or visit our{' '}
+          <Link href={routes.help.developers.path()}>contribution portal</Link>{' '}
+          to get started.
         </Typography>
         <br />
         <HelpfulLinks
           links={[
-            { text: 'Contact us', href: '/contact' },
-            { text: 'Contribution Portal', href: '/help/developers' },
-            { text: 'View all games', href: '/play' },
+            { text: 'Contact us', href: routes.contact.path() },
+            {
+              text: 'Contribution Portal',
+              href: routes.help.developers.path(),
+            },
+            { text: 'View all games', href: routes.games.path() },
           ]}
         />
       </Box>
     ),
   },
   {
-    id: 'can-i-games-offline',
+    id: HelpPlayingGamesQuestions.OfflineAccess,
     question: 'Can I play games offline?',
     summary: 'You need an internet connection to play games.',
     answer: (
@@ -215,13 +273,13 @@ export const helpPlayingGames: QuestionAnswer[] = [
         <br />
         <br />
         If you want to play games offline, please{' '}
-        <Link href="/contact">contact us</Link> and let us know. We are
-        considering adding this feature in the future.
+        <Link href={routes.contact.path()}>contact us</Link> and let us know. We
+        are considering adding this feature in the future.
       </Typography>
     ),
   },
   {
-    id: 'how-do-i-earn-tokens',
+    id: HelpPlayingGamesQuestions.EarningTokens,
     question: 'How do I earn tokens?',
     summary:
       'You can earn tokens by playing games and participating in events.',
@@ -239,21 +297,40 @@ export const helpPlayingGames: QuestionAnswer[] = [
           <br />
           <br />
           There are also other ways to earn tokens, such as{' '}
-          <Link href="/help/referrals">referring friends</Link>,{' '}
-          <Link href="/help/friends">sending gifts to friends</Link>, and
-          participating in special events.
+          <Link href={routes.help.referrals.path()}>
+            referring friends
+          </Link>,{' '}
+          <Link href={routes.help.friends.path()}>
+            sending gifts to friends
+          </Link>
+          ,{' '}
+          <Link
+            href={routes.help.tokens.path({
+              bookmark: HelpTokensQuestions.HowToEarn,
+            })}
+          >
+            claiming the daily reward
+          </Link>
+          , and participating in special events.
           <br />
           <br />
-          Create an account to earn tokens and save your progress.
+          For more ways to earn tokens, visit our{' '}
+          <Link href={routes.help.tokens.path()}>Tokens Help</Link> page.
+          <br />
+          <br />
+          <Link href={routes.signUp.path()}>Create an account</Link> to earn
+          tokens and save your progress.
         </Typography>
         <br />
         <HelpfulLinks
           links={[
-            { text: 'Play Games', href: '/play' },
-            { text: 'Create an account', href: '/login' },
+            { text: 'Play Games', href: routes.games.path() },
+            { text: 'Create an account', href: routes.login.path() },
             {
               text: 'Learn about Gift Boxes',
-              href: '/help/tokens#what-is-a-gift-box',
+              href: routes.help.tokens.path({
+                bookmark: HelpTokensQuestions.GiftBoxes,
+              }),
             },
           ]}
         />

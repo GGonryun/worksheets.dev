@@ -20,6 +20,7 @@ import {
   prizeTypeLabel,
   prizeTypeLogos,
 } from '@worksheets/ui/components/prizes';
+import { routes } from '@worksheets/ui/routes';
 import { PrizesPanels } from '@worksheets/util/enums';
 import {
   daysFromNow,
@@ -68,8 +69,17 @@ export const RaffleInfo: React.FC<{
   const connected = participation !== undefined;
   const yourEntries = participation?.numTickets ?? 0;
   const PlatformLogo = prizeTypeLogos[type];
-  const loginHref = `/login?redirect=${encodeURIComponent(`/raffles/${id}`)}`;
-  const accountHref = `/account/prizes#${PrizesPanels.Prizes}`;
+  const loginHref = routes.login.path({
+    query: {
+      redirect: routes.raffle.path({
+        params: { raffleId: id },
+      }),
+    },
+  });
+
+  const accountHref = routes.account.prizes.path({
+    bookmark: PrizesPanels.Prizes,
+  });
 
   return (
     <Box
@@ -246,7 +256,9 @@ const EntryFeeSection: React.FC<{ cost: number; entered: number }> = ({
         fontWeight={500}
         textTransform="uppercase"
         color="text.primary"
-        href={`/account/prizes#${PrizesPanels.Raffles}`}
+        href={routes.account.prizes.path({
+          bookmark: PrizesPanels.Raffles,
+        })}
       >
         Your Entries
       </Typography>

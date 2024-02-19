@@ -1,6 +1,7 @@
 import { FavoriteBorder } from '@mui/icons-material';
 import { Box, Divider, Link, Typography } from '@mui/material';
 import { ValentinesTicket } from '@worksheets/icons/valentines';
+import { routes } from '@worksheets/ui/routes';
 import { TokensPanels } from '@worksheets/util/enums';
 import { BasicGameDetails } from '@worksheets/util/types';
 import { FC } from 'react';
@@ -107,14 +108,14 @@ export const TokensPanel: FC<{
         <FavoriteBorder fontSize="small" color="primary" />
         <Typography>
           Redeem tokens for real world rewards at the{' '}
-          <Link href="/prizes">prize wall</Link> or use them to{' '}
-          <Link href="/raffles">enter raffles</Link>.
+          <Link href={routes.prizes.path()}>prize wall</Link> or use them to{' '}
+          <Link href={routes.raffles.path()}>enter raffles</Link>.
         </Typography>
       </Box>
 
       <PanelFooter
         learn={{
-          href: '/help/prizes',
+          href: routes.help.prizes.path(),
           text: 'Rewards',
         }}
       />

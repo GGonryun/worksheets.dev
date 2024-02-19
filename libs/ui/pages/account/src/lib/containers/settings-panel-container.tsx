@@ -2,6 +2,7 @@ import { trpc } from '@worksheets/trpc-charity';
 import { Snackbar } from '@worksheets/ui/components/snackbar';
 import { ErrorComponent } from '@worksheets/ui/pages/errors';
 import { LoadingScreen } from '@worksheets/ui/pages/loading';
+import { routes } from '@worksheets/ui/routes';
 import { useBookmark } from '@worksheets/ui-core';
 import { SettingsPanels } from '@worksheets/util/enums';
 import { signOut, useSession } from 'next-auth/react';
@@ -32,7 +33,7 @@ export const SettingsPanelContainer: React.FC = () => {
     // clear local storage
     if (localStorage) {
       localStorage.clear();
-      signOut({ callbackUrl: '/' });
+      signOut({ callbackUrl: routes.home.path() });
     } else {
       alert('No local storage available to clear');
     }

@@ -1,5 +1,6 @@
 import { Box, Link, Typography } from '@mui/material';
 import { ValentinesGift } from '@worksheets/icons/valentines';
+import { routes } from '@worksheets/ui/routes';
 import { FriendsPanels } from '@worksheets/util/enums';
 import { MAX_DAILY_GIFT_BOX_SHARES } from '@worksheets/util/settings';
 
@@ -30,11 +31,14 @@ export const EmptyFriendsPlaceholder = () => (
         friends every day.
       </Typography>
       <Typography variant="body2">
-        <Link href="/help/vip">VIP Members</Link> can share 3x gift boxes.
+        <Link href={routes.help.vip.path()}>VIP Members</Link> can share 3x gift
+        boxes.
       </Typography>
     </Box>
     <Link
-      href={`/account/friends#${FriendsPanels.AddFriends}`}
+      href={routes.account.friends.path({
+        bookmark: FriendsPanels.AddFriends,
+      })}
       variant="body1"
       color="error"
     >

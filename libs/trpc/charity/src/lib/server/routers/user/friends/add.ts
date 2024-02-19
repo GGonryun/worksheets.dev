@@ -1,4 +1,5 @@
 import { TRPCError } from '@trpc/server';
+import { routes } from '@worksheets/ui/routes';
 import { FriendsPanels } from '@worksheets/util/enums';
 import { z } from 'zod';
 
@@ -72,7 +73,11 @@ export default protectedProcedure
       data: {
         userId: profile.user.id,
         type: 'FRIEND',
-        text: `<b>${user.username}</b> has started <a href="/account/friends#${FriendsPanels.FriendsList}">following you</a>!`,
+        text: `<b>${
+          user.username
+        }</b> has started <a href="${routes.account.friends.path({
+          bookmark: FriendsPanels.FriendsList,
+        })}">following you</a>!`,
       },
     });
   });

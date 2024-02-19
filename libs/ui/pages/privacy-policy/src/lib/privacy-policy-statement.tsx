@@ -1,3 +1,4 @@
+import { routes } from '@worksheets/ui/routes';
 import { Markdown } from '@worksheets/ui-core';
 import { printDate } from '@worksheets/util/time';
 
@@ -67,8 +68,6 @@ We may use or disclose the personal information we collect for one or more of th
 ### General processing purposes:
 In general, we process your data based on legal obligation. This means that we process your data to comply with applicable laws and regulations. 
 <br/></br>
--  We do not knowingly collect personal information from children under the age of 13.
--  If you are a parent or guardian and believe that your child has provided us with personal information, please [contact us](/contact). We will remove such data to the extent required by applicable laws. 
 
 ### Legitimate interests:
 We also process your data based on our legitimate interests. This means that we process your data to provide you with a seamless gaming experience and to improve our services. 
@@ -76,7 +75,7 @@ We also process your data based on our legitimate interests. This means that we 
 ### Minors and children:
 We do not knowingly collect personal information directly from children under the age of 13 (16 in the United Kingdom/European Union) without parental consent. Our websites are general audience sites and are not specifically targeted to or intended for use by individuals under the age of 16.
 
-If you are a parent or guardian and believe that your child has provided us with personal information, please [contact us](/contact). We will remove such data to the extent required by applicable laws.
+If you are a parent or guardian and believe that your child has provided us with personal information, please [contact us](${routes.contact.path()}). We will remove such data to the extent required by applicable laws.
 
 ## Who Do We Share Your Data With?
 We do not sell or rent your personal information to third parties. We may share your data with trusted third-party service providers to support our operations and provide you with a seamless gaming experience. 
@@ -137,6 +136,6 @@ We do not charge a fee to process or respond to your verifiable consumer request
 We reserve the right to amend this privacy notice at our discretion and at any time. When we make changes to this privacy notice, we will notify you by email or through a notice on our website homepage (https://charity.games). You are responsible for periodically visiting our website website and this Privacy Notice to check for any changes.
 
 ## Contact Information
-If you have any questions or comments about this Privacy Notice, our Privacy Policy, the ways in which we collect and use your personal information, your choices and rights regarding such use, or wish to exercise your rights, please view our [contact page](/contact) for more information.
+If you have any questions or comments about this Privacy Notice, our Privacy Policy, the ways in which we collect and use your personal information, your choices and rights regarding such use, or wish to exercise your rights, please view our [contact page](${routes.contact.path()}) for more information.
 
 This Privacy Statement is effective as of ${createdAtDate} and may be updated periodically. Please check this page for the latest information.`;

@@ -1,6 +1,7 @@
 import { trpc } from '@worksheets/trpc-charity';
 import { useReferralCode } from '@worksheets/ui/hooks/use-referral-code';
 import { LoadingScreen } from '@worksheets/ui/pages/loading';
+import { routes } from '@worksheets/ui/routes';
 import { useTimeout } from '@worksheets/ui-core';
 import { waitFor } from '@worksheets/util/time';
 import { useRouter } from 'next/router';
@@ -16,7 +17,9 @@ const LoginPortalContainer = () => {
 
   // where we'll redirect the user after we've finished processing their login
   // or take them to their account page if there's no redirect
-  const redirect = query.redirect ? (query.redirect as string) : '/account';
+  const redirect = query.redirect
+    ? (query.redirect as string)
+    : routes.account.path();
 
   // create user resources if they don't exist.
   const setReferrer = trpc.user.referrals.set.useMutation();

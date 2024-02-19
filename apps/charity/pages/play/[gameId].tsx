@@ -1,6 +1,7 @@
 import { createStaticTRPC } from '@worksheets/trpc-charity/server';
 import { LayoutContainer } from '@worksheets/ui/layout';
 import { DynamicGameScreenContainer } from '@worksheets/ui/pages/game';
+import { routes } from '@worksheets/ui/routes';
 import { printDate } from '@worksheets/util/time';
 import {
   DeveloperSchema,
@@ -70,7 +71,7 @@ export const getStaticProps = (async (ctx) => {
     console.error(`Error fetching game ${gameId}`, error);
     return {
       redirect: {
-        destination: '/play',
+        destination: routes.games.path(),
         permanent: false,
       },
     };

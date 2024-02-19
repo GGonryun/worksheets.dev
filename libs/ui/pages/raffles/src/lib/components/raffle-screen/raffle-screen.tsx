@@ -4,6 +4,7 @@ import {
   RaffleCarousel,
   RafflesGroup,
 } from '@worksheets/ui/components/raffles';
+import { routes } from '@worksheets/ui/routes';
 import {
   DetailedRaffleSchema,
   RaffleParticipation,
@@ -78,7 +79,7 @@ export const RaffleScreen: React.FC<{
 
 const AllRafflesLink = () => (
   <Button
-    href="/raffles"
+    href={routes.raffles.path()}
     color="white"
     startIcon={<NavigateBefore />}
     sx={{

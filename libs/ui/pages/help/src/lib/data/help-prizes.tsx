@@ -1,64 +1,13 @@
 import { Box, Link, Typography } from '@mui/material';
+import { routes } from '@worksheets/ui/routes';
+import { HelpPrizesQuestions } from '@worksheets/util/enums';
 import { QuestionAnswer } from '@worksheets/util/types';
 
 import { HelpfulLinks } from '../helpful-links';
 
 export const helpPrizes: QuestionAnswer[] = [
   {
-    id: 'how-do-i-win-prizes',
-    question: 'How do I win prizes?',
-    summary:
-      'You can win prizes by playing games, entering raffles, and prize draws.',
-    answer: (
-      <Box>
-        <Typography>
-          You can win prizes by playing games, entering raffles, and prize
-          draws. You must have enough tokens to enter raffles and prize draws.
-          <br />
-          <br />
-          <Link href="/account/prizes">Create an account</Link> to start earning
-          tokens.
-        </Typography>
-        <br />
-        <HelpfulLinks
-          links={[
-            { text: 'Play Games', href: '/play' },
-            { text: 'Enter Raffles', href: '/raffles' },
-            { text: 'View Prizes', href: '/prizes' },
-          ]}
-        />
-      </Box>
-    ),
-  },
-  {
-    id: 'how-to-see-prizes',
-    question: 'How do I see prizes?',
-    summary: 'You can see prizes by visiting the prizes page.',
-    answer: (
-      <Box>
-        <Typography>
-          You can see all available prizes by visiting the{' '}
-          <Link href="/prizes">prizes page</Link>. Prizes that have active
-          raffles can be found on the <Link href="/raffles">raffles page</Link>.
-          <br />
-          <br />
-          If you have won a prize, you will receive a notification and an email
-          to claim your prize. You can find all your prizes in your{' '}
-          <Link href="/account/prizes">prizes page</Link>.
-        </Typography>
-        <br />
-        <HelpfulLinks
-          links={[
-            { text: 'View Prizes', href: '/prizes' },
-            { text: 'Enter Raffles', href: '/raffles' },
-            { text: 'See my prizes', href: '/account/prizes' },
-          ]}
-        />
-      </Box>
-    ),
-  },
-  {
-    id: 'what-are-prizes',
+    id: HelpPrizesQuestions.WhatAre,
     question: 'What are prizes?',
     summary:
       'Prizes are rewards that you can win by playing games and entering raffles.',
@@ -70,12 +19,13 @@ export const helpPrizes: QuestionAnswer[] = [
           <br />
           <br />
           All prizes are digital and can be claimed in{' '}
-          <Link href="/account/prizes">your account</Link>.
+          <Link href={routes.account.prizes.path()}>your account</Link>.
           <br />
           <br />
           If you are unable to claim a prize, please{' '}
-          <Link href="/contact">contact us</Link> for assistance. You may
-          receive an alternative prize or tokens equal to the prize value.
+          <Link href={routes.contact.path()}>contact us</Link> for assistance.
+          You may receive an alternative prize or tokens equal to the prize
+          value.
           <br />
           <br />
           <b>
@@ -87,27 +37,81 @@ export const helpPrizes: QuestionAnswer[] = [
         <br />
         <HelpfulLinks
           links={[
-            { text: 'Access your prizes', href: '/account/prizes' },
-            { text: 'View Prizes', href: '/prizes' },
-            { text: 'View Raffles', href: '/raffles' },
-            { text: 'Learn about Tokens', href: '/help/tokens' },
+            { text: 'Access your prizes', href: routes.account.prizes.path() },
+            { text: 'View Prizes', href: routes.prizes.path() },
+            { text: 'View Raffles', href: routes.raffles.path() },
+            { text: 'Learn about Tokens', href: routes.help.tokens.path() },
           ]}
         />
       </Box>
     ),
   },
   {
-    id: 'how-to-claim-prizes',
+    id: HelpPrizesQuestions.HowToWin,
+    question: 'How do I win prizes?',
+    summary:
+      'You can win prizes by playing games, entering raffles, and prize draws.',
+    answer: (
+      <Box>
+        <Typography>
+          You can win prizes by playing games, entering raffles, and prize
+          draws. You must have enough tokens to enter raffles and prize draws.
+          <br />
+          <br />
+          <Link href={routes.signUp.path()}>Create an account</Link> to start
+          earning tokens.
+        </Typography>
+        <br />
+        <HelpfulLinks
+          links={[
+            { text: 'Play Games', href: routes.games.path() },
+            { text: 'Enter Raffles', href: routes.raffles.path() },
+            { text: 'View Prizes', href: routes.prizes.path() },
+          ]}
+        />
+      </Box>
+    ),
+  },
+  {
+    id: HelpPrizesQuestions.HowToSee,
+    question: 'How do I see prizes?',
+    summary: 'You can see prizes by visiting the prizes page.',
+    answer: (
+      <Box>
+        <Typography>
+          You can see all available prizes by visiting the{' '}
+          <Link href={routes.prizes.path()}>prizes page</Link>. Prizes that have
+          active raffles can be found on the{' '}
+          <Link href={routes.raffles.path()}>raffles page</Link>.
+          <br />
+          <br />
+          If you have won a prize, you will receive a notification and an email
+          to claim your prize. You can find all your prizes in your{' '}
+          <Link href={routes.account.prizes.path()}>prizes page</Link>.
+        </Typography>
+        <br />
+        <HelpfulLinks
+          links={[
+            { text: 'View Prizes', href: routes.prizes.path() },
+            { text: 'Enter Raffles', href: routes.raffles.expired.path() },
+            { text: 'See my prizes', href: routes.account.prizes.path() },
+          ]}
+        />
+      </Box>
+    ),
+  },
+  {
+    id: HelpPrizesQuestions.HowToClaim,
     question: 'How do I claim prizes?',
     summary: 'You can claim prizes by visiting the prizes page.',
     answer: (
       <Box>
         <Typography>
           You can claim prizes by visiting the{' '}
-          <Link href="/prizes">prizes page</Link>. If you have won a prize, you
-          will receive a notification and an email to claim your prize. You can
-          find all your prizes in your{' '}
-          <Link href="/account/prizes">prizes page</Link>.
+          <Link href={routes.prizes.path()}>prizes page</Link>. If you have won
+          a prize, you will receive a notification and an email to claim your
+          prize. You can find all your prizes in your{' '}
+          <Link href={routes.account.prizes.path()}>prizes page</Link>.
           <br />
           <br />
           We will attempt to deliver your prize to you within 24 hours. You will
@@ -117,18 +121,19 @@ export const helpPrizes: QuestionAnswer[] = [
           <br />
           <br />
           If you are unable to claim a prize, please{' '}
-          <Link href="/contact">contact us</Link> for assistance. You may
-          receive an alternative prize or tokens equal to the prize value.
+          <Link href={routes.contact.path()}>contact us</Link> for assistance.
+          You may receive an alternative prize or tokens equal to the prize
+          value.
         </Typography>
         <br />
         <HelpfulLinks
           links={[
-            { text: 'Learn about Tokens', href: '/help/tokens' },
-            { text: 'View Prizes', href: '/prizes' },
-            { text: 'See my prizes', href: '/account/prizes' },
+            { text: 'Learn about Tokens', href: routes.help.tokens.path() },
+            { text: 'View Prizes', href: routes.prizes.path() },
+            { text: 'See my prizes', href: routes.account.prizes.path() },
             {
               text: 'Contact Us',
-              href: '/contact',
+              href: routes.contact.path(),
             },
           ]}
         />
@@ -136,7 +141,7 @@ export const helpPrizes: QuestionAnswer[] = [
     ),
   },
   {
-    id: 'how-to-earn-tokens',
+    id: HelpPrizesQuestions.HowToEarn,
     question: 'How do I earn tokens?',
     summary:
       'You can earn tokens by playing games, entering raffles, and prize draws.',
@@ -148,18 +153,20 @@ export const helpPrizes: QuestionAnswer[] = [
           the platform.
           <br />
           <br />
-          <Link href="/account/tokens">Create an account</Link> to start earning
-          tokens.
+          <Link href={routes.account.tokens.path()}>Create an account</Link> to
+          start earning tokens.
         </Typography>
         <br />
         <HelpfulLinks
-          links={[{ text: 'Learn about Tokens', href: '/help/tokens' }]}
+          links={[
+            { text: 'Learn about Tokens', href: routes.help.tokens.path() },
+          ]}
         />
       </Box>
     ),
   },
   {
-    id: 'how-do-i-spend-tokens',
+    id: HelpPrizesQuestions.HowToSpend,
     question: 'How do I spend tokens?',
     summary: 'You can spend tokens by entering raffles and prize draws.',
     answer: (
@@ -171,16 +178,17 @@ export const helpPrizes: QuestionAnswer[] = [
           displayed on the raffle page and differs for each prize and raffle.
           <br />
           <br />
-          <Link href="/raffles">Enter a raffle</Link> or visit the{' '}
-          <Link href="/prizes">prizes page</Link> to spend your tokens.
+          <Link href={routes.raffles.path()}>Enter a raffle</Link> or visit the{' '}
+          <Link href={routes.prizes.path()}>prizes page</Link> to spend your
+          tokens.
         </Typography>
         <br />
         <HelpfulLinks
           links={[
-            { text: 'Learn about Tokens', href: '/help/tokens' },
-            { text: 'My Tokens', href: '/account/tokens' },
-            { text: 'Enter Raffles', href: '/raffles' },
-            { text: 'View Prizes', href: '/prizes' },
+            { text: 'Learn about Tokens', href: routes.help.tokens.path() },
+            { text: 'My Tokens', href: routes.account.tokens.path() },
+            { text: 'Enter Raffles', href: routes.raffles.path() },
+            { text: 'View Prizes', href: routes.prizes.path() },
           ]}
         />
       </Box>

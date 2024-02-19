@@ -1,5 +1,6 @@
 import { Alert } from '@mui/material';
 import type { Meta } from '@storybook/react';
+import { routes } from '@worksheets/ui/routes';
 
 import { LoginToEarnTokensSnackbarMessage } from './login-to-earn-tokens';
 
@@ -25,6 +26,6 @@ export default meta;
 
 export const Primary = {
   args: {
-    href: '/login',
+    href: routes.login.path(),
   },
 };

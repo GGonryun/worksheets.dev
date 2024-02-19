@@ -1,5 +1,6 @@
 import { ArrowRightAlt, InfoOutlined } from '@mui/icons-material';
 import { Box, Button, Link, Typography } from '@mui/material';
+import { routes } from '@worksheets/ui/routes';
 
 export const NotificationsFooter = () => (
   <Box
@@ -17,7 +18,7 @@ export const NotificationsFooter = () => (
       <Typography variant="body3" color="text.secondary">
         Learn more about <b>Notifications</b> in the{' '}
         <Box component="span" color="primary.main">
-          <Link href={'/help/notifications'}>Help Center</Link>
+          <Link href={routes.help.notifications.path()}>Help Center</Link>
         </Box>
       </Typography>
     </Box>
@@ -26,7 +27,7 @@ export const NotificationsFooter = () => (
       color={'secondary'}
       variant="arcade"
       size="small"
-      href={'/account'}
+      href={routes.account.path()}
       sx={{
         mt: { xs: 1, sm: 0 },
         width: { xs: '100%', sm: 'fit-content' },

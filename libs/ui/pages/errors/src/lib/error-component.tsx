@@ -1,5 +1,6 @@
 import { ArrowRightAlt, Refresh } from '@mui/icons-material';
 import { Box, Button, Theme, Typography, useMediaQuery } from '@mui/material';
+import { routes } from '@worksheets/ui/routes';
 import { InternallyCenter } from '@worksheets/ui-core';
 import Image from 'next/image';
 import React from 'react';
@@ -63,7 +64,7 @@ export const ErrorComponent: React.FC<{
           variant="arcade"
           color="warning"
           sx={{ mt: 2 }}
-          href="/"
+          href={routes.home.path()}
           endIcon={<ArrowRightAlt />}
         >
           Go To Homepage

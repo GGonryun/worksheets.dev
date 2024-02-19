@@ -1,6 +1,7 @@
 import { CrisisAlert, HowToVote, PendingOutlined } from '@mui/icons-material';
 import { Box, Divider, Typography } from '@mui/material';
 import { ValentinesGift, ValentinesLetter } from '@worksheets/icons/valentines';
+import { routes } from '@worksheets/ui/routes';
 import { PrizesPanels } from '@worksheets/util/enums';
 import { EnteredRaffleSchema, WonRaffleDetails } from '@worksheets/util/types';
 
@@ -81,8 +82,12 @@ export const PrizesPanel: React.FC<{
       </Box>
 
       <PanelFooter
-        learn={{ text: 'The Prize Wall', href: '/help/prizes' }}
-        action={{ text: 'Get Prizes', href: '/prizes', color: 'secondary' }}
+        learn={{ text: 'The Prize Wall', href: routes.help.prizes.path() }}
+        action={{
+          text: 'Get Prizes',
+          href: routes.prizes.path(),
+          color: 'secondary',
+        }}
       />
     </Box>
   );

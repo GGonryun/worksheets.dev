@@ -1,6 +1,7 @@
 import { trpc } from '@worksheets/trpc-charity';
 import { ErrorScreen } from '@worksheets/ui/pages/errors';
 import { LoadingScreen } from '@worksheets/ui/pages/loading';
+import { routes } from '@worksheets/ui/routes';
 import { printShortDateTime } from '@worksheets/util/time';
 import dynamic from 'next/dynamic';
 import React from 'react';
@@ -23,13 +24,19 @@ const AdminSubmissionScreen: React.FC<{ submissionId: string }> = ({
 
   return (
     <CustomContainer>
-      <ListButton href="/admin/reports">All Submissions</ListButton>
+      <ListButton href={routes.admin.submissions.path()}>
+        All Submissions
+      </ListButton>
       <CustomPaper title={`Game Submission Details`}>
         <DataPair label="Submission ID" value={submission.data.submissionId} />
         <DataPair
           label="User ID"
           value={submission.data.userId}
-          href={`/admin/users/${submission.data.userId}`}
+          href={routes.admin.user.path({
+            params: {
+              userId: submission.data.userId,
+            },
+          })}
         />
         <DataPair label="Slug" value={submission.data.slug} />
         <DataPair label="Title" value={submission.data.title} />

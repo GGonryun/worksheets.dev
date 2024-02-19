@@ -2,7 +2,7 @@ import { getNextUTCMidnight } from '@worksheets/util/time';
 import { useRouter } from 'next/router';
 
 import { AccountScreen } from '../components';
-import { FriendsPanelContainer } from './friends-panel-container';
+import { FriendsPanelContainer } from './FriendsPanelContainer';
 import { PrizesPanelContainer } from './prizes-panel-container';
 import { ReferralsPanelContainer } from './referrals-panel-container';
 import { SettingsPanelContainer } from './settings-panel-container';

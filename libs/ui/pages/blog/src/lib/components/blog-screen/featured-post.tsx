@@ -1,6 +1,7 @@
 import { ArrowRightAlt } from '@mui/icons-material';
 import { Box, Button, Link, Paper, Typography } from '@mui/material';
 import { ResponsiveImage } from '@worksheets/ui/components/images';
+import { blogRoutes } from '@worksheets/ui/routes';
 import { printDate } from '@worksheets/util/time';
 import { MarkdownMetadata } from '@worksheets/util-markdown';
 import { FC } from 'react';
@@ -10,7 +11,10 @@ import { AuthorBox } from './author-box';
 
 export const FeaturedPost: FC<{ post: MarkdownMetadata }> = ({ post }) => {
   const author = getAuthor(post.authorId);
-  const postUrl = `/blog/${post.slug}`;
+  const postUrl = blogRoutes.article.path({
+    params: { slug: post.slug },
+  });
+
   return (
     <Paper
       component={Box}

@@ -1,5 +1,6 @@
 import { useReferralCode } from '@worksheets/ui/hooks/use-referral-code';
 import { LoadingScreen } from '@worksheets/ui/pages/loading';
+import { routes } from '@worksheets/ui/routes';
 import { useTimeout } from '@worksheets/ui-core';
 import { useRouter } from 'next/router';
 
@@ -13,7 +14,7 @@ const ApplyReferralCode: React.FC<{ referralCode: string }> = ({
   // wait for a bit to ensure local storage is hydrated.
   useTimeout(() => {
     setReferralCode(referralCode);
-    replace('/');
+    replace(routes.home.path());
   }, 150);
 
   return <LoadingScreen />;

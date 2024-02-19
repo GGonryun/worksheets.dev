@@ -2,6 +2,7 @@ import { Box } from '@mui/material';
 import { TitledSection } from '@worksheets/ui/components/arcade';
 import { Raffle } from '@worksheets/ui/components/raffles';
 import { useMediaQuery } from '@worksheets/ui/hooks/use-media-query';
+import { routes } from '@worksheets/ui/routes';
 import { BasicRaffleDetails } from '@worksheets/util/types';
 import React from 'react';
 
@@ -38,7 +39,7 @@ export const HottestRaffles: React.FC<{ prizes: BasicRaffleDetails[] }> = ({
       action={{
         color: 'success',
         text: 'All Raffles',
-        href: '/prizes',
+        href: routes.prizes.path(),
       }}
     >
       {prizes.map((prize) => (

@@ -7,6 +7,7 @@ import {
   IS_PRODUCTION,
 } from '@worksheets/services/environment';
 import { sendEmail } from '@worksheets/services/gmail';
+import { routes } from '@worksheets/ui/routes';
 import { PrizesPanels } from '@worksheets/util/enums';
 import {
   CLAIM_ALERT_LAST_SENT_THRESHOLD,
@@ -15,8 +16,10 @@ import {
 import { hoursAgo, printShortDateTime } from '@worksheets/util/time';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-const CONTACT_URL = `${CHARITY_GAMES_BASE_URL}/contact`;
-const ACCOUNT_URL = `${CHARITY_GAMES_BASE_URL}/account/prizes#${PrizesPanels.Prizes}`;
+const CONTACT_URL = `${CHARITY_GAMES_BASE_URL}${routes.contact.path()}`;
+const ACCOUNT_URL = `${CHARITY_GAMES_BASE_URL}${routes.account.prizes.path({
+  bookmark: PrizesPanels.Prizes,
+})}`;
 const PRIZE_URL = (prizeId: number) =>
   `${CHARITY_GAMES_BASE_URL}/prizes/${prizeId}`;
 

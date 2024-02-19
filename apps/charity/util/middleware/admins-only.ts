@@ -1,4 +1,5 @@
 import { createServerSideTRPC } from '@worksheets/trpc-charity/server';
+import { routes } from '@worksheets/ui/routes';
 import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 
 export const adminMiddleware =
@@ -16,7 +17,7 @@ export const adminMiddleware =
     if (user.type !== 'ADMIN') {
       return {
         redirect: {
-          destination: '/',
+          destination: routes.home.path(),
           permanent: false,
         },
       };

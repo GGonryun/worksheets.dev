@@ -33,8 +33,6 @@ export const Layout: React.FC<LayoutProps> = ({
       <Toolbar
         notificationButton={notificationButton}
         connectionButton={connectionButton}
-        loginHref={links?.login ?? '/login'}
-        accountHref={links?.account ?? '/account'}
       />
       <Box flexGrow={1} pb={10} pt={2} className={'website-content'}>
         <MuiToolbar />

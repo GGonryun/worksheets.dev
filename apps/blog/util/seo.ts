@@ -1,4 +1,4 @@
-import { BLOG_BASE_URL, CHARITY_GAMES_BASE_URL } from '@worksheets/ui/env';
+import { blogRoutes, routes } from '@worksheets/ui/routes';
 import { OpenGraphProps, TWITTER_SEO } from '@worksheets/util/seo';
 import { BlogAuthor } from '@worksheets/util/types';
 import { MarkdownMetadata } from '@worksheets/util-markdown';
@@ -15,7 +15,7 @@ export const defaultSeo: DefaultSeoProps = {
       'On Charity Games you can play free online HTML browser games and microgames. Every play donates money to charitable causes. We support mobile and desktop.',
     images: [
       {
-        url: `${BLOG_BASE_URL}/og-image.png`,
+        url: `${blogRoutes.baseUrl}/og-image.png`,
         width: 978,
         height: 800,
         alt: 'Charity Games Logo',
@@ -50,16 +50,16 @@ export const defaultSeo: DefaultSeoProps = {
   ],
 };
 
-const createCanonicalUrl = (url?: string) => `${BLOG_BASE_URL}${url}`;
-
 const createSeo = ({ noindex, ...props }: OpenGraphProps): NextSeoProps => ({
-  canonical: createCanonicalUrl(props.url),
+  canonical: blogRoutes.baseUrl + props.path,
   title: props.title,
   noindex: noindex ?? false,
-  defaultTitle: 'Charity Games Blog',
+  titleTemplate: `%s | ${defaultSeo.title}`,
+  defaultTitle: defaultSeo.title,
   openGraph: {
     ...props,
-    siteName: 'Charity Games Blog',
+    url: blogRoutes.baseUrl + props.path,
+    siteName: defaultSeo.title,
   },
 });
 
@@ -67,7 +67,7 @@ export const ldJson = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
   name: defaultSeo.title,
-  url: createCanonicalUrl(),
+  url: blogRoutes.baseUrl,
   alternateName: [
     'Blog.Charity.Games',
     'CharityGamesBlog',
@@ -76,24 +76,25 @@ export const ldJson = {
   description: defaultSeo.description,
 };
 
-export const blogArticleSeo = (slug: string, metadata: MarkdownMetadata) => ({
-  url: createCanonicalUrl(`/${slug}`),
-  title: `${metadata.title} - Charity Games`,
-  description: metadata.excerpt,
-  type: 'article',
-  article: {
-    publishedTime: metadata.date,
-    modifiedTime: metadata.date,
-    authors: [`${CHARITY_GAMES_BASE_URL}/about`],
-    tags: metadata.tags,
-  },
-  images: [
-    {
-      url: metadata.ogImage.url,
-      alt: metadata.title,
+export const blogArticleSeo = (slug: string, metadata: MarkdownMetadata) =>
+  createSeo({
+    path: blogRoutes.article.path({ params: { slug } }),
+    title: metadata.title,
+    description: metadata.excerpt,
+    type: 'article',
+    article: {
+      publishedTime: metadata.date,
+      modifiedTime: metadata.date,
+      authors: [routes.about.url()],
+      tags: metadata.tags,
     },
-  ],
-});
+    images: [
+      {
+        url: metadata.ogImage.url,
+        alt: metadata.title,
+      },
+    ],
+  });
 
 export const blogArticleJsonLd = (
   slug: string,
@@ -101,8 +102,8 @@ export const blogArticleJsonLd = (
   author: BlogAuthor
 ): ArticleJsonLdProps => ({
   type: 'BlogPosting',
-  url: createCanonicalUrl(`/${slug}`),
-  title: `${metadata.title} - Charity Games`,
+  url: blogRoutes.article.path({ params: { slug } }),
+  title: metadata.title,
   images: [metadata.ogImage.url],
   datePublished: metadata.date,
   dateModified: metadata.date,
@@ -111,7 +112,6 @@ export const blogArticleJsonLd = (
 });
 
 export const blogSeo = createSeo({
-  url: createCanonicalUrl(),
   title: `Charity Games - Blog`,
   description: `Stay up to date with the latest news and updates from Charity Games. Learn about our mission and how you can help us make a difference.`,
 });

@@ -1,5 +1,6 @@
 import { InfoOutlined } from '@mui/icons-material';
 import { Box, Link, Typography } from '@mui/material';
+import { routes } from '@worksheets/ui/routes';
 import { WonRaffleDetails } from '@worksheets/util/types';
 import React from 'react';
 
@@ -29,12 +30,13 @@ export const PrizesSection: React.FC<{
         points={[
           `Play games, refer friends, and make purchases to earn tokens.`,
           <>
-            Compete in <Link href="/raffles">raffles</Link> to win prizes. New
-            winners are chosen every day.
+            Compete in <Link href={routes.raffles.path()}>raffles</Link> to win
+            prizes. New winners are chosen every day.
           </>,
           `If you win a prize, you'll have 72 hours to claim it. If you don't, it will expire.`,
           <>
-            Configure your <Link href="/account">notification settings</Link> to
+            Configure your{' '}
+            <Link href={routes.account.path()}>notification settings</Link> to
             receive reminders about your prizes.
           </>,
         ]}
@@ -43,11 +45,11 @@ export const PrizesSection: React.FC<{
       <PanelFooter
         learn={{
           text: 'Prizes',
-          href: '/help/prizes',
+          href: routes.help.prizes.path(),
         }}
         action={{
           text: 'Redeem Tokens',
-          href: '/prizes',
+          href: routes.prizes.path(),
           color: 'primary',
         }}
       />

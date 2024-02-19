@@ -4,6 +4,7 @@ import Link, { LinkProps } from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import { GameSubmissionStatus } from '@prisma/client';
 import { CoverImage } from '@worksheets/ui/components/images';
+import { routes } from '@worksheets/ui/routes';
 import theme from '@worksheets/ui/theme';
 import { BasicGameSubmission } from '@worksheets/util/types';
 import React, { JSXElementConstructor } from 'react';
@@ -21,8 +22,12 @@ export const GameSubmission: React.FC<
     onDelete: () => void;
   }
 > = ({ id, title, slug, status, tooltip, thumbnail, onDelete }) => {
-  const editUrl = `/submit/edit/${id}`;
-  const playUrl = `/play/${slug}`;
+  const editUrl = routes.account.submissions.edit.path({
+    params: { submissionId: id },
+  });
+  const playUrl = slug
+    ? routes.game.path({ params: { gameId: slug } })
+    : routes.games.path();
   const approved = status === GameSubmissionStatus.ACCEPTED;
 
   return (

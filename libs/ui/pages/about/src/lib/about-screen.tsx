@@ -1,5 +1,6 @@
 import { LinkedIn } from '@mui/icons-material';
 import { Box, Button, Container, Link, Paper, Typography } from '@mui/material';
+import { routes } from '@worksheets/ui/routes';
 import { Markdown } from '@worksheets/ui-core';
 import { blogAuthors } from '@worksheets/util/blog';
 import urls from '@worksheets/util/urls';
@@ -48,14 +49,14 @@ export const AboutScreen: FC<AboutScreenProps> = (props) => {
             Water.Org
           </Link>{' '}
           as our charity of choice. Read more about our{' '}
-          <Link color="text.arcade" href="/help">
+          <Link color="text.arcade" href={routes.help.path()}>
             current donation campaign here
           </Link>
           .
           <br />
           <br />
           If you have a charity you would like to see us support, please{' '}
-          <Link color="text.arcade" href={'/contact'}>
+          <Link color="text.arcade" href={routes.contact.path()}>
             contact us.
           </Link>
         </Typography>

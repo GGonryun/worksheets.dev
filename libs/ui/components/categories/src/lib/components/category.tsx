@@ -5,6 +5,7 @@ import {
   useMediaQuery,
   useTheme,
 } from '@mui/material';
+import { routes } from '@worksheets/ui/routes';
 import { AcceptableColors, buttonBoxShadow } from '@worksheets/ui/styles';
 import Image from 'next/image';
 
@@ -29,7 +30,9 @@ export const Category: React.FC<CategoryProps> = ({
       <Button
         variant="arcade"
         size={isMobile ? 'small' : 'medium'}
-        href={`/tags/${id}`}
+        href={routes.category.path({
+          params: { tagId: id },
+        })}
         color={color}
         sx={{
           px: isMobile ? 1.25 : 1.75,

@@ -1,5 +1,6 @@
 import { ArrowForward } from '@mui/icons-material';
 import { Box, Button, Link, Typography } from '@mui/material';
+import { routes } from '@worksheets/ui/routes';
 import { FC } from 'react';
 
 export const StickyContactBox: FC<{
@@ -30,7 +31,7 @@ export const StickyContactBox: FC<{
       {text}
     </Typography>
     <Button
-      href="/contact"
+      href={routes.contact.path()}
       variant="arcade"
       color="success"
       fullWidth
@@ -45,7 +46,7 @@ export const StickyContactBox: FC<{
     <Typography
       fontWeight={500}
       component={Link}
-      href="/help"
+      href={routes.help.path()}
       variant="body2"
       sx={{
         color: 'text.arcade',

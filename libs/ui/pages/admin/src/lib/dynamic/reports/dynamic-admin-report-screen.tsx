@@ -1,6 +1,7 @@
 import { trpc } from '@worksheets/trpc-charity';
 import { ErrorScreen } from '@worksheets/ui/pages/errors';
 import { LoadingScreen } from '@worksheets/ui/pages/loading';
+import { routes } from '@worksheets/ui/routes';
 import { printShortDateTime } from '@worksheets/util/time';
 import dynamic from 'next/dynamic';
 import React from 'react';
@@ -20,13 +21,17 @@ const AdminReportScreen: React.FC<{ reportId: string }> = ({ reportId }) => {
 
   return (
     <CustomContainer>
-      <ListButton href="/admin/reports">All Reports</ListButton>
+      <ListButton href={routes.admin.reports.path()}>All Reports</ListButton>
       <CustomPaper title={`Report Details`}>
         <DataPair label="Report ID" value={report.data.reportId} />
         <DataPair
           label="Game ID"
           value={report.data.gameId}
-          href={`/admin/games/${report.data.gameId}`}
+          href={routes.admin.game.path({
+            params: {
+              gameId: report.data.gameId,
+            },
+          })}
         />
         <DataPair label="Reason" value={report.data.reason} />
         <DataPair label="Text" value={report.data.text} />

@@ -1,5 +1,6 @@
 import { ContactPage, Gamepad } from '@mui/icons-material';
 import { Box, Button, Typography } from '@mui/material';
+import { routes } from '@worksheets/ui/routes';
 
 export const HelpCenterFooter = () => (
   <Box
@@ -27,7 +28,7 @@ export const HelpCenterFooter = () => (
       }}
     >
       <Button
-        href="/contact"
+        href={routes.contact.path()}
         variant="arcade"
         startIcon={<ContactPage />}
         sx={{
@@ -38,7 +39,7 @@ export const HelpCenterFooter = () => (
         Contact Us
       </Button>
       <Button
-        href="/play"
+        href={routes.games.path()}
         variant="arcade"
         color="secondary"
         startIcon={<Gamepad />}

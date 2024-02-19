@@ -1,4 +1,5 @@
 import { Box, Link, Typography } from '@mui/material';
+import { routes } from '@worksheets/ui/routes';
 
 export const HelpCenterTitle: React.FC = () => (
   <Box
@@ -17,7 +18,7 @@ export const HelpCenterTitle: React.FC = () => (
     <Box my={0.5} />
     <Typography fontSize={{ xs: '0.875rem', sm: '1rem' }}>
       Get answers to all your questions about the{' '}
-      <Link href="/">Charity Games</Link> platform.
+      <Link href={routes.home.path()}>Charity Games</Link> platform.
     </Typography>
   </Box>
 );

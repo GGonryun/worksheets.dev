@@ -1,6 +1,7 @@
 import { ArrowLeft } from '@mui/icons-material';
 import { Box, Button, Typography } from '@mui/material';
 import { FillImage, ResponsiveImage } from '@worksheets/ui/components/images';
+import { blogRoutes } from '@worksheets/ui/routes';
 import { printDate } from '@worksheets/util/time';
 import { BlogAuthor } from '@worksheets/util/types';
 import { FC } from 'react';
@@ -32,7 +33,7 @@ export const PostHeader: FC<PostHeaderProps> = ({
         variant="arcade"
         color="error"
         startIcon={<ArrowLeft fontSize="inherit" />}
-        href="/blog"
+        href={blogRoutes.articles.path()}
         sx={{
           width: 'fit-content',
           px: { xs: 1, sm: 2 },

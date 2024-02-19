@@ -1,6 +1,7 @@
 import { FavoriteBorder } from '@mui/icons-material';
 import { Divider, Link, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
+import { routes } from '@worksheets/ui/routes';
 import { SettingsPanels } from '@worksheets/util/enums';
 import { FC } from 'react';
 
@@ -57,16 +58,16 @@ export const SettingsPanel: FC<{
         <FavoriteBorder fontSize="small" color="secondary" />
         <Typography>
           Help us grow by sharing your{' '}
-          <Link href="/account/referrals">referral link</Link> with friends and
-          family.
+          <Link href={routes.account.referrals.path()}>referral link</Link> with
+          friends and family.
         </Typography>
       </Box>
 
       <PanelFooter
-        learn={{ text: 'Account Settings', href: '/help/accounts' }}
+        learn={{ text: 'Account Settings', href: routes.help.accounts.path() }}
         action={{
           text: 'Log Out',
-          href: '/logout',
+          href: routes.logout.path(),
           color: 'error',
         }}
       />

@@ -2,6 +2,7 @@ import Box, { BoxProps } from '@mui/material/Box';
 import Link, { LinkProps } from '@mui/material/Link';
 import { styled } from '@mui/material/styles';
 import Typography, { TypographyProps } from '@mui/material/Typography';
+import { routes } from '@worksheets/ui/routes';
 import urls from '@worksheets/util/urls';
 import Image from 'next/image';
 import { JSXElementConstructor } from 'react';
@@ -77,19 +78,19 @@ export const WebsiteFooter: React.FC<{
           desktop2: 'center',
         }}
       >
-        <FooterLinkTypography href={links?.about ?? '/about'}>
+        <FooterLinkTypography href={links?.about ?? routes.about.path()}>
           About
         </FooterLinkTypography>
-        <FooterLinkTypography href={links?.help ?? '/help'}>
+        <FooterLinkTypography href={links?.help ?? routes.help.path()}>
           Help
         </FooterLinkTypography>
-        <FooterLinkTypography href={links?.cookies ?? '/cookies'}>
+        <FooterLinkTypography href={links?.cookies ?? routes.cookies.path()}>
           Cookies
         </FooterLinkTypography>
-        <FooterLinkTypography href={links?.privacy ?? '/privacy'}>
+        <FooterLinkTypography href={links?.privacy ?? routes.privacy.path()}>
           Privacy
         </FooterLinkTypography>
-        <FooterLinkTypography href={links?.terms ?? '/terms'}>
+        <FooterLinkTypography href={links?.terms ?? routes.terms.path()}>
           Terms
         </FooterLinkTypography>
       </Box>

@@ -11,6 +11,7 @@ import {
   Pagination,
   usePagination,
 } from '@worksheets/ui/components/pagination';
+import { blogRoutes } from '@worksheets/ui/routes';
 import { MarkdownMetadata } from '@worksheets/util-markdown';
 import { FC, Fragment } from 'react';
 
@@ -69,7 +70,7 @@ export const BlogListScreen: FC<BlogListScreenProps> = ({ posts, tag }) => {
               size="small"
               variant="arcade"
               color="error"
-              href="/blog"
+              href={blogRoutes.articles.path()}
               startIcon={<Clear />}
             >
               Clear Filters

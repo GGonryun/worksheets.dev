@@ -1,5 +1,9 @@
 import { Box, Link, Typography } from '@mui/material';
-import { ReferralsPanels } from '@worksheets/util/enums';
+import { routes } from '@worksheets/ui/routes';
+import {
+  HelpReferralsQuestions,
+  ReferralsPanels,
+} from '@worksheets/util/enums';
 import {
   GIFT_BOXES_PER_REFERRAL_ACCOUNT,
   MAX_TOKENS_FROM_REFERRAL_PLAYS,
@@ -12,7 +16,7 @@ import { HelpfulLinks } from '../helpful-links';
 
 export const helpReferrals: QuestionAnswer[] = [
   {
-    id: 'what-are-referrals',
+    id: HelpReferralsQuestions.Description,
     question: 'What are Referrals?',
     summary:
       'Referrals are a way to invite your friends to join the community.',
@@ -28,12 +32,14 @@ export const helpReferrals: QuestionAnswer[] = [
         <HelpfulLinks
           links={[
             {
-              href: `/account/referrals#${ReferralsPanels.ShareYourLink}`,
+              href: routes.account.referrals.path({
+                bookmark: ReferralsPanels.ShareYourLink,
+              }),
               text: `Share your referral link`,
             },
-            { href: '/account', text: 'Create an account' },
+            { href: routes.account.path(), text: 'Create an account' },
             {
-              href: '/help/tokens',
+              href: routes.help.tokens.path(),
               text: 'Learn more about Tokens',
             },
           ]}
@@ -42,7 +48,7 @@ export const helpReferrals: QuestionAnswer[] = [
     ),
   },
   {
-    id: 'what-are-the-benefits-of-referrals',
+    id: HelpReferralsQuestions.Benefits,
     question: 'What are the benefits of Referrals?',
     summary:
       "Referrals are a way to invite your friends to join the community. You'll receive a bonus when they sign up and start playing games.",
@@ -63,18 +69,23 @@ export const helpReferrals: QuestionAnswer[] = [
         <HelpfulLinks
           links={[
             {
-              href: `/account/referrals#${ReferralsPanels.ShareYourLink}`,
+              href: routes.account.referrals.path({
+                bookmark: ReferralsPanels.ShareYourLink,
+              }),
               text: `Share your referral link`,
             },
-            { href: '/help/tokens', text: 'Learn more about Tokens' },
+            {
+              href: routes.help.tokens.path(),
+              text: 'Learn more about Tokens',
+            },
           ]}
         />
       </Box>
     ),
   },
   {
-    id: 'how-much-can-i-earn',
-    question: 'How much can I earn?',
+    id: HelpReferralsQuestions.Earnings,
+    question: 'How much do I earn?',
     summary: 'You can earn up to 100 tokens for each friend you refer.',
     answer: (
       <Box>
@@ -91,26 +102,31 @@ export const helpReferrals: QuestionAnswer[] = [
         </Typography>
         <br />
         <Typography>
-          <Link href="/help/vip">VIP members</Link> receive more tokens from
-          referral plays and have an increased referral limit. They also receive
-          larger bonuses for each friend they refer.
+          <Link href={routes.help.vip.path()}>VIP members</Link> receive more
+          tokens from referral plays and have an increased referral limit. They
+          also receive larger bonuses for each friend they refer.
         </Typography>
         <br />
         <HelpfulLinks
           links={[
             {
-              href: `/account/referrals#${ReferralsPanels.ShareYourLink}`,
+              href: routes.account.referrals.path({
+                bookmark: ReferralsPanels.ShareYourLink,
+              }),
               text: `Share your referral link`,
             },
-            { href: '/help/tokens', text: 'Learn more about Tokens' },
-            { href: '/help/vip', text: 'Learn more about VIP' },
+            {
+              href: routes.help.tokens.path(),
+              text: 'Learn more about Tokens',
+            },
+            { href: routes.help.vip.path(), text: 'Learn more about VIP' },
           ]}
         />
       </Box>
     ),
   },
   {
-    id: 'how-do-i-refer-a-friend',
+    id: HelpReferralsQuestions.HowTo,
     question: 'How do I refer a friend?',
     summary: 'You can refer a friend by sharing your referral link.',
     answer: (
@@ -125,7 +141,9 @@ export const helpReferrals: QuestionAnswer[] = [
         <HelpfulLinks
           links={[
             {
-              href: `/account/referrals#${ReferralsPanels.ShareYourLink}`,
+              href: routes.account.referrals.path({
+                bookmark: ReferralsPanels.ShareYourLink,
+              }),
               text: `Share your referral link`,
             },
           ]}

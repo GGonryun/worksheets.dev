@@ -1,4 +1,5 @@
-import { DefaultSeoProps, NextSeoProps } from 'next-seo';
+import { DefaultSeoProps } from 'next-seo';
+import { OpenGraph } from 'next-seo/lib/types';
 
 export const TWITTER_SEO: DefaultSeoProps['twitter'] = {
   handle: '@CharityGamesGo',
@@ -7,5 +8,5 @@ export const TWITTER_SEO: DefaultSeoProps['twitter'] = {
 };
 
 export type OpenGraphProps = NonNullable<
-  NextSeoProps['openGraph'] & { noindex?: boolean }
+  Omit<OpenGraph, 'url'> & { path?: string; noindex?: boolean }
 >;

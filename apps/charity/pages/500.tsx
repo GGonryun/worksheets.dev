@@ -5,6 +5,7 @@ export default function Custom404() {
   return (
     <>
       <NextSeo noindex title="Charity Games - 500" />
+
       <ErrorScreen
         title="500"
         header="Internal Server Error"

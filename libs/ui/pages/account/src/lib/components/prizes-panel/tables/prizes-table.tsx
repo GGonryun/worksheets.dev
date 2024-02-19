@@ -9,6 +9,7 @@ import TableRow from '@mui/material/TableRow';
 import { ValentinesGift } from '@worksheets/icons/valentines';
 import { prizeTypeLogos } from '@worksheets/ui/components/prizes';
 import { useMediaQueryDown } from '@worksheets/ui/hooks/use-media-query';
+import { routes } from '@worksheets/ui/routes';
 import { WonRaffleDetails } from '@worksheets/util/types';
 import * as React from 'react';
 
@@ -79,7 +80,13 @@ const PrizeRow: React.FC<{
           whiteSpace: 'nowrap',
         }}
       >
-        <Link href={`/raffles/${prize.raffleId}`}>{prize.raffleId}</Link>
+        <Link
+          href={routes.raffle.path({
+            params: { raffleId: prize.raffleId },
+          })}
+        >
+          {prize.raffleId}
+        </Link>
       </TableCell>
 
       <TableCell
@@ -139,7 +146,7 @@ const EmptyPrizesPlaceholder = () => {
         Keep playing games and referring friends to earn more tokens and win
         prizes!
       </Typography>
-      <Link href="/help/prizes" variant="body1" color="error">
+      <Link href={routes.help.prizes.path()} variant="body1" color="error">
         Learn More
       </Link>
     </Box>

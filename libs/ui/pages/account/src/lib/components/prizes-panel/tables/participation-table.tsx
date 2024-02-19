@@ -5,6 +5,7 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import { routes } from '@worksheets/ui/routes';
 import { printShortDateTime } from '@worksheets/util/time';
 import { EnteredRaffleSchema } from '@worksheets/util/types';
 import * as React from 'react';
@@ -42,10 +43,22 @@ export const ParticipationTable: React.FC<{
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell component="th" scope="row">
-                <Link href={`/raffles/${raffle.id}`}>{raffle.id}</Link>
+                <Link
+                  href={routes.raffle.path({
+                    params: { raffleId: raffle.id },
+                  })}
+                >
+                  {raffle.id}
+                </Link>
               </TableCell>
               <TableCell>
-                <Link href={`/prizes/${raffle.prizeId}`}>{raffle.name}</Link>
+                <Link
+                  href={routes.prize.path({
+                    params: { prizeId: raffle.prizeId },
+                  })}
+                >
+                  {raffle.name}
+                </Link>
               </TableCell>
               <TableCell>{raffle.entries}</TableCell>
               <TableCell>

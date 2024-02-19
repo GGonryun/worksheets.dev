@@ -1,6 +1,8 @@
 import { Box, Button, Typography } from '@mui/material';
 import { ClipboardText } from '@worksheets/ui/components/inputs';
+import { routes } from '@worksheets/ui/routes';
 import { ModalWrapper } from '@worksheets/ui-core';
+import { HelpPrizesQuestions } from '@worksheets/util/enums';
 import Image from 'next/image';
 
 import { ParentModal } from './parent-modal';
@@ -43,7 +45,13 @@ export const RedemptionCodeModal: React.FC<
       >
         Close
       </Button>
-      <Button href="/help/prizes#how-do-i-redeem-my-prize">Need Help?</Button>
+      <Button
+        href={routes.help.prizes.path({
+          bookmark: HelpPrizesQuestions.HowToClaim,
+        })}
+      >
+        Need Help?
+      </Button>
     </ParentModal>
   );
 };

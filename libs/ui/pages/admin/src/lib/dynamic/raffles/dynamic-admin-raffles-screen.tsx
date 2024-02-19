@@ -2,6 +2,7 @@ import { Box, Link, Typography } from '@mui/material';
 import { trpc } from '@worksheets/trpc-charity';
 import { ErrorScreen } from '@worksheets/ui/pages/errors';
 import { LoadingScreen } from '@worksheets/ui/pages/loading';
+import { routes } from '@worksheets/ui/routes';
 import { printShortDateTime } from '@worksheets/util/time';
 import { RaffleSummary } from '@worksheets/util/types';
 import dynamic from 'next/dynamic';
@@ -26,7 +27,7 @@ const AdminRafflesScreen = () => {
 
   return (
     <CustomContainer>
-      <ListButton href="/admin">Directory</ListButton>
+      <ListButton href={routes.admin.path()}>Directory</ListButton>
       <CustomPaper title="Raffles List">
         <ListHeader />
 
@@ -70,7 +71,11 @@ const ListItem: React.FC<{
     <Box
       component={Link}
       color="text.arcade"
-      href={`/admin/raffles/${raffle.raffleId}`}
+      href={routes.admin.raffle.path({
+        params: {
+          raffleId: raffle.raffleId,
+        },
+      })}
       display="grid"
       gridTemplateColumns={'1fr 1fr 1fr 1fr 1fr'}
     >

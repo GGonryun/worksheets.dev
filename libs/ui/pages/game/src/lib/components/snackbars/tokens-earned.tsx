@@ -1,5 +1,6 @@
 import { ArrowRightAlt } from '@mui/icons-material';
 import { Box, Button, Typography } from '@mui/material';
+import { routes } from '@worksheets/ui/routes';
 import { ReferralsPanels, TokensPanels } from '@worksheets/util/enums';
 
 export const TokensEarnedSnackbarMessage: React.FC<{
@@ -28,9 +29,15 @@ export const TokensEarnedSnackbarMessage: React.FC<{
 
   const noTokensRemaining = tokensEarned === 0;
 
-  const giftBoxHref = `/account/tokens#${TokensPanels.GiftBoxes}`;
-  const playGamesHref = `/account/tokens#${TokensPanels.PlayGames}`;
-  const referralsHref = `/account/referrals#${ReferralsPanels.ShareYourLink}`;
+  const giftBoxHref = routes.account.tokens.path({
+    bookmark: TokensPanels.GiftBoxes,
+  });
+  const playGamesHref = routes.account.tokens.path({
+    bookmark: TokensPanels.PlayGames,
+  });
+  const referralsHref = routes.account.referrals.path({
+    bookmark: ReferralsPanels.ShareYourLink,
+  });
 
   return (
     <Box

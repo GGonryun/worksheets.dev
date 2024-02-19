@@ -126,7 +126,7 @@ export const strictGameSubmissionFormSchema = gameSubmissionFormSchema
   .refine(
     (schema) => {
       // external website url is required if project type is web
-      if (schema.projectType === ProjectType.HTML) {
+      if (schema.projectType === ProjectType.EXTERNAL) {
         // external website url is valid url
         if (schema.externalWebsiteUrl === null) {
           return false;

@@ -4,6 +4,7 @@ import { Snackbar, useSnackbar } from '@worksheets/ui/components/snackbar';
 import { useGameVotes } from '@worksheets/ui/hooks/use-game-votes';
 import { useRecentlyPlayedGames } from '@worksheets/ui/hooks/use-recently-played-games';
 import { useReferralCode } from '@worksheets/ui/hooks/use-referral-code';
+import { routes } from '@worksheets/ui/routes';
 import {
   DeveloperSchema,
   SerializableGameSchema,
@@ -25,7 +26,13 @@ const GameScreenContainer: React.FC<{
   game: SerializableGameSchema;
   developer: DeveloperSchema;
 }> = ({ game, developer }) => {
-  const loginHref = `/login?redirect=${encodeURIComponent(`/play/${game.id}`)}`;
+  const loginHref = routes.login.path({
+    query: {
+      redirect: routes.game.path({
+        params: { gameId: game.id },
+      }),
+    },
+  });
 
   const session = useSession();
   const authenticated = session.status === 'authenticated';

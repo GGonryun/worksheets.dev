@@ -11,6 +11,7 @@ import {
   useMediaQuery,
   useTheme,
 } from '@mui/material';
+import { routes } from '@worksheets/ui/routes';
 import { calculatePercentage, toPercentage } from '@worksheets/util/numbers';
 import { MAX_TOKENS_FROM_REFERRAL_PLAYS } from '@worksheets/util/settings';
 import React from 'react';
@@ -108,19 +109,19 @@ export const ReferredPlaysSection: React.FC<{
           `Earn 1 token for every game someone plays with your referral link.`,
           `You can earn a maximum of ${MAX_TOKENS_FROM_REFERRAL_PLAYS} tokens per day.`,
           <>
-            <Link href="/help/vip">VIP Members</Link> earn x2 tokens when
-            someone plays a game, and have no daily limit.
+            <Link href={routes.help.vip.path()}>VIP Members</Link> earn x2
+            tokens when someone plays a game, and have no daily limit.
           </>,
         ]}
       />
       <PanelFooter
         learn={{
           text: 'Tokens',
-          href: '/learn/tokens',
+          href: routes.help.tokens.path(),
         }}
         action={{
           text: 'Get Tokens',
-          href: '/account/tokens',
+          href: routes.account.tokens.path(),
         }}
       />
     </Box>

@@ -1,4 +1,4 @@
-import { BasicCategoryInfo } from '../components/types/category-info';
+import { BasicCategoryInfo } from '@worksheets/util/types';
 
 export const sampleCategories: BasicCategoryInfo[] = Array.from({
   length: 10,

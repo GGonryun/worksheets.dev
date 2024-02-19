@@ -1,12 +1,12 @@
 import { AccountCircleOutlined, InfoOutlined } from '@mui/icons-material';
 import { Box, Link } from '@mui/material';
 import { ValentinesChat } from '@worksheets/icons/valentines';
+import { routes } from '@worksheets/ui/routes';
 import { TokensPanels } from '@worksheets/util/enums';
 import {
   MAX_TOKENS_FROM_REFERRAL_PLAYS,
   TOKENS_PER_REFERRAL_ACCOUNT,
   TOKENS_PER_REFERRAL_PLAY,
-  TOKENS_PER_REFERRAL_PURCHASE,
 } from '@worksheets/util/settings';
 import React from 'react';
 
@@ -47,25 +47,21 @@ export const InviteFriendsSection: React.FC<
         points={[
           <>
             Earn {TOKENS_PER_REFERRAL_PLAY} token when someone{' '}
-            <Link href="/play">plays a game</Link> using your referral link.
+            <Link href={routes.games.path()}>plays a game</Link> using your
+            referral link.
           </>,
           <>
             Your referrals can earn you up to {MAX_TOKENS_FROM_REFERRAL_PLAYS}{' '}
-            tokens every day when they <Link href="/play">play games</Link> with
-            your link.
+            tokens every day when they{' '}
+            <Link href={routes.games.path()}>play games</Link> with your link.
           </>,
           <>
             Earn {TOKENS_PER_REFERRAL_ACCOUNT} tokens when someone makes an
             account using your referral link.
           </>,
           <>
-            Earn {TOKENS_PER_REFERRAL_PURCHASE} tokens when someone spends money
-            at the <Link href="/store">Charity Store</Link> using your referral
-            link.
-          </>,
-          <>
-            <Link href="/help/vip">VIP Members</Link> earn 2x tokens from
-            referrals and have no daily limit.
+            <Link href={routes.help.vip.path()}>VIP Members</Link> earn 2x
+            tokens from referrals and have no daily limit.
           </>,
         ]}
       />
@@ -73,11 +69,11 @@ export const InviteFriendsSection: React.FC<
       <PanelFooter
         learn={{
           text: 'Referrals',
-          href: '/help/referrals',
+          href: routes.help.referrals.path(),
         }}
         action={{
           text: 'View Referrals',
-          href: '/account/referrals',
+          href: routes.account.referrals.path(),
         }}
       />
     </Box>

@@ -14,6 +14,7 @@ import {
   useTheme,
 } from '@mui/material';
 import { WebGamepad } from '@worksheets/icons/web';
+import { routes } from '@worksheets/ui/routes';
 import { TokensPanels } from '@worksheets/util/enums';
 import { calculatePercentage, toPercentage } from '@worksheets/util/numbers';
 import {
@@ -141,7 +142,12 @@ export const PlayGamesSection: React.FC<{
           title="Bonus Games"
           icon={<Star fontSize="small" color="secondary" />}
           points={bonusGames.slice(0, 5).map((game) => (
-            <Link key={game.id} href={`/play/${game.id}`}>
+            <Link
+              key={game.id}
+              href={routes.game.path({
+                params: { gameId: game.id },
+              })}
+            >
               {game.name}
             </Link>
           ))}
@@ -152,14 +158,15 @@ export const PlayGamesSection: React.FC<{
           icon={<InfoOutlined fontSize="small" color="info" />}
           points={[
             <>
-              Select a game from the <Link href="/play">Arcade</Link>, bonus
-              games earn x{BONUS_GAMES_MULTIPLIER} tokens.
+              Select a game from the{' '}
+              <Link href={routes.games.path()}>Arcade</Link>, bonus games earn x
+              {BONUS_GAMES_MULTIPLIER} tokens.
             </>,
             `Press the play game button and you'll immediately earn 1 to ${MAX_TOKENS_PER_GAME} tokens.`,
             `There is no time limit or score requirement to earn tokens.`,
             <>
-              <Link href="/help/vip">VIP Members</Link> earn twice as many
-              tokens per game and have no daily limit.
+              <Link href={routes.help.vip.path()}>VIP Members</Link> earn twice
+              as many tokens per game and have no daily limit.
             </>,
           ]}
         />
@@ -167,11 +174,11 @@ export const PlayGamesSection: React.FC<{
         <PanelFooter
           learn={{
             text: 'Playing Games',
-            href: '/help/playing-games',
+            href: routes.help.playingGames.path(),
           }}
           action={{
             text: 'Play Games',
-            href: '/play',
+            href: routes.games.path(),
           }}
         />
       </Box>

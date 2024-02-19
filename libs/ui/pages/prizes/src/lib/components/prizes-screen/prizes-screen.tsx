@@ -5,6 +5,7 @@ import {
 } from '@mui/icons-material';
 import { Box, Button, Typography } from '@mui/material';
 import { PrizesCarousel, PrizesGroup } from '@worksheets/ui/components/prizes';
+import { routes } from '@worksheets/ui/routes';
 import { PrizeSchema } from '@worksheets/util/types';
 
 import { CustomContainer } from '../shared/custom-container';
@@ -28,7 +29,7 @@ export const PrizesScreen: React.FC<{
       py={3}
     >
       <Button
-        href="/raffles"
+        href={routes.raffles.path()}
         variant="arcade"
         size="large"
         color="secondary"
@@ -40,7 +41,7 @@ export const PrizesScreen: React.FC<{
         Enter Raffles
       </Button>
       <Button
-        href="/help/prizes"
+        href={routes.help.prizes.path()}
         variant="arcade"
         size="large"
         color="success"

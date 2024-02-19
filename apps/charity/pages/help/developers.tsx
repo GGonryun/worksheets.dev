@@ -1,8 +1,8 @@
 import { LayoutContainer } from '@worksheets/ui/layout';
 import {
-  contributionFaq,
-  DynamicContributionScreen,
-} from '@worksheets/ui/pages/contributions';
+  developersPortalFaq,
+  DynamicDevelopersPortalScreen,
+} from '@worksheets/ui/pages/developers-portal';
 import { helpPageJson } from '@worksheets/ui/pages/help';
 import { NextPageWithLayout } from '@worksheets/util-next';
 import { FAQPageJsonLd, NextSeo } from 'next-seo';
@@ -14,9 +14,9 @@ const Page: NextPageWithLayout = () => {
     <>
       <NextSeo {...helpDevelopersSeo} />
 
-      <DynamicContributionScreen />
+      <DynamicDevelopersPortalScreen />
 
-      <FAQPageJsonLd mainEntity={helpPageJson(contributionFaq)} />
+      <FAQPageJsonLd mainEntity={helpPageJson(developersPortalFaq)} />
     </>
   );
 };

@@ -1,5 +1,6 @@
 import { ArrowRightAlt } from '@mui/icons-material';
 import { Box, Button, Paper, Typography } from '@mui/material';
+import { blogRoutes } from '@worksheets/ui/routes';
 import { MarkdownMetadata } from '@worksheets/util-markdown';
 
 import { IndividualPost } from './individual-post';
@@ -39,7 +40,7 @@ export const SupportingPosts: React.FC<{ posts: MarkdownMetadata[] }> = ({
         <Button
           variant="arcade"
           color="warning"
-          href="/blog"
+          href={blogRoutes.articles.path()}
           endIcon={<ArrowRightAlt />}
         >
           View All Posts

@@ -4,6 +4,8 @@ import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
+import { routes } from '@worksheets/ui/routes';
+import { HelpDevelopersQuestions } from '@worksheets/util/enums';
 import { FC } from 'react';
 
 import { InvalidProfileAlert } from './invalid-profile-alert';
@@ -48,7 +50,7 @@ export const SubmissionHeader: FC<{ invalidProfile: boolean | undefined }> = ({
         variant="arcade"
         color="primary"
         size="small"
-        href="/account/submissions"
+        href={routes.account.submissions.path()}
         endIcon={<ArrowRightAlt />}
         sx={{
           width: { xs: '100%', sm: 'auto' },
@@ -68,7 +70,11 @@ export const SubmissionHeader: FC<{ invalidProfile: boolean | undefined }> = ({
       </Typography>
       <Typography variant="body2">
         Review our{' '}
-        <Link href="/help/developers#what-makes-a-quality-game">
+        <Link
+          href={routes.help.developers.path({
+            bookmark: HelpDevelopersQuestions.Quality,
+          })}
+        >
           quality guidelines
         </Link>{' '}
         before submitting your game.

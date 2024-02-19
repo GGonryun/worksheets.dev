@@ -5,6 +5,7 @@ import { NextApiHandler } from 'next';
 
 import {
   aboutSeo,
+  categoriesSeo,
   contactSeo,
   cookiesSeo,
   gamesSeo,
@@ -25,7 +26,6 @@ import {
   prizesSeo,
   rafflesSeo,
   signUpSeo,
-  tagsSeo,
   termsSeo,
   vipSeo,
 } from '../../util/seo';
@@ -46,7 +46,7 @@ const addBasicPages = () => {
     privacySeo.canonical,
     termsSeo.canonical,
     gamesSeo.canonical,
-    tagsSeo.canonical,
+    categoriesSeo.canonical,
     prizesSeo.canonical,
     rafflesSeo.canonical,
     vipSeo.canonical,

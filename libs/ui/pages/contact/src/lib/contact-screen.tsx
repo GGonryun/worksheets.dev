@@ -12,6 +12,7 @@ import {
   Typography,
   TypographyProps,
 } from '@mui/material';
+import { routes } from '@worksheets/ui/routes';
 import urls from '@worksheets/util/urls';
 import React, { FC } from 'react';
 
@@ -64,10 +65,20 @@ export const ContactScreen: React.FC = () => (
       >
         <Title>Contact Us</Title>
         <Box display="flex" gap={1}>
-          <Button variant="square" size="small" href="/help" color="warning">
+          <Button
+            variant="square"
+            size="small"
+            href={routes.help.path()}
+            color="warning"
+          >
             <HelpCenter />
           </Button>
-          <Button variant="square" size="small" href="/about" color="secondary">
+          <Button
+            variant="square"
+            size="small"
+            href={routes.about.path()}
+            color="secondary"
+          >
             <Favorite />
           </Button>
         </Box>
@@ -115,7 +126,7 @@ const SignUpSection: FC = () => (
       <Button
         variant="arcade"
         color="error"
-        href="/login"
+        href={routes.login.path()}
         startIcon={<Login />}
       >
         Sign Up

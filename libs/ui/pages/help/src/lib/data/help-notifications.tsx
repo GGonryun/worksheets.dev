@@ -1,14 +1,18 @@
 import { Notifications } from '@mui/icons-material';
 import { Box, Typography } from '@mui/material';
+import { routes } from '@worksheets/ui/routes';
 import { ListItem, OrderedList } from '@worksheets/ui-core';
-import { SettingsPanels } from '@worksheets/util/enums';
+import {
+  HelpNotificationsQuestions,
+  SettingsPanels,
+} from '@worksheets/util/enums';
 import { QuestionAnswer } from '@worksheets/util/types';
 
 import { HelpfulLinks } from '../helpful-links';
 
 export const helpNotifications: QuestionAnswer[] = [
   {
-    id: 'what-are-notifications',
+    id: HelpNotificationsQuestions.Description,
     question: 'What are notifications?',
     summary:
       'Notifications are messages that are sent to you when something happens on the platform. For example, when you win a prize or if a referral signs up.',
@@ -34,10 +38,12 @@ export const helpNotifications: QuestionAnswer[] = [
         </OrderedList>
         <HelpfulLinks
           links={[
-            { text: 'See my notifications', href: '/notifications' },
+            { text: 'See my notifications', href: routes.notifications.path() },
             {
               text: 'Change my notification settings',
-              href: '/account',
+              href: routes.account.path({
+                bookmark: SettingsPanels.Communication,
+              }),
             },
           ]}
         />
@@ -45,7 +51,7 @@ export const helpNotifications: QuestionAnswer[] = [
     ),
   },
   {
-    id: 'how-to-see-notifications',
+    id: HelpNotificationsQuestions.Viewing,
     question: 'How do I see my notifications?',
     summary: 'You can see your notifications by clicking on the bell icon.',
     answer: (
@@ -60,13 +66,15 @@ export const helpNotifications: QuestionAnswer[] = [
         </Typography>
         <br />
         <HelpfulLinks
-          links={[{ text: 'See my notifications', href: '/notifications' }]}
+          links={[
+            { text: 'See my notifications', href: routes.notifications.path() },
+          ]}
         />
       </Box>
     ),
   },
   {
-    id: 'how-do-i-turn-off-notifications',
+    id: HelpNotificationsQuestions.Disabling,
     question: 'How do I turn off notifications?',
     summary: 'You can manage your notifications in your account settings.',
     answer: (
@@ -89,7 +97,9 @@ export const helpNotifications: QuestionAnswer[] = [
           links={[
             {
               text: 'Change my notification settings',
-              href: `/account#${SettingsPanels.Communication}`,
+              href: routes.account.path({
+                bookmark: SettingsPanels.Communication,
+              }),
             },
           ]}
         />

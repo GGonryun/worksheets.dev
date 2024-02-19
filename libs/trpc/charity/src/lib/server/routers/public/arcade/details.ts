@@ -1,3 +1,4 @@
+import { routes } from '@worksheets/ui/routes';
 import { FEATURED_GAMES } from '@worksheets/util/settings';
 import {
   BasicCategoryInfo,
@@ -95,7 +96,7 @@ export default publicProcedure
       }
 
       return {
-        href: `/play/${id}`,
+        href: routes.game.path({ params: { gameId: game.id } }),
         image: game.cover,
         name: game.title,
       };

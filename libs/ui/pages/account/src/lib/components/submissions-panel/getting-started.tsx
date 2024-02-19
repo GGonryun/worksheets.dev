@@ -13,6 +13,7 @@ import Link from '@mui/material/Link';
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import { TermsOfServiceStatement } from '@worksheets/ui/pages/terms-of-service';
+import { routes } from '@worksheets/ui/routes';
 import React from 'react';
 
 import { PanelHeader } from '../panel-header';
@@ -50,7 +51,7 @@ export const GettingStarted: React.FC<{
         urge you to make an informed decision before you agree to our terms of
         service. We put special effort to make our terms of service easy to
         understand and fair to contributors. If you have any questions or
-        concerns please <Link href={`/contact`}>contact us</Link>.
+        concerns please <Link href={routes.contact.path()}>contact us</Link>.
       </Typography>
 
       <PolicyBox>
@@ -85,7 +86,7 @@ const IncompleteProfileAlert: React.FC<{ visible: boolean | undefined }> = ({
     <Alert severity="error">
       <Typography variant="body2" fontWeight={900}>
         Incomplete Developer Profile &#8212;{' '}
-        <Link href="/account" color="primary">
+        <Link href={routes.account.path()} color="primary">
           Edit Account
         </Link>
       </Typography>
