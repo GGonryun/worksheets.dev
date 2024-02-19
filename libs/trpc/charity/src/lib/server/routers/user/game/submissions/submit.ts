@@ -1,4 +1,9 @@
-import { TRPCError } from '@trpc/server';
+import { sendDiscordMessage } from '@worksheets/services/discord';
+import {
+  DISCORD_WEBHOOK_URL,
+  IS_PRODUCTION,
+} from '@worksheets/services/environment';
+import { routes } from '@worksheets/ui/routes';
 import { gameSubmissionFormSchema } from '@worksheets/util/types';
 import { makeOptionalPropsNullable } from '@worksheets/zod';
 import { z } from 'zod';
@@ -27,7 +32,7 @@ export default protectedProcedure
       userId,
     });
 
-    const submission = await db.gameSubmission.update({
+    await db.gameSubmission.update({
       where: {
         id: input.id,
         userId,
@@ -51,12 +56,27 @@ export default protectedProcedure
       },
     });
 
-    if (!submission) {
-      console.warn('Submission not found', input.id);
-      throw new TRPCError({
-        message: 'Submission not found',
-        code: 'NOT_FOUND',
-      });
+    try {
+      if (IS_PRODUCTION) {
+        await sendDiscordMessage({
+          content: `A new game submission has been created by ${userId}.`,
+          embeds: [
+            {
+              title: input.title ?? 'Untitled',
+              url: routes.admin.submission.path({
+                params: {
+                  submissionId: input.id,
+                },
+              }),
+            },
+          ],
+          webhookUrl: DISCORD_WEBHOOK_URL,
+        });
+      } else {
+        console.log('Would have sent discord message');
+      }
+    } catch (error) {
+      console.warn('Failed to send discord message', error);
     }
 
     return {
