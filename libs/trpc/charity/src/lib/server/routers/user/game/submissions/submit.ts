@@ -1,8 +1,5 @@
 import { sendDiscordMessage } from '@worksheets/services/discord';
-import {
-  DISCORD_WEBHOOK_URL,
-  IS_PRODUCTION,
-} from '@worksheets/services/environment';
+import { DISCORD_WEBHOOK_URL } from '@worksheets/services/environment';
 import { routes } from '@worksheets/ui/routes';
 import { gameSubmissionFormSchema } from '@worksheets/util/types';
 import { makeOptionalPropsNullable } from '@worksheets/zod';
@@ -57,24 +54,20 @@ export default protectedProcedure
     });
 
     try {
-      if (IS_PRODUCTION) {
-        await sendDiscordMessage({
-          content: `A new game submission has been created by ${userId}.`,
-          embeds: [
-            {
-              title: input.title ?? 'Untitled',
-              url: routes.admin.submission.path({
-                params: {
-                  submissionId: input.id,
-                },
-              }),
-            },
-          ],
-          webhookUrl: DISCORD_WEBHOOK_URL,
-        });
-      } else {
-        console.log('Would have sent discord message');
-      }
+      await sendDiscordMessage({
+        content: `A game submission has been created by ${userId}.`,
+        embeds: [
+          {
+            title: input.title ?? 'Untitled',
+            url: routes.admin.submission.url({
+              params: {
+                submissionId: input.id,
+              },
+            }),
+          },
+        ],
+        webhookUrl: DISCORD_WEBHOOK_URL,
+      });
     } catch (error) {
       console.warn('Failed to send discord message', error);
     }

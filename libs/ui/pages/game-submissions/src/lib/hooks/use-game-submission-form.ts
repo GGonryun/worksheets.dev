@@ -157,7 +157,7 @@ export const useGameSubmissionForm = (
     const error = fieldValidator(field, updated);
 
     // TODO: how do we properly map and clear dependent field errors?
-    if (field === 'projectType' && value !== 'PAGE') {
+    if (field === 'projectType' && value !== 'EXTERNAL') {
       setErrors((prev) => ({ ...prev, externalWebsiteUrl: '' }));
     }
 
@@ -184,7 +184,7 @@ export const useGameSubmissionForm = (
       }));
     }
 
-    if (field === 'projectType' && value === 'PAGE') {
+    if (field === 'projectType' && value === 'EXTERNAL') {
       setErrors((prev) => ({ ...prev, gameFile: '' }));
     }
 

@@ -18,7 +18,7 @@ import {
 } from './sections';
 
 export const SubmitGameForm: FC = () => {
-  const { loading, isValid, isUpdated, onSubmit, onUpdate } =
+  const { loading, isValid, onSubmit, onUpdate } =
     useGameSubmissionFormContext();
 
   return (
@@ -67,7 +67,7 @@ export const SubmitGameForm: FC = () => {
             </Button>
             <Button
               onClick={onUpdate}
-              disabled={!isUpdated || loading}
+              disabled={loading}
               color="secondary"
               variant="arcade"
               startIcon={

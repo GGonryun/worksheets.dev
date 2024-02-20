@@ -134,7 +134,7 @@ const ProjectTypeField: FC = () => {
             secondary=" &#8212; You have a zip file containing an HTML5 game."
           />
         </MenuItem>
-        <MenuItem dense value={'PAGE'}>
+        <MenuItem dense value={'EXTERNAL'}>
           <DetailedListItemText
             primary="Web Embed"
             secondary=" &#8212; You have a website that hosts your game."
