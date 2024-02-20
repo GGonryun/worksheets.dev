@@ -14,7 +14,6 @@ export default t.router({
         },
       });
 
-      // if the user has no preferences, return the default
       if (!preferences) {
         return {
           email: user.email,
@@ -30,14 +29,22 @@ export default t.router({
   upsert: protectedProcedure
     .input(
       z.object({
-        email: z.boolean(),
+        email: z.boolean().optional(),
+        newsletter: z.boolean().optional(),
       })
     )
     .output(z.boolean())
     .mutation(async ({ input, ctx: { db, user } }) => {
+      if (input.email === undefined && input.newsletter === undefined) {
+        console.warn(
+          'cannot change user notification preferences without some input'
+        );
+        return false;
+      }
+
       console.info('upsert user notification preferences', {
         userId: user.id,
-        email: input.email,
+        ...input,
       });
 
       // get the users notification preferences
@@ -76,7 +83,18 @@ export default t.router({
   create: protectedProcedure
     .output(z.boolean())
     .mutation(async ({ ctx: { db, user } }) => {
-      // create the users notification preferences
+      // check to see if the user already has notification preferences
+      const preferences = await db.notificationPreferences.findFirst({
+        where: {
+          userId: user.id,
+        },
+      });
+
+      if (preferences) {
+        console.warn('user already has notification preferences');
+        return false;
+      }
+
       await db.notificationPreferences.create({
         data: {
           userId: user.id,

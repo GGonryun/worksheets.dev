@@ -1,8 +1,9 @@
 import { Box, BoxProps, styled } from '@mui/material';
 import { ContainImage } from '@worksheets/ui/components/images';
+import { routes } from '@worksheets/ui/routes';
 import { JSXElementConstructor } from 'react';
 
-const purposeHref = 'https://charity.games/login';
+const purposeHref = routes.newsletter.subscribe.path();
 const bannerUri = '/common/charity-games/banners/play-with-purpose.png';
 const iconUri = '/common/charity-games/art/play-with-purpose.png';
 const playWithPurposeAlt = 'Play With Purpose';

@@ -5,7 +5,7 @@ import { LoadingScreen } from '@worksheets/ui/pages/loading';
 import { routes } from '@worksheets/ui/routes';
 import { useBookmark } from '@worksheets/ui-core';
 import { SettingsPanels } from '@worksheets/util/enums';
-import { NotificationPreferencesSchema } from '@worksheets/util/types';
+import { UpdateNotificationPreferences } from '@worksheets/util/types';
 import { signOut, useSession } from 'next-auth/react';
 import { useState } from 'react';
 
@@ -20,10 +20,12 @@ import { useBasicInformationForm } from '../hooks';
 export const SettingsPanelContainer: React.FC = () => {
   const bookmark = useBookmark<SettingsPanels>();
   const session = useSession();
+  const [updatingPreferences, setUpdatingPreferences] = useState(false);
   const [showClearStorageModal, setShowClearStorageModal] = useState(false);
   const [showDeleteAccountModal, setShowDeleteAccountModal] = useState(false);
 
   const connected = session.status === 'authenticated';
+
   const profile = trpc.user.get.useQuery(undefined, {
     enabled: connected,
     retry: false,
@@ -57,16 +59,30 @@ export const SettingsPanelContainer: React.FC = () => {
   };
 
   const handleUpdatePreferences = async (
-    data: Omit<NotificationPreferencesSchema, 'email'>
+    data: UpdateNotificationPreferences
   ) => {
-    await upsertPreferences.mutateAsync({
-      email: data.enabledEmailNotifications,
-    });
-    await preferences.refetch();
-    snackbar.trigger({
-      severity: 'success',
-      message: 'Your preferences have been updated!',
-    });
+    try {
+      setUpdatingPreferences(true);
+
+      await upsertPreferences.mutateAsync({
+        email: data.enabledEmailNotifications,
+      });
+
+      await preferences.refetch();
+
+      snackbar.trigger({
+        severity: 'success',
+        message: 'Your preferences have been updated!',
+      });
+    } catch (error) {
+      snackbar.trigger({
+        severity: 'error',
+        message:
+          'There was an error updating your preferences. Please try again.',
+      });
+    } finally {
+      setUpdatingPreferences(false);
+    }
   };
 
   if (profile.isLoading || preferences.isLoading) return <LoadingScreen />;
@@ -79,16 +95,14 @@ export const SettingsPanelContainer: React.FC = () => {
         <SettingsPanel
           preferences={preferences.data}
           bookmark={bookmark}
+          updatingPreferences={updatingPreferences}
           onUpdatePreferences={handleUpdatePreferences}
           onClearLocalStorage={() => setShowClearStorageModal(true)}
           onDeleteAccount={() => setShowDeleteAccountModal(true)}
         />
-        <Snackbar
-          {...snackbar.props}
-          message={'Your profile has been updated!'}
-          severity={'success'}
-        />
+        <Snackbar {...snackbar.props} />
       </BasicInformationFormContextProvider>
+
       <ClearStorageModal
         open={showClearStorageModal}
         onClear={handleClearLocalStorage}

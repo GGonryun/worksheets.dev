@@ -39,7 +39,7 @@ export const HelpCenterFooter = () => (
         Contact Us
       </Button>
       <Button
-        href={routes.games.path()}
+        href={routes.newsletter.subscribe.path()}
         variant="arcade"
         color="secondary"
         startIcon={<Gamepad />}
@@ -48,7 +48,7 @@ export const HelpCenterFooter = () => (
           px: { xs: 3, sm: 6 },
         }}
       >
-        Play Games
+        Join the Fun
       </Button>
     </Box>
   </Box>

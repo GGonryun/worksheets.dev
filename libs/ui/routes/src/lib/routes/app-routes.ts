@@ -15,6 +15,7 @@ import {
   HelpTokensQuestions,
   HelpVIPQuestions,
   LoginQueryParams,
+  NewsletterQueryParams,
   PrizesPanels,
   RafflesQueryParams,
   ReferralsPanels,
@@ -85,6 +86,22 @@ export const routes = {
   }),
   logout: createRoute({
     path: '/logout',
+  }),
+  newsletter: createRoute({
+    path: '/newsletter',
+    routes: {
+      confirm: createRoute({
+        path: '/newsletter/confirm',
+        query: NewsletterQueryParams,
+      }),
+      subscribe: createRoute({
+        path: '/newsletter/subscribe',
+      }),
+      unsubscribe: createRoute({
+        path: '/newsletter/unsubscribe',
+        query: NewsletterQueryParams,
+      }),
+    },
   }),
   prizes: createRoute({
     path: '/prizes',

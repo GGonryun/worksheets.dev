@@ -393,3 +393,24 @@ export const vipSeo = createSeo({
   description:
     'Join the VIP membership program and receive exclusive benefits. Every token you spend is a donation towards charity. Win free prizes by playing browser games and referring friends',
 });
+
+export const unsubscribeSeo = createSeo({
+  path: routes.newsletter.unsubscribe.path(),
+  title: 'Unsubscribe',
+  description:
+    'Unsubscribe from the Charity Games newsletter. We are sorry to see you go. We hope you will return soon!',
+});
+
+export const subscribeSeo = createSeo({
+  path: routes.newsletter.subscribe.path(),
+  title: 'Subscribe',
+  description:
+    'Subscribe to the Charity Games newsletter. Stay up to date with the latest news, updates, and promotions.',
+});
+
+export const confirmSubscriptionSeo = createSeo({
+  path: routes.newsletter.confirm.path(),
+  title: 'Confirm Subscription',
+  description:
+    'Confirm your subscription to the Charity Games newsletter. Stay up to date with the latest news, updates, and promotions.',
+});

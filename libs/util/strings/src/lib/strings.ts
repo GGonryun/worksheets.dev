@@ -28,3 +28,17 @@ export const validateHttpsUrl = (url: string | undefined): boolean => {
 export const createRandomUserName = (): string => {
   return `user${Math.floor(Math.random() * 1000000)}`;
 };
+
+export const validateEmail = (email: string | undefined): boolean => {
+  if (email == null) {
+    return false;
+  }
+
+  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  if (!regex.test(email)) {
+    return false;
+  }
+
+  return true;
+};

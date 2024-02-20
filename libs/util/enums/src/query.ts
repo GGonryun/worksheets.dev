@@ -13,3 +13,7 @@ export enum LoginQueryParams {
 export enum AccountFriendsQueryParams {
   Code = 'code',
 }
+
+export enum NewsletterQueryParams {
+  Email = 'email',
+}

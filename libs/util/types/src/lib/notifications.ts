@@ -28,3 +28,7 @@ export const notificationPreferencesSchema = z.object({
 export type NotificationPreferencesSchema = z.infer<
   typeof notificationPreferencesSchema
 >;
+
+export type UpdateNotificationPreferences = Partial<
+  Omit<NotificationPreferencesSchema, 'email'>
+>;

@@ -1,9 +1,11 @@
 import { FavoriteBorder } from '@mui/icons-material';
-import { Divider, Link, Typography } from '@mui/material';
-import Box from '@mui/material/Box';
+import { Box, Divider, Link, Typography } from '@mui/material';
 import { routes } from '@worksheets/ui/routes';
 import { SettingsPanels } from '@worksheets/util/enums';
-import { NotificationPreferencesSchema } from '@worksheets/util/types';
+import {
+  NotificationPreferencesSchema,
+  UpdateNotificationPreferences,
+} from '@worksheets/util/types';
 import { FC } from 'react';
 
 import { usePanelController } from '../hooks/use-panel-controller';
@@ -15,13 +17,13 @@ import { CommunicationSection } from './sections/communication-section';
 export const SettingsPanel: FC<{
   bookmark?: SettingsPanels;
   preferences: NotificationPreferencesSchema;
-  onUpdatePreferences: (
-    preferences: Omit<NotificationPreferencesSchema, 'email'>
-  ) => void;
+  updatingPreferences: boolean;
+  onUpdatePreferences: (preferences: UpdateNotificationPreferences) => void;
   onClearLocalStorage: () => void;
   onDeleteAccount: () => void;
 }> = ({
   bookmark,
+  updatingPreferences,
   onClearLocalStorage,
   onDeleteAccount,
   onUpdatePreferences,
@@ -47,6 +49,7 @@ export const SettingsPanel: FC<{
         active={active}
         onClick={toggleActive}
         preferences={preferences}
+        updatingPreferences={updatingPreferences}
         onUpdatePreferences={onUpdatePreferences}
       />
 

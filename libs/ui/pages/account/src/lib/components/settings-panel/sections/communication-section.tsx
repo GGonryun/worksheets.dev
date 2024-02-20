@@ -10,19 +10,27 @@ import {
 import { ValentinesPhones } from '@worksheets/icons/valentines';
 import { routes } from '@worksheets/ui/routes';
 import { SettingsPanels } from '@worksheets/util/enums';
-import { NotificationPreferencesSchema } from '@worksheets/util/types';
+import {
+  NotificationPreferencesSchema,
+  UpdateNotificationPreferences,
+} from '@worksheets/util/types';
 
 import { CollapsibleSection } from '../../collapsible-section';
 import { PanelFooter } from '../../panel-footer';
 
 export const CommunicationSection: React.FC<{
   active: SettingsPanels | undefined;
+  updatingPreferences: boolean;
   onClick: (id: string) => void;
-  onUpdatePreferences: (
-    preferences: Omit<NotificationPreferencesSchema, 'email'>
-  ) => void;
+  onUpdatePreferences: (preferences: UpdateNotificationPreferences) => void;
   preferences: NotificationPreferencesSchema;
-}> = ({ active, onClick, preferences, onUpdatePreferences }) => (
+}> = ({
+  active,
+  onClick,
+  preferences,
+  updatingPreferences,
+  onUpdatePreferences,
+}) => (
   <CollapsibleSection
     id={SettingsPanels.Communication}
     active={active}
@@ -58,6 +66,7 @@ export const CommunicationSection: React.FC<{
       <FormControlLabel
         control={
           <Switch
+            disabled={updatingPreferences}
             checked={preferences.enabledEmailNotifications}
             onChange={(event) => {
               onUpdatePreferences({

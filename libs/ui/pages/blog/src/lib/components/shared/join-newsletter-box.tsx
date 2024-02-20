@@ -13,7 +13,7 @@ export const JoinNewsletterBox: FC = () => (
     </Typography>
     <Box mt={2} alignSelf="flex-end">
       <Button
-        href={routes.signUp.url()}
+        href={routes.newsletter.subscribe.url()}
         variant="arcade"
         color="error"
         endIcon={<ArrowForward sx={{ ml: -0.5 }} />}

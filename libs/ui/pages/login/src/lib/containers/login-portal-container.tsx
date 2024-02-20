@@ -22,6 +22,8 @@ const LoginPortalContainer = () => {
     : routes.account.path();
 
   // create user resources if they don't exist.
+  const createNewsletterSubscription =
+    trpc.user.newsletter.initialize.useMutation();
   const createNotificationPreferences =
     trpc.user.notifications.preferences.create.useMutation();
   const setReferrer = trpc.user.referrals.set.useMutation();
@@ -30,6 +32,7 @@ const LoginPortalContainer = () => {
 
   const createResources = useCallback(async () => {
     await Promise.all([
+      createNewsletterSubscription.mutateAsync(),
       createRewards.mutateAsync(),
       createReferralCode.mutateAsync(),
       createNotificationPreferences.mutateAsync(),
@@ -37,14 +40,14 @@ const LoginPortalContainer = () => {
     ]);
 
     setReferralCode('');
-    // TODO: sometimes when we lose database information or get out of sync we need to skip the portal
-    // setSkipPortal(true);
+
     // wait for one more second to make sure we've created the resources
     // before redirecting the user
     await waitFor(1000);
 
     push(redirect);
   }, [
+    createNewsletterSubscription,
     createRewards,
     createReferralCode,
     createNotificationPreferences,
