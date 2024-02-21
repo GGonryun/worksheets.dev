@@ -6,14 +6,11 @@ import {
   GITHUB_CLIENT_SECRET,
   GOOGLE_CLIENT_ID,
   GOOGLE_CLIENT_SECRET,
-  TWITTER_CLIENT_ID,
-  TWITTER_CLIENT_SECRET,
 } from '@worksheets/services/environment';
 import { AuthOptions } from 'next-auth';
 import DiscordProvider from 'next-auth/providers/discord';
 import GithubProvider from 'next-auth/providers/github';
 import GoogleProvider from 'next-auth/providers/google';
-import TwitterProvider from 'next-auth/providers/twitter';
 
 import { customPrismaAdapter } from './prisma-adapter';
 import { googleRefreshAccessToken } from './refresh/google-oauth-refresh';
@@ -70,21 +67,6 @@ export const AUTH_OPTIONS: AuthOptions = {
           name: profile.name || profile.login,
           email: profile.email,
           image: profile.avatar_url,
-          emailVerified: profile.email !== null,
-        };
-      },
-    }),
-    TwitterProvider({
-      clientId: TWITTER_CLIENT_ID,
-      clientSecret: TWITTER_CLIENT_SECRET,
-      version: '2.0', // opt-in to Twitter OAuth 2.0
-      profile: async (profile) => {
-        console.log('twitter profile', JSON.stringify(profile, null, 2));
-        return {
-          id: profile.id_str,
-          name: profile.name,
-          email: profile.email,
-          image: profile.profile_image_url_https,
           emailVerified: profile.email !== null,
         };
       },

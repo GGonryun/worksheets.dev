@@ -19,7 +19,6 @@ const LoginScreenContainer = () => {
       onGoogleAction={() => signIn('google', opts)}
       onDiscordAction={() => signIn('discord', opts)}
       onGithubAction={() => signIn('github', opts)}
-      onTwitterAction={() => signIn('twitter', opts)}
     />
   );
 };
