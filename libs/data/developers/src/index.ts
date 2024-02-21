@@ -92,7 +92,7 @@ export const developers: DeveloperSchema[] = [
   {
     id: 'whitgroves',
     name: 'Whitgroves',
-    avatarUrl: 'https://cdn.charity.games/whitgroves/avatar.jpeg',
+    avatarUrl: 'https://cdn.charity.games/_developers/whitgroves.jpeg',
     description:
       'Whit is a developer from Houston, TX. When not working on projects, he likes to sleep.',
     socials: {
@@ -100,5 +100,13 @@ export const developers: DeveloperSchema[] = [
       github: 'https://github.com/whitgroves/',
       linkedin: 'https://www.linkedin.com/in/whitgroves/',
     },
+  },
+  {
+    id: 'ale-tobias',
+    name: 'Ale Tobias',
+    avatarUrl: 'https://cdn.charity.games/_developers/ale-tobias.png',
+    description:
+      "I'm a Indie game dev with martial arts skills and Parkour Teacher... Nothing of that it's in my games. Love a good narrative or good gameplay...",
+    socials: {},
   },
 ];

@@ -12,6 +12,24 @@ import { SeedableGameSchema } from '@worksheets/util/types';
 
 export const games: SeedableGameSchema[] = [
   {
+    id: 'quacksquad',
+    name: 'Quack Squad',
+    developerId: 'ale-tobias',
+    iconUrl: 'https://cdn.charity.games/_games/quacksquad/assets/thumbnail.png',
+    bannerUrl: 'https://cdn.charity.games/_games/quacksquad/assets/banner.png',
+    viewport: viewports['LANDSCAPE-ONLY'],
+    categories: ['action', 'arcade', 'shooting'],
+    file: {
+      type: 'HTML',
+      url: 'https://cdn.charity.games/_games/quacksquad/index.html',
+    },
+    createdAt: new Date('2024-02-20T00:00:00.000Z'),
+    updatedAt: new Date('2024-02-20T00:00:00.000Z'),
+    description:
+      "<p>When General Nugget lands in the area you lose all your weapons, but don't worry she can give you weapons... But need to be in the nest. Resist until she can be evacuated from the area... You'll lose the game if something happens to her.</p></br></br><ul><li>Dual Stick shooter</li><li>Weapons and Random Upgrades</li><li>Buy costumes after a run.</li></ul><br/><br/><p>Good Luck</p>",
+    markets: {},
+  },
+  {
     id: 'fragile-floor',
     name: 'Fragile Floor',
     developerId: 'wmgcat',
