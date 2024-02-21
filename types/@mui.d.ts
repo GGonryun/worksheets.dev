@@ -28,9 +28,11 @@ declare module '@mui/material/styles' {
   }
 
   interface TypeText {
+    white: string;
     arcade: string;
     red: { light: string; dark: string };
     blue: {
+      soft: string;
       alt: string;
       light: string;
       main: string;

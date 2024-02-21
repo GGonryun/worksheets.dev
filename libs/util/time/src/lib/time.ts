@@ -263,9 +263,14 @@ export const millisecondsToDuration = (milliseconds: number): string => {
     .padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 };
 
-export const millisecondsAsDuration = (
-  milliseconds: number
-): { days: number; hours: number; minutes: number; seconds: number } => {
+export type Duration = {
+  days: number;
+  hours: number;
+  minutes: number;
+  seconds: number;
+};
+
+export const millisecondsAsDuration = (milliseconds: number): Duration => {
   const days = Math.floor(milliseconds / (1000 * 60 * 60 * 24));
   const hours = Math.floor(milliseconds / (1000 * 60 * 60)) % 24;
   const minutes = Math.floor(milliseconds / (1000 * 60)) % 60;
@@ -280,12 +285,7 @@ export const getNextUTCMidnight = (): Date => {
   return nextMidnight;
 };
 
-export const durationToString = (duration: {
-  days: number;
-  hours: number;
-  minutes: number;
-  seconds: number;
-}): string => {
+export const durationToString = (duration: Duration): string => {
   const { days, hours, minutes, seconds } = duration;
   if (days > 0) return `${days}d ${hours}h ${minutes}m ${seconds}s`;
   if (hours > 0) return `${hours}h ${minutes}m ${seconds}s`;

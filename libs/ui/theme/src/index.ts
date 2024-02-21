@@ -289,7 +289,9 @@ const theme = createTheme({
       soft: '#E3F2FF',
     },
     text: {
+      white: '#fff',
       blue: {
+        soft: '#98C1F9',
         alt: '#1C9FEA',
         light: '#61E8FF',
         main: '#106FBC',

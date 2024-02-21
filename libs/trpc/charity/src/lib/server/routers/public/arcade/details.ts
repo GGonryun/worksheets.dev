@@ -1,3 +1,4 @@
+import { Prisma } from '@prisma/client';
 import { routes } from '@worksheets/ui/routes';
 import { FEATURED_GAMES } from '@worksheets/util/settings';
 import {
@@ -19,24 +20,86 @@ export default publicProcedure
         secondary: z.custom<PromotedGame>(),
       }),
       topRaffles: z.custom<BasicRaffleDetails[]>(),
+      soonestRaffle: z.custom<BasicRaffleDetails>().nullable(),
       topGames: z.custom<BasicGameInfo[]>(),
       allGames: z.custom<BasicGameInfo[]>(),
       newGames: z.custom<BasicGameInfo[]>(),
     })
   )
   .query(async ({ ctx: { db } }) => {
-    const tags = await db.gameCategory.findMany({
-      select: {
-        id: true,
-        name: true,
-        iconUrl: true,
-        games: {
-          select: {
-            gameId: true,
+    const [tags, games, topRaffles, soonestRaffle] = await Promise.all([
+      db.gameCategory.findMany({
+        select: {
+          id: true,
+          name: true,
+          iconUrl: true,
+          games: {
+            select: {
+              gameId: true,
+            },
           },
         },
-      },
-    });
+      }),
+      db.game.findMany({
+        where: {
+          status: 'PUBLISHED',
+        },
+        select: {
+          id: true,
+          title: true,
+          thumbnail: true,
+          cover: true,
+          plays: true,
+          createdAt: true,
+        },
+      }),
+      db.raffle.findMany({
+        where: {
+          status: 'ACTIVE',
+        },
+        orderBy: {
+          participants: {
+            _count: 'desc',
+          },
+        },
+        take: 10,
+        select: {
+          id: true,
+          expiresAt: true,
+          prize: {
+            select: {
+              id: true,
+              name: true,
+              imageUrl: true,
+              type: true,
+            },
+          },
+          _count: {
+            select: {
+              participants: true,
+            },
+          },
+        },
+      }),
+      db.raffle.findMany({
+        where: {
+          status: 'ACTIVE',
+        },
+        take: 1,
+        select: {
+          id: true,
+          expiresAt: true,
+          prize: {
+            select: {
+              id: true,
+              name: true,
+              imageUrl: true,
+              type: true,
+            },
+          },
+        },
+      }),
+    ]);
 
     const categories: BasicCategoryInfo[] = tags
       .filter((tag) => tag.games.length > 0)
@@ -46,20 +109,6 @@ export default publicProcedure
         name: tag.name,
         image: tag.iconUrl,
       }));
-
-    const games = await db.game.findMany({
-      where: {
-        status: 'PUBLISHED',
-      },
-      select: {
-        id: true,
-        title: true,
-        thumbnail: true,
-        cover: true,
-        plays: true,
-        createdAt: true,
-      },
-    });
 
     const topGames = [...games]
       .sort((a, b) => b.plays - a.plays)
@@ -109,9 +158,35 @@ export default publicProcedure
     return {
       categories,
       featured: { primary, secondary },
-      topRaffles: [], // TODO: add raffles
+      soonestRaffle: soonestRaffle.length
+        ? convertRaffle(soonestRaffle[0])
+        : null,
+      topRaffles: topRaffles.map(convertRaffle),
       newGames,
       topGames,
       allGames,
     };
   });
+
+const convertRaffle = (
+  raffle: Prisma.RaffleGetPayload<{
+    select: {
+      id: true;
+      expiresAt: true;
+      prize: {
+        select: {
+          id: true;
+          name: true;
+          imageUrl: true;
+          type: true;
+        };
+      };
+    };
+  }>
+): BasicRaffleDetails => ({
+  id: raffle.id,
+  name: raffle.prize.name,
+  imageUrl: raffle.prize.imageUrl,
+  type: raffle.prize.type,
+  expiresAt: raffle.expiresAt.getTime(),
+});
