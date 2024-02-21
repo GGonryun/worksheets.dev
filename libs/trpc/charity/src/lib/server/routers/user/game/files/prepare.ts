@@ -27,7 +27,7 @@ export default protectedProcedure
     }) => {
       console.info('preparing file upload', { type, name, submissionId });
 
-      const path = `uploads/${user.id}/${Date.now()}/${name}`;
+      const path = `uploads/${submissionId}/${name}`;
 
       const uploadUrl = await storage.getSignedUrl({
         path,
