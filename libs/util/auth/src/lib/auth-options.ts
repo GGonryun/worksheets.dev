@@ -78,6 +78,16 @@ export const AUTH_OPTIONS: AuthOptions = {
       clientId: TWITTER_CLIENT_ID,
       clientSecret: TWITTER_CLIENT_SECRET,
       version: '2.0', // opt-in to Twitter OAuth 2.0
+      profile: async (profile) => {
+        console.log('twitter profile', JSON.stringify(profile, null, 2));
+        return {
+          id: profile.id_str,
+          name: profile.name,
+          email: profile.email,
+          image: profile.profile_image_url_https,
+          emailVerified: profile.email !== null,
+        };
+      },
     }),
     // ...add more providers here
   ],
