@@ -19,7 +19,7 @@ export const BlogPostScreen: FC<BlogPostScreenProps> = ({
   author,
 }) => {
   return (
-    <Container maxWidth="lg" sx={{ py: 2 }}>
+    <Container maxWidth="md" sx={{ py: 2 }}>
       <Paper
         sx={{
           backgroundColor: (theme) =>
