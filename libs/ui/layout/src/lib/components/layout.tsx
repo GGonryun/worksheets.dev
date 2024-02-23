@@ -31,6 +31,7 @@ export const Layout: React.FC<LayoutProps> = ({
     >
       <WebsiteBackground />
       <Toolbar
+        rootHref={links?.root}
         notificationButton={notificationButton}
         connectionButton={connectionButton}
       />

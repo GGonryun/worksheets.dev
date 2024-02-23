@@ -15,7 +15,7 @@ export const getAllPostsMetadata = (postsPath: string): MarkdownMetadata[] => {
 
   // sort the posts by date
   return metadatas.sort((a, b) => {
-    if (a.date < b.date) {
+    if (new Date(a.date).getTime() < new Date(b.date).getTime()) {
       return 1;
     }
     return -1;

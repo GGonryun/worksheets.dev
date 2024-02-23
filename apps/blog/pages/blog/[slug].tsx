@@ -63,7 +63,6 @@ export const getStaticProps = (async (ctx) => {
   const slug = params.slug;
   const author = blogAuthors[metadata.authorId];
   const content = await markdownToHtml(articleMarkdownContent.content || '');
-
   const seo = blogArticleSeo(slug, metadata);
   const articleJsonLd = blogArticleJsonLd(slug, metadata, author);
 

@@ -9,6 +9,7 @@ import { ActionBox } from './action-box';
 interface ToolbarProps {
   connectionButton?: React.ReactNode;
   notificationButton?: React.ReactNode;
+  rootHref?: string;
 }
 
 export const Toolbar = (props: ToolbarProps) => {
@@ -31,7 +32,7 @@ export const Toolbar = (props: ToolbarProps) => {
           py: 1,
         }}
       >
-        <LogoBox />
+        <LogoBox rootHref={props.rootHref} />
 
         <ActionBox />
 

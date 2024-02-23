@@ -28,9 +28,6 @@ Page.getLayout = (page) => {
 export const getStaticProps = async (): Promise<{ props: Props }> => {
   const posts = getAllPostsMetadata(POSTS_PATH);
 
-  // sort the posts by date.
-  posts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-
   return { props: { posts } };
 };
 

@@ -10,11 +10,9 @@ $color-code-color: #f8f8f2;
 
 @mixin paragraph-mixin {
   font-family: 'M PLUS Rounded 1c', sans-serif;
-  font-size: 1rem;
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
   @media screen and (max-width: 600px) {
-    font-size: 0.9rem;
+    font-size: 1rem;
   }
 }
 
@@ -23,19 +21,26 @@ $color-code-color: #f8f8f2;
     max-width: 100%;
   }
 
+  iframe {
+    max-width: 100%;
+    margin: 32px auto 16px auto;
+    display: block;
+    border: none;
+  }
+
   h1 {
     @include header-mixin;
-    font-size: 2rem;
+    font-size: 2.5rem;
     @media screen and (max-width: 600px) {
-      font-size: 1.75rem;
+      font-size: 2.25rem;
     }
   }
 
   h2 {
     @include header-mixin;
-    font-size: 1.75rem;
+    font-size: 2rem;
     @media screen and (max-width: 600px) {
-      font-size: 1.5rem;
+      font-size: 1.75rem;
     }
   }
 
@@ -51,11 +56,19 @@ $color-code-color: #f8f8f2;
     @include header-mixin;
     font-size: 1.25rem;
     @media screen and (max-width: 600px) {
-      font-size: 1rem;
+      font-size: 1.15rem;
     }
   }
 
   h5 {
+    @include header-mixin;
+    font-size: 1.1rem;
+    @media screen and (max-width: 600px) {
+      font-size: 1rem;
+    }
+  }
+
+  h6 {
     @include header-mixin;
     font-size: 1rem;
     @media screen and (max-width: 600px) {
@@ -63,16 +76,21 @@ $color-code-color: #f8f8f2;
     }
   }
 
-  h6 {
-    @include header-mixin;
+  p {
+    @include paragraph-mixin;
+  }
+
+  center {
+    @include paragraph-mixin;
+
+    font-style: italic;
+    margin: 0 auto;
+    margin-bottom: 32px;
     font-size: 0.9rem;
+
     @media screen and (max-width: 600px) {
       font-size: 0.8rem;
     }
-  }
-
-  p {
-    @include paragraph-mixin;
   }
 
   a {

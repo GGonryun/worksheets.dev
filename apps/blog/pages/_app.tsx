@@ -7,7 +7,6 @@ import { COOKIE_DOMAIN, IS_PRODUCTION } from '@worksheets/ui/env';
 import theme from '@worksheets/ui/theme';
 import { AppPropsWithLayout } from '@worksheets/util-next';
 import Head from 'next/head';
-import { SessionProvider } from 'next-auth/react';
 import { DefaultSeo } from 'next-seo';
 
 import { defaultSeo } from '../util/seo';
@@ -38,9 +37,7 @@ function CustomApp({
       </Head>
 
       <ThemeProvider theme={theme}>
-        <SessionProvider session={session}>
-          <main>{getLayout(<Component {...pageProps} />)}</main>
-        </SessionProvider>
+        <main>{getLayout(<Component {...pageProps} />)}</main>
       </ThemeProvider>
     </>
   );
