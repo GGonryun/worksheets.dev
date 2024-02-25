@@ -13,13 +13,11 @@ import {
 
 import { FeaturedGames, FeaturedGamesProps } from './featured-games';
 import { HottestRaffles } from './hottest-raffles';
-import { NextRaffle } from './next-raffle';
 
 export const ArcadeScreen: React.FC<{
   categories: BasicCategoryInfo[];
   featured: FeaturedGamesProps;
   topRaffles: BasicRaffleDetails[];
-  soonestRaffle: BasicRaffleDetails | null;
   topGames: BasicGameInfo[];
   newGames: BasicGameInfo[];
   allGames: BasicGameInfo[];
@@ -55,7 +53,9 @@ export const ArcadeScreen: React.FC<{
       >
         <FeaturedGames {...props.featured} />
 
-        {props.soonestRaffle && <NextRaffle raffle={props.soonestRaffle} />}
+        {props.topRaffles.length > 0 && (
+          <HottestRaffles prizes={props.topRaffles} />
+        )}
 
         {props.recentGames.length > 0 && (
           <GameCarousel title="Recently Played" items={props.recentGames} />
@@ -70,10 +70,6 @@ export const ArcadeScreen: React.FC<{
           header={<RandomGameButton />}
           games={props.allGames}
         />
-
-        {props.topRaffles.length > 0 && (
-          <HottestRaffles prizes={props.topRaffles} />
-        )}
       </Container>
     </Box>
   );

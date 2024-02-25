@@ -89,7 +89,7 @@ export const createSeo = ({
 export const homeSeo = createSeo({
   path: routes.home.path(),
   description:
-    'On Charity Games you can play free online HTML browser games that donate money to charitable causes. Play your favorite mobile and desktop games.',
+    'On Charity Games you can play online browser games and win free prizes. Turn your game time into money for charitable causes.',
 });
 
 export const aboutSeo = createSeo({

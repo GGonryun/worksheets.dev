@@ -1,4 +1,4 @@
-import { LayoutContainer } from '@worksheets/ui/layout';
+import { AppLayoutContainer } from '@worksheets/ui/layout';
 import { LoadingScreen } from '@worksheets/ui/pages/loading';
 import { routes } from '@worksheets/ui/routes';
 import { NextPageWithLayout } from '@worksheets/util-next';
@@ -30,7 +30,7 @@ const Page: NextPageWithLayout = () => {
 };
 
 Page.getLayout = (page) => {
-  return <LayoutContainer>{page}</LayoutContainer>;
+  return <AppLayoutContainer>{page}</AppLayoutContainer>;
 };
 
 export default Page;

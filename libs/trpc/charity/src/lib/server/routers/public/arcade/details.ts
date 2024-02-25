@@ -20,14 +20,13 @@ export default publicProcedure
         secondary: z.custom<PromotedGame>(),
       }),
       topRaffles: z.custom<BasicRaffleDetails[]>(),
-      soonestRaffle: z.custom<BasicRaffleDetails>().nullable(),
       topGames: z.custom<BasicGameInfo[]>(),
       allGames: z.custom<BasicGameInfo[]>(),
       newGames: z.custom<BasicGameInfo[]>(),
     })
   )
   .query(async ({ ctx: { db } }) => {
-    const [tags, games, topRaffles, soonestRaffle] = await Promise.all([
+    const [tags, games, topRaffles] = await Promise.all([
       db.gameCategory.findMany({
         select: {
           id: true,
@@ -77,24 +76,6 @@ export default publicProcedure
           _count: {
             select: {
               participants: true,
-            },
-          },
-        },
-      }),
-      db.raffle.findMany({
-        where: {
-          status: 'ACTIVE',
-        },
-        take: 1,
-        select: {
-          id: true,
-          expiresAt: true,
-          prize: {
-            select: {
-              id: true,
-              name: true,
-              imageUrl: true,
-              type: true,
             },
           },
         },
@@ -158,9 +139,6 @@ export default publicProcedure
     return {
       categories,
       featured: { primary, secondary },
-      soonestRaffle: soonestRaffle.length
-        ? convertRaffle(soonestRaffle[0])
-        : null,
       topRaffles: topRaffles.map(convertRaffle),
       newGames,
       topGames,

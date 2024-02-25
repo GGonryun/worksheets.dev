@@ -12,7 +12,7 @@ import React from 'react';
 
 export const LogoBox: React.FC<{ rootHref?: string }> = ({ rootHref }) => {
   return (
-    <TitleBox component="a" href={rootHref ?? routes.home.url()}>
+    <TitleBox component="a" href={rootHref ?? routes.games.url()}>
       <Image
         src={CHARITY_TOOLBAR_LOGO_PATH}
         alt="Charity.Games"
@@ -47,5 +47,9 @@ const TitleText = styled(
   whiteSpace: 'pre-line',
   [theme.breakpoints.down('mobile1')]: {
     display: 'none',
+  },
+  [theme.breakpoints.down('mobile2')]: {
+    fontSize: '1rem',
+    lineHeight: '1rem',
   },
 }));

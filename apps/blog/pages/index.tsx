@@ -1,3 +1,4 @@
+import { BlogLayoutContainer } from '@worksheets/ui/layout';
 import { BlogScreen } from '@worksheets/ui/pages/blog';
 import {
   getAllPostsMetadata,
@@ -6,7 +7,6 @@ import {
 import { NextPageWithLayout } from '@worksheets/util-next';
 import { NextSeo } from 'next-seo';
 
-import { Layout } from '../components/layout';
 import { POSTS_PATH } from '../util/paths';
 import { blogSeo } from '../util/seo';
 
@@ -22,7 +22,7 @@ const Page: NextPageWithLayout<Props> = ({ posts }) => (
 );
 
 Page.getLayout = (page) => {
-  return <Layout>{page}</Layout>;
+  return <BlogLayoutContainer>{page}</BlogLayoutContainer>;
 };
 
 export const getStaticProps = async (): Promise<{ props: Props }> => {

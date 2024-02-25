@@ -110,7 +110,7 @@ export const Description: React.FC<{
 const ReadMore: React.FC = () => (
   <Box display={'flex'} alignItems="center" gap={0.25}>
     <Typography
-      color="text.blue.light"
+      color={(theme) => theme.palette.primary.light}
       textTransform="none"
       sx={{
         typography: { xs: 'h6', sm: 'h5' },
@@ -121,7 +121,7 @@ const ReadMore: React.FC = () => (
     </Typography>
     <ArrowDropDown
       sx={{
-        color: (theme) => theme.palette.text.blue.light,
+        color: (theme) => theme.palette.primary.light,
         height: '2rem',
         width: '2rem',
       }}

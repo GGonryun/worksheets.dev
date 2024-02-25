@@ -1,3 +1,5 @@
+export const currentYear = new Date().getFullYear();
+
 /**
  * Create a timestamp in milliseconds relative to UTC time from a specific date, month, year, hour, minute, and second, and millisecond.
  */

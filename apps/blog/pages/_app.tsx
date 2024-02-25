@@ -4,6 +4,7 @@ import * as FullStory from '@fullstory/browser';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { AdSenseScript } from '@worksheets/ui/components/advertisements';
 import { COOKIE_DOMAIN, IS_PRODUCTION } from '@worksheets/ui/env';
+import { BlogLayoutContainer } from '@worksheets/ui/layout';
 import theme from '@worksheets/ui/theme';
 import { AppPropsWithLayout } from '@worksheets/util-next';
 import Head from 'next/head';
@@ -22,8 +23,6 @@ function CustomApp({
   Component,
   pageProps: { session, ...pageProps },
 }: AppPropsWithLayout) {
-  const getLayout = Component.getLayout ?? ((page) => page);
-
   return (
     <>
       <DefaultSeo {...defaultSeo} />
@@ -37,7 +36,11 @@ function CustomApp({
       </Head>
 
       <ThemeProvider theme={theme}>
-        <main>{getLayout(<Component {...pageProps} />)}</main>
+        <main>
+          <BlogLayoutContainer>
+            <Component {...pageProps} />
+          </BlogLayoutContainer>
+        </main>
       </ThemeProvider>
     </>
   );

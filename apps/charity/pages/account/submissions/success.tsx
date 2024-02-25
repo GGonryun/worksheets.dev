@@ -1,4 +1,4 @@
-import { LayoutContainer } from '@worksheets/ui/layout';
+import { AppLayoutContainer } from '@worksheets/ui/layout';
 import { GameSubmissionSuccessScreen } from '@worksheets/ui/pages/game-submissions';
 import { NextPageWithLayout } from '@worksheets/util-next';
 
@@ -7,7 +7,7 @@ const Page: NextPageWithLayout = () => {
 };
 
 Page.getLayout = (page) => {
-  return <LayoutContainer>{page}</LayoutContainer>;
+  return <AppLayoutContainer>{page}</AppLayoutContainer>;
 };
 
 export default Page;

@@ -1,15 +1,9 @@
-import { Box } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
 import MuiToolbar from '@mui/material/Toolbar';
 import React from 'react';
 
-import { LogoBox } from '../shared/logo-box';
-import { ActionBox } from './action-box';
-
 interface ToolbarProps {
-  connectionButton?: React.ReactNode;
-  notificationButton?: React.ReactNode;
-  rootHref?: string;
+  children: React.ReactNode;
 }
 
 export const Toolbar = (props: ToolbarProps) => {
@@ -32,14 +26,7 @@ export const Toolbar = (props: ToolbarProps) => {
           py: 1,
         }}
       >
-        <LogoBox rootHref={props.rootHref} />
-
-        <ActionBox />
-
-        <Box mb={1} display="flex" flexDirection="row" gap={1}>
-          {props.notificationButton}
-          {props.connectionButton}
-        </Box>
+        {props.children}
       </MuiToolbar>
     </AppBar>
   );

@@ -1,5 +1,5 @@
-import { LayoutContainer } from '@worksheets/ui/layout';
-import { DynamicArcadeScreen } from '@worksheets/ui/pages/arcade';
+import { MarketingLayoutContainer } from '@worksheets/ui/layout';
+import { DynamicMarketingScreen } from '@worksheets/ui/pages/marketing';
 import { NextPageWithLayout } from '@worksheets/util-next';
 import { NextSeo } from 'next-seo';
 
@@ -9,13 +9,13 @@ const Page: NextPageWithLayout = () => {
   return (
     <>
       <NextSeo {...homeSeo} />
-      <DynamicArcadeScreen />
+      <DynamicMarketingScreen />
     </>
   );
 };
 
 Page.getLayout = (page) => {
-  return <LayoutContainer>{page}</LayoutContainer>;
+  return <MarketingLayoutContainer>{page}</MarketingLayoutContainer>;
 };
 
 export default Page;

@@ -1,4 +1,4 @@
-import { LayoutContainer } from '@worksheets/ui/layout';
+import { AppLayoutContainer } from '@worksheets/ui/layout';
 import {
   developersPortalFaq,
   DynamicDevelopersPortalScreen,
@@ -22,7 +22,7 @@ const Page: NextPageWithLayout = () => {
 };
 
 Page.getLayout = (page) => {
-  return <LayoutContainer>{page}</LayoutContainer>;
+  return <AppLayoutContainer>{page}</AppLayoutContainer>;
 };
 
 export default Page;

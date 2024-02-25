@@ -25,7 +25,6 @@ const ArcadeScreenContainer: React.FC = () => {
       categories={data.categories}
       featured={data.featured}
       topRaffles={data.topRaffles}
-      soonestRaffle={data.soonestRaffle}
       topGames={data.topGames}
       allGames={data.allGames}
       newGames={data.newGames}

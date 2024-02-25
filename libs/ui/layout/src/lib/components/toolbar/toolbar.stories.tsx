@@ -1,8 +1,7 @@
-import { Login, NotificationImportant } from '@mui/icons-material';
 import type { Meta } from '@storybook/react';
 import { StoryWallpaper } from '@worksheets/ui/components/wallpaper';
 
-import { SquareButton } from '../shared/square-button';
+import { LogoBox } from '../shared/logo-box';
 import { Toolbar } from './toolbar';
 
 type Story = Meta<typeof Toolbar>;
@@ -20,40 +19,7 @@ export default {
 } satisfies Story;
 
 export const Primary: Story = {
-  args: {},
-};
-
-export const ConnectionButton: Story = {
   args: {
-    connectionButton: (
-      <SquareButton>
-        <Login fontSize="small" />
-      </SquareButton>
-    ),
-  },
-};
-
-export const NotificationButton: Story = {
-  args: {
-    notificationButton: (
-      <SquareButton>
-        <NotificationImportant fontSize="small" />
-      </SquareButton>
-    ),
-  },
-};
-
-export const AllButtons: Story = {
-  args: {
-    connectionButton: (
-      <SquareButton>
-        <Login fontSize="small" />
-      </SquareButton>
-    ),
-    notificationButton: (
-      <SquareButton>
-        <NotificationImportant fontSize="small" />
-      </SquareButton>
-    ),
+    children: <LogoBox />,
   },
 };

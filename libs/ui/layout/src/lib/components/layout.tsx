@@ -3,22 +3,22 @@ import MuiToolbar from '@mui/material/Toolbar';
 import { WebsiteBackground } from '@worksheets/ui/components/wallpaper';
 import React from 'react';
 
-import { LayoutLinks } from '../types';
-import { WebsiteFooter } from './footer';
-import { Toolbar } from './toolbar';
-
 type LayoutProps = {
+  pt?: number;
+  pb?: number;
+  disableBackground?: boolean;
   children: React.ReactNode;
-  links?: LayoutLinks;
-  notificationButton?: React.ReactNode;
-  connectionButton?: React.ReactNode;
+  toolbar?: React.ReactNode;
+  footer?: React.ReactNode;
 };
 
 export const Layout: React.FC<LayoutProps> = ({
   children,
-  connectionButton,
-  links,
-  notificationButton,
+  toolbar,
+  footer,
+  disableBackground,
+  pt,
+  pb,
 }) => {
   return (
     <Box
@@ -29,17 +29,13 @@ export const Layout: React.FC<LayoutProps> = ({
         position: 'relative',
       }}
     >
-      <WebsiteBackground />
-      <Toolbar
-        rootHref={links?.root}
-        notificationButton={notificationButton}
-        connectionButton={connectionButton}
-      />
-      <Box flexGrow={1} pb={10} pt={2} className={'website-content'}>
+      {!disableBackground && <WebsiteBackground />}
+      {toolbar}
+      <Box flexGrow={1} pb={pb ?? 10} pt={pt ?? 2}>
         <MuiToolbar />
         {children}
       </Box>
-      <WebsiteFooter links={links} />
+      {footer}
     </Box>
   );
 };

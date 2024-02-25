@@ -215,7 +215,7 @@ const theme = createTheme({
     primary: {
       light: '#61E8FF',
       main: '#2477F4',
-      dark: '#3D68BC',
+      dark: '#0150AF',
       contrastText: '#FFFFFF',
       gradient: 'linear-gradient(181deg, #70BAFF 0.5%, #2477F4 177.86%)',
       shadow: '#3D68BC',
@@ -281,6 +281,16 @@ const theme = createTheme({
       contrastText: '#fff',
     },
     background: {
+      marketing: {
+        gradients: {
+          blue: {
+            secondary:
+              'linear-gradient(0deg, rgba(20,86,214,1) -50%, rgba(15,53,88,1) 80%)',
+            primary:
+              'linear-gradient(180deg, rgba(0,52,153,1) -30%, rgba(0,142,222,1) 95%, rgba(152,218,255,1) 120%)',
+          },
+        },
+      },
       'transparent-blue': 'rgba(12,98,176,0.8)',
       'solid-blue': `#0C62B0`,
       'gradient-blue':
@@ -289,12 +299,34 @@ const theme = createTheme({
       soft: '#E3F2FF',
     },
     text: {
+      marketing: {
+        gradients: {
+          blue: {
+            light: `linear-gradient(180deg, rgba(255,255,255,1) 50%, rgba(163,227,255,1) 90%)`,
+            main: `linear-gradient(180deg, rgba(183,220,255,1) 0%, rgba(36,119,244,1) 80%)`,
+            dark: `linear-gradient(180deg, rgba(44,127,210,1) 0%, rgba(87,44,156,1) 150%)`,
+          },
+          red: {
+            main: `linear-gradient(180deg, rgba(255,174,156,1) 0%, rgba(255,113,113,1) 15%, rgba(244,36,60,1) 100%)`,
+          },
+          orange: {
+            main: `linear-gradient(180deg, rgba(255,246,36,1) 0%, rgba(255,215,112,1) 20%, rgba(255,132,19,1) 100%)`,
+          },
+          yellow: {
+            main: `linear-gradient(180deg, rgba(255,241,112,1) 0%, rgba(255,195,39,1) 160%)`,
+          },
+        },
+      },
       white: '#fff',
+      yellow: '#FFE135',
       blue: {
         soft: '#98C1F9',
-        alt: '#1C9FEA',
-        light: '#61E8FF',
-        main: '#106FBC',
+        lightest: '#97D3FF',
+        lighter: '#59AFFF',
+        light: '#1C9FEA',
+        main: '#017ED2',
+        dark: '#0063AC',
+        darker: '#003499',
       },
       arcade: '#D8F1FF',
       red: {

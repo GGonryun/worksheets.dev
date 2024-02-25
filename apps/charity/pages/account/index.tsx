@@ -1,5 +1,5 @@
 import { DynamicIdentifyUserSessionReplay } from '@worksheets/ui/components/session-replay';
-import { LayoutContainer } from '@worksheets/ui/layout';
+import { AppLayoutContainer } from '@worksheets/ui/layout';
 import { DynamicAccountScreen } from '@worksheets/ui/pages/account';
 import { NextPageWithLayout } from '@worksheets/util-next';
 import { NextSeo } from 'next-seo';
@@ -17,7 +17,7 @@ const Page: NextPageWithLayout = () => {
 };
 
 Page.getLayout = (page) => {
-  return <LayoutContainer>{page}</LayoutContainer>;
+  return <AppLayoutContainer>{page}</AppLayoutContainer>;
 };
 
 export default Page;

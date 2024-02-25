@@ -4,61 +4,61 @@ export const GAME_CATEGORIES: BasicCategoryInfo[] = [
   {
     id: 'word',
     name: 'Word Games',
-    image: '/games/c/game.png',
+    image: 'https://via.placeholder.com/150',
   },
   {
     id: 'ad-free',
     name: 'Ad-Free Games',
-    image: '/games/c/game.png',
+    image: 'https://via.placeholder.com/150',
   },
   {
     id: 'popular',
     name: 'Popular Games',
-    image: '/games/c/game.png',
+    image: 'https://via.placeholder.com/150',
   },
   {
     id: 'mobile',
     name: 'Mobile Games',
-    image: '/games/c/game.png',
+    image: 'https://via.placeholder.com/150',
   },
   {
     id: 'board',
     name: 'Board Games',
-    image: '/games/c/game.png',
+    image: 'https://via.placeholder.com/150',
   },
   {
     id: 'action',
     name: 'Action Games',
-    image: '/games/c/game.png',
+    image: 'https://via.placeholder.com/150',
   },
   {
     id: 'adventure',
     name: 'Adventure Games',
-    image: '/games/c/game.png',
+    image: 'https://via.placeholder.com/150',
   },
   {
     id: 'car',
     name: 'Car Games',
-    image: '/games/c/game.png',
+    image: 'https://via.placeholder.com/150',
   },
   {
     id: 'ball',
     name: 'Ball Games',
-    image: '/games/c/game.png',
+    image: 'https://via.placeholder.com/150',
   },
   {
     id: 'arcade',
     name: 'Arcade Games',
-    image: '/games/c/game.png',
+    image: 'https://via.placeholder.com/150',
   },
   {
     id: 'gun',
     name: 'Gun Games',
-    image: '/games/c/game.png',
+    image: 'https://via.placeholder.com/150',
   },
   {
     id: 'puzzle',
     name: 'Puzzle Games',
-    image: '/games/c/game.png',
+    image: 'https://via.placeholder.com/150',
   },
 ];

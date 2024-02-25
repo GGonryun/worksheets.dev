@@ -17,6 +17,7 @@ declare module '@mui/material/styles' {
   }
 
   interface PaletteColor {
+    gradient: string;
     shadow: string;
   }
 
@@ -28,18 +29,48 @@ declare module '@mui/material/styles' {
   }
 
   interface TypeText {
+    marketing: {
+      gradients: {
+        blue: {
+          light: string;
+          main: string;
+          dark: string;
+        };
+        red: {
+          main: string;
+        };
+        orange: {
+          main: string;
+        };
+        yellow: {
+          main: string;
+        };
+      };
+    };
     white: string;
     arcade: string;
     red: { light: string; dark: string };
+    yellow: string;
     blue: {
       soft: string;
-      alt: string;
+      lightest: string;
+      lighter: string;
       light: string;
       main: string;
+      dark: string;
+      darker: string;
     };
   }
 
   interface TypeBackground {
+    marketing: {
+      gradients: {
+        blue: {
+          secondary: string;
+          primary: string;
+        };
+      };
+    };
     ['transparent-blue']: string;
     ['solid-blue']: string;
     ['gradient-blue']: string;

@@ -97,7 +97,7 @@ export const GameBanner: FC<GameBannerProps> = ({
         }}
       >
         <Typography
-          color="text.blue.alt"
+          color="text.blue.light"
           typography={{ xs: 'h5', sm: 'h4' }}
           component="h6"
         >
@@ -106,7 +106,7 @@ export const GameBanner: FC<GameBannerProps> = ({
         <Typography
           typography={{ xs: 'body3', sm: 'body2' }}
           component="h6"
-          color="text.blue.alt"
+          color={(theme) => theme.palette.text.blue.light}
           sx={{
             fontWeight: 500,
           }}
@@ -124,7 +124,7 @@ export const GameBanner: FC<GameBannerProps> = ({
           <ActionButton disabled>
             <PlayArrow
               sx={{
-                color: theme.palette.text.blue.alt,
+                color: theme.palette.text.blue.light,
               }}
             />
           </ActionButton>
@@ -163,7 +163,7 @@ export const GameBanner: FC<GameBannerProps> = ({
 const ActionButton = styled<JSXElementConstructor<IconButtonProps>>((props) => (
   <IconButton size="small" {...props} />
 ))(({ theme }) => ({
-  color: theme.palette.text.blue.alt,
+  color: theme.palette.text.blue.light,
 }));
 
 const ActionBox = styled(Box)(({ theme }) => ({
@@ -178,6 +178,6 @@ const ActionBox = styled(Box)(({ theme }) => ({
 const ActionText = styled<JSXElementConstructor<TypographyProps>>((props) => (
   <Typography variant="body2" {...props} />
 ))(({ theme }) => ({
-  color: theme.palette.text.blue.alt,
+  color: theme.palette.text.blue.light,
   fontWeight: 500,
 }));

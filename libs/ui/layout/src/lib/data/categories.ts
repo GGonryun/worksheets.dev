@@ -5,5 +5,5 @@ export const sampleCategories: BasicCategoryInfo[] = Array.from({
 }).map((_, i) => ({
   id: i.toString(),
   name: `Category ${i}`,
-  image: '/games/c/game.png',
+  image: 'https://via.placeholder.com/150',
 }));

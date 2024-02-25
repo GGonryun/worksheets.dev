@@ -5,8 +5,6 @@ import { NextPageWithLayout } from '@worksheets/util-next';
 import { GetServerSideProps } from 'next';
 import { NextSeo } from 'next-seo';
 
-import { Layout } from '../../../components/layout';
-
 const BlogAuthorPage: NextPageWithLayout = () => {
   return (
     <>
@@ -15,8 +13,6 @@ const BlogAuthorPage: NextPageWithLayout = () => {
     </>
   );
 };
-
-BlogAuthorPage.getLayout = (page) => <Layout>{page}</Layout>;
 
 export const getServerSideProps = (async (ctx) => {
   const authorId = ctx.params?.authorId as Author;

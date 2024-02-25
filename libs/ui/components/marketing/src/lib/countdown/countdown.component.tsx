@@ -2,6 +2,7 @@ import { Box, Link, Typography } from '@mui/material';
 import { useMediaQueryDown } from '@worksheets/ui/hooks/use-media-query';
 import { useInterval } from '@worksheets/ui-core';
 import { millisecondsAsDuration, timeUntil } from '@worksheets/util/time';
+import pluralize from 'pluralize';
 import React, { useState } from 'react';
 
 export const Countdown: React.FC<{ expiresAt: number; href?: string }> = ({
@@ -26,28 +27,29 @@ export const Countdown: React.FC<{ expiresAt: number; href?: string }> = ({
       sx={{
         display: 'flex',
         flexDirection: 'row',
-        justifyContent: 'space-evenly',
+        justifyContent: 'space-around',
         width: '100%',
         maxWidth: { xs: 400, sm: 500, md: 600 },
-        borderRadius: 8,
-        p: { xs: 2, sm: 2.5, md: 3 },
+        borderRadius: (theme) => theme.shape.borderRadius,
+        py: { xs: 1, sm: 1.25, md: 1.5 },
+        px: { xs: 1, sm: 2, md: 3 },
         background:
           'linear-gradient(180deg, rgba(2,64,161,1) 0%, rgba(32,159,229,1) 100%)',
         // white box shadow
-        boxShadow: '0px 5px 3px rgba(255, 255, 255, 0.25)',
+        boxShadow: '0px 5px 3px rgba(255, 255, 255, 1)',
         cursor: 'pointer',
         textDecoration: 'none',
       }}
     >
-      <TimeSection label={isMobile ? 'Mo' : 'Months'} value={0} />
-      <TimeSection label={isMobile ? 'Day' : 'Days'} value={duration.days} />
-      <TimeSection label={isMobile ? 'Hr' : 'Hours'} value={duration.hours} />
+      <TimeSection label={isMobile ? 'Mo' : 'Month'} value={0} />
+      <TimeSection label={isMobile ? 'Day' : 'Day'} value={duration.days} />
+      <TimeSection label={isMobile ? 'Hr' : 'Hour'} value={duration.hours} />
       <TimeSection
-        label={isMobile ? 'Min' : 'Minutes'}
+        label={isMobile ? 'Min' : 'Minute'}
         value={duration.minutes}
       />
       <TimeSection
-        label={isMobile ? 'Sec' : 'Seconds'}
+        label={isMobile ? 'Sec' : 'Second'}
         value={duration.seconds}
       />
     </Box>
@@ -67,14 +69,14 @@ const TimeSection: React.FC<{ label: string; value: number }> = ({
     >
       <Typography
         color="text.blue.soft"
-        typography={{ xs: 'body1', sm: 'h6', md: 'h5' }}
+        typography={{ xs: 'body2', sm: 'body1', md: 'h6' }}
         fontWeight={{ xs: 500, sm: 500, md: 500 }}
       >
-        {label}
+        {pluralize(label, value)}
       </Typography>
       <Typography
         color="text.white"
-        typography={{ xs: 'h5', sm: 'h4', md: 'h3' }}
+        typography={{ xs: 'h6', sm: 'h5', md: 'h4' }}
         fontWeight={{ xs: 600, sm: 600, md: 600 }}
       >
         {value.toString().padStart(2, '0')}

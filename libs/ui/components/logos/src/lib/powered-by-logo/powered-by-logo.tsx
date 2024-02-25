@@ -17,7 +17,7 @@ export const PoweredByLogo = () => (
       fontWeight={500}
       fontSize="14px"
       lineHeight="19px"
-      color="text.blue.light"
+      color={(theme) => theme.palette.primary.light}
       sx={{
         position: 'absolute',
         top: 2,
@@ -43,7 +43,7 @@ export const PoweredByLogo = () => (
         paddingLeft="43px"
         paddingTop="3px"
         lineHeight="18px"
-        color="text.blue.main"
+        color={(theme) => theme.palette.text.blue.dark}
       >
         Charity Games
       </Typography>

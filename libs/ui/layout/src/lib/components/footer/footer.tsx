@@ -3,14 +3,13 @@ import Link, { LinkProps } from '@mui/material/Link';
 import { styled } from '@mui/material/styles';
 import Typography, { TypographyProps } from '@mui/material/Typography';
 import { routes } from '@worksheets/ui/routes';
+import { currentYear } from '@worksheets/util/time';
 import urls from '@worksheets/util/urls';
 import Image from 'next/image';
 import { JSXElementConstructor } from 'react';
 
 import { LayoutLinks } from '../../types';
 import { LogoBox } from '../shared/logo-box';
-
-const currentYear = new Date().getFullYear();
 
 export const WebsiteFooter: React.FC<{
   links?: LayoutLinks;

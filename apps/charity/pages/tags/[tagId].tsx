@@ -1,5 +1,5 @@
 import { createStaticTRPC } from '@worksheets/trpc-charity/server';
-import { LayoutContainer } from '@worksheets/ui/layout';
+import { AppLayoutContainer } from '@worksheets/ui/layout';
 import { CategoryScreen } from '@worksheets/ui/pages/category';
 import {
   BasicCategoryInfo,
@@ -69,7 +69,7 @@ export const getStaticPaths = (async (ctx) => {
 }) satisfies GetStaticPaths<{ tagId: string }>;
 
 Page.getLayout = (page) => {
-  return <LayoutContainer>{page}</LayoutContainer>;
+  return <AppLayoutContainer>{page}</AppLayoutContainer>;
 };
 
 export default Page;

@@ -23,6 +23,11 @@
             "output": "common"
           },
           {
+            "input": "libs/assets/marketing/src/lib",
+            "glob": "**/*",
+            "output": "marketing"
+          },
+          {
             "input": "libs/assets/games/src/lib",
             "glob": "**/*",
             "output": "games"

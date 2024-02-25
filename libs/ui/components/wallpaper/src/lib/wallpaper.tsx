@@ -4,7 +4,7 @@ import Image from 'next/image';
 import React from 'react';
 
 export const WebsiteBackground: React.FC = () => (
-  <FullscreenBox overflow="hidden">
+  <FullscreenBox overflow="hidden" className={'website-content'}>
     <Image
       src={'/common/wallpaper/blob-1.png'}
       alt="Wallpaper"
@@ -55,45 +55,3 @@ const FullscreenBox = styled(Box)({
   left: 0,
   zIndex: -1,
 });
-
-// <Box
-// sx={{
-//   display: hideBlobs ? 'none' : 'block',
-//   zIndex: -1,
-//   position: 'absolute',
-//   top: '-20%',
-//   left: -64,
-//   width: '100%',
-//   height: '100%',
-//   opacity: 1,
-// }}
-// >
-// <BlobOne />
-// </Box>
-// <Box
-// sx={{
-//   display: hideBlobs ? 'none' : 'block',
-//   zIndex: -1,
-//   position: 'absolute',
-//   top: '25%',
-//   right: -64,
-//   flexShrink: 0,
-//   opacity: 1,
-// }}
-// >
-// <BlobTwo />
-// </Box>
-// <Box
-// sx={{
-//   display: hideBlobs ? 'none' : 'block',
-//   zIndex: -1,
-//   position: 'absolute',
-//   top: 'max(1000px, 70%)',
-//   left: -64,
-//   width: '100%',
-//   height: '100%',
-//   opacity: 1,
-// }}
-// >
-// <BlobThree />
-// </Box>

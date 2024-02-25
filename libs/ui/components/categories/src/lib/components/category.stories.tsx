@@ -19,18 +19,18 @@ export default {
 
 export const WordGames: Story = {
   args: {
-    href: '#',
+    id: '1',
     color: 'warning',
     text: 'Word\nGames',
-    imageSrc: '/games/c/game.png',
+    imageSrc: 'https://via.placeholder.com/150',
   },
 };
 
 export const AllCategories: Story = {
   args: {
-    href: '#',
+    id: '1',
     color: 'success',
     text: 'All\nCategories',
-    imageSrc: '/games/c/game.png',
+    imageSrc: 'https://via.placeholder.com/150',
   },
 };

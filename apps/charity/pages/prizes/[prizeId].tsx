@@ -1,5 +1,5 @@
 import { createStaticTRPC } from '@worksheets/trpc-charity/server';
-import { LayoutContainer } from '@worksheets/ui/layout';
+import { AppLayoutContainer } from '@worksheets/ui/layout';
 import { DynamicPrizeScreen } from '@worksheets/ui/pages/prizes';
 import { routes } from '@worksheets/ui/routes';
 import { DetailedPrizeSchema } from '@worksheets/util/types';
@@ -22,7 +22,7 @@ const Page: NextPageWithLayout<Props> = ({ seo, prize }) => (
 );
 
 Page.getLayout = (page) => {
-  return <LayoutContainer>{page}</LayoutContainer>;
+  return <AppLayoutContainer>{page}</AppLayoutContainer>;
 };
 
 export const getStaticProps = (async (ctx) => {

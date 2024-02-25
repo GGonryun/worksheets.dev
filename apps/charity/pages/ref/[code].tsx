@@ -1,4 +1,4 @@
-import { LayoutContainer } from '@worksheets/ui/layout';
+import { AppLayoutContainer } from '@worksheets/ui/layout';
 import { DynamicApplyReferralCode } from '@worksheets/ui/pages/login';
 import { routes } from '@worksheets/ui/routes';
 import { NextPageWithLayout } from '@worksheets/util-next';
@@ -31,7 +31,7 @@ export const getServerSideProps = (async (ctx) => {
 }) satisfies GetServerSideProps<Props>;
 
 Page.getLayout = (page) => {
-  return <LayoutContainer>{page}</LayoutContainer>;
+  return <AppLayoutContainer>{page}</AppLayoutContainer>;
 };
 
 export default Page;

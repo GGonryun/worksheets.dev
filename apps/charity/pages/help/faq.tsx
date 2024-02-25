@@ -1,4 +1,4 @@
-import { LayoutContainer } from '@worksheets/ui/layout';
+import { AppLayoutContainer } from '@worksheets/ui/layout';
 import { helpFaq, helpPageJson, HelpScreen } from '@worksheets/ui/pages/help';
 import { NextPageWithLayout } from '@worksheets/util-next';
 import { FAQPageJsonLd, NextSeo } from 'next-seo';
@@ -22,7 +22,7 @@ const Page: NextPageWithLayout = () => {
 };
 
 Page.getLayout = (page) => {
-  return <LayoutContainer>{page}</LayoutContainer>;
+  return <AppLayoutContainer>{page}</AppLayoutContainer>;
 };
 
 export default Page;

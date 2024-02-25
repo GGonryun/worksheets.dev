@@ -17,7 +17,6 @@ import {
   NextSeoProps,
 } from 'next-seo';
 
-import { Layout } from '../../components/layout';
 import { POSTS_PATH } from '../../util/paths';
 import { blogArticleJsonLd, blogArticleSeo } from '../../util/seo';
 
@@ -86,10 +85,6 @@ export const getStaticPaths: GetStaticPaths<ArticleProps> = async () => {
     paths,
     fallback: false,
   };
-};
-
-Page.getLayout = (page) => {
-  return <Layout>{page}</Layout>;
 };
 
 export default Page;

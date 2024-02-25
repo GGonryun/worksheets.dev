@@ -25,7 +25,7 @@ export const Categories: React.FC<{
         id=""
         color="success"
         text={`All\nCategories`}
-        imageSrc="/games/c/game.png"
+        imageSrc="/games/categories/all.png"
       />
     )}
     {categories.map((category) => (

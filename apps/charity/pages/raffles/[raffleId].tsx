@@ -1,5 +1,5 @@
 import { createStaticTRPC } from '@worksheets/trpc-charity/server';
-import { LayoutContainer } from '@worksheets/ui/layout';
+import { AppLayoutContainer } from '@worksheets/ui/layout';
 import { DynamicRaffleScreen } from '@worksheets/ui/pages/raffles';
 import { routes } from '@worksheets/ui/routes';
 import { DetailedRaffleSchema } from '@worksheets/util/types';
@@ -23,7 +23,7 @@ const Page: NextPageWithLayout<Props> = ({ seo, raffle }) => (
 );
 
 Page.getLayout = (page) => {
-  return <LayoutContainer>{page}</LayoutContainer>;
+  return <AppLayoutContainer>{page}</AppLayoutContainer>;
 };
 
 export const getStaticProps = (async (ctx) => {
