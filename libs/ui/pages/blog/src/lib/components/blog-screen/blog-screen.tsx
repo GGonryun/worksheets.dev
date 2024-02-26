@@ -19,7 +19,7 @@ export const BlogScreen: FC<BlogScreenProps> = ({ posts }) => {
     <Container
       component={Box}
       maxWidth="lg"
-      py={2}
+      py={4}
       color="text.arcade"
       display="flex"
       flexDirection="column"
@@ -29,14 +29,14 @@ export const BlogScreen: FC<BlogScreenProps> = ({ posts }) => {
           display: 'flex',
           flexDirection: { xs: 'column', sm: 'row' },
           justifyContent: { xs: 'center', sm: 'space-between' },
-          alignItems: 'center',
+          alignItems: { xs: 'center', sm: 'baseline' },
           gap: { xs: 2, sm: 8 },
         }}
       >
         <Typography variant="h1" component="h1">
           Blog.
         </Typography>
-        <Typography textAlign={{ xs: 'center', sm: 'left' }}>
+        <Typography fontWeight={600} textAlign={{ xs: 'center', sm: 'left' }}>
           Learn more about the latest news and updates from the Charity Games
           team.
         </Typography>

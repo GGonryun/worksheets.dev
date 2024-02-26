@@ -9,7 +9,7 @@ type Props = {
 
 export const MarketingLayout: React.FC<Props> = ({ children }) => {
   return (
-    <Layout pt={0} pb={0} disableBackground toolbar={<MarketingToolbar />}>
+    <Layout pt={0} pb={0} toolbar={<MarketingToolbar />}>
       {children}
     </Layout>
   );

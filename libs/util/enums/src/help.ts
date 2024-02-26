@@ -70,10 +70,7 @@ export enum HelpCommonQuestions {
   Developers = 'developers',
   Charities = 'charities',
   GetInvolved = 'get-involved',
-  OriginStory = 'origin-story',
-  Trust = 'trust',
   Owners = 'owners',
-  Bugs = 'bugs',
 }
 
 export enum HelpDevelopersQuestions {

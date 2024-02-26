@@ -3,8 +3,32 @@ import Box from '@mui/material/Box';
 import Image from 'next/image';
 import React from 'react';
 
-export const WebsiteBackground: React.FC = () => (
-  <FullscreenBox overflow="hidden" className={'website-content'}>
+import { WALLPAPER_IMAGES } from './const';
+import { WallpaperType } from './types';
+
+export const WebsiteBackground: React.FC<{ wallpaper: WallpaperType }> = ({
+  wallpaper,
+}) => (
+  <FullscreenBox
+    overflow="hidden"
+    sx={{
+      '&::before': {
+        content: '""',
+        position: 'absolute',
+        display: 'block',
+        opacity: 0.1,
+        top: 0,
+        left: 0,
+        zIndex: -1,
+        width: '100%',
+        height: '100%',
+        backgroundColor: (theme) => theme.palette.background.wallpaper,
+        backgroundImage: `url('${WALLPAPER_IMAGES[wallpaper]}')`,
+        backgroundBlendMode: 'color-dodge',
+        backgroundRepeat: 'repeat',
+      },
+    }}
+  >
     <Image
       src={'/common/wallpaper/blob-1.png'}
       alt="Wallpaper"

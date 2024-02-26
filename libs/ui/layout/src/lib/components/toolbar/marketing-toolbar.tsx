@@ -10,11 +10,11 @@ export const MarketingToolbar: React.FC<{ rootHref?: string }> = ({
 }) => {
   return (
     <Toolbar>
-      <LogoBox rootHref={rootHref ?? routes.games.path()} />
+      <LogoBox rootHref={rootHref ?? routes.games.url()} />
 
       <Box mb={1} display="flex" flexDirection="row" gap={1}>
-        <CustomButton href={routes.games.path()}>Play Now</CustomButton>
-        <CustomButton color="secondary" href={routes.login.path()}>
+        <CustomButton href={routes.games.url()}>Play Now</CustomButton>
+        <CustomButton color="secondary" href={routes.login.url()}>
           Log In
         </CustomButton>
       </Box>

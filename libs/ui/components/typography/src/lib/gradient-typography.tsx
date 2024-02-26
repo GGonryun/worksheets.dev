@@ -11,14 +11,15 @@ export const GradientTypography: React.FC<
     | 'letterSpacing'
     | 'textAlign'
     | 'gutterBottom'
+    | 'component'
   > &
     Pick<SystemCssProperties<Theme>, 'background' | 'color'>
 > = ({ background, color, ...props }) => (
   <Typography
     {...props}
     sx={{
-      color: color,
-      background: background,
+      color,
+      background,
       WebkitBackgroundClip: 'text',
       WebkitTextFillColor: 'transparent',
     }}

@@ -48,6 +48,10 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'cdn.charity.games',
       },
+      {
+        protocol: 'https',
+        hostname: 'unavatar.io',
+      },
     ],
   },
   nx: {

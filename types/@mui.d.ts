@@ -63,9 +63,11 @@ declare module '@mui/material/styles' {
   }
 
   interface TypeBackground {
+    wallpaper: string;
     marketing: {
       gradients: {
         blue: {
+          transparent: string;
           secondary: string;
           primary: string;
         };

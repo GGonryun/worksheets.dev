@@ -1,5 +1,6 @@
 import { Box } from '@mui/material';
 import { LoadingScreen } from '@worksheets/ui/pages/loading';
+import { hoursFromNow } from '@worksheets/util/time';
 import dynamic from 'next/dynamic';
 
 import { FooterSection } from '../components/footer-section';
@@ -14,14 +15,65 @@ const MarketingScreen = () => (
   <Box>
     <HeroSection />
 
-    <RafflesSection />
+    <RafflesSection raffleExpiration={hoursFromNow(36).getTime()} />
 
     <PrizesSection />
 
     <InstructionsSection />
 
-    {/* <SocialProofSection />
-    <RulesSection /> */}
+    <SocialProofSection
+      moneyRaised={20}
+      prizesWon={2}
+      winners={[
+        {
+          username: 'aModestDuck',
+          tweetUrl: 'https://twitter.com/aModestDuck',
+        },
+        {
+          username: 'username1',
+          tweetUrl: 'https://twitter.com/aModestDuck',
+        },
+        {
+          username: 'username2',
+          tweetUrl: 'https://twitter.com/aModestDuck',
+        },
+        {
+          username: 'username3',
+          tweetUrl: 'https://twitter.com/aModestDuck',
+        },
+        {
+          username: 'username4',
+          tweetUrl: 'https://twitter.com/aModestDuck',
+        },
+        {
+          username: 'username5',
+          tweetUrl: 'https://twitter.com/aModestDuck',
+        },
+        {
+          username: 'username6',
+          tweetUrl: 'https://twitter.com/aModestDuck',
+        },
+        {
+          username: 'username7',
+          tweetUrl: 'https://twitter.com/aModestDuck',
+        },
+        {
+          username: 'username8',
+          tweetUrl: 'https://twitter.com/aModestDuck',
+        },
+        {
+          username: 'username9',
+          tweetUrl: 'https://twitter.com/aModestDuck',
+        },
+        {
+          username: 'username10',
+          tweetUrl: 'https://twitter.com/aModestDuck',
+        },
+      ]}
+    />
+
+    <RulesSection />
+
     <FooterSection />
   </Box>
 );

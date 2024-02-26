@@ -1,7 +1,7 @@
 import { Box, BoxProps } from '@mui/material';
 import { ReactNode } from 'react';
 
-import { WALLPAPER_URL } from './const';
+import { WALLPAPER_IMAGES } from './const';
 
 export const StoryWallpaper: React.FC<
   {
@@ -38,7 +38,7 @@ export const StoryWallpaper: React.FC<
           width: '100%',
           height: '100%',
           backgroundColor: `rgb(43,217,255)`,
-          backgroundImage: `url('${WALLPAPER_URL}')`,
+          backgroundImage: `url('${WALLPAPER_IMAGES.gems}')`,
           backgroundBlendMode: 'color-dodge',
           backgroundRepeat: 'repeat',
           opacity: 0.1,

@@ -45,7 +45,7 @@ const Title = () => (
       color="text.white"
       mb={-1}
     >
-      Win Best
+      Win Free
     </Typography>
     <GradientShadowedTypography
       textTransform="uppercase"

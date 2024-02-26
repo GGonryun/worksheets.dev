@@ -11,6 +11,7 @@ type Props = {
 
 export const BlogLayout: React.FC<Props> = ({ children }) => {
   const links = {
+    blog: blogRoutes.home.url(),
     root: blogRoutes.home.url(),
     about: routes.about.url(),
     terms: routes.terms.url(),
@@ -21,6 +22,7 @@ export const BlogLayout: React.FC<Props> = ({ children }) => {
 
   return (
     <Layout
+      wallpaper={'gems'}
       toolbar={<MarketingToolbar rootHref={links.root} />}
       footer={<WebsiteFooter links={links} />}
     >

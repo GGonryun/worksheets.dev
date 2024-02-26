@@ -26,7 +26,8 @@ export const FooterSection = () => {
     <Box
       sx={{
         mt: -6,
-        py: 12,
+        pt: 16,
+        pb: 10,
         px: { xs: 0, sm: 4 },
         position: 'relative',
         display: 'grid',

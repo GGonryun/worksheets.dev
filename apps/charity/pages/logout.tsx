@@ -15,9 +15,9 @@ const Page: NextPageWithLayout = () => {
     if (session.status === 'loading') {
       return;
     } else if (session.status === 'unauthenticated') {
-      router.replace(routes.home.path());
+      router.replace(routes.games.path());
     } else {
-      signOut({ callbackUrl: routes.home.path() });
+      signOut({ callbackUrl: routes.games.path() });
     }
   }, [router, session]);
 

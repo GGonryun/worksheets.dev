@@ -281,13 +281,15 @@ const theme = createTheme({
       contrastText: '#fff',
     },
     background: {
+      wallpaper: '#2BD9FF',
       marketing: {
         gradients: {
           blue: {
+            transparent: `linear-gradient(180deg, rgba(193,224,255,1) 0%, rgba(193,224,255,0) 100%)`,
             secondary:
               'linear-gradient(0deg, rgba(20,86,214,1) -50%, rgba(15,53,88,1) 80%)',
             primary:
-              'linear-gradient(180deg, rgba(0,52,153,1) -30%, rgba(0,142,222,1) 95%, rgba(152,218,255,1) 120%)',
+              'linear-gradient(180deg, rgba(0,52,153,1) -30%, rgba(0,142,222,1) 95%, rgba(152,218,255,1) 130%)',
           },
         },
       },

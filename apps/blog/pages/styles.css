@@ -10,7 +10,7 @@ body {
   background: radial-gradient(
     circle,
     rgba(43, 217, 255, 1) 0%,
-    rgba(13, 106, 215, 1) 50%,
+    rgba(13, 106, 215, 1) 75%,
     rgba(0, 33, 71, 1) 100%
   );
 }
@@ -20,10 +20,6 @@ main {
   height: 100%;
   width: 100%;
   display: flex;
-}
-
-.website-content {
-  position: relative;
 }
 
 .website-content::before {

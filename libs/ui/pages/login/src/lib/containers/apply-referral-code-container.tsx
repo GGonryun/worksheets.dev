@@ -14,7 +14,7 @@ const ApplyReferralCode: React.FC<{ referralCode: string }> = ({
   // wait for a bit to ensure local storage is hydrated.
   useTimeout(() => {
     setReferralCode(referralCode);
-    replace(routes.home.path());
+    replace(routes.games.path());
   }, 150);
 
   return <LoadingScreen />;

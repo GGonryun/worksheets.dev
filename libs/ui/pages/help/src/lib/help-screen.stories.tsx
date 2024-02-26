@@ -1,7 +1,7 @@
 import type { Meta } from '@storybook/react';
+import { helpFaq } from '@worksheets/ui/components/qa-section';
 import { StoryWallpaper } from '@worksheets/ui/components/wallpaper';
 
-import { helpFaq } from './data/help-faq';
 import { HelpScreen } from './help-screen';
 
 const Story: Meta<typeof HelpScreen> = {

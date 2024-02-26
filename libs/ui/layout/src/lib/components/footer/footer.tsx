@@ -2,7 +2,7 @@ import Box, { BoxProps } from '@mui/material/Box';
 import Link, { LinkProps } from '@mui/material/Link';
 import { styled } from '@mui/material/styles';
 import Typography, { TypographyProps } from '@mui/material/Typography';
-import { routes } from '@worksheets/ui/routes';
+import { blogRoutes, routes } from '@worksheets/ui/routes';
 import { currentYear } from '@worksheets/util/time';
 import urls from '@worksheets/util/urls';
 import Image from 'next/image';
@@ -62,7 +62,7 @@ export const WebsiteFooter: React.FC<{
         justifyContent="center"
         my={-2}
       >
-        <LogoBox />
+        <LogoBox rootHref={links?.root ?? routes.home.url()} />
         <CopyrightText>© {currentYear} Charity.Games</CopyrightText>
       </Box>
       <Box
@@ -77,19 +77,22 @@ export const WebsiteFooter: React.FC<{
           desktop2: 'center',
         }}
       >
-        <FooterLinkTypography href={links?.about ?? routes.about.path()}>
+        <FooterLinkTypography href={links?.blog ?? blogRoutes.home.url()}>
+          Blog
+        </FooterLinkTypography>
+        <FooterLinkTypography href={links?.about ?? routes.about.url()}>
           About
         </FooterLinkTypography>
-        <FooterLinkTypography href={links?.help ?? routes.help.path()}>
+        <FooterLinkTypography href={links?.help ?? routes.help.url()}>
           Help
         </FooterLinkTypography>
-        <FooterLinkTypography href={links?.cookies ?? routes.cookies.path()}>
+        <FooterLinkTypography href={links?.cookies ?? routes.cookies.url()}>
           Cookies
         </FooterLinkTypography>
-        <FooterLinkTypography href={links?.privacy ?? routes.privacy.path()}>
+        <FooterLinkTypography href={links?.privacy ?? routes.privacy.url()}>
           Privacy
         </FooterLinkTypography>
-        <FooterLinkTypography href={links?.terms ?? routes.terms.path()}>
+        <FooterLinkTypography href={links?.terms ?? routes.terms.url()}>
           Terms
         </FooterLinkTypography>
       </Box>

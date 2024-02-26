@@ -1,5 +1,4 @@
 export * from './help-contributions';
-export * from './help-faq';
 export * from './help-account';
 export * from './help-friends';
 export * from './help-notifications';

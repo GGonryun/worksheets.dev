@@ -4,11 +4,13 @@ import { Countdown } from '@worksheets/ui/components/marketing';
 import { GradientTypography } from '@worksheets/ui/components/typography';
 import { useMediaQueryDown } from '@worksheets/ui/hooks/use-media-query';
 import { routes } from '@worksheets/ui/routes';
-import { hoursFromNow } from '@worksheets/util/time';
+import React from 'react';
 
 import { deepDropShadow } from '../style';
 
-export const RafflesSection = () => {
+export const RafflesSection: React.FC<{ raffleExpiration: number }> = ({
+  raffleExpiration,
+}) => {
   const isMobile = useMediaQueryDown('sm');
   return (
     <Box
@@ -48,7 +50,7 @@ export const RafflesSection = () => {
         >
           Give Away
         </GradientTypography>
-        <Countdown expiresAt={hoursFromNow(5).getTime()} href={'/'} />
+        <Countdown expiresAt={raffleExpiration} href={'/'} />
         <Button
           variant="arcade"
           color="warning"

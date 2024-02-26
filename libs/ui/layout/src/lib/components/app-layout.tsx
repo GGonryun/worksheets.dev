@@ -20,6 +20,7 @@ export const AppLayout: React.FC<Props> = ({
 }) => {
   return (
     <Layout
+      wallpaper={'coins'}
       toolbar={
         <AppToolbar
           rootHref={links?.root}

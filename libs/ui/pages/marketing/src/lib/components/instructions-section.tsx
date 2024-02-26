@@ -188,6 +188,7 @@ const ConfettiLeft = () => (
   <Box
     sx={{
       top: { xs: -300, sm: -400, md: -400 },
+      left: { xs: -50, sm: -30, md: -20, lg: -10, xl: 0 },
       position: 'absolute',
       aspectRatio: '381/801',
       height: { xs: '70%', sm: '80%', md: '85%', lg: '90%' },
@@ -202,9 +203,16 @@ const PresentLeft = () => (
     sx={{
       position: 'absolute',
       aspectRatio: '355/554',
-      height: { xs: '25%', sm: '37.5%', md: '50%' },
+      height: {
+        xs: '25%',
+        mobile1: '30%',
+        sm: '37.5%',
+        md: '40%',
+        lg: '45%',
+        xl: '50%',
+      },
       left: 0,
-      bottom: -100,
+      bottom: { xs: -100, sm: -150, md: -200 },
     }}
   >
     <FillImage src="/marketing/present-left.png" alt="Present" />

@@ -48,7 +48,7 @@ export const SettingsPanelContainer: React.FC = () => {
     // clear local storage
     if (localStorage) {
       localStorage.clear();
-      signOut({ callbackUrl: routes.home.path() });
+      signOut({ callbackUrl: routes.games.path() });
     } else {
       alert('No local storage available to clear');
     }
