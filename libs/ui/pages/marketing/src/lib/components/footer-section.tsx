@@ -96,7 +96,7 @@ const Subscribe = () => (
         WebkitTextFillColor: 'transparent',
       }}
     >
-      Subscribe to Newsletter
+      Subscribe To Newsletter
     </Typography>
     <Box
       component={Link}
@@ -118,7 +118,7 @@ const Subscribe = () => (
         typography={{ xs: 'body1', sm: 'h6' }}
         fontWeight={{ xs: 700, sm: 700 }}
       >
-        charity_gamer@gmail.com
+        charity.gamer@gmail.com
       </Typography>
     </Box>
   </Box>
