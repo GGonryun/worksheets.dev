@@ -1,4 +1,4 @@
-import { createStaticTRPC } from '@worksheets/trpc-charity/server';
+import { prisma } from '@worksheets/prisma';
 import { BlogPostScreen } from '@worksheets/ui/pages/blog';
 import { blogAuthors } from '@worksheets/util/blog';
 import { BasicGameInfo, BlogAuthor } from '@worksheets/util/types';
@@ -53,7 +53,6 @@ const Page: NextPageWithLayout<ComponentProps> = ({
 };
 
 export const getStaticProps = (async (ctx) => {
-  const trpc = await createStaticTRPC(ctx);
   const params = ctx.params as ArticleProps;
   // read markdown file into content and frontmatter
   const articleMarkdownContent = getParsedFileContentBySlug(
@@ -73,7 +72,19 @@ export const getStaticProps = (async (ctx) => {
   const content = await markdownToHtml(articleMarkdownContent.content || '');
   const seo = blogArticleSeo(slug, metadata);
   const articleJsonLd = blogArticleJsonLd(slug, metadata, author);
-  const popularGames = await trpc.public.games.popular.fetch();
+
+  const popular = await prisma.game.findMany({
+    orderBy: {
+      plays: 'desc',
+    },
+    take: 8,
+    select: {
+      id: true,
+      title: true,
+      plays: true,
+      cover: true,
+    },
+  });
 
   return {
     props: {
@@ -84,7 +95,7 @@ export const getStaticProps = (async (ctx) => {
       metadata,
       content,
       author,
-      popularGames: popularGames.map((game) => ({
+      popularGames: popular.map((game) => ({
         id: game.id,
         name: game.title,
         imageUrl: game.cover,
