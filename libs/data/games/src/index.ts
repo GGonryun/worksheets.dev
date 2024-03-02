@@ -12,6 +12,34 @@ import { SeedableGameSchema } from '@worksheets/util/types';
 
 export const games: SeedableGameSchema[] = [
   {
+    id: 'the-sorcerer',
+    name: 'The Sorcerer',
+    developerId: 'charity-games',
+    iconUrl:
+      'https://cdn.charity.games/_games/the-sorcerer/assets/thumbnail.jpg',
+    bannerUrl:
+      'https://cdn.charity.games/_games/the-sorcerer/assets/banner.jpg',
+    viewport: viewports['ALL-DEVICES'],
+    categories: [
+      'ad-free',
+      'arcade',
+      'desktop',
+      'mobile',
+      '1p',
+      'brain',
+      'survival',
+      'arcade',
+    ],
+    file: {
+      type: 'HTML',
+      url: 'https://cdn.charity.games/_games/the-sorcerer/index.html',
+    },
+    createdAt: new Date('2024-03-02T00:00:00.000Z'),
+    updatedAt: new Date('2024-03-02T00:00:00.000Z'),
+    markets: {},
+    description: `<p>The Sorcerer is a HTML5 puzzle game. The game contains 3 different progressive levels.</p><br/><p>The objective of the game is to shoot marbles at the balls rolling across the screen to make matches. Each level gets progressively harder!</p></br><p>The sorcerer is a point and click puzzle game that needs quick reactions. If you're playing on mobile, simply touch the location where you want the ball to go next.</p>`,
+  },
+  {
     id: 'quacksquad',
     name: 'Quack Squad',
     developerId: 'ale-tobias',
