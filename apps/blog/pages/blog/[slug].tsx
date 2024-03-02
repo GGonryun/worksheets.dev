@@ -1,6 +1,7 @@
+import { createStaticTRPC } from '@worksheets/trpc-charity/server';
 import { BlogPostScreen } from '@worksheets/ui/pages/blog';
 import { blogAuthors } from '@worksheets/util/blog';
-import { BlogAuthor } from '@worksheets/util/types';
+import { BasicGameInfo, BlogAuthor } from '@worksheets/util/types';
 import {
   ArticleProps,
   getFilePaths,
@@ -22,6 +23,7 @@ import { blogArticleJsonLd, blogArticleSeo } from '../../util/seo';
 
 type ComponentProps = {
   metadata: MarkdownMetadata;
+  popularGames: BasicGameInfo[];
   content: string;
   seo: NextSeoProps;
   articleJsonLd: ArticleJsonLdProps;
@@ -29,6 +31,7 @@ type ComponentProps = {
 };
 
 const Page: NextPageWithLayout<ComponentProps> = ({
+  popularGames,
   metadata,
   content,
   seo,
@@ -38,13 +41,19 @@ const Page: NextPageWithLayout<ComponentProps> = ({
   return (
     <>
       <NextSeo {...seo} />
-      <BlogPostScreen metadata={metadata} content={content} author={author} />
+      <BlogPostScreen
+        popularGames={popularGames}
+        metadata={metadata}
+        content={content}
+        author={author}
+      />
       <ArticleJsonLd {...articleJsonLd} />
     </>
   );
 };
 
 export const getStaticProps = (async (ctx) => {
+  const trpc = await createStaticTRPC(ctx);
   const params = ctx.params as ArticleProps;
   // read markdown file into content and frontmatter
   const articleMarkdownContent = getParsedFileContentBySlug(
@@ -64,6 +73,7 @@ export const getStaticProps = (async (ctx) => {
   const content = await markdownToHtml(articleMarkdownContent.content || '');
   const seo = blogArticleSeo(slug, metadata);
   const articleJsonLd = blogArticleJsonLd(slug, metadata, author);
+  const popularGames = await trpc.public.games.popular.fetch();
 
   return {
     props: {
@@ -74,6 +84,12 @@ export const getStaticProps = (async (ctx) => {
       metadata,
       content,
       author,
+      popularGames: popularGames.map((game) => ({
+        id: game.id,
+        name: game.title,
+        imageUrl: game.cover,
+        plays: game.plays,
+      })),
     },
   };
 }) satisfies GetStaticProps<ComponentProps>;

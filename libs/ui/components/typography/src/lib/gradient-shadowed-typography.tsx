@@ -3,7 +3,10 @@ import { SystemCssProperties } from '@mui/system';
 import React from 'react';
 
 export const GradientShadowedTypography: React.FC<
-  Pick<TypographyProps, 'typography' | 'textTransform' | 'children'> &
+  Pick<
+    TypographyProps,
+    'typography' | 'textTransform' | 'children' | 'gutterBottom'
+  > &
     Pick<SystemCssProperties<Theme>, 'background' | 'textShadow'>
 > = (props) => (
   <Box
@@ -12,6 +15,7 @@ export const GradientShadowedTypography: React.FC<
     }}
   >
     <Typography
+      gutterBottom={props.gutterBottom}
       textTransform={props.textTransform}
       typography={props.typography}
       sx={{
@@ -23,6 +27,7 @@ export const GradientShadowedTypography: React.FC<
       {props.children}
     </Typography>
     <Typography
+      gutterBottom={props.gutterBottom}
       textTransform={props.textTransform}
       typography={props.typography}
       sx={{

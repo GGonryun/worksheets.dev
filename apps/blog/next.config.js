@@ -35,6 +35,18 @@ const nextConfig = {
       destination: '/api/sitemap',
     },
   ],
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'storage.googleapis.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'cdn.charity.games',
+      },
+    ],
+  },
   experimental: {
     outputFileTracingExcludes: {
       '*': [
