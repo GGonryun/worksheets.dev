@@ -18,7 +18,7 @@ export const getServerSideProps = (async (ctx) => {
   if (!code) {
     return {
       redirect: {
-        destination: routes.games.path(),
+        destination: routes.play.path(),
         permanent: false,
       },
     };

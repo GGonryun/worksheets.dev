@@ -1,6 +1,7 @@
 import { t } from '../../../trpc';
 import find from './find';
 import findRandom from './findRandom';
+import library from './library';
 import list from './list';
 import play from './play/router';
 import popular from './popular';
@@ -17,4 +18,5 @@ export default t.router({
   play,
   report,
   list,
+  library,
 });

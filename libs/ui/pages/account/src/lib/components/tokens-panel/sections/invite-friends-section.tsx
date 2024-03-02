@@ -47,13 +47,13 @@ export const InviteFriendsSection: React.FC<
         points={[
           <>
             Earn {TOKENS_PER_REFERRAL_PLAY} token when someone{' '}
-            <Link href={routes.games.path()}>plays a game</Link> using your
+            <Link href={routes.play.path()}>plays a game</Link> using your
             referral link.
           </>,
           <>
             Your referrals can earn you up to {MAX_TOKENS_FROM_REFERRAL_PLAYS}{' '}
             tokens every day when they{' '}
-            <Link href={routes.games.path()}>play games</Link> with your link.
+            <Link href={routes.play.path()}>play games</Link> with your link.
           </>,
           <>
             Earn {TOKENS_PER_REFERRAL_ACCOUNT} tokens when someone makes an

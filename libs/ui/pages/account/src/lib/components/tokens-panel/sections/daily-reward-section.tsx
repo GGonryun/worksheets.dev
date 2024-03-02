@@ -151,7 +151,7 @@ export const DailyRewardSection: React.FC<{
           }}
           action={{
             text: 'Play Games',
-            href: routes.games.path(),
+            href: routes.play.path(),
           }}
         />
       </Box>

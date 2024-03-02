@@ -48,7 +48,10 @@ export const routes = {
   referral: createRoute({
     path: '/ref/[code]',
   }),
-  games: createRoute({
+  library: createRoute({
+    path: '/library',
+  }),
+  play: createRoute({
     path: '/play',
     routes: {
       random: createRoute({

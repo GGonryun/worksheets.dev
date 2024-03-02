@@ -76,7 +76,7 @@ const GameIdField: FC = () => {
         error ||
         'Used in to identify and share your game link. Only letters, numbers, and dashes are allowed.'
       }
-      prefix={routes.games.url() + '/'}
+      prefix={routes.play.url() + '/'}
     />
   );
 };

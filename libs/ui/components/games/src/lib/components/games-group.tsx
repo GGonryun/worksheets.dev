@@ -5,7 +5,7 @@ import React, { ReactNode } from 'react';
 import { Game } from './game';
 
 export const GamesGroup: React.FC<{
-  title: ReactNode;
+  title?: ReactNode;
   pageSize?: number;
   header?: ReactNode;
   games: BasicGameInfo[];

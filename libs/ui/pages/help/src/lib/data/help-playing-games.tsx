@@ -37,7 +37,7 @@ export const helpPlayingGames: QuestionAnswer[] = [
               text: 'View all game categories',
               href: routes.categories.path(),
             },
-            { text: 'Play Games', href: routes.games.path() },
+            { text: 'Play Games', href: routes.play.path() },
             {
               text: 'How to Play Games',
               href: routes.help.playingGames.path({
@@ -127,7 +127,7 @@ export const helpPlayingGames: QuestionAnswer[] = [
               text: 'View all game categories',
               href: routes.categories.path(),
             },
-            { text: 'Play Games', href: routes.games.path() },
+            { text: 'Play Games', href: routes.play.path() },
           ]}
         />
       </Box>
@@ -165,7 +165,7 @@ export const helpPlayingGames: QuestionAnswer[] = [
         <br />
         <HelpfulLinks
           links={[
-            { text: 'Play Games', href: routes.games.path() },
+            { text: 'Play Games', href: routes.play.path() },
             { text: 'Connect to your account', href: routes.login.path() },
           ]}
         />
@@ -256,7 +256,7 @@ export const helpPlayingGames: QuestionAnswer[] = [
               text: 'Contribution Portal',
               href: routes.help.developers.path(),
             },
-            { text: 'View all games', href: routes.games.path() },
+            { text: 'View all games', href: routes.play.path() },
           ]}
         />
       </Box>
@@ -324,7 +324,7 @@ export const helpPlayingGames: QuestionAnswer[] = [
         <br />
         <HelpfulLinks
           links={[
-            { text: 'Play Games', href: routes.games.path() },
+            { text: 'Play Games', href: routes.play.path() },
             { text: 'Create an account', href: routes.login.path() },
             {
               text: 'Learn about Gift Boxes',

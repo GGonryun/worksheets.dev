@@ -16,7 +16,7 @@ export const buttonBoxShadow = (color: AcceptableColors): SxProps<Theme> => ({
       `${alpha(theme.palette[color].shadow, 0.6)} 0px 2px 4px, ${alpha(
         theme.palette[color].shadow,
         0.8
-      )} 0px 7px 13px -3px`,
+      )} 0px 5px 11px -3px`,
     position: 'absolute',
     borderRadius: 2.5,
     top: 0,

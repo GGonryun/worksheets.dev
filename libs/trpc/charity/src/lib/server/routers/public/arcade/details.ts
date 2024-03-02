@@ -2,7 +2,6 @@ import { Prisma } from '@prisma/client';
 import { routes } from '@worksheets/ui/routes';
 import { FEATURED_GAMES } from '@worksheets/util/settings';
 import {
-  BasicCategoryInfo,
   BasicGameInfo,
   BasicRaffleDetails,
   PromotedGame,
@@ -14,7 +13,6 @@ import { publicProcedure } from '../../../procedures';
 export default publicProcedure
   .output(
     z.object({
-      categories: z.custom<BasicCategoryInfo[]>(),
       featured: z.object({
         primary: z.custom<PromotedGame[]>(),
         secondary: z.custom<PromotedGame>(),
@@ -26,19 +24,7 @@ export default publicProcedure
     })
   )
   .query(async ({ ctx: { db } }) => {
-    const [tags, games, topRaffles] = await Promise.all([
-      db.gameCategory.findMany({
-        select: {
-          id: true,
-          name: true,
-          iconUrl: true,
-          games: {
-            select: {
-              gameId: true,
-            },
-          },
-        },
-      }),
+    const [games, topRaffles] = await Promise.all([
       db.game.findMany({
         where: {
           status: 'PUBLISHED',
@@ -81,15 +67,6 @@ export default publicProcedure
         },
       }),
     ]);
-
-    const categories: BasicCategoryInfo[] = tags
-      .filter((tag) => tag.games.length > 0)
-      .sort((a, b) => b.games.length - a.games.length)
-      .map((tag) => ({
-        id: tag.id,
-        name: tag.name,
-        image: tag.iconUrl,
-      }));
 
     const topGames = [...games]
       .sort((a, b) => b.plays - a.plays)
@@ -137,7 +114,6 @@ export default publicProcedure
     const secondary = featured[featured.length - 1];
 
     return {
-      categories,
       featured: { primary, secondary },
       topRaffles: topRaffles.map(convertRaffle),
       newGames,

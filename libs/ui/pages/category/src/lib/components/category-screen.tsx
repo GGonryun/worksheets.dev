@@ -89,7 +89,7 @@ export const CategoryScreen: FC<CategoryScreenProps> = ({
               variant="arcade"
               color="error"
               endIcon={<ArrowRight />}
-              href={routes.games.path()}
+              href={routes.play.path()}
             >
               All Games
             </Button>
@@ -97,7 +97,7 @@ export const CategoryScreen: FC<CategoryScreenProps> = ({
               variant="arcade"
               color="warning"
               startIcon={<ShuffleIcon size={20} />}
-              href={routes.games.random.path()}
+              href={routes.play.random.path()}
             >
               Random Game
             </Button>

@@ -11,7 +11,7 @@ export const ActionBox = () => {
   return (
     <Box display="flex" gap={1} alignItems="center" pb={1}>
       <Button
-        href={routes.games.url()}
+        href={routes.library.url()}
         variant="arcade"
         color="primary"
         size={isMedium ? 'small' : 'medium'}

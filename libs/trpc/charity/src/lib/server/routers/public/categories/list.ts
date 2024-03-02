@@ -24,6 +24,8 @@ export default publicProcedure
       },
     });
 
+    tags.sort((a, b) => b.games.length - a.games.length);
+
     const filtered = showEmpty
       ? tags
       : tags.filter((tag) => tag.games.length > 0);

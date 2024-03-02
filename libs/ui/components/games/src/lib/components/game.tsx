@@ -1,10 +1,15 @@
 import { ArcadeItemLayout } from '@worksheets/ui/components/arcade';
 import { routes } from '@worksheets/ui/routes';
 import { shorthandNumber } from '@worksheets/util/numbers';
-import { BasicGameInfo } from '@worksheets/util/types';
+import { BasicGameInfo, PartialBy } from '@worksheets/util/types';
 import { FC } from 'react';
 
-export const Game: FC<BasicGameInfo> = ({ id, name, plays, imageUrl }) => {
+export const Game: FC<PartialBy<BasicGameInfo, 'plays'>> = ({
+  id,
+  name,
+  plays,
+  imageUrl,
+}) => {
   return (
     <ArcadeItemLayout
       href={routes.game.path({ params: { gameId: id } })}

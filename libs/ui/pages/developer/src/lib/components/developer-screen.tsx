@@ -90,7 +90,7 @@ export const DeveloperScreen: FC<DeveloperScreenProps> = ({
             <Button
               variant="arcade"
               color="error"
-              href={routes.games.path()}
+              href={routes.play.path()}
               endIcon={<ArrowRight />}
             >
               All Games

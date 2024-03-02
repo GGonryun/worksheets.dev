@@ -128,8 +128,8 @@ export const developerSeo = (developer: DeveloperSchema): NextSeoProps =>
     description: `Play ${developer.name} games online for free on Charity Games. Turn your games into donations. Help us make a difference.`,
   });
 
-export const gamesSeo = createSeo({
-  path: routes.games.path(),
+export const playSeo = createSeo({
+  path: routes.play.path(),
   title: `All Games`,
   description: `Find and play your favorite mobile and desktop games for free on Charity Games. The easiest way to donate to charity.`,
 });
@@ -413,4 +413,11 @@ export const confirmSubscriptionSeo = createSeo({
   title: 'Confirm Subscription',
   description:
     'Confirm your subscription to the Charity Games newsletter. Stay up to date with the latest news, updates, and promotions.',
+});
+
+export const librarySeo = createSeo({
+  path: routes.library.path(),
+  title: 'Game Library',
+  description:
+    'Find and play your favorite mobile and desktop games for free on Charity Games. The easiest way to donate to charity.',
 });

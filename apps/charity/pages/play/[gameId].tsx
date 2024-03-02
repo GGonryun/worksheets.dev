@@ -71,7 +71,7 @@ export const getStaticProps = (async (ctx) => {
     console.error(`Error fetching game ${gameId}`, error);
     return {
       redirect: {
-        destination: routes.games.path(),
+        destination: routes.play.path(),
         permanent: false,
       },
     };

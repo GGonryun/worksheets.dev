@@ -9,25 +9,22 @@ import { ArcadeScreen } from '../components/arcade-screen';
 const ArcadeScreenContainer: React.FC = () => {
   const { recentlyPlayed } = useRecentlyPlayedGames();
 
-  const { data, isLoading, error } = trpc.public.arcade.details.useQuery(
-    undefined,
-    {
-      enabled: true,
-    }
-  );
+  const arcade = trpc.public.arcade.details.useQuery(undefined);
 
-  if (isLoading) return <LoadingScreen />;
+  const categories = trpc.public.categories.list.useQuery({ showEmpty: false });
 
-  if (error) return <ErrorScreen />;
+  if (arcade.isLoading || categories.isLoading) return <LoadingScreen />;
+
+  if (arcade.error || categories.error) return <ErrorScreen />;
 
   return (
     <ArcadeScreen
-      categories={data.categories}
-      featured={data.featured}
-      topRaffles={data.topRaffles}
-      topGames={data.topGames}
-      allGames={data.allGames}
-      newGames={data.newGames}
+      categories={categories.data}
+      featured={arcade.data.featured}
+      topRaffles={arcade.data.topRaffles}
+      topGames={arcade.data.topGames}
+      allGames={arcade.data.allGames}
+      newGames={arcade.data.newGames}
       recentGames={recentlyPlayed}
     />
   );

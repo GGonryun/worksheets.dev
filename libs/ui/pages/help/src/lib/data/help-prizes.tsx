@@ -64,7 +64,7 @@ export const helpPrizes: QuestionAnswer[] = [
         <br />
         <HelpfulLinks
           links={[
-            { text: 'Play Games', href: routes.games.path() },
+            { text: 'Play Games', href: routes.play.path() },
             { text: 'Enter Raffles', href: routes.raffles.path() },
             { text: 'View Prizes', href: routes.prizes.path() },
           ]}

@@ -12,7 +12,7 @@ import React from 'react';
 
 export const LogoBox: React.FC<{ rootHref?: string }> = ({ rootHref }) => {
   return (
-    <TitleBox component="a" href={rootHref ?? routes.games.url()}>
+    <TitleBox component="a" href={rootHref ?? routes.play.url()}>
       <Image
         src={CHARITY_TOOLBAR_LOGO_PATH}
         alt="Charity.Games"

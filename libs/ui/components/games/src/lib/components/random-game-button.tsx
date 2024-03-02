@@ -11,7 +11,7 @@ export const RandomGameButton = () => {
     <Button
       variant="arcade"
       color="warning"
-      href={routes.games.random.path()}
+      href={routes.play.random.path()}
       size={isMobile ? 'medium' : 'large'}
       fullWidth
       startIcon={<ShuffleIcon size={isMobile ? 18 : 23} />}

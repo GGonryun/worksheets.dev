@@ -159,7 +159,7 @@ export const PlayGamesSection: React.FC<{
           points={[
             <>
               Select a game from the{' '}
-              <Link href={routes.games.path()}>Arcade</Link>, bonus games earn x
+              <Link href={routes.play.path()}>Arcade</Link>, bonus games earn x
               {BONUS_GAMES_MULTIPLIER} tokens.
             </>,
             `Press the play game button and you'll immediately earn 1 to ${MAX_TOKENS_PER_GAME} tokens.`,
@@ -178,7 +178,7 @@ export const PlayGamesSection: React.FC<{
           }}
           action={{
             text: 'Play Games',
-            href: routes.games.path(),
+            href: routes.play.path(),
           }}
         />
       </Box>

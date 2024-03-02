@@ -27,7 +27,7 @@ export const GameSubmission: React.FC<
   });
   const playUrl = slug
     ? routes.game.path({ params: { gameId: slug } })
-    : routes.games.path();
+    : routes.play.path();
   const approved = status === GameSubmissionStatus.ACCEPTED;
 
   return (

@@ -50,7 +50,7 @@ export const CategoriesScreen: FC<CategoriesScreenProps> = ({ categories }) => {
           size={isMobile ? 'medium' : 'large'}
           startIcon={<PlayArrow />}
           color="error"
-          href={routes.games.path()}
+          href={routes.library.path()}
         >
           All Games
         </Button>

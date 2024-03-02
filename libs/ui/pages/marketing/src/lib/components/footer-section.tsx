@@ -158,7 +158,7 @@ const Links = () => (
         <CustomLink href={routes.privacy.path()}>Privacy</CustomLink>
       </Box>
       <Box display="flex" gap={2} justifyContent="center">
-        <CustomLink href={routes.games.path()}>Games</CustomLink>
+        <CustomLink href={routes.play.path()}>Games</CustomLink>
         <CustomLink href={routes.prizes.path()}>Prizes</CustomLink>
         <CustomLink href={routes.raffles.path()}>Raffles</CustomLink>
         <CustomLink href={blogRoutes.home.url()}>Blog</CustomLink>

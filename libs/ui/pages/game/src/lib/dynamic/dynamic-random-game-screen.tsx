@@ -28,7 +28,7 @@ const RandomGameScreen = () => {
         })
       );
     } else if (error) {
-      push(routes.games.path());
+      push(routes.play.path());
     }
   }, [data, error, isLoading, push]);
 
