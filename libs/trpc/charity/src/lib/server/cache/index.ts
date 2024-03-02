@@ -16,9 +16,9 @@ export const responseMeta: ResponseMetaFn<typeof appRouter> = (opts) => {
     const ONE_DAY_IN_SECONDS = 60 * 60 * 24;
     return {
       headers: {
-        'cache-control': `public, s-maxage=${
-          ONE_DAY_IN_SECONDS * 3
-        }, stale-while-revalidate=${7 * ONE_DAY_IN_SECONDS}`,
+        'cache-control': `public, s-maxage=${ONE_DAY_IN_SECONDS}, stale-while-revalidate=${
+          3 * ONE_DAY_IN_SECONDS
+        }`,
       },
     };
   }
