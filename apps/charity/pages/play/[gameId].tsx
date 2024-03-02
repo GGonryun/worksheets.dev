@@ -89,7 +89,7 @@ export const getStaticPaths = (async (ctx) => {
         gameId: game,
       },
     })),
-    fallback: 'blocking',
+    fallback: false,
   };
 }) satisfies GetStaticPaths<{ gameId: string }>;
 
