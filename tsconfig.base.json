@@ -125,6 +125,9 @@
       "@worksheets/ui/hooks/use-media-query": [
         "libs/ui/hooks/use-media-query/src/index.ts"
       ],
+      "@worksheets/ui/hooks/use-notification-cache": [
+        "libs/ui/hooks/use-notification-cache/src/index.ts"
+      ],
       "@worksheets/ui/hooks/use-recently-played-games": [
         "libs/ui/hooks/use-recently-played-games/src/index.ts"
       ],

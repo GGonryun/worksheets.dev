@@ -67,7 +67,7 @@ const NotificationListItem: React.FC<NotificationSchema> = ({
   >
     {notificationIcon[type]}
     <Box display="flex" flexDirection="column">
-      <Typography typography={{ xs: 'body2', sm: 'body1' }}>
+      <Typography component="div" typography={{ xs: 'body2', sm: 'body1' }}>
         <HTMLinator
           sx={{
             '& a': {

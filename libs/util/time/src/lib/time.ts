@@ -1,3 +1,10 @@
+/**
+ * Checks if a given timestamp is in the past.
+ */
+export const isPast = (timestamp: number): boolean => {
+  return timestamp < Date.now();
+};
+
 export const currentYear = new Date().getFullYear();
 
 /**
