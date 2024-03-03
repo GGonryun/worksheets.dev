@@ -3,6 +3,8 @@ import { TRPCError } from '@trpc/server';
 import { PrismaClient } from '@worksheets/prisma';
 import { sendDiscordMessage } from '@worksheets/services/discord';
 import { DISCORD_WEBHOOK_URL } from '@worksheets/services/environment';
+import { routes } from '@worksheets/ui/routes';
+import { ReferralsPanels, TokensPanels } from '@worksheets/util/enums';
 import {
   GIFT_BOXES_PER_REFERRAL_ACCOUNT,
   MAX_DAILY_GIFT_BOX_SHARES,
@@ -12,6 +14,7 @@ import {
   STARTING_TOKENS,
   TOKENS_PER_REFERRAL_ACCOUNT,
 } from '@worksheets/util/settings';
+import { capitalizeFirstLetter } from '@worksheets/util/strings';
 import { generateSlug } from 'random-word-slugs';
 import { z } from 'zod';
 
@@ -99,7 +102,18 @@ const initializeUser = async (
           id,
         },
         data: {
-          username,
+          username: capitalizeFirstLetter(username),
+        },
+      }),
+      db.notification.create({
+        data: {
+          userId: id,
+          type: 'SYSTEM',
+          text: `Welcome to Charity Games! We've added <a href="${routes.account.tokens.path()}">${STARTING_TOKENS} tokens</a> and <a href="${routes.account.tokens.path(
+            {
+              bookmark: TokensPanels.GiftBoxes,
+            }
+          )}">${STARTING_GIFT_BOXES} gift boxes</a> to your account. Spend your tokens on <a href="${routes.raffles.path()}">raffles</a> or <a href="${routes.play.path()}">play games</a> to win more!`,
         },
       }),
     ]);
@@ -157,7 +171,19 @@ const setReferralCode = async (
         referredByUserId: referral.userId,
       },
     }),
-
+    db.rewards.update({
+      where: {
+        userId: userId,
+      },
+      data: {
+        totalTokens: {
+          increment: TOKENS_PER_REFERRAL_ACCOUNT,
+        },
+        giftBoxes: {
+          increment: GIFT_BOXES_PER_REFERRAL_ACCOUNT,
+        },
+      },
+    }),
     db.rewards.update({
       where: {
         userId: referral.userId,
@@ -171,15 +197,30 @@ const setReferralCode = async (
         },
       },
     }),
-
+    db.notification.create({
+      data: {
+        userId: userId,
+        type: 'FRIEND',
+        text: `You used a referral link to sign up! You have received an extra <a href="${routes.account.tokens.path()}">${TOKENS_PER_REFERRAL_ACCOUNT} tokens</a> and <a href="${routes.account.tokens.path(
+          {
+            bookmark: TokensPanels.GiftBoxes,
+          }
+        )}">${GIFT_BOXES_PER_REFERRAL_ACCOUNT} gift boxes</a>.`,
+      },
+    }),
     db.notification.create({
       data: {
         userId: referral.userId,
-        type: 'SYSTEM',
-        text: `You have a new referral! Someone has used your referral code to sign up. You have received ${TOKENS_PER_REFERRAL_ACCOUNT} tokens and ${GIFT_BOXES_PER_REFERRAL_ACCOUNT} gift boxes.`,
+        type: 'FRIEND',
+        text: `Someone has used your <a href="${routes.account.referrals.path({
+          bookmark: ReferralsPanels.ReferredAccounts,
+        })}">referral code to sign up</a>. You have received <a href="${routes.account.path()}">${TOKENS_PER_REFERRAL_ACCOUNT} tokens</a> and <a href="${routes.account.tokens.path(
+          {
+            bookmark: TokensPanels.GiftBoxes,
+          }
+        )}">${GIFT_BOXES_PER_REFERRAL_ACCOUNT} gift boxes</a>.`,
       },
     }),
-
     db.friendship.create({
       data: {
         userId,
