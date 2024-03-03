@@ -48,7 +48,6 @@ const useHasUnreadNotifications = (connected: boolean) => {
   });
 
   useEffect(() => {
-    console.log('hasNotification', hasNotification);
     if (hasNotification.status === 'success' && expiredCache) {
       setCache({
         hasUnread: hasNotification.data,
