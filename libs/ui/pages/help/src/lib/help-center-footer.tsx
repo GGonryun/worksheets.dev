@@ -1,5 +1,6 @@
 import { ContactPage, Gamepad } from '@mui/icons-material';
 import { Box, Button, Typography } from '@mui/material';
+import { GradientTypography } from '@worksheets/ui/components/typography';
 import { routes } from '@worksheets/ui/routes';
 
 export const HelpCenterFooter = () => (
@@ -12,9 +13,21 @@ export const HelpCenterFooter = () => (
       width: '100%',
     }}
   >
-    <Typography variant="h4">Need more help?</Typography>
-    <Typography mb={4} mt={1}>
-      We're standing by, ready to assist you.
+    <GradientTypography
+      component="h2"
+      textAlign="center"
+      typography={{ xs: 'h6', sm: 'h5', md: 'h4' }}
+      background={(theme) => theme.palette.text.marketing.gradients.blue.dark}
+    >
+      Need more help?
+    </GradientTypography>
+    <Typography
+      mb={4}
+      mt={1}
+      color={(theme) => theme.palette.text.blue.light}
+      fontWeight={700}
+    >
+      Contact us or join our newsletter.
     </Typography>
 
     <Box

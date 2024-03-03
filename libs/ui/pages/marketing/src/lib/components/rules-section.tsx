@@ -1,17 +1,7 @@
-import { ArrowDropDown } from '@mui/icons-material';
-import {
-  Box,
-  BoxProps,
-  Collapse,
-  Container,
-  Link,
-  Typography,
-} from '@mui/material';
+import { Box, Container } from '@mui/material';
 import { FillImage } from '@worksheets/ui/components/images';
-import { helpFaq } from '@worksheets/ui/components/qa-section';
+import { helpFaq, Questions } from '@worksheets/ui/components/qa-section';
 import { GradientTypography } from '@worksheets/ui/components/typography';
-import { QuestionAnswer } from '@worksheets/util/types';
-import React from 'react';
 
 import { deepDropShadow } from '../style';
 
@@ -48,97 +38,6 @@ export const RulesSection = () => (
     </Container>
     <Artwork />
   </Box>
-);
-
-const Questions: React.FC<{
-  qa: QuestionAnswer[];
-}> = ({ qa }) => (
-  <Box display="flex" gap={6} flexDirection="column">
-    {qa.map((qa, index) => (
-      <Question key={index} question={qa.question} answer={qa.answer} />
-    ))}
-  </Box>
-);
-
-const Question: React.FC<{
-  question: string;
-  answer: React.ReactNode;
-}> = ({ question, answer }) => {
-  const [open, setOpen] = React.useState(false);
-  const spacing = { xs: 2, sm: 4 };
-  return (
-    <Box display="flex" flexDirection="row" gap={{ xs: 2, sm: 4 }}>
-      <QuestionLine component={Link} onClick={() => setOpen(!open)} />
-      <Box
-        width="100%"
-        sx={{
-          borderRadius: (theme) => theme.shape.borderRadius,
-          background: (theme) =>
-            open
-              ? theme.palette.background.marketing.gradients.blue.transparent
-              : undefined,
-          pb: open ? spacing : undefined,
-        }}
-      >
-        <Box
-          component={Link}
-          onClick={() => setOpen(!open)}
-          display="flex"
-          justifyContent="space-between"
-          underline="none"
-          alignItems="center"
-          sx={{
-            py: open ? spacing : 0,
-            px: spacing,
-            cursor: 'pointer',
-            transition: 'all 0.3s ease',
-          }}
-        >
-          <Typography
-            typography={{ xs: 'h6', sm: 'h5' }}
-            fontWeight={{
-              xs: 800,
-              sm: 800,
-              md: 800,
-            }}
-            color={(theme) => theme.palette.text.blue.dark}
-          >
-            {question}
-          </Typography>
-          <ArrowDropDown
-            fontSize="large"
-            sx={{
-              color: (theme) => theme.palette.text.blue.dark,
-            }}
-          />
-        </Box>
-        <Collapse
-          in={open}
-          sx={{
-            px: spacing,
-            color: (theme) => theme.palette.text.blue.light,
-            '& p': {
-              fontWeight: 500,
-            },
-          }}
-        >
-          {answer}
-        </Collapse>
-      </Box>
-    </Box>
-  );
-};
-
-const QuestionLine: React.FC<Omit<BoxProps, 'sx'>> = (props) => (
-  <Box
-    {...props}
-    sx={{
-      cursor: 'pointer',
-      width: 6,
-      borderRadius: '2px',
-      background: (theme) => theme.palette.primary.gradient,
-    }}
-  />
 );
 
 const Artwork = () => (

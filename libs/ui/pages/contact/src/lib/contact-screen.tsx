@@ -18,7 +18,8 @@ import React, { FC } from 'react';
 
 const Title: React.FC<TypographyProps> = (props) => (
   <Typography
-    color="text.arcade"
+    component="h1"
+    color="text.white"
     sx={{
       typography: { xs: 'h4', sm: 'h3' },
     }}
@@ -27,7 +28,8 @@ const Title: React.FC<TypographyProps> = (props) => (
 );
 const Subtitle: React.FC<TypographyProps> = (props) => (
   <Typography
-    color="text.arcade"
+    color="text.white"
+    component="h2"
     sx={{
       typography: { xs: 'h6', sm: 'h5' },
     }}
@@ -37,7 +39,8 @@ const Subtitle: React.FC<TypographyProps> = (props) => (
 
 const Text: React.FC<TypographyProps> = (props) => (
   <Typography
-    color="text.arcade"
+    color="text.white"
+    component="h4"
     sx={{
       typography: { xs: 'body2', sm: 'body1' },
     }}
@@ -54,7 +57,6 @@ export const ContactScreen: React.FC = () => (
         p: { xs: 2, sm: 4 },
         gap: 2,
         backgroundColor: (theme) => theme.palette.background['solid-blue'],
-        background: (theme) => theme.palette.background['gradient-blue'],
       }}
     >
       <Box

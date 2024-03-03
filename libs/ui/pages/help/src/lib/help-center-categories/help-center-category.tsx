@@ -1,5 +1,5 @@
 import { SvgIconComponent } from '@mui/icons-material';
-import { Box, Typography } from '@mui/material';
+import { alpha, Box, Typography } from '@mui/material';
 
 export const HelpCenterCategory: React.FC<{
   title: string;
@@ -12,7 +12,7 @@ export const HelpCenterCategory: React.FC<{
       component="a"
       href={props.href}
       sx={{
-        border: (theme) => `4px solid ${theme.palette.divider}`,
+        border: (theme) => `2px solid ${theme.palette.text.blue.dark}`,
         borderRadius: (theme) => theme.shape.borderRadius / 2,
         display: 'grid',
         placeItems: 'center',
@@ -22,6 +22,12 @@ export const HelpCenterCategory: React.FC<{
         textDecoration: 'none',
         cursor: 'pointer',
         height: 240,
+        transition: 'all 0.3s ease',
+        '&:hover': {
+          background: (theme) => alpha(theme.palette.text.blue.dark, 0.1),
+          color: (theme) => theme.palette.text.blue.light,
+          transform: 'scale(1.05)',
+        },
       }}
     >
       <props.icon
@@ -31,10 +37,17 @@ export const HelpCenterCategory: React.FC<{
         }}
       />
       <Box>
-        <Typography variant="h6" color="primary">
+        <Typography
+          variant="h6"
+          color={(theme) => theme.palette.text.blue.dark}
+        >
           {props.title}
         </Typography>
-        <Typography variant="body1" color="text.primary">
+        <Typography
+          typography={{ xs: 'body2', sm: 'body1' }}
+          fontWeight={{ xs: 500, sm: 500 }}
+          color={(theme) => theme.palette.text.blue.light}
+        >
           {props.description}
         </Typography>
       </Box>

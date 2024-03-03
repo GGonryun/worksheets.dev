@@ -1,4 +1,5 @@
 import { Box, Link, Typography } from '@mui/material';
+import { GradientTypography } from '@worksheets/ui/components/typography';
 import { routes } from '@worksheets/ui/routes';
 
 export const HelpCenterTitle: React.FC = () => (
@@ -12,11 +13,22 @@ export const HelpCenterTitle: React.FC = () => (
       maxWidth: 700,
     }}
   >
-    <Typography variant="h3" fontSize={{ xs: '2rem', sm: '3rem' }}>
+    <GradientTypography
+      component="h1"
+      textAlign="center"
+      typography={{ xs: 'h4', sm: 'h3', md: 'h2' }}
+      letterSpacing={{ xs: 1, sm: 2, md: 3 }}
+      background={(theme) => theme.palette.text.marketing.gradients.blue.dark}
+    >
       Help Center
-    </Typography>
+    </GradientTypography>
     <Box my={0.5} />
-    <Typography fontSize={{ xs: '0.875rem', sm: '1rem' }}>
+    <Typography
+      component="h2"
+      typography={{ xs: 'body2', sm: 'body1' }}
+      color={(theme) => theme.palette.text.blue.light}
+      fontWeight={{ xs: 500, sm: 500, md: 500 }}
+    >
       Get answers to all your questions about the{' '}
       <Link href={routes.home.path()}>Charity Games</Link> platform.
     </Typography>

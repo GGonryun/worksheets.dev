@@ -7,6 +7,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
+import { GradientTypography } from '@worksheets/ui/components/typography';
 
 export const UnsubscribeNewsletterScreen: React.FC<{
   unsubscribed: boolean;
@@ -25,11 +26,21 @@ export const UnsubscribeNewsletterScreen: React.FC<{
           margin: { xs: 2, sm: 4 },
         }}
       >
-        <Typography variant="h5" component="h1" color="error.main">
+        <GradientTypography
+          component="h1"
+          typography={{ xs: 'h6', sm: 'h5', md: 'h4' }}
+          background={(theme) =>
+            theme.palette.text.marketing.gradients.blue.dark
+          }
+        >
           Unsubscribe from our newsletter
-        </Typography>
+        </GradientTypography>
 
-        <Typography>
+        <Typography
+          typography={{ xs: 'body2', sm: 'body1' }}
+          color="text.blue.light"
+          fontWeight={{ xs: 500, sm: 500 }}
+        >
           We're sorry to see you go. If you'd like to unsubscribe from our
           newsletter, please click the 'Unsubscribe' button below.
         </Typography>
@@ -52,7 +63,6 @@ export const UnsubscribeNewsletterScreen: React.FC<{
         <br />
         <Button
           variant="arcade"
-          color="error"
           disabled={loading}
           onClick={onUnsubscribe}
           startIcon={

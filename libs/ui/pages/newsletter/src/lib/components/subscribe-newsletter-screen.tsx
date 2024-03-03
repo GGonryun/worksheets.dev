@@ -7,6 +7,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
+import { GradientTypography } from '@worksheets/ui/components/typography';
 
 export const SubscribeNewsletterScreen: React.FC<{
   subscribed: boolean;
@@ -25,10 +26,20 @@ export const SubscribeNewsletterScreen: React.FC<{
           margin: { xs: 2, sm: 4 },
         }}
       >
-        <Typography variant="h5" component="h1" color="primary">
+        <GradientTypography
+          component="h1"
+          typography={{ xs: 'h6', sm: 'h5', md: 'h4' }}
+          background={(theme) =>
+            theme.palette.text.marketing.gradients.blue.dark
+          }
+        >
           Subscribe to our newsletter
-        </Typography>
-        <Typography variant="body1" color="text.secondary">
+        </GradientTypography>
+        <Typography
+          typography={{ xs: 'body2', sm: 'body1' }}
+          color="text.blue.light"
+          fontWeight={{ xs: 500, sm: 500 }}
+        >
           Get the latest updates about upcoming events, raffles, games, and
           more!
         </Typography>

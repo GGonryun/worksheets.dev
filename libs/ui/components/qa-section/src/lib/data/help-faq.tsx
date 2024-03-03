@@ -66,7 +66,7 @@ export const helpFaq: QuestionAnswer[] = [
     question: 'Who do you support?',
     summary: `We are currently supporting Water.Org. You can see the current campaign on our Charity page.`,
     answer: (
-      <Typography>
+      <Typography component="div">
         We are currently supporting multiple organizations:{' '}
         <OrderedList>
           <ListItem disablePadding>

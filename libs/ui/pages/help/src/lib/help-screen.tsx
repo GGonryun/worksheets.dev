@@ -1,6 +1,7 @@
 import { KeyboardBackspace } from '@mui/icons-material';
 import { Box, Button, Container, Paper, Typography } from '@mui/material';
-import { QuestionAnswerSection } from '@worksheets/ui/components/qa-section';
+import { Questions } from '@worksheets/ui/components/qa-section';
+import { GradientTypography } from '@worksheets/ui/components/typography';
 import { UnderConstruction } from '@worksheets/ui/pages/under-construction';
 import { routes } from '@worksheets/ui/routes';
 import { useBookmark } from '@worksheets/ui-core';
@@ -24,8 +25,7 @@ export const HelpScreen: FC<HelpScreenProps> = ({ title, description, qa }) => {
           flexDirection: 'column',
           borderRadius: 4,
           p: { xs: 2, sm: 4 },
-          backgroundColor: (theme) => theme.palette.background['solid-blue'],
-          color: 'text.arcade',
+          backgroundColor: (theme) => theme.palette.background.soft,
         }}
       >
         <Button
@@ -41,25 +41,32 @@ export const HelpScreen: FC<HelpScreenProps> = ({ title, description, qa }) => {
         >
           Back to Help Center
         </Button>
-        <Typography
-          typography={{
-            xs: 'h5',
-            sm: 'h4',
-            md: 'h3',
-          }}
+        <GradientTypography
+          component="h1"
+          typography={{ xs: 'h5', sm: 'h4', md: 'h3' }}
+          background={(theme) =>
+            theme.palette.text.marketing.gradients.blue.dark
+          }
         >
           {title}
-        </Typography>
-        <Typography typography={{ xs: 'body2', sm: 'body1' }} my={1}>
+        </GradientTypography>
+        <Typography
+          component="h2"
+          typography={{ xs: 'body2', sm: 'body1' }}
+          color={(theme) => theme.palette.text.blue.light}
+          fontWeight={{ xs: 500, sm: 500, md: 500 }}
+        >
           {description}
         </Typography>
-        {qa.length ? (
-          <QuestionAnswerSection qa={qa} bookmark={bookmark} />
-        ) : (
-          <Box mt={8}>
-            <UnderConstruction />
-          </Box>
-        )}
+        <Box my={{ xs: 3, sm: 6 }}>
+          {qa.length ? (
+            <Questions qa={qa} bookmark={bookmark} />
+          ) : (
+            <Box mt={8}>
+              <UnderConstruction />
+            </Box>
+          )}
+        </Box>
       </Paper>
     </Container>
   );

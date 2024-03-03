@@ -6,6 +6,7 @@ import {
   Paper,
   Typography,
 } from '@mui/material';
+import { GradientTypography } from '@worksheets/ui/components/typography';
 
 export const ConfirmNewsletterScreen: React.FC<{
   confirmed: boolean;
@@ -23,10 +24,20 @@ export const ConfirmNewsletterScreen: React.FC<{
           margin: { xs: 2, sm: 4 },
         }}
       >
-        <Typography variant="h5" component="h1" color="primary">
+        <GradientTypography
+          component="h1"
+          typography={{ xs: 'h6', sm: 'h5', md: 'h4' }}
+          background={(theme) =>
+            theme.palette.text.marketing.gradients.blue.dark
+          }
+        >
           Confirm your subscription
-        </Typography>
-        <Typography variant="body1" color="text.secondary">
+        </GradientTypography>
+        <Typography
+          typography={{ xs: 'body2', sm: 'body1' }}
+          color="text.blue.light"
+          fontWeight={{ xs: 500, sm: 500 }}
+        >
           Click on the button below to confirm your subscription to our
           newsletter. We will never spam you or share your email address with
           anyone else.
@@ -34,7 +45,13 @@ export const ConfirmNewsletterScreen: React.FC<{
 
         <br />
 
-        <Typography variant="body1">Email: {email}</Typography>
+        <Typography
+          typography={{ xs: 'body2', sm: 'body1' }}
+          color="secondary.main"
+          fontWeight={{ xs: 500, sm: 500 }}
+        >
+          Email: {email}
+        </Typography>
 
         <br />
 

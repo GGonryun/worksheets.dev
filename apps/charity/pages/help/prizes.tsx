@@ -14,7 +14,7 @@ const Page: NextPageWithLayout = () => {
     <>
       <NextSeo {...helpPrizesSeo} />
       <HelpScreen
-        title={'Prizes'}
+        title={'Prizes & Rewards'}
         description={
           'Get instant prizes and rewards. The Prize Wall is a great way to earn instant prizes and rewards. Find out how to earn prizes and how to win prizes.'
         }

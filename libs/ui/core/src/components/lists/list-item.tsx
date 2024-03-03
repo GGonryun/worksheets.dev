@@ -12,7 +12,7 @@ export const ListItem: React.FC<{
     sx={{ display: 'list-item' }}
     disablePadding={disablePadding}
   >
-    <MuiListItemText primaryTypographyProps={{ variant: variant }}>
+    <MuiListItemText primaryTypographyProps={{ variant: variant ?? 'body1' }}>
       {children}
     </MuiListItemText>
   </MuiListItem>

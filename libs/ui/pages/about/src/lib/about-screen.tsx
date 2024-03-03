@@ -19,7 +19,7 @@ export const AboutScreen: FC<AboutScreenProps> = (props) => {
           display: 'flex',
           flexDirection: 'column',
           borderRadius: 4,
-          background: (theme) => theme.palette.background['gradient-blue'],
+          backgroundColor: (theme) => theme.palette.background['solid-blue'],
           p: { xs: 2, sm: 4 },
         }}
       >
@@ -32,7 +32,7 @@ export const AboutScreen: FC<AboutScreenProps> = (props) => {
           Our Mission
         </Typography>
         <br />
-        <Typography color="text.arcade">
+        <Typography color="text.arcade" fontWeight={500}>
           Charity Games is a community of developers, designers, artists,
           musicians, and gamers united by a common goal: using the power of
           gaming to create a positive impact on the world.
@@ -94,7 +94,7 @@ export const AboutScreen: FC<AboutScreenProps> = (props) => {
             {...blogAuthors[Author.MiguelCampos]}
             title="Software Engineer"
             description={
-              'Miguel is currently a software engineer at [P0 Security]("https://p0.dev") and a graduate from San Diego State University. He is passionate about creating software that makes the world a better place. He is currently developing Charity.Games on his free time. \n\nBefore working at [P0 Security]("https://p0.dev"), he worked at: \n- [FullStory]("https://fullstory.com/") as an Ecosystem Software Engineer, \n- [G2 Software Systems]("https://g2-inc.com") as a Software Engineer I,\n- [University of San Diego]("https://sandiego.edu") as a Volunteer Software Engineer,\n- [SDSU Research Foundation]("https://sdsu.edu") as a Software Engineer Intern,\n- [NAVWAR]("https://navwar.navy.mil") as a Software Engineer Intern.\nWhen Miguel is not working, he enjoys rock climbing, hiking, and playing board games with his friends. Miguel really hates writing about himself in the third person, but he is doing it anyway.'
+              'Miguel is currently a software engineer at [P0 Security](https://p0.dev) and a graduate from San Diego State University. He is passionate about creating software that makes the world a better place. He is currently developing Charity.Games on his free time. \n\nBefore working at [P0 Security](https://p0.dev), he worked at: \n- [FullStory](https://fullstory.com/) as an Ecosystem Software Engineer, \n- [G2 Software Systems](https://g2-inc.com) as a Software Engineer I,\n- [University of San Diego](https://sandiego.edu) as a Volunteer Software Engineer,\n- [SDSU Research Foundation](https://sdsu.edu) as a Software Engineer Intern,\n- [NAVWAR](https://navwar.navy.mil) as a Software Engineer Intern.\nWhen Miguel is not working, he enjoys rock climbing, hiking, and playing board games with his friends. Miguel really hates writing about himself in the third person, but he is doing it anyway.'
             }
             linkedIn={urls.personal.linkedIn.miguel}
             quote={{
@@ -148,7 +148,7 @@ const TeamMember: React.FC<{
         <Typography variant="h6" color="text.arcade">
           {props.name}
         </Typography>
-        <Typography color="text.arcade" variant="body2">
+        <Typography color="text.arcade" variant="body2" fontWeight={500}>
           {props.title}
         </Typography>
       </Box>
@@ -170,6 +170,7 @@ const TeamMember: React.FC<{
     <Markdown
       text={props.description}
       sx={{
+        fontWeight: 500,
         whiteSpace: 'pre-line',
         color: 'text.arcade',
         '& a': {
