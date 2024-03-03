@@ -3,7 +3,6 @@ import { useReferralCode } from '@worksheets/ui/hooks/use-referral-code';
 import { LoadingScreen } from '@worksheets/ui/pages/loading';
 import { routes } from '@worksheets/ui/routes';
 import { useTimeout } from '@worksheets/ui-core';
-import { waitFor } from '@worksheets/util/time';
 import { useRouter } from 'next/router';
 import { useCallback } from 'react';
 
@@ -21,45 +20,18 @@ const LoginPortalContainer = () => {
     ? (query.redirect as string)
     : routes.account.path();
 
-  // create user resources if they don't exist.
-  const createNewsletterSubscription =
-    trpc.user.newsletter.initialize.useMutation();
-  const createNotificationPreferences =
-    trpc.user.notifications.preferences.create.useMutation();
-  const setReferrer = trpc.user.referrals.set.useMutation();
-  const createRewards = trpc.user.rewards.create.useMutation();
-  const createReferralCode = trpc.user.referrals.codes.create.useMutation();
+  const initializeUser = trpc.user.initialize.useMutation();
 
   const createResources = useCallback(async () => {
-    await Promise.all([
-      createNewsletterSubscription.mutateAsync(),
-      createRewards.mutateAsync(),
-      createReferralCode.mutateAsync(),
-      createNotificationPreferences.mutateAsync(),
-      setReferrer.mutateAsync({ referralCode: referralCode }),
-    ]);
+    await initializeUser.mutateAsync({ referralCode });
 
     setReferralCode('');
 
-    // wait for one more second to make sure we've created the resources
-    // before redirecting the user
-    await waitFor(1000);
-
     push(redirect);
-  }, [
-    createNewsletterSubscription,
-    createRewards,
-    createReferralCode,
-    createNotificationPreferences,
-    setReferrer,
-    referralCode,
-    setReferralCode,
-    push,
-    redirect,
-  ]);
+  }, [initializeUser, referralCode, setReferralCode, push, redirect]);
 
-  // wait 1 seconds before creating resources
-  // this gives us time to load from local storage
+  // wait 1 second before creating resources
+  // this gives us time to load referral code from local storage
   useTimeout(createResources, 1000);
 
   return <LoadingScreen message={LOADING_MESSAGE} />;

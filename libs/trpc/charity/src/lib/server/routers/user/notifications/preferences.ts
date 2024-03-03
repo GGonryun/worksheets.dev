@@ -80,28 +80,4 @@ export default t.router({
 
       return true;
     }),
-  create: protectedProcedure
-    .output(z.boolean())
-    .mutation(async ({ ctx: { db, user } }) => {
-      // check to see if the user already has notification preferences
-      const preferences = await db.notificationPreferences.findFirst({
-        where: {
-          userId: user.id,
-        },
-      });
-
-      if (preferences) {
-        console.warn('user already has notification preferences');
-        return false;
-      }
-
-      await db.notificationPreferences.create({
-        data: {
-          userId: user.id,
-          email: true,
-        },
-      });
-
-      return true;
-    }),
 });

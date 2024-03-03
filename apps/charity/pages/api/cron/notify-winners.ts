@@ -144,20 +144,24 @@ const processExpiredAlert = async (alert: PendingAlert) => {
 };
 
 const sendExpiredAlertDiscordNotification = async (alert: PendingAlert) => {
-  return sendDiscordMessage({
-    content: `The following users have not claimed their prize in ${
-      CLAIM_ALERT_SENT_COUNT_THRESHOLD * CLAIM_ALERT_LAST_SENT_THRESHOLD
-    } hours.`,
-    embeds: [
-      {
-        title: `Alert ID: ${alert.id}`,
-        description: `The last alert was sent at ${printShortDateTime(
-          alert.lastSentAt ?? 0
-        )}. We've stopped sending alerts to this user.`,
-      },
-    ],
-    webhookUrl: DISCORD_WEBHOOK_URL,
-  });
+  try {
+    sendDiscordMessage({
+      content: `The following users have not claimed their prize in ${
+        CLAIM_ALERT_SENT_COUNT_THRESHOLD * CLAIM_ALERT_LAST_SENT_THRESHOLD
+      } hours.`,
+      embeds: [
+        {
+          title: `Alert ID: ${alert.id}`,
+          description: `The last alert was sent at ${printShortDateTime(
+            alert.lastSentAt ?? 0
+          )}. We've stopped sending alerts to this user.`,
+        },
+      ],
+      webhookUrl: DISCORD_WEBHOOK_URL,
+    });
+  } catch (error) {
+    console.warn('Failed to send discord message', error);
+  }
 };
 
 const claimHelpText = `Please visit <a href="${ACCOUNT_URL}">Charity Games</a> to claim your prize. If you are unable to claim a prize, please <a href="${CONTACT_URL}">contact us</a> for assistance. You may receive an alternative prize or tokens equal to the prize value. If you need help, please visit our <a href="${CLAIM_URL}">Help Center</a>.<br/><br/>If you do not claim your prize within ${PRIZE_FORFEITURE_DAYS} days of winning, it may be forfeited.`;

@@ -27,8 +27,6 @@ export default publicProcedure
       input: { category, query, prizeId, limit = DEFAULT_LIMIT },
       ctx: { db },
     }) => {
-      console.info(`listing raffles for category ${category}`);
-
       const raffles = await getRaffles(db, category, limit, prizeId);
 
       if (query) {

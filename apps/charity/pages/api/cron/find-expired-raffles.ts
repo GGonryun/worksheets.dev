@@ -3,6 +3,7 @@ import { sendDiscordMessage } from '@worksheets/services/discord';
 import {
   CRON_SECRET,
   DISCORD_WEBHOOK_URL,
+  IS_DEVELOPMENT,
   IS_PRODUCTION,
 } from '@worksheets/services/environment';
 import { postTweet } from '@worksheets/services/twitter';
@@ -183,43 +184,56 @@ const pickWinners = async (
 };
 
 const notifyOnDiscord = async (raffle: ExpiredRaffle, error?: Error) => {
-  await sendDiscordMessage({
-    content: error
-      ? `We failed to process an expired raffle!`
-      : `A raffle has expired and winners have been chosen successfully.`,
-    embeds: [
-      {
-        title: `Raffle ID: ${raffle.id}`,
-        url: routes.admin.raffle.url({
-          params: {
-            raffleId: raffle.id,
-          },
-        }),
-        description: `This raffle ended at ${printShortDateTime(
-          raffle.expiresAt
-        )}.`,
-        fields: error
-          ? [
-              {
-                name: 'Error Message',
-                value: error.message,
-              },
-            ]
-          : [],
-      },
-    ],
-    webhookUrl: DISCORD_WEBHOOK_URL,
-  });
+  try {
+    await sendDiscordMessage({
+      content: error
+        ? `We failed to process an expired raffle!`
+        : `A raffle has expired and winners have been chosen successfully.`,
+      embeds: [
+        {
+          title: `Raffle ID: ${raffle.id}`,
+          url: routes.admin.raffle.url({
+            params: {
+              raffleId: raffle.id,
+            },
+          }),
+          description: `This raffle ended at ${printShortDateTime(
+            raffle.expiresAt
+          )}.`,
+          fields: error
+            ? [
+                {
+                  name: 'Error Message',
+                  value: error.message,
+                },
+              ]
+            : [],
+        },
+      ],
+      webhookUrl: DISCORD_WEBHOOK_URL,
+    });
+  } catch (error) {
+    console.warn('Failed to send discord message', error);
+  }
 };
 
 const notifyOnTwitter = async (raffle: ExpiredRaffle) => {
-  await postTweet(
-    `🎉 The raffle for ${
-      raffle.prize.name
-    } has ended! 🎉\n\nCheck out the winners here: ${routes.raffle.url({
-      params: {
-        raffleId: raffle.id,
-      },
-    })}`
-  );
+  if (IS_DEVELOPMENT) {
+    console.info('Skipping tweet in development');
+    return;
+  }
+
+  try {
+    await postTweet(
+      `🎉 The raffle for ${
+        raffle.prize.name
+      } has ended! 🎉\n\nCheck out the winners here: ${routes.raffle.url({
+        params: {
+          raffleId: raffle.id,
+        },
+      })}`
+    );
+  } catch (error) {
+    console.warn('Failed to send tweet', error);
+  }
 };
