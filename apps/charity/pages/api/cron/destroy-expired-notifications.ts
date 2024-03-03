@@ -1,3 +1,4 @@
+import { prisma } from '@worksheets/prisma';
 import { CRON_SECRET } from '@worksheets/services/environment';
 import { IS_PRODUCTION } from '@worksheets/ui/env';
 import { NextApiRequest, NextApiResponse } from 'next';
