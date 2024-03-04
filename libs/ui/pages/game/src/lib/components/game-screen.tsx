@@ -89,6 +89,7 @@ export const GameScreen: FC<GameScreenProps> = ({
         </PaperSidebar>
       </Box>
       <GameDescription
+        trailer={game.trailer}
         description={game.description}
         devices={game.viewport.devices}
         onShare={onShare}

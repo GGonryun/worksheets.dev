@@ -264,6 +264,7 @@ model Game {
   // Assets
   thumbnail   String             @db.Text // URL
   cover       String             @db.Text // URL
+  trailer     String?            @db.Text // URL
   fileId      String             @unique
   file        GameFile           @relation(fields: [fileId], references: [id])
   // Display

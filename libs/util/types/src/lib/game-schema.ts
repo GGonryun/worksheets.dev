@@ -42,12 +42,14 @@ export type GameSchema = {
     devices: GameDevices[];
     orientations: DeviceOrientations[];
   };
+  trailer: string | null;
 };
 
 export type SeedableGameSchema = Omit<
   GameSchema,
-  'likes' | 'dislikes' | 'plays'
->;
+  'likes' | 'dislikes' | 'plays' | 'trailer'
+> &
+  Partial<Pick<GameSchema, 'trailer'>>;
 
 type MarketLinks = {
   android: string;

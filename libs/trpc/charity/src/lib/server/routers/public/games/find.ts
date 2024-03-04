@@ -53,6 +53,7 @@ export default publicProcedure
         developerId: game.developerId,
         iconUrl: game.thumbnail,
         bannerUrl: game.cover,
+        trailer: game.trailer,
         categories: game.categories.map((c) => c.categoryId) as GameTag[],
         updatedAt: printDate(game.updatedAt),
         createdAt: printDate(game.createdAt),

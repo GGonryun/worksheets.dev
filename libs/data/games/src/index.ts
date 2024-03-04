@@ -74,6 +74,7 @@ export const games: SeedableGameSchema[] = [
       'platform',
       'survival',
     ],
+    trailer: 'https://www.youtube.com/embed/gJb67llcWMU?si=tzyV-Lgn5P2jqRUf',
     file: {
       type: 'HTML',
       url: 'https://cdn.charity.games/fragile-floor/index.html',
@@ -650,7 +651,7 @@ export const games: SeedableGameSchema[] = [
       type: 'HTML',
       url: 'https://cdn.charity.games/arrow-hit/index.html',
     },
-    description: `<h3>What is Arrow Hit?</h3><p>Experience the ultimate test of precision and focus in “Aim Challenge: Arrow Edition.” This straightforward yet addictive game is designed to sharpen your aiming skills and provide an exciting challenge for players of all levels.</p><p>Simplicity at its Best: “Aim Challenge: Arrow Edition” strips away the frills to focus solely on the art of aiming. No distractions, no complications, just pure target-hitting fun.</p><p>Aim Challenge: Arrow Edition is the perfect game to unwind, compete with friends, or simply improve your hand-eye coordination. Whether you're a seasoned marksman or just starting out, this game is bound to provide hours of addictive, aim-testing entertainment.</p><p>Play now and become the ultimate arrow-slinging virtuoso in Aim Challenge: Arrow Hit!</p>`,
+    description: `<h3>What is Arrow Hit?</h3><p>Experience the ultimate test of precision and focus in “Aim Challenge: Arrow Edition.” This straightforward yet addictive game is designed to sharpen your aiming skills and provide an exciting challenge for players of all levels.</p><br/><p>Simplicity at its Best: “Aim Challenge: Arrow Edition” strips away the frills to focus solely on the art of aiming. No distractions, no complications, just pure target-hitting fun.</p><br/><p>Aim Challenge: Arrow Edition is the perfect game to unwind, compete with friends, or simply improve your hand-eye coordination. Whether you're a seasoned marksman or just starting out, this game is bound to provide hours of addictive, aim-testing entertainment.</p><br/><p>Play now and become the ultimate arrow-slinging virtuoso in Aim Challenge: Arrow Hit!</p>`,
   },
   {
     id: 'on-the-road',
@@ -728,6 +729,7 @@ export const games: SeedableGameSchema[] = [
       url: 'https://cdn.charity.games/mini-golf/index.html',
     },
     description: `<p>Mini Golf is a simple and fun game. The goal of the game is to get the ball into the hole in as few shots as possible.</p><br/><p>Mini Golf comes with over 400 levels. Have fun exploring the game's green hills and plains while listening to the birds and enjoying its beautiful views, collect as many coins as possible and try to hit all the holes to achieve the highest score.</p><br/><p>Do you like bonus levels? In the blue lakes there are 50 levels where there are always lots of coins and you never lose!</p><br/><p>Among the game mechanics are levels with: Portals, Boxing Gloves, Cannons, Burners, Impulses, Mill, Sand, Mole Holes, Spikes and Movement Blocks that will help or hinder your game!</p><br/><p>With many levels and mechanics, the level randomization system provides a lot of fun and playing time.</p><p>Thank you and have fun!</p><h3>How to Play Mini Golf?</h3><p>Click and drag the mouse to aim and set the power of your shot. Release the mouse button to take the shot.</p>`,
+    trailer: 'https://www.youtube.com/embed/b2quiBhyvk8?si=NLfNQdyIuZTutlNm',
   },
   {
     id: 'dominoes',

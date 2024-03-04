@@ -86,6 +86,7 @@ const insertGame = async (game: SeedableGameSchema) => {
       status: 'PUBLISHED',
       createdAt: new Date(game.createdAt),
       updatedAt: new Date(game.updatedAt),
+      trailer: game.trailer,
       developer: {
         connect: {
           id: game.developerId,

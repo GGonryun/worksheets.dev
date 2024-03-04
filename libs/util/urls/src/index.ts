@@ -16,7 +16,8 @@ const urls = {
     usd: 'https://www.sandiego.edu/',
   },
   social: {
-    instagram: 'https://www.instagram.com/charity.games/', // TODO
+    youtube: 'https://www.youtube.com/channel/UC31cSJrIW19239UwqjMlfNg',
+    instagram: 'https://www.instagram.com/charitydotgames/',
     reddit: `https://www.reddit.com/user/ggonryun/`,
     linkedIn: `https://www.linkedin.com/company/charity-games`,
     twitter: `https://twitter.com/charitydotgames`,

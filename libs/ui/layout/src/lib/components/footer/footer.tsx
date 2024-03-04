@@ -1,3 +1,4 @@
+import { YouTube } from '@mui/icons-material';
 import Box, { BoxProps } from '@mui/material/Box';
 import Link, { LinkProps } from '@mui/material/Link';
 import { styled } from '@mui/material/styles';
@@ -22,6 +23,12 @@ export const WebsiteFooter: React.FC<{
         gap={{ xs: 2, sm: 4 }}
         justifyContent={{ xs: 'space-evenly', sm: 'center' }}
       >
+        <Box component="a" href={urls.social.youtube}>
+          <YouTube
+            fontSize="large"
+            sx={{ color: (theme) => theme.palette.error.main }}
+          />
+        </Box>
         <Box component="a" href={urls.social.instagram}>
           <Image
             src="/icons/social/instagram.png"

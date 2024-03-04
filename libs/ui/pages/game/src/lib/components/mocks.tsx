@@ -33,6 +33,7 @@ export const sampleGame: SerializableGameSchema = {
     type: 'HTML',
     url: 'https://solitaire.charity.games/',
   },
+  trailer: null,
   categories: ['card', 'brain', 'board', 'puzzle'],
   markets: {
     android:

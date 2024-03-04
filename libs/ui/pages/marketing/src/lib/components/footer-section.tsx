@@ -4,6 +4,7 @@ import {
   Instagram,
   Reddit,
   Twitter,
+  YouTube,
 } from '@mui/icons-material';
 import {
   Box,
@@ -66,6 +67,9 @@ const SocialLinks = () => {
 
   return (
     <Box display="flex" gap={1} justifyContent="flex-end">
+      <IconButton href={urls.social.youtube}>
+        <YouTube {...iconProps} />
+      </IconButton>
       <IconButton href={urls.social.instagram}>
         <Instagram {...iconProps} />
       </IconButton>
