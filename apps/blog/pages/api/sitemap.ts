@@ -4,6 +4,8 @@ import { getAllPostsMetadata } from '@worksheets/util-markdown';
 import { NextApiHandler } from 'next';
 import path from 'path';
 
+import { POSTS_PATH } from '../../util/paths';
+
 const LAST_UPDATE_DATE = `2024-01-16`;
 
 const addHomePage = () => {
@@ -15,7 +17,10 @@ const addHomePage = () => {
     </url>`;
 };
 
-const BLOG_DIR = path.resolve('public/articles');
+const BLOG_DIR =
+  process.env['VERCEL_ENV'] === 'development'
+    ? POSTS_PATH
+    : path.resolve('public/articles');
 
 const addBlogPosts = () => {
   const posts = getAllPostsMetadata(BLOG_DIR);
@@ -34,7 +39,6 @@ const addBlogPosts = () => {
     `
     )
     .join('');
-  return ``;
 };
 
 const handler: NextApiHandler = (req, res) => {
