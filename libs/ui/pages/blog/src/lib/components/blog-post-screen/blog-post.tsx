@@ -18,6 +18,7 @@ export const BlogPost: FC<BlogPostProps> = ({ metadata, content, author }) => {
     <Box>
       <Paper
         sx={{
+          color: (theme) => theme.palette.text.arcade,
           backgroundColor: (theme) => theme.palette.background['solid-blue'],
           display: 'flex',
           flexDirection: 'column',

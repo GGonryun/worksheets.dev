@@ -22,13 +22,7 @@ export const PostHeader: FC<PostHeaderProps> = ({
   const prettyDate = printDate(date);
 
   return (
-    <Box
-      display="flex"
-      flexDirection="column"
-      gap={2}
-      pb={2}
-      color="text.arcade"
-    >
+    <Box display="flex" flexDirection="column" gap={2} pb={2}>
       <Button
         variant="arcade"
         color="error"
@@ -53,7 +47,7 @@ export const PostHeader: FC<PostHeaderProps> = ({
 
       <Box
         sx={{
-          my: { xs: 2, sm: 4 },
+          my: 2,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',

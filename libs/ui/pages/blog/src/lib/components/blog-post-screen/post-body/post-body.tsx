@@ -7,9 +7,6 @@ export const PostBody: FC<{ content: string }> = ({ content }) => {
   return (
     <article>
       <Box
-        sx={{
-          color: (theme) => theme.palette.text.arcade,
-        }}
         className={styles['markdown']}
         dangerouslySetInnerHTML={{ __html: content }}
       />
