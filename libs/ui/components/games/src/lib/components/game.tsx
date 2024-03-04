@@ -12,7 +12,7 @@ export const Game: FC<PartialBy<BasicGameInfo, 'plays'>> = ({
 }) => {
   return (
     <ArcadeItemLayout
-      href={routes.game.path({ params: { gameId: id } })}
+      href={routes.game.url({ params: { gameId: id } })}
       name={name}
       caption={plays != null ? `${shorthandNumber(plays)}+ plays` : ''}
       imageUrl={imageUrl}
