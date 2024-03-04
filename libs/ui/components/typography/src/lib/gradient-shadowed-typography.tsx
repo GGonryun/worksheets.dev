@@ -5,7 +5,7 @@ import React from 'react';
 export const GradientShadowedTypography: React.FC<
   Pick<
     TypographyProps,
-    'typography' | 'textTransform' | 'children' | 'gutterBottom'
+    'typography' | 'textTransform' | 'children' | 'gutterBottom' | 'textAlign'
   > &
     Pick<SystemCssProperties<Theme>, 'background' | 'textShadow'>
 > = (props) => (
@@ -15,6 +15,7 @@ export const GradientShadowedTypography: React.FC<
     }}
   >
     <Typography
+      textAlign={props.textAlign}
       gutterBottom={props.gutterBottom}
       textTransform={props.textTransform}
       typography={props.typography}
@@ -27,6 +28,7 @@ export const GradientShadowedTypography: React.FC<
       {props.children}
     </Typography>
     <Typography
+      textAlign={props.textAlign}
       gutterBottom={props.gutterBottom}
       textTransform={props.textTransform}
       typography={props.typography}

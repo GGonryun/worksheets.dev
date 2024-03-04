@@ -13,7 +13,7 @@ export const BlogPostLayout: React.FC<{
       <Box
         sx={{
           display: 'grid',
-          gridTemplateColumns: { xs: '1fr', md: '3fr 1fr' },
+          gridTemplateColumns: { xs: '1fr', md: '4fr 1fr' },
           gap: 2,
         }}
       >
@@ -37,6 +37,7 @@ const PopularGames: React.FC<{ games: BasicGameInfo[] }> = ({ games }) => (
   >
     <GradientShadowedTypography
       typography={{ xs: 'h5', lg: 'h4' }}
+      textAlign="center"
       textShadow="0px 4px 4px rgba(0, 0, 0, 0.25)"
       background={(theme) => theme.palette.text.marketing.gradients.orange.main}
     >
@@ -55,7 +56,7 @@ const PopularGames: React.FC<{ games: BasicGameInfo[] }> = ({ games }) => (
       }}
     >
       {games.map((game) => (
-        <Game {...game} />
+        <Game key={game.id} {...game} />
       ))}
     </Box>
   </Box>

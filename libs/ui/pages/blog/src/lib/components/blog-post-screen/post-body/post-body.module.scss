@@ -22,10 +22,13 @@ $color-code-color: #f8f8f2;
   }
 
   iframe {
-    max-width: 100%;
-    margin: 32px auto 16px auto;
+    margin: 32px auto 8px auto;
     display: block;
     border: none;
+    @media screen and (max-width: 600px) {
+      height: auto;
+      max-width: 100%;
+    }
   }
 
   h1 {
@@ -85,7 +88,7 @@ $color-code-color: #f8f8f2;
 
     font-style: italic;
     margin: 0 auto;
-    margin-bottom: 32px;
+    margin-bottom: 16px;
     font-size: 0.9rem;
 
     @media screen and (max-width: 600px) {

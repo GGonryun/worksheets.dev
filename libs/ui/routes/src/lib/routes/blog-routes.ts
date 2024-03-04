@@ -11,13 +11,13 @@ export const blogRoutes = {
     path: '/',
   }),
   articles: createRoute({
-    path: '/blog',
+    path: '/articles',
     query: BlogQueryParams,
   }),
   article: createRoute({
-    path: '/blog/[slug]',
+    path: '/articles/[slug]',
   }),
   author: createRoute({
-    path: '/blog/author/[authorId]',
+    path: '/articles/author/[authorId]',
   }),
 };
