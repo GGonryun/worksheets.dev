@@ -28,7 +28,7 @@ const addBlogPosts = () => {
   return posts
     .map(
       (post) => `<url>
-    <loc>${blogRoutes.article.path({
+    <loc>${blogRoutes.article.url({
       params: {
         slug: post.slug,
       },
