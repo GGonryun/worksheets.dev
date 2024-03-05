@@ -45,8 +45,12 @@ const handler: NextApiHandler = (req, res) => {
   res.statusCode = 200;
   res.setHeader('Content-Type', 'application/xml');
 
-  // Instructing the Vercel edge to cache the file
-  res.setHeader('Cache-control', 'stale-while-revalidate, s-maxage=3600');
+  // Instructing the Vercel edge to cache the file for 1 day
+  const DAY_IN_SECONDS = 60 * 60 * 24;
+  res.setHeader(
+    'Cache-control',
+    `stale-while-revalidate, s-maxage=${DAY_IN_SECONDS}`
+  );
 
   // generate sitemap here
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
