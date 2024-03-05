@@ -10,7 +10,7 @@ export type BlogScreenProps = {
   posts: MarkdownMetadata[];
 };
 
-const FEATURED_POSTS = 3;
+const FEATURED_POSTS = 5;
 
 export const BlogScreen: FC<BlogScreenProps> = ({ posts }) => {
   const featured = posts.slice(0, FEATURED_POSTS);

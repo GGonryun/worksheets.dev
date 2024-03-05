@@ -67,9 +67,16 @@ const initializeUser = async (
 
   try {
     await db.$transaction([
-      db.newsletterSubscription.create({
-        data: {
+      db.newsletterSubscription.upsert({
+        where: {
           email,
+        },
+        create: {
+          email,
+          subscribed: true,
+          confirmed: true,
+        },
+        update: {
           subscribed: true,
           confirmed: true,
         },

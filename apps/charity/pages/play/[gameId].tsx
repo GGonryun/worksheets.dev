@@ -52,7 +52,6 @@ export const getStaticProps = (async (ctx) => {
       gameId,
     });
 
-    console.log('found game', game);
     const seo = gameSeo(game, developer);
     const jsonLd = gameJsonLd(game, developer);
 

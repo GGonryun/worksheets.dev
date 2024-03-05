@@ -113,7 +113,8 @@ const getTags = async () => {
             tagId: tag.id,
           },
         })}</loc><lastmod>${
-          tag.updatedAt
+          // use w3c date format yyyy-mm-dd
+          printShortDate(tag.updatedAt, 'fr-CA')
         }</lastmod><priority>0.5</priority></url>`
     )
     .join('');

@@ -10,16 +10,16 @@ export const blogAuthors: Record<Author, BlogAuthor> = {
   [Author.TakiPineda]: {
     id: 'taki-pineda',
     name: 'Taki Pineda',
-    avatar: '/blog/authors/taki.png',
+    avatar: '/authors/taki.png',
   },
   [Author.MiguelCampos]: {
     id: 'miguel-campos',
     name: 'Miguel Campos',
-    avatar: '/blog/authors/miguel.jpeg',
+    avatar: '/authors/miguel.jpeg',
   },
   [Author.EsbeidyCampos]: {
     id: 'esbeidy-campos',
     name: 'Esbeidy Campos',
-    avatar: '/blog/authors/esbeidy.png',
+    avatar: '/authors/esbeidy.png',
   },
 };

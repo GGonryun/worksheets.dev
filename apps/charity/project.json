@@ -33,9 +33,9 @@
             "output": "games"
           },
           {
-            "input": "libs/assets/blog/src/lib",
+            "input": "libs/assets/authors/src/lib",
             "glob": "**/*",
-            "output": "blog"
+            "output": "authors"
           },
           {
             "input": "libs/assets/prizes/src/lib",

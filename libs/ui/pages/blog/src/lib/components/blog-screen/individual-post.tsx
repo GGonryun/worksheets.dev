@@ -1,5 +1,5 @@
 import { Box, Link, Typography } from '@mui/material';
-import { ResponsiveImage } from '@worksheets/ui/components/images';
+import { CoverImage } from '@worksheets/ui/components/images';
 import { blogRoutes } from '@worksheets/ui/routes';
 import { printDate } from '@worksheets/util/time';
 import { MarkdownMetadata } from '@worksheets/util-markdown';
@@ -23,8 +23,16 @@ export const IndividualPost: React.FC<{ post: MarkdownMetadata }> = ({
       gap={2}
       flex={1}
     >
-      <Box component={Link} href={postUrl} position="relative" width="100%">
-        <ResponsiveImage src={post.coverImage} alt={post.title} />
+      <Box
+        component={Link}
+        href={postUrl}
+        position="relative"
+        width="100%"
+        sx={{
+          aspectRatio: '16 / 9',
+        }}
+      >
+        <CoverImage src={post.coverImage} alt={post.title} />
       </Box>
       <Box>
         <Typography

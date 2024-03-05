@@ -19,6 +19,7 @@
       "@worksheets/assets-common": ["libs/assets/common/src/index.ts"],
       "@worksheets/assets-games": ["libs/assets/games/src/index.ts"],
       "@worksheets/assets-partners": ["libs/assets/partners/src/index.ts"],
+      "@worksheets/assets/authors": ["libs/assets/authors/src/index.ts"],
       "@worksheets/assets/icons": ["libs/assets/icons/src/index.ts"],
       "@worksheets/assets/marketing": ["libs/assets/marketing/src/index.ts"],
       "@worksheets/assets/prizes": ["libs/assets/prizes/src/index.ts"],

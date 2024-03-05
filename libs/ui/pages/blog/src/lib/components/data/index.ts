@@ -1,3 +1,4 @@
+import { Author } from '@worksheets/util/blog';
 import { BlogAuthor } from '@worksheets/util/types';
 import { MarkdownMetadata } from '@worksheets/util-markdown';
 
@@ -15,8 +16,7 @@ export const sampleBlogMetadata: MarkdownMetadata[] = [
     coverImage: 'https://picsum.photos/seed/1/600/400',
     tags: ['tag1', 'tag2', 'tag3'],
     date: '10-27-2023',
-    authorId: 'miguel-campos',
-    ogImage: { url: 'https://picsum.photos/seed/1/600/400' },
+    authorId: Author.MiguelCampos,
     slug: 'blog-post-1',
   },
   {
@@ -25,8 +25,7 @@ export const sampleBlogMetadata: MarkdownMetadata[] = [
       'This is the excerpt for blog post 2. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.',
     coverImage: 'https://picsum.photos/seed/2/600/400',
     tags: ['tag1', 'tag2', 'tag3'],
-    authorId: 'miguel-campos',
-    ogImage: { url: 'https://picsum.photos/seed/2/600/400' },
+    authorId: Author.MiguelCampos,
     date: '11-11-2023',
     slug: 'blog-post-2',
   },

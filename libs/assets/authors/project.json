@@ -1,0 +1,26 @@
+{
+  "name": "assets-authors",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/assets/authors/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/assets/authors",
+        "main": "libs/assets/authors/src/index.ts",
+        "tsConfig": "libs/assets/authors/tsconfig.lib.json",
+        "assets": ["libs/assets/authors/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/assets/authors/**/*.ts"]
+      }
+    }
+  },
+  "tags": []
+}

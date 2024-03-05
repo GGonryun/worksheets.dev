@@ -30,6 +30,11 @@
             "output": "blog"
           },
           {
+            "input": "libs/assets/authors/src/lib",
+            "glob": "**/*",
+            "output": "authors"
+          },
+          {
             "input": "_articles",
             "glob": "**/*",
             "output": "articles"

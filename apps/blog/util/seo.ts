@@ -90,7 +90,7 @@ export const blogArticleSeo = (slug: string, metadata: MarkdownMetadata) =>
     },
     images: [
       {
-        url: metadata.ogImage.url,
+        url: metadata.coverImage,
         alt: metadata.title,
       },
     ],
@@ -104,7 +104,7 @@ export const blogArticleJsonLd = (
   type: 'BlogPosting',
   url: blogRoutes.article.path({ params: { slug } }),
   title: metadata.title,
-  images: [metadata.ogImage.url],
+  images: [metadata.coverImage],
   datePublished: metadata.date,
   dateModified: metadata.date,
   authorName: author.name,
