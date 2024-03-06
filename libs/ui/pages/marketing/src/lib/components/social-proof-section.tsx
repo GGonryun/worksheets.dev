@@ -95,6 +95,10 @@ const WinnerCarousel: React.FC<{ winners: TwitterWinner[] }> = ({
     count = 9;
   }
 
+  if (winners.length < 1) {
+    return null;
+  }
+
   return (
     <Box
       sx={{

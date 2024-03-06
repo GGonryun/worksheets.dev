@@ -29,46 +29,6 @@ const MarketingScreen = () => (
           username: 'aModestDuck',
           tweetUrl: 'https://twitter.com/aModestDuck',
         },
-        {
-          username: 'username1',
-          tweetUrl: 'https://twitter.com/aModestDuck',
-        },
-        {
-          username: 'username2',
-          tweetUrl: 'https://twitter.com/aModestDuck',
-        },
-        {
-          username: 'username3',
-          tweetUrl: 'https://twitter.com/aModestDuck',
-        },
-        {
-          username: 'username4',
-          tweetUrl: 'https://twitter.com/aModestDuck',
-        },
-        {
-          username: 'username5',
-          tweetUrl: 'https://twitter.com/aModestDuck',
-        },
-        {
-          username: 'username6',
-          tweetUrl: 'https://twitter.com/aModestDuck',
-        },
-        {
-          username: 'username7',
-          tweetUrl: 'https://twitter.com/aModestDuck',
-        },
-        {
-          username: 'username8',
-          tweetUrl: 'https://twitter.com/aModestDuck',
-        },
-        {
-          username: 'username9',
-          tweetUrl: 'https://twitter.com/aModestDuck',
-        },
-        {
-          username: 'username10',
-          tweetUrl: 'https://twitter.com/aModestDuck',
-        },
       ]}
     />
 
@@ -87,24 +47,3 @@ export const DynamicMarketingScreen = dynamic(
     loading: () => <LoadingScreen />,
   }
 );
-
-// Sample query for soonest expiring raffle!
-//
-// db.raffle.findMany({
-//   where: {
-//     status: 'ACTIVE',
-//   },
-//   take: 1,
-//   select: {
-//     id: true,
-//     expiresAt: true,
-//     prize: {
-//       select: {
-//         id: true,
-//         name: true,
-//         imageUrl: true,
-//         type: true,
-//       },
-//     },
-//   },
-// }),
