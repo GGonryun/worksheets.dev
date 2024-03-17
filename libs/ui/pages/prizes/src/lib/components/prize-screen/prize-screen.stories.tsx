@@ -31,7 +31,7 @@ export const Primary: Story = {
     expiredRaffles: mockRaffles.filter(
       (raffle) => raffle.expiresAt < Date.now()
     ),
-    suggestions: mockPrizes,
+    activePrizes: mockPrizes,
   },
 };
 
@@ -40,6 +40,6 @@ export const Empty: Story = {
     prize: mockPrizes[0],
     activeRaffles: [],
     expiredRaffles: [],
-    suggestions: mockPrizes,
+    activePrizes: mockPrizes,
   },
 };

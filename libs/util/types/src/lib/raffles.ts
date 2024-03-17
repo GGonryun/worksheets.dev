@@ -25,8 +25,6 @@ export const raffleSchema = z.object({
   headline: z.string(),
   description: z.string(),
   expiresAt: z.number(),
-  costPerEntry: z.number(),
-  monetaryValue: z.number(),
   type: z.nativeEnum(PrizeType),
   sourceUrl: z.string(),
   imageUrl: z.string(),
@@ -39,23 +37,20 @@ export const raffleSchema = z.object({
 
 export type RaffleSchema = z.infer<typeof raffleSchema>;
 
-export const detailedRaffleSchema = raffleSchema.extend({
-  participants: z
-    .object({
-      userId: z.string(),
-      username: z.string(),
-      numTickets: z.number(),
-    })
-    .array(),
-  winners: z
-    .object({
-      userId: z.string(),
-      username: z.string(),
-    })
-    .array(),
+export const participationSchema = z.object({
+  userId: z.string(),
+  username: z.string(),
+  numTickets: z.number(),
 });
 
-export type DetailedRaffleSchema = z.infer<typeof detailedRaffleSchema>;
+export type ParticipationSchema = z.infer<typeof participationSchema>;
+
+export const winnerSchema = z.object({
+  userId: z.string(),
+  username: z.string(),
+});
+
+export type WinnerSchema = z.infer<typeof winnerSchema>;
 
 export type BasicRaffleDetails = Pick<
   RaffleSchema,
@@ -82,8 +77,6 @@ export const convertRaffle = (
   headline: raffle.prize.headline,
   description: raffle.prize.description,
   expiresAt: raffle.expiresAt.getTime(),
-  costPerEntry: raffle.costPerEntry,
-  monetaryValue: raffle.prize.monetaryValue,
   type: raffle.prize.type,
   sourceUrl: raffle.prize.sourceUrl,
   imageUrl: raffle.prize.imageUrl,
@@ -105,10 +98,3 @@ export const enteredRaffleSchema = z.object({
 });
 
 export type EnteredRaffleSchema = z.infer<typeof enteredRaffleSchema>;
-
-export const raffleParticipation = z.object({
-  userId: z.string(),
-  numTickets: z.number(),
-});
-
-export type RaffleParticipation = z.infer<typeof raffleParticipation>;

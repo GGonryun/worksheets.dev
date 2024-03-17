@@ -3,20 +3,38 @@ import { Meta } from '@storybook/react';
 import { mockRaffles } from '@worksheets/ui/components/raffles';
 import { StoryWallpaper } from '@worksheets/ui/components/wallpaper';
 import { arrayFromNumber } from '@worksheets/util/arrays';
+import {
+  ParticipationSchema,
+  RaffleSchema,
+  WinnerSchema,
+} from '@worksheets/util/types';
 
 import { RaffleScreen } from './raffle-screen';
 
 const activeRaffles = arrayFromNumber(10).flatMap((i) =>
-  mockRaffles.map((mp) => ({ ...mp, id: `${Math.random()}${i}` }))
+  mockRaffles.map((mp) => ({ ...mp, id: i }))
 );
+
+const participants: ParticipationSchema[] = arrayFromNumber(5).map((i) => ({
+  userId: `user-${i}`,
+  username: `user-${i}`,
+  numTickets: 100,
+}));
+
+const participation: ParticipationSchema = participants[1];
+
+const raffle: RaffleSchema = mockRaffles[1];
+
+const winners: WinnerSchema[] = [participation];
 
 type Story = Meta<typeof RaffleScreen>;
 const Default: Story = {
   component: RaffleScreen,
   args: {
     activeRaffles,
-    suggestedRaffles: mockRaffles,
-    youWon: false,
+    participation,
+    winners: [],
+    participants,
     onShare: action('onShare'),
     onRaffleClick: action('onRaffleClick'),
   },
@@ -33,43 +51,36 @@ export default Default;
 
 export const Empty: Story = {
   args: {
-    suggestedRaffles: [],
-    raffle: mockRaffles[4],
-    connected: true,
-    yourEntries: 0,
+    activeRaffles: [],
+    raffle,
   },
 };
 
-export const Filled: Story = {
+export const Primary: Story = {
   args: {
-    raffle: mockRaffles[5],
-    yourEntries: 10,
-    connected: true,
+    raffle,
   },
 };
 
 export const NotLoggedIn: Story = {
   args: {
-    raffle: mockRaffles[5],
-    yourEntries: 0,
-    connected: false,
+    raffle,
+    participation: undefined,
   },
 };
 
 export const YouWon: Story = {
   args: {
-    raffle: mockRaffles[3],
-    yourEntries: 1,
-    connected: true,
-    youWon: true,
+    raffle: {
+      ...raffle,
+      expiresAt: new Date('2024-01-01').getTime(),
+    },
+    winners,
   },
 };
 
 export const Expired: Story = {
   args: {
-    raffle: { ...mockRaffles[5], expiresAt: new Date('2024-01-01').getTime() },
-    yourEntries: 10,
-    connected: true,
-    youWon: false,
+    raffle: { ...raffle, expiresAt: new Date('2024-01-01').getTime() },
   },
 };

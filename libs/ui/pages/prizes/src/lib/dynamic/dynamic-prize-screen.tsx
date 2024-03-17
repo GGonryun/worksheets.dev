@@ -32,7 +32,7 @@ const PrizeScreenContainer: React.FC<{ prize: DetailedPrizeSchema }> = ({
         prize={prize}
         activeRaffles={activeRaffles.data ?? []}
         expiredRaffles={expiredRaffles.data ?? []}
-        suggestions={suggestedPrizes.data ?? { similar: [], active: [] }}
+        activePrizes={suggestedPrizes.data?.active ?? []}
         onShare={() => setSharePrizeModal(true)}
       />
       <SharePrizeModal

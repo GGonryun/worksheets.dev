@@ -26,7 +26,6 @@ export const PrizesGroup: React.FC<{
           name={item.name}
           imageUrl={item.imageUrl}
           type={item.type}
-          monetaryValue={item.monetaryValue}
         />
       )}
     />

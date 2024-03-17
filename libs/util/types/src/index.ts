@@ -20,3 +20,4 @@ export * from './lib/sponsors';
 export * from './lib/prizes';
 export * from './lib/notifications';
 export * from './lib/admin';
+export * from './lib/user';

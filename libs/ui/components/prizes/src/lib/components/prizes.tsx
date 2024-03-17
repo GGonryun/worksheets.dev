@@ -3,14 +3,13 @@ import { routes } from '@worksheets/ui/routes';
 import { BasicPrizeDetails } from '@worksheets/util/types';
 import React from 'react';
 
-import { prizeTypeLogos } from '../data';
+import { prizeTypeLabel, prizeTypeLogos } from '../data';
 
 export const Prize: React.FC<BasicPrizeDetails> = ({
   id,
   name,
   type,
   imageUrl,
-  monetaryValue,
 }) => {
   const PlatformLogo = prizeTypeLogos[type];
 
@@ -20,7 +19,7 @@ export const Prize: React.FC<BasicPrizeDetails> = ({
       imageUrl={imageUrl}
       icon={PlatformLogo}
       name={name}
-      caption={`$${monetaryValue} Value`}
+      caption={prizeTypeLabel[type]}
     />
   );
 };

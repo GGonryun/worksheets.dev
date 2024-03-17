@@ -5,7 +5,6 @@ export const prizeSchema = z.object({
   id: z.number(),
   name: z.string(),
   type: z.nativeEnum(PrizeType),
-  monetaryValue: z.number(),
   imageUrl: z.string(),
 });
 
@@ -22,5 +21,5 @@ export type DetailedPrizeSchema = z.infer<typeof detailedPrizeSchema>;
 
 export type BasicPrizeDetails = Pick<
   PrizeSchema,
-  'id' | 'name' | 'imageUrl' | 'type' | 'monetaryValue'
+  'id' | 'name' | 'imageUrl' | 'type'
 >;

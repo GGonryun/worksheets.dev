@@ -8,7 +8,7 @@ const Story: Meta<typeof ShareRaffleModal> = {
   args: {
     open: true,
     onClose: action('onClose'),
-    id: '123',
+    id: 123,
     name: 'Test Prize',
   },
 };

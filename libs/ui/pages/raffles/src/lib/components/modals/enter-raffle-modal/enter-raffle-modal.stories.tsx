@@ -17,15 +17,13 @@ export default Default;
 export const Primary: Story = {
   args: {
     open: true,
-    cost: 10,
-    tokens: 1000,
+    tokensOwned: 1000,
   },
 };
 
 export const InsufficientTokens: Story = {
   args: {
     open: true,
-    cost: 10,
-    tokens: 1,
+    tokensOwned: 1,
   },
 };

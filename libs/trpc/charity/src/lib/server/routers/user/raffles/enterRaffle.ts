@@ -1,4 +1,5 @@
 import { TRPCError } from '@trpc/server';
+import { RAFFLE_ENTRY_FEE } from '@worksheets/util/settings';
 import { z } from 'zod';
 
 import { protectedProcedure } from '../../../procedures';
@@ -7,11 +8,10 @@ export default protectedProcedure
   .input(
     z.object({
       raffleId: z.number(),
-      numEntries: z.number().int().positive(),
     })
   )
   .output(z.unknown())
-  .mutation(async ({ input: { raffleId, numEntries }, ctx: { db, user } }) => {
+  .mutation(async ({ input: { raffleId }, ctx: { db, user } }) => {
     return db.$transaction(async (tx) => {
       // get the prize to compute the cost.
       const raffle = await db.raffle.findFirst({
@@ -41,8 +41,6 @@ export default protectedProcedure
         });
       }
 
-      const totalCost = raffle.costPerEntry * numEntries;
-
       // purchase the tickets
       const result = await tx.rewards.update({
         where: {
@@ -50,7 +48,7 @@ export default protectedProcedure
         },
         data: {
           totalTokens: {
-            decrement: totalCost,
+            decrement: RAFFLE_ENTRY_FEE,
           },
         },
       });
@@ -73,11 +71,11 @@ export default protectedProcedure
         },
         update: {
           numTickets: {
-            increment: numEntries,
+            increment: 1,
           },
         },
         create: {
-          numTickets: numEntries,
+          numTickets: 1,
           raffleId: raffleId,
           userId: user.id,
         },

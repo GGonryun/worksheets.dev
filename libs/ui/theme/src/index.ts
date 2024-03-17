@@ -273,6 +273,8 @@ const theme = createTheme({
       main: '#fff',
       dark: '#fff',
       contrastText: '#000',
+      gradient: `linear-gradient(181deg, #FFFFFF} 0.5%, ${grey[100]} 242.97%)`,
+      shadow: grey[300],
     },
     black: {
       light: '#000',

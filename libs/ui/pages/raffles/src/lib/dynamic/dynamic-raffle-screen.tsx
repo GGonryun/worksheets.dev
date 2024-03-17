@@ -1,7 +1,10 @@
 import { trpc } from '@worksheets/trpc-charity';
 import { Snackbar, useSnackbar } from '@worksheets/ui/components/snackbar';
-import { DetailedRaffleSchema } from '@worksheets/util/types';
+import { routes } from '@worksheets/ui/routes';
+import { PrizesPanels } from '@worksheets/util/enums';
+import { RaffleSchema } from '@worksheets/util/types';
 import dynamic from 'next/dynamic';
+import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
 import { useState } from 'react';
 
@@ -10,13 +13,30 @@ import { ConfirmEntryModal } from '../components/modals/confirm-entry-modal';
 import { EnterRaffleModal } from '../components/modals/enter-raffle-modal';
 import { ShareRaffleModal } from '../components/modals/share-raffle-modal';
 
-const RaffleScreenContainer: React.FC<{ raffle: DetailedRaffleSchema }> = ({
+const RaffleScreenContainer: React.FC<{ raffle: RaffleSchema }> = ({
   raffle,
 }) => {
+  const snackbar = useSnackbar();
+  const { push } = useRouter();
+
   const session = useSession();
   const isConnected = session.status === 'authenticated';
 
-  const snackbar = useSnackbar();
+  const loginHref = routes.login.path({
+    query: {
+      redirect: routes.raffle.path({
+        params: { raffleId: raffle.id },
+      }),
+    },
+  });
+
+  const accountHref = routes.account.prizes.path({
+    bookmark: PrizesPanels.Prizes,
+  });
+
+  const user = trpc.user.get.useQuery(undefined, {
+    enabled: isConnected,
+  });
 
   const enterRaffle = trpc.user.raffles.enterRaffle.useMutation();
 
@@ -33,9 +53,12 @@ const RaffleScreenContainer: React.FC<{ raffle: DetailedRaffleSchema }> = ({
     enabled: isConnected,
   });
 
-  const { data: suggestedRaffles } = trpc.public.raffles.list.useQuery({
-    category: 'suggested',
-    limit: 7,
+  const { data: winners } = trpc.public.raffles.winners.useQuery({
+    raffleId: raffle.id,
+  });
+
+  const { data: participants } = trpc.public.raffles.participants.useQuery({
+    raffleId: raffle.id,
   });
 
   const { data: activeRaffles } = trpc.public.raffles.list.useQuery({
@@ -44,10 +67,20 @@ const RaffleScreenContainer: React.FC<{ raffle: DetailedRaffleSchema }> = ({
 
   const [showShareRaffleModal, setShowShareRaffleModal] = useState(false);
   const [showEnterRaffleModal, setShowEnterRaffleModal] = useState(false);
-  const [raffleEntries, setRaffleEntries] = useState(0);
+  const [showConfirmEntryModal, setShowConfirmEntryModal] = useState(false);
 
   const handleRaffleClick = () => {
-    setShowEnterRaffleModal(true);
+    if (!user.data) {
+      push(loginHref);
+    }
+
+    const youWon = winners?.some((winner) => winner.userId === user.data?.id);
+
+    if (youWon) {
+      push(accountHref);
+    }
+
+    if (youWon) setShowEnterRaffleModal(true);
   };
 
   const handleEnterRaffle = async () => {
@@ -62,7 +95,6 @@ const RaffleScreenContainer: React.FC<{ raffle: DetailedRaffleSchema }> = ({
     try {
       await enterRaffle.mutateAsync({
         raffleId: raffle.id,
-        numEntries: raffleEntries,
       });
 
       participation.refetch();
@@ -78,20 +110,20 @@ const RaffleScreenContainer: React.FC<{ raffle: DetailedRaffleSchema }> = ({
         severity: 'error',
       });
     } finally {
-      setRaffleEntries(0);
+      setShowConfirmEntryModal(false);
     }
   };
 
   return (
     <>
       <RaffleScreen
-        userId={session.data?.user?.id ?? ''}
-        suggestedRaffles={suggestedRaffles ?? []}
         raffle={raffle}
         activeRaffles={activeRaffles ?? []}
         participation={participation.data}
         onRaffleClick={handleRaffleClick}
         onShare={() => setShowShareRaffleModal(true)}
+        winners={winners ?? []}
+        participants={participants ?? []}
       />
       <ShareRaffleModal
         open={showShareRaffleModal}
@@ -100,23 +132,20 @@ const RaffleScreenContainer: React.FC<{ raffle: DetailedRaffleSchema }> = ({
         name={raffle.name}
       />
       <ConfirmEntryModal
-        open={raffleEntries > 0}
-        onClose={() => setRaffleEntries(0)}
+        open={showConfirmEntryModal}
+        onClose={() => setShowConfirmEntryModal(false)}
         onConfirm={handleEnterRaffle}
-        numEntries={raffleEntries}
-        costPerEntry={raffle.costPerEntry}
       />
       <EnterRaffleModal
         open={showEnterRaffleModal}
         onClose={() => {
-          setRaffleEntries(0);
+          setShowConfirmEntryModal(false);
           setShowEnterRaffleModal(false);
         }}
-        onEnter={(num) => {
-          setRaffleEntries(num);
+        onEnter={() => {
+          setShowConfirmEntryModal(true);
           setShowEnterRaffleModal(false);
         }}
-        costPerEntry={raffle.costPerEntry}
         tokensOwned={rewards.data?.totalTokens ?? 0}
       />
       <Snackbar {...snackbar.props} />

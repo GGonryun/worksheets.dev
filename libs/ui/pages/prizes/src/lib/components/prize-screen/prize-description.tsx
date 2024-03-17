@@ -67,7 +67,6 @@ const DetailsGrid: React.FC<{ prize: DetailedPrizeSchema }> = ({ prize }) => {
       />
 
       <DetailPair label="Raffles" value={prize.numRaffles} />
-      <DetailPair label="Retail Value" value={`$${prize.monetaryValue} USD`} />
       <DetailPair label="Prize Type" value={prizeTypeLabel[prize.type]} />
       <Box my={2} />
       <Divider sx={{ backgroundColor: 'text.arcade' }} />

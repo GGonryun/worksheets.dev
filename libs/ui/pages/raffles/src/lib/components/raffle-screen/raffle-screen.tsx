@@ -1,14 +1,11 @@
 import { NavigateBefore } from '@mui/icons-material';
 import { Button, Container, Typography } from '@mui/material';
-import {
-  RaffleCarousel,
-  RafflesGroup,
-} from '@worksheets/ui/components/raffles';
+import { RafflesGroup } from '@worksheets/ui/components/raffles';
 import { routes } from '@worksheets/ui/routes';
 import {
-  DetailedRaffleSchema,
-  RaffleParticipation,
+  ParticipationSchema,
   RaffleSchema,
+  WinnerSchema,
 } from '@worksheets/util/types';
 
 import { CustomContainer } from '../shared/custom-container';
@@ -17,21 +14,19 @@ import { RaffleDescription } from './raffle-description';
 import { RaffleDetails } from './raffle-details';
 
 export const RaffleScreen: React.FC<{
-  userId: string;
-  suggestedRaffles: RaffleSchema[];
   activeRaffles: RaffleSchema[];
-  raffle: DetailedRaffleSchema;
-  participation?: RaffleParticipation;
-  //
+  raffle: RaffleSchema;
+  winners: WinnerSchema[];
+  participants: ParticipationSchema[];
+  participation?: ParticipationSchema;
   onRaffleClick: () => void;
   onShare: () => void;
 }> = ({
-  userId,
-  suggestedRaffles,
-  activeRaffles,
+  winners,
+  participants,
   raffle,
   participation,
-  //
+  activeRaffles,
   onRaffleClick,
   onShare,
 }) => (
@@ -54,24 +49,17 @@ export const RaffleScreen: React.FC<{
     >
       <AllRafflesLink />
       <RaffleDetails
-        {...raffle}
-        userId={userId}
+        raffle={raffle}
+        participation={participation}
+        winners={winners}
         onShare={onShare}
         onRaffleClick={onRaffleClick}
-        participation={participation}
       />
     </Container>
 
     <RaffleDescription raffle={raffle} onShare={onShare} />
 
-    <ParticipantsDescription
-      winners={raffle.winners}
-      participants={raffle.participants}
-    />
-
-    {Boolean(suggestedRaffles.length) && (
-      <RaffleCarousel items={suggestedRaffles} title="Raffles For You" />
-    )}
+    <ParticipantsDescription winners={winners} participants={participants} />
 
     <RafflesGroup title={'More Raffles'} raffles={activeRaffles} />
   </CustomContainer>

@@ -6,7 +6,7 @@ import {
   IS_DEVELOPMENT,
   IS_PRODUCTION,
 } from '@worksheets/services/environment';
-import { postTweet } from '@worksheets/services/twitter';
+import { TwitterService } from '@worksheets/services/twitter';
 import { routes } from '@worksheets/ui/routes';
 import { printShortDateTime } from '@worksheets/util/time';
 import { NextApiRequest, NextApiResponse } from 'next';
@@ -223,8 +223,10 @@ const notifyOnTwitter = async (raffle: ExpiredRaffle) => {
     return;
   }
 
+  const twitter = new TwitterService();
+
   try {
-    await postTweet(
+    await twitter.tweet(
       `🎉 The raffle for ${
         raffle.prize.name
       } has ended! 🎉\n\nCheck out the winners here: ${routes.raffle.url({

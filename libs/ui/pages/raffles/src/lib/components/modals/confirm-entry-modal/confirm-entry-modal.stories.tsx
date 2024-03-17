@@ -17,15 +17,11 @@ export default Default;
 export const Single: Story = {
   args: {
     open: true,
-    numEntries: 1,
-    costPerEntry: 5,
   },
 };
 
 export const Many: Story = {
   args: {
     open: true,
-    numEntries: 5,
-    costPerEntry: 10,
   },
 };

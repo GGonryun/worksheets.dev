@@ -1,104 +1,63 @@
 import { Box, Link, Typography } from '@mui/material';
-import { ContainImage } from '@worksheets/ui/components/images';
+import { CoverImage } from '@worksheets/ui/components/images';
 import { routes } from '@worksheets/ui/routes';
-import { PrizesPanels } from '@worksheets/util/enums';
-import {
-  DetailedRaffleSchema,
-  RaffleParticipation,
-} from '@worksheets/util/types';
+import { RaffleSchema } from '@worksheets/util/types';
 
 export const RaffleHeader: React.FC<{
-  headline: string;
-  userId: string;
-  prizeId: number;
-  imageUrl: string;
-  name: string;
-  expiresAt: number;
-  participation: RaffleParticipation | undefined;
-  winners: DetailedRaffleSchema['winners'];
-}> = ({
-  prizeId,
-  headline,
-  userId,
-  participation,
-  winners,
-  imageUrl,
-  name,
-  expiresAt,
-}) => {
-  const expired = Date.now() > expiresAt;
-  const youWon = winners.some((winner) => winner.userId === userId);
-  const yourEntries = participation?.numTickets ?? 0;
+  raffle: RaffleSchema;
+}> = ({ raffle }) => {
   return (
-    <Box
-      p={{ xs: 2, sm: 4, md: 6 }}
-      display="flex"
-      flexDirection="column"
-      position="relative"
-      gap={{ xs: 2, sm: 4 }}
-    >
-      <Box>
-        <Typography
-          component={Link}
-          href={routes.prize.path({
-            params: { prizeId },
-          })}
-          color="inherit"
-          sx={{
-            textDecorationColor: 'inherit',
-            typography: { xs: 'h6', sm: 'h4' },
-          }}
-        >
-          {name}
-        </Typography>
-        <Typography
-          color="text.secondary"
-          sx={{
-            typography: { xs: 'body2', sm: 'body1' },
-          }}
-        >
-          {headline}
-        </Typography>
-      </Box>
+    <Box p={4} height="100%">
       <Box
-        position="relative"
-        sx={{ aspectRatio: '1/1', maxHeight: { xs: 180, sm: 300 } }}
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        justifyContent="center"
+        gap={2}
       >
-        <ContainImage priority src={imageUrl} alt={name} />
-      </Box>
-      <Typography
-        display={yourEntries || youWon || expired ? 'block' : 'none'}
-        typography={{ xs: 'body3', sm: 'body2' }}
-        textAlign={'center'}
-        color={
-          youWon ? 'success.main' : expired ? 'error.main' : 'success.main'
-        }
-        fontWeight={{ xs: 700, sm: 700 }}
-        my={-1}
-      >
-        {youWon ? (
-          <Link
+        <Box>
+          <Typography
+            component={Link}
+            gutterBottom
+            href={routes.prize.path({
+              params: { prizeId: raffle.prizeId },
+            })}
             color="inherit"
             underline="hover"
-            href={routes.account.prizes.path({
-              bookmark: PrizesPanels.Prizes,
-            })}
+            sx={{
+              typography: { xs: 'h6', sm: 'h5' },
+            }}
           >
-            View Prize in Account
-          </Link>
-        ) : expired ? (
-          'Raffle Expired'
-        ) : (
-          <Link
-            color="inherit"
-            href={routes.account.prizes.path({
-              bookmark: PrizesPanels.Raffles,
-            })}
+            {raffle.name}
+          </Typography>
+          <Typography
+            color="text.secondary"
+            sx={{
+              typography: { xs: 'body3', sm: 'body2' },
+            }}
           >
-            You have {yourEntries} entr{yourEntries > 1 ? 'ies' : 'y'}!
-          </Link>
-        )}
-      </Typography>
+            {raffle.headline}
+          </Typography>
+        </Box>
+        <PrizeImage src={raffle.imageUrl} alt={raffle.name} />
+      </Box>
+    </Box>
+  );
+};
+
+const PrizeImage: React.FC<{ src: string; alt: string }> = (props) => {
+  return (
+    <Box
+      position="relative"
+      sx={{
+        borderRadius: (theme) => theme.shape.borderRadius,
+        overflow: 'hidden',
+        maxWidth: '100%',
+        height: '200px',
+        aspectRatio: '16/9',
+      }}
+    >
+      <CoverImage priority {...props} />
     </Box>
   );
 };

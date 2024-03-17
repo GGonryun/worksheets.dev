@@ -20,8 +20,6 @@ import {
   prizeTypeLabel,
   prizeTypeLogos,
 } from '@worksheets/ui/components/prizes';
-import { routes } from '@worksheets/ui/routes';
-import { PrizesPanels } from '@worksheets/util/enums';
 import {
   daysFromNow,
   durationToString,
@@ -29,57 +27,28 @@ import {
   printShortDateTime,
 } from '@worksheets/util/time';
 import {
-  DetailedRaffleSchema,
-  RaffleParticipation,
+  ParticipationSchema,
+  RaffleSchema,
+  WinnerSchema,
 } from '@worksheets/util/types';
 import React, { JSXElementConstructor } from 'react';
 
 export const RaffleInfo: React.FC<{
-  id: number;
-  userId: string;
-  prizeId: number;
-  expiresAt: number;
-  costPerEntry: number;
-  numWinners: number;
-  monetaryValue: number;
-  type: PrizeType;
-  sourceUrl: string;
-  participation: RaffleParticipation | undefined;
-  winners: DetailedRaffleSchema['winners'];
+  raffle: RaffleSchema;
+  participation?: ParticipationSchema;
+  winners: WinnerSchema[];
   onRaffleClick: () => void;
   onShare: () => void;
-}> = ({
-  id,
-  sourceUrl,
-  expiresAt,
-  numWinners,
-  userId,
-  winners,
-  participation,
-  costPerEntry,
-  type,
-  monetaryValue,
-  onRaffleClick,
-  onShare,
-}) => {
+}> = ({ participation, raffle, winners, onRaffleClick, onShare }) => {
+  const { numWinners, type, expiresAt, sourceUrl } = raffle;
   const soon = expiresAt < daysFromNow(1).getTime();
   const expired = expiresAt < Date.now();
 
-  const youWon = winners.some((winner) => winner.userId === userId);
   const connected = participation !== undefined;
   const yourEntries = participation?.numTickets ?? 0;
   const PlatformLogo = prizeTypeLogos[type];
-  const loginHref = routes.login.path({
-    query: {
-      redirect: routes.raffle.path({
-        params: { raffleId: id },
-      }),
-    },
-  });
-
-  const accountHref = routes.account.prizes.path({
-    bookmark: PrizesPanels.Prizes,
-  });
+  const youWon =
+    connected && winners.some((w) => w.userId === participation?.userId);
 
   return (
     <Box
@@ -107,18 +76,17 @@ export const RaffleInfo: React.FC<{
           </Button>
         </Box>
         {/* displace the button height */}
-        <Box py={{ xs: 0, sm: 2 }} />
+        <Box py={2} />
         <Box>
           <SectionHeaderTypography>
-            {expired ? 'Raffle Over!' : 'Raffle Ends In'}
+            {expired ? 'Raffle Complete' : 'Raffle Ends In'}
           </SectionHeaderTypography>
           <Box display="flex" gap={1} alignItems="center" pt={0.5}>
             <AccessTime
               color={youWon ? 'success' : expired ? 'error' : 'action'}
             />
             <Typography
-              typography={expired ? 'body2' : 'h6'}
-              fontWeight={{ xs: 700, sm: 700 }}
+              typography="h6"
               color={
                 youWon
                   ? 'success.main'
@@ -140,9 +108,7 @@ export const RaffleInfo: React.FC<{
         <Divider />
         <PrizeTypeInfo type={type} />
         <Divider />
-        <PrizeValueSection winners={numWinners} value={monetaryValue} />
-        <Divider />
-        <EntryFeeSection cost={costPerEntry} entered={yourEntries} />
+        <EntrySection winners={numWinners} entries={yourEntries} />
         <Divider />
 
         <Box display="flex" flexDirection="column" gap={2} mt={1}>
@@ -153,8 +119,7 @@ export const RaffleInfo: React.FC<{
             fullWidth
             disabled={expired && !youWon}
             sx={{ px: 1 }}
-            onClick={youWon || !connected ? undefined : onRaffleClick}
-            href={youWon ? accountHref : !connected ? loginHref : undefined}
+            onClick={onRaffleClick}
             startIcon={
               expired ? (
                 <Check sx={{ height: '1.5rem', width: '1.5rem' }} />
@@ -224,50 +189,18 @@ const SectionHeaderTypography = styled<JSXElementConstructor<TypographyProps>>(
   textDecorationColor: 'inherit',
 });
 
-const PrizeValueSection: React.FC<{ winners: number; value: number }> = ({
+const EntrySection: React.FC<{ winners: number; entries: number }> = ({
   winners,
-  value,
+  entries,
 }) => (
   <Box display="flex">
     <Box width="50%">
-      <SectionHeaderTypography>Winners</SectionHeaderTypography>
+      <SectionHeaderTypography>Your Entries</SectionHeaderTypography>
+      <Typography fontWeight={700}>{entries}</Typography>
+    </Box>
+    <Box width="50%">
+      <SectionHeaderTypography>Total Winners</SectionHeaderTypography>
       <Typography fontWeight={700}>{winners}</Typography>
-    </Box>
-    <Box width="50%">
-      <SectionHeaderTypography>Prize Value</SectionHeaderTypography>
-      <Typography fontWeight={700}>${value}</Typography>
-    </Box>
-  </Box>
-);
-
-const EntryFeeSection: React.FC<{ cost: number; entered: number }> = ({
-  cost,
-  entered,
-}) => (
-  <Box display="flex">
-    <Box width="50%">
-      <SectionHeaderTypography>Entry Fee</SectionHeaderTypography>
-      <Typography fontWeight={700}>{cost} Tokens</Typography>
-    </Box>
-    <Box width="50%">
-      <Typography
-        component={'a'}
-        variant="body3"
-        fontWeight={500}
-        textTransform="uppercase"
-        color="text.primary"
-        href={routes.account.prizes.path({
-          bookmark: PrizesPanels.Raffles,
-        })}
-      >
-        Your Entries
-      </Typography>
-      <Typography
-        fontWeight={700}
-        color={entered ? 'success.main' : 'text.primary'}
-      >
-        {entered}
-      </Typography>
     </Box>
   </Box>
 );

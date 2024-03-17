@@ -8,19 +8,16 @@ import {
   useMediaQuery,
 } from '@mui/material';
 import { BaseModal, ModalWrapper } from '@worksheets/ui-core';
+import { RAFFLE_ENTRY_FEE } from '@worksheets/util/settings';
 
 export const ConfirmEntryModal: React.FC<
   ModalWrapper<{
     onConfirm: () => void;
-    costPerEntry: number;
-    numEntries: number;
   }>
-> = ({ open, onClose, onConfirm, costPerEntry, numEntries }) => {
+> = ({ open, onClose, onConfirm }) => {
   const isMobile = useMediaQuery((theme: Theme) =>
     theme.breakpoints.down('sm')
   );
-
-  const total = costPerEntry * numEntries;
 
   const handleClose = () => onClose && onClose({}, 'escapeKeyDown');
   const handleConfirm = () => {
@@ -61,16 +58,8 @@ export const ConfirmEntryModal: React.FC<
         </Typography>
 
         <Typography variant={isMobile ? 'body2' : 'body1'}>
-          You are about to spend{' '}
-          <b>
-            {total} token{total > 1 ? 's' : ''}
-          </b>{' '}
-          for{' '}
-          <b>
-            {numEntries} raffle ticket
-            {numEntries > 1 ? 's' : ''}
-          </b>
-          !
+          You are about to spend <b>{RAFFLE_ENTRY_FEE} tokens</b> for{' '}
+          <b>1 raffle entry</b>!
         </Typography>
 
         <Button

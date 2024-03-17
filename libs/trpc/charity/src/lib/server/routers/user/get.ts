@@ -1,19 +1,9 @@
-import { UserType } from '@prisma/client';
-import { z } from 'zod';
+import { userSchema } from '@worksheets/util/types';
 
 import { protectedProcedure } from '../../procedures';
 
 export default protectedProcedure
-  .output(
-    z.object({
-      id: z.string(),
-      isPublisher: z.boolean(),
-      username: z.string(),
-      bio: z.string().nullable(),
-      email: z.string(),
-      type: z.nativeEnum(UserType),
-    })
-  )
+  .output(userSchema)
   .query(async ({ ctx: { user } }) => {
     return user;
   });

@@ -9,7 +9,8 @@ type Story = Meta<typeof PrizesScreen>;
 export default {
   component: PrizesScreen,
   args: {
-    prizes: mockPrizes,
+    allPrizes: mockPrizes,
+    activePrizes: mockPrizes,
   },
   decorators: [
     (Story) => (

@@ -1,4 +1,4 @@
-import { raffleParticipation } from '@worksheets/util/types';
+import { participationSchema } from '@worksheets/util/types';
 import { z } from 'zod';
 
 import { protectedProcedure } from '../../../procedures';
@@ -9,27 +9,23 @@ export default protectedProcedure
       raffleId: z.number(),
     })
   )
-  .output(raffleParticipation)
+  .output(participationSchema)
   .query(async ({ input: { raffleId }, ctx: { db, user } }) => {
+    const userId = user.id;
+
     const participation = await db.raffleParticipation.findFirst({
       where: {
         raffleId,
-        userId: user.id,
+        userId,
       },
       select: {
         numTickets: true,
       },
     });
 
-    if (!participation) {
-      return {
-        numTickets: 0,
-        userId: user.id,
-      };
-    } else {
-      return {
-        numTickets: participation.numTickets,
-        userId: user.id,
-      };
-    }
+    return {
+      numTickets: participation?.numTickets ?? 0,
+      userId: user.id,
+      username: user.username,
+    };
   });

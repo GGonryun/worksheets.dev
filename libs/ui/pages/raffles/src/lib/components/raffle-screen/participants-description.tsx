@@ -1,11 +1,11 @@
 import { Box, Typography, TypographyProps } from '@mui/material';
 import { Description } from '@worksheets/ui/components/description';
-import { DetailedRaffleSchema } from '@worksheets/util/types';
+import { ParticipationSchema, WinnerSchema } from '@worksheets/util/types';
 import React from 'react';
 
 export const ParticipantsDescription: React.FC<{
-  winners: DetailedRaffleSchema['winners'];
-  participants: DetailedRaffleSchema['participants'];
+  winners: WinnerSchema[];
+  participants: ParticipationSchema[];
 }> = ({ winners, participants }) => {
   return (
     <Description

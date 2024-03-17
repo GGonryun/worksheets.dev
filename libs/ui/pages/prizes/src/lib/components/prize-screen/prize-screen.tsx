@@ -1,7 +1,7 @@
 import { NavigateBefore } from '@mui/icons-material';
 import { Box, Button, Typography, useTheme } from '@mui/material';
 import { ResponsiveImage } from '@worksheets/ui/components/images';
-import { PrizesCarousel, PrizesGroup } from '@worksheets/ui/components/prizes';
+import { PrizesGroup } from '@worksheets/ui/components/prizes';
 import { routes } from '@worksheets/ui/routes';
 import {
   BasicRaffleDetails,
@@ -17,9 +17,9 @@ export const PrizeScreen: React.FC<{
   prize: DetailedPrizeSchema;
   activeRaffles: BasicRaffleDetails[];
   expiredRaffles: BasicRaffleDetails[];
-  suggestions: { similar: PrizeSchema[]; active: PrizeSchema[] };
+  activePrizes: PrizeSchema[];
   onShare: () => void;
-}> = ({ prize, activeRaffles, expiredRaffles, suggestions, onShare }) => (
+}> = ({ prize, activeRaffles, expiredRaffles, activePrizes, onShare }) => (
   <CustomContainer>
     <Box display="flex" flexDirection="column" gap={4}>
       <Button
@@ -42,11 +42,9 @@ export const PrizeScreen: React.FC<{
         activeRaffles={activeRaffles}
         expiredRaffles={expiredRaffles}
       />
-      {Boolean(suggestions.active.length) && (
-        <PrizesCarousel title="Active Prizes" prizes={suggestions.active} />
-      )}
-      {Boolean(suggestions.similar) && (
-        <PrizesGroup title="Similar Prizes" prizes={suggestions.similar} />
+
+      {Boolean(activePrizes) && (
+        <PrizesGroup title="Active Prizes" prizes={activePrizes} />
       )}
     </Box>
   </CustomContainer>

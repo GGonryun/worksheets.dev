@@ -8,7 +8,6 @@ const SUGGESTED_PRIZE_PROPS = {
   id: true as const,
   name: true as const,
   type: true as const,
-  monetaryValue: true as const,
   imageUrl: true as const,
 };
 
@@ -69,6 +68,5 @@ const convertPrize = (
   id: prize.id,
   name: prize.name,
   type: prize.type,
-  monetaryValue: prize.monetaryValue,
   imageUrl: prize.imageUrl,
 });

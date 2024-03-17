@@ -22,7 +22,7 @@ export const InviteFriendsSection: React.FC<
     active: TokensPanels | undefined;
     onClick: (id: string) => void;
   }
-> = ({ link, tokens, referrals, id, active, onClick }) => (
+> = ({ link, referrals, id, active, onClick }) => (
   <CollapsibleSection
     id={id}
     active={active}
