@@ -20,15 +20,13 @@ export default async function handler(
     }
   }
 
-  await Promise.all([resetRewards(), resetShares()]);
+  await Promise.all([resetRewards(), prisma.gift.deleteMany()]);
 
-  // TODO: in the future we'll need to push everything into a queue for increased performance.
   response.status(200).json({ success: true });
 }
 
-// find all friends that have been sent a gift in the last 48 hours.
-// use a two day window to account for timezones and other edge cases.
 const resetRewards = async () => {
+  // TODO: reset only user rewards if the user has been active in the last 24 hours.
   const updating = await prisma.rewards.findMany({
     select: {
       id: true,
@@ -50,17 +48,3 @@ const resetRewards = async () => {
     },
   });
 };
-
-// clear all the giftSentAt fields.
-// use a two day window to account for timezones and other edge cases.
-const resetShares = async () =>
-  prisma.friendship.updateMany({
-    where: {
-      giftSentAt: {
-        gte: new Date(Date.now() - 48 * 60 * 60 * 1000),
-      },
-    },
-    data: {
-      giftSentAt: null,
-    },
-  });

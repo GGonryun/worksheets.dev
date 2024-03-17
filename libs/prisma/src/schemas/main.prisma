@@ -87,27 +87,23 @@ model VerificationToken {
 }
 
 model Friendship {
-  id         String    @id @default(cuid())
+  id         String   @id @default(cuid())
   userId     String
   friendId   String
-  isFavorite Boolean   @default(false)
-  // TODO: there's a glitch that theoretically makes it possible to send a gift to a friend, delete the friendship, and then recreate the friendship
-  // which allows you to send multiple gifts to the same person.
-  giftSentAt DateTime?
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
-  user       User      @relation(name: "Friends", fields: [userId], references: [id], onDelete: Cascade)
-  friend     User      @relation(name: "Followers", fields: [friendId], references: [id], onDelete: Cascade)
+  isFavorite Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  user       User     @relation(name: "Friends", fields: [userId], references: [id], onDelete: Cascade)
+  friend     User     @relation(name: "Followers", fields: [friendId], references: [id], onDelete: Cascade)
+  gift       Gift?
 }
 
-// TODO: use a direct gift model instead of a friendship with a giftSentAt field.
-// model Gift {
-//   id           String   @id @default(cuid())
-//   senderId     String
-//   recipientId  String
-//   sentAt       DateTime @default(now())
-//   claimedAt    DateTime?
-// }
+model Gift {
+  id           String     @id @default(cuid())
+  friendshipId String     @unique
+  friendship   Friendship @relation(fields: [friendshipId], references: [id])
+  sentAt       DateTime   @default(now())
+}
 
 model Rewards {
   id                      String    @id @default(cuid())
@@ -357,22 +353,21 @@ enum PrizeType {
 }
 
 model Prize {
-  id            Int              @id @default(autoincrement())
-  name          String           @db.VarChar(127)
-  headline      String           @db.VarChar(255)
-  description   String           @db.VarChar(2047)
-  monetaryValue Int
-  sourceUrl     String           @db.VarChar(255)
-  imageUrl      String           @db.VarChar(255)
+  id          Int              @id @default(autoincrement())
+  name        String           @db.VarChar(127)
+  headline    String           @db.VarChar(255)
+  description String           @db.VarChar(2047)
+  sourceUrl   String           @db.VarChar(255)
+  imageUrl    String           @db.VarChar(255)
   // the type of activation code it is. (e.g. steam key or gift card key)
-  type          PrizeType
+  type        PrizeType
   // external
-  raffles       Raffle[]
+  raffles     Raffle[]
   // analytics
-  createdAt     DateTime         @default(now())
-  updatedAt     DateTime         @updatedAt
-  winners       RaffleWinner[]
-  codes         ActivationCode[]
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+  winners     RaffleWinner[]
+  codes       ActivationCode[]
 }
 
 enum RaffleStatus {
@@ -386,7 +381,6 @@ model Raffle {
   id           Int                   @id @default(autoincrement())
   status       RaffleStatus
   expiresAt    DateTime
-  costPerEntry Int
   numWinners   Int
   prizeId      Int
   prize        Prize                 @relation(fields: [prizeId], references: [id])

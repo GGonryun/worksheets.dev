@@ -21,6 +21,16 @@ export default protectedProcedure
         id,
         userId, // makes sure the user owns the friendship.
       },
+      select: {
+        id: true,
+        userId: true,
+        friendId: true,
+        friend: {
+          select: {
+            username: true,
+          },
+        },
+      },
     });
 
     if (!friendship) {
@@ -30,7 +40,7 @@ export default protectedProcedure
       });
     }
 
-    const [userRewards, friendRewards] = await Promise.all([
+    const [userRewards, friendRewards, gift] = await Promise.all([
       db.rewards.findFirst({
         where: {
           userId: friendship.userId,
@@ -39,6 +49,11 @@ export default protectedProcedure
       db.rewards.findFirst({
         where: {
           userId: friendship.friendId,
+        },
+      }),
+      db.gift.findFirst({
+        where: {
+          friendshipId: friendship.id,
         },
       }),
     ]);
@@ -55,6 +70,13 @@ export default protectedProcedure
         code: 'INTERNAL_SERVER_ERROR',
         message:
           'Could not find friend rewards. Contact support for assistance.',
+      });
+    }
+
+    if (gift) {
+      throw new TRPCError({
+        code: 'PRECONDITION_FAILED',
+        message: `You've already sent a gift to ${friendship.friend.username}!`,
       });
     }
 
@@ -82,12 +104,9 @@ export default protectedProcedure
       }),
 
       // record that the user has sent a gift to this friend today.
-      db.friendship.update({
-        where: {
-          id,
-        },
+      db.gift.create({
         data: {
-          giftSentAt: new Date(),
+          friendshipId: friendship.id,
         },
       }),
 

@@ -37,7 +37,11 @@ export default protectedProcedure
           select: {
             id: true,
             isFavorite: true,
-            giftSentAt: true,
+            gift: {
+              select: {
+                sentAt: true,
+              },
+            },
             friend: {
               select: {
                 lastSeen: true,
@@ -98,7 +102,7 @@ export default protectedProcedure
           friendship.friend.lastSeen?.getTime() ??
           friendship.friend.createdAt.getTime(),
         isFavorite: friendship.isFavorite,
-        giftSentAt: friendship.giftSentAt?.getTime() ?? null,
+        giftSentAt: friendship.gift?.sentAt.getTime() ?? null,
       })),
       followers: profile.followers.map((follower) => ({
         friendshipId: follower.id,
