@@ -24,10 +24,8 @@ export const RAFFLE_ENTRY_FEE = 20;
 // prizes
 export const PRIZE_TOKEN_MODIFIER = 1000;
 // alerts
-export const CLAIM_ALERT_LAST_SENT_THRESHOLD = 3 * 24; // 3 days
-export const CLAIM_ALERT_SENT_COUNT_THRESHOLD = 6;
-// forfeitures
-export const PRIZE_FORFEITURE_DAYS = 15;
+export const CLAIM_ALERT_LAST_SENT_THRESHOLD = 24; // hours
+export const CLAIM_ALERT_SENT_COUNT_THRESHOLD = 3; // 3 reminders sent.
 
 export const dailyBonusGames: BasicGameDetails[] = [
   {

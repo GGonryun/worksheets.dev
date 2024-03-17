@@ -32,10 +32,10 @@ export function convertSecondsToMilliseconds(seconds: number): number {
 
 export const minutesFromNow = (minutes: number) =>
   new Date(Date.now() + 60000 * minutes);
-export const hoursFromNow = (hours: number) =>
-  new Date(Date.now() + 3600000 * hours);
-export const daysFromNow = (days: number) =>
-  new Date(Date.now() + 86400000 * days);
+export const hoursFromNow = (hours: number, now = Date.now()) =>
+  new Date(now + 3600000 * hours);
+export const daysFromNow = (days: number, now = Date.now()) =>
+  new Date(now + 86400000 * days);
 export const weeksFromNow = (weeks: number) =>
   new Date(Date.now() + 604800000 * weeks);
 export const monthsFromNow = (months: number) =>

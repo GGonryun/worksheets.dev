@@ -15,7 +15,6 @@ import {
 import {
   CLAIM_ALERT_LAST_SENT_THRESHOLD,
   CLAIM_ALERT_SENT_COUNT_THRESHOLD,
-  PRIZE_FORFEITURE_DAYS,
 } from '@worksheets/util/settings';
 import { hoursAgo, printShortDateTime } from '@worksheets/util/time';
 import { NextApiRequest, NextApiResponse } from 'next';
@@ -42,6 +41,7 @@ const PENDING_ALERT_PROPS = {
   id: true as const,
   lastSentAt: true as const,
   sentCount: true as const,
+  createdAt: true as const,
   winner: {
     select: {
       id: true as const,
@@ -140,10 +140,10 @@ const processExpiredAlert = async (alert: PendingAlert) => {
     },
   });
 
-  await sendExpiredAlertDiscordNotification(alert);
+  await notifyAdmins(alert);
 };
 
-const sendExpiredAlertDiscordNotification = async (alert: PendingAlert) => {
+const notifyAdmins = async (alert: PendingAlert) => {
   try {
     sendDiscordMessage({
       content: `The following users have not claimed their prize in ${
@@ -164,7 +164,7 @@ const sendExpiredAlertDiscordNotification = async (alert: PendingAlert) => {
   }
 };
 
-const claimHelpText = `Please visit <a href="${ACCOUNT_URL}">Charity Games</a> to claim your prize. If you are unable to claim a prize, please <a href="${CONTACT_URL}">contact us</a> for assistance. You may receive an alternative prize or tokens equal to the prize value. If you need help, please visit our <a href="${CLAIM_URL}">Help Center</a>.<br/><br/>If you do not claim your prize within ${PRIZE_FORFEITURE_DAYS} days of winning, it may be forfeited.`;
+const claimHelpText = `Please visit <a href="${ACCOUNT_URL}">Charity Games</a> to claim your prize. If you are unable to claim a prize, please <a href="${CONTACT_URL}">contact us</a> for assistance. You may receive an alternative prize or tokens equal to the prize value. If you need help, please visit our <a href="${CLAIM_URL}">Help Center</a>.<br/><br/>If you do not claim your prize within ${CLAIM_ALERT_SENT_COUNT_THRESHOLD} days of winning, it will be forfeited.`;
 const unsubscribedText = `<i>If you no longer wish to receive these emails, you can unsubscribe from your <a href="${UNSUBSCRIBE_URL}">account settings</a>.</i>`;
 
 const sendAlertEmail = async (alert: PendingAlert) => {
@@ -182,6 +182,33 @@ const sendAlertEmail = async (alert: PendingAlert) => {
   }
 };
 
+const sendFirstTimeAlertEmail = async (alert: PendingAlert) =>
+  sendUserEmail(alert, {
+    subject: `🎉 You won a raffle on Charity Games!`,
+    content: `Congratulations! You've won ${printPrizeName(
+      alert.winner.prize
+    )}.`,
+  });
+
+const sendReminderEmail = async (alert: PendingAlert) =>
+  sendUserEmail(alert, {
+    subject: '🎉 Remember to claim your prize on Charity Games!',
+    content: `You've won a raffle but haven't claimed your prize yet. You have ${printPrizeName(
+      alert.winner.prize
+    )} waiting in your inventory!`,
+  });
+
+const sendUserEmail = async (
+  alert: PendingAlert,
+  options: { content: string; subject: string }
+) => {
+  sendEmail({
+    to: [alert.winner.user.email],
+    subject: options.subject,
+    html: `${options.content}<br/><br/>${claimHelpText}<br/><br/>${unsubscribedText}`,
+  });
+};
+
 const printPrizeName = (prize: PendingAlert['winner']['prize']) => {
   if (prize.type === 'STEAM_KEY') {
     return `a steam key for <a href="${PRIZE_URL(prize.id)}">${prize.name}</a>`;
@@ -192,26 +219,6 @@ const printPrizeName = (prize: PendingAlert['winner']['prize']) => {
   }
 
   return `a ${prize.name}`;
-};
-
-const sendFirstTimeAlertEmail = async (alert: PendingAlert) => {
-  return sendEmail({
-    to: [alert.winner.user.email],
-    subject: ` 🎉 You won a raffle!`,
-    html: `Congratulations! You've won ${printPrizeName(
-      alert.winner.prize
-    )}.<br/><br/>${claimHelpText}<br/><br/>${unsubscribedText}`,
-  });
-};
-
-const sendReminderEmail = async (alert: PendingAlert) => {
-  return sendEmail({
-    to: [alert.winner.user.email],
-    subject: 'Remember to claim your prize!',
-    html: `You've won a raffle and you have ${printPrizeName(
-      alert.winner.prize
-    )} waiting for you in your inventory!<br/><br/>${claimHelpText}<br/><br/>${unsubscribedText}`,
-  });
 };
 
 const updateAlert = async (alert: PendingAlert) => {
@@ -231,7 +238,7 @@ const updateAlert = async (alert: PendingAlert) => {
       data: {
         type: 'RAFFLE',
         userId: alert.winner.user.id,
-        text: `You won a prize! <a href="${ACCOUNT_URL}">Go to your account</a> to redeem your copy of <a href="${PRIZE_URL(
+        text: `You won a raffle! <a href="${ACCOUNT_URL}">Go to your account</a> to redeem your prize: <a href="${PRIZE_URL(
           alert.winner.prize.id
         )}">${alert.winner.prize.name}</a>.`,
       },
