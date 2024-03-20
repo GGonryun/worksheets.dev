@@ -1,4 +1,4 @@
-import { PrizeType } from '@prisma/client';
+import { PrizeType, RaffleStatus } from '@prisma/client';
 import { ArcadeItemCarousel } from '@worksheets/ui/components/arcade';
 import { ReactNode } from 'react';
 
@@ -9,6 +9,7 @@ export const RaffleCarousel: React.FC<{
     id: number;
     name: string;
     imageUrl: string;
+    status: RaffleStatus;
     expiresAt: number;
     type: PrizeType;
   }[];
@@ -23,6 +24,7 @@ export const RaffleCarousel: React.FC<{
       render={(item) => (
         <Raffle
           id={item.id}
+          status={item.status}
           name={item.name}
           imageUrl={item.imageUrl}
           expiresAt={item.expiresAt}

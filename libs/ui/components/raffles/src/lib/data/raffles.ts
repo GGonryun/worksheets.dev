@@ -10,7 +10,7 @@ import { RaffleSchema } from '@worksheets/util/types';
 export const mockRaffles: RaffleSchema[] = [
   {
     id: 1,
-    prizeId: 1,
+    prizeId: 'bg3',
     name: "Baldur's Gate 3",
     status: 'ACTIVE',
     headline:
@@ -30,7 +30,7 @@ export const mockRaffles: RaffleSchema[] = [
   },
   {
     id: 2,
-    prizeId: 2,
+    prizeId: 'cs2',
     name: 'City Skylines II',
     status: 'ACTIVE',
     headline:
@@ -50,7 +50,7 @@ export const mockRaffles: RaffleSchema[] = [
   },
   {
     id: 3,
-    prizeId: 3,
+    prizeId: 'pw3',
     name: 'Palworld',
     status: 'ACTIVE',
     headline:
@@ -70,7 +70,7 @@ export const mockRaffles: RaffleSchema[] = [
   },
   {
     id: 4,
-    prizeId: 4,
+    prizeId: 'eafc24',
     name: 'EA Sports FC 24',
     status: 'COMPLETE',
     headline: 'A football simulation video game published by Electronic Arts.',
@@ -89,7 +89,7 @@ export const mockRaffles: RaffleSchema[] = [
   },
   {
     id: 5,
-    prizeId: 5,
+    prizeId: 'rct3',
     status: 'ACTIVE',
     name: 'Roller Coaster Tycoon 3',
     headline: 'A construction and management simulation video game.',
@@ -109,7 +109,7 @@ export const mockRaffles: RaffleSchema[] = [
   },
   {
     id: 6,
-    prizeId: 6,
+    prizeId: 'ro2',
     status: 'ACTIVE',
     name: 'Ragnarok Online II',
     headline: 'A massively multiplayer online role-playing game.',

@@ -31,7 +31,7 @@ const RafflesContainer = () => {
     limit: 7,
   });
 
-  const { data: listPrizes } = trpc.public.raffles.list.useQuery({
+  const { data: listRaffles } = trpc.public.raffles.list.useQuery({
     category,
   });
 
@@ -51,7 +51,7 @@ const RafflesContainer = () => {
     <RafflesScreen
       hottest={hottestPrizes ?? []}
       entered={enteredRaffles ?? []}
-      list={listPrizes ?? []}
+      list={listRaffles ?? []}
       category={category}
       setCategory={setCategory}
       searched={searchPrizes ?? []}

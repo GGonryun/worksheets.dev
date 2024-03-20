@@ -1,29 +1,14 @@
 import { prisma } from '@worksheets/prisma';
-import { CRON_SECRET, IS_PRODUCTION } from '@worksheets/services/environment';
+import { createCronJob } from '@worksheets/util/cron';
 import {
   MAX_DAILY_GIFT_BOX_SHARES,
   MAX_TOKENS_FROM_GAME_PLAY_PER_DAY,
   MAX_TOKENS_FROM_REFERRAL_PLAYS,
 } from '@worksheets/util/settings';
-import { NextApiRequest, NextApiResponse } from 'next';
 
-export default async function handler(
-  request: NextApiRequest,
-  response: NextApiResponse
-) {
-  const authHeader = request.headers['authorization'];
-
-  // allow insecure requests in development
-  if (IS_PRODUCTION) {
-    if (authHeader !== `Bearer ${CRON_SECRET}`) {
-      return response.status(401).json({ success: false });
-    }
-  }
-
-  await Promise.all([resetRewards(), prisma.gift.deleteMany()]);
-
-  response.status(200).json({ success: true });
-}
+export default createCronJob(async () =>
+  Promise.all([resetRewards(), prisma.gift.deleteMany()])
+);
 
 const resetRewards = async () => {
   // TODO: reset only user rewards if the user has been active in the last 24 hours.

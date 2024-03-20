@@ -20,6 +20,7 @@ export const RafflesGroup: React.FC<{
         <Raffle
           key={item.id}
           id={item.id}
+          status={item.status}
           name={item.name}
           imageUrl={item.imageUrl}
           expiresAt={item.expiresAt}

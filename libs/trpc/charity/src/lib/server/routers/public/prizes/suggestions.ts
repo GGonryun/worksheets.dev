@@ -14,7 +14,7 @@ const SUGGESTED_PRIZE_PROPS = {
 export default publicProcedure
   .input(
     z.object({
-      prizeId: z.number(),
+      prizeId: z.string(),
     })
   )
   .output(

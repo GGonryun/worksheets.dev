@@ -39,7 +39,7 @@ export default t.router({
   find: adminProcedure
     .input(
       z.object({
-        prizeId: z.number(),
+        prizeId: z.string(),
       })
     )
     .output(prizeDetails)

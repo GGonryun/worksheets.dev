@@ -7,7 +7,7 @@ import { publicProcedure } from '../../../procedures';
 export default publicProcedure
   .input(
     z.object({
-      prizeId: z.number(),
+      prizeId: z.string(),
     })
   )
   .output(detailedPrizeSchema)

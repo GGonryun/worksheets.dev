@@ -20,6 +20,7 @@ export type ViewportKeys =
 
 export type GameSchema = {
   id: string;
+  version: number;
   name: string;
   description: string;
   developerId: string;
@@ -49,7 +50,9 @@ export type SeedableGameSchema = Omit<
   GameSchema,
   'likes' | 'dislikes' | 'plays' | 'trailer'
 > &
-  Partial<Pick<GameSchema, 'trailer'>>;
+  Partial<Pick<GameSchema, 'trailer'>> & {
+    publishAt?: Date;
+  };
 
 type MarketLinks = {
   android: string;
@@ -62,7 +65,7 @@ type MarketLinks = {
 
 export type SerializableGameSchema = Omit<
   GameSchema,
-  'createdAt' | 'updatedAt'
+  'createdAt' | 'updatedAt' | 'version'
 > & {
   createdAt: string;
   updatedAt: string;

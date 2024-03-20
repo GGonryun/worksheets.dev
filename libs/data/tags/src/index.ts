@@ -1,7 +1,12 @@
 import { GameTag, TagSchema } from '@worksheets/util/types';
 
-export const tags: Record<GameTag, TagSchema> = {
+export type SeedableTag = TagSchema & {
+  version: number;
+};
+
+export const tags: Record<GameTag, SeedableTag> = {
   'ad-free': {
+    version: 1,
     id: 'ad-free',
     name: 'Ad-Free Games',
     iconUrl: '/games/categories/ad-free.svg',
@@ -17,6 +22,7 @@ export const tags: Record<GameTag, TagSchema> = {
     `,
   },
   popular: {
+    version: 1,
     id: 'popular',
     name: 'Popular Games',
     iconUrl: '/games/categories/popular.svg',
@@ -29,6 +35,7 @@ export const tags: Record<GameTag, TagSchema> = {
     `,
   },
   mobile: {
+    version: 1,
     id: 'mobile',
     name: 'Mobile Games',
     iconUrl: '/games/categories/mobile.svg',
@@ -44,6 +51,7 @@ export const tags: Record<GameTag, TagSchema> = {
     `,
   },
   skibidi: {
+    version: 1,
     id: 'skibidi',
     name: 'Skibidi Games',
     iconUrl: '/games/categories/skibidi.png',
@@ -62,6 +70,7 @@ export const tags: Record<GameTag, TagSchema> = {
     `,
   },
   board: {
+    version: 1,
     id: 'board',
     name: 'Board Games',
     iconUrl: '/games/categories/board.svg',
@@ -90,6 +99,7 @@ export const tags: Record<GameTag, TagSchema> = {
     `,
   },
   word: {
+    version: 1,
     id: 'word',
     name: 'Word Games',
     iconUrl: '/games/categories/word.svg',
@@ -115,6 +125,7 @@ export const tags: Record<GameTag, TagSchema> = {
     `,
   },
   action: {
+    version: 1,
     id: 'action',
     name: 'Action Games',
     iconUrl: '/games/categories/action.svg',
@@ -143,6 +154,7 @@ export const tags: Record<GameTag, TagSchema> = {
     `,
   },
   adventure: {
+    version: 1,
     id: 'adventure',
     name: 'Adventure Games',
     iconUrl: '/games/categories/adventure.svg',
@@ -159,6 +171,7 @@ export const tags: Record<GameTag, TagSchema> = {
     `,
   },
   arcade: {
+    version: 1,
     id: 'arcade',
     name: 'Arcade Games',
     iconUrl: '/games/categories/arcade.svg',
@@ -178,6 +191,7 @@ export const tags: Record<GameTag, TagSchema> = {
     `,
   },
   grimace: {
+    version: 1,
     id: 'grimace',
     name: 'Grimace Games',
     iconUrl: '/games/categories/grimace.png',
@@ -199,6 +213,7 @@ export const tags: Record<GameTag, TagSchema> = {
     relatedTags: ['popular'],
   },
   defense: {
+    version: 1,
     id: 'defense',
     name: 'Defense Games',
     iconUrl: '/games/categories/defense.svg',
@@ -216,6 +231,7 @@ export const tags: Record<GameTag, TagSchema> = {
     `,
   },
   endless: {
+    version: 1,
     id: 'endless',
     name: 'Endless Games',
     iconUrl: '/games/categories/endless.svg',
@@ -236,6 +252,7 @@ export const tags: Record<GameTag, TagSchema> = {
     `,
   },
   educational: {
+    version: 1,
     id: 'educational',
     name: 'Educational Games',
     iconUrl: '/games/categories/educational.svg',
@@ -254,6 +271,7 @@ export const tags: Record<GameTag, TagSchema> = {
     Yes! Educational games are a great way for kids to learn new things. Most kids will stay engaged while playing these kinds of games. Most educational games are easy to play.`,
   },
   racing: {
+    version: 1,
     id: 'racing',
     name: 'Racing Games',
     iconUrl: '/games/categories/racing.svg',
@@ -271,6 +289,7 @@ export const tags: Record<GameTag, TagSchema> = {
     `,
   },
   puzzle: {
+    version: 1,
     id: 'puzzle',
     name: 'Puzzle Games',
     iconUrl: '/games/categories/puzzle.svg',
@@ -289,6 +308,7 @@ export const tags: Record<GameTag, TagSchema> = {
     `,
   },
   brain: {
+    version: 1,
     id: 'brain',
     name: 'Brain Games',
     iconUrl: '/games/categories/brain.svg',
@@ -315,6 +335,7 @@ export const tags: Record<GameTag, TagSchema> = {
     `,
   },
   card: {
+    version: 1,
     id: 'card',
     name: 'Card Games',
     iconUrl: '/games/categories/card.svg',
@@ -336,6 +357,7 @@ export const tags: Record<GameTag, TagSchema> = {
     `,
   },
   car: {
+    version: 1,
     id: 'car',
     name: 'Car Games',
     iconUrl: '/games/categories/car.svg',
@@ -351,6 +373,7 @@ export const tags: Record<GameTag, TagSchema> = {
     relatedTags: ['racing', '2p', 'popular', 'action', 'boy'],
   },
   funny: {
+    version: 1,
     id: 'funny',
     name: 'Funny Games',
     iconUrl: '/games/categories/funny.svg',
@@ -366,6 +389,7 @@ export const tags: Record<GameTag, TagSchema> = {
     relatedTags: ['1p', '2p', 'action', 'drawing', 'shooting'],
   },
   ball: {
+    version: 1,
     id: 'ball',
     name: 'Ball Games',
     iconUrl: '/games/categories/ball.svg',
@@ -381,6 +405,7 @@ export const tags: Record<GameTag, TagSchema> = {
     relatedTags: ['sports', 'shooting', 'boy', '2p', 'brain'],
   },
   fashion: {
+    version: 1,
     id: 'fashion',
     name: 'Fashion Games',
     iconUrl: '/games/categories/fashion.svg',
@@ -392,6 +417,7 @@ export const tags: Record<GameTag, TagSchema> = {
     relatedTags: ['girl', 'popular', '2p', 'action'],
   },
   shooting: {
+    version: 1,
     id: 'shooting',
     name: 'Shooting Games',
     iconUrl: '/games/categories/shooting.svg',
@@ -417,6 +443,7 @@ export const tags: Record<GameTag, TagSchema> = {
     ],
   },
   platform: {
+    version: 1,
     id: 'platform',
     name: 'Platformer Games',
     iconUrl: '/games/categories/platform.svg',
@@ -432,6 +459,7 @@ export const tags: Record<GameTag, TagSchema> = {
     `,
   },
   survival: {
+    version: 1,
     id: 'survival',
     name: 'Survival Games',
     iconUrl: '/games/categories/survival.svg',
@@ -447,6 +475,7 @@ export const tags: Record<GameTag, TagSchema> = {
     `,
   },
   gun: {
+    version: 1,
     id: 'gun',
     name: 'Gun Games',
     iconUrl: '/games/categories/gun.svg',
@@ -461,6 +490,7 @@ export const tags: Record<GameTag, TagSchema> = {
     relatedTags: ['grimace', 'fighting', 'shooting', 'action', '2p', 'new'],
   },
   sports: {
+    version: 1,
     id: 'sports',
     name: 'Sports Games',
     iconUrl: '/games/categories/sports.svg',
@@ -475,6 +505,7 @@ export const tags: Record<GameTag, TagSchema> = {
     relatedTags: ['1p', 'arcade', 'adventure', 'ball', 'car', 'boy', 'girl'],
   },
   fighting: {
+    version: 1,
     id: 'fighting',
     name: 'Fighting Games',
     iconUrl: '/games/categories/fighting.svg',
@@ -497,6 +528,7 @@ export const tags: Record<GameTag, TagSchema> = {
     ],
   },
   boy: {
+    version: 1,
     id: 'boy',
     name: 'Boy Games',
     iconUrl: '/games/categories/boy.svg',
@@ -507,6 +539,7 @@ export const tags: Record<GameTag, TagSchema> = {
     relatedTags: ['girl', 'ball', 'fighting', 'shooting', 'drawing', 'popular'],
   },
   girl: {
+    version: 1,
     id: 'girl',
     name: 'Girl Games',
     iconUrl: '/games/categories/girl.svg',
@@ -519,6 +552,7 @@ export const tags: Record<GameTag, TagSchema> = {
     relatedTags: ['boy', 'fashion', 'drawing', 'popular', 'mobile'],
   },
   idle: {
+    version: 1,
     id: 'idle',
     name: 'Idle Games',
     iconUrl: '/games/categories/idle.svg',
@@ -531,6 +565,7 @@ export const tags: Record<GameTag, TagSchema> = {
     relatedTags: ['1p', 'car', 'fashion', 'word', 'sports', 'drawing'],
   },
   drawing: {
+    version: 1,
     id: 'drawing',
     name: 'Drawing Games',
     iconUrl: '/games/categories/drawing.svg',
@@ -543,6 +578,7 @@ export const tags: Record<GameTag, TagSchema> = {
   },
 
   '3d': {
+    version: 1,
     id: '3d',
     name: '3D Games',
     iconUrl: '/games/categories/3d.svg',
@@ -558,6 +594,7 @@ export const tags: Record<GameTag, TagSchema> = {
     `,
   },
   '2d': {
+    version: 1,
     id: '2d',
     name: '2D Games',
     iconUrl: '/games/categories/2d.svg',
@@ -581,6 +618,7 @@ export const tags: Record<GameTag, TagSchema> = {
     `,
   },
   new: {
+    version: 1,
     id: 'new',
     name: 'New Games',
     iconUrl: '/games/categories/new.svg',
@@ -593,6 +631,7 @@ export const tags: Record<GameTag, TagSchema> = {
     `,
   },
   desktop: {
+    version: 1,
     id: 'desktop',
     name: 'Computer Games',
     iconUrl: '/games/categories/desktop.svg',
@@ -605,6 +644,7 @@ export const tags: Record<GameTag, TagSchema> = {
     `,
   },
   '1p': {
+    version: 1,
     id: '1p',
     name: '1-Player Games',
     iconUrl: '/games/categories/1p.svg',
@@ -619,6 +659,7 @@ export const tags: Record<GameTag, TagSchema> = {
     relatedTags: ['2p', 'popular', 'mobile', 'desktop', 'new'],
   },
   '2p': {
+    version: 1,
     id: '2p',
     name: '2-Player Games',
     iconUrl: '/games/categories/2p.svg',

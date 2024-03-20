@@ -1,14 +1,10 @@
 import { Prisma, prisma } from '@worksheets/prisma';
 import { sendDiscordMessage } from '@worksheets/services/discord';
-import {
-  CRON_SECRET,
-  DISCORD_WEBHOOK_URL,
-  IS_PRODUCTION,
-} from '@worksheets/services/environment';
+import { DISCORD_WEBHOOK_URL } from '@worksheets/services/environment';
 import { TwitterService } from '@worksheets/services/twitter';
 import { routes } from '@worksheets/ui/routes';
+import { createCronJob } from '@worksheets/util/cron';
 import { printShortDateTime } from '@worksheets/util/time';
-import { NextApiRequest, NextApiResponse } from 'next';
 import pluralize from 'pluralize';
 
 const twitter = new TwitterService();
@@ -54,19 +50,7 @@ type RaffleWinner = {
   codeId: string;
 };
 
-export default async function handler(
-  request: NextApiRequest,
-  response: NextApiResponse
-) {
-  const authHeader = request.headers['authorization'];
-
-  // allow insecure requests in development
-  if (IS_PRODUCTION) {
-    if (authHeader !== `Bearer ${CRON_SECRET}`) {
-      return response.status(401).json({ success: false });
-    }
-  }
-
+export default createCronJob(async () => {
   const expiredRaffles = await prisma.raffle.findMany({
     where: {
       expiresAt: {
@@ -82,9 +66,7 @@ export default async function handler(
   console.info(`Found ${expiredRaffles.length} expired raffles.`);
   await Promise.all(expiredRaffles.map(processExpiredRaffle));
   console.info(`Finished processing ${expiredRaffles.length} expired raffles.`);
-
-  response.status(200).json({ success: true });
-}
+});
 
 const processExpiredRaffle = async (raffle: ExpiredRaffle) => {
   try {

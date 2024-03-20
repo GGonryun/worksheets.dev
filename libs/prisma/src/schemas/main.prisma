@@ -220,6 +220,7 @@ model CategoriesOnGame {
 
 model GameCategory {
   id                 String             @id @default(cuid())
+  version            Int                @default(0)
   name               String             @unique
   description        String             @db.VarChar(4095)
   iconUrl            String             @db.VarChar(255)
@@ -232,6 +233,7 @@ model GameCategory {
 
 model Developer {
   id          String @id @default(cuid())
+  version     Int    @default(0)
   name        String @unique
   description String @db.VarChar(4095)
   logoUrl     String @db.VarChar(255)
@@ -246,33 +248,37 @@ enum GameStatus {
 }
 
 model Game {
-  id          String             @id @default(cuid())
-  status      GameStatus         @default(UNPUBLISHED)
+  id           String             @id @default(cuid())
+  version      Int                @default(0)
+  status       GameStatus         @default(UNPUBLISHED)
   // Details
-  title       String             @db.VarChar(127)
-  description String             @db.VarChar(4095)
-  plays       Int                @default(0)
-  likes       Int                @default(0)
-  dislikes    Int                @default(0)
+  title        String             @db.VarChar(127)
+  description  String             @db.VarChar(4095)
+  plays        Int                @default(0)
+  likes        Int                @default(0)
+  dislikes     Int                @default(0)
   // Search
-  categories  CategoriesOnGame[]
+  categories   CategoriesOnGame[]
   // Audit
-  createdAt   DateTime           @default(now())
-  updatedAt   DateTime           @updatedAt
+  createdAt    DateTime           @default(now())
+  updatedAt    DateTime           @updatedAt
+  publishAt    DateTime           @default(now())
   // Assets
-  thumbnail   String             @db.Text // URL
-  cover       String             @db.Text // URL
-  trailer     String?            @db.Text // URL
-  fileId      String             @unique
-  file        GameFile           @relation(fields: [fileId], references: [id])
+  thumbnail    String             @db.Text // URL
+  cover        String             @db.Text // URL
+  trailer      String?            @db.Text // URL
+  fileId       String             @unique
+  file         GameFile           @relation(fields: [fileId], references: [id])
   // Display
-  viewportId  String
-  viewport    Viewport           @relation(fields: [viewportId], references: [id])
+  viewportId   String
+  viewport     Viewport           @relation(fields: [viewportId], references: [id])
   // Developer
-  developerId String
-  developer   Developer          @relation(fields: [developerId], references: [id])
+  developerId  String
+  developer    Developer          @relation(fields: [developerId], references: [id])
   // Reports
-  reports     GameReport[]
+  reports      GameReport[]
+  // Alerts
+  publishAlert GamePublishAlert?
 }
 
 model StoredFile {
@@ -343,11 +349,12 @@ model GameSubmissionFeedback {
 }
 
 model Sponsor {
-  id     String   @id @default(cuid())
-  name   String   @db.VarChar(127)
-  url    String   @db.VarChar(255)
-  logo   String   @db.VarChar(255)
-  raffle Raffle[]
+  id      String   @id @default(cuid())
+  version Int      @default(0)
+  name    String   @db.VarChar(127)
+  url     String   @db.VarChar(255)
+  logo    String   @db.VarChar(255)
+  raffle  Raffle[]
 }
 
 enum PrizeType {
@@ -356,7 +363,8 @@ enum PrizeType {
 }
 
 model Prize {
-  id          Int              @id @default(autoincrement())
+  id          String           @id @default(cuid())
+  version     Int              @default(0)
   name        String           @db.VarChar(127)
   headline    String           @db.VarChar(255)
   description String           @db.VarChar(2047)
@@ -374,7 +382,7 @@ model Prize {
 }
 
 enum RaffleStatus {
-  DRAFT // the raffle is being created
+  PENDING // the raffle is being created
   ACTIVE // the raffle is currently running
   REASSIGN // the raffle needs new winners assigned
   WAITING // the raffle is waiting for winners to claim all their prizes
@@ -383,11 +391,12 @@ enum RaffleStatus {
 }
 
 model Raffle {
-  id           Int                   @id @default(autoincrement())
+  id           Int                   @id
+  version      Int                   @default(0)
   status       RaffleStatus
   expiresAt    DateTime
   numWinners   Int
-  prizeId      Int
+  prizeId      String
   prize        Prize                 @relation(fields: [prizeId], references: [id])
   // sponsorship
   sponsorId    String                @db.VarChar(127)
@@ -399,6 +408,7 @@ model Raffle {
   participants RaffleParticipation[]
   winners      RaffleWinner[]
   codes        ActivationCode[]
+  publishAlert RafflePublishAlert?
 }
 
 model RaffleParticipation {
@@ -423,7 +433,7 @@ model ActivationCode {
   // the redemption/secret code for the prize.
   content   String        @unique
   // the prize the code is for
-  prizeId   Int
+  prizeId   String
   prize     Prize         @relation(fields: [prizeId], references: [id])
   // the raffle the code is reserved by
   raffleId  Int?
@@ -439,7 +449,7 @@ model RaffleWinner {
   id              String              @id @default(cuid())
   raffleId        Int
   raffle          Raffle              @relation(fields: [raffleId], references: [id])
-  prizeId         Int
+  prizeId         String
   prize           Prize               @relation(fields: [prizeId], references: [id])
   participationId Int                 @unique // a ticket can only win once
   participation   RaffleParticipation @relation(fields: [participationId], references: [id])
@@ -464,6 +474,22 @@ model ClaimAlert {
   // relationships
   winnerId   String       @unique
   winner     RaffleWinner @relation(fields: [winnerId], references: [id])
+}
+
+model GamePublishAlert {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  triggerAt DateTime
+  gameId    String   @unique
+  game      Game     @relation(fields: [gameId], references: [id])
+}
+
+model RafflePublishAlert {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  triggerAt DateTime
+  raffleId  Int      @unique
+  raffle    Raffle   @relation(fields: [raffleId], references: [id])
 }
 
 enum NotificationType {

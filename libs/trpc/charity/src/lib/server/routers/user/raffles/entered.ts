@@ -29,6 +29,7 @@ export default protectedProcedure
         raffle: {
           select: {
             id: true,
+            status: true,
             expiresAt: true,
             prize: {
               select: {
@@ -47,6 +48,7 @@ export default protectedProcedure
       id: p.raffle.id,
       type: p.raffle.prize.type,
       prizeId: p.raffle.prize.id,
+      status: p.raffle.status,
       name: p.raffle.prize.name,
       imageUrl: p.raffle.prize.imageUrl,
       entries: p.numEntries,

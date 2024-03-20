@@ -12,7 +12,7 @@ import { DataGroup } from '../../shared/data-group';
 import { DataPair } from '../../shared/data-pair';
 import { ListButton } from '../../shared/list-button';
 
-const AdminPrizeScreen: React.FC<{ prizeId: number }> = ({ prizeId }) => {
+const AdminPrizeScreen: React.FC<{ prizeId: string }> = ({ prizeId }) => {
   const prize = trpc.admin.prizes.find.useQuery({
     prizeId,
   });

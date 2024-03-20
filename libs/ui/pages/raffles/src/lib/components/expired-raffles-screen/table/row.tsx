@@ -30,7 +30,7 @@ export const ExpiredRaffleTableRow: React.FC<{
 };
 
 const RAFFLE_STATUS_LABEL: Record<RaffleStatus, string> = {
-  DRAFT: 'Pending',
+  PENDING: 'Pending',
   ACTIVE: 'Raffle In Progress',
   REASSIGN: 'Reassigning Winners',
   COMPLETE: 'Raffle Complete',

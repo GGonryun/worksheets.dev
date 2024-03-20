@@ -1,7 +1,10 @@
 import { TRPCError } from '@trpc/server';
+import { CryptographyService } from '@worksheets/services/encryption';
 import { z } from 'zod';
 
 import { protectedProcedure } from '../../../procedures';
+
+const crypto = new CryptographyService();
 
 export default protectedProcedure
   .input(
@@ -85,6 +88,6 @@ export default protectedProcedure
     }
 
     return {
-      code: winner.code.content,
+      code: await crypto.decrypt(winner.code.content),
     };
   });

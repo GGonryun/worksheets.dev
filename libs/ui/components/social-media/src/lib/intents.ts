@@ -65,7 +65,7 @@ export const sharePrizeIntent = ({
   id,
 }: {
   name: string;
-  id: number;
+  id: string;
 }) => {
   const url = routes.prize.url({
     params: {

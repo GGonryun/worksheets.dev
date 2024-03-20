@@ -16,9 +16,6 @@ export default publicProcedure
     const raffle = await db.raffle.findFirst({
       where: {
         id: raffleId,
-        status: {
-          not: 'DRAFT',
-        },
       },
       include: {
         sponsor: true,

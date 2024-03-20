@@ -1,7 +1,9 @@
 import { DeveloperSchema } from '@worksheets/util/types';
 
-export const developers: DeveloperSchema[] = [
+export type SeedableDeveloper = DeveloperSchema & { version: number };
+export const developers: SeedableDeveloper[] = [
   {
+    version: 1,
     id: 'charity-games',
     name: 'Charity Games',
     avatarUrl: 'https://cdn.charity.games/_developers/charity-games.png',
@@ -12,6 +14,7 @@ export const developers: DeveloperSchema[] = [
     },
   },
   {
+    version: 1,
     id: 'gamemonetize',
     name: 'GameMonetize',
     avatarUrl: 'https://cdn.charity.games/_developers/gamemonetize.png',
@@ -22,6 +25,7 @@ export const developers: DeveloperSchema[] = [
     },
   },
   {
+    version: 1,
     id: 'wmgcat',
     name: 'wmgcat',
     avatarUrl: 'https://cdn.charity.games/_developers/wmgcat.png',
@@ -34,6 +38,7 @@ export const developers: DeveloperSchema[] = [
     },
   },
   {
+    version: 1,
     id: 'syb-coin-coin',
     name: 'Syb Coin Coin',
     avatarUrl: 'https://cdn.charity.games/_developers/syb-coin-coin.png',
@@ -49,6 +54,7 @@ export const developers: DeveloperSchema[] = [
     },
   },
   {
+    version: 1,
     id: 'gordo-raba',
     name: 'GordoRaba',
     avatarUrl: 'https://cdn.charity.games/_developers/gordo-raba.png',
@@ -58,6 +64,7 @@ export const developers: DeveloperSchema[] = [
     },
   },
   {
+    version: 1,
     id: 'llstd',
     name: 'LL studio, spol. s r.o.',
     avatarUrl: 'https://cdn.charity.games/_developers/llstd.png',
@@ -71,6 +78,7 @@ export const developers: DeveloperSchema[] = [
     },
   },
   {
+    version: 1,
     id: 'rainboworm',
     name: 'Rainboworm',
     avatarUrl: 'https://cdn.charity.games/_developers/rainboworm.png',
@@ -81,6 +89,7 @@ export const developers: DeveloperSchema[] = [
     },
   },
   {
+    version: 1,
     id: 'seredim',
     name: 'SereDim',
     avatarUrl: 'https://cdn.charity.games/_developers/seredim.jpeg',
@@ -90,6 +99,7 @@ export const developers: DeveloperSchema[] = [
     },
   },
   {
+    version: 1,
     id: 'whitgroves',
     name: 'Whitgroves',
     avatarUrl: 'https://cdn.charity.games/_developers/whitgroves.jpeg',
@@ -102,6 +112,7 @@ export const developers: DeveloperSchema[] = [
     },
   },
   {
+    version: 1,
     id: 'ale-tobias',
     name: 'Ale Tobias',
     avatarUrl: 'https://cdn.charity.games/_developers/ale-tobias.png',

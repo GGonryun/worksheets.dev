@@ -7,7 +7,7 @@ export default publicProcedure
   .input(
     z.object({
       category: z.enum(['active', 'all']).optional(),
-      filter: z.number().array().optional(),
+      filter: z.string().array().optional(),
     })
   )
   .output(prizeSchema.array())

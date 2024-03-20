@@ -30,6 +30,7 @@ export default publicProcedure
       select: {
         id: true,
         name: true,
+        version: true,
         description: true,
         iconUrl: true,
         relatedCategoryIds: true,

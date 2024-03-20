@@ -1,12 +1,9 @@
 import { Prisma, prisma } from '@worksheets/prisma';
 import { sendDiscordMessage } from '@worksheets/services/discord';
-import {
-  CRON_SECRET,
-  DISCORD_WEBHOOK_URL,
-  IS_PRODUCTION,
-} from '@worksheets/services/environment';
+import { DISCORD_WEBHOOK_URL } from '@worksheets/services/environment';
 import { sendEmail } from '@worksheets/services/gmail';
 import { routes } from '@worksheets/ui/routes';
+import { createCronJob } from '@worksheets/util/cron';
 import {
   HelpPrizesQuestions,
   PrizesPanels,
@@ -17,7 +14,6 @@ import {
   CLAIM_ALERT_SENT_COUNT_THRESHOLD,
 } from '@worksheets/util/settings';
 import { hoursAgo, printShortDateTime } from '@worksheets/util/time';
-import { NextApiRequest, NextApiResponse } from 'next';
 
 const CONTACT_URL = routes.contact.url();
 const ACCOUNT_URL = routes.account.prizes.url({
@@ -30,7 +26,7 @@ const UNSUBSCRIBE_URL = routes.account.url({
   bookmark: SettingsPanels.Communication,
 });
 
-const PRIZE_URL = (prizeId: number) =>
+const PRIZE_URL = (prizeId: string) =>
   routes.prize.url({
     params: {
       prizeId,
@@ -72,19 +68,7 @@ type PendingAlert = Prisma.ClaimAlertGetPayload<{
   select: typeof PENDING_ALERT_PROPS;
 }>;
 
-export default async function handler(
-  request: NextApiRequest,
-  response: NextApiResponse
-) {
-  const authHeader = request.headers['authorization'];
-
-  // allow insecure requests in development
-  if (IS_PRODUCTION) {
-    if (authHeader !== `Bearer ${CRON_SECRET}`) {
-      return response.status(401).json({ success: false });
-    }
-  }
-
+export default createCronJob(async () => {
   const [unsentAlerts, pendingAlerts, expiredAlerts] = await Promise.all([
     prisma.claimAlert.findMany({
       where: {
@@ -124,9 +108,7 @@ export default async function handler(
   console.info(`Processed ${unsentAlerts.length} unsent alerts.`);
   console.info(`Processed ${pendingAlerts.length} pending alerts.`);
   console.info(`Processed ${expiredAlerts.length} expired alerts.`);
-
-  response.status(200).json({ success: true });
-}
+});
 
 const processPendingAlert = async (alert: PendingAlert) => {
   await updateAlert(alert);

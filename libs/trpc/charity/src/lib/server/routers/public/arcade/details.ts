@@ -50,6 +50,7 @@ export default publicProcedure
         take: 10,
         select: {
           id: true,
+          status: true,
           expiresAt: true,
           prize: {
             select: {
@@ -126,6 +127,7 @@ const convertRaffle = (
   raffle: Prisma.RaffleGetPayload<{
     select: {
       id: true;
+      status: true;
       expiresAt: true;
       prize: {
         select: {
@@ -139,6 +141,7 @@ const convertRaffle = (
   }>
 ): BasicRaffleDetails => ({
   id: raffle.id,
+  status: raffle.status,
   name: raffle.prize.name,
   imageUrl: raffle.prize.imageUrl,
   type: raffle.prize.type,

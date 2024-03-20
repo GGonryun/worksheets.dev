@@ -39,7 +39,7 @@ export const getStaticProps = (async (ctx) => {
 
   try {
     const prize = await trpc.public.prizes.find.fetch({
-      prizeId: Number(prizeId),
+      prizeId,
     });
 
     const seo = prizeSeo(prize);

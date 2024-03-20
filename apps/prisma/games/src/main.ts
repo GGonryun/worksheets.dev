@@ -1,124 +1,20 @@
-import { GameCategory } from '@prisma/client';
-import { developers } from '@worksheets/data/developers';
-import { games } from '@worksheets/data/games';
-import { tags } from '@worksheets/data/tags';
-import { viewports } from '@worksheets/data/viewports';
 import { prisma } from '@worksheets/prisma';
-import { SeedableGameSchema, TagSchema } from '@worksheets/util/types';
+
+import { insertCategories } from './insert-categories';
+import { insertDevelopers } from './insert-developers';
+import { insertGames } from './insert-games';
+import { insertViewports } from './insert-viewports';
 
 async function main() {
-  // clean up the database before seeding
-  await prisma.$transaction(async (tx) => {
-    await tx.categoriesOnGame.deleteMany({});
-    await tx.game.deleteMany({});
-    await tx.developer.deleteMany({});
-    await tx.gameCategory.deleteMany({});
-    await tx.gameFile.deleteMany({});
-    await tx.viewport.deleteMany({});
-  });
-
-  const newCategories = Object.values(tags).map(convertTag);
   try {
-    await prisma.$transaction(async (tx) => {
-      // insert all categories
-      await tx.gameCategory.createMany({
-        data: newCategories,
-        skipDuplicates: true,
-      });
-      console.info('Inserted categories');
+    // prerequisites for inserting games can be performed in parallel
+    await Promise.all([insertCategories, insertViewports, insertDevelopers]);
 
-      // insert all viewports
-      await tx.viewport.createMany({
-        data: Object.values(viewports).map((viewport) => ({
-          id: viewport.id,
-          type: viewport.type,
-          devices: viewport.devices,
-          orientations: viewport.orientations,
-        })),
-        skipDuplicates: true,
-      });
-      console.info('Inserted viewports');
-
-      await tx.developer.createMany({
-        data: developers.map((developer) => ({
-          id: developer.id,
-          name: developer.name,
-          logoUrl: developer.avatarUrl,
-          description: developer.description,
-          links: JSON.stringify(developer.socials),
-        })),
-        skipDuplicates: true,
-      });
-      console.info('Inserted developers');
-    });
-
-    // insert all games
-    await Promise.all(games.map(insertGame));
+    await insertGames();
   } catch (error) {
     console.error(error);
   }
-  console.info('Finished seeding database');
 }
-
-const insertGame = async (game: SeedableGameSchema) => {
-  const plays = Math.floor(Math.random() * 5000);
-  const likes = Math.floor(Math.random() * 1000);
-  const dislikes = Math.floor(Math.random() * 100);
-
-  const entity = await prisma.game.create({
-    data: {
-      id: game.id,
-      plays,
-      likes,
-      dislikes,
-      title: game.name,
-      description: game.description,
-      thumbnail: game.iconUrl,
-      cover: game.bannerUrl,
-      status: 'PUBLISHED',
-      createdAt: new Date(game.createdAt),
-      updatedAt: new Date(game.updatedAt),
-      trailer: game.trailer,
-      developer: {
-        connect: {
-          id: game.developerId,
-        },
-      },
-      file: {
-        create: {
-          id: game.id,
-          type: game.file.type,
-          url: game.file.url,
-        },
-      },
-      viewport: {
-        connect: {
-          id: game.viewport.id,
-        },
-      },
-    },
-  });
-
-  await prisma.categoriesOnGame.createMany({
-    data: game.categories.map((category) => ({
-      gameId: entity.id,
-      categoryId: category,
-    })),
-    skipDuplicates: true,
-  });
-
-  console.info(`Inserted game ${game.name}`);
-};
-
-const convertTag: (
-  tag: TagSchema
-) => Omit<GameCategory, 'createdAt' | 'updatedAt'> = (tag) => ({
-  id: tag.id,
-  name: tag.name,
-  description: tag.description,
-  iconUrl: tag.iconUrl,
-  relatedCategoryIds: tag.relatedTags,
-});
 
 main()
   .catch((e) => console.error(e))

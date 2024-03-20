@@ -16,7 +16,7 @@ export default publicProcedure
   .input(
     z.object({
       category: raffleCategorySchema,
-      prizeId: z.number().optional(),
+      prizeId: z.string().optional(),
       query: z.string().optional(),
       limit: z.number().optional(),
     })
@@ -47,14 +47,14 @@ const normalized = (text: string) => text.toLowerCase();
 type RaffleQuery = (
   db: PrismaClient,
   limit: number,
-  prizeId?: number
+  prizeId?: string
 ) => Promise<RaffleSchema[]>;
 
 const getRaffles = (
   db: PrismaClient,
   category: RaffleCategory,
   limit: number,
-  prizeId?: number
+  prizeId?: string
 ): Promise<RaffleSchema[]> => {
   switch (category) {
     case 'active':
@@ -81,9 +81,6 @@ const allRaffles: RaffleQuery = async (db, limit, prizeId) =>
       take: limit,
       where: {
         prizeId: prizeId ? prizeId : undefined,
-        status: {
-          notIn: ['CANCELLED', 'DRAFT'],
-        },
       },
       include: {
         prize: true,

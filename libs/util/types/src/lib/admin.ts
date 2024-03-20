@@ -144,7 +144,7 @@ export type GameSubmissionDetails = z.infer<typeof gameSubmissionDetails>;
 /** Prizes */
 
 export const prizeSummary = z.object({
-  prizeId: z.number(),
+  prizeId: z.string(),
   name: z.string(),
   raffles: z.number(),
   createdAt: z.number(),
@@ -153,7 +153,7 @@ export const prizeSummary = z.object({
 export type PrizeSummary = z.infer<typeof prizeSummary>;
 
 export const prizeDetails = z.object({
-  prizeId: z.number(),
+  prizeId: z.string(),
   name: z.string(),
   description: z.string(),
   imageUrl: z.string(),
@@ -192,7 +192,7 @@ export type RaffleSummary = z.infer<typeof raffleSummary>;
 
 export const raffleDetails = z.object({
   raffleId: z.number(),
-  prizeId: z.number(),
+  prizeId: z.string(),
   status: z.nativeEnum(RaffleStatus),
   createdAt: z.number(),
   expiresAt: z.number(),
@@ -230,7 +230,7 @@ export type WinnerSummary = z.infer<typeof winnerSummary>;
 export const winnerDetails = z.object({
   winnerId: z.string(),
   raffleId: z.number(),
-  prizeId: z.number(),
+  prizeId: z.string(),
   participationId: z.number(),
   codeId: z.string().nullable(),
   userId: z.string(),
@@ -260,7 +260,7 @@ export type ActivationCodeSummary = z.infer<typeof activationCodeSummary>;
 
 export const activationCodeDetails = z.object({
   codeId: z.string(),
-  prizeId: z.number(),
+  prizeId: z.string(),
   raffleId: z.number().nullable(),
   winnerId: z.string().nullable(),
   createdAt: z.number(),

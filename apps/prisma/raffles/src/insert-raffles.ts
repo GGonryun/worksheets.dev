@@ -1,0 +1,68 @@
+import { raffles, SeedableRaffle } from '@worksheets/data/raffles';
+import { prisma } from '@worksheets/prisma';
+import { getSeedingChanges, seedingProperties } from '@worksheets/util/seeding';
+
+export const insertRaffles = async () => {
+  const storedRaffles = await prisma.raffle.findMany({
+    select: seedingProperties,
+  });
+  const { creating, updating } = getSeedingChanges(raffles, storedRaffles);
+
+  await Promise.all([
+    ...creating.map(createRaffle),
+    ...updating.map(updateRaffle),
+  ]);
+
+  console.info(`Inserted raffles`, {
+    pending: raffles.length,
+    stored: storedRaffles.length,
+    updated: updating.length,
+    created: creating.length,
+  });
+};
+
+const createRaffle = async (raffle: SeedableRaffle) => {
+  await prisma.$transaction(async (tx) => {
+    await tx.raffle.create({
+      data: {
+        id: raffle.id,
+        version: raffle.version,
+        status: 'PENDING',
+        expiresAt: raffle.expiresAt,
+        numWinners: raffle.numWinners,
+        prize: {
+          connect: {
+            id: raffle.prizeId,
+          },
+        },
+        sponsor: {
+          connect: {
+            id: raffle.sponsorId,
+          },
+        },
+      },
+    });
+
+    await tx.rafflePublishAlert.create({
+      data: {
+        raffleId: raffle.id,
+        triggerAt: raffle.publishAt,
+      },
+    });
+  });
+};
+
+const updateRaffle = async (raffle: SeedableRaffle) => {
+  await prisma.raffle.update({
+    where: {
+      id: raffle.id,
+    },
+    data: {
+      version: raffle.version,
+      expiresAt: raffle.expiresAt,
+      numWinners: raffle.numWinners,
+      prizeId: raffle.prizeId,
+      sponsorId: raffle.sponsorId,
+    },
+  });
+};

@@ -6,7 +6,7 @@ import { NextSeo } from 'next-seo';
 import { adminMiddleware } from '../../../util/middleware/admins-only';
 
 type Props = {
-  prizeId: number;
+  prizeId: string;
 };
 
 const Page: NextPageWithLayout<Props> = ({ prizeId }) => (
@@ -26,7 +26,7 @@ export const getServerSideProps = adminMiddleware<Props>(async (ctx) => {
 
   return {
     props: {
-      prizeId: Number(prizeId),
+      prizeId,
     },
   };
 });
