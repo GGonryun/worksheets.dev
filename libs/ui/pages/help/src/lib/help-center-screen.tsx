@@ -20,7 +20,7 @@ export const HelpCenterScreen: React.FC = () => {
           alignItems: 'center',
           borderRadius: (theme) => theme.shape.borderRadius,
           p: 4,
-          background: (theme) => theme.palette.background.soft,
+          background: (theme) => theme.palette.background.paper,
         }}
       >
         <Box my={{ xs: 1, sm: 2 }} />

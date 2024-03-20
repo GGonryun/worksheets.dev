@@ -28,8 +28,7 @@ export const ParticipantsDescription: React.FC<{
           <Heading>Total Participants: {participants.length}</Heading>
           {participants.map((participant) => (
             <Typography>
-              <b>{participant.username}</b> ({participant.userId}) —{' '}
-              {participant.numTickets} tickets
+              <b>{participant.username}</b> — {participant.numEntries} entries
             </Typography>
           ))}
         </Box>

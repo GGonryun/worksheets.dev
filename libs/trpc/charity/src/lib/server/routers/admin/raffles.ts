@@ -72,7 +72,7 @@ export default t.router({
           participants: {
             select: {
               userId: true,
-              numTickets: true,
+              numEntries: true,
             },
           },
         },
@@ -94,7 +94,7 @@ export default t.router({
         numWinners: raffle.numWinners,
         participants: raffle.participants.map((p) => ({
           userId: p.userId,
-          numTickets: p.numTickets,
+          numEntries: p.numEntries,
         })),
         winners: raffle.winners.map((winner) => ({
           winnerId: winner.userId,

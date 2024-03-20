@@ -12,6 +12,7 @@ export const mockRaffles: RaffleSchema[] = [
     id: 1,
     prizeId: 1,
     name: "Baldur's Gate 3",
+    status: 'ACTIVE',
     headline:
       'A role-playing video game that is being developed and published by Larian Studios.',
     description:
@@ -31,6 +32,7 @@ export const mockRaffles: RaffleSchema[] = [
     id: 2,
     prizeId: 2,
     name: 'City Skylines II',
+    status: 'ACTIVE',
     headline:
       'A city-building game developed by Colossal Order and published by Paradox Interactive.',
     description:
@@ -50,6 +52,7 @@ export const mockRaffles: RaffleSchema[] = [
     id: 3,
     prizeId: 3,
     name: 'Palworld',
+    status: 'ACTIVE',
     headline:
       'A multiplayer, open-world survival crafting game set in a beautiful, low-poly world.',
     description:
@@ -69,6 +72,7 @@ export const mockRaffles: RaffleSchema[] = [
     id: 4,
     prizeId: 4,
     name: 'EA Sports FC 24',
+    status: 'COMPLETE',
     headline: 'A football simulation video game published by Electronic Arts.',
     description:
       '<p><b>RollerCoaster Tycoon 3</b> is a 2004 construction and management simulation video game. It is the third installment in the RollerCoaster Tycoon series, and was developed by Frontier Developments. RollerCoaster Tycoon 3 places players in charge of managing amusement parks; rides can be built or demolished, terrain and scenery can be adjusted, and prices can be controlled to keep visitors or "peeps" happy.</p><br/><p>RollerCoaster Tycoon 3 features two methods of gameplay. In career mode, players must complete predetermined objectives in predesigned scenarios. In the newly added sandbox mode, players have unlimited time and money to create their own custom parks and rides. Features introduced in the series include the ability to import and export custom attractions, design custom scenarios and peeps, as well as design an in-game roller coaster and a fully three-dimensional world players can view from all angles.</p><br/><p>In 2014, a sequel, RollerCoaster Tycoon 4 Mobile was released on mobile devices, to largely negative reception.</p>',
@@ -86,6 +90,7 @@ export const mockRaffles: RaffleSchema[] = [
   {
     id: 5,
     prizeId: 5,
+    status: 'ACTIVE',
     name: 'Roller Coaster Tycoon 3',
     headline: 'A construction and management simulation video game.',
     description:
@@ -105,6 +110,7 @@ export const mockRaffles: RaffleSchema[] = [
   {
     id: 6,
     prizeId: 6,
+    status: 'ACTIVE',
     name: 'Ragnarok Online II',
     headline: 'A massively multiplayer online role-playing game.',
     description:

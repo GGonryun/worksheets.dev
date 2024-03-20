@@ -25,7 +25,7 @@ export const HelpScreen: FC<HelpScreenProps> = ({ title, description, qa }) => {
           flexDirection: 'column',
           borderRadius: 4,
           p: { xs: 2, sm: 4 },
-          backgroundColor: (theme) => theme.palette.background.soft,
+          backgroundColor: (theme) => theme.palette.background.paper,
         }}
       >
         <Button
@@ -53,7 +53,7 @@ export const HelpScreen: FC<HelpScreenProps> = ({ title, description, qa }) => {
         <Typography
           component="h2"
           typography={{ xs: 'body2', sm: 'body1' }}
-          color={(theme) => theme.palette.text.blue.light}
+          color={(theme) => theme.palette.text.blue.dark}
           fontWeight={{ xs: 500, sm: 500, md: 500 }}
         >
           {description}

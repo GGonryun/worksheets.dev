@@ -16,10 +16,10 @@ export default publicProcedure
         raffleId,
       },
       orderBy: {
-        numTickets: 'desc',
+        numEntries: 'desc',
       },
       select: {
-        numTickets: true,
+        numEntries: true,
         userId: true,
         user: {
           select: {
@@ -29,7 +29,7 @@ export default publicProcedure
       },
     });
     return participants.map((p) => ({
-      numTickets: p.numTickets,
+      numEntries: p.numEntries,
       userId: p.userId,
       username: p.user.username,
     }));

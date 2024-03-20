@@ -57,7 +57,7 @@ const ListHeader = () => {
     >
       <Typography variant="h6">Raffle ID</Typography>
       <Typography variant="h6">Status</Typography>
-      <Typography variant="h6">Tickets Purchased</Typography>
+      <Typography variant="h6">Entries</Typography>
       <Typography variant="h6">Created At</Typography>
       <Typography variant="h6">Expires At</Typography>
     </Box>

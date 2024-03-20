@@ -11,7 +11,7 @@ const EMPTY_VALUES: RafflesScreenProps = {
   entered: [],
   list: [],
   searched: [],
-  category: 'active',
+  category: 'newest',
   setCategory: action('setCategory'),
   query: '',
   setQuery: action('setQuery'),

@@ -1,4 +1,4 @@
-import { ArrowRightAlt } from '@mui/icons-material';
+import { ArrowRightAlt, InfoOutlined } from '@mui/icons-material';
 import { Box, Button, Typography } from '@mui/material';
 import {
   Pagination,
@@ -6,7 +6,9 @@ import {
 } from '@worksheets/ui/components/pagination';
 import { useMediaQueryDown } from '@worksheets/ui/hooks/use-media-query';
 import { routes } from '@worksheets/ui/routes';
+import { HelpPrizesQuestions } from '@worksheets/util/enums';
 import { BasicRaffleDetails } from '@worksheets/util/types';
+import Link from 'next/link';
 import * as React from 'react';
 
 import { CustomContainer } from '../shared/custom-container';
@@ -42,15 +44,28 @@ export const ExpiredRafflesScreen: React.FC<{
             size={isMobile ? 'small' : 'medium'}
             href={routes.raffles.path()}
             variant="arcade"
-            color="error"
+            color="success"
             endIcon={<ArrowRightAlt />}
             sx={{ width: { xs: '100%', sm: 'fit-content' } }}
           >
-            See All
+            Active Raffles
           </Button>
         </Box>
         <ExpiredRafflesTable raffles={items} />
         <Pagination page={page} pages={max} setPage={setPage} />
+        <Box display="flex" alignItems="center" gap={1} pt={1}>
+          <InfoOutlined color="info" />
+          <Typography
+            typography="body2"
+            component={Link}
+            href={routes.help.prizes.path({
+              bookmark: HelpPrizesQuestions.HowToWin,
+            })}
+            color="inherit"
+          >
+            Click here to learn more about Prizes & Raffles
+          </Typography>
+        </Box>
       </CustomPaper>
     </CustomContainer>
   );

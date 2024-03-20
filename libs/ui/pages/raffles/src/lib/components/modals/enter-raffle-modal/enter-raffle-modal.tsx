@@ -54,7 +54,7 @@ export const EnterRaffleModal: React.FC<
         </Typography>
 
         <Typography>
-          How many raffle tickets would you like to purchase?
+          How many raffle entries would you like to purchase?
         </Typography>
         <Typography fontWeight={700}>You own {tokensOwned} tokens</Typography>
         <Box mb={2}>

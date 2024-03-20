@@ -3,18 +3,21 @@ import { sendDiscordMessage } from '@worksheets/services/discord';
 import {
   CRON_SECRET,
   DISCORD_WEBHOOK_URL,
-  IS_DEVELOPMENT,
   IS_PRODUCTION,
 } from '@worksheets/services/environment';
 import { TwitterService } from '@worksheets/services/twitter';
 import { routes } from '@worksheets/ui/routes';
 import { printShortDateTime } from '@worksheets/util/time';
 import { NextApiRequest, NextApiResponse } from 'next';
+import pluralize from 'pluralize';
+
+const twitter = new TwitterService();
 
 const EXPIRED_RAFFLE_PROPS = {
   id: true as const,
   expiresAt: true as const,
   numWinners: true as const,
+  status: true as const,
   prize: {
     select: {
       id: true as const,
@@ -25,7 +28,7 @@ const EXPIRED_RAFFLE_PROPS = {
     select: {
       id: true as const,
       userId: true as const,
-      numTickets: true as const,
+      numEntries: true as const,
     },
   },
 };
@@ -69,14 +72,16 @@ export default async function handler(
       expiresAt: {
         lte: new Date(),
       },
-      status: 'ACTIVE',
+      status: {
+        in: ['ACTIVE', 'REASSIGN'],
+      },
     },
     select: EXPIRED_RAFFLE_PROPS,
   });
 
   console.info(`Found ${expiredRaffles.length} expired raffles.`);
   await Promise.all(expiredRaffles.map(processExpiredRaffle));
-  console.info(`Finished processing expired raffles.`);
+  console.info(`Finished processing ${expiredRaffles.length} expired raffles.`);
 
   response.status(200).json({ success: true });
 }
@@ -84,9 +89,11 @@ export default async function handler(
 const processExpiredRaffle = async (raffle: ExpiredRaffle) => {
   try {
     await assignWinners(raffle);
+    // TODO: notify on public channel.
     await notifyOnDiscord(raffle);
     await notifyOnTwitter(raffle);
   } catch (error) {
+    // TODO: notify on admin channel.
     await notifyOnDiscord(raffle, error as Error);
   }
 };
@@ -98,60 +105,84 @@ const assignWinners = async (raffle: ExpiredRaffle) => {
 
   await prisma.$transaction(
     async (tx) => {
-      const codes = await prisma.activationCode.findMany({
-        where: {
-          raffleId: raffle.id,
-          winner: null, // only select codes that have not been assigned a winner
-        },
-        select: {
-          id: true,
-          winner: {
-            select: {
-              id: true,
+      const [unusedCodes, usedCodes] = await Promise.all([
+        tx.activationCode.findMany({
+          where: {
+            raffleId: raffle.id,
+            winner: null, // only select codes that have not been assigned a winner
+          },
+          select: {
+            id: true,
+            winner: {
+              select: {
+                id: true,
+              },
             },
           },
-        },
-      });
+        }),
+        tx.activationCode.count({
+          where: {
+            raffleId: raffle.id,
+            winner: {
+              isNot: null,
+            },
+          },
+        }),
+      ]);
 
-      if (codes.length < 1 || raffle.numWinners > codes.length) {
-        throw new Error('Not enough codes to assign winners');
+      const assignmentsRemaining = raffle.numWinners - usedCodes;
+
+      // edge case: too many assignments made.
+      if (assignmentsRemaining < 0) {
+        throw Error(`Raffle has too many winners assigned`);
       }
 
-      if (codes.some((code) => code.winner)) {
-        throw new Error('Some codes already have winners');
+      if (assignmentsRemaining > 0) {
+        // edge case: insufficient assignments.
+        if (
+          unusedCodes.length < 1 ||
+          assignmentsRemaining > unusedCodes.length
+        ) {
+          throw Error(`Raffle does not have enough codes to assign winners`);
+        }
+
+        const winners = await pickWinners(
+          assignmentsRemaining,
+          // the same user could win more than once.
+          raffle.participants,
+          unusedCodes
+        );
+
+        const raffleWinners = await Promise.all(
+          winners.map((winner) => {
+            return tx.raffleWinner.create({
+              data: {
+                raffleId: raffle.id,
+                userId: winner.userId,
+                participationId: winner.participationId,
+                codeId: winner.codeId,
+                prizeId: raffle.prize.id,
+              },
+              select: {
+                id: true,
+              },
+            });
+          })
+        );
+
+        await tx.claimAlert.createMany({
+          data: raffleWinners.map((winner) => ({
+            winnerId: winner.id,
+          })),
+        });
       }
 
-      const winners = await pickWinners(1, raffle.participants, codes);
-
-      const raffleWinners = await Promise.all(
-        winners.map((winner) => {
-          return tx.raffleWinner.create({
-            data: {
-              raffleId: raffle.id,
-              userId: winner.userId,
-              participationId: winner.participationId,
-              codeId: winner.codeId,
-              prizeId: raffle.prize.id,
-            },
-            select: {
-              id: true,
-            },
-          });
-        })
-      );
-
-      await tx.claimAlert.createMany({
-        data: raffleWinners.map((winner) => ({
-          winnerId: winner.id,
-        })),
-      });
-
-      await prisma.raffle.update({
+      await tx.raffle.update({
         where: {
           id: raffle.id,
         },
         data: {
-          status: 'COMPLETE',
+          status: 'WAITING',
         },
       });
     },
@@ -167,13 +198,17 @@ const pickWinners = async (
   participants: ExpiredRaffle['participants'],
   codes: UnclaimedCode[]
 ): Promise<RaffleWinner[]> => {
-  // create an in memory array of tickets representing each participant
-  const tickets = participants.flatMap((participant) =>
-    Array(participant.numTickets).fill(participant)
+  // create an in memory array of entries representing each participant
+  const entries: ExpiredRaffle['participants'] = participants.flatMap(
+    (participant) => Array(participant.numEntries).fill(participant)
   );
 
-  // shuffle the tickets and pick the winners
-  const shuffled = tickets.sort(() => Math.random() - 0.5);
+  // shuffle the entries and pick the winners
+  const shuffled = entries.sort(() => Math.random() - 0.5);
+
+  if (codes.length < numWinners) {
+    throw new Error('There are not enough codes to assign to each winner');
+  }
 
   // return the winners
   return shuffled.slice(0, numWinners).map((participant, i) => ({
@@ -184,58 +219,48 @@ const pickWinners = async (
 };
 
 const notifyOnDiscord = async (raffle: ExpiredRaffle, error?: Error) => {
-  try {
-    await sendDiscordMessage({
-      content: error
-        ? `We failed to process an expired raffle!`
-        : `A raffle has expired and winners have been chosen successfully.`,
-      embeds: [
-        {
-          title: `Raffle ID: ${raffle.id}`,
-          url: routes.admin.raffle.url({
-            params: {
-              raffleId: raffle.id,
-            },
-          }),
-          description: `This raffle ended at ${printShortDateTime(
-            raffle.expiresAt
-          )}.`,
-          fields: error
-            ? [
-                {
-                  name: 'Error Message',
-                  value: error.message,
-                },
-              ]
-            : [],
-        },
-      ],
-      webhookUrl: DISCORD_WEBHOOK_URL,
-    });
-  } catch (error) {
-    console.warn('Failed to send discord message', error);
-  }
+  await sendDiscordMessage({
+    content: error
+      ? `We failed to process an expired raffle!`
+      : `A raffle has expired and winners have been chosen successfully.`,
+    embeds: [
+      {
+        title: `Raffle ID: ${raffle.id}`,
+        url: routes.admin.raffle.url({
+          params: {
+            raffleId: raffle.id,
+          },
+        }),
+        description: `This raffle ended at ${printShortDateTime(
+          raffle.expiresAt
+        )}.`,
+        fields: error
+          ? [
+              {
+                name: 'Error Message',
+                value: error.message,
+              },
+            ]
+          : [],
+      },
+    ],
+    webhookUrl: DISCORD_WEBHOOK_URL,
+  });
 };
 
 const notifyOnTwitter = async (raffle: ExpiredRaffle) => {
-  if (IS_DEVELOPMENT) {
-    console.info('Skipping tweet in development');
-    return;
-  }
-
-  const twitter = new TwitterService();
-
-  try {
-    await twitter.tweet(
-      `🎉 The raffle for ${
-        raffle.prize.name
-      } has ended! 🎉\n\nCheck out the winners here: ${routes.raffle.url({
-        params: {
-          raffleId: raffle.id,
-        },
-      })}`
-    );
-  } catch (error) {
-    console.warn('Failed to send tweet', error);
-  }
+  await twitter.tweet(
+    `🎉 A raffle for ${raffle.prize.name} has ended! 🎉\n\n${
+      raffle.numWinners
+    } ${pluralize('winner', raffle.numWinners)} was chosen out of ${
+      raffle.participants.length
+    } ${pluralize(
+      'participant',
+      raffle.participants.length
+    )}. View results: ${routes.raffle.url({
+      params: {
+        raffleId: raffle.id,
+      },
+    })}`
+  );
 };

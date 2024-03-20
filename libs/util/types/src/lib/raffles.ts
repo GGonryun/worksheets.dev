@@ -1,4 +1,4 @@
-import { Prisma, PrizeType } from '@prisma/client';
+import { Prisma, PrizeType, RaffleStatus } from '@prisma/client';
 import { z } from 'zod';
 
 export const raffleCategorySchema = z.enum([
@@ -25,6 +25,7 @@ export const raffleSchema = z.object({
   headline: z.string(),
   description: z.string(),
   expiresAt: z.number(),
+  status: z.nativeEnum(RaffleStatus),
   type: z.nativeEnum(PrizeType),
   sourceUrl: z.string(),
   imageUrl: z.string(),
@@ -41,7 +42,7 @@ export type RaffleSchema = z.infer<typeof raffleSchema>;
 export const participationSchema = z.object({
   userId: z.string(),
   username: z.string(),
-  numTickets: z.number(),
+  numEntries: z.number(),
 });
 
 export type ParticipationSchema = z.infer<typeof participationSchema>;
@@ -55,7 +56,7 @@ export type WinnerSchema = z.infer<typeof winnerSchema>;
 
 export type BasicRaffleDetails = Pick<
   RaffleSchema,
-  'id' | 'name' | 'imageUrl' | 'type' | 'expiresAt'
+  'id' | 'name' | 'imageUrl' | 'type' | 'expiresAt' | 'status'
 >;
 
 export type WonRaffleDetails = Pick<
@@ -82,6 +83,7 @@ export const convertRaffle = (
   sourceUrl: raffle.prize.sourceUrl,
   imageUrl: raffle.prize.imageUrl,
   numWinners: raffle.numWinners,
+  status: raffle.status,
   sponsor: {
     name: raffle.sponsor.name,
     logo: raffle.sponsor.logo,

@@ -1,5 +1,5 @@
 import { TRPCError } from '@trpc/server';
-import { raffleSchema } from '@worksheets/util/types';
+import { convertRaffle, raffleSchema } from '@worksheets/util/types';
 import { z } from 'zod';
 
 import { publicProcedure } from '../../../procedures';
@@ -29,21 +29,5 @@ export default publicProcedure
     if (!raffle)
       throw new TRPCError({ code: 'NOT_FOUND', message: 'Raffle not found' });
 
-    return {
-      id: raffle.id,
-      prizeId: raffle.prize.id,
-      name: raffle.prize.name,
-      headline: raffle.prize.headline,
-      description: raffle.prize.description,
-      expiresAt: raffle.expiresAt.getTime(),
-      type: raffle.prize.type,
-      sourceUrl: raffle.prize.sourceUrl,
-      imageUrl: raffle.prize.imageUrl,
-      numWinners: raffle.numWinners,
-      sponsor: {
-        name: raffle.sponsor.name,
-        logo: raffle.sponsor.logo,
-        url: raffle.sponsor.url,
-      },
-    };
+    return convertRaffle(raffle);
   });

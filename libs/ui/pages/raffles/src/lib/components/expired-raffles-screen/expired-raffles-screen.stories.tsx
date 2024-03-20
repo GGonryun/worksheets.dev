@@ -27,11 +27,12 @@ export const Empty: Story = {
 export const Primary: Story = {
   args: {
     raffles: Array.from({ length: 10 }, (_, i) => ({
-      id: `${i}`,
+      id: i,
       name: `Prize ${i}`,
       expiresAt: minutesAgo(i * 10).getTime(),
       type: 'STEAM_KEY',
       imageUrl: 'https://via.placeholder.com/150',
+      status: i % 3 ? 'COMPLETE' : i % 5 ? 'REASSIGN' : 'WAITING',
     })),
   },
 };

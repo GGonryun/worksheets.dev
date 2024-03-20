@@ -55,7 +55,7 @@ export const helpVip: QuestionAnswer[] = [
           <ListItem>Additional tokens when playing games</ListItem>
           <ListItem>Additional gift boxes</ListItem>
           <ListItem>Access to exclusive events and promotions</ListItem>
-          <ListItem>Bonus tickets when participating in raffles</ListItem>
+          <ListItem>Bonus entries when participating in raffles</ListItem>
           <ListItem>Free second chance raffles</ListItem>
           <ListItem>Priority support</ListItem>
         </OrderedList>

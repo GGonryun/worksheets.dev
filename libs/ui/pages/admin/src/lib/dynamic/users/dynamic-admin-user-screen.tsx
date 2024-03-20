@@ -70,7 +70,7 @@ const AdminUserScreen: React.FC<{ userId: string }> = ({ userId }) => {
             builder={(participation) => ({
               key: participation.raffleId.toString(),
               label: 'Raffle ID',
-              value: `${participation.raffleId} (${participation.numTickets} tickets)`,
+              value: `${participation.raffleId} (${participation.numEntries} entries)`,
               href: routes.admin.raffle.path({
                 params: {
                   raffleId: participation.raffleId,

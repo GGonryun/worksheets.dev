@@ -18,7 +18,7 @@ const activeRaffles = arrayFromNumber(10).flatMap((i) =>
 const participants: ParticipationSchema[] = arrayFromNumber(5).map((i) => ({
   userId: `user-${i}`,
   username: `user-${i}`,
-  numTickets: 100,
+  numEntries: 100,
 }));
 
 const participation: ParticipationSchema = participants[1];

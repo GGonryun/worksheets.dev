@@ -9,7 +9,7 @@ export default protectedProcedure
     console.info(`finding all won raffles for user ${user.id}`);
 
     const userId = user.id;
-    const winningTickets = await db.raffleWinner.findMany({
+    const winningEntries = await db.raffleWinner.findMany({
       where: {
         userId,
       },
@@ -33,7 +33,7 @@ export default protectedProcedure
       },
     });
 
-    return winningTickets.map((winner) => ({
+    return winningEntries.map((winner) => ({
       name: winner.raffle.prize.name,
       imageUrl: winner.raffle.prize.imageUrl,
       type: winner.raffle.prize.type,

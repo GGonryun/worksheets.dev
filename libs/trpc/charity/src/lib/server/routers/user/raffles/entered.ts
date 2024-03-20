@@ -1,4 +1,3 @@
-import { RaffleStatus } from '@prisma/client';
 import { enteredRaffleSchema } from '@worksheets/util/types';
 import { z } from 'zod';
 
@@ -7,24 +6,26 @@ import { protectedProcedure } from '../../../procedures';
 export default protectedProcedure
   .input(
     z.object({
-      filter: z.nativeEnum(RaffleStatus).nullable(),
+      activeOnly: z.boolean(),
     })
   )
   .output(enteredRaffleSchema.array())
-  .query(async ({ input: { filter }, ctx: { db, user } }) => {
+  .query(async ({ input: { activeOnly }, ctx: { db, user } }) => {
     console.info(`finding all entered raffles for user ${user.id}`);
 
     const participation = await db.raffleParticipation.findMany({
       where: {
         raffle: {
-          status: {
-            equals: filter === 'ACTIVE' ? 'ACTIVE' : undefined,
-          },
+          status: activeOnly
+            ? {
+                in: ['ACTIVE', 'WAITING', 'REASSIGN'],
+              }
+            : undefined,
         },
         userId: user.id,
       },
       select: {
-        numTickets: true,
+        numEntries: true,
         raffle: {
           select: {
             id: true,
@@ -48,7 +49,7 @@ export default protectedProcedure
       prizeId: p.raffle.prize.id,
       name: p.raffle.prize.name,
       imageUrl: p.raffle.prize.imageUrl,
-      entries: p.numTickets,
+      entries: p.numEntries,
       expiresAt: p.raffle.expiresAt.getTime(),
     }));
   });

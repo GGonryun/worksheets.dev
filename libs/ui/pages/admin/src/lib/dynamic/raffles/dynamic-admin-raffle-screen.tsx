@@ -59,7 +59,7 @@ const AdminRaffleScreen: React.FC<{ raffleId: number }> = ({ raffleId }) => {
           builder={(participant) => ({
             key: participant.userId,
             label: `User ID`,
-            value: `${participant.userId} (${participant.numTickets} entries)`,
+            value: `${participant.userId} (${participant.numEntries} entries)`,
             href: routes.admin.user.path({
               params: {
                 userId: participant.userId,

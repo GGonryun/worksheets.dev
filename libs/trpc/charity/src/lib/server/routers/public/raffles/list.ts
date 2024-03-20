@@ -153,7 +153,9 @@ const expiredPrizes: RaffleQuery = async (db, limit, prizeId) =>
       take: limit,
       where: {
         prizeId: prizeId ? prizeId : undefined,
-        status: 'COMPLETE',
+        status: {
+          in: ['REASSIGN', 'WAITING', 'COMPLETE'],
+        },
       },
       orderBy: {
         expiresAt: 'asc',

@@ -45,7 +45,7 @@ export const RaffleInfo: React.FC<{
   const expired = expiresAt < Date.now();
 
   const connected = participation !== undefined;
-  const yourEntries = participation?.numTickets ?? 0;
+  const yourEntries = participation?.numEntries ?? 0;
   const PlatformLogo = prizeTypeLogos[type];
   const youWon =
     connected && winners.some((w) => w.userId === participation?.userId);

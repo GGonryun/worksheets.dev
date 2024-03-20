@@ -23,14 +23,19 @@ export const sendEmail = async (opts: {
   html?: string;
 }) => {
   const transporter = createTransporter();
-
-  return transporter.sendMail({
+  const options = {
     from: SENDER_ADDRESS,
     to: opts.to.join(','),
     subject: opts.subject,
     text: opts.text,
     html: opts.html,
-  });
+  };
+
+  try {
+    transporter.sendMail(options);
+  } catch (error) {
+    console.error(`Failed to send email`, options, error);
+  }
 };
 
 export const verifyTransport = async () => {

@@ -19,12 +19,12 @@ export default protectedProcedure
         userId,
       },
       select: {
-        numTickets: true,
+        numEntries: true,
       },
     });
 
     return {
-      numTickets: participation?.numTickets ?? 0,
+      numEntries: participation?.numEntries ?? 0,
       userId: user.id,
       username: user.username,
     };

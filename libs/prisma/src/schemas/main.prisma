@@ -376,6 +376,8 @@ model Prize {
 enum RaffleStatus {
   DRAFT // the raffle is being created
   ACTIVE // the raffle is currently running
+  REASSIGN // the raffle needs new winners assigned
+  WAITING // the raffle is waiting for winners to claim all their prizes
   COMPLETE // the raffle has winners and the prizes have been assigned
   CANCELLED // the raffle was cancelled early
 }
@@ -401,7 +403,7 @@ model Raffle {
 
 model RaffleParticipation {
   id         Int           @id @default(autoincrement())
-  numTickets Int
+  numEntries Int
   // the user who bought the ticket
   userId     String
   user       User          @relation(fields: [userId], references: [id])
@@ -451,7 +453,7 @@ model RaffleWinner {
   alert           ClaimAlert?
 }
 
-// when a raffle expires, the winners are chosen, and activation codes are assigned to the winning tickets and users. 
+// when a raffle expires, the winners are chosen, and activation codes are assigned to the winning entry and users. 
 // a claim alert is created for each user who won a prize. we'll send a notification to the user to let them know they won.
 // when a user claims the prize, the claim alert is deleted.
 model ClaimAlert {

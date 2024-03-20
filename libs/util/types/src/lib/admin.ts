@@ -52,7 +52,7 @@ export const userDetails = z.object({
   participation: z
     .object({
       raffleId: z.number(),
-      numTickets: z.number(),
+      numEntries: z.number(),
     })
     .array(),
   winnings: z
@@ -200,7 +200,7 @@ export const raffleDetails = z.object({
   participants: z
     .object({
       userId: z.string(),
-      numTickets: z.number(),
+      numEntries: z.number(),
     })
     .array(),
   winners: z

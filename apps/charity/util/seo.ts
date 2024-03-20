@@ -344,7 +344,7 @@ export const rafflesSeo = createSeo({
   path: routes.raffles.path(),
   title: 'Raffles',
   description:
-    'Redeem your tokens for raffle tickets and win real world prizes. Every token you spend is a donation towards charity. Win free prizes by playing browser games and referring friends',
+    'Redeem your tokens for raffle entries and win real world prizes. Every token you spend is a donation towards charity. Win free prizes by playing browser games and referring friends',
 });
 
 export const raffleSeo = (raffle: RaffleSchema): NextSeoProps =>

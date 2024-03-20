@@ -45,7 +45,7 @@ export const mockNotifications: NotificationSchema[] = [
           prizeId: 1,
         },
       }
-    )}">purchase more raffle tickets</a>!`,
+    )}">purchase more raffle entries</a>!`,
     type: 'RAFFLE',
     read: false,
     createdAt: minutesAgo(20).getTime(),

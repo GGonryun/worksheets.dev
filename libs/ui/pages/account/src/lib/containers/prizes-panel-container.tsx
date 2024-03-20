@@ -20,7 +20,7 @@ export const PrizesPanelContainer = () => {
   const [code, setCode] = useState('');
 
   const { data: enteredRaffles } = trpc.user.raffles.entered.useQuery({
-    filter: null,
+    activeOnly: false,
   });
 
   const { data: wonRaffles } = trpc.user.raffles.won.useQuery(undefined);

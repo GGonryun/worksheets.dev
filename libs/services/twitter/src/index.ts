@@ -1,4 +1,5 @@
 import {
+  IS_DEVELOPMENT,
   TWITTER_ACCESS_TOKEN_KEY,
   TWITTER_ACCESS_TOKEN_SECRET,
   TWITTER_API_KEY,
@@ -23,11 +24,15 @@ export class TwitterService {
   }
 
   public async tweet(text: string) {
+    if (IS_DEVELOPMENT) {
+      console.info('Skipping tweet in development');
+      return;
+    }
+
     try {
       await this.#client.v2.tweet(text);
-      console.log('Tweet posted successfully');
-    } catch (e) {
-      console.error('Error occurred while posting tweet', e);
+    } catch (error) {
+      console.error('Failed to post tweet', error);
     }
   }
 }

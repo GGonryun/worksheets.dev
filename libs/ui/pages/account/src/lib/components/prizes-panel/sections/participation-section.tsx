@@ -54,7 +54,7 @@ export const ParticipationSection: React.FC<{
         points={[
           `Play games, refer friends, and make purchases to earn tokens.`,
           <>
-            Redeem tokens for Raffle Tickets and Prizes from the{' '}
+            Redeem tokens for Raffle Entries and Prizes from the{' '}
             <Link href={routes.prizes.path()}>Prize Wall</Link>.
           </>,
           `If you win a prize, you'll have 72 hours to claim it. If you don't, it will expire.`,
@@ -114,7 +114,7 @@ const EmptyParticipationTable = () => {
         You haven't participated in any raffles yet
       </Typography>
       <Typography variant="body2">
-        Redeem your tokens for Raffle Tickets or Prizes.
+        Redeem your tokens for Raffle Entries or Prizes.
       </Typography>
       <Typography variant="body2">
         Play games and refer friends to earn more tokens.

@@ -22,7 +22,7 @@ export default publicProcedure
       db.user.count(),
       db.raffleParticipation.aggregate({
         _sum: {
-          numTickets: true,
+          numEntries: true,
         },
       }),
       db.rewards.aggregate({
@@ -37,7 +37,7 @@ export default publicProcedure
       uniqueGames: allGames,
       uniquePlayers: players,
       totalGamePlays: gamesPlayed._sum.plays ?? 0,
-      rafflesParticipated: rafflesParticipated._sum.numTickets ?? 0,
+      rafflesParticipated: rafflesParticipated._sum.numEntries ?? 0,
       tokensAccumulated: tokensAccumulated._sum.totalTokens ?? 0,
       prizesDelivered: prizesDelivered,
     };

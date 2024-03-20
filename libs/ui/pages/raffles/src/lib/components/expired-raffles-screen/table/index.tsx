@@ -22,7 +22,7 @@ export const ExpiredRafflesTable: React.FC<{
       <Table
         size="small"
         sx={{
-          minWidth: 400,
+          minWidth: 600,
         }}
       >
         <ExpiredRaffleTableHead />

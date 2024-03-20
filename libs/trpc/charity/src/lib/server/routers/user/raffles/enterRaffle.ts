@@ -41,7 +41,7 @@ export default protectedProcedure
         });
       }
 
-      // purchase the tickets
+      // purchase the entries
       const result = await tx.rewards.update({
         where: {
           userId: user.id,
@@ -53,11 +53,11 @@ export default protectedProcedure
         },
       });
 
-      // check if the user has enough tokens to purchase the tickets
+      // check if the user has enough tokens to purchase the entries
       if (result.totalTokens < 0) {
         throw new TRPCError({
           code: 'PRECONDITION_FAILED',
-          message: 'User has insufficient tokens to purchase tickets',
+          message: 'User does not have enough tokens to purchase entries',
         });
       }
 
@@ -70,12 +70,12 @@ export default protectedProcedure
           },
         },
         update: {
-          numTickets: {
+          numEntries: {
             increment: 1,
           },
         },
         create: {
-          numTickets: 1,
+          numEntries: 1,
           raffleId: raffleId,
           userId: user.id,
         },
