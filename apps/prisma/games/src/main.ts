@@ -7,14 +7,6 @@ import { prisma } from '@worksheets/prisma';
 import { SeedableGameSchema, TagSchema } from '@worksheets/util/types';
 
 async function main() {
-  // wait for user input to continue
-  await new Promise((resolve) => {
-    // ask the user to press enter to continue
-    console.log('Press enter to continue seeding database.');
-    process.stdin.resume();
-    process.stdin.on('data', resolve);
-  });
-
   // clean up the database before seeding
   await prisma.$transaction(async (tx) => {
     await tx.categoriesOnGame.deleteMany({});

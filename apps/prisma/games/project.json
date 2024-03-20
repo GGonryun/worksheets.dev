@@ -1,7 +1,7 @@
 {
-  "name": "prisma-seed",
+  "name": "prisma-games",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "apps/prisma/seed/src",
+  "sourceRoot": "apps/prisma/games/src",
   "projectType": "application",
   "targets": {
     "build": {
@@ -10,12 +10,12 @@
       "defaultConfiguration": "production",
       "options": {
         "platform": "node",
-        "outputPath": "dist/apps/prisma/seed",
+        "outputPath": "dist/apps/prisma/games",
         "format": ["cjs"],
         "bundle": false,
-        "main": "apps/prisma/seed/src/main.ts",
-        "tsConfig": "apps/prisma/seed/tsconfig.app.json",
-        "assets": ["apps/prisma/seed/src/assets"],
+        "main": "apps/prisma/games/src/main.ts",
+        "tsConfig": "apps/prisma/games/tsconfig.app.json",
+        "assets": ["apps/prisma/games/src/assets"],
         "generatePackageJson": true,
         "esbuildOptions": {
           "sourcemap": true,
@@ -40,14 +40,14 @@
       "executor": "@nx/js:node",
       "defaultConfiguration": "development",
       "options": {
-        "buildTarget": "prisma-seed:build"
+        "buildTarget": "prisma-games:build"
       },
       "configurations": {
         "development": {
-          "buildTarget": "prisma-seed:build:development"
+          "buildTarget": "prisma-games:build:development"
         },
         "production": {
-          "buildTarget": "prisma-seed:build:production"
+          "buildTarget": "prisma-games:build:production"
         }
       }
     },
@@ -55,14 +55,14 @@
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["apps/prisma/seed/**/*.ts"]
+        "lintFilePatterns": ["apps/prisma/games/**/*.ts"]
       }
     },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "apps/prisma/seed/jest.config.ts",
+        "jestConfig": "apps/prisma/games/jest.config.ts",
         "passWithNoTests": true
       },
       "configurations": {
