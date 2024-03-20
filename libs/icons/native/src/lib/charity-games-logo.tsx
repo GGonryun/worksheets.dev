@@ -1,6 +1,5 @@
+import common from '@worksheets/assets-common';
 import Image from 'next/image';
-
-export const CHARITY_GAMES_LOGO_PATH = '/common/charity-games/logos/square.png';
 
 export const CharityGamesLogo: React.FC<{ size: number; margin?: string }> = ({
   size,
@@ -8,7 +7,7 @@ export const CharityGamesLogo: React.FC<{ size: number; margin?: string }> = ({
 }) => {
   return (
     <Image
-      src={CHARITY_GAMES_LOGO_PATH}
+      src={common.charityGames.logos.square}
       alt="Charity.Games"
       width={size}
       height={size}

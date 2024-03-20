@@ -1,11 +1,11 @@
 import { Box } from '@mui/material';
 import { Meta } from '@storybook/react';
 
-import { PoweredByLogo } from './powered-by-logo';
+import { SponsorLogo } from './sponsor-logo';
 
-type Story = Meta<typeof PoweredByLogo>;
+type Story = Meta<typeof SponsorLogo>;
 const Default: Story = {
-  component: PoweredByLogo,
+  component: SponsorLogo,
   args: {},
   decorators: [
     (Story) => (
@@ -25,5 +25,19 @@ const Default: Story = {
 export default Default;
 
 export const Primary: Story = {
-  args: {},
+  args: {
+    text: 'Charity Games',
+  },
+};
+
+export const Longer: Story = {
+  args: {
+    text: 'Paradox Interactive',
+  },
+};
+
+export const OneLine: Story = {
+  args: {
+    text: 'Sidecade',
+  },
 };

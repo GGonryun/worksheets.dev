@@ -1,3 +1,4 @@
+import common from '@worksheets/assets-common';
 import {
   DeveloperSchema,
   SerializableGameSchema,
@@ -10,7 +11,7 @@ export const sampleDeveloper: DeveloperSchema = {
   name: 'Charity Games',
   description:
     'Charity Games is a non-profit organization. Lorem ipsum dolor sit amet, consectetus adipiscing elit. Nullam auctor, eros vitae aliquet aliquet, ipsum elit lacinia nunc, quis ultricies nisl nunc vitae nisl.',
-  avatarUrl: '/common/charity-games/logos/square.png',
+  avatarUrl: common.charityGames.logos.square,
   socials: {},
 };
 

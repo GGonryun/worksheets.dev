@@ -28,6 +28,7 @@
     "src/**/*.jsx",
     "src/**/*.ts",
     "src/**/*.tsx",
-    "../../../../types/@mui.d.ts"
+    "../../../../types/@mui.d.ts",
+    "src/lib/sponsor-logo"
   ]
 }

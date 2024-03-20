@@ -1,8 +1,8 @@
 import { SvgIconComponent } from '@mui/icons-material';
 import { Typography } from '@mui/material';
 import Box from '@mui/material/Box';
+import common from '@worksheets/assets-common';
 import { FillImage } from '@worksheets/ui/components/images';
-import { PLACEHOLDER_LOGO_PATH } from '@worksheets/util/assets';
 import React, { ReactNode } from 'react';
 
 export const ArcadeItemLayout: React.FC<{
@@ -44,7 +44,7 @@ export const ArcadeItemLayout: React.FC<{
       >
         <FillImage
           placeholder="blur"
-          blurDataURL={PLACEHOLDER_LOGO_PATH}
+          blurDataURL={common.charityGames.logos.placeholder}
           src={imageUrl}
           alt={`Logo`}
           priority

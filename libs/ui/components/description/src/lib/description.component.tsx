@@ -1,6 +1,6 @@
 import { ArrowDropDown } from '@mui/icons-material';
 import { Box, ButtonBase, Collapse, Paper, Typography } from '@mui/material';
-import { PoweredByLogo } from '@worksheets/ui/components/logos';
+import { SponsorLogo } from '@worksheets/ui/components/logos';
 import React, { ReactNode, useState } from 'react';
 
 export const Description: React.FC<{
@@ -8,13 +8,17 @@ export const Description: React.FC<{
   icons?: ReactNode;
   ancillary?: ReactNode;
   description: ReactNode;
+  bonus?: ReactNode;
   open?: boolean;
   hideLogo?: boolean;
+  logo?: ReactNode;
 }> = ({
   title,
   icons,
   ancillary,
   description,
+  bonus,
+  logo,
   open: initialState = false,
   hideLogo = false,
 }) => {
@@ -41,12 +45,17 @@ export const Description: React.FC<{
         gap: 2,
         justifyContent: 'space-between',
         flexWrap: 'wrap',
-        typography: { xs: 'h6', sm: 'h5', md: 'h4' },
+        typography: { xs: 'h5', sm: 'h5', md: 'h4' },
       }}
     >
-      <Box display="flex" alignItems="center" gap={{ xs: 2, sm: 3 }}>
+      <Box
+        display="flex"
+        alignItems="center"
+        gap={{ xs: 2, sm: 3 }}
+        flexWrap="wrap"
+      >
         {title}
-        {open && icons}
+        {open ? icons : bonus}
       </Box>
       {open ? ancillary : <ReadMore />}
     </Typography>
@@ -90,16 +99,20 @@ export const Description: React.FC<{
           >
             {description}
           </Typography>
-          <Box pb={1} pt={{ xs: 4, sm: 8 }}>
-            <ReadLess visible={open} onClick={() => setOpen(false)} />
-          </Box>
+
           <Box
-            position="absolute"
+            position={{ xs: 'initial', sm: 'absolute' }}
             right={16}
             bottom={16}
-            display={hideLogo ? 'none' : { xs: 'none', sm: 'block' }}
+            pt={{ xs: 4, sm: 0 }}
+            display={hideLogo ? 'none' : 'flex'}
+            alignItems={{ xs: 'center', sm: 'unset' }}
+            justifyContent={{ xs: 'center', sm: 'unset' }}
           >
-            <PoweredByLogo />
+            {logo ? logo : <SponsorLogo />}
+          </Box>
+          <Box pb={1} pt={{ xs: 4, sm: 8 }}>
+            <ReadLess visible={open} onClick={() => setOpen(false)} />
           </Box>
         </Box>
       </Collapse>

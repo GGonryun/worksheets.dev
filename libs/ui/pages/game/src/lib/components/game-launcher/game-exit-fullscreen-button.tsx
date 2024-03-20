@@ -1,5 +1,6 @@
 import { ArrowLeft } from '@mui/icons-material';
 import { Box } from '@mui/material';
+import common from '@worksheets/assets-common';
 import Image from 'next/image';
 import { FC } from 'react';
 
@@ -38,7 +39,7 @@ export const GameExitFullscreenButton: FC<GameExitFullscreenButtonProps> = ({
       }}
     />
     <Image
-      src="/common/charity-games/logos/square.png"
+      src={common.charityGames.logos.square}
       alt="Charity Games Logo"
       width={40}
       height={40}

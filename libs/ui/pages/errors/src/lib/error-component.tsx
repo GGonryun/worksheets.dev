@@ -1,5 +1,6 @@
 import { ArrowRightAlt, Refresh } from '@mui/icons-material';
 import { Box, Button, Theme, Typography, useMediaQuery } from '@mui/material';
+import common from '@worksheets/assets-common';
 import { routes } from '@worksheets/ui/routes';
 import { InternallyCenter } from '@worksheets/ui-core';
 import Image from 'next/image';
@@ -33,7 +34,7 @@ export const ErrorComponent: React.FC<{
         }}
       >
         <Image
-          src="/common/charity-games/logos/square.png"
+          src={common.charityGames.logos.square}
           alt="Charity Games Logo"
           width={isMobile ? 100 : 200}
           height={isMobile ? 100 : 200}

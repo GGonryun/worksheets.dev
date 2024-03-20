@@ -31,6 +31,7 @@ export const raffleSchema = z.object({
   numWinners: z.number(),
   sponsor: z.object({
     name: z.string(),
+    logo: z.string(),
     url: z.string(),
   }),
 });
@@ -83,6 +84,7 @@ export const convertRaffle = (
   numWinners: raffle.numWinners,
   sponsor: {
     name: raffle.sponsor.name,
+    logo: raffle.sponsor.logo,
     url: raffle.sponsor.url,
   },
 });

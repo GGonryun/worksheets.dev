@@ -1,4 +1,5 @@
 import { Box, Typography } from '@mui/material';
+import common from '@worksheets/assets-common';
 import Image from 'next/image';
 import { forwardRef } from 'react';
 
@@ -12,7 +13,7 @@ export const GameFrame = forwardRef<HTMLIFrameElement, GameFrameProps>(
       <Box width="100%" height="100%" position="relative">
         <Box className={classes.placeholder}>
           <Image
-            src={'/common/charity-games/logos/square.png'}
+            src={common.charityGames.logos.square}
             alt="charity games logo"
             height={164}
             width={164}

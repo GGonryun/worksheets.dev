@@ -194,7 +194,6 @@
       "@worksheets/util-next": ["libs/util/next/src/index.ts"],
       "@worksheets/util/adsense": ["libs/util/adsense/src/index.ts"],
       "@worksheets/util/arrays": ["libs/util/arrays/src/index.ts"],
-      "@worksheets/util/assets": ["libs/util/assets/src/index.ts"],
       "@worksheets/util/auth": ["libs/util/auth/src/index.ts"],
       "@worksheets/util/blog": ["libs/util/blog/src/index.ts"],
       "@worksheets/util/data": ["libs/util/data/src/index.ts"],

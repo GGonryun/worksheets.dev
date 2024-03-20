@@ -7,20 +7,8 @@ const config = {
   },
   staticDirs: [
     {
-      from: '../../../assets/common/src/lib',
+      from: '../../../../assets/common/src/lib',
       to: '/common',
-    },
-    {
-      from: '../../../assets/games/src/lib',
-      to: '/games',
-    },
-    {
-      from: '../../../assets/blog/src/lib',
-      to: '/blog',
-    },
-    {
-      from: '../../../assets/partners/src/lib',
-      to: '/partners',
     },
   ],
 };

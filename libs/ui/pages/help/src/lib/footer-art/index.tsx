@@ -1,11 +1,11 @@
 import { Box, BoxProps, styled } from '@mui/material';
+import common from '@worksheets/assets-common';
 import { ContainImage } from '@worksheets/ui/components/images';
 import { routes } from '@worksheets/ui/routes';
 import { JSXElementConstructor } from 'react';
 
 const purposeHref = routes.newsletter.subscribe.path();
-const bannerUri = '/common/charity-games/banners/play-with-purpose.png';
-const iconUri = '/common/charity-games/art/play-with-purpose.png';
+
 const playWithPurposeAlt = 'Play With Purpose';
 
 const PlayWithPurposeBox = styled<JSXElementConstructor<BoxProps>>((props) => (
@@ -25,7 +25,10 @@ export const PlayWithPurposeBanner = () => (
       maxWidth: 800,
     }}
   >
-    <ContainImage src={bannerUri} alt={playWithPurposeAlt} />
+    <ContainImage
+      src={common.charityGames.banners.playWithPurpose}
+      alt={playWithPurposeAlt}
+    />
   </PlayWithPurposeBox>
 );
 
@@ -36,6 +39,9 @@ export const PlayWithPurposeIcon = () => (
       maxWidth: 300,
     }}
   >
-    <ContainImage src={iconUri} alt={playWithPurposeAlt} />
+    <ContainImage
+      src={common.charityGames.art.playWithPurpose}
+      alt={playWithPurposeAlt}
+    />
   </PlayWithPurposeBox>
 );

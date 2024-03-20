@@ -1,1 +1,1 @@
-export * from './lib/powered-by-logo';
+export * from './lib/sponsor-logo';

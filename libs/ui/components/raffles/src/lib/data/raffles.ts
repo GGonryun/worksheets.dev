@@ -1,3 +1,4 @@
+import common from '@worksheets/assets-common';
 import {
   daysFromNow,
   hoursFromNow,
@@ -22,6 +23,7 @@ export const mockRaffles: RaffleSchema[] = [
     sourceUrl: 'https://store.steampowered.com/app/1086940/Baldurs_Gate_3/',
     sponsor: {
       name: 'Larian Studios',
+      logo: common.charityGames.logos.square128,
       url: 'https://larian.com/',
     },
   },
@@ -40,6 +42,7 @@ export const mockRaffles: RaffleSchema[] = [
     sourceUrl: 'https://store.steampowered.com/app/255710/Cities_Skylines/',
     sponsor: {
       name: 'Paradox Interactive',
+      logo: common.charityGames.logos.square128,
       url: 'https://www.paradoxplaza.com/',
     },
   },
@@ -58,6 +61,7 @@ export const mockRaffles: RaffleSchema[] = [
     sourceUrl: 'https://store.steampowered.com/app/1208960/Palworld/',
     sponsor: {
       name: 'Pocketpair',
+      logo: common.charityGames.logos.square128,
       url: 'https://www.pocketpair.jp/',
     },
   },
@@ -75,6 +79,7 @@ export const mockRaffles: RaffleSchema[] = [
     sourceUrl: 'https://store.steampowered.com/app',
     sponsor: {
       name: 'Electronic Arts',
+      logo: common.charityGames.logos.square128,
       url: 'https://www.ea.com/',
     },
   },
@@ -93,6 +98,7 @@ export const mockRaffles: RaffleSchema[] = [
       'https://store.steampowered.com/app/2700/RollerCoaster_Tycoon_3_Platinum/',
     sponsor: {
       name: 'Frontier Developments',
+      logo: common.charityGames.logos.square128,
       url: 'https://www.frontier.co.uk/',
     },
   },
@@ -110,6 +116,7 @@ export const mockRaffles: RaffleSchema[] = [
     sourceUrl: 'https://store.steampowered.com/app/231060/Ragnarok_Online_2/',
     sponsor: {
       name: 'Gravity Interactive',
+      logo: common.charityGames.logos.square128,
       url: 'https://www.warpportal.com/',
     },
   },

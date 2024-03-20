@@ -15,7 +15,7 @@ import {
   styled,
   Typography,
 } from '@mui/material';
-import { PoweredByLogo } from '@worksheets/ui/components/logos';
+import { SponsorLogo } from '@worksheets/ui/components/logos';
 import { useMediaQueryDown } from '@worksheets/ui/hooks/use-media-query';
 import { blogRoutes, routes } from '@worksheets/ui/routes';
 import { currentYear } from '@worksheets/util/time';
@@ -146,7 +146,7 @@ const Links = () => (
         © {currentYear} Charity Games. All rights reserved.
       </Typography>
       <Box component={Link} href={routes.about.path()}>
-        <PoweredByLogo />
+        <SponsorLogo />
       </Box>
     </Box>
     <Box

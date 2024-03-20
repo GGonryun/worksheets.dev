@@ -42,6 +42,7 @@ export default publicProcedure
       numWinners: raffle.numWinners,
       sponsor: {
         name: raffle.sponsor.name,
+        logo: raffle.sponsor.logo,
         url: raffle.sponsor.url,
       },
     };

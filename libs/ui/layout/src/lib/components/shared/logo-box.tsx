@@ -5,8 +5,8 @@ import {
   Typography,
   TypographyProps,
 } from '@mui/material';
+import common from '@worksheets/assets-common';
 import { routes } from '@worksheets/ui/routes';
-import { CHARITY_TOOLBAR_LOGO_PATH } from '@worksheets/util/assets';
 import Image from 'next/image';
 import React from 'react';
 
@@ -14,7 +14,7 @@ export const LogoBox: React.FC<{ rootHref?: string }> = ({ rootHref }) => {
   return (
     <TitleBox component="a" href={rootHref ?? routes.play.url()}>
       <Image
-        src={CHARITY_TOOLBAR_LOGO_PATH}
+        src={common.charityGames.logos.flat}
         alt="Charity.Games"
         height={44}
         width={88}
