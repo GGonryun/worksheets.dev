@@ -353,7 +353,7 @@ model Sponsor {
   version Int      @default(0)
   name    String   @db.VarChar(127)
   url     String   @db.VarChar(255)
-  logo    String   @db.VarChar(255)
+  logo    String   @default("") @db.VarChar(255)
   raffle  Raffle[]
 }
 
