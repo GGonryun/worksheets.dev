@@ -35,6 +35,7 @@
     "@emotion/styled": "^11.11.0",
     "@fullhuman/postcss-purgecss": "^5.0.0",
     "@fullstory/browser": "^1.7.1",
+    "@google-cloud/kms": "^4.1.0",
     "@google-cloud/storage": "^7.7.0",
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.15.4",
