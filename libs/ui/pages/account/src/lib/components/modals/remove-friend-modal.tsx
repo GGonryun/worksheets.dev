@@ -1,9 +1,7 @@
 import { HeartBroken } from '@mui/icons-material';
 import { Button, Typography } from '@mui/material';
 import { ValentinesHeartbreak } from '@worksheets/icons/valentines';
-import { ModalWrapper } from '@worksheets/ui-core';
-
-import { ParentModal } from './parent-modal';
+import { BasicModal, ModalWrapper } from '@worksheets/ui/components/modals';
 
 export const RemoveFriendModal: React.FC<
   ModalWrapper<{ onRemove: () => void }>
@@ -14,7 +12,7 @@ export const RemoveFriendModal: React.FC<
     handleClose();
   };
   return (
-    <ParentModal open={open} onClose={onClose}>
+    <BasicModal open={open} onClose={onClose}>
       <Typography variant="h4" color="error" pt={2}>
         Remove Friend
       </Typography>
@@ -37,6 +35,6 @@ export const RemoveFriendModal: React.FC<
       >
         Remove Friend
       </Button>
-    </ParentModal>
+    </BasicModal>
   );
 };

@@ -1,11 +1,9 @@
 import { Box, Button, Typography } from '@mui/material';
+import { routes } from '@worksheets/routes';
 import { ClipboardText } from '@worksheets/ui/components/inputs';
-import { routes } from '@worksheets/ui/routes';
-import { ModalWrapper } from '@worksheets/ui-core';
+import { BasicModal, ModalWrapper } from '@worksheets/ui/components/modals';
 import { HelpPrizesQuestions } from '@worksheets/util/enums';
 import Image from 'next/image';
-
-import { ParentModal } from './parent-modal';
 
 export const RedemptionCodeModal: React.FC<
   ModalWrapper<{
@@ -17,7 +15,7 @@ export const RedemptionCodeModal: React.FC<
   }>
 > = ({ open, onClose, prize, code }) => {
   return (
-    <ParentModal open={open} onClose={onClose}>
+    <BasicModal open={open} onClose={onClose}>
       <Typography variant="h4" color="secondary.main" pt={2}>
         Redeem Your Prize
       </Typography>
@@ -52,6 +50,6 @@ export const RedemptionCodeModal: React.FC<
       >
         Need Help?
       </Button>
-    </ParentModal>
+    </BasicModal>
   );
 };

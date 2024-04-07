@@ -1,4 +1,3 @@
-import { Snackbar } from '@mui/material';
 import { trpc } from '@worksheets/trpc-charity';
 import { ErrorScreen } from '@worksheets/ui/pages/errors';
 import { LoadingScreen } from '@worksheets/ui/pages/loading';
@@ -25,10 +24,7 @@ const GameSubmissionScreenContainer: React.FC<{
     { enabled: enableQueries }
   );
 
-  const { form, snackbar } = useGameSubmissionForm(
-    submissionId,
-    submission.data
-  );
+  const { form } = useGameSubmissionForm(submissionId, submission.data);
 
   if (submission.isLoading || terms.isLoading) {
     return <LoadingScreen />;
@@ -47,7 +43,6 @@ const GameSubmissionScreenContainer: React.FC<{
   return (
     <GameSubmissionFormContextProvider value={form}>
       <GameSubmissionScreen invalidProfile={!terms.data.hasApproved} />
-      <Snackbar {...snackbar.props} />
     </GameSubmissionFormContextProvider>
   );
 };

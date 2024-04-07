@@ -1,7 +1,7 @@
 import { CardGiftcard, PlayCircleOutlined } from '@mui/icons-material';
 import { Box, Button, Typography } from '@mui/material';
+import { routes } from '@worksheets/routes';
 import { useMediaQueryDown } from '@worksheets/ui/hooks/use-media-query';
-import { routes } from '@worksheets/ui/routes';
 
 import { CustomPaper } from '../shared/custom-paper';
 

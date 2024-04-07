@@ -1,9 +1,9 @@
 import { ArrowRight } from '@mui/icons-material';
 import { Box, Button, Container, Paper } from '@mui/material';
 import { ShuffleIcon } from '@worksheets/icons/native';
+import { routes } from '@worksheets/routes';
 import { Categories } from '@worksheets/ui/components/categories';
 import { GamesGroup } from '@worksheets/ui/components/games';
-import { routes } from '@worksheets/ui/routes';
 import { Markdown } from '@worksheets/ui-core';
 import { BasicCategoryInfo, BasicGameInfo } from '@worksheets/util/types';
 import { FC } from 'react';

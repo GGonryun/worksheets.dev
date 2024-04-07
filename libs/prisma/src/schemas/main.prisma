@@ -15,38 +15,39 @@ enum UserType {
 }
 
 model User {
-  id                      String                   @id @default(cuid())
-  name                    String?
-  email                   String                   @unique
-  emailVerified           DateTime?
-  image                   String?
-  referredByUserId        String?
-  username                String                   @default(cuid())
-  bio                     String?
-  isPublisher             Boolean                  @default(false)
-  createdAt               DateTime                 @default(now())
-  updatedAt               DateTime                 @updatedAt
-  lastSeen                DateTime?                @default(now())
-  type                    UserType                 @default(USER)
-  accounts                Account[]
-  sessions                Session[]
-  rewards                 Rewards?
-  submissions             GameSubmission[]
+  id               String                 @id @default(cuid())
+  name             String?
+  email            String                 @unique
+  emailVerified    DateTime?
+  image            String?
+  referredByUserId String?
+  username         String                 @default(cuid())
+  bio              String?
+  isPublisher      Boolean                @default(false)
+  createdAt        DateTime               @default(now())
+  updatedAt        DateTime               @updatedAt
+  lastSeen         DateTime?              @default(now())
+  type             UserType               @default(USER)
+  accounts         Account[]
+  sessions         Session[]
+  rewards          Rewards?
+  submissions      GameSubmission[]
   // raffles
-  participation           RaffleParticipation[]
-  winnings                RaffleWinner[]
+  participation    RaffleParticipation[]
+  winnings         RaffleWinner[]
   // friendships
-  friends                 Friendship[]             @relation(name: "Friends")
-  followers               Friendship[]             @relation(name: "Followers")
+  friends          Friendship[]           @relation(name: "Friends")
+  followers        Friendship[]           @relation(name: "Followers")
   // socials
-  referralCode            ReferralCode?
-  referredBy              User?                    @relation(name: "Referred", fields: [referredByUserId], references: [id])
-  referred                User[]                   @relation(name: "Referred")
+  referralCode     ReferralCode?
+  referredBy       User?                  @relation(name: "Referred", fields: [referredByUserId], references: [id])
+  referred         User[]                 @relation(name: "Referred")
   // notifications
-  notifications           Notification[]
-  notificationPreferences NotificationPreferences?
+  notifications    Notification[]
   // vip membership
-  vip                     VipMembershipWaitlist?
+  vip              VipMembershipWaitlist?
+  // quests
+  quests           QuestProgress[]
 }
 
 model Account {
@@ -106,34 +107,31 @@ model Gift {
 }
 
 model Rewards {
-  id                      String    @id @default(cuid())
-  userId                  String    @unique
-  totalTokens             Int
-  availableGamePlayTokens Int
-  availableReferralTokens Int
-  giftBoxes               Int
-  sharableGiftBoxes       Int
-  claimedDailyReward      DateTime?
-  updatedAt               DateTime  @updatedAt
-  user                    User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id                String   @id @default(cuid())
+  userId            String   @unique
+  totalTokens       Int
+  giftBoxes         Int
+  sharableGiftBoxes Int
+  updatedAt         DateTime @updatedAt
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-model NotificationPreferences {
-  id        String   @id @default(cuid())
-  userId    String   @unique
-  email     Boolean  @default(true)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+enum NewsletterTopic {
+  Transactional
+  NewRaffle
+  NewGame
+  NewAuction
+  WeeklyNewsletter
+  TipsAndTricks
 }
 
 model NewsletterSubscription {
-  id         String   @id @default(cuid())
-  email      String   @unique
-  subscribed Boolean  @default(true)
-  confirmed  Boolean  @default(false)
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  id        String            @id @default(cuid())
+  email     String            @unique
+  topics    NewsletterTopic[] @default([Transactional, NewRaffle, NewGame, NewAuction, WeeklyNewsletter, TipsAndTricks])
+  confirmed Boolean           @default(false)
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
 }
 
 model ReferralCode {
@@ -490,6 +488,29 @@ model RafflePublishAlert {
   raffle    Raffle   @relation(fields: [raffleId], references: [id])
 }
 
+enum ScheduledEmailStatus {
+  DRAFT // don't try to send draft messages.
+  PENDING
+  SENT
+  SENDING
+  FAILED
+  CANCELLED
+}
+
+model ScheduledEmail {
+  id        Int                  @id @default(autoincrement())
+  createdAt DateTime             @default(now())
+  updatedAt DateTime             @default(now())
+  priority  Int
+  sendAt    DateTime
+  status    ScheduledEmailStatus @default(PENDING)
+  to        String[]             @default([])
+  cc        String[]             @default([])
+  bcc       String[]             @default([])
+  subject   String
+  html      String
+}
+
 enum NotificationType {
   SYSTEM
   FRIEND
@@ -515,4 +536,25 @@ model VipMembershipWaitlist {
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+enum QuestStatus {
+  PENDING
+  ACTIVE
+  COMPLETED
+}
+
+model QuestProgress {
+  id        Int         @id @default(autoincrement())
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  expiresAt DateTime?
+  status    QuestStatus
+  state     Json
+  // relationships
+  userId    String
+  user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  questId   String
+
+  @@unique([userId, questId])
 }

@@ -6,8 +6,8 @@ import {
   CharityBox,
   CharityWater,
 } from '@worksheets/icons/charity';
+import { routes } from '@worksheets/routes';
 import { BLOG_BASE_URL } from '@worksheets/ui/env';
-import { routes } from '@worksheets/ui/routes';
 
 import { RedirectBox } from './redirect-box';
 

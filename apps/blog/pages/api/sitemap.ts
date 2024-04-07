@@ -1,4 +1,4 @@
-import { blogRoutes } from '@worksheets/ui/routes';
+import { blogRoutes } from '@worksheets/routes';
 import { formatAmericanDate } from '@worksheets/util/time';
 import { getAllPostsMetadata } from '@worksheets/util-markdown';
 import { NextApiHandler } from 'next';

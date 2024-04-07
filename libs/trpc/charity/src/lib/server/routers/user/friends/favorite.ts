@@ -1,4 +1,5 @@
 import { TRPCError } from '@trpc/server';
+import { MAX_BEST_FRIENDS } from '@worksheets/util/types';
 import { z } from 'zod';
 
 import { protectedProcedure } from '../../../procedures';
@@ -17,7 +18,6 @@ export default protectedProcedure
   )
   .mutation(async ({ ctx: { db, user }, input: { friendshipId: id } }) => {
     const userId = user.id;
-    console.log('toggling favorite friendship', { id });
 
     const friend = await db.friendship.findFirst({
       where: {
@@ -33,7 +33,23 @@ export default protectedProcedure
       });
     }
 
+    // find all best friends.
+    const bestFriends = await db.friendship.count({
+      where: {
+        userId,
+        isFavorite: true,
+      },
+    });
+
     const newState = !friend.isFavorite;
+    // throw err if you're trying to favorite a friend and you already have the max number of best friends.
+    if (newState && bestFriends >= MAX_BEST_FRIENDS) {
+      throw new TRPCError({
+        code: 'PRECONDITION_FAILED',
+        message: `You can only have ${MAX_BEST_FRIENDS} best friends.`,
+      });
+    }
+
     await db.friendship.update({
       where: {
         id,
@@ -41,11 +57,6 @@ export default protectedProcedure
       data: {
         isFavorite: newState,
       },
-    });
-
-    console.info('friendship favorite toggled', {
-      id,
-      isFavorite: newState,
     });
 
     return { newState };

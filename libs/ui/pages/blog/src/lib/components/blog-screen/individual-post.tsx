@@ -1,6 +1,6 @@
 import { Box, Link, Typography } from '@mui/material';
+import { blogRoutes } from '@worksheets/routes';
 import { CoverImage } from '@worksheets/ui/components/images';
-import { blogRoutes } from '@worksheets/ui/routes';
 import { printDate } from '@worksheets/util/time';
 import { MarkdownMetadata } from '@worksheets/util-markdown';
 

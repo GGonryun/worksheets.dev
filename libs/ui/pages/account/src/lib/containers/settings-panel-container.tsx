@@ -1,48 +1,30 @@
+import { routes } from '@worksheets/routes';
 import { trpc } from '@worksheets/trpc-charity';
-import { Snackbar } from '@worksheets/ui/components/snackbar';
+import { DynamicUserSubscriptionForm } from '@worksheets/ui/components/newsletter';
+import { IS_DEVELOPMENT } from '@worksheets/ui/env';
 import { ErrorComponent } from '@worksheets/ui/pages/errors';
 import { LoadingScreen } from '@worksheets/ui/pages/loading';
-import { routes } from '@worksheets/ui/routes';
 import { useBookmark } from '@worksheets/ui-core';
 import { SettingsPanels } from '@worksheets/util/enums';
-import { UpdateNotificationPreferences } from '@worksheets/util/types';
-import { signOut, useSession } from 'next-auth/react';
+import { signOut } from 'next-auth/react';
 import { useState } from 'react';
 
-import {
-  BasicInformationFormContextProvider,
-  ClearStorageModal,
-  DeleteAccountModal,
-  SettingsPanel,
-} from '../components';
+import { ClearStorageModal, DeleteAccountModal } from '../components';
 import { useBasicInformationForm } from '../hooks';
+import { BasicInformationFormContextProvider, SettingsPanel } from '../panels';
 
 export const SettingsPanelContainer: React.FC = () => {
   const bookmark = useBookmark<SettingsPanels>();
-  const session = useSession();
-  const [updatingPreferences, setUpdatingPreferences] = useState(false);
   const [showClearStorageModal, setShowClearStorageModal] = useState(false);
   const [showDeleteAccountModal, setShowDeleteAccountModal] = useState(false);
 
-  const connected = session.status === 'authenticated';
-
   const profile = trpc.user.get.useQuery(undefined, {
-    enabled: connected,
     retry: false,
   });
 
-  const preferences = trpc.user.notifications.preferences.get.useQuery(
-    undefined,
-    {
-      enabled: connected,
-      retry: false,
-    }
-  );
+  const destroy = trpc.user.delete.useMutation();
 
-  const upsertPreferences =
-    trpc.user.notifications.preferences.upsert.useMutation();
-
-  const { form, snackbar } = useBasicInformationForm(profile.data);
+  const { form } = useBasicInformationForm(profile.data);
 
   const handleClearLocalStorage = () => {
     // clear local storage
@@ -54,53 +36,31 @@ export const SettingsPanelContainer: React.FC = () => {
     }
   };
 
-  const handleDeleteAccount = () => {
-    alert("We're working on this feature! Contact us to delete your account.");
-  };
-
-  const handleUpdatePreferences = async (
-    data: UpdateNotificationPreferences
-  ) => {
-    try {
-      setUpdatingPreferences(true);
-
-      await upsertPreferences.mutateAsync({
-        email: data.enabledEmailNotifications,
-      });
-
-      await preferences.refetch();
-
-      snackbar.trigger({
-        severity: 'success',
-        message: 'Your preferences have been updated!',
-      });
-    } catch (error) {
-      snackbar.trigger({
-        severity: 'error',
-        message:
-          'There was an error updating your preferences. Please try again.',
-      });
-    } finally {
-      setUpdatingPreferences(false);
+  const handleDeleteAccount = async () => {
+    if (IS_DEVELOPMENT) {
+      await destroy.mutateAsync();
+      alert('Account deleted successfully in development mode.');
+    } else {
+      alert(
+        "Your account has been disabled. If you'd like to re-enable it, simply log in again. If you'd like to delete your account, please contact support."
+      );
     }
+    handleClearLocalStorage();
   };
 
-  if (profile.isLoading || preferences.isLoading) return <LoadingScreen />;
+  if (profile.isLoading) return <LoadingScreen />;
 
-  if (profile.error || preferences.error) return <ErrorComponent />;
+  if (profile.isError) return <ErrorComponent />;
 
   return (
     <>
       <BasicInformationFormContextProvider value={form}>
         <SettingsPanel
-          preferences={preferences.data}
           bookmark={bookmark}
-          updatingPreferences={updatingPreferences}
-          onUpdatePreferences={handleUpdatePreferences}
+          form={<DynamicUserSubscriptionForm />}
           onClearLocalStorage={() => setShowClearStorageModal(true)}
           onDeleteAccount={() => setShowDeleteAccountModal(true)}
         />
-        <Snackbar {...snackbar.props} />
       </BasicInformationFormContextProvider>
 
       <ClearStorageModal

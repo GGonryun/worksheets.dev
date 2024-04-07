@@ -55,7 +55,7 @@ export const UnsubscribeNewsletterScreen: React.FC<{
           helperText={
             unsubscribed && (
               <Typography variant="body3" color="success.main">
-                You've been unsubscribed!
+                You have been unsubscribed!
               </Typography>
             )
           }

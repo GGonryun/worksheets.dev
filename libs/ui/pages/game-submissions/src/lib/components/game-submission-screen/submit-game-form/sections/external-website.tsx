@@ -3,8 +3,8 @@ import Box from '@mui/material/Box';
 import FormHelperText from '@mui/material/FormHelperText';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
+import { routes } from '@worksheets/routes';
 import { PrefixTextField } from '@worksheets/ui/components/inputs';
-import { routes } from '@worksheets/ui/routes';
 import { HelpDevelopersQuestions } from '@worksheets/util/enums';
 import { FC } from 'react';
 

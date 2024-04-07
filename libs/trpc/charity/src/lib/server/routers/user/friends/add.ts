@@ -1,9 +1,13 @@
 import { TRPCError } from '@trpc/server';
-import { routes } from '@worksheets/ui/routes';
-import { FriendsPanels } from '@worksheets/util/enums';
+import { NotificationsService } from '@worksheets/services/notifications';
+import { QuestsService } from '@worksheets/services/quests';
+import { MAX_FRIENDS } from '@worksheets/util/types';
 import { z } from 'zod';
 
 import { protectedProcedure } from '../../../procedures';
+
+const notifications = new NotificationsService();
+const quests = new QuestsService();
 
 export default protectedProcedure
   .input(
@@ -12,8 +16,6 @@ export default protectedProcedure
     })
   )
   .mutation(async ({ ctx: { db, user }, input: { code } }) => {
-    console.info('user is adding friend with code', { referralCode: code });
-
     const profile = await db.referralCode.findFirst({
       where: {
         code,
@@ -62,22 +64,37 @@ export default protectedProcedure
       });
     }
 
-    await db.friendship.create({
-      data: {
+    const friends = await db.friendship.count({
+      where: {
         userId: user.id,
-        friendId: profile.user.id,
       },
     });
 
-    await db.notification.create({
-      data: {
-        userId: profile.user.id,
-        type: 'FRIEND',
-        text: `<b>${
-          user.username
-        }</b> has started <a href="${routes.account.friends.path({
-          bookmark: FriendsPanels.FriendsList,
-        })}">following you</a>!`,
-      },
-    });
+    if (friends >= MAX_FRIENDS) {
+      throw new TRPCError({
+        code: 'PRECONDITION_FAILED',
+        message: `You can only have ${MAX_FRIENDS} friends.`,
+      });
+    }
+
+    const friendId = profile.user.id;
+    await Promise.allSettled([
+      db.friendship.create({
+        data: {
+          userId: user.id,
+          friendId,
+        },
+      }),
+      quests.trackId({
+        questId: 'ADD_FRIEND_INFINITE',
+        userId: user.id,
+        input: {
+          userId: friendId,
+        },
+      }),
+      notifications.send('new-follower', {
+        user: profile.user,
+        follower: user,
+      }),
+    ]);
   });

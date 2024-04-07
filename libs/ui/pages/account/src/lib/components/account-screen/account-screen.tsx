@@ -11,23 +11,27 @@ export type AccountScreenProps = {
   path: string;
   settingsPanel: ReactNode;
   submissionsPanel: ReactNode;
-  tokensPanel: ReactNode;
   referralsPanel: ReactNode;
   friendsPanel: ReactNode;
+  questsPanel: ReactNode;
   prizesPanel: ReactNode;
+  notificationsPanel: ReactNode;
+  integrationsPanel: ReactNode;
 };
 
 export const AccountScreen: FC<AccountScreenProps> = ({
   path,
   settingsPanel,
   submissionsPanel,
-  tokensPanel,
   referralsPanel,
   friendsPanel,
   prizesPanel,
+  questsPanel,
+  notificationsPanel,
+  integrationsPanel,
 }) => {
   return (
-    <Container maxWidth="lg" sx={{ py: 2 }}>
+    <Container maxWidth="md" sx={{ py: 2 }}>
       <Paper
         sx={{
           display: 'flex',
@@ -41,8 +45,14 @@ export const AccountScreen: FC<AccountScreenProps> = ({
           <TabPanel target={AccountTabsHref.SETTINGS} current={path}>
             {settingsPanel}
           </TabPanel>
-          <TabPanel target={AccountTabsHref.TOKENS} current={path}>
-            {tokensPanel}
+          <TabPanel target={AccountTabsHref.INTEGRATIONS} current={path}>
+            {integrationsPanel}
+          </TabPanel>
+          <TabPanel target={AccountTabsHref.NOTIFICATIONS} current={path}>
+            {notificationsPanel}
+          </TabPanel>
+          <TabPanel target={AccountTabsHref.QUESTS} current={path}>
+            {questsPanel}
           </TabPanel>
           <TabPanel target={AccountTabsHref.PRIZES} current={path}>
             {prizesPanel}

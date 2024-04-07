@@ -1,7 +1,7 @@
 import { Button } from '@mui/material';
 import { ShuffleIcon } from '@worksheets/icons/native';
+import { routes } from '@worksheets/routes';
 import { useMediaQueryDown } from '@worksheets/ui/hooks/use-media-query';
-import { routes } from '@worksheets/ui/routes';
 import { buttonBoxShadow } from '@worksheets/ui/styles';
 
 export const RandomGameButton = () => {

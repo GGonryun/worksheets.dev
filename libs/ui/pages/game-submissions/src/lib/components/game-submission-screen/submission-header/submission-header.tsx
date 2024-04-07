@@ -4,7 +4,7 @@ import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
-import { routes } from '@worksheets/ui/routes';
+import { routes } from '@worksheets/routes';
 import { HelpDevelopersQuestions } from '@worksheets/util/enums';
 import { FC } from 'react';
 

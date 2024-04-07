@@ -1,9 +1,7 @@
 import { HeartBroken } from '@mui/icons-material';
 import { Button, Typography } from '@mui/material';
 import { ValentinesHeartbreak } from '@worksheets/icons/valentines';
-import { ModalWrapper } from '@worksheets/ui-core';
-
-import { ParentModal } from './parent-modal';
+import { BasicModal, ModalWrapper } from '@worksheets/ui/components/modals';
 
 // TODO: add a form to the delete account modal so user's have to tell us why they're leaving
 export const DeleteAccountModal: React.FC<
@@ -15,7 +13,7 @@ export const DeleteAccountModal: React.FC<
     handleClose();
   };
   return (
-    <ParentModal open={open} onClose={onClose}>
+    <BasicModal open={open} onClose={onClose}>
       <Typography variant="h4" color="error" pt={2}>
         Delete Account
       </Typography>
@@ -40,6 +38,6 @@ export const DeleteAccountModal: React.FC<
       >
         Delete Account
       </Button>
-    </ParentModal>
+    </BasicModal>
   );
 };

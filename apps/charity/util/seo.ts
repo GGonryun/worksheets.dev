@@ -1,4 +1,4 @@
-import { routes } from '@worksheets/ui/routes';
+import { routes } from '@worksheets/routes';
 import { OpenGraphProps, TWITTER_SEO } from '@worksheets/util/seo';
 import {
   DeveloperSchema,
@@ -214,11 +214,25 @@ export const editGameSubmissionSeo = (submissionId: string) =>
     description: `Edit a game submission on Charity Games.`,
   });
 
-export const accountTokensSeo = createSeo({
+export const accountIntegrationsSeo = createSeo({
   noindex: true,
-  path: routes.account.tokens.path(),
-  title: `Tokens`,
-  description: `Manage your Charity Games tokens. Earn tokens by playing games and referring friends.`,
+  path: routes.account.integrations.path(),
+  title: `Integrations`,
+  description: `Manage your Charity Games integrations. Connect your account to other services.`,
+});
+
+export const accountNotificationsSeo = createSeo({
+  noindex: true,
+  path: routes.account.notifications.path(),
+  title: `Notifications`,
+  description: `Manage your Charity Games notifications. Stay up to date with the latest news and updates.`,
+});
+
+export const accountQuestsSeo = createSeo({
+  noindex: true,
+  path: routes.account.quests.path(),
+  title: `Quests`,
+  description: `Complete daily, weekly, and monthly quests to earn tokens. Redeem tokens for real world prizes.`,
 });
 
 export const accountReferralsSeo = createSeo({
@@ -303,6 +317,13 @@ export const helpFriendsSeo = createSeo({
   title: 'Friends Help Center',
   description:
     'Find answers to questions about friends on Charity Games. Learn how to earn tokens by sharing gifts with friends.',
+});
+
+export const helpQuestsSeo = createSeo({
+  path: routes.help.quests.path(),
+  title: 'Quests Help Center',
+  description:
+    'Find answers to questions about quests on Charity Games. Learn how to earn tokens by completing challenges.',
 });
 
 export const helpVIPSeo = createSeo({
@@ -420,4 +441,11 @@ export const librarySeo = createSeo({
   title: 'Game Library',
   description:
     'Find and play your favorite mobile and desktop games for free on Charity Games. The easiest way to donate to charity.',
+});
+
+export const auctionsSeo = createSeo({
+  path: routes.auctions.path(),
+  title: 'Auctions',
+  description:
+    'Bid on digital prizes and win free games. Every token you spend is a donation towards charity. Win tokens by playing browser games and completing tasks.',
 });

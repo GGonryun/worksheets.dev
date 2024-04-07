@@ -6,13 +6,7 @@ import { GameSubmissionFormContext } from './context';
 export const GameSubmissionFormContextProvider: FC<{
   children: ReactNode;
   value: GameSubmissionFormContextType;
-}> = ({
-  children,
-  value,
-}: {
-  children: React.ReactNode;
-  value: GameSubmissionFormContextType;
-}) => {
+}> = ({ children, value }) => {
   return (
     <GameSubmissionFormContext.Provider value={value}>
       {children}

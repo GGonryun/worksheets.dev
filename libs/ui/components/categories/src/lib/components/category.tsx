@@ -5,7 +5,7 @@ import {
   useMediaQuery,
   useTheme,
 } from '@mui/material';
-import { routes } from '@worksheets/ui/routes';
+import { routes } from '@worksheets/routes';
 import { AcceptableColors, buttonBoxShadow } from '@worksheets/ui/styles';
 import Image from 'next/image';
 

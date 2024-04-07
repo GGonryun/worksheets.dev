@@ -3,14 +3,11 @@ import { ErrorComponent } from '@worksheets/ui/pages/errors';
 import { LoadingScreen } from '@worksheets/ui/pages/loading';
 import { useBookmark } from '@worksheets/ui-core';
 import { ReferralsPanels } from '@worksheets/util/enums';
-import { MAX_TOKENS_FROM_REFERRAL_PLAYS } from '@worksheets/util/settings';
 import { useSession } from 'next-auth/react';
 
-import { ReferralsPanel } from '../components';
+import { ReferralsPanel } from '../panels';
 
-export const ReferralsPanelContainer: React.FC<{
-  refreshTimestamp: number;
-}> = ({ refreshTimestamp }) => {
+export const ReferralsPanelContainer: React.FC = () => {
   const bookmark = useBookmark<ReferralsPanels>();
 
   const session = useSession();
@@ -29,10 +26,6 @@ export const ReferralsPanelContainer: React.FC<{
       bookmark={bookmark}
       referrals={referrals.data.referrals}
       link={referrals.data.referralLink}
-      refreshTimestamp={refreshTimestamp}
-      gamesPlayed={
-        MAX_TOKENS_FROM_REFERRAL_PLAYS - referrals.data.availableReferralTokens
-      }
     />
   );
 };

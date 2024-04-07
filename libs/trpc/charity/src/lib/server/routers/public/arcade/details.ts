@@ -1,5 +1,5 @@
 import { Prisma } from '@prisma/client';
-import { routes } from '@worksheets/ui/routes';
+import { routes } from '@worksheets/routes';
 import { FEATURED_GAMES } from '@worksheets/util/settings';
 import {
   BasicGameInfo,

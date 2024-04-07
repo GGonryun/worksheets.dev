@@ -1,8 +1,11 @@
+// TODO: use routes from @worksheets/routes
 export enum AccountTabsHref {
   SETTINGS = '/account',
   PRIZES = '/account/prizes',
+  QUESTS = '/account/quests',
+  NOTIFICATIONS = '/account/notifications',
+  INTEGRATIONS = '/account/integrations',
   SUBMISSIONS = '/account/submissions',
-  TOKENS = '/account/tokens',
   FRIENDS = '/account/friends',
   REFERRALS = '/account/referrals',
 }

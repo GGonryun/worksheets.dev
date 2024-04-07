@@ -1,4 +1,4 @@
-import { blogRoutes, routes } from '@worksheets/ui/routes';
+import { blogRoutes, routes } from '@worksheets/routes';
 import { OpenGraphProps, TWITTER_SEO } from '@worksheets/util/seo';
 import { BlogAuthor } from '@worksheets/util/types';
 import { MarkdownMetadata } from '@worksheets/util-markdown';

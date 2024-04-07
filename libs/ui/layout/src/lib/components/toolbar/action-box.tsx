@@ -1,6 +1,6 @@
 import { Box, Button } from '@mui/material';
+import { routes } from '@worksheets/routes';
 import { useMediaQuery } from '@worksheets/ui/hooks/use-media-query';
-import { routes } from '@worksheets/ui/routes';
 import { buttonBoxShadow } from '@worksheets/ui/styles';
 
 export const ActionBox = () => {
@@ -11,7 +11,7 @@ export const ActionBox = () => {
   return (
     <Box display="flex" gap={1} alignItems="center" pb={1}>
       <Button
-        href={routes.library.url()}
+        href={routes.play.url()}
         variant="arcade"
         color="primary"
         size={isMedium ? 'small' : 'medium'}

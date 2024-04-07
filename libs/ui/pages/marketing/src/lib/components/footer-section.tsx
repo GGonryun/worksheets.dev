@@ -15,9 +15,9 @@ import {
   styled,
   Typography,
 } from '@mui/material';
+import { blogRoutes, routes } from '@worksheets/routes';
 import { SponsorLogo } from '@worksheets/ui/components/logos';
 import { useMediaQueryDown } from '@worksheets/ui/hooks/use-media-query';
-import { blogRoutes, routes } from '@worksheets/ui/routes';
 import { currentYear } from '@worksheets/util/time';
 import urls from '@worksheets/util/urls';
 import { JSXElementConstructor } from 'react';

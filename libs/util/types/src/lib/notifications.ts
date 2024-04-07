@@ -19,16 +19,3 @@ export const filterableNotificationType = z.nativeEnum({
 export type FilterableNotificationType = z.infer<
   typeof filterableNotificationType
 >;
-
-export const notificationPreferencesSchema = z.object({
-  email: z.string(),
-  enabledEmailNotifications: z.boolean(),
-});
-
-export type NotificationPreferencesSchema = z.infer<
-  typeof notificationPreferencesSchema
->;
-
-export type UpdateNotificationPreferences = Partial<
-  Omit<NotificationPreferencesSchema, 'email'>
->;

@@ -1,7 +1,7 @@
+import { routes } from '@worksheets/routes';
 import { trpc } from '@worksheets/trpc-charity';
 import { useReferralCode } from '@worksheets/ui/hooks/use-referral-code';
 import { LoadingScreen } from '@worksheets/ui/pages/loading';
-import { routes } from '@worksheets/ui/routes';
 import { useTimeout } from '@worksheets/ui-core';
 import { useRouter } from 'next/router';
 import { useCallback } from 'react';

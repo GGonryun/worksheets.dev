@@ -51,3 +51,5 @@ export type DeepNullable<T> = {
 };
 
 export type NonEmptyArray<T> = [T, ...T[]];
+
+export type NativeEnum<T> = T[keyof T];

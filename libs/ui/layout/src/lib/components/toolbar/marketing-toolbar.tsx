@@ -1,5 +1,5 @@
 import { Box, Button, ButtonProps } from '@mui/material';
-import { routes } from '@worksheets/ui/routes';
+import { routes } from '@worksheets/routes';
 import React from 'react';
 
 import { LogoBox } from '../shared/logo-box';

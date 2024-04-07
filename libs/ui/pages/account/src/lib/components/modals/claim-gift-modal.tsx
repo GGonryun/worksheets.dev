@@ -1,8 +1,6 @@
 import { Button, Typography } from '@mui/material';
 import { ValentinesGift } from '@worksheets/icons/valentines';
-import { ModalWrapper } from '@worksheets/ui-core';
-
-import { ParentModal } from './parent-modal';
+import { BasicModal, ModalWrapper } from '@worksheets/ui/components/modals';
 
 export const ClaimGiftModal: React.FC<ModalWrapper<{ amount: number }>> = ({
   open,
@@ -12,7 +10,7 @@ export const ClaimGiftModal: React.FC<ModalWrapper<{ amount: number }>> = ({
   const handleClose = () => onClose && onClose({}, 'escapeKeyDown');
 
   return (
-    <ParentModal open={open} onClose={onClose}>
+    <BasicModal open={open} onClose={onClose}>
       <Typography variant="h4" color="error" pt={2}>
         Gift Box
       </Typography>
@@ -38,6 +36,6 @@ export const ClaimGiftModal: React.FC<ModalWrapper<{ amount: number }>> = ({
       >
         Acknowledge
       </Button>
-    </ParentModal>
+    </BasicModal>
   );
 };

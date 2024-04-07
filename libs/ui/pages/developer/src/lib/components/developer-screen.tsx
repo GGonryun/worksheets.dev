@@ -18,9 +18,9 @@ import {
   IconButtonProps,
   Typography,
 } from '@mui/material';
+import { routes } from '@worksheets/routes';
 import { GamesGroup } from '@worksheets/ui/components/games';
 import { FillImage } from '@worksheets/ui/components/images';
-import { routes } from '@worksheets/ui/routes';
 import { BasicGameInfo, DeveloperSchema } from '@worksheets/util/types';
 import { FC } from 'react';
 

@@ -1,4 +1,4 @@
-import { routes } from '@worksheets/ui/routes';
+import { routes } from '@worksheets/routes';
 import { FriendsPanels } from '@worksheets/util/enums';
 
 const CHARITY_GAMES_TWITTER_HANDLE = 'charitydotgames';

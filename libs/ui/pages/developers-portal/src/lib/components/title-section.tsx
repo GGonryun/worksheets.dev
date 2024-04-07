@@ -1,6 +1,6 @@
 import { ArrowRightAlt, KeyboardBackspace } from '@mui/icons-material';
 import { Box, Button, Paper, Typography } from '@mui/material';
-import { routes } from '@worksheets/ui/routes';
+import { routes } from '@worksheets/routes';
 import { shorthandNumber } from '@worksheets/util/numbers';
 import { BasicWebsiteStatistics } from '@worksheets/util/types';
 import { FC, ReactNode } from 'react';

@@ -1,7 +1,7 @@
 import { ArrowForward, HelpCenter, HowToVote } from '@mui/icons-material';
 import { Box, Button, Link, Typography } from '@mui/material';
+import { routes } from '@worksheets/routes';
 import { Description } from '@worksheets/ui/components/description';
-import { routes } from '@worksheets/ui/routes';
 import {
   durationToString,
   millisecondsAsDuration,

@@ -1,5 +1,5 @@
+import { routes } from '@worksheets/routes';
 import { ArcadeItemLayout } from '@worksheets/ui/components/arcade';
-import { routes } from '@worksheets/ui/routes';
 import { BasicPrizeDetails } from '@worksheets/util/types';
 import React from 'react';
 

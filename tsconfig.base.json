@@ -41,16 +41,35 @@
       "@worksheets/icons/web": ["libs/icons/web/src/index.ts"],
       "@worksheets/icons/youtube": ["libs/icons/youtube/src/index.ts"],
       "@worksheets/prisma": ["libs/prisma/src/index.ts"],
+      "@worksheets/routes": ["libs/routes/src/index.ts"],
       "@worksheets/services/discord": ["libs/services/discord/src/index.ts"],
+      "@worksheets/services/email": ["libs/services/email/src/index.ts"],
       "@worksheets/services/encryption": [
         "libs/services/encryption/src/index.ts"
       ],
       "@worksheets/services/environment": [
         "libs/services/environment/src/index.ts"
       ],
-      "@worksheets/services/gmail": ["libs/services/gmail/src/index.ts"],
+      "@worksheets/services/events": ["libs/services/events/src/index.ts"],
+      "@worksheets/services/integrations": [
+        "libs/services/integrations/src/index.ts"
+      ],
+      "@worksheets/services/newsletter": [
+        "libs/services/newsletter/src/index.ts"
+      ],
+      "@worksheets/services/notifications": [
+        "libs/services/notifications/src/index.ts"
+      ],
+      "@worksheets/services/push": ["libs/services/push/src/index.ts"],
+      "@worksheets/services/quests": ["libs/services/quests/src/index.ts"],
       "@worksheets/services/storage": ["libs/services/storage/src/index.ts"],
+      "@worksheets/services/templates": [
+        "libs/services/templates/src/index.ts"
+      ],
       "@worksheets/services/twitter": ["libs/services/twitter/src/index.ts"],
+      "@worksheets/services/verification": [
+        "libs/services/verification/src/index.ts"
+      ],
       "@worksheets/trpc-charity": ["libs/trpc/charity/src/index.ts"],
       "@worksheets/trpc-charity/server": ["libs/trpc/charity/src/server.ts"],
       "@worksheets/ui-core": ["libs/ui/core/src/index.ts"],
@@ -69,6 +88,12 @@
       "@worksheets/ui/components/description": [
         "libs/ui/components/description/src/index.ts"
       ],
+      "@worksheets/ui/components/drawer": [
+        "libs/ui/components/drawer/src/index.ts"
+      ],
+      "@worksheets/ui/components/flex": [
+        "libs/ui/components/flex/src/index.ts"
+      ],
       "@worksheets/ui/components/games": [
         "libs/ui/components/games/src/index.ts"
       ],
@@ -77,6 +102,9 @@
       ],
       "@worksheets/ui/components/inputs": [
         "libs/ui/components/inputs/src/index.ts"
+      ],
+      "@worksheets/ui/components/lists": [
+        "libs/ui/components/lists/src/index.ts"
       ],
       "@worksheets/ui/components/loading": [
         "libs/ui/components/loading/src/index.ts"
@@ -87,14 +115,29 @@
       "@worksheets/ui/components/marketing": [
         "libs/ui/components/marketing/src/index.ts"
       ],
+      "@worksheets/ui/components/modals": [
+        "libs/ui/components/modals/src/index.ts"
+      ],
+      "@worksheets/ui/components/newsletter": [
+        "libs/ui/components/newsletter/src/index.ts"
+      ],
+      "@worksheets/ui/components/notifications": [
+        "libs/ui/components/notifications/src/index.ts"
+      ],
       "@worksheets/ui/components/pagination": [
         "libs/ui/components/pagination/src/index.ts"
+      ],
+      "@worksheets/ui/components/panels": [
+        "libs/ui/components/panels/src/index.ts"
       ],
       "@worksheets/ui/components/prizes": [
         "libs/ui/components/prizes/src/index.ts"
       ],
       "@worksheets/ui/components/qa-section": [
         "libs/ui/components/qa-section/src/index.ts"
+      ],
+      "@worksheets/ui/components/quests": [
+        "libs/ui/components/quests/src/index.ts"
       ],
       "@worksheets/ui/components/raffles": [
         "libs/ui/components/raffles/src/index.ts"
@@ -174,9 +217,6 @@
       "@worksheets/ui/pages/newsletter": [
         "libs/ui/pages/newsletter/src/index.ts"
       ],
-      "@worksheets/ui/pages/notifications": [
-        "libs/ui/pages/notifications/src/index.ts"
-      ],
       "@worksheets/ui/pages/privacy-policy": [
         "libs/ui/pages/privacy-policy/src/index.ts"
       ],
@@ -190,7 +230,6 @@
       ],
       "@worksheets/ui/pages/vip": ["libs/ui/pages/vip/src/index.ts"],
       "@worksheets/ui/qa-section/server": ["libs/ui/qa-section/src/server.ts"],
-      "@worksheets/ui/routes": ["libs/ui/routes/src/index.ts"],
       "@worksheets/ui/styles": ["libs/ui/styles/src/index.ts"],
       "@worksheets/ui/theme": ["libs/ui/theme/src/index.ts"],
       "@worksheets/ui/widgets": ["libs/ui/widgets/src/index.ts"],
@@ -204,6 +243,7 @@
       "@worksheets/util/cron": ["libs/util/cron/src/index.ts"],
       "@worksheets/util/data": ["libs/util/data/src/index.ts"],
       "@worksheets/util/enums": ["libs/util/enums/src/index.ts"],
+      "@worksheets/util/errors": ["libs/util/errors/src/index.ts"],
       "@worksheets/util/misc": ["libs/util/misc/src/index.ts"],
       "@worksheets/util/numbers": ["libs/util/numbers/src/index.ts"],
       "@worksheets/util/seeding": ["libs/util/seeding/src/index.ts"],
@@ -211,6 +251,7 @@
       "@worksheets/util/settings": ["libs/util/settings/src/index.ts"],
       "@worksheets/util/strings": ["libs/util/strings/src/index.ts"],
       "@worksheets/util/time": ["libs/util/time/src/index.ts"],
+      "@worksheets/util/trpc": ["libs/util/trpc/src/index.ts"],
       "@worksheets/util/types": ["libs/util/types/src/index.ts"],
       "@worksheets/util/urls": ["libs/util/urls/src/index.ts"],
       "@worksheets/zod": ["libs/util/zod/src/index.ts"]

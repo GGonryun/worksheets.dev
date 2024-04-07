@@ -1,8 +1,41 @@
+import { TRPCError } from '@trpc/server';
+import { QuestsService } from '@worksheets/services/quests';
+import { z } from 'zod';
+
+import { protectedProcedure } from '../../../../procedures';
 import { t } from '../../../../trpc';
-import anonymous from './anonymous';
-import authorized from './authorized';
+
+const quests = new QuestsService();
 
 export default t.router({
-  anonymous,
-  authorized,
+  track: protectedProcedure
+    .input(
+      z.object({
+        gameId: z.string(),
+      })
+    )
+    .mutation(async ({ input: { gameId }, ctx: { user, db } }) => {
+      const game = await db.game.findFirst({
+        where: {
+          id: gameId,
+        },
+        select: {
+          id: true,
+          title: true,
+        },
+      });
+
+      if (!game) {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: 'Game not found',
+        });
+      }
+
+      await quests.trackType({
+        questType: 'PLAY_GAME',
+        userId: user.id,
+        input: {},
+      });
+    }),
 });

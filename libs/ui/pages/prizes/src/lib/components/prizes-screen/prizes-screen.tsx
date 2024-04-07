@@ -4,8 +4,8 @@ import {
   PlayCircleOutline,
 } from '@mui/icons-material';
 import { Box, Button, Typography } from '@mui/material';
+import { routes } from '@worksheets/routes';
 import { PrizesCarousel, PrizesGroup } from '@worksheets/ui/components/prizes';
-import { routes } from '@worksheets/ui/routes';
 import { PrizeSchema } from '@worksheets/util/types';
 
 import { CustomContainer } from '../shared/custom-container';

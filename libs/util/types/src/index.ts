@@ -21,3 +21,6 @@ export * from './lib/prizes';
 export * from './lib/notifications';
 export * from './lib/admin';
 export * from './lib/user';
+export * from './lib/priority';
+export * from './lib/newsletter';
+export * from './lib/quests';

@@ -1,5 +1,5 @@
 import { Container, Link, Paper, Typography } from '@mui/material';
-import { routes } from '@worksheets/ui/routes';
+import { routes } from '@worksheets/routes';
 import { BookmarkAnchor } from '@worksheets/ui-core';
 import { FC } from 'react';
 

@@ -1,6 +1,6 @@
 import { Casino } from '@mui/icons-material';
 import { Box, Link, Paper, Typography } from '@mui/material';
-import { routes } from '@worksheets/ui/routes';
+import { routes } from '@worksheets/routes';
 import { useInterval } from '@worksheets/ui-core';
 import { millisecondsAsDuration } from '@worksheets/util/time';
 import { useState } from 'react';

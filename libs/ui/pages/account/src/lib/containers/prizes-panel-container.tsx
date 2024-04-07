@@ -6,7 +6,7 @@ import { useState } from 'react';
 
 import { ClaimPrizeModal } from '../components/modals/claim-prize-modal';
 import { RedemptionCodeModal } from '../components/modals/redemption-code-modal';
-import { PrizesPanel } from '../components/prizes-panel/prizes-panel';
+import { PrizesPanel } from '../panels';
 
 export const PrizesPanelContainer = () => {
   const bookmark = useBookmark<PrizesPanels>();

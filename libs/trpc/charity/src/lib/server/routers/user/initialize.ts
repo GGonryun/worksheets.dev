@@ -1,24 +1,21 @@
 import { User } from '@prisma/client';
 import { TRPCError } from '@trpc/server';
 import { PrismaClient } from '@worksheets/prisma';
-import { sendDiscordMessage } from '@worksheets/services/discord';
-import { DISCORD_WEBHOOK_URL } from '@worksheets/services/environment';
-import { routes } from '@worksheets/ui/routes';
-import { ReferralsPanels, TokensPanels } from '@worksheets/util/enums';
+import { NotificationsService } from '@worksheets/services/notifications';
+import { QuestsService } from '@worksheets/services/quests';
 import {
-  GIFT_BOXES_PER_REFERRAL_ACCOUNT,
   MAX_DAILY_GIFT_BOX_SHARES,
-  MAX_TOKENS_FROM_GAME_PLAY_PER_DAY,
-  MAX_TOKENS_FROM_REFERRAL_PLAYS,
   STARTING_GIFT_BOXES,
   STARTING_TOKENS,
-  TOKENS_PER_REFERRAL_ACCOUNT,
 } from '@worksheets/util/settings';
 import { capitalizeFirstLetter } from '@worksheets/util/strings';
 import { generateSlug } from 'random-word-slugs';
 import { z } from 'zod';
 
 import { protectedProcedure } from '../../procedures';
+
+const notifications = new NotificationsService();
+const quests = new QuestsService();
 
 export default protectedProcedure
   .input(
@@ -47,7 +44,7 @@ export default protectedProcedure
 
     await initializeUser(db, user, MAX_ATTEMPTS);
     await setReferralCode(db, user, input?.referralCode);
-    await notifyDiscord(user);
+    await notifications.send('new-user', { user });
 
     return true;
   });
@@ -73,18 +70,10 @@ const initializeUser = async (
         },
         create: {
           email,
-          subscribed: true,
           confirmed: true,
         },
         update: {
-          subscribed: true,
           confirmed: true,
-        },
-      }),
-      db.notificationPreferences.create({
-        data: {
-          userId: id,
-          email: true,
         },
       }),
       db.rewards.create({
@@ -92,10 +81,7 @@ const initializeUser = async (
           userId: id,
           giftBoxes: STARTING_GIFT_BOXES,
           totalTokens: STARTING_TOKENS,
-          availableGamePlayTokens: MAX_TOKENS_FROM_GAME_PLAY_PER_DAY,
-          availableReferralTokens: MAX_TOKENS_FROM_REFERRAL_PLAYS,
           sharableGiftBoxes: MAX_DAILY_GIFT_BOX_SHARES,
-          claimedDailyReward: null,
         },
       }),
       db.referralCode.create({
@@ -112,18 +98,8 @@ const initializeUser = async (
           username: capitalizeFirstLetter(username),
         },
       }),
-      db.notification.create({
-        data: {
-          userId: id,
-          type: 'SYSTEM',
-          text: `Welcome to Charity Games! We've added <a href="${routes.account.tokens.path()}">${STARTING_TOKENS} tokens</a> and <a href="${routes.account.tokens.path(
-            {
-              bookmark: TokensPanels.GiftBoxes,
-            }
-          )}">${STARTING_GIFT_BOXES} gift boxes</a> to your account. Spend your tokens on <a href="${routes.raffles.path()}">raffles</a> or <a href="${routes.play.path()}">play games</a> to win more!`,
-        },
-      }),
     ]);
+    await notifications.send('welcome-user', { user });
   } catch (error) {
     if (!attempts) {
       throw new TRPCError({
@@ -169,7 +145,7 @@ const setReferralCode = async (
     return false;
   }
 
-  await db.$transaction([
+  await Promise.allSettled([
     db.user.update({
       where: {
         id: userId,
@@ -178,81 +154,41 @@ const setReferralCode = async (
         referredByUserId: referral.userId,
       },
     }),
-    db.rewards.update({
-      where: {
-        userId: userId,
-      },
-      data: {
-        totalTokens: {
-          increment: TOKENS_PER_REFERRAL_ACCOUNT,
-        },
-        giftBoxes: {
-          increment: GIFT_BOXES_PER_REFERRAL_ACCOUNT,
-        },
-      },
-    }),
-    db.rewards.update({
-      where: {
-        userId: referral.userId,
-      },
-      data: {
-        totalTokens: {
-          increment: TOKENS_PER_REFERRAL_ACCOUNT,
-        },
-        giftBoxes: {
-          increment: GIFT_BOXES_PER_REFERRAL_ACCOUNT,
-        },
-      },
-    }),
-    db.notification.create({
-      data: {
-        userId: userId,
-        type: 'FRIEND',
-        text: `You used a referral link to sign up! You have received an extra <a href="${routes.account.tokens.path()}">${TOKENS_PER_REFERRAL_ACCOUNT} tokens</a> and <a href="${routes.account.tokens.path(
-          {
-            bookmark: TokensPanels.GiftBoxes,
-          }
-        )}">${GIFT_BOXES_PER_REFERRAL_ACCOUNT} gift boxes</a>.`,
-      },
-    }),
-    db.notification.create({
-      data: {
-        userId: referral.userId,
-        type: 'FRIEND',
-        text: `Someone has used your <a href="${routes.account.referrals.path({
-          bookmark: ReferralsPanels.ReferredAccounts,
-        })}">referral code to sign up</a>. You have received <a href="${routes.account.path()}">${TOKENS_PER_REFERRAL_ACCOUNT} tokens</a> and <a href="${routes.account.tokens.path(
-          {
-            bookmark: TokensPanels.GiftBoxes,
-          }
-        )}">${GIFT_BOXES_PER_REFERRAL_ACCOUNT} gift boxes</a>.`,
-      },
-    }),
     db.friendship.create({
       data: {
         userId,
         friendId: referral.userId,
       },
     }),
-
     db.friendship.create({
       data: {
         userId: referral.userId,
         friendId: userId,
       },
     }),
+    quests.trackId({
+      userId: referral.userId,
+      questId: 'ADD_REFERRAL_INFINITE',
+      input: {
+        userId,
+      },
+    }),
+    quests.trackId({
+      userId,
+      questId: 'ADD_FRIEND_INFINITE',
+      input: {
+        userId: referral.userId,
+      },
+    }),
+    quests.trackId({
+      userId: referral.userId,
+      questId: 'ADD_FRIEND_INFINITE',
+      input: {
+        userId: userId,
+      },
+    }),
+    notifications.send('new-referral', { user: { id: referral.userId } }),
   ]);
 
   return true;
-};
-
-const notifyDiscord = async (user: User) => {
-  try {
-    await sendDiscordMessage({
-      content: `A new user has signed up: ${user.email}`,
-      webhookUrl: DISCORD_WEBHOOK_URL,
-    });
-  } catch (error) {
-    console.warn('Failed to send discord message', error);
-  }
 };

@@ -6,15 +6,14 @@ import { ActionBox } from './action-box';
 import { Toolbar } from './toolbar';
 
 interface ToolbarProps {
-  notificationButton?: React.ReactNode;
   connectionButton?: React.ReactNode;
-  rootHref?: string;
+  drawerButton?: React.ReactNode;
 }
 
 export const AppToolbar = (props: ToolbarProps) => {
   return (
     <Toolbar>
-      <LogoBox rootHref={props.rootHref} />
+      <LogoBox />
 
       <ActionBox />
 
@@ -25,8 +24,8 @@ export const AppToolbar = (props: ToolbarProps) => {
         alignItems="center"
         gap={1}
       >
-        {props.notificationButton}
         {props.connectionButton}
+        {props.drawerButton}
       </Box>
     </Toolbar>
   );

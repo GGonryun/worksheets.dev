@@ -1,6 +1,6 @@
 import { ArrowRightAlt } from '@mui/icons-material';
 import { Box, Button, Paper, Typography } from '@mui/material';
-import { blogRoutes } from '@worksheets/ui/routes';
+import { blogRoutes } from '@worksheets/routes';
 import { MarkdownMetadata } from '@worksheets/util-markdown';
 
 import { IndividualPost } from './individual-post';

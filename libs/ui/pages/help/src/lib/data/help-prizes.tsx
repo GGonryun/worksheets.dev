@@ -1,5 +1,5 @@
 import { Box, Link, Typography } from '@mui/material';
-import { routes } from '@worksheets/ui/routes';
+import { routes } from '@worksheets/routes';
 import { HelpPrizesQuestions } from '@worksheets/util/enums';
 import { QuestionAnswer } from '@worksheets/util/types';
 
@@ -153,7 +153,7 @@ export const helpPrizes: QuestionAnswer[] = [
           the platform.
           <br />
           <br />
-          <Link href={routes.account.tokens.path()}>Create an account</Link> to
+          <Link href={routes.account.quests.path()}>Create an account</Link> to
           start earning tokens.
         </Typography>
         <br />
@@ -186,7 +186,7 @@ export const helpPrizes: QuestionAnswer[] = [
         <HelpfulLinks
           links={[
             { text: 'Learn about Tokens', href: routes.help.tokens.path() },
-            { text: 'My Tokens', href: routes.account.tokens.path() },
+            { text: 'My Tokens', href: routes.account.quests.path() },
             { text: 'Enter Raffles', href: routes.raffles.path() },
             { text: 'View Prizes', href: routes.prizes.path() },
           ]}

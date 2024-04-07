@@ -1,7 +1,7 @@
 import { Box, Button, Container, Typography } from '@mui/material';
+import { routes } from '@worksheets/routes';
 import { FillImage, ResponsiveImage } from '@worksheets/ui/components/images';
 import { GradientTypography } from '@worksheets/ui/components/typography';
-import { routes } from '@worksheets/ui/routes';
 import React from 'react';
 
 import { deepDropShadow } from '../style';

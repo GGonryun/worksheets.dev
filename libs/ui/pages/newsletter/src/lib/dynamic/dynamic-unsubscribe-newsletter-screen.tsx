@@ -1,7 +1,8 @@
 import { trpc } from '@worksheets/trpc-charity';
-import { Snackbar, useSnackbar } from '@worksheets/ui/components/snackbar';
+import { useSnackbar } from '@worksheets/ui/components/snackbar';
 import { LoadingScreen } from '@worksheets/ui/pages/loading';
 import { validateEmail } from '@worksheets/util/strings';
+import { parseTRPCClientErrorMessage } from '@worksheets/util/trpc';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
@@ -12,16 +13,20 @@ const Container: React.FC = () => {
   const snackbar = useSnackbar();
 
   const { query } = useRouter();
-  const defaultEmail = query.email as string | undefined;
+  const id = query.id as string | undefined;
 
-  const unsubscribe = trpc.public.newsletter.unsubscribe.useMutation();
+  const subscription = trpc.newsletter.subscription.useQuery(
+    { id },
+    { enabled: !!id, retry: false }
+  );
+  const unsubscribe = trpc.newsletter.unsubscribe.useMutation();
 
-  const [email, setEmail] = useState(defaultEmail || '');
+  const [email, setEmail] = useState('');
   const [unsubscribed, setUnsubscribed] = useState(false);
 
   useEffect(() => {
-    setEmail(defaultEmail || '');
-  }, [defaultEmail]);
+    setEmail(subscription.data?.email ?? '');
+  }, [subscription.data]);
 
   const handleEmailUpdate = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
@@ -32,33 +37,30 @@ const Container: React.FC = () => {
     if (validateEmail(email)) {
       try {
         await unsubscribe.mutateAsync({ email });
-      } finally {
-        snackbar.trigger({
-          message: 'You have been unsubscribed from our newsletter!',
-          severity: 'success',
-        });
         setUnsubscribed(true);
+        snackbar.warning('Subscription removed successfully');
+      } catch (error) {
+        snackbar.error(parseTRPCClientErrorMessage(error));
+      } finally {
         setEmail('');
       }
     } else {
-      snackbar.trigger({
-        message: 'Please enter a valid email address.',
-        severity: 'error',
-      });
+      snackbar.error('Please enter a valid email address.');
     }
   };
 
+  if (subscription.isFetching) {
+    return <LoadingScreen />;
+  }
+
   return (
-    <>
-      <UnsubscribeNewsletterScreen
-        loading={unsubscribe.isLoading}
-        unsubscribed={unsubscribed}
-        email={email}
-        onEmailUpdate={handleEmailUpdate}
-        onUnsubscribe={handleUnsubscribe}
-      />
-      <Snackbar {...snackbar.props} />
-    </>
+    <UnsubscribeNewsletterScreen
+      loading={unsubscribe.isLoading}
+      unsubscribed={unsubscribed}
+      email={email}
+      onEmailUpdate={handleEmailUpdate}
+      onUnsubscribe={handleUnsubscribe}
+    />
   );
 };
 

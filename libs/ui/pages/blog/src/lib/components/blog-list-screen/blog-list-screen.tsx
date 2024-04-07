@@ -7,11 +7,11 @@ import {
   Paper,
   Typography,
 } from '@mui/material';
+import { blogRoutes } from '@worksheets/routes';
 import {
   Pagination,
   usePagination,
 } from '@worksheets/ui/components/pagination';
-import { blogRoutes } from '@worksheets/ui/routes';
 import { MarkdownMetadata } from '@worksheets/util-markdown';
 import { FC, Fragment } from 'react';
 

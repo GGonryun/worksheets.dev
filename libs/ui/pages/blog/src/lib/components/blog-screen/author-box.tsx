@@ -1,6 +1,6 @@
 import { Box, Link, Typography } from '@mui/material';
+import { blogRoutes } from '@worksheets/routes';
 import { CoverImage } from '@worksheets/ui/components/images';
-import { blogRoutes } from '@worksheets/ui/routes';
 import { BlogAuthor } from '@worksheets/util/types';
 import { FC } from 'react';
 

@@ -3,8 +3,8 @@ import Box, { BoxProps } from '@mui/material/Box';
 import Link, { LinkProps } from '@mui/material/Link';
 import { styled } from '@mui/material/styles';
 import Typography, { TypographyProps } from '@mui/material/Typography';
-import { blogRoutes, routes } from '@worksheets/ui/routes';
-import { currentYear } from '@worksheets/util/time';
+import { blogRoutes, routes } from '@worksheets/routes';
+import { copyright } from '@worksheets/util/settings';
 import urls from '@worksheets/util/urls';
 import Image from 'next/image';
 import { JSXElementConstructor } from 'react';
@@ -70,7 +70,7 @@ export const WebsiteFooter: React.FC<{
         my={-2}
       >
         <LogoBox rootHref={links?.root ?? routes.home.url()} />
-        <CopyrightText>© {currentYear} Charity.Games</CopyrightText>
+        <CopyrightText>{copyright}</CopyrightText>
       </Box>
       <Box
         display="flex"

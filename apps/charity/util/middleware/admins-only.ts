@@ -1,5 +1,5 @@
+import { routes } from '@worksheets/routes';
 import { createServerSideTRPC } from '@worksheets/trpc-charity/server';
-import { routes } from '@worksheets/ui/routes';
 import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 
 export const adminMiddleware =

@@ -33,6 +33,7 @@ export const followerSchema = z.object({
   username: z.string(),
   friendCode: z.string(),
   isFriend: z.boolean(),
+  isFavorite: z.boolean(),
 });
 
 export type Follower = z.infer<typeof followerSchema>;

@@ -1,6 +1,6 @@
+import { routes } from '@worksheets/routes';
 import { ArcadeItemLayout } from '@worksheets/ui/components/arcade';
 import { prizeTypeLogos } from '@worksheets/ui/components/prizes';
-import { routes } from '@worksheets/ui/routes';
 import { printTimeRemaining } from '@worksheets/util/time';
 import { BasicRaffleDetails } from '@worksheets/util/types';
 import React from 'react';

@@ -1,4 +1,4 @@
-import { PrizeType } from '@prisma/client';
+import { PrizeType } from '@worksheets/prisma';
 import { z } from 'zod';
 
 export const prizeSchema = z.object({

@@ -1,6 +1,6 @@
 import { Alert } from '@mui/material';
 import type { Meta } from '@storybook/react';
-import { routes } from '@worksheets/ui/routes';
+import { routes } from '@worksheets/routes';
 
 import { LoginToEarnTokensSnackbarMessage } from './login-to-earn-tokens';
 

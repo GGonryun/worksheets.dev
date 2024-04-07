@@ -1,8 +1,8 @@
 import { NavigateBefore } from '@mui/icons-material';
 import { Box, Button, Typography, useTheme } from '@mui/material';
+import { routes } from '@worksheets/routes';
 import { ResponsiveImage } from '@worksheets/ui/components/images';
 import { PrizesGroup } from '@worksheets/ui/components/prizes';
-import { routes } from '@worksheets/ui/routes';
 import {
   BasicRaffleDetails,
   DetailedPrizeSchema,

@@ -1,11 +1,11 @@
-import { sendDiscordMessage } from '@worksheets/services/discord';
-import { DISCORD_WEBHOOK_URL } from '@worksheets/services/environment';
-import { routes } from '@worksheets/ui/routes';
+import { NotificationsService } from '@worksheets/services/notifications';
 import { gameSubmissionFormSchema } from '@worksheets/util/types';
 import { makeOptionalPropsNullable } from '@worksheets/zod';
 import { z } from 'zod';
 
 import { protectedProcedure } from '../../../../procedures';
+
+const notifications = new NotificationsService();
 
 export default protectedProcedure
   .input(
@@ -53,24 +53,10 @@ export default protectedProcedure
       },
     });
 
-    try {
-      await sendDiscordMessage({
-        content: `A game submission has been created by ${userId}.`,
-        embeds: [
-          {
-            title: input.title ?? 'Untitled',
-            url: routes.admin.submission.url({
-              params: {
-                submissionId: input.id,
-              },
-            }),
-          },
-        ],
-        webhookUrl: DISCORD_WEBHOOK_URL,
-      });
-    } catch (error) {
-      console.warn('Failed to send discord message', error);
-    }
+    await notifications.send('new-game-submission', {
+      submission: input,
+      user,
+    });
 
     return {
       okay: true,

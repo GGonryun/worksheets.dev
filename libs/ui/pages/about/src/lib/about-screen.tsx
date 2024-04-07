@@ -1,6 +1,6 @@
 import { LinkedIn } from '@mui/icons-material';
 import { Box, Button, Container, Link, Paper, Typography } from '@mui/material';
-import { routes } from '@worksheets/ui/routes';
+import { routes } from '@worksheets/routes';
 import { BookmarkAnchor, Markdown } from '@worksheets/ui-core';
 import { Author, blogAuthors } from '@worksheets/util/blog';
 import urls from '@worksheets/util/urls';

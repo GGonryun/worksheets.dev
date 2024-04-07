@@ -3,17 +3,19 @@ import {
   Button,
   CircularProgress,
   Container,
+  Link,
   Paper,
   Typography,
 } from '@mui/material';
+import { routes } from '@worksheets/routes';
 import { GradientTypography } from '@worksheets/ui/components/typography';
+import { NewsletterSubscription } from '@worksheets/util/types';
 
 export const ConfirmNewsletterScreen: React.FC<{
-  confirmed: boolean;
   loading: boolean;
-  email: string | undefined;
+  subscription: NewsletterSubscription;
   onConfirm: () => void;
-}> = ({ loading, confirmed, email, onConfirm }) => {
+}> = ({ loading, subscription, onConfirm }) => {
   return (
     <Container maxWidth="lg">
       <Paper
@@ -50,7 +52,7 @@ export const ConfirmNewsletterScreen: React.FC<{
           color="secondary.main"
           fontWeight={{ xs: 500, sm: 500 }}
         >
-          Email: {email}
+          Email: {subscription.email}
         </Typography>
 
         <br />
@@ -58,7 +60,7 @@ export const ConfirmNewsletterScreen: React.FC<{
         <Button
           variant="arcade"
           color="primary"
-          disabled={loading || !email || confirmed}
+          disabled={loading || subscription.confirmed}
           onClick={onConfirm}
           startIcon={
             loading ? (
@@ -70,12 +72,21 @@ export const ConfirmNewsletterScreen: React.FC<{
         >
           {loading
             ? 'Subscribing...'
-            : !email
-            ? 'Email Required'
-            : confirmed
+            : subscription.confirmed
             ? 'Confirmed!'
             : 'Subscribe'}
         </Button>
+        {subscription.confirmed && (
+          <Typography
+            mt={1}
+            component={Link}
+            href={routes.newsletter.subscribe.path({
+              query: { id: subscription.id },
+            })}
+          >
+            Manage your subscription
+          </Typography>
+        )}
       </Paper>
     </Container>
   );

@@ -1,6 +1,6 @@
 import { ArrowForward } from '@mui/icons-material';
 import { Box, Button, Typography } from '@mui/material';
-import { routes } from '@worksheets/ui/routes';
+import { routes } from '@worksheets/routes';
 import { FC } from 'react';
 
 export const JoinNewsletterBox: FC = () => (

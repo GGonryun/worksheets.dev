@@ -1,7 +1,7 @@
 import { ArrowRightAlt } from '@mui/icons-material';
 import { Box, Button, Typography } from '@mui/material';
-import { routes } from '@worksheets/ui/routes';
-import { TokensPanels } from '@worksheets/util/enums';
+import { routes } from '@worksheets/routes';
+import { FriendsPanels } from '@worksheets/util/enums';
 
 export const SharedGiftSnackbarMessage: React.FC<{
   username: string;
@@ -23,7 +23,7 @@ export const SharedGiftSnackbarMessage: React.FC<{
     <Button
       variant="contained"
       color="white"
-      href={routes.account.tokens.path({ bookmark: TokensPanels.GiftBoxes })}
+      href={routes.account.friends.path({ bookmark: FriendsPanels.GiftBoxes })}
       endIcon={<ArrowRightAlt fontSize="small" sx={{ mt: '-2px' }} />}
       sx={{
         width: 'fit-content',

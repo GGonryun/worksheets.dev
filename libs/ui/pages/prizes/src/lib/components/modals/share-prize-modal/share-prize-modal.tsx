@@ -1,15 +1,12 @@
-import CloseIcon from '@mui/icons-material/Close';
-import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
+import { routes } from '@worksheets/routes';
 import { ClipboardText } from '@worksheets/ui/components/inputs';
+import { BasicModal, ModalWrapper } from '@worksheets/ui/components/modals';
 import {
   sharePrizeIntent,
   SocialButtons,
 } from '@worksheets/ui/components/social-media';
-import { routes } from '@worksheets/ui/routes';
-import { BaseModal, ModalWrapper } from '@worksheets/ui-core';
 import { FC } from 'react';
 
 export const SharePrizeModal: FC<
@@ -28,36 +25,16 @@ export const SharePrizeModal: FC<
     onClose && onClose({}, 'backdropClick');
   };
   return (
-    <BaseModal open={open} onClose={onClose}>
-      <Box display="flex" flexDirection="column">
-        <IconButton
-          onClick={handleClose}
-          size="small"
-          sx={{ m: 1, alignSelf: 'flex-end' }}
-        >
-          <CloseIcon />
-        </IconButton>
-        <Box
-          display="flex"
-          flexDirection="column"
-          py={2}
-          width={{ xs: 250, sm: 350 }}
-          px={{ xs: 2, sm: 4 }}
-          mt={-3}
-        >
-          <Typography typography={{ xs: 'h6', sm: 'h5' }}>
-            Share this Prize
-          </Typography>
-          <SocialButtonsWrapper name={name} id={id} />
-          <Box mt={1} mb={3}>
-            <ClipboardText text={url} />
-          </Box>
-          <Button variant="arcade" size="small" onClick={handleClose}>
-            Close
-          </Button>
-        </Box>
-      </Box>
-    </BaseModal>
+    <BasicModal open={open} onClose={onClose}>
+      <Typography typography={{ xs: 'h6', sm: 'h5' }}>
+        Share this Prize
+      </Typography>
+      <SocialButtonsWrapper name={name} id={id} />
+      <ClipboardText text={url} />
+      <Button fullWidth variant="arcade" size="small" onClick={handleClose}>
+        Close
+      </Button>
+    </BasicModal>
   );
 };
 

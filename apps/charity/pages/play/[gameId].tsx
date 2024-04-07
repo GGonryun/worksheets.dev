@@ -1,7 +1,7 @@
+import { routes } from '@worksheets/routes';
 import { createStaticTRPC } from '@worksheets/trpc-charity/server';
 import { AppLayoutContainer } from '@worksheets/ui/layout';
 import { DynamicGameScreenContainer } from '@worksheets/ui/pages/game';
-import { routes } from '@worksheets/ui/routes';
 import { printDate } from '@worksheets/util/time';
 import {
   DeveloperSchema,

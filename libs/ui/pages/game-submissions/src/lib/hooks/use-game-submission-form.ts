@@ -1,9 +1,6 @@
+import { routes } from '@worksheets/routes';
 import { trpc } from '@worksheets/trpc-charity';
-import {
-  useSnackbar,
-  UseSnackbarHook,
-} from '@worksheets/ui/components/snackbar';
-import { routes } from '@worksheets/ui/routes';
+import { useSnackbar } from '@worksheets/ui/components/snackbar';
 import { isImage, isZip, toMegabytes } from '@worksheets/util/data';
 import {
   GameSubmissionForm,
@@ -86,7 +83,7 @@ const merge = (
 export const useGameSubmissionForm = (
   submissionId: string,
   submission: Nullable<GameSubmissionForm> | undefined
-): { form: GameSubmissionFormContextType; snackbar: UseSnackbarHook } => {
+): { form: GameSubmissionFormContextType } => {
   const { push } = useRouter();
 
   const snackbar = useSnackbar();
@@ -134,10 +131,7 @@ export const useGameSubmissionForm = (
     try {
       await updateForm.mutateAsync({ ...values, id: submissionId });
 
-      snackbar.trigger({
-        message: 'Submission updated',
-        severity: 'success',
-      });
+      snackbar.success('Submission updated');
 
       push(routes.account.submissions.path());
     } finally {
@@ -259,10 +253,7 @@ export const useGameSubmissionForm = (
       return;
     }
 
-    snackbar.trigger({
-      message: 'File uploaded',
-      severity: 'success',
-    });
+    snackbar.success('File uploaded');
   };
 
   const destroyFile: GameSubmissionFormContextType['destroy'] = async (
@@ -282,10 +273,7 @@ export const useGameSubmissionForm = (
       }));
     }
 
-    snackbar.trigger({
-      message: 'File deleted',
-      severity: 'success',
-    });
+    snackbar.success('File deleted');
 
     // even if we fail to delete the file, we should always clear the field
     setFieldValue(field, null);
@@ -305,5 +293,5 @@ export const useGameSubmissionForm = (
     destroy: destroyFile,
   };
 
-  return { form, snackbar };
+  return { form };
 };

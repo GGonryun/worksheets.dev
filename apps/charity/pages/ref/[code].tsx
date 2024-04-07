@@ -1,6 +1,6 @@
+import { routes } from '@worksheets/routes';
 import { AppLayoutContainer } from '@worksheets/ui/layout';
 import { DynamicApplyReferralCode } from '@worksheets/ui/pages/login';
-import { routes } from '@worksheets/ui/routes';
 import { NextPageWithLayout } from '@worksheets/util-next';
 import { GetServerSideProps } from 'next';
 

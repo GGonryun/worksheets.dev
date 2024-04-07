@@ -56,7 +56,6 @@ export default publicProcedure
       });
     }
 
-    // TODO: reduce this query into a cyclic graph on the prisma model.
     const related = await db.gameCategory.findMany({
       where: {
         id: {

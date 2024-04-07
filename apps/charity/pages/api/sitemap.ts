@@ -1,5 +1,5 @@
 import { prisma } from '@worksheets/prisma';
-import { routes } from '@worksheets/ui/routes';
+import { routes } from '@worksheets/routes';
 import { printShortDate } from '@worksheets/util/time';
 import { NextApiHandler } from 'next';
 

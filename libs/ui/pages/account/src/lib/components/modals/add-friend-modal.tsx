@@ -1,9 +1,7 @@
 import { Add } from '@mui/icons-material';
 import { Button, Typography } from '@mui/material';
 import { WebHeart } from '@worksheets/icons/web';
-import { ModalWrapper } from '@worksheets/ui-core';
-
-import { ParentModal } from './parent-modal';
+import { BasicModal, ModalWrapper } from '@worksheets/ui/components/modals';
 
 export const AddFriendModal: React.FC<
   ModalWrapper<{ friendUsername: string; onAdd: () => void }>
@@ -14,7 +12,7 @@ export const AddFriendModal: React.FC<
     handleClose();
   };
   return (
-    <ParentModal open={open} onClose={onClose}>
+    <BasicModal open={open} onClose={onClose}>
       <Typography variant="h4" color="error" pt={2}>
         Add Friend
       </Typography>
@@ -36,6 +34,6 @@ export const AddFriendModal: React.FC<
       >
         Confirm
       </Button>
-    </ParentModal>
+    </BasicModal>
   );
 };

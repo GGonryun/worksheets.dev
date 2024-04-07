@@ -1,8 +1,8 @@
 import { Box, Container, Link, Typography } from '@mui/material';
+import { routes } from '@worksheets/routes';
 import { ContainImage } from '@worksheets/ui/components/images';
 import { GradientShadowedTypography } from '@worksheets/ui/components/typography';
 import { useMediaQueryDown } from '@worksheets/ui/hooks/use-media-query';
-import { routes } from '@worksheets/ui/routes';
 
 export const PrizesSection = () => (
   <Box

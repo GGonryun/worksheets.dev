@@ -1,6 +1,6 @@
 import { Notifications } from '@mui/icons-material';
 import { Box, Typography } from '@mui/material';
-import { routes } from '@worksheets/ui/routes';
+import { routes } from '@worksheets/routes';
 import { ListItem, OrderedList } from '@worksheets/ui-core';
 import {
   HelpNotificationsQuestions,
@@ -38,7 +38,10 @@ export const helpNotifications: QuestionAnswer[] = [
         </OrderedList>
         <HelpfulLinks
           links={[
-            { text: 'See my notifications', href: routes.notifications.path() },
+            {
+              text: 'See my notifications',
+              href: routes.account.notifications.path(),
+            },
             {
               text: 'Change my notification settings',
               href: routes.account.path({
@@ -67,7 +70,10 @@ export const helpNotifications: QuestionAnswer[] = [
         <br />
         <HelpfulLinks
           links={[
-            { text: 'See my notifications', href: routes.notifications.path() },
+            {
+              text: 'See my notifications',
+              href: routes.account.notifications.path(),
+            },
           ]}
         />
       </Box>

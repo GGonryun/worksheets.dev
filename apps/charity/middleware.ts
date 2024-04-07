@@ -1,4 +1,4 @@
-import { routes } from '@worksheets/ui/routes';
+import { routes } from '@worksheets/routes';
 import { NextRequest, NextResponse } from 'next/server';
 import { getToken } from 'next-auth/jwt';
 
@@ -18,7 +18,6 @@ export const config = {
 
 const protectedPages = [
   routes.account.path(),
-  routes.notifications.path(),
   routes.admin.path(),
   routes.vip.path(),
 ];

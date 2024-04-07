@@ -1,7 +1,7 @@
 import { NavigateBefore } from '@mui/icons-material';
 import { Button, Container, Typography } from '@mui/material';
+import { routes } from '@worksheets/routes';
 import { RafflesGroup } from '@worksheets/ui/components/raffles';
-import { routes } from '@worksheets/ui/routes';
 import {
   ParticipationSchema,
   RaffleSchema,

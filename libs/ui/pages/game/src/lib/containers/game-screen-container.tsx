@@ -1,10 +1,11 @@
 import { ReportReason } from '@prisma/client';
+import { routes } from '@worksheets/routes';
 import { trpc } from '@worksheets/trpc-charity';
-import { Snackbar, useSnackbar } from '@worksheets/ui/components/snackbar';
+import { useSnackbar } from '@worksheets/ui/components/snackbar';
 import { useGameVotes } from '@worksheets/ui/hooks/use-game-votes';
 import { useRecentlyPlayedGames } from '@worksheets/ui/hooks/use-recently-played-games';
 import { useReferralCode } from '@worksheets/ui/hooks/use-referral-code';
-import { routes } from '@worksheets/ui/routes';
+import { MS_TO_S, S_TO_MS } from '@worksheets/util/time';
 import {
   DeveloperSchema,
   SerializableGameSchema,
@@ -19,8 +20,8 @@ import {
   LoginToEarnTokensSnackbarMessage,
   ReportIssueModal,
   ShareGameModal,
-  TokensEarnedSnackbarMessage,
 } from '../components';
+import { useGameTracker } from '../hooks/use-game-tracker';
 
 const GameScreenContainer: React.FC<{
   game: SerializableGameSchema;
@@ -50,38 +51,40 @@ const GameScreenContainer: React.FC<{
   const play = trpc.public.games.play.record.useMutation();
   const reportGame = trpc.public.games.report.useMutation();
 
-  const rewardAuthorized = trpc.user.rewards.gamePlay.authorized.useMutation();
-  const rewardAnonymous = trpc.user.rewards.gamePlay.anonymous.useMutation();
+  const trackGamePlay = trpc.user.rewards.gamePlay.track.useMutation();
+  const trackGameTime = trpc.user.rewards.gameTime.track.useMutation();
 
-  const { data: suggestions } = trpc.public.games.suggestions.useQuery({
-    gameId: game.id,
-  });
+  const { data: suggestions } = trpc.public.games.suggestions.useQuery(
+    {
+      gameId: game.id,
+    },
+    {
+      refetchOnMount: false,
+      refetchOnReconnect: false,
+      refetchOnWindowFocus: false,
+    }
+  );
 
   const { addRecentlyPlayed } = useRecentlyPlayedGames();
 
   const [showVoteWarning, setShowVoteWarning] = useState(false);
+  const gameTracker = useGameTracker({
+    // TODO: increase this if performance is bad or expensive.
+    duration: S_TO_MS(15),
+    onElapsed: (increment) =>
+      trackGameTime.mutate({
+        gameId: game.id,
+        increment: MS_TO_S(increment),
+      }),
+  });
 
   const handleRewardPlay = async () => {
     if (authenticated) {
-      const result = await rewardAuthorized.mutateAsync({
+      await trackGamePlay.mutateAsync({
         gameId: game.id,
       });
-
-      snackbar.trigger({
-        message: (
-          <TokensEarnedSnackbarMessage
-            earnedGiftBox={result.earnedGiftBox}
-            tokensEarned={result.tokensEarned}
-          />
-        ),
-        severity: 'success',
-      });
     } else if (referralCode) {
-      await rewardAnonymous.mutateAsync({ referralCode });
-      snackbar.trigger({
-        message: <LoginToEarnTokensSnackbarMessage href={loginHref} />,
-        severity: 'info',
-      });
+      snackbar.info(<LoginToEarnTokensSnackbarMessage href={loginHref} />);
     }
   };
 
@@ -90,6 +93,8 @@ const GameScreenContainer: React.FC<{
   };
 
   const handlePlayGame = async () => {
+    // TODO: when someone clicks play game start the game tracker
+    gameTracker.start();
     addRecentlyPlayed({
       id: game.id,
       name: game.name,
@@ -141,7 +146,6 @@ const GameScreenContainer: React.FC<{
         onShare={() => setShowShare(true)}
         onReport={() => setShowReport(true)}
       />
-      <Snackbar {...snackbar.props} />
       <CannotVoteModal
         href={loginHref}
         open={showVoteWarning}

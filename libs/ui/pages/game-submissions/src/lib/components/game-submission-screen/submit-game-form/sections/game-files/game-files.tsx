@@ -5,7 +5,7 @@ import FormHelperText from '@mui/material/FormHelperText';
 import Input from '@mui/material/Input';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
-import { routes } from '@worksheets/ui/routes';
+import { routes } from '@worksheets/routes';
 import { HelpDevelopersQuestions } from '@worksheets/util/enums';
 import {
   GameSubmissionFileKeys,

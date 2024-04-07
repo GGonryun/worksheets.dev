@@ -1,11 +1,10 @@
-import { TRPCClientError } from '@trpc/client';
 import { trpc } from '@worksheets/trpc-charity';
-import { Snackbar, useSnackbar } from '@worksheets/ui/components/snackbar';
+import { useSnackbar } from '@worksheets/ui/components/snackbar';
+import { ErrorScreen } from '@worksheets/ui/pages/errors';
 import { LoadingScreen } from '@worksheets/ui/pages/loading';
-import { validateEmail } from '@worksheets/util/strings';
+import { parseTRPCClientErrorMessage } from '@worksheets/util/trpc';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
 
 import { ConfirmNewsletterScreen } from '../components/confirm-newsletter-screen';
 
@@ -13,58 +12,48 @@ const Container: React.FC = () => {
   const snackbar = useSnackbar();
 
   const { query } = useRouter();
+  const id = query.id as string;
 
-  const email = query.email as string;
-
-  const confirm = trpc.public.newsletter.confirm.useMutation();
-
-  const [confirmed, setConfirmed] = useState(false);
+  const confirm = trpc.newsletter.confirm.useMutation();
+  const subscription = trpc.newsletter.subscription.useQuery(
+    {
+      id,
+    },
+    {
+      enabled: !!id,
+      retry: false,
+    }
+  );
 
   const handleConfirm = async () => {
-    if (!validateEmail(email)) {
-      snackbar.trigger({
-        message: 'Please enter a valid email address.',
-        severity: 'error',
-      });
-      return;
-    }
-
+    if (!subscription.data) return;
     try {
-      await confirm.mutateAsync({
-        email,
-      });
-
-      snackbar.trigger({
-        message: 'Confirmed! You are now subscribed to our newsletter!',
-        severity: 'success',
-      });
-
-      setConfirmed(true);
+      await confirm.mutateAsync(subscription.data);
+      await subscription.refetch();
+      snackbar.success('Confirmed! You are now subscribed to our newsletter!');
     } catch (error) {
-      if (error instanceof TRPCClientError) {
-        snackbar.trigger({
-          message: error.message,
-          severity: 'error',
-        });
-      } else {
-        snackbar.trigger({
-          message: 'An unexpected error occurred. Please contact support.',
-          severity: 'error',
-        });
-      }
+      snackbar.error(parseTRPCClientErrorMessage(error));
     }
   };
 
+  if (subscription.isFetching) {
+    return <LoadingScreen />;
+  }
+
+  if (subscription.isError) {
+    return <ErrorScreen message={subscription.error.message} />;
+  }
+
+  if (!subscription.data) {
+    return <ErrorScreen message="Subscription not found" />;
+  }
+
   return (
-    <>
-      <ConfirmNewsletterScreen
-        loading={confirm.isLoading}
-        confirmed={confirmed}
-        email={email}
-        onConfirm={handleConfirm}
-      />
-      <Snackbar {...snackbar.props} />
-    </>
+    <ConfirmNewsletterScreen
+      loading={confirm.isLoading}
+      subscription={subscription.data}
+      onConfirm={handleConfirm}
+    />
   );
 };
 

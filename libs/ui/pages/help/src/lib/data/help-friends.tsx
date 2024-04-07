@@ -1,12 +1,12 @@
 import { Box, Link, Typography } from '@mui/material';
-import { routes } from '@worksheets/ui/routes';
+import { routes } from '@worksheets/routes';
 import {
   FriendsPanels,
   HelpFriendsQuestions,
   HelpTokensQuestions,
 } from '@worksheets/util/enums';
 import { MAX_DAILY_GIFT_BOX_SHARES } from '@worksheets/util/settings';
-import { QuestionAnswer } from '@worksheets/util/types';
+import { MAX_BEST_FRIENDS, QuestionAnswer } from '@worksheets/util/types';
 
 import { HelpfulLinks } from '../helpful-links';
 
@@ -18,9 +18,8 @@ export const helpFriends: QuestionAnswer[] = [
     answer: (
       <Box>
         <Typography>
-          Friends are other users who you have added to your friends list. You
-          can send gifts to your friends to help them enter raffles and win
-          prizes.
+          Friends are other users that you are following. You can send gifts to
+          your friends to help them enter raffles and win prizes.
           <br />
           <br />
           You can also earn tokens for prizes by inviting friends to join
@@ -126,13 +125,12 @@ export const helpFriends: QuestionAnswer[] = [
   {
     id: HelpFriendsQuestions.BestFriends,
     question: 'What is a Best Friend?',
-    summary:
-      "A Best Friend is a friend who you've marked as a Best Friend. You can only have one Best Friend at a time.",
+    summary: `A Best Friend is a friend who you've marked as a favorite. You can only have ${MAX_BEST_FRIENDS} Best Friends at a time.`,
     answer: (
       <Box>
         <Typography>
           A Best Friend is a friend who you've marked as a Best Friend. There is
-          no limit to the number of friends or best friends that you can have.
+          no limit to the number of friends or Best friends that you can have.
           Marking another user as a best friend will keep them at the top of
           your friends list and display them as your best friend on your public
           profile.
@@ -261,7 +259,7 @@ export const helpFriends: QuestionAnswer[] = [
           links={[
             { href: routes.account.friends.path(), text: 'See Your Friends' },
             {
-              href: routes.account.tokens.path(),
+              href: routes.account.quests.path(),
               text: 'See Your Tokens',
             },
             {

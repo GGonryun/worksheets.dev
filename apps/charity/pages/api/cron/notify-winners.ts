@@ -1,37 +1,13 @@
 import { Prisma, prisma } from '@worksheets/prisma';
-import { sendDiscordMessage } from '@worksheets/services/discord';
-import { DISCORD_WEBHOOK_URL } from '@worksheets/services/environment';
-import { sendEmail } from '@worksheets/services/gmail';
-import { routes } from '@worksheets/ui/routes';
+import { NotificationsService } from '@worksheets/services/notifications';
 import { createCronJob } from '@worksheets/util/cron';
-import {
-  HelpPrizesQuestions,
-  PrizesPanels,
-  SettingsPanels,
-} from '@worksheets/util/enums';
 import {
   CLAIM_ALERT_LAST_SENT_THRESHOLD,
   CLAIM_ALERT_SENT_COUNT_THRESHOLD,
 } from '@worksheets/util/settings';
-import { hoursAgo, printShortDateTime } from '@worksheets/util/time';
+import { hoursAgo } from '@worksheets/util/time';
 
-const CONTACT_URL = routes.contact.url();
-const ACCOUNT_URL = routes.account.prizes.url({
-  bookmark: PrizesPanels.Prizes,
-});
-const CLAIM_URL = routes.help.prizes.url({
-  bookmark: HelpPrizesQuestions.HowToClaim,
-});
-const UNSUBSCRIBE_URL = routes.account.url({
-  bookmark: SettingsPanels.Communication,
-});
-
-const PRIZE_URL = (prizeId: string) =>
-  routes.prize.url({
-    params: {
-      prizeId,
-    },
-  });
+const notifications = new NotificationsService();
 
 const PENDING_ALERT_PROPS = {
   id: true as const,
@@ -101,7 +77,8 @@ export default createCronJob(async () => {
   ]);
 
   await Promise.all([
-    ...[...unsentAlerts, ...pendingAlerts].map(processPendingAlert),
+    ...unsentAlerts.map(processUnsentAlert),
+    ...pendingAlerts.map(processPendingAlert),
     ...expiredAlerts.map(processExpiredAlert),
   ]);
 
@@ -110,10 +87,42 @@ export default createCronJob(async () => {
   console.info(`Processed ${expiredAlerts.length} expired alerts.`);
 });
 
-const processPendingAlert = async (alert: PendingAlert) => {
-  await updateAlert(alert);
+const processUnsentAlert = async (alert: PendingAlert) => {
+  await prisma.claimAlert.update({
+    where: {
+      id: alert.id,
+    },
+    data: {
+      lastSentAt: new Date(),
+      sentCount: {
+        increment: 1,
+      },
+    },
+  });
 
-  await sendAlertEmail(alert);
+  await notifications.send('won-raffle', {
+    user: alert.winner.user,
+    prize: alert.winner.prize,
+  });
+};
+
+const processPendingAlert = async (alert: PendingAlert) => {
+  await prisma.claimAlert.update({
+    where: {
+      id: alert.id,
+    },
+    data: {
+      lastSentAt: new Date(),
+      sentCount: {
+        increment: 1,
+      },
+    },
+  });
+
+  await notifications.send('won-raffle-reminder', {
+    user: alert.winner.user,
+    prize: alert.winner.prize,
+  });
 };
 
 const processExpiredAlert = async (alert: PendingAlert) => {
@@ -139,97 +148,8 @@ const processExpiredAlert = async (alert: PendingAlert) => {
     }),
   ]);
 
-  await notifyAdmins(alert);
-};
-
-const notifyAdmins = async (alert: PendingAlert) => {
-  sendDiscordMessage({
-    content: `A user did not claimed their prize in time.`,
-    embeds: [
-      {
-        title: `User ID: ${alert.winner.user.id}`,
-        description: `The user (${
-          alert.winner.user.email
-        }) did not successfully claim their prize. The last alert was sent at ${printShortDateTime(
-          alert.lastSentAt ?? 0
-        )}.`,
-      },
-    ],
-    webhookUrl: DISCORD_WEBHOOK_URL,
+  await notifications.send('unclaimed-prize', {
+    user: alert.winner.user,
+    lastSentAt: alert.lastSentAt,
   });
-};
-
-const claimHelpText = `Please visit <a href="${ACCOUNT_URL}">Charity Games</a> to claim your prize. If you are unable to claim a prize, please <a href="${CONTACT_URL}">contact us</a> for assistance. You may receive an alternative prize or tokens equal to the prize value. If you need help, please visit our <a href="${CLAIM_URL}">Help Center</a>.<br/><br/>If you do not claim your prize within ${CLAIM_ALERT_SENT_COUNT_THRESHOLD} days of winning, it will be forfeited.`;
-const unsubscribedText = `<i>If you no longer wish to receive these emails, you can unsubscribe from your <a href="${UNSUBSCRIBE_URL}">account settings</a>.</i>`;
-
-const sendAlertEmail = async (alert: PendingAlert) => {
-  // if the alert hasn't been sent, send a special first-time email
-  if (!alert.sentCount) {
-    return sendFirstTimeAlertEmail(alert);
-  } else {
-    return sendReminderEmail(alert);
-  }
-};
-
-const sendFirstTimeAlertEmail = async (alert: PendingAlert) =>
-  sendUserEmail(alert, {
-    subject: `🎉 You won a raffle on Charity Games!`,
-    content: `Congratulations! You've won ${printPrizeName(
-      alert.winner.prize
-    )}.`,
-  });
-
-const sendReminderEmail = async (alert: PendingAlert) =>
-  sendUserEmail(alert, {
-    subject: '🎉 Remember to claim your prize on Charity Games!',
-    content: `You've won a raffle but haven't claimed your prize yet. You have ${printPrizeName(
-      alert.winner.prize
-    )} waiting in your inventory!`,
-  });
-
-const sendUserEmail = async (
-  alert: PendingAlert,
-  options: { content: string; subject: string }
-) =>
-  sendEmail({
-    to: [alert.winner.user.email],
-    subject: options.subject,
-    html: `${options.content}<br/><br/>${claimHelpText}<br/><br/>${unsubscribedText}`,
-  });
-
-const printPrizeName = (prize: PendingAlert['winner']['prize']) => {
-  if (prize.type === 'STEAM_KEY') {
-    return `a steam key for <a href="${PRIZE_URL(prize.id)}">${prize.name}</a>`;
-  }
-
-  if (prize.type === 'GIFT_CARD') {
-    return `a ${prize.name} gift card`;
-  }
-
-  return `a ${prize.name}`;
-};
-
-const updateAlert = async (alert: PendingAlert) => {
-  return prisma.$transaction([
-    prisma.claimAlert.update({
-      where: {
-        id: alert.id,
-      },
-      data: {
-        lastSentAt: new Date(),
-        sentCount: {
-          increment: 1,
-        },
-      },
-    }),
-    prisma.notification.create({
-      data: {
-        type: 'RAFFLE',
-        userId: alert.winner.user.id,
-        text: `You won a raffle! <a href="${ACCOUNT_URL}">Go to your account</a> to redeem your prize: <a href="${PRIZE_URL(
-          alert.winner.prize.id
-        )}">${alert.winner.prize.name}</a>.`,
-      },
-    }),
-  ]);
 };

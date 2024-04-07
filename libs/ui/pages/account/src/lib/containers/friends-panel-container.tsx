@@ -1,22 +1,24 @@
-import { TRPCClientError } from '@trpc/client';
+import { routes } from '@worksheets/routes';
 import { trpc } from '@worksheets/trpc-charity';
-import { Snackbar, useSnackbar } from '@worksheets/ui/components/snackbar';
+import { useSnackbar } from '@worksheets/ui/components/snackbar';
 import { ErrorComponent } from '@worksheets/ui/pages/errors';
 import { LoadingScreen } from '@worksheets/ui/pages/loading';
-import { routes } from '@worksheets/ui/routes';
 import { useBookmark } from '@worksheets/ui-core';
 import { FriendsPanels } from '@worksheets/util/enums';
+import { TOKENS_IN_GIFT_BOX } from '@worksheets/util/settings';
+import { parseTRPCClientErrorMessage } from '@worksheets/util/trpc';
 import { Friend } from '@worksheets/util/types';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 
 import {
   AddFriendModal,
-  FriendsPanel,
+  ClaimGiftModal,
   RemoveFriendModal,
   SendGiftModal,
   SharedGiftSnackbarMessage,
 } from '../components';
+import { FriendsPanel } from '../panels';
 
 export const genericUnexpectedErrorMessage = {
   message: 'An unexpected error occurred. Please try again later.',
@@ -40,8 +42,10 @@ export const FriendsPanelContainer: React.FC<{ refreshTimestamp: number }> = ({
   const [friendRequest, setFriendRequest] = useState<
     { username: string; code: string } | undefined
   >(undefined);
+  const [showClaimGiftBox, setShowClaimGiftBox] = useState(false);
 
   const friends = trpc.user.friends.list.useQuery(undefined);
+  const openGiftBox = trpc.user.rewards.giftBoxes.open.useMutation();
 
   const removeFriend = trpc.user.friends.remove.useMutation();
   const favoriteFriend = trpc.user.friends.favorite.useMutation();
@@ -49,15 +53,11 @@ export const FriendsPanelContainer: React.FC<{ refreshTimestamp: number }> = ({
   const findFriend = trpc.user.friends.find.useMutation();
   const sendGift = trpc.user.friends.sendGift.useMutation();
 
+  const giftBoxes = trpc.user.rewards.giftBoxes.get.useQuery(undefined, {
+    retry: false,
+  });
   const handleError = (error: unknown) => {
-    if (error instanceof TRPCClientError) {
-      snackbar.trigger({
-        message: error.message,
-        severity: 'error',
-      });
-    } else {
-      snackbar.trigger(genericUnexpectedErrorMessage);
-    }
+    snackbar.error(parseTRPCClientErrorMessage(error));
   };
 
   const handleFindFriend = async (code: string) => {
@@ -85,14 +85,11 @@ export const FriendsPanelContainer: React.FC<{ refreshTimestamp: number }> = ({
         }
       );
 
-      snackbar.trigger({
-        message: (
-          <>
-            You are now friends with <b>{friendRequest.username}</b>!
-          </>
-        ),
-        severity: 'success',
-      });
+      snackbar.success(
+        <>
+          You are now friends with <b>{friendRequest.username}</b>!
+        </>
+      );
     } catch (error) {
       handleError(error);
     }
@@ -107,15 +104,12 @@ export const FriendsPanelContainer: React.FC<{ refreshTimestamp: number }> = ({
       });
       await friends.refetch();
 
-      snackbar.trigger({
-        message: (
-          <>
-            You have successfully destroyed your friendship with{' '}
-            <b>{removeFriendship.username}</b>!
-          </>
-        ),
-        severity: 'success',
-      });
+      snackbar.success(
+        <>
+          You have successfully destroyed your friendship with{' '}
+          <b>{removeFriendship.username}</b>!
+        </>
+      );
     } catch (error) {
       handleError(error);
     }
@@ -129,15 +123,12 @@ export const FriendsPanelContainer: React.FC<{ refreshTimestamp: number }> = ({
 
       await friends.refetch();
 
-      snackbar.trigger({
-        message: (
-          <>
-            {result.newState ? 'You have become' : 'You are no longer'} best
-            friends with <b>{friend.username}</b>!
-          </>
-        ),
-        severity: 'success',
-      });
+      snackbar.success(
+        <>
+          {result.newState ? 'You have become' : 'You are no longer'} best
+          friends with <b>{friend.username}</b>!
+        </>
+      );
     } catch (error) {
       handleError(error);
     }
@@ -151,20 +142,35 @@ export const FriendsPanelContainer: React.FC<{ refreshTimestamp: number }> = ({
       });
       await friends.refetch();
 
-      snackbar.trigger({
-        message: (
-          <SharedGiftSnackbarMessage username={sendGiftFriendship.username} />
-        ),
-        severity: 'success',
-      });
+      snackbar.success(
+        <SharedGiftSnackbarMessage username={sendGiftFriendship.username} />
+      );
     } catch (error) {
       handleError(error);
     }
   };
 
-  if (friends.isLoading) return <LoadingScreen />;
+  const handleClaimGiftBox = () => {
+    openGiftBox
+      .mutateAsync()
+      .then((result) => {
+        giftBoxes.refetch();
+        setShowClaimGiftBox(true);
+      })
+      .catch((error) => {
+        snackbar.error(parseTRPCClientErrorMessage(error));
+      });
+  };
 
-  if (friends.error) return <ErrorComponent />;
+  const handleCloseClaimGiftBox = () => {
+    setShowClaimGiftBox(false);
+
+    snackbar.success('You claimed a gift box!');
+  };
+
+  if (friends.isLoading || giftBoxes.isLoading) return <LoadingScreen />;
+
+  if (friends.error || giftBoxes.isError) return <ErrorComponent />;
 
   return (
     <>
@@ -175,11 +181,13 @@ export const FriendsPanelContainer: React.FC<{ refreshTimestamp: number }> = ({
         followers={friends.data.followers}
         refreshTimestamp={refreshTimestamp}
         giftsRemaining={friends.data.giftsRemaining}
+        giftBoxes={giftBoxes.data}
         friendCode={friends.data.code}
         onSendGift={(friend) => setSendGiftFriendship(friend)}
         onRemove={(friend) => setRemoveFriendship(friend)}
         onFavorite={handleFavoriteFriend}
         onAdd={handleFindFriend}
+        onClaimGiftBox={handleClaimGiftBox}
       />
       <RemoveFriendModal
         open={Boolean(removeFriendship)}
@@ -199,7 +207,11 @@ export const FriendsPanelContainer: React.FC<{ refreshTimestamp: number }> = ({
         onSend={handleSendGift}
         onClose={() => setSendGiftFriendship(undefined)}
       />
-      <Snackbar {...snackbar.props} />
+      <ClaimGiftModal
+        open={showClaimGiftBox}
+        onClose={handleCloseClaimGiftBox}
+        amount={TOKENS_IN_GIFT_BOX}
+      />
     </>
   );
 };

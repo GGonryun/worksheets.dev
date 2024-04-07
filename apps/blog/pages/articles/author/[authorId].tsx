@@ -1,5 +1,5 @@
+import { routes } from '@worksheets/routes';
 import { LoadingScreen } from '@worksheets/ui/pages/loading';
-import { routes } from '@worksheets/ui/routes';
 import { Author, blogAuthors } from '@worksheets/util/blog';
 import { NextPageWithLayout } from '@worksheets/util-next';
 import { GetServerSideProps } from 'next';

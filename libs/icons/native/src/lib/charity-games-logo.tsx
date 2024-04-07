@@ -7,6 +7,7 @@ export const CharityGamesLogo: React.FC<{ size: number; margin?: string }> = ({
 }) => {
   return (
     <Image
+      priority
       src={common.charityGames.logos.square}
       alt="Charity.Games"
       width={size}

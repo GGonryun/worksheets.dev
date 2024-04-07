@@ -1,7 +1,6 @@
-import CloseIcon from '@mui/icons-material/Close';
-import { Box, Button, IconButton, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import { ReportReason } from '@prisma/client';
-import { BaseModal, ModalWrapper } from '@worksheets/ui-core';
+import { BasicModal, ModalWrapper } from '@worksheets/ui/components/modals';
 import { FC, useState } from 'react';
 
 import { AdditionalComments } from './additional-comments';
@@ -26,7 +25,7 @@ export const ReportIssueModal: FC<
   };
 
   return (
-    <BaseModal
+    <BasicModal
       open={open}
       onClose={onClose}
       sx={{
@@ -34,29 +33,12 @@ export const ReportIssueModal: FC<
         maxWidth: 600,
       }}
     >
-      <Box display="flex" flexDirection="column">
-        <IconButton
-          onClick={handleClose}
-          size="small"
-          sx={{ m: 1, alignSelf: 'flex-end' }}
-        >
-          <CloseIcon />
-        </IconButton>
-        <Box
-          display="flex"
-          flexDirection="column"
-          py={2}
-          px={{ xs: 2, sm: 4 }}
-          mt={-3}
-        >
-          {success ? (
-            <ReportReceived onClose={handleClose} />
-          ) : (
-            <ReportForm onReport={handleReport} onClose={handleClose} />
-          )}
-        </Box>
-      </Box>
-    </BaseModal>
+      {success ? (
+        <ReportReceived onClose={handleClose} />
+      ) : (
+        <ReportForm onReport={handleReport} onClose={handleClose} />
+      )}
+    </BasicModal>
   );
 };
 
@@ -72,8 +54,8 @@ const ReportReceived: FC<{ onClose: () => void }> = ({ onClose }) => {
         play!
       </Typography>
       <Box mt={2} alignSelf={'flex-end'}>
-        <Button variant="arcade" color="success" onClick={onClose}>
-          Okay
+        <Button variant="arcade" onClick={onClose}>
+          Close
         </Button>
       </Box>
     </Box>
@@ -104,7 +86,7 @@ const ReportForm: FC<{
   };
 
   return (
-    <Box display="flex" flexDirection="column" gap={2}>
+    <Box display="flex" flexDirection="column" gap={2} textAlign="left">
       <Typography variant="h4" fontSize={{ xs: '1.8rem', sm: '2.5rem' }}>
         Report this Game
       </Typography>

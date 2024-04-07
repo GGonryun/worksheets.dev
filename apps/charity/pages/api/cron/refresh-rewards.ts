@@ -1,10 +1,6 @@
 import { prisma } from '@worksheets/prisma';
 import { createCronJob } from '@worksheets/util/cron';
-import {
-  MAX_DAILY_GIFT_BOX_SHARES,
-  MAX_TOKENS_FROM_GAME_PLAY_PER_DAY,
-  MAX_TOKENS_FROM_REFERRAL_PLAYS,
-} from '@worksheets/util/settings';
+import { MAX_DAILY_GIFT_BOX_SHARES } from '@worksheets/util/settings';
 
 export default createCronJob(async () =>
   Promise.all([resetRewards(), prisma.gift.deleteMany()])
@@ -26,10 +22,7 @@ const resetRewards = async () => {
       },
     },
     data: {
-      availableGamePlayTokens: MAX_TOKENS_FROM_GAME_PLAY_PER_DAY,
-      availableReferralTokens: MAX_TOKENS_FROM_REFERRAL_PLAYS,
       sharableGiftBoxes: MAX_DAILY_GIFT_BOX_SHARES,
-      claimedDailyReward: null,
     },
   });
 };

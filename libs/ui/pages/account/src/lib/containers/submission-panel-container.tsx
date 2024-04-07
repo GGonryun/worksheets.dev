@@ -1,9 +1,9 @@
 import { trpc } from '@worksheets/trpc-charity';
-import { Snackbar, useSnackbar } from '@worksheets/ui/components/snackbar';
+import { useSnackbar } from '@worksheets/ui/components/snackbar';
 import { LoadingScreen } from '@worksheets/ui/pages/loading';
 import { useRouter } from 'next/router';
 
-import { SubmissionsPanel } from '../components';
+import { SubmissionsPanel } from '../panels';
 
 export const SubmissionsPanelContainer: React.FC = () => {
   const router = useRouter();
@@ -20,11 +20,9 @@ export const SubmissionsPanelContainer: React.FC = () => {
       await approveTerms.mutateAsync();
       await terms.refetch();
     } catch (error) {
-      snackbar.trigger({
-        message:
-          'Failed to approve terms of service, please try again later. If this issue persists, please contact support.',
-        severity: 'error',
-      });
+      snackbar.error(
+        'Failed to approve terms of service, please try again later. If this issue persists, please contact support.'
+      );
     }
   };
 
@@ -35,11 +33,9 @@ export const SubmissionsPanelContainer: React.FC = () => {
 
       router.reload();
     } catch {
-      snackbar.trigger({
-        message:
-          'Failed to delete submission, please try again later. If this issue persists, please contact support.',
-        severity: 'error',
-      });
+      snackbar.error(
+        'Failed to delete submission, please try again later. If this issue persists, please contact support.'
+      );
     }
   };
 
@@ -52,14 +48,11 @@ export const SubmissionsPanelContainer: React.FC = () => {
   }
 
   return (
-    <>
-      <SubmissionsPanel
-        terms={terms.data}
-        submissions={submissions.data}
-        onApproveTermsOfService={onApproveTermsOfService}
-        onDeleteSubmission={onDeleteSubmission}
-      />
-      <Snackbar {...snackbar.props} />
-    </>
+    <SubmissionsPanel
+      terms={terms.data}
+      submissions={submissions.data}
+      onApproveTermsOfService={onApproveTermsOfService}
+      onDeleteSubmission={onDeleteSubmission}
+    />
   );
 };

@@ -3,7 +3,6 @@ import arcade from './arcade/router';
 import categories from './categories/router';
 import developers from './developers/router';
 import games from './games/router';
-import newsletter from './newsletter/router';
 import prizes from './prizes/router';
 import raffles from './raffles/router';
 import usage from './usage/router';
@@ -16,5 +15,4 @@ export default t.router({
   categories,
   developers,
   games,
-  newsletter,
 });

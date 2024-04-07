@@ -7,13 +7,14 @@ import {
 } from '@worksheets/icons/ecommerce';
 import { LearningCode } from '@worksheets/icons/learning';
 import {
+  ValentinesCalendar,
   ValentinesLock,
   ValentinesPhones,
   ValentinesTicket,
   ValentinesWorld,
 } from '@worksheets/icons/valentines';
 import { WebGamepad, WebHeart, WebQuestion } from '@worksheets/icons/web';
-import { routes } from '@worksheets/ui/routes';
+import { routes } from '@worksheets/routes';
 
 import {
   HelpCenterCategory,
@@ -50,6 +51,12 @@ const categories: HelpCenterCategoryProps[] = [
     href: routes.help.tokens.path(),
     description: 'Play games at our arcade and win real world prizes',
     icon: ValentinesTicket,
+  },
+  {
+    title: 'Quests',
+    href: routes.help.quests.path(),
+    description: 'Complete challenges to earn tokens',
+    icon: ValentinesCalendar,
   },
   {
     title: 'Referrals',

@@ -7,13 +7,7 @@ export enum FriendsPanels {
   AddFriends = 'add-friends',
   FriendsList = 'friends-list',
   SendGifts = 'send-gifts',
-}
-
-export enum TokensPanels {
-  PlayGames = 'play-games',
-  DailyReward = 'daily-reward',
   GiftBoxes = 'gift-boxes',
-  InviteFriends = 'invite-friends',
 }
 
 export enum SettingsPanels {

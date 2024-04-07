@@ -1,7 +1,7 @@
 import { ContactPage, Gamepad } from '@mui/icons-material';
 import { Box, Button, Typography } from '@mui/material';
+import { routes } from '@worksheets/routes';
 import { GradientTypography } from '@worksheets/ui/components/typography';
-import { routes } from '@worksheets/ui/routes';
 
 export const HelpCenterFooter = () => (
   <Box

@@ -1,17 +1,14 @@
+import { KeyManagementServiceClient } from '@google-cloud/kms';
 import {
-  ENCRYPTION_SECRET,
-  IS_DEVELOPMENT,
+  GCP_CLIENT_EMAIL,
+  GCP_PRIVATE_KEY,
+  GCP_PROJECT_ID,
 } from '@worksheets/services/environment';
 
 export class CryptographyService implements Crypotgrapher {
   crypotgrapher: Crypotgrapher;
-  constructor() {
-    // TODO: create a real encryption service that connects to GCP KMS
-    if (IS_DEVELOPMENT) {
-      this.crypotgrapher = new LocalCrypotgrapher(ENCRYPTION_SECRET);
-    } else {
-      throw new Error(`EncryptionService is not enabled on production`);
-    }
+  constructor(crypotgrapher?: Crypotgrapher) {
+    this.crypotgrapher = crypotgrapher ?? new GoogleCryptographer();
   }
 
   async encrypt(decrypted: string): Promise<string> {
@@ -27,7 +24,7 @@ export interface Crypotgrapher {
   decrypt: (encoded: string) => Promise<string>;
 }
 
-class LocalCrypotgrapher implements Crypotgrapher {
+export class LocalCrypotgrapher implements Crypotgrapher {
   secret: string;
   constructor(secret: string) {
     this.secret = secret;
@@ -39,5 +36,55 @@ class LocalCrypotgrapher implements Crypotgrapher {
 
   async decrypt(encoded: string) {
     return encoded.replace(this.secret, '');
+  }
+}
+
+export class GoogleCryptographer implements Crypotgrapher {
+  client: KeyManagementServiceClient;
+  cryptoKeyPath: string;
+  encoding = 'base64' as const;
+
+  constructor() {
+    this.client = new KeyManagementServiceClient({
+      credentials: {
+        client_email: GCP_CLIENT_EMAIL,
+        private_key: GCP_PRIVATE_KEY,
+      },
+    });
+
+    this.cryptoKeyPath = this.client.cryptoKeyPath(
+      GCP_PROJECT_ID,
+      'global',
+      'charitygames',
+      'raffles'
+    );
+  }
+
+  async encrypt(decoded: string) {
+    const [encrypted] = await this.client.encrypt({
+      name: this.cryptoKeyPath,
+      plaintext: Buffer.from(decoded),
+    });
+
+    const ciphertext = encrypted.ciphertext;
+    if (!ciphertext) {
+      throw new Error('Failed to encrypt encoded string');
+    }
+
+    return Buffer.from(ciphertext).toString('base64');
+  }
+
+  async decrypt(encoded: string) {
+    const [decrypted] = await this.client.decrypt({
+      name: this.cryptoKeyPath,
+      ciphertext: Buffer.from(encoded, 'base64'),
+    });
+
+    const plaintext = decrypted.plaintext;
+    if (!plaintext) {
+      throw new Error('Failed to decrypt encoded string');
+    }
+
+    return plaintext.toString();
   }
 }

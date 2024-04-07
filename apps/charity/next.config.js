@@ -52,6 +52,14 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'unavatar.io',
       },
+      {
+        protocol: 'https',
+        hostname: 'avatar.vercel.sh',
+      },
+      {
+        protocol: 'https',
+        hostname: 'source.boringavatars.com',
+      },
     ],
   },
   nx: {

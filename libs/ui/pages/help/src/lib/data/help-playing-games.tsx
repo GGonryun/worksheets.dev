@@ -1,14 +1,7 @@
 import { Box, Link, Typography } from '@mui/material';
-import { routes } from '@worksheets/ui/routes';
+import { routes } from '@worksheets/routes';
 import { ListItem, OrderedList } from '@worksheets/ui-core';
-import {
-  HelpPlayingGamesQuestions,
-  HelpTokensQuestions,
-} from '@worksheets/util/enums';
-import {
-  MAX_TOKENS_IN_GIFT_BOX,
-  MAX_TOKENS_PER_GAME,
-} from '@worksheets/util/settings';
+import { HelpPlayingGamesQuestions } from '@worksheets/util/enums';
 import { QuestionAnswer } from '@worksheets/util/types';
 
 import { HelpfulLinks } from '../helpful-links';
@@ -276,65 +269,6 @@ export const helpPlayingGames: QuestionAnswer[] = [
         <Link href={routes.contact.path()}>contact us</Link> and let us know. We
         are considering adding this feature in the future.
       </Typography>
-    ),
-  },
-  {
-    id: HelpPlayingGamesQuestions.EarningTokens,
-    question: 'How do I earn tokens?',
-    summary:
-      'You can earn tokens by playing games and participating in events.',
-    answer: (
-      <Box>
-        <Typography>
-          You can earn tokens by playing games. You can use tokens to enter
-          raffles and prize draws.
-          <br />
-          <br />A random amount of tokens are automatically added to your
-          account when you play a game (up to {MAX_TOKENS_PER_GAME}).
-          Additionally, there's a small chance of finding a gift box while
-          playing a game. If you find a gift box, you will receive a random
-          amount of tokens (up to {MAX_TOKENS_IN_GIFT_BOX}).
-          <br />
-          <br />
-          There are also other ways to earn tokens, such as{' '}
-          <Link href={routes.help.referrals.path()}>
-            referring friends
-          </Link>,{' '}
-          <Link href={routes.help.friends.path()}>
-            sending gifts to friends
-          </Link>
-          ,{' '}
-          <Link
-            href={routes.help.tokens.path({
-              bookmark: HelpTokensQuestions.HowToEarn,
-            })}
-          >
-            claiming the daily reward
-          </Link>
-          , and participating in special events.
-          <br />
-          <br />
-          For more ways to earn tokens, visit our{' '}
-          <Link href={routes.help.tokens.path()}>Tokens Help</Link> page.
-          <br />
-          <br />
-          <Link href={routes.signUp.path()}>Create an account</Link> to earn
-          tokens and save your progress.
-        </Typography>
-        <br />
-        <HelpfulLinks
-          links={[
-            { text: 'Play Games', href: routes.play.path() },
-            { text: 'Create an account', href: routes.login.path() },
-            {
-              text: 'Learn about Gift Boxes',
-              href: routes.help.tokens.path({
-                bookmark: HelpTokensQuestions.GiftBoxes,
-              }),
-            },
-          ]}
-        />
-      </Box>
     ),
   },
 ];

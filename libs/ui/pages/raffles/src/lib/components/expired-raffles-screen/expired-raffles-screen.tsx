@@ -1,11 +1,11 @@
 import { ArrowRightAlt, InfoOutlined } from '@mui/icons-material';
 import { Box, Button, Typography } from '@mui/material';
+import { routes } from '@worksheets/routes';
 import {
   Pagination,
   usePagination,
 } from '@worksheets/ui/components/pagination';
 import { useMediaQueryDown } from '@worksheets/ui/hooks/use-media-query';
-import { routes } from '@worksheets/ui/routes';
 import { HelpPrizesQuestions } from '@worksheets/util/enums';
 import { BasicRaffleDetails } from '@worksheets/util/types';
 import Link from 'next/link';

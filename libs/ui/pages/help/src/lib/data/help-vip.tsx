@@ -1,5 +1,5 @@
 import { Box, Typography } from '@mui/material';
-import { routes } from '@worksheets/ui/routes';
+import { routes } from '@worksheets/routes';
 import { ListItem, OrderedList } from '@worksheets/ui-core';
 import { HelpVIPQuestions } from '@worksheets/util/enums';
 import { QuestionAnswer } from '@worksheets/util/types';

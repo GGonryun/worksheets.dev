@@ -1,21 +1,10 @@
-import { LocalPostOffice } from '@mui/icons-material';
-import {
-  Button,
-  CircularProgress,
-  Container,
-  Paper,
-  TextField,
-  Typography,
-} from '@mui/material';
+import { Container, Paper, Typography } from '@mui/material';
 import { GradientTypography } from '@worksheets/ui/components/typography';
 
 export const SubscribeNewsletterScreen: React.FC<{
-  subscribed: boolean;
-  loading: boolean;
-  email: string;
-  onUpdate: (email: string) => void;
-  onSubscribe: () => void;
-}> = ({ loading, subscribed, email, onUpdate, onSubscribe }) => {
+  id: string | undefined;
+  form: React.ReactNode;
+}> = ({ id, form }) => {
   return (
     <Container maxWidth="lg">
       <Paper
@@ -33,7 +22,7 @@ export const SubscribeNewsletterScreen: React.FC<{
             theme.palette.text.marketing.gradients.blue.dark
           }
         >
-          Subscribe to our newsletter
+          {id ? 'Manage your subscription' : 'Subscribe to our newsletter'}
         </GradientTypography>
         <Typography
           typography={{ xs: 'body2', sm: 'body1' }}
@@ -45,38 +34,7 @@ export const SubscribeNewsletterScreen: React.FC<{
         </Typography>
 
         <br />
-
-        <TextField
-          required
-          label="Email"
-          type="email"
-          placeholder="Enter your email address."
-          value={email}
-          onChange={(event) => onUpdate(event.target.value)}
-          helperText={
-            subscribed && (
-              <Typography variant="body3" color="success.dark">
-                A confirmation email has been sent.
-              </Typography>
-            )
-          }
-        />
-        <br />
-        <Button
-          variant="arcade"
-          color="primary"
-          disabled={loading}
-          onClick={onSubscribe}
-          startIcon={
-            loading ? (
-              <CircularProgress size={20} sx={{ mr: 2 }} />
-            ) : (
-              <LocalPostOffice />
-            )
-          }
-        >
-          {loading ? 'Subscribing...' : 'Subscribe'}
-        </Button>
+        {form}
       </Paper>
     </Container>
   );

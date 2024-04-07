@@ -1,9 +1,9 @@
 import { Diversity1, HelpCenter, Share } from '@mui/icons-material';
 import { Box, Button, Divider, Link, Typography } from '@mui/material';
+import { routes } from '@worksheets/routes';
 import { Description } from '@worksheets/ui/components/description';
 import { ResponsiveImage } from '@worksheets/ui/components/images';
 import { prizeTypeLabel } from '@worksheets/ui/components/prizes';
-import { routes } from '@worksheets/ui/routes';
 import { HTMLinator } from '@worksheets/ui-core';
 import { printShortDateTime } from '@worksheets/util/time';
 import { RaffleSchema } from '@worksheets/util/types';

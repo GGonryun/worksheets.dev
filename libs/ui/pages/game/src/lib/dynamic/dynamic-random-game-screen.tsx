@@ -1,9 +1,9 @@
+import { routes } from '@worksheets/routes';
 import { trpc } from '@worksheets/trpc-charity';
 import { useDeviceChecks } from '@worksheets/ui/hooks/use-device-checks';
 import { useRecentlyPlayedGames } from '@worksheets/ui/hooks/use-recently-played-games';
 import { ErrorScreen } from '@worksheets/ui/pages/errors';
 import { LoadingScreen } from '@worksheets/ui/pages/loading';
-import { routes } from '@worksheets/ui/routes';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';

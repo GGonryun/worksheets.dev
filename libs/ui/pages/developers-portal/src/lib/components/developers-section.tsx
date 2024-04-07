@@ -1,8 +1,8 @@
 import { ButtonBase, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
+import { routes } from '@worksheets/routes';
 import { CoverImage } from '@worksheets/ui/components/images';
-import { routes } from '@worksheets/ui/routes';
 import { DeveloperSchema } from '@worksheets/util/types';
 import { FC, ReactNode, useState } from 'react';
 

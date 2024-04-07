@@ -15,7 +15,6 @@ export enum HelpTokensQuestions {
   HowToEarn = 'how-to-earn',
   Purpose = 'purpose',
   GiftBoxes = 'gift-boxes',
-  DailyRewards = 'daily-rewards',
   Referrals = 'referrals',
   HowMuchCanIEarn = 'how-much-can-i-earn',
 }
@@ -45,7 +44,6 @@ export enum HelpPlayingGamesQuestions {
   HowToPlay = 'how-to-play',
   Developers = 'developers',
   OfflineAccess = 'offline-access',
-  EarningTokens = 'earning-tokens',
 }
 
 export enum HelpNotificationsQuestions {
@@ -95,4 +93,12 @@ export enum HelpContributionsQuestions {
   Sponsors = 'sponsors',
   Wealthy = 'wealthy',
   Broke = 'broke',
+}
+
+export enum HelpQuestsQuestions {
+  Description = 'description',
+  AddingQuests = 'adding-quests',
+  Rewards = 'rewards',
+  Frequency = 'frequency',
+  Types = 'types',
 }

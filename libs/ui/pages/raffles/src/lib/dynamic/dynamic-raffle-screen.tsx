@@ -1,6 +1,6 @@
+import { routes } from '@worksheets/routes';
 import { trpc } from '@worksheets/trpc-charity';
-import { Snackbar, useSnackbar } from '@worksheets/ui/components/snackbar';
-import { routes } from '@worksheets/ui/routes';
+import { useSnackbar } from '@worksheets/ui/components/snackbar';
 import { PrizesPanels } from '@worksheets/util/enums';
 import { RaffleSchema } from '@worksheets/util/types';
 import dynamic from 'next/dynamic';
@@ -85,10 +85,7 @@ const RaffleScreenContainer: React.FC<{ raffle: RaffleSchema }> = ({
 
   const handleEnterRaffle = async () => {
     if (!isConnected) {
-      snackbar.trigger({
-        message: 'You must be logged in to enter a raffle.',
-        severity: 'warning',
-      });
+      snackbar.warning('You must be logged in to enter a raffle.');
       return;
     }
 
@@ -100,15 +97,9 @@ const RaffleScreenContainer: React.FC<{ raffle: RaffleSchema }> = ({
       participation.refetch();
       rewards.refetch();
 
-      snackbar.trigger({
-        message: 'Raffle entry submitted!',
-        severity: 'success',
-      });
+      snackbar.success('Raffle entry submitted!');
     } catch (error) {
-      snackbar.trigger({
-        message: 'Failed to enter raffle. Please try again.',
-        severity: 'error',
-      });
+      snackbar.error('Failed to enter raffle. Please try again.');
     } finally {
       setShowConfirmEntryModal(false);
     }
@@ -148,7 +139,6 @@ const RaffleScreenContainer: React.FC<{ raffle: RaffleSchema }> = ({
         }}
         tokensOwned={rewards.data?.totalTokens ?? 0}
       />
-      <Snackbar {...snackbar.props} />
     </>
   );
 };

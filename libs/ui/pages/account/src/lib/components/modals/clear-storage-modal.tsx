@@ -1,9 +1,7 @@
 import { DeleteForeverOutlined } from '@mui/icons-material';
 import { Button, Typography } from '@mui/material';
 import { ValentinesLock } from '@worksheets/icons/valentines';
-import { ModalWrapper } from '@worksheets/ui-core';
-
-import { ParentModal } from './parent-modal';
+import { BasicModal, ModalWrapper } from '@worksheets/ui/components/modals';
 
 export const ClearStorageModal: React.FC<
   ModalWrapper<{ onClear: () => void }>
@@ -14,7 +12,7 @@ export const ClearStorageModal: React.FC<
     handleClose();
   };
   return (
-    <ParentModal open={open} onClose={onClose}>
+    <BasicModal open={open} onClose={onClose}>
       <Typography variant="h4" color="error" pt={2}>
         Clear Local Storage
       </Typography>
@@ -38,6 +36,6 @@ export const ClearStorageModal: React.FC<
       >
         Clear Storage
       </Button>
-    </ParentModal>
+    </BasicModal>
   );
 };

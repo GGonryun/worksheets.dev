@@ -15,7 +15,6 @@ export default protectedProcedure
         })
       ),
       numReferrals: z.number(),
-      availableReferralTokens: z.number(),
       referralLink: z.string(),
       okay: z.literal(true),
     })
@@ -51,7 +50,6 @@ export default protectedProcedure
         username: referral.username,
         createdAt: referral.createdAt.getTime(),
       })),
-      availableReferralTokens: userData.rewards.availableReferralTokens,
       numReferrals: userData.referred.length,
       referralLink: createReferralLink(userData.referralCode.code),
     };

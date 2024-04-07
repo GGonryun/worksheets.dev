@@ -1,9 +1,5 @@
 import { TRPCError } from '@trpc/server';
-import {
-  dailyBonusGames,
-  MAX_TOKENS_FROM_GAME_PLAY_PER_DAY,
-  MAX_TOKENS_FROM_REFERRAL_PLAYS,
-} from '@worksheets/util/settings';
+import { dailyBonusGames } from '@worksheets/util/settings';
 import { basicGameDetailsSchema } from '@worksheets/util/types';
 import { createReferralLink } from '@worksheets/util/urls';
 import { z } from 'zod';
@@ -14,10 +10,7 @@ export default protectedProcedure
   .output(
     z.object({
       totalTokens: z.number(),
-      gamePlayTokens: z.number(),
       giftBoxes: z.number(),
-      claimedDailyReward: z.boolean(),
-      referralTokens: z.number(),
       numReferrals: z.number(),
       referralLink: z.string(),
       bonusGames: basicGameDetailsSchema.array(),
@@ -48,14 +41,7 @@ export default protectedProcedure
 
     return {
       totalTokens: userData.rewards.totalTokens,
-      gamePlayTokens:
-        MAX_TOKENS_FROM_GAME_PLAY_PER_DAY -
-        userData.rewards.availableGamePlayTokens,
-      referralTokens:
-        MAX_TOKENS_FROM_REFERRAL_PLAYS -
-        userData.rewards.availableReferralTokens,
       giftBoxes: userData.rewards.giftBoxes,
-      claimedDailyReward: userData.rewards.claimedDailyReward != null,
       numReferrals: userData.referred.length,
       referralLink: createReferralLink(userData.referralCode.code),
       bonusGames: dailyBonusGames,

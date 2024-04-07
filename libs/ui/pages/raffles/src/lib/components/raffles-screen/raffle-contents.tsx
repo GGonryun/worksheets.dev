@@ -1,11 +1,11 @@
 import { NavigateNext } from '@mui/icons-material';
 import { Button } from '@mui/material';
+import { routes } from '@worksheets/routes';
 import {
   RaffleCarousel,
   RafflesGroup,
 } from '@worksheets/ui/components/raffles';
 import { useMediaQuery } from '@worksheets/ui/hooks/use-media-query';
-import { routes } from '@worksheets/ui/routes';
 import { PrizesPanels } from '@worksheets/util/enums';
 import {
   EnteredRaffleSchema,

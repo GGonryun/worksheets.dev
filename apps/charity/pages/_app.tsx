@@ -3,6 +3,7 @@ import './styles.css';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { trpc } from '@worksheets/trpc-charity';
 import { DynamicInitializeSessionReplay } from '@worksheets/ui/components/session-replay';
+import { SnackbarContextProvider } from '@worksheets/ui/components/snackbar';
 import theme from '@worksheets/ui/theme';
 import { AppPropsWithLayout } from '@worksheets/util-next';
 import Head from 'next/head';
@@ -32,7 +33,9 @@ function CustomApp({
       <ThemeProvider theme={theme}>
         <SessionProvider session={session}>
           <DynamicInitializeSessionReplay />
-          <main>{getLayout(<Component {...pageProps} />)}</main>
+          <SnackbarContextProvider>
+            <main>{getLayout(<Component {...pageProps} />)}</main>
+          </SnackbarContextProvider>
         </SessionProvider>
       </ThemeProvider>
     </>

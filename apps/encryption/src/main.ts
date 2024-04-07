@@ -7,13 +7,19 @@ async function main() {
 
   // eslint-disable-next-line no-constant-condition
   while (true) {
-    const input = await getInput();
-    if (normalize(input) === normalize('Q')) {
+    const input = normalize(cleanse(await getInput()));
+    if (input === normalize('Q')) {
       console.debug('Terminating');
+      return;
+    }
+    if (input === '') {
+      continue;
     }
 
-    const encrypted = await crypto.encrypt(stripNewLines(input));
-    console.info(encrypted);
+    const encrypted = await crypto.encrypt(input);
+    console.info(`Encrypted-${encrypted}`);
+    const decrypted = await crypto.decrypt(encrypted);
+    console.info(`Decrypted-${decrypted}`);
   }
 }
 
@@ -21,8 +27,8 @@ const normalize = (string: string) => {
   return string.toLowerCase();
 };
 
-const stripNewLines = (string: string) => {
-  return string.replace('\n', '');
+const cleanse = (string: string) => {
+  return string.replace(/\n/g, '').trim();
 };
 
 const getInput = async () => {
@@ -43,5 +49,5 @@ main()
     console.error(e);
   })
   .finally(() => {
-    console.log('Encryption complete');
+    process.exit();
   });

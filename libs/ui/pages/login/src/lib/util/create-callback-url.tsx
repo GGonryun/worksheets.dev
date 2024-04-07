@@ -1,4 +1,4 @@
-import { routes } from '@worksheets/ui/routes';
+import { routes } from '@worksheets/routes';
 import { ParsedUrlQuery } from 'querystring';
 
 export const createCallbackUrl = (opts: {

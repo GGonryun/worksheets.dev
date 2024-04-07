@@ -1,8 +1,8 @@
 import { Box, Link, Typography } from '@mui/material';
+import { routes } from '@worksheets/routes';
 import { trpc } from '@worksheets/trpc-charity';
 import { ErrorScreen } from '@worksheets/ui/pages/errors';
 import { LoadingScreen } from '@worksheets/ui/pages/loading';
-import { routes } from '@worksheets/ui/routes';
 import { printShortDateTime } from '@worksheets/util/time';
 import { GameSummary } from '@worksheets/util/types';
 import dynamic from 'next/dynamic';

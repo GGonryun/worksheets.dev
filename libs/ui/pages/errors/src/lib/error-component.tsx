@@ -1,7 +1,7 @@
 import { ArrowRightAlt, Refresh } from '@mui/icons-material';
 import { Box, Button, Theme, Typography, useMediaQuery } from '@mui/material';
 import common from '@worksheets/assets-common';
-import { routes } from '@worksheets/ui/routes';
+import { routes } from '@worksheets/routes';
 import { InternallyCenter } from '@worksheets/ui-core';
 import Image from 'next/image';
 import React from 'react';

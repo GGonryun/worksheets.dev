@@ -27,10 +27,12 @@ export const AccountTabs: FC<{
         scrollButtons={true}
       >
         <Tab label="Settings" value={AccountTabsHref.SETTINGS} />
-        <Tab label="Tokens" value={AccountTabsHref.TOKENS} />
+        <Tab label="Notifications" value={AccountTabsHref.NOTIFICATIONS} />
+        <Tab label="Quests" value={AccountTabsHref.QUESTS} />
         <Tab label="Prizes" value={AccountTabsHref.PRIZES} />
         <Tab label="Friends" value={AccountTabsHref.FRIENDS} />
         <Tab label="Referrals" value={AccountTabsHref.REFERRALS} />
+        <Tab label="Integrations" value={AccountTabsHref.INTEGRATIONS} />
         <Tab label="Submissions" value={AccountTabsHref.SUBMISSIONS} />
       </Tabs>
       <Divider />

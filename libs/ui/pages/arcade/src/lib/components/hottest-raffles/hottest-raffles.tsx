@@ -1,8 +1,8 @@
 import { Box } from '@mui/material';
+import { routes } from '@worksheets/routes';
 import { TitledSection } from '@worksheets/ui/components/arcade';
 import { Raffle } from '@worksheets/ui/components/raffles';
 import { useMediaQuery } from '@worksheets/ui/hooks/use-media-query';
-import { routes } from '@worksheets/ui/routes';
 import { BasicRaffleDetails } from '@worksheets/util/types';
 import React from 'react';
 

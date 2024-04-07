@@ -1,7 +1,7 @@
 import { Box, BoxProps, styled } from '@mui/material';
 import common from '@worksheets/assets-common';
+import { routes } from '@worksheets/routes';
 import { ContainImage } from '@worksheets/ui/components/images';
-import { routes } from '@worksheets/ui/routes';
 import { JSXElementConstructor } from 'react';
 
 const purposeHref = routes.newsletter.subscribe.path();

@@ -54,6 +54,7 @@ export default protectedProcedure
         followers: {
           select: {
             id: true,
+            isFavorite: true,
             user: {
               select: {
                 username: true,
@@ -111,6 +112,7 @@ export default protectedProcedure
         isFriend: profile.friends.some(
           (friendship) => friendship.friend.username === follower.user.username
         ),
+        isFavorite: follower.isFavorite,
       })),
     };
   });

@@ -1,7 +1,7 @@
+import { routes } from '@worksheets/routes';
 import { createStaticTRPC } from '@worksheets/trpc-charity/server';
 import { AppLayoutContainer } from '@worksheets/ui/layout';
 import { DynamicPrizeScreen } from '@worksheets/ui/pages/prizes';
-import { routes } from '@worksheets/ui/routes';
 import { DetailedPrizeSchema } from '@worksheets/util/types';
 import { NextPageWithLayout } from '@worksheets/util-next';
 import { GetStaticPaths, GetStaticProps } from 'next';

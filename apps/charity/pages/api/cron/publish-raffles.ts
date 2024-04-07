@@ -1,41 +1,47 @@
 import { Prisma, prisma } from '@worksheets/prisma';
+import { NotificationsService } from '@worksheets/services/notifications';
 import { createCronJob } from '@worksheets/util/cron';
 
+const notifications = new NotificationsService();
+
 const props = {
-  include: {
+  select: {
+    id: true,
     raffle: {
-      include: {
-        codes: true as const,
+      select: {
+        id: true,
+        numWinners: true,
+        expiresAt: true,
+        codes: {
+          select: {
+            id: true,
+          },
+        },
+        sponsor: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+        prize: {
+          select: {
+            id: true,
+            name: true,
+            type: true,
+          },
+        },
       },
     },
   },
-};
+} as const;
 
 type PublishableAlert = Prisma.RafflePublishAlertGetPayload<typeof props>;
 
-const publishRaffles = async () => {
-  const alerts = await prisma.rafflePublishAlert.findMany({
-    where: {
-      triggerAt: {
-        lte: new Date(),
-      },
-    },
-    ...props,
-  });
-
-  await Promise.all(alerts.map(publishRaffle));
-};
-
 const publishRaffle = async (alert: PublishableAlert) => {
   if (alert.raffle.numWinners != alert.raffle.codes.length) {
-    console.error(
-      `Raffle cannot be published: insufficient activation codes available to start raffle`,
-      {
-        raffleId: alert.raffle.id,
-        alertId: alert.id,
-      }
+    throw new Error(
+      `Raffle ${alert.raffle.id} cannot be published: insufficient activation codes available to start raffle`
     );
-    return;
   }
 
   await prisma.$transaction([
@@ -53,6 +59,25 @@ const publishRaffle = async (alert: PublishableAlert) => {
       },
     }),
   ]);
+
+  await notifications.send('new-raffle', alert.raffle);
 };
 
-export default createCronJob(publishRaffles);
+export default createCronJob(async () => {
+  const alerts = await prisma.rafflePublishAlert.findMany({
+    where: {
+      triggerAt: {
+        lte: new Date(),
+      },
+    },
+    ...props,
+  });
+
+  const results = await Promise.allSettled(alerts.map(publishRaffle));
+
+  for (const result of results) {
+    if (result.status === 'rejected') {
+      console.error(`Failed to publish raffle`, result.reason);
+    }
+  }
+});

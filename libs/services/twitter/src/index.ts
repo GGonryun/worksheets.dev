@@ -7,6 +7,7 @@ import {
 } from '@worksheets/services/environment';
 import { TwitterApi } from 'twitter-api-v2';
 
+export type TwitterTweetInput = string;
 export class TwitterService {
   #client: TwitterApi;
 
@@ -23,7 +24,7 @@ export class TwitterService {
     });
   }
 
-  public async tweet(text: string) {
+  public async tweet(text: TwitterTweetInput) {
     if (IS_DEVELOPMENT) {
       console.info('Skipping tweet in development');
       return;

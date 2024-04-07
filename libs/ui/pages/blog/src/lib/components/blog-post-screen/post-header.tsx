@@ -1,7 +1,7 @@
 import { ArrowLeft } from '@mui/icons-material';
 import { Box, Button, Typography } from '@mui/material';
+import { blogRoutes } from '@worksheets/routes';
 import { FillImage, ResponsiveImage } from '@worksheets/ui/components/images';
-import { blogRoutes } from '@worksheets/ui/routes';
 import { printDate } from '@worksheets/util/time';
 import { BlogAuthor } from '@worksheets/util/types';
 import { FC } from 'react';

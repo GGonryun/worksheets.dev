@@ -1,4 +1,4 @@
-import { routes } from '@worksheets/ui/routes';
+import { routes } from '@worksheets/routes';
 import { Markdown } from '@worksheets/ui-core';
 import { printDate } from '@worksheets/util/time';
 

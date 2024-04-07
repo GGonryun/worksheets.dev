@@ -1,13 +1,6 @@
 import { Prisma, prisma } from '@worksheets/prisma';
-import { sendDiscordMessage } from '@worksheets/services/discord';
-import { DISCORD_WEBHOOK_URL } from '@worksheets/services/environment';
-import { TwitterService } from '@worksheets/services/twitter';
-import { routes } from '@worksheets/ui/routes';
+import { NotificationsService } from '@worksheets/services/notifications';
 import { createCronJob } from '@worksheets/util/cron';
-import { printShortDateTime } from '@worksheets/util/time';
-import pluralize from 'pluralize';
-
-const twitter = new TwitterService();
 
 const EXPIRED_RAFFLE_PROPS = {
   id: true as const,
@@ -68,15 +61,14 @@ export default createCronJob(async () => {
   console.info(`Finished processing ${expiredRaffles.length} expired raffles.`);
 });
 
+const notifications = new NotificationsService();
+
 const processExpiredRaffle = async (raffle: ExpiredRaffle) => {
   try {
     await assignWinners(raffle);
-    // TODO: notify on public channel.
-    await notifyOnDiscord(raffle);
-    await notifyOnTwitter(raffle);
+    await notifications.send('raffle-expired', raffle);
   } catch (error) {
-    // TODO: notify on admin channel.
-    await notifyOnDiscord(raffle, error as Error);
+    console.error(`Failed to process raffle ${raffle.id}`, error);
   }
 };
 
@@ -198,51 +190,4 @@ const pickWinners = async (
     participationId: participant.id,
     codeId: codes[i].id,
   }));
-};
-
-const notifyOnDiscord = async (raffle: ExpiredRaffle, error?: Error) => {
-  await sendDiscordMessage({
-    content: error
-      ? `We failed to process an expired raffle!`
-      : `A raffle has expired and winners have been chosen successfully.`,
-    embeds: [
-      {
-        title: `Raffle ID: ${raffle.id}`,
-        url: routes.admin.raffle.url({
-          params: {
-            raffleId: raffle.id,
-          },
-        }),
-        description: `This raffle ended at ${printShortDateTime(
-          raffle.expiresAt
-        )}.`,
-        fields: error
-          ? [
-              {
-                name: 'Error Message',
-                value: error.message,
-              },
-            ]
-          : [],
-      },
-    ],
-    webhookUrl: DISCORD_WEBHOOK_URL,
-  });
-};
-
-const notifyOnTwitter = async (raffle: ExpiredRaffle) => {
-  await twitter.tweet(
-    `🎉 A raffle for ${raffle.prize.name} has ended! 🎉\n\n${
-      raffle.numWinners
-    } ${pluralize('winner', raffle.numWinners)} was chosen out of ${
-      raffle.participants.length
-    } ${pluralize(
-      'participant',
-      raffle.participants.length
-    )}. View results: ${routes.raffle.url({
-      params: {
-        raffleId: raffle.id,
-      },
-    })}`
-  );
 };

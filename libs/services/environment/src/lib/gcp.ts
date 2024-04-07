@@ -1,15 +1,18 @@
 import { IS_DEVELOPMENT } from './development';
 
-const {
-  GCP_CLIENT_EMAIL: GCP_CLIENT_EMAIL_RAW,
-  GCP_PRIVATE_KEY: GCP_PRIVATE_KEY_RAW,
-} = process.env;
+const GCP_CLIENT_EMAIL = process.env['GCP_CLIENT_EMAIL'] ?? '';
+const GCP_PRIVATE_KEY = process.env['GCP_PRIVATE_KEY'] ?? '';
+const GCP_PROJECT_ID = process.env['GCP_PROJECT_ID'] ?? '';
 
-if (!GCP_CLIENT_EMAIL_RAW) {
+if (!GCP_PROJECT_ID) {
+  throw new Error('Missing GCP_PROJECT_ID');
+}
+
+if (!GCP_CLIENT_EMAIL) {
   throw new Error('Missing GCP_CLIENT_EMAIL');
 }
 
-if (!GCP_PRIVATE_KEY_RAW) {
+if (!GCP_PRIVATE_KEY) {
   throw new Error('Missing GCP_PRIVATE_KEY');
 }
 
@@ -26,10 +29,8 @@ const createFileDownloadUrl = (path: string) => {
   return `${GCP_SUBMISSION_BUCKET_URL}/${path}`;
 };
 
-const GCP_CLIENT_EMAIL: string = GCP_CLIENT_EMAIL_RAW;
-const GCP_PRIVATE_KEY: string = GCP_PRIVATE_KEY_RAW;
-
 export {
+  GCP_PROJECT_ID,
   GCP_SUBMISSION_BUCKET_ID,
   GCP_SUBMISSION_BUCKET_URL,
   GCP_CLIENT_EMAIL,

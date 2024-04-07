@@ -2,7 +2,7 @@ import Alert from '@mui/material/Alert';
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
-import { routes } from '@worksheets/ui/routes';
+import { routes } from '@worksheets/routes';
 import { FC } from 'react';
 
 export const InvalidProfileAlert: FC<{ visible: boolean | undefined }> = ({

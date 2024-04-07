@@ -12,7 +12,7 @@ import {
   Typography,
   TypographyProps,
 } from '@mui/material';
-import { routes } from '@worksheets/ui/routes';
+import { routes } from '@worksheets/routes';
 import urls from '@worksheets/util/urls';
 import React, { FC } from 'react';
 

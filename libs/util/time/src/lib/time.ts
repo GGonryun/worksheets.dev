@@ -1,9 +1,20 @@
+import pluralize from 'pluralize';
+
+export const now = () => new Date();
+
+export const MINUTES_TO_S = (minutes: number) => minutes * 60;
+export const MS_TO_S = (ms: number) => ms / 1000;
+export const S_TO_MS = (seconds: number) => seconds * 1000;
 /**
  * Checks if a given timestamp is in the past.
  */
-export const isPast = (timestamp: number): boolean => {
-  return timestamp < Date.now();
+export const isPast = (timestamp: number | Date | null): boolean => {
+  if (!timestamp) return false;
+  if (typeof timestamp === 'number') return timestamp < Date.now();
+  return timestamp.getTime() < Date.now();
 };
+
+export const isExpired = isPast;
 
 export const currentYear = new Date().getFullYear();
 
@@ -57,6 +68,25 @@ export const printDate = (stamp: string | Date | number, locale = 'en-US') => {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
+  };
+
+  const date = new Date(stamp);
+
+  return date.toLocaleDateString(locale, options);
+};
+
+export const printDateTime = (
+  stamp: string | Date | number,
+  locale = 'en-US'
+) => {
+  const options: Intl.DateTimeFormatOptions = {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    timeZoneName: 'short',
   };
 
   const date = new Date(stamp);
@@ -141,13 +171,7 @@ export const printRelativeDate = ({
 
 /**
  * Prints the amount of time remaining using the largest unit of time possible.
- * @param opts
- * @param locale
- * @param now
- * @example printTimeRemaining({ stamp: new Date(Date.now() + 86400000 * 2) }) // "2 days"
- * @example printTimeRemaining({ stamp: new Date(Date.now() + 86400000 * 2) }) // "2 days"
- * @example printTimeRemaining({ stamp: new Date(Date.now() + 3600000 * 2)) }) // "2 hours"
- * @example printTimeRemaining({ stamp: new Date(Date.now() + 3600000 * 1/2) }) // "30 minutes"
+ * @param stamp
  */
 export const printTimeRemaining = (stamp: string | number | Date) => {
   // print the largest unit of time possible
@@ -169,22 +193,22 @@ export const printTimeRemaining = (stamp: string | number | Date) => {
 
   if (diffInMinutes === 1) return `${diffInMinutes} min`;
   if (diffInMinutes < 60) {
-    return `${diffInMinutes} mins`;
+    return `${diffInMinutes} ${pluralize('min', diffInMinutes)}`;
   }
   if (diffInHours < 24) {
-    return `${diffInHours} hrs`;
+    return `${diffInHours} ${pluralize('hour', diffInHours)}`;
   }
   if (diffInDays < 7) {
-    return `${diffInDays} days`;
+    return `${diffInDays} ${pluralize('day', diffInDays)}`;
   }
   if (diffInWeeks < 4) {
-    return `${diffInWeeks} weeks`;
+    return `${diffInWeeks} ${pluralize('week', diffInWeeks)}`;
   }
   if (diffInMonths < 12) {
-    return `${diffInMonths} months`;
+    return `${diffInMonths} ${pluralize('month', diffInMonths)}`;
   }
-  if (diffInYears === 1) return `${diffInYears} year`;
-  if (diffInYears > 1) return `${diffInYears} years`;
+  if (diffInYears > 0)
+    return `${diffInYears} ${pluralize('year', diffInYears)}`;
   return '0 minutes';
 };
 

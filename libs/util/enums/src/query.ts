@@ -15,5 +15,5 @@ export enum AccountFriendsQueryParams {
 }
 
 export enum NewsletterQueryParams {
-  Email = 'email',
+  Id = 'id',
 }

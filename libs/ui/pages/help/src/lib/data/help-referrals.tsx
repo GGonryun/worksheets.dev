@@ -1,16 +1,14 @@
 import { Box, Link, Typography } from '@mui/material';
-import { routes } from '@worksheets/ui/routes';
+import { routes } from '@worksheets/routes';
 import {
   HelpReferralsQuestions,
   ReferralsPanels,
 } from '@worksheets/util/enums';
 import {
-  GIFT_BOXES_PER_REFERRAL_ACCOUNT,
-  MAX_TOKENS_FROM_REFERRAL_PLAYS,
+  PER_REFERRAL_PLAY_MINUTE_REWARD,
+  QuestionAnswer,
   TOKENS_PER_REFERRAL_ACCOUNT,
-  TOKENS_PER_REFERRAL_PLAY,
-} from '@worksheets/util/settings';
-import { QuestionAnswer } from '@worksheets/util/types';
+} from '@worksheets/util/types';
 
 import { HelpfulLinks } from '../helpful-links';
 
@@ -86,19 +84,18 @@ export const helpReferrals: QuestionAnswer[] = [
   {
     id: HelpReferralsQuestions.Earnings,
     question: 'How much do I earn?',
-    summary: 'You can earn up to 100 tokens for each friend you refer.',
+    summary: `You can earn up to ${TOKENS_PER_REFERRAL_ACCOUNT} tokens for each friend you refer.`,
     answer: (
       <Box>
         <Typography>
-          You will earn {TOKENS_PER_REFERRAL_ACCOUNT} tokens and{' '}
-          {GIFT_BOXES_PER_REFERRAL_ACCOUNT} Gift Boxes for each friend you refer
-          that signs up and makes an account.
+          You will earn {TOKENS_PER_REFERRAL_ACCOUNT} tokens for each friend you
+          refer that signs up and makes an account.
         </Typography>
         <br />
         <Typography>
-          When someone you referred plays a game (with or without an account),
-          you will receive a {TOKENS_PER_REFERRAL_PLAY} bonus tokens up to a
-          maximum of {MAX_TOKENS_FROM_REFERRAL_PLAYS} tokens from all referrals.
+          You will receive {PER_REFERRAL_PLAY_MINUTE_REWARD} bonus tokens for
+          every 5 minutes your referrals play games. This bonus is unlimited and
+          will continue as long as your referrals keep playing.
         </Typography>
         <br />
         <Typography>

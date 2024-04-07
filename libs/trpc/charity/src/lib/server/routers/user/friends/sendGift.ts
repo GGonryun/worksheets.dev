@@ -1,9 +1,10 @@
 import { TRPCError } from '@trpc/server';
-import { routes } from '@worksheets/ui/routes';
-import { TokensPanels } from '@worksheets/util/enums';
+import { NotificationsService } from '@worksheets/services/notifications';
 import { z } from 'zod';
 
 import { protectedProcedure } from '../../../procedures';
+
+const notifications = new NotificationsService();
 
 export default protectedProcedure
   .input(
@@ -121,20 +122,10 @@ export default protectedProcedure
           },
         },
       }),
-
-      // notify friend that they have received a gift.
-      db.notification.create({
-        data: {
-          userId: friendship.friendId,
-          type: 'REWARD',
-          text: `<b>${
-            user.username
-          }</b> has sent you a gift box! Visit your <a href="${routes.account.tokens.path(
-            {
-              bookmark: TokensPanels.GiftBoxes,
-            }
-          )}">account</a> to claim your reward.`,
-        },
-      }),
     ]);
+
+    await notifications.send('gift-received', {
+      recipient: { id: friendship.friendId },
+      sender: { username: user.username },
+    });
   });

@@ -1,6 +1,6 @@
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
-import { routes } from '@worksheets/ui/routes';
+import { routes } from '@worksheets/routes';
 import { ListItem, OrderedList } from '@worksheets/ui-core';
 import { HelpCommonQuestions } from '@worksheets/util/enums';
 import { QuestionAnswer } from '@worksheets/util/types';
@@ -73,17 +73,13 @@ export const helpFaq: QuestionAnswer[] = [
             <Link href="https://water.org/">Water.Org</Link>
           </ListItem>
           <ListItem disablePadding>
-            <Link href="https://www.stjude.org/">
-              St. Jude Children's Research Hospital
-            </Link>
-          </ListItem>
-          <ListItem disablePadding>
-            <Link href="https://www.extra-life.org/">Extra Life</Link>
-          </ListItem>
-          <ListItem disablePadding>
-            <Link href="https://twitter.com/CPCharity">Child's Play</Link>
+            <Link href="https://gamersoutreach.org/">Gamers Outreach</Link>
           </ListItem>
         </OrderedList>
+        <br />
+        We are not officially affiliated with these organizations. We are simply
+        using our platform to raise awareness and funds for their causes.
+        <br />
         <br />
         If you have a charity you would like us to support, please{' '}
         <Link href={routes.contact.path()}>contact us</Link>.

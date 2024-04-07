@@ -1,8 +1,8 @@
 import { HelpCenter, Share } from '@mui/icons-material';
 import { Box, Button, Divider, Link, Typography } from '@mui/material';
+import { routes } from '@worksheets/routes';
 import { Description } from '@worksheets/ui/components/description';
 import { prizeTypeLabel } from '@worksheets/ui/components/prizes';
-import { routes } from '@worksheets/ui/routes';
 import { HTMLinator } from '@worksheets/ui-core';
 import { DetailedPrizeSchema } from '@worksheets/util/types';
 

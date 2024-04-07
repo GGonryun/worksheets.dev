@@ -1,15 +1,13 @@
 import { Box, Button, Typography } from '@mui/material';
 import { ResponsiveImage } from '@worksheets/ui/components/images';
-import { ModalWrapper } from '@worksheets/ui-core';
+import { BasicModal, ModalWrapper } from '@worksheets/ui/components/modals';
 import { WonRaffleDetails } from '@worksheets/util/types';
-
-import { ParentModal } from './parent-modal';
 
 export const ClaimPrizeModal: React.FC<
   ModalWrapper<{ prize?: WonRaffleDetails; onClaim: () => void }>
 > = ({ open, onClose, prize, onClaim }) => {
   return (
-    <ParentModal open={open} onClose={onClose}>
+    <BasicModal open={open} onClose={onClose}>
       <Typography variant="h4" color="success.main" pt={2}>
         Congratulations!
       </Typography>
@@ -36,6 +34,6 @@ export const ClaimPrizeModal: React.FC<
       >
         Claim
       </Button>
-    </ParentModal>
+    </BasicModal>
   );
 };

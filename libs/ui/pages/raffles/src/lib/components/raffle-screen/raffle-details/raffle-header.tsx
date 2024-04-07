@@ -1,6 +1,6 @@
 import { Box, Link, Typography } from '@mui/material';
+import { routes } from '@worksheets/routes';
 import { CoverImage } from '@worksheets/ui/components/images';
-import { routes } from '@worksheets/ui/routes';
 import { RaffleSchema } from '@worksheets/util/types';
 
 export const RaffleHeader: React.FC<{

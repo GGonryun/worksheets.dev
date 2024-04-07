@@ -1,9 +1,7 @@
 import { MailOutline } from '@mui/icons-material';
 import { Button, Typography } from '@mui/material';
 import { ValentinesMailbox } from '@worksheets/icons/valentines';
-import { ModalWrapper } from '@worksheets/ui-core';
-
-import { ParentModal } from './parent-modal';
+import { BasicModal, ModalWrapper } from '@worksheets/ui/components/modals';
 
 export const SendGiftModal: React.FC<ModalWrapper<{ onSend: () => void }>> = ({
   open,
@@ -16,7 +14,7 @@ export const SendGiftModal: React.FC<ModalWrapper<{ onSend: () => void }>> = ({
     handleClose();
   };
   return (
-    <ParentModal open={open} onClose={onClose}>
+    <BasicModal open={open} onClose={onClose}>
       <Typography variant="h4" color="error" pt={2}>
         Send Gift
       </Typography>
@@ -39,6 +37,6 @@ export const SendGiftModal: React.FC<ModalWrapper<{ onSend: () => void }>> = ({
       >
         Send Gift
       </Button>
-    </ParentModal>
+    </BasicModal>
   );
 };

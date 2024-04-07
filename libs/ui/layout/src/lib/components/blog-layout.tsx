@@ -1,4 +1,4 @@
-import { blogRoutes, routes } from '@worksheets/ui/routes';
+import { blogRoutes, routes } from '@worksheets/routes';
 import React from 'react';
 
 import { WebsiteFooter } from './footer';
