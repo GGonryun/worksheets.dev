@@ -135,59 +135,6 @@ export const routes = {
       }),
     },
   }),
-  admin: createRoute({
-    path: '/admin',
-    routes: {
-      codes: createRoute({
-        path: '/admin/codes',
-      }),
-      code: createRoute({
-        path: '/admin/codes/[codeId]',
-      }),
-      games: createRoute({
-        path: '/admin/games',
-      }),
-      game: createRoute({
-        path: '/admin/games/[gameId]',
-      }),
-      prizes: createRoute({
-        path: '/admin/prizes',
-      }),
-      prize: createRoute({
-        path: '/admin/prizes/[prizeId]',
-      }),
-      raffles: createRoute({
-        path: '/admin/raffles',
-      }),
-      raffle: createRoute({
-        path: '/admin/raffles/[raffleId]',
-      }),
-      reports: createRoute({
-        path: '/admin/reports',
-      }),
-      report: createRoute({
-        path: '/admin/reports/[reportId]',
-      }),
-      submissions: createRoute({
-        path: '/admin/submissions',
-      }),
-      submission: createRoute({
-        path: '/admin/submissions/[submissionId]',
-      }),
-      users: createRoute({
-        path: '/admin/users',
-      }),
-      user: createRoute({
-        path: '/admin/users/[userId]',
-      }),
-      winners: createRoute({
-        path: '/admin/winners',
-      }),
-      winner: createRoute({
-        path: '/admin/winners/[winnerId]',
-      }),
-    },
-  }),
   help: createRoute({
     path: '/help',
     routes: {

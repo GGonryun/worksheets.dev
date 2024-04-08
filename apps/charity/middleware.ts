@@ -16,11 +16,7 @@ export const config = {
   ],
 };
 
-const protectedPages = [
-  routes.account.path(),
-  routes.admin.path(),
-  routes.vip.path(),
-];
+const protectedPages = [routes.account.path(), routes.vip.path()];
 
 export default async function middleware(req: NextRequest) {
   const session = await getToken({ req });
