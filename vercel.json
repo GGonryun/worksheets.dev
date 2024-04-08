@@ -6,23 +6,23 @@
         },
         {
             "path": "/api/cron/destroy-expired-quests",
-            "schedule": "0 * * * *"
+            "schedule": "5 * * * *"
         },
         {
             "path": "/api/cron/find-expired-quests",
-            "schedule": "0 * * * *"
+            "schedule": "50 * * * *"
         },
         {
             "path": "/api/cron/notify-winners",
-            "schedule": "0 * * * *"
+            "schedule": "30 * * * *"
         },
         {
             "path": "/api/cron/publish-games",
-            "schedule": "0 * * * *"
+            "schedule": "40 * * * *"
         },
         {
             "path": "/api/cron/publish-raffles",
-            "schedule": "0 * * * *"
+            "schedule": "10 * * * *"
         },
         {
             "path": "/api/cron/refresh-rewards",
@@ -30,7 +30,7 @@
         },
         {
             "path": "/api/cron/send-scheduled-emails",
-            "schedule": "0 * * * *"
+            "schedule": "20 * * * *"
         }
     ]
 }
