@@ -2,7 +2,7 @@
     "crons": [
         {
             "path": "/api/cron/destroy-expired-notifications",
-            "schedule": "0 0 * * *"
+            "schedule": "25 0 * * *"
         },
         {
             "path": "/api/cron/destroy-expired-quests",
@@ -26,7 +26,7 @@
         },
         {
             "path": "/api/cron/refresh-rewards",
-            "schedule": "0 0 * * *"
+            "schedule": "15 0 * * *"
         },
         {
             "path": "/api/cron/send-scheduled-emails",
