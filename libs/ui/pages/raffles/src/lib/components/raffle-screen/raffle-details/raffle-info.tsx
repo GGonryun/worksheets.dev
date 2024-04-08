@@ -13,8 +13,8 @@ import {
   Typography,
   TypographyProps,
 } from '@mui/material';
-import { PrizeType } from '@prisma/client';
 import { ColoredSteamGames } from '@worksheets/icons/companies';
+import { PrizeType } from '@worksheets/prisma';
 import {
   prizeTypeActionLabel,
   prizeTypeLabel,

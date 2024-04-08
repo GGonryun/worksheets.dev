@@ -1,4 +1,4 @@
-import { Prisma } from '@prisma/client';
+import { Prisma } from '@worksheets/prisma';
 import { shuffle } from '@worksheets/util/arrays';
 import { BasicGameInfo, BasicRaffleDetails } from '@worksheets/util/types';
 import { uniqBy } from 'lodash';

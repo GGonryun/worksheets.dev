@@ -1,4 +1,4 @@
-import { ReportReason } from '@prisma/client';
+import { ReportReason } from '@worksheets/prisma';
 import { z } from 'zod';
 
 import { publicProcedure } from '../../../procedures';

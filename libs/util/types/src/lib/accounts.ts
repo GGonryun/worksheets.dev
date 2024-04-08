@@ -1,4 +1,4 @@
-import { GameSubmissionStatus } from '@prisma/client';
+import { GameSubmissionStatus } from '@worksheets/prisma';
 import { z } from 'zod';
 
 export const basicGameSubmissionSchema = z.object({

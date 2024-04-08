@@ -1,4 +1,4 @@
-import { GameStatus } from '@prisma/client';
+import { GameStatus } from '@worksheets/prisma';
 import { z } from 'zod';
 
 import { publicProcedure } from '../../../procedures';

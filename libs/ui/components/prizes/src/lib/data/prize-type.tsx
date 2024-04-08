@@ -1,6 +1,6 @@
 import { CardGiftcard, SvgIconComponent } from '@mui/icons-material';
-import { PrizeType } from '@prisma/client';
 import { ColoredSteamGames } from '@worksheets/icons/companies';
+import { PrizeType } from '@worksheets/prisma';
 
 export const prizeTypeLabel: Record<PrizeType, string> = {
   STEAM_KEY: 'Steam Key',

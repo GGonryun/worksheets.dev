@@ -1,4 +1,4 @@
-import { NewsletterTopic } from '@prisma/client';
+import { NewsletterTopic } from '@worksheets/prisma';
 
 export const NEWSLETTER_TOPIC_REQUIREMENTS: Record<NewsletterTopic, boolean> = {
   WeeklyNewsletter: false,

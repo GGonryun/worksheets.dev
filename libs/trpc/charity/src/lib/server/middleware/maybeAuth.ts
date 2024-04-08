@@ -1,4 +1,4 @@
-import { User } from '@prisma/client';
+import { User } from '@worksheets/prisma';
 
 import { middleware } from '../trpc';
 

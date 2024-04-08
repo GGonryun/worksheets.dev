@@ -1,7 +1,7 @@
 import Paper from '@mui/material/Paper';
-import { GameSubmissionStatus } from '@prisma/client';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
+import { GameSubmissionStatus } from '@worksheets/prisma';
 import { StoryWallpaper } from '@worksheets/ui/components/wallpaper';
 import { BasicGameSubmission } from '@worksheets/util/types';
 

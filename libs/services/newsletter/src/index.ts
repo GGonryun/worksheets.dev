@@ -1,4 +1,4 @@
-import { NewsletterTopic, Prisma } from '@worksheets/prisma';
+import { NewsletterTopic, Prisma, prisma } from '@worksheets/prisma';
 import { routes } from '@worksheets/routes';
 import { EmailService, TemplateOptions } from '@worksheets/services/email';
 import { EmailPriority } from '@worksheets/util/types';

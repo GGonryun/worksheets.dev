@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from '@worksheets/prisma';
 import {
   convertRaffle,
   RaffleCategory,

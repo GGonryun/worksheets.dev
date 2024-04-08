@@ -6,8 +6,8 @@ import {
   VideogameAsset,
 } from '@mui/icons-material';
 import { alpha, Box, Typography } from '@mui/material';
-import { NotificationType } from '@prisma/client';
 import { CharityGamesLogo } from '@worksheets/icons/native';
+import { NotificationType } from '@worksheets/prisma';
 import { HTMLinator } from '@worksheets/ui-core';
 import { printRelativeDate } from '@worksheets/util/time';
 import { NotificationSchema } from '@worksheets/util/types';

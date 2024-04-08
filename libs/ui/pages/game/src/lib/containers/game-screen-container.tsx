@@ -1,4 +1,4 @@
-import { ReportReason } from '@prisma/client';
+import { ReportReason } from '@worksheets/prisma';
 import { routes } from '@worksheets/routes';
 import { trpc } from '@worksheets/trpc-charity';
 import { useSnackbar } from '@worksheets/ui/components/snackbar';

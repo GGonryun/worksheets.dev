@@ -4,7 +4,7 @@ import {
   GameSubmissionStatus,
   ProjectType,
   ViewportType,
-} from '@prisma/client';
+} from '@worksheets/prisma';
 import { validateHttpsUrl } from '@worksheets/util/strings';
 import { z } from 'zod';
 

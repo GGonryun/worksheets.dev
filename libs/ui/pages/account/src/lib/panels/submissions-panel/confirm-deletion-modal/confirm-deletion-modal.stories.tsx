@@ -1,6 +1,6 @@
-import { GameSubmissionStatus } from '@prisma/client';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
+import { GameSubmissionStatus } from '@worksheets/prisma';
 
 import { ConfirmDeletionModal } from './confirm-deletion-modal';
 

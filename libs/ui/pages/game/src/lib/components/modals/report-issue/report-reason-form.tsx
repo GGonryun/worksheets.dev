@@ -6,7 +6,7 @@ import FormLabel from '@mui/material/FormLabel';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import Typography from '@mui/material/Typography';
-import { ReportReason } from '@prisma/client';
+import { ReportReason } from '@worksheets/prisma';
 import { FC } from 'react';
 
 const reportReasonOptionOrder: Record<ReportReason, number> = {

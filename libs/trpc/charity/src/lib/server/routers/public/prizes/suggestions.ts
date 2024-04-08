@@ -1,4 +1,4 @@
-import { Prisma } from '@prisma/client';
+import { Prisma } from '@worksheets/prisma';
 import { PrizeSchema, prizeSchema } from '@worksheets/util/types';
 import { z } from 'zod';
 

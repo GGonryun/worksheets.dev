@@ -4,7 +4,7 @@ import {
   RaffleStatus,
   ReportReason,
   UserType,
-} from '@prisma/client';
+} from '@worksheets/prisma';
 import { z } from 'zod';
 
 import { GameTag } from './tag-schema';

@@ -1,5 +1,5 @@
 import { Box, Button, Typography } from '@mui/material';
-import { ReportReason } from '@prisma/client';
+import { ReportReason } from '@worksheets/prisma';
 import { BasicModal, ModalWrapper } from '@worksheets/ui/components/modals';
 import { FC, useState } from 'react';
 

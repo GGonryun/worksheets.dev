@@ -1,5 +1,5 @@
 import { PrismaAdapter } from '@auth/prisma-adapter';
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from '@worksheets/prisma';
 import { Adapter } from 'next-auth/adapters';
 
 export const customPrismaAdapter = (prisma: PrismaClient): Adapter =>

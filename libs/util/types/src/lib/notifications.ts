@@ -1,4 +1,4 @@
-import { NotificationType } from '@prisma/client';
+import { NotificationType } from '@worksheets/prisma';
 import { z } from 'zod';
 
 export const notificationSchema = z.object({

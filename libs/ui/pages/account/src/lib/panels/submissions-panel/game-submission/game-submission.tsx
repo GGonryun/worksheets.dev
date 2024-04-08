@@ -2,7 +2,7 @@ import { Chip, ChipProps, styled, Tooltip } from '@mui/material';
 import Box from '@mui/material/Box';
 import Link, { LinkProps } from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
-import { GameSubmissionStatus } from '@prisma/client';
+import { GameSubmissionStatus } from '@worksheets/prisma';
 import { routes } from '@worksheets/routes';
 import { CoverImage } from '@worksheets/ui/components/images';
 import theme from '@worksheets/ui/theme';

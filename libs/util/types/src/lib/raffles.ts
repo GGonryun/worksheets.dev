@@ -1,4 +1,4 @@
-import { Prisma, PrizeType, RaffleStatus } from '@prisma/client';
+import { Prisma, PrizeType, RaffleStatus } from '@worksheets/prisma';
 import { z } from 'zod';
 
 export const raffleCategorySchema = z.enum([

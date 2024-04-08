@@ -3,7 +3,7 @@ import {
   GameDevices,
   ProjectType,
   ViewportType,
-} from '@prisma/client';
+} from '@worksheets/prisma';
 
 import { GameTag } from './tag-schema';
 

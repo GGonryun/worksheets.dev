@@ -1,4 +1,4 @@
-import { Prize } from '@prisma/client';
+import { Prize } from '@worksheets/prisma';
 
 export type SeedablePrize = Omit<Prize, 'createdAt' | 'updatedAt'>;
 

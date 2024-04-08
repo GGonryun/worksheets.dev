@@ -1,4 +1,4 @@
-import { PrizeType, RaffleStatus } from '@prisma/client';
+import { PrizeType, RaffleStatus } from '@worksheets/prisma';
 import { ArcadeItemCarousel } from '@worksheets/ui/components/arcade';
 import { ReactNode } from 'react';
 

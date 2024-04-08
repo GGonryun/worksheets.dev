@@ -1,4 +1,5 @@
 import { TRPCError } from '@trpc/server';
+import { prisma } from '@worksheets/prisma';
 import { isExpired, now } from '@worksheets/util/time';
 import {
   AddFriendQuestId,

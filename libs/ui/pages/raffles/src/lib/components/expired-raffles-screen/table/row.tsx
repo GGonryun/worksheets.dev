@@ -1,5 +1,5 @@
 import { Link, TableCell, TableRow } from '@mui/material';
-import { RaffleStatus } from '@prisma/client';
+import { RaffleStatus } from '@worksheets/prisma';
 import { routes } from '@worksheets/routes';
 import { printShortDateTime } from '@worksheets/util/time';
 import { BasicRaffleDetails } from '@worksheets/util/types';

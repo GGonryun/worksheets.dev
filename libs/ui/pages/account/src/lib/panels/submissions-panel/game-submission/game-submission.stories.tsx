@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box';
-import { GameSubmissionStatus } from '@prisma/client';
 import type { Meta } from '@storybook/react';
+import { GameSubmissionStatus } from '@worksheets/prisma';
 
 import { GameSubmission } from '.';
 

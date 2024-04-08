@@ -1,6 +1,6 @@
-import { Raffle } from '@prisma/client';
 import { PrizeId } from '@worksheets/data/prizes';
 import { SponsorId } from '@worksheets/data/sponsors';
+import { Raffle } from '@worksheets/prisma';
 
 export type SeedableRaffle = Omit<
   Raffle,

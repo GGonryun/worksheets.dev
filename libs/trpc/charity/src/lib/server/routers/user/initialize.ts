@@ -1,5 +1,5 @@
-import { User } from '@prisma/client';
 import { TRPCError } from '@trpc/server';
+import { User } from '@worksheets/prisma';
 import { PrismaClient } from '@worksheets/prisma';
 import { NotificationsService } from '@worksheets/services/notifications';
 import { QuestsService } from '@worksheets/services/quests';
