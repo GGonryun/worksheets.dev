@@ -70,7 +70,7 @@ const GameScreenContainer: React.FC<{
 
   const [showVoteWarning, setShowVoteWarning] = useState(false);
   const gameTracker = useGameTracker({
-    duration: S_TO_MS(59),
+    duration: S_TO_MS(30),
     onElapsed: (increment) => {
       if (authenticated) {
         trackGameTime.mutate({
