@@ -1,7 +1,6 @@
 export * from './newsletter';
 export * from './copyright';
 export * from './version';
-import { BasicGameDetails } from '@worksheets/util/types';
 
 // game play
 export const BONUS_GAMES_MULTIPLIER = 2;
@@ -18,38 +17,3 @@ export const PRIZE_TOKEN_MODIFIER = 1000;
 // alerts
 export const CLAIM_ALERT_LAST_SENT_THRESHOLD = 24; // hours
 export const CLAIM_ALERT_SENT_COUNT_THRESHOLD = 3; // 3 reminders sent.
-
-// games
-export const dailyBonusGames: BasicGameDetails[] = [
-  {
-    id: 'baku-gamu',
-    name: 'Baku Gamu',
-  },
-  {
-    id: 'fragile-floor',
-    name: 'Fragile Floor',
-  },
-  {
-    id: 'blasteroids',
-    name: 'Blasteroids',
-  },
-  {
-    id: 'freedom-run',
-    name: 'Freedom Run',
-  },
-  {
-    id: 'invention-timeline-game',
-    name: 'Time Travel',
-  },
-];
-
-export const FEATURED_GAMES = [
-  'fruit-merge',
-  'baku-gamu',
-  'blasteroids',
-  'solitaire',
-  'quickbeat',
-  'solitaire-2048',
-  'puzzle-words',
-  'mini-golf',
-];

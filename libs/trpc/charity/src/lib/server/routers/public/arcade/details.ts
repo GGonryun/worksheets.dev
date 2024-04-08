@@ -1,11 +1,12 @@
 import { Prisma } from '@prisma/client';
 import { routes } from '@worksheets/routes';
-import { FEATURED_GAMES } from '@worksheets/util/settings';
+import { shuffle } from '@worksheets/util/arrays';
 import {
   BasicGameInfo,
   BasicRaffleDetails,
   PromotedGame,
 } from '@worksheets/util/types';
+import { uniqBy } from 'lodash';
 import { z } from 'zod';
 
 import { publicProcedure } from '../../../procedures';
@@ -76,6 +77,7 @@ export default publicProcedure
         id: g.id,
         name: g.title,
         imageUrl: g.thumbnail,
+        coverUrl: g.cover,
         plays: g.plays,
       }));
 
@@ -86,6 +88,7 @@ export default publicProcedure
         id: g.id,
         name: g.title,
         imageUrl: g.thumbnail,
+        coverUrl: g.cover,
         plays: g.plays,
       }));
 
@@ -95,20 +98,15 @@ export default publicProcedure
       imageUrl: g.thumbnail,
       plays: g.plays,
     }));
-
-    const featured = FEATURED_GAMES.map((id) => {
-      const game = games.find((g) => g.id === id);
-
-      if (!game) {
-        throw new Error(`Game with id ${id} not found`);
-      }
-
-      return {
-        href: routes.game.path({ params: { gameId: game.id } }),
-        image: game.cover,
-        name: game.title,
-      };
-    });
+    const featured = shuffle(uniqBy([...topGames, ...newGames], 'id'))
+      .slice(0, 10)
+      .map((game) => {
+        return {
+          href: routes.game.path({ params: { gameId: game.id } }),
+          image: game.coverUrl,
+          name: game.name,
+        };
+      });
 
     const primary = featured.slice(0, -1);
 
