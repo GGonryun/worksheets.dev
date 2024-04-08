@@ -25,7 +25,7 @@ export class DiscordTemplates {
     opts: ExtractTemplatePayload<'new-raffle'>
   ): DiscordMessageInput {
     return {
-      content: `💵🎊 GIVEAWAY 🎊💵`,
+      content: `💵🎊 GIVEAWAY 🎊💵\n`,
       embeds: [
         {
           title: `🎁 Enter to win a ${opts.prize.name}!`,
