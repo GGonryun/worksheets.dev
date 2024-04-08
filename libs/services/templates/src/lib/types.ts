@@ -146,6 +146,12 @@ export type NotificationTemplate =
         id: string;
         email: string;
       };
+    }
+  | {
+      type: 'new-subscriber';
+      payload: {
+        email: string;
+      };
     };
 
 /** Helper Types **/
@@ -171,4 +177,5 @@ export type TemplateBuilder<T extends NotificationTemplateType = any> = (
   discord?: DiscordMessageInput;
   push?: PushNotifyInput;
   email?: SendEmailInput;
+  broadcast?: PushNotifyInput;
 };

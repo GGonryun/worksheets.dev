@@ -15,11 +15,10 @@ import {
   styled,
   Typography,
 } from '@mui/material';
-import { blogRoutes, routes } from '@worksheets/routes';
+import { blogRoutes, externalRoutes, routes } from '@worksheets/routes';
 import { SponsorLogo } from '@worksheets/ui/components/logos';
 import { useMediaQueryDown } from '@worksheets/ui/hooks/use-media-query';
 import { currentYear } from '@worksheets/util/time';
-import urls from '@worksheets/util/urls';
 import { JSXElementConstructor } from 'react';
 
 export const FooterSection = () => {
@@ -67,22 +66,22 @@ const SocialLinks = () => {
 
   return (
     <Box display="flex" gap={1} justifyContent="flex-end">
-      <IconButton href={urls.social.youtube}>
+      <IconButton href={externalRoutes.social.youtube}>
         <YouTube {...iconProps} />
       </IconButton>
-      <IconButton href={urls.social.instagram}>
+      <IconButton href={externalRoutes.social.instagram}>
         <Instagram {...iconProps} />
       </IconButton>
-      <IconButton href={urls.social.facebook}>
+      <IconButton href={externalRoutes.social.facebook}>
         <Facebook {...iconProps} />
       </IconButton>
-      <IconButton href={urls.social.reddit}>
+      <IconButton href={externalRoutes.social.reddit}>
         <Reddit {...iconProps} />
       </IconButton>
-      <IconButton href={urls.social.github}>
+      <IconButton href={externalRoutes.social.github}>
         <GitHub {...iconProps} />
       </IconButton>
-      <IconButton href={urls.social.twitter}>
+      <IconButton href={externalRoutes.social.twitter}>
         <Twitter {...iconProps} />
       </IconButton>
     </Box>

@@ -1,5 +1,6 @@
 import { Prisma, prisma } from '@worksheets/prisma';
 import { NotificationsService } from '@worksheets/services/notifications';
+import { shuffle } from '@worksheets/util/arrays';
 import { createCronJob } from '@worksheets/util/cron';
 
 const EXPIRED_RAFFLE_PROPS = {
@@ -172,17 +173,17 @@ const pickWinners = async (
   participants: ExpiredRaffle['participants'],
   codes: UnclaimedCode[]
 ): Promise<RaffleWinner[]> => {
+  if (codes.length < numWinners) {
+    throw new Error('There are not enough codes to assign to each winner');
+  }
+
   // create an in memory array of entries representing each participant
   const entries: ExpiredRaffle['participants'] = participants.flatMap(
     (participant) => Array(participant.numEntries).fill(participant)
   );
 
   // shuffle the entries and pick the winners
-  const shuffled = entries.sort(() => Math.random() - 0.5);
-
-  if (codes.length < numWinners) {
-    throw new Error('There are not enough codes to assign to each winner');
-  }
+  const shuffled = shuffle(entries);
 
   // return the winners
   return shuffled.slice(0, numWinners).map((participant, i) => ({

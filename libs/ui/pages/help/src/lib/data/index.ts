@@ -8,3 +8,4 @@ export * from './help-referrals';
 export * from './help-tokens';
 export * from './help-vip';
 export * from './help-quests';
+export * from './help-emails';

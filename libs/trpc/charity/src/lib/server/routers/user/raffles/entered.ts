@@ -11,8 +11,6 @@ export default protectedProcedure
   )
   .output(enteredRaffleSchema.array())
   .query(async ({ input: { activeOnly }, ctx: { db, user } }) => {
-    console.info(`finding all entered raffles for user ${user.id}`);
-
     const participation = await db.raffleParticipation.findMany({
       where: {
         raffle: {

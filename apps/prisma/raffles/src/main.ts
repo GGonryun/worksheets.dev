@@ -7,7 +7,9 @@ import { insertSponsors } from './insert-sponsors';
 
 async function main() {
   try {
-    await Promise.all([insertPrizes(), insertSponsors()]);
+    await insertSponsors();
+
+    await insertPrizes();
 
     await insertRaffles();
 

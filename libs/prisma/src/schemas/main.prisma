@@ -102,7 +102,7 @@ model Friendship {
 model Gift {
   id           String     @id @default(cuid())
   friendshipId String     @unique
-  friendship   Friendship @relation(fields: [friendshipId], references: [id])
+  friendship   Friendship @relation(fields: [friendshipId], references: [id], onDelete: Cascade)
   sentAt       DateTime   @default(now())
 }
 
@@ -154,7 +154,7 @@ enum ReportReason {
 model GameReport {
   id        String       @id @default(cuid())
   gameId    String
-  game      Game         @relation(fields: [gameId], references: [id])
+  game      Game         @relation(fields: [gameId], references: [id], onDelete: Cascade)
   reason    ReportReason @default(OTHER)
   text      String       @db.VarChar(255)
   createdAt DateTime     @default(now())
@@ -207,9 +207,9 @@ model GameFile {
 
 model CategoriesOnGame {
   gameId     String
-  game       Game         @relation(fields: [gameId], references: [id])
+  game       Game         @relation(fields: [gameId], references: [id], onDelete: Cascade)
   categoryId String
-  category   GameCategory @relation(fields: [categoryId], references: [id])
+  category   GameCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
 
   @@id([gameId, categoryId])
 }
@@ -412,7 +412,7 @@ model RaffleParticipation {
   numEntries Int
   // the user who bought the ticket
   userId     String
-  user       User          @relation(fields: [userId], references: [id])
+  user       User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   // raffle the ticket is for
   raffleId   Int
   raffle     Raffle        @relation(fields: [raffleId], references: [id], onDelete: Cascade)
@@ -450,7 +450,7 @@ model RaffleWinner {
   participationId Int                 @unique // a ticket can only win once
   participation   RaffleParticipation @relation(fields: [participationId], references: [id])
   userId          String
-  user            User                @relation(fields: [userId], references: [id])
+  user            User                @relation(fields: [userId], references: [id], onDelete: Cascade)
   codeId          String              @unique // a code can only be won once
   code            ActivationCode      @relation(fields: [codeId], references: [id])
   createdAt       DateTime            @default(now())
@@ -469,7 +469,7 @@ model ClaimAlert {
   sentCount  Int          @default(0)
   // relationships
   winnerId   String       @unique
-  winner     RaffleWinner @relation(fields: [winnerId], references: [id])
+  winner     RaffleWinner @relation(fields: [winnerId], references: [id], onDelete: Cascade)
 }
 
 model GamePublishAlert {

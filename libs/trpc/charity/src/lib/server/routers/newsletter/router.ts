@@ -47,7 +47,6 @@ export default t.router({
       })
     )
     .mutation(async ({ ctx: { db }, input: { id, email } }) => {
-      console.info('Confirming newsletter subscription', { email });
       const existing = await db.newsletterSubscription.findFirst({
         where: {
           email,
@@ -82,6 +81,10 @@ export default t.router({
         data: {
           confirmed: true,
         },
+      });
+
+      await notifications.send('new-subscriber', {
+        email: existing.email,
       });
     }),
   sendConfirmation: publicProcedure
@@ -128,8 +131,6 @@ export default t.router({
       })
     )
     .mutation(async ({ ctx: { db }, input }) => {
-      console.info('Subscribing to newsletter', input);
-
       // always append required topics
       const topics = [...new Set([...input.topics, ...REQUIRED_TOPICS])];
 

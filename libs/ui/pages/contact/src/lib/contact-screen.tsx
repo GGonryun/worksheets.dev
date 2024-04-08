@@ -12,8 +12,7 @@ import {
   Typography,
   TypographyProps,
 } from '@mui/material';
-import { routes } from '@worksheets/routes';
-import urls from '@worksheets/util/urls';
+import { emailRoutes, routes } from '@worksheets/routes';
 import React, { FC } from 'react';
 
 const Title: React.FC<TypographyProps> = (props) => (
@@ -107,7 +106,7 @@ const EmailUsSection: FC = () => {
         <Button
           variant="arcade"
           color="error"
-          href={`mailto:${urls.email.support}`}
+          href={`mailto:${emailRoutes.support}`}
           startIcon={<EmailOutlined />}
         >
           Email Us

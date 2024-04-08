@@ -7,16 +7,18 @@ export type PushNotifyInput = {
 };
 
 export class PushService {
-  #expiredNotificationThreshold = daysAgo(30);
+  #expiredNotificationThreshold = daysAgo(14);
 
   async notify({ type, text, userIds }: PushNotifyInput) {
     await prisma.$transaction(async (tx) => {
       const users = await tx.user.findMany({
         where: {
           // If userIds is not provided, broadcast to all users
-          id: {
-            in: userIds,
-          },
+          id: userIds
+            ? {
+                in: userIds,
+              }
+            : undefined,
         },
         select: {
           id: true,

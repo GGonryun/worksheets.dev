@@ -28,7 +28,7 @@ export class PushTemplates {
       type: 'GAME',
       text: `New game alert! Play <a href="${GAME_URL(opts.id)}">${
         opts.title
-      }</a> by <a href="${DEVELOPER_URL(opts.developer.id)}>${
+      }</a> by <a href="${DEVELOPER_URL(opts.developer.id)}">${
         opts.developer.name
       }</a>!`,
     };

@@ -13,12 +13,14 @@ export const insertRaffles = async () => {
     ...updating.map(updateRaffle),
   ]);
 
-  console.info(`Inserted raffles`, {
-    pending: raffles.length,
-    stored: storedRaffles.length,
-    updated: updating.length,
-    created: creating.length,
-  });
+  if (creating.length === 0 && updating.length === 0) {
+    console.info(`No changes to raffles`);
+  } else {
+    console.info(`Inserted raffles`, {
+      updated: updating.length,
+      created: creating.length,
+    });
+  }
 };
 
 const createRaffle = async (raffle: SeedableRaffle) => {
@@ -53,6 +55,16 @@ const createRaffle = async (raffle: SeedableRaffle) => {
 };
 
 const updateRaffle = async (raffle: SeedableRaffle) => {
+  const get = await prisma.raffle.findFirst({
+    where: {
+      id: raffle.id,
+    },
+  });
+
+  if (!get || get.status !== 'ACTIVE') {
+    throw new Error(`Raffle ${raffle.id} is not active and cannot be updated`);
+  }
+
   await prisma.raffle.update({
     where: {
       id: raffle.id,

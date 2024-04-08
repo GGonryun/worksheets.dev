@@ -78,9 +78,9 @@ const RaffleScreenContainer: React.FC<{ raffle: RaffleSchema }> = ({
 
     if (youWon) {
       push(accountHref);
+    } else {
+      setShowEnterRaffleModal(true);
     }
-
-    if (youWon) setShowEnterRaffleModal(true);
   };
 
   const handleEnterRaffle = async () => {

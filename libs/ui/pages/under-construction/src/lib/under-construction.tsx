@@ -1,6 +1,6 @@
 import { ArrowBack } from '@mui/icons-material';
 import { Box, Button, Link, Paper, Typography } from '@mui/material';
-import urls from '@worksheets/util/urls';
+import { externalRoutes } from '@worksheets/routes';
 import { useRouter } from 'next/router';
 import { FC, ReactNode } from 'react';
 
@@ -64,7 +64,7 @@ export const UnderConstruction: FC<{ children?: ReactNode }> = ({
           </Box>
           <Typography>
             Please check back later or{' '}
-            <Link color="inherit" href={urls.social.twitter}>
+            <Link color="inherit" href={externalRoutes.social.twitter}>
               follow us on social media
             </Link>{' '}
             for updates.

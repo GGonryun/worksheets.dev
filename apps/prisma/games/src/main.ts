@@ -8,7 +8,11 @@ import { insertViewports } from './insert-viewports';
 async function main() {
   try {
     // prerequisites for inserting games can be performed in parallel
-    await Promise.all([insertCategories, insertViewports, insertDevelopers]);
+    await Promise.all([
+      insertCategories(),
+      insertViewports(),
+      insertDevelopers(),
+    ]);
 
     await insertGames();
   } catch (error) {

@@ -24,3 +24,15 @@ export const batchArray = <T>(arr: T[], batchSize: number): T[][] => {
   }
   return batches;
 };
+/**
+ * This implementation uses the Fisher-Yates shuffle algorithm, which is a proven method
+ * for shuffling arrays randomly and uniformly. After shuffling the array, you can then
+ * select the first entry as the winner, which is as random as it can get.
+ */
+export function shuffle<T>(array: T[]): T[] {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j: number = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}

@@ -25,7 +25,6 @@ export const QuestsPanel: FC<{ tokens: number; children: ReactNode }> = ({
         action: {
           text: 'Redeem Tokens',
           href: routes.help.prizes.path(),
-          color: 'secondary',
         },
       }}
       sections={() => children}

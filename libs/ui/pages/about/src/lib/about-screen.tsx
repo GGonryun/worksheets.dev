@@ -1,9 +1,8 @@
 import { LinkedIn } from '@mui/icons-material';
 import { Box, Button, Container, Link, Paper, Typography } from '@mui/material';
-import { routes } from '@worksheets/routes';
+import { externalRoutes, routes } from '@worksheets/routes';
 import { BookmarkAnchor, Markdown } from '@worksheets/ui-core';
 import { Author, blogAuthors } from '@worksheets/util/blog';
-import urls from '@worksheets/util/urls';
 import Image from 'next/image';
 import { FC } from 'react';
 
@@ -45,7 +44,7 @@ export const AboutScreen: FC<AboutScreenProps> = (props) => {
           to create a platform that allows you to play fun games while also
           helping people in need. Every game you play on our platform generates
           water for people in need. We currently support{' '}
-          <Link color="text.arcade" href={urls.external.waterOrg}>
+          <Link color="text.arcade" href={externalRoutes.external.waterOrg}>
             Water.Org
           </Link>{' '}
           as our charity of choice. Read more about our{' '}
@@ -83,7 +82,7 @@ export const AboutScreen: FC<AboutScreenProps> = (props) => {
             description={
               "Taki is a 7 year old Yorkie who is currently working as the interim Charity Games CEO. Before coming to Charity Games, Taki served as Chief Financial Officer of Luna Cosmetics and Director of Enterprise Customer Success at Patty's Creations.\n\n He enjoys spending his working days sitting with Miguel as they work on charity games. He is very passionate about his meal choices, he prefers to eat chicken and salmon over anything else.\n\nOn his free time Taki enjoys walking outside with Miguel, sleeping on Miguel's bed, and cuddling with Miguel."
             }
-            linkedIn={urls.social.linkedIn}
+            linkedIn={externalRoutes.social.linkedIn}
             quote={{
               text: 'Time is the moving image of the unmoving eternity.',
               author: 'Plato',
@@ -96,7 +95,7 @@ export const AboutScreen: FC<AboutScreenProps> = (props) => {
             description={
               'Miguel is currently a software engineer at [P0 Security](https://p0.dev) and a graduate from San Diego State University. He is passionate about creating software that makes the world a better place. He is currently developing Charity.Games on his free time. \n\nBefore working at [P0 Security](https://p0.dev), he worked at: \n- [FullStory](https://fullstory.com/) as an Ecosystem Software Engineer, \n- [G2 Software Systems](https://g2-inc.com) as a Software Engineer I,\n- [University of San Diego](https://sandiego.edu) as a Volunteer Software Engineer,\n- [SDSU Research Foundation](https://sdsu.edu) as a Software Engineer Intern,\n- [NAVWAR](https://navwar.navy.mil) as a Software Engineer Intern.\nWhen Miguel is not working, he enjoys rock climbing, hiking, and playing board games with his friends. Miguel really hates writing about himself in the third person, but he is doing it anyway.'
             }
-            linkedIn={urls.personal.linkedIn.miguel}
+            linkedIn={externalRoutes.personal.linkedIn.miguel}
             quote={{
               text: 'Individually, we are one drop. Together, we are an ocean.',
               author: 'Ryunosuke Satoro',
@@ -109,7 +108,7 @@ export const AboutScreen: FC<AboutScreenProps> = (props) => {
             description={
               'Esbeidy recently graduated from the University of California, San Diego with a BS in business economics and is currently working as a business support intern for Outsiders Branding. She is passionate about project success and has a genuine commitment to fostering the success of individuals which was evident during her voluntary work with her sorority Delta Delta Delta where she served as Vice President of Operations. She hopes to find full time professional work as a Customer Success Specialist or as a Business support specialist.\n\nOn her free time Esbeidy also enjoys rock climbing, going to the gym, watching criminal minds and hanging out with her friends.'
             }
-            linkedIn={urls.personal.linkedIn.esbeidy}
+            linkedIn={externalRoutes.personal.linkedIn.esbeidy}
             quote={{
               text: "No, I'm not giving you a quote. Don't put me on your website. ",
               author: 'Esbeidy Campos',

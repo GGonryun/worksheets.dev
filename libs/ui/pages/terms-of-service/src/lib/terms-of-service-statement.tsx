@@ -1,6 +1,6 @@
+import { emailRoutes } from '@worksheets/routes';
 import { Markdown } from '@worksheets/ui-core';
 import { printDate } from '@worksheets/util/time';
-import urls from '@worksheets/util/urls';
 
 export const TermsOfServiceStatement = () => {
   return (
@@ -94,7 +94,7 @@ It is strictly forbidden to:
 - use Charity Games's name, logo, or other Charity Games intellectual property in any way that would imply Charity Games's endorsement of your website or product;
 - add layers, overlays, or other elements to the iframed portion of the site that would imply Charity Games's endorsement of your website or product;
 <br/>
-If you have any questions about these linking policies you may contact us at [${urls.email.support}](mailto:${urls.email.support}).
+If you have any questions about these linking policies you may contact us at [${emailRoutes.support}](mailto:${emailRoutes.support}).
 
 
 ## Accounts
@@ -134,7 +134,7 @@ You agree that you are solely responsible for all your contributions to the Char
 To the fullest extent permitted under applicable law: (A) the site and any products and third party materials are made available to you on an "AS IS", "WHERE IS" and "WHERE AVAILABLE" basis, without any warranties of any kind, whether express, implied or statutory; and (B) Charity Games disclaims all warranties with respect to the site and any products and third party materials to the fullest extent permissible under applicable law, including the warranties of merchantability, fitness for a particular purpose, non-infringement and title. All disclaimers of any kind (including in this section and elsewhere in these terms of use) are made for the benefit of both Charity Games and its affiliates and their respective shareholders, directors, officers, employees, affiliates, agents, representatives, licensors, suppliers and service providers (collectively, the "affiliated entities"), and their respective successors and assigns.
 <br/>
 <br/>
-While we try to maintain the timeliness, integrity and security of the site, we do not guarantee that the site is or will remain updated, complete, correct or secure, or that access to the site will be uninterrupted. The site may include inaccuracies, errors and materials that violate or conflict with these terms of use. Additionally, third parties may make unauthorized alterations to the site. If you become aware of any unauthorized third party alteration to the site, contact us at [${urls.email.support}](mailto:${urls.email.support}).
+While we try to maintain the timeliness, integrity and security of the site, we do not guarantee that the site is or will remain updated, complete, correct or secure, or that access to the site will be uninterrupted. The site may include inaccuracies, errors and materials that violate or conflict with these terms of use. Additionally, third parties may make unauthorized alterations to the site. If you become aware of any unauthorized third party alteration to the site, contact us at [${emailRoutes.support}](mailto:${emailRoutes.support}).
 
 ## Limitation of liability
 To the fullest extent permitted under applicable law: (A) Charity Games will not be liable for any indirect, incidental, consequential, special, exemplary or punitive damages of any kind, under any contract, tort, negligence, strict liability or other theory, including damages for loss of profits, use or data, loss of other intangibles, loss of security of submissions (including unauthorized interception by third parties of any submissions or any associated information), even if advised in advance of the possibility of such damages or losses; (B) without limiting the foregoing, Charity Games will not be liable for damages of any kind resulting from your use of or inability to use the site or from any products or third party materials; (C) your sole and exclusive remedy for dissatisfaction with the site or any products or third party materials is to stop using the site; and (D) the maximum aggregate liability of Charity Games for all damages, losses and causes of action, whether in contract, tort (including negligence) or otherwise, shall be the greater of the total amount, if any, paid by you to Charity Games to use the site or $1.00. All limitations of liability of any kind (including in this section and elsewhere in these terms of use) are made for the benefit of both Charity Games and the affiliated entities, and their respective successors and assigns.
@@ -158,10 +158,10 @@ If you believe that any material on the site infringes upon any copyright, you o
 
 We suggest that you consult your legal advisor before filing a notice or counter-notice. Also, be aware that there can be penalties for false claims under the DMCA.
 
-You may send us your notice or counter-notice by email to [${urls.email.support}](mailto:${urls.email.support}).
+You may send us your notice or counter-notice by email to [${emailRoutes.support}](mailto:${emailRoutes.support}).
 
 ## Notice for California users
-California users are also entitled to the following specific consumer rights notice: The Complaint Assistance Unit of the Division of Consumer Services of the California Department of Consumer Affairs may be contacted in writing at 1625 North Market Blvd., Suite N 112, Sacramento, CA 95834, or by telephone at (916) 445-1254 or (800) 952-5210. You may contact us at [${urls.email.support}](mailto:${urls.email.support}).
+California users are also entitled to the following specific consumer rights notice: The Complaint Assistance Unit of the Division of Consumer Services of the California Department of Consumer Affairs may be contacted in writing at 1625 North Market Blvd., Suite N 112, Sacramento, CA 95834, or by telephone at (916) 445-1254 or (800) 952-5210. You may contact us at [${emailRoutes.support}](mailto:${emailRoutes.support}).
 
 
 ## Miscellaneous

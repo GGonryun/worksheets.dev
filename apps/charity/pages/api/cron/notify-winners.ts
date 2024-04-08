@@ -22,11 +22,6 @@ const PENDING_ALERT_PROPS = {
         select: {
           id: true as const,
           email: true as const,
-          notificationPreferences: {
-            select: {
-              email: true as const,
-            },
-          },
         },
       },
       prize: {

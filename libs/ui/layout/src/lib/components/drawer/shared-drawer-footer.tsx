@@ -2,10 +2,12 @@ import {
   BookOutlined,
   CodeOutlined,
   ContactSupportOutlined,
+  EmailOutlined,
   FavoriteBorder,
   InfoOutlined,
   ManageSearchOutlined,
   PrivacyTipOutlined,
+  UnsubscribeOutlined,
 } from '@mui/icons-material';
 import { Box, Divider } from '@mui/material';
 import { blogRoutes, routes } from '@worksheets/routes';
@@ -20,6 +22,23 @@ export const SharedDrawerFooter: React.FC = () => {
   return (
     <>
       <DrawerLinks
+        title={'Newsletter'}
+        links={[
+          {
+            href: routes.newsletter.subscribe.path(),
+            icon: <EmailOutlined />,
+            label: 'Subscribe',
+          },
+          {
+            href: routes.newsletter.unsubscribe.path(),
+            icon: <UnsubscribeOutlined />,
+            label: 'Unsubscribe',
+          },
+        ]}
+      />
+      <Divider />
+
+      <DrawerLinks
         title={'More'}
         links={[
           { href: routes.about.path(), icon: <InfoOutlined />, label: 'About' },
@@ -32,6 +51,11 @@ export const SharedDrawerFooter: React.FC = () => {
             href: routes.help.path(),
             icon: <ContactSupportOutlined />,
             label: 'Help Center',
+          },
+          {
+            href: routes.newsletter.subscribe.path(),
+            icon: <EmailOutlined />,
+            label: 'Newsletter',
           },
           {
             href: routes.help.contributions.path(),
@@ -56,6 +80,7 @@ export const SharedDrawerFooter: React.FC = () => {
           { href: routes.terms.path(), icon: <InfoOutlined />, label: 'Terms' },
         ]}
       />
+
       <DrawerAction href={routes.contact.path()}>Contact</DrawerAction>
       <Divider />
       <Box mt={1}>

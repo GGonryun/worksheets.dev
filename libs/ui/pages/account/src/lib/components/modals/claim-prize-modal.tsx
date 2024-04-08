@@ -13,11 +13,11 @@ export const ClaimPrizeModal: React.FC<
       </Typography>
 
       <Typography textAlign="center">
-        You've won a copy of {prize?.name ?? '??'}.
+        You've won a {prize?.name ?? '??'}.
       </Typography>
 
       {prize && (
-        <Box position="relative" height={150}>
+        <Box position="relative">
           <ResponsiveImage src={prize.imageUrl} alt={prize.name} />
         </Box>
       )}

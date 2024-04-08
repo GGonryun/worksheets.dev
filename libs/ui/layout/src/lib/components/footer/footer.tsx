@@ -3,9 +3,8 @@ import Box, { BoxProps } from '@mui/material/Box';
 import Link, { LinkProps } from '@mui/material/Link';
 import { styled } from '@mui/material/styles';
 import Typography, { TypographyProps } from '@mui/material/Typography';
-import { blogRoutes, routes } from '@worksheets/routes';
+import { blogRoutes, externalRoutes, routes } from '@worksheets/routes';
 import { copyright } from '@worksheets/util/settings';
-import urls from '@worksheets/util/urls';
 import Image from 'next/image';
 import { JSXElementConstructor } from 'react';
 
@@ -23,13 +22,13 @@ export const WebsiteFooter: React.FC<{
         gap={{ xs: 2, sm: 4 }}
         justifyContent={{ xs: 'space-evenly', sm: 'center' }}
       >
-        <Box component="a" href={urls.social.youtube}>
+        <Box component="a" href={externalRoutes.social.youtube}>
           <YouTube
             fontSize="large"
             sx={{ color: (theme) => theme.palette.error.main }}
           />
         </Box>
-        <Box component="a" href={urls.social.instagram}>
+        <Box component="a" href={externalRoutes.social.instagram}>
           <Image
             src="/icons/social/instagram.png"
             alt={'Instagram Logo'}
@@ -37,7 +36,7 @@ export const WebsiteFooter: React.FC<{
             width={24}
           />
         </Box>
-        <Box component="a" href={urls.social.reddit}>
+        <Box component="a" href={externalRoutes.social.reddit}>
           <Image
             src="/icons/social/reddit.png"
             alt={'Reddit Logo'}
@@ -45,7 +44,7 @@ export const WebsiteFooter: React.FC<{
             width={24}
           />
         </Box>
-        <Box component="a" href={urls.social.github}>
+        <Box component="a" href={externalRoutes.social.github}>
           <Image
             src="/icons/social/github.png"
             alt={'GitHub Logo'}
@@ -53,7 +52,7 @@ export const WebsiteFooter: React.FC<{
             width={24}
           />
         </Box>
-        <Box component="a" href={urls.social.twitter}>
+        <Box component="a" href={externalRoutes.social.twitter}>
           <Image
             src="/icons/social/twitter.png"
             alt={'Twitter Logo'}

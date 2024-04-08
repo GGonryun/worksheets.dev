@@ -1,34 +1,36 @@
 import { codes, SeedableCode } from '@worksheets/data/codes';
 import { prisma } from '@worksheets/prisma';
-import { getSeedingChanges, seedingProperties } from '@worksheets/util/seeding';
+import { getSeedingChanges } from '@worksheets/util/seeding';
 
 export const insertCodes = async () => {
-  const changes = await prisma.$transaction(async (tx) => {
-    const storedCodes = await tx.activationCode.findMany({
-      select: seedingProperties,
-    });
-
-    const { updating, creating } = getSeedingChanges(codes, storedCodes);
-
-    await Promise.all([
-      tx.activationCode.createMany({
-        data: creating.map(convertCode),
-        skipDuplicates: true,
-      }),
-      tx.activationCode.updateMany({
-        data: updating.map(convertCode),
-      }),
-    ]);
-
-    return {
-      pending: codes.length,
-      stored: storedCodes.length,
-      updated: updating.length,
-      created: creating.length,
-    };
+  const storedCodes = await prisma.activationCode.findMany({
+    select: {
+      id: true,
+    },
   });
 
-  console.info(`Inserted codes`, changes);
+  const { updating, creating } = getSeedingChanges(codes, storedCodes);
+
+  await prisma.activationCode.createMany({
+    data: creating.map(convertCode),
+  });
+  for (const update of updating) {
+    await prisma.activationCode.update({
+      where: {
+        id: update.id,
+      },
+      data: convertCode(update),
+    });
+  }
+
+  if (creating.length === 0 && updating.length === 0) {
+    console.info(`No changes to codes`);
+  } else {
+    console.info(`Inserted codes`, {
+      updated: updating.length,
+      created: creating.length,
+    });
+  }
 };
 
 const convertCode = (code: SeedableCode) => ({

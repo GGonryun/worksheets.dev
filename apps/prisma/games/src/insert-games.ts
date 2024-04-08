@@ -11,12 +11,14 @@ export const insertGames = async () => {
   const { creating, updating } = getSeedingChanges(games, storedGames);
 
   await Promise.all([...creating.map(insertGame), ...updating.map(updateGame)]);
-  console.info(`Inserted games`, {
-    pending: games.length,
-    stored: storedGames.length,
-    created: creating.length,
-    updated: updating.length,
-  });
+  if (creating.length > 0 || updating.length > 0) {
+    console.info(`Inserted games`, {
+      created: creating.length,
+      updated: updating.length,
+    });
+  } else {
+    console.info(`No changes to games`);
+  }
 };
 
 const insertGame = async (game: SeedableGameSchema) => {

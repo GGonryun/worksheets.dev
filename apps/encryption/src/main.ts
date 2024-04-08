@@ -17,9 +17,9 @@ async function main() {
     }
 
     const encrypted = await crypto.encrypt(input);
-    console.info(`Encrypted-${encrypted}`);
+    console.info(`Encrypted: ${encrypted}`);
     const decrypted = await crypto.decrypt(encrypted);
-    console.info(`Decrypted-${decrypted}`);
+    console.info(`Decrypted: ${decrypted}`);
   }
 }
 

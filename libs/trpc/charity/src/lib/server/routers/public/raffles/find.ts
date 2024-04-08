@@ -12,7 +12,6 @@ export default publicProcedure
   )
   .output(raffleSchema)
   .query(async ({ input: { raffleId }, ctx: { db } }) => {
-    console.info(`finding raffle ${raffleId}`);
     const raffle = await db.raffle.findFirst({
       where: {
         id: raffleId,

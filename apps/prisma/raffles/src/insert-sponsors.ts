@@ -3,32 +3,39 @@ import { prisma } from '@worksheets/prisma';
 import { getSeedingChanges, seedingProperties } from '@worksheets/util/seeding';
 
 export const insertSponsors = async () => {
-  const changes = await prisma.$transaction(async (tx) => {
-    const storedSponsors = await tx.sponsor.findMany({
-      select: seedingProperties,
-    });
-
-    const { creating, updating } = getSeedingChanges(sponsors, storedSponsors);
-
-    Promise.all([
-      tx.sponsor.createMany({
-        data: creating.map(convertSponsor),
-        skipDuplicates: true,
-      }),
-      tx.sponsor.updateMany({
-        data: updating.map(convertSponsor),
-      }),
-    ]);
-
-    return {
-      pending: sponsors.length,
-      stored: storedSponsors.length,
-      created: creating.length,
-      updated: updating.length,
-    };
+  const storedSponsors = await prisma.sponsor.findMany({
+    select: seedingProperties,
   });
 
-  console.info(`Inserted sponsors`, changes);
+  const { creating, updating } = getSeedingChanges(sponsors, storedSponsors);
+
+  await prisma.sponsor.createMany({
+    data: creating.map(convertSponsor),
+    skipDuplicates: true,
+  });
+
+  for (const update of updating) {
+    await prisma.sponsor.update({
+      where: {
+        id: update.id,
+      },
+      data: {
+        logo: update.logo,
+        name: update.name,
+        version: update.version,
+        url: update.url,
+      },
+    });
+  }
+
+  if (creating.length > 0 || updating.length > 0) {
+    console.info(`Inserted sponsors`, {
+      updated: updating.length,
+      created: creating.length,
+    });
+  } else {
+    console.info(`No changes to sponsors`);
+  }
 };
 
 const convertSponsor = (sponsor: SeedableSponsor) => ({

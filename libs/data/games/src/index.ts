@@ -35,10 +35,12 @@ export const games: SeedableGameSchema[] = [
       type: 'HTML',
       url: 'https://cdn.charity.games/_games/the-sorcerer/index.html',
     },
+    publishAt: new Date('2024-03-02T00:00:00.000Z'),
     createdAt: new Date('2024-03-02T00:00:00.000Z'),
     updatedAt: new Date('2024-03-02T00:00:00.000Z'),
     markets: {},
-    description: `<p>The Sorcerer is a HTML5 puzzle game. The game contains 3 different progressive levels.</p><br/><p>The objective of the game is to shoot marbles at the balls rolling across the screen to make matches. Each level gets progressively harder!</p></br><p>The sorcerer is a point and click puzzle game that needs quick reactions. If you're playing on mobile, simply touch the location where you want the ball to go next.</p>`,
+    description: `<p>The Sorcerer is a HTML5 puzzle game. The game contains 3 different progressive levels.</p><br/><p>The objective of the game is to shoot marbles at the balls rolling across the screen to make matches. Each level gets progressively harder!</p></br><p>The sorcerer is a point and click puzzle game that needs quick reactions. If you're playing on mobile, simply touch the location where you want the ball to go next.</p>
+    <br/><br/><h3>How to Play The Sorcerer?</h3><p>Use your mouse to aim and shoot the marbles. If you're playing on mobile, simply touch the location where you want the ball to go next.</p>`,
   },
   {
     version: 1,

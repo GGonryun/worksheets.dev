@@ -1,31 +1,31 @@
 {
-  "name": "util-urls",
+  "name": "util-html",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/util/urls/src",
+  "sourceRoot": "libs/util/html/src",
   "projectType": "library",
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/libs/util/urls",
-        "main": "libs/util/urls/src/index.ts",
-        "tsConfig": "libs/util/urls/tsconfig.lib.json",
-        "assets": ["libs/util/urls/*.md"]
+        "outputPath": "dist/libs/util/html",
+        "main": "libs/util/html/src/index.ts",
+        "tsConfig": "libs/util/html/tsconfig.lib.json",
+        "assets": ["libs/util/html/*.md"]
       }
     },
     "lint": {
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["libs/util/urls/**/*.ts"]
+        "lintFilePatterns": ["libs/util/html/**/*.ts"]
       }
     },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "libs/util/urls/jest.config.ts",
+        "jestConfig": "libs/util/html/jest.config.ts",
         "passWithNoTests": true
       },
       "configurations": {

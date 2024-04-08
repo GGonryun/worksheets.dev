@@ -9,6 +9,7 @@ import { LearningCode } from '@worksheets/icons/learning';
 import {
   ValentinesCalendar,
   ValentinesLock,
+  ValentinesMail,
   ValentinesPhones,
   ValentinesTicket,
   ValentinesWorld,
@@ -83,10 +84,10 @@ const categories: HelpCenterCategoryProps[] = [
     icon: ECommerceGift,
   },
   {
-    title: 'VIP Membership',
-    href: routes.help.vip.path(),
-    description: 'Help support our mission and earn more rewards',
-    icon: ECommerceQuality,
+    title: 'Emails',
+    href: routes.help.emails.path(),
+    description: 'Understand the emails we send you',
+    icon: ValentinesMail,
   },
   {
     title: 'Developer',
@@ -99,6 +100,12 @@ const categories: HelpCenterCategoryProps[] = [
     description: 'Reach out to our support team',
     href: routes.contact.path(),
     icon: ECommerceCustomerService,
+  },
+  {
+    title: 'VIP Membership',
+    href: routes.help.vip.path(),
+    description: 'Help support our mission and earn more rewards',
+    icon: ECommerceQuality,
   },
 ];
 

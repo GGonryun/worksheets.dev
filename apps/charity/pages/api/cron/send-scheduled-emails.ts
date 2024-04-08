@@ -3,5 +3,6 @@ import { createCronJob } from '@worksheets/util/cron';
 
 export default createCronJob(async () => {
   const email = new EmailService();
-  email.process();
+  const results = await email.process();
+  console.info(`Processed scheduled emails.`, results);
 });

@@ -3,6 +3,10 @@ import { GMAIL_PASS, GMAIL_USER } from '@worksheets/services/environment';
 import { EmailPriority } from '@worksheets/util/types';
 import * as nodemailer from 'nodemailer';
 
+import { template, TemplateOptions } from './html/template.html';
+
+export type { TemplateOptions };
+
 export type SendEmailInput = {
   id: number | string; // used to correlate the email with the result
   to?: string[];
@@ -66,6 +70,9 @@ export class EmailService {
     if (opts.bcc) options.bcc = opts.bcc.join(', ');
 
     try {
+      if (!this.#transporter || !GMAIL_USER || !GMAIL_PASS) {
+        throw new Error('Failed to create email transporter');
+      }
       this.#transporter.sendMail(options);
       return true;
     } catch (error) {
@@ -75,12 +82,18 @@ export class EmailService {
   }
 
   async sendMany(emails: SendEmailInput[]) {
-    return await Promise.allSettled(emails.map(this.send));
+    return await Promise.allSettled(emails.map(this.send.bind(this)));
   }
 
   async schedule(email: ScheduleEmailInput) {
     await prisma.scheduledEmail.create({
       data: email,
+    });
+  }
+
+  async scheduleMany(emails: ScheduleEmailInput[]) {
+    await prisma.scheduledEmail.createMany({
+      data: emails,
     });
   }
 
@@ -99,6 +112,8 @@ export class EmailService {
         priority: 'asc',
       },
     });
+
+    console.info(`Processing ${emails.length} emails`);
 
     // eagerly lock the emails to prevent other instances of the cron job from processing them
     await prisma.scheduledEmail.updateMany({
@@ -143,9 +158,18 @@ export class EmailService {
         },
       }),
     ]);
+
+    return {
+      sent: sentEmails.length,
+      failed: failedEmails.length,
+    };
   }
 
   async verify() {
     this.#transporter.verify().then(console.log).catch(console.error);
+  }
+
+  static template(opts: TemplateOptions): string {
+    return template(opts);
   }
 }

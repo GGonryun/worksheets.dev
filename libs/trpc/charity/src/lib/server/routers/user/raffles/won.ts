@@ -6,8 +6,6 @@ import { protectedProcedure } from '../../../procedures';
 export default protectedProcedure
   .output(z.custom<WonRaffleDetails[]>())
   .query(async ({ ctx: { db, user } }) => {
-    console.info(`finding all won raffles for user ${user.id}`);
-
     const userId = user.id;
     const winningEntries = await db.raffleWinner.findMany({
       where: {

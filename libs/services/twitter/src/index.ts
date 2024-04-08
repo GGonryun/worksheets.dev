@@ -1,5 +1,4 @@
 import {
-  IS_DEVELOPMENT,
   TWITTER_ACCESS_TOKEN_KEY,
   TWITTER_ACCESS_TOKEN_SECRET,
   TWITTER_API_KEY,
@@ -25,11 +24,6 @@ export class TwitterService {
   }
 
   public async tweet(text: TwitterTweetInput) {
-    if (IS_DEVELOPMENT) {
-      console.info('Skipping tweet in development');
-      return;
-    }
-
     try {
       await this.#client.v2.tweet(text);
     } catch (error) {

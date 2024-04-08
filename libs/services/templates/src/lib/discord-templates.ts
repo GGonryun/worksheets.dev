@@ -15,8 +15,7 @@ export class DiscordTemplates {
       embeds: [
         {
           title: `📷 Play ${opts.title} by ${opts.developer.name}!`,
-          url: routes.game.path({ params: { gameId: opts.id } }),
-          description: opts.description,
+          url: routes.game.url({ params: { gameId: opts.id } }),
         },
       ],
       channel: 'public',
@@ -34,7 +33,7 @@ export class DiscordTemplates {
             'winner',
             opts.numWinners
           )} will be chosen on ${printShortDate(opts.expiresAt)}.`,
-          url: routes.raffle.path({ params: { raffleId: opts.id } }),
+          url: routes.raffle.url({ params: { raffleId: opts.id } }),
         },
       ],
       channel: 'public',
@@ -96,6 +95,14 @@ export class DiscordTemplates {
           title: opts.submission.title ?? 'Untitled',
         },
       ],
+      channel: 'admin',
+    };
+  }
+  static newSubscriber(
+    opts: ExtractTemplatePayload<'new-subscriber'>
+  ): DiscordMessageInput {
+    return {
+      content: `A new subscriber has signed up: ${opts.email}`,
       channel: 'admin',
     };
   }

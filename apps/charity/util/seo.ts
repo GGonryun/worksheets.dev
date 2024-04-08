@@ -326,6 +326,13 @@ export const helpQuestsSeo = createSeo({
     'Find answers to questions about quests on Charity Games. Learn how to earn tokens by completing challenges.',
 });
 
+export const helpEmailsSeo = createSeo({
+  path: routes.help.emails.path(),
+  title: 'Emails Help Center',
+  description:
+    'Find answers to questions about emails on Charity Games. Learn about the types of emails we send.',
+});
+
 export const helpVIPSeo = createSeo({
   path: routes.help.vip.path(),
   title: 'VIP Help Center',

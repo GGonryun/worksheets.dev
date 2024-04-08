@@ -6,6 +6,7 @@ import {
   HelpCommonQuestions,
   HelpContributionsQuestions,
   HelpDevelopersQuestions,
+  HelpEmailsQuestions,
   HelpFriendsQuestions,
   HelpNotificationsQuestions,
   HelpPlayingGamesQuestions,
@@ -221,6 +222,10 @@ export const routes = {
         path: '/help/notifications',
         bookmarks: HelpNotificationsQuestions,
       }),
+      emails: createRoute({
+        path: '/help/emails',
+        bookmarks: HelpEmailsQuestions,
+      }),
       vip: createRoute({
         path: '/help/vip',
         bookmarks: HelpVIPQuestions,
@@ -289,5 +294,8 @@ export const routes = {
         path: '/account/integrations',
       }),
     },
+  }),
+  ref: createRoute({
+    path: '/ref/[code]',
   }),
 };

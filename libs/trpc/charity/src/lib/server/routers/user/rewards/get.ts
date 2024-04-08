@@ -1,7 +1,7 @@
 import { TRPCError } from '@trpc/server';
+import { routes } from '@worksheets/routes';
 import { dailyBonusGames } from '@worksheets/util/settings';
 import { basicGameDetailsSchema } from '@worksheets/util/types';
-import { createReferralLink } from '@worksheets/util/urls';
 import { z } from 'zod';
 
 import { protectedProcedure } from '../../../procedures';
@@ -18,7 +18,6 @@ export default protectedProcedure
   )
   .query(async ({ ctx: { db, user } }) => {
     const userId = user.id;
-    console.info(`Getting rewards for user ${userId}`);
 
     const userData = await db.user.findFirst({
       where: {
@@ -43,7 +42,9 @@ export default protectedProcedure
       totalTokens: userData.rewards.totalTokens,
       giftBoxes: userData.rewards.giftBoxes,
       numReferrals: userData.referred.length,
-      referralLink: createReferralLink(userData.referralCode.code),
+      referralLink: routes.ref.url({
+        params: { code: userData.referralCode.code },
+      }),
       bonusGames: dailyBonusGames,
     };
   });

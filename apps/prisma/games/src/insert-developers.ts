@@ -5,36 +5,37 @@ import { getSeedingChanges, seedingProperties } from '@worksheets/util/seeding';
 export const insertDevelopers = async () => {
   const pendingDevelopers = Object.values(developers);
 
-  const changes = await prisma.$transaction(async (tx) => {
-    const storedDevelopers = await tx.developer.findMany({
-      select: seedingProperties,
+  const storedDevelopers = await prisma.developer.findMany({
+    select: seedingProperties,
+  });
+
+  const { creating, updating } = getSeedingChanges(
+    pendingDevelopers,
+    storedDevelopers
+  );
+
+  await prisma.developer.createMany({
+    data: creating.map(convertDeveloper),
+    skipDuplicates: true,
+  });
+
+  for (const update of updating) {
+    await prisma.developer.update({
+      where: { id: update.id },
+      data: convertDeveloper(update),
     });
+  }
 
-    const { creating, updating } = getSeedingChanges(
-      pendingDevelopers,
-      storedDevelopers
-    );
-
-    Promise.all([
-      tx.developer.createMany({
-        data: creating.map(convertDeveloper),
-        skipDuplicates: true,
-      }),
-
-      tx.developer.updateMany({
-        data: updating.map(convertDeveloper),
-      }),
-    ]);
-
-    return {
+  if (creating.length > 0 || updating.length > 0) {
+    console.info(`Inserted developers`, {
       pending: pendingDevelopers.length,
       stored: storedDevelopers.length,
       created: creating.length,
       updated: updating.length,
-    };
-  });
-
-  console.info(`Inserted developers`, changes);
+    });
+  } else {
+    console.info(`No changes to developers`);
+  }
 };
 
 const convertDeveloper = (developer: SeedableDeveloper) => ({

@@ -1,12 +1,4 @@
-import { CHARITY_GAMES_BASE_URL } from '@worksheets/ui/env';
-
-const urls = {
-  charityGames: CHARITY_GAMES_BASE_URL,
-  email: {
-    admin: 'admin@charity.games',
-    support: 'support@charity.games',
-  },
-  poll: 'https://strawpoll.com/GeZAOVdBRnV',
+export const externalRoutes = {
   external: {
     waterOrg: 'https://www.water.org/',
     fullstory: 'https://www.fullstory.com/',
@@ -31,10 +23,4 @@ const urls = {
       esbeidy: 'https://www.linkedin.com/in/esbeidy-campos-776352172',
     },
   },
-};
-
-export default urls;
-
-export const createReferralLink = (code: string) => {
-  return `${CHARITY_GAMES_BASE_URL}/ref/${code}`;
 };

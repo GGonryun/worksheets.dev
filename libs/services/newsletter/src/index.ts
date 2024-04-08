@@ -1,5 +1,6 @@
 import { NewsletterTopic, Prisma } from '@worksheets/prisma';
-import { batchArray } from '@worksheets/util/arrays';
+import { routes } from '@worksheets/routes';
+import { EmailService, TemplateOptions } from '@worksheets/services/email';
 import { EmailPriority } from '@worksheets/util/types';
 
 export const BASIC_NEWSLETTER_SUBSCRIBER_PAYLOAD = {
@@ -20,8 +21,10 @@ export type ScheduleNewsletterInput = {
   priority: EmailPriority;
   sendAt: Date;
   subject: string;
-  html: string;
+  template: Pick<TemplateOptions, 'paragraphs' | 'title' | 'links'>;
 };
+
+const email = new EmailService();
 
 export class NewsletterService {
   // gmail allows us to send up to 500 recipients in a single BCC field
@@ -47,17 +50,28 @@ export class NewsletterService {
         ...BASIC_NEWSLETTER_SUBSCRIBER_PAYLOAD,
       });
 
-      const batches = batchArray(subscribers, this.maxBccRecipients);
+      const template = (id: string) =>
+        EmailService.template({
+          ...opts.template,
+          unsubscribe:
+            opts.topic !== 'Transactional'
+              ? routes.newsletter.unsubscribe.url({
+                  query: {
+                    id,
+                  },
+                })
+              : undefined,
+        });
 
-      await tx.scheduledEmail.createMany({
-        data: batches.map((batch) => ({
-          bcc: batch.map((s) => s.email),
+      email.scheduleMany(
+        subscribers.map((sub) => ({
+          to: [sub.email],
           subject: opts.subject,
-          html: opts.html,
+          html: template(sub.id),
           priority: opts.priority,
           sendAt: opts.sendAt,
-        })),
-      });
+        }))
+      );
     });
   }
 }

@@ -11,7 +11,7 @@ export type SeedableSponsor = {
 const rawSponsors = [
   {
     id: 'charity-games' as const,
-    version: 1,
+    version: 2,
     name: 'Charity Games',
     url: 'https://charity.games/about',
     logo: common.charityGames.logos.square128,

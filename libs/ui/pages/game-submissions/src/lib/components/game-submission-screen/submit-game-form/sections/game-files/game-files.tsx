@@ -5,14 +5,13 @@ import FormHelperText from '@mui/material/FormHelperText';
 import Input from '@mui/material/Input';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
-import { routes } from '@worksheets/routes';
+import { emailRoutes, routes } from '@worksheets/routes';
 import { HelpDevelopersQuestions } from '@worksheets/util/enums';
 import {
   GameSubmissionFileKeys,
   GameSubmissionForm,
   GameSubmissionFormContextType,
 } from '@worksheets/util/types';
-import urls from '@worksheets/util/urls';
 import React, { FC, useState } from 'react';
 
 import { useGameSubmissionFormContext } from '../../../../form-context';
@@ -125,7 +124,7 @@ const GameFileHelperText: React.FC<{ error?: string }> = ({ error }) =>
   ) : (
     <FormHelperText>
       File size limit: 50MB.{' '}
-      <Link href={`mailto:${urls.email.admin}`} target="_blank">
+      <Link href={`mailto:${emailRoutes.admin}`} target="_blank">
         Contact us
       </Link>{' '}
       if you need more space.

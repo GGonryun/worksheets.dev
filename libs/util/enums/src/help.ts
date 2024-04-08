@@ -102,3 +102,9 @@ export enum HelpQuestsQuestions {
   Frequency = 'frequency',
   Types = 'types',
 }
+
+export enum HelpEmailsQuestions {
+  Description = 'description',
+  Unsubscribing = 'unsubscribing',
+  NotReceiving = 'not-receiving',
+}

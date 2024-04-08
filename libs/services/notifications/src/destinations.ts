@@ -81,6 +81,12 @@ const confirmNewsletterSubscriptionTemplates: TemplateBuilder<
   email: EmailTemplates.confirmNewsletterSubscription(payload),
 });
 
+const newSubscriberTemplates: TemplateBuilder<'new-subscriber'> = (
+  payload
+) => ({
+  discord: DiscordTemplates.newSubscriber(payload),
+});
+
 export const destinations: Record<NotificationTemplateType, TemplateBuilder> = {
   'new-game': newGameTemplates,
   'new-raffle': newRaffleTemplates,
@@ -95,4 +101,5 @@ export const destinations: Record<NotificationTemplateType, TemplateBuilder> = {
   'new-follower': newFollowerTemplates,
   'new-game-submission': newGameSubmissionTemplates,
   'confirm-newsletter-subscription': confirmNewsletterSubscriptionTemplates,
+  'new-subscriber': newSubscriberTemplates,
 };
