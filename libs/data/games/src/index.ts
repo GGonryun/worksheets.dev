@@ -576,6 +576,7 @@ export const games: SeedableGameSchema[] = [
     developerId: 'charity-games',
     iconUrl: 'https://cdn.charity.games/arrow-hit/assets/thumbnail.png',
     bannerUrl: 'https://cdn.charity.games/arrow-hit/assets/banner.png',
+    trailer: 'https://www.youtube.com/embed/4qVZpctJtuk?si=q6TRarj7ZL7Q2QYw',
     viewport: viewports['ALL-DEVICES'],
     categories: ['ad-free', 'survival', '1p', 'arcade', 'desktop', 'mobile'],
     createdAt: new Date('2024-02-01T00:00:00.000Z'),
