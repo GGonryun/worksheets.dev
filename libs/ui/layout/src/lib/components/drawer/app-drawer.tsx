@@ -23,18 +23,26 @@ export const AppDrawer: React.FC<WithDrawerProps<{ connected: boolean }>> = ({
   connected,
   ...props
 }) => {
+  const primaryLinks = [
+    { href: routes.play.path(), icon: <HomeOutlined />, label: 'Home' },
+    {
+      href: routes.login.path(),
+      icon: <AccountCircleOutlined />,
+      label: 'Account',
+    },
+  ];
+
+  if (connected) {
+    primaryLinks.push({
+      href: routes.account.quests.path(),
+      icon: <LocalActivityOutlined />,
+      label: 'Quests',
+    });
+  }
+
   return (
     <Drawer {...props}>
-      <DrawerLinks
-        links={[
-          { href: routes.play.path(), icon: <HomeOutlined />, label: 'Home' },
-          {
-            href: routes.account.path(),
-            icon: <AccountCircleOutlined />,
-            label: 'Account',
-          },
-        ]}
-      />
+      <DrawerLinks links={primaryLinks} />
 
       <Divider />
       <DrawerLinks
