@@ -70,13 +70,15 @@ const GameScreenContainer: React.FC<{
 
   const [showVoteWarning, setShowVoteWarning] = useState(false);
   const gameTracker = useGameTracker({
-    // TODO: increase this if performance is bad or expensive.
-    duration: S_TO_MS(15),
-    onElapsed: (increment) =>
-      trackGameTime.mutate({
-        gameId: game.id,
-        increment: MS_TO_S(increment),
-      }),
+    duration: S_TO_MS(59),
+    onElapsed: (increment) => {
+      if (authenticated) {
+        trackGameTime.mutate({
+          gameId: game.id,
+          increment: MS_TO_S(increment),
+        });
+      }
+    },
   });
 
   const handleRewardPlay = async () => {
