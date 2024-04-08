@@ -1,6 +1,5 @@
 import { Add, FavoriteBorder, InfoOutlined } from '@mui/icons-material';
 import {
-  Alert,
   Box,
   Button,
   Divider,
@@ -16,17 +15,13 @@ import {
   addFriendsIntent,
   SocialButtons,
 } from '@worksheets/ui/components/social-media';
-import {
-  FriendsPanels,
-  ReferralsPanels,
-  SettingsPanels,
-} from '@worksheets/util/enums';
+import { FriendsPanels, ReferralsPanels } from '@worksheets/util/enums';
 import { MAX_FRIENDS } from '@worksheets/util/types';
 import { useState } from 'react';
 
 export const AddFriendsSection: React.FC<{
   addFriendCode?: string;
-  friendCode?: string;
+  friendCode: string;
   onAdd: (username: string) => void;
 }> = (props) => {
   const referralsHref = routes.account.referrals.path({
@@ -78,21 +73,8 @@ export const AddFriendsSection: React.FC<{
             <SocialButtonsWrapper friendCode={props.friendCode} />
           )}
         </Box>
-        {!props.friendCode ? (
-          <Alert severity="error" sx={{ mb: 1 }}>
-            <Link
-              href={routes.account.path({
-                bookmark: SettingsPanels.EditProfile,
-              })}
-            >
-              Your profile is incomplete!
-            </Link>{' '}
-            Pick a username to get your friend code. You can share your friend
-            code with your friends to earn tokens together.
-          </Alert>
-        ) : (
-          <ClipboardText text={props.friendCode} label="My Friend Code" />
-        )}
+
+        <ClipboardText text={props.friendCode} label="My Friend Code" />
       </Box>
       <Box
         sx={{
@@ -117,9 +99,8 @@ export const AddFriendsSection: React.FC<{
         fullWidth
         value={username}
         onChange={handleUsernameChange}
-        placeholder="awesome-friend-code-1234"
+        placeholder="Friend-Code"
         size="small"
-        label="Friend Code"
         helperText="Friend codes are case-sensitive."
       />
       <Button

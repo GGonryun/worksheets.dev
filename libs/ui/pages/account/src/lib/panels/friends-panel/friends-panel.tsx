@@ -29,7 +29,7 @@ export const FriendsPanel: React.FC<{
   followers: Follower[];
   refreshTimestamp: number;
   giftsRemaining: number;
-  friendCode?: string;
+  friendCode: string;
   giftBoxes: number;
   onRemove: (friend: Friend) => void;
   onFavorite: (friend: Friend) => void;

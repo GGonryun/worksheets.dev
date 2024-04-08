@@ -18,6 +18,14 @@ export type Referral = {
   createdAt: number;
 };
 
+export const referrerSchema = z.object({
+  id: z.string(),
+  username: z.string(),
+  link: z.string(),
+});
+
+export type Referrer = z.infer<typeof referrerSchema>;
+
 export const friendSchema = z.object({
   friendshipId: z.string(),
   username: z.string(),

@@ -1,4 +1,4 @@
-import { Box, Link, Typography } from '@mui/material';
+import { Box, Button, Link, Typography } from '@mui/material';
 import { ValentinesGift } from '@worksheets/icons/valentines';
 import { routes } from '@worksheets/routes';
 import { FriendsPanels } from '@worksheets/util/enums';
@@ -35,14 +35,14 @@ export const EmptyFriendsPlaceholder = () => (
         boxes.
       </Typography>
     </Box>
-    <Link
+    <Button
+      variant="arcade"
+      color="error"
       href={routes.account.friends.path({
         bookmark: FriendsPanels.AddFriends,
       })}
-      variant="body1"
-      color="error"
     >
       Add Friends
-    </Link>
+    </Button>
   </Box>
 );

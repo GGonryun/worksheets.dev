@@ -10,12 +10,14 @@ import profile from './profile/router';
 import quests from './quests/router';
 import raffles from './raffles/router';
 import referrals from './referrals/router';
+import referrer from './referrer/router';
 import rewards from './rewards/router';
 import tokens from './tokens/router';
 import vip from './vip/router';
 
 export default t.router({
   referrals,
+  referrer,
   rewards,
   notifications,
   profile,

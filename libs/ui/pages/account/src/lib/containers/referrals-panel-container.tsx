@@ -1,21 +1,32 @@
 import { trpc } from '@worksheets/trpc-charity';
+import { useSnackbar } from '@worksheets/ui/components/snackbar';
 import { ErrorComponent } from '@worksheets/ui/pages/errors';
 import { LoadingScreen } from '@worksheets/ui/pages/loading';
 import { useBookmark } from '@worksheets/ui-core';
 import { ReferralsPanels } from '@worksheets/util/enums';
-import { useSession } from 'next-auth/react';
+import { parseTRPCClientErrorMessage } from '@worksheets/util/trpc';
 
 import { ReferralsPanel } from '../panels';
 
 export const ReferralsPanelContainer: React.FC = () => {
+  const snackbar = useSnackbar();
   const bookmark = useBookmark<ReferralsPanels>();
 
-  const session = useSession();
-  const enabled = session.data?.user?.id !== undefined;
+  const referrals = trpc.user.referrals.get.useQuery(undefined);
+  const referrer = trpc.user.referrer.get.useQuery(undefined);
+  const setReferrer = trpc.user.referrer.set.useMutation();
 
-  const referrals = trpc.user.referrals.get.useQuery(undefined, {
-    enabled,
-  });
+  const handleReferrerAdd = async (code: string) => {
+    try {
+      const newReferrer = await setReferrer.mutateAsync({ code });
+      await referrer.refetch();
+      snackbar.success(
+        `${newReferrer.username} has been set as your referrer.`
+      );
+    } catch (error) {
+      snackbar.error(parseTRPCClientErrorMessage(error));
+    }
+  };
 
   if (referrals.isLoading) return <LoadingScreen />;
 
@@ -26,6 +37,8 @@ export const ReferralsPanelContainer: React.FC = () => {
       bookmark={bookmark}
       referrals={referrals.data.referrals}
       link={referrals.data.referralLink}
+      referrer={referrer.data}
+      onReferrerAdd={handleReferrerAdd}
     />
   );
 };

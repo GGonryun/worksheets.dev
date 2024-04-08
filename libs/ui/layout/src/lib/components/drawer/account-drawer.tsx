@@ -1,5 +1,6 @@
 import {
   AccountCircleOutlined,
+  AddBoxOutlined,
   CardGiftcardOutlined,
   ContactMailOutlined,
   DesignServicesOutlined,
@@ -14,7 +15,6 @@ import {
   NotificationsNoneOutlined,
   PersonAddOutlined,
   SvgIconComponent,
-  VideogameAsset,
 } from '@mui/icons-material';
 import { Box, Link, ListItem, Typography } from '@mui/material';
 import Divider from '@mui/material/Divider';
@@ -219,17 +219,17 @@ const UserContent: React.FC<{
           },
           {
             href: routes.account.referrals.path({
-              bookmark: ReferralsPanels.ReferredPlays,
-            }),
-            label: 'Referred Plays',
-            icon: <VideogameAsset />,
-          },
-          {
-            href: routes.account.referrals.path({
               bookmark: ReferralsPanels.ShareYourLink,
             }),
             label: 'Share Your Link',
             icon: <LinkOutlined />,
+          },
+          {
+            href: routes.account.referrals.path({
+              bookmark: ReferralsPanels.MyReferrer,
+            }),
+            label: 'My Referrer',
+            icon: <AddBoxOutlined />,
           },
         ]}
       />

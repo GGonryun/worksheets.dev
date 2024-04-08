@@ -1,7 +1,7 @@
 export enum ReferralsPanels {
   ReferredAccounts = 'referred-accounts',
-  ReferredPlays = 'referred-plays',
   ShareYourLink = 'share-your-link',
+  MyReferrer = 'my-referrer',
 }
 export enum FriendsPanels {
   AddFriends = 'add-friends',

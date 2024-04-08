@@ -1,18 +1,30 @@
-import { AccountCircleOutlined, LinkOutlined } from '@mui/icons-material';
-import { ValentinesWings, ValentinesWorld } from '@worksheets/icons/valentines';
+import {
+  AccountCircleOutlined,
+  AddBoxOutlined,
+  Check,
+  LinkOutlined,
+} from '@mui/icons-material';
+import {
+  ValentinesHand,
+  ValentinesWings,
+  ValentinesWorld,
+} from '@worksheets/icons/valentines';
 import { routes } from '@worksheets/routes';
 import { Panel } from '@worksheets/ui/components/panels';
 import { ReferralsPanels } from '@worksheets/util/enums';
-import { Referral } from '@worksheets/util/types';
+import { Referral, Referrer } from '@worksheets/util/types';
 
 import { CollapsibleSection } from '../../components';
 import { ReferredAccountsSection, ShareYourLinkSection } from './sections';
+import { MyReferrerSection } from './sections/my-referrer-section';
 
 export const ReferralsPanel: React.FC<{
   bookmark?: ReferralsPanels;
   referrals: Referral[];
   link: string;
-}> = ({ referrals, link, bookmark }) => {
+  referrer?: Referrer;
+  onReferrerAdd: (code: string) => void;
+}> = ({ referrals, link, bookmark, referrer, onReferrerAdd }) => {
   return (
     <Panel
       bookmark={bookmark}
@@ -55,6 +67,23 @@ export const ReferralsPanel: React.FC<{
               referralLink={link}
               numReferrals={referrals.length}
             />
+          </CollapsibleSection>
+          <CollapsibleSection
+            id={ReferralsPanels.MyReferrer}
+            text="My Referrer"
+            description="See who referred you to the platform or add someone as your referrer."
+            active={active}
+            onClick={toggle}
+            status={
+              referrer ? (
+                <Check fontSize="large" color={'success'} />
+              ) : (
+                <AddBoxOutlined fontSize="large" color={'info'} />
+              )
+            }
+            Icon={ValentinesHand}
+          >
+            <MyReferrerSection referrer={referrer} onAdd={onReferrerAdd} />
           </CollapsibleSection>
         </>
       )}
