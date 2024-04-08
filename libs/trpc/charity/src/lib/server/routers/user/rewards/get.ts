@@ -1,7 +1,5 @@
 import { TRPCError } from '@trpc/server';
 import { routes } from '@worksheets/routes';
-import { dailyBonusGames } from '@worksheets/util/settings';
-import { basicGameDetailsSchema } from '@worksheets/util/types';
 import { z } from 'zod';
 
 import { protectedProcedure } from '../../../procedures';
@@ -13,7 +11,6 @@ export default protectedProcedure
       giftBoxes: z.number(),
       numReferrals: z.number(),
       referralLink: z.string(),
-      bonusGames: basicGameDetailsSchema.array(),
     })
   )
   .query(async ({ ctx: { db, user } }) => {
@@ -45,6 +42,5 @@ export default protectedProcedure
       referralLink: routes.ref.url({
         params: { code: userData.referralCode.code },
       }),
-      bonusGames: dailyBonusGames,
     };
   });

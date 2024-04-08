@@ -34,7 +34,7 @@ const insertGame = async (game: SeedableGameSchema) => {
         description: game.description,
         thumbnail: game.iconUrl,
         cover: game.bannerUrl,
-        status: 'UNPUBLISHED',
+        status: game.publishAt ? 'UNPUBLISHED' : 'PUBLISHED',
         createdAt: new Date(game.createdAt),
         updatedAt: new Date(game.updatedAt),
         trailer: game.trailer,
@@ -66,12 +66,14 @@ const insertGame = async (game: SeedableGameSchema) => {
       skipDuplicates: true,
     });
 
-    await tx.gamePublishAlert.create({
-      data: {
-        triggerAt: game.publishAt ?? new Date(),
-        gameId: game.id,
-      },
-    });
+    if (game.publishAt) {
+      await tx.gamePublishAlert.create({
+        data: {
+          triggerAt: game.publishAt ?? new Date(),
+          gameId: game.id,
+        },
+      });
+    }
   });
 };
 
