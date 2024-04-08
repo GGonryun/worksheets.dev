@@ -7,8 +7,6 @@ import {
 } from '@worksheets/util/settings';
 import { hoursAgo } from '@worksheets/util/time';
 
-const notifications = new NotificationsService();
-
 const PENDING_ALERT_PROPS = {
   id: true as const,
   lastSentAt: true as const,
@@ -40,6 +38,8 @@ type PendingAlert = Prisma.ClaimAlertGetPayload<{
 }>;
 
 export default createCronJob(async () => {
+  const notifications = new NotificationsService();
+
   const [unsentAlerts, pendingAlerts, expiredAlerts] = await Promise.all([
     prisma.claimAlert.findMany({
       where: {
@@ -72,9 +72,9 @@ export default createCronJob(async () => {
   ]);
 
   await Promise.all([
-    ...unsentAlerts.map(processUnsentAlert),
-    ...pendingAlerts.map(processPendingAlert),
-    ...expiredAlerts.map(processExpiredAlert),
+    ...unsentAlerts.map(processUnsentAlert(notifications)),
+    ...pendingAlerts.map(processPendingAlert(notifications)),
+    ...expiredAlerts.map(processExpiredAlert(notifications)),
   ]);
 
   console.info(`Processed ${unsentAlerts.length} unsent alerts.`);
@@ -82,69 +82,72 @@ export default createCronJob(async () => {
   console.info(`Processed ${expiredAlerts.length} expired alerts.`);
 });
 
-const processUnsentAlert = async (alert: PendingAlert) => {
-  await prisma.claimAlert.update({
-    where: {
-      id: alert.id,
-    },
-    data: {
-      lastSentAt: new Date(),
-      sentCount: {
-        increment: 1,
-      },
-    },
-  });
-
-  await notifications.send('won-raffle', {
-    user: alert.winner.user,
-    prize: alert.winner.prize,
-  });
-};
-
-const processPendingAlert = async (alert: PendingAlert) => {
-  await prisma.claimAlert.update({
-    where: {
-      id: alert.id,
-    },
-    data: {
-      lastSentAt: new Date(),
-      sentCount: {
-        increment: 1,
-      },
-    },
-  });
-
-  await notifications.send('won-raffle-reminder', {
-    user: alert.winner.user,
-    prize: alert.winner.prize,
-  });
-};
-
-const processExpiredAlert = async (alert: PendingAlert) => {
-  await prisma.$transaction([
-    prisma.claimAlert.delete({
+const processUnsentAlert =
+  (notifications: NotificationsService) => async (alert: PendingAlert) => {
+    await prisma.claimAlert.update({
       where: {
         id: alert.id,
       },
-    }),
-    // deleting the winner and setting the status to 'REASSIGN' will make sure that the raffle gets new winners assigned by the 'find-expired-raffles' cronjob.
-    prisma.raffleWinner.delete({
-      where: {
-        id: alert.winner.id,
+      data: {
+        lastSentAt: new Date(),
+        sentCount: {
+          increment: 1,
+        },
       },
-    }),
-    prisma.raffle.update({
+    });
+
+    await notifications.send('won-raffle', {
+      user: alert.winner.user,
+      prize: alert.winner.prize,
+    });
+  };
+
+const processPendingAlert =
+  (notifications: NotificationsService) => async (alert: PendingAlert) => {
+    await prisma.claimAlert.update({
       where: {
-        id: alert.winner.raffleId,
+        id: alert.id,
       },
       data: {
-        status: 'REASSIGN',
+        lastSentAt: new Date(),
+        sentCount: {
+          increment: 1,
+        },
       },
-    }),
-  ]);
+    });
 
-  await notifications.send('unclaimed-prize', {
-    user: alert.winner.user,
-    lastSentAt: alert.lastSentAt,
-  });
-};
+    await notifications.send('won-raffle-reminder', {
+      user: alert.winner.user,
+      prize: alert.winner.prize,
+    });
+  };
+
+const processExpiredAlert =
+  (notifications: NotificationsService) => async (alert: PendingAlert) => {
+    await prisma.$transaction([
+      prisma.claimAlert.delete({
+        where: {
+          id: alert.id,
+        },
+      }),
+      // deleting the winner and setting the status to 'REASSIGN' will make sure that the raffle gets new winners assigned by the 'find-expired-raffles' cronjob.
+      prisma.raffleWinner.delete({
+        where: {
+          id: alert.winner.id,
+        },
+      }),
+      prisma.raffle.update({
+        where: {
+          id: alert.winner.raffleId,
+        },
+        data: {
+          status: 'REASSIGN',
+        },
+      }),
+    ]);
+
+    await notifications.send('unclaimed-prize', {
+      user: alert.winner.user,
+      lastSentAt: alert.lastSentAt,
+    });
+  };

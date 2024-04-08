@@ -2,8 +2,6 @@ import { Prisma, prisma } from '@worksheets/prisma';
 import { NotificationsService } from '@worksheets/services/notifications';
 import { createCronJob } from '@worksheets/util/cron';
 
-const notifications = new NotificationsService();
-
 const GAME_PUBLISH_ALERT_PAYLOAD = {
   select: {
     id: true,
@@ -32,6 +30,8 @@ export type GamePublishAlertPayload = Prisma.GamePublishAlertGetPayload<
 >;
 
 const publishGames = async () => {
+  const notifications = new NotificationsService();
+
   const response = await prisma.$transaction(async (tx) => {
     const alerts = await tx.gamePublishAlert.findMany({
       where: {

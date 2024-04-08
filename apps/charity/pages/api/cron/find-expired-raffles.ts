@@ -45,6 +45,8 @@ type RaffleWinner = {
 };
 
 export default createCronJob(async () => {
+  const notifications = new NotificationsService();
+
   const expiredRaffles = await prisma.raffle.findMany({
     where: {
       expiresAt: {
@@ -58,20 +60,19 @@ export default createCronJob(async () => {
   });
 
   console.info(`Found ${expiredRaffles.length} expired raffles.`);
-  await Promise.all(expiredRaffles.map(processExpiredRaffle));
+  await Promise.all(expiredRaffles.map(processExpiredRaffle(notifications)));
   console.info(`Finished processing ${expiredRaffles.length} expired raffles.`);
 });
 
-const notifications = new NotificationsService();
-
-const processExpiredRaffle = async (raffle: ExpiredRaffle) => {
-  try {
-    await assignWinners(raffle);
-    await notifications.send('raffle-expired', raffle);
-  } catch (error) {
-    console.error(`Failed to process raffle ${raffle.id}`, error);
-  }
-};
+const processExpiredRaffle =
+  (notifications: NotificationsService) => async (raffle: ExpiredRaffle) => {
+    try {
+      await assignWinners(raffle);
+      await notifications.send('raffle-expired', raffle);
+    } catch (error) {
+      console.error(`Failed to process raffle ${raffle.id}`, error);
+    }
+  };
 
 const assignWinners = async (raffle: ExpiredRaffle) => {
   if (raffle.participants.length === 0) {

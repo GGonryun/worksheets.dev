@@ -24,12 +24,14 @@ export type ScheduleNewsletterInput = {
   template: Pick<TemplateOptions, 'paragraphs' | 'title' | 'links'>;
 };
 
-const email = new EmailService();
-
 export class NewsletterService {
+  #email: EmailService;
   // gmail allows us to send up to 500 recipients in a single BCC field
   // we use a smaller safer number to avoid hitting the limit
   maxBccRecipients = 100;
+  constructor() {
+    this.#email = new EmailService();
+  }
 
   async schedule(opts: ScheduleNewsletterInput) {
     // get a list of all newsletter subscribers who have opted in to the topic
@@ -63,7 +65,7 @@ export class NewsletterService {
               : undefined,
         });
 
-      email.scheduleMany(
+      this.#email.scheduleMany(
         subscribers.map((sub) => ({
           to: [sub.email],
           subject: opts.subject,

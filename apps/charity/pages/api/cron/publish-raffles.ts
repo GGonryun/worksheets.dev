@@ -2,8 +2,6 @@ import { Prisma, prisma } from '@worksheets/prisma';
 import { NotificationsService } from '@worksheets/services/notifications';
 import { createCronJob } from '@worksheets/util/cron';
 
-const notifications = new NotificationsService();
-
 const props = {
   select: {
     id: true,
@@ -37,33 +35,35 @@ const props = {
 
 type PublishableAlert = Prisma.RafflePublishAlertGetPayload<typeof props>;
 
-const publishRaffle = async (alert: PublishableAlert) => {
-  if (alert.raffle.numWinners != alert.raffle.codes.length) {
-    throw new Error(
-      `Raffle ${alert.raffle.id} cannot be published: insufficient activation codes available to start raffle`
-    );
-  }
+const publishRaffle =
+  (notifications: NotificationsService) => async (alert: PublishableAlert) => {
+    if (alert.raffle.numWinners != alert.raffle.codes.length) {
+      throw new Error(
+        `Raffle ${alert.raffle.id} cannot be published: insufficient activation codes available to start raffle`
+      );
+    }
 
-  await prisma.$transaction([
-    prisma.raffle.update({
-      where: {
-        id: alert.raffle.id,
-      },
-      data: {
-        status: 'ACTIVE',
-      },
-    }),
-    prisma.rafflePublishAlert.delete({
-      where: {
-        id: alert.id,
-      },
-    }),
-  ]);
+    await prisma.$transaction([
+      prisma.raffle.update({
+        where: {
+          id: alert.raffle.id,
+        },
+        data: {
+          status: 'ACTIVE',
+        },
+      }),
+      prisma.rafflePublishAlert.delete({
+        where: {
+          id: alert.id,
+        },
+      }),
+    ]);
 
-  await notifications.send('new-raffle', alert.raffle);
-};
+    await notifications.send('new-raffle', alert.raffle);
+  };
 
 export default createCronJob(async () => {
+  const notifications = new NotificationsService();
   const alerts = await prisma.rafflePublishAlert.findMany({
     where: {
       triggerAt: {
@@ -73,7 +73,9 @@ export default createCronJob(async () => {
     ...props,
   });
 
-  const results = await Promise.allSettled(alerts.map(publishRaffle));
+  const results = await Promise.allSettled(
+    alerts.map(publishRaffle(notifications))
+  );
 
   for (const result of results) {
     if (result.status === 'rejected') {
