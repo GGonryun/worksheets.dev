@@ -2,27 +2,27 @@
     "crons": [
         {
             "path": "/api/cron/destroy-expired-notifications",
-            "schedule": "25 0 * * *"
+            "schedule": "0 0 * * 0"
         },
         {
             "path": "/api/cron/destroy-expired-quests",
-            "schedule": "5 * * * *"
+            "schedule": "0 0 * * *"
         },
         {
-            "path": "/api/cron/find-expired-quests",
-            "schedule": "50 * * * *"
+            "path": "/api/cron/find-expired-raffles",
+            "schedule": "15 * * * *"
         },
         {
             "path": "/api/cron/notify-winners",
-            "schedule": "30 * * * *"
+            "schedule": "20 * * * *"
         },
         {
             "path": "/api/cron/publish-games",
-            "schedule": "40 * * * *"
+            "schedule": "0 0 * * *"
         },
         {
             "path": "/api/cron/publish-raffles",
-            "schedule": "10 * * * *"
+            "schedule": "0 0 * * *"
         },
         {
             "path": "/api/cron/refresh-rewards",
@@ -30,7 +30,7 @@
         },
         {
             "path": "/api/cron/send-scheduled-emails",
-            "schedule": "20 * * * *"
+            "schedule": "30 * * * *"
         }
     ]
 }
