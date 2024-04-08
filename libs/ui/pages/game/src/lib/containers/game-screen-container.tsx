@@ -18,6 +18,7 @@ import {
   CannotVoteModal,
   GameScreen,
   LoginToEarnTokensSnackbarMessage,
+  PlayGameSnackbar,
   ReportIssueModal,
   ShareGameModal,
 } from '../components';
@@ -83,6 +84,7 @@ const GameScreenContainer: React.FC<{
       await trackGamePlay.mutateAsync({
         gameId: game.id,
       });
+      snackbar.success(<PlayGameSnackbar />);
     } else if (referralCode) {
       snackbar.info(<LoginToEarnTokensSnackbarMessage href={loginHref} />);
     }
