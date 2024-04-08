@@ -73,7 +73,7 @@ export const getStaticProps = (async (ctx) => {
   const seo = blogArticleSeo(slug, metadata);
   const articleJsonLd = blogArticleJsonLd(slug, metadata, author);
 
-  const popular = await prisma.game.findMany({
+  const popularGames = await prisma.game.findMany({
     orderBy: {
       plays: 'desc',
     },
@@ -82,6 +82,7 @@ export const getStaticProps = (async (ctx) => {
       id: true,
       title: true,
       plays: true,
+      thumbnail: true,
       cover: true,
     },
   });
@@ -95,12 +96,7 @@ export const getStaticProps = (async (ctx) => {
       metadata,
       content,
       author,
-      popularGames: popular.map((game) => ({
-        id: game.id,
-        name: game.title,
-        imageUrl: game.cover,
-        plays: game.plays,
-      })),
+      popularGames,
     },
   };
 }) satisfies GetStaticProps<ComponentProps>;

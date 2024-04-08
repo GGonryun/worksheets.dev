@@ -1,11 +1,6 @@
 import { Prisma } from '@prisma/client';
-import { routes } from '@worksheets/routes';
 import { shuffle } from '@worksheets/util/arrays';
-import {
-  BasicGameInfo,
-  BasicRaffleDetails,
-  PromotedGame,
-} from '@worksheets/util/types';
+import { BasicGameInfo, BasicRaffleDetails } from '@worksheets/util/types';
 import { uniqBy } from 'lodash';
 import { z } from 'zod';
 
@@ -15,8 +10,8 @@ export default publicProcedure
   .output(
     z.object({
       featured: z.object({
-        primary: z.custom<PromotedGame[]>(),
-        secondary: z.custom<PromotedGame>(),
+        primary: z.custom<BasicGameInfo[]>(),
+        secondary: z.custom<BasicGameInfo>(),
       }),
       topRaffles: z.custom<BasicRaffleDetails[]>(),
       topGames: z.custom<BasicGameInfo[]>(),
@@ -70,43 +65,17 @@ export default publicProcedure
       }),
     ]);
 
-    const topGames = [...games]
-      .sort((a, b) => b.plays - a.plays)
-      .slice(0, 10)
-      .map((g) => ({
-        id: g.id,
-        name: g.title,
-        imageUrl: g.thumbnail,
-        coverUrl: g.cover,
-        plays: g.plays,
-      }));
+    const topGames = [...games].sort((a, b) => b.plays - a.plays).slice(0, 10);
 
     const newGames = [...games]
       .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
-      .slice(0, 10)
-      .map((g) => ({
-        id: g.id,
-        name: g.title,
-        imageUrl: g.thumbnail,
-        coverUrl: g.cover,
-        plays: g.plays,
-      }));
+      .slice(0, 10);
 
-    const allGames = [...games].map((g) => ({
-      id: g.id,
-      name: g.title,
-      imageUrl: g.thumbnail,
-      plays: g.plays,
-    }));
-    const featured = shuffle(uniqBy([...topGames, ...newGames], 'id'))
-      .slice(0, 10)
-      .map((game) => {
-        return {
-          href: routes.game.path({ params: { gameId: game.id } }),
-          image: game.coverUrl,
-          name: game.name,
-        };
-      });
+    const allGames = [...games];
+    const featured = shuffle(uniqBy([...topGames, ...newGames], 'id')).slice(
+      0,
+      10
+    );
 
     const primary = featured.slice(0, -1);
 

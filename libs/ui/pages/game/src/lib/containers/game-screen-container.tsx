@@ -97,8 +97,8 @@ const GameScreenContainer: React.FC<{
     gameTracker.start();
     addRecentlyPlayed({
       id: game.id,
-      name: game.name,
-      imageUrl: game.iconUrl,
+      title: game.name,
+      thumbnail: game.iconUrl,
       plays: game.plays,
       playedLast: new Date().getTime(),
     });

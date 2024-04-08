@@ -4,18 +4,18 @@ import { shorthandNumber } from '@worksheets/util/numbers';
 import { BasicGameInfo, PartialBy } from '@worksheets/util/types';
 import { FC } from 'react';
 
-export const Game: FC<PartialBy<BasicGameInfo, 'plays'>> = ({
+export const Game: FC<PartialBy<Omit<BasicGameInfo, 'cover'>, 'plays'>> = ({
   id,
-  name,
+  title,
   plays,
-  imageUrl,
+  thumbnail,
 }) => {
   return (
     <ArcadeItemLayout
       href={routes.game.url({ params: { gameId: id } })}
-      name={name}
+      name={title}
       caption={plays != null ? `${shorthandNumber(plays)}+ plays` : ''}
-      imageUrl={imageUrl}
+      imageUrl={thumbnail}
     />
   );
 };

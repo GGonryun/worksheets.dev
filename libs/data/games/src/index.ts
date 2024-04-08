@@ -35,7 +35,6 @@ export const games: SeedableGameSchema[] = [
       type: 'HTML',
       url: 'https://cdn.charity.games/_games/the-sorcerer/index.html',
     },
-    publishAt: new Date('2024-03-02T00:00:00.000Z'),
     createdAt: new Date('2024-03-02T00:00:00.000Z'),
     updatedAt: new Date('2024-03-02T00:00:00.000Z'),
     markets: {},

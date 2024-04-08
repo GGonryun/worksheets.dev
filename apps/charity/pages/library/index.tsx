@@ -34,12 +34,7 @@ export const getStaticProps = (async (ctx) => {
   return {
     props: {
       categories,
-      games: library.map((game) => ({
-        id: game.id,
-        name: game.title,
-        imageUrl: game.thumbnail,
-        plays: game.plays,
-      })),
+      games: library,
       seo: librarySeo,
     },
   };

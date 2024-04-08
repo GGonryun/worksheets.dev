@@ -3,6 +3,7 @@ import find from './find';
 import findRandom from './findRandom';
 import library from './library';
 import list from './list';
+import newest from './newest';
 import play from './play/router';
 import popular from './popular';
 import report from './report';
@@ -13,6 +14,7 @@ export default t.router({
   vote,
   suggestions,
   popular,
+  newest,
   find,
   findRandom,
   play,

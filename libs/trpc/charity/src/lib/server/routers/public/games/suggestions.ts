@@ -23,16 +23,12 @@ export default publicProcedure
         title: true,
         thumbnail: true,
         plays: true,
+        cover: true,
       },
       orderBy: {
         plays: 'desc',
       },
     });
 
-    return games.map((game) => ({
-      id: game.id,
-      name: game.title,
-      imageUrl: game.thumbnail,
-      plays: game.plays,
-    }));
+    return games;
   });

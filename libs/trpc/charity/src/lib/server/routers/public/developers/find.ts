@@ -28,6 +28,7 @@ export default publicProcedure
             id: true,
             title: true,
             thumbnail: true,
+            cover: true,
             plays: true,
           },
         },
@@ -42,12 +43,7 @@ export default publicProcedure
     }
 
     return {
-      games: data.games.map((game) => ({
-        id: game.id,
-        name: game.title,
-        imageUrl: game.thumbnail,
-        plays: game.plays,
-      })),
+      games: data.games,
       developer: {
         id: data.id,
         name: data.name,

@@ -25,8 +25,10 @@ const dummySocials: DeveloperSchema['socials'] = {
 const sampleGameDefinitions: BasicGameInfo[] = Array.from({ length: 10 }).map(
   (_, i) => ({
     id: `game-${i}`,
-    name: `Game ${i}`,
-    image: `https://placekitten.com/200/300?image=${i}`,
+    title: `Game ${i}`,
+    thumbnail: `https://placekitten.com/200/300?image=${i}`,
+    cover: `https://placekitten.com/400/600?image=${i}`,
+    plays: i * 100,
   })
 );
 

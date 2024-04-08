@@ -1,12 +1,12 @@
 import { Box, Theme, useMediaQuery } from '@mui/material';
-import { PromotedGame } from '@worksheets/util/types';
+import { BasicGameInfo } from '@worksheets/util/types';
 import React from 'react';
 
 import { PrimaryFeatured } from './primary-featured';
 
 export const FeaturedGames: React.FC<{
-  primary: PromotedGame[];
-  secondary: PromotedGame;
+  primary: BasicGameInfo[];
+  secondary: BasicGameInfo;
 }> = (props) => {
   const isSmall = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'));
   const primary = isSmall ? [...props.primary, props.secondary] : props.primary;

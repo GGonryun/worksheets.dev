@@ -21,7 +21,7 @@ export const ArcadeScreen: React.FC<{
   topGames: BasicGameInfo[];
   newGames: BasicGameInfo[];
   allGames: BasicGameInfo[];
-  recentGames: BasicGameInfo[];
+  recentGames: Omit<BasicGameInfo, 'cover'>[];
 }> = (props) => {
   return (
     <Box

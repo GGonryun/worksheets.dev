@@ -5,7 +5,7 @@ import { ReactNode } from 'react';
 import { Game } from './game';
 
 export const GameCarousel: React.FC<{
-  items: BasicGameInfo[];
+  items: Omit<BasicGameInfo, 'cover'>[];
   title: string;
   action?: ReactNode;
 }> = ({ items, title, action }) => {

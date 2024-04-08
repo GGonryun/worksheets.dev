@@ -64,7 +64,7 @@ export const GameScreen: FC<GameScreenProps> = ({
           }}
         >
           {leftBar.map((g) => (
-            <Game key={g.id} id={g.id} name={''} imageUrl={g.imageUrl} />
+            <Game key={g.id} id={g.id} title={''} thumbnail={g.thumbnail} />
           ))}
         </PaperSidebar>
 
@@ -84,7 +84,7 @@ export const GameScreen: FC<GameScreenProps> = ({
           }}
         >
           {rightBar.map((g) => (
-            <Game key={g.id} id={g.id} name={''} imageUrl={g.imageUrl} />
+            <Game key={g.id} id={g.id} title={''} thumbnail={g.thumbnail} />
           ))}
         </PaperSidebar>
       </Box>

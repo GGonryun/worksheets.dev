@@ -7,15 +7,16 @@ import {
   Theme,
   useMediaQuery,
 } from '@mui/material';
+import { routes } from '@worksheets/routes';
 import { FillImage } from '@worksheets/ui/components/images';
 import { useInterval } from '@worksheets/ui-core';
-import { PromotedGame } from '@worksheets/util/types';
+import { BasicGameInfo } from '@worksheets/util/types';
 import React from 'react';
 
 export const PROMOTION_INTERVAL = 5000;
 
 export const PrimaryFeatured: React.FC<{
-  items: PromotedGame[];
+  items: BasicGameInfo[];
   actionColor?: ButtonProps['color'];
 }> = (props) => {
   const [active, setActive] = React.useState(0);
@@ -43,7 +44,11 @@ export const PrimaryFeatured: React.FC<{
     >
       <Paper
         component="a"
-        href={item.href}
+        href={routes.game.path({
+          params: {
+            gameId: item.id,
+          },
+        })}
         sx={{
           position: 'relative',
           cursor: 'pointer',
@@ -52,7 +57,7 @@ export const PrimaryFeatured: React.FC<{
           overflow: 'hidden',
         }}
       >
-        <FillImage priority src={item.image} alt={item.name} />
+        <FillImage priority src={item.cover} alt={item.title} />
         <Box
           position="absolute"
           bottom={{ xs: 12, sm: 16 }}

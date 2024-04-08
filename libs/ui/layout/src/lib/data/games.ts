@@ -4,7 +4,8 @@ export const sampleGames: BasicGameInfo[] = Array.from({
   length: 10,
 }).map((_, i) => ({
   id: i.toString(),
-  name: `Game ${i}`,
-  imageUrl: 'https://via.placeholder.com/150',
+  title: `Game ${i}`,
+  thumbnail: 'https://via.placeholder.com/150',
+  cover: 'https://via.placeholder.com/300',
   plays: 0,
 }));
