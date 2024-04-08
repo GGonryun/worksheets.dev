@@ -1,1 +1,1 @@
-export * from './lib/dynamic';
+export * from './lib/dynamic/dynamic-prize-screen';

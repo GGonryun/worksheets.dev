@@ -1,6 +1,6 @@
 import { Box, Link, Typography } from '@mui/material';
 import { routes } from '@worksheets/routes';
-import { HelpPrizesQuestions } from '@worksheets/util/enums';
+import { HelpPrizesQuestions, PrizesPanels } from '@worksheets/util/enums';
 import { QuestionAnswer } from '@worksheets/util/types';
 
 import { HelpfulLinks } from '../helpful-links';
@@ -38,7 +38,6 @@ export const helpPrizes: QuestionAnswer[] = [
         <HelpfulLinks
           links={[
             { text: 'Access your prizes', href: routes.account.prizes.path() },
-            { text: 'View Prizes', href: routes.prizes.path() },
             { text: 'View Raffles', href: routes.raffles.path() },
             { text: 'Learn about Tokens', href: routes.help.tokens.path() },
           ]}
@@ -66,7 +65,6 @@ export const helpPrizes: QuestionAnswer[] = [
           links={[
             { text: 'Play Games', href: routes.play.path() },
             { text: 'Enter Raffles', href: routes.raffles.path() },
-            { text: 'View Prizes', href: routes.prizes.path() },
           ]}
         />
       </Box>
@@ -79,9 +77,7 @@ export const helpPrizes: QuestionAnswer[] = [
     answer: (
       <Box>
         <Typography>
-          You can see all available prizes by visiting the{' '}
-          <Link href={routes.prizes.path()}>prizes page</Link>. Prizes that have
-          active raffles can be found on the{' '}
+          Prizes that have active raffles can be found on the{' '}
           <Link href={routes.raffles.path()}>raffles page</Link>.
           <br />
           <br />
@@ -92,7 +88,6 @@ export const helpPrizes: QuestionAnswer[] = [
         <br />
         <HelpfulLinks
           links={[
-            { text: 'View Prizes', href: routes.prizes.path() },
             { text: 'Enter Raffles', href: routes.raffles.expired.path() },
             { text: 'See my prizes', href: routes.account.prizes.path() },
           ]}
@@ -108,9 +103,15 @@ export const helpPrizes: QuestionAnswer[] = [
       <Box>
         <Typography>
           You can claim prizes by visiting the{' '}
-          <Link href={routes.prizes.path()}>prizes page</Link>. If you have won
-          a prize, you will receive a notification and an email to claim your
-          prize. You can find all your prizes in your{' '}
+          <Link
+            href={routes.account.prizes.path({
+              bookmark: PrizesPanels.Prizes,
+            })}
+          >
+            prizes page
+          </Link>
+          . If you have won a prize, you will receive a notification and an
+          email to claim your prize. You can find all your prizes in your{' '}
           <Link href={routes.account.prizes.path()}>prizes page</Link>.
           <br />
           <br />
@@ -129,7 +130,6 @@ export const helpPrizes: QuestionAnswer[] = [
         <HelpfulLinks
           links={[
             { text: 'Learn about Tokens', href: routes.help.tokens.path() },
-            { text: 'View Prizes', href: routes.prizes.path() },
             { text: 'See my prizes', href: routes.account.prizes.path() },
             {
               text: 'Contact Us',
@@ -178,8 +178,7 @@ export const helpPrizes: QuestionAnswer[] = [
           displayed on the raffle page and differs for each prize and raffle.
           <br />
           <br />
-          <Link href={routes.raffles.path()}>Enter a raffle</Link> or visit the{' '}
-          <Link href={routes.prizes.path()}>prizes page</Link> to spend your
+          <Link href={routes.raffles.path()}>Enter a raffle</Link> to spend your
           tokens.
         </Typography>
         <br />
@@ -188,7 +187,6 @@ export const helpPrizes: QuestionAnswer[] = [
             { text: 'Learn about Tokens', href: routes.help.tokens.path() },
             { text: 'My Tokens', href: routes.account.quests.path() },
             { text: 'Enter Raffles', href: routes.raffles.path() },
-            { text: 'View Prizes', href: routes.prizes.path() },
           ]}
         />
       </Box>

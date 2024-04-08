@@ -11,6 +11,7 @@ export const PrizeDescription: React.FC<{
   prize: DetailedPrizeSchema;
 }> = ({ prize, onShare }) => (
   <Description
+    open
     title="About This Prize"
     ancillary={
       <Box

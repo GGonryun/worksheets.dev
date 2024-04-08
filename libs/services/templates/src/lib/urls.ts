@@ -11,8 +11,6 @@ export const GAMES_URL = routes.play.url();
 
 export const RAFFLES_URL = routes.raffles.url();
 
-export const PRIZES_LINK = routes.prizes.url();
-
 export const CONTACT_URL = routes.contact.url();
 
 export const ACCOUNT_URL = routes.account.url();

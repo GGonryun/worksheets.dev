@@ -18,6 +18,7 @@ export const RafflesDescription: React.FC<{
   expiredRaffles.sort((a, b) => b.expiresAt - a.expiresAt);
   return (
     <Description
+      open
       title="Recent Raffles"
       ancillary={
         <Box

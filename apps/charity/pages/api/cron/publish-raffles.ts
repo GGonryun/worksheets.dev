@@ -82,4 +82,8 @@ export default createCronJob(async () => {
       console.error(`Failed to publish raffle`, result.reason);
     }
   }
+
+  if (!results) {
+    console.error(`No raffles to publish`);
+  }
 });

@@ -55,7 +55,7 @@ export const ParticipationSection: React.FC<{
           `Play games, refer friends, and make purchases to earn tokens.`,
           <>
             Redeem tokens for Raffle Entries and Prizes from the{' '}
-            <Link href={routes.prizes.path()}>Prize Wall</Link>.
+            <Link href={routes.raffles.path()}>Prize Wall</Link>.
           </>,
           `If you win a prize, you'll have 72 hours to claim it. If you don't, it will expire.`,
           <>

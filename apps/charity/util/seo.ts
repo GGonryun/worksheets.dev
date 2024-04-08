@@ -395,13 +395,6 @@ export const expiredRafflesSeo = createSeo({
     'View all expired raffles on Charity Games. See what prizes were given away. Every token you spend is a donation towards a better world.',
 });
 
-export const prizesSeo = createSeo({
-  path: routes.prizes.path(),
-  title: 'Prizes',
-  description:
-    'Redeem your tokens for real world prizes and free games. Every token you spend is a donation towards charity. Win free prizes by playing browser games and referring friends',
-});
-
 export const prizeSeo = (prize: PrizeSchema): NextSeoProps =>
   createSeo({
     path: routes.prize.path({ params: { prizeId: prize.id } }),

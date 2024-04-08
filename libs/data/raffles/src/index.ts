@@ -1,6 +1,6 @@
+import { Raffle } from '@prisma/client';
 import { PrizeId } from '@worksheets/data/prizes';
 import { SponsorId } from '@worksheets/data/sponsors';
-import { Raffle } from '@worksheets/prisma';
 
 export type SeedableRaffle = Omit<
   Raffle,
@@ -11,8 +11,17 @@ export type SeedableRaffle = Omit<
   sponsorId: SponsorId;
 };
 
-// TODO add first raffles
-const rawRaffles: any[] = [];
+const rawRaffles = [
+  {
+    id: 1,
+    version: 2,
+    expiresAt: new Date('4-10-2024'),
+    publishAt: new Date('4-09-2024'),
+    numWinners: 1,
+    prizeId: 'bg3',
+    sponsorId: 'charity-games',
+  } as const,
+];
 
 export type RaffleId = (typeof rawRaffles)[number]['id'];
 

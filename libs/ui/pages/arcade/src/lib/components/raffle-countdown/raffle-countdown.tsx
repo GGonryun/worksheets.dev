@@ -38,7 +38,7 @@ export const RaffleCountdown: React.FC<{ expires: number }> = ({ expires }) => {
         </Box>
         <Typography
           component={Link}
-          href={routes.prizes.path()}
+          href={routes.raffles.path()}
           color="inherit"
           underline="always"
           sx={{

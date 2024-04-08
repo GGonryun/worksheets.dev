@@ -114,9 +114,6 @@ export const routes = {
       }),
     },
   }),
-  prizes: createRoute({
-    path: '/prizes',
-  }),
   prize: createRoute({
     path: '/prizes/[prizeId]',
   }),

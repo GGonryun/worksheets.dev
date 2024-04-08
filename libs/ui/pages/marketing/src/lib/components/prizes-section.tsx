@@ -85,7 +85,7 @@ const Prizes = () => {
       {PRIZE_ITEMS.slice(0, count).map((prize) => (
         <Box
           component={Link}
-          href={routes.prizes.path()}
+          href={routes.raffles.path()}
           key={prize.alt}
           sx={{
             cursor: 'pointer',
@@ -121,7 +121,7 @@ const Disclaimer = () => (
     <Typography
       variant="h6"
       component={Link}
-      href={routes.prizes.path()}
+      href={routes.raffles.path()}
       color="text.white"
       underline="hover"
       textTransform="uppercase"

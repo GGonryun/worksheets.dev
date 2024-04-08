@@ -1,12 +1,8 @@
-import { NavigateBefore } from '@mui/icons-material';
-import { Box, Button, Typography, useTheme } from '@mui/material';
-import { routes } from '@worksheets/routes';
+import { Box, Typography, useTheme } from '@mui/material';
 import { ResponsiveImage } from '@worksheets/ui/components/images';
-import { PrizesGroup } from '@worksheets/ui/components/prizes';
 import {
   BasicRaffleDetails,
   DetailedPrizeSchema,
-  PrizeSchema,
 } from '@worksheets/util/types';
 
 import { CustomContainer } from '../shared/custom-container';
@@ -17,24 +13,10 @@ export const PrizeScreen: React.FC<{
   prize: DetailedPrizeSchema;
   activeRaffles: BasicRaffleDetails[];
   expiredRaffles: BasicRaffleDetails[];
-  activePrizes: PrizeSchema[];
   onShare: () => void;
-}> = ({ prize, activeRaffles, expiredRaffles, activePrizes, onShare }) => (
+}> = ({ prize, activeRaffles, expiredRaffles, onShare }) => (
   <CustomContainer>
     <Box display="flex" flexDirection="column" gap={4}>
-      <Button
-        href={routes.prizes.path()}
-        color="white"
-        startIcon={<NavigateBefore />}
-        sx={{
-          textDecoration: 'underline',
-          alignSelf: 'flex-start',
-          width: 'fit-content',
-        }}
-      >
-        All Prizes
-      </Button>
-
       <PrizeHeader prize={prize} />
       <PrizeDescription prize={prize} onShare={onShare} />
       <RafflesDescription
@@ -42,10 +24,6 @@ export const PrizeScreen: React.FC<{
         activeRaffles={activeRaffles}
         expiredRaffles={expiredRaffles}
       />
-
-      {Boolean(activePrizes) && (
-        <PrizesGroup title="Active Prizes" prizes={activePrizes} />
-      )}
     </Box>
   </CustomContainer>
 );

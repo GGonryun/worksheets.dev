@@ -12,11 +12,13 @@ import {
   helpCenterSeo,
   helpContributionsSeo,
   helpDevelopersSeo,
+  helpEmailsSeo,
   helpFaqSeo,
   helpFriendsSeo,
   helpNotificationsSeo,
   helpPlayingGamesSeo,
   helpPrizesSeo,
+  helpQuestsSeo,
   helpReferralsSeo,
   helpTokensSeo,
   helpVIPSeo,
@@ -24,7 +26,6 @@ import {
   loginSeo,
   playSeo,
   privacySeo,
-  prizesSeo,
   rafflesSeo,
   signUpSeo,
   termsSeo,
@@ -49,7 +50,6 @@ const addBasicPages = () => {
     playSeo.canonical,
     librarySeo.canonical,
     categoriesSeo.canonical,
-    prizesSeo.canonical,
     rafflesSeo.canonical,
     vipSeo.canonical,
     helpCenterSeo.canonical,
@@ -64,6 +64,8 @@ const addBasicPages = () => {
     helpPrizesSeo.canonical,
     helpContributionsSeo.canonical,
     helpDevelopersSeo.canonical,
+    helpQuestsSeo.canonical,
+    helpEmailsSeo.canonical,
   ];
 
   return slugs

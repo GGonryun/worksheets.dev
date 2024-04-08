@@ -27,7 +27,7 @@ export const PrizesPanel: React.FC<{
         learn: { text: 'The Prize Wall', href: routes.help.prizes.path() },
         action: {
           text: 'Get Prizes',
-          href: routes.prizes.path(),
+          href: routes.raffles.path(),
           color: 'secondary',
         },
       }}

@@ -35,10 +35,10 @@ export const mockNotifications: NotificationSchema[] = [
   },
   {
     id: '30',
-    text: `A raffle you're participating in is ending soon. Don't forget to <a href="${routes.prize.path(
+    text: `A raffle you're participating in is ending soon. Don't forget to <a href="${routes.raffle.path(
       {
         params: {
-          prizeId: 1,
+          raffleId: 1,
         },
       }
     )}">purchase more raffle entries</a>!`,

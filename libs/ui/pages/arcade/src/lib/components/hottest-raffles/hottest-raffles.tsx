@@ -39,7 +39,7 @@ export const HottestRaffles: React.FC<{ prizes: BasicRaffleDetails[] }> = ({
       action={{
         color: 'success',
         text: 'All Raffles',
-        href: routes.prizes.path(),
+        href: routes.raffles.path(),
       }}
     >
       {prizes.map((prize) => (

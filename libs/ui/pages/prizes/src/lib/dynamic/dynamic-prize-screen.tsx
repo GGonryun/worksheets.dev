@@ -22,17 +22,12 @@ const PrizeScreenContainer: React.FC<{ prize: DetailedPrizeSchema }> = ({
     category: 'expired',
   });
 
-  const suggestedPrizes = trpc.public.prizes.suggestions.useQuery({
-    prizeId: prize.id,
-  });
-
   return (
     <>
       <PrizeScreen
         prize={prize}
         activeRaffles={activeRaffles.data ?? []}
         expiredRaffles={expiredRaffles.data ?? []}
-        activePrizes={suggestedPrizes.data?.active ?? []}
         onShare={() => setSharePrizeModal(true)}
       />
       <SharePrizeModal

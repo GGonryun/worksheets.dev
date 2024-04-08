@@ -1,4 +1,4 @@
-import { CardGiftcard, PlayCircleOutlined } from '@mui/icons-material';
+import { PlayCircleOutlined } from '@mui/icons-material';
 import { Box, Button, Typography } from '@mui/material';
 import { routes } from '@worksheets/routes';
 import { useMediaQueryDown } from '@worksheets/ui/hooks/use-media-query';
@@ -44,26 +44,12 @@ export const TitleText = () => {
         </Typography>
         <Box
           display="flex"
-          flexDirection={{ xs: 'column', sm: 'row' }}
           alignItems="center"
           justifyContent="center"
           mt={4}
           mb={2}
-          gap={2}
           width="100%"
         >
-          <Button
-            href={routes.prizes.path()}
-            variant="arcade"
-            color="warning"
-            size={isMobile ? 'medium' : 'large'}
-            sx={{
-              width: { xs: '100%', sm: '256px' },
-            }}
-            startIcon={<CardGiftcard color="white" />}
-          >
-            View Prizes
-          </Button>
           <Button
             href={routes.help.prizes.path()}
             variant="arcade"

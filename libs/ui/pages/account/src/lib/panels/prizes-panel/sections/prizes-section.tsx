@@ -49,7 +49,7 @@ export const PrizesSection: React.FC<{
         }}
         action={{
           text: 'Redeem Tokens',
-          href: routes.prizes.path(),
+          href: routes.raffles.path(),
           color: 'primary',
         }}
       />

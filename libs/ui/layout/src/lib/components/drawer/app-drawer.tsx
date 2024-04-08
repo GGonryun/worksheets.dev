@@ -2,8 +2,6 @@ import {
   AccountCircleOutlined,
   CategoryOutlined,
   CircleOutlined,
-  EmojiEventsOutlined,
-  GavelOutlined,
   HomeOutlined,
   LocalActivityOutlined,
   LocalFireDepartmentOutlined,
@@ -70,19 +68,9 @@ export const AppDrawer: React.FC<WithDrawerProps<{ connected: boolean }>> = ({
         title="Prizes"
         links={[
           {
-            href: routes.prizes.path(),
-            icon: <EmojiEventsOutlined />,
-            label: 'All Prizes',
-          },
-          {
             href: routes.raffles.path(),
             icon: <LocalActivityOutlined />,
             label: 'Raffles',
-          },
-          {
-            href: routes.auctions.path(),
-            icon: <GavelOutlined />,
-            label: 'Auctions',
           },
         ]}
       />

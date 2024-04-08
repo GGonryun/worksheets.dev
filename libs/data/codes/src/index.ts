@@ -8,8 +8,14 @@ export type SeedableCode = {
   raffleId?: RaffleId;
 };
 
-// TODO add first codes
-const rawCodes: any[] = [];
+const rawCodes = [
+  {
+    id: '123',
+    prizeId: 'bg3',
+    content: 'encrypted-content',
+    raffleId: 1,
+  } as const,
+];
 
 export const codes: SeedableCode[] = rawCodes;
 

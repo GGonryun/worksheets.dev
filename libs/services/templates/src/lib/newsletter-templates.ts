@@ -22,7 +22,6 @@ import {
   DEVELOPER_URL,
   GAME_URL,
   GAMES_URL,
-  PRIZES_LINK,
   RAFFLE_URL,
   RAFFLES_URL,
 } from './urls';
@@ -159,7 +158,7 @@ export class NewsletterTemplates {
           paragraphs: [
             `Thank you for joining Charity Games! Our mission is to help you win prizes while supporting great causes. Here's how you can get started:`,
             `1. {{GAMES_LINK}} to earn tokens.`,
-            `2. Use tokens to {{RAFFLES_LINK}} and {{PRIZES_LINK}}.`,
+            `2. Use tokens to {{RAFFLES_LINK}} and win prizes.`,
             `3. {{ADD_FRIENDS_LINK}} to earn more tokens.`,
             `Good luck and have fun!`,
           ],
@@ -178,11 +177,6 @@ export class NewsletterTemplates {
               id: 'RAFFLES_LINK',
               href: RAFFLES_URL,
               text: 'enter raffles',
-            },
-            {
-              id: 'PRIZES_LINK',
-              href: PRIZES_LINK,
-              text: 'win prizes',
             },
           ],
         },

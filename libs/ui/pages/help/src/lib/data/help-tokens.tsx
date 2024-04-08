@@ -229,10 +229,6 @@ export const helpTokens: QuestionAnswer[] = [
               href: routes.raffles.path(),
               text: 'Enter a Raffle',
             },
-            {
-              href: routes.prizes.path(),
-              text: 'View Prizes',
-            },
           ]}
         />
       </Box>

@@ -54,7 +54,7 @@ export const getStaticProps = (async (ctx) => {
     console.error(`Error fetching prize ${prizeId}`, error);
     return {
       redirect: {
-        destination: routes.prizes.path(),
+        destination: routes.home.path(),
         permanent: false,
       },
     };

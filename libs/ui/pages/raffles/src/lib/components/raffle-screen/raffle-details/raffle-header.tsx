@@ -1,5 +1,4 @@
-import { Box, Link, Typography } from '@mui/material';
-import { routes } from '@worksheets/routes';
+import { Box, Typography } from '@mui/material';
 import { CoverImage } from '@worksheets/ui/components/images';
 import { RaffleSchema } from '@worksheets/util/types';
 
@@ -17,13 +16,6 @@ export const RaffleHeader: React.FC<{
       >
         <Box>
           <Typography
-            component={Link}
-            gutterBottom
-            href={routes.prize.path({
-              params: { prizeId: raffle.prizeId },
-            })}
-            color="inherit"
-            underline="hover"
             sx={{
               typography: { xs: 'h6', sm: 'h5' },
             }}
