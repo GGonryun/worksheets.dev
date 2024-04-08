@@ -7,4 +7,3 @@ export * from './lib/discord';
 export * from './lib/urls';
 export * from './lib/gmail';
 export * from './lib/twitter';
-export * from './lib/encryption';
