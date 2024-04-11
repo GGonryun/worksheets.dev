@@ -1,4 +1,5 @@
 import { TRPCError } from '@trpc/server';
+import { InventoryService } from '@worksheets/services/inventory';
 import { NotificationsService } from '@worksheets/services/notifications';
 import { z } from 'zod';
 
@@ -15,6 +16,8 @@ export default protectedProcedure
   )
   .mutation(async ({ ctx: { db, user }, input: { friendshipId: id } }) => {
     const userId = user.id;
+    const inventory = new InventoryService(db);
+
     console.info('user is sending gift to friend with id', { userId, id });
 
     const friendship = await db.friendship.findFirst({
@@ -41,38 +44,23 @@ export default protectedProcedure
       });
     }
 
-    const [userRewards, friendRewards, gift] = await Promise.all([
-      db.rewards.findFirst({
-        where: {
-          userId: friendship.userId,
-        },
-      }),
-      db.rewards.findFirst({
-        where: {
-          userId: friendship.friendId,
-        },
-      }),
-      db.gift.findFirst({
-        where: {
-          friendshipId: friendship.id,
-        },
-      }),
-    ]);
+    const sharableGiftBoxes = await inventory.quantity(
+      userId,
+      'small-box-of-tokens-offering'
+    );
 
-    if (!userRewards) {
+    if (sharableGiftBoxes <= 0) {
       throw new TRPCError({
-        code: 'INTERNAL_SERVER_ERROR',
-        message: 'Could not find user rewards. Contact support for assistance.',
+        code: 'PRECONDITION_FAILED',
+        message: 'You do not have any gifts to send.',
       });
     }
 
-    if (!friendRewards) {
-      throw new TRPCError({
-        code: 'INTERNAL_SERVER_ERROR',
-        message:
-          'Could not find friend rewards. Contact support for assistance.',
-      });
-    }
+    const gift = await db.gift.findFirst({
+      where: {
+        friendshipId: friendship.id,
+      },
+    });
 
     if (gift) {
       throw new TRPCError({
@@ -81,49 +69,13 @@ export default protectedProcedure
       });
     }
 
-    if (userRewards.sharableGiftBoxes <= 0) {
-      throw new TRPCError({
-        code: 'PRECONDITION_FAILED',
-        message: 'You do not have any gifts to send.',
-      });
-    }
-
-    await db.$transaction([
-      // user loses a sharable gift box.
-      db.rewards.update({
-        where: {
-          id: userRewards.id,
-        },
-        data: {
-          sharableGiftBoxes: {
-            decrement: 1,
-          },
-          giftBoxes: {
-            increment: 1,
-          },
-        },
-      }),
-
-      // record that the user has sent a gift to this friend today.
-      db.gift.create({
-        data: {
-          friendshipId: friendship.id,
-        },
-      }),
-
-      // friend gains a gift box.
-      db.rewards.update({
-        where: {
-          id: friendRewards.id,
-        },
-        data: {
-          giftBoxes: {
-            increment: 1,
-          },
-        },
-      }),
-    ]);
-
+    await inventory.decrement(userId, 'small-box-of-tokens-offering', 1);
+    await db.gift.create({
+      data: {
+        friendshipId: friendship.id,
+      },
+    });
+    await inventory.increment(friendship.friendId, 'small-box-of-tokens', 1);
     await notifications.send('gift-received', {
       recipient: { id: friendship.friendId },
       sender: { username: user.username },

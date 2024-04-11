@@ -1,7 +1,6 @@
 import { raffles, SeedableRaffle } from '@worksheets/data/raffles';
 import { prisma } from '@worksheets/prisma';
 import { getSeedingChanges, seedingProperties } from '@worksheets/util/seeding';
-import { isExpired } from '@worksheets/util/time';
 
 export const insertRaffles = async () => {
   const storedRaffles = await prisma.raffle.findMany({
@@ -26,13 +25,11 @@ export const insertRaffles = async () => {
 
 const createRaffle = async (raffle: SeedableRaffle) => {
   await prisma.$transaction(async (tx) => {
-    const publish = isExpired(raffle.publishAt);
-
     await tx.raffle.create({
       data: {
         id: raffle.id,
         version: raffle.version,
-        status: publish ? 'ACTIVE' : 'PENDING',
+        status: 'PENDING',
         expiresAt: raffle.expiresAt,
         numWinners: raffle.numWinners,
         prize: {
@@ -48,14 +45,12 @@ const createRaffle = async (raffle: SeedableRaffle) => {
       },
     });
 
-    if (!publish) {
-      await tx.rafflePublishAlert.create({
-        data: {
-          raffleId: raffle.id,
-          triggerAt: raffle.publishAt,
-        },
-      });
-    }
+    await tx.rafflePublishAlert.create({
+      data: {
+        raffleId: raffle.id,
+        triggerAt: raffle.publishAt,
+      },
+    });
   });
 };
 

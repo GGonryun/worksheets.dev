@@ -49,7 +49,7 @@ const RaffleScreenContainer: React.FC<{ raffle: RaffleSchema }> = ({
     }
   );
 
-  const rewards = trpc.user.rewards.get.useQuery(undefined, {
+  const tokens = trpc.user.inventory.quantity.useQuery('tokens', {
     enabled: isConnected,
   });
 
@@ -95,7 +95,7 @@ const RaffleScreenContainer: React.FC<{ raffle: RaffleSchema }> = ({
       });
 
       participation.refetch();
-      rewards.refetch();
+      tokens.refetch();
 
       snackbar.success('Raffle entry submitted!');
     } catch (error) {
@@ -137,7 +137,7 @@ const RaffleScreenContainer: React.FC<{ raffle: RaffleSchema }> = ({
           setShowConfirmEntryModal(true);
           setShowEnterRaffleModal(false);
         }}
-        tokensOwned={rewards.data?.totalTokens ?? 0}
+        tokensOwned={tokens.data ?? 0}
       />
     </>
   );

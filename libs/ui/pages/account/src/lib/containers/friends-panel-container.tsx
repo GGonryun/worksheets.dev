@@ -45,7 +45,7 @@ export const FriendsPanelContainer: React.FC<{ refreshTimestamp: number }> = ({
   const [showClaimGiftBox, setShowClaimGiftBox] = useState(false);
 
   const friends = trpc.user.friends.list.useQuery(undefined);
-  const openGiftBox = trpc.user.rewards.giftBoxes.open.useMutation();
+  const openGiftBox = trpc.user.giftBoxes.open.useMutation();
 
   const removeFriend = trpc.user.friends.remove.useMutation();
   const favoriteFriend = trpc.user.friends.favorite.useMutation();
@@ -53,9 +53,12 @@ export const FriendsPanelContainer: React.FC<{ refreshTimestamp: number }> = ({
   const findFriend = trpc.user.friends.find.useMutation();
   const sendGift = trpc.user.friends.sendGift.useMutation();
 
-  const giftBoxes = trpc.user.rewards.giftBoxes.get.useQuery(undefined, {
-    retry: false,
-  });
+  const giftBoxes = trpc.user.inventory.quantity.useQuery(
+    'small-box-of-tokens',
+    {
+      retry: false,
+    }
+  );
   const handleError = (error: unknown) => {
     snackbar.error(parseTRPCClientErrorMessage(error));
   };

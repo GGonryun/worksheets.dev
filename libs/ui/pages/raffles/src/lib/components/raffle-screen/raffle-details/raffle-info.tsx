@@ -3,6 +3,7 @@ import {
   Check,
   LocalActivity,
   Login,
+  OpenInNew,
   Share,
 } from '@mui/icons-material';
 import {
@@ -13,7 +14,6 @@ import {
   Typography,
   TypographyProps,
 } from '@mui/material';
-import { ColoredSteamGames } from '@worksheets/icons/companies';
 import { PrizeType } from '@worksheets/prisma';
 import {
   prizeTypeActionLabel,
@@ -46,7 +46,6 @@ export const RaffleInfo: React.FC<{
 
   const connected = participation !== undefined;
   const yourEntries = participation?.numEntries ?? 0;
-  const PlatformLogo = prizeTypeLogos[type];
   const youWon =
     connected && winners.some((w) => w.userId === participation?.userId);
 
@@ -113,7 +112,6 @@ export const RaffleInfo: React.FC<{
 
         <Box display="flex" flexDirection="column" gap={2} mt={1}>
           <Button
-            size="small"
             variant="arcade"
             color={youWon ? 'success' : connected ? 'secondary' : 'warning'}
             fullWidth
@@ -121,13 +119,7 @@ export const RaffleInfo: React.FC<{
             sx={{ px: 1 }}
             onClick={onRaffleClick}
             startIcon={
-              expired ? (
-                <Check sx={{ height: '1.5rem', width: '1.5rem' }} />
-              ) : connected ? (
-                <LocalActivity sx={{ height: '1.5rem', width: '1.5rem' }} />
-              ) : (
-                <Login sx={{ height: '1.5rem', width: '1.5rem' }} />
-              )
+              expired ? <Check /> : connected ? <LocalActivity /> : <Login />
             }
           >
             {youWon
@@ -139,16 +131,13 @@ export const RaffleInfo: React.FC<{
               : 'Login To Participate'}
           </Button>
           <Button
-            size="small"
             variant="arcade"
             color="primary"
             fullWidth
             sx={{ px: 1 }}
             href={sourceUrl}
             target="_blank"
-            startIcon={
-              <PlatformLogo sx={{ height: '1.5rem', width: '1.5rem' }} />
-            }
+            startIcon={<OpenInNew />}
           >
             {prizeTypeActionLabel[type]}
           </Button>
@@ -159,21 +148,24 @@ export const RaffleInfo: React.FC<{
   );
 };
 
-const PrizeTypeInfo: React.FC<{ type: PrizeType }> = ({ type }) => (
-  <Box>
-    <SectionHeaderTypography>Prize Type</SectionHeaderTypography>
-    <Box
-      pt={0.5}
-      display="flex"
-      justifyContent="center"
-      gap={1}
-      alignItems="center"
-    >
-      <ColoredSteamGames fontSize="large" />
-      <Typography variant="h6">{prizeTypeLabel[type]}</Typography>
+const PrizeTypeInfo: React.FC<{ type: PrizeType }> = ({ type }) => {
+  const Icon = prizeTypeLogos[type];
+  return (
+    <Box>
+      <SectionHeaderTypography>Prize Type</SectionHeaderTypography>
+      <Box
+        pt={0.5}
+        display="flex"
+        justifyContent="center"
+        gap={1}
+        alignItems="center"
+      >
+        <Icon fontSize="large" />
+        <Typography variant="h6">{prizeTypeLabel[type]}</Typography>
+      </Box>
     </Box>
-  </Box>
-);
+  );
+};
 
 const SectionHeaderTypography = styled<JSXElementConstructor<TypographyProps>>(
   (props) => (

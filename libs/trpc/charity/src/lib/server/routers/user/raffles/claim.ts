@@ -1,10 +1,11 @@
 import { TRPCError } from '@trpc/server';
-import { CryptographyService } from '@worksheets/services/encryption';
+import { PrizeType } from '@worksheets/prisma';
+import { RedemptionService } from '@worksheets/services/redemption';
+import { assertNever } from '@worksheets/util/errors';
+import { raffleClaimSchema } from '@worksheets/util/types';
 import { z } from 'zod';
 
 import { protectedProcedure } from '../../../procedures';
-
-const crypto = new CryptographyService();
 
 export default protectedProcedure
   .input(
@@ -12,12 +13,10 @@ export default protectedProcedure
       winnerId: z.string(),
     })
   )
-  .output(
-    z.object({
-      code: z.string(),
-    })
-  )
+  .output(raffleClaimSchema)
   .mutation(async ({ ctx: { user, db }, input: { winnerId } }) => {
+    const redemptionService = new RedemptionService(db);
+    // TODO: add support for encrypted codes.
     const winner = await db.raffleWinner.findFirst({
       where: {
         id: winnerId,
@@ -32,8 +31,15 @@ export default protectedProcedure
             id: true,
           },
         },
+        prize: {
+          select: {
+            id: true,
+            type: true,
+          },
+        },
         code: {
           select: {
+            id: true,
             content: true,
           },
         },
@@ -84,10 +90,43 @@ export default protectedProcedure
             winnerId: winner.id,
           },
         });
+
+        // update the activation code's access time
+        await tx.activationCode.update({
+          where: {
+            id: winner.code.id,
+          },
+          data: {
+            accessedAt: new Date(),
+          },
+        });
+
+        // if the activation code is a redemption code, automatically mark it
+        // as redeemed and update the user's inventory.
+        if (redemptionService.redeemable(winner.prize.type)) {
+          const decryptedCode = winner.code.content;
+
+          // ignore errors if the redemption code has already been redeemed
+          await redemptionService.redeem({
+            userId: user.id,
+            code: decryptedCode,
+          });
+        }
       });
     }
 
-    return {
-      code: await crypto.decrypt(winner.code.content),
-    };
+    switch (winner.prize.type) {
+      case PrizeType.LOOT:
+        return {
+          type: PrizeType.LOOT,
+        };
+      case PrizeType.STEAM_KEY:
+        return {
+          type: PrizeType.STEAM_KEY,
+          code: winner.code.content,
+        };
+
+      default:
+        throw assertNever(winner.prize.type);
+    }
   });

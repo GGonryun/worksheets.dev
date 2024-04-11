@@ -1,5 +1,6 @@
 import { TRPCError } from '@trpc/server';
 import { prisma } from '@worksheets/prisma';
+import { InventoryService } from '@worksheets/services/inventory';
 import { isExpired, now } from '@worksheets/util/time';
 import {
   AddFriendQuestId,
@@ -27,6 +28,8 @@ import {
   parseRaffleParticipationState,
   parseVisitWebsiteState,
 } from './state';
+
+const inventory = new InventoryService(prisma);
 
 export const trackFinitePlayGameProgress = async (
   opts: TrackProgressOpts<PlayGameQuestId>
@@ -77,10 +80,7 @@ export const trackFinitePlayGameProgress = async (
             status: 'COMPLETED',
           },
         });
-        await incrementTokens({
-          userId: opts.userId,
-          tokens: definition.reward,
-        });
+        await inventory.increment(opts.userId, 'tokens', definition.reward);
         return;
       }
     }
@@ -122,10 +122,7 @@ export const trackInfinitePlayGameProgress = async (
     });
   }
 
-  await incrementTokens({
-    userId: opts.userId,
-    tokens: definition.reward,
-  });
+  await inventory.increment(opts.userId, 'tokens', definition.reward);
 };
 
 export const trackWebsiteVisitProgress = async (
@@ -160,10 +157,7 @@ export const trackWebsiteVisitProgress = async (
       },
     });
 
-    await incrementTokens({
-      userId: opts.userId,
-      tokens: definition.reward,
-    });
+    await inventory.increment(opts.userId, 'tokens', definition.reward);
   });
 };
 
@@ -197,10 +191,7 @@ export const trackFollowTwitterProgress = async (
       },
     });
 
-    await incrementTokens({
-      userId,
-      tokens: definition.reward,
-    });
+    await inventory.increment(opts.userId, 'tokens', definition.reward);
   });
 };
 
@@ -237,10 +228,7 @@ export const trackRaffleParticipationProgress = async (
         state,
       },
     });
-    await incrementTokens({
-      userId,
-      tokens: definition.reward,
-    });
+    await inventory.increment(opts.userId, 'tokens', definition.reward);
   });
 };
 
@@ -249,10 +237,6 @@ export const trackAddFriendProgress = async (
 ) => {
   const { userId, questId, input } = opts;
   const { progress, definition } = await getQuest(opts);
-  const reward = {
-    userId,
-    tokens: definition.reward,
-  };
 
   // if they haven't started add the first friend and reward them
   if (!progress) {
@@ -265,8 +249,7 @@ export const trackAddFriendProgress = async (
       },
     });
 
-    await incrementTokens(reward);
-
+    await inventory.increment(opts.userId, 'tokens', definition.reward);
     return;
   }
 
@@ -291,7 +274,7 @@ export const trackAddFriendProgress = async (
     },
   });
 
-  await incrementTokens(reward);
+  await inventory.increment(opts.userId, 'tokens', definition.reward);
 };
 
 export const trackAddReferralProgress = async (
@@ -299,10 +282,6 @@ export const trackAddReferralProgress = async (
 ) => {
   const { userId, questId, input } = opts;
   const { progress, definition } = await getQuest(opts);
-  const reward = {
-    userId,
-    tokens: definition.reward,
-  };
 
   // if they haven't started add the first friend and reward them
   if (!progress) {
@@ -315,8 +294,7 @@ export const trackAddReferralProgress = async (
       },
     });
 
-    await incrementTokens(reward);
-
+    await inventory.increment(opts.userId, 'tokens', definition.reward);
     return;
   }
 
@@ -342,7 +320,7 @@ export const trackAddReferralProgress = async (
     },
   });
 
-  await incrementTokens(reward);
+  await inventory.increment(opts.userId, 'tokens', definition.reward);
 };
 
 export const trackReferralPlayMinutesProgress = async (
@@ -405,10 +383,11 @@ export const trackReferralPlayMinutesProgress = async (
       definition.data.requirement
     );
     if (completions > 0) {
-      await incrementTokens({
-        userId,
-        tokens: definition.reward * completions,
-      });
+      await inventory.increment(
+        opts.userId,
+        'tokens',
+        definition.reward * completions
+      );
     }
   }
 };
@@ -470,10 +449,11 @@ export const trackFriendPlayMinutesProgress = async (
         );
 
         if (completions > 0) {
-          await incrementTokens({
-            userId: friend.friendId,
-            tokens: definition.reward * completions,
-          });
+          await inventory.increment(
+            opts.userId,
+            'tokens',
+            definition.reward * completions
+          );
         }
       }
     })
@@ -515,10 +495,11 @@ export const trackPlayMinutesProgress = async (
       definition.data.requirement
     );
     if (completions > 0) {
-      await incrementTokens({
-        userId,
-        tokens: definition.reward * completions,
-      });
+      await inventory.increment(
+        opts.userId,
+        'tokens',
+        definition.reward * completions
+      );
     }
   }
 };
@@ -531,19 +512,6 @@ const onQuestCompletable = async (
     return;
 
   await fn();
-};
-
-const incrementTokens = async (opts: { userId: string; tokens: number }) => {
-  await prisma.rewards.update({
-    where: {
-      userId: opts.userId,
-    },
-    data: {
-      totalTokens: {
-        increment: opts.tokens,
-      },
-    },
-  });
 };
 
 // TODO: it might be possible to automatically coerce the return type to the correct quest type.

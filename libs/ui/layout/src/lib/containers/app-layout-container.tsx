@@ -28,7 +28,7 @@ export const AppLayoutContainer: FC<{
     refetchOnReconnect: false,
     refetchOnWindowFocus: false,
   });
-  const tokens = trpc.user.tokens.count.useQuery(undefined, {
+  const tokens = trpc.user.inventory.quantity.useQuery('tokens', {
     enabled: connected,
     retry: false,
     refetchOnMount: false,

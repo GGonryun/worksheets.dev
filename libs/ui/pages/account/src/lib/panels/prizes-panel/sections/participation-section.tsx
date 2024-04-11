@@ -6,6 +6,7 @@ import { BulletPoints } from '@worksheets/ui/components/lists';
 import { PanelFooter } from '@worksheets/ui/components/panels';
 import { useMediaQueryDown } from '@worksheets/ui/hooks/use-media-query';
 import { PrizesPanels, SettingsPanels } from '@worksheets/util/enums';
+import { CLAIM_ALERT_SENT_COUNT_THRESHOLD } from '@worksheets/util/settings';
 import { EnteredRaffleSchema } from '@worksheets/util/types';
 import React from 'react';
 
@@ -52,12 +53,14 @@ export const ParticipationSection: React.FC<{
         icon={<InfoOutlined fontSize="small" color="info" />}
         title={'How It Works'}
         points={[
-          `Play games, refer friends, and make purchases to earn tokens.`,
           <>
-            Redeem tokens for Raffle Entries and Prizes from the{' '}
-            <Link href={routes.raffles.path()}>Prize Wall</Link>.
+            Redeem tokens for{' '}
+            <Link href={routes.raffles.path()}>Raffle Entries</Link>.
           </>,
-          `If you win a prize, you'll have 72 hours to claim it. If you don't, it will expire.`,
+          `Play games, refer friends, and make purchases to earn tokens.`,
+          `If you win a prize, you'll have ${
+            CLAIM_ALERT_SENT_COUNT_THRESHOLD * 24
+          } hours to claim it. If you don't, it will expire.`,
           <>
             Configure your{' '}
             <Link

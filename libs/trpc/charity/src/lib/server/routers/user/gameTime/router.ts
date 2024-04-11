@@ -2,8 +2,8 @@ import { TRPCError } from '@trpc/server';
 import { QuestsService } from '@worksheets/services/quests';
 import { z } from 'zod';
 
-import { protectedProcedure } from '../../../../procedures';
-import { t } from '../../../../trpc';
+import { protectedProcedure } from '../../../procedures';
+import { t } from '../../../trpc';
 
 const quests = new QuestsService();
 

@@ -52,8 +52,8 @@ const GameScreenContainer: React.FC<{
   const play = trpc.public.games.play.record.useMutation();
   const reportGame = trpc.public.games.report.useMutation();
 
-  const trackGamePlay = trpc.user.rewards.gamePlay.track.useMutation();
-  const trackGameTime = trpc.user.rewards.gameTime.track.useMutation();
+  const trackGamePlay = trpc.user.gamePlay.track.useMutation();
+  const trackGameTime = trpc.user.gameTime.track.useMutation();
 
   const { data: suggestions } = trpc.public.games.suggestions.useQuery(
     {

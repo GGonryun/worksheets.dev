@@ -1,4 +1,5 @@
 import { TRPCError } from '@trpc/server';
+import { InventoryService } from '@worksheets/services/inventory';
 import { followerSchema, friendSchema } from '@worksheets/util/types';
 import { z } from 'zod';
 
@@ -14,20 +15,14 @@ export default protectedProcedure
     })
   )
   .query(async ({ ctx: { db, user } }) => {
+    const inventory = new InventoryService(db);
     const userId = user.id;
-
-    console.info('finding user friendships', { userId });
 
     const profile = await db.user.findFirst({
       where: {
         id: userId,
       },
       select: {
-        rewards: {
-          select: {
-            sharableGiftBoxes: true,
-          },
-        },
         referralCode: {
           select: {
             code: true,
@@ -70,6 +65,11 @@ export default protectedProcedure
       },
     });
 
+    const giftsRemaining = await inventory.quantity(
+      userId,
+      'small-box-of-tokens-offering'
+    );
+
     if (!profile) {
       throw new TRPCError({
         code: 'NOT_FOUND',
@@ -85,16 +85,9 @@ export default protectedProcedure
       });
     }
 
-    if (!profile.rewards) {
-      throw new TRPCError({
-        code: 'NOT_FOUND',
-        message: 'Could not find user rewards. Contact support for assistance.',
-      });
-    }
-
     return {
       code: profile.referralCode.code,
-      giftsRemaining: profile.rewards.sharableGiftBoxes,
+      giftsRemaining,
       friends: profile.friends.map((friendship) => ({
         friendshipId: friendship.id,
         username: friendship.friend.username,

@@ -1,18 +1,19 @@
 import { Prize } from '@prisma/client';
+import { routes } from '@worksheets/routes';
 
 export type SeedablePrize = Omit<Prize, 'createdAt' | 'updatedAt'>;
 const rawPrizes = [
   {
-    version: 2,
-    id: 'bg3' as const,
-    name: "Baldur's Gate 3 Steam Key",
+    version: 1,
+    id: '1000-tokens' as const,
+    name: 'Pile of 1000 Tokens',
     headline:
-      'A role-playing video game that is being developed and published by Larian Studios.',
+      'Get a bag of 1000 tokens to use on the site for prizes and rewards!',
     description:
-      "<p><b>Baldur's Gate 3</b> is a role-playing video game that is being developed and published by Larian Studios. It is the third main game in the Baldur's Gate series, itself based on the Dungeons & Dragons tabletop role-playing system. The game is based on the fifth edition of Dungeons & Dragons rules and features turn-based combat and cooperative multiplayer. It is the first game in the series since Baldur's Gate II: Shadows of Amn in 2000, and the first to be developed by Larian Studios.</p><br/><p>The game was announced with a teaser trailer in June 2019, and was released in early access for Microsoft Windows and Stadia on 6 October 2020. The game is set in the Forgotten Realms, a high fantasy campaign setting, and is based on the fifth edition of the Dungeons & Dragons role-playing system. The game is set in the world of the Forgotten Realms, a campaign setting for Dungeons & Dragons, and is based on the fifth edition of the Dungeons & Dragons rules.</p>",
-    type: 'STEAM_KEY' as const,
-    imageUrl: '/prizes/steam-games/bg3.jpeg',
-    sourceUrl: 'https://store.steampowered.com/app/1086940/Baldurs_Gate_3/',
+      "Tokens are the currency of the site, and you can use them to enter raffles, fight bosses, buy tickets, and more. This prize will give you a bag of 1000 tokens to use however you'd like. Tokens are non-refundable and have no cash value. If you win this prize, you'll be able to claim it from your account page. This prize is only available to users who have an account on the site.",
+    type: 'LOOT' as const,
+    imageUrl: 'https://cdn.charity.games/_prizes/token2.png',
+    sourceUrl: routes.help.tokens.url(),
   },
 ];
 

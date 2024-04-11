@@ -102,3 +102,21 @@ export const enteredRaffleSchema = z.object({
 });
 
 export type EnteredRaffleSchema = z.infer<typeof enteredRaffleSchema>;
+
+export const steamKeyRaffleClaimSchema = z.object({
+  type: z.literal(PrizeType.STEAM_KEY),
+  code: z.string(),
+});
+
+export type SteamKeyRaffleClaim = z.infer<typeof steamKeyRaffleClaimSchema>;
+
+export const lootRaffleClaimSchema = z.object({
+  type: z.literal(PrizeType.LOOT),
+});
+
+export const raffleClaimSchema = z.union([
+  steamKeyRaffleClaimSchema,
+  lootRaffleClaimSchema,
+]);
+
+export type RaffleClaim = z.infer<typeof raffleClaimSchema>;

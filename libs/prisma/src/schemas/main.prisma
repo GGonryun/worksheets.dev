@@ -30,11 +30,13 @@ model User {
   type             UserType               @default(USER)
   accounts         Account[]
   sessions         Session[]
-  rewards          Rewards?
   submissions      GameSubmission[]
+  // inventory & loot
+  inventory        Item[]
   // raffles
   participation    RaffleParticipation[]
   winnings         RaffleWinner[]
+  redemptionCodes  RedemptionCode[]
   // friendships
   friends          Friendship[]           @relation(name: "Friends")
   followers        Friendship[]           @relation(name: "Followers")
@@ -48,6 +50,8 @@ model User {
   vip              VipMembershipWaitlist?
   // quests
   quests           QuestProgress[]
+  // TODO: remove rewards.
+  rewards          Rewards?
 }
 
 model Account {
@@ -106,6 +110,7 @@ model Gift {
   sentAt       DateTime   @default(now())
 }
 
+// TODO: remove rewards. This is a legacy table.
 model Rewards {
   id                String   @id @default(cuid())
   userId            String   @unique
@@ -114,6 +119,18 @@ model Rewards {
   sharableGiftBoxes Int
   updatedAt         DateTime @updatedAt
   user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Item {
+  id        String   @id @default(cuid())
+  itemId    String
+  quantity  Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, itemId])
 }
 
 enum NewsletterTopic {
@@ -355,26 +372,26 @@ model Sponsor {
 
 enum PrizeType {
   STEAM_KEY
-  GIFT_CARD
+  LOOT
 }
 
 model Prize {
-  id          String           @id @default(cuid())
-  version     Int              @default(0)
-  name        String           @db.VarChar(127)
-  headline    String           @db.VarChar(255)
-  description String           @db.VarChar(2047)
-  sourceUrl   String           @db.VarChar(255)
-  imageUrl    String           @db.VarChar(255)
+  id              String           @id @default(cuid())
+  version         Int              @default(0)
+  name            String           @db.VarChar(127)
+  headline        String           @db.VarChar(255)
+  description     String           @db.VarChar(2047)
+  sourceUrl       String           @db.VarChar(255)
+  imageUrl        String           @db.VarChar(255)
   // the type of activation code it is. (e.g. steam key or gift card key)
-  type        PrizeType
+  type            PrizeType
   // external
-  raffles     Raffle[]
+  raffles         Raffle[]
   // analytics
-  createdAt   DateTime         @default(now())
-  updatedAt   DateTime         @updatedAt
-  winners     RaffleWinner[]
-  codes       ActivationCode[]
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  winners         RaffleWinner[]
+  redemptionCodes RedemptionCode[]
 }
 
 enum RaffleStatus {
@@ -425,20 +442,35 @@ model RaffleParticipation {
 }
 
 model ActivationCode {
-  id        String        @id @default(cuid())
+  id         String    @id @default(cuid())
   // the redemption/secret code for the prize.
-  content   String        @unique
-  // the prize the code is for
-  prizeId   String
-  prize     Prize         @relation(fields: [prizeId], references: [id])
+  content    String
+  // for internal prizes like tokens, the code once redeemed gives the user a prize.
+  // for external prizes, we'll never know if the code was redeemed.
+  accessedAt DateTime?
+
   // the raffle the code is reserved by
-  raffleId  Int?
-  raffle    Raffle?       @relation(fields: [raffleId], references: [id])
+  raffleId Int?
+  raffle   Raffle?       @relation(fields: [raffleId], references: [id])
   // the winner of the code
-  winner    RaffleWinner?
+  winner   RaffleWinner?
+
   // analytics
-  createdAt DateTime      @default(now())
-  updatedAt DateTime      @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// these codes are used to redeem prizes on the site as opposed to activation codes which are used to redeem external prizes.
+model RedemptionCode {
+  id         String    @id @default(cuid())
+  redeemedAt DateTime?
+  // the prize the code is for
+  prizeId    String
+  prize      Prize     @relation(fields: [prizeId], references: [id])
+  // an owner can be assigned to the code without using a raffle.
+  // this is useful for assigning codes to users who win a prize in a different way.
+  ownerId    String?
+  owner      User?     @relation(fields: [ownerId], references: [id])
 }
 
 model RaffleWinner {

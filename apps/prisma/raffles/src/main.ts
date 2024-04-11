@@ -1,6 +1,5 @@
 import { prisma } from '@worksheets/prisma';
 
-import { insertCodes } from './insert-codes';
 import { insertPrizes } from './insert-prizes';
 import { insertRaffles } from './insert-raffles';
 import { insertSponsors } from './insert-sponsors';
@@ -12,8 +11,6 @@ async function main() {
     await insertPrizes();
 
     await insertRaffles();
-
-    await insertCodes();
   } catch (error) {
     console.error(error);
   }

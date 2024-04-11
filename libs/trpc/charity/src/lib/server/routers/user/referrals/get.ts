@@ -16,7 +16,6 @@ export default protectedProcedure
       ),
       numReferrals: z.number(),
       referralLink: z.string(),
-      okay: z.literal(true),
     })
   )
   .query(async ({ ctx: { db, user } }) => {
@@ -28,12 +27,11 @@ export default protectedProcedure
       },
       include: {
         referred: true,
-        rewards: true,
         referralCode: true,
       },
     });
 
-    if (!userData || !userData.referralCode || !userData.rewards) {
+    if (!userData || !userData.referralCode) {
       console.error('Referrals for user were not found', { userId });
       throw new TRPCError({
         code: 'NOT_FOUND',
@@ -43,7 +41,6 @@ export default protectedProcedure
     }
 
     return {
-      okay: true,
       referrals: userData.referred.map((referral) => ({
         id: referral.id,
         username: referral.username,

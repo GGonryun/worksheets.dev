@@ -28,8 +28,6 @@ export const insertDevelopers = async () => {
 
   if (creating.length > 0 || updating.length > 0) {
     console.info(`Inserted developers`, {
-      pending: pendingDevelopers.length,
-      stored: storedDevelopers.length,
       created: creating.length,
       updated: updating.length,
     });

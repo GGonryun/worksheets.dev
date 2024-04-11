@@ -1,4 +1,5 @@
 import { prisma } from '@worksheets/prisma';
+import { InventoryService } from '@worksheets/services/inventory';
 import { createCronJob } from '@worksheets/util/cron';
 import { MAX_DAILY_GIFT_BOX_SHARES } from '@worksheets/util/settings';
 
@@ -7,22 +8,9 @@ export default createCronJob(async () =>
 );
 
 const resetRewards = async () => {
-  // TODO: reset only user rewards if the user has been active in the last 24 hours.
-  const updating = await prisma.rewards.findMany({
-    select: {
-      id: true,
-      userId: true,
-    },
-  });
-
-  await prisma.rewards.updateMany({
-    where: {
-      id: {
-        in: updating.map((reward) => reward.id),
-      },
-    },
-    data: {
-      sharableGiftBoxes: MAX_DAILY_GIFT_BOX_SHARES,
-    },
-  });
+  const inventory = new InventoryService(prisma);
+  await inventory.resetAll(
+    'small-box-of-tokens-offering',
+    MAX_DAILY_GIFT_BOX_SHARES
+  );
 };

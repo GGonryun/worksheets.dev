@@ -1,4 +1,4 @@
-import { Alarm, Check, InfoOutlined } from '@mui/icons-material';
+import { InfoOutlined } from '@mui/icons-material';
 import { Box, Button, Link, styled, Typography } from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -104,10 +104,9 @@ const PrizeRow: React.FC<{
           size="small"
           variant="arcade"
           color={prize.claimedAt ? 'success' : 'secondary'}
-          startIcon={prize.claimedAt ? <Check /> : <Alarm />}
           sx={{ mb: 0.5, minWidth: 135 }}
         >
-          {prize.claimedAt ? 'View Code' : 'Claim Now'}
+          {prize.claimedAt ? 'View Reward' : 'Claim Now'}
         </Button>
       </TableCell>
     </TableRow>

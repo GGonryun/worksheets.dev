@@ -1,4 +1,5 @@
 import { TRPCError } from '@trpc/server';
+import { InventoryService } from '@worksheets/services/inventory';
 import { RAFFLE_ENTRY_FEE } from '@worksheets/util/settings';
 import { z } from 'zod';
 
@@ -13,6 +14,7 @@ export default protectedProcedure
   .output(z.unknown())
   .mutation(async ({ input: { raffleId }, ctx: { db, user } }) => {
     return db.$transaction(async (tx) => {
+      const inventory = new InventoryService(tx);
       // get the prize to compute the cost.
       const raffle = await db.raffle.findFirst({
         where: {
@@ -41,20 +43,14 @@ export default protectedProcedure
         });
       }
 
-      // purchase the entries
-      const result = await tx.rewards.update({
-        where: {
-          userId: user.id,
-        },
-        data: {
-          totalTokens: {
-            decrement: RAFFLE_ENTRY_FEE,
-          },
-        },
-      });
+      const tokens = await inventory.decrement(
+        user.id,
+        'tokens',
+        RAFFLE_ENTRY_FEE
+      );
 
       // check if the user has enough tokens to purchase the entries
-      if (result.totalTokens < 0) {
+      if (tokens < 0) {
         throw new TRPCError({
           code: 'PRECONDITION_FAILED',
           message: 'User does not have enough tokens to purchase entries',

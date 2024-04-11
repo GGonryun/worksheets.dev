@@ -14,11 +14,11 @@ export type SeedableRaffle = Omit<
 const rawRaffles = [
   {
     id: 1,
-    version: 2,
-    expiresAt: new Date('4-10-2024'),
+    version: 1,
+    expiresAt: new Date('4-11-2024'),
     publishAt: new Date('4-09-2024'),
     numWinners: 1,
-    prizeId: 'bg3',
+    prizeId: '1000-tokens',
     sponsorId: 'charity-games',
   } as const,
 ];

@@ -21,7 +21,7 @@ const STARTING_FILTERS: QuestFilterOptions = {
 };
 
 const QuestsPanelContainer = () => {
-  const tokens = trpc.user.tokens.count.useQuery();
+  const tokens = trpc.user.inventory.quantity.useQuery('tokens');
   const [filters, setFilters] = useState<QuestFilterOptions>(STARTING_FILTERS);
 
   if (tokens.isLoading) return <LoadingScreen />;

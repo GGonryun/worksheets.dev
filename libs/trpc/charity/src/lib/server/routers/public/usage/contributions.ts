@@ -1,3 +1,4 @@
+import { InventoryService } from '@worksheets/services/inventory';
 import { basicWebsiteStatisticsSchema } from '@worksheets/util/types';
 
 import { publicProcedure } from '../../../procedures';
@@ -5,6 +6,7 @@ import { publicProcedure } from '../../../procedures';
 export default publicProcedure
   .output(basicWebsiteStatisticsSchema)
   .query(async ({ ctx: { db } }) => {
+    const inventory = new InventoryService(db);
     const [
       allGames,
       gamesPlayed,
@@ -25,11 +27,7 @@ export default publicProcedure
           numEntries: true,
         },
       }),
-      db.rewards.aggregate({
-        _sum: {
-          totalTokens: true,
-        },
-      }),
+      inventory.globalTokenCount(),
       db.raffleWinner.count(),
     ]);
 
@@ -38,7 +36,7 @@ export default publicProcedure
       uniquePlayers: players,
       totalGamePlays: gamesPlayed._sum.plays ?? 0,
       rafflesParticipated: rafflesParticipated._sum.numEntries ?? 0,
-      tokensAccumulated: tokensAccumulated._sum.totalTokens ?? 0,
+      tokensAccumulated: tokensAccumulated,
       prizesDelivered: prizesDelivered,
     };
   });

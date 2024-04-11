@@ -1,4 +1,3 @@
-import { Box } from '@mui/material';
 import { trpc } from '@worksheets/trpc-charity';
 import { useSnackbar } from '@worksheets/ui/components/snackbar';
 import { parseTRPCClientErrorMessage } from '@worksheets/util/trpc';
@@ -16,7 +15,7 @@ import { QuestModal } from '../components/quest-modal';
 
 const Container: React.FC<{ questId: QuestId }> = ({ questId }) => {
   const snackbar = useSnackbar();
-  const rewards = trpc.user.tokens.count.useQuery();
+  const tokens = trpc.user.inventory.quantity.useQuery('tokens');
   const quest = trpc.user.quests.find.useQuery(
     {
       questId,
@@ -40,7 +39,7 @@ const Container: React.FC<{ questId: QuestId }> = ({ questId }) => {
     try {
       await track.mutateAsync({ questId, input });
       await quest.refetch();
-      await rewards.refetch();
+      await tokens.refetch();
       snackbar.success('Quest completed!');
     } catch (error) {
       snackbar.error(parseTRPCClientErrorMessage(error));
@@ -95,5 +94,5 @@ function QuestContainer<T extends Quest>({
 
 export const DynamicQuest = dynamic(() => Promise.resolve(Container), {
   ssr: false,
-  loading: () => <Box>TODO: show loading quest item</Box>,
+  loading: () => <LoadingQuestItem />,
 });

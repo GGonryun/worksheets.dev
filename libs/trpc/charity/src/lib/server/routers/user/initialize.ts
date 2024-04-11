@@ -1,14 +1,11 @@
 import { TRPCError } from '@trpc/server';
 import { User } from '@worksheets/prisma';
 import { PrismaClient } from '@worksheets/prisma';
+import { InventoryService } from '@worksheets/services/inventory';
 import { NotificationsService } from '@worksheets/services/notifications';
 import { QuestsService } from '@worksheets/services/quests';
-import {
-  MAX_DAILY_GIFT_BOX_SHARES,
-  STARTING_GIFT_BOXES,
-  STARTING_TOKENS,
-} from '@worksheets/util/settings';
 import { capitalizeFirstLetter } from '@worksheets/util/strings';
+import { waitFor } from '@worksheets/util/time';
 import { generateSlug } from 'random-word-slugs';
 import { z } from 'zod';
 
@@ -29,8 +26,9 @@ export default protectedProcedure
   // returns true if the user was initialized, false if the user was already initialized.
   .output(z.boolean())
   .mutation(async ({ input, ctx: { db, user } }) => {
+    const inventory = new InventoryService(db);
     // check if user rewards object has been created.
-    const exists = await db.rewards.findFirst({
+    const exists = await db.referralCode.findFirst({
       where: {
         userId: user.id,
       },
@@ -42,64 +40,59 @@ export default protectedProcedure
 
     const MAX_ATTEMPTS = 5;
 
-    await initializeUser(db, user, MAX_ATTEMPTS);
+    await initializeUser(db, user.id, MAX_ATTEMPTS);
+    await commitToNewsletter(db, user.email);
     await setReferralCode(db, user, input?.referralCode);
+    await inventory.initializeUser(user.id);
     await notifications.send('new-user', { user });
+    await notifications.send('welcome-user', { user });
+    // artificial delay to ensure all resources are created
+    await waitFor(1000);
 
     return true;
   });
 
+const commitToNewsletter = async (db: PrismaClient, email: string) =>
+  await db.newsletterSubscription.upsert({
+    where: {
+      email,
+    },
+    create: {
+      email,
+      confirmed: true,
+    },
+    update: {
+      confirmed: true,
+    },
+  });
+
 const initializeUser = async (
   db: PrismaClient,
-  user: User,
+  userId: string,
   attempts: number
 ) => {
-  const { email, id } = user;
-
   const username = generateSlug(3, {
     format: 'camel',
     partsOfSpeech: ['adjective', 'adjective', 'noun'],
   });
   const code = Math.random().toString(36).substring(2, 8);
-
   try {
     await db.$transaction([
-      db.newsletterSubscription.upsert({
-        where: {
-          email,
-        },
-        create: {
-          email,
-          confirmed: true,
-        },
-        update: {
-          confirmed: true,
-        },
-      }),
-      db.rewards.create({
-        data: {
-          userId: id,
-          giftBoxes: STARTING_GIFT_BOXES,
-          totalTokens: STARTING_TOKENS,
-          sharableGiftBoxes: MAX_DAILY_GIFT_BOX_SHARES,
-        },
-      }),
       db.referralCode.create({
         data: {
-          userId: id,
+          userId,
           code,
         },
       }),
       db.user.update({
         where: {
-          id,
+          id: userId,
         },
         data: {
           username: capitalizeFirstLetter(username),
         },
       }),
     ]);
-    await notifications.send('welcome-user', { user });
   } catch (error) {
     if (!attempts) {
       throw new TRPCError({
@@ -108,7 +101,7 @@ const initializeUser = async (
       });
     }
 
-    await initializeUser(db, user, attempts - 1);
+    await initializeUser(db, userId, attempts - 1);
   }
 };
 

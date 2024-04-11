@@ -1,23 +1,23 @@
 import { trpc } from '@worksheets/trpc-charity';
 import { useBookmark } from '@worksheets/ui-core';
 import { PrizesPanels } from '@worksheets/util/enums';
-import { WonRaffleDetails } from '@worksheets/util/types';
+import { RaffleClaim, WonRaffleDetails } from '@worksheets/util/types';
 import { useState } from 'react';
 
 import { ClaimPrizeModal } from '../components/modals/claim-prize-modal';
-import { RedemptionCodeModal } from '../components/modals/redemption-code-modal';
+import { RedemptionModal } from '../components/modals/redemption-modal';
 import { PrizesPanel } from '../panels';
 
 export const PrizesPanelContainer = () => {
   const bookmark = useBookmark<PrizesPanels>();
 
   const [openClaimPrizeModal, setOpenClaimPrizeModal] = useState(false);
-  const [showRedemptionCodeModal, setShowRedemptionCodeModal] = useState(false);
+  const [showRedemptionModal, setShowRedemptionModal] = useState(false);
 
   const [claiming, setClaiming] = useState<WonRaffleDetails | undefined>(
     undefined
   );
-  const [code, setCode] = useState('');
+  const [claim, setClaim] = useState<RaffleClaim | undefined>();
 
   const { data: enteredRaffles } = trpc.user.raffles.entered.useQuery({
     activeOnly: false,
@@ -46,8 +46,8 @@ export const PrizesPanelContainer = () => {
       winnerId: claiming.winnerId,
     });
 
-    setCode(claimed.code);
-    setShowRedemptionCodeModal(true);
+    setClaim(claimed);
+    setShowRedemptionModal(true);
   };
 
   return (
@@ -70,15 +70,17 @@ export const PrizesPanelContainer = () => {
           setOpenClaimPrizeModal(false);
         }}
       />
-      <RedemptionCodeModal
-        open={showRedemptionCodeModal}
-        onClose={() => {
-          setCode('');
-          setShowRedemptionCodeModal(false);
-        }}
-        prize={claiming}
-        code={code}
-      />
+      {claim && claiming && (
+        <RedemptionModal
+          open={showRedemptionModal}
+          onClose={() => {
+            setClaim(undefined);
+            setShowRedemptionModal(false);
+          }}
+          prize={claiming}
+          claim={claim}
+        />
+      )}
     </>
   );
 };
