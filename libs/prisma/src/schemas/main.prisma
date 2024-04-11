@@ -50,8 +50,6 @@ model User {
   vip              VipMembershipWaitlist?
   // quests
   quests           QuestProgress[]
-  // TODO: remove rewards.
-  rewards          Rewards?
 }
 
 model Account {
@@ -108,17 +106,6 @@ model Gift {
   friendshipId String     @unique
   friendship   Friendship @relation(fields: [friendshipId], references: [id], onDelete: Cascade)
   sentAt       DateTime   @default(now())
-}
-
-// TODO: remove rewards. This is a legacy table.
-model Rewards {
-  id                String   @id @default(cuid())
-  userId            String   @unique
-  totalTokens       Int
-  giftBoxes         Int
-  sharableGiftBoxes Int
-  updatedAt         DateTime @updatedAt
-  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Item {
