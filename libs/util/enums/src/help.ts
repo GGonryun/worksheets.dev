@@ -115,3 +115,12 @@ export enum HelpInventoryQuestions {
   DropRates = 'drop-rates',
   Claiming = 'claiming',
 }
+
+export enum HelpMobsQuestions {
+  Description = 'description',
+  HowToJoin = 'joining',
+  HowDoIDealDamage = 'damage',
+  HowToWin = 'winning',
+  MVP = 'mvp',
+  Rewards = 'rewards',
+}

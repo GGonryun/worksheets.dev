@@ -37,6 +37,10 @@
       "@worksheets/icons/dazzle": ["libs/icons/dazzle/src/index.ts"],
       "@worksheets/icons/ecommerce": ["libs/icons/ecommerce/src/index.ts"],
       "@worksheets/icons/hotel": ["libs/icons/hotel/src/index.ts"],
+      "@worksheets/icons/font-awesome-solid": [
+        "libs/icons/font-awesome-solid/src/index.ts"
+      ],
+      "@worksheets/icons/halloween": ["libs/icons/halloween/src/index.ts"],
       "@worksheets/icons/learning": ["libs/icons/learning/src/index.ts"],
       "@worksheets/icons/native": ["libs/icons/native/src/index.ts"],
       "@worksheets/icons/valentines": ["libs/icons/valentines/src/index.ts"],
@@ -216,6 +220,7 @@
       "@worksheets/ui/pages/marketing": [
         "libs/ui/pages/marketing/src/index.ts"
       ],
+      "@worksheets/ui/pages/mobs": ["libs/ui/pages/mobs/src/index.ts"],
       "@worksheets/ui/pages/newsletter": [
         "libs/ui/pages/newsletter/src/index.ts"
       ],

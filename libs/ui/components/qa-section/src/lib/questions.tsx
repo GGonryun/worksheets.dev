@@ -119,12 +119,19 @@ const Question: React.FC<{
           sx={{
             px: spacing,
             color: (theme) => theme.palette.text.blue.light,
-            '& p': {
-              fontWeight: 500,
-            },
           }}
         >
-          {answer}
+          <Typography
+            component={'div'}
+            sx={{
+              fontWeight: 500,
+              '& p': {
+                fontWeight: 500,
+              },
+            }}
+          >
+            {answer}
+          </Typography>
         </Collapse>
       </Box>
     </Box>

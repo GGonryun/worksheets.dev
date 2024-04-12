@@ -9,6 +9,7 @@ import {
   HelpEmailsQuestions,
   HelpFriendsQuestions,
   HelpInventoryQuestions,
+  HelpMobsQuestions,
   HelpNotificationsQuestions,
   HelpPlayingGamesQuestions,
   HelpPrizesQuestions,
@@ -133,6 +134,17 @@ export const routes = {
       }),
     },
   }),
+  mob: createRoute({
+    path: '/mob/[mobId]',
+  }),
+  mobs: createRoute({
+    path: '/mobs',
+    routes: {
+      history: createRoute({
+        path: '/mobs/history',
+      }),
+    },
+  }),
   help: createRoute({
     path: '/help',
     routes: {
@@ -188,17 +200,13 @@ export const routes = {
         path: '/help/inventory',
         bookmarks: HelpInventoryQuestions,
       }),
-      mobs: createRoute({
-        path: '/help/mobs',
-      }),
       quests: createRoute({
         path: '/help/quests',
         bookmarks: HelpQuestsQuestions,
-        routes: {
-          history: createRoute({
-            path: '/help/quests/history',
-          }),
-        },
+      }),
+      mobs: createRoute({
+        path: '/help/mobs',
+        bookmarks: HelpMobsQuestions,
       }),
     },
   }),

@@ -373,6 +373,13 @@ export const helpDevelopersSeo = createSeo({
     'Find answers to questions about contributing games to the Charity Games Platform. Turn your games into donations.',
 });
 
+export const helpMobsSeo = createSeo({
+  path: routes.help.mobs.path(),
+  title: 'Boss Fights',
+  description:
+    'Boss fights are global events where you team up with other players to defeat a powerful boss and earn rewards.',
+});
+
 export const rafflesSeo = createSeo({
   path: routes.raffles.path(),
   title: 'Raffles',
