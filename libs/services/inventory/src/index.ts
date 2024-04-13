@@ -36,7 +36,7 @@ export class InventoryService {
   }
 
   async globalTokenCount() {
-    const tokens = await this.#db.item.aggregate({
+    const tokens = await this.#db.inventory.aggregate({
       where: {
         itemId: ITEM_DESCRIPTIONS['tokens'].id,
       },
@@ -48,7 +48,7 @@ export class InventoryService {
   }
 
   async find(userId: string, itemId: ItemId) {
-    const item = await this.#db.item.findFirst({
+    const item = await this.#db.inventory.findFirst({
       where: {
         userId,
         itemId: ITEM_DESCRIPTIONS[itemId].id,
@@ -114,7 +114,7 @@ export class InventoryService {
       });
     }
 
-    const update = await this.#db.item.update({
+    const update = await this.#db.inventory.update({
       where: {
         userId_itemId: {
           userId,
@@ -132,7 +132,7 @@ export class InventoryService {
   }
 
   async increment(userId: string, itemId: ItemId, amount: number) {
-    const update = await this.#db.item.upsert({
+    const update = await this.#db.inventory.upsert({
       where: {
         userId_itemId: {
           userId,
@@ -155,7 +155,7 @@ export class InventoryService {
   }
 
   async resetAll(itemId: ItemId, amount: number) {
-    await this.#db.item.updateMany({
+    await this.#db.inventory.updateMany({
       where: {
         itemId,
       },

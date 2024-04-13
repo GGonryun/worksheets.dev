@@ -32,7 +32,7 @@ model User {
   sessions         Session[]
   submissions      GameSubmission[]
   // inventory & loot
-  inventory        Item[]
+  inventory        Inventory[]
   // raffles
   participation    RaffleParticipation[]
   winnings         RaffleWinner[]
@@ -108,7 +108,7 @@ model Gift {
   sentAt       DateTime   @default(now())
 }
 
-model Item {
+model Inventory {
   id        String   @id @default(cuid())
   itemId    String
   quantity  Int
@@ -118,6 +118,23 @@ model Item {
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, itemId])
+}
+
+enum ItemType {
+  ACTIVATED
+  CONSUMABLE
+  COMBAT
+  ETCETERA
+}
+
+model Item {
+  id          Int      @id @default(autoincrement())
+  code        String
+  type        ItemType
+  name        String
+  description String
+  iconUrl     String
+  imageUrl    String
 }
 
 enum NewsletterTopic {
