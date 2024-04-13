@@ -53,12 +53,9 @@ export const FriendsPanelContainer: React.FC<{ refreshTimestamp: number }> = ({
   const findFriend = trpc.user.friends.find.useMutation();
   const sendGift = trpc.user.friends.sendGift.useMutation();
 
-  const giftBoxes = trpc.user.inventory.quantity.useQuery(
-    'small-box-of-tokens',
-    {
-      retry: false,
-    }
-  );
+  const giftBoxes = trpc.user.inventory.quantity.useQuery('2', {
+    retry: false,
+  });
   const handleError = (error: unknown) => {
     snackbar.error(parseTRPCClientErrorMessage(error));
   };

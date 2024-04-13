@@ -10,10 +10,7 @@ export default t.router({
     await db.$transaction(async (tx) => {
       const inventory = new InventoryService(tx);
 
-      const giftBoxes = await inventory.quantity(
-        user.id,
-        'small-box-of-tokens'
-      );
+      const giftBoxes = await inventory.quantity(user.id, '2');
 
       if (giftBoxes <= 0) {
         throw new TRPCError({
@@ -22,8 +19,8 @@ export default t.router({
         });
       }
 
-      await inventory.decrement(user.id, 'small-box-of-tokens', 1);
-      await inventory.increment(user.id, 'tokens', TOKENS_IN_GIFT_BOX);
+      await inventory.decrement(user.id, '2', 1);
+      await inventory.increment(user.id, '1', TOKENS_IN_GIFT_BOX);
     });
   }),
 });

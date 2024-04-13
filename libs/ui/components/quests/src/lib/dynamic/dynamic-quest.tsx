@@ -15,7 +15,7 @@ import { QuestModal } from '../components/quest-modal';
 
 const Container: React.FC<{ questId: QuestId }> = ({ questId }) => {
   const snackbar = useSnackbar();
-  const tokens = trpc.user.inventory.quantity.useQuery('tokens');
+  const tokens = trpc.user.inventory.quantity.useQuery('1');
   const quest = trpc.user.quests.find.useQuery(
     {
       questId,

@@ -9,8 +9,5 @@ export default createCronJob(async () =>
 
 const resetRewards = async () => {
   const inventory = new InventoryService(prisma);
-  await inventory.resetAll(
-    'small-box-of-tokens-offering',
-    MAX_DAILY_GIFT_BOX_SHARES
-  );
+  await inventory.resetAll('3', MAX_DAILY_GIFT_BOX_SHARES);
 };

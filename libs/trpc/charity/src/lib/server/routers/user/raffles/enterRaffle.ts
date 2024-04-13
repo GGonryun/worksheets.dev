@@ -43,11 +43,7 @@ export default protectedProcedure
         });
       }
 
-      const tokens = await inventory.decrement(
-        user.id,
-        'tokens',
-        RAFFLE_ENTRY_FEE
-      );
+      const tokens = await inventory.decrement(user.id, '1', RAFFLE_ENTRY_FEE);
 
       // check if the user has enough tokens to purchase the entries
       if (tokens < 0) {

@@ -65,10 +65,7 @@ export default protectedProcedure
       },
     });
 
-    const giftsRemaining = await inventory.quantity(
-      userId,
-      'small-box-of-tokens-offering'
-    );
+    const giftsRemaining = await inventory.quantity(userId, '3');
 
     if (!profile) {
       throw new TRPCError({

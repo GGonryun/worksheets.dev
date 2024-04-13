@@ -49,7 +49,7 @@ const RaffleScreenContainer: React.FC<{ raffle: RaffleSchema }> = ({
     }
   );
 
-  const tokens = trpc.user.inventory.quantity.useQuery('tokens', {
+  const tokens = trpc.user.inventory.quantity.useQuery('1', {
     enabled: isConnected,
   });
 

@@ -51,10 +51,6 @@
       "@worksheets/services/environment": [
         "libs/services/environment/src/index.ts"
       ],
-      "@worksheets/services/events": ["libs/services/events/src/index.ts"],
-      "@worksheets/services/integrations": [
-        "libs/services/integrations/src/index.ts"
-      ],
       "@worksheets/services/inventory": [
         "libs/services/inventory/src/index.ts"
       ],
@@ -74,9 +70,6 @@
         "libs/services/templates/src/index.ts"
       ],
       "@worksheets/services/twitter": ["libs/services/twitter/src/index.ts"],
-      "@worksheets/services/verification": [
-        "libs/services/verification/src/index.ts"
-      ],
       "@worksheets/trpc-charity": ["libs/trpc/charity/src/index.ts"],
       "@worksheets/trpc-charity/server": ["libs/trpc/charity/src/server.ts"],
       "@worksheets/ui-core": ["libs/ui/core/src/index.ts"],

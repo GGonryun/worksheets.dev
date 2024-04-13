@@ -80,7 +80,7 @@ export const trackFinitePlayGameProgress = async (
             status: 'COMPLETED',
           },
         });
-        await inventory.increment(opts.userId, 'tokens', definition.reward);
+        await inventory.increment(opts.userId, '1', definition.reward);
         return;
       }
     }
@@ -122,7 +122,7 @@ export const trackInfinitePlayGameProgress = async (
     });
   }
 
-  await inventory.increment(opts.userId, 'tokens', definition.reward);
+  await inventory.increment(opts.userId, '1', definition.reward);
 };
 
 export const trackWebsiteVisitProgress = async (
@@ -157,7 +157,7 @@ export const trackWebsiteVisitProgress = async (
       },
     });
 
-    await inventory.increment(opts.userId, 'tokens', definition.reward);
+    await inventory.increment(opts.userId, '1', definition.reward);
   });
 };
 
@@ -191,7 +191,7 @@ export const trackFollowTwitterProgress = async (
       },
     });
 
-    await inventory.increment(opts.userId, 'tokens', definition.reward);
+    await inventory.increment(opts.userId, '1', definition.reward);
   });
 };
 
@@ -228,7 +228,7 @@ export const trackRaffleParticipationProgress = async (
         state,
       },
     });
-    await inventory.increment(opts.userId, 'tokens', definition.reward);
+    await inventory.increment(opts.userId, '1', definition.reward);
   });
 };
 
@@ -249,7 +249,7 @@ export const trackAddFriendProgress = async (
       },
     });
 
-    await inventory.increment(opts.userId, 'tokens', definition.reward);
+    await inventory.increment(opts.userId, '1', definition.reward);
     return;
   }
 
@@ -274,7 +274,7 @@ export const trackAddFriendProgress = async (
     },
   });
 
-  await inventory.increment(opts.userId, 'tokens', definition.reward);
+  await inventory.increment(opts.userId, '1', definition.reward);
 };
 
 export const trackAddReferralProgress = async (
@@ -294,7 +294,7 @@ export const trackAddReferralProgress = async (
       },
     });
 
-    await inventory.increment(opts.userId, 'tokens', definition.reward);
+    await inventory.increment(opts.userId, '1', definition.reward);
     return;
   }
 
@@ -320,7 +320,7 @@ export const trackAddReferralProgress = async (
     },
   });
 
-  await inventory.increment(opts.userId, 'tokens', definition.reward);
+  await inventory.increment(opts.userId, '1', definition.reward);
 };
 
 export const trackReferralPlayMinutesProgress = async (
@@ -385,7 +385,7 @@ export const trackReferralPlayMinutesProgress = async (
     if (completions > 0) {
       await inventory.increment(
         opts.userId,
-        'tokens',
+        '1',
         definition.reward * completions
       );
     }
@@ -451,7 +451,7 @@ export const trackFriendPlayMinutesProgress = async (
         if (completions > 0) {
           await inventory.increment(
             opts.userId,
-            'tokens',
+            '1',
             definition.reward * completions
           );
         }
@@ -497,7 +497,7 @@ export const trackPlayMinutesProgress = async (
     if (completions > 0) {
       await inventory.increment(
         opts.userId,
-        'tokens',
+        '1',
         definition.reward * completions
       );
     }

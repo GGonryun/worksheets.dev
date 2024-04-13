@@ -1,5 +1,5 @@
 import { TRPCError } from '@trpc/server';
-import { ITEM_DESCRIPTIONS, ItemId } from '@worksheets/data/items';
+import { ItemId } from '@worksheets/data/items';
 import { PrizeId } from '@worksheets/data/prizes';
 import { PrismaClient, PrismaTransactionalClient } from '@worksheets/prisma';
 import { assertNever } from '@worksheets/util/errors';
@@ -38,7 +38,7 @@ export class InventoryService {
   async globalTokenCount() {
     const tokens = await this.#db.inventory.aggregate({
       where: {
-        itemId: ITEM_DESCRIPTIONS['tokens'].id,
+        itemId: '1',
       },
       _sum: {
         quantity: true,
@@ -48,43 +48,43 @@ export class InventoryService {
   }
 
   async find(userId: string, itemId: ItemId) {
-    const item = await this.#db.inventory.findFirst({
+    const inventory = await this.#db.inventory.findFirst({
       where: {
         userId,
-        itemId: ITEM_DESCRIPTIONS[itemId].id,
+        itemId,
       },
       select: {
         quantity: true,
       },
     });
 
-    const description = ITEM_DESCRIPTIONS[itemId];
+    const item = await this.#db.item.findFirst({
+      where: {
+        id: itemId,
+      },
+    });
 
-    if (!description) {
+    if (!item) {
       throw new TRPCError({
         code: 'INTERNAL_SERVER_ERROR',
-        message: `Item ${itemId} does not have a description`,
+        message: `Item ${itemId} does not exist`,
       });
     }
 
     return {
       itemId: itemId,
-      quantity: item?.quantity ?? 0,
-      name: description.name,
-      description: description.description,
-      imageUrl: description.imageUrl,
+      quantity: inventory?.quantity ?? 0,
+      name: item.name,
+      description: item.description,
+      imageUrl: item.imageUrl,
     };
   }
 
   async initializeUser(userId: string) {
     await Promise.all([
-      this.increment(userId, 'tokens', STARTING_TOKENS),
-      this.increment(
-        userId,
-        'small-box-of-tokens-offering',
-        MAX_DAILY_GIFT_BOX_SHARES
-      ),
-      this.increment(userId, 'small-box-of-tokens', STARTING_GIFT_BOXES),
+      this.increment(userId, '1', STARTING_TOKENS),
+      this.increment(userId, '2', STARTING_GIFT_BOXES),
+      this.increment(userId, '3', MAX_DAILY_GIFT_BOX_SHARES),
     ]);
   }
 
@@ -203,7 +203,7 @@ export class InventoryService {
   async #processLoot(opts: ProcessLootOptions) {
     switch (opts.prizeId) {
       case '1000-tokens':
-        await this.increment(opts.userId, 'tokens', 1000);
+        await this.increment(opts.userId, '1', 1000);
         break;
       default:
         throw assertNever(opts.prizeId);

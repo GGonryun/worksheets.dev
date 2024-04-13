@@ -44,10 +44,7 @@ export default protectedProcedure
       });
     }
 
-    const sharableGiftBoxes = await inventory.quantity(
-      userId,
-      'small-box-of-tokens-offering'
-    );
+    const sharableGiftBoxes = await inventory.quantity(userId, '3');
 
     if (sharableGiftBoxes <= 0) {
       throw new TRPCError({
@@ -69,13 +66,14 @@ export default protectedProcedure
       });
     }
 
-    await inventory.decrement(userId, 'small-box-of-tokens-offering', 1);
+    await inventory.decrement(userId, '3', 1);
     await db.gift.create({
       data: {
         friendshipId: friendship.id,
       },
     });
-    await inventory.increment(friendship.friendId, 'small-box-of-tokens', 1);
+    await inventory.increment(friendship.friendId, '2', 1);
+    await inventory.increment(user.id, '2', 1);
     await notifications.send('gift-received', {
       recipient: { id: friendship.friendId },
       sender: { username: user.username },

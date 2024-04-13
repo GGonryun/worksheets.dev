@@ -111,6 +111,7 @@ model Gift {
 model Inventory {
   id        String   @id @default(cuid())
   itemId    String
+  item      Item     @relation(fields: [itemId], references: [id], onDelete: Cascade)
   quantity  Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -121,6 +122,7 @@ model Inventory {
 }
 
 enum ItemType {
+  CURRENCY
   ACTIVATED
   CONSUMABLE
   COMBAT
@@ -128,13 +130,17 @@ enum ItemType {
 }
 
 model Item {
-  id          Int      @id @default(autoincrement())
+  id          String      @id @default(cuid())
+  version     Int         @default(0)
   code        String
   type        ItemType
   name        String
   description String
   iconUrl     String
   imageUrl    String
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  inventory   Inventory[]
 }
 
 enum NewsletterTopic {
@@ -328,7 +334,7 @@ model GameSubmission {
   orientations       DeviceOrientations[]
   description        String?                  @db.VarChar(1023)
   instructions       String?                  @db.VarChar(1023)
-  categories         String[]                 @default([]) @db.VarChar(63)
+  categories         String[]                 @default([])
   // a JSON object with the game's supported markets
   // we use a string instead of JSON because our zod parser doesn't support JSON properly.
   // known-issue: https://github.com/microsoft/TypeScript/issues/34933
