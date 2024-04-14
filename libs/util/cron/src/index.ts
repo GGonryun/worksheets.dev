@@ -13,8 +13,8 @@ export const createCronJob = (fn: () => Promise<unknown>) => {
       }
     }
     try {
-      response.status(200).json({ success: true });
       await fn();
+      response.status(200).json({ success: true });
     } catch (error) {
       console.error('Cron Job Failed', error);
       response.status(500).json({ success: false });
