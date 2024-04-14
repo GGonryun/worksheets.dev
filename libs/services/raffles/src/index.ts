@@ -44,6 +44,7 @@ export class RafflesService {
         },
       },
     });
+
     if (raffles.length === 0) {
       console.info('No raffles to publish');
       return;
@@ -68,7 +69,7 @@ export class RafflesService {
   }
 
   async processExpiredRaffles() {
-    const expiredRaffles = await prisma.raffle.findMany({
+    const expiredRaffles = await this.#db.raffle.findMany({
       where: {
         expiresAt: {
           lte: new Date(),

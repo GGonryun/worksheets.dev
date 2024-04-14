@@ -42,7 +42,7 @@ export class PushService {
   }
 
   async destroyExpiredNotifications() {
-    const action = await prisma.notification.deleteMany({
+    const action = await this.#db.notification.deleteMany({
       where: {
         createdAt: {
           lte: this.#expiredNotificationThreshold,

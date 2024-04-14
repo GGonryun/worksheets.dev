@@ -49,7 +49,7 @@ const rawRaffles = [
   {
     id: 5,
     version: 1,
-    expiresAt: new Date('2024-04-19T04:55:00'),
+    expiresAt: new Date('2024-04-19T05:55:00'),
     publishAt: new Date('4-16-2024'),
     numWinners: 1,
     itemId: '5',
