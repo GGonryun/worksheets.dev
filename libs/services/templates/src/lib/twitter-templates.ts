@@ -14,7 +14,7 @@ export class TwitterTemplates {
     }!\n\n${GAME_URL(opts.id)}\n\n#HTML5Games #FreeGames #BrowserGames`;
   }
   static newRaffle(opts: ExtractTemplatePayload<'new-raffle'>) {
-    return `💵🎊 GIVEAWAY 🎊💵\n🎁 Enter to win a ${opts.item.name}!\n\n🏆${
+    return `💵🎊 GIVEAWAY 🎊💵\n🎁 Enter to win a ${opts.item.name}!\n\n🏆 ${
       opts.numWinners
     } lucky ${pluralize(
       'winner',
