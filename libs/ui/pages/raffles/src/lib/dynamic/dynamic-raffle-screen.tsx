@@ -1,6 +1,7 @@
 import { routes } from '@worksheets/routes';
 import { trpc } from '@worksheets/trpc-charity';
 import { useSnackbar } from '@worksheets/ui/components/snackbar';
+import { LoadingScreen } from '@worksheets/ui/pages/loading';
 import { InventoryPanels } from '@worksheets/util/enums';
 import { RaffleSchema } from '@worksheets/util/types';
 import dynamic from 'next/dynamic';
@@ -102,6 +103,8 @@ const RaffleScreenContainer: React.FC<{ raffle: RaffleSchema }> = ({
       setShowConfirmEntryModal(false);
     }
   };
+
+  if (session.status === 'loading' || user.isFetching) return <LoadingScreen />;
 
   return (
     <>

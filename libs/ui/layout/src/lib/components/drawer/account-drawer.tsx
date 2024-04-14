@@ -14,6 +14,7 @@ import {
   NotificationsActiveOutlined,
   NotificationsNoneOutlined,
   PersonAddOutlined,
+  StarBorder,
   SvgIconComponent,
 } from '@mui/icons-material';
 import { Box, Link, ListItem, Typography } from '@mui/material';
@@ -168,7 +169,7 @@ const UserContent: React.FC<{
               bookmark: InventoryPanels.Items,
             }),
             label: 'My Items',
-            icon: <EmojiEventsOutlined />,
+            icon: <StarBorder />,
           },
           {
             href: routes.account.inventory.path({

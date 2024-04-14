@@ -53,11 +53,6 @@ export const SharedDrawerFooter: React.FC = () => {
             label: 'Help Center',
           },
           {
-            href: routes.newsletter.subscribe.path(),
-            icon: <EmailOutlined />,
-            label: 'Newsletter',
-          },
-          {
             href: routes.help.contributions.path(),
             icon: <FavoriteBorder />,
             label: 'Contribute',
