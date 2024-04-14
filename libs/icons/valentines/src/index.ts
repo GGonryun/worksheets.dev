@@ -18,6 +18,7 @@ export * from './lib/profile';
 export * from './lib/search';
 export * from './lib/phones';
 export * from './lib/padlock';
+export * from './lib/potion';
 //
 export * from './lib/valentines-diamond';
 export * from './lib/valentines-gift';

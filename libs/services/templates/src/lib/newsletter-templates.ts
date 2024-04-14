@@ -1,10 +1,8 @@
 import { ScheduleNewsletterInput } from '@worksheets/services/newsletter';
 import { removeBreaks } from '@worksheets/util/html';
-import { CLAIM_ALERT_SENT_COUNT_THRESHOLD } from '@worksheets/util/settings';
 import {
   daysFromNow,
   hoursFromNow,
-  now,
   printShortDate,
 } from '@worksheets/util/time';
 import { EmailPriority } from '@worksheets/util/types';
@@ -14,11 +12,8 @@ import { ExtractTemplatePayload } from './types';
 import {
   ACCOUNT_ADD_FRIENDS_URL,
   ACCOUNT_COMMUNICATIONS_URL,
-  ACCOUNT_PRIZES_URL,
   ACCOUNT_QUESTS_URL,
   ACCOUNT_REFERRED_ACCOUNTS_URL,
-  CLAIM_URL,
-  CONTACT_URL,
   DEVELOPER_URL,
   GAME_URL,
   GAMES_URL,
@@ -27,62 +22,6 @@ import {
 } from './urls';
 
 export class NewsletterTemplates {
-  static wonRaffle(
-    opts: ExtractTemplatePayload<'won-raffle'>
-  ): ScheduleNewsletterInput[] {
-    return [
-      {
-        topic: 'Transactional',
-        priority: EmailPriority.High,
-        emails: [opts.user.email],
-        sendAt: now(),
-        subject: `You won a raffle on Charity Games!`,
-        template: {
-          title: 'You won a raffle!',
-          paragraphs: [
-            `Congratulations! You've won {{PRIZE_NAME}}.`,
-            claimHelpText,
-          ],
-          links: [
-            ...claimHelpLinks,
-            {
-              id: 'PRIZE_NAME',
-              href: CLAIM_URL,
-              text: opts.prize.name,
-            },
-          ],
-        },
-      },
-    ];
-  }
-  static wonRaffleReminder(
-    opts: ExtractTemplatePayload<'won-raffle'>
-  ): ScheduleNewsletterInput[] {
-    return [
-      {
-        topic: 'Transactional',
-        priority: EmailPriority.Urgent,
-        emails: [opts.user.email],
-        sendAt: now(),
-        subject: `Don't forget to claim your prize!`,
-        template: {
-          title: `Don't forget to claim your prize!`,
-          paragraphs: [
-            `You won a {{PRIZE_NAME}} on Charity Games, but you haven't claimed it yet.`,
-            claimHelpText,
-          ],
-          links: [
-            ...claimHelpLinks,
-            {
-              id: 'PRIZE_NAME',
-              href: CLAIM_URL,
-              text: opts.prize.name,
-            },
-          ],
-        },
-      },
-    ];
-  }
   static newGame(
     opts: ExtractTemplatePayload<'new-game'>
   ): ScheduleNewsletterInput[] {
@@ -122,7 +61,7 @@ export class NewsletterTemplates {
         topic: 'NewRaffle',
         priority: EmailPriority.Normal,
         sendAt: hoursFromNow(1),
-        subject: `New Raffle Alert! Win a ${opts.prize.name}`,
+        subject: `New Raffle Alert! Win a ${opts.item.name}`,
         template: {
           title: `There's a new raffle on Charity Games!`,
           paragraphs: [
@@ -136,7 +75,7 @@ export class NewsletterTemplates {
             {
               id: 'RAFFLE_LINK',
               href: RAFFLE_URL(opts.id),
-              text: opts.prize.name,
+              text: opts.item.name,
             },
           ],
         },
@@ -267,22 +206,3 @@ export class NewsletterTemplates {
     ];
   }
 }
-
-const claimHelpText = `Please visit {{CLAIM_PRIZE}} to claim your prize. If you are unable to claim a prize, please {{CONTACT_US}} for assistance. You may receive an alternative prize or tokens equal to the prize value. If you need help, please visit our {{HELP_CENTER}}.<br/><br/>If you do not claim your prize within ${CLAIM_ALERT_SENT_COUNT_THRESHOLD} days of winning, it will be forfeited.`;
-const claimHelpLinks = [
-  {
-    id: 'CLAIM_PRIZE',
-    href: ACCOUNT_PRIZES_URL,
-    text: 'Charity Games',
-  },
-  {
-    id: 'CONTACT_US',
-    href: CONTACT_URL,
-    text: 'contact us',
-  },
-  {
-    id: 'HELP_CENTER',
-    href: CLAIM_URL,
-    text: 'Help Center',
-  },
-];

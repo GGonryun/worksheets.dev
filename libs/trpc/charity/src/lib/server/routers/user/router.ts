@@ -1,4 +1,5 @@
 import { t } from '../../trpc';
+import codes from './codes';
 import destroy from './delete';
 import friends from './friends/router';
 import game from './game/router';
@@ -35,4 +36,5 @@ export default t.router({
   quests,
   inventory,
   delete: destroy,
+  codes,
 });

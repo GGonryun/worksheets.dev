@@ -1,4 +1,8 @@
-import { NotificationType, prisma } from '@worksheets/prisma';
+import {
+  NotificationType,
+  PrismaClient,
+  PrismaTransactionalClient,
+} from '@worksheets/prisma';
 import { daysAgo } from '@worksheets/util/time';
 export type PushNotifyInput = {
   type: NotificationType;
@@ -7,41 +11,44 @@ export type PushNotifyInput = {
 };
 
 export class PushService {
+  #db: PrismaClient | PrismaTransactionalClient;
   #expiredNotificationThreshold = daysAgo(14);
+  constructor(db: PrismaClient | PrismaTransactionalClient) {
+    this.#db = db;
+  }
 
   async notify({ type, text, userIds }: PushNotifyInput) {
-    await prisma.$transaction(async (tx) => {
-      const users = await tx.user.findMany({
-        where: {
-          // If userIds is not provided, broadcast to all users
-          id: userIds
-            ? {
-                in: userIds,
-              }
-            : undefined,
-        },
-        select: {
-          id: true,
-        },
-      });
+    const users = await this.#db.user.findMany({
+      where: {
+        // If userIds is not provided, broadcast to all users
+        id: userIds
+          ? {
+              in: userIds,
+            }
+          : undefined,
+      },
+      select: {
+        id: true,
+      },
+    });
 
-      await tx.notification.createMany({
-        data: users.map((user) => ({
-          type,
-          text,
-          userId: user.id,
-        })),
-      });
+    await this.#db.notification.createMany({
+      data: users.map((user) => ({
+        type,
+        text,
+        userId: user.id,
+      })),
     });
   }
 
   async destroyExpiredNotifications() {
-    return await prisma.notification.deleteMany({
+    const action = await prisma.notification.deleteMany({
       where: {
         createdAt: {
           lte: this.#expiredNotificationThreshold,
         },
       },
     });
+    console.info(`Destroyed ${action.count} expired notifications`);
   }
 }

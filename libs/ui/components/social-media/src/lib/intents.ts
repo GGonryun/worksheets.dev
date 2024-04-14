@@ -60,31 +60,6 @@ export const addFriendsIntent = ({
   };
 };
 
-export const sharePrizeIntent = ({
-  name,
-  id,
-}: {
-  name: string;
-  id: string;
-}) => {
-  const url = routes.prize.url({
-    params: {
-      prizeId: id,
-    },
-  });
-  const text = `Win ${name} on Charity.Games, and earn money for charity!`;
-
-  return {
-    twitter: twitterIntent(
-      url,
-      text,
-      ['freeprizes'],
-      CHARITY_GAMES_TWITTER_HANDLE
-    ),
-    facebook: facebookIntent(url),
-  };
-};
-
 export const shareRaffleIntent = ({
   name,
   id,

@@ -5,8 +5,6 @@ import { z } from 'zod';
 
 import { protectedProcedure } from '../../../../procedures';
 
-const notifications = new NotificationsService();
-
 export default protectedProcedure
   .input(
     z
@@ -23,6 +21,7 @@ export default protectedProcedure
     })
   )
   .mutation(async ({ input, ctx: { user, db } }) => {
+    const notifications = new NotificationsService(db);
     const userId = user.id;
     console.info('Submitting game submission', {
       id: input.id,

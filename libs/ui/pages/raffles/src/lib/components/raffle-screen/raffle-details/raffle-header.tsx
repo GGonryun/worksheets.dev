@@ -1,5 +1,5 @@
 import { Box, Typography } from '@mui/material';
-import { CoverImage } from '@worksheets/ui/components/images';
+import { ResponsiveImage } from '@worksheets/ui/components/images';
 import { RaffleSchema } from '@worksheets/util/types';
 
 export const RaffleHeader: React.FC<{
@@ -28,7 +28,8 @@ export const RaffleHeader: React.FC<{
               typography: { xs: 'body3', sm: 'body2' },
             }}
           >
-            {raffle.headline}
+            {raffle.description.slice(0, 80)}
+            {raffle.description.length > 80 ? '...' : ''}
           </Typography>
         </Box>
         <PrizeImage src={raffle.imageUrl} alt={raffle.name} />
@@ -45,11 +46,11 @@ const PrizeImage: React.FC<{ src: string; alt: string }> = (props) => {
         borderRadius: (theme) => theme.shape.borderRadius,
         overflow: 'hidden',
         maxWidth: '100%',
-        height: '200px',
-        aspectRatio: '16/9',
+        maxHeight: '300px',
+        aspectRatio: '1/1',
       }}
     >
-      <CoverImage priority {...props} />
+      <ResponsiveImage priority {...props} />
     </Box>
   );
 };

@@ -35,8 +35,6 @@ model User {
   inventory        Inventory[]
   // raffles
   participation    RaffleParticipation[]
-  winnings         RaffleWinner[]
-  redemptionCodes  RedemptionCode[]
   // friendships
   friends          Friendship[]           @relation(name: "Friends")
   followers        Friendship[]           @relation(name: "Followers")
@@ -50,6 +48,9 @@ model User {
   vip              VipMembershipWaitlist?
   // quests
   quests           QuestProgress[]
+  // codes
+  activationCode   ActivationCode[]
+  redemptionCodes  RedemptionCode[]
 }
 
 model Account {
@@ -109,38 +110,40 @@ model Gift {
 }
 
 model Inventory {
-  id        String   @id @default(cuid())
+  id        String    @id @default(cuid())
   itemId    String
-  item      Item     @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  item      Item      @relation(fields: [itemId], references: [id], onDelete: Cascade)
   quantity  Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
   userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([userId, itemId])
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime?
 }
 
 enum ItemType {
   CURRENCY
-  ACTIVATED
+  STEAM_KEY
   CONSUMABLE
   COMBAT
   ETCETERA
 }
 
 model Item {
-  id          String      @id @default(cuid())
-  version     Int         @default(0)
-  code        String
-  type        ItemType
-  name        String
-  description String
-  iconUrl     String
-  imageUrl    String
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
-  inventory   Inventory[]
+  id              String           @id @default(cuid())
+  version         Int              @default(0)
+  code            String
+  type            ItemType
+  name            String
+  description     String
+  imageUrl        String
+  expiration      Int?
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  inventory       Inventory[]
+  raffles         Raffle[]
+  activationCodes ActivationCode[]
+  redemptionCodes RedemptionCode[]
 }
 
 enum NewsletterTopic {
@@ -271,37 +274,35 @@ enum GameStatus {
 }
 
 model Game {
-  id           String             @id @default(cuid())
-  version      Int                @default(0)
-  status       GameStatus         @default(UNPUBLISHED)
+  id          String             @id @default(cuid())
+  version     Int                @default(0)
+  status      GameStatus         @default(UNPUBLISHED)
   // Details
-  title        String             @db.VarChar(127)
-  description  String             @db.VarChar(4095)
-  plays        Int                @default(0)
-  likes        Int                @default(0)
-  dislikes     Int                @default(0)
+  title       String             @db.VarChar(127)
+  description String             @db.VarChar(4095)
+  plays       Int                @default(0)
+  likes       Int                @default(0)
+  dislikes    Int                @default(0)
   // Search
-  categories   CategoriesOnGame[]
+  categories  CategoriesOnGame[]
   // Audit
-  createdAt    DateTime           @default(now())
-  updatedAt    DateTime           @updatedAt
-  publishAt    DateTime           @default(now())
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+  publishAt   DateTime           @default(now())
   // Assets
-  thumbnail    String             @db.Text // URL
-  cover        String             @db.Text // URL
-  trailer      String?            @db.Text // URL
-  fileId       String             @unique
-  file         GameFile           @relation(fields: [fileId], references: [id])
+  thumbnail   String             @db.Text // URL
+  cover       String             @db.Text // URL
+  trailer     String?            @db.Text // URL
+  fileId      String             @unique
+  file        GameFile           @relation(fields: [fileId], references: [id])
   // Display
-  viewportId   String
-  viewport     Viewport           @relation(fields: [viewportId], references: [id])
+  viewportId  String
+  viewport    Viewport           @relation(fields: [viewportId], references: [id])
   // Developer
-  developerId  String
-  developer    Developer          @relation(fields: [developerId], references: [id])
+  developerId String
+  developer   Developer          @relation(fields: [developerId], references: [id])
   // Reports
-  reports      GameReport[]
-  // Alerts
-  publishAlert GamePublishAlert?
+  reports     GameReport[]
 }
 
 model StoredFile {
@@ -380,35 +381,9 @@ model Sponsor {
   raffle  Raffle[]
 }
 
-enum PrizeType {
-  STEAM_KEY
-  LOOT
-}
-
-model Prize {
-  id              String           @id @default(cuid())
-  version         Int              @default(0)
-  name            String           @db.VarChar(127)
-  headline        String           @db.VarChar(255)
-  description     String           @db.VarChar(2047)
-  sourceUrl       String           @db.VarChar(255)
-  imageUrl        String           @db.VarChar(255)
-  // the type of activation code it is. (e.g. steam key or gift card key)
-  type            PrizeType
-  // external
-  raffles         Raffle[]
-  // analytics
-  createdAt       DateTime         @default(now())
-  updatedAt       DateTime         @updatedAt
-  winners         RaffleWinner[]
-  redemptionCodes RedemptionCode[]
-}
-
 enum RaffleStatus {
   PENDING // the raffle is being created
   ACTIVE // the raffle is currently running
-  REASSIGN // the raffle needs new winners assigned
-  WAITING // the raffle is waiting for winners to claim all their prizes
   COMPLETE // the raffle has winners and the prizes have been assigned
   CANCELLED // the raffle was cancelled early
 }
@@ -419,115 +394,60 @@ model Raffle {
   status       RaffleStatus
   expiresAt    DateTime
   numWinners   Int
-  prizeId      String
-  prize        Prize                 @relation(fields: [prizeId], references: [id])
+  itemId       String
+  item         Item                  @relation(fields: [itemId], references: [id])
   // sponsorship
   sponsorId    String                @db.VarChar(127)
   sponsor      Sponsor               @relation(fields: [sponsorId], references: [id])
   // analytics
   createdAt    DateTime              @default(now())
   updatedAt    DateTime              @updatedAt
+  publishAt    DateTime              @default(now())
   // relationships
   participants RaffleParticipation[]
-  winners      RaffleWinner[]
-  codes        ActivationCode[]
-  publishAlert RafflePublishAlert?
 }
 
 model RaffleParticipation {
-  id         Int           @id @default(autoincrement())
+  id         Int      @id @default(autoincrement())
   numEntries Int
   // the user who bought the ticket
   userId     String
-  user       User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   // raffle the ticket is for
   raffleId   Int
-  raffle     Raffle        @relation(fields: [raffleId], references: [id], onDelete: Cascade)
+  raffle     Raffle   @relation(fields: [raffleId], references: [id], onDelete: Cascade)
   // analytics
-  createdAt  DateTime      @default(now())
-  updatedAt  DateTime      @updatedAt
-  winner     RaffleWinner?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  winner     Boolean  @default(false)
 
   @@unique([userId, raffleId])
 }
 
 model ActivationCode {
   id         String    @id @default(cuid())
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
   // the redemption/secret code for the prize.
   content    String
-  // for internal prizes like tokens, the code once redeemed gives the user a prize.
-  // for external prizes, we'll never know if the code was redeemed.
   accessedAt DateTime?
-
-  // the raffle the code is reserved by
-  raffleId Int?
-  raffle   Raffle?       @relation(fields: [raffleId], references: [id])
-  // the winner of the code
-  winner   RaffleWinner?
-
-  // analytics
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  itemId     String
+  item       Item      @relation(fields: [itemId], references: [id])
+  userId     String?
+  user       User?     @relation(fields: [userId], references: [id])
 }
 
 // these codes are used to redeem prizes on the site as opposed to activation codes which are used to redeem external prizes.
 model RedemptionCode {
   id         String    @id @default(cuid())
   redeemedAt DateTime?
-  // the prize the code is for
-  prizeId    String
-  prize      Prize     @relation(fields: [prizeId], references: [id])
+  // the item the code is for
+  itemId     String
+  item       Item      @relation(fields: [itemId], references: [id])
   // an owner can be assigned to the code without using a raffle.
   // this is useful for assigning codes to users who win a prize in a different way.
-  ownerId    String?
-  owner      User?     @relation(fields: [ownerId], references: [id])
-}
-
-model RaffleWinner {
-  id              String              @id @default(cuid())
-  raffleId        Int
-  raffle          Raffle              @relation(fields: [raffleId], references: [id])
-  prizeId         String
-  prize           Prize               @relation(fields: [prizeId], references: [id])
-  participationId Int                 @unique // a ticket can only win once
-  participation   RaffleParticipation @relation(fields: [participationId], references: [id])
-  userId          String
-  user            User                @relation(fields: [userId], references: [id], onDelete: Cascade)
-  codeId          String              @unique // a code can only be won once
-  code            ActivationCode      @relation(fields: [codeId], references: [id])
-  createdAt       DateTime            @default(now())
-  // when the user claims the prize, the claim alert is deleted.
-  claimedAt       DateTime?
-  alert           ClaimAlert?
-}
-
-// when a raffle expires, the winners are chosen, and activation codes are assigned to the winning entry and users. 
-// a claim alert is created for each user who won a prize. we'll send a notification to the user to let them know they won.
-// when a user claims the prize, the claim alert is deleted.
-model ClaimAlert {
-  id         String       @id @default(cuid())
-  createdAt  DateTime     @default(now())
-  lastSentAt DateTime?
-  sentCount  Int          @default(0)
-  // relationships
-  winnerId   String       @unique
-  winner     RaffleWinner @relation(fields: [winnerId], references: [id], onDelete: Cascade)
-}
-
-model GamePublishAlert {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  triggerAt DateTime
-  gameId    String   @unique
-  game      Game     @relation(fields: [gameId], references: [id])
-}
-
-model RafflePublishAlert {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  triggerAt DateTime
-  raffleId  Int      @unique
-  raffle    Raffle   @relation(fields: [raffleId], references: [id])
+  userId     String?
+  user       User?     @relation(fields: [userId], references: [id])
 }
 
 enum ScheduledEmailStatus {
@@ -557,6 +477,8 @@ enum NotificationType {
   SYSTEM
   FRIEND
   RAFFLE
+  QUEST
+  INVENTORY
   REWARD
   GAME
 }

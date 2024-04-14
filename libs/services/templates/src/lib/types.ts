@@ -1,4 +1,3 @@
-import { PrizeType } from '@worksheets/prisma';
 import { DiscordMessageInput } from '@worksheets/services/discord';
 import { SendEmailInput } from '@worksheets/services/email';
 import { ScheduleNewsletterInput } from '@worksheets/services/newsletter';
@@ -24,10 +23,9 @@ export type NotificationTemplate =
         id: number;
         numWinners: number;
         expiresAt: Date;
-        prize: {
+        item: {
           id: string;
           name: string;
-          type: PrizeType;
         };
         sponsor: {
           id: string;
@@ -42,33 +40,35 @@ export type NotificationTemplate =
           id: string;
           email: string;
         };
-        prize: {
-          id: string;
+        item: {
           name: string;
+          expiration: number | null;
         };
       };
     }
   | {
-      type: 'won-raffle-reminder';
+      type: 'expiring-item-reminder';
       payload: {
         user: {
           id: string;
           email: string;
         };
-        prize: {
-          id: string;
+        item: {
           name: string;
         };
+        expiresAt: Date;
       };
     }
   | {
-      type: 'unclaimed-prize';
+      type: 'expired-item';
       payload: {
         user: {
           id: string;
           email: string;
         };
-        lastSentAt: Date | null;
+        item: {
+          name: string;
+        };
       };
     }
   | {
@@ -77,8 +77,12 @@ export type NotificationTemplate =
         id: number;
         expiresAt: Date;
         numWinners: number;
-        participants: { userId: string }[];
-        prize: { id: string; name: string };
+        participants: {
+          user: {
+            id: string;
+          };
+        }[];
+        item: { name: string };
       };
     }
   | {
@@ -151,6 +155,31 @@ export type NotificationTemplate =
       type: 'new-subscriber';
       payload: {
         email: string;
+      };
+    }
+  | {
+      type: 'activation-code-redeemed';
+      payload: {
+        user: {
+          id: string;
+          email: string;
+        };
+        code: {
+          content: string;
+        };
+        item: {
+          name: string;
+        };
+      };
+    }
+  | {
+      type: 'quest-completed';
+      payload: {
+        userId: string;
+        quest: {
+          title: string;
+          reward: number;
+        };
       };
     };
 

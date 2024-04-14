@@ -38,11 +38,6 @@
             "output": "authors"
           },
           {
-            "input": "libs/assets/prizes/src/lib",
-            "glob": "**/*",
-            "output": "prizes"
-          },
-          {
             "input": "libs/assets/icons/src/lib",
             "glob": "**/*",
             "output": "icons"

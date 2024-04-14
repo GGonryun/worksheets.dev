@@ -20,12 +20,16 @@ export default protectedProcedure
       },
       select: {
         numEntries: true,
+        winner: true,
       },
     });
 
     return {
       numEntries: participation?.numEntries ?? 0,
       userId: user.id,
-      username: user.username,
+      user: {
+        username: user.username,
+      },
+      winner: participation?.winner ?? false,
     };
   });

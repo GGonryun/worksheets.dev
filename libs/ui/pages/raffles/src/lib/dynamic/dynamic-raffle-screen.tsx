@@ -1,7 +1,7 @@
 import { routes } from '@worksheets/routes';
 import { trpc } from '@worksheets/trpc-charity';
 import { useSnackbar } from '@worksheets/ui/components/snackbar';
-import { PrizesPanels } from '@worksheets/util/enums';
+import { InventoryPanels } from '@worksheets/util/enums';
 import { RaffleSchema } from '@worksheets/util/types';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
@@ -30,8 +30,8 @@ const RaffleScreenContainer: React.FC<{ raffle: RaffleSchema }> = ({
     },
   });
 
-  const accountHref = routes.account.prizes.path({
-    bookmark: PrizesPanels.Prizes,
+  const accountHref = routes.account.inventory.path({
+    bookmark: InventoryPanels.Items,
   });
 
   const user = trpc.user.get.useQuery(undefined, {
@@ -53,10 +53,6 @@ const RaffleScreenContainer: React.FC<{ raffle: RaffleSchema }> = ({
     enabled: isConnected,
   });
 
-  const { data: winners } = trpc.public.raffles.winners.useQuery({
-    raffleId: raffle.id,
-  });
-
   const { data: participants } = trpc.public.raffles.participants.useQuery({
     raffleId: raffle.id,
   });
@@ -69,12 +65,14 @@ const RaffleScreenContainer: React.FC<{ raffle: RaffleSchema }> = ({
   const [showEnterRaffleModal, setShowEnterRaffleModal] = useState(false);
   const [showConfirmEntryModal, setShowConfirmEntryModal] = useState(false);
 
+  const youWon = participants?.some(
+    (participant) => participant.userId === user.data?.id && participant.winner
+  );
+
   const handleRaffleClick = () => {
     if (!user.data) {
       push(loginHref);
     }
-
-    const youWon = winners?.some((winner) => winner.userId === user.data?.id);
 
     if (youWon) {
       push(accountHref);
@@ -109,11 +107,11 @@ const RaffleScreenContainer: React.FC<{ raffle: RaffleSchema }> = ({
     <>
       <RaffleScreen
         raffle={raffle}
+        youWon={youWon}
         activeRaffles={activeRaffles ?? []}
         participation={participation.data}
         onRaffleClick={handleRaffleClick}
         onShare={() => setShowShareRaffleModal(true)}
-        winners={winners ?? []}
         participants={participants ?? []}
       />
       <ShareRaffleModal

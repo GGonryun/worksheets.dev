@@ -10,8 +10,6 @@ import { z } from 'zod';
 import { publicProcedure } from '../../procedures';
 import { t } from '../../trpc';
 
-const notifications = new NotificationsService();
-
 export default t.router({
   subscription: publicProcedure
     .input(
@@ -47,6 +45,7 @@ export default t.router({
       })
     )
     .mutation(async ({ ctx: { db }, input: { id, email } }) => {
+      const notifications = new NotificationsService(db);
       const existing = await db.newsletterSubscription.findFirst({
         where: {
           email,
@@ -95,6 +94,7 @@ export default t.router({
     )
     .output(z.boolean())
     .mutation(async ({ ctx: { db }, input: { id } }) => {
+      const notifications = new NotificationsService(db);
       const newsletterSubscription = await db.newsletterSubscription.findFirst({
         where: {
           id,
@@ -131,6 +131,7 @@ export default t.router({
       })
     )
     .mutation(async ({ ctx: { db }, input }) => {
+      const notifications = new NotificationsService(db);
       // always append required topics
       const topics = [...new Set([...input.topics, ...REQUIRED_TOPICS])];
 

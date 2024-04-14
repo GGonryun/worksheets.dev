@@ -22,20 +22,21 @@
       "@worksheets/assets/authors": ["libs/assets/authors/src/index.ts"],
       "@worksheets/assets/icons": ["libs/assets/icons/src/index.ts"],
       "@worksheets/assets/marketing": ["libs/assets/marketing/src/index.ts"],
-      "@worksheets/assets/prizes": ["libs/assets/prizes/src/index.ts"],
       "@worksheets/data/codes": ["libs/data/codes/src/index.ts"],
       "@worksheets/data/developers": ["libs/data/developers/src/index.ts"],
       "@worksheets/data/games": ["libs/data/games/src/index.ts"],
       "@worksheets/data/items": ["libs/data/items/src/index.ts"],
-      "@worksheets/data/prizes": ["libs/data/prizes/src/index.ts"],
       "@worksheets/data/raffles": ["libs/data/raffles/src/index.ts"],
       "@worksheets/data/sponsors": ["libs/data/sponsors/src/index.ts"],
       "@worksheets/data/tags": ["libs/data/tags/src/index.ts"],
       "@worksheets/data/viewports": ["libs/data/viewports/src/index.ts"],
+      "@worksheets/icons/adventure": ["libs/icons/adventure/src/index.ts"],
       "@worksheets/icons/arrows": ["libs/icons/arrows/src/index.ts"],
       "@worksheets/icons/charity": ["libs/icons/charity/src/index.ts"],
       "@worksheets/icons/companies": ["libs/icons/companies/src/index.ts"],
+      "@worksheets/icons/dazzle": ["libs/icons/dazzle/src/index.ts"],
       "@worksheets/icons/ecommerce": ["libs/icons/ecommerce/src/index.ts"],
+      "@worksheets/icons/hotel": ["libs/icons/hotel/src/index.ts"],
       "@worksheets/icons/learning": ["libs/icons/learning/src/index.ts"],
       "@worksheets/icons/native": ["libs/icons/native/src/index.ts"],
       "@worksheets/icons/valentines": ["libs/icons/valentines/src/index.ts"],
@@ -51,6 +52,10 @@
       "@worksheets/services/environment": [
         "libs/services/environment/src/index.ts"
       ],
+      "@worksheets/services/friendship": [
+        "libs/services/friendship/src/index.ts"
+      ],
+      "@worksheets/services/games": ["libs/services/games/src/index.ts"],
       "@worksheets/services/inventory": [
         "libs/services/inventory/src/index.ts"
       ],
@@ -62,9 +67,7 @@
       ],
       "@worksheets/services/push": ["libs/services/push/src/index.ts"],
       "@worksheets/services/quests": ["libs/services/quests/src/index.ts"],
-      "@worksheets/services/redemption": [
-        "libs/services/redemption/src/index.ts"
-      ],
+      "@worksheets/services/raffles": ["libs/services/raffles/src/index.ts"],
       "@worksheets/services/storage": ["libs/services/storage/src/index.ts"],
       "@worksheets/services/templates": [
         "libs/services/templates/src/index.ts"
@@ -103,6 +106,9 @@
       "@worksheets/ui/components/inputs": [
         "libs/ui/components/inputs/src/index.ts"
       ],
+      "@worksheets/ui/components/items": [
+        "libs/ui/components/items/src/index.ts"
+      ],
       "@worksheets/ui/components/lists": [
         "libs/ui/components/lists/src/index.ts"
       ],
@@ -129,9 +135,6 @@
       ],
       "@worksheets/ui/components/panels": [
         "libs/ui/components/panels/src/index.ts"
-      ],
-      "@worksheets/ui/components/prizes": [
-        "libs/ui/components/prizes/src/index.ts"
       ],
       "@worksheets/ui/components/qa-section": [
         "libs/ui/components/qa-section/src/index.ts"
@@ -219,7 +222,6 @@
       "@worksheets/ui/pages/privacy-policy": [
         "libs/ui/pages/privacy-policy/src/index.ts"
       ],
-      "@worksheets/ui/pages/prizes": ["libs/ui/pages/prizes/src/index.ts"],
       "@worksheets/ui/pages/raffles": ["libs/ui/pages/raffles/src/index.ts"],
       "@worksheets/ui/pages/terms-of-service": [
         "libs/ui/pages/terms-of-service/src/index.ts"

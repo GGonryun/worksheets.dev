@@ -24,20 +24,18 @@ const newRaffleTemplates: TemplateBuilder<'new-raffle'> = (payload) => ({
 
 const wonRaffleTemplates: TemplateBuilder<'won-raffle'> = (payload) => ({
   push: PushTemplates.wonRaffle(payload),
-  newsletter: NewsletterTemplates.wonRaffle(payload),
+  email: EmailTemplates.wonRaffle(payload),
 });
 
-const wonRaffleReminderTemplates: TemplateBuilder<'won-raffle-reminder'> = (
+const expiringItemReminderTemplates: TemplateBuilder<'expiring-item-reminder'> = (
   payload
 ) => ({
-  push: PushTemplates.wonRaffleReminder(payload),
-  newsletter: NewsletterTemplates.wonRaffleReminder(payload),
+  push: PushTemplates.expiringItemReminder(payload),
+  email: EmailTemplates.expiringItemReminder(payload),
 });
 
-const unclaimedPrizeTemplates: TemplateBuilder<'unclaimed-prize'> = (
-  payload
-) => ({
-  discord: DiscordTemplates.unclaimedPrize(payload),
+const expiredItemTemplates: TemplateBuilder<'expired-item'> = (payload) => ({
+  discord: DiscordTemplates.expiredItem(payload),
 });
 
 const raffleExpiredTemplates: TemplateBuilder<'raffle-expired'> = (
@@ -87,12 +85,24 @@ const newSubscriberTemplates: TemplateBuilder<'new-subscriber'> = (
   discord: DiscordTemplates.newSubscriber(payload),
 });
 
+const activationCodeRedeemedTemplates: TemplateBuilder<
+  'activation-code-redeemed'
+> = (payload) => ({
+  email: EmailTemplates.activationCodeRedeemed(payload),
+});
+
+const questCompletedTemplates: TemplateBuilder<'quest-completed'> = (
+  payload
+) => ({
+  push: PushTemplates.questCompleted(payload),
+});
+
 export const destinations: Record<NotificationTemplateType, TemplateBuilder> = {
   'new-game': newGameTemplates,
   'new-raffle': newRaffleTemplates,
   'won-raffle': wonRaffleTemplates,
-  'won-raffle-reminder': wonRaffleReminderTemplates,
-  'unclaimed-prize': unclaimedPrizeTemplates,
+  'expiring-item-reminder': expiringItemReminderTemplates,
+  'expired-item': expiredItemTemplates,
   'raffle-expired': raffleExpiredTemplates,
   'new-user': newUserTemplates,
   'welcome-user': welcomeUserTemplates,
@@ -102,4 +112,6 @@ export const destinations: Record<NotificationTemplateType, TemplateBuilder> = {
   'new-game-submission': newGameSubmissionTemplates,
   'confirm-newsletter-subscription': confirmNewsletterSubscriptionTemplates,
   'new-subscriber': newSubscriberTemplates,
+  'activation-code-redeemed': activationCodeRedeemedTemplates,
+  'quest-completed': questCompletedTemplates,
 };

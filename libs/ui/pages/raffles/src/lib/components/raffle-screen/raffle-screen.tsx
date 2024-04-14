@@ -2,11 +2,7 @@ import { NavigateBefore } from '@mui/icons-material';
 import { Button, Container, Typography } from '@mui/material';
 import { routes } from '@worksheets/routes';
 import { RafflesGroup } from '@worksheets/ui/components/raffles';
-import {
-  ParticipationSchema,
-  RaffleSchema,
-  WinnerSchema,
-} from '@worksheets/util/types';
+import { ParticipationSchema, RaffleSchema } from '@worksheets/util/types';
 
 import { CustomContainer } from '../shared/custom-container';
 import { ParticipantsDescription } from './participants-description';
@@ -16,17 +12,17 @@ import { RaffleDetails } from './raffle-details';
 export const RaffleScreen: React.FC<{
   activeRaffles: RaffleSchema[];
   raffle: RaffleSchema;
-  winners: WinnerSchema[];
+  youWon?: boolean;
   participants: ParticipationSchema[];
   participation?: ParticipationSchema;
   onRaffleClick: () => void;
   onShare: () => void;
 }> = ({
-  winners,
   participants,
   raffle,
   participation,
   activeRaffles,
+  youWon,
   onRaffleClick,
   onShare,
 }) => (
@@ -49,9 +45,9 @@ export const RaffleScreen: React.FC<{
     >
       <AllRafflesLink />
       <RaffleDetails
+        youWon={youWon}
         raffle={raffle}
         participation={participation}
-        winners={winners}
         onShare={onShare}
         onRaffleClick={onRaffleClick}
       />
@@ -59,7 +55,7 @@ export const RaffleScreen: React.FC<{
 
     <RaffleDescription raffle={raffle} onShare={onShare} />
 
-    <ParticipantsDescription winners={winners} participants={participants} />
+    <ParticipantsDescription participants={participants} />
 
     <RafflesGroup title={'More Raffles'} raffles={activeRaffles} />
   </CustomContainer>
@@ -76,6 +72,6 @@ const AllRafflesLink = () => (
       alignSelf: 'flex-start',
     }}
   >
-    <Typography>All Raffles</Typography>
+    <Typography fontWeight={700}>All Raffles</Typography>
   </Button>
 );

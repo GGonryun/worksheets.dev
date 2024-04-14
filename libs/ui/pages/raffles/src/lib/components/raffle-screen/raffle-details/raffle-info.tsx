@@ -14,40 +14,35 @@ import {
   Typography,
   TypographyProps,
 } from '@mui/material';
-import { PrizeType } from '@worksheets/prisma';
+import { ItemType } from '@prisma/client';
+import { routes } from '@worksheets/routes';
 import {
-  prizeTypeActionLabel,
-  prizeTypeLabel,
-  prizeTypeLogos,
-} from '@worksheets/ui/components/prizes';
+  itemTypeActionLabel,
+  itemTypeLabel,
+  itemTypeLogo,
+} from '@worksheets/ui/components/items';
 import {
   daysFromNow,
   durationToString,
   millisecondsAsDuration,
   printShortDateTime,
 } from '@worksheets/util/time';
-import {
-  ParticipationSchema,
-  RaffleSchema,
-  WinnerSchema,
-} from '@worksheets/util/types';
+import { ParticipationSchema, RaffleSchema } from '@worksheets/util/types';
 import React, { JSXElementConstructor } from 'react';
 
 export const RaffleInfo: React.FC<{
   raffle: RaffleSchema;
   participation?: ParticipationSchema;
-  winners: WinnerSchema[];
+  youWon?: boolean;
   onRaffleClick: () => void;
   onShare: () => void;
-}> = ({ participation, raffle, winners, onRaffleClick, onShare }) => {
-  const { numWinners, type, expiresAt, sourceUrl } = raffle;
+}> = ({ participation, raffle, youWon, onRaffleClick, onShare }) => {
+  const { numWinners, expiresAt, type } = raffle;
   const soon = expiresAt < daysFromNow(1).getTime();
   const expired = expiresAt < Date.now();
 
   const connected = participation !== undefined;
   const yourEntries = participation?.numEntries ?? 0;
-  const youWon =
-    connected && winners.some((w) => w.userId === participation?.userId);
 
   return (
     <Box
@@ -105,7 +100,7 @@ export const RaffleInfo: React.FC<{
           </Box>
         </Box>
         <Divider />
-        <PrizeTypeInfo type={type} />
+        <ItemTypeInfo type={type} />
         <Divider />
         <EntrySection winners={numWinners} entries={yourEntries} />
         <Divider />
@@ -135,11 +130,11 @@ export const RaffleInfo: React.FC<{
             color="primary"
             fullWidth
             sx={{ px: 1 }}
-            href={sourceUrl}
+            href={routes.help.inventory.path()}
             target="_blank"
             startIcon={<OpenInNew />}
           >
-            {prizeTypeActionLabel[type]}
+            {itemTypeActionLabel[type]}
           </Button>
         </Box>
         <Box my={1.5} />
@@ -148,8 +143,8 @@ export const RaffleInfo: React.FC<{
   );
 };
 
-const PrizeTypeInfo: React.FC<{ type: PrizeType }> = ({ type }) => {
-  const Icon = prizeTypeLogos[type];
+const ItemTypeInfo: React.FC<{ type: ItemType }> = ({ type }) => {
+  const Icon = itemTypeLogo[type];
   return (
     <Box>
       <SectionHeaderTypography>Prize Type</SectionHeaderTypography>
@@ -161,7 +156,7 @@ const PrizeTypeInfo: React.FC<{ type: PrizeType }> = ({ type }) => {
         alignItems="center"
       >
         <Icon fontSize="large" />
-        <Typography variant="h6">{prizeTypeLabel[type]}</Typography>
+        <Typography variant="h6">{itemTypeLabel[type]}</Typography>
       </Box>
     </Box>
   );

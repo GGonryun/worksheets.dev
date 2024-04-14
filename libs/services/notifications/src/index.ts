@@ -1,3 +1,4 @@
+import { PrismaClient, PrismaTransactionalClient } from '@worksheets/prisma';
 import { DiscordService } from '@worksheets/services/discord';
 import { EmailService } from '@worksheets/services/email';
 import { NewsletterService } from '@worksheets/services/newsletter';
@@ -17,12 +18,12 @@ export class NotificationsService {
   #newsletter: NewsletterService;
   #push: PushService;
   #email: EmailService;
-  constructor() {
+  constructor(db: PrismaClient | PrismaTransactionalClient) {
     this.#discord = new DiscordService();
     this.#twitter = new TwitterService();
-    this.#newsletter = new NewsletterService();
-    this.#push = new PushService();
-    this.#email = new EmailService();
+    this.#newsletter = new NewsletterService(db);
+    this.#push = new PushService(db);
+    this.#email = new EmailService(db);
   }
   async send<T extends NotificationTemplateType>(
     type: T,

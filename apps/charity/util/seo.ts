@@ -2,7 +2,6 @@ import { routes } from '@worksheets/routes';
 import { OpenGraphProps, TWITTER_SEO } from '@worksheets/util/seo';
 import {
   DeveloperSchema,
-  PrizeSchema,
   RaffleSchema,
   SerializableGameSchema,
   TagSchema,
@@ -249,11 +248,11 @@ export const accountFriendsSeo = createSeo({
   description: `Manage your Charity Games friends. Earn tokens by sharing gifts with friends.`,
 });
 
-export const accountPrizesSeo = createSeo({
+export const accountInventorySeo = createSeo({
   noindex: true,
-  path: routes.account.prizes.path(),
-  title: `Prizes`,
-  description: `Manage your Charity Games prizes. Redeem tokens for real world prizes.`,
+  path: routes.account.inventory.path(),
+  title: `Inventory`,
+  description: `Manage your Charity Games inventory. View your current items, prizes, and rewards.`,
 });
 
 export const signUpSeo = createSeo({
@@ -353,7 +352,6 @@ export const helpPrizesSeo = createSeo({
   description:
     'Find answers to questions about prizes on Charity Games. Learn about redeeming tokens for real world prizes.',
 });
-
 export const helpContributionsSeo = createSeo({
   path: routes.help.contributions.path(),
   title: 'Contributions Help Center',
@@ -394,19 +392,6 @@ export const expiredRafflesSeo = createSeo({
   description:
     'View all expired raffles on Charity Games. See what prizes were given away. Every token you spend is a donation towards a better world.',
 });
-
-export const prizeSeo = (prize: PrizeSchema): NextSeoProps =>
-  createSeo({
-    path: routes.prize.path({ params: { prizeId: prize.id } }),
-    title: `${prize.name} Prize`,
-    description: `Redeem your tokens for a free copy of ${prize.name}. Every token you spend is a donation to charity. Win prizes by playing browser games and referring friends.`,
-    images: [
-      {
-        url: prize.imageUrl,
-        alt: prize.name,
-      },
-    ],
-  });
 
 export const vipSeo = createSeo({
   path: routes.vip.path(),

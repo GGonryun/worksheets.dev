@@ -28,7 +28,7 @@ export class DiscordTemplates {
       content: `💵🎊 GIVEAWAY 🎊💵\n`,
       embeds: [
         {
-          title: `🎁 Enter to win a ${opts.prize.name}!`,
+          title: `🎁 Enter to win a ${opts.item.name}!`,
           description: `🏆 ${opts.numWinners} lucky ${pluralize(
             'winner',
             opts.numWinners
@@ -39,19 +39,15 @@ export class DiscordTemplates {
       channel: 'public',
     };
   }
-  static unclaimedPrize(
-    opts: ExtractTemplatePayload<'unclaimed-prize'>
+  static expiredItem(
+    opts: ExtractTemplatePayload<'expired-item'>
   ): DiscordMessageInput {
     return {
-      content: `A user did not claimed their prize in time.`,
+      content: `A user's item expired.`,
       embeds: [
         {
           title: `User ID: ${opts.user.id}`,
-          description: `The user (${
-            opts.user.email
-          }) did not successfully claim their prize. The last alert was sent at ${
-            opts.lastSentAt ? printShortDateTime(opts.lastSentAt) : 'N/A'
-          }.`,
+          description: `The user (${opts.user.email}) did not access their item (${opts.item.name}) in time. The item has expired.`,
         },
       ],
       channel: 'admin',
@@ -61,7 +57,7 @@ export class DiscordTemplates {
     opts: ExtractTemplatePayload<'raffle-expired'>
   ): DiscordMessageInput {
     return {
-      content: `A raffle for prize ${opts.prize.name} has expired and ${
+      content: `A raffle for prize ${opts.item.name} has expired and ${
         opts.numWinners
       } ${pluralize('winners', opts.numWinners)} have been chosen.`,
       embeds: [

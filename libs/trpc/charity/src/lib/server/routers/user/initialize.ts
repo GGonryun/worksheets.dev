@@ -1,6 +1,7 @@
 import { TRPCError } from '@trpc/server';
 import { User } from '@worksheets/prisma';
 import { PrismaClient } from '@worksheets/prisma';
+import { FriendshipService } from '@worksheets/services/friendship';
 import { InventoryService } from '@worksheets/services/inventory';
 import { NotificationsService } from '@worksheets/services/notifications';
 import { QuestsService } from '@worksheets/services/quests';
@@ -10,9 +11,6 @@ import { generateSlug } from 'random-word-slugs';
 import { z } from 'zod';
 
 import { protectedProcedure } from '../../procedures';
-
-const notifications = new NotificationsService();
-const quests = new QuestsService();
 
 export default protectedProcedure
   .input(
@@ -26,6 +24,7 @@ export default protectedProcedure
   // returns true if the user was initialized, false if the user was already initialized.
   .output(z.boolean())
   .mutation(async ({ input, ctx: { db, user } }) => {
+    const notifications = new NotificationsService(db);
     const inventory = new InventoryService(db);
     // check if user rewards object has been created.
     const exists = await db.referralCode.findFirst({
@@ -113,8 +112,11 @@ const setReferralCode = async (
   if (!referralCode || user.referredByUserId) {
     return;
   }
-
   const userId = user.id;
+
+  const notifications = new NotificationsService(db);
+  const quests = new QuestsService(db);
+  const friends = await new FriendshipService(db);
 
   const referral = await db.referralCode.findFirst({
     where: {
@@ -147,18 +149,7 @@ const setReferralCode = async (
         referredByUserId: referral.userId,
       },
     }),
-    db.friendship.create({
-      data: {
-        userId,
-        friendId: referral.userId,
-      },
-    }),
-    db.friendship.create({
-      data: {
-        userId: referral.userId,
-        friendId: userId,
-      },
-    }),
+    friends.link(userId, referral.userId),
     quests.trackId({
       userId: referral.userId,
       questId: 'ADD_REFERRAL_INFINITE',

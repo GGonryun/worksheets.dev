@@ -1,6 +1,7 @@
 import { games } from '@worksheets/data/games';
 import { prisma } from '@worksheets/prisma';
 import { getSeedingChanges, seedingProperties } from '@worksheets/util/seeding';
+import { daysAgo, isExpired } from '@worksheets/util/time';
 import { SeedableGameSchema } from '@worksheets/util/types';
 
 export const insertGames = async () => {
@@ -23,6 +24,7 @@ export const insertGames = async () => {
 
 const insertGame = async (game: SeedableGameSchema) => {
   await prisma.$transaction(async (tx) => {
+    const published = isExpired(game.publishAt ?? daysAgo(1));
     await tx.game.create({
       data: {
         version: game.version,
@@ -34,9 +36,10 @@ const insertGame = async (game: SeedableGameSchema) => {
         description: game.description,
         thumbnail: game.iconUrl,
         cover: game.bannerUrl,
-        status: game.publishAt ? 'UNPUBLISHED' : 'PUBLISHED',
+        status: published ? 'PUBLISHED' : 'UNPUBLISHED',
         createdAt: new Date(game.createdAt),
         updatedAt: new Date(game.updatedAt),
+        publishAt: game.publishAt,
         trailer: game.trailer,
         developer: {
           connect: {
@@ -65,15 +68,6 @@ const insertGame = async (game: SeedableGameSchema) => {
       })),
       skipDuplicates: true,
     });
-
-    if (game.publishAt) {
-      await tx.gamePublishAlert.create({
-        data: {
-          triggerAt: game.publishAt ?? new Date(),
-          gameId: game.id,
-        },
-      });
-    }
   });
 };
 

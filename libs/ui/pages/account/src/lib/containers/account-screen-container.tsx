@@ -5,8 +5,8 @@ import { AccountScreen } from '../components';
 import { DynamicQuestPanel } from '../dynamic/dynamic-quests-panel';
 import { FriendsPanelContainer } from './friends-panel-container';
 import { IntegrationsPanelContainer } from './integrations-panel-container';
+import { DynamicInventoryPanel } from './inventory-panel';
 import { NotificationsPanelContainer } from './notifications-panel-container';
-import { PrizesPanelContainer } from './prizes-panel-container';
 import { ReferralsPanelContainer } from './referrals-panel-container';
 import { SettingsPanelContainer } from './settings-panel-container';
 import { SubmissionsPanelContainer } from './submission-panel-container';
@@ -25,7 +25,7 @@ const AccountScreenContainer: React.FC = () => {
       }
       referralsPanel={<ReferralsPanelContainer />}
       questsPanel={<DynamicQuestPanel />}
-      prizesPanel={<PrizesPanelContainer />}
+      inventory={<DynamicInventoryPanel />}
       notificationsPanel={<NotificationsPanelContainer />}
       integrationsPanel={<IntegrationsPanelContainer />}
     />

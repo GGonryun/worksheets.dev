@@ -3,6 +3,8 @@ import {
   HowToVote,
   LocalActivity,
   Mail,
+  SquareOutlined,
+  StarBorder,
   VideogameAsset,
 } from '@mui/icons-material';
 import { alpha, Box, Typography } from '@mui/material';
@@ -93,8 +95,10 @@ const NotificationListItem: React.FC<NotificationSchema> = ({
 
 const notificationIcon: Record<NotificationType, ReactNode> = {
   SYSTEM: <Mail color="primary" />,
+  INVENTORY: <SquareOutlined color="warning" />,
   FRIEND: <Diversity1 color="secondary" />,
   RAFFLE: <HowToVote color="success" />,
   REWARD: <LocalActivity color="warning" />,
   GAME: <VideogameAsset color="error" />,
+  QUEST: <StarBorder color="info" />,
 };

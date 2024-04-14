@@ -1,5 +1,5 @@
 import { grey } from '@mui/material/colors';
-import { createTheme, darken } from '@mui/material/styles';
+import { createTheme } from '@mui/material/styles';
 
 export type PaletteColor =
   | 'success'
@@ -25,16 +25,11 @@ const arcadeButtonStyle = (tx: any) => {
     fontWeight: 700,
     textTransform: 'none' as const,
     lineHeight: 'unset' as const,
-    transition: tx.theme.transitions.create(
-      ['box-shadow', 'background-color', 'transform'],
-      {
-        duration: tx.theme.transitions.duration.standard,
-        easing: tx.theme.transitions.easing.easeInOut,
-      }
-    ),
-    '&:hover': {
-      backgroundColor: darken(currentColor.main, 0.05),
-    },
+    transition: tx.theme.transitions.create(['box-shadow', 'transform'], {
+      duration: tx.theme.transitions.duration.standard,
+      easing: tx.theme.transitions.easing.easeInOut,
+    }),
+
     '&:active': {
       boxShadow: `0px 0px 0px 0px ${shadow}`,
       transform: 'translateY(4px)',
@@ -84,9 +79,6 @@ const arcadeSquareButtonStyle = (tx: any) => {
         easing: tx.theme.transitions.easing.easeInOut,
       }
     ),
-    '&:hover': {
-      backgroundColor: darken(currentColor.main, 0.05),
-    },
     '&:active': {
       boxShadow: `0px 0px 0px 0px ${shadow}`,
       transform: 'translateY(4px)',

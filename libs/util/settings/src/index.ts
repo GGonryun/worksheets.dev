@@ -11,9 +11,8 @@ export const MAX_DAILY_GIFT_BOX_SHARES = 5;
 export const STARTING_TOKENS = 100;
 export const STARTING_GIFT_BOXES = 5;
 // raffles
-export const RAFFLE_ENTRY_FEE = 20;
+export const RAFFLE_ENTRY_FEE = 10;
 // prizes
 export const PRIZE_TOKEN_MODIFIER = 1000;
 // alerts
-export const CLAIM_ALERT_LAST_SENT_THRESHOLD = 24; // hours
-export const CLAIM_ALERT_SENT_COUNT_THRESHOLD = 3; // 3 reminders sent.
+export const EXPIRATION_TIME_THRESHOLD = 2; // send reminder days before expiration

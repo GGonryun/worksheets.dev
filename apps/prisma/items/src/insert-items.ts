@@ -38,9 +38,9 @@ const convertItem = (item: Item) => {
     version: item.version,
     code: item.code,
     name: item.name,
+    expiration: item.expiration ?? null,
     description: item.description,
     imageUrl: item.imageUrl,
-    iconUrl: item.iconUrl,
     type: item.type,
   };
 };

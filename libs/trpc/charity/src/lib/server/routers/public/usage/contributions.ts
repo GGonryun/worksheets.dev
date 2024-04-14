@@ -28,7 +28,11 @@ export default publicProcedure
         },
       }),
       inventory.globalTokenCount(),
-      db.raffleWinner.count(),
+      db.raffleParticipation.count({
+        where: {
+          winner: true,
+        },
+      }),
     ]);
 
     return {

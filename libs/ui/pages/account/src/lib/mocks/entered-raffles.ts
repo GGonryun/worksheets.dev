@@ -10,7 +10,7 @@ export const mockEnteredRaffles: EnteredRaffleSchema[] = Array.from(
     type: 'STEAM_KEY',
     status: i % 4 === 0 ? 'COMPLETE' : 'ACTIVE',
     entries: 32,
-    prizeId: `${i}-prize`,
+    itemId: `${i}-prize`,
     expiresAt: hoursFromNow(5 * i).getTime(),
   })
 );

@@ -14,10 +14,6 @@ const config = {
       from: '../../../assets/games/src/lib',
       to: '/games',
     },
-    {
-      from: '../../../assets/prizes/src/lib',
-      to: '/prizes',
-    },
   ],
 };
 

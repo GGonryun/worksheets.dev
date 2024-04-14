@@ -19,7 +19,7 @@ const EMPTY_VALUES: RafflesScreenProps = {
 
 const PREFILLED_VALUES: RafflesScreenProps = {
   hottest: mockRaffles,
-  entered: mockRaffles,
+  entered: mockRaffles.map((r, i) => ({ ...r, entries: i % 2 === 0 ? 0 : 1 })),
   list: arrayFromNumber(15).flatMap((i) =>
     mockRaffles.map((r) => ({ ...r, id: r.id + i }))
   ),

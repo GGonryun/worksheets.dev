@@ -16,7 +16,7 @@ export default publicProcedure
   .input(
     z.object({
       category: raffleCategorySchema,
-      prizeId: z.string().optional(),
+      itemId: z.string().optional(),
       query: z.string().optional(),
       limit: z.number().optional(),
     })
@@ -24,16 +24,15 @@ export default publicProcedure
   .output(z.array(raffleSchema))
   .query(
     async ({
-      input: { category, query, prizeId, limit = DEFAULT_LIMIT },
+      input: { category, query, itemId, limit = DEFAULT_LIMIT },
       ctx: { db },
     }) => {
-      const raffles = await getRaffles(db, category, limit, prizeId);
+      const raffles = await getRaffles(db, category, limit, itemId);
 
       if (query) {
         return raffles.filter(
           (raffle) =>
             normalized(raffle.name).includes(normalized(query)) ||
-            normalized(raffle.headline).includes(normalized(query)) ||
             normalized(raffle.sponsor.name).includes(normalized(query))
         );
       }
@@ -47,68 +46,68 @@ const normalized = (text: string) => text.toLowerCase();
 type RaffleQuery = (
   db: PrismaClient,
   limit: number,
-  prizeId?: string
+  itemId?: string
 ) => Promise<RaffleSchema[]>;
 
 const getRaffles = (
   db: PrismaClient,
   category: RaffleCategory,
   limit: number,
-  prizeId?: string
+  itemId?: string
 ): Promise<RaffleSchema[]> => {
   switch (category) {
     case 'active':
-      return activePrizes(db, limit, prizeId);
+      return activePrizes(db, limit, itemId);
     case 'suggested':
     case 'hottest':
-      return hottestPrizes(db, limit, prizeId);
+      return hottestPrizes(db, limit, itemId);
     case 'newest':
-      return newestPrizes(db, limit, prizeId);
+      return newestPrizes(db, limit, itemId);
     case 'expiring':
-      return expiringPrizes(db, limit, prizeId);
+      return expiringPrizes(db, limit, itemId);
     case 'expired':
-      return expiredPrizes(db, limit, prizeId);
+      return expiredPrizes(db, limit, itemId);
     case 'all':
-      return allRaffles(db, limit, prizeId);
+      return allRaffles(db, limit, itemId);
     default:
-      return allRaffles(db, limit, prizeId);
+      return allRaffles(db, limit, itemId);
   }
 };
 
-const allRaffles: RaffleQuery = async (db, limit, prizeId) =>
+const allRaffles: RaffleQuery = async (db, limit, itemId) =>
   (
     await db.raffle.findMany({
       take: limit,
       where: {
-        prizeId: prizeId ? prizeId : undefined,
+        itemId: itemId ? itemId : undefined,
       },
       include: {
-        prize: true,
+        item: true,
         sponsor: true,
       },
     })
   ).map(convertRaffle);
 
-const activePrizes: RaffleQuery = async (db, limit, prizeId) =>
+const activePrizes: RaffleQuery = async (db, limit, itemId) =>
   (
     await db.raffle.findMany({
       take: limit,
       where: {
-        prizeId: prizeId ? prizeId : undefined,
+        itemId: itemId ? itemId : undefined,
         status: 'ACTIVE',
       },
       include: {
-        prize: true,
+        item: true,
         sponsor: true,
       },
     })
   ).map(convertRaffle);
 
-const hottestPrizes: RaffleQuery = async (db, limit, prizeId) => {
-  const prizes = await db.raffle.findMany({
+const hottestPrizes: RaffleQuery = async (db, limit, itemId) => {
+  const raffles = await db.raffle.findMany({
     take: limit,
     where: {
-      prizeId: prizeId ? prizeId : undefined,
+      itemId: itemId ? itemId : undefined,
       status: 'ACTIVE',
     },
     orderBy: {
@@ -117,66 +116,66 @@ const hottestPrizes: RaffleQuery = async (db, limit, prizeId) => {
       },
     },
     include: {
-      prize: true,
+      item: true,
       sponsor: true,
       participants: true,
     },
   });
 
-  return prizes.map(convertRaffle);
+  return raffles.map(convertRaffle);
 };
 
-const newestPrizes: RaffleQuery = async (db, limit, prizeId) =>
+const newestPrizes: RaffleQuery = async (db, limit, itemId) =>
   (
     await db.raffle.findMany({
       take: limit,
       where: {
-        prizeId: prizeId ? prizeId : undefined,
+        itemId: itemId ? itemId : undefined,
         status: 'ACTIVE',
       },
       orderBy: {
         createdAt: 'desc',
       },
       include: {
-        prize: true,
+        item: true,
         sponsor: true,
       },
     })
   ).map(convertRaffle);
 
-const expiredPrizes: RaffleQuery = async (db, limit, prizeId) =>
+const expiredPrizes: RaffleQuery = async (db, limit, itemId) =>
   (
     await db.raffle.findMany({
       take: limit,
       where: {
-        prizeId: prizeId ? prizeId : undefined,
+        itemId: itemId ? itemId : undefined,
         status: {
-          in: ['REASSIGN', 'WAITING', 'COMPLETE'],
+          in: ['CANCELLED', 'COMPLETE'],
         },
       },
       orderBy: {
         expiresAt: 'asc',
       },
       include: {
-        prize: true,
+        item: true,
         sponsor: true,
       },
     })
   ).map(convertRaffle);
 
-const expiringPrizes: RaffleQuery = async (db, limit, prizeId) =>
+const expiringPrizes: RaffleQuery = async (db, limit, itemId) =>
   (
     await db.raffle.findMany({
       take: limit,
       where: {
-        prizeId: prizeId ? prizeId : undefined,
+        itemId: itemId ? itemId : undefined,
         status: 'ACTIVE',
       },
       orderBy: {
         expiresAt: 'asc',
       },
       include: {
-        prize: true,
+        item: true,
         sponsor: true,
       },
     })

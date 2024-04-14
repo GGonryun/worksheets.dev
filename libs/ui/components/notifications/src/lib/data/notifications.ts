@@ -1,5 +1,5 @@
 import { routes } from '@worksheets/routes';
-import { FriendsPanels, PrizesPanels } from '@worksheets/util/enums';
+import { FriendsPanels, InventoryPanels } from '@worksheets/util/enums';
 import { minutesAgo } from '@worksheets/util/time';
 import { NotificationSchema } from '@worksheets/util/types';
 
@@ -24,11 +24,11 @@ export const mockNotifications: NotificationSchema[] = [
   },
   {
     id: '3',
-    text: `<b>You won a raffle!</b> Visit your <a href="${routes.account.prizes.path(
+    text: `<b>You won a raffle!</b> Visit your <a href="${routes.account.inventory.path(
       {
-        bookmark: PrizesPanels.Raffles,
+        bookmark: InventoryPanels.Items,
       }
-    )}}">prizes</a> to claim your reward.`,
+    )}}">inventory</a> to claim your reward.`,
     type: 'RAFFLE',
     read: false,
     createdAt: minutesAgo(15).getTime(),
@@ -83,12 +83,5 @@ export const mockNotifications: NotificationSchema[] = [
     type: 'SYSTEM',
     read: false,
     createdAt: minutesAgo(70).getTime(),
-  },
-  {
-    id: '7',
-    text: `A raffle has expired. Visit the <a href="${routes.admin.raffles.path()}">expired raffles</a> page to see the results.`,
-    type: 'SYSTEM',
-    read: false,
-    createdAt: minutesAgo(80).getTime(),
   },
 ];

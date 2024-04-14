@@ -1,5 +1,6 @@
 import { PushNotifyInput } from '@worksheets/services/push';
 import {
+  EXPIRATION_TIME_THRESHOLD,
   STARTING_GIFT_BOXES,
   STARTING_TOKENS,
 } from '@worksheets/util/settings';
@@ -11,13 +12,12 @@ import { ExtractTemplatePayload } from './types';
 import {
   ACCOUNT_FRIENDS_LIST_URL,
   ACCOUNT_GIFT_BOXES_URL,
-  ACCOUNT_PRIZES_URL,
+  ACCOUNT_INVENTORY_URL,
   ACCOUNT_QUESTS_URL,
   ACCOUNT_REFERRED_ACCOUNTS_URL,
   DEVELOPER_URL,
   GAME_URL,
   GAMES_URL,
-  PRIZE_URL,
   RAFFLE_URL,
   RAFFLES_URL,
 } from './urls';
@@ -40,7 +40,7 @@ export class PushTemplates {
     return {
       type: 'RAFFLE',
       text: `New Raffle Alert! Win a <a href="${RAFFLE_URL(opts.id)}">${
-        opts.prize.name
+        opts.item.name
       }</a>. ${opts.numWinners} lucky ${pluralize(
         'winner',
         opts.numWinners
@@ -54,9 +54,9 @@ export class PushTemplates {
     return {
       type: 'RAFFLE',
       text: `A raffle for a <a href="${RAFFLE_URL(opts.id)}">${
-        opts.prize.name
+        opts.item.name
       }</a> has ended! <a href="${RAFFLE_URL(opts.id)}">View results</a>.`,
-      userIds: opts.participants.map((p) => p.userId),
+      userIds: opts.participants.map((p) => p.user.id),
     };
   }
 
@@ -65,17 +65,17 @@ export class PushTemplates {
   ): PushNotifyInput {
     return {
       type: 'RAFFLE',
-      text: `You won a raffle! ${prizeMessage(opts)}`,
+      text: `You won a ${opts.item.name} in a raffle! <a href="${ACCOUNT_INVENTORY_URL}">See your inventory</a>.`,
       userIds: [opts.user.id],
     };
   }
 
-  static wonRaffleReminder(
-    opts: ExtractTemplatePayload<'won-raffle'>
+  static expiringItemReminder(
+    opts: ExtractTemplatePayload<'expiring-item-reminder'>
   ): PushNotifyInput {
     return {
-      type: 'RAFFLE',
-      text: `You have an unclaimed prize! ${prizeMessage(opts)}`,
+      type: 'INVENTORY',
+      text: `A ${opts.item.name} item is expiring in ${EXPIRATION_TIME_THRESHOLD} days! <a href="${ACCOUNT_INVENTORY_URL}">Go to your account inventory</a>.`,
       userIds: [opts.user.id],
     };
   }
@@ -119,9 +119,19 @@ export class PushTemplates {
       text: `<b>${opts.follower.username}</b> has started <a href="${ACCOUNT_FRIENDS_LIST_URL}">following you</a>!`,
     };
   }
-}
 
-const prizeMessage = (opts: ExtractTemplatePayload<'won-raffle'>) =>
-  `<a href="${ACCOUNT_PRIZES_URL}">Go to your account</a> to redeem a <a href="${PRIZE_URL(
-    opts.prize.id
-  )}">${opts.prize.name}</a>.`;
+  static questCompleted(
+    opts: ExtractTemplatePayload<'quest-completed'>
+  ): PushNotifyInput {
+    return {
+      userIds: [opts.userId],
+      type: 'QUEST',
+      text: `You have completed the quest <b>${
+        opts.quest.title
+      }</b> and received ${opts.quest.reward} ${pluralize(
+        'token',
+        opts.quest.reward
+      )}! <a href="${ACCOUNT_QUESTS_URL}">Find more quests</a>.`,
+    };
+  }
+}

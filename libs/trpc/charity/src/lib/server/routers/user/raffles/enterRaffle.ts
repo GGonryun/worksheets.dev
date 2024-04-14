@@ -1,5 +1,6 @@
 import { TRPCError } from '@trpc/server';
 import { InventoryService } from '@worksheets/services/inventory';
+import { QuestsService } from '@worksheets/services/quests';
 import { RAFFLE_ENTRY_FEE } from '@worksheets/util/settings';
 import { z } from 'zod';
 
@@ -13,6 +14,7 @@ export default protectedProcedure
   )
   .output(z.unknown())
   .mutation(async ({ input: { raffleId }, ctx: { db, user } }) => {
+    const quests = new QuestsService(db);
     return db.$transaction(async (tx) => {
       const inventory = new InventoryService(tx);
       // get the prize to compute the cost.
@@ -71,6 +73,12 @@ export default protectedProcedure
           raffleId: raffleId,
           userId: user.id,
         },
+      });
+
+      await quests.trackId({
+        questId: 'RAFFLE_PARTICIPATION_DAILY',
+        userId: user.id,
+        input: {},
       });
     });
   });

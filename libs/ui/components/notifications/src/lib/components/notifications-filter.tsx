@@ -32,8 +32,10 @@ const buttonLabels: Record<FilterableNotificationType, string> = {
   FRIEND: 'Friends',
   SYSTEM: 'System',
   RAFFLE: 'Raffles',
+  INVENTORY: 'Inventory',
   REWARD: 'Rewards',
   GAME: 'Games',
+  QUEST: 'Quests',
 };
 
 const CustomButton: React.FC<{

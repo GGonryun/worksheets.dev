@@ -16,17 +16,7 @@ export const RafflesGroup: React.FC<{
       action={action}
       empty={empty}
       items={raffles}
-      render={(item) => (
-        <Raffle
-          key={item.id}
-          id={item.id}
-          status={item.status}
-          name={item.name}
-          imageUrl={item.imageUrl}
-          expiresAt={item.expiresAt}
-          type={item.type}
-        />
-      )}
+      render={(item) => <Raffle key={item.id} {...item} />}
     />
   );
 };

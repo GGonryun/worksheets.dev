@@ -10,10 +10,6 @@ const config = {
       from: '../../../../assets/common/src/lib',
       to: '/common',
     },
-    {
-      from: '../../../../assets/prizes/src/lib',
-      to: '/prizes',
-    },
   ],
 };
 

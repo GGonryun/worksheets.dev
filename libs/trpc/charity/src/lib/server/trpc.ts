@@ -16,6 +16,7 @@ export const t = initTRPC
   .create({
     errorFormatter(opts) {
       const { shape, error } = opts;
+      console.error('TRPC error', error);
       return {
         ...shape,
         data: {

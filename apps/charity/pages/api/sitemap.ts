@@ -58,10 +58,10 @@ const addBasicPages = () => {
     helpPlayingGamesSeo.canonical,
     helpTokensSeo.canonical,
     helpReferralsSeo.canonical,
+    helpPrizesSeo.canonical,
     helpFriendsSeo.canonical,
     helpVIPSeo.canonical,
     helpNotificationsSeo.canonical,
-    helpPrizesSeo.canonical,
     helpContributionsSeo.canonical,
     helpDevelopersSeo.canonical,
     helpQuestsSeo.canonical,
@@ -164,29 +164,6 @@ const getRaffles = async () => {
     .join('');
 };
 
-const getPrizes = async () => {
-  const prizes = await prisma.prize.findMany({
-    select: {
-      id: true,
-      updatedAt: true,
-    },
-  });
-
-  return prizes
-    .map(
-      (prize) =>
-        `<url><loc>${routes.prize.url({
-          params: {
-            prizeId: prize.id,
-          },
-        })}</loc><lastmod>${printShortDate(
-          prize.updatedAt,
-          'fr-CA'
-        )}</lastmod><priority>0.6</priority></url>`
-    )
-    .join('');
-};
-
 const handler: NextApiHandler = async (req, res) => {
   res.statusCode = 200;
   res.setHeader('Content-Type', 'application/xml');
@@ -194,12 +171,11 @@ const handler: NextApiHandler = async (req, res) => {
   // Instructing the Vercel edge to cache the file
   res.setHeader('Cache-control', 'stale-while-revalidate, s-maxage=3600');
 
-  const [games, tags, developers, raffles, prizes] = await Promise.all([
+  const [games, tags, developers, raffles] = await Promise.all([
     getGames(),
     getTags(),
     getDevelopers(),
     getRaffles(),
-    getPrizes(),
   ]);
 
   // generate sitemap here
@@ -208,7 +184,6 @@ const handler: NextApiHandler = async (req, res) => {
       ${addHomePage()}
       ${addBasicPages()}
       ${games}
-      ${prizes}
       ${raffles}
       ${tags}
       ${developers}

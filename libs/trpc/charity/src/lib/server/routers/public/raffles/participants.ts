@@ -21,6 +21,7 @@ export default publicProcedure
       select: {
         numEntries: true,
         userId: true,
+        winner: true,
         user: {
           select: {
             username: true,
@@ -28,9 +29,5 @@ export default publicProcedure
         },
       },
     });
-    return participants.map((p) => ({
-      numEntries: p.numEntries,
-      userId: p.userId,
-      username: p.user.username,
-    }));
+    return participants;
   });

@@ -1,0 +1,171 @@
+import { InfoOutlined } from '@mui/icons-material';
+import { Box, Button, Link, styled, Typography } from '@mui/material';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import { ValentinesGift } from '@worksheets/icons/valentines';
+import { routes } from '@worksheets/routes';
+import { itemTypeLogo } from '@worksheets/ui/components/items';
+import { useMediaQueryDown } from '@worksheets/ui/hooks/use-media-query';
+import { printShortDate } from '@worksheets/util/time';
+import { ActivationCodeDetails } from '@worksheets/util/types';
+import * as React from 'react';
+
+import { ActivationCodeModal } from './activation-code-modal';
+
+const StyledBox = styled(Box)(({ theme }) => ({
+  border: `1px solid ${theme.palette.divider}`,
+  borderRadius: theme.shape.borderRadius,
+  overflow: 'hidden',
+}));
+
+type ActivationCodesTableProps = {
+  codes: ActivationCodeDetails[];
+};
+
+export const ActivationCodesTable: React.FC<ActivationCodesTableProps> = ({
+  codes,
+}) => {
+  if (codes.length === 0) {
+    return <EmptyPrizesPlaceholder />;
+  }
+  return (
+    <TableContainer component={StyledBox}>
+      <Table
+        size="small"
+        sx={{
+          minWidth: 400,
+        }}
+      >
+        <TableHead>
+          <TableRow>
+            <TableCell>
+              <InfoOutlined fontSize="small" sx={{ mt: 0.8 }} />
+            </TableCell>
+            <TableCell align="left">ID</TableCell>
+            <TableCell align="left">Name</TableCell>
+            <TableCell align="right">Accessed</TableCell>
+            <TableCell align="right" width={180}></TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {codes.map((code) => (
+            <CodeRow key={code.id} code={code} />
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
+  );
+};
+
+const CodeRow: React.FC<{
+  code: ActivationCodeDetails;
+}> = ({ code }) => {
+  const [open, setOpen] = React.useState(false);
+  const ItemTypeLogo = itemTypeLogo[code.item.type];
+  return (
+    <>
+      <TableRow
+        key={code.id}
+        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+      >
+        <TableCell width={12}>
+          <ItemTypeLogo
+            sx={{
+              height: 24,
+              width: 24,
+            }}
+          />
+        </TableCell>
+        <TableCell
+          align="left"
+          component="th"
+          scope="row"
+          sx={{
+            whiteSpace: 'nowrap',
+          }}
+        >
+          {code.id.length > 10 ? `${code.id.slice(0, 10)}...` : code.id}
+        </TableCell>
+
+        <TableCell
+          align="left"
+          sx={{
+            whiteSpace: 'nowrap',
+          }}
+        >
+          <b>{code.item.name}</b>
+        </TableCell>
+
+        <TableCell
+          align="right"
+          sx={{
+            whiteSpace: 'nowrap',
+          }}
+        >
+          {code.accessedAt ? printShortDate(code.accessedAt) : 'N/A'}
+        </TableCell>
+        <TableCell align="right" width={180}>
+          <Button
+            onClick={() => setOpen(true)}
+            size="small"
+            variant="arcade"
+            color={'secondary'}
+            sx={{ mb: 0.5, minWidth: 135 }}
+          >
+            View Code
+          </Button>
+        </TableCell>
+      </TableRow>
+      <ActivationCodeModal
+        open={open}
+        onClose={() => {
+          setOpen(false);
+        }}
+        code={code}
+      />
+    </>
+  );
+};
+
+const EmptyPrizesPlaceholder = () => {
+  const isMobile = useMediaQueryDown('sm');
+  return (
+    <Box
+      sx={{
+        width: '100%',
+        display: 'grid',
+        placeItems: 'center',
+        flexDirection: 'column',
+        border: (theme) => `1px solid ${theme.palette.divider}`,
+        padding: 3,
+        gap: 2,
+        textAlign: 'center',
+      }}
+    >
+      <ValentinesGift
+        sx={{
+          height: isMobile ? 100 : 150,
+          width: isMobile ? 100 : 150,
+          py: 2,
+        }}
+      />
+      <Typography typography={{ xs: 'h6', sm: 'h5', md: 'h4' }} color="error">
+        You don't have any codes yet
+      </Typography>
+      <Typography variant="body2">
+        Participate in a Raffles or Boss Battles to win prizes and earn
+      </Typography>
+      <Typography variant="body2">
+        Keep playing games and referring friends to earn more tokens and win
+        prizes!
+      </Typography>
+      <Link href={routes.help.prizes.path()} variant="body1" color="error">
+        Learn More
+      </Link>
+    </Box>
+  );
+};

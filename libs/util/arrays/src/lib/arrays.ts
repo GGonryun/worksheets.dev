@@ -36,3 +36,7 @@ export function shuffle<T>(array: T[]): T[] {
   }
   return array;
 }
+
+export const randomArrayElement = <T>(arr: T[]): T => {
+  return arr[Math.floor(Math.random() * arr.length)];
+};

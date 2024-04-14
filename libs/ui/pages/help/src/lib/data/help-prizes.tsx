@@ -1,6 +1,6 @@
 import { Box, Link, Typography } from '@mui/material';
 import { routes } from '@worksheets/routes';
-import { HelpPrizesQuestions, PrizesPanels } from '@worksheets/util/enums';
+import { HelpPrizesQuestions, InventoryPanels } from '@worksheets/util/enums';
 import { QuestionAnswer } from '@worksheets/util/types';
 
 import { HelpfulLinks } from '../helpful-links';
@@ -19,7 +19,7 @@ export const helpPrizes: QuestionAnswer[] = [
           <br />
           <br />
           All prizes are digital and can be claimed in{' '}
-          <Link href={routes.account.prizes.path()}>your account</Link>.
+          <Link href={routes.account.inventory.path()}>your account</Link>.
           <br />
           <br />
           If you are unable to claim a prize, please{' '}
@@ -37,7 +37,10 @@ export const helpPrizes: QuestionAnswer[] = [
         <br />
         <HelpfulLinks
           links={[
-            { text: 'Access your prizes', href: routes.account.prizes.path() },
+            {
+              text: 'Access your inventory',
+              href: routes.account.inventory.path(),
+            },
             { text: 'View Raffles', href: routes.raffles.path() },
             { text: 'Learn about Tokens', href: routes.help.tokens.path() },
           ]}
@@ -83,13 +86,13 @@ export const helpPrizes: QuestionAnswer[] = [
           <br />
           If you have won a prize, you will receive a notification and an email
           to claim your prize. You can find all your prizes in your{' '}
-          <Link href={routes.account.prizes.path()}>prizes page</Link>.
+          <Link href={routes.account.inventory.path()}>inventory page</Link>.
         </Typography>
         <br />
         <HelpfulLinks
           links={[
             { text: 'Enter Raffles', href: routes.raffles.expired.path() },
-            { text: 'See my prizes', href: routes.account.prizes.path() },
+            { text: 'See my inventory', href: routes.account.inventory.path() },
           ]}
         />
       </Box>
@@ -98,21 +101,21 @@ export const helpPrizes: QuestionAnswer[] = [
   {
     id: HelpPrizesQuestions.HowToClaim,
     question: 'How do I claim prizes?',
-    summary: 'You can claim prizes by visiting the prizes page.',
+    summary: 'You can claim prizes by visiting the inventory page.',
     answer: (
       <Box>
         <Typography>
           You can claim prizes by visiting the{' '}
           <Link
-            href={routes.account.prizes.path({
-              bookmark: PrizesPanels.Prizes,
+            href={routes.account.inventory.path({
+              bookmark: InventoryPanels.Items,
             })}
           >
-            prizes page
+            inventory page
           </Link>
           . If you have won a prize, you will receive a notification and an
           email to claim your prize. You can find all your prizes in your{' '}
-          <Link href={routes.account.prizes.path()}>prizes page</Link>.
+          <Link href={routes.account.inventory.path()}>inventory page</Link>.
           <br />
           <br />
           We will attempt to deliver your prize to you within 24 hours. You will
@@ -130,7 +133,7 @@ export const helpPrizes: QuestionAnswer[] = [
         <HelpfulLinks
           links={[
             { text: 'Learn about Tokens', href: routes.help.tokens.path() },
-            { text: 'See my prizes', href: routes.account.prizes.path() },
+            { text: 'See my inventory', href: routes.account.inventory.path() },
             {
               text: 'Contact Us',
               href: routes.contact.path(),

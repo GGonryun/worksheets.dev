@@ -48,7 +48,7 @@ export default publicProcedure
           id: true,
           status: true,
           expiresAt: true,
-          prize: {
+          item: {
             select: {
               id: true,
               name: true,
@@ -96,7 +96,7 @@ const convertRaffle = (
       id: true;
       status: true;
       expiresAt: true;
-      prize: {
+      item: {
         select: {
           id: true;
           name: true;
@@ -109,8 +109,8 @@ const convertRaffle = (
 ): BasicRaffleDetails => ({
   id: raffle.id,
   status: raffle.status,
-  name: raffle.prize.name,
-  imageUrl: raffle.prize.imageUrl,
-  type: raffle.prize.type,
+  name: raffle.item.name,
+  imageUrl: raffle.item.imageUrl,
+  type: raffle.item.type,
   expiresAt: raffle.expiresAt.getTime(),
 });

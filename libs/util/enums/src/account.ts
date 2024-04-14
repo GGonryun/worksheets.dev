@@ -16,7 +16,8 @@ export enum SettingsPanels {
   DangerZone = 'danger-zone',
 }
 
-export enum PrizesPanels {
-  Raffles = 'raffles',
-  Prizes = 'prizes',
+export enum InventoryPanels {
+  Items = 'items',
+  Participation = 'participation',
+  ActivationCodes = 'activation-codes',
 }

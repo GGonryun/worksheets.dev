@@ -16,7 +16,7 @@ export default protectedProcedure
         raffle: {
           status: activeOnly
             ? {
-                in: ['ACTIVE', 'WAITING', 'REASSIGN'],
+                in: ['ACTIVE'],
               }
             : undefined,
         },
@@ -29,7 +29,7 @@ export default protectedProcedure
             id: true,
             status: true,
             expiresAt: true,
-            prize: {
+            item: {
               select: {
                 id: true,
                 type: true,
@@ -44,11 +44,11 @@ export default protectedProcedure
 
     return participation.map((p) => ({
       id: p.raffle.id,
-      type: p.raffle.prize.type,
-      prizeId: p.raffle.prize.id,
+      type: p.raffle.item.type,
+      itemId: p.raffle.item.id,
       status: p.raffle.status,
-      name: p.raffle.prize.name,
-      imageUrl: p.raffle.prize.imageUrl,
+      name: p.raffle.item.name,
+      imageUrl: p.raffle.item.imageUrl,
       entries: p.numEntries,
       expiresAt: p.raffle.expiresAt.getTime(),
     }));

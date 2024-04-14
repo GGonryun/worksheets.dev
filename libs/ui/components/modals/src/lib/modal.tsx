@@ -12,6 +12,8 @@ export type ModalProps = Pick<
   'open' | 'onClose' | 'children' | 'sx'
 >;
 
+export type OnClose = MuiModalProps['onClose'];
+
 export type ModalWrapper<T> = Omit<ModalProps, 'children'> & T;
 
 export const Modal: FC<ModalProps> = ({ children, sx, ...props }) => {

@@ -1,6 +1,7 @@
-import { ValentinesTicket } from '@worksheets/icons/valentines';
+import { TokenIcon } from '@worksheets/icons/native';
 import { routes } from '@worksheets/routes';
 import { Panel } from '@worksheets/ui/components/panels';
+import pluralize from 'pluralize';
 import { FC, ReactNode } from 'react';
 
 // Load the quests dynamically. First make a request to the server to get the quest board.
@@ -14,8 +15,8 @@ export const QuestsPanel: FC<{ tokens: number; children: ReactNode }> = ({
     <Panel
       header={{
         primary: 'Quests',
-        secondary: `${tokens} tokens`,
-        icon: <ValentinesTicket fontSize="large" />,
+        secondary: `${tokens} ${pluralize('token', tokens)}`,
+        icon: <TokenIcon size={32} />,
       }}
       footer={{
         learn: {

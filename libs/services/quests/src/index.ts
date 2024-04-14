@@ -1,5 +1,11 @@
 import { TRPCError } from '@trpc/server';
-import { prisma, QuestStatus } from '@worksheets/prisma';
+import {
+  PrismaClient,
+  PrismaTransactionalClient,
+  QuestStatus,
+} from '@worksheets/prisma';
+import { InventoryService } from '@worksheets/services/inventory';
+import { NotificationsService } from '@worksheets/services/notifications';
 import { assertNever } from '@worksheets/util/errors';
 import {
   AddFriendQuestId,
@@ -40,6 +46,11 @@ import {
 } from './lib/tracking';
 
 export class QuestsService {
+  #db: PrismaClient | PrismaTransactionalClient;
+  constructor(db: PrismaClient | PrismaTransactionalClient) {
+    this.#db = db;
+  }
+
   async list(opts: {
     userId: string;
     statuses?: QuestStatus[];
@@ -88,7 +99,7 @@ export class QuestsService {
       });
     }
 
-    const progress = await prisma.questProgress.findFirst({
+    const progress = await this.#db.questProgress.findFirst({
       where: {
         questId: opts.questId,
         userId: opts.userId,
@@ -116,16 +127,23 @@ export class QuestsService {
     userId: string;
     input: QuestInput<T>;
   }) {
+    const inventory = new InventoryService(this.#db);
+    const notifications = new NotificationsService(this.#db);
+
     switch (opts.questId) {
       case 'PLAY_GAME_DAILY_5':
       case 'PLAY_GAME_WEEKLY_25':
         return await trackFinitePlayGameProgress({
+          notifications,
+          inventory,
           questId: opts.questId,
           userId: opts.userId,
           input: opts.input as QuestInput<PlayGameQuestId>,
         });
       case 'PLAY_GAME_INFINITE':
         return await trackInfinitePlayGameProgress({
+          notifications,
+          inventory,
           questId: opts.questId,
           userId: opts.userId,
           input: opts.input as QuestInput<'PLAY_GAME_INFINITE'>,
@@ -133,6 +151,8 @@ export class QuestsService {
       case 'VISIT_CHARITY_GAMES':
       case 'VISIT_WATER_ORG':
         return await trackWebsiteVisitProgress({
+          notifications,
+          inventory,
           questId: opts.questId,
           userId: opts.userId,
           input: opts.input as QuestInput<VisitWebsiteQuestId>,
@@ -140,42 +160,56 @@ export class QuestsService {
       case 'FOLLOW_CHARITY_GAMES_TWITTER':
       case 'FOLLOW_WATER_ORG_TWITTER':
         return await trackFollowTwitterProgress({
+          notifications,
+          inventory,
           questId: opts.questId,
           userId: opts.userId,
           input: opts.input as QuestInput<FollowTwitterQuestId>,
         });
       case 'RAFFLE_PARTICIPATION_DAILY':
         return await trackRaffleParticipationProgress({
+          notifications,
+          inventory,
           questId: opts.questId,
           userId: opts.userId,
           input: opts.input as QuestInput<RaffleParticipationQuestId>,
         });
       case 'ADD_FRIEND_INFINITE':
         return await trackAddFriendProgress({
+          notifications,
+          inventory,
           questId: opts.questId,
           userId: opts.userId,
           input: opts.input as QuestInput<AddFriendQuestId>,
         });
       case 'ADD_REFERRAL_INFINITE':
         return await trackAddReferralProgress({
+          notifications,
+          inventory,
           questId: opts.questId,
           userId: opts.userId,
           input: opts.input as QuestInput<AddReferralQuestId>,
         });
       case 'REFERRAL_PLAY_MINUTES_INFINITE':
         return await trackReferralPlayMinutesProgress({
+          notifications,
+          inventory,
           questId: opts.questId,
           userId: opts.userId,
           input: opts.input as QuestInput<ReferralPlayMinutesQuestId>,
         });
       case 'PLAY_MINUTES_INFINITE':
         return await trackPlayMinutesProgress({
+          notifications,
+          inventory,
           questId: opts.questId,
           userId: opts.userId,
           input: opts.input as QuestInput<PlayMinutesQuestId>,
         });
       case 'FRIEND_PLAY_MINUTES_INFINITE':
         return await trackFriendPlayMinutesProgress({
+          notifications,
+          inventory,
           questId: opts.questId,
           userId: opts.userId,
           input: opts.input as QuestInput<FriendPlayMinutesQuestId>,
@@ -217,12 +251,14 @@ export class QuestsService {
     }
   }
   async destroyExpired() {
-    return await prisma.questProgress.deleteMany({
+    const action = await this.#db.questProgress.deleteMany({
       where: {
         expiresAt: {
           lte: new Date(),
         },
       },
     });
+
+    console.info(`Destroyed ${action.count} expired notifications`);
   }
 }

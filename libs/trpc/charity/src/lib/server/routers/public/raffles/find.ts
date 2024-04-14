@@ -18,7 +18,7 @@ export default publicProcedure
       },
       include: {
         sponsor: true,
-        prize: true,
+        item: true,
       },
     });
 

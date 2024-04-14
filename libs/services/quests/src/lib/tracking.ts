@@ -1,6 +1,7 @@
 import { TRPCError } from '@trpc/server';
 import { prisma } from '@worksheets/prisma';
 import { InventoryService } from '@worksheets/services/inventory';
+import { NotificationsService } from '@worksheets/services/notifications';
 import { isExpired, now } from '@worksheets/util/time';
 import {
   AddFriendQuestId,
@@ -10,12 +11,12 @@ import {
   PlayGameQuestId,
   PlayMinutesQuestId,
   QuestId,
+  QuestInput,
   QuestProgress,
   QUESTS,
   Quests,
   RaffleParticipationQuestId,
   ReferralPlayMinutesQuestId,
-  TrackProgressOpts,
   VisitWebsiteQuestId,
 } from '@worksheets/util/types';
 
@@ -29,7 +30,13 @@ import {
   parseVisitWebsiteState,
 } from './state';
 
-const inventory = new InventoryService(prisma);
+type TrackProgressOpts<T extends QuestId> = {
+  questId: T;
+  userId: string;
+  input: QuestInput<T>;
+  inventory: InventoryService;
+  notifications: NotificationsService;
+};
 
 export const trackFinitePlayGameProgress = async (
   opts: TrackProgressOpts<PlayGameQuestId>
@@ -80,7 +87,11 @@ export const trackFinitePlayGameProgress = async (
             status: 'COMPLETED',
           },
         });
-        await inventory.increment(opts.userId, '1', definition.reward);
+        await opts.inventory.increment(opts.userId, '1', definition.reward);
+        await opts.notifications.send('quest-completed', {
+          userId: opts.userId,
+          quest: definition,
+        });
         return;
       }
     }
@@ -122,7 +133,7 @@ export const trackInfinitePlayGameProgress = async (
     });
   }
 
-  await inventory.increment(opts.userId, '1', definition.reward);
+  await opts.inventory.increment(opts.userId, '1', definition.reward);
 };
 
 export const trackWebsiteVisitProgress = async (
@@ -157,7 +168,11 @@ export const trackWebsiteVisitProgress = async (
       },
     });
 
-    await inventory.increment(opts.userId, '1', definition.reward);
+    await opts.inventory.increment(opts.userId, '1', definition.reward);
+    await opts.notifications.send('quest-completed', {
+      userId: opts.userId,
+      quest: definition,
+    });
   });
 };
 
@@ -191,7 +206,11 @@ export const trackFollowTwitterProgress = async (
       },
     });
 
-    await inventory.increment(opts.userId, '1', definition.reward);
+    await opts.inventory.increment(opts.userId, '1', definition.reward);
+    await opts.notifications.send('quest-completed', {
+      userId: opts.userId,
+      quest: definition,
+    });
   });
 };
 
@@ -228,7 +247,11 @@ export const trackRaffleParticipationProgress = async (
         state,
       },
     });
-    await inventory.increment(opts.userId, '1', definition.reward);
+    await opts.inventory.increment(opts.userId, '1', definition.reward);
+    await opts.notifications.send('quest-completed', {
+      userId: opts.userId,
+      quest: definition,
+    });
   });
 };
 
@@ -249,7 +272,7 @@ export const trackAddFriendProgress = async (
       },
     });
 
-    await inventory.increment(opts.userId, '1', definition.reward);
+    await opts.inventory.increment(opts.userId, '1', definition.reward);
     return;
   }
 
@@ -274,7 +297,7 @@ export const trackAddFriendProgress = async (
     },
   });
 
-  await inventory.increment(opts.userId, '1', definition.reward);
+  await opts.inventory.increment(opts.userId, '1', definition.reward);
 };
 
 export const trackAddReferralProgress = async (
@@ -294,7 +317,7 @@ export const trackAddReferralProgress = async (
       },
     });
 
-    await inventory.increment(opts.userId, '1', definition.reward);
+    await opts.inventory.increment(opts.userId, '1', definition.reward);
     return;
   }
 
@@ -320,7 +343,7 @@ export const trackAddReferralProgress = async (
     },
   });
 
-  await inventory.increment(opts.userId, '1', definition.reward);
+  await opts.inventory.increment(opts.userId, '1', definition.reward);
 };
 
 export const trackReferralPlayMinutesProgress = async (
@@ -383,7 +406,7 @@ export const trackReferralPlayMinutesProgress = async (
       definition.data.requirement
     );
     if (completions > 0) {
-      await inventory.increment(
+      await opts.inventory.increment(
         opts.userId,
         '1',
         definition.reward * completions
@@ -449,7 +472,7 @@ export const trackFriendPlayMinutesProgress = async (
         );
 
         if (completions > 0) {
-          await inventory.increment(
+          await opts.inventory.increment(
             opts.userId,
             '1',
             definition.reward * completions
@@ -495,7 +518,7 @@ export const trackPlayMinutesProgress = async (
       definition.data.requirement
     );
     if (completions > 0) {
-      await inventory.increment(
+      await opts.inventory.increment(
         opts.userId,
         '1',
         definition.reward * completions

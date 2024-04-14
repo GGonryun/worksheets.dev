@@ -1,12 +1,12 @@
 import { Box, Typography, TypographyProps } from '@mui/material';
 import { Description } from '@worksheets/ui/components/description';
-import { ParticipationSchema, WinnerSchema } from '@worksheets/util/types';
+import { ParticipationSchema } from '@worksheets/util/types';
 import React from 'react';
 
 export const ParticipantsDescription: React.FC<{
-  winners: WinnerSchema[];
   participants: ParticipationSchema[];
-}> = ({ winners, participants }) => {
+}> = ({ participants }) => {
+  const winners = participants.filter((p) => p.winner);
   return (
     <Description
       title="Participants & Winners"
@@ -16,7 +16,7 @@ export const ParticipantsDescription: React.FC<{
           {winners.length ? (
             winners.map((winner) => (
               <Typography>
-                <b>{winner.username}</b> ({winner.userId})
+                <b>{winner.user.username}</b>
               </Typography>
             ))
           ) : (
@@ -28,7 +28,8 @@ export const ParticipantsDescription: React.FC<{
           <Heading>Total Participants: {participants.length}</Heading>
           {participants.map((participant, i) => (
             <Typography key={i}>
-              <b>{participant.username}</b> — {participant.numEntries} entries
+              <b>{participant.user.username}</b> — {participant.numEntries}{' '}
+              entries
             </Typography>
           ))}
         </Box>

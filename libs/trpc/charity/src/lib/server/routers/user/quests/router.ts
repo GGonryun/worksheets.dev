@@ -14,8 +14,6 @@ import { z } from 'zod';
 import { protectedProcedure } from '../../../procedures';
 import { t } from '../../../trpc';
 
-const quests = new QuestsService();
-
 export default t.router({
   list: protectedProcedure
     .input(
@@ -42,8 +40,9 @@ export default t.router({
     .query(
       async ({
         input: { cursor, limit, statuses, frequencies, categories },
-        ctx: { user },
+        ctx: { user, db },
       }) => {
+        const quests = new QuestsService(db);
         const items = await quests.list({
           statuses,
           frequencies,
@@ -68,7 +67,9 @@ export default t.router({
       })
     )
     .output(z.custom<Quest>())
-    .query(async ({ input: { questId }, ctx: { user } }) => {
+    .query(async ({ input: { questId }, ctx: { user, db } }) => {
+      const quests = new QuestsService(db);
+
       return await quests.find({ questId, userId: user.id });
     }),
   track: protectedProcedure
@@ -84,7 +85,8 @@ export default t.router({
         }),
       ])
     )
-    .mutation(async ({ input, ctx: { user } }) => {
+    .mutation(async ({ input, ctx: { user, db } }) => {
+      const quests = new QuestsService(db);
       if ('questId' in input) {
         return await quests.trackId({
           userId: user.id,

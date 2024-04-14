@@ -1,119 +1,14 @@
 import { Paper, Typography } from '@mui/material';
-import { LoadingBar } from '@worksheets/ui/components/loading';
+import {
+  emptyLoadingMessage,
+  LOADING_INTERVAL,
+  LoadingBar,
+  selectRandomLoadingJoke,
+} from '@worksheets/ui/components/loading';
 import { useMediaQuery } from '@worksheets/ui/hooks/use-media-query';
 import { AbsolutelyCentered, useInterval } from '@worksheets/ui-core';
 import React, { useEffect, useState } from 'react';
-const emptyLoadingMessage =
-  'Loading... Lorem ipsum dolor sit amet, consectetur adipiscing elit.';
 
-const possibleLoadingMessages: string[] = [
-  'Loading... Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-  'Summoning dragons... and making sure they brush their teeth!',
-  'Loading... Please wait patiently while our hamsters sprint on their wheels.',
-  'Preparing epic battles... and making sure the villains have matching socks.',
-  'Loading... Just a moment, our wizards are casting spells to banish bugs.',
-  'Gathering magical ingredients... and making sure the potions taste like victory.',
-  'Loading... Just a moment, our wizards are casting spells to banish bugs.',
-  "Summoning loading screen magic... Don't worry, no wizards were harmed in the making of this website.",
-  'Loading... because even pixels need a moment to stretch before the epic adventure begins.',
-  'Gathering loot and loading screens, two things that take longer than expected.',
-  "Loading... Grab a snack, make some tea, and practice your victory dance - we'll be ready soon!",
-  'Unleashing the game magic... Meanwhile, in a parallel loading screen universe.',
-  "Assembling digital realms... It's like building IKEA furniture, but with more dragons.",
-  'Fueling the pixels... Because even game characters need their caffeine fix.',
-  'Optimizing the gaming cosmos... Sit tight, our virtual architects are at work.',
-  'One ring to rule them all, and one loading screen to test our patience. Frodo had it easy.',
-  'In Middle-earth, even Sauron had to deal with software updates. Loading... the Eye of Bug-fixing.',
-  "When Gandalf said, 'You shall not pass!' he clearly wasn't talking about our download speeds.",
-  'Even in the Shire, hobbits know the struggle of waiting for the game to load. Second breakfast, anyone?',
-  'Why did the gamer bring a ladder to the arcade? To reach the high scores!',
-  "In a parallel universe, Mario doesn't save Princess Peach. He's stuck in traffic, waiting for the next green shell.",
-  "If life gives you lemons, throw them at the screen during a rage-inducing level. Just don't blame us for the broken monitor.",
-  "Why don't skeletons play video games? No guts, no glory - and they've got neither!",
-  'If life gives you loading screens, make memes. Bonus points if you can load them quickly.',
-  'I used to be a patient gamer, but then I took an arrow to the loading bar and had to find a new favorite game.',
-  'Why did the skeleton avoid playing online? Because waiting for respawn felt like an eternity.',
-  "I asked a wizard for a spell to speed up loading times. Now I can cast 'Quickium Leviosa' on my game console.",
-  "If Pac-Man had loading screens, his chase with ghosts would be interrupted by 'Loading... Insert Coin.'",
-  "It's dangerous to go alone! Take this loading screen and a sense of humor with you.",
-  'Loading... because even heroes need a bathroom break in Hyrule.',
-  "Link's tip for loading screens: Press A to continue, and maybe also press B to contemplate your life choices.",
-  "Loading... Ganon is just catching his breath, he'll be right with you.",
-  'Loading... because even the Triforce needs a coffee break now and then.',
-  'Link says: Loading screens are just the real-life equivalent of waiting for Navi to finish talking.',
-  'Loading... because even the Master Sword needs a moment to think about its life choices before slaying evil.',
-  "Sit back, relax, and enjoy the loading screen symphony. It's like the Song of Time, but with fewer time-traveling implications.",
-  "Loading... Link's patience is longer than the Great Deku Tree's roots.",
-  'Please wait while we gather rupees to pay the loading screen toll.',
-  'Loading... Time to brew some Lon Lon Milk while you wait.',
-  "Gotta love loading screens! They're like mini dungeons for your patience.",
-  'Even Epona needs a break sometimes. Enjoy this loading screen journey!',
-  "Loading... Ganon's minions are just taking a moment to prepare for your imminent triumph.",
-  "It's dangerous to go alone! Take this loading screen wisdom with you.",
-  "Loading... Like Captain Falcon's Falcon Punch, this screen is charging up for maximum impact!",
-  'Loading at F-Zero speed - faster than a Blue Falcon on boost pads!',
-  'While you wait, imagine the loading bar as an F-Zero track - twisty, turny, and full of surprises.',
-  "Loading screen tip: Boosting here won't make it load any faster, but it's worth a shot!",
-  'Loading... because even the Blue Falcon needs a pit stop now and then.',
-  'Waiting for the race to start? At least in F-Zero, the loading screen is the only thing standing between you and victory!',
-  'Loading... just like Tetris, life is about fitting all the pieces together... and waiting for the long one.',
-  'Clearing lines in Tetris is easy, but waiting for this loading screen is the real challenge!',
-  'Hold tight! The loading screen is like a Tetris block trying to find its perfect spot.',
-  'Loading... because even Tetris needs a moment to organize its thoughts.',
-  'If life were like Tetris, this loading screen would be the T-piece—taking its sweet time to show up when you need it most.',
-  "Did you hear about the Tetris loading screen's new strategy? It's called 'waiting for the perfect fit.'",
-  'Tetris loading screen: Making you appreciate how quickly those falling blocks make decisions.',
-  "Loading... just like Tetris, we're trying to create a perfect line. Unfortunately, we're still waiting for that straight piece.",
-  "In Tetris, the line clears itself. In loading screens, we're still working on that magic trick.",
-  'Loading, just like Tetris - you never know when that long piece is going to drop and clear everything up.',
-  "Loading... Sonic is faster than this, but we promise it's worth the wait - gotta go at a moderately speedy pace!",
-  'Waiting for the loading screen is like watching Dr. Robotnik trying to catch Sonic - it takes a while.',
-  'Loading... because even Sonic needs a chili dog break sometimes.',
-  "Gotta wait fast! Sonic's loading screen is just taking a breather before the real speed kicks in.",
-  "This loading screen is like Sonic's arch-enemy - it moves, but not as quickly as you'd hope.",
-  "Loading... Sonic's speed may be unmatched, but our loading screen is doing its best to keep up!",
-  "Tails once said, 'I'll catch up to you in no time!' Loading screen is taking Tails' approach - in its own sweet time.",
-  'Waiting for this loading screen is almost as suspenseful as wondering if Sonic will ever find his missing sock collection.',
-  'Hold on tight! This loading screen is just gearing up for a Sonic spin dash into action.',
-  'Loading... Sonic might be the fastest thing alive, but this loading screen is in a chill zone of its own.',
-  'Loading... just like Mega Man, our loading screen is gearing up to face a boss battle with your impatience!',
-  'Waiting for this loading screen feels like watching Mega Man charge his Mega Buster - the longer you wait, the bigger the blast!',
-  'Loading... because even Mega Man needs a moment to rethink his strategy and pick the right weapon.',
-  "This loading screen is like Mega Man's inventory screen - full of possibilities, but you're waiting for the right one to pop up.",
-  'Hold tight! The loading screen is charging up its energy, just like Mega Man preparing for a special move.',
-  'Loading... just like Mega Man collecting power-ups, this screen is gathering its strength for the next level.',
-  'Waiting for the loading bar to fill up is like Mega Man navigating spikes - it requires patience and a few extra lives.',
-  'This loading screen is on a mission: Defeat the boss of boredom before Mega Man can!',
-  'Loading... Mega Man never rushes into battle unprepared, and neither does our loading screen. Safety first!',
-  'If this loading screen were a Robot Master, it would be Procrastinator Man - taking its sweet time to challenge your patience.',
-  'Loading... just like Pac-Man munching on pellets, this screen is consuming your time one byte at a time.',
-  'Wakka wakka wait! The loading screen is taking a break between levels, just like our hungry yellow friend.',
-  'Waiting for this loading screen is like chasing ghosts in Pac-Man - unpredictable and occasionally frustrating.',
-  'Loading... because even Pac-Man needs a moment to digest all those dots and power pellets.',
-  'Hold tight! This loading screen is on a quest to clear the maze of boredom in record time.',
-  'Wakka wakka wait a minute! The loading screen is just savoring the flavor of anticipation like a power pellet.',
-  "This loading screen is like Pac-Man's diet - it eats up your time without you even realizing it.",
-  "Loading... just like Pac-Man's ghosts, your impatience might come back to haunt you if you're not careful.",
-  "Waiting for this loading screen is like navigating a maze - you'll get through it, but it might take a few wrong turns.",
-  'Loading... because even Pac-Man has to take a breather before munching on the next batch of pixels.',
-  'Loading... just like Solid Snake hiding in a cardboard box, this screen is stealthily preparing for action.',
-  'Hold on, Snake! The loading screen is decoding nanomachines and infiltrating your gaming experience.',
-  "Waiting for the loading screen is like Snake waiting for Colonel Campbell's codec call - it takes a tactical approach.",
-  'Loading... because even Big Boss needs a moment to reflect on the complexities of life and loading screens.',
-  'Hold tight, the loading screen is on a mission to sneak into your gameplay undetected, just like a Codec conversation at the worst possible time.',
-  "This loading screen is like Otacon's love life - a bit complicated, but eventually, it all comes together.",
-  "Loading... Snake may be a master of stealth, but even he can't escape the clutches of a loading screen.",
-  "Waiting for the loading screen is like navigating a Metal Gear - it's intricate, suspenseful, and occasionally involves cardboard boxes.",
-  'Hold on, the loading screen is undergoing a tactical espionage operation against your boredom.',
-  'Loading... because even Snake needs a codec conversation to discuss the profound philosophy of loading screens.',
-];
-
-const selectRandomLoadingMessage = () => {
-  const random = Math.floor(Math.random() * possibleLoadingMessages.length);
-  return possibleLoadingMessages[random];
-};
-
-const LOADING_INTERVAL = 6000;
 export const LoadingScreen: React.FC<{ message?: string }> = ({ message }) => {
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down('sm'));
   const [loadingMessage, setLoadingMessage] = useState<string>(
@@ -124,7 +19,7 @@ export const LoadingScreen: React.FC<{ message?: string }> = ({ message }) => {
   useEffect(() => {
     if (message) return;
 
-    setLoadingMessage(selectRandomLoadingMessage());
+    setLoadingMessage(selectRandomLoadingJoke());
     // only happens once
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -132,8 +27,8 @@ export const LoadingScreen: React.FC<{ message?: string }> = ({ message }) => {
   // then change it every now and then
   useInterval(() => {
     if (message) return;
-    setLoadingMessage(selectRandomLoadingMessage());
-  }, LOADING_INTERVAL);
+    setLoadingMessage(selectRandomLoadingJoke());
+  }, LOADING_INTERVAL.SLOW);
 
   return (
     <AbsolutelyCentered blur>

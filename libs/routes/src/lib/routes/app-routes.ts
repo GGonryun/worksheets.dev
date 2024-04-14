@@ -8,6 +8,7 @@ import {
   HelpDevelopersQuestions,
   HelpEmailsQuestions,
   HelpFriendsQuestions,
+  HelpInventoryQuestions,
   HelpNotificationsQuestions,
   HelpPlayingGamesQuestions,
   HelpPrizesQuestions,
@@ -15,9 +16,9 @@ import {
   HelpReferralsQuestions,
   HelpTokensQuestions,
   HelpVIPQuestions,
+  InventoryPanels,
   LoginQueryParams,
   NewsletterQueryParams,
-  PrizesPanels,
   RafflesQueryParams,
   ReferralsPanels,
   SettingsPanels,
@@ -114,9 +115,6 @@ export const routes = {
       }),
     },
   }),
-  prize: createRoute({
-    path: '/prizes/[prizeId]',
-  }),
   auctions: createRoute({
     path: '/auctions',
   }),
@@ -186,6 +184,10 @@ export const routes = {
         path: '/help/developers',
         bookmarks: HelpDevelopersQuestions,
       }),
+      inventory: createRoute({
+        path: '/help/inventory',
+        bookmarks: HelpInventoryQuestions,
+      }),
       quests: createRoute({
         path: '/help/quests',
         bookmarks: HelpQuestsQuestions,
@@ -227,9 +229,9 @@ export const routes = {
         bookmarks: FriendsPanels,
         query: AccountFriendsQueryParams,
       }),
-      prizes: createRoute({
-        path: '/account/prizes',
-        bookmarks: PrizesPanels,
+      inventory: createRoute({
+        path: '/account/inventory',
+        bookmarks: InventoryPanels,
       }),
       notifications: createRoute({
         path: '/account/notifications',

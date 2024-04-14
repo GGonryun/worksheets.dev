@@ -5,8 +5,6 @@ import { z } from 'zod';
 import { protectedProcedure } from '../../../procedures';
 import { t } from '../../../trpc';
 
-const quests = new QuestsService();
-
 export default t.router({
   track: protectedProcedure
     .input(
@@ -15,6 +13,7 @@ export default t.router({
       })
     )
     .mutation(async ({ input: { gameId }, ctx: { user, db } }) => {
+      const quests = new QuestsService(db);
       const game = await db.game.findFirst({
         where: {
           id: gameId,

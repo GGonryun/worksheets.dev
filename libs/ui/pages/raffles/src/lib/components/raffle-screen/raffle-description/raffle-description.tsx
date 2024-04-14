@@ -3,7 +3,6 @@ import { Box, Button, Divider, Link, Typography } from '@mui/material';
 import { routes } from '@worksheets/routes';
 import { Description } from '@worksheets/ui/components/description';
 import { ResponsiveImage } from '@worksheets/ui/components/images';
-import { prizeTypeLabel } from '@worksheets/ui/components/prizes';
 import { HTMLinator } from '@worksheets/ui-core';
 import { printShortDateTime } from '@worksheets/util/time';
 import { RaffleSchema } from '@worksheets/util/types';
@@ -83,11 +82,7 @@ const DetailsGrid: React.FC<{ raffle: RaffleSchema }> = ({ raffle }) => {
               flexGrow: 1,
             }}
           >
-            <DetailPair
-              label="Prize"
-              value={raffle.name}
-              href={routes.prize.path({ params: { prizeId: raffle.prizeId } })}
-            />
+            <DetailPair label="Prize" value={raffle.name} />
             <DetailPair
               label="Sponsor"
               value={raffle.sponsor.name}
@@ -99,10 +94,7 @@ const DetailsGrid: React.FC<{ raffle: RaffleSchema }> = ({ raffle }) => {
               value={printShortDateTime(raffle.expiresAt)}
             />
             <DetailPair label="Winners" value={raffle.numWinners} />
-            <DetailPair
-              label="Prize Type"
-              value={prizeTypeLabel[raffle.type]}
-            />
+            <DetailPair label="Item ID" value={raffle.itemId} />
           </Box>
           <Box
             sx={{

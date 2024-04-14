@@ -108,3 +108,10 @@ export enum HelpEmailsQuestions {
   Unsubscribing = 'unsubscribing',
   NotReceiving = 'not-receiving',
 }
+
+export enum HelpInventoryQuestions {
+  Description = 'description',
+  FindingItems = 'finding',
+  DropRates = 'drop-rates',
+  Claiming = 'claiming',
+}

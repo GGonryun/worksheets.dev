@@ -1,4 +1,4 @@
-import { TRPCError } from '@trpc/server';
+import { FriendshipService } from '@worksheets/services/friendship';
 import { z } from 'zod';
 
 import { protectedProcedure } from '../../../procedures';
@@ -10,45 +10,9 @@ export default protectedProcedure
       friendshipId: z.string(),
     })
   )
-  .output(
-    z.object({
-      okay: z.boolean(),
-    })
-  )
+
   .mutation(async ({ ctx: { db, user }, input: { friendshipId: id } }) => {
-    const userId = user.id;
-    console.info('removing friend', { userId, id });
+    const friends = new FriendshipService(db);
 
-    const friendship = await db.friendship.findFirst({
-      where: {
-        id,
-        userId, // makes sure the user owns the friendship.
-      },
-    });
-
-    if (!friendship) {
-      throw new TRPCError({
-        code: 'NOT_FOUND',
-        message: 'Could not find a friendship between users.',
-      });
-    }
-
-    if (friendship.isFavorite) {
-      throw new TRPCError({
-        code: 'PRECONDITION_FAILED',
-        message: 'Cannot remove a best friend.',
-      });
-    }
-
-    await db.friendship.delete({
-      where: {
-        id: friendship.id,
-      },
-    });
-
-    console.info(`friendship destroyed`, { userId, id });
-
-    return {
-      okay: true,
-    };
+    await friends.remove(user.id, id);
   });

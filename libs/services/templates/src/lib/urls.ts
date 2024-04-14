@@ -1,8 +1,8 @@
 import { routes } from '@worksheets/routes';
 import {
   FriendsPanels,
-  HelpPrizesQuestions,
-  PrizesPanels,
+  HelpInventoryQuestions,
+  InventoryPanels,
   ReferralsPanels,
   SettingsPanels,
 } from '@worksheets/util/enums';
@@ -22,8 +22,8 @@ export const CONFIRM_NEWSLETTER_SUBSCRIPTION_URL = (id: string) =>
     query: { id },
   });
 
-export const ACCOUNT_PRIZES_URL = routes.account.prizes.url({
-  bookmark: PrizesPanels.Prizes,
+export const ACCOUNT_INVENTORY_URL = routes.account.inventory.url({
+  bookmark: InventoryPanels.Items,
 });
 
 export const ACCOUNT_GIFT_BOXES_URL = routes.account.friends.url({
@@ -46,8 +46,8 @@ export const ACCOUNT_COMMUNICATIONS_URL = routes.account.url({
   bookmark: SettingsPanels.Communication,
 });
 
-export const CLAIM_URL = routes.help.prizes.url({
-  bookmark: HelpPrizesQuestions.HowToClaim,
+export const CLAIM_URL = routes.help.inventory.url({
+  bookmark: HelpInventoryQuestions.Claiming,
 });
 
 export const GAME_URL = (gameId: string) =>
@@ -68,12 +68,5 @@ export const RAFFLE_URL = (raffleId: number) =>
   routes.raffle.url({
     params: {
       raffleId,
-    },
-  });
-
-export const PRIZE_URL = (prizeId: string) =>
-  routes.prize.url({
-    params: {
-      prizeId,
     },
   });

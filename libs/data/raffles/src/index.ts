@@ -1,5 +1,4 @@
 import { Raffle } from '@prisma/client';
-import { PrizeId } from '@worksheets/data/prizes';
 import { SponsorId } from '@worksheets/data/sponsors';
 
 export type SeedableRaffle = Omit<
@@ -7,7 +6,6 @@ export type SeedableRaffle = Omit<
   'createdAt' | 'updatedAt' | 'status'
 > & {
   publishAt: Date;
-  prizeId: PrizeId;
   sponsorId: SponsorId;
 };
 
@@ -15,10 +13,28 @@ const rawRaffles = [
   {
     id: 1,
     version: 1,
-    expiresAt: new Date('4-11-2024'),
+    expiresAt: new Date('4-18-2024'),
     publishAt: new Date('4-09-2024'),
     numWinners: 1,
-    prizeId: '1000-tokens',
+    itemId: '2',
+    sponsorId: 'charity-games',
+  } as const,
+  {
+    id: 2,
+    version: 1,
+    expiresAt: new Date('4-17-2024'),
+    publishAt: new Date('4-09-2024'),
+    numWinners: 1,
+    itemId: '3',
+    sponsorId: 'charity-games',
+  } as const,
+  {
+    id: 3,
+    version: 1,
+    expiresAt: new Date('4-16-2024'),
+    publishAt: new Date('4-09-2024'),
+    numWinners: 1,
+    itemId: '5',
     sponsorId: 'charity-games',
   } as const,
 ];

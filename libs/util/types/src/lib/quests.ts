@@ -470,9 +470,3 @@ export type QuestInput<T extends QuestId> = Quests[Extract<
 export type QuestTypeInput<T extends QuestType> = QuestInput<
   QuestByType[T]['id']
 >;
-
-export type TrackProgressOpts<T extends QuestId> = {
-  questId: T;
-  userId: string;
-  input: QuestInput<T>;
-};

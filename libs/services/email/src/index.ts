@@ -1,4 +1,4 @@
-import { prisma } from '@worksheets/prisma';
+import { PrismaClient, PrismaTransactionalClient } from '@worksheets/prisma';
 import { GMAIL_PASS, GMAIL_USER } from '@worksheets/services/environment';
 import { EmailPriority } from '@worksheets/util/types';
 import * as nodemailer from 'nodemailer';
@@ -40,13 +40,15 @@ export type SendEmailOutput = {
 );
 
 export class EmailService {
+  #db: PrismaClient | PrismaTransactionalClient;
   #transporter: nodemailer.Transporter;
   // this is the maximum number of emails we can send per hour
   // at most we can send 2000 gmail emails every day
   // our cron service should process newsletter emails every hour
   // we use a smaller safer number to avoid hitting the limit
   #maxEmailsPerHour = 10;
-  constructor() {
+  constructor(db: PrismaClient | PrismaTransactionalClient) {
+    this.#db = db;
     this.#transporter = nodemailer.createTransport({
       host: 'smtp.gmail.com',
       port: 587,
@@ -86,20 +88,20 @@ export class EmailService {
   }
 
   async schedule(email: ScheduleEmailInput) {
-    await prisma.scheduledEmail.create({
+    await this.#db.scheduledEmail.create({
       data: email,
     });
   }
 
   async scheduleMany(emails: ScheduleEmailInput[]) {
-    await prisma.scheduledEmail.createMany({
+    await this.#db.scheduledEmail.createMany({
       data: emails,
     });
   }
 
   async process() {
     // find all pending emails that are scheduled to be sent now or earlier
-    const emails = await prisma.scheduledEmail.findMany({
+    const emails = await this.#db.scheduledEmail.findMany({
       where: {
         status: 'PENDING',
         sendAt: {
@@ -116,7 +118,7 @@ export class EmailService {
     console.info(`Processing ${emails.length} emails`);
 
     // eagerly lock the emails to prevent other instances of the cron job from processing them
-    await prisma.scheduledEmail.updateMany({
+    await this.#db.scheduledEmail.updateMany({
       where: {
         id: {
           in: emails.map((email) => email.id),
@@ -126,6 +128,8 @@ export class EmailService {
         status: 'SENDING',
       },
     });
+
+    console.info(`Locked ${emails.length} emails for processing`);
 
     const results = await this.sendMany(emails);
     // organize results by success and failure
@@ -137,7 +141,7 @@ export class EmailService {
     );
 
     await Promise.all([
-      prisma.scheduledEmail.updateMany({
+      this.#db.scheduledEmail.updateMany({
         where: {
           id: {
             in: sentEmails.map((email) => email.id),
@@ -147,7 +151,7 @@ export class EmailService {
           status: 'SENT',
         },
       }),
-      prisma.scheduledEmail.updateMany({
+      this.#db.scheduledEmail.updateMany({
         where: {
           id: {
             in: failedEmails.map((email) => email.id),
@@ -158,6 +162,9 @@ export class EmailService {
         },
       }),
     ]);
+
+    console.info(`Sent ${sentEmails.length} emails`);
+    console.error(`Failed to send ${failedEmails.length} emails`);
 
     return {
       sent: sentEmails.length,

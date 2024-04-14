@@ -31,7 +31,7 @@ import { Column } from '@worksheets/ui/components/flex';
 import { PaletteColor } from '@worksheets/ui/theme';
 import {
   FriendsPanels,
-  PrizesPanels,
+  InventoryPanels,
   ReferralsPanels,
   SettingsPanels,
 } from '@worksheets/util/enums';
@@ -161,18 +161,25 @@ const UserContent: React.FC<{
       />
       <Divider />
       <DrawerLinks
-        title="Prizes"
+        title="Inventory"
         links={[
           {
-            href: routes.account.prizes.path({
-              bookmark: PrizesPanels.Prizes,
+            href: routes.account.inventory.path({
+              bookmark: InventoryPanels.Items,
             }),
-            label: 'My Prizes',
+            label: 'My Items',
             icon: <EmojiEventsOutlined />,
           },
           {
-            href: routes.account.prizes.path({
-              bookmark: PrizesPanels.Raffles,
+            href: routes.account.inventory.path({
+              bookmark: InventoryPanels.ActivationCodes,
+            }),
+            label: 'Activation Codes',
+            icon: <EmojiEventsOutlined />,
+          },
+          {
+            href: routes.account.inventory.path({
+              bookmark: InventoryPanels.Participation,
             }),
             label: 'Participation',
             icon: <MilitaryTechOutlined />,

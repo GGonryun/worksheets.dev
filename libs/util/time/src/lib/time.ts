@@ -8,7 +8,9 @@ export const S_TO_MS = (seconds: number) => seconds * 1000;
 /**
  * Checks if a given timestamp is in the past.
  */
-export const isPast = (timestamp: number | Date | null): boolean => {
+export const isPast = (
+  timestamp: number | Date | null | undefined
+): boolean => {
   if (!timestamp) return false;
   if (typeof timestamp === 'number') return timestamp < Date.now();
   return timestamp.getTime() < Date.now();

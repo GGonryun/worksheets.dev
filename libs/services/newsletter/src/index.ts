@@ -1,4 +1,9 @@
-import { NewsletterTopic, Prisma, prisma } from '@worksheets/prisma';
+import {
+  NewsletterTopic,
+  Prisma,
+  PrismaClient,
+  PrismaTransactionalClient,
+} from '@worksheets/prisma';
 import { routes } from '@worksheets/routes';
 import { EmailService, TemplateOptions } from '@worksheets/services/email';
 import { EmailPriority } from '@worksheets/util/types';
@@ -25,55 +30,55 @@ export type ScheduleNewsletterInput = {
 };
 
 export class NewsletterService {
+  #db: PrismaClient | PrismaTransactionalClient;
   #email: EmailService;
   // gmail allows us to send up to 500 recipients in a single BCC field
   // we use a smaller safer number to avoid hitting the limit
   maxBccRecipients = 100;
-  constructor() {
-    this.#email = new EmailService();
+  constructor(db: PrismaClient | PrismaTransactionalClient) {
+    this.#email = new EmailService(db);
+    this.#db = db;
   }
 
   async schedule(opts: ScheduleNewsletterInput) {
     // get a list of all newsletter subscribers who have opted in to the topic
-    await prisma.$transaction(async (tx) => {
-      const subscribers = await tx.newsletterSubscription.findMany({
-        where: {
-          confirmed: true,
-          topics: {
-            has: opts.topic,
-          },
-          // if we have a list of emails, only target those subscribers
-          email: opts.emails
-            ? {
-                in: opts.emails,
-              }
-            : undefined,
+    const subscribers = await this.#db.newsletterSubscription.findMany({
+      where: {
+        confirmed: true,
+        topics: {
+          has: opts.topic,
         },
-        ...BASIC_NEWSLETTER_SUBSCRIBER_PAYLOAD,
+        // if we have a list of emails, only target those subscribers
+        email: opts.emails
+          ? {
+              in: opts.emails,
+            }
+          : undefined,
+      },
+      ...BASIC_NEWSLETTER_SUBSCRIBER_PAYLOAD,
+    });
+
+    const template = (id: string) =>
+      EmailService.template({
+        ...opts.template,
+        unsubscribe:
+          opts.topic !== 'Transactional'
+            ? routes.newsletter.unsubscribe.url({
+                query: {
+                  id,
+                },
+              })
+            : undefined,
       });
 
-      const template = (id: string) =>
-        EmailService.template({
-          ...opts.template,
-          unsubscribe:
-            opts.topic !== 'Transactional'
-              ? routes.newsletter.unsubscribe.url({
-                  query: {
-                    id,
-                  },
-                })
-              : undefined,
-        });
-
-      this.#email.scheduleMany(
-        subscribers.map((sub) => ({
-          to: [sub.email],
-          subject: opts.subject,
-          html: template(sub.id),
-          priority: opts.priority,
-          sendAt: opts.sendAt,
-        }))
-      );
-    });
+    this.#email.scheduleMany(
+      subscribers.map((sub) => ({
+        to: [sub.email],
+        subject: opts.subject,
+        html: template(sub.id),
+        priority: opts.priority,
+        sendAt: opts.sendAt,
+      }))
+    );
   }
 }

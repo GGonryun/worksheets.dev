@@ -32,7 +32,7 @@ export const Primary: Story = {
       expiresAt: minutesAgo(i * 10).getTime(),
       type: 'STEAM_KEY',
       imageUrl: 'https://via.placeholder.com/150',
-      status: i % 3 ? 'COMPLETE' : i % 5 ? 'REASSIGN' : 'WAITING',
+      status: i % 5 ? 'COMPLETE' : 'CANCELLED',
     })),
   },
 };

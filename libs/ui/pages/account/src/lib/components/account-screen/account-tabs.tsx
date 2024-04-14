@@ -29,7 +29,7 @@ export const AccountTabs: FC<{
         <Tab label="Settings" value={AccountTabsHref.SETTINGS} />
         <Tab label="Notifications" value={AccountTabsHref.NOTIFICATIONS} />
         <Tab label="Quests" value={AccountTabsHref.QUESTS} />
-        <Tab label="Prizes" value={AccountTabsHref.PRIZES} />
+        <Tab label="Inventory" value={AccountTabsHref.INVENTORY} />
         <Tab label="Friends" value={AccountTabsHref.FRIENDS} />
         <Tab label="Referrals" value={AccountTabsHref.REFERRALS} />
         <Tab label="Integrations" value={AccountTabsHref.INTEGRATIONS} />

@@ -14,7 +14,7 @@ export type AccountScreenProps = {
   referralsPanel: ReactNode;
   friendsPanel: ReactNode;
   questsPanel: ReactNode;
-  prizesPanel: ReactNode;
+  inventory: ReactNode;
   notificationsPanel: ReactNode;
   integrationsPanel: ReactNode;
 };
@@ -25,7 +25,7 @@ export const AccountScreen: FC<AccountScreenProps> = ({
   submissionsPanel,
   referralsPanel,
   friendsPanel,
-  prizesPanel,
+  inventory,
   questsPanel,
   notificationsPanel,
   integrationsPanel,
@@ -54,8 +54,8 @@ export const AccountScreen: FC<AccountScreenProps> = ({
           <TabPanel target={AccountTabsHref.QUESTS} current={path}>
             {questsPanel}
           </TabPanel>
-          <TabPanel target={AccountTabsHref.PRIZES} current={path}>
-            {prizesPanel}
+          <TabPanel target={AccountTabsHref.INVENTORY} current={path}>
+            {inventory}
           </TabPanel>
           <TabPanel target={AccountTabsHref.FRIENDS} current={path}>
             {friendsPanel}
