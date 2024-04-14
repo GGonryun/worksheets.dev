@@ -10,6 +10,7 @@ import { ValentinesLetter } from '@worksheets/icons/valentines';
 import { routes } from '@worksheets/routes';
 import { Panel } from '@worksheets/ui/components/panels';
 import { InventoryPanels } from '@worksheets/util/enums';
+import { shorthandNumber } from '@worksheets/util/numbers';
 import pluralize from 'pluralize';
 
 import { CollapsibleSection } from '../../components';
@@ -26,7 +27,7 @@ export const InventoryPanel: React.FC<{
       bookmark={bookmark}
       header={{
         primary: 'Inventory',
-        secondary: `${tokens} ${pluralize('token', tokens)}`,
+        secondary: `${shorthandNumber(tokens)} ${pluralize('token', tokens)}`,
         icon: <TokenIcon size={32} />,
       }}
       footer={{
