@@ -57,7 +57,7 @@ export class QuestsService {
     frequencies?: QuestFrequency[];
     categories?: QuestCategory[];
   }) {
-    const progress = await prisma.questProgress.findMany({
+    const progress = await this.#db.questProgress.findMany({
       where: {
         userId: opts.userId,
       },
