@@ -1,9 +1,5 @@
 import { TRPCError } from '@trpc/server';
-import {
-  prisma,
-  PrismaClient,
-  PrismaTransactionalClient,
-} from '@worksheets/prisma';
+import { PrismaClient, PrismaTransactionalClient } from '@worksheets/prisma';
 import { InventoryService } from '@worksheets/services/inventory';
 import { NotificationsService } from '@worksheets/services/notifications';
 import { isExpired, now } from '@worksheets/util/time';

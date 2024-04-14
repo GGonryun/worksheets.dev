@@ -1,6 +1,7 @@
 import { TokenIcon } from '@worksheets/icons/native';
 import { routes } from '@worksheets/routes';
 import { Panel } from '@worksheets/ui/components/panels';
+import { shorthandNumber } from '@worksheets/util/numbers';
 import pluralize from 'pluralize';
 import { FC, ReactNode } from 'react';
 
@@ -15,7 +16,7 @@ export const QuestsPanel: FC<{ tokens: number; children: ReactNode }> = ({
     <Panel
       header={{
         primary: 'Quests',
-        secondary: `${tokens} ${pluralize('token', tokens)}`,
+        secondary: `${shorthandNumber(tokens)} ${pluralize('token', tokens)}`,
         icon: <TokenIcon size={32} />,
       }}
       footer={{
