@@ -134,6 +134,7 @@ export class QuestsService {
       case 'PLAY_GAME_DAILY_5':
       case 'PLAY_GAME_WEEKLY_25':
         return await trackFinitePlayGameProgress({
+          db: this.#db,
           notifications,
           inventory,
           questId: opts.questId,
@@ -142,6 +143,7 @@ export class QuestsService {
         });
       case 'PLAY_GAME_INFINITE':
         return await trackInfinitePlayGameProgress({
+          db: this.#db,
           notifications,
           inventory,
           questId: opts.questId,
@@ -151,6 +153,7 @@ export class QuestsService {
       case 'VISIT_CHARITY_GAMES':
       case 'VISIT_WATER_ORG':
         return await trackWebsiteVisitProgress({
+          db: this.#db,
           notifications,
           inventory,
           questId: opts.questId,
@@ -160,6 +163,7 @@ export class QuestsService {
       case 'FOLLOW_CHARITY_GAMES_TWITTER':
       case 'FOLLOW_WATER_ORG_TWITTER':
         return await trackFollowTwitterProgress({
+          db: this.#db,
           notifications,
           inventory,
           questId: opts.questId,
@@ -168,6 +172,7 @@ export class QuestsService {
         });
       case 'RAFFLE_PARTICIPATION_DAILY':
         return await trackRaffleParticipationProgress({
+          db: this.#db,
           notifications,
           inventory,
           questId: opts.questId,
@@ -176,6 +181,7 @@ export class QuestsService {
         });
       case 'ADD_FRIEND_INFINITE':
         return await trackAddFriendProgress({
+          db: this.#db,
           notifications,
           inventory,
           questId: opts.questId,
@@ -184,6 +190,7 @@ export class QuestsService {
         });
       case 'ADD_REFERRAL_INFINITE':
         return await trackAddReferralProgress({
+          db: this.#db,
           notifications,
           inventory,
           questId: opts.questId,
@@ -192,6 +199,7 @@ export class QuestsService {
         });
       case 'REFERRAL_PLAY_MINUTES_INFINITE':
         return await trackReferralPlayMinutesProgress({
+          db: this.#db,
           notifications,
           inventory,
           questId: opts.questId,
@@ -200,6 +208,7 @@ export class QuestsService {
         });
       case 'PLAY_MINUTES_INFINITE':
         return await trackPlayMinutesProgress({
+          db: this.#db,
           notifications,
           inventory,
           questId: opts.questId,
@@ -208,6 +217,7 @@ export class QuestsService {
         });
       case 'FRIEND_PLAY_MINUTES_INFINITE':
         return await trackFriendPlayMinutesProgress({
+          db: this.#db,
           notifications,
           inventory,
           questId: opts.questId,

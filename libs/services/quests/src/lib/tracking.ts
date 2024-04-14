@@ -1,5 +1,9 @@
 import { TRPCError } from '@trpc/server';
-import { prisma } from '@worksheets/prisma';
+import {
+  prisma,
+  PrismaClient,
+  PrismaTransactionalClient,
+} from '@worksheets/prisma';
 import { InventoryService } from '@worksheets/services/inventory';
 import { NotificationsService } from '@worksheets/services/notifications';
 import { isExpired, now } from '@worksheets/util/time';
@@ -34,6 +38,7 @@ type TrackProgressOpts<T extends QuestId> = {
   questId: T;
   userId: string;
   input: QuestInput<T>;
+  db: PrismaClient | PrismaTransactionalClient;
   inventory: InventoryService;
   notifications: NotificationsService;
 };
@@ -43,7 +48,7 @@ export const trackFinitePlayGameProgress = async (
 ) => {
   const { progress, definition } = await getQuest(opts);
   if (!progress) {
-    await prisma.questProgress.create({
+    await opts.db.questProgress.create({
       data: {
         userId: opts.userId,
         questId: opts.questId,
@@ -60,7 +65,7 @@ export const trackFinitePlayGameProgress = async (
     const state = parsePlayGameState(progress.state);
     if (progress.status === 'COMPLETED') {
       if (isExpired(progress.expiresAt)) {
-        await prisma.questProgress.update({
+        await opts.db.questProgress.update({
           where: {
             id: progress.id,
           },
@@ -79,7 +84,7 @@ export const trackFinitePlayGameProgress = async (
       }
     } else {
       if (state.progress >= definition.data.requirement) {
-        await prisma.questProgress.update({
+        await opts.db.questProgress.update({
           where: {
             id: progress.id,
           },
@@ -104,7 +109,7 @@ export const trackInfinitePlayGameProgress = async (
   const { progress, definition } = await getQuest(opts);
 
   if (!progress) {
-    await prisma.questProgress.create({
+    await opts.db.questProgress.create({
       data: {
         userId: opts.userId,
         questId: opts.questId,
@@ -118,7 +123,7 @@ export const trackInfinitePlayGameProgress = async (
     return;
   } else {
     const state = parsePlayGameState(progress.state);
-    await prisma.questProgress.update({
+    await opts.db.questProgress.update({
       where: {
         userId_questId: {
           userId: opts.userId,
@@ -147,7 +152,7 @@ export const trackWebsiteVisitProgress = async (
     });
     const status = 'COMPLETED';
     const expiresAt = createExpirationDate(definition.frequency);
-    await prisma.questProgress.upsert({
+    await opts.db.questProgress.upsert({
       where: {
         userId_questId: {
           userId: opts.userId,
@@ -185,7 +190,7 @@ export const trackFollowTwitterProgress = async (
   onQuestCompletable(progress, async () => {
     const expiresAt = createExpirationDate(definition.frequency);
     const status = 'COMPLETED';
-    await prisma.questProgress.upsert({
+    await opts.db.questProgress.upsert({
       where: {
         userId_questId: {
           userId,
@@ -227,7 +232,7 @@ export const trackRaffleParticipationProgress = async (
     const expiresAt = createExpirationDate(definition.frequency);
     const status = 'COMPLETED';
 
-    await prisma.questProgress.upsert({
+    await opts.db.questProgress.upsert({
       where: {
         userId_questId: {
           userId,
@@ -263,7 +268,7 @@ export const trackAddFriendProgress = async (
 
   // if they haven't started add the first friend and reward them
   if (!progress) {
-    await prisma.questProgress.create({
+    await opts.db.questProgress.create({
       data: {
         userId,
         questId,
@@ -283,7 +288,7 @@ export const trackAddFriendProgress = async (
   }
 
   // if they haven't added that friend, add them and reward them
-  await prisma.questProgress.update({
+  await opts.db.questProgress.update({
     where: {
       userId_questId: {
         userId,
@@ -308,7 +313,7 @@ export const trackAddReferralProgress = async (
 
   // if they haven't started add the first friend and reward them
   if (!progress) {
-    await prisma.questProgress.create({
+    await opts.db.questProgress.create({
       data: {
         userId,
         questId,
@@ -329,7 +334,7 @@ export const trackAddReferralProgress = async (
   }
 
   // if they haven't added that friend, add them and reward them
-  await prisma.questProgress.update({
+  await opts.db.questProgress.update({
     where: {
       userId_questId: {
         userId,
@@ -352,7 +357,7 @@ export const trackReferralPlayMinutesProgress = async (
   const { userId, questId, input } = opts;
   const definition = getDefinition(opts.questId);
 
-  const user = await prisma.user.findFirst({
+  const user = await opts.db.user.findFirst({
     where: {
       id: userId,
     },
@@ -370,7 +375,7 @@ export const trackReferralPlayMinutesProgress = async (
     return;
   }
 
-  const progress = await prisma.questProgress.findFirst({
+  const progress = await opts.db.questProgress.findFirst({
     where: {
       userId: user.referredBy.id,
       questId,
@@ -378,7 +383,7 @@ export const trackReferralPlayMinutesProgress = async (
   });
 
   if (!progress) {
-    await prisma.questProgress.create({
+    await opts.db.questProgress.create({
       data: {
         userId: user.referredBy.id,
         questId,
@@ -390,7 +395,7 @@ export const trackReferralPlayMinutesProgress = async (
     return;
   } else {
     const state = parsePlayMinutesState(progress.state);
-    await prisma.questProgress.update({
+    await opts.db.questProgress.update({
       where: {
         id: progress.id,
       },
@@ -421,7 +426,7 @@ export const trackFriendPlayMinutesProgress = async (
   const { userId, questId, input } = opts;
   const definition = getDefinition(questId);
 
-  const favorites = await prisma.friendship.findMany({
+  const favorites = await opts.db.friendship.findMany({
     where: {
       userId,
       isFavorite: true,
@@ -433,7 +438,7 @@ export const trackFriendPlayMinutesProgress = async (
 
   await Promise.allSettled(
     favorites.map(async (friend) => {
-      const progress = await prisma.questProgress.findFirst({
+      const progress = await opts.db.questProgress.findFirst({
         where: {
           userId: friend.friendId,
           questId,
@@ -441,7 +446,7 @@ export const trackFriendPlayMinutesProgress = async (
       });
 
       if (!progress) {
-        await prisma.questProgress.create({
+        await opts.db.questProgress.create({
           data: {
             userId: friend.friendId,
             questId,
@@ -454,7 +459,7 @@ export const trackFriendPlayMinutesProgress = async (
       } else {
         const state = parsePlayMinutesState(progress.state);
 
-        await prisma.questProgress.update({
+        await opts.db.questProgress.update({
           where: {
             id: progress.id,
           },
@@ -490,7 +495,7 @@ export const trackPlayMinutesProgress = async (
   const { progress, definition } = await getQuest(opts);
 
   if (!progress) {
-    await prisma.questProgress.create({
+    await opts.db.questProgress.create({
       data: {
         userId,
         questId,
@@ -502,7 +507,7 @@ export const trackPlayMinutesProgress = async (
     return;
   } else {
     const state = parsePlayMinutesState(progress.state);
-    await prisma.questProgress.update({
+    await opts.db.questProgress.update({
       where: {
         id: progress.id,
       },
@@ -539,9 +544,11 @@ const onQuestCompletable = async (
 
 // TODO: it might be possible to automatically coerce the return type to the correct quest type.
 const getQuest = async <T extends QuestId>({
+  db,
   questId,
   userId,
 }: {
+  db: PrismaClient | PrismaTransactionalClient;
   questId: T;
   userId: string;
 }): Promise<{
@@ -549,7 +556,7 @@ const getQuest = async <T extends QuestId>({
   definition: Quests[T];
 }> => {
   return {
-    progress: await prisma.questProgress.findFirst({
+    progress: await db.questProgress.findFirst({
       where: {
         userId,
         questId,
