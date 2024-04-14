@@ -37,6 +37,24 @@ const rawRaffles = [
     itemId: '5',
     sponsorId: 'charity-games',
   } as const,
+  {
+    id: 4,
+    version: 1,
+    expiresAt: new Date('2024-04-19T04:55:00'),
+    publishAt: new Date('4-15-2024'),
+    numWinners: 1,
+    itemId: '5',
+    sponsorId: 'charity-games',
+  } as const,
+  {
+    id: 5,
+    version: 1,
+    expiresAt: new Date('2024-04-19T04:55:00'),
+    publishAt: new Date('4-16-2024'),
+    numWinners: 1,
+    itemId: '5',
+    sponsorId: 'charity-games',
+  } as const,
 ];
 
 export type RaffleId = (typeof rawRaffles)[number]['id'];
