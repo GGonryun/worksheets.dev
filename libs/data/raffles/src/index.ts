@@ -13,6 +13,7 @@ const rawRaffles = [
   {
     id: 1,
     version: 1,
+    premium: false,
     expiresAt: new Date('4-18-2024'),
     publishAt: new Date('4-09-2024'),
     numWinners: 1,
@@ -22,6 +23,7 @@ const rawRaffles = [
   {
     id: 2,
     version: 1,
+    premium: false,
     expiresAt: new Date('4-17-2024'),
     publishAt: new Date('4-09-2024'),
     numWinners: 1,
@@ -31,6 +33,7 @@ const rawRaffles = [
   {
     id: 3,
     version: 1,
+    premium: false,
     expiresAt: new Date('4-16-2024'),
     publishAt: new Date('4-09-2024'),
     numWinners: 1,
@@ -40,6 +43,7 @@ const rawRaffles = [
   {
     id: 4,
     version: 1,
+    premium: false,
     expiresAt: new Date('2024-04-19T04:55:00'),
     publishAt: new Date('4-15-2024'),
     numWinners: 1,
@@ -49,6 +53,7 @@ const rawRaffles = [
   {
     id: 5,
     version: 1,
+    premium: false,
     expiresAt: new Date('2024-04-19T05:55:00'),
     publishAt: new Date('4-16-2024'),
     numWinners: 1,

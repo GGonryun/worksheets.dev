@@ -23,6 +23,7 @@ export type NotificationTemplate =
         id: number;
         numWinners: number;
         expiresAt: Date;
+        premium: boolean;
         item: {
           id: string;
           name: string;

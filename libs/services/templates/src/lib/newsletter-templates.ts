@@ -6,6 +6,7 @@ import {
   printShortDate,
 } from '@worksheets/util/time';
 import { EmailPriority } from '@worksheets/util/types';
+import { compact } from 'lodash';
 import pluralize from 'pluralize';
 
 import { ExtractTemplatePayload } from './types';
@@ -56,8 +57,8 @@ export class NewsletterTemplates {
   static newRaffle(
     opts: ExtractTemplatePayload<'new-raffle'>
   ): ScheduleNewsletterInput[] {
-    return [
-      {
+    return compact([
+      opts.premium && {
         topic: 'NewRaffle',
         priority: EmailPriority.Normal,
         sendAt: hoursFromNow(1),
@@ -80,7 +81,7 @@ export class NewsletterTemplates {
           ],
         },
       },
-    ];
+    ]);
   }
   static welcomeUser(
     opts: ExtractTemplatePayload<'welcome-user'>

@@ -394,6 +394,7 @@ model Raffle {
   status       RaffleStatus
   expiresAt    DateTime
   numWinners   Int
+  premium      Boolean               @default(false)
   itemId       String
   item         Item                  @relation(fields: [itemId], references: [id])
   // sponsorship

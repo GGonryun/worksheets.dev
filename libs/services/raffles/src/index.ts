@@ -29,6 +29,7 @@ export class RafflesService {
         id: true,
         numWinners: true,
         expiresAt: true,
+        premium: true,
         item: {
           select: {
             id: true,
@@ -63,7 +64,7 @@ export class RafflesService {
     });
 
     for (const raffle of raffles) {
-      await this.#notifications.send('new-raffle', raffle);
+        await this.#notifications.send('new-raffle', raffle);
     }
     console.info(`Published ${raffles.length} raffles`);
   }
