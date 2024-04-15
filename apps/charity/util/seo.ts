@@ -346,6 +346,13 @@ export const helpNotificationsSeo = createSeo({
     'Find answers to questions about notifications on Charity Games. Learn about notification settings and alerts.',
 });
 
+export const helpInventorySeo = createSeo({
+  path: routes.help.inventory.path(),
+  title: 'Inventory Help Center',
+  description:
+    'Find answers to questions about the inventory on Charity Games. Learn about your digital and physical prizes.',
+});
+
 export const helpPrizesSeo = createSeo({
   path: routes.help.prizes.path(),
   title: 'Prizes Help Center',

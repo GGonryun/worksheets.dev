@@ -9,3 +9,4 @@ export * from './help-tokens';
 export * from './help-vip';
 export * from './help-quests';
 export * from './help-emails';
+export * from './help-inventory';

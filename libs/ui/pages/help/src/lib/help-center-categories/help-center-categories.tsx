@@ -11,6 +11,7 @@ import {
   ValentinesLock,
   ValentinesMail,
   ValentinesPhones,
+  ValentinesPotion,
   ValentinesTicket,
   ValentinesWorld,
 } from '@worksheets/icons/valentines';
@@ -76,6 +77,12 @@ const categories: HelpCenterCategoryProps[] = [
     href: routes.help.prizes.path(),
     description: 'Redeem your tokens for real world prizes',
     icon: ECommercePrizes,
+  },
+  {
+    title: 'Inventory',
+    href: routes.help.inventory.path(),
+    description: 'Learn about your inventory and how to use items',
+    icon: ValentinesPotion,
   },
   {
     title: 'Contributions',

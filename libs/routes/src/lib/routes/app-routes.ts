@@ -188,6 +188,9 @@ export const routes = {
         path: '/help/inventory',
         bookmarks: HelpInventoryQuestions,
       }),
+      mobs: createRoute({
+        path: '/help/mobs',
+      }),
       quests: createRoute({
         path: '/help/quests',
         bookmarks: HelpQuestsQuestions,
