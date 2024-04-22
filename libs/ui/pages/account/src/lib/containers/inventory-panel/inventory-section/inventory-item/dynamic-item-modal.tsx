@@ -167,8 +167,7 @@ const ConsumeItem: React.FC<{
         itemId: item.itemId,
         quantity,
       });
-      await utils.user.inventory.items.invalidate();
-      await utils.user.inventory.quantity.invalidate();
+      await utils.user.inventory.invalidate();
       snackbar.success(result);
     } catch (error) {
       snackbar.error(parseTRPCClientErrorMessage(error));
@@ -178,13 +177,7 @@ const ConsumeItem: React.FC<{
     }
   };
 
-  if (consuming)
-    return (
-      <Column alignItems="center" gap={1}>
-        <PulsingLogo />
-        <Typography>Consuming items...</Typography>
-      </Column>
-    );
+  if (consuming) return <PulsingLogo />;
 
   return (
     <Column gap={2} alignItems="center">
@@ -274,6 +267,8 @@ const SelectQuantity: React.FC<{
       setSharing(false);
     }
   };
+
+  if (sharing) return <PulsingLogo />;
 
   return (
     <Column gap={2} alignItems="center">
