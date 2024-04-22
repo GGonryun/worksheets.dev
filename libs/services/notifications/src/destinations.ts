@@ -12,14 +12,16 @@ const newGameTemplates: TemplateBuilder<'new-game'> = (payload) => ({
   twitter: TwitterTemplates.newGame(payload),
   discord: DiscordTemplates.newGame(payload),
   broadcast: PushTemplates.newGame(payload),
-  newsletter: NewsletterTemplates.newGame(payload),
+  // TODO: re-enable newsletter
+  // newsletter: NewsletterTemplates.newGame(payload),
 });
 
 const newRaffleTemplates: TemplateBuilder<'new-raffle'> = (payload) => ({
   twitter: TwitterTemplates.newRaffle(payload),
   discord: DiscordTemplates.newRaffle(payload),
   broadcast: PushTemplates.newRaffle(payload),
-  newsletter: NewsletterTemplates.newRaffle(payload),
+  // TODO: re-enable newsletter
+  // newsletter: NewsletterTemplates.newRaffle(payload),
 });
 
 const wonRaffleTemplates: TemplateBuilder<'won-raffle'> = (payload) => ({
@@ -27,9 +29,9 @@ const wonRaffleTemplates: TemplateBuilder<'won-raffle'> = (payload) => ({
   email: EmailTemplates.wonRaffle(payload),
 });
 
-const expiringItemReminderTemplates: TemplateBuilder<'expiring-item-reminder'> = (
-  payload
-) => ({
+const expiringItemReminderTemplates: TemplateBuilder<
+  'expiring-item-reminder'
+> = (payload) => ({
   push: PushTemplates.expiringItemReminder(payload),
   email: EmailTemplates.expiringItemReminder(payload),
 });
@@ -97,6 +99,32 @@ const questCompletedTemplates: TemplateBuilder<'quest-completed'> = (
   push: PushTemplates.questCompleted(payload),
 });
 
+const newBattleTemplates: TemplateBuilder<'new-battle'> = (payload) => ({
+  twitter: TwitterTemplates.newBattle(payload),
+  discord: DiscordTemplates.newBattle(payload),
+  broadcast: PushTemplates.newBattle(payload),
+});
+
+const battleCompletedTemplates: TemplateBuilder<'battle-completed'> = (
+  payload
+) => ({
+  twitter: TwitterTemplates.battleCompleted(payload),
+  discord: DiscordTemplates.battleCompleted(payload),
+  push: PushTemplates.battleCompleted(payload),
+});
+
+const battleMvpAwardedTemplates: TemplateBuilder<'battle-mvp-awarded'> = (
+  payload
+) => ({
+  push: PushTemplates.battleMvpAwarded(payload),
+});
+
+const battleLootAwardedTemplates: TemplateBuilder<'battle-loot-awarded'> = (
+  payload
+) => ({
+  push: PushTemplates.battleLootAwarded(payload),
+});
+
 export const destinations: Record<NotificationTemplateType, TemplateBuilder> = {
   'new-game': newGameTemplates,
   'new-raffle': newRaffleTemplates,
@@ -114,4 +142,8 @@ export const destinations: Record<NotificationTemplateType, TemplateBuilder> = {
   'new-subscriber': newSubscriberTemplates,
   'activation-code-redeemed': activationCodeRedeemedTemplates,
   'quest-completed': questCompletedTemplates,
+  'new-battle': newBattleTemplates,
+  'battle-completed': battleCompletedTemplates,
+  'battle-mvp-awarded': battleMvpAwardedTemplates,
+  'battle-loot-awarded': battleLootAwardedTemplates,
 };

@@ -8,10 +8,12 @@ export const SponsorLogo: React.FC<{
   label?: string;
   text?: string;
   logo?: string;
+  color?: string;
 }> = ({
   text = 'Charity Games',
   logo = common.charityGames.logos.square,
   label = 'Powered By',
+  color,
 }) => (
   <Box
     minWidth={174}
@@ -43,7 +45,7 @@ export const SponsorLogo: React.FC<{
         fontWeight={500}
         fontSize="14px"
         lineHeight="19px"
-        color={(theme) => theme.palette.primary.light}
+        color={(theme) => color ?? theme.palette.primary.light}
         pl="43px"
         sx={{
           width: '100%',

@@ -64,7 +64,7 @@ export class RafflesService {
     });
 
     for (const raffle of raffles) {
-        await this.#notifications.send('new-raffle', raffle);
+      await this.#notifications.send('new-raffle', raffle);
     }
     console.info(`Published ${raffles.length} raffles`);
   }
@@ -121,7 +121,8 @@ export class RafflesService {
         },
       });
 
-      await this.#inventory.award(winner.user.id, raffle.item.id as ItemId);
+      // TODO: support quantities of items in awards
+      await this.#inventory.award(winner.user.id, raffle.item.id as ItemId, 1);
       await this.#notifications.send('won-raffle', {
         user: winner.user,
         item: raffle.item,

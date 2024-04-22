@@ -182,6 +182,48 @@ export type NotificationTemplate =
           reward: number;
         };
       };
+    }
+  | {
+      type: 'new-battle';
+      payload: {
+        battleId: number;
+        mobName: string;
+        loot: number;
+      };
+    }
+  | {
+      type: 'battle-completed';
+      payload: {
+        mvp: string;
+        userIds: string[];
+        mob: {
+          name: string;
+          battleId: number;
+          loot: number;
+        };
+      };
+    }
+  | {
+      type: 'battle-mvp-awarded';
+      payload: {
+        userId: string;
+        mob: {
+          battleId: number;
+          name: string;
+          loot: number;
+        };
+      };
+    }
+  | {
+      type: 'battle-loot-awarded';
+      payload: {
+        userIds: string[];
+        mob: {
+          battleId: number;
+          name: string;
+          loot: number;
+        };
+      };
     };
 
 /** Helper Types **/

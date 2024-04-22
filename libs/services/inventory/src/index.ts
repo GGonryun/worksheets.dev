@@ -1,16 +1,21 @@
 import { TRPCError } from '@trpc/server';
 import { ItemId } from '@worksheets/data/items';
-import { PrismaClient, PrismaTransactionalClient } from '@worksheets/prisma';
+import {
+  ItemType,
+  PrismaClient,
+  PrismaTransactionalClient,
+} from '@worksheets/prisma';
 import { routes } from '@worksheets/routes';
 import { FriendsPanels } from '@worksheets/util/enums';
-import { assertNever } from '@worksheets/util/errors';
+import { assertNever, assertNotImplemented } from '@worksheets/util/errors';
 import {
   MAX_DAILY_GIFT_BOX_SHARES,
   STARTING_GIFT_BOXES,
+  STARTING_SWORDS,
   STARTING_TOKENS,
 } from '@worksheets/util/settings';
 import { daysFromNow, isExpired } from '@worksheets/util/time';
-import { InventoryItem } from '@worksheets/util/types';
+import { InventoryItemSchema } from '@worksheets/util/types';
 import pluralize from 'pluralize';
 
 import { consumeLargeChest, consumeSmallChest } from './consume';
@@ -35,17 +40,21 @@ export type FindItemsOptions = {
 export type PendingItemUseState = {
   action: 'pending';
 };
+
 export type LoadingItemUseState = {
   action: 'loading';
 };
+
 export type RedirectItemUseState = {
   action: 'redirect';
   url: string;
 };
+
 export type ConsumeItemUseState = {
   action: 'consume';
   message: string;
 };
+
 export type ActivateItemUseState = {
   action: 'activate';
   warning: string;
@@ -76,52 +85,44 @@ export class InventoryService {
     return tokens._sum.quantity ?? 0;
   }
 
-  async items(userId: string): Promise<InventoryItem[]> {
+  async items(
+    userId: string,
+    types?: ItemType[]
+  ): Promise<InventoryItemSchema[]> {
     const inventory = await this.#db.inventory.findMany({
       where: {
         userId,
+        item: {
+          type: types ? { in: types } : undefined,
+        },
       },
       select: {
         id: true,
         itemId: true,
         quantity: true,
         expiresAt: true,
+        item: {
+          select: {
+            id: true,
+            name: true,
+            description: true,
+            imageUrl: true,
+            type: true,
+          },
+        },
       },
       orderBy: {
         itemId: 'asc',
-      },
-    });
-    const ids = inventory.map((i) => i.itemId);
-
-    const items = await this.#db.item.findMany({
-      where: {
-        id: {
-          in: ids,
-        },
-      },
-      select: {
-        id: true,
-        name: true,
-        description: true,
-        imageUrl: true,
-        type: true,
       },
     });
 
     return inventory
       .filter((i) => i.quantity > 0)
       .map((inv) => {
-        const item = items.find((item) => inv.itemId === item.id);
-        if (!item) {
-          throw new TRPCError({
-            code: 'INTERNAL_SERVER_ERROR',
-            message: `Failed to list items in inventory. Contact support.`,
-          });
-        }
         return {
-          ...item,
+          ...inv.item,
           inventoryId: inv.id,
-          itemId: item.id as ItemId,
+          itemId: inv.item.id as ItemId,
           quantity: inv?.quantity ?? 0,
           expiresAt: inv?.expiresAt?.getTime() ?? null,
         };
@@ -166,6 +167,7 @@ export class InventoryService {
       this.increment(userId, '1', STARTING_TOKENS),
       this.increment(userId, '2', STARTING_GIFT_BOXES),
       this.increment(userId, '3', MAX_DAILY_GIFT_BOX_SHARES),
+      this.increment(userId, '1002', STARTING_SWORDS),
     ]);
   }
 
@@ -212,12 +214,19 @@ export class InventoryService {
     return update.quantity;
   }
 
+  /** Incrementing is allowed on any prize that can stack and does not expire. Throws an error if you try to increment a stackable item */
   async increment(userId: string, itemId: ItemId, amount: number) {
     switch (itemId) {
       case '1':
       case '2':
       case '3':
       case '5':
+      case '6':
+      case '1000':
+      case '1001':
+      case '1002':
+      case '1003':
+      case '1004':
         return this.#increment(userId, itemId, amount);
       case '0':
       case '4':
@@ -259,7 +268,8 @@ export class InventoryService {
     }
   }
 
-  async award(userId: string, itemId: ItemId) {
+  /** Awarding is used to safely increment or add items to a users inventory. Items like steam keys cannot stack, awarding takes care of this*/
+  async award(userId: string, itemId: ItemId, quantity: number) {
     switch (itemId) {
       case '0':
         throw unawardable(itemId);
@@ -267,15 +277,21 @@ export class InventoryService {
       case '2':
       case '3':
       case '5':
-        return this.#increment(userId, itemId, 1);
+      case '6':
+      case '1000':
+      case '1001':
+      case '1002':
+      case '1003':
+      case '1004':
+        return this.#increment(userId, itemId, quantity);
       case '4':
-        return this.#award(userId, '4');
+        return this.#award(userId, '4', quantity);
       default:
         throw assertNever(itemId);
     }
   }
   /** Creates a new instance of an item that expires after some time. */
-  async #award(userId: string, itemId: ItemId) {
+  async #award(userId: string, itemId: ItemId, quantity: number) {
     const item = await this.#db.item.findFirst({
       where: {
         id: itemId,
@@ -292,16 +308,22 @@ export class InventoryService {
       });
     }
 
-    await this.#db.inventory.create({
-      data: {
-        userId,
-        itemId,
-        quantity: 1,
-        expiresAt: item.expiration ? daysFromNow(item.expiration) : undefined,
-      },
-    });
+    for (let i = 0; i < quantity; i++) {
+      await this.#db.inventory.create({
+        data: {
+          userId,
+          itemId,
+          quantity: 1,
+          expiresAt: item.expiration ? daysFromNow(item.expiration) : undefined,
+        },
+      });
+    }
   }
 
+  /**
+   * 'use' is used by the usage modal on the inventory screen to determine
+   *  which action the player can take on a given item and the modal's message
+   */
   async use(userId: string, itemId: ItemId): Promise<ItemUseState> {
     const inventory = await this.#db.inventory.findFirst({
       where: {
@@ -324,6 +346,9 @@ export class InventoryService {
       case '0':
       case '1':
         throw unusable(itemId);
+
+      case '6':
+        throw assertNotImplemented("Use for item '6'");
       case '3':
         return {
           action: 'redirect',
@@ -345,11 +370,28 @@ export class InventoryService {
             'You will receive a random Steam Key. This action cannot be undone. Are you sure you want to proceed?',
         };
       }
+
+      case '1000':
+        return {
+          action: 'consume',
+          message: 'How many weapon crates would you like to open?',
+        };
+      case '1001':
+      case '1002':
+      case '1003':
+      case '1004':
+        return {
+          action: 'redirect',
+          url: routes.battles.path(),
+        };
       default:
         throw assertNever(itemId);
     }
   }
 
+  /**
+   * Consume can only be used to open consumable items.
+   */
   async consume(
     userId: string,
     opts: { itemId: ItemId; quantity: number }
@@ -388,6 +430,10 @@ export class InventoryService {
       case '1':
       case '3':
       case '4':
+      case '1001':
+      case '1002':
+      case '1003':
+      case '1004':
         throw unconsumable(itemId);
       case '2':
         return consumeSmallChest({
@@ -401,11 +447,19 @@ export class InventoryService {
           quantity,
           inventory: this,
         });
+      case '6':
+        throw assertNotImplemented("Consume for item '6'");
+      case '1000':
+        throw assertNotImplemented("Consume for item '1000'");
       default:
         throw assertNever(itemId);
     }
   }
 
+  /**
+   * Activate will delete an expirable item from the user's inventory
+   * and create an activation code. Use this for items like Steam keys.
+   */
   async activate(userId: string, inventoryId: string) {
     const inventory = await this.#db.inventory.findFirst({
       where: {
@@ -445,6 +499,12 @@ export class InventoryService {
       case '2':
       case '3':
       case '5':
+      case '6':
+      case '1000':
+      case '1001':
+      case '1002':
+      case '1003':
+      case '1004':
         throw unactivatable(inventory.itemId);
       case '4':
         return this.#activateSteamKey({
@@ -510,6 +570,44 @@ export class InventoryService {
       code,
       item,
     };
+  }
+
+  /**
+   * Damage calculates the total damage dealt by a player based on the items they are using.
+   */
+  damage(items: { itemId: ItemId; quantity: number }[]) {
+    // TODO: compute bonus damage modifiers based on mob resistances or player buffs
+    return items.reduce((acc, item) => {
+      return acc + this.#damage(item.itemId) * item.quantity;
+    }, 0);
+  }
+
+  #damage(itemId: ItemId) {
+    switch (itemId) {
+      case '0':
+      case '2':
+      case '3':
+      case '4':
+      case '5':
+      case '6':
+      case '1000':
+        throw new TRPCError({
+          code: 'BAD_REQUEST',
+          message: `Item ID ${itemId} cannot be used for damage calculation.`,
+        });
+      case '1':
+        return 1;
+      case '1001':
+        return 5;
+      case '1002':
+        return 6;
+      case '1003':
+        return 7;
+      case '1004':
+        return 8;
+      default:
+        throw assertNever(itemId);
+    }
   }
 
   async resetAll(itemId: ItemId, amount: number) {

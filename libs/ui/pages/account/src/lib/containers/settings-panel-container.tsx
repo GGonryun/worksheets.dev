@@ -1,8 +1,8 @@
 import { routes } from '@worksheets/routes';
 import { trpc } from '@worksheets/trpc-charity';
+import { ErrorComponent } from '@worksheets/ui/components/errors';
 import { DynamicUserSubscriptionForm } from '@worksheets/ui/components/newsletter';
 import { IS_DEVELOPMENT } from '@worksheets/ui/env';
-import { ErrorComponent } from '@worksheets/ui/pages/errors';
 import { LoadingScreen } from '@worksheets/ui/pages/loading';
 import { useBookmark } from '@worksheets/ui-core';
 import { SettingsPanels } from '@worksheets/util/enums';

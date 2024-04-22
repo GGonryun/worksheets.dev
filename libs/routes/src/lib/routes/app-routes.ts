@@ -134,16 +134,11 @@ export const routes = {
       }),
     },
   }),
-  mob: createRoute({
-    path: '/mob/[mobId]',
+  battles: createRoute({
+    path: '/battles',
   }),
-  mobs: createRoute({
-    path: '/mobs',
-    routes: {
-      history: createRoute({
-        path: '/mobs/history',
-      }),
-    },
+  battle: createRoute({
+    path: '/battles/[battleId]',
   }),
   help: createRoute({
     path: '/help',

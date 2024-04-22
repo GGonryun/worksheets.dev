@@ -2,6 +2,7 @@ import { Link, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import { routes } from '@worksheets/routes';
 import { HelpMobsQuestions } from '@worksheets/util/enums';
+import { ENTRY_PER_DAMAGE } from '@worksheets/util/settings';
 import { QuestionAnswer } from '@worksheets/util/types';
 
 export const helpMobs: QuestionAnswer[] = [
@@ -18,18 +19,21 @@ export const helpMobs: QuestionAnswer[] = [
         <br />
         <br />
         To participate in a boss fight, navigate to the{' '}
-        <Link href={routes.mobs.path()}>Boss List</Link> and select a boss to
+        <Link href={routes.battles.path()}>Boss List</Link> and select a boss to
         fight. You can join a boss fight by clicking the "Enter Dungeon" button.
         <br />
         <br />
         Players deal damage to the boss by using their{' '}
-        <Link href={routes.help.tokens.path()}>tokens</Link>. The boss has a
-        health bar that decreases as players deal damage. If the boss's health
-        reaches zero, the boss is defeated and players earn loot. The boss loot
-        is divided into MVP loot and regular loot. The MVP loot is given to the
-        player who deals the most damage to the boss or who deals the final blow
-        to the boss. The regular loot is randomly distributed across all players
-        who participated in the boss fight.
+        <Link href={routes.help.tokens.path()}>tokens</Link> or combat items.
+        The boss has a health bar that decreases as players deal damage. If the
+        boss's health reaches zero, the boss is defeated and players earn loot.
+        The boss loot is divided into MVP loot and regular loot. The MVP loot is
+        given to the player who deals the most damage to the boss or who deals
+        the final blow to the boss. The regular loot is randomly distributed
+        across all players who participated in the boss fight. Players increase
+        their chances of receiving rewards by dealing as much damage to the boss
+        as possible. Every {ENTRY_PER_DAMAGE} damage dealt gives you one entry
+        into the loot pool.
         <br />
         <br />
         Bosses stay around until they are defeated. There is no time limit to a
@@ -60,7 +64,7 @@ export const helpMobs: QuestionAnswer[] = [
         <br />
         <br />
         To join a boss fight, navigate to the{' '}
-        <Link href={routes.mobs.path()}>Boss List</Link> and select a boss to
+        <Link href={routes.battles.path()}>Boss List</Link> and select a boss to
         fight. You can join a boss fight by clicking the "Enter Dungeon" button.
         After you've entered a bosses dungeon you'll be able to see more
         information about the boss, the current fight, participants,
@@ -81,7 +85,7 @@ export const helpMobs: QuestionAnswer[] = [
         <br />
         If you've already joined a boss fight, you can find all of your active
         fights at the top of the{' '}
-        <Link href={routes.mobs.path()}>Boss List</Link> page.
+        <Link href={routes.battles.path()}>Boss List</Link> page.
       </Box>
     ),
   },
@@ -211,7 +215,9 @@ export const helpMobs: QuestionAnswer[] = [
         loot. The MVP loot is given to the player who deals the most damage to
         the boss or who deals the final blow to the boss. The regular loot is
         randomly distributed across all players who participated in the boss
-        fight.
+        fight. Players increase their chances of receiving rewards by dealing as
+        much damage to the boss as possible. Every {ENTRY_PER_DAMAGE} damage
+        dealt gives you one entry into the loot pool.
         <br />
         <br />
         <Typography variant="h6" gutterBottom>
@@ -233,8 +239,9 @@ export const helpMobs: QuestionAnswer[] = [
         <br />
         <br />
         Dealing more damage to the boss increases your chances of receiving
-        rewards. Make sure to read the boss's description to learn about the
-        rewards that you can earn from participating in the boss fight.
+        rewards.Every {ENTRY_PER_DAMAGE} damage dealt gives you one entry into
+        the loot pool. Make sure to read the boss's description to learn about
+        the rewards that you can earn from participating in the boss fight.
       </Box>
     ),
   },

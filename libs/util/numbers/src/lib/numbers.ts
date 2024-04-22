@@ -27,14 +27,13 @@ export function shorthandNumber(n: number): string {
  * @param max
  * @returns A number between 0 and 100.
  */
-export function calculatePercentage(current?: number, max?: number) {
+export function calculatePercentage(current: number, max: number) {
   if (!current || !max) return 0;
   if (current < 0 || max < 0) return 0;
-  if (current > max) return 100;
 
-  return Math.min(Math.round((current / max) * 100), 100);
+  return Math.round((current / max) * 100);
 }
 
-export function toPercentage(current?: number, max?: number) {
+export function toPercentage(current: number, max = 1) {
   return `${calculatePercentage(current, max)}%`;
 }

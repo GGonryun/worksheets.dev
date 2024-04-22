@@ -3,6 +3,7 @@ import {
   HowToVote,
   LocalActivity,
   Mail,
+  SportsMma,
   SquareOutlined,
   StarBorder,
   VideogameAsset,
@@ -101,4 +102,5 @@ const notificationIcon: Record<NotificationType, ReactNode> = {
   REWARD: <LocalActivity color="warning" />,
   GAME: <VideogameAsset color="error" />,
   QUEST: <StarBorder color="info" />,
+  BATTLE: <SportsMma color="error" />,
 };

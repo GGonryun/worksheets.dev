@@ -1,8 +1,8 @@
 import { Divider } from '@mui/material';
 import { trpc } from '@worksheets/trpc-charity';
+import { ErrorComponent } from '@worksheets/ui/components/errors';
 import { Column } from '@worksheets/ui/components/flex';
 import { DynamicQuests, QuestFilters } from '@worksheets/ui/components/quests';
-import { ErrorComponent } from '@worksheets/ui/pages/errors';
 import { LoadingScreen } from '@worksheets/ui/pages/loading';
 import {
   QUEST_CATEGORIES,

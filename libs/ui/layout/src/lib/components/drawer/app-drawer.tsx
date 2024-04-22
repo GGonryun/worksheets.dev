@@ -82,9 +82,9 @@ export const AppDrawer: React.FC<WithDrawerProps<{ connected: boolean }>> = ({
             label: 'Raffles',
           },
           {
-            href: routes.mobs.path(),
+            href: routes.battles.path(),
             icon: <SportsMmaOutlined />,
-            label: 'Boss Fights',
+            label: 'Boss Battles',
           },
         ]}
       />

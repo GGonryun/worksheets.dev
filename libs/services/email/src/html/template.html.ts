@@ -61,9 +61,7 @@ export const template = ({
       })}`;
 
   // add signature to the end of the email
-  paragraphs.push(SIGNATURE);
-
-  const content = paragraphs.join('<br/><br/>');
+  const content = paragraphs.concat(SIGNATURE).join('<br/><br/>');
   // for each link in the links array, scan the content and replace the placeholder with the link
   const paragraph = replaceLinks(content, links);
 
@@ -439,6 +437,5 @@ export const template = ({
         </tbody>
     </table><!-- End -->
 </body>
-
 </html>`;
 };

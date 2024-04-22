@@ -1,6 +1,6 @@
 import { trpc } from '@worksheets/trpc-charity';
+import { ErrorComponent } from '@worksheets/ui/components/errors';
 import { LoadingBar } from '@worksheets/ui/components/loading';
-import { ErrorComponent } from '@worksheets/ui/pages/errors';
 import dynamic from 'next/dynamic';
 import { useSession } from 'next-auth/react';
 

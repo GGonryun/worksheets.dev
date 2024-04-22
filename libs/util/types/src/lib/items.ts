@@ -13,4 +13,4 @@ export const inventoryItemSchema = z.object({
   type: z.nativeEnum(ItemType),
 });
 
-export type InventoryItem = z.infer<typeof inventoryItemSchema>;
+export type InventoryItemSchema = z.infer<typeof inventoryItemSchema>;

@@ -1,12 +1,14 @@
 import { router } from '../trpc';
-import newsletterRouter from './newsletter/router';
+import maybe from './maybe/router';
+import newsletter from './newsletter/router';
 import publicRouter from './public/router';
-import userRouter from './user/router';
+import user from './user/router';
 
 export const appRouter = router({
   public: publicRouter,
-  user: userRouter,
-  newsletter: newsletterRouter,
+  user,
+  maybe,
+  newsletter,
 });
 
 export type AppRouter = typeof appRouter;
