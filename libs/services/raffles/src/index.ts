@@ -111,8 +111,14 @@ export class RafflesService {
       raffle.participants
     );
 
+    console.info(
+      'Winners:',
+      winners.map((w) => w.user.email).join(', '),
+      raffle
+    );
+
     for (const winner of winners) {
-      this.#db.raffleParticipation.update({
+      await this.#db.raffleParticipation.update({
         where: {
           id: winner.participationId,
         },
@@ -152,6 +158,8 @@ export class RafflesService {
     const entries: RaffleEntry[] = participants.flatMap((participant) =>
       Array(participant.numEntries).fill(participant)
     );
+
+    console.info('Picking winners from', entries.length, 'entries');
 
     // shuffle the entries and pick the winners
     const shuffled = shuffle(entries);

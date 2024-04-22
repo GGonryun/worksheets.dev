@@ -1,5 +1,7 @@
+import { Star } from '@mui/icons-material';
 import { Box, Typography, TypographyProps } from '@mui/material';
 import { Description } from '@worksheets/ui/components/description';
+import { Row } from '@worksheets/ui/components/flex';
 import { ParticipationSchema } from '@worksheets/util/types';
 import React from 'react';
 
@@ -15,9 +17,12 @@ export const ParticipantsDescription: React.FC<{
           <Heading>Winners</Heading>
           {winners.length ? (
             winners.map((winner) => (
-              <Typography>
-                <b>{winner.user.username}</b>
-              </Typography>
+              <Row key={winner.userId} gap={1}>
+                <Star fontSize="small" />
+                <Typography>
+                  <b>{winner.user.username}</b>
+                </Typography>
+              </Row>
             ))
           ) : (
             <Typography>
