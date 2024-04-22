@@ -327,7 +327,7 @@ const SelectFriend: React.FC<{
       <Typography typography={{ xs: 'body2', sm: 'body1' }}>
         Who would you like to share this item with?
       </Typography>
-      {props.friends.map((friend) => (
+      {items.map((friend) => (
         <FriendItem
           key={friend.friendshipId}
           friend={friend}
