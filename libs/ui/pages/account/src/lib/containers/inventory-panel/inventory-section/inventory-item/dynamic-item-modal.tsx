@@ -177,6 +177,15 @@ const ConsumeItem: React.FC<{
       setConsuming(false);
     }
   };
+
+  if (consuming)
+    return (
+      <Column alignItems="center" gap={1}>
+        <PulsingLogo />
+        <Typography>Consuming items...</Typography>
+      </Column>
+    );
+
   return (
     <Column gap={2} alignItems="center">
       <Typography typography={{ xs: 'body2', sm: 'body1' }}>
@@ -191,7 +200,7 @@ const ConsumeItem: React.FC<{
         sx={{ width: 'fit-content', px: 3 }}
         onClick={handleConsumption}
       >
-        Consume x{quantity}
+        {consuming ? 'Loading...' : `Consume x${quantity}`}
       </Button>
     </Column>
   );
