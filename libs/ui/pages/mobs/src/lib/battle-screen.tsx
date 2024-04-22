@@ -198,7 +198,7 @@ const ParticipationItem: React.FC<{
   return (
     <Box width="100%">
       <Row gap={1} width="100%">
-        {participation.loot.length && (
+        {Boolean(participation.loot.length) && (
           <Button
             variant="arcade"
             size="small"
