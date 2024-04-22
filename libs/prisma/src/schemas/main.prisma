@@ -101,14 +101,6 @@ model Friendship {
   updatedAt  DateTime @updatedAt
   user       User     @relation(name: "Friends", fields: [userId], references: [id], onDelete: Cascade)
   friend     User     @relation(name: "Followers", fields: [friendId], references: [id], onDelete: Cascade)
-  gift       Gift?
-}
-
-model Gift {
-  id           String     @id @default(cuid())
-  friendshipId String     @unique
-  friendship   Friendship @relation(fields: [friendshipId], references: [id], onDelete: Cascade)
-  sentAt       DateTime   @default(now())
 }
 
 model Inventory {

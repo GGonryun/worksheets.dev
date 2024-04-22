@@ -4,8 +4,8 @@ import {
   FriendsPanels,
   HelpFriendsQuestions,
   HelpTokensQuestions,
+  InventoryPanels,
 } from '@worksheets/util/enums';
-import { MAX_DAILY_GIFT_BOX_SHARES } from '@worksheets/util/settings';
 import { MAX_BEST_FRIENDS, QuestionAnswer } from '@worksheets/util/types';
 
 import { HelpfulLinks } from '../helpful-links';
@@ -18,8 +18,8 @@ export const helpFriends: QuestionAnswer[] = [
     answer: (
       <Box>
         <Typography>
-          Friends are other users that you are following. You can send gifts to
-          your friends to help them enter raffles and win prizes.
+          Friends are other users that you are following. You can share gifts
+          with your friends to help them enter raffles and win prizes.
           <br />
           <br />
           You can also earn tokens for prizes by inviting friends to join
@@ -29,12 +29,7 @@ export const helpFriends: QuestionAnswer[] = [
         <HelpfulLinks
           links={[
             { href: routes.account.friends.path(), text: 'See Your Friends' },
-            {
-              href: routes.help.tokens.path({
-                bookmark: HelpTokensQuestions.GiftBoxes,
-              }),
-              text: 'Learn more about Gift Boxes',
-            },
+
             {
               href: routes.help.referrals.path(),
               text: 'Learn more about Referrals',
@@ -62,12 +57,6 @@ export const helpFriends: QuestionAnswer[] = [
         <HelpfulLinks
           links={[
             { href: routes.account.friends.path(), text: 'See Your Friends' },
-            {
-              href: routes.help.tokens.path({
-                bookmark: HelpTokensQuestions.GiftBoxes,
-              }),
-              text: 'Learn more about Gift Boxes',
-            },
             {
               href: routes.help.referrals.path(),
               text: 'Learn more about Referrals',
@@ -244,13 +233,13 @@ export const helpFriends: QuestionAnswer[] = [
           and you will be added to their follower's list.
           <br />
           <br />
-          If you are friends with another user you can send them a{' '}
+          If you are friends with another user you can send them
           <Link
             href={routes.help.friends.path({
-              bookmark: HelpFriendsQuestions.SendingGifts,
+              bookmark: HelpFriendsQuestions.Sharing,
             })}
           >
-            free gift box
+            sharable items and gifts
           </Link>{' '}
           to help them enter raffles and win prizes.
         </Typography>
@@ -263,12 +252,6 @@ export const helpFriends: QuestionAnswer[] = [
               text: 'See Your Tokens',
             },
             {
-              href: routes.help.tokens.path({
-                bookmark: HelpTokensQuestions.GiftBoxes,
-              }),
-              text: 'Learn more about Gift Boxes',
-            },
-            {
               href: routes.help.referrals.path(),
               text: 'Learn more about Referrals',
             },
@@ -278,15 +261,14 @@ export const helpFriends: QuestionAnswer[] = [
     ),
   },
   {
-    id: HelpFriendsQuestions.SendingGifts,
-    question: 'How do I send a Gift Box?',
-    summary:
-      'You can send a Gift Box to a friend by adding them as a friend and then sending a gift through the accounts page.',
+    id: HelpFriendsQuestions.Sharing,
+    question: 'How do I share items with friends?',
+    summary: `You can send sharable items to your friends by visiting your inventory and selecting the item you want to share.`,
     answer: (
       <Box>
         <Typography>
-          You can send gifts to people you've added as your friends. Add them as
-          friends by visiting your{' '}
+          You can send gifts and share items with people you've added as your
+          friends. Add them as friends by visiting your{' '}
           <Link
             href={routes.account.friends.path({
               bookmark: FriendsPanels.AddFriends,
@@ -294,15 +276,15 @@ export const helpFriends: QuestionAnswer[] = [
           >
             Account settings
           </Link>{' '}
-          and then send a gift through the{' '}
+          and then send a gift from your{' '}
           <Link
-            href={routes.account.friends.path({
-              bookmark: FriendsPanels.SendGifts,
+            href={routes.account.inventory.path({
+              bookmark: InventoryPanels.Items,
             })}
           >
-            Send Gifts
-          </Link>{' '}
-          section.
+            Inventory
+          </Link>
+          .
           <br />
           <br />
           You can find your friends by visiting your{' '}
@@ -316,18 +298,12 @@ export const helpFriends: QuestionAnswer[] = [
           in your account settings.
           <br />
           <br />
-          You can send a maximum of {MAX_DAILY_GIFT_BOX_SHARES} Gift Boxes per
-          day. VIP members can send more Gift Boxes every day.
+          You can earn sharable items by participating in raffles, completing
+          quests, fighting bosses, and playing games.
         </Typography>
         <HelpfulLinks
           links={[
             { href: routes.account.friends.path(), text: 'See Your Friends' },
-            {
-              href: routes.help.tokens.path({
-                bookmark: HelpTokensQuestions.GiftBoxes,
-              }),
-              text: 'Learn more about Gift Boxes',
-            },
             {
               href: routes.help.vip.path(),
               text: 'Learn more about VIP',

@@ -61,10 +61,6 @@ const newReferralTemplates: TemplateBuilder<'new-referral'> = (payload) => ({
   push: PushTemplates.newReferral(payload),
 });
 
-const giftReceivedTemplates: TemplateBuilder<'gift-received'> = (payload) => ({
-  push: PushTemplates.giftReceived(payload),
-});
-
 const newFollowerTemplates: TemplateBuilder<'new-follower'> = (payload) => ({
   push: PushTemplates.newFollower(payload),
 });
@@ -135,7 +131,6 @@ export const destinations: Record<NotificationTemplateType, TemplateBuilder> = {
   'new-user': newUserTemplates,
   'welcome-user': welcomeUserTemplates,
   'new-referral': newReferralTemplates,
-  'gift-received': giftReceivedTemplates,
   'new-follower': newFollowerTemplates,
   'new-game-submission': newGameSubmissionTemplates,
   'confirm-newsletter-subscription': confirmNewsletterSubscriptionTemplates,

@@ -6,10 +6,6 @@ import {
   HelpTokensQuestions,
 } from '@worksheets/util/enums';
 import {
-  MAX_DAILY_GIFT_BOX_SHARES,
-  TOKENS_IN_GIFT_BOX,
-} from '@worksheets/util/settings';
-import {
   PER_GAME_MINUTE_REWARD,
   PER_GAME_PLAY_REWARD,
   PER_REFERRAL_PLAY_MINUTE_REWARD,
@@ -45,12 +41,6 @@ export const helpTokens: QuestionAnswer[] = [
               href: routes.help.playingGames.path(),
               text: 'Learn more about Playing Games',
             },
-            {
-              href: routes.help.tokens.path({
-                bookmark: HelpTokensQuestions.GiftBoxes,
-              }),
-              text: 'Learn more about Gift Boxes',
-            },
           ]}
         />
       </Box>
@@ -85,16 +75,6 @@ export const helpTokens: QuestionAnswer[] = [
               Quests
             </Link>{' '}
             - Varies by quests, all quests will have a token reward
-          </ListItem>
-          <ListItem>
-            <Link
-              href={routes.help.tokens.path({
-                bookmark: HelpTokensQuestions.GiftBoxes,
-              })}
-            >
-              Gift Boxes
-            </Link>{' '}
-            - {MAX_DAILY_GIFT_BOX_SHARES} Gift Boxes per day
           </ListItem>
           <ListItem>
             <Link
@@ -182,12 +162,6 @@ export const helpTokens: QuestionAnswer[] = [
               text: 'Learn more about Playing Games',
             },
             {
-              href: routes.help.tokens.path({
-                bookmark: HelpTokensQuestions.GiftBoxes,
-              }),
-              text: 'Learn more about Gift Boxes',
-            },
-            {
               href: routes.help.friends.path(),
               text: 'Learn more about Friends',
             },
@@ -234,45 +208,7 @@ export const helpTokens: QuestionAnswer[] = [
       </Box>
     ),
   },
-  {
-    id: HelpTokensQuestions.GiftBoxes,
-    question: 'What is a Gift Box?',
-    summary: `A Gift Box is a special item that contains tokens. You can send Gift Boxes to your friends to help them enter raffles and win prizes.`,
-    answer: (
-      <Box>
-        <Typography>
-          A Gift Box is a special item that contains tokens. You can send Gift
-          Boxes to your friends to help them enter raffles and win prizes. Every
-          time you send a Gift Box to a friend, you will receive a gift box in
-          return. A Gift Box will contain exactly {TOKENS_IN_GIFT_BOX} tokens.
-          <br />
-          <br />
-          Gift Boxes can only be sent to friends that you added and you can only
-          send one Gift Box to each friend every 24 hours. You can send a
-          maximum of {MAX_DAILY_GIFT_BOX_SHARES} Gift Boxes per day.{' '}
-          <Link href={routes.help.vip.path()}>VIP members</Link> can send more
-          Gift Boxes every day.
-        </Typography>
-        <br />
-        <HelpfulLinks
-          links={[
-            {
-              href: routes.help.vip.path(),
-              text: 'Learn more about VIP',
-            },
-            {
-              href: routes.help.playingGames.path(),
-              text: 'Learn more about Playing Games',
-            },
-            {
-              href: routes.help.friends.path(),
-              text: 'Learn more about Friends',
-            },
-          ]}
-        />
-      </Box>
-    ),
-  },
+
   {
     id: HelpTokensQuestions.Referrals,
     question: 'What are Referrals?',

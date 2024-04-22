@@ -211,7 +211,7 @@ export class FriendshipService {
     });
   }
 
-  async createGift(friendshipId: string) {
+  async get(friendshipId: string) {
     const friendship = await this.#db.friendship.findFirst({
       where: {
         id: friendshipId,
@@ -220,62 +220,16 @@ export class FriendshipService {
         id: true,
         userId: true,
         friendId: true,
-        friend: {
-          select: {
-            username: true,
-          },
-        },
       },
     });
 
     if (!friendship) {
       throw new TRPCError({
         code: 'NOT_FOUND',
-        message:
-          'You are not friends with this user. Add them as a friend first.',
+        message: 'Could not find a friendship between users.',
       });
     }
-
-    const gift = await this.#db.gift.findFirst({
-      where: {
-        friendshipId: friendshipId,
-      },
-      select: {
-        friendship: {
-          select: {
-            friend: {
-              select: {
-                username: true,
-              },
-            },
-          },
-        },
-      },
-    });
-
-    if (gift) {
-      throw new TRPCError({
-        code: 'PRECONDITION_FAILED',
-        message: `You've already sent a gift to ${gift.friendship.friend.username}!`,
-      });
-    }
-
-    await this.#db.gift.create({
-      data: {
-        friendshipId,
-      },
-    });
 
     return friendship;
-  }
-
-  async destroyGifts() {
-    await this.#db.gift.deleteMany({
-      where: {
-        sentAt: {
-          lt: new Date(),
-        },
-      },
-    });
   }
 }

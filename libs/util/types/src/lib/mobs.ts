@@ -271,9 +271,11 @@ export const userBattleParticipationSchema = z.object({
   battle: z.object({
     id: z.number(),
     status: z.nativeEnum(BattleStatus),
+    damage: z.number(),
     mob: z.object({
       id: z.number(),
       name: z.string(),
+      maxHp: z.number(),
     }),
   }),
   damage: z.number(),

@@ -3,7 +3,7 @@ import { ItemType } from '@prisma/client';
 export const ITEMS = [
   {
     id: '0' as const,
-    version: 1,
+    version: 2,
     code: 'unknown',
     name: 'Unknown',
     type: ItemType.ETCETERA,
@@ -12,7 +12,7 @@ export const ITEMS = [
   },
   {
     id: '1' as const,
-    version: 1,
+    version: 2,
     code: 'tokens',
     name: 'Tokens',
     type: ItemType.CURRENCY,
@@ -21,7 +21,7 @@ export const ITEMS = [
   },
   {
     id: '2' as const,
-    version: 1,
+    version: 2,
     code: 'small-treasure-chest',
     name: 'Small Treasure Chest',
     type: ItemType.CONSUMABLE,
@@ -30,16 +30,17 @@ export const ITEMS = [
   },
   {
     id: '3' as const,
-    version: 1,
+    version: 2,
     code: 'small-gift-box',
     name: 'Small Gift Box',
     type: ItemType.SHARABLE,
-    description: 'A box of 20 tokens that you can give to someone else',
+    description:
+      'A box of 25 tokens that you can give to someone else. Sharing this gift will earn you 10 tokens.',
     imageUrl: 'https://cdn.charity.games/_items/detailed/3.png',
   },
   {
     id: '4' as const,
-    version: 1,
+    version: 2,
     code: 'random-steam-key',
     name: 'Random Steam Key',
     type: ItemType.STEAM_KEY,
@@ -49,7 +50,7 @@ export const ITEMS = [
   },
   {
     id: '5' as const,
-    version: 1,
+    version: 2,
     code: 'large-treasure-chest',
     name: 'Large Treasure Chest',
     type: ItemType.CONSUMABLE,
@@ -58,16 +59,27 @@ export const ITEMS = [
   },
   {
     id: '6' as const,
-    version: 1,
+    version: 2,
     code: 'large-gift-box',
     name: 'Large Gift Box',
     type: ItemType.SHARABLE,
-    description: 'A box of 100 tokens that you can give to someone else',
+    description:
+      'A box of 50 tokens that you can give to someone else. Sharing this gift will earn you 25 tokens.',
     imageUrl: 'https://cdn.charity.games/_items/detailed/6.png',
   },
   {
+    id: '7' as const,
+    version: 2,
+    code: 'love-letter',
+    name: 'Love Letter',
+    type: ItemType.SHARABLE,
+    description:
+      'A love letter with 10 tokens that you can share with a friend. Sharing this gift will earn you 10 tokens.',
+    imageUrl: 'https://cdn.charity.games/_items/detailed/7.png',
+  },
+  {
     id: '1000' as const,
-    version: 1,
+    version: 2,
     code: 'weapon-crate',
     name: 'Weapon Crate',
     type: ItemType.CONSUMABLE,
@@ -115,3 +127,8 @@ export const ITEMS = [
 export type Item = (typeof ITEMS)[number];
 
 export type ItemId = Item['id'];
+
+export const COMBAT_ITEMS = ITEMS.filter(
+  (item): item is Extract<Item, { type: 'COMBAT' }> =>
+    item.type === ItemType.COMBAT
+);

@@ -631,6 +631,7 @@ const ItemSelection: React.FC<{
   onClose: () => void;
 }> = ({ mob, onClose }) => {
   const [selectedItems, setSelectedItems] = useState<InventoryItemSchema[]>([]);
+  const [striking, setStriking] = useState(false);
 
   const snackbar = useSnackbar();
   const session = useSession();
@@ -706,6 +707,7 @@ const ItemSelection: React.FC<{
     if (damage.isError) return;
     if (damage.data === 0) return;
     try {
+      setStriking(true);
       const result = await strike.mutateAsync({
         battleId: mob.battleId,
         items: selectedItems,
@@ -715,6 +717,7 @@ const ItemSelection: React.FC<{
     } catch (error) {
       snackbar.error('Failed to deal damage. Contact Support.');
     } finally {
+      setStriking(false);
       onClose();
     }
   };
@@ -725,7 +728,7 @@ const ItemSelection: React.FC<{
   return (
     <Column gap={1} alignItems="center">
       {connected && (
-        <Row gap={1}>
+        <Row gap={1} flexWrap="wrap" justifyContent="center">
           {selectedItems.map((item) => (
             <InventoryItem
               size={56}
@@ -743,9 +746,7 @@ const ItemSelection: React.FC<{
           <Button
             variant="arcade"
             color="error"
-            disabled={
-              !selectedItems.length || damage.isError || strike.isLoading
-            }
+            disabled={!selectedItems.length || damage.isError || striking}
             startIcon={
               selectedItems.length && !damage.isError ? <Sword /> : undefined
             }
@@ -959,7 +960,7 @@ const CombatItems: React.FC<{
         <Divider sx={{ width: '100%' }} />
       </Column>
 
-      <Row gap={1}>
+      <Row gap={1.5} flexWrap="wrap">
         {availableItems.length ? (
           availableItems.map((item) => (
             <InventoryItem

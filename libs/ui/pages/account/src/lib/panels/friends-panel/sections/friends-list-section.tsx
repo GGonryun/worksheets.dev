@@ -26,9 +26,6 @@ export const FriendsListSection: React.FC<{
   const addFriendsLink = routes.account.friends.path({
     bookmark: FriendsPanels.AddFriends,
   });
-  const sendGiftLink = routes.account.friends.path({
-    bookmark: FriendsPanels.SendGifts,
-  });
 
   return (
     <Box
@@ -67,10 +64,6 @@ export const FriendsListSection: React.FC<{
           </>,
           `You can have at most ${MAX_FRIENDS} friends and ${MAX_BEST_FRIENDS} best friends.`,
           `Players you add as best friends will earn tokens when you play games.`,
-          <>
-            You earn a gift box for every friend you{' '}
-            <Link href={sendGiftLink}>send a gift to</Link>.
-          </>,
         ]}
       />
       <PanelFooter

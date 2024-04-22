@@ -26,10 +26,6 @@ export const ACCOUNT_INVENTORY_URL = routes.account.inventory.url({
   bookmark: InventoryPanels.Items,
 });
 
-export const ACCOUNT_GIFT_BOXES_URL = routes.account.friends.url({
-  bookmark: FriendsPanels.GiftBoxes,
-});
-
 export const ACCOUNT_REFERRED_ACCOUNTS_URL = routes.account.referrals.url({
   bookmark: ReferralsPanels.ReferredAccounts,
 });

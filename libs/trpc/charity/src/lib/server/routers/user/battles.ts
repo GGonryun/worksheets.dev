@@ -35,8 +35,10 @@ export default t.router({
             select: {
               id: true,
               status: true,
+              damage: true,
               mob: {
                 select: {
+                  maxHp: true,
                   id: true,
                   name: true,
                 },

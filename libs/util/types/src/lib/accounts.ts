@@ -31,7 +31,6 @@ export const friendSchema = z.object({
   username: z.string(),
   lastSeen: z.number(),
   isFavorite: z.boolean(),
-  giftSentAt: z.number().nullable(),
 });
 
 export type Friend = z.infer<typeof friendSchema>;

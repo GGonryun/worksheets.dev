@@ -113,17 +113,6 @@ export type NotificationTemplate =
       };
     }
   | {
-      type: 'gift-received';
-      payload: {
-        sender: {
-          username: string;
-        };
-        recipient: {
-          id: string;
-        };
-      };
-    }
-  | {
       type: 'new-follower';
       payload: {
         user: {

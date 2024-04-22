@@ -76,21 +76,19 @@ const InfoButton: React.FC = () => {
 };
 
 const ModalLayout: React.FC<ModalProps> = ({ children, open, onClose }) => (
-  <Modal open={open} onClose={onClose}>
-    <Box
-      sx={{
-        display: 'grid',
-        gridTemplateColumns: 'auto 1fr',
-        gridTemplateRows: 'auto',
-        p: 2,
-        gap: 2,
-        position: 'relative',
-      }}
-    >
-      <CloseButton onClick={onClose} />
+  <Modal
+    open={open}
+    onClose={onClose}
+    sx={{
+      width: '95%',
+      maxWidth: 400,
+    }}
+  >
+    <>
+      <Box mb={2}>{children}</Box>
       <InfoButton />
-      {children}
-    </Box>
+      <CloseButton onClick={onClose} />
+    </>
   </Modal>
 );
 
@@ -104,14 +102,24 @@ export const ItemModalLayout: React.FC<
 > = ({ content, icon, open, onClose, item, action }) => {
   return (
     <ModalLayout open={open} onClose={onClose}>
-      <>
-        <Column gap={2} justifyContent="space-between">
+      <Box
+        sx={{
+          display: 'grid',
+          gridTemplateColumns: { xs: '1fr', mobile1: 'auto 1fr' },
+          gridTemplateRows: 'auto',
+          p: 2,
+          gap: 2,
+          position: 'relative',
+        }}
+      >
+        <Column gap={2} justifyContent="space-between" alignItems="center">
           <Box
             sx={{
               borderRadius: (theme) => theme.shape.borderRadius,
               boxShadow: TABLET_SHADOW,
               p: 1,
               position: 'relative',
+              width: 'fit-content',
             }}
           >
             {icon && (
@@ -137,13 +145,7 @@ export const ItemModalLayout: React.FC<
           </Box>
           {action}
         </Column>
-        <Column
-          minWidth={{ xs: 150, mobile2: 200, sm: 256 }}
-          maxWidth={384}
-          mt={1.5}
-          mb={1}
-          gap={1}
-        >
+        <Column mt={1.5} mb={1} gap={1}>
           <Column>
             <Typography
               typography={{ xs: 'body1', sm: 'h6' }}
@@ -155,7 +157,7 @@ export const ItemModalLayout: React.FC<
           </Column>
           {content}
         </Column>
-      </>
+      </Box>
     </ModalLayout>
   );
 };

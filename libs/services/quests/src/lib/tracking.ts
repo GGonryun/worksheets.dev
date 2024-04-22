@@ -94,6 +94,20 @@ export const trackFinitePlayGameProgress = async (
           quest: definition,
         });
         return;
+      } else {
+        await opts.db.questProgress.update({
+          where: {
+            userId_questId: {
+              userId: opts.userId,
+              questId: opts.questId,
+            },
+          },
+          data: {
+            state: {
+              progress: state.progress + 1,
+            },
+          },
+        });
       }
     }
   }

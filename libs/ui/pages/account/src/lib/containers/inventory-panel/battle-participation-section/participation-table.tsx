@@ -57,15 +57,9 @@ export const ParticipationTable: React.FC<{
               <TableCell>
                 <Typography
                   fontWeight={700}
-                  color={
-                    p.battle.status === BattleStatus.COMPLETE
-                      ? 'error.main'
-                      : 'success.main'
-                  }
+                  color={isDefeated(p) ? 'error.main' : 'success.main'}
                 >
-                  {p.battle.status === BattleStatus.COMPLETE
-                    ? 'Defeated'
-                    : 'Active'}
+                  {isDefeated(p) ? 'Defeated' : 'Active'}
                 </Typography>
               </TableCell>
             </TableRow>
@@ -75,3 +69,7 @@ export const ParticipationTable: React.FC<{
     </TableContainer>
   );
 };
+
+const isDefeated = (p: UserBattleParticipationSchema) =>
+  p.battle.status === BattleStatus.COMPLETE ||
+  p.battle.damage >= p.battle.mob.maxHp;

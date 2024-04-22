@@ -47,12 +47,6 @@ export const helpQuests: QuestionAnswer[] = [
               text: 'Learn more about Playing Games',
             },
             {
-              href: routes.help.tokens.path({
-                bookmark: HelpTokensQuestions.GiftBoxes,
-              }),
-              text: 'Learn more about Gift Boxes',
-            },
-            {
               href: routes.help.referrals.path(),
               text: 'Learn more about Referrals',
             },

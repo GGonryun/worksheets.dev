@@ -1,7 +1,6 @@
 import {
   AccountCircleOutlined,
   AddBoxOutlined,
-  CardGiftcardOutlined,
   ContactMailOutlined,
   DesignServicesOutlined,
   Diversity1Outlined,
@@ -143,20 +142,12 @@ const UserContent: React.FC<{
       />
       <Divider />
       <DrawerLinks
-        title="Tokens"
+        title="Quests"
         links={[
           {
             href: routes.account.quests.path(),
             label: 'Quests',
             icon: <LocalActivityOutlined />,
-          },
-
-          {
-            href: routes.account.friends.path({
-              bookmark: FriendsPanels.GiftBoxes,
-            }),
-            label: 'Open Gifts',
-            icon: <CardGiftcardOutlined />,
           },
         ]}
       />
@@ -204,13 +195,6 @@ const UserContent: React.FC<{
             }),
             label: 'Friends List',
             icon: <Diversity1Outlined />,
-          },
-          {
-            href: routes.account.friends.path({
-              bookmark: FriendsPanels.SendGifts,
-            }),
-            label: 'Send Gifts',
-            icon: <CardGiftcardOutlined />,
           },
         ]}
       />

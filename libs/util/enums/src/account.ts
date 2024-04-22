@@ -6,8 +6,6 @@ export enum ReferralsPanels {
 export enum FriendsPanels {
   AddFriends = 'add-friends',
   FriendsList = 'friends-list',
-  SendGifts = 'send-gifts',
-  GiftBoxes = 'gift-boxes',
 }
 
 export enum SettingsPanels {

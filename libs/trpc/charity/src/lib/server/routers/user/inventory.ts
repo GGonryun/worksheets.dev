@@ -1,4 +1,5 @@
 import { ItemId } from '@worksheets/data/items';
+import { FriendshipService } from '@worksheets/services/friendship';
 import { InventoryService } from '@worksheets/services/inventory';
 import { NotificationsService } from '@worksheets/services/notifications';
 import { inventoryItemSchema } from '@worksheets/util/types';
@@ -54,5 +55,25 @@ export default t.router({
       });
 
       return data;
+    }),
+  share: protectedProcedure
+    .input(
+      z.object({
+        friendshipId: z.string(),
+        itemId: z.custom<ItemId>(),
+        quantity: z.number(),
+      })
+    )
+    .output(z.custom<Awaited<ReturnType<InventoryService['share']>>>())
+    .mutation(async ({ input, ctx: { db, user } }) => {
+      const friends = new FriendshipService(db);
+      const inventory = new InventoryService(db);
+      const friendship = await friends.get(input.friendshipId);
+
+      return inventory.share(user.id, {
+        friendId: friendship.friendId,
+        itemId: input.itemId,
+        quantity: input.quantity,
+      });
     }),
 });

@@ -17,7 +17,7 @@
             "schedule": "20 * * * *"
         },
         {
-            "path": "/api/cron/find-expiring-battles",
+            "path": "/api/cron/find-expired-battles",
             "schedule": "25 * * * *"
         },
         {
@@ -30,10 +30,6 @@
         },
         {
             "path": "/api/cron/publish-battles",
-            "schedule": "0 0 * * *"
-        },
-        {
-            "path": "/api/cron/refresh-rewards",
             "schedule": "0 0 * * *"
         },
         {

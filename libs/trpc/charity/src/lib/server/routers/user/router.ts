@@ -2,12 +2,12 @@ import { t } from '../../trpc';
 import battles from './battles';
 import codes from './codes';
 import destroy from './delete';
+import followers from './followers';
 import friends from './friends/router';
 import game from './game/router';
 import gamePlay from './gamePlay/router';
 import gameTime from './gameTime/router';
 import get from './get';
-import giftBoxes from './giftBoxes/router';
 import initialize from './initialize';
 import inventory from './inventory';
 import newsletter from './newsletter/router';
@@ -22,13 +22,13 @@ import vip from './vip/router';
 export default t.router({
   referrals,
   referrer,
-  giftBoxes,
   gamePlay,
   gameTime,
   notifications,
   profile,
   get,
   friends,
+  followers,
   raffles,
   game,
   vip,

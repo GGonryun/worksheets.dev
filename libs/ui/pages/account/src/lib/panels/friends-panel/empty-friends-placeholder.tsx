@@ -1,8 +1,7 @@
-import { Box, Button, Link, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import { ValentinesGift } from '@worksheets/icons/valentines';
 import { routes } from '@worksheets/routes';
 import { FriendsPanels } from '@worksheets/util/enums';
-import { MAX_DAILY_GIFT_BOX_SHARES } from '@worksheets/util/settings';
 
 export const EmptyFriendsPlaceholder = () => (
   <Box
@@ -27,12 +26,7 @@ export const EmptyFriendsPlaceholder = () => (
     </Typography>
     <Box my={1} mb={2} textAlign="center">
       <Typography variant="body2">
-        Share up to <b>{MAX_DAILY_GIFT_BOX_SHARES}</b> gift boxes with your
-        friends every day.
-      </Typography>
-      <Typography variant="body2">
-        <Link href={routes.help.vip.path()}>VIP Members</Link> can share 3x gift
-        boxes.
+        Share items with friends to earn more tokens.
       </Typography>
     </Box>
     <Button

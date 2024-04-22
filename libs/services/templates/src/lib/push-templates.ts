@@ -11,7 +11,6 @@ import pluralize from 'pluralize';
 import { ExtractTemplatePayload } from './types';
 import {
   ACCOUNT_FRIENDS_LIST_URL,
-  ACCOUNT_GIFT_BOXES_URL,
   ACCOUNT_INVENTORY_URL,
   ACCOUNT_QUESTS_URL,
   ACCOUNT_REFERRED_ACCOUNTS_URL,
@@ -99,7 +98,7 @@ export class PushTemplates {
   ): PushNotifyInput {
     return {
       type: 'SYSTEM',
-      text: `Welcome to Charity Games! We've added <a href="${ACCOUNT_QUESTS_URL}">${STARTING_TOKENS} tokens</a> and <a href="${ACCOUNT_GIFT_BOXES_URL}">${STARTING_GIFT_BOXES} gift boxes</a> to your account. Spend your tokens on <a href="${RAFFLES_URL}">raffles</a> or <a href="${GAMES_URL}">play games</a> to win more!`,
+      text: `Welcome to Charity Games! We've added <a href="${ACCOUNT_INVENTORY_URL}">${STARTING_TOKENS} tokens</a> and <a href="${ACCOUNT_INVENTORY_URL}">${STARTING_GIFT_BOXES} gift boxes</a> to your account. Spend your tokens on <a href="${RAFFLES_URL}">raffles</a> or <a href="${GAMES_URL}">play games</a> to win more!`,
       userIds: [opts.user.id],
     };
   }
@@ -109,18 +108,8 @@ export class PushTemplates {
   ): PushNotifyInput {
     return {
       type: 'FRIEND',
-      text: `Someone has used your <a href="${ACCOUNT_REFERRED_ACCOUNTS_URL}">referral code to sign up</a>. You have received <a href="${ACCOUNT_QUESTS_URL}">${TOKENS_PER_REFERRAL_ACCOUNT} extra tokens</a>.`,
+      text: `Someone has used your <a href="${ACCOUNT_REFERRED_ACCOUNTS_URL}">referral code to sign up</a>. You have received <a href="${ACCOUNT_INVENTORY_URL}">${TOKENS_PER_REFERRAL_ACCOUNT} extra tokens</a>.`,
       userIds: [opts.user.id],
-    };
-  }
-
-  static giftReceived(
-    opts: ExtractTemplatePayload<'gift-received'>
-  ): PushNotifyInput {
-    return {
-      userIds: [opts.recipient.id],
-      type: 'REWARD',
-      text: `<b>${opts.sender.username}</b> has sent you a gift box! Visit your <a href="${ACCOUNT_GIFT_BOXES_URL}">account</a> to claim your reward.`,
     };
   }
 

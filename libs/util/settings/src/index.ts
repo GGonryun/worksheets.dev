@@ -4,11 +4,9 @@ export * from './version';
 
 // game play
 export const BONUS_GAMES_MULTIPLIER = 2;
-// gift boxes
-export const TOKENS_IN_GIFT_BOX = 20;
-export const MAX_DAILY_GIFT_BOX_SHARES = 5;
 // starting values
 export const STARTING_TOKENS = 100;
+export const STARTING_SMALL_CHESTS = 5;
 export const STARTING_GIFT_BOXES = 5;
 export const STARTING_SWORDS = 5;
 // raffles

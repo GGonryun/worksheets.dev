@@ -6,11 +6,10 @@ import {
   PrismaTransactionalClient,
 } from '@worksheets/prisma';
 import { routes } from '@worksheets/routes';
-import { FriendsPanels } from '@worksheets/util/enums';
-import { assertNever, assertNotImplemented } from '@worksheets/util/errors';
+import { assertNever } from '@worksheets/util/errors';
 import {
-  MAX_DAILY_GIFT_BOX_SHARES,
   STARTING_GIFT_BOXES,
+  STARTING_SMALL_CHESTS,
   STARTING_SWORDS,
   STARTING_TOKENS,
 } from '@worksheets/util/settings';
@@ -18,14 +17,20 @@ import { daysFromNow, isExpired } from '@worksheets/util/time';
 import { InventoryItemSchema } from '@worksheets/util/types';
 import pluralize from 'pluralize';
 
-import { consumeLargeChest, consumeSmallChest } from './consume';
+import {
+  consumeLargeChest,
+  consumeSmallChest,
+  consumeWeaponCrate,
+} from './consume';
 import {
   unactivatable,
   unawardable,
   unconsumable,
   unincrementable,
+  unsharable,
   unusable,
 } from './errors';
+import { shareLargeGiftBox, shareLoveLetter, shareSmallGiftBox } from './share';
 
 export type IncrementOptions = {
   userId: string;
@@ -60,12 +65,17 @@ export type ActivateItemUseState = {
   warning: string;
 };
 
+export type ShareItemUseState = {
+  action: 'share';
+};
+
 export type ItemUseState =
   | PendingItemUseState
   | LoadingItemUseState
   | RedirectItemUseState
   | ConsumeItemUseState
-  | ActivateItemUseState;
+  | ActivateItemUseState
+  | ShareItemUseState;
 
 export class InventoryService {
   #db: PrismaClient | PrismaTransactionalClient;
@@ -165,8 +175,8 @@ export class InventoryService {
   async initializeUser(userId: string) {
     await Promise.all([
       this.increment(userId, '1', STARTING_TOKENS),
-      this.increment(userId, '2', STARTING_GIFT_BOXES),
-      this.increment(userId, '3', MAX_DAILY_GIFT_BOX_SHARES),
+      this.increment(userId, '2', STARTING_SMALL_CHESTS),
+      this.increment(userId, '3', STARTING_GIFT_BOXES),
       this.increment(userId, '1002', STARTING_SWORDS),
     ]);
   }
@@ -222,6 +232,7 @@ export class InventoryService {
       case '3':
       case '5':
       case '6':
+      case '7':
       case '1000':
       case '1001':
       case '1002':
@@ -278,6 +289,7 @@ export class InventoryService {
       case '3':
       case '5':
       case '6':
+      case '7':
       case '1000':
       case '1001':
       case '1002':
@@ -347,14 +359,11 @@ export class InventoryService {
       case '1':
         throw unusable(itemId);
 
+      case '7':
       case '6':
-        throw assertNotImplemented("Use for item '6'");
       case '3':
         return {
-          action: 'redirect',
-          url: routes.account.friends.path({
-            bookmark: FriendsPanels.SendGifts,
-          }),
+          action: 'share',
         };
       case '2':
       case '5':
@@ -430,6 +439,8 @@ export class InventoryService {
       case '1':
       case '3':
       case '4':
+      case '6':
+      case '7':
       case '1001':
       case '1002':
       case '1003':
@@ -439,18 +450,23 @@ export class InventoryService {
         return consumeSmallChest({
           userId,
           quantity,
+          itemId,
           inventory: this,
         });
       case '5':
         return consumeLargeChest({
           userId,
           quantity,
+          itemId,
           inventory: this,
         });
-      case '6':
-        throw assertNotImplemented("Consume for item '6'");
       case '1000':
-        throw assertNotImplemented("Consume for item '1000'");
+        return consumeWeaponCrate({
+          userId,
+          quantity,
+          itemId,
+          inventory: this,
+        });
       default:
         throw assertNever(itemId);
     }
@@ -500,6 +516,7 @@ export class InventoryService {
       case '3':
       case '5':
       case '6':
+      case '7':
       case '1000':
       case '1001':
       case '1002':
@@ -590,6 +607,7 @@ export class InventoryService {
       case '4':
       case '5':
       case '6':
+      case '7':
       case '1000':
         throw new TRPCError({
           code: 'BAD_REQUEST',
@@ -605,6 +623,35 @@ export class InventoryService {
         return 7;
       case '1004':
         return 8;
+      default:
+        throw assertNever(itemId);
+    }
+  }
+
+  /** Sharing an item with another user sends something to their inventory */
+  async share(
+    userId: string,
+    opts: { itemId: ItemId; quantity: number; friendId: string }
+  ) {
+    const { itemId } = opts;
+    switch (itemId) {
+      case '3':
+        return shareSmallGiftBox({ ...opts, itemId, userId, inventory: this });
+      case '6':
+        return shareLargeGiftBox({ ...opts, itemId, userId, inventory: this });
+      case '7':
+        return shareLoveLetter({ ...opts, itemId, userId, inventory: this });
+      case '0':
+      case '1':
+      case '2':
+      case '4':
+      case '5':
+      case '1000':
+      case '1001':
+      case '1002':
+      case '1003':
+      case '1004':
+        throw unsharable(itemId);
       default:
         throw assertNever(itemId);
     }

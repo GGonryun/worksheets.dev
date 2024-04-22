@@ -5,19 +5,12 @@ import { useSnackbar } from '@worksheets/ui/components/snackbar';
 import { LoadingScreen } from '@worksheets/ui/pages/loading';
 import { useBookmark } from '@worksheets/ui-core';
 import { FriendsPanels } from '@worksheets/util/enums';
-import { TOKENS_IN_GIFT_BOX } from '@worksheets/util/settings';
 import { parseTRPCClientErrorMessage } from '@worksheets/util/trpc';
 import { Friend } from '@worksheets/util/types';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 
-import {
-  AddFriendModal,
-  ClaimGiftModal,
-  RemoveFriendModal,
-  SendGiftModal,
-  SharedGiftSnackbarMessage,
-} from '../components';
+import { AddFriendModal, RemoveFriendModal } from '../components';
 import { FriendsPanel } from '../panels';
 
 export const genericUnexpectedErrorMessage = {
@@ -36,22 +29,19 @@ export const FriendsPanelContainer: React.FC<{ refreshTimestamp: number }> = ({
   const [removeFriendship, setRemoveFriendship] = useState<Friend | undefined>(
     undefined
   );
-  const [sendGiftFriendship, setSendGiftFriendship] = useState<
-    Friend | undefined
-  >(undefined);
+
   const [friendRequest, setFriendRequest] = useState<
     { username: string; code: string } | undefined
   >(undefined);
-  const [showClaimGiftBox, setShowClaimGiftBox] = useState(false);
 
   const friends = trpc.user.friends.list.useQuery(undefined);
-  const openGiftBox = trpc.user.giftBoxes.open.useMutation();
+  const followers = trpc.user.followers.list.useQuery(undefined);
+  const friendCode = trpc.user.referrals.code.useQuery(undefined);
 
   const removeFriend = trpc.user.friends.remove.useMutation();
   const favoriteFriend = trpc.user.friends.favorite.useMutation();
   const addFriend = trpc.user.friends.add.useMutation();
   const findFriend = trpc.user.friends.find.useMutation();
-  const sendGift = trpc.user.friends.sendGift.useMutation();
 
   const giftBoxes = trpc.user.inventory.quantity.useQuery('2', {
     retry: false,
@@ -134,60 +124,35 @@ export const FriendsPanelContainer: React.FC<{ refreshTimestamp: number }> = ({
     }
   };
 
-  const handleSendGift = async () => {
-    if (!sendGiftFriendship) return;
-    try {
-      await sendGift.mutateAsync({
-        friendshipId: sendGiftFriendship.friendshipId,
-      });
-      await friends.refetch();
+  if (
+    friends.isLoading ||
+    giftBoxes.isLoading ||
+    followers.isLoading ||
+    friendCode.isLoading
+  )
+    return <LoadingScreen />;
 
-      snackbar.success(
-        <SharedGiftSnackbarMessage username={sendGiftFriendship.username} />
-      );
-    } catch (error) {
-      handleError(error);
-    }
-  };
-
-  const handleClaimGiftBox = () => {
-    openGiftBox
-      .mutateAsync()
-      .then((result) => {
-        giftBoxes.refetch();
-        setShowClaimGiftBox(true);
-      })
-      .catch((error) => {
-        snackbar.error(parseTRPCClientErrorMessage(error));
-      });
-  };
-
-  const handleCloseClaimGiftBox = () => {
-    setShowClaimGiftBox(false);
-
-    snackbar.success('You claimed a gift box!');
-  };
-
-  if (friends.isLoading || giftBoxes.isLoading) return <LoadingScreen />;
-
-  if (friends.error || giftBoxes.isError) return <ErrorComponent />;
+  if (
+    friends.error ||
+    giftBoxes.isError ||
+    followers.isError ||
+    friendCode.isError
+  )
+    return <ErrorComponent />;
 
   return (
     <>
       <FriendsPanel
         addFriendCode={addFriendCode}
         bookmark={bookmark}
-        friends={friends.data.friends}
-        followers={friends.data.followers}
+        friends={friends.data}
+        followers={followers.data}
         refreshTimestamp={refreshTimestamp}
-        giftsRemaining={friends.data.giftsRemaining}
         giftBoxes={giftBoxes.data}
-        friendCode={friends.data.code}
-        onSendGift={(friend) => setSendGiftFriendship(friend)}
+        friendCode={friendCode.data}
         onRemove={(friend) => setRemoveFriendship(friend)}
         onFavorite={handleFavoriteFriend}
         onAdd={handleFindFriend}
-        onClaimGiftBox={handleClaimGiftBox}
       />
       <RemoveFriendModal
         open={Boolean(removeFriendship)}
@@ -201,16 +166,6 @@ export const FriendsPanelContainer: React.FC<{ refreshTimestamp: number }> = ({
           setFriendRequest(undefined);
         }}
         onAdd={handleAddFriend}
-      />
-      <SendGiftModal
-        open={Boolean(sendGiftFriendship)}
-        onSend={handleSendGift}
-        onClose={() => setSendGiftFriendship(undefined)}
-      />
-      <ClaimGiftModal
-        open={showClaimGiftBox}
-        onClose={handleCloseClaimGiftBox}
-        amount={TOKENS_IN_GIFT_BOX}
       />
     </>
   );

@@ -30,9 +30,6 @@ export const AddFriendsSection: React.FC<{
   const friendsListHref = routes.account.friends.path({
     bookmark: FriendsPanels.FriendsList,
   });
-  const shareGiftsHref = routes.account.friends.path({
-    bookmark: FriendsPanels.SendGifts,
-  });
 
   const [username, setUsername] = useState(props.addFriendCode || '');
   const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -130,10 +127,6 @@ export const AddFriendsSection: React.FC<{
           <>
             Manage your friends in the{' '}
             <Link href={friendsListHref}>Friends List</Link>.
-          </>,
-          <>
-            <Link href={shareGiftsHref}>Send Gift Boxes</Link> to your friends
-            and earn a gift box for yourself.
           </>,
         ]}
       />

@@ -14,7 +14,6 @@ export enum HelpTokensQuestions {
   Description = 'description',
   HowToEarn = 'how-to-earn',
   Purpose = 'purpose',
-  GiftBoxes = 'gift-boxes',
   Referrals = 'referrals',
   HowMuchCanIEarn = 'how-much-can-i-earn',
 }
@@ -59,7 +58,7 @@ export enum HelpFriendsQuestions {
   BestFriends = 'best-friends',
   Inviting = 'inviting',
   WhyInvite = 'why-invite',
-  SendingGifts = 'sending-gifts',
+  Sharing = 'sharing',
 }
 
 export enum HelpCommonQuestions {
