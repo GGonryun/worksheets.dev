@@ -1,7 +1,7 @@
 import { routes } from '@worksheets/routes';
 import { trpc } from '@worksheets/trpc-charity';
+import { ErrorComponent } from '@worksheets/ui/components/errors';
 import { useSnackbar } from '@worksheets/ui/components/snackbar';
-import { ErrorComponent } from '@worksheets/ui/pages/errors';
 import { LoadingScreen } from '@worksheets/ui/pages/loading';
 import { useBookmark } from '@worksheets/ui-core';
 import { FriendsPanels } from '@worksheets/util/enums';

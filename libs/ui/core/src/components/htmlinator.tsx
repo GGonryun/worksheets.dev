@@ -23,7 +23,8 @@ export const HTMLinator: FC<
       sx={{
         fontFamily: (theme) => theme.typography.mPlus1p.fontFamily,
         '& p, ul': {
-          margin: 0,
+          marginTop: 1,
+          marginBottom: 1.5,
         },
         '& h6, h5, h4, h3, h2, h1': {
           marginTop: 2,

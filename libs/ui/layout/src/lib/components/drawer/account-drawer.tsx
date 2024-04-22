@@ -106,7 +106,7 @@ const UserContent: React.FC<{
             text={`${tokens ?? 0} Tokens`}
             Icon={LocalActivityOutlined}
             color={'primary'}
-            href={routes.account.quests.path()}
+            href={routes.account.inventory.path()}
           />
           <ResourceLink
             text={`${notifications} ${pluralize(
@@ -180,7 +180,7 @@ const UserContent: React.FC<{
           },
           {
             href: routes.account.inventory.path({
-              bookmark: InventoryPanels.Participation,
+              bookmark: InventoryPanels.RaffleParticipation,
             }),
             label: 'Participation',
             icon: <MilitaryTechOutlined />,

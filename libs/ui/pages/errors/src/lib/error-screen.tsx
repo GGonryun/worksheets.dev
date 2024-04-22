@@ -1,8 +1,7 @@
 import { Paper } from '@mui/material';
+import { ErrorComponent } from '@worksheets/ui/components/errors';
 import { AbsolutelyCentered } from '@worksheets/ui-core';
 import React from 'react';
-
-import { ErrorComponent } from './error-component';
 
 export const ErrorScreen: React.FC<{
   message?: string;

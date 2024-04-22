@@ -70,3 +70,10 @@ export const RAFFLE_URL = (raffleId: number) =>
       raffleId,
     },
   });
+
+export const BATTLE_URL = (battleId: number) =>
+  routes.battle.url({
+    params: {
+      battleId,
+    },
+  });

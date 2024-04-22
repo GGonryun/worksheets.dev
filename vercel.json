@@ -17,11 +17,19 @@
             "schedule": "20 * * * *"
         },
         {
+            "path": "/api/cron/find-expiring-battles",
+            "schedule": "25 * * * *"
+        },
+        {
             "path": "/api/cron/publish-games",
             "schedule": "0 0 * * *"
         },
         {
             "path": "/api/cron/publish-raffles",
+            "schedule": "0 0 * * *"
+        },
+        {
+            "path": "/api/cron/publish-battles",
             "schedule": "0 0 * * *"
         },
         {

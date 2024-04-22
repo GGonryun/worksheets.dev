@@ -67,6 +67,7 @@ export type QuestFilterOptions = {
   categories: QuestCategory[];
 };
 
+// TODO: move to prisma.
 export const QUESTS = {
   PLAY_GAME_INFINITE: {
     order: 0,
@@ -104,7 +105,6 @@ export const QUESTS = {
     },
     input: {},
   },
-
   PLAY_GAME_WEEKLY_25: {
     order: 103,
     id: 'PLAY_GAME_WEEKLY_25',
@@ -123,7 +123,6 @@ export const QUESTS = {
     },
     input: {},
   },
-
   PLAY_MINUTES_INFINITE: {
     order: 1,
     id: 'PLAY_MINUTES_INFINITE',

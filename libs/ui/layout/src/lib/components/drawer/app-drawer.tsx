@@ -7,6 +7,7 @@ import {
   LocalFireDepartmentOutlined,
   NewReleasesOutlined,
   ShuffleOutlined,
+  SportsMmaOutlined,
   VideogameAssetOutlined,
 } from '@mui/icons-material';
 import Divider from '@mui/material/Divider';
@@ -79,6 +80,11 @@ export const AppDrawer: React.FC<WithDrawerProps<{ connected: boolean }>> = ({
             href: routes.raffles.path(),
             icon: <LocalActivityOutlined />,
             label: 'Raffles',
+          },
+          {
+            href: routes.battles.path(),
+            icon: <SportsMmaOutlined />,
+            label: 'Boss Battles',
           },
         ]}
       />

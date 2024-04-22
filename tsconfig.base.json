@@ -26,6 +26,7 @@
       "@worksheets/data/developers": ["libs/data/developers/src/index.ts"],
       "@worksheets/data/games": ["libs/data/games/src/index.ts"],
       "@worksheets/data/items": ["libs/data/items/src/index.ts"],
+      "@worksheets/data/mobs": ["libs/data/mobs/src/index.ts"],
       "@worksheets/data/raffles": ["libs/data/raffles/src/index.ts"],
       "@worksheets/data/sponsors": ["libs/data/sponsors/src/index.ts"],
       "@worksheets/data/tags": ["libs/data/tags/src/index.ts"],
@@ -36,6 +37,10 @@
       "@worksheets/icons/companies": ["libs/icons/companies/src/index.ts"],
       "@worksheets/icons/dazzle": ["libs/icons/dazzle/src/index.ts"],
       "@worksheets/icons/ecommerce": ["libs/icons/ecommerce/src/index.ts"],
+      "@worksheets/icons/font-awesome-solid": [
+        "libs/icons/font-awesome-solid/src/index.ts"
+      ],
+      "@worksheets/icons/halloween": ["libs/icons/halloween/src/index.ts"],
       "@worksheets/icons/hotel": ["libs/icons/hotel/src/index.ts"],
       "@worksheets/icons/learning": ["libs/icons/learning/src/index.ts"],
       "@worksheets/icons/native": ["libs/icons/native/src/index.ts"],
@@ -59,6 +64,7 @@
       "@worksheets/services/inventory": [
         "libs/services/inventory/src/index.ts"
       ],
+      "@worksheets/services/mobs": ["libs/services/mobs/src/index.ts"],
       "@worksheets/services/newsletter": [
         "libs/services/newsletter/src/index.ts"
       ],
@@ -93,6 +99,9 @@
       ],
       "@worksheets/ui/components/drawer": [
         "libs/ui/components/drawer/src/index.ts"
+      ],
+      "@worksheets/ui/components/errors": [
+        "libs/ui/components/errors/src/index.ts"
       ],
       "@worksheets/ui/components/flex": [
         "libs/ui/components/flex/src/index.ts"
@@ -216,6 +225,7 @@
       "@worksheets/ui/pages/marketing": [
         "libs/ui/pages/marketing/src/index.ts"
       ],
+      "@worksheets/ui/pages/mobs": ["libs/ui/pages/mobs/src/index.ts"],
       "@worksheets/ui/pages/newsletter": [
         "libs/ui/pages/newsletter/src/index.ts"
       ],
@@ -242,16 +252,19 @@
       "@worksheets/util/auth": ["libs/util/auth/src/index.ts"],
       "@worksheets/util/blog": ["libs/util/blog/src/index.ts"],
       "@worksheets/util/cron": ["libs/util/cron/src/index.ts"],
+      "@worksheets/util/crypto": ["libs/util/crypto/src/index.ts"],
       "@worksheets/util/data": ["libs/util/data/src/index.ts"],
       "@worksheets/util/enums": ["libs/util/enums/src/index.ts"],
       "@worksheets/util/errors": ["libs/util/errors/src/index.ts"],
       "@worksheets/util/html": ["libs/util/html/src/index.ts"],
       "@worksheets/util/misc": ["libs/util/misc/src/index.ts"],
       "@worksheets/util/numbers": ["libs/util/numbers/src/index.ts"],
+      "@worksheets/util/objects": ["libs/util/objects/src/index.ts"],
       "@worksheets/util/seeding": ["libs/util/seeding/src/index.ts"],
       "@worksheets/util/seo": ["libs/util/seo/src/index.ts"],
       "@worksheets/util/settings": ["libs/util/settings/src/index.ts"],
       "@worksheets/util/strings": ["libs/util/strings/src/index.ts"],
+      "@worksheets/util/styles": ["libs/util/styles/src/index.ts"],
       "@worksheets/util/time": ["libs/util/time/src/index.ts"],
       "@worksheets/util/trpc": ["libs/util/trpc/src/index.ts"],
       "@worksheets/util/types": ["libs/util/types/src/index.ts"],

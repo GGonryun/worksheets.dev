@@ -3,7 +3,7 @@ import { printShortDate } from '@worksheets/util/time';
 import pluralize from 'pluralize';
 
 import { ExtractTemplatePayload } from './types';
-import { GAME_URL } from './urls';
+import { BATTLE_URL, GAME_URL } from './urls';
 
 const RAFFLE_URL = (raffleId: number) =>
   routes.raffle.url({ params: { raffleId } });
@@ -14,7 +14,7 @@ export class TwitterTemplates {
     }!\n\n${GAME_URL(opts.id)}\n\n#HTML5Games #FreeGames #BrowserGames`;
   }
   static newRaffle(opts: ExtractTemplatePayload<'new-raffle'>) {
-    return `💵🎊 GIVEAWAY 🎊💵\n🎁 Enter to win a ${opts.item.name}!\n\n🏆 ${
+    return `🎊 GIVEAWAY 🎊\n🎁 Enter to win a ${opts.item.name}!\n\n🏆 ${
       opts.numWinners
     } lucky ${pluralize(
       'winner',
@@ -32,5 +32,23 @@ export class TwitterTemplates {
       'participant',
       opts.participants.length
     )}. View results: ${RAFFLE_URL(opts.id)}`;
+  }
+
+  static newBattle(opts: ExtractTemplatePayload<'new-battle'>) {
+    return `🔥 A new battle has started! 🔥\n\n🗡️ Fight the ${
+      opts.mobName
+    } for a chance to win one of ${opts.loot} items!\n\n${BATTLE_URL(
+      opts.battleId
+    )}\n\n#BossBattle #BrowserGames`;
+  }
+
+  static battleCompleted(opts: ExtractTemplatePayload<'battle-completed'>) {
+    return `⚔️ Battle #${opts.mob.battleId} has ended! ⚔️\n\n${
+      opts.mob.name
+    } was defeated by ${opts.mvp}. ${
+      opts.mob.loot
+    } items were found!\n\n${BATTLE_URL(
+      opts.mob.battleId
+    )}\n\n#BossBattle #BrowserGames`;
   }
 }

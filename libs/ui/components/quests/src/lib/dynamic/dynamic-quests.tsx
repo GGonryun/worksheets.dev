@@ -1,9 +1,9 @@
 import { Button, Typography } from '@mui/material';
 import { CharityGamesLogo } from '@worksheets/icons/native';
 import { trpc } from '@worksheets/trpc-charity';
+import { ErrorComponent } from '@worksheets/ui/components/errors';
 import { Column } from '@worksheets/ui/components/flex';
 import { LoadingBar } from '@worksheets/ui/components/loading';
-import { ErrorComponent } from '@worksheets/ui/pages/errors';
 import { QuestFilterOptions } from '@worksheets/util/types';
 import dynamic from 'next/dynamic';
 import React from 'react';

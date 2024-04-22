@@ -1,4 +1,5 @@
 import { EmailService, SendEmailInput } from '@worksheets/services/email';
+import { randomUUID } from '@worksheets/util/crypto';
 import { daysFromNow, printDateTime } from '@worksheets/util/time';
 import { compact } from 'lodash';
 
@@ -38,7 +39,7 @@ const claimHelpLinks = [
 export class EmailTemplates {
   static wonRaffle(opts: ExtractTemplatePayload<'won-raffle'>): SendEmailInput {
     return {
-      id: crypto.randomUUID(),
+      id: randomUUID(),
       to: [opts.user.email],
       subject: `You won a raffle for ${opts.item.name}`,
       html: EmailService.template({
@@ -64,7 +65,7 @@ export class EmailTemplates {
     opts: ExtractTemplatePayload<'expiring-item-reminder'>
   ): SendEmailInput {
     return {
-      id: crypto.randomUUID(),
+      id: randomUUID(),
       to: [opts.user.email],
       subject: `An item in your inventory is expiring soon!`,
       html: EmailService.template({
@@ -82,7 +83,7 @@ export class EmailTemplates {
     opts: ExtractTemplatePayload<'activation-code-redeemed'>
   ): SendEmailInput {
     return {
-      id: crypto.randomUUID(),
+      id: randomUUID(),
       to: [opts.user.email],
       subject: `Your activation code for ${opts.item.name}`,
       html: EmailService.template({
@@ -107,7 +108,7 @@ export class EmailTemplates {
     email: string;
   }): SendEmailInput {
     return {
-      id: crypto.randomUUID(),
+      id: randomUUID(),
       subject: 'Confirm your Charity Games newsletter subscription',
       html: EmailService.template({
         title: 'Welcome to the Charity Games Newsletter!',

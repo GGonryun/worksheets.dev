@@ -51,6 +51,8 @@ model User {
   // codes
   activationCode   ActivationCode[]
   redemptionCodes  RedemptionCode[]
+  // battles
+  battles          BattleParticipation[]
 }
 
 model Account {
@@ -125,6 +127,7 @@ enum ItemType {
   CURRENCY
   STEAM_KEY
   CONSUMABLE
+  SHARABLE
   COMBAT
   ETCETERA
 }
@@ -144,6 +147,7 @@ model Item {
   raffles         Raffle[]
   activationCodes ActivationCode[]
   redemptionCodes RedemptionCode[]
+  loot            Loot[]
 }
 
 enum NewsletterTopic {
@@ -482,6 +486,7 @@ enum NotificationType {
   INVENTORY
   REWARD
   GAME
+  BATTLE
 }
 
 model Notification {
@@ -522,4 +527,120 @@ model QuestProgress {
   questId   String
 
   @@unique([userId, questId])
+}
+
+enum MobRace {
+  FORMLESS
+  UNDEAD
+  BEAST
+  PLANT
+  INSECT
+  FISH
+  DEMON
+  MACHINE
+  HUMANOID
+  ANGEL
+  DRAGON
+}
+
+enum MobElement {
+  NEUTRAL_1
+  WATER_1
+  EARTH_1
+  FIRE_1
+  WIND_1
+  POISON_1
+  HOLY_1
+  SHADOW_1
+  GHOST_1
+  UNDEAD_1
+}
+
+enum MobSize {
+  SMALL
+  MEDIUM
+  LARGE
+}
+
+// used to link an item and quantity to a mob, participation, user, quest, etc.
+model Loot {
+  id                    Int                  @id @default(autoincrement())
+  itemId                String
+  item                  Item                 @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  mobId                 Int?
+  mob                   Mob?                 @relation(fields: [mobId], references: [id], onDelete: Cascade)
+  quantity              Int
+  chance                Float
+  mvp                   Boolean              @default(false)
+  battleParticipationId Int?
+  battleParticipation   BattleParticipation? @relation(fields: [battleParticipationId], references: [id], onDelete: Cascade)
+
+  @@unique([itemId, battleParticipationId])
+  @@unique([itemId, mobId])
+}
+
+model Mob {
+  id          Int        @id @default(autoincrement())
+  version     Int        @default(0)
+  name        String
+  imageUrl    String
+  description String
+  maxHp       Int
+  level       Int
+  race        MobRace
+  element     MobElement
+  size        MobSize
+  attack      Int
+  defense     Int
+  baseExp     Int
+  mvpExp      Int
+  battles     Battle[]
+  loot        Loot[]
+}
+
+enum BattleStatus {
+  PENDING
+  ACTIVE
+  COMPLETE
+  CANCELLED
+}
+
+model Battle {
+  id            Int                   @id @default(autoincrement())
+  status        BattleStatus
+  mobId         Int
+  mob           Mob                   @relation(fields: [mobId], references: [id], onDelete: Cascade)
+  createdAt     DateTime              @default(now())
+  updatedAt     DateTime              @updatedAt
+  publishAt     DateTime              @default(now())
+  damage        Int
+  participation BattleParticipation[]
+}
+
+enum MvpReason {
+  MOST_DAMAGE
+  MOST_STRIKES
+  LAST_HIT
+}
+
+model BattleParticipation {
+  id        Int        @id @default(autoincrement())
+  damage    Int // how much damage the user has done to the mob
+  strikes   Int // how many times the user has attacked the mob
+  battleId  Int
+  battle    Battle     @relation(fields: [battleId], references: [id], onDelete: Cascade)
+  // the loot that the user has received from the mob, a user can get multiple items from a mob.
+  // a second query will be needed to get the item details.
+  loot      Loot[]
+  // the mvp can be inferred from the loot distribution but it's easier to simply award the user with the most damage or
+  // the last hit the mvp status by toggling this field. the most damage is calculated using the damage field, and the 
+  // last hit is calculated using the "struckAt" field.
+  isMvp     MvpReason?
+  userId    String
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  struckAt  DateTime
+
+  @@unique([userId, battleId])
 }

@@ -86,7 +86,7 @@ const arcadeSquareButtonStyle = (tx: any) => {
     //small size
     ...(tx.ownerState.size === 'small' && {
       borderRadius: 8,
-      padding: tx.theme.spacing(1),
+      padding: tx.theme.spacing(0.8),
       fontSize: tx.theme.typography.body3.fontSize,
     }),
     //medium size

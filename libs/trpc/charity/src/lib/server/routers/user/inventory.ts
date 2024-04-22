@@ -16,10 +16,11 @@ export default t.router({
       return inventory.quantity(user.id, input);
     }),
   items: protectedProcedure
+    .input(z.custom<Parameters<InventoryService['items']>[1]>())
     .output(z.array(inventoryItemSchema))
-    .query(async ({ ctx: { db, user } }) => {
+    .query(async ({ input: types, ctx: { db, user } }) => {
       const inventory = new InventoryService(db);
-      return inventory.items(user.id);
+      return inventory.items(user.id, types);
     }),
   use: protectedProcedure
     .input(z.custom<ItemId>())

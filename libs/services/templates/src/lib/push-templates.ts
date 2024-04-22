@@ -15,6 +15,7 @@ import {
   ACCOUNT_INVENTORY_URL,
   ACCOUNT_QUESTS_URL,
   ACCOUNT_REFERRED_ACCOUNTS_URL,
+  BATTLE_URL,
   DEVELOPER_URL,
   GAME_URL,
   GAMES_URL,
@@ -45,6 +46,19 @@ export class PushTemplates {
         'winner',
         opts.numWinners
       )} will be chosen on ${printShortDate(opts.expiresAt)}!`,
+    };
+  }
+
+  static newBattle(
+    opts: ExtractTemplatePayload<'new-battle'>
+  ): PushNotifyInput {
+    return {
+      type: 'BATTLE',
+      text: `A new battle has started! <a href="${BATTLE_URL(
+        opts.battleId
+      )}">Fight the ${opts.mobName}</a> for a chance to win ${
+        opts.loot
+      } items!`,
     };
   }
 
@@ -132,6 +146,48 @@ export class PushTemplates {
         'token',
         opts.quest.reward
       )}! <a href="${ACCOUNT_QUESTS_URL}">Find more quests</a>.`,
+    };
+  }
+
+  static battleCompleted(
+    opts: ExtractTemplatePayload<'battle-completed'>
+  ): PushNotifyInput {
+    return {
+      userIds: opts.userIds,
+      type: 'BATTLE',
+      text: `The ${
+        opts.mob.name
+      } boss has been defeated and loot has been distributed! <a href="${BATTLE_URL(
+        opts.mob.battleId
+      )}">View results</a>.`,
+    };
+  }
+
+  static battleLootAwarded(
+    opts: ExtractTemplatePayload<'battle-loot-awarded'>
+  ): PushNotifyInput {
+    return {
+      userIds: opts.userIds,
+      type: 'BATTLE',
+      text: `You have been awarded loot for the battle against the <a href="${BATTLE_URL(
+        opts.mob.battleId
+      )}">${
+        opts.mob.name
+      }</a>! <a href="${ACCOUNT_INVENTORY_URL}">View your inventory</a>.`,
+    };
+  }
+
+  static battleMvpAwarded(
+    opts: ExtractTemplatePayload<'battle-mvp-awarded'>
+  ): PushNotifyInput {
+    return {
+      userIds: [opts.userId],
+      type: 'BATTLE',
+      text: `You have been awarded the MVP for the battle against the <a href="${BATTLE_URL(
+        opts.mob.battleId
+      )}">${
+        opts.mob.name
+      }</a>! <a href="${ACCOUNT_INVENTORY_URL}">View your inventory</a>.`,
     };
   }
 }

@@ -18,6 +18,7 @@ export enum SettingsPanels {
 
 export enum InventoryPanels {
   Items = 'items',
-  Participation = 'participation',
+  RaffleParticipation = 'raffles',
+  BattleParticipation = 'battles',
   ActivationCodes = 'activation-codes',
 }

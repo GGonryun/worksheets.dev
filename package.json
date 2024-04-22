@@ -25,6 +25,7 @@
     "seed:games:production": "dotenv -e .env.production -- nx serve prisma-games",
     "seed:raffles:production": "dotenv -e .env.production -- nx serve prisma-raffles",
     "seed:items:production": "dotenv -e .env.production -- nx serve prisma-items",
+    "rollback": "dotenv -e .env.production -- prisma migrate resolve --applied 20240414204300_premium_raffles",
     "psql:local": "psql -h 192.168.0.26 -p 5432 -U prisma",
     "docker:psql:local": "docker run --name postgresql -e POSTGRES_PASSWORD=prisma -e POSTGRES_USER=prisma -e POSTGRES_DB=prisma -d -p 5432:5432 postgres",
     "docker:compose:up": "docker-compose up -d"
@@ -81,6 +82,7 @@
     "tslib": "^2.3.0",
     "twitter-api-v2": "^1.16.0",
     "universal-cookie": "^6.1.1",
+    "uuid": "^9.0.1",
     "zod": "^3.21.4"
   },
   "devDependencies": {

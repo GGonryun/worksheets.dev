@@ -1,6 +1,7 @@
 import { routes } from '@worksheets/routes';
 import { OpenGraphProps, TWITTER_SEO } from '@worksheets/util/seo';
 import {
+  BossBattleSchema,
   DeveloperSchema,
   RaffleSchema,
   SerializableGameSchema,
@@ -118,6 +119,18 @@ export const categorySeo = (
     path: routes.category.path({ params: { tagId: tag.id } }),
     title: `${tag.name} Category`,
     description: `Play ${tag.name} online for free on Charity Games. The easiest way to make a difference. Donate to charity by playing ${tag.name}.`,
+  });
+export const bossBattlesSeo = createSeo({
+  path: routes.battles.path(),
+  title: `Boss Battles`,
+  description: `Join boss battles on Charity Games. Team up with other players to defeat powerful bosses and earn rewards.`,
+});
+
+export const bossBattleSeo = (battle: BossBattleSchema): NextSeoProps =>
+  createSeo({
+    path: routes.battle.path({ params: { battleId: battle.battleId } }),
+    title: `${battle.name} Boss Battle #${battle.battleId}`,
+    description: `Join the ${battle.name} boss battle on Charity Games. Team up with other players to defeat a powerful boss and earn rewards.`,
   });
 
 export const developerSeo = (developer: DeveloperSchema): NextSeoProps =>
@@ -371,6 +384,13 @@ export const helpDevelopersSeo = createSeo({
   title: 'Developer Help Center',
   description:
     'Find answers to questions about contributing games to the Charity Games Platform. Turn your games into donations.',
+});
+
+export const helpMobsSeo = createSeo({
+  path: routes.help.mobs.path(),
+  title: 'Boss Fights',
+  description:
+    'Boss fights are global events where you team up with other players to defeat a powerful boss and earn rewards.',
 });
 
 export const rafflesSeo = createSeo({

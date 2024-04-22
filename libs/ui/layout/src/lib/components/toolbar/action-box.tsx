@@ -11,19 +11,6 @@ export const ActionBox = () => {
   return (
     <Box display="flex" gap={1} alignItems="center" pb={1}>
       <Button
-        href={routes.play.url()}
-        variant="arcade"
-        color="primary"
-        size={isMedium ? 'small' : 'medium'}
-        sx={{
-          display: isTiny ? 'none' : 'flex',
-          width: isSmall ? 'unset' : 164,
-          ...buttonBoxShadow('primary'),
-        }}
-      >
-        All Games
-      </Button>
-      <Button
         href={routes.category.url({
           params: {
             tagId: 'popular',
@@ -33,8 +20,8 @@ export const ActionBox = () => {
         color="error"
         size={isMedium ? 'small' : 'medium'}
         sx={{
-          display: isMedium ? 'none' : 'flex',
-          width: 164,
+          display: isTiny ? 'none' : 'flex',
+          width: isSmall ? 'unset' : 170,
           ...buttonBoxShadow('error'),
         }}
       >
@@ -50,12 +37,25 @@ export const ActionBox = () => {
         color="error"
         size={isMedium ? 'small' : 'medium'}
         sx={{
-          display: isSmall ? 'none' : 'flex',
-          width: 164,
+          display: isMedium ? 'none' : 'flex',
+          width: 170,
           ...buttonBoxShadow('error'),
         }}
       >
-        New Games
+        New Games{' '}
+      </Button>
+      <Button
+        href={routes.battles.url()}
+        variant="arcade"
+        color="primary"
+        size={isMedium ? 'small' : 'medium'}
+        sx={{
+          display: isSmall ? 'none' : 'flex',
+          width: 170,
+          ...buttonBoxShadow('primary'),
+        }}
+      >
+        Boss Battles
       </Button>
       <Button
         href={routes.raffles.url()}
@@ -64,7 +64,7 @@ export const ActionBox = () => {
         size={isMedium ? 'small' : 'medium'}
         sx={{
           display: isTiny ? 'none' : 'flex',
-          width: isSmall ? 'unset' : 164,
+          width: isSmall ? 'unset' : 170,
           ...buttonBoxShadow('success'),
         }}
       >
