@@ -22,9 +22,8 @@
     "prisma:migrate:production": "dotenv -e .env.production -- npx prisma migrate deploy",
     "prisma:push:local": "dotenv -e .env.local -- npx prisma db push",
     "prisma:push:production": "dotenv -e .env.production -- npx prisma db push",
-    "seed:games:production": "dotenv -e .env.production -- nx serve prisma-games",
-    "seed:raffles:production": "dotenv -e .env.production -- nx serve prisma-raffles",
-    "seed:items:production": "dotenv -e .env.production -- nx serve prisma-items",
+    "prisma:seed:local": "dotenv -e .env.local -- nx serve prisma-seed",
+    "prisma:seed:production": "dotenv -e .env.production -- nx serve prisma-seed",
     "psql:local": "psql -h 192.168.0.26 -p 5432 -U prisma",
     "docker:psql:local": "docker run --name postgresql -e POSTGRES_PASSWORD=prisma -e POSTGRES_USER=prisma -e POSTGRES_DB=prisma -d -p 5432:5432 postgres",
     "docker:compose:up": "docker-compose up -d"

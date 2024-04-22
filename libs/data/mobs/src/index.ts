@@ -8,7 +8,7 @@ export const MOBS = [
     description:
       'A gelatinous monster that is usually found in tall grass. It will attack anything that moves.',
     imageUrl: 'https://cdn.charity.games/_mobs/jeeble.png',
-    maxHp: 1000,
+    maxHp: 250,
     level: 1,
     race: MobRace.FORMLESS,
     element: MobElement.WATER_1,
@@ -18,7 +18,9 @@ export const MOBS = [
     baseExp: 100,
     mvpExp: 100,
     loot: [
-      { itemId: '2', quantity: 5, chance: 1, mvp: false },
+      { itemId: '2', quantity: 2, chance: 1, mvp: false },
+      { itemId: '3', quantity: 2, chance: 1, mvp: false },
+      { itemId: '6', quantity: 2, chance: 1, mvp: false },
       { itemId: '5', quantity: 1, chance: 1, mvp: true },
     ],
   },
@@ -29,7 +31,7 @@ export const MOBS = [
     imageUrl: 'https://cdn.charity.games/_mobs/dab.png',
     description:
       'A small larva monster that is usually found in dark places. It is very sensitive to light and heat.',
-    maxHp: 1000,
+    maxHp: 300,
     level: 2,
     race: MobRace.INSECT,
     element: MobElement.EARTH_1,

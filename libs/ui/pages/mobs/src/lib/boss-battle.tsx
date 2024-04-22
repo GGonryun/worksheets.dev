@@ -743,7 +743,9 @@ const ItemSelection: React.FC<{
           <Button
             variant="arcade"
             color="error"
-            disabled={!selectedItems.length || damage.isError}
+            disabled={
+              !selectedItems.length || damage.isError || strike.isLoading
+            }
             startIcon={
               selectedItems.length && !damage.isError ? <Sword /> : undefined
             }
