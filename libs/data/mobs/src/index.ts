@@ -18,9 +18,9 @@ export const MOBS = [
     baseExp: 100,
     mvpExp: 100,
     loot: [
-      { itemId: '2', quantity: 2, chance: 1, mvp: false },
-      { itemId: '3', quantity: 2, chance: 1, mvp: false },
-      { itemId: '6', quantity: 2, chance: 1, mvp: false },
+      { itemId: '2', quantity: 1, chance: 1, mvp: false },
+      { itemId: '3', quantity: 1, chance: 1, mvp: false },
+      { itemId: '6', quantity: 1, chance: 1, mvp: false },
       { itemId: '5', quantity: 1, chance: 1, mvp: true },
     ],
   },
@@ -41,7 +41,7 @@ export const MOBS = [
     baseExp: 200,
     mvpExp: 200,
     loot: [
-      { itemId: '2', quantity: 5, chance: 1, mvp: false },
+      { itemId: '2', quantity: 3, chance: 1, mvp: false },
       { itemId: '5', quantity: 1, chance: 1, mvp: true },
     ],
   },
