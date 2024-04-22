@@ -4,11 +4,17 @@ import { NotificationsService } from '@worksheets/services/notifications';
 import { createCronJob } from '@worksheets/util/cron';
 
 export default createCronJob(async () => {
-  const processed = await prisma.$transaction(async (tx) => {
-    const mobs = new MobsService(tx);
+  const processed = await prisma.$transaction(
+    async (tx) => {
+      const mobs = new MobsService(tx);
 
-    return await mobs.processExpiredBattles();
-  });
+      return await mobs.processExpiredBattles();
+    },
+    {
+      maxWait: 10000, // default: 2000
+      timeout: 30000, // default: 5000
+    }
+  );
 
   console.info('Processed battles:', processed.length);
 
