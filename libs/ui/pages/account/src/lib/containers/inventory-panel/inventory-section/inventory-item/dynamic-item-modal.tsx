@@ -152,6 +152,7 @@ const ConsumeItem: React.FC<{
   const utils = trpc.useUtils();
   const consume = trpc.user.inventory.consume.useMutation();
   const [quantity, setQuantity] = React.useState(1);
+  const [consuming, setConsuming] = React.useState(false);
 
   const handleSetQuantity = (num: number) => {
     if (num < 1) return;
@@ -161,6 +162,7 @@ const ConsumeItem: React.FC<{
 
   const handleConsumption = async () => {
     try {
+      setConsuming(true);
       const result = await consume.mutateAsync({
         itemId: item.itemId,
         quantity,
@@ -168,9 +170,11 @@ const ConsumeItem: React.FC<{
       await utils.user.inventory.items.invalidate();
       await utils.user.inventory.quantity.invalidate();
       snackbar.success(result);
-      onClose();
     } catch (error) {
       snackbar.error(parseTRPCClientErrorMessage(error));
+    } finally {
+      onClose();
+      setConsuming(false);
     }
   };
   return (
@@ -183,6 +187,7 @@ const ConsumeItem: React.FC<{
         variant="arcade"
         color="success"
         size="small"
+        disabled={consuming}
         sx={{ width: 'fit-content', px: 3 }}
         onClick={handleConsumption}
       >
