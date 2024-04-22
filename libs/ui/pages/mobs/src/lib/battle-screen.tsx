@@ -15,7 +15,6 @@ import { ErrorComponent } from '@worksheets/ui/components/errors';
 import { Column, Row } from '@worksheets/ui/components/flex';
 import { LoadingBar } from '@worksheets/ui/components/loading';
 import { GradientShadowedTypography } from '@worksheets/ui/components/typography';
-import { ErrorScreen } from '@worksheets/ui/pages/errors';
 import { LoadingScreen } from '@worksheets/ui/pages/loading';
 import {
   BattleParticipationSchema,
@@ -100,8 +99,8 @@ const BattleDetails: React.FC<{
   isLoading: boolean;
   isError: boolean;
 }> = ({ battle, isLoading, isError }) => {
-  if (!battle || isLoading) return <LoadingScreen />;
-  if (isError) return <ErrorScreen />;
+  if (!battle || isLoading) return <LoadingBar />;
+  if (isError) return <ErrorComponent />;
 
   return (
     <Column gap={2}>
