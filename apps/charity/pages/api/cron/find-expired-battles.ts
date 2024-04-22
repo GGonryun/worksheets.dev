@@ -1,3 +1,4 @@
+import { prisma } from '@worksheets/prisma';
 import { MobsService } from '@worksheets/services/mobs';
 import { NotificationsService } from '@worksheets/services/notifications';
 import { createCronJob } from '@worksheets/util/cron';
