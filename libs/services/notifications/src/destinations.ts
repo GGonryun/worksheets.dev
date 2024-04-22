@@ -29,6 +29,10 @@ const wonRaffleTemplates: TemplateBuilder<'won-raffle'> = (payload) => ({
   email: EmailTemplates.wonRaffle(payload),
 });
 
+const lostRaffleTemplates: TemplateBuilder<'lost-raffle'> = (payload) => ({
+  push: PushTemplates.lostRaffle(payload),
+});
+
 const expiringItemReminderTemplates: TemplateBuilder<
   'expiring-item-reminder'
 > = (payload) => ({
@@ -45,7 +49,6 @@ const raffleExpiredTemplates: TemplateBuilder<'raffle-expired'> = (
 ) => ({
   discord: DiscordTemplates.raffleExpired(payload),
   twitter: TwitterTemplates.raffleExpired(payload),
-  broadcast: PushTemplates.raffleExpired(payload),
 });
 
 const newUserTemplates: TemplateBuilder<'new-user'> = (payload) => ({
@@ -125,6 +128,7 @@ export const destinations: Record<NotificationTemplateType, TemplateBuilder> = {
   'new-game': newGameTemplates,
   'new-raffle': newRaffleTemplates,
   'won-raffle': wonRaffleTemplates,
+  'lost-raffle': lostRaffleTemplates,
   'expiring-item-reminder': expiringItemReminderTemplates,
   'expired-item': expiredItemTemplates,
   'raffle-expired': raffleExpiredTemplates,

@@ -144,13 +144,15 @@ export class RafflesService {
       },
     });
 
-    await this.#notifications.send('raffle-expired', {
+    // notify losers
+    await this.#notifications.send('lost-raffle', {
       ...raffle,
       // do not notify winners
       participants: raffle.participants.filter(
         (p) => !winners.some((w) => w.participationId === p.id)
       ),
     });
+    await this.#notifications.send('raffle-expired', raffle);
   }
 
   async #pickWinners(numWinners: number, participants: RaffleEntry[]) {

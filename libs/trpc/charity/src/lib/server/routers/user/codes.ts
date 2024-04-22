@@ -32,8 +32,6 @@ export default t.router({
           },
         });
 
-        console.info("found user's activation codes", codes.length);
-
         return codes.map((code) => {
           if (code.item.type !== 'STEAM_KEY') {
             throw new TRPCError({

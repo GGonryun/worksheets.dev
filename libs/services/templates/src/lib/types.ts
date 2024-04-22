@@ -87,6 +87,20 @@ export type NotificationTemplate =
       };
     }
   | {
+      type: 'lost-raffle';
+      payload: {
+        id: number;
+        expiresAt: Date;
+        numWinners: number;
+        participants: {
+          user: {
+            id: string;
+          };
+        }[];
+        item: { name: string };
+      };
+    }
+  | {
       type: 'new-user';
       payload: {
         user: {

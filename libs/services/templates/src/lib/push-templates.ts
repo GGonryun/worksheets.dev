@@ -61,7 +61,7 @@ export class PushTemplates {
     };
   }
 
-  static raffleExpired(
+  static lostRaffle(
     opts: ExtractTemplatePayload<'raffle-expired'>
   ): PushNotifyInput {
     return {
