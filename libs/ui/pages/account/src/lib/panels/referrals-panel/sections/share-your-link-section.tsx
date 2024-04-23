@@ -3,7 +3,7 @@ import { Box, Divider, Link } from '@mui/material';
 import { routes } from '@worksheets/routes';
 import { BulletPoints } from '@worksheets/ui/components/lists';
 import { PanelFooter } from '@worksheets/ui/components/panels';
-import { TOKENS_PER_REFERRAL_ACCOUNT } from '@worksheets/util/types';
+import { TOKENS_PER_REFERRAL_ACCOUNT } from '@worksheets/util/settings';
 import React from 'react';
 
 import { ReferralInfo } from '../../../components';

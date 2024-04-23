@@ -1,17 +1,17 @@
 import { OpenInNew } from '@mui/icons-material';
 import { Button, TextField, Typography } from '@mui/material';
 import { Column } from '@worksheets/ui/components/flex';
-import { FollowTwitterQuest, QuestFormActions } from '@worksheets/util/types';
+import { DetailedQuestSchema, QuestFormActions } from '@worksheets/util/types';
 import { useState } from 'react';
 
 import { isQuestComplete, selectQuestColor } from '../../util';
 
 export const FollowTwitterQuestForm: React.FC<{
-  quest: FollowTwitterQuest;
+  quest: DetailedQuestSchema<'FOLLOW_TWITTER'>;
   actions: QuestFormActions<'FOLLOW_TWITTER'>;
 }> = ({ quest, actions }) => {
-  const complete = isQuestComplete(quest);
-  const colorKey = selectQuestColor(quest);
+  const complete = isQuestComplete(quest.status);
+  const colorKey = selectQuestColor(quest.status);
 
   const [clicked, setClicked] = useState(false);
   const [username, setUsername] = useState('');

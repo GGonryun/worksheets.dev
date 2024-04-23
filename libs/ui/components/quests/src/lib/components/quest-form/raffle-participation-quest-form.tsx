@@ -2,15 +2,15 @@ import { OpenInNew } from '@mui/icons-material';
 import { Button } from '@mui/material';
 import { routes } from '@worksheets/routes';
 import { Column } from '@worksheets/ui/components/flex';
-import { RaffleParticipationQuest } from '@worksheets/util/types';
+import { DetailedQuestSchema } from '@worksheets/util/types';
 
 import { isQuestComplete, selectQuestColor } from '../../util';
 
 export const RaffleParticipationQuestForm: React.FC<{
-  quest: RaffleParticipationQuest;
+  quest: DetailedQuestSchema<'RAFFLE_PARTICIPATION'>;
 }> = ({ quest }) => {
-  const complete = isQuestComplete(quest);
-  const colorKey = selectQuestColor(quest);
+  const complete = isQuestComplete(quest.status);
+  const colorKey = selectQuestColor(quest.status);
 
   return (
     <Column>

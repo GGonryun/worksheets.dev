@@ -181,8 +181,13 @@ export type NotificationTemplate =
       payload: {
         userId: string;
         quest: {
-          title: string;
-          reward: number;
+          name: string;
+          loot: {
+            item: {
+              name: string;
+            };
+            quantity: number;
+          }[];
         };
       };
     }

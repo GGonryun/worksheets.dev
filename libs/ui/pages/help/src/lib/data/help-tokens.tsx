@@ -9,9 +9,9 @@ import {
   PER_GAME_MINUTE_REWARD,
   PER_GAME_PLAY_REWARD,
   PER_REFERRAL_PLAY_MINUTE_REWARD,
-  QuestionAnswer,
   TOKENS_PER_REFERRAL_ACCOUNT,
-} from '@worksheets/util/types';
+} from '@worksheets/util/settings';
+import { QuestionAnswer } from '@worksheets/util/types';
 
 import { HelpfulLinks } from '../helpful-links';
 

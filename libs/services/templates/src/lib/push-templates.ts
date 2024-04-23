@@ -3,9 +3,9 @@ import {
   EXPIRATION_TIME_THRESHOLD,
   STARTING_GIFT_BOXES,
   STARTING_TOKENS,
+  TOKENS_PER_REFERRAL_ACCOUNT,
 } from '@worksheets/util/settings';
 import { printShortDate } from '@worksheets/util/time';
-import { TOKENS_PER_REFERRAL_ACCOUNT } from '@worksheets/util/types';
 import pluralize from 'pluralize';
 
 import { ExtractTemplatePayload } from './types';
@@ -130,11 +130,10 @@ export class PushTemplates {
       userIds: [opts.userId],
       type: 'QUEST',
       text: `You have completed the quest <b>${
-        opts.quest.title
-      }</b> and received ${opts.quest.reward} ${pluralize(
-        'token',
-        opts.quest.reward
-      )}! <a href="${ACCOUNT_QUESTS_URL}">Find more quests</a>.`,
+        opts.quest.name
+      }</b> and received ${opts.quest.loot
+        .map((l) => `${l.quantity}x ${pluralize(l.item.name, l.quantity)}`)
+        .join(', ')}! <a href="${ACCOUNT_QUESTS_URL}">Find more quests</a>.`,
     };
   }
 

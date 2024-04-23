@@ -16,7 +16,7 @@ import {
   SocialButtons,
 } from '@worksheets/ui/components/social-media';
 import { FriendsPanels, ReferralsPanels } from '@worksheets/util/enums';
-import { MAX_FRIENDS } from '@worksheets/util/types';
+import { MAX_FRIENDS } from '@worksheets/util/settings';
 import { useState } from 'react';
 
 export const AddFriendsSection: React.FC<{

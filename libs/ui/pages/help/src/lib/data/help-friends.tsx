@@ -6,7 +6,8 @@ import {
   HelpTokensQuestions,
   InventoryPanels,
 } from '@worksheets/util/enums';
-import { MAX_BEST_FRIENDS, QuestionAnswer } from '@worksheets/util/types';
+import { MAX_BEST_FRIENDS } from '@worksheets/util/settings';
+import { QuestionAnswer } from '@worksheets/util/types';
 
 import { HelpfulLinks } from '../helpful-links';
 

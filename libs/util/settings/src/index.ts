@@ -17,3 +17,12 @@ export const PRIZE_TOKEN_MODIFIER = 1000;
 export const EXPIRATION_TIME_THRESHOLD = 2; // send reminder days before expiration
 // BATTLES
 export const ENTRY_PER_DAMAGE = 5;
+
+export const MAX_FRIENDS = 20;
+export const MAX_BEST_FRIENDS = 5;
+
+export const TOKENS_PER_REFERRAL_ACCOUNT = 200;
+export const PER_GAME_PLAY_REWARD = 1;
+export const PER_GAME_MINUTE_REWARD = 1;
+export const PER_REFERRAL_PLAY_MINUTE_REWARD = 1;
+export const PER_FRIEND_PLAY_MINUTE_REWARD = 2;

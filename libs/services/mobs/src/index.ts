@@ -106,6 +106,7 @@ export class MobsService {
 
     return battleConverter(battle);
   }
+
   async list(filters?: BattleFiltersSchema): Promise<BossBattleSchema[]> {
     const battles = await this.#db.battle.findMany({
       where: {

@@ -1,4 +1,4 @@
-import { Quest } from '@worksheets/util/types';
+import { DetailedQuestSchema } from '@worksheets/util/types';
 
 import {
   formatQuestExpiration,
@@ -8,21 +8,23 @@ import {
 } from '../../util';
 import { QuestItemLayout } from './quest-item-layout';
 
-export const QuestItem: React.FC<Quest & { onClick: () => void }> = (props) => {
-  const Icon = selectQuestStatusIcon(props);
-  const color = selectQuestColor(props);
+export const QuestItem: React.FC<
+  DetailedQuestSchema & { onClick: () => void }
+> = (props) => {
+  const Icon = selectQuestStatusIcon(props.status, props.type);
+  const color = selectQuestColor(props.status);
   const frequency = formatQuestFrequencyLabel(props.frequency);
-  const expiration = formatQuestExpiration(props);
+  const expiration = formatQuestExpiration(props.frequency, props.expiresAt);
 
   return (
     <QuestItemLayout
       onClick={props.onClick}
       color={color}
       Icon={Icon}
-      title={props.title}
+      name={props.name}
       frequency={frequency}
       expiration={expiration}
-      reward={props.reward}
+      loot={props.loot}
     />
   );
 };

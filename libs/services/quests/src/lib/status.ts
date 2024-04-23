@@ -1,7 +1,9 @@
 import { QuestProgress, QuestStatus } from '@worksheets/prisma';
 import { isExpired } from '@worksheets/util/time';
 
-export const parseStatus = (state: QuestProgress | null): QuestStatus => {
+export const parseStatus = (
+  state: QuestProgress | undefined | null
+): QuestStatus => {
   if (!state) {
     return 'PENDING';
   }

@@ -1,5 +1,6 @@
 import {
   Check,
+  CheckBoxOutlined,
   Diversity1Outlined,
   FavoriteBorder,
   LanguageOutlined,
@@ -11,6 +12,12 @@ import {
   Twitter,
   VideogameAssetOutlined,
 } from '@mui/icons-material';
+import {
+  QuestCategory,
+  QuestFrequency,
+  QuestStatus,
+  QuestType,
+} from '@worksheets/prisma';
 import { PaletteColor } from '@worksheets/ui/theme';
 import { assertNever } from '@worksheets/util/errors';
 import {
@@ -18,20 +25,15 @@ import {
   millisecondsToDuration,
   timeUntil,
 } from '@worksheets/util/time';
-import {
-  Quest,
-  QuestCategory,
-  QuestFrequency,
-  QuestStatus,
-  QuestType,
-} from '@worksheets/util/types';
-export const isQuestComplete = (quest: Pick<Quest, 'status'>) => {
-  return quest.status === QuestStatus.COMPLETED;
+
+export const isQuestComplete = (status: QuestStatus) => {
+  return status === QuestStatus.COMPLETED;
 };
 
 const QUEST_FREQUENCY_LABEL: Record<QuestFrequency, string> = {
   [QuestFrequency.DAILY]: 'Daily',
   [QuestFrequency.WEEKLY]: 'Weekly',
+  [QuestFrequency.MONTHLY]: 'Monthly',
   [QuestFrequency.INFINITE]: 'Infinite',
 };
 
@@ -48,16 +50,15 @@ const QUEST_ICON: Record<QuestType, SvgIconComponent> = {
   [QuestType.RAFFLE_PARTICIPATION]: LocalActivityOutlined,
   [QuestType.REFERRAL_PLAY_MINUTES]: PunchClockOutlined,
   [QuestType.FRIEND_PLAY_MINUTES]: FavoriteBorder,
+  [QuestType.BASIC_ACTION]: CheckBoxOutlined,
 };
 
-export const selectQuestStatusIcon = (
-  quest: Pick<Quest, 'status' | 'type'>
-) => {
-  if (quest.status === QuestStatus.COMPLETED) {
+export const selectQuestStatusIcon = (status: QuestStatus, type: QuestType) => {
+  if (status === QuestStatus.COMPLETED) {
     return Check;
   }
 
-  return QUEST_ICON[quest.type];
+  return QUEST_ICON[type];
 };
 
 const QUEST_STATUS_LABEL: Record<QuestStatus, string> = {
@@ -78,10 +79,8 @@ const QUEST_CATEGORY_LABEL: Record<QuestCategory, string> = {
 export const formatQuestCategoryLabel = (category: QuestCategory) =>
   QUEST_CATEGORY_LABEL[category];
 
-export const selectQuestColor = (
-  quest: Pick<Quest, 'status'>
-): PaletteColor => {
-  switch (quest.status) {
+export const selectQuestColor = (status: QuestStatus): PaletteColor => {
+  switch (status) {
     case QuestStatus.COMPLETED:
       return 'success';
     case QuestStatus.PENDING:
@@ -89,23 +88,24 @@ export const selectQuestColor = (
     case QuestStatus.ACTIVE:
       return 'primary';
     default:
-      throw assertNever(quest.status);
+      throw assertNever(status);
   }
 };
 
 export const formatQuestExpiration = (
-  quest: Pick<Quest, 'frequency' | 'expiresAt'>
+  frequency: QuestFrequency,
+  expiresAt: number
 ) => {
-  if (quest.frequency === QuestFrequency.INFINITE) {
+  if (frequency === QuestFrequency.INFINITE) {
     return 'Never Expires';
   }
 
-  if (quest.expiresAt < 1) {
+  if (expiresAt < 1) {
     return 'Pending';
   }
 
-  if (isPast(quest.expiresAt)) {
+  if (isPast(expiresAt)) {
     return 'Expired';
   }
-  return millisecondsToDuration(timeUntil(quest.expiresAt));
+  return millisecondsToDuration(timeUntil(expiresAt));
 };

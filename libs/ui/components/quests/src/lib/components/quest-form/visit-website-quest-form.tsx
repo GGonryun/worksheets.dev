@@ -1,17 +1,17 @@
 import { OpenInNew } from '@mui/icons-material';
 import { Button, Link, Typography } from '@mui/material';
 import { Column, Row } from '@worksheets/ui/components/flex';
-import { QuestFormActions, VisitWebsiteQuest } from '@worksheets/util/types';
+import { DetailedQuestSchema, QuestFormActions } from '@worksheets/util/types';
 import { useState } from 'react';
 
 import { isQuestComplete, selectQuestColor } from '../../util';
 
 export const VisitWebsiteQuestForm: React.FC<{
-  quest: VisitWebsiteQuest;
+  quest: DetailedQuestSchema<'VISIT_WEBSITE'>;
   actions: QuestFormActions<'VISIT_WEBSITE'>;
 }> = ({ quest, actions }) => {
-  const complete = isQuestComplete(quest);
-  const colorKey = selectQuestColor(quest);
+  const complete = isQuestComplete(quest.status);
+  const colorKey = selectQuestColor(quest.status);
   const [clicked, setClicked] = useState(false);
   const { url } = quest.data;
   return (

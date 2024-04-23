@@ -79,5 +79,5 @@ const Container: React.FC<QuestFilterOptions> = ({
 
 export const DynamicQuests = dynamic(() => Promise.resolve(Container), {
   ssr: false,
-  loading: LoadingBar,
+  loading: () => <LoadingBar />,
 });

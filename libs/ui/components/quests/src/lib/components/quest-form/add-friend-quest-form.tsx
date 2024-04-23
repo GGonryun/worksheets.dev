@@ -2,14 +2,13 @@ import { Button, Link, Typography } from '@mui/material';
 import { routes } from '@worksheets/routes';
 import { Column } from '@worksheets/ui/components/flex';
 import { BulletPoints } from '@worksheets/ui/components/lists';
-import { AddFriendQuest } from '@worksheets/util/types';
+import { DetailedQuestSchema } from '@worksheets/util/types';
 import pluralize from 'pluralize';
 import React from 'react';
 
-export const AddFriendQuestForm: React.FC<{ quest: AddFriendQuest }> = ({
-  quest,
-}) => {
-  const friends = quest.state.friends.length;
+export const AddFriendQuestForm: React.FC<{
+  quest: DetailedQuestSchema<'ADD_FRIEND'>;
+}> = ({ quest }) => {
   return (
     <Column gap={1}>
       <BulletPoints
@@ -24,7 +23,8 @@ export const AddFriendQuestForm: React.FC<{ quest: AddFriendQuest }> = ({
         ]}
       />
       <Typography textAlign="center" fontWeight={500} mt={2}>
-        You have added {friends} {pluralize('friend', friends)}.
+        You have added {quest.state.friends.length}{' '}
+        {pluralize('friend', quest.state.friends.length)}.
       </Typography>
       <Button
         variant="arcade"

@@ -3,13 +3,13 @@ import { routes } from '@worksheets/routes';
 import { Column } from '@worksheets/ui/components/flex';
 import { BulletPoints } from '@worksheets/ui/components/lists';
 import { ReferralsPanels } from '@worksheets/util/enums';
-import { AddReferralQuest } from '@worksheets/util/types';
+import { DetailedQuestSchema } from '@worksheets/util/types';
 import pluralize from 'pluralize';
 import React from 'react';
 
-export const AddReferralQuestForm: React.FC<{ quest: AddReferralQuest }> = ({
-  quest,
-}) => {
+export const AddReferralQuestForm: React.FC<{
+  quest: DetailedQuestSchema<'ADD_REFERRAL'>;
+}> = ({ quest }) => {
   const referrals = quest.state.referrals.length;
   return (
     <Column gap={1}>

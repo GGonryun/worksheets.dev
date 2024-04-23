@@ -4,10 +4,8 @@ import { routes } from '@worksheets/routes';
 import { Column } from '@worksheets/ui/components/flex';
 import { BulletPoints } from '@worksheets/ui/components/lists';
 import { FriendsPanels } from '@worksheets/util/enums';
-import {
-  FriendPlayMinutesQuest,
-  MAX_BEST_FRIENDS,
-} from '@worksheets/util/types';
+import { MAX_BEST_FRIENDS } from '@worksheets/util/settings';
+import { DetailedQuestSchema } from '@worksheets/util/types';
 import pluralize from 'pluralize';
 
 const ADD_FRIENDS_LINK = routes.account.friends.path({
@@ -17,7 +15,7 @@ const FRIENDS_LIST_LINK = routes.account.friends.path({
   bookmark: FriendsPanels.FriendsList,
 });
 export const FriendPlayMinutesQuestForm: React.FC<{
-  quest: FriendPlayMinutesQuest;
+  quest: DetailedQuestSchema<'FRIEND_PLAY_MINUTES'>;
 }> = ({ quest }) => {
   const minutes = Math.floor(quest.state.duration / 60);
 

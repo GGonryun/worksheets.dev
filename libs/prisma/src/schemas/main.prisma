@@ -506,19 +506,62 @@ enum QuestStatus {
   COMPLETED
 }
 
-model QuestProgress {
-  id        Int         @id @default(autoincrement())
-  createdAt DateTime    @default(now())
-  updatedAt DateTime    @updatedAt
-  expiresAt DateTime?
-  status    QuestStatus
-  state     Json
-  // relationships
-  userId    String
-  user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-  questId   String
+enum QuestType {
+  PLAY_GAME
+  PLAY_MINUTES
+  REFERRAL_PLAY_MINUTES
+  FRIEND_PLAY_MINUTES
+  ADD_FRIEND
+  ADD_REFERRAL
+  RAFFLE_PARTICIPATION
+  VISIT_WEBSITE
+  FOLLOW_TWITTER
+  BASIC_ACTION
+}
 
-  @@unique([userId, questId])
+enum QuestFrequency {
+  DAILY
+  WEEKLY
+  MONTHLY
+  INFINITE
+}
+
+enum QuestCategory {
+  GAMEPLAY
+  SOCIAL
+  TASK
+}
+
+model QuestDefinition {
+  id          String          @id @default(cuid())
+  version     Int             @default(0)
+  order       Int
+  name        String
+  description String
+  type        QuestType
+  category    QuestCategory
+  frequency   QuestFrequency
+  loot        Loot[]
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+  data        Json
+  progress    QuestProgress[]
+}
+
+model QuestProgress {
+  id                Int             @id @default(autoincrement())
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+  expiresAt         DateTime?
+  status            QuestStatus
+  state             Json
+  // relationships
+  userId            String
+  user              User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  questDefinitionId String
+  questDefinition   QuestDefinition @relation(fields: [questDefinitionId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, questDefinitionId])
 }
 
 enum MobRace {
@@ -566,6 +609,8 @@ model Loot {
   mvp                   Boolean              @default(false)
   battleParticipationId Int?
   battleParticipation   BattleParticipation? @relation(fields: [battleParticipationId], references: [id], onDelete: Cascade)
+  questDefinitionId     String?
+  questDefinition       QuestDefinition?     @relation(fields: [questDefinitionId], references: [id], onDelete: Cascade)
 
   @@unique([itemId, battleParticipationId])
   @@unique([itemId, mobId])

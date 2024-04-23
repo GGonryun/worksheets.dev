@@ -4,14 +4,14 @@ import { routes } from '@worksheets/routes';
 import { Column } from '@worksheets/ui/components/flex';
 import { BulletPoints } from '@worksheets/ui/components/lists';
 import { ReferralsPanels } from '@worksheets/util/enums';
-import { ReferralPlayMinutesQuest } from '@worksheets/util/types';
+import { DetailedQuestSchema } from '@worksheets/util/types';
 import pluralize from 'pluralize';
 
 const SHARE_YOUR_LINK = routes.account.referrals.path({
   bookmark: ReferralsPanels.ShareYourLink,
 });
 export const ReferralPlayMinutesQuestForm: React.FC<{
-  quest: ReferralPlayMinutesQuest;
+  quest: DetailedQuestSchema<'REFERRAL_PLAY_MINUTES'>;
 }> = ({ quest }) => {
   const minutes = Math.floor(quest.state.duration / 60);
 

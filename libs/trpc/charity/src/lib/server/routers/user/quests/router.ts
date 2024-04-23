@@ -1,14 +1,12 @@
-import { QuestsService } from '@worksheets/services/quests';
+import { QuestId } from '@worksheets/data/quests';
 import {
-  Quest,
   QuestCategory,
   QuestFrequency,
-  QuestId,
-  QuestInput,
   QuestStatus,
   QuestType,
-  QuestTypeInput,
-} from '@worksheets/util/types';
+} from '@worksheets/prisma';
+import { QuestsService } from '@worksheets/services/quests';
+import { detailedQuestSchema, QuestTypeInput } from '@worksheets/util/types';
 import { z } from 'zod';
 
 import { protectedProcedure } from '../../../procedures';
@@ -29,7 +27,7 @@ export default t.router({
       z.object({
         items: z.array(
           z.object({
-            id: z.custom<QuestId>(),
+            id: z.string(),
             order: z.number(),
             status: z.nativeEnum(QuestStatus),
           })
@@ -63,25 +61,27 @@ export default t.router({
   find: protectedProcedure
     .input(
       z.object({
-        questId: z.custom<QuestId>(),
+        questId: z.string(),
       })
     )
-    .output(z.custom<Quest>())
+    .output(detailedQuestSchema)
     .query(async ({ input: { questId }, ctx: { user, db } }) => {
       const quests = new QuestsService(db);
 
-      return await quests.find({ questId, userId: user.id });
+      // TODO: type gets bricked here
+      const quest = await quests.find({ questId, userId: user.id });
+      return quest as any;
     }),
   track: protectedProcedure
     .input(
       z.union([
         z.object({
-          questId: z.custom<QuestId>(),
-          input: z.custom<QuestInput<QuestId>>(),
+          questId: z.string(),
+          input: z.custom<QuestTypeInput>(),
         }),
         z.object({
           questType: z.nativeEnum(QuestType),
-          input: z.custom<QuestTypeInput<QuestType>>(),
+          input: z.custom<QuestTypeInput>(),
         }),
       ])
     )

@@ -1,40 +1,29 @@
 import { TRPCError } from '@trpc/server';
+import { QuestId, QUESTS } from '@worksheets/data/quests';
 import {
   PrismaClient,
   PrismaTransactionalClient,
+  QuestCategory,
+  QuestFrequency,
   QuestStatus,
+  QuestType,
 } from '@worksheets/prisma';
 import { InventoryService } from '@worksheets/services/inventory';
 import { NotificationsService } from '@worksheets/services/notifications';
 import { assertNever } from '@worksheets/util/errors';
+import { parseData, parseState } from '@worksheets/util/quests';
 import {
-  AddFriendQuestId,
-  AddReferralQuestId,
-  definitionsByType,
-  FollowTwitterQuestId,
-  FriendPlayMinutesQuestId,
-  PlayGameQuestId,
-  PlayMinutesQuestId,
-  Quest,
-  QuestCategory,
-  QuestFrequency,
-  QuestId,
-  QuestInput,
-  QUESTS,
-  QuestType,
+  BasicQuestSchema,
+  DetailedQuestSchema,
   QuestTypeInput,
-  QuestTypeToCategory,
-  RaffleParticipationQuestId,
-  ReferralPlayMinutesQuestId,
-  VisitWebsiteQuestId,
 } from '@worksheets/util/types';
 
 import { parseExpiration } from './lib/expiration';
-import { parseState } from './lib/state';
 import { parseStatus } from './lib/status';
 import {
   trackAddFriendProgress,
   trackAddReferralProgress,
+  trackBasicActionProgress,
   trackFinitePlayGameProgress,
   trackFollowTwitterProgress,
   trackFriendPlayMinutesProgress,
@@ -56,21 +45,33 @@ export class QuestsService {
     statuses?: QuestStatus[];
     frequencies?: QuestFrequency[];
     categories?: QuestCategory[];
-  }) {
+  }): Promise<BasicQuestSchema[]> {
     const progress = await this.#db.questProgress.findMany({
       where: {
         userId: opts.userId,
       },
     });
 
-    const joined = Object.values(QUESTS).map((definition) => {
-      const quest = progress.find((state) => state.questId === definition.id);
+    const definitions = await this.#db.questDefinition.findMany({
+      include: {
+        loot: {
+          include: { item: true },
+        },
+      },
+    });
+
+    const joined = definitions.map((definition) => {
+      const quest = progress.find(
+        (state) => state.questDefinitionId === definition.id
+      );
       return {
-        id: definition.id,
+        id: definition.id as QuestId,
         order: definition.order,
         frequency: definition.frequency,
+        category: definition.category,
         type: definition.type,
-        status: quest?.status ?? 'PENDING',
+        status: parseStatus(quest),
+        loot: definition.loot,
       };
     });
 
@@ -82,15 +83,27 @@ export class QuestsService {
         ? opts.frequencies.includes(item.frequency)
         : true;
       const categoryMatch = opts.categories
-        ? opts.categories.includes(QuestTypeToCategory[item.type])
+        ? opts.categories.includes(item.category)
         : true;
       return statusMatch && frequencyMatch && categoryMatch;
     });
 
     return filtered.sort((a, b) => a.order - b.order);
   }
-  async find(opts: { userId: string; questId: QuestId }): Promise<Quest> {
-    const definition = QUESTS[opts.questId];
+  async find(opts: {
+    userId: string;
+    questId: string;
+  }): Promise<DetailedQuestSchema> {
+    const definition = await this.#db.questDefinition.findFirst({
+      where: {
+        id: opts.questId,
+      },
+      include: {
+        loot: {
+          include: { item: true },
+        },
+      },
+    });
 
     if (!definition) {
       throw new TRPCError({
@@ -101,31 +114,32 @@ export class QuestsService {
 
     const progress = await this.#db.questProgress.findFirst({
       where: {
-        questId: opts.questId,
+        questDefinitionId: opts.questId,
         userId: opts.userId,
       },
     });
 
     return {
+      id: definition.id as QuestId,
       order: definition.order,
-      id: definition.id,
-      title: definition.title,
+      name: definition.name,
       description: definition.description,
       frequency: definition.frequency,
-      reward: definition.reward,
-      data: definition.data,
+      category: definition.category,
+      loot: definition.loot,
       type: definition.type,
+      data: parseData(definition.data),
       status: parseStatus(progress),
       expiresAt: parseExpiration(progress),
       state: parseState(definition.type, progress?.state),
       // We must cast to any here because the state type is not known at compile time, but we want to use type guards later to ensure the state is correct.
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } as any;
+    };
   }
-  async trackId<T extends QuestId>(opts: {
-    questId: T;
+  async trackId<T extends QuestType>(opts: {
+    questId: string;
     userId: string;
-    input: QuestInput<T>;
+    input: QuestTypeInput[T];
   }) {
     const inventory = new InventoryService(this.#db);
     const notifications = new NotificationsService(this.#db);
@@ -137,18 +151,16 @@ export class QuestsService {
           db: this.#db,
           notifications,
           inventory,
-          questId: opts.questId,
-          userId: opts.userId,
-          input: opts.input as QuestInput<PlayGameQuestId>,
+          questType: 'PLAY_GAME',
+          ...opts,
         });
       case 'PLAY_GAME_INFINITE':
         return await trackInfinitePlayGameProgress({
           db: this.#db,
           notifications,
           inventory,
-          questId: opts.questId,
-          userId: opts.userId,
-          input: opts.input as QuestInput<'PLAY_GAME_INFINITE'>,
+          questType: 'PLAY_GAME',
+          ...opts,
         });
       case 'VISIT_CHARITY_GAMES':
       case 'VISIT_WATER_ORG':
@@ -156,9 +168,8 @@ export class QuestsService {
           db: this.#db,
           notifications,
           inventory,
-          questId: opts.questId,
-          userId: opts.userId,
-          input: opts.input as QuestInput<VisitWebsiteQuestId>,
+          questType: 'VISIT_WEBSITE',
+          ...opts,
         });
       case 'FOLLOW_CHARITY_GAMES_TWITTER':
       case 'FOLLOW_WATER_ORG_TWITTER':
@@ -166,73 +177,94 @@ export class QuestsService {
           db: this.#db,
           notifications,
           inventory,
+          questType: 'FOLLOW_TWITTER',
+          input: opts.input as QuestTypeInput['FOLLOW_TWITTER'],
           questId: opts.questId,
           userId: opts.userId,
-          input: opts.input as QuestInput<FollowTwitterQuestId>,
         });
       case 'RAFFLE_PARTICIPATION_DAILY':
         return await trackRaffleParticipationProgress({
           db: this.#db,
           notifications,
           inventory,
-          questId: opts.questId,
-          userId: opts.userId,
-          input: opts.input as QuestInput<RaffleParticipationQuestId>,
+          questType: 'RAFFLE_PARTICIPATION',
+          ...opts,
         });
       case 'ADD_FRIEND_INFINITE':
         return await trackAddFriendProgress({
           db: this.#db,
           notifications,
           inventory,
+          questType: 'ADD_FRIEND',
+          input: opts.input as QuestTypeInput['ADD_FRIEND'],
           questId: opts.questId,
           userId: opts.userId,
-          input: opts.input as QuestInput<AddFriendQuestId>,
         });
       case 'ADD_REFERRAL_INFINITE':
         return await trackAddReferralProgress({
           db: this.#db,
           notifications,
           inventory,
+          questType: 'ADD_REFERRAL',
+          input: opts.input as QuestTypeInput['ADD_REFERRAL'],
           questId: opts.questId,
           userId: opts.userId,
-          input: opts.input as QuestInput<AddReferralQuestId>,
         });
       case 'REFERRAL_PLAY_MINUTES_INFINITE':
         return await trackReferralPlayMinutesProgress({
           db: this.#db,
           notifications,
           inventory,
+          questType: 'REFERRAL_PLAY_MINUTES',
+          input: opts.input as QuestTypeInput['REFERRAL_PLAY_MINUTES'],
           questId: opts.questId,
           userId: opts.userId,
-          input: opts.input as QuestInput<ReferralPlayMinutesQuestId>,
         });
       case 'PLAY_MINUTES_INFINITE':
         return await trackPlayMinutesProgress({
           db: this.#db,
           notifications,
           inventory,
+          questType: 'PLAY_MINUTES',
+          input: opts.input as QuestTypeInput['PLAY_MINUTES'],
           questId: opts.questId,
           userId: opts.userId,
-          input: opts.input as QuestInput<PlayMinutesQuestId>,
         });
       case 'FRIEND_PLAY_MINUTES_INFINITE':
         return await trackFriendPlayMinutesProgress({
           db: this.#db,
           notifications,
           inventory,
+          questType: 'FRIEND_PLAY_MINUTES',
+          input: opts.input as QuestTypeInput['FRIEND_PLAY_MINUTES'],
           questId: opts.questId,
           userId: opts.userId,
-          input: opts.input as QuestInput<FriendPlayMinutesQuestId>,
+        });
+      case 'DAILY_GIFT_BOXES':
+      case 'DAILY_WEAPONS_CRATE':
+        return await trackBasicActionProgress({
+          db: this.#db,
+          inventory,
+          notifications,
+          questType: 'BASIC_ACTION',
+          ...opts,
         });
       default:
-        throw assertNever(opts.questId);
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: 'Quest cannot be tracked',
+        });
     }
   }
   async trackType<T extends QuestType>(opts: {
     userId: string;
     questType: T;
-    input: QuestTypeInput<T>;
+    input: QuestTypeInput[T];
   }) {
+    const questIds = QUESTS.filter((q) => q.type === opts.questType).map(
+      (q) => q.id
+    );
+
     switch (opts.questType) {
       case QuestType.PLAY_GAME:
       case QuestType.PLAY_MINUTES:
@@ -241,11 +273,12 @@ export class QuestsService {
       case QuestType.RAFFLE_PARTICIPATION:
       case QuestType.REFERRAL_PLAY_MINUTES:
       case QuestType.FRIEND_PLAY_MINUTES:
+      case QuestType.BASIC_ACTION:
         return await Promise.all(
-          definitionsByType[opts.questType].map((d) =>
+          questIds.map((questId) =>
             this.trackId({
+              questId,
               userId: opts.userId,
-              questId: d.id,
               input: opts.input,
             })
           )

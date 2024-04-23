@@ -4,7 +4,8 @@ import { routes } from '@worksheets/routes';
 import { BulletPoints } from '@worksheets/ui/components/lists';
 import { PanelFooter } from '@worksheets/ui/components/panels';
 import { FriendsPanels, ReferralsPanels } from '@worksheets/util/enums';
-import { Referral, TOKENS_PER_REFERRAL_ACCOUNT } from '@worksheets/util/types';
+import { TOKENS_PER_REFERRAL_ACCOUNT } from '@worksheets/util/settings';
+import { Referral } from '@worksheets/util/types';
 import React from 'react';
 
 import { ReferralsTable } from '../referral-table';

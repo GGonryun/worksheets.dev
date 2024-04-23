@@ -1,73 +1,84 @@
 import { TRPCError } from '@trpc/server';
-import { Prisma } from '@worksheets/prisma';
+import { Prisma, QuestType } from '@worksheets/prisma';
 import { assertNever } from '@worksheets/util/errors';
+import { convertJson, isPrismaJsonObject } from '@worksheets/util/prisma';
 import {
-  AddFriendQuestState,
-  AddReferralQuestState,
-  FollowTwitterQuestState,
-  PlayGameQuestState,
-  PlayMinutesQuestState,
-  Quest,
-  QuestType,
-  RaffleParticipationQuestState,
-  VisitWebsiteQuestState,
+  QuestTypeData,
+  QuestTypeState,
+  QuestTypeStateValue,
 } from '@worksheets/util/types';
 import { has } from 'lodash';
 
-export const parseState = (type: QuestType, state?: Prisma.JsonValue) => {
+export const parseState = <T extends QuestType>(
+  type: T,
+  state?: Prisma.JsonValue
+): QuestTypeState[T] => {
   if (!state) {
     return defaultState(type);
   }
 
   switch (type) {
     case QuestType.PLAY_GAME:
-      return parsePlayGameState(state);
+      return parsePlayGameState(state) as QuestTypeState[T];
     case QuestType.VISIT_WEBSITE:
-      return parseVisitWebsiteState(state);
+      return parseVisitWebsiteState(state) as QuestTypeState[T];
     case QuestType.FOLLOW_TWITTER:
-      return parseFollowTwitterState(state);
+      return parseFollowTwitterState(state) as QuestTypeState[T];
     case QuestType.ADD_FRIEND:
-      return parseAddFriendState(state);
+      return parseAddFriendState(state) as QuestTypeState[T];
     case QuestType.ADD_REFERRAL:
-      return parseAddReferralState(state);
+      return parseAddReferralState(state) as QuestTypeState[T];
     case QuestType.PLAY_MINUTES:
     case QuestType.REFERRAL_PLAY_MINUTES:
     case QuestType.FRIEND_PLAY_MINUTES:
-      return parsePlayMinutesState(state);
+      return parsePlayMinutesState(state) as QuestTypeState[T];
     case QuestType.RAFFLE_PARTICIPATION:
-      return parseRaffleParticipationState(state);
+      return parseRaffleParticipationState(state) as QuestTypeState[T];
+    case QuestType.BASIC_ACTION:
+      return parseBasicActionState(state) as QuestTypeState[T];
     default:
       throw assertNever(type);
   }
 };
 
-export const defaultState = (type: QuestType): Quest['state'] => {
+export const defaultState = <T extends QuestType>(
+  type: T
+): QuestTypeState[T] => {
   switch (type) {
     case QuestType.PLAY_GAME:
-      return { progress: 0 };
+      return { progress: 0 } as QuestTypeState[T];
     case QuestType.PLAY_MINUTES:
+    case QuestType.FRIEND_PLAY_MINUTES:
     case QuestType.REFERRAL_PLAY_MINUTES:
-      return { duration: 0 };
+      return { duration: 0 } as QuestTypeState[T];
     case QuestType.VISIT_WEBSITE:
-      return { visited: 0 };
+      return { visited: 0 } as QuestTypeState[T];
     case QuestType.FOLLOW_TWITTER:
-      return { username: '' };
+      return { username: '' } as QuestTypeState[T];
     case QuestType.ADD_FRIEND:
-      return { friends: [] };
+      return { friends: [] } as QuestTypeState[T];
     case QuestType.ADD_REFERRAL:
-      return { referrals: [] };
+      return { referrals: [] } as QuestTypeState[T];
     case QuestType.RAFFLE_PARTICIPATION:
       return {
         entered: 0,
-      };
-    case QuestType.FRIEND_PLAY_MINUTES:
-      return { duration: 0 };
+      } as QuestTypeState[T];
+    case QuestType.BASIC_ACTION:
+      return {} as QuestTypeState[T];
     default:
       throw assertNever(type);
   }
 };
 
-export const parsePlayGameState = (state: unknown): PlayGameQuestState => {
+export const parseBasicActionState = (
+  state: unknown
+): QuestTypeStateValue<'BASIC_ACTION'> => {
+  return state;
+};
+
+export const parsePlayGameState = (
+  state: unknown
+): QuestTypeState['PLAY_GAME'] => {
   if (!isPrismaJsonObject(state)) {
     throw new TRPCError({
       code: 'PARSE_ERROR',
@@ -87,27 +98,13 @@ export const parsePlayGameState = (state: unknown): PlayGameQuestState => {
 
 export const parseVisitWebsiteState = (
   state: unknown
-): VisitWebsiteQuestState => {
-  if (!isPrismaJsonObject(state)) {
-    throw new TRPCError({
-      code: 'PARSE_ERROR',
-      message: 'State is not an object',
-    });
-  }
-
-  if (!has(state, 'visited') || typeof state['visited'] !== 'number') {
-    throw new TRPCError({
-      code: 'PARSE_ERROR',
-      message: 'State is missing visited field',
-    });
-  }
-
-  return { visited: state['visited'] };
+): QuestTypeState['VISIT_WEBSITE'] => {
+  return state;
 };
 
 export const parseFollowTwitterState = (
   state: unknown
-): FollowTwitterQuestState => {
+): QuestTypeState['FOLLOW_TWITTER'] => {
   if (!isPrismaJsonObject(state)) {
     throw new TRPCError({
       code: 'PARSE_ERROR',
@@ -123,7 +120,9 @@ export const parseFollowTwitterState = (
   return { username: state['username'] };
 };
 
-export const parseAddFriendState = (state: unknown): AddFriendQuestState => {
+export const parseAddFriendState = (
+  state: unknown
+): QuestTypeState['ADD_FRIEND'] => {
   if (!isPrismaJsonObject(state)) {
     throw new TRPCError({
       code: 'PARSE_ERROR',
@@ -148,7 +147,7 @@ export const parseAddFriendState = (state: unknown): AddFriendQuestState => {
 
 export const parseAddReferralState = (
   state: unknown
-): AddReferralQuestState => {
+): QuestTypeState['ADD_REFERRAL'] => {
   if (!isPrismaJsonObject(state)) {
     throw new TRPCError({
       code: 'PARSE_ERROR',
@@ -174,26 +173,13 @@ export const parseAddReferralState = (
 
 export const parseRaffleParticipationState = (
   state: unknown
-): RaffleParticipationQuestState => {
-  if (!isPrismaJsonObject(state)) {
-    throw new TRPCError({
-      code: 'PARSE_ERROR',
-      message: 'State is not an object',
-    });
-  }
-  if (!has(state, 'entered') || typeof state['entered'] !== 'number') {
-    throw new TRPCError({
-      code: 'PARSE_ERROR',
-      message: 'State is missing entered field',
-    });
-  }
-
-  return { entered: state['entered'] };
+): QuestTypeState['RAFFLE_PARTICIPATION'] => {
+  return state;
 };
 
 export const parsePlayMinutesState = (
   state: unknown
-): PlayMinutesQuestState => {
+): QuestTypeState['PLAY_MINUTES'] => {
   if (!isPrismaJsonObject(state)) {
     throw new TRPCError({
       code: 'PARSE_ERROR',
@@ -210,19 +196,15 @@ export const parsePlayMinutesState = (
   return { duration: state['duration'] };
 };
 
-export const isPrismaJsonObject = (
-  value: unknown
-): value is Prisma.JsonObject => {
-  if (value == null || typeof value !== 'object' || Array.isArray(value))
-    return false;
-  return true;
-};
-
-const convertJson = <
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  T = string | number | boolean | Record<string, any> | Array<any> | null
->(
-  json: Prisma.JsonValue
-): T => {
-  return json as T;
+export const parseData = <T extends QuestType>(
+  data: Prisma.JsonValue
+): QuestTypeData[T] => {
+  if (!isPrismaJsonObject(data)) {
+    throw new TRPCError({
+      code: 'PARSE_ERROR',
+      message: 'Data is not an object',
+    });
+  }
+  // TODO: add more validation
+  return data as QuestTypeData[T];
 };

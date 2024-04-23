@@ -1,12 +1,8 @@
 import { Edit, Replay } from '@mui/icons-material';
 import { Button, Collapse, Typography } from '@mui/material';
+import { QuestCategory, QuestFrequency, QuestStatus } from '@prisma/client';
 import { Column, Row } from '@worksheets/ui/components/flex';
-import {
-  QUEST_CATEGORIES,
-  QUEST_FREQUENCIES,
-  QUEST_STATUSES,
-  QuestFilterOptions,
-} from '@worksheets/util/types';
+import { QuestFilterOptions } from '@worksheets/util/types';
 import { useState } from 'react';
 
 import {
@@ -47,19 +43,21 @@ export const QuestFilters: React.FC<{
               <u>Category</u>
             </Typography>
             <Row gap={1.5} flexWrap="wrap">
-              {QUEST_CATEGORIES.map((category) => (
+              {Object.keys(QuestCategory).map((category) => (
                 <Button
                   key={category}
                   variant="arcade"
                   color={
-                    filters.categories.includes(category)
+                    filters.categories.includes(category as QuestCategory)
                       ? 'primary'
                       : 'dark-grey'
                   }
                   size="small"
                   sx={{ minWidth: 100 }}
                   onClick={() => {
-                    if (filters.categories.includes(category)) {
+                    if (
+                      filters.categories.includes(category as QuestCategory)
+                    ) {
                       onChange({
                         ...filters,
                         categories: filters.categories.filter(
@@ -69,12 +67,15 @@ export const QuestFilters: React.FC<{
                     } else {
                       onChange({
                         ...filters,
-                        categories: [...filters.categories, category],
+                        categories: [
+                          ...filters.categories,
+                          category as QuestCategory,
+                        ],
                       });
                     }
                   }}
                 >
-                  {formatQuestCategoryLabel(category)}
+                  {formatQuestCategoryLabel(category as QuestCategory)}
                 </Button>
               ))}
             </Row>
@@ -84,19 +85,19 @@ export const QuestFilters: React.FC<{
               <u>Status</u>
             </Typography>
             <Row gap={1.5} flexWrap="wrap">
-              {QUEST_STATUSES.map((status) => (
+              {Object.keys(QuestStatus).map((status) => (
                 <Button
                   key={status}
                   variant="arcade"
                   color={
-                    filters.statuses.includes(status)
-                      ? selectQuestColor({ status })
+                    filters.statuses.includes(status as QuestStatus)
+                      ? selectQuestColor(status as QuestStatus)
                       : 'dark-grey'
                   }
                   size="small"
                   sx={{ minWidth: 100 }}
                   onClick={() => {
-                    if (filters.statuses.includes(status)) {
+                    if (filters.statuses.includes(status as QuestStatus)) {
                       onChange({
                         ...filters,
                         statuses: filters.statuses.filter((f) => f !== status),
@@ -104,12 +105,12 @@ export const QuestFilters: React.FC<{
                     } else {
                       onChange({
                         ...filters,
-                        statuses: [...filters.statuses, status],
+                        statuses: [...filters.statuses, status as QuestStatus],
                       });
                     }
                   }}
                 >
-                  {formatQuestStatusLabel(status)}
+                  {formatQuestStatusLabel(status as QuestStatus)}
                 </Button>
               ))}
             </Row>
@@ -119,19 +120,21 @@ export const QuestFilters: React.FC<{
               <u>Frequency</u>
             </Typography>
             <Row gap={1.5} flexWrap="wrap">
-              {QUEST_FREQUENCIES.map((frequency) => (
+              {Object.keys(QuestFrequency).map((frequency) => (
                 <Button
                   key={frequency}
                   variant="arcade"
                   color={
-                    filters.frequencies.includes(frequency)
+                    filters.frequencies.includes(frequency as QuestFrequency)
                       ? 'primary'
                       : 'dark-grey'
                   }
                   size="small"
                   sx={{ minWidth: 100 }}
                   onClick={() => {
-                    if (filters.frequencies.includes(frequency)) {
+                    if (
+                      filters.frequencies.includes(frequency as QuestFrequency)
+                    ) {
                       onChange({
                         ...filters,
                         frequencies: filters.frequencies.filter(
@@ -141,12 +144,15 @@ export const QuestFilters: React.FC<{
                     } else {
                       onChange({
                         ...filters,
-                        frequencies: [...filters.frequencies, frequency],
+                        frequencies: [
+                          ...filters.frequencies,
+                          frequency as QuestFrequency,
+                        ],
                       });
                     }
                   }}
                 >
-                  {formatQuestFrequencyLabel(frequency)}
+                  {formatQuestFrequencyLabel(frequency as QuestFrequency)}
                 </Button>
               ))}
             </Row>

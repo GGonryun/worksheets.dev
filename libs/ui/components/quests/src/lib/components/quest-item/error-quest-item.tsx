@@ -9,6 +9,6 @@ export const ErrorQuestItem: React.FC<{ onClick: () => void }> = ({
     onClick={onClick}
     color="error"
     Icon={ErrorOutline}
-    title="Error"
+    name="Error"
   />
 );

@@ -1,6 +1,6 @@
+import { QuestFrequency, QuestProgress } from '@worksheets/prisma';
 import { assertNever } from '@worksheets/util/errors';
 import { daysFromNow, isExpired } from '@worksheets/util/time';
-import { QuestFrequency, QuestProgress } from '@worksheets/util/types';
 
 export const createExpirationDate = (
   frequency: QuestFrequency
@@ -10,6 +10,8 @@ export const createExpirationDate = (
       return daysFromNow(1);
     case QuestFrequency.WEEKLY:
       return daysFromNow(7);
+    case QuestFrequency.MONTHLY:
+      return daysFromNow(30);
     case QuestFrequency.INFINITE:
       return undefined;
     default:

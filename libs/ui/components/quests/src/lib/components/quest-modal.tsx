@@ -8,7 +8,7 @@ import {
   printDateTime,
   printTimeRemaining,
 } from '@worksheets/util/time';
-import { Quest } from '@worksheets/util/types';
+import { DetailedQuestSchema } from '@worksheets/util/types';
 import pluralize from 'pluralize';
 
 import {
@@ -18,12 +18,12 @@ import {
 } from '../util';
 
 export const QuestModal: React.FC<
-  ModalWrapper<{ quest: Quest; children: React.ReactNode }>
+  ModalWrapper<{ quest: DetailedQuestSchema; children: React.ReactNode }>
 > = ({ quest, children, ...modalProps }) => {
-  const { reward, title, description, expiresAt } = quest;
+  const { loot, name, description, expiresAt } = quest;
   const theme = useTheme();
-  const Icon = selectQuestStatusIcon(quest);
-  const colorKey = selectQuestColor(quest);
+  const Icon = selectQuestStatusIcon(quest.status, quest.type);
+  const colorKey = selectQuestColor(quest.status);
   const color = theme.palette[colorKey].main;
   const frequency = formatQuestFrequencyLabel(quest.frequency);
 
@@ -41,13 +41,22 @@ export const QuestModal: React.FC<
               <Typography variant="body3" color={color} fontWeight={700}>
                 {frequency} Quest
               </Typography>
-              <Typography variant="body3" color={color} fontWeight={700}>
-                Earn {reward} {pluralize('Token', reward)}
-              </Typography>
+              {loot.map((l) => (
+                <Typography
+                  variant="body3"
+                  color={color}
+                  fontWeight={700}
+                  key={l.item.id}
+                  textAlign="right"
+                >
+                  Earn {l.quantity}x {pluralize(l.item.name, l.quantity)} (
+                  {(l.chance * 100).toFixed(2)}%)
+                </Typography>
+              ))}
             </Column>
           </Row>
           <Row justifyContent="space-between">
-            <Typography variant="h6">{title}</Typography>
+            <Typography variant="h6">{name}</Typography>
           </Row>
           <Typography variant="body2">{description}</Typography>
         </Column>

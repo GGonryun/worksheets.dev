@@ -1,53 +1,43 @@
 import { TRPCError } from '@trpc/server';
-import { PrismaClient, PrismaTransactionalClient } from '@worksheets/prisma';
+import { ItemId } from '@worksheets/data/items';
+import {
+  Prisma,
+  PrismaClient,
+  PrismaTransactionalClient,
+  QuestProgress,
+  QuestType,
+} from '@worksheets/prisma';
 import { InventoryService } from '@worksheets/services/inventory';
 import { NotificationsService } from '@worksheets/services/notifications';
-import { isExpired, now } from '@worksheets/util/time';
+import { parseData, parseState } from '@worksheets/util/quests';
+import { isExpired } from '@worksheets/util/time';
 import {
-  AddFriendQuestId,
-  AddReferralQuestId,
-  FollowTwitterQuestId,
-  FriendPlayMinutesQuestId,
-  PlayGameQuestId,
-  PlayMinutesQuestId,
-  QuestId,
-  QuestInput,
-  QuestProgress,
-  QUESTS,
-  Quests,
-  RaffleParticipationQuestId,
-  ReferralPlayMinutesQuestId,
-  VisitWebsiteQuestId,
+  QuestTypeData,
+  QuestTypeInput,
+  QuestTypeState,
 } from '@worksheets/util/types';
 
 import { createExpirationDate } from './expiration';
-import {
-  parseAddFriendState,
-  parseAddReferralState,
-  parsePlayGameState,
-  parsePlayMinutesState,
-  parseRaffleParticipationState,
-  parseVisitWebsiteState,
-} from './state';
 
-type TrackProgressOpts<T extends QuestId> = {
-  questId: T;
+type TrackProgressOpts<T extends QuestType> = {
+  questId: string;
+  questType: T;
   userId: string;
-  input: QuestInput<T>;
+  input: QuestTypeInput[T];
   db: PrismaClient | PrismaTransactionalClient;
   inventory: InventoryService;
   notifications: NotificationsService;
 };
 
 export const trackFinitePlayGameProgress = async (
-  opts: TrackProgressOpts<PlayGameQuestId>
+  opts: TrackProgressOpts<'PLAY_GAME'>
 ) => {
-  const { progress, definition } = await getQuest(opts);
+  const { progress, definition } = await getQuest<'PLAY_GAME'>(opts);
   if (!progress) {
     await opts.db.questProgress.create({
       data: {
         userId: opts.userId,
-        questId: opts.questId,
+        questDefinitionId: opts.questId,
         status: 'ACTIVE',
         expiresAt: createExpirationDate(definition.frequency),
         state: {
@@ -58,7 +48,6 @@ export const trackFinitePlayGameProgress = async (
 
     return;
   } else {
-    const state = parsePlayGameState(progress.state);
     if (progress.status === 'COMPLETED') {
       if (isExpired(progress.expiresAt)) {
         await opts.db.questProgress.update({
@@ -79,7 +68,7 @@ export const trackFinitePlayGameProgress = async (
         return;
       }
     } else {
-      if (state.progress >= definition.data.requirement) {
+      if (progress.state.progress >= definition.data.requirement) {
         await opts.db.questProgress.update({
           where: {
             id: progress.id,
@@ -88,7 +77,7 @@ export const trackFinitePlayGameProgress = async (
             status: 'COMPLETED',
           },
         });
-        await opts.inventory.increment(opts.userId, '1', definition.reward);
+        await awardLoot(opts.inventory, opts.userId, definition.loot);
         await opts.notifications.send('quest-completed', {
           userId: opts.userId,
           quest: definition,
@@ -97,14 +86,14 @@ export const trackFinitePlayGameProgress = async (
       } else {
         await opts.db.questProgress.update({
           where: {
-            userId_questId: {
+            userId_questDefinitionId: {
               userId: opts.userId,
-              questId: opts.questId,
+              questDefinitionId: opts.questId,
             },
           },
           data: {
             state: {
-              progress: state.progress + 1,
+              progress: progress.state.progress + 1,
             },
           },
         });
@@ -114,7 +103,7 @@ export const trackFinitePlayGameProgress = async (
 };
 
 export const trackInfinitePlayGameProgress = async (
-  opts: TrackProgressOpts<PlayGameQuestId>
+  opts: TrackProgressOpts<'PLAY_GAME'>
 ) => {
   const { progress, definition } = await getQuest(opts);
 
@@ -122,68 +111,62 @@ export const trackInfinitePlayGameProgress = async (
     await opts.db.questProgress.create({
       data: {
         userId: opts.userId,
-        questId: opts.questId,
+        questDefinitionId: opts.questId,
         status: 'ACTIVE',
         state: {
           progress: 1,
         },
       },
     });
-
-    return;
   } else {
-    const state = parsePlayGameState(progress.state);
     await opts.db.questProgress.update({
       where: {
-        userId_questId: {
+        userId_questDefinitionId: {
           userId: opts.userId,
-          questId: opts.questId,
+          questDefinitionId: opts.questId,
         },
       },
       data: {
         state: {
-          progress: state.progress + 1,
+          progress: progress.state.progress + 1,
         },
       },
     });
   }
 
-  await opts.inventory.increment(opts.userId, '1', definition.reward);
+  await awardLoot(opts.inventory, opts.userId, definition.loot);
 };
 
 export const trackWebsiteVisitProgress = async (
-  opts: TrackProgressOpts<VisitWebsiteQuestId>
+  opts: TrackProgressOpts<'VISIT_WEBSITE'>
 ) => {
   const { progress, definition } = await getQuest(opts);
 
   onQuestCompletable(progress, async () => {
-    const state = parseVisitWebsiteState({
-      visited: now().getTime(),
-    });
     const status = 'COMPLETED';
     const expiresAt = createExpirationDate(definition.frequency);
     await opts.db.questProgress.upsert({
       where: {
-        userId_questId: {
+        userId_questDefinitionId: {
           userId: opts.userId,
-          questId: opts.questId,
+          questDefinitionId: opts.questId,
         },
       },
       create: {
         userId: opts.userId,
-        questId: opts.questId,
+        questDefinitionId: opts.questId,
         expiresAt,
         status,
-        state,
+        state: {},
       },
       update: {
         expiresAt,
         status,
-        state,
+        state: {},
       },
     });
 
-    await opts.inventory.increment(opts.userId, '1', definition.reward);
+    await awardLoot(opts.inventory, opts.userId, definition.loot);
     await opts.notifications.send('quest-completed', {
       userId: opts.userId,
       quest: definition,
@@ -192,7 +175,7 @@ export const trackWebsiteVisitProgress = async (
 };
 
 export const trackFollowTwitterProgress = async (
-  opts: TrackProgressOpts<FollowTwitterQuestId>
+  opts: TrackProgressOpts<'FOLLOW_TWITTER'>
 ) => {
   const { userId, questId } = opts;
   const { progress, definition } = await getQuest(opts);
@@ -202,14 +185,14 @@ export const trackFollowTwitterProgress = async (
     const status = 'COMPLETED';
     await opts.db.questProgress.upsert({
       where: {
-        userId_questId: {
+        userId_questDefinitionId: {
           userId,
-          questId,
+          questDefinitionId: questId,
         },
       },
       create: {
         userId,
-        questId,
+        questDefinitionId: questId,
         expiresAt,
         status,
         state: opts.input,
@@ -221,7 +204,7 @@ export const trackFollowTwitterProgress = async (
       },
     });
 
-    await opts.inventory.increment(opts.userId, '1', definition.reward);
+    await awardLoot(opts.inventory, userId, definition.loot);
     await opts.notifications.send('quest-completed', {
       userId: opts.userId,
       quest: definition,
@@ -230,39 +213,36 @@ export const trackFollowTwitterProgress = async (
 };
 
 export const trackRaffleParticipationProgress = async (
-  opts: TrackProgressOpts<RaffleParticipationQuestId>
+  opts: TrackProgressOpts<'RAFFLE_PARTICIPATION'>
 ) => {
   const { userId, questId } = opts;
   const { progress, definition } = await getQuest(opts);
 
   onQuestCompletable(progress, async () => {
-    const state = parseRaffleParticipationState({
-      entered: now().getTime(),
-    });
     const expiresAt = createExpirationDate(definition.frequency);
     const status = 'COMPLETED';
 
     await opts.db.questProgress.upsert({
       where: {
-        userId_questId: {
+        userId_questDefinitionId: {
           userId,
-          questId,
+          questDefinitionId: questId,
         },
       },
       create: {
         userId,
-        questId,
+        questDefinitionId: questId,
         expiresAt,
         status,
-        state,
+        state: {},
       },
       update: {
         expiresAt,
         status,
-        state,
+        state: {},
       },
     });
-    await opts.inventory.increment(opts.userId, '1', definition.reward);
+    await awardLoot(opts.inventory, userId, definition.loot);
     await opts.notifications.send('quest-completed', {
       userId: opts.userId,
       quest: definition,
@@ -271,7 +251,7 @@ export const trackRaffleParticipationProgress = async (
 };
 
 export const trackAddFriendProgress = async (
-  opts: TrackProgressOpts<AddFriendQuestId>
+  opts: TrackProgressOpts<'ADD_FRIEND'>
 ) => {
   const { userId, questId, input } = opts;
   const { progress, definition } = await getQuest(opts);
@@ -281,42 +261,41 @@ export const trackAddFriendProgress = async (
     await opts.db.questProgress.create({
       data: {
         userId,
-        questId,
+        questDefinitionId: questId,
         status: 'ACTIVE',
         state: { friends: [input.userId] },
       },
     });
 
-    await opts.inventory.increment(opts.userId, '1', definition.reward);
+    await awardLoot(opts.inventory, userId, definition.loot);
     return;
   }
 
   // if they've started, check if they've added that friend already
-  const state = parseAddFriendState(progress.state);
-  if (state.friends.includes(input.userId)) {
+  if (progress.state.friends.includes(input.userId)) {
     return;
   }
 
   // if they haven't added that friend, add them and reward them
   await opts.db.questProgress.update({
     where: {
-      userId_questId: {
+      userId_questDefinitionId: {
         userId,
-        questId,
+        questDefinitionId: questId,
       },
     },
     data: {
       state: {
-        friends: [...state.friends, input.userId],
+        friends: [...progress.state.friends, input.userId],
       },
     },
   });
 
-  await opts.inventory.increment(opts.userId, '1', definition.reward);
+  await awardLoot(opts.inventory, userId, definition.loot);
 };
 
 export const trackAddReferralProgress = async (
-  opts: TrackProgressOpts<AddReferralQuestId>
+  opts: TrackProgressOpts<'ADD_REFERRAL'>
 ) => {
   const { userId, questId, input } = opts;
   const { progress, definition } = await getQuest(opts);
@@ -326,19 +305,18 @@ export const trackAddReferralProgress = async (
     await opts.db.questProgress.create({
       data: {
         userId,
-        questId,
+        questDefinitionId: questId,
         status: 'ACTIVE',
         state: { referrals: [input.userId] },
       },
     });
 
-    await opts.inventory.increment(opts.userId, '1', definition.reward);
+    await awardLoot(opts.inventory, userId, definition.loot);
     return;
   }
 
   // if they've started, check if they've added that friend already
-  const state = parseAddReferralState(progress.state);
-  if (state.referrals.includes(input.userId)) {
+  if (progress.state.referrals.includes(input.userId)) {
     console.warn('User has already referred this friend before', opts);
     return;
   }
@@ -346,26 +324,28 @@ export const trackAddReferralProgress = async (
   // if they haven't added that friend, add them and reward them
   await opts.db.questProgress.update({
     where: {
-      userId_questId: {
+      userId_questDefinitionId: {
         userId,
-        questId,
+        questDefinitionId: questId,
       },
     },
     data: {
       state: {
-        referrals: [...state.referrals, input.userId],
+        referrals: [...progress.state.referrals, input.userId],
       },
     },
   });
 
-  await opts.inventory.increment(opts.userId, '1', definition.reward);
+  await awardLoot(opts.inventory, userId, definition.loot);
 };
 
 export const trackReferralPlayMinutesProgress = async (
-  opts: TrackProgressOpts<ReferralPlayMinutesQuestId>
+  opts: TrackProgressOpts<'REFERRAL_PLAY_MINUTES'>
 ) => {
   const { userId, questId, input } = opts;
-  const definition = getDefinition(opts.questId);
+  const { progress, definition } = await getQuest<'REFERRAL_PLAY_MINUTES'>(
+    opts
+  );
 
   const user = await opts.db.user.findFirst({
     where: {
@@ -385,18 +365,11 @@ export const trackReferralPlayMinutesProgress = async (
     return;
   }
 
-  const progress = await opts.db.questProgress.findFirst({
-    where: {
-      userId: user.referredBy.id,
-      questId,
-    },
-  });
-
   if (!progress) {
     await opts.db.questProgress.create({
       data: {
         userId: user.referredBy.id,
-        questId,
+        questDefinitionId: questId,
         status: 'ACTIVE',
         state: { duration: input.increment },
       },
@@ -404,37 +377,32 @@ export const trackReferralPlayMinutesProgress = async (
 
     return;
   } else {
-    const state = parsePlayMinutesState(progress.state);
     await opts.db.questProgress.update({
       where: {
         id: progress.id,
       },
       data: {
         state: {
-          duration: Math.floor(state.duration + input.increment),
+          duration: Math.floor(progress.state.duration + input.increment),
         },
       },
     });
     const completions = calculateCompletionsFromPlayTime(
-      state.duration,
+      progress.state.duration,
       input.increment,
       definition.data.requirement
     );
     if (completions > 0) {
-      await opts.inventory.increment(
-        opts.userId,
-        '1',
-        definition.reward * completions
-      );
+      await awardLoot(opts.inventory, userId, definition.loot, completions);
     }
   }
 };
 
 export const trackFriendPlayMinutesProgress = async (
-  opts: TrackProgressOpts<FriendPlayMinutesQuestId>
+  opts: TrackProgressOpts<'FRIEND_PLAY_MINUTES'>
 ) => {
   const { userId, questId, input } = opts;
-  const definition = getDefinition(questId);
+  const { progress, definition } = await getQuest(opts);
 
   const favorites = await opts.db.friendship.findMany({
     where: {
@@ -448,18 +416,11 @@ export const trackFriendPlayMinutesProgress = async (
 
   await Promise.allSettled(
     favorites.map(async (friend) => {
-      const progress = await opts.db.questProgress.findFirst({
-        where: {
-          userId: friend.friendId,
-          questId,
-        },
-      });
-
       if (!progress) {
         await opts.db.questProgress.create({
           data: {
             userId: friend.friendId,
-            questId,
+            questDefinitionId: questId,
             status: 'ACTIVE',
             state: { duration: input.increment },
           },
@@ -467,31 +428,25 @@ export const trackFriendPlayMinutesProgress = async (
 
         return;
       } else {
-        const state = parsePlayMinutesState(progress.state);
-
         await opts.db.questProgress.update({
           where: {
             id: progress.id,
           },
           data: {
             state: {
-              duration: Math.floor(state.duration + input.increment),
+              duration: Math.floor(progress.state.duration + input.increment),
             },
           },
         });
 
         const completions = calculateCompletionsFromPlayTime(
-          state.duration,
+          progress.state.duration,
           input.increment,
           definition.data.requirement
         );
 
         if (completions > 0) {
-          await opts.inventory.increment(
-            opts.userId,
-            '1',
-            definition.reward * completions
-          );
+          await awardLoot(opts.inventory, userId, definition.loot, completions);
         }
       }
     })
@@ -499,7 +454,7 @@ export const trackFriendPlayMinutesProgress = async (
 };
 
 export const trackPlayMinutesProgress = async (
-  opts: TrackProgressOpts<PlayMinutesQuestId>
+  opts: TrackProgressOpts<'PLAY_MINUTES'>
 ) => {
   const { userId, questId, input } = opts;
   const { progress, definition } = await getQuest(opts);
@@ -508,7 +463,7 @@ export const trackPlayMinutesProgress = async (
     await opts.db.questProgress.create({
       data: {
         userId,
-        questId,
+        questDefinitionId: questId,
         status: 'ACTIVE',
         state: { duration: input.increment },
       },
@@ -516,30 +471,62 @@ export const trackPlayMinutesProgress = async (
 
     return;
   } else {
-    const state = parsePlayMinutesState(progress.state);
     await opts.db.questProgress.update({
       where: {
         id: progress.id,
       },
       data: {
         state: {
-          duration: Math.floor(state.duration + input.increment),
+          duration: Math.floor(progress.state.duration + input.increment),
         },
       },
     });
     const completions = calculateCompletionsFromPlayTime(
-      state.duration,
+      progress.state.duration,
       input.increment,
       definition.data.requirement
     );
     if (completions > 0) {
-      await opts.inventory.increment(
-        opts.userId,
-        '1',
-        definition.reward * completions
-      );
+      await awardLoot(opts.inventory, userId, definition.loot, completions);
     }
   }
+};
+
+export const trackBasicActionProgress = async (
+  opts: TrackProgressOpts<'BASIC_ACTION'>
+) => {
+  const { userId, questId } = opts;
+  const { progress, definition } = await getQuest(opts);
+
+  onQuestCompletable(progress, async () => {
+    const expiresAt = createExpirationDate(definition.frequency);
+    const status = 'COMPLETED';
+    await opts.db.questProgress.upsert({
+      where: {
+        userId_questDefinitionId: {
+          userId,
+          questDefinitionId: questId,
+        },
+      },
+      create: {
+        userId,
+        questDefinitionId: questId,
+        expiresAt,
+        status,
+        state: {},
+      },
+      update: {
+        expiresAt,
+        status,
+      },
+    });
+
+    await awardLoot(opts.inventory, userId, definition.loot);
+    await opts.notifications.send('quest-completed', {
+      userId: opts.userId,
+      quest: definition,
+    });
+  });
 };
 
 const onQuestCompletable = async (
@@ -552,38 +539,86 @@ const onQuestCompletable = async (
   await fn();
 };
 
-// TODO: it might be possible to automatically coerce the return type to the correct quest type.
-const getQuest = async <T extends QuestId>({
-  db,
-  questId,
-  userId,
-}: {
+const getQuest = async <T extends QuestType>(opts: {
   db: PrismaClient | PrismaTransactionalClient;
-  questId: T;
+  questId: string;
+  questType: T;
   userId: string;
 }): Promise<{
-  progress: QuestProgress | null;
-  definition: Quests[T];
+  progress: ProgressedQuest<T> | null;
+  definition: DefinedQuest<T>;
 }> => {
   return {
-    progress: await db.questProgress.findFirst({
-      where: {
-        userId,
-        questId,
-      },
-    }),
-    definition: getDefinition(questId),
+    progress: await getProgress<T>(opts),
+    definition: await getDefinition<T>(opts),
   };
 };
 
-const getDefinition = <T extends QuestId>(questId: T): Quests[T] => {
-  const definition = QUESTS[questId];
+const getProgress = async <T extends QuestType>(opts: {
+  db: PrismaClient | PrismaTransactionalClient;
+  questId: string;
+  questType: T;
+  userId: string;
+}): Promise<ProgressedQuest<T> | null> => {
+  const progress = await opts.db.questProgress.findFirst({
+    where: {
+      questDefinitionId: opts.questId,
+      userId: opts.userId,
+    },
+    select: {
+      id: true,
+      createdAt: true,
+      updatedAt: true,
+      expiresAt: true,
+      status: true,
+      state: true,
+      questDefinitionId: true,
+    },
+  });
+  if (!progress) return null;
+
+  return { ...progress, state: parseState<T>(opts.questType, progress?.state) };
+};
+
+const getDefinition = async <T extends QuestType>(opts: {
+  db: PrismaClient | PrismaTransactionalClient;
+  questId: string;
+}): Promise<DefinedQuest<T>> => {
+  const definition = await opts.db.questDefinition.findFirst({
+    where: {
+      id: opts.questId,
+    },
+    include: {
+      loot: {
+        include: {
+          item: true,
+        },
+      },
+    },
+  });
   if (!definition)
     throw new TRPCError({
       code: 'NOT_FOUND',
       message: 'Quest definition not found',
     });
-  return definition;
+
+  const data: QuestTypeData[T] = parseData<T>(definition.data);
+  return { ...definition, data };
+};
+
+const awardLoot = async (
+  inventory: InventoryService,
+  userId: string,
+  loot: DefinedQuest['loot'],
+  multiplier = 1
+) => {
+  for (const l of loot) {
+    await inventory.increment(
+      userId,
+      l.itemId as ItemId,
+      l.quantity * multiplier
+    );
+  }
 };
 
 const calculateCompletionsFromPlayTime = (
@@ -597,3 +632,31 @@ const calculateCompletionsFromPlayTime = (
   const oldCompletions = Math.floor(oldDuration / timer);
   return newCompletions - oldCompletions;
 };
+
+type DefinedQuest<T extends QuestType = QuestType> = Omit<
+  Prisma.QuestDefinitionGetPayload<{
+    include: {
+      loot: {
+        include: {
+          item: true;
+        };
+      };
+    };
+  }>,
+  'data'
+> & { data: QuestTypeData[T] };
+
+type ProgressedQuest<T extends QuestType = QuestType> = Omit<
+  Prisma.QuestProgressGetPayload<{
+    select: {
+      id: true;
+      createdAt: true;
+      updatedAt: true;
+      expiresAt: true;
+      status: true;
+      state: true;
+      questDefinitionId: true;
+    };
+  }>,
+  'state'
+> & { state: QuestTypeState[T] };

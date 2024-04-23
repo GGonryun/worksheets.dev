@@ -4,12 +4,8 @@ import { routes } from '@worksheets/routes';
 import { BulletPoints } from '@worksheets/ui/components/lists';
 import { PanelFooter } from '@worksheets/ui/components/panels';
 import { FriendsPanels } from '@worksheets/util/enums';
-import {
-  Follower,
-  Friend,
-  MAX_BEST_FRIENDS,
-  MAX_FRIENDS,
-} from '@worksheets/util/types';
+import { MAX_BEST_FRIENDS, MAX_FRIENDS } from '@worksheets/util/settings';
+import { Follower, Friend } from '@worksheets/util/types';
 import React from 'react';
 
 import { EmptyFriendsPlaceholder } from '../empty-friends-placeholder';

@@ -3,15 +3,15 @@ import { Button, Typography } from '@mui/material';
 import { routes } from '@worksheets/routes';
 import { Column, Row } from '@worksheets/ui/components/flex';
 import { calculatePercentage } from '@worksheets/util/numbers';
-import { PlayGameQuest } from '@worksheets/util/types';
+import { DetailedQuestSchema } from '@worksheets/util/types';
 
 import { selectQuestColor } from '../../util';
 import { ProgressBar } from './progress-bar';
 
 export const PlayGameQuestForm: React.FC<{
-  quest: PlayGameQuest;
+  quest: DetailedQuestSchema<'PLAY_GAME'>;
 }> = ({ quest }) => {
-  const colorKey = selectQuestColor(quest);
+  const colorKey = selectQuestColor(quest.status);
   return (
     <Column gap={2}>
       <Column gap={0.5}>

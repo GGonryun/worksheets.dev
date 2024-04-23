@@ -1,6 +1,6 @@
 import {
   AccessTimeOutlined,
-  LocalActivityOutlined,
+  Star,
   SvgIconComponent,
 } from '@mui/icons-material';
 import { alpha, Box, Button, Typography } from '@mui/material';
@@ -14,11 +14,11 @@ export const QuestItemLayout: React.FC<{
   onClick?: () => void;
   color: PaletteColor;
   Icon: SvgIconComponent;
-  title: string;
+  name: string;
   frequency?: string;
   expiration?: string;
-  reward?: number;
-}> = ({ onClick, color, Icon, title, frequency, expiration, reward }) => {
+  loot?: { item: { name: string }; quantity: number }[];
+}> = ({ onClick, color, Icon, name, frequency, expiration, loot }) => {
   const isMobile = useMediaQueryDown('sm');
   return (
     <Box
@@ -57,7 +57,7 @@ export const QuestItemLayout: React.FC<{
               fontWeight={700}
               mb={isMobile ? '0px' : '-4px'}
             >
-              {title}
+              {name}
             </Typography>
             {frequency && (
               <Typography
@@ -80,11 +80,27 @@ export const QuestItemLayout: React.FC<{
                 </Typography>
               </Row>
             )}
-            {reward && (
+            {loot && (
               <Row gap={0.5}>
-                <LocalActivityOutlined fontSize="small" />
-                <Typography fontWeight={500} variant="body3">
-                  {reward} {pluralize('Token', reward)}
+                <Star fontSize="small" color={'primary'} />
+                <Typography
+                  fontWeight={500}
+                  variant="body3"
+                  width={120}
+                  sx={{
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                  }}
+                >
+                  {loot.length > 1 ? (
+                    <i>Multiple Items</i>
+                  ) : (
+                    `${loot[0].quantity}x ${pluralize(
+                      loot[0].item.name,
+                      loot[0].quantity
+                    )}`
+                  )}
                 </Typography>
               </Row>
             )}

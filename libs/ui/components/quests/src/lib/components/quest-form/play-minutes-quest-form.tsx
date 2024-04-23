@@ -3,11 +3,11 @@ import { Button, Link, Typography } from '@mui/material';
 import { routes } from '@worksheets/routes';
 import { Column } from '@worksheets/ui/components/flex';
 import { BulletPoints } from '@worksheets/ui/components/lists';
-import { PlayMinutesQuest } from '@worksheets/util/types';
+import { DetailedQuestSchema } from '@worksheets/util/types';
 import pluralize from 'pluralize';
 
 export const PlayMinutesQuestForm: React.FC<{
-  quest: PlayMinutesQuest;
+  quest: DetailedQuestSchema<'PLAY_MINUTES'>;
 }> = ({ quest }) => {
   const minutes = Math.floor(quest.state.duration / 60);
   return (

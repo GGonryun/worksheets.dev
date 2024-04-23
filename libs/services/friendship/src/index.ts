@@ -1,6 +1,6 @@
 import { TRPCError } from '@trpc/server';
 import { PrismaClient, PrismaTransactionalClient } from '@worksheets/prisma';
-import { MAX_BEST_FRIENDS, MAX_FRIENDS } from '@worksheets/util/types';
+import { MAX_BEST_FRIENDS, MAX_FRIENDS } from '@worksheets/util/settings';
 
 export class FriendshipService {
   #db: PrismaClient | PrismaTransactionalClient;
