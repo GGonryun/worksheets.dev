@@ -40,3 +40,12 @@ export function shuffle<T>(array: T[]): T[] {
 export const randomArrayElement = <T>(arr: T[]): T => {
   return arr[Math.floor(Math.random() * arr.length)];
 };
+
+export const lottery = <T extends string | number>(
+  entries: Record<T, number>
+): T => {
+  const total = Object.entries(entries).flatMap(
+    ([key, value]) => Array(value).fill(key) as T[]
+  );
+  return randomArrayElement<T>(total);
+};

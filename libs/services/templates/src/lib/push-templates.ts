@@ -178,4 +178,18 @@ export class PushTemplates {
       }</a>! <a href="${ACCOUNT_INVENTORY_URL}">View your inventory</a>.`,
     };
   }
+
+  static foundItem(
+    opts: ExtractTemplatePayload<'found-item'>
+  ): PushNotifyInput {
+    return {
+      userIds: [opts.userId],
+      type: 'INVENTORY',
+      text: `You found one <a href="${ACCOUNT_INVENTORY_URL}">${
+        opts.item.name
+      }</a> while playing <a href="${GAME_URL(opts.game.id)}">${
+        opts.game.title
+      }</a>!`,
+    };
+  }
 }

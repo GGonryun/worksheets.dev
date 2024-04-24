@@ -232,6 +232,20 @@ export type NotificationTemplate =
           loot: number;
         };
       };
+    }
+  | {
+      type: 'found-item';
+      payload: {
+        userId: string;
+        item: {
+          id: string;
+          name: string;
+        };
+        game: {
+          id: string;
+          title: string;
+        };
+      };
     };
 
 /** Helper Types **/

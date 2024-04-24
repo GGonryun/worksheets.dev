@@ -5,6 +5,7 @@ import { useSnackbar } from '@worksheets/ui/components/snackbar';
 import { useGameVotes } from '@worksheets/ui/hooks/use-game-votes';
 import { useRecentlyPlayedGames } from '@worksheets/ui/hooks/use-recently-played-games';
 import { useReferralCode } from '@worksheets/ui/hooks/use-referral-code';
+import { GAME_TRACK_FREQUENCY_SECONDS } from '@worksheets/util/settings';
 import { MS_TO_S, S_TO_MS } from '@worksheets/util/time';
 import {
   DeveloperSchema,
@@ -70,7 +71,7 @@ const GameScreenContainer: React.FC<{
 
   const [showVoteWarning, setShowVoteWarning] = useState(false);
   const gameTracker = useGameTracker({
-    duration: S_TO_MS(30),
+    duration: S_TO_MS(GAME_TRACK_FREQUENCY_SECONDS),
     onElapsed: (increment) => {
       if (authenticated) {
         trackGameTime.mutate({

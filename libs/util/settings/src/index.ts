@@ -26,3 +26,7 @@ export const PER_GAME_PLAY_REWARD = 1;
 export const PER_GAME_MINUTE_REWARD = 1;
 export const PER_REFERRAL_PLAY_MINUTE_REWARD = 1;
 export const PER_FRIEND_PLAY_MINUTE_REWARD = 2;
+
+export const PLAY_MINUTE_DROP_CHANCE = 0.1;
+
+export const GAME_TRACK_FREQUENCY_SECONDS = 30.1;

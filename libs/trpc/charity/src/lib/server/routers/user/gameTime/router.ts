@@ -36,7 +36,7 @@ export default t.router({
         quests.trackType({
           questType: 'PLAY_MINUTES',
           userId: user.id,
-          input: { increment },
+          input: { increment, game },
         }),
         quests.trackType({
           questType: 'REFERRAL_PLAY_MINUTES',

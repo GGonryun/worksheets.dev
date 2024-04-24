@@ -1,5 +1,5 @@
 import { TRPCError } from '@trpc/server';
-import { ItemId } from '@worksheets/data/items';
+import { DROP_LOTTERY, ItemId } from '@worksheets/data/items';
 import {
   Prisma,
   PrismaClient,
@@ -9,7 +9,9 @@ import {
 } from '@worksheets/prisma';
 import { InventoryService } from '@worksheets/services/inventory';
 import { NotificationsService } from '@worksheets/services/notifications';
+import { lottery } from '@worksheets/util/arrays';
 import { parseData, parseState } from '@worksheets/util/quests';
+import { PLAY_MINUTE_DROP_CHANCE } from '@worksheets/util/settings';
 import { isExpired } from '@worksheets/util/time';
 import {
   QuestTypeData,
@@ -485,6 +487,8 @@ export const trackPlayMinutesProgress = async (
       definition.data.requirement
     );
     if (completions > 0) {
+      await awardLottery(opts, opts.input.game, completions);
+      // TODO: 1% chance to earn a random droppable item after every minute played.
       await awardLoot(opts.inventory, userId, definition.loot, completions);
     }
   }
@@ -650,10 +654,47 @@ const getDefinition = async <T extends QuestType>(opts: {
   return { ...definition, data };
 };
 
+const awardLottery = async <T extends QuestType>(
+  opts: TrackProgressOpts<T>,
+  game: { id: string; title: string },
+  completions?: number
+) => {
+  // 1% chance to earn a random droppable item after every minute played.
+  for (let i = 0; i < (completions ?? 0); i++) {
+    const chance = Math.random();
+    if (chance < PLAY_MINUTE_DROP_CHANCE) {
+      const itemId = lottery(DROP_LOTTERY);
+      const item = await opts.db.item.findFirst({
+        where: {
+          id: itemId,
+        },
+        select: {
+          id: true,
+          name: true,
+        },
+      });
+
+      if (!item) {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: `Item with id ${itemId} not found`,
+        });
+      }
+
+      await opts.inventory.increment(opts.userId, item.id as ItemId, 1);
+      await opts.notifications.send('found-item', {
+        userId: opts.userId,
+        item,
+        game,
+      });
+    }
+  }
+};
+
 const awardLoot = async (
   inventory: InventoryService,
   userId: string,
-  loot: DefinedQuest['loot'],
+  loot: Pick<DefinedQuest['loot'][number], 'itemId' | 'quantity'>[],
   multiplier = 1
 ) => {
   for (const l of loot) {

@@ -83,6 +83,10 @@ export type QuestTypeInputValue<T extends QuestType> = QuestTypeInput[T];
 export type QuestTypeInput = {
   PLAY_MINUTES: {
     increment: number;
+    game: {
+      id: string;
+      title: string;
+    };
   };
   REFERRAL_PLAY_MINUTES: {
     increment: number;
