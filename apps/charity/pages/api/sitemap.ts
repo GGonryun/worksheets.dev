@@ -78,27 +78,6 @@ const addBasicPages = () => {
     .join('');
 };
 
-const getBattles = async () => {
-  const battles = await prisma.battle.findMany({
-    select: {
-      id: true,
-      updatedAt: true,
-    },
-  });
-
-  return battles.map(
-    (battle) => `
-    <url><loc>${routes.battle.url({
-      params: {
-        battleId: battle.id,
-      },
-    })}</loc><lastmod>${printShortDate(
-      battle.updatedAt,
-      'fr-CA'
-    )}</lastmod><priority>0.1</priority></url>`
-  );
-};
-
 const getGames = async () => {
   const games = await prisma.game.findMany({
     select: {
@@ -194,12 +173,11 @@ const handler: NextApiHandler = async (req, res) => {
   // Instructing the Vercel edge to cache the file for 7 days in seconds
   res.setHeader('Cache-control', 'stale-while-revalidate, s-maxage=604800');
 
-  const [games, tags, developers, raffles, battles] = await Promise.all([
+  const [games, tags, developers, raffles] = await Promise.all([
     getGames(),
     getTags(),
     getDevelopers(),
     getRaffles(),
-    getBattles(),
   ]);
 
   // generate sitemap here
@@ -211,7 +189,6 @@ const handler: NextApiHandler = async (req, res) => {
       ${raffles}
       ${tags}
       ${developers}
-      ${battles}
       </urlset>`;
 
   res.end(xml);
