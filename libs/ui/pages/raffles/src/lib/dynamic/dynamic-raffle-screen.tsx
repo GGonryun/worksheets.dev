@@ -1,9 +1,9 @@
 import { routes } from '@worksheets/routes';
 import { trpc } from '@worksheets/trpc-charity';
 import { useSnackbar } from '@worksheets/ui/components/snackbar';
+import { ErrorScreen } from '@worksheets/ui/pages/errors';
 import { LoadingScreen } from '@worksheets/ui/pages/loading';
 import { InventoryPanels } from '@worksheets/util/enums';
-import { RaffleSchema } from '@worksheets/util/types';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
@@ -14,8 +14,8 @@ import { ConfirmEntryModal } from '../components/modals/confirm-entry-modal';
 import { EnterRaffleModal } from '../components/modals/enter-raffle-modal';
 import { ShareRaffleModal } from '../components/modals/share-raffle-modal';
 
-const RaffleScreenContainer: React.FC<{ raffle: RaffleSchema }> = ({
-  raffle,
+const RaffleScreenContainer: React.FC<{ raffleId: number }> = ({
+  raffleId,
 }) => {
   const snackbar = useSnackbar();
   const { push } = useRouter();
@@ -23,10 +23,14 @@ const RaffleScreenContainer: React.FC<{ raffle: RaffleSchema }> = ({
   const session = useSession();
   const isConnected = session.status === 'authenticated';
 
+  const raffle = trpc.public.raffles.find.useQuery({
+    raffleId,
+  });
+
   const loginHref = routes.login.path({
     query: {
       redirect: routes.raffle.path({
-        params: { raffleId: raffle.id },
+        params: { raffleId },
       }),
     },
   });
@@ -43,7 +47,7 @@ const RaffleScreenContainer: React.FC<{ raffle: RaffleSchema }> = ({
 
   const participation = trpc.user.raffles.participation.useQuery(
     {
-      raffleId: raffle.id,
+      raffleId: raffleId,
     },
     {
       enabled: isConnected,
@@ -55,7 +59,7 @@ const RaffleScreenContainer: React.FC<{ raffle: RaffleSchema }> = ({
   });
 
   const { data: participants } = trpc.public.raffles.participants.useQuery({
-    raffleId: raffle.id,
+    raffleId: raffleId,
   });
 
   const { data: activeRaffles } = trpc.public.raffles.list.useQuery({
@@ -90,7 +94,7 @@ const RaffleScreenContainer: React.FC<{ raffle: RaffleSchema }> = ({
 
     try {
       await enterRaffle.mutateAsync({
-        raffleId: raffle.id,
+        raffleId,
       });
 
       participation.refetch();
@@ -104,12 +108,14 @@ const RaffleScreenContainer: React.FC<{ raffle: RaffleSchema }> = ({
     }
   };
 
-  if (session.status === 'loading' || user.isFetching) return <LoadingScreen />;
+  if (session.status === 'loading' || user.isFetching || raffle.isLoading)
+    return <LoadingScreen />;
+  if (raffle.isError) return <ErrorScreen />;
 
   return (
     <>
       <RaffleScreen
-        raffle={raffle}
+        raffle={raffle.data}
         youWon={youWon}
         activeRaffles={activeRaffles ?? []}
         participation={participation.data}
@@ -120,8 +126,8 @@ const RaffleScreenContainer: React.FC<{ raffle: RaffleSchema }> = ({
       <ShareRaffleModal
         open={showShareRaffleModal}
         onClose={() => setShowShareRaffleModal(false)}
-        id={raffle.id}
-        name={raffle.name}
+        id={raffle.data.id}
+        name={raffle.data.name}
       />
       <ConfirmEntryModal
         open={showConfirmEntryModal}

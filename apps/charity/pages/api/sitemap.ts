@@ -143,29 +143,6 @@ const getDevelopers = async () => {
     .join('');
 };
 
-const getRaffles = async () => {
-  const raffles = await prisma.raffle.findMany({
-    select: {
-      id: true,
-      updatedAt: true,
-    },
-  });
-
-  return raffles
-    .map(
-      (raffle) =>
-        `<url><loc>${routes.raffle.url({
-          params: {
-            raffleId: raffle.id,
-          },
-        })}</loc><lastmod>${printShortDate(
-          raffle.updatedAt,
-          'fr-CA'
-        )}</lastmod><priority>0.3</priority></url>`
-    )
-    .join('');
-};
-
 const handler: NextApiHandler = async (req, res) => {
   res.statusCode = 200;
   res.setHeader('Content-Type', 'application/xml');
@@ -173,11 +150,10 @@ const handler: NextApiHandler = async (req, res) => {
   // Instructing the Vercel edge to cache the file for 7 days in seconds
   res.setHeader('Cache-control', 'stale-while-revalidate, s-maxage=604800');
 
-  const [games, tags, developers, raffles] = await Promise.all([
+  const [games, tags, developers] = await Promise.all([
     getGames(),
     getTags(),
     getDevelopers(),
-    getRaffles(),
   ]);
 
   // generate sitemap here
@@ -186,7 +162,6 @@ const handler: NextApiHandler = async (req, res) => {
       ${addHomePage()}
       ${addBasicPages()}
       ${games}
-      ${raffles}
       ${tags}
       ${developers}
       </urlset>`;

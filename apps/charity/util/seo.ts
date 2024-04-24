@@ -2,7 +2,6 @@ import { routes } from '@worksheets/routes';
 import { OpenGraphProps, TWITTER_SEO } from '@worksheets/util/seo';
 import {
   DeveloperSchema,
-  RaffleSchema,
   SerializableGameSchema,
   TagSchema,
 } from '@worksheets/util/types';
@@ -391,19 +390,6 @@ export const rafflesSeo = createSeo({
   description:
     'Redeem your tokens for raffle entries and win real world prizes. Every token you spend is a donation towards charity. Win free prizes by playing browser games and referring friends',
 });
-
-export const raffleSeo = (raffle: RaffleSchema): NextSeoProps =>
-  createSeo({
-    path: routes.raffle.path({ params: { raffleId: raffle.id } }),
-    title: `${raffle.name} Raffle #${raffle.id}`,
-    description: `Enter our raffle for a chance to win a free copy of ${raffle.name}. Every token you spend is a donation to charity. Win prizes by playing browser games and referring friends.`,
-    images: [
-      {
-        url: raffle.imageUrl,
-        alt: raffle.name,
-      },
-    ],
-  });
 
 export const expiredRafflesSeo = createSeo({
   path: routes.raffles.expired.path(),

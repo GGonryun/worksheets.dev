@@ -1,85 +1,28 @@
-import { routes } from '@worksheets/routes';
-import { createStaticTRPC } from '@worksheets/trpc-charity/server';
 import { AppLayoutContainer } from '@worksheets/ui/layout';
+import { LoadingScreen } from '@worksheets/ui/pages/loading';
 import { DynamicRaffleScreen } from '@worksheets/ui/pages/raffles';
-import { RaffleSchema } from '@worksheets/util/types';
 import { NextPageWithLayout } from '@worksheets/util-next';
-import { GetStaticPaths, GetStaticProps } from 'next';
-import { NextSeo, NextSeoProps } from 'next-seo';
-import { ParsedUrlQuery } from 'querystring';
+import { useRouter } from 'next/router';
+import { NextSeo } from 'next-seo';
 
-import { raffleSeo } from '../../util/seo';
+import { rafflesSeo } from '../../util/seo';
 
-type Props = {
-  seo: NextSeoProps;
-  raffle: RaffleSchema;
+const Page: NextPageWithLayout = () => {
+  const { query } = useRouter();
+  const raffleId = Number(query?.raffleId);
+
+  if (!raffleId) return <LoadingScreen />;
+
+  return (
+    <>
+      <NextSeo {...rafflesSeo} />
+      <DynamicRaffleScreen raffleId={raffleId} />
+    </>
+  );
 };
-
-const Page: NextPageWithLayout<Props> = ({ seo, raffle }) => (
-  <>
-    <NextSeo {...seo} />
-    <DynamicRaffleScreen raffle={raffle} />
-  </>
-);
 
 Page.getLayout = (page) => {
   return <AppLayoutContainer>{page}</AppLayoutContainer>;
 };
-
-export const getStaticProps = (async (ctx) => {
-  const { params } = ctx;
-  const trpc = await createStaticTRPC(ctx);
-
-  const raffleId = params?.raffleId as string;
-
-  if (!raffleId) {
-    return {
-      notFound: true,
-    };
-  }
-
-  try {
-    const raffle = await trpc.public.raffles.find.fetch({
-      raffleId: Number(raffleId),
-    });
-
-    const seo = raffleSeo(raffle);
-
-    return {
-      props: {
-        seo,
-        raffle,
-      },
-    };
-  } catch (error) {
-    console.error(`Error fetching raffle ${raffleId}`, error);
-    return {
-      redirect: {
-        destination: routes.raffles.path(),
-        permanent: false,
-      },
-    };
-  }
-}) satisfies GetStaticProps<Props>;
-
-type PathProps = ParsedUrlQuery & {
-  raffleId: string;
-};
-
-export const getStaticPaths = (async (ctx) => {
-  const trpc = await createStaticTRPC(ctx);
-
-  const raffles = await trpc.public.raffles.list.fetch({ category: 'all' });
-
-  return {
-    paths: raffles.map((raffle) => ({
-      params: {
-        raffleId: raffle.id.toString(),
-      },
-    })),
-    // generate and cache new paths on the fly, we'll optimize and pre-build all active prizes for now.
-    fallback: 'blocking',
-  };
-}) satisfies GetStaticPaths<PathProps>;
 
 export default Page;
