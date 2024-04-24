@@ -1,7 +1,6 @@
 import { routes } from '@worksheets/routes';
 import { OpenGraphProps, TWITTER_SEO } from '@worksheets/util/seo';
 import {
-  BossBattleSchema,
   DeveloperSchema,
   RaffleSchema,
   SerializableGameSchema,
@@ -125,13 +124,6 @@ export const bossBattlesSeo = createSeo({
   title: `Boss Battles`,
   description: `Join boss battles on Charity Games. Team up with other players to defeat powerful bosses and earn rewards.`,
 });
-
-export const bossBattleSeo = (battle: BossBattleSchema): NextSeoProps =>
-  createSeo({
-    path: routes.battle.path({ params: { battleId: battle.battleId } }),
-    title: `${battle.name} Boss Battle #${battle.battleId}`,
-    description: `Join the ${battle.name} boss battle on Charity Games. Team up with other players to defeat a powerful boss and earn rewards.`,
-  });
 
 export const developerSeo = (developer: DeveloperSchema): NextSeoProps =>
   createSeo({
