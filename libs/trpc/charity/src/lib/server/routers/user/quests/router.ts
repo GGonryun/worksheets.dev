@@ -68,15 +68,16 @@ export default t.router({
     .query(async ({ input: { questId }, ctx: { user, db } }) => {
       const quests = new QuestsService(db);
 
-      // TODO: type gets bricked here
       const quest = await quests.find({ questId, userId: user.id });
+      // TODO: type gets bricked here
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       return quest as any;
     }),
   track: protectedProcedure
     .input(
       z.union([
         z.object({
-          questId: z.string(),
+          questId: z.custom<QuestId>(),
           input: z.custom<QuestTypeInput>(),
         }),
         z.object({

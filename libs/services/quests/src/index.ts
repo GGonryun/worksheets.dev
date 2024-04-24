@@ -31,6 +31,7 @@ import {
   trackPlayMinutesProgress,
   trackRaffleParticipationProgress,
   trackReferralPlayMinutesProgress,
+  trackWatchAdProgress,
   trackWebsiteVisitProgress,
 } from './lib/tracking';
 
@@ -137,7 +138,7 @@ export class QuestsService {
     };
   }
   async trackId<T extends QuestType>(opts: {
-    questId: string;
+    questId: QuestId;
     userId: string;
     input: QuestTypeInput[T];
   }) {
@@ -164,6 +165,8 @@ export class QuestsService {
         });
       case 'VISIT_CHARITY_GAMES':
       case 'VISIT_WATER_ORG':
+      case 'VISIT_INDIEFOLD':
+      case 'VISIT_PLAY_THIS':
         return await trackWebsiteVisitProgress({
           db: this.#db,
           notifications,
@@ -171,6 +174,8 @@ export class QuestsService {
           questType: 'VISIT_WEBSITE',
           ...opts,
         });
+      case 'FOLLOW_INDIEFOLD_TWITTER':
+      case 'FOLLOW_PLAY_THIS_TWITTER':
       case 'FOLLOW_CHARITY_GAMES_TWITTER':
       case 'FOLLOW_WATER_ORG_TWITTER':
         return await trackFollowTwitterProgress({
@@ -249,11 +254,17 @@ export class QuestsService {
           questType: 'BASIC_ACTION',
           ...opts,
         });
-      default:
-        throw new TRPCError({
-          code: 'NOT_FOUND',
-          message: 'Quest cannot be tracked',
+      case 'WATCH_AD_1':
+      case 'WATCH_AD_2':
+        return await trackWatchAdProgress({
+          db: this.#db,
+          inventory,
+          notifications,
+          questType: 'WATCH_AD',
+          ...opts,
         });
+      default:
+        throw assertNever(opts.questId);
     }
   }
   async trackType<T extends QuestType>(opts: {
@@ -283,6 +294,7 @@ export class QuestsService {
             })
           )
         );
+      case QuestType.WATCH_AD:
       case QuestType.VISIT_WEBSITE:
       case QuestType.FOLLOW_TWITTER:
         throw new Error(

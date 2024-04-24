@@ -171,7 +171,7 @@ export const QUESTS = [
   },
   {
     order: 3,
-    version: 1,
+    version: 2,
     id: 'VISIT_CHARITY_GAMES' as const,
     type: QuestType.VISIT_WEBSITE,
     category: QuestCategory.TASK,
@@ -197,11 +197,70 @@ export const QUESTS = [
     ],
     data: {
       url: 'https://charity.games/',
+      preview: 'https://cdn.charity.games/_partners/charity-games/preview.png',
+    },
+  },
+  {
+    order: 200,
+    version: 1,
+    id: 'VISIT_INDIEFOLD' as const,
+    type: QuestType.VISIT_WEBSITE,
+    category: QuestCategory.TASK,
+    name: 'Visit IndieFold',
+    description:
+      'Visit IndieFold and learn about their mission to support indie game developers.',
+    frequency: QuestFrequency.WEEKLY,
+    loot: [
+      {
+        itemId: '1001',
+        quantity: 1,
+        chance: 1,
+      },
+      {
+        itemId: '1002',
+        quantity: 1,
+        chance: 1,
+      },
+      {
+        itemId: '1003',
+        quantity: 1,
+        chance: 1,
+      },
+      {
+        itemId: '1004',
+        quantity: 1,
+        chance: 1,
+      },
+    ],
+    data: {
+      url: 'https://indiefold.com',
+      preview: 'https://cdn.charity.games/_partners/indiefold/preview.png',
+    },
+  },
+  {
+    order: 201,
+    version: 1,
+    id: 'VISIT_PLAY_THIS' as const,
+    type: QuestType.VISIT_WEBSITE,
+    category: QuestCategory.TASK,
+    name: 'Visit Play This',
+    description: 'Visit Play This and find your next favorite game, fast!',
+    frequency: QuestFrequency.WEEKLY,
+    loot: [
+      {
+        itemId: '1000',
+        quantity: 3,
+        chance: 1,
+      },
+    ],
+    data: {
+      url: 'https://playthis.games',
+      preview: 'https://cdn.charity.games/_partners/play-this/sponsor.png',
     },
   },
   {
     order: 5,
-    version: 1,
+    version: 2,
     id: 'VISIT_WATER_ORG' as const,
     type: QuestType.VISIT_WEBSITE,
     category: QuestCategory.TASK,
@@ -227,16 +286,17 @@ export const QUESTS = [
       },
     ],
     data: {
-      url: 'https://water.org' as string,
+      url: 'https://water.org',
+      preview: 'https://cdn.charity.games/_partners/water-org/preview.jpg',
     },
   },
   {
     order: 116,
-    version: 1,
+    version: 2,
     id: 'FOLLOW_CHARITY_GAMES_TWITTER' as const,
     type: QuestType.FOLLOW_TWITTER,
     category: QuestCategory.TASK,
-    name: 'Follow Charity Games on Twitter',
+    name: 'Follow Charity Games',
     description:
       'Follow Charity Games on Twitter. Stay up to date on the latest news and updates.',
     frequency: QuestFrequency.WEEKLY,
@@ -253,11 +313,11 @@ export const QUESTS = [
   },
   {
     order: 117,
-    version: 1,
+    version: 2,
     id: 'FOLLOW_WATER_ORG_TWITTER' as const,
     type: QuestType.FOLLOW_TWITTER,
     category: QuestCategory.TASK,
-    name: 'Follow Water.org on Twitter',
+    name: 'Follow Water.org',
     description:
       'Follow Water.org on Twitter. Stay up to date on the latest news and updates.',
     frequency: QuestFrequency.WEEKLY,
@@ -270,6 +330,48 @@ export const QUESTS = [
     ],
     data: {
       handle: 'water',
+    },
+  },
+  {
+    order: 300,
+    version: 1,
+    id: 'FOLLOW_INDIEFOLD_TWITTER' as const,
+    type: QuestType.FOLLOW_TWITTER,
+    category: QuestCategory.TASK,
+    name: 'Follow IndieFold',
+    description:
+      'Follow IndieFold on Twitter. Stay up to date on the latest news and updates.',
+    frequency: QuestFrequency.WEEKLY,
+    loot: [
+      {
+        itemId: '1',
+        quantity: 25,
+        chance: 1,
+      },
+    ],
+    data: {
+      handle: 'indiefold',
+    },
+  },
+  {
+    order: 250,
+    version: 1,
+    id: 'FOLLOW_PLAY_THIS_TWITTER' as const,
+    type: QuestType.FOLLOW_TWITTER,
+    category: QuestCategory.TASK,
+    name: 'Follow Play This',
+    frequency: QuestFrequency.WEEKLY,
+    description:
+      'Follow Play This on Twitter. Stay up to date on the latest news and updates.',
+    loot: [
+      {
+        itemId: '1',
+        quantity: 25,
+        chance: 1,
+      },
+    ],
+    data: {
+      handle: 'LaireLaFlare',
     },
   },
   {
@@ -331,6 +433,56 @@ export const QUESTS = [
     ],
     data: {
       requirement: 300, // seconds
+    },
+  },
+  {
+    order: 12,
+    version: 2,
+    id: 'WATCH_AD_1' as const,
+    type: QuestType.WATCH_AD,
+    category: QuestCategory.TASK,
+    name: 'Watch an Ad',
+    description: 'Watch an ad to earn a small reward.',
+    frequency: QuestFrequency.DAILY,
+    loot: [
+      {
+        itemId: '1000',
+        quantity: 1,
+        chance: 1,
+      },
+      {
+        itemId: '7',
+        quantity: 1,
+        chance: 1,
+      },
+    ],
+    data: {
+      network: 'charity-games',
+    },
+  },
+  {
+    order: 7,
+    version: 1,
+    id: 'WATCH_AD_2' as const,
+    type: QuestType.WATCH_AD,
+    category: QuestCategory.TASK,
+    name: 'Watch an Ad',
+    description: 'Watch an ad to earn a small reward.',
+    frequency: QuestFrequency.DAILY,
+    loot: [
+      {
+        itemId: '5',
+        quantity: 1,
+        chance: 1,
+      },
+      {
+        itemId: '2',
+        quantity: 1,
+        chance: 1,
+      },
+    ],
+    data: {
+      network: 'gruvian',
     },
   },
 ];

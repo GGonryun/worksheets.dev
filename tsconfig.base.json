@@ -50,6 +50,9 @@
       "@worksheets/icons/youtube": ["libs/icons/youtube/src/index.ts"],
       "@worksheets/prisma": ["libs/prisma/src/index.ts"],
       "@worksheets/routes": ["libs/routes/src/index.ts"],
+      "@worksheets/services/advertisement": [
+        "libs/services/advertisement/src/index.ts"
+      ],
       "@worksheets/services/discord": ["libs/services/discord/src/index.ts"],
       "@worksheets/services/email": ["libs/services/email/src/index.ts"],
       "@worksheets/services/encryption": [

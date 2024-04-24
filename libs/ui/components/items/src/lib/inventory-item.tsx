@@ -6,8 +6,8 @@ import { InventoryItemSchema } from '@worksheets/util/types';
 export const InventoryItem: React.FC<{
   icon?: React.ReactNode;
   size?: number;
-  item: InventoryItemSchema;
-  onClick: () => void;
+  item: Pick<InventoryItemSchema, 'imageUrl' | 'name' | 'quantity'>;
+  onClick?: () => void;
 }> = ({ icon, size = 72, item, onClick }) => {
   return (
     <Box

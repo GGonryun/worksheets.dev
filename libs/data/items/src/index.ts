@@ -132,3 +132,34 @@ export const COMBAT_ITEMS = ITEMS.filter(
   (item): item is Extract<Item, { type: 'COMBAT' }> =>
     item.type === ItemType.COMBAT
 );
+
+export const DROPPABLE_ITEMS = ITEMS.filter(
+  (
+    item
+  ): item is Extract<Item, { type: 'COMBAT' | 'CONSUMABLE' | 'SHARABLE' }> =>
+    item.type === ItemType.COMBAT ||
+    item.type === ItemType.CONSUMABLE ||
+    item.type === ItemType.SHARABLE
+);
+
+export type DroppableItemId = Extract<
+  Item,
+  { type: 'COMBAT' | 'CONSUMABLE' | 'SHARABLE' }
+>['id'];
+
+/**
+ * The drop rate for each item is determined by the number of tickets in the lottery.
+ * This keeps drop rates proportional to the number of items in the lottery.
+ */
+export const DROP_LOTTERY: Record<DroppableItemId, number> = {
+  2: 1,
+  3: 1,
+  5: 1,
+  6: 1,
+  7: 1,
+  1000: 1,
+  1001: 2,
+  1002: 2,
+  1003: 2,
+  1004: 2,
+};

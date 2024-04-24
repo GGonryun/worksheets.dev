@@ -6,6 +6,8 @@ import {
 } from '@worksheets/prisma';
 import { z } from 'zod';
 
+import { lootSchema } from './mobs';
+
 export type QuestFilterOptions = {
   statuses: QuestStatus[];
   frequencies: QuestFrequency[];
@@ -34,12 +36,16 @@ export type QuestTypeData = {
   };
   VISIT_WEBSITE: {
     url: string;
+    preview: string;
   };
   FOLLOW_TWITTER: {
     handle: string;
   };
   ADD_REFERRAL: unknown;
   BASIC_ACTION: unknown;
+  WATCH_AD: {
+    network: string;
+  };
 };
 
 export type QuestTypeStateValue<T extends QuestType> = QuestTypeState[T];
@@ -69,6 +75,7 @@ export type QuestTypeState = {
     username: string;
   };
   BASIC_ACTION: unknown;
+  WATCH_AD: unknown;
 };
 
 export type QuestTypeInputValue<T extends QuestType> = QuestTypeInput[T];
@@ -95,6 +102,7 @@ export type QuestTypeInput = {
   RAFFLE_PARTICIPATION: unknown;
   VISIT_WEBSITE: unknown;
   BASIC_ACTION: unknown;
+  WATCH_AD: unknown;
 };
 
 export type QuestFormActions<T extends QuestType = QuestType> = {
@@ -109,16 +117,7 @@ export const basicQuestSchema = z.object({
   category: z.nativeEnum(QuestCategory),
   type: z.nativeEnum(QuestType),
   status: z.nativeEnum(QuestStatus),
-  loot: z.array(
-    z.object({
-      item: z.object({
-        id: z.string(),
-        name: z.string(),
-      }),
-      quantity: z.number(),
-      chance: z.number(),
-    })
-  ),
+  loot: z.array(lootSchema),
 });
 
 export type BasicQuestSchema = z.infer<typeof basicQuestSchema>;

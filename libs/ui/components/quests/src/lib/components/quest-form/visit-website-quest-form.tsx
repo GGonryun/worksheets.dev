@@ -1,6 +1,7 @@
 import { OpenInNew } from '@mui/icons-material';
 import { Button, Link, Typography } from '@mui/material';
 import { Column, Row } from '@worksheets/ui/components/flex';
+import { ResponsiveImage } from '@worksheets/ui/components/images';
 import { DetailedQuestSchema, QuestFormActions } from '@worksheets/util/types';
 import { useState } from 'react';
 
@@ -15,7 +16,16 @@ export const VisitWebsiteQuestForm: React.FC<{
   const [clicked, setClicked] = useState(false);
   const { url } = quest.data;
   return (
-    <Column gap={2}>
+    <Column gap={2} alignItems="center">
+      <Link
+        position="relative"
+        width={{ xs: '100%', sm: '80%' }}
+        onClick={() => setClicked(true)}
+        target="_blank"
+        href={url}
+      >
+        <ResponsiveImage src={quest.data.preview} alt="Website Preview" />
+      </Link>
       {complete && (
         <Link href={url} target="_blank">
           <Row gap={0.5}>

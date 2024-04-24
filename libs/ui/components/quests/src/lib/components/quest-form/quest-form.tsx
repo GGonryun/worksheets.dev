@@ -12,6 +12,7 @@ import { PlayMinutesQuestForm } from './play-minutes-quest-form';
 import { RaffleParticipationQuestForm } from './raffle-participation-quest-form';
 import { ReferralPlayMinutesQuestForm } from './referral-play-minutes-quest-form';
 import { VisitWebsiteQuestForm } from './visit-website-quest-form';
+import { WatchAdQuestForm } from './watch-ad-quest-form';
 
 export function QuestForm<T extends QuestType>({
   quest,
@@ -82,6 +83,14 @@ export function QuestForm<T extends QuestType>({
           actions={actions as QuestFormActions<'BASIC_ACTION'>}
         />
       );
+    case QuestType.WATCH_AD:
+      return (
+        <WatchAdQuestForm
+          quest={quest as DetailedQuestSchema<'WATCH_AD'>}
+          actions={actions as QuestFormActions<'WATCH_AD'>}
+        />
+      );
+
     default:
       throw assertNever(quest.type);
   }

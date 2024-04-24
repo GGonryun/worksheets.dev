@@ -33,73 +33,71 @@ export const trackFinitePlayGameProgress = async (
   opts: TrackProgressOpts<'PLAY_GAME'>
 ) => {
   const { progress, definition } = await getQuest<'PLAY_GAME'>(opts);
-  if (!progress) {
-    await opts.db.questProgress.create({
-      data: {
-        userId: opts.userId,
-        questDefinitionId: opts.questId,
-        status: 'ACTIVE',
-        expiresAt: createExpirationDate(definition.frequency),
-        state: {
-          progress: 1,
+
+  onQuestCompletable(progress, async () => {
+    if (!progress) {
+      await opts.db.questProgress.create({
+        data: {
+          userId: opts.userId,
+          questDefinitionId: opts.questId,
+          status: 'ACTIVE',
+          expiresAt: createExpirationDate(definition.frequency),
+          state: {
+            progress: 1,
+          },
         },
+      });
+
+      return;
+    }
+
+    if (isExpired(progress.expiresAt)) {
+      await opts.db.questProgress.update({
+        where: {
+          id: progress.id,
+        },
+        data: {
+          status: 'ACTIVE',
+          state: {
+            progress: 1,
+          },
+          expiresAt: createExpirationDate(definition.frequency),
+        },
+      });
+      return;
+    }
+
+    if (progress.state.progress < definition.data.requirement) {
+      await opts.db.questProgress.update({
+        where: {
+          userId_questDefinitionId: {
+            userId: opts.userId,
+            questDefinitionId: opts.questId,
+          },
+        },
+        data: {
+          state: {
+            progress: progress.state.progress + 1,
+          },
+        },
+      });
+      return;
+    }
+
+    await opts.db.questProgress.update({
+      where: {
+        id: progress.id,
+      },
+      data: {
+        status: 'COMPLETED',
       },
     });
-
-    return;
-  } else {
-    if (progress.status === 'COMPLETED') {
-      if (isExpired(progress.expiresAt)) {
-        await opts.db.questProgress.update({
-          where: {
-            id: progress.id,
-          },
-          data: {
-            status: 'ACTIVE',
-            state: {
-              progress: 1,
-            },
-            expiresAt: createExpirationDate(definition.frequency),
-          },
-        });
-        return;
-      } else {
-        console.info('Quest is not active', opts);
-        return;
-      }
-    } else {
-      if (progress.state.progress >= definition.data.requirement) {
-        await opts.db.questProgress.update({
-          where: {
-            id: progress.id,
-          },
-          data: {
-            status: 'COMPLETED',
-          },
-        });
-        await awardLoot(opts.inventory, opts.userId, definition.loot);
-        await opts.notifications.send('quest-completed', {
-          userId: opts.userId,
-          quest: definition,
-        });
-        return;
-      } else {
-        await opts.db.questProgress.update({
-          where: {
-            userId_questDefinitionId: {
-              userId: opts.userId,
-              questDefinitionId: opts.questId,
-            },
-          },
-          data: {
-            state: {
-              progress: progress.state.progress + 1,
-            },
-          },
-        });
-      }
-    }
-  }
+    await awardLoot(opts.inventory, opts.userId, definition.loot);
+    await opts.notifications.send('quest-completed', {
+      userId: opts.userId,
+      quest: definition,
+    });
+  });
 };
 
 export const trackInfinitePlayGameProgress = async (
@@ -529,11 +527,57 @@ export const trackBasicActionProgress = async (
   });
 };
 
+export const trackWatchAdProgress = async (
+  opts: TrackProgressOpts<'WATCH_AD'>
+) => {
+  const { progress, definition } = await getQuest(opts);
+
+  onQuestCompletable(progress, async () => {
+    const status = 'COMPLETED';
+    const expiresAt = createExpirationDate(definition.frequency);
+    if (!progress) {
+      await opts.db.questProgress.create({
+        data: {
+          userId: opts.userId,
+          questDefinitionId: opts.questId,
+          status,
+          expiresAt,
+          state: {},
+        },
+      });
+    } else {
+      await opts.db.questProgress.update({
+        where: {
+          id: progress.id,
+        },
+        data: {
+          status,
+          expiresAt,
+          state: {},
+        },
+      });
+    }
+
+    await awardLoot(opts.inventory, opts.userId, definition.loot);
+    await opts.notifications.send('quest-completed', {
+      userId: opts.userId,
+      quest: definition,
+    });
+  });
+};
+
+/**
+ * A completed quest that's expired can be reset and completed again.
+ */
 const onQuestCompletable = async (
-  quest: Pick<QuestProgress, 'expiresAt' | 'status'> | null,
+  progress: Pick<QuestProgress, 'expiresAt' | 'status'> | null,
   fn: () => Promise<void>
 ) => {
-  if (quest && quest.status === 'COMPLETED' && !isExpired(quest.expiresAt))
+  if (
+    progress &&
+    progress.status === 'COMPLETED' &&
+    !isExpired(progress.expiresAt)
+  )
     return;
 
   await fn();

@@ -3,6 +3,7 @@ import {
   CheckBoxOutlined,
   Diversity1Outlined,
   FavoriteBorder,
+  FeaturedVideoOutlined,
   LanguageOutlined,
   LocalActivityOutlined,
   PersonOutlined,
@@ -51,6 +52,7 @@ const QUEST_ICON: Record<QuestType, SvgIconComponent> = {
   [QuestType.REFERRAL_PLAY_MINUTES]: PunchClockOutlined,
   [QuestType.FRIEND_PLAY_MINUTES]: FavoriteBorder,
   [QuestType.BASIC_ACTION]: CheckBoxOutlined,
+  [QuestType.WATCH_AD]: FeaturedVideoOutlined,
 };
 
 export const selectQuestStatusIcon = (status: QuestStatus, type: QuestType) => {
@@ -71,8 +73,8 @@ export const formatQuestStatusLabel = (status: QuestStatus) =>
   QUEST_STATUS_LABEL[status];
 
 const QUEST_CATEGORY_LABEL: Record<QuestCategory, string> = {
-  [QuestCategory.GAMEPLAY]: 'Games',
-  [QuestCategory.TASK]: 'Tasks',
+  [QuestCategory.GAMEPLAY]: 'Game',
+  [QuestCategory.TASK]: 'Task',
   [QuestCategory.SOCIAL]: 'Social',
 };
 
@@ -108,4 +110,33 @@ export const formatQuestExpiration = (
     return 'Expired';
   }
   return millisecondsToDuration(timeUntil(expiresAt));
+};
+
+export const formatQuestTypeLabel = (type: QuestType) => {
+  switch (type) {
+    case QuestType.PLAY_GAME:
+      return 'Play Game';
+    case QuestType.VISIT_WEBSITE:
+      return 'Visit Website';
+    case QuestType.FOLLOW_TWITTER:
+      return 'Follow Twitter';
+    case QuestType.ADD_FRIEND:
+      return 'Add Friend';
+    case QuestType.ADD_REFERRAL:
+      return 'Add Referral';
+    case QuestType.PLAY_MINUTES:
+      return 'Play Minutes';
+    case QuestType.RAFFLE_PARTICIPATION:
+      return 'Raffle Participation';
+    case QuestType.REFERRAL_PLAY_MINUTES:
+      return 'Play Minutes';
+    case QuestType.FRIEND_PLAY_MINUTES:
+      return 'Play Minutes';
+    case QuestType.BASIC_ACTION:
+      return 'Basic Action';
+    case QuestType.WATCH_AD:
+      return 'Watch Ad';
+    default:
+      throw assertNever(type);
+  }
 };

@@ -36,6 +36,8 @@ export const parseState = <T extends QuestType>(
       return parseRaffleParticipationState(state) as QuestTypeState[T];
     case QuestType.BASIC_ACTION:
       return parseBasicActionState(state) as QuestTypeState[T];
+    case QuestType.WATCH_AD:
+      return parseWatchAdState(state) as QuestTypeState[T];
     default:
       throw assertNever(type);
   }
@@ -65,9 +67,19 @@ export const defaultState = <T extends QuestType>(
       } as QuestTypeState[T];
     case QuestType.BASIC_ACTION:
       return {} as QuestTypeState[T];
+    case QuestType.WATCH_AD:
+      return {
+        progress: 0,
+      } as QuestTypeState[T];
     default:
       throw assertNever(type);
   }
+};
+
+export const parseWatchAdState = (
+  state: unknown
+): QuestTypeState['WATCH_AD'] => {
+  return state;
 };
 
 export const parseBasicActionState = (

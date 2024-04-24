@@ -517,6 +517,7 @@ enum QuestType {
   VISIT_WEBSITE
   FOLLOW_TWITTER
   BASIC_ACTION
+  WATCH_AD
 }
 
 enum QuestFrequency {

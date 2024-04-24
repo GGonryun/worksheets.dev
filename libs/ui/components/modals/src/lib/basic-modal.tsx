@@ -13,14 +13,22 @@ export const BasicModal: React.FC<ModalWrapper<{ children: ReactNode }>> = ({
   const handleClose = () => onClose && onClose({}, 'escapeKeyDown');
 
   return (
-    <Modal open={open} onClose={onClose}>
+    <Modal
+      open={open}
+      onClose={onClose}
+      sx={{
+        minWidth: 300,
+        width: '95%',
+        maxWidth: 500,
+      }}
+    >
       <Box
         sx={{
           position: 'relative',
           px: { xs: 2, sm: 4 },
-          py: { xs: 4, sm: 4 },
-          minWidth: 300,
-          maxWidth: 500,
+          pt: 4,
+          pb: { xs: 2, sm: 4 },
+          width: '100%',
         }}
       >
         <IconButton
@@ -34,7 +42,7 @@ export const BasicModal: React.FC<ModalWrapper<{ children: ReactNode }>> = ({
         >
           <Cancel />
         </IconButton>
-        <Column alignItems="center" gap={2} textAlign="center">
+        <Column alignItems="center" gap={2} textAlign="center" width="100%">
           {children}
         </Column>
       </Box>

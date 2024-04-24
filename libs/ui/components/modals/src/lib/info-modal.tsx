@@ -1,0 +1,28 @@
+import { Box } from '@mui/material';
+
+import { CloseButton, InfoButton } from './buttons';
+import { Modal, ModalProps } from './modal';
+
+export const InfoModal: React.FC<ModalProps & { infoHref?: string }> = ({
+  children,
+  open,
+  onClose,
+  infoHref,
+}) => (
+  <Modal
+    open={open}
+    onClose={onClose}
+    sx={{
+      width: '95%',
+      maxWidth: 500,
+    }}
+  >
+    <>
+      <Box mb={2} width="100%">
+        {children}
+      </Box>
+      {infoHref && <InfoButton href={infoHref} />}
+      <CloseButton onClick={onClose} />
+    </>
+  </Modal>
+);

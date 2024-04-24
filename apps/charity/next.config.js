@@ -60,6 +60,10 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'source.boringavatars.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'gruvian-dev.s3.amazonaws.com',
+      },
     ],
   },
   nx: {

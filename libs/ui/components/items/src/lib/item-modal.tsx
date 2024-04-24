@@ -1,15 +1,9 @@
-import { Close, QuestionMarkOutlined } from '@mui/icons-material';
-import { Box, Divider, IconButton, Typography } from '@mui/material';
+import { Box, Divider, Typography } from '@mui/material';
 import { ItemType } from '@prisma/client';
 import { routes } from '@worksheets/routes';
 import { Column, Row } from '@worksheets/ui/components/flex';
 import { ContainImage } from '@worksheets/ui/components/images';
-import {
-  Modal,
-  ModalProps,
-  ModalWrapper,
-  OnClose,
-} from '@worksheets/ui/components/modals';
+import { InfoModal, ModalWrapper } from '@worksheets/ui/components/modals';
 import { PaletteColor } from '@worksheets/ui/theme';
 import { toPercentage } from '@worksheets/util/numbers';
 import { TABLET_SHADOW } from '@worksheets/util/styles';
@@ -26,72 +20,6 @@ const ITEM_TYPE_LABEL: Record<ItemType, string> = {
   ETCETERA: 'Etcetera',
 };
 
-const CloseButton: React.FC<{ onClick: OnClose }> = (props) => {
-  return (
-    <Box
-      sx={{
-        position: 'absolute',
-        top: 6,
-        right: 6,
-      }}
-    >
-      <IconButton
-        onClick={() => props.onClick?.({}, 'escapeKeyDown')}
-        size="small"
-        disableRipple
-        sx={{
-          p: '3px',
-          background: (theme) => theme.palette.primary.gradient,
-        }}
-      >
-        <Close fontSize="small" color="white" />
-      </IconButton>
-    </Box>
-  );
-};
-
-const InfoButton: React.FC = () => {
-  return (
-    <Box
-      sx={{
-        position: 'absolute',
-        bottom: 6,
-        right: 6,
-      }}
-    >
-      <IconButton
-        href={routes.help.inventory.path()}
-        target="_blank"
-        size="small"
-        disableRipple
-        sx={{
-          p: '3px',
-          background: (theme) => theme.palette.primary.gradient,
-        }}
-      >
-        <QuestionMarkOutlined fontSize="small" color="white" />
-      </IconButton>
-    </Box>
-  );
-};
-
-const ModalLayout: React.FC<ModalProps> = ({ children, open, onClose }) => (
-  <Modal
-    open={open}
-    onClose={onClose}
-    sx={{
-      width: '95%',
-      maxWidth: 400,
-    }}
-  >
-    <>
-      <Box mb={2}>{children}</Box>
-      <InfoButton />
-      <CloseButton onClick={onClose} />
-    </>
-  </Modal>
-);
-
 export const ItemModalLayout: React.FC<
   ModalWrapper<{
     content?: React.ReactNode;
@@ -101,7 +29,11 @@ export const ItemModalLayout: React.FC<
   }>
 > = ({ content, icon, open, onClose, item, action }) => {
   return (
-    <ModalLayout open={open} onClose={onClose}>
+    <InfoModal
+      open={open}
+      onClose={onClose}
+      infoHref={routes.help.inventory.path()}
+    >
       <Box
         sx={{
           display: 'grid',
@@ -145,7 +77,7 @@ export const ItemModalLayout: React.FC<
           </Box>
           {action}
         </Column>
-        <Column mt={1.5} mb={1} gap={1}>
+        <Column mt={1.5} gap={1}>
           <Column>
             <Typography
               typography={{ xs: 'body1', sm: 'h6' }}
@@ -158,7 +90,7 @@ export const ItemModalLayout: React.FC<
           {content}
         </Column>
       </Box>
-    </ModalLayout>
+    </InfoModal>
   );
 };
 
@@ -216,6 +148,21 @@ export const LootDescription: React.FC<{
       <ItemDataRow label="Quantity" value={loot.quantity} />
       <ItemDataRow label="Drop Chance" value={toPercentage(loot.chance)} />
       <ItemDataRow label="MVP" value={loot.mvp ? 'Yes' : 'No'} />
+    </Column>
+  </Column>
+);
+
+export const QuestLootDescription: React.FC<{
+  loot: LootSchema;
+}> = ({ loot }) => (
+  <Column gap={1}>
+    <Typography typography={{ xs: 'body2', sm: 'body1' }}>
+      {loot.item.description}
+    </Typography>
+    <Column>
+      <ItemDataRow label="Type" value={ITEM_TYPE_LABEL[loot.item.type]} />
+      <ItemDataRow label="Quantity" value={`${loot.quantity} per quest`} />
+      <ItemDataRow label="Drop Chance" value={toPercentage(loot.chance)} />
     </Column>
   </Column>
 );
