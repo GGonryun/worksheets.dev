@@ -1,3 +1,4 @@
+import { QuestId } from '@worksheets/data/quests';
 import {
   QuestCategory,
   QuestFrequency,
@@ -111,7 +112,7 @@ export type QuestFormActions<T extends QuestType = QuestType> = {
 };
 
 export const basicQuestSchema = z.object({
-  id: z.string(),
+  id: z.custom<QuestId>(),
   order: z.number(),
   frequency: z.nativeEnum(QuestFrequency),
   category: z.nativeEnum(QuestCategory),

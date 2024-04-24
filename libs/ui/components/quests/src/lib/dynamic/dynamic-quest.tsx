@@ -1,3 +1,4 @@
+import { QuestId } from '@worksheets/data/quests';
 import { trpc } from '@worksheets/trpc-charity';
 import { PulsingLogo } from '@worksheets/ui/components/loading';
 import { useSnackbar } from '@worksheets/ui/components/snackbar';
@@ -13,7 +14,7 @@ import {
 } from '../components/quest-item';
 import { QuestModal } from '../components/quest-modal';
 
-const Container: React.FC<{ questId: string }> = ({ questId }) => {
+const Container: React.FC<{ questId: QuestId }> = ({ questId }) => {
   const snackbar = useSnackbar();
   const [open, setOpen] = React.useState(false);
   const [submitting, setSubmitting] = React.useState(false);

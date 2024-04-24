@@ -27,7 +27,7 @@ export default t.router({
       z.object({
         items: z.array(
           z.object({
-            id: z.string(),
+            id: z.custom<QuestId>(),
             order: z.number(),
             status: z.nativeEnum(QuestStatus),
           })
