@@ -152,6 +152,7 @@ export class MobsService {
                 imageUrl: true,
                 type: true,
                 description: true,
+                sell: true,
               },
             },
           },
@@ -366,7 +367,7 @@ export class MobsService {
     const mostDamage = sortedByDamage[0];
     // - hit the mob last.
     const sortedByLastHit = [...participants].sort(
-      (a, b) => a.struckAt.getTime() - b.struckAt.getTime()
+      (a, b) => b.struckAt.getTime() - a.struckAt.getTime()
     );
     const lastHit = sortedByLastHit[0];
 
@@ -400,6 +401,12 @@ export class MobsService {
     for (const loot of basicLoot) {
       // pick a random winner.
       for (let i = 0; i < loot.quantity; i++) {
+        // every item has a chance to drop.
+        const luck = Math.random();
+        if (luck <= loot.chance) {
+          continue;
+        }
+
         const winner = await this.#determineWinner(participants);
         await inventory.award(winner.user.id, loot.itemId as ItemId, 1);
         await this.#db.loot.upsert({
