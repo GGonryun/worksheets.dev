@@ -47,7 +47,7 @@ export class TwitterTemplates {
       opts.mob.name
     } was defeated by ${opts.mvp}. ${
       opts.mob.loot
-    } items were found!\n\n${BATTLE_URL(
+    } items were up for grabs!\n\n${BATTLE_URL(
       opts.mob.battleId
     )}\n\n#BossBattle #BrowserGames`;
   }

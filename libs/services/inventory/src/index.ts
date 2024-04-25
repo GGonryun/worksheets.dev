@@ -29,12 +29,7 @@ import {
 } from '@worksheets/util/types';
 import pluralize from 'pluralize';
 
-import {
-  unactivatable,
-  unconsumable,
-  undecrementable,
-  unincrementable,
-} from './errors';
+import { unactivatable, unconsumable, undecrementable } from './errors';
 
 export class InventoryService {
   #db: PrismaClient | PrismaTransactionalClient;
@@ -203,6 +198,7 @@ export class InventoryService {
       case '1002':
       case '1003':
       case '1004':
+      case '1005':
         // combat items have no side effects.
         return `${opts.quantity} ${pluralize('weapon', opts.quantity)} used.`;
       case '3':
@@ -217,8 +213,22 @@ export class InventoryService {
       case '10002':
       case '10003':
       case '10004':
+      case '10005':
+      case '10006':
+      case '10007':
+      case '10008':
+      case '10009':
+      case '10010':
+      case '10011':
+      case '10012':
+      case '10013':
+      case '10014':
+      case '10015':
+      case '10016':
+      case '10017':
+      case '10018':
+      case '10019':
         return this.#sell(userId, opts);
-      case '0': // cannot be decremented, this item should never exist.
       case '4': // must be activated.
         throw unconsumable(opts.itemId);
       default:
@@ -313,15 +323,30 @@ export class InventoryService {
       case '1002':
       case '1003':
       case '1004':
+      case '1005':
       case '10001':
       case '10002':
       case '10003':
       case '10004':
+      case '10005':
+      case '10006':
+      case '10007':
+      case '10008':
+      case '10009':
+      case '10010':
+      case '10011':
+      case '10012':
+      case '10013':
+      case '10014':
+      case '10015':
+      case '10016':
+      case '10017':
+      case '10018':
+      case '10019':
         return this.#increment(userId, itemId, quantity);
       case '4':
         return this.#award(userId, itemId, quantity);
-      case '0':
-        throw unincrementable(itemId);
+
       default:
         throw assertNever(itemId);
     }
@@ -507,7 +532,6 @@ export class InventoryService {
 
   #damage(itemId: ItemId) {
     switch (itemId) {
-      case '0':
       case '2':
       case '3':
       case '4':
@@ -519,6 +543,21 @@ export class InventoryService {
       case '10002':
       case '10003':
       case '10004':
+      case '10005':
+      case '10006':
+      case '10007':
+      case '10008':
+      case '10009':
+      case '10010':
+      case '10011':
+      case '10012':
+      case '10013':
+      case '10014':
+      case '10015':
+      case '10016':
+      case '10017':
+      case '10018':
+      case '10019':
         throw new TRPCError({
           code: 'BAD_REQUEST',
           message: `Item ID ${itemId} cannot be used for damage calculation.`,
@@ -526,6 +565,7 @@ export class InventoryService {
       case '1':
         return 1;
       case '1001':
+      case '1005':
         return 5;
       case '1002':
         return 6;

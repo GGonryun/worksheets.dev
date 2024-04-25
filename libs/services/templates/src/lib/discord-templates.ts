@@ -75,7 +75,7 @@ export class DiscordTemplates {
       embeds: [
         {
           title: `Battle ID: ${opts.mob.battleId}`,
-          description: `The battle against ${opts.mob.name} has ended. The boss battle MVP is ${opts.mvp}. ${opts.mob.loot} items have been distributed to participants.`,
+          description: `The battle against ${opts.mob.name} has ended. The boss battle MVP is ${opts.mvp}. Items have been distributed to participants.`,
           url: BATTLE_URL(opts.mob.battleId),
         },
       ],

@@ -127,7 +127,14 @@ const TitleBar: React.FC<BossBattleSchema> = (mob) => (
     py={{ xs: 0.5, sm: 1 }}
     px={{ xs: 1, sm: 2 }}
   >
-    <Typography variant="body1" fontWeight={900} color="text.arcade">
+    <Typography
+      variant="body1"
+      fontWeight={900}
+      color="text.arcade"
+      component={Link}
+      underline="hover"
+      href={routes.battle.path({ params: { battleId: mob.battleId } })}
+    >
       {mob.name}
     </Typography>
 

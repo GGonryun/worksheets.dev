@@ -1,4 +1,4 @@
-import { ItemId } from '@worksheets/data/items';
+import { ItemId, SharableItemId } from '@worksheets/data/items';
 import { FriendshipService } from '@worksheets/services/friendship';
 import { InventoryService } from '@worksheets/services/inventory';
 import { NotificationsService } from '@worksheets/services/notifications';
@@ -72,7 +72,7 @@ export default t.router({
 
       return inventory.decrement(user.id, {
         friendId: friendship.friendId,
-        itemId: input.itemId,
+        itemId: input.itemId as SharableItemId,
         quantity: input.quantity,
       });
     }),
