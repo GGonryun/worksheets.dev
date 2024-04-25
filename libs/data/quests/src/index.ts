@@ -254,7 +254,7 @@ export const QUESTS = [
       },
     ],
     data: {
-      url: 'https://playthis.games',
+      url: 'https://www.play-this.com/',
       preview: 'https://cdn.charity.games/_partners/play-this/sponsor.png',
     },
   },
