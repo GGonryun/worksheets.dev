@@ -8,11 +8,9 @@ import { InventoryService } from '.';
 export const consumeSmallChest = async (opts: {
   userId: string;
   quantity: number;
-  itemId: '2';
   inventory: InventoryService;
 }) => {
   const tokens = 20 * opts.quantity;
-  await opts.inventory.decrement(opts.userId, opts.itemId, opts.quantity);
   await opts.inventory.increment(opts.userId, '1', tokens);
 
   return `You have earned ${tokens} ${pluralize('tokens', tokens)}`;
@@ -21,11 +19,9 @@ export const consumeSmallChest = async (opts: {
 export const consumeLargeChest = async (opts: {
   userId: string;
   quantity: number;
-  itemId: '5';
   inventory: InventoryService;
 }) => {
   const tokens = 100 * opts.quantity;
-  await opts.inventory.decrement(opts.userId, opts.itemId, opts.quantity);
   await opts.inventory.increment(opts.userId, '1', tokens);
 
   return `You have earned ${tokens} ${pluralize('tokens', tokens)}`;
@@ -34,11 +30,8 @@ export const consumeLargeChest = async (opts: {
 export const consumeWeaponCrate = async (opts: {
   userId: string;
   quantity: number;
-  itemId: '1000';
   inventory: InventoryService;
 }) => {
-  await opts.inventory.decrement(opts.userId, opts.itemId, opts.quantity);
-
   const weapons: string[] = [];
   for (let i = 0; i < opts.quantity; i++) {
     const weapon = shuffle(COMBAT_ITEMS);

@@ -127,8 +127,11 @@ export class RafflesService {
         },
       });
 
-      // TODO: support quantities of items in awards
-      await this.#inventory.award(winner.user.id, raffle.item.id as ItemId, 1);
+      await this.#inventory.increment(
+        winner.user.id,
+        raffle.item.id as ItemId,
+        1
+      );
       await this.#notifications.send('won-raffle', {
         user: winner.user,
         item: raffle.item,

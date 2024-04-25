@@ -32,6 +32,7 @@ export const BOSS_BATTLE_PROPS = {
               name: true,
               type: true,
               description: true,
+              sell: true,
             },
           },
         },

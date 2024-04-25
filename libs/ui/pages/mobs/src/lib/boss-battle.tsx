@@ -542,6 +542,7 @@ const ItemDetailsModal: React.FC<ModalWrapper<{ loot: LootSchema }>> = ({
       content={<LootDescription loot={loot} />}
       action={
         <Button
+          fullWidth
           variant="arcade"
           size="small"
           onClick={() => onClose?.({}, 'backdropClick')}

@@ -9,6 +9,7 @@ export const STARTING_TOKENS = 100;
 export const STARTING_SMALL_CHESTS = 5;
 export const STARTING_GIFT_BOXES = 5;
 export const STARTING_SWORDS = 5;
+export const STARTING_APPLES = 10;
 // raffles
 export const RAFFLE_ENTRY_FEE = 10;
 // prizes

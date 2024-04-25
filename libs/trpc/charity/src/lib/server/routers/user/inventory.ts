@@ -2,7 +2,7 @@ import { ItemId } from '@worksheets/data/items';
 import { FriendshipService } from '@worksheets/services/friendship';
 import { InventoryService } from '@worksheets/services/inventory';
 import { NotificationsService } from '@worksheets/services/notifications';
-import { inventoryItemSchema } from '@worksheets/util/types';
+import { DecrementOpts, inventoryItemSchema } from '@worksheets/util/types';
 import { z } from 'zod';
 
 import { protectedProcedure } from '../../procedures';
@@ -23,19 +23,19 @@ export default t.router({
       const inventory = new InventoryService(db);
       return inventory.items(user.id, types);
     }),
-  use: protectedProcedure
-    .input(z.custom<ItemId>())
-    .output(z.custom<Awaited<ReturnType<InventoryService['use']>>>())
+
+  decrement: protectedProcedure
+    .input(
+      z.object({
+        itemId: z.custom<ItemId>(),
+        quantity: z.number(),
+        friendId: z.string().optional(),
+      })
+    )
+    .output(z.custom<Awaited<ReturnType<InventoryService['decrement']>>>())
     .mutation(async ({ input, ctx: { db, user } }) => {
       const inventory = new InventoryService(db);
-      return inventory.use(user.id, input);
-    }),
-  consume: protectedProcedure
-    .input(z.custom<Parameters<InventoryService['consume']>[1]>())
-    .output(z.custom<Awaited<ReturnType<InventoryService['consume']>>>())
-    .mutation(async ({ input, ctx: { db, user } }) => {
-      const inventory = new InventoryService(db);
-      return inventory.consume(user.id, input);
+      return inventory.decrement(user.id, input as DecrementOpts);
     }),
   activate: protectedProcedure
     .input(z.custom<Parameters<InventoryService['activate']>[1]>())
@@ -64,13 +64,13 @@ export default t.router({
         quantity: z.number(),
       })
     )
-    .output(z.custom<Awaited<ReturnType<InventoryService['share']>>>())
+    .output(z.custom<Awaited<ReturnType<InventoryService['decrement']>>>())
     .mutation(async ({ input, ctx: { db, user } }) => {
       const friends = new FriendshipService(db);
       const inventory = new InventoryService(db);
       const friendship = await friends.get(input.friendshipId);
 
-      return inventory.share(user.id, {
+      return inventory.decrement(user.id, {
         friendId: friendship.friendId,
         itemId: input.itemId,
         quantity: input.quantity,

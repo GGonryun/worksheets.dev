@@ -45,15 +45,10 @@ export default protectedProcedure
         });
       }
 
-      const tokens = await inventory.decrement(user.id, '1', RAFFLE_ENTRY_FEE);
-
-      // check if the user has enough tokens to purchase the entries
-      if (tokens < 0) {
-        throw new TRPCError({
-          code: 'PRECONDITION_FAILED',
-          message: 'User does not have enough tokens to purchase entries',
-        });
-      }
+      await inventory.decrement(user.id, {
+        itemId: '1',
+        quantity: RAFFLE_ENTRY_FEE,
+      });
 
       // create or update the participation
       await tx.raffleParticipation.upsert({

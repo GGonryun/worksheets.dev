@@ -102,6 +102,18 @@ const BattleDetails: React.FC<{
   if (!battle || isLoading) return <LoadingBar />;
   if (isError) return <ErrorComponent />;
 
+  if (
+    battle.status === BattleStatus.PENDING ||
+    battle.status === BattleStatus.CANCELLED
+  ) {
+    return (
+      <Column gap={2}>
+        <BattleTitle {...battle} />
+        <Typography variant="h6">Battle is not active</Typography>
+      </Column>
+    );
+  }
+
   return (
     <Column gap={2}>
       <BattleTitle {...battle} />
@@ -122,6 +134,29 @@ const BattleTitle: React.FC<BossBattleSchema> = (boss) => {
   );
 };
 
+const InProgressParticipationContent: React.FC<{
+  participation: BattleParticipationSchema[];
+}> = ({ participation }) => {
+  return (
+    <Column>
+      <Typography variant="h6"> Participants</Typography>
+      {participation.length ? (
+        <>
+          {participation.map((participant, index) => (
+            <ParticipationItem
+              key={participant.id}
+              index={index + 1}
+              participation={participant}
+            />
+          ))}
+        </>
+      ) : (
+        <Typography>No participants yet</Typography>
+      )}
+    </Column>
+  );
+};
+
 const ParticipationContent: React.FC<{
   battle?: BossBattleSchema;
   participation?: BattleParticipationSchema[];
@@ -135,56 +170,55 @@ const ParticipationContent: React.FC<{
   const winners = participation.filter(
     (p) => p.loot.length > 0 && !mvp.some((m) => m.id === p.id)
   );
-  const participants = participation.filter((p) => p.loot.length === 0);
+  const losers = participation.filter((p) => p.loot.length === 0);
 
-  const message =
-    battle.status === BattleStatus.COMPLETE || battle.currentHp <= 0
-      ? 'Distributing loot... Check back later for the results!'
-      : 'Boss Battle is still ongoing. Check back later for the results!';
+  if (battle.status === BattleStatus.ACTIVE) {
+    return <InProgressParticipationContent participation={participation} />;
+  }
 
   return (
     <Column gap={2}>
       <Column>
-        <Typography variant="h6">MVP</Typography>
-        {mvp.length ? (
-          mvp.map((participation, index) => (
-            <ParticipationItem
-              key={participation.id}
-              index={index + 1}
-              participation={participation}
-            />
-          ))
-        ) : (
-          <Typography variant="body2" fontWeight={500}>
-            {message}
-          </Typography>
+        {Boolean(mvp.length) && (
+          <>
+            <Typography variant="h6">MVP</Typography>
+            {mvp.map((participation, index) => (
+              <ParticipationItem
+                key={participation.id}
+                index={index + 1}
+                participation={participation}
+              />
+            ))}
+          </>
         )}
       </Column>
       <Column>
-        <Typography variant="h6">Loot Winners</Typography>
-        {winners.length ? (
-          winners.map((participation, index) => (
-            <ParticipationItem
-              key={participation.id}
-              index={index + 1}
-              participation={participation}
-            />
-          ))
-        ) : (
-          <Typography variant="body2" fontWeight={500}>
-            {message}
-          </Typography>
+        {Boolean(winners.length) && (
+          <>
+            <Typography variant="h6">Loot Winners</Typography>
+            {winners.map((participation, index) => (
+              <ParticipationItem
+                key={participation.id}
+                index={index + 1}
+                participation={participation}
+              />
+            ))}
+          </>
         )}
       </Column>
       <Column>
-        <Typography variant="h6">Participants</Typography>
-        {participants.map((participation, index) => (
-          <ParticipationItem
-            key={participation.id}
-            index={index + 1}
-            participation={participation}
-          />
-        ))}
+        {Boolean(losers.length) && (
+          <>
+            <Typography variant="h6">Other Participants</Typography>
+            {losers.map((participation, index) => (
+              <ParticipationItem
+                key={participation.id}
+                index={index + 1}
+                participation={participation}
+              />
+            ))}
+          </>
+        )}
       </Column>
     </Column>
   );

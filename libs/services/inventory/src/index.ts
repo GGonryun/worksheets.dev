@@ -1,81 +1,40 @@
 import { TRPCError } from '@trpc/server';
-import { ItemId } from '@worksheets/data/items';
+import {
+  CONSUMPTION_RATES,
+  isLotteryItems,
+  isRandomTokenQuantity,
+  ItemId,
+  SHARE_RATES,
+} from '@worksheets/data/items';
 import {
   ItemType,
   PrismaClient,
   PrismaTransactionalClient,
 } from '@worksheets/prisma';
-import { routes } from '@worksheets/routes';
 import { assertNever } from '@worksheets/util/errors';
 import {
+  STARTING_APPLES,
   STARTING_GIFT_BOXES,
   STARTING_SMALL_CHESTS,
   STARTING_SWORDS,
   STARTING_TOKENS,
 } from '@worksheets/util/settings';
 import { daysFromNow, isExpired } from '@worksheets/util/time';
-import { InventoryItemSchema } from '@worksheets/util/types';
+import {
+  ConsumableDecrementOpts,
+  DecrementOpts,
+  EtCeteraDecrementOpts,
+  InventoryItemSchema,
+  SharableDecrementOpts,
+} from '@worksheets/util/types';
 import pluralize from 'pluralize';
 
 import {
-  consumeLargeChest,
-  consumeSmallChest,
-  consumeWeaponCrate,
-} from './consume';
-import {
   unactivatable,
-  unawardable,
   unconsumable,
+  undecrementable,
   unincrementable,
-  unsharable,
-  unusable,
 } from './errors';
-import { shareLargeGiftBox, shareLoveLetter, shareSmallGiftBox } from './share';
-
-export type IncrementOptions = {
-  userId: string;
-  amount: number;
-};
-
-export type FindItemsOptions = {
-  userId: string;
-  itemIds: ItemId[];
-};
-
-export type PendingItemUseState = {
-  action: 'pending';
-};
-
-export type LoadingItemUseState = {
-  action: 'loading';
-};
-
-export type RedirectItemUseState = {
-  action: 'redirect';
-  url: string;
-};
-
-export type ConsumeItemUseState = {
-  action: 'consume';
-  message: string;
-};
-
-export type ActivateItemUseState = {
-  action: 'activate';
-  warning: string;
-};
-
-export type ShareItemUseState = {
-  action: 'share';
-};
-
-export type ItemUseState =
-  | PendingItemUseState
-  | LoadingItemUseState
-  | RedirectItemUseState
-  | ConsumeItemUseState
-  | ActivateItemUseState
-  | ShareItemUseState;
 
 export class InventoryService {
   #db: PrismaClient | PrismaTransactionalClient;
@@ -118,6 +77,7 @@ export class InventoryService {
             description: true,
             imageUrl: true,
             type: true,
+            sell: true,
           },
         },
       },
@@ -135,6 +95,7 @@ export class InventoryService {
           itemId: inv.item.id as ItemId,
           quantity: inv?.quantity ?? 0,
           expiresAt: inv?.expiresAt?.getTime() ?? null,
+          value: inv.item.sell,
         };
       });
   }
@@ -174,10 +135,12 @@ export class InventoryService {
 
   async initializeUser(userId: string) {
     await Promise.all([
+      // TODO: support increment many
       this.increment(userId, '1', STARTING_TOKENS),
       this.increment(userId, '2', STARTING_SMALL_CHESTS),
       this.increment(userId, '3', STARTING_GIFT_BOXES),
       this.increment(userId, '1002', STARTING_SWORDS),
+      this.increment(userId, '10001', STARTING_APPLES),
     ]);
   }
 
@@ -191,11 +154,17 @@ export class InventoryService {
     return item.quantity;
   }
 
-  async decrement(userId: string, itemId: ItemId, amount: number) {
+  /**
+   * Decrement works safely in transactions, worst case scenario is that the transaction fails and the user's inventory is unchanged.
+   */
+  async decrement(userId: string, opts: DecrementOpts) {
+    if (opts.itemId === '4') {
+      throw undecrementable(opts.itemId);
+    }
     const instance = await this.#db.inventory.findFirst({
       where: {
-        userId,
-        itemId,
+        userId: userId,
+        itemId: opts.itemId,
       },
       select: {
         id: true,
@@ -203,29 +172,135 @@ export class InventoryService {
       },
     });
 
-    if (!instance || instance.quantity < amount) {
+    if (!instance || instance.quantity < opts.quantity) {
       throw new TRPCError({
         code: 'NOT_FOUND',
         message: `Insufficient quantity of item.`,
       });
     }
 
-    const update = await this.#db.inventory.update({
+    await this.#db.inventory.update({
       where: {
         id: instance.id,
       },
       data: {
         quantity: {
-          decrement: amount,
+          decrement: opts.quantity,
         },
       },
     });
 
-    return update.quantity;
+    return await this.#decrement(userId, opts);
   }
 
-  /** Incrementing is allowed on any prize that can stack and does not expire. Throws an error if you try to increment a stackable item */
-  async increment(userId: string, itemId: ItemId, amount: number) {
+  /** Some decrement operations have side effects like consumption or sharable items. */
+  async #decrement(userId: string, opts: DecrementOpts) {
+    switch (opts.itemId) {
+      case '1':
+        // currency items have no side effects.
+        return `${opts.quantity} ${pluralize('token', opts.quantity)} spent.`;
+      case '1001':
+      case '1002':
+      case '1003':
+      case '1004':
+        // combat items have no side effects.
+        return `${opts.quantity} ${pluralize('weapon', opts.quantity)} used.`;
+      case '3':
+      case '6':
+      case '7':
+        return this.#share(userId, opts);
+      case '2':
+      case '5':
+      case '1000':
+        return this.#consume(userId, opts);
+      case '10001':
+      case '10002':
+      case '10003':
+      case '10004':
+        return this.#sell(userId, opts);
+      case '0': // cannot be decremented, this item should never exist.
+      case '4': // must be activated.
+        throw unconsumable(opts.itemId);
+      default:
+        throw assertNever(opts);
+    }
+  }
+
+  async #sell(userId: string, opts: EtCeteraDecrementOpts) {
+    const item = await this.#db.item.findFirst({
+      where: {
+        id: opts.itemId,
+      },
+      select: {
+        sell: true,
+        name: true,
+      },
+    });
+
+    if (!item) {
+      throw new TRPCError({
+        code: 'INTERNAL_SERVER_ERROR',
+        message: `Item ${opts.itemId} does not exist`,
+      });
+    }
+
+    const total = item.sell * opts.quantity;
+
+    await this.#increment(userId, '1', total);
+
+    return `Sold ${opts.quantity} ${pluralize(
+      item.name,
+      opts.quantity
+    )} for ${total} tokens.`;
+  }
+
+  async #share(userId: string, opts: SharableDecrementOpts) {
+    const rate = SHARE_RATES[opts.itemId];
+    const giving = rate.friend * opts.quantity;
+    const receiving = rate.user * opts.quantity;
+
+    await this.increment(opts.friendId, '1', giving);
+    await this.increment(userId, '1', receiving);
+
+    // TODO: notify the friend that someone shared items with them.
+
+    return `You have shared ${giving} ${pluralize(
+      'token',
+      giving
+    )} and received ${receiving} ${pluralize('token', receiving)}`;
+  }
+
+  async #consume(userId: string, opts: ConsumableDecrementOpts) {
+    const rate = CONSUMPTION_RATES[opts.itemId];
+    if (isLotteryItems(rate)) {
+      const items: string[] = [];
+      for (let i = 0; i < opts.quantity; i++) {
+        const item = rate.items[Math.floor(Math.random() * rate.items.length)];
+        await this.increment(userId, item.id, 1);
+        items.push(item.name);
+      }
+      const groupedItems = items.reduce((acc, item) => {
+        acc[item] = (acc[item] || 0) + 1;
+        return acc;
+      }, {} as Record<string, number>);
+      return `You have found ${Object.entries(groupedItems)
+        .map(([item, count]) => `${count} ${pluralize(item, count)}`)
+        .join(', ')}`;
+    } else if (isRandomTokenQuantity(rate)) {
+      // calculate the random quantity of tokens to award.
+      let tokens = 0;
+      for (let i = 0; i < opts.quantity; i++) {
+        tokens += Math.floor(Math.random() * (rate.max - rate.min) + rate.min);
+      }
+      await this.increment(userId, '1', tokens);
+      return `You have earned ${tokens} ${pluralize('tokens', tokens)}`;
+    } else {
+      throw unconsumable(opts.itemId);
+    }
+  }
+
+  /** Incrementing is used to add an item to a user's account. Some items do not stack, these items use #award. */
+  async increment(userId: string, itemId: ItemId, quantity: number) {
     switch (itemId) {
       case '1':
       case '2':
@@ -238,9 +313,14 @@ export class InventoryService {
       case '1002':
       case '1003':
       case '1004':
-        return this.#increment(userId, itemId, amount);
-      case '0':
+      case '10001':
+      case '10002':
+      case '10003':
+      case '10004':
+        return this.#increment(userId, itemId, quantity);
       case '4':
+        return this.#award(userId, itemId, quantity);
+      case '0':
         throw unincrementable(itemId);
       default:
         throw assertNever(itemId);
@@ -279,30 +359,10 @@ export class InventoryService {
     }
   }
 
-  /** Awarding is used to safely increment or add items to a users inventory. Items like steam keys cannot stack, awarding takes care of this*/
-  async award(userId: string, itemId: ItemId, quantity: number) {
-    switch (itemId) {
-      case '0':
-        throw unawardable(itemId);
-      case '1':
-      case '2':
-      case '3':
-      case '5':
-      case '6':
-      case '7':
-      case '1000':
-      case '1001':
-      case '1002':
-      case '1003':
-      case '1004':
-        return this.#increment(userId, itemId, quantity);
-      case '4':
-        return this.#award(userId, '4', quantity);
-      default:
-        throw assertNever(itemId);
-    }
-  }
-  /** Creates a new instance of an item that expires after some time. */
+  /**
+   * Awarding is used to safely increment or add items to a users inventory. Items like steam keys cannot stack, awarding takes care of this
+   * Creates a new instance of an item that expires after some time.
+   */
   async #award(userId: string, itemId: ItemId, quantity: number) {
     const item = await this.#db.item.findFirst({
       where: {
@@ -329,146 +389,6 @@ export class InventoryService {
           expiresAt: item.expiration ? daysFromNow(item.expiration) : undefined,
         },
       });
-    }
-  }
-
-  /**
-   * 'use' is used by the usage modal on the inventory screen to determine
-   *  which action the player can take on a given item and the modal's message
-   */
-  async use(userId: string, itemId: ItemId): Promise<ItemUseState> {
-    const inventory = await this.#db.inventory.findFirst({
-      where: {
-        userId,
-        itemId,
-      },
-      select: {
-        quantity: true,
-      },
-    });
-
-    if (!inventory || !inventory.quantity) {
-      throw new TRPCError({
-        code: 'NOT_FOUND',
-        message: `Item was not found in inventory.`,
-      });
-    }
-
-    switch (itemId) {
-      case '0':
-      case '1':
-        throw unusable(itemId);
-
-      case '7':
-      case '6':
-      case '3':
-        return {
-          action: 'share',
-        };
-      case '2':
-      case '5':
-        return {
-          action: 'consume',
-          message: 'How many treasure chests would you like to open?',
-        };
-
-      case '4': {
-        return {
-          action: 'activate',
-          warning:
-            'You will receive a random Steam Key. This action cannot be undone. Are you sure you want to proceed?',
-        };
-      }
-
-      case '1000':
-        return {
-          action: 'consume',
-          message: 'How many weapon crates would you like to open?',
-        };
-      case '1001':
-      case '1002':
-      case '1003':
-      case '1004':
-        return {
-          action: 'redirect',
-          url: routes.battles.path(),
-        };
-      default:
-        throw assertNever(itemId);
-    }
-  }
-
-  /**
-   * Consume can only be used to open consumable items.
-   */
-  async consume(
-    userId: string,
-    opts: { itemId: ItemId; quantity: number }
-  ): Promise<string> {
-    const { itemId, quantity } = opts;
-    const inventory = await this.#db.inventory.findFirst({
-      where: {
-        userId,
-        itemId,
-      },
-      select: {
-        quantity: true,
-        item: {
-          select: {
-            name: true,
-          },
-        },
-      },
-    });
-    if (!inventory) {
-      throw new TRPCError({
-        code: 'NOT_FOUND',
-        message: `Item was not found in inventory.`,
-      });
-    }
-
-    if (!inventory.quantity || inventory.quantity < quantity) {
-      throw new TRPCError({
-        code: 'BAD_REQUEST',
-        message: `Not enough ${pluralize(inventory.item.name, 2)} to consume`,
-      });
-    }
-
-    switch (itemId) {
-      case '0':
-      case '1':
-      case '3':
-      case '4':
-      case '6':
-      case '7':
-      case '1001':
-      case '1002':
-      case '1003':
-      case '1004':
-        throw unconsumable(itemId);
-      case '2':
-        return consumeSmallChest({
-          userId,
-          quantity,
-          itemId,
-          inventory: this,
-        });
-      case '5':
-        return consumeLargeChest({
-          userId,
-          quantity,
-          itemId,
-          inventory: this,
-        });
-      case '1000':
-        return consumeWeaponCrate({
-          userId,
-          quantity,
-          itemId,
-          inventory: this,
-        });
-      default:
-        throw assertNever(itemId);
     }
   }
 
@@ -509,30 +429,16 @@ export class InventoryService {
     }
 
     const itemId = inventory.itemId as ItemId;
-    switch (itemId) {
-      case '0':
-      case '1':
-      case '2':
-      case '3':
-      case '5':
-      case '6':
-      case '7':
-      case '1000':
-      case '1001':
-      case '1002':
-      case '1003':
-      case '1004':
-        throw unactivatable(inventory.itemId);
-      case '4':
-        return this.#activateSteamKey({
-          userId,
-          inventoryId,
-          itemId,
-          item: inventory.item,
-        });
-      default:
-        throw assertNever(itemId);
+    if (itemId !== '4') {
+      throw unactivatable(inventory.itemId);
     }
+
+    return this.#activateSteamKey({
+      userId,
+      inventoryId,
+      itemId,
+      item: inventory.item,
+    });
   }
 
   async #activateSteamKey({
@@ -609,6 +515,10 @@ export class InventoryService {
       case '6':
       case '7':
       case '1000':
+      case '10001':
+      case '10002':
+      case '10003':
+      case '10004':
         throw new TRPCError({
           code: 'BAD_REQUEST',
           message: `Item ID ${itemId} cannot be used for damage calculation.`,
@@ -623,35 +533,6 @@ export class InventoryService {
         return 7;
       case '1004':
         return 8;
-      default:
-        throw assertNever(itemId);
-    }
-  }
-
-  /** Sharing an item with another user sends something to their inventory */
-  async share(
-    userId: string,
-    opts: { itemId: ItemId; quantity: number; friendId: string }
-  ) {
-    const { itemId } = opts;
-    switch (itemId) {
-      case '3':
-        return shareSmallGiftBox({ ...opts, itemId, userId, inventory: this });
-      case '6':
-        return shareLargeGiftBox({ ...opts, itemId, userId, inventory: this });
-      case '7':
-        return shareLoveLetter({ ...opts, itemId, userId, inventory: this });
-      case '0':
-      case '1':
-      case '2':
-      case '4':
-      case '5':
-      case '1000':
-      case '1001':
-      case '1002':
-      case '1003':
-      case '1004':
-        throw unsharable(itemId);
       default:
         throw assertNever(itemId);
     }

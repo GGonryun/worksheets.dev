@@ -8,12 +8,15 @@ import React from 'react';
 import { LOADING_INTERVAL, selectRandomLoadingMessage } from './messages';
 import styles from './pulsing-heart.module.scss';
 
-export const PulsingLogo: React.FC<{ hideMessage?: boolean }> = (props) => {
+export const PulsingLogo: React.FC<{
+  hideMessage?: boolean;
+  message?: string;
+}> = (props) => {
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down('sm'));
-  const [message, setMessage] = React.useState('Loading...');
+  const [message, setMessage] = React.useState(props.message ?? 'Loading...');
 
   useInterval(() => {
-    if (!props.hideMessage) {
+    if (!props.hideMessage || !props.message) {
       setMessage(selectRandomLoadingMessage());
     }
   }, LOADING_INTERVAL.FAST);

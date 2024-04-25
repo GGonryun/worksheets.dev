@@ -9,6 +9,7 @@ import { toPercentage } from '@worksheets/util/numbers';
 import { TABLET_SHADOW } from '@worksheets/util/styles';
 import { printDateTime } from '@worksheets/util/time';
 import { InventoryItemSchema, LootSchema } from '@worksheets/util/types';
+import pluralize from 'pluralize';
 import React from 'react';
 
 const ITEM_TYPE_LABEL: Record<ItemType, string> = {
@@ -17,7 +18,7 @@ const ITEM_TYPE_LABEL: Record<ItemType, string> = {
   CONSUMABLE: 'Consumable',
   CURRENCY: 'Currency',
   SHARABLE: 'Sharable',
-  ETCETERA: 'Etcetera',
+  ETCETERA: 'Miscellaneous',
 };
 
 export const ItemModalLayout: React.FC<
@@ -125,6 +126,7 @@ export const ItemDescription: React.FC<{
     <Column>
       <ItemDataRow label="Type" value={ITEM_TYPE_LABEL[item.type]} />
       <ItemDataRow label="Quantity" value={item.quantity} />
+      <ItemDataRow label="Value" value={item.value} />
       {item.expiresAt && (
         <ItemDataRow
           color="error"
@@ -147,6 +149,10 @@ export const LootDescription: React.FC<{
       <ItemDataRow label="Type" value={ITEM_TYPE_LABEL[loot.item.type]} />
       <ItemDataRow label="Quantity" value={loot.quantity} />
       <ItemDataRow label="Drop Chance" value={toPercentage(loot.chance)} />
+      <ItemDataRow
+        label="Sells For"
+        value={`${loot.item.sell} ${pluralize('token', loot.item.sell)}`}
+      />
       <ItemDataRow label="MVP" value={loot.mvp ? 'Yes' : 'No'} />
     </Column>
   </Column>
@@ -163,6 +169,10 @@ export const QuestLootDescription: React.FC<{
       <ItemDataRow label="Type" value={ITEM_TYPE_LABEL[loot.item.type]} />
       <ItemDataRow label="Quantity" value={`${loot.quantity} per quest`} />
       <ItemDataRow label="Drop Chance" value={toPercentage(loot.chance)} />
+      <ItemDataRow
+        label="Sells For"
+        value={`${loot.item.sell} ${pluralize('token', loot.item.sell)}`}
+      />
     </Column>
   </Column>
 );

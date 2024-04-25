@@ -1,11 +1,7 @@
 import { ArrowBack, ArrowForward, FavoriteBorder } from '@mui/icons-material';
 import { Button, Typography } from '@mui/material';
+import { ItemType } from '@worksheets/prisma';
 import { routes } from '@worksheets/routes';
-import {
-  ActivateItemUseState,
-  ConsumeItemUseState,
-  ItemUseState,
-} from '@worksheets/services/inventory';
 import { trpc } from '@worksheets/trpc-charity';
 import { ErrorComponent } from '@worksheets/ui/components/errors';
 import { Column, Row } from '@worksheets/ui/components/flex';
@@ -18,9 +14,10 @@ import {
 import { PulsingLogo } from '@worksheets/ui/components/loading';
 import { ModalWrapper } from '@worksheets/ui/components/modals';
 import { useSnackbar } from '@worksheets/ui/components/snackbar';
-import { PaletteColor } from '@worksheets/ui/theme';
+import { Redirect } from '@worksheets/ui-core';
 import { FriendsPanels, InventoryPanels } from '@worksheets/util/enums';
 import { assertNever } from '@worksheets/util/errors';
+import { capitalizeFirstLetter } from '@worksheets/util/strings';
 import { parseTRPCClientErrorMessage } from '@worksheets/util/trpc';
 import { Friend, InventoryItemSchema } from '@worksheets/util/types';
 import dynamic from 'next/dynamic';
@@ -28,62 +25,40 @@ import { useRouter } from 'next/router';
 import pluralize from 'pluralize';
 import React from 'react';
 
-const ACTION_DISPLAY: Record<ItemUseState['action'], 'block' | 'none'> = {
-  pending: 'block',
-  loading: 'block',
-  consume: 'none',
-  redirect: 'block',
-  activate: 'none',
-  share: 'none',
+const ACTION_LABEL: Record<ItemType, string> = {
+  STEAM_KEY: 'Claim',
+  CONSUMABLE: 'Use Item',
+  SHARABLE: 'Share',
+  COMBAT: 'Join Battle',
+  ETCETERA: 'Sell Item',
+  CURRENCY: 'N/A',
 };
-const ACTION_DISABLED: Record<ItemUseState['action'], boolean> = {
-  pending: false,
-  loading: true,
-  consume: true,
-  redirect: true,
-  activate: true,
-  share: true,
+
+const ACTION_AVAILABLE: Record<ItemType, boolean> = {
+  STEAM_KEY: true,
+  CONSUMABLE: true,
+  SHARABLE: true,
+  COMBAT: true,
+  ETCETERA: true,
+  CURRENCY: false,
 };
-const ACTION_LABEL: Record<ItemUseState['action'], string> = {
-  pending: 'Use Item',
-  loading: 'Loading',
-  consume: 'Consuming...',
-  redirect: 'Redirecting',
-  activate: 'Confirming...',
-  share: 'Share Item',
-};
-const ACTION_COLOR: Record<ItemUseState['action'], PaletteColor> = {
-  pending: 'primary',
-  loading: 'primary',
-  consume: 'success',
-  redirect: 'primary',
-  activate: 'error',
-  share: 'secondary',
-};
-const canUse = (type: InventoryItemSchema['type']) =>
-  type === 'STEAM_KEY' ||
-  type === 'CONSUMABLE' ||
-  type === 'SHARABLE' ||
-  type === 'COMBAT';
 
 const ItemAction: React.FC<{
-  action: ItemUseState['action'];
+  item: InventoryItemSchema;
   onClick: () => void;
-}> = ({ onClick, action }) => {
-  const disabled = ACTION_DISABLED[action];
+}> = ({ item, onClick }) => {
   return (
     <Button
       variant="arcade"
-      color={ACTION_COLOR[action]}
+      color={'primary'}
       fullWidth
       size="small"
-      disabled={disabled}
       onClick={onClick}
       sx={{
-        display: ACTION_DISPLAY[action],
+        display: ACTION_AVAILABLE[item.type] ? 'block' : 'none',
       }}
     >
-      {ACTION_LABEL[action]}
+      {ACTION_LABEL[item.type]}
     </Button>
   );
 };
@@ -91,8 +66,7 @@ const ItemAction: React.FC<{
 const ActivateItem: React.FC<{
   onClose: () => void;
   item: InventoryItemSchema;
-  state: ActivateItemUseState;
-}> = ({ state, item }) => {
+}> = ({ item }) => {
   const { push } = useRouter();
   const snackbar = useSnackbar();
   const utils = trpc.useUtils();
@@ -122,7 +96,8 @@ const ActivateItem: React.FC<{
   return (
     <Column gap={2} textAlign="center" alignItems={'center'}>
       <Typography typography={{ xs: 'body2', sm: 'body1' }}>
-        {state.warning}
+        You will receive a random <b>Steam Key</b>. This action cannot be
+        undone. Are you sure you want to proceed?
       </Typography>
 
       <Button
@@ -146,11 +121,11 @@ const ActivateItem: React.FC<{
 const ConsumeItem: React.FC<{
   onClose: () => void;
   item: InventoryItemSchema;
-  state: ConsumeItemUseState;
-}> = ({ item, state, onClose }) => {
+  verb: 'use' | 'sell';
+}> = ({ item, onClose, verb }) => {
   const snackbar = useSnackbar();
   const utils = trpc.useUtils();
-  const consume = trpc.user.inventory.consume.useMutation();
+  const decrement = trpc.user.inventory.decrement.useMutation();
   const [quantity, setQuantity] = React.useState(1);
   const [consuming, setConsuming] = React.useState(false);
 
@@ -163,7 +138,7 @@ const ConsumeItem: React.FC<{
   const handleConsumption = async () => {
     try {
       setConsuming(true);
-      const result = await consume.mutateAsync({
+      const result = await decrement.mutateAsync({
         itemId: item.itemId,
         quantity,
       });
@@ -182,8 +157,13 @@ const ConsumeItem: React.FC<{
   return (
     <Column gap={2} alignItems="center">
       <Typography typography={{ xs: 'body2', sm: 'body1' }}>
-        {state.message}
+        How many {pluralize(item.name)} would you like to {verb}?
       </Typography>
+      {verb === 'sell' && (
+        <Typography typography={{ xs: 'body3', sm: 'body2' }}>
+          {pluralize(item.name)} sell for <b>{item.value} tokens</b> each
+        </Typography>
+      )}
       <NumericCounterField value={quantity} onChange={handleSetQuantity} />
       <Button
         variant="arcade"
@@ -193,7 +173,9 @@ const ConsumeItem: React.FC<{
         sx={{ width: 'fit-content', px: 3 }}
         onClick={handleConsumption}
       >
-        {consuming ? 'Loading...' : `Consume x${quantity}`}
+        {consuming
+          ? 'Loading...'
+          : `${capitalizeFirstLetter(verb)} x${quantity}`}
       </Button>
     </Column>
   );
@@ -387,24 +369,30 @@ const NoFriendsWarning = () => (
 
 const ItemContent: React.FC<{
   item: InventoryItemSchema;
-  state: ItemUseState;
   onClose: () => void;
-}> = ({ item, state, onClose }) => {
-  switch (state.action) {
-    case 'loading':
-      return <PulsingLogo />;
-    case 'redirect':
-      return <Typography>Redirecting...</Typography>;
-    case 'activate':
-      return <ActivateItem item={item} state={state} onClose={onClose} />;
-    case 'consume':
-      return <ConsumeItem item={item} state={state} onClose={onClose} />;
-    case 'pending':
-      return <ItemDescription item={item} />;
-    case 'share':
+}> = ({ item, onClose }) => {
+  switch (item.type) {
+    case 'STEAM_KEY':
+      return <ActivateItem item={item} onClose={onClose} />;
+    case 'CONSUMABLE':
+      return <ConsumeItem item={item} onClose={onClose} verb="use" />;
+    case 'SHARABLE':
       return <ShareItem item={item} onClose={onClose} />;
+    case 'ETCETERA':
+      return <ConsumeItem item={item} onClose={onClose} verb="sell" />;
+    case 'COMBAT':
+      return (
+        <Redirect
+          href={routes.battles.path()}
+          placeholder={<PulsingLogo message={'Redirecting...'} />}
+        />
+      );
+    case 'CURRENCY':
+      return (
+        <ErrorComponent message="Currency cannot be used. Contact Support." />
+      );
     default:
-      throw assertNever(state);
+      throw assertNever(item.type);
   }
 };
 
@@ -413,30 +401,15 @@ const Container: React.FC<ModalWrapper<{ item: InventoryItemSchema }>> = ({
   onClose,
   item,
 }) => {
-  const [state, setState] = React.useState<ItemUseState>({
-    action: 'pending',
-  });
-  const { push } = useRouter();
-  const snackbar = useSnackbar();
-  const use = trpc.user.inventory.use.useMutation();
+  const [using, setUsing] = React.useState(false);
 
   const handleClose = () => {
-    setState({ action: 'pending' });
+    setUsing(false);
     onClose?.({}, 'escapeKeyDown');
   };
 
   const handleUsage = async () => {
-    try {
-      setState({ action: 'loading' });
-      const result = await use.mutateAsync(item.itemId);
-      if (result.action === 'redirect') {
-        push(result.url);
-      } else {
-        setState(result);
-      }
-    } catch (error) {
-      snackbar.error(parseTRPCClientErrorMessage(error));
-    }
+    setUsing(true);
   };
 
   return (
@@ -446,11 +419,18 @@ const Container: React.FC<ModalWrapper<{ item: InventoryItemSchema }>> = ({
       item={item}
       icon={item.expiresAt && <ExpiringItemIcon size={18} />}
       action={
-        canUse(item.type) && (
-          <ItemAction action={state.action} onClick={handleUsage} />
+        !using &&
+        ACTION_AVAILABLE[item.type] && (
+          <ItemAction item={item} onClick={handleUsage} />
         )
       }
-      content={<ItemContent item={item} state={state} onClose={handleClose} />}
+      content={
+        using ? (
+          <ItemContent item={item} onClose={handleClose} />
+        ) : (
+          <ItemDescription item={item} />
+        )
+      }
     />
   );
 };

@@ -2,7 +2,10 @@ import { BattleStatus } from '@prisma/client';
 import { ItemId } from '@worksheets/data/items';
 import { InventoryService } from '@worksheets/services/inventory';
 import { MobsService } from '@worksheets/services/mobs';
-import { userBattleParticipationSchema } from '@worksheets/util/types';
+import {
+  DecrementOpts,
+  userBattleParticipationSchema,
+} from '@worksheets/util/types';
 import { z } from 'zod';
 
 import { protectedProcedure } from '../../procedures';
@@ -78,7 +81,7 @@ export default t.router({
         await mobs.strike({ userId, battleId, damage });
 
         for (const item of items) {
-          await inventory.decrement(userId, item.itemId, item.quantity);
+          await inventory.decrement(userId, item as DecrementOpts);
         }
 
         return damage;

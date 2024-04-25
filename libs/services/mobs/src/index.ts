@@ -324,7 +324,7 @@ export class MobsService {
 
     // award the mvp user with mvp loot.
     for (const loot of mvpLoot) {
-      await inventory.award(
+      await inventory.increment(
         mvp.participant.user.id,
         loot.itemId as ItemId,
         loot.quantity
@@ -401,14 +401,13 @@ export class MobsService {
     for (const loot of basicLoot) {
       // pick a random winner.
       for (let i = 0; i < loot.quantity; i++) {
-        // every item has a chance to drop.
         const luck = Math.random();
-        if (luck <= loot.chance) {
+        if (luck > loot.chance) {
           continue;
         }
 
         const winner = await this.#determineWinner(participants);
-        await inventory.award(winner.user.id, loot.itemId as ItemId, 1);
+        await inventory.increment(winner.user.id, loot.itemId as ItemId, 1);
         await this.#db.loot.upsert({
           where: {
             itemId_battleParticipationId: {
@@ -431,14 +430,15 @@ export class MobsService {
         winners.add(winner);
       }
     }
-
     return Array.from(winners);
   }
 
   async #determineWinner(participants: BasicParticipationProps[]) {
+    // every participant gets at least one guaranteed entry.
     const group = participants.flatMap((p) =>
       Array.from({ length: Math.round(p.damage / ENTRY_PER_DAMAGE) }, () => p)
     );
+    participants.forEach((p) => group.push(p));
     return shuffle(group)[0];
   }
 }

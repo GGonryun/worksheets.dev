@@ -131,6 +131,8 @@ model Item {
   type            ItemType
   name            String
   description     String
+  // how much this item sells for in the marketplace
+  sell            Int              @default(1)
   imageUrl        String
   expiration      Int?
   createdAt       DateTime         @default(now())

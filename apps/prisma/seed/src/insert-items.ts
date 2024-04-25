@@ -1,5 +1,5 @@
 import { Item, ITEMS } from '@worksheets/data/items';
-import { prisma } from '@worksheets/prisma';
+import { Prisma, prisma } from '@worksheets/prisma';
 import { getSeedingChanges, seedingProperties } from '@worksheets/util/seeding';
 
 export const insertItems = async () => {
@@ -32,12 +32,13 @@ export const insertItems = async () => {
   }
 };
 
-const convertItem = (item: Item) => {
+const convertItem = (item: Item): Prisma.ItemCreateInput => {
   return {
     id: item.id,
     version: item.version,
     code: item.code,
     name: item.name,
+    sell: item.sell,
     expiration: item.expiration ?? null,
     description: item.description,
     imageUrl: item.imageUrl,

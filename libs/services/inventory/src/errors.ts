@@ -35,3 +35,9 @@ export const unsharable = (itemId: string) =>
     code: 'BAD_REQUEST',
     message: `Item ${itemId} is not sharable`,
   });
+
+export const undecrementable = (itemId: string) =>
+  new TRPCError({
+    code: 'BAD_REQUEST',
+    message: `Item ${itemId} is not decrementable`,
+  });

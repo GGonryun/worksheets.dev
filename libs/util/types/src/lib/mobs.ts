@@ -186,6 +186,7 @@ export const lootSchema = z.object({
     imageUrl: z.string(),
     type: z.nativeEnum(ItemType),
     description: z.string(),
+    sell: z.number(),
   }),
   quantity: z.number(),
   chance: z.number().min(0).max(1),
