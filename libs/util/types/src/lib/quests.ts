@@ -7,7 +7,7 @@ import {
 } from '@worksheets/prisma';
 import { z } from 'zod';
 
-import { lootSchema } from './mobs';
+import { lootSchema } from './items';
 
 export type QuestFilterOptions = {
   statuses: QuestStatus[];

@@ -14,7 +14,7 @@ export const InfoModal: React.FC<ModalProps & { infoHref?: string }> = ({
     onClose={onClose}
     sx={{
       width: '95%',
-      maxWidth: 500,
+      maxWidth: 550,
     }}
   >
     <>

@@ -1,7 +1,11 @@
 import { routes } from '@worksheets/routes';
 import { OpenGraphProps, TWITTER_SEO } from '@worksheets/util/seo';
 import {
+  BattleSchema,
   DeveloperSchema,
+  ItemSchema,
+  MonsterSchema,
+  RaffleSchema,
   SerializableGameSchema,
   TagSchema,
 } from '@worksheets/util/types';
@@ -123,6 +127,13 @@ export const bossBattlesSeo = createSeo({
   title: `Boss Battles`,
   description: `Join boss battles on Charity Games. Team up with other players to defeat powerful bosses and earn rewards.`,
 });
+
+export const bossBattleSeo = (battle: BattleSchema): NextSeoProps =>
+  createSeo({
+    path: routes.battle.path({ params: { battleId: battle.id } }),
+    title: `${battle.mob.name} | Boss Battle`,
+    description: `Defeat ${battle.mob.name} and earn rewards. Every token you spend is a donation towards charity. Win prizes by playing browser games.`,
+  });
 
 export const developerSeo = (developer: DeveloperSchema): NextSeoProps =>
   createSeo({
@@ -391,6 +402,14 @@ export const rafflesSeo = createSeo({
     'Redeem your tokens for raffle entries and win real world prizes. Every token you spend is a donation towards charity. Win free prizes by playing browser games and referring friends',
 });
 
+export const raffleSeo = (raffle: RaffleSchema): NextSeoProps =>
+  createSeo({
+    path: routes.raffle.path({ params: { raffleId: raffle.id } }),
+    title: `${raffle.name} | Raffle`,
+    description:
+      'Redeem your tokens for raffle entries and win real world prizes. Every token you spend is a donation towards charity. Win free prizes by playing browser games and referring friends',
+  });
+
 export const expiredRafflesSeo = createSeo({
   path: routes.raffles.expired.path(),
   title: 'Expired Raffles',
@@ -439,3 +458,31 @@ export const auctionsSeo = createSeo({
   description:
     'Bid on digital prizes and win free games. Every token you spend is a donation towards charity. Win tokens by playing browser games and completing tasks.',
 });
+
+export const monstersSeo = createSeo({
+  path: routes.monsters.path(),
+  title: 'Monsters',
+  description:
+    'Defeat monsters and earn rewards. Every token you spend is a donation towards charity. Win tokens by playing browser games.',
+});
+
+export const monsterSeo = (monster: MonsterSchema): NextSeoProps =>
+  createSeo({
+    path: routes.monster.path({ params: { monsterId: monster.id } }),
+    title: `${monster.name} | Monster`,
+    description: `Defeat ${monster.name} and earn rewards. Every token you spend is a donation towards charity. Win prizes by playing browser games.`,
+  });
+
+export const itemsSeo = createSeo({
+  path: routes.items.path(),
+  title: 'Items',
+  description:
+    'View all items available on Charity Games. Every token you spend is a donation towards charity. Win tokens by playing browser games.',
+});
+
+export const itemSeo = (item: ItemSchema): NextSeoProps =>
+  createSeo({
+    path: routes.item.path({ params: { itemId: item.id } }),
+    title: `${item.name} | Item`,
+    description: `View ${item.name} and learn how to use it. Every token you spend is a donation towards charity. Win prizes by playing browser games.`,
+  });

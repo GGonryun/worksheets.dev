@@ -11,14 +11,12 @@ import { ENTRY_PER_DAMAGE } from '@worksheets/util/settings';
 import {
   BattleFiltersSchema,
   BattleParticipationSchema,
-  BossBattleSchema,
+  BattleSchema,
 } from '@worksheets/util/types';
 
 import {
   BASIC_PARTICIPATION_PROPS,
   BasicParticipationProps,
-  battleConverter,
-  BOSS_BATTLE_PROPS,
   EXPIRED_BATTLE_PROPS,
   ExpiredBattleProps,
 } from './props';
@@ -89,12 +87,22 @@ export class MobsService {
     }));
   }
 
-  async find(battleId: number): Promise<BossBattleSchema> {
+  async find(battleId: number): Promise<BattleSchema> {
     const battle = await this.#db.battle.findFirst({
       where: {
         id: battleId,
       },
-      select: BOSS_BATTLE_PROPS,
+      include: {
+        mob: {
+          include: {
+            loot: {
+              include: {
+                item: true,
+              },
+            },
+          },
+        },
+      },
     });
 
     if (!battle) {
@@ -104,16 +112,17 @@ export class MobsService {
       });
     }
 
-    return battleConverter(battle);
+    return battle;
   }
 
-  async list(filters?: BattleFiltersSchema): Promise<BossBattleSchema[]> {
+  async list(filters?: BattleFiltersSchema): Promise<BattleSchema[]> {
     const battles = await this.#db.battle.findMany({
       where: {
         status: {
           in: filters?.status,
         },
         mob: {
+          id: filters?.monsterId,
           name: {
             contains: filters?.search,
             mode: 'insensitive',
@@ -121,10 +130,20 @@ export class MobsService {
         },
       },
       orderBy: filters ? mobOrder(filters) : undefined,
-      select: BOSS_BATTLE_PROPS,
+      include: {
+        mob: {
+          include: {
+            loot: {
+              include: {
+                item: true,
+              },
+            },
+          },
+        },
+      },
     });
 
-    return battles.map(battleConverter);
+    return battles;
   }
 
   async participation(battleId: number): Promise<BattleParticipationSchema[]> {

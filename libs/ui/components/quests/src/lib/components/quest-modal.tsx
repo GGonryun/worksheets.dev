@@ -1,4 +1,9 @@
-import { ExpandLess, ExpandMore, OfflinePin } from '@mui/icons-material';
+import {
+  ExpandLess,
+  ExpandMore,
+  InfoOutlined,
+  OfflinePin,
+} from '@mui/icons-material';
 import { Box, Button, Collapse, Typography, useTheme } from '@mui/material';
 import { routes } from '@worksheets/routes';
 import { Column, Row } from '@worksheets/ui/components/flex';
@@ -136,9 +141,10 @@ const InventoryInformation: React.FC<{
             fullWidth
             variant="arcade"
             size="small"
-            onClick={() => setOpen(false)}
+            startIcon={<InfoOutlined />}
+            href={routes.item.path({ params: { itemId: loot.item.id } })}
           >
-            Close
+            Details
           </Button>
         }
       />

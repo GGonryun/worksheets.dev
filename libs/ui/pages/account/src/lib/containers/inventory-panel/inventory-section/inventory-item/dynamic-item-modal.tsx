@@ -8,7 +8,7 @@ import { Column, Row } from '@worksheets/ui/components/flex';
 import { NumericCounterField } from '@worksheets/ui/components/inputs';
 import {
   ExpiringItemIcon,
-  ItemDescription,
+  InventoryItemDescription,
   ItemModalLayout,
 } from '@worksheets/ui/components/items';
 import { PulsingLogo } from '@worksheets/ui/components/loading';
@@ -428,7 +428,7 @@ const Container: React.FC<ModalWrapper<{ item: InventoryItemSchema }>> = ({
         using ? (
           <ItemContent item={item} onClose={handleClose} />
         ) : (
-          <ItemDescription item={item} />
+          <InventoryItemDescription item={item} />
         )
       }
     />

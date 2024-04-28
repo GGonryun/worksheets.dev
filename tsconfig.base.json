@@ -137,6 +137,9 @@
       "@worksheets/ui/components/modals": [
         "libs/ui/components/modals/src/index.ts"
       ],
+      "@worksheets/ui/components/monsters": [
+        "libs/ui/components/monsters/src/index.ts"
+      ],
       "@worksheets/ui/components/newsletter": [
         "libs/ui/components/newsletter/src/index.ts"
       ],
@@ -206,6 +209,7 @@
       "@worksheets/ui/pages/about": ["libs/ui/pages/about/src/index.ts"],
       "@worksheets/ui/pages/account": ["libs/ui/pages/account/src/index.ts"],
       "@worksheets/ui/pages/arcade": ["libs/ui/pages/arcade/src/index.ts"],
+      "@worksheets/ui/pages/battles": ["libs/ui/pages/battles/src/index.ts"],
       "@worksheets/ui/pages/blog": ["libs/ui/pages/blog/src/index.ts"],
       "@worksheets/ui/pages/category": ["libs/ui/pages/category/src/index.ts"],
       "@worksheets/ui/pages/contact": ["libs/ui/pages/contact/src/index.ts"],
@@ -224,12 +228,13 @@
         "libs/ui/pages/game-submissions/src/index.ts"
       ],
       "@worksheets/ui/pages/help": ["libs/ui/pages/help/src/index.ts"],
+      "@worksheets/ui/pages/items": ["libs/ui/pages/items/src/index.ts"],
       "@worksheets/ui/pages/loading": ["libs/ui/pages/loading/src/index.ts"],
       "@worksheets/ui/pages/login": ["libs/ui/pages/login/src/index.ts"],
       "@worksheets/ui/pages/marketing": [
         "libs/ui/pages/marketing/src/index.ts"
       ],
-      "@worksheets/ui/pages/mobs": ["libs/ui/pages/mobs/src/index.ts"],
+      "@worksheets/ui/pages/monsters": ["libs/ui/pages/monsters/src/index.ts"],
       "@worksheets/ui/pages/newsletter": [
         "libs/ui/pages/newsletter/src/index.ts"
       ],

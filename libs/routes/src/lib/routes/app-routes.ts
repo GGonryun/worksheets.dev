@@ -99,6 +99,18 @@ export const routes = {
   logout: createRoute({
     path: '/logout',
   }),
+  monsters: createRoute({
+    path: '/monsters',
+  }),
+  monster: createRoute({
+    path: '/monsters/[monsterId]',
+  }),
+  items: createRoute({
+    path: '/items',
+  }),
+  item: createRoute({
+    path: '/items/[itemId]',
+  }),
   newsletter: createRoute({
     path: '/newsletter',
     routes: {

@@ -659,35 +659,37 @@ const awardLottery = async <T extends QuestType>(
   game: { id: string; title: string },
   completions?: number
 ) => {
-  // 1% chance to earn a random droppable item after every minute played.
   for (let i = 0; i < (completions ?? 0); i++) {
     const chance = Math.random();
-    if (chance < PLAY_MINUTE_DROP_CHANCE) {
-      const itemId = lottery(DROP_LOTTERY);
-      const item = await opts.db.item.findFirst({
-        where: {
-          id: itemId,
-        },
-        select: {
-          id: true,
-          name: true,
-        },
-      });
+    // there's a chance to earn a random droppable item after every minute played.
+    if (chance > PLAY_MINUTE_DROP_CHANCE) {
+      return;
+    }
 
-      if (!item) {
-        throw new TRPCError({
-          code: 'NOT_FOUND',
-          message: `Item with id ${itemId} not found`,
-        });
-      }
+    const itemId = lottery(DROP_LOTTERY);
+    const item = await opts.db.item.findFirst({
+      where: {
+        id: itemId,
+      },
+      select: {
+        id: true,
+        name: true,
+      },
+    });
 
-      await opts.inventory.increment(opts.userId, item.id as ItemId, 1);
-      await opts.notifications.send('found-item', {
-        userId: opts.userId,
-        item,
-        game,
+    if (!item) {
+      throw new TRPCError({
+        code: 'NOT_FOUND',
+        message: `Item with id ${itemId} not found`,
       });
     }
+
+    await opts.inventory.increment(opts.userId, item.id as ItemId, 1);
+    await opts.notifications.send('found-item', {
+      userId: opts.userId,
+      item,
+      game,
+    });
   }
 };
 

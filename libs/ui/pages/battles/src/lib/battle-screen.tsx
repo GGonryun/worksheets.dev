@@ -18,7 +18,7 @@ import { GradientShadowedTypography } from '@worksheets/ui/components/typography
 import { LoadingScreen } from '@worksheets/ui/pages/loading';
 import {
   BattleParticipationSchema,
-  BossBattleSchema,
+  BattleSchema,
   MVP_REASON_LABEL,
 } from '@worksheets/util/types';
 import dynamic from 'next/dynamic';
@@ -95,7 +95,7 @@ const BattleScreen = () => {
 };
 
 const BattleDetails: React.FC<{
-  battle?: BossBattleSchema;
+  battle?: BattleSchema;
   isLoading: boolean;
   isError: boolean;
 }> = ({ battle, isLoading, isError }) => {
@@ -122,14 +122,14 @@ const BattleDetails: React.FC<{
   );
 };
 
-const BattleTitle: React.FC<BossBattleSchema> = (boss) => {
+const BattleTitle: React.FC<BattleSchema> = (boss) => {
   return (
     <GradientShadowedTypography
       typography={{ xs: 'h5', sm: 'h4', md: 'h4' }}
       textShadow="0px 4px 4px rgba(0, 0, 0, 0.25)"
       background={(theme) => theme.palette.text.marketing.gradients.blue.dark}
     >
-      Boss Battle #{boss.battleId}
+      Boss Battle #{boss.id}
     </GradientShadowedTypography>
   );
 };
@@ -158,7 +158,7 @@ const InProgressParticipationContent: React.FC<{
 };
 
 const ParticipationContent: React.FC<{
-  battle?: BossBattleSchema;
+  battle?: BattleSchema;
   participation?: BattleParticipationSchema[];
   isLoading: boolean;
   isError: boolean;

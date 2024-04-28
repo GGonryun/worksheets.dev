@@ -1,4 +1,5 @@
 import { MobElement, MobRace, MobSize } from '@worksheets/prisma';
+import { z } from 'zod';
 
 export const MOBS = [
   {
@@ -112,3 +113,14 @@ export const MOBS = [
 export type Mob = (typeof MOBS)[number];
 
 export type MobId = Mob['id'];
+
+export const mobIdSchema = z.custom<MobId>();
+
+export const parseMonsterId = (id: unknown): MobId => {
+  const monsterId = Number(id);
+  if (MOBS.some((mob) => mob.id === monsterId)) {
+    return monsterId as MobId;
+  } else {
+    throw new Error(`Invalid monster id ${id}`);
+  }
+};

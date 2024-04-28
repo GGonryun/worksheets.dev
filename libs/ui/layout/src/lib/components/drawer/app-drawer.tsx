@@ -1,8 +1,10 @@
 import {
   AccountCircleOutlined,
+  AdsClick,
   CategoryOutlined,
   CircleOutlined,
   HomeOutlined,
+  Inventory2Outlined,
   LocalActivityOutlined,
   LocalFireDepartmentOutlined,
   NewReleasesOutlined,
@@ -84,7 +86,17 @@ export const AppDrawer: React.FC<WithDrawerProps<{ connected: boolean }>> = ({
           {
             href: routes.battles.path(),
             icon: <SportsMmaOutlined />,
-            label: 'Boss Battles',
+            label: 'Battles',
+          },
+          {
+            href: routes.monsters.path(),
+            icon: <AdsClick />,
+            label: 'Monsters',
+          },
+          {
+            href: routes.items.path(),
+            icon: <Inventory2Outlined />,
+            label: 'Items',
           },
         ]}
       />

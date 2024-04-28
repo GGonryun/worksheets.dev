@@ -5,9 +5,11 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import { BattleStatus } from '@prisma/client';
 import { routes } from '@worksheets/routes';
-import { UserBattleParticipationSchema } from '@worksheets/util/types';
+import {
+  isBattleComplete,
+  UserBattleParticipationSchema,
+} from '@worksheets/util/types';
 import * as React from 'react';
 
 const StyledBox = styled(Box)(({ theme }) => ({
@@ -57,9 +59,11 @@ export const ParticipationTable: React.FC<{
               <TableCell>
                 <Typography
                   fontWeight={700}
-                  color={isDefeated(p) ? 'error.main' : 'success.main'}
+                  color={
+                    isBattleComplete(p.battle) ? 'error.main' : 'success.main'
+                  }
                 >
-                  {isDefeated(p) ? 'Defeated' : 'Active'}
+                  {isBattleComplete(p.battle) ? 'Defeated' : 'Active'}
                 </Typography>
               </TableCell>
             </TableRow>
@@ -69,7 +73,3 @@ export const ParticipationTable: React.FC<{
     </TableContainer>
   );
 };
-
-const isDefeated = (p: UserBattleParticipationSchema) =>
-  p.battle.status === BattleStatus.COMPLETE ||
-  p.battle.damage >= p.battle.mob.maxHp;

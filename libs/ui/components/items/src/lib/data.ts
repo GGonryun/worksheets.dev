@@ -14,7 +14,7 @@ export const itemTypeLabel: Record<ItemType, string> = {
   STEAM_KEY: 'Steam Key',
   CONSUMABLE: 'Consumable',
   COMBAT: 'Combat',
-  ETCETERA: 'Et Cetera',
+  ETCETERA: 'Miscellaneous',
 };
 export const itemTypeActionLabel: Record<ItemType, string> = {
   SHARABLE: 'Sharable',

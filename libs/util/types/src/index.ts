@@ -24,6 +24,7 @@ export * from './lib/newsletter';
 export * from './lib/quests';
 export * from './lib/items';
 export * from './lib/codes';
-export * from './lib/mobs';
+export * from './lib/monsters';
 export * from './lib/sort';
 export * from './lib/advertising';
+export * from './lib/battles';

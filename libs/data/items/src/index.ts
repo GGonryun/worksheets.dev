@@ -1,9 +1,10 @@
 import { ItemType } from '@prisma/client';
+import { z } from 'zod';
 
 export const ITEMS = [
   {
     id: '1' as const,
-    version: 3,
+    version: 4,
     code: 'tokens',
     name: 'Tokens',
     type: ItemType.CURRENCY,
@@ -13,7 +14,7 @@ export const ITEMS = [
   },
   {
     id: '2' as const,
-    version: 3,
+    version: 4,
     code: 'small-treasure-chest',
     name: 'Small Treasure Chest',
     type: ItemType.CONSUMABLE,
@@ -23,7 +24,7 @@ export const ITEMS = [
   },
   {
     id: '3' as const,
-    version: 3,
+    version: 4,
     code: 'small-gift-box',
     name: 'Small Gift Box',
     type: ItemType.SHARABLE,
@@ -34,7 +35,7 @@ export const ITEMS = [
   },
   {
     id: '4' as const,
-    version: 3,
+    version: 4,
     code: 'random-steam-key',
     name: 'Random Steam Key',
     type: ItemType.STEAM_KEY,
@@ -45,7 +46,7 @@ export const ITEMS = [
   },
   {
     id: '5' as const,
-    version: 3,
+    version: 4,
     code: 'large-treasure-chest',
     name: 'Large Treasure Chest',
     type: ItemType.CONSUMABLE,
@@ -55,7 +56,7 @@ export const ITEMS = [
   },
   {
     id: '6' as const,
-    version: 3,
+    version: 4,
     code: 'large-gift-box',
     name: 'Large Gift Box',
     type: ItemType.SHARABLE,
@@ -66,7 +67,7 @@ export const ITEMS = [
   },
   {
     id: '7' as const,
-    version: 3,
+    version: 4,
     code: 'love-letter',
     name: 'Love Letter',
     type: ItemType.SHARABLE,
@@ -77,7 +78,7 @@ export const ITEMS = [
   },
   {
     id: '1000' as const,
-    version: 3,
+    version: 4,
     code: 'weapon-crate',
     name: 'Weapon Crate',
     type: ItemType.CONSUMABLE,
@@ -87,7 +88,7 @@ export const ITEMS = [
   },
   {
     id: '1001' as const,
-    version: 3,
+    version: 4,
     code: 'dagger',
     name: 'Dagger',
     type: ItemType.COMBAT,
@@ -97,7 +98,7 @@ export const ITEMS = [
   },
   {
     id: '1002' as const,
-    version: 3,
+    version: 4,
     code: 'sword',
     name: 'Sword',
     type: ItemType.COMBAT,
@@ -107,7 +108,7 @@ export const ITEMS = [
   },
   {
     id: '1003' as const,
-    version: 3,
+    version: 4,
     code: 'axe',
     name: 'Axe',
     type: ItemType.COMBAT,
@@ -117,7 +118,7 @@ export const ITEMS = [
   },
   {
     id: '1004' as const,
-    version: 3,
+    version: 4,
     code: 'spear',
     name: 'Spear',
     type: ItemType.COMBAT,
@@ -127,7 +128,7 @@ export const ITEMS = [
   },
   {
     id: '1005' as const,
-    version: 3,
+    version: 4,
     code: 'club',
     name: 'Club',
     type: ItemType.COMBAT,
@@ -137,7 +138,7 @@ export const ITEMS = [
   },
   {
     id: '10001' as const,
-    version: 3,
+    version: 4,
     code: 'apple',
     name: 'Apple',
     type: ItemType.ETCETERA,
@@ -147,7 +148,7 @@ export const ITEMS = [
   },
   {
     id: '10002' as const,
-    version: 3,
+    version: 4,
     code: 'empty-bottle',
     name: 'Empty Bottle',
     type: ItemType.ETCETERA,
@@ -157,17 +158,17 @@ export const ITEMS = [
   },
   {
     id: '10003' as const,
-    version: 3,
+    version: 4,
     code: 'smelly-jelly',
     name: 'Smelly Jelly',
     type: ItemType.ETCETERA,
     sell: 4,
-    description: 'A jar of smelly jelly. I wonder what it tastes like?',
+    description: 'A blob of smelly jelly. I wonder what it tastes like.',
     imageUrl: 'https://cdn.charity.games/_items/detailed/10003.png',
   },
   {
     id: '10004' as const,
-    version: 3,
+    version: 4,
     code: 'sticky-slime',
     name: 'Sticky Slime',
     type: ItemType.ETCETERA,
@@ -177,7 +178,7 @@ export const ITEMS = [
   },
   {
     id: '10005' as const,
-    version: 3,
+    version: 4,
     code: 'emerald',
     name: 'Emerald',
     type: ItemType.ETCETERA,
@@ -187,7 +188,7 @@ export const ITEMS = [
   },
   {
     id: '10006' as const,
-    version: 3,
+    version: 4,
     code: 'fur-ball',
     name: 'Fur Ball',
     type: ItemType.ETCETERA,
@@ -198,7 +199,7 @@ export const ITEMS = [
   },
   {
     id: '10007' as const,
-    version: 3,
+    version: 4,
     code: 'green-herb',
     name: 'Green Herb',
     type: ItemType.ETCETERA,
@@ -209,7 +210,7 @@ export const ITEMS = [
   },
   {
     id: '10008' as const,
-    version: 3,
+    version: 4,
     code: 'clover',
     name: 'Clover',
     type: ItemType.ETCETERA,
@@ -220,7 +221,7 @@ export const ITEMS = [
   },
   {
     id: '10009' as const,
-    version: 3,
+    version: 4,
     code: 'feather',
     name: 'Feather',
     type: ItemType.ETCETERA,
@@ -231,7 +232,7 @@ export const ITEMS = [
   },
   {
     id: '10010' as const,
-    version: 3,
+    version: 4,
     code: 'orange',
     name: 'Orange',
     type: ItemType.ETCETERA,
@@ -242,7 +243,7 @@ export const ITEMS = [
   },
   {
     id: '10011' as const,
-    version: 3,
+    version: 4,
     code: 'furry-tail',
     name: 'Furry Tail',
     type: ItemType.ETCETERA,
@@ -253,7 +254,7 @@ export const ITEMS = [
   },
   {
     id: '10012' as const,
-    version: 3,
+    version: 4,
     code: 'red-meat-slab',
     name: 'Red Meat Slab',
     type: ItemType.ETCETERA,
@@ -264,7 +265,7 @@ export const ITEMS = [
   },
   {
     id: '10013' as const,
-    version: 3,
+    version: 4,
     code: 'charcon-ingot',
     name: 'Charcon Ingot',
     type: ItemType.ETCETERA,
@@ -275,7 +276,7 @@ export const ITEMS = [
   },
   {
     id: '10014' as const,
-    version: 3,
+    version: 4,
     code: 'cotton-shirt',
     name: 'Cotton Shirt',
     type: ItemType.ETCETERA,
@@ -286,7 +287,7 @@ export const ITEMS = [
   },
   {
     id: '10015' as const,
-    version: 3,
+    version: 4,
     code: 'gold-bar',
     name: 'Gold Bar',
     type: ItemType.ETCETERA,
@@ -297,7 +298,7 @@ export const ITEMS = [
   },
   {
     id: '10016' as const,
-    version: 3,
+    version: 4,
     code: 'white-mineral',
     name: 'White Mineral',
     type: ItemType.ETCETERA,
@@ -308,7 +309,7 @@ export const ITEMS = [
   },
   {
     id: '10017' as const,
-    version: 3,
+    version: 4,
     code: 'water-crystal',
     name: 'Water Crystal',
     type: ItemType.ETCETERA,
@@ -319,7 +320,7 @@ export const ITEMS = [
   },
   {
     id: '10018' as const,
-    version: 3,
+    version: 4,
     code: 'shadow-stone',
     name: 'Shadow Stone',
     type: ItemType.ETCETERA,
@@ -330,7 +331,7 @@ export const ITEMS = [
   },
   {
     id: '10019' as const,
-    version: 3,
+    version: 4,
     code: 'rock',
     name: 'Rock',
     type: ItemType.ETCETERA,
@@ -345,10 +346,21 @@ export type Item = (typeof ITEMS)[number];
 
 export type ItemId = Item['id'];
 
+export const itemIdSchema = z.custom<ItemId>();
+
 export type DroppableItem = Extract<
   Item,
   { type: 'COMBAT' | 'CONSUMABLE' | 'SHARABLE' | 'ETCETERA' }
 >;
+
+export const parseItemId = (id: unknown | undefined): ItemId => {
+  const itemId = String(id);
+  if (!ITEMS.some((item) => item.id === itemId)) {
+    throw new Error(`Invalid item ID: ${id}`);
+  }
+
+  return id as ItemId;
+};
 
 export type DroppableItemId = DroppableItem['id'];
 
@@ -446,8 +458,26 @@ export type CurrencyItemId = CurrencyItem['id'];
 export type RandomTokenQuantity = { min: number; max: number };
 export type LotteryItems = { items: Item[] };
 export type ConsumptionRate = LotteryItems | RandomTokenQuantity;
-export const CONSUMPTION_RATES: Record<ConsumableItemId, ConsumptionRate> = {
-  2: { min: 10, max: 20 },
-  5: { min: 10, max: 100 },
-  1000: { items: COMBAT_ITEMS },
-};
+
+const RAW_CONSUMPTION_RATES = {
+  '2': { min: 10, max: 20 },
+  '5': { min: 10, max: 100 },
+  '1000': { items: COMBAT_ITEMS },
+} as const;
+
+// type guard for consumption rates
+export const CONSUMPTION_RATES: Record<ConsumableItemId, ConsumptionRate> =
+  RAW_CONSUMPTION_RATES;
+
+export type LotteryItemId = {
+  [K in keyof typeof RAW_CONSUMPTION_RATES]: (typeof RAW_CONSUMPTION_RATES)[K] extends LotteryItems
+    ? K
+    : never;
+}[keyof typeof RAW_CONSUMPTION_RATES];
+
+export const LOTTERY_ITEMS = Object.fromEntries(
+  Object.entries(CONSUMPTION_RATES).map(([key, value]) => [
+    key,
+    isLotteryItems(value) ? value : { items: [] },
+  ])
+) as Record<LotteryItemId, LotteryItems>;

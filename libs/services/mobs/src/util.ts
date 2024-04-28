@@ -26,6 +26,8 @@ export const mobOrder: MobSorter = (filters) => {
           maxHp: filters.direction,
         },
       };
+    case undefined:
+      return undefined;
     default:
       throw assertNever(filters.sort);
   }

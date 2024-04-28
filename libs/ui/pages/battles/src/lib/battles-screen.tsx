@@ -42,7 +42,7 @@ const MobsScreen = () => {
     DEFAULT_BATTLE_FILTERS
   );
 
-  const mobs = trpc.maybe.battles.list.useQuery(filters);
+  const battles = trpc.maybe.battles.list.useQuery(filters);
 
   return (
     <Container
@@ -62,11 +62,11 @@ const MobsScreen = () => {
         <Column alignItems="center" gap={4}>
           <MobsOrder filters={filters} setFilters={setFilters} />
 
-          {mobs.isLoading && <LoadingBar />}
+          {battles.isLoading && <LoadingBar />}
 
           <Column width="100%" gap={2}>
-            {mobs.data?.map((mob) => (
-              <BossBattle key={mob.battleId} battle={mob} />
+            {battles.data?.map((battle) => (
+              <BossBattle key={battle.id} battle={battle} />
             ))}
           </Column>
         </Column>

@@ -1,5 +1,5 @@
 import { AppLayoutContainer } from '@worksheets/ui/layout';
-import { DynamicBattlesScreen } from '@worksheets/ui/pages/mobs';
+import { DynamicBattlesScreen } from '@worksheets/ui/pages/battles';
 import { NextPageWithLayout } from '@worksheets/util-next';
 import { GetStaticProps } from 'next';
 import { NextSeo, NextSeoProps } from 'next-seo';

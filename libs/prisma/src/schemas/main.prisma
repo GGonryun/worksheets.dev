@@ -605,11 +605,11 @@ model Loot {
   id                    Int                  @id @default(autoincrement())
   itemId                String
   item                  Item                 @relation(fields: [itemId], references: [id], onDelete: Cascade)
-  mobId                 Int?
-  mob                   Mob?                 @relation(fields: [mobId], references: [id], onDelete: Cascade)
   quantity              Int
   chance                Float
   mvp                   Boolean              @default(false)
+  mobId                 Int?
+  mob                   Mob?                 @relation(fields: [mobId], references: [id], onDelete: Cascade)
   battleParticipationId Int?
   battleParticipation   BattleParticipation? @relation(fields: [battleParticipationId], references: [id], onDelete: Cascade)
   questDefinitionId     String?
@@ -634,6 +634,8 @@ model Mob {
   defense     Int
   baseExp     Int
   mvpExp      Int
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @default(now()) @updatedAt
   battles     Battle[]
   loot        Loot[]
 }
