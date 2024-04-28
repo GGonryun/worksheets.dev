@@ -13,6 +13,7 @@ import {
   NotificationsActiveOutlined,
   NotificationsNoneOutlined,
   PersonAddOutlined,
+  SportsKabaddiOutlined,
   StarBorder,
   SvgIconComponent,
 } from '@mui/icons-material';
@@ -173,8 +174,15 @@ const UserContent: React.FC<{
             href: routes.account.inventory.path({
               bookmark: InventoryPanels.RaffleParticipation,
             }),
-            label: 'Participation',
+            label: 'Raffle Participation',
             icon: <MilitaryTechOutlined />,
+          },
+          {
+            href: routes.account.inventory.path({
+              bookmark: InventoryPanels.BattleParticipation,
+            }),
+            label: 'Battle Contributions',
+            icon: <SportsKabaddiOutlined />,
           },
         ]}
       />
