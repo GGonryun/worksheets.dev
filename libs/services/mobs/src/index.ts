@@ -343,16 +343,21 @@ export class MobsService {
 
     // award the mvp user with mvp loot.
     for (const loot of mvpLoot) {
+      const quantity = calculateQuantity(loot.quantity, loot.chance);
+      // if the quantity is 0, we don't award the item.
+      if (!quantity) continue;
+
       await inventory.increment(
         mvp.participant.user.id,
         loot.itemId as ItemId,
-        loot.quantity
+        quantity
       );
+
       await this.#db.loot.create({
         data: {
           battleParticipationId: mvp.participant.id,
           chance: loot.chance,
-          quantity: loot.quantity,
+          quantity,
           itemId: loot.itemId,
           mvp: true,
         },
@@ -416,7 +421,11 @@ export class MobsService {
     inventory: InventoryService
   ): Promise<BasicParticipationProps[]> {
     const winners: Set<BasicParticipationProps> = new Set();
-
+    // TODO: this brute force approach is not efficient. We should refactor this to be more efficient.
+    // At worst every unique participant will get a loot. At best only one participant will get
+    // a loot. In the best case scenario we still trigger a call to the database for every item won.
+    // We can optimize this by grouping the loot by quantity won and then updating the database in
+    // bulk.
     for (const loot of basicLoot) {
       // pick a random winner.
       for (let i = 0; i < loot.quantity; i++) {
@@ -461,3 +470,15 @@ export class MobsService {
     return shuffle(group)[0];
   }
 }
+
+const calculateQuantity = (max: number, chance: number) => {
+  let quantity = 0;
+  for (let i = 0; i < max; i++) {
+    const luck = Math.random();
+    if (luck > chance) {
+      continue;
+    }
+    quantity++;
+  }
+  return quantity;
+};

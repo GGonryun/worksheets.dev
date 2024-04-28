@@ -114,7 +114,8 @@ export const ItemDetails: React.FC<{
                           },
                         })}
                       >
-                        {monster.name} ({toPercentage(monster.chance)})
+                        {monster.mvp ? '[MVP] ' : ''}
+                        {monster.name} ({toPercentage(monster.chance, 1, 2)})
                       </Link>
                       {index < props.sources.monsters.length - 1 ? ', ' : ''}
                     </Fragment>

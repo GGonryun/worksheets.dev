@@ -1,5 +1,6 @@
 import { TRPCError } from '@trpc/server';
 import {
+  COMBAT_ITEM_DAMAGE,
   CONSUMPTION_RATES,
   isLotteryItems,
   isRandomTokenQuantity,
@@ -25,6 +26,14 @@ import {
   DecrementOpts,
   EtCeteraDecrementOpts,
   InventoryItemSchema,
+  isCombatDecrementOpts,
+  isCombatItemId,
+  isConsumableDecrementOpts,
+  isCurrencyDecrementOpts,
+  isEtCeteraDecrementOpts,
+  isSharableDecrementOpts,
+  isSteamKeyDecrementOpts,
+  isSteamKeyItemId,
   SharableDecrementOpts,
 } from '@worksheets/util/types';
 import pluralize from 'pluralize';
@@ -190,54 +199,31 @@ export class InventoryService {
 
   /** Some decrement operations have side effects like consumption or sharable items. */
   async #decrement(userId: string, opts: DecrementOpts) {
-    switch (opts.itemId) {
-      case '1':
-        // currency items have no side effects.
-        return `${opts.quantity} ${pluralize('token', opts.quantity)} spent.`;
-      case '1001':
-      case '1002':
-      case '1003':
-      case '1004':
-      case '1005':
-      case '10021':
-        return `${opts.quantity} ${pluralize('weapon', opts.quantity)} used.`;
-      case '3':
-      case '6':
-      case '7':
-        return this.#share(userId, opts);
-      case '2':
-      case '5':
-      case '1000':
-        return this.#consume(userId, opts);
-      case '10001':
-      case '10002':
-      case '10003':
-      case '10004':
-      case '10005':
-      case '10006':
-      case '10007':
-      case '10008':
-      case '10009':
-      case '10010':
-      case '10011':
-      case '10012':
-      case '10013':
-      case '10014':
-      case '10015':
-      case '10016':
-      case '10017':
-      case '10018':
-      case '10019':
-      case '10020':
-      case '10022':
-      case '10023':
-      case '10024':
-        return this.#sell(userId, opts);
-      case '4': // must be activated.
-        throw unconsumable(opts.itemId);
-      default:
-        throw assertNever(opts);
+    if (isCurrencyDecrementOpts(opts)) {
+      return `${opts.quantity} ${pluralize('token', opts.quantity)} spent.`;
     }
+
+    if (isCombatDecrementOpts(opts)) {
+      return `${opts.quantity} ${pluralize('weapon', opts.quantity)} used.`;
+    }
+
+    if (isSharableDecrementOpts(opts)) {
+      return this.#share(userId, opts);
+    }
+
+    if (isConsumableDecrementOpts(opts)) {
+      return this.#consume(userId, opts);
+    }
+
+    if (isSteamKeyDecrementOpts(opts)) {
+      throw undecrementable(opts.itemId);
+    }
+
+    if (isEtCeteraDecrementOpts(opts)) {
+      return this.#sell(userId, opts);
+    }
+
+    throw assertNever(opts);
   }
 
   async #sell(userId: string, opts: EtCeteraDecrementOpts) {
@@ -315,50 +301,11 @@ export class InventoryService {
 
   /** Incrementing is used to add an item to a user's account. Some items do not stack, these items use #award. */
   async increment(userId: string, itemId: ItemId, quantity: number) {
-    switch (itemId) {
-      case '1':
-      case '2':
-      case '3':
-      case '5':
-      case '6':
-      case '7':
-      case '1000':
-      case '1001':
-      case '1002':
-      case '1003':
-      case '1004':
-      case '1005':
-      case '10001':
-      case '10002':
-      case '10003':
-      case '10004':
-      case '10005':
-      case '10006':
-      case '10007':
-      case '10008':
-      case '10009':
-      case '10010':
-      case '10011':
-      case '10012':
-      case '10013':
-      case '10014':
-      case '10015':
-      case '10016':
-      case '10017':
-      case '10018':
-      case '10019':
-      case '10020':
-      case '10021':
-      case '10022':
-      case '10023':
-      case '10024':
-        return this.#increment(userId, itemId, quantity);
-      case '4':
-        return this.#award(userId, itemId, quantity);
-
-      default:
-        throw assertNever(itemId);
+    if (isSteamKeyItemId(itemId)) {
+      return this.#award(userId, itemId, quantity);
     }
+
+    return this.#increment(userId, itemId, quantity);
   }
 
   async #increment(userId: string, itemId: ItemId, amount: number) {
@@ -540,57 +487,14 @@ export class InventoryService {
   }
 
   #damage(itemId: ItemId) {
-    switch (itemId) {
-      case '2':
-      case '3':
-      case '4':
-      case '5':
-      case '6':
-      case '7':
-      case '1000':
-      case '10001':
-      case '10002':
-      case '10003':
-      case '10004':
-      case '10005':
-      case '10006':
-      case '10007':
-      case '10008':
-      case '10009':
-      case '10010':
-      case '10011':
-      case '10012':
-      case '10013':
-      case '10014':
-      case '10015':
-      case '10016':
-      case '10017':
-      case '10018':
-      case '10019':
-      case '10020':
-      case '10022':
-      case '10023':
-      case '10024':
-        throw new TRPCError({
-          code: 'BAD_REQUEST',
-          message: `Item ID ${itemId} cannot be used for damage calculation.`,
-        });
-      case '1':
-        return 1;
-      case '1001':
-      case '1005':
-        return 5;
-      case '1002':
-        return 6;
-      case '1003':
-        return 7;
-      case '1004':
-        return 8;
-      case '10021':
-        return 20;
-      default:
-        throw assertNever(itemId);
+    if (isCombatItemId(itemId)) {
+      return COMBAT_ITEM_DAMAGE[itemId];
     }
+
+    throw new TRPCError({
+      code: 'BAD_REQUEST',
+      message: `Item ID ${itemId} cannot be used for damage calculation.`,
+    });
   }
 
   async resetAll(itemId: ItemId, amount: number) {

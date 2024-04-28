@@ -44,7 +44,7 @@ export const Loot: React.FC<MonsterSchema> = (mob) => {
             flexWrap="wrap"
             p={1}
           >
-            {mvpLoot.slice(0, 1).map((loot) => (
+            {mvpLoot.map((loot) => (
               <Item key={loot.item.id} {...loot} />
             ))}
           </Row>

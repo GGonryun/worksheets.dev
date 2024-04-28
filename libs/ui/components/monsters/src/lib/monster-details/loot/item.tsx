@@ -21,13 +21,14 @@ export const Item: React.FC<LootSchema> = (loot) => {
           component={ButtonBase}
           onClick={() => setOpen(true)}
           sx={{
+            color: (theme) => theme.palette.text.blue.darker,
             '&:hover': {
               color: (theme) => theme.palette.text.blue.darker,
               textDecoration: 'underline',
             },
           }}
         >
-          {loot.quantity}x {loot.item.name} ({toPercentage(loot.chance)})
+          {loot.quantity}x {loot.item.name} ({toPercentage(loot.chance, 1, 2)})
         </Typography>
       </Row>
       <ItemModal open={open} onClose={() => setOpen(false)} loot={loot} />

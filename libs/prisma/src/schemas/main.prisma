@@ -616,7 +616,6 @@ model Loot {
   questDefinition       QuestDefinition?     @relation(fields: [questDefinitionId], references: [id], onDelete: Cascade)
 
   @@unique([itemId, battleParticipationId])
-  @@unique([itemId, mobId])
 }
 
 model Mob {

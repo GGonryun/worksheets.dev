@@ -152,7 +152,10 @@ export const LootDescription: React.FC<{
     <Column>
       <ItemDataRow label="Type:" value={itemTypeLabel[loot.item.type]} />
       <ItemDataRow label="Quantity:" value={loot.quantity} />
-      <ItemDataRow label="Drop Chance:" value={toPercentage(loot.chance)} />
+      <ItemDataRow
+        label="Drop Chance:"
+        value={toPercentage(loot.chance, 1, 2)}
+      />
       <ItemDataRow
         label="Sells For:"
         value={`${loot.item.sell} ${pluralize('token', loot.item.sell)}`}
@@ -172,7 +175,10 @@ export const QuestLootDescription: React.FC<{
     <Column>
       <ItemDataRow label="Type:" value={itemTypeLabel[loot.item.type]} />
       <ItemDataRow label="Quantity:" value={`${loot.quantity} per quest`} />
-      <ItemDataRow label="Drop Chance:" value={toPercentage(loot.chance)} />
+      <ItemDataRow
+        label="Drop Chance:"
+        value={toPercentage(loot.chance, 1, 1)}
+      />
       <ItemDataRow
         label="Sells For:"
         value={`${loot.item.sell} ${pluralize('token', loot.item.sell)}`}

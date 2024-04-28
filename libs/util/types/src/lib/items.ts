@@ -1,10 +1,16 @@
 import {
+  COMBAT_ITEMS,
   CombatItemId,
+  CONSUMABLE_ITEMS,
   ConsumableItemId,
+  CURRENCY_ITEMS,
   CurrencyItemId,
+  ETCETERA_ITEMS,
   EtCeteraItemId,
   ItemId,
+  SHARABLE_ITEMS,
   SharableItemId,
+  STEAM_KEY_ITEMS,
   SteamKeyItemId,
 } from '@worksheets/data/items';
 import { ItemType } from '@worksheets/prisma';
@@ -101,9 +107,29 @@ export type SharableDecrementOpts = {
   friendId: string;
 };
 
+export const isSharableDecrementOpts = (
+  opts: DecrementOpts
+): opts is SharableDecrementOpts => {
+  return SHARABLE_ITEMS.find((i) => i.id === opts.itemId) !== undefined;
+};
+
+export const isSharableItemId = (itemId: ItemId): itemId is SharableItemId => {
+  return SHARABLE_ITEMS.find((i) => i.id === itemId) !== undefined;
+};
+
 export type SteamKeyDecrementOpts = {
   itemId: SteamKeyItemId;
   quantity: number;
+};
+
+export const isSteamKeyDecrementOpts = (
+  opts: DecrementOpts
+): opts is SteamKeyDecrementOpts => {
+  return STEAM_KEY_ITEMS.find((i) => i.id === opts.itemId) !== undefined;
+};
+
+export const isSteamKeyItemId = (itemId: ItemId): itemId is SteamKeyItemId => {
+  return STEAM_KEY_ITEMS.find((i) => i.id === itemId) !== undefined;
 };
 
 export type ConsumableDecrementOpts = {
@@ -111,9 +137,30 @@ export type ConsumableDecrementOpts = {
   quantity: number;
 };
 
+export const isConsumableDecrementOpts = (
+  opts: DecrementOpts
+): opts is ConsumableDecrementOpts => {
+  return CONSUMABLE_ITEMS.find((i) => i.id === opts.itemId) !== undefined;
+};
+
+export const isConsumableItemId = (
+  itemId: ItemId
+): itemId is ConsumableItemId => {
+  return CONSUMABLE_ITEMS.find((i) => i.id === itemId) !== undefined;
+};
+
 export type CombatDecrementOpts = {
   itemId: CombatItemId;
   quantity: number;
+};
+export const isCombatDecrementOpts = (
+  opts: DecrementOpts
+): opts is CombatDecrementOpts => {
+  return COMBAT_ITEMS.find((i) => i.id === opts.itemId) !== undefined;
+};
+
+export const isCombatItemId = (itemId: ItemId): itemId is CombatItemId => {
+  return COMBAT_ITEMS.find((i) => i.id === itemId) !== undefined;
 };
 
 export type EtCeteraDecrementOpts = {
@@ -121,9 +168,29 @@ export type EtCeteraDecrementOpts = {
   quantity: number;
 };
 
+export const isEtCeteraDecrementOpts = (
+  opts: DecrementOpts
+): opts is EtCeteraDecrementOpts => {
+  return ETCETERA_ITEMS.find((i) => i.id === opts.itemId) !== undefined;
+};
+
+export const isEtCeteraItemId = (itemId: ItemId): itemId is EtCeteraItemId => {
+  return ETCETERA_ITEMS.find((i) => i.id === itemId) !== undefined;
+};
+
 export type CurrencyDecrementOpts = {
   itemId: CurrencyItemId;
   quantity: number;
+};
+
+export const isCurrencyDecrementOpts = (
+  opts: DecrementOpts
+): opts is CurrencyDecrementOpts => {
+  return CURRENCY_ITEMS.find((i) => i.id === opts.itemId) !== undefined;
+};
+
+export const isCurrencyItemId = (itemId: ItemId): itemId is CurrencyItemId => {
+  return CURRENCY_ITEMS.find((i) => i.id === itemId) !== undefined;
 };
 
 export type DecrementOpts =
