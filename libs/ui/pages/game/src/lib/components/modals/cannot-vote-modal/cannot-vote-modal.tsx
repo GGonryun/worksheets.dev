@@ -24,8 +24,8 @@ export const CannotVoteModal: React.FC<
         Account Required
       </Typography>
       <Typography variant="body1">
-        Create an account to vote on games, earn tokens, participate in
-        auctions, and more!
+        Create an account to vote on games, earn tokens, participate in raffles,
+        and more!
       </Typography>
       <Button
         href={href}

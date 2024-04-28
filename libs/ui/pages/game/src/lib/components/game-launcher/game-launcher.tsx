@@ -108,7 +108,7 @@ export const GameLauncher: FC<GameLauncherProps> = ({
       ) : (
         <GameBanner
           isFullscreen={!!fullscreen}
-          developer={developer.name}
+          developer={developer}
           type={game.file.type}
           iconUrl={game.iconUrl}
           name={game.name}

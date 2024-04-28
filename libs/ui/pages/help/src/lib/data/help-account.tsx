@@ -8,7 +8,7 @@ export const helpAccounts: QuestionAnswer[] = [
   {
     id: HelpAccountQuestions.AccountRequired,
     question: 'Do I need an account?',
-    summary: `Creating a Charity.Games account unlocks several important features. You can win prizes, participate in auctions and giveaways, save your favorite games, earn achievements, vote on games and charities, compete on leaderboards, events, and tournaments, and submit games to our platform. You can play all of our games without an account, but you won't be able to do any of the above.`,
+    summary: `Creating a Charity.Games account unlocks several important features. You can win prizes, participate in raffles and giveaways, save your favorite games, earn achievements, vote on games and charities, compete on leaderboards, events, and tournaments, and submit games to our platform. You can play all of our games without an account, but you won't be able to do any of the above.`,
     answer: (
       <Box>
         <Typography>
@@ -17,7 +17,8 @@ export const helpAccounts: QuestionAnswer[] = [
         </Typography>
         <OrderedList>
           <ListItem>Start earning tokens for prizes.</ListItem>
-          <ListItem>Participate in auctions and giveaways.</ListItem>
+          <ListItem>Participate in raffles and giveaways.</ListItem>
+          <ListItem>Participate in boss battles.</ListItem>
           <ListItem>Save your favorite games.</ListItem>
           <ListItem>Earn achievements.</ListItem>
           <ListItem>Vote on games and charities.</ListItem>

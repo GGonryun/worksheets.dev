@@ -11,20 +11,27 @@ import {
   Box,
   IconButton,
   IconButtonProps,
+  Link,
   styled,
   Typography,
   TypographyProps,
 } from '@mui/material';
+import { routes } from '@worksheets/routes';
 import { ResponsiveImage } from '@worksheets/ui/components/images';
 import theme from '@worksheets/ui/theme';
 import { shorthandNumber } from '@worksheets/util/numbers';
-import { CastVote, GameSchema, Vote } from '@worksheets/util/types';
+import {
+  CastVote,
+  DeveloperSchema,
+  GameSchema,
+  Vote,
+} from '@worksheets/util/types';
 import { FC, JSXElementConstructor } from 'react';
 
 export type GameBannerProps = {
   type: GameSchema['file']['type'];
   iconUrl: string;
-  developer: string;
+  developer: DeveloperSchema;
   name: string;
   isFullscreen?: boolean;
   userVote?: Vote;
@@ -105,13 +112,19 @@ export const GameBanner: FC<GameBannerProps> = ({
         </Typography>
         <Typography
           typography={{ xs: 'body3', sm: 'body2' }}
-          component="h6"
+          component={Link}
           color={(theme) => theme.palette.text.blue.light}
           sx={{
             fontWeight: 500,
           }}
+          underline="hover"
+          href={routes.developer.path({
+            params: {
+              developerId: developer.id,
+            },
+          })}
         >
-          by {developer}
+          by {developer.name}
         </Typography>
       </Box>
       <Box
