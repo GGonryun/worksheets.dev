@@ -199,7 +199,7 @@ export class InventoryService {
       case '1003':
       case '1004':
       case '1005':
-        // combat items have no side effects.
+      case '10021':
         return `${opts.quantity} ${pluralize('weapon', opts.quantity)} used.`;
       case '3':
       case '6':
@@ -228,6 +228,10 @@ export class InventoryService {
       case '10017':
       case '10018':
       case '10019':
+      case '10020':
+      case '10022':
+      case '10023':
+      case '10024':
         return this.#sell(userId, opts);
       case '4': // must be activated.
         throw unconsumable(opts.itemId);
@@ -343,6 +347,11 @@ export class InventoryService {
       case '10017':
       case '10018':
       case '10019':
+      case '10020':
+      case '10021':
+      case '10022':
+      case '10023':
+      case '10024':
         return this.#increment(userId, itemId, quantity);
       case '4':
         return this.#award(userId, itemId, quantity);
@@ -558,6 +567,10 @@ export class InventoryService {
       case '10017':
       case '10018':
       case '10019':
+      case '10020':
+      case '10022':
+      case '10023':
+      case '10024':
         throw new TRPCError({
           code: 'BAD_REQUEST',
           message: `Item ID ${itemId} cannot be used for damage calculation.`,
@@ -573,6 +586,8 @@ export class InventoryService {
         return 7;
       case '1004':
         return 8;
+      case '10021':
+        return 20;
       default:
         throw assertNever(itemId);
     }

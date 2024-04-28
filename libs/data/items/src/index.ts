@@ -340,6 +340,61 @@ export const ITEMS = [
       "A small rock that can be thrown or skipped across water. It's probably not worth much.",
     imageUrl: 'https://cdn.charity.games/_items/detailed/10019.png',
   },
+  {
+    id: '10020' as const,
+    version: 4,
+    code: 'ribbon',
+    name: 'Ribbon',
+    type: ItemType.ETCETERA,
+    sell: 15,
+    description:
+      "A decorative blue ribbon that can be used for wrapping gifts. It's shiny and colorful. Maybe I'll put it in my hair.",
+    imageUrl: 'https://cdn.charity.games/_items/detailed/10020.png',
+  },
+  {
+    id: '10021' as const,
+    version: 4,
+    code: 'dark-stinger',
+    name: 'Dark Stinger',
+    type: ItemType.COMBAT,
+    sell: 1,
+    description:
+      'A sharp stinger that deals 20 shadow damage. There is a dark aura around it.',
+    imageUrl: 'https://cdn.charity.games/_items/detailed/10021.png',
+  },
+  {
+    id: '10022' as const,
+    version: 4,
+    code: 'red-herb',
+    name: 'Red Herb',
+    type: ItemType.ETCETERA,
+    sell: 6,
+    description:
+      'A red herb with medicinal properties. It can be used to restore health. It smells spicy and sweet, but it always makes me sneeze.',
+    imageUrl: 'https://cdn.charity.games/_items/detailed/10022.png',
+  },
+  {
+    id: '10023' as const,
+    version: 4,
+    code: 'grape-juice',
+    name: 'Grape Juice',
+    type: ItemType.ETCETERA,
+    sell: 20,
+    description:
+      "A glass of grape juice that is sweet and refreshing. It's made from freshly squeezed grapes. I hope it's not too sour.",
+    imageUrl: 'https://cdn.charity.games/_items/detailed/10023.png',
+  },
+  {
+    id: '10024' as const,
+    version: 4,
+    code: 'fly-wing',
+    name: 'Fly Wing',
+    type: ItemType.ETCETERA,
+    sell: 3,
+    description:
+      "A small wing that came off an insect or creature. Magicians use it to teleport short distances. It smells a bit like rotten fruit. I don't think I'll be using it.",
+    imageUrl: 'https://cdn.charity.games/_items/detailed/10024.png',
+  },
 ];
 
 export type Item = (typeof ITEMS)[number];
@@ -406,6 +461,11 @@ export const DROP_LOTTERY: Record<DroppableItemId, number> = {
   10017: 1,
   10018: 1,
   10019: 1,
+  10020: 1,
+  10021: 1,
+  10022: 1,
+  10023: 1,
+  10024: 1,
 };
 
 export const SHARE_RATES: Record<
