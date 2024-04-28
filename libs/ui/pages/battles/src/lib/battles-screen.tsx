@@ -1,4 +1,9 @@
-import { Clear, InfoOutlined, Search } from '@mui/icons-material';
+import {
+  Clear,
+  InfoOutlined,
+  Inventory2Outlined,
+  Search,
+} from '@mui/icons-material';
 import {
   Box,
   Button,
@@ -23,7 +28,6 @@ import { Column, Row } from '@worksheets/ui/components/flex';
 import { LoadingBar } from '@worksheets/ui/components/loading';
 import { GradientShadowedTypography } from '@worksheets/ui/components/typography';
 import { LoadingScreen } from '@worksheets/ui/pages/loading';
-import { InventoryPanels } from '@worksheets/util/enums';
 import { getObjectKeys } from '@worksheets/util/objects';
 import {
   BATTLE_SORT,
@@ -98,11 +102,17 @@ const MobsOrder: React.FC<{
           variant="square"
           size="small"
           color="secondary"
-          href={routes.account.inventory.path({
-            bookmark: InventoryPanels.BattleParticipation,
-          })}
+          href={routes.monsters.path()}
         >
           <Sword />
+        </Button>
+        <Button
+          variant="square"
+          size="small"
+          color="secondary"
+          href={routes.items.path()}
+        >
+          <Inventory2Outlined />
         </Button>
         <Button variant="square" size="small" href={routes.help.mobs.path()}>
           <InfoOutlined />

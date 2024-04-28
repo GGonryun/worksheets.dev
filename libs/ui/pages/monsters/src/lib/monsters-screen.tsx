@@ -1,6 +1,11 @@
-import { InfoOutlined } from '@mui/icons-material';
+import {
+  InfoOutlined,
+  Inventory2Outlined,
+  SportsMmaOutlined,
+} from '@mui/icons-material';
 import { Box, Button, Container, Link, Paper, Typography } from '@mui/material';
 import { routes } from '@worksheets/routes';
+import { Row } from '@worksheets/ui/components/flex';
 import { MonsterProfile } from '@worksheets/ui/components/monsters';
 import { LoadingScreen } from '@worksheets/ui/pages/loading';
 import { MonsterSchema } from '@worksheets/util/types';
@@ -21,6 +26,26 @@ const Screen: React.FC<{ monsters: MonsterSchema[] }> = (props) => (
     >
       Monster Database
     </Typography>
+    <Row justifyContent="space-evenly" flexWrap="wrap" gap={2}>
+      <Button
+        href={routes.items.path()}
+        sx={{ width: { xs: '100%', sm: '225px' } }}
+        variant="arcade"
+        color="warning"
+        startIcon={<Inventory2Outlined />}
+      >
+        Items Database
+      </Button>
+      <Button
+        href={routes.battles.path()}
+        sx={{ width: { xs: '100%', sm: '225px' } }}
+        variant="arcade"
+        color="error"
+        startIcon={<SportsMmaOutlined />}
+      >
+        Boss Battles
+      </Button>
+    </Row>
     <Box
       sx={{
         mt: 4,
