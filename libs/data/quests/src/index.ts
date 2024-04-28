@@ -92,17 +92,17 @@ export const QUESTS = [
   },
   {
     order: 10,
-    version: 1,
+    version: 2,
     id: 'DAILY_GIFT_BOXES' as const,
     type: QuestType.BASIC_ACTION,
     category: QuestCategory.TASK,
     name: 'Collect Gift Boxes',
-    description: 'Collect 5 small gift boxes to share with friends every day.',
+    description: 'Collect 3 small gift boxes to share with friends every day.',
     frequency: QuestFrequency.DAILY,
     loot: [
       {
         itemId: '3',
-        quantity: 5,
+        quantity: 3,
         chance: 1,
       },
     ],

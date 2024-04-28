@@ -154,10 +154,10 @@ export const LootDescription: React.FC<{
       <ItemDataRow label="Quantity:" value={loot.quantity} />
       <ItemDataRow label="Drop Chance:" value={toPercentage(loot.chance)} />
       <ItemDataRow
-        label="Sells For"
+        label="Sells For:"
         value={`${loot.item.sell} ${pluralize('token', loot.item.sell)}`}
       />
-      <ItemDataRow label="MVP?" value={loot.mvp ? 'Yes' : 'No'} />
+      <ItemDataRow label="Loot:" value={loot.mvp ? 'MVP' : 'Basic'} />
     </Column>
   </Column>
 );
