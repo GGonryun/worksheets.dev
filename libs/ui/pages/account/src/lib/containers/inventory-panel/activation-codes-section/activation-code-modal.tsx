@@ -51,7 +51,7 @@ const ActivationCodeContent: React.FC<{
       )}
 
       <Typography textAlign="center">
-        Use the code below to access your copy of <b>{code.item.name}</b>.
+        Use the code below to access your <b>{code.item.name}</b>.
       </Typography>
 
       <Box my={1} width="100%">
