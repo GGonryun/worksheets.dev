@@ -1,6 +1,5 @@
 import { PushNotifyInput } from '@worksheets/services/push';
 import {
-  EXPIRATION_TIME_THRESHOLD,
   STARTING_GIFT_BOXES,
   STARTING_TOKENS,
   TOKENS_PER_REFERRAL_ACCOUNT,

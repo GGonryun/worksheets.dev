@@ -28,6 +28,7 @@ type ExpiringInventoryItem = Prisma.InventoryGetPayload<{
 export default createCronJob(async () => {
   const notifications = new NotificationsService(prisma);
 
+  // TODO: last chance is not idempotent, and will send multiple reminders every time it runs
   const [lastChance, expired] = await Promise.all([
     prisma.inventory.findMany({
       where: {
