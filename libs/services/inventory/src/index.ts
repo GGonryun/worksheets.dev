@@ -30,6 +30,7 @@ import {
   isCombatItemId,
   isConsumableDecrementOpts,
   isCurrencyDecrementOpts,
+  isCurrencyItemId,
   isEtCeteraDecrementOpts,
   isSharableDecrementOpts,
   isSteamKeyDecrementOpts,
@@ -489,6 +490,9 @@ export class InventoryService {
   #damage(itemId: ItemId) {
     if (isCombatItemId(itemId)) {
       return COMBAT_ITEM_DAMAGE[itemId];
+    }
+    if (isCurrencyItemId(itemId)) {
+      return 1;
     }
 
     throw new TRPCError({
