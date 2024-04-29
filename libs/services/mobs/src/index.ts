@@ -264,15 +264,13 @@ export class MobsService {
     });
   }
 
+  // TODO: battle processing is inefficient.
   async processExpiredBattles(): Promise<ProcessedExpiredBattleOutput[]> {
-    // TODO: battle processing is inefficient.
-    const MAX_BATTLE_PROCESSING = 3;
     const activeBattles = await this.#db.battle.findMany({
       where: {
         status: 'ACTIVE',
       },
       select: EXPIRED_BATTLE_PROPS,
-      take: MAX_BATTLE_PROCESSING,
     });
     // find any battles that are "active" but the mob has 0 hp left.
     const expired = activeBattles.filter(
