@@ -37,10 +37,10 @@ export const RaffleContents: React.FC<{
               sx={{ width: 'fit-content', alignSelf: 'flex-end' }}
               endIcon={isMobile ? undefined : <NavigateNext />}
               href={routes.account.inventory.path({
-                bookmark: InventoryPanels.Items,
+                bookmark: InventoryPanels.RaffleParticipation,
               })}
             >
-              Inventory Items
+              History
             </Button>
           }
         />

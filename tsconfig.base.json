@@ -92,6 +92,9 @@
       "@worksheets/ui/components/arcade": [
         "libs/ui/components/arcade/src/index.ts"
       ],
+      "@worksheets/ui/components/battles": [
+        "libs/ui/components/battles/src/index.ts"
+      ],
       "@worksheets/ui/components/carousel": [
         "libs/ui/components/carousel/src/index.ts"
       ],

@@ -23,6 +23,7 @@ const ArcadeScreenContainer: React.FC = () => {
       featured={arcade.data.featured}
       topRaffles={arcade.data.topRaffles}
       topGames={arcade.data.topGames}
+      topBattles={arcade.data.topBattles}
       allGames={arcade.data.allGames}
       newGames={arcade.data.newGames}
       recentGames={recentlyPlayed}

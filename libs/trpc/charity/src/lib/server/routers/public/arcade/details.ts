@@ -1,6 +1,10 @@
 import { Prisma } from '@worksheets/prisma';
 import { shuffle } from '@worksheets/util/arrays';
-import { BasicGameInfo, BasicRaffleDetails } from '@worksheets/util/types';
+import {
+  BasicGameInfo,
+  BasicRaffleDetails,
+  BattleSchema,
+} from '@worksheets/util/types';
 import { uniqBy } from 'lodash';
 import { z } from 'zod';
 
@@ -13,6 +17,7 @@ export default publicProcedure
         primary: z.custom<BasicGameInfo[]>(),
         secondary: z.custom<BasicGameInfo>(),
       }),
+      topBattles: z.custom<BattleSchema[]>(),
       topRaffles: z.custom<BasicRaffleDetails[]>(),
       topGames: z.custom<BasicGameInfo[]>(),
       allGames: z.custom<BasicGameInfo[]>(),
@@ -20,7 +25,7 @@ export default publicProcedure
     })
   )
   .query(async ({ ctx: { db } }) => {
-    const [games, topRaffles] = await Promise.all([
+    const [games, topRaffles, topBattles] = await Promise.all([
       db.game.findMany({
         where: {
           status: 'PUBLISHED',
@@ -63,6 +68,33 @@ export default publicProcedure
           },
         },
       }),
+      db.battle.findMany({
+        where: {
+          status: 'ACTIVE',
+        },
+        orderBy: {
+          participation: {
+            _count: 'desc',
+          },
+        },
+        take: 10,
+        include: {
+          mob: {
+            include: {
+              loot: {
+                include: {
+                  item: true,
+                },
+              },
+            },
+          },
+          _count: {
+            select: {
+              participation: true,
+            },
+          },
+        },
+      }),
     ]);
 
     const topGames = [...games].sort((a, b) => b.plays - a.plays).slice(0, 10);
@@ -83,6 +115,7 @@ export default publicProcedure
 
     return {
       featured: { primary, secondary },
+      topBattles: topBattles,
       topRaffles: topRaffles.map(convertRaffle),
       newGames,
       topGames,

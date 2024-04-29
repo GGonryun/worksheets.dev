@@ -10,10 +10,11 @@ export default protectedProcedure
   .input(
     z.object({
       raffleId: z.number(),
+      entries: z.number(),
     })
   )
   .output(z.unknown())
-  .mutation(async ({ input: { raffleId }, ctx: { db, user } }) => {
+  .mutation(async ({ input: { raffleId, entries }, ctx: { db, user } }) => {
     const quests = new QuestsService(db);
     return db.$transaction(async (tx) => {
       const inventory = new InventoryService(tx);
@@ -47,7 +48,7 @@ export default protectedProcedure
 
       await inventory.decrement(user.id, {
         itemId: '1',
-        quantity: RAFFLE_ENTRY_FEE,
+        quantity: RAFFLE_ENTRY_FEE * entries,
       });
 
       // create or update the participation
@@ -60,11 +61,11 @@ export default protectedProcedure
         },
         update: {
           numEntries: {
-            increment: 1,
+            increment: entries,
           },
         },
         create: {
-          numEntries: 1,
+          numEntries: entries,
           raffleId: raffleId,
           userId: user.id,
         },

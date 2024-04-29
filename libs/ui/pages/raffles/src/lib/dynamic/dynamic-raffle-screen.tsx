@@ -1,6 +1,5 @@
 import { routes } from '@worksheets/routes';
 import { trpc } from '@worksheets/trpc-charity';
-import { useSnackbar } from '@worksheets/ui/components/snackbar';
 import { ErrorScreen } from '@worksheets/ui/pages/errors';
 import { LoadingScreen } from '@worksheets/ui/pages/loading';
 import { InventoryPanels } from '@worksheets/util/enums';
@@ -10,14 +9,12 @@ import { useSession } from 'next-auth/react';
 import { useState } from 'react';
 
 import { RaffleScreen } from '../components';
-import { ConfirmEntryModal } from '../components/modals/confirm-entry-modal';
 import { EnterRaffleModal } from '../components/modals/enter-raffle-modal';
 import { ShareRaffleModal } from '../components/modals/share-raffle-modal';
 
 const RaffleScreenContainer: React.FC<{ raffleId: number }> = ({
   raffleId,
 }) => {
-  const snackbar = useSnackbar();
   const { push } = useRouter();
 
   const session = useSession();
@@ -43,8 +40,6 @@ const RaffleScreenContainer: React.FC<{ raffleId: number }> = ({
     enabled: isConnected,
   });
 
-  const enterRaffle = trpc.user.raffles.enterRaffle.useMutation();
-
   const participation = trpc.user.raffles.participation.useQuery(
     {
       raffleId: raffleId,
@@ -68,7 +63,6 @@ const RaffleScreenContainer: React.FC<{ raffleId: number }> = ({
 
   const [showShareRaffleModal, setShowShareRaffleModal] = useState(false);
   const [showEnterRaffleModal, setShowEnterRaffleModal] = useState(false);
-  const [showConfirmEntryModal, setShowConfirmEntryModal] = useState(false);
 
   const youWon = participants?.some(
     (participant) => participant.userId === user.data?.id && participant.winner
@@ -83,28 +77,6 @@ const RaffleScreenContainer: React.FC<{ raffleId: number }> = ({
       push(accountHref);
     } else {
       setShowEnterRaffleModal(true);
-    }
-  };
-
-  const handleEnterRaffle = async () => {
-    if (!isConnected) {
-      snackbar.warning('You must be logged in to enter a raffle.');
-      return;
-    }
-
-    try {
-      await enterRaffle.mutateAsync({
-        raffleId,
-      });
-
-      participation.refetch();
-      tokens.refetch();
-
-      snackbar.success('Raffle entry submitted!');
-    } catch (error) {
-      snackbar.error('Failed to enter raffle. Please try again.');
-    } finally {
-      setShowConfirmEntryModal(false);
     }
   };
 
@@ -129,19 +101,11 @@ const RaffleScreenContainer: React.FC<{ raffleId: number }> = ({
         id={raffle.data.id}
         name={raffle.data.name}
       />
-      <ConfirmEntryModal
-        open={showConfirmEntryModal}
-        onClose={() => setShowConfirmEntryModal(false)}
-        onConfirm={handleEnterRaffle}
-      />
+
       <EnterRaffleModal
+        raffleId={raffleId}
         open={showEnterRaffleModal}
         onClose={() => {
-          setShowConfirmEntryModal(false);
-          setShowEnterRaffleModal(false);
-        }}
-        onEnter={() => {
-          setShowConfirmEntryModal(true);
           setShowEnterRaffleModal(false);
         }}
         tokensOwned={tokens.data ?? 0}

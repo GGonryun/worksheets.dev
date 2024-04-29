@@ -52,19 +52,35 @@ export const useSnackbar = () => {
 const DEFAULT_MESSAGE = '';
 const DEFAULT_SEVERITY: SnackbarSeverity = 'info';
 const CLOSE_DELAY = 150;
+const DEFAULT_TIMEOUT = 5000;
 
 export const SnackbarContextProvider: React.FC<{
   children: ReactNode;
 }> = ({ children }) => {
+  const [timeout, saveTimeout] = useState<NodeJS.Timeout | undefined>(
+    undefined
+  );
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState<React.ReactNode>('');
   const [severity, setSeverity] = useState<SnackbarSeverity>(DEFAULT_SEVERITY);
 
+  const onOpen = () => {
+    setOpen(true);
+    if (timeout) {
+      clearTimeout(timeout);
+    }
+    saveTimeout(
+      setTimeout(() => {
+        setOpen(false);
+      }, DEFAULT_TIMEOUT)
+    );
+  };
   const onClose = async (_?: React.SyntheticEvent | Event, reason?: string) => {
     if (reason === 'clickaway') {
       return;
     }
 
+    clearTimeout(timeout);
     setOpen(false);
     // wait for the snackbar to close before resetting the message
     await waitFor(CLOSE_DELAY);
@@ -73,7 +89,7 @@ export const SnackbarContextProvider: React.FC<{
   };
 
   const trigger = (opt?: SnackbarTriggerOptions) => {
-    setOpen(true);
+    onOpen();
     setSeverity(opt?.severity ?? DEFAULT_SEVERITY);
     setMessage(opt?.message ?? DEFAULT_MESSAGE);
   };

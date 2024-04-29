@@ -14,12 +14,11 @@ export type SnackbarProps = Pick<MuiSnackbarProps, 'open' | 'onClose'> & {
 export const Snackbar: React.FC<SnackbarProps> = ({
   open,
   onClose,
-  duration = 5000,
   message,
   severity,
 }) => {
   return (
-    <MuiSnackbar open={open} autoHideDuration={duration} onClose={onClose}>
+    <MuiSnackbar open={open} onClose={onClose}>
       <Alert
         onClose={(e) => onClose && onClose(e, 'escapeKeyDown')}
         severity={severity}

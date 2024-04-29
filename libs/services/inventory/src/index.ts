@@ -179,8 +179,8 @@ export class InventoryService {
 
     if (!instance || instance.quantity < opts.quantity) {
       throw new TRPCError({
-        code: 'NOT_FOUND',
-        message: `Insufficient quantity of item.`,
+        code: 'BAD_REQUEST',
+        message: `You do not have enough items to perform this action.`,
       });
     }
 
