@@ -69,6 +69,16 @@ export class InventoryService {
         item: {
           type: types ? { in: types } : undefined,
         },
+        OR: [
+          {
+            expiresAt: null,
+          },
+          {
+            expiresAt: {
+              gte: new Date(),
+            },
+          },
+        ],
       },
       select: {
         id: true,

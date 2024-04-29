@@ -132,7 +132,7 @@ export class PushTemplates {
       text: `You have completed the quest <b>${
         opts.quest.name
       }</b> and received ${opts.quest.loot
-        .map((l) => `${l.quantity}x ${pluralize(l.item.name, l.quantity)}`)
+        .map((l) => `${l.quantity} ${pluralize(l.item.name, l.quantity)}`)
         .join(', ')}! <a href="${ACCOUNT_QUESTS_URL}">Find more quests</a>.`,
     };
   }

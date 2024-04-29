@@ -54,6 +54,7 @@ export const VisitWebsiteQuestForm: React.FC<{
           variant="arcade"
           color={colorKey}
           startIcon={complete ? undefined : <OpenInNew />}
+          fullWidth
           href={url}
           target="_blank"
           onClick={() => setClicked(true)}

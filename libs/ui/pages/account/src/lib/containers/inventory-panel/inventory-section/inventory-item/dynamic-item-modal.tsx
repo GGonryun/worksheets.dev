@@ -18,6 +18,7 @@ import { Redirect } from '@worksheets/ui-core';
 import { FriendsPanels, InventoryPanels } from '@worksheets/util/enums';
 import { assertNever } from '@worksheets/util/errors';
 import { capitalizeFirstLetter } from '@worksheets/util/strings';
+import { isExpired } from '@worksheets/util/time';
 import { parseTRPCClientErrorMessage } from '@worksheets/util/trpc';
 import { Friend, InventoryItemSchema } from '@worksheets/util/types';
 import dynamic from 'next/dynamic';
@@ -47,10 +48,12 @@ const ItemAction: React.FC<{
   item: InventoryItemSchema;
   onClick: () => void;
 }> = ({ item, onClick }) => {
+  const expired = Boolean(item.expiresAt && isExpired(item.expiresAt));
   return (
     <Button
       variant="arcade"
       color={'primary'}
+      disabled={expired}
       fullWidth
       size="small"
       onClick={onClick}
@@ -58,7 +61,7 @@ const ItemAction: React.FC<{
         display: ACTION_AVAILABLE[item.type] ? 'block' : 'none',
       }}
     >
-      {ACTION_LABEL[item.type]}
+      {expired ? 'Expired' : ACTION_LABEL[item.type]}
     </Button>
   );
 };

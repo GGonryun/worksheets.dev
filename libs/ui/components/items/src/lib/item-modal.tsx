@@ -6,7 +6,11 @@ import { InfoModal, ModalWrapper } from '@worksheets/ui/components/modals';
 import { PaletteColor } from '@worksheets/ui/theme';
 import { toPercentage } from '@worksheets/util/numbers';
 import { TABLET_SHADOW } from '@worksheets/util/styles';
-import { printDateTime, printTimeRemaining } from '@worksheets/util/time';
+import {
+  isExpired,
+  printDateTime,
+  printTimeRemaining,
+} from '@worksheets/util/time';
 import {
   InventoryItemSchema,
   ItemSchema,
@@ -93,13 +97,15 @@ export const ItemModalLayout: React.FC<
 
 const ItemDataRow: React.FC<{
   label: string;
-  value: string | number;
+  value?: string | number;
   color?: PaletteColor;
   href?: string;
 }> = (props) => (
   <Row gap={0.5} alignItems={'flex-start'}>
     <ItemDataLabel color={props.color}>{props.label}</ItemDataLabel>
-    <ItemDataValue color={props.color}>{props.value}</ItemDataValue>
+    {props.value && (
+      <ItemDataValue color={props.color}>{props.value}</ItemDataValue>
+    )}
   </Row>
 );
 
@@ -136,20 +142,25 @@ export const InventoryItemDescription: React.FC<{
       <ItemDataRow label="Type:" value={itemTypeLabel[item.type]} />
       <ItemDataRow label="Quantity:" value={item.quantity} />
       <ItemDataRow label="Value:" value={item.value} />
-      {item.expiresAt && (
-        <>
-          <ItemDataRow
-            color="error"
-            label="Expires:"
-            value={printDateTime(item.expiresAt)}
-          />
-          <ItemDataRow
-            color="error"
-            label={'Time Remaining:'}
-            value={printTimeRemaining(item.expiresAt)}
-          />
-        </>
-      )}
+      {item.expiresAt &&
+        (isExpired(item.expiresAt) ? (
+          <Box mt={1}>
+            <ItemDataRow color="error" label="Item has expired" />
+          </Box>
+        ) : (
+          <>
+            <ItemDataRow
+              color="error"
+              label="Expires:"
+              value={printDateTime(item.expiresAt)}
+            />
+            <ItemDataRow
+              color="error"
+              label={'Time Remaining:'}
+              value={printTimeRemaining(item.expiresAt)}
+            />
+          </>
+        ))}
     </Column>
   </Column>
 );
