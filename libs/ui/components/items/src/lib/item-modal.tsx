@@ -140,10 +140,10 @@ export const InventoryItemDescription: React.FC<{
     </Typography>
     <Column>
       <ItemDataRow label="Type:" value={itemTypeLabel[item.type]} />
-      <ItemDataRow label="Quantity:" value={item.quantity} />
+      <ItemDataRow label="Quantity:" value={item.quantity.toString()} />
       <ItemDataRow label="Value:" value={item.value} />
-      {item.expiresAt &&
-        (isExpired(item.expiresAt) ? (
+      {Boolean(item.expiration.length) &&
+        (isExpired(item.expiration[0]) ? (
           <Box mt={1}>
             <ItemDataRow color="error" label="Item has expired" />
           </Box>
@@ -152,12 +152,12 @@ export const InventoryItemDescription: React.FC<{
             <ItemDataRow
               color="error"
               label="Expires:"
-              value={printDateTime(item.expiresAt)}
+              value={printDateTime(item.expiration[0])}
             />
             <ItemDataRow
               color="error"
               label={'Time Remaining:'}
-              value={printTimeRemaining(item.expiresAt)}
+              value={printTimeRemaining(item.expiration[0])}
             />
           </>
         ))}

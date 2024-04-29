@@ -61,13 +61,7 @@ const Screen: React.FC<{ item: ItemSchema }> = (props) => {
       <Description
         open={true}
         title={'Owners'}
-        description={
-          props.item.type === 'STEAM_KEY' ? (
-            <Typography variant="h6">Steam key owners are hidden</Typography>
-          ) : (
-            <OwnersTable item={props.item} />
-          )
-        }
+        description={<OwnersTable item={props.item} />}
         color="secondary"
       />
     </Container>
@@ -100,7 +94,7 @@ export const OwnersTable: React.FC<{ item: ItemSchema }> = (props) => {
         <TableHead>
           <TableRow>
             <TableCell>Username</TableCell>
-            <TableCell>Quantity</TableCell>
+            <TableCell>Found At</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -110,7 +104,7 @@ export const OwnersTable: React.FC<{ item: ItemSchema }> = (props) => {
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell>{o.user.username}</TableCell>
-              <TableCell>{o.quantity}</TableCell>
+              <TableCell>{o.createdAt}</TableCell>
             </TableRow>
           ))}
         </TableBody>

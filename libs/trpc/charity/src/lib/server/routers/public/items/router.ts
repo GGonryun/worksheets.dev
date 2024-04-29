@@ -14,9 +14,14 @@ import { publicProcedure } from '../../../procedures';
 import { t } from '../../../trpc';
 
 export default t.router({
-  list: publicProcedure
-    .output(itemSchema.array())
-    .query(async ({ ctx: { db } }) => await db.item.findMany()),
+  list: publicProcedure.output(itemSchema.array()).query(
+    async ({ ctx: { db } }) =>
+      await db.item.findMany({
+        orderBy: {
+          id: 'asc',
+        },
+      })
+  ),
 
   find: publicProcedure
     .input(z.string())
@@ -47,11 +52,15 @@ export default t.router({
             itemId: input,
           },
           select: {
-            quantity: true,
+            createdAt: true,
             user: {
               select: { username: true },
             },
           },
+          orderBy: {
+            createdAt: 'desc',
+          },
+          take: 100,
         })
     ),
   sources: publicProcedure
@@ -84,7 +93,6 @@ export default t.router({
         monsters: monsterSources(item),
         quests: questSources(item),
         items: await findItemSources(db, item),
-        raffles: raffleSources(item),
       };
     }),
 });
@@ -127,12 +135,6 @@ const questSources = (item: PrismaItem): ItemSourcesSchema['quests'] => {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       name: l.questDefinition!.name,
     }));
-};
-
-const raffleSources = (item: PrismaItem): ItemSourcesSchema['raffles'] => {
-  return item.raffles.map((l) => ({
-    id: l.id,
-  }));
 };
 
 const findItemSources = async (

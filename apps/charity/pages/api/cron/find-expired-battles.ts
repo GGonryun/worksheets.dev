@@ -43,6 +43,4 @@ export default createCronJob(async () => {
       }),
     ]);
   }
-
-  console.info('All notifications sent.');
 });

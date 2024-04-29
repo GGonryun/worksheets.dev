@@ -1,8 +1,12 @@
+import { TRPCError } from '@trpc/server';
 import { ItemId, SharableItemId } from '@worksheets/data/items';
 import { FriendshipService } from '@worksheets/services/friendship';
 import { InventoryService } from '@worksheets/services/inventory';
-import { NotificationsService } from '@worksheets/services/notifications';
-import { DecrementOpts, inventoryItemSchema } from '@worksheets/util/types';
+import {
+  DecrementOpts,
+  inventoryItemSchema,
+  isSteamKeyItemId,
+} from '@worksheets/util/types';
 import { z } from 'zod';
 
 import { protectedProcedure } from '../../procedures';
@@ -38,23 +42,26 @@ export default t.router({
       return inventory.decrement(user.id, input as DecrementOpts);
     }),
   activate: protectedProcedure
-    .input(z.custom<Parameters<InventoryService['activate']>[1]>())
-    .output(z.custom<Awaited<ReturnType<InventoryService['activate']>>>())
+    .input(z.custom<ItemId>())
+    .output(z.custom<Awaited<ReturnType<InventoryService['decrement']>>>())
     .mutation(async ({ input, ctx: { db, user } }) => {
-      const notifications = new NotificationsService(db);
-      // execute the activation in a transaction to prevent multiple users from getting the same code.
-      const data = await db.$transaction(async (tx) => {
+      // TODO: support other activatable items like gift cards.
+      if (!isSteamKeyItemId(input))
+        throw new TRPCError({
+          code: 'NOT_IMPLEMENTED',
+          message: 'Only steam keys can be activated',
+        });
+
+      // execute the activation in a transaction to prevent multiple users from getting
+      // the same code and to prevent race conditions with expiring codes
+      return await db.$transaction(async (tx) => {
         const inventory = new InventoryService(tx);
-        return await inventory.activate(user.id, input);
+        return await inventory.decrement(user.id, {
+          itemId: input,
+          // TODO: support activating multiple items at once
+          quantity: 1,
+        } as DecrementOpts);
       });
-
-      await notifications.send('activation-code-redeemed', {
-        user,
-        code: data.code,
-        item: data.item,
-      });
-
-      return data;
     }),
   share: protectedProcedure
     .input(

@@ -87,7 +87,7 @@ export class PushTemplates {
   ): PushNotifyInput {
     return {
       type: 'INVENTORY',
-      text: `A ${opts.item.name} item is expiring in ${printTimeRemaining(
+      text: `A ${opts.item.name} is expiring in ${printTimeRemaining(
         opts.expiresAt
       )}! <a href="${ACCOUNT_INVENTORY_URL}">Go to your account inventory</a>.`,
       userIds: [opts.user.id],

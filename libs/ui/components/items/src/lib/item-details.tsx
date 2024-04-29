@@ -95,10 +95,6 @@ export const ItemDetails: React.FC<{
             value={`${props.item.sell} ${pluralize('token', props.item.sell)}`}
           />
           <Data
-            label={'Raffle Item'}
-            value={props.sources.raffles.length ? 'Yes' : 'No'}
-          />
-          <Data
             wrap
             label={'Dropped By'}
             value={

@@ -12,6 +12,8 @@ import {
   PrismaClient,
   PrismaTransactionalClient,
 } from '@worksheets/prisma';
+import { NotificationsService } from '@worksheets/services/notifications';
+import { arrayFromNumber, randomArrayElement } from '@worksheets/util/arrays';
 import { assertNever } from '@worksheets/util/errors';
 import {
   STARTING_APPLES,
@@ -34,12 +36,12 @@ import {
   isEtCeteraDecrementOpts,
   isSharableDecrementOpts,
   isSteamKeyDecrementOpts,
-  isSteamKeyItemId,
   SharableDecrementOpts,
+  SteamKeyDecrementOpts,
 } from '@worksheets/util/types';
 import pluralize from 'pluralize';
 
-import { unactivatable, unconsumable, undecrementable } from './errors';
+import { unconsumable } from './errors';
 
 export class InventoryService {
   #db: PrismaClient | PrismaTransactionalClient;
@@ -69,22 +71,16 @@ export class InventoryService {
         item: {
           type: types ? { in: types } : undefined,
         },
-        OR: [
-          {
-            expiresAt: null,
-          },
-          {
-            expiresAt: {
-              gte: new Date(),
-            },
-          },
-        ],
       },
       select: {
         id: true,
         itemId: true,
         quantity: true,
-        expiresAt: true,
+        expiration: {
+          select: {
+            expiresAt: true,
+          },
+        },
         item: {
           select: {
             id: true,
@@ -102,17 +98,25 @@ export class InventoryService {
     });
 
     return inventory
-      .filter((i) => i.quantity > 0)
       .map((inv) => {
+        const expirations =
+          inv.expiration?.map((e) => e.expiresAt.getTime()) ?? [];
+        const expiredExpirations = expirations.filter(isExpired);
+        const nonExpiredExpirations = expirations
+          .filter((e) => !isExpired(e))
+          // sort the non-expired expirations so that the soonest expiration is first.
+          .sort((a, b) => a - b);
+        const quantity = inv.quantity - expiredExpirations.length;
         return {
           ...inv.item,
           inventoryId: inv.id,
           itemId: inv.item.id as ItemId,
-          quantity: inv?.quantity ?? 0,
-          expiresAt: inv?.expiresAt?.getTime() ?? null,
+          quantity,
+          expiration: nonExpiredExpirations,
           value: inv.item.sell,
         };
-      });
+      })
+      .filter((i) => i.quantity > 0);
   }
 
   async find(userId: string, itemId: ItemId) {
@@ -135,13 +139,28 @@ export class InventoryService {
         itemId,
       },
       select: {
+        id: true,
         quantity: true,
+        expiration: {
+          select: {
+            expiresAt: true,
+          },
+        },
       },
     });
 
+    const expirations =
+      inventory?.expiration?.map((e) => e.expiresAt.getTime()) ?? [];
+    const expiredExpirations = expirations.filter(isExpired);
+    const quantity = Math.max(
+      0,
+      (inventory?.quantity ?? 0) - expiredExpirations.length
+    );
+
     return {
+      id: inventory?.id,
       itemId: itemId,
-      quantity: inventory?.quantity ?? 0,
+      quantity,
       name: item.name,
       description: item.description,
       imageUrl: item.imageUrl,
@@ -161,11 +180,6 @@ export class InventoryService {
 
   async quantity(userId: string, itemId: ItemId) {
     const item = await this.find(userId, itemId);
-
-    if (!item) {
-      return 0;
-    }
-
     return item.quantity;
   }
 
@@ -173,21 +187,9 @@ export class InventoryService {
    * Decrement works safely in transactions, worst case scenario is that the transaction fails and the user's inventory is unchanged.
    */
   async decrement(userId: string, opts: DecrementOpts) {
-    if (opts.itemId === '4') {
-      throw undecrementable(opts.itemId);
-    }
-    const instance = await this.#db.inventory.findFirst({
-      where: {
-        userId: userId,
-        itemId: opts.itemId,
-      },
-      select: {
-        id: true,
-        quantity: true,
-      },
-    });
+    const inventory = await this.find(userId, opts.itemId);
 
-    if (!instance || instance.quantity < opts.quantity) {
+    if (!inventory || !inventory.id || inventory.quantity < opts.quantity) {
       throw new TRPCError({
         code: 'BAD_REQUEST',
         message: `You do not have enough items to perform this action.`,
@@ -196,7 +198,7 @@ export class InventoryService {
 
     await this.#db.inventory.update({
       where: {
-        id: instance.id,
+        id: inventory.id,
       },
       data: {
         quantity: {
@@ -205,11 +207,11 @@ export class InventoryService {
       },
     });
 
-    return await this.#decrement(userId, opts);
+    return await this.#decrement(userId, inventory.id, opts);
   }
 
   /** Some decrement operations have side effects like consumption or sharable items. */
-  async #decrement(userId: string, opts: DecrementOpts) {
+  async #decrement(userId: string, inventoryId: string, opts: DecrementOpts) {
     if (isCurrencyDecrementOpts(opts)) {
       return `${opts.quantity} ${pluralize('token', opts.quantity)} spent.`;
     }
@@ -227,7 +229,13 @@ export class InventoryService {
     }
 
     if (isSteamKeyDecrementOpts(opts)) {
-      throw undecrementable(opts.itemId);
+      if (opts.quantity > 1) {
+        throw new TRPCError({
+          code: 'NOT_IMPLEMENTED',
+          message: 'Claiming multiple Steam keys at once is not supported.',
+        });
+      }
+      return this.#activate(userId, inventoryId, opts);
     }
 
     if (isEtCeteraDecrementOpts(opts)) {
@@ -238,7 +246,7 @@ export class InventoryService {
   }
 
   async #sell(userId: string, opts: EtCeteraDecrementOpts) {
-    const item = await this.#db.item.findFirst({
+    const item = await this.#db.item.findUniqueOrThrow({
       where: {
         id: opts.itemId,
       },
@@ -248,16 +256,9 @@ export class InventoryService {
       },
     });
 
-    if (!item) {
-      throw new TRPCError({
-        code: 'INTERNAL_SERVER_ERROR',
-        message: `Item ${opts.itemId} does not exist`,
-      });
-    }
-
     const total = item.sell * opts.quantity;
 
-    await this.#increment(userId, '1', total);
+    await this.increment(userId, '1', total);
 
     return `Sold ${opts.quantity} ${pluralize(
       item.name,
@@ -310,152 +311,60 @@ export class InventoryService {
     }
   }
 
-  /** Incrementing is used to add an item to a user's account. Some items do not stack, these items use #award. */
+  /** Incrementing is used to add an item to a user's account. */
   async increment(userId: string, itemId: ItemId, quantity: number) {
-    if (isSteamKeyItemId(itemId)) {
-      return this.#award(userId, itemId, quantity);
-    }
-
-    return this.#increment(userId, itemId, quantity);
-  }
-
-  async #increment(userId: string, itemId: ItemId, amount: number) {
-    const instance = await this.#db.inventory.findFirst({
+    const inventory = await this.#db.inventory.upsert({
       where: {
+        itemId_userId: {
+          userId,
+          itemId,
+        },
+      },
+      create: {
         userId,
         itemId,
+        quantity,
+      },
+      update: {
+        quantity: {
+          increment: quantity,
+        },
+      },
+      include: {
+        item: true,
       },
     });
 
-    if (!instance) {
-      const i = await this.#db.inventory.create({
-        data: {
-          userId,
-          itemId,
-          quantity: amount,
-        },
-      });
-      return i.quantity;
-    } else {
-      const i = await this.#db.inventory.update({
-        where: {
-          id: instance.id,
-        },
-        data: {
-          quantity: {
-            increment: amount,
-          },
-        },
-      });
-      return i.quantity;
-    }
-  }
-
-  /**
-   * Awarding is used to safely increment or add items to a users inventory. Items like steam keys cannot stack, awarding takes care of this
-   * Creates a new instance of an item that expires after some time.
-   */
-  async #award(userId: string, itemId: ItemId, quantity: number) {
-    const item = await this.#db.item.findFirst({
-      where: {
-        id: itemId,
-      },
-      select: {
-        expiration: true,
-      },
-    });
-
-    if (!item) {
-      throw new TRPCError({
-        code: 'INTERNAL_SERVER_ERROR',
-        message: `Item ${itemId} does not exist`,
+    if (inventory.item.expiration) {
+      await this.#db.inventoryExpiration.createMany({
+        data: arrayFromNumber(quantity).map(() => ({
+          inventoryId: inventory.id,
+          // item.expiration is defined here because we checked it above.
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          expiresAt: daysFromNow(inventory.item.expiration!),
+        })),
       });
     }
 
-    for (let i = 0; i < quantity; i++) {
-      await this.#db.inventory.create({
-        data: {
-          userId,
-          itemId,
-          quantity: 1,
-          expiresAt: item.expiration ? daysFromNow(item.expiration) : undefined,
-        },
-      });
-    }
+    return inventory.quantity;
   }
 
   /**
    * Activate will delete an expirable item from the user's inventory
    * and create an activation code. Use this for items like Steam keys.
    */
-  async activate(userId: string, inventoryId: string) {
-    const inventory = await this.#db.inventory.findFirst({
-      where: {
-        userId,
-        id: inventoryId,
-      },
-      select: {
-        id: true,
-        itemId: true,
-        expiresAt: true,
-        item: {
-          select: {
-            name: true,
-          },
-        },
-      },
-    });
-
-    if (!inventory) {
-      throw new TRPCError({
-        code: 'NOT_FOUND',
-        message: `Item was not found in inventory.`,
-      });
-    }
-
-    if (isExpired(inventory?.expiresAt)) {
-      throw new TRPCError({
-        code: 'PRECONDITION_FAILED',
-        message: 'Item has expired',
-      });
-    }
-
-    const itemId = inventory.itemId as ItemId;
-    if (itemId !== '4') {
-      throw unactivatable(inventory.itemId);
-    }
-
-    return this.#activateSteamKey({
-      userId,
-      inventoryId,
-      itemId,
-      item: inventory.item,
-    });
-  }
-
-  async #activateSteamKey({
-    userId,
-    inventoryId,
-    itemId,
-    item,
-  }: {
-    userId: string;
-    inventoryId: string;
-    itemId: ItemId;
-    item: { name: string };
-  }) {
-    // delete the inventory record.
-    await this.#db.inventory.delete({
-      where: {
-        id: inventoryId,
-      },
-    });
+  async #activate(
+    userId: string,
+    inventoryId: string,
+    opts: SteamKeyDecrementOpts
+  ) {
+    const notifications = new NotificationsService(this.#db);
 
     // assign an unclaimed steam key to the user
-    const code = await this.#db.activationCode.findFirst({
+    const codes = await this.#db.activationCode.findMany({
       where: {
         userId: null,
-        itemId: itemId,
+        itemId: opts.itemId,
       },
       select: {
         id: true,
@@ -463,7 +372,7 @@ export class InventoryService {
       },
     });
 
-    if (!code) {
+    if (!codes.length) {
       console.error('No unclaimed Steam keys available');
       throw new TRPCError({
         code: 'INTERNAL_SERVER_ERROR',
@@ -471,6 +380,8 @@ export class InventoryService {
       });
     }
 
+    // pick a random available code.
+    const code = randomArrayElement(codes);
     await this.#db.activationCode.update({
       where: {
         id: code.id,
@@ -481,10 +392,59 @@ export class InventoryService {
       },
     });
 
-    return {
+    // find the latest expiration date for the item
+    const expiration = await this.#db.inventoryExpiration.findFirst({
+      where: {
+        inventoryId,
+        expiresAt: {
+          not: {
+            // do not include expired inventory notices.
+            lte: new Date(),
+          },
+        },
+      },
+      orderBy: {
+        expiresAt: 'desc',
+      },
+    });
+
+    if (expiration) {
+      await this.#db.inventoryExpiration.delete({
+        where: {
+          id: expiration.id,
+        },
+      });
+    }
+
+    const inventory = await this.#db.inventory.findFirstOrThrow({
+      where: {
+        id: inventoryId,
+      },
+      select: {
+        id: true,
+        quantity: true,
+        item: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+        user: {
+          select: {
+            id: true,
+            username: true,
+            email: true,
+          },
+        },
+      },
+    });
+
+    await notifications.send('activation-code-redeemed', {
       code,
-      item,
-    };
+      ...inventory,
+    });
+
+    return `You have activated a Steam Key!`;
   }
 
   /**

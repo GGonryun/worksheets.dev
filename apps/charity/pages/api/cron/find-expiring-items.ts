@@ -1,3 +1,4 @@
+import { TRPCError } from '@trpc/server';
 import { Prisma, prisma } from '@worksheets/prisma';
 import { NotificationsService } from '@worksheets/services/notifications';
 import { createCronJob } from '@worksheets/util/cron';
@@ -5,53 +6,42 @@ import { EXPIRATION_TIME_THRESHOLD } from '@worksheets/util/settings';
 import { daysFromNow } from '@worksheets/util/time';
 
 const INVENTORY_EXPIRATION_PROPS = {
-  id: true,
-  expiresAt: true,
-  createdAt: true,
-  item: {
-    select: {
-      name: true,
-    },
-  },
-  user: {
-    select: {
-      id: true,
-      email: true,
+  include: {
+    inventory: {
+      include: {
+        user: true,
+        item: true,
+      },
     },
   },
 } as const;
 
-type ExpiringInventoryItem = Prisma.InventoryGetPayload<{
-  select: typeof INVENTORY_EXPIRATION_PROPS;
-}>;
+type ExpiringInventoryItem = Prisma.InventoryExpirationGetPayload<
+  typeof INVENTORY_EXPIRATION_PROPS
+>;
 
 export default createCronJob(async () => {
   const notifications = new NotificationsService(prisma);
-
-  // TODO: last chance is not idempotent, and will send multiple reminders every time it runs
-  const [lastChance, expired] = await Promise.all([
-    prisma.inventory.findMany({
-      where: {
-        expiresAt: {
-          // two days away from expiration
-          not: {
-            lte: new Date(),
-          },
-          lte: daysFromNow(EXPIRATION_TIME_THRESHOLD),
-        },
+  const expired = await prisma.inventoryExpiration.findMany({
+    where: {
+      expiresAt: {
+        lte: new Date(),
       },
-      select: INVENTORY_EXPIRATION_PROPS,
-    }),
-    prisma.inventory.findMany({
-      where: {
-        expiresAt: {
-          not: null,
-          lte: new Date(),
-        },
+    },
+    ...INVENTORY_EXPIRATION_PROPS,
+  });
+  const lastChance = await prisma.inventoryExpiration.findMany({
+    where: {
+      id: {
+        notIn: expired.map((e) => e.id),
       },
-      select: INVENTORY_EXPIRATION_PROPS,
-    }),
-  ]);
+      lastSentAt: null,
+      expiresAt: {
+        lte: daysFromNow(EXPIRATION_TIME_THRESHOLD),
+      },
+    },
+    ...INVENTORY_EXPIRATION_PROPS,
+  });
 
   await Promise.allSettled([
     ...lastChance.map(processLastChance(notifications)),
@@ -67,9 +57,17 @@ const processLastChance =
   async (expiring: ExpiringInventoryItem) => {
     if (expiring.expiresAt) {
       await notifications.send('expiring-item-reminder', {
-        user: expiring.user,
-        item: expiring.item,
+        user: expiring.inventory.user,
+        item: expiring.inventory.item,
         expiresAt: expiring.expiresAt,
+      });
+      await prisma.inventoryExpiration.update({
+        where: {
+          id: expiring.id,
+        },
+        data: {
+          lastSentAt: new Date(),
+        },
       });
     }
   };
@@ -77,13 +75,39 @@ const processLastChance =
 const processExpired =
   (notifications: NotificationsService) =>
   async (expiring: ExpiringInventoryItem) => {
-    await prisma.inventory.delete({
-      where: {
-        id: expiring.id,
-      },
+    await prisma.$transaction(async (tx) => {
+      const inventory = await tx.inventory.findUniqueOrThrow({
+        where: {
+          id: expiring.inventory.id,
+        },
+      });
+
+      await prisma.inventory.update({
+        where: {
+          id: expiring.inventory.id,
+        },
+        data: {
+          quantity: {
+            decrement: 1,
+          },
+        },
+      });
+
+      if (inventory.quantity < 0)
+        throw new TRPCError({
+          code: 'INTERNAL_SERVER_ERROR',
+          message:
+            'Failed to process expired item: inventory quantity is less than 0',
+        });
+
+      await prisma.inventoryExpiration.delete({
+        where: {
+          id: expiring.id,
+        },
+      });
     });
     await notifications.send('expired-item', {
-      user: expiring.user,
-      item: expiring.item,
+      user: expiring.inventory.user,
+      item: expiring.inventory.item,
     });
   };

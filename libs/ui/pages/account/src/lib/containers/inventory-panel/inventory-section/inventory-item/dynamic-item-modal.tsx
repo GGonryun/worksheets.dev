@@ -18,7 +18,6 @@ import { Redirect } from '@worksheets/ui-core';
 import { FriendsPanels, InventoryPanels } from '@worksheets/util/enums';
 import { assertNever } from '@worksheets/util/errors';
 import { capitalizeFirstLetter } from '@worksheets/util/strings';
-import { isExpired } from '@worksheets/util/time';
 import { parseTRPCClientErrorMessage } from '@worksheets/util/trpc';
 import { Friend, InventoryItemSchema } from '@worksheets/util/types';
 import dynamic from 'next/dynamic';
@@ -48,20 +47,15 @@ const ItemAction: React.FC<{
   item: InventoryItemSchema;
   onClick: () => void;
 }> = ({ item, onClick }) => {
-  const expired = Boolean(item.expiresAt && isExpired(item.expiresAt));
   return (
     <Button
       variant="arcade"
       color={'primary'}
-      disabled={expired}
       fullWidth
       size="small"
       onClick={onClick}
-      sx={{
-        display: ACTION_AVAILABLE[item.type] ? 'block' : 'none',
-      }}
     >
-      {expired ? 'Expired' : ACTION_LABEL[item.type]}
+      {ACTION_LABEL[item.type]}
     </Button>
   );
 };
@@ -69,19 +63,21 @@ const ItemAction: React.FC<{
 const ActivateItem: React.FC<{
   onClose: () => void;
   item: InventoryItemSchema;
-}> = ({ item }) => {
+}> = ({ item, onClose }) => {
   const { push } = useRouter();
   const snackbar = useSnackbar();
   const utils = trpc.useUtils();
+  const [activating, setActivating] = React.useState(false);
   const activate = trpc.user.inventory.activate.useMutation();
   const handleActivation = async () => {
     try {
-      const result = await activate.mutateAsync(item.inventoryId);
+      setActivating(true);
+      const result = await activate.mutateAsync(item.itemId);
       await utils.user.codes.activation.list.invalidate();
       await utils.user.inventory.items.invalidate();
       snackbar.success(
         <Column>
-          <Typography>You've redeemed a {result.item.name}!</Typography>
+          <Typography>{result}</Typography>
           <Typography fontWeight={500}>
             A code has been sent to your email.
           </Typography>
@@ -94,8 +90,14 @@ const ActivateItem: React.FC<{
       );
     } catch (error) {
       snackbar.error(parseTRPCClientErrorMessage(error));
+    } finally {
+      setActivating(false);
+      onClose();
     }
   };
+
+  if (activating) return <PulsingLogo message="Activating Steam Key..." />;
+
   return (
     <Column gap={2} textAlign="center" alignItems={'center'}>
       <Typography typography={{ xs: 'body2', sm: 'body1' }}>
@@ -107,6 +109,7 @@ const ActivateItem: React.FC<{
         variant="arcade"
         color="error"
         size="small"
+        disabled={activating}
         onClick={handleActivation}
         sx={{
           width: 'fit-content',
@@ -160,13 +163,18 @@ const ConsumeItem: React.FC<{
   return (
     <Column gap={2} alignItems="center">
       <Typography typography={{ xs: 'body2', sm: 'body1' }}>
-        How many {pluralize(item.name)} would you like to {verb}?
+        How many would you like to {verb}?
       </Typography>
-      {verb === 'sell' && (
+      <Column gap={0.5} textAlign="center">
         <Typography typography={{ xs: 'body3', sm: 'body2' }}>
-          {pluralize(item.name)} sell for <b>{item.value} tokens</b> each
+          <b>You own {item.quantity}</b> {pluralize(item.name, item.quantity)}
         </Typography>
-      )}
+        {verb === 'sell' && (
+          <Typography typography={{ xs: 'body3', sm: 'body2' }}>
+            {pluralize(item.name)} sell for <b>{item.value} tokens</b> each
+          </Typography>
+        )}
+      </Column>
       <NumericCounterField value={quantity} onChange={handleSetQuantity} />
       <Button
         variant="arcade"
@@ -420,7 +428,7 @@ const Container: React.FC<ModalWrapper<{ item: InventoryItemSchema }>> = ({
       open={open}
       onClose={handleClose}
       item={item}
-      icon={item.expiresAt && <ExpiringItemIcon size={18} />}
+      icon={Boolean(item.expiration.length) && <ExpiringItemIcon size={18} />}
       action={
         !using &&
         ACTION_AVAILABLE[item.type] && (

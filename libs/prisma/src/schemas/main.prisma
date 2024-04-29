@@ -104,15 +104,27 @@ model Friendship {
 }
 
 model Inventory {
-  id        String    @id @default(cuid())
-  itemId    String
-  item      Item      @relation(fields: [itemId], references: [id], onDelete: Cascade)
-  quantity  Int
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  userId    String
-  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  expiresAt DateTime?
+  id         String                @id @default(cuid())
+  itemId     String
+  item       Item                  @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  quantity   Int
+  createdAt  DateTime              @default(now())
+  updatedAt  DateTime              @updatedAt
+  userId     String
+  user       User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiration InventoryExpiration[]
+
+  @@unique([itemId, userId])
+}
+
+model InventoryExpiration {
+  id          String    @id @default(cuid())
+  inventoryId String
+  inventory   Inventory @relation(fields: [inventoryId], references: [id], onDelete: Cascade)
+  expiresAt   DateTime
+  lastSentAt  DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 }
 
 enum ItemType {

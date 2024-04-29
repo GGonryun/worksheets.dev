@@ -12,7 +12,9 @@ export const ItemInstance: React.FC<InventoryItemSchema> = (item) => {
   return (
     <>
       <InventoryItem
-        icon={item.expiresAt ? <ExpiringItemIcon size={18} /> : undefined}
+        icon={
+          item.expiration.length ? <ExpiringItemIcon size={18} /> : undefined
+        }
         item={item}
         onClick={() => setOpen(true)}
       />

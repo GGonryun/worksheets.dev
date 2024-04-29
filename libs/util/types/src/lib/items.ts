@@ -17,7 +17,7 @@ import { ItemType } from '@worksheets/prisma';
 import { z } from 'zod';
 
 export const itemOwner = z.object({
-  quantity: z.number(),
+  createdAt: z.date(),
   user: z.object({
     username: z.string(),
   }),
@@ -60,11 +60,6 @@ export const itemSourcesSchema = z.object({
       name: z.string(),
     })
     .array(),
-  raffles: z
-    .object({
-      id: z.number(),
-    })
-    .array(),
 });
 
 export type ItemSourcesSchema = z.infer<typeof itemSourcesSchema>;
@@ -85,7 +80,7 @@ export const inventoryItemSchema = z.object({
   name: z.string(),
   description: z.string(),
   imageUrl: z.string(),
-  expiresAt: z.number().nullable(),
+  expiration: z.number().array(),
   type: z.nativeEnum(ItemType),
   value: z.number(),
 });
