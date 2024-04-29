@@ -5,7 +5,7 @@ import {
   STARTING_TOKENS,
   TOKENS_PER_REFERRAL_ACCOUNT,
 } from '@worksheets/util/settings';
-import { printShortDate } from '@worksheets/util/time';
+import { printShortDate, printTimeRemaining } from '@worksheets/util/time';
 import pluralize from 'pluralize';
 
 import { ExtractTemplatePayload } from './types';
@@ -88,7 +88,9 @@ export class PushTemplates {
   ): PushNotifyInput {
     return {
       type: 'INVENTORY',
-      text: `A ${opts.item.name} item is expiring in ${EXPIRATION_TIME_THRESHOLD} days! <a href="${ACCOUNT_INVENTORY_URL}">Go to your account inventory</a>.`,
+      text: `A ${opts.item.name} item is expiring in ${printTimeRemaining(
+        opts.expiresAt
+      )}! <a href="${ACCOUNT_INVENTORY_URL}">Go to your account inventory</a>.`,
       userIds: [opts.user.id],
     };
   }

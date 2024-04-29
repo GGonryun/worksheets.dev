@@ -1,6 +1,10 @@
 import { EmailService, SendEmailInput } from '@worksheets/services/email';
 import { randomUUID } from '@worksheets/util/crypto';
-import { daysFromNow, printDateTime } from '@worksheets/util/time';
+import {
+  daysFromNow,
+  printDateTime,
+  printTimeRemaining,
+} from '@worksheets/util/time';
 import { compact } from 'lodash';
 
 import { ExtractTemplatePayload } from './types';
@@ -16,7 +20,7 @@ const claimHelpText = `Please visit {{CLAIM_PRIZE}} to claim your prize. If you 
 const expirationText = (expiration: Date) =>
   `<b>If you do not claim your prize before ${printDateTime(
     expiration
-  )}, it will be forfeited.</b>`;
+  )} (${printTimeRemaining(expiration)} from now), it will be forfeited.</b>`;
 
 const claimHelpLinks = [
   {
