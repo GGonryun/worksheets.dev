@@ -36,5 +36,10 @@
             "path": "/api/cron/send-scheduled-emails",
             "schedule": "30 * * * *"
         }
-    ]
+    ],
+    "functions": {
+        "pages/api/cron/*.ts": {
+            "maxDuration": 60
+        }
+    }
 }

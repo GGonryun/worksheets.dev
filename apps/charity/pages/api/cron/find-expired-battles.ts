@@ -11,8 +11,8 @@ export default createCronJob(async () => {
       return await mobs.processExpiredBattles();
     },
     {
-      maxWait: 10000, // default: 2000
-      timeout: 30000, // default: 5000
+      maxWait: 10000, // default: 2000 ms
+      timeout: 50000, // default: 5000 ms
     }
   );
 
