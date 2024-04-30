@@ -14,7 +14,7 @@ export class DiscordTemplates {
       content: `🚨 New Game Alert!`,
       embeds: [
         {
-          title: `📷 Play ${opts.title} by ${opts.developer.name}!`,
+          title: `Play ${opts.title} by ${opts.developer.name}!`,
           url: routes.game.url({ params: { gameId: opts.id } }),
         },
       ],
