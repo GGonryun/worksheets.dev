@@ -9,7 +9,7 @@ const RAFFLE_URL = (raffleId: number) =>
   routes.raffle.url({ params: { raffleId } });
 export class TwitterTemplates {
   static newGame(opts: ExtractTemplatePayload<'new-game'>) {
-    return `🚨 New Game Alert!\n📷 Play ${opts.title} by ${
+    return `🚨 New Game Alert!\nPlay ${opts.title} by ${
       opts.developer.name
     }!\n\n${GAME_URL(opts.id)}\n\n#HTML5Games #FreeGames #BrowserGames`;
   }

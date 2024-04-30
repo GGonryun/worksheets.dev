@@ -13,6 +13,33 @@ import { SeedableGameSchema } from '@worksheets/util/types';
 export const games: SeedableGameSchema[] = [
   {
     version: 2,
+    id: '20-punch',
+    name: '20 Punch',
+    developerId: 'charity-games',
+    iconUrl: 'https://cdn.charity.games/_games/20-punch/assets/thumbnail.png',
+    bannerUrl: 'https://cdn.charity.games/_games/20-punch/assets/banner.png',
+    viewport: viewports['MOBILE-PORTRAIT'],
+    categories: [
+      'ad-free',
+      'action',
+      'arcade',
+      'mobile',
+      'sports',
+      '2p',
+      'boy',
+    ],
+    file: {
+      type: 'HTML',
+      url: 'https://cdn.charity.games/_games/20-punch/index.html',
+    },
+    createdAt: new Date('2024-04-30T00:00:00.000Z'),
+    updatedAt: new Date('2024-04-30T00:00:00.000Z'),
+    publishAt: new Date('2024-04-30T00:00:00.000Z'),
+    markets: {},
+    description: `<p>20 Punch is a fast-paced boxing game. The goal of the game is to punch your opponent 20 times before they punch you 20 times. The first player to reach 20 punches wins the game.</p><h3>How to Play 20 Punch?</h3><p>Click or tap the screen to punch your opponent. You can move your character left or right and dodge incoming punches. The first player to reach 20 punches wins the game. Play alone or challenge your friends!</p>`,
+  },
+  {
+    version: 2,
     id: 'the-sorcerer',
     name: 'The Sorcerer',
     developerId: 'charity-games',
