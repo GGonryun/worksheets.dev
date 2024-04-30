@@ -1,5 +1,6 @@
 import { Box, Link, Typography } from '@mui/material';
 import { routes } from '@worksheets/routes';
+import { Emoji } from '@worksheets/ui-core';
 import { HelpPrizesQuestions, InventoryPanels } from '@worksheets/util/enums';
 import { QuestionAnswer } from '@worksheets/util/types';
 
@@ -190,6 +191,56 @@ export const helpPrizes: QuestionAnswer[] = [
             { text: 'Learn about Tokens', href: routes.help.tokens.path() },
             { text: 'My Tokens', href: routes.account.quests.path() },
             { text: 'Enter Raffles', href: routes.raffles.path() },
+          ]}
+        />
+      </Box>
+    ),
+  },
+  {
+    id: HelpPrizesQuestions.TradeCode,
+    question: 'Can I trade my code?',
+    summary: 'In most cases, codes are non-transferable, but we may allow it.',
+    answer: (
+      <Box>
+        <b>
+          <Emoji symbol="🛑" label="Stop!" /> Your code must not have been
+          accessed to be eligible for trade! <Emoji symbol="🛑" label="Stop!" />
+        </b>
+        <br />
+        <br />
+        In most cases, codes are non-transferable, but we may allow it. If you
+        would like to trade your code, please{' '}
+        <Link href={routes.contact.path()}>contact us</Link> for assistance.
+        <br />
+        <br />
+        We will review your request and determine if we can allow the trade. If
+        we allow the trade, we will provide you with instructions on how to
+        proceed.
+        <br />
+        <br />
+        Your code may be eligible for a trade if:
+        <ul>
+          <li>Your code has not been accessed</li>
+          <li>Your code is not expired</li>
+          <li>Your code is not locked to your account</li>
+          <li>The code you earned is not redeemable in your region</li>
+          <li>The code you earned is for a prize you already own</li>
+        </ul>
+        <b>We reserve the right to deny any trade request at our discretion.</b>
+        <br />
+        <br />
+        <HelpfulLinks
+          links={[
+            {
+              text: 'My Activation Codes',
+              href: routes.account.inventory.path({
+                bookmark: InventoryPanels.ActivationCodes,
+              }),
+            },
+            {
+              text: 'Contact Us',
+              href: routes.contact.path(),
+            },
           ]}
         />
       </Box>

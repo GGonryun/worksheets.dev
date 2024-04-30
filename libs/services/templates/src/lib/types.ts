@@ -162,21 +162,6 @@ export type NotificationTemplate =
       };
     }
   | {
-      type: 'activation-code-redeemed';
-      payload: {
-        user: {
-          id: string;
-          email: string;
-        };
-        code: {
-          content: string;
-        };
-        item: {
-          name: string;
-        };
-      };
-    }
-  | {
       type: 'quest-completed';
       payload: {
         userId: string;

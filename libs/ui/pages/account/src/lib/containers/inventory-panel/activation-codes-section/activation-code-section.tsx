@@ -5,13 +5,13 @@ import { Column } from '@worksheets/ui/components/flex';
 import { BulletPoints } from '@worksheets/ui/components/lists';
 import { PanelFooter } from '@worksheets/ui/components/panels';
 import { HelpTokensQuestions, SettingsPanels } from '@worksheets/util/enums';
-import { ActivationCodeDetails } from '@worksheets/util/types';
+import { ActivationCodeDetailSchema } from '@worksheets/util/types';
 import React from 'react';
 
 import { ActivationCodesTable } from './activation-code-table';
 
 export const ActivationCodesSection: React.FC<{
-  codes: ActivationCodeDetails[];
+  codes: ActivationCodeDetailSchema[];
 }> = ({ codes }) => {
   return (
     <Column gap={2}>

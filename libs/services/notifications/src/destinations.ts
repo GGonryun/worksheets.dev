@@ -86,12 +86,6 @@ const newSubscriberTemplates: TemplateBuilder<'new-subscriber'> = (
   discord: DiscordTemplates.newSubscriber(payload),
 });
 
-const activationCodeRedeemedTemplates: TemplateBuilder<
-  'activation-code-redeemed'
-> = (payload) => ({
-  email: EmailTemplates.activationCodeRedeemed(payload),
-});
-
 const questCompletedTemplates: TemplateBuilder<'quest-completed'> = (
   payload
 ) => ({
@@ -143,7 +137,6 @@ export const destinations: Record<NotificationTemplateType, TemplateBuilder> = {
   'new-game-submission': newGameSubmissionTemplates,
   'confirm-newsletter-subscription': confirmNewsletterSubscriptionTemplates,
   'new-subscriber': newSubscriberTemplates,
-  'activation-code-redeemed': activationCodeRedeemedTemplates,
   'quest-completed': questCompletedTemplates,
   'new-battle': newBattleTemplates,
   'battle-completed': battleCompletedTemplates,

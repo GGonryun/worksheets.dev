@@ -83,30 +83,6 @@ export class EmailTemplates {
       }),
     };
   }
-  static activationCodeRedeemed(
-    opts: ExtractTemplatePayload<'activation-code-redeemed'>
-  ): SendEmailInput {
-    return {
-      id: randomUUID(),
-      to: [opts.user.email],
-      subject: `Your activation code for ${opts.item.name}`,
-      html: EmailService.template({
-        title: `Your activation code for ${opts.item.name} has been redeemed`,
-        paragraphs: [
-          `Congratulations! You received an activation code.`,
-          `Your code is: ${opts.code.content}`,
-          `You can view your code any time in your {{INVENTORY}}.`,
-        ],
-        links: [
-          {
-            id: 'INVENTORY',
-            href: ACCOUNT_INVENTORY_URL,
-            text: 'inventory',
-          },
-        ],
-      }),
-    };
-  }
   static confirmNewsletterSubscription(opts: {
     id: string;
     email: string;

@@ -6,6 +6,7 @@ import { IS_DEVELOPMENT } from '@worksheets/ui/env';
 import { LoadingScreen } from '@worksheets/ui/pages/loading';
 import { useBookmark } from '@worksheets/ui-core';
 import { SettingsPanels } from '@worksheets/util/enums';
+import { destroyAllData } from '@worksheets/util/storage';
 import { signOut } from 'next-auth/react';
 import { useState } from 'react';
 
@@ -27,13 +28,8 @@ export const SettingsPanelContainer: React.FC = () => {
   const { form } = useBasicInformationForm(profile.data);
 
   const handleClearLocalStorage = () => {
-    // clear local storage
-    if (localStorage) {
-      localStorage.clear();
-      signOut({ callbackUrl: routes.play.path() });
-    } else {
-      alert('No local storage available to clear');
-    }
+    destroyAllData();
+    signOut({ callbackUrl: routes.play.path() });
   };
 
   const handleDeleteAccount = async () => {

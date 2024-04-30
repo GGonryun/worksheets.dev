@@ -30,14 +30,14 @@ export const ParticipationSection: React.FC<{
 
       {active.length > 0 && (
         <>
-          <Typography variant="h6">Active Raffles</Typography>
+          <Typography variant="h6">Active Battles</Typography>
           <ParticipationTable participation={active} />
         </>
       )}
 
       {complete.length > 0 && (
         <>
-          <Typography variant="h6">Expired Raffles</Typography>
+          <Typography variant="h6">Expired Battles</Typography>
           <ParticipationTable participation={complete} />
         </>
       )}

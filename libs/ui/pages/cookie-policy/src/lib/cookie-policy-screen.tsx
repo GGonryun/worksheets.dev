@@ -1,6 +1,8 @@
 import { Container, Link, Paper, Typography } from '@mui/material';
 import { routes } from '@worksheets/routes';
 import { BookmarkAnchor } from '@worksheets/ui-core';
+import { destroyAllData } from '@worksheets/util/storage';
+import { signOut } from 'next-auth/react';
 import { FC } from 'react';
 
 import { CookiesStatement } from './cookie-policy-statement';
@@ -36,6 +38,17 @@ export const CookiePolicyScreen: FC<CookiePolicyScreenProps> = () => {
           </Link>
           <Link href={routes.home.path()} color="inherit">
             Home Page
+          </Link>
+          <Link
+            onClick={() => {
+              destroyAllData();
+              alert('Your local storage and cookies have been cleared.');
+              window.location.reload();
+              signOut({ callbackUrl: routes.cookies.path() });
+            }}
+            color="inherit"
+          >
+            Clear cookies
           </Link>
         </Typography>
       </Paper>

@@ -277,6 +277,7 @@
       "@worksheets/util/seeding": ["libs/util/seeding/src/index.ts"],
       "@worksheets/util/seo": ["libs/util/seo/src/index.ts"],
       "@worksheets/util/settings": ["libs/util/settings/src/index.ts"],
+      "@worksheets/util/storage": ["libs/util/storage/src/index.ts"],
       "@worksheets/util/strings": ["libs/util/strings/src/index.ts"],
       "@worksheets/util/styles": ["libs/util/styles/src/index.ts"],
       "@worksheets/util/time": ["libs/util/time/src/index.ts"],

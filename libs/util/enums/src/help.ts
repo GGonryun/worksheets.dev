@@ -32,6 +32,7 @@ export enum HelpPrizesQuestions {
   HowToClaim = 'how-to-claim',
   HowToEarn = 'how-to-earn',
   HowToSpend = 'how-to-spend',
+  TradeCode = 'trade-code',
 }
 
 export enum HelpPlayingGamesQuestions {

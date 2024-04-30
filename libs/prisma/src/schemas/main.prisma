@@ -442,6 +442,11 @@ model ActivationCode {
   // the redemption/secret code for the prize.
   content    String
   accessedAt DateTime?
+  // more data about the code
+  sourceUrl  String
+  // even though the item has a name, the code itself can have a different name.
+  // for example the source item could be "Random Steam Key" and the name would be "Steam Key for Game X"
+  name       String
   itemId     String
   item       Item      @relation(fields: [itemId], references: [id])
   userId     String?

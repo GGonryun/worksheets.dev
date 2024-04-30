@@ -1,10 +1,11 @@
 import { ItemType } from '@worksheets/prisma';
 import { z } from 'zod';
 
-export const activationCodeDetails = z.object({
+export const activationCodeDetailSchema = z.object({
   id: z.string(),
-  content: z.string(),
   accessedAt: z.number().nullable(),
+  name: z.string(),
+  sourceUrl: z.string(),
   item: z.object({
     name: z.string(),
     type: z.nativeEnum(ItemType),
@@ -12,4 +13,15 @@ export const activationCodeDetails = z.object({
   }),
 });
 
-export type ActivationCodeDetails = z.infer<typeof activationCodeDetails>;
+export type ActivationCodeDetailSchema = z.infer<
+  typeof activationCodeDetailSchema
+>;
+
+export const activationCodeContentSchema = z.object({
+  id: z.string(),
+  content: z.string(),
+});
+
+export type ActivationCodeContentSchema = z.infer<
+  typeof activationCodeContentSchema
+>;

@@ -1,4 +1,3 @@
-import { InfoOutlined } from '@mui/icons-material';
 import { Box, Button, Link, styled, Typography } from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -11,7 +10,7 @@ import { routes } from '@worksheets/routes';
 import { itemTypeLogo } from '@worksheets/ui/components/items';
 import { useMediaQueryDown } from '@worksheets/ui/hooks/use-media-query';
 import { printShortDate } from '@worksheets/util/time';
-import { ActivationCodeDetails } from '@worksheets/util/types';
+import { ActivationCodeDetailSchema } from '@worksheets/util/types';
 import * as React from 'react';
 
 import { ActivationCodeModal } from './activation-code-modal';
@@ -23,7 +22,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
 }));
 
 type ActivationCodesTableProps = {
-  codes: ActivationCodeDetails[];
+  codes: ActivationCodeDetailSchema[];
 };
 
 export const ActivationCodesTable: React.FC<ActivationCodesTableProps> = ({
@@ -42,12 +41,9 @@ export const ActivationCodesTable: React.FC<ActivationCodesTableProps> = ({
       >
         <TableHead>
           <TableRow>
-            <TableCell>
-              <InfoOutlined fontSize="small" sx={{ mt: 0.8 }} />
-            </TableCell>
-            <TableCell align="left">ID</TableCell>
+            <TableCell></TableCell>
             <TableCell align="left">Name</TableCell>
-            <TableCell align="right">Accessed</TableCell>
+            <TableCell align="center">Accessed</TableCell>
             <TableCell align="right" width={180}></TableCell>
           </TableRow>
         </TableHead>
@@ -62,10 +58,11 @@ export const ActivationCodesTable: React.FC<ActivationCodesTableProps> = ({
 };
 
 const CodeRow: React.FC<{
-  code: ActivationCodeDetails;
+  code: ActivationCodeDetailSchema;
 }> = ({ code }) => {
   const [open, setOpen] = React.useState(false);
   const ItemTypeLogo = itemTypeLogo[code.item.type];
+
   return (
     <>
       <TableRow
@@ -80,16 +77,6 @@ const CodeRow: React.FC<{
             }}
           />
         </TableCell>
-        <TableCell
-          align="left"
-          component="th"
-          scope="row"
-          sx={{
-            whiteSpace: 'nowrap',
-          }}
-        >
-          {code.id.length > 10 ? `${code.id.slice(0, 10)}...` : code.id}
-        </TableCell>
 
         <TableCell
           align="left"
@@ -97,11 +84,13 @@ const CodeRow: React.FC<{
             whiteSpace: 'nowrap',
           }}
         >
-          <b>{code.item.name}</b>
+          <Link href={code.sourceUrl} target="_blank">
+            <b>{code.name ?? code.item.name}</b>
+          </Link>
         </TableCell>
 
         <TableCell
-          align="right"
+          align="center"
           sx={{
             whiteSpace: 'nowrap',
           }}

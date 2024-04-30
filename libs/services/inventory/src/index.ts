@@ -12,7 +12,6 @@ import {
   PrismaClient,
   PrismaTransactionalClient,
 } from '@worksheets/prisma';
-import { NotificationsService } from '@worksheets/services/notifications';
 import { arrayFromNumber, randomArrayElement } from '@worksheets/util/arrays';
 import { assertNever } from '@worksheets/util/errors';
 import {
@@ -358,8 +357,6 @@ export class InventoryService {
     inventoryId: string,
     opts: SteamKeyDecrementOpts
   ) {
-    const notifications = new NotificationsService(this.#db);
-
     // assign an unclaimed steam key to the user
     const codes = await this.#db.activationCode.findMany({
       where: {
@@ -369,6 +366,7 @@ export class InventoryService {
       select: {
         id: true,
         content: true,
+        name: true,
       },
     });
 
@@ -388,7 +386,6 @@ export class InventoryService {
       },
       data: {
         userId: userId,
-        accessedAt: new Date(),
       },
     });
 
@@ -416,35 +413,7 @@ export class InventoryService {
       });
     }
 
-    const inventory = await this.#db.inventory.findFirstOrThrow({
-      where: {
-        id: inventoryId,
-      },
-      select: {
-        id: true,
-        quantity: true,
-        item: {
-          select: {
-            id: true,
-            name: true,
-          },
-        },
-        user: {
-          select: {
-            id: true,
-            username: true,
-            email: true,
-          },
-        },
-      },
-    });
-
-    await notifications.send('activation-code-redeemed', {
-      code,
-      ...inventory,
-    });
-
-    return `You have activated a Steam Key!`;
+    return `You have unlocked a ${code.name}!`;
   }
 
   /**
