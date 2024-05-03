@@ -1,4 +1,3 @@
-import { TRPCError } from '@trpc/server';
 import { ItemId } from '@worksheets/data/items';
 import { PrismaClient, PrismaTransactionalClient } from '@worksheets/prisma';
 import { InventoryService } from '@worksheets/services/inventory';
@@ -99,10 +98,16 @@ export class RafflesService {
 
   async #assignWinners(raffle: ExpiredRaffle) {
     if (raffle.participants.length === 0) {
-      throw new TRPCError({
-        code: 'PRECONDITION_FAILED',
-        message: 'No participants in raffle',
+      console.info('No participants in raffle', raffle.id);
+      await this.#db.raffle.update({
+        where: {
+          id: raffle.id,
+        },
+        data: {
+          status: 'COMPLETE',
+        },
       });
+      return;
     }
 
     const winners = await this.#pickWinners(
