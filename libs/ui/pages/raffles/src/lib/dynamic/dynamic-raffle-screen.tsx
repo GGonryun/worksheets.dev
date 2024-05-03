@@ -71,6 +71,7 @@ const RaffleScreenContainer: React.FC<{ raffleId: number }> = ({
   const handleRaffleClick = () => {
     if (!user.data) {
       push(loginHref);
+      return;
     }
 
     if (youWon) {

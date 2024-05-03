@@ -15,7 +15,7 @@ import { ItemSchema, ItemSourcesSchema } from '@worksheets/util/types';
 import pluralize from 'pluralize';
 import React, { Fragment, ReactNode } from 'react';
 
-import { itemTypeLabel } from './data';
+import { itemRarityLabel, itemTypeLabel } from './data';
 
 export const ItemDetails: React.FC<{
   item: ItemSchema;
@@ -89,10 +89,19 @@ export const ItemDetails: React.FC<{
         >
           <Data label={'ID'} value={props.item.id} />
           <Data label={'Type'} value={itemTypeLabel[props.item.type]} />
+          <Data label={'Rarity'} value={itemRarityLabel[props.item.rarity]} />
           <Data wrap label={'Description'} value={props.item.description} />
           <Data
             label={'Sells For'}
             value={`${props.item.sell} ${pluralize('token', props.item.sell)}`}
+          />
+          <Data
+            label={'Buy For'}
+            value={
+              props.item.buy
+                ? `${props.item.buy} ${pluralize('token', props.item.buy)}`
+                : 'N/A'
+            }
           />
           <Data
             wrap

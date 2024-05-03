@@ -1,29 +1,49 @@
-import { ArrowBack, ArrowForward, FavoriteBorder } from '@mui/icons-material';
-import { Button, Typography } from '@mui/material';
+import {
+  ArrowBack,
+  ArrowForward,
+  FavoriteBorder,
+  FeaturedVideoOutlined,
+  LockOpenOutlined,
+  OpenInNewOutlined,
+} from '@mui/icons-material';
+import { Box, Button, Divider, Link, Typography } from '@mui/material';
 import { ItemType } from '@worksheets/prisma';
 import { routes } from '@worksheets/routes';
 import { trpc } from '@worksheets/trpc-charity';
+import { WatchAdvertisement } from '@worksheets/ui/components/advertisements';
 import { ErrorComponent } from '@worksheets/ui/components/errors';
 import { Column, Row } from '@worksheets/ui/components/flex';
 import { NumericCounterField } from '@worksheets/ui/components/inputs';
 import {
   ExpiringItemIcon,
+  InventoryItem,
   InventoryItemDescription,
+  ItemDescription,
   ItemModalLayout,
+  rarityIcon,
 } from '@worksheets/ui/components/items';
 import { PulsingLogo } from '@worksheets/ui/components/loading';
-import { ModalWrapper } from '@worksheets/ui/components/modals';
+import { InfoModal, ModalWrapper } from '@worksheets/ui/components/modals';
 import { useSnackbar } from '@worksheets/ui/components/snackbar';
 import { Redirect } from '@worksheets/ui-core';
-import { FriendsPanels, InventoryPanels } from '@worksheets/util/enums';
+import {
+  FriendsPanels,
+  HelpInventoryQuestions,
+  InventoryPanels,
+} from '@worksheets/util/enums';
 import { assertNever } from '@worksheets/util/errors';
 import { capitalizeFirstLetter } from '@worksheets/util/strings';
 import { parseTRPCClientErrorMessage } from '@worksheets/util/trpc';
-import { Friend, InventoryItemSchema } from '@worksheets/util/types';
+import {
+  CapsuleOptionSchema,
+  Friend,
+  InventoryCapsuleSchema,
+  InventoryItemSchema,
+} from '@worksheets/util/types';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import pluralize from 'pluralize';
-import React from 'react';
+import React, { useState } from 'react';
 
 const ACTION_LABEL: Record<ItemType, string> = {
   STEAM_KEY: 'Claim',
@@ -32,6 +52,7 @@ const ACTION_LABEL: Record<ItemType, string> = {
   COMBAT: 'Join Battle',
   ETCETERA: 'Sell Item',
   CURRENCY: 'N/A',
+  CAPSULE: 'Open Capsule',
 };
 
 const ACTION_AVAILABLE: Record<ItemType, boolean> = {
@@ -40,6 +61,7 @@ const ACTION_AVAILABLE: Record<ItemType, boolean> = {
   SHARABLE: true,
   COMBAT: true,
   ETCETERA: true,
+  CAPSULE: true,
   CURRENCY: false,
 };
 
@@ -171,7 +193,7 @@ const ConsumeItem: React.FC<{
         </Typography>
         {verb === 'sell' && (
           <Typography typography={{ xs: 'body3', sm: 'body2' }}>
-            {pluralize(item.name)} sell for <b>{item.value} tokens</b> each
+            {pluralize(item.name)} sell for <b>{item.sell} tokens</b> each
           </Typography>
         )}
       </Column>
@@ -378,6 +400,266 @@ const NoFriendsWarning = () => (
   </Column>
 );
 
+const CapsuleItem: React.FC<{
+  item: InventoryItemSchema;
+}> = ({ item }) => {
+  const snackbar = useSnackbar();
+  const [showAdvertisement, setShowAdvertisement] = useState(false);
+  const utils = trpc.useUtils();
+  const capsule = trpc.user.inventory.capsule.get.useQuery(item);
+  const open = trpc.user.inventory.capsule.open.useMutation();
+  const award = trpc.user.inventory.capsule.award.useMutation();
+
+  const handleNewCapsule = async () => {
+    try {
+      await open.mutateAsync(item);
+      await utils.user.inventory.invalidate();
+      await capsule.refetch();
+      snackbar.success('You have opened a new capsule!');
+    } catch (error) {
+      snackbar.error(parseTRPCClientErrorMessage(error));
+    }
+  };
+
+  const handleSubmitAdvertisement = async () => {
+    if (!capsule.data) {
+      return;
+    }
+
+    try {
+      setShowAdvertisement(false);
+      await award.mutateAsync({ capsuleId: capsule.data.id });
+
+      await capsule.refetch();
+      snackbar.success('You can now unlock an additional item!');
+    } catch (error) {
+      snackbar.error(parseTRPCClientErrorMessage(error));
+    }
+  };
+
+  if (capsule.isLoading || open.isLoading || award.isLoading)
+    return <PulsingLogo />;
+  if (capsule.isError)
+    return <ErrorComponent hideLogo message={capsule.error.message} />;
+
+  return (
+    <>
+      <OpenCapsuleItem
+        item={item}
+        capsule={capsule.data}
+        onWatchAdvertisement={() => setShowAdvertisement(true)}
+        onNewCapsule={handleNewCapsule}
+      />
+      <WatchAdvertisementModal
+        open={showAdvertisement}
+        onClose={() => setShowAdvertisement(false)}
+        onSubmit={handleSubmitAdvertisement}
+      />
+    </>
+  );
+};
+
+const WatchAdvertisementModal: React.FC<{
+  open: boolean;
+  onClose: () => void;
+  onSubmit: () => void;
+}> = (props) => {
+  return (
+    <InfoModal open={props.open} onClose={props.onClose}>
+      <Column p={2} gap={2}>
+        <Column>
+          <FeaturedVideoOutlined fontSize="large" color="info" />
+          <Typography variant="h6">Watch an Advertisement</Typography>
+          <Typography variant="body2" gutterBottom>
+            Receive an extra unlock for your capsule after watching a short
+            message from our sponsors.
+          </Typography>
+          <Divider />
+        </Column>
+        <WatchAdvertisement network="gruvian" onSubmit={props.onSubmit} />
+      </Column>
+    </InfoModal>
+  );
+};
+
+const OpenCapsuleItem: React.FC<{
+  item: InventoryItemSchema;
+  capsule: InventoryCapsuleSchema;
+  onWatchAdvertisement: () => void;
+  onNewCapsule: () => void;
+}> = ({ item, capsule, onWatchAdvertisement, onNewCapsule }) => {
+  const needsMoreUnlocks = !capsule.unlocks && capsule.remaining > 0;
+  const canEarnMoreUnlocks = capsule.remaining > capsule.unlocks;
+  const availableCapsules = item.quantity - 1;
+  return (
+    <Column gap={2} width="fit-content">
+      <Column>
+        <Typography variant="body2" gutterBottom>
+          <b>Selections Available:</b> {capsule.remaining}
+        </Typography>
+
+        <CapsuleOptions capsule={capsule} />
+      </Column>
+
+      <Column>
+        <Typography variant="body2">
+          <b>Unlocks Remaining:</b> {capsule.unlocks}
+        </Typography>
+        {Boolean(needsMoreUnlocks) && (
+          <Typography variant="body2" color="error" fontWeight={500}>
+            You have no more unlocks available. You can unlock more items by
+            watching an advertisement.
+          </Typography>
+        )}
+        {!capsule.remaining && (
+          <Typography variant="body2">
+            You have no more selections available.
+          </Typography>
+        )}
+        <Box my={0.5} />
+
+        <Button
+          variant="arcade"
+          color="secondary"
+          size="small"
+          disabled={!canEarnMoreUnlocks}
+          startIcon={<FeaturedVideoOutlined />}
+          onClick={onWatchAdvertisement}
+        >
+          Watch Ad
+        </Button>
+      </Column>
+
+      <Column>
+        <Typography variant="body2">
+          <b>Available Capsules:</b> {availableCapsules}
+        </Typography>
+        {!!capsule.unlocks && (
+          <Typography variant="body2">
+            Use all your unlocks before opening another capsule.
+          </Typography>
+        )}
+        {!capsule.remaining && (
+          <Typography variant="body2">
+            Open your next capsule to unlock more items.
+          </Typography>
+        )}
+        <Box my={0.5} />
+        <Button
+          disabled={!!capsule.unlocks || !availableCapsules}
+          variant="arcade"
+          color="primary"
+          size="small"
+          startIcon={<LockOpenOutlined />}
+          onClick={onNewCapsule}
+        >
+          Open Another Capsule
+        </Button>
+      </Column>
+      <Row gap={0.5}>
+        <Typography
+          variant="body2"
+          color="primary"
+          component={Link}
+          href={routes.help.inventory.path({
+            bookmark: HelpInventoryQuestions.Capsules,
+          })}
+          target="_blank"
+        >
+          {item.name} Drop Rates
+        </Typography>
+        <OpenInNewOutlined color="info" fontSize="small" />
+      </Row>
+    </Column>
+  );
+};
+
+const CapsuleOptions: React.FC<{ capsule: InventoryCapsuleSchema }> = ({
+  capsule,
+}) => {
+  const snackbar = useSnackbar();
+  const utils = trpc.useUtils();
+  const unlock = trpc.user.inventory.capsule.unlock.useMutation();
+  const [unlocking, setUnlocking] = React.useState(false);
+  const handleUnlock = (option: CapsuleOptionSchema) => async () => {
+    if (capsule.unlocks <= 0) {
+      snackbar.warning('You have no more unlocks remaining');
+      return;
+    }
+    try {
+      setUnlocking(true);
+      const result = await unlock.mutateAsync({
+        optionId: option.id,
+      });
+      await utils.user.inventory.invalidate();
+      snackbar.success(result.message);
+    } catch (error) {
+      snackbar.error(parseTRPCClientErrorMessage(error));
+    } finally {
+      setUnlocking(false);
+    }
+  };
+
+  const options = capsule.options.sort((a, b) => a.position - b.position);
+
+  if (unlocking) return <PulsingLogo message="Unlocking item..." />;
+  // sort options
+
+  return (
+    <Column gap={1}>
+      <Box
+        sx={{
+          display: 'grid',
+          // 3 rows that fit the items
+          gridTemplateColumns: `repeat(3, fit-content(33%))`,
+          gap: 1,
+        }}
+      >
+        {options.map((option) => (
+          <CapsuleOption
+            key={option.id}
+            option={option}
+            onUnlock={handleUnlock(option)}
+          />
+        ))}
+      </Box>
+    </Column>
+  );
+};
+
+const CapsuleOption: React.FC<{
+  option: CapsuleOptionSchema;
+  onUnlock: () => void;
+}> = ({ option, onUnlock }) => {
+  const [open, setOpen] = React.useState(false);
+  const handleSelect = () => {
+    if (option.item) {
+      return setOpen(true);
+    } else {
+      onUnlock();
+    }
+  };
+  return (
+    <>
+      <InventoryItem
+        icon={option.item?.rarity ? rarityIcon(option.item.rarity) : undefined}
+        size={72}
+        item={option.item ? { ...option, ...option.item } : undefined}
+        onClick={handleSelect}
+      />
+
+      {option.item && (
+        <ItemModalLayout
+          item={option.item}
+          content={<ItemDescription item={option.item} />}
+          open={open}
+          onClose={() => setOpen(false)}
+        />
+      )}
+    </>
+  );
+};
+
 const ItemContent: React.FC<{
   item: InventoryItemSchema;
   onClose: () => void;
@@ -402,6 +684,8 @@ const ItemContent: React.FC<{
       return (
         <ErrorComponent message="Currency cannot be used. Contact Support." />
       );
+    case 'CAPSULE':
+      return <CapsuleItem item={item} />;
     default:
       throw assertNever(item.type);
   }

@@ -14,8 +14,9 @@ export const ErrorComponent: React.FC<{
   message?: string;
   title?: string;
   header?: string;
+  hideLogo?: boolean;
   onRetry?: () => void;
-}> = ({ title, header, message, onRetry }) => {
+}> = ({ title, header, hideLogo, message, onRetry }) => {
   const isMobile = useMediaQuery((theme: Theme) =>
     theme.breakpoints.down('sm')
   );
@@ -33,12 +34,14 @@ export const ErrorComponent: React.FC<{
           color: (theme) => theme.palette.text.arcade,
         }}
       >
-        <Image
-          src={common.charityGames.logos.square}
-          alt="Charity Games Logo"
-          width={isMobile ? 100 : 200}
-          height={isMobile ? 100 : 200}
-        />
+        {!hideLogo && (
+          <Image
+            src={common.charityGames.logos.square}
+            alt="Charity Games Logo"
+            width={isMobile ? 100 : 200}
+            height={isMobile ? 100 : 200}
+          />
+        )}
 
         <Typography variant={isMobile ? 'h5' : 'h4'}>
           {title ?? DEFAULT_TITLE}

@@ -1,4 +1,6 @@
 import {
+  CAPSULE_ITEMS,
+  CapsuleItemId,
   COMBAT_ITEMS,
   CombatItemId,
   CONSUMABLE_ITEMS,
@@ -13,7 +15,7 @@ import {
   STEAM_KEY_ITEMS,
   SteamKeyItemId,
 } from '@worksheets/data/items';
-import { ItemType } from '@worksheets/prisma';
+import { ItemRarity, ItemType } from '@worksheets/prisma';
 import { z } from 'zod';
 
 export const itemOwner = z.object({
@@ -32,9 +34,30 @@ export const itemSchema = z.object({
   type: z.nativeEnum(ItemType),
   description: z.string(),
   sell: z.number(),
+  buy: z.number(),
+  rarity: z.custom<ItemRarity>(),
 });
 
 export type ItemSchema = z.infer<typeof itemSchema>;
+
+export const capsuleOptionSchema = z.object({
+  id: z.string(),
+  position: z.number(),
+  quantity: z.number(),
+  item: z.union([itemSchema, z.null()]),
+});
+
+export type CapsuleOptionSchema = z.infer<typeof capsuleOptionSchema>;
+
+export const inventoryCapsuleSchema = z.object({
+  id: z.string(),
+  inventoryId: z.string(),
+  options: capsuleOptionSchema.array(),
+  unlocks: z.number(),
+  remaining: z.number(),
+});
+
+export type InventoryCapsuleSchema = z.infer<typeof inventoryCapsuleSchema>;
 
 export const itemSourcesSchema = z.object({
   monsters: z
@@ -82,7 +105,9 @@ export const inventoryItemSchema = z.object({
   imageUrl: z.string(),
   expiration: z.number().array(),
   type: z.nativeEnum(ItemType),
-  value: z.number(),
+  sell: z.number(),
+  buy: z.number(),
+  rarity: z.custom<ItemRarity>(),
 });
 
 export const separateLoot = (loot: LootSchema[]) => {
@@ -188,10 +213,26 @@ export const isCurrencyItemId = (itemId: ItemId): itemId is CurrencyItemId => {
   return CURRENCY_ITEMS.find((i) => i.id === itemId) !== undefined;
 };
 
+export type CapsuleDecrementOpts = {
+  itemId: CapsuleItemId;
+  quantity: number;
+};
+
+export const isCapsuleDecrementOpts = (
+  opts: DecrementOpts
+): opts is CapsuleDecrementOpts => {
+  return CAPSULE_ITEMS.find((i) => i.id === opts.itemId) !== undefined;
+};
+
+export const isCapsuleItemId = (itemId: ItemId): itemId is CapsuleItemId => {
+  return CAPSULE_ITEMS.find((i) => i.id === itemId) !== undefined;
+};
+
 export type DecrementOpts =
   | SharableDecrementOpts
   | SteamKeyDecrementOpts
   | ConsumableDecrementOpts
   | CombatDecrementOpts
   | EtCeteraDecrementOpts
-  | CurrencyDecrementOpts;
+  | CurrencyDecrementOpts
+  | CapsuleDecrementOpts;

@@ -14,14 +14,19 @@ import { publicProcedure } from '../../../procedures';
 import { t } from '../../../trpc';
 
 export default t.router({
-  list: publicProcedure.output(itemSchema.array()).query(
-    async ({ ctx: { db } }) =>
-      await db.item.findMany({
+  list: publicProcedure
+    .output(itemSchema.array())
+    .query(async ({ ctx: { db } }) => {
+      const items = await db.item.findMany({
         orderBy: {
           id: 'asc',
         },
-      })
-  ),
+      });
+
+      const sorted = items.sort((a, b) => Number(a.id) - Number(b.id));
+
+      return sorted;
+    }),
 
   find: publicProcedure
     .input(z.string())

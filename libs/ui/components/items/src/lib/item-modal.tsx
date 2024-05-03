@@ -19,7 +19,8 @@ import {
 import pluralize from 'pluralize';
 import React from 'react';
 
-import { itemTypeLabel } from './data';
+import { itemRarityLabel, itemTypeLabel } from './data';
+import { rarityIcon } from './icons';
 
 export const ItemModalLayout: React.FC<
   ModalWrapper<{
@@ -38,7 +39,7 @@ export const ItemModalLayout: React.FC<
       <Box
         sx={{
           display: 'grid',
-          gridTemplateColumns: { xs: '1fr', mobile1: 'auto 1fr' },
+          gridTemplateColumns: { xs: '1fr', sm: 'auto 1fr' },
           gridTemplateRows: 'auto',
           p: 2,
           gap: 2,
@@ -69,8 +70,8 @@ export const ItemModalLayout: React.FC<
             <Box
               sx={{
                 position: 'relative',
-                width: { xs: 128, mobile1: 80, mobile2: 96, sm: 128 },
-                height: { xs: 128, mobile1: 80, mobile2: 96, sm: 128 },
+                width: 128,
+                height: 128,
               }}
             >
               <ContainImage src={item.imageUrl} alt={item.name} />
@@ -81,7 +82,7 @@ export const ItemModalLayout: React.FC<
         <Column mt={1.5} gap={1}>
           <Column>
             <Typography
-              typography={{ xs: 'body1', sm: 'h6' }}
+              typography={{ xs: 'h6', sm: 'h5' }}
               fontWeight={{ xs: 700, sm: 700 }}
             >
               {item.name}
@@ -94,6 +95,23 @@ export const ItemModalLayout: React.FC<
     </InfoModal>
   );
 };
+
+const ItemDataChildren: React.FC<{
+  label: string;
+  children: React.ReactNode;
+  color?: PaletteColor;
+}> = (props) => (
+  <Row gap={0.5} alignItems={'flex-start'}>
+    <ItemDataLabel color={props.color}>{props.label}</ItemDataLabel>
+    <Typography
+      component="div"
+      color={props.color}
+      typography={{ xs: 'body3', sm: 'body2' }}
+    >
+      {props.children}
+    </Typography>
+  </Row>
+);
 
 const ItemDataRow: React.FC<{
   label: string;
@@ -131,6 +149,30 @@ const ItemDataValue: React.FC<{
   </Typography>
 );
 
+export const ItemDescription: React.FC<{
+  item: ItemSchema;
+}> = ({ item }) => (
+  <Column gap={1}>
+    <Typography typography={{ xs: 'body2', sm: 'body1' }}>
+      {item.description}
+    </Typography>
+    <Column>
+      <ItemDataRow label="ID:" value={item.id} />
+      <ItemDataRow label="Type:" value={itemTypeLabel[item.type]} />
+      <ItemDataRow label="Sell:" value={item.sell.toString()} />
+      {Boolean(item.buy) && (
+        <ItemDataRow label="Buy:" value={item.buy.toString()} />
+      )}
+      <ItemDataChildren label="Rarity:">
+        <Row gap={'2px'}>
+          {rarityIcon(item.rarity, 20)}
+          {itemRarityLabel[item.rarity]}
+        </Row>
+      </ItemDataChildren>
+    </Column>
+  </Column>
+);
+
 export const InventoryItemDescription: React.FC<{
   item: InventoryItemSchema;
 }> = ({ item }) => (
@@ -141,7 +183,14 @@ export const InventoryItemDescription: React.FC<{
     <Column>
       <ItemDataRow label="Type:" value={itemTypeLabel[item.type]} />
       <ItemDataRow label="Quantity:" value={item.quantity.toString()} />
-      <ItemDataRow label="Value:" value={item.value} />
+      <ItemDataRow label="Sell:" value={item.sell.toString()} />
+      <ItemDataRow label="Buy:" value={item.buy.toString()} />
+      <ItemDataChildren label="Rarity:">
+        <Row gap={'2px'}>
+          {rarityIcon(item.rarity, 20)}
+          {itemRarityLabel[item.rarity]}
+        </Row>
+      </ItemDataChildren>
       {Boolean(item.expiration.length) &&
         (isExpired(item.expiration[0]) ? (
           <Box mt={1}>
@@ -197,7 +246,10 @@ export const QuestLootDescription: React.FC<{
     </Typography>
     <Column>
       <ItemDataRow label="Type:" value={itemTypeLabel[loot.item.type]} />
-      <ItemDataRow label="Quantity:" value={`${loot.quantity} per quest`} />
+      <ItemDataRow
+        label="Quantity:"
+        value={`${loot.quantity.toString()} per quest`}
+      />
       <ItemDataRow
         label="Drop Chance:"
         value={toPercentage(loot.chance, 1, 1)}

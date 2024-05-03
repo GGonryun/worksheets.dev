@@ -1,10 +1,50 @@
-import { Link, Typography } from '@mui/material';
+import { Box, Link, Typography } from '@mui/material';
+import { ItemRarity } from '@prisma/client';
+import {
+  CAPSULE_DROP_RATES,
+  CAPSULE_PREMIUM_DROP_RATE,
+  CapsuleItemId,
+  PREMIUM_ITEMS,
+} from '@worksheets/data/items';
 import { routes } from '@worksheets/routes';
+import { itemRarityLabel } from '@worksheets/ui/components/items';
 import {
   HelpInventoryQuestions,
   InventoryPanels,
 } from '@worksheets/util/enums';
+import { toPercentage } from '@worksheets/util/numbers';
 import { QuestionAnswer } from '@worksheets/util/types';
+
+const CapsuleDropRates: React.FC<{ id: CapsuleItemId }> = ({ id }) => {
+  const premiums = CAPSULE_PREMIUM_DROP_RATE[id];
+  const rates = CAPSULE_DROP_RATES[id];
+  return (
+    <span>
+      <b>{toPercentage(premiums)} chance</b> of containing a{' '}
+      <Link
+        href={routes.help.inventory.path({
+          bookmark: HelpInventoryQuestions.Premium,
+        })}
+      >
+        premium item
+      </Link>
+      . Each of the remaining items has the following appearance rates:
+      <ul>
+        {[
+          ItemRarity.COMMON,
+          ItemRarity.UNCOMMON,
+          ItemRarity.RARE,
+          ItemRarity.LEGENDARY,
+          ItemRarity.MYTHIC,
+        ].map((rarity) => (
+          <li key={rarity}>
+            <b>{itemRarityLabel[rarity]}</b> — {toPercentage(rates[rarity])}
+          </li>
+        ))}
+      </ul>
+    </span>
+  );
+};
 
 export const helpInventory: QuestionAnswer[] = [
   {
@@ -89,6 +129,88 @@ export const helpInventory: QuestionAnswer[] = [
         </Link>
         .
       </Typography>
+    ),
+  },
+  {
+    id: HelpInventoryQuestions.Capsules,
+    question: 'What are Mystery Capsules?',
+    summary:
+      'Mystery Capsules are a special type of item that can be opened to reveal a random prize.',
+    answer: (
+      <Box>
+        Mystery Capsules are a special type of item that can be opened to reveal
+        a random prize. The prize can be anything from tokens to a Steam Key.
+        <br />
+        <br />
+        To open a Mystery Capsule, visit your inventory and click on the capsule
+        that you want to open. When the details of the capsule are displayed,
+        click the "Open Capsule" button to reveal your prize. Every capsule
+        contains 9 item slots for you to pick from. The first time you open any
+        capsule you will be given 5 free picks to get you started. After that
+        you can unlock more picks by watching ads.
+        <br />
+        <h3 style={{ marginBottom: 0 }}>
+          <u>Capsule Drop Rate Table</u>
+        </h3>
+        <ul style={{ marginTop: 4 }}>
+          <li>
+            <b>Bronze Capsule</b> — <CapsuleDropRates id={'100'} />
+          </li>
+          <li>
+            <b>Silver Capsule</b> — <CapsuleDropRates id={'101'} />
+          </li>
+          <li>
+            <b>Gold Capsule</b> — <CapsuleDropRates id={'102'} />
+          </li>
+          <li>
+            <b>Platinum Capsule</b> — <CapsuleDropRates id={'103'} />
+          </li>
+          <li>
+            <b>Diamond Capsule</b> - <CapsuleDropRates id={'104'} />
+          </li>
+          <li>
+            <b>Legendary Capsule</b> - <CapsuleDropRates id={'105'} />
+          </li>
+          <li>
+            <b>Mythical Capsule</b> - <CapsuleDropRates id={'106'} />
+          </li>
+        </ul>
+      </Box>
+    ),
+  },
+  {
+    id: HelpInventoryQuestions.Premium,
+    question: 'What are Premium Items?',
+    summary:
+      'Premium items are special items that usually have a monetary value associated with them.',
+    answer: (
+      <Box>
+        Premium items are special items that usually have a monetary value
+        associated with them. Premium items can be found in{' '}
+        <Link
+          href={routes.help.inventory.path({
+            bookmark: HelpInventoryQuestions.Capsules,
+          })}
+        >
+          Mystery Capsules
+        </Link>
+        , <Link href={routes.raffles.path()}>Raffles</Link>, and{' '}
+        <Link href={routes.help.mobs.path()}>Boss Battles</Link>. Premium items
+        are usually more rare than other items.
+        <br />
+        <br />
+        The current list of premium items are:
+        <ul>
+          {PREMIUM_ITEMS.map((item) => (
+            <li key={item.id}>
+              <Link href={routes.item.path({ params: { itemId: item.id } })}>
+                {item.name}
+              </Link>{' '}
+              — {item.description}
+            </li>
+          ))}
+        </ul>
+      </Box>
     ),
   },
 ];

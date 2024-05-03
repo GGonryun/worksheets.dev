@@ -113,8 +113,41 @@ model Inventory {
   userId     String
   user       User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
   expiration InventoryExpiration[]
+  capsule    InventoryCapsule?
 
   @@unique([itemId, userId])
+}
+
+// how do we stack loot crates?
+// we should only allow useres to open one loot crate at a time.
+// after the loot crate is opened, it'll have 3 usages.
+// if you watch an add you can get extra usages.
+// after you use all the usages, you can choose to open
+// another loot crate.
+
+model InventoryCapsule {
+  id          String          @id @default(cuid())
+  inventoryId String          @unique
+  inventory   Inventory       @relation(fields: [inventoryId], references: [id], onDelete: Cascade)
+  unlocks     Int
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+  options     CapsuleOption[]
+}
+
+model CapsuleOption {
+  id        String           @id @default(cuid())
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+  capsuleId String
+  capsule   InventoryCapsule @relation(fields: [capsuleId], references: [id], onDelete: Cascade)
+  itemId    String
+  item      Item             @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  position  Int
+  unlocked  Boolean          @default(false)
+  quantity  Int
+
+  @@unique([capsuleId, position])
 }
 
 model InventoryExpiration {
@@ -134,6 +167,17 @@ enum ItemType {
   SHARABLE
   COMBAT
   ETCETERA
+  CAPSULE
+}
+
+enum ItemRarity {
+  COMMON
+  UNCOMMON
+  RARE
+  LEGENDARY
+  MYTHIC
+  // items that have a monetary value
+  PREMIUM
 }
 
 model Item {
@@ -143,8 +187,13 @@ model Item {
   type            ItemType
   name            String
   description     String
+  // TODO: remove default values for sell, buy, and rarity. Make these required after migration.
   // how much this item sells for in the marketplace
   sell            Int              @default(1)
+  // how much this item costs to purchase in the marketplace
+  // an item without a buy price can't be purchased.
+  buy             Int              @default(0)
+  rarity          ItemRarity       @default(COMMON)
   imageUrl        String
   expiration      Int?
   createdAt       DateTime         @default(now())
@@ -154,6 +203,7 @@ model Item {
   activationCodes ActivationCode[]
   redemptionCodes RedemptionCode[]
   loot            Loot[]
+  capsuleOption   CapsuleOption[]
 }
 
 enum NewsletterTopic {

@@ -90,6 +90,17 @@ const ItemBox: React.FC<{ item: ItemSchema }> = (props) => {
         <Box
           sx={{
             position: 'absolute',
+            bottom: 0,
+            right: 4,
+          }}
+        >
+          <Typography variant="body3" fontWeight={700} color="text.blue.dark">
+            ID#{props.item.id}
+          </Typography>
+        </Box>
+        <Box
+          sx={{
+            position: 'absolute',
             top: 0,
             left: 0,
             right: 0,

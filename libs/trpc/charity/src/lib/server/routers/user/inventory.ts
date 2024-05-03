@@ -1,7 +1,10 @@
 import { TRPCError } from '@trpc/server';
 import { ItemId, SharableItemId } from '@worksheets/data/items';
 import { FriendshipService } from '@worksheets/services/friendship';
-import { InventoryService } from '@worksheets/services/inventory';
+import {
+  CapsuleService,
+  InventoryService,
+} from '@worksheets/services/inventory';
 import {
   DecrementOpts,
   inventoryItemSchema,
@@ -83,4 +86,42 @@ export default t.router({
         quantity: input.quantity,
       });
     }),
+  capsule: t.router({
+    get: protectedProcedure
+      .input(z.custom<Parameters<CapsuleService['getOrCreate']>[1]>())
+      .output(z.custom<Awaited<ReturnType<CapsuleService['getOrCreate']>>>())
+      .query(async ({ input, ctx: { db, user } }) => {
+        return await db.$transaction(async (tx) => {
+          const capsule = new CapsuleService(tx);
+          return capsule.getOrCreate(user.id, input);
+        });
+      }),
+    unlock: protectedProcedure
+      .input(z.custom<Parameters<CapsuleService['unlock']>[1]>())
+      .output(z.custom<Awaited<ReturnType<CapsuleService['unlock']>>>())
+      .mutation(async ({ input, ctx: { db, user } }) => {
+        return await db.$transaction(async (tx) => {
+          const capsule = new CapsuleService(tx);
+          return capsule.unlock(user.id, input);
+        });
+      }),
+    open: protectedProcedure
+      .input(z.custom<Parameters<CapsuleService['open']>[1]>())
+      .output(z.custom<Awaited<ReturnType<CapsuleService['open']>>>())
+      .mutation(async ({ input, ctx: { db, user } }) => {
+        return await db.$transaction(async (tx) => {
+          const capsule = new CapsuleService(tx);
+          return capsule.open(user.id, input);
+        });
+      }),
+    award: protectedProcedure
+      .input(z.custom<Parameters<CapsuleService['award']>[1]>())
+      .output(z.custom<Awaited<ReturnType<CapsuleService['award']>>>())
+      .mutation(async ({ input, ctx: { db, user } }) => {
+        return await db.$transaction(async (tx) => {
+          const capsule = new CapsuleService(tx);
+          return capsule.award(user.id, input);
+        });
+      }),
+  }),
 });

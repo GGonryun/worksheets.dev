@@ -3,7 +3,7 @@ import {
   GRUVIAN_EVENT_ID,
   GRUVIAN_NETWORK_ID,
 } from '@worksheets/services/environment';
-import { GruvianAdvertisement } from '@worksheets/util/types';
+import { GruvianAdvertisementSchema } from '@worksheets/util/types';
 
 // https://github.com/gruvianads/gruvian-examples/blob/develop/express/index.js
 export class AdvertisementService {
@@ -11,7 +11,7 @@ export class AdvertisementService {
   #networkId = GRUVIAN_NETWORK_ID;
   #testMode = true;
 
-  async get(): Promise<GruvianAdvertisement> {
+  async get(): Promise<GruvianAdvertisementSchema> {
     try {
       const response = await fetch('https://api.gruvian.com/auctions', {
         method: 'POST',

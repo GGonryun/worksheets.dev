@@ -172,6 +172,8 @@ export class MobsService {
                 type: true,
                 description: true,
                 sell: true,
+                buy: true,
+                rarity: true,
               },
             },
           },

@@ -1,4 +1,4 @@
-export type GruvianAdvertisement =
+export type GruvianAdvertisementSchema =
   | {
       filled: true;
       ad: {

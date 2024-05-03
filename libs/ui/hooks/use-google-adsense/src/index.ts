@@ -15,7 +15,7 @@ export const useGoogleAdsense = () => {
 
   useEffect(() => {
     const url = `${pathname}?${searchParams}`;
-    console.log('AdsenseComp -> router changed ', url);
+    console.info('AdsenseComp -> router changed ', url);
 
     const scriptElement = document.querySelector(
       `script[src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adClient}"]`
@@ -27,7 +27,7 @@ export const useGoogleAdsense = () => {
           window.adsbygoogle.push({});
         } else {
           scriptElement?.addEventListener('load', handleScriptLoad);
-          console.log(
+          console.info(
             'waiting until adsense lib is loaded...This prevents adsbygoogle is not defined error'
           );
         }

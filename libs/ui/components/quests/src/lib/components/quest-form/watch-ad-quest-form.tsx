@@ -1,14 +1,6 @@
-import { FeaturedVideoOutlined, StarBorder } from '@mui/icons-material';
-import { Button, LinearProgress, Link, Typography } from '@mui/material';
-import { routes } from '@worksheets/routes';
-import { trpc } from '@worksheets/trpc-charity';
-import { Column } from '@worksheets/ui/components/flex';
-import { ContainImage } from '@worksheets/ui/components/images';
-import { PulsingLogo } from '@worksheets/ui/components/loading';
-import { useInterval } from '@worksheets/ui-core';
+import { WatchAdvertisement } from '@worksheets/ui/components/advertisements';
 import { DetailedQuestSchema, QuestFormActions } from '@worksheets/util/types';
-import { GruvianAdvertisement } from '@worksheets/util/types';
-import React, { useState } from 'react';
+import React from 'react';
 
 import { isQuestComplete } from '../../util';
 
@@ -16,135 +8,13 @@ export const WatchAdQuestForm: React.FC<{
   quest: DetailedQuestSchema<'WATCH_AD'>;
   actions: QuestFormActions<'WATCH_AD'>;
 }> = ({ quest, actions }) => {
-  const [showAd, setShowAd] = useState(false);
-
   const completed = isQuestComplete(quest.status);
 
-  const advertisement = trpc.maybe.advertisements.get.useQuery(undefined, {
-    refetchOnMount: false,
-    refetchOnReconnect: false,
-    refetchOnWindowFocus: false,
-    retry: false,
-  });
-
   return (
-    <Column>
-      {showAd ? (
-        <AdvertisementContainer
-          onSubmit={() => actions.onSubmit({})}
-          loading={advertisement.isLoading}
-        >
-          {quest.data.network === 'gruvian' ? (
-            <GruvianAdvertisement advertisement={advertisement.data} />
-          ) : (
-            <CharityGamesAdvertisement />
-          )}
-        </AdvertisementContainer>
-      ) : (
-        <Button
-          variant="arcade"
-          startIcon={<FeaturedVideoOutlined />}
-          disabled={completed}
-          onClick={() => setShowAd(true)}
-        >
-          {completed ? 'Come Back Later' : 'Display Ad'}
-        </Button>
-      )}
-    </Column>
-  );
-};
-
-const GruvianAdvertisement: React.FC<{
-  advertisement: GruvianAdvertisement | undefined;
-}> = (props) => {
-  if (!props.advertisement || !props.advertisement.filled) {
-    return <CharityGamesAdvertisement />;
-  }
-
-  return (
-    <Column alignItems="center" textAlign="center">
-      <Typography variant="h6">{props.advertisement.ad.title.data}</Typography>
-      <Typography>{props.advertisement.ad.description.data}</Typography>
-      <Link
-        position="relative"
-        width="100%"
-        height={200}
-        my={1.5}
-        href={props.advertisement.ad.link_to.data}
-      >
-        <ContainImage
-          src={props.advertisement.ad.logo_image.data.url}
-          alt={props.advertisement.ad.title.data}
-        />
-      </Link>
-      <Typography
-        variant="body3"
-        component={Link}
-        href={'https://gruvian.com'}
-        underline="hover"
-        color="text.secondary"
-      >
-        Powered by Gruvian
-      </Typography>
-    </Column>
-  );
-};
-
-const AdvertisementContainer: React.FC<{
-  children: React.ReactNode;
-  loading: boolean;
-  onSubmit: () => void;
-}> = (props) => {
-  const ADVERTISEMENT_TIMER = 5000; //ms
-  const SPEED = 25; //ms
-  const [timer, setTimer] = useState(ADVERTISEMENT_TIMER);
-
-  useInterval(() => {
-    if (timer > 0 || !props.loading) {
-      setTimer((prev) => Math.max(prev - SPEED, 0));
-    }
-  }, SPEED);
-
-  return (
-    <Column gap={3}>
-      {props.children}
-      <Column>
-        <LinearProgress
-          variant="determinate"
-          value={(timer / ADVERTISEMENT_TIMER) * 100}
-          sx={{
-            height: 10,
-            borderRadius: 5,
-          }}
-        />
-        <Typography variant="body2" textAlign="center">
-          {(timer / 1000).toFixed(2)} seconds remaining
-        </Typography>
-      </Column>
-      <Button
-        variant="arcade"
-        disabled={timer > 0}
-        startIcon={!timer && <StarBorder />}
-        endIcon={!timer && <StarBorder />}
-        onClick={props.onSubmit}
-      >
-        Claim Reward
-      </Button>
-    </Column>
-  );
-};
-
-const CharityGamesAdvertisement = () => {
-  return (
-    <Column textAlign="center">
-      <PulsingLogo hideMessage />
-      <Typography variant="h6">Your advertisement here!</Typography>
-      <Typography variant="body2">
-        <Link href={routes.contact.path()}>Contact Us</Link> if you are
-        interested in advertising on Charity.Games.
-        <br />
-        Join us in our mission to raise money for charity!
-      </Typography>
-    </Column>
+    <WatchAdvertisement
+      network={quest.data.network}
+      onSubmit={() => actions.onSubmit({})}
+      disabled={completed}
+    />
   );
 };

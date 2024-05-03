@@ -1,18 +1,28 @@
 import { TRPCError } from '@trpc/server';
 import {
+  CAPSULE_DROP_RATES,
+  CAPSULE_PREMIUM_DROP_RATE,
+  CapsuleItemId,
   COMBAT_ITEM_DAMAGE,
   CONSUMPTION_RATES,
   isLotteryItems,
   isRandomTokenQuantity,
+  Item,
   ItemId,
+  RARITY_BAGS,
   SHARE_RATES,
 } from '@worksheets/data/items';
 import {
   ItemType,
+  Prisma,
   PrismaClient,
   PrismaTransactionalClient,
 } from '@worksheets/prisma';
-import { arrayFromNumber, randomArrayElement } from '@worksheets/util/arrays';
+import {
+  arrayFromNumber,
+  randomArrayElement,
+  shuffle,
+} from '@worksheets/util/arrays';
 import { assertNever } from '@worksheets/util/errors';
 import {
   STARTING_APPLES,
@@ -26,7 +36,10 @@ import {
   ConsumableDecrementOpts,
   DecrementOpts,
   EtCeteraDecrementOpts,
+  InventoryCapsuleSchema,
   InventoryItemSchema,
+  isCapsuleDecrementOpts,
+  isCapsuleItemId,
   isCombatDecrementOpts,
   isCombatItemId,
   isConsumableDecrementOpts,
@@ -88,6 +101,8 @@ export class InventoryService {
             imageUrl: true,
             type: true,
             sell: true,
+            buy: true,
+            rarity: true,
           },
         },
       },
@@ -95,6 +110,8 @@ export class InventoryService {
         itemId: 'asc',
       },
     });
+
+    inventory.sort((a, b) => Number(a.itemId) - Number(b.itemId));
 
     return inventory
       .map((inv) => {
@@ -112,7 +129,6 @@ export class InventoryService {
           itemId: inv.item.id as ItemId,
           quantity,
           expiration: nonExpiredExpirations,
-          value: inv.item.sell,
         };
       })
       .filter((i) => i.quantity > 0);
@@ -137,14 +153,8 @@ export class InventoryService {
         userId,
         itemId,
       },
-      select: {
-        id: true,
-        quantity: true,
-        expiration: {
-          select: {
-            expiresAt: true,
-          },
-        },
+      include: {
+        expiration: true,
       },
     });
 
@@ -157,13 +167,16 @@ export class InventoryService {
     );
 
     return {
+      ...item,
       id: inventory?.id,
       itemId: itemId,
       quantity,
-      name: item.name,
-      description: item.description,
-      imageUrl: item.imageUrl,
+      expirations: expirations.filter((e) => !isExpired(e)),
     };
+  }
+
+  async findMany() {
+    // TODO: does the same as find but it finds multiple items at once.
   }
 
   async initializeUser(userId: string) {
@@ -239,6 +252,16 @@ export class InventoryService {
 
     if (isEtCeteraDecrementOpts(opts)) {
       return this.#sell(userId, opts);
+    }
+
+    if (isCapsuleDecrementOpts(opts)) {
+      console.error(
+        'Capsules should only be managed using the capsule service.'
+      );
+      throw new TRPCError({
+        code: 'INTERNAL_SERVER_ERROR',
+        message: 'Capsules are not decrementable.',
+      });
     }
 
     throw assertNever(opts);
@@ -451,3 +474,386 @@ export class InventoryService {
     });
   }
 }
+
+export class CapsuleService {
+  #db: PrismaClient | PrismaTransactionalClient;
+  #inventory: InventoryService;
+  constructor(db: PrismaClient | PrismaTransactionalClient) {
+    this.#db = db;
+    this.#inventory = new InventoryService(db);
+  }
+
+  // get tries to access a capsule by itemId if it can't find one it will create a new one if the user has enough capsules.
+  async getOrCreate(
+    userId: string,
+    opts: {
+      itemId: ItemId;
+    }
+  ): Promise<InventoryCapsuleSchema> {
+    const { itemId } = opts;
+    if (!isCapsuleItemId(itemId)) {
+      throw new TRPCError({
+        code: 'BAD_REQUEST',
+        message: `Item ID ${itemId} is not a capsule.`,
+      });
+    }
+
+    const inventory = await this.#db.inventory.findFirst({
+      where: {
+        userId,
+        itemId,
+      },
+      include: {
+        capsule: {
+          include: {
+            options: {
+              include: {
+                item: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    if (inventory?.capsule) {
+      return this.#obfuscate(inventory.capsule);
+    }
+
+    if (!inventory || !inventory.quantity) {
+      throw new TRPCError({
+        code: 'BAD_REQUEST',
+        message: `User ${userId} does not have any capsules of type ${itemId}.`,
+      });
+    }
+
+    return await this.#create(itemId, inventory.id);
+  }
+
+  async open(userId: string, opts: { itemId: ItemId }) {
+    const { itemId } = opts;
+    if (!isCapsuleItemId(itemId)) {
+      throw new TRPCError({
+        code: 'BAD_REQUEST',
+        message: `Item ID ${itemId} is not a capsule.`,
+      });
+    }
+
+    const inventory = await this.#db.inventory.findFirst({
+      where: {
+        userId,
+        itemId,
+      },
+      include: {
+        capsule: {
+          include: {
+            options: {
+              include: {
+                item: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    if (!inventory || !inventory.quantity) {
+      throw new TRPCError({
+        code: 'NOT_FOUND',
+        message: `You do not have enough capsules to open.`,
+      });
+    }
+
+    if (inventory.capsule) {
+      // make sure the user has no unlocks left.
+      if (inventory.capsule.unlocks) {
+        throw new TRPCError({
+          code: 'BAD_REQUEST',
+          message: `You have ${inventory.capsule.unlocks} unlocks remaining.`,
+        });
+      }
+    }
+
+    const update = await this.#db.inventory.update({
+      where: {
+        id: inventory.id,
+      },
+      data: {
+        quantity: {
+          decrement: 1,
+        },
+      },
+    });
+    // delete the old capsule and create a new one.
+
+    await this.#clear(inventory.capsule?.id);
+
+    await this.#create(itemId, inventory.id);
+
+    if (update.quantity < 1) {
+      throw new TRPCError({
+        code: 'BAD_REQUEST',
+        message: `You have no capsules left to open.`,
+      });
+    }
+  }
+
+  async award(userId: string, opts: { capsuleId: string }) {
+    const capsule = await this.#db.inventoryCapsule.findFirst({
+      where: {
+        id: opts.capsuleId,
+      },
+      include: {
+        options: {
+          include: {
+            item: true,
+          },
+        },
+      },
+    });
+
+    if (!capsule) {
+      throw new TRPCError({
+        code: 'NOT_FOUND',
+        message: `Capsule ${opts.capsuleId} does not exist.`,
+      });
+    }
+
+    // check to see if the current capsule has any remaining options.
+    const remainingOptions = capsule.options.filter((o) => !o.unlocked);
+    if (!remainingOptions.length) {
+      throw new TRPCError({
+        code: 'BAD_REQUEST',
+        message: `Capsule ${opts.capsuleId} has no remaining options to unlock.`,
+      });
+    }
+
+    // check to see if there the user has too many unlocks.
+    if (capsule.unlocks >= remainingOptions.length) {
+      console.warn(
+        `User ${userId} already has sufficient unlocks for capsule ${capsule.id}`,
+        {
+          remainingOptions: remainingOptions.length,
+          unlocks: capsule.unlocks,
+        }
+      );
+      throw new TRPCError({
+        code: 'BAD_REQUEST',
+        message: `You already have sufficient unlocks for this capsule.`,
+      });
+    }
+
+    // award them a new unlock.
+    await this.#db.inventoryCapsule.update({
+      where: {
+        id: opts.capsuleId,
+      },
+      data: {
+        unlocks: {
+          increment: 1,
+        },
+      },
+    });
+  }
+
+  // creates a new capsule item
+  async #create(
+    itemId: CapsuleItemId,
+    inventoryId: string
+  ): Promise<InventoryCapsuleSchema> {
+    const drops = this.#selectDrops(itemId);
+
+    const capsule = await this.#db.inventoryCapsule.create({
+      data: {
+        inventoryId,
+        unlocks: 5,
+        options: {
+          // TODO: every capsule contains 9 items, but this can be adjusted in the future.
+          create: arrayFromNumber(drops.length).map((i) => ({
+            position: i,
+            ...drops[i],
+          })),
+        },
+      },
+      include: {
+        options: {
+          include: {
+            item: true,
+          },
+        },
+      },
+    });
+
+    return this.#obfuscate(capsule);
+  }
+
+  #selectDrops(itemId: CapsuleItemId) {
+    const items: { itemId: string; quantity: number }[] = [];
+    const rates = CAPSULE_DROP_RATES[itemId];
+    // TODO: run a validation check to ensure that the sum of all drop rates is 1.
+    const premiumRate = CAPSULE_PREMIUM_DROP_RATE[itemId];
+
+    // first insert the premium prize.
+    const premiumChance = Math.random();
+    if (premiumChance <= premiumRate) {
+      // select a random premium item.
+      const premiumItem = randomArrayElement(RARITY_BAGS['PREMIUM']);
+      items.push({ itemId: premiumItem.id, quantity: 1 });
+    }
+    // TODO: support more than 9 items in a capsule.
+    const remaining = 9 - items.length;
+    // then for each remaining drop, select a random item based on the drop rates until we have 9 selections.
+    for (let i = 0; i < remaining; i++) {
+      // select a random item based on the drop rates.
+      let chance = Math.random();
+      for (const rarity of [
+        'COMMON',
+        'UNCOMMON',
+        'RARE',
+        'LEGENDARY',
+        'MYTHIC',
+      ] as const) {
+        if (chance < 0) {
+          console.error('Failed to select a drop rate for capsule', {
+            itemId,
+            chance,
+            rarity,
+            rates,
+          });
+          throw new TRPCError({
+            code: 'INTERNAL_SERVER_ERROR',
+            message: `Invalid drop rate for capsule ${itemId}`,
+          });
+        }
+
+        const rate = rates[rarity];
+        if (chance <= rate) {
+          const possible = removeInvalidDrops(RARITY_BAGS[rarity]);
+          if (!possible.length) {
+            console.log('No valid items for capsule', { itemId, rarity });
+            throw new TRPCError({
+              code: 'INTERNAL_SERVER_ERROR',
+              message: `No valid items for capsule ${itemId}`,
+            });
+          }
+          const item = randomArrayElement(possible);
+          items.push({
+            itemId: item.id,
+            // TODO: support item quantities.
+            quantity: 1,
+          });
+          break;
+        }
+        chance -= rate;
+      }
+    }
+    return shuffle(items);
+  }
+
+  async #clear(capsuleId?: string | null) {
+    if (!capsuleId) {
+      return;
+    }
+
+    await this.#db.inventoryCapsule.delete({
+      where: {
+        id: capsuleId,
+      },
+    });
+  }
+
+  #obfuscate(
+    capsule: Prisma.InventoryCapsuleGetPayload<{
+      include: {
+        options: {
+          include: {
+            item: true;
+          };
+        };
+      };
+    }>
+  ): InventoryCapsuleSchema {
+    return {
+      ...capsule,
+      options: capsule.options.map((o) =>
+        o.unlocked
+          ? o
+          : {
+              ...o,
+              item: null,
+            }
+      ),
+      remaining: capsule.options.filter((o) => !o.unlocked).length,
+    };
+  }
+
+  async unlock(userId: string, opts: { optionId: string }) {
+    const option = await this.#db.capsuleOption.findFirst({
+      where: {
+        id: opts.optionId,
+      },
+      include: { item: true, capsule: { include: { inventory: true } } },
+    });
+
+    if (!option) {
+      throw new TRPCError({
+        code: 'NOT_FOUND',
+        message: `Capsule option ${opts.optionId} does not exist`,
+      });
+    }
+
+    if (option.capsule.inventory.userId !== userId) {
+      throw new TRPCError({
+        code: 'FORBIDDEN',
+        message: `You do not have permission to unlock this capsule`,
+      });
+    }
+
+    if (option.unlocked) {
+      throw new TRPCError({
+        code: 'BAD_REQUEST',
+        message: `Capsule option ${opts.optionId} is already unlocked`,
+      });
+    }
+
+    await this.#db.inventoryCapsule.update({
+      where: {
+        id: option.capsuleId,
+      },
+      data: {
+        unlocks: {
+          decrement: 1,
+        },
+      },
+    });
+
+    await this.#db.capsuleOption.update({
+      where: {
+        id: opts.optionId,
+      },
+      data: {
+        unlocked: true,
+      },
+    });
+
+    await this.#inventory.increment(
+      userId,
+      option.item.id as ItemId,
+      option.quantity
+    );
+
+    return {
+      rarity: option.item.rarity,
+      message: `You found ${option.quantity}x ${pluralize(
+        option.item.name,
+        option.quantity
+      )}!`,
+    };
+  }
+}
+
+const removeInvalidDrops = (items: Item[]) => {
+  return items.filter(
+    (i) => i.type !== ItemType.CURRENCY && i.type !== ItemType.CAPSULE
+  );
+};

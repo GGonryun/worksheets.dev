@@ -8,10 +8,11 @@ export const insertItems = async () => {
   });
 
   const { updating, creating } = getSeedingChanges(ITEMS, storedItems);
-  await prisma.item.createMany({
-    data: creating.map(convertItem),
-    skipDuplicates: true,
-  });
+  for (const create of creating) {
+    await prisma.item.create({
+      data: convertItem(create),
+    });
+  }
 
   for (const update of updating) {
     await prisma.item.update({
@@ -38,7 +39,9 @@ const convertItem = (item: Item): Prisma.ItemCreateInput => {
     version: item.version,
     code: item.code,
     name: item.name,
+    buy: item.buy,
     sell: item.sell,
+    rarity: item.rarity,
     expiration: item.expiration ?? null,
     description: item.description,
     imageUrl: item.imageUrl,

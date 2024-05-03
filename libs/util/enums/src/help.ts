@@ -114,6 +114,8 @@ export enum HelpInventoryQuestions {
   FindingItems = 'finding',
   DropRates = 'drop-rates',
   Claiming = 'claiming',
+  Premium = 'premium',
+  Capsules = 'capsules',
 }
 
 export enum HelpMobsQuestions {
