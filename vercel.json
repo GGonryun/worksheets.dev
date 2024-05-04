@@ -40,6 +40,9 @@
     "functions": {
         "pages/api/cron/*.ts": {
             "maxDuration": 300
+        },
+        "pages/api/trpc/*.ts": {
+            "maxDuration": 30
         }
     }
 }
