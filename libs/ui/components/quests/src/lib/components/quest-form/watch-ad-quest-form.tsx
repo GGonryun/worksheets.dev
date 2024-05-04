@@ -15,6 +15,7 @@ export const WatchAdQuestForm: React.FC<{
       network={quest.data.network}
       onSubmit={() => actions.onSubmit({})}
       disabled={completed}
+      buttonText={completed ? 'Come Back Later' : 'Display Ad'}
     />
   );
 };

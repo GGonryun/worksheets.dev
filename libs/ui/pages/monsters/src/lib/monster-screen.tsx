@@ -31,7 +31,6 @@ import {
 import { LoadingScreen } from '@worksheets/ui/pages/loading';
 import {
   BattleSchema,
-  calculateCurrentHp,
   isBattleComplete,
   MonsterSchema,
 } from '@worksheets/util/types';
@@ -173,7 +172,7 @@ export const BattleTable: React.FC<{
               </TableCell>
               <TableCell>
                 <Typography fontWeight={500}>
-                  {calculateCurrentHp(battle)} / {battle.mob.maxHp}
+                  {battle.health} / {battle.mob.maxHp}
                 </Typography>
               </TableCell>
               <TableCell>

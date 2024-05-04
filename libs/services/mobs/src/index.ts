@@ -204,7 +204,7 @@ export class MobsService {
         status: 'ACTIVE',
       },
       select: {
-        damage: true,
+        health: true,
         mob: {
           select: {
             id: true,
@@ -222,21 +222,24 @@ export class MobsService {
     }
 
     // check if the mob already has 0 hp.
-    if (battle.damage >= battle.mob.maxHp) {
+    if (battle.health <= 0) {
       throw new TRPCError({
         code: 'PRECONDITION_FAILED',
         message: 'Mob already defeated',
       });
     }
 
-    const maxDamage = Math.min(battle.mob.maxHp - battle.damage, damage);
+    // check how much damage could actually be dealt dealt.
+    const damageDealt = Math.min(battle.health, damage);
 
     await this.#db.battle.update({
       where: {
         id: battleId,
       },
       data: {
-        damage: battle.damage + maxDamage,
+        health: {
+          decrement: damageDealt,
+        },
       },
     });
 
@@ -256,7 +259,7 @@ export class MobsService {
       },
       update: {
         damage: {
-          increment: maxDamage,
+          increment: damageDealt,
         },
         strikes: {
           increment: 1,
@@ -267,17 +270,18 @@ export class MobsService {
   }
 
   // TODO: battle processing is inefficient.
+  // TODO: switch from "damage" to "currentHp" it makes it easier to query for defeated monsters.
   async processExpiredBattles(): Promise<ProcessedExpiredBattleOutput[]> {
-    const activeBattles = await this.#db.battle.findMany({
+    const expired = await this.#db.battle.findMany({
       where: {
         status: 'ACTIVE',
+        health: {
+          lte: 0,
+        },
       },
       select: EXPIRED_BATTLE_PROPS,
+      take: 1, // TODO: make expired battle processing more efficient.
     });
-    // find any battles that are "active" but the mob has 0 hp left.
-    const expired = activeBattles.filter(
-      (battle) => battle.damage >= battle.mob.maxHp
-    );
 
     const results: ProcessedExpiredBattleOutput[] = [];
     for (const battle of expired) {

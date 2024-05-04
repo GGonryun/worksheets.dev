@@ -476,7 +476,11 @@ const WatchAdvertisementModal: React.FC<{
           </Typography>
           <Divider />
         </Column>
-        <WatchAdvertisement network="gruvian" onSubmit={props.onSubmit} />
+        <WatchAdvertisement
+          network="gruvian"
+          onSubmit={props.onSubmit}
+          buttonText="Watch Ad"
+        />
       </Column>
     </InfoModal>
   );

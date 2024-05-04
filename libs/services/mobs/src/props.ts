@@ -2,7 +2,7 @@ import { Prisma } from '@worksheets/prisma';
 
 export const EXPIRED_BATTLE_PROPS = {
   id: true,
-  damage: true,
+  health: true,
   status: true,
   mob: {
     select: {

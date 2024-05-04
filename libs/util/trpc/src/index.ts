@@ -8,3 +8,10 @@ export const parseTRPCClientErrorMessage = (error: any) => {
     return 'An unexpected error occurred. Please contact support.';
   }
 };
+
+export const NO_REFETCH = {
+  refetchOnMount: false,
+  refetchOnReconnect: false,
+  refetchOnWindowFocus: false,
+  retry: false,
+} as const;

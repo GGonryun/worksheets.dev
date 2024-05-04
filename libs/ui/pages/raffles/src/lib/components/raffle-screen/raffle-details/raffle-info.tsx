@@ -1,7 +1,7 @@
 import {
   AccessTime,
   Check,
-  LocalActivity,
+  LocalActivityOutlined,
   Login,
   OpenInNew,
   Share,
@@ -105,7 +105,7 @@ export const RaffleInfo: React.FC<{
         <EntrySection winners={numWinners} entries={yourEntries} />
         <Divider />
 
-        <Box display="flex" flexDirection="column" gap={2} mt={1}>
+        <Box display="flex" flexDirection="column" gap={1} mt={1}>
           <Button
             variant="arcade"
             color={youWon ? 'success' : connected ? 'secondary' : 'warning'}
@@ -114,7 +114,13 @@ export const RaffleInfo: React.FC<{
             sx={{ px: 1 }}
             onClick={onRaffleClick}
             startIcon={
-              expired ? <Check /> : connected ? <LocalActivity /> : <Login />
+              expired ? (
+                <Check />
+              ) : connected ? (
+                <LocalActivityOutlined />
+              ) : (
+                <Login />
+              )
             }
           >
             {youWon

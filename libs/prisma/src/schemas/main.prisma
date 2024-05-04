@@ -471,6 +471,7 @@ model Raffle {
 model RaffleParticipation {
   id         Int      @id @default(autoincrement())
   numEntries Int
+  adsWatched Int      @default(0)
   // the user who bought the ticket
   userId     String
   user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -721,7 +722,7 @@ model Battle {
   createdAt     DateTime              @default(now())
   updatedAt     DateTime              @updatedAt
   publishAt     DateTime              @default(now())
-  damage        Int
+  health        Int
   participation BattleParticipation[]
 }
 

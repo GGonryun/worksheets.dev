@@ -1,4 +1,4 @@
-import { participationSchema } from '@worksheets/util/types';
+import { userParticipationSchema } from '@worksheets/util/types';
 import { z } from 'zod';
 
 import { protectedProcedure } from '../../../procedures';
@@ -9,7 +9,7 @@ export default protectedProcedure
       raffleId: z.number(),
     })
   )
-  .output(participationSchema)
+  .output(userParticipationSchema)
   .query(async ({ input: { raffleId }, ctx: { db, user } }) => {
     const userId = user.id;
 
@@ -21,6 +21,7 @@ export default protectedProcedure
       select: {
         numEntries: true,
         winner: true,
+        adsWatched: true,
       },
     });
 
@@ -31,5 +32,6 @@ export default protectedProcedure
         username: user.username,
       },
       winner: participation?.winner ?? false,
+      adsWatched: participation?.adsWatched ?? 0,
     };
   });

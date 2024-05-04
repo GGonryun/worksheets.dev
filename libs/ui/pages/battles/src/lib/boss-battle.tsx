@@ -37,11 +37,7 @@ import {
 } from '@worksheets/util/enums';
 import { calculatePercentage } from '@worksheets/util/numbers';
 import { TABLET_SHADOW } from '@worksheets/util/styles';
-import {
-  BattleSchema,
-  calculateCurrentHp,
-  InventoryItemSchema,
-} from '@worksheets/util/types';
+import { BattleSchema, InventoryItemSchema } from '@worksheets/util/types';
 import { useSession } from 'next-auth/react';
 import pluralize from 'pluralize';
 import React, { useState } from 'react';
@@ -62,14 +58,16 @@ export const BossBattle: React.FC<{ battle: BattleSchema }> = (props) => {
 
 const FightProfile: React.FC<{ battle: BattleSchema }> = (props) => {
   const [open, setOpen] = useState(false);
-  const currentHp = calculateCurrentHp(props.battle);
 
   return (
     <>
       <MonsterProfile
         monster={props.battle.mob}
         fightButton={
-          <FightButton currentHp={currentHp} onClick={() => setOpen(true)} />
+          <FightButton
+            currentHp={props.battle.health}
+            onClick={() => setOpen(true)}
+          />
         }
         infoButton={
           <InfoButton
@@ -81,7 +79,10 @@ const FightProfile: React.FC<{ battle: BattleSchema }> = (props) => {
           />
         }
         healthBar={
-          <HealthBar currentHp={currentHp} maxHp={props.battle.mob.maxHp} />
+          <HealthBar
+            currentHp={props.battle.health}
+            maxHp={props.battle.mob.maxHp}
+          />
         }
       />
       <FightModal
@@ -135,7 +136,6 @@ const FightModal: React.FC<ModalWrapper<{ battle: BattleSchema }>> = ({
   battle,
 }) => {
   const handleClose = () => onClose?.({}, 'escapeKeyDown');
-  const currentHp = calculateCurrentHp(battle);
 
   return (
     <Modal open={open} onClose={handleClose}>
@@ -149,33 +149,28 @@ const FightModal: React.FC<ModalWrapper<{ battle: BattleSchema }>> = ({
       >
         <CloseButton onClick={handleClose} />
         <Column alignItems="center" gap={1}>
-          <Column width="100%">
-            <Typography variant="h5" textAlign="center">
-              {battle.mob.name}
-            </Typography>
-            <Divider />
-          </Column>
+          <Typography variant="h5" textAlign="center">
+            {battle.mob.name}
+          </Typography>
+          <Divider />
           <Box
             sx={{
               position: 'relative',
               width: 128,
               height: 128,
-              boxShadow: TABLET_SHADOW,
             }}
           >
             <ContainImage src={battle.mob.imageUrl} alt={battle.mob.name} />
           </Box>
-          <Column width="100%" mt={1} gap={0.5}>
-            <Typography variant="body3" textAlign="center" fontWeight={700}>
-              HP: {currentHp}/{battle.mob.maxHp}
-            </Typography>
-            <HealthBar currentHp={currentHp} maxHp={battle.mob.maxHp} />
-          </Column>
+          <Typography variant="body3" textAlign="center" fontWeight={700}>
+            HP: {battle.health}/{battle.mob.maxHp}
+          </Typography>
+          <HealthBar currentHp={battle.health} maxHp={battle.mob.maxHp} />
           <Typography variant="body2" textAlign="center">
             {battle.mob.description}
           </Typography>
           <Divider sx={{ width: '100%' }} />
-          {currentHp > 0 ? (
+          {battle.health > 0 ? (
             <ItemSelection battle={battle} onClose={handleClose} />
           ) : (
             <MobDefeated />
@@ -199,7 +194,6 @@ const ItemSelection: React.FC<{
   battle: BattleSchema;
   onClose: () => void;
 }> = ({ battle, onClose }) => {
-  const currentHp = calculateCurrentHp(battle);
   const [selectedItems, setSelectedItems] = useState<InventoryItemSchema[]>([]);
   const [striking, setStriking] = useState(false);
 
@@ -296,7 +290,7 @@ const ItemSelection: React.FC<{
   if (items.isError) return <ErrorComponent />;
 
   return (
-    <Column gap={1} alignItems="center">
+    <Column gap={1} alignItems="center" width="100%">
       {connected && (
         <Row gap={1} flexWrap="wrap" justifyContent="center">
           {selectedItems.map((item) => (
@@ -311,11 +305,12 @@ const ItemSelection: React.FC<{
           <ItemBox items={availableItems()} onSelect={handleSelect} />
         </Row>
       )}
-      <Column alignItems="center" gap={1} my={1}>
+      <Column alignItems="center" gap={1} my={1} width="100%">
         {connected ? (
           <Button
             variant="arcade"
             color="error"
+            fullWidth
             disabled={!selectedItems.length || damage.isError || striking}
             startIcon={
               selectedItems.length && !damage.isError ? <Sword /> : undefined
@@ -348,9 +343,9 @@ const ItemSelection: React.FC<{
             Log in to fight
           </Button>
         )}
-        {(damage.data ?? 0) >= currentHp && (
+        {(damage.data ?? 0) >= battle.health && (
           <Typography variant="body2" color="error" fontWeight={700}>
-            {(damage.data ?? 0) > currentHp
+            {(damage.data ?? 0) > battle.health
               ? `You will overkill the boss with this attack.`
               : `You will defeat this boss with this attack.`}
           </Typography>

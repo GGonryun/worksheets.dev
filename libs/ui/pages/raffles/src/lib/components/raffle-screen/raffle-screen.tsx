@@ -2,7 +2,11 @@ import { NavigateBefore } from '@mui/icons-material';
 import { Button, Container, Typography } from '@mui/material';
 import { routes } from '@worksheets/routes';
 import { RafflesGroup } from '@worksheets/ui/components/raffles';
-import { ParticipationSchema, RaffleSchema } from '@worksheets/util/types';
+import {
+  ParticipationSchema,
+  RaffleSchema,
+  UserParticipationSchema,
+} from '@worksheets/util/types';
 
 import { CustomContainer } from '../shared/custom-container';
 import { ParticipantsDescription } from './participants-description';
@@ -14,7 +18,7 @@ export const RaffleScreen: React.FC<{
   raffle: RaffleSchema;
   youWon?: boolean;
   participants: ParticipationSchema[];
-  participation?: ParticipationSchema;
+  participation?: UserParticipationSchema;
   onRaffleClick: () => void;
   onShare: () => void;
 }> = ({

@@ -2,14 +2,14 @@ import { BattleStatus, MvpReason } from '@worksheets/prisma';
 import { z } from 'zod';
 
 import { lootSchema } from './items';
-import { MonsterSchema, monsterSchema } from './monsters';
+import { monsterSchema } from './monsters';
 import { SORT_DIRECTION } from './sort';
 
 export const battleSchema = z.object({
   id: z.number(),
   status: z.nativeEnum(BattleStatus),
   mob: monsterSchema,
-  damage: z.number(),
+  health: z.number(),
 });
 
 export type BattleSchema = z.infer<typeof battleSchema>;
@@ -71,7 +71,7 @@ export const userBattleParticipationSchema = z.object({
   battle: z.object({
     id: z.number(),
     status: z.nativeEnum(BattleStatus),
-    damage: z.number(),
+    health: z.number(),
     mob: z.object({
       id: z.number(),
       name: z.string(),
@@ -86,12 +86,6 @@ export type UserBattleParticipationSchema = z.infer<
   typeof userBattleParticipationSchema
 >;
 
-export const calculateCurrentHp = (battle: BattleSchema) =>
-  battle.mob.maxHp - battle.damage;
-
 export const isBattleComplete = (
-  battle: Pick<BattleSchema, 'status' | 'damage'> & {
-    mob: Pick<MonsterSchema, 'maxHp'>;
-  }
-) =>
-  battle.status === BattleStatus.COMPLETE || battle.damage >= battle.mob.maxHp;
+  battle: Pick<BattleSchema, 'status' | 'health'>
+) => battle.status === BattleStatus.COMPLETE || battle.health <= 0;

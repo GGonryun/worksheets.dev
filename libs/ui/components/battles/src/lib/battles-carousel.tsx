@@ -1,11 +1,7 @@
 import { routes } from '@worksheets/routes';
 import { ArcadeItemCarousel } from '@worksheets/ui/components/arcade';
 import { ArcadeItemLayout } from '@worksheets/ui/components/arcade';
-import {
-  BattleSchema,
-  calculateCurrentHp,
-  isBattleComplete,
-} from '@worksheets/util/types';
+import { BattleSchema, isBattleComplete } from '@worksheets/util/types';
 import { ReactNode } from 'react';
 import React from 'react';
 
@@ -25,10 +21,9 @@ export const BattlesCarousel: React.FC<{
 };
 
 export const Battle: React.FC<BattleSchema> = (props) => {
-  const currentHp = calculateCurrentHp(props);
   const status = isBattleComplete(props)
     ? 'Battle Over'
-    : `${currentHp}/${props.mob.maxHp} HP`;
+    : `${props.health}/${props.mob.maxHp} HP`;
 
   return (
     <ArcadeItemLayout

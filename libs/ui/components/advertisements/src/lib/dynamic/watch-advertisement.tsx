@@ -5,7 +5,9 @@ import { trpc } from '@worksheets/trpc-charity';
 import { Column } from '@worksheets/ui/components/flex';
 import { ContainImage } from '@worksheets/ui/components/images';
 import { PulsingLogo } from '@worksheets/ui/components/loading';
+import { PaletteColor } from '@worksheets/ui/theme';
 import { useInterval } from '@worksheets/ui-core';
+import { NO_REFETCH } from '@worksheets/util/trpc';
 import { GruvianAdvertisementSchema } from '@worksheets/util/types';
 import { useState } from 'react';
 
@@ -13,20 +15,21 @@ export const WatchAdvertisement: React.FC<{
   network: string;
   onSubmit: () => void;
   disabled?: boolean;
-}> = ({ network, onSubmit, disabled }) => {
+  buttonColor?: PaletteColor;
+  buttonText: string;
+}> = ({ network, onSubmit, disabled, buttonText, buttonColor = 'primary' }) => {
   const [showAd, setShowAd] = useState(false);
 
-  const advertisement = trpc.maybe.advertisements.get.useQuery(undefined, {
-    refetchOnMount: false,
-    refetchOnReconnect: false,
-    refetchOnWindowFocus: false,
-    retry: false,
-  });
+  const advertisement = trpc.maybe.advertisements.get.useQuery(
+    undefined,
+    NO_REFETCH
+  );
 
   return (
     <Column>
       {showAd ? (
         <AdvertisementContainer
+          color={buttonColor}
           onSubmit={onSubmit}
           loading={advertisement.isLoading}
         >
@@ -39,11 +42,12 @@ export const WatchAdvertisement: React.FC<{
       ) : (
         <Button
           variant="arcade"
+          color={buttonColor}
           startIcon={<FeaturedVideoOutlined />}
           disabled={disabled}
           onClick={() => setShowAd(true)}
         >
-          {disabled ? 'Come Back Later' : 'Display Ad'}
+          {buttonText}
         </Button>
       )}
     </Column>
@@ -54,6 +58,7 @@ const AdvertisementContainer: React.FC<{
   children: React.ReactNode;
   loading: boolean;
   onSubmit: () => void;
+  color: PaletteColor;
 }> = (props) => {
   const ADVERTISEMENT_TIMER = 5000; //ms
   const SPEED = 25; //ms
@@ -83,6 +88,7 @@ const AdvertisementContainer: React.FC<{
       </Column>
       <Button
         variant="arcade"
+        color={props.color}
         disabled={timer > 0}
         startIcon={!timer && <StarBorder />}
         endIcon={!timer && <StarBorder />}

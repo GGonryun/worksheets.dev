@@ -48,6 +48,12 @@ export const participationSchema = z.object({
 
 export type ParticipationSchema = z.infer<typeof participationSchema>;
 
+export const userParticipationSchema = participationSchema.extend({
+  adsWatched: z.number(),
+});
+
+export type UserParticipationSchema = z.infer<typeof userParticipationSchema>;
+
 export type BasicRaffleDetails = Pick<
   RaffleSchema,
   'id' | 'name' | 'imageUrl' | 'expiresAt' | 'status' | 'type'
