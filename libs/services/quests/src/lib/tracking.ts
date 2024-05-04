@@ -343,9 +343,6 @@ export const trackReferralPlayMinutesProgress = async (
   opts: TrackProgressOpts<'REFERRAL_PLAY_MINUTES'>
 ) => {
   const { userId, questId, input } = opts;
-  const { progress, definition } = await getQuest<'REFERRAL_PLAY_MINUTES'>(
-    opts
-  );
 
   const user = await opts.db.user.findFirst({
     where: {
@@ -364,6 +361,11 @@ export const trackReferralPlayMinutesProgress = async (
   if (!user || !user.referredBy || !user.referredBy.id) {
     return;
   }
+
+  const { progress, definition } = await getQuest<'REFERRAL_PLAY_MINUTES'>({
+    ...opts,
+    userId: user.referredBy.id,
+  });
 
   if (!progress) {
     await opts.db.questProgress.create({
