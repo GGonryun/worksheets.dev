@@ -596,6 +596,7 @@ const getQuest = async <T extends QuestType>(opts: {
   progress: ProgressedQuest<T> | null;
   definition: DefinedQuest<T>;
 }> => {
+  console.info('Getting quest', { questId: opts.questId, userId: opts.userId });
   return {
     progress: await getProgress<T>(opts),
     definition: await getDefinition<T>(opts),
