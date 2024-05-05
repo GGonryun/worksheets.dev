@@ -2,12 +2,23 @@ import { Box, Paper, Typography } from '@mui/material';
 import { Carousel } from '@worksheets/ui/components/carousel';
 import { ReactNode } from 'react';
 
-type ArcadeItemCarousel<T> = {
+type BaseProps<T> = {
   title: ReactNode;
-  items: T[];
   action?: ReactNode;
   render: (item: T) => ReactNode;
 };
+
+type ArcadeItemCarousel<T> = (
+  | {
+      items: T[];
+      placeholder?: never;
+    }
+  | {
+      items?: T[];
+      placeholder: ReactNode;
+    }
+) &
+  BaseProps<T>;
 
 export function ArcadeItemCarousel<T extends { id: string | number }>(
   props: ArcadeItemCarousel<T>
@@ -42,19 +53,23 @@ export function ArcadeItemCarousel<T extends { id: string | number }>(
           padding: { xs: 1, sm: 2 },
         }}
       >
-        <Carousel gap={4}>
-          {props.items.map((item) => (
-            <Box
-              key={item.id}
-              sx={{
-                minHeight: { xs: 128, sm: 160, md: 192 },
-                minWidth: { xs: 128, sm: 160, md: 192 },
-              }}
-            >
-              {props.render(item)}
-            </Box>
-          ))}
-        </Carousel>
+        {props.items == null ? (
+          <Box width="100%">{props.placeholder}</Box>
+        ) : (
+          <Carousel gap={4}>
+            {props.items?.map((item) => (
+              <Box
+                key={item.id}
+                sx={{
+                  minHeight: { xs: 128, sm: 160, md: 192 },
+                  minWidth: { xs: 128, sm: 160, md: 192 },
+                }}
+              >
+                {props.render(item)}
+              </Box>
+            ))}
+          </Carousel>
+        )}
       </Paper>
     </Box>
   );

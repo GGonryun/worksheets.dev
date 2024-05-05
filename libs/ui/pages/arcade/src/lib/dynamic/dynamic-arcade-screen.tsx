@@ -1,31 +1,33 @@
-import { trpc } from '@worksheets/trpc-charity';
 import { useRecentlyPlayedGames } from '@worksheets/ui/hooks/use-recently-played-games';
-import { ErrorScreen } from '@worksheets/ui/pages/errors';
 import { LoadingScreen } from '@worksheets/ui/pages/loading';
+import { BasicCategoryInfo, BasicGameInfo } from '@worksheets/util/types';
 import dynamic from 'next/dynamic';
 
 import { ArcadeScreen } from '../components/arcade-screen';
+import { DynamicTopBattles } from './dynamic-top-battles';
+import { DynamicTopRaffles } from './dynamic-top-raffles';
 
-const ArcadeScreenContainer: React.FC = () => {
+const ArcadeScreenContainer: React.FC<{
+  categories: BasicCategoryInfo[];
+  topGames: BasicGameInfo[];
+  allGames: BasicGameInfo[];
+  newGames: BasicGameInfo[];
+  featured: {
+    primary: BasicGameInfo[];
+    secondary: BasicGameInfo;
+  };
+}> = ({ topGames, allGames, newGames, featured, categories }) => {
   const { recentlyPlayed } = useRecentlyPlayedGames();
-
-  const arcade = trpc.public.arcade.details.useQuery(undefined);
-
-  const categories = trpc.public.categories.list.useQuery({ showEmpty: false });
-
-  if (arcade.isLoading || categories.isLoading) return <LoadingScreen />;
-
-  if (arcade.error || categories.error) return <ErrorScreen />;
 
   return (
     <ArcadeScreen
-      categories={categories.data}
-      featured={arcade.data.featured}
-      topRaffles={arcade.data.topRaffles}
-      topGames={arcade.data.topGames}
-      topBattles={arcade.data.topBattles}
-      allGames={arcade.data.allGames}
-      newGames={arcade.data.newGames}
+      categories={categories}
+      featured={featured}
+      topGames={topGames}
+      allGames={allGames}
+      newGames={newGames}
+      topRaffles={<DynamicTopRaffles />}
+      topBattles={<DynamicTopBattles />}
       recentGames={recentlyPlayed}
     />
   );

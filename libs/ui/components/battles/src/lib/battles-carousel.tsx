@@ -6,13 +6,15 @@ import { ReactNode } from 'react';
 import React from 'react';
 
 export const BattlesCarousel: React.FC<{
-  items: BattleSchema[];
+  items?: BattleSchema[];
   title: string;
+  placeholder: ReactNode;
   action?: ReactNode;
-}> = ({ items, title, action }) => {
+}> = ({ items, placeholder, title, action }) => {
   return (
     <ArcadeItemCarousel
       items={items}
+      placeholder={placeholder}
       title={title}
       action={action}
       render={(item) => <Battle {...item} />}

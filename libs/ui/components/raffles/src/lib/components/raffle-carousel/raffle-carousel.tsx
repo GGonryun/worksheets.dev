@@ -5,13 +5,15 @@ import { ReactNode } from 'react';
 import { Raffle } from '../raffle';
 
 export const RaffleCarousel: React.FC<{
-  items: BasicRaffleDetails[];
+  items?: BasicRaffleDetails[];
+  placeholder?: ReactNode;
   title: string;
   action?: ReactNode;
-}> = ({ items, title, action }) => {
+}> = ({ items, title, action, placeholder }) => {
   return (
     <ArcadeItemCarousel
       items={items}
+      placeholder={placeholder}
       title={title}
       action={action}
       render={(item) => <Raffle {...item} />}

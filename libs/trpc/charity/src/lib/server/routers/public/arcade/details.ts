@@ -1,10 +1,6 @@
 import { Prisma } from '@worksheets/prisma';
 import { shuffle } from '@worksheets/util/arrays';
-import {
-  BasicGameInfo,
-  BasicRaffleDetails,
-  BattleSchema,
-} from '@worksheets/util/types';
+import { BasicGameInfo } from '@worksheets/util/types';
 import { uniqBy } from 'lodash';
 import { z } from 'zod';
 
@@ -17,93 +13,36 @@ export default publicProcedure
         primary: z.custom<BasicGameInfo[]>(),
         secondary: z.custom<BasicGameInfo>(),
       }),
-      topBattles: z.custom<BattleSchema[]>(),
-      topRaffles: z.custom<BasicRaffleDetails[]>(),
       topGames: z.custom<BasicGameInfo[]>(),
       allGames: z.custom<BasicGameInfo[]>(),
       newGames: z.custom<BasicGameInfo[]>(),
     })
   )
   .query(async ({ ctx: { db } }) => {
-    const [games, topRaffles, topBattles] = await Promise.all([
-      db.game.findMany({
-        where: {
-          status: 'PUBLISHED',
-        },
-        select: {
-          id: true,
-          title: true,
-          thumbnail: true,
-          cover: true,
-          plays: true,
-          createdAt: true,
-        },
-      }),
-      db.raffle.findMany({
-        where: {
-          status: 'ACTIVE',
-        },
-        orderBy: {
-          participants: {
-            _count: 'desc',
-          },
-        },
-        take: 10,
-        select: {
-          id: true,
-          status: true,
-          expiresAt: true,
-          item: {
-            select: {
-              id: true,
-              name: true,
-              imageUrl: true,
-              type: true,
-            },
-          },
-          _count: {
-            select: {
-              participants: true,
-            },
-          },
-        },
-      }),
-      db.battle.findMany({
-        where: {
-          status: 'ACTIVE',
-        },
-        orderBy: {
-          participation: {
-            _count: 'desc',
-          },
-        },
-        take: 10,
-        include: {
-          mob: {
-            include: {
-              loot: {
-                include: {
-                  item: true,
-                },
-              },
-            },
-          },
-          _count: {
-            select: {
-              participation: true,
-            },
-          },
-        },
-      }),
-    ]);
+    const games = await db.game.findMany({
+      where: {
+        status: 'PUBLISHED',
+      },
+      select: {
+        id: true,
+        title: true,
+        thumbnail: true,
+        cover: true,
+        plays: true,
+        createdAt: true,
+      },
+    });
 
-    const topGames = [...games].sort((a, b) => b.plays - a.plays).slice(0, 10);
-
+    const topGames = [...games]
+      .sort((a, b) => b.plays - a.plays)
+      .slice(0, 10)
+      .map(removeCreatedAt);
     const newGames = [...games]
       .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
-      .slice(0, 10);
+      .slice(0, 10)
+      .map(removeCreatedAt);
 
-    const allGames = [...games];
+    const allGames = [...games].map(removeCreatedAt);
     const featured = shuffle(uniqBy([...topGames, ...newGames], 'id')).slice(
       0,
       10
@@ -115,35 +54,24 @@ export default publicProcedure
 
     return {
       featured: { primary, secondary },
-      topBattles: topBattles,
-      topRaffles: topRaffles.map(convertRaffle),
       newGames,
       topGames,
       allGames,
     };
   });
 
-const convertRaffle = (
-  raffle: Prisma.RaffleGetPayload<{
+const removeCreatedAt = (
+  game: Prisma.GameGetPayload<{
     select: {
       id: true;
-      status: true;
-      expiresAt: true;
-      item: {
-        select: {
-          id: true;
-          name: true;
-          imageUrl: true;
-          type: true;
-        };
-      };
+      title: true;
+      thumbnail: true;
+      cover: true;
+      plays: true;
+      createdAt: true;
     };
   }>
-): BasicRaffleDetails => ({
-  id: raffle.id,
-  status: raffle.status,
-  name: raffle.item.name,
-  imageUrl: raffle.item.imageUrl,
-  type: raffle.item.type,
-  expiresAt: raffle.expiresAt.getTime(),
-});
+) => {
+  const { createdAt, ...rest } = game;
+  return rest;
+};
