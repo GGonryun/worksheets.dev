@@ -1,7 +1,10 @@
 import { TRPCError } from '@trpc/server';
+import { ItemId } from '@worksheets/data/items';
+import { InventoryService } from '@worksheets/services/inventory';
 import {
   activationCodeContentSchema,
   activationCodeDetailSchema,
+  redemptionCodeSchema,
 } from '@worksheets/util/types';
 import { z } from 'zod';
 
@@ -87,6 +90,55 @@ export default t.router({
           id: code.id,
           content: code.content,
         };
+      }),
+  }),
+  redemption: t.router({
+    redeem: protectedProcedure
+      .input(z.string())
+      .output(redemptionCodeSchema)
+      .mutation(async ({ ctx: { db, user }, input }) => {
+        return await db.$transaction(async (tx) => {
+          const inventory = new InventoryService(tx);
+          const code = await db.redemptionCode.findFirst({
+            where: {
+              id: input,
+            },
+            include: {
+              item: true,
+            },
+          });
+
+          if (!code) {
+            throw new TRPCError({
+              code: 'NOT_FOUND',
+              message: 'Code not found',
+            });
+          }
+
+          if (code.userId) {
+            throw new TRPCError({
+              code: 'FORBIDDEN',
+              message: 'Code already redeemed',
+            });
+          }
+
+          await db.redemptionCode.update({
+            where: {
+              id: input,
+            },
+            data: {
+              userId: user.id,
+            },
+          });
+
+          await inventory.increment(
+            user.id,
+            code.item.id as ItemId,
+            code.quantity
+          );
+
+          return code;
+        });
       }),
   }),
 });

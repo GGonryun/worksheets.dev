@@ -52,6 +52,7 @@
     "@trpc/client": "^10.31.0",
     "@trpc/next": "^10.31.0",
     "@trpc/server": "^10.31.0",
+    "@vercel/og": "^0.6.2",
     "clsx": "^1.2.1",
     "framer-motion": "^10.16.5-alpha.0",
     "gray-matter": "^4.0.3",

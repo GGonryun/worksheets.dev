@@ -1,13 +1,14 @@
 import {
   HowToVote,
-  Inventory2Outlined,
+  Inventory,
   KeyOutlined,
   SportsMma,
+  Star,
 } from '@mui/icons-material';
 import { Backpack, Trophy } from '@worksheets/icons/adventure';
 import { Key } from '@worksheets/icons/hotel';
 import { TokenIcon } from '@worksheets/icons/native';
-import { ValentinesLetter } from '@worksheets/icons/valentines';
+import { ValentinesGift, ValentinesLetter } from '@worksheets/icons/valentines';
 import { routes } from '@worksheets/routes';
 import { trpc } from '@worksheets/trpc-charity';
 import { LoadingBar } from '@worksheets/ui/components/loading';
@@ -23,6 +24,7 @@ import { DynamicActivationCodesSection } from './activation-codes-section/dynami
 import { DynamicBattleParticipationSection } from './battle-participation-section';
 import { DynamicInventorySection } from './inventory-section';
 import { DynamicRaffleParticipationSection } from './raffle-participation-section';
+import { DynamicRedemptionCodesSection } from './redemption-codes-section';
 
 const InventoryPanel: React.FC<{
   tokens: number;
@@ -30,14 +32,16 @@ const InventoryPanel: React.FC<{
   raffleParticipation: React.ReactNode;
   battleParticipation: React.ReactNode;
   inventory: React.ReactNode;
-  codes: React.ReactNode;
+  activationCodes: React.ReactNode;
+  redemptionCodes: React.ReactNode;
 }> = ({
   tokens,
   raffleParticipation,
   battleParticipation,
   bookmark,
   inventory,
-  codes,
+  activationCodes,
+  redemptionCodes,
 }) => {
   return (
     <Panel
@@ -67,7 +71,7 @@ const InventoryPanel: React.FC<{
             id={InventoryPanels.Items}
             active={active}
             onClick={toggle}
-            status={<Inventory2Outlined fontSize="large" color="info" />}
+            status={<Inventory fontSize="large" color="info" />}
             Icon={Backpack}
           >
             {inventory}
@@ -81,7 +85,7 @@ const InventoryPanel: React.FC<{
             status={<KeyOutlined fontSize="large" color="info" />}
             Icon={Key}
           >
-            {codes}
+            {activationCodes}
           </CollapsibleSection>
 
           <CollapsibleSection
@@ -106,6 +110,17 @@ const InventoryPanel: React.FC<{
           >
             {battleParticipation}
           </CollapsibleSection>
+          <CollapsibleSection
+            id={InventoryPanels.RedemptionCodes}
+            text="Redeem a Code"
+            description="Redeem a code to unlock a special prize."
+            active={active}
+            onClick={toggle}
+            status={<Star fontSize="large" color="info" />}
+            Icon={ValentinesGift}
+          >
+            {redemptionCodes}
+          </CollapsibleSection>
         </>
       )}
     />
@@ -122,7 +137,8 @@ const Container = () => {
       bookmark={bookmark}
       raffleParticipation={<DynamicRaffleParticipationSection />}
       battleParticipation={<DynamicBattleParticipationSection />}
-      codes={<DynamicActivationCodesSection />}
+      activationCodes={<DynamicActivationCodesSection />}
+      redemptionCodes={<DynamicRedemptionCodesSection />}
       inventory={<DynamicInventorySection />}
     />
   );

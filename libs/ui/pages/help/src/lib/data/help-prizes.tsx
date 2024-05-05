@@ -114,15 +114,14 @@ export const helpPrizes: QuestionAnswer[] = [
           >
             inventory page
           </Link>
-          . If you have won a prize, you will receive a notification and an
-          email to claim your prize. You can find all your prizes in your{' '}
+          . If you have won a prize, you will receive a notification to claim
+          your prize. You can find all your prizes in your{' '}
           <Link href={routes.account.inventory.path()}>inventory page</Link>.
           <br />
           <br />
-          We will attempt to deliver your prize to you within 24 hours. You will
-          receive an email with instructions on how to claim your prize. If you
-          do not claim your prize within 14 days, we will stop notifying you and
-          your prize <i>may</i> be forfeited.
+          We will attempt to deliver your prize to you within 24 hours. If you
+          do not claim your prize within the expiration time frame, we will stop
+          notifying you and your prize <i>may</i> be forfeited.
           <br />
           <br />
           If you are unable to claim a prize, please{' '}

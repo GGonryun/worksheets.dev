@@ -19,4 +19,5 @@ export enum InventoryPanels {
   RaffleParticipation = 'raffles',
   BattleParticipation = 'battles',
   ActivationCodes = 'activation-codes',
+  RedemptionCodes = 'redemption-codes',
 }

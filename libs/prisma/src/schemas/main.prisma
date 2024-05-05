@@ -508,13 +508,15 @@ model ActivationCode {
 model RedemptionCode {
   id         String    @id @default(cuid())
   redeemedAt DateTime?
+  quantity   Int       @default(1)
+
   // the item the code is for
-  itemId     String
-  item       Item      @relation(fields: [itemId], references: [id])
+  itemId String
+  item   Item    @relation(fields: [itemId], references: [id])
   // an owner can be assigned to the code without using a raffle.
   // this is useful for assigning codes to users who win a prize in a different way.
-  userId     String?
-  user       User?     @relation(fields: [userId], references: [id])
+  userId String?
+  user   User?   @relation(fields: [userId], references: [id])
 }
 
 enum ScheduledEmailStatus {

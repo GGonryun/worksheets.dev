@@ -133,6 +133,12 @@ export const bossBattleSeo = (battle: BattleSchema): NextSeoProps =>
     path: routes.battle.path({ params: { battleId: battle.id } }),
     title: `${battle.mob.name} | Boss Battle`,
     description: `Defeat ${battle.mob.name} and earn rewards. Every token you spend is a donation towards charity. Win prizes by playing browser games.`,
+    images: [
+      {
+        url: battle.mob.imageUrl,
+        alt: battle.mob.name,
+      },
+    ],
   });
 
 export const developerSeo = (developer: DeveloperSchema): NextSeoProps =>
@@ -408,6 +414,12 @@ export const raffleSeo = (raffle: RaffleSchema): NextSeoProps =>
     title: `${raffle.name} | Raffle`,
     description:
       'Redeem your tokens for raffle entries and win real world prizes. Every token you spend is a donation towards charity. Win free prizes by playing browser games and referring friends',
+    images: [
+      {
+        url: raffle.imageUrl,
+        alt: raffle.name,
+      },
+    ],
   });
 
 export const expiredRafflesSeo = createSeo({
