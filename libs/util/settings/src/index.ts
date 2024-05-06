@@ -34,3 +34,7 @@ export const GAME_TRACK_FREQUENCY_SECONDS = 30.1;
 
 export const RAFFLE_ENTRIES_PER_AD = 5;
 export const MAX_AD_RAFFLE_USES = 3;
+
+export const MAX_CONSUMPTION_RATE = 10;
+
+export const MAX_ITEMS_PER_STRIKE = 5;

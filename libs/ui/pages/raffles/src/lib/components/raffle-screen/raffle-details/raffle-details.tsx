@@ -1,5 +1,5 @@
 import { Box, Paper } from '@mui/material';
-import { ParticipationSchema, RaffleSchema } from '@worksheets/util/types';
+import { RaffleSchema } from '@worksheets/util/types';
 import React, { ReactNode } from 'react';
 
 import {
@@ -13,11 +13,9 @@ import { RaffleInfo } from './raffle-info';
 
 export const RaffleDetails: React.FC<{
   raffle: RaffleSchema;
-  participation?: ParticipationSchema;
-  youWon?: boolean;
-  onRaffleClick: () => void;
+  raffleEntry: React.ReactNode;
   onShare: () => void;
-}> = ({ youWon, raffle, participation, onRaffleClick, onShare }) => (
+}> = ({ raffle, raffleEntry, onShare }) => (
   <Paper
     elevation={10}
     sx={{
@@ -39,9 +37,7 @@ export const RaffleDetails: React.FC<{
       <TicketBox>
         <RaffleInfo
           raffle={raffle}
-          youWon={youWon}
-          participation={participation}
-          onRaffleClick={onRaffleClick}
+          raffleEntry={raffleEntry}
           onShare={onShare}
         />
       </TicketBox>

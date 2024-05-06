@@ -11,11 +11,12 @@ import { ArcadeItemGrid } from './arcade-item-grid';
 export type ArcadeItemGroupProps<T> = {
   title: ReactNode;
   action?: ReactNode;
-  items: T[];
+  items?: T[];
   render: (item: T) => ReactNode;
   header?: ReactNode;
   footer?: ReactNode;
   empty?: ReactNode;
+  placeholder?: ReactNode;
   pageSize?: number;
 };
 
@@ -23,7 +24,7 @@ export function ArcadeItemGroup<T extends { id: string | number }>(
   props: ArcadeItemGroupProps<T>
 ) {
   const { page, items, max, setPage } = usePagination<T>(
-    props.items,
+    props.items ?? [],
     props.pageSize ?? ITEMS_PER_PAGE
   );
 
@@ -71,7 +72,9 @@ export function ArcadeItemGroup<T extends { id: string | number }>(
       >
         {props.header}
 
-        {props.items.length > 0 ? (
+        {props.items == null ? (
+          props.placeholder
+        ) : props.items.length > 0 ? (
           <Box
             sx={{
               position: 'relative',

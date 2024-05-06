@@ -17,7 +17,7 @@ const TopRaffles = () => {
 
   return (
     <RaffleCarousel
-      items={raffles.data ?? []}
+      items={raffles.data}
       placeholder={<LoadingBar />}
       title={'Active Raffles'}
       action={

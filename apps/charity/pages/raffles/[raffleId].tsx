@@ -1,6 +1,7 @@
 import { createStaticTRPC } from '@worksheets/trpc-charity/server';
 import { AppLayoutContainer } from '@worksheets/ui/layout';
 import { DynamicRaffleScreen } from '@worksheets/ui/pages/raffles';
+import { RaffleSchema } from '@worksheets/util/types';
 import { NextPageWithLayout } from '@worksheets/util-next';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { NextSeo, NextSeoProps } from 'next-seo';
@@ -9,15 +10,15 @@ import { raffleSeo } from '../../util/seo';
 
 type Props = {
   seo: NextSeoProps;
-  raffleId: number;
+  raffle: RaffleSchema;
 };
 
-const Page: NextPageWithLayout<Props> = ({ seo, raffleId }) => {
+const Page: NextPageWithLayout<Props> = ({ seo, raffle }) => {
   return (
     <>
       <NextSeo {...seo} />
       {/* TODO: split up the raffle so that static data can be cached for long periods of time. */}
-      <DynamicRaffleScreen raffleId={raffleId} />
+      <DynamicRaffleScreen raffle={raffle} />
     </>
   );
 };
@@ -40,7 +41,7 @@ export const getStaticProps = (async (ctx) => {
     return {
       props: {
         seo,
-        raffleId,
+        raffle,
       },
     };
   } catch (error) {

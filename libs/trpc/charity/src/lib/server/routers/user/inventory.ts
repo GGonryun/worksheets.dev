@@ -16,6 +16,12 @@ import { protectedProcedure } from '../../procedures';
 import { t } from '../../trpc';
 
 export default t.router({
+  count: protectedProcedure
+    .output(z.number())
+    .query(async ({ ctx: { db, user } }) => {
+      const inventory = new InventoryService(db);
+      return inventory.count(user.id);
+    }),
   quantity: protectedProcedure
     .input(z.custom<ItemId>())
     .output(z.number())
@@ -27,8 +33,10 @@ export default t.router({
     .input(z.custom<Parameters<InventoryService['items']>[1]>())
     .output(z.array(inventoryItemSchema))
     .query(async ({ input: types, ctx: { db, user } }) => {
-      const inventory = new InventoryService(db);
-      return inventory.items(user.id, types);
+      return await db.$transaction(async (tx) => {
+        const inventory = new InventoryService(tx);
+        return inventory.items(user.id, types);
+      });
     }),
 
   decrement: protectedProcedure
@@ -41,8 +49,10 @@ export default t.router({
     )
     .output(z.custom<Awaited<ReturnType<InventoryService['decrement']>>>())
     .mutation(async ({ input, ctx: { db, user } }) => {
-      const inventory = new InventoryService(db);
-      return inventory.decrement(user.id, input as DecrementOpts);
+      return await db.$transaction(async (tx) => {
+        const inventory = new InventoryService(tx);
+        return inventory.decrement(user.id, input as DecrementOpts);
+      });
     }),
   activate: protectedProcedure
     .input(z.custom<ItemId>())
@@ -112,6 +122,15 @@ export default t.router({
         return await db.$transaction(async (tx) => {
           const capsule = new CapsuleService(tx);
           return capsule.open(user.id, input);
+        });
+      }),
+    close: protectedProcedure
+      .input(z.custom<Parameters<CapsuleService['close']>[1]>())
+      .output(z.custom<Awaited<ReturnType<CapsuleService['close']>>>())
+      .mutation(async ({ input, ctx: { db, user } }) => {
+        return await db.$transaction(async (tx) => {
+          const capsule = new CapsuleService(tx);
+          return capsule.close(user.id, input);
         });
       }),
     award: protectedProcedure

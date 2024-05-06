@@ -3,7 +3,7 @@ import {
   ArrowForward,
   FavoriteBorder,
   FeaturedVideoOutlined,
-  LockOpenOutlined,
+  LockOutlined,
   OpenInNewOutlined,
 } from '@mui/icons-material';
 import { Box, Button, Divider, Link, Typography } from '@mui/material';
@@ -23,7 +23,7 @@ import {
   rarityIcon,
 } from '@worksheets/ui/components/items';
 import { PulsingLogo } from '@worksheets/ui/components/loading';
-import { InfoModal, ModalWrapper } from '@worksheets/ui/components/modals';
+import { InfoModal } from '@worksheets/ui/components/modals';
 import { useSnackbar } from '@worksheets/ui/components/snackbar';
 import { Redirect } from '@worksheets/ui-core';
 import {
@@ -32,6 +32,7 @@ import {
   InventoryPanels,
 } from '@worksheets/util/enums';
 import { assertNever } from '@worksheets/util/errors';
+import { MAX_CONSUMPTION_RATE } from '@worksheets/util/settings';
 import { capitalizeFirstLetter } from '@worksheets/util/strings';
 import { parseTRPCClientErrorMessage } from '@worksheets/util/trpc';
 import {
@@ -155,7 +156,6 @@ const ConsumeItem: React.FC<{
   const utils = trpc.useUtils();
   const decrement = trpc.user.inventory.decrement.useMutation();
   const [quantity, setQuantity] = React.useState(1);
-  const [consuming, setConsuming] = React.useState(false);
 
   const handleSetQuantity = (num: number) => {
     if (num < 1) return;
@@ -165,22 +165,20 @@ const ConsumeItem: React.FC<{
 
   const handleConsumption = async () => {
     try {
-      setConsuming(true);
       const result = await decrement.mutateAsync({
         itemId: item.itemId,
         quantity,
       });
-      await utils.user.inventory.invalidate();
       snackbar.success(result);
     } catch (error) {
       snackbar.error(parseTRPCClientErrorMessage(error));
     } finally {
       onClose();
-      setConsuming(false);
     }
+    await utils.user.inventory.invalidate();
   };
 
-  if (consuming) return <PulsingLogo />;
+  if (decrement.isLoading) return <PulsingLogo />;
 
   return (
     <Column gap={2} alignItems="center">
@@ -202,14 +200,23 @@ const ConsumeItem: React.FC<{
         variant="arcade"
         color="success"
         size="small"
-        disabled={consuming}
+        disabled={decrement.isLoading || quantity > MAX_CONSUMPTION_RATE}
         sx={{ width: 'fit-content', px: 3 }}
         onClick={handleConsumption}
       >
-        {consuming
+        {decrement.isLoading
           ? 'Loading...'
           : `${capitalizeFirstLetter(verb)} x${quantity}`}
       </Button>
+      {quantity > MAX_CONSUMPTION_RATE && (
+        <Typography
+          typography={{ xs: 'body3', sm: 'body2' }}
+          color="error"
+          fontWeight={{ xs: 500, sm: 500 }}
+        >
+          You can only {verb} up to {MAX_CONSUMPTION_RATE} items at a time.
+        </Typography>
+      )}
     </Column>
   );
 };
@@ -402,20 +409,21 @@ const NoFriendsWarning = () => (
 
 const CapsuleItem: React.FC<{
   item: InventoryItemSchema;
-}> = ({ item }) => {
+  onClose: () => void;
+}> = ({ item, onClose }) => {
   const snackbar = useSnackbar();
   const [showAdvertisement, setShowAdvertisement] = useState(false);
   const utils = trpc.useUtils();
   const capsule = trpc.user.inventory.capsule.get.useQuery(item);
-  const open = trpc.user.inventory.capsule.open.useMutation();
+  const close = trpc.user.inventory.capsule.close.useMutation();
   const award = trpc.user.inventory.capsule.award.useMutation();
 
-  const handleNewCapsule = async () => {
+  const handleCloseCapsule = async () => {
     try {
-      await open.mutateAsync(item);
+      onClose();
+      await close.mutateAsync(item);
       await utils.user.inventory.invalidate();
-      await capsule.refetch();
-      snackbar.success('You have opened a new capsule!');
+      snackbar.success('You have closed this capsule!');
     } catch (error) {
       snackbar.error(parseTRPCClientErrorMessage(error));
     }
@@ -427,17 +435,17 @@ const CapsuleItem: React.FC<{
     }
 
     try {
-      setShowAdvertisement(false);
       await award.mutateAsync({ capsuleId: capsule.data.id });
-
       await capsule.refetch();
       snackbar.success('You can now unlock an additional item!');
     } catch (error) {
       snackbar.error(parseTRPCClientErrorMessage(error));
+    } finally {
+      setShowAdvertisement(false);
     }
   };
 
-  if (capsule.isLoading || open.isLoading || award.isLoading)
+  if (capsule.isLoading || close.isLoading || award.isLoading)
     return <PulsingLogo />;
   if (capsule.isError)
     return <ErrorComponent hideLogo message={capsule.error.message} />;
@@ -448,7 +456,7 @@ const CapsuleItem: React.FC<{
         item={item}
         capsule={capsule.data}
         onWatchAdvertisement={() => setShowAdvertisement(true)}
-        onNewCapsule={handleNewCapsule}
+        onCloseCapsule={handleCloseCapsule}
       />
       <WatchAdvertisementModal
         open={showAdvertisement}
@@ -490,14 +498,14 @@ const OpenCapsuleItem: React.FC<{
   item: InventoryItemSchema;
   capsule: InventoryCapsuleSchema;
   onWatchAdvertisement: () => void;
-  onNewCapsule: () => void;
-}> = ({ item, capsule, onWatchAdvertisement, onNewCapsule }) => {
+  onCloseCapsule: () => void;
+}> = ({ item, capsule, onWatchAdvertisement, onCloseCapsule }) => {
   const needsMoreUnlocks = !capsule.unlocks && capsule.remaining > 0;
   const canEarnMoreUnlocks = capsule.remaining > capsule.unlocks;
   const availableCapsules = item.quantity - 1;
   return (
     <Column gap={2} width="fit-content">
-      <Column>
+      <Column gap={0.5}>
         <Typography variant="body2" gutterBottom>
           <b>Selections Available:</b> {capsule.remaining}
         </Typography>
@@ -511,14 +519,11 @@ const OpenCapsuleItem: React.FC<{
         </Typography>
         {Boolean(needsMoreUnlocks) && (
           <Typography variant="body2" color="error" fontWeight={500}>
-            You have no more unlocks available. You can unlock more items by
-            watching an advertisement.
+            Unlock more items by watching a message from our sponsors.
           </Typography>
         )}
         {!capsule.remaining && (
-          <Typography variant="body2">
-            You have no more selections available.
-          </Typography>
+          <Typography variant="body2">No more selections available.</Typography>
         )}
         <Box my={0.5} />
 
@@ -538,26 +543,21 @@ const OpenCapsuleItem: React.FC<{
         <Typography variant="body2">
           <b>Available Capsules:</b> {availableCapsules}
         </Typography>
-        {!!capsule.unlocks && (
-          <Typography variant="body2">
-            Use all your unlocks before opening another capsule.
-          </Typography>
-        )}
-        {!capsule.remaining && (
-          <Typography variant="body2">
-            Open your next capsule to unlock more items.
-          </Typography>
-        )}
+        <Typography variant="body2">
+          {capsule.unlocks
+            ? 'Use all your unlocks before closing this capsule.'
+            : ' Permanently close this capsule to open another.'}
+        </Typography>
         <Box my={0.5} />
         <Button
-          disabled={!!capsule.unlocks || !availableCapsules}
+          disabled={!!capsule.unlocks}
           variant="arcade"
           color="primary"
           size="small"
-          startIcon={<LockOpenOutlined />}
-          onClick={onNewCapsule}
+          startIcon={<LockOutlined />}
+          onClick={onCloseCapsule}
         >
-          Open Another Capsule
+          Close Capsule
         </Button>
       </Column>
       <Row gap={0.5}>
@@ -595,13 +595,14 @@ const CapsuleOptions: React.FC<{ capsule: InventoryCapsuleSchema }> = ({
       const result = await unlock.mutateAsync({
         optionId: option.id,
       });
-      await utils.user.inventory.invalidate();
       snackbar.success(result.message);
     } catch (error) {
       snackbar.error(parseTRPCClientErrorMessage(error));
     } finally {
       setUnlocking(false);
     }
+
+    await utils.user.inventory.invalidate();
   };
 
   const options = capsule.options.sort((a, b) => a.position - b.position);
@@ -689,22 +690,21 @@ const ItemContent: React.FC<{
         <ErrorComponent message="Currency cannot be used. Contact Support." />
       );
     case 'CAPSULE':
-      return <CapsuleItem item={item} />;
+      return <CapsuleItem item={item} onClose={onClose} />;
     default:
       throw assertNever(item.type);
   }
 };
 
-const Container: React.FC<ModalWrapper<{ item: InventoryItemSchema }>> = ({
-  open,
-  onClose,
-  item,
-}) => {
+const Container: React.FC<{
+  item: InventoryItemSchema;
+  onClose: () => void;
+}> = ({ onClose, item }) => {
   const [using, setUsing] = React.useState(false);
 
   const handleClose = () => {
     setUsing(false);
-    onClose?.({}, 'escapeKeyDown');
+    onClose();
   };
 
   const handleUsage = async () => {
@@ -713,7 +713,7 @@ const Container: React.FC<ModalWrapper<{ item: InventoryItemSchema }>> = ({
 
   return (
     <ItemModalLayout
-      open={open}
+      open={true}
       onClose={handleClose}
       item={item}
       icon={Boolean(item.expiration.length) && <ExpiringItemIcon size={18} />}

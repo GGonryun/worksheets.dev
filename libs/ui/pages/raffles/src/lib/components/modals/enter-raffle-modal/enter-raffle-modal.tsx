@@ -19,7 +19,7 @@ import {
   RAFFLE_ENTRIES_PER_AD,
   RAFFLE_ENTRY_FEE,
 } from '@worksheets/util/settings';
-import { NO_REFETCH, parseTRPCClientErrorMessage } from '@worksheets/util/trpc';
+import { parseTRPCClientErrorMessage } from '@worksheets/util/trpc';
 import { UserParticipationSchema } from '@worksheets/util/types';
 import pluralize from 'pluralize';
 import { useState } from 'react';
@@ -27,7 +27,6 @@ import { useState } from 'react';
 export const EnterRaffleModal: React.FC<
   ModalWrapper<{
     raffleId: number;
-    tokensOwned: number;
   }>
 > = ({ raffleId, open, onClose }) => {
   return (
@@ -44,13 +43,10 @@ const ModalContent: React.FC<{ raffleId: number; onClose: () => void }> = ({
   raffleId,
   onClose,
 }) => {
-  const tokens = trpc.user.inventory.quantity.useQuery('1', NO_REFETCH);
-  const participation = trpc.user.raffles.participation.useQuery(
-    {
-      raffleId,
-    },
-    NO_REFETCH
-  );
+  const tokens = trpc.user.inventory.quantity.useQuery('1');
+  const participation = trpc.user.raffles.participation.useQuery({
+    raffleId,
+  });
 
   const [step, setStep] = useState<'initial' | 'tokens' | 'advertisement'>(
     'initial'
@@ -65,7 +61,15 @@ const ModalContent: React.FC<{ raffleId: number; onClose: () => void }> = ({
     setStep('initial');
   };
 
-  if (participation.isLoading || tokens.isLoading) return <PulsingLogo />;
+  if (
+    participation.isLoading ||
+    tokens.isLoading ||
+    tokens.isFetching ||
+    tokens.isRefetching ||
+    participation.isFetching ||
+    participation.isRefetching
+  )
+    return <PulsingLogo />;
   if (participation.isError || tokens.isError) return <ErrorComponent />;
 
   return (

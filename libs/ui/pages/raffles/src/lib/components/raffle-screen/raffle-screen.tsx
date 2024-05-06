@@ -1,35 +1,20 @@
 import { NavigateBefore } from '@mui/icons-material';
 import { Button, Container, Typography } from '@mui/material';
 import { routes } from '@worksheets/routes';
-import { RafflesGroup } from '@worksheets/ui/components/raffles';
-import {
-  ParticipationSchema,
-  RaffleSchema,
-  UserParticipationSchema,
-} from '@worksheets/util/types';
+import { RaffleSchema } from '@worksheets/util/types';
+import React from 'react';
 
 import { CustomContainer } from '../shared/custom-container';
-import { ParticipantsDescription } from './participants-description';
 import { RaffleDescription } from './raffle-description';
 import { RaffleDetails } from './raffle-details';
 
 export const RaffleScreen: React.FC<{
-  activeRaffles: RaffleSchema[];
+  moreRaffles: React.ReactNode;
+  participants: React.ReactNode;
   raffle: RaffleSchema;
-  youWon?: boolean;
-  participants: ParticipationSchema[];
-  participation?: UserParticipationSchema;
-  onRaffleClick: () => void;
+  raffleEntry: React.ReactNode;
   onShare: () => void;
-}> = ({
-  participants,
-  raffle,
-  participation,
-  activeRaffles,
-  youWon,
-  onRaffleClick,
-  onShare,
-}) => (
+}> = ({ participants, raffle, raffleEntry, moreRaffles, onShare }) => (
   <CustomContainer
     sx={{
       display: 'flex',
@@ -49,19 +34,17 @@ export const RaffleScreen: React.FC<{
     >
       <AllRafflesLink />
       <RaffleDetails
-        youWon={youWon}
         raffle={raffle}
-        participation={participation}
+        raffleEntry={raffleEntry}
         onShare={onShare}
-        onRaffleClick={onRaffleClick}
       />
     </Container>
 
     <RaffleDescription raffle={raffle} onShare={onShare} />
 
-    <ParticipantsDescription participants={participants} />
+    {participants}
 
-    <RafflesGroup title={'More Raffles'} raffles={activeRaffles} />
+    {moreRaffles}
   </CustomContainer>
 );
 

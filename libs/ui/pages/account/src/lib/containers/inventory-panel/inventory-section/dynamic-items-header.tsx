@@ -8,8 +8,6 @@ import dynamic from 'next/dynamic';
 import pluralize from 'pluralize';
 
 const Container = () => {
-  const { data } = trpc.user.inventory.items.useQuery(undefined);
-  const items = data?.length ?? 0;
   return (
     <Row justifyContent="space-between" flexWrap="wrap" gap={1}>
       <Typography variant="h6" gutterBottom>
@@ -25,9 +23,23 @@ const Container = () => {
           bookmark: HelpTokensQuestions.HowToEarn,
         })}
       >
-        {items} {pluralize('items', items)}
+        <ItemsCount />
       </Typography>
     </Row>
+  );
+};
+
+const ItemsCount = () => {
+  const count = trpc.user.inventory.count.useQuery();
+
+  return (
+    <span className="items-count">
+      {count.isLoading
+        ? 'Loading...'
+        : count.isError
+        ? 'Error...'
+        : `${count.data} ${pluralize('item', count.data)}`}
+    </span>
   );
 };
 

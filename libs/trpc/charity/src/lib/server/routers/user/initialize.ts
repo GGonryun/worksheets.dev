@@ -6,7 +6,6 @@ import { InventoryService } from '@worksheets/services/inventory';
 import { NotificationsService } from '@worksheets/services/notifications';
 import { QuestsService } from '@worksheets/services/quests';
 import { capitalizeFirstLetter } from '@worksheets/util/strings';
-import { waitFor } from '@worksheets/util/time';
 import { generateSlug } from 'random-word-slugs';
 import { z } from 'zod';
 
@@ -40,13 +39,11 @@ export default protectedProcedure
     const MAX_ATTEMPTS = 5;
 
     await initializeUser(db, user.id, MAX_ATTEMPTS);
-    await commitToNewsletter(db, user.email);
     await setReferralCode(db, user, input?.referralCode);
     await inventory.initializeUser(user.id);
+    await commitToNewsletter(db, user.email);
     await notifications.send('new-user', { user });
     await notifications.send('welcome-user', { user });
-    // artificial delay to ensure all resources are created
-    await waitFor(1000);
 
     return true;
   });

@@ -25,7 +25,11 @@ import { ContainImage, FillImage } from '@worksheets/ui/components/images';
 import { NumericCounterField } from '@worksheets/ui/components/inputs';
 import { InventoryItem, RemoveItemIcon } from '@worksheets/ui/components/items';
 import { LoadingBar } from '@worksheets/ui/components/loading';
-import { Modal, ModalWrapper } from '@worksheets/ui/components/modals';
+import {
+  InfoModal,
+  Modal,
+  ModalWrapper,
+} from '@worksheets/ui/components/modals';
 import {
   MonsterDetails,
   MonsterProfile,
@@ -36,6 +40,7 @@ import {
   HelpMobsQuestions,
 } from '@worksheets/util/enums';
 import { calculatePercentage } from '@worksheets/util/numbers';
+import { MAX_ITEMS_PER_STRIKE } from '@worksheets/util/settings';
 import { TABLET_SHADOW } from '@worksheets/util/styles';
 import { BattleSchema, InventoryItemSchema } from '@worksheets/util/types';
 import { useSession } from 'next-auth/react';
@@ -138,46 +143,36 @@ const FightModal: React.FC<ModalWrapper<{ battle: BattleSchema }>> = ({
   const handleClose = () => onClose?.({}, 'escapeKeyDown');
 
   return (
-    <Modal open={open} onClose={handleClose}>
-      <Box
-        sx={{
-          p: 2,
-          gap: 2,
-          position: 'relative',
-          width: { xs: 290, mobile1: 320, sm: 360 },
-        }}
-      >
-        <CloseButton onClick={handleClose} />
-        <Column alignItems="center" gap={1}>
-          <Typography variant="h5" textAlign="center">
-            {battle.mob.name}
-          </Typography>
-          <Divider />
-          <Box
-            sx={{
-              position: 'relative',
-              width: 128,
-              height: 128,
-            }}
-          >
-            <ContainImage src={battle.mob.imageUrl} alt={battle.mob.name} />
-          </Box>
-          <Typography variant="body3" textAlign="center" fontWeight={700}>
-            HP: {battle.health}/{battle.mob.maxHp}
-          </Typography>
-          <HealthBar currentHp={battle.health} maxHp={battle.mob.maxHp} />
-          <Typography variant="body2" textAlign="center">
-            {battle.mob.description}
-          </Typography>
-          <Divider sx={{ width: '100%' }} />
-          {battle.health > 0 ? (
-            <ItemSelection battle={battle} onClose={handleClose} />
-          ) : (
-            <MobDefeated />
-          )}
-        </Column>
-      </Box>
-    </Modal>
+    <InfoModal open={open} onClose={handleClose}>
+      <Column alignItems="center" gap={1} p={2}>
+        <Typography variant="h5" textAlign="center">
+          {battle.mob.name}
+        </Typography>
+        <Divider />
+        <Box
+          sx={{
+            position: 'relative',
+            width: 128,
+            height: 128,
+          }}
+        >
+          <ContainImage src={battle.mob.imageUrl} alt={battle.mob.name} />
+        </Box>
+        <Typography variant="body3" textAlign="center" fontWeight={700}>
+          HP: {battle.health}/{battle.mob.maxHp}
+        </Typography>
+        <HealthBar currentHp={battle.health} maxHp={battle.mob.maxHp} />
+        <Typography variant="body2" textAlign="center">
+          {battle.mob.description}
+        </Typography>
+        <Divider sx={{ width: '100%' }} />
+        {battle.health > 0 ? (
+          <ItemSelection battle={battle} onClose={handleClose} />
+        ) : (
+          <MobDefeated />
+        )}
+      </Column>
+    </InfoModal>
   );
 };
 
@@ -302,14 +297,16 @@ const ItemSelection: React.FC<{
               onClick={() => handleRemove(item)}
             />
           ))}
-          <ItemBox items={availableItems()} onSelect={handleSelect} />
+          {selectedItems.length < MAX_ITEMS_PER_STRIKE && (
+            <AddItemBox items={availableItems()} onSelect={handleSelect} />
+          )}
         </Row>
       )}
-      <Column alignItems="center" gap={1} my={1} width="100%">
+      <Column alignItems="center" gap={1} width="100%" mt={2}>
         {connected ? (
           <Button
             variant="arcade"
-            color="error"
+            color="primary"
             fullWidth
             disabled={!selectedItems.length || damage.isError || striking}
             startIcon={
@@ -368,7 +365,7 @@ const ItemSelection: React.FC<{
   );
 };
 
-const ItemBox: React.FC<{
+const AddItemBox: React.FC<{
   items: InventoryItemSchema[];
   onSelect: (item: InventoryItemSchema) => void;
 }> = ({ items, onSelect }) => {
@@ -427,6 +424,7 @@ const SelectCombatItemModal: React.FC<
           gap: 2,
           position: 'relative',
           width: { xs: 290, mobile1: 320, sm: 360 },
+          justifyContent: 'center',
         }}
       >
         <CloseButton onClick={handleClose} />
@@ -525,7 +523,7 @@ const CombatItems: React.FC<{
         <Divider sx={{ width: '100%' }} />
       </Column>
 
-      <Row gap={1.5} flexWrap="wrap">
+      <Row gap={1.5} flexWrap="wrap" justifyContent="center">
         {availableItems.length ? (
           availableItems.map((item) => (
             <InventoryItem

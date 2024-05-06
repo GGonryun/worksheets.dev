@@ -26,16 +26,16 @@ const RafflesContainer = () => {
     }
   }, [router.query.search]);
 
-  const { data: hottestPrizes } = trpc.public.raffles.list.useQuery({
+  const hottest = trpc.public.raffles.list.useQuery({
     category: 'hottest',
     limit: 7,
   });
 
-  const { data: listRaffles } = trpc.public.raffles.list.useQuery({
+  const all = trpc.public.raffles.list.useQuery({
     category,
   });
 
-  const { data: enteredRaffles } = trpc.user.raffles.entered.useQuery(
+  const entered = trpc.user.raffles.entered.useQuery(
     { activeOnly: true },
     {
       enabled: isConnected,
@@ -47,11 +47,13 @@ const RafflesContainer = () => {
     query,
   });
 
+  if (all.isLoading || hottest.isLoading) return <LoadingBar />;
+
   return (
     <RafflesScreen
-      hottest={hottestPrizes ?? []}
-      entered={enteredRaffles ?? []}
-      list={listRaffles ?? []}
+      entered={entered.data ?? []}
+      hottest={hottest.data ?? []}
+      list={all.data ?? []}
       category={category}
       setCategory={setCategory}
       searched={searchPrizes ?? []}

@@ -15,8 +15,9 @@ export const ErrorComponent: React.FC<{
   title?: string;
   header?: string;
   hideLogo?: boolean;
+  color?: 'text.primary' | 'text.blue.darker';
   onRetry?: () => void;
-}> = ({ title, header, hideLogo, message, onRetry }) => {
+}> = ({ color, title, header, hideLogo, message, onRetry }) => {
   const isMobile = useMediaQuery((theme: Theme) =>
     theme.breakpoints.down('sm')
   );
@@ -31,7 +32,7 @@ export const ErrorComponent: React.FC<{
           p: 2,
           textAlign: 'center',
           maxWidth: 400,
-          color: (theme) => theme.palette.text.arcade,
+          color: (theme) => color ?? theme.palette.text.arcade,
         }}
       >
         {!hideLogo && (

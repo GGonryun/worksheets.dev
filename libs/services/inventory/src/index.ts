@@ -73,6 +73,14 @@ export class InventoryService {
     return tokens._sum.quantity ?? 0;
   }
 
+  async count(userId: string) {
+    return await this.#db.inventory.count({
+      where: {
+        userId,
+      },
+    });
+  }
+
   async items(
     userId: string,
     types?: ItemType[]
@@ -305,21 +313,33 @@ export class InventoryService {
   }
 
   async #consume(userId: string, opts: ConsumableDecrementOpts) {
+    console.info('Consuming', { itemId: opts.itemId, quantity: opts.quantity });
+
     const rate = CONSUMPTION_RATES[opts.itemId];
     if (isLotteryItems(rate)) {
-      const items: string[] = [];
+      const items: Item[] = [];
       for (let i = 0; i < opts.quantity; i++) {
         const item = rate.items[Math.floor(Math.random() * rate.items.length)];
-        await this.increment(userId, item.id, 1);
-        items.push(item.name);
+        items.push(item);
       }
-      const groupedItems = items.reduce((acc, item) => {
-        acc[item] = (acc[item] || 0) + 1;
+
+      const groupItems = items.reduce((acc, item) => {
+        acc[item.id] = (acc[item.id] || 0) + 1;
         return acc;
-      }, {} as Record<string, number>);
-      return `You have found ${Object.entries(groupedItems)
-        .map(([item, count]) => `${count} ${pluralize(item, count)}`)
-        .join(', ')}`;
+      }, {} as Record<ItemId, number>);
+
+      console.info('Consuming groups', {
+        numItems: items.length,
+        numGroups: Object.keys(groupItems).length,
+      });
+
+      await Promise.all(
+        Object.entries(groupItems).map(([itemId, quantity]) =>
+          this.increment(userId, itemId as ItemId, quantity)
+        )
+      );
+
+      return `You have found ${this.#printItemNames(items)}`;
     } else if (isRandomTokenQuantity(rate)) {
       // calculate the random quantity of tokens to award.
       let tokens = 0;
@@ -331,6 +351,16 @@ export class InventoryService {
     } else {
       throw unconsumable(opts.itemId);
     }
+  }
+
+  #printItemNames(items: Item[]): string {
+    const groupedItems = items.reduce((acc, item) => {
+      acc[item.name] = (acc[item.name] || 0) + 1;
+      return acc;
+    }, {} as Record<string, number>);
+    return Object.entries(groupedItems)
+      .map(([item, count]) => `${count} ${pluralize(item, count)}`)
+      .join(', ');
   }
 
   /** Incrementing is used to add an item to a user's account. */
@@ -594,6 +624,70 @@ export class CapsuleService {
       throw new TRPCError({
         code: 'BAD_REQUEST',
         message: `You have no capsules left to open.`,
+      });
+    }
+  }
+  async close(userId: string, opts: { itemId: ItemId }) {
+    const { itemId } = opts;
+    if (!isCapsuleItemId(itemId)) {
+      throw new TRPCError({
+        code: 'BAD_REQUEST',
+        message: `Item ID ${itemId} is not a capsule.`,
+      });
+    }
+
+    const inventory = await this.#db.inventory.findFirst({
+      where: {
+        userId,
+        itemId,
+      },
+      include: {
+        capsule: {
+          include: {
+            options: {
+              include: {
+                item: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    if (!inventory || !inventory.quantity) {
+      throw new TRPCError({
+        code: 'NOT_FOUND',
+        message: `You do not have any capsules to close.`,
+      });
+    }
+
+    if (inventory.capsule) {
+      // make sure the user has no unlocks left.
+      if (inventory.capsule.unlocks) {
+        throw new TRPCError({
+          code: 'BAD_REQUEST',
+          message: `You have ${inventory.capsule.unlocks} unlocks remaining.`,
+        });
+      }
+    }
+
+    const update = await this.#db.inventory.update({
+      where: {
+        id: inventory.id,
+      },
+      data: {
+        quantity: {
+          decrement: 1,
+        },
+      },
+    });
+
+    await this.#clear(inventory.capsule?.id);
+
+    if (update.quantity < 0) {
+      throw new TRPCError({
+        code: 'INTERNAL_SERVER_ERROR',
+        message: `You cannot close a capsule that you do not have.`,
       });
     }
   }

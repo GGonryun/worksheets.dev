@@ -1,9 +1,11 @@
 import { BattleStatus } from '@prisma/client';
+import { TRPCError } from '@trpc/server';
 import { ItemId } from '@worksheets/data/items';
 import { InventoryService } from '@worksheets/services/inventory';
-import { MobsService } from '@worksheets/services/mobs';
+import { MAX_ITEMS_PER_STRIKE } from '@worksheets/util/settings';
 import {
-  DecrementOpts,
+  isCombatItemId,
+  isCurrencyItemId,
   userBattleParticipationSchema,
 } from '@worksheets/util/types';
 import { z } from 'zod';
@@ -72,16 +74,120 @@ export default t.router({
     .mutation(async ({ ctx: { db, user }, input: { battleId, items } }) => {
       const userId = user.id;
 
+      if (items.length > MAX_ITEMS_PER_STRIKE) {
+        throw new TRPCError({
+          code: 'BAD_REQUEST',
+          message: `You can only use ${MAX_ITEMS_PER_STRIKE} unique items per strike.`,
+        });
+      }
+
+      if (
+        !items.every(
+          (i) => isCombatItemId(i.itemId) || isCurrencyItemId(i.itemId)
+        )
+      ) {
+        throw new TRPCError({
+          code: 'BAD_REQUEST',
+          message: 'An invalid item is being used for combat.',
+        });
+      }
+
       return await db.$transaction(async (tx) => {
         const inventory = new InventoryService(tx);
-        const mobs = new MobsService(tx);
 
         const damage = inventory.damage(items);
 
-        await mobs.strike({ userId, battleId, damage });
+        const battle = await tx.battle.findFirst({
+          where: {
+            id: battleId,
+            status: 'ACTIVE',
+          },
+          select: {
+            health: true,
+            mob: {
+              select: {
+                id: true,
+                maxHp: true,
+              },
+            },
+          },
+        });
+
+        if (!battle) {
+          throw new TRPCError({
+            code: 'NOT_FOUND',
+            message: 'Battle not found',
+          });
+        }
+
+        // check if the mob already has 0 hp.
+        if (battle.health <= 0) {
+          throw new TRPCError({
+            code: 'PRECONDITION_FAILED',
+            message: 'Mob already defeated',
+          });
+        }
+
+        // check how much damage could actually be dealt dealt.
+        const damageDealt = Math.min(battle.health, damage);
+
+        await tx.battle.update({
+          where: {
+            id: battleId,
+          },
+          data: {
+            health: {
+              decrement: damageDealt,
+            },
+          },
+        });
+
+        await tx.battleParticipation.upsert({
+          where: {
+            userId_battleId: {
+              userId,
+              battleId,
+            },
+          },
+          create: {
+            battleId,
+            userId,
+            damage,
+            strikes: 1,
+            struckAt: new Date(),
+          },
+          update: {
+            damage: {
+              increment: damageDealt,
+            },
+            strikes: {
+              increment: 1,
+            },
+            struckAt: new Date(),
+          },
+        });
 
         for (const item of items) {
-          await inventory.decrement(userId, item as DecrementOpts);
+          const result = await tx.inventory.update({
+            where: {
+              itemId_userId: {
+                userId,
+                itemId: item.itemId,
+              },
+            },
+            data: {
+              quantity: {
+                decrement: item.quantity,
+              },
+            },
+          });
+
+          if (result.quantity < 0) {
+            throw new TRPCError({
+              code: 'BAD_REQUEST',
+              message: 'Not enough items to use',
+            });
+          }
         }
 
         return damage;
