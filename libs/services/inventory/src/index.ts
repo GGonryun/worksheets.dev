@@ -892,7 +892,7 @@ export class CapsuleService {
     if (!option) {
       throw new TRPCError({
         code: 'NOT_FOUND',
-        message: `Capsule option ${opts.optionId} does not exist`,
+        message: `Capsule option does not exist`,
       });
     }
 
@@ -906,7 +906,7 @@ export class CapsuleService {
     if (option.unlocked) {
       throw new TRPCError({
         code: 'BAD_REQUEST',
-        message: `Capsule option ${opts.optionId} is already unlocked`,
+        message: `Capsule option is already unlocked`,
       });
     }
 
