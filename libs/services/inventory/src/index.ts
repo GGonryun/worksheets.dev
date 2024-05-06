@@ -77,6 +77,9 @@ export class InventoryService {
     return await this.#db.inventory.count({
       where: {
         userId,
+        quantity: {
+          gt: 0,
+        },
       },
     });
   }
