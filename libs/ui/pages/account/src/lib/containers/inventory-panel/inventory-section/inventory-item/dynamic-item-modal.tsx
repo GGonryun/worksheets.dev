@@ -420,13 +420,14 @@ const CapsuleItem: React.FC<{
 
   const handleCloseCapsule = async () => {
     try {
-      onClose();
       await close.mutateAsync(item);
-      await utils.user.inventory.invalidate();
       snackbar.success('You have closed this capsule!');
     } catch (error) {
       snackbar.error(parseTRPCClientErrorMessage(error));
     }
+
+    onClose();
+    await utils.user.inventory.invalidate();
   };
 
   const handleSubmitAdvertisement = async () => {
@@ -595,6 +596,7 @@ const CapsuleOptions: React.FC<{ capsule: InventoryCapsuleSchema }> = ({
       const result = await unlock.mutateAsync({
         optionId: option.id,
       });
+      await utils.user.inventory.capsule.get.invalidate();
       snackbar.success(result.message);
     } catch (error) {
       snackbar.error(parseTRPCClientErrorMessage(error));
