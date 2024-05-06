@@ -437,13 +437,13 @@ const CapsuleItem: React.FC<{
 
     try {
       await award.mutateAsync({ capsuleId: capsule.data.id });
-      await capsule.refetch();
       snackbar.success('You can now unlock an additional item!');
     } catch (error) {
       snackbar.error(parseTRPCClientErrorMessage(error));
     } finally {
       setShowAdvertisement(false);
     }
+    await capsule.refetch();
   };
 
   if (capsule.isLoading || close.isLoading || award.isLoading)
