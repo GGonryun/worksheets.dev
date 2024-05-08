@@ -13,7 +13,7 @@ export const CookiesStatement = () => {
 };
 
 const createdAtDate = printDate('12-01-2023');
-const updatedAtDate = printDate('02-14-2024');
+const updatedAtDate = printDate('05-06-2024');
 
 const cookiesText = `
 # Global Cookie Policy
@@ -78,7 +78,7 @@ cookies, device identifiers, or other information can be stored or accessed on y
 ## General Website Functionality
 If you choose to block or delete certain cookies, it is possible the Charity Games website or functions on our website do not work properly anymore. Deleting or refusing cookies also does not mean you will no longer see advertisements. However, as a result of disabling cookies, the advertisements shown may be less relevant to you.
 
-## How to change or delete cookie settings in your browser. 
+## How to change or delete cookie settings in your browser
 For your convenience we included links on how to change cookie settings on the most used internet browsers:
 <br/><br/>
 [How to change cookies setting in Google Chrome](https://support.google.com/accounts/answer/61416?co=GENIE.Platform%3DDesktop&hl=en)
@@ -90,7 +90,7 @@ For your convenience we included links on how to change cookie settings on the m
 [How to change cookies setting in Mozilla Firefox](https://support.mozilla.org/en-US/kb/cookies-information-websites-store-on-your-computer)
 <br/>
 [How to change cookies setting in Opera](https://help.opera.com/en/latest/web-preferences/)
-<br/><br/>
-## More information.
+
+## More information
 We care about your privacy! Please consider carefully which web browser you use. Some browsers may benefit from sharing your personal data, while others are completely independent. We advise you to research the available web browsers and decide for yourself which browser best suits your interests. Please visit [www.whatismybrowser.com](www.whatismybrowser.com) for information on the browser you use and more information on other browsers and browser settings.
 `;

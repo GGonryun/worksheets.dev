@@ -45,9 +45,11 @@ export class NotificationsService {
     if (targets.broadcast) {
       tasks.push(this.#push.notify(targets.broadcast));
     }
+    // TODO: add support for a real newsletter and email service.
     if (targets.email) {
       tasks.push(this.#email.send(targets.email));
     }
+    // TODO: add support for a real newsletter and email service.
     if (targets.newsletter) {
       targets.newsletter.forEach((newsletter) => {
         tasks.push(this.#newsletter.schedule(newsletter));

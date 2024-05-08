@@ -18,6 +18,7 @@ export default publicProcedure
       orderBy: {
         numEntries: 'desc',
       },
+      take: 100,
       select: {
         numEntries: true,
         userId: true,

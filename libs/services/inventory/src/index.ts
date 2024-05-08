@@ -74,7 +74,7 @@ export class InventoryService {
   }
 
   async count(userId: string) {
-    return await this.#db.inventory.count({
+    const count = await this.#db.inventory.count({
       where: {
         userId,
         quantity: {
@@ -82,6 +82,7 @@ export class InventoryService {
         },
       },
     });
+    return count;
   }
 
   async items(
@@ -219,7 +220,14 @@ export class InventoryService {
       });
     }
 
-    await this.#db.inventory.update({
+    if (opts.quantity < 0) {
+      throw new TRPCError({
+        code: 'INTERNAL_SERVER_ERROR',
+        message: `Failed to process request. Invalid quantity ${opts.quantity}.`,
+      });
+    }
+
+    const update = await this.#db.inventory.update({
       where: {
         id: inventory.id,
       },
@@ -229,6 +237,13 @@ export class InventoryService {
         },
       },
     });
+
+    if (update.quantity < 0) {
+      throw new TRPCError({
+        code: 'BAD_REQUEST',
+        message: `You do not have enough items to perform this action.`,
+      });
+    }
 
     return await this.#decrement(userId, inventory.id, opts);
   }

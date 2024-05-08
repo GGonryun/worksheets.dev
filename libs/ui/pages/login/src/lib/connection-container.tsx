@@ -26,6 +26,7 @@ export const ConnectionContainer: FC<ConnectionContainerProps> = ({
         borderRadius: 4,
         display: 'flex',
         flexDirection: 'column',
+        minWidth: { xs: undefined, sm: '333px' },
         alignItems: 'center',
         gap: 2,
         p: 3,

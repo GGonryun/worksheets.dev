@@ -94,9 +94,7 @@ export class PushTemplates {
     };
   }
 
-  static welcomeUser(
-    opts: ExtractTemplatePayload<'welcome-user'>
-  ): PushNotifyInput {
+  static newUser(opts: ExtractTemplatePayload<'new-user'>): PushNotifyInput {
     return {
       type: 'SYSTEM',
       text: `Welcome to Charity Games! We've added <a href="${ACCOUNT_INVENTORY_URL}">${STARTING_TOKENS} tokens</a> and <a href="${ACCOUNT_INVENTORY_URL}">${STARTING_GIFT_BOXES} gift boxes</a> to your account. Spend your tokens on <a href="${RAFFLES_URL}">raffles</a> or <a href="${GAMES_URL}">play games</a> to win more!`,

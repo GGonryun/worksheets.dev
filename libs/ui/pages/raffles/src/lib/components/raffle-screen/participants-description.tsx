@@ -35,7 +35,10 @@ const Content: React.FC<{ raffleId: number }> = ({ raffleId }) => {
         </Typography>
       )}
       <br />
-      <Heading>Total Participants: {participants.data.length}</Heading>
+      <Heading>
+        Total Participants:{' '}
+        {participants.data.length > 100 ? '99+' : participants.data.length}
+      </Heading>
       {participants.data.map((participant, i) => (
         <Typography key={i}>
           <b>{participant.user.username}</b> — {participant.numEntries} entries

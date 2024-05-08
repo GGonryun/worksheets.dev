@@ -92,6 +92,13 @@ export default t.router({
         });
       }
 
+      if (items.some((i) => i.quantity < 0)) {
+        throw new TRPCError({
+          code: 'BAD_REQUEST',
+          message: 'An invalid quantity was provided.',
+        });
+      }
+
       return await db.$transaction(async (tx) => {
         const inventory = new InventoryService(tx);
 

@@ -21,7 +21,7 @@ export const LoginScreen: FC<LoginScreenProps> = (props) => {
           Log In
         </Typography>
         <Typography variant="body2" textAlign="center" pt={0.5}>
-          Connect to your Charity.Games account
+          Connect to Charity.Games
           <br />
           <Link
             href={routes.help.accounts.path({

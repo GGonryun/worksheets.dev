@@ -38,7 +38,7 @@ export default protectedProcedure
       },
     });
 
-    if (usernameTaken) {
+    if (usernameTaken && user.username !== username) {
       return {
         okay: false,
         errors: {

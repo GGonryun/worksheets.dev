@@ -41,9 +41,9 @@ export default protectedProcedure
     await initializeUser(db, user.id, MAX_ATTEMPTS);
     await setReferralCode(db, user, input?.referralCode);
     await inventory.initializeUser(user.id);
-    await commitToNewsletter(db, user.email);
     await notifications.send('new-user', { user });
     await notifications.send('welcome-user', { user });
+    await commitToNewsletter(db, user.email);
 
     return true;
   });
