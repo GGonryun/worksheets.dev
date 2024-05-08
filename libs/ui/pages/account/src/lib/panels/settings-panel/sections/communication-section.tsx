@@ -26,10 +26,10 @@ export const CommunicationSection: React.FC<{
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        gap: 2,
+        gap: 1,
       }}
     >
-      <Typography variant="h6">Email Topics</Typography>
+      <Typography variant="h6">Newsletter Settings</Typography>
       {form}
       <PanelFooter
         learn={{

@@ -83,22 +83,22 @@ export const trackFinitePlayGameProgress = async (
           },
         },
       });
-      return;
+      if (progress.state.progress + 1 === definition.data.requirement) {
+        await opts.db.questProgress.update({
+          where: {
+            id: progress.id,
+          },
+          data: {
+            status: 'COMPLETED',
+          },
+        });
+        await awardLoot(opts.inventory, opts.userId, definition.loot);
+        await opts.notifications.send('quest-completed', {
+          userId: opts.userId,
+          quest: definition,
+        });
+      }
     }
-
-    await opts.db.questProgress.update({
-      where: {
-        id: progress.id,
-      },
-      data: {
-        status: 'COMPLETED',
-      },
-    });
-    await awardLoot(opts.inventory, opts.userId, definition.loot);
-    await opts.notifications.send('quest-completed', {
-      userId: opts.userId,
-      quest: definition,
-    });
   });
 };
 

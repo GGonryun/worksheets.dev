@@ -46,6 +46,13 @@ export default protectedProcedure
         });
       }
 
+      if (entries < 1) {
+        throw new TRPCError({
+          code: 'BAD_REQUEST',
+          message: 'Invalid number of entries',
+        });
+      }
+
       await inventory.decrement(user.id, {
         itemId: '1',
         quantity: RAFFLE_ENTRY_FEE * entries,

@@ -9,4 +9,8 @@ export const SocialProviderButton = styled<JSXElementConstructor<ButtonProps>>(
   textTransform: 'none',
   fontFamily: theme.typography.mPlus1p.fontFamily,
   fontWeight: 600,
+  '&.MuiButtonBase-root': {
+    display: 'grid',
+    gridTemplateColumns: 'auto 1fr',
+  },
 }));

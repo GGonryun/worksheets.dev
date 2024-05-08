@@ -53,10 +53,10 @@ const raffleExpiredTemplates: TemplateBuilder<'raffle-expired'> = (
 
 const newUserTemplates: TemplateBuilder<'new-user'> = (payload) => ({
   discord: DiscordTemplates.newUser(payload),
+  push: PushTemplates.newUser(payload),
 });
 
 const welcomeUserTemplates: TemplateBuilder<'welcome-user'> = (payload) => ({
-  push: PushTemplates.welcomeUser(payload),
   newsletter: NewsletterTemplates.welcomeUser(payload),
 });
 

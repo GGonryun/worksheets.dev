@@ -43,8 +43,9 @@ export const SubscriptionForm: React.FC<{
             <TextField
               required
               disabled={Boolean(form.id)}
+              size="small"
               type="email"
-              placeholder="Enter your email address."
+              placeholder="example@charity.games"
               value={form.email}
               onChange={(event) =>
                 onUpdate({ ...form, email: event.target.value })

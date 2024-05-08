@@ -40,6 +40,7 @@ export const CookiePolicyScreen: FC<CookiePolicyScreenProps> = () => {
             Home Page
           </Link>
           <Link
+            sx={{ cursor: 'pointer' }}
             onClick={() => {
               destroyAllData();
               alert('Your local storage and cookies have been cleared.');

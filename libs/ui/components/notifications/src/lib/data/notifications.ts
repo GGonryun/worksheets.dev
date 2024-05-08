@@ -48,11 +48,7 @@ export const mockNotifications: NotificationSchema[] = [
   },
   {
     id: '42',
-    text: `<b>GGonryun</b> has sent you a gift box! Visit your <a href="${routes.account.friends.path(
-      {
-        bookmark: FriendsPanels.GiftBoxes,
-      }
-    )}">account</a> to claim your reward.`,
+    text: `<b>GGonryun</b> has sent you a gift box! Visit your <a href="${routes.account.friends.path()}">account</a> to claim your reward.`,
     type: 'REWARD',
     read: false,
     createdAt: minutesAgo(45).getTime(),

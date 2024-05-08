@@ -6,7 +6,6 @@ import { t } from '../../../trpc';
 
 export default t.router({
   subscription: protectedProcedure
-
     .output(
       z.object({
         id: z.string(),
