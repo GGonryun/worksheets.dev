@@ -8,7 +8,7 @@ import { LoadingBar } from '@worksheets/ui/components/loading';
 import React from 'react';
 
 const Content: React.FC<{ raffleId: number }> = ({ raffleId }) => {
-  const participants = trpc.public.raffles.participants.useQuery({
+  const participants = trpc.maybe.raffles.participants.useQuery({
     raffleId,
   });
 
