@@ -1,3 +1,4 @@
+import { TRPCError } from '@trpc/server';
 import { ItemId } from '@worksheets/data/items';
 import { PrismaClient, PrismaTransactionalClient } from '@worksheets/prisma';
 import { InventoryService } from '@worksheets/services/inventory';
@@ -108,6 +109,14 @@ export class RafflesService {
         },
       });
       return;
+    }
+
+    if (!raffle.participants.every((p) => p.numEntries >= 0)) {
+      throw new TRPCError({
+        code: 'INTERNAL_SERVER_ERROR',
+        message:
+          'Invalid raffle state. Participant found with negative entries.',
+      });
     }
 
     const winners = await this.#pickWinners(
