@@ -12,7 +12,7 @@ const RandomGameScreen = () => {
   const { isMobileOrTablet } = useDeviceChecks();
   const { recentlyPlayed } = useRecentlyPlayedGames();
 
-  const { data, isLoading, error } = trpc.public.games.findRandom.useQuery({
+  const { data, isLoading, error } = trpc.maybe.games.random.useQuery({
     isMobileOrTablet,
     recentlyPlayed: recentlyPlayed.map((g) => g.id),
   });

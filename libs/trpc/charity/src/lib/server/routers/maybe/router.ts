@@ -1,6 +1,7 @@
 import { t } from '../../trpc';
 import advertisements from './advertisements/router';
 import battles from './battles/router';
+import games from './games';
 import raffles from './raffles';
 
 // create different "public" routers that are cached for varying amounts of time.
@@ -9,4 +10,5 @@ export default t.router({
   battles,
   advertisements,
   raffles,
+  games,
 });
