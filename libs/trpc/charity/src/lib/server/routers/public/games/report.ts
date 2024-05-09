@@ -1,4 +1,5 @@
 import { ReportReason } from '@worksheets/prisma';
+import { NotificationsService } from '@worksheets/services/notifications';
 import { z } from 'zod';
 
 import { publicProcedure } from '../../../procedures';
@@ -17,6 +18,7 @@ export default publicProcedure
     })
   )
   .mutation(async ({ input: { gameId, reason, text }, ctx: { db } }) => {
+    const notifications = new NotificationsService(db);
     try {
       await db.gameReport.create({
         data: {
@@ -26,6 +28,11 @@ export default publicProcedure
         },
       });
 
+      notifications.send('game-report', {
+        gameId,
+        reason,
+        text,
+      });
       console.info(`Received a game report for game ${gameId} from user`);
 
       return { success: true };

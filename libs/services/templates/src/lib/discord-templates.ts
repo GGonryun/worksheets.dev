@@ -7,6 +7,20 @@ import { ExtractTemplatePayload } from './types';
 import { BATTLE_URL, RAFFLE_URL } from './urls';
 
 export class DiscordTemplates {
+  static gameReport(
+    opts: ExtractTemplatePayload<'game-report'>
+  ): DiscordMessageInput {
+    return {
+      content: `A user has reported a game: ${opts.gameId}`,
+      embeds: [
+        {
+          title: `Reason: ${opts.reason}`,
+          description: opts.text,
+        },
+      ],
+      channel: 'admin',
+    };
+  }
   static newGame(
     opts: ExtractTemplatePayload<'new-game'>
   ): DiscordMessageInput {

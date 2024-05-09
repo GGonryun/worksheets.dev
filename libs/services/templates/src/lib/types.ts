@@ -231,6 +231,14 @@ export type NotificationTemplate =
           title: string;
         };
       };
+    }
+  | {
+      type: 'game-report';
+      payload: {
+        gameId: string;
+        reason: string;
+        text: string;
+      };
     };
 
 /** Helper Types **/
