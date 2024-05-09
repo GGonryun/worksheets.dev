@@ -45,6 +45,8 @@ export function ArcadeItemGroup<T extends { id: string | number }>(
         display="flex"
         justifyContent="space-between"
         alignItems="center"
+        flexWrap="wrap"
+        gap={1}
         pb={{ xs: 1.5, sm: 2.5 }}
         sx={{
           color: 'text.arcade',
@@ -58,7 +60,7 @@ export function ArcadeItemGroup<T extends { id: string | number }>(
         >
           {props.title}
         </Typography>
-        {Boolean(props.action) && props.action}
+        {Boolean(props.action) && <Box>{props.action}</Box>}
       </Box>
       <Paper
         sx={{
