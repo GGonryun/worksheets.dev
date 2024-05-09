@@ -26,15 +26,6 @@ export const itemTypeLabel: Record<ItemType, string> = {
   ETCETERA: 'Miscellaneous',
   CAPSULE: 'Prize Capsule',
 };
-export const itemTypeActionLabel: Record<ItemType, string> = {
-  SHARABLE: 'Sharable',
-  CURRENCY: 'In Game Currency',
-  STEAM_KEY: 'Steam Key',
-  CONSUMABLE: 'Consumable Item',
-  COMBAT: 'Combat Item',
-  ETCETERA: 'Miscellaneous',
-  CAPSULE: 'Prize Capsule',
-};
 
 export const itemTypeLogo: Record<ItemType, SvgIconComponent> = {
   SHARABLE: CardGiftcard,

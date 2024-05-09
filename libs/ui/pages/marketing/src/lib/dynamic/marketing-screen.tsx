@@ -1,21 +1,20 @@
 import { Box } from '@mui/material';
 import { LoadingScreen } from '@worksheets/ui/pages/loading';
-import { hoursFromNow } from '@worksheets/util/time';
 import dynamic from 'next/dynamic';
 
 import { FooterSection } from '../components/footer-section';
 import { HeroSection } from '../components/hero-section';
 import { InstructionsSection } from '../components/instructions-section';
 import { PrizesSection } from '../components/prizes-section';
-import { RafflesSection } from '../components/raffles-section';
 import { RulesSection } from '../components/rules-section';
 import { SocialProofSection } from '../components/social-proof-section';
+import { RafflesSectionContainer } from './dynamic-raffles-section';
 
 const MarketingScreen = () => (
   <Box>
     <HeroSection />
 
-    <RafflesSection raffleExpiration={hoursFromNow(36).getTime()} />
+    <RafflesSectionContainer />
 
     <PrizesSection />
 

@@ -7,7 +7,6 @@ import {
 import { Box, Button, Divider, Typography } from '@mui/material';
 import { routes } from '@worksheets/routes';
 import { trpc } from '@worksheets/trpc-charity';
-import { itemTypeActionLabel } from '@worksheets/ui/components/items';
 import { PulsingLogo } from '@worksheets/ui/components/loading';
 import { RaffleSchema } from '@worksheets/util/types';
 import { useRouter } from 'next/router';
@@ -114,7 +113,7 @@ export const RaffleEntry: React.FC<{
           target="_blank"
           startIcon={<OpenInNew />}
         >
-          {itemTypeActionLabel[raffle.type]}
+          Learn More
         </Button>
       </Box>
     </>
