@@ -1,14 +1,13 @@
 import { Box } from '@mui/material';
-import { useDeviceOrientation } from '@worksheets/ui-core';
 import {
   DeveloperSchema,
   SerializableGameSchema,
   Vote,
 } from '@worksheets/util/types';
-import { isMobileOrTabletDeviceBrowser } from '@worksheets/util-devices';
 import { useRouter } from 'next/router';
 import { FC, useEffect, useRef, useState } from 'react';
 
+import { useDeviceInformation } from '../../hooks/use-device-information';
 import { GameBanner } from './game-banner';
 import { GameExitFullscreenButton } from './game-exit-fullscreen-button';
 import { GameFrame } from './game-frame';
@@ -34,8 +33,7 @@ export const GameLauncher: FC<GameLauncherProps> = ({
   const [showLoadingCover, setShowLoadingCover] = useState(true);
   const frameRef = useRef<HTMLIFrameElement>(null);
   const boxRef = useRef<HTMLDivElement>(null);
-  const isMobileOrTablet = isMobileOrTabletDeviceBrowser();
-  const orientation = useDeviceOrientation();
+  const { isMobileOrTablet } = useDeviceInformation(game.viewport);
 
   const { fullscreen, requestFullScreen, exitFullScreen } =
     useFullscreen(boxRef);
@@ -60,6 +58,7 @@ export const GameLauncher: FC<GameLauncherProps> = ({
   };
 
   const handleFullscreen: () => void = () => {
+    console.log('handleFullscreen', game.file.type);
     if (game.file.type === 'EXTERNAL') {
       throw new Error("Unsupported action: game.file.type === 'EXTERNAL'");
     } else {
@@ -95,10 +94,7 @@ export const GameLauncher: FC<GameLauncherProps> = ({
           iconUrl={game.iconUrl}
           name={game.name}
           onPlay={handlePlayGame}
-          devices={game.viewport.devices}
-          orientations={game.viewport.orientations}
-          deviceOrientation={orientation}
-          isMobileOrTablet={isMobileOrTablet}
+          viewport={game.viewport}
         />
       ) : (
         <GameFrame url={game.file.url} ref={frameRef} />
@@ -109,12 +105,7 @@ export const GameLauncher: FC<GameLauncherProps> = ({
         <GameBanner
           isFullscreen={!!fullscreen}
           developer={developer}
-          type={game.file.type}
-          iconUrl={game.iconUrl}
-          name={game.name}
-          likes={game.likes}
-          dislikes={game.dislikes}
-          plays={game.plays}
+          game={game}
           userVote={userVote}
           onFullscreen={handleFullscreen}
           onVote={onVote}

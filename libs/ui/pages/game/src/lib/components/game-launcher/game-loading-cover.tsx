@@ -8,9 +8,10 @@ import {
 import { Box, Button, Typography } from '@mui/material';
 import { FillImage } from '@worksheets/ui/components/images';
 import { useMediaQuery } from '@worksheets/ui/hooks/use-media-query';
-import { DeviceOrientations, GameDevices } from '@worksheets/util/types';
+import { GameSchema } from '@worksheets/util/types';
 import { FC } from 'react';
 
+import { useDeviceInformation } from '../../hooks/use-device-information';
 import { RotateToLandscape } from '../icons/rotate-to-landscape';
 import { RotateToPortrait } from '../icons/rotate-to-portrait';
 
@@ -18,10 +19,7 @@ export type GameLoadingCoverProps = {
   backgroundUrl: string;
   iconUrl: string;
   name: string;
-  devices: GameDevices[];
-  orientations: DeviceOrientations[];
-  isMobileOrTablet: boolean;
-  deviceOrientation: OrientationType;
+  viewport: GameSchema['viewport'];
   onPlay: () => void;
 };
 
@@ -29,30 +27,15 @@ export const GameLoadingCover: FC<GameLoadingCoverProps> = ({
   name,
   backgroundUrl,
   iconUrl,
-  devices,
-  orientations,
+  viewport,
   onPlay,
-  isMobileOrTablet,
-  deviceOrientation,
 }) => {
-  const isPortrait =
-    deviceOrientation === 'portrait-primary' ||
-    deviceOrientation === 'portrait-secondary';
-
-  const isLandscape =
-    deviceOrientation === 'landscape-primary' ||
-    deviceOrientation === 'landscape-secondary';
-
-  const supportsMobile = devices.includes('MOBILE') && isMobileOrTablet;
-  const supportsDesktop = devices.includes('COMPUTER') && !isMobileOrTablet;
-
-  const showNoDesktopOverlay = !isMobileOrTablet && !supportsDesktop;
-
-  const showNoMobileOverlay = isMobileOrTablet && !supportsMobile;
-  const showNoPortraitOverlay =
-    isMobileOrTablet && isPortrait && !orientations.includes('PORTRAIT');
-  const showNoLandscapeOverlay =
-    isMobileOrTablet && !orientations?.includes('LANDSCAPE') && isLandscape;
+  const {
+    showNoDesktopOverlay,
+    showNoLandscapeOverlay,
+    showNoMobileOverlay,
+    showNoPortraitOverlay,
+  } = useDeviceInformation(viewport);
 
   return (
     <Box

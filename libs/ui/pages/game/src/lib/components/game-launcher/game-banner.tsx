@@ -23,155 +23,150 @@ import { shorthandNumber } from '@worksheets/util/numbers';
 import {
   CastVote,
   DeveloperSchema,
-  GameSchema,
+  SerializableGameSchema,
   Vote,
 } from '@worksheets/util/types';
 import { FC, JSXElementConstructor } from 'react';
 
+import { useDeviceInformation } from '../../hooks/use-device-information';
+
 export type GameBannerProps = {
-  type: GameSchema['file']['type'];
-  iconUrl: string;
   developer: DeveloperSchema;
-  name: string;
   isFullscreen?: boolean;
   userVote?: Vote;
-  plays: number;
-  likes: number;
-  dislikes: number;
+  game: SerializableGameSchema;
   onFullscreen?: () => void;
   onVote: (vote: CastVote['vote']) => void;
 };
 
 export const GameBanner: FC<GameBannerProps> = ({
-  iconUrl,
-  name,
   developer,
-  type,
   isFullscreen,
-  plays,
-  likes,
-  dislikes,
+  game,
   userVote,
   onFullscreen,
   onVote,
-}) => (
-  <Box
-    sx={{
-      display: 'flex',
-      mt: { xs: 1, sm: 2 },
-      height: { xs: '64px', sm: '80px' },
-      minHeight: { xs: '64px', sm: '80px' },
-      maxHeight: { xs: '64px', sm: '80px' },
-      boxSizing: 'border-box',
-      overflow: 'hidden',
-      userSelect: 'none',
-      gap: { xs: 0.5, sm: 1 },
-    }}
-  >
+}) => {
+  const { canPlay } = useDeviceInformation(game.viewport);
+  return (
     <Box
       sx={{
-        aspectRatio: '1 / 1',
-        padding: 1,
+        display: 'flex',
+        mt: { xs: 1, sm: 2 },
+        height: { xs: '64px', sm: '80px' },
+        minHeight: { xs: '64px', sm: '80px' },
+        maxHeight: { xs: '64px', sm: '80px' },
+        boxSizing: 'border-box',
+        overflow: 'hidden',
+        userSelect: 'none',
+        gap: { xs: 0.5, sm: 1 },
       }}
     >
-      <ResponsiveImage
-        priority
-        alt={`${name} logo`}
-        src={iconUrl}
-        style={{
-          aspectRatio: '1 / 1',
-          borderRadius: '10px',
-          overflow: 'hidden',
-        }}
-      />
-    </Box>
-    <Box
-      display="flex"
-      alignItems="center"
-      flex={1}
-      justifyContent="space-between"
-      minWidth={0}
-      maxWidth="100%"
-    >
       <Box
-        minWidth={0}
         sx={{
-          '& > h6': {
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-            whiteSpace: 'nowrap',
-          },
+          aspectRatio: '1 / 1',
+          padding: 1,
         }}
       >
-        <Typography
-          color="text.blue.light"
-          typography={{ xs: 'h5', sm: 'h4' }}
-          component="h6"
-        >
-          {name}
-        </Typography>
-        <Typography
-          typography={{ xs: 'body3', sm: 'body2' }}
-          component={Link}
-          color={(theme) => theme.palette.text.blue.light}
-          sx={{
-            fontWeight: 500,
+        <ResponsiveImage
+          priority
+          alt={`${game.name} logo`}
+          src={game.iconUrl}
+          style={{
+            aspectRatio: '1 / 1',
+            borderRadius: '10px',
+            overflow: 'hidden',
           }}
-          underline="hover"
-          href={routes.developer.path({
-            params: {
-              developerId: developer.id,
-            },
-          })}
-        >
-          by {developer.name}
-        </Typography>
+        />
       </Box>
       <Box
         display="flex"
-        alignItems="flex-start"
-        px={{ xs: 1, sm: 2 }}
-        gap={{ xs: 1, sm: 2 }}
+        alignItems="center"
+        flex={1}
+        justifyContent="space-between"
+        minWidth={0}
+        maxWidth="100%"
       >
-        <ActionBox>
-          <ActionButton disabled>
-            <PlayArrow
-              sx={{
-                color: theme.palette.text.blue.light,
-              }}
-            />
-          </ActionButton>
-          <ActionText>{shorthandNumber(plays)}</ActionText>
-        </ActionBox>
-        <ActionBox>
-          <ActionButton onClick={() => onVote('up')}>
-            {userVote != null && userVote === 'up' ? (
-              <ThumbUpAlt />
-            ) : (
-              <ThumbUpOffAlt />
-            )}
-          </ActionButton>
-          <ActionText>{shorthandNumber(likes)}</ActionText>
-        </ActionBox>
-        <ActionBox>
-          <ActionButton onClick={() => onVote('down')}>
-            {userVote != null && userVote === 'down' ? (
-              <ThumbDownAlt />
-            ) : (
-              <ThumbDownOffAlt />
-            )}
-          </ActionButton>
-          <ActionText>{shorthandNumber(dislikes)}</ActionText>
-        </ActionBox>
-        {type === 'HTML' && (
-          <ActionButton onClick={onFullscreen}>
-            {isFullscreen ? <FullscreenExit /> : <Fullscreen />}
-          </ActionButton>
-        )}
+        <Box
+          minWidth={0}
+          sx={{
+            '& > h6': {
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
+            },
+          }}
+        >
+          <Typography
+            color="text.blue.light"
+            typography={{ xs: 'h5', sm: 'h4' }}
+            component="h6"
+          >
+            {game.name}
+          </Typography>
+          <Typography
+            typography={{ xs: 'body3', sm: 'body2' }}
+            component={Link}
+            color={(theme) => theme.palette.text.blue.light}
+            sx={{
+              fontWeight: 500,
+            }}
+            underline="hover"
+            href={routes.developer.path({
+              params: {
+                developerId: developer.id,
+              },
+            })}
+          >
+            by {developer.name}
+          </Typography>
+        </Box>
+        <Box
+          display="flex"
+          alignItems="flex-start"
+          px={{ xs: 1, sm: 2 }}
+          gap={{ xs: 1, sm: 2 }}
+        >
+          <ActionBox>
+            <ActionButton disabled>
+              <PlayArrow
+                sx={{
+                  color: theme.palette.text.blue.light,
+                }}
+              />
+            </ActionButton>
+            <ActionText>{shorthandNumber(game.plays)}</ActionText>
+          </ActionBox>
+          <ActionBox>
+            <ActionButton onClick={() => onVote('up')}>
+              {userVote != null && userVote === 'up' ? (
+                <ThumbUpAlt />
+              ) : (
+                <ThumbUpOffAlt />
+              )}
+            </ActionButton>
+            <ActionText>{shorthandNumber(game.likes)}</ActionText>
+          </ActionBox>
+          <ActionBox>
+            <ActionButton onClick={() => onVote('down')}>
+              {userVote != null && userVote === 'down' ? (
+                <ThumbDownAlt />
+              ) : (
+                <ThumbDownOffAlt />
+              )}
+            </ActionButton>
+            <ActionText>{shorthandNumber(game.dislikes)}</ActionText>
+          </ActionBox>
+          {canPlay && game.file.type === 'HTML' && (
+            <ActionButton onClick={onFullscreen}>
+              {isFullscreen ? <FullscreenExit /> : <Fullscreen />}
+            </ActionButton>
+          )}
+        </Box>
       </Box>
     </Box>
-  </Box>
-);
+  );
+};
 
 const ActionButton = styled<JSXElementConstructor<IconButtonProps>>((props) => (
   <IconButton size="small" {...props} />
