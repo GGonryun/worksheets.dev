@@ -14,6 +14,7 @@ import {
 } from '@worksheets/util/types';
 import { FC } from 'react';
 
+import { CreateAccountContainer } from './create-account-container';
 import { GameDescription } from './game-description';
 import { GameLauncher } from './game-launcher';
 
@@ -88,6 +89,7 @@ export const GameScreen: FC<GameScreenProps> = ({
           ))}
         </PaperSidebar>
       </Box>
+      <CreateAccountContainer />
       <GameDescription
         trailer={game.trailer}
         description={game.description}
