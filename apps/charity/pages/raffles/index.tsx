@@ -31,7 +31,7 @@ export const getStaticProps = (async (ctx) => {
     const trpc = await createStaticTRPC(ctx);
 
     const all = await trpc.public.raffles.list.fetch({
-      category: 'all',
+      category: 'active',
     });
 
     return {
