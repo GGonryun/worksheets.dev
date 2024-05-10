@@ -1,39 +1,16 @@
 import { trpc } from '@worksheets/trpc-charity';
-import { LoadingBar } from '@worksheets/ui/components/loading';
-import { FilterableRaffleCategory } from '@worksheets/util/types';
+import { LoadingScreen } from '@worksheets/ui/pages/loading';
+import { RaffleSchema } from '@worksheets/util/types';
 import dynamic from 'next/dynamic';
-import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
-import { useEffect, useState } from 'react';
 
 import { RafflesScreen } from '../components';
 
-const RafflesContainer = () => {
-  const router = useRouter();
-
+const RafflesContainer: React.FC<{
+  all: RaffleSchema[];
+}> = ({ all }) => {
   const session = useSession();
   const isConnected = session.status === 'authenticated';
-
-  const [category, setCategory] =
-    useState<FilterableRaffleCategory>('expiring');
-  const [query, setQuery] = useState<string>('');
-
-  useEffect(() => {
-    const search = router.query.search as string | undefined;
-
-    if (search) {
-      setQuery(search);
-    }
-  }, [router.query.search]);
-
-  const hottest = trpc.public.raffles.list.useQuery({
-    category: 'hottest',
-    limit: 7,
-  });
-
-  const all = trpc.public.raffles.list.useQuery({
-    category,
-  });
 
   const entered = trpc.user.raffles.entered.useQuery(
     { activeOnly: true },
@@ -42,31 +19,13 @@ const RafflesContainer = () => {
     }
   );
 
-  const { data: searchPrizes } = trpc.public.raffles.list.useQuery({
-    category: 'active',
-    query,
-  });
-
-  if (all.isLoading || hottest.isLoading) return <LoadingBar />;
-
-  return (
-    <RafflesScreen
-      entered={entered.data ?? []}
-      hottest={hottest.data ?? []}
-      list={all.data ?? []}
-      category={category}
-      setCategory={setCategory}
-      searched={searchPrizes ?? []}
-      query={query}
-      setQuery={setQuery}
-    />
-  );
+  return <RafflesScreen entered={entered.data ?? []} list={all ?? []} />;
 };
 
 export const DynamicRafflesScreen = dynamic(
   () => Promise.resolve(RafflesContainer),
   {
     ssr: false,
-    loading: () => <LoadingBar />,
+    loading: () => <LoadingScreen />,
   }
 );

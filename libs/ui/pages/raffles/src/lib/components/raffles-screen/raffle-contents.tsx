@@ -7,21 +7,12 @@ import {
 } from '@worksheets/ui/components/raffles';
 import { useMediaQuery } from '@worksheets/ui/hooks/use-media-query';
 import { InventoryPanels } from '@worksheets/util/enums';
-import {
-  EnteredRaffleSchema,
-  FilterableRaffleCategory,
-  RaffleSchema,
-} from '@worksheets/util/types';
-
-import { ChangeCategory } from './change-category';
+import { EnteredRaffleSchema, RaffleSchema } from '@worksheets/util/types';
 
 export const RaffleContents: React.FC<{
-  hottest: RaffleSchema[];
   entered: EnteredRaffleSchema[];
   list: RaffleSchema[];
-  category: FilterableRaffleCategory;
-  setCategory: (c: FilterableRaffleCategory) => void;
-}> = ({ hottest, entered, list, category, setCategory }) => {
+}> = ({ entered, list }) => {
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down('sm'));
   return (
     <>
@@ -46,13 +37,8 @@ export const RaffleContents: React.FC<{
         />
       )}
 
-      <RaffleCarousel
-        items={hottest}
-        title={isMobile ? 'Hottest' : 'Hottest Raffles'}
-      />
-
       <RafflesGroup
-        title={<ChangeCategory category={category} setCategory={setCategory} />}
+        title={'Raffles'}
         action={
           <Button
             variant="arcade"

@@ -1,35 +1,14 @@
 import { Box } from '@mui/material';
-import {
-  EnteredRaffleSchema,
-  FilterableRaffleCategory,
-  RaffleSchema,
-} from '@worksheets/util/types';
+import { EnteredRaffleSchema, RaffleSchema } from '@worksheets/util/types';
 
 import { CustomContainer } from '../shared/custom-container';
-import { FancySearch } from './fancy-search';
 import { RaffleContents } from './raffle-contents';
-import { SearchResults } from './search-results';
 import { TitleText } from './title-text';
 
 export const RafflesScreen: React.FC<{
-  hottest: RaffleSchema[];
   entered: EnteredRaffleSchema[];
   list: RaffleSchema[];
-  category: FilterableRaffleCategory;
-  setCategory: (c: FilterableRaffleCategory) => void;
-  searched: RaffleSchema[];
-  query: string;
-  setQuery: (s: string) => void;
-}> = ({
-  query,
-  setQuery,
-  hottest,
-  entered,
-  list,
-  category,
-  setCategory,
-  searched,
-}) => (
+}> = ({ entered, list }) => (
   <CustomContainer>
     <TitleText />
     <Box
@@ -39,27 +18,7 @@ export const RafflesScreen: React.FC<{
       flexDirection="column"
       alignItems="center"
     >
-      <Box
-        sx={{
-          display: 'grid',
-          placeItems: 'center',
-          width: '100%',
-        }}
-      >
-        <FancySearch search={query} setSearch={setQuery} />
-      </Box>
-
-      {query ? (
-        <SearchResults searched={searched} />
-      ) : (
-        <RaffleContents
-          hottest={hottest}
-          entered={entered}
-          list={list}
-          category={category}
-          setCategory={setCategory}
-        />
-      )}
+      <RaffleContents entered={entered} list={list} />
     </Box>
   </CustomContainer>
 );
