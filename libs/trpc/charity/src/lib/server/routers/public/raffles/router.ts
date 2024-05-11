@@ -21,7 +21,7 @@ export default t.router({
             },
           },
           orderBy: {
-            expiresAt: 'desc',
+            expiresAt: 'asc',
           },
         });
 
