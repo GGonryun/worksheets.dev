@@ -22,7 +22,7 @@ export const QuestFilters: React.FC<{
   onReset: () => void;
   onChange: (filters: QuestFilterOptions) => void;
 }> = ({ onChange, filters, onReset }) => {
-  const [edit, setEdit] = useState(false);
+  const [edit, setEdit] = useState(true);
   return (
     <Column>
       <Row justifyContent="space-between" alignItems="center">

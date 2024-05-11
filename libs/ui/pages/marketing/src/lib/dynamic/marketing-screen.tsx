@@ -28,6 +28,11 @@ const MarketingScreen = () => (
           username: 'aModestDuck',
           tweetUrl: 'https://twitter.com/aModestDuck',
         },
+        {
+          username: 'bringbackmcrib',
+          tweetUrl:
+            'https://twitter.com/bringbackmcrib/status/1789170921598505072',
+        },
       ]}
     />
 

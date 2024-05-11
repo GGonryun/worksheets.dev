@@ -9,29 +9,111 @@ import {
 } from '@worksheets/util/settings';
 
 export const QUESTS = [
+  // watch ads
   {
-    order: 0,
-    version: 1,
-    id: 'PLAY_GAME_INFINITE' as const,
-    type: QuestType.PLAY_GAME,
-    category: QuestCategory.GAMEPLAY,
-    name: 'Play a Game',
-    description: 'Start a game and earn tokens for playing on Charity Games.',
-    frequency: QuestFrequency.INFINITE,
+    order: 1,
+    version: 0,
+    id: 'WATCH_AD_1' as const,
+    type: QuestType.WATCH_AD,
+    category: QuestCategory.TASK,
+    name: 'Watch an Ad #1',
+    description: 'Watch an ad to earn a small reward.',
+    frequency: QuestFrequency.DAILY,
     loot: [
       {
-        itemId: '1',
-        quantity: PER_GAME_PLAY_REWARD,
+        itemId: '2',
+        quantity: 1,
         chance: 1,
       },
     ],
     data: {
-      requirement: Infinity,
+      network: 'charity-games',
     },
   },
   {
-    order: 101,
-    version: 1,
+    order: 2,
+    version: 0,
+    id: 'WATCH_AD_2' as const,
+    type: QuestType.WATCH_AD,
+    category: QuestCategory.TASK,
+    name: 'Watch an Ad #2',
+    description: 'Watch an ad to earn a small reward.',
+    frequency: QuestFrequency.DAILY,
+    loot: [
+      {
+        itemId: '2',
+        quantity: 1,
+        chance: 1,
+      },
+    ],
+    data: {
+      network: 'gruvian',
+    },
+  },
+  {
+    order: 3,
+    version: 0,
+    id: 'WATCH_AD_3' as const,
+    type: QuestType.WATCH_AD,
+    category: QuestCategory.TASK,
+    name: 'Watch an Ad #3',
+    description: 'Watch an ad to earn a small reward.',
+    frequency: QuestFrequency.WEEKLY,
+    loot: [
+      {
+        itemId: '5',
+        quantity: 1,
+        chance: 1,
+      },
+    ],
+    data: {
+      network: 'gruvian',
+    },
+  },
+  {
+    order: 4,
+    version: 0,
+    id: 'WATCH_AD_4' as const,
+    type: QuestType.WATCH_AD,
+    category: QuestCategory.TASK,
+    name: 'Watch an Ad #4',
+    description: 'Watch an ad to earn a small reward.',
+    frequency: QuestFrequency.WEEKLY,
+    loot: [
+      {
+        itemId: '5',
+        quantity: 1,
+        chance: 1,
+      },
+    ],
+    data: {
+      network: 'gruvian',
+    },
+  },
+  {
+    order: 5,
+    version: 0,
+    id: 'WATCH_AD_5' as const,
+    type: QuestType.WATCH_AD,
+    category: QuestCategory.TASK,
+    name: 'Watch an Ad #5',
+    description: 'Watch an ad to earn a bronze capsule.',
+    frequency: QuestFrequency.MONTHLY,
+    loot: [
+      {
+        itemId: '100',
+        quantity: 1,
+        chance: 1,
+      },
+    ],
+    data: {
+      network: 'gruvian',
+    },
+  },
+  // play games
+  {
+    order: 10,
+    version: 0,
     id: 'PLAY_GAME_DAILY_5' as const,
     type: QuestType.PLAY_GAME,
     category: QuestCategory.GAMEPLAY,
@@ -50,8 +132,8 @@ export const QUESTS = [
     },
   },
   {
-    order: 103,
-    version: 1,
+    order: 11,
+    version: 0,
     id: 'PLAY_GAME_WEEKLY_25' as const,
     type: QuestType.PLAY_GAME,
     category: QuestCategory.GAMEPLAY,
@@ -69,39 +151,76 @@ export const QUESTS = [
       requirement: 25,
     },
   },
+  // receive item tasks
   {
-    order: 1,
-    version: 1,
-    id: 'PLAY_MINUTES_INFINITE' as const,
-    type: QuestType.PLAY_MINUTES,
-    category: QuestCategory.GAMEPLAY,
-    name: 'Play for 1 Minute',
-    description:
-      'Earn tokens for every a minute you play a game on Charity Games.',
-    frequency: QuestFrequency.INFINITE,
-    loot: [
-      {
-        itemId: '1',
-        quantity: PER_GAME_MINUTE_REWARD,
-        chance: 1,
-      },
-    ],
-    data: {
-      requirement: 60, // seconds
-    },
-  },
-  {
-    order: 10,
-    version: 2,
+    order: 20,
+    version: 0,
     id: 'DAILY_GIFT_BOXES' as const,
     type: QuestType.BASIC_ACTION,
     category: QuestCategory.TASK,
-    name: 'Collect Gift Boxes',
-    description: 'Collect 3 small gift boxes to share with friends every day.',
+    name: 'Daily Gift Boxes',
+    description: 'Collect a small gift box to share with friends every day.',
     frequency: QuestFrequency.DAILY,
     loot: [
       {
         itemId: '3',
+        quantity: 1,
+        chance: 1,
+      },
+    ],
+    expiresAt: 0 as number,
+    data: {},
+  },
+  {
+    order: 21,
+    version: 0,
+    id: 'WEEKLY_GIFT_BOXES' as const,
+    type: QuestType.BASIC_ACTION,
+    category: QuestCategory.TASK,
+    name: 'Weekly Gift Boxes',
+    description: 'Collect a large gift box to share with friends every week.',
+    frequency: QuestFrequency.WEEKLY,
+    loot: [
+      {
+        itemId: '6',
+        quantity: 1,
+        chance: 1,
+      },
+    ],
+    expiresAt: 0 as number,
+    data: {},
+  },
+  {
+    order: 22,
+    version: 0,
+    id: 'DAILY_WEAPONS_CRATE' as const,
+    type: QuestType.BASIC_ACTION,
+    category: QuestCategory.TASK,
+    name: 'Daily Weapon Crates',
+    description: 'Collect a weapons crate for your next battle every day.',
+    frequency: QuestFrequency.DAILY,
+    loot: [
+      {
+        itemId: '1000',
+        quantity: 1,
+        chance: 1,
+      },
+    ],
+    data: {},
+  },
+  {
+    order: 23,
+    version: 0,
+    id: 'WEEKLY_WEAPONS_CRATE' as const,
+    type: QuestType.BASIC_ACTION,
+    category: QuestCategory.TASK,
+    name: 'Weekly Weapon Crates',
+    description:
+      'Collect 3 extra weapons crate for your next battle every week.',
+    frequency: QuestFrequency.WEEKLY,
+    loot: [
+      {
+        itemId: '6',
         quantity: 3,
         chance: 1,
       },
@@ -110,58 +229,59 @@ export const QUESTS = [
     data: {},
   },
   {
-    order: 11,
-    version: 1,
-    id: 'DAILY_WEAPONS_CRATE' as const,
+    order: 24,
+    version: 0,
+    id: 'WEEKLY_RANDOM_BOX' as const,
     type: QuestType.BASIC_ACTION,
     category: QuestCategory.TASK,
-    name: 'Collect Weapon Crates',
-    description: 'Collect 5 weapons crates for your next battle every day.',
+    name: 'Weekly Colored Boxes',
+    description:
+      'Collect 5 colored boxes with a random items inside every week.',
     frequency: QuestFrequency.DAILY,
     loot: [
       {
-        itemId: '1000',
-        quantity: 5,
+        itemId: '10025',
+        quantity: 1,
+        chance: 1,
+      },
+      {
+        itemId: '10026',
+        quantity: 1,
+        chance: 1,
+      },
+      {
+        itemId: '10027',
+        quantity: 1,
+        chance: 1,
+      },
+      {
+        itemId: '10028',
+        quantity: 1,
+        chance: 1,
+      },
+      {
+        itemId: '10029',
+        quantity: 1,
         chance: 1,
       },
     ],
     data: {},
   },
+  // raffle participation
   {
-    order: 2,
-    version: 1,
-    id: 'REFERRAL_PLAY_MINUTES_INFINITE' as const,
-    type: QuestType.REFERRAL_PLAY_MINUTES,
-    category: QuestCategory.SOCIAL,
-    name: 'Referrals Play for 5 Minutes',
-    description:
-      'Earn tokens for every 5 minutes your referrals play a game on Charity Games.',
-    frequency: QuestFrequency.INFINITE,
-    loot: [
-      {
-        itemId: '1',
-        quantity: PER_REFERRAL_PLAY_MINUTE_REWARD,
-        chance: 1,
-      },
-    ],
-    data: {
-      requirement: 300, // seconds
-    },
-  },
-  {
-    order: 161,
-    version: 1,
+    order: 30,
+    version: 0,
     id: 'RAFFLE_PARTICIPATION_DAILY' as const,
     type: QuestType.RAFFLE_PARTICIPATION,
     category: QuestCategory.TASK,
     name: 'Enter Raffle Daily',
     description:
-      'Enter at least one raffle every day on Charity Games and get bonus tokens.',
+      'Enter at least one raffle every day on Charity Games and get 10 bonus tokens.',
     frequency: QuestFrequency.DAILY,
     loot: [
       {
         itemId: '1',
-        quantity: 5,
+        quantity: 10,
         chance: 1,
       },
     ],
@@ -169,9 +289,32 @@ export const QUESTS = [
       requirement: 1,
     },
   },
+  // battle participation
   {
-    order: 3,
-    version: 2,
+    order: 40,
+    version: 0,
+    id: 'BATTLE_PARTICIPATION_DAILY' as const,
+    type: QuestType.BATTLE_PARTICIPATION,
+    category: QuestCategory.TASK,
+    name: 'Participate in Battles Daily',
+    description:
+      'Participate in at least one battle every day on Charity Games and get 10 bonus tokens.',
+    frequency: QuestFrequency.DAILY,
+    loot: [
+      {
+        itemId: '1',
+        quantity: 10,
+        chance: 1,
+      },
+    ],
+    data: {
+      requirement: 1,
+    },
+  },
+  // visit websites
+  {
+    order: 100,
+    version: 0,
     id: 'VISIT_CHARITY_GAMES' as const,
     type: QuestType.VISIT_WEBSITE,
     category: QuestCategory.TASK,
@@ -184,16 +327,6 @@ export const QUESTS = [
         quantity: 1,
         chance: 1,
       },
-      {
-        itemId: '6',
-        quantity: 1,
-        chance: 1,
-      },
-      {
-        itemId: '7',
-        quantity: 1,
-        chance: 1,
-      },
     ],
     data: {
       url: 'https://charity.games/',
@@ -201,8 +334,8 @@ export const QUESTS = [
     },
   },
   {
-    order: 200,
-    version: 1,
+    order: 101,
+    version: 0,
     id: 'VISIT_INDIEFOLD' as const,
     type: QuestType.VISIT_WEBSITE,
     category: QuestCategory.TASK,
@@ -238,29 +371,8 @@ export const QUESTS = [
     },
   },
   {
-    order: 201,
-    version: 1,
-    id: 'VISIT_PLAY_THIS' as const,
-    type: QuestType.VISIT_WEBSITE,
-    category: QuestCategory.TASK,
-    name: 'Visit Play This',
-    description: 'Visit Play This and find your next favorite game, fast!',
-    frequency: QuestFrequency.WEEKLY,
-    loot: [
-      {
-        itemId: '1000',
-        quantity: 3,
-        chance: 1,
-      },
-    ],
-    data: {
-      url: 'https://www.play-this.com/',
-      preview: 'https://cdn.charity.games/_partners/play-this/sponsor.png',
-    },
-  },
-  {
-    order: 5,
-    version: 2,
+    order: 102,
+    version: 0,
     id: 'VISIT_WATER_ORG' as const,
     type: QuestType.VISIT_WEBSITE,
     category: QuestCategory.TASK,
@@ -291,8 +403,31 @@ export const QUESTS = [
     },
   },
   {
-    order: 116,
-    version: 2,
+    order: 103,
+    version: 0,
+    id: 'VISIT_GAMERS_OUTREACH' as const,
+    type: QuestType.VISIT_WEBSITE,
+    category: QuestCategory.TASK,
+    name: 'Visit Gamers Outreach',
+    description:
+      'We believe the world is better when hospitalized kids can play. Gamers have the power to help.',
+    frequency: QuestFrequency.WEEKLY,
+    loot: [
+      {
+        itemId: '10044',
+        quantity: 5,
+        chance: 1,
+      },
+    ],
+    data: {
+      url: 'https://gamersoutreach.org/',
+      preview: 'https://cdn.charity.games/_partners/gamersoutreach/preview.png',
+    },
+  },
+  // follow twitter
+  {
+    order: 200,
+    version: 0,
     id: 'FOLLOW_CHARITY_GAMES_TWITTER' as const,
     type: QuestType.FOLLOW_TWITTER,
     category: QuestCategory.TASK,
@@ -312,8 +447,8 @@ export const QUESTS = [
     },
   },
   {
-    order: 117,
-    version: 2,
+    order: 201,
+    version: 0,
     id: 'FOLLOW_WATER_ORG_TWITTER' as const,
     type: QuestType.FOLLOW_TWITTER,
     category: QuestCategory.TASK,
@@ -333,8 +468,29 @@ export const QUESTS = [
     },
   },
   {
-    order: 300,
-    version: 1,
+    order: 202,
+    version: 0,
+    id: 'FOLLOW_GAMERS_OUTREACH_TWITTER' as const,
+    type: QuestType.FOLLOW_TWITTER,
+    category: QuestCategory.TASK,
+    name: 'Follow Gamers Outreach',
+    description:
+      'Follow Gamers Outreach on Twitter. Stay up to date on the latest news and updates.',
+    frequency: QuestFrequency.WEEKLY,
+    loot: [
+      {
+        itemId: '1',
+        quantity: 25,
+        chance: 1,
+      },
+    ],
+    data: {
+      handle: 'GamersOutreach',
+    },
+  },
+  {
+    order: 202,
+    version: 0,
     id: 'FOLLOW_INDIEFOLD_TWITTER' as const,
     type: QuestType.FOLLOW_TWITTER,
     category: QuestCategory.TASK,
@@ -353,30 +509,52 @@ export const QUESTS = [
       handle: 'indiefold',
     },
   },
+  // TODO: follow twitch
+  // infinites
   {
-    order: 250,
-    version: 1,
-    id: 'FOLLOW_PLAY_THIS_TWITTER' as const,
-    type: QuestType.FOLLOW_TWITTER,
-    category: QuestCategory.TASK,
-    name: 'Follow Play This',
-    frequency: QuestFrequency.WEEKLY,
+    order: 1000,
+    version: 0,
+    id: 'PLAY_MINUTES_INFINITE' as const,
+    type: QuestType.PLAY_MINUTES,
+    category: QuestCategory.GAMEPLAY,
+    name: 'Play for 1 Minute',
     description:
-      'Follow Play This on Twitter. Stay up to date on the latest news and updates.',
+      'Earn tokens for every a minute you play a game on Charity Games.',
+    frequency: QuestFrequency.INFINITE,
     loot: [
       {
         itemId: '1',
-        quantity: 25,
+        quantity: PER_GAME_MINUTE_REWARD,
         chance: 1,
       },
     ],
     data: {
-      handle: 'LaireLaFlare',
+      requirement: 60, // seconds
     },
   },
   {
-    order: 201,
-    version: 1,
+    order: 1001,
+    version: 0,
+    id: 'PLAY_GAME_INFINITE' as const,
+    type: QuestType.PLAY_GAME,
+    category: QuestCategory.GAMEPLAY,
+    name: 'Play a Game',
+    description: 'Start a game and earn tokens for playing on Charity Games.',
+    frequency: QuestFrequency.INFINITE,
+    loot: [
+      {
+        itemId: '1',
+        quantity: PER_GAME_PLAY_REWARD,
+        chance: 1,
+      },
+    ],
+    data: {
+      requirement: Infinity,
+    },
+  },
+  {
+    order: 1002,
+    version: 0,
     id: 'ADD_FRIEND_INFINITE' as const,
     type: QuestType.ADD_FRIEND,
     category: QuestCategory.SOCIAL,
@@ -396,8 +574,8 @@ export const QUESTS = [
     },
   },
   {
-    order: 210,
-    version: 1,
+    order: 1003,
+    version: 0,
     id: 'ADD_REFERRAL_INFINITE' as const,
     type: QuestType.ADD_REFERRAL,
     category: QuestCategory.SOCIAL,
@@ -415,8 +593,8 @@ export const QUESTS = [
     data: {},
   },
   {
-    order: 2,
-    version: 1,
+    order: 1004,
+    version: 0,
     id: 'FRIEND_PLAY_MINUTES_INFINITE' as const,
     type: QuestType.FRIEND_PLAY_MINUTES,
     category: QuestCategory.SOCIAL,
@@ -436,53 +614,24 @@ export const QUESTS = [
     },
   },
   {
-    order: 12,
-    version: 2,
-    id: 'WATCH_AD_1' as const,
-    type: QuestType.WATCH_AD,
-    category: QuestCategory.TASK,
-    name: 'Watch an Ad',
-    description: 'Watch an ad to earn a small reward.',
-    frequency: QuestFrequency.DAILY,
+    order: 1005,
+    version: 0,
+    id: 'REFERRAL_PLAY_MINUTES_INFINITE' as const,
+    type: QuestType.REFERRAL_PLAY_MINUTES,
+    category: QuestCategory.SOCIAL,
+    name: 'Referrals Play for 5 Minutes',
+    description:
+      'Earn tokens for every 5 minutes your referrals play a game on Charity Games.',
+    frequency: QuestFrequency.INFINITE,
     loot: [
       {
-        itemId: '1000',
-        quantity: 1,
-        chance: 1,
-      },
-      {
-        itemId: '7',
-        quantity: 1,
+        itemId: '1',
+        quantity: PER_REFERRAL_PLAY_MINUTE_REWARD,
         chance: 1,
       },
     ],
     data: {
-      network: 'charity-games',
-    },
-  },
-  {
-    order: 7,
-    version: 1,
-    id: 'WATCH_AD_2' as const,
-    type: QuestType.WATCH_AD,
-    category: QuestCategory.TASK,
-    name: 'Watch an Ad',
-    description: 'Watch an ad to earn a small reward.',
-    frequency: QuestFrequency.DAILY,
-    loot: [
-      {
-        itemId: '5',
-        quantity: 1,
-        chance: 1,
-      },
-      {
-        itemId: '2',
-        quantity: 1,
-        chance: 1,
-      },
-    ],
-    data: {
-      network: 'gruvian',
+      requirement: 300, // seconds
     },
   },
 ];

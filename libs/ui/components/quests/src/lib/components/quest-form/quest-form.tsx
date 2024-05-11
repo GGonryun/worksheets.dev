@@ -5,6 +5,7 @@ import { DetailedQuestSchema, QuestFormActions } from '@worksheets/util/types';
 import { AddFriendQuestForm } from './add-friend-quest-form';
 import { AddReferralQuestForm } from './add-referral-quest-form';
 import { BasicActionQuestForm } from './basic-action-quest-form';
+import { BattleParticipationQuestForm } from './battle-participation-quest-form';
 import { FollowTwitterQuestForm } from './follow-twitter-quest-form';
 import { FriendPlayMinutesQuestForm } from './friend-play-minutes-quest-form';
 import { PlayGameQuestForm } from './play-game-quest-form';
@@ -90,7 +91,12 @@ export function QuestForm<T extends QuestType>({
           actions={actions as QuestFormActions<'WATCH_AD'>}
         />
       );
-
+    case QuestType.BATTLE_PARTICIPATION:
+      return (
+        <BattleParticipationQuestForm
+          quest={quest as DetailedQuestSchema<'BATTLE_PARTICIPATION'>}
+        />
+      );
     default:
       throw assertNever(quest.type);
   }

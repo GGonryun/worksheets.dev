@@ -13,6 +13,7 @@ import {
   Twitter,
   VideogameAssetOutlined,
 } from '@mui/icons-material';
+import { Sword } from '@worksheets/icons/font-awesome-solid';
 import {
   QuestCategory,
   QuestFrequency,
@@ -53,6 +54,7 @@ const QUEST_ICON: Record<QuestType, SvgIconComponent> = {
   [QuestType.FRIEND_PLAY_MINUTES]: FavoriteBorder,
   [QuestType.BASIC_ACTION]: CheckBoxOutlined,
   [QuestType.WATCH_AD]: FeaturedVideoOutlined,
+  [QuestType.BATTLE_PARTICIPATION]: Sword,
 };
 
 export const selectQuestStatusIcon = (status: QuestStatus, type: QuestType) => {
@@ -136,6 +138,8 @@ export const formatQuestTypeLabel = (type: QuestType) => {
       return 'Basic Action';
     case QuestType.WATCH_AD:
       return 'Watch Ad';
+    case QuestType.BATTLE_PARTICIPATION:
+      return 'Battle Participation';
     default:
       throw assertNever(type);
   }

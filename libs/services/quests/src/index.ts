@@ -24,6 +24,7 @@ import {
   trackAddFriendProgress,
   trackAddReferralProgress,
   trackBasicActionProgress,
+  trackBattleParticipationDaily,
   trackFinitePlayGameProgress,
   trackFollowTwitterProgress,
   trackFriendPlayMinutesProgress,
@@ -166,7 +167,7 @@ export class QuestsService {
       case 'VISIT_CHARITY_GAMES':
       case 'VISIT_WATER_ORG':
       case 'VISIT_INDIEFOLD':
-      case 'VISIT_PLAY_THIS':
+      case 'VISIT_GAMERS_OUTREACH':
         return await trackWebsiteVisitProgress({
           db: this.#db,
           notifications,
@@ -175,9 +176,9 @@ export class QuestsService {
           ...opts,
         });
       case 'FOLLOW_INDIEFOLD_TWITTER':
-      case 'FOLLOW_PLAY_THIS_TWITTER':
       case 'FOLLOW_CHARITY_GAMES_TWITTER':
       case 'FOLLOW_WATER_ORG_TWITTER':
+      case 'FOLLOW_GAMERS_OUTREACH_TWITTER':
         return await trackFollowTwitterProgress({
           db: this.#db,
           notifications,
@@ -193,6 +194,14 @@ export class QuestsService {
           notifications,
           inventory,
           questType: 'RAFFLE_PARTICIPATION',
+          ...opts,
+        });
+      case 'BATTLE_PARTICIPATION_DAILY':
+        return await trackBattleParticipationDaily({
+          db: this.#db,
+          inventory,
+          notifications,
+          questType: 'BATTLE_PARTICIPATION',
           ...opts,
         });
       case 'ADD_FRIEND_INFINITE':
@@ -247,6 +256,9 @@ export class QuestsService {
         });
       case 'DAILY_GIFT_BOXES':
       case 'DAILY_WEAPONS_CRATE':
+      case 'WEEKLY_GIFT_BOXES':
+      case 'WEEKLY_RANDOM_BOX':
+      case 'WEEKLY_WEAPONS_CRATE':
         return await trackBasicActionProgress({
           db: this.#db,
           inventory,
@@ -256,6 +268,9 @@ export class QuestsService {
         });
       case 'WATCH_AD_1':
       case 'WATCH_AD_2':
+      case 'WATCH_AD_3':
+      case 'WATCH_AD_4':
+      case 'WATCH_AD_5':
         return await trackWatchAdProgress({
           db: this.#db,
           inventory,
@@ -263,6 +278,7 @@ export class QuestsService {
           questType: 'WATCH_AD',
           ...opts,
         });
+
       default:
         throw assertNever(opts.questId);
     }
@@ -285,6 +301,7 @@ export class QuestsService {
       case QuestType.REFERRAL_PLAY_MINUTES:
       case QuestType.FRIEND_PLAY_MINUTES:
       case QuestType.BASIC_ACTION:
+      case QuestType.BATTLE_PARTICIPATION:
         return await Promise.all(
           questIds.map((questId) =>
             this.trackId({

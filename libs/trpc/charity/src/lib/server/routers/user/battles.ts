@@ -2,6 +2,7 @@ import { BattleStatus } from '@prisma/client';
 import { TRPCError } from '@trpc/server';
 import { ItemId } from '@worksheets/data/items';
 import { InventoryService } from '@worksheets/services/inventory';
+import { QuestsService } from '@worksheets/services/quests';
 import { MAX_ITEMS_PER_STRIKE } from '@worksheets/util/settings';
 import {
   isCombatItemId,
@@ -72,6 +73,7 @@ export default t.router({
     )
     .output(z.number())
     .mutation(async ({ ctx: { db, user }, input: { battleId, items } }) => {
+      const quest = new QuestsService(db);
       const userId = user.id;
 
       if (items.length > MAX_ITEMS_PER_STRIKE) {
@@ -99,7 +101,7 @@ export default t.router({
         });
       }
 
-      return await db.$transaction(async (tx) => {
+      const result = await db.$transaction(async (tx) => {
         const inventory = new InventoryService(tx);
 
         const damage = inventory.damage(items);
@@ -199,5 +201,13 @@ export default t.router({
 
         return damage;
       });
+
+      await quest.trackId({
+        questId: 'BATTLE_PARTICIPATION_DAILY',
+        userId: user.id,
+        input: { damage: result },
+      });
+
+      return result;
     }),
 });

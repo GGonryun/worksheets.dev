@@ -35,6 +35,9 @@ export type QuestTypeData = {
   RAFFLE_PARTICIPATION: {
     requirement: number;
   };
+  BATTLE_PARTICIPATION: {
+    requirement: number;
+  };
   VISIT_WEBSITE: {
     url: string;
     preview: string;
@@ -75,6 +78,7 @@ export type QuestTypeState = {
   FOLLOW_TWITTER: {
     username: string;
   };
+  BATTLE_PARTICIPATION: unknown;
   BASIC_ACTION: unknown;
   WATCH_AD: unknown;
 };
@@ -108,6 +112,7 @@ export type QuestTypeInput = {
   VISIT_WEBSITE: unknown;
   BASIC_ACTION: unknown;
   WATCH_AD: unknown;
+  BATTLE_PARTICIPATION: unknown;
 };
 
 export type QuestFormActions<T extends QuestType = QuestType> = {

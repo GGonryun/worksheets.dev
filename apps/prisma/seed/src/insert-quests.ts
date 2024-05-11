@@ -49,7 +49,32 @@ const updateQuest = async (quest: SeedableQuest) => {
     data: convertQuest(quest),
   });
 
-  // TODO: support updating loot
+  for (const loot of quest.loot) {
+    // find existing loot
+    const exists = await prisma.loot.findFirst({
+      where: {
+        questDefinitionId: quest.id,
+        itemId: loot.itemId,
+      },
+    });
+    if (exists) {
+      await prisma.loot.update({
+        where: {
+          id: exists.id,
+        },
+        data: {
+          ...loot,
+        },
+      });
+    } else {
+      await prisma.loot.create({
+        data: {
+          questDefinitionId: quest.id,
+          ...loot,
+        },
+      });
+    }
+  }
 };
 
 const convertQuest = (quest: SeedableQuest) => {

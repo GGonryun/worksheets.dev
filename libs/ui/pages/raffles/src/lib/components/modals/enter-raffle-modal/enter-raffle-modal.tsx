@@ -13,7 +13,6 @@ import { NumericCounterField } from '@worksheets/ui/components/inputs';
 import { PulsingLogo } from '@worksheets/ui/components/loading';
 import { BasicModal, ModalWrapper } from '@worksheets/ui/components/modals';
 import { useSnackbar } from '@worksheets/ui/components/snackbar';
-import { HelpTokensQuestions } from '@worksheets/util/enums';
 import {
   MAX_AD_RAFFLE_USES,
   RAFFLE_ENTRIES_PER_AD,
@@ -112,9 +111,7 @@ const ModalContent: React.FC<{ raffleId: number; onClose: () => void }> = ({
       )}
       <Button
         sx={{ mt: 1 }}
-        href={routes.help.tokens.path({
-          bookmark: HelpTokensQuestions.HowToEarn,
-        })}
+        href={routes.account.quests.path()}
         fullWidth
         size="medium"
         variant="text"
@@ -168,7 +165,10 @@ const InitialContent: React.FC<{
           onClick={props.onWatchAd}
           startIcon={<FeaturedVideoOutlined />}
         >
-          Watch Ad ({props.participation.adsWatched}/{MAX_AD_RAFFLE_USES})
+          <span>
+            Watch Ad ({props.participation.adsWatched}/{MAX_AD_RAFFLE_USES})
+          </span>
+          <span>+5</span>
         </Button>
       </Column>
     </Column>

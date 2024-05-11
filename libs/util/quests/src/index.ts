@@ -32,6 +32,8 @@ export const parseState = <T extends QuestType>(
     case QuestType.REFERRAL_PLAY_MINUTES:
     case QuestType.FRIEND_PLAY_MINUTES:
       return parsePlayMinutesState(state) as QuestTypeState[T];
+    case QuestType.BATTLE_PARTICIPATION:
+      return parseBattleParticipationState(state) as QuestTypeState[T];
     case QuestType.RAFFLE_PARTICIPATION:
       return parseRaffleParticipationState(state) as QuestTypeState[T];
     case QuestType.BASIC_ACTION:
@@ -70,6 +72,10 @@ export const defaultState = <T extends QuestType>(
     case QuestType.WATCH_AD:
       return {
         progress: 0,
+      } as QuestTypeState[T];
+    case QuestType.BATTLE_PARTICIPATION:
+      return {
+        battles: 0,
       } as QuestTypeState[T];
     default:
       throw assertNever(type);
@@ -186,6 +192,12 @@ export const parseAddReferralState = (
 export const parseRaffleParticipationState = (
   state: unknown
 ): QuestTypeState['RAFFLE_PARTICIPATION'] => {
+  return state;
+};
+
+export const parseBattleParticipationState = (
+  state: unknown
+): QuestTypeState['BATTLE_PARTICIPATION'] => {
   return state;
 };
 

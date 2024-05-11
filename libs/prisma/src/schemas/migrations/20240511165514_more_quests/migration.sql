@@ -1,0 +1,2 @@
+-- AlterEnum
+ALTER TYPE "QuestType" ADD VALUE 'BATTLE_PARTICIPATION';
