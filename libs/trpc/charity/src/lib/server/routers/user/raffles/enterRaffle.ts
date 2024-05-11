@@ -15,6 +15,12 @@ export default protectedProcedure
   )
   .output(z.unknown())
   .mutation(async ({ input: { raffleId, entries }, ctx: { db, user } }) => {
+    console.info('A user is entering a raffle', {
+      raffleId,
+      entries,
+      userId: user.id,
+    });
+
     const quests = new QuestsService(db);
     return db.$transaction(async (tx) => {
       const inventory = new InventoryService(tx);
