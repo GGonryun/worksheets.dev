@@ -14,7 +14,7 @@ export const Game: FC<PartialBy<Omit<BasicGameInfo, 'cover'>, 'plays'>> = ({
     <ArcadeItemLayout
       href={routes.game.url({ params: { gameId: id } })}
       name={title}
-      caption={plays != null ? `${shorthandNumber(plays)}+ plays` : ''}
+      caption={plays != null ? `${shorthandNumber(plays)} plays` : ''}
       imageUrl={thumbnail}
     />
   );

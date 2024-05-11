@@ -1,11 +1,35 @@
-import { Link } from '@mui/material';
+import { PermIdentityOutlined } from '@mui/icons-material';
+import { Button, Link } from '@mui/material';
 import { routes } from '@worksheets/routes';
+import { trpc } from '@worksheets/trpc-charity';
+import { PulsingLogo } from '@worksheets/ui/components/loading';
 import { Panel } from '@worksheets/ui/components/panels';
 import { SettingsPanels } from '@worksheets/util/enums';
 import { FC, ReactNode } from 'react';
 
 import { DangerZoneSection, ProfileSection } from './sections';
 import { CommunicationSection } from './sections/communication-section';
+
+const ProfileButtonContainer = () => {
+  const user = trpc.user.get.useQuery();
+  if (user.isLoading || user.isError) return <PulsingLogo hideMessage />;
+
+  return (
+    <Button
+      size="small"
+      variant="arcade"
+      color="secondary"
+      startIcon={<PermIdentityOutlined />}
+      href={routes.user.path({
+        params: {
+          userId: user.data?.id,
+        },
+      })}
+    >
+      Profile
+    </Button>
+  );
+};
 
 export const SettingsPanel: FC<{
   bookmark?: SettingsPanels;
@@ -18,6 +42,7 @@ export const SettingsPanel: FC<{
       bookmark={bookmark}
       header={{
         primary: 'My Account',
+        icon: <ProfileButtonContainer />,
       }}
       note={{
         content: (

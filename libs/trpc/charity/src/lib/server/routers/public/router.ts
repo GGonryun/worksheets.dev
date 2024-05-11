@@ -7,6 +7,7 @@ import items from './items/router';
 import monsters from './monsters/router';
 import raffles from './raffles/router';
 import usage from './usage/router';
+import users from './users/router';
 
 export default t.router({
   arcade,
@@ -17,4 +18,5 @@ export default t.router({
   games,
   monsters,
   items,
+  users,
 });

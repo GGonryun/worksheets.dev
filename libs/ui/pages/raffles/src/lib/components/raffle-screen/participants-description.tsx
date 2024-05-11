@@ -1,5 +1,6 @@
 import { Star } from '@mui/icons-material';
-import { Box, Typography, TypographyProps } from '@mui/material';
+import { Box, Link, Typography, TypographyProps } from '@mui/material';
+import { routes } from '@worksheets/routes';
 import { trpc } from '@worksheets/trpc-charity';
 import { Description } from '@worksheets/ui/components/description';
 import { ErrorComponent } from '@worksheets/ui/components/errors';
@@ -24,7 +25,16 @@ const Content: React.FC<{ raffleId: number }> = ({ raffleId }) => {
         winners.map((winner) => (
           <Row key={winner.userId} gap={1}>
             <Star fontSize="small" />
-            <Typography>
+            <Typography
+              component={Link}
+              underline="hover"
+              color="text.arcade"
+              href={routes.user.path({
+                params: {
+                  userId: winner.user.id,
+                },
+              })}
+            >
               <b>{winner.user.username}</b>
             </Typography>
           </Row>
@@ -40,7 +50,17 @@ const Content: React.FC<{ raffleId: number }> = ({ raffleId }) => {
         {participants.data.length > 100 ? '99+' : participants.data.length}
       </Heading>
       {participants.data.map((participant, i) => (
-        <Typography key={i}>
+        <Typography
+          key={i}
+          component={Link}
+          underline="hover"
+          color="text.arcade"
+          href={routes.user.path({
+            params: {
+              userId: participant.user.id,
+            },
+          })}
+        >
           <b>{participant.user.username}</b> — {participant.numEntries} entries
         </Typography>
       ))}

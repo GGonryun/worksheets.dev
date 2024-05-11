@@ -50,7 +50,7 @@ const GameScreenContainer: React.FC<{
   const userVotes = useGameVotes();
 
   const castVote = trpc.public.games.vote.cast.useMutation();
-  const play = trpc.public.games.play.record.useMutation();
+  const record = trpc.maybe.games.record.useMutation();
   const reportGame = trpc.public.games.report.useMutation();
 
   const trackGamePlay = trpc.user.gamePlay.track.useMutation();
@@ -94,7 +94,7 @@ const GameScreenContainer: React.FC<{
   };
 
   const handleIncrementPlayCount = async () => {
-    await play.mutateAsync({ gameId: game.id });
+    await record.mutateAsync({ gameId: game.id });
   };
 
   const handlePlayGame = async () => {

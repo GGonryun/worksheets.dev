@@ -498,3 +498,11 @@ export const itemSeo = (item: ItemSchema): NextSeoProps =>
     title: `${item.name} | Item`,
     description: `View ${item.name} and learn how to use it. Every token you spend is a donation towards charity. Win prizes by playing browser games.`,
   });
+
+export const userSeo = (userId: string): NextSeoProps => {
+  return createSeo({
+    path: routes.user.path({ params: { userId } }),
+    title: `User Profile`,
+    description: `View information about a user on Charity Games. Turn your games into donations. Help us make a difference.`,
+  });
+};

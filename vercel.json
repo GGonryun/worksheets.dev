@@ -9,6 +9,10 @@
             "schedule": "0 0 * * *"
         },
         {
+            "path": "/api/cron/destroy-game-history",
+            "schedule": "0 0 1 * *"
+        },
+        {
             "path": "/api/cron/find-expired-raffles",
             "schedule": "0 0 * * *"
         },

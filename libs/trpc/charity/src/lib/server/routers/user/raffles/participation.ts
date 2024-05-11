@@ -29,6 +29,7 @@ export default protectedProcedure
       numEntries: participation?.numEntries ?? 0,
       userId: user.id,
       user: {
+        id: user.id,
         username: user.username,
       },
       winner: participation?.winner ?? false,

@@ -7,6 +7,22 @@ import { ExtractTemplatePayload } from './types';
 import { BATTLE_URL, RAFFLE_URL } from './urls';
 
 export class DiscordTemplates {
+  static userReport(
+    opts: ExtractTemplatePayload<'user-report'>
+  ): DiscordMessageInput {
+    return {
+      content: `A user has been reported: ${opts.againstId}`,
+      embeds: [
+        {
+          title: opts.senderId
+            ? `Sent by: ${opts.senderId}`
+            : 'Anonymous report received',
+          description: opts.text,
+        },
+      ],
+      channel: 'admin',
+    };
+  }
   static gameReport(
     opts: ExtractTemplatePayload<'game-report'>
   ): DiscordMessageInput {

@@ -1,14 +1,12 @@
 import { trpc } from '@worksheets/trpc-charity';
+import { ErrorScreen } from '@worksheets/ui/pages/errors';
 import { LoadingScreen } from '@worksheets/ui/pages/loading';
-import { RaffleSchema } from '@worksheets/util/types';
 import dynamic from 'next/dynamic';
 import { useSession } from 'next-auth/react';
 
 import { RafflesScreen } from '../components';
 
-const RafflesContainer: React.FC<{
-  all: RaffleSchema[];
-}> = ({ all }) => {
+const RafflesContainer: React.FC = () => {
   const session = useSession();
   const isConnected = session.status === 'authenticated';
 
@@ -19,7 +17,14 @@ const RafflesContainer: React.FC<{
     }
   );
 
-  return <RafflesScreen entered={entered.data ?? []} list={all ?? []} />;
+  const list = trpc.public.raffles.list.useQuery({
+    category: 'active',
+  });
+
+  if (list.isLoading) return <LoadingScreen />;
+  if (list.isError) return <ErrorScreen />;
+
+  return <RafflesScreen entered={entered.data ?? []} list={list.data ?? []} />;
 };
 
 export const DynamicRafflesScreen = dynamic(

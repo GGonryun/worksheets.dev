@@ -239,6 +239,14 @@ export type NotificationTemplate =
         reason: string;
         text: string;
       };
+    }
+  | {
+      type: 'user-report';
+      payload: {
+        againstId: string;
+        senderId: string | null;
+        text: string;
+      };
     };
 
 /** Helper Types **/

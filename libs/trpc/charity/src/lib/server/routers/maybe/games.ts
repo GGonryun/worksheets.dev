@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { publicProcedure } from '../../procedures';
+import { maybeProcedure, publicProcedure } from '../../procedures';
 import { t } from '../../trpc';
 
 export default t.router({
@@ -44,4 +44,30 @@ export default t.router({
         };
       }
     ),
+  record: maybeProcedure
+    .input(
+      z.object({
+        gameId: z.string(),
+      })
+    )
+    .mutation(async ({ input: { gameId }, ctx: { db, user } }) => {
+      db.$transaction([
+        db.gamePlayHistory.create({
+          data: {
+            gameId,
+            userId: user?.id ?? undefined,
+          },
+        }),
+        db.game.update({
+          where: {
+            id: gameId,
+          },
+          data: {
+            plays: {
+              increment: 1,
+            },
+          },
+        }),
+      ]);
+    }),
 });

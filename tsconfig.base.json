@@ -249,6 +249,7 @@
       "@worksheets/ui/pages/under-construction": [
         "libs/ui/pages/under-construction/src/index.ts"
       ],
+      "@worksheets/ui/pages/users": ["libs/ui/pages/users/src/index.ts"],
       "@worksheets/ui/pages/vip": ["libs/ui/pages/vip/src/index.ts"],
       "@worksheets/ui/qa-section/server": ["libs/ui/qa-section/src/server.ts"],
       "@worksheets/ui/styles": ["libs/ui/styles/src/index.ts"],

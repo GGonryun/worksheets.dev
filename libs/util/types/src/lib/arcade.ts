@@ -5,7 +5,7 @@ export const basicGameInfoSchema = z.object({
   title: z.string(),
   thumbnail: z.string(),
   cover: z.string(),
-  plays: z.number(),
+  plays: z.number().nullable(),
 });
 
 export type BasicGameInfo = z.infer<typeof basicGameInfoSchema>;

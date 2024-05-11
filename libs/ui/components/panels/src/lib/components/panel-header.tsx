@@ -19,7 +19,7 @@ export const PanelHeader: React.FC<{
       }}
     >
       <Typography variant={isMobile ? 'h5' : 'h4'}>{props.primary}</Typography>
-      {props.icon && props.secondary && (
+      {(props.icon || props.secondary) && (
         <Box
           sx={{
             display: 'flex',

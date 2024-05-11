@@ -27,6 +27,7 @@ export default t.router({
           winner: true,
           user: {
             select: {
+              id: true,
               username: true,
             },
           },

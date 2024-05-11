@@ -111,6 +111,9 @@ export const routes = {
   item: createRoute({
     path: '/items/[itemId]',
   }),
+  user: createRoute({
+    path: '/users/[userId]',
+  }),
   newsletter: createRoute({
     path: '/newsletter',
     routes: {

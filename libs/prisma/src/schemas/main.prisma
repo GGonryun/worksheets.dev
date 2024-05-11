@@ -53,6 +53,11 @@ model User {
   redemptionCodes  RedemptionCode[]
   // battles
   battles          BattleParticipation[]
+  // reports
+  banned           Boolean                @default(false)
+  reportsAgainst   UserReport[]           @relation(name: "Against")
+  reportsSent      UserReport[]           @relation(name: "Sender")
+  plays            GamePlayHistory[]
 }
 
 model Account {
@@ -90,6 +95,16 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model UserReport {
+  id        String   @id @default(cuid())
+  senderId  String?
+  sender    User?    @relation(name: "Sender", fields: [senderId], references: [id], onDelete: Cascade)
+  againstId String
+  against   User     @relation(name: "Against", fields: [againstId], references: [id], onDelete: Cascade)
+  text      String   @db.VarChar(255)
+  createdAt DateTime @default(now())
 }
 
 model Friendship {
@@ -363,6 +378,16 @@ model Game {
   developer   Developer          @relation(fields: [developerId], references: [id])
   // Reports
   reports     GameReport[]
+  history     GamePlayHistory[]
+}
+
+model GamePlayHistory {
+  id        String   @id @default(cuid())
+  gameId    String
+  game      Game     @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
 }
 
 model StoredFile {
