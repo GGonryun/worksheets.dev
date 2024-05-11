@@ -856,7 +856,7 @@ export const MOBS = [
       { itemId: '10021', quantity: 1, chance: 0.5, mvp: false },
       { itemId: '10073', quantity: 1, chance: 0.2, mvp: false },
       { itemId: '10111', quantity: 1, chance: 1, mvp: true },
-      { itemId: '101', quantity: 1, chance: 1, mvp: true },
+      { itemId: '100', quantity: 1, chance: 1, mvp: true },
       { itemId: '4', quantity: 1, chance: 0.00625, mvp: true },
     ],
   },
