@@ -1,7 +1,7 @@
-import { Box, Button, Link, Typography } from '@mui/material';
+import { Button, Link, Typography } from '@mui/material';
 import { routes } from '@worksheets/routes';
 import { trpc } from '@worksheets/trpc-charity';
-import { Row } from '@worksheets/ui/components/flex';
+import { Column, Row } from '@worksheets/ui/components/flex';
 import { ClipboardText } from '@worksheets/ui/components/inputs';
 import { PulsingLogo } from '@worksheets/ui/components/loading';
 import { BasicModal, ModalWrapper } from '@worksheets/ui/components/modals';
@@ -86,9 +86,11 @@ const ActivationCode: React.FC<{
         alt={code.item.name}
       />
 
-      <Box my={1} width="100%">
-        <ClipboardText label="Activation Code" text={data.content} />
-      </Box>
+      <Column my={1} width="100%" gap={2}>
+        {data.content.split('\\n').map((key, i) => (
+          <ClipboardText key={i} label="Activation Code" text={key} />
+        ))}
+      </Column>
 
       <Button
         onClick={onClose}
