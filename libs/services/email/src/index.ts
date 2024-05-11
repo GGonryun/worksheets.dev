@@ -46,7 +46,7 @@ export class EmailService {
   // at most we can send 2000 gmail emails every day
   // our cron service should process newsletter emails every hour
   // we use a smaller safer number to avoid hitting the limit
-  #maxEmailsPerHour = 2;
+  #maxEmailsPerHour = 5;
   constructor(db: PrismaClient | PrismaTransactionalClient) {
     this.#db = db;
     this.#transporter = nodemailer.createTransport({

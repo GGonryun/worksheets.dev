@@ -38,7 +38,7 @@
         },
         {
             "path": "/api/cron/send-scheduled-emails",
-            "schedule": "30 0 * * *"
+            "schedule": "30 * * * *"
         }
     ],
     "functions": {
