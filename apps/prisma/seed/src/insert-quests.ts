@@ -49,8 +49,19 @@ const updateQuest = async (quest: SeedableQuest) => {
     data: convertQuest(quest),
   });
 
+  // remove any loot that no longer exists
+  await prisma.loot.deleteMany({
+    where: {
+      questDefinitionId: quest.id,
+      NOT: {
+        itemId: {
+          in: quest.loot.map((l) => l.itemId),
+        },
+      },
+    },
+  });
+  // upsert the rest
   for (const loot of quest.loot) {
-    // find existing loot
     const exists = await prisma.loot.findFirst({
       where: {
         questDefinitionId: quest.id,

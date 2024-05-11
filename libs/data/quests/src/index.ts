@@ -383,17 +383,12 @@ export const QUESTS = [
     loot: [
       {
         itemId: '1',
-        quantity: 5,
+        quantity: 10,
         chance: 1,
       },
       {
-        itemId: '7',
-        quantity: 1,
-        chance: 1,
-      },
-      {
-        itemId: '1000',
-        quantity: 1,
+        itemId: '2',
+        quantity: 2,
         chance: 1,
       },
     ],
