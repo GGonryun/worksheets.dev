@@ -506,3 +506,11 @@ export const userSeo = (userId: string): NextSeoProps => {
     description: `View information about a user on Charity Games. Turn your games into donations. Help us make a difference.`,
   });
 };
+
+export const connectSeo = (providerId: string): NextSeoProps => {
+  return createSeo({
+    path: routes.connect.path({ params: { providerId } }),
+    title: `Connect Account`,
+    description: `Connect an external account to Charity Games. Turn your games into donations. Help us make a difference.`,
+  });
+};

@@ -1,7 +1,6 @@
-import { BLOG_BASE_URL } from '@worksheets/ui/env';
 import { BlogQueryParams } from '@worksheets/util/enums';
 
-import { routeBuilder } from '../util';
+import { BLOG_BASE_URL, routeBuilder } from '../util';
 
 const createRoute = routeBuilder(BLOG_BASE_URL);
 

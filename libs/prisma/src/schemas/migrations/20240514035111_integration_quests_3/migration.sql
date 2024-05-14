@@ -1,0 +1,2 @@
+-- AlterEnum
+ALTER TYPE "QuestType" ADD VALUE 'JOIN_DISCORD_GUILD';

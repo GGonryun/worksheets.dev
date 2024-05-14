@@ -5,3 +5,4 @@ export * from './lib/microsoft';
 export * from './lib/twitter';
 export * from './lib/reddit';
 export * from './lib/steam-games';
+export * from './lib/twitch';

@@ -1,4 +1,4 @@
-import { DiscordMessageInput } from '@worksheets/services/discord';
+import { DiscordMessageInput } from '@worksheets/api/discord';
 import { SendEmailInput } from '@worksheets/services/email';
 import { ScheduleNewsletterInput } from '@worksheets/services/newsletter';
 import { PushNotifyInput } from '@worksheets/services/push';

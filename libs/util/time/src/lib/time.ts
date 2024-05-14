@@ -43,6 +43,8 @@ export function convertSecondsToMilliseconds(seconds: number): number {
   return seconds * 1000;
 }
 
+export const secondsFromNow = (seconds: number) =>
+  new Date(Date.now() + 1000 * seconds);
 export const minutesFromNow = (minutes: number) =>
   new Date(Date.now() + 60000 * minutes);
 export const hoursFromNow = (hours: number, now = Date.now()) =>

@@ -1,7 +1,7 @@
 import { ErrorScreen } from '@worksheets/ui/pages/errors';
 import { NextSeo } from 'next-seo';
 
-export default function Custom404() {
+export default function Custom500() {
   return (
     <>
       <NextSeo noindex title="Charity Games - 500" />

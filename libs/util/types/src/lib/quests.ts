@@ -45,6 +45,16 @@ export type QuestTypeData = {
   FOLLOW_TWITTER: {
     handle: string;
   };
+  FOLLOW_TWITCH: {
+    handle: string;
+  };
+  JOIN_DISCORD_GUILD: {
+    guildId: string;
+    invite: string;
+  };
+  WISHLIST_STEAM_GAME: {
+    appId: string;
+  };
   ADD_REFERRAL: unknown;
   BASIC_ACTION: unknown;
   WATCH_AD: {
@@ -53,7 +63,6 @@ export type QuestTypeData = {
 };
 
 export type QuestTypeStateValue<T extends QuestType> = QuestTypeState[T];
-
 export type QuestTypeState = {
   PLAY_GAME: {
     progress: number;
@@ -75,12 +84,13 @@ export type QuestTypeState = {
   };
   RAFFLE_PARTICIPATION: unknown;
   VISIT_WEBSITE: unknown;
-  FOLLOW_TWITTER: {
-    username: string;
-  };
+  FOLLOW_TWITTER: unknown;
   BATTLE_PARTICIPATION: unknown;
   BASIC_ACTION: unknown;
   WATCH_AD: unknown;
+  FOLLOW_TWITCH: unknown;
+  JOIN_DISCORD_GUILD: unknown;
+  WISHLIST_STEAM_GAME: unknown;
 };
 
 export type QuestTypeInputValue<T extends QuestType> = QuestTypeInput[T];
@@ -104,15 +114,16 @@ export type QuestTypeInput = {
   ADD_FRIEND: {
     userId: string;
   };
-  FOLLOW_TWITTER: {
-    username: string;
-  };
+  FOLLOW_TWITTER: unknown;
   PLAY_GAME: unknown;
   RAFFLE_PARTICIPATION: unknown;
   VISIT_WEBSITE: unknown;
   BASIC_ACTION: unknown;
   WATCH_AD: unknown;
   BATTLE_PARTICIPATION: unknown;
+  FOLLOW_TWITCH: unknown;
+  JOIN_DISCORD_GUILD: unknown;
+  WISHLIST_STEAM_GAME: unknown;
 };
 
 export type QuestFormActions<T extends QuestType = QuestType> = {

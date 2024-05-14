@@ -842,7 +842,7 @@ export class CapsuleService {
         if (chance <= rate) {
           const possible = removeInvalidDrops(RARITY_BAGS[rarity]);
           if (!possible.length) {
-            console.log('No valid items for capsule', { itemId, rarity });
+            console.warn('No valid items for capsule', { itemId, rarity });
             throw new TRPCError({
               code: 'INTERNAL_SERVER_ERROR',
               message: `No valid items for capsule ${itemId}`,

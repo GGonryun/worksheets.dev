@@ -1,5 +1,5 @@
+import { DiscordAPI } from '@worksheets/api/discord';
 import { PrismaClient, PrismaTransactionalClient } from '@worksheets/prisma';
-import { DiscordService } from '@worksheets/services/discord';
 import { EmailService } from '@worksheets/services/email';
 import { NewsletterService } from '@worksheets/services/newsletter';
 import { PushService } from '@worksheets/services/push';
@@ -13,13 +13,13 @@ import { TwitterService } from '@worksheets/services/twitter';
 import { destinations } from './destinations';
 
 export class NotificationsService {
-  #discord: DiscordService;
+  #discord: DiscordAPI;
   #twitter: TwitterService;
   #newsletter: NewsletterService;
   #push: PushService;
   #email: EmailService;
   constructor(db: PrismaClient | PrismaTransactionalClient) {
-    this.#discord = new DiscordService();
+    this.#discord = new DiscordAPI();
     this.#twitter = new TwitterService();
     this.#newsletter = new NewsletterService(db);
     this.#push = new PushService(db);

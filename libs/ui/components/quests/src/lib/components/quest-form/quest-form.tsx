@@ -6,14 +6,17 @@ import { AddFriendQuestForm } from './add-friend-quest-form';
 import { AddReferralQuestForm } from './add-referral-quest-form';
 import { BasicActionQuestForm } from './basic-action-quest-form';
 import { BattleParticipationQuestForm } from './battle-participation-quest-form';
+import { FollowTwitchQuestForm } from './follow-twitch-quest-form';
 import { FollowTwitterQuestForm } from './follow-twitter-quest-form';
 import { FriendPlayMinutesQuestForm } from './friend-play-minutes-quest-form';
+import { JoinDiscordGuildQuestForm } from './join-discord-guild-form';
 import { PlayGameQuestForm } from './play-game-quest-form';
 import { PlayMinutesQuestForm } from './play-minutes-quest-form';
 import { RaffleParticipationQuestForm } from './raffle-participation-quest-form';
 import { ReferralPlayMinutesQuestForm } from './referral-play-minutes-quest-form';
 import { VisitWebsiteQuestForm } from './visit-website-quest-form';
 import { WatchAdQuestForm } from './watch-ad-quest-form';
+import { WishlistSteamGameForm } from './wishlist-steam-game-form';
 
 export function QuestForm<T extends QuestType>({
   quest,
@@ -95,6 +98,30 @@ export function QuestForm<T extends QuestType>({
       return (
         <BattleParticipationQuestForm
           quest={quest as DetailedQuestSchema<'BATTLE_PARTICIPATION'>}
+        />
+      );
+
+    case QuestType.FOLLOW_TWITCH:
+      return (
+        <FollowTwitchQuestForm
+          quest={quest as DetailedQuestSchema<'FOLLOW_TWITCH'>}
+          actions={actions as QuestFormActions<'FOLLOW_TWITCH'>}
+        />
+      );
+
+    case QuestType.JOIN_DISCORD_GUILD:
+      return (
+        <JoinDiscordGuildQuestForm
+          quest={quest as DetailedQuestSchema<'JOIN_DISCORD_GUILD'>}
+          actions={actions as QuestFormActions<'JOIN_DISCORD_GUILD'>}
+        />
+      );
+
+    case QuestType.WISHLIST_STEAM_GAME:
+      return (
+        <WishlistSteamGameForm
+          quest={quest as DetailedQuestSchema<'WISHLIST_STEAM_GAME'>}
+          actions={actions as QuestFormActions<'WISHLIST_STEAM_GAME'>}
         />
       );
     default:

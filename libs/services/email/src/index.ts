@@ -173,7 +173,7 @@ export class EmailService {
   }
 
   async verify() {
-    this.#transporter.verify().then(console.log).catch(console.error);
+    this.#transporter.verify().then(console.info).catch(console.error);
   }
 
   static template(opts: TemplateOptions): string {

@@ -2,11 +2,7 @@ import { TRPCError } from '@trpc/server';
 import { Prisma, QuestType } from '@worksheets/prisma';
 import { assertNever } from '@worksheets/util/errors';
 import { convertJson, isPrismaJsonObject } from '@worksheets/util/prisma';
-import {
-  QuestTypeData,
-  QuestTypeState,
-  QuestTypeStateValue,
-} from '@worksheets/util/types';
+import { QuestTypeData, QuestTypeState } from '@worksheets/util/types';
 import { has } from 'lodash';
 
 export const parseState = <T extends QuestType>(
@@ -20,10 +16,6 @@ export const parseState = <T extends QuestType>(
   switch (type) {
     case QuestType.PLAY_GAME:
       return parsePlayGameState(state) as QuestTypeState[T];
-    case QuestType.VISIT_WEBSITE:
-      return parseVisitWebsiteState(state) as QuestTypeState[T];
-    case QuestType.FOLLOW_TWITTER:
-      return parseFollowTwitterState(state) as QuestTypeState[T];
     case QuestType.ADD_FRIEND:
       return parseAddFriendState(state) as QuestTypeState[T];
     case QuestType.ADD_REFERRAL:
@@ -32,14 +24,16 @@ export const parseState = <T extends QuestType>(
     case QuestType.REFERRAL_PLAY_MINUTES:
     case QuestType.FRIEND_PLAY_MINUTES:
       return parsePlayMinutesState(state) as QuestTypeState[T];
+    case QuestType.FOLLOW_TWITTER:
+    case QuestType.JOIN_DISCORD_GUILD:
+    case QuestType.VISIT_WEBSITE:
     case QuestType.BATTLE_PARTICIPATION:
-      return parseBattleParticipationState(state) as QuestTypeState[T];
     case QuestType.RAFFLE_PARTICIPATION:
-      return parseRaffleParticipationState(state) as QuestTypeState[T];
     case QuestType.BASIC_ACTION:
-      return parseBasicActionState(state) as QuestTypeState[T];
     case QuestType.WATCH_AD:
-      return parseWatchAdState(state) as QuestTypeState[T];
+    case QuestType.FOLLOW_TWITCH:
+    case QuestType.WISHLIST_STEAM_GAME:
+      return state as QuestTypeState[T];
     default:
       throw assertNever(type);
   }
@@ -55,43 +49,24 @@ export const defaultState = <T extends QuestType>(
     case QuestType.FRIEND_PLAY_MINUTES:
     case QuestType.REFERRAL_PLAY_MINUTES:
       return { duration: 0 } as QuestTypeState[T];
-    case QuestType.VISIT_WEBSITE:
-      return { visited: 0 } as QuestTypeState[T];
     case QuestType.FOLLOW_TWITTER:
       return { username: '' } as QuestTypeState[T];
     case QuestType.ADD_FRIEND:
       return { friends: [] } as QuestTypeState[T];
     case QuestType.ADD_REFERRAL:
       return { referrals: [] } as QuestTypeState[T];
-    case QuestType.RAFFLE_PARTICIPATION:
-      return {
-        entered: 0,
-      } as QuestTypeState[T];
-    case QuestType.BASIC_ACTION:
-      return {} as QuestTypeState[T];
+    case QuestType.JOIN_DISCORD_GUILD:
+    case QuestType.FOLLOW_TWITCH:
+    case QuestType.VISIT_WEBSITE:
     case QuestType.WATCH_AD:
-      return {
-        progress: 0,
-      } as QuestTypeState[T];
+    case QuestType.RAFFLE_PARTICIPATION:
+    case QuestType.BASIC_ACTION:
     case QuestType.BATTLE_PARTICIPATION:
-      return {
-        battles: 0,
-      } as QuestTypeState[T];
+    case QuestType.WISHLIST_STEAM_GAME:
+      return {} as QuestTypeState[T];
     default:
       throw assertNever(type);
   }
-};
-
-export const parseWatchAdState = (
-  state: unknown
-): QuestTypeState['WATCH_AD'] => {
-  return state;
-};
-
-export const parseBasicActionState = (
-  state: unknown
-): QuestTypeStateValue<'BASIC_ACTION'> => {
-  return state;
 };
 
 export const parsePlayGameState = (
@@ -112,30 +87,6 @@ export const parsePlayGameState = (
   }
 
   return { progress: state['progress'] };
-};
-
-export const parseVisitWebsiteState = (
-  state: unknown
-): QuestTypeState['VISIT_WEBSITE'] => {
-  return state;
-};
-
-export const parseFollowTwitterState = (
-  state: unknown
-): QuestTypeState['FOLLOW_TWITTER'] => {
-  if (!isPrismaJsonObject(state)) {
-    throw new TRPCError({
-      code: 'PARSE_ERROR',
-      message: 'State is not an object',
-    });
-  }
-  if (!has(state, 'username') || typeof state['username'] !== 'string') {
-    throw new TRPCError({
-      code: 'PARSE_ERROR',
-      message: 'State is missing username field',
-    });
-  }
-  return { username: state['username'] };
 };
 
 export const parseAddFriendState = (
@@ -187,18 +138,6 @@ export const parseAddReferralState = (
     });
   }
   return { referrals: convertJson<string[]>(referrals) };
-};
-
-export const parseRaffleParticipationState = (
-  state: unknown
-): QuestTypeState['RAFFLE_PARTICIPATION'] => {
-  return state;
-};
-
-export const parseBattleParticipationState = (
-  state: unknown
-): QuestTypeState['BATTLE_PARTICIPATION'] => {
-  return state;
 };
 
 export const parsePlayMinutesState = (

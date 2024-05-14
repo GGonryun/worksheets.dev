@@ -12,7 +12,7 @@ export const QUESTS = [
   // watch ads
   {
     order: 1,
-    version: 0,
+    version: 1,
     id: 'WATCH_AD_1' as const,
     type: QuestType.WATCH_AD,
     category: QuestCategory.TASK,
@@ -21,8 +21,8 @@ export const QUESTS = [
     frequency: QuestFrequency.DAILY,
     loot: [
       {
-        itemId: '2',
-        quantity: 1,
+        itemId: '10044',
+        quantity: 3,
         chance: 1,
       },
     ],
@@ -32,17 +32,17 @@ export const QUESTS = [
   },
   {
     order: 2,
-    version: 0,
+    version: 1,
     id: 'WATCH_AD_2' as const,
     type: QuestType.WATCH_AD,
     category: QuestCategory.TASK,
     name: 'Watch an Ad #2',
     description: 'Watch an ad to earn a small reward.',
-    frequency: QuestFrequency.DAILY,
+    frequency: QuestFrequency.WEEKLY,
     loot: [
       {
         itemId: '2',
-        quantity: 1,
+        quantity: 3,
         chance: 1,
       },
     ],
@@ -52,57 +52,17 @@ export const QUESTS = [
   },
   {
     order: 3,
-    version: 0,
+    version: 1,
     id: 'WATCH_AD_3' as const,
     type: QuestType.WATCH_AD,
     category: QuestCategory.TASK,
     name: 'Watch an Ad #3',
     description: 'Watch an ad to earn a small reward.',
-    frequency: QuestFrequency.WEEKLY,
-    loot: [
-      {
-        itemId: '5',
-        quantity: 1,
-        chance: 1,
-      },
-    ],
-    data: {
-      network: 'gruvian',
-    },
-  },
-  {
-    order: 4,
-    version: 0,
-    id: 'WATCH_AD_4' as const,
-    type: QuestType.WATCH_AD,
-    category: QuestCategory.TASK,
-    name: 'Watch an Ad #4',
-    description: 'Watch an ad to earn a small reward.',
-    frequency: QuestFrequency.WEEKLY,
-    loot: [
-      {
-        itemId: '5',
-        quantity: 1,
-        chance: 1,
-      },
-    ],
-    data: {
-      network: 'gruvian',
-    },
-  },
-  {
-    order: 5,
-    version: 0,
-    id: 'WATCH_AD_5' as const,
-    type: QuestType.WATCH_AD,
-    category: QuestCategory.TASK,
-    name: 'Watch an Ad #5',
-    description: 'Watch an ad to earn a bronze capsule.',
     frequency: QuestFrequency.MONTHLY,
     loot: [
       {
-        itemId: '100',
-        quantity: 1,
+        itemId: '5',
+        quantity: 3,
         chance: 1,
       },
     ],
@@ -157,7 +117,7 @@ export const QUESTS = [
     version: 0,
     id: 'DAILY_GIFT_BOXES' as const,
     type: QuestType.BASIC_ACTION,
-    category: QuestCategory.TASK,
+    category: QuestCategory.GAMEPLAY,
     name: 'Daily Gift Boxes',
     description: 'Collect a small gift box to share with friends every day.',
     frequency: QuestFrequency.DAILY,
@@ -176,7 +136,7 @@ export const QUESTS = [
     version: 0,
     id: 'WEEKLY_GIFT_BOXES' as const,
     type: QuestType.BASIC_ACTION,
-    category: QuestCategory.TASK,
+    category: QuestCategory.GAMEPLAY,
     name: 'Weekly Gift Boxes',
     description: 'Collect a large gift box to share with friends every week.',
     frequency: QuestFrequency.WEEKLY,
@@ -195,7 +155,7 @@ export const QUESTS = [
     version: 0,
     id: 'DAILY_WEAPONS_CRATE' as const,
     type: QuestType.BASIC_ACTION,
-    category: QuestCategory.TASK,
+    category: QuestCategory.GAMEPLAY,
     name: 'Daily Weapon Crates',
     description: 'Collect a weapons crate for your next battle every day.',
     frequency: QuestFrequency.DAILY,
@@ -213,7 +173,7 @@ export const QUESTS = [
     version: 0,
     id: 'WEEKLY_WEAPONS_CRATE' as const,
     type: QuestType.BASIC_ACTION,
-    category: QuestCategory.TASK,
+    category: QuestCategory.GAMEPLAY,
     name: 'Weekly Weapon Crates',
     description:
       'Collect 3 extra weapons crate for your next battle every week.',
@@ -230,14 +190,14 @@ export const QUESTS = [
   },
   {
     order: 24,
-    version: 0,
+    version: 1,
     id: 'WEEKLY_RANDOM_BOX' as const,
     type: QuestType.BASIC_ACTION,
-    category: QuestCategory.TASK,
+    category: QuestCategory.GAMEPLAY,
     name: 'Weekly Colored Boxes',
     description:
       'Collect 5 colored boxes with a random items inside every week.',
-    frequency: QuestFrequency.DAILY,
+    frequency: QuestFrequency.WEEKLY,
     loot: [
       {
         itemId: '10025',
@@ -273,7 +233,7 @@ export const QUESTS = [
     version: 0,
     id: 'RAFFLE_PARTICIPATION_DAILY' as const,
     type: QuestType.RAFFLE_PARTICIPATION,
-    category: QuestCategory.TASK,
+    category: QuestCategory.GAMEPLAY,
     name: 'Enter Raffle Daily',
     description:
       'Enter at least one raffle every day on Charity Games and get 10 bonus tokens.',
@@ -295,8 +255,8 @@ export const QUESTS = [
     version: 0,
     id: 'BATTLE_PARTICIPATION_DAILY' as const,
     type: QuestType.BATTLE_PARTICIPATION,
-    category: QuestCategory.TASK,
-    name: 'Participate in Battles Daily',
+    category: QuestCategory.GAMEPLAY,
+    name: 'Fight Boss Battle Daily',
     description:
       'Participate in at least one battle every day on Charity Games and get 10 bonus tokens.',
     frequency: QuestFrequency.DAILY,
@@ -504,7 +464,135 @@ export const QUESTS = [
       handle: 'indiefold',
     },
   },
-  // TODO: follow twitch
+  {
+    order: 300,
+    version: 0,
+    id: 'FOLLOW_GDQ_TWITCH' as const,
+    type: QuestType.FOLLOW_TWITCH,
+    category: QuestCategory.TASK,
+    name: 'Follow GamesDoneQuick',
+    description:
+      'Follow Games Done Quick on Twitch. Stay up to date on the latest news and updates.',
+    frequency: QuestFrequency.MONTHLY,
+    loot: [
+      {
+        itemId: '1',
+        quantity: 100,
+        chance: 1,
+      },
+    ],
+    data: {
+      handle: 'GamesDoneQuick',
+    },
+  },
+  {
+    order: 301,
+    version: 0,
+    id: 'FOLLOW_CHARITY_WATER_TWITCH' as const,
+    type: QuestType.FOLLOW_TWITCH,
+    category: QuestCategory.TASK,
+    name: 'Follow Charity:Water',
+    description:
+      'Follow Charity:Water Quick on Twitch. Stay up to date on the latest news and updates.',
+    frequency: QuestFrequency.MONTHLY,
+    loot: [
+      {
+        itemId: '1',
+        quantity: 100,
+        chance: 1,
+      },
+    ],
+    data: {
+      handle: 'CharityWater',
+    },
+  },
+  {
+    order: 302,
+    version: 0,
+    id: 'FOLLOW_GAMERS_OUTREACH_TWITCH' as const,
+    type: QuestType.FOLLOW_TWITCH,
+    category: QuestCategory.TASK,
+    name: 'Follow GamersOutreach',
+    description:
+      'Follow GamersOutreach on Twitch. Stay up to date on the latest news and updates.',
+    frequency: QuestFrequency.MONTHLY,
+    loot: [
+      {
+        itemId: '1',
+        quantity: 100,
+        chance: 1,
+      },
+    ],
+    data: {
+      handle: 'GamersOutreach',
+    },
+  },
+  // discords
+  {
+    order: 400,
+    version: 0,
+    id: 'JOIN_CHARITY_GAMES_DISCORD' as const,
+    type: QuestType.JOIN_DISCORD_GUILD,
+    category: QuestCategory.TASK,
+    name: 'Join Charity Games Discord',
+    description:
+      'Join the Charity Games Discord server and chat with other players.',
+    frequency: QuestFrequency.MONTHLY,
+    loot: [
+      {
+        itemId: '1',
+        quantity: 100,
+        chance: 1,
+      },
+    ],
+    data: {
+      guildId: '1107109374566088785',
+      invite: 'https://discord.com/invite/Auatjee2BZ',
+    },
+  },
+  // steams
+  {
+    order: 500,
+    version: 0,
+    id: 'WISHLIST_SANDYS_GREAT_ESCAPE_STEAM' as const,
+    type: QuestType.WISHLIST_STEAM_GAME,
+    category: QuestCategory.TASK,
+    name: "Wishlist Sandy's Great Escape on Steam",
+    description:
+      "Wishlist Sandy's Great Escape on Steam and help indie game developers.",
+    frequency: QuestFrequency.MONTHLY,
+    loot: [
+      {
+        itemId: '1',
+        quantity: 100,
+        chance: 1,
+      },
+    ],
+    data: {
+      appId: '2457870',
+    },
+  },
+  {
+    order: 501,
+    version: 1,
+    id: 'WISHLIST_CHECK_AND_SLASH_STEAM' as const,
+    type: QuestType.WISHLIST_STEAM_GAME,
+    category: QuestCategory.TASK,
+    name: 'Wishlist Check and Slash on Steam',
+    description:
+      'Wishlist Check and Slash on Steam and help indie game developers.',
+    frequency: QuestFrequency.MONTHLY,
+    loot: [
+      {
+        itemId: '1',
+        quantity: 100,
+        chance: 1,
+      },
+    ],
+    data: {
+      appId: '2610710',
+    },
+  },
   // infinites
   {
     order: 1000,

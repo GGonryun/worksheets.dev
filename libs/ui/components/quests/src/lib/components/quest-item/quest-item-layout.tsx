@@ -43,14 +43,16 @@ export const QuestItemLayout: React.FC<{
       }}
     >
       <Row justifyContent="space-between" flexWrap={'wrap'} gap={1}>
-        <Row gap={1}>
-          <Button
-            variant="square"
-            color={color}
-            size={isMobile ? 'small' : 'large'}
-          >
-            <Icon fontSize={isMobile ? 'small' : 'medium'} />
-          </Button>
+        <Row gap={1} alignItems="flex-start">
+          <Box>
+            <Button
+              variant="square"
+              color={color}
+              size={isMobile ? 'small' : 'large'}
+            >
+              <Icon fontSize={isMobile ? 'small' : 'medium'} />
+            </Button>
+          </Box>
           <Column>
             <Typography
               variant={isMobile ? 'body1' : 'h6'}

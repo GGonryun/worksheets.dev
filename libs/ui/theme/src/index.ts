@@ -275,6 +275,7 @@ const theme = createTheme({
       main: '#000',
       dark: '#000',
       contrastText: '#fff',
+      gradient: `linear-gradient(109.6deg, rgba(0, 0, 0, 0.93) 11.2%, rgb(63, 61, 61) 78.9%)`,
     },
     background: {
       wallpaper: '#2BD9FF',

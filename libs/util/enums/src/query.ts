@@ -17,3 +17,11 @@ export enum AccountFriendsQueryParams {
 export enum NewsletterQueryParams {
   Id = 'id',
 }
+
+export enum ErrorQueryParams {
+  Message = 'message',
+}
+
+export enum ConnectIntegrationQueryParams {
+  State = 'state',
+}

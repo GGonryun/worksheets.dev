@@ -1,6 +1,8 @@
 import { Author } from '@worksheets/util/blog';
 import {
   AccountFriendsQueryParams,
+  ConnectIntegrationQueryParams,
+  ErrorQueryParams,
   FriendsPanels,
   HelpAccountQuestions,
   HelpCommonQuestions,
@@ -8,6 +10,7 @@ import {
   HelpDevelopersQuestions,
   HelpEmailsQuestions,
   HelpFriendsQuestions,
+  HelpIntegrationsQuestions,
   HelpInventoryQuestions,
   HelpMobsQuestions,
   HelpNotificationsQuestions,
@@ -25,24 +28,30 @@ import {
   SettingsPanels,
 } from '@worksheets/util/enums';
 
-import { routeBuilder } from '../util';
+import { APP_BASE_URL, routeBuilder } from '../util';
 
-const CHARITY_GAMES_BASE_URL =
-  (process.env['NEXT_PUBLIC_CHARITY_GAMES_BASE_URL'] ||
-    process.env['CHARITY_GAMES_BASE_URL'] ||
-    process.env['BASE_URL']) ??
-  '';
-
-if (!CHARITY_GAMES_BASE_URL) {
-  throw new Error('Failed to build routes: CHARITY_GAMES_BASE_URL is required');
-}
-
-const createRoute = routeBuilder(CHARITY_GAMES_BASE_URL);
+const createRoute = routeBuilder(APP_BASE_URL);
 
 export const routes = {
-  baseUrl: CHARITY_GAMES_BASE_URL,
+  baseUrl: APP_BASE_URL,
   home: createRoute({
     path: '/',
+  }),
+  oauth: createRoute({
+    path: '/oauth',
+    routes: {
+      success: createRoute({
+        path: '/oauth/success',
+      }),
+      error: createRoute({
+        path: '/oauth/error',
+        query: ErrorQueryParams,
+      }),
+    },
+  }),
+  connect: createRoute({
+    path: '/connect/[providerId]',
+    query: ConnectIntegrationQueryParams,
   }),
   about: createRoute({
     path: '/about',
@@ -205,6 +214,10 @@ export const routes = {
       developers: createRoute({
         path: '/help/developers',
         bookmarks: HelpDevelopersQuestions,
+      }),
+      integrations: createRoute({
+        path: '/help/integrations',
+        bookmarks: HelpIntegrationsQuestions,
       }),
       inventory: createRoute({
         path: '/help/inventory',

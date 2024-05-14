@@ -58,7 +58,6 @@ export const GameLauncher: FC<GameLauncherProps> = ({
   };
 
   const handleFullscreen: () => void = () => {
-    console.log('handleFullscreen', game.file.type);
     if (game.file.type === 'EXTERNAL') {
       throw new Error("Unsupported action: game.file.type === 'EXTERNAL'");
     } else {

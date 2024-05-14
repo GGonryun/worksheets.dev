@@ -24,16 +24,19 @@ import {
   trackAddFriendProgress,
   trackAddReferralProgress,
   trackBasicActionProgress,
-  trackBattleParticipationDaily,
+  trackBattleParticipationProgress,
   trackFinitePlayGameProgress,
+  trackFollowTwitchProgress,
   trackFollowTwitterProgress,
   trackFriendPlayMinutesProgress,
   trackInfinitePlayGameProgress,
+  trackJoinDiscordGuildProgress,
   trackPlayMinutesProgress,
   trackRaffleParticipationProgress,
   trackReferralPlayMinutesProgress,
   trackWatchAdProgress,
   trackWebsiteVisitProgress,
+  trackWishlistSteamGameProgress,
 } from './lib/tracking';
 
 export class QuestsService {
@@ -197,7 +200,7 @@ export class QuestsService {
           ...opts,
         });
       case 'BATTLE_PARTICIPATION_DAILY':
-        return await trackBattleParticipationDaily({
+        return await trackBattleParticipationProgress({
           db: this.#db,
           inventory,
           notifications,
@@ -269,8 +272,6 @@ export class QuestsService {
       case 'WATCH_AD_1':
       case 'WATCH_AD_2':
       case 'WATCH_AD_3':
-      case 'WATCH_AD_4':
-      case 'WATCH_AD_5':
         return await trackWatchAdProgress({
           db: this.#db,
           inventory,
@@ -278,7 +279,33 @@ export class QuestsService {
           questType: 'WATCH_AD',
           ...opts,
         });
-
+      case 'FOLLOW_GDQ_TWITCH':
+      case 'FOLLOW_CHARITY_WATER_TWITCH':
+      case 'FOLLOW_GAMERS_OUTREACH_TWITCH':
+        return await trackFollowTwitchProgress({
+          db: this.#db,
+          inventory,
+          notifications,
+          questType: 'FOLLOW_TWITCH',
+          ...opts,
+        });
+      case 'JOIN_CHARITY_GAMES_DISCORD':
+        return await trackJoinDiscordGuildProgress({
+          db: this.#db,
+          inventory,
+          notifications,
+          questType: 'JOIN_DISCORD_GUILD',
+          ...opts,
+        });
+      case 'WISHLIST_SANDYS_GREAT_ESCAPE_STEAM':
+      case 'WISHLIST_CHECK_AND_SLASH_STEAM':
+        return await trackWishlistSteamGameProgress({
+          db: this.#db,
+          inventory,
+          notifications,
+          questType: 'WISHLIST_STEAM_GAME',
+          ...opts,
+        });
       default:
         throw assertNever(opts.questId);
     }
@@ -314,6 +341,9 @@ export class QuestsService {
       case QuestType.WATCH_AD:
       case QuestType.VISIT_WEBSITE:
       case QuestType.FOLLOW_TWITTER:
+      case QuestType.FOLLOW_TWITCH:
+      case QuestType.JOIN_DISCORD_GUILD:
+      case QuestType.WISHLIST_STEAM_GAME:
         throw new Error(
           `The ${opts.questType} quest type does not support tracking events.`
         );

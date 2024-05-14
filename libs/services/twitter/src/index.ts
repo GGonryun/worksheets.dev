@@ -30,4 +30,8 @@ export class TwitterService {
       console.error('Failed to post tweet', error);
     }
   }
+
+  public async me() {
+    await this.#client.v2.user('me');
+  }
 }

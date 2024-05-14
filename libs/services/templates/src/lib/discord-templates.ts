@@ -1,5 +1,5 @@
+import { DiscordMessageInput } from '@worksheets/api/discord';
 import { routes } from '@worksheets/routes';
-import { DiscordMessageInput } from '@worksheets/services/discord';
 import { printShortDate, printShortDateTime } from '@worksheets/util/time';
 import pluralize from 'pluralize';
 

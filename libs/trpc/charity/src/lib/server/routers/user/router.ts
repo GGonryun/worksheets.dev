@@ -9,6 +9,7 @@ import gamePlay from './gamePlay/router';
 import gameTime from './gameTime/router';
 import get from './get';
 import initialize from './initialize';
+import integrations from './integrations/router';
 import inventory from './inventory';
 import newsletter from './newsletter/router';
 import notifications from './notifications/router';
@@ -39,4 +40,5 @@ export default t.router({
   delete: destroy,
   codes,
   battles,
+  integrations,
 });

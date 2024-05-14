@@ -92,7 +92,7 @@ export const QuestModal: React.FC<
         </Column>
         <Collapse in={open}>
           <Column mt={2}>
-            <Row gap={2} flexWrap="wrap">
+            <Row mx={1} gap={2} flexWrap="wrap">
               {quest.loot.map((l) => (
                 <InventoryInformation
                   key={l.item.id}

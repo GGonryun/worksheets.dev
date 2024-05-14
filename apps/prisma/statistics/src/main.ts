@@ -27,24 +27,24 @@ const calculateAdImpressionsByRaffle = async () => {
     },
   });
 
-  console.log();
-  console.log('Number of Participants:', impressions._count);
-  console.log('Number of Ad Impressions:', impressions._sum.adsWatched);
-  console.log();
+  console.debug();
+  console.debug('Number of Participants:', impressions._count);
+  console.debug('Number of Ad Impressions:', impressions._sum.adsWatched);
+  console.debug();
   await main();
 };
 
 async function main() {
   try {
-    console.log('Charity Games Statistics');
-    console.log('1. Number of Ad Impressions by Raffle');
+    console.debug('Charity Games Statistics');
+    console.debug('1. Number of Ad Impressions by Raffle');
     const option = await questionAsync('Choose an option: ');
-    console.log('\nYou chose option:', option);
+    console.debug('\nYou chose option:', option);
     switch (option) {
       case '1':
         return await calculateAdImpressionsByRaffle();
       default:
-        console.log('Invalid option');
+        console.debug('Invalid option');
         exit(1);
     }
   } catch (error) {

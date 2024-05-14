@@ -126,3 +126,9 @@ export enum HelpMobsQuestions {
   MVP = 'mvp',
   Rewards = 'rewards',
 }
+
+export enum HelpIntegrationsQuestions {
+  Description = 'description',
+  OAuth = 'oauth',
+  Steam = 'steam',
+}

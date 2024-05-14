@@ -10,9 +10,14 @@ import {
   PunchClockOutlined,
   ScheduleOutlined,
   SvgIconComponent,
-  Twitter,
   VideogameAssetOutlined,
 } from '@mui/icons-material';
+import {
+  NewTwitterLogo,
+  Twitch,
+  WhiteDiscord,
+  WhiteSteamGames,
+} from '@worksheets/icons/companies';
 import { Sword } from '@worksheets/icons/font-awesome-solid';
 import {
   QuestCategory,
@@ -45,7 +50,7 @@ export const formatQuestFrequencyLabel = (frequency: QuestFrequency) =>
 const QUEST_ICON: Record<QuestType, SvgIconComponent> = {
   [QuestType.PLAY_GAME]: VideogameAssetOutlined,
   [QuestType.VISIT_WEBSITE]: LanguageOutlined,
-  [QuestType.FOLLOW_TWITTER]: Twitter,
+  [QuestType.FOLLOW_TWITTER]: NewTwitterLogo,
   [QuestType.ADD_FRIEND]: Diversity1Outlined,
   [QuestType.ADD_REFERRAL]: PersonOutlined,
   [QuestType.PLAY_MINUTES]: ScheduleOutlined,
@@ -55,6 +60,9 @@ const QUEST_ICON: Record<QuestType, SvgIconComponent> = {
   [QuestType.BASIC_ACTION]: CheckBoxOutlined,
   [QuestType.WATCH_AD]: FeaturedVideoOutlined,
   [QuestType.BATTLE_PARTICIPATION]: Sword,
+  [QuestType.FOLLOW_TWITCH]: Twitch,
+  [QuestType.JOIN_DISCORD_GUILD]: WhiteDiscord,
+  [QuestType.WISHLIST_STEAM_GAME]: WhiteSteamGames,
 };
 
 export const selectQuestStatusIcon = (status: QuestStatus, type: QuestType) => {
@@ -121,7 +129,7 @@ export const formatQuestTypeLabel = (type: QuestType) => {
     case QuestType.VISIT_WEBSITE:
       return 'Visit Website';
     case QuestType.FOLLOW_TWITTER:
-      return 'Follow Twitter';
+      return 'Follow on Twitter';
     case QuestType.ADD_FRIEND:
       return 'Add Friend';
     case QuestType.ADD_REFERRAL:
@@ -140,6 +148,12 @@ export const formatQuestTypeLabel = (type: QuestType) => {
       return 'Watch Ad';
     case QuestType.BATTLE_PARTICIPATION:
       return 'Battle Participation';
+    case QuestType.FOLLOW_TWITCH:
+      return 'Follow on Twitch';
+    case QuestType.JOIN_DISCORD_GUILD:
+      return 'Join Discord Server';
+    case QuestType.WISHLIST_STEAM_GAME:
+      return 'Wishlist Steam Game';
     default:
       throw assertNever(type);
   }

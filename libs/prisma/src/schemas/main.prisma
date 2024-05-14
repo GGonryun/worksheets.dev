@@ -58,6 +58,8 @@ model User {
   reportsAgainst   UserReport[]           @relation(name: "Against")
   reportsSent      UserReport[]           @relation(name: "Sender")
   plays            GamePlayHistory[]
+  // integrations
+  integrations     Integration[]
 }
 
 model Account {
@@ -616,6 +618,9 @@ enum QuestType {
   FOLLOW_TWITTER
   BASIC_ACTION
   WATCH_AD
+  FOLLOW_TWITCH
+  WISHLIST_STEAM_GAME
+  JOIN_DISCORD_GUILD
 }
 
 enum QuestFrequency {
@@ -780,4 +785,59 @@ model BattleParticipation {
   struckAt  DateTime
 
   @@unique([userId, battleId])
+}
+
+enum IntegrationProvider {
+  TWITCH
+  TWITTER
+  DISCORD
+  STEAM
+}
+
+enum IntegrationError {
+  // TODO: support more error types.
+  ACCESS_DENIED
+  INVALID_REFRESH_TOKEN
+  REDIRECT_MISMATCH
+  UNAUTHORIZED_CLIENT
+  UNSUPPORTED_RESPONSE_TYPE
+  INVALID_SCOPE
+  SERVER_ERROR
+  TEMPORARILY_UNAVAILABLE
+  INVALID_REQUEST
+  UNKNOWN
+}
+
+enum IntegrationStatus {
+  PENDING
+  AUTHORIZED
+  ERROR
+}
+
+enum IntegrationType {
+  OAUTH
+  API_KEY
+}
+
+model Integration {
+  id           String              @id @default(cuid())
+  createdAt    DateTime            @default(now())
+  updatedAt    DateTime            @updatedAt
+  authorizedAt DateTime?
+  type         IntegrationType
+  status       IntegrationStatus   @default(PENDING)
+  error        IntegrationError?
+  userId       String
+  user         User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  provider     IntegrationProvider
+  accessToken  String?
+  refreshToken String?
+  challenge    String?
+  expiresAt    DateTime?
+  scopes       String[]            @default([])
+  identity     Json?
+  data         Json?
+  tokenType    String              @default("bearer")
+
+  @@unique([userId, provider]) // a user can only have one integration per provider
 }

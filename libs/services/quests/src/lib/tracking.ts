@@ -195,12 +195,88 @@ export const trackFollowTwitterProgress = async (
         questDefinitionId: questId,
         expiresAt,
         status,
-        state: opts.input,
+        state: {},
       },
       update: {
         expiresAt,
         status,
-        state: opts.input,
+        state: {},
+      },
+    });
+
+    await awardLoot(opts.inventory, userId, definition.loot);
+    await opts.notifications.send('quest-completed', {
+      userId: opts.userId,
+      quest: definition,
+    });
+  });
+};
+
+export const trackJoinDiscordGuildProgress = async (
+  opts: TrackProgressOpts<'JOIN_DISCORD_GUILD'>
+) => {
+  const { userId, questId } = opts;
+  const { progress, definition } = await getQuest(opts);
+
+  onQuestCompletable(progress, async () => {
+    const expiresAt = createExpirationDate(definition.frequency);
+    const status = 'COMPLETED';
+    await opts.db.questProgress.upsert({
+      where: {
+        userId_questDefinitionId: {
+          userId,
+          questDefinitionId: questId,
+        },
+      },
+      create: {
+        userId,
+        questDefinitionId: questId,
+        expiresAt,
+        status,
+        state: {},
+      },
+      update: {
+        expiresAt,
+        status,
+        state: {},
+      },
+    });
+
+    await awardLoot(opts.inventory, userId, definition.loot);
+    await opts.notifications.send('quest-completed', {
+      userId: opts.userId,
+      quest: definition,
+    });
+  });
+};
+
+export const trackWishlistSteamGameProgress = async (
+  opts: TrackProgressOpts<'WISHLIST_STEAM_GAME'>
+) => {
+  const { userId, questId } = opts;
+  const { progress, definition } = await getQuest(opts);
+
+  onQuestCompletable(progress, async () => {
+    const expiresAt = createExpirationDate(definition.frequency);
+    const status = 'COMPLETED';
+    await opts.db.questProgress.upsert({
+      where: {
+        userId_questDefinitionId: {
+          userId,
+          questDefinitionId: questId,
+        },
+      },
+      create: {
+        userId,
+        questDefinitionId: questId,
+        expiresAt,
+        status,
+        state: {},
+      },
+      update: {
+        expiresAt,
+        status,
+        state: {},
       },
     });
 
@@ -250,8 +326,47 @@ export const trackRaffleParticipationProgress = async (
   });
 };
 
-export const trackBattleParticipationDaily = async (
+export const trackBattleParticipationProgress = async (
   opts: TrackProgressOpts<'BATTLE_PARTICIPATION'>
+) => {
+  const { userId, questId } = opts;
+  const { progress, definition } = await getQuest(opts);
+
+  onQuestCompletable(progress, async () => {
+    const expiresAt = createExpirationDate(definition.frequency);
+    const status = 'COMPLETED';
+
+    await opts.db.questProgress.upsert({
+      where: {
+        userId_questDefinitionId: {
+          userId,
+          questDefinitionId: questId,
+        },
+      },
+      create: {
+        userId,
+        questDefinitionId: questId,
+        expiresAt,
+        status,
+        state: {},
+      },
+      update: {
+        expiresAt,
+        status,
+        state: {},
+      },
+    });
+
+    await awardLoot(opts.inventory, userId, definition.loot);
+    await opts.notifications.send('quest-completed', {
+      userId: opts.userId,
+      quest: definition,
+    });
+  });
+};
+
+export const trackFollowTwitchProgress = async (
+  opts: TrackProgressOpts<'FOLLOW_TWITCH'>
 ) => {
   const { userId, questId } = opts;
   const { progress, definition } = await getQuest(opts);
