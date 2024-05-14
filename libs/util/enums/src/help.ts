@@ -129,6 +129,5 @@ export enum HelpMobsQuestions {
 
 export enum HelpIntegrationsQuestions {
   Description = 'description',
-  OAuth = 'oauth',
   Steam = 'steam',
 }

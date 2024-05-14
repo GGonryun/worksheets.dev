@@ -9,10 +9,11 @@ import { HalloweenDeath } from '@worksheets/icons/halloween';
 import { LearningCode } from '@worksheets/icons/learning';
 import {
   ValentinesCalendar,
-  ValentinesLock,
   ValentinesMail,
+  ValentinesPadlock,
   ValentinesPhones,
   ValentinesPotion,
+  ValentinesProfile,
   ValentinesTicket,
   ValentinesWorld,
 } from '@worksheets/icons/valentines';
@@ -35,7 +36,7 @@ const categories: HelpCenterCategoryProps[] = [
     title: 'Accounts & Profiles',
     description: 'Learn about accounts and profile settings',
     href: routes.help.accounts.path(),
-    icon: ValentinesLock,
+    icon: ValentinesProfile,
   },
   {
     title: 'Notifications',
@@ -84,6 +85,12 @@ const categories: HelpCenterCategoryProps[] = [
     href: routes.help.inventory.path(),
     description: 'Learn about your inventory and how to use items',
     icon: ValentinesPotion,
+  },
+  {
+    title: 'Integrations',
+    href: routes.help.integrations.path(),
+    description: 'Connect your account to other services and apps',
+    icon: ValentinesPadlock,
   },
   {
     title: 'Contributions',

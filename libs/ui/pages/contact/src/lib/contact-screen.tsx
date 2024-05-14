@@ -12,7 +12,8 @@ import {
   Typography,
   TypographyProps,
 } from '@mui/material';
-import { emailRoutes, routes } from '@worksheets/routes';
+import { WhiteDiscord } from '@worksheets/icons/companies';
+import { emailRoutes, externalRoutes, routes } from '@worksheets/routes';
 import React, { FC } from 'react';
 
 const Title: React.FC<TypographyProps> = (props) => (
@@ -87,11 +88,36 @@ export const ContactScreen: React.FC = () => (
       <br />
       <EmailUsSection />
       <br />
+      <JoinDiscord />
+      <br />
       <SignUpSection />
       <br />
     </Paper>
   </Container>
 );
+
+const JoinDiscord: FC = () => {
+  return (
+    <Box>
+      <Subtitle>Want to Chat?</Subtitle>
+      <Text>
+        Need help immediately? Join our Discord server and chat with our team
+        and other players. We are always available to help you with any
+        questions or issues you may have.
+      </Text>
+      <Box mt={2}>
+        <Button
+          variant="arcade"
+          color="secondary"
+          href={externalRoutes.social.discord}
+          startIcon={<WhiteDiscord />}
+        >
+          Join Discord
+        </Button>
+      </Box>
+    </Box>
+  );
+};
 
 const EmailUsSection: FC = () => {
   return (
@@ -105,7 +131,7 @@ const EmailUsSection: FC = () => {
       <Box mt={2}>
         <Button
           variant="arcade"
-          color="error"
+          color="secondary"
           href={`mailto:${emailRoutes.support}`}
           startIcon={<EmailOutlined />}
         >
@@ -126,7 +152,7 @@ const SignUpSection: FC = () => (
     <Box mt={2}>
       <Button
         variant="arcade"
-        color="error"
+        color="secondary"
         href={routes.login.path()}
         startIcon={<Login />}
       >

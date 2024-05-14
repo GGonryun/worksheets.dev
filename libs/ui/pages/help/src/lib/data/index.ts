@@ -11,3 +11,4 @@ export * from './help-quests';
 export * from './help-emails';
 export * from './help-inventory';
 export * from './help-mobs';
+export * from './help-integrations';

@@ -339,6 +339,13 @@ export const helpFriendsSeo = createSeo({
     'Find answers to questions about friends on Charity Games. Learn how to earn tokens by sharing gifts with friends.',
 });
 
+export const helpIntegrationsSeo = createSeo({
+  path: routes.help.integrations.path(),
+  title: 'Integrations Help Center',
+  description:
+    'Find answers to questions about integrations on Charity Games. Learn how to connect your account to other services.',
+});
+
 export const helpQuestsSeo = createSeo({
   path: routes.help.quests.path(),
   title: 'Quests Help Center',
