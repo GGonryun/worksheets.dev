@@ -64,7 +64,7 @@ export default t.router({
       )
       .mutation(
         async ({ ctx: { db, user }, input: { apiKey, integrationId } }) => {
-          const integration = await prisma.integration.findFirst({
+          const integration = await db.integration.findFirst({
             where: {
               id: integrationId,
               userId: user.id,
