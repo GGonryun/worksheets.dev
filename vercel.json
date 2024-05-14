@@ -14,7 +14,7 @@
         },
         {
             "path": "/api/cron/find-expired-raffles",
-            "schedule": "0 0 * * *"
+            "schedule": "0 * * * *"
         },
         {
             "path": "/api/cron/find-expiring-items",
@@ -26,15 +26,15 @@
         },
         {
             "path": "/api/cron/publish-games",
-            "schedule": "0 0 * * *"
+            "schedule": "0 * * * *"
         },
         {
             "path": "/api/cron/publish-raffles",
-            "schedule": "0 0 * * *"
+            "schedule": "0 * * * *"
         },
         {
             "path": "/api/cron/publish-battles",
-            "schedule": "0 0 * * *"
+            "schedule": "0 * * * *"
         },
         {
             "path": "/api/cron/send-scheduled-emails",

@@ -165,10 +165,7 @@ const InitialContent: React.FC<{
           onClick={props.onWatchAd}
           startIcon={<FeaturedVideoOutlined />}
         >
-          <span>
-            Watch Ad ({props.participation.adsWatched}/{MAX_AD_RAFFLE_USES})
-          </span>
-          <span>+5</span>
+          Watch Ad ({props.participation.adsWatched}/{MAX_AD_RAFFLE_USES})
         </Button>
       </Column>
     </Column>
