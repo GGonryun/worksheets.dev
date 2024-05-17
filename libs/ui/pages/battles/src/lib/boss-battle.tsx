@@ -15,7 +15,7 @@ import {
   Link,
   Typography,
 } from '@mui/material';
-import { Sword } from '@worksheets/icons/font-awesome-solid';
+import { Sword } from '@worksheets/icons/dazzle';
 import { ItemType } from '@worksheets/prisma';
 import { routes } from '@worksheets/routes';
 import { trpc } from '@worksheets/trpc-charity';
@@ -47,21 +47,21 @@ import { useSession } from 'next-auth/react';
 import pluralize from 'pluralize';
 import React, { useState } from 'react';
 
-export const BossBattle: React.FC<{ battle: BattleSchema }> = (props) => {
+export const BossBattle: React.FC<{ battle: BattleSchema; href: string }> = (
+  props
+) => {
   return (
     <MonsterDetails
       monster={props.battle.mob}
-      titleHref={routes.battle.path({
-        params: {
-          battleId: props.battle.id,
-        },
-      })}
-      profile={<FightProfile battle={props.battle} />}
+      titleHref={props.href}
+      profile={<FightProfile battle={props.battle} href={props.href} />}
     />
   );
 };
 
-const FightProfile: React.FC<{ battle: BattleSchema }> = (props) => {
+const FightProfile: React.FC<{ battle: BattleSchema; href: string }> = (
+  props
+) => {
   const [open, setOpen] = useState(false);
 
   return (
@@ -74,15 +74,7 @@ const FightProfile: React.FC<{ battle: BattleSchema }> = (props) => {
             onClick={() => setOpen(true)}
           />
         }
-        infoButton={
-          <InfoButton
-            href={routes.monster.path({
-              params: {
-                monsterId: props.battle.mob.id,
-              },
-            })}
-          />
-        }
+        infoButton={<InfoButton href={props.href} />}
         healthBar={
           <HealthBar
             currentHp={props.battle.health}

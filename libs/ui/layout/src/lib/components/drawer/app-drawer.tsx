@@ -1,6 +1,5 @@
 import {
   AccountCircleOutlined,
-  AdsClick,
   CategoryOutlined,
   CircleOutlined,
   HomeOutlined,
@@ -13,6 +12,7 @@ import {
   VideogameAssetOutlined,
 } from '@mui/icons-material';
 import Divider from '@mui/material/Divider';
+import { Sword } from '@worksheets/icons/dazzle';
 import { routes } from '@worksheets/routes';
 import {
   Drawer,
@@ -88,9 +88,15 @@ export const AppDrawer: React.FC<WithDrawerProps<{ connected: boolean }>> = ({
             icon: <SportsMmaOutlined />,
             label: 'Battles',
           },
+        ]}
+      />
+      <Divider />
+      <DrawerLinks
+        title="Databases"
+        links={[
           {
             href: routes.monsters.path(),
-            icon: <AdsClick />,
+            icon: <Sword />,
             label: 'Monsters',
           },
           {

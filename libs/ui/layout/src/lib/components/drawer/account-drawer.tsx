@@ -12,6 +12,7 @@ import {
   MilitaryTechOutlined,
   NotificationsActiveOutlined,
   NotificationsNoneOutlined,
+  PasswordOutlined,
   PersonAddOutlined,
   SportsKabaddiOutlined,
   StarBorder,
@@ -183,6 +184,13 @@ const UserContent: React.FC<{
             }),
             label: 'Battle Contributions',
             icon: <SportsKabaddiOutlined />,
+          },
+          {
+            href: routes.account.inventory.path({
+              bookmark: InventoryPanels.RedemptionCodes,
+            }),
+            label: 'Redemption Codes',
+            icon: <PasswordOutlined />,
           },
         ]}
       />

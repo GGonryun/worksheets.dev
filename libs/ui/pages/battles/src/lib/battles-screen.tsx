@@ -16,10 +16,10 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
+import { Sword } from '@worksheets/icons/dazzle';
 import {
   SortAmountDown,
   SortAmountUp,
-  Sword,
   Undo,
 } from '@worksheets/icons/font-awesome-solid';
 import { routes } from '@worksheets/routes';
@@ -70,7 +70,15 @@ const MobsScreen = () => {
 
           <Column width="100%" gap={2}>
             {battles.data?.map((battle) => (
-              <BossBattle key={battle.id} battle={battle} />
+              <BossBattle
+                key={battle.id}
+                battle={battle}
+                href={routes.battle.path({
+                  params: {
+                    battleId: battle.id,
+                  },
+                })}
+              />
             ))}
           </Column>
         </Column>

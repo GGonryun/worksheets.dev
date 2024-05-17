@@ -14,7 +14,7 @@ import dynamic from 'next/dynamic';
 import React, { useState } from 'react';
 
 const UserScreen: React.FC<{ userId: string }> = ({ userId }) => {
-  const user = trpc.public.users.find.useQuery(userId);
+  const user = trpc.public.users.find.useQuery(String(userId));
   const [open, setOpen] = useState(false);
 
   if (user.isLoading) return <LoadingScreen />;

@@ -24,7 +24,7 @@ import {
   SteamGames,
   Twitch,
 } from '@worksheets/icons/companies';
-import { Sword } from '@worksheets/icons/font-awesome-solid';
+import { Sword } from '@worksheets/icons/dazzle';
 import { PaletteColor } from '@worksheets/ui/theme';
 import { assertNever } from '@worksheets/util/errors';
 import {

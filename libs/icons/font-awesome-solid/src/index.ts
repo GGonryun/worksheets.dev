@@ -2,4 +2,3 @@
 export * from './lib/sort-amount-down';
 export * from './lib/sort-amount-up';
 export * from './lib/undo';
-export * from './lib/sword';

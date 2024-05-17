@@ -4,6 +4,7 @@ import {
   Button,
   Collapse,
   Container,
+  Link,
   Paper,
   Typography,
 } from '@mui/material';
@@ -117,7 +118,14 @@ const BattleDetails: React.FC<{
   return (
     <Column gap={2}>
       <BattleTitle {...battle} />
-      <BossBattle battle={battle} />
+      <BossBattle
+        battle={battle}
+        href={routes.monster.path({
+          params: {
+            monsterId: battle.mob.id,
+          },
+        })}
+      />
     </Column>
   );
 };
@@ -249,8 +257,17 @@ const ParticipationItem: React.FC<{
           </Button>
         )}
         <Typography fontWeight={500}>
-          {index}. {participation.user.username} -{' '}
-          {(participation.damage / participation.strikes).toFixed(2)} dps
+          {index}.{' '}
+          <Link
+            href={routes.user.path({
+              params: {
+                userId: participation.user.id,
+              },
+            })}
+          >
+            {participation.user.username} - {participation.damage.toFixed(2)}{' '}
+            damage
+          </Link>
           {participation.isMvp &&
             ` - MVP: ${MVP_REASON_LABEL[participation.isMvp]}`}
         </Typography>
