@@ -1,57 +1,42 @@
-import { QuestId } from '@worksheets/data/quests';
+import { InfoOutlined, OfflinePin } from '@mui/icons-material';
+import { Button } from '@mui/material';
+import { routes } from '@worksheets/routes';
 import { trpc } from '@worksheets/trpc-charity';
-import { PulsingLogo } from '@worksheets/ui/components/loading';
+import { Column, Row } from '@worksheets/ui/components/flex';
+import {
+  InventoryItem,
+  ItemModalLayout,
+  QuestLootDescription,
+} from '@worksheets/ui/components/items';
 import { useSnackbar } from '@worksheets/ui/components/snackbar';
+import { isTaskComplete, TaskModal } from '@worksheets/ui/components/tasks';
+import { QuestSchema } from '@worksheets/util/tasks';
 import { parseTRPCClientErrorMessage } from '@worksheets/util/trpc';
 import dynamic from 'next/dynamic';
 import React from 'react';
 
-import { QuestForm } from '../components/quest-form';
-import {
-  ErrorQuestItem,
-  LoadingQuestItem,
-  QuestItem,
-} from '../components/quest-item';
-import { QuestModal } from '../components/quest-modal';
+import { LoadingQuestItem, QuestItem } from '../components/quest-item';
 
-const Container: React.FC<{ questId: QuestId }> = ({ questId }) => {
+const Container: React.FC<{ quest: QuestSchema }> = ({ quest }) => {
   const snackbar = useSnackbar();
   const [open, setOpen] = React.useState(false);
-  const [submitting, setSubmitting] = React.useState(false);
+  const utils = trpc.useUtils();
   const tokens = trpc.user.inventory.quantity.useQuery('1');
-  const quest = trpc.user.quests.find.useQuery(
-    {
-      questId,
-    },
-    {
-      retry: false,
-    }
-  );
-  const track = trpc.user.quests.track.useMutation();
+  const track = trpc.user.tasks.trackQuest.useMutation();
 
-  if (quest.isLoading) {
-    return <LoadingQuestItem />;
-  }
-
-  if (quest.isError) {
-    return <ErrorQuestItem onClick={async () => await quest.refetch()} />;
-  }
-
-  // TODO: type safety gets bricked here.
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleSubmit = async (input: any) => {
+  const handleSubmit = async (input: { repetitions: number }) => {
     try {
-      setSubmitting(true);
-      await track.mutateAsync({ questId, input });
-      await quest.refetch();
-      await tokens.refetch();
+      await track.mutateAsync({ questId: quest.questId, ...input });
       snackbar.success('Quest completed!');
+      setOpen(false);
     } catch (error) {
       snackbar.error(parseTRPCClientErrorMessage(error));
-    } finally {
-      setSubmitting(false);
-      setOpen(false);
     }
+
+    await Promise.all([
+      utils.user.tasks.listQuests.invalidate(),
+      tokens.refetch(),
+    ]);
   };
 
   const handleCancel = () => {
@@ -60,20 +45,74 @@ const Container: React.FC<{ questId: QuestId }> = ({ questId }) => {
 
   return (
     <>
-      <QuestItem {...quest.data} onClick={() => setOpen(true)} />
-      <QuestModal open={open} quest={quest.data} onClose={() => setOpen(false)}>
-        {submitting ? (
-          <PulsingLogo />
-        ) : (
-          <QuestForm
-            quest={quest.data}
-            actions={{
-              onSubmit: handleSubmit,
-              onCancel: handleCancel,
-            }}
-          />
-        )}
-      </QuestModal>
+      <QuestItem {...quest} onClick={() => setOpen(true)} />
+      <TaskModal
+        open={open}
+        task={quest}
+        onClose={() => setOpen(false)}
+        actions={{
+          onSubmit: handleSubmit,
+          onCancel: handleCancel,
+        }}
+        isLoading={track.isLoading}
+        rewards={
+          <Column mt={2}>
+            <Row mx={1} gap={2} flexWrap="wrap">
+              {quest.loot.map((l) => (
+                <InventoryInformation
+                  key={l.item.id}
+                  loot={l}
+                  status={quest.status}
+                />
+              ))}
+            </Row>
+          </Column>
+        }
+      ></TaskModal>
+    </>
+  );
+};
+
+const InventoryInformation: React.FC<{
+  loot: QuestSchema['loot'][number];
+  status: QuestSchema['status'];
+}> = ({ loot, status }) => {
+  const [open, setOpen] = React.useState(false);
+  return (
+    <>
+      <InventoryItem
+        icon={
+          isTaskComplete(status) && (
+            <OfflinePin
+              color="success"
+              sx={{
+                borderRadius: '50%',
+                backgroundColor: 'white.main',
+              }}
+            />
+          )
+        }
+        size={64}
+        item={{ ...loot, ...loot.item }}
+        onClick={() => setOpen(true)}
+      />
+      <ItemModalLayout
+        item={loot.item}
+        open={open}
+        onClose={() => setOpen(false)}
+        content={<QuestLootDescription loot={loot} />}
+        action={
+          <Button
+            fullWidth
+            variant="arcade"
+            size="small"
+            startIcon={<InfoOutlined />}
+            href={routes.item.path({ params: { itemId: loot.item.id } })}
+          >
+            Details
+          </Button>
+        }
+      />
     </>
   );
 };

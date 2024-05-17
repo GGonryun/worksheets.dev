@@ -20,6 +20,7 @@ export const EXPIRATION_TIME_THRESHOLD = 2; // send reminder days before expirat
 export const ENTRY_PER_DAMAGE = 5;
 
 export const MAX_FRIENDS = 20;
+export const MAX_REFERRALS = 100;
 export const MAX_BEST_FRIENDS = 5;
 
 export const TOKENS_PER_REFERRAL_ACCOUNT = 200;
@@ -31,9 +32,6 @@ export const PER_FRIEND_PLAY_MINUTE_REWARD = 2;
 export const PLAY_MINUTE_DROP_CHANCE = 0.1;
 
 export const GAME_TRACK_FREQUENCY_SECONDS = 30.1;
-
-export const RAFFLE_ENTRIES_PER_AD = 5;
-export const MAX_AD_RAFFLE_USES = 3;
 
 export const MAX_CONSUMPTION_RATE = 10;
 

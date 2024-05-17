@@ -1,5 +1,5 @@
 import { TRPCError } from '@trpc/server';
-import { QuestsService } from '@worksheets/services/quests';
+import { TasksService } from '@worksheets/services/tasks';
 import { z } from 'zod';
 
 import { protectedProcedure } from '../../../procedures';
@@ -14,7 +14,7 @@ export default t.router({
       })
     )
     .mutation(async ({ input: { increment, gameId }, ctx: { user, db } }) => {
-      const quests = new QuestsService(db);
+      const tasks = new TasksService(db);
       const game = await db.game.findFirst({
         where: {
           id: gameId,
@@ -32,21 +32,23 @@ export default t.router({
         });
       }
 
-      await Promise.all([
-        quests.trackType({
-          questType: 'PLAY_MINUTES',
+      // TODO: add lottery game drops again.
+
+      await Promise.allSettled([
+        tasks.trackQuest({
+          questId: 'PLAY_MINUTES_INFINITE',
           userId: user.id,
-          input: { increment, game },
+          repetitions: increment,
         }),
-        quests.trackType({
-          questType: 'REFERRAL_PLAY_MINUTES',
+        tasks.trackQuest({
+          questId: 'REFERRAL_PLAY_MINUTES_INFINITE',
           userId: user.id,
-          input: { increment },
+          repetitions: increment,
         }),
-        quests.trackType({
-          questType: 'FRIEND_PLAY_MINUTES',
+        tasks.trackQuest({
+          questId: 'FRIEND_PLAY_MINUTES_INFINITE',
           userId: user.id,
-          input: { increment },
+          repetitions: increment,
         }),
       ]);
     }),

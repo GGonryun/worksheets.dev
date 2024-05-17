@@ -1,4 +1,4 @@
-import { Close, InfoOutlined } from '@mui/icons-material';
+import { ArrowRightAlt, Close, InfoOutlined } from '@mui/icons-material';
 import {
   Box,
   Button,
@@ -17,6 +17,7 @@ import { LoadingBar } from '@worksheets/ui/components/loading';
 import { InfoModal, ModalWrapper } from '@worksheets/ui/components/modals';
 import { PanelFooter } from '@worksheets/ui/components/panels';
 import { useSnackbar } from '@worksheets/ui/components/snackbar';
+import { InventoryPanels } from '@worksheets/util/enums';
 import { parseTRPCClientErrorMessage } from '@worksheets/util/trpc';
 import { RedemptionCodeSchema } from '@worksheets/util/types';
 import dynamic from 'next/dynamic';
@@ -129,15 +130,12 @@ const RewardModal: React.FC<ModalWrapper<{ reward: RedemptionCodeSchema }>> = ({
   onClose,
   reward,
 }) => {
+  const handleClick = () => {
+    onClose?.({}, 'backdropClick');
+  };
   return (
     <InfoModal open={open} onClose={onClose}>
-      <Column
-        gap={1}
-        textAlign="center"
-        alignItems="center"
-        minWidth={200}
-        p={2}
-      >
+      <Column gap={1} textAlign="center" alignItems="center" minWidth={200}>
         <Typography variant="h5">Congratulations!</Typography>
         <Typography variant="body1">
           You have successfully redeemed the following reward:
@@ -162,10 +160,13 @@ const RewardModal: React.FC<ModalWrapper<{ reward: RedemptionCodeSchema }>> = ({
           fullWidth
           variant="arcade"
           color="primary"
-          onClick={() => onClose?.({}, 'backdropClick')}
-          startIcon={<Close />}
+          href={routes.account.inventory.path({
+            bookmark: InventoryPanels.Items,
+          })}
+          onClick={handleClick}
+          endIcon={<ArrowRightAlt />}
         >
-          Close
+          My Items
         </Button>
       </Column>
     </InfoModal>

@@ -41,7 +41,6 @@ export const ItemModalLayout: React.FC<
           display: 'grid',
           gridTemplateColumns: { xs: '1fr', sm: 'auto 1fr' },
           gridTemplateRows: 'auto',
-          p: 2,
           gap: 2,
           position: 'relative',
         }}

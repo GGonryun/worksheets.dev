@@ -4,22 +4,14 @@ import { trpc } from '@worksheets/trpc-charity';
 import { ErrorComponent } from '@worksheets/ui/components/errors';
 import { Column } from '@worksheets/ui/components/flex';
 import { LoadingBar } from '@worksheets/ui/components/loading';
-import { QuestFilterOptions } from '@worksheets/util/types';
 import dynamic from 'next/dynamic';
 import React from 'react';
 
 import { DynamicQuest } from './dynamic-quest';
 
-const Container: React.FC<QuestFilterOptions> = ({
-  statuses,
-  frequencies,
-  categories,
-}) => {
-  const quests = trpc.user.quests.list.useInfiniteQuery(
+const Container: React.FC = () => {
+  const quests = trpc.user.tasks.listQuests.useInfiniteQuery(
     {
-      statuses,
-      frequencies,
-      categories,
       // TODO: this might overwhelm the server, lower the limit per page if needed
       limit: 10,
     },
@@ -52,7 +44,7 @@ const Container: React.FC<QuestFilterOptions> = ({
         )}
         {quests.data.pages.map((quests) =>
           quests.items.map((quest) => (
-            <DynamicQuest key={quest.id} questId={quest.id} />
+            <DynamicQuest key={quest.questId} quest={quest} />
           ))
         )}
       </Column>

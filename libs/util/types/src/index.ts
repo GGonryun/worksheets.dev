@@ -21,7 +21,6 @@ export * from './lib/notifications';
 export * from './lib/user';
 export * from './lib/priority';
 export * from './lib/newsletter';
-export * from './lib/quests';
 export * from './lib/items';
 export * from './lib/codes';
 export * from './lib/monsters';

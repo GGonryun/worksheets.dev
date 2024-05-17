@@ -1,16 +1,18 @@
-import { QUESTS, SeedableQuest } from '@worksheets/data/quests';
-import { prisma } from '@worksheets/prisma';
+import { QUESTS } from '@worksheets/data/quests';
+import { Prisma, prisma } from '@worksheets/prisma';
 import { getSeedingChanges, seedingProperties } from '@worksheets/util/seeding';
 
 export const insertQuests = async () => {
-  const stored = await prisma.questDefinition.findMany({
+  const stored = await prisma.platformQuest.findMany({
     select: seedingProperties,
   });
 
   const { updating, creating } = getSeedingChanges(QUESTS, stored);
 
-  for (const create of creating) {
-    await createQuest(create);
+  for (const data of creating) {
+    await prisma.platformQuest.create({
+      data,
+    });
   }
 
   for (const update of updating) {
@@ -27,77 +29,18 @@ export const insertQuests = async () => {
   }
 };
 
-const createQuest = async (quest: SeedableQuest) => {
-  await prisma.questDefinition.create({
-    data: convertQuest(quest),
+const updateQuest = async (quest: Prisma.PlatformQuestUncheckedCreateInput) => {
+  // delete all loot for this quest before updating
+  await prisma.loot.deleteMany({
+    where: {
+      questId: quest.id,
+    },
   });
 
-  await prisma.loot.createMany({
-    data: quest.loot.map((loot) => ({
-      questDefinitionId: quest.id,
-      ...loot,
-    })),
-    skipDuplicates: true,
-  });
-};
-
-const updateQuest = async (quest: SeedableQuest) => {
-  await prisma.questDefinition.update({
+  await prisma.platformQuest.update({
     where: {
       id: quest.id,
     },
-    data: convertQuest(quest),
+    data: quest,
   });
-
-  // remove any loot that no longer exists
-  await prisma.loot.deleteMany({
-    where: {
-      questDefinitionId: quest.id,
-      NOT: {
-        itemId: {
-          in: quest.loot.map((l) => l.itemId),
-        },
-      },
-    },
-  });
-  // upsert the rest
-  for (const loot of quest.loot) {
-    const exists = await prisma.loot.findFirst({
-      where: {
-        questDefinitionId: quest.id,
-        itemId: loot.itemId,
-      },
-    });
-    if (exists) {
-      await prisma.loot.update({
-        where: {
-          id: exists.id,
-        },
-        data: {
-          ...loot,
-        },
-      });
-    } else {
-      await prisma.loot.create({
-        data: {
-          questDefinitionId: quest.id,
-          ...loot,
-        },
-      });
-    }
-  }
-};
-
-const convertQuest = (quest: SeedableQuest) => {
-  return {
-    id: quest.id,
-    version: quest.version,
-    order: quest.order,
-    name: quest.name,
-    description: quest.description,
-    type: quest.type,
-    category: quest.category,
-    frequency: quest.frequency,
-    data: quest.data,
-  };
 };

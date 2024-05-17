@@ -214,6 +214,31 @@ const theme = createTheme({
       gradient: 'linear-gradient(181deg, #70BAFF 0.5%, #2477F4 177.86%)',
       shadow: '#3D68BC',
     },
+    discord: {
+      light: '#7289DA',
+      main: '#7289DA',
+      dark: '#7289DA',
+      contrastText: '#FFFFFF',
+      gradient: 'linear-gradient(145deg, #7289DA 11.5%, #4E6AD0 91.2%)',
+      shadow: '#3352C1',
+    },
+    steam: {
+      light: '#2a475e',
+      main: '#1b2838',
+      dark: '#171a21',
+      contrastText: '#FFFFFF',
+      gradient: 'linear-gradient(120deg, #00adee, #000000)',
+      shadow: '#2a475e',
+    },
+    twitch: {
+      light: '#b9a3e3',
+      main: '#772ce8',
+      dark: '#6441a5',
+      contrastText: '#FFFFFF',
+      gradient:
+        'linear-gradient(145deg, rgba(119, 44, 232, 0.68) 11.5%, rgb(119, 44, 232) 91.2%)',
+      shadow: '#6441a5',
+    },
     error: {
       light: '#FE697D',
       main: '#F4243C', // hand-picked.
@@ -276,6 +301,7 @@ const theme = createTheme({
       dark: '#000',
       contrastText: '#fff',
       gradient: `linear-gradient(109.6deg, rgba(0, 0, 0, 0.93) 11.2%, rgb(63, 61, 61) 78.9%)`,
+      shadow: grey[900],
     },
     background: {
       wallpaper: '#2BD9FF',

@@ -1,5 +1,5 @@
 import { TRPCError } from '@trpc/server';
-import { QuestsService } from '@worksheets/services/quests';
+import { TasksService } from '@worksheets/services/tasks';
 import { z } from 'zod';
 
 import { protectedProcedure } from '../../../procedures';
@@ -13,7 +13,7 @@ export default t.router({
       })
     )
     .mutation(async ({ input: { gameId }, ctx: { user, db } }) => {
-      const quests = new QuestsService(db);
+      const tasks = new TasksService(db);
       const game = await db.game.findFirst({
         where: {
           id: gameId,
@@ -31,10 +31,14 @@ export default t.router({
         });
       }
 
-      await quests.trackType({
-        questType: 'PLAY_GAME',
+      await tasks.trackManyQuests({
+        questIds: [
+          'PLAY_GAME_DAILY_5',
+          'PLAY_GAME_WEEKLY_25',
+          'PLAY_GAME_INFINITE',
+        ],
         userId: user.id,
-        input: {},
+        repetitions: 1,
       });
     }),
 });

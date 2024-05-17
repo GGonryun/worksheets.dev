@@ -4,6 +4,7 @@ import { PrismaClient, PrismaTransactionalClient } from '@worksheets/prisma';
 import { InventoryService } from '@worksheets/services/inventory';
 import { NotificationsService } from '@worksheets/services/notifications';
 import { shuffle } from '@worksheets/util/arrays';
+import { RAFFLE_ENTRY_FEE } from '@worksheets/util/settings';
 
 import { EXPIRED_RAFFLE_PROPS, ExpiredRaffle } from './types';
 
@@ -67,6 +68,79 @@ export class RafflesService {
       await this.#notifications.send('new-raffle', raffle);
     }
     console.info(`Published ${raffles.length} raffles`);
+  }
+
+  async addEntries({
+    userId,
+    raffleId,
+    entries,
+    bonus,
+  }: {
+    userId: string;
+    raffleId: number;
+    entries: number;
+    bonus: boolean;
+  }) {
+    const raffle = await this.#db.raffle.findFirst({
+      where: {
+        id: raffleId,
+      },
+    });
+
+    if (!raffle) {
+      throw new TRPCError({
+        code: 'NOT_FOUND',
+        message: 'Raffle does not exist',
+      });
+    }
+
+    if (raffle.status !== 'ACTIVE') {
+      throw new TRPCError({
+        code: 'PRECONDITION_FAILED',
+        message: 'Raffle is not active',
+      });
+    }
+
+    if (raffle.expiresAt < new Date()) {
+      throw new TRPCError({
+        code: 'PRECONDITION_FAILED',
+        message: 'Raffle has expired',
+      });
+    }
+
+    if (entries < 1) {
+      throw new TRPCError({
+        code: 'BAD_REQUEST',
+        message: 'Invalid number of entries',
+      });
+    }
+
+    await this.#db.raffleParticipation.upsert({
+      where: {
+        userId_raffleId: {
+          userId,
+          raffleId,
+        },
+      },
+      create: {
+        userId,
+        raffleId,
+        numEntries: entries,
+      },
+      update: {
+        numEntries: {
+          increment: entries,
+        },
+      },
+    });
+
+    if (!bonus) {
+      await this.#inventory.decrement(userId, {
+        itemId: '1',
+        // TODO: customizable entry fee.
+        quantity: RAFFLE_ENTRY_FEE * entries,
+      });
+    }
   }
 
   async processExpiredRaffles() {

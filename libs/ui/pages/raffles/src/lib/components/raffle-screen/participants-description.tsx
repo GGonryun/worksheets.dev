@@ -74,7 +74,6 @@ export const ParticipantsDescription: React.FC<{
   return (
     <Description
       hideLogo
-      open
       title="Participants & Winners"
       description={<Content raffleId={raffleId} />}
     />

@@ -80,7 +80,11 @@ export default t.router({
           loot: {
             include: {
               mob: true,
-              questDefinition: true,
+              quest: {
+                include: {
+                  task: true,
+                },
+              },
             },
           },
           raffles: true,
@@ -107,7 +111,11 @@ type PrismaItem = Prisma.ItemGetPayload<{
     loot: {
       include: {
         mob: true;
-        questDefinition: true;
+        quest: {
+          include: {
+            task: true;
+          };
+        };
       };
     };
     raffles: true;
@@ -131,14 +139,14 @@ const monsterSources = (item: PrismaItem): ItemSourcesSchema['monsters'] => {
 
 const questSources = (item: PrismaItem): ItemSourcesSchema['quests'] => {
   return item.loot
-    .filter((l) => l.questDefinition)
+    .filter((l) => l.quest)
     .filter((l) => l.itemId === item.id)
     .map((l) => ({
       // we filter out null values above.
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      id: l.questDefinition!.id,
+      id: l.quest!.id,
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      name: l.questDefinition!.name,
+      name: l.quest!.name ?? l.quest!.task.name,
     }));
 };
 

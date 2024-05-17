@@ -46,8 +46,7 @@ model User {
   notifications    Notification[]
   // vip membership
   vip              VipMembershipWaitlist?
-  // quests
-  quests           QuestProgress[]
+  tasks            TaskProgress[]
   // codes
   activationCode   ActivationCode[]
   redemptionCodes  RedemptionCode[]
@@ -493,12 +492,13 @@ model Raffle {
   publishAt    DateTime              @default(now())
   // relationships
   participants RaffleParticipation[]
+  actions      RaffleAction[]
 }
 
 model RaffleParticipation {
   id         Int      @id @default(autoincrement())
   numEntries Int
-  adsWatched Int      @default(0)
+  adsWatched Int      @default(0) // @deprecated.
   // the user who bought the ticket
   userId     String
   user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -599,13 +599,13 @@ model VipMembershipWaitlist {
   updatedAt DateTime @updatedAt
 }
 
-enum QuestStatus {
+enum TaskStatus {
   PENDING
   ACTIVE
   COMPLETED
 }
 
-enum QuestType {
+enum TaskType {
   PLAY_GAME
   PLAY_MINUTES
   REFERRAL_PLAY_MINUTES
@@ -623,49 +623,87 @@ enum QuestType {
   JOIN_DISCORD_GUILD
 }
 
-enum QuestFrequency {
+enum TaskCategory {
+  GAMEPLAY
+  SOCIAL
+  TASK
+}
+
+enum TaskFrequency {
+  ONCE
   DAILY
   WEEKLY
   MONTHLY
   INFINITE
 }
 
-enum QuestCategory {
-  GAMEPLAY
-  SOCIAL
-  TASK
+model Task {
+  id                  String          @id @default(cuid())
+  // audit
+  version             Int             @default(0)
+  createdAt           DateTime        @default(now())
+  updatedAt           DateTime        @updatedAt
+  // fields
+  name                String
+  description         String
+  type                TaskType
+  category            TaskCategory
+  frequency           TaskFrequency
+  // Describes the number of times a user needs to perform the task to receive the reward.
+  requiredRepetitions Int
+  // Denotes the maximum number of times the task can be performed
+  maxRepetitions      Int
+  data                Json
+  quests              PlatformQuest[]
+  actions             RaffleAction[]
 }
 
-model QuestDefinition {
-  id          String          @id @default(cuid())
-  version     Int             @default(0)
-  order       Int
-  name        String
-  description String
-  type        QuestType
-  category    QuestCategory
-  frequency   QuestFrequency
-  loot        Loot[]
-  createdAt   DateTime        @default(now())
-  updatedAt   DateTime        @updatedAt
-  data        Json
-  progress    QuestProgress[]
-}
-
-model QuestProgress {
-  id                Int             @id @default(autoincrement())
-  createdAt         DateTime        @default(now())
-  updatedAt         DateTime        @updatedAt
-  expiresAt         DateTime?
-  status            QuestStatus
-  state             Json
+model TaskProgress {
+  id          Int            @id @default(autoincrement())
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  expiresAt   DateTime?
+  status      TaskStatus
+  // the number of times the user has performed the task. 
+  // a reward is given when the task's interval is reached.
+  repetitions Int
   // relationships
-  userId            String
-  user              User            @relation(fields: [userId], references: [id], onDelete: Cascade)
-  questDefinitionId String
-  questDefinition   QuestDefinition @relation(fields: [questDefinitionId], references: [id], onDelete: Cascade)
+  userId      String
+  user        User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  questId     String?
+  quest       PlatformQuest? @relation(fields: [questId], references: [id], onDelete: Cascade)
+  actionId    String?
+  action      RaffleAction?  @relation(fields: [actionId], references: [id], onDelete: Cascade)
 
-  @@unique([userId, questDefinitionId])
+  @@unique([userId, questId])
+  @@unique([userId, actionId])
+}
+
+model PlatformQuest {
+  id          String         @id @default(cuid())
+  version     Int            @default(0)
+  order       Int
+  name        String?
+  description String?
+  loot        Loot[]
+  // relationships
+  taskId      String
+  task        Task           @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  progress    TaskProgress[]
+}
+
+model RaffleAction {
+  id          String         @id @default(cuid())
+  order       Int
+  name        String?
+  description String?
+  reward      Int // the number of entries the user gets for completing the action.
+  // relationships
+  taskId      String
+  task        Task           @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  raffleId    Int
+  raffle      Raffle         @relation(fields: [raffleId], references: [id], onDelete: Cascade)
+  progress    TaskProgress[]
 }
 
 enum MobRace {
@@ -713,8 +751,8 @@ model Loot {
   mob                   Mob?                 @relation(fields: [mobId], references: [id], onDelete: Cascade)
   battleParticipationId Int?
   battleParticipation   BattleParticipation? @relation(fields: [battleParticipationId], references: [id], onDelete: Cascade)
-  questDefinitionId     String?
-  questDefinition       QuestDefinition?     @relation(fields: [questDefinitionId], references: [id], onDelete: Cascade)
+  questId               String?
+  quest                 PlatformQuest?       @relation(fields: [questId], references: [id], onDelete: Cascade)
 
   @@unique([itemId, battleParticipationId])
 }

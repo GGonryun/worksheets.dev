@@ -24,6 +24,7 @@ import {
   ProviderConfig,
   UserIdentity,
 } from './types';
+
 const parseIdentity = (identity?: Prisma.JsonValue) => {
   if (!identity) {
     throw new TRPCError({
@@ -271,9 +272,7 @@ export class OAuthService {
       });
     }
     const json = await result.json();
-    console.info('json', json);
     const tokens = this.config.parseToken(json);
-    console.info('tokens', tokens);
     const identity = await this.config.identify({
       accessToken: tokens.accessToken,
       clientId: this.config.clientId,

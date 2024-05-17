@@ -14,7 +14,7 @@ import inventory from './inventory';
 import newsletter from './newsletter/router';
 import notifications from './notifications/router';
 import profile from './profile/router';
-import quests from './quests/router';
+import tasks from './quests/router';
 import raffles from './raffles/router';
 import referrals from './referrals/router';
 import referrer from './referrer/router';
@@ -35,7 +35,7 @@ export default t.router({
   vip,
   initialize,
   newsletter,
-  quests,
+  tasks,
   inventory,
   delete: destroy,
   codes,

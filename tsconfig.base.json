@@ -32,6 +32,7 @@
       "@worksheets/data/quests": ["libs/data/quests/src/index.ts"],
       "@worksheets/data/sponsors": ["libs/data/sponsors/src/index.ts"],
       "@worksheets/data/tags": ["libs/data/tags/src/index.ts"],
+      "@worksheets/data/tasks": ["libs/data/tasks/src/index.ts"],
       "@worksheets/data/viewports": ["libs/data/viewports/src/index.ts"],
       "@worksheets/icons/adventure": ["libs/icons/adventure/src/index.ts"],
       "@worksheets/icons/arrows": ["libs/icons/arrows/src/index.ts"],
@@ -80,9 +81,9 @@
         "libs/services/notifications/src/index.ts"
       ],
       "@worksheets/services/push": ["libs/services/push/src/index.ts"],
-      "@worksheets/services/quests": ["libs/services/quests/src/index.ts"],
       "@worksheets/services/raffles": ["libs/services/raffles/src/index.ts"],
       "@worksheets/services/storage": ["libs/services/storage/src/index.ts"],
+      "@worksheets/services/tasks": ["libs/services/tasks/src/index.ts"],
       "@worksheets/services/templates": [
         "libs/services/templates/src/index.ts"
       ],
@@ -180,6 +181,12 @@
       ],
       "@worksheets/ui/components/social-media": [
         "libs/ui/components/social-media/src/index.ts"
+      ],
+      "@worksheets/ui/components/tasks": [
+        "libs/ui/components/tasks/src/index.ts"
+      ],
+      "@worksheets/ui/components/tooltips": [
+        "libs/ui/components/tooltips/src/index.ts"
       ],
       "@worksheets/ui/components/typography": [
         "libs/ui/components/typography/src/index.ts"
@@ -293,6 +300,7 @@
       "@worksheets/util/storage": ["libs/util/storage/src/index.ts"],
       "@worksheets/util/strings": ["libs/util/strings/src/index.ts"],
       "@worksheets/util/styles": ["libs/util/styles/src/index.ts"],
+      "@worksheets/util/tasks": ["libs/util/tasks/src/index.ts"],
       "@worksheets/util/time": ["libs/util/time/src/index.ts"],
       "@worksheets/util/trpc": ["libs/util/trpc/src/index.ts"],
       "@worksheets/util/types": ["libs/util/types/src/index.ts"],

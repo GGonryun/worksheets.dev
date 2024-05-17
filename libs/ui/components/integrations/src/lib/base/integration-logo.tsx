@@ -2,10 +2,10 @@ import { SvgIconComponent } from '@mui/icons-material';
 import { Box } from '@mui/material';
 import { IntegrationProvider } from '@prisma/client';
 import {
-  NewTwitterLogo,
+  Discord,
+  NewTwitter,
+  SteamGames,
   Twitch,
-  WhiteDiscord,
-  WhiteSteamGames,
 } from '@worksheets/icons/companies';
 
 const GRADIENTS: Record<IntegrationProvider, string> = {
@@ -19,10 +19,10 @@ const GRADIENTS: Record<IntegrationProvider, string> = {
 };
 
 const ICONS: Record<IntegrationProvider, SvgIconComponent> = {
-  [IntegrationProvider.STEAM]: WhiteSteamGames,
-  [IntegrationProvider.DISCORD]: WhiteDiscord,
+  [IntegrationProvider.STEAM]: SteamGames,
+  [IntegrationProvider.DISCORD]: Discord,
   [IntegrationProvider.TWITCH]: Twitch,
-  [IntegrationProvider.TWITTER]: NewTwitterLogo,
+  [IntegrationProvider.TWITTER]: NewTwitter,
 };
 
 export const IntegrationLogo: React.FC<{
@@ -42,7 +42,7 @@ export const IntegrationLogo: React.FC<{
         background: gradient,
       }}
     >
-      <Icon fontSize={'large'} />
+      <Icon fontSize={'large'} color="white" />
     </Box>
   );
 };

@@ -12,7 +12,6 @@ export const RaffleDescription: React.FC<{
   raffle: RaffleSchema;
 }> = ({ raffle, onShare }) => (
   <Description
-    open
     title={'About This Raffle'}
     ancillary={
       <Box

@@ -7,6 +7,7 @@ import { insertItems } from './insert-items';
 import { insertMobs } from './insert-mobs';
 import { insertQuests } from './insert-quests';
 import { insertSponsors } from './insert-sponsors';
+import { insertTasks } from './insert-tasks';
 import { insertViewports } from './insert-viewports';
 
 async function main() {
@@ -18,6 +19,7 @@ async function main() {
     await insertItems();
     await insertMobs();
     await insertGames();
+    await insertTasks();
     await insertQuests();
   } catch (error) {
     console.error(error);

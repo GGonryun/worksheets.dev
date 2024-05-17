@@ -1,193 +1,149 @@
-import {
-  ArrowBack,
-  FeaturedVideoOutlined,
-  StarBorder,
-} from '@mui/icons-material';
-import { Button, Typography } from '@mui/material';
-import { routes } from '@worksheets/routes';
+import { StarBorder } from '@mui/icons-material';
+import { Box, Button, Typography } from '@mui/material';
 import { trpc } from '@worksheets/trpc-charity';
-import { WatchAdvertisement } from '@worksheets/ui/components/advertisements';
 import { ErrorComponent } from '@worksheets/ui/components/errors';
 import { Column } from '@worksheets/ui/components/flex';
 import { NumericCounterField } from '@worksheets/ui/components/inputs';
 import { PulsingLogo } from '@worksheets/ui/components/loading';
-import { BasicModal, ModalWrapper } from '@worksheets/ui/components/modals';
-import { useSnackbar } from '@worksheets/ui/components/snackbar';
 import {
-  MAX_AD_RAFFLE_USES,
-  RAFFLE_ENTRIES_PER_AD,
-  RAFFLE_ENTRY_FEE,
-} from '@worksheets/util/settings';
+  InfoModal,
+  ModalProps,
+  ModalWrapper,
+} from '@worksheets/ui/components/modals';
+import { useSnackbar } from '@worksheets/ui/components/snackbar';
+import { RaffleActions, TaskModal } from '@worksheets/ui/components/tasks';
+import { RAFFLE_ENTRY_FEE } from '@worksheets/util/settings';
+import { ActionSchema } from '@worksheets/util/tasks';
 import { parseTRPCClientErrorMessage } from '@worksheets/util/trpc';
-import { UserParticipationSchema } from '@worksheets/util/types';
 import pluralize from 'pluralize';
 import { useState } from 'react';
+
+const ModalLayout: React.FC<ModalProps> = ({ open, onClose, children }) => {
+  return (
+    <InfoModal open={open} onClose={onClose}>
+      <Box>{children}</Box>
+    </InfoModal>
+  );
+};
 
 export const EnterRaffleModal: React.FC<
   ModalWrapper<{
     raffleId: number;
   }>
 > = ({ raffleId, open, onClose }) => {
-  return (
-    <BasicModal open={open} onClose={onClose}>
-      <ModalContent
-        raffleId={raffleId}
-        onClose={() => onClose?.({}, 'backdropClick')}
-      />
-    </BasicModal>
-  );
-};
-
-const ModalContent: React.FC<{ raffleId: number; onClose: () => void }> = ({
-  raffleId,
-  onClose,
-}) => {
-  const tokens = trpc.user.inventory.quantity.useQuery('1');
-  const participation = trpc.user.raffles.participation.useQuery({
-    raffleId,
-  });
-
-  const [step, setStep] = useState<'initial' | 'tokens' | 'advertisement'>(
-    'initial'
-  );
-
   const handleClose = () => {
-    setStep('initial');
-    onClose();
+    onClose?.({}, 'backdropClick');
+    setAction(undefined);
+    setUseTokens(false);
   };
 
-  const handleCancel = () => {
-    setStep('initial');
-  };
-
-  if (
-    participation.isLoading ||
-    tokens.isLoading ||
-    tokens.isFetching ||
-    tokens.isRefetching ||
-    participation.isFetching ||
-    participation.isRefetching
-  )
-    return <PulsingLogo />;
-  if (participation.isError || tokens.isError) return <ErrorComponent />;
+  const [useTokens, setUseTokens] = useState(false);
+  const [action, setAction] = useState<ActionSchema | undefined>(undefined);
 
   return (
-    <Column gap={1}>
-      <Typography
-        typography={{ xs: 'h5', sm: 'h4' }}
-        color={
-          step === 'initial'
-            ? 'primary.main'
-            : step === 'tokens'
-            ? 'success.main'
-            : 'secondary.main'
-        }
-        gutterBottom
-      >
-        Enter Raffle
-      </Typography>
-
-      {step === 'initial' ? (
-        <InitialContent
-          participation={participation.data}
-          onUseTokens={() => setStep('tokens')}
-          onWatchAd={() => setStep('advertisement')}
-          tokensOwned={tokens.data}
-        />
-      ) : step === 'tokens' ? (
-        <UseTokensContent
-          tokensOwned={tokens.data}
-          raffleId={raffleId}
-          onClose={handleClose}
-          onCancel={handleCancel}
-        />
-      ) : (
-        <WatchAdvertisementContent
-          raffleId={raffleId}
-          participation={participation.data}
-          onClose={handleClose}
-          onCancel={handleCancel}
-        />
-      )}
-      <Button
-        sx={{ mt: 1 }}
-        href={routes.account.quests.path()}
-        fullWidth
-        size="medium"
-        variant="text"
-      >
-        Get more tokens
-      </Button>
-    </Column>
+    <>
+      <RaffleModal
+        open={open}
+        onClose={handleClose}
+        raffleId={raffleId}
+        onClickAction={setAction}
+        onUseTokens={() => setUseTokens(true)}
+      />
+      <TokensModal
+        raffleId={raffleId}
+        open={useTokens}
+        onClose={() => setUseTokens(false)}
+      />
+      <RaffleActionModal
+        raffleId={raffleId}
+        onClose={() => setAction(undefined)}
+        action={action}
+      />
+    </>
   );
 };
 
-const InitialContent: React.FC<{
-  participation: UserParticipationSchema;
-  tokensOwned: number;
+const RaffleModal: React.FC<{
+  open: boolean;
+  onClose: () => void;
+  raffleId: number;
+  onClickAction: (action: ActionSchema) => void;
   onUseTokens: () => void;
-  onWatchAd: () => void;
-}> = (props) => {
+}> = ({ open, onClose, raffleId, onClickAction, onUseTokens }) => {
   return (
-    <Column width="100%" gap={2}>
-      <Typography fontWeight={600}>
-        You can enter a raffle using tokens or by watching advertisements.{' '}
-      </Typography>
-      <Column>
-        <Typography>
-          One raffle entry costs {RAFFLE_ENTRY_FEE} tokens.
-        </Typography>
-        <Typography>
-          Watching an ad will give you {RAFFLE_ENTRIES_PER_AD} free entries.
-        </Typography>
-      </Column>
-
-      <Column>
-        <Column>
-          <Typography fontWeight={700} variant="body2">
-            You own {props.tokensOwned} tokens
-          </Typography>
-        </Column>
-
-        <Button
-          sx={{ my: 1 }}
-          startIcon={<StarBorder />}
-          onClick={props.onUseTokens}
-          variant="arcade"
-          color="success"
+    <ModalLayout open={open} onClose={onClose}>
+      <Column width="100%" gap={2}>
+        <Typography
+          typography={{ xs: 'h5', sm: 'h4' }}
+          color={'primary.main'}
+          gutterBottom
         >
           Enter Raffle
-        </Button>
-        <Button
-          disabled={props.participation.adsWatched >= MAX_AD_RAFFLE_USES}
-          variant="arcade"
-          color="secondary"
-          onClick={props.onWatchAd}
-          startIcon={<FeaturedVideoOutlined />}
-        >
-          Watch Ad ({props.participation.adsWatched}/{MAX_AD_RAFFLE_USES})
-        </Button>
+        </Typography>
+        <Column  gap={1} mt={1} mb={2}>
+          <Typography fontWeight={700}>Enter using tokens</Typography>
+          <Button
+            size="large"
+            startIcon={<StarBorder />}
+            onClick={onUseTokens}
+            variant="arcade"
+            color="success"
+            sx={{
+              '&.MuiButton-root': {
+                minHeight: 50,
+                display: 'flex',
+                justifyContent: 'space-between',
+              },
+            }}
+          >
+            <span>Spend Tokens</span>
+            <span>∞</span>
+          </Button>
+        </Column>
+        <RaffleActions raffleId={raffleId} onClick={onClickAction} />
       </Column>
-    </Column>
+    </ModalLayout>
+  );
+};
+
+const TokensModal: React.FC<{
+  open: boolean;
+  onClose: () => void;
+  raffleId: number;
+}> = ({ open, onClose, raffleId }) => {
+  return (
+    <ModalLayout open={open} onClose={onClose}>
+      <UseTokensContent raffleId={raffleId} onClose={onClose} />
+    </ModalLayout>
   );
 };
 
 const UseTokensContent: React.FC<{
-  tokensOwned: number;
   raffleId: number;
   onClose: () => void;
-  onCancel: () => void;
 }> = (props) => {
   const snackbar = useSnackbar();
   const utils = trpc.useUtils();
   const [entries, setEntries] = useState(1);
   const [entering, setEntering] = useState(false);
   const enterRaffle = trpc.user.raffles.enterRaffle.useMutation();
+  const tokens = trpc.user.inventory.quantity.useQuery('1');
 
-  const tooManyEntries = entries > props.tokensOwned / RAFFLE_ENTRY_FEE;
+  if (entering) return <PulsingLogo message="Entering raffle..." />;
+  if (tokens.isLoading || tokens.isFetching || tokens.isRefetching)
+    return <PulsingLogo />;
+
+  if (tokens.isError) return <ErrorComponent />;
+
+  const tooManyEntries = entries > tokens.data / RAFFLE_ENTRY_FEE;
 
   const handleSetEntries = (value: number) => {
-    if (value > props.tokensOwned / RAFFLE_ENTRY_FEE) {
+    if (value < 1) {
+      setEntries(1);
+      return;
+    }
+
+    if (value > tokens.data / RAFFLE_ENTRY_FEE) {
       snackbar.error('You do not have enough tokens!');
     }
 
@@ -215,25 +171,21 @@ const UseTokensContent: React.FC<{
     }
   };
 
-  if (entering) return <PulsingLogo message="Entering raffle..." />;
-
   return (
     <Column gap={2}>
-      <Typography fontWeight={600} gutterBottom>
-        How many entries would you like to purchase?
-      </Typography>
       <Column>
-        <NumericCounterField value={entries} onChange={handleSetEntries} />
+        <Typography fontWeight={600} variant="h6">
+          How many entries would you like to purchase?
+        </Typography>
         <Typography
-          mt={1}
           variant="body2"
           color={tooManyEntries ? 'error.main' : 'text.secondary'}
           fontWeight={500}
         >
-          Cost: {entries * RAFFLE_ENTRY_FEE} tokens
+          Each raffle entry costs {entries * RAFFLE_ENTRY_FEE} tokens
         </Typography>
       </Column>
-
+      <NumericCounterField value={entries} onChange={handleSetEntries} />
       <Column gap={1}>
         <Button
           startIcon={<StarBorder />}
@@ -246,22 +198,13 @@ const UseTokensContent: React.FC<{
         >
           Purchase {entries} {pluralize('Entry', entries)}
         </Button>
-        <Button
-          startIcon={<ArrowBack />}
-          fullWidth
-          size="medium"
-          variant="arcade"
-          onClick={props.onCancel}
-        >
-          Back
-        </Button>
         <Typography
           display={tooManyEntries ? 'block' : 'none'}
           variant="body2"
           color={tooManyEntries ? 'error.main' : 'text.secondary'}
           fontWeight={700}
         >
-          {props.tokensOwned < RAFFLE_ENTRY_FEE
+          {tokens.data < RAFFLE_ENTRY_FEE
             ? `You need at least ${RAFFLE_ENTRY_FEE} tokens to enter the raffle!`
             : `Insufficient Tokens!`}
         </Typography>
@@ -270,54 +213,54 @@ const UseTokensContent: React.FC<{
   );
 };
 
-const WatchAdvertisementContent: React.FC<{
-  participation: UserParticipationSchema;
+const RaffleActionModal: React.FC<{
   raffleId: number;
   onClose: () => void;
-  onCancel: () => void;
-}> = ({ onClose, onCancel, raffleId, participation }) => {
+  action: ActionSchema | undefined;
+}> = ({ onClose, action, raffleId }) => {
   const snackbar = useSnackbar();
   const utils = trpc.useUtils();
-  const [entering, setEntering] = useState(false);
-  const enterRaffle = trpc.user.raffles.bonusEntry.useMutation();
-  const completed = participation.adsWatched >= MAX_AD_RAFFLE_USES;
+  const trackAction = trpc.user.tasks.actions.track.useMutation();
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (input: { repetitions: number }) => {
+    if (!action) return;
+
     try {
-      setEntering(true);
-      await enterRaffle.mutateAsync({
-        raffleId,
+      const reward = await trackAction.mutateAsync({
+        actionId: action.actionId,
+        repetitions: input.repetitions,
       });
-      await utils.user.raffles.participation.refetch();
-      snackbar.success(`You received ${RAFFLE_ENTRIES_PER_AD} free entries!`);
+      if (reward) {
+        Promise.all([
+          utils.user.raffles.participation.refetch(),
+          utils.user.tasks.actions.list.refetch({ raffleId }),
+        ]);
+        snackbar.success(`You received ${reward} free entries!`);
+      } else {
+        snackbar.success('Action completed!');
+      }
+      onClose();
     } catch (error) {
       snackbar.error(parseTRPCClientErrorMessage(error));
-    } finally {
-      setEntering(false);
     }
   };
 
-  if (entering) return <PulsingLogo message="Processing entries..." />;
-
+  if (!action) return null;
   return (
-    <Column gap={1}>
-      <Typography fontWeight={600} gutterBottom>
-        Watch an advertisement and receive {RAFFLE_ENTRIES_PER_AD} free entries!
-      </Typography>
-      <WatchAdvertisement
-        network={'gruvian'}
-        onSubmit={handleSubmit}
-        disabled={completed}
-        buttonColor="secondary"
-        buttonText={
-          completed
-            ? 'No Ads Left'
-            : `Watch Ad (${participation.adsWatched}/${MAX_AD_RAFFLE_USES})`
-        }
-      />
-      <Button variant="arcade" onClick={onCancel} startIcon={<ArrowBack />}>
-        Back
-      </Button>
-    </Column>
+    <TaskModal
+      onClose={onClose}
+      open={Boolean(action)}
+      task={action}
+      isLoading={trackAction.isLoading}
+      actions={{
+        onSubmit: handleSubmit,
+        onCancel: onClose,
+      }}
+      rewards={
+        <Typography px={1} py={2} typography={'h6'}>
+          +{action.reward} Bonus Raffle Entries
+        </Typography>
+      }
+    />
   );
 };

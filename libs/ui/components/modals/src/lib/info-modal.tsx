@@ -18,7 +18,9 @@ export const InfoModal: React.FC<ModalProps & { infoHref?: string }> = ({
     }}
   >
     <>
-      <Box width="100%">{children}</Box>
+      <Box width="100%" sx={{ p: 2 }}>
+        {children}
+      </Box>
       {infoHref && <InfoButton href={infoHref} />}
       <CloseButton onClick={onClose} />
     </>

@@ -475,7 +475,7 @@ const WatchAdvertisementModal: React.FC<{
 }> = (props) => {
   return (
     <InfoModal open={props.open} onClose={props.onClose}>
-      <Column p={2} gap={2}>
+      <Column gap={2}>
         <Column>
           <FeaturedVideoOutlined fontSize="large" color="info" />
           <Typography variant="h6">Watch an Advertisement</Typography>

@@ -1,6 +1,6 @@
 export const getSeedingChanges = <
-  TPending extends { id: string | number; version?: number },
-  TStored extends { id: string | number; version?: number }
+  TPending extends { id?: string | number; version?: number },
+  TStored extends { id?: string | number; version?: number }
 >(
   pending: TPending[],
   stored: TStored[]

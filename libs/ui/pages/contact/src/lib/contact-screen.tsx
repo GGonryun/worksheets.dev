@@ -12,7 +12,7 @@ import {
   Typography,
   TypographyProps,
 } from '@mui/material';
-import { WhiteDiscord } from '@worksheets/icons/companies';
+import { Discord } from '@worksheets/icons/companies';
 import { emailRoutes, externalRoutes, routes } from '@worksheets/routes';
 import React, { FC } from 'react';
 
@@ -110,7 +110,7 @@ const JoinDiscord: FC = () => {
           variant="arcade"
           color="secondary"
           href={externalRoutes.social.discord}
-          startIcon={<WhiteDiscord />}
+          startIcon={<Discord />}
         >
           Join Discord
         </Button>

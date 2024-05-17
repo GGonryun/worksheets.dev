@@ -116,7 +116,7 @@ const ModalContent: React.FC<{ userId: string; onClose: () => void }> = ({
   };
 
   return (
-    <Column p={2} gap={2}>
+    <Column gap={2}>
       <Typography variant="h5">Report User</Typography>
       <Column>
         <Typography variant="body2" fontWeight={700} gutterBottom>

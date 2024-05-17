@@ -144,7 +144,7 @@ const FightModal: React.FC<ModalWrapper<{ battle: BattleSchema }>> = ({
 
   return (
     <InfoModal open={open} onClose={handleClose}>
-      <Column alignItems="center" gap={1} p={2}>
+      <Column alignItems="center" gap={1}>
         <Typography variant="h5" textAlign="center">
           {battle.mob.name}
         </Typography>

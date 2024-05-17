@@ -211,6 +211,20 @@ export class FriendshipService {
     });
   }
 
+  async countFollowing(userId: string) {
+    return this.#db.friendship.count({
+      where: {
+        userId,
+      },
+    });
+  }
+  async countFollowers(userId: string) {
+    return this.#db.friendship.count({
+      where: {
+        friendId: userId,
+      },
+    });
+  }
   async get(friendshipId: string) {
     const friendship = await this.#db.friendship.findFirst({
       where: {
