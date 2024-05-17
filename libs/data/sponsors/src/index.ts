@@ -16,6 +16,13 @@ const rawSponsors = [
     url: 'https://charity.games/about',
     logo: common.charityGames.logos.square128,
   },
+  {
+    id: 'indie-fold' as const,
+    version: 1,
+    name: 'Indie Fold',
+    url: 'https://indiefold.com/about',
+    logo: 'https://cdn.charity.games/_partners/indiefold/square.png',
+  },
 ];
 
 export const sponsors: SeedableSponsor[] = rawSponsors;
