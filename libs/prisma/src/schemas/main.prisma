@@ -498,7 +498,6 @@ model Raffle {
 model RaffleParticipation {
   id         Int      @id @default(autoincrement())
   numEntries Int
-  adsWatched Int      @default(0) // @deprecated.
   // the user who bought the ticket
   userId     String
   user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
