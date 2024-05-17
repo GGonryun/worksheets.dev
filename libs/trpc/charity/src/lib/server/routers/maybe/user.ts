@@ -32,6 +32,7 @@ export default t.router({
         throw new TRPCError({
           code: 'NOT_FOUND',
           message: 'User does not exist',
+          cause: `User with id ${userId} does not exist`,
         });
       }
 
@@ -39,6 +40,7 @@ export default t.router({
         throw new TRPCError({
           code: 'PRECONDITION_FAILED',
           message: 'User is already banned',
+          cause: `User with id ${userId} is already banned`,
         });
       }
 

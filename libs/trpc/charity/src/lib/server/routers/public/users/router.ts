@@ -38,6 +38,7 @@ export default t.router({
         throw new TRPCError({
           code: 'NOT_FOUND',
           message: 'User does not exist',
+          cause: `User with id ${input} does not exist or is banned`,
         });
       }
 
