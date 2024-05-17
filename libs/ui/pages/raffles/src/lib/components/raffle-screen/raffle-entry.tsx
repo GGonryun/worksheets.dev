@@ -75,7 +75,7 @@ export const RaffleEntry: React.FC<{
           sx={{ px: 1 }}
           onClick={handleRaffleClick}
           startIcon={
-            isActive ? (
+            isExpired ? (
               <Check />
             ) : isConnected ? (
               <LocalActivityOutlined />
