@@ -124,6 +124,14 @@ declare module '@mui/material/Button' {
   }
 }
 
+declare module '@mui/material/LinearProgress' {
+  interface LinearProgressPropsColorOverrides {
+    default: true;
+    black: true;
+    white: true;
+  }
+}
+
 declare module '@mui/material/IconButton' {
   interface IconButtonPropsColorOverrides {
     default: true;

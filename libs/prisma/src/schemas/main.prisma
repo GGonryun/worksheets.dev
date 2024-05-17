@@ -480,6 +480,7 @@ model Raffle {
   status       RaffleStatus
   expiresAt    DateTime
   numWinners   Int
+  imageUrl     String?               @db.VarChar(255)
   premium      Boolean               @default(false)
   itemId       String
   item         Item                  @relation(fields: [itemId], references: [id])

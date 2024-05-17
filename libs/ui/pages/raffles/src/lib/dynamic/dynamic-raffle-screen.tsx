@@ -40,7 +40,7 @@ const RaffleScreenContainer: React.FC<{ raffle: RaffleSchema }> = ({
         name={raffle.name}
       />
       <EnterRaffleModal
-        raffleId={raffleId}
+        raffle={raffle}
         open={showEnterRaffleModal}
         onClose={() => {
           setShowEnterRaffleModal(false);

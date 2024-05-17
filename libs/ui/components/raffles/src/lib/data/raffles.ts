@@ -14,6 +14,7 @@ export const mockRaffles: RaffleSchema[] = [
     name: "Baldur's Gate 3",
     type: 'STEAM_KEY',
     status: 'ACTIVE',
+    createdAt: new Date().getTime(),
     description:
       '<p><b>RollerCoaster Tycoon 3</b> is a 2004 construction and management simulation video game. It is the third installment in the RollerCoaster Tycoon series, and was developed by Frontier Developments. RollerCoaster Tycoon 3 places players in charge of managing amusement parks; rides can be built or demolished, terrain and scenery can be adjusted, and prices can be controlled to keep visitors or "peeps" happy.</p><br/><p>RollerCoaster Tycoon 3 features two methods of gameplay. In career mode, players must complete predetermined objectives in predesigned scenarios. In the newly added sandbox mode, players have unlimited time and money to create their own custom parks and rides. Features introduced in the series include the ability to import and export custom attractions, design custom scenarios and peeps, as well as design an in-game roller coaster and a fully three-dimensional world players can view from all angles.</p><br/><p>In 2014, a sequel, RollerCoaster Tycoon 4 Mobile was released on mobile devices, to largely negative reception.</p>',
     expiresAt: daysFromNow(3).getTime(),
@@ -30,6 +31,7 @@ export const mockRaffles: RaffleSchema[] = [
     itemId: 'cs2',
     name: 'City Skylines II',
     type: 'STEAM_KEY',
+    createdAt: new Date().getTime(),
     status: 'ACTIVE',
     description:
       '<p><b>RollerCoaster Tycoon 3</b> is a 2004 construction and management simulation video game. It is the third installment in the RollerCoaster Tycoon series, and was developed by Frontier Developments. RollerCoaster Tycoon 3 places players in charge of managing amusement parks; rides can be built or demolished, terrain and scenery can be adjusted, and prices can be controlled to keep visitors or "peeps" happy.</p><br/><p>RollerCoaster Tycoon 3 features two methods of gameplay. In career mode, players must complete predetermined objectives in predesigned scenarios. In the newly added sandbox mode, players have unlimited time and money to create their own custom parks and rides. Features introduced in the series include the ability to import and export custom attractions, design custom scenarios and peeps, as well as design an in-game roller coaster and a fully three-dimensional world players can view from all angles.</p><br/><p>In 2014, a sequel, RollerCoaster Tycoon 4 Mobile was released on mobile devices, to largely negative reception.</p>',
@@ -47,6 +49,7 @@ export const mockRaffles: RaffleSchema[] = [
     itemId: 'pw3',
     name: 'Palworld',
     type: 'STEAM_KEY',
+    createdAt: new Date().getTime(),
     status: 'ACTIVE',
     description:
       '<p><b>RollerCoaster Tycoon 3</b> is a 2004 construction and management simulation video game. It is the third installment in the RollerCoaster Tycoon series, and was developed by Frontier Developments. RollerCoaster Tycoon 3 places players in charge of managing amusement parks; rides can be built or demolished, terrain and scenery can be adjusted, and prices can be controlled to keep visitors or "peeps" happy.</p><br/><p>RollerCoaster Tycoon 3 features two methods of gameplay. In career mode, players must complete predetermined objectives in predesigned scenarios. In the newly added sandbox mode, players have unlimited time and money to create their own custom parks and rides. Features introduced in the series include the ability to import and export custom attractions, design custom scenarios and peeps, as well as design an in-game roller coaster and a fully three-dimensional world players can view from all angles.</p><br/><p>In 2014, a sequel, RollerCoaster Tycoon 4 Mobile was released on mobile devices, to largely negative reception.</p>',
@@ -64,6 +67,7 @@ export const mockRaffles: RaffleSchema[] = [
     itemId: 'eafc24',
     name: 'EA Sports FC 24',
     type: 'STEAM_KEY',
+    createdAt: new Date().getTime(),
     status: 'COMPLETE',
     description:
       '<p><b>RollerCoaster Tycoon 3</b> is a 2004 construction and management simulation video game. It is the third installment in the RollerCoaster Tycoon series, and was developed by Frontier Developments. RollerCoaster Tycoon 3 places players in charge of managing amusement parks; rides can be built or demolished, terrain and scenery can be adjusted, and prices can be controlled to keep visitors or "peeps" happy.</p><br/><p>RollerCoaster Tycoon 3 features two methods of gameplay. In career mode, players must complete predetermined objectives in predesigned scenarios. In the newly added sandbox mode, players have unlimited time and money to create their own custom parks and rides. Features introduced in the series include the ability to import and export custom attractions, design custom scenarios and peeps, as well as design an in-game roller coaster and a fully three-dimensional world players can view from all angles.</p><br/><p>In 2014, a sequel, RollerCoaster Tycoon 4 Mobile was released on mobile devices, to largely negative reception.</p>',
@@ -80,6 +84,7 @@ export const mockRaffles: RaffleSchema[] = [
     id: 5,
     itemId: 'rct3',
     status: 'ACTIVE',
+    createdAt: new Date().getTime(),
     type: 'STEAM_KEY',
     name: 'Roller Coaster Tycoon 3',
     description:
@@ -97,6 +102,7 @@ export const mockRaffles: RaffleSchema[] = [
     id: 6,
     itemId: 'ro2',
     type: 'STEAM_KEY',
+    createdAt: new Date().getTime(),
     status: 'ACTIVE',
     name: 'Ragnarok Online II',
     description:

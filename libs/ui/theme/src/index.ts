@@ -6,7 +6,8 @@ export type PaletteColor =
   | 'error'
   | 'warning'
   | 'primary'
-  | 'secondary';
+  | 'secondary'
+  | 'black';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const arcadeButtonStyle = (tx: any) => {

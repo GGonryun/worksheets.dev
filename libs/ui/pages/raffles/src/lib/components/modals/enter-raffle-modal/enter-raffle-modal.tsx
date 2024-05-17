@@ -1,8 +1,10 @@
-import { StarBorder } from '@mui/icons-material';
-import { Box, Button, Typography } from '@mui/material';
+import { HelpOutline, StarBorder } from '@mui/icons-material';
+import { Box, Button, Link, Typography } from '@mui/material';
+import { routes } from '@worksheets/routes';
 import { trpc } from '@worksheets/trpc-charity';
 import { ErrorComponent } from '@worksheets/ui/components/errors';
-import { Column } from '@worksheets/ui/components/flex';
+import { Column, Row } from '@worksheets/ui/components/flex';
+import { FillImage } from '@worksheets/ui/components/images';
 import { NumericCounterField } from '@worksheets/ui/components/inputs';
 import { PulsingLogo } from '@worksheets/ui/components/loading';
 import {
@@ -12,9 +14,14 @@ import {
 } from '@worksheets/ui/components/modals';
 import { useSnackbar } from '@worksheets/ui/components/snackbar';
 import { RaffleActions, TaskModal } from '@worksheets/ui/components/tasks';
+import theme, { PaletteColor } from '@worksheets/ui/theme';
+import { Emoji } from '@worksheets/ui-core';
 import { RAFFLE_ENTRY_FEE } from '@worksheets/util/settings';
 import { ActionSchema } from '@worksheets/util/tasks';
+import { printDateTime, printTimeRemaining } from '@worksheets/util/time';
 import { parseTRPCClientErrorMessage } from '@worksheets/util/trpc';
+import { RaffleSchema } from '@worksheets/util/types';
+import { useSession } from 'next-auth/react';
 import pluralize from 'pluralize';
 import { useState } from 'react';
 
@@ -28,9 +35,9 @@ const ModalLayout: React.FC<ModalProps> = ({ open, onClose, children }) => {
 
 export const EnterRaffleModal: React.FC<
   ModalWrapper<{
-    raffleId: number;
+    raffle: RaffleSchema;
   }>
-> = ({ raffleId, open, onClose }) => {
+> = ({ raffle, open, onClose }) => {
   const handleClose = () => {
     onClose?.({}, 'backdropClick');
     setAction(undefined);
@@ -45,17 +52,17 @@ export const EnterRaffleModal: React.FC<
       <RaffleModal
         open={open}
         onClose={handleClose}
-        raffleId={raffleId}
+        raffle={raffle}
         onClickAction={setAction}
         onUseTokens={() => setUseTokens(true)}
       />
       <TokensModal
-        raffleId={raffleId}
+        raffleId={raffle.id}
         open={useTokens}
         onClose={() => setUseTokens(false)}
       />
       <RaffleActionModal
-        raffleId={raffleId}
+        raffleId={raffle.id}
         onClose={() => setAction(undefined)}
         action={action}
       />
@@ -63,46 +70,214 @@ export const EnterRaffleModal: React.FC<
   );
 };
 
+const RaffleDetailPoint: React.FC<{
+  label: string;
+  value: string;
+  color: PaletteColor;
+}> = ({ label, value, color }) => {
+  return (
+    <Column textAlign="center" justifyContent="flex-end" p={1}>
+      <Typography
+        color="text.secondary"
+        typography={{ xs: 'body3', sm: 'body2' }}
+        fontWeight={{ xs: 700, sm: 700, md: 700 }}
+      >
+        {label}
+      </Typography>
+      <Typography
+        color={`${color}.main`}
+        typography={{ xs: 'body1', sm: 'h6' }}
+        fontWeight={{ xs: 700, sm: 700, md: 700 }}
+      >
+        {value}
+      </Typography>
+    </Column>
+  );
+};
+
 const RaffleModal: React.FC<{
   open: boolean;
   onClose: () => void;
-  raffleId: number;
+  raffle: RaffleSchema;
   onClickAction: (action: ActionSchema) => void;
   onUseTokens: () => void;
-}> = ({ open, onClose, raffleId, onClickAction, onUseTokens }) => {
+}> = ({ open, onClose, raffle, onClickAction, onUseTokens }) => {
   return (
     <ModalLayout open={open} onClose={onClose}>
-      <Column width="100%" gap={2}>
-        <Typography
-          typography={{ xs: 'h5', sm: 'h4' }}
-          color={'primary.main'}
-          gutterBottom
-        >
-          Enter Raffle
-        </Typography>
-        <Column  gap={1} mt={1} mb={2}>
-          <Typography fontWeight={700}>Enter using tokens</Typography>
-          <Button
-            size="large"
-            startIcon={<StarBorder />}
-            onClick={onUseTokens}
-            variant="arcade"
-            color="success"
-            sx={{
-              '&.MuiButton-root': {
-                minHeight: 50,
-                display: 'flex',
-                justifyContent: 'space-between',
-              },
-            }}
-          >
-            <span>Spend Tokens</span>
-            <span>∞</span>
-          </Button>
-        </Column>
-        <RaffleActions raffleId={raffleId} onClick={onClickAction} />
-      </Column>
+      <RaffleModalContent
+        raffle={raffle}
+        onClickAction={onClickAction}
+        onUseTokens={onUseTokens}
+      />
     </ModalLayout>
+  );
+};
+
+const RaffleModalContent: React.FC<{
+  raffle: RaffleSchema;
+  onClickAction: (action: ActionSchema) => void;
+  onUseTokens: () => void;
+}> = ({ raffle, onUseTokens, onClickAction }) => {
+  const session = useSession();
+  const isConnected = session.status === 'authenticated';
+  const participation = trpc.user.raffles.participation.useQuery(
+    {
+      raffleId: raffle.id,
+    },
+    {
+      enabled: isConnected,
+    }
+  );
+  const participants = trpc.maybe.raffles.participants.useQuery({
+    raffleId: raffle.id,
+  });
+
+  if (
+    participation.isLoading ||
+    participation.isFetching ||
+    participants.isLoading ||
+    participants.isFetching
+  )
+    return <PulsingLogo message="Loading participants..." />;
+  if (participation.isError || participants.isError) return <ErrorComponent />;
+
+  return (
+    <Column width="100%" gap={2}>
+      <Box
+        sx={{
+          pr: 2,
+          display: 'grid',
+          [theme.breakpoints.down('mobile1')]: {
+            gridTemplateColumns: 'repeat(2, 1fr)',
+            //first two
+            '& > *:nth-child(-n + 2)': {
+              borderBottom: '1px solid',
+              borderColor: 'grey.400',
+            },
+            '& > *:nth-child(odd)': {
+              borderRight: '1px solid',
+              borderColor: 'grey.400',
+            },
+          },
+          [theme.breakpoints.up('mobile1')]: {
+            gridTemplateColumns: 'repeat(4, 1fr)',
+            '& > *:not(:last-child)': {
+              borderRight: '1px solid',
+              borderColor: 'grey.400',
+            },
+          },
+        }}
+      >
+        <RaffleDetailPoint
+          label="Ends In"
+          value={printTimeRemaining(raffle.expiresAt)}
+          color="success"
+        />
+        <RaffleDetailPoint
+          label="Entrants"
+          value={participants.data.length.toString()}
+          color="black"
+        />
+        <RaffleDetailPoint
+          label="Total entries"
+          value={participants.data
+            .reduce((acc, p) => acc + p.numEntries, 0)
+            .toString()}
+          color="black"
+        />
+        <RaffleDetailPoint
+          label="Your entries"
+          value={participation.data.numEntries.toString()}
+          color="black"
+        />
+      </Box>
+      <Box
+        position="relative"
+        sx={{
+          width: '100%',
+          height: '100%',
+          aspectRatio: '16/9',
+        }}
+      >
+        <FillImage src={raffle.imageUrl} alt={raffle.name} />
+      </Box>
+      <Row sx={{ mt: -8 }} alignItems="flex-end" gap={2}>
+        <Box
+          sx={{
+            ml: 2,
+            backgroundColor: '#FFFFFF',
+            position: 'relative',
+            height: 100,
+            width: 100,
+            borderRadius: (theme) => theme.shape.borderRadius,
+            border: '2px solid grey',
+          }}
+        >
+          <FillImage
+            src={raffle.sponsor.logo}
+            alt={raffle.sponsor.name}
+            style={{ padding: '4px' }}
+          />
+        </Box>
+        <Typography mb={1.5}>
+          by <Link href={raffle.sponsor.url}>{raffle.sponsor.name}</Link>
+        </Typography>
+      </Row>
+      <Column gap={0.5}>
+        <Typography typography={'h4'}>{raffle.name}</Typography>
+        <Typography typography={'body1'} fontWeight={500}>
+          <Emoji label="star" symbol={'⭐️'} /> {raffle.description}
+        </Typography>
+      </Column>
+      <Column>
+        <Typography
+          color="text.secondary"
+          typography={{ xs: 'body3', sm: 'body2', md: 'body1' }}
+        >
+          <b>Launched At:</b> {printDateTime(raffle.createdAt)}
+        </Typography>
+        <Typography
+          color="text.secondary"
+          typography={{ xs: 'body3', sm: 'body2', md: 'body1' }}
+        >
+          <b>Expires At:</b> {printDateTime(raffle.expiresAt)}
+        </Typography>
+      </Column>
+
+      <Column gap={1} mb={1}>
+        <Typography fontWeight={700}>Enter using tokens</Typography>
+        <Button
+          size="large"
+          startIcon={<StarBorder />}
+          onClick={onUseTokens}
+          variant="arcade"
+          color="success"
+          sx={{
+            '&.MuiButton-root': {
+              minHeight: 50,
+              display: 'flex',
+              justifyContent: 'space-between',
+            },
+          }}
+        >
+          <span>Spend Tokens</span>
+          <span>∞</span>
+        </Button>
+      </Column>
+      <RaffleActions raffleId={raffle.id} onClick={onClickAction} />
+      <Button
+        variant="text"
+        href={routes.help.prizes.path()}
+        target="_blank"
+        startIcon={<HelpOutline />}
+        sx={{
+          mb: 2,
+          alignSelf: 'flex-end',
+        }}
+      >
+        Help Center
+      </Button>
+    </Column>
   );
 };
 
@@ -122,10 +297,12 @@ const UseTokensContent: React.FC<{
   raffleId: number;
   onClose: () => void;
 }> = (props) => {
-  const snackbar = useSnackbar();
-  const utils = trpc.useUtils();
   const [entries, setEntries] = useState(1);
   const [entering, setEntering] = useState(false);
+
+  const snackbar = useSnackbar();
+  const utils = trpc.useUtils();
+
   const enterRaffle = trpc.user.raffles.enterRaffle.useMutation();
   const tokens = trpc.user.inventory.quantity.useQuery('1');
 
@@ -161,6 +338,7 @@ const UseTokensContent: React.FC<{
 
       utils.user.raffles.participation.refetch();
       utils.user.inventory.quantity.refetch();
+      utils.maybe.raffles.participants.refetch({ raffleId: props.raffleId });
 
       snackbar.success('You entered the raffle! Good luck!');
     } catch (error) {

@@ -1,5 +1,5 @@
 import { Box, Typography } from '@mui/material';
-import { ResponsiveImage } from '@worksheets/ui/components/images';
+import { FillImage } from '@worksheets/ui/components/images';
 import { RaffleSchema } from '@worksheets/util/types';
 
 export const RaffleHeader: React.FC<{
@@ -45,12 +45,14 @@ const PrizeImage: React.FC<{ src: string; alt: string }> = (props) => {
       sx={{
         borderRadius: (theme) => theme.shape.borderRadius,
         overflow: 'hidden',
-        maxWidth: '100%',
-        maxHeight: '300px',
+        width: '100%',
+        height: '100%',
+        maxHeight: 320,
+        alignItems: 'center',
         aspectRatio: '1/1',
       }}
     >
-      <ResponsiveImage priority {...props} />
+      <FillImage priority {...props} />
     </Box>
   );
 };
