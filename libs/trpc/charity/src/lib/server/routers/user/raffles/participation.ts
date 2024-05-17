@@ -21,7 +21,6 @@ export default protectedProcedure
       select: {
         numEntries: true,
         winner: true,
-        adsWatched: true,
       },
     });
 
@@ -33,6 +32,5 @@ export default protectedProcedure
         username: user.username,
       },
       winner: participation?.winner ?? false,
-      adsWatched: participation?.adsWatched ?? 0,
     };
   });
