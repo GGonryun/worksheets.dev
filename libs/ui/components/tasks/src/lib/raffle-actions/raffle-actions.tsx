@@ -2,6 +2,7 @@ import {
   Alarm,
   FeaturedVideoOutlined,
   LanguageOutlined,
+  MouseOutlined,
 } from '@mui/icons-material';
 import { Box, Button, ButtonProps, Typography } from '@mui/material';
 import { TaskType } from '@prisma/client';
@@ -60,6 +61,7 @@ const ACTION_COLOR: Record<TaskType, ButtonProps['color']> = {
   [TaskType.WISHLIST_STEAM_GAME]: 'steam',
   [TaskType.VISIT_WEBSITE]: 'warning',
   [TaskType.WATCH_AD]: 'secondary',
+  [TaskType.BASIC_ACTION]: 'primary',
   PLAY_GAME: undefined,
   PLAY_MINUTES: undefined,
   REFERRAL_PLAY_MINUTES: undefined,
@@ -68,7 +70,6 @@ const ACTION_COLOR: Record<TaskType, ButtonProps['color']> = {
   ADD_REFERRAL: undefined,
   RAFFLE_PARTICIPATION: undefined,
   BATTLE_PARTICIPATION: undefined,
-  BASIC_ACTION: undefined,
 };
 
 const ACTION_LOGO: Record<TaskType, React.ReactNode> = {
@@ -78,6 +79,7 @@ const ACTION_LOGO: Record<TaskType, React.ReactNode> = {
   [TaskType.WISHLIST_STEAM_GAME]: <SteamGames />,
   [TaskType.VISIT_WEBSITE]: <LanguageOutlined />,
   [TaskType.WATCH_AD]: <FeaturedVideoOutlined />,
+  [TaskType.BASIC_ACTION]: <MouseOutlined />,
   PLAY_GAME: undefined,
   PLAY_MINUTES: undefined,
   REFERRAL_PLAY_MINUTES: undefined,
@@ -86,7 +88,6 @@ const ACTION_LOGO: Record<TaskType, React.ReactNode> = {
   ADD_REFERRAL: undefined,
   RAFFLE_PARTICIPATION: undefined,
   BATTLE_PARTICIPATION: undefined,
-  BASIC_ACTION: undefined,
 };
 
 const showExpiration = (frequency: string, status: string) =>

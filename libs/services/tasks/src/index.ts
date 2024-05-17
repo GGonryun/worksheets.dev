@@ -51,8 +51,8 @@ export class TasksService {
       return {
         actionId: action.id,
         order: action.order,
-        name: action.task.name,
-        description: action.task.description,
+        name: action.name ?? action.task.name,
+        description: action.description ?? action.task.description,
         taskId: action.taskId,
         category: action.task.category,
         frequency: action.task.frequency,
