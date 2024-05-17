@@ -15,7 +15,6 @@ import {
 import { useSnackbar } from '@worksheets/ui/components/snackbar';
 import { RaffleActions, TaskModal } from '@worksheets/ui/components/tasks';
 import theme, { PaletteColor } from '@worksheets/ui/theme';
-import { Emoji } from '@worksheets/ui-core';
 import { RAFFLE_ENTRY_FEE } from '@worksheets/util/settings';
 import { ActionSchema } from '@worksheets/util/tasks';
 import { printDateTime, printTimeRemaining } from '@worksheets/util/time';
@@ -222,11 +221,9 @@ const RaffleModalContent: React.FC<{
       </Row>
       <Column gap={0.5}>
         <Typography typography={'h4'}>{raffle.name}</Typography>
-        <Typography typography={'body1'} fontWeight={500}>
-          <Emoji label="star" symbol={'⭐️'} /> {raffle.description}
+        <Typography typography={'body1'} gutterBottom>
+          {raffle.description}
         </Typography>
-      </Column>
-      <Column>
         <Typography
           color="text.secondary"
           typography={{ xs: 'body3', sm: 'body2', md: 'body1' }}
@@ -241,8 +238,10 @@ const RaffleModalContent: React.FC<{
         </Typography>
       </Column>
 
-      <Column gap={1} mb={1}>
-        <Typography fontWeight={700}>Enter using tokens</Typography>
+      <Column gap={1} my={1}>
+        <Typography fontWeight={700} typography={'h6'}>
+          Enter raffle with tokens
+        </Typography>
         <Button
           size="large"
           startIcon={<StarBorder />}
