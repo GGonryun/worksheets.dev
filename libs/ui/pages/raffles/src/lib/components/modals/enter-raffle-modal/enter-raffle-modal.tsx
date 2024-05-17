@@ -211,13 +211,10 @@ const RaffleModalContent: React.FC<{
             width: 100,
             borderRadius: (theme) => theme.shape.borderRadius,
             border: '2px solid grey',
+            overflow: 'hidden',
           }}
         >
-          <FillImage
-            src={raffle.sponsor.logo}
-            alt={raffle.sponsor.name}
-            style={{ padding: '4px' }}
-          />
+          <FillImage src={raffle.sponsor.logo} alt={raffle.sponsor.name} />
         </Box>
         <Typography mb={1.5}>
           by <Link href={raffle.sponsor.url}>{raffle.sponsor.name}</Link>
