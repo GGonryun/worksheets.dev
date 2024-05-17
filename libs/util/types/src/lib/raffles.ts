@@ -49,9 +49,7 @@ export const participationSchema = z.object({
 
 export type ParticipationSchema = z.infer<typeof participationSchema>;
 
-export const userParticipationSchema = participationSchema.extend({
-  adsWatched: z.number(),
-});
+export const userParticipationSchema = participationSchema;
 
 export type UserParticipationSchema = z.infer<typeof userParticipationSchema>;
 

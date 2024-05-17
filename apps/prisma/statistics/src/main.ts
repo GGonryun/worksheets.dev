@@ -22,14 +22,11 @@ const calculateAdImpressionsByRaffle = async () => {
       raffleId: parseInt(raffleId),
     },
     _count: true,
-    _sum: {
-      adsWatched: true,
-    },
   });
 
   console.debug();
   console.debug('Number of Participants:', impressions._count);
-  console.debug('Number of Ad Impressions:', impressions._sum.adsWatched);
+  console.debug('TODO: Calculate ad impressions');
   console.debug();
   await main();
 };
