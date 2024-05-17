@@ -10,6 +10,7 @@ export const InfoModal: React.FC<
     open={open}
     onClose={onClose}
     sx={{
+      maxHeight: '90%',
       width: '95%',
       maxWidth: 550,
     }}
