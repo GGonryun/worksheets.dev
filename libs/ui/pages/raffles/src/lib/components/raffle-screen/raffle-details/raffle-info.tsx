@@ -18,7 +18,7 @@ export const RaffleInfo: React.FC<{
   onShare: () => void;
   raffleEntry: React.ReactNode;
 }> = ({ raffle, raffleEntry, onShare }) => {
-  const { expiresAt, type } = raffle;
+  const { expiresAt, type, status } = raffle;
   const soon = expiresAt < daysFromNow(1).getTime();
   const expired = expiresAt < Date.now();
 
@@ -51,7 +51,11 @@ export const RaffleInfo: React.FC<{
         <Box py={2} />
         <Box>
           <SectionHeaderTypography>
-            {expired ? 'Raffle Complete' : 'Raffle Ends In'}
+            {status === 'PENDING'
+              ? 'Raffle is not live yet'
+              : expired
+              ? 'Raffle Complete'
+              : 'Raffle Ends In'}
           </SectionHeaderTypography>
           <Box display="flex" gap={1} alignItems="center" pt={0.5}>
             <AccessTime color={expired ? 'error' : 'action'} />
@@ -61,7 +65,9 @@ export const RaffleInfo: React.FC<{
                 expired ? 'error.main' : soon ? 'primary.main' : 'text.primary'
               }
             >
-              {expired
+              {status === 'PENDING'
+                ? 'PENDING'
+                : expired
                 ? printShortDateTime(expiresAt)
                 : durationToString(
                     millisecondsAsDuration(expiresAt - Date.now())

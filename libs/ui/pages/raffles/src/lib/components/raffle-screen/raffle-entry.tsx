@@ -15,27 +15,13 @@ import React from 'react';
 
 import { SectionHeaderTypography } from './section-header-typography';
 
-const EntrySection: React.FC<{ winners: number; entries: number }> = ({
-  winners,
-  entries,
-}) => (
-  <Box display="flex">
-    <Box width="50%">
-      <SectionHeaderTypography>Your Entries</SectionHeaderTypography>
-      <Typography fontWeight={700}>{entries}</Typography>
-    </Box>
-    <Box width="50%">
-      <SectionHeaderTypography>Total Winners</SectionHeaderTypography>
-      <Typography fontWeight={700}>{winners}</Typography>
-    </Box>
-  </Box>
-);
-
 export const RaffleEntry: React.FC<{
   raffle: RaffleSchema;
   onEnter: () => void;
 }> = ({ raffle, onEnter }) => {
+  const isActive = raffle.expiresAt > Date.now() && raffle.status === 'ACTIVE';
   const isExpired = raffle.expiresAt < Date.now();
+  const isPending = raffle.status === 'PENDING';
   const loginHref = routes.login.path({
     query: {
       redirect: routes.raffle.path({
@@ -85,11 +71,11 @@ export const RaffleEntry: React.FC<{
           variant="arcade"
           color={isConnected ? 'secondary' : 'warning'}
           fullWidth
-          disabled={isExpired}
+          disabled={!isActive}
           sx={{ px: 1 }}
           onClick={handleRaffleClick}
           startIcon={
-            isExpired ? (
+            isActive ? (
               <Check />
             ) : isConnected ? (
               <LocalActivityOutlined />
@@ -98,7 +84,9 @@ export const RaffleEntry: React.FC<{
             )
           }
         >
-          {isExpired
+          {isPending
+            ? 'Not Active Yet!'
+            : isExpired
             ? 'Raffle Over!'
             : isConnected
             ? 'Enter Raffle'
@@ -119,3 +107,19 @@ export const RaffleEntry: React.FC<{
     </>
   );
 };
+
+const EntrySection: React.FC<{ winners: number; entries: number }> = ({
+  winners,
+  entries,
+}) => (
+  <Box display="flex">
+    <Box width="50%">
+      <SectionHeaderTypography>Your Entries</SectionHeaderTypography>
+      <Typography fontWeight={700}>{entries}</Typography>
+    </Box>
+    <Box width="50%">
+      <SectionHeaderTypography>Total Winners</SectionHeaderTypography>
+      <Typography fontWeight={700}>{winners}</Typography>
+    </Box>
+  </Box>
+);
