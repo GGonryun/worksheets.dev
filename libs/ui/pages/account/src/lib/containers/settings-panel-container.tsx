@@ -7,7 +7,7 @@ import { LoadingScreen } from '@worksheets/ui/pages/loading';
 import { useBookmark } from '@worksheets/ui-core';
 import { SettingsPanels } from '@worksheets/util/enums';
 import { destroyAllData } from '@worksheets/util/storage';
-import { signOut } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 import { useState } from 'react';
 
 import { ClearStorageModal, DeleteAccountModal } from '../components';
@@ -16,11 +16,13 @@ import { BasicInformationFormContextProvider, SettingsPanel } from '../panels';
 
 export const SettingsPanelContainer: React.FC = () => {
   const bookmark = useBookmark<SettingsPanels>();
+  const session = useSession();
   const [showClearStorageModal, setShowClearStorageModal] = useState(false);
   const [showDeleteAccountModal, setShowDeleteAccountModal] = useState(false);
 
   const profile = trpc.user.get.useQuery(undefined, {
     retry: false,
+    enabled: session.status === 'authenticated',
   });
 
   const destroy = trpc.user.delete.useMutation();

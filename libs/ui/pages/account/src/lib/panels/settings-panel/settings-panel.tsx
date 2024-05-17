@@ -5,13 +5,17 @@ import { trpc } from '@worksheets/trpc-charity';
 import { PulsingLogo } from '@worksheets/ui/components/loading';
 import { Panel } from '@worksheets/ui/components/panels';
 import { SettingsPanels } from '@worksheets/util/enums';
+import { useSession } from 'next-auth/react';
 import { FC, ReactNode } from 'react';
 
 import { DangerZoneSection, ProfileSection } from './sections';
 import { CommunicationSection } from './sections/communication-section';
 
 const ProfileButtonContainer = () => {
-  const user = trpc.user.get.useQuery();
+  const session = useSession();
+  const user = trpc.user.get.useQuery(undefined, {
+    enabled: session.status === 'authenticated',
+  });
   if (user.isLoading || user.isError) return <PulsingLogo hideMessage />;
 
   return (
