@@ -182,11 +182,7 @@ export const BattleTable: React.FC<{
                     isBattleComplete(battle) ? 'error.main' : 'success.main'
                   }
                 >
-                  {isBattleComplete(battle)
-                    ? 'Defeated'
-                    : battle.status === 'PENDING'
-                    ? 'Pending'
-                    : 'Active'}
+                  {isBattleComplete(battle) ? 'Defeated' : 'Active'}
                 </Typography>
               </TableCell>
             </TableRow>

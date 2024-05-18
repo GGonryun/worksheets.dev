@@ -19,9 +19,7 @@ export const RaffleEntry: React.FC<{
   raffle: RaffleSchema;
   onEnter: () => void;
 }> = ({ raffle, onEnter }) => {
-  const isActive = raffle.expiresAt > Date.now() && raffle.status === 'ACTIVE';
   const isExpired = raffle.expiresAt < Date.now();
-  const isPending = raffle.status === 'PENDING';
   const loginHref = routes.login.path({
     query: {
       redirect: routes.raffle.path({
@@ -71,7 +69,7 @@ export const RaffleEntry: React.FC<{
           variant="arcade"
           color={isConnected ? 'secondary' : 'warning'}
           fullWidth
-          disabled={!isActive}
+          disabled={isExpired}
           sx={{ px: 1 }}
           onClick={handleRaffleClick}
           startIcon={
@@ -84,9 +82,7 @@ export const RaffleEntry: React.FC<{
             )
           }
         >
-          {isPending
-            ? 'Not Active Yet!'
-            : isExpired
+          {isExpired
             ? 'Raffle Over!'
             : isConnected
             ? 'Enter Raffle'
