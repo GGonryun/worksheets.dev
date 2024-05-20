@@ -1,9 +1,6 @@
 import { Alarm } from '@mui/icons-material';
 import { Box, Button, Typography } from '@mui/material';
-import { trpc } from '@worksheets/trpc-charity';
-import { ErrorComponent } from '@worksheets/ui/components/errors';
 import { Column, Row } from '@worksheets/ui/components/flex';
-import { PulsingLogo } from '@worksheets/ui/components/loading';
 import { Tooltip } from '@worksheets/ui/components/tooltips';
 import { ActionSchema } from '@worksheets/util/tasks';
 import { printDateTime, printTimeRemaining } from '@worksheets/util/time';
@@ -17,30 +14,19 @@ import {
 
 export const RaffleActions: React.FC<{
   raffleId: number;
-  onClick: (action: ActionSchema) => void;
-}> = ({ raffleId, onClick }) => {
-  const actions = trpc.user.tasks.actions.list.useQuery({
-    raffleId,
-  });
-
-  if (actions.isLoading || actions.isRefetching) {
-    return <PulsingLogo />;
-  }
-
-  if (actions.isError) {
-    return <ErrorComponent color="text.blue.darker" />;
-  }
-
-  return actions.data.length ? (
+  actions: ActionSchema[];
+  onClick: (action: number) => void;
+}> = ({ actions, onClick }) => {
+  return actions.length ? (
     <Column gap={1}>
       <Typography fontWeight={700} typography="h6">
         Enter raffle with actions
       </Typography>
 
-      {actions.data.map((action) => (
+      {actions.map((action, index) => (
         <RaffleAction
           key={action.actionId}
-          onClick={() => onClick(action)}
+          onClick={() => onClick(index)}
           {...action}
         />
       ))}

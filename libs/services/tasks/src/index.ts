@@ -18,6 +18,11 @@ import {
 } from '@worksheets/util/tasks';
 import { isExpired } from '@worksheets/util/time';
 
+const GAME_TASK_MAP: Record<string, string[]> = {
+  GLOBAL: ['PLAY_GAME_DAILY_5'],
+  'the-sorcerer': ['PLAY_THE_SORCERER_ONCE'],
+};
+
 export class TasksService {
   #db: PrismaClient | PrismaTransactionalClient;
   #inventory: InventoryService;
@@ -262,6 +267,60 @@ export class TasksService {
         repetitions,
       });
     }
+  }
+
+  async trackActionTasks({
+    taskIds,
+    userId,
+    repetitions,
+  }: {
+    taskIds: string[];
+    userId: string;
+    repetitions: number;
+  }) {
+    for (const taskId of taskIds) {
+      // find every action that is associated with the task
+      const actions = await this.#db.raffleAction.findMany({
+        where: {
+          taskId,
+        },
+        select: {
+          id: true,
+        },
+      });
+
+      for (const action of actions) {
+        await this.trackAction({
+          actionId: action.id,
+          userId,
+          repetitions,
+        });
+      }
+    }
+  }
+
+  async trackGameActionTasks({
+    gameId,
+    userId,
+    repetitions,
+  }: {
+    gameId: string;
+    userId: string;
+    repetitions: number;
+  }) {
+    // find every task that is associated with the game
+
+    const taskIds: string[] = [];
+    const gameTasks = GAME_TASK_MAP[gameId];
+    const globalTasks = GAME_TASK_MAP['GLOBAL'];
+    if (gameTasks) taskIds.push(...gameTasks);
+    if (globalTasks) taskIds.push(...globalTasks);
+
+    await this.trackActionTasks({
+      taskIds,
+      userId,
+      repetitions,
+    });
   }
 
   async #calculateProgress({

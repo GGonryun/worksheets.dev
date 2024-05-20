@@ -9,8 +9,9 @@ import { TaskFormProps } from '@worksheets/util/tasks';
 import { selectTaskColor } from '../util';
 import { ProgressBar } from './progress-bar';
 
-export const PlayGameForm: React.FC<TaskFormProps> = ({ task }) => {
+export const PlayGameForm: React.FC<TaskFormProps> = ({ task, actions }) => {
   const colorKey = selectTaskColor(task.status);
+  const gameId = task.data?.gameId;
   return (
     <Column gap={2}>
       <Column gap={0.5}>
@@ -35,7 +36,15 @@ export const PlayGameForm: React.FC<TaskFormProps> = ({ task }) => {
       <Button
         variant="arcade"
         color={colorKey}
-        href={routes.play.path()}
+        href={
+          gameId
+            ? routes.game.path({
+                params: {
+                  gameId,
+                },
+              })
+            : routes.play.path()
+        }
         startIcon={<OpenInNew />}
         target="_blank"
       >

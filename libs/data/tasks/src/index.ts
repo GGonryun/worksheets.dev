@@ -463,4 +463,18 @@ export const TASKS: Prisma.TaskCreateInput[] = [
     description: 'Claim your free prize wheel spin every day. Good luck!',
     data: {},
   },
+  {
+    version: 1,
+    id: 'PLAY_THE_SORCERER_ONCE',
+    type: TaskType.PLAY_GAME,
+    category: TaskCategory.GAMEPLAY,
+    frequency: TaskFrequency.ONCE,
+    requiredRepetitions: 1,
+    maxRepetitions: 1,
+    name: 'Play The Sorcerer',
+    description: 'Play The Sorcerer and earn tokens for playing.',
+    data: {
+      gameId: 'the-sorcerer',
+    },
+  },
 ];

@@ -39,12 +39,18 @@ export const EnterRaffleModal: React.FC<
 > = ({ raffle, open, onClose }) => {
   const handleClose = () => {
     onClose?.({}, 'backdropClick');
-    setAction(undefined);
+    setIndex(-1);
     setUseTokens(false);
   };
 
+  const actions = trpc.user.tasks.actions.list.useQuery({
+    raffleId: raffle.id,
+  });
+
   const [useTokens, setUseTokens] = useState(false);
-  const [action, setAction] = useState<ActionSchema | undefined>(undefined);
+  const [index, setIndex] = useState<number>(-1);
+
+  const data = actions.data ?? [];
 
   return (
     <>
@@ -52,7 +58,8 @@ export const EnterRaffleModal: React.FC<
         open={open}
         onClose={handleClose}
         raffle={raffle}
-        onClickAction={setAction}
+        actions={data}
+        onClickAction={setIndex}
         onUseTokens={() => setUseTokens(true)}
       />
       <TokensModal
@@ -62,8 +69,8 @@ export const EnterRaffleModal: React.FC<
       />
       <RaffleActionModal
         raffleId={raffle.id}
-        onClose={() => setAction(undefined)}
-        action={action}
+        onClose={() => setIndex(-1)}
+        action={index >= 0 && data.length > index ? data[index] : undefined}
       />
     </>
   );
@@ -98,13 +105,15 @@ const RaffleModal: React.FC<{
   open: boolean;
   onClose: () => void;
   raffle: RaffleSchema;
-  onClickAction: (action: ActionSchema) => void;
+  actions: ActionSchema[];
+  onClickAction: (index: number) => void;
   onUseTokens: () => void;
-}> = ({ open, onClose, raffle, onClickAction, onUseTokens }) => {
+}> = ({ actions, open, onClose, raffle, onClickAction, onUseTokens }) => {
   return (
     <ModalLayout open={open} onClose={onClose}>
       <RaffleModalContent
         raffle={raffle}
+        actions={actions}
         onClickAction={onClickAction}
         onUseTokens={onUseTokens}
       />
@@ -114,9 +123,10 @@ const RaffleModal: React.FC<{
 
 const RaffleModalContent: React.FC<{
   raffle: RaffleSchema;
-  onClickAction: (action: ActionSchema) => void;
+  actions: ActionSchema[];
+  onClickAction: (index: number) => void;
   onUseTokens: () => void;
-}> = ({ raffle, onUseTokens, onClickAction }) => {
+}> = ({ actions, raffle, onUseTokens, onClickAction }) => {
   const session = useSession();
   const isConnected = session.status === 'authenticated';
   const participation = trpc.user.raffles.participation.useQuery(
@@ -260,7 +270,11 @@ const RaffleModalContent: React.FC<{
           <span>∞</span>
         </Button>
       </Column>
-      <RaffleActions raffleId={raffle.id} onClick={onClickAction} />
+      <RaffleActions
+        raffleId={raffle.id}
+        actions={actions}
+        onClick={onClickAction}
+      />
       <Button
         variant="text"
         href={routes.help.prizes.path()}

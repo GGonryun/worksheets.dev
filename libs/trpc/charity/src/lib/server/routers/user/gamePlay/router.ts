@@ -40,5 +40,11 @@ export default t.router({
         userId: user.id,
         repetitions: 1,
       });
+
+      await tasks.trackGameActionTasks({
+        gameId: game.id,
+        userId: user.id,
+        repetitions: 1,
+      });
     }),
 });
