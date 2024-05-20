@@ -5,6 +5,7 @@ import {
   FavoriteBorder,
   FeaturedVideoOutlined,
   LockOutlined,
+  Loop,
   OpenInNewOutlined,
   StarBorder,
 } from '@mui/icons-material';
@@ -664,18 +665,23 @@ const CapsuleOption: React.FC<{
 const PrizeWheelItem: React.FC<{
   item: InventoryItemSchema;
   onClose: () => void;
-}> = ({ item, onClose }) => {
+}> = ({ item }) => {
   const snackbar = useSnackbar();
   const utils = trpc.useUtils();
   const spin = trpc.user.inventory.prizeWheel.spin.useMutation();
+  const [showSpinner, setShowSpinner] = React.useState(false);
+  const [spins, setSpins] = React.useState(item.quantity);
   const [spinner, setSpinner] = React.useState<
     { items: ItemSchema[]; prize: ItemSchema } | undefined
   >(undefined);
 
   const handleStartSpinner = async () => {
     try {
+      setSpinner(undefined);
       const data = await spin.mutateAsync({ itemId: item.itemId });
+      setSpins((prev) => prev - 1);
       setSpinner(data);
+      setShowSpinner(true);
     } catch (error) {
       snackbar.error(parseTRPCClientErrorMessage(error));
     }
@@ -684,58 +690,76 @@ const PrizeWheelItem: React.FC<{
   const handleSkipAnimation = async () => {
     try {
       const data = await spin.mutateAsync({ itemId: item.itemId });
+      setSpins((prev) => prev - 1);
       snackbar.success(`Congratulations! You won a ${data.prize.name}!`);
       utils.user.inventory.items.invalidate();
-      onClose();
     } catch (error) {
       snackbar.error(parseTRPCClientErrorMessage(error));
     }
   };
 
-  const handleClaim = (prize: ItemSchema) => {
+  const handleClaim = (prize?: ItemSchema) => {
+    if (!prize) return;
     snackbar.success(`Congratulations! You won a ${prize.name}!`);
-    utils.user.inventory.items.invalidate();
   };
 
-  if (spin.isLoading) return <PulsingLogo message="Building a spinner..." />;
+  const handleClose = async () => {
+    utils.user.inventory.items.invalidate();
+    setSpinner(undefined);
+    setShowSpinner(false);
+  };
+
   if (spin.isError) return <ErrorComponent message={spin.error.message} />;
 
   return (
     <>
-      <Column gap={1} alignItems="center">
-        <Typography
-          typography={{ xs: 'body3', sm: 'body2' }}
-          color="text.secondary"
-          gutterBottom
-        >
-          You have{' '}
-          <b>
-            {item.quantity} {pluralize('spin', item.quantity)}
-          </b>{' '}
-          available.
-        </Typography>
-        <Button
-          variant="arcade"
-          color="primary"
-          size="small"
-          startIcon={<StarBorder />}
-          onClick={handleStartSpinner}
-          sx={{ minWidth: 200 }}
-        >
-          I'm Feeling Lucky!
-        </Button>
-        <Button
-          variant="arcade"
-          color="secondary"
-          size="small"
-          endIcon={<ArrowForward />}
-          onClick={handleSkipAnimation}
-          sx={{ minWidth: 200 }}
-        >
-          Skip Animation
-        </Button>
-      </Column>
-      <PrizeWheelModal {...spinner} onClaim={handleClaim} onClose={onClose} />
+      {spin.isLoading ? (
+        <PulsingLogo message="Building a spinner..." />
+      ) : (
+        <Column gap={1} alignItems="center">
+          <Typography
+            typography={{ xs: 'body3', sm: 'body2' }}
+            color="text.secondary"
+            gutterBottom
+          >
+            You have{' '}
+            <b>
+              {spins} {pluralize('spin', spins)}
+            </b>{' '}
+            available.
+          </Typography>
+          <Button
+            disabled={!spins}
+            variant="arcade"
+            color="primary"
+            size="small"
+            startIcon={<StarBorder />}
+            onClick={handleStartSpinner}
+            sx={{ minWidth: 200 }}
+          >
+            I'm Feeling Lucky!
+          </Button>
+          <Button
+            disabled={!spins}
+            variant="arcade"
+            color="secondary"
+            size="small"
+            endIcon={<ArrowForward />}
+            onClick={handleSkipAnimation}
+            sx={{ minWidth: 200 }}
+          >
+            Skip Animation
+          </Button>
+        </Column>
+      )}
+      <PrizeWheelModal
+        {...spinner}
+        open={showSpinner}
+        spins={spins}
+        onSpin={handleStartSpinner}
+        onClaim={handleClaim}
+        onClose={handleClose}
+      />
     </>
   );
 };
@@ -743,51 +767,85 @@ const PrizeWheelItem: React.FC<{
 const PrizeWheelModal: React.FC<{
   items?: ItemSchema[];
   prize?: ItemSchema;
+  spins: number;
+  open: boolean;
+  onSpin: () => void;
   onClose: () => void;
-  onClaim: (item: ItemSchema) => void;
-}> = ({ onClose, onClaim, items, prize }) => {
+  onClaim: (item?: ItemSchema) => void;
+}> = ({ onSpin, onClose, onClaim, open, items, prize, spins }) => {
   const theme = useTheme();
   const isTiny = useMediaQueryDown('mobile1');
   const isMobile = useMediaQueryDown('sm');
   const [finished, setFinished] = React.useState(false);
 
-  if (!items || !prize) {
-    return null;
-  }
-
-  const segments = items.map((item) => item.name);
+  const handleSpin = () => {
+    if (spins) {
+      setFinished(false);
+      onSpin();
+    } else {
+      onClose();
+    }
+  };
 
   return (
     <InfoModal
-      open={true}
+      open={open}
       onClose={() => {
         onClaim(prize);
         onClose();
       }}
     >
-      <Column gap={2} alignItems="center">
-        <Typography typography={{ xs: 'h5', mobile1: 'h4' }}>
-          Spin the Wheel!
-        </Typography>
-        <PrizeWheel
-          segments={segments.map(shorten(15))}
-          segColors={PRIZE_WHEEL_COLORS}
-          winner={segments.indexOf(prize.name)}
-          onFinished={() => {
-            onClaim(prize);
-            setFinished(true);
-          }}
-          primaryColor={theme.palette.text.primary}
-          contrastColor={theme.palette.text.white}
-          buttonText="Spin"
-          isOnlyOnce={true}
-          fontSize={isTiny ? `0.5rem` : isMobile ? `.75rem` : `1rem`}
-          fontFamily={theme.typography.fontFamily}
-          size={isTiny ? 120 : isMobile ? 155 : 180}
-          outlineWidth={5}
-          upDuration={200}
-          downDuration={1000}
-        />
+      <Column gap={2} alignItems="center" textAlign="center">
+        <Column gap={0.5}>
+          <Typography typography={{ xs: 'h5', mobile1: 'h4' }}>
+            Spin the Wheel!
+          </Typography>
+          <Typography
+            typography={{ xs: 'body3', sm: 'body2' }}
+            color="text.secondary"
+          >
+            You have{' '}
+            <b>
+              {spins} {pluralize('spin', spins)}
+            </b>{' '}
+            available.
+          </Typography>
+        </Column>
+        {!items || !prize ? (
+          <PulsingLogo message="Selecting random items..." />
+        ) : (
+          <PrizeWheel
+            segments={items.map((item) => item.name).map(shorten(15))}
+            segColors={PRIZE_WHEEL_COLORS}
+            winner={items.findIndex((p) => p.name === prize.name)}
+            onFinished={() => {
+              onClaim(prize);
+              setFinished(true);
+            }}
+            primaryColor={theme.palette.text.primary}
+            contrastColor={theme.palette.text.white}
+            buttonText="Spin"
+            isOnlyOnce={true}
+            fontSize={isTiny ? `0.5rem` : isMobile ? `.75rem` : `1rem`}
+            fontFamily={theme.typography.fontFamily}
+            size={isTiny ? 120 : isMobile ? 155 : 180}
+            outlineWidth={5}
+            upDuration={200}
+            downDuration={1000}
+          />
+        )}
+        {!!spins && (
+          <Button
+            fullWidth
+            disabled={!finished}
+            startIcon={<Loop />}
+            variant="arcade"
+            color="secondary"
+            onClick={handleSpin}
+          >
+            Spin Again
+          </Button>
+        )}
         <Button
           fullWidth
           disabled={!finished}

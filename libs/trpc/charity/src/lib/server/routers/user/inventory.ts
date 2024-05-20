@@ -6,6 +6,7 @@ import {
   InventoryService,
   PrizeWheelService,
 } from '@worksheets/services/inventory';
+import { waitFor } from '@worksheets/util/time';
 import {
   DecrementOpts,
   inventoryItemSchema,
@@ -150,6 +151,7 @@ export default t.router({
       .output(z.custom<Awaited<ReturnType<PrizeWheelService['spin']>>>())
       .mutation(async ({ ctx: { db, user }, input }) => {
         return await db.$transaction(async (tx) => {
+          await waitFor(2000);
           const spinner = new PrizeWheelService(tx);
           return spinner.spin(user.id, input);
         });
