@@ -8,10 +8,51 @@ import {
 } from '@worksheets/util/settings';
 
 export const QUESTS: Prisma.PlatformQuestUncheckedCreateInput[] = [
+  // prize wheels
+  {
+    id: 'PRIZE_WHEEL_DAILY',
+    order: 0,
+    version: 1,
+    taskId: 'DAILY_CHECK_IN',
+    name: 'Prize Wheel (Daily)',
+    description:
+      'Claim a free prize wheel spin every day for a chance to win a random item!',
+    loot: {
+      createMany: {
+        data: [
+          {
+            itemId: '200',
+            quantity: 1,
+            chance: 1,
+          },
+        ],
+      },
+    },
+  },
+  {
+    id: 'PRIZE_WHEEL_WEEKLY',
+    order: 1,
+    version: 1,
+    taskId: 'WEEKLY_CHECK_IN',
+    name: 'Prize Wheel (Weekly)',
+    description:
+      'Claim 5 free prize wheel spins every week for a chance to win a random items!',
+    loot: {
+      createMany: {
+        data: [
+          {
+            itemId: '200',
+            quantity: 5,
+            chance: 1,
+          },
+        ],
+      },
+    },
+  },
   // watch ads
   {
     id: 'WATCH_AD_DAILY',
-    order: 1,
+    order: 7,
     version: 1,
     taskId: 'WATCH_AD_DAILY',
     name: 'Watch an Ad (Daily)',
@@ -29,7 +70,7 @@ export const QUESTS: Prisma.PlatformQuestUncheckedCreateInput[] = [
   },
   {
     id: 'WATCH_AD_WEEKLY',
-    order: 2,
+    order: 8,
     version: 1,
     taskId: 'WATCH_AD_WEEKLY',
     name: 'Watch an Ad (Weekly)',
@@ -47,7 +88,7 @@ export const QUESTS: Prisma.PlatformQuestUncheckedCreateInput[] = [
   },
   {
     id: 'WATCH_AD_MONTHLY',
-    order: 3,
+    order: 9,
     version: 1,
     taskId: 'WATCH_AD_MONTHLY',
     name: 'Watch an Ad (Monthly)',

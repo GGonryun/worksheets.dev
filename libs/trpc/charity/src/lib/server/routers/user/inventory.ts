@@ -4,6 +4,7 @@ import { FriendshipService } from '@worksheets/services/friendship';
 import {
   CapsuleService,
   InventoryService,
+  PrizeWheelService,
 } from '@worksheets/services/inventory';
 import {
   DecrementOpts,
@@ -140,6 +141,17 @@ export default t.router({
         return await db.$transaction(async (tx) => {
           const capsule = new CapsuleService(tx);
           return capsule.award(user.id, input);
+        });
+      }),
+  }),
+  prizeWheel: t.router({
+    spin: protectedProcedure
+      .input(z.custom<Parameters<PrizeWheelService['spin']>[1]>())
+      .output(z.custom<Awaited<ReturnType<PrizeWheelService['spin']>>>())
+      .mutation(async ({ ctx: { db, user }, input }) => {
+        return await db.$transaction(async (tx) => {
+          const spinner = new PrizeWheelService(tx);
+          return spinner.spin(user.id, input);
         });
       }),
   }),

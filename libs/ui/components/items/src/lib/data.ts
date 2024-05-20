@@ -2,6 +2,7 @@ import {
   CardGiftcard,
   LocalActivityOutlined,
   Shuffle,
+  StarBorder,
   SvgIconComponent,
 } from '@mui/icons-material';
 import { ColoredSteamGames } from '@worksheets/icons/companies';
@@ -9,6 +10,7 @@ import { Briefcase, Sword } from '@worksheets/icons/dazzle';
 import { ValentinesPotion } from '@worksheets/icons/valentines';
 import { ItemRarity, ItemType } from '@worksheets/prisma';
 
+// TODO: move this to a shared location like @worksheets/types/items
 export const itemRarityLabel: Record<ItemRarity, string> = {
   COMMON: 'Common',
   UNCOMMON: 'Uncommon',
@@ -25,6 +27,7 @@ export const itemTypeLabel: Record<ItemType, string> = {
   COMBAT: 'Combat',
   ETCETERA: 'Miscellaneous',
   CAPSULE: 'Prize Capsule',
+  PRIZE_WHEEL: 'Prize Wheel',
 };
 
 export const itemTypeLogo: Record<ItemType, SvgIconComponent> = {
@@ -35,4 +38,5 @@ export const itemTypeLogo: Record<ItemType, SvgIconComponent> = {
   COMBAT: Sword,
   ETCETERA: Briefcase,
   CAPSULE: Shuffle,
+  PRIZE_WHEEL: StarBorder,
 };

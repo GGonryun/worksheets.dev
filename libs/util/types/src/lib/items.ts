@@ -10,6 +10,8 @@ import {
   ETCETERA_ITEMS,
   EtCeteraItemId,
   ItemId,
+  PRIZE_WHEEL_ITEMS,
+  PrizeWheelItemId,
   SHARABLE_ITEMS,
   SharableItemId,
   STEAM_KEY_ITEMS,
@@ -17,6 +19,66 @@ import {
 } from '@worksheets/data/items';
 import { ItemRarity, ItemType } from '@worksheets/prisma';
 import { z } from 'zod';
+
+export const ACTION_LABEL: Record<ItemType, string> = {
+  STEAM_KEY: 'Claim',
+  CONSUMABLE: 'Use Item',
+  SHARABLE: 'Share',
+  COMBAT: 'Join Battle',
+  ETCETERA: 'Sell Item',
+  CURRENCY: 'N/A',
+  PRIZE_WHEEL: 'Spin Wheel',
+  CAPSULE: 'Open Capsule',
+};
+
+export const ACTION_AVAILABLE: Record<ItemType, boolean> = {
+  STEAM_KEY: true,
+  CONSUMABLE: true,
+  SHARABLE: true,
+  COMBAT: true,
+  ETCETERA: true,
+  CAPSULE: true,
+  PRIZE_WHEEL: true,
+  CURRENCY: false,
+};
+export const PRIZE_WHEEL_COLORS = [
+  '#FF0000', // Red
+  '#FF4500', // Orange Red
+  '#FF8C00', // Dark Orange
+  '#008000', // Green
+  '#00CED1', // Dark Turquoise
+  '#0000FF', // Blue
+  '#4B0082', // Indigo
+  '#9400D3', // Dark Violet
+];
+
+export const RARITY_COLORS: Record<ItemRarity, string> = {
+  COMMON: '#c79081',
+  UNCOMMON: '#868f96',
+  RARE: '#ff758c',
+  LEGENDARY: '#0ba360',
+  MYTHIC: '#772CE8',
+  PREMIUM: '#950504',
+};
+
+export const RARITY_LETTER: Record<ItemRarity, string> = {
+  COMMON: 'C',
+  UNCOMMON: 'U',
+  RARE: 'R',
+  LEGENDARY: 'L',
+  MYTHIC: 'M',
+  PREMIUM: 'P',
+};
+
+export const RARITY_GRADIENT: Record<ItemRarity, string> = {
+  COMMON: 'linear-gradient(to top, #c79081 0%, #dfa579 100%)',
+  UNCOMMON: 'linear-gradient(to right, #868f96 0%, #596164 100%)',
+  RARE: 'linear-gradient(to right, #ff758c 0%, #ff7eb3 100%)',
+  LEGENDARY: 'linear-gradient(to top, #0ba360 0%, #3cba92 100%)',
+  MYTHIC:
+    'linear-gradient(109.6deg, rgba(119, 44, 232, 0.68) 11.5%, rgb(119, 44, 232) 91.2%)',
+  PREMIUM: 'linear-gradient(0deg, rgb(149, 5, 4),rgb(253, 19, 61))',
+};
 
 export const itemOwner = z.object({
   createdAt: z.date(),
@@ -228,6 +290,23 @@ export const isCapsuleItemId = (itemId: ItemId): itemId is CapsuleItemId => {
   return CAPSULE_ITEMS.find((i) => i.id === itemId) !== undefined;
 };
 
+export type PrizeWheelDecrementOpts = {
+  itemId: PrizeWheelItemId;
+  quantity: number;
+};
+
+export const isPrizeWheelDecrementOpts = (
+  opts: DecrementOpts
+): opts is PrizeWheelDecrementOpts => {
+  return PRIZE_WHEEL_ITEMS.find((i) => i.id === opts.itemId) !== undefined;
+};
+
+export const isPrizeWheelItemId = (
+  itemId: ItemId
+): itemId is PrizeWheelItemId => {
+  return PRIZE_WHEEL_ITEMS.find((i) => i.id === itemId) !== undefined;
+};
+
 export type DecrementOpts =
   | SharableDecrementOpts
   | SteamKeyDecrementOpts
@@ -235,4 +314,5 @@ export type DecrementOpts =
   | CombatDecrementOpts
   | EtCeteraDecrementOpts
   | CurrencyDecrementOpts
-  | CapsuleDecrementOpts;
+  | CapsuleDecrementOpts
+  | PrizeWheelDecrementOpts;

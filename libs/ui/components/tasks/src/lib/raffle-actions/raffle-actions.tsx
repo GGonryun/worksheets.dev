@@ -1,17 +1,5 @@
-import {
-  Alarm,
-  FeaturedVideoOutlined,
-  LanguageOutlined,
-  MouseOutlined,
-} from '@mui/icons-material';
-import { Box, Button, ButtonProps, Typography } from '@mui/material';
-import { TaskType } from '@prisma/client';
-import {
-  Discord,
-  NewTwitter,
-  SteamGames,
-  Twitch,
-} from '@worksheets/icons/companies';
+import { Alarm } from '@mui/icons-material';
+import { Box, Button, Typography } from '@mui/material';
 import { trpc } from '@worksheets/trpc-charity';
 import { ErrorComponent } from '@worksheets/ui/components/errors';
 import { Column, Row } from '@worksheets/ui/components/flex';
@@ -21,7 +9,11 @@ import { ActionSchema } from '@worksheets/util/tasks';
 import { printDateTime, printTimeRemaining } from '@worksheets/util/time';
 import { ReactNode } from 'react';
 
-import { formatTaskFrequencyLabel } from '../util';
+import {
+  formatTaskFrequencyLabel,
+  selectTaskBackgroundColor,
+  selectTaskStatusIcon,
+} from '../util';
 
 export const RaffleActions: React.FC<{
   raffleId: number;
@@ -56,42 +48,6 @@ export const RaffleActions: React.FC<{
   ) : null;
 };
 
-const ACTION_COLOR: Record<TaskType, ButtonProps['color']> = {
-  [TaskType.FOLLOW_TWITCH]: 'twitch',
-  [TaskType.FOLLOW_TWITTER]: 'black',
-  [TaskType.JOIN_DISCORD_GUILD]: 'discord',
-  [TaskType.WISHLIST_STEAM_GAME]: 'steam',
-  [TaskType.VISIT_WEBSITE]: 'warning',
-  [TaskType.WATCH_AD]: 'secondary',
-  [TaskType.BASIC_ACTION]: 'primary',
-  PLAY_GAME: undefined,
-  PLAY_MINUTES: undefined,
-  REFERRAL_PLAY_MINUTES: undefined,
-  FRIEND_PLAY_MINUTES: undefined,
-  ADD_FRIEND: undefined,
-  ADD_REFERRAL: undefined,
-  RAFFLE_PARTICIPATION: undefined,
-  BATTLE_PARTICIPATION: undefined,
-};
-
-const ACTION_LOGO: Record<TaskType, React.ReactNode> = {
-  [TaskType.FOLLOW_TWITCH]: <Twitch />,
-  [TaskType.FOLLOW_TWITTER]: <NewTwitter />,
-  [TaskType.JOIN_DISCORD_GUILD]: <Discord />,
-  [TaskType.WISHLIST_STEAM_GAME]: <SteamGames />,
-  [TaskType.VISIT_WEBSITE]: <LanguageOutlined />,
-  [TaskType.WATCH_AD]: <FeaturedVideoOutlined />,
-  [TaskType.BASIC_ACTION]: <MouseOutlined />,
-  PLAY_GAME: undefined,
-  PLAY_MINUTES: undefined,
-  REFERRAL_PLAY_MINUTES: undefined,
-  FRIEND_PLAY_MINUTES: undefined,
-  ADD_FRIEND: undefined,
-  ADD_REFERRAL: undefined,
-  RAFFLE_PARTICIPATION: undefined,
-  BATTLE_PARTICIPATION: undefined,
-};
-
 const showExpiration = (frequency: string, status: string) =>
   frequency !== 'INFINITE' && frequency !== 'ONCE' && status === 'COMPLETED';
 
@@ -124,6 +80,7 @@ export const RaffleAction: React.FC<ActionSchema & { onClick: () => void }> = ({
   ...action
 }) => {
   const { status, type } = action;
+  const Icon = selectTaskStatusIcon(status, type);
   return (
     <ExpiredActionTooltip {...action}>
       <Box component="span" width="100%">
@@ -131,9 +88,9 @@ export const RaffleAction: React.FC<ActionSchema & { onClick: () => void }> = ({
           fullWidth
           disabled={status === 'COMPLETED'}
           variant="arcade"
-          color={ACTION_COLOR[type]}
+          color={selectTaskBackgroundColor(type)}
           onClick={onClick}
-          startIcon={ACTION_LOGO[type]}
+          startIcon={<Icon />}
           sx={{
             '&.MuiButton-root': {
               pr: { xs: 1, sm: 2 },

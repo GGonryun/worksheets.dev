@@ -164,6 +164,9 @@
       "@worksheets/ui/components/panels": [
         "libs/ui/components/panels/src/index.ts"
       ],
+      "@worksheets/ui/components/prize-wheel": [
+        "libs/ui/components/prize-wheel/src/index.ts"
+      ],
       "@worksheets/ui/components/qa-section": [
         "libs/ui/components/qa-section/src/index.ts"
       ],
@@ -219,6 +222,9 @@
       ],
       "@worksheets/ui/hooks/use-referral-code": [
         "libs/ui/hooks/use-referral-code/src/index.ts"
+      ],
+      "@worksheets/ui/hooks/use-resize-observer": [
+        "libs/ui/hooks/use-resize-observer/src/index.ts"
       ],
       "@worksheets/ui/hooks/use-skip-portal": [
         "libs/ui/hooks/use-skip-portal/src/index.ts"

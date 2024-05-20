@@ -73,7 +73,7 @@ export default t.router({
       };
     }),
 
-  // TODO: do not allow users to track quests by API.
+  // TODO: do not allow users to directly track quests by API.
   trackQuest: protectedProcedure
     .input(
       z.object({

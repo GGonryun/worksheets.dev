@@ -9,6 +9,8 @@ import {
   isRandomTokenQuantity,
   Item,
   ItemId,
+  ITEMS,
+  PRIZE_SPINNER_WEIGHTS,
   RARITY_BAGS,
   SHARE_RATES,
 } from '@worksheets/data/items';
@@ -46,8 +48,12 @@ import {
   isCurrencyDecrementOpts,
   isCurrencyItemId,
   isEtCeteraDecrementOpts,
+  isPrizeWheelDecrementOpts,
+  isPrizeWheelItemId,
   isSharableDecrementOpts,
   isSteamKeyDecrementOpts,
+  ItemSchema,
+  PRIZE_WHEEL_COLORS,
   SharableDecrementOpts,
   SteamKeyDecrementOpts,
 } from '@worksheets/util/types';
@@ -287,6 +293,16 @@ export class InventoryService {
       throw new TRPCError({
         code: 'INTERNAL_SERVER_ERROR',
         message: 'Capsules are not decrementable.',
+      });
+    }
+
+    if (isPrizeWheelDecrementOpts(opts)) {
+      console.error(
+        `Prize wheels should only be managed using the prize wheel service.`
+      );
+      throw new TRPCError({
+        code: 'INTERNAL_SERVER_ERROR',
+        message: 'Prize wheels are not decrementable.',
       });
     }
 
@@ -645,6 +661,7 @@ export class CapsuleService {
       });
     }
   }
+
   async close(userId: string, opts: { itemId: ItemId }) {
     const { itemId } = opts;
     if (!isCapsuleItemId(itemId)) {
@@ -960,6 +977,96 @@ export class CapsuleService {
         option.item.name,
         option.quantity
       )}!`,
+    };
+  }
+}
+
+export class PrizeWheelService {
+  #db: PrismaClient | PrismaTransactionalClient;
+  #inventory: InventoryService;
+  #spinnerSize = PRIZE_WHEEL_COLORS.length;
+
+  constructor(db: PrismaClient | PrismaTransactionalClient) {
+    this.#db = db;
+    this.#inventory = new InventoryService(db);
+  }
+
+  async spin(
+    userId: string,
+    opts: {
+      itemId: ItemId;
+    }
+  ): Promise<{ items: ItemSchema[]; prize: Item }> {
+    const itemId = opts.itemId;
+    if (!isPrizeWheelItemId(itemId)) {
+      throw new TRPCError({
+        code: 'BAD_REQUEST',
+        message: `Item ID ${itemId} is not a prize wheel.`,
+      });
+    }
+
+    const inventory = await this.#db.inventory.findFirst({
+      where: {
+        userId,
+        itemId,
+      },
+    });
+
+    if (!inventory || !inventory.quantity) {
+      throw new TRPCError({
+        code: 'NOT_FOUND',
+        message: `You do not have any prize wheels to spin.`,
+      });
+    }
+
+    const update = await this.#db.inventory.update({
+      where: {
+        id: inventory.id,
+      },
+      data: {
+        quantity: {
+          decrement: 1,
+        },
+      },
+    });
+
+    // pick 8 random items for the prize wheel.
+    const lottery: string[] = [];
+    for (const item of ITEMS) {
+      const weight = PRIZE_SPINNER_WEIGHTS[item.rarity];
+      for (let i = 0; i < weight; i++) {
+        lottery.push(item.id);
+      }
+    }
+
+    const items = shuffle(lottery)
+      .slice(0, this.#spinnerSize)
+      .map((id) => {
+        const item = ITEMS.find((i) => i.id === id);
+        if (!item) {
+          throw new TRPCError({
+            code: 'INTERNAL_SERVER_ERROR',
+            message: `Failed to find item ${id} in the prize wheel.`,
+            cause: new Error(`Item ${id} not found in ITEMS`),
+          });
+        }
+        return item;
+      });
+
+    const prize = randomArrayElement(items);
+
+    if (update.quantity < 0) {
+      throw new TRPCError({
+        code: 'BAD_REQUEST',
+        message: `You have no prize wheels left to spin.`,
+      });
+    }
+
+    await this.#inventory.increment(userId, prize.id, 1);
+
+    return {
+      items,
+      prize,
     };
   }
 }

@@ -1,13 +1,15 @@
 import {
   FavoriteBorder,
   PanToolAltOutlined,
+  QuestionMark,
   Remove,
   SellOutlined,
-  StarBorder,
+  Shuffle,
 } from '@mui/icons-material';
 import { Box, Typography } from '@mui/material';
 import { ClockExclamation, Sword } from '@worksheets/icons/dazzle';
 import { ItemRarity } from '@worksheets/prisma';
+import { RARITY_GRADIENT, RARITY_LETTER } from '@worksheets/util/types';
 import React, { FC, ReactNode } from 'react';
 
 // TODO: add more icons for sharable items and consumables
@@ -31,6 +33,7 @@ const IconLayout: FC<{ gradient: string; children: ReactNode }> = ({
 );
 
 export const SellableItemIcon: React.FC<{ size: number }> = ({ size }) => (
+  // beige gradient
   <IconLayout gradient="linear-gradient(to top, #c79081 0%, #dfa579 100%)">
     <SellOutlined
       color="white"
@@ -42,6 +45,7 @@ export const SellableItemIcon: React.FC<{ size: number }> = ({ size }) => (
 );
 
 export const ConsumableItemIcon: React.FC<{ size: number }> = ({ size }) => (
+  // blue gradient
   <IconLayout gradient="radial-gradient(circle at 10% 20%, rgb(59, 149, 237) 0%, rgb(7, 91, 173) 90%)">
     <PanToolAltOutlined
       color="white"
@@ -53,6 +57,7 @@ export const ConsumableItemIcon: React.FC<{ size: number }> = ({ size }) => (
 );
 
 export const BattleItemIcon: React.FC<{ size: number }> = ({ size }) => (
+  // green gradient
   <IconLayout gradient="linear-gradient(to top, #0ba360 0%, #3cba92 100%)">
     <Sword
       color="white"
@@ -64,6 +69,7 @@ export const BattleItemIcon: React.FC<{ size: number }> = ({ size }) => (
 );
 
 export const HeartItemIcon: React.FC<{ size: number }> = ({ size }) => (
+  // pink gradient
   <IconLayout gradient="linear-gradient(to right, #ff758c 0%, #ff7eb3 100%)">
     <FavoriteBorder
       color="white"
@@ -74,9 +80,36 @@ export const HeartItemIcon: React.FC<{ size: number }> = ({ size }) => (
   </IconLayout>
 );
 
-export const StarItemIcon: React.FC<{ size: number }> = ({ size }) => (
+export const ShuffleItemIcon: React.FC<{ size: number }> = ({ size }) => (
+  // purple gradient
   <IconLayout gradient="linear-gradient(109.6deg, rgba(119, 44, 232, 0.68) 11.5%, rgb(119, 44, 232) 91.2%)">
-    <StarBorder
+    <Shuffle
+      color="white"
+      sx={{
+        fontSize: size,
+      }}
+    />
+  </IconLayout>
+);
+
+export const QuestionMarkIcon: React.FC<{ size: number }> = ({ size }) => (
+  <IconLayout
+    gradient="linear-gradient(
+    90deg,
+    rgba(255, 0, 0, 1) 0%,
+    rgba(255, 154, 0, 1) 10%,
+    rgba(208, 222, 33, 1) 20%,
+    rgba(79, 220, 74, 1) 30%,
+    rgba(63, 218, 216, 1) 40%,
+    rgba(47, 201, 226, 1) 50%,
+    rgba(28, 127, 238, 1) 60%,
+    rgba(95, 21, 242, 1) 70%,
+    rgba(186, 12, 248, 1) 80%,
+    rgba(251, 7, 217, 1) 90%,
+    rgba(255, 0, 0, 1) 100%
+)"
+  >
+    <QuestionMark
       color="white"
       sx={{
         fontSize: size,
@@ -86,6 +119,7 @@ export const StarItemIcon: React.FC<{ size: number }> = ({ size }) => (
 );
 
 export const ExpiringItemIcon: React.FC<{ size: number }> = ({ size }) => (
+  // red gradient
   <IconLayout gradient="linear-gradient(0deg, rgb(149, 5, 4),rgb(253, 19, 61))">
     <ClockExclamation
       color="white"
@@ -113,7 +147,7 @@ export const rarityIcon = (rarity: ItemRarity, size = 24) => {
       sx={{
         lineHeight: 0,
         backgroundColor: (theme) => theme.palette.warning.main,
-        background: RARITY_COLOR[rarity],
+        background: RARITY_GRADIENT[rarity],
         borderRadius: '32px',
         textAlign: 'center',
         height: size,
@@ -137,23 +171,4 @@ export const rarityIcon = (rarity: ItemRarity, size = 24) => {
       </Typography>
     </Box>
   );
-};
-
-const RARITY_LETTER: Record<ItemRarity, string> = {
-  COMMON: 'C',
-  UNCOMMON: 'U',
-  RARE: 'R',
-  LEGENDARY: 'L',
-  MYTHIC: 'M',
-  PREMIUM: 'P',
-};
-
-const RARITY_COLOR: Record<ItemRarity, string> = {
-  COMMON: 'linear-gradient(to top, #c79081 0%, #dfa579 100%)',
-  UNCOMMON: 'linear-gradient(to right, #868f96 0%, #596164 100%)',
-  RARE: 'linear-gradient(to right, #ff758c 0%, #ff7eb3 100%)',
-  LEGENDARY: 'linear-gradient(to top, #0ba360 0%, #3cba92 100%)',
-  MYTHIC:
-    'linear-gradient(109.6deg, rgba(119, 44, 232, 0.68) 11.5%, rgb(119, 44, 232) 91.2%)',
-  PREMIUM: 'linear-gradient(0deg, rgb(149, 5, 4),rgb(253, 19, 61))',
 };

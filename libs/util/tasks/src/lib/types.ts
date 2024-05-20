@@ -58,6 +58,7 @@ export type TaskData = {
   FRIEND_PLAY_MINUTES: unknown;
   ADD_FRIEND: unknown;
   ADD_REFERRAL: unknown;
+  PRIZE_WHEEL: unknown;
   // instant tasks
   VISIT_WEBSITE: {
     url: string;
@@ -85,7 +86,7 @@ export type TaskData = {
 export type TaskFormProps = {
   task: TaskSchema;
   actions: {
-    onSubmit: (input: { repetitions: number }) => void;
+    onSubmit: (input: { repetitions: number; skip?: boolean }) => void;
     onCancel: () => void;
   };
 };

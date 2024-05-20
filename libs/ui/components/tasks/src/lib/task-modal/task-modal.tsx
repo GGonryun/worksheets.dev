@@ -46,7 +46,7 @@ export const TaskModal: React.FC<
 export const TaskModalContent: React.FC<
   TaskFormProps & {
     isLoading: boolean;
-    rewards: React.ReactNode;
+    rewards?: React.ReactNode;
   }
 > = (props) => {
   const { task, actions, isLoading, rewards } = props;
@@ -62,7 +62,7 @@ export const TaskModalContent: React.FC<
 
   return (
     <Column width="100%">
-      <Column gap={2}>
+      <Column gap={2} mb={2 + (!rewards ? 1.5 : 0)}>
         <Column>
           <Row justifyContent="space-between">
             <Box mb={1}>
@@ -84,14 +84,10 @@ export const TaskModalContent: React.FC<
             <Typography variant="body2">{description}</Typography>
           </Column>
         </Column>
-        {expiresAt > 0 && (
+        {expiresAt > 0 && !isPast(expiresAt) && (
           <Typography variant="body2" color="text.secondary">
-            {!isPast(expiresAt) ? (
-              <>
-                This quest resets in <b>{printTimeRemaining(expiresAt)}</b> on{' '}
-                <b>{printDateTime(expiresAt)}</b>
-              </>
-            ) : undefined}
+            This quest resets in <b>{printTimeRemaining(expiresAt)}</b> on{' '}
+            <b>{printDateTime(expiresAt)}</b>
           </Typography>
         )}
         <Box width="100%">
@@ -101,18 +97,22 @@ export const TaskModalContent: React.FC<
             <TaskForm task={task} actions={actions} />
           )}
         </Box>
-        <Button
-          onClick={() => setOpen((o) => !o)}
-          size="small"
-          variant="arcade"
-          color="secondary"
-          endIcon={open ? <ExpandLess /> : <ExpandMore />}
-          sx={{ width: 'fit-content' }}
-        >
-          View Rewards
-        </Button>
       </Column>
-      <Collapse in={open}>{rewards}</Collapse>
+      {rewards && (
+        <Column>
+          <Button
+            onClick={() => setOpen((o) => !o)}
+            size="small"
+            variant="arcade"
+            color="secondary"
+            endIcon={open ? <ExpandLess /> : <ExpandMore />}
+            sx={{ width: 'fit-content' }}
+          >
+            View Rewards
+          </Button>
+          <Collapse in={open}>{rewards}</Collapse>
+        </Column>
+      )}
     </Column>
   );
 };

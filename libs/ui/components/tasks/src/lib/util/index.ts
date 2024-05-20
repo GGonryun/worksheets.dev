@@ -12,6 +12,7 @@ import {
   SvgIconComponent,
   VideogameAssetOutlined,
 } from '@mui/icons-material';
+import { ButtonProps } from '@mui/material';
 import {
   TaskCategory,
   TaskFrequency,
@@ -47,6 +48,27 @@ const TASK_FREQUENCY_LABEL: Record<TaskFrequency, string> = {
 
 export const formatTaskFrequencyLabel = (frequency: TaskFrequency) =>
   TASK_FREQUENCY_LABEL[frequency];
+
+const TASK_BACKGROUND_COLOR: Record<TaskType, ButtonProps['color']> = {
+  [TaskType.FOLLOW_TWITCH]: 'twitch',
+  [TaskType.FOLLOW_TWITTER]: 'black',
+  [TaskType.JOIN_DISCORD_GUILD]: 'discord',
+  [TaskType.WISHLIST_STEAM_GAME]: 'steam',
+  [TaskType.VISIT_WEBSITE]: 'warning',
+  [TaskType.WATCH_AD]: 'secondary',
+  [TaskType.BASIC_ACTION]: 'primary',
+  PLAY_GAME: undefined,
+  PLAY_MINUTES: undefined,
+  REFERRAL_PLAY_MINUTES: undefined,
+  FRIEND_PLAY_MINUTES: undefined,
+  ADD_FRIEND: undefined,
+  ADD_REFERRAL: undefined,
+  RAFFLE_PARTICIPATION: undefined,
+  BATTLE_PARTICIPATION: undefined,
+};
+
+export const selectTaskBackgroundColor = (type: TaskType) =>
+  TASK_BACKGROUND_COLOR[type];
 
 const TASK_ICON: Record<TaskType, SvgIconComponent> = {
   [TaskType.PLAY_GAME]: VideogameAssetOutlined,
@@ -121,7 +143,7 @@ export const formatTaskExpiration = (
   }
 
   if (isPast(expiresAt)) {
-    return 'Expired';
+    return 'Pending';
   }
   return millisecondsToDuration(timeUntil(expiresAt));
 };

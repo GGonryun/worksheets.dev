@@ -14,10 +14,10 @@ import inventory from './inventory';
 import newsletter from './newsletter/router';
 import notifications from './notifications/router';
 import profile from './profile/router';
-import tasks from './quests/router';
 import raffles from './raffles/router';
 import referrals from './referrals/router';
 import referrer from './referrer/router';
+import tasks from './tasks/router';
 import vip from './vip/router';
 
 export default t.router({

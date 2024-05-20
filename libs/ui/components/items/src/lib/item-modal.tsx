@@ -79,7 +79,7 @@ export const ItemModalLayout: React.FC<
           {action}
         </Column>
         <Column mt={1.5} gap={1}>
-          <Column>
+          <Column textAlign={{ xs: 'center', sm: 'left' }}>
             <Typography
               typography={{ xs: 'h6', sm: 'h5' }}
               fontWeight={{ xs: 700, sm: 700 }}

@@ -59,3 +59,7 @@ export const isUrl = (url: string): boolean => {
 export const isString = (value: unknown): value is string => {
   return typeof value === 'string' && !Array.isArray(value) && !!value.length;
 };
+
+export const shorten = (count: number) => (text: string) => {
+  return text.length > count ? `${text.substring(0, count)}...` : text;
+};

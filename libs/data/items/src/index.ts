@@ -206,6 +206,19 @@ export const ITEMS = [
     imageUrl: 'https://cdn.charity.games/_items/detailed/106.png',
   },
   {
+    id: '200' as const,
+    version: 11,
+    code: 'prize-wheel',
+    name: 'Prize Wheel',
+    type: ItemType.PRIZE_WHEEL,
+    rarity: ItemRarity.UNCOMMON,
+    sell: 0,
+    buy: 1000,
+    description:
+      'Spin the wheel to win a random item! The wheel can include any random item, tokens, or even a rare capsule!',
+    imageUrl: 'https://cdn.charity.games/_items/detailed/200.png',
+  },
+  {
     id: '1000' as const,
     version: 11,
     code: 'weapon-crate',
@@ -1745,7 +1758,7 @@ export const itemIdSchema = z.custom<ItemId>();
 
 export type DroppableItem = Extract<
   Item,
-  { type: 'COMBAT' | 'CONSUMABLE' | 'SHARABLE' | 'ETCETERA' }
+  { type: 'COMBAT' | 'CONSUMABLE' | 'SHARABLE' | 'ETCETERA' | 'CAPSULE' }
 >;
 
 export const parseItemId = (id: unknown | undefined): ItemId => {
@@ -1764,7 +1777,8 @@ export const DROPPABLE_ITEMS = ITEMS.filter(
     item.type === ItemType.COMBAT ||
     item.type === ItemType.CONSUMABLE ||
     item.type === ItemType.SHARABLE ||
-    item.type === ItemType.ETCETERA
+    item.type === ItemType.ETCETERA ||
+    item.type === ItemType.CAPSULE
 );
 /**
  * The drop rate for each item is determined by the number of tickets in the lottery.
@@ -1897,8 +1911,24 @@ export const DROP_LOTTERY: Record<DroppableItemId, number> = {
   10111: 1,
   10112: 1,
   10113: 1,
+  100: 1,
+  101: 1,
+  102: 1,
+  103: 1,
+  104: 1,
+  105: 1,
+  106: 1,
 };
 
+export const PRIZE_SPINNER_WEIGHTS: Record<ItemRarity, number> = {
+  COMMON: 5,
+  UNCOMMON: 4,
+  RARE: 3,
+  LEGENDARY: 2,
+  MYTHIC: 1,
+  // prize spinner cannot contain premium items
+  PREMIUM: 0,
+};
 export const SHARE_RATES: Record<
   SharableItemId,
   { user: number; friend: number }
@@ -2014,6 +2044,13 @@ export type CapsuleItemId = CapsuleItem['id'];
 
 export const CAPSULE_ITEMS = ITEMS.filter(
   (item): item is CapsuleItem => item.type === ItemType.CAPSULE
+);
+
+export type PrizeWheelItem = Extract<Item, { type: 'PRIZE_WHEEL' }>;
+export type PrizeWheelItemId = PrizeWheelItem['id'];
+
+export const PRIZE_WHEEL_ITEMS = ITEMS.filter(
+  (item): item is PrizeWheelItem => item.type === ItemType.PRIZE_WHEEL
 );
 
 export type RandomTokenQuantity = { min: number; max: number };

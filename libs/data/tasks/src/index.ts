@@ -451,4 +451,16 @@ export const TASKS: Prisma.TaskCreateInput[] = [
     description: `Earn tokens every time you add a new referral on Charity Games. You can receive this reward up to ${MAX_REFERRALS} times`,
     data: {},
   },
+  {
+    version: 1,
+    id: 'PRIZE_WHEEL_DAILY',
+    type: TaskType.BASIC_ACTION,
+    category: TaskCategory.TASK,
+    frequency: TaskFrequency.DAILY,
+    requiredRepetitions: 1,
+    maxRepetitions: 1,
+    name: 'Get a free prize wheel spin',
+    description: 'Claim your free prize wheel spin every day. Good luck!',
+    data: {},
+  },
 ];

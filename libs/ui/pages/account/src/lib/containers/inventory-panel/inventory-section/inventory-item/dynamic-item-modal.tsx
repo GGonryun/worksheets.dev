@@ -1,13 +1,21 @@
 import {
   ArrowBack,
   ArrowForward,
+  Close,
   FavoriteBorder,
   FeaturedVideoOutlined,
   LockOutlined,
   OpenInNewOutlined,
+  StarBorder,
 } from '@mui/icons-material';
-import { Box, Button, Divider, Link, Typography } from '@mui/material';
-import { ItemType } from '@worksheets/prisma';
+import {
+  Box,
+  Button,
+  Divider,
+  Link,
+  Typography,
+  useTheme,
+} from '@mui/material';
 import { routes } from '@worksheets/routes';
 import { trpc } from '@worksheets/trpc-charity';
 import { WatchAdvertisement } from '@worksheets/ui/components/advertisements';
@@ -24,7 +32,9 @@ import {
 } from '@worksheets/ui/components/items';
 import { PulsingLogo } from '@worksheets/ui/components/loading';
 import { InfoModal } from '@worksheets/ui/components/modals';
+import { PrizeWheel } from '@worksheets/ui/components/prize-wheel';
 import { useSnackbar } from '@worksheets/ui/components/snackbar';
+import { useMediaQueryDown } from '@worksheets/ui/hooks/use-media-query';
 import { Redirect } from '@worksheets/ui-core';
 import {
   FriendsPanels,
@@ -33,38 +43,22 @@ import {
 } from '@worksheets/util/enums';
 import { assertNever } from '@worksheets/util/errors';
 import { MAX_CONSUMPTION_RATE } from '@worksheets/util/settings';
-import { capitalizeFirstLetter } from '@worksheets/util/strings';
+import { capitalizeFirstLetter, shorten } from '@worksheets/util/strings';
 import { parseTRPCClientErrorMessage } from '@worksheets/util/trpc';
 import {
+  ACTION_AVAILABLE,
+  ACTION_LABEL,
   CapsuleOptionSchema,
   Friend,
   InventoryCapsuleSchema,
   InventoryItemSchema,
+  ItemSchema,
+  PRIZE_WHEEL_COLORS,
 } from '@worksheets/util/types';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import pluralize from 'pluralize';
 import React, { useState } from 'react';
-
-const ACTION_LABEL: Record<ItemType, string> = {
-  STEAM_KEY: 'Claim',
-  CONSUMABLE: 'Use Item',
-  SHARABLE: 'Share',
-  COMBAT: 'Join Battle',
-  ETCETERA: 'Sell Item',
-  CURRENCY: 'N/A',
-  CAPSULE: 'Open Capsule',
-};
-
-const ACTION_AVAILABLE: Record<ItemType, boolean> = {
-  STEAM_KEY: true,
-  CONSUMABLE: true,
-  SHARABLE: true,
-  COMBAT: true,
-  ETCETERA: true,
-  CAPSULE: true,
-  CURRENCY: false,
-};
 
 const ItemAction: React.FC<{
   item: InventoryItemSchema;
@@ -667,6 +661,148 @@ const CapsuleOption: React.FC<{
   );
 };
 
+const PrizeWheelItem: React.FC<{
+  item: InventoryItemSchema;
+  onClose: () => void;
+}> = ({ item, onClose }) => {
+  const snackbar = useSnackbar();
+  const utils = trpc.useUtils();
+  const spin = trpc.user.inventory.prizeWheel.spin.useMutation();
+  const [spinner, setSpinner] = React.useState<
+    { items: ItemSchema[]; prize: ItemSchema } | undefined
+  >(undefined);
+
+  const handleStartSpinner = async () => {
+    try {
+      const data = await spin.mutateAsync({ itemId: item.itemId });
+      setSpinner(data);
+    } catch (error) {
+      snackbar.error(parseTRPCClientErrorMessage(error));
+    }
+  };
+
+  const handleSkipAnimation = async () => {
+    try {
+      const data = await spin.mutateAsync({ itemId: item.itemId });
+      snackbar.success(`Congratulations! You won a ${data.prize.name}!`);
+      utils.user.inventory.items.invalidate();
+      onClose();
+    } catch (error) {
+      snackbar.error(parseTRPCClientErrorMessage(error));
+    }
+  };
+
+  const handleClaim = (prize: ItemSchema) => {
+    snackbar.success(`Congratulations! You won a ${prize.name}!`);
+    utils.user.inventory.items.invalidate();
+  };
+
+  if (spin.isLoading) return <PulsingLogo message="Building a spinner..." />;
+  if (spin.isError) return <ErrorComponent message={spin.error.message} />;
+
+  return (
+    <>
+      <Column gap={1} alignItems="center">
+        <Typography
+          typography={{ xs: 'body3', sm: 'body2' }}
+          color="text.secondary"
+          gutterBottom
+        >
+          You have{' '}
+          <b>
+            {item.quantity} {pluralize('spin', item.quantity)}
+          </b>{' '}
+          available.
+        </Typography>
+        <Button
+          variant="arcade"
+          color="primary"
+          size="small"
+          startIcon={<StarBorder />}
+          onClick={handleStartSpinner}
+          sx={{ minWidth: 200 }}
+        >
+          I'm Feeling Lucky!
+        </Button>
+        <Button
+          variant="arcade"
+          color="secondary"
+          size="small"
+          endIcon={<ArrowForward />}
+          onClick={handleSkipAnimation}
+          sx={{ minWidth: 200 }}
+        >
+          Skip Animation
+        </Button>
+      </Column>
+      <PrizeWheelModal {...spinner} onClaim={handleClaim} onClose={onClose} />
+    </>
+  );
+};
+
+const PrizeWheelModal: React.FC<{
+  items?: ItemSchema[];
+  prize?: ItemSchema;
+  onClose: () => void;
+  onClaim: (item: ItemSchema) => void;
+}> = ({ onClose, onClaim, items, prize }) => {
+  const theme = useTheme();
+  const isTiny = useMediaQueryDown('mobile1');
+  const isMobile = useMediaQueryDown('sm');
+  const [finished, setFinished] = React.useState(false);
+
+  if (!items || !prize) {
+    return null;
+  }
+
+  const segments = items.map((item) => item.name);
+
+  return (
+    <InfoModal
+      open={true}
+      onClose={() => {
+        onClaim(prize);
+        onClose();
+      }}
+    >
+      <Column gap={2} alignItems="center">
+        <Typography typography={{ xs: 'h5', mobile1: 'h4' }}>
+          Spin the Wheel!
+        </Typography>
+        <PrizeWheel
+          segments={segments.map(shorten(15))}
+          segColors={PRIZE_WHEEL_COLORS}
+          winner={segments.indexOf(prize.name)}
+          onFinished={() => {
+            onClaim(prize);
+            setFinished(true);
+          }}
+          primaryColor={theme.palette.text.primary}
+          contrastColor={theme.palette.text.white}
+          buttonText="Spin"
+          isOnlyOnce={true}
+          fontSize={isTiny ? `0.5rem` : isMobile ? `.75rem` : `1rem`}
+          fontFamily={theme.typography.fontFamily}
+          size={isTiny ? 120 : isMobile ? 155 : 180}
+          outlineWidth={5}
+          upDuration={200}
+          downDuration={1000}
+        />
+        <Button
+          fullWidth
+          disabled={!finished}
+          startIcon={<Close />}
+          variant="arcade"
+          color="primary"
+          onClick={onClose}
+        >
+          Close
+        </Button>
+      </Column>
+    </InfoModal>
+  );
+};
+
 const ItemContent: React.FC<{
   item: InventoryItemSchema;
   onClose: () => void;
@@ -693,6 +829,8 @@ const ItemContent: React.FC<{
       );
     case 'CAPSULE':
       return <CapsuleItem item={item} onClose={onClose} />;
+    case 'PRIZE_WHEEL':
+      return <PrizeWheelItem item={item} onClose={onClose} />;
     default:
       throw assertNever(item.type);
   }
