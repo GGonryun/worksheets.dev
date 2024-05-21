@@ -283,6 +283,12 @@ export class TasksService {
       const actions = await this.#db.raffleAction.findMany({
         where: {
           taskId,
+          // only track actions that for raffles that are active or already published
+          raffle: {
+            publishAt: {
+              lte: new Date(),
+            },
+          },
         },
         select: {
           id: true,
