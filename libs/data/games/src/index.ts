@@ -12,6 +12,85 @@ import { SeedableGameSchema } from '@worksheets/util/types';
 
 export const games: SeedableGameSchema[] = [
   {
+    version: 1,
+    id: 'spider-love',
+    name: 'Spider Love',
+    developerId: 'charity-games',
+    iconUrl:
+      'https://cdn.charity.games/_games/spider-love/assets/thumbnail.png',
+    bannerUrl: 'https://cdn.charity.games/_games/spider-love/assets/banner.png',
+    viewport: viewports['ALL-DEVICES'],
+    categories: [
+      'ad-free',
+      'action',
+      'arcade',
+      'desktop',
+      'mobile',
+      '1p',
+      'survival',
+    ],
+    file: {
+      type: 'HTML',
+      url: 'https://cdn.charity.games/_games/spider-love/index.html',
+    },
+    createdAt: new Date('2024-06-05T00:00:00.000Z'),
+    updatedAt: new Date('2024-06-05T00:00:00.000Z'),
+    publishAt: new Date('2024-06-05T02:00:00.000Z'),
+    description: `<p>Spider Love is a fast-paced arcade game. The goal of the game is to help the spider get to their loved one. The game starts with two swinging spiders and the player must tap the screen or click the screen at the right time to get the two spiders to meet up in the center. If the player misses the timing, the spiders will fall and the game will be over.</p><h3>How to Play Spider Love?</h3><ul><li>Tap the screen to make the spiders swing</li><li>Time your taps to get the spiders to meet up in the center</li></ul>`,
+    markets: {},
+  },
+  {
+    version: 3,
+    id: 'hard-flappy',
+    name: 'Hard Flappy',
+    developerId: 'charity-games',
+    iconUrl:
+      'https://cdn.charity.games/_games/hard-flappy/assets/thumbnail.png',
+    bannerUrl: 'https://cdn.charity.games/_games/hard-flappy/assets/banner.png',
+    viewport: viewports['ALL-DEVICES'],
+    categories: [
+      'ad-free',
+      'action',
+      'arcade',
+      'endless',
+      'desktop',
+      'mobile',
+      '1p',
+      'funny',
+      'survival',
+    ],
+    file: {
+      type: 'HTML',
+      url: 'https://cdn.charity.games/_games/hard-flappy/index.html',
+    },
+    createdAt: new Date('2024-05-29T00:00:00.000Z'),
+    updatedAt: new Date('2024-05-29T00:00:00.000Z'),
+    publishAt: new Date('2024-05-29T02:00:00.000Z'),
+    markets: {},
+    description: `<p>Hard Flappy is a challenging flappy bird style game. The goal of the game is to fly as far as you can without hitting any obstacles.</p><h3>How to Play Hard Flappy?</h3><ul><li>Tap the screen to fly</li><li>Avoid the obstacles</li></ul>`,
+  },
+  {
+    version: 1,
+    id: 'space-pinball',
+    name: 'Space Adventure Pinball',
+    developerId: 'charity-games',
+    iconUrl:
+      'https://cdn.charity.games/_games/space-pinball/assets/thumbnail.png',
+    bannerUrl:
+      'https://cdn.charity.games/_games/space-pinball/assets/banner.png',
+    viewport: viewports['ALL-DEVICES'],
+    categories: ['ad-free', 'action', 'arcade', 'desktop', 'mobile', '1p'],
+    file: {
+      type: 'HTML',
+      url: 'https://cdn.charity.games/_games/space-pinball/index.html',
+    },
+    createdAt: new Date('2024-05-22T00:00:00.000Z'),
+    updatedAt: new Date('2024-05-22T00:00:00.000Z'),
+    publishAt: new Date('2024-05-22T02:00:00.000Z'),
+    markets: {},
+    description: `<p>Space Adventure Pinball is a fun pinball game. The goal of the game is to get the highest score possible by hitting the ball with the flippers and keeping it in play for as long as possible.</p><h3>How to Play Space Adventure Pinball?</h3><ul><li>Use the left and right arrow keys to control the flippers</li><li>Hit the ball with the flippers to keep it in play</li><li>Try to hit the ball into the bonus areas to get extra points</li></ul>`,
+  },
+  {
     version: 2,
     id: '20-punch',
     name: '20 Punch',
@@ -119,7 +198,7 @@ export const games: SeedableGameSchema[] = [
       '<p>You will have to break the floor under your opponents to prevent them from surviving! Outsmart them and take first place for yourself!</p><h3>How to Play Fragile Floor?</h3><p>To move, use WASD or Arrow keys. If you are playing on a tablet or phone, use the joystick!</p><p>To navigate the menu, use the mouse or touchscreen!</p>',
   },
   {
-    version: 2,
+    version: 3,
     id: 'kuttuk',
     name: 'Kuttuk',
     developerId: 'seredim',
@@ -139,7 +218,7 @@ export const games: SeedableGameSchema[] = [
       itch: 'https://itch.io/embed/2269843',
     },
     description:
-      '<p>Break the blocks in a center and dodge corners.</p><h3>What is Kuttuk?</h3><p>Kuttuk is a fast-paced arcade game. The goal of the game is to break up the blocks by hitting them on the flat side. If you get hit by the edge of a block you lose the game</p><h3>What are the controls for Kuttuk?</h3><p>Left</p><ul><li>desktop: left arrow</li><li>mobile: touch left</li></ul><p>Right</p><ul><li>right arrow</li><li>mobile: touch right</li></ul>',
+      '<p>Break the blocks in a center and dodge corners.</p><h3>What is Kuttuk?</h3><p>Kuttuk is a fast-paced arcade game. The goal of the game is to break up the blocks by hitting them on the flat side. If you get hit by the edge of a block you lose the game</p><h3>What are the controls for Kuttuk?</h3><p>Left</p><ul><li>desktop: left arrow</li></ul><p>Right</p><ul><li>right arrow</li></ul>',
   },
   {
     version: 2,
