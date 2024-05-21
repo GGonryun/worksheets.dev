@@ -53,14 +53,7 @@ export const PostHeader: FC<PostHeaderProps> = ({
           justifyContent: 'center',
         }}
       >
-        <ResponsiveImage
-          priority
-          alt={`${title} cover`}
-          src={coverImage}
-          style={{
-            maxWidth: 600,
-          }}
-        />
+        <ResponsiveImage priority alt={`${title} cover`} src={coverImage} />
       </Box>
 
       <Box display="flex" alignItems="center">
