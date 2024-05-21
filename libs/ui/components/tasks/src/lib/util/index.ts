@@ -26,6 +26,7 @@ import {
   Twitch,
 } from '@worksheets/icons/companies';
 import { Sword } from '@worksheets/icons/dazzle';
+import { MAX_INT } from '@worksheets/prisma';
 import { PaletteColor } from '@worksheets/ui/theme';
 import { assertNever } from '@worksheets/util/errors';
 import {
@@ -128,6 +129,10 @@ export const selectTaskColor = (status: TaskStatus): PaletteColor => {
     default:
       throw assertNever(status);
   }
+};
+
+export const formatMaxRepetitions = (max: number) => {
+  return max < MAX_INT ? max : '∞';
 };
 
 export const formatTaskExpiration = (

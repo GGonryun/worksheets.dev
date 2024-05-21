@@ -1,3 +1,4 @@
+import { games } from '@worksheets/data/games';
 import {
   MAX_INT,
   Prisma,
@@ -7,7 +8,9 @@ import {
 } from '@worksheets/prisma';
 import { MAX_FRIENDS, MAX_REFERRALS } from '@worksheets/util/settings';
 
-export const TASKS: Prisma.TaskCreateInput[] = [
+import { createGameTask } from './util';
+
+export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
   // watch ads
   {
     version: 1,
@@ -67,7 +70,7 @@ export const TASKS: Prisma.TaskCreateInput[] = [
   },
   // play games
   {
-    version: 1,
+    version: 2,
     id: 'PLAY_GAME_DAILY_5',
     type: TaskType.PLAY_GAME,
     category: TaskCategory.GAMEPLAY,
@@ -77,17 +80,30 @@ export const TASKS: Prisma.TaskCreateInput[] = [
     name: 'Play 5 Games',
     description: 'Earn tokens for playing 5 games today on Charity Games.',
     data: {
-      requirement: 5,
+      requirement: 25,
     },
   },
   {
     version: 1,
+    id: 'PLAY_GAME_ONCE_5',
+    type: TaskType.PLAY_GAME,
+    category: TaskCategory.GAMEPLAY,
+    frequency: TaskFrequency.ONCE,
+    requiredRepetitions: 5,
+    maxRepetitions: 5,
+    name: 'Play 5 Games',
+    description:
+      'Earn rewards for playing 5 games for any amount of time on Charity Games.',
+    data: {},
+  },
+  {
+    version: 2,
     id: 'PLAY_GAME_WEEKLY_25',
     type: TaskType.PLAY_GAME,
     category: TaskCategory.GAMEPLAY,
     frequency: TaskFrequency.WEEKLY,
     requiredRepetitions: 25,
-    maxRepetitions: 25,
+    maxRepetitions: 150,
     name: 'Play 25 Games',
     description: 'Earn tokens for playing 25 games this week on Charity Games.',
     data: {},
@@ -127,6 +143,18 @@ export const TASKS: Prisma.TaskCreateInput[] = [
     maxRepetitions: 1,
     name: 'Check In (Monthly)',
     description: 'Receive a reward for checking in every month.',
+    data: {},
+  },
+  {
+    version: 1,
+    id: 'CHECK_IN_ONCE',
+    type: TaskType.BASIC_ACTION,
+    category: TaskCategory.GAMEPLAY,
+    frequency: TaskFrequency.ONCE,
+    requiredRepetitions: 1,
+    maxRepetitions: 1,
+    name: 'Check In',
+    description: 'Receive a one-time reward for checking in.',
     data: {},
   },
   // raffle participation
@@ -377,16 +405,29 @@ export const TASKS: Prisma.TaskCreateInput[] = [
   },
   // infinites
   {
-    version: 1,
+    version: 3,
     id: 'PLAY_MINUTES_INFINITE',
     type: TaskType.PLAY_MINUTES,
     category: TaskCategory.GAMEPLAY,
     frequency: TaskFrequency.INFINITE,
     requiredRepetitions: 60, // seconds
     maxRepetitions: MAX_INT,
-    name: 'Play for 1 Minute',
+    name: 'Play Games for 1 Minute',
     description:
-      'Earn tokens for every a minute you play a game on Charity Games.',
+      'Earn rewards for every a minute you play a game on Charity Games.',
+    data: {},
+  },
+  {
+    version: 2,
+    id: 'PLAY_MINUTES_5_INFINITE',
+    type: TaskType.PLAY_MINUTES,
+    category: TaskCategory.GAMEPLAY,
+    frequency: TaskFrequency.INFINITE,
+    requiredRepetitions: 300, // seconds
+    maxRepetitions: MAX_INT,
+    name: 'Play Games for 5 Minutes',
+    description:
+      'Earn rewards for every 5 minutes you play a game on Charity Games.',
     data: {},
   },
   {
@@ -451,30 +492,5 @@ export const TASKS: Prisma.TaskCreateInput[] = [
     description: `Earn tokens every time you add a new referral on Charity Games. You can receive this reward up to ${MAX_REFERRALS} times`,
     data: {},
   },
-  {
-    version: 1,
-    id: 'PRIZE_WHEEL_DAILY',
-    type: TaskType.BASIC_ACTION,
-    category: TaskCategory.TASK,
-    frequency: TaskFrequency.DAILY,
-    requiredRepetitions: 1,
-    maxRepetitions: 1,
-    name: 'Get a free prize wheel spin',
-    description: 'Claim your free prize wheel spin every day. Good luck!',
-    data: {},
-  },
-  {
-    version: 1,
-    id: 'PLAY_THE_SORCERER_ONCE',
-    type: TaskType.PLAY_GAME,
-    category: TaskCategory.GAMEPLAY,
-    frequency: TaskFrequency.ONCE,
-    requiredRepetitions: 1,
-    maxRepetitions: 1,
-    name: 'Play The Sorcerer',
-    description: 'Play The Sorcerer and earn tokens for playing.',
-    data: {
-      gameId: 'the-sorcerer',
-    },
-  },
+  ...games.flatMap(createGameTask),
 ];

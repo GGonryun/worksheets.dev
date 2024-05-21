@@ -14,6 +14,7 @@ export const taskSchema = z.object({
   taskId: z.string(),
   category: z.nativeEnum(TaskCategory),
   frequency: z.nativeEnum(TaskFrequency),
+  gameId: z.string().nullable(),
   repetitions: z.number(),
   maxRepetitions: z.number(),
   type: z.nativeEnum(TaskType),

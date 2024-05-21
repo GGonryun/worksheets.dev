@@ -3,8 +3,11 @@ import { Button, Link, Typography } from '@mui/material';
 import { routes } from '@worksheets/routes';
 import { Column } from '@worksheets/ui/components/flex';
 import { BulletPoints } from '@worksheets/ui/components/lists';
+import { calculatePercentage } from '@worksheets/util/numbers';
 import { TaskFormProps } from '@worksheets/util/tasks';
 import pluralize from 'pluralize';
+
+import { ProgressBar } from './progress-bar';
 
 export const PlayMinutesForm: React.FC<TaskFormProps> = ({ task }) => {
   const minutes = Math.floor(task.repetitions / 60);
@@ -27,6 +30,12 @@ export const PlayMinutesForm: React.FC<TaskFormProps> = ({ task }) => {
       <Typography textAlign="center" fontWeight={700} variant="body2">
         You have played for {minutes} {pluralize('minute', minutes)}.
       </Typography>
+      {task.frequency !== 'INFINITE' && (
+        <ProgressBar
+          color={'primary'}
+          value={calculatePercentage(task.repetitions, task.maxRepetitions)}
+        />
+      )}
       <Button
         variant="arcade"
         href={routes.play.path()}

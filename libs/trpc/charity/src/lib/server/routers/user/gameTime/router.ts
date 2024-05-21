@@ -35,18 +35,23 @@ export default t.router({
       // TODO: add lottery game drops again.
 
       await Promise.allSettled([
-        tasks.trackQuest({
-          questId: 'PLAY_MINUTES_INFINITE',
+        tasks.trackManyQuests({
+          questIds: [
+            'REFERRAL_PLAY_MINUTES_INFINITE',
+            'FRIEND_PLAY_MINUTES_INFINITE',
+          ],
           userId: user.id,
           repetitions: increment,
         }),
-        tasks.trackQuest({
-          questId: 'REFERRAL_PLAY_MINUTES_INFINITE',
+        tasks.trackGameQuests({
+          gameId: game.id,
+          type: 'PLAY_MINUTES',
           userId: user.id,
           repetitions: increment,
         }),
-        tasks.trackQuest({
-          questId: 'FRIEND_PLAY_MINUTES_INFINITE',
+        tasks.trackGameActions({
+          gameId: game.id,
+          type: 'PLAY_MINUTES',
           userId: user.id,
           repetitions: increment,
         }),

@@ -31,20 +31,19 @@ export default t.router({
         });
       }
 
-      await tasks.trackManyQuests({
-        questIds: [
-          'PLAY_GAME_DAILY_5',
-          'PLAY_GAME_WEEKLY_25',
-          'PLAY_GAME_INFINITE',
-        ],
-        userId: user.id,
-        repetitions: 1,
-      });
-
-      await tasks.trackGameActionTasks({
-        gameId: game.id,
-        userId: user.id,
-        repetitions: 1,
-      });
+      Promise.all([
+        tasks.trackGameQuests({
+          gameId: game.id,
+          type: 'PLAY_GAME',
+          userId: user.id,
+          repetitions: 1,
+        }),
+        tasks.trackGameActions({
+          gameId: game.id,
+          type: 'PLAY_GAME',
+          userId: user.id,
+          repetitions: 1,
+        }),
+      ]);
     }),
 });

@@ -381,6 +381,7 @@ model Game {
   // Reports
   reports     GameReport[]
   history     GamePlayHistory[]
+  tasks       Task[]
 }
 
 model GamePlayHistory {
@@ -650,11 +651,15 @@ model Task {
   type                TaskType
   category            TaskCategory
   frequency           TaskFrequency
+  // extra data payloads go here.
+  data                Json
   // Describes the number of times a user needs to perform the task to receive the reward.
   requiredRepetitions Int
   // Denotes the maximum number of times the task can be performed
   maxRepetitions      Int
-  data                Json
+  // association to a game
+  gameId              String?
+  game                Game?           @relation(fields: [gameId], references: [id], onDelete: Cascade)
   quests              PlatformQuest[]
   actions             RaffleAction[]
 }

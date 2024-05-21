@@ -1,5 +1,6 @@
 import { Alarm } from '@mui/icons-material';
 import { Box, Button, Typography } from '@mui/material';
+import { MAX_INT } from '@worksheets/prisma';
 import { Column, Row } from '@worksheets/ui/components/flex';
 import { Tooltip } from '@worksheets/ui/components/tooltips';
 import { ActionSchema } from '@worksheets/util/tasks';
@@ -7,6 +8,7 @@ import { printDateTime, printTimeRemaining } from '@worksheets/util/time';
 import { ReactNode } from 'react';
 
 import {
+  formatMaxRepetitions,
   formatTaskFrequencyLabel,
   selectTaskBackgroundColor,
   selectTaskStatusIcon,
@@ -124,7 +126,9 @@ const Label: React.FC<ActionSchema> = ({
         }}
       >
         {name}
-        {maxRepetitions > 1 ? ` (${repetitions}/${maxRepetitions})` : ''}
+        {maxRepetitions > 1 && maxRepetitions < MAX_INT
+          ? ` (${repetitions}/${formatMaxRepetitions(maxRepetitions)})`
+          : ''}
       </Typography>
     </Column>
   );

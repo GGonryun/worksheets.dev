@@ -5,6 +5,7 @@ import {
   PrismaClient,
   PrismaTransactionalClient,
   TaskStatus,
+  TaskType,
 } from '@worksheets/prisma';
 import { InventoryService } from '@worksheets/services/inventory';
 import { NotificationsService } from '@worksheets/services/notifications';
@@ -17,11 +18,6 @@ import {
   setExpirationDate,
 } from '@worksheets/util/tasks';
 import { isExpired } from '@worksheets/util/time';
-
-const GAME_TASK_MAP: Record<string, string[]> = {
-  GLOBAL: ['PLAY_GAME_DAILY_5'],
-  'the-sorcerer': ['PLAY_THE_SORCERER_ONCE'],
-};
 
 export class TasksService {
   #db: PrismaClient | PrismaTransactionalClient;
@@ -63,6 +59,7 @@ export class TasksService {
         frequency: action.task.frequency,
         type: action.task.type,
         data: action.task.data,
+        gameId: action.task.gameId ?? null,
         repetitions: p?.repetitions ?? 0,
         maxRepetitions: action.task.maxRepetitions,
         status: parseStatus(action.task.frequency, p),
@@ -114,6 +111,7 @@ export class TasksService {
         category: quest.task.category,
         frequency: quest.task.frequency,
         type: quest.task.type,
+        gameId: quest.task.gameId ?? null,
         data: quest.task.data,
         repetitions: p?.repetitions ?? 0,
         maxRepetitions: quest.task.maxRepetitions,
@@ -147,6 +145,7 @@ export class TasksService {
     userId: string;
     repetitions: number;
   }) {
+    console.info(`Tracking action`, opts);
     const action = await this.#db.raffleAction.findFirst({
       where: {
         id: opts.actionId,
@@ -160,7 +159,6 @@ export class TasksService {
         },
       },
     });
-
     if (!action) {
       throw new TRPCError({
         code: 'NOT_FOUND',
@@ -169,15 +167,40 @@ export class TasksService {
       });
     }
 
+    return await this.#trackAction({
+      action,
+      userId: opts.userId,
+      repetitions: opts.repetitions,
+    });
+  }
+
+  async #trackAction({
+    action,
+    userId,
+    repetitions,
+  }: {
+    userId: string;
+    repetitions: number;
+    action: Prisma.RaffleActionGetPayload<{
+      include: {
+        task: true;
+        progress: {
+          where: {
+            userId: string;
+          };
+        };
+      };
+    }>;
+  }) {
     const progress = await this.#calculateProgress({
       task: action.task,
       // each quest should have at most one progress record per user.
       progress: action?.progress?.at(0),
       where: {
-        userId: opts.userId,
-        actionId: opts.actionId,
+        userId: userId,
+        actionId: action.id,
       },
-      repetitions: opts.repetitions,
+      repetitions: repetitions,
     });
 
     console.debug(`Checking progress`, progress);
@@ -185,7 +208,7 @@ export class TasksService {
       const reward = action.reward * progress.completions;
       console.debug(`Rewarding ${reward} entries`);
       await this.#rewardEntries({
-        userId: opts.userId,
+        userId,
         raffleId: action.raffleId,
         reward,
       });
@@ -195,11 +218,79 @@ export class TasksService {
     return 0;
   }
 
+  async trackGameActions(opts: {
+    type: Extract<TaskType, 'PLAY_GAME' | 'PLAY_MINUTES'>;
+    gameId: string;
+    userId: string;
+    repetitions: number;
+  }) {
+    const { gameId, type, userId, repetitions } = opts;
+    console.info(`Tracking game actions`, opts);
+    // find every task that is associated with the game
+    const actions = await this.#db.raffleAction.findMany({
+      where: {
+        // task is PLAY_GAME and gameId is either the game or null
+        task: {
+          type,
+          OR: [
+            {
+              gameId: gameId,
+            },
+            {
+              gameId: null,
+            },
+          ],
+        },
+        // and either the raffle is already published or it is active
+        raffle: {
+          OR: [
+            {
+              publishAt: {
+                lte: new Date(),
+              },
+            },
+            {
+              status: 'ACTIVE',
+            },
+          ],
+        },
+      },
+      include: {
+        task: true,
+        progress: {
+          where: {
+            userId,
+          },
+        },
+      },
+    });
+
+    console.info(
+      `Found ${actions.length} actions`,
+      actions.map((a) => ({
+        id: a.id,
+        raffleId: a.raffleId,
+        taskId: a.task.id,
+        gameId: a.task.gameId,
+      }))
+    );
+    Promise.all([
+      actions.map((action) =>
+        this.#trackAction({
+          action,
+          userId,
+          repetitions,
+        })
+      ),
+    ]);
+  }
+
   async trackQuest(opts: {
     questId: string;
     userId: string;
     repetitions: number;
   }) {
+    console.info(`Tracking quest`, opts);
     const quest = await this.#db.platformQuest.findFirst({
       where: {
         id: opts.questId,
@@ -225,29 +316,46 @@ export class TasksService {
       });
     }
 
+    return await this.#trackQuest({
+      ...opts,
+      quest,
+    });
+  }
+  async #trackQuest(opts: {
+    quest: Prisma.PlatformQuestGetPayload<{
+      include: {
+        task: true;
+        progress: true;
+        loot: { include: { item: true } };
+      };
+    }>;
+    userId: string;
+    repetitions: number;
+  }) {
+    const { quest, userId, repetitions } = opts;
     const progress = await this.#calculateProgress({
       task: quest.task,
       // each quest should have at most one progress record per user.
       progress: quest?.progress?.at(0),
       where: {
-        userId: opts.userId,
-        questId: opts.questId,
+        userId,
+        questId: quest.id,
       },
-      repetitions: opts.repetitions,
+      repetitions,
     });
 
     if (!progress) {
-      console.info(`Quest with id ${opts.questId} is already completed`);
+      console.info(`Quest with id ${quest.id} is already completed`);
       return;
     }
 
     // if the status is not being updated to completed, then we cannot award loot or send notifications.
     if (progress.status === 'COMPLETED') {
-      await this.#sendNotification(opts.userId, quest);
+      await this.#sendNotification(userId, quest);
     }
 
     if (progress.completions > 0) {
-      await this.#awardLoot(opts.userId, quest.loot, progress.completions);
+      await this.#awardLoot(userId, quest.loot, progress.completions);
     }
   }
 
@@ -269,64 +377,60 @@ export class TasksService {
     }
   }
 
-  async trackActionTasks({
-    taskIds,
-    userId,
-    repetitions,
-  }: {
-    taskIds: string[];
+  async trackGameQuests(opts: {
     userId: string;
+    gameId: string;
+    type: Extract<TaskType, 'PLAY_GAME' | 'PLAY_MINUTES'>;
     repetitions: number;
   }) {
-    for (const taskId of taskIds) {
-      // find every action that is associated with the task
-      const actions = await this.#db.raffleAction.findMany({
-        where: {
-          taskId,
-          // only track actions that for raffles that are active or already published
-          raffle: {
-            publishAt: {
-              lte: new Date(),
+    console.info(`Tracking game quests`, opts);
+    const { type, gameId, userId, repetitions } = opts;
+    const quests = await this.#db.platformQuest.findMany({
+      where: {
+        // task is PLAY_GAME and gameId is either the game or null
+        task: {
+          type,
+          OR: [
+            {
+              gameId: gameId,
             },
+            {
+              gameId: null,
+            },
+          ],
+        },
+      },
+      include: {
+        task: true,
+        loot: {
+          include: { item: true },
+        },
+        progress: {
+          where: {
+            userId,
           },
         },
-        select: {
-          id: true,
-        },
-      });
+      },
+    });
 
-      for (const action of actions) {
-        await this.trackAction({
-          actionId: action.id,
+    console.info(
+      `Found ${quests.length} quests`,
+      quests.map((q) => ({
+        id: q.id,
+        taskId: q.task.id,
+        gameId: q.task.gameId,
+      }))
+    );
+
+    Promise.all([
+      quests.map((quest) =>
+        this.#trackQuest({
+          quest,
           userId,
           repetitions,
-        });
-      }
-    }
-  }
-
-  async trackGameActionTasks({
-    gameId,
-    userId,
-    repetitions,
-  }: {
-    gameId: string;
-    userId: string;
-    repetitions: number;
-  }) {
-    // find every task that is associated with the game
-
-    const taskIds: string[] = [];
-    const gameTasks = GAME_TASK_MAP[gameId];
-    const globalTasks = GAME_TASK_MAP['GLOBAL'];
-    if (gameTasks) taskIds.push(...gameTasks);
-    if (globalTasks) taskIds.push(...globalTasks);
-
-    await this.trackActionTasks({
-      taskIds,
-      userId,
-      repetitions,
-    });
+        })
+      ),
+    ]);
   }
 
   async #calculateProgress({
