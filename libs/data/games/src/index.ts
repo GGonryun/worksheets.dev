@@ -13,6 +13,57 @@ import { SeedableGameSchema } from '@worksheets/util/types';
 export const games: SeedableGameSchema[] = [
   {
     version: 1,
+    id: 'gravity-blocks',
+    name: 'Gravity Blocks',
+    developerId: 'charity-games',
+    iconUrl:
+      'https://cdn.charity.games/_games/gravity-blocks/assets/thumbnail.png',
+    bannerUrl:
+      'https://cdn.charity.games/_games/gravity-blocks/assets/banner.png',
+    viewport: viewports['LANDSCAPE-ONLY'],
+    categories: [
+      '1p',
+      'puzzle',
+      'arcade',
+      'desktop',
+      'mobile',
+      'survival',
+      'ad-free',
+      'brain',
+    ],
+    file: {
+      type: 'HTML',
+      url: 'https://cdn.charity.games/_games/gravity-blocks/index.html',
+    },
+    createdAt: new Date('2024-07-10T00:00:00.000Z'),
+    updatedAt: new Date('2024-07-10T00:00:00.000Z'),
+    publishAt: new Date('2024-07-10T02:00:00.000Z'),
+    markets: {},
+    description: `<p>Gravity Blocks is a simple survival game. The goal is to survive for as long as possible without getting hit. You are able to control gravity so that your block flies to the other half of the screen.</p><h3>How to Play Gravity Blocks?</h3><ul><li>Click or tap the screen to swap gravity</li><li>Don't get hit!</li></ul>`,
+  },
+  {
+    version: 1,
+    id: 'avoid-blocks',
+    name: 'Avoid Blocks',
+    developerId: 'charity-games',
+    iconUrl:
+      'https://cdn.charity.games/_games/avoid-blocks/assets/thumbnail.png',
+    bannerUrl:
+      'https://cdn.charity.games/_games/avoid-blocks/assets/banner.png',
+    viewport: viewports['PORTRAIT-ONLY'],
+    categories: ['1p', 'arcade', 'desktop', 'mobile', 'survival', 'ad-free'],
+    file: {
+      type: 'HTML',
+      url: 'https://cdn.charity.games/_games/avoid-blocks/index.html',
+    },
+    createdAt: new Date('2024-07-03T00:00:00.000Z'),
+    updatedAt: new Date('2024-07-03T00:00:00.000Z'),
+    publishAt: new Date('2024-07-03T02:00:00.000Z'),
+    markets: {},
+    description: `<p>Avoid Blocks is a survival arcade game. The goal of the game is to avoid the blocks for as long as you can.</p><h3>How to Play Avoid Blocks?</h3><ul><li>Click and drag or tap the screen to move the player</li><li>Avoid the blocks</li></ul>`,
+  },
+  {
+    version: 1,
     id: 'zig-up',
     name: 'Zig Up',
     developerId: 'charity-games',
