@@ -22,7 +22,7 @@
         },
         {
             "path": "/api/cron/find-expired-battles",
-            "schedule": "30 0 * * *"
+            "schedule": "30 * * * *"
         },
         {
             "path": "/api/cron/publish-games",
