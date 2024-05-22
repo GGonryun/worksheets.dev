@@ -29,6 +29,7 @@ export default protectedProcedure
             id: true,
             status: true,
             expiresAt: true,
+            imageUrl: true,
             item: {
               select: {
                 id: true,
@@ -48,7 +49,7 @@ export default protectedProcedure
       itemId: p.raffle.item.id,
       status: p.raffle.status,
       name: p.raffle.item.name,
-      imageUrl: p.raffle.item.imageUrl,
+      imageUrl: p.raffle.imageUrl ?? p.raffle.item.imageUrl,
       entries: p.numEntries,
       expiresAt: p.raffle.expiresAt.getTime(),
     }));
