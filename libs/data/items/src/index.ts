@@ -1921,9 +1921,9 @@ export const DROP_LOTTERY: Record<DroppableItemId, number> = {
 };
 
 export const PRIZE_SPINNER_WEIGHTS: Record<ItemRarity, number> = {
-  COMMON: 7,
-  UNCOMMON: 5,
-  RARE: 3,
+  COMMON: 6,
+  UNCOMMON: 4,
+  RARE: 2,
   LEGENDARY: 1,
   MYTHIC: 1,
   // prize spinner cannot contain premium items
