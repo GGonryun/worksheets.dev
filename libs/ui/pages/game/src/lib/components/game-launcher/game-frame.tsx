@@ -33,8 +33,8 @@ export const GameFrame = forwardRef<HTMLIFrameElement, GameFrameProps>(
           title="game-frame"
           src={url}
           className={classes.iframe}
-          sandbox="allow-storage-access-by-user-activation allow-forms allow-orientation-lock allow-pointer-lock allow-presentation allow-scripts allow-same-origin allow-downloads"
-          allow={`accelerometer; magnetometer; gyroscope; autoplay; payment; fullscreen; microphone; clipboard-read; clipboard-write 'self' ${url}`}
+          sandbox="allow-popups allow-popups-to-escape-sandbox allow-storage-access-by-user-activation allow-forms allow-orientation-lock allow-pointer-lock allow-presentation allow-scripts allow-same-origin allow-downloads"
+          allow={`allow-popups; allow-popups-to-escape-sandbox; accelerometer; magnetometer; gyroscope; autoplay; payment; fullscreen; microphone; clipboard-read; clipboard-write 'self' ${url}`}
         />
       </Box>
     );
