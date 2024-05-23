@@ -4,6 +4,7 @@ export const EXPIRED_BATTLE_PROPS = {
   id: true,
   health: true,
   status: true,
+  publishAt: true,
   mob: {
     select: {
       id: true,

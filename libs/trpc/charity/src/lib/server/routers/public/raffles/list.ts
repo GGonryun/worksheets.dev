@@ -67,6 +67,8 @@ const getRaffles = (
       return expiringPrizes(db, limit, itemId);
     case 'expired':
       return expiredPrizes(db, limit, itemId);
+    case 'not-expired':
+      return notExpiredPrizes(db, limit, itemId);
     case 'all':
       return allRaffles(db, limit, itemId);
     default:
@@ -151,6 +153,26 @@ const expiredPrizes: RaffleQuery = async (db, limit, itemId) =>
         itemId: itemId ? itemId : undefined,
         status: {
           in: ['CANCELLED', 'COMPLETE'],
+        },
+      },
+      orderBy: {
+        expiresAt: 'asc',
+      },
+      include: {
+        item: true,
+        sponsor: true,
+      },
+    })
+  ).map(convertRaffle);
+
+const notExpiredPrizes: RaffleQuery = async (db, limit, itemId) =>
+  (
+    await db.raffle.findMany({
+      take: limit,
+      where: {
+        itemId: itemId ? itemId : undefined,
+        status: {
+          notIn: ['CANCELLED', 'COMPLETE'],
         },
       },
       orderBy: {

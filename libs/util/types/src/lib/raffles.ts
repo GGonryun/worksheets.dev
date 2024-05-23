@@ -9,6 +9,7 @@ export const raffleCategorySchema = z.enum([
   'hottest',
   'expiring',
   'expired',
+  'not-expired',
 ]);
 
 export type RaffleCategory = z.infer<typeof raffleCategorySchema>;
@@ -26,6 +27,7 @@ export const raffleSchema = z.object({
   createdAt: z.number(),
   expiresAt: z.number(),
   status: z.nativeEnum(RaffleStatus),
+  publishAt: z.number(),
   imageUrl: z.string(),
   numWinners: z.number(),
   type: z.nativeEnum(ItemType),
@@ -68,6 +70,7 @@ export const convertRaffle = (
   createdAt: raffle.createdAt.getTime(),
   description: raffle.item.description,
   expiresAt: raffle.expiresAt.getTime(),
+  publishAt: raffle.publishAt?.getTime(),
   imageUrl: raffle.imageUrl ?? raffle.item.imageUrl,
   numWinners: raffle.numWinners,
   type: raffle.item.type,

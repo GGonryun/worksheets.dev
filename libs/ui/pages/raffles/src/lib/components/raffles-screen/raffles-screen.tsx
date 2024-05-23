@@ -1,4 +1,5 @@
 import { Box } from '@mui/material';
+import { isExpired } from '@worksheets/util/time';
 import { EnteredRaffleSchema, RaffleSchema } from '@worksheets/util/types';
 
 import { CustomContainer } from '../shared/custom-container';
@@ -18,7 +19,10 @@ export const RafflesScreen: React.FC<{
       flexDirection="column"
       alignItems="center"
     >
-      <RaffleContents entered={entered} list={list} />
+      <RaffleContents
+        entered={entered}
+        list={list.filter((l) => isExpired(l.publishAt))}
+      />
     </Box>
   </CustomContainer>
 );

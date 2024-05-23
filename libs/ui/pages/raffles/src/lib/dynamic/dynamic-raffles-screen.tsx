@@ -18,7 +18,7 @@ const RafflesContainer: React.FC = () => {
   );
 
   const list = trpc.public.raffles.list.useQuery({
-    category: 'active',
+    category: 'not-expired',
   });
 
   if (list.isLoading) return <LoadingScreen />;
