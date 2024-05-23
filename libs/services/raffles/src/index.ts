@@ -255,7 +255,7 @@ export class RafflesService {
     console.info('Picking winners from', entries.length, 'entries');
 
     // shuffle the entries and pick the winners
-    const shuffled = shuffle(entries);
+    const shuffled = shuffle(shuffle(shuffle(entries)));
 
     // return the winners
     return shuffled.slice(0, numWinners).map((participant) => ({
