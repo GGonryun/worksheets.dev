@@ -1,4 +1,9 @@
-import { Prisma, TaskFrequency, TaskProgress } from '@worksheets/prisma';
+import {
+  Prisma,
+  TaskFrequency,
+  TaskProgress,
+  TaskStatus,
+} from '@worksheets/prisma';
 import { assertNever } from '@worksheets/util/errors';
 import { daysFromNow, isExpired } from '@worksheets/util/time';
 
@@ -56,4 +61,46 @@ export const calculateCompletions = (
   const newCompletions = Math.floor(newTotal / interval);
   const oldCompletions = Math.floor(oldTotal / interval);
   return newCompletions - oldCompletions;
+};
+
+export const parseStatus = (
+  frequency: TaskFrequency,
+  state: TaskProgress | undefined | null
+): TaskStatus => {
+  if (!state) {
+    return 'PENDING';
+  }
+
+  if (frequency === 'ONCE' && state.status === 'COMPLETED') {
+    return 'COMPLETED';
+  }
+
+  if (!state.expiresAt) {
+    return frequency === 'INFINITE' ? 'ACTIVE' : 'PENDING';
+  }
+
+  if (isExpired(state.expiresAt.getTime())) {
+    return 'ACTIVE';
+  }
+
+  return state.status;
+};
+
+export const parseRepetitions = (
+  frequency: TaskFrequency,
+  state: TaskProgress | undefined | null
+): number => {
+  if (!state) {
+    return 0;
+  }
+
+  if (frequency === 'ONCE') {
+    return state.status === 'COMPLETED' ? 1 : 0;
+  }
+
+  if (state.expiresAt && isExpired(state.expiresAt.getTime())) {
+    return 0;
+  }
+
+  return state.repetitions;
 };

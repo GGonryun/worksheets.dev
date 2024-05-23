@@ -13,6 +13,7 @@ import { RafflesService } from '@worksheets/services/raffles';
 import {
   ActionSchema,
   calculateCompletions,
+  parseRepetitions,
   parseStatus,
   QuestSchema,
   setExpirationDate,
@@ -60,7 +61,7 @@ export class TasksService {
         type: action.task.type,
         data: action.task.data,
         gameId: action.task.gameId ?? null,
-        repetitions: p?.repetitions ?? 0,
+        repetitions: parseRepetitions(action.task.frequency, p),
         maxRepetitions: action.task.maxRepetitions,
         status: parseStatus(action.task.frequency, p),
         expiresAt: p?.expiresAt?.getTime() ?? -1,
@@ -113,7 +114,7 @@ export class TasksService {
         type: quest.task.type,
         gameId: quest.task.gameId ?? null,
         data: quest.task.data,
-        repetitions: p?.repetitions ?? 0,
+        repetitions: parseRepetitions(quest.task.frequency, p),
         maxRepetitions: quest.task.maxRepetitions,
         // Quests should only have one progress record, so we can safely take the first one if it exists.
         status: parseStatus(quest.task.frequency, p),
