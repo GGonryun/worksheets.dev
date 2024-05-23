@@ -69,24 +69,26 @@ export const RaffleEntry: React.FC<{
           variant="arcade"
           color={isConnected ? 'secondary' : 'warning'}
           fullWidth
-          disabled={isExpired}
+          disabled={isConnected && isExpired}
           sx={{ px: 1 }}
           onClick={handleRaffleClick}
           startIcon={
-            isExpired ? (
-              <Check />
-            ) : isConnected ? (
-              <LocalActivityOutlined />
+            isConnected ? (
+              isExpired ? (
+                <Check />
+              ) : (
+                <LocalActivityOutlined />
+              )
             ) : (
               <Login />
             )
           }
         >
-          {isExpired
-            ? 'Raffle Over!'
-            : isConnected
-            ? 'Enter Raffle'
-            : 'Login To Participate'}
+          {isConnected
+            ? isExpired
+              ? 'Raffle Over!'
+              : 'Enter Raffle'
+            : `Login${isExpired ? ' To View' : ' To Participate'}`}
         </Button>
         <Button
           variant="arcade"

@@ -97,6 +97,7 @@ export const routes = {
   }),
   signUp: createRoute({
     path: '/signup',
+    query: LoginQueryParams,
   }),
   portal: createRoute({
     path: '/portal',

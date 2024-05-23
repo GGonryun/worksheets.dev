@@ -1,3 +1,4 @@
+import { Box, Typography } from '@mui/material';
 import { trpc } from '@worksheets/trpc-charity';
 import { ErrorComponent } from '@worksheets/ui/components/errors';
 import { RafflesGroup } from '@worksheets/ui/components/raffles';
@@ -23,7 +24,7 @@ const RaffleScreenContainer: React.FC<{ raffle: RaffleSchema }> = ({
     <>
       <RaffleScreen
         raffle={raffle}
-        moreRaffles={<MoreRaffles />}
+        moreRaffles={<MoreRaffles raffleId={raffleId} />}
         participants={<ParticipantsDescription raffleId={raffleId} />}
         raffleEntry={
           <RaffleEntry
@@ -50,7 +51,7 @@ const RaffleScreenContainer: React.FC<{ raffle: RaffleSchema }> = ({
   );
 };
 
-const MoreRaffles = () => {
+const MoreRaffles: React.FC<{ raffleId: number }> = ({ raffleId }) => {
   const moreRaffles = trpc.public.raffles.list.useQuery({
     category: 'active',
   });
@@ -59,7 +60,25 @@ const MoreRaffles = () => {
     return <ErrorComponent message={moreRaffles.error?.message} />;
   }
 
-  return <RafflesGroup title={'More Raffles'} raffles={moreRaffles.data} />;
+  const raffles = moreRaffles.data?.filter((r) => r.id !== raffleId) ?? [];
+
+  if (raffles.length === 0) {
+    return null;
+  }
+
+  return (
+    <RafflesGroup
+      title={'More Raffles'}
+      empty={
+        <Box>
+          <Typography variant="h6">
+            No more raffles available at the moment
+          </Typography>
+        </Box>
+      }
+      raffles={raffles}
+    />
+  );
 };
 
 export const DynamicRaffleScreen = dynamic(

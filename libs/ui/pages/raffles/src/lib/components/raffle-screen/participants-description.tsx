@@ -1,13 +1,35 @@
-import { Star } from '@mui/icons-material';
-import { Box, Link, Typography, TypographyProps } from '@mui/material';
+import { LoginOutlined, Star, VpnKeyOutlined } from '@mui/icons-material';
+import { Box, Button, Link, Typography, TypographyProps } from '@mui/material';
 import { routes } from '@worksheets/routes';
 import { trpc } from '@worksheets/trpc-charity';
 import { Description } from '@worksheets/ui/components/description';
 import { ErrorComponent } from '@worksheets/ui/components/errors';
-import { Row } from '@worksheets/ui/components/flex';
+import { Column, Row } from '@worksheets/ui/components/flex';
 import { LoadingBar } from '@worksheets/ui/components/loading';
+import { useSession } from 'next-auth/react';
 import React from 'react';
 
+export const ParticipantsDescription: React.FC<{
+  raffleId: number;
+}> = ({ raffleId }) => {
+  const session = useSession();
+  return (
+    <Description
+      hideLogo
+      open
+      title="Participants & Winners"
+      description={
+        session.status === 'loading' ? (
+          <LoadingBar />
+        ) : session.status === 'authenticated' ? (
+          <Content raffleId={raffleId} />
+        ) : (
+          <LoginToView />
+        )
+      }
+    />
+  );
+};
 const Content: React.FC<{ raffleId: number }> = ({ raffleId }) => {
   const participants = trpc.maybe.raffles.participants.useQuery({
     raffleId,
@@ -68,18 +90,65 @@ const Content: React.FC<{ raffleId: number }> = ({ raffleId }) => {
   );
 };
 
-export const ParticipantsDescription: React.FC<{
-  raffleId: number;
-}> = ({ raffleId }) => {
-  return (
-    <Description
-      hideLogo
-      title="Participants & Winners"
-      description={<Content raffleId={raffleId} />}
-    />
-  );
-};
-
 const Heading: React.FC<Pick<TypographyProps, 'children'>> = ({ children }) => (
   <Typography typography={{ xs: 'h6', sm: 'h5' }}>{children}</Typography>
+);
+
+const LoginToView = () => (
+  <Column gap={2}>
+    <Typography color="text.arcade" typography="h6">
+      <Link href={routes.signUp.path()} color="text.arcade">
+        Create an account
+      </Link>{' '}
+      to view the participants and winners of this raffle.
+    </Typography>
+    <Column gap={1} mt={2}>
+      <Typography fontWeight={500} color="text.arcade">
+        Want to view the participants and winners?
+      </Typography>
+      <Button
+        variant="arcade"
+        color="warning"
+        href={routes.login.path({
+          query: {
+            redirect: routes.raffle.path({
+              params: {
+                raffleId: 1,
+              },
+            }),
+          },
+        })}
+        startIcon={<LoginOutlined />}
+        sx={{
+          width: 225,
+        }}
+      >
+        Login To View
+      </Button>
+    </Column>
+    <Column gap={1}>
+      <Typography fontWeight={500} color="text.arcade">
+        Don't have an account?
+      </Typography>
+      <Button
+        variant="arcade"
+        color="secondary"
+        href={routes.signUp.path({
+          query: {
+            redirect: routes.raffle.path({
+              params: {
+                raffleId: 1,
+              },
+            }),
+          },
+        })}
+        startIcon={<VpnKeyOutlined />}
+        sx={{
+          width: 225,
+        }}
+      >
+        Register Now
+      </Button>
+    </Column>
+  </Column>
 );
