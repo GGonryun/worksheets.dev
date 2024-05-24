@@ -24,7 +24,7 @@ export const ParticipantsDescription: React.FC<{
         ) : session.status === 'authenticated' ? (
           <Content raffleId={raffleId} />
         ) : (
-          <LoginToView />
+          <LoginToView raffleId={raffleId} />
         )
       }
     />
@@ -94,7 +94,7 @@ const Heading: React.FC<Pick<TypographyProps, 'children'>> = ({ children }) => (
   <Typography typography={{ xs: 'h6', sm: 'h5' }}>{children}</Typography>
 );
 
-const LoginToView = () => (
+const LoginToView: React.FC<{ raffleId: number }> = ({ raffleId }) => (
   <Column gap={2}>
     <Typography color="text.arcade" typography="h6">
       <Link href={routes.signUp.path()} color="text.arcade">
@@ -113,7 +113,7 @@ const LoginToView = () => (
           query: {
             redirect: routes.raffle.path({
               params: {
-                raffleId: 1,
+                raffleId,
               },
             }),
           },
@@ -137,7 +137,7 @@ const LoginToView = () => (
           query: {
             redirect: routes.raffle.path({
               params: {
-                raffleId: 1,
+                raffleId,
               },
             }),
           },
