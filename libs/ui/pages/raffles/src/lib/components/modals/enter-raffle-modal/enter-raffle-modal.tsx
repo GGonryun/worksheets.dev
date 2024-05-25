@@ -37,15 +37,21 @@ export const EnterRaffleModal: React.FC<
     raffle: RaffleSchema;
   }>
 > = ({ raffle, open, onClose }) => {
+  const session = useSession();
   const handleClose = () => {
     onClose?.({}, 'backdropClick');
     setIndex(-1);
     setUseTokens(false);
   };
 
-  const actions = trpc.user.tasks.actions.list.useQuery({
-    raffleId: raffle.id,
-  });
+  const actions = trpc.user.tasks.actions.list.useQuery(
+    {
+      raffleId: raffle.id,
+    },
+    {
+      enabled: session.status === 'authenticated',
+    }
+  );
 
   const [useTokens, setUseTokens] = useState(false);
   const [index, setIndex] = useState<number>(-1);
