@@ -2,6 +2,7 @@ import { TRPCError } from '@trpc/server';
 
 export class SteamAPI {
   #apiKey: string;
+  #maxWishlistPages = 10;
   constructor() {
     const apiKey = process.env['STEAM_API_KEY'];
     if (!apiKey) throw new Error('STEAM_API_KEY is not set');
@@ -9,7 +10,7 @@ export class SteamAPI {
   }
 
   async #get<T>(url: string, opts?: RequestInit): Promise<T> {
-    console.info(`Steam API GET ${url}`, opts);
+    console.info(`Steam API GET ${url}`, { opts });
     const result = await fetch(url, {
       method: 'GET',
       ...(opts ?? {}),
@@ -83,7 +84,7 @@ export class SteamAPI {
     return players[0];
   }
 
-  async getWishlist({ accountId }: { accountId: string }) {
+  async getWishlist({ accountId }: { accountId: string; all?: boolean }) {
     if (!accountId) {
       throw new TRPCError({
         code: 'UNAUTHORIZED',
@@ -91,13 +92,36 @@ export class SteamAPI {
       });
     }
 
-    const url = `https://store.steampowered.com/wishlist/profiles/${accountId}/wishlistdata/?p=0`;
+    const appIds: string[] = [];
+    let page = 0;
+    while (page < this.#maxWishlistPages) {
+      const url = `https://store.steampowered.com/wishlist/profiles/${accountId}/wishlistdata/?p=${page}`;
 
-    const result = await this.#get<{
-      [appId: string]: { name: string };
-    }>(url);
+      const result = await this.#get<{
+        [appId: string]: { name: string };
+      }>(url);
 
-    const appIds = Object.keys(result);
+      const keys = Object.keys(result);
+      console.log(
+        `Loaded player wishlist page ${page} with ${keys.length} games`
+      );
+
+      appIds.push(...keys);
+      page++;
+
+      // the max number of games in a wishlist page is 100, if we have less than that we can stop asking for more pages
+      if (keys.length < 100) {
+        break;
+      }
+    }
+
+    if (page >= this.#maxWishlistPages) {
+      console.warn('User has too many games in wishlist.', {
+        page,
+        numApps: appIds.length,
+      });
+    }
+
     console.log(`Loaded player wishlist with ${appIds.length} games`, appIds);
 
     return appIds;
@@ -117,14 +141,9 @@ export class SteamAPI {
       });
     }
 
-    const url = `https://store.steampowered.com/wishlist/profiles/${accountId}/wishlistdata/?p=0`;
+    console.info(`Checking if game ${appId} is in wishlist for ${accountId}`);
 
-    const result = await this.#get<{
-      [appId: string]: { name: string };
-    }>(url);
-
-    const appIds = Object.keys(result);
-    console.log(`Loaded player wishlist with ${appIds.length} games`, appIds);
+    const appIds = await this.getWishlist({ accountId });
 
     return appIds.includes(appId);
   }

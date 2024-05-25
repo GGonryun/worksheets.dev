@@ -25,6 +25,5 @@ export default publicProcedure
     if (!raffle)
       throw new TRPCError({ code: 'NOT_FOUND', message: 'Raffle not found' });
 
-    console.log('Raffle Image', raffle.imageUrl);
     return convertRaffle(raffle);
   });
