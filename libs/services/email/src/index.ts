@@ -164,7 +164,9 @@ export class EmailService {
     ]);
 
     console.info(`Sent ${sentEmails.length} emails`);
-    console.error(`Failed to send ${failedEmails.length} emails`);
+    if (failedEmails.length > 0) {
+      console.error(`Failed to send ${failedEmails.length} emails`);
+    }
 
     return {
       sent: sentEmails.length,
