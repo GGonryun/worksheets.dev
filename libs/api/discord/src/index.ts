@@ -1,6 +1,6 @@
 import { TRPCError } from '@trpc/server';
 
-type DiscordChannel = 'admin' | 'public';
+type DiscordChannel = 'admin' | 'public' | 'notification';
 
 export type DiscordMessageInput = {
   content: string;
@@ -101,6 +101,7 @@ export class DiscordAPI {
     const CHANNEL_WEBHOOKS: Record<DiscordChannel, string> = {
       admin: process.env['DISCORD_ADMIN_WEBHOOK_URL'] ?? '',
       public: process.env['DISCORD_PUBLIC_WEBHOOK_URL'] ?? '',
+      notification: process.env['DISCORD_NOTIFICATION_WEBHOOK_URL'] ?? '',
     };
 
     const { content, embeds, channel, avatar_url, username } = options;

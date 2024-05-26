@@ -26,14 +26,13 @@ export class TwitterTemplates {
   static raffleExpired(opts: ExtractTemplatePayload<'raffle-expired'>) {
     return `🎉 Raffle #${opts.id} for ${opts.item.name} has ended! 🎉\n\n${
       opts.numWinners
-    } lucky ${pluralize('winner', opts.numWinners)} was chosen out of ${
-      opts.participants.length
-    } ${pluralize(
+    } lucky ${pluralize('winner', opts.numWinners)} ${
+      opts.numWinners > 1 ? 'were' : 'was'
+    } chosen out of ${opts.participants.length} ${pluralize(
       'participant',
       opts.participants.length
     )}. View results: ${RAFFLE_URL(opts.id)}`;
   }
-
   static newBattle(opts: ExtractTemplatePayload<'new-battle'>) {
     return `🔥 A new battle has started! 🔥\n\n🗡️ Fight the ${
       opts.mobName
@@ -41,7 +40,6 @@ export class TwitterTemplates {
       opts.battleId
     )}\n\n#BossBattle #BrowserGames`;
   }
-
   static battleCompleted(opts: ExtractTemplatePayload<'battle-completed'>) {
     return `⚔️ Battle #${opts.mob.battleId} has ended! ⚔️\n\n${
       opts.mob.name

@@ -101,7 +101,8 @@ const newBattleTemplates: TemplateBuilder<'new-battle'> = (payload) => ({
 const battleCompletedTemplates: TemplateBuilder<'battle-completed'> = (
   payload
 ) => ({
-  twitter: TwitterTemplates.battleCompleted(payload),
+  // TODO: twitter battle notifications get low engagement and may just be noise.
+  // twitter: TwitterTemplates.battleCompleted(payload),
   discord: DiscordTemplates.battleCompleted(payload),
   push: PushTemplates.battleCompleted(payload),
 });

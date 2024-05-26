@@ -48,7 +48,7 @@ export class DiscordTemplates {
           url: routes.game.url({ params: { gameId: opts.id } }),
         },
       ],
-      channel: 'public',
+      channel: 'notification',
     };
   }
   static newRaffle(
@@ -66,7 +66,7 @@ export class DiscordTemplates {
           url: routes.raffle.url({ params: { raffleId: opts.id } }),
         },
       ],
-      channel: 'public',
+      channel: 'notification',
     };
   }
   static expiredItem(
@@ -94,7 +94,7 @@ export class DiscordTemplates {
           url: BATTLE_URL(opts.battleId),
         },
       ],
-      channel: 'public',
+      channel: 'notification',
     };
   }
   static battleCompleted(
@@ -109,7 +109,7 @@ export class DiscordTemplates {
           url: BATTLE_URL(opts.mob.battleId),
         },
       ],
-      channel: 'public',
+      channel: 'notification',
     };
   }
   static raffleExpired(
@@ -118,7 +118,9 @@ export class DiscordTemplates {
     return {
       content: `A raffle for prize ${opts.item.name} has expired and ${
         opts.numWinners
-      } ${pluralize('winners', opts.numWinners)} have been chosen.`,
+      } ${pluralize('winners', opts.numWinners)} ${
+        opts.numWinners > 1 ? 'have' : 'has'
+      } been chosen.`,
       embeds: [
         {
           title: `Raffle ID: ${opts.id}`,
@@ -129,7 +131,7 @@ export class DiscordTemplates {
           )} and expired at ${printShortDateTime(opts.expiresAt)}.`,
         },
       ],
-      channel: 'public',
+      channel: 'notification',
     };
   }
   static newUser(
