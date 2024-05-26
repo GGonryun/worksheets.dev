@@ -153,7 +153,7 @@ const RaffleModalContent: React.FC<{
     participants.isLoading ||
     participants.isFetching
   )
-    return <PulsingLogo message="Loading participants..." />;
+    return <PulsingLogo />;
   if (participation.isError || participants.isError) return <ErrorComponent />;
 
   return (
@@ -453,7 +453,7 @@ const RaffleActionModal: React.FC<{
       } else {
         snackbar.success('Action completed!');
       }
-      // onClose();
+      onClose();
     } catch (error) {
       snackbar.error(parseTRPCClientErrorMessage(error));
     }
