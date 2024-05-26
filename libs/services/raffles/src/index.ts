@@ -3,10 +3,10 @@ import { ItemId } from '@worksheets/data/items';
 import { PrismaClient, PrismaTransactionalClient } from '@worksheets/prisma';
 import { InventoryService } from '@worksheets/services/inventory';
 import { NotificationsService } from '@worksheets/services/notifications';
-import { shuffle } from '@worksheets/util/arrays';
 import { RAFFLE_ENTRY_FEE } from '@worksheets/util/settings';
 
 import { EXPIRED_RAFFLE_PROPS, ExpiredRaffle } from './types';
+import { pickWinners } from './util/winners';
 
 export class RafflesService {
   #db: PrismaClient | PrismaTransactionalClient;
@@ -193,11 +193,7 @@ export class RafflesService {
       });
     }
 
-    const winners = await this.#pickWinners(
-      raffle.numWinners,
-      // the same user could win more than once.
-      raffle.participants
-    );
+    const winners = await pickWinners(raffle.numWinners, raffle.participants);
 
     console.info(
       'Winners:',
@@ -245,31 +241,4 @@ export class RafflesService {
     });
     await this.#notifications.send('raffle-expired', raffle);
   }
-
-  async #pickWinners(numWinners: number, participants: RaffleEntry[]) {
-    // create an in memory array of entries representing each participant
-    const entries: RaffleEntry[] = participants.flatMap((participant) =>
-      Array(participant.numEntries).fill(participant)
-    );
-
-    console.info('Picking winners from', entries.length, 'entries');
-
-    // shuffle the entries and pick the winners
-    const shuffled = shuffle(shuffle(shuffle(entries)));
-
-    // return the winners
-    return shuffled.slice(0, numWinners).map((participant) => ({
-      user: participant.user,
-      participationId: participant.id,
-    }));
-  }
 }
-
-type RaffleEntry = {
-  user: {
-    id: string;
-    email: string;
-  };
-  id: number;
-  numEntries: number;
-};
