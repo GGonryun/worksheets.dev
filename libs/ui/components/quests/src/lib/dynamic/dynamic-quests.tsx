@@ -10,7 +10,7 @@ import React from 'react';
 import { DynamicQuest } from './dynamic-quest';
 
 const Container: React.FC = () => {
-  const quests = trpc.user.tasks.listQuests.useInfiniteQuery(
+  const quests = trpc.user.tasks.quests.list.useInfiniteQuery(
     {
       // TODO: this might overwhelm the server, lower the limit per page if needed
       limit: 10,

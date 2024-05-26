@@ -29,6 +29,7 @@ declare module '@mui/material/styles' {
     white: SimplePaletteColorOptions;
     border: SimplePaletteColorOptions;
     'dark-grey': SimplePaletteColorOptions;
+    'light-grey': SimplePaletteColorOptions;
   }
 
   interface TypeText {
@@ -91,6 +92,7 @@ declare module '@mui/material/styles' {
     white?: SimplePaletteColorOptions;
     border?: SimplePaletteColorOptions;
     'dark-grey'?: SimplePaletteColorOptions;
+    'light-grey'?: SimplePaletteColorOptions;
   }
 
   interface BreakpointOverrides {
@@ -116,6 +118,7 @@ declare module '@mui/material/Button' {
     twitch: true;
     white: true;
     'dark-grey': true;
+    'light-grey': true;
   }
 
   interface ButtonPropsVariantOverrides {
@@ -129,6 +132,8 @@ declare module '@mui/material/LinearProgress' {
     default: true;
     black: true;
     white: true;
+    'dark-grey': true;
+    'light-grey': true;
   }
 }
 

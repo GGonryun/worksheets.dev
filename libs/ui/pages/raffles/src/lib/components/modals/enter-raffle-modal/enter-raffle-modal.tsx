@@ -1,5 +1,5 @@
-import { HelpOutline, StarBorder } from '@mui/icons-material';
-import { Box, Button, Link, Typography } from '@mui/material';
+import { HelpOutline, OpenInNew, StarBorder } from '@mui/icons-material';
+import { Box, Button, Divider, Link, Typography } from '@mui/material';
 import { routes } from '@worksheets/routes';
 import { trpc } from '@worksheets/trpc-charity';
 import { ErrorComponent } from '@worksheets/ui/components/errors';
@@ -16,7 +16,7 @@ import { useSnackbar } from '@worksheets/ui/components/snackbar';
 import { RaffleActions, TaskModal } from '@worksheets/ui/components/tasks';
 import theme, { PaletteColor } from '@worksheets/ui/theme';
 import { RAFFLE_ENTRY_FEE } from '@worksheets/util/settings';
-import { ActionSchema } from '@worksheets/util/tasks';
+import { ActionSchema, TaskInputSchema } from '@worksheets/util/tasks';
 import { printDateTime, printTimeRemaining } from '@worksheets/util/time';
 import { parseTRPCClientErrorMessage } from '@worksheets/util/trpc';
 import { RaffleSchema } from '@worksheets/util/types';
@@ -368,18 +368,27 @@ const UseTokensContent: React.FC<{
   return (
     <Column gap={2}>
       <Column>
-        <Typography fontWeight={600} variant="h6">
+        <Typography fontWeight={600} variant="h6" gutterBottom>
           How many entries would you like to purchase?
         </Typography>
-        <Typography
-          variant="body2"
-          color={tooManyEntries ? 'error.main' : 'text.secondary'}
-          fontWeight={500}
-        >
-          Each raffle entry costs {entries * RAFFLE_ENTRY_FEE} tokens
+
+        <Typography>
+          You have{' '}
+          <u>
+            <b>{tokens.data} tokens</b>
+          </u>{' '}
+          available to spend.
         </Typography>
       </Column>
+      <Divider />
+      <Typography variant="body2" color="text.secondary" textAlign="center">
+        <b>
+          {entries} {pluralize('entry', entries)}
+        </b>{' '}
+        will cost you <b>{entries * RAFFLE_ENTRY_FEE} tokens</b>.
+      </Typography>
       <NumericCounterField value={entries} onChange={handleSetEntries} />
+
       <Column gap={1}>
         <Button
           startIcon={<StarBorder />}
@@ -403,6 +412,17 @@ const UseTokensContent: React.FC<{
             : `Insufficient Tokens!`}
         </Typography>
       </Column>
+      <Box alignSelf="flex-end">
+        <Button
+          variant="text"
+          href={routes.account.quests.path()}
+          target="_blank"
+          startIcon={<OpenInNew />}
+          sx={{ width: 200 }}
+        >
+          Earn more tokens
+        </Button>
+      </Box>
     </Column>
   );
 };
@@ -416,13 +436,13 @@ const RaffleActionModal: React.FC<{
   const utils = trpc.useUtils();
   const trackAction = trpc.user.tasks.actions.track.useMutation();
 
-  const handleSubmit = async (input: { repetitions: number }) => {
+  const handleSubmit = async (input: TaskInputSchema) => {
     if (!action) return;
 
     try {
       const reward = await trackAction.mutateAsync({
         actionId: action.actionId,
-        repetitions: input.repetitions,
+        ...input,
       });
       if (reward) {
         Promise.all([
@@ -433,7 +453,7 @@ const RaffleActionModal: React.FC<{
       } else {
         snackbar.success('Action completed!');
       }
-      onClose();
+      // onClose();
     } catch (error) {
       snackbar.error(parseTRPCClientErrorMessage(error));
     }

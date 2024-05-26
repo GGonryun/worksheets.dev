@@ -42,15 +42,25 @@ export const QuestItemLayout: React.FC<{
           : {},
       }}
     >
-      <Row justifyContent="space-between" flexWrap={'wrap'} gap={1}>
+      <Box
+        sx={{
+          display: 'flex',
+          gap: 1,
+          flexWrap: 'wrap',
+          justifyContent: 'space-between',
+          flexDirection: isMobile ? 'column' : 'row',
+          alignItems: isMobile ? 'flex-start' : 'center',
+        }}
+      >
         <Row gap={1} alignItems="flex-start">
           <Box>
             <Button
               variant="square"
               color={color}
               size={isMobile ? 'small' : 'large'}
+              sx={{ p: 0.75 }}
             >
-              <Icon fontSize={isMobile ? 'small' : 'medium'} />
+              <Icon fontSize={isMobile ? 'medium' : 'large'} />
             </Button>
           </Box>
           <Column>
@@ -97,6 +107,8 @@ export const QuestItemLayout: React.FC<{
                 >
                   {loot.length > 1 ? (
                     <i>Multiple Items</i>
+                  ) : loot.length < 1 ? (
+                    <i>No Items</i>
                   ) : (
                     `${loot[0].quantity}x ${pluralize(
                       loot[0].item.name,
@@ -108,7 +120,7 @@ export const QuestItemLayout: React.FC<{
             )}
           </Column>
         </Row>
-      </Row>
+      </Box>
     </Box>
   );
 };

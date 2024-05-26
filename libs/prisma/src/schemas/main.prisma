@@ -618,17 +618,22 @@ enum TaskType {
   BATTLE_PARTICIPATION
   VISIT_WEBSITE
   FOLLOW_TWITTER
+  REPOST_TWITTER
   BASIC_ACTION
   WATCH_AD
   FOLLOW_TWITCH
   WISHLIST_STEAM_GAME
   JOIN_DISCORD_GUILD
+  FORM
+  POLL
+  SECRET
 }
 
 enum TaskCategory {
   GAMEPLAY
   SOCIAL
   TASK
+  INPUT
 }
 
 enum TaskFrequency {
@@ -660,6 +665,8 @@ model Task {
   // association to a game
   gameId              String?
   game                Game?           @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  // TODO: its a bit strange that taskProgress has no association to a task, 
+  // it indirectly associates through quest or action.
   quests              PlatformQuest[]
   actions             RaffleAction[]
 }
@@ -673,6 +680,8 @@ model TaskProgress {
   // the number of times the user has performed the task. 
   // a reward is given when the task's interval is reached.
   repetitions Int
+  // store the data for the task progress here.
+  state       Json?
   // relationships
   userId      String
   user        User           @relation(fields: [userId], references: [id], onDelete: Cascade)

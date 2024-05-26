@@ -2,11 +2,14 @@ import {
   Check,
   CheckBoxOutlined,
   Diversity1Outlined,
+  DynamicFormOutlined,
   FavoriteBorder,
   FeaturedVideoOutlined,
   LanguageOutlined,
   LocalActivityOutlined,
+  PasswordOutlined,
   PersonOutlined,
+  PollOutlined,
   PunchClockOutlined,
   ScheduleOutlined,
   SvgIconComponent,
@@ -44,7 +47,7 @@ const TASK_FREQUENCY_LABEL: Record<TaskFrequency, string> = {
   [TaskFrequency.WEEKLY]: 'Weekly',
   [TaskFrequency.MONTHLY]: 'Monthly',
   [TaskFrequency.INFINITE]: 'Infinite',
-  [TaskFrequency.ONCE]: 'Once',
+  [TaskFrequency.ONCE]: 'One Time',
 };
 
 export const formatTaskFrequencyLabel = (frequency: TaskFrequency) =>
@@ -53,28 +56,38 @@ export const formatTaskFrequencyLabel = (frequency: TaskFrequency) =>
 const TASK_BACKGROUND_COLOR: Record<TaskType, ButtonProps['color']> = {
   [TaskType.FOLLOW_TWITCH]: 'twitch',
   [TaskType.FOLLOW_TWITTER]: 'black',
+  [TaskType.REPOST_TWITTER]: 'black',
   [TaskType.JOIN_DISCORD_GUILD]: 'discord',
   [TaskType.WISHLIST_STEAM_GAME]: 'steam',
   [TaskType.VISIT_WEBSITE]: 'warning',
   [TaskType.WATCH_AD]: 'secondary',
   [TaskType.BASIC_ACTION]: 'primary',
-  PLAY_GAME: undefined,
-  PLAY_MINUTES: undefined,
+  [TaskType.FORM]: 'primary',
+  [TaskType.PLAY_GAME]: 'primary',
+  [TaskType.PLAY_MINUTES]: 'primary',
   REFERRAL_PLAY_MINUTES: undefined,
   FRIEND_PLAY_MINUTES: undefined,
   ADD_FRIEND: undefined,
   ADD_REFERRAL: undefined,
   RAFFLE_PARTICIPATION: undefined,
   BATTLE_PARTICIPATION: undefined,
+  POLL: undefined,
+  SECRET: undefined,
 };
 
-export const selectTaskBackgroundColor = (type: TaskType) =>
-  TASK_BACKGROUND_COLOR[type];
+export const selectTaskBackgroundColor = (
+  status: TaskStatus,
+  type: TaskType
+) => {
+  if (status === 'COMPLETED') return 'light-grey';
+  return TASK_BACKGROUND_COLOR[type];
+};
 
 const TASK_ICON: Record<TaskType, SvgIconComponent> = {
   [TaskType.PLAY_GAME]: VideogameAssetOutlined,
   [TaskType.VISIT_WEBSITE]: LanguageOutlined,
   [TaskType.FOLLOW_TWITTER]: NewTwitter,
+  [TaskType.REPOST_TWITTER]: NewTwitter,
   [TaskType.ADD_FRIEND]: Diversity1Outlined,
   [TaskType.ADD_REFERRAL]: PersonOutlined,
   [TaskType.PLAY_MINUTES]: ScheduleOutlined,
@@ -87,6 +100,9 @@ const TASK_ICON: Record<TaskType, SvgIconComponent> = {
   [TaskType.FOLLOW_TWITCH]: Twitch,
   [TaskType.JOIN_DISCORD_GUILD]: Discord,
   [TaskType.WISHLIST_STEAM_GAME]: SteamGames,
+  [TaskType.FORM]: DynamicFormOutlined,
+  [TaskType.POLL]: PollOutlined,
+  [TaskType.SECRET]: PasswordOutlined,
 };
 
 export const selectTaskStatusIcon = (
@@ -113,6 +129,7 @@ const TASK_CATEGORY_LABEL: Record<TaskCategory, string> = {
   [TaskCategory.GAMEPLAY]: 'Game',
   [TaskCategory.TASK]: 'Task',
   [TaskCategory.SOCIAL]: 'Social',
+  [TaskCategory.INPUT]: 'Input',
 };
 
 export const formatTaskCategoryLabel = (category: TaskCategory) =>
@@ -161,6 +178,8 @@ export const formatTaskTypeLabel = (type: TaskType) => {
       return 'Visit Website';
     case TaskType.FOLLOW_TWITTER:
       return 'Follow on Twitter';
+    case TaskType.REPOST_TWITTER:
+      return 'Repost on Twitter';
     case TaskType.ADD_FRIEND:
       return 'Add Friend';
     case TaskType.ADD_REFERRAL:
@@ -185,6 +204,12 @@ export const formatTaskTypeLabel = (type: TaskType) => {
       return 'Join Discord Server';
     case TaskType.WISHLIST_STEAM_GAME:
       return 'Wishlist Steam Game';
+    case TaskType.FORM:
+      return 'Take a Survey';
+    case TaskType.POLL:
+      return 'Vote on Poll';
+    case TaskType.SECRET:
+      return 'Secret Code';
     default:
       throw assertNever(type);
   }

@@ -10,13 +10,20 @@ import {
 import { InventoryService } from '@worksheets/services/inventory';
 import { NotificationsService } from '@worksheets/services/notifications';
 import { RafflesService } from '@worksheets/services/raffles';
+import { calculatePercentage } from '@worksheets/util/numbers';
 import {
   ActionSchema,
+  aggregateErrors,
   calculateCompletions,
   parseRepetitions,
   parseStatus,
+  parseTaskPollData,
+  parseTaskPollState,
   QuestSchema,
   setExpirationDate,
+  TaskInputSchema,
+  TaskPollResult,
+  validateTask,
 } from '@worksheets/util/tasks';
 import { isExpired } from '@worksheets/util/time';
 
@@ -28,6 +35,60 @@ export class TasksService {
     this.#db = db;
     this.#inventory = new InventoryService(db);
     this.#raffle = new RafflesService(db);
+  }
+
+  async getPollResults({
+    taskId,
+  }: {
+    taskId: string;
+  }): Promise<TaskPollResult[]> {
+    const [task, progress] = await Promise.all([
+      this.#db.task.findFirst({
+        where: {
+          id: taskId,
+        },
+      }),
+      this.#db.taskProgress.findMany({
+        where: {
+          OR: [
+            {
+              quest: {
+                taskId,
+              },
+            },
+            {
+              action: {
+                taskId,
+              },
+            },
+          ],
+        },
+        select: {
+          state: true,
+        },
+      }),
+    ]);
+
+    // In order to compute a poll result:
+    const poll = parseTaskPollData(task?.data);
+    // answers are keys to the poll.
+    // 1. we need to grab all the task progress for this specific task.
+    const states = aggregateErrors(
+      progress.map((p) => () => parseTaskPollState(poll, p.state))
+    );
+    const total = states.length;
+    // 2. we need to count the number of times each option was selected.
+    const counts = states.reduce((acc, state) => {
+      acc[state.answer] = (acc[state.answer] ?? 0) + 1;
+      return acc;
+    }, {} as Record<string, number>);
+    // 3. we need to return an array of options with the label, key, and count.
+    return poll.options.map((option) => ({
+      key: option.key,
+      label: option.label,
+      count: counts[option.key] ?? 0,
+      percent: calculatePercentage((counts[option.key] ?? 0) / total, 1),
+    }));
   }
 
   async listActions(opts: {
@@ -61,7 +122,9 @@ export class TasksService {
         type: action.task.type,
         data: action.task.data,
         gameId: action.task.gameId ?? null,
-        repetitions: parseRepetitions(action.task.frequency, p),
+        createdAt: p?.createdAt?.getTime() ?? -1,
+        state: p?.state ?? null,
+        repetitions: parseRepetitions(p),
         maxRepetitions: action.task.maxRepetitions,
         status: parseStatus(action.task.frequency, p),
         expiresAt: p?.expiresAt?.getTime() ?? -1,
@@ -69,21 +132,7 @@ export class TasksService {
       };
     });
 
-    return joined
-      .sort((a, b) => a.order - b.order)
-      .sort((a, b) => {
-        if (a.status === 'COMPLETED' && b.status !== 'COMPLETED') {
-          // return whichever expires sooner
-          return 1;
-        } else if (a.status !== 'COMPLETED' && b.status === 'COMPLETED') {
-          return -1;
-        } else if (a.status === 'COMPLETED' && b.status === 'COMPLETED') {
-          // sort by expiration date
-          return b.expiresAt - a.expiresAt;
-        } else {
-          return 0;
-        }
-      });
+    return joined.sort((a, b) => a.order - b.order);
   }
 
   async listQuests(opts: { userId: string }): Promise<QuestSchema[]> {
@@ -114,7 +163,9 @@ export class TasksService {
         type: quest.task.type,
         gameId: quest.task.gameId ?? null,
         data: quest.task.data,
-        repetitions: parseRepetitions(quest.task.frequency, p),
+        state: p?.state ?? null,
+        repetitions: parseRepetitions(p),
+        createdAt: p?.createdAt?.getTime() ?? -1,
         maxRepetitions: quest.task.maxRepetitions,
         // Quests should only have one progress record, so we can safely take the first one if it exists.
         status: parseStatus(quest.task.frequency, p),
@@ -141,11 +192,12 @@ export class TasksService {
       });
   }
 
-  async trackAction(opts: {
-    actionId: string;
-    userId: string;
-    repetitions: number;
-  }) {
+  async trackAction(
+    opts: {
+      actionId: string;
+      userId: string;
+    } & TaskInputSchema
+  ) {
     console.info(`Tracking action`, opts);
     const action = await this.#db.raffleAction.findFirst({
       where: {
@@ -170,8 +222,7 @@ export class TasksService {
 
     return await this.#trackAction({
       action,
-      userId: opts.userId,
-      repetitions: opts.repetitions,
+      ...opts,
     });
   }
 
@@ -179,9 +230,9 @@ export class TasksService {
     action,
     userId,
     repetitions,
+    state,
   }: {
     userId: string;
-    repetitions: number;
     action: Prisma.RaffleActionGetPayload<{
       include: {
         task: true;
@@ -192,7 +243,7 @@ export class TasksService {
         };
       };
     }>;
-  }) {
+  } & TaskInputSchema) {
     const progress = await this.#calculateProgress({
       task: action.task,
       // each quest should have at most one progress record per user.
@@ -201,7 +252,8 @@ export class TasksService {
         userId: userId,
         actionId: action.id,
       },
-      repetitions: repetitions,
+      repetitions,
+      state,
     });
 
     console.debug(`Checking progress`, progress);
@@ -286,11 +338,12 @@ export class TasksService {
     ]);
   }
 
-  async trackQuest(opts: {
-    questId: string;
-    userId: string;
-    repetitions: number;
-  }) {
+  async trackQuest(
+    opts: {
+      questId: string;
+      userId: string;
+    } & TaskInputSchema
+  ) {
     console.info(`Tracking quest`, opts);
     const quest = await this.#db.platformQuest.findFirst({
       where: {
@@ -322,18 +375,20 @@ export class TasksService {
       quest,
     });
   }
-  async #trackQuest(opts: {
-    quest: Prisma.PlatformQuestGetPayload<{
-      include: {
-        task: true;
-        progress: true;
-        loot: { include: { item: true } };
-      };
-    }>;
-    userId: string;
-    repetitions: number;
-  }) {
-    const { quest, userId, repetitions } = opts;
+
+  async #trackQuest(
+    opts: {
+      quest: Prisma.PlatformQuestGetPayload<{
+        include: {
+          task: true;
+          progress: true;
+          loot: { include: { item: true } };
+        };
+      }>;
+      userId: string;
+    } & TaskInputSchema
+  ) {
+    const { quest, userId, repetitions, state } = opts;
     const progress = await this.#calculateProgress({
       task: quest.task,
       // each quest should have at most one progress record per user.
@@ -343,6 +398,7 @@ export class TasksService {
         questId: quest.id,
       },
       repetitions,
+      state,
     });
 
     if (!progress) {
@@ -439,14 +495,14 @@ export class TasksService {
     progress,
     where,
     repetitions,
+    state,
   }: {
     task: Prisma.TaskGetPayload<true>;
     progress: Prisma.TaskProgressGetPayload<true> | undefined;
     where:
       | { userId: string; actionId: string }
       | { userId: string; questId: string };
-    repetitions: number;
-  }) {
+  } & TaskInputSchema) {
     if (progress && progress.status === 'COMPLETED') {
       // reset the progress if the quest is expired.
       // starting from a blank slate makes it easier to calculate modifications
@@ -470,6 +526,8 @@ export class TasksService {
 
     const expiresAt = setExpirationDate(task, progress);
 
+    validateTask({ type: task.type, data: task.data, state });
+
     await this.#db.taskProgress.upsert({
       where: joinClause(where),
       create: {
@@ -477,10 +535,12 @@ export class TasksService {
         expiresAt,
         status: newStatus,
         repetitions,
+        state,
       },
       update: {
         expiresAt,
         status: newStatus,
+        state,
         repetitions: {
           increment: repetitions,
         },

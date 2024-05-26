@@ -10,7 +10,7 @@ import {
 } from '@worksheets/ui/components/items';
 import { useSnackbar } from '@worksheets/ui/components/snackbar';
 import { isTaskComplete, TaskModal } from '@worksheets/ui/components/tasks';
-import { QuestSchema } from '@worksheets/util/tasks';
+import { QuestSchema, TaskInputSchema } from '@worksheets/util/tasks';
 import { parseTRPCClientErrorMessage } from '@worksheets/util/trpc';
 import dynamic from 'next/dynamic';
 import React from 'react';
@@ -22,11 +22,14 @@ const Container: React.FC<{ quest: QuestSchema }> = ({ quest }) => {
   const [open, setOpen] = React.useState(false);
   const utils = trpc.useUtils();
   const tokens = trpc.user.inventory.quantity.useQuery('1');
-  const track = trpc.user.tasks.trackQuest.useMutation();
+  const track = trpc.user.tasks.quests.track.useMutation();
 
-  const handleSubmit = async (input: { repetitions: number }) => {
+  const handleSubmit = async (input: TaskInputSchema) => {
     try {
-      await track.mutateAsync({ questId: quest.questId, ...input });
+      await track.mutateAsync({
+        questId: quest.questId,
+        ...input,
+      });
       snackbar.success('Quest completed!');
       setOpen(false);
     } catch (error) {
@@ -34,7 +37,7 @@ const Container: React.FC<{ quest: QuestSchema }> = ({ quest }) => {
     }
 
     await Promise.all([
-      utils.user.tasks.listQuests.invalidate(),
+      utils.user.tasks.quests.list.invalidate(),
       tokens.refetch(),
     ]);
   };
@@ -68,7 +71,7 @@ const Container: React.FC<{ quest: QuestSchema }> = ({ quest }) => {
             </Row>
           </Column>
         }
-      ></TaskModal>
+      />
     </>
   );
 };

@@ -7,14 +7,18 @@ import { AddFriendForm } from './add-friend-form';
 import { AddReferralForm } from './add-referral-form';
 import { BasicActionForm } from './basic-action-form';
 import { BattleParticipationForm } from './battle-participation-form';
+import { CustomInputForm } from './custom-input-form';
 import { FollowTwitchForm } from './follow-twitch-form';
 import { FollowTwitterForm } from './follow-twitter-form';
 import { FriendPlayMinutesForm } from './friend-play-minutes-form';
 import { JoinDiscordGuildForm } from './join-discord-guild-form';
 import { PlayGameForm } from './play-game-form';
 import { PlayMinutesForm } from './play-minutes-form';
+import { PollForm } from './poll-form';
 import { RaffleParticipationForm } from './raffle-participation-form';
 import { ReferralPlayMinutesForm } from './referral-play-minutes-form';
+import { RepostTwitterForm } from './repost-twitter-form';
+import { SecretForm } from './secret-form';
 import { VisitWebsiteForm } from './visit-website-form';
 import { WatchAdForm } from './watch-ad-form';
 import { WishlistSteamGameForm } from './wishlist-steam-game-form';
@@ -27,6 +31,8 @@ export const TaskForm: React.FC<TaskFormProps> = ({ task, actions }) => {
       return <PlayGameForm task={task} actions={actions} />;
     case TaskType.FOLLOW_TWITTER:
       return <FollowTwitterForm task={task} actions={actions} />;
+    case TaskType.REPOST_TWITTER:
+      return <RepostTwitterForm task={task} actions={actions} />;
     case TaskType.ADD_FRIEND:
       return <AddFriendForm task={task} actions={actions} />;
     case TaskType.ADD_REFERRAL:
@@ -51,6 +57,12 @@ export const TaskForm: React.FC<TaskFormProps> = ({ task, actions }) => {
       return <JoinDiscordGuildForm task={task} actions={actions} />;
     case TaskType.WISHLIST_STEAM_GAME:
       return <WishlistSteamGameForm task={task} actions={actions} />;
+    case TaskType.FORM:
+      return <CustomInputForm task={task} actions={actions} />;
+    case TaskType.POLL:
+      return <PollForm task={task} actions={actions} />;
+    case TaskType.SECRET:
+      return <SecretForm task={task} actions={actions} />;
     default:
       throw assertNever(task.type);
   }

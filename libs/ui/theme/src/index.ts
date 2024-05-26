@@ -282,6 +282,14 @@ const theme = createTheme({
       gradient: `linear-gradient(181deg, ${grey[500]} 0.5%, ${grey[600]} 242.97%)`,
       shadow: grey[700],
     },
+    'light-grey': {
+      light: grey[300],
+      main: grey[400],
+      dark: grey[500],
+      gradient: `linear-gradient(181deg, ${grey[300]} 0.5%, ${grey[400]} 242.97%)`,
+      shadow: grey[500],
+      contrastText: grey[500],
+    },
     border: {
       light: grey[300],
       main: grey[400],

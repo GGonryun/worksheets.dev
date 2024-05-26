@@ -87,15 +87,10 @@ export const parseStatus = (
 };
 
 export const parseRepetitions = (
-  frequency: TaskFrequency,
   state: TaskProgress | undefined | null
 ): number => {
   if (!state) {
     return 0;
-  }
-
-  if (frequency === 'ONCE') {
-    return state.status === 'COMPLETED' ? 1 : 0;
   }
 
   if (state.expiresAt && isExpired(state.expiresAt.getTime())) {

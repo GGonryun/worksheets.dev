@@ -74,9 +74,8 @@ export const RaffleAction: React.FC<ActionSchema & { onClick: () => void }> = ({
       <Box component="span" width="100%">
         <Button
           fullWidth
-          disabled={status === 'COMPLETED'}
           variant="arcade"
-          color={selectTaskBackgroundColor(type)}
+          color={selectTaskBackgroundColor(status, type)}
           onClick={onClick}
           startIcon={<Icon />}
           sx={{

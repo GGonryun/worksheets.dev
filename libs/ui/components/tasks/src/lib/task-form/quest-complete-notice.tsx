@@ -10,7 +10,7 @@ export const QuestCompleteNotice: React.FC = () => {
         fontWeight={700}
         color="text.secondary"
       >
-        Quest Complete!
+        Task Complete!
       </Typography>
     </Column>
   );

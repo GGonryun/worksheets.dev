@@ -15,12 +15,12 @@ export const InfoModal: React.FC<
       maxWidth: 550,
     }}
   >
-    <>
+    <Box width="100%" height="100%" position="relative">
       <Box width="100%" sx={{ p: gutter ? 2 : 0 }}>
         {children}
       </Box>
-      {infoHref && <InfoButton href={infoHref} />}
       <CloseButton onClick={onClose} />
-    </>
+      {infoHref && <InfoButton href={infoHref} />}
+    </Box>
   </Modal>
 );

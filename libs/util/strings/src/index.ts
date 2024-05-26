@@ -36,11 +36,17 @@ export const validateEmail = (email: string | undefined): boolean => {
 
   const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  if (!regex.test(email)) {
-    return false;
-  }
+  return regex.test(email);
+};
 
-  return true;
+// must support international phone numbers
+// must support country codes
+// must support formats like +1 (555) 555-5555 and 555-555-5555 and 5555555555 and 555.555.5555 and 555 555 5555 and 1-555-555-5555
+export const validatePhone = (phone: string | undefined): boolean => {
+  if (!phone) return false;
+
+  const regex = /^(\+?\d{1,2}[\s.-]?)?(\(?\d{3}\)?[\s.-]?)?\d{3}[\s.-]?\d{4}$/;
+  return regex.test(phone);
 };
 
 export const capitalizeFirstLetter = (string: string) => {

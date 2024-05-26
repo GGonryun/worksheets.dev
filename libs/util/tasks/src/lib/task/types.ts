@@ -7,6 +7,8 @@ import {
 import { lootSchema } from '@worksheets/util/types';
 import { z } from 'zod';
 
+import { FormField } from '../form';
+
 export const taskSchema = z.object({
   order: z.number(),
   name: z.string(),
@@ -16,9 +18,11 @@ export const taskSchema = z.object({
   frequency: z.nativeEnum(TaskFrequency),
   gameId: z.string().nullable(),
   repetitions: z.number(),
+  createdAt: z.number(),
   maxRepetitions: z.number(),
   type: z.nativeEnum(TaskType),
   data: z.any(),
+  state: z.any().nullable(),
   status: z.nativeEnum(TaskStatus),
   expiresAt: z.number(),
 });
@@ -44,9 +48,12 @@ export const progressSchema = z.object({
   expiresAt: z.number().nullable(),
 });
 
-export type TaskInput = {
-  repetitions: number;
-};
+export const taskInputSchema = z.object({
+  repetitions: z.number(),
+  state: z.any().optional(),
+});
+
+export type TaskInputSchema = z.infer<typeof taskInputSchema>;
 
 export type TaskDataValue<T extends TaskType> = TaskData[T];
 export type TaskData = {
@@ -60,12 +67,26 @@ export type TaskData = {
   ADD_FRIEND: unknown;
   ADD_REFERRAL: unknown;
   PRIZE_WHEEL: unknown;
+  FORM: {
+    fields: FormField[];
+  };
+  SECRET: {
+    secret: string;
+  };
+  POLL: {
+    question: string;
+    options: { key: string; label: string }[];
+  };
   // instant tasks
   VISIT_WEBSITE: {
     url: string;
     preview: string;
   };
   FOLLOW_TWITTER: {
+    handle: string;
+  };
+  REPOST_TWITTER: {
+    tweetId: string;
     handle: string;
   };
   FOLLOW_TWITCH: {
@@ -87,7 +108,18 @@ export type TaskData = {
 export type TaskFormProps = {
   task: TaskSchema;
   actions: {
-    onSubmit: (input: { repetitions: number; skip?: boolean }) => void;
+    onSubmit: (input: TaskInputSchema) => void;
     onCancel: () => void;
   };
+};
+export type ValidationOptions = {
+  data: unknown;
+  state: unknown;
+};
+
+export type TaskPollResult = {
+  key: string;
+  label: string;
+  percent: number;
+  count: number;
 };

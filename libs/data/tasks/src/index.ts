@@ -11,6 +11,75 @@ import { MAX_FRIENDS, MAX_REFERRALS } from '@worksheets/util/settings';
 import { createGameTask } from './util';
 
 export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
+  {
+    version: 1,
+    type: TaskType.FORM,
+    category: TaskCategory.INPUT,
+    id: 'RATE_CHARITY_GAMES',
+    frequency: TaskFrequency.ONCE,
+    requiredRepetitions: 1,
+    maxRepetitions: 1,
+    name: 'Rate Charity Games',
+    description: 'Rate Charity Games and earn a reward.',
+    data: {
+      fields: [
+        {
+          key: 'rating',
+          label: 'Rating',
+          required: true,
+          description:
+            'Rate your overall experience with Charity Games so far.',
+          type: 'rating',
+          icon: 'STAR',
+        },
+        {
+          key: 'feedback',
+          label: 'Feedback',
+          description:
+            'Is there anything else you would like to share with us?',
+          type: 'text',
+          multiline: 5,
+        },
+      ],
+    },
+  },
+  // sample poll task.
+  {
+    version: 1,
+    type: TaskType.POLL,
+    category: TaskCategory.INPUT,
+    id: 'SAMPLE_POLL',
+    frequency: TaskFrequency.ONCE,
+    requiredRepetitions: 1,
+    maxRepetitions: 1,
+    name: 'Giveaway Poll',
+    description: 'We want to hear from you! Vote for future prizes.',
+    data: {
+      question: 'What giveaway would you like to see next?',
+      options: [
+        { key: 'crypto', label: 'Crypto Currency' },
+        { key: 'paypal', label: 'Paypal Money' },
+        { key: 'fortnite', label: 'Fortnite V-Bucks' },
+        { key: 'roblox', label: 'Roblox Robux' },
+        { key: 'steam-gift-card', label: 'Steam Gift Card' },
+      ],
+    },
+  },
+  // sample secrets task.
+  {
+    version: 2,
+    type: TaskType.SECRET,
+    category: TaskCategory.INPUT,
+    id: 'SAMPLE_SECRET',
+    frequency: TaskFrequency.ONCE,
+    requiredRepetitions: 1,
+    maxRepetitions: 1,
+    name: 'Enter a Secret',
+    description: 'Enter a secret and earn a reward.',
+    data: {
+      secret: 'cinnamon-toast-crunch',
+    },
+  },
   // watch ads
   {
     version: 1,
@@ -355,6 +424,22 @@ export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
       handle: 'GamersOutreach',
     },
   },
+  // repost twitter
+  {
+    version: 3,
+    id: 'REPOST_TWITTER_ONCE',
+    type: TaskType.REPOST_TWITTER,
+    category: TaskCategory.TASK,
+    frequency: TaskFrequency.ONCE,
+    requiredRepetitions: 1,
+    maxRepetitions: 1,
+    name: 'Repost a Tweet',
+    description: 'Repost a tweet and earn a reward.',
+    data: {
+      tweetId: '1793874425198371047',
+      handle: 'charitydotgames',
+    },
+  },
   // discords
   {
     version: 1,
@@ -491,6 +576,111 @@ export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
     name: 'Add a Referral',
     description: `Earn tokens every time you add a new referral on Charity Games. You can receive this reward up to ${MAX_REFERRALS} times`,
     data: {},
+  },
+  {
+    version: 2,
+    type: TaskType.FORM,
+    category: TaskCategory.INPUT,
+    id: 'SAMPLE_FORM',
+    frequency: TaskFrequency.ONCE,
+    requiredRepetitions: 1,
+    maxRepetitions: 1,
+    name: 'Sample Survey',
+    description: 'Fill out this survey and earn a reward.',
+    data: {
+      fields: [
+        {
+          key: 'text',
+          label: 'Text',
+          description: 'Enter some text',
+          type: 'text',
+          min: 10,
+          max: 100,
+        },
+        {
+          key: 'email',
+          required: true,
+          label: 'Email',
+          description: 'Enter an email',
+          type: 'text',
+          validation: 'EMAIL',
+        },
+        {
+          key: 'phone',
+          label: 'Phone',
+          description: 'Enter a phone',
+          type: 'text',
+          validation: 'PHONE',
+        },
+        {
+          key: 'url',
+          label: 'URL',
+          type: 'text',
+          validation: 'URL',
+        },
+        {
+          key: 'big-text',
+          required: true,
+          label: 'Big Text',
+          description: 'Enter a lot of text',
+          type: 'text',
+          multiline: 5,
+        },
+        {
+          key: 'number',
+          label: 'Number',
+          required: true,
+          description: 'Enter a number',
+          type: 'number',
+          min: 1,
+          max: 10,
+        },
+        {
+          key: 'select',
+          label: 'Select',
+          required: true,
+          type: 'select',
+          options: ['Option 1', 'Option 2', 'Option 3'],
+        },
+        {
+          key: 'choice',
+          label: 'Choice',
+          required: false,
+          description: 'Select one option',
+          type: 'choice',
+          options: ['Option 1', 'Option 2', 'Option 3'],
+        },
+        {
+          key: 'multiple-choice',
+          label: 'Multiple Choice',
+          required: true,
+          description: 'Select multiple options',
+          type: 'multiple-choice',
+          options: ['Option 1', 'Option 2', 'Option 3', 'Option 4'],
+          min: 2,
+          max: 3,
+        },
+        {
+          key: 'slider',
+          label: 'Slider',
+          required: false,
+          description: 'Select a value',
+          type: 'slider',
+          min: 1,
+          max: 10,
+          step: 1,
+          initial: 5,
+        },
+        {
+          key: 'rating',
+          label: 'Rating',
+          required: true,
+          description: 'Rate the experience',
+          type: 'rating',
+          icon: 'STAR',
+        },
+      ],
+    },
   },
   ...games.flatMap(createGameTask),
 ];
