@@ -23,7 +23,7 @@ import { parseTRPCClientErrorMessage } from '@worksheets/util/trpc';
 import { RaffleSchema } from '@worksheets/util/types';
 import { useSession } from 'next-auth/react';
 import pluralize from 'pluralize';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const ModalLayout: React.FC<ModalProps> = ({ open, onClose, children }) => {
   return (
@@ -61,12 +61,15 @@ export const EnterRaffleModal: React.FC<
   const [actionId, setActionId] = useState<string | undefined>(undefined);
   const [dirty, setDirty] = useState<string[]>([]);
 
-  const data = actions.data ?? [];
+  useEffect(() => {
+    if (!actions.isRefetching) {
+      setDirty([]);
+    }
+  }, [actions.isRefetching]);
 
   const refreshActions = async (id: string) => {
     setDirty((prev) => [...prev, id]);
     await utils.user.tasks.actions.list.refetch({ raffleId: raffle.id });
-    setDirty((prev) => prev.filter((p) => p !== id));
   };
 
   const handleSubmit = async (input: TaskInputSchema) => {
@@ -96,6 +99,8 @@ export const EnterRaffleModal: React.FC<
       setActionId(undefined);
     }
   };
+
+  const data = actions.data ?? [];
 
   return (
     <>
