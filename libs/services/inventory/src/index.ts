@@ -213,6 +213,61 @@ export class InventoryService {
     return item.quantity;
   }
 
+  async autoSell(userId: string) {
+    console.info('Auto selling items for user', { userId });
+    const inventory = await this.#db.inventory.findMany({
+      where: {
+        userId,
+        quantity: {
+          gt: 0,
+        },
+        item: {
+          type: {
+            in: [ItemType.ETCETERA],
+          },
+        },
+      },
+      include: {
+        item: true,
+      },
+    });
+
+    if (!inventory.length) {
+      return 0;
+    }
+
+    const total = inventory.reduce((acc, item) => {
+      return acc + item.item.sell * item.quantity;
+    }, 0);
+
+    console.info('Auto selling items', {
+      userId,
+      numItems: inventory.length,
+      total,
+    });
+
+    await this.#db.inventory.updateMany({
+      where: {
+        userId,
+        quantity: {
+          gt: 0,
+        },
+        item: {
+          type: {
+            in: [ItemType.ETCETERA],
+          },
+        },
+      },
+      data: {
+        quantity: 0,
+      },
+    });
+
+    await this.increment(userId, '1', total);
+
+    return total;
+  }
+
   /**
    * Decrement works safely in transactions, worst case scenario is that the transaction fails and the user's inventory is unchanged.
    */

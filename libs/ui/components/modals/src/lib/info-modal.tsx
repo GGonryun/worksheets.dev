@@ -1,11 +1,12 @@
 import { Box } from '@mui/material';
+import { PaletteColor } from '@worksheets/ui/theme';
 
 import { CloseButton, InfoButton } from './buttons';
 import { Modal, ModalProps } from './modal';
 
 export const InfoModal: React.FC<
-  ModalProps & { infoHref?: string; gutter?: boolean }
-> = ({ children, open, onClose, infoHref, gutter = true }) => (
+  ModalProps & { infoHref?: string; gutter?: boolean; color?: PaletteColor }
+> = ({ children, open, onClose, infoHref, gutter = true, color }) => (
   <Modal
     open={open}
     onClose={onClose}
@@ -19,8 +20,8 @@ export const InfoModal: React.FC<
       <Box width="100%" sx={{ p: gutter ? 2 : 0 }}>
         {children}
       </Box>
-      <CloseButton onClick={onClose} />
-      {infoHref && <InfoButton href={infoHref} />}
+      <CloseButton onClick={onClose} color={color} />
+      {infoHref && <InfoButton href={infoHref} color={color} />}
     </Box>
   </Modal>
 );

@@ -1,9 +1,14 @@
 import { Close, QuestionMarkOutlined } from '@mui/icons-material';
 import { Box, IconButton } from '@mui/material';
+import { PaletteColor } from '@worksheets/ui/theme';
 
 import { OnClose } from './modal';
 
-export const CloseButton: React.FC<{ onClick: OnClose }> = (props) => {
+export const CloseButton: React.FC<{
+  onClick: OnClose;
+  color?: PaletteColor;
+}> = (props) => {
+  const color = props.color || 'primary';
   return (
     <Box
       sx={{
@@ -18,7 +23,7 @@ export const CloseButton: React.FC<{ onClick: OnClose }> = (props) => {
         disableRipple
         sx={{
           p: '3px',
-          background: (theme) => theme.palette.primary.gradient,
+          background: (theme) => theme.palette[color].gradient,
         }}
       >
         <Close fontSize="small" color="white" />
@@ -26,7 +31,11 @@ export const CloseButton: React.FC<{ onClick: OnClose }> = (props) => {
     </Box>
   );
 };
-export const InfoButton: React.FC<{ href: string }> = ({ href }) => {
+export const InfoButton: React.FC<{ href: string; color?: PaletteColor }> = (
+  props
+) => {
+  const color = props.color || 'primary';
+
   return (
     <Box
       sx={{
@@ -36,13 +45,13 @@ export const InfoButton: React.FC<{ href: string }> = ({ href }) => {
       }}
     >
       <IconButton
-        href={href}
+        href={props.href}
         target="_blank"
         size="small"
         disableRipple
         sx={{
           p: '3px',
-          background: (theme) => theme.palette.primary.gradient,
+          background: (theme) => theme.palette[color].gradient,
         }}
       >
         <QuestionMarkOutlined fontSize="small" color="white" />

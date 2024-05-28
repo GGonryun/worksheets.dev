@@ -1,12 +1,12 @@
 import { TRPCError } from '@trpc/server';
 import { ItemId, SharableItemId } from '@worksheets/data/items';
+import { Prisma } from '@worksheets/prisma';
 import { FriendshipService } from '@worksheets/services/friendship';
 import {
   CapsuleService,
   InventoryService,
   PrizeWheelService,
 } from '@worksheets/services/inventory';
-import { waitFor } from '@worksheets/util/time';
 import {
   DecrementOpts,
   inventoryItemSchema,
@@ -30,6 +30,19 @@ export default t.router({
     .query(async ({ input, ctx: { db, user } }) => {
       const inventory = new InventoryService(db);
       return inventory.quantity(user.id, input);
+    }),
+  autoSell: protectedProcedure
+    .output(z.number())
+    .mutation(async ({ ctx: { db, user } }) => {
+      return await db.$transaction(
+        async (tx) => {
+          const inventory = new InventoryService(tx);
+          return inventory.autoSell(user.id);
+        },
+        {
+          isolationLevel: Prisma.TransactionIsolationLevel.Serializable,
+        }
+      );
     }),
   items: protectedProcedure
     .input(z.custom<Parameters<InventoryService['items']>[1]>())
@@ -151,7 +164,6 @@ export default t.router({
       .output(z.custom<Awaited<ReturnType<PrizeWheelService['spin']>>>())
       .mutation(async ({ ctx: { db, user }, input }) => {
         return await db.$transaction(async (tx) => {
-          await waitFor(2000);
           const spinner = new PrizeWheelService(tx);
           return spinner.spin(user.id, input);
         });
