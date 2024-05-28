@@ -134,7 +134,7 @@ const Container: React.FC = () => {
             onSubmit: handleSubmit,
             onCancel: () => setQuestId(undefined),
           }}
-          isLoading={track.isLoading}
+          isLoading={track.isLoading && dirty.includes(quest.questId)}
           rewards={
             <Column mt={2}>
               <Row mx={1} gap={2} flexWrap="wrap">
