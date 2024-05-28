@@ -41,7 +41,6 @@ export const raffleSchema = z.object({
 export type RaffleSchema = z.infer<typeof raffleSchema>;
 
 export const participationSchema = z.object({
-  userId: z.string(),
   user: z.object({
     id: z.string(),
     username: z.string(),

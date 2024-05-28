@@ -45,7 +45,7 @@ const Content: React.FC<{ raffleId: number }> = ({ raffleId }) => {
       <Heading>Winners</Heading>
       {winners.length ? (
         winners.map((winner) => (
-          <Row key={winner.userId} gap={1}>
+          <Row key={winner.user.id} gap={1}>
             <Star fontSize="small" />
             <Typography
               component={Link}

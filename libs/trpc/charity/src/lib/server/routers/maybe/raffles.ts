@@ -23,7 +23,6 @@ export default t.router({
         take: 100,
         select: {
           numEntries: true,
-          userId: true,
           winner: true,
           user: {
             select: {
