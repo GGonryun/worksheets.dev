@@ -155,6 +155,7 @@ const AutoSellModal: React.FC<{
         </Typography>
       </Column>
       <Button
+        disabled={autoSell.isLoading}
         variant="arcade"
         color="success"
         startIcon={<Check />}
