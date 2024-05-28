@@ -32,17 +32,39 @@ export default t.router({
         });
       }
 
-      // TODO: add lottery game drops again.
+      const referral = await db.user.findMany({
+        where: {
+          referredByUserId: user.id,
+        },
+      });
+
+      const friends = await db.friendship.findMany({
+        where: {
+          userId: user.id,
+          isFavorite: true,
+        },
+        select: {
+          friendId: true,
+        },
+      });
 
       await Promise.allSettled([
-        tasks.trackManyQuests({
-          questIds: [
-            'REFERRAL_PLAY_MINUTES_INFINITE',
-            'FRIEND_PLAY_MINUTES_INFINITE',
-          ],
-          userId: user.id,
-          repetitions: increment,
-        }),
+        // reward my referrals when I play games.
+        referral.map((r) =>
+          tasks.trackQuest({
+            questId: 'REFERRAL_PLAY_MINUTES_INFINITE',
+            userId: r.id,
+            repetitions: increment,
+          })
+        ),
+        // reward my best friends when I play games.
+        friends.map((f) =>
+          tasks.trackQuest({
+            questId: 'FRIEND_PLAY_MINUTES_INFINITE',
+            userId: f.friendId,
+            repetitions: increment,
+          })
+        ),
         tasks.trackGameQuests({
           gameId: game.id,
           type: 'PLAY_MINUTES',

@@ -1,5 +1,5 @@
 import { TRPCError } from '@trpc/server';
-import { ItemId } from '@worksheets/data/items';
+import { DROP_LOTTERY, ItemId, ITEMS } from '@worksheets/data/items';
 import {
   Prisma,
   PrismaClient,
@@ -10,7 +10,9 @@ import {
 import { InventoryService } from '@worksheets/services/inventory';
 import { NotificationsService } from '@worksheets/services/notifications';
 import { RafflesService } from '@worksheets/services/raffles';
-import { calculatePercentage } from '@worksheets/util/numbers';
+import { randomArrayElement, shuffle } from '@worksheets/util/arrays';
+import { calculatePercentage, isLucky } from '@worksheets/util/numbers';
+import { PLAY_MINUTE_DROP_CHANCE } from '@worksheets/util/settings';
 import {
   ActionSchema,
   aggregateErrors,
@@ -30,11 +32,13 @@ import { isExpired } from '@worksheets/util/time';
 export class TasksService {
   #db: PrismaClient | PrismaTransactionalClient;
   #inventory: InventoryService;
+  #notifications: NotificationsService;
   #raffle: RafflesService;
   constructor(db: PrismaClient | PrismaTransactionalClient) {
     this.#db = db;
     this.#inventory = new InventoryService(db);
     this.#raffle = new RafflesService(db);
+    this.#notifications = new NotificationsService(db);
   }
 
   async getPollResults({
@@ -353,7 +357,11 @@ export class TasksService {
         loot: {
           include: { item: true },
         },
-        task: true,
+        task: {
+          include: {
+            game: true,
+          },
+        },
         progress: {
           where: {
             userId: opts.userId,
@@ -386,9 +394,10 @@ export class TasksService {
         };
       }>;
       userId: string;
+      game?: Prisma.GameGetPayload<true>;
     } & TaskInputSchema
   ) {
-    const { quest, userId, repetitions, state } = opts;
+    const { quest, userId, repetitions, state, game } = opts;
     const progress = await this.#calculateProgress({
       task: quest.task,
       // each quest should have at most one progress record per user.
@@ -413,6 +422,51 @@ export class TasksService {
 
     if (progress.completions > 0) {
       await this.#awardLoot(userId, quest.loot, progress.completions);
+      // TODO: make this scalable.
+      await this.#bonusLoot(userId, quest.task, game);
+    }
+  }
+
+  async #bonusLoot(
+    userId: string,
+    task: Prisma.TaskGetPayload<true>,
+    game?: Prisma.GameGetPayload<true>
+  ) {
+    const { id } = task;
+    if (id === 'PLAY_MINUTES_INFINITE') {
+      if (!isLucky(PLAY_MINUTE_DROP_CHANCE)) {
+        return;
+      }
+
+      const lottery = Object.entries(DROP_LOTTERY).flatMap(
+        ([itemId, quantity]) => {
+          return Array.from({ length: quantity }, () => itemId);
+        }
+      );
+
+      const itemId = randomArrayElement(shuffle(lottery));
+      console.info('Awarding bonus loot for infinite play minutes', {
+        itemId,
+        userId,
+      });
+      await this.#inventory.increment(userId, itemId as ItemId, 1);
+      const item = ITEMS.find((i) => i.id === itemId);
+      if (game && item) {
+        const payload = {
+          userId,
+          item,
+          game,
+        };
+        console.info('Sending notification for bonus loot', payload);
+        await this.#notifications.send('found-item', payload);
+      } else {
+        console.info('Could not find item or game for bonus loot', {
+          itemId,
+          userId,
+          item,
+          game,
+        });
+      }
     }
   }
 
@@ -469,6 +523,11 @@ export class TasksService {
         },
       },
     });
+    const game = await this.#db.game.findFirstOrThrow({
+      where: {
+        id: gameId,
+      },
+    });
 
     console.info(
       `Found ${quests.length} quests`,
@@ -485,6 +544,7 @@ export class TasksService {
           quest,
           userId,
           repetitions,
+          game,
         })
       ),
     ]);

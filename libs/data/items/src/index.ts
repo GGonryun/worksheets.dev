@@ -1758,7 +1758,9 @@ export const itemIdSchema = z.custom<ItemId>();
 
 export type DroppableItem = Extract<
   Item,
-  { type: 'COMBAT' | 'CONSUMABLE' | 'SHARABLE' | 'ETCETERA' | 'CAPSULE' }
+  {
+    type: 'COMBAT' | 'CONSUMABLE' | 'SHARABLE' | 'ETCETERA' | 'PRIZE_WHEEL';
+  }
 >;
 
 export const parseItemId = (id: unknown | undefined): ItemId => {
@@ -1778,7 +1780,7 @@ export const DROPPABLE_ITEMS = ITEMS.filter(
     item.type === ItemType.CONSUMABLE ||
     item.type === ItemType.SHARABLE ||
     item.type === ItemType.ETCETERA ||
-    item.type === ItemType.CAPSULE
+    item.type === ItemType.PRIZE_WHEEL
 );
 /**
  * The drop rate for each item is determined by the number of tickets in the lottery.
@@ -1792,12 +1794,12 @@ export const DROP_LOTTERY: Record<DroppableItemId, number> = {
   6: 10,
   7: 10,
   1000: 10,
-  10025: 10,
-  10026: 10,
-  10027: 10,
-  10028: 10,
-  10029: 10,
-  10044: 10,
+  10025: 2,
+  10026: 2,
+  10027: 2,
+  10028: 2,
+  10029: 2,
+  10044: 2,
   // regular items
   1001: 1,
   1002: 1,
@@ -1911,13 +1913,7 @@ export const DROP_LOTTERY: Record<DroppableItemId, number> = {
   10111: 1,
   10112: 1,
   10113: 1,
-  100: 1,
-  101: 1,
-  102: 1,
-  103: 1,
-  104: 1,
-  105: 1,
-  106: 1,
+  200: 1,
 };
 
 export const PRIZE_SPINNER_WEIGHTS: Record<ItemRarity, number> = {

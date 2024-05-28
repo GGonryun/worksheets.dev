@@ -7,6 +7,7 @@ import {
 } from '@worksheets/prisma';
 import { InventoryService } from '@worksheets/services/inventory';
 import { shuffle } from '@worksheets/util/arrays';
+import { isLucky } from '@worksheets/util/numbers';
 import { ENTRY_PER_DAMAGE } from '@worksheets/util/settings';
 import {
   BattleFiltersSchema,
@@ -364,8 +365,7 @@ export class MobsService {
     for (const loot of basicLoot) {
       // pick a random winner.
       for (let i = 0; i < loot.quantity; i++) {
-        const luck = Math.random();
-        if (luck > loot.chance) {
+        if (!isLucky(loot.chance)) {
           continue;
         }
 
@@ -409,8 +409,7 @@ export class MobsService {
 const calculateQuantity = (max: number, chance: number) => {
   let quantity = 0;
   for (let i = 0; i < max; i++) {
-    const luck = Math.random();
-    if (luck > chance) {
+    if (!isLucky(chance)) {
       continue;
     }
     quantity++;
