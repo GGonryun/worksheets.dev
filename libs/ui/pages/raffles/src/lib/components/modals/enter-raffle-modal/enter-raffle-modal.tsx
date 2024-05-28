@@ -15,6 +15,7 @@ import {
 import { useSnackbar } from '@worksheets/ui/components/snackbar';
 import { RaffleActions, TaskModal } from '@worksheets/ui/components/tasks';
 import theme, { PaletteColor } from '@worksheets/ui/theme';
+import { fireAndForget } from '@worksheets/util/promises';
 import { RAFFLE_ENTRY_FEE } from '@worksheets/util/settings';
 import { ActionSchema, TaskInputSchema } from '@worksheets/util/tasks';
 import { printDateTime, printTimeRemaining } from '@worksheets/util/time';
@@ -22,7 +23,7 @@ import { parseTRPCClientErrorMessage } from '@worksheets/util/trpc';
 import { RaffleSchema } from '@worksheets/util/types';
 import { useSession } from 'next-auth/react';
 import pluralize from 'pluralize';
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 const ModalLayout: React.FC<ModalProps> = ({ open, onClose, children }) => {
   return (
@@ -37,13 +38,9 @@ export const EnterRaffleModal: React.FC<
     raffle: RaffleSchema;
   }>
 > = ({ raffle, open, onClose }) => {
+  const snackbar = useSnackbar();
+  const utils = trpc.useUtils();
   const session = useSession();
-  const handleClose = () => {
-    onClose?.({}, 'backdropClick');
-    setIndex(-1);
-    setUseTokens(false);
-  };
-
   const actions = trpc.user.tasks.actions.list.useQuery(
     {
       raffleId: raffle.id,
@@ -53,10 +50,52 @@ export const EnterRaffleModal: React.FC<
     }
   );
 
+  const trackAction = trpc.user.tasks.actions.track.useMutation();
+  const handleClose = () => {
+    onClose?.({}, 'backdropClick');
+    setActionId(undefined);
+    setUseTokens(false);
+  };
+
   const [useTokens, setUseTokens] = useState(false);
-  const [index, setIndex] = useState<number>(-1);
+  const [actionId, setActionId] = useState<string | undefined>(undefined);
+  const [dirty, setDirty] = useState<string[]>([]);
 
   const data = actions.data ?? [];
+
+  const refreshActions = async (id: string) => {
+    setDirty((prev) => [...prev, id]);
+    await utils.user.tasks.actions.list.refetch({ raffleId: raffle.id });
+    setDirty((prev) => prev.filter((p) => p !== id));
+  };
+
+  const handleSubmit = async (input: TaskInputSchema) => {
+    if (!actionId) return;
+
+    try {
+      const reward = await trackAction.mutateAsync({
+        actionId,
+        ...input,
+      });
+
+      if (reward) {
+        fireAndForget(
+          Promise.all([
+            refreshActions(actionId),
+            utils.user.raffles.participation.refetch(),
+            utils.maybe.raffles.participants.refetch({ raffleId: raffle.id }),
+          ])
+        );
+        snackbar.success(`You received ${reward} free entries!`);
+      } else {
+        snackbar.success('Action completed!');
+      }
+    } catch (error) {
+      snackbar.error(parseTRPCClientErrorMessage(error));
+    } finally {
+      setActionId(undefined);
+    }
+  };
 
   return (
     <>
@@ -64,8 +103,9 @@ export const EnterRaffleModal: React.FC<
         open={open}
         onClose={handleClose}
         raffle={raffle}
+        dirty={dirty}
         actions={data}
-        onClickAction={setIndex}
+        onClickAction={setActionId}
         onUseTokens={() => setUseTokens(true)}
       />
       <TokensModal
@@ -74,9 +114,10 @@ export const EnterRaffleModal: React.FC<
         onClose={() => setUseTokens(false)}
       />
       <RaffleActionModal
-        raffleId={raffle.id}
-        onClose={() => setIndex(-1)}
-        action={index >= 0 && data.length > index ? data[index] : undefined}
+        isLoading={trackAction.isLoading}
+        onSubmit={handleSubmit}
+        onClose={() => setActionId(undefined)}
+        action={data?.find((a) => a.actionId === actionId)}
       />
     </>
   );
@@ -84,9 +125,9 @@ export const EnterRaffleModal: React.FC<
 
 const RaffleDetailPoint: React.FC<{
   label: string;
-  value: string;
+  children: React.ReactNode;
   color: PaletteColor;
-}> = ({ label, value, color }) => {
+}> = ({ label, children, color }) => {
   return (
     <Column textAlign="center" justifyContent="flex-end" p={1}>
       <Typography
@@ -97,11 +138,12 @@ const RaffleDetailPoint: React.FC<{
         {label}
       </Typography>
       <Typography
+        component="span"
         color={`${color}.main`}
         typography={{ xs: 'body1', sm: 'h6' }}
         fontWeight={{ xs: 700, sm: 700, md: 700 }}
       >
-        {value}
+        {children}
       </Typography>
     </Column>
   );
@@ -112,188 +154,202 @@ const RaffleModal: React.FC<{
   onClose: () => void;
   raffle: RaffleSchema;
   actions: ActionSchema[];
-  onClickAction: (index: number) => void;
+  dirty: string[];
+  onClickAction: (actionId: string) => void;
   onUseTokens: () => void;
-}> = ({ actions, open, onClose, raffle, onClickAction, onUseTokens }) => {
+}> = ({
+  dirty,
+  actions,
+  open,
+  onClose,
+  raffle,
+  onClickAction,
+  onUseTokens,
+}) => {
   return (
     <ModalLayout open={open} onClose={onClose}>
-      <RaffleModalContent
-        raffle={raffle}
-        actions={actions}
-        onClickAction={onClickAction}
-        onUseTokens={onUseTokens}
-      />
+      <Column width="100%" gap={2}>
+        <Box
+          sx={{
+            pr: 2,
+            display: 'grid',
+            [theme.breakpoints.down('mobile1')]: {
+              gridTemplateColumns: 'repeat(2, 1fr)',
+              '& > *:nth-of-type(-n + 2)': {
+                borderBottom: '1px solid',
+                borderColor: 'grey.400',
+              },
+              '& > *:nth-of-type(odd)': {
+                borderRight: '1px solid',
+                borderColor: 'grey.400',
+              },
+            },
+            [theme.breakpoints.up('mobile1')]: {
+              gridTemplateColumns: 'repeat(4, 1fr)',
+              '& > *:not(:last-child)': {
+                borderRight: '1px solid',
+                borderColor: 'grey.400',
+              },
+            },
+          }}
+        >
+          <RaffleDetailPoint label="Ends In" color="success">
+            {printTimeRemaining(raffle.expiresAt)}
+          </RaffleDetailPoint>
+          <RaffleDetailPoint label="Entrants" color="black">
+            <RaffleEntrants raffleId={raffle.id} />
+          </RaffleDetailPoint>
+          <RaffleDetailPoint label="Total entries" color="black">
+            <RaffleTotalEntries raffleId={raffle.id} />
+          </RaffleDetailPoint>
+          <RaffleDetailPoint label="Your entries" color="black">
+            <RaffleYourEntries raffleId={raffle.id} />
+          </RaffleDetailPoint>
+        </Box>
+        <Box
+          position="relative"
+          sx={{
+            width: '100%',
+            height: '100%',
+            aspectRatio: '16/9',
+          }}
+        >
+          <FillImage src={raffle.imageUrl} alt={raffle.name} />
+        </Box>
+        <Row sx={{ mt: -8 }} alignItems="flex-end" gap={2}>
+          <Box
+            sx={{
+              ml: 2,
+              backgroundColor: '#FFFFFF',
+              position: 'relative',
+              height: 100,
+              width: 100,
+              borderRadius: (theme) => theme.shape.borderRadius,
+              border: '2px solid grey',
+              overflow: 'hidden',
+            }}
+          >
+            <FillImage src={raffle.sponsor.logo} alt={raffle.sponsor.name} />
+          </Box>
+          <Typography mb={1.5}>
+            by <Link href={raffle.sponsor.url}>{raffle.sponsor.name}</Link>
+          </Typography>
+        </Row>
+        <Column gap={0.5}>
+          <Typography typography={'h4'}>{raffle.name}</Typography>
+          <Typography typography={'body1'} gutterBottom>
+            {raffle.description}
+          </Typography>
+          <Typography
+            color="text.secondary"
+            typography={{ xs: 'body3', sm: 'body2', md: 'body1' }}
+          >
+            <b>Launched At:</b> {printDateTime(raffle.createdAt)}
+          </Typography>
+          <Typography
+            color="text.secondary"
+            typography={{ xs: 'body3', sm: 'body2', md: 'body1' }}
+          >
+            <b>Expires At:</b> {printDateTime(raffle.expiresAt)}
+          </Typography>
+        </Column>
+        <Column gap={1} my={1}>
+          <Typography fontWeight={700} typography={'h6'}>
+            Enter raffle with tokens
+          </Typography>
+          <Button
+            size="large"
+            startIcon={<StarBorder />}
+            onClick={onUseTokens}
+            variant="arcade"
+            color="success"
+            sx={{
+              '&.MuiButton-root': {
+                minHeight: 50,
+                display: 'flex',
+                justifyContent: 'space-between',
+              },
+            }}
+          >
+            <span>Spend Tokens</span>
+            <span>∞</span>
+          </Button>
+        </Column>
+        <RaffleActions
+          raffleId={raffle.id}
+          actions={actions}
+          onClick={onClickAction}
+          dirty={dirty}
+        />
+        <Button
+          variant="text"
+          href={routes.help.prizes.path()}
+          target="_blank"
+          startIcon={<HelpOutline />}
+          sx={{
+            mb: 2,
+            alignSelf: 'flex-end',
+          }}
+        >
+          Help Center
+        </Button>
+      </Column>
     </ModalLayout>
   );
 };
 
-const RaffleModalContent: React.FC<{
-  raffle: RaffleSchema;
-  actions: ActionSchema[];
-  onClickAction: (index: number) => void;
-  onUseTokens: () => void;
-}> = ({ actions, raffle, onUseTokens, onClickAction }) => {
+const RaffleEntrants: React.FC<{ raffleId: number }> = ({ raffleId }) => {
+  const participants = trpc.maybe.raffles.participants.useQuery({
+    raffleId,
+  });
+
+  if (participants.isLoading || participants.isRefetching)
+    return <PulsingLogo hideMessage size={22} />;
+
+  return (
+    <span>
+      {participants.isError ? 'N/A' : participants.data.length.toString()}
+    </span>
+  );
+};
+
+const RaffleTotalEntries: React.FC<{ raffleId: number }> = ({ raffleId }) => {
+  const participants = trpc.maybe.raffles.participants.useQuery({
+    raffleId,
+  });
+
+  if (participants.isLoading || participants.isRefetching)
+    return <PulsingLogo hideMessage size={22} />;
+
+  return (
+    <span>
+      {participants.isError
+        ? 'N/A'
+        : participants.data
+            .reduce((acc, p) => acc + p.numEntries, 0)
+            .toString()}
+    </span>
+  );
+};
+
+const RaffleYourEntries: React.FC<{ raffleId: number }> = ({ raffleId }) => {
   const session = useSession();
   const isConnected = session.status === 'authenticated';
   const participation = trpc.user.raffles.participation.useQuery(
     {
-      raffleId: raffle.id,
+      raffleId,
     },
     {
       enabled: isConnected,
     }
   );
-  const participants = trpc.maybe.raffles.participants.useQuery({
-    raffleId: raffle.id,
-  });
 
-  if (
-    participation.isLoading ||
-    participation.isFetching ||
-    participants.isLoading ||
-    participants.isFetching
-  )
-    return <PulsingLogo />;
-  if (participation.isError || participants.isError) return <ErrorComponent />;
-
+  if (participation.isLoading || participation.isRefetching)
+    return <PulsingLogo hideMessage size={22} />;
   return (
-    <Column width="100%" gap={2}>
-      <Box
-        sx={{
-          pr: 2,
-          display: 'grid',
-          [theme.breakpoints.down('mobile1')]: {
-            gridTemplateColumns: 'repeat(2, 1fr)',
-            //first two
-            '& > *:nth-child(-n + 2)': {
-              borderBottom: '1px solid',
-              borderColor: 'grey.400',
-            },
-            '& > *:nth-child(odd)': {
-              borderRight: '1px solid',
-              borderColor: 'grey.400',
-            },
-          },
-          [theme.breakpoints.up('mobile1')]: {
-            gridTemplateColumns: 'repeat(4, 1fr)',
-            '& > *:not(:last-child)': {
-              borderRight: '1px solid',
-              borderColor: 'grey.400',
-            },
-          },
-        }}
-      >
-        <RaffleDetailPoint
-          label="Ends In"
-          value={printTimeRemaining(raffle.expiresAt)}
-          color="success"
-        />
-        <RaffleDetailPoint
-          label="Entrants"
-          value={participants.data.length.toString()}
-          color="black"
-        />
-        <RaffleDetailPoint
-          label="Total entries"
-          value={participants.data
-            .reduce((acc, p) => acc + p.numEntries, 0)
-            .toString()}
-          color="black"
-        />
-        <RaffleDetailPoint
-          label="Your entries"
-          value={participation.data.numEntries.toString()}
-          color="black"
-        />
-      </Box>
-      <Box
-        position="relative"
-        sx={{
-          width: '100%',
-          height: '100%',
-          aspectRatio: '16/9',
-        }}
-      >
-        <FillImage src={raffle.imageUrl} alt={raffle.name} />
-      </Box>
-      <Row sx={{ mt: -8 }} alignItems="flex-end" gap={2}>
-        <Box
-          sx={{
-            ml: 2,
-            backgroundColor: '#FFFFFF',
-            position: 'relative',
-            height: 100,
-            width: 100,
-            borderRadius: (theme) => theme.shape.borderRadius,
-            border: '2px solid grey',
-            overflow: 'hidden',
-          }}
-        >
-          <FillImage src={raffle.sponsor.logo} alt={raffle.sponsor.name} />
-        </Box>
-        <Typography mb={1.5}>
-          by <Link href={raffle.sponsor.url}>{raffle.sponsor.name}</Link>
-        </Typography>
-      </Row>
-      <Column gap={0.5}>
-        <Typography typography={'h4'}>{raffle.name}</Typography>
-        <Typography typography={'body1'} gutterBottom>
-          {raffle.description}
-        </Typography>
-        <Typography
-          color="text.secondary"
-          typography={{ xs: 'body3', sm: 'body2', md: 'body1' }}
-        >
-          <b>Launched At:</b> {printDateTime(raffle.createdAt)}
-        </Typography>
-        <Typography
-          color="text.secondary"
-          typography={{ xs: 'body3', sm: 'body2', md: 'body1' }}
-        >
-          <b>Expires At:</b> {printDateTime(raffle.expiresAt)}
-        </Typography>
-      </Column>
-
-      <Column gap={1} my={1}>
-        <Typography fontWeight={700} typography={'h6'}>
-          Enter raffle with tokens
-        </Typography>
-        <Button
-          size="large"
-          startIcon={<StarBorder />}
-          onClick={onUseTokens}
-          variant="arcade"
-          color="success"
-          sx={{
-            '&.MuiButton-root': {
-              minHeight: 50,
-              display: 'flex',
-              justifyContent: 'space-between',
-            },
-          }}
-        >
-          <span>Spend Tokens</span>
-          <span>∞</span>
-        </Button>
-      </Column>
-      <RaffleActions
-        raffleId={raffle.id}
-        actions={actions}
-        onClick={onClickAction}
-      />
-      <Button
-        variant="text"
-        href={routes.help.prizes.path()}
-        target="_blank"
-        startIcon={<HelpOutline />}
-        sx={{
-          mb: 2,
-          alignSelf: 'flex-end',
-        }}
-      >
-        Help Center
-      </Button>
-    </Column>
+    <span>
+      {participation.isError ? 'N/A' : participation.data.numEntries.toString()}
+    </span>
   );
 };
 
@@ -428,46 +484,21 @@ const UseTokensContent: React.FC<{
 };
 
 const RaffleActionModal: React.FC<{
-  raffleId: number;
   onClose: () => void;
-  action: ActionSchema | undefined;
-}> = ({ onClose, action, raffleId }) => {
-  const snackbar = useSnackbar();
-  const utils = trpc.useUtils();
-  const trackAction = trpc.user.tasks.actions.track.useMutation();
-
-  const handleSubmit = async (input: TaskInputSchema) => {
-    if (!action) return;
-
-    try {
-      const reward = await trackAction.mutateAsync({
-        actionId: action.actionId,
-        ...input,
-      });
-      if (reward) {
-        Promise.all([
-          utils.user.raffles.participation.refetch(),
-          utils.user.tasks.actions.list.refetch({ raffleId }),
-        ]);
-        snackbar.success(`You received ${reward} free entries!`);
-      } else {
-        snackbar.success('Action completed!');
-      }
-      onClose();
-    } catch (error) {
-      snackbar.error(parseTRPCClientErrorMessage(error));
-    }
-  };
-
+  onSubmit: (input: TaskInputSchema) => void;
+  action?: ActionSchema;
+  isLoading: boolean;
+}> = ({ onClose, action, isLoading, onSubmit }) => {
   if (!action) return null;
+
   return (
     <TaskModal
       onClose={onClose}
       open={Boolean(action)}
+      isLoading={isLoading}
       task={action}
-      isLoading={trackAction.isLoading}
       actions={{
-        onSubmit: handleSubmit,
+        onSubmit: onSubmit,
         onCancel: onClose,
       }}
       rewards={

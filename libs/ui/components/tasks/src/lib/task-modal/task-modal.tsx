@@ -24,7 +24,7 @@ import {
 export const TaskModal: React.FC<
   ModalWrapper<
     {
-      isLoading: boolean;
+      isLoading?: boolean;
       rewards: React.ReactNode;
     } & TaskFormProps
   >
@@ -45,7 +45,7 @@ export const TaskModal: React.FC<
 
 export const TaskModalContent: React.FC<
   TaskFormProps & {
-    isLoading: boolean;
+    isLoading?: boolean;
     rewards?: React.ReactNode;
   }
 > = (props) => {

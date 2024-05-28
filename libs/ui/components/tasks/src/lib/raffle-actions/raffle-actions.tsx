@@ -1,5 +1,5 @@
 import { Alarm } from '@mui/icons-material';
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, CircularProgress, Typography } from '@mui/material';
 import { MAX_INT } from '@worksheets/prisma';
 import { Column, Row } from '@worksheets/ui/components/flex';
 import { Tooltip } from '@worksheets/ui/components/tooltips';
@@ -17,18 +17,20 @@ import {
 export const RaffleActions: React.FC<{
   raffleId: number;
   actions: ActionSchema[];
-  onClick: (action: number) => void;
-}> = ({ actions, onClick }) => {
+  dirty: string[];
+  onClick: (actionId: string) => void;
+}> = ({ dirty, actions, onClick }) => {
   return actions.length ? (
     <Column gap={1}>
       <Typography fontWeight={700} typography="h6">
         Enter raffle with actions
       </Typography>
 
-      {actions.map((action, index) => (
+      {actions.map((action) => (
         <RaffleAction
           key={action.actionId}
-          onClick={() => onClick(index)}
+          dirty={dirty.includes(action.actionId)}
+          onClick={() => onClick(action.actionId)}
           {...action}
         />
       ))}
@@ -63,21 +65,21 @@ export const ExpiredActionTooltip: React.FC<
   );
 };
 
-export const RaffleAction: React.FC<ActionSchema & { onClick: () => void }> = ({
-  onClick,
-  ...action
-}) => {
+export const RaffleAction: React.FC<
+  ActionSchema & { dirty: boolean; onClick: () => void }
+> = ({ onClick, dirty, ...action }) => {
   const { status, type } = action;
   const Icon = selectTaskStatusIcon(status, type);
   return (
     <ExpiredActionTooltip {...action}>
       <Box component="span" width="100%">
         <Button
+          disabled={dirty}
           fullWidth
           variant="arcade"
           color={selectTaskBackgroundColor(status, type)}
           onClick={onClick}
-          startIcon={<Icon />}
+          startIcon={dirty ? <CircularProgress size={16} /> : <Icon />}
           sx={{
             '&.MuiButton-root': {
               pr: { xs: 1, sm: 2 },
@@ -88,7 +90,7 @@ export const RaffleAction: React.FC<ActionSchema & { onClick: () => void }> = ({
             },
           }}
         >
-          <Label {...action} />
+          {dirty ? 'Loading...' : <Label {...action} />}
           <Reward {...action} />
         </Button>
       </Box>

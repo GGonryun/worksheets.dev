@@ -11,9 +11,11 @@ import styles from './pulsing-heart.module.scss';
 export const PulsingLogo: React.FC<{
   hideMessage?: boolean;
   message?: string;
+  size?: number;
 }> = (props) => {
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down('sm'));
   const [message, setMessage] = React.useState(props.message ?? 'Loading...');
+  const size = props.size ?? (isMobile ? 64 : 92);
 
   useInterval(() => {
     if (!props.hideMessage || !props.message) {
@@ -24,7 +26,7 @@ export const PulsingLogo: React.FC<{
   return (
     <Column alignItems="center">
       <Box className={styles['pulsing']}>
-        <CharityGamesLogo size={isMobile ? 64 : 92} />
+        <CharityGamesLogo size={size} />
       </Box>
       {!props.hideMessage && (
         <Typography variant="body3" fontWeight={700} textAlign="center" mt={-2}>

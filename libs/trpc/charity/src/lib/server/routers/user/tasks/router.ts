@@ -1,4 +1,5 @@
 import { TasksService } from '@worksheets/services/tasks';
+import { fireAndForget } from '@worksheets/util/promises';
 import {
   actionSchema,
   questSchema,
@@ -36,11 +37,13 @@ export default t.router({
         });
 
         if (rewarded) {
-          await tasks.trackQuest({
-            questId: 'RAFFLE_PARTICIPATION_DAILY',
-            userId: user.id,
-            repetitions: rewarded,
-          });
+          fireAndForget(
+            tasks.trackQuest({
+              questId: 'RAFFLE_PARTICIPATION_DAILY',
+              userId: user.id,
+              repetitions: rewarded,
+            })
+          );
         }
 
         return rewarded;
