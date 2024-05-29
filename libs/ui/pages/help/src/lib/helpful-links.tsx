@@ -9,7 +9,7 @@ export const HelpfulLinks: React.FC<{
       <Typography variant="h6">Helpful Links:</Typography>
       <OrderedList>
         {links.map((link, index) => (
-          <ListItem key={index}>
+          <ListItem key={index} disablePadding>
             <Link href={link.href}>{link.text}</Link>
           </ListItem>
         ))}

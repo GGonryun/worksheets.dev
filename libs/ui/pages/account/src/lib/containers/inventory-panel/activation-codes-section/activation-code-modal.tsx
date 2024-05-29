@@ -103,7 +103,10 @@ const ActivationCode: React.FC<{
       </Button>
       <Button
         href={routes.help.prizes.path({
-          bookmark: HelpPrizesQuestions.HowToClaim,
+          bookmark:
+            code.item.type === 'STEAM_KEY'
+              ? HelpPrizesQuestions.SteamKeys
+              : HelpPrizesQuestions.HowToClaim,
         })}
       >
         How do I claim prizes?

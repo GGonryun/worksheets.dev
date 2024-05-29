@@ -70,7 +70,7 @@ export const helpIntegrations: QuestionAnswer[] = [
                 https://store.steampowered.com/login/
               </Link>
             </li>
-            <Box position="relative" maxWidth="400px">
+            <Box position="relative" maxWidth="500px">
               <ResponsiveImage
                 src="/integrations/steam/tutorial-0.png"
                 alt={'Steam login page'}
@@ -82,7 +82,7 @@ export const helpIntegrations: QuestionAnswer[] = [
                 https://store.steampowered.com/account/
               </Link>
             </li>
-            <Box position="relative" maxWidth="400px">
+            <Box position="relative" maxWidth="500px">
               <ResponsiveImage
                 src="/integrations/steam/tutorial-1.png"
                 alt={'Steam account details page'}
@@ -109,30 +109,30 @@ export const helpIntegrations: QuestionAnswer[] = [
                 https://store.steampowered.com/login/
               </Link>
             </li>
-            <Box position="relative" maxWidth="400px">
+            <Box position="relative" maxWidth="500px">
               <ResponsiveImage
-                src="/integrations/steam/tutorial-0.png"
+                src="/help/integrations/steam/tutorial-0.png"
                 alt={'Steam login page'}
               />
             </Box>
             <li>Navigate to your profile.</li>
-            <Box position="relative" maxWidth="400px">
+            <Box position="relative" maxWidth="500px">
               <ResponsiveImage
-                src="/integrations/steam/tutorial-2.png"
+                src="/help/integrations/steam/tutorial-2.png"
                 alt={'Steam home page'}
               />
             </Box>
             <li>Click on the edit profile button.</li>
-            <Box position="relative" maxWidth="400px">
+            <Box position="relative" maxWidth="500px">
               <ResponsiveImage
-                src="/integrations/steam/tutorial-3.png"
+                src="/help/integrations/steam/tutorial-3.png"
                 alt={'Steam profile'}
               />
             </Box>
             <li>Navigate to your privacy settings.</li>
-            <Box position="relative" maxWidth="400px">
+            <Box position="relative" maxWidth="500px">
               <ResponsiveImage
-                src="/integrations/steam/tutorial-4.png"
+                src="/help/integrations/steam/tutorial-4.png"
                 alt={'Steam navigation bar'}
               />
             </Box>
@@ -141,7 +141,7 @@ export const helpIntegrations: QuestionAnswer[] = [
             </li>
             <Box position="relative" maxWidth="400px">
               <ResponsiveImage
-                src="/integrations/steam/tutorial-5.png"
+                src="/help/integrations/steam/tutorial-5.png"
                 alt={'Steam privacy settings'}
               />
             </Box>

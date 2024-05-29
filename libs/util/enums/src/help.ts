@@ -26,6 +26,7 @@ export enum HelpReferralsQuestions {
 }
 
 export enum HelpPrizesQuestions {
+  SteamKeys = 'steam-keys',
   WhatAre = 'what-are',
   HowToWin = 'how-do-i-win',
   HowToSee = 'how-to-see',

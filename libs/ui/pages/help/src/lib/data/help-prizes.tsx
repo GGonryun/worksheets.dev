@@ -1,5 +1,6 @@
 import { Box, Link, Typography } from '@mui/material';
 import { routes } from '@worksheets/routes';
+import { ResponsiveImage } from '@worksheets/ui/components/images';
 import { Emoji } from '@worksheets/ui-core';
 import { HelpPrizesQuestions, InventoryPanels } from '@worksheets/util/enums';
 import { QuestionAnswer } from '@worksheets/util/types';
@@ -230,6 +231,81 @@ export const helpPrizes: QuestionAnswer[] = [
         <br />
         <HelpfulLinks
           links={[
+            {
+              text: 'My Activation Codes',
+              href: routes.account.inventory.path({
+                bookmark: InventoryPanels.ActivationCodes,
+              }),
+            },
+            {
+              text: 'Contact Us',
+              href: routes.contact.path(),
+            },
+          ]}
+        />
+      </Box>
+    ),
+  },
+  {
+    id: HelpPrizesQuestions.SteamKeys,
+    question: 'How do I redeem Steam keys?',
+    summary: 'Reedem Steam keys by following the instructions below.',
+    answer: (
+      <Box>
+        For instructions on how to redeem Steam keys, follow these steps:
+        <ol>
+          <li>
+            Open the Steam client and log in to your account. If you do not have
+            the Steam client, you can download it from{' '}
+            <Link href="https://store.steampowered.com/about/">Steam</Link>.
+          </li>
+          <li>
+            Click on the "<b>Games</b>" menu and select "
+            <b>Activate a Product on Steam</b>."
+          </li>
+          <Box position="relative" maxWidth="500px" mt={0.5} mb={1}>
+            <i>Windows client:</i>
+            <ResponsiveImage
+              src="/help/prizes/steam/tutorial-1.png"
+              alt={'Steam privacy settings'}
+            />
+            <i>Mac client:</i>
+            <ResponsiveImage
+              src="/help/prizes/steam/tutorial-0.png"
+              alt={'Steam privacy settings'}
+            />
+          </Box>
+          <li>
+            Follow the on-screen instructions to enter your Steam key. You will
+            receive a confirmation message if the key is valid.
+          </li>
+          <Box position="relative" maxWidth="500px" mt={0.5} mb={1}>
+            <ResponsiveImage
+              src="/help/prizes/steam/tutorial-2.png"
+              alt={'Steam privacy settings'}
+            />
+          </Box>
+          <li>
+            Your game will be added to your library, and you can download and
+            play it at any time.
+          </li>
+          <Box position="relative" maxWidth="500px" mt={0.5} mb={1}>
+            <ResponsiveImage
+              src="/help/prizes/steam/tutorial-3.png"
+              alt={'Steam privacy settings'}
+            />
+          </Box>
+        </ol>
+        If you encounter any issues redeeming your Steam key, please{' '}
+        <Link href={routes.contact.path()}>contact us</Link> for assistance.
+        <br />
+        <br />
+        <HelpfulLinks
+          links={[
+            {
+              text: 'Steam Guide: How to Redeem a Steam Key',
+              href: 'https://help.steampowered.com/en/faqs/view/2A12-9D79-C3D7-F870',
+            },
             {
               text: 'My Activation Codes',
               href: routes.account.inventory.path({
