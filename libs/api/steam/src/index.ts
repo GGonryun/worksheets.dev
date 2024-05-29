@@ -109,8 +109,9 @@ export class SteamAPI {
       appIds.push(...keys);
       page++;
 
-      // the max number of games in a wishlist page is 100, if we have less than that we can stop asking for more pages
-      if (keys.length < 100) {
+      // the max number of games in a wishlist page is 100, but sometimes user's have less than that per page
+      // if we 0 keys in the request then we can stop asking for more pages
+      if (!keys.length) {
         break;
       }
     }
@@ -141,7 +142,9 @@ export class SteamAPI {
       });
     }
 
-    console.info(`Checking if game ${appId} is in wishlist for ${accountId}`);
+    console.info(
+      `[SteamAPI] Checking if game ${appId} is in wishlist for ${accountId}`
+    );
 
     const appIds = await this.getWishlist({ accountId });
 
