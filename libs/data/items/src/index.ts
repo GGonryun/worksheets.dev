@@ -115,6 +115,18 @@ export const ITEMS = [
     imageUrl: 'https://cdn.charity.games/_items/detailed/7.png',
   },
   {
+    id: '8' as const,
+    version: 11,
+    code: 'golden-token-vault',
+    name: 'Golden Token Vault',
+    type: ItemType.CONSUMABLE,
+    rarity: ItemRarity.LEGENDARY,
+    buy: 400,
+    sell: 150,
+    description: 'A special golden token vault containing 100 to 500 tokens',
+    imageUrl: 'https://cdn.charity.games/_items/detailed/8.png',
+  },
+  {
     id: '100' as const,
     version: 11,
     code: 'bronze-capsule',
@@ -1793,6 +1805,7 @@ export const DROP_LOTTERY: Record<DroppableItemId, number> = {
   5: 10,
   6: 10,
   7: 10,
+  8: 3,
   1000: 10,
   10025: 2,
   10026: 2,
@@ -2070,6 +2083,7 @@ const OLD_BOX_LOTTERY = (key: number) => {
 const RAW_CONSUMPTION_RATES = {
   '2': { min: 10, max: 20 },
   '5': { min: 10, max: 100 },
+  '8': { min: 100, max: 500 },
   '1000': { items: COMBAT_ITEMS },
   '10025': {
     items: OLD_BOX_LOTTERY(0),
