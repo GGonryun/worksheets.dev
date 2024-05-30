@@ -114,7 +114,7 @@ export const EnterRaffleModal: React.FC<
         onUseTokens={() => setUseTokens(true)}
       />
       <TokensModal
-        raffleId={raffle.id}
+        raffle={raffle}
         open={useTokens}
         onClose={() => setUseTokens(false)}
       />
@@ -171,6 +171,8 @@ const RaffleModal: React.FC<{
   onClickAction,
   onUseTokens,
 }) => {
+  const participation = useYourEntries(raffle.id);
+  const purchased = participation.data?.purchased ?? 0;
   return (
     <ModalLayout open={open} onClose={onClose}>
       <Column width="100%" gap={2}>
@@ -258,28 +260,37 @@ const RaffleModal: React.FC<{
             <b>Expires At:</b> {printDateTime(raffle.expiresAt)}
           </Typography>
         </Column>
-        <Column gap={1} my={1}>
-          <Typography fontWeight={700} typography={'h6'}>
-            Enter raffle with tokens
-          </Typography>
-          <Button
-            size="large"
-            startIcon={<StarBorder />}
-            onClick={onUseTokens}
-            variant="arcade"
-            color="success"
-            sx={{
-              '&.MuiButton-root': {
-                minHeight: 50,
-                display: 'flex',
-                justifyContent: 'space-between',
-              },
-            }}
-          >
-            <span>Spend Tokens</span>
-            <span>∞</span>
-          </Button>
-        </Column>
+        {(raffle.maxEntries == null || raffle.maxEntries > 1) && (
+          <Column gap={1} my={1}>
+            <Typography fontWeight={700} typography={'h6'}>
+              Enter raffle with tokens
+            </Typography>
+            <Button
+              size="large"
+              disabled={
+                raffle.maxEntries != null && purchased === raffle.maxEntries
+              }
+              startIcon={<StarBorder />}
+              onClick={onUseTokens}
+              variant="arcade"
+              color="success"
+              sx={{
+                '&.MuiButton-root': {
+                  minHeight: 50,
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                },
+              }}
+            >
+              <span>Spend Tokens</span>
+              <span>
+                {raffle.maxEntries != null
+                  ? `(${purchased ?? '...'}/${raffle.maxEntries})`
+                  : '∞'}
+              </span>
+            </Button>
+          </Column>
+        )}
         <RaffleActions
           raffleId={raffle.id}
           actions={actions}
@@ -338,16 +349,7 @@ const RaffleTotalEntries: React.FC<{ raffleId: number }> = ({ raffleId }) => {
 };
 
 const RaffleYourEntries: React.FC<{ raffleId: number }> = ({ raffleId }) => {
-  const session = useSession();
-  const isConnected = session.status === 'authenticated';
-  const participation = trpc.user.raffles.participation.useQuery(
-    {
-      raffleId,
-    },
-    {
-      enabled: isConnected,
-    }
-  );
+  const participation = useYourEntries(raffleId);
 
   if (participation.isLoading || participation.isRefetching)
     return <PulsingLogo hideMessage size={22} />;
@@ -358,20 +360,34 @@ const RaffleYourEntries: React.FC<{ raffleId: number }> = ({ raffleId }) => {
   );
 };
 
+const useYourEntries = (raffleId: number) => {
+  const session = useSession();
+  const isConnected = session.status === 'authenticated';
+  const participation = trpc.user.raffles.participation.useQuery(
+    {
+      raffleId,
+    },
+    {
+      enabled: isConnected,
+    }
+  );
+  return participation;
+};
+
 const TokensModal: React.FC<{
   open: boolean;
   onClose: () => void;
-  raffleId: number;
-}> = ({ open, onClose, raffleId }) => {
+  raffle: RaffleSchema;
+}> = ({ open, onClose, raffle }) => {
   return (
     <ModalLayout open={open} onClose={onClose}>
-      <UseTokensContent raffleId={raffleId} onClose={onClose} />
+      <UseTokensContent raffle={raffle} onClose={onClose} />
     </ModalLayout>
   );
 };
 
 const UseTokensContent: React.FC<{
-  raffleId: number;
+  raffle: RaffleSchema;
   onClose: () => void;
 }> = (props) => {
   const [entries, setEntries] = useState(1);
@@ -380,6 +396,7 @@ const UseTokensContent: React.FC<{
   const snackbar = useSnackbar();
   const utils = trpc.useUtils();
 
+  const participation = useYourEntries(props.raffle.id);
   const enterRaffle = trpc.user.raffles.enterRaffle.useMutation();
   const tokens = trpc.user.inventory.quantity.useQuery('1');
 
@@ -389,7 +406,12 @@ const UseTokensContent: React.FC<{
 
   if (tokens.isError) return <ErrorComponent />;
 
-  const tooManyEntries = entries > tokens.data / RAFFLE_ENTRY_FEE;
+  const cannotAfford = entries > tokens.data / RAFFLE_ENTRY_FEE;
+  const purchased = participation.data?.purchased ?? 0;
+  const availableEntries = props.raffle.maxEntries
+    ? props.raffle.maxEntries - purchased
+    : Infinity;
+  const tooManyEntries = entries > availableEntries;
 
   const handleSetEntries = (value: number) => {
     if (value < 1) {
@@ -401,6 +423,10 @@ const UseTokensContent: React.FC<{
       snackbar.error('You do not have enough tokens!');
     }
 
+    if (value > availableEntries) {
+      snackbar.error('Too many entries!');
+    }
+
     setEntries(value);
   };
 
@@ -409,13 +435,13 @@ const UseTokensContent: React.FC<{
       setEntering(true);
 
       await enterRaffle.mutateAsync({
-        raffleId: props.raffleId,
+        raffleId: props.raffle.id,
         entries,
       });
 
       utils.user.raffles.participation.refetch();
       utils.user.inventory.quantity.refetch();
-      utils.maybe.raffles.participants.refetch({ raffleId: props.raffleId });
+      utils.maybe.raffles.participants.refetch({ raffleId: props.raffle.id });
 
       snackbar.success('You entered the raffle! Good luck!');
     } catch (error) {
@@ -440,6 +466,18 @@ const UseTokensContent: React.FC<{
           </u>{' '}
           available to spend.
         </Typography>
+
+        {props.raffle.maxEntries != null && (
+          <Typography>
+            You can purchase up to{' '}
+            <u>
+              <b>
+                {availableEntries} {pluralize('entry', availableEntries)}
+              </b>
+            </u>{' '}
+            for this raffle.
+          </Typography>
+        )}
       </Column>
       <Divider />
       <Typography variant="body2" color="text.secondary" textAlign="center">
@@ -457,20 +495,27 @@ const UseTokensContent: React.FC<{
           size="medium"
           variant="arcade"
           color="success"
-          disabled={entering || tooManyEntries}
+          disabled={entering || cannotAfford || tooManyEntries}
           onClick={handleEnterRaffle}
         >
           Purchase {entries} {pluralize('Entry', entries)}
         </Button>
         <Typography
-          display={tooManyEntries ? 'block' : 'none'}
+          display={cannotAfford || tooManyEntries ? 'block' : 'none'}
           variant="body2"
-          color={tooManyEntries ? 'error.main' : 'text.secondary'}
+          color={
+            cannotAfford || tooManyEntries ? 'error.main' : 'text.secondary'
+          }
           fontWeight={700}
         >
           {tokens.data < RAFFLE_ENTRY_FEE
             ? `You need at least ${RAFFLE_ENTRY_FEE} tokens to enter the raffle!`
-            : `Insufficient Tokens!`}
+            : tooManyEntries
+            ? `You can only purchase ${availableEntries} ${pluralize(
+                'entry',
+                availableEntries
+              )}!`
+            : `You do not have enough tokens!`}
         </Typography>
       </Column>
       <Box alignSelf="flex-end">

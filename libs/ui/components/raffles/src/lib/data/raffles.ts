@@ -14,6 +14,7 @@ export const mockRaffles: RaffleSchema[] = [
     name: "Baldur's Gate 3",
     type: 'STEAM_KEY',
     status: 'ACTIVE',
+    maxEntries: null,
     createdAt: new Date().getTime(),
     publishAt: new Date().getTime(),
     description:
@@ -32,6 +33,7 @@ export const mockRaffles: RaffleSchema[] = [
     itemId: 'cs2',
     name: 'City Skylines II',
     type: 'STEAM_KEY',
+    maxEntries: null,
     createdAt: new Date().getTime(),
     publishAt: new Date().getTime(),
     status: 'ACTIVE',
@@ -50,6 +52,7 @@ export const mockRaffles: RaffleSchema[] = [
     id: 3,
     itemId: 'pw3',
     name: 'Palworld',
+    maxEntries: null,
     type: 'STEAM_KEY',
     createdAt: new Date().getTime(),
     publishAt: new Date().getTime(),
@@ -68,6 +71,7 @@ export const mockRaffles: RaffleSchema[] = [
   {
     id: 4,
     itemId: 'eafc24',
+    maxEntries: null,
     name: 'EA Sports FC 24',
     type: 'STEAM_KEY',
     createdAt: new Date().getTime(),
@@ -86,6 +90,7 @@ export const mockRaffles: RaffleSchema[] = [
   },
   {
     id: 5,
+    maxEntries: null,
     itemId: 'rct3',
     status: 'ACTIVE',
     createdAt: new Date().getTime(),
@@ -105,6 +110,7 @@ export const mockRaffles: RaffleSchema[] = [
   },
   {
     id: 6,
+    maxEntries: null,
     itemId: 'ro2',
     type: 'STEAM_KEY',
     createdAt: new Date().getTime(),

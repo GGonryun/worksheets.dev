@@ -21,6 +21,7 @@ export default protectedProcedure
       select: {
         numEntries: true,
         winner: true,
+        purchased: true,
       },
     });
 
@@ -31,6 +32,7 @@ export default protectedProcedure
         id: user.id,
         username: user.username,
       },
+      purchased: participation?.purchased ?? 0,
       winner: participation?.winner ?? false,
     };
   });

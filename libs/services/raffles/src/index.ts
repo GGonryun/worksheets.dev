@@ -115,7 +115,9 @@ export class RafflesService {
       });
     }
 
-    await this.#db.raffleParticipation.upsert({
+    const purchased = bonus ? 0 : entries;
+
+    const update = await this.#db.raffleParticipation.upsert({
       where: {
         userId_raffleId: {
           userId,
@@ -126,10 +128,14 @@ export class RafflesService {
         userId,
         raffleId,
         numEntries: entries,
+        purchased,
       },
       update: {
         numEntries: {
           increment: entries,
+        },
+        purchased: {
+          increment: purchased,
         },
       },
     });
@@ -140,6 +146,14 @@ export class RafflesService {
         // TODO: customizable entry fee.
         quantity: RAFFLE_ENTRY_FEE * entries,
       });
+
+      if (raffle.maxEntries != null && update.purchased > raffle.maxEntries) {
+        throw new TRPCError({
+          code: 'BAD_REQUEST',
+          message: 'You cannot exceed the maximum number of entries',
+          cause: `User ${userId} has already purchased ${update.purchased} entries for this raffle where the max is ${raffle.maxEntries}.`,
+        });
+      }
     }
   }
 

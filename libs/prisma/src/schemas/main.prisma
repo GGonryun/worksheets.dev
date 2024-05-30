@@ -486,6 +486,8 @@ model Raffle {
   premium      Boolean               @default(false)
   itemId       String
   item         Item                  @relation(fields: [itemId], references: [id])
+  // max purchasable entries per user
+  maxEntries   Int?
   // sponsorship
   sponsorId    String                @db.VarChar(127)
   sponsor      Sponsor               @relation(fields: [sponsorId], references: [id])
@@ -501,6 +503,7 @@ model Raffle {
 model RaffleParticipation {
   id         Int      @id @default(autoincrement())
   numEntries Int
+  purchased  Int      @default(0)
   // the user who bought the ticket
   userId     String
   user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)

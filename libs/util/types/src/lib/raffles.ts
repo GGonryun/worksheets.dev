@@ -31,6 +31,7 @@ export const raffleSchema = z.object({
   imageUrl: z.string(),
   numWinners: z.number(),
   type: z.nativeEnum(ItemType),
+  maxEntries: z.number().nullable(),
   sponsor: z.object({
     name: z.string(),
     logo: z.string(),
@@ -51,7 +52,9 @@ export const participationSchema = z.object({
 
 export type ParticipationSchema = z.infer<typeof participationSchema>;
 
-export const userParticipationSchema = participationSchema;
+export const userParticipationSchema = participationSchema.extend({
+  purchased: z.number(),
+});
 
 export type UserParticipationSchema = z.infer<typeof userParticipationSchema>;
 
@@ -74,6 +77,7 @@ export const convertRaffle = (
   numWinners: raffle.numWinners,
   type: raffle.item.type,
   status: raffle.status,
+  maxEntries: raffle.maxEntries,
   sponsor: {
     name: raffle.sponsor.name,
     logo: raffle.sponsor.logo,
