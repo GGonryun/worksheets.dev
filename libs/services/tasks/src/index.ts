@@ -29,6 +29,8 @@ import {
 } from '@worksheets/util/tasks';
 import { isExpired } from '@worksheets/util/time';
 
+import { validateRequirements } from './util';
+
 export class TasksService {
   #db: PrismaClient | PrismaTransactionalClient;
   #inventory: InventoryService;
@@ -113,12 +115,20 @@ export class TasksService {
       },
     });
 
+    const requirements = actions.filter((action) => action.required);
+    const complete = requirements.every((action) => {
+      const p = action.progress?.at(0);
+      return parseStatus(action.task.frequency, p) === 'COMPLETED';
+    });
+
     const joined = actions.map((action) => {
       const p = action.progress?.at(0);
       return {
         actionId: action.id,
         order: action.order,
         name: action.name ?? action.task.name,
+        required: action.required,
+        locked: !action.required && !complete,
         description: action.description ?? action.task.description,
         taskId: action.taskId,
         category: action.task.category,
@@ -209,6 +219,23 @@ export class TasksService {
       },
       include: {
         task: true,
+        raffle: {
+          include: {
+            actions: {
+              where: {
+                required: true,
+              },
+              include: {
+                task: true,
+                progress: {
+                  where: {
+                    userId: opts.userId,
+                  },
+                },
+              },
+            },
+          },
+        },
         progress: {
           where: {
             userId: opts.userId,
@@ -216,6 +243,7 @@ export class TasksService {
         },
       },
     });
+
     if (!action) {
       throw new TRPCError({
         code: 'NOT_FOUND',
@@ -223,6 +251,8 @@ export class TasksService {
         cause: `Action with id ${opts.actionId} does not exist in the database`,
       });
     }
+
+    validateRequirements(action);
 
     return await this.#trackAction({
       action,

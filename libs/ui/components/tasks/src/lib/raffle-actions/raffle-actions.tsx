@@ -1,4 +1,4 @@
-import { Alarm } from '@mui/icons-material';
+import { Alarm, Error, LockOutlined } from '@mui/icons-material';
 import { Box, Button, CircularProgress, Typography } from '@mui/material';
 import { MAX_INT } from '@worksheets/prisma';
 import { Column, Row } from '@worksheets/ui/components/flex';
@@ -41,13 +41,17 @@ export const RaffleActions: React.FC<{
 const showExpiration = (frequency: string, status: string) =>
   frequency !== 'INFINITE' && frequency !== 'ONCE' && status === 'COMPLETED';
 
-export const ExpiredActionTooltip: React.FC<
+export const ActionTooltip: React.FC<
   ActionSchema & { children: ReactNode }
-> = ({ frequency, expiresAt, reward, children, status }) => {
+> = ({ frequency, expiresAt, reward, children, status, locked }) => {
   return (
     <Tooltip
       title={
-        showExpiration(frequency, status) ? (
+        locked ? (
+          <Typography typography={'body2'} fontWeight={400}>
+            This entry is locked until you complete all required tasks.
+          </Typography>
+        ) : showExpiration(frequency, status) ? (
           <Typography typography={'body2'} fontWeight={400}>
             This entry offers a <b>{formatTaskFrequencyLabel(frequency)}</b>{' '}
             bonus of <b>{reward} tokens</b>. You can complete it again in{' '}
@@ -71,15 +75,23 @@ export const RaffleAction: React.FC<
   const { status, type } = action;
   const Icon = selectTaskStatusIcon(status, type);
   return (
-    <ExpiredActionTooltip {...action}>
+    <ActionTooltip {...action}>
       <Box component="span" width="100%">
         <Button
-          disabled={dirty}
+          disabled={dirty || action.locked}
           fullWidth
           variant="arcade"
           color={selectTaskBackgroundColor(status, type)}
           onClick={onClick}
-          startIcon={dirty ? <CircularProgress size={16} /> : <Icon />}
+          startIcon={
+            action.locked ? (
+              <LockOutlined />
+            ) : dirty ? (
+              <CircularProgress size={16} />
+            ) : (
+              <Icon />
+            )
+          }
           sx={{
             '&.MuiButton-root': {
               pr: { xs: 1, sm: 2 },
@@ -91,10 +103,13 @@ export const RaffleAction: React.FC<
           }}
         >
           {dirty ? 'Loading...' : <Label {...action} />}
-          <Reward {...action} />
+          <Row gap={1}>
+            {action.required && <Error fontSize="small" />}
+            <Reward {...action} />
+          </Row>
         </Button>
       </Box>
-    </ExpiredActionTooltip>
+    </ActionTooltip>
   );
 };
 
@@ -152,7 +167,7 @@ const Reward: React.FC<ActionSchema> = ({ reward, frequency }) => {
       justifyContent="center"
       alignItems="center"
       textAlign="right"
-      minWidth={50}
+      minWidth={60}
     >
       <Typography fontWeight={700} lineHeight={1}>
         +{reward}

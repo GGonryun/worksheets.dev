@@ -712,6 +712,7 @@ model RaffleAction {
   order       Int
   name        String?
   description String?
+  required    Boolean        @default(false)
   reward      Int // the number of entries the user gets for completing the action.
   // relationships
   taskId      String

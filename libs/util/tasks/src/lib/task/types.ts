@@ -38,6 +38,8 @@ export type QuestSchema = z.infer<typeof questSchema>;
 
 export const actionSchema = taskSchema.extend({
   actionId: z.string(),
+  locked: z.boolean(),
+  required: z.boolean(),
   reward: z.number(),
 });
 
