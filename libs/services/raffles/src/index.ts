@@ -105,6 +105,9 @@ export class RafflesService {
       throw new TRPCError({
         code: 'PRECONDITION_FAILED',
         message: 'Raffle has expired',
+        cause: `Raffle ${raffleId} has expired at ${
+          raffle.expiresAt
+        } and is now ${new Date()}`,
       });
     }
 
