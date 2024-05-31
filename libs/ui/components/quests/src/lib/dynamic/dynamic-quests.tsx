@@ -57,7 +57,7 @@ const Container: React.FC = () => {
     if (!questId) return;
 
     try {
-      track.mutateAsync({
+      await track.mutateAsync({
         questId,
         ...input,
       });
