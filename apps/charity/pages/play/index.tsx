@@ -1,8 +1,11 @@
 import { createStaticTRPC } from '@worksheets/trpc-charity/server';
 import { AppLayoutContainer } from '@worksheets/ui/layout';
 import { DynamicArcadeScreen } from '@worksheets/ui/pages/arcade';
-import { BasicCategoryInfo, BasicGameInfo } from '@worksheets/util/types';
+import { shuffle } from '@worksheets/util/arrays';
+import { isExpired } from '@worksheets/util/time';
+import { BasicCategoryInfo, DetailedGameInfo } from '@worksheets/util/types';
 import { NextPageWithLayout } from '@worksheets/util-next';
+import { uniqBy } from 'lodash';
 import { GetStaticProps } from 'next';
 import { NextSeo, NextSeoProps } from 'next-seo';
 
@@ -10,21 +13,45 @@ import { playSeo } from '../../util/seo';
 
 type Props = {
   seo: NextSeoProps;
-  topGames: BasicGameInfo[];
-  allGames: BasicGameInfo[];
-  newGames: BasicGameInfo[];
-  featured: {
-    primary: BasicGameInfo[];
-    secondary: BasicGameInfo;
-  };
+  games: DetailedGameInfo[];
   categories: BasicCategoryInfo[];
 };
 
-const Page: NextPageWithLayout<Props> = ({ seo, ...props }) => {
+const publishedOnly = (g: DetailedGameInfo) =>
+  g.status === 'PUBLISHED' || g.publishAt === null || isExpired(g.publishAt);
+
+const MAX_CAROUSEL_LENGTH = 20;
+const MAX_FEATURED_GAMES = 8;
+const Page: NextPageWithLayout<Props> = ({ seo, games, categories }) => {
+  const publishedGames = [...games].filter(publishedOnly);
+  const topGames = [...publishedGames]
+    .sort((a, b) => b.plays - a.plays)
+    .slice(0, MAX_CAROUSEL_LENGTH);
+  const newGames = [...publishedGames]
+    .sort((a, b) => b.createdAt - a.createdAt)
+    .slice(0, MAX_CAROUSEL_LENGTH);
+
+  const featured = shuffle(uniqBy([...topGames, ...newGames], 'id')).slice(
+    0,
+    MAX_FEATURED_GAMES
+  );
+
+  const primary = featured.slice(0, -1);
+
+  const secondary = featured[featured.length - 1];
   return (
     <>
       <NextSeo {...seo} />
-      <DynamicArcadeScreen {...props} />
+      <DynamicArcadeScreen
+        allGames={publishedGames}
+        topGames={topGames}
+        newGames={newGames}
+        featured={{
+          primary,
+          secondary,
+        }}
+        categories={categories}
+      />
     </>
   );
 };
@@ -33,14 +60,20 @@ export const getStaticProps = (async (ctx) => {
   const trpc = await createStaticTRPC(ctx);
 
   try {
-    const arcade = await trpc.public.arcade.details.fetch(undefined);
+    const rawGames = await trpc.public.games.list.fetch({});
+    const games = rawGames.map((g) => ({
+      ...g,
+      createdAt: new Date(g.createdAt).getTime(),
+      updatedAt: new Date(g.updatedAt).getTime(),
+      publishAt: g.publishAt ? new Date(g.publishAt).getTime() : null,
+    }));
     const categories = await trpc.public.categories.list.fetch({
       showEmpty: false,
     });
 
     return {
       props: {
-        ...arcade,
+        games,
         seo: playSeo,
         categories,
       },

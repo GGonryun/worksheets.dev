@@ -86,7 +86,7 @@ export const getStaticPaths = (async (ctx) => {
   return {
     paths: games.map((game) => ({
       params: {
-        gameId: game,
+        gameId: game.id,
       },
     })),
     fallback: false,

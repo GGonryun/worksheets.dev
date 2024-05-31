@@ -56,9 +56,9 @@ export const ArcadeScreen: React.FC<{
           <GameCarousel title="Recently Played" items={props.recentGames} />
         )}
 
-        <GameCarousel title="Top Games" items={props.topGames} />
+        <GameCarousel title="Best Games" items={props.topGames} />
 
-        <GameCarousel title="New Games" items={props.newGames} />
+        <GameCarousel title="Newest Games" items={props.newGames} />
 
         {props.topBattles}
 
