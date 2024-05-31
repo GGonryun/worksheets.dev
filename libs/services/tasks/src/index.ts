@@ -328,18 +328,15 @@ export class TasksService {
             },
           ],
         },
-        // and either the raffle is already published or it is active
+        // and the raffle is already published and it is not expired and the status is active
         raffle: {
-          OR: [
-            {
-              publishAt: {
-                lte: new Date(),
-              },
-            },
-            {
-              status: 'ACTIVE',
-            },
-          ],
+          status: 'ACTIVE',
+          publishAt: {
+            lte: new Date(),
+          },
+          expiresAt: {
+            gte: new Date(),
+          },
         },
       },
       include: {
@@ -361,7 +358,8 @@ export class TasksService {
         gameId: a.task.gameId,
       }))
     );
-    Promise.all([
+
+    await Promise.all([
       actions.map((action) =>
         this.#trackAction({
           action,

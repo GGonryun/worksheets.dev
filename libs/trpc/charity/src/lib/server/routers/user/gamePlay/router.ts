@@ -1,5 +1,6 @@
 import { TRPCError } from '@trpc/server';
 import { TasksService } from '@worksheets/services/tasks';
+import { fireAndForget } from '@worksheets/util/promises';
 import { z } from 'zod';
 
 import { protectedProcedure } from '../../../procedures';
@@ -31,19 +32,21 @@ export default t.router({
         });
       }
 
-      Promise.all([
-        tasks.trackGameQuests({
-          gameId: game.id,
-          type: 'PLAY_GAME',
-          userId: user.id,
-          repetitions: 1,
-        }),
-        tasks.trackGameActions({
-          gameId: game.id,
-          type: 'PLAY_GAME',
-          userId: user.id,
-          repetitions: 1,
-        }),
-      ]);
+      fireAndForget(
+        Promise.all([
+          tasks.trackGameQuests({
+            gameId: game.id,
+            type: 'PLAY_GAME',
+            userId: user.id,
+            repetitions: 1,
+          }),
+          tasks.trackGameActions({
+            gameId: game.id,
+            type: 'PLAY_GAME',
+            userId: user.id,
+            repetitions: 1,
+          }),
+        ])
+      );
     }),
 });
