@@ -252,8 +252,6 @@ export class TasksService {
       });
     }
 
-    validateRequirements(action);
-
     return await this.#trackAction({
       action,
       ...opts,
@@ -270,6 +268,19 @@ export class TasksService {
     action: Prisma.RaffleActionGetPayload<{
       include: {
         task: true;
+        raffle: {
+          include: {
+            actions: {
+              where: {
+                required: true;
+              };
+              include: {
+                task: true;
+                progress: true;
+              };
+            };
+          };
+        };
         progress: {
           where: {
             userId: string;
@@ -278,6 +289,10 @@ export class TasksService {
       };
     }>;
   } & TaskInputSchema) {
+    if (!validateRequirements(action)) {
+      return 0;
+    }
+
     const progress = await this.#calculateProgress({
       task: action.task,
       // each quest should have at most one progress record per user.
@@ -341,6 +356,23 @@ export class TasksService {
       },
       include: {
         task: true,
+        raffle: {
+          include: {
+            actions: {
+              where: {
+                required: true,
+              },
+              include: {
+                task: true,
+                progress: {
+                  where: {
+                    userId: opts.userId,
+                  },
+                },
+              },
+            },
+          },
+        },
         progress: {
           where: {
             userId,

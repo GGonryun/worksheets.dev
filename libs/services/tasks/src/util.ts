@@ -1,4 +1,3 @@
-import { TRPCError } from '@trpc/server';
 import { Prisma } from '@worksheets/prisma';
 import { parseStatus } from '@worksheets/util/tasks';
 
@@ -31,12 +30,22 @@ export const validateRequirements = (
   });
 
   if (!action.required && unmet.length > 0) {
-    throw new TRPCError({
-      code: 'PRECONDITION_FAILED',
-      message: `Action requirements not met`,
-      cause: `Action with id ${action.id} has unmet requirements: ${unmet
-        .map((r) => r.id)
-        .join(', ')}`,
-    });
+    console.info(
+      `Action with id ${action.id} has unmet requirements and is not a required action`,
+      {
+        unmet: unmet.map((r) => r.id),
+      }
+    );
+    return false;
+  } else {
+    console.info(
+      `Action with id ${action.id} has no unmet requirements or is a required action.`,
+      {
+        required: action.required,
+        unmet: unmet.map((r) => r.id),
+      }
+    );
   }
+
+  return true;
 };
