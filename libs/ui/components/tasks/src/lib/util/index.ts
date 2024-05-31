@@ -25,6 +25,7 @@ import {
 import {
   Discord,
   NewTwitter,
+  ReCaptcha,
   SteamGames,
   Twitch,
 } from '@worksheets/icons/companies';
@@ -59,12 +60,13 @@ const TASK_BACKGROUND_COLOR: Record<TaskType, ButtonProps['color']> = {
   [TaskType.REPOST_TWITTER]: 'black',
   [TaskType.JOIN_DISCORD_GUILD]: 'discord',
   [TaskType.WISHLIST_STEAM_GAME]: 'steam',
-  [TaskType.VISIT_WEBSITE]: 'warning',
-  [TaskType.WATCH_AD]: 'secondary',
+  [TaskType.VISIT_WEBSITE]: 'primary',
+  [TaskType.WATCH_AD]: 'primary',
   [TaskType.BASIC_ACTION]: 'primary',
   [TaskType.FORM]: 'primary',
   [TaskType.PLAY_GAME]: 'primary',
   [TaskType.PLAY_MINUTES]: 'primary',
+  [TaskType.CAPTCHA]: 'primary',
   REFERRAL_PLAY_MINUTES: undefined,
   FRIEND_PLAY_MINUTES: undefined,
   ADD_FRIEND: undefined,
@@ -103,6 +105,7 @@ const TASK_ICON: Record<TaskType, SvgIconComponent> = {
   [TaskType.FORM]: DynamicFormOutlined,
   [TaskType.POLL]: PollOutlined,
   [TaskType.SECRET]: PasswordOutlined,
+  [TaskType.CAPTCHA]: ReCaptcha,
 };
 
 export const selectTaskStatusIcon = (
@@ -210,6 +213,8 @@ export const formatTaskTypeLabel = (type: TaskType) => {
       return 'Vote on Poll';
     case TaskType.SECRET:
       return 'Secret Code';
+    case TaskType.CAPTCHA:
+      return 'Solve Captcha';
     default:
       throw assertNever(type);
   }

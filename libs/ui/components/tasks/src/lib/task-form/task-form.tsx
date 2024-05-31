@@ -7,6 +7,7 @@ import { AddFriendForm } from './add-friend-form';
 import { AddReferralForm } from './add-referral-form';
 import { BasicActionForm } from './basic-action-form';
 import { BattleParticipationForm } from './battle-participation-form';
+import { CatpchaForm } from './captcha-form';
 import { CustomInputForm } from './custom-input-form';
 import { FollowTwitchForm } from './follow-twitch-form';
 import { FollowTwitterForm } from './follow-twitter-form';
@@ -63,6 +64,8 @@ export const TaskForm: React.FC<TaskFormProps> = ({ task, actions }) => {
       return <PollForm task={task} actions={actions} />;
     case TaskType.SECRET:
       return <SecretForm task={task} actions={actions} />;
+    case TaskType.CAPTCHA:
+      return <CatpchaForm task={task} actions={actions} />;
     default:
       throw assertNever(task.type);
   }

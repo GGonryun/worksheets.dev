@@ -1,5 +1,6 @@
 import { TRPCError } from '@trpc/server';
 import { SteamAPI } from '@worksheets/api/steam';
+import { CaptchaService } from '@worksheets/services/captchas';
 import { DiscordService } from '@worksheets/services/discord';
 import { APIKeyService, OAuthService } from '@worksheets/services/integrations';
 import { TwitchService } from '@worksheets/services/twitch';
@@ -144,6 +145,15 @@ export default t.router({
         return await keys.useApiKey(user.id, async ({ apiKey }) => {
           return await steam.hasGameInWishlist({ accountId: apiKey, appId });
         });
+      }),
+  }),
+  recaptcha: t.router({
+    verify: protectedProcedure
+      .input(z.custom<Parameters<CaptchaService['verify']>[1]>())
+      .output(z.custom<Awaited<ReturnType<CaptchaService['verify']>>>())
+      .mutation(async ({ input, ctx: { user } }) => {
+        const captcha = new CaptchaService();
+        return captcha.verify(user.id, input);
       }),
   }),
 });

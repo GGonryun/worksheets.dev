@@ -69,6 +69,7 @@ export type TaskData = {
   ADD_FRIEND: unknown;
   ADD_REFERRAL: unknown;
   PRIZE_WHEEL: unknown;
+  CAPTCHA: unknown;
   FORM: {
     fields: FormField[];
   };

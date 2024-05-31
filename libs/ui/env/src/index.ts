@@ -18,6 +18,7 @@ const BLOG_BASE_URL =
 const COOKIE_DOMAIN = process.env['NEXT_PUBLIC_COOKIE_DOMAIN'] ?? '';
 const IS_PRODUCTION = process.env['NODE_ENV'] === 'production';
 const IS_DEVELOPMENT = process.env['NODE_ENV'] !== 'production';
+const RECAPTCHA_SITE_KEY = process.env['NEXT_PUBLIC_RECAPTCHA_SITE_KEY'] ?? '';
 
 export {
   CHARITY_GAMES_BASE_URL,
@@ -32,4 +33,5 @@ export {
   COOKIE_DOMAIN,
   IS_PRODUCTION,
   IS_DEVELOPMENT,
+  RECAPTCHA_SITE_KEY,
 };

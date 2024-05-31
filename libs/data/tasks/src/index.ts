@@ -13,6 +13,18 @@ import { createGameTask } from './util';
 export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
   {
     version: 1,
+    type: TaskType.CAPTCHA,
+    category: TaskCategory.INPUT,
+    id: 'CAPTCHA_ONCE',
+    frequency: TaskFrequency.ONCE,
+    requiredRepetitions: 1,
+    maxRepetitions: 1,
+    name: 'Solve a CAPTCHA',
+    description: 'Complete a CAPTCHA to earn a reward.',
+    data: {},
+  },
+  {
+    version: 1,
     type: TaskType.FORM,
     category: TaskCategory.INPUT,
     id: 'RATE_CHARITY_GAMES',

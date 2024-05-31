@@ -29,6 +29,7 @@ export const validateTask = (
     case 'FOLLOW_TWITCH':
     case 'WISHLIST_STEAM_GAME':
     case 'JOIN_DISCORD_GUILD':
+    case 'CAPTCHA':
       // TODO: validate these tasks
       return;
     case 'POLL':

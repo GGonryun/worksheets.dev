@@ -55,6 +55,7 @@
       "@worksheets/services/advertisement": [
         "libs/services/advertisement/src/index.ts"
       ],
+      "@worksheets/services/captchas": ["libs/services/captchas/src/index.ts"],
       "@worksheets/services/discord": ["libs/services/discord/src/index.ts"],
       "@worksheets/services/email": ["libs/services/email/src/index.ts"],
       "@worksheets/services/encryption": [
