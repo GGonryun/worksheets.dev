@@ -1,4 +1,4 @@
-import { TRPCError } from '@trpc/server';
+import { request } from '@worksheets/api/fetch';
 
 type DiscordChannel = 'admin' | 'public' | 'notification';
 
@@ -28,57 +28,26 @@ export class DiscordAPI {
     };
   }
 
-  async #get(path: string, opts: RequestInit) {
-    const url = encodeURI(`${this.#baseUrl}${path}`);
-    console.info(`Discord API GET ${url}`, opts);
-    const result = await fetch(url, opts);
-
-    if (!result.ok || result.status >= 400) {
-      const cause = await result.json();
-      console.error(`Discord API GET ${url} failed`, cause);
-
-      if (result.status === 401) {
-        throw new TRPCError({
-          code: 'UNAUTHORIZED',
-          message: 'Unauthorized to access Discord API',
-          cause,
-        });
-      }
-
-      throw new TRPCError({
-        code: 'INTERNAL_SERVER_ERROR',
-        message: 'Failed to access Discord API',
-        cause,
-      });
-    }
-
-    return await result.json();
-  }
-
   async getUser(opts: {
     accessToken: string;
   }): Promise<{ id: string; username: string; name: string }> {
     const { accessToken } = opts;
 
-    const json = await this.#get(`/users/@me`, {
+    const json = await request<{
+      id: string;
+      username: string;
+      global_name: string;
+    }>(`${this.#baseUrl}/users/@me`, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     });
 
-    if ('id' in json && 'username' in json && 'global_name' in json) {
-      return {
-        id: json.id,
-        username: json.username,
-        name: json.global_name,
-      };
-    }
-
-    throw new TRPCError({
-      code: 'BAD_REQUEST',
-      message: 'Failed to identify user',
-      cause: json,
-    });
+    return {
+      id: json.id,
+      username: json.username,
+      name: json.global_name,
+    };
   }
 
   async isGuildMember(opts: {
@@ -88,11 +57,15 @@ export class DiscordAPI {
   }): Promise<boolean> {
     const { accessToken, guildId, userId } = opts;
 
-    const result = await this.#get(`/users/@me/guilds/${guildId}/member`, {
+    const result = await request<{
+      user?: {
+        id?: string;
+      };
+    }>(`${this.#baseUrl}/users/@me/guilds/${guildId}/member`, {
       headers: this.#headers(accessToken),
     });
 
-    return 'user' in result && result.user && result.user.id === userId;
+    return result?.user?.id === userId;
   }
 
   async message(options: DiscordMessageInput) {
@@ -109,7 +82,7 @@ export class DiscordAPI {
     const webhookUrl = CHANNEL_WEBHOOKS[channel];
 
     try {
-      const response = await fetch(webhookUrl, {
+      await request(webhookUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -121,13 +94,6 @@ export class DiscordAPI {
           username: username ?? DEFAULT_DISCORD_USERNAME,
         }),
       });
-
-      if (!response.ok) {
-        console.error(
-          `[${response.status}] Failed to send Discord message`,
-          await response.text()
-        );
-      }
     } catch (error) {
       console.error(`[500] Failed to send Discord message`, error);
     }

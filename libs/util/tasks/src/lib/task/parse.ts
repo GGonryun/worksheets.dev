@@ -50,6 +50,7 @@ export const parseTaskData = <T extends TaskType>(
     case 'VISIT_WEBSITE':
     case 'WATCH_AD':
     case 'WISHLIST_STEAM_GAME':
+    case 'SUBSCRIBE_YOUTUBE':
     case 'CAPTCHA':
       break;
     default:

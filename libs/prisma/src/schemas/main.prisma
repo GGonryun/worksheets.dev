@@ -627,6 +627,7 @@ enum TaskType {
   FOLLOW_TWITCH
   WISHLIST_STEAM_GAME
   JOIN_DISCORD_GUILD
+  SUBSCRIBE_YOUTUBE
   CAPTCHA
   FORM
   POLL
@@ -850,6 +851,7 @@ enum IntegrationProvider {
   TWITTER
   DISCORD
   STEAM
+  YOUTUBE
 }
 
 enum IntegrationError {

@@ -14,6 +14,7 @@ import {
   ScheduleOutlined,
   SvgIconComponent,
   VideogameAssetOutlined,
+  YouTube,
 } from '@mui/icons-material';
 import { ButtonProps } from '@mui/material';
 import {
@@ -60,6 +61,7 @@ const TASK_BACKGROUND_COLOR: Record<TaskType, ButtonProps['color']> = {
   [TaskType.REPOST_TWITTER]: 'black',
   [TaskType.JOIN_DISCORD_GUILD]: 'discord',
   [TaskType.WISHLIST_STEAM_GAME]: 'steam',
+  [TaskType.SUBSCRIBE_YOUTUBE]: 'youtube',
   [TaskType.VISIT_WEBSITE]: 'primary',
   [TaskType.WATCH_AD]: 'primary',
   [TaskType.BASIC_ACTION]: 'primary',
@@ -98,6 +100,7 @@ const TASK_ICON: Record<TaskType, SvgIconComponent> = {
   [TaskType.FRIEND_PLAY_MINUTES]: FavoriteBorder,
   [TaskType.BASIC_ACTION]: CheckBoxOutlined,
   [TaskType.WATCH_AD]: FeaturedVideoOutlined,
+  [TaskType.SUBSCRIBE_YOUTUBE]: YouTube,
   [TaskType.BATTLE_PARTICIPATION]: Sword,
   [TaskType.FOLLOW_TWITCH]: Twitch,
   [TaskType.JOIN_DISCORD_GUILD]: Discord,
@@ -215,6 +218,8 @@ export const formatTaskTypeLabel = (type: TaskType) => {
       return 'Secret Code';
     case TaskType.CAPTCHA:
       return 'Solve Captcha';
+    case TaskType.SUBSCRIBE_YOUTUBE:
+      return 'Subscribe on YouTube';
     default:
       throw assertNever(type);
   }

@@ -484,6 +484,26 @@ export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
       appId: '2610710',
     },
   },
+  // subscribe youtube
+  {
+    version: 1,
+    id: 'SUBSCRIBE_CHARITY_GAMES_YOUTUBE_ONCE',
+    type: TaskType.SUBSCRIBE_YOUTUBE,
+    category: TaskCategory.TASK,
+    frequency: TaskFrequency.ONCE,
+    requiredRepetitions: 1,
+    maxRepetitions: 1,
+    name: 'Subscribe to Charity Games',
+    description:
+      'Subscribe to Charity Games on YouTube and watch our latest videos.',
+    data: {
+      channel: {
+        id: 'UC31cSJrIW19239UwqjMlfNg',
+        name: 'Charity Games',
+        url: `/@charitygames`,
+      },
+    },
+  },
   // infinites
   {
     version: 3,

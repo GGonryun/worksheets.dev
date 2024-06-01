@@ -231,6 +231,14 @@ const theme = createTheme({
       gradient: 'linear-gradient(120deg, #00adee, #000000)',
       shadow: '#2a475e',
     },
+    youtube: {
+      light: '#FF0000',
+      main: '#FF0000',
+      dark: '#FF0000',
+      contrastText: '#FFFFFF',
+      gradient: 'linear-gradient(145deg, #FF0000 11.5%, #E00000 91.2%)',
+      shadow: '#8F0000',
+    },
     twitch: {
       light: '#b9a3e3',
       main: '#772ce8',

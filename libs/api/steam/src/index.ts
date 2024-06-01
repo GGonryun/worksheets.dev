@@ -1,4 +1,5 @@
 import { TRPCError } from '@trpc/server';
+import { request } from '@worksheets/api/fetch';
 
 export class SteamAPI {
   #apiKey: string;
@@ -9,43 +10,6 @@ export class SteamAPI {
     this.#apiKey = apiKey;
   }
 
-  async #get<T>(url: string, opts?: RequestInit): Promise<T> {
-    console.info(`Steam API GET ${url}`, { opts });
-    const result = await fetch(url, {
-      method: 'GET',
-      ...(opts ?? {}),
-    });
-
-    if (!result.ok || result.status >= 400) {
-      const cause = await result.text();
-      console.error(`[${result.status}] Steam API GET failed`, cause);
-
-      if (result.status === 401) {
-        throw new TRPCError({
-          code: 'UNAUTHORIZED',
-          message: 'Unauthorized access to Steam API',
-          cause,
-        });
-      }
-
-      if (result.status === 500) {
-        throw new TRPCError({
-          code: 'UNAUTHORIZED',
-          message: 'Resource is not available.',
-          cause,
-        });
-      }
-
-      throw new TRPCError({
-        code: 'INTERNAL_SERVER_ERROR',
-        message: 'Failed to access Steam API',
-        cause,
-      });
-    }
-
-    return await result.json();
-  }
-
   async getUser({ accountId }: { accountId: string }) {
     const params = new URLSearchParams({
       key: this.#apiKey,
@@ -54,7 +18,7 @@ export class SteamAPI {
 
     const url = `https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?${params}`;
 
-    const result = await this.#get<{
+    const result = await request<{
       response: {
         players: Array<{
           steamid: string;
@@ -97,7 +61,7 @@ export class SteamAPI {
     while (page < this.#maxWishlistPages) {
       const url = `https://store.steampowered.com/wishlist/profiles/${accountId}/wishlistdata/?p=${page}`;
 
-      const result = await this.#get<{
+      const result = await request<{
         [appId: string]: { name: string };
       }>(url);
 

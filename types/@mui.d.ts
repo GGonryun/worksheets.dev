@@ -24,6 +24,7 @@ declare module '@mui/material/styles' {
   interface Palette {
     discord: SimplePaletteColorOptions;
     steam: SimplePaletteColorOptions;
+    youtube: SimplePaletteColorOptions;
     twitch: SimplePaletteColorOptions;
     black: SimplePaletteColorOptions;
     white: SimplePaletteColorOptions;
@@ -87,6 +88,7 @@ declare module '@mui/material/styles' {
   interface PaletteOptions {
     discord: SimplePaletteColorOptions;
     steam: SimplePaletteColorOptions;
+    youtube: SimplePaletteColorOptions;
     twitch: SimplePaletteColorOptions;
     black: SimplePaletteColorOptions;
     white?: SimplePaletteColorOptions;
@@ -115,6 +117,7 @@ declare module '@mui/material/Button' {
     black: true;
     discord: true;
     steam: true;
+    youtube: true;
     twitch: true;
     white: true;
     'dark-grey': true;
@@ -141,6 +144,7 @@ declare module '@mui/material/IconButton' {
   interface IconButtonPropsColorOverrides {
     default: true;
     steam: true;
+    youtube: true;
     discord: true;
     twitch: true;
     black: true;

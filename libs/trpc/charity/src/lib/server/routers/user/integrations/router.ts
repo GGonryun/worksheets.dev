@@ -4,6 +4,7 @@ import { CaptchaService } from '@worksheets/services/captchas';
 import { DiscordService } from '@worksheets/services/discord';
 import { APIKeyService, OAuthService } from '@worksheets/services/integrations';
 import { TwitchService } from '@worksheets/services/twitch';
+import { YouTubeService } from '@worksheets/services/youtube';
 import {
   APIKeyIntegrationProvider,
   OAuthIntegrationProvider,
@@ -129,6 +130,19 @@ export default t.router({
           userId: user.id,
           guildId,
         });
+      }),
+  }),
+  youtube: t.router({
+    isSubscribed: protectedProcedure
+      .input(
+        z.object({
+          channelId: z.string(),
+        })
+      )
+      .output(z.boolean())
+      .mutation(async ({ ctx: { db, user }, input: { channelId } }) => {
+        const service = new YouTubeService(db);
+        return service.isSubscribed({ userId: user.id, channelId });
       }),
   }),
   steam: t.router({

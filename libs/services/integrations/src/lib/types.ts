@@ -17,7 +17,7 @@ export type ProviderConfig = {
   clientId: string;
   clientSecret: string;
   scopes: string[];
-  authorize: { url: string };
+  authorize: { url: string; params?: Record<string, string> };
   access: { url: string; headers?: Record<string, string> };
   refresh: { url: string; headers?: Record<string, string> };
   pkce?: boolean;

@@ -16,8 +16,10 @@
     "baseUrl": ".",
     "paths": {
       "@worksheets/api/discord": ["libs/api/discord/src/index.ts"],
+      "@worksheets/api/fetch": ["libs/api/fetch/src/index.ts"],
       "@worksheets/api/steam": ["libs/api/steam/src/index.ts"],
       "@worksheets/api/twitch": ["libs/api/twitch/src/index.ts"],
+      "@worksheets/api/youtube": ["libs/api/youtube/src/index.ts"],
       "@worksheets/assets-blog": ["libs/assets/blog/src/index.ts"],
       "@worksheets/assets-common": ["libs/assets/common/src/index.ts"],
       "@worksheets/assets-games": ["libs/assets/games/src/index.ts"],
@@ -90,6 +92,7 @@
       ],
       "@worksheets/services/twitch": ["libs/services/twitch/src/index.ts"],
       "@worksheets/services/twitter": ["libs/services/twitter/src/index.ts"],
+      "@worksheets/services/youtube": ["libs/services/youtube/src/index.ts"],
       "@worksheets/trpc-charity": ["libs/trpc/charity/src/index.ts"],
       "@worksheets/trpc-charity/server": ["libs/trpc/charity/src/server.ts"],
       "@worksheets/ui-core": ["libs/ui/core/src/index.ts"],

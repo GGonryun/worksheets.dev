@@ -5,6 +5,7 @@ import {
   SteamIntegration,
   TwitchIntegration,
   TwitterIntegration,
+  YouTubeIntegration,
 } from '@worksheets/ui/components/integrations';
 
 export const IntegrationsPanelContainer: React.FC = () => {
@@ -17,6 +18,7 @@ export const IntegrationsPanelContainer: React.FC = () => {
       <TwitterIntegration />
       <DiscordIntegration />
       <SteamIntegration />
+      <YouTubeIntegration />
     </Column>
   );
 };

@@ -3,6 +3,7 @@ import { TRPCError } from '@trpc/server';
 import { DiscordAPI } from '@worksheets/api/discord';
 import { SteamAPI } from '@worksheets/api/steam';
 import { TwitchAPI } from '@worksheets/api/twitch';
+import { YouTubeAPI } from '@worksheets/api/youtube';
 import { OAuthIntegrationProvider } from '@worksheets/util/integrations';
 import { isExpired, secondsFromNow } from '@worksheets/util/time';
 
@@ -128,6 +129,42 @@ export const OAUTH_CONFIG: Record<OAuthIntegrationProvider, ProviderConfig> = {
         name: `${user.name} (${user.username})`,
       };
     },
+    parseToken: (json) => ({
+      accessToken: json.access_token,
+      expiresAt: secondsFromNow(json.expires_in),
+      refreshToken: json.refresh_token,
+      scopes: json.scope.split(' '),
+      tokenType: json.token_type,
+    }),
+  },
+  [IntegrationProvider.YOUTUBE]: {
+    provider: IntegrationProvider.YOUTUBE,
+    type: IntegrationType.OAUTH,
+    name: 'YouTube',
+    clientId: process.env['GOOGLE_CLIENT_ID'] || '',
+    clientSecret: process.env['GOOGLE_CLIENT_SECRET'] || '',
+    scopes: [
+      'https://www.googleapis.com/auth/youtube.readonly',
+      'https://www.googleapis.com/auth/userinfo.profile',
+    ],
+    authorize: {
+      url: 'https://accounts.google.com/o/oauth2/v2/auth',
+      params: {
+        access_type: 'offline',
+        include_granted_scopes: 'true',
+      },
+    },
+    access: {
+      url: 'https://oauth2.googleapis.com/token',
+    },
+    refresh: {
+      url: 'https://oauth2.googleapis.com/token',
+    },
+    shouldRefresh: (integration, error) =>
+      isExpired(integration.expiresAt) ||
+      (error instanceof TRPCError && error.code === 'UNAUTHORIZED'),
+    identify: async ({ accessToken }) =>
+      await new YouTubeAPI().getUser({ accessToken }),
     parseToken: (json) => ({
       accessToken: json.access_token,
       expiresAt: secondsFromNow(json.expires_in),

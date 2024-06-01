@@ -70,6 +70,13 @@ export type TaskData = {
   ADD_REFERRAL: unknown;
   PRIZE_WHEEL: unknown;
   CAPTCHA: unknown;
+  SUBSCRIBE_YOUTUBE: {
+    channel: {
+      id: string;
+      name: string;
+      url: string;
+    };
+  };
   FORM: {
     fields: FormField[];
   };

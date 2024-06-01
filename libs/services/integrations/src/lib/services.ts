@@ -159,7 +159,9 @@ export class OAuthService {
         provider: this.config.provider,
       },
     });
-    console.info(`Deleted ${deleted.count} existing Twitch integrations`);
+    console.info(
+      `Deleted ${deleted.count} existing ${this.config.name} integrations`
+    );
 
     const challenge = this.config.pkce ? randomUUID() : undefined;
     const integration = await this.#db.integration.create({
@@ -167,7 +169,7 @@ export class OAuthService {
         type: this.config.type,
         provider: this.config.provider,
         userId,
-        challenge: challenge,
+        challenge,
       },
     });
 
@@ -177,11 +179,22 @@ export class OAuthService {
     params.append('client_id', this.config.clientId);
     params.append('scope', this.config.scopes.join(' '));
     params.append('state', integration.id);
+
     if (challenge) {
       params.append('code_challenge', challenge);
       params.append('code_challenge_method', CODE_CHALLENGE_METHOD.PLAIN);
     }
 
+    for (const [key, value] of Object.entries(
+      this.config.authorize.params ?? {}
+    )) {
+      params.append(key, value);
+    }
+
+    console.log(`Authorizing ${this.config.name} integration`, {
+      provider: this.config.provider,
+      params: Object.fromEntries(params),
+    });
     return `${this.config.authorize.url}?${params}`;
   }
 
@@ -281,7 +294,7 @@ export class OAuthService {
   }
 
   async #refresh(integration: Integration) {
-    console.info(`Refreshing Twitch integration`, {
+    console.info(`Refreshing ${this.config.name} integration`, {
       integration: pick(integration, ['id', 'provider', 'expiresAt']),
     });
 

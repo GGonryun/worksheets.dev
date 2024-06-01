@@ -20,6 +20,7 @@ import { RaffleParticipationForm } from './raffle-participation-form';
 import { ReferralPlayMinutesForm } from './referral-play-minutes-form';
 import { RepostTwitterForm } from './repost-twitter-form';
 import { SecretForm } from './secret-form';
+import { SubscribeYouTubeForm } from './subscribe-youtube-form';
 import { VisitWebsiteForm } from './visit-website-form';
 import { WatchAdForm } from './watch-ad-form';
 import { WishlistSteamGameForm } from './wishlist-steam-game-form';
@@ -66,6 +67,8 @@ export const TaskForm: React.FC<TaskFormProps> = ({ task, actions }) => {
       return <SecretForm task={task} actions={actions} />;
     case TaskType.CAPTCHA:
       return <CatpchaForm task={task} actions={actions} />;
+    case TaskType.SUBSCRIBE_YOUTUBE:
+      return <SubscribeYouTubeForm task={task} actions={actions} />;
     default:
       throw assertNever(task.type);
   }

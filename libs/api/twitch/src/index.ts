@@ -1,35 +1,10 @@
-import { TRPCError } from '@trpc/server';
+import { request } from '@worksheets/api/fetch';
 
 export class TwitchAPI {
   #clientId: string;
 
   constructor(clientId: string) {
     this.#clientId = clientId;
-  }
-
-  async #get(url: string, opts: RequestInit) {
-    console.info(`Twitch API GET ${url}`);
-    const result = await fetch(url, opts);
-
-    if (!result.ok || result.status >= 400) {
-      const cause = await result.text();
-
-      if (result.status === 401) {
-        throw new TRPCError({
-          code: 'UNAUTHORIZED',
-          message: 'Unauthorized to access Twitch API',
-          cause,
-        });
-      }
-
-      throw new TRPCError({
-        code: 'INTERNAL_SERVER_ERROR',
-        message: 'Failed to access Twitch API',
-        cause,
-      });
-    }
-
-    return await result.json();
   }
 
   #headers(accessToken: string) {
@@ -47,18 +22,17 @@ export class TwitchAPI {
     const params = new URLSearchParams();
     if (username) params.append('login', username);
 
-    const json = await this.#get(
-      `https://api.twitch.tv/helix/users?${params}`,
-      {
-        headers: this.#headers(accessToken),
-      }
-    );
+    const response = await request<{
+      data: { id: string; display_name: string }[];
+    }>(`https://api.twitch.tv/helix/users?${params}`, {
+      headers: this.#headers(accessToken),
+    });
 
-    if (!Array.isArray(json.data) || json.data.length === 0) {
+    if (!Array.isArray(response.data) || response.data.length === 0) {
       throw new Error('Invalid user information');
     }
 
-    const data = json.data[0];
+    const data = response.data[0];
     return {
       id: data.id,
       displayName: data.display_name,
@@ -80,12 +54,13 @@ export class TwitchAPI {
     params.append('user_id', userId);
     params.append('broadcaster_id', bc.id);
 
-    const result = await this.#get(
+    const result = await request<{ total: number; data: unknown[] }>(
       `https://api.twitch.tv/helix/channels/followed?${params}`,
       {
         headers: this.#headers(accessToken),
       }
     );
+
     console.info(`Found ${result.total} follows`, result);
 
     return result.total > 0 && result.data.length > 0;
