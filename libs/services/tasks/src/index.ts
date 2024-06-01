@@ -691,7 +691,7 @@ export class TasksService {
     await notifications.send('quest-completed', {
       userId: userId,
       quest: {
-        name: quest.task.name,
+        name: quest.name ?? quest.task.name,
         loot: quest.loot,
       },
     });
