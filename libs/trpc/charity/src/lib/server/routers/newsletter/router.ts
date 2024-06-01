@@ -201,6 +201,21 @@ export default t.router({
         },
       });
 
+      const result = await db.scheduledEmail.deleteMany({
+        where: {
+          to: {
+            // TODO: this is a hack to prevent scheduled emails from being sent to unsubscribed users
+            // this may also delete scheduled emails that are targeting multiple users,
+            // luckily right now we only have one user per email. But this is likely to change in the future.
+            hasSome: [email],
+          },
+        },
+      });
+
+      console.warn('Deleted scheduled emails after user unsubscribed', {
+        result,
+      });
+
       return true;
     }),
 });

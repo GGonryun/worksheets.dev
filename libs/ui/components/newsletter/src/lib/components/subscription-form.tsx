@@ -89,12 +89,13 @@ export const SubscriptionForm: React.FC<{
             />
           ))}
         </Column>
-        <Row gap={1}>
+        <Row gap={1} flexWrap="wrap">
           <Button
             variant="arcade"
             color="primary"
             disabled={submitting}
             onClick={onSubmit}
+            sx={{ width: { xs: '100%', sm: 'auto' } }}
             startIcon={
               submitting ? (
                 <CircularProgress size={20} sx={{ mr: 2 }} />
@@ -111,6 +112,7 @@ export const SubscriptionForm: React.FC<{
               color="error"
               disabled={submitting}
               onClick={onUnsubscribe}
+              sx={{ width: { xs: '100%', sm: 'auto' } }}
               startIcon={
                 submitting ? (
                   <CircularProgress size={20} sx={{ mr: 2 }} />
