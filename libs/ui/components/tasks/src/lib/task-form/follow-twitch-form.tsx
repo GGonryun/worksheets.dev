@@ -78,6 +78,7 @@ const FollowUser: React.FC<{
         variant="arcade"
         color="success"
         startIcon={<DoneOutline />}
+        disabled={following.isLoading}
       >
         Claim Reward
       </Button>

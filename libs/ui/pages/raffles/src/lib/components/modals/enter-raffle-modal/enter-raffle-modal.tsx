@@ -38,12 +38,13 @@ export const EnterRaffleModal: React.FC<
     raffle: RaffleSchema;
   }>
 > = ({ raffle, open, onClose }) => {
+  const raffleId = raffle.id;
   const snackbar = useSnackbar();
   const utils = trpc.useUtils();
   const session = useSession();
   const actions = trpc.user.tasks.actions.list.useQuery(
     {
-      raffleId: raffle.id,
+      raffleId,
     },
     {
       enabled: session.status === 'authenticated',
@@ -67,15 +68,11 @@ export const EnterRaffleModal: React.FC<
     }
   }, [actions.isRefetching]);
 
-  const refreshActions = async (id: string) => {
-    setDirty((prev) => [...prev, id]);
-    await utils.user.tasks.actions.list.refetch({ raffleId: raffle.id });
-  };
-
   const handleSubmit = async (input: TaskInputSchema) => {
     if (!actionId) return;
 
     try {
+      setDirty((prev) => [...prev, actionId]);
       const reward = await trackAction.mutateAsync({
         actionId,
         ...input,
@@ -84,9 +81,9 @@ export const EnterRaffleModal: React.FC<
       if (reward) {
         fireAndForget(
           Promise.all([
-            refreshActions(actionId),
+            utils.user.tasks.actions.list.refetch({ raffleId }),
             utils.user.raffles.participation.refetch(),
-            utils.maybe.raffles.participants.refetch({ raffleId: raffle.id }),
+            utils.maybe.raffles.participants.refetch({ raffleId }),
           ])
         );
         snackbar.success(`You received ${reward} free entries!`);

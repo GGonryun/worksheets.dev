@@ -1,3 +1,4 @@
+import { Prisma } from '@worksheets/prisma';
 import { TasksService } from '@worksheets/services/tasks';
 import { fireAndForget } from '@worksheets/util/promises';
 import {
@@ -29,14 +30,22 @@ export default t.router({
         })
       )
       .mutation(async ({ input, ctx: { user, db } }) => {
-        const tasks = new TasksService(db);
-        console.info('tracking action', input);
-        const rewarded = await tasks.trackAction({
-          userId: user.id,
-          ...input,
-        });
+        const rewarded = await db.$transaction(
+          async (tx) => {
+            const tasks = new TasksService(tx);
+            console.info('tracking action', input);
+            return await tasks.trackAction({
+              userId: user.id,
+              ...input,
+            });
+          },
+          {
+            isolationLevel: Prisma.TransactionIsolationLevel.Serializable,
+          }
+        );
 
         if (rewarded) {
+          const tasks = new TasksService(db);
           fireAndForget(
             tasks.trackQuest({
               questId: 'RAFFLE_PARTICIPATION_DAILY',
@@ -88,10 +97,12 @@ export default t.router({
         })
       )
       .mutation(async ({ input, ctx: { user, db } }) => {
-        const tasks = new TasksService(db);
-        return await tasks.trackQuest({
-          userId: user.id,
-          ...input,
+        return await db.$transaction(async (tx) => {
+          const tasks = new TasksService(tx);
+          return await tasks.trackQuest({
+            userId: user.id,
+            ...input,
+          });
         });
       }),
   }),

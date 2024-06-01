@@ -66,7 +66,6 @@ const WishlistGame: React.FC<{
   return (
     <Column gap={2}>
       <Button
-        disabled={hasGameInWishlist.isLoading}
         href={`https://store.steampowered.com/app/${task.data.appId}`}
         target="_blank"
         variant="arcade"

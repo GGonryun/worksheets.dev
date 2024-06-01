@@ -42,21 +42,16 @@ const Container: React.FC = () => {
   const [questId, setQuestId] = React.useState<string | undefined>(undefined);
 
   useEffect(() => {
-    if (!quests.isRefetching) {
+    if (!quests.isRefetching && !quests.isFetching) {
       setDirty([]);
     }
-  }, [quests.isRefetching]);
-
-  const updateState = async (qid: string) => {
-    tokens.refetch();
-    setDirty((prev) => [...prev, qid]);
-    await utils.user.tasks.quests.list.refetch();
-  };
+  }, [quests.isRefetching, quests.isFetching]);
 
   const handleSubmit = async (input: TaskInputSchema) => {
     if (!questId) return;
 
     try {
+      setDirty((prev) => [...prev, questId]);
       await track.mutateAsync({
         questId,
         ...input,
@@ -67,7 +62,9 @@ const Container: React.FC = () => {
       snackbar.error(parseTRPCClientErrorMessage(error));
     }
 
-    fireAndForget(updateState(questId));
+    fireAndForget(
+      Promise.all([tokens.refetch(), utils.user.tasks.quests.list.refetch()])
+    );
   };
 
   if (quests.isLoading) {
