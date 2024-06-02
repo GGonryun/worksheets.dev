@@ -70,6 +70,7 @@ export type TaskData = {
   ADD_REFERRAL: unknown;
   PRIZE_WHEEL: unknown;
   CAPTCHA: unknown;
+  BASIC_ACTION: unknown;
   SUBSCRIBE_YOUTUBE: {
     channel: {
       id: string;
@@ -86,6 +87,22 @@ export type TaskData = {
   POLL: {
     question: string;
     options: { key: string; label: string }[];
+  };
+  VISIT_FACEBOOK: {
+    label: string;
+    url: string;
+  };
+  VISIT_INSTAGRAM: {
+    label: string;
+    url: string;
+  };
+  VISIT_YOUTUBE: {
+    label: string;
+    url: string;
+  };
+  VISIT_TIKTOK: {
+    label: string;
+    url: string;
   };
   // instant tasks
   VISIT_WEBSITE: {
@@ -109,7 +126,6 @@ export type TaskData = {
   WISHLIST_STEAM_GAME: {
     appId: string;
   };
-  BASIC_ACTION: unknown;
   WATCH_AD: {
     network: string;
   };

@@ -25,6 +25,9 @@ declare module '@mui/material/styles' {
     discord: SimplePaletteColorOptions;
     steam: SimplePaletteColorOptions;
     youtube: SimplePaletteColorOptions;
+    instagram: SimplePaletteColorOptions;
+    facebook: SimplePaletteColorOptions;
+    tiktok: SimplePaletteColorOptions;
     twitch: SimplePaletteColorOptions;
     black: SimplePaletteColorOptions;
     white: SimplePaletteColorOptions;
@@ -89,6 +92,9 @@ declare module '@mui/material/styles' {
     discord: SimplePaletteColorOptions;
     steam: SimplePaletteColorOptions;
     youtube: SimplePaletteColorOptions;
+    instagram: SimplePaletteColorOptions;
+    facebook: SimplePaletteColorOptions;
+    tiktok: SimplePaletteColorOptions;
     twitch: SimplePaletteColorOptions;
     black: SimplePaletteColorOptions;
     white?: SimplePaletteColorOptions;
@@ -118,6 +124,9 @@ declare module '@mui/material/Button' {
     discord: true;
     steam: true;
     youtube: true;
+    instagram: true;
+    facebook: true;
+    tiktok: true;
     twitch: true;
     white: true;
     'dark-grey': true;
@@ -145,6 +154,9 @@ declare module '@mui/material/IconButton' {
     default: true;
     steam: true;
     youtube: true;
+    instagram: true;
+    facebook: true;
+    tiktok: true;
     discord: true;
     twitch: true;
     black: true;

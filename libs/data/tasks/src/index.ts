@@ -11,6 +11,7 @@ import { MAX_FRIENDS, MAX_REFERRALS } from '@worksheets/util/settings';
 import { createGameTask } from './util';
 
 export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
+  // captcha
   {
     version: 1,
     type: TaskType.CAPTCHA,
@@ -23,6 +24,7 @@ export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
     description: 'Complete a CAPTCHA to earn a reward.',
     data: {},
   },
+  // forms
   {
     version: 1,
     type: TaskType.FORM,
@@ -55,6 +57,7 @@ export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
       ],
     },
   },
+  // polls
   {
     version: 1,
     type: TaskType.POLL,
@@ -312,6 +315,73 @@ export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
     data: {
       url: 'https://indiefold.com',
       preview: 'https://cdn.charity.games/_partners/indiefold/preview.png',
+    },
+  },
+  // visit youtube
+  {
+    version: 1,
+    id: 'YOUTUBE_WATCH_CHARITY_GAMES_MINI_GOLF_ONCE',
+    type: TaskType.VISIT_YOUTUBE,
+    category: TaskCategory.TASK,
+    frequency: TaskFrequency.ONCE,
+    requiredRepetitions: 1,
+    maxRepetitions: 1,
+    name: 'Watch our Mini Golf Video',
+    description: 'Watch the Charity Games Mini Golf video and earn a reward.',
+    data: {
+      url: 'https://www.youtube.com/watch?v=b2quiBhyvk8',
+      label: 'Watch Mini Golf Video',
+    },
+  },
+  // visit instagram
+  {
+    version: 1,
+    id: 'INSTAGRAM_VISIT_WATER_ORG_ONCE',
+    type: TaskType.VISIT_INSTAGRAM,
+    category: TaskCategory.TASK,
+    frequency: TaskFrequency.ONCE,
+    requiredRepetitions: 1,
+    maxRepetitions: 1,
+    name: 'Visit Water.org on Instagram',
+    description:
+      'View an account on Instagram. Stay up to date on the latest news and updates.',
+    data: {
+      url: 'https://www.instagram.com/water/?hl=en',
+      label: 'Visit Water.org',
+    },
+  },
+  // visit facebook
+  {
+    version: 1,
+    id: 'FACEBOOK_VISIT_CHARITY_GAMES_ONCE',
+    type: TaskType.VISIT_FACEBOOK,
+    category: TaskCategory.TASK,
+    frequency: TaskFrequency.ONCE,
+    requiredRepetitions: 1,
+    maxRepetitions: 1,
+    name: 'Visit Charity Games on Facebook',
+    description:
+      'Visit a page on Facebook. Stay up to date on the latest news and updates.',
+    data: {
+      url: 'https://www.facebook.com/charitydotgames',
+      label: 'Visit Charity Games',
+    },
+  },
+  // visit tiktok
+  {
+    version: 1,
+    id: 'TIKTOK_VISIT_CHARITY_WATER_ONCE',
+    type: TaskType.VISIT_TIKTOK,
+    category: TaskCategory.TASK,
+    frequency: TaskFrequency.ONCE,
+    requiredRepetitions: 1,
+    maxRepetitions: 1,
+    name: 'Visit Charity:Water on TikTok',
+    description:
+      'View an account on TikTok. Stay up to date on the latest news and updates.',
+    data: {
+      url: 'https://www.tiktok.com/@charitywater',
+      label: 'Visit Charity:Water',
     },
   },
   // follow twitter

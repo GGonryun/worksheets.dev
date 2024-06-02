@@ -31,7 +31,10 @@ export const validateTask = (
     case 'JOIN_DISCORD_GUILD':
     case 'CAPTCHA':
     case 'SUBSCRIBE_YOUTUBE':
-      // TODO: validate these tasks
+    case 'VISIT_FACEBOOK':
+    case 'VISIT_INSTAGRAM':
+    case 'VISIT_TIKTOK':
+    case 'VISIT_YOUTUBE':
       return;
     case 'POLL':
       return validatePollSubmission({ data, state });

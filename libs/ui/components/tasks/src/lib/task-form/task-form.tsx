@@ -21,7 +21,11 @@ import { ReferralPlayMinutesForm } from './referral-play-minutes-form';
 import { RepostTwitterForm } from './repost-twitter-form';
 import { SecretForm } from './secret-form';
 import { SubscribeYouTubeForm } from './subscribe-youtube-form';
+import { VisitFacebookForm } from './visit-facebook-form';
+import { VisitInstagramForm } from './visit-instagram-form';
+import { VisitTikTokForm } from './visit-tiktok-form';
 import { VisitWebsiteForm } from './visit-website-form';
+import { VisitYouTubeForm } from './visit-youtube-form';
 import { WatchAdForm } from './watch-ad-form';
 import { WishlistSteamGameForm } from './wishlist-steam-game-form';
 
@@ -69,6 +73,14 @@ export const TaskForm: React.FC<TaskFormProps> = ({ task, actions }) => {
       return <CatpchaForm task={task} actions={actions} />;
     case TaskType.SUBSCRIBE_YOUTUBE:
       return <SubscribeYouTubeForm task={task} actions={actions} />;
+    case TaskType.VISIT_FACEBOOK:
+      return <VisitFacebookForm task={task} actions={actions} />;
+    case TaskType.VISIT_INSTAGRAM:
+      return <VisitInstagramForm task={task} actions={actions} />;
+    case TaskType.VISIT_YOUTUBE:
+      return <VisitYouTubeForm task={task} actions={actions} />;
+    case TaskType.VISIT_TIKTOK:
+      return <VisitTikTokForm task={task} actions={actions} />;
     default:
       throw assertNever(task.type);
   }

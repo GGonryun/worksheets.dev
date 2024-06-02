@@ -231,6 +231,31 @@ const theme = createTheme({
       gradient: 'linear-gradient(120deg, #00adee, #000000)',
       shadow: '#2a475e',
     },
+    facebook: {
+      light: '#3b5998',
+      main: '#3b5998',
+      dark: '#3b5998',
+      contrastText: '#FFFFFF',
+      gradient: 'linear-gradient(120deg, #3b5998, #3b5998)',
+      shadow: '#1D2B49',
+    },
+    tiktok: {
+      light: '#0F0F0F',
+      main: '#0F0F0F',
+      dark: '#0F0F0F',
+      contrastText: '#FFFFFF',
+      gradient: 'linear-gradient(145deg, #0F0F0F 11.5%, #0F0F0F 91.2%)',
+      shadow: '#000000',
+    },
+    instagram: {
+      light: '#f09433',
+      main: '#e6683c',
+      dark: '#bc1888',
+      contrastText: '#FFFFFF',
+      gradient:
+        'linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%)',
+      shadow: '#bc1888',
+    },
     youtube: {
       light: '#FF0000',
       main: '#FF0000',

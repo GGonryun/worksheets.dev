@@ -52,6 +52,10 @@ export const parseTaskData = <T extends TaskType>(
     case 'WISHLIST_STEAM_GAME':
     case 'SUBSCRIBE_YOUTUBE':
     case 'CAPTCHA':
+    case 'VISIT_FACEBOOK':
+    case 'VISIT_INSTAGRAM':
+    case 'VISIT_TIKTOK':
+    case 'VISIT_YOUTUBE':
       break;
     default:
       throw assertNever(type);

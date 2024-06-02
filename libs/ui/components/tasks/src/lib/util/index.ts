@@ -3,8 +3,10 @@ import {
   CheckBoxOutlined,
   Diversity1Outlined,
   DynamicFormOutlined,
+  Facebook,
   FavoriteBorder,
   FeaturedVideoOutlined,
+  Instagram,
   LanguageOutlined,
   LocalActivityOutlined,
   PasswordOutlined,
@@ -28,6 +30,7 @@ import {
   NewTwitter,
   ReCaptcha,
   SteamGames,
+  TikTok,
   Twitch,
 } from '@worksheets/icons/companies';
 import { Sword } from '@worksheets/icons/dazzle';
@@ -60,6 +63,10 @@ const TASK_BACKGROUND_COLOR: Record<TaskType, ButtonProps['color']> = {
   [TaskType.FOLLOW_TWITTER]: 'black',
   [TaskType.REPOST_TWITTER]: 'black',
   [TaskType.JOIN_DISCORD_GUILD]: 'discord',
+  [TaskType.VISIT_FACEBOOK]: 'facebook',
+  [TaskType.VISIT_INSTAGRAM]: 'instagram',
+  [TaskType.VISIT_YOUTUBE]: 'youtube',
+  [TaskType.VISIT_TIKTOK]: 'tiktok',
   [TaskType.WISHLIST_STEAM_GAME]: 'steam',
   [TaskType.SUBSCRIBE_YOUTUBE]: 'youtube',
   [TaskType.VISIT_WEBSITE]: 'primary',
@@ -109,6 +116,10 @@ const TASK_ICON: Record<TaskType, SvgIconComponent> = {
   [TaskType.POLL]: PollOutlined,
   [TaskType.SECRET]: PasswordOutlined,
   [TaskType.CAPTCHA]: ReCaptcha,
+  [TaskType.VISIT_FACEBOOK]: Facebook,
+  [TaskType.VISIT_INSTAGRAM]: Instagram,
+  [TaskType.VISIT_YOUTUBE]: YouTube,
+  [TaskType.VISIT_TIKTOK]: TikTok,
 };
 
 export const selectTaskStatusIcon = (
@@ -220,6 +231,14 @@ export const formatTaskTypeLabel = (type: TaskType) => {
       return 'Solve Captcha';
     case TaskType.SUBSCRIBE_YOUTUBE:
       return 'Subscribe on YouTube';
+    case TaskType.VISIT_FACEBOOK:
+      return 'Visit Facebook';
+    case TaskType.VISIT_INSTAGRAM:
+      return 'Visit Instagram';
+    case TaskType.VISIT_YOUTUBE:
+      return 'Visit YouTube';
+    case TaskType.VISIT_TIKTOK:
+      return 'Visit TikTok';
     default:
       throw assertNever(type);
   }
