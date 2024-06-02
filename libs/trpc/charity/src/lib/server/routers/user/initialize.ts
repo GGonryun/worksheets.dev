@@ -113,7 +113,7 @@ const setReferralCode = async (
 
   const notifications = new NotificationsService(db);
   const tasks = new TasksService(db);
-  const friends = await new FriendshipService(db);
+  const friends = new FriendshipService(db);
 
   const referral = await db.referralCode.findFirst({
     where: {
