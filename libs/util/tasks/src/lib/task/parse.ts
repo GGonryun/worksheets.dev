@@ -56,6 +56,7 @@ export const parseTaskData = <T extends TaskType>(
     case 'VISIT_INSTAGRAM':
     case 'VISIT_TIKTOK':
     case 'VISIT_YOUTUBE':
+    case 'REFERRAL_TASK':
       break;
     default:
       throw assertNever(type);

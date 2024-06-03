@@ -76,6 +76,7 @@ const TASK_BACKGROUND_COLOR: Record<TaskType, ButtonProps['color']> = {
   [TaskType.PLAY_GAME]: 'primary',
   [TaskType.PLAY_MINUTES]: 'primary',
   [TaskType.CAPTCHA]: 'primary',
+  [TaskType.REFERRAL_TASK]: 'secondary',
   REFERRAL_PLAY_MINUTES: undefined,
   FRIEND_PLAY_MINUTES: undefined,
   ADD_FRIEND: undefined,
@@ -104,7 +105,7 @@ const TASK_ICON: Record<TaskType, SvgIconComponent> = {
   [TaskType.PLAY_MINUTES]: ScheduleOutlined,
   [TaskType.RAFFLE_PARTICIPATION]: LocalActivityOutlined,
   [TaskType.REFERRAL_PLAY_MINUTES]: PunchClockOutlined,
-  [TaskType.FRIEND_PLAY_MINUTES]: FavoriteBorder,
+  [TaskType.FRIEND_PLAY_MINUTES]: Diversity1Outlined,
   [TaskType.BASIC_ACTION]: CheckBoxOutlined,
   [TaskType.WATCH_AD]: FeaturedVideoOutlined,
   [TaskType.SUBSCRIBE_YOUTUBE]: YouTube,
@@ -120,6 +121,7 @@ const TASK_ICON: Record<TaskType, SvgIconComponent> = {
   [TaskType.VISIT_INSTAGRAM]: Instagram,
   [TaskType.VISIT_YOUTUBE]: YouTube,
   [TaskType.VISIT_TIKTOK]: TikTok,
+  [TaskType.REFERRAL_TASK]: FavoriteBorder,
 };
 
 export const selectTaskStatusIcon = (
@@ -239,6 +241,8 @@ export const formatTaskTypeLabel = (type: TaskType) => {
       return 'Visit YouTube';
     case TaskType.VISIT_TIKTOK:
       return 'Visit TikTok';
+    case TaskType.REFERRAL_TASK:
+      return 'Referral Task';
     default:
       throw assertNever(type);
   }

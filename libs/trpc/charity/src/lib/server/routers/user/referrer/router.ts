@@ -1,6 +1,6 @@
 import { TRPCError } from '@trpc/server';
 import { routes } from '@worksheets/routes';
-import { isUrl } from '@worksheets/util/strings';
+import { convertReferralCode } from '@worksheets/services/referral';
 import { referrerSchema } from '@worksheets/util/types';
 import { z } from 'zod';
 
@@ -44,6 +44,7 @@ export default t.router({
       return {
         id: referrer.id,
         username: referrer.username,
+        code: referrer.referralCode.code,
         link: routes.ref.url({
           params: {
             code: referrer.referralCode.code,
@@ -59,26 +60,15 @@ export default t.router({
     )
     .output(referrerSchema)
     .mutation(async ({ ctx: { db, user }, input }) => {
-      const referrer = await db.referralCode.findFirst({
-        where: {
-          code: cleanCode(input.code),
-        },
-        select: {
-          code: true,
-          user: {
-            select: {
-              id: true,
-              username: true,
-            },
-          },
-        },
-      });
+      const referrer = await convertReferralCode({ db, code: input.code });
+
       if (!referrer) {
         throw new TRPCError({
           code: 'NOT_FOUND',
           message: 'Referrer does not exist',
         });
       }
+
       if (referrer.user.id === user.id) {
         throw new TRPCError({
           code: 'BAD_REQUEST',
@@ -91,6 +81,7 @@ export default t.router({
           message: 'You are already referred by this user',
         });
       }
+
       await db.user.update({
         where: {
           id: user.id,
@@ -102,6 +93,7 @@ export default t.router({
       return {
         id: referrer.user.id,
         username: referrer.user.username,
+        code: referrer.code,
         link: routes.ref.url({
           params: {
             code: referrer.code,
@@ -110,13 +102,3 @@ export default t.router({
       };
     }),
 });
-
-const cleanCode = (code: string) => {
-  // code can be a referral link or a friend code.
-  if (isUrl(code)) {
-    const sections = code.split('/');
-    // last section is the code
-    return sections[sections.length - 1];
-  }
-  return code;
-};

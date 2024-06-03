@@ -18,6 +18,7 @@ import { PlayMinutesForm } from './play-minutes-form';
 import { PollForm } from './poll-form';
 import { RaffleParticipationForm } from './raffle-participation-form';
 import { ReferralPlayMinutesForm } from './referral-play-minutes-form';
+import { ReferralTaskForm } from './referral-task-form';
 import { RepostTwitterForm } from './repost-twitter-form';
 import { SecretForm } from './secret-form';
 import { SubscribeYouTubeForm } from './subscribe-youtube-form';
@@ -81,6 +82,9 @@ export const TaskForm: React.FC<TaskFormProps> = ({ task, actions }) => {
       return <VisitYouTubeForm task={task} actions={actions} />;
     case TaskType.VISIT_TIKTOK:
       return <VisitTikTokForm task={task} actions={actions} />;
+    case TaskType.REFERRAL_TASK:
+      return <ReferralTaskForm task={task} actions={actions} />;
+
     default:
       throw assertNever(task.type);
   }

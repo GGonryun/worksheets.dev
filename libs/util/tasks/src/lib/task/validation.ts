@@ -1,17 +1,21 @@
-import { TaskType } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 import { assertNever } from '@worksheets/util/errors';
 
 import { validateFormInput } from '../form';
 import { validatePollSubmission } from '../poll';
+import { validateReferralInput } from '../referral';
 import { validateSecretInput } from '../secret';
-import { ValidationOptions } from './types';
 
-export const validateTask = (
-  opts: {
-    type: TaskType;
-  } & ValidationOptions
-) => {
-  const { type, data, state } = opts;
+export const validateTaskInput = (opts: {
+  task: Prisma.TaskGetPayload<true>;
+  progress: Prisma.TaskProgressGetPayload<true> | undefined;
+  input: unknown;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+}): { state: any; skip: boolean } => {
+  const {
+    task: { type, data },
+    input,
+  } = opts;
   switch (type) {
     case 'PLAY_GAME':
     case 'PLAY_MINUTES':
@@ -35,13 +39,18 @@ export const validateTask = (
     case 'VISIT_INSTAGRAM':
     case 'VISIT_TIKTOK':
     case 'VISIT_YOUTUBE':
-      return;
+      return { state: input, skip: false };
+    case 'REFERRAL_TASK':
+      return validateReferralInput({
+        existing: opts.progress?.state ?? [],
+        input: opts.input,
+      });
     case 'POLL':
-      return validatePollSubmission({ data, state });
+      return validatePollSubmission({ data, state: input });
     case 'SECRET':
-      return validateSecretInput({ data, state });
+      return validateSecretInput({ data, state: input });
     case 'FORM':
-      return validateFormInput({ data, state });
+      return validateFormInput({ data, state: input });
     default:
       throw assertNever(type);
   }

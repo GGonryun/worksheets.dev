@@ -574,6 +574,33 @@ export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
       },
     },
   },
+  // referral tasks
+  {
+    version: 2,
+    id: 'REFERRAL_TASKS_INFINITE',
+    type: TaskType.REFERRAL_TASK,
+    category: TaskCategory.SOCIAL,
+    frequency: TaskFrequency.INFINITE,
+    requiredRepetitions: 1,
+    maxRepetitions: MAX_INT,
+    name: 'Tell Your Friends!',
+    description:
+      'Earn an bonus entries every time someone enters the raffle using your referral link',
+    data: {},
+  },
+  {
+    version: 2,
+    id: 'REFERRAL_TASKS_10',
+    type: TaskType.REFERRAL_TASK,
+    category: TaskCategory.SOCIAL,
+    frequency: TaskFrequency.ONCE,
+    requiredRepetitions: 1,
+    maxRepetitions: 10,
+    name: 'Tell Your Friends!',
+    description:
+      'Earn an bonus entries every time someone enters the raffle using your referral link',
+    data: {},
+  },
   // infinites
   {
     version: 3,

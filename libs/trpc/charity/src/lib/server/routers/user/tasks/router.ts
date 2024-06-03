@@ -27,6 +27,7 @@ export default t.router({
       .input(
         taskInputSchema.extend({
           actionId: z.string(),
+          referralCode: z.string().optional(),
         })
       )
       .mutation(async ({ input, ctx: { user, db } }) => {
@@ -47,11 +48,20 @@ export default t.router({
         if (rewarded) {
           const tasks = new TasksService(db);
           fireAndForget(
-            tasks.trackQuest({
-              questId: 'RAFFLE_PARTICIPATION_DAILY',
-              userId: user.id,
-              repetitions: rewarded,
-            })
+            Promise.all([
+              tasks.trackQuest({
+                questId: 'RAFFLE_PARTICIPATION_DAILY',
+                userId: user.id,
+                repetitions: rewarded,
+              }),
+              input.referralCode
+                ? tasks.trackReferralAction({
+                    userId: user.id,
+                    actionId: input.actionId,
+                    referralCode: input.referralCode,
+                  })
+                : Promise.resolve(),
+            ])
           );
         }
 

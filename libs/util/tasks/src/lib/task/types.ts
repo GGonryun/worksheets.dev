@@ -71,6 +71,7 @@ export type TaskData = {
   PRIZE_WHEEL: unknown;
   CAPTCHA: unknown;
   BASIC_ACTION: unknown;
+  REFERRAL_TASK: unknown;
   SUBSCRIBE_YOUTUBE: {
     channel: {
       id: string;

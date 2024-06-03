@@ -8,7 +8,7 @@ export const ProgressBar: React.FC<
     <LinearProgress
       variant="determinate"
       value={props.value}
-      color={'black'}
+      color={props.color}
       sx={{
         height: 8,
         borderRadius: 8,

@@ -8,7 +8,7 @@ import { LoadingBar } from '@worksheets/ui/components/loading';
 import { InfoModal } from '@worksheets/ui/components/modals';
 import { PanelFooter } from '@worksheets/ui/components/panels';
 import { useSnackbar } from '@worksheets/ui/components/snackbar';
-import { parseTRPCClientErrorMessage } from '@worksheets/util/trpc';
+import { NO_REFETCH, parseTRPCClientErrorMessage } from '@worksheets/util/trpc';
 import { InventoryItemSchema } from '@worksheets/util/types';
 import dynamic from 'next/dynamic';
 import pluralize from 'pluralize';
@@ -21,7 +21,7 @@ import { DynamicItemModal } from './inventory-item/dynamic-item-modal';
 const Container = () => {
   const [item, setItem] = useState<InventoryItemSchema | undefined>(undefined);
   const [autoSell, setAutoSell] = useState<boolean>(false);
-  const items = trpc.user.inventory.items.useQuery();
+  const items = trpc.user.inventory.items.useQuery(undefined, NO_REFETCH);
 
   return (
     <>

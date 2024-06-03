@@ -85,6 +85,7 @@
       ],
       "@worksheets/services/push": ["libs/services/push/src/index.ts"],
       "@worksheets/services/raffles": ["libs/services/raffles/src/index.ts"],
+      "@worksheets/services/referral": ["libs/services/referral/src/index.ts"],
       "@worksheets/services/storage": ["libs/services/storage/src/index.ts"],
       "@worksheets/services/tasks": ["libs/services/tasks/src/index.ts"],
       "@worksheets/services/templates": [

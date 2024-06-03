@@ -15,7 +15,7 @@ import { useSnackbar } from '@worksheets/ui/components/snackbar';
 import { isTaskComplete, TaskModal } from '@worksheets/ui/components/tasks';
 import { fireAndForget } from '@worksheets/util/promises';
 import { QuestSchema, TaskInputSchema } from '@worksheets/util/tasks';
-import { parseTRPCClientErrorMessage } from '@worksheets/util/trpc';
+import { NO_REFETCH, parseTRPCClientErrorMessage } from '@worksheets/util/trpc';
 import dynamic from 'next/dynamic';
 import React, { useEffect } from 'react';
 
@@ -24,7 +24,7 @@ import { QuestItem } from '../components/quest-item';
 const Container: React.FC = () => {
   const snackbar = useSnackbar();
   const utils = trpc.useUtils();
-  const tokens = trpc.user.inventory.quantity.useQuery('1');
+  const tokens = trpc.user.inventory.quantity.useQuery('1', NO_REFETCH);
   const track = trpc.user.tasks.quests.track.useMutation();
   const quests = trpc.user.tasks.quests.list.useInfiniteQuery(
     {
@@ -34,6 +34,7 @@ const Container: React.FC = () => {
     {
       getNextPageParam: (lastPage) => lastPage.nextCursor,
       initialCursor: 0,
+      ...NO_REFETCH,
     }
   );
 
@@ -52,12 +53,12 @@ const Container: React.FC = () => {
 
     try {
       setDirty((prev) => [...prev, questId]);
+      setQuestId(undefined);
       await track.mutateAsync({
         questId,
         ...input,
       });
       snackbar.success('Quest completed!');
-      setQuestId(undefined);
     } catch (error) {
       snackbar.error(parseTRPCClientErrorMessage(error));
     }
@@ -85,6 +86,8 @@ const Container: React.FC = () => {
 
   return (
     <>
+      {' '}
+      {dirty.join(',')}
       <Column gap={2}>
         <Column gap={1}>
           {isEmpty && (

@@ -25,6 +25,7 @@ import {
   NewsletterQueryParams,
   RafflesQueryParams,
   ReferralsPanels,
+  RefQueryParams,
   SettingsPanels,
 } from '@worksheets/util/enums';
 
@@ -278,5 +279,6 @@ export const routes = {
   }),
   ref: createRoute({
     path: '/ref/[code]',
+    query: RefQueryParams,
   }),
 };

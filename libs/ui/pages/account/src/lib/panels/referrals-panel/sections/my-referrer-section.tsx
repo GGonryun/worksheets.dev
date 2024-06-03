@@ -16,7 +16,7 @@ export const MyReferrerSection: React.FC<{
 
   useEffect(() => {
     if (referrer) {
-      setReferralCode(referrer.link);
+      setReferralCode(referrer.code);
     }
   }, [referrer]);
 

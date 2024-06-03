@@ -25,3 +25,7 @@ export enum ErrorQueryParams {
 export enum ConnectIntegrationQueryParams {
   State = 'state',
 }
+
+export enum RefQueryParams {
+  RaffleId = 'r',
+}

@@ -13,4 +13,6 @@ export const validateSecretInput = (opts: ValidationOptions) => {
       message: `Secret does not match`,
     });
   }
+
+  return { state, skip: false };
 };

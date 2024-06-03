@@ -10,6 +10,7 @@ import {
 import { InventoryService } from '@worksheets/services/inventory';
 import { NotificationsService } from '@worksheets/services/notifications';
 import { RafflesService } from '@worksheets/services/raffles';
+import { convertReferralCode } from '@worksheets/services/referral';
 import { randomArrayElement, shuffle } from '@worksheets/util/arrays';
 import { calculatePercentage, isLucky } from '@worksheets/util/numbers';
 import { PLAY_MINUTE_DROP_CHANCE } from '@worksheets/util/settings';
@@ -25,7 +26,7 @@ import {
   setExpirationDate,
   TaskInputSchema,
   TaskPollResult,
-  validateTask,
+  validateTaskInput,
 } from '@worksheets/util/tasks';
 import { isExpired } from '@worksheets/util/time';
 
@@ -320,40 +321,18 @@ export class TasksService {
     return 0;
   }
 
-  async trackGameActions(opts: {
-    type: Extract<TaskType, 'PLAY_GAME' | 'PLAY_MINUTES'>;
-    gameId: string;
+  async trackActions(opts: {
     userId: string;
     repetitions: number;
+    where: Prisma.RaffleActionWhereInput;
+    state?: unknown;
   }) {
-    const { gameId, type, userId, repetitions } = opts;
+    const { state, where, userId, repetitions } = opts;
     console.info(`Tracking game actions`, opts);
+
     // find every task that is associated with the game
     const actions = await this.#db.raffleAction.findMany({
-      where: {
-        // task is PLAY_GAME and gameId is either the game or null
-        task: {
-          type,
-          OR: [
-            {
-              gameId: gameId,
-            },
-            {
-              gameId: null,
-            },
-          ],
-        },
-        // and the raffle is already published and it is not expired and the status is active
-        raffle: {
-          status: 'ACTIVE',
-          publishAt: {
-            lte: new Date(),
-          },
-          expiresAt: {
-            gte: new Date(),
-          },
-        },
-      },
+      where,
       include: {
         task: true,
         raffle: {
@@ -366,7 +345,7 @@ export class TasksService {
                 task: true,
                 progress: {
                   where: {
-                    userId: opts.userId,
+                    userId,
                   },
                 },
               },
@@ -381,15 +360,7 @@ export class TasksService {
       },
     });
 
-    console.info(
-      `Found ${actions.length} actions`,
-      actions.map((a) => ({
-        id: a.id,
-        raffleId: a.raffleId,
-        taskId: a.task.id,
-        gameId: a.task.gameId,
-      }))
-    );
+    console.info(`Found ${actions.length} actions`, actions);
 
     await Promise.all([
       actions.map((action) =>
@@ -397,9 +368,109 @@ export class TasksService {
           action,
           userId,
           repetitions,
+          state,
         })
       ),
     ]);
+  }
+
+  async trackReferralAction(
+    opts: ({ actionId: string } | { raffleId: number }) & {
+      userId: string;
+      referralCode: string;
+    }
+  ) {
+    console.info(`Tracking referral action`, opts);
+    // make sure the referrer code is valid
+    const referrer = await convertReferralCode({
+      db: this.#db,
+      code: opts.referralCode,
+    });
+
+    if (!referrer) {
+      throw new TRPCError({
+        code: 'NOT_FOUND',
+        message: 'Referrer does not exist',
+      });
+    }
+
+    if (referrer.user.id === opts.userId) {
+      console.info(
+        `Referrer and user are the same. Skipping referral action tracking`,
+        opts
+      );
+      return;
+    }
+
+    await this.trackActions({
+      userId: referrer.user.id,
+      repetitions: 1,
+      state: opts.userId,
+      where: {
+        task: {
+          type: TaskType.REFERRAL_TASK,
+        },
+        raffle:
+          // Some fields get duplicated because the type system fails to infer the correct type if we conditionally add a raffle id or actions.
+          'actionId' in opts
+            ? {
+                actions: {
+                  some: {
+                    id: opts.actionId,
+                  },
+                },
+                publishAt: {
+                  lte: new Date(),
+                },
+                expiresAt: {
+                  gte: new Date(),
+                },
+              }
+            : {
+                id: opts.raffleId,
+                publishAt: {
+                  lte: new Date(),
+                },
+                expiresAt: {
+                  gte: new Date(),
+                },
+              },
+      },
+    });
+  }
+
+  async trackGameActions(opts: {
+    type: Extract<TaskType, 'PLAY_GAME' | 'PLAY_MINUTES'>;
+    gameId: string;
+    userId: string;
+    repetitions: number;
+  }) {
+    console.info(`Tracking game actions`, opts);
+    await this.trackActions({
+      where: {
+        task: {
+          type: opts.type,
+          OR: [
+            {
+              gameId: opts.gameId,
+            },
+            {
+              gameId: null,
+            },
+          ],
+        },
+        raffle: {
+          publishAt: {
+            lte: new Date(),
+          },
+          expiresAt: {
+            gte: new Date(),
+          },
+        },
+      },
+      repetitions: opts.repetitions,
+      userId: opts.userId,
+    });
   }
 
   async trackQuest(
@@ -646,7 +717,16 @@ export class TasksService {
 
     const expiresAt = setExpirationDate(task, progress);
 
-    validateTask({ type: task.type, data: task.data, state });
+    const validated = validateTaskInput({
+      task,
+      progress,
+      input: state,
+    });
+
+    if (validated.skip) {
+      console.info(`Merge state returned skip`, validated);
+      return undefined;
+    }
 
     await this.#db.taskProgress.upsert({
       where: joinClause(where),
@@ -655,12 +735,12 @@ export class TasksService {
         expiresAt,
         status: newStatus,
         repetitions,
-        state,
+        state: validated.state,
       },
       update: {
         expiresAt,
         status: newStatus,
-        state,
+        state: validated.state,
         repetitions: {
           increment: repetitions,
         },

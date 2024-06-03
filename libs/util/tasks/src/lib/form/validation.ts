@@ -12,6 +12,7 @@ import { parseTaskFormData, parseTaskFormState } from './parse';
 export const validateFormInput = (opts: ValidationOptions) => {
   const { fields } = parseTaskFormData(opts.data);
   parseTaskFormState(fields, opts.state);
+  return { state: opts.state, skip: false };
 };
 
 export const validate = ({

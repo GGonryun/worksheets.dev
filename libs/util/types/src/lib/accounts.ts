@@ -21,6 +21,7 @@ export type Referral = {
 export const referrerSchema = z.object({
   id: z.string(),
   username: z.string(),
+  code: z.string(),
   link: z.string(),
 });
 

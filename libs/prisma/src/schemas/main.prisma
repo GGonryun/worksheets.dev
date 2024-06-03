@@ -636,6 +636,9 @@ enum TaskType {
   FORM
   POLL
   SECRET
+  // when someone you referred completes a task, you get a reward.
+  REFERRAL_TASK
+  // TODO: add bonus action. (behaves like basic action, but has a different theme and icon)
 }
 
 enum TaskCategory {

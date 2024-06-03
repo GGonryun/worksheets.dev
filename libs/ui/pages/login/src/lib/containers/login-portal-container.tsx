@@ -12,7 +12,7 @@ const LOADING_MESSAGE =
 const LoginPortalContainer = () => {
   const { query, push } = useRouter();
 
-  const [referralCode, setReferralCode] = useReferralCode();
+  const [referralCode] = useReferralCode();
 
   // where we'll redirect the user after we've finished processing their login
   // or take them to their account page if there's no redirect
@@ -25,10 +25,8 @@ const LoginPortalContainer = () => {
   const createResources = useCallback(async () => {
     await initializeUser.mutateAsync({ referralCode });
 
-    setReferralCode('');
-
     push(redirect);
-  }, [initializeUser, referralCode, setReferralCode, push, redirect]);
+  }, [initializeUser, referralCode, push, redirect]);
 
   // wait 1 second before creating resources
   // this gives us time to load referral code from local storage

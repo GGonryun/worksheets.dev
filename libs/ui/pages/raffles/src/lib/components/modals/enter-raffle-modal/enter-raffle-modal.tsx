@@ -14,6 +14,7 @@ import {
 } from '@worksheets/ui/components/modals';
 import { useSnackbar } from '@worksheets/ui/components/snackbar';
 import { RaffleActions, TaskModal } from '@worksheets/ui/components/tasks';
+import { useReferralCode } from '@worksheets/ui/hooks/use-referral-code';
 import theme, { PaletteColor } from '@worksheets/ui/theme';
 import { fireAndForget } from '@worksheets/util/promises';
 import { RAFFLE_ENTRY_FEE } from '@worksheets/util/settings';
@@ -42,6 +43,7 @@ export const EnterRaffleModal: React.FC<
   const snackbar = useSnackbar();
   const utils = trpc.useUtils();
   const session = useSession();
+  const [referralCode] = useReferralCode();
   const actions = trpc.user.tasks.actions.list.useQuery(
     {
       raffleId,
@@ -73,8 +75,10 @@ export const EnterRaffleModal: React.FC<
 
     try {
       setDirty((prev) => [...prev, actionId]);
+      setActionId(undefined);
       const reward = await trackAction.mutateAsync({
         actionId,
+        referralCode,
         ...input,
       });
 
@@ -92,8 +96,6 @@ export const EnterRaffleModal: React.FC<
       }
     } catch (error) {
       snackbar.error(parseTRPCClientErrorMessage(error));
-    } finally {
-      setActionId(undefined);
     }
   };
 
@@ -106,7 +108,7 @@ export const EnterRaffleModal: React.FC<
         onClose={handleClose}
         raffle={raffle}
         dirty={dirty}
-        actions={data}
+        actions={data.sort(sortRules)}
         onClickAction={setActionId}
         onUseTokens={() => setUseTokens(true)}
       />
@@ -116,13 +118,24 @@ export const EnterRaffleModal: React.FC<
         onClose={() => setUseTokens(false)}
       />
       <RaffleActionModal
-        isLoading={trackAction.isLoading}
+        isLoading={
+          trackAction.isLoading && !!actionId && dirty.includes(actionId)
+        }
         onSubmit={handleSubmit}
         onClose={() => setActionId(undefined)}
         action={data?.find((a) => a.actionId === actionId)}
       />
     </>
   );
+};
+
+const sortRules = (a: ActionSchema, b: ActionSchema) => {
+  // move all completed actions to the bottom
+  if (a.status === 'COMPLETED' && b.status !== 'COMPLETED') return 1;
+  if (b.status === 'COMPLETED' && a.status !== 'COMPLETED') return -1;
+
+  // sort by order
+  return a.order - b.order;
 };
 
 const RaffleDetailPoint: React.FC<{
@@ -387,6 +400,7 @@ const UseTokensContent: React.FC<{
   raffle: RaffleSchema;
   onClose: () => void;
 }> = (props) => {
+  const [referralCode] = useReferralCode();
   const [entries, setEntries] = useState(1);
   const [entering, setEntering] = useState(false);
 
@@ -434,6 +448,7 @@ const UseTokensContent: React.FC<{
       await enterRaffle.mutateAsync({
         raffleId: props.raffle.id,
         entries,
+        referralCode,
       });
 
       utils.user.raffles.participation.refetch();
