@@ -93,14 +93,7 @@ const ActivateItem: React.FC<{
       const result = await activate.mutateAsync(item.itemId);
       await utils.user.codes.activation.list.invalidate();
       await utils.user.inventory.items.invalidate();
-      snackbar.success(
-        <Column>
-          <Typography>{result}</Typography>
-          <Typography fontWeight={500}>
-            A code has been sent to your email.
-          </Typography>
-        </Column>
-      );
+      snackbar.success(<Typography>{result}</Typography>);
       push(
         routes.account.inventory.path({
           bookmark: InventoryPanels.ActivationCodes,
