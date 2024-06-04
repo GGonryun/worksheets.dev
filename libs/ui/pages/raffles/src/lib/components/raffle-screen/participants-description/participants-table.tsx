@@ -40,15 +40,12 @@ const StyledBox = styled(Box)(({ theme }) => ({
 
 export const ParticipantsTable: React.FC<{
   participants: ParticipationSchema[];
-}> = ({ participants }) => {
+  total: number;
+}> = ({ participants, total }) => {
   const isMobile = useMediaQueryDown('mobile1');
   if (participants.length === 0) {
     return <Placeholder />;
   }
-
-  const total = participants.reduce((acc, participant) => {
-    return acc + participant.numEntries;
-  }, 0);
 
   return (
     <TableContainer component={StyledBox}>

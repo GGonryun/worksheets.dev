@@ -25,6 +25,9 @@ export const ParticipantsDescription: React.FC<{
     raffleId,
   });
 
+  const total =
+    participants.data?.reduce((acc, p) => acc + (p.winner ? 1 : 0), 0) ?? 0;
+
   return (
     <Description
       hideLogo
@@ -53,6 +56,7 @@ export const ParticipantsDescription: React.FC<{
           <ErrorComponent color="text.primary" />
         ) : session.status === 'authenticated' ? (
           <ParticipantsTable
+            total={total}
             participants={
               winnersOnly
                 ? participants.data.filter((p) => p.winner)
