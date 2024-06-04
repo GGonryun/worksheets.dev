@@ -26,7 +26,9 @@ export const ParticipantsDescription: React.FC<{
   });
 
   const total =
-    participants.data?.reduce((acc, p) => acc + (p.winner ? 1 : 0), 0) ?? 0;
+    participants.data?.reduce((acc, participant) => {
+      return acc + participant.numEntries;
+    }, 0) ?? 0;
 
   return (
     <Description

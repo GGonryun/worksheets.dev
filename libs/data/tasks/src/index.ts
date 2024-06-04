@@ -317,6 +317,23 @@ export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
       preview: 'https://cdn.charity.games/_partners/indiefold/preview.png',
     },
   },
+  {
+    version: 2,
+    id: 'LINKEDIN_VISIT_CHARITY_GAMES_ONCE',
+    // TODO: update to TaskType.VISIT_LINKEDIN
+    type: TaskType.VISIT_WEBSITE,
+    category: TaskCategory.TASK,
+    frequency: TaskFrequency.ONCE,
+    requiredRepetitions: 1,
+    maxRepetitions: 1,
+    name: 'Visit Charity Games on LinkedIn',
+    description:
+      'View a page on LinkedIn. Stay up to date on the latest news and updates.',
+    data: {
+      url: 'https://www.linkedin.com/company/charity-games',
+      preview: 'https://cdn.charity.games/_partners/charity-games/linkedin.png',
+    },
+  },
   // visit youtube
   {
     version: 1,
@@ -352,7 +369,7 @@ export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
   },
   // visit facebook
   {
-    version: 1,
+    version: 2,
     id: 'FACEBOOK_VISIT_CHARITY_GAMES_ONCE',
     type: TaskType.VISIT_FACEBOOK,
     category: TaskCategory.TASK,
@@ -363,7 +380,7 @@ export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
     description:
       'Visit a page on Facebook. Stay up to date on the latest news and updates.',
     data: {
-      url: 'https://www.facebook.com/charitydotgames',
+      url: 'https://www.facebook.com/profile.php?id=61554655570040',
       label: 'Visit Charity Games',
     },
   },
