@@ -4,6 +4,7 @@ import {
   Prisma,
   PrismaClient,
   PrismaTransactionalClient,
+  TaskFrequency,
   TaskStatus,
   TaskType,
 } from '@worksheets/prisma';
@@ -18,17 +19,14 @@ import {
   ActionSchema,
   aggregateErrors,
   calculateCompletions,
-  parseRepetitions,
-  parseStatus,
+  parseExpiration,
   parseTaskPollData,
   parseTaskPollState,
   QuestSchema,
-  setExpirationDate,
   TaskInputSchema,
   TaskPollResult,
   validateTaskInput,
 } from '@worksheets/util/tasks';
-import { isExpired } from '@worksheets/util/time';
 
 import { validateRequirements } from './util';
 
@@ -42,6 +40,33 @@ export class TasksService {
     this.#inventory = new InventoryService(db);
     this.#raffle = new RafflesService(db);
     this.#notifications = new NotificationsService(db);
+  }
+
+  async destroyExpiredTasks(frequency: TaskFrequency) {
+    const result = await prisma.taskProgress.deleteMany({
+      where: {
+        OR: [
+          {
+            quest: {
+              task: {
+                frequency,
+              },
+            },
+          },
+          {
+            action: {
+              task: {
+                frequency,
+              },
+            },
+          },
+        ],
+      },
+    });
+
+    console.info(
+      `Destroyed ${result.count} expired ${frequency} notifications`
+    );
   }
 
   async getPollResults({
@@ -117,10 +142,9 @@ export class TasksService {
     });
 
     const requirements = actions.filter((action) => action.required);
-    const complete = requirements.every((action) => {
-      const p = action.progress?.at(0);
-      return parseStatus(action.task.frequency, p) === 'COMPLETED';
-    });
+    const complete = requirements.every(
+      (action) => action.progress?.at(0)?.status === 'COMPLETED'
+    );
 
     const joined = actions.map((action) => {
       const p = action.progress?.at(0);
@@ -137,13 +161,13 @@ export class TasksService {
         type: action.task.type,
         data: action.task.data,
         gameId: action.task.gameId ?? null,
-        createdAt: p?.createdAt?.getTime() ?? -1,
+        createdAt: p?.createdAt?.getTime() ?? null,
         state: p?.state ?? null,
-        repetitions: parseRepetitions(p),
+        repetitions: p?.repetitions ?? 0,
         maxRepetitions: action.task.maxRepetitions,
-        status: parseStatus(action.task.frequency, p),
-        expiresAt: p?.expiresAt?.getTime() ?? -1,
+        status: p?.status ?? 'PENDING',
         reward: action.reward,
+        expiresAt: parseExpiration(action.task.frequency)?.getTime() ?? null,
       };
     });
 
@@ -166,6 +190,8 @@ export class TasksService {
     });
 
     const joined = quests.map((quest) => {
+      // Quests should only have one progress record, so we can safely take
+      // the first one if it exists.
       const p = quest.progress?.at(0);
       return {
         questId: quest.id,
@@ -179,13 +205,11 @@ export class TasksService {
         gameId: quest.task.gameId ?? null,
         data: quest.task.data,
         state: p?.state ?? null,
-        repetitions: parseRepetitions(p),
-        createdAt: p?.createdAt?.getTime() ?? -1,
+        repetitions: p?.repetitions ?? 0,
+        createdAt: p?.createdAt?.getTime() ?? null,
         maxRepetitions: quest.task.maxRepetitions,
-        // Quests should only have one progress record, so we can safely take the first one if it exists.
-        status: parseStatus(quest.task.frequency, p),
-        // -1 is a sentinel value for no expiration
-        expiresAt: p?.expiresAt?.getTime() ?? -1,
+        status: p?.status ?? 'PENDING',
+        expiresAt: parseExpiration(quest.task.frequency)?.getTime() ?? null,
         loot: quest.loot,
       };
     });
@@ -199,8 +223,14 @@ export class TasksService {
         } else if (a.status !== 'COMPLETED' && b.status === 'COMPLETED') {
           return -1;
         } else if (a.status === 'COMPLETED' && b.status === 'COMPLETED') {
-          // sort by expiration date
-          return a.expiresAt - b.expiresAt;
+          if (a.expiresAt && b.expiresAt) {
+            return a.expiresAt - b.expiresAt;
+            // completed infinite quests go to the bottom
+          } else if (a.expiresAt) {
+            return -1;
+          } else {
+            return 1;
+          }
         } else {
           return 0;
         }
@@ -318,10 +348,11 @@ export class TasksService {
     if (progress && progress.completions > 0) {
       const reward = action.reward * progress.completions;
       console.debug(`Rewarding ${reward} entries`);
-      await this.#rewardEntries({
+      await this.#raffle.addEntries({
         userId,
         raffleId: action.raffleId,
-        reward,
+        entries: reward,
+        bonus: true,
       });
       return reward;
     }
@@ -757,18 +788,8 @@ export class TasksService {
       | { userId: string; questId: string };
   } & TaskInputSchema) {
     if (progress && progress.status === 'COMPLETED') {
-      // reset the progress if the quest is expired.
-      // starting from a blank slate makes it easier to calculate modifications
-      if (isExpired(progress.expiresAt)) {
-        await this.#db.taskProgress.delete({
-          where: joinClause(where),
-        });
-
-        progress = undefined;
-      } else {
-        // skip processing completed tasks
-        return undefined;
-      }
+      // skip processing completed tasks
+      return undefined;
     }
 
     const currentRepetitions = progress?.repetitions ?? 0;
@@ -776,8 +797,6 @@ export class TasksService {
     const newRepetitions = currentRepetitions + repetitions;
     const metRequirement = newRepetitions >= task.maxRepetitions;
     const newStatus = metRequirement ? TaskStatus.COMPLETED : TaskStatus.ACTIVE;
-
-    const expiresAt = setExpirationDate(task, progress);
 
     validateTaskInput({
       task,
@@ -788,13 +807,11 @@ export class TasksService {
       where: joinClause(where),
       create: {
         ...where,
-        expiresAt,
         status: newStatus,
         repetitions,
         state,
       },
       update: {
-        expiresAt,
         status: newStatus,
         state,
         repetitions: {
@@ -847,23 +864,6 @@ export class TasksService {
         )
       )
     );
-  }
-
-  async #rewardEntries({
-    userId,
-    raffleId,
-    reward,
-  }: {
-    userId: string;
-    raffleId: number;
-    reward: number;
-  }) {
-    await this.#raffle.addEntries({
-      userId,
-      raffleId,
-      entries: reward,
-      bonus: true,
-    });
   }
 }
 

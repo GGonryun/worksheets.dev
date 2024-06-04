@@ -38,9 +38,6 @@ export const RaffleActions: React.FC<{
   ) : null;
 };
 
-const showExpiration = (frequency: string, status: string) =>
-  frequency !== 'INFINITE' && frequency !== 'ONCE' && status === 'COMPLETED';
-
 export const ActionTooltip: React.FC<
   ActionSchema & { children: ReactNode }
 > = ({ frequency, expiresAt, reward, children, status, locked }) => {
@@ -51,7 +48,7 @@ export const ActionTooltip: React.FC<
           <Typography typography={'body2'} fontWeight={400}>
             This entry is locked until you complete all required tasks.
           </Typography>
-        ) : showExpiration(frequency, status) ? (
+        ) : status === 'COMPLETED' && expiresAt ? (
           <Typography typography={'body2'} fontWeight={400}>
             This entry offers a <b>{formatTaskFrequencyLabel(frequency)}</b>{' '}
             bonus of <b>{reward} tokens</b>. You can complete it again in{' '}
@@ -119,11 +116,10 @@ const Label: React.FC<ActionSchema> = ({
   repetitions,
   maxRepetitions,
   status,
-  frequency,
 }) => {
   return (
     <Column>
-      {showExpiration(frequency, status) && (
+      {status === 'COMPLETED' && expiresAt && (
         <Row gap={0.5}>
           <SmallAlarmIcon />
           <Typography typography="body3" fontWeight={700}>

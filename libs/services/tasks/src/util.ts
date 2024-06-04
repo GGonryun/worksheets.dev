@@ -1,5 +1,4 @@
 import { Prisma } from '@worksheets/prisma';
-import { parseStatus } from '@worksheets/util/tasks';
 
 export const validateRequirements = (
   action: Prisma.RaffleActionGetPayload<{
@@ -23,11 +22,10 @@ export const validateRequirements = (
   }>
 ) => {
   // check if the action has any requirements that are not met.
-  const unmet = action.raffle.actions.filter((action) => {
+  const unmet = action.raffle.actions.filter(
     // each user should have at most one progress record per action.
-    const p = action.progress?.at(0);
-    return parseStatus(action.task.frequency, p) !== 'COMPLETED';
-  });
+    (action) => action.progress?.at(0)?.status !== 'COMPLETED'
+  );
 
   if (!action.required && unmet.length > 0) {
     console.info(

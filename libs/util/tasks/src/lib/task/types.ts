@@ -18,13 +18,13 @@ export const taskSchema = z.object({
   frequency: z.nativeEnum(TaskFrequency),
   gameId: z.string().nullable(),
   repetitions: z.number(),
-  createdAt: z.number(),
+  createdAt: z.number().nullable(),
   maxRepetitions: z.number(),
   type: z.nativeEnum(TaskType),
   data: z.any(),
   state: z.any().nullable(),
   status: z.nativeEnum(TaskStatus),
-  expiresAt: z.number(),
+  expiresAt: z.number().nullable(),
 });
 
 export type TaskSchema = z.infer<typeof taskSchema>;
@@ -44,11 +44,6 @@ export const actionSchema = taskSchema.extend({
 });
 
 export type ActionSchema = z.infer<typeof actionSchema>;
-
-export const progressSchema = z.object({
-  status: z.nativeEnum(TaskStatus),
-  expiresAt: z.number().nullable(),
-});
 
 export const taskInputSchema = z.object({
   repetitions: z.number(),

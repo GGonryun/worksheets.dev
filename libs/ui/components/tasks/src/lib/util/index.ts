@@ -173,19 +173,23 @@ export const formatMaxRepetitions = (max: number) => {
 
 export const formatTaskExpiration = (
   frequency: TaskFrequency,
-  expiresAt: number
+  expiresAt: number | null
 ) => {
-  if (frequency === TaskFrequency.INFINITE) {
+  if (
+    frequency === TaskFrequency.INFINITE ||
+    frequency === TaskFrequency.ONCE
+  ) {
     return 'Never Expires';
   }
 
-  if (expiresAt < 1) {
+  if (!expiresAt) {
     return 'Pending';
   }
 
   if (isPast(expiresAt)) {
-    return 'Pending';
+    return 'Expired';
   }
+
   return millisecondsToDuration(timeUntil(expiresAt));
 };
 

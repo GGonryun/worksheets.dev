@@ -5,11 +5,7 @@ import { Column, Row } from '@worksheets/ui/components/flex';
 import { PulsingLogo } from '@worksheets/ui/components/loading';
 import { InfoModal, ModalWrapper } from '@worksheets/ui/components/modals';
 import { TaskFormProps } from '@worksheets/util/tasks';
-import {
-  isPast,
-  printDateTime,
-  printTimeRemaining,
-} from '@worksheets/util/time';
+import { printDateTime, printTimeRemaining } from '@worksheets/util/time';
 import React from 'react';
 
 import { TaskForm } from '../task-form';
@@ -51,7 +47,7 @@ export const TaskModalContent: React.FC<
 > = (props) => {
   const { task, actions, isLoading, rewards } = props;
   const [open, setOpen] = React.useState(false);
-  const { name, description, expiresAt } = task;
+  const { name, description, expiresAt, status } = task;
   const theme = useTheme();
   const Icon = selectTaskStatusIcon(task.status, task.type);
   const colorKey = selectTaskColor(task.status);
@@ -84,7 +80,7 @@ export const TaskModalContent: React.FC<
             <Typography variant="body2">{description}</Typography>
           </Column>
         </Column>
-        {expiresAt > 0 && !isPast(expiresAt) && (
+        {expiresAt && status === 'COMPLETED' && (
           <Typography variant="body2" color="text.secondary">
             This quest resets in <b>{printTimeRemaining(expiresAt)}</b> on{' '}
             <b>{printDateTime(expiresAt)}</b>

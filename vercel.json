@@ -5,8 +5,16 @@
             "schedule": "0 0 * * 0"
         },
         {
-            "path": "/api/cron/destroy-expired-quests",
+            "path": "/api/cron/destroy-expired-tasks-daily",
             "schedule": "0 0 * * *"
+        },
+        {
+            "path": "/api/cron/destroy-expired-tasks-weekly",
+            "schedule": "0 0 * * 0"
+        },
+        {
+            "path": "/api/cron/destroy-expired-tasks-monthly",
+            "schedule": "0 0 1 * *"
         },
         {
             "path": "/api/cron/destroy-game-history",

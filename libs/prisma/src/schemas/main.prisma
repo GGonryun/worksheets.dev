@@ -690,7 +690,6 @@ model TaskProgress {
   id          Int            @id @default(autoincrement())
   createdAt   DateTime       @default(now())
   updatedAt   DateTime       @updatedAt
-  expiresAt   DateTime?
   status      TaskStatus
   // the number of times the user has performed the task. 
   // a reward is given when the task's interval is reached.

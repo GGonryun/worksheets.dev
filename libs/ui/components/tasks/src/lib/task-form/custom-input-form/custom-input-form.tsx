@@ -33,12 +33,14 @@ const CompletedForm: React.FC<Omit<TaskFormProps, 'actions'>> = ({ task }) => {
 
   return (
     <Column mt={-1} gap={1}>
-      <Typography typography={'body2'}>
-        <b>Submitted on:</b> {new Date(task.createdAt).toLocaleString()}
-      </Typography>
-      {task.expiresAt > 0 && (
+      {task.createdAt && (
         <Typography typography={'body2'}>
-          <b>Expires:</b> {new Date(task.expiresAt).toLocaleString()}
+          <b>Submitted at:</b> {new Date(task.createdAt).toLocaleString()}
+        </Typography>
+      )}
+      {task.expiresAt && (
+        <Typography typography={'body2'}>
+          <b>Expires at:</b> {new Date(task.expiresAt).toLocaleString()}
         </Typography>
       )}
       <Divider />

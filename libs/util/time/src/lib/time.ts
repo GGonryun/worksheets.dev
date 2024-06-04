@@ -330,3 +330,41 @@ export const durationToString = (duration: Duration): string => {
 
   return `${seconds}s`;
 };
+
+export const nextUtcMidnight = (): Date => {
+  const now = new Date();
+  const nextMidnight = new Date(
+    Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + 1)
+  );
+  return nextMidnight;
+};
+
+export const nextSundayUtcMidnight = (): Date => {
+  const now = new Date();
+  const dayOfWeek = now.getUTCDay();
+  const daysUntilSunday = (7 - dayOfWeek) % 7;
+  const nextSunday = new Date(now);
+  nextSunday.setUTCDate(now.getUTCDate() + daysUntilSunday);
+  nextSunday.setUTCHours(0, 0, 0, 0);
+  return nextSunday;
+};
+
+export const nextFirstOfMonthUtcMidnight = (): Date => {
+  const now = new Date();
+  let nextMonth: number;
+  let nextYear: number;
+
+  if (now.getUTCMonth() === 11) {
+    // December
+    nextMonth = 0; // January
+    nextYear = now.getUTCFullYear() + 1;
+  } else {
+    nextMonth = now.getUTCMonth() + 1;
+    nextYear = now.getUTCFullYear();
+  }
+
+  const nextFirstOfMonth = new Date(
+    Date.UTC(nextYear, nextMonth, 1, 0, 0, 0, 0)
+  );
+  return nextFirstOfMonth;
+};
