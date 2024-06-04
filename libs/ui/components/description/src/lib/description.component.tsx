@@ -113,7 +113,7 @@ export const Description: React.FC<{
         <Box
           sx={{
             position: 'relative',
-            px: 3,
+            px: { xs: 2, sm: 3 },
             pb: 3,
           }}
         >

@@ -215,6 +215,14 @@ const theme = createTheme({
       gradient: 'linear-gradient(181deg, #70BAFF 0.5%, #2477F4 177.86%)',
       shadow: '#3D68BC',
     },
+    yellow: {
+      light: '#f8b346',
+      main: '#d99e41',
+      dark: '#b7883b',
+      contrastText: '#FFFFFF',
+      gradient: 'linear-gradient(181deg, #d99e41 0.5%, #b7883b 242.97%)',
+      shadow: '#826434',
+    },
     discord: {
       light: '#7289DA',
       main: '#7289DA',

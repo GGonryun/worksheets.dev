@@ -25,6 +25,7 @@ declare module '@mui/material/styles' {
     discord: SimplePaletteColorOptions;
     steam: SimplePaletteColorOptions;
     youtube: SimplePaletteColorOptions;
+    yellow: SimplePaletteColorOptions;
     instagram: SimplePaletteColorOptions;
     facebook: SimplePaletteColorOptions;
     tiktok: SimplePaletteColorOptions;
@@ -92,6 +93,7 @@ declare module '@mui/material/styles' {
     discord: SimplePaletteColorOptions;
     steam: SimplePaletteColorOptions;
     youtube: SimplePaletteColorOptions;
+    yellow: SimplePaletteColorOptions;
     instagram: SimplePaletteColorOptions;
     facebook: SimplePaletteColorOptions;
     tiktok: SimplePaletteColorOptions;
@@ -124,6 +126,7 @@ declare module '@mui/material/Button' {
     discord: true;
     steam: true;
     youtube: true;
+    yellow: true;
     instagram: true;
     facebook: true;
     tiktok: true;
@@ -154,6 +157,7 @@ declare module '@mui/material/IconButton' {
     default: true;
     steam: true;
     youtube: true;
+    yellow: true;
     instagram: true;
     facebook: true;
     tiktok: true;
@@ -177,6 +181,7 @@ declare module '@mui/material/Chip' {
 declare module '@mui/material/SvgIcon' {
   interface SvgIconPropsColorOverrides {
     default: true;
+    yellow: true;
     black: true;
     white: true;
   }

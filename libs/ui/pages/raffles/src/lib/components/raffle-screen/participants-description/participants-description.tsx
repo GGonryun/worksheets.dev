@@ -1,28 +1,64 @@
-import { LoginOutlined, Star, VpnKeyOutlined } from '@mui/icons-material';
-import { Box, Button, Link, Typography, TypographyProps } from '@mui/material';
+import {
+  LocalActivity,
+  LoginOutlined,
+  Star,
+  VpnKeyOutlined,
+} from '@mui/icons-material';
+import { Button, Link, Typography } from '@mui/material';
 import { routes } from '@worksheets/routes';
 import { trpc } from '@worksheets/trpc-charity';
 import { Description } from '@worksheets/ui/components/description';
 import { ErrorComponent } from '@worksheets/ui/components/errors';
-import { Column, Row } from '@worksheets/ui/components/flex';
+import { Column } from '@worksheets/ui/components/flex';
 import { LoadingBar } from '@worksheets/ui/components/loading';
 import { useSession } from 'next-auth/react';
 import React from 'react';
+
+import { ParticipantsTable } from './participants-table';
 
 export const ParticipantsDescription: React.FC<{
   raffleId: number;
 }> = ({ raffleId }) => {
   const session = useSession();
+  const [winnersOnly, setWinnersOnly] = React.useState(false);
+  const participants = trpc.maybe.raffles.participants.useQuery({
+    raffleId,
+  });
+
   return (
     <Description
       hideLogo
       open
       title="Participants & Winners"
+      ancillary={
+        participants.data?.some((p) => p.winner) ? (
+          <Button
+            variant="arcade"
+            startIcon={winnersOnly ? <LocalActivity /> : <Star />}
+            color={winnersOnly ? 'primary' : 'yellow'}
+            sx={{
+              width: { xs: '100%', sm: 'fit-content' },
+              alignSelf: 'flex-end',
+            }}
+            onClick={() => setWinnersOnly((prev) => !prev)}
+          >
+            {winnersOnly ? 'Show All' : 'Show Winners Only'}
+          </Button>
+        ) : null
+      }
       description={
-        session.status === 'loading' ? (
+        session.status === 'loading' || participants.isLoading ? (
           <LoadingBar />
+        ) : participants.isError ? (
+          <ErrorComponent color="text.primary" />
         ) : session.status === 'authenticated' ? (
-          <Content raffleId={raffleId} />
+          <ParticipantsTable
+            participants={
+              winnersOnly
+                ? participants.data.filter((p) => p.winner)
+                : participants.data
+            }
+          />
         ) : (
           <LoginToView raffleId={raffleId} />
         )
@@ -30,69 +66,6 @@ export const ParticipantsDescription: React.FC<{
     />
   );
 };
-const Content: React.FC<{ raffleId: number }> = ({ raffleId }) => {
-  const participants = trpc.maybe.raffles.participants.useQuery({
-    raffleId,
-  });
-
-  if (participants.isError) return <ErrorComponent color="text.primary" />;
-  if (participants.isLoading) return <LoadingBar />;
-
-  const winners = participants.data.filter((p) => p.winner);
-
-  return (
-    <Box display="flex" flexDirection="column" gap={1}>
-      <Heading>Winners</Heading>
-      {winners.length ? (
-        winners.map((winner) => (
-          <Row key={winner.user.id} gap={1}>
-            <Star fontSize="small" />
-            <Typography
-              component={Link}
-              underline="hover"
-              color="text.arcade"
-              href={routes.user.path({
-                params: {
-                  userId: winner.user.id,
-                },
-              })}
-            >
-              <b>{winner.user.username}</b>
-            </Typography>
-          </Row>
-        ))
-      ) : (
-        <Typography>
-          The raffle is still active and there are no winners yet.
-        </Typography>
-      )}
-      <br />
-      <Heading>
-        Total Participants:{' '}
-        {participants.data.length > 100 ? '99+' : participants.data.length}
-      </Heading>
-      {participants.data.map((participant, i) => (
-        <Typography
-          key={i}
-          component={Link}
-          underline="hover"
-          color="text.arcade"
-          href={routes.user.path({
-            params: {
-              userId: participant.user.id,
-            },
-          })}
-        >
-          <b>{participant.user.username}</b> — {participant.numEntries} entries
-        </Typography>
-      ))}
-    </Box>
-  );
-};
-
-const Heading: React.FC<Pick<TypographyProps, 'children'>> = ({ children }) => (
-  <Typography typography={{ xs: 'h6', sm: 'h5' }}>{children}</Typography>
-);
 
 const LoginToView: React.FC<{ raffleId: number }> = ({ raffleId }) => (
   <Column gap={2}>

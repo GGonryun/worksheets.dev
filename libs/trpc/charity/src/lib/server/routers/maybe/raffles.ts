@@ -20,7 +20,7 @@ export default t.router({
         orderBy: {
           numEntries: 'desc',
         },
-        take: 100,
+        take: 1000, // limit to 1000 participants
         select: {
           numEntries: true,
           winner: true,
