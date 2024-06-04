@@ -82,7 +82,7 @@ export class DiscordAPI {
     const webhookUrl = CHANNEL_WEBHOOKS[channel];
 
     try {
-      await request(webhookUrl, {
+      const result = await fetch(webhookUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -94,6 +94,12 @@ export class DiscordAPI {
           username: username ?? DEFAULT_DISCORD_USERNAME,
         }),
       });
+      if (!result.ok) {
+        console.error(
+          `[${result.status}] Failed to send Discord message`,
+          result
+        );
+      }
     } catch (error) {
       console.error(`[500] Failed to send Discord message`, error);
     }
