@@ -31,7 +31,7 @@ export default t.router({
         })
       )
       .mutation(async ({ input, ctx: { user, db } }) => {
-        const rewarded = await db.$transaction(
+        const { reward, raffleId } = await db.$transaction(
           async (tx) => {
             const tasks = new TasksService(tx);
             console.info('tracking action', input);
@@ -45,27 +45,27 @@ export default t.router({
           }
         );
 
-        if (rewarded) {
+        if (reward) {
           const tasks = new TasksService(db);
           fireAndForget(
             Promise.all([
               tasks.trackQuest({
                 questId: 'RAFFLE_PARTICIPATION_DAILY',
                 userId: user.id,
-                repetitions: rewarded,
+                repetitions: reward,
               }),
               input.referralCode
                 ? tasks.trackReferralAction({
                     userId: user.id,
-                    actionId: input.actionId,
                     referralCode: input.referralCode,
+                    raffleId,
                   })
                 : Promise.resolve(),
             ])
           );
         }
 
-        return rewarded;
+        return reward;
       }),
   }),
   quests: t.router({

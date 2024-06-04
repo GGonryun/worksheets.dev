@@ -59,6 +59,8 @@ model User {
   plays            GamePlayHistory[]
   // integrations
   integrations     Integration[]
+  referredAction   ReferralAction[]       @relation(name: "ReferredAction")
+  referrerAction   ReferralAction[]       @relation(name: "ReferrerAction")
 }
 
 model Account {
@@ -477,27 +479,28 @@ enum RaffleStatus {
 }
 
 model Raffle {
-  id           Int                   @id
-  version      Int                   @default(0)
-  status       RaffleStatus
-  expiresAt    DateTime
-  numWinners   Int
-  imageUrl     String?               @db.VarChar(255)
-  premium      Boolean               @default(false)
-  itemId       String
-  item         Item                  @relation(fields: [itemId], references: [id])
+  id              Int                   @id
+  version         Int                   @default(0)
+  status          RaffleStatus
+  expiresAt       DateTime
+  numWinners      Int
+  imageUrl        String?               @db.VarChar(255)
+  premium         Boolean               @default(false)
+  itemId          String
+  item            Item                  @relation(fields: [itemId], references: [id])
   // max purchasable entries per user
-  maxEntries   Int?
+  maxEntries      Int?
   // sponsorship
-  sponsorId    String                @db.VarChar(127)
-  sponsor      Sponsor               @relation(fields: [sponsorId], references: [id])
+  sponsorId       String                @db.VarChar(127)
+  sponsor         Sponsor               @relation(fields: [sponsorId], references: [id])
   // analytics
-  createdAt    DateTime              @default(now())
-  updatedAt    DateTime              @updatedAt
-  publishAt    DateTime              @default(now())
+  createdAt       DateTime              @default(now())
+  updatedAt       DateTime              @updatedAt
+  publishAt       DateTime              @default(now())
   // relationships
-  participants RaffleParticipation[]
-  actions      RaffleAction[]
+  participants    RaffleParticipation[]
+  actions         RaffleAction[]
+  referralActions ReferralAction[]
 }
 
 model RaffleParticipation {
@@ -704,6 +707,19 @@ model TaskProgress {
 
   @@unique([userId, questId])
   @@unique([userId, actionId])
+}
+
+model ReferralAction {
+  id         Int    @id @default(autoincrement())
+  raffleId   Int
+  raffle     Raffle @relation(fields: [raffleId], references: [id], onDelete: Cascade)
+  referredId String
+  referrer   User   @relation(name: "ReferrerAction", fields: [referredId], references: [id], onDelete: Cascade)
+  referrerId String
+  referred   User   @relation(name: "ReferredAction", fields: [referrerId], references: [id], onDelete: Cascade)
+
+  // each referred user can only be referred once per raffle.
+  @@unique([raffleId, referredId])
 }
 
 model PlatformQuest {

@@ -253,12 +253,20 @@ export class TasksService {
       });
     }
 
-    return await this.#trackAction({
+    const reward = await this.#trackAction({
       action,
       ...opts,
     });
+
+    return { reward, raffleId: action.raffleId };
   }
 
+  /**
+   * @returns undefined, or the number of entries rewarded.
+   * when undefined, the action was not tracked most likely because the requirements were not met.
+   * when 0, the action was tracked but not completed.
+   * when > 0, the action was tracked and completed, and the user was rewarded some number of entries.
+   */
   async #trackAction({
     action,
     userId,
@@ -291,7 +299,7 @@ export class TasksService {
     }>;
   } & TaskInputSchema) {
     if (!validateRequirements(action)) {
-      return 0;
+      return undefined;
     }
 
     const progress = await this.#calculateProgress({
@@ -374,12 +382,11 @@ export class TasksService {
     ]);
   }
 
-  async trackReferralAction(
-    opts: ({ actionId: string } | { raffleId: number }) & {
-      userId: string;
-      referralCode: string;
-    }
-  ) {
+  async trackReferralAction(opts: {
+    userId: string;
+    raffleId: number;
+    referralCode: string;
+  }) {
     console.info(`Tracking referral action`, opts);
     // make sure the referrer code is valid
     const referrer = await convertReferralCode({
@@ -387,6 +394,7 @@ export class TasksService {
       code: opts.referralCode,
     });
 
+    // if no referral code is found, then we can skip tracking.
     if (!referrer) {
       throw new TRPCError({
         code: 'NOT_FOUND',
@@ -394,6 +402,7 @@ export class TasksService {
       });
     }
 
+    // users cannot refer themselves, this can happen if a user visits their own referral link.
     if (referrer.user.id === opts.userId) {
       console.info(
         `Referrer and user are the same. Skipping referral action tracking`,
@@ -402,41 +411,94 @@ export class TasksService {
       return;
     }
 
-    await this.trackActions({
-      userId: referrer.user.id,
-      repetitions: 1,
-      state: opts.userId,
+    // find the referral action associated with the action being performed.
+    // there should never be more than one referral action associated with a raffle.
+    const action = await this.#db.raffleAction.findFirst({
       where: {
         task: {
           type: TaskType.REFERRAL_TASK,
         },
-        raffle:
-          // Some fields get duplicated because the type system fails to infer the correct type if we conditionally add a raffle id or actions.
-          'actionId' in opts
-            ? {
-                actions: {
-                  some: {
-                    id: opts.actionId,
+        raffle: {
+          id: opts.raffleId,
+          publishAt: {
+            lte: new Date(),
+          },
+          expiresAt: {
+            gte: new Date(),
+          },
+        },
+      },
+      include: {
+        task: true,
+        raffle: {
+          include: {
+            referralActions: {
+              where: {
+                referredId: opts.userId,
+                raffleId: opts.raffleId,
+              },
+            },
+            actions: {
+              where: {
+                required: true,
+              },
+              include: {
+                task: true,
+                progress: {
+                  where: {
+                    userId: referrer.user.id,
                   },
                 },
-                publishAt: {
-                  lte: new Date(),
-                },
-                expiresAt: {
-                  gte: new Date(),
-                },
-              }
-            : {
-                id: opts.raffleId,
-                publishAt: {
-                  lte: new Date(),
-                },
-                expiresAt: {
-                  gte: new Date(),
-                },
               },
+            },
+          },
+        },
+        progress: {
+          where: {
+            userId: referrer.user.id,
+          },
+        },
       },
     });
+
+    // if there is no relevant referral action, then we can skip tracking.
+    if (!action) {
+      console.info(`No referral action found for this raffle`, opts);
+      return;
+    }
+
+    // if the referrer has already completed the referral action, then we can skip tracking.
+    if (action.raffle.referralActions.length > 0) {
+      console.info(
+        `Referrer has already completed referral action for this raffle`,
+        opts
+      );
+      return;
+    }
+
+    // otherwise, the referral is fresh and we can track it.
+    const rewarded = await this.#trackAction({
+      action,
+      repetitions: 1,
+      userId: referrer.user.id,
+    });
+
+    // if the referrer was rewarded, then we can create a referral action record.
+    // an undefined reward means the action did not meet the requirements so it was not tracked.
+    // a reward of 0 means the action was tracked but not completed, these still count as referrals.
+    if (rewarded == null) {
+      console.info(`Referral action was skipped, no tracking occurred`, opts);
+      return;
+    }
+
+    await this.#db.referralAction.create({
+      data: {
+        referredId: opts.userId,
+        referrerId: referrer.user.id,
+        raffleId: opts.raffleId,
+      },
+    });
+    console.info(`Referral action was tracked`, opts);
   }
 
   async trackGameActions(opts: {
@@ -717,16 +779,10 @@ export class TasksService {
 
     const expiresAt = setExpirationDate(task, progress);
 
-    const validated = validateTaskInput({
+    validateTaskInput({
       task,
-      progress,
-      input: state,
+      state,
     });
-
-    if (validated.skip) {
-      console.info(`Merge state returned skip`, validated);
-      return undefined;
-    }
 
     await this.#db.taskProgress.upsert({
       where: joinClause(where),
@@ -735,12 +791,12 @@ export class TasksService {
         expiresAt,
         status: newStatus,
         repetitions,
-        state: validated.state,
+        state,
       },
       update: {
         expiresAt,
         status: newStatus,
-        state: validated.state,
+        state,
         repetitions: {
           increment: repetitions,
         },

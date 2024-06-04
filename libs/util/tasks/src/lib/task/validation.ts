@@ -3,18 +3,15 @@ import { assertNever } from '@worksheets/util/errors';
 
 import { validateFormInput } from '../form';
 import { validatePollSubmission } from '../poll';
-import { validateReferralInput } from '../referral';
 import { validateSecretInput } from '../secret';
 
 export const validateTaskInput = (opts: {
   task: Prisma.TaskGetPayload<true>;
-  progress: Prisma.TaskProgressGetPayload<true> | undefined;
-  input: unknown;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-}): { state: any; skip: boolean } => {
+  state: unknown;
+}) => {
   const {
     task: { type, data },
-    input,
+    state,
   } = opts;
   switch (type) {
     case 'PLAY_GAME':
@@ -39,18 +36,14 @@ export const validateTaskInput = (opts: {
     case 'VISIT_INSTAGRAM':
     case 'VISIT_TIKTOK':
     case 'VISIT_YOUTUBE':
-      return { state: input, skip: false };
     case 'REFERRAL_TASK':
-      return validateReferralInput({
-        existing: opts.progress?.state ?? [],
-        input: opts.input,
-      });
+      return;
     case 'POLL':
-      return validatePollSubmission({ data, state: input });
+      return validatePollSubmission({ data, state });
     case 'SECRET':
-      return validateSecretInput({ data, state: input });
+      return validateSecretInput({ data, state });
     case 'FORM':
-      return validateFormInput({ data, state: input });
+      return validateFormInput({ data, state });
     default:
       throw assertNever(type);
   }
