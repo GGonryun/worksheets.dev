@@ -24,17 +24,13 @@ export const GameFrame = forwardRef<HTMLIFrameElement, GameFrameProps>(
         </Box>
         <iframe
           ref={ref}
-          style={{
-            userSelect: 'none',
-            zIndex: 1,
-          }}
           id="game-frame"
           name="game-frame"
           title="game-frame"
           src={url}
           className={classes.iframe}
           sandbox="allow-popups allow-popups-to-escape-sandbox allow-storage-access-by-user-activation allow-forms allow-orientation-lock allow-pointer-lock allow-presentation allow-scripts allow-same-origin allow-downloads"
-          allow={`allow-popups; allow-popups-to-escape-sandbox; accelerometer; magnetometer; gyroscope; autoplay; payment; fullscreen; microphone; clipboard-read; clipboard-write 'self' ${url}`}
+          allow={`accelerometer; magnetometer; gyroscope; autoplay; payment; fullscreen; microphone; clipboard-read; clipboard-write 'self' ${url}`}
         />
       </Box>
     );

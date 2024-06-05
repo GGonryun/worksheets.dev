@@ -5,6 +5,7 @@
   border: none;
   background-color: transparent;
   z-index: 1;
+  user-select: none;
   position: absolute;
 }
 
@@ -19,5 +20,6 @@
   align-items: center;
   justify-content: center;
   z-index: 0;
+  user-select: none;
   background-color: rgb(222, 222, 222);
 }
