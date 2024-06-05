@@ -43,7 +43,7 @@ export class TasksService {
   }
 
   async destroyExpiredTasks(frequency: TaskFrequency) {
-    const result = await prisma.taskProgress.deleteMany({
+    const result = await this.#db.taskProgress.deleteMany({
       where: {
         OR: [
           {
