@@ -5,6 +5,7 @@ import { MarkdownMetadata } from '@worksheets/util-markdown';
 import { ArticleJsonLdProps, DefaultSeoProps, NextSeoProps } from 'next-seo';
 
 export const defaultSeo: DefaultSeoProps = {
+  canonical: blogRoutes.baseUrl,
   title: 'Charity Games Blog',
   description:
     'On Charity Games you can play free online HTML browser games and microgames. Every play donates money to charitable causes. We support mobile and desktop.',
