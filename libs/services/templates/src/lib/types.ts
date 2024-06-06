@@ -247,6 +247,21 @@ export type NotificationTemplate =
         senderId: string | null;
         text: string;
       };
+    }
+  | {
+      type: 'share-gift';
+      payload: {
+        friendId: string;
+        from: {
+          id: string;
+          username: string;
+        };
+        item: {
+          id: string;
+          name: string;
+        };
+        quantity: number;
+      };
     };
 
 /** Helper Types **/

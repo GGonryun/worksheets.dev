@@ -4,20 +4,20 @@ import {
   ValentinesHearts,
   ValentinesSearch,
 } from '@worksheets/icons/valentines';
-import { WebHeart } from '@worksheets/icons/web';
 import { routes } from '@worksheets/routes';
 import { Panel } from '@worksheets/ui/components/panels';
 import { FriendsPanels } from '@worksheets/util/enums';
 import { Follower, Friend } from '@worksheets/util/types';
 
 import { CollapsibleSection } from '../../components';
+import { ProfileButtonContainer } from '../../containers/profile-button-container';
 import { AddFriendsSection } from './sections/add-friends-section';
 import { FriendsListSection } from './sections/friends-list-section';
 
 export const FriendsPanel: React.FC<{
   addFriendCode?: string;
   bookmark: FriendsPanels | undefined;
-  friends: Friend[];
+  following: Friend[];
   followers: Follower[];
   refreshTimestamp: number;
   friendCode: string;
@@ -31,8 +31,7 @@ export const FriendsPanel: React.FC<{
       bookmark={props.bookmark}
       header={{
         primary: 'Friends',
-        secondary: `${props.friends.length} friends`,
-        icon: <WebHeart fontSize="large" />,
+        icon: <ProfileButtonContainer />,
       }}
       footer={{
         learn: { text: 'Friends', href: routes.help.friends.path() },
@@ -68,7 +67,7 @@ export const FriendsPanel: React.FC<{
           <CollapsibleSection
             id={FriendsPanels.FriendsList}
             text="Friends List"
-            description="Manage your followers, friends, and favorites."
+            description="Manage who you follow, see your followers, and pick your favorites."
             Icon={ValentinesHearts}
             status={<Diversity1Outlined fontSize="large" color="error" />}
             active={active}
@@ -76,7 +75,7 @@ export const FriendsPanel: React.FC<{
           >
             <FriendsListSection
               followers={props.followers}
-              friends={props.friends}
+              following={props.following}
               onAdd={props.onAdd}
               onRemove={props.onRemove}
               onFavorite={props.onFavorite}

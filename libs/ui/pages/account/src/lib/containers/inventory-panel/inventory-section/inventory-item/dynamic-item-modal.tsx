@@ -223,9 +223,9 @@ const ShareItem: React.FC<{
   return (
     <Column gap={2} alignItems="center">
       {!friend ? (
-        friends.data.length ? (
+        friends.data.following.length ? (
           <SelectFriend
-            friends={friends.data}
+            friends={friends.data.following}
             onSelect={(friend) => setFriend(friend)}
           />
         ) : (
@@ -253,7 +253,6 @@ const SelectQuantity: React.FC<{
   const utils = trpc.useUtils();
   const share = trpc.user.inventory.share.useMutation();
   const [quantity, setQuantity] = React.useState(1);
-  const [sharing, setSharing] = React.useState(false);
   const handleSetQuantity = (num: number) => {
     if (num < 1) return;
     if (num > props.item.quantity) return;
@@ -262,23 +261,21 @@ const SelectQuantity: React.FC<{
 
   const handleShare = async () => {
     try {
-      setSharing(true);
       const message = await share.mutateAsync({
         friendshipId: props.friend.friendshipId,
         itemId: props.item.itemId,
         quantity,
       });
-      await utils.user.inventory.invalidate();
+      utils.user.inventory.invalidate();
       snackbar.success(message);
     } catch (error) {
       snackbar.error(parseTRPCClientErrorMessage(error));
     } finally {
       props.onClose();
-      setSharing(false);
     }
   };
 
-  if (sharing) return <PulsingLogo />;
+  if (share.isLoading) return <PulsingLogo />;
 
   return (
     <Column gap={2} alignItems="center">
@@ -300,7 +297,7 @@ const SelectQuantity: React.FC<{
           variant="arcade"
           color="secondary"
           size="small"
-          disabled={sharing}
+          disabled={share.isLoading}
           sx={{ width: 'fit-content', px: 3 }}
           onClick={handleShare}
         >

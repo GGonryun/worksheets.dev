@@ -635,7 +635,7 @@ export class TasksService {
     });
 
     if (!progress) {
-      console.info(`Quest with id ${quest.id} is already completed`);
+      console.info(`Quest with id ${quest.id} was not tracked`);
       return;
     }
 
@@ -798,22 +798,32 @@ export class TasksService {
     const metRequirement = newRepetitions >= task.maxRepetitions;
     const newStatus = metRequirement ? TaskStatus.COMPLETED : TaskStatus.ACTIVE;
 
-    validateTaskInput({
+    const { skip, state: newState } = validateTaskInput({
       task,
+      progress,
       state,
     });
+
+    if (skip) {
+      console.info(`Skipping task because validation failed`, {
+        state,
+        id: task.id,
+        where,
+      });
+      return undefined;
+    }
 
     await this.#db.taskProgress.upsert({
       where: joinClause(where),
       create: {
         ...where,
         status: newStatus,
+        state: newState,
         repetitions,
-        state,
       },
       update: {
         status: newStatus,
-        state,
+        state: newState,
         repetitions: {
           increment: repetitions,
         },

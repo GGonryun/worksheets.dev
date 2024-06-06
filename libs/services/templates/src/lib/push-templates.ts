@@ -22,6 +22,20 @@ import {
 } from './urls';
 
 export class PushTemplates {
+  static shareGift(
+    opts: ExtractTemplatePayload<'share-gift'>
+  ): PushNotifyInput {
+    return {
+      type: 'FRIEND',
+      text: `<a href="${ACCOUNT_FRIENDS_LIST_URL}"><b>${
+        opts.from.username
+      }</b></a> opened and shared ${opts.quantity} ${pluralize(
+        opts.item.name,
+        opts.quantity
+      )} with you! <a href="${ACCOUNT_INVENTORY_URL}"><b>View your inventory</b></a>.`,
+    };
+  }
+
   static newGame(opts: ExtractTemplatePayload<'new-game'>): PushNotifyInput {
     return {
       type: 'GAME',

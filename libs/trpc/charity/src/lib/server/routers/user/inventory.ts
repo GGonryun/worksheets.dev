@@ -7,6 +7,7 @@ import {
   InventoryService,
   PrizeWheelService,
 } from '@worksheets/services/inventory';
+import { NotificationsService } from '@worksheets/services/notifications';
 import {
   DecrementOpts,
   inventoryItemSchema,
@@ -101,15 +102,27 @@ export default t.router({
     )
     .output(z.custom<Awaited<ReturnType<InventoryService['decrement']>>>())
     .mutation(async ({ input, ctx: { db, user } }) => {
+      const notification = new NotificationsService(db);
       const friends = new FriendshipService(db);
       const inventory = new InventoryService(db);
       const friendship = await friends.get(input.friendshipId);
 
-      return inventory.decrement(user.id, {
+      const result = await inventory.decrement(user.id, {
         friendId: friendship.friendId,
         itemId: input.itemId as SharableItemId,
         quantity: input.quantity,
       });
+
+      // TODO: if this is too slow, we can wrap it in a fireAndForgetFn
+      const item = await inventory.getItem(input.itemId);
+      await notification.send('share-gift', {
+        friendId: friendship.friendId,
+        from: user,
+        item,
+        quantity: input.quantity,
+      });
+
+      return result;
     }),
   capsule: t.router({
     get: protectedProcedure

@@ -3,12 +3,12 @@ import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 
 import { mockFriends } from '../../../mocks';
-import { FriendsListTable } from './friends-list-table';
+import { FollowingTable } from './following-table';
 
-type Story = Meta<typeof FriendsListTable>;
+type Story = Meta<typeof FollowingTable>;
 
 const Default: Story = {
-  component: FriendsListTable,
+  component: FollowingTable,
   args: {
     onRemove: action('onRemove'),
     onFavorite: action('onFavorite'),

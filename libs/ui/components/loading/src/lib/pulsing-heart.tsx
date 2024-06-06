@@ -11,6 +11,7 @@ import styles from './pulsing-heart.module.scss';
 export const PulsingLogo: React.FC<{
   hideMessage?: boolean;
   message?: string;
+  offset?: number;
   size?: number;
 }> = (props) => {
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down('sm'));
@@ -25,7 +26,7 @@ export const PulsingLogo: React.FC<{
 
   return (
     <Column alignItems="center">
-      <Box className={styles['pulsing']}>
+      <Box className={styles['pulsing']} mb={props.offset}>
         <CharityGamesLogo size={size} />
       </Box>
       {!props.hideMessage && (

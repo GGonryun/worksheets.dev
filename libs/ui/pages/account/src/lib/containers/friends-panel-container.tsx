@@ -1,6 +1,7 @@
 import { routes } from '@worksheets/routes';
 import { trpc } from '@worksheets/trpc-charity';
 import { ErrorComponent } from '@worksheets/ui/components/errors';
+import { RemoveFriendModal } from '@worksheets/ui/components/friends';
 import { useSnackbar } from '@worksheets/ui/components/snackbar';
 import { LoadingScreen } from '@worksheets/ui/pages/loading';
 import { useBookmark } from '@worksheets/ui-core';
@@ -10,7 +11,7 @@ import { Friend } from '@worksheets/util/types';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 
-import { AddFriendModal, RemoveFriendModal } from '../components';
+import { AddFriendModal } from '../components';
 import { FriendsPanel } from '../panels';
 
 export const genericUnexpectedErrorMessage = {
@@ -35,7 +36,7 @@ export const FriendsPanelContainer: React.FC<{ refreshTimestamp: number }> = ({
   >(undefined);
 
   const friends = trpc.user.friends.list.useQuery(undefined);
-  const followers = trpc.user.followers.list.useQuery(undefined);
+
   const friendCode = trpc.user.referrals.code.useQuery(undefined);
 
   const removeFriend = trpc.user.friends.remove.useMutation();
@@ -124,20 +125,10 @@ export const FriendsPanelContainer: React.FC<{ refreshTimestamp: number }> = ({
     }
   };
 
-  if (
-    friends.isLoading ||
-    giftBoxes.isLoading ||
-    followers.isLoading ||
-    friendCode.isLoading
-  )
+  if (friends.isLoading || giftBoxes.isLoading || friendCode.isLoading)
     return <LoadingScreen />;
 
-  if (
-    friends.error ||
-    giftBoxes.isError ||
-    followers.isError ||
-    friendCode.isError
-  )
+  if (friends.error || giftBoxes.isError || friendCode.isError)
     return <ErrorComponent />;
 
   return (
@@ -145,8 +136,8 @@ export const FriendsPanelContainer: React.FC<{ refreshTimestamp: number }> = ({
       <FriendsPanel
         addFriendCode={addFriendCode}
         bookmark={bookmark}
-        friends={friends.data}
-        followers={followers.data}
+        followers={friends.data.followers}
+        following={friends.data.following}
         refreshTimestamp={refreshTimestamp}
         giftBoxes={giftBoxes.data}
         friendCode={friendCode.data}
@@ -156,6 +147,7 @@ export const FriendsPanelContainer: React.FC<{ refreshTimestamp: number }> = ({
       />
       <RemoveFriendModal
         open={Boolean(removeFriendship)}
+        friendUsername={removeFriendship?.username ?? 'ERROR'}
         onClose={() => setRemoveFriendship(undefined)}
         onRemove={handleRemoveFriend}
       />

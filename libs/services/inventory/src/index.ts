@@ -67,6 +67,14 @@ export class InventoryService {
     this.#db = db;
   }
 
+  async getItem(itemId: string) {
+    return await this.#db.item.findUniqueOrThrow({
+      where: {
+        id: itemId,
+      },
+    });
+  }
+
   async globalTokenCount() {
     const tokens = await this.#db.inventory.aggregate({
       where: {

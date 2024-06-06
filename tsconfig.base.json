@@ -124,6 +124,9 @@
       "@worksheets/ui/components/flex": [
         "libs/ui/components/flex/src/index.ts"
       ],
+      "@worksheets/ui/components/friends": [
+        "libs/ui/components/friends/src/index.ts"
+      ],
       "@worksheets/ui/components/games": [
         "libs/ui/components/games/src/index.ts"
       ],

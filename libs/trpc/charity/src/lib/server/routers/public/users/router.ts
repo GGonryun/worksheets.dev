@@ -1,6 +1,6 @@
 import { TRPCError } from '@trpc/server';
 import { basicGameInfoSchema } from '@worksheets/util/types';
-import { uniqBy } from 'lodash';
+import { cloneDeep, groupBy, map, reverse, sortBy, uniqBy } from 'lodash';
 import { z } from 'zod';
 
 import { publicProcedure } from '../../../procedures';
@@ -25,12 +25,21 @@ export default t.router({
         username: z.string(),
         recentlyPlayed: basicGameInfoSchema.array(),
         mostPlayed: basicGameInfoSchema.array(),
+        code: z.string(),
       })
     )
     .query(async ({ ctx: { db }, input }) => {
       const user = await db.user.findFirst({
         where: {
           id: input,
+        },
+        include: {
+          referralCode: true,
+          plays: {
+            include: {
+              game: true,
+            },
+          },
         },
       });
 
@@ -42,56 +51,50 @@ export default t.router({
         });
       }
 
-      const recentlyPlayed = await db.gamePlayHistory.findMany({
-        where: {
-          userId: user.id,
-        },
-        take: 10,
-        orderBy: {
-          createdAt: 'desc',
-        },
-        include: {
-          game: true,
-        },
-      });
+      if (!user.referralCode) {
+        throw new TRPCError({
+          code: 'INTERNAL_SERVER_ERROR',
+          message: 'User does not have a referral code',
+          cause: `User with id ${input} does not have a referral code`,
+        });
+      }
 
-      const mostPlayed = await db.gamePlayHistory.groupBy({
-        where: {
-          userId: user.id,
-        },
-        by: ['gameId'],
-        _count: {
-          _all: true,
-        },
-      });
+      const recentlyPlayed = map(
+        reverse(
+          sortBy(
+            uniqBy(cloneDeep(user.plays), (p) => p.gameId),
+            (a) => a.createdAt
+          )
+        ),
+        (p) => ({
+          ...p.game,
+          plays: null,
+        })
+      );
 
-      const games = await db.game.findMany({
-        where: {
-          id: {
-            in: mostPlayed.map((x) => x.gameId),
-          },
-        },
-      });
+      const groups = groupBy(cloneDeep(user.plays), (p) => p.gameId);
+      const mostPlayed = map(
+        reverse(
+          sortBy(
+            Object.keys(groups).map((gameId) => ({
+              gameId,
+              game: groups[gameId][0].game,
+              count: groups[gameId].length,
+            })),
+            (a) => a.count
+          )
+        ),
+        (g) => ({
+          ...g.game,
+          plays: g.count,
+        })
+      );
 
       return {
         username: user.username,
-        recentlyPlayed: uniqBy(recentlyPlayed, (p) => p.gameId).map((p) => ({
-          ...p.game,
-          plays: null,
-        })),
-        mostPlayed: games
-          .sort((a, b) => {
-            const aCount =
-              mostPlayed.find((x) => x.gameId === a.id)?._count?._all ?? 0;
-            const bCount =
-              mostPlayed.find((x) => x.gameId === b.id)?._count?._all ?? 0;
-            return bCount - aCount;
-          })
-          .map((game) => ({
-            ...game,
-            plays:
-              mostPlayed.find((x) => x.gameId === game.id)?._count?._all ?? 0,
-          })),
+        code: user.referralCode.code,
+        recentlyPlayed: recentlyPlayed,
+        mostPlayed: mostPlayed,
       };
     }),
 });

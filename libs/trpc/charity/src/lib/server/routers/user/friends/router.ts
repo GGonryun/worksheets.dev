@@ -2,6 +2,7 @@ import { t } from '../../../trpc';
 import add from './add';
 import favorite from './favorite';
 import find from './find';
+import friendship from './friendship';
 import list from './list';
 import remove from './remove';
 
@@ -11,4 +12,5 @@ export default t.router({
   find,
   list,
   remove,
+  friendship,
 });

@@ -1,4 +1,4 @@
-import { Add, FavoriteOutlined } from '@mui/icons-material';
+import { AddCircle } from '@mui/icons-material';
 import { Button, TableCell, TableRow, Tooltip } from '@mui/material';
 import { Follower } from '@worksheets/util/types';
 
@@ -9,7 +9,7 @@ export const FollowersTableListItem: React.FC<{
   onAdd: (code: string) => void;
 }> = ({ follower, onAdd }) => (
   <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-    <TableCell width={32}>
+    <TableCell align="center" width={32}>
       {follower.isFavorite && <FavoriteIcon username={follower.username} />}
     </TableCell>
 
@@ -28,18 +28,12 @@ export const FollowersTableListItem: React.FC<{
             disabled={follower.isFriend}
             onClick={() => onAdd(follower.friendCode)}
             sx={{
-              minWidth: 110,
+              minWidth: 125,
               mb: 0.5,
             }}
-            startIcon={
-              follower.isFriend ? (
-                <FavoriteOutlined fontSize="small" />
-              ) : (
-                <Add fontSize="small" />
-              )
-            }
+            startIcon={<AddCircle fontSize="small" />}
           >
-            {follower.isFriend ? 'Friends' : 'Add'}
+            {follower.isFriend ? 'Following' : 'Follow'}
           </Button>
         </span>
       </Tooltip>

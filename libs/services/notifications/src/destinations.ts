@@ -131,6 +131,10 @@ const userReportTemplates: TemplateBuilder<'user-report'> = (payload) => ({
   discord: DiscordTemplates.userReport(payload),
 });
 
+const shareGiftTemplates: TemplateBuilder<'share-gift'> = (payload) => ({
+  push: PushTemplates.shareGift(payload),
+});
+
 export const destinations: Record<NotificationTemplateType, TemplateBuilder> = {
   'new-game': newGameTemplates,
   'new-raffle': newRaffleTemplates,
@@ -154,4 +158,5 @@ export const destinations: Record<NotificationTemplateType, TemplateBuilder> = {
   'found-item': foundItemTemplates,
   'game-report': gameReportTemplates,
   'user-report': userReportTemplates,
+  'share-gift': shareGiftTemplates,
 };

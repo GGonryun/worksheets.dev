@@ -54,14 +54,6 @@ export class FriendshipService {
         message: 'Could not find a friendship between users.',
       });
     }
-
-    if (friendship.isFavorite) {
-      throw new TRPCError({
-        code: 'PRECONDITION_FAILED',
-        message: 'Cannot remove a best friend.',
-      });
-    }
-
     await this.#db.friendship.delete({
       where: {
         id: friendship.id,
@@ -148,6 +140,31 @@ export class FriendshipService {
         friendId: userId,
       },
     });
+  }
+
+  async findUser(userId: string) {
+    const profile = await this.#db.referralCode.findFirst({
+      where: {
+        userId,
+      },
+      select: {
+        user: {
+          select: {
+            id: true,
+            username: true,
+          },
+        },
+      },
+    });
+
+    if (!profile) {
+      throw new TRPCError({
+        code: 'NOT_FOUND',
+        message: 'A user with that friend code does not exist.',
+      });
+    }
+
+    return profile;
   }
 
   async parseFriendCode(code: string) {
