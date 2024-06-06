@@ -17,6 +17,7 @@ import {
   DEVELOPER_URL,
   GAME_URL,
   GAMES_URL,
+  ITEM_URL,
   RAFFLE_URL,
   RAFFLES_URL,
 } from './urls';
@@ -29,10 +30,14 @@ export class PushTemplates {
       type: 'FRIEND',
       text: `<a href="${ACCOUNT_FRIENDS_LIST_URL}"><b>${
         opts.from.username
-      }</b></a> opened and shared ${opts.quantity} ${pluralize(
-        opts.item.name,
-        opts.quantity
-      )} with you! <a href="${ACCOUNT_INVENTORY_URL}"><b>View your inventory</b></a>.`,
+      }</b></a> opened ${opts.quantity} <a href="${ITEM_URL(
+        opts.item.id
+      )}">${pluralize(opts.item.name, opts.quantity)}</a> and sent you ${
+        opts.giving
+      } ${pluralize(
+        'tokens',
+        opts.giving
+      )}! <a href="${ACCOUNT_INVENTORY_URL}"><b>View your inventory</b></a>.`,
       userIds: [opts.friendId],
     };
   }

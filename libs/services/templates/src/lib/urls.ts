@@ -73,3 +73,10 @@ export const BATTLE_URL = (battleId: number) =>
       battleId,
     },
   });
+
+export const ITEM_URL = (itemId: string) =>
+  routes.item.url({
+    params: {
+      itemId,
+    },
+  });

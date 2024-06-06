@@ -1,5 +1,5 @@
 import { TRPCError } from '@trpc/server';
-import { ItemId, SharableItemId } from '@worksheets/data/items';
+import { ItemId, SharableItemId, SHARE_RATES } from '@worksheets/data/items';
 import { Prisma } from '@worksheets/prisma';
 import { FriendshipService } from '@worksheets/services/friendship';
 import {
@@ -115,11 +115,14 @@ export default t.router({
 
       // TODO: if this is too slow, we can wrap it in a fireAndForgetFn
       const item = await inventory.getItem(input.itemId);
+      const rate = SHARE_RATES[input.itemId as SharableItemId];
+      const giving = rate.friend * input.quantity;
       await notification.send('share-gift', {
         friendId: friendship.friendId,
         from: user,
-        item,
+        giving,
         quantity: input.quantity,
+        item,
       });
 
       return result;

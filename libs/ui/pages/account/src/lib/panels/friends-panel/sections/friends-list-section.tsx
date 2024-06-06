@@ -70,7 +70,6 @@ export const FriendsListSection: React.FC<{
         title="How It Works"
         icon={<InfoOutlined color="info" fontSize="small" />}
         points={[
-          <>Friends are players you follow that follow you back.</>,
           <>
             Add friends by sharing your{' '}
             <Link href={addFriendsLink}>Friend Code</Link> or{' '}

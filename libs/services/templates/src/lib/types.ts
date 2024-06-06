@@ -260,6 +260,7 @@ export type NotificationTemplate =
           id: string;
           name: string;
         };
+        giving: number;
         quantity: number;
       };
     };
