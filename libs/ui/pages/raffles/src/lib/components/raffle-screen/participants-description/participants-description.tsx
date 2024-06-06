@@ -59,6 +59,7 @@ export const ParticipantsDescription: React.FC<{
         ) : session.status === 'authenticated' ? (
           <ParticipantsTable
             total={total}
+            userId={session.data?.user.id}
             participants={
               winnersOnly
                 ? participants.data.filter((p) => p.winner)

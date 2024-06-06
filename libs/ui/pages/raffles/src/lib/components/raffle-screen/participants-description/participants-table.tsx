@@ -41,7 +41,8 @@ const StyledBox = styled(Box)(({ theme }) => ({
 export const ParticipantsTable: React.FC<{
   participants: ParticipationSchema[];
   total: number;
-}> = ({ participants, total }) => {
+  userId: string | undefined;
+}> = ({ participants, total, userId }) => {
   const isMobile = useMediaQueryDown('mobile1');
   if (participants.length === 0) {
     return <Placeholder />;
@@ -95,7 +96,9 @@ export const ParticipantsTable: React.FC<{
                 '&:last-child td, &:last-child th': { border: 0 },
                 backgroundColor: (theme) =>
                   participant.winner
-                    ? alpha(theme.palette.primary.main ?? '', 0.3)
+                    ? alpha(theme.palette.secondary.main, 0.15)
+                    : participant.user.id === userId
+                    ? alpha(theme.palette.primary.main, 0.15)
                     : theme.palette.background.paper,
               }}
             >
@@ -125,20 +128,32 @@ export const ParticipantsTable: React.FC<{
                       userId: participant.user.id,
                     },
                   })}
-                  fontWeight={500}
+                  fontWeight={participant.user.id === userId ? 700 : 500}
                 >
                   {participant.user.username}
                 </Link>
               </TableCell>
 
-              <TableCell align="right">
+              <TableCell
+                align="right"
+                sx={{
+                  fontWeight:
+                    participant.user.id === userId ? 'bold' : 'normal',
+                }}
+              >
                 <LocalActivityOutlined
                   fontSize="small"
                   sx={{ mb: -0.5, mr: 0.5 }}
                 />
                 {participant.numEntries}
               </TableCell>
-              <TableCell align="right">
+              <TableCell
+                align="right"
+                sx={{
+                  fontWeight:
+                    participant.user.id === userId ? 'bold' : 'normal',
+                }}
+              >
                 {toPercentage(participant.numEntries, total, 1)}
               </TableCell>
             </TableRow>
