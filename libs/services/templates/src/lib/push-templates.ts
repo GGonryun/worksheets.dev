@@ -33,6 +33,7 @@ export class PushTemplates {
         opts.item.name,
         opts.quantity
       )} with you! <a href="${ACCOUNT_INVENTORY_URL}"><b>View your inventory</b></a>.`,
+      userIds: [opts.friendId],
     };
   }
 
