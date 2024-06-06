@@ -36,6 +36,7 @@ export const ParticipantsDescription: React.FC<{
       open
       title="Participants & Winners"
       ancillary={
+        session.status === 'authenticated' &&
         participants.data?.some((p) => p.winner) ? (
           <Button
             variant="arcade"
