@@ -86,8 +86,6 @@ const Container: React.FC = () => {
 
   return (
     <>
-      {' '}
-      {dirty.join(',')}
       <Column gap={2}>
         <Column gap={1}>
           {isEmpty && (
