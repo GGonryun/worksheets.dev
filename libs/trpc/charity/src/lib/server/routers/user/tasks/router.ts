@@ -107,13 +107,16 @@ export default t.router({
         })
       )
       .mutation(async ({ input, ctx: { user, db } }) => {
-        return await db.$transaction(async (tx) => {
-          const tasks = new TasksService(tx);
-          return await tasks.trackQuest({
-            userId: user.id,
-            ...input,
-          });
-        });
+        return await db.$transaction(
+          async (tx) => {
+            const tasks = new TasksService(tx);
+            return await tasks.trackQuest({
+              userId: user.id,
+              ...input,
+            });
+          },
+          { isolationLevel: Prisma.TransactionIsolationLevel.Serializable }
+        );
       }),
   }),
   poll: t.router({
