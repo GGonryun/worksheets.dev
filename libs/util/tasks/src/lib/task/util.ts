@@ -8,7 +8,6 @@ import {
 export const parseExpiration = (frequency: TaskFrequency): Date | null => {
   switch (frequency) {
     case 'DAILY':
-      // UTC midnight.
       return nextUtcMidnight();
     case 'WEEKLY':
       return nextSundayUtcMidnight();

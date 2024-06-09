@@ -340,12 +340,25 @@ export const nextUtcMidnight = (): Date => {
 };
 
 export const nextSundayUtcMidnight = (): Date => {
+  // Get the current date and time in UTC
   const now = new Date();
-  const dayOfWeek = now.getUTCDay();
-  const daysUntilSunday = (7 - dayOfWeek) % 7;
-  const nextSunday = new Date(now);
-  nextSunday.setUTCDate(now.getUTCDate() + daysUntilSunday);
+  // Get the current UTC day of the week (0 = Sunday, 1 = Monday, ..., 6 = Saturday)
+  const currentUTCDay = now.getUTCDay();
+  // Calculate the number of days until next Sunday
+  // If today is Sunday, we want the next Sunday (7 days later)
+  const daysUntilNextSunday = currentUTCDay === 0 ? 7 : 7 - currentUTCDay;
+  // Create a new date object for the next Sunday in UTC
+  // Ensure to use UTC methods to avoid local time zone interference
+  const nextSunday = new Date(
+    Date.UTC(
+      now.getUTCFullYear(),
+      now.getUTCMonth(),
+      now.getUTCDate() + daysUntilNextSunday
+    )
+  );
+  // Set the time to midnight (00:00:00) UTC
   nextSunday.setUTCHours(0, 0, 0, 0);
+
   return nextSunday;
 };
 
