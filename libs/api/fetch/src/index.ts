@@ -44,6 +44,9 @@ export const request = async <T>(
 
     return await result.json();
   } catch (error) {
+    if (error instanceof TRPCError) {
+      throw error;
+    }
     throw new TRPCError({
       code: 'INTERNAL_SERVER_ERROR',
       message: `Unexpected error occurred`,
