@@ -11,7 +11,7 @@ export default function Page() {
     <>
       <NextSeo noindex title="Charity Games - OAuth Success" />
 
-      <LoadingScreen />
+      <LoadingScreen message="Your account was connected successfully, you may now close this tab if it does not close automatically" />
     </>
   );
 }
