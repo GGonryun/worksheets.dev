@@ -13,6 +13,7 @@ import { GameInternalFrame } from './game-internal-frame';
 export type GameFrameProps = { url: string; gameId: string };
 
 const VERIFIED_GAME_ORIGINS = [
+  '*',
   'https://storage.googleapis.com',
   'https://cdn.charity.games',
 ];
@@ -41,7 +42,7 @@ export const GameFrame: React.FC<GameFrameProps> = ({ gameId, url }) => {
     }
 
     if (!isValidOrigin(origin)) {
-      console.warn('Invalid origin', origin);
+      console.warn('Invalid origin in parent', origin);
       return;
     }
 
