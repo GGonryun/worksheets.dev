@@ -7,9 +7,13 @@
   "targets": {
     "lint": {
       "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
+      "outputs": [
+        "{options.outputFile}"
+      ],
       "options": {
-        "lintFilePatterns": ["libs/trpc/charity/**/*.{ts,tsx,js,jsx}"]
+        "lintFilePatterns": [
+          "libs/trpc/charity/**/*.{ts,tsx,js,jsx}"
+        ]
       }
     }
   }

@@ -8,16 +8,20 @@ import {
 } from 'next';
 import { getToken } from 'next-auth/jwt';
 import { ParsedUrlQuery } from 'querystring';
+import { v4 as uuid } from 'uuid';
 
 export async function createContext(ctx: CreateNextContextOptions) {
   const { req, res } = ctx;
 
+  const requestId = uuid();
+  res.setHeader('x-request-id', requestId);
+
   const session = await getToken(ctx);
 
   return {
-    // Using unknown because all the different Next.js context types are not compatible we'll need to cast them to the correct type in a resolver that uses req/res.
-    req: req as unknown | null,
-    res: res as unknown | null,
+    type: 'api',
+    req: req,
+    res: res,
     db: prisma,
     session,
   };
@@ -30,6 +34,7 @@ export async function createServerSideContext(
   const session = await getToken(ctx);
 
   return {
+    type: 'ssr',
     req,
     res,
     db: prisma,
@@ -38,9 +43,11 @@ export async function createServerSideContext(
 }
 
 export async function createStaticContext(
-  ctx: GetStaticPropsContext<ParsedUrlQuery, PreviewData>
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  _: GetStaticPropsContext<ParsedUrlQuery, PreviewData>
 ) {
   return {
+    type: 'static',
     req: null,
     res: null,
     db: prisma,
@@ -48,4 +55,8 @@ export async function createStaticContext(
   };
 }
 
-export type Context = inferAsyncReturnType<typeof createContext>;
+export type Context = inferAsyncReturnType<
+  | typeof createContext
+  | typeof createServerSideContext
+  | typeof createStaticContext
+>;

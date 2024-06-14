@@ -40,12 +40,12 @@ export const ReferralTaskForm: React.FC<TaskFormProps> = ({ task }) => {
         Share your referral link with other users. Whenever someone completes a
         task using your referral code.
       </Typography>
-      <ReferralCodeSection />
+      <ReferralCodeSection {...task} />
     </Column>
   );
 };
 
-const ReferralCodeSection = () => {
+const ReferralCodeSection: React.FC<TaskFormProps['task']> = ({ raffleId }) => {
   const code = trpc.user.referrals.code.useQuery();
   if (code.isLoading) return <PulsingLogo />;
   if (code.isError) return <Typography>Error loading user</Typography>;
@@ -55,9 +55,11 @@ const ReferralCodeSection = () => {
         params: {
           code: code.data || '',
         },
-        query: {
-          r: '1',
-        },
+        query: raffleId
+          ? {
+              r: raffleId.toString(),
+            }
+          : {},
       })}
     />
   );

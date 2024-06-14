@@ -15,6 +15,8 @@ import GoogleProvider from 'next-auth/providers/google';
 import { customPrismaAdapter } from './prisma-adapter';
 import { googleRefreshAccessToken } from './refresh/google-oauth-refresh';
 
+// TODO: switch jwt maxAge to 1 hour
+// const ONE_HOUR_IN_SECONDS = 60 * 60;
 const SEVEN_DAYS_IN_SECONDS = 60 * 60 * 24 * 7;
 export const AUTH_OPTIONS: AuthOptions = {
   session: { strategy: 'jwt', maxAge: SEVEN_DAYS_IN_SECONDS },

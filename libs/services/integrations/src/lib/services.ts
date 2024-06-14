@@ -7,7 +7,7 @@ import {
   PrismaClient,
   PrismaTransactionalClient,
 } from '@worksheets/prisma';
-import { apiRoutes, routes } from '@worksheets/routes';
+import { routes } from '@worksheets/routes';
 import { randomUUID } from '@worksheets/util/crypto';
 import {
   APIKeyIntegrationProvider,
@@ -137,7 +137,9 @@ export class OAuthService {
     try {
       return await callback({ accessToken: integration.accessToken, identity });
     } catch (error) {
+      console.log('An error occurred while using access token', error);
       if (this.config.shouldRefresh?.(integration, error)) {
+        console.log('Refreshing access token');
         const refreshed = await this.#refresh(integration);
         return await callback({
           accessToken: refreshed.accessToken,
@@ -175,7 +177,7 @@ export class OAuthService {
 
     const params = new URLSearchParams();
     params.append('response_type', 'code');
-    params.append('redirect_uri', apiRoutes.oauth.callback.url());
+    params.append('redirect_uri', routes.api.oauth.callback.url());
     params.append('client_id', this.config.clientId);
     params.append('scope', this.config.scopes.join(' '));
     params.append('state', integration.id);
@@ -255,7 +257,7 @@ export class OAuthService {
       code,
       client_id: this.config.clientId,
       grant_type: OAUTH_GRANTS.AUTHORIZATION,
-      redirect_uri: apiRoutes.oauth.callback.url(),
+      redirect_uri: routes.api.oauth.callback.url(),
       client_secret: this.config.clientSecret,
     });
     if (integration.challenge) {

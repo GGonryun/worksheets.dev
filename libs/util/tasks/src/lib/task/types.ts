@@ -14,6 +14,7 @@ export const taskSchema = z.object({
   name: z.string(),
   description: z.string(),
   taskId: z.string(),
+  raffleId: z.number().nullable(),
   category: z.nativeEnum(TaskCategory),
   frequency: z.nativeEnum(TaskFrequency),
   gameId: z.string().nullable(),

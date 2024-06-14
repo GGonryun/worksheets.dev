@@ -1,3 +1,3 @@
-import { createNextApiHandler } from '@worksheets/trpc-charity/server';
+import { createAppHandler } from '@worksheets/trpc-charity/server';
 
-export default createNextApiHandler;
+export default createAppHandler;

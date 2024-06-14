@@ -61,6 +61,8 @@ model User {
   integrations     Integration[]
   referredAction   ReferralAction[]       @relation(name: "ReferredAction")
   referrerAction   ReferralAction[]       @relation(name: "ReferrerAction")
+  gameSessions     GameSession[]
+  gameStorage      GameStorage[]
 }
 
 model Account {
@@ -353,37 +355,39 @@ enum GameStatus {
 }
 
 model Game {
-  id          String             @id @default(cuid())
-  version     Int                @default(0)
-  status      GameStatus         @default(UNPUBLISHED)
+  id           String             @id @default(cuid())
+  version      Int                @default(0)
+  status       GameStatus         @default(UNPUBLISHED)
   // Details
-  title       String             @db.VarChar(127)
-  description String             @db.VarChar(4095)
-  plays       Int                @default(0)
-  likes       Int                @default(0)
-  dislikes    Int                @default(0)
+  title        String             @db.VarChar(127)
+  description  String             @db.VarChar(4095)
+  plays        Int                @default(0)
+  likes        Int                @default(0)
+  dislikes     Int                @default(0)
   // Search
-  categories  CategoriesOnGame[]
+  categories   CategoriesOnGame[]
   // Audit
-  createdAt   DateTime           @default(now())
-  updatedAt   DateTime           @updatedAt
-  publishAt   DateTime           @default(now())
+  createdAt    DateTime           @default(now())
+  updatedAt    DateTime           @updatedAt
+  publishAt    DateTime           @default(now())
   // Assets
-  thumbnail   String             @db.Text // URL
-  cover       String             @db.Text // URL
-  trailer     String?            @db.Text // URL
-  fileId      String             @unique
-  file        GameFile           @relation(fields: [fileId], references: [id])
+  thumbnail    String             @db.Text // URL
+  cover        String             @db.Text // URL
+  trailer      String?            @db.Text // URL
+  fileId       String             @unique
+  file         GameFile           @relation(fields: [fileId], references: [id])
   // Display
-  viewportId  String
-  viewport    Viewport           @relation(fields: [viewportId], references: [id])
+  viewportId   String
+  viewport     Viewport           @relation(fields: [viewportId], references: [id])
   // Developer
-  developerId String
-  developer   Developer          @relation(fields: [developerId], references: [id])
+  developerId  String
+  developer    Developer          @relation(fields: [developerId], references: [id])
   // Reports
-  reports     GameReport[]
-  history     GamePlayHistory[]
-  tasks       Task[]
+  reports      GameReport[]
+  history      GamePlayHistory[]
+  tasks        Task[]
+  gameSessions GameSession[]
+  gameStorage  GameStorage[]
 }
 
 model GamePlayHistory {
@@ -922,4 +926,27 @@ model Integration {
   tokenType    String              @default("bearer")
 
   @@unique([userId, provider]) // a user can only have one integration per provider
+}
+
+model GameSession {
+  id        String   @id @default(cuid())
+  gameId    String
+  game      Game     @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model GameStorage {
+  id        String   @id @default(cuid())
+  gameId    String
+  game      Game     @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  data      Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([gameId, userId])
 }

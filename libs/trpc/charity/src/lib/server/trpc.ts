@@ -1,18 +1,10 @@
 import { initTRPC } from '@trpc/server';
+import { Context } from '@worksheets/trpc/shared';
 import { ZodError } from 'zod';
-
-import { Context } from './context/context';
-
-export type Meta = {
-  cache: {
-    enabled: boolean;
-    maxAge: number;
-  };
-};
 
 export const t = initTRPC
   .context<Context>()
-  .meta<Meta>()
+  .meta<{ cache: number }>()
   .create({
     errorFormatter(opts) {
       const { shape, error } = opts;
