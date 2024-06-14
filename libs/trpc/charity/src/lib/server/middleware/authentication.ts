@@ -10,8 +10,6 @@ export const authentication = middleware(async ({ next, ctx, type, path }) => {
     });
   }
 
-  // TODO: use middleware context to pass user profile.
-
   const user = await ctx.db.user.findFirst({
     where: {
       id: ctx.session.user.id,

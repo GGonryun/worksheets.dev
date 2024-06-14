@@ -21,8 +21,6 @@ import { z } from 'zod';
  * Mythic items
  *    sell between 500-1000 tokens.
  *    deal 500-1000 damage.
- *
- * Common combat
  */
 
 export const ITEMS = [

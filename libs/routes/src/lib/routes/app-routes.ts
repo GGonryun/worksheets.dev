@@ -38,6 +38,21 @@ export const routes = {
   home: createRoute({
     path: '/',
   }),
+  // used by integrations
+  api: createRoute({
+    path: '/api',
+    routes: {
+      oauth: createRoute({
+        path: '/api/oauth',
+        routes: {
+          callback: createRoute({
+            path: '/api/oauth/callback',
+          }),
+        },
+      }),
+    },
+  }),
+  // used by login api
   oauth: createRoute({
     path: '/oauth',
     routes: {

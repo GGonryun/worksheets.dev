@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
-import { maybeProcedure, publicProcedure } from '../../procedures';
-import { t } from '../../trpc';
+import { maybeProcedure, publicProcedure } from '../../../procedures';
+import { t } from '../../../trpc';
 
 export default t.router({
   random: publicProcedure

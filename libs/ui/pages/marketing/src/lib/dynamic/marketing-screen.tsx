@@ -30,8 +30,11 @@ const MarketingScreen = () => (
         },
         {
           username: 'bringbackmcrib',
-          tweetUrl:
-            'https://twitter.com/bringbackmcrib/status/1789170921598505072',
+          tweetUrl: 'https://x.com/bringbackmcrib/status/1789170921598505072',
+        },
+        {
+          username: 'EmanuelEren22',
+          tweetUrl: 'https://x.com/EmanuelEren22/status/1800629550969143778',
         },
       ]}
     />

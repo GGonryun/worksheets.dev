@@ -31,7 +31,6 @@ export const GameLauncher: FC<GameLauncherProps> = ({
 }) => {
   const { push } = useRouter();
   const [showLoadingCover, setShowLoadingCover] = useState(true);
-  const frameRef = useRef<HTMLIFrameElement>(null);
   const boxRef = useRef<HTMLDivElement>(null);
   const { isMobileOrTablet } = useDeviceInformation(game.viewport);
 
@@ -96,7 +95,7 @@ export const GameLauncher: FC<GameLauncherProps> = ({
           viewport={game.viewport}
         />
       ) : (
-        <GameFrame url={game.file.url} ref={frameRef} />
+        <GameFrame gameId={game.id} url={game.file.url} />
       )}
       {fullscreen && isMobileOrTablet ? (
         <GameExitFullscreenButton onBack={handleFullscreen} />

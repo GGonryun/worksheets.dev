@@ -1,7 +1,7 @@
 import { t } from '../../trpc';
 import advertisements from './advertisements/router';
 import battles from './battles/router';
-import games from './games';
+import games from './games/router';
 import raffles from './raffles';
 import user from './user';
 
