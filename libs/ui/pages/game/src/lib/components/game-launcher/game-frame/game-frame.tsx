@@ -22,7 +22,7 @@ const isValidOrigin = (origin: string) => {
   if (process.env.NODE_ENV === 'development') {
     return true;
   }
-  return !VERIFIED_GAME_ORIGINS.includes(origin);
+  return VERIFIED_GAME_ORIGINS.includes(origin);
 };
 
 export const GameFrame: React.FC<GameFrameProps> = ({ gameId, url }) => {
