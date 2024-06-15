@@ -5,6 +5,7 @@ import games from './games/router';
 import items from './items/router';
 import monsters from './monsters/router';
 import raffles from './raffles/router';
+import referral from './referral/router';
 import usage from './usage/router';
 import users from './users/router';
 
@@ -17,4 +18,5 @@ export default t.router({
   monsters,
   items,
   users,
+  referral,
 });

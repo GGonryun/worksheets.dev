@@ -1,4 +1,9 @@
-import { HelpOutline, OpenInNew, StarBorder } from '@mui/icons-material';
+import {
+  CancelOutlined,
+  HelpOutline,
+  OpenInNew,
+  StarBorder,
+} from '@mui/icons-material';
 import { Box, Button, Divider, Link, Typography } from '@mui/material';
 import { routes } from '@worksheets/routes';
 import { trpc } from '@worksheets/trpc-charity';
@@ -43,7 +48,7 @@ export const EnterRaffleModal: React.FC<
   const snackbar = useSnackbar();
   const utils = trpc.useUtils();
   const session = useSession();
-  const [referralCode] = useReferralCode();
+  const [referralCode, setReferral] = useReferralCode();
   const actions = trpc.user.tasks.actions.list.useQuery(
     {
       raffleId,
@@ -52,6 +57,9 @@ export const EnterRaffleModal: React.FC<
       enabled: session.status === 'authenticated',
     }
   );
+  const referral = trpc.public.referral.get.useQuery(referralCode, {
+    enabled: Boolean(referralCode),
+  });
 
   const trackAction = trpc.user.tasks.actions.track.useMutation();
   const handleClose = () => {
@@ -111,6 +119,8 @@ export const EnterRaffleModal: React.FC<
         actions={data.sort(sortRules)}
         onClickAction={setActionId}
         onUseTokens={() => setUseTokens(true)}
+        referral={referral.data ?? null}
+        onClearReferral={() => setReferral('')}
       />
       <TokensModal
         raffle={raffle}
@@ -172,6 +182,8 @@ const RaffleModal: React.FC<{
   dirty: string[];
   onClickAction: (actionId: string) => void;
   onUseTokens: () => void;
+  onClearReferral: () => void;
+  referral: { username: string; id: string } | null;
 }> = ({
   dirty,
   actions,
@@ -180,9 +192,23 @@ const RaffleModal: React.FC<{
   raffle,
   onClickAction,
   onUseTokens,
+  referral,
+  onClearReferral,
 }) => {
   const participation = useYourEntries(raffle.id);
   const purchased = participation.data?.purchased ?? 0;
+
+  // TODO: find a more elegant way to clear self-referral, maybe at a higher level in the app.
+  useEffect(() => {
+    if (
+      referral &&
+      participation.data &&
+      referral.id === participation.data.user.id
+    ) {
+      onClearReferral();
+    }
+  }, [participation.data, referral, onClearReferral]);
+
   return (
     <ModalLayout open={open} onClose={onClose}>
       <Column width="100%" gap={2}>
@@ -257,15 +283,61 @@ const RaffleModal: React.FC<{
           <Typography typography={'body1'} gutterBottom>
             {raffle.description}
           </Typography>
+          {participation.data?.user.id && (
+            <Typography
+              color="text.primary"
+              typography={{ xs: 'body3', sm: 'body2' }}
+            >
+              <b>Entering As:</b>{' '}
+              <Link
+                color="inherit"
+                display="inline-flex"
+                gap={0.5}
+                target="_blank"
+                alignItems="center"
+                href={routes.user.path({
+                  params: {
+                    userId: participation.data.user.id,
+                  },
+                })}
+              >
+                {participation.data.user.username ?? 'Guest'}
+                <OpenInNew fontSize="inherit" sx={{ mb: -0.1 }} />
+              </Link>
+            </Typography>
+          )}
+          {referral && (
+            <Typography
+              color="text.primary"
+              typography={{ xs: 'body3', sm: 'body2' }}
+            >
+              <b>Referred By:</b>{' '}
+              <Link
+                color="inherit"
+                display="inline-flex"
+                gap={0.5}
+                target="_blank"
+                alignItems="center"
+                href={routes.user.path({
+                  params: {
+                    userId: referral.id,
+                  },
+                })}
+              >
+                {referral.username ?? 'Guest'}
+                <OpenInNew fontSize="inherit" sx={{ mb: -0.1 }} />
+              </Link>
+            </Typography>
+          )}
           <Typography
             color="text.secondary"
-            typography={{ xs: 'body3', sm: 'body2', md: 'body1' }}
+            typography={{ xs: 'body3', sm: 'body2' }}
           >
-            <b>Launched At:</b> {printDateTime(raffle.createdAt)}
+            <b>Started At:</b> {printDateTime(raffle.publishAt)}
           </Typography>
           <Typography
             color="text.secondary"
-            typography={{ xs: 'body3', sm: 'body2', md: 'body1' }}
+            typography={{ xs: 'body3', sm: 'body2' }}
           >
             <b>Expires At:</b> {printDateTime(raffle.expiresAt)}
           </Typography>
@@ -307,18 +379,36 @@ const RaffleModal: React.FC<{
           onClick={onClickAction}
           dirty={dirty}
         />
-        <Button
-          variant="text"
-          href={routes.help.prizes.path()}
-          target="_blank"
-          startIcon={<HelpOutline />}
+        <Column
+          alignSelf="flex-start"
+          mb={1}
           sx={{
-            mb: 2,
-            alignSelf: 'flex-end',
+            '& .MuiButton-root': {
+              justifyContent: 'flex-start',
+            },
           }}
         >
-          Help Center
-        </Button>
+          <Button
+            variant="text"
+            href={routes.help.prizes.path()}
+            target="_blank"
+            startIcon={<HelpOutline />}
+            fullWidth
+            sx={{}}
+          >
+            Help Center
+          </Button>
+          {referral && (
+            <Button
+              color="error"
+              startIcon={<CancelOutlined />}
+              onClick={onClearReferral}
+              fullWidth
+            >
+              Clear Referral
+            </Button>
+          )}
+        </Column>
       </Column>
     </ModalLayout>
   );

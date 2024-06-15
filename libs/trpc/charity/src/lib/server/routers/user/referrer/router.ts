@@ -9,10 +9,10 @@ import { t } from '../../../trpc';
 
 export default t.router({
   get: protectedProcedure
-    .output(referrerSchema.optional())
+    .output(referrerSchema.nullable())
     .query(async ({ ctx: { db, user } }) => {
       if (!user.referredByUserId) {
-        return undefined;
+        return null;
       }
 
       const referrer = await db.user.findFirst({
@@ -31,7 +31,7 @@ export default t.router({
       });
 
       if (!referrer) {
-        return undefined;
+        return null;
       }
 
       if (!referrer.referralCode) {
