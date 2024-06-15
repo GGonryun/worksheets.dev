@@ -19,7 +19,7 @@ export default class GameOverScene extends TemplateScene {
     this.load.image('button_play', './assets/sprites/button/play.png');
     this.load.image('button_share', './assets/sprites/button/share.png');
     this.load.image('button_exit', './assets/sprites/button/exit.png');
-    this.load.audio('click', './assets/audio/click.ogg');
+    this.load.audio('click', './assets/audio/click.wav');
   }
 
   create() {

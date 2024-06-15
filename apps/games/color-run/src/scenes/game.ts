@@ -291,9 +291,9 @@ export default class GameScene extends TemplateScene {
     this.load.image('instructions', './assets/sprites/game/help.png');
     this.load.image('ball_red', './assets/sprites/game/ball_red.png');
     this.load.image('ball_orange', './assets/sprites/game/ball_orange.png');
-    this.load.audio('collect', './assets/audio/collect.ogg');
-    this.load.audio('start', './assets/audio/start.ogg');
-    this.load.audio('death', './assets/audio/death.ogg');
+    this.load.audio('collect', './assets/audio/collect.wav');
+    this.load.audio('start', './assets/audio/start.wav');
+    this.load.audio('death', './assets/audio/death.wav');
   }
 
   create() {

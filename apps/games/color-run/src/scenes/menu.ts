@@ -19,7 +19,7 @@ export default class MainScene extends TemplateScene {
     this.load.image('title_text', './assets/sprites/title/text.png');
     this.load.image('title_logo', './assets/sprites/title/logo.png');
     this.load.image('cursor', './assets/cursor/black.png');
-    this.load.audio('click', './assets/audio/click.ogg');
+    this.load.audio('click', './assets/audio/click.wav');
   }
 
   create() {
