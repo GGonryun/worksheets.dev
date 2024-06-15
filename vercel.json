@@ -1,8 +1,12 @@
 {
     "crons": [
         {
+            "path": "/api/cron/destroy-expired-sessions",
+            "schedule": "0 1 * * *"
+        },
+        {
             "path": "/api/cron/destroy-expired-notifications",
-            "schedule": "0 0 * * 0"
+            "schedule": "0 2 * * 0"
         },
         {
             "path": "/api/cron/destroy-expired-tasks-daily",

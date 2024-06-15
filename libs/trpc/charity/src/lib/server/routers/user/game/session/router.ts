@@ -1,3 +1,5 @@
+import { SESSION_AGE_MINUTES } from '@worksheets/util/settings';
+import { minutesAgo } from '@worksheets/util/time';
 import { z } from 'zod';
 
 import { protectedProcedure } from '../../../../procedures';
@@ -16,13 +18,13 @@ export default t.router({
       })
     )
     .mutation(async ({ input: { gameId }, ctx: { db, user } }) => {
-      // try to find an existing session that is less than 5 minutes old
+      // try to find an existing session that at least 30 minutes old
       const existingSession = await db.gameSession.findFirst({
         where: {
           gameId: gameId,
           userId: user.id,
           createdAt: {
-            gte: new Date(Date.now() - 1000 * 60 * 5),
+            gte: minutesAgo(SESSION_AGE_MINUTES),
           },
         },
       });
