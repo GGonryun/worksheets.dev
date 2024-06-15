@@ -132,12 +132,6 @@ class Enemies {
   }
 
   enable() {
-    // if we are already spawning:
-    // destroy any existing timers that we created
-    if (this.spawner && !this.spawner.paused) {
-      throw new Error('Spawner is already enabled');
-    }
-
     const callback = () => {
       new Enemy(
         this.scene,
@@ -145,12 +139,12 @@ class Enemies {
         this.player,
         this.baseSpeed / this.speed
       );
+
       this.speed += this.difficulty;
       // update the interval to reflect the new speed
       this.spawner.reset({
         delay: this.interval(),
         paused: false,
-        loop: true,
         callbackScope: this,
         callback,
       });
@@ -160,7 +154,6 @@ class Enemies {
     this.spawner.reset({
       delay: this.interval(),
       paused: false,
-      loop: true,
       callbackScope: this,
       callback,
     });
