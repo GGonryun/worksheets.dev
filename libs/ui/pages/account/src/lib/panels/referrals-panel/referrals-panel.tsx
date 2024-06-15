@@ -22,7 +22,7 @@ export const ReferralsPanel: React.FC<{
   bookmark?: ReferralsPanels;
   referrals: Referral[];
   link: string;
-  referrer?: Referrer;
+  referrer: Referrer | null;
   onReferrerAdd: (code: string) => void;
 }> = ({ referrals, link, bookmark, referrer, onReferrerAdd }) => {
   return (

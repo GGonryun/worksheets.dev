@@ -37,7 +37,7 @@ export const ReferralsPanelContainer: React.FC = () => {
       bookmark={bookmark}
       referrals={referrals.data.referrals}
       link={referrals.data.referralLink}
-      referrer={referrer.data}
+      referrer={referrer.data ?? null}
       onReferrerAdd={handleReferrerAdd}
     />
   );

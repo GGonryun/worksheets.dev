@@ -9,7 +9,7 @@ import { Referrer } from '@worksheets/util/types';
 import React, { useEffect, useState } from 'react';
 
 export const MyReferrerSection: React.FC<{
-  referrer?: Referrer;
+  referrer: Referrer | null;
   onAdd: (code: string) => void;
 }> = ({ referrer, onAdd }) => {
   const [referralCode, setReferralCode] = useState<string>('');
