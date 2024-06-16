@@ -8,10 +8,10 @@ import { useRouter } from 'next/router';
 import { FC, useEffect, useRef, useState } from 'react';
 
 import { useDeviceInformation } from '../../hooks/use-device-information';
+import { useFullscreen } from '../../hooks/use-fullscreen';
 import { GameBanner } from './game-banner';
 import { GameFrame } from './game-frame';
 import { GameLoadingCover } from './game-loading-cover';
-import { useFullscreen } from './useFullscreen';
 
 export type GameLauncherProps = {
   game: SerializableGameSchema;

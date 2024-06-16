@@ -111,13 +111,19 @@ export const GameBanner: FC<GameBannerProps> = ({
         alignItems="center"
         flex={1}
         justifyContent="space-between"
-        px={{ xs: 1, sm: 2 }}
+        minWidth={0}
+        maxWidth="100%"
       >
         <Box
           minWidth={0}
+          maxWidth="100%"
+          color={(theme) => theme.palette.text.blue.light}
           sx={{
             visibility: isFullScreenAndHandheld ? 'hidden' : 'visible',
-            '& > h6': {
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+            '& > *': {
               overflow: 'hidden',
               textOverflow: 'ellipsis',
               whiteSpace: 'nowrap',
@@ -135,9 +141,7 @@ export const GameBanner: FC<GameBannerProps> = ({
             typography={{ xs: 'body3', sm: 'body2' }}
             component={Link}
             color={(theme) => theme.palette.text.blue.light}
-            sx={{
-              fontWeight: 500,
-            }}
+            fontWeight={{ xs: 500, sm: 500 }}
             underline="hover"
             href={routes.developer.path({
               params: {
@@ -149,7 +153,13 @@ export const GameBanner: FC<GameBannerProps> = ({
           </Typography>
         </Box>
 
-        <Box display="flex" alignItems="flex-start" gap={{ xs: 1, sm: 2 }}>
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: { xs: 1, sm: 2 },
+          }}
+        >
           <ActionBox hidden={isMobileOrTablet}>
             <ActionButton disabled>
               <PlayArrow color="info" />

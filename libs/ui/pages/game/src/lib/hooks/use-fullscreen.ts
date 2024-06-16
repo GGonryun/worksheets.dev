@@ -70,6 +70,7 @@ const usePseudoFullscreen = (
       boxRef.current.style.height = '100.1%';
       boxRef.current.style.width = '100vw';
       boxRef.current.style.zIndex = '10000';
+      boxRef.current.style.backgroundColor = 'black';
 
       boxRef.current.addEventListener('touchstart', customTouch, true);
       boxRef.current.addEventListener('touchmove', customTouch, true);
@@ -100,6 +101,7 @@ const usePseudoFullscreen = (
       boxRef.current.style.minHeight = '';
       boxRef.current.style.width = '';
       boxRef.current.style.zIndex = '1';
+      boxRef.current.style.backgroundColor = 'transparent';
 
       boxRef.current.removeEventListener('touchstart', customTouch, true);
       boxRef.current.removeEventListener('touchmove', customTouch, true);
