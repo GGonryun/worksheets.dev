@@ -299,7 +299,7 @@ const theme = createTheme({
       shadow: '#BC3D4D',
     },
     success: {
-      light: '',
+      light: '#61EA31',
       main: '#5BB83C',
       dark: '#32812B',
       contrastText: '#FFFFFF',
