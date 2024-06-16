@@ -31,7 +31,7 @@ export const PER_FRIEND_PLAY_MINUTE_REWARD = 2;
 
 export const PLAY_MINUTE_DROP_CHANCE = 0.05;
 
-export const GAME_TRACK_FREQUENCY_SECONDS = 30.1;
+export const GAME_TRACK_FREQUENCY_SECONDS = 60.1;
 
 export const MAX_CONSUMPTION_RATE = 10;
 
