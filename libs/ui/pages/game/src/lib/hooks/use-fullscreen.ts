@@ -42,7 +42,7 @@ const useNativeFullscreen = (
 
   return {
     fullscreen,
-    canRequestFullscreen: () => false,
+    canRequestFullscreen: () => !!boxRef.current?.requestFullscreen,
     requestFullscreen: () => {
       const element = boxRef.current;
       const requestFullscreen = element?.requestFullscreen;
@@ -50,7 +50,7 @@ const useNativeFullscreen = (
 
       requestFullscreen.call(element);
     },
-    canExitFullscreen: () => false,
+    canExitFullscreen: () => !!docRef.current?.exitFullscreen,
     exitFullscreen: () => {
       const exitFullscreen = docRef.current?.exitFullscreen;
       if (!exitFullscreen) return;
