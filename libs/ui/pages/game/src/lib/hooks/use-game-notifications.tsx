@@ -56,10 +56,11 @@ export const GameNotificationContextProvider: React.FC<{
     text,
     opts = { color: 'success', unique: false }
   ) => {
+    if (opts.unique && notifications.find((n) => n.text === text)) return;
+
     if (notifications.length >= limit) {
       setNotifications((prev) => prev.slice(1));
     }
-    if (opts.unique && notifications.find((n) => n.text === text)) return;
 
     const id = Math.random().toString(36).substring(7);
     setNotifications((prev) => [

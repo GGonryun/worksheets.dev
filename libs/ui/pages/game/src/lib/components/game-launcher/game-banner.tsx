@@ -195,11 +195,11 @@ export const GameBanner: FC<GameBannerProps> = ({
           <Menu
             container={document.fullscreenElement ?? document.body}
             anchorOrigin={{
-              vertical: 2,
+              vertical: isFullscreen && isMobileOrTablet ? 32 : 2,
               horizontal: 'right',
             }}
             transformOrigin={{
-              vertical: 'bottom',
+              vertical: isFullscreen && isMobileOrTablet ? 'top' : 'bottom',
               horizontal: 'right',
             }}
             slotProps={{
@@ -232,10 +232,11 @@ export const GameBanner: FC<GameBannerProps> = ({
                 }}
                 sx={{
                   [`&.${menuItemClasses.root}`]: {
+                    whiteSpace: 'normal',
                     color: (theme) => theme.palette[notification.color].dark,
                     backgroundColor: (theme) =>
                       lighten(theme.palette[notification.color].main, 0.9),
-                    fontWeight: 500,
+
                     // not last child has a border bottom
                     '&:not(:last-child)': {
                       borderBottom: (theme) =>
@@ -247,7 +248,14 @@ export const GameBanner: FC<GameBannerProps> = ({
                 <ListItemIcon>
                   <NotificationIcon color={notification.color} />
                 </ListItemIcon>
-                <ListItemText>{notification.text}</ListItemText>
+                <ListItemText>
+                  <Typography
+                    typography={{ xs: 'body2', sm: 'body1' }}
+                    fontWeight={{ xs: 500, sm: 500 }}
+                  >
+                    {notification.text}
+                  </Typography>
+                </ListItemText>
                 <Close fontSize="small" sx={{ ml: 1 }} />
               </MenuItem>
             ))}

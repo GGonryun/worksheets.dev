@@ -3,7 +3,6 @@ import { routes } from '@worksheets/routes';
 import { trpc } from '@worksheets/trpc-charity';
 import { useGameVotes } from '@worksheets/ui/hooks/use-game-votes';
 import { useRecentlyPlayedGames } from '@worksheets/ui/hooks/use-recently-played-games';
-import { useReferralCode } from '@worksheets/ui/hooks/use-referral-code';
 import { GAME_TRACK_FREQUENCY_SECONDS } from '@worksheets/util/settings';
 import { MS_TO_S, S_TO_MS } from '@worksheets/util/time';
 import {
@@ -63,8 +62,6 @@ const GameScreenContainerInner: React.FC<GameScreenContainerProps> = ({
   const [showShare, setShowShare] = useState(false);
   const [showReport, setShowReport] = useState(false);
 
-  const [referralCode] = useReferralCode();
-
   const userVotes = useGameVotes();
 
   const castVote = trpc.public.games.vote.cast.useMutation();
@@ -107,7 +104,7 @@ const GameScreenContainerInner: React.FC<GameScreenContainerProps> = ({
         gameId: game.id,
       });
       notifications.add('You earned 1 token');
-    } else if (referralCode) {
+    } else {
       notifications.add('Login to earn tokens!', {
         color: 'warning',
         unique: true,

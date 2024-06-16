@@ -72,6 +72,19 @@ export const GameLauncher: FC<GameLauncherProps> = ({
       }
     }
   };
+  const showTopControls = fullscreen && isMobileOrTablet;
+
+  const Banner = (
+    <GameBanner
+      isMobileOrTablet={isMobileOrTablet}
+      isFullscreen={fullscreen}
+      developer={developer}
+      game={game}
+      userVote={userVote}
+      onFullscreen={handleFullscreen}
+      onVote={onVote}
+    />
+  );
 
   return (
     <Box
@@ -85,6 +98,8 @@ export const GameLauncher: FC<GameLauncherProps> = ({
         userSelect: 'none',
       }}
     >
+      {showTopControls && Banner}
+
       {showLoadingCover ? (
         <GameLoadingCover
           backgroundUrl={game.bannerUrl}
@@ -96,15 +111,8 @@ export const GameLauncher: FC<GameLauncherProps> = ({
       ) : (
         <GameFrame gameId={game.id} url={game.file.url} />
       )}
-      <GameBanner
-        isMobileOrTablet={isMobileOrTablet}
-        isFullscreen={fullscreen}
-        developer={developer}
-        game={game}
-        userVote={userVote}
-        onFullscreen={handleFullscreen}
-        onVote={onVote}
-      />
+
+      {!showTopControls && Banner}
     </Box>
   );
 };
