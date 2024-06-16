@@ -46,20 +46,23 @@ import {
 import React, { FC, JSXElementConstructor, useState } from 'react';
 
 import { useDeviceInformation } from '../../hooks/use-device-information';
+import { GAME_BANNER_ID, GAME_MENU_ID } from '../../hooks/use-fullscreen';
 import { useGameNotifications } from '../../hooks/use-game-notifications';
 
 export type GameBannerProps = {
+  boxRef: React.RefObject<HTMLDivElement>;
   developer: DeveloperSchema;
   isFullscreen: boolean;
   isMobileOrTablet: boolean;
   userVote?: Vote;
   game: SerializableGameSchema;
-  onFullscreen?: () => void;
+  onFullscreen: () => void;
   onVote: (vote: CastVote['vote']) => void;
 };
 
 export const GameBanner: FC<GameBannerProps> = ({
   developer,
+  boxRef,
   isFullscreen,
   isMobileOrTablet,
   game,
@@ -76,6 +79,7 @@ export const GameBanner: FC<GameBannerProps> = ({
 
   return (
     <Box
+      id={GAME_BANNER_ID}
       sx={{
         display: 'flex',
         mt: isFullscreen ? 0 : { xs: 1, sm: 2 },
@@ -189,7 +193,12 @@ export const GameBanner: FC<GameBannerProps> = ({
           </ActionBox>
 
           {canPlay && (
-            <ActionButton onClick={onFullscreen}>
+            <ActionButton
+              onClick={() => {
+                onFullscreen();
+                show(false);
+              }}
+            >
               {isFullscreen ? <FullscreenExit /> : <Fullscreen />}
             </ActionButton>
           )}
@@ -204,7 +213,12 @@ export const GameBanner: FC<GameBannerProps> = ({
             <Notifications active={active} />
           </ActionButton>
           <Menu
-            container={document.fullscreenElement ?? document.body}
+            id={GAME_MENU_ID}
+            container={
+              // the box ref is used by our pseudo fullscreen mode
+              // this chain makes sure the menu appears on top of the game.
+              document.fullscreenElement ?? boxRef.current ?? document.body
+            }
             anchorOrigin={{
               vertical: isFullscreen && isMobileOrTablet ? 32 : 2,
               horizontal: 'right',

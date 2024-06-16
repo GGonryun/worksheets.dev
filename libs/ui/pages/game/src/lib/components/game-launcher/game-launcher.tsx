@@ -76,6 +76,7 @@ export const GameLauncher: FC<GameLauncherProps> = ({
 
   const Banner = (
     <GameBanner
+      boxRef={boxRef}
       isMobileOrTablet={isMobileOrTablet}
       isFullscreen={fullscreen}
       developer={developer}

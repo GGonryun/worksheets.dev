@@ -1,15 +1,27 @@
 import { useEventListener } from '@worksheets/ui-core';
 import { RefObject, useRef, useState } from 'react';
 
+// game banner and game menu are allowed to be touched when in pseudo-fullscreen.
+// this is a work around for ios safari, where the touch events get registered
+// as scroll events and the page scrolls when the user tries to interact with the game.
+export const GAME_BANNER_ID = 'game-banner';
+export const GAME_MENU_ID = 'game-menu';
+
+const ALLOWED_TOUCH = [GAME_BANNER_ID, GAME_MENU_ID];
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function customTouch(e: any) {
-  if (
-    e.target.id !== 'game-exit-fullscreen-button' &&
-    e.target.parentElement.id !== 'game-exit-fullscreen-button'
-  ) {
-    e.preventDefault();
-    e.stopPropagation();
+  // traverse all parents to see if any of them have id of game-banner
+  let element = e.target;
+  while (element != null) {
+    if (ALLOWED_TOUCH.includes(element.id)) {
+      return;
+    }
+    element = element.parentElement;
   }
+
+  e.preventDefault();
+  e.stopPropagation();
 }
 
 const useNativeFullscreen = (
@@ -30,7 +42,7 @@ const useNativeFullscreen = (
 
   return {
     fullscreen,
-    canRequestFullscreen: () => !!boxRef.current?.requestFullscreen,
+    canRequestFullscreen: () => false,
     requestFullscreen: () => {
       const element = boxRef.current;
       const requestFullscreen = element?.requestFullscreen;
@@ -38,7 +50,7 @@ const useNativeFullscreen = (
 
       requestFullscreen.call(element);
     },
-    canExitFullscreen: () => !!docRef.current?.exitFullscreen,
+    canExitFullscreen: () => false,
     exitFullscreen: () => {
       const exitFullscreen = docRef.current?.exitFullscreen;
       if (!exitFullscreen) return;
