@@ -45,8 +45,8 @@ import {
 } from '@worksheets/util/types';
 import React, { FC, JSXElementConstructor, useState } from 'react';
 
-import { useGameNotifications } from '../../containers/use-game-notifications';
 import { useDeviceInformation } from '../../hooks/use-device-information';
+import { useGameNotifications } from '../../hooks/use-game-notifications';
 
 export type GameBannerProps = {
   developer: DeveloperSchema;

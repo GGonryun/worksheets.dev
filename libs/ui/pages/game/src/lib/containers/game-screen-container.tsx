@@ -21,11 +21,11 @@ import {
   ReportIssueModal,
   ShareGameModal,
 } from '../components';
-import { useGameTracker } from '../hooks/use-game-tracker';
 import {
   GameNotificationContextProvider,
   useGameNotifications,
-} from './use-game-notifications';
+} from '../hooks/use-game-notifications';
+import { useGameTracker } from '../hooks/use-game-tracker';
 
 type GameScreenContainerProps = {
   game: SerializableGameSchema;
