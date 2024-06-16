@@ -8,6 +8,7 @@ import React from 'react';
 import { LOADING_INTERVAL, selectRandomLoadingMessage } from './messages';
 import styles from './pulsing-heart.module.scss';
 
+// TODO: rename to PulsingLogoMessage
 export const PulsingLogo: React.FC<{
   hideMessage?: boolean;
   message?: string;
@@ -26,8 +27,8 @@ export const PulsingLogo: React.FC<{
 
   return (
     <Column alignItems="center">
-      <Box className={styles['pulsing']} mb={props.offset}>
-        <CharityGamesLogo size={size} />
+      <Box mb={props.offset}>
+        <PulsingIcon size={size} />
       </Box>
       {!props.hideMessage && (
         <Typography variant="body3" fontWeight={700} textAlign="center" mt={-2}>
@@ -35,5 +36,14 @@ export const PulsingLogo: React.FC<{
         </Typography>
       )}
     </Column>
+  );
+};
+
+// TODO: rename to PulsingLogo
+export const PulsingIcon: React.FC<{ size: number }> = ({ size }) => {
+  return (
+    <Box className={styles['pulsing']}>
+      <CharityGamesLogo size={size} />
+    </Box>
   );
 };

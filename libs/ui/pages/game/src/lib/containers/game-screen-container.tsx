@@ -1,7 +1,6 @@
 import { ReportReason } from '@worksheets/prisma';
 import { routes } from '@worksheets/routes';
 import { trpc } from '@worksheets/trpc-charity';
-import { useSnackbar } from '@worksheets/ui/components/snackbar';
 import { useGameVotes } from '@worksheets/ui/hooks/use-game-votes';
 import { useRecentlyPlayedGames } from '@worksheets/ui/hooks/use-recently-played-games';
 import { useReferralCode } from '@worksheets/ui/hooks/use-referral-code';
@@ -17,18 +16,37 @@ import { useState } from 'react';
 
 import {
   CannotVoteModal,
+  GameLauncher,
   GameScreen,
-  LoginToEarnTokensSnackbarMessage,
-  PlayGameSnackbar,
   ReportIssueModal,
   ShareGameModal,
 } from '../components';
 import { useGameTracker } from '../hooks/use-game-tracker';
+import {
+  GameNotificationContextProvider,
+  useGameNotifications,
+} from './use-game-notifications';
 
-const GameScreenContainer: React.FC<{
+type GameScreenContainerProps = {
   game: SerializableGameSchema;
   developer: DeveloperSchema;
-}> = ({ game, developer }) => {
+};
+
+const GameScreenContainer: React.FC<GameScreenContainerProps> = ({
+  game,
+  developer,
+}) => {
+  return (
+    <GameNotificationContextProvider limit={10}>
+      <GameScreenContainerInner game={game} developer={developer} />;
+    </GameNotificationContextProvider>
+  );
+};
+
+const GameScreenContainerInner: React.FC<GameScreenContainerProps> = ({
+  game,
+  developer,
+}) => {
   const loginHref = routes.login.path({
     query: {
       redirect: routes.game.path({
@@ -40,10 +58,10 @@ const GameScreenContainer: React.FC<{
   const session = useSession();
   const authenticated = session.status === 'authenticated';
 
+  const notifications = useGameNotifications();
+
   const [showShare, setShowShare] = useState(false);
   const [showReport, setShowReport] = useState(false);
-
-  const snackbar = useSnackbar();
 
   const [referralCode] = useReferralCode();
 
@@ -70,6 +88,7 @@ const GameScreenContainer: React.FC<{
   const { addRecentlyPlayed } = useRecentlyPlayedGames();
 
   const [showVoteWarning, setShowVoteWarning] = useState(false);
+
   const gameTracker = useGameTracker({
     duration: S_TO_MS(GAME_TRACK_FREQUENCY_SECONDS),
     onElapsed: (increment) => {
@@ -87,9 +106,12 @@ const GameScreenContainer: React.FC<{
       await trackGamePlay.mutateAsync({
         gameId: game.id,
       });
-      snackbar.success(<PlayGameSnackbar />);
+      notifications.add('You earned 1 token');
     } else if (referralCode) {
-      snackbar.info(<LoginToEarnTokensSnackbarMessage href={loginHref} />);
+      notifications.add('Login to earn tokens!', {
+        color: 'warning',
+        unique: true,
+      });
     }
   };
 
@@ -145,11 +167,17 @@ const GameScreenContainer: React.FC<{
         suggestions={suggestions ?? []}
         game={game}
         developer={developer}
-        userVote={userVotes.getVote(game.id)?.vote}
-        onPlay={handlePlayGame}
-        onVote={handleMakeVote}
         onShare={() => setShowShare(true)}
         onReport={() => setShowReport(true)}
+        launcher={
+          <GameLauncher
+            game={game}
+            developer={developer}
+            userVote={userVotes.getVote(game.id)?.vote}
+            onPlay={handlePlayGame}
+            onVote={handleMakeVote}
+          />
+        }
       />
       <CannotVoteModal
         href={loginHref}

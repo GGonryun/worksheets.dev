@@ -1,16 +1,13 @@
 import { Box, Typography } from '@mui/material';
-import common from '@worksheets/assets-common';
 import { handlers } from '@worksheets/sdk-games';
 import { trpc } from '@worksheets/trpc-charity';
+import { PulsingIcon } from '@worksheets/ui/components/loading';
 import { useEventListener } from '@worksheets/ui-core';
-import Image from 'next/image';
 import { useSession } from 'next-auth/react';
 import React, { useRef } from 'react';
 
 import classes from './game-frame.module.scss';
 import { GameInternalFrame } from './game-internal-frame';
-
-export type GameFrameProps = { url: string; gameId: string };
 
 const VERIFIED_GAME_ORIGINS = [
   '*',
@@ -25,7 +22,10 @@ const isValidOrigin = (origin: string) => {
   return VERIFIED_GAME_ORIGINS.includes(origin);
 };
 
-export const GameFrame: React.FC<GameFrameProps> = ({ gameId, url }) => {
+export const GameFrame: React.FC<{
+  url: string;
+  gameId: string;
+}> = ({ gameId, url }) => {
   const session = useSession();
   const authenticated = session.status === 'authenticated';
   const loadStorage = trpc.user.game.storage.load.useMutation();
@@ -87,14 +87,9 @@ export const GameFrame: React.FC<GameFrameProps> = ({ gameId, url }) => {
   return (
     <Box width="100%" height="100%" position="relative">
       <Box className={classes.placeholder}>
-        <Image
-          src={common.charityGames.logos.square}
-          alt="charity games logo"
-          height={164}
-          width={164}
-        />
-        <Typography variant="h4" component="h1">
-          Loading...
+        <PulsingIcon size={164} />
+        <Typography variant="h4" component="h1" color="error.main">
+          Downloading Game...
         </Typography>
       </Box>
       <GameInternalFrame ref={frameRef} url={url} />

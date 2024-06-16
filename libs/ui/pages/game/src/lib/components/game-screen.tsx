@@ -7,35 +7,27 @@ import {
 } from '@worksheets/ui/components/games';
 import {
   BasicGameInfo,
-  CastVote,
   DeveloperSchema,
   SerializableGameSchema,
-  Vote,
 } from '@worksheets/util/types';
 import { FC } from 'react';
 
 import { CreateAccountContainer } from './create-account-container';
 import { GameDescription } from './game-description';
-import { GameLauncher } from './game-launcher';
 
 type GameScreenProps = {
   suggestions: BasicGameInfo[];
   game: SerializableGameSchema;
   developer: DeveloperSchema;
-  userVote?: Vote;
-  onPlay: () => void;
-  onVote: (vote: CastVote['vote']) => void;
   onShare: () => void;
   onReport: () => void;
+  launcher: React.ReactNode;
 };
 
 export const GameScreen: FC<GameScreenProps> = ({
   suggestions,
   game,
-  developer,
-  userVote,
-  onPlay,
-  onVote,
+  launcher,
   onShare,
   onReport,
 }) => {
@@ -69,15 +61,7 @@ export const GameScreen: FC<GameScreenProps> = ({
           ))}
         </PaperSidebar>
 
-        <GameBox>
-          <GameLauncher
-            game={game}
-            developer={developer}
-            onPlay={onPlay}
-            onVote={onVote}
-            userVote={userVote}
-          />
-        </GameBox>
+        <GameBox>{launcher}</GameBox>
 
         <PaperSidebar
           sx={{

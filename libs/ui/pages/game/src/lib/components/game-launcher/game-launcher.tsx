@@ -9,7 +9,6 @@ import { FC, useEffect, useRef, useState } from 'react';
 
 import { useDeviceInformation } from '../../hooks/use-device-information';
 import { GameBanner } from './game-banner';
-import { GameExitFullscreenButton } from './game-exit-fullscreen-button';
 import { GameFrame } from './game-frame';
 import { GameLoadingCover } from './game-loading-cover';
 import { useFullscreen } from './useFullscreen';
@@ -97,18 +96,15 @@ export const GameLauncher: FC<GameLauncherProps> = ({
       ) : (
         <GameFrame gameId={game.id} url={game.file.url} />
       )}
-      {fullscreen && isMobileOrTablet ? (
-        <GameExitFullscreenButton onBack={handleFullscreen} />
-      ) : (
-        <GameBanner
-          isFullscreen={!!fullscreen}
-          developer={developer}
-          game={game}
-          userVote={userVote}
-          onFullscreen={handleFullscreen}
-          onVote={onVote}
-        />
-      )}
+      <GameBanner
+        isMobileOrTablet={isMobileOrTablet}
+        isFullscreen={fullscreen}
+        developer={developer}
+        game={game}
+        userVote={userVote}
+        onFullscreen={handleFullscreen}
+        onVote={onVote}
+      />
     </Box>
   );
 };
