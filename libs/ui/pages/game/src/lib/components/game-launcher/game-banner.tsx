@@ -157,7 +157,7 @@ export const GameBanner: FC<GameBannerProps> = ({
         <Box
           sx={{
             display: 'flex',
-            alignItems: 'center',
+            alignItems: 'flex-start',
             gap: { xs: 1, sm: 2 },
           }}
         >
