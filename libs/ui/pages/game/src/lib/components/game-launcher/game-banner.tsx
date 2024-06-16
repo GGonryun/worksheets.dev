@@ -79,6 +79,7 @@ export const GameBanner: FC<GameBannerProps> = ({
       sx={{
         display: 'flex',
         mt: isFullscreen ? 0 : { xs: 1, sm: 2 },
+        pt: isFullScreenAndHandheld ? 0.5 : 0,
         height: height,
         minHeight: height,
         maxHeight: height,
