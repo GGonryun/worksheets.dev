@@ -12,7 +12,7 @@ export type PushNotifyInput = {
 
 export class PushService {
   #db: PrismaClient | PrismaTransactionalClient;
-  #expiredNotificationThreshold = daysAgo(14);
+  #expiredNotificationThreshold = daysAgo(7);
   constructor(db: PrismaClient | PrismaTransactionalClient) {
     this.#db = db;
   }

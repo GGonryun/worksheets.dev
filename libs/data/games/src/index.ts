@@ -12,7 +12,7 @@ import { SeedableGameSchema } from '@worksheets/util/types';
 
 export const games: SeedableGameSchema[] = [
   {
-    version: 1,
+    version: 2,
     id: 'color-run',
     name: 'Color Run',
     developerId: 'charity-games',
