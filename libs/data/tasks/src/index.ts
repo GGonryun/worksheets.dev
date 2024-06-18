@@ -319,6 +319,22 @@ export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
   },
   {
     version: 2,
+    id: 'VISIT_LOOT4ALL_ONCE',
+    type: TaskType.VISIT_WEBSITE,
+    category: TaskCategory.TASK,
+    frequency: TaskFrequency.ONCE,
+    requiredRepetitions: 1,
+    maxRepetitions: 1,
+    name: 'Visit Loot4All',
+    description:
+      'Visit Loot4All and learn about their mission to bring loot to all.',
+    data: {
+      url: 'https://loot4all.org/',
+      preview: 'https://cdn.charity.games/_partners/loot4all/preview.png',
+    },
+  },
+  {
+    version: 2,
     id: 'LINKEDIN_VISIT_CHARITY_GAMES_ONCE',
     // TODO: update to TaskType.VISIT_LINKEDIN
     type: TaskType.VISIT_WEBSITE,
@@ -415,6 +431,21 @@ export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
       'Follow Charity Games on Twitter. Stay up to date on the latest news and updates.',
     data: {
       handle: 'charitydotgames',
+    },
+  },
+  {
+    version: 2,
+    id: 'FOLLOW_LOOT4ALL_TWITTER_ONCE',
+    type: TaskType.FOLLOW_TWITTER,
+    category: TaskCategory.TASK,
+    frequency: TaskFrequency.ONCE,
+    requiredRepetitions: 1,
+    maxRepetitions: 1,
+    name: 'Follow Loot4All',
+    description:
+      'Follow Loot4All on Twitter. Stay up to date on the latest news and updates.',
+    data: {
+      handle: 'Loot4All',
     },
   },
   {

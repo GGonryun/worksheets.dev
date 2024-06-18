@@ -23,6 +23,13 @@ const rawSponsors = [
     url: 'https://indiefold.com/about',
     logo: 'https://cdn.charity.games/_partners/indiefold/square.png',
   },
+  {
+    id: 'loot4all' as const,
+    version: 1,
+    name: 'Loot4All',
+    url: 'https://loot4all.org/',
+    logo: 'https://cdn.charity.games/_partners/loot4all/logo.svg',
+  },
 ];
 
 export const sponsors: SeedableSponsor[] = rawSponsors;

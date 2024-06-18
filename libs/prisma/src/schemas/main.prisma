@@ -494,6 +494,9 @@ model Raffle {
   status          RaffleStatus
   expiresAt       DateTime
   numWinners      Int
+  name            String?
+  headline        String?
+  description     String?
   imageUrl        String?               @db.VarChar(255)
   premium         Boolean               @default(false)
   itemId          String

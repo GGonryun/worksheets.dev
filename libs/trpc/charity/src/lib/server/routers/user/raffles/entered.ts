@@ -27,6 +27,7 @@ export default protectedProcedure
         raffle: {
           select: {
             id: true,
+            name: true,
             status: true,
             expiresAt: true,
             imageUrl: true,
@@ -48,7 +49,7 @@ export default protectedProcedure
       type: p.raffle.item.type,
       itemId: p.raffle.item.id,
       status: p.raffle.status,
-      name: p.raffle.item.name,
+      name: p.raffle.name ?? p.raffle.item.name,
       imageUrl: p.raffle.imageUrl ?? p.raffle.item.imageUrl,
       entries: p.numEntries,
       expiresAt: p.raffle.expiresAt.getTime(),

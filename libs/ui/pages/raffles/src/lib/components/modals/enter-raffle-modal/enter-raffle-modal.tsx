@@ -4,7 +4,14 @@ import {
   OpenInNew,
   StarBorder,
 } from '@mui/icons-material';
-import { Box, Button, Divider, Link, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Divider,
+  Link,
+  Typography,
+  useTheme,
+} from '@mui/material';
 import { routes } from '@worksheets/routes';
 import { trpc } from '@worksheets/trpc-charity';
 import { ErrorComponent } from '@worksheets/ui/components/errors';
@@ -20,7 +27,8 @@ import {
 import { useSnackbar } from '@worksheets/ui/components/snackbar';
 import { RaffleActions, TaskModal } from '@worksheets/ui/components/tasks';
 import { useReferralCode } from '@worksheets/ui/hooks/use-referral-code';
-import theme, { PaletteColor } from '@worksheets/ui/theme';
+import { PaletteColor } from '@worksheets/ui/theme';
+import { HTMLinator } from '@worksheets/ui-core';
 import { fireAndForget } from '@worksheets/util/promises';
 import { RAFFLE_ENTRY_FEE } from '@worksheets/util/settings';
 import { ActionSchema, TaskInputSchema } from '@worksheets/util/tasks';
@@ -195,6 +203,7 @@ const RaffleModal: React.FC<{
   referral,
   onClearReferral,
 }) => {
+  const theme = useTheme();
   const participation = useYourEntries(raffle.id);
   const purchased = participation.data?.purchased ?? 0;
 
@@ -280,9 +289,17 @@ const RaffleModal: React.FC<{
         </Row>
         <Column gap={0.5}>
           <Typography typography={'h4'}>{raffle.name}</Typography>
-          <Typography typography={'body1'} gutterBottom>
+          <HTMLinator
+            sx={{
+              my: 1,
+              fontSize: {
+                xs: theme.typography.body2.fontSize,
+                sm: theme.typography.body1.fontSize,
+              },
+            }}
+          >
             {raffle.description}
-          </Typography>
+          </HTMLinator>
           {participation.data?.user.id && (
             <Typography
               color="text.primary"

@@ -28,8 +28,8 @@ export const RaffleHeader: React.FC<{
               typography: { xs: 'body3', sm: 'body2' },
             }}
           >
-            {raffle.description.slice(0, 80)}
-            {raffle.description.length > 80 ? '...' : ''}
+            {raffle.headline.slice(0, 80)}
+            {raffle.headline.length > 80 ? '...' : ''}
           </Typography>
         </Box>
         <PrizeImage src={raffle.imageUrl} alt={raffle.name} />

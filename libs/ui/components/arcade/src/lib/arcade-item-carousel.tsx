@@ -63,6 +63,7 @@ export function ArcadeItemCarousel<T extends { id: string | number }>(
                 sx={{
                   minHeight: { xs: 128, sm: 160, md: 192 },
                   minWidth: { xs: 128, sm: 160, md: 192 },
+                  maxWidth: { xs: 128, sm: 160, md: 192 },
                 }}
               >
                 {props.render(item)}
