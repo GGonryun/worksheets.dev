@@ -13,8 +13,8 @@ export const TermsOfServiceStatement = () => {
   );
 };
 
-const createdAtDate = printDate('12-17-2023');
-const updatedAtDate = printDate('12-17-2023');
+const createdAtDate = printDate('06-18-2024');
+const updatedAtDate = printDate('06-18-2024');
 
 const tosStatement = `
 # Terms of Use
@@ -73,7 +73,6 @@ You agree that you will not use any robot, spider, or other automatic device, pr
 ## Trademarks
 The Charity Games name and logo, and all related names, logos, product and service names, designs and slogans are trademarks of Charity Games or its affiliates or licensors. You must not use such marks without the prior written permission of Charity Games. All other names, logos, product and service names, designs and slogans on this website are the trademarks of their respective owners.
 
-
 ## Interaction with other users
 By accessing the Charity Games website, you release us (and our shareholders, partners, affiliates, directors, officers, subsidiaries, employees, agents, suppliers, third party providers, licensors, licensees, distributors and contractors) from claims, demand and damages of every kind and nature arising out of or in any way connected with any dispute you may have with any other user of the Charity Games website. Charity Games will have the right, but not the obligation, to resolve disputes between users relating to use of the Charity Games website, and to the extent that Charity Games elects to resolve such disputes, it will do so in good faith based solely on the general rules and standards of the Charity Games website and will not make judgments regarding legal issues or claims. Charity Games's resolution of such disputes will be final with respect to the Charity Games website, but will have no bearing on any real-world legal disputes in which users of the Charity Games website may become involved. You agree that you will not involve Charity Games in any litigation or other dispute arising out of or related to any transaction, agreement, or arrangement with any other user of the Charity Games website. If you attempt to do so, (1) you shall pay all costs and attorneys' fees of Charity Games and its affiliates incurred in connection with such attempt to involve Charity Games; and (2) the jurisdiction for any such litigation or dispute shall be limited as set forth in the "Governing Law" section below.
 
@@ -95,7 +94,6 @@ It is strictly forbidden to:
 - add layers, overlays, or other elements to the iframed portion of the site that would imply Charity Games's endorsement of your website or product;
 <br/>
 If you have any questions about these linking policies you may contact us at [${emailRoutes.support}](mailto:${emailRoutes.support}).
-
 
 ## Accounts
 When you create an account with us, you must provide us information that is accurate, complete, and current at all times. Failure to do so constitutes a breach of the Terms of Use, which may result in immediate termination of your account on our Service. Site visitors may make available certain materials (materials known as "submissions", "games", or "contributions") through or in connection with the Charity Games website. All submissions, games, and contributions are subject to the following terms and conditions outlined in this Terms of Use agreement. 
@@ -163,6 +161,10 @@ You may send us your notice or counter-notice by email to [${emailRoutes.support
 ## Notice for California users
 California users are also entitled to the following specific consumer rights notice: The Complaint Assistance Unit of the Division of Consumer Services of the California Department of Consumer Affairs may be contacted in writing at 1625 North Market Blvd., Suite N 112, Sacramento, CA 95834, or by telephone at (916) 445-1254 or (800) 952-5210. You may contact us at [${emailRoutes.support}](mailto:${emailRoutes.support}).
 
+## Google Limited Use Requirements
+Charity Games' use and transfer to any other app of information received from Google APIs will adhere to [Google API Services User Data Policy](https://developers.google.com/terms/api-services-user-data-policy#additional_requirements_for_specific_api_scopes), including the Limited Use requirements.
+
+Read more about Google's Limited Use Requirements [here](https://developers.google.com/terms/api-services-user-data-policy#additional_requirements_for_specific_api_scopes).
 
 ## Miscellaneous
 This agreement does not, and shall not be construed to, create any partnership, joint venture, employer-employee, agency or franchisor-franchisee relationship between you and Charity Games. If any of this agreement is found to be unlawful, void or for any reason unenforceable, that provision will be deemed severable from this agreement and will not affect the validity and enforceability of any remaining provision. You may not assign, transfer or sublicense any or all of your rights or obligations under this agreement without our express prior written consent. We may assign, transfer or sublicense any or all of our rights or obligations under this agreement without restriction. No waiver by either party of any breach or default hereunder will be deemed to be a waiver of any preceding or subsequent breach or default. Any heading, caption or section title contained herein is for convenience only, and in no way defines or explains any section or provision. All terms defined in the singular shall have the same meanings when used in the plural, where appropriate and unless otherwise specified. Any use of the term "including" or variations thereof in this agreement shall be construed as if followed by the phrase "without limitation." This agreement, including any terms and conditions incorporated herein, is the entire agreement between you and Charity Games relating to the subject matter hereof, and supersedes any and all prior or contemporaneous written or oral agreements or understandings between you and Charity Games relating to such subject matter. Notices to you (including notices of changes to this agreement) may be made via posting to the site or by e-mail (including in each case via links), or by regular mail. Without limitation, a printed version of this agreement and of any notice given in electronic form shall be admissible in judicial or administrative proceedings based upon or relating to this agreement to the same extent and subject to the same conditions as other business documents and records originally generated and maintained in printed form. Charity Games will not be responsible for any failure to fulfill any obligation due to any cause beyond its control. Charity Games's licensors are intended third party beneficiaries of these terms of use, including without limitation the disclaimers of warranties and limitations of liability set forth herein, and such licensors will have the right to enforce these terms of use against you as third party beneficiaries hereof. Charity Games will not be responsible for any failure to fulfill any obligation due to any cause beyond its control.
