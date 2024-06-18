@@ -13,8 +13,8 @@ export const PrivacyStatement = () => {
   );
 };
 
-const createdAtDate = printDate('12-01-2023');
-const updatedAtDate = printDate('12-01-2023');
+const createdAtDate = printDate('06-18-2024');
+const updatedAtDate = printDate('06-18-2024');
 
 const privacyStatement = `
 # Global Privacy Statement
@@ -131,6 +131,11 @@ We may deny your deletion request if retaining the information is necessary for 
 We endeavor to respond to a verifiable consumer request within 45 days of its receipt. If we require more time (up to 90 days), we will inform you of the reason and extension period in writing. If you have an account with us, we will deliver our written response to that account. If you do not have an account with us, we will deliver our written response by mail or electronically, at your option. Any disclosures we provide will only cover the 12-month period preceding the verifiable consumer request's receipt. The response we provide will also explain the reasons we cannot comply with a request, if applicable. For data portability requests, we will select a format to provide your personal information that is readily usable and should allow you to transmit the information from one entity to another entity without hindrance.
 
 We do not charge a fee to process or respond to your verifiable consumer request unless it is excessive, repetitive, or manifestly unfounded. If we determine that the request warrants a fee, we will tell you why we made that decision and provide you with a cost estimate before completing your request.
+
+## Google Limited Use Requirements
+Charity Games' use and transfer to any other app of information received from Google APIs will adhere to [Google API Services User Data Policy](https://developers.google.com/terms/api-services-user-data-policy#additional_requirements_for_specific_api_scopes), including the Limited Use requirements.
+
+Read more about Google's Limited Use Requirements [here](https://developers.google.com/terms/api-services-user-data-policy#additional_requirements_for_specific_api_scopes).
 
 ## Changes to Our Privacy Statement
 We reserve the right to amend this privacy notice at our discretion and at any time. When we make changes to this privacy notice, we will notify you by email or through a notice on our website homepage (https://charity.games). You are responsible for periodically visiting our website website and this Privacy Notice to check for any changes.
