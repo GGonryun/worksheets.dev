@@ -77,9 +77,9 @@ export class PushTemplates {
   ): PushNotifyInput {
     return {
       type: 'RAFFLE',
-      text: `New Raffle Alert! Win a <a href="${RAFFLE_URL(opts.id)}">${
-        opts.item.name
-      }</a>. ${opts.numWinners} lucky ${pluralize(
+      text: `New Raffle Alert! <a href="${RAFFLE_URL(opts.id)}">${
+        opts.name
+      }</a> giveaway. ${opts.numWinners} lucky ${pluralize(
         'winner',
         opts.numWinners
       )} will be chosen on ${printShortDate(opts.expiresAt)}!`,
@@ -100,13 +100,15 @@ export class PushTemplates {
   }
 
   static lostRaffle(
-    opts: ExtractTemplatePayload<'raffle-expired'>
+    opts: ExtractTemplatePayload<'lost-raffle'>
   ): PushNotifyInput {
     return {
       type: 'RAFFLE',
-      text: `A raffle for a <a href="${RAFFLE_URL(opts.id)}">${
+      text: `<a href="${RAFFLE_URL(opts.id)}">${
         opts.item.name
-      }</a> has ended! <a href="${RAFFLE_URL(opts.id)}">View results</a>.`,
+      }</a> giveaway has ended! <a href="${RAFFLE_URL(
+        opts.id
+      )}">View results</a>.`,
       userIds: opts.participants.map((p) => p.user.id),
     };
   }

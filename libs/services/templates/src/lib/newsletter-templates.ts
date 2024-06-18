@@ -62,7 +62,7 @@ export class NewsletterTemplates {
         topic: 'NewRaffle',
         priority: EmailPriority.Normal,
         sendAt: hoursFromNow(1),
-        subject: `New Raffle Alert! Win a ${opts.item.name}`,
+        subject: `New Raffle Alert! ${opts.name} giveaway!`,
         template: {
           title: `There's a new raffle on Charity Games!`,
           paragraphs: [
@@ -76,7 +76,7 @@ export class NewsletterTemplates {
             {
               id: 'RAFFLE_LINK',
               href: RAFFLE_URL(opts.id),
-              text: opts.item.name,
+              text: opts.name,
             },
           ],
         },

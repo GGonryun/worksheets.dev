@@ -55,10 +55,10 @@ export class DiscordTemplates {
     opts: ExtractTemplatePayload<'new-raffle'>
   ): DiscordMessageInput {
     return {
-      content: `💵🎊 GIVEAWAY 🎊💵\n`,
+      content: `💵🎊 NEW GIVEAWAY 🎊💵\n`,
       embeds: [
         {
-          title: `🎁 Enter to win a ${opts.item.name}!`,
+          title: `🎁 ${opts.name} giveaway!`,
           description: `🏆 ${opts.numWinners} lucky ${pluralize(
             'winner',
             opts.numWinners
@@ -116,7 +116,7 @@ export class DiscordTemplates {
     opts: ExtractTemplatePayload<'raffle-expired'>
   ): DiscordMessageInput {
     return {
-      content: `A raffle for prize ${opts.item.name} has expired and ${
+      content: `${opts.name} giveaway has expired and ${
         opts.numWinners
       } ${pluralize('winners', opts.numWinners)} ${
         opts.numWinners > 1 ? 'have' : 'has'

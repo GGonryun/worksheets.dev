@@ -29,6 +29,7 @@ export class RafflesService {
       select: {
         id: true,
         numWinners: true,
+        name: true,
         expiresAt: true,
         premium: true,
         item: {
@@ -65,7 +66,14 @@ export class RafflesService {
     });
 
     for (const raffle of raffles) {
-      await this.#notifications.send('new-raffle', raffle);
+      await this.#notifications.send('new-raffle', {
+        id: raffle.id,
+        numWinners: raffle.numWinners,
+        expiresAt: raffle.expiresAt,
+        premium: raffle.premium,
+        name: raffle.name ?? raffle.item.name,
+        sponsor: raffle.sponsor,
+      });
     }
     console.info(`Published ${raffles.length} raffles`);
   }
@@ -210,7 +218,7 @@ export class RafflesService {
       });
     }
 
-    const winners = await pickWinners(raffle.numWinners, raffle.participants);
+    const winners = pickWinners(raffle.numWinners, raffle.participants);
 
     console.info(
       'Winners:',
@@ -238,7 +246,6 @@ export class RafflesService {
         item: raffle.item,
       });
     }
-
     await this.#db.raffle.update({
       where: {
         id: raffle.id,
@@ -256,6 +263,9 @@ export class RafflesService {
         (p) => !winners.some((w) => w.participationId === p.id)
       ),
     });
-    await this.#notifications.send('raffle-expired', raffle);
+    await this.#notifications.send('raffle-expired', {
+      ...raffle,
+      name: raffle.name ?? raffle.item.name,
+    });
   }
 }

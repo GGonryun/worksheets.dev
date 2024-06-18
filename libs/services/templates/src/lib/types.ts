@@ -25,10 +25,7 @@ export type NotificationTemplate =
         numWinners: number;
         expiresAt: Date;
         premium: boolean;
-        item: {
-          id: string;
-          name: string;
-        };
+        name: string;
         sponsor: {
           id: string;
           name: string;
@@ -79,12 +76,12 @@ export type NotificationTemplate =
         id: number;
         expiresAt: Date;
         numWinners: number;
+        name: string;
         participants: {
           user: {
             id: string;
           };
         }[];
-        item: { name: string };
       };
     }
   | {
