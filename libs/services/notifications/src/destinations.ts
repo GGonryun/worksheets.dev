@@ -135,6 +135,12 @@ const shareGiftTemplates: TemplateBuilder<'share-gift'> = (payload) => ({
   push: PushTemplates.shareGift(payload),
 });
 
+const wonLeaderboardTemplates: TemplateBuilder<'won-leaderboard'> = (
+  payload
+) => ({
+  push: PushTemplates.wonLeaderboard(payload),
+});
+
 export const destinations: Record<NotificationTemplateType, TemplateBuilder> = {
   'new-game': newGameTemplates,
   'new-raffle': newRaffleTemplates,
@@ -159,4 +165,5 @@ export const destinations: Record<NotificationTemplateType, TemplateBuilder> = {
   'game-report': gameReportTemplates,
   'user-report': userReportTemplates,
   'share-gift': shareGiftTemplates,
+  'won-leaderboard': wonLeaderboardTemplates,
 };

@@ -24,6 +24,14 @@ export type GameMessage =
         };
       };
       output: boolean;
+    }
+  | {
+      event: 'submit-score';
+      input: {
+        sessionId: string | null;
+        score: number;
+      };
+      output: boolean;
     };
 
 export type GameMessageEvent = GameMessage['event'];

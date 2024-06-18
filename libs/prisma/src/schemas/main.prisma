@@ -63,6 +63,7 @@ model User {
   referrerAction   ReferralAction[]       @relation(name: "ReferrerAction")
   gameSessions     GameSession[]
   gameStorage      GameStorage[]
+  gameScores       GameScore[]
 }
 
 model Account {
@@ -358,6 +359,8 @@ model Game {
   id           String             @id @default(cuid())
   version      Int                @default(0)
   status       GameStatus         @default(UNPUBLISHED)
+  multiplier   Float              @default(0)
+  leaderboard  Boolean            @default(false)
   // Details
   title        String             @db.VarChar(127)
   description  String             @db.VarChar(4095)
@@ -388,6 +391,9 @@ model Game {
   tasks        Task[]
   gameSessions GameSession[]
   gameStorage  GameStorage[]
+  loot         Loot[]
+  scores       GameScore[]
+  competitions GameCompetition[]
 }
 
 model GamePlayHistory {
@@ -590,6 +596,7 @@ enum NotificationType {
   REWARD
   GAME
   BATTLE
+  VICTORY
 }
 
 model Notification {
@@ -800,6 +807,8 @@ model Loot {
   battleParticipation   BattleParticipation? @relation(fields: [battleParticipationId], references: [id], onDelete: Cascade)
   questId               String?
   quest                 PlatformQuest?       @relation(fields: [questId], references: [id], onDelete: Cascade)
+  gameId                String?
+  game                  Game?                @relation(fields: [gameId], references: [id], onDelete: Cascade)
 
   @@unique([itemId, battleParticipationId])
 }
@@ -949,4 +958,44 @@ model GameStorage {
   updatedAt DateTime @updatedAt
 
   @@unique([gameId, userId])
+}
+
+model GameScore {
+  id        String   @id @default(cuid())
+  gameId    String
+  game      Game     @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  score     Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// TODO: implement competitions.
+// -- competitions are like leaderboards but they have a prize pool.
+// -- competitions can last for any duration, and can have a base prize pool, and a bonus prize pool.
+// for each game competition, whoever has the highest scores will earn a tokens.
+model GameCompetition {
+  id              String            @id @default(cuid())
+  version         Int               @default(0)
+  updatedAt       DateTime          @updatedAt
+  createdAt       DateTime          @default(now())
+  publishAt       DateTime
+  expiresAt       DateTime
+  gameId          String
+  game            Game              @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  base            Int // base number of tokens to be distributed
+  playerBonus     Float // the bonus tokens to be distributed based on the # of participants.
+  submissionBonus Float // the bonus number of tokens to be distributed based on the # of scores submitted.
+  distribution    PrizeDistribution // the number of players that will receive a prize
+}
+
+enum PrizeDistribution {
+  TOP_1
+  TOP_2
+  TOP_3
+  TOP_4
+  TOP_6
+  TOP_8
+  TOP_10
 }

@@ -17,7 +17,7 @@ import {
   STEAM_KEY_ITEMS,
   SteamKeyItemId,
 } from '@worksheets/data/items';
-import { ItemRarity, ItemType } from '@worksheets/prisma';
+import { ItemRarity, ItemType, Prisma } from '@worksheets/prisma';
 import { z } from 'zod';
 
 export const ACTION_LABEL: Record<ItemType, string> = {
@@ -102,6 +102,19 @@ export const itemSchema = z.object({
 
 export type ItemSchema = z.infer<typeof itemSchema>;
 
+export const serializableItem = (
+  i: Prisma.ItemGetPayload<true>
+): ItemSchema => ({
+  id: i.id,
+  name: i.name,
+  imageUrl: i.imageUrl,
+  type: i.type,
+  description: i.description,
+  sell: i.sell,
+  buy: i.buy,
+  rarity: i.rarity,
+});
+
 export const capsuleOptionSchema = z.object({
   id: z.string(),
   position: z.number(),
@@ -153,10 +166,27 @@ export const lootSchema = z.object({
   item: itemSchema,
   quantity: z.number(),
   chance: z.number().min(0).max(1),
-  mvp: z.boolean(),
 });
 
 export type LootSchema = z.infer<typeof lootSchema>;
+
+export const serializableLoot = (
+  p: Prisma.LootGetPayload<{
+    include: {
+      item: true;
+    };
+  }>
+): LootSchema => ({
+  item: serializableItem(p.item),
+  quantity: p.quantity,
+  chance: p.chance,
+});
+
+export const mobLootSchema = lootSchema.extend({
+  mvp: z.boolean(),
+});
+
+export type MobLootSchema = z.infer<typeof mobLootSchema>;
 
 export const inventoryItemSchema = z.object({
   inventoryId: z.string(),
@@ -172,7 +202,7 @@ export const inventoryItemSchema = z.object({
   rarity: z.custom<ItemRarity>(),
 });
 
-export const separateLoot = (loot: LootSchema[]) => {
+export const separateLoot = (loot: MobLootSchema[]) => {
   const basicLoot = loot.filter((l) => !l.mvp);
   const mvpLoot = loot.filter((l) => l.mvp);
   return {

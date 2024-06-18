@@ -3,6 +3,12 @@ import { CharityGamesPlugin } from '@worksheets/phaser/plugins';
 import { TEXT_STYLE } from '../util/theme';
 import { setWallpaper } from '../util/wallpaper';
 
+const isValidHost = () => {
+  if (process.env.NODE_ENV === 'development') {
+    return true;
+  }
+  return window.location.host === 'cdn.charity.games';
+};
 export default class BootScene extends Phaser.Scene {
   constructor() {
     super('boot');
@@ -50,9 +56,7 @@ export default class BootScene extends Phaser.Scene {
       .setOrigin(0.5);
 
     const charityGames: CharityGamesPlugin = CharityGamesPlugin.find(this);
-    // check what host i'm on
-    const host = window.location.host;
-    if (host !== 'cdn.charity.games') {
+    if (!isValidHost()) {
       console.warn('Not on charity.games, skipping session start');
       this.scene.start('main');
       return;

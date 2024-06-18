@@ -14,6 +14,7 @@ import { FC } from 'react';
 
 import { CreateAccountContainer } from './create-account-container';
 import { GameDescription } from './game-description';
+import { GameLeaderboards } from './game-leaderboards/game-leaderboards';
 
 type GameScreenProps = {
   suggestions: BasicGameInfo[];
@@ -73,7 +74,9 @@ export const GameScreen: FC<GameScreenProps> = ({
           ))}
         </PaperSidebar>
       </Box>
+
       <CreateAccountContainer />
+
       <GameDescription
         trailer={game.trailer}
         description={game.description}
@@ -81,6 +84,9 @@ export const GameScreen: FC<GameScreenProps> = ({
         onShare={onShare}
         onReport={onReport}
       />
+
+      {game.leaderboard && <GameLeaderboards gameId={game.id} />}
+
       <GamesGroup
         title="More Games"
         header={<RandomGameButton />}

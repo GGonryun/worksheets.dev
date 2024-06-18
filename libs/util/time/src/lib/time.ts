@@ -331,17 +331,21 @@ export const durationToString = (duration: Duration): string => {
   return `${seconds}s`;
 };
 
-export const nextUtcMidnight = (): Date => {
-  const now = new Date();
+export const nextUtcMidnight = (now = new Date()): Date => {
   const nextMidnight = new Date(
     Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + 1)
   );
   return nextMidnight;
 };
 
-export const nextSundayUtcMidnight = (): Date => {
-  // Get the current date and time in UTC
-  const now = new Date();
+export const lastUtcMidnight = (now = new Date()): Date => {
+  const lastMidnight = new Date(
+    Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate())
+  );
+  return lastMidnight;
+};
+
+export const nextSundayUtcMidnight = (now = new Date()): Date => {
   // Get the current UTC day of the week (0 = Sunday, 1 = Monday, ..., 6 = Saturday)
   const currentUTCDay = now.getUTCDay();
   // Calculate the number of days until next Sunday
@@ -362,6 +366,13 @@ export const nextSundayUtcMidnight = (): Date => {
   return nextSunday;
 };
 
+export const lastSundayUtcMidnight = (now = new Date()): Date => {
+  const dayOfWeek = now.getUTCDay(); // 0 (Sunday) to 6 (Saturday)
+  const lastSunday = new Date(now);
+  lastSunday.setUTCDate(now.getUTCDate() - dayOfWeek);
+  lastSunday.setUTCHours(0, 0, 0, 0);
+  return lastSunday;
+};
 export const nextFirstOfMonthUtcMidnight = (): Date => {
   const now = new Date();
   let nextMonth: number;

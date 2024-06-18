@@ -4,6 +4,7 @@ import {
   DeveloperSchema,
   GameTag,
   SerializableGameSchema,
+  serializableLoot,
 } from '@worksheets/util/types';
 import { z } from 'zod';
 
@@ -31,6 +32,11 @@ export default publicProcedure
         file: true,
         viewport: true,
         categories: true,
+        loot: {
+          include: {
+            item: true,
+          },
+        },
       },
     });
 
@@ -53,6 +59,9 @@ export default publicProcedure
         iconUrl: game.thumbnail,
         bannerUrl: game.cover,
         trailer: game.trailer,
+        loot: game.loot.map(serializableLoot),
+        leaderboard: game.leaderboard,
+        multiplier: game.multiplier,
         categories: game.categories.map((c) => c.categoryId) as GameTag[],
         updatedAt: printDate(game.updatedAt),
         createdAt: printDate(game.createdAt),

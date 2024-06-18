@@ -2,12 +2,12 @@ import { Box, ButtonBase, Typography } from '@mui/material';
 import { Row } from '@worksheets/ui/components/flex';
 import { FillImage } from '@worksheets/ui/components/images';
 import { toPercentage } from '@worksheets/util/numbers';
-import { LootSchema } from '@worksheets/util/types';
+import { MobLootSchema } from '@worksheets/util/types';
 import React from 'react';
 
 import { ItemModal } from './modal';
 
-export const Item: React.FC<LootSchema> = (loot) => {
+export const Item: React.FC<MobLootSchema> = (loot) => {
   const [open, setOpen] = React.useState(false);
   return (
     <>

@@ -7,9 +7,13 @@ import GameScene from './scenes/game';
 import GameOverScene from './scenes/game-over';
 import MenuScene from './scenes/menu';
 
-const config = {
+const config: Phaser.Types.Core.GameConfig = {
   type: Phaser.AUTO,
   backgroundColor: '#000000',
+  roundPixels: true,
+  render: {
+    pixelArt: false,
+  },
   scale: {
     parent: 'game',
     mode: Phaser.Scale.FIT,

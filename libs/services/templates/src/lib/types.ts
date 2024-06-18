@@ -3,6 +3,7 @@ import { SendEmailInput } from '@worksheets/services/email';
 import { ScheduleNewsletterInput } from '@worksheets/services/newsletter';
 import { PushNotifyInput } from '@worksheets/services/push';
 import { TwitterTweetInput } from '@worksheets/services/twitter';
+import { LeaderboardFrequency } from '@worksheets/util/types';
 
 export type NotificationTemplate =
   | {
@@ -262,6 +263,23 @@ export type NotificationTemplate =
         };
         giving: number;
         quantity: number;
+      };
+    }
+  | {
+      type: 'won-leaderboard';
+      payload: {
+        frequency: LeaderboardFrequency;
+        rank: number;
+        score: number;
+        payout: number;
+        game: {
+          id: string;
+          title: string;
+        };
+        user: {
+          id: string;
+          username: string;
+        };
       };
     };
 

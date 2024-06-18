@@ -15,6 +15,7 @@ import {
   InventoryItemSchema,
   ItemSchema,
   LootSchema,
+  MobLootSchema,
 } from '@worksheets/util/types';
 import pluralize from 'pluralize';
 import React from 'react';
@@ -213,8 +214,31 @@ export const InventoryItemDescription: React.FC<{
   </Column>
 );
 
+// TODO: dedupe loot descriptions
 export const LootDescription: React.FC<{
   loot: LootSchema;
+}> = ({ loot }) => (
+  <Column gap={1}>
+    <Typography typography={{ xs: 'body2', sm: 'body1' }}>
+      {loot.item.description}
+    </Typography>
+    <Column>
+      <ItemDataRow label="Type:" value={itemTypeLabel[loot.item.type]} />
+      <ItemDataRow label="Quantity:" value={loot.quantity} />
+      <ItemDataRow
+        label="Drop Chance:"
+        value={toPercentage(loot.chance, 1, 2)}
+      />
+      <ItemDataRow
+        label="Sells For:"
+        value={`${loot.item.sell} ${pluralize('token', loot.item.sell)}`}
+      />
+    </Column>
+  </Column>
+);
+
+export const MobLootDescription: React.FC<{
+  loot: MobLootSchema;
 }> = ({ loot }) => (
   <Column gap={1}>
     <Typography typography={{ xs: 'body2', sm: 'body1' }}>

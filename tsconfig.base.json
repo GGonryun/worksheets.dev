@@ -78,6 +78,9 @@
       "@worksheets/services/inventory": [
         "libs/services/inventory/src/index.ts"
       ],
+      "@worksheets/services/leaderboards": [
+        "libs/services/leaderboards/src/index.ts"
+      ],
       "@worksheets/services/mobs": ["libs/services/mobs/src/index.ts"],
       "@worksheets/services/newsletter": [
         "libs/services/newsletter/src/index.ts"

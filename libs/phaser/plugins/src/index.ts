@@ -92,4 +92,24 @@ export class CharityGamesPlugin extends Phaser.Plugins.BasePlugin {
       set,
     };
   }
+
+  get leaderboard() {
+    const submit = async (score: number) => {
+      try {
+        await this.request({
+          event: 'submit-score',
+          payload: {
+            sessionId: this.sessionId,
+            score,
+          },
+        });
+      } catch (error) {
+        console.error('Failed to submit score', error);
+      }
+    };
+
+    return {
+      submit,
+    };
+  }
 }

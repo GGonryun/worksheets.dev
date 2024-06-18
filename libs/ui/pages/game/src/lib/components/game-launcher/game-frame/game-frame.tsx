@@ -6,6 +6,7 @@ import { useEventListener } from '@worksheets/ui-core';
 import { useSession } from 'next-auth/react';
 import React, { useRef } from 'react';
 
+import { useGameNotifications } from '../../../hooks/use-game-notifications';
 import classes from './game-frame.module.scss';
 import { GameInternalFrame } from './game-internal-frame';
 
@@ -27,10 +28,12 @@ export const GameFrame: React.FC<{
   gameId: string;
 }> = ({ gameId, url }) => {
   const session = useSession();
+  const notifications = useGameNotifications();
   const authenticated = session.status === 'authenticated';
   const loadStorage = trpc.user.game.storage.load.useMutation();
   const saveStorage = trpc.user.game.storage.save.useMutation();
   const startSession = trpc.user.game.session.start.useMutation();
+  const submitScore = trpc.user.leaderboards.submit.useMutation();
   const frameRef = useRef<HTMLIFrameElement>(null);
 
   useEventListener('message', async ({ origin, data }) => {
@@ -78,6 +81,21 @@ export const GameFrame: React.FC<{
       } else {
         localStorage.setItem(`game-storage-${gameId}`, JSON.stringify(data));
       }
+      return true;
+    });
+
+    register('submit-score', async ({ sessionId, score }) => {
+      if (!authenticated || !sessionId) return false;
+
+      const result = await submitScore.mutateAsync({
+        sessionId,
+        score,
+      });
+
+      if (!result.tokens) return false;
+
+      notifications.add(result.message, { color: 'success' });
+
       return true;
     });
 

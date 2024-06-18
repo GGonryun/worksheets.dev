@@ -13,6 +13,29 @@ import { SeedableGameSchema } from '@worksheets/util/types';
 export const games: SeedableGameSchema[] = [
   {
     version: 1,
+    id: 'color-run',
+    name: 'Color Run',
+    developerId: 'charity-games',
+    iconUrl: 'https://cdn.charity.games/_games/color-run/assets/thumbnail.png',
+    bannerUrl: 'https://cdn.charity.games/_games/color-run/assets/banner.png',
+    viewport: viewports['PORTRAIT-ONLY'],
+    categories: ['ad-free', 'arcade', 'desktop', 'mobile', '1p', 'survival'],
+    file: {
+      type: 'HTML',
+      url: 'https://cdn.charity.games/_games/color-run/index.html',
+    },
+    createdAt: new Date('2024-06-05T00:00:00.000Z'),
+    updatedAt: new Date('2024-06-05T00:00:00.000Z'),
+    publishAt: new Date('2024-06-05T02:00:00.000Z'),
+    description:
+      '<p>Color Run is a fast-paced arcade game. The goal of the game is to help the ball get as far as possible without hitting any obstacles. If you touch a ball that does not match your color, you lose!</p><h3>How to Play Color Run?</h3><ul><li>Tap the screen to separate the two balls</li><li>Avoid the obstacles</li></ul>',
+    markets: {},
+    leaderboard: true,
+    multiplier: 0.15,
+    loot: [],
+  },
+  {
+    version: 1,
     id: 'gravity-blocks',
     name: 'Gravity Blocks',
     developerId: 'charity-games',
@@ -40,6 +63,10 @@ export const games: SeedableGameSchema[] = [
     publishAt: new Date('2024-07-10T02:00:00.000Z'),
     markets: {},
     description: `<p>Gravity Blocks is a simple survival game. The goal is to survive for as long as possible without getting hit. You are able to control gravity so that your block flies to the other half of the screen.</p><h3>How to Play Gravity Blocks?</h3><ul><li>Click or tap the screen to swap gravity</li><li>Don't get hit!</li></ul>`,
+    // not an integrated game
+    multiplier: 0,
+    leaderboard: false,
+    loot: [],
   },
   {
     version: 1,
@@ -61,6 +88,10 @@ export const games: SeedableGameSchema[] = [
     publishAt: new Date('2024-07-03T02:00:00.000Z'),
     markets: {},
     description: `<p>Avoid Blocks is a survival arcade game. The goal of the game is to avoid the blocks for as long as you can.</p><h3>How to Play Avoid Blocks?</h3><ul><li>Click and drag or tap the screen to move the player</li><li>Avoid the blocks</li></ul>`,
+    // not an integrated game
+    multiplier: 0,
+    leaderboard: false,
+    loot: [],
   },
   {
     version: 1,
@@ -89,6 +120,10 @@ export const games: SeedableGameSchema[] = [
     description:
       '<p>Zig Up is a fast-paced arcade game. The goal of the game is to help the ball get as far as possible without hitting any obstacles.</p><h3>How to Play Zig Up?</h3><ul><li>Tap the screen to zig and zag!</li><li>Avoid the obstacles</li></ul>',
     markets: {},
+    // not an integrated game
+    multiplier: 0,
+    leaderboard: false,
+    loot: [],
   },
   {
     version: 1,
@@ -118,8 +153,11 @@ export const games: SeedableGameSchema[] = [
     description:
       '<p>Practice your chip with Golf Golf! Golf Golf is a simple mini golf game where your objective is to score the most points possible with 10 golf balls.</p><h3>How to Play Golf Golf?</h3><ul><li>Click or tap the screen to charge up your shot</li><li>Release to send the ball flying!</li></ul>',
     markets: {},
+    // not an integrated game
+    multiplier: 0,
+    leaderboard: false,
+    loot: [],
   },
-
   {
     version: 1,
     id: 'right-box',
@@ -148,26 +186,10 @@ export const games: SeedableGameSchema[] = [
     description:
       '<p>Right Box is a simple survival game where you try to grow the box to the right size. Simply tap and hold to expand the box and let go to drop it. If the box is too large or too small you will lose. The goal is to get it just right!</p><h3>How to Play Right Box?</h3><ul><li>Tap the screen to grow</li><li>Let go of the screen to release</li></ul>',
     markets: {},
-  },
-  {
-    version: 1,
-    id: 'color-run',
-    name: 'Color Run',
-    developerId: 'charity-games',
-    iconUrl: 'https://cdn.charity.games/_games/color-run/assets/thumbnail.png',
-    bannerUrl: 'https://cdn.charity.games/_games/color-run/assets/banner.png',
-    viewport: viewports['PORTRAIT-ONLY'],
-    categories: ['ad-free', 'arcade', 'desktop', 'mobile', '1p', 'survival'],
-    file: {
-      type: 'HTML',
-      url: 'https://cdn.charity.games/_games/color-run/index.html',
-    },
-    createdAt: new Date('2024-06-05T00:00:00.000Z'),
-    updatedAt: new Date('2024-06-05T00:00:00.000Z'),
-    publishAt: new Date('2024-06-05T02:00:00.000Z'),
-    description:
-      '<p>Color Run is a fast-paced arcade game. The goal of the game is to help the ball get as far as possible without hitting any obstacles. If you touch a ball that does not match your color, you lose!</p><h3>How to Play Color Run?</h3><ul><li>Tap the screen to separate the two balls</li><li>Avoid the obstacles</li></ul>',
-    markets: {},
+    // not an integrated game
+    multiplier: 0,
+    leaderboard: false,
+    loot: [],
   },
   {
     version: 4,
@@ -198,6 +220,10 @@ export const games: SeedableGameSchema[] = [
     publishAt: new Date('2024-05-29T02:00:00.000Z'),
     markets: {},
     description: `<p>Hard Flappy is a challenging flappy bird style game. The goal of the game is to fly as far as you can without hitting any obstacles.</p><h3>How to Play Hard Flappy?</h3><ul><li>Tap the screen to fly</li><li>Avoid the obstacles</li></ul>`,
+    // not an integrated game
+    multiplier: 0,
+    leaderboard: false,
+    loot: [],
   },
   {
     version: 1,
@@ -219,6 +245,10 @@ export const games: SeedableGameSchema[] = [
     publishAt: new Date('2024-05-22T02:00:00.000Z'),
     markets: {},
     description: `<p>Space Adventure Pinball is a fun pinball game. The goal of the game is to get the highest score possible by hitting the ball with the flippers and keeping it in play for as long as possible.</p><h3>How to Play Space Adventure Pinball?</h3><ul><li>Use the left and right arrow keys to control the flippers</li><li>Hit the ball with the flippers to keep it in play</li><li>Try to hit the ball into the bonus areas to get extra points</li></ul>`,
+    // not an integrated game
+    multiplier: 0,
+    leaderboard: false,
+    loot: [],
   },
   {
     version: 2,
@@ -246,6 +276,10 @@ export const games: SeedableGameSchema[] = [
     publishAt: new Date('2024-04-30T00:00:00.000Z'),
     markets: {},
     description: `<p>20 Punch is a fast-paced boxing game. The goal of the game is to punch your opponent 20 times before they punch you 20 times. The first player to reach 20 punches wins the game.</p><h3>How to Play 20 Punch?</h3><p>Click or tap the screen to punch your opponent. You can move your character left or right and dodge incoming punches. The first player to reach 20 punches wins the game. Play alone or challenge your friends!</p>`,
+    // not an integrated game
+    multiplier: 0,
+    leaderboard: false,
+    loot: [],
   },
   {
     version: 2,
@@ -276,6 +310,10 @@ export const games: SeedableGameSchema[] = [
     markets: {},
     description: `<p>The Sorcerer is a HTML5 puzzle game. The game contains 3 different progressive levels.</p><p>The objective of the game is to shoot marbles at the balls rolling across the screen to make matches. Each level gets progressively harder!</p><p>The sorcerer is a point and click puzzle game that needs quick reactions. If you're playing on mobile, simply touch the location where you want the ball to go next.</p>
     <h3>How to Play The Sorcerer?</h3><p>Use your mouse to aim and shoot the marbles. If you're playing on mobile, simply touch the location where you want the ball to go next.</p>`,
+    // not an integrated game
+    multiplier: 0,
+    leaderboard: false,
+    loot: [],
   },
   {
     version: 2,
@@ -295,6 +333,10 @@ export const games: SeedableGameSchema[] = [
     description:
       "<p>When General Nugget lands in the area you lose all your weapons, but don't worry she can give you weapons... But need to be in the nest. Resist until she can be evacuated from the area... You'll lose the game if something happens to her.</p><ul><li>Dual Stick shooter</li><li>Weapons and Random Upgrades</li><li>Buy costumes after a run.</li></ul><p>Good Luck</p>",
     markets: {},
+    // not an integrated game
+    multiplier: 0,
+    leaderboard: false,
+    loot: [],
   },
   {
     version: 2,
@@ -326,6 +368,10 @@ export const games: SeedableGameSchema[] = [
     updatedAt: new Date('2021-12-19:00:00.000Z'),
     description:
       '<p>You will have to break the floor under your opponents to prevent them from surviving! Outsmart them and take first place for yourself!</p><h3>How to Play Fragile Floor?</h3><p>To move, use WASD or Arrow keys. If you are playing on a tablet or phone, use the joystick!</p><p>To navigate the menu, use the mouse or touchscreen!</p>',
+    // not an integrated game
+    multiplier: 0,
+    leaderboard: false,
+    loot: [],
   },
   {
     version: 3,
@@ -349,6 +395,10 @@ export const games: SeedableGameSchema[] = [
     },
     description:
       '<p>Break the blocks in a center and dodge corners.</p><h3>What is Kuttuk?</h3><p>Kuttuk is a fast-paced arcade game. The goal of the game is to break up the blocks by hitting them on the flat side. If you get hit by the edge of a block you lose the game</p><h3>What are the controls for Kuttuk?</h3><p>Left</p><ul><li>desktop: left arrow</li></ul><p>Right</p><ul><li>right arrow</li></ul>',
+    // not an integrated game
+    multiplier: 0,
+    leaderboard: false,
+    loot: [],
   },
   {
     version: 2,
@@ -368,6 +418,10 @@ export const games: SeedableGameSchema[] = [
     markets: {},
     description:
       '<p><b>Use LANDSCAPE mode on mobile for the best experience</b></p><p>Plane Fly is an endless flappy bird style game. The goal of the game is to fly as far as you can without hitting any obstacles.</p><h3>How to Play Plane Fly?</h3><ul><li>Tap the screen to fly</li><li>Avoid the obstacles</li></ul>',
+    // not an integrated game
+    multiplier: 0,
+    leaderboard: false,
+    loot: [],
   },
   {
     version: 2,
@@ -399,6 +453,10 @@ export const games: SeedableGameSchema[] = [
     },
     description:
       '<h3>What is Blasteroids?</h3><p>A re-imagined classic. How far will you go?</p><h3>How to play Blasteroids?</h3><ul><li>Desktop: Space to move, Click to shoot, Esc to pause</li><li>Mobile: Tilt to move, Tap to shoot, Hold to pause</li></ul>',
+    // not an integrated game
+    multiplier: 0,
+    leaderboard: false,
+    loot: [],
   },
   {
     version: 2,
@@ -417,6 +475,10 @@ export const games: SeedableGameSchema[] = [
     updatedAt: new Date('2021-11-23T00:00:00.000Z'),
     markets: {},
     description: `<p>Solitaire is a card game that you play by yourself. You only need a standard deck of 52 cards to play, so it's a great game to play when traveling alone or just when you are bored and want something to do. There are a lot of different types of solitaire you can play.</p><h3>How to Play Solitaire?</h3><p>The goal of solitaire is to get all 52 cards into four piles, each arranged by suit and in order from ace to king. Game play varies depending on the type of solitaire you play, but the main goal is always the same: to get all cards into the correct order.</p><h3>Who created Solitaire?</h3><p>The first known solitaire game rules were recorded during the Napoleonic era. The author of the first known solitaire rules was Lady Adelaide Cadogan, who wrote her rules in the late 1870s or early 1880s. Lady Cadogan's book was titled Illustrated Games of Patience and it was published in the United Kingdom in 1875. The book was very popular among the upper classes and eventually became known as The Solitaire Bible.</p><h3>Controls</h3><ul><li>Click and drag to move cards</li><li>Double click to move cards to the foundation</li><li>Click on the deck to draw cards</li></ul>`,
+    // not an integrated game
+    multiplier: 0,
+    leaderboard: false,
+    loot: [],
   },
   {
     version: 2,
@@ -435,6 +497,10 @@ export const games: SeedableGameSchema[] = [
     updatedAt: new Date('2021-11-07T00:00:00.000Z'),
     markets: {},
     description: `<p>Emoji War is a fast-paced card game. Players are randomly dealt movement and attack cards. Players quickly play as many cards as they can at the same time to defeat their opponents. The first player to run out of health loses the game.</p><h3>How to Play Emoji War?</h3><p>Emoji War is best played on mobile but it supports desktop too. All you need is a mouse or some fingers (toes would work too though, a nose might be pushing it). Click on the cards to play them. The game will automatically play the cards for you. The goal of the game is to defeat your opponents by playing cards faster than they can.</p><h3>Controls</h3><ul><li>Click on the cards to play them</li></ul>`,
+    // not an integrated game
+    multiplier: 0,
+    leaderboard: false,
+    loot: [],
   },
   {
     version: 2,
@@ -457,6 +523,10 @@ export const games: SeedableGameSchema[] = [
       itch: 'https://itch.io/embed/2383094',
     },
     description: `<h3>What is 1D Chess?</h3><p>The main idea is to make a simple strategy system for two equal sides fighting, which will give the player the opportunity to control the strength of each side, but at the same time the winning choice will not be pattern.</p><p>Chess pieces in their original quantity are ideal for this idea. They move abstractly correctly to the original game, and each piece is balanced equal to the other pieces.</p><p>Player control is limited to selecting one of a random three non-repeating pieces from a pool of 5 pieces. This way he can choose for each side, and defeat will be counted as soon as at least one figure reaches the opposite edge.</p><p>Next, a little about the logic of the game:</p><p>The board has 11 cells, and there are kings on the edges, that is, there are only 9 playable cells. All pieces have health and damage for smoother game play. The game is real time turn based, and the steps have the following logic: all pieces of the same color acts in a row, starting from the farthest to the last one created, their action can be either an attack or a movement, if a piece can hit, then it hits, if it cannot, then it tries to move forward on one cell, then the second color moves and so on alternating.</p><p>The Rogue-like system here is replaced by a special balance, which depends on the player's actions. You can feel what is making a difference in consider mistakes for future tries.</p><h3>How to Play 1D Chess?</h3><p>Select one of the three pieces for each side, and defeat will be counted as soon as at least one figure reaches the opposite edge.</p>`,
+    // not an integrated game
+    multiplier: 0,
+    leaderboard: false,
+    loot: [],
   },
   {
     version: 2,
@@ -475,6 +545,10 @@ export const games: SeedableGameSchema[] = [
     updatedAt: new Date('2021-12-21:00:00.000Z'),
     markets: {},
     description: `<p>Baku Gamu is a collection of fast-paced microgames developed by Syb Coin Coin. This game is in active development with new games being added regularly. The goal of the game is to complete as many microgames as you can before you run out of lives. Each microgame is randomly selected from the pool of available games.</p><h3>How to Play Baku Gamu?</h3><p>Each game is unique, follow the instructions on the screen to complete the microgame!</p><h3>Who created Baku Gamu?</h3><p>Baku Gamu is developed by Syb Coin Coin. Syb Coin Coin is a game development studio based in France. They have been making games since 2015.</p>`,
+    // not an integrated game
+    multiplier: 0,
+    leaderboard: false,
+    loot: [],
   },
   {
     version: 2,
@@ -493,6 +567,10 @@ export const games: SeedableGameSchema[] = [
     createdAt: new Date('2023-12-21T00:00:00.000Z'),
     updatedAt: new Date('2021-12-21T00:00:00.000Z'),
     description: `<p>Dino Rush is an endless runner game. The goal of the game is to run as far as you can without hitting any obstacles.</p><h3>How to Play Dino Rush?</h3><ul><li>Tap the screen or press the space bar to jump</li>Tap the screen or press the space bar while in the air to fall down immediately.<li></li><li>Avoid the obstacles</li></ul><h3>Who created Dino Rush?</h3><p>Dino Rush is a free game created by Charity Games. We are a non-profit organization that creates games to raise money for charity. We donate 100% of our profits to charity.</p><h3>Known issues:</h3><p></p><ul><li>The game does not allow the user to mute sounds on mobile devices.</li></ul>`,
+    // not an integrated game
+    multiplier: 0,
+    leaderboard: false,
+    loot: [],
   },
   {
     version: 2,
@@ -514,6 +592,10 @@ export const games: SeedableGameSchema[] = [
       itch: `https://itch.io/embed/2378162`,
     },
     description: `<p>RPG: Conquer the World ... at least our Village :-)</p><p>Experience the story of a common young boy, visit school, fight enemies, find your first love, andimportantly: Conquer the world!</p><p>Welcome, new soul, to the land of Lanthir Lamath! Since you can't have a mortgage, a car lease, orempty credit card here, you can certainly have a bunch of other problems.</p><p>Pixel art topdown RPG adventure made with RPG Maker MV.</p><p><b>THIS IS A DEMO ONLY!</b></p><p><a href="https://llstd.com/rpg-conquer-the-world/">Full game here</a></p><p>As the main hero, you go by the name Jacob. You're an ordinary boy who lives with your parents, goesschool, fights with classmates, and falls in love with the teacher's daughter. Sometimes, you even diea pool of blood while kicking your feet.</p><p>In the game, you'll learn to keep secrets, not trust anyone, and wash your hands after using the toileAnd the most important task? You want to conquer the entire world! Well, at least our village.</p><p>The game contains 8 chapters, several tasks, many sarcastic dialogues, and humorous situations. Youenjoy a lot of pleasant fun.</p>`,
+    // not an integrated game
+    multiplier: 0,
+    leaderboard: false,
+    loot: [],
   },
   {
     version: 2,
@@ -532,6 +614,10 @@ export const games: SeedableGameSchema[] = [
     updatedAt: new Date('2021-12-11T00:00:00.000Z'),
     markets: {},
     description: `<p>Freedom Run is a one-button endless runner game. The goal of the game is to eat as many veggies as you can and avoid getting hit by birds or falling off the map.</p><h3>How to Play Freedom Run?</h3><p>Playing Freedom Run is easy! Just click or tap the screen to jump, double click or double tap to double jump and if you press and hold you'll stay in the air for much longer.</p><h3>Who created Freedom Run?</h3><p>Freedom Run is a free game created by Charity Games. We are a non-profit organization that creates free games to raise money for charity. We donate 100% of our profits to charity.</p><h3>Can I see the source code for Freedom Run?</h3><p>Sure! all of our games are open source. You can find the source code for Freedom Run on <a href="https://github.com/GGonryun/worksheets.dev/tree/main/construct3/freedom_run">GitHub</a></p>`,
+    // not an integrated game
+    multiplier: 0,
+    leaderboard: false,
+    loot: [],
     // credits: `
     // - [Land and Tiles by The Flavre](https://theflavare.itch.io/mondstadt-theme-background-pixel-art)
     // - [Background by Vnitti](https://vnitti.itch.io/grassy-mountains-parallax-background)
@@ -559,6 +645,10 @@ export const games: SeedableGameSchema[] = [
     updatedAt: new Date('2023-11-23T00:00:00.000Z'),
     markets: {},
     description: `<h3></h3><p></p>Word Search is a word puzzle game. The goal of the game is to find all the words hidden in the grid.words may be placed horizontally, vertically, or diagonally. The words may also be placed backwards.<h3>Who created Word Search?</h3><p>The first known word search puzzle was created by Norman E. Gibat in 1968. Gibat was a professormathematics at the University of California, Berkeley. He created the puzzle as a way to help hislearn new vocabulary words.</p><h3>Why play Word Search?</h3><p>Word Search is a great way to improve your vocabulary. It's also a fun way to pass the time. You canit anywhere, anytime. All you need is our website and a device with an internet connection.</p><h3>Controls</h3><ul><li>Swipe your finger across the letters to form words</li></ul>`,
+    // not an integrated game
+    multiplier: 0,
+    leaderboard: false,
+    loot: [],
   },
   {
     version: 2,
@@ -581,6 +671,10 @@ export const games: SeedableGameSchema[] = [
       itch: 'https://itch.io/embed/2302991',
     },
     description: `<h3>What is Feaare?</h3><p>The main idea is to give the player not direct control over the game, but through game play elements. player does not see enemies, but sees eyes that look at them.</p><p>Control is performed by clicking on an object in order to move each eye individually and understand where enemy is approximately located and where he is moving, and then move away from the dangerous place and as long as possible. Only 4 eyes. Since invisible enemies are usually unpleasant to play against, I decided make sure that they are always created from one point and the player knows for sure that no one can be him.</p><p>The graphic design is extremely simple - everything is black, only the white eyes are visible. There is story in the game, everything is concentrated on the game play design and its complication, which depends the actions of the player and makes each game unique and addictive.</p><h3>How to Play Feaare?</h3><p>Click on an eye to move it. The goal of the game is to survive as long as possible.</p>`,
+    // not an integrated game
+    multiplier: 0,
+    leaderboard: false,
+    loot: [],
   },
   {
     version: 2,
@@ -608,6 +702,10 @@ export const games: SeedableGameSchema[] = [
     updatedAt: new Date('2021-12-20:00:00.000Z'),
     markets: {},
     description: `<p>Embark on a fascinating journey through history! Challenge your knowledge and speed in this exciting quest of invention discovery. Can you score the highest?</p><h3>Objective</h3><p>Players must correctly identify which of two or more presented inventions was invented first.</p><h3>Gameplay Mechanics</h3><p>Time Challenge: Players have a limited time to make their choice in each round, adding an element of speed and pressure.</p><p>Multiple Choices: Each question presents two or more inventions. The player selects the invention they believe is the oldest.</p>`,
+    // not an integrated game
+    multiplier: 0,
+    leaderboard: false,
+    loot: [],
   },
   {
     version: 2,
@@ -626,6 +724,10 @@ export const games: SeedableGameSchema[] = [
     updatedAt: new Date('2021-12-20:00:00.000Z'),
     markets: {},
     description: `<p>Stick Jump is an endless arcade game. Jump as high as you can and get the highest score.</p><h3>How to Play Stick Jump?</h3><ul><li>Press the left or right arrow keys to move</li></ul>`,
+    // not an integrated game
+    multiplier: 0,
+    leaderboard: false,
+    loot: [],
   },
   {
     version: 2,
@@ -644,6 +746,10 @@ export const games: SeedableGameSchema[] = [
     updatedAt: new Date('2021-11-23T00:00:00.000Z'),
     markets: {},
     description: `<p>Puzzle Words is a word anagram game. The goal of the game is to find all the valid words that can befrom the given letters.</p><h3>How to Play Puzzle Words?</h3><p>The goal of the game is to find all the valid words that can be made from the given letters. Therehundreds of levels but each one must be beaten in order. The game starts off easy but gets harder asprogress through the levels.</p><ul><li>Swipe your finger across the letters to form words</li><li>Tap the shuffle button to shuffle the letters</li></ul>`,
+    // not an integrated game
+    multiplier: 0,
+    leaderboard: false,
+    loot: [],
   },
   {
     version: 2,
@@ -662,6 +768,10 @@ export const games: SeedableGameSchema[] = [
     updatedAt: new Date('2021-11-23T00:00:00.000Z'),
     markets: {},
     description: `<p>Word Smith is a word anagram game. You are given multiple horizontal lines of letters. The goal ofgame is to find the secret word that fits in the vertical line.</p><h3>Why play Word Smith?</h3><p>It'll help make your brain bigger. It's also a fun way to pass the time. You can play it anywhere, anytime.</p><h3>Why should I not play Word Smith?</h3><p>It's addictive. You might get addicted to it and spend all your time playing it instead of doingproductive.</p><h3>Controls</h3><p>A single vertical line appears across the middle of the screen. You must drag the letters up and downform words that fit in the vertical line. The words must be valid English words.</p><ul><li>Swipe your finger across the horizontal lines to form words</li></ul>`,
+    // not an integrated game
+    multiplier: 0,
+    leaderboard: false,
+    loot: [],
   },
   {
     version: 2,
@@ -682,6 +792,10 @@ export const games: SeedableGameSchema[] = [
       itch: 'https://itch.io/embed/2380665',
     },
     description: `<p>Quick Beat is a simple rhythm game in which you try to match the letter shown on screen with your keyboard or touchscreen. There's no penalty for not pressing a button so you can play the game at your own pace.</p><h3>How do you play Quick Beat?</h3><p>Either use WASD on your keyboard or the buttons on screen to match the letter displayed. There are more points the bigger the letter is. The game ends when you mess up 3 times.</p>`,
+    // not an integrated game
+    multiplier: 0,
+    leaderboard: false,
+    loot: [],
   },
   {
     version: 2,
@@ -701,6 +815,10 @@ export const games: SeedableGameSchema[] = [
     markets: {},
     description:
       '<p>Hyper Wheel is an endless arcade game. The goal of the game is to avoid the obstacles and get the highest score.</p><h3>How to Play Hyper Wheel?</h3><p>Tap on the screen to start spinning in the opposite direction.</p>',
+    // not an integrated game
+    multiplier: 0,
+    leaderboard: false,
+    loot: [],
   },
   {
     version: 2,
@@ -720,6 +838,10 @@ export const games: SeedableGameSchema[] = [
     markets: {},
     description:
       '<p>Nonograms, also known as Japanese Crossword puzzles, are a type of puzzle in which the player must fill in the correct squares to reveal a hidden picture. The player is given a grid with numbers along the top and left side. The numbers indicate how many squares in that row or column must be filled in. The player must use logic to figure out which squares to fill in and which to leave blank.</p><h3>Who created Nonograms?</h3><p>Nonograms were created by the Japanese puzzle company Nikoli in 1987. The name "Nonogram" comes from the Japanese words "nō" (meaning "picture") and "gram" (meaning "puzzle").</p><h3>Why play Nonograms?</h3><p>Nonograms are a great way to pass the time. They are also a great way to exercise your brain. They can help improve your memory, concentration, and problem solving skills.</p><h3>Are Nonograms fun?</h3><p>Nonograms are fun if you like puzzles. If you don\'t like puzzles, then you probably won\'t like nonograms.</p><h3>Are Nonograms hard?</h3><p>Nonograms are not very hard. They are easy to learn but hard to master. The puzzles start off easy but get harder as you progress through the levels. There are lots of pictures to unlock so you will never run out of puzzles to solve.</p><h3>Controls</h3><ul><li>Click on the squares to fill them in or remove them</li></ul>',
+    // not an integrated game
+    multiplier: 0,
+    leaderboard: false,
+    loot: [],
   },
   {
     version: 2,
@@ -738,6 +860,10 @@ export const games: SeedableGameSchema[] = [
     updatedAt: new Date('2021-11-23T00:00:00.000Z'),
     markets: {},
     description: `<p>Word Pack is a twist on the classic word search game. The goal of the game is to find all the words hidden in the grid. The words may be placed horizontally, vertically, or diagonally. The words may also be placed backwards. You are given all the words that you need to place. The hard part is figuring out where to place them!</p><h3>Who created Word Pack?</h3><p>No idea. It's a mystery.</p><h3>Is Word Pack hard?</h3><p>Word Pack is not very hard. It's just a little bit tricky. The words are all there, you just have to find them. The game starts off easy but gets harder as you progress through the levels.</p><h3>Controls</h3><ul><li>Click on a word and then click on the grid to place it.</li></ul>`,
+    // not an integrated game
+    multiplier: 0,
+    leaderboard: false,
+    loot: [],
   },
   {
     version: 2,
@@ -756,6 +882,10 @@ export const games: SeedableGameSchema[] = [
     updatedAt: new Date('2021-12-21T00:00:00.000Z'),
     markets: {},
     description: `<p>Air Hockey Neon is a fast-paced arcade game. The goal of the game is to score 5 points before your opponent does. You can play against the computer.</p><h3>How to Play Air Hockey Neon?</h3><ul><li>Use the mouse to move your paddle</li><li>If you are playing on mobile, use your finger to move your paddle</li></ul>`,
+    // not an integrated game
+    multiplier: 0,
+    leaderboard: false,
+    loot: [],
   },
   {
     version: 2,
@@ -782,6 +912,10 @@ export const games: SeedableGameSchema[] = [
     updatedAt: new Date('2023-12-21T00:00:00.000Z'),
     markets: {},
     description: `<p>Solitaire 2048 is ultra casual card game. One of Very addictive kind.</p><h3>How to Play Solitaire 2048?</h3><p>Drag and drop the same value card to merge. Use special cards for benifits. Make 2048 to score bonus.</p>`,
+    // not an integrated game
+    multiplier: 0,
+    leaderboard: false,
+    loot: [],
   },
   {
     version: 2,
@@ -804,6 +938,10 @@ export const games: SeedableGameSchema[] = [
       itch: 'https://itch.io/embed/2350947',
     },
     description: `<h3>What is Skwatta?</h3><p>The main idea is to make a large army with different types of characters, which automatically grows, and the player only chooses who to place.</p><p>There are only 3 types of troops: warriors, spearmen and archers, each has an advantageous position for attack range, but this is not a key parameter for proper combat. For each situation, it is necessary to choose the right strategy, based on where the enemy will come from, what another type are nearby, the equality of unit types, and the small abilities of the characters.</p><p>The player must only click on one of the three types of troops, which will be installed in a spiral behind the algorithm and create a compact group. Also, for convenience and better results, the player can examine the map to find out where the enemies will come from.</p><p>Very simple design so that as many units as possible are visible on the screen and are distinguishable.</p><p>The difficulty increases extremely quickly and on average one game takes 3 minutes.</p>`,
+    // not an integrated game
+    multiplier: 0,
+    leaderboard: false,
+    loot: [],
   },
   {
     version: 2,
@@ -823,6 +961,10 @@ export const games: SeedableGameSchema[] = [
       url: 'https://cdn.charity.games/arrow-hit/index.html',
     },
     description: `<h3>What is Arrow Hit?</h3><p>Experience the ultimate test of precision and focus in “Aim Challenge: Arrow Edition.” This straightforward yet addictive game is designed to sharpen your aiming skills and provide an exciting challenge for players of all levels.</p><p>Simplicity at its Best: “Aim Challenge: Arrow Edition” strips away the frills to focus solely on the art of aiming. No distractions, no complications, just pure target-hitting fun.</p><p>Aim Challenge: Arrow Edition is the perfect game to unwind, compete with friends, or simply improve your hand-eye coordination. Whether you're a seasoned marksman or just starting out, this game is bound to provide hours of addictive, aim-testing entertainment.</p><p>Play now and become the ultimate arrow-slinging virtuoso in Aim Challenge: Arrow Hit!</p>`,
+    // not an integrated game
+    multiplier: 0,
+    leaderboard: false,
+    loot: [],
   },
   {
     version: 2,
@@ -841,6 +983,10 @@ export const games: SeedableGameSchema[] = [
       url: 'https://cdn.charity.games/on-the-road/index.html',
     },
     description: `<p>On The Road is an endless runner game. The goal of the game is to drive as far as you can without hitting any obstacles.</p><h3>How to Play On The Road?</h3><h5>Desktop</h5><p>Use the arrow keys or drag your mouse across the screen to change lanes and avoid the obstacles.</p><h5>Mobile</h5><p>Tap the left or right side of the screen to change lanes and avoid the obstacles.</p>`,
+    // not an integrated game
+    multiplier: 0,
+    leaderboard: false,
+    loot: [],
   },
   {
     version: 2,
@@ -859,6 +1005,10 @@ export const games: SeedableGameSchema[] = [
       url: 'https://cdn.charity.games/fruit-merge/index.html',
     },
     description: `<h3>What is Fruit Merge?</h3><p>The game is a very simple but addictive game where you have to touch 2 identical objects together to make them explode and go to the next level</p><p>Click or drag and drop fruits anywhere on the screen to drop them on top of the fruit of the same type and earn points. 2 fruits of the same type merge and turn into a bigger fruit in the position where they collide, so you can blast the watermelon, the biggest fruit, and earn 1000 points</p><h3>How to Play Fruit Merge?</h3><p>Use your mouse or finger to drop the fruits on top of each other to merge them.</p>`,
+    // not an integrated game
+    multiplier: 0,
+    leaderboard: false,
+    loot: [],
   },
   {
     version: 2,
@@ -886,6 +1036,10 @@ export const games: SeedableGameSchema[] = [
     },
     description: `<p>Mini Golf is a simple and fun game. The goal of the game is to get the ball into the hole in as few shots as possible.</p><p>Mini Golf comes with over 400 levels. Have fun exploring the game's green hills and plains while listening to the birds and enjoying its beautiful views, collect as many coins as possible and try to hit all the holes to achieve the highest score.</p><p>Do you like bonus levels? In the blue lakes there are 50 levels where there are always lots of coins and you never lose!</p><p>Among the game mechanics are levels with: Portals, Boxing Gloves, Cannons, Burners, Impulses, Mill, Sand, Mole Holes, Spikes and Movement Blocks that will help or hinder your game!</p><p>With many levels and mechanics, the level randomization system provides a lot of fun and playing time.</p><p>Thank you and have fun!</p><h3>How to Play Mini Golf?</h3><p>Click and drag the mouse to aim and set the power of your shot. Release the mouse button to take the shot.</p>`,
     trailer: 'https://www.youtube.com/embed/b2quiBhyvk8?si=NLfNQdyIuZTutlNm',
+    // not an integrated game
+    multiplier: 0,
+    leaderboard: false,
+    loot: [],
   },
   {
     version: 2,
@@ -905,5 +1059,9 @@ export const games: SeedableGameSchema[] = [
     updatedAt: new Date('2024-02-05T00:00:00.000Z'),
     description:
       "<p>Dominoes is a HTML5 game where you have to match tiles until your opponent is unable to move, play up to two to four players with multiple Dominoes design, the fastest player reach the goal points will win the game.</p><p>Dominoes is a classic board game. The goal of the game is to be the first player to play all of your dominoes.</p><h3>How to Play Dominoes?</h3><p>Click on a domino to play it. If you can't play a domino, you must draw a domino from the boneyard until you can play a domino.</p>",
+    // not an integrated game
+    multiplier: 0,
+    leaderboard: false,
+    loot: [],
   },
 ];

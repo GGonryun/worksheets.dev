@@ -5,6 +5,7 @@ import {
   ViewportType,
 } from '@worksheets/prisma';
 
+import { LootSchema } from './items';
 import { GameTag } from './tag-schema';
 
 export type ViewportKeys =
@@ -32,7 +33,10 @@ export type GameSchema = {
   markets: Partial<MarketLinks>;
   plays: number;
   likes: number;
+  multiplier: number;
+  leaderboard: boolean;
   dislikes: number;
+  loot: LootSchema[];
   file: {
     type: ProjectType;
     url: string;
@@ -48,10 +52,15 @@ export type GameSchema = {
 
 export type SeedableGameSchema = Omit<
   GameSchema,
-  'likes' | 'dislikes' | 'plays' | 'trailer'
+  'likes' | 'dislikes' | 'plays' | 'trailer' | 'loot'
 > &
   Partial<Pick<GameSchema, 'trailer'>> & {
     publishAt?: Date;
+    loot: {
+      itemId: string;
+      chance: number;
+      quantity: number;
+    }[];
   };
 
 type MarketLinks = {

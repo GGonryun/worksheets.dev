@@ -303,6 +303,7 @@ export default class GameScene extends TemplateScene {
     this.score = new Score(this);
     this.instructions = new Instructions(this, this.player);
     this.enemies = new Enemies(this, this.score, this.player);
+    this.physics.world.fixedStep = false;
 
     // don't start the game until the user clicks
     this.input.on('pointerdown', () => {

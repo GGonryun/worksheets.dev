@@ -6,3 +6,9 @@ export const getObjectKeys = <T extends object>(
 ): KeysOfType<T, any>[] => {
   return Object.keys(obj) as KeysOfType<T, any>[];
 };
+
+export const jsonStringifyWithBigInt = (obj: any) => {
+  return JSON.stringify(obj, (_, v) =>
+    typeof v === 'bigint' ? `${v.toString()}n` : v
+  );
+};

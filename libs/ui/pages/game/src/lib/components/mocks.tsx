@@ -21,6 +21,9 @@ export const sampleGame: SerializableGameSchema = {
   plays: 530123,
   likes: 126634,
   dislikes: 5125,
+  multiplier: 0,
+  leaderboard: false,
+  loot: [],
   viewport: {
     id: '1',
     type: 'RESPONSIVE',

@@ -103,7 +103,7 @@ const GameScreenContainerInner: React.FC<GameScreenContainerProps> = ({
       await trackGamePlay.mutateAsync({
         gameId: game.id,
       });
-      notifications.add('You earned 1 token');
+      notifications.add('You earned 1 token for starting the game!');
     } else {
       notifications.add('Login to earn tokens!', {
         color: 'warning',

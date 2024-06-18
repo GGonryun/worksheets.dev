@@ -1,10 +1,12 @@
 import { PushNotifyInput } from '@worksheets/services/push';
+import { nth } from '@worksheets/util/numbers';
 import {
   STARTING_GIFT_BOXES,
   STARTING_TOKENS,
   TOKENS_PER_REFERRAL_ACCOUNT,
 } from '@worksheets/util/settings';
 import { printShortDate, printTimeRemaining } from '@worksheets/util/time';
+import { LEADERBOARD_FREQUENCY_LABELS } from '@worksheets/util/types';
 import pluralize from 'pluralize';
 
 import { ExtractTemplatePayload } from './types';
@@ -23,6 +25,23 @@ import {
 } from './urls';
 
 export class PushTemplates {
+  static wonLeaderboard(
+    opts: ExtractTemplatePayload<'won-leaderboard'>
+  ): PushNotifyInput {
+    return {
+      type: 'VICTORY',
+      text: `Congratulations! You ranked ${opts.rank}${nth(opts.rank)} with ${
+        opts.score
+      } ${pluralize('point', opts.score)} in the ${
+        LEADERBOARD_FREQUENCY_LABELS[opts.frequency]
+      } leaderboard for <a href="${GAME_URL(opts.game.id)}">${
+        opts.game.title
+      }</a> and received <a href="${ACCOUNT_INVENTORY_URL}">${
+        opts.payout
+      } ${pluralize('tokens', opts.payout)}</a>!`,
+      userIds: [opts.user.id],
+    };
+  }
   static shareGift(
     opts: ExtractTemplatePayload<'share-gift'>
   ): PushNotifyInput {

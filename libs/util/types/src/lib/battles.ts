@@ -1,7 +1,7 @@
 import { BattleStatus, MvpReason } from '@worksheets/prisma';
 import { z } from 'zod';
 
-import { lootSchema } from './items';
+import { mobLootSchema } from './items';
 import { monsterSchema } from './monsters';
 import { SORT_DIRECTION } from './sort';
 
@@ -52,7 +52,7 @@ export const battleParticipationSchema = z.object({
   damage: z.number(),
   strikes: z.number(),
   isMvp: z.nativeEnum(MvpReason).nullable(),
-  loot: lootSchema.array(),
+  loot: mobLootSchema.array(),
 });
 
 export type BattleParticipationSchema = z.infer<

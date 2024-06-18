@@ -2,6 +2,7 @@ export * from './lib/tag-schema';
 export * from './lib/game-schema';
 export * from './lib/developers';
 export * from './lib/author';
+export * from './lib/leaderboards';
 export * from './lib/types';
 export * from './lib/recently-played-schema';
 export * from './lib/user-vote-schema';

@@ -81,6 +81,7 @@ export default class GameOverScene extends TemplateScene {
     this.value = value?.score ?? 0;
     this.charityGames = CharityGamesPlugin.find(this);
     const current = this.charityGames.storage.get('highScore', 0);
+    this.charityGames.leaderboard.submit(this.value);
     if (this.value > current) {
       this.charityGames.storage.set('highScore', this.value);
       await this.charityGames.storage.save();

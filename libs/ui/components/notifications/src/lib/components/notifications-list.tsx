@@ -1,5 +1,6 @@
 import {
   Diversity1,
+  EmojiEvents,
   HowToVote,
   Inventory2Outlined,
   LocalActivity,
@@ -103,4 +104,5 @@ const notificationIcon: Record<NotificationType, ReactNode> = {
   GAME: <VideogameAsset color="error" />,
   QUEST: <StarBorder color="info" />,
   BATTLE: <SportsMma color="error" />,
+  VICTORY: <EmojiEvents color="yellow" />,
 };

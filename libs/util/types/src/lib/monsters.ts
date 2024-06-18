@@ -1,7 +1,7 @@
 import { MobElement, MobRace, MobSize } from '@worksheets/prisma';
 import { z } from 'zod';
 
-import { lootSchema } from './items';
+import { mobLootSchema } from './items';
 
 export type Resistances = {
   neutral: number;
@@ -186,7 +186,7 @@ export const monsterSchema = z.object({
   defense: z.number(),
   baseExp: z.number(),
   mvpExp: z.number(),
-  loot: z.array(lootSchema),
+  loot: z.array(mobLootSchema),
 });
 
 export type MonsterSchema = z.infer<typeof monsterSchema>;

@@ -11,6 +11,7 @@ import get from './get';
 import initialize from './initialize';
 import integrations from './integrations/router';
 import inventory from './inventory';
+import leaderboards from './leaderboards/router';
 import newsletter from './newsletter/router';
 import notifications from './notifications/router';
 import profile from './profile/router';
@@ -27,6 +28,7 @@ export default t.router({
   gameTime,
   notifications,
   profile,
+  leaderboards,
   get,
   friends,
   followers,

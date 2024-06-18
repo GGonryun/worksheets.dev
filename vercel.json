@@ -1,6 +1,10 @@
 {
     "crons": [
         {
+            "path": "/api/cron/destroy-expired-scores",
+            "schedule": "45 1 * * *"
+        },
+        {
             "path": "/api/cron/destroy-expired-sessions",
             "schedule": "0 1 * * *"
         },
@@ -47,6 +51,14 @@
         {
             "path": "/api/cron/publish-battles",
             "schedule": "0 * * * *"
+        },
+        {
+            "path": "/api/cron/reward-leaderboards-daily",
+            "schedule": "0 0 * * *"
+        },
+        {
+            "path": "/api/cron/reward-leaderboards-weekly",
+            "schedule": "0 0 * * 0"
         },
         {
             "path": "/api/cron/send-scheduled-emails",

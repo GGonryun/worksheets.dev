@@ -4,12 +4,12 @@ import { Trophy } from '@worksheets/icons/adventure';
 import { routes } from '@worksheets/routes';
 import {
   ItemModalLayout,
-  LootDescription,
+  MobLootDescription,
 } from '@worksheets/ui/components/items';
 import { ModalWrapper } from '@worksheets/ui/components/modals';
-import { LootSchema } from '@worksheets/util/types';
+import { MobLootSchema } from '@worksheets/util/types';
 
-export const ItemModal: React.FC<ModalWrapper<{ loot: LootSchema }>> = ({
+export const ItemModal: React.FC<ModalWrapper<{ loot: MobLootSchema }>> = ({
   open,
   onClose,
   loot,
@@ -23,7 +23,7 @@ export const ItemModal: React.FC<ModalWrapper<{ loot: LootSchema }>> = ({
       }}
       open={open}
       onClose={onClose}
-      content={<LootDescription loot={loot} />}
+      content={<MobLootDescription loot={loot} />}
       action={
         <Button
           fullWidth
