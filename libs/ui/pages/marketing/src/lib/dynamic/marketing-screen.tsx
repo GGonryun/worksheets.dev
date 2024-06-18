@@ -40,6 +40,10 @@ const MarketingScreen = () => (
           username: 'toderasart',
           tweetUrl: 'https://x.com/toderasart/status/1801848346270720165',
         },
+        {
+          username: 'xx_jayvee',
+          tweetUrl: 'https://x.com/xx_jayvee/status/1803080119478817195',
+        },
       ]}
     />
 
