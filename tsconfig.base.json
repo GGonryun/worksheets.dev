@@ -309,6 +309,7 @@
       "@worksheets/util/errors": ["libs/util/errors/src/index.ts"],
       "@worksheets/util/html": ["libs/util/html/src/index.ts"],
       "@worksheets/util/integrations": ["libs/util/integrations/src/index.ts"],
+      "@worksheets/util/jobs": ["libs/util/jobs/src/index.ts"],
       "@worksheets/util/misc": ["libs/util/misc/src/index.ts"],
       "@worksheets/util/numbers": ["libs/util/numbers/src/index.ts"],
       "@worksheets/util/objects": ["libs/util/objects/src/index.ts"],

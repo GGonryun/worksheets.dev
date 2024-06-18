@@ -1,6 +1,7 @@
 import { Prisma } from '@worksheets/prisma';
 import { TasksService } from '@worksheets/services/tasks';
-import { fireAndForget } from '@worksheets/util/promises';
+import { startBackgroundJob } from '@worksheets/util/jobs';
+import { retryTransaction } from '@worksheets/util/prisma';
 import {
   actionSchema,
   questSchema,
@@ -31,38 +32,22 @@ export default t.router({
         })
       )
       .mutation(async ({ input, ctx: { user, db } }) => {
-        const { reward, raffleId } = await db.$transaction(
-          async (tx) => {
-            const tasks = new TasksService(tx);
-            console.info('tracking action', input);
-            return await tasks.trackAction({
-              userId: user.id,
-              ...input,
-            });
-          },
-          {
-            isolationLevel: Prisma.TransactionIsolationLevel.Serializable,
-          }
-        );
+        const { reward, raffleId } = await retryTransaction(db, async (tx) => {
+          const tasks = new TasksService(tx);
+          console.info('tracking action', input);
+          return await tasks.trackAction({
+            userId: user.id,
+            ...input,
+          });
+        });
 
         if (reward) {
-          const tasks = new TasksService(db);
-          fireAndForget(
-            Promise.all([
-              tasks.trackQuest({
-                questId: 'RAFFLE_PARTICIPATION_DAILY',
-                userId: user.id,
-                repetitions: reward,
-              }),
-              input.referralCode
-                ? tasks.trackReferralAction({
-                    userId: user.id,
-                    referralCode: input.referralCode,
-                    raffleId,
-                  })
-                : Promise.resolve(),
-            ])
-          );
+          startBackgroundJob('raffle/participation', {
+            userId: user.id,
+            raffleId,
+            repetitions: reward,
+            referralCode: input.referralCode,
+          });
         }
 
         return reward;

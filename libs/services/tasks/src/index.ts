@@ -403,7 +403,7 @@ export class TasksService {
 
     console.info(`Found ${actions.length} actions`, actions);
 
-    await Promise.all([
+    await Promise.all(
       actions.map((action) =>
         this.#trackAction({
           action,
@@ -411,8 +411,8 @@ export class TasksService {
           repetitions,
           state,
         })
-      ),
-    ]);
+      )
+    );
   }
 
   async trackReferralAction(opts: {
@@ -764,7 +764,7 @@ export class TasksService {
       }))
     );
 
-    Promise.all([
+    await Promise.all(
       quests.map((quest) =>
         this.#trackQuest({
           quest,
@@ -772,8 +772,8 @@ export class TasksService {
           repetitions,
           game,
         })
-      ),
-    ]);
+      )
+    );
   }
 
   async #calculateProgress({

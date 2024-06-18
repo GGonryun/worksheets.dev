@@ -1,6 +1,5 @@
 import { RafflesService } from '@worksheets/services/raffles';
-import { TasksService } from '@worksheets/services/tasks';
-import { fireAndForget } from '@worksheets/util/promises';
+import { startBackgroundJob } from '@worksheets/util/jobs';
 import { z } from 'zod';
 
 import { protectedProcedure } from '../../../procedures';
@@ -24,7 +23,6 @@ export default protectedProcedure
         entries,
         userId: user.id,
       });
-      const tasks = new TasksService(db);
 
       await db.$transaction(async (tx) => {
         const raffles = new RafflesService(tx);
@@ -36,21 +34,11 @@ export default protectedProcedure
         });
       });
 
-      fireAndForget(
-        Promise.all([
-          tasks.trackQuest({
-            questId: 'RAFFLE_PARTICIPATION_DAILY',
-            userId: user.id,
-            repetitions: entries,
-          }),
-          referralCode
-            ? tasks.trackReferralAction({
-                userId: user.id,
-                raffleId,
-                referralCode,
-              })
-            : Promise.resolve(),
-        ])
-      );
+      startBackgroundJob('raffle/participation', {
+        userId: user.id,
+        raffleId,
+        repetitions: entries,
+        referralCode,
+      });
     }
   );

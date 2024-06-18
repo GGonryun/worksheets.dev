@@ -1,5 +1,6 @@
 import { TRPCError } from '@trpc/server';
 import { TasksService } from '@worksheets/services/tasks';
+import { startBackgroundJob } from '@worksheets/util/jobs';
 import { z } from 'zod';
 
 import { protectedProcedure } from '../../../procedures';
@@ -65,17 +66,10 @@ export default t.router({
             repetitions: increment,
           })
         ),
-        tasks.trackGameQuests({
+        startBackgroundJob('track/play/minutes', {
           gameId: game.id,
-          type: 'PLAY_MINUTES',
           userId: user.id,
-          repetitions: increment,
-        }),
-        tasks.trackGameActions({
-          gameId: game.id,
-          type: 'PLAY_MINUTES',
-          userId: user.id,
-          repetitions: increment,
+          increment,
         }),
       ]);
     }),

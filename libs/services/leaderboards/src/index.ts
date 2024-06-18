@@ -3,10 +3,7 @@ import { PrismaClient, PrismaTransactionalClient } from '@worksheets/prisma';
 import { InventoryService } from '@worksheets/services/inventory';
 import { NotificationsService } from '@worksheets/services/notifications';
 import { jsonStringifyWithBigInt } from '@worksheets/util/objects';
-import {
-  retryTransaction,
-  whenWriteConflictOrDeadlock,
-} from '@worksheets/util/prisma';
+import { retryTransaction } from '@worksheets/util/prisma';
 import { daysAgo } from '@worksheets/util/time';
 import {
   getLeaderboardFrequencyDate,
@@ -148,29 +145,25 @@ export const rewardTopPlayers = async (
     }));
 
     for (const { score, payout, rank } of winners) {
-      await retryTransaction(
-        db,
-        async (tx) => {
-          const inventory = new InventoryService(tx);
-          const notifications = new NotificationsService(tx);
-          await inventory.increment(score.userId, '1', payout);
-          await notifications.send('won-leaderboard', {
-            frequency,
-            rank,
-            score: score.score,
-            payout,
-            game: {
-              id: leaderboard.id,
-              title: leaderboard.title,
-            },
-            user: {
-              id: score.user.id,
-              username: score.user.username,
-            },
-          });
-        },
-        whenWriteConflictOrDeadlock
-      );
+      await retryTransaction(db, async (tx) => {
+        const inventory = new InventoryService(tx);
+        const notifications = new NotificationsService(tx);
+        await inventory.increment(score.userId, '1', payout);
+        await notifications.send('won-leaderboard', {
+          frequency,
+          rank,
+          score: score.score,
+          payout,
+          game: {
+            id: leaderboard.id,
+            title: leaderboard.title,
+          },
+          user: {
+            id: score.user.id,
+            username: score.user.username,
+          },
+        });
+      });
     }
   }
 };

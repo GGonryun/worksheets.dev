@@ -1,6 +1,5 @@
 import { TRPCError } from '@trpc/server';
-import { TasksService } from '@worksheets/services/tasks';
-import { fireAndForget } from '@worksheets/util/promises';
+import { startBackgroundJob } from '@worksheets/util/jobs';
 import { z } from 'zod';
 
 import { protectedProcedure } from '../../../procedures';
@@ -14,7 +13,6 @@ export default t.router({
       })
     )
     .mutation(async ({ input: { gameId }, ctx: { user, db } }) => {
-      const tasks = new TasksService(db);
       const game = await db.game.findFirst({
         where: {
           id: gameId,
@@ -32,21 +30,9 @@ export default t.router({
         });
       }
 
-      fireAndForget(
-        Promise.all([
-          tasks.trackGameQuests({
-            gameId: game.id,
-            type: 'PLAY_GAME',
-            userId: user.id,
-            repetitions: 1,
-          }),
-          tasks.trackGameActions({
-            gameId: game.id,
-            type: 'PLAY_GAME',
-            userId: user.id,
-            repetitions: 1,
-          }),
-        ])
-      );
+      startBackgroundJob('track/play/game', {
+        gameId: game.id,
+        userId: user.id,
+      });
     }),
 });

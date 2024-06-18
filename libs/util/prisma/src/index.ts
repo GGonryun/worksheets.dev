@@ -24,7 +24,7 @@ export const convertJson = <
 export const retryTransaction = async <T>(
   prisma: PrismaClient,
   fn: (tx: PrismaTransactionalClient) => Promise<T>,
-  retry: (e: unknown) => boolean,
+  retry: (e: unknown) => boolean = whenWriteConflictOrDeadlock,
   isolationLevel: Prisma.TransactionIsolationLevel = Prisma
     .TransactionIsolationLevel.Serializable
 ): Promise<T> => {
