@@ -17,7 +17,7 @@ export const WatchAdForm: React.FC<TaskFormProps> = ({ task, actions }) => {
           `(${task.repetitions}/${task.maxRepetitions})`}
       </Typography>
       <WatchAdvertisement
-        network={task.data.network}
+        network={'gruvian'} // TODO: implement more networks.
         onSubmit={() => actions.onSubmit({ repetitions: 1 })}
         disabled={completed}
         buttonText={completed ? 'Come Back Later' : 'Display Ad'}
