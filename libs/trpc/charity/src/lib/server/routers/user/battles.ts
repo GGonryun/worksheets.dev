@@ -207,7 +207,7 @@ export default t.router({
         return finalDamage;
       });
 
-      await prisma.battleLogs.create({
+      await db.battleLogs.create({
         data: {
           battleId,
           message: `${user.username} struck the ${battle.mob.name} for ${finalDamage} damage!`,
