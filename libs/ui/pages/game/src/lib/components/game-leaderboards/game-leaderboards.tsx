@@ -14,6 +14,7 @@ import {
   nextUtcMidnight,
   printDateTime,
 } from '@worksheets/util/time';
+import { NO_REFETCH } from '@worksheets/util/trpc';
 import {
   LEADERBOARD_FREQUENCY,
   LEADERBOARD_FREQUENCY_LABELS,
@@ -74,10 +75,13 @@ const Content: React.FC<{
   const session = useSession();
   const authenticated = session.status === 'authenticated';
 
-  const leaderboard = trpc.maybe.leaderboards.find.useQuery({
-    gameId,
-    frequency,
-  });
+  const leaderboard = trpc.maybe.leaderboards.find.useQuery(
+    {
+      gameId,
+      frequency,
+    },
+    NO_REFETCH
+  );
 
   const participation = trpc.user.leaderboards.participation.useQuery(
     {
@@ -86,6 +90,7 @@ const Content: React.FC<{
     },
     {
       enabled: authenticated,
+      ...NO_REFETCH,
     }
   );
 
