@@ -1,5 +1,11 @@
 import { TRPCError } from '@trpc/server';
-import { DROP_LOTTERY, ItemId, ITEMS } from '@worksheets/data/items';
+import {
+  COMMON_ITEMS,
+  DROP_LOTTERY,
+  ItemId,
+  ITEMS,
+  UNCOMMON_ITEMS,
+} from '@worksheets/data/items';
 import { Prisma, PrismaClient } from '@worksheets/prisma';
 import { InventoryService } from '@worksheets/services/inventory';
 import { NotificationsService } from '@worksheets/services/notifications';
@@ -107,7 +113,7 @@ const bonusLoot = async (
     return;
   }
 
-  const lottery = getPlayerLottery();
+  const lottery = getPlayerLottery(multiplier);
 
   const itemId = randomArrayElement(shuffle(lottery));
   console.info('Awarding bonus loot for infinite play minutes', {
@@ -134,8 +140,16 @@ const bonusLoot = async (
   }
 };
 
-const getPlayerLottery = () => {
-  return Object.entries(DROP_LOTTERY).flatMap(([itemId, quantity]) => {
-    return Array.from({ length: quantity }, () => itemId);
-  });
+const getPlayerLottery = (multiplier: number) => {
+  if (multiplier < 1)
+    return [
+      ...COMMON_ITEMS.map((i) => i.id),
+      ...UNCOMMON_ITEMS.map((i) => i.id),
+    ].flat();
+
+  return Object.entries(DROP_LOTTERY)
+    .flatMap(([itemId, quantity]) => {
+      return Array.from({ length: quantity }, () => itemId);
+    })
+    .flat();
 };
