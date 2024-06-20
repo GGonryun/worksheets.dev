@@ -3,7 +3,6 @@ import { trpc } from '@worksheets/trpc-charity';
 import { Description } from '@worksheets/ui/components/description';
 import { Column } from '@worksheets/ui/components/flex';
 import { LoadingBar } from '@worksheets/ui/components/loading';
-import { useInterval } from '@worksheets/ui-core';
 import { assertNever } from '@worksheets/util/errors';
 import { nth } from '@worksheets/util/numbers';
 import {
@@ -194,16 +193,6 @@ const LeaderboardTimestamps: React.FC<{
   frequency: LeaderboardFrequency;
 }> = ({ frequency }) => {
   const timestamps = getLeaderboardTimestamps(frequency);
-  const [remaining, setRemaining] = useState<number>(0);
-
-  useInterval(() => {
-    if (timestamps == null) return;
-
-    const duration = timestamps.end.getTime() - Date.now();
-    if (duration <= 0) return setRemaining(0);
-
-    return setRemaining(duration);
-  }, 500);
 
   if (timestamps == null)
     return (
@@ -221,7 +210,10 @@ const LeaderboardTimestamps: React.FC<{
         Resets at: {printDateTime(timestamps.end)}
       </Typography>
       <Typography color="text.arcade" typography="body2">
-        Time remaining: {durationToString(millisecondsAsDuration(remaining))}
+        Time remaining:{' '}
+        {durationToString(
+          millisecondsAsDuration(timestamps.end.getTime() - Date.now())
+        )}
       </Typography>
     </Column>
   );

@@ -12,7 +12,13 @@ export default createCronJob(async () => {
 
   if (published.length === 0) return;
 
-  await Promise.all(
-    published.map((battle) => notifications.send('new-battle', battle))
-  );
+  await Promise.all([
+    ...published.map((battle) => notifications.send('new-battle', battle)),
+    prisma.battleLogs.createMany({
+      data: published.map((battle) => ({
+        battleId: battle.battleId,
+        message: `The battle against ${battle.mobName} has started!`,
+      })),
+    }),
+  ]);
 });

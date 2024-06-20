@@ -183,9 +183,7 @@ export class PushTemplates {
     return {
       userIds: opts.userIds,
       type: 'BATTLE',
-      text: `The ${
-        opts.mob.name
-      } boss has been defeated and loot has been distributed! <a href="${BATTLE_URL(
+      text: `${opts.mob.name} has been defeated! <a href="${BATTLE_URL(
         opts.mob.battleId
       )}">View results</a>.`,
     };

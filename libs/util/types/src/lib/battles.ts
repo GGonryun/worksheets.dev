@@ -1,7 +1,6 @@
 import { BattleStatus, MvpReason } from '@worksheets/prisma';
 import { z } from 'zod';
 
-import { mobLootSchema } from './items';
 import { monsterSchema } from './monsters';
 import { SORT_DIRECTION } from './sort';
 
@@ -51,8 +50,6 @@ export const battleParticipationSchema = z.object({
   }),
   damage: z.number(),
   strikes: z.number(),
-  isMvp: z.nativeEnum(MvpReason).nullable(),
-  loot: mobLootSchema.array(),
 });
 
 export type BattleParticipationSchema = z.infer<
@@ -63,6 +60,12 @@ export const MVP_REASON_LABEL: Record<MvpReason, string> = {
   MOST_DAMAGE: '💥 Most Damage',
   MOST_STRIKES: '🗡️ Most Strikes',
   LAST_HIT: '🎯 Last Hit',
+};
+
+export const MVP_EXTENDED_REASON_LABEL: Record<MvpReason, string> = {
+  MOST_DAMAGE: 'dealing the most damage',
+  MOST_STRIKES: 'attacking the boss most often',
+  LAST_HIT: 'landing the killing blow',
 };
 
 export const userBattleParticipationSchema = z.object({
@@ -89,3 +92,12 @@ export type UserBattleParticipationSchema = z.infer<
 export const isBattleComplete = (
   battle: Pick<BattleSchema, 'status' | 'health'>
 ) => battle.status === BattleStatus.COMPLETE || battle.health <= 0;
+
+export const battleRecordSchema = z.object({
+  battleId: z.number(),
+  mvpId: z.number(),
+  mvpReason: z.nativeEnum(MvpReason),
+  results: z.record(z.string(), z.record(z.string(), z.number())),
+});
+
+export type BattleRecordSchema = z.infer<typeof battleRecordSchema>;

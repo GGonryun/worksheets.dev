@@ -5,15 +5,28 @@ import { CloseButton, InfoButton } from './buttons';
 import { Modal, ModalProps } from './modal';
 
 export const InfoModal: React.FC<
-  ModalProps & { infoHref?: string; gutter?: boolean; color?: PaletteColor }
-> = ({ children, open, onClose, infoHref, gutter = true, color }) => (
+  ModalProps & {
+    maxWidth?: number;
+    infoHref?: string;
+    gutter?: boolean;
+    color?: PaletteColor;
+  }
+> = ({
+  children,
+  open,
+  onClose,
+  maxWidth = 550,
+  infoHref,
+  gutter = true,
+  color,
+}) => (
   <Modal
     open={open}
     onClose={onClose}
     sx={{
       maxHeight: '90%',
       width: '95%',
-      maxWidth: 550,
+      maxWidth,
     }}
   >
     <Box width="100%" height="100%" position="relative">

@@ -3,7 +3,6 @@ import {
   CAPSULE_DROP_RATES,
   CAPSULE_PREMIUM_DROP_RATE,
   CapsuleItemId,
-  COMBAT_ITEM_DAMAGE,
   CONSUMPTION_RATES,
   isLotteryItems,
   isRandomTokenQuantity,
@@ -43,10 +42,8 @@ import {
   isCapsuleDecrementOpts,
   isCapsuleItemId,
   isCombatDecrementOpts,
-  isCombatItemId,
   isConsumableDecrementOpts,
   isCurrencyDecrementOpts,
-  isCurrencyItemId,
   isEtCeteraDecrementOpts,
   isPrizeWheelDecrementOpts,
   isPrizeWheelItemId,
@@ -564,30 +561,6 @@ export class InventoryService {
     }
 
     return `You have unlocked a ${code.name}!`;
-  }
-
-  /**
-   * Damage calculates the total damage dealt by a player based on the items they are using.
-   */
-  damage(items: { itemId: ItemId; quantity: number }[]) {
-    // TODO: compute bonus damage modifiers based on mob resistances or player buffs
-    return items.reduce((acc, item) => {
-      return acc + this.#damage(item.itemId) * item.quantity;
-    }, 0);
-  }
-
-  #damage(itemId: ItemId) {
-    if (isCombatItemId(itemId)) {
-      return COMBAT_ITEM_DAMAGE[itemId];
-    }
-    if (isCurrencyItemId(itemId)) {
-      return 1;
-    }
-
-    throw new TRPCError({
-      code: 'BAD_REQUEST',
-      message: `Item ID ${itemId} cannot be used for damage calculation.`,
-    });
   }
 
   async resetAll(itemId: ItemId, amount: number) {

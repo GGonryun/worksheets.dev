@@ -9,7 +9,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 export const startBackgroundJob = (path: string, body: any) => {
   const baseUrl = CHARITY_GAMES_BASE_URL;
 
-  console.log('Executing job', path, body);
+  console.info('Starting background job', path, body);
 
   fetch(`${baseUrl}/api/jobs/${path}`, {
     method: 'POST',
@@ -20,10 +20,10 @@ export const startBackgroundJob = (path: string, body: any) => {
     body: JSON.stringify(body),
   })
     .then(() => {
-      console.log(`Finished background job ${path}`);
+      // no-op
     })
-    .catch((error) => {
-      console.error('Failed to process job', error);
+    .catch(() => {
+      // no-op
     });
 };
 

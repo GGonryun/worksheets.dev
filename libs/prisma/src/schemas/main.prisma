@@ -64,6 +64,7 @@ model User {
   gameSessions     GameSession[]
   gameStorage      GameStorage[]
   gameScores       GameScore[]
+  experience       UserExperience?
 }
 
 model Account {
@@ -798,22 +799,18 @@ enum MobSize {
 
 // used to link an item and quantity to a mob, participation, user, quest, etc.
 model Loot {
-  id                    Int                  @id @default(autoincrement())
-  itemId                String
-  item                  Item                 @relation(fields: [itemId], references: [id], onDelete: Cascade)
-  quantity              Int
-  chance                Float
-  mvp                   Boolean              @default(false)
-  mobId                 Int?
-  mob                   Mob?                 @relation(fields: [mobId], references: [id], onDelete: Cascade)
-  battleParticipationId Int?
-  battleParticipation   BattleParticipation? @relation(fields: [battleParticipationId], references: [id], onDelete: Cascade)
-  questId               String?
-  quest                 PlatformQuest?       @relation(fields: [questId], references: [id], onDelete: Cascade)
-  gameId                String?
-  game                  Game?                @relation(fields: [gameId], references: [id], onDelete: Cascade)
-
-  @@unique([itemId, battleParticipationId])
+  id       Int            @id @default(autoincrement())
+  itemId   String
+  item     Item           @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  quantity Int
+  chance   Float
+  mvp      Boolean        @default(false)
+  mobId    Int?
+  mob      Mob?           @relation(fields: [mobId], references: [id], onDelete: Cascade)
+  questId  String?
+  quest    PlatformQuest? @relation(fields: [questId], references: [id], onDelete: Cascade)
+  gameId   String?
+  game     Game?          @relation(fields: [gameId], references: [id], onDelete: Cascade)
 }
 
 model Mob {
@@ -854,6 +851,33 @@ model Battle {
   publishAt     DateTime              @default(now())
   health        Int
   participation BattleParticipation[]
+  logs          BattleLogs[]
+  record        BattleRecord?
+}
+
+model BattleRecord {
+  battleId  Int       @id @default(autoincrement())
+  battle    Battle    @relation(fields: [battleId], references: [id], onDelete: Cascade)
+  mvpId     Int
+  mvpReason MvpReason
+  results   Json
+  createdAt DateTime  @default(now())
+}
+
+model BattleLogs {
+  id        Int      @id @default(autoincrement())
+  battleId  Int
+  battle    Battle   @relation(fields: [battleId], references: [id], onDelete: Cascade)
+  message   String
+  createdAt DateTime @default(now())
+}
+
+model UserExperience {
+  userId    String   @id @default(cuid())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  points    Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 enum MvpReason {
@@ -863,22 +887,15 @@ enum MvpReason {
 }
 
 model BattleParticipation {
-  id        Int        @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   damage    Int // how much damage the user has done to the mob
   strikes   Int // how many times the user has attacked the mob
   battleId  Int
-  battle    Battle     @relation(fields: [battleId], references: [id], onDelete: Cascade)
-  // the loot that the user has received from the mob, a user can get multiple items from a mob.
-  // a second query will be needed to get the item details.
-  loot      Loot[]
-  // the mvp can be inferred from the loot distribution but it's easier to simply award the user with the most damage or
-  // the last hit the mvp status by toggling this field. the most damage is calculated using the damage field, and the 
-  // last hit is calculated using the "struckAt" field.
-  isMvp     MvpReason?
+  battle    Battle   @relation(fields: [battleId], references: [id], onDelete: Cascade)
   userId    String
-  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   struckAt  DateTime
 
   @@unique([userId, battleId])

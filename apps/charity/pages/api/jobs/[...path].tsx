@@ -58,6 +58,17 @@ export default createBackgroundJob(async (path, body) => {
       });
     }
     return true;
+  } else if (job === 'battle/participation') {
+    const tasks = new TasksService(prisma);
+    const { userId, damage } = body;
+
+    await tasks.trackQuest({
+      questId: 'BATTLE_PARTICIPATION_DAILY',
+      userId,
+      repetitions: damage,
+    });
+
+    return true;
   } else {
     throw new TRPCError({
       code: 'NOT_FOUND',

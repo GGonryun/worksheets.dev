@@ -26,6 +26,7 @@ export default t.router({
         recentlyPlayed: basicGameInfoSchema.array(),
         mostPlayed: basicGameInfoSchema.array(),
         code: z.string(),
+        exp: z.number(),
       })
     )
     .query(async ({ ctx: { db }, input }) => {
@@ -34,6 +35,7 @@ export default t.router({
           id: input,
         },
         include: {
+          experience: true,
           referralCode: true,
           plays: {
             include: {
@@ -95,6 +97,7 @@ export default t.router({
         code: user.referralCode.code,
         recentlyPlayed: recentlyPlayed,
         mostPlayed: mostPlayed,
+        exp: user.experience?.points ?? 0,
       };
     }),
 });

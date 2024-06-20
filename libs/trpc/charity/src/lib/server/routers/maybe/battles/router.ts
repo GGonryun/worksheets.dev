@@ -1,7 +1,8 @@
-import { ItemId } from '@worksheets/data/items';
-import { InventoryService } from '@worksheets/services/inventory';
 import { MobsService } from '@worksheets/services/mobs';
-import { battleParticipationSchema } from '@worksheets/util/types';
+import {
+  battleParticipationSchema,
+  battleRecordSchema,
+} from '@worksheets/util/types';
 import { z } from 'zod';
 
 import { maybeProcedure } from '../../../procedures';
@@ -22,30 +23,25 @@ export default t.router({
       const mobs = new MobsService(db);
       return mobs.find(input);
     }),
-  calculateDamage: maybeProcedure
-    .input(
-      z.object({
-        mobId: z.number(),
-        items: z.array(
-          z.object({
-            itemId: z.custom<ItemId>(),
-            quantity: z.number(),
-          })
-        ),
-      })
-    )
-    .output(z.number())
-    .query(async ({ ctx: { db }, input: { mobId, items } }) => {
-      const inventory = new InventoryService(db);
-      const potential = inventory.damage(items);
-
-      return potential;
-    }),
   participation: maybeProcedure
     .input(z.number())
     .output(z.array(battleParticipationSchema))
     .query(async ({ ctx: { db }, input }) => {
       const mobs = new MobsService(db);
       return mobs.participation(input);
+    }),
+  logs: maybeProcedure
+    .input(z.number())
+    .output(z.custom<Awaited<ReturnType<MobsService['logs']>>>())
+    .query(async ({ ctx: { db }, input }) => {
+      const mobs = new MobsService(db);
+      return mobs.logs(input);
+    }),
+  record: maybeProcedure
+    .input(z.number())
+    .output(battleRecordSchema.nullable())
+    .query(async ({ ctx: { db }, input }) => {
+      const mobs = new MobsService(db);
+      return await mobs.record(input);
     }),
 });

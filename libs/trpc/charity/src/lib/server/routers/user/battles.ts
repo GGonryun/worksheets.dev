@@ -1,12 +1,14 @@
 import { BattleStatus } from '@prisma/client';
 import { TRPCError } from '@trpc/server';
 import { ItemId } from '@worksheets/data/items';
-import { InventoryService } from '@worksheets/services/inventory';
-import { TasksService } from '@worksheets/services/tasks';
+import { startBackgroundJob } from '@worksheets/util/jobs';
+import { retryTransaction } from '@worksheets/util/prisma';
 import { MAX_ITEMS_PER_STRIKE } from '@worksheets/util/settings';
 import {
+  calculateCombatDamage,
   isCombatItemId,
   isCurrencyItemId,
+  MOB_ELEMENT_RESISTANCES,
   userBattleParticipationSchema,
 } from '@worksheets/util/types';
 import { z } from 'zod';
@@ -63,17 +65,16 @@ export default t.router({
     .input(
       z.object({
         battleId: z.number(),
-        items: z.array(
-          z.object({
-            itemId: z.custom<ItemId>(),
-            quantity: z.number(),
-          })
-        ),
+        items: z.record(z.string(), z.number()),
       })
     )
     .output(z.number())
     .mutation(async ({ ctx: { db, user }, input: { battleId, items } }) => {
-      const tasks = new TasksService(db);
+      console.info('User is striking a mob', {
+        userId: user.id,
+        battleId,
+        items,
+      });
       const userId = user.id;
 
       if (items.length > MAX_ITEMS_PER_STRIKE) {
@@ -84,8 +85,8 @@ export default t.router({
       }
 
       if (
-        !items.every(
-          (i) => isCombatItemId(i.itemId) || isCurrencyItemId(i.itemId)
+        !Object.keys(items).every(
+          (i) => isCombatItemId(i as ItemId) || isCurrencyItemId(i as ItemId)
         )
       ) {
         throw new TRPCError({
@@ -94,59 +95,60 @@ export default t.router({
         });
       }
 
-      if (items.some((i) => i.quantity < 0)) {
+      if (Object.values(items).some((i) => i < 0)) {
         throw new TRPCError({
           code: 'BAD_REQUEST',
           message: 'An invalid quantity was provided.',
         });
       }
 
-      const result = await db.$transaction(async (tx) => {
-        const inventory = new InventoryService(tx);
-
-        const damage = inventory.damage(items);
-
-        const battle = await tx.battle.findFirst({
-          where: {
-            id: battleId,
-            status: 'ACTIVE',
-          },
-          select: {
-            health: true,
-            mob: {
-              select: {
-                id: true,
-                maxHp: true,
-              },
+      const battle = await db.battle.findFirst({
+        where: {
+          id: battleId,
+          status: 'ACTIVE',
+        },
+        select: {
+          health: true,
+          mob: {
+            select: {
+              id: true,
+              name: true,
+              maxHp: true,
+              element: true,
             },
           },
+        },
+      });
+
+      if (!battle) {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: 'Battle not found',
         });
+      }
 
-        if (!battle) {
-          throw new TRPCError({
-            code: 'NOT_FOUND',
-            message: 'Battle not found',
-          });
-        }
+      // check if the mob already has 0 hp.
+      if (battle.health <= 0) {
+        throw new TRPCError({
+          code: 'PRECONDITION_FAILED',
+          message: 'Mob already defeated',
+        });
+      }
 
-        // check if the mob already has 0 hp.
-        if (battle.health <= 0) {
-          throw new TRPCError({
-            code: 'PRECONDITION_FAILED',
-            message: 'Mob already defeated',
-          });
-        }
+      const resistances = MOB_ELEMENT_RESISTANCES[battle.mob.element];
+      const damage = calculateCombatDamage(resistances, items);
+      // do not let the damage drop the boss health below 0
+      const finalDamage = Math.min(battle.health, damage);
 
-        // check how much damage could actually be dealt dealt.
-        const damageDealt = Math.min(battle.health, damage);
-
+      await retryTransaction(db, async (tx) => {
+        console.log('Updating battle health', { battleId, damage });
         await tx.battle.update({
           where: {
             id: battleId,
           },
           data: {
             health: {
-              decrement: damageDealt,
+              decrement: finalDamage,
             },
           },
         });
@@ -161,13 +163,13 @@ export default t.router({
           create: {
             battleId,
             userId,
-            damage,
+            damage: finalDamage,
             strikes: 1,
             struckAt: new Date(),
           },
           update: {
             damage: {
-              increment: damageDealt,
+              increment: finalDamage,
             },
             strikes: {
               increment: 1,
@@ -176,17 +178,20 @@ export default t.router({
           },
         });
 
-        for (const item of items) {
+        for (const [itemId, quantity] of Object.entries(items)) {
+          console.log('Updating inventory', { itemId, quantity });
+          if (quantity <= 0) return;
+
           const result = await tx.inventory.update({
             where: {
               itemId_userId: {
                 userId,
-                itemId: item.itemId,
+                itemId,
               },
             },
             data: {
               quantity: {
-                decrement: item.quantity,
+                decrement: quantity,
               },
             },
           });
@@ -199,15 +204,21 @@ export default t.router({
           }
         }
 
-        return damage;
+        return finalDamage;
       });
 
-      await tasks.trackQuest({
-        questId: 'BATTLE_PARTICIPATION_DAILY',
-        userId: user.id,
-        repetitions: 1,
+      await prisma.battleLogs.create({
+        data: {
+          battleId,
+          message: `${user.username} struck the ${battle.mob.name} for ${finalDamage} damage!`,
+        },
       });
 
-      return result;
+      startBackgroundJob('battle/participation', {
+        userId,
+        damage: finalDamage,
+      });
+
+      return finalDamage;
     }),
 });

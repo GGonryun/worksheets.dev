@@ -1,8 +1,10 @@
+import { TRPCError } from '@trpc/server';
 import {
   Prisma,
   PrismaClient,
   PrismaTransactionalClient,
 } from '@worksheets/prisma';
+import { S_TO_MS } from '@worksheets/util/time';
 
 export const isPrismaJsonObject = (
   value: unknown
@@ -21,40 +23,70 @@ export const convertJson = <
   return json as T;
 };
 
+const DEADLOCK_OR_WRITE_CONFLICT = 'P2034';
+const CONCURRENT_TRANSACTIONS = 'P2037';
+
+export const whenWriteConflictOrDeadlock = (e: unknown): boolean => {
+  return (
+    e instanceof Prisma.PrismaClientKnownRequestError &&
+    // Retry if the error was due to a write conflict or deadlock
+    // See: https://www.prisma.io/docs/reference/api-reference/error-reference#p2034
+    (e.code === DEADLOCK_OR_WRITE_CONFLICT ||
+      // Too many concurrent transactions
+      // See: https://www.prisma.io/docs/orm/reference/error-reference#p2037
+      e.code === CONCURRENT_TRANSACTIONS)
+  );
+};
+
+const RETRY_DEFAULTS = {
+  retry: whenWriteConflictOrDeadlock,
+  isolationLevel: Prisma.TransactionIsolationLevel.Serializable,
+  maxAttempts: 5,
+  backOff: 500,
+  maxWait: S_TO_MS(5),
+  timeout: S_TO_MS(15),
+};
+
 export const retryTransaction = async <T>(
   prisma: PrismaClient,
   fn: (tx: PrismaTransactionalClient) => Promise<T>,
-  retry: (e: unknown) => boolean = whenWriteConflictOrDeadlock,
-  isolationLevel: Prisma.TransactionIsolationLevel = Prisma
-    .TransactionIsolationLevel.Serializable
+  opts: Partial<{
+    retry: (e: unknown) => boolean;
+    isolationLevel: Prisma.TransactionIsolationLevel;
+    maxAttempts: number;
+    backOff: number;
+    maxWait: number;
+    timeout: number;
+  }> = RETRY_DEFAULTS
 ): Promise<T> => {
-  let attempts = 0;
-  const max = 5;
-  const backOff = 1000;
+  const maxAttempts = opts?.maxAttempts ?? RETRY_DEFAULTS.maxAttempts;
+  const isolationLevel = opts?.isolationLevel ?? RETRY_DEFAULTS.isolationLevel;
+  const maxWait = opts?.maxWait ?? RETRY_DEFAULTS.maxWait;
+  const timeout = opts?.timeout ?? RETRY_DEFAULTS.timeout;
+  const backOff = opts?.backOff ?? RETRY_DEFAULTS.backOff;
+  const retry = opts?.retry ?? RETRY_DEFAULTS.retry;
 
-  while (attempts < max) {
+  let attempts = 0;
+  while (attempts < maxAttempts) {
     try {
       attempts++;
       return prisma.$transaction(fn, {
         isolationLevel,
+        maxWait,
+        timeout,
       });
     } catch (e) {
       if (retry(e)) {
         const delay = backOff * attempts;
-        console.debug(`Retrying transaction after ${delay}ms`, e);
+        console.warn(`Transaction failed, retrying after ${delay}ms`, e);
         await new Promise((resolve) => setTimeout(resolve, delay));
         continue;
       }
       throw e;
     }
   }
-  throw new Error('Failed transaction, exhausted retries');
-};
-
-export const whenWriteConflictOrDeadlock = (e: unknown): boolean => {
-  // Retry the transaction only if the error was due to a write conflict or deadlock
-  // See: https://www.prisma.io/docs/reference/api-reference/error-reference#p2034
-  return (
-    e instanceof Prisma.PrismaClientKnownRequestError && e.code === 'P2034'
-  );
+  throw new TRPCError({
+    code: 'INTERNAL_SERVER_ERROR',
+    message: 'Failed to process requested. Please try again.',
+  });
 };

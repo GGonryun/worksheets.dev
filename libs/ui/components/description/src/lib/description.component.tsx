@@ -54,11 +54,10 @@ export const Description: React.FC<{
     color === 'primary'
       ? theme.palette.text.white
       : theme.palette.text.blue.dark;
-
   const ancillaryColor =
     color === 'primary'
       ? theme.palette.primary.light
-      : theme.palette.error.main;
+      : theme.palette.primary.dark;
 
   const BarContent = () => (
     <Typography

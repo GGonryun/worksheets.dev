@@ -1,20 +1,13 @@
+import {
+  COMBAT_ITEM_DAMAGE,
+  COMBAT_ITEM_ELEMENT,
+  CombatItemId,
+  Resistances,
+} from '@worksheets/data/items';
 import { MobElement, MobRace, MobSize } from '@worksheets/prisma';
 import { z } from 'zod';
 
 import { mobLootSchema } from './items';
-
-export type Resistances = {
-  neutral: number;
-  water: number;
-  earth: number;
-  fire: number;
-  wind: number;
-  poison: number;
-  holy: number;
-  shadow: number;
-  ghost: number;
-  undead: number;
-};
 
 export const MOB_ELEMENT_RESISTANCES: Record<MobElement, Resistances> = {
   NEUTRAL_1: {
@@ -190,3 +183,23 @@ export const monsterSchema = z.object({
 });
 
 export type MonsterSchema = z.infer<typeof monsterSchema>;
+
+export const calculateCombatDamage = (
+  resistances: Resistances,
+  selections: Record<string, number>
+) =>
+  Object.entries(selections).reduce((total, [itemId, quantity]) => {
+    const damage = COMBAT_ITEM_DAMAGE[itemId as CombatItemId] ?? 1;
+    const element = COMBAT_ITEM_ELEMENT[itemId as CombatItemId] ?? 'neutral';
+    const resistance = resistances[element];
+    return Math.floor(total + damage * quantity * resistance);
+  }, 0);
+
+export const battleLogSchema = z.object({
+  battleId: z.number(),
+  id: z.number(),
+  message: z.string(),
+  createdAt: z.string(),
+});
+
+export type BattleLogSchema = z.infer<typeof battleLogSchema>;

@@ -4,9 +4,10 @@ import { Row } from '@worksheets/ui/components/flex';
 
 // TODO: add support for holding down the buttons.
 export const NumericCounterField: React.FC<{
+  backgroundColor?: string;
   value: number;
   onChange: (i: number) => void;
-}> = ({ value, onChange }) => {
+}> = ({ backgroundColor = 'transparent', value, onChange }) => {
   const handleChange = (number: number | string) => {
     const newValue = Number(number);
     if (isNaN(newValue)) {
@@ -30,7 +31,12 @@ export const NumericCounterField: React.FC<{
         }}
         inputProps={{
           min: 0,
-          style: { textAlign: 'center', fontWeight: 700, fontSize: 20 },
+          style: {
+            textAlign: 'center',
+            fontWeight: 700,
+            fontSize: 20,
+            backgroundColor,
+          },
         }}
         onChange={(e) => handleChange(e.target.value)}
         sx={{ width: 100 }}

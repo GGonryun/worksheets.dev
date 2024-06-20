@@ -35,17 +35,27 @@ const UserScreen: React.FC<{ userId: string }> = ({ userId }) => {
       <Container>
         <Column p={{ xs: 2, sm: 4 }} gap={{ xs: 2, sm: 4 }}>
           <Row justifyContent="space-between" flexWrap="wrap" gap={1}>
-            <Typography
-              color="text.arcade"
-              typography={{ xs: 'h5', sm: 'h4', md: 'h3' }}
-              sx={{
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-                whiteSpace: 'nowrap',
-              }}
-            >
-              {user.data.username || 'User'}
-            </Typography>
+            <Column gap={1}>
+              <Typography
+                color="text.arcade"
+                typography={{ xs: 'h5', sm: 'h4', md: 'h3' }}
+                sx={{
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                {user.data.username || 'User'}
+              </Typography>
+              <Typography
+                color="text.arcade"
+                typography={{ xs: 'body1', sm: 'h6' }}
+                fontWeight={{ xs: 700, sm: 700 }}
+              >
+                {user.data.exp} EXP
+              </Typography>
+            </Column>
+
             <FriendshipControls
               userId={userId}
               code={user.data.code}

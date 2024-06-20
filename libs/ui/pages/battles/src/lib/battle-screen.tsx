@@ -1,4 +1,9 @@
-import { ArrowLeft, ExpandLess, ExpandMore } from '@mui/icons-material';
+import {
+  ArrowLeft,
+  ExpandLess,
+  ExpandMore,
+  OpenInNew,
+} from '@mui/icons-material';
 import {
   Box,
   Button,
@@ -6,25 +11,39 @@ import {
   Container,
   Link,
   Paper,
+  styled,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
   Typography,
 } from '@mui/material';
-import { BattleStatus } from '@prisma/client';
+import { BattleStatus, MvpReason } from '@prisma/client';
 import { routes } from '@worksheets/routes';
 import { trpc } from '@worksheets/trpc-charity';
 import { Description } from '@worksheets/ui/components/description';
 import { ErrorComponent } from '@worksheets/ui/components/errors';
 import { Column, Row } from '@worksheets/ui/components/flex';
 import { LoadingBar } from '@worksheets/ui/components/loading';
+import { ItemModal } from '@worksheets/ui/components/monsters';
 import { GradientShadowedTypography } from '@worksheets/ui/components/typography';
 import { LoadingScreen } from '@worksheets/ui/pages/loading';
+import { printShortDateTime } from '@worksheets/util/time';
+import { NO_REFETCH } from '@worksheets/util/trpc';
 import {
+  BattleLogSchema,
   BattleParticipationSchema,
+  BattleRecordSchema,
   BattleSchema,
+  MobLootSchema,
   MVP_REASON_LABEL,
 } from '@worksheets/util/types';
+import { compact } from 'lodash';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import { BossBattle } from './boss-battle';
 
@@ -40,12 +59,17 @@ const BattleScreen = () => {
   const { query } = useRouter();
   const battleId = Number(query.battleId);
 
-  const battle = trpc.maybe.battles.find.useQuery(battleId, {
+  const queryOpts = {
     enabled: !!battleId,
-  });
-  const participation = trpc.maybe.battles.participation.useQuery(battleId, {
-    enabled: !!battleId,
-  });
+    ...NO_REFETCH,
+  };
+  const battle = trpc.maybe.battles.find.useQuery(battleId, queryOpts);
+  const participation = trpc.maybe.battles.participation.useQuery(
+    battleId,
+    queryOpts
+  );
+  const battleLogs = trpc.maybe.battles.logs.useQuery(battleId, queryOpts);
+  const battleRecord = trpc.maybe.battles.record.useQuery(battleId, queryOpts);
 
   return (
     <Container
@@ -84,14 +108,91 @@ const BattleScreen = () => {
         description={
           <ParticipationContent
             battle={battle.data}
+            record={battleRecord.data ?? null}
             participation={participation.data}
-            isLoading={participation.isLoading || battle.isLoading}
-            isError={participation.isError || battle.isError}
+            isLoading={
+              participation.isLoading ||
+              battle.isLoading ||
+              battleRecord.isLoading
+            }
+            isError={
+              participation.isError || battle.isError || battleRecord.isError
+            }
           />
         }
         color="secondary"
       />
+      <br />
+      <Description
+        title={'Battle Logs'}
+        description={<BattleLogsContent battleLogs={battleLogs.data} />}
+        color="secondary"
+      />
     </Container>
+  );
+};
+
+const BattleLogsContent: React.FC<{ battleLogs?: BattleLogSchema[] }> = ({
+  battleLogs,
+}) => {
+  if (!battleLogs) {
+    return <LoadingBar />;
+  }
+  if (!battleLogs.length) {
+    return (
+      <Column gap={1.5}>
+        <Typography variant="body1" fontWeight={600}>
+          No logs exist for this battle
+        </Typography>
+        <Button
+          variant="text"
+          color="primary"
+          startIcon={<OpenInNew />}
+          target="_blank"
+          sx={{ width: 'fit-content' }}
+          href={routes.help.mobs.path()}
+        >
+          Learn about monsters
+        </Button>
+      </Column>
+    );
+  }
+  return <BattleLogTable logs={battleLogs} />;
+};
+
+const StyledBox = styled(Box)(({ theme }) => ({
+  border: `1px solid ${theme.palette.divider}`,
+  borderRadius: theme.shape.borderRadius,
+  overflow: 'hidden',
+}));
+
+export const BattleLogTable: React.FC<{
+  logs: BattleLogSchema[];
+}> = ({ logs }) => {
+  return (
+    <TableContainer component={StyledBox}>
+      <Table size="small">
+        <TableHead>
+          <TableRow>
+            <TableCell>Message</TableCell>
+            <TableCell align="right">Timestamp</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {logs.map((log) => (
+            <TableRow
+              key={log.id}
+              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+            >
+              <TableCell>{log.message}</TableCell>
+              <TableCell align="right">
+                {printShortDateTime(log.createdAt)}
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
 };
 
@@ -143,8 +244,9 @@ const BattleTitle: React.FC<BattleSchema> = (boss) => {
 };
 
 const InProgressParticipationContent: React.FC<{
+  battle: BattleSchema;
   participation: BattleParticipationSchema[];
-}> = ({ participation }) => {
+}> = ({ battle, participation }) => {
   return (
     <Column>
       <Typography variant="h6"> Participants</Typography>
@@ -154,6 +256,7 @@ const InProgressParticipationContent: React.FC<{
             <ParticipationItem
               key={participant.id}
               index={index + 1}
+              battle={battle}
               participation={participant}
             />
           ))}
@@ -170,77 +273,112 @@ const ParticipationContent: React.FC<{
   participation?: BattleParticipationSchema[];
   isLoading: boolean;
   isError: boolean;
-}> = ({ battle, participation, isError, isLoading }) => {
+  record: BattleRecordSchema | null;
+}> = ({ battle, participation, record, isError, isLoading }) => {
   if (isLoading || !participation || !battle) return <LoadingBar />;
   if (isError) return <ErrorComponent />;
 
-  const mvp = participation.filter((p) => p.loot.some((l) => l.mvp));
+  const mvp = participation.filter((p) => p.id === record?.mvpId)?.at(0);
   const winners = participation.filter(
-    (p) => p.loot.length > 0 && !mvp.some((m) => m.id === p.id)
+    (p) => !!record?.results[p.id] && !(mvp?.id === p.id)
   );
-  const losers = participation.filter((p) => p.loot.length === 0);
+  const losers = participation.filter(
+    (p) => !winners.some((w) => w.id === p.id) && !(mvp?.id === p.id)
+  );
 
   if (battle.status === BattleStatus.ACTIVE) {
-    return <InProgressParticipationContent participation={participation} />;
+    return (
+      <InProgressParticipationContent
+        battle={battle}
+        participation={participation}
+      />
+    );
   }
 
   return (
-    <Column gap={2}>
-      <Column>
-        {Boolean(mvp.length) && (
-          <>
-            <Typography variant="h6">MVP</Typography>
-            {mvp.map((participation, index) => (
-              <ParticipationItem
-                key={participation.id}
-                index={index + 1}
-                participation={participation}
-              />
-            ))}
-          </>
-        )}
-      </Column>
-      <Column>
-        {Boolean(winners.length) && (
-          <>
-            <Typography variant="h6">Loot Winners</Typography>
+    <Column gap={3}>
+      {mvp && (
+        <Column>
+          <Typography variant="h6" gutterBottom>
+            MVP
+          </Typography>
+          <ParticipationItem
+            key={mvp.id}
+            index={1}
+            items={record?.results[mvp.id] ?? {}}
+            battle={battle}
+            participation={mvp}
+            mvpReason={record?.mvpReason}
+          />
+        </Column>
+      )}
+      {Boolean(winners.length) && (
+        <Column>
+          <Typography variant="h6" gutterBottom>
+            Loot Winners
+          </Typography>
+          <Column gap={1}>
             {winners.map((participation, index) => (
               <ParticipationItem
                 key={participation.id}
                 index={index + 1}
+                items={record?.results[participation.id] ?? {}}
+                battle={battle}
                 participation={participation}
               />
             ))}
-          </>
-        )}
-      </Column>
-      <Column>
-        {Boolean(losers.length) && (
-          <>
-            <Typography variant="h6">Other Participants</Typography>
+          </Column>
+        </Column>
+      )}
+      {Boolean(losers.length) && (
+        <Column>
+          <Typography variant="h6" gutterBottom>
+            Other Participants
+          </Typography>
+          <Column gap={1}>
             {losers.map((participation, index) => (
               <ParticipationItem
                 key={participation.id}
                 index={index + 1}
+                battle={battle}
+                items={record?.results[participation.id]}
                 participation={participation}
               />
             ))}
-          </>
-        )}
-      </Column>
+          </Column>
+        </Column>
+      )}
     </Column>
   );
 };
 
 const ParticipationItem: React.FC<{
   participation: BattleParticipationSchema;
+  battle: BattleSchema;
+  items?: Record<string, number>;
   index: number;
-}> = ({ participation, index }) => {
+  mvpReason?: MvpReason;
+}> = ({ participation, battle, index, mvpReason, items = {} }) => {
   const [open, setOpen] = React.useState(false);
+
+  const loot = compact(
+    Object.keys(items).map((itemId) => {
+      const l = battle.mob.loot.find((l) => l.item.id === itemId);
+      if (!l) {
+        return undefined;
+      } else {
+        return {
+          ...l,
+          quantity: items[itemId],
+        };
+      }
+    })
+  );
+
   return (
     <Box width="100%">
-      <Row gap={1} width="100%">
-        {Boolean(participation.loot.length) && (
+      <Row gap={1} width="100%" alignItems="flex-st">
+        {Boolean(Object.keys(items).length) && (
           <Button
             variant="arcade"
             size="small"
@@ -252,6 +390,11 @@ const ParticipationItem: React.FC<{
                 <ExpandMore fontSize="small" />
               )
             }
+            sx={{
+              minWidth: '100px',
+              maxWidth: '100px',
+              width: '100px',
+            }}
           >
             Loot
           </Button>
@@ -265,22 +408,43 @@ const ParticipationItem: React.FC<{
               },
             })}
           >
-            {participation.user.username} - {participation.damage.toFixed(2)}{' '}
-            damage
-          </Link>
-          {participation.isMvp &&
-            ` - MVP: ${MVP_REASON_LABEL[participation.isMvp]}`}
+            {participation.user.username}
+          </Link>{' '}
+          - {participation.damage.toFixed(2)} damage
+          {mvpReason && ` - MVP: ${MVP_REASON_LABEL[mvpReason]}`}
         </Typography>
       </Row>
       <Collapse in={open}>
-        <Column gap={0.5} mt={1.5}>
-          {participation.loot.map((loot, i) => (
-            <Typography key={i} fontWeight={500}>
-              {loot.mvp ? '🏆' : '⭐️'} {loot.quantity}x {loot.item.name}
-            </Typography>
+        <Box mt={1} mb={2} display="flex" gap={1} flexWrap={'wrap'}>
+          {loot.map((loot, i) => (
+            <ParticipationItemPair key={i} loot={loot} />
           ))}
-        </Column>
+        </Box>
       </Collapse>
     </Box>
+  );
+};
+
+const ParticipationItemPair: React.FC<{
+  loot: MobLootSchema;
+}> = ({ loot }) => {
+  const [show, setShow] = React.useState(false);
+  return (
+    <Fragment>
+      <Typography
+        display="inline-flex"
+        component={Link}
+        fontWeight={500}
+        color="primary.main"
+        underline="hover"
+        onClick={() => setShow(true)}
+        sx={{
+          cursor: 'pointer',
+        }}
+      >
+        {loot.mvp ? '🏆' : '⭐️'} {loot.quantity}x {loot.item.name}
+      </Typography>
+      <ItemModal open={show} onClose={() => setShow(false)} loot={loot} />
+    </Fragment>
   );
 };

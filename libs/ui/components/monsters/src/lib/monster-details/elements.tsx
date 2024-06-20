@@ -28,7 +28,7 @@ export const Elements: React.FC<MonsterSchema> = (mob) => {
         onClick={() => setOpen(!open)}
         visible={{ xs: true, sm: true, md: false }}
       >
-        Resistances
+        Elements
       </Header>
 
       <Collapse in={open}>

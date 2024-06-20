@@ -9,12 +9,17 @@ import {
 import { Box, Typography } from '@mui/material';
 import { ClockExclamation, Sword } from '@worksheets/icons/dazzle';
 import { ItemRarity } from '@worksheets/prisma';
-import { RARITY_GRADIENT, RARITY_LETTER } from '@worksheets/util/types';
+import { assertNever } from '@worksheets/util/errors';
+import {
+  InventoryItemSchema,
+  RARITY_GRADIENT,
+  RARITY_LETTER,
+} from '@worksheets/util/types';
 import React, { FC, ReactNode } from 'react';
 
 // TODO: add more icons for sharable items and consumables
 
-const IconLayout: FC<{ gradient: string; children: ReactNode }> = ({
+export const IconLayout: FC<{ gradient: string; children: ReactNode }> = ({
   gradient,
   children,
 }) => (
@@ -171,4 +176,30 @@ export const rarityIcon = (rarity: ItemRarity, size = 24) => {
       </Typography>
     </Box>
   );
+};
+
+export const ItemTypeLogo: React.FC<InventoryItemSchema> = (item) => {
+  if (item.expiration.length) {
+    return <ExpiringItemIcon size={18} />;
+  }
+
+  switch (item.type) {
+    case 'STEAM_KEY':
+    case 'CURRENCY':
+      return null;
+    case 'CONSUMABLE':
+      return <ConsumableItemIcon size={18} />;
+    case 'SHARABLE':
+      return <HeartItemIcon size={18} />;
+    case 'CAPSULE':
+      return <ShuffleItemIcon size={18} />;
+    case 'COMBAT':
+      return <BattleItemIcon size={18} />;
+    case 'ETCETERA':
+      return <SellableItemIcon size={18} />;
+    case 'PRIZE_WHEEL':
+      return <QuestionMarkIcon size={18} />;
+    default:
+      throw assertNever(item.type);
+  }
 };

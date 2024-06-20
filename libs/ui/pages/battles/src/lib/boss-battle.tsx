@@ -1,20 +1,44 @@
 import {
-  Add,
+  Air,
+  ArrowBack,
+  ArrowDownward,
+  ArrowUpward,
+  BackHand,
+  BubbleChart,
+  CheckCircleOutline,
   Close,
+  DarkMode,
+  FiberManualRecord,
+  HideSource,
   InfoOutlined,
+  Landscape,
+  LightMode,
+  LineStyle,
+  LocalFireDepartment,
   Login,
   OpenInNew,
+  SvgIconComponent,
+  WaterDrop,
 } from '@mui/icons-material';
 import {
   alpha,
   Box,
   Button,
+  Collapse,
   Divider,
-  IconButton,
   LinearProgress,
-  Link,
+  MenuItem,
+  Select,
   Typography,
 } from '@mui/material';
+import {
+  COMBAT_ITEM_DAMAGE,
+  COMBAT_ITEM_ELEMENT,
+  CombatItemId,
+  ELEMENT_LABEL,
+  Resistances,
+  WeaponElement,
+} from '@worksheets/data/items';
 import { Sword } from '@worksheets/icons/dazzle';
 import { ItemType } from '@worksheets/prisma';
 import { routes } from '@worksheets/routes';
@@ -23,29 +47,27 @@ import { ErrorComponent } from '@worksheets/ui/components/errors';
 import { Column, Row } from '@worksheets/ui/components/flex';
 import { ContainImage, FillImage } from '@worksheets/ui/components/images';
 import { NumericCounterField } from '@worksheets/ui/components/inputs';
-import { InventoryItem, RemoveItemIcon } from '@worksheets/ui/components/items';
 import { LoadingBar } from '@worksheets/ui/components/loading';
-import {
-  InfoModal,
-  Modal,
-  ModalWrapper,
-} from '@worksheets/ui/components/modals';
+import { InfoModal, ModalWrapper } from '@worksheets/ui/components/modals';
 import {
   MonsterDetails,
   MonsterProfile,
 } from '@worksheets/ui/components/monsters';
 import { useSnackbar } from '@worksheets/ui/components/snackbar';
+import { PaletteColor } from '@worksheets/ui/theme';
+import { HelpInventoryQuestions } from '@worksheets/util/enums';
+import { assertNever } from '@worksheets/util/errors';
+import { calculatePercentage, toPercentage } from '@worksheets/util/numbers';
+import { NO_REFETCH } from '@worksheets/util/trpc';
 import {
-  HelpInventoryQuestions,
-  HelpMobsQuestions,
-} from '@worksheets/util/enums';
-import { calculatePercentage } from '@worksheets/util/numbers';
-import { MAX_ITEMS_PER_STRIKE } from '@worksheets/util/settings';
-import { TABLET_SHADOW } from '@worksheets/util/styles';
-import { BattleSchema, InventoryItemSchema } from '@worksheets/util/types';
+  BattleSchema,
+  calculateCombatDamage,
+  InventoryItemSchema,
+  MOB_ELEMENT_RESISTANCES,
+} from '@worksheets/util/types';
 import { useSession } from 'next-auth/react';
 import pluralize from 'pluralize';
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 
 export const BossBattle: React.FC<{ battle: BattleSchema; href: string }> = (
   props
@@ -132,11 +154,52 @@ const FightModal: React.FC<ModalWrapper<{ battle: BattleSchema }>> = ({
   onClose,
   battle,
 }) => {
+  const session = useSession();
+  const connected = session.status === 'authenticated';
   const handleClose = () => onClose?.({}, 'escapeKeyDown');
-
+  const resistances = MOB_ELEMENT_RESISTANCES[battle.mob.element];
   return (
-    <InfoModal open={open} onClose={handleClose}>
-      <Column alignItems="center" gap={1}>
+    <InfoModal
+      open={open}
+      onClose={handleClose}
+      maxWidth={440}
+      infoHref={routes.help.mobs.path()}
+    >
+      <Column gap={1}>
+        <MonsterHeader battle={battle} />
+        <Typography variant="body2" textAlign="center">
+          {battle.mob.description}
+        </Typography>
+        <Divider sx={{ width: '100%' }} />
+        <Row gap={1} justifyContent="center">
+          <ResistancesTable resistances={resistances} />
+        </Row>
+        <Divider sx={{ width: '100%' }} />
+        {!connected ? (
+          <LoginToFight battleId={battle.id} />
+        ) : battle.health < 1 ? (
+          <MobDefeated />
+        ) : (
+          <ItemSelection
+            onStrike={handleClose}
+            battle={battle}
+            resistances={resistances}
+            connected={connected}
+          />
+        )}
+        <br />
+      </Column>
+    </InfoModal>
+  );
+};
+
+const MonsterHeader: React.FC<{ battle: BattleSchema; error?: boolean }> = ({
+  battle,
+  error,
+}) => {
+  return (
+    <>
+      <Column alignItems="center">
         <Typography variant="h5" textAlign="center">
           {battle.mob.name}
         </Typography>
@@ -150,384 +213,655 @@ const FightModal: React.FC<ModalWrapper<{ battle: BattleSchema }>> = ({
         >
           <ContainImage src={battle.mob.imageUrl} alt={battle.mob.name} />
         </Box>
-        <Typography variant="body3" textAlign="center" fontWeight={700}>
-          HP: {battle.health}/{battle.mob.maxHp}
-        </Typography>
-        <HealthBar currentHp={battle.health} maxHp={battle.mob.maxHp} />
-        <Typography variant="body2" textAlign="center">
-          {battle.mob.description}
-        </Typography>
-        <Divider sx={{ width: '100%' }} />
-        {battle.health > 0 ? (
-          <ItemSelection battle={battle} onClose={handleClose} />
-        ) : (
-          <MobDefeated />
-        )}
       </Column>
-    </InfoModal>
-  );
-};
-
-const MobDefeated = () => {
-  return (
-    <Column alignItems="center" textAlign="center">
-      <Typography variant="h6">This boss has been defeated!</Typography>
-      <Typography variant="body2">Loot is being distributed...</Typography>
-    </Column>
-  );
-};
-
-const ItemSelection: React.FC<{
-  battle: BattleSchema;
-  onClose: () => void;
-}> = ({ battle, onClose }) => {
-  const [selectedItems, setSelectedItems] = useState<InventoryItemSchema[]>([]);
-  const [striking, setStriking] = useState(false);
-
-  const snackbar = useSnackbar();
-  const session = useSession();
-  const connected = session.status === 'authenticated';
-  const utils = trpc.useUtils();
-  const items = trpc.user.inventory.items.useQuery(
-    [ItemType.COMBAT, ItemType.CURRENCY],
-    {
-      enabled: connected,
-    }
-  );
-  const damage = trpc.maybe.battles.calculateDamage.useQuery(
-    {
-      mobId: battle.mob.id,
-      items: selectedItems,
-    },
-    {
-      retry: false,
-    }
-  );
-  const strike = trpc.user.battles.strike.useMutation();
-
-  const handleSelect = (item: InventoryItemSchema) => {
-    // check to see if item is already selected
-    const index = selectedItems.findIndex(
-      (i) => i.inventoryId === item.inventoryId
-    );
-    // if so increment the quantity
-    if (index !== -1) {
-      const newItems = [...selectedItems];
-      newItems[index] = {
-        ...newItems[index],
-        quantity: newItems[index].quantity + item.quantity,
-      };
-      setSelectedItems(newItems);
-    } else {
-      setSelectedItems([...selectedItems, item]);
-    }
-  };
-
-  const handleRemove = (item: InventoryItemSchema) => {
-    const newItems = selectedItems.filter(
-      (i) => i.inventoryId !== item.inventoryId
-    );
-    setSelectedItems(newItems);
-  };
-
-  const availableItems = () => {
-    // reduce the quantity of selected items from the available items
-    return (
-      items.data
-        ?.map((item) => {
-          const selected = selectedItems.find(
-            (selected) => selected.inventoryId === item.inventoryId
-          );
-          if (selected) {
-            return {
-              ...item,
-              quantity: item.quantity - selected.quantity,
-            };
-          }
-          return item;
-        })
-        // filter out items with quantity less than 1
-        .filter((item) => item.quantity > 0) ?? []
-    );
-  };
-
-  const handleStrike = async () => {
-    if (!connected) return;
-    if (!selectedItems.length) return;
-    if (damage.isLoading) return;
-    if (damage.isError) return;
-    if (damage.data === 0) return;
-    try {
-      setStriking(true);
-      const result = await strike.mutateAsync({
-        battleId: battle.id,
-        items: selectedItems,
-      });
-      await utils.maybe.battles.invalidate();
-      snackbar.success(`You dealt ${result} damage to ${battle.mob.name}`);
-    } catch (error) {
-      snackbar.error('Failed to deal damage. Contact Support.');
-    } finally {
-      setStriking(false);
-      onClose();
-    }
-  };
-
-  if (items.isFetching) return <LoadingBar />;
-  if (items.isError) return <ErrorComponent />;
-
-  return (
-    <Column gap={1} alignItems="center" width="100%">
-      {connected && (
-        <Row gap={1} flexWrap="wrap" justifyContent="center">
-          {selectedItems.map((item) => (
-            <InventoryItem
-              size={56}
-              key={item.inventoryId}
-              item={item}
-              icon={<RemoveItemIcon size={14} />}
-              onClick={() => handleRemove(item)}
-            />
-          ))}
-          {selectedItems.length < MAX_ITEMS_PER_STRIKE && (
-            <AddItemBox items={availableItems()} onSelect={handleSelect} />
-          )}
-        </Row>
-      )}
-      <Column alignItems="center" gap={1} width="100%" mt={2}>
-        {connected ? (
-          <Button
-            variant="arcade"
-            color="primary"
-            fullWidth
-            disabled={!selectedItems.length || damage.isError || striking}
-            startIcon={
-              selectedItems.length && !damage.isError ? <Sword /> : undefined
-            }
-            onClick={handleStrike}
-          >
-            {selectedItems.length
-              ? damage.isLoading
-                ? `Calculating Damage...`
-                : damage.isError
-                ? `Failed to calculate damage`
-                : `Deal ${damage.data} Damage`
-              : 'Select an item'}
-          </Button>
-        ) : (
-          <Button
-            variant="arcade"
-            color="warning"
-            startIcon={<Login />}
-            href={routes.login.path({
-              query: {
-                redirect: routes.battle.path({
-                  params: {
-                    battleId: battle.id,
-                  },
-                }),
-              },
-            })}
-          >
-            Log in to fight
-          </Button>
-        )}
-        {(damage.data ?? 0) >= battle.health && (
-          <Typography variant="body2" color="error" fontWeight={700}>
-            {(damage.data ?? 0) > battle.health
-              ? `You will overkill the boss with this attack.`
-              : `You will defeat this boss with this attack.`}
-          </Typography>
-        )}
-
-        {connected && (
-          <Typography
-            mt={1}
-            component={Link}
-            typography="body2"
-            href={routes.help.mobs.path({
-              bookmark: HelpMobsQuestions.HowDoIDealDamage,
-            })}
-          >
-            How is damage calculated?
-          </Typography>
-        )}
-      </Column>
-    </Column>
-  );
-};
-
-const AddItemBox: React.FC<{
-  items: InventoryItemSchema[];
-  onSelect: (item: InventoryItemSchema) => void;
-}> = ({ items, onSelect }) => {
-  const [open, setOpen] = useState(false);
-  return (
-    <>
-      <IconButton
-        disableRipple
-        size="large"
-        onClick={() => setOpen(true)}
-        sx={{
-          borderRadius: (theme) => theme.shape.borderRadius,
-          border: (theme) =>
-            `3px solid ${alpha(theme.palette.primary.main, 0.5)}`,
-        }}
+      <Typography
+        variant="body3"
+        textAlign="center"
+        fontWeight={700}
+        color={error ? 'error.main' : 'text.primary'}
       >
-        <Add
-          fontSize="large"
-          sx={{ color: (theme) => alpha(theme.palette.primary.main, 0.5) }}
-        />
-      </IconButton>
-      <SelectCombatItemModal
-        open={open}
-        onClose={() => setOpen(false)}
-        onSelect={onSelect}
-        items={items}
-      />
+        HP: {battle.health}/{battle.mob.maxHp}
+      </Typography>
+      <HealthBar currentHp={battle.health} maxHp={battle.mob.maxHp} />
     </>
   );
 };
 
-const SelectCombatItemModal: React.FC<
-  ModalWrapper<{
-    items: InventoryItemSchema[];
-    onSelect: (item: InventoryItemSchema) => void;
-  }>
-> = ({ open, onClose, items, onSelect }) => {
-  const [item, setItem] = useState<InventoryItemSchema | undefined>(undefined);
-
-  const handleClose = () => {
-    setItem(undefined);
-    onClose?.({}, 'escapeKeyDown');
-  };
-
-  const handleSelect = (item: InventoryItemSchema) => {
-    onSelect(item);
-    handleClose();
-  };
-
+const ResistancesTable: React.FC<{ resistances: Resistances }> = ({
+  resistances,
+}) => {
   return (
-    <Modal open={open} onClose={handleClose}>
+    <Column gap={1}>
+      <Typography typography={'body1'} textAlign="center" fontWeight={700}>
+        Elements
+      </Typography>
       <Box
         sx={{
           display: 'grid',
-          p: 2,
-          gap: 2,
-          position: 'relative',
-          width: { xs: 290, mobile1: 320, sm: 360 },
-          justifyContent: 'center',
+          gap: 1,
+          gridTemplateColumns: 'repeat(5, 1fr)',
         }}
       >
-        <CloseButton onClick={handleClose} />
-
-        {item ? (
-          <SelectQuantity
-            item={item}
-            onCommit={(quantity) =>
-              handleSelect({
-                ...item,
-                quantity,
-              })
-            }
-          />
-        ) : (
-          <CombatItems availableItems={items} onSelect={setItem} />
-        )}
+        {Object.entries(resistances).map(([element, resistance]) => (
+          <Box
+            key={element}
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: 0.5,
+            }}
+          >
+            <ElementTab
+              element={element as WeaponElement}
+              borderColor="black"
+              iconSize={20}
+              tabSize={50}
+              borderSize={3}
+            />
+            <Typography
+              typography="body2"
+              textAlign="center"
+              color={
+                resistance > 1
+                  ? 'success.main'
+                  : resistance < 1
+                  ? 'error.main'
+                  : 'primary.text'
+              }
+              fontWeight={900}
+            >
+              {toPercentage(resistance)}
+            </Typography>
+          </Box>
+        ))}
       </Box>
-    </Modal>
+    </Column>
   );
 };
 
-const SelectQuantity: React.FC<{
-  item: InventoryItemSchema;
-  onCommit: (quantity: number) => void;
-}> = ({ item, onCommit }) => {
-  const [quantity, setQuantity] = useState(1);
-  const updateQuantity = (value: number) => {
-    if (value < 1) return;
-    if (value > item.quantity) return;
-    setQuantity(value);
-  };
-  return (
-    <Column gap={2} width="100%">
-      <Column width="100%">
-        <Typography variant="h5">Select Quantity</Typography>
-        <Divider sx={{ width: '100%' }} />
-      </Column>
-      <Row alignItems="flex-start" gap={2}>
-        <Box
-          sx={{
-            position: 'relative',
-            minHeight: { xs: 64, mobile1: 72, sm: 96 },
-            minWidth: { xs: 64, mobile1: 72, sm: 96 },
-            borderRadius: (theme) => theme.shape.borderRadius,
-            p: 1,
-            boxShadow: TABLET_SHADOW,
-          }}
-        >
-          <FillImage src={item.imageUrl} alt={item.name} />
-        </Box>
-        <Column gap={0.5}>
-          <Typography
-            typography={{ xs: 'body2', mobile1: 'body1' }}
-            fontWeight={{ xs: 700, mobile1: 700 }}
-          >
-            {item.name}
-          </Typography>
-          <Typography typography={{ xs: 'body3', mobile1: 'body2' }}>
-            {item.description}
-          </Typography>
-        </Column>
-      </Row>
+const SORTING_OPTIONS = [
+  {
+    key: 'id',
+    label: 'Item ID',
+  },
+  {
+    key: 'name',
+    label: 'Name',
+  },
+  {
+    key: 'damage',
+    label: 'Base Damage',
+  },
+  {
+    key: 'effect',
+    label: 'Effective %',
+  },
+  {
+    key: 'quantity',
+    label: 'Quantity',
+  },
+] as const;
 
-      <Column gap={1}>
-        <Typography
-          typography={{ xs: 'body3', mobile1: 'body2' }}
-          textAlign="center"
+type SortByKey = (typeof SORTING_OPTIONS)[number]['key'];
+
+const FILTER_OPTIONS = [
+  {
+    key: 'balanced',
+    label: 'Balanced',
+  },
+  {
+    key: 'weaknesses',
+    label: 'Weakness',
+  },
+  {
+    key: 'resistance',
+    label: 'Resistance',
+  },
+] as const;
+
+type FilterKey = (typeof FILTER_OPTIONS)[number]['key'];
+
+type ItemFilters = Record<FilterKey, boolean>;
+
+const itemFilter =
+  (
+    filters: ItemFilters,
+    selections: Record<string, number>,
+    resistances: Resistances
+  ) =>
+  (item: InventoryItemSchema) => {
+    // never filter out selected items
+    if (selections[item.itemId]) {
+      return true;
+    }
+
+    const resistance =
+      resistances[COMBAT_ITEM_ELEMENT[item.itemId as CombatItemId]];
+
+    if (!filters.balanced && resistance === 1) {
+      return false;
+    }
+    if (!filters.resistance && resistance < 1) {
+      return false;
+    }
+    if (!filters.weaknesses && resistance > 1) {
+      return false;
+    }
+
+    return true;
+  };
+
+const itemSort =
+  (sortBy: SortByKey, resistances: Resistances) =>
+  (a: InventoryItemSchema, b: InventoryItemSchema) => {
+    switch (sortBy) {
+      case 'id':
+        return Number(a.itemId) - Number(b.itemId);
+      case 'name':
+        return a.name.localeCompare(b.name);
+      case 'damage': {
+        const ad = COMBAT_ITEM_DAMAGE[a.itemId as CombatItemId] ?? 1;
+        const bd = COMBAT_ITEM_DAMAGE[b.itemId as CombatItemId] ?? 1;
+        if (ad === bd) {
+          return a.itemId.localeCompare(b.itemId);
+        }
+        return ad - bd;
+      }
+      case 'effect': {
+        const ar = resistances[COMBAT_ITEM_ELEMENT[a.itemId as CombatItemId]];
+        const br = resistances[COMBAT_ITEM_ELEMENT[b.itemId as CombatItemId]];
+        if (ar === br) {
+          return a.itemId.localeCompare(b.itemId);
+        }
+        return ar - br;
+      }
+
+      case 'quantity': {
+        if (a.quantity === b.quantity) {
+          return a.itemId.localeCompare(b.itemId);
+        }
+        return a.quantity - b.quantity;
+      }
+      default:
+        throw assertNever(sortBy);
+    }
+  };
+
+const ItemSelection: React.FC<{
+  battle: BattleSchema;
+  resistances: Resistances;
+  connected: boolean;
+  onStrike: () => void;
+}> = ({ onStrike, battle, resistances, connected }) => {
+  const snackbar = useSnackbar();
+  const utils = trpc.useUtils();
+  const strike = trpc.user.battles.strike.useMutation();
+  const items = trpc.user.inventory.items.useQuery(
+    [ItemType.COMBAT, ItemType.CURRENCY],
+    {
+      enabled: connected,
+      ...NO_REFETCH,
+    }
+  );
+  const [sortBy, setSortBy] = useState<SortByKey>('id');
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
+  const [selections, setSelections] = useState<Record<string, number>>({});
+  const [filters, setFilters] = useState<ItemFilters>({
+    balanced: true,
+    weaknesses: true,
+    resistance: true,
+  });
+  const [showUnused, setShowUnused] = useState(true);
+  const [showOverkill, setShowOverkill] = useState(false);
+
+  const availableItems = useMemo(() => {
+    const sortedItems = items.data?.sort(itemSort(sortBy, resistances)) ?? [];
+    const orderedItems =
+      sortOrder === 'asc' ? sortedItems : sortedItems.reverse();
+    const filteredItems = orderedItems.filter(
+      itemFilter(filters, selections, resistances)
+    );
+    const displayedItems = showUnused
+      ? filteredItems
+      : filteredItems.filter((item) => selections[item.itemId] > 0);
+    return displayedItems;
+  }, [
+    filters,
+    items.data,
+    resistances,
+    selections,
+    showUnused,
+    sortBy,
+    sortOrder,
+  ]);
+
+  const totalDamage = useMemo(() => {
+    return calculateCombatDamage(resistances, selections);
+  }, [resistances, selections]);
+
+  const sendStrike = async () => {
+    try {
+      await strike.mutateAsync({
+        battleId: battle.id,
+        items: selections,
+      });
+      utils.maybe.battles.invalidate();
+      items.refetch();
+      snackbar.success(`You dealt ${totalDamage} damage!`);
+      onStrike();
+    } catch (error) {
+      snackbar.error('Failed to deal damage. Contact Support.');
+    }
+  };
+
+  const handleStrike = async () => {
+    if (!connected) {
+      return;
+    }
+    if (totalDamage > battle.health) {
+      setShowOverkill(true);
+      return;
+    }
+
+    await sendStrike();
+  };
+
+  if (items.isFetching || strike.isLoading) return <LoadingBar />;
+  if (items.isError || strike.isError) return <ErrorComponent />;
+
+  if (!items.data?.length) return <NoCombatItems />;
+
+  return (
+    <>
+      <OverkillModal
+        battle={battle}
+        damage={totalDamage}
+        open={showOverkill}
+        onClose={setShowOverkill}
+        onConfirm={sendStrike}
+      />
+      <Column gap={2}>
+        <Column>
+          <Typography variant="body3" fontWeight={700}>
+            Sort By:
+          </Typography>
+          <Row gap={1}>
+            <Select
+              size="small"
+              fullWidth
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value as SortByKey)}
+            >
+              {SORTING_OPTIONS.map((option) => (
+                <MenuItem key={option.key} value={option.key}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </Select>
+            <Button
+              variant="square"
+              color="primary"
+              onClick={() =>
+                setSortOrder((order) => (order === 'asc' ? 'desc' : 'asc'))
+              }
+            >
+              {sortOrder === 'asc' ? <ArrowDownward /> : <ArrowUpward />}
+            </Button>
+          </Row>
+        </Column>
+        <Column gap={1.25}>
+          <Typography variant="body3" fontWeight={700}>
+            Filter By:
+          </Typography>
+          <Row gap={1}>
+            {FILTER_OPTIONS.map((option) => (
+              <Button
+                key={option.key}
+                variant="arcade"
+                color={filters[option.key] ? 'primary' : 'light-grey'}
+                size="small"
+                onClick={() => {
+                  setFilters((f) => ({
+                    ...f,
+                    [option.key]: !f[option.key],
+                  }));
+                }}
+              >
+                {filters[option.key] ? 'Hide' : 'Show'} {option.label}
+              </Button>
+            ))}
+          </Row>
+          <Button
+            variant="arcade"
+            fullWidth
+            color={showUnused ? 'secondary' : 'light-grey'}
+            startIcon={<HideSource />}
+            onClick={() => setShowUnused((show) => !show)}
+          >
+            {showUnused ? 'Hide' : 'Show'} Unused
+          </Button>
+        </Column>
+        {availableItems.length === 0 ? (
+          <Column textAlign="center" gap={0.5}>
+            <Typography
+              variant="h6"
+              fontWeight={700}
+              fontStyle="italic"
+              textAlign="center"
+            >
+              No items here!
+            </Typography>
+            <Typography
+              variant="body2"
+              fontWeight={700}
+              fontStyle="italic"
+              textAlign="center"
+            >
+              Change your filters and settings above to reveal more items
+            </Typography>
+          </Column>
+        ) : (
+          <>
+            <CombatItems
+              availableItems={availableItems}
+              selections={selections}
+              resistances={resistances}
+              onChange={setSelections}
+            />
+            <Button
+              variant="arcade"
+              size="large"
+              color="success"
+              disabled={!totalDamage || strike.isLoading}
+              startIcon={<Sword />}
+              onClick={handleStrike}
+            >
+              Deal {totalDamage} Damage
+            </Button>
+          </>
+        )}
+        <Button
+          variant="arcade"
+          size="large"
+          color="error"
+          startIcon={<Close />}
         >
-          <i>
-            {item.quantity} {pluralize(item.name, item.quantity)} available
-          </i>
-        </Typography>
-        <NumericCounterField value={quantity} onChange={updateQuantity} />
+          Cancel Attack
+        </Button>
       </Column>
-      <Button
-        variant="arcade"
-        color="error"
-        sx={{ mt: 1 }}
-        onClick={() => onCommit(quantity)}
-      >
-        Use {quantity} {pluralize(item.name, quantity)}
-      </Button>
-    </Column>
+    </>
   );
 };
 
 const CombatItems: React.FC<{
   availableItems: InventoryItemSchema[];
-  onSelect: (item: InventoryItemSchema) => void;
-}> = ({ availableItems, onSelect }) => {
+  resistances: Resistances;
+  selections: Record<string, number>;
+  onChange: (selections: Record<string, number>) => void;
+}> = ({ availableItems, resistances, selections, onChange }) => {
   return (
-    <Column gap={1} width="100%" alignItems="center">
-      <Column width="100%">
-        <Typography variant="h5">Select Combat Item</Typography>
-        <Divider sx={{ width: '100%' }} />
-      </Column>
+    <Column gap={1}>
+      <Box
+        sx={{
+          display: 'grid',
+          gap: 0.5,
+          gridTemplateColumns: {
+            xs: 'repeat(1, 1fr)',
+          },
+        }}
+      >
+        {availableItems.map((item) => (
+          <CombatItem
+            key={item.itemId}
+            item={item}
+            resistances={resistances}
+            quantity={selections[item.itemId] ?? 0}
+            onChange={(quantity) =>
+              onChange({
+                ...selections,
+                [item.itemId]: quantity,
+              })
+            }
+          />
+        ))}
+      </Box>
+    </Column>
+  );
+};
 
-      <Row gap={1.5} flexWrap="wrap" justifyContent="center">
-        {availableItems.length ? (
-          availableItems.map((item) => (
-            <InventoryItem
-              key={item.inventoryId}
-              item={item}
-              onClick={() => onSelect(item)}
+const ELEMENT_GRADIENT: Record<WeaponElement, string> = {
+  neutral: '#686868',
+  water:
+    'radial-gradient(circle at 10% 20%, rgb(59, 149, 237) 0%, rgb(7, 91, 173) 90%)',
+  earth:
+    'linear-gradient(87.4deg, rgb(255, 241, 165) 1.9%, rgb(200, 125, 76) 49.7%, rgb(83, 54, 54) 100.5%)',
+  fire: 'linear-gradient(0deg, rgb(149, 5, 4),rgb(253, 19, 61))',
+  wind: 'linear-gradient(to top, #0ba360 0%, #3cba92 100%)',
+  holy: 'linear-gradient(109.6deg, rgb(255, 207, 84) 11.2%, rgb(255, 158, 27) 91.1%)',
+  shadow:
+    'radial-gradient(circle at 24.1% 68.8%, rgb(50, 50, 50) 0%, rgb(0, 0, 0) 99.4%)',
+  poison: 'linear-gradient(103.9deg, #01df01 -10%, #6a0888 83.9%)',
+  ghost:
+    'radial-gradient(circle at 10% 20%, rgb(186, 190, 245) 0%, rgb(192, 192, 245) 33.1%, rgb(218, 203, 246) 90%)',
+  undead: 'linear-gradient(0deg, rgb(0, 32, 95) 2.8%, rgb(132, 53, 142) 97.8%)',
+};
+
+const ELEMENT_ICON: Record<WeaponElement, SvgIconComponent> = {
+  neutral: FiberManualRecord,
+  water: WaterDrop,
+  earth: Landscape,
+  fire: LocalFireDepartment,
+  wind: Air,
+  holy: LightMode,
+  shadow: DarkMode,
+  poison: BubbleChart,
+  ghost: LineStyle,
+  undead: BackHand,
+};
+
+const ElementTab: React.FC<{
+  element: WeaponElement;
+  selected?: boolean;
+  borderColor?: PaletteColor;
+  iconSize?: number;
+  tabSize?: number;
+  borderSize?: number;
+}> = ({
+  element,
+  selected,
+  borderColor = 'white',
+  iconSize = 20,
+  tabSize = 28,
+  borderSize = 2,
+}) => {
+  const gradient = selected
+    ? 'linear-gradient(181deg, #61EA31 0.5%, #5BB83C 121.74%, #156B07 242.97%)'
+    : ELEMENT_GRADIENT[element];
+  const Icon = selected ? CheckCircleOutline : ELEMENT_ICON[element];
+  return (
+    <Box
+      sx={{
+        lineHeight: 0,
+        backgroundColor: (theme) => theme.palette.warning.main,
+        background: gradient,
+        borderRadius: '32px',
+        width: tabSize,
+        display: 'grid',
+        placeItems: 'center',
+        border: (theme) =>
+          `${borderSize}px solid ${theme.palette[borderColor].main}`,
+      }}
+    >
+      <Icon
+        color="white"
+        sx={{
+          fontSize: iconSize,
+        }}
+      />
+    </Box>
+  );
+};
+
+const CombatItem: React.FC<{
+  item: InventoryItemSchema;
+  resistances: Resistances;
+  quantity: number;
+  onChange: (quantity: number) => void;
+}> = ({ item, resistances, quantity, onChange }) => {
+  const [open, setOpen] = useState(false);
+  const damage = COMBAT_ITEM_DAMAGE[item.itemId as CombatItemId] ?? 1;
+  const element = COMBAT_ITEM_ELEMENT[item.itemId as CombatItemId] ?? 'neutral';
+  const resistance = resistances[element];
+  const color = quantity > 0 ? 'success' : 'primary';
+  return (
+    <Box
+      sx={{
+        borderRadius: (theme) => theme.shape.borderRadius,
+        border: (theme) => `3px solid ${alpha(theme.palette[color].main, 0.5)}`,
+        backgroundColor: (theme) => alpha(theme.palette[color].main, 0.1),
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+        whiteSpace: 'nowrap',
+      }}
+    >
+      <Column>
+        <Box
+          onClick={() => setOpen(!open)}
+          sx={{
+            display: 'flex',
+            position: 'relative',
+            justifyContent: 'space-between',
+            cursor: 'pointer',
+            '& *': {
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
+            },
+          }}
+        >
+          <Row>
+            <Box
+              sx={{
+                m: 1,
+                height: 64,
+                width: 64,
+                position: 'relative',
+                display: 'grid',
+                placeItems: 'center',
+                overflow: 'visible !important',
+              }}
+            >
+              <FillImage src={item.imageUrl} alt={item.name} />
+              {quantity > 0 && (
+                <Sword
+                  sx={{
+                    position: 'absolute',
+                    top: -8,
+                    left: -8,
+                    color: 'success.main',
+                  }}
+                />
+              )}
+            </Box>
+            <Column justifyContent="center">
+              <Typography fontWeight={700}>
+                {quantity > 0 ? `${quantity}x ` : ''}
+                {item.name}
+              </Typography>
+              <Typography typography="body3" fontWeight={500}>
+                {quantity > 0 ? quantity * damage : damage}{' '}
+                {ELEMENT_LABEL[element]} Damage
+              </Typography>
+              <Typography
+                typography="body3"
+                fontWeight={500}
+                color={
+                  resistance > 1
+                    ? 'success.main'
+                    : resistance < 1
+                    ? 'error.main'
+                    : 'primary.text'
+                }
+              >
+                {toPercentage(resistance)} Effective
+              </Typography>
+              <Typography
+                typography="body3"
+                fontWeight={quantity > 0 ? 700 : 500}
+                color={quantity > 0 ? 'success.main' : 'text.primary'}
+              >
+                {quantity > 0
+                  ? `${quantity} of ${item.quantity} Selected`
+                  : `${item.quantity} Available`}
+              </Typography>
+            </Column>
+          </Row>
+          <ElementTab selected={quantity > 0} element={element} />
+        </Box>
+        <Collapse in={open}>
+          <Divider sx={{ my: 1 }} />
+          <Column gap={1} mb={1}>
+            <Typography
+              typography={{ xs: 'body3', mobile1: 'body2' }}
+              textAlign="center"
+              color={item.quantity === quantity ? 'error' : 'text.primary'}
+            >
+              <i>
+                Available: {item.quantity - quantity}{' '}
+                {pluralize(item.name, item.quantity - quantity)}
+              </i>
+            </Typography>
+            <NumericCounterField
+              backgroundColor="white"
+              value={quantity}
+              onChange={(i) => {
+                if (i > item.quantity) {
+                  return;
+                }
+                onChange(i);
+              }}
             />
-          ))
-        ) : (
-          <NoCombatItems />
-        )}
-      </Row>
+            <Typography
+              typography={{ xs: 'body3', mobile1: 'body2' }}
+              textAlign="center"
+            >
+              <i>
+                Total Damage: {Math.floor(damage * quantity * resistance)}{' '}
+                {ELEMENT_LABEL[element]} Damage
+              </i>
+            </Typography>
+          </Column>
+        </Collapse>
+      </Column>
+    </Box>
+  );
+};
+
+const LoginToFight: React.FC<{ battleId: number }> = ({ battleId }) => {
+  return (
+    <Column alignItems="center" textAlign="center">
+      <Typography variant="h6">You must be logged in to fight!</Typography>
+      <Typography variant="body2">
+        Log in or sign up to use your items in combat.
+      </Typography>
+      <Button
+        variant="arcade"
+        color="warning"
+        startIcon={<Login />}
+        fullWidth
+        size="large"
+        sx={{ mt: 2 }}
+        href={routes.login.path({
+          query: {
+            redirect: routes.battle.path({
+              params: { battleId },
+            }),
+          },
+        })}
+      >
+        Log in to fight
+      </Button>
     </Column>
   );
 };
@@ -536,6 +870,7 @@ const NoCombatItems = () => {
   return (
     <Box
       sx={{
+        mt: 1,
         display: 'grid',
         gap: 1,
         width: '100%',
@@ -548,6 +883,7 @@ const NoCombatItems = () => {
       <Button
         variant="arcade"
         color="warning"
+        size="large"
         startIcon={<OpenInNew />}
         target="_blank"
         href={routes.help.inventory.path({
@@ -560,26 +896,61 @@ const NoCombatItems = () => {
   );
 };
 
-const CloseButton: React.FC<{ onClick: () => void }> = (props) => {
+const MobDefeated = () => {
   return (
-    <Box
-      sx={{
-        position: 'absolute',
-        top: 6,
-        right: 6,
-      }}
-    >
-      <IconButton
-        onClick={props.onClick}
-        size="small"
-        disableRipple
-        sx={{
-          p: '3px',
-          background: (theme) => theme.palette.primary.gradient,
-        }}
-      >
-        <Close fontSize="small" color="white" />
-      </IconButton>
-    </Box>
+    <Column alignItems="center" textAlign="center" mt={1}>
+      <Typography variant="h6">This boss has been defeated!</Typography>
+      <Typography variant="body2">Loot is being distributed...</Typography>
+    </Column>
+  );
+};
+
+const OverkillModal: React.FC<
+  ModalWrapper<{ onConfirm: () => void; battle: BattleSchema; damage: number }>
+> = ({ open, onClose, onConfirm, battle, damage }) => {
+  const handleClose = () => onClose?.({}, 'backdropClick');
+  return (
+    <InfoModal open={open} onClose={handleClose} maxWidth={440}>
+      <Column gap={1}>
+        <MonsterHeader
+          battle={{ ...battle, health: battle.health - damage }}
+          error
+        />
+        <Divider sx={{ mt: 2, mb: 1 }} />
+        <Typography variant="h5" textAlign="center">
+          Overkill Alert!
+        </Typography>
+
+        <Typography textAlign="center">
+          Are you sure you want to deal{' '}
+          <b>{Math.abs(battle.health - damage)}</b> more damage than the boss
+          has health?
+        </Typography>
+
+        <Typography textAlign="center" fontStyle="italic">
+          This will not increase your damage dealt or rewards.
+        </Typography>
+
+        <Button
+          variant="arcade"
+          onClick={onConfirm}
+          startIcon={<Sword />}
+          size="large"
+          color="error"
+          sx={{ my: 1 }}
+        >
+          Confirm Overkill
+        </Button>
+        <Button
+          color="primary"
+          variant="arcade"
+          size="large"
+          onClick={handleClose}
+          startIcon={<ArrowBack />}
+        >
+          Go Back
+        </Button>
+      </Column>
+    </InfoModal>
   );
 };

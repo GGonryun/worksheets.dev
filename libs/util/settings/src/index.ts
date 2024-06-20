@@ -35,7 +35,7 @@ export const GAME_TRACK_FREQUENCY_SECONDS = 60.1;
 
 export const MAX_CONSUMPTION_RATE = 10;
 
-export const MAX_ITEMS_PER_STRIKE = 5;
+export const MAX_ITEMS_PER_STRIKE = 15;
 
 export const SESSION_EXPIRATION_DAYS = 1;
 export const SESSION_AGE_MINUTES = 30;

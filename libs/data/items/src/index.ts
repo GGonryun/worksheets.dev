@@ -1764,6 +1764,8 @@ export type Item = (typeof ITEMS)[number];
 
 export type ItemId = Item['id'];
 
+export type TokenId = '1';
+
 export const itemIdSchema = z.custom<ItemId>();
 
 export type DroppableItem = Extract<
@@ -1988,13 +1990,14 @@ export const SHARABLE_ITEMS = ITEMS.filter(
 );
 
 export type CombatItem = Extract<Item, { type: 'COMBAT' }>;
-export type CombatItemId = CombatItem['id'];
+export type CombatItemId = CombatItem['id'] | TokenId;
 
 export const COMBAT_ITEMS = ITEMS.filter(
   (item): item is CombatItem => item.type === ItemType.COMBAT
 );
 
 export const COMBAT_ITEM_DAMAGE: Record<CombatItemId, number> = {
+  1: 1,
   1001: 5,
   1002: 6,
   1003: 7,
@@ -2023,6 +2026,66 @@ export const COMBAT_ITEM_DAMAGE: Record<CombatItemId, number> = {
   10105: 25,
   10108: 200,
   10111: 180,
+};
+
+export type Resistances = {
+  neutral: number; // mui FiberManualRecord
+  water: number; // mui water
+  earth: number; //mui Landscape
+  fire: number; // mui fire
+  wind: number; // mui air
+  holy: number; // mui sun
+  shadow: number; // mui moon
+  poison: number; // mui Warning https://www.svgrepo.com/svg/25807/biohazard-symbol
+  ghost: number; // mui LineStyle or https://www.svgrepo.com/svg/360444/ghost-f
+  undead: number; // mui BackHand or https://www.svgrepo.com/svg/488384/skull-head
+};
+
+export type WeaponElement = keyof Resistances;
+
+export const COMBAT_ITEM_ELEMENT: Record<CombatItemId, WeaponElement> = {
+  1: 'neutral',
+  1001: 'neutral',
+  1002: 'neutral',
+  1003: 'neutral',
+  1004: 'neutral',
+  1005: 'neutral',
+  10021: 'shadow',
+  10030: 'water',
+  10031: 'water',
+  10041: 'ghost',
+  10043: 'neutral',
+  10046: 'poison',
+  10050: 'neutral',
+  10060: 'neutral',
+  10067: 'fire',
+  10069: 'fire',
+  10070: 'neutral',
+  10073: 'shadow',
+  10090: 'neutral',
+  10091: 'neutral',
+  10092: 'neutral',
+  10096: 'neutral',
+  10099: 'poison',
+  10100: 'fire',
+  10101: 'earth',
+  10103: 'poison',
+  10105: 'neutral',
+  10108: 'holy',
+  10111: 'undead',
+};
+
+export const ELEMENT_LABEL: Record<WeaponElement, string> = {
+  neutral: 'Neutral',
+  water: 'Water',
+  earth: 'Earth',
+  fire: 'Fire',
+  wind: 'Wind',
+  holy: 'Holy',
+  shadow: 'Shadow',
+  poison: 'Poison',
+  ghost: 'Ghost',
+  undead: 'Undead',
 };
 
 export type ConsumableItem = Extract<Item, { type: 'CONSUMABLE' }>;

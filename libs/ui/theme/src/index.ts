@@ -7,6 +7,7 @@ export type PaletteColor =
   | 'warning'
   | 'primary'
   | 'secondary'
+  | 'white'
   | 'black';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

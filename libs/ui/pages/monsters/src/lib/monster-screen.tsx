@@ -102,7 +102,7 @@ const NoBattlesContent = () => {
 const BattlesContent: React.FC<{ monster: MonsterSchema }> = (props) => {
   const battles = trpc.maybe.battles.list.useQuery({
     monsterId: props.monster.id,
-    status: ['ACTIVE'],
+    status: ['ACTIVE', 'COMPLETE'],
   });
 
   if (battles.isLoading) return <LoadingBar />;
