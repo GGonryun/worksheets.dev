@@ -1,6 +1,13 @@
 import { TRPCError } from '@trpc/server';
+import { DROP_LOTTERY, ItemId, ITEMS } from '@worksheets/data/items';
+import { Prisma, PrismaClient } from '@worksheets/prisma';
+import { InventoryService } from '@worksheets/services/inventory';
+import { NotificationsService } from '@worksheets/services/notifications';
 import { TasksService } from '@worksheets/services/tasks';
+import { randomArrayElement, shuffle } from '@worksheets/util/arrays';
 import { startBackgroundJob } from '@worksheets/util/jobs';
+import { isLucky } from '@worksheets/util/numbers';
+import { PLAY_MINUTE_DROP_CHANCE } from '@worksheets/util/settings';
 import { z } from 'zod';
 
 import { protectedProcedure } from '../../../procedures';
@@ -37,6 +44,9 @@ export default t.router({
         where: {
           referredByUserId: user.id,
         },
+        select: {
+          id: true,
+        },
       });
 
       const friends = await db.friendship.findMany({
@@ -71,6 +81,60 @@ export default t.router({
           userId: user.id,
           increment,
         }),
+        bonusLoot(db, user, game),
       ]);
     }),
 });
+
+// TODO: In the long run we're planning to remove the time based rewards.
+// for now since the default game tracking period is 60 seconds, we can
+// synchronize rewards with it.
+const bonusLoot = async (
+  db: PrismaClient,
+  user: { id: string; multiplier: number },
+  game?: Prisma.GameGetPayload<{ select: { id: true; title: true } }>
+) => {
+  console.info('Searching for bonus loot for infinite play minutes', {
+    id: user.id,
+    multiplier: user.multiplier,
+  });
+  const { id: userId, multiplier } = user;
+  const inventory = new InventoryService(db);
+  const notifications = new NotificationsService(db);
+
+  if (!isLucky(PLAY_MINUTE_DROP_CHANCE * multiplier)) {
+    return;
+  }
+
+  const lottery = getPlayerLottery();
+
+  const itemId = randomArrayElement(shuffle(lottery));
+  console.info('Awarding bonus loot for infinite play minutes', {
+    itemId,
+    userId,
+  });
+  await inventory.increment(userId, itemId as ItemId, 1);
+  const item = ITEMS.find((i) => i.id === itemId);
+  if (game && item) {
+    const payload = {
+      userId,
+      item,
+      game,
+    };
+    console.info('Sending notification for bonus loot', payload);
+    await notifications.send('found-item', payload);
+  } else {
+    console.info('Could not find item or game for bonus loot', {
+      itemId,
+      userId,
+      item,
+      game,
+    });
+  }
+};
+
+const getPlayerLottery = () => {
+  return Object.entries(DROP_LOTTERY).flatMap(([itemId, quantity]) => {
+    return Array.from({ length: quantity }, () => itemId);
+  });
+};

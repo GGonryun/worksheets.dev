@@ -27,6 +27,7 @@ model User {
   createdAt        DateTime               @default(now())
   updatedAt        DateTime               @updatedAt
   lastSeen         DateTime?              @default(now())
+  multiplier       Float                  @default(1)
   type             UserType               @default(USER)
   accounts         Account[]
   sessions         Session[]

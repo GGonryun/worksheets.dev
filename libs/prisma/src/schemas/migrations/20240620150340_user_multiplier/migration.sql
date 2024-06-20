@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "User" ADD COLUMN     "multiplier" DOUBLE PRECISION NOT NULL DEFAULT 1;

@@ -1,10 +1,15 @@
+import { GAME_TRACK_FREQUENCY_SECONDS } from '@worksheets/util/settings';
+import { S_TO_MS } from '@worksheets/util/time';
+import { UserSchema } from '@worksheets/util/types';
 import { useEffect, useRef, useState } from 'react';
 
-export const useGameTracker = (opts: {
-  duration: number;
-  onInterval?: (time: number) => void;
-  onElapsed?: (time: number) => void;
-}) => {
+export const useGameTracker = (
+  user: UserSchema | undefined,
+  opts: {
+    onInterval?: (time: number) => void;
+    onElapsed?: (time: number) => void;
+  }
+) => {
   const [isActive, setIsActive] = useState(false);
   const [elapsedTime, setElapsedTime] = useState(0);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
@@ -21,6 +26,8 @@ export const useGameTracker = (opts: {
   };
 
   useEffect(() => {
+    if (!user) return;
+
     let lastTime = Date.now();
 
     const handleVisibilityChange = () => {
@@ -38,12 +45,16 @@ export const useGameTracker = (opts: {
     const handleInterval = () => {
       const now = Date.now();
       const delta = now - lastTime;
+      const severityFactor = 1.5;
+      const adjustedMultiplier = Math.pow(user.multiplier, severityFactor);
+      const duration =
+        S_TO_MS(GAME_TRACK_FREQUENCY_SECONDS) / adjustedMultiplier;
       lastTime = now;
 
       setElapsedTime((prevElapsedTime) => prevElapsedTime + delta);
 
       opts.onInterval?.(elapsedTime);
-      if (elapsedTime >= opts.duration) {
+      if (elapsedTime >= duration) {
         opts.onElapsed?.(elapsedTime);
         setElapsedTime(0);
       }
@@ -61,7 +72,7 @@ export const useGameTracker = (opts: {
       if (intervalRef.current) clearInterval(intervalRef.current);
       document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
-  }, [isActive, elapsedTime, opts]);
+  }, [isActive, elapsedTime, opts, user]);
 
   return { isActive, elapsedTime, start, end };
 };

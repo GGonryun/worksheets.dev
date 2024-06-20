@@ -3,8 +3,8 @@ import { routes } from '@worksheets/routes';
 import { trpc } from '@worksheets/trpc-charity';
 import { useGameVotes } from '@worksheets/ui/hooks/use-game-votes';
 import { useRecentlyPlayedGames } from '@worksheets/ui/hooks/use-recently-played-games';
-import { GAME_TRACK_FREQUENCY_SECONDS } from '@worksheets/util/settings';
-import { MS_TO_S, S_TO_MS } from '@worksheets/util/time';
+import { MS_TO_S } from '@worksheets/util/time';
+import { NO_REFETCH } from '@worksheets/util/trpc';
 import {
   DeveloperSchema,
   SerializableGameSchema,
@@ -64,6 +64,10 @@ const GameScreenContainerInner: React.FC<GameScreenContainerProps> = ({
 
   const userVotes = useGameVotes();
 
+  const user = trpc.user.get.useQuery(undefined, {
+    enabled: authenticated,
+    ...NO_REFETCH,
+  });
   const castVote = trpc.public.games.vote.cast.useMutation();
   const record = trpc.maybe.games.record.useMutation();
   const reportGame = trpc.public.games.report.useMutation();
@@ -86,20 +90,17 @@ const GameScreenContainerInner: React.FC<GameScreenContainerProps> = ({
 
   const [showVoteWarning, setShowVoteWarning] = useState(false);
 
-  const gameTracker = useGameTracker({
-    duration: S_TO_MS(GAME_TRACK_FREQUENCY_SECONDS),
+  const gameTracker = useGameTracker(user.data, {
     onElapsed: (increment) => {
-      if (authenticated) {
-        trackGameTime.mutate({
-          gameId: game.id,
-          increment: MS_TO_S(increment),
-        });
-      }
+      trackGameTime.mutate({
+        gameId: game.id,
+        increment: MS_TO_S(increment),
+      });
     },
   });
 
   const handleRewardPlay = async () => {
-    if (authenticated) {
+    if (user.data) {
       await trackGamePlay.mutateAsync({
         gameId: game.id,
       });
