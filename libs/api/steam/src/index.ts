@@ -3,7 +3,7 @@ import { request } from '@worksheets/api/fetch';
 
 export class SteamAPI {
   #apiKey: string;
-  #maxWishlistPages = 10;
+  #maxWishlistPages = 50;
   constructor() {
     const apiKey = process.env['STEAM_API_KEY'];
     if (!apiKey) throw new Error('STEAM_API_KEY is not set');
