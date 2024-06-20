@@ -25,8 +25,8 @@ export type LeaderboardFrequency = keyof typeof LEADERBOARD_FREQUENCY;
 
 export const LEADERBOARD_REWARD_PAYOUT: Record<LeaderboardFrequency, number[]> =
   {
-    DAILY: [100, 50, 25],
-    WEEKLY: [500, 300, 150, 75, 50, 50, 20, 20],
+    DAILY: [50, 25, 10],
+    WEEKLY: [200, 100, 75, 75, 50, 50, 20, 20],
     ALL_TIME: [],
   };
 

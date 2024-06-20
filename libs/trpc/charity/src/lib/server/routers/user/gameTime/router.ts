@@ -89,6 +89,7 @@ export default t.router({
 // TODO: In the long run we're planning to remove the time based rewards.
 // for now since the default game tracking period is 60 seconds, we can
 // synchronize rewards with it.
+// TODO: protect bonus loot tracking with a rate limiter.
 const bonusLoot = async (
   db: PrismaClient,
   user: { id: string; multiplier: number },
