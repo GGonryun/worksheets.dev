@@ -26,9 +26,9 @@ export default createCronJob(async (_, res) => {
     },
   });
 
-  await waitFor(3000); // wait for 3 seconds, hopefully enough time for the db changes to be in place.
+  await waitFor(5000); // wait for 5 seconds, hopefully enough time for the db changes to be in place.
   await res.revalidate(
-    routes.battle.url({
+    routes.battle.path({
       params: {
         battleId: spawned.battleId,
       },
