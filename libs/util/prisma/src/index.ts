@@ -27,6 +27,12 @@ const DEADLOCK_OR_WRITE_CONFLICT = 'P2034';
 const CONCURRENT_TRANSACTIONS = 'P2037';
 
 export const whenWriteConflictOrDeadlock = (e: unknown): boolean => {
+  console.warn(
+    'whenWriteConflictOrDeadlock',
+    e,
+    e instanceof Prisma.PrismaClientKnownRequestError,
+    (e as Prisma.PrismaClientKnownRequestError)?.code
+  );
   return (
     e instanceof Prisma.PrismaClientKnownRequestError &&
     // Retry if the error was due to a write conflict or deadlock

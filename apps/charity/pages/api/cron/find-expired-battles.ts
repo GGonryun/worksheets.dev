@@ -3,7 +3,6 @@ import { MobsService } from '@worksheets/services/mobs';
 import { NotificationsService } from '@worksheets/services/notifications';
 import { createCronJob } from '@worksheets/util/cron';
 import { retryTransaction } from '@worksheets/util/prisma';
-import { aggregateSettledErrors } from '@worksheets/util/promises';
 import { S_TO_MS } from '@worksheets/util/time';
 import { MVP_EXTENDED_REASON_LABEL } from '@worksheets/util/types';
 
@@ -11,9 +10,10 @@ export default createCronJob(async () => {
   const mobs = new MobsService(prisma);
   const expired = await mobs.findExpiredBattles();
 
-  aggregateSettledErrors(
-    await Promise.allSettled(expired.map(processExpiredBattle))
-  );
+  for (const exp of expired) {
+    console.info('Begin processing expired battle:', exp.id);
+    await processExpiredBattle(exp);
+  }
 });
 
 export const processExpiredBattle = async (
