@@ -56,6 +56,7 @@ const convertMob = (mob: Mob) => {
     version: mob.version,
     name: mob.name,
     imageUrl: mob.imageUrl,
+    type: mob.type,
     description: mob.description,
     maxHp: mob.maxHp,
     level: mob.level,

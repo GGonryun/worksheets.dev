@@ -1,5 +1,6 @@
 import { TRPCError } from '@trpc/server';
 import { ItemId } from '@worksheets/data/items';
+import { MOBS } from '@worksheets/data/mobs';
 import {
   MvpReason,
   Prisma,
@@ -7,7 +8,7 @@ import {
   PrismaTransactionalClient,
 } from '@worksheets/prisma';
 import { InventoryService } from '@worksheets/services/inventory';
-import { shuffle } from '@worksheets/util/arrays';
+import { randomArrayElement, shuffle } from '@worksheets/util/arrays';
 import { isLucky } from '@worksheets/util/numbers';
 import { ENTRY_PER_DAMAGE } from '@worksheets/util/settings';
 import {
@@ -37,54 +38,43 @@ export type ProcessedExpiredBattleOutput = {
 
 export class MobsService {
   #db: PrismaClient | PrismaTransactionalClient;
+  #maxBattles = 10;
   constructor(db: PrismaClient | PrismaTransactionalClient) {
     this.#db = db;
   }
 
-  async publishAll() {
-    const pending = await this.#db.battle.findMany({
+  async spawnMonster() {
+    const activeBattles = await this.#db.battle.count({
       where: {
-        status: 'PENDING',
-        publishAt: {
-          lte: new Date(),
-        },
-      },
-      select: {
-        id: true,
-        mob: {
-          select: {
-            name: true,
-            loot: {
-              select: {
-                itemId: true,
-                quantity: true,
-              },
-            },
-          },
+        status: 'ACTIVE',
+        health: {
+          gt: 0,
         },
       },
     });
 
-    if (pending.length === 0) {
-      return [];
+    if (activeBattles > this.#maxBattles) {
+      console.info(`Too many active battles, not spawning a new monster.`);
+
+      return undefined;
     }
 
-    await this.#db.battle.updateMany({
-      where: {
-        id: {
-          in: pending.map((b) => b.id),
-        },
-      },
+    const monster = randomArrayElement(MOBS);
+
+    const battle = await this.#db.battle.create({
       data: {
+        mobId: monster.id,
         status: 'ACTIVE',
+        health: monster.maxHp,
       },
     });
 
-    return pending.map((battle) => ({
+    return {
       battleId: battle.id,
-      mobName: battle.mob.name,
-      loot: battle.mob.loot.reduce((a, l) => a + l.quantity, 0),
-    }));
+      mobName: monster.name,
+      type: monster.type,
+      loot: monster.loot.reduce((a, l) => a + l.quantity, 0),
+    };
   }
 
   async record(battleId: number) {

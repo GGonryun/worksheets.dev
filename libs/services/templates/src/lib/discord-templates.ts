@@ -87,7 +87,7 @@ export class DiscordTemplates {
     opts: ExtractTemplatePayload<'new-battle'>
   ): DiscordMessageInput {
     return {
-      content: `A new battle has started!`,
+      content: `A new boss battle has started!`,
       embeds: [
         {
           title: `Fight the ${opts.mobName} for a chance to win ${opts.loot} items!`,
@@ -109,7 +109,7 @@ export class DiscordTemplates {
           url: BATTLE_URL(opts.mob.battleId),
         },
       ],
-      channel: 'notification',
+      channel: 'admin',
     };
   }
   static raffleExpired(

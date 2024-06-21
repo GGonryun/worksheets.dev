@@ -814,6 +814,11 @@ model Loot {
   game     Game?          @relation(fields: [gameId], references: [id], onDelete: Cascade)
 }
 
+enum MobType {
+  BASIC
+  BOSS
+}
+
 model Mob {
   id          Int        @id @default(autoincrement())
   version     Int        @default(0)
@@ -821,6 +826,7 @@ model Mob {
   imageUrl    String
   description String
   maxHp       Int
+  type        MobType    @default(BASIC)
   level       Int
   race        MobRace
   element     MobElement

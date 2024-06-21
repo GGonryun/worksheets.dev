@@ -91,7 +91,7 @@ export class PushTemplates {
   ): PushNotifyInput {
     return {
       type: 'BATTLE',
-      text: `A new battle has started! <a href="${BATTLE_URL(
+      text: `A new boss battle has started! <a href="${BATTLE_URL(
         opts.battleId
       )}">Fight the ${opts.mobName}</a> for a chance to win ${
         opts.loot

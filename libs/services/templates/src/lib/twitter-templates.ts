@@ -34,7 +34,7 @@ export class TwitterTemplates {
     )}. View results: ${RAFFLE_URL(opts.id)}`;
   }
   static newBattle(opts: ExtractTemplatePayload<'new-battle'>) {
-    return `🔥 A new battle has started! 🔥\n\n🗡️ Fight the ${
+    return `🔥 A new boss battle has started! 🔥\n\n🗡️ Fight the ${
       opts.mobName
     } for a chance to win one of ${opts.loot} items!\n\n${BATTLE_URL(
       opts.battleId

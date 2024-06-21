@@ -38,7 +38,7 @@
         },
         {
             "path": "/api/cron/find-expired-battles",
-            "schedule": "30 * * * *"
+            "schedule": "*/47 * * * *"
         },
         {
             "path": "/api/cron/publish-games",
@@ -49,8 +49,8 @@
             "schedule": "0 * * * *"
         },
         {
-            "path": "/api/cron/publish-battles",
-            "schedule": "0 * * * *"
+            "path": "/api/cron/spawn-monster",
+            "schedule": "*/103 * * * *"
         },
         {
             "path": "/api/cron/reward-leaderboards-daily",
