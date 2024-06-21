@@ -430,12 +430,12 @@ export const MOBS = [
   },
   {
     id: 114 as const,
-    version: 1,
+    version: 2,
     name: 'Blorg The Beetle',
     imageUrl: 'https://cdn.charity.games/_mobs/114.png',
     description:
       "A giant beetle that has been terrorizing the countryside. The West Wizard of the East has put a large bounty on it's head. He's probably the one who summoned it in the first place.",
-    maxHp: 410,
+    maxHp: 370,
     level: 10,
     type: MobType.BASIC,
     race: MobRace.INSECT,
@@ -561,7 +561,7 @@ export const MOBS = [
     imageUrl: 'https://cdn.charity.games/_mobs/118.png',
     description:
       "A large metal sentry that patrols a long-forgotten factory. It was programmed to collect trash and recycle it, but it has degraded over time and considers everything it sees to be trash. It's not very friendly.",
-    maxHp: 750,
+    maxHp: 650,
     level: 12,
     type: MobType.BASIC,
     race: MobRace.MACHINE,
