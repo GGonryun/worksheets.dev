@@ -56,7 +56,7 @@ export const getStaticPaths = (async (ctx) => {
         battleId: battle.id.toString(),
       },
     })),
-    fallback: false,
+    fallback: 'blocking',
   };
 }) satisfies GetStaticPaths<{ battleId: string }>;
 
