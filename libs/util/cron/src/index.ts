@@ -2,7 +2,9 @@ import { CRON_SECRET } from '@worksheets/services/environment';
 import { IS_PRODUCTION } from '@worksheets/ui/env';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-export const createCronJob = (fn: () => Promise<unknown>) => {
+export const createCronJob = (
+  fn: (request: NextApiRequest, response: NextApiResponse) => Promise<unknown>
+) => {
   return async (request: NextApiRequest, response: NextApiResponse) => {
     const authHeader = request.headers['authorization'];
 
@@ -13,7 +15,7 @@ export const createCronJob = (fn: () => Promise<unknown>) => {
       }
     }
     try {
-      await fn();
+      await fn(request, response);
       response.status(200).json({ success: true });
     } catch (error) {
       console.error('Cron Job Failed', error);

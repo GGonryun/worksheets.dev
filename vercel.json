@@ -49,6 +49,10 @@
             "schedule": "0 * * * *"
         },
         {
+            "path": "/api/cron/spawn-monster",
+            "schedule": "47 * * * *"
+        },
+        {
             "path": "/api/cron/reward-leaderboards-daily",
             "schedule": "0 0 * * *"
         },
