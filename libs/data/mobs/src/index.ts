@@ -348,12 +348,12 @@ export const MOBS = [
   },
   {
     id: 111 as const,
-    version: 2,
+    version: 1,
     name: 'Mimic',
     imageUrl: 'https://cdn.charity.games/_mobs/111.png',
     description:
       'A chest that has been possessed by a mimic. It will attack anything that tries to open it. Be careful!',
-    maxHp: 1250,
+    maxHp: 1500,
     level: 15,
     type: MobType.BASIC,
     race: MobRace.FORMLESS,
@@ -361,8 +361,8 @@ export const MOBS = [
     size: MobSize.MEDIUM,
     attack: 10,
     defense: 5,
-    baseExp: 50,
-    mvpExp: 10,
+    baseExp: 80,
+    mvpExp: 20,
     loot: [
       { itemId: '5', quantity: 15, chance: 1, mvp: false },
       { itemId: '200', quantity: 15, chance: 1, mvp: false },
@@ -402,12 +402,12 @@ export const MOBS = [
   },
   {
     id: 113 as const,
-    version: 1,
+    version: 2,
     name: 'Fire Range Chicken',
     imageUrl: 'https://cdn.charity.games/_mobs/113.png',
     description:
       "A sorcerer's experiment gone wrong. This chicken has been imbued with the power of fire. It seems to be very angry at it's existence. It has been furiously pecking at the ground.",
-    maxHp: 290,
+    maxHp: 260,
     level: 7,
     type: MobType.BASIC,
     race: MobRace.BEAST,
