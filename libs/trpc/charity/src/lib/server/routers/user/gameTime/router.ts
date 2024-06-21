@@ -101,15 +101,17 @@ const bonusLoot = async (
   user: { id: string; multiplier: number },
   game?: Prisma.GameGetPayload<{ select: { id: true; title: true } }>
 ) => {
+  const { id: userId, multiplier } = user;
   console.info('Searching for bonus loot for infinite play minutes', {
     id: user.id,
-    multiplier: user.multiplier,
+    multiplier,
   });
-  const { id: userId, multiplier } = user;
   const inventory = new InventoryService(db);
   const notifications = new NotificationsService(db);
+  const severityFactor = 1.25;
+  const adjustedMultiplier = Math.pow(multiplier, severityFactor);
 
-  if (!isLucky(PLAY_MINUTE_DROP_CHANCE * multiplier)) {
+  if (!isLucky(PLAY_MINUTE_DROP_CHANCE * adjustedMultiplier)) {
     return;
   }
 
