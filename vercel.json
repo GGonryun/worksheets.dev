@@ -50,7 +50,7 @@
         },
         {
             "path": "/api/cron/spawn-monster",
-            "schedule": "47 * * * *"
+            "schedule": "*/47 * * * *"
         },
         {
             "path": "/api/cron/reward-leaderboards-daily",
