@@ -95,7 +95,8 @@ const questCompletedTemplates: TemplateBuilder<'quest-completed'> = (
 const newBattleTemplates: TemplateBuilder<'new-battle'> = (payload) => ({
   // TODO: twitter battle notifications get low engagement and may just be noise.
   // twitter: TwitterTemplates.newBattle(payload),
-  discord: DiscordTemplates.newBattle(payload),
+  // TODO: reduce discord noise from boss battles
+  // discord: DiscordTemplates.newBattle(payload),
   broadcast: PushTemplates.newBattle(payload),
 });
 

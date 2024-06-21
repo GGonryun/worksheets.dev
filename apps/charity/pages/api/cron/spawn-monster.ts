@@ -3,7 +3,6 @@ import { routes } from '@worksheets/routes';
 import { MobsService } from '@worksheets/services/mobs';
 import { NotificationsService } from '@worksheets/services/notifications';
 import { createCronJob } from '@worksheets/util/cron';
-import { waitFor } from '@worksheets/util/time';
 
 export default createCronJob(async (_, res) => {
   const notifications = new NotificationsService(prisma);
@@ -26,7 +25,6 @@ export default createCronJob(async (_, res) => {
     },
   });
 
-  await waitFor(5000); // wait for 5 seconds, hopefully enough time for the db changes to be in place.
   await res.revalidate(
     routes.battle.path({
       params: {

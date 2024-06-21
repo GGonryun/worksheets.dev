@@ -38,7 +38,7 @@ export type ProcessedExpiredBattleOutput = {
 
 export class MobsService {
   #db: PrismaClient | PrismaTransactionalClient;
-  #maxBattles = 10;
+  #maxBattles = 20;
   constructor(db: PrismaClient | PrismaTransactionalClient) {
     this.#db = db;
   }
@@ -199,7 +199,7 @@ export class MobsService {
 
   async findExpiredBattles() {
     return await this.#db.battle.findMany({
-      take: 1, // TODO: make expired battle processing more efficient.
+      take: 2, // TODO: This prevents us from processing too many battles at once. We should probably make this configurable.
       where: {
         status: 'ACTIVE',
         health: {
