@@ -3,6 +3,7 @@ import { routes } from '@worksheets/routes';
 import { MobsService } from '@worksheets/services/mobs';
 import { NotificationsService } from '@worksheets/services/notifications';
 import { createCronJob } from '@worksheets/util/cron';
+import { waitFor } from '@worksheets/util/time';
 
 export default createCronJob(async (_, res) => {
   const notifications = new NotificationsService(prisma);
@@ -18,18 +19,19 @@ export default createCronJob(async (_, res) => {
     await notifications.send('new-battle', spawned);
   }
 
-  await res.revalidate(
-    routes.battle.path({
-      params: {
-        battleId: spawned.battleId,
-      },
-    })
-  );
-
   await prisma.battleLogs.create({
     data: {
       battleId: spawned.battleId,
       message: `The battle against ${spawned.mobName} has started!`,
     },
   });
+
+  await waitFor(3000); // wait for 3 seconds, hopefully enough time for the db changes to be in place.
+  await res.revalidate(
+    routes.battle.url({
+      params: {
+        battleId: spawned.battleId,
+      },
+    })
+  );
 });
