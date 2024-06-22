@@ -325,11 +325,11 @@ export class InventoryService {
     }
 
     if (isSharableDecrementOpts(opts)) {
-      return this.#share(userId, opts);
+      return await this.#share(userId, opts);
     }
 
     if (isConsumableDecrementOpts(opts)) {
-      return this.#consume(userId, opts);
+      return await this.#consume(userId, opts);
     }
 
     if (isSteamKeyDecrementOpts(opts)) {
@@ -339,11 +339,11 @@ export class InventoryService {
           message: 'Claiming multiple Steam keys at once is not supported.',
         });
       }
-      return this.#activate(userId, inventoryId, opts);
+      return await this.#activate(userId, inventoryId, opts);
     }
 
     if (isEtCeteraDecrementOpts(opts)) {
-      return this.#sell(userId, opts);
+      return await this.#sell(userId, opts);
     }
 
     if (isCapsuleDecrementOpts(opts)) {
@@ -427,11 +427,9 @@ export class InventoryService {
         numGroups: Object.keys(groupItems).length,
       });
 
-      await Promise.all(
-        Object.entries(groupItems).map(([itemId, quantity]) =>
-          this.increment(userId, itemId as ItemId, quantity)
-        )
-      );
+      for (const [itemId, quantity] of Object.entries(groupItems)) {
+        await this.increment(userId, itemId as ItemId, quantity);
+      }
 
       return `You have found ${this.#printItemNames(items)}`;
     } else if (isRandomTokenQuantity(rate)) {

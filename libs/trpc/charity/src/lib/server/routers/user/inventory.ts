@@ -8,6 +8,7 @@ import {
   PrizeWheelService,
 } from '@worksheets/services/inventory';
 import { NotificationsService } from '@worksheets/services/notifications';
+import { retryTransaction } from '@worksheets/util/prisma';
 import {
   DecrementOpts,
   inventoryItemSchema,
@@ -65,9 +66,9 @@ export default t.router({
     )
     .output(z.custom<Awaited<ReturnType<InventoryService['decrement']>>>())
     .mutation(async ({ input, ctx: { db, user } }) => {
-      return await db.$transaction(async (tx) => {
+      return await retryTransaction(db, async (tx) => {
         const inventory = new InventoryService(tx);
-        return inventory.decrement(user.id, input as DecrementOpts);
+        return await inventory.decrement(user.id, input as DecrementOpts);
       });
     }),
   activate: protectedProcedure
