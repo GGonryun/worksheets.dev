@@ -1,4 +1,4 @@
-import { httpBatchLink, loggerLink } from '@trpc/client';
+import { httpBatchLink, httpLink, loggerLink, splitLink } from '@trpc/client';
 import { createTRPCNext } from '@trpc/next';
 import { CHARITY_GAMES_BASE_URL } from '@worksheets/ui/env';
 
@@ -17,9 +17,23 @@ function getBaseUrl() {
 
 export const trpc = createTRPCNext<AppRouter>({
   config() {
+    const url = `${getBaseUrl()}/api/trpc`;
     return {
-      ssr: true,
       links: [
+        splitLink({
+          condition(op) {
+            const components = op.path.split('.');
+            return components?.at(0) === 'public' && op.type === 'query';
+          },
+          // when condition is true, use normal request
+          true: httpLink({
+            url,
+          }),
+          // when condition is false, use batching
+          false: httpBatchLink({
+            url,
+          }),
+        }),
         /**
          * The function passed to enabled is an example in case you want to the link to
          * log to your console in development and only log errors in production
@@ -34,7 +48,7 @@ export const trpc = createTRPCNext<AppRouter>({
            * If you want to use SSR, you need to use the server's full URL
            * @link https://trpc.io/docs/ssr
            **/
-          url: `${getBaseUrl()}/api/trpc`,
+          url,
           async headers() {
             return {
               // authorization: getAuthCookie(),
@@ -44,6 +58,5 @@ export const trpc = createTRPCNext<AppRouter>({
       ],
     };
   },
-
   ssr: false,
 });
