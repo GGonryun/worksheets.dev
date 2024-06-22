@@ -157,12 +157,12 @@ export const MOBS = [
   },
   {
     id: 105 as const,
-    version: 1,
+    version: 2,
     name: 'Water Elemental',
     imageUrl: 'https://cdn.charity.games/_mobs/105.png',
     description:
       'A strange spirit that has been known to capture sailors and drag them to the depths of the ocean. It has no face, but it seems to be watching you.',
-    maxHp: 300,
+    maxHp: 425,
     level: 4,
     type: MobType.BASIC,
     race: MobRace.FISH,
