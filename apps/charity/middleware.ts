@@ -13,14 +13,15 @@ export const config = {
      * 4. /_vercel (Vercel internal routes)
      * 5. /404, /429, /500 error pages
      */
-    '/((?!api/|429|404|500|_next/|_static/|_vercel|site.webmanifest|favicon.ico).*)',
+    '/((?!api/|429|404|500|_next/|_static/|_vercel|[\\w-]+\\.\\w+|.*\\.).*)',
   ],
 };
 
 const protectedPages = [routes.account.path(), routes.vip.path()];
 
 export default async function middleware(req: NextRequest) {
-  console.log('middleware', req.nextUrl.href);
+  // if the path
+
   // Rate Limit requests
 
   const ip = req.ip ?? '127.0.0.1';
