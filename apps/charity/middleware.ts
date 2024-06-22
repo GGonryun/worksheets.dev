@@ -20,8 +20,6 @@ export const config = {
 const protectedPages = [routes.account.path(), routes.vip.path()];
 
 export default async function middleware(req: NextRequest) {
-  // if the path
-
   // Rate Limit requests
 
   const ip = req.ip ?? '127.0.0.1';
