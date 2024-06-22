@@ -76,7 +76,7 @@ export const retryTransaction = async <T>(
   while (attempts < maxAttempts) {
     try {
       attempts++;
-      return prisma.$transaction(fn, {
+      return await prisma.$transaction(fn, {
         isolationLevel,
         maxWait,
         timeout,
