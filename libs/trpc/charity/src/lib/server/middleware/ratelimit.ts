@@ -20,9 +20,9 @@ export const ratelimiter = middleware(async ({ next, ctx, type, path }) => {
             type,
           },
         });
-      } else {
-        console.error('Invalid IP format for ratelimit', ip);
       }
+    } else {
+      console.error('Invalid IP format for ratelimit', ip);
     }
   }
 
