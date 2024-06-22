@@ -192,7 +192,7 @@ export const MOBS = [
     imageUrl: 'https://cdn.charity.games/_mobs/106.png',
     description:
       'Old man Jenkins claims that he saw his recycling bin come to life and start attacking him. He must be losing his mind. This is just a normal recycling bin. Old man Jenkins did a really bad job of sorting their trash.',
-    maxHp: 1000,
+    maxHp: 1250,
     level: 5,
     type: MobType.BASIC,
     race: MobRace.MACHINE,
