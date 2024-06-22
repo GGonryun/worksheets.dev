@@ -187,7 +187,7 @@ export const MOBS = [
   },
   {
     id: 106 as const,
-    version: 1,
+    version: 2,
     name: 'Evil Recycling Bin',
     imageUrl: 'https://cdn.charity.games/_mobs/106.png',
     description:
