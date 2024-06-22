@@ -588,6 +588,7 @@ export class CapsuleService {
       itemId: ItemId;
     }
   ): Promise<InventoryCapsuleSchema> {
+    console.info('Getting capsule', { userId, itemId: opts.itemId });
     const { itemId } = opts;
     if (!isCapsuleItemId(itemId)) {
       throw new TRPCError({
