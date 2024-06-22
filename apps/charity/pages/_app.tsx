@@ -6,6 +6,7 @@ import { DynamicInitializeSessionReplay } from '@worksheets/ui/components/sessio
 import { SnackbarContextProvider } from '@worksheets/ui/components/snackbar';
 import theme from '@worksheets/ui/theme';
 import { AppPropsWithLayout } from '@worksheets/util-next';
+import { AppType } from 'next/app';
 import Head from 'next/head';
 import { SessionProvider } from 'next-auth/react';
 import { DefaultSeo } from 'next-seo';
@@ -13,10 +14,10 @@ import React from 'react';
 
 import { defaultSeo } from '../util/seo';
 
-function CustomApp({
+const MyApp: AppType = ({
   Component,
   pageProps: { session, ...pageProps },
-}: AppPropsWithLayout) {
+}: AppPropsWithLayout) => {
   const getLayout = Component.getLayout ?? ((page) => page);
 
   return (
@@ -40,6 +41,17 @@ function CustomApp({
       </ThemeProvider>
     </>
   );
-}
+};
 
-export default trpc.withTRPC(CustomApp);
+MyApp.getInitialProps = async ({ ctx }) => {
+  const ONE_DAY_SECONDS = 60 * 60 * 24;
+  ctx.res?.setHeader(
+    'Cache-Control',
+    `s-maxage=1, stale-while-revalidate=${ONE_DAY_SECONDS}`
+  );
+  return {
+    pageProps: {},
+  };
+};
+
+export default trpc.withTRPC(MyApp);
