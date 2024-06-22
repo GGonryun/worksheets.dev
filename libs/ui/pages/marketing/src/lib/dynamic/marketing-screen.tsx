@@ -44,6 +44,10 @@ const MarketingScreen = () => (
           username: 'xx_jayvee',
           tweetUrl: 'https://x.com/xx_jayvee/status/1803080119478817195',
         },
+        {
+          username: 'carsandtractors',
+          tweetUrl: 'https://x.com/carsandtractors/status/1804531024711307485',
+        },
       ]}
     />
 
