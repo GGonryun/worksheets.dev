@@ -1,4 +1,5 @@
 import { routes } from '@worksheets/routes';
+import ratelimit from '@worksheets/services/ratelimit';
 import { NextRequest, NextResponse } from 'next/server';
 import { getToken } from 'next-auth/jwt';
 
@@ -9,16 +10,27 @@ export const config = {
      * 1. /api routes
      * 2. /_next (Next.js internals)
      * 3. /_static (inside /public)
-     * 4. all root files inside /public (e.g. /favicon.ico)
-     * 5. all files that contain a dot (e.g. /static/image.png or /games/categories/grimace.png)
+     * 4. /_vercel (Vercel internal routes)
+     * 5. /404, /429, /500 error pages
      */
-    '/((?!api/|_next/|_static/|_vercel|[\\w-]+\\.\\w+|.*\\.).*)',
+    '/((?!api/|429|404|500|_next/|_static/|_vercel|site.webmanifest|favicon.ico).*)',
   ],
 };
 
 const protectedPages = [routes.account.path(), routes.vip.path()];
 
 export default async function middleware(req: NextRequest) {
+  console.log('middleware', req.nextUrl.href);
+  // Rate Limit requests
+
+  const ip = req.ip ?? '127.0.0.1';
+  const { success } = await ratelimit.web.limit(ip);
+
+  if (!success) {
+    return NextResponse.redirect(new URL('/429', req.url));
+  }
+
+  // authorization middleware
   const session = await getToken({ req });
   const user = session?.user;
   const pathname = req.nextUrl.pathname;

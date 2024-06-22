@@ -1,6 +1,7 @@
 import { inferAsyncReturnType } from '@trpc/server';
 import { CreateNextContextOptions } from '@trpc/server/adapters/next';
 import { prisma } from '@worksheets/prisma';
+import { createClient } from '@worksheets/services/kv';
 import {
   GetServerSidePropsContext,
   GetStaticPropsContext,
@@ -23,6 +24,7 @@ export async function createContext(ctx: CreateNextContextOptions) {
     req: req,
     res: res,
     db: prisma,
+    kv: createClient(),
     session,
   };
 }
@@ -38,6 +40,7 @@ export async function createServerSideContext(
     req,
     res,
     db: prisma,
+    kv: createClient(),
     session,
   };
 }
@@ -51,6 +54,7 @@ export async function createStaticContext(
     req: null,
     res: null,
     db: prisma,
+    kv: createClient(),
     session: null,
   };
 }

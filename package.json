@@ -54,6 +54,8 @@
     "@trpc/client": "^10.31.0",
     "@trpc/next": "^10.31.0",
     "@trpc/server": "^10.31.0",
+    "@upstash/ratelimit": "^1.2.1",
+    "@vercel/kv": "^2.0.0",
     "@vercel/og": "^0.6.2",
     "clsx": "^1.2.1",
     "core-js": "^3.6.5",
