@@ -25,6 +25,7 @@ export const PlayMinutesForm: React.FC<TaskFormProps> = ({ task }) => {
             <Link href={routes.vip.path()}>VIP members</Link> earn 2x the
             tokens!
           </>,
+          <i>Task processing occurs every 15~30 minutes.</i>,
         ]}
       />
       <Typography textAlign="center" fontWeight={700} variant="body2">

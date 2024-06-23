@@ -1,4 +1,7 @@
 import pluralize from 'pluralize';
+export const MILLISECONDS = 1;
+export const SECONDS = MILLISECONDS * 1000;
+export const MINUTES = SECONDS * 60;
 
 export const now = () => new Date();
 

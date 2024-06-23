@@ -91,10 +91,10 @@ const GameScreenContainerInner: React.FC<GameScreenContainerProps> = ({
   const [showVoteWarning, setShowVoteWarning] = useState(false);
 
   const gameTracker = useGameTracker(user.data, {
-    onElapsed: (increment) => {
+    onElapsed: (interval) => {
       trackGameTime.mutate({
         gameId: game.id,
-        increment: MS_TO_S(increment),
+        duration: MS_TO_S(interval),
       });
     },
   });

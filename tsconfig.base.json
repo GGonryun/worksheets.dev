@@ -100,6 +100,7 @@
       "@worksheets/services/templates": [
         "libs/services/templates/src/index.ts"
       ],
+      "@worksheets/services/tracks": ["libs/services/tracks/src/index.ts"],
       "@worksheets/services/twitch": ["libs/services/twitch/src/index.ts"],
       "@worksheets/services/twitter": ["libs/services/twitter/src/index.ts"],
       "@worksheets/services/youtube": ["libs/services/youtube/src/index.ts"],
@@ -311,6 +312,7 @@
       "@worksheets/util/data": ["libs/util/data/src/index.ts"],
       "@worksheets/util/enums": ["libs/util/enums/src/index.ts"],
       "@worksheets/util/errors": ["libs/util/errors/src/index.ts"],
+      "@worksheets/util/generators": ["libs/util/generators/src/index.ts"],
       "@worksheets/util/html": ["libs/util/html/src/index.ts"],
       "@worksheets/util/integrations": ["libs/util/integrations/src/index.ts"],
       "@worksheets/util/jobs": ["libs/util/jobs/src/index.ts"],

@@ -678,32 +678,6 @@ export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
   },
   {
     version: 1,
-    id: 'FRIEND_PLAY_MINUTES_INFINITE',
-    type: TaskType.FRIEND_PLAY_MINUTES,
-    category: TaskCategory.SOCIAL,
-    frequency: TaskFrequency.INFINITE,
-    requiredRepetitions: 300, // seconds
-    maxRepetitions: MAX_INT,
-    name: 'Best Friends Play for 5 Minutes',
-    description:
-      'Earn tokens for every 5 minutes your best friends spend on play games.',
-    data: {},
-  },
-  {
-    version: 1,
-    id: 'REFERRAL_PLAY_MINUTES_INFINITE',
-    type: TaskType.REFERRAL_PLAY_MINUTES,
-    category: TaskCategory.SOCIAL,
-    frequency: TaskFrequency.INFINITE,
-    requiredRepetitions: 300, // seconds
-    maxRepetitions: MAX_INT,
-    name: 'Referrals Play for 5 Minutes',
-    description:
-      'Earn tokens for every 5 minutes your referrals play a game on Charity Games.',
-    data: {},
-  },
-  {
-    version: 1,
     id: 'PLAY_GAME_INFINITE',
     type: TaskType.PLAY_GAME,
     category: TaskCategory.GAMEPLAY,

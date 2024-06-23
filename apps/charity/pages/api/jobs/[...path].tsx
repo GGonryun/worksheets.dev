@@ -24,22 +24,6 @@ export default createBackgroundJob(async (path, body) => {
       repetitions: 1,
     });
     return true;
-  } else if (job === 'track/play/minutes') {
-    const tasks = new TasksService(prisma);
-    const { gameId, userId, increment } = body;
-    await tasks.trackGameQuests({
-      gameId,
-      userId,
-      repetitions: increment,
-      type: 'PLAY_MINUTES',
-    });
-    await tasks.trackGameActions({
-      gameId,
-      userId,
-      repetitions: increment,
-      type: 'PLAY_MINUTES',
-    });
-    return true;
   } else if (job === 'raffle/participation') {
     const tasks = new TasksService(prisma);
     const { userId, repetitions, referralCode, raffleId } = body;

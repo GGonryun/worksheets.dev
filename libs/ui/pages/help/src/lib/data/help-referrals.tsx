@@ -4,10 +4,7 @@ import {
   HelpReferralsQuestions,
   ReferralsPanels,
 } from '@worksheets/util/enums';
-import {
-  PER_REFERRAL_PLAY_MINUTE_REWARD,
-  TOKENS_PER_REFERRAL_ACCOUNT,
-} from '@worksheets/util/settings';
+import { TOKENS_PER_REFERRAL_ACCOUNT } from '@worksheets/util/settings';
 import { QuestionAnswer } from '@worksheets/util/types';
 
 import { HelpfulLinks } from '../helpful-links';
@@ -90,12 +87,6 @@ export const helpReferrals: QuestionAnswer[] = [
         <Typography>
           You will earn {TOKENS_PER_REFERRAL_ACCOUNT} tokens for each friend you
           refer that signs up and makes an account.
-        </Typography>
-        <br />
-        <Typography>
-          You will receive {PER_REFERRAL_PLAY_MINUTE_REWARD} bonus tokens for
-          every 5 minutes your referrals play games. This bonus is unlimited and
-          will continue as long as your referrals keep playing.
         </Typography>
         <br />
         <Typography>

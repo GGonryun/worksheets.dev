@@ -8,7 +8,6 @@ import {
 import {
   PER_GAME_MINUTE_REWARD,
   PER_GAME_PLAY_REWARD,
-  PER_REFERRAL_PLAY_MINUTE_REWARD,
   TOKENS_PER_REFERRAL_ACCOUNT,
 } from '@worksheets/util/settings';
 import { QuestionAnswer } from '@worksheets/util/types';
@@ -75,17 +74,6 @@ export const helpTokens: QuestionAnswer[] = [
               Quests
             </Link>{' '}
             - Varies by quests, all quests will have a token reward
-          </ListItem>
-          <ListItem>
-            <Link
-              href={routes.help.tokens.path({
-                bookmark: HelpTokensQuestions.Referrals,
-              })}
-            >
-              Referrals Playing Games
-            </Link>{' '}
-            - Earn {PER_REFERRAL_PLAY_MINUTE_REWARD} tokens per 5 minutes of
-            play
           </ListItem>
           <ListItem>
             <Link

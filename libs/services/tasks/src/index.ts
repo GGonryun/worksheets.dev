@@ -25,6 +25,7 @@ import {
   TaskPollResult,
   validateTaskInput,
 } from '@worksheets/util/tasks';
+import { TaskProgress } from '@worksheets/util/types';
 
 import { validateRequirements } from './util';
 
@@ -365,7 +366,7 @@ export class TasksService {
     state?: unknown;
   }) {
     const { state, where, userId, repetitions } = opts;
-    console.info(`Tracking game actions`, opts);
+    console.info(`Tracking actions`, opts);
 
     // find every task that is associated with the game
     const actions = await this.#db.raffleAction.findMany({
@@ -399,16 +400,14 @@ export class TasksService {
 
     console.info(`Found ${actions.length} actions`, actions);
 
-    await Promise.all(
-      actions.map((action) =>
-        this.#trackAction({
-          action,
-          userId,
-          repetitions,
-          state,
-        })
-      )
-    );
+    for (const action of actions) {
+      await this.#trackAction({
+        action,
+        repetitions,
+        userId,
+        state,
+      });
+    }
   }
 
   async trackReferralAction(opts: {
@@ -569,7 +568,7 @@ export class TasksService {
       questId: string;
       userId: string;
     } & TaskInputSchema
-  ) {
+  ): Promise<TaskProgress | undefined> {
     console.info(`Tracking quest`, opts);
     const quest = await this.#db.platformQuest.findFirst({
       where: {
@@ -616,8 +615,9 @@ export class TasksService {
         };
       }>;
       userId: string;
+      game?: Prisma.GameGetPayload<true>;
     } & TaskInputSchema
-  ) {
+  ): Promise<TaskProgress | undefined> {
     const { quest, userId, repetitions, state } = opts;
     const progress = await this.#calculateProgress({
       task: quest.task,
@@ -644,24 +644,54 @@ export class TasksService {
     if (progress.completions > 0) {
       await this.#awardLoot(userId, quest.loot, progress.completions);
     }
+
+    return progress;
   }
 
-  async trackManyQuests({
-    userId,
-    questIds,
-    repetitions,
-  }: {
+  async trackQuests(opts: {
     userId: string;
-    questIds: string[];
     repetitions: number;
-  }) {
-    for (const questId of questIds) {
-      await this.trackQuest({
-        questId,
-        userId,
+    where: Prisma.PlatformQuestWhereInput;
+    state?: unknown;
+  }): Promise<TaskProgress[]> {
+    const { state, where, userId, repetitions } = opts;
+    console.info(`Tracking quests`, opts);
+
+    const quests = await this.#db.platformQuest.findMany({
+      where,
+      include: {
+        loot: {
+          include: { item: true },
+        },
+        task: {
+          include: {
+            game: true,
+          },
+        },
+        progress: {
+          where: {
+            userId: opts.userId,
+          },
+        },
+      },
+    });
+
+    console.info(`Found ${quests.length} quests`, quests);
+
+    const progress: TaskProgress[] = [];
+    // TODO: using Promise.all sometimes breaks transactions, so we need to await each one separately.
+    for (const quest of quests) {
+      const p = await this.#trackQuest({
+        quest,
         repetitions,
+        userId,
+        state,
       });
+
+      if (p) progress.push(p);
     }
+
+    return progress;
   }
 
   async trackGameQuests(opts: {
@@ -669,10 +699,12 @@ export class TasksService {
     gameId: string;
     type: Extract<TaskType, 'PLAY_GAME' | 'PLAY_MINUTES'>;
     repetitions: number;
-  }) {
+  }): Promise<TaskProgress[]> {
     console.info(`Tracking game quests`, opts);
     const { type, gameId, userId, repetitions } = opts;
-    const quests = await this.#db.platformQuest.findMany({
+    return await this.trackQuests({
+      userId,
+      repetitions,
       where: {
         // task is PLAY_GAME and gameId is either the game or null
         task: {
@@ -687,37 +719,7 @@ export class TasksService {
           ],
         },
       },
-      include: {
-        task: true,
-        loot: {
-          include: { item: true },
-        },
-        progress: {
-          where: {
-            userId,
-          },
-        },
-      },
     });
-
-    console.info(
-      `Found ${quests.length} quests`,
-      quests.map((q) => ({
-        id: q.id,
-        taskId: q.task.id,
-        gameId: q.task.gameId,
-      }))
-    );
-
-    await Promise.all(
-      quests.map((quest) =>
-        this.#trackQuest({
-          quest,
-          userId,
-          repetitions,
-        })
-      )
-    );
   }
 
   async #calculateProgress({
@@ -732,7 +734,7 @@ export class TasksService {
     where:
       | { userId: string; actionId: string }
       | { userId: string; questId: string };
-  } & TaskInputSchema) {
+  } & TaskInputSchema): Promise<TaskProgress | undefined> {
     if (progress && progress.status === 'COMPLETED') {
       // skip processing completed tasks
       return undefined;
@@ -759,7 +761,7 @@ export class TasksService {
       return undefined;
     }
 
-    await this.#db.taskProgress.upsert({
+    const updated = await this.#db.taskProgress.upsert({
       where: joinClause(where),
       create: {
         ...where,
@@ -784,7 +786,7 @@ export class TasksService {
     );
 
     return {
-      status: newStatus,
+      ...updated,
       completions,
     };
   }

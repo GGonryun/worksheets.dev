@@ -41,6 +41,10 @@
             "schedule": "*/37 * * * *"
         },
         {
+            "path": "/api/cron/flush-game-tracks",
+            "schedule": "*/5 * * * *"
+        },
+        {
             "path": "/api/cron/publish-games",
             "schedule": "0 * * * *"
         },

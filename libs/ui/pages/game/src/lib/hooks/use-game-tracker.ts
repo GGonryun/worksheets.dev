@@ -45,10 +45,7 @@ export const useGameTracker = (
     const handleInterval = () => {
       const now = Date.now();
       const delta = now - lastTime;
-      const severityFactor = 1.5;
-      const adjustedMultiplier = Math.pow(user.multiplier, severityFactor);
-      const duration =
-        S_TO_MS(GAME_TRACK_FREQUENCY_SECONDS) / adjustedMultiplier;
+      const duration = S_TO_MS(GAME_TRACK_FREQUENCY_SECONDS);
       lastTime = now;
 
       setElapsedTime((prevElapsedTime) => prevElapsedTime + delta);

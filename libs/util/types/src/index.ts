@@ -28,3 +28,4 @@ export * from './lib/monsters';
 export * from './lib/sort';
 export * from './lib/advertising';
 export * from './lib/battles';
+export * from './lib/tasks';

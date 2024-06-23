@@ -1,6 +1,7 @@
 import { PrismaClient, PrismaTransactionalClient } from '@worksheets/prisma';
 import { NotificationsService } from '@worksheets/services/notifications';
 
+// TODO: turn this into a functionally pure utility
 export class GamesService {
   #db: PrismaClient | PrismaTransactionalClient;
   #notifications: NotificationsService;

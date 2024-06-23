@@ -1,9 +1,7 @@
 import { Prisma } from '@worksheets/prisma';
 import {
-  PER_FRIEND_PLAY_MINUTE_REWARD,
   PER_GAME_MINUTE_REWARD,
   PER_GAME_PLAY_REWARD,
-  PER_REFERRAL_PLAY_MINUTE_REWARD,
   TOKENS_PER_REFERRAL_ACCOUNT,
 } from '@worksheets/util/settings';
 
@@ -416,40 +414,6 @@ export const QUESTS: Prisma.PlatformQuestUncheckedCreateInput[] = [
           {
             itemId: '1',
             quantity: TOKENS_PER_REFERRAL_ACCOUNT,
-            chance: 1,
-          },
-        ],
-      },
-    },
-  },
-  {
-    id: 'FRIEND_PLAY_MINUTES_INFINITE',
-    order: 1004,
-    version: 0,
-    taskId: 'FRIEND_PLAY_MINUTES_INFINITE',
-    loot: {
-      createMany: {
-        data: [
-          {
-            itemId: '1',
-            quantity: PER_FRIEND_PLAY_MINUTE_REWARD,
-            chance: 1,
-          },
-        ],
-      },
-    },
-  },
-  {
-    id: 'REFERRAL_PLAY_MINUTES_INFINITE',
-    order: 1005,
-    version: 0,
-    taskId: 'REFERRAL_PLAY_MINUTES_INFINITE',
-    loot: {
-      createMany: {
-        data: [
-          {
-            itemId: '1',
-            quantity: PER_REFERRAL_PLAY_MINUTE_REWARD,
             chance: 1,
           },
         ],

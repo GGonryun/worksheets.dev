@@ -48,8 +48,10 @@ export const TaskForm: React.FC<TaskFormProps> = ({ task, actions }) => {
       return <RaffleParticipationForm task={task} actions={actions} />;
     case TaskType.PLAY_MINUTES:
       return <PlayMinutesForm task={task} actions={actions} />;
+    // TODO @deprecated: Remove this task type
     case TaskType.REFERRAL_PLAY_MINUTES:
       return <ReferralPlayMinutesForm task={task} actions={actions} />;
+    // TODO @deprecated: Remove this task type
     case TaskType.FRIEND_PLAY_MINUTES:
       return <FriendPlayMinutesForm task={task} actions={actions} />;
     case TaskType.BASIC_ACTION:
