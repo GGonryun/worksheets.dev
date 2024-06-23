@@ -85,11 +85,9 @@ export async function* generateLoot(
       continue;
     }
 
-    const infinite = progress.find(
-      (p) => p.questId === 'PLAY_MINUTES_INFINITE'
-    );
+    const quest = progress.find((p) => p.questId === 'PLAY_MINUTES_INFINITE');
 
-    if (infinite && infinite.completions > 0) {
+    if (quest && quest.completions > 0) {
       const user = await users.safeGet(userId);
 
       if (!user) {
@@ -97,10 +95,13 @@ export async function* generateLoot(
         continue;
       }
 
-      const bonusLoot = generateBonusLoot(
-        user.multiplier,
-        infinite.completions
-      );
+      console.info('Searching for bonus loot', {
+        userId,
+        rolls: quest.completions,
+        multiplier: user.multiplier,
+      });
+
+      const bonusLoot = generateBonusLoot(user.multiplier, quest.completions);
 
       for (const itemId of bonusLoot) {
         yield { userId, itemId, gameId };
@@ -158,11 +159,6 @@ export async function* generateGameTracks(kv: VercelKV) {
 }
 
 export function* generateBonusLoot(multiplier: number, rolls: number) {
-  console.info('Searching for bonus loot', {
-    rolls,
-    multiplier,
-  });
-
   const severityFactor = 1.25;
   const adjustedMultiplier = Math.pow(multiplier, severityFactor);
 
