@@ -42,7 +42,7 @@
         },
         {
             "path": "/api/cron/flush-game-tracks",
-            "schedule": "*/5 * * * *"
+            "schedule": "*/14 * * * *"
         },
         {
             "path": "/api/cron/publish-games",
