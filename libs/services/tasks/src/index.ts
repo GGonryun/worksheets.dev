@@ -398,7 +398,10 @@ export class TasksService {
       },
     });
 
-    console.info(`Found ${actions.length} actions`, actions);
+    console.info(
+      `Found ${actions.length} actions`,
+      actions.map((a) => a.id)
+    );
 
     for (const action of actions) {
       await this.#trackAction({
@@ -676,7 +679,10 @@ export class TasksService {
       },
     });
 
-    console.info(`Found ${quests.length} quests`, quests);
+    console.info(
+      `Found ${quests.length} quests`,
+      quests.map((q) => q.id)
+    );
 
     const progress: TaskProgress[] = [];
     // TODO: using Promise.all sometimes breaks transactions, so we need to await each one separately.
