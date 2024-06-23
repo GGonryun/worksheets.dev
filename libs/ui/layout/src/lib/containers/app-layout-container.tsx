@@ -5,46 +5,20 @@ import {
   Menu,
 } from '@mui/icons-material';
 import { routes } from '@worksheets/routes';
-import { trpc } from '@worksheets/trpc-charity';
-import { useSession } from 'next-auth/react';
 import { FC, ReactNode, useState } from 'react';
 
 import { AccountDrawer, AppDrawer } from '../components';
 import { AppLayout } from '../components/app-layout';
 import { SquareButton } from '../components/shared/square-button';
+import { useDrawerData } from '../hook/use-drawer-data';
 
 export const AppLayoutContainer: FC<{
   children: ReactNode;
 }> = ({ children }) => {
-  const session = useSession();
-  const connected = session.status === 'authenticated';
-  const loading = session.status === 'loading';
+  const { connected, loading, user, notifications, tokens } = useDrawerData();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [accountOpen, setAccountOpen] = useState(false);
-  const user = trpc.user.get.useQuery(undefined, {
-    enabled: connected,
-    retry: false,
-    refetchOnMount: false,
-    refetchOnReconnect: false,
-    refetchOnWindowFocus: false,
-  });
-  const tokens = trpc.user.inventory.quantity.useQuery('1', {
-    enabled: connected,
-    retry: false,
-    refetchOnMount: false,
-    refetchOnReconnect: false,
-    refetchOnWindowFocus: false,
-  });
-  const notifications = trpc.user.notifications.count.useQuery(
-    { unread: true },
-    {
-      enabled: connected,
-      retry: false,
-      refetchOnMount: false,
-      refetchOnReconnect: false,
-      refetchOnWindowFocus: false,
-    }
-  );
+
   return (
     <>
       <AppLayout
