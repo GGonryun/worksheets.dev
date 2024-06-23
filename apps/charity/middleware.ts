@@ -1,5 +1,4 @@
 import { routes } from '@worksheets/routes';
-import ratelimit from '@worksheets/services/ratelimit';
 import { NextRequest, NextResponse } from 'next/server';
 import { getToken } from 'next-auth/jwt';
 
@@ -20,14 +19,7 @@ export const config = {
 const protectedPages = [routes.account.path(), routes.vip.path()];
 
 export default async function middleware(req: NextRequest) {
-  // Rate Limit requests
-
-  const ip = req.ip ?? '127.0.0.1';
-  const { success } = await ratelimit.web.limit(ip);
-
-  if (!success) {
-    return NextResponse.redirect(new URL('/429', req.url));
-  }
+  // TODO: re-enable web rate limiting after we have a better understanding of the traffic patterns
 
   // authorization middleware
   const session = await getToken({ req });
