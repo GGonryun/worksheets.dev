@@ -181,6 +181,7 @@ const FightModal: React.FC<ModalWrapper<{ battle: BattleSchema }>> = ({
           <MobDefeated />
         ) : (
           <ItemSelection
+            onClose={handleClose}
             onStrike={handleClose}
             battle={battle}
             resistances={resistances}
@@ -393,7 +394,8 @@ const ItemSelection: React.FC<{
   resistances: Resistances;
   connected: boolean;
   onStrike: () => void;
-}> = ({ onStrike, battle, resistances, connected }) => {
+  onClose: () => void;
+}> = ({ onStrike, onClose, battle, resistances, connected }) => {
   const snackbar = useSnackbar();
   const utils = trpc.useUtils();
   const strike = trpc.user.battles.strike.useMutation();
@@ -586,6 +588,7 @@ const ItemSelection: React.FC<{
           size="large"
           color="error"
           startIcon={<Close />}
+          onClick={onClose}
         >
           Cancel Attack
         </Button>
