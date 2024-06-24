@@ -31,7 +31,7 @@ export const PLAY_MINUTE_DROP_CHANCE = 0.05;
 
 export const GAME_TRACK_FREQUENCY_SECONDS = 60;
 
-export const MAX_CONSUMPTION_RATE = 10;
+export const MAX_CONSUMPTION_RATE = 20;
 
 export const MAX_ITEMS_PER_STRIKE = 15;
 
