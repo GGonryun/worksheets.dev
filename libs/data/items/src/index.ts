@@ -93,7 +93,7 @@ export const ITEMS = [
     name: 'Large Gift Box',
     type: ItemType.SHARABLE,
     rarity: ItemRarity.RARE,
-    buy: 100,
+    buy: 60,
     sell: 15,
     description:
       'A box of 50 tokens that you can give to someone else. Sharing this gift will earn you 25 tokens.',
@@ -1938,6 +1938,7 @@ export const PRIZE_SPINNER_WEIGHTS: Record<ItemRarity, number> = {
   // prize spinner cannot contain premium items
   PREMIUM: 0,
 };
+
 export const SHARE_RATES: Record<
   SharableItemId,
   { user: number; friend: number }

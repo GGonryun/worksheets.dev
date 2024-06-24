@@ -48,6 +48,20 @@ const updateMob = async (mob: Mob) => {
     },
     data: convertMob(mob),
   });
+
+  await prisma.loot.deleteMany({
+    where: {
+      mobId: mob.id,
+    },
+  });
+
+  await prisma.loot.createMany({
+    data: mob.loot.map((loot) => ({
+      mobId: mob.id,
+      ...loot,
+    })),
+    skipDuplicates: true,
+  });
 };
 
 const convertMob = (mob: Mob) => {
