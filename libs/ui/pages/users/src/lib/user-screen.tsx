@@ -68,7 +68,7 @@ const UserScreen: React.FC<{ userId: string }> = ({ userId }) => {
             empty={<NoGamesPlayed />}
           />
           <GamesGroup
-            title="Top Games (30 Days)"
+            title="Top Games"
             games={user.data.mostPlayed}
             empty={<NoGamesPlayed />}
           />

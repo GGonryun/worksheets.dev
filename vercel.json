@@ -10,7 +10,7 @@
         },
         {
             "path": "/api/cron/destroy-expired-notifications",
-            "schedule": "0 2 * * 0"
+            "schedule": "17 3 * * *"
         },
         {
             "path": "/api/cron/destroy-expired-tasks-daily",
@@ -22,10 +22,6 @@
         },
         {
             "path": "/api/cron/destroy-expired-tasks-monthly",
-            "schedule": "0 0 1 * *"
-        },
-        {
-            "path": "/api/cron/destroy-game-history",
             "schedule": "0 0 1 * *"
         },
         {

@@ -12,7 +12,7 @@ export type PushNotifyInput = {
 
 export class PushService {
   #db: PrismaClient | PrismaTransactionalClient;
-  #expiredNotificationThreshold = daysAgo(7);
+  #expiredNotificationThreshold = 7;
   constructor(db: PrismaClient | PrismaTransactionalClient) {
     this.#db = db;
   }
@@ -45,7 +45,7 @@ export class PushService {
     const action = await this.#db.notification.deleteMany({
       where: {
         createdAt: {
-          lte: this.#expiredNotificationThreshold,
+          lte: daysAgo(this.#expiredNotificationThreshold),
         },
       },
     });

@@ -51,23 +51,36 @@ export default t.router({
       })
     )
     .mutation(async ({ input: { gameId }, ctx: { db, user } }) => {
-      db.$transaction([
-        db.gamePlayHistory.create({
-          data: {
-            gameId,
-            userId: user?.id ?? undefined,
+      await db.game.update({
+        where: {
+          id: gameId,
+        },
+        data: {
+          plays: {
+            increment: 1,
           },
-        }),
-        db.game.update({
+        },
+      });
+
+      if (user) {
+        await db.gamePlayHistory.upsert({
           where: {
-            id: gameId,
+            gameId_userId: {
+              gameId,
+              userId: user.id,
+            },
           },
-          data: {
+          create: {
+            gameId,
+            userId: user.id,
+            plays: 1,
+          },
+          update: {
             plays: {
               increment: 1,
             },
           },
-        }),
-      ]);
+        });
+      }
     }),
 });

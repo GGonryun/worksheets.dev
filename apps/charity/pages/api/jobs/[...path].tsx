@@ -8,23 +8,7 @@ export default createBackgroundJob(async (path, body) => {
 
   const job = path.join('/');
 
-  if (job === 'track/play/game') {
-    const tasks = new TasksService(prisma);
-    const { gameId, userId } = body;
-    await tasks.trackGameQuests({
-      gameId,
-      userId,
-      type: 'PLAY_GAME',
-      repetitions: 1,
-    });
-    await tasks.trackGameActions({
-      gameId,
-      userId,
-      type: 'PLAY_GAME',
-      repetitions: 1,
-    });
-    return true;
-  } else if (job === 'raffle/participation') {
+  if (job === 'raffle/participation') {
     const tasks = new TasksService(prisma);
     const { userId, repetitions, referralCode, raffleId } = body;
 

@@ -18,7 +18,7 @@ import {
   StarBorder,
   SvgIconComponent,
 } from '@mui/icons-material';
-import { Box, Link, ListItem, Typography } from '@mui/material';
+import { Box, Button, Link, ListItem, Typography } from '@mui/material';
 import Divider from '@mui/material/Divider';
 import { routes } from '@worksheets/routes';
 import {
@@ -102,7 +102,8 @@ const UserContent: React.FC<{
         <Typography variant={'body3'} color={'text.secondary'} fontWeight={500}>
           {user.email}
         </Typography>
-        <Column mt={2} mb={1} gap={1}>
+
+        <Column mt={1.5} mb={1} gap={1}>
           <ResourceLink
             text={`${tokens ?? 0} Tokens`}
             Icon={LocalActivityOutlined}
@@ -123,6 +124,21 @@ const UserContent: React.FC<{
             href={routes.account.notifications.path()}
           />
         </Column>
+        <Button
+          variant="arcade"
+          color="primary"
+          size="small"
+          fullWidth
+          sx={{ my: 1 }}
+          startIcon={<AccountCircleOutlined />}
+          href={routes.user.path({
+            params: {
+              userId: user.id,
+            },
+          })}
+        >
+          Profile
+        </Button>
       </ListItem>
       <Divider />
       <DrawerLinks
@@ -256,6 +272,7 @@ const UserContent: React.FC<{
       <DrawerAction
         href={routes.logout.path()}
         sx={{ mt: 0.5 }}
+        color="warning"
         startIcon={<Logout />}
       >
         Sign Out

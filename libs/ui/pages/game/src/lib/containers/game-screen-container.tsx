@@ -118,7 +118,6 @@ const GameScreenContainerInner: React.FC<GameScreenContainerProps> = ({
   };
 
   const handlePlayGame = async () => {
-    // TODO: when someone clicks play game start the game tracker
     gameTracker.start();
     addRecentlyPlayed({
       id: game.id,

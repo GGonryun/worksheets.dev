@@ -1,6 +1,6 @@
 import { TRPCError } from '@trpc/server';
 import { basicGameInfoSchema } from '@worksheets/util/types';
-import { cloneDeep, groupBy, map, reverse, sortBy, uniqBy } from 'lodash';
+import { cloneDeep, map, reverse, sortBy, uniqBy } from 'lodash';
 import { z } from 'zod';
 
 import { publicProcedure } from '../../../procedures';
@@ -74,23 +74,9 @@ export default t.router({
         })
       );
 
-      const groups = groupBy(cloneDeep(user.plays), (p) => p.gameId);
-      const mostPlayed = map(
-        reverse(
-          sortBy(
-            Object.keys(groups).map((gameId) => ({
-              gameId,
-              game: groups[gameId][0].game,
-              count: groups[gameId].length,
-            })),
-            (a) => a.count
-          )
-        ),
-        (g) => ({
-          ...g.game,
-          plays: g.count,
-        })
-      );
+      const mostPlayed = reverse(
+        sortBy(cloneDeep(user.plays), (a) => a.plays)
+      ).map((p) => p.game);
 
       return {
         username: user.username,
