@@ -53,6 +53,7 @@ export const sampleGame: SerializableGameSchema = {
 
 export const SampleGameLauncher = () => (
   <GameLauncher
+    isLoading={false}
     game={sampleGame}
     developer={sampleDeveloper}
     onPlay={() => alert('TODO: show play form')}
