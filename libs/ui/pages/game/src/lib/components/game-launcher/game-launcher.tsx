@@ -17,6 +17,7 @@ export type GameLauncherProps = {
   game: SerializableGameSchema;
   developer: DeveloperSchema;
   userVote?: Vote;
+  isLoading: boolean;
   onPlay: () => void;
   onVote: (vote: Vote) => void;
 };
@@ -25,6 +26,7 @@ export const GameLauncher: FC<GameLauncherProps> = ({
   developer,
   game,
   userVote,
+  isLoading,
   onPlay,
   onVote,
 }) => {
@@ -108,6 +110,7 @@ export const GameLauncher: FC<GameLauncherProps> = ({
           name={game.name}
           onPlay={handlePlayGame}
           viewport={game.viewport}
+          isLoading={isLoading}
         />
       ) : (
         <GameFrame gameId={game.id} url={game.file.url} />

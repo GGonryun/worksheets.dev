@@ -21,6 +21,7 @@ export type GameLoadingCoverProps = {
   name: string;
   viewport: GameSchema['viewport'];
   onPlay: () => void;
+  isLoading: boolean;
 };
 
 export const GameLoadingCover: FC<GameLoadingCoverProps> = ({
@@ -29,6 +30,7 @@ export const GameLoadingCover: FC<GameLoadingCoverProps> = ({
   iconUrl,
   viewport,
   onPlay,
+  isLoading,
 }) => {
   const {
     showNoDesktopOverlay,
@@ -87,7 +89,12 @@ export const GameLoadingCover: FC<GameLoadingCoverProps> = ({
         ) : showNoPortraitOverlay ? (
           <DoesNotSupportPortraitOverlay />
         ) : (
-          <PlayOverlay name={name} iconUrl={iconUrl} onPlay={onPlay} />
+          <PlayOverlay
+            isLoading={isLoading}
+            name={name}
+            iconUrl={iconUrl}
+            onPlay={onPlay}
+          />
         )}
       </Box>
     </Box>
@@ -164,8 +171,8 @@ const DoesNotSupportOverlay: FC<{
 );
 
 const PlayOverlay: FC<
-  Pick<GameLoadingCoverProps, 'name' | 'iconUrl' | 'onPlay'>
-> = ({ name, iconUrl, onPlay }) => {
+  Pick<GameLoadingCoverProps, 'name' | 'iconUrl' | 'onPlay' | 'isLoading'>
+> = ({ name, iconUrl, onPlay, isLoading }) => {
   const isSmall = useMediaQuery((theme) => theme.breakpoints.down('md'));
   return (
     <>
@@ -194,6 +201,7 @@ const PlayOverlay: FC<
       </Typography>
       <Button
         variant="arcade"
+        disabled={isLoading}
         startIcon={<PlayCircleOutline fontSize="inherit" />}
         size={isSmall ? 'small' : 'large'}
         color="success"

@@ -100,7 +100,7 @@ const GameScreenContainerInner: React.FC<GameScreenContainerProps> = ({
   });
 
   const handleRewardPlay = async () => {
-    if (user.data) {
+    if (authenticated) {
       await trackGamePlay.mutateAsync({
         gameId: game.id,
       });
@@ -169,6 +169,7 @@ const GameScreenContainerInner: React.FC<GameScreenContainerProps> = ({
         launcher={
           <GameLauncher
             game={game}
+            isLoading={session.status === 'loading'}
             developer={developer}
             userVote={userVotes.getVote(game.id)?.vote}
             onPlay={handlePlayGame}
