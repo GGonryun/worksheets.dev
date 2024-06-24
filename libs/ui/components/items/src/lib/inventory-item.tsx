@@ -26,7 +26,7 @@ export const InventoryItem: React.FC<{
         p: 0.25,
         width: 'fit-content',
         backgroundColor: (theme) => alpha(theme.palette.primary.main, 0.1),
-        cursor: loading ? 'progress' : 'pointer',
+        cursor: loading ? 'progress' : onClick ? 'pointer' : 'default',
       }}
     >
       <Box

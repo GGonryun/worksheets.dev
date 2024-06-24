@@ -3,7 +3,8 @@ import { Button, Link, Typography } from '@mui/material';
 import { routes } from '@worksheets/routes';
 import { Column } from '@worksheets/ui/components/flex';
 import { BulletPoints } from '@worksheets/ui/components/lists';
-import { calculatePercentage } from '@worksheets/util/numbers';
+import { calculatePercentage, toPercentage } from '@worksheets/util/numbers';
+import { PLAY_MINUTE_DROP_CHANCE } from '@worksheets/util/settings';
 import { TaskFormProps } from '@worksheets/util/tasks';
 import pluralize from 'pluralize';
 
@@ -17,13 +18,14 @@ export const PlayMinutesForm: React.FC<TaskFormProps> = ({ task }) => {
         title={'How It Works'}
         points={[
           <>
-            <Link href={routes.library.path()}>Play any game</Link> to qualify
-            for this quest.
+            There is a {toPercentage(PLAY_MINUTE_DROP_CHANCE)} chance to find a
+            random item every minute you spend{' '}
+            <Link href={routes.library.path()}>playing games</Link>.
           </>,
           `You must remain active on the page for at least 1 minute to earn tokens.`,
           <>
-            <Link href={routes.vip.path()}>VIP members</Link> earn 2x the
-            tokens!
+            <Link href={routes.vip.path()}>VIP members</Link> have a higher
+            chance to earn rewards!
           </>,
           <i>Task processing occurs every 15~30 minutes.</i>,
         ]}

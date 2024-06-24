@@ -136,13 +136,17 @@ const Container: React.FC = () => {
           rewards={
             <Column mt={2}>
               <Row mx={1} gap={2} flexWrap="wrap">
-                {quest.loot.map((l) => (
-                  <InventoryInformation
-                    key={l.item.id}
-                    loot={l}
-                    status={quest.status}
-                  />
-                ))}
+                {quest.loot.length > 0
+                  ? quest.loot.map((l) => (
+                      <InventoryInformation
+                        key={l.item.id}
+                        loot={l}
+                        status={quest.status}
+                      />
+                    ))
+                  : Array.from({ length: 3 }).map((_, i) => (
+                      <InventoryItem key={i} size={64} />
+                    ))}
               </Row>
             </Column>
           }

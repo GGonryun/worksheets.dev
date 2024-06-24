@@ -823,15 +823,14 @@ export class TasksService {
     loot: Prisma.LootGetPayload<true>[],
     multiplier: number
   ) {
-    await Promise.all(
-      loot.map((l) =>
-        this.#inventory.increment(
-          userId,
-          l.itemId as ItemId,
-          l.quantity * multiplier
-        )
-      )
-    );
+    // using a promise.all here breaks transactions, so we need to await each one separately.
+    for (const l of loot) {
+      await this.#inventory.increment(
+        userId,
+        l.itemId as ItemId,
+        l.quantity * multiplier
+      );
+    }
   }
 }
 
