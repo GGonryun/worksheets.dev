@@ -26,6 +26,7 @@ import {
   validateTaskInput,
 } from '@worksheets/util/tasks';
 import { TaskProgress } from '@worksheets/util/types';
+import { pick } from 'lodash';
 
 import { validateRequirements } from './util';
 
@@ -343,7 +344,10 @@ export class TasksService {
       state,
     });
 
-    console.debug(`Checking progress`, progress);
+    console.debug(
+      `Checking progress`,
+      pick(progress ?? {}, ['id', 'status', 'completions'])
+    );
     if (progress && progress.completions > 0) {
       const reward = action.reward * progress.completions;
       console.debug(`Rewarding ${reward} entries`);

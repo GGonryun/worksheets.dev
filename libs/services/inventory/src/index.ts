@@ -407,7 +407,7 @@ export class InventoryService {
   }
 
   async #consume(userId: string, opts: ConsumableDecrementOpts) {
-    console.info('Consuming', { itemId: opts.itemId, quantity: opts.quantity });
+    console.info('Consuming', { userId, ...opts });
 
     const rate = CONSUMPTION_RATES[opts.itemId];
     if (isLotteryItems(rate)) {
@@ -587,7 +587,7 @@ export class CapsuleService {
     opts: {
       itemId: ItemId;
     }
-  ): Promise<InventoryCapsuleSchema> {
+  ): Promise<InventoryCapsuleSchema | null> {
     console.info('Getting capsule', { userId, itemId: opts.itemId });
     const { itemId } = opts;
     if (!isCapsuleItemId(itemId)) {
@@ -620,10 +620,7 @@ export class CapsuleService {
     }
 
     if (!inventory || !inventory.quantity) {
-      throw new TRPCError({
-        code: 'BAD_REQUEST',
-        message: `User ${userId} does not have any capsules of type ${itemId}.`,
-      });
+      return null;
     }
 
     return await this.#create(itemId, inventory.id);

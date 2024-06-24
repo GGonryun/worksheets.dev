@@ -25,7 +25,9 @@ export const calculateCompletions = (
   max: number,
   interval: number
 ) => {
-  console.log('Calculating completions', { current, increment, max, interval });
+  console.log(
+    `Calculating completions. Current: ${current}, Increment: ${increment}, Max:${max}, Interval: ${interval}`
+  );
   const newTotal = Math.min(current + increment, max);
   const oldTotal = current;
   const newCompletions = Math.floor(newTotal / interval);

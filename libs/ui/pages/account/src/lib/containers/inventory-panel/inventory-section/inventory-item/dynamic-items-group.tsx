@@ -1,5 +1,3 @@
-import { trpc } from '@worksheets/trpc-charity';
-import { ErrorComponent } from '@worksheets/ui/components/errors';
 import { Row } from '@worksheets/ui/components/flex';
 import { LoadingBar } from '@worksheets/ui/components/loading';
 import { InventoryItemSchema } from '@worksheets/util/types';
@@ -7,13 +5,13 @@ import dynamic from 'next/dynamic';
 
 import { ItemInstance } from './item-instance';
 
-const Container: React.FC<{ onClick: (item: InventoryItemSchema) => void }> = ({
-  onClick,
-}) => {
-  const items = trpc.user.inventory.items.useQuery();
-  if (items.isLoading || items.isRefetching || items.isFetching)
-    return <LoadingBar />;
-  if (items.isError) return <ErrorComponent color="text.primary" />;
+const Container: React.FC<{
+  onClick: (itemId: string) => void;
+  dirty: string[];
+  items: InventoryItemSchema[];
+  isLoading: boolean;
+}> = ({ onClick, dirty, items, isLoading }) => {
+  if (isLoading) return <LoadingBar />;
 
   return (
     <Row
@@ -25,11 +23,12 @@ const Container: React.FC<{ onClick: (item: InventoryItemSchema) => void }> = ({
         p: 1.5,
       }}
     >
-      {items.data.map((item) => (
+      {items.map((item) => (
         <ItemInstance
+          dirty={dirty.includes(item.itemId)}
           key={item.itemId}
           {...item}
-          onClick={() => onClick(item)}
+          onClick={() => onClick(item.itemId)}
         />
       ))}
     </Row>

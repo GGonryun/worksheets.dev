@@ -17,6 +17,7 @@ import {
   Typography,
   useTheme,
 } from '@mui/material';
+import { ItemId } from '@worksheets/data/items';
 import { routes } from '@worksheets/routes';
 import { trpc } from '@worksheets/trpc-charity';
 import { WatchAdvertisement } from '@worksheets/ui/components/advertisements';
@@ -45,7 +46,7 @@ import {
 import { assertNever } from '@worksheets/util/errors';
 import { MAX_CONSUMPTION_RATE } from '@worksheets/util/settings';
 import { capitalizeFirstLetter, shorten } from '@worksheets/util/strings';
-import { parseTRPCClientErrorMessage } from '@worksheets/util/trpc';
+import { NO_REFETCH, parseTRPCClientErrorMessage } from '@worksheets/util/trpc';
 import {
   ACTION_AVAILABLE,
   ACTION_LABEL,
@@ -80,8 +81,9 @@ const ItemAction: React.FC<{
 
 const ActivateItem: React.FC<{
   onClose: () => void;
+  onDirty: (itemId: ItemId) => void;
   item: InventoryItemSchema;
-}> = ({ item, onClose }) => {
+}> = ({ item, onClose, onDirty }) => {
   const { push } = useRouter();
   const snackbar = useSnackbar();
   const utils = trpc.useUtils();
@@ -91,8 +93,8 @@ const ActivateItem: React.FC<{
     try {
       setActivating(true);
       const result = await activate.mutateAsync(item.itemId);
+      onDirty(item.itemId);
       await utils.user.codes.activation.list.invalidate();
-      await utils.user.inventory.items.invalidate();
       snackbar.success(<Typography>{result}</Typography>);
       push(
         routes.account.inventory.path({
@@ -136,12 +138,10 @@ const ActivateItem: React.FC<{
 };
 
 const ConsumeItem: React.FC<{
-  onClose: () => void;
+  onConsume: (itemId: ItemId, quantity: number) => void;
   item: InventoryItemSchema;
   verb: 'use' | 'sell';
-}> = ({ item, onClose, verb }) => {
-  const snackbar = useSnackbar();
-  const utils = trpc.useUtils();
+}> = ({ item, onConsume, verb }) => {
   const decrement = trpc.user.inventory.decrement.useMutation();
   const [quantity, setQuantity] = React.useState(1);
 
@@ -150,23 +150,6 @@ const ConsumeItem: React.FC<{
     if (num > item.quantity) return;
     setQuantity(num);
   };
-
-  const handleConsumption = async () => {
-    try {
-      const result = await decrement.mutateAsync({
-        itemId: item.itemId,
-        quantity,
-      });
-      snackbar.success(result);
-    } catch (error) {
-      snackbar.error(parseTRPCClientErrorMessage(error));
-    } finally {
-      onClose();
-    }
-    await utils.user.inventory.invalidate();
-  };
-
-  if (decrement.isLoading) return <PulsingLogo />;
 
   return (
     <Column gap={2} alignItems="center">
@@ -190,7 +173,7 @@ const ConsumeItem: React.FC<{
         size="small"
         disabled={decrement.isLoading || quantity > MAX_CONSUMPTION_RATE}
         sx={{ width: 'fit-content', px: 3 }}
-        onClick={handleConsumption}
+        onClick={() => onConsume(item.itemId, quantity)}
       >
         {decrement.isLoading
           ? 'Loading...'
@@ -211,8 +194,8 @@ const ConsumeItem: React.FC<{
 
 const ShareItem: React.FC<{
   item: InventoryItemSchema;
-  onClose: () => void;
-}> = ({ item, onClose }) => {
+  onShare: (friendshipId: string, itemId: ItemId, quantity: number) => void;
+}> = ({ item, onShare }) => {
   const friends = trpc.user.friends.list.useQuery();
 
   const [friend, setFriend] = React.useState<Friend | undefined>(undefined);
@@ -235,7 +218,7 @@ const ShareItem: React.FC<{
         <SelectQuantity
           item={item}
           friend={friend}
-          onClose={onClose}
+          onShare={onShare}
           onBack={() => setFriend(undefined)}
         />
       )}
@@ -246,36 +229,15 @@ const ShareItem: React.FC<{
 const SelectQuantity: React.FC<{
   item: InventoryItemSchema;
   friend: Friend;
-  onClose: () => void;
+  onShare: (friendshipId: string, itemId: ItemId, quantity: number) => void;
   onBack: () => void;
 }> = (props) => {
-  const snackbar = useSnackbar();
-  const utils = trpc.useUtils();
-  const share = trpc.user.inventory.share.useMutation();
   const [quantity, setQuantity] = React.useState(1);
   const handleSetQuantity = (num: number) => {
     if (num < 1) return;
     if (num > props.item.quantity) return;
     setQuantity(num);
   };
-
-  const handleShare = async () => {
-    try {
-      const message = await share.mutateAsync({
-        friendshipId: props.friend.friendshipId,
-        itemId: props.item.itemId,
-        quantity,
-      });
-      utils.user.inventory.invalidate();
-      snackbar.success(message);
-    } catch (error) {
-      snackbar.error(parseTRPCClientErrorMessage(error));
-    } finally {
-      props.onClose();
-    }
-  };
-
-  if (share.isLoading) return <PulsingLogo />;
 
   return (
     <Column gap={2} alignItems="center">
@@ -297,9 +259,14 @@ const SelectQuantity: React.FC<{
           variant="arcade"
           color="secondary"
           size="small"
-          disabled={share.isLoading}
           sx={{ width: 'fit-content', px: 3 }}
-          onClick={handleShare}
+          onClick={() =>
+            props.onShare(
+              props.friend.friendshipId,
+              props.item.itemId,
+              quantity
+            )
+          }
         >
           Share
         </Button>
@@ -394,26 +361,12 @@ const NoFriendsWarning = () => (
 
 const CapsuleItem: React.FC<{
   item: InventoryItemSchema;
-  onClose: () => void;
-}> = ({ item, onClose }) => {
+  onCloseCapsule: (itemId: ItemId) => void;
+}> = ({ item, onCloseCapsule }) => {
   const snackbar = useSnackbar();
   const [showAdvertisement, setShowAdvertisement] = useState(false);
-  const utils = trpc.useUtils();
-  const capsule = trpc.user.inventory.capsule.get.useQuery(item);
-  const close = trpc.user.inventory.capsule.close.useMutation();
+  const capsule = trpc.user.inventory.capsule.get.useQuery(item, NO_REFETCH);
   const award = trpc.user.inventory.capsule.award.useMutation();
-
-  const handleCloseCapsule = async () => {
-    try {
-      await close.mutateAsync(item);
-      snackbar.success('You have closed this capsule!');
-    } catch (error) {
-      snackbar.error(parseTRPCClientErrorMessage(error));
-    }
-
-    onClose();
-    await utils.user.inventory.invalidate();
-  };
 
   const handleSubmitAdvertisement = async () => {
     if (!capsule.data) {
@@ -431,10 +384,12 @@ const CapsuleItem: React.FC<{
     await capsule.refetch();
   };
 
-  if (capsule.isLoading || close.isLoading || award.isLoading)
-    return <PulsingLogo />;
+  if (capsule.isLoading || award.isLoading) return <PulsingLogo />;
+
   if (capsule.isError)
     return <ErrorComponent hideLogo message={capsule.error.message} />;
+
+  if (!capsule.data) return null;
 
   return (
     <>
@@ -442,7 +397,7 @@ const CapsuleItem: React.FC<{
         item={item}
         capsule={capsule.data}
         onWatchAdvertisement={() => setShowAdvertisement(true)}
-        onCloseCapsule={handleCloseCapsule}
+        onCloseCapsule={() => onCloseCapsule(item.itemId)}
       />
       <WatchAdvertisementModal
         open={showAdvertisement}
@@ -654,10 +609,10 @@ const CapsuleOption: React.FC<{
 
 const PrizeWheelItem: React.FC<{
   item: InventoryItemSchema;
+  onDirty: (itemId: ItemId) => void;
   onClose: () => void;
-}> = ({ item }) => {
+}> = ({ item, onDirty, onClose }) => {
   const snackbar = useSnackbar();
-  const utils = trpc.useUtils();
   const spin = trpc.user.inventory.prizeWheel.spin.useMutation();
   const [showSpinner, setShowSpinner] = React.useState(false);
   const [spins, setSpins] = React.useState(item.quantity);
@@ -669,6 +624,7 @@ const PrizeWheelItem: React.FC<{
     try {
       setSpinner(undefined);
       const data = await spin.mutateAsync({ itemId: item.itemId });
+      onDirty(item.itemId);
       setSpins((prev) => prev - 1);
       setSpinner(data);
       setShowSpinner(true);
@@ -680,9 +636,9 @@ const PrizeWheelItem: React.FC<{
   const handleSkipAnimation = async () => {
     try {
       const data = await spin.mutateAsync({ itemId: item.itemId });
+      onDirty(item.itemId);
       setSpins((prev) => prev - 1);
       snackbar.success(`Congratulations! You won a ${data.prize.name}!`);
-      utils.user.inventory.items.invalidate();
     } catch (error) {
       snackbar.error(parseTRPCClientErrorMessage(error));
     }
@@ -694,7 +650,8 @@ const PrizeWheelItem: React.FC<{
   };
 
   const handleClose = async () => {
-    utils.user.inventory.items.invalidate();
+    onClose();
+    onDirty(item.itemId);
     setSpinner(undefined);
     setShowSpinner(false);
   };
@@ -853,17 +810,26 @@ const PrizeWheelModal: React.FC<{
 
 const ItemContent: React.FC<{
   item: InventoryItemSchema;
+  onConsume: (itemId: ItemId, quantity: number) => void;
+  onCloseCapsule: (itemId: ItemId) => void;
+  onDirty: (itemId: ItemId) => void;
+  onShare: (friendshipId: string, itemId: ItemId, quantity: number) => void;
   onClose: () => void;
-}> = ({ item, onClose }) => {
+}> = ({ item, onDirty, onConsume, onCloseCapsule, onClose, onShare }) => {
   switch (item.type) {
-    case 'STEAM_KEY':
-      return <ActivateItem item={item} onClose={onClose} />;
-    case 'CONSUMABLE':
-      return <ConsumeItem item={item} onClose={onClose} verb="use" />;
-    case 'SHARABLE':
-      return <ShareItem item={item} onClose={onClose} />;
     case 'ETCETERA':
-      return <ConsumeItem item={item} onClose={onClose} verb="sell" />;
+      return <ConsumeItem item={item} onConsume={onConsume} verb="sell" />;
+    case 'CONSUMABLE':
+      return <ConsumeItem item={item} onConsume={onConsume} verb="use" />;
+    case 'CAPSULE':
+      return <CapsuleItem item={item} onCloseCapsule={onCloseCapsule} />;
+    case 'PRIZE_WHEEL':
+      return <PrizeWheelItem item={item} onDirty={onDirty} onClose={onClose} />;
+    case 'SHARABLE':
+      return <ShareItem item={item} onShare={onShare} />;
+    case 'STEAM_KEY':
+      return <ActivateItem item={item} onDirty={onDirty} onClose={onClose} />;
+    // No activation supported.
     case 'COMBAT':
       return (
         <Redirect
@@ -875,10 +841,6 @@ const ItemContent: React.FC<{
       return (
         <ErrorComponent message="Currency cannot be used. Contact Support." />
       );
-    case 'CAPSULE':
-      return <CapsuleItem item={item} onClose={onClose} />;
-    case 'PRIZE_WHEEL':
-      return <PrizeWheelItem item={item} onClose={onClose} />;
     default:
       throw assertNever(item.type);
   }
@@ -886,17 +848,22 @@ const ItemContent: React.FC<{
 
 const Container: React.FC<{
   item: InventoryItemSchema;
+  onConsume: (itemId: ItemId, quantity: number) => void;
+  onCloseCapsule: (itemId: ItemId) => void;
+  onDirty: (itemId: ItemId) => void;
+  onShare: (friendshipId: string, itemId: ItemId, quantity: number) => void;
   onClose: () => void;
-}> = ({ onClose, item }) => {
-  const [using, setUsing] = React.useState(false);
+}> = (opts) => {
+  const { item, onClose } = opts;
+  const [active, setActive] = React.useState(false);
 
   const handleClose = () => {
-    setUsing(false);
+    setActive(false);
     onClose();
   };
 
-  const handleUsage = async () => {
-    setUsing(true);
+  const handleActivate = async () => {
+    setActive(true);
   };
 
   return (
@@ -906,14 +873,14 @@ const Container: React.FC<{
       item={item}
       icon={Boolean(item.expiration.length) && <ExpiringItemIcon size={18} />}
       action={
-        !using &&
+        !active &&
         ACTION_AVAILABLE[item.type] && (
-          <ItemAction item={item} onClick={handleUsage} />
+          <ItemAction item={item} onClick={handleActivate} />
         )
       }
       content={
-        using ? (
-          <ItemContent item={item} onClose={handleClose} />
+        active ? (
+          <ItemContent {...opts} />
         ) : (
           <InventoryItemDescription item={item} />
         )

@@ -1,5 +1,6 @@
 import { Check, InfoOutlined, SellOutlined } from '@mui/icons-material';
 import { Box, Button, Divider, Typography } from '@mui/material';
+import { ItemId } from '@worksheets/data/items';
 import { routes } from '@worksheets/routes';
 import { trpc } from '@worksheets/trpc-charity';
 import { Column } from '@worksheets/ui/components/flex';
@@ -9,35 +10,126 @@ import { InfoModal } from '@worksheets/ui/components/modals';
 import { PanelFooter } from '@worksheets/ui/components/panels';
 import { useSnackbar } from '@worksheets/ui/components/snackbar';
 import { NO_REFETCH, parseTRPCClientErrorMessage } from '@worksheets/util/trpc';
-import { InventoryItemSchema } from '@worksheets/util/types';
 import dynamic from 'next/dynamic';
 import pluralize from 'pluralize';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { DynamicItemsHeader } from './dynamic-items-header';
 import { DynamicItemsGroup } from './inventory-item';
 import { DynamicItemModal } from './inventory-item/dynamic-item-modal';
 
 const Container = () => {
-  const [item, setItem] = useState<InventoryItemSchema | undefined>(undefined);
-  const [autoSell, setAutoSell] = useState<boolean>(false);
-  const items = trpc.user.inventory.items.useQuery(undefined, NO_REFETCH);
+  const [itemId, setItemId] = useState<string | undefined>(undefined);
+  const [isAutoSelling, setIsAutoSelling] = useState<boolean>(false);
+  const [dirty, setDirty] = useState<string[]>([]);
+  const snackbar = useSnackbar();
+
+  const activate = trpc.user.inventory.activate.useMutation();
+  const closeCapsule = trpc.user.inventory.capsule.close.useMutation();
+  const autoSell = trpc.user.inventory.autoSell.useMutation();
+  const decrement = trpc.user.inventory.decrement.useMutation();
+  const share = trpc.user.inventory.share.useMutation();
+  const inventory = trpc.user.inventory.items.useQuery(undefined, NO_REFETCH);
+  const tokens = trpc.user.inventory.quantity.useQuery('1');
+  const items = inventory.data ?? [];
+  const item = items?.find((item) => item.itemId === (itemId as ItemId));
+
+  const isLoading =
+    inventory.isRefetching ||
+    inventory.isFetching ||
+    autoSell.isLoading ||
+    decrement.isLoading ||
+    closeCapsule.isLoading ||
+    share.isLoading ||
+    activate.isLoading;
+
+  useEffect(() => {
+    if (!isLoading) {
+      setDirty([]);
+    }
+  }, [isLoading]);
+
+  const addDirty = (itemId: string) => {
+    setDirty((prev) => [...prev, itemId]);
+  };
+
+  const clearSelection = () => {
+    setItemId(undefined);
+  };
+
+  const handleConsume = async (itemId: ItemId, quantity: number) => {
+    try {
+      addDirty(itemId);
+      clearSelection();
+      const result = await decrement.mutateAsync({
+        itemId,
+        quantity,
+      });
+      tokens.refetch();
+      inventory.refetch();
+      snackbar.success(result);
+    } catch (error) {
+      snackbar.error(parseTRPCClientErrorMessage(error));
+    }
+  };
+
+  const handleCloseCapsule = async (itemId: ItemId) => {
+    try {
+      addDirty(itemId);
+      clearSelection();
+      await closeCapsule.mutateAsync({ itemId });
+      inventory.refetch();
+      snackbar.success('You have closed this capsule!');
+    } catch (error) {
+      snackbar.error(parseTRPCClientErrorMessage(error));
+    }
+  };
+
+  const handleDirty = async (itemId: ItemId) => {
+    addDirty(itemId);
+    inventory.refetch();
+  };
+
+  const handleShare = async (
+    friendshipId: string,
+    itemId: ItemId,
+    quantity: number
+  ) => {
+    try {
+      addDirty(itemId);
+      clearSelection();
+      const message = await share.mutateAsync({
+        friendshipId,
+        itemId,
+        quantity,
+      });
+      inventory.refetch();
+      snackbar.success(message);
+    } catch (error) {
+      snackbar.error(parseTRPCClientErrorMessage(error));
+    }
+  };
 
   return (
     <>
       <Column gap={2}>
         <Column>
           <DynamicItemsHeader />
-          <DynamicItemsGroup onClick={(item) => setItem(item)} />
+          <DynamicItemsGroup
+            items={items}
+            isLoading={inventory.isLoading}
+            onClick={(item) => setItemId(item)}
+            dirty={dirty}
+          />
         </Column>
         <Box alignSelf="flex-end">
           <Button
-            disabled={items.isLoading || items.isFetching}
+            disabled={isLoading}
             size="small"
             variant="arcade"
             color="success"
             startIcon={<SellOutlined />}
-            onClick={() => setAutoSell(true)}
+            onClick={() => setIsAutoSelling(true)}
           >
             Auto Sell
           </Button>
@@ -67,28 +159,41 @@ const Container = () => {
       </Column>
       <InfoModal
         color="error"
-        open={autoSell}
-        onClose={() => setAutoSell(false)}
+        open={isAutoSelling}
+        onClose={() => setIsAutoSelling(false)}
       >
         <AutoSellModal
-          onSell={() => {
-            setAutoSell(false);
+          isLoading={autoSell.isLoading}
+          onAction={async () => {
+            await autoSell.mutateAsync();
+          }}
+          onSell={(itemIds) => {
+            setIsAutoSelling(false);
+            setDirty((prev) => [...prev, ...itemIds]);
           }}
         />
       </InfoModal>
       {item && (
-        <DynamicItemModal item={item} onClose={() => setItem(undefined)} />
+        <DynamicItemModal
+          item={item}
+          onDirty={handleDirty}
+          onConsume={handleConsume}
+          onCloseCapsule={handleCloseCapsule}
+          onClose={clearSelection}
+          onShare={handleShare}
+        />
       )}
     </>
   );
 };
 
 const AutoSellModal: React.FC<{
-  onSell: () => void;
-}> = ({ onSell }) => {
+  onSell: (itemIds: string[]) => void;
+  onAction: () => Promise<void>;
+  isLoading: boolean;
+}> = ({ isLoading, onSell, onAction }) => {
   const snackbar = useSnackbar();
   const util = trpc.useUtils();
-  const autoSell = trpc.user.inventory.autoSell.useMutation();
   const items = trpc.user.inventory.items.useQuery(['ETCETERA']);
   if (items.isLoading || items.isRefetching || items.isFetching)
     return <LoadingBar />;
@@ -110,12 +215,13 @@ const AutoSellModal: React.FC<{
 
   const handleSell = async () => {
     try {
-      await autoSell.mutateAsync();
-      util.user.inventory.items.invalidate();
-      util.user.inventory.quantity.invalidate('1');
+      onSell(items.data?.map((item) => item.itemId));
+      await onAction();
       snackbar.success(`Sold ${quantity} items for ${value} tokens.`);
-      onSell();
+      util.user.inventory.quantity.invalidate('1');
+      util.user.inventory.invalidate();
     } catch (error) {
+      console.log(error);
       snackbar.error(parseTRPCClientErrorMessage(error));
     }
   };
@@ -155,7 +261,7 @@ const AutoSellModal: React.FC<{
         </Typography>
       </Column>
       <Button
-        disabled={autoSell.isLoading}
+        disabled={isLoading || !items.data.length}
         variant="arcade"
         color="success"
         startIcon={<Check />}

@@ -1,6 +1,7 @@
 import { QuestionMarkOutlined } from '@mui/icons-material';
 import { alpha, Box, Typography } from '@mui/material';
 import { FillImage } from '@worksheets/ui/components/images';
+import { PulsingIcon } from '@worksheets/ui/components/loading';
 import { shorthandNumber } from '@worksheets/util/numbers';
 import { InventoryItemSchema } from '@worksheets/util/types';
 
@@ -9,10 +10,14 @@ export const InventoryItem: React.FC<{
   size?: number;
   item?: Pick<InventoryItemSchema, 'imageUrl' | 'name' | 'quantity'>;
   onClick?: () => void;
-}> = ({ icon, size = 72, item, onClick }) => {
+  loading?: boolean;
+}> = ({ loading, icon, size = 72, item, onClick }) => {
   return (
     <Box
-      onClick={onClick}
+      onClick={() => {
+        if (loading) return;
+        onClick?.();
+      }}
       sx={{
         position: 'relative',
         borderRadius: (theme) => theme.shape.borderRadius,
@@ -21,7 +26,7 @@ export const InventoryItem: React.FC<{
         p: 0.25,
         width: 'fit-content',
         backgroundColor: (theme) => alpha(theme.palette.primary.main, 0.1),
-        cursor: 'pointer',
+        cursor: loading ? 'progress' : 'pointer',
       }}
     >
       <Box
@@ -33,7 +38,9 @@ export const InventoryItem: React.FC<{
           placeItems: 'center',
         }}
       >
-        {item ? (
+        {loading ? (
+          <PulsingIcon size={size} />
+        ) : item ? (
           <FillImage src={item.imageUrl} alt={item.name} />
         ) : (
           <QuestionMarkOutlined
@@ -43,7 +50,7 @@ export const InventoryItem: React.FC<{
         )}
       </Box>
 
-      {item && (
+      {!loading && item && (
         <Box
           sx={{
             position: 'absolute',
@@ -63,7 +70,7 @@ export const InventoryItem: React.FC<{
           </Typography>
         </Box>
       )}
-      {icon && (
+      {!loading && icon && (
         <Box sx={{ position: 'absolute', top: -10, left: -10 }}>{icon}</Box>
       )}
     </Box>

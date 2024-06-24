@@ -1,6 +1,5 @@
 import { TRPCError } from '@trpc/server';
 import { ItemId, SharableItemId, SHARE_RATES } from '@worksheets/data/items';
-import { Prisma } from '@worksheets/prisma';
 import { FriendshipService } from '@worksheets/services/friendship';
 import {
   CapsuleService,
@@ -36,15 +35,10 @@ export default t.router({
   autoSell: protectedProcedure
     .output(z.number())
     .mutation(async ({ ctx: { db, user } }) => {
-      return await db.$transaction(
-        async (tx) => {
-          const inventory = new InventoryService(tx);
-          return inventory.autoSell(user.id);
-        },
-        {
-          isolationLevel: Prisma.TransactionIsolationLevel.Serializable,
-        }
-      );
+      return await retryTransaction(db, async (tx) => {
+        const inventory = new InventoryService(tx);
+        return inventory.autoSell(user.id);
+      });
     }),
   items: protectedProcedure
     .input(z.custom<Parameters<InventoryService['items']>[1]>())
