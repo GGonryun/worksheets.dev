@@ -2,8 +2,12 @@ import { z } from 'zod';
 
 import { maybeProcedure, publicProcedure } from '../../../procedures';
 import { t } from '../../../trpc';
+import achievements from './achievements';
+import popularity from './popularity';
 
 export default t.router({
+  achievements,
+  popularity,
   random: publicProcedure
     .input(
       z.object({

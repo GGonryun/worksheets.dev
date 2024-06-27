@@ -44,8 +44,8 @@ const AchievementContent: React.FC<{
   gameId: string;
   status: SessionContextValue['status'];
 }> = ({ gameId, status }) => {
-  const total = trpc.public.games.popularity.players.useQuery({ gameId });
-  const global = trpc.public.games.achievements.list.useQuery({ gameId });
+  const total = trpc.maybe.games.popularity.players.useQuery({ gameId });
+  const global = trpc.maybe.games.achievements.list.useQuery({ gameId });
   const player = trpc.user.game.achievements.list.useQuery(
     { gameId },
     {
@@ -135,7 +135,7 @@ const PlayerProgressText: React.FC<PlayerProgressOptions> = ({
         'Loading...'
       ) : (
         <>
-          Your achievement progress:{' '}
+          Your progress:{' '}
           <b>
             {player} / {global}
           </b>{' '}
