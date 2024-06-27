@@ -54,7 +54,6 @@ const insertAchievement = async (
 
     await tx.loot.createMany({
       data: achievement.loot.map((loot) => ({
-        version: achievement.version,
         achievementId: achievement.id,
         itemId: loot.itemId,
         quantity: loot.quantity,
