@@ -14,6 +14,7 @@ export class CharityGamesPlugin extends Phaser.Plugins.BasePlugin {
   gameId: string = process.env['CHARITY_GAMES_GAME_ID'] ?? '';
   sessionId: string | null = null;
   storageKey = 'storage';
+  cachedAchievements: string[] = [];
   request: <E extends GameMessageEvent>(
     message: MessageInput<E>
   ) => Promise<GameMessageOutput<E>>;
@@ -110,6 +111,52 @@ export class CharityGamesPlugin extends Phaser.Plugins.BasePlugin {
 
     return {
       submit,
+    };
+  }
+
+  get achievements() {
+    const store = async (achievementId: string) => {
+      if (this.cachedAchievements.includes(achievementId)) return;
+      this.cachedAchievements.push(achievementId);
+    };
+
+    const load = async () => {
+      const data = await this.request({
+        event: 'load-achievements',
+        payload: {
+          sessionId: this.sessionId,
+        },
+      });
+
+      for (const achievementId of data) {
+        store(achievementId);
+      }
+
+      return data;
+    };
+
+    const unlock = async (achievementId: string, condition: boolean) => {
+      if (!condition) return;
+
+      try {
+        if (this.cachedAchievements.includes(achievementId)) return;
+        await this.request({
+          event: 'unlock-achievement',
+          payload: {
+            sessionId: this.sessionId,
+            achievementId,
+          },
+        });
+
+        store(achievementId);
+      } catch (error) {
+        console.error('Failed to unlock achievement', error);
+      }
+    };
+
+    return {
+      load,
+      unlock,
     };
   }
 }

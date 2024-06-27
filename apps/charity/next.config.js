@@ -64,6 +64,10 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'gruvian-dev.s3.amazonaws.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'picsum.photos',
+      },
     ],
   },
   nx: {

@@ -10,13 +10,17 @@ import {
   DeveloperSchema,
   SerializableGameSchema,
 } from '@worksheets/util/types';
+import { SessionContextValue } from 'next-auth/react';
 import { FC } from 'react';
 
-import { CreateAccountContainer } from './create-account-container';
+import { gameRedirectLogin } from '../util';
+import { CreateAccountBanner } from './create-account-container';
+import { GameAchievements } from './game-achievements';
 import { GameDescription } from './game-description';
 import { GameLeaderboards } from './game-leaderboards/game-leaderboards';
 
 type GameScreenProps = {
+  status: SessionContextValue['status'];
   suggestions: BasicGameInfo[];
   game: SerializableGameSchema;
   developer: DeveloperSchema;
@@ -26,6 +30,7 @@ type GameScreenProps = {
 };
 
 export const GameScreen: FC<GameScreenProps> = ({
+  status,
   suggestions,
   game,
   launcher,
@@ -75,7 +80,10 @@ export const GameScreen: FC<GameScreenProps> = ({
         </PaperSidebar>
       </Box>
 
-      <CreateAccountContainer />
+      <CreateAccountBanner
+        enabled={status === 'unauthenticated'}
+        href={gameRedirectLogin(game.id)}
+      />
 
       <GameDescription
         trailer={game.trailer}
@@ -86,6 +94,8 @@ export const GameScreen: FC<GameScreenProps> = ({
       />
 
       {game.leaderboard && <GameLeaderboards gameId={game.id} />}
+
+      {game.achievements && <GameAchievements gameId={game.id} />}
 
       <GamesGroup
         title="More Games"

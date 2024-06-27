@@ -1,16 +1,20 @@
 import { Login } from '@mui/icons-material';
 import { Button, Typography } from '@mui/material';
 import { CharityGamesLogo } from '@worksheets/icons/native';
-import { routes } from '@worksheets/routes';
 import { Column, Row } from '@worksheets/ui/components/flex';
-import { useSession } from 'next-auth/react';
 
-export const CreateAccountContainer = () => {
-  const session = useSession();
-  if (session.status !== 'unauthenticated') {
-    return null;
-  }
-
+export const CreateAccountBanner: React.FC<{
+  enabled?: boolean;
+  href: string;
+  description?: string;
+  title?: string;
+}> = ({
+  href,
+  enabled = true,
+  title = 'Get the most out of Charity Games.',
+  description = 'Enter random giveaways and win prizes for playing games.',
+}) => {
+  if (!enabled) return null;
   return (
     <Row
       sx={{
@@ -31,16 +35,16 @@ export const CreateAccountContainer = () => {
           typography={{ xs: 'body1', sm: 'h6' }}
           fontWeight={{ xs: 700, sm: 700 }}
         >
-          Get the most out of Charity Games.
+          {title}
         </Typography>
         <Typography typography="body2" gutterBottom>
-          Enter random giveaways and win prizes for playing games.
+          {description}
         </Typography>
         <Button
           variant="arcade"
           size="small"
           color="warning"
-          href={routes.login.path()}
+          href={href}
           startIcon={<Login />}
           sx={{
             mt: 0.5,

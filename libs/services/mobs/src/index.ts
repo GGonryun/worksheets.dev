@@ -38,7 +38,7 @@ export type ProcessedExpiredBattleOutput = {
 
 export class MobsService {
   #db: PrismaClient | PrismaTransactionalClient;
-  #maxBattles = 20;
+  #maxBattles = 10;
   constructor(db: PrismaClient | PrismaTransactionalClient) {
     this.#db = db;
   }

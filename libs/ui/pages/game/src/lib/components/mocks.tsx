@@ -24,6 +24,7 @@ export const sampleGame: SerializableGameSchema = {
   multiplier: 0,
   leaderboard: false,
   loot: [],
+  achievements: false,
   viewport: {
     id: '1',
     type: 'RESPONSIVE',

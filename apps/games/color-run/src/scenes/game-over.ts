@@ -82,9 +82,25 @@ export default class GameOverScene extends TemplateScene {
     this.charityGames = CharityGamesPlugin.find(this);
     const current = this.charityGames.storage.get('highScore', 0);
     this.charityGames.leaderboard.submit(this.value);
+    await submitAchievements(this.charityGames, this.value);
     if (this.value > current) {
       this.charityGames.storage.set('highScore', this.value);
       await this.charityGames.storage.save();
     }
   }
 }
+
+const submitAchievements = async (
+  charityGames: CharityGamesPlugin,
+  score: number
+) => {
+  await Promise.allSettled([
+    charityGames.achievements.unlock('COLOR_RUN_SCORE_1', score >= 1),
+    charityGames.achievements.unlock('COLOR_RUN_SCORE_5', score >= 5),
+    charityGames.achievements.unlock('COLOR_RUN_SCORE_10', score >= 10),
+    charityGames.achievements.unlock('COLOR_RUN_SCORE_25', score >= 25),
+    charityGames.achievements.unlock('COLOR_RUN_SCORE_50', score >= 50),
+    charityGames.achievements.unlock('COLOR_RUN_SCORE_75', score >= 75),
+    charityGames.achievements.unlock('COLOR_RUN_SCORE_100', score >= 100),
+  ]);
+};

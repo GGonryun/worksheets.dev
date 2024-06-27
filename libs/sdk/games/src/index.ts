@@ -32,6 +32,21 @@ export type GameMessage =
         score: number;
       };
       output: boolean;
+    }
+  | {
+      event: 'load-achievements';
+      input: {
+        sessionId: string | null;
+      };
+      output: string[];
+    }
+  | {
+      event: 'unlock-achievement';
+      input: {
+        sessionId: string | null;
+        achievementId: string;
+      };
+      output: boolean;
     };
 
 export type GameMessageEvent = GameMessage['event'];
@@ -123,7 +138,6 @@ export const communicator =
         emitter.removeEventListener(event, listener);
         reject(new Error('timeout waiting for ' + request));
       }, timeout);
-
       emitter.parent.postMessage(
         { event: request, payload: message.payload },
         '*'

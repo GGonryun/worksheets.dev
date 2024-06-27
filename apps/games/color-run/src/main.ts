@@ -11,6 +11,7 @@ const config: Phaser.Types.Core.GameConfig = {
   type: Phaser.AUTO,
   backgroundColor: '#000000',
   roundPixels: true,
+  autoRound: false,
   render: {
     pixelArt: false,
   },

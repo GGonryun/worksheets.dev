@@ -5,6 +5,7 @@ import {
   STARTING_TOKENS,
   TOKENS_PER_REFERRAL_ACCOUNT,
 } from '@worksheets/util/settings';
+import { grammaticalJoin } from '@worksheets/util/strings';
 import { printShortDate, printTimeRemaining } from '@worksheets/util/time';
 import { LEADERBOARD_FREQUENCY_LABELS } from '@worksheets/util/types';
 import pluralize from 'pluralize';
@@ -25,6 +26,24 @@ import {
 } from './urls';
 
 export class PushTemplates {
+  static achievementUnlocked(
+    opts: ExtractTemplatePayload<'achievement-unlocked'>
+  ): PushNotifyInput {
+    return {
+      type: 'ACHIEVEMENT',
+      text: `You unlocked the <a href="${GAME_URL(opts.achievement.game.id)}">${
+        opts.achievement.game.title
+      }</a> achievement <b>${
+        opts.achievement.name
+      }</b> and received ${grammaticalJoin(
+        opts.achievement.loot.map(
+          (l) => `${l.quantity} ${pluralize(l.item.name, l.quantity)}`
+        )
+      )}! <a href="${ACCOUNT_INVENTORY_URL}">View your inventory</a>.`,
+      userIds: [opts.user.id],
+    };
+  }
+
   static wonLeaderboard(
     opts: ExtractTemplatePayload<'won-leaderboard'>
   ): PushNotifyInput {

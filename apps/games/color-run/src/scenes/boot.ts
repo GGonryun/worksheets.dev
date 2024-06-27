@@ -67,6 +67,8 @@ export default class BootScene extends Phaser.Scene {
       // change the text to show that the game is loading
       text.setText('Loading storage...');
       await charityGames.storage.load();
+      text.setText('Loading achievements...');
+      await charityGames.achievements.load();
       // wait for 1 second before starting the main scene
       this.scene.start('main');
     } catch {

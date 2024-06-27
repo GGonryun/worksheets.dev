@@ -217,18 +217,22 @@ export const InventoryItemDescription: React.FC<{
 // TODO: dedupe loot descriptions
 export const LootDescription: React.FC<{
   loot: LootSchema;
-}> = ({ loot }) => (
+  hideQuantity?: boolean;
+  hideChance?: boolean;
+}> = ({ loot, hideQuantity = false, hideChance = false }) => (
   <Column gap={1}>
     <Typography typography={{ xs: 'body2', sm: 'body1' }}>
       {loot.item.description}
     </Typography>
     <Column>
       <ItemDataRow label="Type:" value={itemTypeLabel[loot.item.type]} />
-      <ItemDataRow label="Quantity:" value={loot.quantity} />
-      <ItemDataRow
-        label="Drop Chance:"
-        value={toPercentage(loot.chance, 1, 2)}
-      />
+      {!hideQuantity && <ItemDataRow label="Quantity:" value={loot.quantity} />}
+      {!hideChance && (
+        <ItemDataRow
+          label="Drop Chance:"
+          value={toPercentage(loot.chance, 1, 2)}
+        />
+      )}
       <ItemDataRow
         label="Sells For:"
         value={`${loot.item.sell} ${pluralize('token', loot.item.sell)}`}

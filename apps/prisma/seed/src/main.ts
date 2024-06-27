@@ -1,5 +1,6 @@
 import { prisma } from '@worksheets/prisma';
 
+import { insertAchievements } from './insert-achievements';
 import { insertCategories } from './insert-categories';
 import { insertDevelopers } from './insert-developers';
 import { insertGames } from './insert-games';
@@ -19,6 +20,7 @@ async function main() {
     await insertItems();
     await insertMobs();
     await insertGames();
+    await insertAchievements();
     await insertTasks();
     await insertQuests();
   } catch (error) {

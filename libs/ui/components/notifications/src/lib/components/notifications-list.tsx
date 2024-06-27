@@ -5,8 +5,9 @@ import {
   Inventory2Outlined,
   LocalActivity,
   Mail,
+  RequestPage,
   SportsMma,
-  StarBorder,
+  Stars,
   VideogameAsset,
 } from '@mui/icons-material';
 import { alpha, Box, Typography } from '@mui/material';
@@ -102,7 +103,8 @@ const notificationIcon: Record<NotificationType, ReactNode> = {
   RAFFLE: <HowToVote color="success" />,
   REWARD: <LocalActivity color="warning" />,
   GAME: <VideogameAsset color="error" />,
-  QUEST: <StarBorder color="info" />,
+  QUEST: <RequestPage color="info" />,
   BATTLE: <SportsMma color="error" />,
   VICTORY: <EmojiEvents color="yellow" />,
+  ACHIEVEMENT: <Stars color="yellow" />,
 };

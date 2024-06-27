@@ -32,7 +32,149 @@ export const games: SeedableGameSchema[] = [
     markets: {},
     leaderboard: true,
     multiplier: 0.15,
-    loot: [],
+    loot: [
+      {
+        itemId: '2',
+        quantity: 2,
+        chance: 0.1,
+      },
+    ],
+    achievements: [
+      {
+        id: 'COLOR_RUN_SCORE_1',
+        version: 2,
+        gameId: 'color-run',
+        name: 'First Score',
+        description: 'Score 1 point in the game',
+        iconUrl:
+          'https://cdn.charity.games/_games/color-run/assets/achievements/1.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '1',
+            quantity: 10,
+            chance: 1,
+          },
+        ],
+      },
+      {
+        id: 'COLOR_RUN_SCORE_5',
+        version: 2,
+        gameId: 'color-run',
+        name: 'Score 5',
+        description: 'Score 5 points in the game',
+        iconUrl:
+          'https://cdn.charity.games/_games/color-run/assets/achievements/5.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '1',
+            quantity: 20,
+            chance: 1,
+          },
+        ],
+      },
+      {
+        id: 'COLOR_RUN_SCORE_10',
+        version: 2,
+        gameId: 'color-run',
+        name: 'Score 10',
+        description: 'Score 10 points in the game',
+        iconUrl:
+          'https://cdn.charity.games/_games/color-run/assets/achievements/10.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '1',
+            quantity: 30,
+            chance: 1,
+          },
+        ],
+      },
+      {
+        id: 'COLOR_RUN_SCORE_25',
+        version: 2,
+        gameId: 'color-run',
+        name: 'Score 25',
+        description: 'Score 25 points in the game',
+        iconUrl:
+          'https://cdn.charity.games/_games/color-run/assets/achievements/25.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '1',
+            quantity: 50,
+            chance: 1,
+          },
+          {
+            itemId: '5',
+            quantity: 1,
+            chance: 1,
+          },
+        ],
+      },
+      {
+        id: 'COLOR_RUN_SCORE_50',
+        version: 2,
+        gameId: 'color-run',
+        name: 'Score 50',
+        description: 'Score 50 points in the game',
+        iconUrl:
+          'https://cdn.charity.games/_games/color-run/assets/achievements/50.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '1',
+            quantity: 100,
+            chance: 1,
+          },
+          {
+            itemId: '5',
+            quantity: 3,
+            chance: 1,
+          },
+        ],
+      },
+      {
+        id: 'COLOR_RUN_SCORE_75',
+        version: 2,
+        gameId: 'color-run',
+        name: 'Score 75',
+        description: 'Score 75 points in the game',
+        iconUrl:
+          'https://cdn.charity.games/_games/color-run/assets/achievements/75.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '1',
+            quantity: 200,
+            chance: 1,
+          },
+          {
+            itemId: '8',
+            quantity: 1,
+            chance: 1,
+          },
+        ],
+      },
+      {
+        id: 'COLOR_RUN_SCORE_100',
+        version: 2,
+        gameId: 'color-run',
+        name: 'Score 100',
+        description: 'Score 100 points in the game',
+        iconUrl:
+          'https://cdn.charity.games/_games/color-run/assets/achievements/100.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '10107',
+            quantity: 1,
+            chance: 1,
+          },
+        ],
+      },
+    ],
   },
   {
     version: 1,
@@ -67,6 +209,7 @@ export const games: SeedableGameSchema[] = [
     multiplier: 0,
     leaderboard: false,
     loot: [],
+    achievements: [],
   },
   {
     version: 1,
@@ -92,6 +235,7 @@ export const games: SeedableGameSchema[] = [
     multiplier: 0,
     leaderboard: false,
     loot: [],
+    achievements: [],
   },
   {
     version: 1,
@@ -124,6 +268,7 @@ export const games: SeedableGameSchema[] = [
     multiplier: 0,
     leaderboard: false,
     loot: [],
+    achievements: [],
   },
   {
     version: 1,
@@ -157,6 +302,7 @@ export const games: SeedableGameSchema[] = [
     multiplier: 0,
     leaderboard: false,
     loot: [],
+    achievements: [],
   },
   {
     version: 1,
@@ -190,6 +336,7 @@ export const games: SeedableGameSchema[] = [
     multiplier: 0,
     leaderboard: false,
     loot: [],
+    achievements: [],
   },
   {
     version: 4,
@@ -224,6 +371,7 @@ export const games: SeedableGameSchema[] = [
     multiplier: 0,
     leaderboard: false,
     loot: [],
+    achievements: [],
   },
   {
     version: 1,
@@ -249,6 +397,7 @@ export const games: SeedableGameSchema[] = [
     multiplier: 0,
     leaderboard: false,
     loot: [],
+    achievements: [],
   },
   {
     version: 2,
@@ -280,6 +429,7 @@ export const games: SeedableGameSchema[] = [
     multiplier: 0,
     leaderboard: false,
     loot: [],
+    achievements: [],
   },
   {
     version: 2,
@@ -314,6 +464,7 @@ export const games: SeedableGameSchema[] = [
     multiplier: 0,
     leaderboard: false,
     loot: [],
+    achievements: [],
   },
   {
     version: 2,
@@ -337,6 +488,7 @@ export const games: SeedableGameSchema[] = [
     multiplier: 0,
     leaderboard: false,
     loot: [],
+    achievements: [],
   },
   {
     version: 2,
@@ -372,6 +524,7 @@ export const games: SeedableGameSchema[] = [
     multiplier: 0,
     leaderboard: false,
     loot: [],
+    achievements: [],
   },
   {
     version: 3,
@@ -399,6 +552,7 @@ export const games: SeedableGameSchema[] = [
     multiplier: 0,
     leaderboard: false,
     loot: [],
+    achievements: [],
   },
   {
     version: 2,
@@ -422,6 +576,7 @@ export const games: SeedableGameSchema[] = [
     multiplier: 0,
     leaderboard: false,
     loot: [],
+    achievements: [],
   },
   {
     version: 2,
@@ -457,6 +612,7 @@ export const games: SeedableGameSchema[] = [
     multiplier: 0,
     leaderboard: false,
     loot: [],
+    achievements: [],
   },
   {
     version: 2,
@@ -479,6 +635,7 @@ export const games: SeedableGameSchema[] = [
     multiplier: 0,
     leaderboard: false,
     loot: [],
+    achievements: [],
   },
   {
     version: 2,
@@ -501,6 +658,7 @@ export const games: SeedableGameSchema[] = [
     multiplier: 0,
     leaderboard: false,
     loot: [],
+    achievements: [],
   },
   {
     version: 2,
@@ -527,6 +685,7 @@ export const games: SeedableGameSchema[] = [
     multiplier: 0,
     leaderboard: false,
     loot: [],
+    achievements: [],
   },
   {
     version: 2,
@@ -549,6 +708,7 @@ export const games: SeedableGameSchema[] = [
     multiplier: 0,
     leaderboard: false,
     loot: [],
+    achievements: [],
   },
   {
     version: 2,
@@ -571,6 +731,7 @@ export const games: SeedableGameSchema[] = [
     multiplier: 0,
     leaderboard: false,
     loot: [],
+    achievements: [],
   },
   {
     version: 2,
@@ -596,6 +757,7 @@ export const games: SeedableGameSchema[] = [
     multiplier: 0,
     leaderboard: false,
     loot: [],
+    achievements: [],
   },
   {
     version: 2,
@@ -614,9 +776,9 @@ export const games: SeedableGameSchema[] = [
     updatedAt: new Date('2021-12-11T00:00:00.000Z'),
     markets: {},
     description: `<p>Freedom Run is a one-button endless runner game. The goal of the game is to eat as many veggies as you can and avoid getting hit by birds or falling off the map.</p><h3>How to Play Freedom Run?</h3><p>Playing Freedom Run is easy! Just click or tap the screen to jump, double click or double tap to double jump and if you press and hold you'll stay in the air for much longer.</p><h3>Who created Freedom Run?</h3><p>Freedom Run is a free game created by Charity Games. We are a non-profit organization that creates free games to raise money for charity. We donate 100% of our profits to charity.</p><h3>Can I see the source code for Freedom Run?</h3><p>Sure! all of our games are open source. You can find the source code for Freedom Run on <a href="https://github.com/GGonryun/worksheets.dev/tree/main/construct3/freedom_run">GitHub</a></p>`,
-    // not an integrated game
     multiplier: 0,
     leaderboard: false,
+    achievements: [],
     loot: [],
     // credits: `
     // - [Land and Tiles by The Flavre](https://theflavare.itch.io/mondstadt-theme-background-pixel-art)
@@ -649,6 +811,7 @@ export const games: SeedableGameSchema[] = [
     multiplier: 0,
     leaderboard: false,
     loot: [],
+    achievements: [],
   },
   {
     version: 2,
@@ -675,6 +838,7 @@ export const games: SeedableGameSchema[] = [
     multiplier: 0,
     leaderboard: false,
     loot: [],
+    achievements: [],
   },
   {
     version: 2,
@@ -706,6 +870,7 @@ export const games: SeedableGameSchema[] = [
     multiplier: 0,
     leaderboard: false,
     loot: [],
+    achievements: [],
   },
   {
     version: 2,
@@ -728,6 +893,7 @@ export const games: SeedableGameSchema[] = [
     multiplier: 0,
     leaderboard: false,
     loot: [],
+    achievements: [],
   },
   {
     version: 2,
@@ -750,6 +916,7 @@ export const games: SeedableGameSchema[] = [
     multiplier: 0,
     leaderboard: false,
     loot: [],
+    achievements: [],
   },
   {
     version: 2,
@@ -772,6 +939,7 @@ export const games: SeedableGameSchema[] = [
     multiplier: 0,
     leaderboard: false,
     loot: [],
+    achievements: [],
   },
   {
     version: 2,
@@ -796,6 +964,7 @@ export const games: SeedableGameSchema[] = [
     multiplier: 0,
     leaderboard: false,
     loot: [],
+    achievements: [],
   },
   {
     version: 2,
@@ -819,6 +988,7 @@ export const games: SeedableGameSchema[] = [
     multiplier: 0,
     leaderboard: false,
     loot: [],
+    achievements: [],
   },
   {
     version: 2,
@@ -842,6 +1012,7 @@ export const games: SeedableGameSchema[] = [
     multiplier: 0,
     leaderboard: false,
     loot: [],
+    achievements: [],
   },
   {
     version: 2,
@@ -864,6 +1035,7 @@ export const games: SeedableGameSchema[] = [
     multiplier: 0,
     leaderboard: false,
     loot: [],
+    achievements: [],
   },
   {
     version: 2,
@@ -886,6 +1058,7 @@ export const games: SeedableGameSchema[] = [
     multiplier: 0,
     leaderboard: false,
     loot: [],
+    achievements: [],
   },
   {
     version: 2,
@@ -916,6 +1089,7 @@ export const games: SeedableGameSchema[] = [
     multiplier: 0,
     leaderboard: false,
     loot: [],
+    achievements: [],
   },
   {
     version: 2,
@@ -942,6 +1116,7 @@ export const games: SeedableGameSchema[] = [
     multiplier: 0,
     leaderboard: false,
     loot: [],
+    achievements: [],
   },
   {
     version: 2,
@@ -965,6 +1140,7 @@ export const games: SeedableGameSchema[] = [
     multiplier: 0,
     leaderboard: false,
     loot: [],
+    achievements: [],
   },
   {
     version: 2,
@@ -987,6 +1163,7 @@ export const games: SeedableGameSchema[] = [
     multiplier: 0,
     leaderboard: false,
     loot: [],
+    achievements: [],
   },
   {
     version: 2,
@@ -1009,6 +1186,7 @@ export const games: SeedableGameSchema[] = [
     multiplier: 0,
     leaderboard: false,
     loot: [],
+    achievements: [],
   },
   {
     version: 2,
@@ -1040,6 +1218,7 @@ export const games: SeedableGameSchema[] = [
     multiplier: 0,
     leaderboard: false,
     loot: [],
+    achievements: [],
   },
   {
     version: 2,
@@ -1063,5 +1242,6 @@ export const games: SeedableGameSchema[] = [
     multiplier: 0,
     leaderboard: false,
     loot: [],
+    achievements: [],
   },
 ];

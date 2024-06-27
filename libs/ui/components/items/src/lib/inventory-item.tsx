@@ -2,6 +2,7 @@ import { QuestionMarkOutlined } from '@mui/icons-material';
 import { alpha, Box, Typography } from '@mui/material';
 import { FillImage } from '@worksheets/ui/components/images';
 import { PulsingIcon } from '@worksheets/ui/components/loading';
+import { PaletteColor } from '@worksheets/ui/theme';
 import { shorthandNumber } from '@worksheets/util/numbers';
 import { InventoryItemSchema } from '@worksheets/util/types';
 
@@ -11,7 +12,8 @@ export const InventoryItem: React.FC<{
   item?: Pick<InventoryItemSchema, 'imageUrl' | 'name' | 'quantity'>;
   onClick?: () => void;
   loading?: boolean;
-}> = ({ loading, icon, size = 72, item, onClick }) => {
+  color?: PaletteColor;
+}> = ({ loading, icon, size = 72, color = 'primary', item, onClick }) => {
   return (
     <Box
       onClick={() => {
@@ -21,11 +23,10 @@ export const InventoryItem: React.FC<{
       sx={{
         position: 'relative',
         borderRadius: (theme) => theme.shape.borderRadius,
-        border: (theme) =>
-          `3px solid ${alpha(theme.palette.primary.main, 0.5)}`,
+        border: (theme) => `3px solid ${alpha(theme.palette[color].main, 0.5)}`,
         p: 0.25,
         width: 'fit-content',
-        backgroundColor: (theme) => alpha(theme.palette.primary.main, 0.1),
+        backgroundColor: (theme) => alpha(theme.palette[color].main, 0.1),
         cursor: loading ? 'progress' : onClick ? 'pointer' : 'default',
       }}
     >

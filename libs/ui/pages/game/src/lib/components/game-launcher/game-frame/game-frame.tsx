@@ -30,9 +30,12 @@ export const GameFrame: React.FC<{
   const session = useSession();
   const notifications = useGameNotifications();
   const authenticated = session.status === 'authenticated';
+  const utils = trpc.useUtils();
   const loadStorage = trpc.user.game.storage.load.useMutation();
   const saveStorage = trpc.user.game.storage.save.useMutation();
   const startSession = trpc.user.game.session.start.useMutation();
+  const loadAchievements = trpc.user.game.achievements.load.useMutation();
+  const unlockAchievement = trpc.user.game.achievements.unlock.useMutation();
   const submitScore = trpc.user.leaderboards.submit.useMutation();
   const frameRef = useRef<HTMLIFrameElement>(null);
 
@@ -70,6 +73,32 @@ export const GameFrame: React.FC<{
         const storage = localStorage.getItem(`game-storage-${gameId}`);
         return JSON.parse(storage ?? '{}');
       }
+    });
+
+    register('load-achievements', async ({ sessionId }) => {
+      if (!authenticated || !sessionId) return [];
+
+      const data = await loadAchievements.mutateAsync({
+        sessionId: sessionId,
+      });
+
+      return data?.achievements ?? [];
+    });
+
+    register('unlock-achievement', async ({ sessionId, achievementId }) => {
+      if (!authenticated || !sessionId) return false;
+
+      const result = await unlockAchievement.mutateAsync({
+        sessionId,
+        achievementId,
+      });
+
+      if (!result.unlocked) return false;
+
+      notifications.add(result.message);
+      utils.user.game.achievements.list.invalidate();
+
+      return true;
     });
 
     register('save-storage', async ({ sessionId, data }) => {

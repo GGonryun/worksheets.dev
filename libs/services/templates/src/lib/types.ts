@@ -278,6 +278,28 @@ export type NotificationTemplate =
           username: string;
         };
       };
+    }
+  | {
+      type: 'achievement-unlocked';
+      payload: {
+        user: {
+          id: string;
+        };
+        achievement: {
+          id: string;
+          name: string;
+          game: {
+            id: string;
+            title: string;
+          };
+          loot: {
+            item: {
+              name: string;
+            };
+            quantity: number;
+          }[];
+        };
+      };
     };
 
 /** Helper Types **/

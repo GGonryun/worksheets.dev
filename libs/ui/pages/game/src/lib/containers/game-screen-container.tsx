@@ -161,6 +161,7 @@ const GameScreenContainerInner: React.FC<GameScreenContainerProps> = ({
   return (
     <>
       <GameScreen
+        status={session.status}
         suggestions={suggestions ?? []}
         game={game}
         developer={developer}

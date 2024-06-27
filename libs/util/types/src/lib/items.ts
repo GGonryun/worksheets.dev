@@ -162,10 +162,19 @@ export const itemSourcesSchema = z.object({
 
 export type ItemSourcesSchema = z.infer<typeof itemSourcesSchema>;
 
-export const lootSchema = z.object({
-  item: itemSchema,
-  quantity: z.number(),
+export const basicLootSchema = z.object({
   chance: z.number().min(0).max(1),
+  quantity: z.number(),
+});
+
+export const seedableLootSchema = basicLootSchema.extend({
+  itemId: z.string(),
+});
+
+export type SeedableLootSchema = z.infer<typeof seedableLootSchema>;
+
+export const lootSchema = basicLootSchema.extend({
+  item: itemSchema,
 });
 
 export type LootSchema = z.infer<typeof lootSchema>;

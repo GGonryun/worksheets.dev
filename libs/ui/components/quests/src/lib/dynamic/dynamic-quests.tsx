@@ -1,20 +1,17 @@
-import { InfoOutlined, OfflinePin } from '@mui/icons-material';
 import { Button, Typography } from '@mui/material';
 import { CharityGamesLogo } from '@worksheets/icons/native';
-import { routes } from '@worksheets/routes';
 import { trpc } from '@worksheets/trpc-charity';
 import { ErrorComponent } from '@worksheets/ui/components/errors';
 import { Column, Row } from '@worksheets/ui/components/flex';
 import {
+  InventoryInformation,
   InventoryItem,
-  ItemModalLayout,
-  QuestLootDescription,
 } from '@worksheets/ui/components/items';
 import { LoadingBar } from '@worksheets/ui/components/loading';
 import { useSnackbar } from '@worksheets/ui/components/snackbar';
 import { isTaskComplete, TaskModal } from '@worksheets/ui/components/tasks';
 import { fireAndForget } from '@worksheets/util/promises';
-import { QuestSchema, TaskInputSchema } from '@worksheets/util/tasks';
+import { TaskInputSchema } from '@worksheets/util/tasks';
 import { NO_REFETCH, parseTRPCClientErrorMessage } from '@worksheets/util/trpc';
 import dynamic from 'next/dynamic';
 import React, { useEffect } from 'react';
@@ -141,7 +138,7 @@ const Container: React.FC = () => {
                       <InventoryInformation
                         key={l.item.id}
                         loot={l}
-                        status={quest.status}
+                        checked={isTaskComplete(quest.status)}
                       />
                     ))
                   : Array.from({ length: 3 }).map((_, i) => (
@@ -152,50 +149,6 @@ const Container: React.FC = () => {
           }
         />
       )}
-    </>
-  );
-};
-
-const InventoryInformation: React.FC<{
-  loot: QuestSchema['loot'][number];
-  status: QuestSchema['status'];
-}> = ({ loot, status }) => {
-  const [open, setOpen] = React.useState(false);
-  return (
-    <>
-      <InventoryItem
-        icon={
-          isTaskComplete(status) && (
-            <OfflinePin
-              color="success"
-              sx={{
-                borderRadius: '50%',
-                backgroundColor: 'white.main',
-              }}
-            />
-          )
-        }
-        size={64}
-        item={{ ...loot, ...loot.item }}
-        onClick={() => setOpen(true)}
-      />
-      <ItemModalLayout
-        item={loot.item}
-        open={open}
-        onClose={() => setOpen(false)}
-        content={<QuestLootDescription loot={loot} />}
-        action={
-          <Button
-            fullWidth
-            variant="arcade"
-            size="small"
-            startIcon={<InfoOutlined />}
-            href={routes.item.path({ params: { itemId: loot.item.id } })}
-          >
-            Details
-          </Button>
-        }
-      />
     </>
   );
 };

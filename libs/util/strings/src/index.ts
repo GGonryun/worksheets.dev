@@ -69,3 +69,12 @@ export const isString = (value: unknown): value is string => {
 export const shorten = (count: number) => (text: string) => {
   return text.length > count ? `${text.substring(0, count)}...` : text;
 };
+
+// Joins a list of strings with commas and 'and' for the last item
+export const grammaticalJoin = (arr: string[]) => {
+  if (arr.length === 1) {
+    return arr[0];
+  }
+
+  return `${arr.slice(0, -1).join(', ')} and ${arr.slice(-1)}`;
+};

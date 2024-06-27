@@ -66,6 +66,7 @@ model User {
   gameStorage      GameStorage[]
   gameScores       GameScore[]
   experience       UserExperience?
+  achievement      PlayerAchievement[]
 }
 
 model Account {
@@ -396,6 +397,7 @@ model Game {
   loot         Loot[]
   scores       GameScore[]
   competitions GameCompetition[]
+  achievements GameAchievement[]
 }
 
 model GamePlayHistory {
@@ -605,6 +607,7 @@ enum NotificationType {
   GAME
   BATTLE
   VICTORY
+  ACHIEVEMENT
 }
 
 model Notification {
@@ -803,18 +806,20 @@ enum MobSize {
 
 // used to link an item and quantity to a mob, participation, user, quest, etc.
 model Loot {
-  id       Int            @id @default(autoincrement())
-  itemId   String
-  item     Item           @relation(fields: [itemId], references: [id], onDelete: Cascade)
-  quantity Int
-  chance   Float
-  mvp      Boolean        @default(false)
-  mobId    Int?
-  mob      Mob?           @relation(fields: [mobId], references: [id], onDelete: Cascade)
-  questId  String?
-  quest    PlatformQuest? @relation(fields: [questId], references: [id], onDelete: Cascade)
-  gameId   String?
-  game     Game?          @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  id            Int              @id @default(autoincrement())
+  itemId        String
+  item          Item             @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  quantity      Int
+  chance        Float
+  mvp           Boolean          @default(false)
+  mobId         Int?
+  mob           Mob?             @relation(fields: [mobId], references: [id], onDelete: Cascade)
+  questId       String?
+  quest         PlatformQuest?   @relation(fields: [questId], references: [id], onDelete: Cascade)
+  gameId        String?
+  game          Game?            @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  achievementId String?
+  achievement   GameAchievement? @relation(fields: [achievementId], references: [id], onDelete: Cascade)
 }
 
 enum MobType {
@@ -1028,4 +1033,32 @@ enum PrizeDistribution {
   TOP_6
   TOP_8
   TOP_10
+}
+
+model GameAchievement {
+  id          String              @id
+  version     Int                 @default(0)
+  gameId      String
+  game        Game                @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  name        String
+  description String
+  iconUrl     String
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+  secret      Boolean             @default(false)
+  loot        Loot[]
+  players     PlayerAchievement[]
+
+  @@unique([gameId, id])
+}
+
+model PlayerAchievement {
+  id            String          @id @default(cuid())
+  achievementId String
+  achievement   GameAchievement @relation(fields: [achievementId], references: [id], onDelete: Cascade)
+  userId        String
+  user          User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt     DateTime        @default(now())
+
+  @@unique([achievementId, userId])
 }

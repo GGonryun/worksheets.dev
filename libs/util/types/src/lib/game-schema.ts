@@ -4,9 +4,49 @@ import {
   ProjectType,
   ViewportType,
 } from '@worksheets/prisma';
+import { z } from 'zod';
 
-import { LootSchema } from './items';
+import {
+  LootSchema,
+  lootSchema,
+  SeedableLootSchema,
+  seedableLootSchema,
+} from './items';
 import { GameTag } from './tag-schema';
+
+export const basicGameAchievementSchema = z.object({
+  id: z.string(),
+  gameId: z.string(),
+  name: z.string(),
+  description: z.string(),
+  iconUrl: z.string(),
+});
+
+export const seedableGameAchievementSchema = basicGameAchievementSchema.extend({
+  secret: z.boolean(),
+  version: z.number(),
+  loot: seedableLootSchema.array(),
+});
+
+export type SeedableGameAchievementSchema = z.infer<
+  typeof seedableGameAchievementSchema
+>;
+
+export const gameAchievementSchema = seedableGameAchievementSchema.extend({
+  loot: lootSchema.array(),
+  players: z.number(),
+});
+
+export type GameAchievementSchema = z.infer<typeof gameAchievementSchema>;
+
+export const playerGameAchievementSchema = z.object({
+  achievementId: z.string(),
+  unlockedAt: z.number(),
+});
+
+export type PlayerGameAchievementSchema = z.infer<
+  typeof playerGameAchievementSchema
+>;
 
 export type ViewportKeys =
   | 'ALL-DEVICES'
@@ -18,6 +58,15 @@ export type ViewportKeys =
   | 'MOBILE-PORTRAIT'
   | 'LANDSCAPE-ONLY'
   | 'PORTRAIT-ONLY';
+
+export type MarketLinks = {
+  android: string;
+  ios: string;
+  itch: string;
+  steam: string;
+  website: string;
+  github: string;
+};
 
 export type GameSchema = {
   id: string;
@@ -35,6 +84,7 @@ export type GameSchema = {
   likes: number;
   multiplier: number;
   leaderboard: boolean;
+  achievements: boolean;
   dislikes: number;
   loot: LootSchema[];
   file: {
@@ -52,25 +102,13 @@ export type GameSchema = {
 
 export type SeedableGameSchema = Omit<
   GameSchema,
-  'likes' | 'dislikes' | 'plays' | 'trailer' | 'loot'
+  'likes' | 'dislikes' | 'plays' | 'trailer' | 'loot' | 'achievements'
 > &
   Partial<Pick<GameSchema, 'trailer'>> & {
     publishAt?: Date;
-    loot: {
-      itemId: string;
-      chance: number;
-      quantity: number;
-    }[];
+    loot: SeedableLootSchema[];
+    achievements: SeedableGameAchievementSchema[];
   };
-
-type MarketLinks = {
-  android: string;
-  ios: string;
-  itch: string;
-  steam: string;
-  website: string;
-  github: string;
-};
 
 export type SerializableGameSchema = Omit<
   GameSchema,
