@@ -141,7 +141,6 @@ export async function* generateGameTracks(kv: VercelKV) {
   const trackingIds = await kv.sinter(GAME_TRACK_KEY);
   console.info('Flushing game sessions', { trackingIds });
   for (const trackingId of trackingIds) {
-    console.info('Flushing game session', { trackingId });
     const track = await kv.get<GameTrackSchema>(trackingId);
 
     if (!track) {
@@ -152,10 +151,8 @@ export async function* generateGameTracks(kv: VercelKV) {
     yield track;
 
     await kv.del(trackingId);
-    console.info('Flushed game session', { trackingId });
   }
   await kv.del(GAME_TRACK_KEY);
-  console.info('Flushed game sessions');
 }
 
 export function* generateBonusLoot(multiplier: number, rolls: number) {

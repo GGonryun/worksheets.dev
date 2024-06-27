@@ -44,7 +44,6 @@ export function toPercentage(current: number, max = 1, precision = 0) {
 
 export const isLucky = (chance: number): boolean => {
   const luck = Math.random();
-  console.info(`Calculating luck: ${luck} <= ${chance}`);
   return luck <= chance;
 };
 

@@ -370,7 +370,7 @@ export class TasksService {
     state?: unknown;
   }) {
     const { state, where, userId, repetitions } = opts;
-    console.info(`Tracking actions`, opts);
+    console.info(`Tracking ${opts.userId} user actions`);
 
     // find every task that is associated with the game
     const actions = await this.#db.raffleAction.findMany({
@@ -542,7 +542,9 @@ export class TasksService {
     userId: string;
     repetitions: number;
   }) {
-    console.info(`Tracking game actions`, opts);
+    console.info(
+      `Tracking user ${opts.userId} ${opts.type} game ${opts.gameId} actions with ${opts.repetitions} repetitions`
+    );
     await this.trackActions({
       where: {
         task: {
@@ -662,7 +664,7 @@ export class TasksService {
     state?: unknown;
   }): Promise<TaskProgress[]> {
     const { state, where, userId, repetitions } = opts;
-    console.info(`Tracking quests`, opts);
+    console.info(`Tracking user ${opts.userId} quests`);
 
     const quests = await this.#db.platformQuest.findMany({
       where,
@@ -710,7 +712,9 @@ export class TasksService {
     type: Extract<TaskType, 'PLAY_GAME' | 'PLAY_MINUTES'>;
     repetitions: number;
   }): Promise<TaskProgress[]> {
-    console.info(`Tracking game quests`, opts);
+    console.info(
+      `Tracking user ${opts.userId} ${opts.type} game ${opts.gameId} quests with ${opts.repetitions} repetitions`
+    );
     const { type, gameId, userId, repetitions } = opts;
     return await this.trackQuests({
       userId,
