@@ -28,7 +28,7 @@ export const DynamicInitializeSessionReplay = dynamic(
   }
 );
 
-const IdentifyUserSessionReplay = () => {
+export const IdentifyUserSessionReplay = () => {
   const router = useRouter();
   const session = useSession();
 
