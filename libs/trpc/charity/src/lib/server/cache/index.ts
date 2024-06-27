@@ -18,8 +18,8 @@ export const responseMeta: ResponseMetaFn<typeof appRouter> = (opts) => {
     return {
       headers: {
         'cache-control': `public, s-maxage=${
-          ONE_DAY_IN_SECONDS * 3
-        }, stale-while-revalidate=${7 * ONE_DAY_IN_SECONDS}`,
+          ONE_DAY_IN_SECONDS * 0.2
+        }, stale-while-revalidate=${1 * ONE_DAY_IN_SECONDS}`,
       },
     };
   }
