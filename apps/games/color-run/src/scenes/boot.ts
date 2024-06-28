@@ -5,7 +5,7 @@ import { setWallpaper } from '../util/wallpaper';
 
 const isValidHost = () => {
   if (process.env.NODE_ENV === 'development') {
-    return true;
+    return window.location.host !== 'localhost:7008';
   }
   return window.location.host === 'cdn.charity.games';
 };
@@ -15,8 +15,22 @@ export default class BootScene extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image('wallpaper', './assets/sprites/wallpaper/white.png');
     this.load.image('charity-games-logo', './assets/logos/charity-games.png');
+    this.load.image('instructions', './assets/sprites/game/help.png');
+    this.load.image('button_share', './assets/sprites/button/share.png');
+    this.load.image('button_play', './assets/sprites/button/play.png');
+    this.load.image('button_exit', './assets/sprites/button/exit.png');
+    this.load.image('ball_orange', './assets/sprites/game/ball_orange.png');
+    this.load.image('title_text', './assets/sprites/title/text.png');
+    this.load.image('title_logo', './assets/sprites/title/logo.png');
+    this.load.image('wallpaper', './assets/sprites/wallpaper/white.png');
+    this.load.image('ball_red', './assets/sprites/game/ball_red.png');
+    this.load.audio('collect', './assets/audio/collect.wav');
+    this.load.audio('start', './assets/audio/start.wav');
+    this.load.audio('death', './assets/audio/death.wav');
+    this.load.audio('click', './assets/audio/click.wav');
+    this.load.image('text', './assets/sprites/title/text.png');
+    this.load.image('tap', './assets/sprites/game/tap.png');
   }
 
   async create() {

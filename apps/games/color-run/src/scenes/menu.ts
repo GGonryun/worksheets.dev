@@ -2,24 +2,13 @@ import { CharityGamesPlugin } from '@worksheets/phaser/plugins';
 
 import { createInteractiveButton } from '../buttons/interactive';
 import { AUDIO_SETTINGS, GAME_SETTINGS } from '../util/settings';
-import { TEXT_STYLE } from '../util/theme';
+import { TEXT_STYLE, theme } from '../util/theme';
 import { twitterPostIntent } from '../util/twitter';
 import TemplateScene from './template';
 
 export default class MainScene extends TemplateScene {
   constructor() {
     super('main');
-  }
-
-  preload() {
-    super.preload();
-
-    this.load.image('button_play', './assets/sprites/button/play.png');
-    this.load.image('button_share', './assets/sprites/button/share.png');
-    this.load.image('title_text', './assets/sprites/title/text.png');
-    this.load.image('title_logo', './assets/sprites/title/logo.png');
-    this.load.image('cursor', './assets/cursor/black.png');
-    this.load.audio('click', './assets/audio/click.wav');
   }
 
   create() {
@@ -32,6 +21,12 @@ export default class MainScene extends TemplateScene {
 
     this.add.image(width * 0.5, height * 0.3, 'title_text');
     this.add.image(width * 0.5, height * 0.5, 'title_logo');
+    this.add
+      .text(width * 0.07, height * 0.97, 'v1.3', {
+        font: 'bold 18px Arial',
+        color: theme.red,
+      })
+      .setOrigin(0.5);
 
     createInteractiveButton(this)(
       width * 0.5,

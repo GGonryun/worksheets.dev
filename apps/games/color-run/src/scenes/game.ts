@@ -113,63 +113,56 @@ class Player {
   }
 }
 
-class Enemies {
-  private player: Player;
-  private score: Score;
-  private scene: GameScene;
-  private spawner: Phaser.Time.TimerEvent;
-  private speed = 1;
-  private baseSpeed = 3000;
-  private balls = 7;
-  private difficulty = 0.01;
-  constructor(scene: GameScene, score: Score, player: Player) {
+class Difficulty {
+  baseSpeed = 3000;
+  multiplier = 1;
+  difficulty = 0.01;
+  quantity = 6;
+
+  get ballSpeed() {
+    return this.baseSpeed / this.multiplier;
+  }
+
+  get spawnFrequency() {
+    return this.ballSpeed / this.quantity;
+  }
+
+  increaseDifficulty() {
+    this.multiplier += this.difficulty;
+  }
+}
+
+class Generator {
+  scene: GameScene;
+  constructor(scene: GameScene) {
     this.scene = scene;
-    this.player = player;
-    this.score = score;
-    this.spawner = this.scene.time.addEvent({
-      paused: true,
-    });
   }
 
-  enable() {
-    const callback = () => {
-      new Enemy(
-        this.scene,
-        this.score,
-        this.player,
-        this.baseSpeed / this.speed
-      );
+  generate() {
+    const { width, height } = this.scene.cameras.main;
 
-      this.speed += this.difficulty;
-      // update the interval to reflect the new speed
-      this.spawner.reset({
-        delay: this.interval(),
-        paused: false,
-        callbackScope: this,
-        callback,
-      });
-    };
+    const xSpawn = width * 0.5; // center of the screen
+    const ySpawn = height * 0.5;
 
-    // start spawning balls
-    this.spawner.reset({
-      delay: this.interval(),
-      paused: false,
-      callbackScope: this,
-      callback,
-    });
-  }
+    const type = BALL_TYPES[Math.floor(Math.random() * BALL_TYPES.length)];
+    const sprite = BALL_TYPE_TO_IMAGE[type];
 
-  private interval() {
-    // if it takes baseSpeed / speed to reach the bottom of the screen.
-    // pick an interval that allows there to be 3 balls on the screen at once.
-    // so if we want X balls on the screen at once, we need to spawn a ball every
-    // baseSpeed / speed / X.
-    return this.baseSpeed / this.speed / this.balls;
-  }
+    const ball = new Ball(this.scene, xSpawn, ySpawn, sprite);
 
-  disable() {
-    // stop spawning balls
-    this.spawner.paused = true;
+    if (type === 'orange') {
+      this.scene.enemies.add(ball);
+    } else {
+      this.scene.points.add(ball);
+    }
+
+    this.scene.time.delayedCall(
+      this.scene.difficulty.spawnFrequency,
+      () => this.generate(),
+      undefined,
+      this
+    );
+
+    this.scene.difficulty.increaseDifficulty();
   }
 }
 
@@ -183,62 +176,29 @@ const BALL_TYPE_TO_IMAGE: Record<BallType, string> = {
   orange: 'ball_orange',
 };
 
-class Enemy {
-  private scene: GameScene;
-  private score: Score;
-  image: Phaser.GameObjects.Image;
+class Ball extends Phaser.GameObjects.Sprite {
+  scene: GameScene;
 
-  constructor(
-    scene: GameScene,
-    score: Score,
-    player: Player,
-    duration: number
-  ) {
+  constructor(scene: GameScene, x: number, y: number, sprite: string) {
+    super(scene, x, y, sprite);
     this.scene = scene;
-    this.score = score;
+    scene.add.existing(this);
+    scene.physics.add.existing(this);
 
-    const type = BALL_TYPES[Math.floor(Math.random() * BALL_TYPES.length)];
+    this.setOrigin(0.5, 0.5);
 
-    const { width, height } = scene.cameras.main;
-    const xSpawn = width * 0.5; // center of the screen
-    const ySpawn = 0;
-    this.image = scene.add.image(xSpawn, ySpawn, BALL_TYPE_TO_IMAGE[type]);
+    if (this.body instanceof Phaser.Physics.Arcade.Body) {
+      this.body.setAllowGravity(false);
+    }
 
-    // make the enemy participate in the physics simulation
-    scene.physics.world.enable(this.image);
-    this.image.setOrigin(0.5, 0.5);
-    // the enemy ball moves linearly to the bottom of the screen.
-    // when it reaches the bottom, it is destroyed.
     this.scene.tweens.add({
-      targets: this.image,
-      y: height * 1.1,
-      duration: duration,
-      callbackScope: this,
+      targets: this,
+      y: { from: 0, to: 1000 },
+      duration: this.scene.difficulty.ballSpeed,
       onComplete: () => {
         this.destroy();
       },
     });
-
-    // create a collider between the player's balls and the enemy ball.
-    this.scene.physics.add.overlap([player.leftBall], this.image, () => {
-      // if the ball type is orange, the game is over.
-      if (type === 'orange') {
-        this.scene.scene.start('game-over', { score: this.score.value() });
-        this.scene.state = 'start';
-        this.scene.sound.play('death', AUDIO_SETTINGS);
-      } else {
-        this.score.increment();
-        this.scene.sound.play('collect', AUDIO_SETTINGS);
-      }
-
-      // also remove the tween on the ball.
-      this.destroy();
-    });
-  }
-
-  destroy() {
-    this.image.destroy();
-    this.scene.tweens.killTweensOf(this.image);
   }
 }
 
@@ -278,32 +238,44 @@ class Score {
 export default class GameScene extends TemplateScene {
   private instructions!: Instructions;
   private player!: Player;
-  private enemies!: Enemies;
-  private score!: Score;
+  score!: Score;
   state: 'start' | 'play' = 'start';
+  enemies!: Phaser.GameObjects.Group;
+  points!: Phaser.GameObjects.Group;
+  generator!: Generator;
+  difficulty!: Difficulty;
+
   constructor() {
     super('game');
-  }
-
-  preload() {
-    super.preload();
-    this.load.image('tap', './assets/sprites/game/tap.png');
-    this.load.image('instructions', './assets/sprites/game/help.png');
-    this.load.image('ball_red', './assets/sprites/game/ball_red.png');
-    this.load.image('ball_orange', './assets/sprites/game/ball_orange.png');
-    this.load.audio('collect', './assets/audio/collect.wav');
-    this.load.audio('start', './assets/audio/start.wav');
-    this.load.audio('death', './assets/audio/death.wav');
   }
 
   create() {
     super.create();
 
+    this.difficulty = new Difficulty();
+    this.generator = new Generator(this);
     this.player = new Player(this);
     this.score = new Score(this);
     this.instructions = new Instructions(this, this.player);
-    this.enemies = new Enemies(this, this.score, this.player);
     this.physics.world.fixedStep = false;
+    this.enemies = this.add.group();
+    this.points = this.add.group();
+
+    this.physics.add.collider(
+      this.player.leftBall,
+      this.enemies,
+      hitEnemy(this),
+      () => true,
+      this
+    );
+
+    this.physics.add.collider(
+      this.player.rightBall,
+      this.points,
+      hitPoint(this),
+      () => true,
+      this
+    );
 
     // don't start the game until the user clicks
     this.input.on('pointerdown', () => {
@@ -316,9 +288,34 @@ export default class GameScene extends TemplateScene {
   }
 
   private startGame() {
+    this.time.delayedCall(
+      1000,
+      () => this.generator.generate(),
+      undefined,
+      this
+    );
+
     this.instructions.hide();
     this.score.reset();
-    this.enemies.enable();
     this.player.enable();
   }
 }
+
+const hitEnemy =
+  (game: GameScene): Phaser.Types.Physics.Arcade.ArcadePhysicsCallback =>
+  (_, collided) => {
+    game.scene.start('game-over', { score: game.score.value() });
+    game.state = 'start';
+    game.sound.play('death', AUDIO_SETTINGS);
+
+    collided.destroy();
+  };
+
+const hitPoint =
+  (game: GameScene): Phaser.Types.Physics.Arcade.ArcadePhysicsCallback =>
+  (_, collided) => {
+    game.score.increment();
+    game.sound.play('collect', AUDIO_SETTINGS);
+
+    collided.destroy();
+  };
