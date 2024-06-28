@@ -1,16 +1,17 @@
-import { forwardRef } from 'react';
-
 import classes from './game-frame.module.scss';
 
-export type GameInternalFrameProps = { url: string };
+export type GameInternalFrameProps = {
+  frameRef?: React.RefObject<HTMLIFrameElement>;
+  url: string;
+};
 
-export const GameInternalFrame = forwardRef<
-  HTMLIFrameElement,
-  GameInternalFrameProps
->(({ url }, ref) => {
+export const GameInternalFrame: React.FC<GameInternalFrameProps> = ({
+  url,
+  frameRef,
+}) => {
   return (
     <iframe
-      ref={ref}
+      ref={frameRef}
       id="game-frame"
       name="game-frame"
       title="game-frame"
@@ -20,6 +21,6 @@ export const GameInternalFrame = forwardRef<
       allow={`accelerometer; magnetometer; gyroscope; autoplay; payment; fullscreen; microphone; clipboard-read; clipboard-write 'self' ${url}`}
     />
   );
-});
+};
 
 GameInternalFrame.displayName = 'GameInternalFrame';

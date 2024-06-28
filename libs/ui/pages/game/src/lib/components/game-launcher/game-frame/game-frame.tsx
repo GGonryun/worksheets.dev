@@ -139,7 +139,7 @@ export const GameFrame: React.FC<{
           Downloading Game...
         </Typography>
       </Box>
-      <GameInternalFrame ref={frameRef} url={url} />
+      <GameInternalFrame frameRef={frameRef} url={url} />
     </Box>
   );
 };
