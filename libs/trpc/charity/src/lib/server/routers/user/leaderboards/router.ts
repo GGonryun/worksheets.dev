@@ -23,9 +23,12 @@ export default t.router({
       })
     )
     .mutation(async ({ input: { sessionId, score }, ctx: { db, user } }) => {
+      const userId = user.id;
+      console.info('User is submitting score', { sessionId, score, userId });
+
       return await leaderboards.submitScore(db, {
         sessionId,
-        userId: user.id,
+        userId,
         score,
       });
     }),
