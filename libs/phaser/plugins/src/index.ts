@@ -107,6 +107,7 @@ export class CharityGamesPlugin extends Phaser.Plugins.BasePlugin {
         });
       } catch (error) {
         console.error('Failed to submit score', error);
+        throw error;
       }
     };
 
@@ -152,6 +153,7 @@ export class CharityGamesPlugin extends Phaser.Plugins.BasePlugin {
         store(achievementId);
       } catch (error) {
         console.error('Failed to unlock achievement', error);
+        throw error;
       }
     };
 
