@@ -123,11 +123,10 @@ export const communicator =
         const d: MessageResponse<T> = data;
         if (d.event === success) {
           resolve(d.payload);
-        } else if (d.event === failure) {
+        }
+
+        if (d.event === failure) {
           reject(d.error);
-        } else {
-          console.error('Invalid response received', d);
-          reject(new Error(`Invalid response event: ${d.event}`));
         }
       };
 

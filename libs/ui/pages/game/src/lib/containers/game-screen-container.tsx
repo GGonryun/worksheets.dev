@@ -3,7 +3,6 @@ import { routes } from '@worksheets/routes';
 import { trpc } from '@worksheets/trpc-charity';
 import { useGameVotes } from '@worksheets/ui/hooks/use-game-votes';
 import { useRecentlyPlayedGames } from '@worksheets/ui/hooks/use-recently-played-games';
-import { MS_TO_S } from '@worksheets/util/time';
 import { NO_REFETCH } from '@worksheets/util/trpc';
 import {
   DeveloperSchema,
@@ -11,7 +10,7 @@ import {
   Vote,
 } from '@worksheets/util/types';
 import { useSession } from 'next-auth/react';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import {
   CannotVoteModal,
@@ -24,7 +23,6 @@ import {
   GameNotificationContextProvider,
   useGameNotifications,
 } from '../hooks/use-game-notifications';
-import { useGameTracker } from '../hooks/use-game-tracker';
 
 type GameScreenContainerProps = {
   game: SerializableGameSchema;
@@ -64,42 +62,24 @@ const GameScreenContainerInner: React.FC<GameScreenContainerProps> = ({
 
   const userVotes = useGameVotes();
 
-  const user = trpc.user.get.useQuery(undefined, {
-    enabled: authenticated,
-    ...NO_REFETCH,
-  });
   const castVote = trpc.public.games.vote.cast.useMutation();
   const record = trpc.maybe.games.record.useMutation();
   const reportGame = trpc.public.games.report.useMutation();
 
   const trackGamePlay = trpc.user.gamePlay.track.useMutation();
-  const trackGameTime = trpc.user.gameTime.track.useMutation();
 
   const { data: suggestions } = trpc.public.games.suggestions.useQuery(
     {
       gameId: game.id,
     },
-    {
-      refetchOnMount: false,
-      refetchOnReconnect: false,
-      refetchOnWindowFocus: false,
-    }
+    NO_REFETCH
   );
 
   const { addRecentlyPlayed } = useRecentlyPlayedGames();
 
   const [showVoteWarning, setShowVoteWarning] = useState(false);
 
-  const gameTracker = useGameTracker(user.data, {
-    onElapsed: (interval) => {
-      trackGameTime.mutate({
-        gameId: game.id,
-        duration: MS_TO_S(interval),
-      });
-    },
-  });
-
-  const handleRewardPlay = async () => {
+  const handleRewardPlay = useCallback(async () => {
     if (authenticated) {
       await trackGamePlay.mutateAsync({
         gameId: game.id,
@@ -111,14 +91,13 @@ const GameScreenContainerInner: React.FC<GameScreenContainerProps> = ({
         unique: true,
       });
     }
-  };
+  }, [authenticated, game.id, notifications, trackGamePlay]);
 
-  const handleIncrementPlayCount = async () => {
+  const handleIncrementPlayCount = useCallback(async () => {
     await record.mutateAsync({ gameId: game.id });
-  };
+  }, [game.id, record]);
 
-  const handlePlayGame = async () => {
-    gameTracker.start();
+  const handlePlayGame = useCallback(async () => {
     addRecentlyPlayed({
       id: game.id,
       title: game.name,
@@ -128,35 +107,49 @@ const GameScreenContainerInner: React.FC<GameScreenContainerProps> = ({
     });
 
     await Promise.all([handleRewardPlay(), handleIncrementPlayCount()]);
-  };
+  }, [
+    addRecentlyPlayed,
+    game.iconUrl,
+    game.id,
+    game.name,
+    game.plays,
+    handleIncrementPlayCount,
+    handleRewardPlay,
+  ]);
 
-  const handleReportGame = async (reason: ReportReason, text: string) => {
-    reportGame.mutateAsync({
-      gameId: game.id,
-      reason,
-      text,
-    });
-  };
+  const handleReportGame = useCallback(
+    async (reason: ReportReason, text: string) => {
+      reportGame.mutateAsync({
+        gameId: game.id,
+        reason,
+        text,
+      });
+    },
+    [game.id, reportGame]
+  );
 
-  const handleMakeVote = async (newVote: Vote) => {
-    if (!authenticated) {
-      setShowVoteWarning(true);
-      return;
-    }
+  const handleMakeVote = useCallback(
+    async (newVote: Vote) => {
+      if (!authenticated) {
+        setShowVoteWarning(true);
+        return;
+      }
 
-    const currentVote = userVotes.getVote(game.id);
+      const currentVote = userVotes.getVote(game.id);
 
-    await castVote.mutateAsync({
-      gameId: game.id,
-      currentVote: currentVote?.vote,
-      newVote,
-    });
+      await castVote.mutateAsync({
+        gameId: game.id,
+        currentVote: currentVote?.vote,
+        newVote,
+      });
 
-    userVotes.addGameVote({
-      gameId: game.id,
-      vote: newVote,
-    });
-  };
+      userVotes.addGameVote({
+        gameId: game.id,
+        vote: newVote,
+      });
+    },
+    [authenticated, castVote, game.id, userVotes]
+  );
 
   return (
     <>
@@ -170,7 +163,7 @@ const GameScreenContainerInner: React.FC<GameScreenContainerProps> = ({
         launcher={
           <GameLauncher
             game={game}
-            isLoading={session.status === 'loading'}
+            status={session.status}
             developer={developer}
             userVote={userVotes.getVote(game.id)?.vote}
             onPlay={handlePlayGame}

@@ -5,6 +5,7 @@ import {
   Vote,
 } from '@worksheets/util/types';
 import { useRouter } from 'next/router';
+import { SessionContextValue } from 'next-auth/react';
 import { FC, useEffect, useRef, useState } from 'react';
 
 import { useDeviceInformation } from '../../hooks/use-device-information';
@@ -17,7 +18,7 @@ export type GameLauncherProps = {
   game: SerializableGameSchema;
   developer: DeveloperSchema;
   userVote?: Vote;
-  isLoading: boolean;
+  status: SessionContextValue['status'];
   onPlay: () => void;
   onVote: (vote: Vote) => void;
 };
@@ -26,7 +27,7 @@ export const GameLauncher: FC<GameLauncherProps> = ({
   developer,
   game,
   userVote,
-  isLoading,
+  status,
   onPlay,
   onVote,
 }) => {
@@ -110,10 +111,10 @@ export const GameLauncher: FC<GameLauncherProps> = ({
           name={game.name}
           onPlay={handlePlayGame}
           viewport={game.viewport}
-          isLoading={isLoading}
+          isLoading={status === 'loading'}
         />
       ) : (
-        <GameFrame gameId={game.id} url={game.file.url} />
+        <GameFrame gameId={game.id} url={game.file.url} status={status} />
       )}
 
       {!showTopControls && Banner}

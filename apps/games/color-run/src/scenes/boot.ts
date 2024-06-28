@@ -5,7 +5,7 @@ import { setWallpaper } from '../util/wallpaper';
 
 const isValidHost = () => {
   if (process.env.NODE_ENV === 'development') {
-    return window.location.host !== 'localhost:7008';
+    return true;
   }
   return window.location.host === 'cdn.charity.games';
 };

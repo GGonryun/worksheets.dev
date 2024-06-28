@@ -7,6 +7,7 @@ import { ErrorComponent } from '@worksheets/ui/components/errors';
 import { Column } from '@worksheets/ui/components/flex';
 import { LoadingBar } from '@worksheets/ui/components/loading';
 import { toPercentage } from '@worksheets/util/numbers';
+import { NO_REFETCH } from '@worksheets/util/trpc';
 import { SessionContextValue, useSession } from 'next-auth/react';
 
 import { gameRedirectLogin } from '../util';
@@ -44,12 +45,19 @@ const AchievementContent: React.FC<{
   gameId: string;
   status: SessionContextValue['status'];
 }> = ({ gameId, status }) => {
-  const total = trpc.maybe.games.popularity.players.useQuery({ gameId });
-  const global = trpc.maybe.games.achievements.list.useQuery({ gameId });
+  const total = trpc.maybe.games.popularity.players.useQuery(
+    { gameId },
+    NO_REFETCH
+  );
+  const global = trpc.maybe.games.achievements.list.useQuery(
+    { gameId },
+    NO_REFETCH
+  );
   const player = trpc.user.game.achievements.list.useQuery(
     { gameId },
     {
       enabled: status === 'authenticated',
+      ...NO_REFETCH,
     }
   );
 
@@ -81,44 +89,41 @@ const AchievementsHeader: React.FC<
     total: number;
     status: SessionContextValue['status'];
   }
-> = ({ gameId, player, total, global, status }) => {
-  const loginHref = gameRedirectLogin(gameId);
-  return (
-    <Box
-      sx={{
-        display: 'grid',
-        gridTemplateColumns: '1fr 64px',
-        gap: 2,
-      }}
-    >
-      <Column>
-        <Typography typography="body2">
-          Total achievements: <b>{global}</b>
-        </Typography>
-        <Typography typography="body2">
-          Total players: <b>{total}</b>
-        </Typography>
-        {status === 'authenticated' ? (
-          <PlayerProgressText player={player} global={global} />
-        ) : (
-          <Button
-            color="white"
-            href={loginHref}
-            sx={{
-              mt: 0.5,
-              width: 'fit-content',
-            }}
-          >
-            Login to track your progress
-          </Button>
-        )}
-      </Column>
-      <Typography typography="body2" component="span" alignSelf="flex-end">
-        % of all players
+> = ({ gameId, player, total, global, status }) => (
+  <Box
+    sx={{
+      display: 'grid',
+      gridTemplateColumns: '1fr 64px',
+      gap: 2,
+    }}
+  >
+    <Column>
+      <Typography typography="body2">
+        Total achievements: <b>{global}</b>
       </Typography>
-    </Box>
-  );
-};
+      <Typography typography="body2">
+        Total players: <b>{total}</b>
+      </Typography>
+      {status === 'authenticated' ? (
+        <PlayerProgressText player={player} global={global} />
+      ) : (
+        <Button
+          color="white"
+          href={gameRedirectLogin(gameId)}
+          sx={{
+            mt: 0.5,
+            width: 'fit-content',
+          }}
+        >
+          Login to track your progress
+        </Button>
+      )}
+    </Column>
+    <Typography typography="body2" component="span" alignSelf="flex-end">
+      % of all players
+    </Typography>
+  </Box>
+);
 
 type PlayerProgressOptions = {
   global: number;
@@ -128,20 +133,18 @@ type PlayerProgressOptions = {
 const PlayerProgressText: React.FC<PlayerProgressOptions> = ({
   global,
   player,
-}) => {
-  return (
-    <Typography variant="body2">
-      {player == null ? (
-        'Loading...'
-      ) : (
-        <>
-          Your progress:{' '}
-          <b>
-            {player} / {global}
-          </b>{' '}
-          ({toPercentage(player, global, 1)})
-        </>
-      )}
-    </Typography>
-  );
-};
+}) => (
+  <Typography variant="body2">
+    {player == null ? (
+      'Loading...'
+    ) : (
+      <>
+        Your progress:{' '}
+        <b>
+          {player} / {global}
+        </b>{' '}
+        ({toPercentage(player, global, 1)})
+      </>
+    )}
+  </Typography>
+);

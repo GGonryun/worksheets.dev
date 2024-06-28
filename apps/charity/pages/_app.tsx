@@ -32,7 +32,7 @@ const MyApp: AppType = ({
       </Head>
 
       <ThemeProvider theme={theme}>
-        <SessionProvider session={session}>
+        <SessionProvider session={session} refetchOnWindowFocus={false}>
           <DynamicInitializeSessionReplay />
           <SnackbarContextProvider>
             <main>{getLayout(<Component {...pageProps} />)}</main>

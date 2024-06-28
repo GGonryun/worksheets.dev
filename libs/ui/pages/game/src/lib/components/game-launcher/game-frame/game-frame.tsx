@@ -3,9 +3,10 @@ import { handlers } from '@worksheets/sdk-games';
 import { trpc } from '@worksheets/trpc-charity';
 import { PulsingIcon } from '@worksheets/ui/components/loading';
 import { useEventListener } from '@worksheets/ui-core';
-import { useSession } from 'next-auth/react';
+import { SessionContextValue } from 'next-auth/react';
 import React, { useRef } from 'react';
 
+import { GameTrackingProvider } from '../../../context/game-tracking-context';
 import { useGameNotifications } from '../../../hooks/use-game-notifications';
 import classes from './game-frame.module.scss';
 import { GameInternalFrame } from './game-internal-frame';
@@ -24,13 +25,13 @@ const isValidOrigin = (origin: string) => {
 };
 
 export const GameFrame: React.FC<{
+  status: SessionContextValue['status'];
   url: string;
   gameId: string;
-}> = ({ gameId, url }) => {
-  const session = useSession();
+}> = ({ gameId, url, status }) => {
   const notifications = useGameNotifications();
-  const authenticated = session.status === 'authenticated';
   const utils = trpc.useUtils();
+  const authenticated = status === 'authenticated';
   const loadStorage = trpc.user.game.storage.load.useMutation();
   const saveStorage = trpc.user.game.storage.save.useMutation();
   const startSession = trpc.user.game.session.start.useMutation();
@@ -139,7 +140,9 @@ export const GameFrame: React.FC<{
           Downloading Game...
         </Typography>
       </Box>
-      <GameInternalFrame frameRef={frameRef} url={url} />
+      <GameTrackingProvider gameId={gameId}>
+        <GameInternalFrame frameRef={frameRef} url={url} />
+      </GameTrackingProvider>
     </Box>
   );
 };
