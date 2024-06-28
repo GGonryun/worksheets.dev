@@ -1,7 +1,7 @@
 import { CharityGamesPlugin } from '@worksheets/phaser/plugins';
 
 import { createInteractiveButton } from '../buttons/interactive';
-import { AUDIO_SETTINGS, GAME_SETTINGS } from '../util/settings';
+import { AUDIO_SETTINGS, GAME_SETTINGS, GAME_VERSION } from '../util/settings';
 import { TEXT_STYLE, theme } from '../util/theme';
 import { twitterPostIntent } from '../util/twitter';
 import TemplateScene from './template';
@@ -22,7 +22,7 @@ export default class MainScene extends TemplateScene {
     this.add.image(width * 0.5, height * 0.3, 'title_text');
     this.add.image(width * 0.5, height * 0.5, 'title_logo');
     this.add
-      .text(width * 0.07, height * 0.97, 'v1.3', {
+      .text(width * 0.07, height * 0.97, GAME_VERSION, {
         font: 'bold 18px Arial',
         color: theme.red,
       })

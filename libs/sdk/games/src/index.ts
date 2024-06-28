@@ -117,10 +117,7 @@ export const communicator =
         emitter.removeEventListener(event, listener);
 
         if (!isValidOrigin(messageOrigin)) {
-          console.warn('Invalid origin in child', {
-            messageOrigin,
-          });
-          return;
+          throw new Error(`Invalid origin: ${messageOrigin}`);
         }
 
         const d: MessageResponse<T> = data;

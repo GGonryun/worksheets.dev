@@ -12,17 +12,19 @@ import { SeedableGameSchema } from '@worksheets/util/types';
 
 export const games: SeedableGameSchema[] = [
   {
-    version: 2,
+    version: 3,
     id: 'color-run',
     name: 'Color Run',
     developerId: 'charity-games',
-    iconUrl: 'https://cdn.charity.games/_games/color-run/assets/thumbnail.png',
-    bannerUrl: 'https://cdn.charity.games/_games/color-run/assets/banner.png',
+    iconUrl:
+      'https://cdn.charity.games/_games/color-run/1.7/assets/thumbnail.png',
+    bannerUrl:
+      'https://cdn.charity.games/_games/color-run/1.7/assets/banner.png',
     viewport: viewports['PORTRAIT-ONLY'],
     categories: ['ad-free', 'arcade', 'desktop', 'mobile', '1p', 'survival'],
     file: {
       type: 'HTML',
-      url: 'https://cdn.charity.games/_games/color-run/index.html',
+      url: 'https://cdn.charity.games/_games/color-run/1.7/index.html',
     },
     createdAt: new Date('2024-06-05T00:00:00.000Z'),
     updatedAt: new Date('2024-06-05T00:00:00.000Z'),
@@ -42,12 +44,12 @@ export const games: SeedableGameSchema[] = [
     achievements: [
       {
         id: 'COLOR_RUN_SCORE_1',
-        version: 2,
+        version: 3,
         gameId: 'color-run',
         name: 'First Score',
         description: 'Score 1 point in the game',
         iconUrl:
-          'https://cdn.charity.games/_games/color-run/assets/achievements/1.png',
+          'https://cdn.charity.games/_games/color-run/1.7/assets/achievements/1.png',
         secret: false,
         loot: [
           {
@@ -59,12 +61,12 @@ export const games: SeedableGameSchema[] = [
       },
       {
         id: 'COLOR_RUN_SCORE_5',
-        version: 2,
+        version: 3,
         gameId: 'color-run',
         name: 'Score 5',
         description: 'Score 5 points in the game',
         iconUrl:
-          'https://cdn.charity.games/_games/color-run/assets/achievements/5.png',
+          'https://cdn.charity.games/_games/color-run/1.7/assets/achievements/5.png',
         secret: false,
         loot: [
           {
@@ -76,12 +78,12 @@ export const games: SeedableGameSchema[] = [
       },
       {
         id: 'COLOR_RUN_SCORE_10',
-        version: 2,
+        version: 3,
         gameId: 'color-run',
         name: 'Score 10',
         description: 'Score 10 points in the game',
         iconUrl:
-          'https://cdn.charity.games/_games/color-run/assets/achievements/10.png',
+          'https://cdn.charity.games/_games/color-run/1.7/assets/achievements/10.png',
         secret: false,
         loot: [
           {
@@ -93,12 +95,12 @@ export const games: SeedableGameSchema[] = [
       },
       {
         id: 'COLOR_RUN_SCORE_25',
-        version: 2,
+        version: 3,
         gameId: 'color-run',
         name: 'Score 25',
         description: 'Score 25 points in the game',
         iconUrl:
-          'https://cdn.charity.games/_games/color-run/assets/achievements/25.png',
+          'https://cdn.charity.games/_games/color-run/1.7/assets/achievements/25.png',
         secret: false,
         loot: [
           {
@@ -115,12 +117,12 @@ export const games: SeedableGameSchema[] = [
       },
       {
         id: 'COLOR_RUN_SCORE_50',
-        version: 2,
+        version: 3,
         gameId: 'color-run',
         name: 'Score 50',
         description: 'Score 50 points in the game',
         iconUrl:
-          'https://cdn.charity.games/_games/color-run/assets/achievements/50.png',
+          'https://cdn.charity.games/_games/color-run/1.7/assets/achievements/50.png',
         secret: false,
         loot: [
           {
@@ -137,12 +139,12 @@ export const games: SeedableGameSchema[] = [
       },
       {
         id: 'COLOR_RUN_SCORE_75',
-        version: 2,
+        version: 3,
         gameId: 'color-run',
         name: 'Score 75',
         description: 'Score 75 points in the game',
         iconUrl:
-          'https://cdn.charity.games/_games/color-run/assets/achievements/75.png',
+          'https://cdn.charity.games/_games/color-run/1.7/assets/achievements/75.png',
         secret: false,
         loot: [
           {
@@ -159,12 +161,12 @@ export const games: SeedableGameSchema[] = [
       },
       {
         id: 'COLOR_RUN_SCORE_100',
-        version: 2,
+        version: 3,
         gameId: 'color-run',
         name: 'Score 100',
         description: 'Score 100 points in the game',
         iconUrl:
-          'https://cdn.charity.games/_games/color-run/assets/achievements/100.png',
+          'https://cdn.charity.games/_games/color-run/1.7/assets/achievements/100.png',
         secret: false,
         loot: [
           {

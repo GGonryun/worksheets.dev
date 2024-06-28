@@ -97,13 +97,19 @@ const updateGame = async (game: SeedableGameSchema) => {
       },
     });
 
+    await tx.gameFile.update({
+      where: {
+        id: existing.file.id,
+      },
+      data: {
+        type: game.file.type,
+        url: game.file.url,
+      },
+    });
+
     // TODO: support updating categories
 
     // TODO: support updating loot
-
-    const updateFile =
-      existing.file.url !== game.file.url ||
-      existing.file.type !== game.file.type;
 
     const updateDeveloper = existing.developer.id !== game.developerId;
 
@@ -135,25 +141,7 @@ const updateGame = async (game: SeedableGameSchema) => {
               },
             }
           : undefined,
-        file: updateFile
-          ? {
-              create: {
-                id: game.id,
-                type: game.file.type,
-                url: game.file.url,
-              },
-            }
-          : undefined,
       },
     });
-
-    if (updateFile) {
-      // TODO: under certain circumstances the old file might need to be cleaned up from google cloud storage.
-      await tx.gameFile.delete({
-        where: {
-          id: existing.file.url,
-        },
-      });
-    }
   });
 };

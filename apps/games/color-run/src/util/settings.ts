@@ -7,3 +7,5 @@ export const GAME_SETTINGS = {
 export const AUDIO_SETTINGS = {
   volume: 0.35,
 };
+
+export const GAME_VERSION = `v1.7`;

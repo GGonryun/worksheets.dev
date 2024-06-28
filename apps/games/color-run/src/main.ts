@@ -9,12 +9,10 @@ import MenuScene from './scenes/menu';
 
 const config: Phaser.Types.Core.GameConfig = {
   type: Phaser.AUTO,
+  powerPreference: 'high-performance',
   backgroundColor: '#000000',
   roundPixels: true,
-  autoRound: false,
-  render: {
-    pixelArt: false,
-  },
+  autoRound: true,
   scale: {
     parent: 'game',
     mode: Phaser.Scale.FIT,
@@ -27,7 +25,7 @@ const config: Phaser.Types.Core.GameConfig = {
     default: 'arcade',
     arcade: {
       debug: false,
-      gravity: { x: 0, y: 0 },
+      gravity: undefined,
     },
   },
   plugins: {

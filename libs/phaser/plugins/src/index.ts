@@ -41,6 +41,7 @@ export class CharityGamesPlugin extends Phaser.Plugins.BasePlugin {
         this.sessionId = result?.sessionId ?? null;
       } catch (error) {
         console.error('Failed to start session', error);
+        throw error;
       }
     };
     return {

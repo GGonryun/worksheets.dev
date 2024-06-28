@@ -10,11 +10,15 @@ const isValidHost = () => {
   return window.location.host === 'cdn.charity.games';
 };
 export default class BootScene extends Phaser.Scene {
+  loadBar!: Phaser.GameObjects.Graphics;
+  progressBar!: Phaser.GameObjects.Graphics;
   constructor() {
     super('boot');
   }
 
   preload() {
+    this.createBars();
+    this.setLoadEvents();
     this.load.image('charity-games-logo', './assets/logos/charity-games.png');
     this.load.image('instructions', './assets/sprites/game/help.png');
     this.load.image('button_share', './assets/sprites/button/share.png');
@@ -88,5 +92,35 @@ export default class BootScene extends Phaser.Scene {
     } catch {
       this.scene.start('main');
     }
+  }
+
+  setLoadEvents() {
+    this.load.on(
+      'progress',
+      (value: number) => {
+        this.progressBar.clear();
+        this.progressBar.fillStyle(0x0088aa, 1);
+        this.progressBar.fillRect(
+          this.cameras.main.width / 4,
+          this.cameras.main.height / 2 - 16,
+          (this.cameras.main.width / 2) * value,
+          16
+        );
+      },
+      this
+    );
+    this;
+    30;
+  }
+  createBars() {
+    this.loadBar = this.add.graphics();
+    this.loadBar.fillStyle(0xd40000, 1);
+    this.loadBar.fillRect(
+      this.cameras.main.width / 4 - 2,
+      this.cameras.main.height / 2 - 18,
+      this.cameras.main.width / 2 + 4,
+      20
+    );
+    this.progressBar = this.add.graphics();
   }
 }
