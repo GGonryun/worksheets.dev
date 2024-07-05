@@ -102,6 +102,7 @@ const usePseudoFullscreen = (
 
       docRef.current.documentElement.scrollTop = 0;
       docRef.current.body.scrollTop = 0;
+      window.scrollTo(0, 1);
     },
     canExitFullscreen: () => true,
     exitFullscreen: () => {
