@@ -36,14 +36,11 @@ const isValidOrigin = (origin: string) => {
   return VERIFIED_GAME_ORIGINS.includes(origin);
 };
 
-const usePlatformListener = () => {
-  const ref = useRef<HTMLIFrameElement>(null);
+const usePlatformListener = (frameRef: React.RefObject<HTMLIFrameElement>) => {
   const callbacks = new Map<GameEventKey, GameEventCallback<GameEventKey>>();
 
-  const contentWindow = ref.current?.contentWindow;
-
   useEventListener('message', (message) => {
-    if (!contentWindow) {
+    if (!frameRef.current?.contentWindow) {
       console.warn('No content window');
       return;
     }
@@ -81,7 +78,6 @@ const usePlatformListener = () => {
   });
 
   return {
-    ref,
     on: <T extends GameEventKey>(key: T, callback: GameEventCallback<T>) => {
       callbacks.set(key, callback as GameEventCallback<GameEventKey>);
     },
@@ -89,8 +85,9 @@ const usePlatformListener = () => {
       event: T,
       payload: PlatformEventPayload<T>
     ) => {
-      if (!contentWindow) return console.warn('No content window');
-      contentWindow.postMessage({ event, payload }, '*');
+      if (!frameRef.current?.contentWindow)
+        return console.warn('No content window');
+      frameRef.current?.contentWindow.postMessage({ event, payload }, '*');
     },
   };
 };
@@ -112,8 +109,9 @@ export const GameFrame: React.FC<{
   const loadAchievements = trpc.user.game.achievements.load.useMutation();
   const unlockAchievements = trpc.user.game.achievements.unlock.useMutation();
   const submitScore = trpc.user.leaderboards.submit.useMutation();
+  const frameRef = useRef<HTMLIFrameElement>(null);
 
-  const child = usePlatformListener();
+  const child = usePlatformListener(frameRef);
 
   child.on('start-session', async () => {
     if (authenticated) {
@@ -340,7 +338,7 @@ export const GameFrame: React.FC<{
       </Box>
       <AdBlockModal open={showAdBlockModal} onClose={handleClose} />
       <GameTrackingProvider gameId={gameId}>
-        <GameInternalFrame frameRef={child.ref} url={url} />
+        <GameInternalFrame frameRef={frameRef} url={url} />
       </GameTrackingProvider>
     </Box>
   );
