@@ -364,6 +364,7 @@ model Game {
   status       GameStatus         @default(UNPUBLISHED)
   multiplier   Float              @default(0)
   leaderboard  Boolean            @default(false)
+  cloudStorage Boolean            @default(false)
   // Details
   title        String             @db.VarChar(127)
   description  String             @db.VarChar(4095)

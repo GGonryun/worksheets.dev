@@ -62,6 +62,7 @@ export default publicProcedure
         trailer: game.trailer,
         loot: game.loot.map(serializableLoot),
         leaderboard: game.leaderboard,
+        cloudStorage: game.cloudStorage,
         achievements: game.achievements.length > 0,
         multiplier: game.multiplier,
         categories: game.categories.map((c) => c.categoryId) as GameTag[],

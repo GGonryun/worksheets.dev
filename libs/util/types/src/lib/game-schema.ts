@@ -84,6 +84,7 @@ export type GameSchema = {
   likes: number;
   multiplier: number;
   leaderboard: boolean;
+  cloudStorage: boolean;
   achievements: boolean;
   dislikes: number;
   loot: LootSchema[];

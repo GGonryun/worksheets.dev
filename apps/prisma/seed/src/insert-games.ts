@@ -42,6 +42,7 @@ const insertGame = async (game: SeedableGameSchema) => {
         publishAt: game.publishAt,
         trailer: game.trailer,
         leaderboard: game.leaderboard,
+        cloudStorage: game.cloudStorage,
         multiplier: game.multiplier ?? 0,
         developer: {
           connect: {
@@ -128,6 +129,7 @@ const updateGame = async (game: SeedableGameSchema) => {
         version: game.version,
         trailer: game.trailer,
         leaderboard: game.leaderboard,
+        cloudStorage: game.cloudStorage,
         developer: updateDeveloper
           ? {
               connect: {

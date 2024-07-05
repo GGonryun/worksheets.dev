@@ -12,7 +12,7 @@ export const CreateAccountBanner: React.FC<{
   href,
   enabled = true,
   title = 'Get the most out of Charity Games.',
-  description = 'Enter random giveaways and win prizes for playing games.',
+  description = 'Enter giveaways and win prizes for playing games.',
 }) => {
   if (!enabled) return null;
   return (

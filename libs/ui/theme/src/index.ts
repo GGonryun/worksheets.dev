@@ -204,6 +204,15 @@ const theme = createTheme({
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           style: arcadeSquareButtonStyle,
         },
+        {
+          props: { variant: 'outlined' },
+          style: {
+            borderRadius: 10,
+            fontWeight: 500,
+            textTransform: 'none',
+            fontFamily: "'M PLUS Rounded 1c', sans-serif",
+          },
+        },
       ],
     },
   },

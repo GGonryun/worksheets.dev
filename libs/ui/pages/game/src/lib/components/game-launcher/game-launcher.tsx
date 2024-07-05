@@ -106,14 +106,16 @@ export const GameLauncher: FC<GameLauncherProps> = ({
 
       {showLoadingCover ? (
         <GameLoadingCover
+          gameId={game.id}
           backgroundUrl={game.bannerUrl}
           iconUrl={game.iconUrl}
           name={game.name}
           onPlay={handlePlayGame}
           viewport={game.viewport}
-          isLoading={status === 'loading'}
+          status={status}
           isFullscreen={fullscreen}
           requiresAds={requiresAds}
+          supportsCloudStorage={game.cloudStorage}
         />
       ) : (
         <GameFrame gameId={game.id} url={game.file.url} status={status} />

@@ -22,6 +22,7 @@ export const sampleGame: SerializableGameSchema = {
   likes: 126634,
   dislikes: 5125,
   multiplier: 0,
+  cloudStorage: false,
   leaderboard: false,
   loot: [],
   achievements: false,

@@ -12,13 +12,13 @@ import { SeedableGameSchema } from '@worksheets/util/types';
 
 const integratedGames: SeedableGameSchema[] = [
   {
-    version: 2,
+    version: 4,
     id: 'dino-dash',
     name: 'Dino Dash',
     developerId: 'charity-games',
     iconUrl: 'https://cdn.charity.games/_games/dino-dash/assets/thumbnail.png',
     bannerUrl: 'https://cdn.charity.games/_games/dino-dash/assets/banner.png',
-    viewport: viewports['LANDSCAPE-ONLY'],
+    viewport: viewports['ALL-DEVICES'],
     categories: ['ad-free', 'action', 'arcade', 'endless', 'desktop', 'mobile'],
     file: {
       type: 'HTML',
@@ -521,7 +521,7 @@ const integratedGames: SeedableGameSchema[] = [
     ],
   },
   {
-    version: 2,
+    version: 4,
     id: 'color-run',
     name: 'Color Run',
     developerId: 'charity-games',
