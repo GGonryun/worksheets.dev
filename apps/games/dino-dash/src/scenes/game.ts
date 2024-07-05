@@ -53,6 +53,7 @@ export class Game extends Phaser.Scene {
 
   preload() {
     this.score = 0;
+    this.collected = 0;
   }
 
   create() {

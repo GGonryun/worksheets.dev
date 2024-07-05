@@ -4,4 +4,4 @@ export const DIFFICULTY_INCREMENT = 0.05;
 export const MAX_DIFFICULTY = 3.5;
 export const JUMP_POWER = 425;
 export const DEFAULT_MAX_HEALTH = 3;
-export const VERSION = 'v1.1';
+export const VERSION = 'v1.2';

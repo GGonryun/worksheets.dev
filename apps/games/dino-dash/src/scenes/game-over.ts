@@ -47,13 +47,13 @@ export class GameOver extends Phaser.Scene {
       jumps: value.jumps ?? 0,
     };
 
-    const score = getHighScore(this.server);
+    const highScore = getHighScore(this.server);
     const playerCoins = getPlayerCoins(this.server);
     const lifetimeCoins = getLifetimeCoins(this.server);
     const lifetimeDamage = getLifetimeDamage(this.server);
     const lifetimeJumps = getLifetimeJumps(this.server);
 
-    this.highScore = Math.max(score, value.score);
+    this.highScore = Math.max(highScore, value.score);
 
     const updatedLifetimeCoins = lifetimeCoins + value.coins;
     const updatedLifetimeDamage = lifetimeDamage + value.healthLost;
@@ -67,7 +67,7 @@ export class GameOver extends Phaser.Scene {
     this.server.storage.save();
 
     this.updateAchievements({
-      score,
+      score: this.highScore,
       lifetimeCoins: updatedLifetimeCoins,
       lifetimeDamage: updatedLifetimeDamage,
       lifetimeJumps: updatedLifetimeJumps,
