@@ -12,7 +12,7 @@ import { SeedableGameSchema } from '@worksheets/util/types';
 
 const integratedGames: SeedableGameSchema[] = [
   {
-    version: 1,
+    version: 2,
     id: 'dino-dash',
     name: 'Dino Dash',
     developerId: 'charity-games',
@@ -30,6 +30,7 @@ const integratedGames: SeedableGameSchema[] = [
     description: `<p>Dino Dash is an endless runner game. The goal of the game is to run as far as you can without hitting any obstacles.</p><h3>How to Play Dino Rush?</h3><ul><li>Tap or click the screen to jump</li>Tap or click the screen while in the air to fall down quickly.<li>Avoid the obstacles</li></ul><h3>Who created Dino Rush?</h3><p>Dino Rush is a free game created by Charity Games. We are a non-profit organization that creates games to raise money for charity.</p><h3>Known issues:</h3><p></p>`,
     multiplier: 0.005,
     leaderboard: true,
+    cloudStorage: true,
     loot: [
       {
         itemId: '10044',
@@ -379,13 +380,13 @@ const integratedGames: SeedableGameSchema[] = [
         ],
       },
       {
-        id: 'DINO_DASH_JUMPS_1',
-        version: 1,
+        id: 'DINO_DASH_JUMPS_125',
+        version: 2,
         gameId: 'dino-dash',
-        name: 'Jump 1 Time',
-        description: 'Jump 1 time across all games',
+        name: 'Jump 125 Times',
+        description: 'Jump 125 time across all games',
         iconUrl:
-          'https://cdn.charity.games/_games/dino-dash/assets/achievements/jumps_1.png',
+          'https://cdn.charity.games/_games/dino-dash/assets/achievements/jumps_100.png',
         secret: false,
         loot: [
           {
@@ -396,13 +397,13 @@ const integratedGames: SeedableGameSchema[] = [
         ],
       },
       {
-        id: 'DINO_DASH_JUMPS_50',
-        version: 1,
+        id: 'DINO_DASH_JUMPS_250',
+        version: 2,
         gameId: 'dino-dash',
-        name: 'Jump 50 Times',
-        description: 'Jump 50 times across all games',
+        name: 'Jump 250 Times',
+        description: 'Jump 250 times across all games',
         iconUrl:
-          'https://cdn.charity.games/_games/dino-dash/assets/achievements/jumps_50.png',
+          'https://cdn.charity.games/_games/dino-dash/assets/achievements/jumps_250.png',
         secret: false,
         loot: [
           {
@@ -413,13 +414,13 @@ const integratedGames: SeedableGameSchema[] = [
         ],
       },
       {
-        id: 'DINO_DASH_JUMPS_100',
-        version: 1,
+        id: 'DINO_DASH_JUMPS_1250',
+        version: 2,
         gameId: 'dino-dash',
-        name: 'Jump 100 Times',
-        description: 'Jump 100 times across all games',
+        name: 'Jump 1250 Times',
+        description: 'Jump 1250 times across all games',
         iconUrl:
-          'https://cdn.charity.games/_games/dino-dash/assets/achievements/jumps_100.png',
+          'https://cdn.charity.games/_games/dino-dash/assets/achievements/jumps_1250.png',
         secret: false,
         loot: [
           {
@@ -430,13 +431,13 @@ const integratedGames: SeedableGameSchema[] = [
         ],
       },
       {
-        id: 'DINO_DASH_JUMPS_500',
-        version: 1,
+        id: 'DINO_DASH_JUMPS_3000',
+        version: 2,
         gameId: 'dino-dash',
-        name: 'Jump 500 Times',
-        description: 'Jump 500 times across all games',
+        name: 'Jump 3000 Times',
+        description: 'Jump 3000 times across all games',
         iconUrl:
-          'https://cdn.charity.games/_games/dino-dash/assets/achievements/jumps_500.png',
+          'https://cdn.charity.games/_games/dino-dash/assets/achievements/jumps_3000.png',
         secret: false,
         loot: [
           {
@@ -447,13 +448,13 @@ const integratedGames: SeedableGameSchema[] = [
         ],
       },
       {
-        id: 'DINO_DASH_JUMPS_1000',
-        version: 1,
+        id: 'DINO_DASH_JUMPS_5000',
+        version: 2,
         gameId: 'dino-dash',
-        name: 'Jump 1000 Times',
-        description: 'Jump 1000 times across all games',
+        name: 'Jump 5000 Times',
+        description: 'Jump 5000 times across all games',
         iconUrl:
-          'https://cdn.charity.games/_games/dino-dash/assets/achievements/jumps_1000.png',
+          'https://cdn.charity.games/_games/dino-dash/assets/achievements/jumps_5000.png',
         secret: false,
         loot: [
           {
@@ -520,7 +521,7 @@ const integratedGames: SeedableGameSchema[] = [
     ],
   },
   {
-    version: 8,
+    version: 2,
     id: 'color-run',
     name: 'Color Run',
     developerId: 'charity-games',
@@ -539,6 +540,7 @@ const integratedGames: SeedableGameSchema[] = [
       '<p>Color Run is a fast-paced arcade game. The goal of the game is to help the ball get as far as possible without hitting any obstacles. If you touch a ball that does not match your color, you lose!</p><h3>How to Play Color Run?</h3><ul><li>Tap the screen to separate the two balls</li><li>Avoid the obstacles</li></ul>',
     markets: {},
     leaderboard: true,
+    cloudStorage: true,
     multiplier: 0.15,
     loot: [
       {
@@ -719,6 +721,7 @@ const basicGames: SeedableGameSchema[] = [
     // not an integrated game
     multiplier: 0,
     leaderboard: false,
+    cloudStorage: false,
     loot: [],
     achievements: [],
   },
@@ -745,6 +748,7 @@ const basicGames: SeedableGameSchema[] = [
     // not an integrated game
     multiplier: 0,
     leaderboard: false,
+    cloudStorage: false,
     loot: [],
     achievements: [],
   },
@@ -778,6 +782,7 @@ const basicGames: SeedableGameSchema[] = [
     // not an integrated game
     multiplier: 0,
     leaderboard: false,
+    cloudStorage: false,
     loot: [],
     achievements: [],
   },
@@ -812,6 +817,7 @@ const basicGames: SeedableGameSchema[] = [
     // not an integrated game
     multiplier: 0,
     leaderboard: false,
+    cloudStorage: false,
     loot: [],
     achievements: [],
   },
@@ -846,6 +852,7 @@ const basicGames: SeedableGameSchema[] = [
     // not an integrated game
     multiplier: 0,
     leaderboard: false,
+    cloudStorage: false,
     loot: [],
     achievements: [],
   },
@@ -881,6 +888,7 @@ const basicGames: SeedableGameSchema[] = [
     // not an integrated game
     multiplier: 0,
     leaderboard: false,
+    cloudStorage: false,
     loot: [],
     achievements: [],
   },
@@ -907,6 +915,7 @@ const basicGames: SeedableGameSchema[] = [
     // not an integrated game
     multiplier: 0,
     leaderboard: false,
+    cloudStorage: false,
     loot: [],
     achievements: [],
   },
@@ -939,6 +948,7 @@ const basicGames: SeedableGameSchema[] = [
     // not an integrated game
     multiplier: 0,
     leaderboard: false,
+    cloudStorage: false,
     loot: [],
     achievements: [],
   },
@@ -974,6 +984,7 @@ const basicGames: SeedableGameSchema[] = [
     // not an integrated game
     multiplier: 0,
     leaderboard: false,
+    cloudStorage: false,
     loot: [],
     achievements: [],
   },
@@ -998,6 +1009,7 @@ const basicGames: SeedableGameSchema[] = [
     // not an integrated game
     multiplier: 0,
     leaderboard: false,
+    cloudStorage: false,
     loot: [],
     achievements: [],
   },
@@ -1034,6 +1046,7 @@ const basicGames: SeedableGameSchema[] = [
     // not an integrated game
     multiplier: 0,
     leaderboard: false,
+    cloudStorage: false,
     loot: [],
     achievements: [],
   },
@@ -1062,6 +1075,7 @@ const basicGames: SeedableGameSchema[] = [
     // not an integrated game
     multiplier: 0,
     leaderboard: false,
+    cloudStorage: false,
     loot: [],
     achievements: [],
   },
@@ -1086,6 +1100,7 @@ const basicGames: SeedableGameSchema[] = [
     // not an integrated game
     multiplier: 0,
     leaderboard: false,
+    cloudStorage: false,
     loot: [],
     achievements: [],
   },
@@ -1122,6 +1137,7 @@ const basicGames: SeedableGameSchema[] = [
     // not an integrated game
     multiplier: 0,
     leaderboard: false,
+    cloudStorage: false,
     loot: [],
     achievements: [],
   },
@@ -1145,6 +1161,7 @@ const basicGames: SeedableGameSchema[] = [
     // not an integrated game
     multiplier: 0,
     leaderboard: false,
+    cloudStorage: false,
     loot: [],
     achievements: [],
   },
@@ -1168,6 +1185,7 @@ const basicGames: SeedableGameSchema[] = [
     // not an integrated game
     multiplier: 0,
     leaderboard: false,
+    cloudStorage: false,
     loot: [],
     achievements: [],
   },
@@ -1195,6 +1213,7 @@ const basicGames: SeedableGameSchema[] = [
     // not an integrated game
     multiplier: 0,
     leaderboard: false,
+    cloudStorage: false,
     loot: [],
     achievements: [],
   },
@@ -1218,6 +1237,7 @@ const basicGames: SeedableGameSchema[] = [
     // not an integrated game
     multiplier: 0,
     leaderboard: false,
+    cloudStorage: false,
     loot: [],
     achievements: [],
   },
@@ -1244,6 +1264,7 @@ const basicGames: SeedableGameSchema[] = [
     // not an integrated game
     multiplier: 0,
     leaderboard: false,
+    cloudStorage: false,
     loot: [],
     achievements: [],
   },
@@ -1266,6 +1287,7 @@ const basicGames: SeedableGameSchema[] = [
     description: `<p>Freedom Run is a one-button endless runner game. The goal of the game is to eat as many veggies as you can and avoid getting hit by birds or falling off the map.</p><h3>How to Play Freedom Run?</h3><p>Playing Freedom Run is easy! Just click or tap the screen to jump, double click or double tap to double jump and if you press and hold you'll stay in the air for much longer.</p><h3>Who created Freedom Run?</h3><p>Freedom Run is a free game created by Charity Games. We are a non-profit organization that creates free games to raise money for charity. We donate 100% of our profits to charity.</p><h3>Can I see the source code for Freedom Run?</h3><p>Sure! all of our games are open source. You can find the source code for Freedom Run on <a href="https://github.com/GGonryun/worksheets.dev/tree/main/construct3/freedom_run">GitHub</a></p>`,
     multiplier: 0,
     leaderboard: false,
+    cloudStorage: false,
     achievements: [],
     loot: [],
     // credits: `
@@ -1298,6 +1320,7 @@ const basicGames: SeedableGameSchema[] = [
     // not an integrated game
     multiplier: 0,
     leaderboard: false,
+    cloudStorage: false,
     loot: [],
     achievements: [],
   },
@@ -1325,6 +1348,7 @@ const basicGames: SeedableGameSchema[] = [
     // not an integrated game
     multiplier: 0,
     leaderboard: false,
+    cloudStorage: false,
     loot: [],
     achievements: [],
   },
@@ -1357,6 +1381,7 @@ const basicGames: SeedableGameSchema[] = [
     // not an integrated game
     multiplier: 0,
     leaderboard: false,
+    cloudStorage: false,
     loot: [],
     achievements: [],
   },
@@ -1380,6 +1405,7 @@ const basicGames: SeedableGameSchema[] = [
     // not an integrated game
     multiplier: 0,
     leaderboard: false,
+    cloudStorage: false,
     loot: [],
     achievements: [],
   },
@@ -1403,6 +1429,7 @@ const basicGames: SeedableGameSchema[] = [
     // not an integrated game
     multiplier: 0,
     leaderboard: false,
+    cloudStorage: false,
     loot: [],
     achievements: [],
   },
@@ -1426,6 +1453,7 @@ const basicGames: SeedableGameSchema[] = [
     // not an integrated game
     multiplier: 0,
     leaderboard: false,
+    cloudStorage: false,
     loot: [],
     achievements: [],
   },
@@ -1451,6 +1479,7 @@ const basicGames: SeedableGameSchema[] = [
     // not an integrated game
     multiplier: 0,
     leaderboard: false,
+    cloudStorage: false,
     loot: [],
     achievements: [],
   },
@@ -1475,6 +1504,7 @@ const basicGames: SeedableGameSchema[] = [
     // not an integrated game
     multiplier: 0,
     leaderboard: false,
+    cloudStorage: false,
     loot: [],
     achievements: [],
   },
@@ -1499,6 +1529,7 @@ const basicGames: SeedableGameSchema[] = [
     // not an integrated game
     multiplier: 0,
     leaderboard: false,
+    cloudStorage: false,
     loot: [],
     achievements: [],
   },
@@ -1522,6 +1553,7 @@ const basicGames: SeedableGameSchema[] = [
     // not an integrated game
     multiplier: 0,
     leaderboard: false,
+    cloudStorage: false,
     loot: [],
     achievements: [],
   },
@@ -1545,6 +1577,7 @@ const basicGames: SeedableGameSchema[] = [
     // not an integrated game
     multiplier: 0,
     leaderboard: false,
+    cloudStorage: false,
     loot: [],
     achievements: [],
   },
@@ -1576,6 +1609,7 @@ const basicGames: SeedableGameSchema[] = [
     // not an integrated game
     multiplier: 0,
     leaderboard: false,
+    cloudStorage: false,
     loot: [],
     achievements: [],
   },
@@ -1603,6 +1637,7 @@ const basicGames: SeedableGameSchema[] = [
     // not an integrated game
     multiplier: 0,
     leaderboard: false,
+    cloudStorage: false,
     loot: [],
     achievements: [],
   },
@@ -1627,6 +1662,7 @@ const basicGames: SeedableGameSchema[] = [
     // not an integrated game
     multiplier: 0,
     leaderboard: false,
+    cloudStorage: false,
     loot: [],
     achievements: [],
   },
@@ -1650,6 +1686,7 @@ const basicGames: SeedableGameSchema[] = [
     // not an integrated game
     multiplier: 0,
     leaderboard: false,
+    cloudStorage: false,
     loot: [],
     achievements: [],
   },
@@ -1673,6 +1710,7 @@ const basicGames: SeedableGameSchema[] = [
     // not an integrated game
     multiplier: 0,
     leaderboard: false,
+    cloudStorage: false,
     loot: [],
     achievements: [],
   },
@@ -1705,6 +1743,7 @@ const basicGames: SeedableGameSchema[] = [
     // not an integrated game
     multiplier: 0,
     leaderboard: false,
+    cloudStorage: false,
     loot: [],
     achievements: [],
   },
@@ -1729,6 +1768,7 @@ const basicGames: SeedableGameSchema[] = [
     // not an integrated game
     multiplier: 0,
     leaderboard: false,
+    cloudStorage: false,
     loot: [],
     achievements: [],
   },

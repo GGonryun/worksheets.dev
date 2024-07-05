@@ -179,11 +179,11 @@ export class GameOver extends Phaser.Scene {
     lifetimeDamage >= 100 && achievements.push('DINO_DASH_DAMAGE_100');
 
     // lifetime jumps achievements.
-    lifetimeJumps >= 1 && achievements.push('DINO_DASH_JUMPS_1');
-    lifetimeJumps >= 50 && achievements.push('DINO_DASH_JUMPS_50');
-    lifetimeJumps >= 100 && achievements.push('DINO_DASH_JUMPS_100');
-    lifetimeJumps >= 500 && achievements.push('DINO_DASH_JUMPS_500');
-    lifetimeJumps >= 1000 && achievements.push('DINO_DASH_JUMPS_1000');
+    lifetimeJumps >= 125 && achievements.push('DINO_DASH_JUMPS_125');
+    lifetimeJumps >= 250 && achievements.push('DINO_DASH_JUMPS_250');
+    lifetimeJumps >= 1250 && achievements.push('DINO_DASH_JUMPS_1250');
+    lifetimeJumps >= 3000 && achievements.push('DINO_DASH_JUMPS_3000');
+    lifetimeJumps >= 5000 && achievements.push('DINO_DASH_JUMPS_5000');
 
     this.server.achievements.unlock(achievements);
   }
