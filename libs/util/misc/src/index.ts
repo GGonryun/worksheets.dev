@@ -33,3 +33,8 @@ export const parseKey = <T>(
 
   return obj[key] as T;
 };
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const noop = (..._: unknown[]) => {
+  // noop
+};

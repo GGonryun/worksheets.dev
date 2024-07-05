@@ -1,13 +1,25 @@
 import { Box, Typography } from '@mui/material';
-import { handlers } from '@worksheets/sdk-games';
+import {
+  GameEventCallback,
+  GameEventKey,
+  GameEventPayload,
+  PlatformEventKey,
+  PlatformEventPayload,
+} from '@worksheets/sdk-games';
 import { trpc } from '@worksheets/trpc-charity';
+import {
+  useDetectAdBlock,
+  useGoogleAdsense,
+} from '@worksheets/ui/components/advertisements';
 import { PulsingIcon } from '@worksheets/ui/components/loading';
 import { useEventListener } from '@worksheets/ui-core';
+import { noop } from 'lodash';
 import { SessionContextValue } from 'next-auth/react';
 import React, { useRef } from 'react';
 
 import { GameTrackingProvider } from '../../../context/game-tracking-context';
 import { useGameNotifications } from '../../../hooks/use-game-notifications';
+import { AdBlockModal } from '../ad-block-modal';
 import classes from './game-frame.module.scss';
 import { GameInternalFrame } from './game-internal-frame';
 
@@ -24,28 +36,21 @@ const isValidOrigin = (origin: string) => {
   return VERIFIED_GAME_ORIGINS.includes(origin);
 };
 
-export const GameFrame: React.FC<{
-  status: SessionContextValue['status'];
-  url: string;
-  gameId: string;
-}> = ({ gameId, url, status }) => {
-  const notifications = useGameNotifications();
-  const utils = trpc.useUtils();
-  const authenticated = status === 'authenticated';
-  const loadStorage = trpc.user.game.storage.load.useMutation();
-  const saveStorage = trpc.user.game.storage.save.useMutation();
-  const startSession = trpc.user.game.session.start.useMutation();
-  const loadAchievements = trpc.user.game.achievements.load.useMutation();
-  const unlockAchievement = trpc.user.game.achievements.unlock.useMutation();
-  const submitScore = trpc.user.leaderboards.submit.useMutation();
-  const frameRef = useRef<HTMLIFrameElement>(null);
+const usePlatformListener = () => {
+  const ref = useRef<HTMLIFrameElement>(null);
+  const callbacks = new Map<GameEventKey, GameEventCallback<GameEventKey>>();
 
-  useEventListener('message', async ({ origin, data }) => {
-    const contentWindow = frameRef.current?.contentWindow;
+  const contentWindow = ref.current?.contentWindow;
 
+  useEventListener('message', (message) => {
     if (!contentWindow) {
       console.warn('No content window');
       return;
+    }
+    const { data, origin } = message;
+
+    if (origin === 'https://www.google.com') {
+      return; // Ignore Google Adsense messages
     }
 
     if (!isValidOrigin(origin)) {
@@ -53,84 +58,277 @@ export const GameFrame: React.FC<{
       return;
     }
 
-    const { register, execute } = handlers(contentWindow, data);
+    if (!data || typeof data !== 'object' || Array.isArray(data)) {
+      throw new Error('Invalid data type');
+    }
 
-    register('start-session', async () => {
-      const session = authenticated
-        ? await startSession.mutateAsync({
-            gameId,
-          })
-        : null;
-      return session ?? null;
-    });
+    if (!('event' in data)) {
+      throw new Error('Event not found');
+    }
 
-    register('load-storage', async (payload) => {
-      if (authenticated && payload.sessionId) {
-        const storage = await loadStorage.mutateAsync({
-          sessionId: payload.sessionId,
-        });
-        return storage?.storage ?? {};
-      } else {
-        const storage = localStorage.getItem(`game-storage-${gameId}`);
-        return JSON.parse(storage ?? '{}');
+    if (!('payload' in data)) {
+      throw new Error('Payload not found');
+    }
+
+    const event = data.event as GameEventKey;
+    const payload = data.payload as GameEventPayload<typeof event>;
+
+    for (const [key, callback] of callbacks.entries()) {
+      if (event === key) {
+        callback(payload);
       }
-    });
+    }
+  });
 
-    register('load-achievements', async ({ sessionId }) => {
-      if (!authenticated || !sessionId) return [];
+  return {
+    ref,
+    on: <T extends GameEventKey>(key: T, callback: GameEventCallback<T>) => {
+      callbacks.set(key, callback as GameEventCallback<GameEventKey>);
+    },
+    send: <T extends PlatformEventKey>(
+      event: T,
+      payload: PlatformEventPayload<T>
+    ) => {
+      if (!contentWindow) return console.warn('No content window');
+      contentWindow.postMessage({ event, payload }, '*');
+    },
+  };
+};
 
-      const data = await loadAchievements.mutateAsync({
-        sessionId: sessionId,
+export const GameFrame: React.FC<{
+  status: SessionContextValue['status'];
+  url: string;
+  gameId: string;
+}> = ({ gameId, url, status }) => {
+  const [showAdBlockModal, setShowAdBlockModal] = React.useState(false);
+  const adsense = useGoogleAdsense();
+  const adBlockDetected = useDetectAdBlock();
+  const notifications = useGameNotifications();
+  const utils = trpc.useUtils();
+  const authenticated = status === 'authenticated';
+  const loadStorage = trpc.user.game.storage.load.useMutation();
+  const saveStorage = trpc.user.game.storage.save.useMutation();
+  const startSession = trpc.user.game.session.start.useMutation();
+  const loadAchievements = trpc.user.game.achievements.load.useMutation();
+  const unlockAchievements = trpc.user.game.achievements.unlock.useMutation();
+  const submitScore = trpc.user.leaderboards.submit.useMutation();
+
+  const child = usePlatformListener();
+
+  child.on('start-session', async () => {
+    if (authenticated) {
+      try {
+        const session = await startSession.mutateAsync({
+          gameId,
+        });
+        child.send('session-started', {
+          ok: true,
+          sessionId: session.sessionId,
+        });
+      } catch (error) {
+        child.send('session-started', {
+          ok: false,
+          error,
+        });
+      }
+    } else {
+      child.send('session-started', {
+        ok: true,
+        sessionId: null,
       });
+    }
+  });
 
-      return data?.achievements ?? [];
-    });
-
-    register('unlock-achievement', async ({ sessionId, achievementId }) => {
-      if (!authenticated || !sessionId) return false;
-
-      const result = await unlockAchievement.mutateAsync({
-        sessionId,
-        achievementId,
+  child.on('load-storage', async ({ sessionId }) => {
+    if (authenticated && sessionId) {
+      try {
+        const storage = await loadStorage.mutateAsync({
+          sessionId,
+        });
+        child.send('storage-loaded', {
+          ok: true,
+          storage: storage?.storage ?? {},
+        });
+      } catch (error) {
+        child.send('storage-loaded', {
+          ok: false,
+          error,
+        });
+      }
+    } else {
+      const storage = localStorage.getItem(`game-storage-${gameId}`);
+      child.send('storage-loaded', {
+        ok: true,
+        storage: storage ? JSON.parse(storage) : {},
       });
+    }
+  });
 
-      if (!result.unlocked) return false;
+  child.on('load-achievements', async ({ sessionId }) => {
+    if (!authenticated || !sessionId) {
+      child.send('achievements-loaded', {
+        ok: true,
+        achievements: [],
+      });
+    } else {
+      try {
+        const data = await loadAchievements.mutateAsync({
+          sessionId: sessionId,
+        });
+        child.send('achievements-loaded', {
+          ok: true,
+          achievements: data?.achievements ?? [],
+        });
+      } catch (error) {
+        child.send('achievements-loaded', {
+          ok: false,
+          error,
+        });
+      }
+    }
+  });
 
-      notifications.add(result.message);
-      utils.user.game.achievements.list.invalidate();
+  child.on('unlock-achievements', async ({ sessionId, achievementIds }) => {
+    if (!authenticated || !sessionId) {
+      child.send('achievement-unlocked', {
+        ok: true,
+        unlocked: false,
+      });
+    } else {
+      try {
+        const result = await unlockAchievements.mutateAsync({
+          sessionId,
+          achievementIds,
+        });
 
-      return true;
-    });
+        if (!result.messages.length) {
+          child.send('achievement-unlocked', {
+            ok: true,
+            unlocked: false,
+          });
+        } else {
+          result.messages.forEach((m) => notifications.add(m));
 
-    register('save-storage', async ({ sessionId, data }) => {
-      if (authenticated && sessionId) {
+          utils.user.game.achievements.list.invalidate();
+
+          child.send('achievement-unlocked', {
+            ok: true,
+            unlocked: true,
+          });
+        }
+      } catch (error) {
+        child.send('achievement-unlocked', {
+          ok: false,
+          error,
+        });
+      }
+    }
+  });
+
+  child.on('save-storage', async ({ sessionId, data }) => {
+    if (authenticated && sessionId) {
+      try {
         await saveStorage.mutateAsync({
           sessionId,
           data,
         });
-      } else {
-        localStorage.setItem(`game-storage-${gameId}`, JSON.stringify(data));
+        child.send('storage-saved', {
+          ok: true,
+          saved: true,
+        });
+      } catch (error) {
+        child.send('storage-saved', {
+          ok: false,
+          error,
+        });
       }
-      return true;
-    });
-
-    register('submit-score', async ({ sessionId, score }) => {
-      if (!authenticated || !sessionId) return false;
-
-      const result = await submitScore.mutateAsync({
-        sessionId,
-        score,
+    } else {
+      localStorage.setItem(`game-storage-${gameId}`, JSON.stringify(data));
+      child.send('storage-saved', {
+        ok: true,
+        saved: true,
       });
-
-      if (!result.tokens) return false;
-
-      notifications.add(result.message, { color: 'success' });
-
-      return true;
-    });
-
-    await execute();
+    }
   });
+
+  child.on('submit-score', async ({ sessionId, score }) => {
+    if (!authenticated || !sessionId) {
+      child.send('score-submitted', {
+        ok: true,
+        submitted: false,
+      });
+    } else {
+      try {
+        const result = await submitScore.mutateAsync({
+          sessionId,
+          score,
+        });
+
+        if (!result.tokens) {
+          child.send('score-submitted', {
+            ok: true,
+            submitted: false,
+          });
+        } else {
+          notifications.add(result.message, { color: 'success' });
+          child.send('score-submitted', {
+            ok: true,
+            submitted: true,
+          });
+        }
+      } catch (error) {
+        child.send('score-submitted', {
+          ok: false,
+          error,
+        });
+      }
+    }
+  });
+
+  child.on('show-reward-ad', async ({ name }) => {
+    if (adBlockDetected) {
+      setShowAdBlockModal(true);
+    } else {
+      adsense.adBreak({
+        name: 'reward-ad',
+        type: 'reward',
+        beforeAd: noop,
+        afterAd: noop,
+        adDismissed: noop,
+        adViewed: noop,
+        beforeReward: (showAdFn) => {
+          showAdFn();
+        },
+        adBreakDone: (placementInfo) => {
+          child.send('ad-break-done', { ...placementInfo, ok: true });
+        },
+      });
+    }
+  });
+
+  child.on('show-interstitial-ad', async ({ name }) => {
+    if (adBlockDetected) {
+      setShowAdBlockModal(true);
+    } else {
+      adsense.adBreak({
+        name: 'interstitial-ad',
+        type: 'start',
+        beforeAd: noop,
+        afterAd: noop,
+        adBreakDone: (placementInfo) => {
+          child.send('ad-break-done', { ...placementInfo, ok: true });
+        },
+      });
+    }
+  });
+
+  const handleClose = () => {
+    setShowAdBlockModal(false);
+    child.send('ad-break-done', {
+      ok: false,
+      error: 'AdBlock detected',
+    });
+  };
 
   return (
     <Box width="100%" height="100%" position="relative">
@@ -140,8 +338,9 @@ export const GameFrame: React.FC<{
           Downloading Game...
         </Typography>
       </Box>
+      <AdBlockModal open={showAdBlockModal} onClose={handleClose} />
       <GameTrackingProvider gameId={gameId}>
-        <GameInternalFrame frameRef={frameRef} url={url} />
+        <GameInternalFrame frameRef={child.ref} url={url} />
       </GameTrackingProvider>
     </Box>
   );

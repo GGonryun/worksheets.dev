@@ -12,7 +12,6 @@ export const useResizeObserver = <T extends HTMLElement>(): [
       for (const entry of entries) {
         if (entry.target === ref.current) {
           const { width, height } = entry.contentRect;
-          console.log('resize');
           setDimensions({ width, height });
         }
       }

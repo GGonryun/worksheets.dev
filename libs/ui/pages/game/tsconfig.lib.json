@@ -29,6 +29,7 @@
     "src/**/*.ts",
     "src/**/*.tsx",
     "../../../../types/@mui.d.ts",
+    "../../../../types/adsense.d.ts",
     "src/index.ts"
   ]
 }

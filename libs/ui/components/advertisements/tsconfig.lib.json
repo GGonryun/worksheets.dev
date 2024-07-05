@@ -6,7 +6,9 @@
   },
   "files": [
     "../../../../node_modules/@nx/react/typings/cssmodule.d.ts",
-    "../../../../node_modules/@nx/react/typings/image.d.ts"
+    "../../../../node_modules/@nx/react/typings/image.d.ts",
+    "../../../../node_modules/@types/google-publisher-tag/index.d.ts",
+    "./src/lib/hooks/useGoogleAdsense.ts"
   ],
   "exclude": [
     "jest.config.ts",
@@ -24,6 +26,7 @@
     "src/**/*.jsx",
     "src/**/*.ts",
     "src/**/*.tsx",
-    "../../../../types/@mui.d.ts"
+    "../../../../types/@mui.d.ts",
+    "../../../../types/adsense.d.ts"
   ]
 }

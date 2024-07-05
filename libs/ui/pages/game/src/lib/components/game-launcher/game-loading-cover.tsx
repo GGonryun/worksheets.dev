@@ -1,17 +1,20 @@
 import {
   DesktopAccessDisabled,
+  Error,
   KeyboardDoubleArrowDown,
   MobileOff,
   PlayCircleOutline,
   SvgIconComponent,
 } from '@mui/icons-material';
 import { Box, Button, Typography } from '@mui/material';
+import { useDetectAdBlock } from '@worksheets/ui/components/advertisements';
 import { FillImage } from '@worksheets/ui/components/images';
 import { useMediaQuery } from '@worksheets/ui/hooks/use-media-query';
 import { GameSchema } from '@worksheets/util/types';
 import { FC } from 'react';
 
 import { useDeviceInformation } from '../../hooks/use-device-information';
+import { PLAY_NOW_BUTTON_ID } from '../../hooks/use-fullscreen';
 import { RotateToLandscape } from '../icons/rotate-to-landscape';
 import { RotateToPortrait } from '../icons/rotate-to-portrait';
 
@@ -22,6 +25,8 @@ export type GameLoadingCoverProps = {
   viewport: GameSchema['viewport'];
   onPlay: () => void;
   isLoading: boolean;
+  isFullscreen: boolean;
+  requiresAds: boolean;
 };
 
 export const GameLoadingCover: FC<GameLoadingCoverProps> = ({
@@ -30,7 +35,9 @@ export const GameLoadingCover: FC<GameLoadingCoverProps> = ({
   iconUrl,
   viewport,
   onPlay,
+  isFullscreen,
   isLoading,
+  requiresAds,
 }) => {
   const {
     showNoDesktopOverlay,
@@ -38,6 +45,7 @@ export const GameLoadingCover: FC<GameLoadingCoverProps> = ({
     showNoMobileOverlay,
     showNoPortraitOverlay,
   } = useDeviceInformation(viewport);
+  const adBlockDetected = useDetectAdBlock();
 
   return (
     <Box
@@ -47,7 +55,11 @@ export const GameLoadingCover: FC<GameLoadingCoverProps> = ({
         height: '100%',
         width: '100%',
         overflow: 'hidden',
-        borderRadius: (theme) => theme.shape.borderRadius * 2,
+        borderRadius: isFullscreen
+          ? 0
+          : (theme) => theme.shape.borderRadius * 2,
+        // an inner shadow to make the cover pop.
+        boxShadow: `inset 0 0 30px rgba(0, 0, 0, 0.5), 0 0 10px rgba(0, 0, 0, 0.5)`,
       }}
     >
       <Box
@@ -80,7 +92,9 @@ export const GameLoadingCover: FC<GameLoadingCoverProps> = ({
           gap: 1,
         }}
       >
-        {showNoDesktopOverlay ? (
+        {adBlockDetected && requiresAds ? (
+          <DoesNotSupportAdBlockOverlay />
+        ) : showNoDesktopOverlay ? (
           <DoesNotSupportDesktopOverlay />
         ) : showNoMobileOverlay ? (
           <DoesNotSupportMobileOverlay />
@@ -100,6 +114,14 @@ export const GameLoadingCover: FC<GameLoadingCoverProps> = ({
     </Box>
   );
 };
+
+const DoesNotSupportAdBlockOverlay: FC = () => (
+  <DoesNotSupportOverlay
+    PrimaryIcon={Error}
+    primary="Ad blocker detected"
+    secondary="Please disable your ad blocker to play this game."
+  />
+);
 
 const DoesNotSupportDesktopOverlay: FC = () => (
   <DoesNotSupportOverlay
@@ -141,7 +163,7 @@ const DoesNotSupportOverlay: FC<{
 }> = ({ PrimaryIcon, SecondaryIcon, primary, secondary }) => (
   <>
     <PrimaryIcon color="white" sx={{ fontSize: '3rem' }} />
-    <Box>
+    <Box mx={3}>
       <Typography
         sx={{
           fontFamily: (theme) => theme.typography.mPlus1p.fontFamily,
@@ -200,6 +222,7 @@ const PlayOverlay: FC<
         {name}
       </Typography>
       <Button
+        id={PLAY_NOW_BUTTON_ID}
         variant="arcade"
         disabled={isLoading}
         startIcon={<PlayCircleOutline fontSize="inherit" />}

@@ -127,6 +127,7 @@ const updateGame = async (game: SeedableGameSchema) => {
         cover: game.bannerUrl,
         version: game.version,
         trailer: game.trailer,
+        leaderboard: game.leaderboard,
         developer: updateDeveloper
           ? {
               connect: {

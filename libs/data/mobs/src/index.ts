@@ -784,6 +784,38 @@ export const MOBS = [
       { itemId: '200', quantity: 1, chance: 0.25, mvp: true },
     ],
   },
+  {
+    id: 125 as const,
+    version: 3,
+    name: 'Timmy The T-Rex',
+    imageUrl: 'https://cdn.charity.games/_mobs/125.png',
+    description:
+      "A young T-Rex who has been separated from his family. The local villagers have been feeding him and taking care of him, but he is starting to get too big for them to handle. They've decided it's time to release him back into the wild, but he doesn't want to go and he's not very happy about it.",
+    maxHp: 2750,
+    level: 27,
+    type: MobType.BOSS,
+    race: MobRace.BEAST,
+    element: MobElement.EARTH_1,
+    size: MobSize.LARGE,
+    attack: 50,
+    defense: 30,
+    baseExp: 275,
+    mvpExp: 140,
+    loot: [
+      { itemId: '10012', quantity: 1, chance: 0.9, mvp: false },
+      { itemId: '10081', quantity: 1, chance: 0.9, mvp: false },
+      { itemId: '10114', quantity: 1, chance: 0.9, mvp: false },
+      { itemId: '10115', quantity: 1, chance: 0.9, mvp: false },
+      { itemId: '10116', quantity: 1, chance: 0.8, mvp: false },
+      { itemId: '10117', quantity: 1, chance: 0.8, mvp: false },
+      { itemId: '10058', quantity: 1, chance: 0.7, mvp: false },
+      { itemId: '10118', quantity: 1, chance: 0.7, mvp: false },
+      { itemId: '10119', quantity: 1, chance: 0.7, mvp: false },
+      { itemId: '5', quantity: 10, chance: 0.6, mvp: false },
+      { itemId: '8', quantity: 5, chance: 0.5, mvp: false },
+      { itemId: '200', quantity: 5, chance: 1, mvp: true },
+    ],
+  },
 ];
 
 export type Mob = (typeof MOBS)[number];

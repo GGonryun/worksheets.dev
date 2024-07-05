@@ -141,7 +141,7 @@ export default t.router({
       const finalDamage = Math.min(battle.health, damage);
 
       await retryTransaction(db, async (tx) => {
-        console.log('Updating battle health', { battleId, damage });
+        console.info('Updating battle health', { battleId, damage });
         await tx.battle.update({
           where: {
             id: battleId,
@@ -179,7 +179,7 @@ export default t.router({
         });
 
         for (const [itemId, quantity] of Object.entries(items)) {
-          console.log('Updating inventory', { itemId, quantity });
+          console.info('Updating inventory', { itemId, quantity });
           if (quantity <= 0) return;
 
           const result = await tx.inventory.update({

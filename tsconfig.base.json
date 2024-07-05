@@ -52,6 +52,9 @@
       "@worksheets/icons/valentines": ["libs/icons/valentines/src/index.ts"],
       "@worksheets/icons/web": ["libs/icons/web/src/index.ts"],
       "@worksheets/icons/youtube": ["libs/icons/youtube/src/index.ts"],
+      "@worksheets/phaser/core/object-pool": [
+        "libs/phaser/core/object-pool/src/index.ts"
+      ],
       "@worksheets/phaser/plugins": ["libs/phaser/plugins/src/index.ts"],
       "@worksheets/prisma": ["libs/prisma/src/index.ts"],
       "@worksheets/routes": ["libs/routes/src/index.ts"],
@@ -229,9 +232,6 @@
       ],
       "@worksheets/ui/hooks/use-game-votes": [
         "libs/ui/hooks/use-game-votes/src/index.ts"
-      ],
-      "@worksheets/ui/hooks/use-google-adsense": [
-        "libs/ui/hooks/use-google-adsense/src/index.ts"
       ],
       "@worksheets/ui/hooks/use-media-query": [
         "libs/ui/hooks/use-media-query/src/index.ts"

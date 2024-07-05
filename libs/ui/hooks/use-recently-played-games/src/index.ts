@@ -1,6 +1,8 @@
 import { useLocalStorage } from '@worksheets/ui-core';
 import { RecentlyPlayedSchema } from '@worksheets/util/types';
 
+const INVALID_GAMES = ['dino-rush'];
+
 export const useRecentlyPlayedGames = () => {
   const [storage, setStorage] = useLocalStorage<RecentlyPlayedSchema[]>(
     'recent-games-v3',
@@ -25,5 +27,8 @@ export const useRecentlyPlayedGames = () => {
     // update the state
   };
 
-  return { recentlyPlayed: storage, addRecentlyPlayed };
+  return {
+    recentlyPlayed: storage.filter((r) => !INVALID_GAMES.includes(r.id)),
+    addRecentlyPlayed,
+  };
 };

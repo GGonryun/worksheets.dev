@@ -28,7 +28,6 @@ describe('getPayoutDates', () => {
         frequency as LeaderboardFrequency,
         now
       );
-      console.log(starting, ending);
       expect(starting).toEqual(expectedStarting);
       expect(ending).toEqual(expectedEnding);
     }

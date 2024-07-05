@@ -24,7 +24,7 @@ export class YouTubeAPI {
       }
     );
 
-    console.log('YouTubeAPI.getUser', { result });
+    console.info('YouTubeAPI.getUser', { result });
 
     return {
       id: result.id,

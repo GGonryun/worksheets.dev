@@ -10,21 +10,527 @@ import {
 } from '@worksheets/ui/env';
 import { SeedableGameSchema } from '@worksheets/util/types';
 
-export const games: SeedableGameSchema[] = [
+const integratedGames: SeedableGameSchema[] = [
   {
-    version: 3,
+    version: 1,
+    id: 'dino-dash',
+    name: 'Dino Dash',
+    developerId: 'charity-games',
+    iconUrl: 'https://cdn.charity.games/_games/dino-dash/assets/thumbnail.png',
+    bannerUrl: 'https://cdn.charity.games/_games/dino-dash/assets/banner.png',
+    viewport: viewports['LANDSCAPE-ONLY'],
+    categories: ['ad-free', 'action', 'arcade', 'endless', 'desktop', 'mobile'],
+    file: {
+      type: 'HTML',
+      url: 'https://cdn.charity.games/_games/dino-dash/index.html',
+    },
+    markets: {},
+    createdAt: new Date('2023-12-21T00:00:00.000Z'),
+    updatedAt: new Date('2021-12-21T00:00:00.000Z'),
+    description: `<p>Dino Dash is an endless runner game. The goal of the game is to run as far as you can without hitting any obstacles.</p><h3>How to Play Dino Rush?</h3><ul><li>Tap or click the screen to jump</li>Tap or click the screen while in the air to fall down quickly.<li>Avoid the obstacles</li></ul><h3>Who created Dino Rush?</h3><p>Dino Rush is a free game created by Charity Games. We are a non-profit organization that creates games to raise money for charity.</p><h3>Known issues:</h3><p></p>`,
+    multiplier: 0.005,
+    leaderboard: true,
+    loot: [
+      {
+        itemId: '10044',
+        quantity: 1,
+        chance: 1,
+      },
+      {
+        itemId: '10055',
+        quantity: 1,
+        chance: 1,
+      },
+      {
+        itemId: '10058',
+        quantity: 1,
+        chance: 1,
+      },
+      {
+        itemId: '10029',
+        quantity: 1,
+        chance: 1,
+      },
+      {
+        itemId: '10047',
+        quantity: 1,
+        chance: 1,
+      },
+      {
+        itemId: '10114',
+        quantity: 1,
+        chance: 1,
+      },
+      {
+        itemId: '10115',
+        quantity: 1,
+        chance: 1,
+      },
+      {
+        itemId: '10116',
+        quantity: 1,
+        chance: 1,
+      },
+      {
+        itemId: '10117',
+        quantity: 1,
+        chance: 1,
+      },
+      {
+        itemId: '10118',
+        quantity: 1,
+        chance: 1,
+      },
+      {
+        itemId: '10119',
+        quantity: 1,
+        chance: 1,
+      },
+    ],
+    achievements: [
+      {
+        id: 'DINO_DASH_SCORE_100',
+        version: 1,
+        gameId: 'dino-dash',
+        name: 'Score 100',
+        description: 'Score over 100 points in a single game',
+        iconUrl:
+          'https://cdn.charity.games/_games/dino-dash/assets/achievements/score_100.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '1',
+            quantity: 50,
+            chance: 1,
+          },
+        ],
+      },
+      {
+        id: 'DINO_DASH_SCORE_500',
+        version: 1,
+        gameId: 'dino-dash',
+        name: 'Score 500',
+        description: 'Score over 500 points in a single game',
+        iconUrl:
+          'https://cdn.charity.games/_games/dino-dash/assets/achievements/score_500.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '1',
+            quantity: 100,
+            chance: 1,
+          },
+        ],
+      },
+      {
+        id: 'DINO_DASH_SCORE_1000',
+        version: 1,
+        gameId: 'dino-dash',
+        name: 'Score 1000',
+        description: 'Score over 1000 points in a single game',
+        iconUrl:
+          'https://cdn.charity.games/_games/dino-dash/assets/achievements/score_1000.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '1',
+            quantity: 250,
+            chance: 1,
+          },
+          {
+            itemId: '5',
+            quantity: 1,
+            chance: 1,
+          },
+        ],
+      },
+      {
+        id: 'DINO_DASH_SCORE_2500',
+        version: 1,
+        gameId: 'dino-dash',
+        name: 'Score 2500',
+        description: 'Score over 2500 points in a single game',
+        iconUrl:
+          'https://cdn.charity.games/_games/dino-dash/assets/achievements/score_2500.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '1',
+            quantity: 500,
+            chance: 1,
+          },
+          {
+            itemId: '5',
+            quantity: 3,
+            chance: 1,
+          },
+        ],
+      },
+      {
+        id: 'DINO_DASH_SCORE_5000',
+        version: 1,
+        gameId: 'dino-dash',
+        name: 'Score 5000',
+        description: 'Score over 5000 points in a single game',
+        iconUrl:
+          'https://cdn.charity.games/_games/dino-dash/assets/achievements/score_5000.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '1',
+            quantity: 1000,
+            chance: 1,
+          },
+          {
+            itemId: '5',
+            quantity: 5,
+            chance: 1,
+          },
+          {
+            itemId: '8',
+            quantity: 1,
+            chance: 1,
+          },
+          {
+            itemId: '10005',
+            quantity: 1,
+            chance: 1,
+          },
+        ],
+      },
+      {
+        id: 'DINO_DASH_COINS_1',
+        version: 1,
+        gameId: 'dino-dash',
+        name: 'Collect 1 Coin',
+        description: 'Collect 1 coin across all games',
+        iconUrl:
+          'https://cdn.charity.games/_games/dino-dash/assets/achievements/coins_1.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '2',
+            quantity: 1,
+            chance: 1,
+          },
+        ],
+      },
+      {
+        id: 'DINO_DASH_COINS_10',
+        version: 1,
+        gameId: 'dino-dash',
+        name: 'Collect 10 Coins',
+        description: 'Collect 10 coins across all games',
+        iconUrl:
+          'https://cdn.charity.games/_games/dino-dash/assets/achievements/coins_10.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '2',
+            quantity: 3,
+            chance: 1,
+          },
+        ],
+      },
+      {
+        id: 'DINO_DASH_COINS_50',
+        version: 1,
+        gameId: 'dino-dash',
+        name: 'Collect 50 Coins',
+        description: 'Collect 50 coins across all games',
+        iconUrl:
+          'https://cdn.charity.games/_games/dino-dash/assets/achievements/coins_50.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '5',
+            quantity: 3,
+            chance: 1,
+          },
+        ],
+      },
+      {
+        id: 'DINO_DASH_COINS_100',
+        version: 1,
+        gameId: 'dino-dash',
+        name: 'Collect 100 Coins',
+        description: 'Collect 100 coins across all games',
+        iconUrl:
+          'https://cdn.charity.games/_games/dino-dash/assets/achievements/coins_100.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '5',
+            quantity: 5,
+            chance: 1,
+          },
+          {
+            itemId: '10056',
+            quantity: 2,
+            chance: 1,
+          },
+        ],
+      },
+      {
+        id: 'DINO_DASH_COINS_250',
+        version: 1,
+        gameId: 'dino-dash',
+        name: 'Collect 250 Coins',
+        description: 'Collect 250 coins across all games',
+        iconUrl:
+          'https://cdn.charity.games/_games/dino-dash/assets/achievements/coins_250.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '8',
+            quantity: 3,
+            chance: 1,
+          },
+          {
+            itemId: '10015',
+            quantity: 1,
+            chance: 1,
+          },
+        ],
+      },
+      {
+        id: 'DINO_DASH_DAMAGE_1',
+        version: 1,
+        gameId: 'dino-dash',
+        name: 'Take 1 Damage',
+        description: 'Take 1 damage across all games',
+        iconUrl:
+          'https://cdn.charity.games/_games/dino-dash/assets/achievements/damage_1.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '3',
+            quantity: 1,
+            chance: 1,
+          },
+        ],
+      },
+      {
+        id: 'DINO_DASH_DAMAGE_10',
+        version: 1,
+        gameId: 'dino-dash',
+        name: 'Take 10 Damage',
+        description: 'Take 10 damage across all games',
+        iconUrl:
+          'https://cdn.charity.games/_games/dino-dash/assets/achievements/damage_10.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '3',
+            quantity: 3,
+            chance: 1,
+          },
+        ],
+      },
+      {
+        id: 'DINO_DASH_DAMAGE_25',
+        version: 1,
+        gameId: 'dino-dash',
+        name: 'Take 25 Damage',
+        description: 'Take 25 damage across all games',
+        iconUrl:
+          'https://cdn.charity.games/_games/dino-dash/assets/achievements/damage_25.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '6',
+            quantity: 3,
+            chance: 1,
+          },
+        ],
+      },
+      {
+        id: 'DINO_DASH_DAMAGE_50',
+        version: 1,
+        gameId: 'dino-dash',
+        name: 'Take 50 Damage',
+        description: 'Take 50 damage across all games',
+        iconUrl:
+          'https://cdn.charity.games/_games/dino-dash/assets/achievements/damage_50.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '6',
+            quantity: 5,
+            chance: 1,
+          },
+        ],
+      },
+      {
+        id: 'DINO_DASH_DAMAGE_100',
+        version: 1,
+        gameId: 'dino-dash',
+        name: 'Take 100 Damage',
+        description: 'Take 100 damage across all games',
+        iconUrl:
+          'https://cdn.charity.games/_games/dino-dash/assets/achievements/damage_100.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '6',
+            quantity: 10,
+            chance: 1,
+          },
+        ],
+      },
+      {
+        id: 'DINO_DASH_JUMPS_1',
+        version: 1,
+        gameId: 'dino-dash',
+        name: 'Jump 1 Time',
+        description: 'Jump 1 time across all games',
+        iconUrl:
+          'https://cdn.charity.games/_games/dino-dash/assets/achievements/jumps_1.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '200',
+            quantity: 1,
+            chance: 1,
+          },
+        ],
+      },
+      {
+        id: 'DINO_DASH_JUMPS_50',
+        version: 1,
+        gameId: 'dino-dash',
+        name: 'Jump 50 Times',
+        description: 'Jump 50 times across all games',
+        iconUrl:
+          'https://cdn.charity.games/_games/dino-dash/assets/achievements/jumps_50.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '200',
+            quantity: 5,
+            chance: 1,
+          },
+        ],
+      },
+      {
+        id: 'DINO_DASH_JUMPS_100',
+        version: 1,
+        gameId: 'dino-dash',
+        name: 'Jump 100 Times',
+        description: 'Jump 100 times across all games',
+        iconUrl:
+          'https://cdn.charity.games/_games/dino-dash/assets/achievements/jumps_100.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '200',
+            quantity: 10,
+            chance: 1,
+          },
+        ],
+      },
+      {
+        id: 'DINO_DASH_JUMPS_500',
+        version: 1,
+        gameId: 'dino-dash',
+        name: 'Jump 500 Times',
+        description: 'Jump 500 times across all games',
+        iconUrl:
+          'https://cdn.charity.games/_games/dino-dash/assets/achievements/jumps_500.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '200',
+            quantity: 15,
+            chance: 1,
+          },
+        ],
+      },
+      {
+        id: 'DINO_DASH_JUMPS_1000',
+        version: 1,
+        gameId: 'dino-dash',
+        name: 'Jump 1000 Times',
+        description: 'Jump 1000 times across all games',
+        iconUrl:
+          'https://cdn.charity.games/_games/dino-dash/assets/achievements/jumps_1000.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '200',
+            quantity: 20,
+            chance: 1,
+          },
+        ],
+      },
+      {
+        id: 'DINO_DASH_UNLOCK_BILLY',
+        version: 1,
+        gameId: 'dino-dash',
+        name: 'Unlock Billy the Brontosaurus',
+        description:
+          'Visit the shop and purchase the character: Billy the Brontosaurus',
+        iconUrl:
+          'https://cdn.charity.games/_games/dino-dash/assets/achievements/unlock_billy.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '1',
+            quantity: 100,
+            chance: 1,
+          },
+        ],
+      },
+      {
+        id: 'DINO_DASH_UNLOCK_TERRY',
+        version: 1,
+        gameId: 'dino-dash',
+        name: 'Unlock Terry the Triceratops',
+        description:
+          'Visit the shop and purchase the character: Terry the Triceratops',
+        iconUrl:
+          'https://cdn.charity.games/_games/dino-dash/assets/achievements/unlock_terry.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '1',
+            quantity: 250,
+            chance: 1,
+          },
+        ],
+      },
+      {
+        id: 'DINO_DASH_UNLOCK_CARLY',
+        version: 1,
+        gameId: 'dino-dash',
+        name: 'Unlock Carly the Carnotaurus',
+        description:
+          'Visit the shop and purchase the character: Carly the Carnotaurus',
+        iconUrl:
+          'https://cdn.charity.games/_games/dino-dash/assets/achievements/unlock_carly.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '1',
+            quantity: 500,
+            chance: 1,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    version: 8,
     id: 'color-run',
     name: 'Color Run',
     developerId: 'charity-games',
-    iconUrl:
-      'https://cdn.charity.games/_games/color-run/1.7/assets/thumbnail.png',
-    bannerUrl:
-      'https://cdn.charity.games/_games/color-run/1.7/assets/banner.png',
+    iconUrl: 'https://cdn.charity.games/_games/color-run/assets/thumbnail.png',
+    bannerUrl: 'https://cdn.charity.games/_games/color-run/assets/banner.png',
     viewport: viewports['PORTRAIT-ONLY'],
     categories: ['ad-free', 'arcade', 'desktop', 'mobile', '1p', 'survival'],
     file: {
       type: 'HTML',
-      url: 'https://cdn.charity.games/_games/color-run/1.7/index.html',
+      url: 'https://cdn.charity.games/_games/color-run/index.html',
     },
     createdAt: new Date('2024-06-05T00:00:00.000Z'),
     updatedAt: new Date('2024-06-05T00:00:00.000Z'),
@@ -49,7 +555,7 @@ export const games: SeedableGameSchema[] = [
         name: 'First Score',
         description: 'Score 1 point in the game',
         iconUrl:
-          'https://cdn.charity.games/_games/color-run/1.7/assets/achievements/1.png',
+          'https://cdn.charity.games/_games/color-run/assets/achievements/1.png',
         secret: false,
         loot: [
           {
@@ -66,7 +572,7 @@ export const games: SeedableGameSchema[] = [
         name: 'Score 5',
         description: 'Score 5 points in the game',
         iconUrl:
-          'https://cdn.charity.games/_games/color-run/1.7/assets/achievements/5.png',
+          'https://cdn.charity.games/_games/color-run/assets/achievements/5.png',
         secret: false,
         loot: [
           {
@@ -83,7 +589,7 @@ export const games: SeedableGameSchema[] = [
         name: 'Score 10',
         description: 'Score 10 points in the game',
         iconUrl:
-          'https://cdn.charity.games/_games/color-run/1.7/assets/achievements/10.png',
+          'https://cdn.charity.games/_games/color-run/assets/achievements/10.png',
         secret: false,
         loot: [
           {
@@ -100,7 +606,7 @@ export const games: SeedableGameSchema[] = [
         name: 'Score 25',
         description: 'Score 25 points in the game',
         iconUrl:
-          'https://cdn.charity.games/_games/color-run/1.7/assets/achievements/25.png',
+          'https://cdn.charity.games/_games/color-run/assets/achievements/25.png',
         secret: false,
         loot: [
           {
@@ -122,7 +628,7 @@ export const games: SeedableGameSchema[] = [
         name: 'Score 50',
         description: 'Score 50 points in the game',
         iconUrl:
-          'https://cdn.charity.games/_games/color-run/1.7/assets/achievements/50.png',
+          'https://cdn.charity.games/_games/color-run/assets/achievements/50.png',
         secret: false,
         loot: [
           {
@@ -144,7 +650,7 @@ export const games: SeedableGameSchema[] = [
         name: 'Score 75',
         description: 'Score 75 points in the game',
         iconUrl:
-          'https://cdn.charity.games/_games/color-run/1.7/assets/achievements/75.png',
+          'https://cdn.charity.games/_games/color-run/assets/achievements/75.png',
         secret: false,
         loot: [
           {
@@ -166,7 +672,7 @@ export const games: SeedableGameSchema[] = [
         name: 'Score 100',
         description: 'Score 100 points in the game',
         iconUrl:
-          'https://cdn.charity.games/_games/color-run/1.7/assets/achievements/100.png',
+          'https://cdn.charity.games/_games/color-run/assets/achievements/100.png',
         secret: false,
         loot: [
           {
@@ -178,6 +684,9 @@ export const games: SeedableGameSchema[] = [
       },
     ],
   },
+];
+
+const basicGames: SeedableGameSchema[] = [
   {
     version: 1,
     id: 'gravity-blocks',
@@ -714,29 +1223,6 @@ export const games: SeedableGameSchema[] = [
   },
   {
     version: 2,
-    id: 'dino-rush',
-    name: 'Dino Rush',
-    developerId: 'charity-games',
-    iconUrl: 'https://cdn.charity.games/dino-rush/assets/thumbnail.png',
-    bannerUrl: 'https://cdn.charity.games/dino-rush/assets/banner.png',
-    viewport: viewports['LANDSCAPE-ONLY'],
-    categories: ['ad-free', 'action', 'arcade', 'endless', 'desktop', 'mobile'],
-    file: {
-      type: 'HTML',
-      url: 'https://cdn.charity.games/dino-rush/index.html',
-    },
-    markets: {},
-    createdAt: new Date('2023-12-21T00:00:00.000Z'),
-    updatedAt: new Date('2021-12-21T00:00:00.000Z'),
-    description: `<p>Dino Rush is an endless runner game. The goal of the game is to run as far as you can without hitting any obstacles.</p><h3>How to Play Dino Rush?</h3><ul><li>Tap the screen or press the space bar to jump</li>Tap the screen or press the space bar while in the air to fall down immediately.<li></li><li>Avoid the obstacles</li></ul><h3>Who created Dino Rush?</h3><p>Dino Rush is a free game created by Charity Games. We are a non-profit organization that creates games to raise money for charity. We donate 100% of our profits to charity.</p><h3>Known issues:</h3><p></p><ul><li>The game does not allow the user to mute sounds on mobile devices.</li></ul>`,
-    // not an integrated game
-    multiplier: 0,
-    leaderboard: false,
-    loot: [],
-    achievements: [],
-  },
-  {
-    version: 2,
     id: 'conquer-the-world',
     name: 'RPG Conquer The World',
     developerId: 'llstd',
@@ -1247,3 +1733,5 @@ export const games: SeedableGameSchema[] = [
     achievements: [],
   },
 ];
+
+export const games: SeedableGameSchema[] = [...integratedGames, ...basicGames];

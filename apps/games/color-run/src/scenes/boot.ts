@@ -80,18 +80,15 @@ export default class BootScene extends Phaser.Scene {
       return;
     }
 
-    try {
-      await charityGames.session.start();
-      // change the text to show that the game is loading
-      text.setText('Loading storage...');
-      await charityGames.storage.load();
-      text.setText('Loading achievements...');
-      await charityGames.achievements.load();
-      // wait for 1 second before starting the main scene
+    charityGames.on('initializing', (o) => {
+      text.setText(`Initializing: ${o * 100}%`);
+    });
+
+    charityGames.on('initialized', () => {
       this.scene.start('main');
-    } catch {
-      this.scene.start('main');
-    }
+    });
+
+    charityGames.initialize();
   }
 
   setLoadEvents() {

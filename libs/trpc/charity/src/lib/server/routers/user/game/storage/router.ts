@@ -14,6 +14,7 @@ export default t.router({
     )
     .output(z.boolean())
     .mutation(async ({ input: { sessionId, data }, ctx: { db, user } }) => {
+      console.info(`Saving storage for session ${sessionId}`, data);
       const session = await db.gameSession.findUnique({
         where: {
           id: sessionId,
@@ -69,6 +70,7 @@ export default t.router({
         .nullable()
     )
     .mutation(async ({ input: { sessionId }, ctx: { db, user } }) => {
+      console.info(`Loading storage for session ${sessionId}`);
       const session = await db.gameSession.findUnique({
         where: {
           id: sessionId,
@@ -97,6 +99,8 @@ export default t.router({
           },
         },
       });
+
+      console.info(`Loaded storage for session ${sessionId}`, storage);
 
       return storage
         ? { storage: storage.data, lastUpdated: storage.updatedAt.getTime() }

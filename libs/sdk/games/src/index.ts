@@ -1,11 +1,7 @@
+// eslint-disable-next-line @nx/enforce-module-boundaries
+import { PlacementInfo } from 'types/adsense';
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export type GameMessage =
-  | {
-      event: 'start-session';
-      input: null;
-      output: {
-        sessionId: string;
-      } | null;
-    }
   | {
       event: 'load-storage';
       input: {
@@ -97,90 +93,61 @@ export const isValidOrigin = (origin: string) => {
   return origin === '*' || validOrigins.includes(origin);
 };
 
-export const communicator =
-  (emitter: Window, timeout: number) =>
-  <T extends GameMessageEvent>(message: MessageInput<T>) =>
-    new Promise((resolve, reject) => {
-      const event = 'message';
-      const request = `${message.event}-request`;
-      const success = `${message.event}-success`;
-      const failure = `${message.event}-failure`;
+export type PossibleFailure<T = object> =
+  | (T & { ok: true })
+  | { ok: false; error: unknown };
 
-      let timer: NodeJS.Timeout | undefined = undefined;
+export type PlatformEvent = {
+  'session-started': PossibleFailure<{ sessionId: string | null }>;
+  'storage-loaded': PossibleFailure<{ storage: Record<string, any> }>;
+  'achievements-loaded': PossibleFailure<{ achievements: string[] }>;
+  'achievement-unlocked': PossibleFailure<{ unlocked: boolean }>;
+  'storage-saved': PossibleFailure<{ saved: boolean }>;
+  'score-submitted': PossibleFailure<{ submitted: boolean }>;
+  'before-ad': PossibleFailure;
+  'after-ad': PossibleFailure;
+  'ad-break-done': PossibleFailure<PlacementInfo>;
+};
 
-      // TODO: type gets clobbered
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const listener = ({ origin: messageOrigin, data }: any) => {
-        if (timer) {
-          clearTimeout(timer);
-        }
-        emitter.removeEventListener(event, listener);
+export type PlatformEventKey = keyof PlatformEvent;
+export type PlatformEventPayload<
+  T extends PlatformEventKey = PlatformEventKey
+> = PlatformEvent[T];
+export type PlatformSuccessPayload<T extends PlatformEventKey> = Exclude<
+  PlatformEventPayload<T>,
+  { ok: false }
+>;
+export type PlatformCallback<T extends PlatformEventKey> = (
+  payload: PlatformEvent[T]
+) => void;
 
-        if (!isValidOrigin(messageOrigin)) {
-          throw new Error(`Invalid origin: ${messageOrigin}`);
-        }
+export type GameEvent = {
+  'start-session': object;
+  'load-storage': { sessionId: string | null };
+  'load-achievements': { sessionId: string | null };
+  'unlock-achievements': { sessionId: string | null; achievementIds: string[] };
+  'save-storage': { sessionId: string | null; data: Record<string, unknown> };
+  'submit-score': { sessionId: string | null; score: number };
+  'show-reward-ad': { name: string };
+  'show-interstitial-ad': { name: string };
+};
 
-        const d: MessageResponse<T> = data;
-        if (d.event === success) {
-          resolve(d.payload);
-        }
+export type GameEventKey = keyof GameEvent;
+export type GameEventPayload<T extends GameEventKey = GameEventKey> =
+  GameEvent[T];
+export type GameEventCallback<T extends GameEventKey> = (
+  payload: GameEvent[T]
+) => void;
 
-        if (d.event === failure) {
-          reject(d.error);
-        }
-      };
-
-      emitter.addEventListener(event, listener);
-      timer = setTimeout(() => {
-        emitter.removeEventListener(event, listener);
-        reject(new Error('timeout waiting for ' + request));
-      }, timeout);
-      emitter.parent.postMessage(
-        { event: request, payload: message.payload },
-        '*'
-      );
-    });
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const handlers = (emitter: Window, data: any) => {
-  const promises: (() => Promise<void>)[] = [];
-  const register = <T extends GameMessageEvent>(
-    request: T,
-    fn: (data: MessageRequest<T>['payload']) => Promise<GameMessageOutput<T>>
-  ) => {
-    const sender = (opts: MessageResponse<T>) => emitter.postMessage(opts, '*');
-
-    promises.push(async () => {
-      if (!data || typeof data !== 'object' || Array.isArray(data)) {
-        throw new Error('Invalid data type');
-      }
-
-      if (!('event' in data)) {
-        throw new Error('Event not found');
-      }
-
-      if (!('payload' in data)) {
-        throw new Error('Payload not found');
-      }
-
-      if (data.event === `${request}-request`) {
-        try {
-          sender({
-            event: `${request}-success`,
-            // TODO: type gets clobbered here
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            payload: (await fn(data.payload)) as any,
-          });
-        } catch (error) {
-          sender({ event: `${request}-failure`, error });
-        }
-      }
-    });
-  };
-  return {
-    register,
-    execute: async () => {
-      await Promise.allSettled(promises.map((p) => p()));
-    },
+export type PluginEvent = {
+  initializing: number;
+  initialized: {
+    ok: boolean;
   };
 };
+export type PluginEventKey = keyof PluginEvent;
+export type PluginEventPayload<T extends PluginEventKey = PluginEventKey> =
+  PluginEvent[T];
+export type PluginCallback<T extends PluginEventKey> = (
+  payload: PluginEvent[T]
+) => void;

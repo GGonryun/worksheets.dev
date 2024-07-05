@@ -6,8 +6,9 @@ import { RefObject, useRef, useState } from 'react';
 // as scroll events and the page scrolls when the user tries to interact with the game.
 export const GAME_BANNER_ID = 'game-banner';
 export const GAME_MENU_ID = 'game-menu';
+export const PLAY_NOW_BUTTON_ID = 'play-now-button';
 
-const ALLOWED_TOUCH = [GAME_BANNER_ID, GAME_MENU_ID];
+const ALLOWED_TOUCH = [PLAY_NOW_BUTTON_ID, GAME_BANNER_ID, GAME_MENU_ID];
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function customTouch(e: any) {
@@ -24,7 +25,10 @@ function customTouch(e: any) {
   e.stopPropagation();
 }
 
-const useNativeFullscreen = (
+// TODO: native fullscreen does not allow adsense to show advertisements because
+// the fullscreen box will not include the adsense ad. We have currently disabled
+// the native fullscreen for all games.
+export const useNativeFullscreen = (
   docRef: RefObject<Document>,
   boxRef: RefObject<HTMLDivElement>
 ) => {
@@ -132,27 +136,18 @@ const usePseudoFullscreen = (
 export const useFullscreen = (boxRef: RefObject<HTMLDivElement>) => {
   const documentRef = useRef<Document>(document);
 
-  const native = useNativeFullscreen(documentRef, boxRef);
   const pseudo = usePseudoFullscreen(documentRef, boxRef);
 
   function requestFullScreen() {
-    if (native.canRequestFullscreen()) {
-      native.requestFullscreen();
-    } else {
-      pseudo.requestFullscreen();
-    }
+    pseudo.requestFullscreen();
   }
 
   function exitFullScreen() {
-    if (native.canExitFullscreen()) {
-      native.exitFullscreen();
-    } else {
-      pseudo.exitFullscreen();
-    }
+    pseudo.exitFullscreen();
   }
 
   return {
-    fullscreen: native.fullscreen || pseudo.fullscreen,
+    fullscreen: pseudo.fullscreen,
     requestFullScreen,
     exitFullScreen,
   };

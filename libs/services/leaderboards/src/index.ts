@@ -91,7 +91,7 @@ export const rewardTopPlayers = async (
 
   const { starting, ending } = getPayoutDates(frequency);
 
-  console.log(`Calculating leaderboard rewards`, {
+  console.info(`Calculating leaderboard rewards`, {
     frequency,
     starting,
     ending,
@@ -133,7 +133,7 @@ export const rewardTopPlayers = async (
       continue;
     }
 
-    console.log(
+    console.info(
       `Paying out ${scores.length} users for game ${leaderboard.id}`,
       scores
     );
@@ -200,7 +200,7 @@ export const cleanUpOldScores = async (db: PrismaClient) => {
     },
   });
 
-  console.log(`Deleted ${deleted.count} old scores`);
+  console.info(`Deleted ${deleted.count} old scores`);
 };
 
 export const getParticipantRank = async (

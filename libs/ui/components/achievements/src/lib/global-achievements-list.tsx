@@ -126,16 +126,6 @@ const GlobalAchievementListItem: React.FC<{
               >
                 {achievement.description}
               </Typography>
-              {progress?.unlockedAt && (
-                <Typography
-                  typography={{ xs: 'body3', sm: 'body3' }}
-                  fontWeight={{ xs: 500, sm: 500 }}
-                  color={theme.palette[color].main}
-                  fontStyle={'italic'}
-                >
-                  <u>Unlocked at {printShortDateTime(progress?.unlockedAt)}</u>
-                </Typography>
-              )}
             </Column>
           </Row>
           <Box
@@ -163,6 +153,17 @@ const GlobalAchievementListItem: React.FC<{
             p: 1,
           }}
         >
+          {progress?.unlockedAt && (
+            <Typography
+              typography={{ xs: 'body3', sm: 'body3' }}
+              fontWeight={{ xs: 500, sm: 500 }}
+              color={theme.palette[color].main}
+              fontStyle={'italic'}
+              my={1}
+            >
+              <u>Unlocked at {printShortDateTime(progress?.unlockedAt)}</u>
+            </Typography>
+          )}
           <Typography
             typography="body2"
             color="text.primary"

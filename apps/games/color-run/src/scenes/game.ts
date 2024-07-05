@@ -118,6 +118,7 @@ class Difficulty {
   multiplier = 1;
   difficulty = 0.01;
   quantity = 6;
+  max = 5;
 
   get ballSpeed() {
     return this.baseSpeed / this.multiplier;
@@ -128,7 +129,7 @@ class Difficulty {
   }
 
   increaseDifficulty() {
-    this.multiplier += this.difficulty;
+    this.multiplier = Math.min(this.max, this.multiplier + this.difficulty);
   }
 }
 

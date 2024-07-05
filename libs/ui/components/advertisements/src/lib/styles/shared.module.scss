@@ -1,0 +1,34 @@
+.centered {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.condensed {
+  margin: 0.4rem;
+}
+
+.callout {
+  background-color: lightyellow;
+  border: 1px solid;
+  border-radius: 10px;
+  margin: 2rem 0 0;
+}
+
+.adSlot {
+  border: 1px dashed;
+  background-color: lightgrey;
+  justify-content: center;
+  margin: 1rem;
+}
+
+.adSlot:empty::before {
+  background-color: dimgrey;
+  border-radius: 5px;
+  color: lightgrey;
+  content: 'Ad';
+  font: 12px sans-serif;
+  padding: 3px;
+  text-align: center;
+  width: 20px;
+}

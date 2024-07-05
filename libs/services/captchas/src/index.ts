@@ -20,7 +20,7 @@ export class CaptchaService {
       }
 
       const data = await response.json();
-      console.log('Captcha verification response:', data);
+      console.info('Captcha verification response:', data);
       if ('success' in data) {
         return data.success;
       }

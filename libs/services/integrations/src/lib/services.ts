@@ -137,9 +137,9 @@ export class OAuthService {
     try {
       return await callback({ accessToken: integration.accessToken, identity });
     } catch (error) {
-      console.log('An error occurred while using access token', error);
+      console.warn('An error occurred while using access token', error);
       if (this.config.shouldRefresh?.(integration, error)) {
-        console.log('Refreshing access token');
+        console.debug('Refreshing access token');
         const refreshed = await this.#refresh(integration);
         return await callback({
           accessToken: refreshed.accessToken,
@@ -193,7 +193,7 @@ export class OAuthService {
       params.append(key, value);
     }
 
-    console.log(`Authorizing ${this.config.name} integration`, {
+    console.debug(`Authorizing ${this.config.name} integration`, {
       provider: this.config.provider,
       params: Object.fromEntries(params),
     });

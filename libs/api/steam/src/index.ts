@@ -66,7 +66,7 @@ export class SteamAPI {
       }>(url);
 
       const keys = Object.keys(result);
-      console.log(
+      console.info(
         `Loaded player wishlist page ${page} with ${keys.length} games`
       );
 
@@ -87,7 +87,7 @@ export class SteamAPI {
       });
     }
 
-    console.log(`Loaded player wishlist with ${appIds.length} games`, appIds);
+    console.info(`Loaded player wishlist with ${appIds.length} games`, appIds);
 
     return appIds;
   }

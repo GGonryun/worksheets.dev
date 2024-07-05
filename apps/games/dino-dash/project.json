@@ -1,0 +1,71 @@
+{
+  "name": "games-dino-dash",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/games/dino-dash/src",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/vite:build",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "defaultConfiguration": "production",
+      "options": {
+        "outputPath": "dist/apps/games/dino-dash"
+      },
+      "configurations": {
+        "development": {
+          "mode": "development"
+        },
+        "production": {
+          "mode": "production"
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nx/vite:dev-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "games-dino-dash:build"
+      },
+      "configurations": {
+        "development": {
+          "port": 7009,
+          "buildTarget": "games-dino-dash:build:development",
+          "hmr": true
+        },
+        "production": {
+          "buildTarget": "games-dino-dash:build:production",
+          "hmr": false
+        }
+      }
+    },
+    "preview": {
+      "executor": "@nx/vite:preview-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "games-dino-dash:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "games-dino-dash:build:development"
+        },
+        "production": {
+          "buildTarget": "games-dino-dash:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": [
+        "{options.outputFile}"
+      ],
+      "options": {
+        "lintFilePatterns": [
+          "apps/games/dino-dash/**/*.ts"
+        ]
+      }
+    }
+  }
+}

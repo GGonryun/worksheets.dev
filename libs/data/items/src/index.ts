@@ -1758,6 +1758,84 @@ export const ITEMS = [
     description:
       "A bowl of broccoli that can be eaten to restore health. It's steamed and well seasoned with herbs. It's healthy and delicious!",
   },
+  {
+    id: '10114' as const,
+    version: 11,
+    imageUrl: 'https://cdn.charity.games/_items/detailed/10114.png',
+    code: 'succulent-arrangement',
+    name: 'Succulent Arrangement',
+    type: ItemType.ETCETERA,
+    rarity: ItemRarity.UNCOMMON,
+    buy: 0,
+    sell: 33,
+    description:
+      "A beautiful arrangement of succulents that can be used to decorate a room. It's made of various types of succulents and cacti. It's very low maintenance. I should water it once a month.",
+  },
+  {
+    id: '10115' as const,
+    version: 11,
+    imageUrl: 'https://cdn.charity.games/_items/detailed/10115.png',
+    code: 'cactus',
+    name: 'Cactus',
+    type: ItemType.ETCETERA,
+    rarity: ItemRarity.COMMON,
+    buy: 0,
+    sell: 6,
+    description:
+      "A small cactus that can be used to decorate a room. It's prickly, green, and needs lots of sun. I should be careful not to run into it.",
+  },
+  {
+    id: '10116' as const,
+    version: 11,
+    imageUrl: 'https://cdn.charity.games/_items/detailed/10116.png',
+    code: 'stone-tablet',
+    name: 'Stone Tablet',
+    type: ItemType.ETCETERA,
+    rarity: ItemRarity.RARE,
+    buy: 0,
+    sell: 72,
+    description:
+      "A stone tablet that contains ancient writings. It's covered in runes and symbols. It's said to be a map to a hidden treasure. Other scholars believe it's a recipe for a delicious cake.",
+  },
+  {
+    id: '10117' as const,
+    version: 11,
+    imageUrl: 'https://cdn.charity.games/_items/detailed/10117.png',
+    code: 'fossil-fragment',
+    name: 'Fossil Fragment',
+    type: ItemType.ETCETERA,
+    rarity: ItemRarity.RARE,
+    buy: 0,
+    sell: 60,
+    description:
+      'A fragment of a fossil that contains the remains of an ancient creature. The creature must have been huge. This belongs in a museum.',
+  },
+  {
+    id: '10118' as const,
+    version: 11,
+    imageUrl: 'https://cdn.charity.games/_items/detailed/10118.png',
+    code: 'meteorite-fragment',
+    name: 'Meteorite Fragment',
+    type: ItemType.ETCETERA,
+    rarity: ItemRarity.RARE,
+    buy: 0,
+    sell: 80,
+    description:
+      "A fragment of a meteorite that fell from the sky. It's still warm to the touch. Wizards use it to power their staffs and wands.",
+  },
+  {
+    id: '10119' as const,
+    version: 11,
+    imageUrl: 'https://cdn.charity.games/_items/detailed/10119.png',
+    code: 'dinosaur-skull',
+    name: 'Dinosaur Skull',
+    type: ItemType.ETCETERA,
+    rarity: ItemRarity.MYTHIC,
+    buy: 0,
+    sell: 750,
+    description:
+      'A fossilized dinosaur skull that belonged to a massive creature. It looks like it might have been a T-Rex or a Carnotaurus.',
+  },
 ];
 
 export type Item = (typeof ITEMS)[number];
@@ -1806,6 +1884,7 @@ export const DROP_LOTTERY: Record<DroppableItemId, number> = {
   6: 10,
   7: 10,
   8: 3,
+  200: 1,
   1000: 10,
   10025: 2,
   10026: 2,
@@ -1926,7 +2005,12 @@ export const DROP_LOTTERY: Record<DroppableItemId, number> = {
   10111: 1,
   10112: 1,
   10113: 1,
-  200: 1,
+  10114: 1,
+  10115: 1,
+  10116: 1,
+  10117: 1,
+  10118: 1,
+  10119: 1,
 };
 
 export const PRIZE_SPINNER_WEIGHTS: Record<ItemRarity, number> = {

@@ -1,4 +1,5 @@
 import { Box } from '@mui/material';
+import { useDetectAdBlock } from '@worksheets/ui/components/advertisements';
 import {
   DeveloperSchema,
   SerializableGameSchema,
@@ -31,14 +32,18 @@ export const GameLauncher: FC<GameLauncherProps> = ({
   onPlay,
   onVote,
 }) => {
+  // TODO: set this on a per-game basis
+  const requiresAds = false;
   const { push } = useRouter();
   const [showLoadingCover, setShowLoadingCover] = useState(true);
   const boxRef = useRef<HTMLDivElement>(null);
   const { isMobileOrTablet } = useDeviceInformation(game.viewport);
+  const adBlockDetected = useDetectAdBlock();
 
   const { fullscreen, requestFullScreen, exitFullScreen } =
     useFullscreen(boxRef);
 
+  // shows the loading cover on mobile screens when the user exits fullscreen
   useEffect(() => {
     if (isMobileOrTablet && !fullscreen) {
       setShowLoadingCover(true);
@@ -46,6 +51,7 @@ export const GameLauncher: FC<GameLauncherProps> = ({
   }, [fullscreen, isMobileOrTablet]);
 
   const handlePlayGame = () => {
+    if (requiresAds && adBlockDetected) return;
     onPlay();
 
     if (game.file.type === 'EXTERNAL') {
@@ -63,14 +69,8 @@ export const GameLauncher: FC<GameLauncherProps> = ({
       throw new Error("Unsupported action: game.file.type === 'EXTERNAL'");
     } else {
       if (fullscreen) {
-        if (isMobileOrTablet) {
-          setShowLoadingCover(true);
-        }
         exitFullScreen();
       } else {
-        if (isMobileOrTablet) {
-          setShowLoadingCover(false);
-        }
         requestFullScreen();
       }
     }
@@ -112,6 +112,8 @@ export const GameLauncher: FC<GameLauncherProps> = ({
           onPlay={handlePlayGame}
           viewport={game.viewport}
           isLoading={status === 'loading'}
+          isFullscreen={fullscreen}
+          requiresAds={requiresAds}
         />
       ) : (
         <GameFrame gameId={game.id} url={game.file.url} status={status} />

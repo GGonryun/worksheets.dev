@@ -9,6 +9,7 @@ export const FillImage: FC<
 > = ({ priority, alt, src, style }) => {
   return (
     <Image
+      className="fill-image"
       priority={priority}
       title={alt}
       alt={alt}

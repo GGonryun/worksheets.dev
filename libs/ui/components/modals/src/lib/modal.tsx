@@ -14,7 +14,8 @@ export type ModalProps = Pick<
 
 export type OnClose = MuiModalProps['onClose'];
 
-export type ModalWrapper<T> = Omit<ModalProps, 'children'> & T;
+// eslint-disable-next-line @typescript-eslint/ban-types
+export type ModalWrapper<T = {}> = Omit<ModalProps, 'children'> & T;
 
 export const Modal: FC<ModalProps> = ({ children, sx, ...props }) => {
   return (

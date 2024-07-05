@@ -10,6 +10,7 @@ export const InfoModal: React.FC<
     infoHref?: string;
     gutter?: boolean;
     color?: PaletteColor;
+    hideClose?: boolean;
   }
 > = ({
   children,
@@ -19,6 +20,7 @@ export const InfoModal: React.FC<
   infoHref,
   gutter = true,
   color,
+  hideClose = false,
 }) => (
   <Modal
     open={open}
@@ -33,7 +35,7 @@ export const InfoModal: React.FC<
       <Box width="100%" sx={{ p: gutter ? 2 : 0 }}>
         {children}
       </Box>
-      <CloseButton onClick={onClose} color={color} />
+      {!hideClose && <CloseButton onClick={onClose} color={color} />}
       {infoHref && <InfoButton href={infoHref} color={color} />}
     </Box>
   </Modal>

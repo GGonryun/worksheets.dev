@@ -14,7 +14,6 @@ export const GameTrackingProvider: React.FC<{
   const [windowIsActive, setWindowIsActive] = useState(true);
 
   function handleActivity(forcedFlag: unknown) {
-    console.log('handleActivity', forcedFlag);
     if (typeof forcedFlag === 'boolean') {
       return forcedFlag ? setWindowIsActive(true) : setWindowIsActive(false);
     }

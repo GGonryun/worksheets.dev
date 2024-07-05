@@ -221,7 +221,6 @@ const AutoSellModal: React.FC<{
       util.user.inventory.quantity.invalidate('1');
       util.user.inventory.invalidate();
     } catch (error) {
-      console.log(error);
       snackbar.error(parseTRPCClientErrorMessage(error));
     }
   };

@@ -85,101 +85,106 @@ export default t.router({
     .input(
       z.object({
         sessionId: z.string(),
-        achievementId: z.string(),
+        achievementIds: z.string().array(),
       })
     )
     .output(
-      z.union([
-        z.object({
-          unlocked: z.literal(true),
-          message: z.string(),
-        }),
-        z.object({
-          unlocked: z.literal(false),
-        }),
-      ])
+      z.object({
+        messages: z.string().array(),
+      })
     )
-    .mutation(async ({ ctx: { db, user }, input }) => {
-      const userId = user.id;
-      console.info(
-        `Unlocking achievement "${input.achievementId}" for user "${userId}"`
-      );
-      const session = await db.gameSession.findUnique({
-        where: {
-          id: input.sessionId,
+    .mutation(
+      async ({ ctx: { db, user }, input: { sessionId, achievementIds } }) => {
+        const userId = user.id;
+        console.info(`Unlocking achievements for user`, {
           userId,
-        },
-      });
-
-      if (!session) {
-        throw new TRPCError({
-          code: 'NOT_FOUND',
-          message: 'Session not found',
-          cause: input,
+          achievementIds,
         });
-      }
-
-      const achievement = await db.gameAchievement.findUnique({
-        where: {
-          id: input.achievementId,
-          gameId: session.gameId,
-        },
-        include: {
-          game: true,
-          loot: {
-            include: {
-              item: true,
-            },
+        const session = await db.gameSession.findUnique({
+          where: {
+            id: sessionId,
+            userId,
           },
-        },
-      });
-
-      if (!achievement) {
-        throw new TRPCError({
-          code: 'NOT_FOUND',
-          message: 'Achievement not found',
-          cause: input,
         });
-      }
 
-      const playerAchievement = await db.playerAchievement.findFirst({
-        where: {
-          userId: session.userId,
-          achievementId: achievement.id,
-        },
-      });
+        if (!session) {
+          throw new TRPCError({
+            code: 'NOT_FOUND',
+            message: 'Session not found',
+            cause: {
+              sessionId,
+            },
+          });
+        }
 
-      if (playerAchievement) {
-        console.info(`Achievement "${achievement.name}" already unlocked`);
+        const messages: string[] = [];
+        for (const achievementId of achievementIds) {
+          const achievement = await db.gameAchievement.findUnique({
+            where: {
+              id: achievementId,
+              gameId: session.gameId,
+            },
+            include: {
+              game: true,
+              loot: {
+                include: {
+                  item: true,
+                },
+              },
+            },
+          });
+
+          if (!achievement) {
+            throw new TRPCError({
+              code: 'NOT_FOUND',
+              message: 'Achievement not found',
+              cause: achievementId,
+            });
+          }
+
+          const playerAchievement = await db.playerAchievement.findFirst({
+            where: {
+              userId: session.userId,
+              achievementId: achievement.id,
+            },
+          });
+
+          if (playerAchievement) {
+            console.info(`Achievement "${achievement.name}" already unlocked`);
+            continue;
+          }
+
+          await retryTransaction(db, async (tx) => {
+            const inventory = new InventoryService(tx);
+            await tx.playerAchievement.create({
+              data: {
+                userId: session.userId,
+                achievementId: achievement.id,
+              },
+            });
+            console.info(`Awarding loot for achievement "${achievement.name}"`);
+            for (const l of achievement.loot) {
+              // TODO: all achievement loots should have a guaranteed drop rate.
+              await inventory.increment(
+                user.id,
+                l.itemId as ItemId,
+                l.quantity
+              );
+            }
+          });
+
+          const notifications = new NotificationsService(db);
+          await notifications.send('achievement-unlocked', {
+            user,
+            achievement,
+          });
+
+          messages.push(`Achievement "${achievement.name}" unlocked`);
+        }
+
         return {
-          unlocked: false,
+          messages,
         };
       }
-
-      await retryTransaction(db, async (tx) => {
-        const inventory = new InventoryService(tx);
-        await tx.playerAchievement.create({
-          data: {
-            userId: session.userId,
-            achievementId: achievement.id,
-          },
-        });
-        console.info(`Awarding loot for achievement "${achievement.name}"`);
-        for (const l of achievement.loot) {
-          // TODO: all achievement loots should have a guaranteed drop rate.
-          await inventory.increment(user.id, l.itemId as ItemId, l.quantity);
-        }
-      });
-
-      const notifications = new NotificationsService(db);
-      await notifications.send('achievement-unlocked', {
-        user,
-        achievement,
-      });
-
-      return {
-        unlocked: true,
-        message: `Achievement "${achievement.name}" unlocked!`,
-      };
-    }),
+    ),
 });
