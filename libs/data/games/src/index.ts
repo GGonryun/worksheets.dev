@@ -386,7 +386,7 @@ const integratedGames: SeedableGameSchema[] = [
         name: 'Jump 125 Times',
         description: 'Jump 125 time across all games',
         iconUrl:
-          'https://cdn.charity.games/_games/dino-dash/assets/achievements/jumps_100.png',
+          'https://cdn.charity.games/_games/dino-dash/assets/achievements/jumps_125.png',
         secret: false,
         loot: [
           {
