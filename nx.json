@@ -90,7 +90,5 @@
       "unitTestRunner": "none",
       "e2eTestRunner": "none"
     }
-  },
-  "nxCloudAccessToken": "OWIyODE3ZTAtZDcwNS00N2FjLTlkNmYtYTFhMDQyZTMyNGRlfHJlYWQtd3JpdGU=",
-  "useInferencePlugins": false
+  }
 }
