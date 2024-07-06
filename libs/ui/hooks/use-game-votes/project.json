@@ -3,6 +3,7 @@
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/ui/hooks/use-game-votes/src",
   "projectType": "library",
+  "tags": [],
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",
@@ -15,12 +16,7 @@
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": ["libs/ui/hooks/use-game-votes/**/*.ts"]
-      }
+      "executor": "@nx/eslint:lint"
     }
-  },
-  "tags": []
+  }
 }

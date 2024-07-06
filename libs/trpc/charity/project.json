@@ -6,15 +6,7 @@
   "tags": [],
   "targets": {
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "outputs": [
-        "{options.outputFile}"
-      ],
-      "options": {
-        "lintFilePatterns": [
-          "libs/trpc/charity/**/*.{ts,tsx,js,jsx}"
-        ]
-      }
+      "executor": "@nx/eslint:lint"
     }
   }
 }

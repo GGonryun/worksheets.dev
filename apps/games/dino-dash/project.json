@@ -7,9 +7,7 @@
   "targets": {
     "build": {
       "executor": "@nx/vite:build",
-      "outputs": [
-        "{options.outputPath}"
-      ],
+      "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
       "options": {
         "outputPath": "dist/apps/games/dino-dash"
@@ -57,15 +55,7 @@
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "outputs": [
-        "{options.outputFile}"
-      ],
-      "options": {
-        "lintFilePatterns": [
-          "apps/games/dino-dash/**/*.ts"
-        ]
-      }
+      "executor": "@nx/eslint:lint"
     }
   }
 }

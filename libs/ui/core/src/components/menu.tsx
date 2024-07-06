@@ -1,14 +1,10 @@
 import {
-  alpha,
   Box,
   Button,
   ButtonProps,
-  Link,
-  LinkProps,
   Menu as MuiMenu,
   MenuItem as MuiMenuItem,
   MenuItemProps,
-  MenuItemProps as MuiMenuItemProps,
   MenuProps as MuiMenuProps,
   styled,
   Typography,
@@ -59,23 +55,6 @@ const StyledMenu = styled((props: MuiMenuProps) => (
     '& .MuiMenu-list': {
       padding: '4px 0',
     },
-  },
-}));
-
-export const MenuItem = styled(
-  (props: MuiMenuItemProps & Pick<LinkProps, 'href'>) => (
-    <MuiMenuItem component={Link} dense disableRipple {...props} />
-  )
-)(({ theme }) => ({
-  '& .MuiSvgIcon-root': {
-    fontSize: 18,
-    color: theme.palette.text.secondary,
-  },
-  '&:active': {
-    backgroundColor: alpha(
-      theme.palette.primary.main,
-      theme.palette.action.selectedOpacity
-    ),
   },
 }));
 
