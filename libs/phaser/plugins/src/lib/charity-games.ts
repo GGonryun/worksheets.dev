@@ -34,7 +34,6 @@ export class CharityGamesPlugin extends Phaser.Plugins.BasePlugin {
   leaderboard: LeaderboardsAPI;
   advertisements: AdvertisementsAPI;
   events: Phaser.Events.EventEmitter = new Phaser.Events.EventEmitter();
-  gameId: string = process.env['CHARITY_GAMES_GAME_ID'] ?? '';
   storageKey = 'storage';
 
   constructor(pluginManager: Phaser.Plugins.PluginManager) {
