@@ -79,12 +79,12 @@ export class GameOver extends Phaser.Scene {
     this.best >= 5000 && achievements.push('BLOCK_BASH_5000_POINTS_GAME');
 
     // lines achievements
-    newLines >= 100 && achievements.push('BLOCK_BASH_100_LINES_LIFETIME');
-    newLines >= 500 && achievements.push('BLOCK_BASH_500_LINES_LIFETIME');
-    newLines >= 1000 && achievements.push('BLOCK_BASH_1000_LINES_LIFETIME');
-    newLines >= 2500 && achievements.push('BLOCK_BASH_2500_LINES_LIFETIME');
-    newLines >= 5000 && achievements.push('BLOCK_BASH_5000_LINES_LIFETIME');
-    newLines >= 10000 && achievements.push('BLOCK_BASH_10000_LINES_LIFETIME');
+    newLines >= 100 && achievements.push('BLOCK_BASH_100_LINES');
+    newLines >= 500 && achievements.push('BLOCK_BASH_500_LINES');
+    newLines >= 1000 && achievements.push('BLOCK_BASH_1000_LINES');
+    newLines >= 2500 && achievements.push('BLOCK_BASH_2500_LINES');
+    newLines >= 5000 && achievements.push('BLOCK_BASH_5000_LINES');
+    newLines >= 10000 && achievements.push('BLOCK_BASH_10000_LINES');
 
     // blocks achievements
     newBlocks >= 1000 && achievements.push('BLOCK_BASH_1000_BLOCKS_LIFETIME');
