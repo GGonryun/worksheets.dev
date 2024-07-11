@@ -26,19 +26,18 @@ export class GameOver extends Phaser.Scene {
     const server = CharityGamesPlugin.find(this);
 
     const best = server.storage.get(BEST_KEY, 0);
-    this.best = best;
     const score = server.storage.get(SCORE_KEY, 0);
     const lines = server.storage.get(LINES_KEY, 0);
     const games = server.storage.get(GAMES_KEY, 0);
     const blocks = server.storage.get(BLOCKS_KEY, 0);
 
-    if (this.payload.score > best) {
-      server.storage.set(BEST_KEY, this.payload.score);
-    }
+    this.best = this.payload.score > best ? this.payload.score : best;
     const newScore = score + this.payload.score;
     const newLines = lines + this.payload.lines;
     const newBlocks = blocks + this.payload.blocks;
     const newGames = games + 1;
+
+    server.storage.set(BEST_KEY, best);
     server.storage.set(SCORE_KEY, newScore);
     server.storage.set(LINES_KEY, newLines);
     server.storage.set(BLOCKS_KEY, newBlocks);
@@ -67,22 +66,17 @@ export class GameOver extends Phaser.Scene {
     const achievements: string[] = [];
 
     // solo game achievements
-    this.payload.score >= 100 &&
-      achievements.push('BLOCK_BASH_100_POINTS_GAME');
-    this.payload.score >= 500 &&
-      achievements.push('BLOCK_BASH_500_POINTS_GAME');
-    this.payload.score >= 1000 &&
-      achievements.push('BLOCK_BASH_1000_POINTS_GAME');
-    this.payload.score >= 1500 &&
-      achievements.push('BLOCK_BASH_1500_POINTS_GAME');
-    this.payload.score >= 2000 &&
-      achievements.push('BLOCK_BASH_2000_POINTS_GAME');
-    this.payload.score >= 3000 &&
-      achievements.push('BLOCK_BASH_3000_POINTS_GAME');
-    this.payload.score >= 4000 &&
-      achievements.push('BLOCK_BASH_4000_POINTS_GAME');
-    this.payload.score >= 5000 &&
-      achievements.push('BLOCK_BASH_5000_POINTS_GAME');
+    this.best >= 100 && achievements.push('BLOCK_BASH_100_POINTS_GAME');
+    this.best >= 500 && achievements.push('BLOCK_BASH_500_POINTS_GAME');
+    this.best >= 1000 && achievements.push('BLOCK_BASH_1000_POINTS_GAME');
+    this.best >= 1500 && achievements.push('BLOCK_BASH_1500_POINTS_GAME');
+    this.best >= 2000 && achievements.push('BLOCK_BASH_2000_POINTS_GAME');
+    this.best >= 2500 && achievements.push('BLOCK_BASH_2500_POINTS_GAME');
+    this.best >= 3000 && achievements.push('BLOCK_BASH_3000_POINTS_GAME');
+    this.best >= 3500 && achievements.push('BLOCK_BASH_3500_POINTS_GAME');
+    this.best >= 4000 && achievements.push('BLOCK_BASH_4000_POINTS_GAME');
+    this.best >= 4500 && achievements.push('BLOCK_BASH_4500_POINTS_GAME');
+    this.best >= 5000 && achievements.push('BLOCK_BASH_5000_POINTS_GAME');
 
     // lines achievements
     newLines >= 100 && achievements.push('BLOCK_BASH_100_LINES_LIFETIME');

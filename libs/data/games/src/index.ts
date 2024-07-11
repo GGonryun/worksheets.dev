@@ -28,7 +28,7 @@ const integratedGames: SeedableGameSchema[] = [
     createdAt: new Date('2024-07-11T00:00:00.000Z'),
     updatedAt: new Date('2024-07-11T00:00:00.000Z'),
     description: `<p>Block bash is a puzzle game centered around the placement of blocks on a grid. Drag and place colorful blocks on the board, strategically grouping them to earn points by completing rows and columns  Watch out for the shapes to avoid running out of space! Are you ready to master the ultimate block-bashing challenge?</p><h3>How do I play Block Bash?</h3><p>Playing is easy! Simply drag and release the pieces where you want them to go.</p><h3>How can I play Block Bash for free?</h3><p>You can play Block Bash for free on Charity.Games</p><h3>Who created Block Bash?</h3><p>Block Bash is an exclusive Charity.Games platform game, it was developed by Miguel Campos. Lead programmer at Charity Games</p><h3>Can I play Block Bash on mobile or desktop?</h3><p>Block Bash is supported on all devices included mobile, tablet, and desktop.</p>`,
-    multiplier: 0.025,
+    multiplier: 0.03,
     leaderboard: true,
     cloudStorage: true,
     loot: [
@@ -85,7 +85,7 @@ const integratedGames: SeedableGameSchema[] = [
       },
       {
         id: 'BLOCK_BASH_1000_POINTS_GAME',
-        version: 1,
+        version: 2,
         gameId: 'block-bash',
         name: 'Score 1,000',
         description: 'Score 1,000 points in a single game',
@@ -98,11 +98,16 @@ const integratedGames: SeedableGameSchema[] = [
             quantity: 500,
             chance: 1,
           },
+          {
+            itemId: '5',
+            quantity: 5,
+            chance: 1,
+          },
         ],
       },
       {
         id: 'BLOCK_BASH_1500_POINTS_GAME',
-        version: 1,
+        version: 2,
         gameId: 'block-bash',
         name: 'Score 1,500',
         description: 'Score 1,500 points in a single game',
@@ -115,11 +120,16 @@ const integratedGames: SeedableGameSchema[] = [
             quantity: 750,
             chance: 1,
           },
+          {
+            itemId: '5',
+            quantity: 7,
+            chance: 1,
+          },
         ],
       },
       {
         id: 'BLOCK_BASH_2000_POINTS_GAME',
-        version: 1,
+        version: 2,
         gameId: 'block-bash',
         name: 'Score 2,000',
         description: 'Score 2,000 points in a single game',
@@ -132,11 +142,38 @@ const integratedGames: SeedableGameSchema[] = [
             quantity: 1000,
             chance: 1,
           },
+          {
+            itemId: '5',
+            quantity: 10,
+            chance: 1,
+          },
+        ],
+      },
+      {
+        id: 'BLOCK_BASH_2500_POINTS_GAME',
+        version: 1,
+        gameId: 'block-bash',
+        name: 'Score 2,500',
+        description: 'Score 2,500 points in a single game',
+        iconUrl:
+          'https://cdn.charity.games/_games/block-bash/assets/achievements/score_2500.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '1',
+            quantity: 1250,
+            chance: 1,
+          },
+          {
+            itemId: '5',
+            quantity: 12,
+            chance: 1,
+          },
         ],
       },
       {
         id: 'BLOCK_BASH_3000_POINTS_GAME',
-        version: 1,
+        version: 2,
         gameId: 'block-bash',
         name: 'Score 3,000',
         description: 'Score 3,000 points in a single game',
@@ -149,11 +186,38 @@ const integratedGames: SeedableGameSchema[] = [
             quantity: 1500,
             chance: 1,
           },
+          {
+            itemId: '5',
+            quantity: 15,
+            chance: 1,
+          },
+        ],
+      },
+      {
+        id: 'BLOCK_BASH_3500_POINTS_GAME',
+        version: 1,
+        gameId: 'block-bash',
+        name: 'Score 3,500',
+        description: 'Score 3,500 points in a single game',
+        iconUrl:
+          'https://cdn.charity.games/_games/block-bash/assets/achievements/score_3500.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '1',
+            quantity: 1750,
+            chance: 1,
+          },
+          {
+            itemId: '5',
+            quantity: 17,
+            chance: 1,
+          },
         ],
       },
       {
         id: 'BLOCK_BASH_4000_POINTS_GAME',
-        version: 1,
+        version: 2,
         gameId: 'block-bash',
         name: 'Score 4,000',
         description: 'Score 4,000 points in a single game',
@@ -166,11 +230,38 @@ const integratedGames: SeedableGameSchema[] = [
             quantity: 2000,
             chance: 1,
           },
+          {
+            itemId: '5',
+            quantity: 20,
+            chance: 1,
+          },
+        ],
+      },
+      {
+        id: 'BLOCK_BASH_4500_POINTS_GAME',
+        version: 1,
+        gameId: 'block-bash',
+        name: 'Score 4,500',
+        description: 'Score 4,500 points in a single game',
+        iconUrl:
+          'https://cdn.charity.games/_games/block-bash/assets/achievements/score_4500.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '1',
+            quantity: 2250,
+            chance: 1,
+          },
+          {
+            itemId: '5',
+            quantity: 22,
+            chance: 1,
+          },
         ],
       },
       {
         id: 'BLOCK_BASH_5000_POINTS_GAME',
-        version: 1,
+        version: 2,
         gameId: 'block-bash',
         name: 'Score 5,000',
         description: 'Score 5,000 points in a single game',
@@ -181,6 +272,11 @@ const integratedGames: SeedableGameSchema[] = [
           {
             itemId: '1',
             quantity: 2500,
+            chance: 1,
+          },
+          {
+            itemId: '5',
+            quantity: 25,
             chance: 1,
           },
         ],
