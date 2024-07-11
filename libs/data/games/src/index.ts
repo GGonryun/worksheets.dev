@@ -12,6 +12,386 @@ import { SeedableGameSchema } from '@worksheets/util/types';
 
 const integratedGames: SeedableGameSchema[] = [
   {
+    version: 1,
+    id: 'block-bash',
+    name: 'Block Bash',
+    developerId: 'charity-games',
+    iconUrl: 'https://cdn.charity.games/_games/block-bash/assets/thumbnail.png',
+    bannerUrl: 'https://cdn.charity.games/_games/block-bash/assets/banner.png',
+    viewport: viewports['PORTRAIT-ONLY'],
+    file: {
+      type: 'HTML',
+      url: 'https://cdn.charity.games/_games/block-bash/index.html',
+    },
+    categories: ['1p', 'brain', 'puzzle', 'mobile', 'desktop', 'educational'],
+    markets: {},
+    createdAt: new Date('2024-07-11T00:00:00.000Z'),
+    updatedAt: new Date('2024-07-11T00:00:00.000Z'),
+    description: `<p>Block bash is a puzzle game centered around the placement of blocks on a grid. Drag and place colorful blocks on the board, strategically grouping them to earn points by completing rows and columns  Watch out for the shapes to avoid running out of space! Are you ready to master the ultimate block-bashing challenge?</p><h3>How do I play Block Bash?</h3><p>Playing is easy! Simply drag and release the pieces where you want them to go.</p><h3>How can I play Block Bash for free?</h3><p>You can play Block Bash for free on Charity.Games</p><h3>Who created Block Bash?</h3><p>Block Bash is an exclusive Charity.Games platform game, it was developed by Miguel Campos. Lead programmer at Charity Games</p><h3>Can I play Block Bash on mobile or desktop?</h3><p>Block Bash is supported on all devices included mobile, tablet, and desktop.</p>`,
+    multiplier: 0.025,
+    leaderboard: true,
+    cloudStorage: true,
+    loot: [
+      {
+        itemId: '4',
+        quantity: 1,
+        chance: 1,
+      },
+      {
+        itemId: '2',
+        quantity: 1,
+        chance: 1,
+      },
+      {
+        itemId: '10044',
+        quantity: 1,
+        chance: 1,
+      },
+    ],
+    achievements: [
+      {
+        id: 'BLOCK_BASH_100_POINTS_GAME',
+        version: 1,
+        gameId: 'block-bash',
+        name: 'Score 100',
+        description: 'Score 100 points in a single game',
+        iconUrl:
+          'https://cdn.charity.games/_games/block-bash/assets/achievements/score_100.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '1',
+            quantity: 50,
+            chance: 1,
+          },
+        ],
+      },
+      {
+        id: 'BLOCK_BASH_500_POINTS_GAME',
+        version: 1,
+        gameId: 'block-bash',
+        name: 'Score 500',
+        description: 'Score 500 points in a single game',
+        iconUrl:
+          'https://cdn.charity.games/_games/block-bash/assets/achievements/score_500.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '1',
+            quantity: 250,
+            chance: 1,
+          },
+        ],
+      },
+      {
+        id: 'BLOCK_BASH_1000_POINTS_GAME',
+        version: 1,
+        gameId: 'block-bash',
+        name: 'Score 1,000',
+        description: 'Score 1,000 points in a single game',
+        iconUrl:
+          'https://cdn.charity.games/_games/block-bash/assets/achievements/score_1000.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '1',
+            quantity: 500,
+            chance: 1,
+          },
+        ],
+      },
+      {
+        id: 'BLOCK_BASH_1500_POINTS_GAME',
+        version: 1,
+        gameId: 'block-bash',
+        name: 'Score 1,500',
+        description: 'Score 1,500 points in a single game',
+        iconUrl:
+          'https://cdn.charity.games/_games/block-bash/assets/achievements/score_1500.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '1',
+            quantity: 750,
+            chance: 1,
+          },
+        ],
+      },
+      {
+        id: 'BLOCK_BASH_2000_POINTS_GAME',
+        version: 1,
+        gameId: 'block-bash',
+        name: 'Score 2,000',
+        description: 'Score 2,000 points in a single game',
+        iconUrl:
+          'https://cdn.charity.games/_games/block-bash/assets/achievements/score_2000.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '1',
+            quantity: 1000,
+            chance: 1,
+          },
+        ],
+      },
+      {
+        id: 'BLOCK_BASH_3000_POINTS_GAME',
+        version: 1,
+        gameId: 'block-bash',
+        name: 'Score 3,000',
+        description: 'Score 3,000 points in a single game',
+        iconUrl:
+          'https://cdn.charity.games/_games/block-bash/assets/achievements/score_3000.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '1',
+            quantity: 1500,
+            chance: 1,
+          },
+        ],
+      },
+      {
+        id: 'BLOCK_BASH_4000_POINTS_GAME',
+        version: 1,
+        gameId: 'block-bash',
+        name: 'Score 4,000',
+        description: 'Score 4,000 points in a single game',
+        iconUrl:
+          'https://cdn.charity.games/_games/block-bash/assets/achievements/score_4000.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '1',
+            quantity: 2000,
+            chance: 1,
+          },
+        ],
+      },
+      {
+        id: 'BLOCK_BASH_5000_POINTS_GAME',
+        version: 1,
+        gameId: 'block-bash',
+        name: 'Score 5,000',
+        description: 'Score 5,000 points in a single game',
+        iconUrl:
+          'https://cdn.charity.games/_games/block-bash/assets/achievements/score_5000.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '1',
+            quantity: 2500,
+            chance: 1,
+          },
+        ],
+      },
+      {
+        id: 'BLOCK_BASH_100_LINES',
+        version: 1,
+        gameId: 'block-bash',
+        name: 'Complete 100 Lines',
+        description: 'Complete 100 lines across all games',
+        iconUrl:
+          'https://cdn.charity.games/_games/block-bash/assets/achievements/lines_100.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '5',
+            quantity: 1,
+            chance: 1,
+          },
+        ],
+      },
+      {
+        id: 'BLOCK_BASH_500_LINES',
+        version: 1,
+        gameId: 'block-bash',
+        name: 'Complete 500 Lines',
+        description: 'Complete 500 lines across all games',
+        iconUrl:
+          'https://cdn.charity.games/_games/block-bash/assets/achievements/lines_500.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '5',
+            quantity: 2,
+            chance: 1,
+          },
+        ],
+      },
+      {
+        id: 'BLOCK_BASH_1000_LINES',
+        version: 1,
+        gameId: 'block-bash',
+        name: 'Complete 1,000 Lines',
+        description: 'Complete 1,000 lines across all games',
+        iconUrl:
+          'https://cdn.charity.games/_games/block-bash/assets/achievements/lines_1000.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '5',
+            quantity: 4,
+            chance: 1,
+          },
+        ],
+      },
+      {
+        id: 'BLOCK_BASH_2500_LINES',
+        version: 1,
+        gameId: 'block-bash',
+        name: 'Complete 2,500 Lines',
+        description: 'Complete 2,500 lines across all games',
+        iconUrl:
+          'https://cdn.charity.games/_games/block-bash/assets/achievements/lines_2500.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '5',
+            quantity: 8,
+            chance: 1,
+          },
+        ],
+      },
+      {
+        id: 'BLOCK_BASH_5000_LINES',
+        version: 1,
+        gameId: 'block-bash',
+        name: 'Complete 5,000 Lines',
+        description: 'Complete 5,000 lines across all games',
+        iconUrl:
+          'https://cdn.charity.games/_games/block-bash/assets/achievements/lines_5000.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '5',
+            quantity: 15,
+            chance: 1,
+          },
+        ],
+      },
+      {
+        id: 'BLOCK_BASH_10000_LINES',
+        version: 1,
+        gameId: 'block-bash',
+        name: 'Complete 10,000 Lines',
+        description: 'Complete 10,000 lines across all games',
+        iconUrl:
+          'https://cdn.charity.games/_games/block-bash/assets/achievements/lines_10000.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '5',
+            quantity: 25,
+            chance: 1,
+          },
+        ],
+      },
+      {
+        id: 'BLOCK_BASH_1000_BLOCKS_LIFETIME',
+        version: 1,
+        gameId: 'block-bash',
+        name: 'Place 1,000 Blocks',
+        description: 'Place 1,000 blocks across all games',
+        iconUrl:
+          'https://cdn.charity.games/_games/block-bash/assets/achievements/blocks_1000.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '8',
+            quantity: 1,
+            chance: 1,
+          },
+        ],
+      },
+      {
+        id: 'BLOCK_BASH_5000_BLOCKS_LIFETIME',
+        version: 1,
+        gameId: 'block-bash',
+        name: 'Place 5,000 Blocks',
+        description: 'Place 5,000 blocks across all games',
+        iconUrl:
+          'https://cdn.charity.games/_games/block-bash/assets/achievements/blocks_5000.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '8',
+            quantity: 2,
+            chance: 1,
+          },
+        ],
+      },
+      {
+        id: 'BLOCK_BASH_10000_BLOCKS_LIFETIME',
+        version: 1,
+        gameId: 'block-bash',
+        name: 'Place 10,00 Blocks',
+        description: 'Place 10,000 blocks across all games',
+        iconUrl:
+          'https://cdn.charity.games/_games/block-bash/assets/achievements/blocks_10000.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '8',
+            quantity: 4,
+            chance: 1,
+          },
+        ],
+      },
+      {
+        id: 'BLOCK_BASH_20000_BLOCKS_LIFETIME',
+        version: 1,
+        gameId: 'block-bash',
+        name: 'Place 20,000 Blocks',
+        description: 'Place 20,000 blocks across all games',
+        iconUrl:
+          'https://cdn.charity.games/_games/block-bash/assets/achievements/blocks_20000.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '8',
+            quantity: 7,
+            chance: 1,
+          },
+        ],
+      },
+      {
+        id: 'BLOCK_BASH_50000_BLOCKS_LIFETIME',
+        version: 1,
+        gameId: 'block-bash',
+        name: 'Place 50,000 Blocks',
+        description: 'Place 50,000 blocks across all games',
+        iconUrl:
+          'https://cdn.charity.games/_games/block-bash/assets/achievements/blocks_50000.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '8',
+            quantity: 11,
+            chance: 1,
+          },
+        ],
+      },
+      {
+        id: 'BLOCK_BASH_100000_BLOCKS_LIFETIME',
+        version: 1,
+        gameId: 'block-bash',
+        name: 'Place 100,000 Blocks',
+        description: 'Place 100,000 blocks across all games',
+        iconUrl:
+          'https://cdn.charity.games/_games/block-bash/assets/achievements/blocks_100000.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '8',
+            quantity: 15,
+            chance: 1,
+          },
+        ],
+      },
+    ],
+  },
+  {
     version: 4,
     id: 'dino-dash',
     name: 'Dino Dash',
@@ -19,15 +399,15 @@ const integratedGames: SeedableGameSchema[] = [
     iconUrl: 'https://cdn.charity.games/_games/dino-dash/assets/thumbnail.png',
     bannerUrl: 'https://cdn.charity.games/_games/dino-dash/assets/banner.png',
     viewport: viewports['ALL-DEVICES'],
-    categories: ['ad-free', 'action', 'arcade', 'endless', 'desktop', 'mobile'],
+    categories: ['action', 'arcade', 'endless', 'desktop', 'mobile'],
     file: {
       type: 'HTML',
       url: 'https://cdn.charity.games/_games/dino-dash/index.html',
     },
     markets: {},
-    createdAt: new Date('2023-12-21T00:00:00.000Z'),
-    updatedAt: new Date('2021-12-21T00:00:00.000Z'),
-    description: `<p>Dino Dash is an endless runner game. The goal of the game is to run as far as you can without hitting any obstacles.</p><h3>How to Play Dino Rush?</h3><ul><li>Tap or click the screen to jump</li>Tap or click the screen while in the air to fall down quickly.<li>Avoid the obstacles</li></ul><h3>Who created Dino Rush?</h3><p>Dino Rush is a free game created by Charity Games. We are a non-profit organization that creates games to raise money for charity.</p><h3>Known issues:</h3><p></p>`,
+    createdAt: new Date('2024-07-01T00:00:00.000Z'),
+    updatedAt: new Date('2024-07-01T00:00:00.000Z'),
+    description: `<p>Dino Dash is an endless runner game. The goal of the game is to run as far as you can without hitting any obstacles.</p><h3>How to Play Dino Rush?</h3><ul><li>Tap or click the screen to jump</li>Tap or click the screen while in the air to fall down quickly.<li>Avoid the obstacles</li></ul><h3>Who created Dino Rush?</h3><p>Dino Rush is a free game created by Charity Games. We are a non-profit organization that creates games to raise money for charity.</p>`,
     multiplier: 0.005,
     leaderboard: true,
     cloudStorage: true,

@@ -16,6 +16,7 @@
     "env:local": "dotenv -e .env.local --",
     "build:games:color-run": "nx build games-color-run --emptyOutDir",
     "build:games:dino-dash": "nx build games-dino-dash --emptyOutDir",
+    "build:games:block-bash": "nx build games-block-bash --emptyOutDir",
     "prisma:studio:local": "dotenv -e .env.local -- npx prisma studio",
     "prisma:studio:production": "dotenv -e .env.production -- npx prisma studio",
     "prisma:generate:local": "dotenv -e .env.local -- npx prisma generate",

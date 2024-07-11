@@ -8,7 +8,6 @@ export const insertGames = async () => {
   const storedGames = await prisma.game.findMany({
     select: seedingProperties,
   });
-
   const { creating, updating } = getSeedingChanges(games, storedGames);
 
   await Promise.all([...creating.map(insertGame), ...updating.map(updateGame)]);

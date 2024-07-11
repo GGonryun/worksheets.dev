@@ -114,8 +114,6 @@ export class Boot extends Phaser.Scene {
       },
       this
     );
-    this;
-    30;
   }
 
   createBars() {

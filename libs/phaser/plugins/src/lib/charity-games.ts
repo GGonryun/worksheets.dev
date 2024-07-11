@@ -34,6 +34,7 @@ export class CharityGamesPlugin extends Phaser.Plugins.BasePlugin {
   leaderboard: LeaderboardsAPI;
   advertisements: AdvertisementsAPI;
   events: Phaser.Events.EventEmitter = new Phaser.Events.EventEmitter();
+  isInitialized = false;
   storageKey = 'storage';
 
   constructor(pluginManager: Phaser.Plugins.PluginManager) {
@@ -96,9 +97,11 @@ export class CharityGamesPlugin extends Phaser.Plugins.BasePlugin {
       this.#emit('initializing', 1);
       await this.achievements.load(signal);
 
+      this.isInitialized = true;
       this.#emit('initialized', { ok: true });
     } catch (error) {
       console.error('Failed to initialize', error);
+      this.isInitialized = true;
       this.#emit('initialized', { ok: false });
     } finally {
       cancel();

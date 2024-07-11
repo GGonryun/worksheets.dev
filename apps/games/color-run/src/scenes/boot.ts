@@ -109,6 +109,7 @@ export default class BootScene extends Phaser.Scene {
     this;
     30;
   }
+
   createBars() {
     this.loadBar = this.add.graphics();
     this.loadBar.fillStyle(0xd40000, 1);

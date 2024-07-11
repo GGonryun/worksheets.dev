@@ -1,0 +1,62 @@
+{
+  "name": "games-block-bash",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/games/block-bash/src",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/vite:build",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "defaultConfiguration": "production",
+      "options": {
+        "outputPath": "dist/apps/games/block-bash"
+      },
+      "configurations": {
+        "development": {
+          "mode": "development"
+        },
+        "production": {
+          "mode": "production"
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nx/vite:dev-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "games-block-bash:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "games-block-bash:build:development",
+          "hmr": true
+        },
+        "production": {
+          "buildTarget": "games-block-bash:build:production",
+          "hmr": false
+        }
+      }
+    },
+    "preview": {
+      "executor": "@nx/vite:preview-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "games-block-bash:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "games-block-bash:build:development"
+        },
+        "production": {
+          "buildTarget": "games-block-bash:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  }
+}
