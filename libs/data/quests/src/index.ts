@@ -50,27 +50,9 @@ export const QUESTS: Prisma.PlatformQuestUncheckedCreateInput[] = [
   {
     id: 'WATCH_AD_DAILY',
     order: 7,
-    version: 1,
+    version: 2,
     taskId: 'WATCH_AD_DAILY',
     name: 'Watch an Ad (Daily)',
-    loot: {
-      createMany: {
-        data: [
-          {
-            itemId: '10044',
-            quantity: 3,
-            chance: 1,
-          },
-        ],
-      },
-    },
-  },
-  {
-    id: 'WATCH_AD_WEEKLY',
-    order: 8,
-    version: 1,
-    taskId: 'WATCH_AD_WEEKLY',
-    name: 'Watch an Ad (Weekly)',
     loot: {
       createMany: {
         data: [
@@ -84,16 +66,49 @@ export const QUESTS: Prisma.PlatformQuestUncheckedCreateInput[] = [
     },
   },
   {
+    id: 'WATCH_AD_WEEKLY',
+    order: 8,
+    version: 2,
+    taskId: 'WATCH_AD_WEEKLY',
+    name: 'Watch an Ad (Weekly)',
+    loot: {
+      createMany: {
+        data: [
+          {
+            itemId: '2',
+            quantity: 3,
+            chance: 1,
+          },
+          {
+            itemId: '5',
+            quantity: 3,
+            chance: 1,
+          },
+        ],
+      },
+    },
+  },
+  {
     id: 'WATCH_AD_MONTHLY',
     order: 9,
-    version: 1,
+    version: 2,
     taskId: 'WATCH_AD_MONTHLY',
     name: 'Watch an Ad (Monthly)',
     loot: {
       createMany: {
         data: [
           {
+            itemId: '2',
+            quantity: 3,
+            chance: 1,
+          },
+          {
             itemId: '5',
+            quantity: 3,
+            chance: 1,
+          },
+          {
+            itemId: '8',
             quantity: 3,
             chance: 1,
           },
@@ -105,14 +120,14 @@ export const QUESTS: Prisma.PlatformQuestUncheckedCreateInput[] = [
   {
     id: 'PLAY_GAME_DAILY_5',
     order: 10,
-    version: 0,
+    version: 2,
     taskId: 'PLAY_GAME_DAILY_5',
     loot: {
       createMany: {
         data: [
           {
-            itemId: '1',
-            quantity: 5,
+            itemId: '5',
+            quantity: 1,
             chance: 1,
           },
         ],
@@ -122,14 +137,14 @@ export const QUESTS: Prisma.PlatformQuestUncheckedCreateInput[] = [
   {
     id: 'PLAY_GAME_WEEKLY_25',
     order: 11,
-    version: 0,
+    version: 2,
     taskId: 'PLAY_GAME_WEEKLY_25',
     loot: {
       createMany: {
         data: [
           {
-            itemId: '1',
-            quantity: 25,
+            itemId: '5',
+            quantity: 5,
             chance: 1,
           },
         ],
@@ -279,14 +294,14 @@ export const QUESTS: Prisma.PlatformQuestUncheckedCreateInput[] = [
   {
     id: 'BATTLE_PARTICIPATION_DAILY',
     order: 40,
-    version: 0,
+    version: 2,
     taskId: 'BATTLE_PARTICIPATION_DAILY',
     loot: {
       createMany: {
         data: [
           {
             itemId: '1',
-            quantity: 10,
+            quantity: 20,
             chance: 1,
           },
         ],
@@ -395,7 +410,7 @@ export const QUESTS: Prisma.PlatformQuestUncheckedCreateInput[] = [
   {
     id: 'ADD_REFERRAL_INFINITE',
     order: 1003,
-    version: 0,
+    version: 2,
     taskId: 'ADD_REFERRAL_INFINITE',
     loot: {
       createMany: {
