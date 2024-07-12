@@ -12,7 +12,7 @@ import { SeedableGameSchema } from '@worksheets/util/types';
 
 const integratedGames: SeedableGameSchema[] = [
   {
-    version: 1,
+    version: 2,
     id: 'block-bash',
     name: 'Block Bash',
     developerId: 'charity-games',
@@ -28,7 +28,7 @@ const integratedGames: SeedableGameSchema[] = [
     createdAt: new Date('2024-07-11T00:00:00.000Z'),
     updatedAt: new Date('2024-07-11T00:00:00.000Z'),
     description: `<p>Block bash is a puzzle game centered around the placement of blocks on a grid. Drag and place colorful blocks on the board, strategically grouping them to earn points by completing rows and columns  Watch out for the shapes to avoid running out of space! Are you ready to master the ultimate block-bashing challenge?</p><h3>How do I play Block Bash?</h3><p>Playing is easy! Simply drag and release the pieces where you want them to go.</p><h3>How can I play Block Bash for free?</h3><p>You can play Block Bash for free on Charity.Games</p><h3>Who created Block Bash?</h3><p>Block Bash is an exclusive Charity.Games platform game, it was developed by Miguel Campos. Lead programmer at Charity Games</p><h3>Can I play Block Bash on mobile or desktop?</h3><p>Block Bash is supported on all devices included mobile, tablet, and desktop.</p>`,
-    multiplier: 0.03,
+    multiplier: 0.015,
     leaderboard: true,
     cloudStorage: true,
     loot: [
