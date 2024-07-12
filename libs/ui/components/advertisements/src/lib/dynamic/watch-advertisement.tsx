@@ -1,152 +1,93 @@
 import { FeaturedVideoOutlined, StarBorder } from '@mui/icons-material';
-import { Button, LinearProgress, Link, Typography } from '@mui/material';
-import { routes } from '@worksheets/routes';
-import { trpc } from '@worksheets/trpc-charity';
+import { Button } from '@mui/material';
 import { Column } from '@worksheets/ui/components/flex';
-import { ContainImage } from '@worksheets/ui/components/images';
-import { PulsingLogo } from '@worksheets/ui/components/loading';
+import { useSnackbar } from '@worksheets/ui/components/snackbar';
 import { PaletteColor } from '@worksheets/ui/theme';
-import { useInterval } from '@worksheets/ui-core';
-import { NO_REFETCH } from '@worksheets/util/trpc';
-import { GruvianAdvertisementSchema } from '@worksheets/util/types';
+import { noop } from '@worksheets/util/misc';
 import { useState } from 'react';
 
+import { AdBlockModal } from '../components';
+import { useDetectAdBlock, useGoogleAdsense } from '../hooks';
+
 export const WatchAdvertisement: React.FC<{
-  network: string;
   onSubmit: () => void;
   disabled?: boolean;
   buttonColor?: PaletteColor;
   buttonText: string;
-}> = ({ network, onSubmit, disabled, buttonText, buttonColor = 'primary' }) => {
-  const [showAd, setShowAd] = useState(false);
+}> = ({ onSubmit, disabled, buttonText, buttonColor = 'primary' }) => {
+  const snackbar = useSnackbar();
+  const { loading, ready, adBreak } = useGoogleAdsense();
+  const adBlockDetected = useDetectAdBlock();
+  const [adComplete, setAdComplete] = useState(false);
+  const [showAdBlockModal, setShowAdBlockModal] = useState(false);
 
-  const advertisement = trpc.maybe.advertisements.get.useQuery(
-    undefined,
-    NO_REFETCH
-  );
+  const handleSkipAd = () => {
+    setShowAdBlockModal(false);
+    setAdComplete(true);
+  };
 
-  return (
-    <Column>
-      {showAd ? (
-        <AdvertisementContainer
-          color={buttonColor}
-          onSubmit={onSubmit}
-          loading={advertisement.isLoading}
-        >
-          {network === 'gruvian' ? (
-            <GruvianAdvertisement advertisement={advertisement.data} />
-          ) : (
-            <CharityGamesAdvertisement />
-          )}
-        </AdvertisementContainer>
-      ) : (
-        <Button
-          variant="arcade"
-          color={buttonColor}
-          startIcon={<FeaturedVideoOutlined />}
-          disabled={disabled}
-          onClick={() => setShowAd(true)}
-        >
-          {buttonText}
-        </Button>
-      )}
-    </Column>
-  );
-};
-
-const AdvertisementContainer: React.FC<{
-  children: React.ReactNode;
-  loading: boolean;
-  onSubmit: () => void;
-  color: PaletteColor;
-}> = (props) => {
-  const ADVERTISEMENT_TIMER = 5000; //ms
-  const SPEED = 25; //ms
-  const [timer, setTimer] = useState(ADVERTISEMENT_TIMER);
-
-  useInterval(() => {
-    if (timer > 0 || !props.loading) {
-      setTimer((prev) => Math.max(prev - SPEED, 0));
+  const handleShowAd = () => {
+    if (adBlockDetected) {
+      setShowAdBlockModal(true);
+      return;
     }
-  }, SPEED);
+
+    adBreak({
+      type: 'reward',
+      name: 'quest',
+      beforeReward: (showAdFn) => {
+        showAdFn();
+      },
+      beforeAd: noop,
+      adDismissed: noop,
+      adViewed: noop,
+      afterAd: noop,
+      adBreakDone: (placementInfo) => {
+        switch (placementInfo.breakStatus) {
+          case 'viewed':
+            snackbar.success('Thank you for watching the ad!');
+            break;
+          case 'dismissed':
+            snackbar.warning('The ad was dismissed early.');
+            break;
+          default:
+            snackbar.error('We failed to load an ad.');
+            break;
+        }
+        setAdComplete(true);
+      },
+    });
+  };
 
   return (
-    <Column gap={3}>
-      {props.children}
+    <>
       <Column>
-        <LinearProgress
-          variant="determinate"
-          value={(timer / ADVERTISEMENT_TIMER) * 100}
-          sx={{
-            height: 10,
-            borderRadius: 5,
-          }}
-        />
-        <Typography variant="body2" textAlign="center">
-          {(timer / 1000).toFixed(2)} seconds remaining
-        </Typography>
+        {adComplete ? (
+          <Button
+            variant="arcade"
+            color="success"
+            startIcon={<StarBorder />}
+            onClick={onSubmit}
+          >
+            Claim Reward
+          </Button>
+        ) : (
+          <Button
+            variant="arcade"
+            color={buttonColor}
+            startIcon={<FeaturedVideoOutlined />}
+            disabled={disabled || (!adBlockDetected && (loading || !ready))}
+            onClick={handleShowAd}
+          >
+            {buttonText}
+          </Button>
+        )}
       </Column>
-      <Button
-        variant="arcade"
-        color={props.color}
-        disabled={timer > 0}
-        startIcon={!timer && <StarBorder />}
-        endIcon={!timer && <StarBorder />}
-        onClick={props.onSubmit}
-      >
-        Claim Reward
-      </Button>
-    </Column>
-  );
-};
-
-const GruvianAdvertisement: React.FC<{
-  advertisement: GruvianAdvertisementSchema | undefined;
-}> = (props) => {
-  if (!props.advertisement || !props.advertisement.filled) {
-    return <CharityGamesAdvertisement />;
-  }
-
-  return (
-    <Column alignItems="center" textAlign="center">
-      <Typography variant="h6">{props.advertisement.ad.title.data}</Typography>
-      <Typography>{props.advertisement.ad.description.data}</Typography>
-      <Link
-        position="relative"
-        width="100%"
-        height={200}
-        my={1.5}
-        href={props.advertisement.ad.link_to.data}
-      >
-        <ContainImage
-          src={props.advertisement.ad.logo_image.data.url}
-          alt={props.advertisement.ad.title.data}
-        />
-      </Link>
-      <Typography
-        variant="body3"
-        component={Link}
-        href={'https://gruvian.com'}
-        underline="hover"
-        color="text.secondary"
-      >
-        Powered by Gruvian
-      </Typography>
-    </Column>
-  );
-};
-
-const CharityGamesAdvertisement = () => {
-  return (
-    <Column textAlign="center">
-      <PulsingLogo hideMessage />
-      <Typography variant="h6">Your advertisement here!</Typography>
-      <Typography variant="body2">
-        <Link href={routes.contact.path()}>Contact Us</Link> if you are
-        interested in advertising on Charity.Games.
-        <br />
-        Join us in our mission to raise money for charity!
-      </Typography>
-    </Column>
+      <AdBlockModal
+        open={showAdBlockModal}
+        onClose={handleSkipAd}
+        message="You'll still get your reward without ads"
+      />
+    </>
   );
 };

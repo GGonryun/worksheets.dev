@@ -1,4 +1,3 @@
-import { Typography } from '@mui/material';
 import { WatchAdvertisement } from '@worksheets/ui/components/advertisements';
 import { Column } from '@worksheets/ui/components/flex';
 import { TaskFormProps } from '@worksheets/util/tasks';
@@ -11,13 +10,7 @@ export const WatchAdForm: React.FC<TaskFormProps> = ({ task, actions }) => {
 
   return (
     <Column gap={1}>
-      <Typography variant="body1" fontWeight={700}>
-        Watch an Advertisement{' '}
-        {task.maxRepetitions > 1 &&
-          `(${task.repetitions}/${task.maxRepetitions})`}
-      </Typography>
       <WatchAdvertisement
-        network={'gruvian'} // TODO: implement more networks.
         onSubmit={() => actions.onSubmit({ repetitions: 1 })}
         disabled={completed}
         buttonText={completed ? 'Come Back Later' : 'Display Ad'}

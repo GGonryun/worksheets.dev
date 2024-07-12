@@ -127,7 +127,7 @@ export default t.router({
       .input(z.custom<Parameters<CapsuleService['getOrCreate']>[1]>())
       .output(z.custom<Awaited<ReturnType<CapsuleService['getOrCreate']>>>())
       .query(async ({ input, ctx: { db, user } }) => {
-        return await db.$transaction(async (tx) => {
+        return await retryTransaction(db, async (tx) => {
           const capsule = new CapsuleService(tx);
           return capsule.getOrCreate(user.id, input);
         });
@@ -136,7 +136,7 @@ export default t.router({
       .input(z.custom<Parameters<CapsuleService['unlock']>[1]>())
       .output(z.custom<Awaited<ReturnType<CapsuleService['unlock']>>>())
       .mutation(async ({ input, ctx: { db, user } }) => {
-        return await db.$transaction(async (tx) => {
+        return await retryTransaction(db, async (tx) => {
           const capsule = new CapsuleService(tx);
           return capsule.unlock(user.id, input);
         });
@@ -145,7 +145,7 @@ export default t.router({
       .input(z.custom<Parameters<CapsuleService['open']>[1]>())
       .output(z.custom<Awaited<ReturnType<CapsuleService['open']>>>())
       .mutation(async ({ input, ctx: { db, user } }) => {
-        return await db.$transaction(async (tx) => {
+        return await retryTransaction(db, async (tx) => {
           const capsule = new CapsuleService(tx);
           return capsule.open(user.id, input);
         });
@@ -154,7 +154,7 @@ export default t.router({
       .input(z.custom<Parameters<CapsuleService['close']>[1]>())
       .output(z.custom<Awaited<ReturnType<CapsuleService['close']>>>())
       .mutation(async ({ input, ctx: { db, user } }) => {
-        return await db.$transaction(async (tx) => {
+        return await retryTransaction(db, async (tx) => {
           const capsule = new CapsuleService(tx);
           return capsule.close(user.id, input);
         });
@@ -163,7 +163,7 @@ export default t.router({
       .input(z.custom<Parameters<CapsuleService['award']>[1]>())
       .output(z.custom<Awaited<ReturnType<CapsuleService['award']>>>())
       .mutation(async ({ input, ctx: { db, user } }) => {
-        return await db.$transaction(async (tx) => {
+        return await retryTransaction(db, async (tx) => {
           const capsule = new CapsuleService(tx);
           return capsule.award(user.id, input);
         });
@@ -174,7 +174,7 @@ export default t.router({
       .input(z.custom<Parameters<PrizeWheelService['spin']>[1]>())
       .output(z.custom<Awaited<ReturnType<PrizeWheelService['spin']>>>())
       .mutation(async ({ ctx: { db, user }, input }) => {
-        return await db.$transaction(async (tx) => {
+        return await retryTransaction(db, async (tx) => {
           const spinner = new PrizeWheelService(tx);
           return spinner.spin(user.id, input);
         });

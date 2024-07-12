@@ -8,6 +8,7 @@ import {
 } from '@worksheets/sdk-games';
 import { trpc } from '@worksheets/trpc-charity';
 import {
+  AdBlockModal,
   useDetectAdBlock,
   useGoogleAdsense,
 } from '@worksheets/ui/components/advertisements';
@@ -19,7 +20,6 @@ import React, { useRef } from 'react';
 
 import { GameTrackingProvider } from '../../../context/game-tracking-context';
 import { useGameNotifications } from '../../../hooks/use-game-notifications';
-import { AdBlockModal } from '../ad-block-modal';
 import classes from './game-frame.module.scss';
 import { GameInternalFrame } from './game-internal-frame';
 

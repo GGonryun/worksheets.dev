@@ -1,22 +1,68 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { AdBreak, AdConfig } from 'types/adsense';
+import { create } from 'zustand';
 
 import { GOOGLE_AD_PLACEMENT_API } from '../data';
 
-let adBreak = function (o: AdBreak) {
-  console.warn('adBreak is not defined', o);
-};
-let adConfig = function (o: AdConfig) {
-  console.warn('adConfig is not defined', o);
-};
+type AdBreakFunction = (o: AdBreak) => void;
+type AdConfigFunction = (o: AdConfig) => void;
+interface AdsenseFunctionsState {
+  initialized: boolean;
+  loading: boolean;
+  ready: boolean;
+  setLoading: (loading: boolean) => void;
+  setReady: (ready: boolean) => void;
+  adBreak: AdBreakFunction;
+  adConfig: AdConfigFunction;
+  setFunctions: (fns: {
+    adBreak: AdBreakFunction;
+    adConfig: AdConfigFunction;
+  }) => void;
+}
+
+const useAdsenseFunctions = create<AdsenseFunctionsState>((set) => ({
+  initialized: false,
+  loading: true,
+  ready: false,
+  setLoading: (loading: boolean) => {
+    set({ loading });
+  },
+  setReady: (ready: boolean) => {
+    set({ ready });
+  },
+  adBreak: (o: AdBreak) => {
+    console.warn('adBreak is not defined', o);
+  },
+  adConfig: (o: AdConfig) => {
+    console.warn('adConfig is not defined', o);
+  },
+  setFunctions: (fns: {
+    adBreak: (o: AdBreak) => void;
+    adConfig: (o: AdConfig) => void;
+  }) => {
+    set((state) => ({
+      ...state,
+      ...fns,
+      initialized: true,
+    }));
+  },
+}));
 
 const ADSENSE_TIMEOUT = 5000;
 
 export const useGoogleAdsense = () => {
   const documentRef = useRef<Document>(document);
-  const [loading, setLoading] = useState(true);
-  const [ready, setReady] = useState(false);
-  const [initialized, setInitialized] = useState(false);
+
+  const {
+    adBreak,
+    adConfig,
+    setFunctions,
+    initialized,
+    loading,
+    ready,
+    setLoading,
+    setReady,
+  } = useAdsenseFunctions();
 
   useEffect(() => {
     if (initialized) return;
@@ -35,12 +81,14 @@ export const useGoogleAdsense = () => {
       if (typeof window !== 'undefined' && window) {
         if (typeof adsbygoogle !== 'undefined' && adsbygoogle) {
           window.adsbygoogle = window.adsbygoogle || [];
-          adBreak = function (o: AdBreak) {
+          const adBreak = function (o: AdBreak) {
             adsbygoogle.push(o);
           };
-          adConfig = function (o: AdConfig) {
+          const adConfig = function (o: AdConfig) {
             adsbygoogle.push(o);
           };
+
+          setFunctions({ adBreak, adConfig });
 
           const adConfigPromise = new Promise<boolean>((resolve) =>
             adConfig({
@@ -58,7 +106,6 @@ export const useGoogleAdsense = () => {
           Promise.race([adConfigPromise, timeoutPromise]).then((result) => {
             setLoading(false);
             setReady(result);
-            setInitialized(true);
           });
         }
       } else {
@@ -73,36 +120,7 @@ export const useGoogleAdsense = () => {
     return () => {
       adsense.removeEventListener('load', handleScriptLoad);
     };
-  }, [initialized]);
+  }, [initialized, setFunctions, setLoading, setReady]);
 
   return { adBreak, adConfig, loading, ready, initialized };
-};
-
-export const useDetectAdBlock = () => {
-  const [adBlockDetected, setAdBlockDetected] = useState(false);
-
-  useEffect(() => {
-    // grab a domain from https://github1s.com/gorhill/uBlock/blob/master/docs/tests/hostname-pool.js
-    const urls = [
-      'https://www3.doubleclick.net',
-      'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js',
-    ];
-    Promise.all(
-      urls.map((url) =>
-        fetch(url, { method: 'HEAD', mode: 'no-cors', cache: 'no-store' })
-      )
-    )
-      .then((responses) => {
-        if (responses.some((response) => response.redirected)) {
-          console.info('AdBlock detected');
-          setAdBlockDetected(true);
-        }
-      })
-      .catch(() => {
-        console.info('AdBlock detected');
-        setAdBlockDetected(true);
-      });
-  }, []);
-
-  return adBlockDetected;
 };

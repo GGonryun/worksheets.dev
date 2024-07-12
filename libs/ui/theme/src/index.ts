@@ -294,7 +294,7 @@ const theme = createTheme({
     error: {
       light: '#FE697D',
       main: '#F4243C', // hand-picked.
-      dark: '',
+      dark: '#F4243C',
       contrastText: '#FFFFFF',
       gradient:
         'linear-gradient(181deg, #FF596F 0.5%, #FF7183 15.66%, #FE697D 30.81%, #F4243C 177.3%)',
