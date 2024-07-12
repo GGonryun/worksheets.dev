@@ -662,10 +662,16 @@ export class CapsuleService {
 
     if (inventory.capsule) {
       // make sure the user has no unlocks left.
-      if (inventory.capsule.unlocks) {
+      if (inventory.capsule.unlocks > 0) {
         throw new TRPCError({
           code: 'BAD_REQUEST',
           message: `You have ${inventory.capsule.unlocks} unlocks remaining.`,
+        });
+      } else if (inventory.capsule.unlocks < 0) {
+        console.error('User has negative unlocks', {
+          userId,
+          itemId,
+          unlocks: inventory.capsule.unlocks,
         });
       }
     }
@@ -730,10 +736,16 @@ export class CapsuleService {
 
     if (inventory.capsule) {
       // make sure the user has no unlocks left.
-      if (inventory.capsule.unlocks) {
+      if (inventory.capsule.unlocks > 0) {
         throw new TRPCError({
           code: 'BAD_REQUEST',
           message: `You have ${inventory.capsule.unlocks} unlocks remaining.`,
+        });
+      } else if (inventory.capsule.unlocks < 0) {
+        console.error('User has negative unlocks', {
+          userId,
+          itemId,
+          unlocks: inventory.capsule.unlocks,
         });
       }
     }
@@ -776,17 +788,15 @@ export class CapsuleService {
     if (!capsule) {
       throw new TRPCError({
         code: 'NOT_FOUND',
-        message: `Capsule ${opts.capsuleId} does not exist.`,
+        message: `Capsule does not exist.`,
       });
     }
 
     // check to see if the current capsule has any remaining options.
     const remainingOptions = capsule.options.filter((o) => !o.unlocked);
     if (!remainingOptions.length) {
-      throw new TRPCError({
-        code: 'BAD_REQUEST',
-        message: `Capsule ${opts.capsuleId} has no remaining options to unlock.`,
-      });
+      console.error(`Capsule ${capsule.id} has no remaining options.`);
+      return;
     }
 
     // check to see if there the user has too many unlocks.
@@ -811,7 +821,7 @@ export class CapsuleService {
       },
       data: {
         unlocks: {
-          increment: 1,
+          increment: 3,
         },
       },
     });
@@ -827,7 +837,7 @@ export class CapsuleService {
     const capsule = await this.#db.inventoryCapsule.create({
       data: {
         inventoryId,
-        unlocks: 5,
+        unlocks: 6,
         options: {
           // TODO: every capsule contains 9 items, but this can be adjusted in the future.
           create: arrayFromNumber(drops.length).map((i) => ({
@@ -974,6 +984,13 @@ export class CapsuleService {
       throw new TRPCError({
         code: 'BAD_REQUEST',
         message: `Capsule option is already unlocked`,
+      });
+    }
+
+    if (option.capsule.unlocks <= 0) {
+      throw new TRPCError({
+        code: 'BAD_REQUEST',
+        message: `You do not have any unlocks remaining for this capsule.`,
       });
     }
 

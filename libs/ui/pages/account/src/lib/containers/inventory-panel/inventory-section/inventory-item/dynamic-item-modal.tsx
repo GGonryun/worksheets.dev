@@ -12,6 +12,7 @@ import {
 import {
   Box,
   Button,
+  CircularProgress,
   Divider,
   Link,
   Typography,
@@ -60,7 +61,7 @@ import {
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import pluralize from 'pluralize';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const ItemAction: React.FC<{
   item: InventoryItemSchema;
@@ -364,27 +365,94 @@ const CapsuleItem: React.FC<{
   onCloseCapsule: (itemId: ItemId) => void;
 }> = ({ item, onCloseCapsule }) => {
   const snackbar = useSnackbar();
-  const [showAdvertisement, setShowAdvertisement] = useState(false);
+
+  const utils = trpc.useUtils();
   const capsule = trpc.user.inventory.capsule.get.useQuery(item, NO_REFETCH);
   const award = trpc.user.inventory.capsule.award.useMutation();
+  const unlock = trpc.user.inventory.capsule.unlock.useMutation();
+
+  const [showAdvertisement, setShowAdvertisement] = useState(false);
+  const [dirty, setDirty] = React.useState<string[]>([]);
+  const [unlocks, setUnlocks] = React.useState(0);
+
+  const loadingState =
+    award.isLoading ||
+    unlock.isLoading ||
+    capsule.isFetching ||
+    capsule.isRefetching;
+
+  useEffect(() => {
+    if (
+      capsule.data &&
+      !capsule.isLoading &&
+      !capsule.isFetching &&
+      !capsule.isRefetching
+    ) {
+      setUnlocks(capsule.data.unlocks);
+    }
+  }, [
+    capsule.data,
+    capsule.isFetching,
+    capsule.isLoading,
+    capsule.isRefetching,
+  ]);
+
+  useEffect(() => {
+    if (
+      !capsule.isFetching &&
+      !capsule.isLoading &&
+      !capsule.isRefetching &&
+      !award.isLoading &&
+      !unlock.isLoading
+    ) {
+      setDirty([]);
+    }
+  }, [
+    award.isLoading,
+    capsule.isFetching,
+    capsule.isLoading,
+    capsule.isRefetching,
+    unlock.isLoading,
+  ]);
 
   const handleSubmitAdvertisement = async () => {
     if (!capsule.data) {
       return;
     }
 
+    setShowAdvertisement(false);
     try {
       await award.mutateAsync({ capsuleId: capsule.data.id });
       snackbar.success('You can now unlock an additional item!');
     } catch (error) {
       snackbar.error(parseTRPCClientErrorMessage(error));
-    } finally {
-      setShowAdvertisement(false);
     }
     await capsule.refetch();
   };
 
-  if (capsule.isLoading || award.isLoading) return <PulsingLogo />;
+  const handleUnlock = async (optionId: string) => {
+    if (!capsule.data) return;
+
+    if (!capsule.data.unlocks) {
+      snackbar.warning('You have no more unlocks remaining');
+      return;
+    }
+
+    try {
+      setDirty((prev) => [...prev, optionId]);
+      setUnlocks((prev) => prev - 1);
+      await unlock.mutateAsync({
+        optionId,
+      });
+      utils.user.inventory.capsule.get.refetch();
+      utils.user.inventory.invalidate();
+    } catch (error) {
+      setUnlocks((prev) => prev + 1);
+      snackbar.error(parseTRPCClientErrorMessage(error));
+    }
+  };
+
+  if (capsule.isLoading) return <PulsingLogo message="Loading Capsule..." />;
 
   if (capsule.isError)
     return <ErrorComponent hideLogo message={capsule.error.message} />;
@@ -396,8 +464,12 @@ const CapsuleItem: React.FC<{
       <OpenCapsuleItem
         item={item}
         capsule={capsule.data}
+        dirty={dirty}
         onWatchAdvertisement={() => setShowAdvertisement(true)}
         onCloseCapsule={() => onCloseCapsule(item.itemId)}
+        onUnlock={handleUnlock}
+        unlocks={Math.max(unlocks, 0)}
+        isLoadingState={loadingState}
       />
       <WatchAdvertisementModal
         open={showAdvertisement}
@@ -425,11 +497,7 @@ const WatchAdvertisementModal: React.FC<{
           </Typography>
           <Divider />
         </Column>
-        <WatchAdvertisement
-          network="gruvian"
-          onSubmit={props.onSubmit}
-          buttonText="Watch Ad"
-        />
+        <WatchAdvertisement onSubmit={props.onSubmit} buttonText="Watch Ad" />
       </Column>
     </InfoModal>
   );
@@ -438,12 +506,27 @@ const WatchAdvertisementModal: React.FC<{
 const OpenCapsuleItem: React.FC<{
   item: InventoryItemSchema;
   capsule: InventoryCapsuleSchema;
+  unlocks: number;
+  dirty: string[];
+  isLoadingState: boolean;
   onWatchAdvertisement: () => void;
   onCloseCapsule: () => void;
-}> = ({ item, capsule, onWatchAdvertisement, onCloseCapsule }) => {
-  const needsMoreUnlocks = !capsule.unlocks && capsule.remaining > 0;
-  const canEarnMoreUnlocks = capsule.remaining > capsule.unlocks;
+  onUnlock: (optionId: string) => void;
+}> = ({
+  item,
+  unlocks,
+  capsule,
+  dirty,
+  isLoadingState,
+  onWatchAdvertisement,
+  onCloseCapsule,
+  onUnlock,
+}) => {
+  const needsMoreUnlocks = !unlocks && capsule.remaining > 0;
+  const canEarnMoreUnlocks = capsule.remaining > unlocks;
   const availableCapsules = item.quantity - 1;
+  const options = capsule.options.sort((a, b) => a.position - b.position);
+
   return (
     <Column gap={2} width="fit-content">
       <Column gap={0.5}>
@@ -451,12 +534,17 @@ const OpenCapsuleItem: React.FC<{
           <b>Selections Available:</b> {capsule.remaining}
         </Typography>
 
-        <CapsuleOptions capsule={capsule} />
+        <CapsuleOptions
+          options={options}
+          hasUnlocks={unlocks > 0}
+          onUnlock={onUnlock}
+          dirty={dirty}
+        />
       </Column>
 
       <Column>
         <Typography variant="body2">
-          <b>Unlocks Remaining:</b> {capsule.unlocks}
+          <b>Unlocks Remaining:</b> {unlocks}
         </Typography>
         {Boolean(needsMoreUnlocks) && (
           <Typography variant="body2" color="error" fontWeight={500}>
@@ -472,11 +560,17 @@ const OpenCapsuleItem: React.FC<{
           variant="arcade"
           color="secondary"
           size="small"
-          disabled={!canEarnMoreUnlocks}
-          startIcon={<FeaturedVideoOutlined />}
+          disabled={!canEarnMoreUnlocks || isLoadingState}
+          startIcon={
+            isLoadingState ? (
+              <CircularProgress size={18} />
+            ) : (
+              <FeaturedVideoOutlined />
+            )
+          }
           onClick={onWatchAdvertisement}
         >
-          Watch Ad
+          {isLoadingState ? 'Loading...' : 'Watch Ad'}
         </Button>
       </Column>
 
@@ -491,14 +585,16 @@ const OpenCapsuleItem: React.FC<{
         </Typography>
         <Box my={0.5} />
         <Button
-          disabled={!!capsule.unlocks}
+          disabled={!!unlocks || isLoadingState}
           variant="arcade"
           color="primary"
           size="small"
-          startIcon={<LockOutlined />}
+          startIcon={
+            isLoadingState ? <CircularProgress size={18} /> : <LockOutlined />
+          }
           onClick={onCloseCapsule}
         >
-          Close Capsule
+          {isLoadingState ? 'Loading...' : 'Close Capsule'}
         </Button>
       </Column>
       <Row gap={0.5}>
@@ -519,39 +615,12 @@ const OpenCapsuleItem: React.FC<{
   );
 };
 
-const CapsuleOptions: React.FC<{ capsule: InventoryCapsuleSchema }> = ({
-  capsule,
-}) => {
-  const snackbar = useSnackbar();
-  const utils = trpc.useUtils();
-  const unlock = trpc.user.inventory.capsule.unlock.useMutation();
-  const [unlocking, setUnlocking] = React.useState(false);
-  const handleUnlock = (option: CapsuleOptionSchema) => async () => {
-    if (capsule.unlocks <= 0) {
-      snackbar.warning('You have no more unlocks remaining');
-      return;
-    }
-    try {
-      setUnlocking(true);
-      const result = await unlock.mutateAsync({
-        optionId: option.id,
-      });
-      await utils.user.inventory.capsule.get.invalidate();
-      snackbar.success(result.message);
-    } catch (error) {
-      snackbar.error(parseTRPCClientErrorMessage(error));
-    } finally {
-      setUnlocking(false);
-    }
-
-    await utils.user.inventory.invalidate();
-  };
-
-  const options = capsule.options.sort((a, b) => a.position - b.position);
-
-  if (unlocking) return <PulsingLogo message="Unlocking item..." />;
-  // sort options
-
+const CapsuleOptions: React.FC<{
+  options: CapsuleOptionSchema[];
+  hasUnlocks: boolean;
+  dirty: string[];
+  onUnlock: (optionId: string) => void;
+}> = ({ options, dirty, hasUnlocks, onUnlock }) => {
   return (
     <Column gap={1}>
       <Box
@@ -566,7 +635,9 @@ const CapsuleOptions: React.FC<{ capsule: InventoryCapsuleSchema }> = ({
           <CapsuleOption
             key={option.id}
             option={option}
-            onUnlock={handleUnlock(option)}
+            dirty={dirty.includes(option.id)}
+            hasUnlocks={hasUnlocks}
+            onUnlock={() => onUnlock(option.id)}
           />
         ))}
       </Box>
@@ -576,9 +647,12 @@ const CapsuleOptions: React.FC<{ capsule: InventoryCapsuleSchema }> = ({
 
 const CapsuleOption: React.FC<{
   option: CapsuleOptionSchema;
+  hasUnlocks: boolean;
+  dirty: boolean;
   onUnlock: () => void;
-}> = ({ option, onUnlock }) => {
+}> = ({ option, hasUnlocks, onUnlock, dirty }) => {
   const [open, setOpen] = React.useState(false);
+
   const handleSelect = () => {
     if (option.item) {
       return setOpen(true);
@@ -589,10 +663,12 @@ const CapsuleOption: React.FC<{
   return (
     <>
       <InventoryItem
+        loading={dirty}
         icon={option.item?.rarity ? rarityIcon(option.item.rarity) : undefined}
         size={72}
         item={option.item ? { ...option, ...option.item } : undefined}
         onClick={handleSelect}
+        disabled={!hasUnlocks && !option.item}
       />
 
       {option.item && (
