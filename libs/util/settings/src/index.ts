@@ -23,7 +23,7 @@ export const MAX_FRIENDS = 20;
 export const MAX_REFERRALS = 100;
 export const MAX_BEST_FRIENDS = 5;
 
-export const TOKENS_PER_REFERRAL_ACCOUNT = 200;
+export const TOKENS_PER_REFERRAL_ACCOUNT = 500;
 export const PER_GAME_PLAY_REWARD = 1;
 
 export const PLAY_MINUTE_DROP_CHANCE = 0.08;
