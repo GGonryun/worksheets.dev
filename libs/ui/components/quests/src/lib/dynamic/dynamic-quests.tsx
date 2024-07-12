@@ -10,7 +10,6 @@ import {
 import { LoadingBar } from '@worksheets/ui/components/loading';
 import { useSnackbar } from '@worksheets/ui/components/snackbar';
 import { isTaskComplete, TaskModal } from '@worksheets/ui/components/tasks';
-import { fireAndForget } from '@worksheets/util/promises';
 import { TaskInputSchema } from '@worksheets/util/tasks';
 import { NO_REFETCH, parseTRPCClientErrorMessage } from '@worksheets/util/trpc';
 import dynamic from 'next/dynamic';
@@ -40,10 +39,10 @@ const Container: React.FC = () => {
   const [questId, setQuestId] = React.useState<string | undefined>(undefined);
 
   useEffect(() => {
-    if (!quests.isRefetching && !quests.isFetching) {
+    if (!quests.isRefetching && !quests.isFetching && !track.isLoading) {
       setDirty([]);
     }
-  }, [quests.isRefetching, quests.isFetching]);
+  }, [quests.isRefetching, quests.isFetching, track.isLoading]);
 
   const handleSubmit = async (input: TaskInputSchema) => {
     if (!questId) return;
@@ -55,14 +54,12 @@ const Container: React.FC = () => {
         questId,
         ...input,
       });
+      tokens.refetch();
+      utils.user.tasks.quests.list.refetch();
       snackbar.success('Quest completed!');
     } catch (error) {
       snackbar.error(parseTRPCClientErrorMessage(error));
     }
-
-    fireAndForget(
-      Promise.all([tokens.refetch(), utils.user.tasks.quests.list.refetch()])
-    );
   };
 
   if (quests.isLoading) {
