@@ -34,7 +34,7 @@
         },
         {
             "path": "/api/cron/find-expired-battles",
-            "schedule": "20 */4 * * *"
+            "schedule": "*/29 * * * *"
         },
         {
             "path": "/api/cron/flush-game-tracks",
