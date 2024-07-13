@@ -44,7 +44,7 @@ export class MobsService {
   }
 
   async spawnMonster() {
-    const activeBattles = await this.#db.battle.count({
+    const activeBattles = await this.#db.battle.findMany({
       where: {
         status: 'ACTIVE',
         health: {
@@ -53,13 +53,16 @@ export class MobsService {
       },
     });
 
-    if (activeBattles > this.#maxBattles) {
+    if (activeBattles.length > this.#maxBattles) {
       console.info(`Too many active battles, not spawning a new monster.`);
 
       return undefined;
     }
 
-    const monster = randomArrayElement(MOBS);
+    // only pick a unique mob that is not currently in an active battle.
+    const monster = randomArrayElement(
+      MOBS.filter((m) => !activeBattles.map((a) => a.mobId).includes(m.id))
+    );
 
     const battle = await this.#db.battle.create({
       data: {
