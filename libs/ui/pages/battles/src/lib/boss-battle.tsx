@@ -480,7 +480,7 @@ const ItemSelection: React.FC<{
         battle={battle}
         damage={totalDamage}
         open={showOverkill}
-        onClose={setShowOverkill}
+        onClose={() => setShowOverkill(false)}
         onConfirm={sendStrike}
       />
       <Column gap={2}>
