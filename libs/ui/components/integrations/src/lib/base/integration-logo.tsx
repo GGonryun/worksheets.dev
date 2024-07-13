@@ -16,7 +16,6 @@ const GRADIENTS: Record<IntegrationProvider, string> = {
     'linear-gradient(145deg, rgba(119, 44, 232, 0.68) 11.5%, rgb(119, 44, 232) 91.2%)',
   [IntegrationProvider.TWITTER]:
     'linear-gradient(109.6deg, rgba(0, 0, 0, 0.93) 11.2%, rgb(63, 61, 61) 78.9%)',
-  [IntegrationProvider.YOUTUBE]: '#FF0000',
 };
 
 const ICONS: Record<IntegrationProvider, SvgIconComponent> = {
@@ -24,7 +23,6 @@ const ICONS: Record<IntegrationProvider, SvgIconComponent> = {
   [IntegrationProvider.DISCORD]: Discord,
   [IntegrationProvider.TWITCH]: Twitch,
   [IntegrationProvider.TWITTER]: NewTwitter,
-  [IntegrationProvider.YOUTUBE]: YouTube,
 };
 
 export const IntegrationLogo: React.FC<{

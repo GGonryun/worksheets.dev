@@ -923,7 +923,6 @@ enum IntegrationProvider {
   TWITTER
   DISCORD
   STEAM
-  YOUTUBE
 }
 
 enum IntegrationError {

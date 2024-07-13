@@ -5,7 +5,6 @@ export const OAuthIntegrationProvider = pick(IntegrationProvider, [
   'TWITCH',
   'TWITTER',
   'DISCORD',
-  'YOUTUBE',
 ]);
 
 export type OAuthIntegrationProvider =
