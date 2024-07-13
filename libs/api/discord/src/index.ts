@@ -69,6 +69,9 @@ export class DiscordAPI {
   }
 
   async message(options: DiscordMessageInput) {
+    if (process.env['SILENCE_DISCORD'] === 'true') {
+      return 'silenced';
+    }
     const DEFAULT_DISCORD_AVATAR = `https://cdn.charity.games/_developers/charity-games.png`;
     const DEFAULT_DISCORD_USERNAME = `Charity Games Bot`;
     const CHANNEL_WEBHOOKS: Record<DiscordChannel, string> = {
