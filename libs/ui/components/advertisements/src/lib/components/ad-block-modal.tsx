@@ -36,7 +36,7 @@ export const AdBlockModal: React.FC<ModalWrapper<{ message?: string }>> = ({
           color="secondary"
           onClick={() => onClose?.({}, 'escapeKeyDown')}
         >
-          I Don't Care
+          Continue
         </Button>
       </Column>
     </InfoModal>
