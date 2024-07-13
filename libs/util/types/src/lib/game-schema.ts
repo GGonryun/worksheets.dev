@@ -101,6 +101,11 @@ export type GameSchema = {
   trailer: string | null;
 };
 
+export type GameTask = {
+  type: 'score';
+  score: number;
+};
+
 export type SeedableGameSchema = Omit<
   GameSchema,
   'likes' | 'dislikes' | 'plays' | 'trailer' | 'loot' | 'achievements'
@@ -109,6 +114,7 @@ export type SeedableGameSchema = Omit<
     publishAt?: Date;
     loot: SeedableLootSchema[];
     achievements: SeedableGameAchievementSchema[];
+    tasks?: GameTask[];
   };
 
 export type SerializableGameSchema = Omit<

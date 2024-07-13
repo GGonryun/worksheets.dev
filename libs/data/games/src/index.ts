@@ -486,6 +486,12 @@ const integratedGames: SeedableGameSchema[] = [
         ],
       },
     ],
+    tasks: [
+      {
+        type: 'score',
+        score: 100,
+      },
+    ],
   },
   {
     version: 4,
@@ -507,6 +513,12 @@ const integratedGames: SeedableGameSchema[] = [
     multiplier: 0.005,
     leaderboard: true,
     cloudStorage: true,
+    tasks: [
+      {
+        type: 'score',
+        score: 250,
+      },
+    ],
     loot: [
       {
         itemId: '10044',
@@ -1018,6 +1030,12 @@ const integratedGames: SeedableGameSchema[] = [
     leaderboard: true,
     cloudStorage: true,
     multiplier: 0.15,
+    tasks: [
+      {
+        type: 'score',
+        score: 10,
+      },
+    ],
     loot: [
       {
         itemId: '2',

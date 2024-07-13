@@ -11,7 +11,7 @@ export const createGameTask = (
 ): Prisma.TaskUncheckedCreateInput[] => {
   const code = game.id.toUpperCase().replace(/-/g, '_');
 
-  return [
+  const tasks: Prisma.TaskUncheckedCreateInput[] = [
     {
       id: `PLAY_GAME_${code}_ONCE`,
       type: TaskType.PLAY_GAME,
@@ -26,4 +26,26 @@ export const createGameTask = (
       data: {},
     },
   ];
+
+  if (game.tasks && game.tasks.length) {
+    game.tasks.forEach((t) => {
+      tasks.push({
+        id: `LEADERBOARD_SCORE_${code}_${t.score}_ONCE`,
+        type: TaskType.SUBMIT_LEADERBOARD_SCORE,
+        frequency: TaskFrequency.ONCE,
+        name: `Score ${t.score} points on ${game.name}`,
+        requiredRepetitions: 1,
+        maxRepetitions: 1,
+        description: `Submit a minimum score of ${t.score} on the leaderboard for ${game.name} and earn rewards.`,
+        version: 1,
+        category: TaskCategory.GAMEPLAY,
+        gameId: game.id,
+        data: {
+          score: t.score,
+        },
+      });
+    });
+  }
+
+  return tasks;
 };

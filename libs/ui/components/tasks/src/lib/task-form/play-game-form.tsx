@@ -8,7 +8,7 @@ import { TaskFormProps } from '@worksheets/util/tasks';
 import { formatMaxRepetitions, selectTaskColor } from '../util';
 import { ProgressBar } from './progress-bar';
 
-export const PlayGameForm: React.FC<TaskFormProps> = ({ task, actions }) => {
+export const PlayGameForm: React.FC<TaskFormProps> = ({ task }) => {
   const colorKey = selectTaskColor(task.status);
   const gameId = task.gameId;
   return (

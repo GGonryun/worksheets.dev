@@ -2,6 +2,7 @@ import { TRPCError } from '@trpc/server';
 import { PrismaClient, PrismaTransactionalClient } from '@worksheets/prisma';
 import { InventoryService } from '@worksheets/services/inventory';
 import { NotificationsService } from '@worksheets/services/notifications';
+import { startBackgroundJob } from '@worksheets/util/jobs';
 import { jsonStringifyWithBigInt } from '@worksheets/util/objects';
 import { retryTransaction } from '@worksheets/util/prisma';
 import { daysAgo } from '@worksheets/util/time';
@@ -53,16 +54,23 @@ export const submitScore = async (
   if (!game) {
     throw new Error('Game not found');
   }
+  const gameId = game.id;
 
   await db.gameScore.create({
     data: {
-      userId: userId,
-      gameId: game.id,
+      userId,
+      gameId,
       score,
     },
   });
 
   const tokens = Math.floor(score * game.multiplier);
+
+  startBackgroundJob('leaderboard/score', {
+    userId,
+    gameId: game.id,
+    score,
+  });
 
   return {
     tokens,

@@ -21,6 +21,7 @@ import { ReferralPlayMinutesForm } from './referral-play-minutes-form';
 import { ReferralTaskForm } from './referral-task-form';
 import { RepostTwitterForm } from './repost-twitter-form';
 import { SecretForm } from './secret-form';
+import { SubmitLeaderboardScore } from './submit-leaderboard-score';
 import { SubscribeYouTubeForm } from './subscribe-youtube-form';
 import { VisitFacebookForm } from './visit-facebook-form';
 import { VisitInstagramForm } from './visit-instagram-form';
@@ -86,7 +87,8 @@ export const TaskForm: React.FC<TaskFormProps> = ({ task, actions }) => {
       return <VisitTikTokForm task={task} actions={actions} />;
     case TaskType.REFERRAL_TASK:
       return <ReferralTaskForm task={task} actions={actions} />;
-
+    case TaskType.SUBMIT_LEADERBOARD_SCORE:
+      return <SubmitLeaderboardScore task={task} actions={actions} />;
     default:
       throw assertNever(task.type);
   }

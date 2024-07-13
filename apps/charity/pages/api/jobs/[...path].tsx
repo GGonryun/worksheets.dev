@@ -37,6 +37,10 @@ export default createBackgroundJob(async (path, body) => {
     });
 
     return true;
+  } else if (job === 'leaderboard/score') {
+    const tasks = new TasksService(prisma);
+
+    await tasks.trackLeaderboardAction(body);
   } else {
     throw new TRPCError({
       code: 'NOT_FOUND',

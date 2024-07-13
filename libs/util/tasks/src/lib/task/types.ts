@@ -68,6 +68,9 @@ export type TaskData = {
   CAPTCHA: unknown;
   BASIC_ACTION: unknown;
   REFERRAL_TASK: unknown;
+  SUBMIT_LEADERBOARD_SCORE: {
+    required: number;
+  };
   SUBSCRIBE_YOUTUBE: {
     channel: {
       id: string;

@@ -537,14 +537,19 @@ export class TasksService {
   }
 
   async trackGameActions(opts: {
-    type: Extract<TaskType, 'PLAY_GAME' | 'PLAY_MINUTES'>;
+    type: Extract<
+      TaskType,
+      'PLAY_GAME' | 'PLAY_MINUTES' | 'SUBMIT_LEADERBOARD_SCORE'
+    >;
     gameId: string;
     userId: string;
     repetitions: number;
+    state?: unknown;
   }) {
     console.info(
       `Tracking user ${opts.userId} ${opts.type} game ${opts.gameId} actions with ${opts.repetitions} repetitions`
     );
+
     await this.trackActions({
       where: {
         task: {
@@ -567,7 +572,38 @@ export class TasksService {
           },
         },
       },
+      state: opts.state,
       repetitions: opts.repetitions,
+      userId: opts.userId,
+    });
+  }
+
+  async trackLeaderboardAction(opts: {
+    gameId: string;
+    userId: string;
+    score: number;
+  }) {
+    console.info(
+      `Tracking user ${opts.userId} leaderboard score for game ${opts.gameId} with score ${opts.score}`
+    );
+
+    await this.trackActions({
+      where: {
+        task: {
+          type: 'SUBMIT_LEADERBOARD_SCORE',
+          gameId: opts.gameId,
+        },
+        raffle: {
+          publishAt: {
+            lte: new Date(),
+          },
+          expiresAt: {
+            gte: new Date(),
+          },
+        },
+      },
+      state: { score: opts.score },
+      repetitions: 1,
       userId: opts.userId,
     });
   }

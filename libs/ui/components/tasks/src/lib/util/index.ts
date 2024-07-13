@@ -3,6 +3,7 @@ import {
   CheckBoxOutlined,
   Diversity1Outlined,
   DynamicFormOutlined,
+  EmojiEvents,
   Facebook,
   FavoriteBorder,
   FeaturedVideoOutlined,
@@ -77,6 +78,7 @@ const TASK_BACKGROUND_COLOR: Record<TaskType, ButtonProps['color']> = {
   [TaskType.PLAY_MINUTES]: 'primary',
   [TaskType.CAPTCHA]: 'primary',
   [TaskType.REFERRAL_TASK]: 'secondary',
+  [TaskType.SUBMIT_LEADERBOARD_SCORE]: 'yellow',
   REFERRAL_PLAY_MINUTES: undefined,
   FRIEND_PLAY_MINUTES: undefined,
   ADD_FRIEND: undefined,
@@ -122,6 +124,7 @@ const TASK_ICON: Record<TaskType, SvgIconComponent> = {
   [TaskType.VISIT_YOUTUBE]: YouTube,
   [TaskType.VISIT_TIKTOK]: TikTok,
   [TaskType.REFERRAL_TASK]: FavoriteBorder,
+  [TaskType.SUBMIT_LEADERBOARD_SCORE]: EmojiEvents,
 };
 
 export const selectTaskStatusIcon = (
@@ -247,6 +250,8 @@ export const formatTaskTypeLabel = (type: TaskType) => {
       return 'Visit TikTok';
     case TaskType.REFERRAL_TASK:
       return 'Referral Task';
+    case TaskType.SUBMIT_LEADERBOARD_SCORE:
+      return 'Leaderboard Score';
     default:
       throw assertNever(type);
   }

@@ -3,6 +3,7 @@ import { assertNever } from '@worksheets/util/errors';
 
 import { validateFormInput } from '../form';
 import { validateFriendInput } from '../friend';
+import { validateLeaderboardScore } from '../leaderboard';
 import { validatePollSubmission } from '../poll';
 import { validateSecretInput } from '../secret';
 
@@ -45,6 +46,8 @@ export const validateTaskInput = (
     case 'VISIT_YOUTUBE':
     case 'REFERRAL_TASK':
       return { skip: false, state };
+    case 'SUBMIT_LEADERBOARD_SCORE':
+      return validateLeaderboardScore({ data, state });
     case 'ADD_FRIEND':
       return validateFriendInput({ progress, state });
     case 'POLL':
