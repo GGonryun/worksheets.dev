@@ -524,7 +524,8 @@ const UseTokensContent: React.FC<{
 
   if (tokens.isError) return <ErrorComponent />;
 
-  const cannotAfford = entries > tokens.data / RAFFLE_ENTRY_FEE;
+  const maxAffordable = Math.floor(tokens.data / RAFFLE_ENTRY_FEE);
+  const cannotAfford = entries > maxAffordable;
   const purchased = participation.data?.purchased ?? 0;
   const availableEntries = props.raffle.maxEntries
     ? props.raffle.maxEntries - purchased
@@ -537,7 +538,7 @@ const UseTokensContent: React.FC<{
       return;
     }
 
-    if (value > tokens.data / RAFFLE_ENTRY_FEE) {
+    if (value > maxAffordable) {
       snackbar.error('You do not have enough tokens!');
     }
 
@@ -605,7 +606,16 @@ const UseTokensContent: React.FC<{
         </b>{' '}
         will cost you <b>{entries * RAFFLE_ENTRY_FEE} tokens</b>.
       </Typography>
-      <NumericCounterField value={entries} onChange={handleSetEntries} />
+      <NumericCounterField
+        value={entries}
+        onChange={handleSetEntries}
+        onMin={() => {
+          handleSetEntries(1);
+        }}
+        onMax={() => {
+          handleSetEntries(Math.min(maxAffordable, availableEntries));
+        }}
+      />
 
       <Column gap={1}>
         <Button
