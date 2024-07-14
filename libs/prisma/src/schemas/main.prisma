@@ -497,7 +497,7 @@ enum RaffleStatus {
 }
 
 model Raffle {
-  id              Int                   @id
+  id              Int                   @id @default(autoincrement())
   version         Int                   @default(0)
   status          RaffleStatus
   expiresAt       DateTime
