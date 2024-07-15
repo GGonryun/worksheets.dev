@@ -23,6 +23,9 @@ export default t.router({
           include: {
             item: true,
           },
+          orderBy: {
+            accessedAt: 'desc',
+          },
         });
 
         return codes.map((code) => {

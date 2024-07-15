@@ -1,4 +1,4 @@
-import { Box, Link, styled, Typography } from '@mui/material';
+import { Box, Link, styled, TablePagination, Typography } from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -6,6 +6,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { routes } from '@worksheets/routes';
+import { usePseudoPagination } from '@worksheets/ui/components/pagination';
 import { printShortDateTime } from '@worksheets/util/time';
 import { EnteredRaffleSchema } from '@worksheets/util/types';
 import * as React from 'react';
@@ -19,6 +20,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
 export const ParticipationTable: React.FC<{
   raffles: EnteredRaffleSchema[];
 }> = ({ raffles }) => {
+  const { rows, ...pagination } = usePseudoPagination(raffles);
   return (
     <TableContainer component={StyledBox}>
       <Table
@@ -37,11 +39,8 @@ export const ParticipationTable: React.FC<{
           </TableRow>
         </TableHead>
         <TableBody>
-          {raffles.map((raffle) => (
-            <TableRow
-              key={raffle.id}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
+          {rows.map((raffle) => (
+            <TableRow key={raffle.id}>
               <TableCell component="th" scope="row">
                 <Link
                   href={routes.raffle.path({
@@ -70,6 +69,20 @@ export const ParticipationTable: React.FC<{
           ))}
         </TableBody>
       </Table>
+      <TablePagination
+        sx={{
+          [`& .MuiTablePagination-toolbar`]: {
+            minHeight: 32,
+          },
+          [`& .MuiTablePagination-displayedRows`]: {
+            margin: 0,
+          },
+        }}
+        size="small"
+        component="div"
+        rowsPerPageOptions={[]}
+        {...pagination}
+      />
     </TableContainer>
   );
 };

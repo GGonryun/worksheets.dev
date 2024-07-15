@@ -7,6 +7,10 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { routes } from '@worksheets/routes';
 import {
+  PseudoPagination,
+  usePseudoPagination,
+} from '@worksheets/ui/components/pagination';
+import {
   isBattleComplete,
   UserBattleParticipationSchema,
 } from '@worksheets/util/types';
@@ -21,6 +25,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
 export const ParticipationTable: React.FC<{
   participation: UserBattleParticipationSchema[];
 }> = ({ participation }) => {
+  const { rows, ...pagination } = usePseudoPagination(participation);
   return (
     <TableContainer component={StyledBox}>
       <Table
@@ -39,11 +44,8 @@ export const ParticipationTable: React.FC<{
           </TableRow>
         </TableHead>
         <TableBody>
-          {participation.map((p) => (
-            <TableRow
-              key={p.id}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
+          {rows.map((p) => (
+            <TableRow key={p.id}>
               <TableCell component="th" scope="row">
                 <Link
                   href={routes.battle.path({
@@ -70,6 +72,7 @@ export const ParticipationTable: React.FC<{
           ))}
         </TableBody>
       </Table>
+      <PseudoPagination {...pagination} />
     </TableContainer>
   );
 };

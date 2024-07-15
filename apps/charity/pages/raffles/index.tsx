@@ -10,7 +10,7 @@ type Props = {
   seo: NextSeoProps;
 };
 
-const Page: NextPageWithLayout<Props> = ({ seo, ...props }) => (
+const Page: NextPageWithLayout<Props> = ({ seo }) => (
   <>
     <NextSeo {...seo} />
     <DynamicRafflesScreen />

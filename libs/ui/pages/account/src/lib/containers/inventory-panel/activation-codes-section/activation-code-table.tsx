@@ -8,6 +8,10 @@ import TableRow from '@mui/material/TableRow';
 import { ValentinesGift } from '@worksheets/icons/valentines';
 import { routes } from '@worksheets/routes';
 import { itemTypeLogo } from '@worksheets/ui/components/items';
+import {
+  PseudoPagination,
+  usePseudoPagination,
+} from '@worksheets/ui/components/pagination';
 import { useMediaQueryDown } from '@worksheets/ui/hooks/use-media-query';
 import { printShortDate } from '@worksheets/util/time';
 import { ActivationCodeDetailSchema } from '@worksheets/util/types';
@@ -28,6 +32,7 @@ type ActivationCodesTableProps = {
 export const ActivationCodesTable: React.FC<ActivationCodesTableProps> = ({
   codes,
 }) => {
+  const { rows, ...pagination } = usePseudoPagination(codes);
   if (codes.length === 0) {
     return <EmptyPrizesPlaceholder />;
   }
@@ -48,11 +53,12 @@ export const ActivationCodesTable: React.FC<ActivationCodesTableProps> = ({
           </TableRow>
         </TableHead>
         <TableBody>
-          {codes.map((code) => (
+          {rows.map((code) => (
             <CodeRow key={code.id} code={code} />
           ))}
         </TableBody>
       </Table>
+      <PseudoPagination {...pagination} />
     </TableContainer>
   );
 };
