@@ -5,6 +5,7 @@ export const EXPIRED_RAFFLE_PROPS = {
   numWinners: true,
   expiresAt: true,
   name: true,
+  premium: true,
   item: {
     select: {
       id: true,

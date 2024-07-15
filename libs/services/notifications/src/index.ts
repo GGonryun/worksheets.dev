@@ -9,6 +9,7 @@ import {
   NotificationTemplateType,
 } from '@worksheets/services/templates';
 import { TwitterService } from '@worksheets/services/twitter';
+import { TweetV2PostTweetResult } from 'twitter-api-v2';
 
 import { destinations } from './destinations';
 
@@ -28,10 +29,10 @@ export class NotificationsService {
   async send<T extends NotificationTemplateType>(
     type: T,
     payload: ExtractTemplatePayload<T, NotificationTemplate>
-  ): Promise<void> {
+  ) {
     const targets = destinations[type](payload);
 
-    const tasks: Promise<unknown>[] = [];
+    const tasks = [];
 
     if (targets.twitter) {
       tasks.push(this.#twitter.tweet(targets.twitter));
@@ -68,5 +69,18 @@ export class NotificationsService {
         `Successfully sent notifications to all destinations for ${type}`
       );
     }
+    return results
+      .map((result) =>
+        result.status === 'fulfilled' ? result.value : undefined
+      )
+      .filter(Boolean);
+  }
+
+  getTweetNotification(
+    payloads: Awaited<ReturnType<NotificationsService['send']>>
+  ): TweetV2PostTweetResult | undefined {
+    return payloads.find((n) => typeof n === 'object' && n.data?.id) as
+      | TweetV2PostTweetResult
+      | undefined;
   }
 }

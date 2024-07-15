@@ -24,10 +24,13 @@ export class TwitterService {
   }
 
   public async tweet(text: TwitterTweetInput) {
+    if (!text) return;
+
     try {
-      await this.#client.v2.tweet(text);
+      return await this.#client.v2.tweet(text);
     } catch (error) {
       console.error('Failed to post tweet', error);
+      return undefined;
     }
   }
 

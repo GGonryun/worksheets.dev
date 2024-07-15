@@ -18,66 +18,6 @@ export class RafflesService {
     this.#notifications = new NotificationsService(db);
   }
 
-  async publishAll() {
-    const raffles = await this.#db.raffle.findMany({
-      where: {
-        publishAt: {
-          lte: new Date(),
-        },
-        status: 'PENDING',
-      },
-      select: {
-        id: true,
-        numWinners: true,
-        name: true,
-        expiresAt: true,
-        premium: true,
-        item: {
-          select: {
-            id: true,
-            name: true,
-            expiration: true,
-          },
-        },
-        sponsor: {
-          select: {
-            id: true,
-            name: true,
-          },
-        },
-      },
-    });
-
-    if (raffles.length === 0) {
-      console.info('No raffles to publish');
-      return;
-    }
-
-    console.info(`Publishing ${raffles.length} raffles`);
-    await this.#db.raffle.updateMany({
-      where: {
-        id: {
-          in: raffles.map((r) => r.id),
-        },
-      },
-      data: {
-        status: 'ACTIVE',
-      },
-    });
-
-    for (const raffle of raffles) {
-      await this.#notifications.send('new-raffle', {
-        id: raffle.id,
-        numWinners: raffle.numWinners,
-        expiresAt: raffle.expiresAt,
-        premium: raffle.premium,
-        name: raffle.name ?? raffle.item.name,
-        sponsor: raffle.sponsor,
-      });
-    }
-    console.info(`Published ${raffles.length} raffles`);
-  }
-
   async addEntries({
     userId,
     raffleId,

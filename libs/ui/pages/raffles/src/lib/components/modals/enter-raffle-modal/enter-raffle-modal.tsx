@@ -300,6 +300,12 @@ const RaffleModal: React.FC<{
           >
             {raffle.description}
           </HTMLinator>
+          <Typography
+            color="text.primary"
+            typography={{ xs: 'body3', sm: 'body2' }}
+          >
+            <b>Total Winners:</b> {raffle.numWinners}
+          </Typography>
           {participation.data?.user.id && (
             <Typography
               color="text.primary"

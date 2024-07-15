@@ -63,7 +63,7 @@ export const getStaticPaths = (async (ctx) => {
         raffleId: raffle.id.toString(),
       },
     })),
-    fallback: false,
+    fallback: 'blocking',
   };
 }) satisfies GetStaticPaths<{ raffleId: string }>;
 

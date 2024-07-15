@@ -501,7 +501,7 @@ model Raffle {
   version         Int                   @default(0)
   status          RaffleStatus
   expiresAt       DateTime
-  numWinners      Int
+  numWinners      Int                   @default(1)
   name            String?
   headline        String?
   description     String?

@@ -45,12 +45,12 @@
             "schedule": "0 * * * *"
         },
         {
-            "path": "/api/cron/publish-raffles",
-            "schedule": "0 * * * *"
-        },
-        {
             "path": "/api/cron/spawn-monster",
             "schedule": "25 */4 * * *"
+        },
+        {
+            "path": "/api/cron/spawn-raffle",
+            "schedule": "0 */17 * * *"
         },
         {
             "path": "/api/cron/reward-leaderboards-daily",

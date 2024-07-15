@@ -14,6 +14,8 @@ export class TwitterTemplates {
     }!\n\n${GAME_URL(opts.id)}\n\n#HTML5Games #FreeGames #BrowserGames`;
   }
   static newRaffle(opts: ExtractTemplatePayload<'new-raffle'>) {
+    if (!opts.premium) return;
+
     return `🎊 GIVEAWAY 🎊\n🎁 Enter our ${opts.name} giveaway!\n\n🏆 ${
       opts.numWinners
     } lucky ${pluralize(
@@ -24,6 +26,7 @@ export class TwitterTemplates {
     )}\n\n#Giveaway #Sweepstakes #Raffle`;
   }
   static raffleExpired(opts: ExtractTemplatePayload<'raffle-expired'>) {
+    if (!opts.premium) return;
     return `🎉 Giveaway #${opts.id} for ${opts.name} has ended! 🎉\n\n${
       opts.numWinners
     } lucky ${pluralize('winner', opts.numWinners)} ${

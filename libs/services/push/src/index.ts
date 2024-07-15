@@ -39,6 +39,7 @@ export class PushService {
         userId: user.id,
       })),
     });
+    return 'okay';
   }
 
   async destroyExpiredNotifications() {

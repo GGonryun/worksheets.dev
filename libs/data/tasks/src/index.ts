@@ -82,6 +82,20 @@ export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
   // watch ads
   {
     version: 1,
+    id: 'WATCH_AD_ONCE',
+    type: TaskType.WATCH_AD,
+    category: TaskCategory.TASK,
+    frequency: TaskFrequency.ONCE,
+    requiredRepetitions: 1,
+    maxRepetitions: 1,
+    name: 'Watch an Ad',
+    description: 'Watch an ad to earn a small reward.',
+    data: {
+      network: 'charity-games',
+    },
+  },
+  {
+    version: 1,
     id: 'WATCH_AD_DAILY',
     type: TaskType.WATCH_AD,
     category: TaskCategory.TASK,
