@@ -131,6 +131,10 @@ const generateRaffle = (): Prisma.RaffleUncheckedCreateInput => {
     '4',
     '4',
     '4',
+    '4',
+    '4',
+    '4',
+    '4',
   ];
 
   const prizeId = randomArrayElement(dropChance);
