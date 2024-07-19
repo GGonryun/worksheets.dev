@@ -490,7 +490,7 @@ export class InventoryService {
       });
     }
 
-    return inventory.quantity;
+    return inventory;
   }
 
   /**

@@ -33,6 +33,7 @@ export class CharityGamesPlugin extends Phaser.Plugins.BasePlugin {
   achievements: AchievementsAPI;
   leaderboard: LeaderboardsAPI;
   advertisements: AdvertisementsAPI;
+  rewards: RewardAPI;
   events: Phaser.Events.EventEmitter = new Phaser.Events.EventEmitter();
   isInitialized = false;
   storageKey = 'storage';
@@ -44,6 +45,7 @@ export class CharityGamesPlugin extends Phaser.Plugins.BasePlugin {
     this.achievements = new AchievementsAPI(this);
     this.advertisements = new AdvertisementsAPI(this);
     this.leaderboard = new LeaderboardsAPI(this);
+    this.rewards = new RewardAPI(this);
   }
 
   static find(scene: Phaser.Scene): CharityGamesPlugin {
@@ -248,6 +250,15 @@ class AdvertisementsAPI {
   }:
     | Pick<AdBreak, 'name' | 'type'> &
         Partial<Pick<RewardAdBreak, 'adBreakDone' | 'afterAd' | 'beforeAd'>>) {
+    if (!this.plugin.isInitialized) {
+      return adBreakDone?.({
+        breakType: type,
+        breakName: name,
+        breakFormat: type === 'reward' ? 'reward' : 'interstitial',
+        breakStatus: 'error',
+      });
+    }
+
     // rewarded ads will automatically terminate after 60 seconds
     const controller = createTimeout(60 * SECONDS);
     const cancelable = cancelableRequest(this.plugin, controller.signal)(
@@ -271,6 +282,17 @@ class AdvertisementsAPI {
       afterAd?.();
       controller.cancel();
     }
+  }
+}
+
+class RewardAPI {
+  constructor(private plugin: CharityGamesPlugin) {}
+
+  async send(opts: { itemId: string; quantity: number; source: string }) {
+    this.plugin.send('reward-user', {
+      sessionId: this.plugin.session.id,
+      ...opts,
+    });
   }
 }
 

@@ -130,6 +130,12 @@ export type GameEvent = {
   'submit-score': { sessionId: string | null; score: number };
   'show-reward-ad': { name: string };
   'show-interstitial-ad': { name: string };
+  'reward-user': {
+    sessionId: string | null;
+    itemId: string;
+    quantity: number;
+    source: string;
+  };
 };
 
 export type GameEventKey = keyof GameEvent;

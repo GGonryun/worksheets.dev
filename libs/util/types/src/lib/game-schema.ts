@@ -104,6 +104,8 @@ export type GameSchema = {
 export type GameTask = {
   type: 'score';
   score: number;
+  name?: string;
+  description?: string;
 };
 
 export type SeedableGameSchema = Omit<

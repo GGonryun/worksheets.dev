@@ -33,10 +33,12 @@ export const createGameTask = (
         id: `LEADERBOARD_SCORE_${code}_${t.score}_ONCE`,
         type: TaskType.SUBMIT_LEADERBOARD_SCORE,
         frequency: TaskFrequency.ONCE,
-        name: `Score ${t.score} points on ${game.name}`,
+        name: t.name ?? `Score ${t.score} points on ${game.name}`,
         requiredRepetitions: 1,
         maxRepetitions: 1,
-        description: `Submit a minimum score of ${t.score} on the leaderboard for ${game.name} and earn rewards.`,
+        description:
+          t.name ??
+          `Submit a minimum score of ${t.score} on the leaderboard for ${game.name} and earn rewards.`,
         version: 1,
         category: TaskCategory.GAMEPLAY,
         gameId: game.id,

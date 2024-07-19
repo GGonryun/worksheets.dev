@@ -1,0 +1,9 @@
+{
+  "name": "games-tall-tower",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/games/tall-tower/src",
+  "tags": [],
+  "// targets": "to see all targets run: nx show project games-tall-tower --web",
+  "targets": {}
+}

@@ -13,6 +13,193 @@ import { SeedableGameSchema } from '@worksheets/util/types';
 const integratedGames: SeedableGameSchema[] = [
   {
     version: 2,
+    id: 'tall-tower',
+    name: 'Tall Tower',
+    developerId: 'charity-games',
+    iconUrl: 'https://cdn.charity.games/_games/tall-tower/assets/thumbnail.png',
+    bannerUrl: 'https://cdn.charity.games/_games/tall-tower/assets/banner.png',
+    viewport: viewports['PORTRAIT-ONLY'],
+    file: {
+      type: 'HTML',
+      url: 'https://cdn.charity.games/_games/tall-tower/index.html',
+    },
+    markets: {},
+    createdAt: new Date('2024-07-11T00:00:00.000Z'),
+    updatedAt: new Date('2024-07-11T00:00:00.000Z'),
+    description:
+      '<p>Tall Tower is a timing based is a fast-paced stacking game that gets progressively more difficult. Tap, click, or press the space bar to place your blocks.<br/><br/>Reach the milestones for bonus, minor, major prizes and win extra prizes on Charity Games!</p>',
+    categories: ['1p', 'arcade', 'arcade', 'survival'],
+    multiplier: 0.5,
+    leaderboard: true,
+    cloudStorage: true,
+    loot: [],
+    achievements: [
+      {
+        id: 'TALL_TOWER_BONUS_1',
+        version: 1,
+        gameId: 'tall-tower',
+        name: 'Bonus Prize - 1',
+        description: 'Reach the bonus prize line with a single block',
+        iconUrl:
+          'https://cdn.charity.games/_games/tall-tower/assets/achievements/bonus_1.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '2',
+            quantity: 3,
+            chance: 1,
+          },
+        ],
+      },
+      {
+        id: 'TALL_TOWER_BONUS_2',
+        version: 1,
+        gameId: 'tall-tower',
+        name: 'Bonus Prize - 2',
+        description: 'Reach the bonus prize line with two blocks',
+        iconUrl:
+          'https://cdn.charity.games/_games/tall-tower/assets/achievements/bonus_2.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '2',
+            quantity: 6,
+            chance: 1,
+          },
+        ],
+      },
+      {
+        id: 'TALL_TOWER_BONUS_3',
+        version: 1,
+        gameId: 'tall-tower',
+        name: 'Bonus Prize - 3',
+        description: 'Reach the bonus prize line with three blocks',
+        iconUrl:
+          'https://cdn.charity.games/_games/tall-tower/assets/achievements/bonus_3.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '2',
+            quantity: 9,
+            chance: 1,
+          },
+        ],
+      },
+      {
+        id: 'TALL_TOWER_MINOR_1',
+        version: 1,
+        gameId: 'tall-tower',
+        name: 'Minor Prize - 1',
+        description: 'Reach the minor prize line with one block',
+        iconUrl:
+          'https://cdn.charity.games/_games/tall-tower/assets/achievements/minor_1.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '5',
+            quantity: 3,
+            chance: 1,
+          },
+        ],
+      },
+      {
+        id: 'TALL_TOWER_MINOR_2',
+        version: 1,
+        gameId: 'tall-tower',
+        name: 'Minor Prize - 2',
+        description: 'Reach the minor prize line with two blocks',
+        iconUrl:
+          'https://cdn.charity.games/_games/tall-tower/assets/achievements/minor_2.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '5',
+            quantity: 6,
+            chance: 1,
+          },
+        ],
+      },
+      {
+        id: 'TALL_TOWER_MINOR_3',
+        version: 1,
+        gameId: 'tall-tower',
+        name: 'Minor Prize - 3',
+        description: 'Reach the minor prize line with three blocks',
+        iconUrl:
+          'https://cdn.charity.games/_games/tall-tower/assets/achievements/minor_3.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '5',
+            quantity: 9,
+            chance: 1,
+          },
+        ],
+      },
+      {
+        id: 'TALL_TOWER_MAJOR_1',
+        version: 1,
+        gameId: 'tall-tower',
+        name: 'Major Prize - 1',
+        description: 'Reach the major prize line with one block',
+        iconUrl:
+          'https://cdn.charity.games/_games/tall-tower/assets/achievements/major_1.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '8',
+            quantity: 3,
+            chance: 1,
+          },
+        ],
+      },
+      {
+        id: 'TALL_TOWER_MAJOR_2',
+        version: 1,
+        gameId: 'tall-tower',
+        name: 'Major Prize - 2',
+        description: 'Reach the major prize line with two blocks',
+        iconUrl:
+          'https://cdn.charity.games/_games/tall-tower/assets/achievements/major_2.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '8',
+            quantity: 6,
+            chance: 1,
+          },
+        ],
+      },
+      {
+        id: 'TALL_TOWER_MAJOR_3',
+        version: 1,
+        gameId: 'tall-tower',
+        name: 'Major Prize - 3',
+        description: 'Reach the major prize line with three blocks',
+        iconUrl:
+          'https://cdn.charity.games/_games/tall-tower/assets/achievements/major_3.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '8',
+            quantity: 9,
+            chance: 1,
+          },
+        ],
+      },
+    ],
+    tasks: [
+      {
+        type: 'score',
+        score: 11,
+        name: 'Reach the Bonus Line',
+        description:
+          'Submit a minimum score of 11 by reaching the bonus line for Tall Tower and earn bonus rewards',
+      },
+    ],
+  },
+  {
+    version: 2,
     id: 'block-bash',
     name: 'Block Bash',
     developerId: 'charity-games',
