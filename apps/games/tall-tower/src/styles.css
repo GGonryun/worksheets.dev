@@ -9,6 +9,7 @@ html {
   margin: 0px;
   position: relative;
   touch-action: none;
+  background: linear-gradient(180deg, #fff -10%, #d0eeff 110%);
 }
 canvas {
   margin: auto;

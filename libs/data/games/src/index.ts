@@ -191,10 +191,7 @@ const integratedGames: SeedableGameSchema[] = [
     tasks: [
       {
         type: 'score',
-        score: 11,
-        name: 'Reach the Bonus Line',
-        description:
-          'Submit a minimum score of 11 by reaching the bonus line for Tall Tower and earn bonus rewards',
+        score: 50,
       },
     ],
   },
