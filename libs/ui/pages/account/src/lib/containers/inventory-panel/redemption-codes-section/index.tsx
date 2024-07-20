@@ -21,6 +21,7 @@ import { InventoryPanels } from '@worksheets/util/enums';
 import { parseTRPCClientErrorMessage } from '@worksheets/util/trpc';
 import { RedemptionCodeSchema } from '@worksheets/util/types';
 import dynamic from 'next/dynamic';
+import pluralize from 'pluralize';
 import React, { useState } from 'react';
 
 const RedemptionCodesSection: React.FC = () => {
@@ -150,7 +151,9 @@ const RewardModal: React.FC<ModalWrapper<{ reward: RedemptionCodeSchema }>> = ({
           })}
           target="_blank"
         >
-          <strong>{reward.item.name}</strong>
+          <strong>
+            {reward.quantity}x {pluralize(reward.item.name, reward.quantity)}
+          </strong>
         </Typography>
         <Typography variant="body2">{reward.item.description}</Typography>
         <Box sx={{ position: 'relative', height: 72, width: 72 }}>
