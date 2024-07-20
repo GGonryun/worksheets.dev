@@ -7,6 +7,8 @@ export type GameOverPayload = {
   height: number;
   blocks: number;
   placements: Record<number, number>;
+  bonus: boolean;
+  score: number;
 };
 
 export type RexDropShadowPipeline = {

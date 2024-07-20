@@ -2,7 +2,7 @@ import { CharityGamesPlugin } from '@worksheets/phaser/plugins';
 
 import { Blocks } from '../objects/blocks';
 import { RexDropShadowPipeline } from '../types';
-import { dropShadowConfig } from '../util';
+import { dropShadowConfig, yellow } from '../util';
 
 export class Menu extends Phaser.Scene {
   server!: CharityGamesPlugin;
@@ -22,7 +22,7 @@ export class Menu extends Phaser.Scene {
       .setOrigin(0.5)
       .setDepth(1);
 
-    const play = this.add
+    this.add
       .bitmapText(width * 0.5, height * 0.45, 'peaberry', 'PLAY', 48)
       .setOrigin(0.5)
       .setInteractive()
@@ -30,10 +30,28 @@ export class Menu extends Phaser.Scene {
       .setDropShadow(4, 4, 0x000000, 1)
       .on('pointerdown', this.startGame, this);
 
+    const bonus = this.add
+      .bitmapText(width * 0.5, height * 0.55, 'peaberry', 'BONUS', 48)
+      .setOrigin(0.5)
+      .setInteractive()
+      .setDepth(1)
+      .setDropShadow(4, 4, 0x000000, 1)
+      .setTint(yellow)
+      .on('pointerdown', () => {
+        this.server.storage.set('bonus-run', true);
+        this.server.advertisements.show({
+          type: 'reward',
+          name: 'tall-tower-bonus-run',
+          adBreakDone: () => {
+            this.startGame();
+          },
+        });
+      });
+
     this.input.keyboard?.once('keydown-SPACE', this.startGame, this);
 
     this.add.tween({
-      targets: play,
+      targets: [bonus],
       scaleX: 1.1,
       scaleY: 1.1,
       duration: 500,

@@ -154,10 +154,16 @@ class SessionAPI {
 class StorageAPI {
   registry: Phaser.Data.DataManager;
   plugin: CharityGamesPlugin;
+  ignored: string[];
 
   constructor(plugin: CharityGamesPlugin) {
     this.plugin = plugin;
     this.registry = new Phaser.Data.DataManager(plugin);
+    this.ignored = [];
+  }
+
+  ignore(keys: string[]) {
+    this.ignored = keys;
   }
 
   async load(signal: AbortSignal) {
@@ -182,14 +188,31 @@ class StorageAPI {
     return existing ?? defaultValue;
   }
 
+  remove(key: string) {
+    this.registry.remove(key);
+  }
+
+  pull<T>(key: string, defaultValue: T): T {
+    const existing = this.registry.get(key);
+    this.remove(key);
+    return existing ?? defaultValue;
+  }
+
   getAll() {
+    if (this.ignored.length) {
+      return Object.fromEntries(
+        Object.entries(this.registry.getAll()).filter(
+          ([key]) => !this.ignored.includes(key)
+        )
+      );
+    }
     return this.registry.getAll();
   }
 
   save() {
     this.plugin.send('save-storage', {
       sessionId: this.plugin.session.id,
-      data: this.registry.getAll(),
+      data: this.getAll(),
     });
   }
 }

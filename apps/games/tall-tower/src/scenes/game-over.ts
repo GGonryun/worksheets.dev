@@ -40,9 +40,7 @@ export class GameOver extends Phaser.Scene {
   }
 
   submitLeaderboard() {
-    const { height, blocks } = this.payload;
-    const score = 19 - height + blocks;
-    this.server.leaderboard.submit(score);
+    this.server.leaderboard.submit(this.payload.score);
   }
 
   submitAchievements() {
@@ -64,33 +62,64 @@ export class GameOver extends Phaser.Scene {
   }
 
   submitRewards() {
-    const { placements } = this.payload;
+    const { placements, bonus } = this.payload;
     const bonusLine = placements[BONUS_PRIZE_THRESHOLD];
     const minorLine = placements[MINOR_PRIZE_THRESHOLD];
     const majorLine = placements[MAJOR_PRIZE_THRESHOLD];
     if (majorLine > 0) {
-      this.server.rewards.send({
-        itemId: '2',
-        quantity: 3,
-        source: 'Major Prize',
-      });
+      if (bonus) {
+        this.server.rewards.send({
+          itemId: '2',
+          quantity: 3,
+          source: 'Bonus Major Prize',
+        });
+      } else {
+        this.server.rewards.send({
+          itemId: '1',
+          quantity: 15,
+          source: 'Major Prize',
+        });
+      }
     } else if (minorLine > 0) {
-      this.server.rewards.send({
-        itemId: '2',
-        quantity: 2,
-        source: 'Minor Prize',
-      });
+      if (bonus) {
+        this.server.rewards.send({
+          itemId: '2',
+          quantity: 2,
+          source: 'Bonus Minor Prize',
+        });
+      } else {
+        this.server.rewards.send({
+          itemId: '1',
+          quantity: 10,
+          source: 'Minor Prize',
+        });
+      }
     } else if (bonusLine > 0) {
-      this.server.rewards.send({
-        itemId: '2',
-        quantity: 1,
-        source: 'Bonus Prize',
-      });
+      if (bonus) {
+        this.server.rewards.send({
+          itemId: '2',
+          quantity: 1,
+          source: 'Extra Bonus Prize',
+        });
+      } else {
+        this.server.rewards.send({
+          itemId: '1',
+          quantity: 5,
+          source: 'Bonus Prize',
+        });
+      }
     }
   }
 
   addText() {
     const { width, height } = this.cameras.main;
+
+    this.payload.bonus &&
+      this.add
+        .bitmapText(width * 0.5, height * 0.09, 'peaberry', 'BONUS RUN!', 28)
+        .setTintFill(yellow)
+        .setDropShadow(4, 4, 0x000000, 1)
+        .setOrigin(0.5);
 
     this.add
       .bitmapText(
@@ -108,7 +137,7 @@ export class GameOver extends Phaser.Scene {
     const { width, height } = this.cameras.main;
 
     const x = width * 0.5;
-    const y = height * 0.55;
+    const y = height * 0.51;
     const chest = this.add.sprite(x, y, 'chest').setScale(5);
     if (this.payload.height < BONUS_PRIZE_THRESHOLD) {
       chest
@@ -163,9 +192,30 @@ export class GameOver extends Phaser.Scene {
         this.sound.play('select');
       });
 
+    const score = this.add
+      .bitmapText(
+        width * 0.5,
+        height * 1.2,
+        'peaberry',
+        `Score: ${this.payload.score}`,
+        20
+      )
+      .setDropShadow(4, 4, 0x000000, 1)
+      .setOrigin(0.5);
+
+    const tall = this.add
+      .bitmapText(
+        width * 0.5,
+        height * 1.2,
+        'peaberry',
+        `Height: ${19 - this.payload.height}`,
+        20
+      )
+      .setDropShadow(4, 4, 0x000000, 1)
+      .setOrigin(0.5);
     this.add.tween({
       targets: retry,
-      y: height * 0.7,
+      y: height * 0.65,
       duration: 500,
       onComplete() {
         this.add.tween({
@@ -179,7 +229,17 @@ export class GameOver extends Phaser.Scene {
         });
         this.add.tween({
           targets: menu,
-          y: height * 0.8,
+          y: height * 0.75,
+          duration: 500,
+        });
+        this.add.tween({
+          targets: score,
+          y: height * 0.85,
+          duration: 500,
+        });
+        this.add.tween({
+          targets: tall,
+          y: height * 0.91,
           duration: 500,
         });
         menu.setInteractive();

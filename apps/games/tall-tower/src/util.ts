@@ -7,4 +7,4 @@ export const dropShadowConfig = {
 };
 
 export const yellow = 0xffdd4a;
-export const GAME_VERSION = 'v1.0.2';
+export const GAME_VERSION = 'v1.0.3';

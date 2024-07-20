@@ -12,7 +12,7 @@ import { SeedableGameSchema } from '@worksheets/util/types';
 
 const integratedGames: SeedableGameSchema[] = [
   {
-    version: 2,
+    version: 3,
     id: 'tall-tower',
     name: 'Tall Tower',
     developerId: 'charity-games',
@@ -24,12 +24,12 @@ const integratedGames: SeedableGameSchema[] = [
       url: 'https://cdn.charity.games/_games/tall-tower/index.html',
     },
     markets: {},
-    createdAt: new Date('2024-07-11T00:00:00.000Z'),
-    updatedAt: new Date('2024-07-11T00:00:00.000Z'),
+    createdAt: new Date('2024-07-19T00:00:00.000Z'),
+    updatedAt: new Date('2024-07-19T00:00:00.000Z'),
     description:
       '<p>Tall Tower is a timing based is a fast-paced stacking game that gets progressively more difficult. Tap, click, or press the space bar to place your blocks.<br/><br/>Reach the milestones for bonus, minor, major prizes and win extra prizes on Charity Games!</p>',
     categories: ['1p', 'arcade', 'arcade', 'survival'],
-    multiplier: 0.5,
+    multiplier: 0.05,
     leaderboard: true,
     cloudStorage: true,
     loot: [],

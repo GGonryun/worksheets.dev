@@ -17,6 +17,7 @@ export class Boot extends Phaser.Scene {
     // connect to server
     this.server = CharityGamesPlugin.find(this);
     this.server.initialize();
+    this.server.storage.ignore(['bonus-run']);
 
     // prepare
     this.addBars();

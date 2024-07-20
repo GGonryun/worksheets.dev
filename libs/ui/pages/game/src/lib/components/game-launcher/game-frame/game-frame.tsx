@@ -235,7 +235,7 @@ export const GameFrame: React.FC<{
     });
 
     notifications.add(
-      `You received a ${source} and earned ${quantity}x ${pluralize(
+      `You received a ${source} and earned ${quantity} ${pluralize(
         result.item.name,
         quantity
       )}!`

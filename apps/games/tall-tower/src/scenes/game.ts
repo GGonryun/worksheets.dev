@@ -1,7 +1,10 @@
+import { CharityGamesPlugin } from '@worksheets/phaser/plugins';
+
 import { Block } from '../objects/block';
 import { Blocks } from '../objects/blocks';
 import { Grid } from '../objects/grid';
 import { GameOverPayload, Location } from '../types';
+import { yellow } from '../util';
 
 const difficulty: Record<number, number> = {
   20: 200,
@@ -19,9 +22,9 @@ const difficulty: Record<number, number> = {
   8: 85,
   7: 80,
   6: 75,
-  5: 70,
-  4: 65,
-  3: 55,
+  5: 65,
+  4: 55,
+  3: 50,
   2: 45,
   1: 40,
   0: 35,
@@ -32,27 +35,38 @@ export class Game extends Phaser.Scene {
   blocks?: Blocks;
   placements: Record<string, Phaser.GameObjects.Sprite> = {};
   particles?: Phaser.GameObjects.Particles.ParticleEmitter;
-
+  server!: CharityGamesPlugin;
+  actionable = false;
+  bonus = false;
   done = false;
   defaultSize = 3;
   height = 19;
   speed = 150;
+  score = 0;
+  dropping = 0;
+  scoreText!: Phaser.GameObjects.BitmapText;
   constructor() {
     super('game');
   }
 
   create() {
+    this.server = CharityGamesPlugin.find(this);
+    this.bonus = this.server.storage.pull('bonus-run', false);
     this.placements = {};
     this.height = 19;
-    this.speed = 300;
+    this.speed = 200;
+    this.score = 0;
+    this.dropping = 0;
     this.done = false;
+    this.actionable = false;
 
     this.addWallpaper();
     this.addGrid();
     this.addMarkers();
     this.addTitle();
+    this.addScore();
 
-    this.blocks = new Blocks(this, this.defaultSize);
+    this.blocks = new Blocks(this, this.defaultSize + (this.bonus ? 2 : 0));
     this.blocks.set({ column: 0, row: this.height });
     this.moveBlocks();
     this.createPlayerController();
@@ -107,8 +121,30 @@ export class Game extends Phaser.Scene {
     this.addLine(Grid.rowToHeight(row + 1, -1));
   }
 
+  addScore() {
+    this.scoreText = this.add
+      .bitmapText(
+        Grid.columnToWidth(0),
+        Grid.rowToHeight(21),
+        'peaberry',
+        'SCORE: 0',
+        20
+      )
+      .setOrigin(0)
+      .setDropShadow(2, 2, 0x000000, 1)
+      .setLetterSpacing(4);
+  }
+
+  updateScore(delta: number) {
+    this.score += delta;
+    if (this.score < 0) {
+      this.score = 0;
+    }
+    this.scoreText.setText(`SCORE: ${this.score}`);
+  }
+
   addTitle() {
-    this.add
+    const text = this.add
       .bitmapText(
         this.center().x,
         Grid.rowToHeight(-2),
@@ -119,7 +155,16 @@ export class Game extends Phaser.Scene {
       .setOrigin(0.5)
       .setLetterSpacing(6);
 
-    this.addLine(Grid.rowToHeight(-1.25, -1), 1);
+    this.addLine(
+      Grid.rowToHeight(-1.25, -1),
+      1,
+      this.bonus ? yellow : 0xffffff
+    );
+
+    if (this.bonus) {
+      text.setTint(yellow);
+      text.setText('BONUS RUN');
+    }
   }
 
   addParticles() {
@@ -138,10 +183,10 @@ export class Game extends Phaser.Scene {
     return { x: width * 0.5, y: height * 0.5 };
   }
 
-  addLine(y: number, alpha = 0.5) {
+  addLine(y: number, alpha = 0.5, color = 0xffffff) {
     this.add
       .graphics()
-      .lineStyle(2, 0xffffff, 1)
+      .lineStyle(2, color, 1)
       .strokeLineShape(
         new Phaser.Geom.Line(
           Grid.columnToWidth(0),
@@ -164,17 +209,20 @@ export class Game extends Phaser.Scene {
     let x = start > 0.5 ? min : max;
     let direction = start > 0.5 ? 1 : -1;
     this.timer = this.time.addEvent({
+      startAt: 0,
       delay: this.speed,
       callback: () => {
+        this.actionable = true;
         blocks.set({ column: x, row: this.height });
         x += direction;
         if (x === max) {
           direction = -1;
+          this.updateScore(-1);
         } else if (x === min) {
           direction = 1;
+          this.updateScore(-1);
         }
       },
-      startAt: 0,
       callbackScope: this,
       loop: true,
     });
@@ -189,6 +237,7 @@ export class Game extends Phaser.Scene {
 
   handleDrop() {
     if (!this.blocks) return;
+    if (!this.actionable) return;
 
     const blocks = this.blocks.clone();
 
@@ -202,12 +251,13 @@ export class Game extends Phaser.Scene {
       } else if (this.blocks.length > 0) {
         this.blocks.reduce();
         this.drop(block);
+        this.dropping += 1;
         dropped += 1;
       }
     }
 
     if (dropped >= blocks.length) {
-      this.launchGameOver();
+      this.timer?.remove();
       return;
     }
 
@@ -217,11 +267,13 @@ export class Game extends Phaser.Scene {
   increaseHeight() {
     this.height -= 1;
     this.timer?.remove();
+    this.actionable = false;
     if (this.height < 0) {
       this.launchGameOver();
       return;
     }
     this.speed = difficulty[this.height];
+    this.updateScore(10);
     this.moveBlocks();
   }
 
@@ -247,10 +299,11 @@ export class Game extends Phaser.Scene {
             column: block.location.column,
           })
         ) {
+          this.dropping -= 1;
           this.particles?.explode(10, block.x + 15, block.y - 15);
           event.destroy();
           block.destroy();
-          if (this.blocks?.length === 0) {
+          if (this.blocks?.length === 0 && this.dropping === 0) {
             this.launchGameOver();
           }
         }
@@ -263,6 +316,8 @@ export class Game extends Phaser.Scene {
       height: this.height,
       blocks: this.blocks?.length ?? 0,
       placements: convertPlacements(this.placements),
+      bonus: this.bonus,
+      score: this.score,
     };
 
     if (this.done) return;
