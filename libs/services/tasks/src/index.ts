@@ -62,9 +62,7 @@ export class TasksService {
       },
     });
 
-    console.info(
-      `Destroyed ${result.count} expired ${frequency} notifications`
-    );
+    console.info(`Destroyed ${result.count} expired ${frequency} tasks`);
   }
 
   async getPollResults({
