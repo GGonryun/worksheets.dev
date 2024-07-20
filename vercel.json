@@ -1,0 +1,76 @@
+{
+    "crons": [
+        {
+            "path": "/api/cron/destroy-expired-scores",
+            "schedule": "45 1 * * *"
+        },
+        {
+            "path": "/api/cron/destroy-expired-sessions",
+            "schedule": "0 1 * * *"
+        },
+        {
+            "path": "/api/cron/destroy-expired-notifications",
+            "schedule": "17 3 * * *"
+        },
+        {
+            "path": "/api/cron/destroy-expired-tasks-daily",
+            "schedule": "0 0 * * *"
+        },
+        {
+            "path": "/api/cron/destroy-expired-tasks-weekly",
+            "schedule": "0 0 * * 0"
+        },
+        {
+            "path": "/api/cron/destroy-expired-tasks-monthly",
+            "schedule": "0 0 1 * *"
+        },
+        {
+            "path": "/api/cron/find-expired-raffles",
+            "schedule": "0 * * * *"
+        },
+        {
+            "path": "/api/cron/find-expiring-items",
+            "schedule": "0 0 * * *"
+        },
+        {
+            "path": "/api/cron/find-expired-battles",
+            "schedule": "*/29 * * * *"
+        },
+        {
+            "path": "/api/cron/flush-game-tracks",
+            "schedule": "*/14 * * * *"
+        },
+        {
+            "path": "/api/cron/publish-games",
+            "schedule": "0 * * * *"
+        },
+        {
+            "path": "/api/cron/spawn-monster",
+            "schedule": "25 */4 * * *"
+        },
+        {
+            "path": "/api/cron/spawn-raffle",
+            "schedule": "0 */15 * * *"
+        },
+        {
+            "path": "/api/cron/reward-leaderboards-daily",
+            "schedule": "0 0 * * *"
+        },
+        {
+            "path": "/api/cron/reward-leaderboards-weekly",
+            "schedule": "0 0 * * 0"
+        },
+        {
+            "path": "/api/cron/send-scheduled-emails",
+            "schedule": "30 * * * *"
+        }
+    ],
+    "functions": {
+        "pages/api/cron/*.ts": {
+            "maxDuration": 300
+        },
+        "pages/api/trpc/*.ts": {
+            "maxDuration": 30
+        }
+    }
+}
