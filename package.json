@@ -1,6 +1,6 @@
 {
   "name": "worksheets",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "license": "MIT",
   "prisma": {
     "schema": "./libs/prisma/src/schemas/main.prisma"
