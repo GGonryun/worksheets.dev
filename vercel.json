@@ -50,7 +50,7 @@
         },
         {
             "path": "/api/cron/spawn-raffle",
-            "schedule": "0 */15 * * *"
+            "schedule": "0 */23 * * *"
         },
         {
             "path": "/api/cron/reward-leaderboards-daily",
