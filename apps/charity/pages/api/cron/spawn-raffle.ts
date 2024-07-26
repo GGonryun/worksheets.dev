@@ -33,7 +33,7 @@ export default createCronJob(async (_, res) => {
   });
   const tweet = notifications.getTweetNotification(sent);
 
-  if (tweet?.data.id && raffle.itemId === '4') {
+  if (tweet?.data.id && raffle.itemId === '4' && isLucky(0.5)) {
     await connectTweet(tweet, data, raffle);
   }
 
@@ -170,11 +170,19 @@ const selectActions = (
       reward: 5,
       taskId: 'CAPTCHA_ONCE',
     });
-    actions.push({
-      order: 0,
-      reward: randomArrayElement([1, 2, 3, 4, 5]),
-      taskId: 'WATCH_AD_DAILY',
-    });
+    actions.push(
+      isLucky(0.5)
+        ? {
+            order: 0,
+            reward: randomArrayElement([1, 2, 3, 4, 5]),
+            taskId: 'WATCH_AD_DAILY',
+          }
+        : {
+            order: 0,
+            reward: randomArrayElement([5, 10]),
+            taskId: 'WATCH_AD_ONCE',
+          }
+    );
   } else {
     actions.push({
       order: 0,
