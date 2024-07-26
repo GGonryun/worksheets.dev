@@ -98,7 +98,7 @@ const prizes = {
   '4': {
     itemId: '4',
     premium: true,
-    numWinners: [1, 2, 2, 3, 3],
+    numWinners: [1, 2, 3],
     imageUrl: [
       'https://cdn.charity.games/_raffles/random_steam_key_1.png',
       'https://cdn.charity.games/_raffles/random_steam_key_2.png',
@@ -125,8 +125,6 @@ const generateRaffle = (): Prisma.RaffleUncheckedCreateInput => {
     '100',
     '1000',
     '200',
-    '4',
-    '4',
     '4',
     '4',
     '4',
