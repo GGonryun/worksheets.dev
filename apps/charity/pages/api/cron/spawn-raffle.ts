@@ -98,7 +98,7 @@ const prizes = {
   '4': {
     itemId: '4',
     premium: true,
-    numWinners: [1, 2, 3],
+    numWinners: [1, 1, 1, 2, 3],
     imageUrl: [
       'https://cdn.charity.games/_raffles/random_steam_key_1.png',
       'https://cdn.charity.games/_raffles/random_steam_key_2.png',
