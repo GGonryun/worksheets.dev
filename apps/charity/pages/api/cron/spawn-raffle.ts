@@ -37,13 +37,17 @@ export default createCronJob(async (_, res) => {
     await connectTweet(tweet, data, raffle);
   }
 
-  await res.revalidate(
-    routes.raffle.path({
-      params: {
-        raffleId: raffle.id,
-      },
-    })
-  );
+  try {
+    await res.revalidate(
+      routes.raffle.path({
+        params: {
+          raffleId: raffle.id,
+        },
+      })
+    );
+  } catch (error) {
+    console.error('Error revalidating raffle', error);
+  }
 });
 
 const countActions = (raffle: Prisma.RaffleUncheckedCreateInput) => {
