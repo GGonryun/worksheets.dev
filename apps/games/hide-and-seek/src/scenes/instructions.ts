@@ -9,8 +9,7 @@ export class Instructions extends Phaser.Scene {
   }
 
   create() {
-    new VolumeButton(this, 304, 16);
-    new CreditsButton(this, 16, 16);
+    this.scene.pause('game');
 
     this.add
       .bitmapText(160, 40, 'peaberry_yellow', 'Hide and Seek', 24)
@@ -42,5 +41,8 @@ export class Instructions extends Phaser.Scene {
     new PlayerPoster(this, 160, 120, targets[0], 'Find');
     new PlayerPoster(this, 70, 120, targets[1], 'Find');
     new PlayerPoster(this, 250, 120, targets[2], 'Find');
+
+    new VolumeButton(this, 304, 16);
+    new CreditsButton(this, 16, 16);
   }
 }

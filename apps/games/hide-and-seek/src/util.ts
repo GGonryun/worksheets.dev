@@ -17,4 +17,4 @@ export const CHARACTER_SPEEDS: Record<MovementSpeed, number> = {
   climbing: 0.02,
   walking: 0.04,
 };
-export const GAME_VERSION = 'v1.0.1';
+export const GAME_VERSION = 'v1.0.2';
