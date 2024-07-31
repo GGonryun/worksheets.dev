@@ -12,6 +12,32 @@ import { SeedableGameSchema } from '@worksheets/util/types';
 
 const integratedGames: SeedableGameSchema[] = [
   {
+    version: 1,
+    id: 'hide-and-seek',
+    name: 'Hide and Seek',
+    developerId: 'charity-games',
+    iconUrl:
+      'https://cdn.charity.games/_games/hide-and-seek/assets/thumbnail.png',
+    bannerUrl:
+      'https://cdn.charity.games/_games/hide-and-seek/assets/banner.png',
+    viewport: viewports['ALL-DEVICES'],
+    categories: ['1p', 'brain', 'puzzle', 'mobile', 'desktop', 'educational'],
+    file: {
+      type: 'HTML',
+      url: 'https://cdn.charity.games/_games/hide-and-seek/index.html',
+    },
+    markets: {},
+    createdAt: new Date('2024-08-01T00:00:00.000Z'),
+    updatedAt: new Date('2024-08-01T00:00:00.000Z'),
+    description:
+      "<p>Hide and Seek is a puzzle game where you must find the hidden characters in the scene. You are given 60 seconds to find three unique characters. If you cannot find all three you'll lose the game. If you make too many mistakes you'll lose the game!<br/>Can you find all the hidden players in time?</p>",
+    multiplier: 1,
+    leaderboard: false,
+    cloudStorage: true,
+    loot: [],
+    achievements: [],
+  },
+  {
     version: 3,
     id: 'tall-tower',
     name: 'Tall Tower',

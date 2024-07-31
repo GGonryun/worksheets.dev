@@ -32,6 +32,7 @@ export class CharityGamesPlugin extends Phaser.Plugins.BasePlugin {
   session: SessionAPI;
   achievements: AchievementsAPI;
   leaderboard: LeaderboardsAPI;
+  score: LeaderboardsAPI;
   advertisements: AdvertisementsAPI;
   rewards: RewardAPI;
   events: Phaser.Events.EventEmitter = new Phaser.Events.EventEmitter();
@@ -44,7 +45,7 @@ export class CharityGamesPlugin extends Phaser.Plugins.BasePlugin {
     this.session = new SessionAPI(this);
     this.achievements = new AchievementsAPI(this);
     this.advertisements = new AdvertisementsAPI(this);
-    this.leaderboard = new LeaderboardsAPI(this);
+    this.score = this.leaderboard = new LeaderboardsAPI(this);
     this.rewards = new RewardAPI(this);
   }
 

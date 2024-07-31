@@ -10,7 +10,7 @@ const sampleUsers: RaffleEntry['user'][] = arrayFromNumber(10).map((i) => ({
 jest.retryTimes(3);
 
 describe('pickWinners', () => {
-  test('should pick winners', () => {
+  it('should pick winners', () => {
     const frequency: Record<string, number> = {};
     for (let i = 0; i < 1000; i++) {
       const result = pickWinners(
@@ -28,7 +28,7 @@ describe('pickWinners', () => {
     // it might be catastrophic if this test fails, but it's not impossible
     // and therefore can be flaky
     expect(Object.keys(frequency)).toHaveLength(10);
-    expect(Object.values(frequency).every((v) => v > 50)).toBe(true);
+    expect(Object.values(frequency).every((v) => v > 70)).toBe(true);
   });
   describe("when there aren't enough unique participants", () => {
     it('cannot pick more winners than participants', () => {

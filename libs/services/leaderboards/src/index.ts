@@ -56,13 +56,16 @@ export const submitScore = async (
   }
   const gameId = game.id;
 
-  await db.gameScore.create({
-    data: {
-      userId,
-      gameId,
-      score,
-    },
-  });
+  if (game.leaderboard) {
+    console.info('Saving user score to leaderboard', { gameId, userId, score });
+    await db.gameScore.create({
+      data: {
+        userId,
+        gameId,
+        score,
+      },
+    });
+  }
 
   const tokens = Math.floor(score * game.multiplier);
 

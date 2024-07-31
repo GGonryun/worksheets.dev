@@ -49,3 +49,12 @@ export const lottery = <T extends string | number>(
   );
   return randomArrayElement<T>(total);
 };
+
+export const frequency = <T extends string | number>(
+  arr: T[]
+): Record<T, number> => {
+  return arr.reduce((acc, curr) => {
+    acc[curr] = (acc[curr] || 0) + 1;
+    return acc;
+  }, {} as Record<T, number>);
+};
