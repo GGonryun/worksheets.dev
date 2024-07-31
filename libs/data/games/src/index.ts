@@ -31,11 +31,104 @@ const integratedGames: SeedableGameSchema[] = [
     updatedAt: new Date('2024-08-01T00:00:00.000Z'),
     description:
       "<p>Hide and Seek is a puzzle game where you must find the hidden characters in the scene. You are given 60 seconds to find three unique characters. If you cannot find all three you'll lose the game. If you make too many mistakes you'll lose the game!<br/>Can you find all the hidden players in time?</p>",
-    multiplier: 1,
+    multiplier: 3,
     leaderboard: false,
     cloudStorage: true,
     loot: [],
-    achievements: [],
+    achievements: [
+      {
+        id: 'hide-and-seek:perfect',
+        version: 1,
+        gameId: 'hide-and-seek',
+        name: 'Play a Perfect Game',
+        description:
+          'Find all three hidden characters without making a mistake',
+        iconUrl:
+          'https://cdn.charity.games/_games/hide-and-seek/assets/achievements/perfect.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '4',
+            quantity: 1,
+            chance: 1,
+          },
+        ],
+      },
+      {
+        id: 'hide-and-seek:found-one',
+        version: 1,
+        gameId: 'hide-and-seek',
+        name: 'Find One',
+        description: 'Find at least one hidden character during a game',
+        iconUrl:
+          'https://cdn.charity.games/_games/hide-and-seek/assets/achievements/found-one.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '4',
+            quantity: 1,
+            chance: 1,
+          },
+        ],
+      },
+      {
+        id: 'hide-and-seek:found-two',
+        version: 1,
+        gameId: 'hide-and-seek',
+        name: 'Find Two',
+        description: 'Find at least two hidden characters during a game',
+        iconUrl:
+          'https://cdn.charity.games/_games/hide-and-seek/assets/achievements/found-two.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '4',
+            quantity: 1,
+            chance: 1,
+          },
+        ],
+      },
+      {
+        id: 'hide-and-seek:found-three',
+        version: 1,
+        gameId: 'hide-and-seek',
+        name: 'Find Three',
+        description: 'Find all three hidden characters during a game',
+        iconUrl:
+          'https://cdn.charity.games/_games/hide-and-seek/assets/achievements/found-three.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '4',
+            quantity: 1,
+            chance: 1,
+          },
+        ],
+      },
+    ],
+    tasks: [
+      {
+        name: 'Find one hidden character',
+        description:
+          'Find one hidden character during a single game of Hide and Seek',
+        type: 'score',
+        score: 1,
+      },
+      {
+        name: 'Find two hidden characters',
+        description:
+          'Find two hidden characters during a single game of Hide and Seek',
+        type: 'score',
+        score: 2,
+      },
+      {
+        name: 'Find all hidden characters',
+        description:
+          'Find all three hidden characters during a single game of Hide and Seek',
+        type: 'score',
+        score: 3,
+      },
+    ],
   },
   {
     version: 3,
