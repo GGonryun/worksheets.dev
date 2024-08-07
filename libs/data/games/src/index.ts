@@ -48,7 +48,7 @@ const integratedGames: SeedableGameSchema[] = [
         secret: false,
         loot: [
           {
-            itemId: '4',
+            itemId: '5',
             quantity: 1,
             chance: 1,
           },
@@ -65,7 +65,7 @@ const integratedGames: SeedableGameSchema[] = [
         secret: false,
         loot: [
           {
-            itemId: '4',
+            itemId: '5',
             quantity: 1,
             chance: 1,
           },
@@ -82,7 +82,7 @@ const integratedGames: SeedableGameSchema[] = [
         secret: false,
         loot: [
           {
-            itemId: '4',
+            itemId: '5',
             quantity: 1,
             chance: 1,
           },
@@ -99,7 +99,7 @@ const integratedGames: SeedableGameSchema[] = [
         secret: false,
         loot: [
           {
-            itemId: '4',
+            itemId: '5',
             quantity: 1,
             chance: 1,
           },
