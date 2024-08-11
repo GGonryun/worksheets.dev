@@ -8,10 +8,10 @@ import {
 } from '@worksheets/prisma';
 import { routes } from '@worksheets/routes';
 import { NotificationsService } from '@worksheets/services/notifications';
-import { randomArrayElement } from '@worksheets/util/arrays';
+import { arrayFromNumber, randomArrayElement } from '@worksheets/util/arrays';
 import { createCronJob } from '@worksheets/util/cron';
 import { isLucky } from '@worksheets/util/numbers';
-import { daysFromNow } from '@worksheets/util/time';
+import { hoursFromNow } from '@worksheets/util/time';
 import { TweetV2PostTweetResult } from 'twitter-api-v2';
 
 export default createCronJob(async (_, res) => {
@@ -57,46 +57,16 @@ const countActions = (raffle: Prisma.RaffleUncheckedCreateInput) => {
 };
 
 const prizes = {
-  '2': {
-    itemId: '2',
-    premium: false,
-    numWinners: [5, 7, 10, 15, 20],
-    imageUrl: undefined,
-  },
-  '3': {
-    itemId: '3',
-    premium: false,
-    numWinners: [3, 5, 7, 10, 15],
-    imageUrl: undefined,
-  },
   '5': {
     itemId: '5',
     premium: false,
-    numWinners: [2, 4, 6, 8, 10],
+    numWinners: [5, 7, 10],
     imageUrl: undefined,
   },
   '8': {
     itemId: '8',
     premium: false,
-    numWinners: [1, 3, 5],
-    imageUrl: undefined,
-  },
-  '100': {
-    itemId: '100',
-    premium: false,
-    numWinners: [1, 3, 5],
-    imageUrl: undefined,
-  },
-  '1000': {
-    itemId: '1000',
-    premium: false,
-    numWinners: [1, 2, 3, 4, 5],
-    imageUrl: undefined,
-  },
-  '200': {
-    itemId: '200',
-    premium: false,
-    numWinners: [5, 10, 15],
+    numWinners: [5, 7, 10],
     imageUrl: undefined,
   },
   '4': {
@@ -119,27 +89,16 @@ const prizes = {
 type PrizeId = keyof typeof prizes;
 
 const generateRaffle = (): Prisma.RaffleUncheckedCreateInput => {
-  const maxEntries = [10, 20, 30, 40, 50];
-
-  const dropChance: PrizeId[] = [
-    '2',
-    '3',
-    '5',
-    '8',
-    '100',
-    '1000',
-    '200',
-    '4',
-    '4',
-    '4',
-    '4',
-    '4',
-    '4',
-    '4',
-    '4',
-    '4',
-    '4',
+  const twoWeeksHours = 14 * 24;
+  const expirationDates = [
+    ...arrayFromNumber(12).map((i) => twoWeeksHours - i),
+    twoWeeksHours,
+    ...arrayFromNumber(24).map((i) => twoWeeksHours + i),
   ];
+
+  const maxEntries = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+
+  const dropChance: PrizeId[] = ['5', '5', '8', '4', '4', '4', '4', '4'];
 
   const prizeId = randomArrayElement(dropChance);
   const prize = prizes[prizeId];
@@ -150,7 +109,7 @@ const generateRaffle = (): Prisma.RaffleUncheckedCreateInput => {
     version: 1,
     status: 'ACTIVE',
     premium: prize.premium,
-    expiresAt: daysFromNow(14),
+    expiresAt: hoursFromNow(randomArrayElement(expirationDates)),
     publishAt: new Date(),
     sponsorId: 'charity-games',
     numWinners: randomArrayElement(prize.numWinners),
@@ -174,65 +133,54 @@ const selectActions = (
       reward: 5,
       taskId: 'CAPTCHA_ONCE',
     });
-    actions.push(
-      isLucky(0.5)
-        ? {
-            order: 0,
-            reward: randomArrayElement([1, 2, 3, 4, 5]),
-            taskId: 'WATCH_AD_DAILY',
-          }
-        : {
-            order: 0,
-            reward: randomArrayElement([5, 10]),
-            taskId: 'WATCH_AD_ONCE',
-          }
-    );
-  } else {
-    actions.push({
-      order: 0,
-      reward: randomArrayElement([5, 10]),
-      taskId: 'WATCH_AD_ONCE',
-    });
   }
 
-  if (isLucky(0.5)) {
+  actions.push(
+    ...[
+      {
+        order: 1,
+        reward: randomArrayElement([10, 10, 10, 15, 20]),
+        taskId: 'WATCH_AD_ONCE',
+      },
+      {
+        order: 2,
+        reward: randomArrayElement([1, 1, 2, 2, 2, 3, 3, 4, 5]),
+        taskId: 'DAILY_CHECK_IN',
+      },
+    ]
+  );
+
+  if (isLucky(0.25)) {
     actions.push({
-      order: 0,
+      order: 5,
       reward: randomArrayElement([1, 2, 3, 4, 5]),
-      taskId: 'DAILY_CHECK_IN',
-    });
-  }
-  if (isLucky(0.75)) {
-    actions.push({
-      order: 0,
-      reward: randomArrayElement([2, 4, 6, 8, 10]),
       taskId: randomArrayElement(primarySocial),
     });
   }
-  if (isLucky(0.5)) {
+  if (isLucky(0.25)) {
     actions.push({
-      order: 0,
-      reward: randomArrayElement([2, 4, 6, 8, 10]),
+      order: 6,
+      reward: randomArrayElement([1, 2, 3, 4, 5]),
       taskId: randomArrayElement(secondarySocial),
     });
   }
   if (isLucky(0.75)) {
     actions.push({
-      order: 0,
-      reward: randomArrayElement([2, 4, 6, 8, 10]),
+      order: 7,
+      reward: randomArrayElement([5, 10]),
       taskId: randomArrayElement(leaderboards),
     });
   }
-  if (isLucky(0.5)) {
+  if (isLucky(0.75)) {
     actions.push({
-      order: 0,
-      reward: randomArrayElement([2, 4, 6, 8, 10]),
+      order: 9,
+      reward: randomArrayElement([1, 2, 3, 4, 5]),
       taskId: randomArrayElement(playGame),
     });
   }
-  if (isLucky(0.5)) {
+  if (isLucky(0.75)) {
     actions.push({
-      order: 0,
+      order: 10,
       reward: 10,
       taskId: randomArrayElement(referrals),
     });
