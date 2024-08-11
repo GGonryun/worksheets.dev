@@ -24,9 +24,6 @@ export const validateTaskInput = (
   } = opts;
   switch (type) {
     case 'PLAY_GAME':
-    case 'PLAY_MINUTES':
-    case 'REFERRAL_PLAY_MINUTES':
-    case 'FRIEND_PLAY_MINUTES':
     case 'ADD_REFERRAL':
     case 'RAFFLE_PARTICIPATION':
     case 'BATTLE_PARTICIPATION':

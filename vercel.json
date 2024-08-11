@@ -37,10 +37,6 @@
             "schedule": "*/29 * * * *"
         },
         {
-            "path": "/api/cron/flush-game-tracks",
-            "schedule": "*/14 * * * *"
-        },
-        {
             "path": "/api/cron/publish-games",
             "schedule": "0 * * * *"
         },

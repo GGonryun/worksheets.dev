@@ -6,7 +6,6 @@ import followers from './followers';
 import friends from './friends/router';
 import game from './game/router';
 import gamePlay from './gamePlay/router';
-import gameTime from './gameTime/router';
 import get from './get';
 import initialize from './initialize';
 import integrations from './integrations/router';
@@ -26,7 +25,6 @@ export default t.router({
   referrals,
   referrer,
   gamePlay,
-  gameTime,
   notifications,
   profile,
   leaderboards,

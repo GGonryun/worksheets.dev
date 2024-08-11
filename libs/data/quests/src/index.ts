@@ -1,8 +1,5 @@
 import { Prisma } from '@worksheets/prisma';
-import {
-  PER_GAME_PLAY_REWARD,
-  TOKENS_PER_REFERRAL_ACCOUNT,
-} from '@worksheets/util/settings';
+import { TOKENS_PER_REFERRAL_ACCOUNT } from '@worksheets/util/settings';
 
 export const QUESTS: Prisma.PlatformQuestUncheckedCreateInput[] = [
   // prize wheels
@@ -193,46 +190,6 @@ export const QUESTS: Prisma.PlatformQuestUncheckedCreateInput[] = [
     },
   },
   {
-    id: 'WEAPONS_CRATE_DAILY',
-    order: 22,
-    version: 0,
-    taskId: 'DAILY_CHECK_IN',
-    name: 'Weapons Crate',
-    description:
-      'Open a free weapons crate every day to get a new weapon to use in battle!',
-    loot: {
-      createMany: {
-        data: [
-          {
-            itemId: '1000',
-            quantity: 1,
-            chance: 1,
-          },
-        ],
-      },
-    },
-  },
-  {
-    id: 'WEAPONS_CRATE_WEEKLY',
-    order: 23,
-    version: 0,
-    taskId: 'WEEKLY_CHECK_IN',
-    name: 'Weapons Crate',
-    description:
-      'Open a free weapons crate every week to get a new weapon to use in battle!',
-    loot: {
-      createMany: {
-        data: [
-          {
-            itemId: '6',
-            quantity: 3,
-            chance: 1,
-          },
-        ],
-      },
-    },
-  },
-  {
     id: 'RANDOM_BOXES_WEEKLY',
     order: 24,
     version: 1,
@@ -359,31 +316,6 @@ export const QUESTS: Prisma.PlatformQuestUncheckedCreateInput[] = [
           {
             itemId: '10044',
             quantity: 5,
-            chance: 1,
-          },
-        ],
-      },
-    },
-  },
-  // infinites
-  {
-    id: 'PLAY_MINUTES_INFINITE',
-    order: 1000,
-    version: 0,
-    taskId: 'PLAY_MINUTES_INFINITE',
-    loot: {},
-  },
-  {
-    id: 'PLAY_GAME_INFINITE',
-    order: 1001,
-    version: 0,
-    taskId: 'PLAY_GAME_INFINITE',
-    loot: {
-      createMany: {
-        data: [
-          {
-            itemId: '1',
-            quantity: PER_GAME_PLAY_REWARD,
             chance: 1,
           },
         ],

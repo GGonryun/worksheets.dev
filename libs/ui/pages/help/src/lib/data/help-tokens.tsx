@@ -5,12 +5,7 @@ import {
   HelpQuestsQuestions,
   HelpTokensQuestions,
 } from '@worksheets/util/enums';
-import { toPercentage } from '@worksheets/util/numbers';
-import {
-  PER_GAME_PLAY_REWARD,
-  PLAY_MINUTE_DROP_CHANCE,
-  TOKENS_PER_REFERRAL_ACCOUNT,
-} from '@worksheets/util/settings';
+import { TOKENS_PER_REFERRAL_ACCOUNT } from '@worksheets/util/settings';
 import { QuestionAnswer } from '@worksheets/util/types';
 
 import { HelpfulLinks } from '../helpful-links';
@@ -63,9 +58,8 @@ export const helpTokens: QuestionAnswer[] = [
         <OrderedList>
           <ListItem>
             <Link href={routes.help.playingGames.path()}>Playing Games</Link> -
-            Earn a minimum of {PER_GAME_PLAY_REWARD} token per game and a{' '}
-            {toPercentage(PLAY_MINUTE_DROP_CHANCE)} chance to earn a random item
-            every minute you play.
+            Certain games will reward you with tokens for playing. The amount of
+            tokens you earn depends on the game.
           </ListItem>
           <ListItem>
             <Link
