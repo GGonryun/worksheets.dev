@@ -135,16 +135,18 @@ export class PushTemplates {
 
   static lostRaffle(
     opts: ExtractTemplatePayload<'lost-raffle'>
-  ): PushNotifyInput {
-    return {
+  ): PushNotifyInput[] {
+    return opts.participants.map((p) => ({
       type: 'RAFFLE',
-      text: `<a href="${RAFFLE_URL(opts.id)}">${
-        opts.item.name
-      }</a> giveaway has ended! <a href="${RAFFLE_URL(
+      text: `<a href="${RAFFLE_URL(opts.id)}">Giveaway #${
         opts.id
-      )}">View results</a>.`,
-      userIds: opts.participants.map((p) => p.user.id),
-    };
+      }</a> for a <a href="${ITEM_URL(opts.item.id)}">${
+        opts.item.name
+      }</a> has ended! You have been awarded a consolation prize of ${
+        p.numEntries
+      } ${pluralize('token', p.numEntries)}.`,
+      userIds: [p.user.id],
+    }));
   }
 
   static wonRaffle(
@@ -152,7 +154,13 @@ export class PushTemplates {
   ): PushNotifyInput {
     return {
       type: 'RAFFLE',
-      text: `You won a ${opts.item.name} in a raffle! <a href="${ACCOUNT_INVENTORY_URL}">See your inventory</a>.`,
+      text: `Congratulations! You are the winner of <a href="${RAFFLE_URL(
+        opts.raffle.id
+      )}">giveaway #${opts.raffle.id}</a> for a <a href="${ITEM_URL(
+        opts.item.id
+      )}">${
+        opts.item.name
+      }</a>. Visit your <a href="${ACCOUNT_INVENTORY_URL}">your inventory</a>.`,
       userIds: [opts.user.id],
     };
   }

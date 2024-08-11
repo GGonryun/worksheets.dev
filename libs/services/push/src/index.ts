@@ -39,6 +39,22 @@ export class PushService {
         userId: user.id,
       })),
     });
+
+    return 'okay';
+  }
+
+  async notifyMany(notifications: PushNotifyInput[]) {
+    const filtered = notifications.filter((n) => n.userIds?.length);
+    await this.#db.notification.createMany({
+      data: filtered.flatMap(
+        (n) =>
+          n.userIds?.map((userId) => ({
+            type: n.type,
+            text: n.text,
+            userId,
+          })) ?? []
+      ),
+    });
     return 'okay';
   }
 

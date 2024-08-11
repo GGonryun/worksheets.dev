@@ -43,6 +43,9 @@ export class NotificationsService {
     if (targets.push) {
       tasks.push(this.#push.notify(targets.push));
     }
+    if (targets.pushMany) {
+      tasks.push(this.#push.notifyMany(targets.pushMany));
+    }
     if (targets.broadcast) {
       tasks.push(this.#push.notify(targets.broadcast));
     }

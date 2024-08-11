@@ -30,7 +30,7 @@ const wonRaffleTemplates: TemplateBuilder<'won-raffle'> = (payload) => ({
 });
 
 const lostRaffleTemplates: TemplateBuilder<'lost-raffle'> = (payload) => ({
-  push: PushTemplates.lostRaffle(payload),
+  pushMany: PushTemplates.lostRaffle(payload),
 });
 
 const expiringItemReminderTemplates: TemplateBuilder<

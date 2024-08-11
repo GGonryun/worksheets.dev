@@ -34,11 +34,15 @@ export type NotificationTemplate =
   | {
       type: 'won-raffle';
       payload: {
+        raffle: {
+          id: number;
+        };
         user: {
           id: string;
           email: string;
         };
         item: {
+          id: string;
           name: string;
           expiration: number | null;
         };
@@ -94,8 +98,9 @@ export type NotificationTemplate =
           user: {
             id: string;
           };
+          numEntries: number;
         }[];
-        item: { name: string };
+        item: { name: string; id: string };
       };
     }
   | {
@@ -328,6 +333,7 @@ export type TemplateBuilder<T extends NotificationTemplateType = any> = (
   newsletter?: ScheduleNewsletterInput[];
   discord?: DiscordMessageInput;
   push?: PushNotifyInput;
+  pushMany?: PushNotifyInput[];
   email?: SendEmailInput;
   broadcast?: PushNotifyInput;
 };
