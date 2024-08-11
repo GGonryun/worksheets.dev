@@ -1,3 +1,4 @@
+import { AdSenseScript } from '@worksheets/ui/components/advertisements';
 import {
   DocumentInitialProps,
   Head,
@@ -55,6 +56,7 @@ export default function MyDocument(props: DocumentProps) {
         ></script>
       </Head>
       <body>
+        <AdSenseScript />
         <Main />
         <NextScript />
       </body>

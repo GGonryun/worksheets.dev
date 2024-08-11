@@ -27,38 +27,9 @@ export const ActionBox = () => {
       >
         Top Games
       </Button>
+
       <Button
-        href={routes.category.url({
-          params: {
-            tagId: 'new',
-          },
-        })}
-        variant="arcade"
-        color="error"
-        size={isMedium ? 'small' : 'medium'}
-        sx={{
-          display: isMedium ? 'none' : 'flex',
-          width: 170,
-          ...buttonBoxShadow('error'),
-        }}
-      >
-        New Games{' '}
-      </Button>
-      <Button
-        href={routes.battles.url()}
-        variant="arcade"
-        color="primary"
-        size={isMedium ? 'small' : 'medium'}
-        sx={{
-          display: isSmall ? 'none' : 'flex',
-          width: 170,
-          ...buttonBoxShadow('primary'),
-        }}
-      >
-        Boss Battles
-      </Button>
-      <Button
-        href={routes.raffles.url()}
+        href={routes.prizes.url()}
         variant="arcade"
         color="success"
         size={isMedium ? 'small' : 'medium'}
@@ -68,7 +39,34 @@ export const ActionBox = () => {
           ...buttonBoxShadow('success'),
         }}
       >
-        Win Prizes
+        Prize Wall
+      </Button>
+
+      <Button
+        href={routes.raffles.url()}
+        variant="arcade"
+        color="secondary"
+        size={isMedium ? 'small' : 'medium'}
+        sx={{
+          display: isSmall ? 'none' : 'flex',
+          width: 170,
+          ...buttonBoxShadow('secondary'),
+        }}
+      >
+        Giveaways
+      </Button>
+      <Button
+        href={routes.battles.url()}
+        variant="arcade"
+        color="primary"
+        size={isMedium ? 'small' : 'medium'}
+        sx={{
+          display: isMedium ? 'none' : 'flex',
+          width: 170,
+          ...buttonBoxShadow('primary'),
+        }}
+      >
+        Boss Battles
       </Button>
     </Box>
   );

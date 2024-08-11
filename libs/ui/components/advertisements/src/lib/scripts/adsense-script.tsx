@@ -1,10 +1,7 @@
-import { adClient } from '@worksheets/util/adsense';
 import Script from 'next/script';
 
+import { GOOGLE_AD_PLACEMENT_API } from '../data';
+
 export const AdSenseScript = () => (
-  <Script
-    async
-    src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adClient}`}
-    crossOrigin="anonymous"
-  />
+  <Script async src={GOOGLE_AD_PLACEMENT_API} crossOrigin="anonymous" />
 );

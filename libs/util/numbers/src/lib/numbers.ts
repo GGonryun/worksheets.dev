@@ -62,3 +62,15 @@ export const nth = (d: number) => {
       return 'th';
   }
 };
+
+/**
+ * Returns a random number between min (inclusive) and max (exclusive)
+ */
+export const randomFloatBetween = (min: number, max: number) =>
+  Math.random() * (max - min) + min;
+
+/**
+ * Returns a random integer between min (inclusive) and max (inclusive)
+ */
+export const randomIntBetween = (min: number, max: number) =>
+  Math.floor(Math.random() * (max - min + 1) + min);

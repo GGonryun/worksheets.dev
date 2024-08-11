@@ -5,6 +5,7 @@ import {
   DeveloperSchema,
   ItemSchema,
   MonsterSchema,
+  PrizeSchema,
   RaffleSchema,
   SerializableGameSchema,
   TagSchema,
@@ -475,35 +476,35 @@ export const auctionsSeo = createSeo({
   path: routes.auctions.path(),
   title: 'Auctions',
   description:
-    'Bid on digital prizes and win free games. Every token you spend is a donation towards charity. Win tokens by playing browser games and completing tasks.',
+    'Bid on digital prizes and win free games. Win tokens by playing browser games and completing tasks.',
 });
 
 export const monstersSeo = createSeo({
   path: routes.monsters.path(),
   title: 'Monsters',
   description:
-    'Defeat monsters and earn rewards. Every token you spend is a donation towards charity. Win tokens by playing browser games.',
+    'Defeat monsters and earn rewards. Win tokens by playing browser games.',
 });
 
 export const monsterSeo = (monster: MonsterSchema): NextSeoProps =>
   createSeo({
     path: routes.monster.path({ params: { monsterId: monster.id } }),
     title: `${monster.name} | Monster`,
-    description: `Defeat ${monster.name} and earn rewards. Every token you spend is a donation towards charity. Win prizes by playing browser games.`,
+    description: `Defeat ${monster.name} and earn rewards. Win prizes by playing browser games.`,
   });
 
 export const itemsSeo = createSeo({
   path: routes.items.path(),
   title: 'Items',
   description:
-    'View all items available on Charity Games. Every token you spend is a donation towards charity. Win tokens by playing browser games.',
+    'View all items available on Charity Games. Win tokens by playing browser games.',
 });
 
 export const itemSeo = (item: ItemSchema): NextSeoProps =>
   createSeo({
     path: routes.item.path({ params: { itemId: item.id } }),
     title: `${item.name} | Item`,
-    description: `View ${item.name} and learn how to use it. Every token you spend is a donation towards charity. Win prizes by playing browser games.`,
+    description: `View ${item.name} and learn how to use it. Win prizes by playing browser games.`,
   });
 
 export const userSeo = (userId: string): NextSeoProps => {
@@ -521,3 +522,17 @@ export const connectSeo = (providerId: string): NextSeoProps => {
     description: `Connect an external account to Charity Games. Turn your games into donations. Help us make a difference.`,
   });
 };
+
+export const prizesSeo = createSeo({
+  path: routes.prizes.path(),
+  title: 'Prizes',
+  description:
+    'Trade your tokens for digital and physical prizes. Win prizes by playing browser games.',
+});
+
+export const prizeSeo = (item: PrizeSchema): NextSeoProps =>
+  createSeo({
+    path: routes.prizes.prize.path({ params: { prizeId: item.id } }),
+    title: `${item.name} | Prize`,
+    description: `Trade your tokens for ${item.name}. Win prizes by playing browser games.`,
+  });

@@ -150,6 +150,13 @@ const achievementUnlockedTemplates: TemplateBuilder<'achievement-unlocked'> = (
   push: PushTemplates.achievementUnlocked(payload),
 });
 
+const prizePurchasedTemplates: TemplateBuilder<'prize-purchased'> = (
+  payload
+) => ({
+  discord: DiscordTemplates.prizePurchased(payload),
+  push: PushTemplates.prizePurchased(payload),
+});
+
 export const destinations: Record<NotificationTemplateType, TemplateBuilder> = {
   'new-game': newGameTemplates,
   'new-raffle': newRaffleTemplates,
@@ -176,4 +183,5 @@ export const destinations: Record<NotificationTemplateType, TemplateBuilder> = {
   'share-gift': shareGiftTemplates,
   'won-leaderboard': wonLeaderboardTemplates,
   'achievement-unlocked': achievementUnlockedTemplates,
+  'prize-purchased': prizePurchasedTemplates,
 };

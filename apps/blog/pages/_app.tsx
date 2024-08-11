@@ -2,7 +2,6 @@ import './styles.css';
 
 import * as FullStory from '@fullstory/browser';
 import { CssBaseline, ThemeProvider } from '@mui/material';
-import { AdSenseScript } from '@worksheets/ui/components/advertisements';
 import { COOKIE_DOMAIN, IS_PRODUCTION } from '@worksheets/ui/env';
 import { BlogLayoutContainer } from '@worksheets/ui/layout';
 import theme from '@worksheets/ui/theme';
@@ -27,7 +26,6 @@ function CustomApp({
     <>
       <DefaultSeo {...defaultSeo} />
       <CssBaseline />
-      <AdSenseScript />
       <Head>
         <meta
           name="viewport"

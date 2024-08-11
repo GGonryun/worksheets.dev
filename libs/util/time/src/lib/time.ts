@@ -327,9 +327,13 @@ export const getNextUTCMidnight = (): Date => {
 
 export const durationToString = (duration: Duration): string => {
   const { days, hours, minutes, seconds } = duration;
-  if (days > 0) return `${days}d ${hours}h ${minutes}m ${seconds}s`;
-  if (hours > 0) return `${hours}h ${minutes}m ${seconds}s`;
-  if (minutes > 0) return `${minutes}m ${seconds}s`;
+  const pDays = days.toString().padStart(2, '0');
+  const pHours = hours.toString().padStart(2, '0');
+  const pMinutes = minutes.toString().padStart(2, '0');
+  const pSeconds = seconds.toString().padStart(2, '0');
+  if (days > 0) return `${pDays}d ${pHours}h ${pMinutes}m ${pSeconds}s`;
+  if (hours > 0) return `${pHours}h ${pMinutes}m ${pSeconds}s`;
+  if (minutes > 0) return `${pMinutes}m ${pSeconds}s`;
 
   return `${seconds}s`;
 };
@@ -376,6 +380,7 @@ export const lastSundayUtcMidnight = (now = new Date()): Date => {
   lastSunday.setUTCHours(0, 0, 0, 0);
   return lastSunday;
 };
+
 export const nextFirstOfMonthUtcMidnight = (): Date => {
   const now = new Date();
   let nextMonth: number;
@@ -394,4 +399,21 @@ export const nextFirstOfMonthUtcMidnight = (): Date => {
     Date.UTC(nextYear, nextMonth, 1, 0, 0, 0, 0)
   );
   return nextFirstOfMonth;
+};
+
+/**
+ * Takes a cron refresh interval and returns the next time it should run.
+ */
+export const findNextCronTime = (interval: {
+  hours: number;
+  minutes: number;
+}) => {
+  const hour = new Date().getHours() % interval.hours;
+  console.log(hour);
+  const nextHour = interval.hours - hour;
+  const nextDate = new Date();
+  nextDate.setHours(nextHour + nextDate.getHours());
+  nextDate.setMinutes(interval.minutes);
+  nextDate.setSeconds(0);
+  return nextDate;
 };

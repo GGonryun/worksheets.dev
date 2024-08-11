@@ -1,18 +1,15 @@
-import { ItemType } from '@worksheets/prisma';
+import { ActivationCodeType } from '@worksheets/prisma';
 import { z } from 'zod';
 
 import { itemSchema } from './items';
 
 export const activationCodeDetailSchema = z.object({
   id: z.string(),
+  imageUrl: z.string(),
+  type: z.nativeEnum(ActivationCodeType),
   accessedAt: z.number().nullable(),
   name: z.string(),
   sourceUrl: z.string(),
-  item: z.object({
-    name: z.string(),
-    type: z.nativeEnum(ItemType),
-    imageUrl: z.string(),
-  }),
 });
 
 export type ActivationCodeDetailSchema = z.infer<

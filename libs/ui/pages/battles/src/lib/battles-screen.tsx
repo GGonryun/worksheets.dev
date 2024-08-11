@@ -30,7 +30,7 @@ import { LoadingBar } from '@worksheets/ui/components/loading';
 import { GradientShadowedTypography } from '@worksheets/ui/components/typography';
 import { LoadingScreen } from '@worksheets/ui/pages/loading';
 import { getObjectKeys } from '@worksheets/util/objects';
-import { printTimeRemaining } from '@worksheets/util/time';
+import { findNextCronTime, printTimeRemaining } from '@worksheets/util/time';
 import {
   BATTLE_SORT,
   BattleFiltersSchema,
@@ -95,20 +95,6 @@ const MobsScreen = () => {
   );
 };
 
-const findNextBattleDate = () => {
-  // TODO: get these settings from the vercel.json file
-  // battles spawn in 4 hour intervals from UTC midnight
-  // get the current hour and calculate the next battle time
-  const HOURS_RATE = 4;
-  const MINUTE_FIXED = 25;
-  const hour = new Date().getHours() % HOURS_RATE;
-  const nextHour = HOURS_RATE - hour;
-  const nextDate = new Date();
-  nextDate.setHours(nextHour + nextDate.getHours());
-  nextDate.setMinutes(MINUTE_FIXED); // the bosses spawn at 25 minutes past the hour
-  return nextDate;
-};
-
 const NoBattlesAvailable = () => (
   <Box>
     <Row alignItems="center" gap={1} ml={0.65} mb={0.5}>
@@ -117,7 +103,16 @@ const NoBattlesAvailable = () => (
     </Row>
     <Typography ml={0.65} mb={2}>
       The next battle will start in approximately{' '}
-      <b>{printTimeRemaining(findNextBattleDate())}</b>.
+      <b>
+        {printTimeRemaining(
+          findNextCronTime({
+            // TODO: get this interval from the vercel.json file instead
+            hours: 4,
+            minutes: 25,
+          })
+        )}
+      </b>
+      .
     </Typography>
     <Button
       variant="text"

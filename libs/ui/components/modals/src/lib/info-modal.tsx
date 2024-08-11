@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import { PaletteColor } from '@worksheets/ui/theme';
+import { PaletteColor, Theme } from '@worksheets/ui/theme';
 
 import { CloseButton, InfoButton } from './buttons';
 import { Modal, ModalProps } from './modal';
@@ -11,11 +11,13 @@ export const InfoModal: React.FC<
     gutter?: boolean;
     color?: PaletteColor;
     hideClose?: boolean;
+    background?: (theme: Theme) => string;
   }
 > = ({
   children,
   open,
   onClose,
+  background,
   maxWidth = 550,
   infoHref,
   gutter = true,
@@ -26,6 +28,7 @@ export const InfoModal: React.FC<
     open={open}
     onClose={onClose}
     sx={{
+      background,
       maxHeight: '90%',
       width: '95%',
       maxWidth,

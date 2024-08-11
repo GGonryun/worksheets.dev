@@ -49,7 +49,7 @@ export const Description: React.FC<{
   const backgroundColor =
     color === 'primary'
       ? theme.palette.background['transparent-blue']
-      : theme.palette.background.paper;
+      : theme.palette.background.soft;
   const textColor =
     color === 'primary'
       ? theme.palette.text.white

@@ -1,12 +1,11 @@
-import { PlayCircleOutlined } from '@mui/icons-material';
+import { CardGiftcardOutlined, PlayCircleOutline } from '@mui/icons-material';
 import { Box, Button, Typography } from '@mui/material';
 import { routes } from '@worksheets/routes';
-import { useMediaQueryDown } from '@worksheets/ui/hooks/use-media-query';
+import { Row } from '@worksheets/ui/components/flex';
 
 import { CustomPaper } from '../shared/custom-paper';
 
 export const TitleText = () => {
-  const isMobile = useMediaQueryDown('sm');
   return (
     <CustomPaper
       elevation={0}
@@ -40,29 +39,39 @@ export const TitleText = () => {
             typography: { xs: 'h4', sm: 'h3', md: 'h2' },
           }}
         >
-          Enter Raffles & Win Prizes
+          Raffles & Giveaways
         </Typography>
-        <Box
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-          mt={4}
-          mb={2}
-          width="100%"
+        <Row
+          sx={{
+            mt: { xs: 2, sm: 4 },
+            mb: { xs: 1, sm: 2 },
+            alignSelf: 'center',
+            gap: 2,
+            flexWrap: 'wrap',
+            '& > a': {
+              width: { xs: '100%', sm: '256px' },
+            },
+          }}
         >
           <Button
-            href={routes.help.prizes.path()}
+            size="large"
             variant="arcade"
             color="success"
-            size={isMobile ? 'medium' : 'large'}
-            sx={{
-              width: { xs: '100%', sm: '256px' },
-            }}
-            startIcon={<PlayCircleOutlined color="white" />}
+            startIcon={<PlayCircleOutline />}
+            href={routes.help.prizes.path()}
           >
             How It Works
           </Button>
-        </Box>
+          <Button
+            size="large"
+            variant="arcade"
+            color="secondary"
+            startIcon={<CardGiftcardOutlined />}
+            href={routes.prizes.path()}
+          >
+            Prize Wall
+          </Button>
+        </Row>
       </Box>
     </CustomPaper>
   );

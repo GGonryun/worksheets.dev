@@ -7,6 +7,21 @@ import { ExtractTemplatePayload } from './types';
 import { BATTLE_URL, RAFFLE_URL } from './urls';
 
 export class DiscordTemplates {
+  static prizePurchased(
+    opts: ExtractTemplatePayload<'prize-purchased'>
+  ): DiscordMessageInput {
+    return {
+      content: `A user has purchased a prize: ${opts.prizeId}`,
+      embeds: [
+        {
+          title: `User ID: ${opts.userId}`,
+          description: `The user
+            (${opts.userId}) has purchased the prize ${opts.name} for ${opts.cost} tokens.`,
+        },
+      ],
+      channel: 'admin',
+    };
+  }
   static userReport(
     opts: ExtractTemplatePayload<'user-report'>
   ): DiscordMessageInput {

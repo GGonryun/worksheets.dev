@@ -1,4 +1,5 @@
 import { waitFor } from '@worksheets/util/time';
+import { parseTRPCClientErrorMessage } from '@worksheets/util/trpc';
 import { createContext, ReactNode, useContext, useState } from 'react';
 
 import { Snackbar, SnackbarSeverity } from './snackbar';
@@ -16,6 +17,7 @@ export type SnackbarContextType = {
    */
   trigger: (opt?: SnackbarTriggerOptions) => void;
   error: (message: React.ReactNode) => void;
+  trpcClientError: (error: unknown) => void;
   success: (message: React.ReactNode) => void;
   warning: (message: React.ReactNode) => void;
   info: (message: React.ReactNode) => void;
@@ -26,6 +28,9 @@ export const SnackbarContext = createContext<SnackbarContextType>({
     return;
   },
   error: () => {
+    return;
+  },
+  trpcClientError: () => {
     return;
   },
   success: () => {
@@ -106,12 +111,16 @@ export const SnackbarContextProvider: React.FC<{
   const info = (message: React.ReactNode) => {
     trigger({ message, severity: 'info' });
   };
+  const trpcClientError = (error: unknown) => {
+    trigger({ message: parseTRPCClientErrorMessage(error), severity: 'error' });
+  };
 
   return (
     <SnackbarContext.Provider
       value={{
         trigger,
         error,
+        trpcClientError,
         success,
         warning,
         info,

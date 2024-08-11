@@ -67,6 +67,7 @@ model User {
   gameScores       GameScore[]
   experience       UserExperience?
   achievement      PlayerAchievement[]
+  prizes           Prize[]
 }
 
 model Account {
@@ -542,22 +543,31 @@ model RaffleParticipation {
   @@unique([userId, raffleId])
 }
 
+enum ActivationCodeType {
+  STEAM
+}
+
 model ActivationCode {
-  id         String    @id @default(cuid())
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
+  id         String             @id @default(cuid())
+  createdAt  DateTime           @default(now())
+  updatedAt  DateTime           @updatedAt
   // the redemption/secret code for the prize.
   content    String
   accessedAt DateTime?
-  // more data about the code
-  sourceUrl  String
+  type       ActivationCodeType @default(STEAM)
+
+  // ** Code Overrides **
   // even though the item has a name, the code itself can have a different name.
   // for example the source item could be "Random Steam Key" and the name would be "Steam Key for Game X"
-  name       String
-  itemId     String
-  item       Item      @relation(fields: [itemId], references: [id])
-  userId     String?
-  user       User?     @relation(fields: [userId], references: [id])
+  name      String
+  imageUrl  String  @default("")
+  sourceUrl String
+  // ** Relationships **
+  itemId    String?
+  item      Item?   @relation(fields: [itemId], references: [id])
+  prize     Prize?
+  userId    String?
+  user      User?   @relation(fields: [userId], references: [id])
 }
 
 // these codes are used to redeem prizes on the site as opposed to activation codes which are used to redeem external prizes.
@@ -601,6 +611,7 @@ model ScheduledEmail {
 enum NotificationType {
   SYSTEM
   FRIEND
+  PRIZE
   RAFFLE
   QUEST
   INVENTORY
@@ -1062,4 +1073,23 @@ model PlayerAchievement {
   createdAt     DateTime        @default(now())
 
   @@unique([achievementId, userId])
+}
+
+enum PrizeStatus {
+  PENDING
+  ACTIVE
+  REDEEMED
+  EXPIRED
+}
+
+model Prize {
+  id          Int            @id @default(autoincrement())
+  status      PrizeStatus    @default(PENDING)
+  discount    Float          @default(0) // percentage discount
+  purchasedAt DateTime?
+  userId      String?
+  user        User?          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  value       Int
+  codeId      String         @unique
+  code        ActivationCode @relation(fields: [codeId], references: [id])
 }

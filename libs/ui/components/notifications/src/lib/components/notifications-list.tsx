@@ -7,6 +7,7 @@ import {
   Mail,
   RequestPage,
   SportsMma,
+  StarBorderPurple500,
   Stars,
   VideogameAsset,
 } from '@mui/icons-material';
@@ -101,6 +102,7 @@ const notificationIcon: Record<NotificationType, ReactNode> = {
   INVENTORY: <Inventory2Outlined color="warning" />,
   FRIEND: <Diversity1 color="secondary" />,
   RAFFLE: <HowToVote color="success" />,
+  PRIZE: <StarBorderPurple500 color="yellow" />,
   REWARD: <LocalActivity color="warning" />,
   GAME: <VideogameAsset color="error" />,
   QUEST: <RequestPage color="info" />,

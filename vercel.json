@@ -49,6 +49,10 @@
             "schedule": "25 */4 * * *"
         },
         {
+            "path": "/api/cron/shuffle-prizes",
+            "schedule": "0 0 * * *"
+        },
+        {
             "path": "/api/cron/spawn-raffle",
             "schedule": "0 0 * * *"
         },

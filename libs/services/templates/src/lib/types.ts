@@ -3,7 +3,10 @@ import { SendEmailInput } from '@worksheets/services/email';
 import { ScheduleNewsletterInput } from '@worksheets/services/newsletter';
 import { PushNotifyInput } from '@worksheets/services/push';
 import { TwitterTweetInput } from '@worksheets/services/twitter';
-import { LeaderboardFrequency } from '@worksheets/util/types';
+import {
+  LeaderboardFrequency,
+  PurchaseResultSchema,
+} from '@worksheets/util/types';
 
 export type NotificationTemplate =
   | {
@@ -297,6 +300,10 @@ export type NotificationTemplate =
           }[];
         };
       };
+    }
+  | {
+      type: 'prize-purchased';
+      payload: PurchaseResultSchema;
     };
 
 /** Helper Types **/

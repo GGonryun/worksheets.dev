@@ -193,7 +193,7 @@ const AutoSellModal: React.FC<{
   isLoading: boolean;
 }> = ({ isLoading, onSell, onAction }) => {
   const snackbar = useSnackbar();
-  const util = trpc.useUtils();
+  const utils = trpc.useUtils();
   const items = trpc.user.inventory.items.useQuery(['ETCETERA']);
   if (items.isLoading || items.isRefetching || items.isFetching)
     return <LoadingBar />;
@@ -218,8 +218,8 @@ const AutoSellModal: React.FC<{
       onSell(items.data?.map((item) => item.itemId));
       await onAction();
       snackbar.success(`Sold ${quantity} items for ${value} tokens.`);
-      util.user.inventory.quantity.invalidate('1');
-      util.user.inventory.invalidate();
+      utils.user.inventory.quantity.invalidate('1');
+      utils.user.inventory.invalidate();
     } catch (error) {
       snackbar.error(parseTRPCClientErrorMessage(error));
     }

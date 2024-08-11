@@ -1,3 +1,4 @@
+import { SvgIconComponent } from '@mui/icons-material';
 import { Box, Button, Link, styled, Typography } from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -5,9 +6,10 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import { ActivationCodeType } from '@prisma/client';
+import { ColoredSteamGames } from '@worksheets/icons/companies';
 import { ValentinesGift } from '@worksheets/icons/valentines';
 import { routes } from '@worksheets/routes';
-import { itemTypeLogo } from '@worksheets/ui/components/items';
 import {
   PseudoPagination,
   usePseudoPagination,
@@ -19,6 +21,9 @@ import * as React from 'react';
 
 import { ActivationCodeModal } from './activation-code-modal';
 
+const codeTypeLogo: Record<ActivationCodeType, SvgIconComponent> = {
+  [ActivationCodeType.STEAM]: ColoredSteamGames,
+};
 const StyledBox = styled(Box)(({ theme }) => ({
   border: `1px solid ${theme.palette.divider}`,
   borderRadius: theme.shape.borderRadius,
@@ -67,7 +72,7 @@ const CodeRow: React.FC<{
   code: ActivationCodeDetailSchema;
 }> = ({ code }) => {
   const [open, setOpen] = React.useState(false);
-  const ItemTypeLogo = itemTypeLogo[code.item.type];
+  const CoeTypeLogo = codeTypeLogo[code.type];
 
   return (
     <>
@@ -76,7 +81,7 @@ const CodeRow: React.FC<{
         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
       >
         <TableCell width={12}>
-          <ItemTypeLogo
+          <CoeTypeLogo
             sx={{
               height: 24,
               width: 24,
@@ -91,7 +96,7 @@ const CodeRow: React.FC<{
           }}
         >
           <Link href={code.sourceUrl} target="_blank">
-            <b>{code.name ?? code.item.name}</b>
+            <b>{code.name ?? code.name}</b>
           </Link>
         </TableCell>
 

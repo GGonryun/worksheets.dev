@@ -1,8 +1,12 @@
 import { Button, Link, Typography } from '@mui/material';
+import { ActivationCodeType } from '@prisma/client';
 import { routes } from '@worksheets/routes';
 import { trpc } from '@worksheets/trpc-charity';
-import { Column, Row } from '@worksheets/ui/components/flex';
-import { ClipboardText } from '@worksheets/ui/components/inputs';
+import {
+  ActivationCodeImage,
+  CopyableActivationCodes,
+} from '@worksheets/ui/components/activation-codes';
+import { Row } from '@worksheets/ui/components/flex';
 import { PulsingLogo } from '@worksheets/ui/components/loading';
 import { BasicModal, ModalWrapper } from '@worksheets/ui/components/modals';
 import { useSnackbar } from '@worksheets/ui/components/snackbar';
@@ -74,23 +78,15 @@ const ActivationCode: React.FC<{
       <Typography textAlign="center">
         Use the code below to access your <br />
         <Link href={code.sourceUrl} target="_blank" fontWeight={700}>
-          {code.name}
+          {code.name}{' '}
+          {code.type === ActivationCodeType.STEAM ? 'Steam Key' : ''}
         </Link>
         .
       </Typography>
 
-      <Image
-        height={164}
-        width={164}
-        src={code.item.imageUrl}
-        alt={code.item.name}
-      />
+      <ActivationCodeImage src={code.imageUrl} alt={code.name} width={200} />
 
-      <Column my={1} width="100%" gap={2}>
-        {data.content.split('\\n').map((key, i) => (
-          <ClipboardText key={i} label="Activation Code" text={key} />
-        ))}
-      </Column>
+      <CopyableActivationCodes content={data.content} />
 
       <Button
         onClick={onClose}
@@ -104,7 +100,7 @@ const ActivationCode: React.FC<{
       <Button
         href={routes.help.prizes.path({
           bookmark:
-            code.item.type === 'STEAM_KEY'
+            code.type === ActivationCodeType.STEAM
               ? HelpPrizesQuestions.SteamKeys
               : HelpPrizesQuestions.HowToClaim,
         })}
@@ -133,12 +129,7 @@ const ViewCode: React.FC<{
         .
       </Typography>
 
-      <Image
-        height={164}
-        width={164}
-        src={code.item.imageUrl}
-        alt={code.item.name}
-      />
+      <ActivationCodeImage src={code.imageUrl} alt={code.name} width={200} />
 
       {!code.accessedAt && (
         <Typography textAlign="center" variant="body2">

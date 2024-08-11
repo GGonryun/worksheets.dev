@@ -32,6 +32,7 @@ const buttonLabels: Record<FilterableNotificationType, string> = {
   FRIEND: 'Friends',
   SYSTEM: 'System',
   RAFFLE: 'Raffles',
+  PRIZE: 'Prizes',
   INVENTORY: 'Inventory',
   REWARD: 'Rewards',
   GAME: 'Games',

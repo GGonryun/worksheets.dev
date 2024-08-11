@@ -1,4 +1,6 @@
+import { routes } from '@worksheets/routes';
 import { PushNotifyInput } from '@worksheets/services/push';
+import { InventoryPanels } from '@worksheets/util/enums';
 import { nth } from '@worksheets/util/numbers';
 import {
   STARTING_GIFT_BOXES,
@@ -26,6 +28,19 @@ import {
 } from './urls';
 
 export class PushTemplates {
+  static prizePurchased(
+    opts: ExtractTemplatePayload<'prize-purchased'>
+  ): PushNotifyInput {
+    return {
+      userIds: [opts.userId],
+      type: 'PRIZE',
+      text: `You have unlocked the prize <a href="${opts.url}">${opts.name} ${
+        opts.type === 'STEAM' ? 'Steam Key' : ''
+      }</a>. Access your prize <a href="${routes.account.inventory.url({
+        bookmark: InventoryPanels.ActivationCodes,
+      })}">here</a>!`,
+    };
+  }
   static achievementUnlocked(
     opts: ExtractTemplatePayload<'achievement-unlocked'>
   ): PushNotifyInput {

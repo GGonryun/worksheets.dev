@@ -20,32 +20,19 @@ export default t.router({
           where: {
             userId: user.id,
           },
-          include: {
-            item: true,
-          },
           orderBy: {
             accessedAt: 'desc',
           },
         });
 
         return codes.map((code) => {
-          if (code.item.type !== 'STEAM_KEY') {
-            throw new TRPCError({
-              code: 'INTERNAL_SERVER_ERROR',
-              message: 'Invalid item type',
-            });
-          }
-
           return {
             id: code.id,
             name: code.name,
             sourceUrl: code.sourceUrl,
             accessedAt: code.accessedAt?.getTime() ?? 0,
-            item: {
-              name: code.item.name,
-              type: code.item.type,
-              imageUrl: code.item.imageUrl,
-            },
+            type: code.type,
+            imageUrl: code.imageUrl,
           };
         });
       }),

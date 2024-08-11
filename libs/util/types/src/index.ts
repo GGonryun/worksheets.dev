@@ -29,3 +29,4 @@ export * from './lib/sort';
 export * from './lib/advertising';
 export * from './lib/battles';
 export * from './lib/tasks';
+export * from './lib/prizes';

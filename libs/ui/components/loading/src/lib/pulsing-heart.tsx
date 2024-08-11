@@ -13,8 +13,10 @@ export const PulsingLogo: React.FC<{
   hideMessage?: boolean;
   message?: string;
   offset?: number;
+  textColor?: string;
   size?: number;
 }> = (props) => {
+  const textColor = props.textColor ?? 'text.primary';
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down('sm'));
   const [message, setMessage] = React.useState(props.message ?? 'Loading...');
   const size = props.size ?? (isMobile ? 64 : 92);
@@ -31,7 +33,13 @@ export const PulsingLogo: React.FC<{
         <PulsingIcon size={size} />
       </Box>
       {!props.hideMessage && (
-        <Typography variant="body3" fontWeight={700} textAlign="center" mt={-2}>
+        <Typography
+          variant="body3"
+          fontWeight={700}
+          textAlign="center"
+          mt={-2}
+          color={textColor}
+        >
           {message}
         </Typography>
       )}
