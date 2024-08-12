@@ -8,10 +8,8 @@ import { nth } from '@worksheets/util/numbers';
 import {
   durationToString,
   lastSundayUtcMidnight,
-  lastUtcMidnight,
   millisecondsAsDuration,
   nextSundayUtcMidnight,
-  nextUtcMidnight,
   printDateTime,
 } from '@worksheets/util/time';
 import { NO_REFETCH } from '@worksheets/util/trpc';
@@ -30,7 +28,7 @@ import { LeaderboardTable } from './leaderboard-table';
 export const GameLeaderboards: FC<{
   gameId: string;
 }> = ({ gameId }) => {
-  const [frequency, setFrequency] = useState<LeaderboardFrequency>('DAILY');
+  const [frequency, setFrequency] = useState<LeaderboardFrequency>('WEEKLY');
   return (
     <Box mt={2}>
       <Description
@@ -225,13 +223,6 @@ const LeaderboardTimestamps: React.FC<{
 };
 
 const getLeaderboardTimestamps = (frequency: LeaderboardFrequency) => {
-  if (frequency === 'DAILY') {
-    return {
-      start: lastUtcMidnight(),
-      end: nextUtcMidnight(),
-    };
-  }
-
   if (frequency === 'WEEKLY') {
     return {
       start: lastSundayUtcMidnight(),

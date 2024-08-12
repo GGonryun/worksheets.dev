@@ -53,10 +53,6 @@
             "schedule": "0 0 * * *"
         },
         {
-            "path": "/api/cron/reward-leaderboards-daily",
-            "schedule": "0 0 * * *"
-        },
-        {
             "path": "/api/cron/reward-leaderboards-weekly",
             "schedule": "0 0 * * 0"
         },

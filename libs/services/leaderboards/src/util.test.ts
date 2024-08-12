@@ -4,12 +4,6 @@ import { getPayoutDates } from './util';
 describe('getPayoutDates', () => {
   it.each([
     [
-      'DAILY',
-      new Date('2021-01-01T00:00:00Z'),
-      new Date('2020-12-31T00:00:00Z'),
-      new Date('2020-12-31T23:59:59.999Z'),
-    ],
-    [
       'WEEKLY',
       new Date('2021-01-01T00:00:00Z'),
       new Date('2020-12-20T00:00:00Z'),

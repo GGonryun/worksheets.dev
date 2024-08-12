@@ -1,11 +1,10 @@
 import { assertNever } from '@worksheets/util/errors';
-import { lastSundayUtcMidnight, lastUtcMidnight } from '@worksheets/util/time';
+import { lastSundayUtcMidnight } from '@worksheets/util/time';
 import { z } from 'zod';
 
-export const LEADERBOARD_LIMIT = 16;
+export const LEADERBOARD_LIMIT = 32;
 
 export const LEADERBOARD_FREQUENCY = {
-  DAILY: 'DAILY',
   WEEKLY: 'WEEKLY',
   ALL_TIME: 'ALL_TIME',
 } as const;
@@ -14,7 +13,6 @@ export const LEADERBOARD_FREQUENCY_LABELS: Record<
   LeaderboardFrequency,
   string
 > = {
-  DAILY: 'Daily',
   WEEKLY: 'Weekly',
   ALL_TIME: 'All Time',
 };
@@ -25,7 +23,6 @@ export type LeaderboardFrequency = keyof typeof LEADERBOARD_FREQUENCY;
 
 export const LEADERBOARD_REWARD_PAYOUT: Record<LeaderboardFrequency, number[]> =
   {
-    DAILY: [150, 75, 50, 50, 25, 25],
     WEEKLY: [400, 300, 150, 150, 100, 100, 50, 50, 25, 25],
     ALL_TIME: [],
   };
@@ -44,10 +41,6 @@ export type LeaderboardPlayerSchema = z.infer<typeof leaderboardPlayerSchema>;
 export const getLeaderboardFrequencyDate = (
   frequency: LeaderboardFrequency
 ): Date => {
-  if (frequency === 'DAILY') {
-    return lastUtcMidnight();
-  }
-
   if (frequency === 'WEEKLY') {
     return lastSundayUtcMidnight();
   }

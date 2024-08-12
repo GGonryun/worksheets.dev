@@ -6,36 +6,6 @@ export const getPayoutDates = (
   frequency: LeaderboardFrequency,
   now: Date = new Date()
 ) => {
-  if (frequency === 'DAILY') {
-    const yesterday = new Date(now);
-    yesterday.setUTCDate(yesterday.getUTCDate() - 1);
-
-    const starting = new Date(
-      Date.UTC(
-        yesterday.getUTCFullYear(),
-        yesterday.getUTCMonth(),
-        yesterday.getUTCDate(),
-        0,
-        0,
-        0,
-        0
-      )
-    );
-    const ending = new Date(
-      Date.UTC(
-        yesterday.getUTCFullYear(),
-        yesterday.getUTCMonth(),
-        yesterday.getUTCDate(),
-        23,
-        59,
-        59,
-        999
-      )
-    );
-
-    return { starting, ending };
-  }
-
   if (frequency === 'WEEKLY') {
     // Find the Sunday of the week before the last
     const start = new Date(now);
