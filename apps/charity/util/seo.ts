@@ -5,7 +5,6 @@ import {
   DeveloperSchema,
   ItemSchema,
   MonsterSchema,
-  PrizeSchema,
   RaffleSchema,
   SerializableGameSchema,
   TagSchema,
@@ -131,6 +130,7 @@ export const bossBattlesSeo = createSeo({
 
 export const bossBattleSeo = (battle: BattleSchema): NextSeoProps =>
   createSeo({
+    noindex: true,
     path: routes.battle.path({ params: { battleId: battle.id } }),
     title: `${battle.mob.name} | Boss Battle`,
     description: `Defeat ${battle.mob.name} and earn rewards. Every token you spend is a donation towards charity. Win prizes by playing browser games.`,
@@ -418,6 +418,7 @@ export const rafflesSeo = createSeo({
 
 export const raffleSeo = (raffle: RaffleSchema): NextSeoProps =>
   createSeo({
+    noindex: true,
     path: routes.raffle.path({ params: { raffleId: raffle.id } }),
     title: `${raffle.name} | Raffle`,
     description:
@@ -529,10 +530,3 @@ export const prizesSeo = createSeo({
   description:
     'Trade your tokens for digital and physical prizes. Win prizes by playing browser games.',
 });
-
-export const prizeSeo = (item: PrizeSchema): NextSeoProps =>
-  createSeo({
-    path: routes.prizes.prize.path({ params: { prizeId: item.id } }),
-    title: `${item.name} | Prize`,
-    description: `Trade your tokens for ${item.name}. Win prizes by playing browser games.`,
-  });
