@@ -145,7 +145,7 @@ export class PrizeService {
   }
 
   async shuffle() {
-    const MAX_DAILY_PRIZES = 3;
+    const MAX_DAILY_PRIZES = 5;
 
     const prizes = await this.db.prize.findMany({
       where: {

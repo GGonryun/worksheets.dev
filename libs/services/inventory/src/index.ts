@@ -506,6 +506,7 @@ export class InventoryService {
     const codes = await this.#db.activationCode.findMany({
       where: {
         userId: null,
+        // This is required to prevent users from claiming a key that's currently for sale at prize wall
         itemId: opts.itemId,
       },
       select: {
