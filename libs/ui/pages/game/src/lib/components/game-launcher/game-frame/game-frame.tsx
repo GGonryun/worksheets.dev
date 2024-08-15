@@ -19,6 +19,7 @@ import { SessionContextValue } from 'next-auth/react';
 import pluralize from 'pluralize';
 import React, { useRef } from 'react';
 
+import { GameTrackingProvider } from '../../../context/game-tracking-context';
 import { useGameNotifications } from '../../../hooks/use-game-notifications';
 import classes from './game-frame.module.scss';
 import { GameInternalFrame } from './game-internal-frame';
@@ -355,7 +356,9 @@ export const GameFrame: React.FC<{
         </Typography>
       </Box>
       <AdBlockModal open={showAdBlockModal} onClose={handleClose} />
-      <GameInternalFrame frameRef={frameRef} url={url} />
+      <GameTrackingProvider gameId={gameId}>
+        <GameInternalFrame frameRef={frameRef} url={url} />
+      </GameTrackingProvider>
     </Box>
   );
 };

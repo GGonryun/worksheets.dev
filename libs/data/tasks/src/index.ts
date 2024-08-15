@@ -663,6 +663,33 @@ export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
       'Earn an bonus entries every time someone enters the raffle using your referral link',
     data: {},
   },
+  // infinites
+  {
+    version: 3,
+    id: 'PLAY_MINUTES_INFINITE',
+    type: TaskType.PLAY_MINUTES,
+    category: TaskCategory.GAMEPLAY,
+    frequency: TaskFrequency.INFINITE,
+    requiredRepetitions: 60, // seconds
+    maxRepetitions: MAX_INT,
+    name: 'Play Games for 1 Minute',
+    description:
+      'Earn rewards for every a minute you play a game on Charity Games.',
+    data: {},
+  },
+  {
+    version: 2,
+    id: 'PLAY_MINUTES_5_INFINITE',
+    type: TaskType.PLAY_MINUTES,
+    category: TaskCategory.GAMEPLAY,
+    frequency: TaskFrequency.INFINITE,
+    requiredRepetitions: 300, // seconds
+    maxRepetitions: MAX_INT,
+    name: 'Play Games for 5 Minutes',
+    description:
+      'Earn rewards for every 5 minutes you play a game on Charity Games.',
+    data: {},
+  },
   {
     version: 1,
     id: 'PLAY_GAME_INFINITE',

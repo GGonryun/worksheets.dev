@@ -59,6 +59,9 @@ export type TaskData = {
   PLAY_GAME: unknown;
   RAFFLE_PARTICIPATION: unknown;
   BATTLE_PARTICIPATION: unknown;
+  PLAY_MINUTES: unknown;
+  REFERRAL_PLAY_MINUTES: unknown;
+  FRIEND_PLAY_MINUTES: unknown;
   ADD_FRIEND: unknown;
   ADD_REFERRAL: unknown;
   PRIZE_WHEEL: unknown;

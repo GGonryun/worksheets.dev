@@ -11,10 +11,13 @@ import { CatpchaForm } from './captcha-form';
 import { CustomInputForm } from './custom-input-form';
 import { FollowTwitchForm } from './follow-twitch-form';
 import { FollowTwitterForm } from './follow-twitter-form';
+import { FriendPlayMinutesForm } from './friend-play-minutes-form';
 import { JoinDiscordGuildForm } from './join-discord-guild-form';
 import { PlayGameForm } from './play-game-form';
+import { PlayMinutesForm } from './play-minutes-form';
 import { PollForm } from './poll-form';
 import { RaffleParticipationForm } from './raffle-participation-form';
+import { ReferralPlayMinutesForm } from './referral-play-minutes-form';
 import { ReferralTaskForm } from './referral-task-form';
 import { RepostTwitterForm } from './repost-twitter-form';
 import { SecretForm } from './secret-form';
@@ -44,6 +47,14 @@ export const TaskForm: React.FC<TaskFormProps> = ({ task, actions }) => {
       return <AddReferralForm task={task} actions={actions} />;
     case TaskType.RAFFLE_PARTICIPATION:
       return <RaffleParticipationForm task={task} actions={actions} />;
+    case TaskType.PLAY_MINUTES:
+      return <PlayMinutesForm task={task} actions={actions} />;
+    // TODO @deprecated: Remove this task type
+    case TaskType.REFERRAL_PLAY_MINUTES:
+      return <ReferralPlayMinutesForm task={task} actions={actions} />;
+    // TODO @deprecated: Remove this task type
+    case TaskType.FRIEND_PLAY_MINUTES:
+      return <FriendPlayMinutesForm task={task} actions={actions} />;
     case TaskType.BASIC_ACTION:
       return <BasicActionForm task={task} actions={actions} />;
     case TaskType.WATCH_AD:

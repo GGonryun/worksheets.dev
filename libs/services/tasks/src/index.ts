@@ -535,7 +535,10 @@ export class TasksService {
   }
 
   async trackGameActions(opts: {
-    type: Extract<TaskType, 'PLAY_GAME' | 'SUBMIT_LEADERBOARD_SCORE'>;
+    type: Extract<
+      TaskType,
+      'PLAY_GAME' | 'PLAY_MINUTES' | 'SUBMIT_LEADERBOARD_SCORE'
+    >;
     gameId: string;
     userId: string;
     repetitions: number;
@@ -740,7 +743,7 @@ export class TasksService {
   async trackGameQuests(opts: {
     userId: string;
     gameId: string;
-    type: Extract<TaskType, 'PLAY_GAME'>;
+    type: Extract<TaskType, 'PLAY_GAME' | 'PLAY_MINUTES'>;
     repetitions: number;
   }): Promise<TaskProgress[]> {
     console.info(

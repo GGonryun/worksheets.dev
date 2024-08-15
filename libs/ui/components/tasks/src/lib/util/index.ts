@@ -13,6 +13,8 @@ import {
   PasswordOutlined,
   PersonOutlined,
   PollOutlined,
+  PunchClockOutlined,
+  ScheduleOutlined,
   SvgIconComponent,
   VideogameAssetOutlined,
   YouTube,
@@ -73,9 +75,12 @@ const TASK_BACKGROUND_COLOR: Record<TaskType, ButtonProps['color']> = {
   [TaskType.BASIC_ACTION]: 'primary',
   [TaskType.FORM]: 'primary',
   [TaskType.PLAY_GAME]: 'primary',
+  [TaskType.PLAY_MINUTES]: 'primary',
   [TaskType.CAPTCHA]: 'primary',
   [TaskType.REFERRAL_TASK]: 'secondary',
   [TaskType.SUBMIT_LEADERBOARD_SCORE]: 'yellow',
+  REFERRAL_PLAY_MINUTES: undefined,
+  FRIEND_PLAY_MINUTES: undefined,
   ADD_FRIEND: undefined,
   ADD_REFERRAL: undefined,
   RAFFLE_PARTICIPATION: undefined,
@@ -99,7 +104,10 @@ const TASK_ICON: Record<TaskType, SvgIconComponent> = {
   [TaskType.REPOST_TWITTER]: NewTwitter,
   [TaskType.ADD_FRIEND]: Diversity1Outlined,
   [TaskType.ADD_REFERRAL]: PersonOutlined,
+  [TaskType.PLAY_MINUTES]: ScheduleOutlined,
   [TaskType.RAFFLE_PARTICIPATION]: LocalActivityOutlined,
+  [TaskType.REFERRAL_PLAY_MINUTES]: PunchClockOutlined,
+  [TaskType.FRIEND_PLAY_MINUTES]: Diversity1Outlined,
   [TaskType.BASIC_ACTION]: CheckBoxOutlined,
   [TaskType.WATCH_AD]: FeaturedVideoOutlined,
   [TaskType.SUBSCRIBE_YOUTUBE]: YouTube,
@@ -202,8 +210,14 @@ export const formatTaskTypeLabel = (type: TaskType) => {
       return 'Add Friend';
     case TaskType.ADD_REFERRAL:
       return 'Add Referral';
+    case TaskType.PLAY_MINUTES:
+      return 'Play Minutes';
     case TaskType.RAFFLE_PARTICIPATION:
       return 'Raffle Participation';
+    case TaskType.REFERRAL_PLAY_MINUTES:
+      return 'Play Minutes';
+    case TaskType.FRIEND_PLAY_MINUTES:
+      return 'Play Minutes';
     case TaskType.BASIC_ACTION:
       return 'Basic Action';
     case TaskType.WATCH_AD:
