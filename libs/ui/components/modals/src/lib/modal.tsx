@@ -32,6 +32,7 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
             left: '50%',
             transform: 'translate(-50%, -50%)',
             outline: 'none',
+            ...sx,
           }}
         >
           <Paper
@@ -41,7 +42,7 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
               display: 'flex',
               position: 'relative',
               overflow: 'hidden',
-              ...sx,
+              width: '100%',
             }}
             ref={ref}
           >
