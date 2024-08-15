@@ -1,24 +1,12 @@
 import { ArrowLeft } from '@mui/icons-material';
-import {
-  Box,
-  Button,
-  Container,
-  Paper,
-  styled,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Typography,
-} from '@mui/material';
+import { Button, Container, Paper, Typography } from '@mui/material';
 import { routes } from '@worksheets/routes';
 import { trpc } from '@worksheets/trpc-charity';
 import { Description } from '@worksheets/ui/components/description';
 import { ErrorComponent } from '@worksheets/ui/components/errors';
 import { ItemDetails } from '@worksheets/ui/components/items';
 import { LoadingBar } from '@worksheets/ui/components/loading';
+import { Table, TableCell, TableRow } from '@worksheets/ui/components/tables';
 import { ErrorScreen } from '@worksheets/ui/pages/errors';
 import { LoadingScreen } from '@worksheets/ui/pages/loading';
 import { ItemSchema } from '@worksheets/util/types';
@@ -68,12 +56,6 @@ const Screen: React.FC<{ item: ItemSchema }> = (props) => {
   );
 };
 
-const StyledBox = styled(Box)(({ theme }) => ({
-  border: `1px solid ${theme.palette.divider}`,
-  borderRadius: theme.shape.borderRadius,
-  overflow: 'hidden',
-}));
-
 export const OwnersTable: React.FC<{ item: ItemSchema }> = (props) => {
   const owners = trpc.public.items.owners.useQuery(props.item.id);
   if (owners.isLoading) return <LoadingBar />;
@@ -84,32 +66,23 @@ export const OwnersTable: React.FC<{ item: ItemSchema }> = (props) => {
   }
 
   return (
-    <TableContainer component={StyledBox}>
-      <Table
-        size="small"
-        sx={{
-          minWidth: 400,
-        }}
-      >
-        <TableHead>
-          <TableRow>
-            <TableCell>Username</TableCell>
-            <TableCell>Found At</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {owners.data.map((o) => (
-            <TableRow
-              key={o.user.username}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-              <TableCell>{o.user.username}</TableCell>
-              <TableCell>{o.createdAt}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <Table
+      head={
+        <>
+          <TableCell>Username</TableCell>
+          <TableCell>Found At</TableCell>
+        </>
+      }
+      body={owners.data.map((o) => (
+        <TableRow
+          key={o.user.username}
+          sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+        >
+          <TableCell>{o.user.username}</TableCell>
+          <TableCell>{o.createdAt}</TableCell>
+        </TableRow>
+      ))}
+    />
   );
 };
 

@@ -50,6 +50,7 @@ export const battleParticipationSchema = z.object({
   }),
   damage: z.number(),
   strikes: z.number(),
+  mvp: z.nativeEnum(MvpReason).nullable(),
 });
 
 export type BattleParticipationSchema = z.infer<
@@ -92,12 +93,3 @@ export type UserBattleParticipationSchema = z.infer<
 export const isBattleComplete = (
   battle: Pick<BattleSchema, 'status' | 'health'>
 ) => battle.status === BattleStatus.COMPLETE || battle.health <= 0;
-
-export const battleRecordSchema = z.object({
-  battleId: z.number(),
-  mvpId: z.number(),
-  mvpReason: z.nativeEnum(MvpReason),
-  results: z.record(z.string(), z.record(z.string(), z.number())),
-});
-
-export type BattleRecordSchema = z.infer<typeof battleRecordSchema>;

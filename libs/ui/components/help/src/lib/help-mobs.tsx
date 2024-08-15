@@ -2,7 +2,6 @@ import { Link, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import { routes } from '@worksheets/routes';
 import { HelpMobsQuestions } from '@worksheets/util/enums';
-import { ENTRY_PER_DAMAGE } from '@worksheets/util/settings';
 import { QuestionAnswer } from '@worksheets/util/types';
 
 export const helpMobs: QuestionAnswer[] = [
@@ -20,27 +19,24 @@ export const helpMobs: QuestionAnswer[] = [
         <br />
         To participate in a boss fight, navigate to the{' '}
         <Link href={routes.battles.path()}>Boss List</Link> and select a boss to
-        fight. You can join a boss fight by clicking the "Enter Dungeon" button.
+        fight. You can join a boss fight by clicking the "Fight" button.
         <br />
         <br />
         Players deal damage to the boss by using their{' '}
-        <Link href={routes.help.tokens.path()}>tokens</Link> or combat items.
-        The boss has a health bar that decreases as players deal damage. If the
-        boss's health reaches zero, the boss is defeated and players earn loot.
+        <Link href={routes.help.inventory.path()}> combat items</Link>. The boss
+        has a health bar that decreases as players deal damage. If the boss's
+        health reaches zero, the boss is defeated.
+        <br />
+        <br />
         The boss loot is divided into MVP loot and regular loot. The MVP loot is
-        given to the player who deals the most damage to the boss or who deals
-        the final blow to the boss. The regular loot is randomly distributed
-        across all players who participated in the boss fight. Players increase
-        their chances of receiving rewards by dealing as much damage to the boss
-        as possible. Every {ENTRY_PER_DAMAGE} damage dealt gives you one entry
-        into the loot pool.
+        given to the player who deals the most damage to the boss. Basic loot is
+        granted every time a player deals a minimum amount of damage to the
+        boss. The more damage you deal to the boss, the more loot you can earn.
         <br />
         <br />
         Bosses stay around until they are defeated. There is no time limit to a
-        boss fight, so players can take their time to defeat the boss. Some
-        bosses have special mechanics that require players to work together to
-        defeat the boss. Make sure to read the boss's description to learn about
-        any special mechanics.
+        boss fight, so players can take their time to defeat the boss. Every
+        time a boss dies it is replaced by a new boss with new loot.
       </Box>
     ),
   },
@@ -191,15 +187,13 @@ export const helpMobs: QuestionAnswer[] = [
     answer: (
       <Box>
         MVP stands for Most Valuable Player. The MVP is the player who deals the
-        most damage to the boss or who deals the final blow to the boss. The MVP
-        loot is given to the player who is the MVP. Under the MVP loot section
-        of the boss fight page, you can see the current MVP and the MVP loot
-        that they will receive.
+        most damage to the boss. The MVP loot is given to the player who is the
+        MVP.
         <br />
         <br />
         There are rare scenarios where multiple players might be considered the
-        MVP. In these cases, the MVP loot will be randomly distributed among the
-        players who are considered the MVP.
+        MVP. In these cases, a random player will be selected from the pool of
+        MVPs.
       </Box>
     ),
   },
@@ -211,13 +205,13 @@ export const helpMobs: QuestionAnswer[] = [
     answer: (
       <Box>
         When a boss is defeated, it will drop all the loot specified on the
-        bosses description page. The loot is divided into MVP loot and regular
+        bosses description page. The loot is divided into MVP loot and basic
         loot. The MVP loot is given to the player who deals the most damage to
-        the boss or who deals the final blow to the boss. The regular loot is
-        randomly distributed across all players who participated in the boss
-        fight. Players increase their chances of receiving rewards by dealing as
-        much damage to the boss as possible. Every {ENTRY_PER_DAMAGE} damage
-        dealt gives you one entry into the loot pool.
+        the boss. Basic loot is granted every time a user attacks a boss and
+        deals a minimum amount of damage. The minimum amount of damage is
+        determined by the bosses <b>Defense</b> stat. Players increase their
+        chances of receiving rewards by dealing as much damage to the boss as
+        possible.
         <br />
         <br />
         <Typography variant="h6" gutterBottom>
@@ -230,18 +224,19 @@ export const helpMobs: QuestionAnswer[] = [
         <br />
         <br />
         <Typography variant="h6" gutterBottom>
-          Regular Loot
+          Basic Loot
         </Typography>
-        Regular loot is randomly distributed across all players who participated
-        in the boss fight. Regular loot can include tokens, collectable cards,
-        miscellaneous loot, and other items. On rare occasions, regular loot can
-        include major prizes like gift cards and merchandise.
+        Basic loot can include tokens, or other items.
         <br />
         <br />
         Dealing more damage to the boss increases your chances of receiving
-        rewards.Every {ENTRY_PER_DAMAGE} damage dealt gives you one entry into
-        the loot pool. Make sure to read the boss's description to learn about
-        the rewards that you can earn from participating in the boss fight.
+        rewards. The boss's defense stat determines the minimum amount of damage
+        you need to deal to receive basic loot. The more damage you deal to the
+        boss, the more loot you can earn.
+        <br />
+        <br />
+        Make sure to read the boss's description to learn about the rewards that
+        you can earn from participating in the boss fight.
       </Box>
     ),
   },

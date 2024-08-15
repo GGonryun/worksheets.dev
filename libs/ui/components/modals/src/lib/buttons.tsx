@@ -23,6 +23,7 @@ export const CloseButton: React.FC<{
         disableRipple
         sx={{
           p: '3px',
+          zIndex: 1,
           background: (theme) => theme.palette[color].gradient,
         }}
       >

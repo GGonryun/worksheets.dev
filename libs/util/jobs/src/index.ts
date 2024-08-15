@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   CHARITY_GAMES_BASE_URL,
   CRON_SECRET,
@@ -5,7 +6,6 @@ import {
 import { IS_PRODUCTION } from '@worksheets/ui/env';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const startBackgroundJob = (path: string, body: any) => {
   const baseUrl = CHARITY_GAMES_BASE_URL;
 
@@ -28,8 +28,12 @@ export const startBackgroundJob = (path: string, body: any) => {
 };
 
 export const createBackgroundJob = (
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  fn: (path: string[], body: any) => Promise<any>
+  fn: (
+    path: string[],
+    body: any,
+    req: NextApiRequest,
+    res: NextApiResponse
+  ) => Promise<any>
 ) => {
   return async (request: NextApiRequest, response: NextApiResponse) => {
     const authHeader = request.headers['authorization'];
@@ -45,7 +49,7 @@ export const createBackgroundJob = (
     const body = request.body;
 
     try {
-      const result = await fn(path, body);
+      const result = await fn(path, body, request, response);
       console.info('Background job executed', path, result);
       response.status(204).end();
     } catch (error) {

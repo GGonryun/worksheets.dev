@@ -1,8 +1,5 @@
 import { MobsService } from '@worksheets/services/mobs';
-import {
-  battleParticipationSchema,
-  battleRecordSchema,
-} from '@worksheets/util/types';
+import { battleParticipationSchema } from '@worksheets/util/types';
 import { z } from 'zod';
 
 import { maybeProcedure } from '../../../procedures';
@@ -36,12 +33,5 @@ export default t.router({
     .query(async ({ ctx: { db }, input }) => {
       const mobs = new MobsService(db);
       return mobs.logs(input);
-    }),
-  record: maybeProcedure
-    .input(z.number())
-    .output(battleRecordSchema.nullable())
-    .query(async ({ ctx: { db }, input }) => {
-      const mobs = new MobsService(db);
-      return await mobs.record(input);
     }),
 });

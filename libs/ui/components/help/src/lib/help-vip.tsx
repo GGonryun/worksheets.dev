@@ -4,7 +4,7 @@ import { ListItem, OrderedList } from '@worksheets/ui-core';
 import { HelpVIPQuestions } from '@worksheets/util/enums';
 import { QuestionAnswer } from '@worksheets/util/types';
 
-import { HelpfulLinks } from '../helpful-links';
+import { HelpfulLinks } from './helpful-links';
 
 export const helpVip: QuestionAnswer[] = [
   {

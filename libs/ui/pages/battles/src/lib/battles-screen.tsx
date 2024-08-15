@@ -25,8 +25,11 @@ import {
 } from '@worksheets/icons/font-awesome-solid';
 import { routes } from '@worksheets/routes';
 import { trpc } from '@worksheets/trpc-charity';
+import { Description } from '@worksheets/ui/components/description';
 import { Column, Row } from '@worksheets/ui/components/flex';
+import { helpMobs } from '@worksheets/ui/components/help';
 import { LoadingBar } from '@worksheets/ui/components/loading';
+import { Questions } from '@worksheets/ui/components/qa-section';
 import { GradientShadowedTypography } from '@worksheets/ui/components/typography';
 import { LoadingScreen } from '@worksheets/ui/pages/loading';
 import { getObjectKeys } from '@worksheets/util/objects';
@@ -51,47 +54,66 @@ const MobsScreen = () => {
   const battles = trpc.maybe.battles.list.useQuery(filters);
 
   return (
-    <Container
-      maxWidth="md"
-      sx={{
-        py: 4,
-      }}
-    >
-      <Paper
+    <>
+      <Container
+        maxWidth="lg"
         sx={{
-          borderRadius: (theme) => theme.shape.borderRadius,
-          backgroundColor: (theme) => theme.palette.background.paper,
-          px: { xs: 1, sm: 2, md: 3, lg: 4 },
-          py: 2,
+          py: 4,
         }}
       >
-        <Column alignItems="center" gap={4}>
-          <MobsOrder filters={filters} setFilters={setFilters} />
+        <Paper
+          sx={{
+            borderRadius: (theme) => theme.shape.borderRadius,
+            backgroundColor: (theme) => theme.palette.background.paper,
+            px: { xs: 1, sm: 2, md: 3, lg: 4 },
+            py: 2,
+          }}
+        >
+          <Column alignItems="center" gap={4}>
+            <MobsOrder filters={filters} setFilters={setFilters} />
 
-          {battles.isLoading ? (
-            <LoadingBar />
-          ) : (
-            <Column width="100%" gap={2}>
-              {battles.data && battles.data.length ? (
-                battles.data?.map((battle) => (
-                  <BossBattle
-                    key={battle.id}
-                    battle={battle}
-                    href={routes.battle.path({
-                      params: {
-                        battleId: battle.id,
-                      },
-                    })}
-                  />
-                ))
-              ) : (
-                <NoBattlesAvailable />
-              )}
-            </Column>
-          )}
-        </Column>
-      </Paper>
-    </Container>
+            {battles.isLoading ? (
+              <LoadingBar />
+            ) : (
+              <Column width="100%" gap={2}>
+                {battles.data && battles.data.length ? (
+                  battles.data?.map((battle) => (
+                    <BossBattle
+                      key={battle.id}
+                      battle={battle}
+                      href={routes.battle.path({
+                        params: {
+                          battleId: battle.id,
+                        },
+                      })}
+                    />
+                  ))
+                ) : (
+                  <NoBattlesAvailable />
+                )}
+              </Column>
+            )}
+          </Column>
+        </Paper>
+      </Container>
+      <Container
+        maxWidth="lg"
+        sx={{
+          mb: 4,
+        }}
+      >
+        <Description
+          open
+          title="Frequently Asked Questions"
+          color="secondary"
+          description={
+            <Box mt={{ xs: 3, sm: 4 }}>
+              <Questions qa={helpMobs} />
+            </Box>
+          }
+        />
+      </Container>
+    </>
   );
 };
 

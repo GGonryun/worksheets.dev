@@ -1,10 +1,12 @@
 import { Collapse } from '@mui/material';
 import { Column, Row } from '@worksheets/ui/components/flex';
+import { helpLoot } from '@worksheets/ui/components/help';
 import { useMediaQueryDown } from '@worksheets/ui/hooks/use-media-query';
 import { MonsterSchema, separateLoot } from '@worksheets/util/types';
 import React, { useEffect } from 'react';
 
 import { Header } from '../header';
+import { HelpLink } from '../help-link';
 import { Banner } from './banner';
 import { Item } from './item';
 
@@ -24,7 +26,9 @@ export const Loot: React.FC<MonsterSchema> = (mob) => {
       </Header>
       <Collapse in={open}>
         <Column my={1} mx={2}>
-          <Banner>Basic Loot</Banner>
+          <Banner>
+            <LootHelpLink>Basic Loot</LootHelpLink>
+          </Banner>
           <Row
             columnGap={5}
             rowGap={2}
@@ -36,7 +40,9 @@ export const Loot: React.FC<MonsterSchema> = (mob) => {
               <Item key={loot.item.id} {...loot} />
             ))}
           </Row>
-          <Banner>MVP Loot</Banner>
+          <Banner>
+            <LootHelpLink>MVP Loot</LootHelpLink>
+          </Banner>
           <Row
             columnGap={5}
             rowGap={2}
@@ -53,3 +59,16 @@ export const Loot: React.FC<MonsterSchema> = (mob) => {
     </Column>
   );
 };
+
+const LootHelpLink: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => (
+  <HelpLink
+    modalProps={{
+      title: 'Learn about Loot',
+      questions: helpLoot,
+    }}
+  >
+    {children}
+  </HelpLink>
+);

@@ -58,3 +58,16 @@ export const frequency = <T extends string | number>(
     return acc;
   }, {} as Record<T, number>);
 };
+
+export const weightedPick = <T>(arr: T[], weights: number[]): T => {
+  const totalWeight = weights.reduce((acc, curr) => acc + curr, 0);
+  const random = Math.random() * totalWeight;
+  let weightSum = 0;
+  for (let i = 0; i < arr.length; i++) {
+    weightSum += weights[i];
+    if (random < weightSum) {
+      return arr[i];
+    }
+  }
+  return arr[arr.length - 1];
+};

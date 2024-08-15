@@ -1,16 +1,11 @@
-import {
-  LocalActivity,
-  LoginOutlined,
-  Star,
-  VpnKeyOutlined,
-} from '@mui/icons-material';
-import { Button, Link, Typography } from '@mui/material';
+import { LocalActivity, Star } from '@mui/icons-material';
+import { Button } from '@mui/material';
 import { routes } from '@worksheets/routes';
 import { trpc } from '@worksheets/trpc-charity';
 import { Description } from '@worksheets/ui/components/description';
 import { ErrorComponent } from '@worksheets/ui/components/errors';
-import { Column } from '@worksheets/ui/components/flex';
 import { LoadingBar } from '@worksheets/ui/components/loading';
+import { LoginToView } from '@worksheets/ui/components/login';
 import { useSession } from 'next-auth/react';
 import React from 'react';
 
@@ -68,68 +63,17 @@ export const ParticipantsDescription: React.FC<{
             }
           />
         ) : (
-          <LoginToView raffleId={raffleId} />
+          <LoginToView
+            redirect={routes.raffle.path({
+              params: {
+                raffleId,
+              },
+            })}
+            title="view the participants and winners of this raffle"
+            subtitle="Want to view the participants and winners?"
+          />
         )
       }
     />
   );
 };
-
-const LoginToView: React.FC<{ raffleId: number }> = ({ raffleId }) => (
-  <Column gap={2}>
-    <Typography color="text.arcade" typography="h6">
-      <Link href={routes.signUp.path()} color="text.arcade">
-        Create an account
-      </Link>{' '}
-      to view the participants and winners of this raffle.
-    </Typography>
-    <Column gap={1} mt={2}>
-      <Typography fontWeight={500} color="text.arcade">
-        Want to view the participants and winners?
-      </Typography>
-      <Button
-        variant="arcade"
-        color="warning"
-        href={routes.login.path({
-          query: {
-            redirect: routes.raffle.path({
-              params: {
-                raffleId,
-              },
-            }),
-          },
-        })}
-        startIcon={<LoginOutlined />}
-        sx={{
-          width: 225,
-        }}
-      >
-        Login To View
-      </Button>
-    </Column>
-    <Column gap={1}>
-      <Typography fontWeight={500} color="text.arcade">
-        Don't have an account?
-      </Typography>
-      <Button
-        variant="arcade"
-        color="secondary"
-        href={routes.signUp.path({
-          query: {
-            redirect: routes.raffle.path({
-              params: {
-                raffleId,
-              },
-            }),
-          },
-        })}
-        startIcon={<VpnKeyOutlined />}
-        sx={{
-          width: 225,
-        }}
-      >
-        Register Now
-      </Button>
-    </Column>
-  </Column>
-);

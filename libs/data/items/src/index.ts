@@ -2075,14 +2075,13 @@ export const SHARABLE_ITEMS = ITEMS.filter(
 );
 
 export type CombatItem = Extract<Item, { type: 'COMBAT' }>;
-export type CombatItemId = CombatItem['id'] | TokenId;
+export type CombatItemId = CombatItem['id'];
 
 export const COMBAT_ITEMS = ITEMS.filter(
   (item): item is CombatItem => item.type === ItemType.COMBAT
 );
 
 export const COMBAT_ITEM_DAMAGE: Record<CombatItemId, number> = {
-  1: 1,
   1001: 5,
   1002: 6,
   1003: 7,
@@ -2129,7 +2128,6 @@ export type Resistances = {
 export type WeaponElement = keyof Resistances;
 
 export const COMBAT_ITEM_ELEMENT: Record<CombatItemId, WeaponElement> = {
-  1: 'neutral',
   1001: 'neutral',
   1002: 'neutral',
   1003: 'neutral',

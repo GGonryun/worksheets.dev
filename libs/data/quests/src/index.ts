@@ -190,6 +190,46 @@ export const QUESTS: Prisma.PlatformQuestUncheckedCreateInput[] = [
     },
   },
   {
+    id: 'WEAPONS_CRATE_DAILY',
+    order: 22,
+    version: 0,
+    taskId: 'DAILY_CHECK_IN',
+    name: 'Weapons Crate',
+    description:
+      'Open a free weapons crate every day to get a new weapon to use in battle!',
+    loot: {
+      createMany: {
+        data: [
+          {
+            itemId: '1000',
+            quantity: 1,
+            chance: 1,
+          },
+        ],
+      },
+    },
+  },
+  {
+    id: 'WEAPONS_CRATE_WEEKLY',
+    order: 23,
+    version: 0,
+    taskId: 'WEEKLY_CHECK_IN',
+    name: 'Weapons Crate',
+    description:
+      'Open a free weapons crate every week to get a new weapon to use in battle!',
+    loot: {
+      createMany: {
+        data: [
+          {
+            itemId: '1000',
+            quantity: 3,
+            chance: 1,
+          },
+        ],
+      },
+    },
+  },
+  {
     id: 'RANDOM_BOXES_WEEKLY',
     order: 24,
     version: 1,

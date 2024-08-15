@@ -1,3 +1,4 @@
+import { TRPCError } from '@trpc/server';
 import {
   COMBAT_ITEM_DAMAGE,
   COMBAT_ITEM_ELEMENT,
@@ -189,7 +190,7 @@ export const calculateCombatDamage = (
   selections: Record<string, number>
 ) =>
   Object.entries(selections).reduce((total, [itemId, quantity]) => {
-    const damage = COMBAT_ITEM_DAMAGE[itemId as CombatItemId] ?? 1;
+    const damage = COMBAT_ITEM_DAMAGE[itemId as CombatItemId] ?? 0;
     const element = COMBAT_ITEM_ELEMENT[itemId as CombatItemId] ?? 'neutral';
     const resistance = resistances[element];
     return Math.floor(total + damage * quantity * resistance);
@@ -203,3 +204,17 @@ export const battleLogSchema = z.object({
 });
 
 export type BattleLogSchema = z.infer<typeof battleLogSchema>;
+
+export const countItems = (items: Record<string, number>) => {
+  let sum = 0;
+  for (const key in items) {
+    if (!COMBAT_ITEM_DAMAGE[key as CombatItemId]) {
+      throw new TRPCError({
+        code: 'BAD_REQUEST',
+        message: `Item with ID ${key} is not a valid combat item`,
+      });
+    }
+    sum += items[key];
+  }
+  return sum;
+};

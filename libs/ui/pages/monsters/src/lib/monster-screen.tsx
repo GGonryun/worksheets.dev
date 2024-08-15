@@ -3,21 +3,7 @@ import {
   HelpCenterOutlined,
   InfoOutlined,
 } from '@mui/icons-material';
-import {
-  Box,
-  Button,
-  Container,
-  Link,
-  Paper,
-  styled,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Typography,
-} from '@mui/material';
+import { Button, Container, Link, Paper, Typography } from '@mui/material';
 import { routes } from '@worksheets/routes';
 import { trpc } from '@worksheets/trpc-charity';
 import { Description } from '@worksheets/ui/components/description';
@@ -28,6 +14,7 @@ import {
   MonsterDetails,
   MonsterProfile,
 } from '@worksheets/ui/components/monsters';
+import { Table, TableCell, TableRow } from '@worksheets/ui/components/tables';
 import { LoadingScreen } from '@worksheets/ui/pages/loading';
 import {
   BattleSchema,
@@ -130,31 +117,20 @@ const BattlesContent: React.FC<{ monster: MonsterSchema }> = (props) => {
   );
 };
 
-const StyledBox = styled(Box)(({ theme }) => ({
-  border: `1px solid ${theme.palette.divider}`,
-  borderRadius: theme.shape.borderRadius,
-  overflow: 'hidden',
-}));
-
 export const BattleTable: React.FC<{
   battles: BattleSchema[];
 }> = ({ battles }) => {
   return (
-    <TableContainer component={StyledBox}>
-      <Table
-        size="small"
-        sx={{
-          minWidth: 400,
-        }}
-      >
-        <TableHead>
-          <TableRow>
-            <TableCell>Battle ID</TableCell>
-            <TableCell>HP</TableCell>
-            <TableCell>Status</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
+    <Table
+      head={
+        <>
+          <TableCell>Battle ID</TableCell>
+          <TableCell>HP</TableCell>
+          <TableCell>Status</TableCell>
+        </>
+      }
+      body={
+        <>
           {battles.map((battle) => (
             <TableRow
               key={battle.id}
@@ -188,9 +164,9 @@ export const BattleTable: React.FC<{
               </TableCell>
             </TableRow>
           ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+        </>
+      }
+    />
   );
 };
 

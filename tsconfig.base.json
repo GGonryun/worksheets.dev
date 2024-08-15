@@ -88,6 +88,7 @@
       "@worksheets/services/notifications": [
         "libs/services/notifications/src/index.ts"
       ],
+      "@worksheets/services/prizes": ["libs/services/prizes/src/index.ts"],
       "@worksheets/services/push": ["libs/services/push/src/index.ts"],
       "@worksheets/services/raffles": ["libs/services/raffles/src/index.ts"],
       "@worksheets/services/ratelimit": [
@@ -145,6 +146,9 @@
       "@worksheets/ui/components/games": [
         "libs/ui/components/games/src/index.ts"
       ],
+      "@worksheets/ui/components/help": [
+        "libs/ui/components/help/src/index.ts"
+      ],
       "@worksheets/ui/components/images": [
         "libs/ui/components/images/src/index.ts"
       ],
@@ -162,6 +166,9 @@
       ],
       "@worksheets/ui/components/loading": [
         "libs/ui/components/loading/src/index.ts"
+      ],
+      "@worksheets/ui/components/login": [
+        "libs/ui/components/login/src/index.ts"
       ],
       "@worksheets/ui/components/logos": [
         "libs/ui/components/logos/src/index.ts"
@@ -207,6 +214,9 @@
       ],
       "@worksheets/ui/components/social-media": [
         "libs/ui/components/social-media/src/index.ts"
+      ],
+      "@worksheets/ui/components/tables": [
+        "libs/ui/components/tables/src/index.ts"
       ],
       "@worksheets/ui/components/tasks": [
         "libs/ui/components/tasks/src/index.ts"
@@ -334,8 +344,7 @@
       "@worksheets/util/time": ["libs/util/time/src/index.ts"],
       "@worksheets/util/trpc": ["libs/util/trpc/src/index.ts"],
       "@worksheets/util/types": ["libs/util/types/src/index.ts"],
-      "@worksheets/zod": ["libs/util/zod/src/index.ts"],
-      "@worksheets/services/prizes": ["libs/services/prizes/src/index.ts"]
+      "@worksheets/zod": ["libs/util/zod/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

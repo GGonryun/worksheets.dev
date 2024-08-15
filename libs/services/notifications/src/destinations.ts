@@ -116,12 +116,6 @@ const battleMvpAwardedTemplates: TemplateBuilder<'battle-mvp-awarded'> = (
   push: PushTemplates.battleMvpAwarded(payload),
 });
 
-const battleLootAwardedTemplates: TemplateBuilder<'battle-loot-awarded'> = (
-  payload
-) => ({
-  push: PushTemplates.battleLootAwarded(payload),
-});
-
 const foundItemTemplates: TemplateBuilder<'found-item'> = (payload) => ({
   push: PushTemplates.foundItem(payload),
 });
@@ -176,7 +170,6 @@ export const destinations: Record<NotificationTemplateType, TemplateBuilder> = {
   'new-battle': newBattleTemplates,
   'battle-completed': battleCompletedTemplates,
   'battle-mvp-awarded': battleMvpAwardedTemplates,
-  'battle-loot-awarded': battleLootAwardedTemplates,
   'found-item': foundItemTemplates,
   'game-report': gameReportTemplates,
   'user-report': userReportTemplates,

@@ -16,8 +16,6 @@ export const RAFFLE_ENTRY_FEE = 10;
 export const PRIZE_TOKEN_MODIFIER = 1000;
 // alerts
 export const EXPIRATION_TIME_THRESHOLD = 2; // send reminder days before expiration
-// battles
-export const ENTRY_PER_DAMAGE = 5;
 
 export const MAX_FRIENDS = 20;
 export const MAX_REFERRALS = 100;
@@ -25,9 +23,12 @@ export const MAX_BEST_FRIENDS = 5;
 
 export const TOKENS_PER_REFERRAL_ACCOUNT = 500;
 
-export const MAX_CONSUMPTION_RATE = 20;
+export const MAX_CONSUMPTION_RATE = 30;
 
 export const MAX_ITEMS_PER_STRIKE = 15;
 
 export const SESSION_EXPIRATION_DAYS = 1;
 export const SESSION_AGE_MINUTES = 30;
+
+export const DAMAGE_PER_ATTACK = 1;
+export const STRIKES_PER_ATTACK = 1;

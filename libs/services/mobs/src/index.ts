@@ -3,33 +3,44 @@ import { ItemId } from '@worksheets/data/items';
 import { MOBS } from '@worksheets/data/mobs';
 import {
   MvpReason,
-  Prisma,
   PrismaClient,
   PrismaTransactionalClient,
 } from '@worksheets/prisma';
 import { InventoryService } from '@worksheets/services/inventory';
-import { randomArrayElement, shuffle } from '@worksheets/util/arrays';
-import { isLucky } from '@worksheets/util/numbers';
-import { ENTRY_PER_DAMAGE } from '@worksheets/util/settings';
+import {
+  arrayFromNumber,
+  randomArrayElement,
+  weightedPick,
+} from '@worksheets/util/arrays';
+import { startBackgroundJob } from '@worksheets/util/jobs';
+import { STRIKES_PER_ATTACK } from '@worksheets/util/settings';
+import { grammaticalJoin } from '@worksheets/util/strings';
 import {
   BattleFiltersSchema,
   BattleParticipationSchema,
   BattleSchema,
+  calculateCombatDamage,
+  countItems,
+  LootSchema,
+  MOB_ELEMENT_RESISTANCES,
+  MVP_EXTENDED_REASON_LABEL,
 } from '@worksheets/util/types';
-import { compact } from 'lodash';
+import pluralize from 'pluralize';
 
 import { BasicParticipationProps, ExpiredBattleProps } from './props';
 import { mobOrder } from './util';
 
 export type StrikeInput = {
-  userId: string;
+  user: {
+    username: string;
+    id: string;
+  };
   battleId: number;
-  damage: number;
+  items: Record<string, number>;
 };
 
 export type ProcessedExpiredBattleOutput = {
   battle: ExpiredBattleProps;
-  // user ids -> exp points
   exp: Record<string, number>;
   mvp: { reason: MvpReason; participant: BasicParticipationProps };
   winners: BasicParticipationProps[];
@@ -38,7 +49,6 @@ export type ProcessedExpiredBattleOutput = {
 
 export class MobsService {
   #db: PrismaClient | PrismaTransactionalClient;
-  #maxBattles = 10;
   constructor(db: PrismaClient | PrismaTransactionalClient) {
     this.#db = db;
   }
@@ -52,12 +62,6 @@ export class MobsService {
         },
       },
     });
-
-    if (activeBattles.length > this.#maxBattles) {
-      console.info(`Too many active battles, not spawning a new monster.`);
-
-      return undefined;
-    }
 
     // only pick a unique mob that is not currently in an active battle.
     const monster = randomArrayElement(
@@ -77,27 +81,6 @@ export class MobsService {
       mobName: monster.name,
       type: monster.type,
       loot: monster.loot.reduce((a, l) => a + l.quantity, 0),
-    };
-  }
-
-  async record(battleId: number) {
-    const result = await this.#db.battleRecord.findFirst({
-      where: {
-        battleId,
-      },
-    });
-
-    console.info('Battle result found', result);
-
-    if (!result) {
-      return null;
-    }
-
-    return {
-      battleId: result.battleId,
-      results: result.results as Record<string, Record<string, number>>,
-      mvpId: result.mvpId,
-      mvpReason: result.mvpReason,
     };
   }
 
@@ -172,6 +155,7 @@ export class MobsService {
         id: true,
         damage: true,
         strikes: true,
+        mvp: true,
         user: {
           select: {
             id: true,
@@ -186,6 +170,7 @@ export class MobsService {
       user: p.user,
       damage: p.damage,
       strikes: p.strikes,
+      mvp: p.mvp,
     }));
   }
 
@@ -200,10 +185,195 @@ export class MobsService {
     });
   }
 
-  async findExpiredBattles() {
-    return await this.#db.battle.findMany({
-      take: 2, // TODO: This prevents us from processing too many battles at once. We should probably make this configurable.
+  async strike(opts: StrikeInput) {
+    const { user, battleId, items } = opts;
+    console.info('User is striking a mob', opts);
+    const userId = user.id;
+
+    const itemCount = countItems(items);
+    const strikes = STRIKES_PER_ATTACK * itemCount;
+    if (itemCount < 1) {
+      throw new TRPCError({
+        code: 'BAD_REQUEST',
+        message: 'You must use at least one item to attack',
+      });
+    }
+
+    const battle = await this.#db.battle.findFirst({
       where: {
+        id: battleId,
+        status: 'ACTIVE',
+      },
+      select: {
+        health: true,
+        mob: {
+          include: {
+            loot: {
+              include: {
+                item: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    if (!battle) {
+      throw new TRPCError({
+        code: 'NOT_FOUND',
+        message: 'Battle not found',
+      });
+    }
+
+    // check if the mob already has 0 hp.
+    if (battle.health <= 0) {
+      throw new TRPCError({
+        code: 'PRECONDITION_FAILED',
+        message: 'Mob already defeated',
+      });
+    }
+
+    const rawDamage = calculateCombatDamage(
+      MOB_ELEMENT_RESISTANCES[battle.mob.element],
+      items
+    );
+
+    const damage = Math.min(battle.health, rawDamage);
+    if (damage <= 0) {
+      throw new TRPCError({
+        code: 'BAD_REQUEST',
+        message: 'You must use at least one weapon to attack',
+      });
+    }
+
+    const nonMvpLoot = battle.mob.loot.filter((l) => !l.mvp);
+    const loots = calculateLoot(nonMvpLoot, battle.mob.defense, damage);
+
+    console.info('Consuming weapons', { items });
+    for (const [itemId, quantity] of Object.entries(items)) {
+      console.info('Updating inventory', { itemId, quantity });
+
+      const result = await this.#db.inventory.update({
+        where: {
+          itemId_userId: {
+            userId,
+            itemId,
+          },
+        },
+        data: {
+          quantity: {
+            decrement: quantity,
+          },
+        },
+      });
+
+      if (result.quantity < 0) {
+        throw new TRPCError({
+          code: 'BAD_REQUEST',
+          message: 'Not enough items to use',
+        });
+      }
+    }
+
+    console.info('Awarding loot', { loots });
+    const inventory = new InventoryService(this.#db);
+    for (const loot of loots) {
+      await inventory.increment(userId, loot.item.id as ItemId, loot.quantity);
+    }
+
+    const combatExperience = damage * battle.mob.baseExp;
+    console.info('Awarding experience', {
+      damage,
+      baseExp: battle.mob.baseExp,
+      combatExperience,
+    });
+    await this.#db.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        experience: {
+          increment: combatExperience,
+        },
+      },
+    });
+
+    console.info('Calculating damage', { items, damage });
+    await this.#db.battleParticipation.upsert({
+      where: {
+        userId_battleId: {
+          userId,
+          battleId,
+        },
+      },
+      create: {
+        battleId,
+        userId,
+        damage,
+        strikes,
+        struckAt: new Date(),
+      },
+      update: {
+        damage: {
+          increment: damage,
+        },
+        strikes: {
+          increment: strikes,
+        },
+        struckAt: new Date(),
+      },
+    });
+
+    const lootMessage =
+      loots.length > 0
+        ? ` and found ${grammaticalJoin(
+            loots.map(
+              (l) => `${l.quantity} ${pluralize(l.item.name, l.quantity)}`
+            )
+          )}`
+        : '';
+    const rewardMessage = `attacked the ${battle.mob.name} for ${damage} damage${lootMessage}!`;
+    const userMessage = `${user.username} ${rewardMessage}`;
+    console.info('Logging strike', { userMessage });
+    await this.#db.battleLogs.create({
+      data: {
+        battleId,
+        message: userMessage,
+      },
+    });
+
+    console.info('Updating mob health', { damage });
+    await this.#db.battle.update({
+      where: {
+        id: battleId,
+      },
+      data: {
+        health: {
+          decrement: damage,
+        },
+      },
+    });
+
+    console.info('Processing battle participation', { userId, damage });
+    startBackgroundJob('battle/participation', {
+      userId,
+      damage,
+    });
+
+    if (battle.health - damage <= 0) {
+      console.info('Battle is complete', { battleId });
+      startBackgroundJob('battle/completed', {
+        battleId,
+      });
+    }
+
+    return `You ${rewardMessage}`;
+  }
+
+  async processCompletedBattle(battleId: number) {
+    const battle = await this.#db.battle.findFirst({
+      where: {
+        id: battleId,
         status: 'ACTIVE',
         health: {
           lte: 0,
@@ -212,7 +382,11 @@ export class MobsService {
       include: {
         mob: {
           include: {
-            loot: true,
+            loot: {
+              include: {
+                item: true,
+              },
+            },
           },
         },
         participation: {
@@ -222,24 +396,14 @@ export class MobsService {
         },
       },
     });
-  }
 
-  async processExpiredBattle(
-    battle: Prisma.BattleGetPayload<{
-      include: {
-        mob: {
-          include: {
-            loot: true;
-          };
-        };
-        participation: {
-          include: {
-            user: true;
-          };
-        };
-      };
-    }>
-  ): Promise<ProcessedExpiredBattleOutput> {
+    if (!battle) {
+      throw new TRPCError({
+        code: 'NOT_FOUND',
+        message: 'Battle not found',
+      });
+    }
+
     if (battle.status !== 'ACTIVE') {
       throw new TRPCError({
         code: 'PRECONDITION_FAILED',
@@ -247,27 +411,14 @@ export class MobsService {
       });
     }
 
-    const inventory = new InventoryService(this.#db);
-    // get all participants.
-    const participants = battle.participation;
-    console.info(
-      `Processing battle ${battle.id} with ${participants.length} participants`
-    );
+    if (battle.health > 0) {
+      throw new TRPCError({
+        code: 'PRECONDITION_FAILED',
+        message: 'Battle is not complete.',
+      });
+    }
 
-    // calculate drops =
-    const drops = calculateDrops(battle.mob.loot);
-    console.info(
-      `Calculated battle drops`,
-      drops.map(({ itemId, mvp, quantity }) => ({ itemId, mvp, quantity }))
-    );
-
-    // determine the mvp user.
-    const mvp = determineMvp(participants);
-    console.info(`Determined MVP`, mvp);
-    const winners = determineDistribution(mvp, participants, drops);
-    console.info(`Determined winners`, winners);
-
-    // finish the battle
+    // 1. mark the battle as complete.
     await this.#db.battle.update({
       where: {
         id: battle.id,
@@ -277,165 +428,99 @@ export class MobsService {
       },
     });
 
-    // distribute loot
-    for (const [participationId, items] of Object.entries(winners)) {
-      console.info(`Awarding loot to participant ${participationId}`, items);
-      const participant = participants.find(
-        (p) => p.id === parseInt(participationId)
-      );
-
-      if (!participant) {
-        throw new TRPCError({
-          code: 'INTERNAL_SERVER_ERROR',
-          message: 'Participant not found',
-          cause: `Participant with id ${participationId} not found in battle ${battle.id}, but we tried to award them loot.`,
-        });
-      }
-
-      for (const [itemId, quantity] of Object.entries(items)) {
-        console.info(`Awarding ${quantity} of item ${itemId} to participant`);
-        await inventory.increment(
-          participant.user.id,
-          itemId as ItemId,
-          quantity
-        );
-      }
-    }
-
-    await this.#db.battleRecord.create({
+    // 2. pick an mvp.
+    const mvp = determineMvp(battle.participation);
+    await this.#db.battleParticipation.update({
+      where: {
+        userId_battleId: {
+          userId: mvp.participant.user.id,
+          battleId: battle.id,
+        },
+      },
       data: {
-        battleId: battle.id,
-        results: winners,
-        mvpId: mvp.participant.id,
-        mvpReason: mvp.reason,
+        mvp: mvp.reason,
       },
     });
 
+    // 3. award the mvp loot.
+    const mvpLoot = battle.mob.loot.filter((l) => l.mvp);
+    const loot = weightedPick(
+      mvpLoot,
+      mvpLoot.map((l) => l.chance)
+    );
+    const inventory = new InventoryService(this.#db);
+    await inventory.increment(
+      mvp.participant.user.id,
+      loot.itemId as ItemId,
+      loot.quantity
+    );
+
+    // 4. save the battle record (but now no one can see who won loot)
+    await this.#db.battleLogs.createMany({
+      data: [
+        {
+          battleId: battle.id,
+          message: `The battle against ${battle.mob.name} has ended!`,
+        },
+        {
+          battleId: battle.id,
+          message: `The MVP is ${mvp.participant.user.username} for ${
+            MVP_EXTENDED_REASON_LABEL[mvp.reason]
+          }! They have been awarded ${loot.quantity} ${pluralize(
+            loot.item.name,
+            loot.quantity
+          )}.`,
+        },
+      ],
+    });
+
+    // 5. spawn a new monster.
+    const spawned = await this.spawnMonster();
+
     return {
-      battle,
       mvp,
-      exp: determineExp(participants, mvp.participant.id, battle.mob),
-      winners: compact(
-        Object.keys(winners)
-          .map((pid) => parseInt(pid))
-          .filter((pid) => pid !== mvp.participant.id)
-          .map((pid) => participants.find((p) => p.id === pid))
-      ),
-      losers: participants.filter(
-        (p) => p.id !== mvp.participant.id && !winners[p.id]
-      ),
+      battle,
+      loot,
+      spawned,
     };
   }
 }
 
+// TODO: support other modes of MVP selection.
 const determineMvp = (
   participants: BasicParticipationProps[]
 ): ProcessedExpiredBattleOutput['mvp'] => {
-  // the mvp user is either the user who:
-  // - hit the mob the most
-  const sortedByStrikes = [...participants].sort(
-    (a, b) => b.strikes - a.strikes
-  );
-  const mostStrikes = sortedByStrikes[0];
-  // - did the most damage
+  // the mvp user is the user who did the most damage
   const sortedByDamage = [...participants].sort((a, b) => b.damage - a.damage);
   const mostDamage = sortedByDamage[0];
-  // - hit the mob last.
-  const sortedByLastHit = [...participants].sort(
-    (a, b) => b.struckAt.getTime() - a.struckAt.getTime()
-  );
-  const lastHit = sortedByLastHit[0];
 
-  // TODO: extrapolate this somewhere else so we can audit it and share with the help article.
-  // Most damage and last hit get 2/5 chance, most strikes gets 1/5 chance.
-  const mvp = shuffle([
-    MvpReason.LAST_HIT,
-    MvpReason.LAST_HIT,
-    MvpReason.MOST_DAMAGE,
-    MvpReason.MOST_DAMAGE,
-    MvpReason.MOST_STRIKES,
-  ])[0];
-
-  switch (mvp) {
-    case MvpReason.LAST_HIT:
-      return { reason: MvpReason.LAST_HIT, participant: lastHit };
-    case MvpReason.MOST_DAMAGE:
-      return { reason: MvpReason.MOST_DAMAGE, participant: mostDamage };
-    case MvpReason.MOST_STRIKES:
-      return { reason: MvpReason.MOST_STRIKES, participant: mostStrikes };
-  }
+  return { reason: MvpReason.MOST_DAMAGE, participant: mostDamage };
 };
 
-const determineDistribution = (
-  mvp: ProcessedExpiredBattleOutput['mvp'],
-  participants: Prisma.BattleParticipationGetPayload<true>[],
-  loots: Prisma.LootGetPayload<true>[]
-  // participationIds -> <itemId -> quantity>
-): Record<number, Record<string, number>> => {
-  // make a flat map of all the possible loot drops.
-  const allLoots = loots.flatMap((l) =>
-    Array.from({ length: l.quantity }, () => ({ ...l, quantity: 1 }))
-  );
-  const winners: Record<number, Record<string, number>> = {};
-
-  const group = participants.flatMap((p) =>
-    Array.from({ length: Math.floor(p.damage / ENTRY_PER_DAMAGE) }, () => p)
-  );
-
-  // every participant gets at least one guaranteed entry.
-  participants.forEach((p) => group.push(p));
-
-  const shuffled = shuffle(group);
-  for (const loot of allLoots) {
-    const winner = loot.mvp
-      ? mvp.participant
-      : shuffled[Math.floor(Math.random() * shuffled.length)];
-
-    if (!winners[winner.id]) {
-      winners[winner.id] = {};
-    }
-    if (!winners[winner.id][loot.itemId]) {
-      winners[winner.id][loot.itemId] = 0;
-    }
-    winners[winner.id][loot.itemId] += 1;
-  }
-
-  return winners;
-};
-
-const calculateDrops = (loot: Prisma.LootGetPayload<true>[]) => {
-  return loot
-    .map((l) => {
-      const quantity = calculateQuantity(l.quantity, l.chance);
-      return { ...l, quantity };
-    })
-    .filter((l) => l.quantity > 0);
-};
-
-const calculateQuantity = (max: number, chance: number) => {
-  let quantity = 0;
-  for (let i = 0; i < max; i++) {
-    if (!isLucky(chance)) {
-      continue;
-    }
-    quantity++;
-  }
-  return quantity;
-};
-
-const determineExp = (
-  participants: Prisma.BattleParticipationGetPayload<true>[],
-  mvpId: number,
-  mob: { maxHp: number; baseExp: number; mvpExp: number }
+const calculateLoot = (
+  options: LootSchema[],
+  defense: number,
+  damage: number
 ) => {
-  // each participant gets a % of exp equivalent to the damage they did.
-  const record: Record<string, number> = {};
-  for (const participant of participants) {
-    const proportion = participant.damage / mob.maxHp;
-    record[participant.userId] = Math.floor(proportion * mob.baseExp);
-    if (participant.id === mvpId) {
-      record[participant.userId] += mob.mvpExp;
+  const itemDrops = Math.floor(damage / defense);
+  console.log('Searching for loot', { itemDrops });
+  const loots = arrayFromNumber(itemDrops).reduce((i) => {
+    const loot = weightedPick(
+      options,
+      options.map((l) => l.chance)
+    );
+    return [...i, loot];
+  }, [] as LootSchema[]);
+  // group loots by quantities.
+  const groupedLoot = loots.reduce((a, loot) => {
+    const existing = a.find((i) => i.item.id === loot.item.id);
+    if (existing) {
+      existing.quantity += loot.quantity;
+    } else {
+      a.push({ ...loot });
     }
-  }
-  return record;
+    return a;
+  }, [] as LootSchema[]);
+
+  return groupedLoot;
 };

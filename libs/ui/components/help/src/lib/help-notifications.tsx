@@ -8,7 +8,7 @@ import {
 } from '@worksheets/util/enums';
 import { QuestionAnswer } from '@worksheets/util/types';
 
-import { HelpfulLinks } from '../helpful-links';
+import { HelpfulLinks } from './helpful-links';
 
 export const helpNotifications: QuestionAnswer[] = [
   {

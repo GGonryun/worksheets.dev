@@ -5,7 +5,7 @@ import { Emoji } from '@worksheets/ui-core';
 import { HelpPrizesQuestions, InventoryPanels } from '@worksheets/util/enums';
 import { QuestionAnswer } from '@worksheets/util/types';
 
-import { HelpfulLinks } from '../helpful-links';
+import { HelpfulLinks } from './helpful-links';
 
 export const helpPrizes: QuestionAnswer[] = [
   {
@@ -17,7 +17,7 @@ export const helpPrizes: QuestionAnswer[] = [
       <Box>
         <Typography>
           Prizes are rewards that you can win by playing games and entering
-          raffles. Prizes can include gift cards, cash, electronics, and more.
+          raffles. Prizes can include digital rewards or physical items.
           <br />
           <br />
           All prizes are digital and can be claimed in{' '}

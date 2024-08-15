@@ -69,6 +69,12 @@ const prizes = {
     numWinners: [5, 7, 10],
     imageUrl: undefined,
   },
+  '1000': {
+    itemId: '1000',
+    premium: false,
+    numWinners: [5, 10],
+    imageUrl: undefined,
+  },
   '4': {
     itemId: '4',
     premium: true,
@@ -98,7 +104,7 @@ const generateRaffle = (): Prisma.RaffleUncheckedCreateInput => {
 
   const maxEntries = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
 
-  const dropChance: PrizeId[] = ['5', '5', '8', '4', '4', '4', '4', '4'];
+  const dropChance: PrizeId[] = ['5', '8', '1000', '4', '4', '4', '4'];
 
   const prizeId = randomArrayElement(dropChance);
   const prize = prizes[prizeId];

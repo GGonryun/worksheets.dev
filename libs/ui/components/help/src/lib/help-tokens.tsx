@@ -8,7 +8,7 @@ import {
 import { TOKENS_PER_REFERRAL_ACCOUNT } from '@worksheets/util/settings';
 import { QuestionAnswer } from '@worksheets/util/types';
 
-import { HelpfulLinks } from '../helpful-links';
+import { HelpfulLinks } from './helpful-links';
 
 export const helpTokens: QuestionAnswer[] = [
   {

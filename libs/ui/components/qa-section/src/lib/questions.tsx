@@ -14,7 +14,9 @@ import React, { useEffect, useState } from 'react';
 export const Questions: React.FC<{
   qa: QuestionAnswer[];
   bookmark?: string;
-}> = ({ qa, bookmark }) => {
+  gap?: number;
+  hideContact?: boolean;
+}> = ({ qa, bookmark, gap = 6, hideContact }) => {
   const [open, setOpen] = useState<string | undefined>(bookmark);
 
   useEffect(() => {
@@ -24,7 +26,7 @@ export const Questions: React.FC<{
   }, [bookmark]);
 
   return (
-    <Box display="flex" gap={6} flexDirection="column">
+    <Box display="flex" gap={gap} flexDirection="column">
       {qa.map((qa, index) => (
         <Question
           key={index}
@@ -35,26 +37,28 @@ export const Questions: React.FC<{
           answer={qa.answer}
         />
       ))}
-      <Box display="flex" flexDirection="column" mt={2} gap={1}>
-        <Typography
-          typography={{ xs: 'body2', sm: 'body1' }}
-          color={(theme) => theme.palette.text.blue.light}
-          fontWeight={{ xs: 500, sm: 500 }}
-        >
-          Need more help? Contact us!
-        </Typography>
-        <Button
-          variant="arcade"
-          color="success"
-          size="small"
-          href="#top"
-          sx={{
-            width: 'fit-content',
-          }}
-        >
-          Contact Us
-        </Button>
-      </Box>
+      {!hideContact && (
+        <Box display="flex" flexDirection="column" gap={1}>
+          <Typography
+            typography={{ xs: 'body2', sm: 'body1' }}
+            color={(theme) => theme.palette.text.blue.main}
+            fontWeight={{ xs: 500, sm: 500 }}
+          >
+            Need more help? Contact us!
+          </Typography>
+          <Button
+            variant="arcade"
+            color="success"
+            size="small"
+            href="#top"
+            sx={{
+              width: 'fit-content',
+            }}
+          >
+            Contact Us
+          </Button>
+        </Box>
+      )}
     </Box>
   );
 };
@@ -118,7 +122,7 @@ const Question: React.FC<{
           in={open}
           sx={{
             px: spacing,
-            color: (theme) => theme.palette.text.blue.light,
+            color: (theme) => theme.palette.text.blue.dark,
           }}
         >
           <Typography

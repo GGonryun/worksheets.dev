@@ -1,4 +1,7 @@
-import { Box } from '@mui/material';
+import { Box, Container } from '@mui/material';
+import { Description } from '@worksheets/ui/components/description';
+import { helpPrizes } from '@worksheets/ui/components/help';
+import { Questions } from '@worksheets/ui/components/qa-section';
 import { isExpired } from '@worksheets/util/time';
 import { EnteredRaffleSchema, RaffleSchema } from '@worksheets/util/types';
 
@@ -10,21 +13,39 @@ export const RafflesScreen: React.FC<{
   entered: EnteredRaffleSchema[];
   list: RaffleSchema[];
 }> = ({ entered, list }) => (
-  <CustomContainer>
-    <TitleText />
-    <Box
-      width="100%"
-      display="flex"
-      gap={{ xs: 4, sm: 4, md: 6 }}
-      flexDirection="column"
-      alignItems="center"
+  <>
+    <CustomContainer>
+      <TitleText />
+      <Box
+        width="100%"
+        display="flex"
+        gap={{ xs: 4, sm: 4, md: 6 }}
+        flexDirection="column"
+        alignItems="center"
+      >
+        <RaffleContents
+          entered={entered}
+          list={list.filter((l) => isExpired(l.publishAt))}
+        />
+      </Box>
+    </CustomContainer>
+    <Container
+      maxWidth="lg"
+      sx={{
+        mb: 4,
+      }}
     >
-      <RaffleContents
-        entered={entered}
-        list={list.filter((l) => isExpired(l.publishAt))}
+      <Description
+        title="Frequently Asked Questions"
+        color="secondary"
+        description={
+          <Box mt={{ xs: 3, sm: 4 }}>
+            <Questions qa={helpPrizes} />
+          </Box>
+        }
       />
-    </Box>
-  </CustomContainer>
+    </Container>
+  </>
 );
 
 export type RafflesScreenProps = React.ComponentProps<typeof RafflesScreen>;

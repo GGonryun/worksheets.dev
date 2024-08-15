@@ -35,7 +35,6 @@ export default t.router({
           id: input,
         },
         include: {
-          experience: true,
           referralCode: true,
           plays: {
             include: {
@@ -83,7 +82,7 @@ export default t.router({
         code: user.referralCode.code,
         recentlyPlayed: recentlyPlayed,
         mostPlayed: mostPlayed,
-        exp: user.experience?.points ?? 0,
+        exp: user.experience,
       };
     }),
 });

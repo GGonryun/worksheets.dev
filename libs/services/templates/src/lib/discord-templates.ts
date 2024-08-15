@@ -4,7 +4,7 @@ import { printShortDate, printShortDateTime } from '@worksheets/util/time';
 import pluralize from 'pluralize';
 
 import { ExtractTemplatePayload } from './types';
-import { BATTLE_URL, RAFFLE_URL } from './urls';
+import { RAFFLE_URL } from './urls';
 
 export class DiscordTemplates {
   static prizePurchased(
@@ -98,35 +98,7 @@ export class DiscordTemplates {
       channel: 'admin',
     };
   }
-  static newBattle(
-    opts: ExtractTemplatePayload<'new-battle'>
-  ): DiscordMessageInput {
-    return {
-      content: `A new boss battle has started!`,
-      embeds: [
-        {
-          title: `Fight the ${opts.mobName} for a chance to win ${opts.loot} items!`,
-          url: BATTLE_URL(opts.battleId),
-        },
-      ],
-      channel: 'notification',
-    };
-  }
-  static battleCompleted(
-    opts: ExtractTemplatePayload<'battle-completed'>
-  ): DiscordMessageInput {
-    return {
-      content: `A battle has expired.`,
-      embeds: [
-        {
-          title: `Battle ID: ${opts.mob.battleId}`,
-          description: `The battle against ${opts.mob.name} has ended. The boss battle MVP is ${opts.mvp}. Items have been distributed to participants.`,
-          url: BATTLE_URL(opts.mob.battleId),
-        },
-      ],
-      channel: 'admin',
-    };
-  }
+
   static raffleExpired(
     opts: ExtractTemplatePayload<'raffle-expired'>
   ): DiscordMessageInput {

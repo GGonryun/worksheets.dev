@@ -28,6 +28,7 @@ model User {
   updatedAt        DateTime               @updatedAt
   lastSeen         DateTime?              @default(now())
   multiplier       Float                  @default(1)
+  experience       Int                    @default(0)
   type             UserType               @default(USER)
   accounts         Account[]
   sessions         Session[]
@@ -65,7 +66,6 @@ model User {
   gameSessions     GameSession[]
   gameStorage      GameStorage[]
   gameScores       GameScore[]
-  experience       UserExperience?
   achievement      PlayerAchievement[]
   prizes           Prize[]
 }
@@ -877,16 +877,6 @@ model Battle {
   health        Int
   participation BattleParticipation[]
   logs          BattleLogs[]
-  record        BattleRecord?
-}
-
-model BattleRecord {
-  battleId  Int       @id @default(autoincrement())
-  battle    Battle    @relation(fields: [battleId], references: [id], onDelete: Cascade)
-  mvpId     Int
-  mvpReason MvpReason
-  results   Json
-  createdAt DateTime  @default(now())
 }
 
 model BattleLogs {
@@ -897,30 +887,23 @@ model BattleLogs {
   createdAt DateTime @default(now())
 }
 
-model UserExperience {
-  userId    String   @id @default(cuid())
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  points    Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
 enum MvpReason {
   MOST_DAMAGE
-  MOST_STRIKES
-  LAST_HIT
+  MOST_STRIKES // deprecated
+  LAST_HIT // deprecated
 }
 
 model BattleParticipation {
-  id        Int      @id @default(autoincrement())
+  id        Int        @id @default(autoincrement())
   damage    Int // how much damage the user has done to the mob
   strikes   Int // how many times the user has attacked the mob
+  mvp       MvpReason?
   battleId  Int
-  battle    Battle   @relation(fields: [battleId], references: [id], onDelete: Cascade)
+  battle    Battle     @relation(fields: [battleId], references: [id], onDelete: Cascade)
   userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
   struckAt  DateTime
 
   @@unique([userId, battleId])

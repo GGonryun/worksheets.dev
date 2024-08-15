@@ -7,7 +7,6 @@ import {
 } from '@worksheets/data/items';
 import { MOBS } from '@worksheets/data/mobs';
 import { Item, prisma } from '@worksheets/prisma';
-import { exit } from 'process';
 import readline from 'readline';
 
 const rl = readline.createInterface({
@@ -23,56 +22,82 @@ const questionAsync = (question: string) => {
   });
 };
 
-const calculateAdImpressionsByRaffle = async () => {
-  const raffleId = await questionAsync('Enter the raffle ID: ');
-  const impressions = await prisma.raffleParticipation.aggregate({
-    where: {
-      raffleId: parseInt(raffleId),
-    },
-    _count: true,
-  });
+const calculateEstimatedDropValue = (
+  drops: {
+    itemId: string;
+    quantity: number;
+    chance: number;
+    mvp: boolean;
+  }[]
+) => {
+  let sum = 0;
+  const chanceSum = drops.reduce((acc, drop) => acc + drop.chance, 0);
 
-  console.debug();
-  console.debug('Number of Participants:', impressions._count);
-  console.debug('TODO: Calculate ad impressions');
-  console.debug();
-  await main();
+  for (const drop of drops) {
+    // find the item in the database
+    const item = ITEMS.find((item) => item.id === drop.itemId);
+    if (!item) {
+      throw Error(`Item not found: ${drop.itemId}`);
+    }
+    const value = computeItemValue(item as Item);
+    const dropValue = value * drop.quantity * (drop.chance / chanceSum);
+    console.debug(
+      `${drop.mvp ? '[MVP] ' : ''}Item: ${
+        item.name
+      }, Value: ${value}, Drop Chance: ${(drop.chance / chanceSum).toFixed(
+        2
+      )}, Estimated Drop Value: ${dropValue.toFixed(2)}`
+    );
+    sum += dropValue;
+  }
+  console.log('Total Drop Chance:', chanceSum.toFixed(2));
+  return { sum };
 };
 
-const calculateMonsterRelativeDropValues = async () => {
-  const monsterId = await questionAsync('Enter the monster ID: ');
+const calculateMonsterRelativeDropValues = async (id?: string) => {
+  let monsterId = id;
+  if (!monsterId) {
+    monsterId = await questionAsync('Enter the monster ID: ');
+  }
+
   const mob = MOBS.find((mob) => mob.id === parseInt(monsterId));
   if (!mob) {
     console.error('Invalid monster ID');
     return await main();
   }
-  const drops = mob.loot;
-  let sum = 0;
+  const nonMvpDrops = mob.loot.filter((drop) => !drop.mvp);
   console.debug();
   console.debug(`Monster (ID-${monsterId}): ${mob.name}`);
-  for (const drop of drops) {
-    // find the item in the database
-    const item = ITEMS.find((item) => item.id === drop.itemId);
-    if (!item) {
-      console.error('Invalid item ID');
-      return await main();
-    }
-    const value = computeItemValue(item as Item);
-    const dropValue = value * drop.chance * drop.quantity;
-    console.debug(
-      `Item: ${item.name}, Value: ${value}, Drop Chance: ${drop.chance}, Estimated Drop Value: ${dropValue}`
-    );
-    sum += dropValue;
-  }
+  const nonMvp = calculateEstimatedDropValue(nonMvpDrops);
+  const mvpDrops = mob.loot.filter((drop) => drop.mvp);
+  const mvp = calculateEstimatedDropValue(mvpDrops);
 
-  console.debug('Total Estimated Drop Value:', sum);
-  console.debug('Monster HP:', mob.maxHp);
+  const defenseBonus = 10;
+  const basicMultiplier = 7;
+  const mvpMultiplier = 5;
+  const averageDropValue = nonMvp.sum / nonMvpDrops.length;
+  const averageMvpDropValue = Math.floor(mvp.sum / mvpDrops.length);
+  const suggestedHp = Math.floor(averageMvpDropValue * mvpMultiplier);
+  const suggestedDefense =
+    Math.floor(averageDropValue * basicMultiplier) + defenseBonus;
+  const estimatedItemsDropped = Math.floor(suggestedHp / suggestedDefense);
+  const totalEstimatedValue = Math.floor(
+    estimatedItemsDropped * averageDropValue + averageMvpDropValue
+  );
+
+  console.debug('Average EDV:', averageDropValue);
+  console.debug('Average MVP EDV:', averageMvpDropValue);
+  console.debug('Suggested Defense:', suggestedDefense);
+  console.debug('Suggested HP:', suggestedHp);
+  console.debug('Estimated Items Dropped:', estimatedItemsDropped);
+  console.debug('Estimated Total Value:', totalEstimatedValue);
   console.debug();
+
   await calculateMonsterRelativeDropValues();
 };
 
-const STEAM_KEY_VALUE = 10000;
-const RANDOM_ITEM_VALUE = 100;
+const STEAM_KEY_VALUE = 15000;
+const RANDOM_ITEM_VALUE = 200;
 const computeItemValue = (item: Item, nested?: boolean) => {
   switch (item.type) {
     case 'CURRENCY':
@@ -109,23 +134,13 @@ const computeItemValue = (item: Item, nested?: boolean) => {
 
 async function main() {
   try {
-    console.debug('Charity Games Statistics');
-    console.debug('1. Number of Ad Impressions by Raffle');
-    console.debug('2. Monster Relative Drop Values');
-    const option = await questionAsync('Choose an option: ');
-    console.debug('\nYou chose option:', option);
-    switch (option) {
-      case '1':
-        return await calculateAdImpressionsByRaffle();
-      case '2':
-        return await calculateMonsterRelativeDropValues();
-      default:
-        console.debug('Invalid option');
-        exit(1);
-    }
+    console.log(process.argv[2]);
+    const idArg = process.argv[2] ?? '';
+    const id = idArg.split('=')[1];
+    return await calculateMonsterRelativeDropValues(id);
   } catch (error) {
     console.error(error);
-    exit(1);
+    await main();
   }
 }
 

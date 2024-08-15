@@ -190,12 +190,12 @@ export type NotificationTemplate =
   | {
       type: 'battle-completed';
       payload: {
-        mvp: string;
         userIds: string[];
-        mob: {
-          name: string;
-          battleId: number;
-          loot: number;
+        battle: {
+          id: number;
+          mob: {
+            name: string;
+          };
         };
       };
     }
@@ -203,21 +203,18 @@ export type NotificationTemplate =
       type: 'battle-mvp-awarded';
       payload: {
         userId: string;
-        mob: {
-          battleId: number;
-          name: string;
-          loot: number;
+        battle: {
+          id: number;
+          mob: {
+            name: string;
+          };
         };
-      };
-    }
-  | {
-      type: 'battle-loot-awarded';
-      payload: {
-        userIds: string[];
-        mob: {
-          battleId: number;
-          name: string;
-          loot: number;
+        loot: {
+          item: {
+            id: string;
+            name: string;
+          };
+          quantity: number;
         };
       };
     }

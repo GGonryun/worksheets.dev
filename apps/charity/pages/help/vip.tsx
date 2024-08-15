@@ -1,5 +1,6 @@
+import { helpVip } from '@worksheets/ui/components/help';
 import { AppLayoutContainer } from '@worksheets/ui/layout';
-import { helpPageJson, HelpScreen, helpVip } from '@worksheets/ui/pages/help';
+import { helpPageJson, HelpScreen } from '@worksheets/ui/pages/help';
 import { NextPageWithLayout } from '@worksheets/util-next';
 import { FAQPageJsonLd, NextSeo } from 'next-seo';
 

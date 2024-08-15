@@ -225,23 +225,9 @@ export class PushTemplates {
     return {
       userIds: opts.userIds,
       type: 'BATTLE',
-      text: `${opts.mob.name} has been defeated! <a href="${BATTLE_URL(
-        opts.mob.battleId
+      text: `${opts.battle.mob.name} has been defeated! <a href="${BATTLE_URL(
+        opts.battle.id
       )}">View results</a>.`,
-    };
-  }
-
-  static battleLootAwarded(
-    opts: ExtractTemplatePayload<'battle-loot-awarded'>
-  ): PushNotifyInput {
-    return {
-      userIds: opts.userIds,
-      type: 'BATTLE',
-      text: `You have been awarded loot for the battle against the <a href="${BATTLE_URL(
-        opts.mob.battleId
-      )}">${
-        opts.mob.name
-      }</a>! <a href="${ACCOUNT_INVENTORY_URL}">View your inventory</a>.`,
     };
   }
 
@@ -251,11 +237,13 @@ export class PushTemplates {
     return {
       userIds: [opts.userId],
       type: 'BATTLE',
-      text: `You have been awarded the MVP for the battle against the <a href="${BATTLE_URL(
-        opts.mob.battleId
+      text: `You are the MVP for the battle against the <a href="${BATTLE_URL(
+        opts.battle.id
       )}">${
-        opts.mob.name
-      }</a>! <a href="${ACCOUNT_INVENTORY_URL}">View your inventory</a>.`,
+        opts.battle.mob.name
+      }</a>! You have been awarded <a href="${ACCOUNT_INVENTORY_URL}">${
+        opts.loot.quantity
+      }x ${pluralize(opts.loot.item.name, opts.loot.quantity)}</a>.`,
     };
   }
 

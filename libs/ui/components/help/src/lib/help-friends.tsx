@@ -9,7 +9,7 @@ import {
 import { MAX_BEST_FRIENDS } from '@worksheets/util/settings';
 import { QuestionAnswer } from '@worksheets/util/types';
 
-import { HelpfulLinks } from '../helpful-links';
+import { HelpfulLinks } from './helpful-links';
 
 export const helpFriends: QuestionAnswer[] = [
   {

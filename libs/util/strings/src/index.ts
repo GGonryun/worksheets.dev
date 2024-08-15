@@ -72,7 +72,7 @@ export const shorten = (count: number) => (text: string) => {
 
 // Joins a list of strings with commas and 'and' for the last item
 export const grammaticalJoin = (arr: string[]) => {
-  if (arr.length === 1) {
+  if (arr.length < 2) {
     return arr[0];
   }
 

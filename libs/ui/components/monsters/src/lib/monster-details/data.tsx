@@ -25,6 +25,7 @@ export const Data: React.FC<{
     <DataCell
       variant="body3"
       textAlign="right"
+      fontWeight={700}
       sx={{
         color: (theme) =>
           color ? theme.palette[color].main : theme.palette.text.blue.darker,
