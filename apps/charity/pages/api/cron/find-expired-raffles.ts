@@ -6,6 +6,7 @@ import {
 } from '@worksheets/services/raffles';
 import { createCronJob } from '@worksheets/util/cron';
 import { retryTransaction } from '@worksheets/util/prisma';
+import { SECONDS } from '@worksheets/util/time';
 
 export default createCronJob(async () => {
   const notifications = new NotificationsService(prisma);
@@ -27,6 +28,11 @@ export default createCronJob(async () => {
       async (tx) => {
         const raffles = new RafflesService(tx);
         return await raffles.processExpiredRaffle(expired);
+      },
+      {
+        maxAttempts: 5,
+        maxWait: 60 * SECONDS,
+        timeout: 180 * SECONDS,
       }
     );
     console.info(`Processed expired raffle ${expired.id}.`);
