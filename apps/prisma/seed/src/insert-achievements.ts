@@ -3,12 +3,15 @@ import { prisma } from '@worksheets/prisma';
 import { getSeedingChanges, seedingProperties } from '@worksheets/util/seeding';
 import { SeedableGameAchievementSchema } from '@worksheets/util/types';
 
+type GameAchievementSchema = SeedableGameAchievementSchema & { gameId: string };
 export const insertAchievements = async () => {
   const storedAchievements = await prisma.gameAchievement.findMany({
     select: seedingProperties,
   });
 
-  const achievements = games.flatMap((g) => g.achievements);
+  const achievements: GameAchievementSchema[] = games.flatMap((g) =>
+    g.achievements.map((a) => ({ ...a, gameId: g.id }))
+  );
 
   const { creating, updating } = getSeedingChanges(
     achievements,
@@ -32,9 +35,7 @@ export const insertAchievements = async () => {
   }
 };
 
-const insertAchievement = async (
-  achievement: SeedableGameAchievementSchema
-) => {
+const insertAchievement = async (achievement: GameAchievementSchema) => {
   await prisma.$transaction(async (tx) => {
     await tx.gameAchievement.create({
       data: {
@@ -63,9 +64,7 @@ const insertAchievement = async (
   });
 };
 
-const updateAchievement = async (
-  achievement: SeedableGameAchievementSchema
-) => {
+const updateAchievement = async (achievement: GameAchievementSchema) => {
   await prisma.$transaction(async (tx) => {
     await tx.gameAchievement.update({
       where: {

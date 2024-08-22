@@ -12,6 +12,266 @@ import { SeedableGameSchema } from '@worksheets/util/types';
 
 const integratedGames: SeedableGameSchema[] = [
   {
+    version: 2,
+    id: 'bit-jumper',
+    name: 'Bit Jumper',
+    developerId: 'charity-games',
+    iconUrl:
+      'https://cdn.charity.games/_games/bit-jumper/assets/media/thumbnail.png',
+    bannerUrl:
+      'https://cdn.charity.games/_games/bit-jumper/assets/media/banner.png',
+    viewport: viewports['PORTRAIT-ONLY'],
+    categories: ['1p', 'arcade', 'endless', 'mobile', 'desktop'],
+    file: {
+      type: 'HTML',
+      url: 'https://cdn.charity.games/_games/bit-jumper/index.html',
+    },
+    markets: {},
+    createdAt: new Date('2024-08-24T00:00:00.000Z'),
+    updatedAt: new Date('2024-08-24T00:00:00.000Z'),
+    description:
+      '<p>Bit Jumper is a fast-paced endless runner where you must jump from platform to platform to reach the highest score possible. How high can you jump?</br></br>Move with left/right arrow keys or touching the left/right sides of the screen.</p>',
+    multiplier: 0.002,
+    leaderboard: true,
+    cloudStorage: true,
+    loot: [],
+    achievements: [
+      {
+        id: 'bit-jumper:spiker',
+        version: 2,
+        name: 'Die to a Spiker',
+        description: 'Slam into a Spiker enemy and die in Bit Jumper.',
+        iconUrl:
+          'https://cdn.charity.games/_games/bit-jumper/assets/achievements/spiker.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '5',
+            quantity: 1,
+            chance: 1,
+          },
+        ],
+      },
+      {
+        id: 'bit-jumper:chomper',
+        version: 2,
+        name: 'Die to a Chomper',
+        description: 'Slam into a Chomper enemy and die in Bit Jumper.',
+        iconUrl:
+          'https://cdn.charity.games/_games/bit-jumper/assets/achievements/chomper.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '5',
+            quantity: 1,
+            chance: 1,
+          },
+        ],
+      },
+      {
+        id: 'bit-jumper:floater',
+        version: 2,
+        name: 'Die to a Floater',
+        description: 'Slam into a Floater enemy and die in Bit Jumper.',
+        iconUrl:
+          'https://cdn.charity.games/_games/bit-jumper/assets/achievements/floater.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '5',
+            quantity: 1,
+            chance: 1,
+          },
+        ],
+      },
+      {
+        id: 'bit-jumper:smasher',
+        version: 2,
+        name: 'Smash 5 Enemies',
+        description:
+          'Hit an enemy while using a power-up to smash it in Bit Jumper. Enemies include Spikers, Chompers, and Floaters.',
+        iconUrl:
+          'https://cdn.charity.games/_games/bit-jumper/assets/achievements/smasher.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '5',
+            quantity: 1,
+            chance: 1,
+          },
+        ],
+      },
+      {
+        id: 'bit-jumper:balloon',
+        version: 2,
+        name: 'Balloon Power-Up x2',
+        description:
+          'Collect the Balloon Power-Up twice in a single game of Bit Jumper.',
+        iconUrl:
+          'https://cdn.charity.games/_games/bit-jumper/assets/achievements/balloon.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '5',
+            quantity: 1,
+            chance: 1,
+          },
+        ],
+      },
+      {
+        id: 'bit-jumper:helicopter',
+        version: 2,
+        name: 'Helicopter Power-Up x2',
+        description:
+          'Collect the Helicopter Power-Up twice in a single game of Bit Jumper.',
+        iconUrl:
+          'https://cdn.charity.games/_games/bit-jumper/assets/achievements/helicopter.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '5',
+            quantity: 1,
+            chance: 1,
+          },
+        ],
+      },
+      {
+        id: 'bit-jumper:rocket',
+        version: 2,
+        name: 'Rocket Power-Up x2',
+        description:
+          'Collect the Rocket Power-Up twice in a single game of Bit Jumper.',
+        iconUrl:
+          'https://cdn.charity.games/_games/bit-jumper/assets/achievements/rocket.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '5',
+            quantity: 1,
+            chance: 1,
+          },
+        ],
+      },
+      {
+        id: 'bit-jumper:1000',
+        version: 2,
+        name: 'Score 1000',
+        description: 'Score 1000 points in a single game of Bit Jumper',
+        iconUrl:
+          'https://cdn.charity.games/_games/bit-jumper/assets/achievements/1000.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '5',
+            quantity: 1,
+            chance: 1,
+          },
+        ],
+      },
+      {
+        id: 'bit-jumper:2500',
+        version: 2,
+        name: 'Score 2500',
+        description: 'Score 2500 points in a single game of Bit Jumper',
+        iconUrl:
+          'https://cdn.charity.games/_games/bit-jumper/assets/achievements/2500.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '5',
+            quantity: 1,
+            chance: 1,
+          },
+        ],
+      },
+      {
+        id: 'bit-jumper:5000',
+        version: 2,
+        name: 'Score 5000',
+        description: 'Score 5000 points in a single game of Bit Jumper',
+        iconUrl:
+          'https://cdn.charity.games/_games/bit-jumper/assets/achievements/5000.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '5',
+            quantity: 2,
+            chance: 1,
+          },
+        ],
+      },
+      {
+        id: 'bit-jumper:7500',
+        version: 2,
+        name: 'Score 7500',
+        description: 'Score 7500 points in a single game of Bit Jumper',
+        iconUrl:
+          'https://cdn.charity.games/_games/bit-jumper/assets/achievements/7500.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '5',
+            quantity: 3,
+            chance: 1,
+          },
+        ],
+      },
+      {
+        id: 'bit-jumper:10000',
+        version: 2,
+        name: 'Score 10000',
+        description: 'Score 10000 points in a single game of Bit Jumper',
+        iconUrl:
+          'https://cdn.charity.games/_games/bit-jumper/assets/achievements/10000.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '8',
+            quantity: 1,
+            chance: 1,
+          },
+        ],
+      },
+      {
+        id: 'bit-jumper:15000',
+        version: 2,
+        name: 'Score 15000',
+        description: 'Score 15000 points in a single game of Bit Jumper',
+        iconUrl:
+          'https://cdn.charity.games/_games/bit-jumper/assets/achievements/15000.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '8',
+            quantity: 2,
+            chance: 1,
+          },
+        ],
+      },
+      {
+        id: 'bit-jumper:20000',
+        version: 2,
+        name: 'Score 20000',
+        description: 'Score 20000 points in a single game of Bit Jumper',
+        iconUrl:
+          'https://cdn.charity.games/_games/bit-jumper/assets/achievements/20000.png',
+        secret: false,
+        loot: [
+          {
+            itemId: '8',
+            quantity: 3,
+            chance: 1,
+          },
+        ],
+      },
+    ],
+    tasks: [
+      { type: 'score', score: 500 },
+      { type: 'score', score: 1000 },
+      { type: 'score', score: 2500 },
+    ],
+  },
+  {
     version: 1,
     id: 'hide-and-seek',
     name: 'Hide and Seek',
@@ -39,7 +299,6 @@ const integratedGames: SeedableGameSchema[] = [
       {
         id: 'hide-and-seek:perfect',
         version: 1,
-        gameId: 'hide-and-seek',
         name: 'Play a Perfect Game',
         description:
           'Find all three hidden characters without making a mistake',
@@ -57,7 +316,6 @@ const integratedGames: SeedableGameSchema[] = [
       {
         id: 'hide-and-seek:found-one',
         version: 1,
-        gameId: 'hide-and-seek',
         name: 'Find One',
         description: 'Find at least one hidden character during a game',
         iconUrl:
@@ -74,7 +332,6 @@ const integratedGames: SeedableGameSchema[] = [
       {
         id: 'hide-and-seek:found-two',
         version: 1,
-        gameId: 'hide-and-seek',
         name: 'Find Two',
         description: 'Find at least two hidden characters during a game',
         iconUrl:
@@ -91,7 +348,6 @@ const integratedGames: SeedableGameSchema[] = [
       {
         id: 'hide-and-seek:found-three',
         version: 1,
-        gameId: 'hide-and-seek',
         name: 'Find Three',
         description: 'Find all three hidden characters during a game',
         iconUrl:
@@ -108,21 +364,21 @@ const integratedGames: SeedableGameSchema[] = [
     ],
     tasks: [
       {
-        name: 'Find one hidden character',
+        name: 'Play Hide & Seek (1)',
         description:
           'Find one hidden character during a single game of Hide and Seek',
         type: 'score',
         score: 1,
       },
       {
-        name: 'Find two hidden characters',
+        name: 'Play Hide & Seek (2)',
         description:
           'Find two hidden characters during a single game of Hide and Seek',
         type: 'score',
         score: 2,
       },
       {
-        name: 'Find all hidden characters',
+        name: 'Play Hide & Seek (3)',
         description:
           'Find all three hidden characters during a single game of Hide and Seek',
         type: 'score',
@@ -156,7 +412,6 @@ const integratedGames: SeedableGameSchema[] = [
       {
         id: 'TALL_TOWER_BONUS_1',
         version: 1,
-        gameId: 'tall-tower',
         name: 'Bonus Prize - 1',
         description: 'Reach the bonus prize line with a single block',
         iconUrl:
@@ -173,7 +428,6 @@ const integratedGames: SeedableGameSchema[] = [
       {
         id: 'TALL_TOWER_BONUS_2',
         version: 1,
-        gameId: 'tall-tower',
         name: 'Bonus Prize - 2',
         description: 'Reach the bonus prize line with two blocks',
         iconUrl:
@@ -190,7 +444,6 @@ const integratedGames: SeedableGameSchema[] = [
       {
         id: 'TALL_TOWER_BONUS_3',
         version: 1,
-        gameId: 'tall-tower',
         name: 'Bonus Prize - 3',
         description: 'Reach the bonus prize line with three blocks',
         iconUrl:
@@ -207,7 +460,6 @@ const integratedGames: SeedableGameSchema[] = [
       {
         id: 'TALL_TOWER_MINOR_1',
         version: 1,
-        gameId: 'tall-tower',
         name: 'Minor Prize - 1',
         description: 'Reach the minor prize line with one block',
         iconUrl:
@@ -224,7 +476,6 @@ const integratedGames: SeedableGameSchema[] = [
       {
         id: 'TALL_TOWER_MINOR_2',
         version: 1,
-        gameId: 'tall-tower',
         name: 'Minor Prize - 2',
         description: 'Reach the minor prize line with two blocks',
         iconUrl:
@@ -241,7 +492,6 @@ const integratedGames: SeedableGameSchema[] = [
       {
         id: 'TALL_TOWER_MINOR_3',
         version: 1,
-        gameId: 'tall-tower',
         name: 'Minor Prize - 3',
         description: 'Reach the minor prize line with three blocks',
         iconUrl:
@@ -258,7 +508,6 @@ const integratedGames: SeedableGameSchema[] = [
       {
         id: 'TALL_TOWER_MAJOR_1',
         version: 1,
-        gameId: 'tall-tower',
         name: 'Major Prize - 1',
         description: 'Reach the major prize line with one block',
         iconUrl:
@@ -275,7 +524,6 @@ const integratedGames: SeedableGameSchema[] = [
       {
         id: 'TALL_TOWER_MAJOR_2',
         version: 1,
-        gameId: 'tall-tower',
         name: 'Major Prize - 2',
         description: 'Reach the major prize line with two blocks',
         iconUrl:
@@ -292,7 +540,6 @@ const integratedGames: SeedableGameSchema[] = [
       {
         id: 'TALL_TOWER_MAJOR_3',
         version: 1,
-        gameId: 'tall-tower',
         name: 'Major Prize - 3',
         description: 'Reach the major prize line with three blocks',
         iconUrl:
@@ -311,6 +558,10 @@ const integratedGames: SeedableGameSchema[] = [
       {
         type: 'score',
         score: 50,
+      },
+      {
+        type: 'score',
+        score: 100,
       },
     ],
   },
@@ -334,28 +585,11 @@ const integratedGames: SeedableGameSchema[] = [
     multiplier: 0.015,
     leaderboard: true,
     cloudStorage: true,
-    loot: [
-      {
-        itemId: '4',
-        quantity: 1,
-        chance: 1,
-      },
-      {
-        itemId: '2',
-        quantity: 1,
-        chance: 1,
-      },
-      {
-        itemId: '10044',
-        quantity: 1,
-        chance: 1,
-      },
-    ],
+    loot: [],
     achievements: [
       {
         id: 'BLOCK_BASH_100_POINTS_GAME',
         version: 1,
-        gameId: 'block-bash',
         name: 'Score 100',
         description: 'Score 100 points in a single game',
         iconUrl:
@@ -372,7 +606,6 @@ const integratedGames: SeedableGameSchema[] = [
       {
         id: 'BLOCK_BASH_500_POINTS_GAME',
         version: 1,
-        gameId: 'block-bash',
         name: 'Score 500',
         description: 'Score 500 points in a single game',
         iconUrl:
@@ -389,7 +622,6 @@ const integratedGames: SeedableGameSchema[] = [
       {
         id: 'BLOCK_BASH_1000_POINTS_GAME',
         version: 2,
-        gameId: 'block-bash',
         name: 'Score 1,000',
         description: 'Score 1,000 points in a single game',
         iconUrl:
@@ -411,7 +643,6 @@ const integratedGames: SeedableGameSchema[] = [
       {
         id: 'BLOCK_BASH_1500_POINTS_GAME',
         version: 2,
-        gameId: 'block-bash',
         name: 'Score 1,500',
         description: 'Score 1,500 points in a single game',
         iconUrl:
@@ -433,7 +664,6 @@ const integratedGames: SeedableGameSchema[] = [
       {
         id: 'BLOCK_BASH_2000_POINTS_GAME',
         version: 2,
-        gameId: 'block-bash',
         name: 'Score 2,000',
         description: 'Score 2,000 points in a single game',
         iconUrl:
@@ -455,7 +685,6 @@ const integratedGames: SeedableGameSchema[] = [
       {
         id: 'BLOCK_BASH_2500_POINTS_GAME',
         version: 1,
-        gameId: 'block-bash',
         name: 'Score 2,500',
         description: 'Score 2,500 points in a single game',
         iconUrl:
@@ -477,7 +706,6 @@ const integratedGames: SeedableGameSchema[] = [
       {
         id: 'BLOCK_BASH_3000_POINTS_GAME',
         version: 2,
-        gameId: 'block-bash',
         name: 'Score 3,000',
         description: 'Score 3,000 points in a single game',
         iconUrl:
@@ -499,7 +727,6 @@ const integratedGames: SeedableGameSchema[] = [
       {
         id: 'BLOCK_BASH_3500_POINTS_GAME',
         version: 1,
-        gameId: 'block-bash',
         name: 'Score 3,500',
         description: 'Score 3,500 points in a single game',
         iconUrl:
@@ -521,7 +748,6 @@ const integratedGames: SeedableGameSchema[] = [
       {
         id: 'BLOCK_BASH_4000_POINTS_GAME',
         version: 2,
-        gameId: 'block-bash',
         name: 'Score 4,000',
         description: 'Score 4,000 points in a single game',
         iconUrl:
@@ -543,7 +769,6 @@ const integratedGames: SeedableGameSchema[] = [
       {
         id: 'BLOCK_BASH_4500_POINTS_GAME',
         version: 1,
-        gameId: 'block-bash',
         name: 'Score 4,500',
         description: 'Score 4,500 points in a single game',
         iconUrl:
@@ -565,7 +790,6 @@ const integratedGames: SeedableGameSchema[] = [
       {
         id: 'BLOCK_BASH_5000_POINTS_GAME',
         version: 2,
-        gameId: 'block-bash',
         name: 'Score 5,000',
         description: 'Score 5,000 points in a single game',
         iconUrl:
@@ -587,7 +811,6 @@ const integratedGames: SeedableGameSchema[] = [
       {
         id: 'BLOCK_BASH_100_LINES',
         version: 1,
-        gameId: 'block-bash',
         name: 'Complete 100 Lines',
         description: 'Complete 100 lines across all games',
         iconUrl:
@@ -604,7 +827,6 @@ const integratedGames: SeedableGameSchema[] = [
       {
         id: 'BLOCK_BASH_500_LINES',
         version: 1,
-        gameId: 'block-bash',
         name: 'Complete 500 Lines',
         description: 'Complete 500 lines across all games',
         iconUrl:
@@ -621,7 +843,6 @@ const integratedGames: SeedableGameSchema[] = [
       {
         id: 'BLOCK_BASH_1000_LINES',
         version: 1,
-        gameId: 'block-bash',
         name: 'Complete 1,000 Lines',
         description: 'Complete 1,000 lines across all games',
         iconUrl:
@@ -638,7 +859,6 @@ const integratedGames: SeedableGameSchema[] = [
       {
         id: 'BLOCK_BASH_2500_LINES',
         version: 1,
-        gameId: 'block-bash',
         name: 'Complete 2,500 Lines',
         description: 'Complete 2,500 lines across all games',
         iconUrl:
@@ -655,7 +875,6 @@ const integratedGames: SeedableGameSchema[] = [
       {
         id: 'BLOCK_BASH_5000_LINES',
         version: 1,
-        gameId: 'block-bash',
         name: 'Complete 5,000 Lines',
         description: 'Complete 5,000 lines across all games',
         iconUrl:
@@ -672,7 +891,6 @@ const integratedGames: SeedableGameSchema[] = [
       {
         id: 'BLOCK_BASH_10000_LINES',
         version: 1,
-        gameId: 'block-bash',
         name: 'Complete 10,000 Lines',
         description: 'Complete 10,000 lines across all games',
         iconUrl:
@@ -689,7 +907,6 @@ const integratedGames: SeedableGameSchema[] = [
       {
         id: 'BLOCK_BASH_1000_BLOCKS_LIFETIME',
         version: 1,
-        gameId: 'block-bash',
         name: 'Place 1,000 Blocks',
         description: 'Place 1,000 blocks across all games',
         iconUrl:
@@ -706,7 +923,6 @@ const integratedGames: SeedableGameSchema[] = [
       {
         id: 'BLOCK_BASH_5000_BLOCKS_LIFETIME',
         version: 1,
-        gameId: 'block-bash',
         name: 'Place 5,000 Blocks',
         description: 'Place 5,000 blocks across all games',
         iconUrl:
@@ -723,7 +939,6 @@ const integratedGames: SeedableGameSchema[] = [
       {
         id: 'BLOCK_BASH_10000_BLOCKS_LIFETIME',
         version: 1,
-        gameId: 'block-bash',
         name: 'Place 10,00 Blocks',
         description: 'Place 10,000 blocks across all games',
         iconUrl:
@@ -740,7 +955,6 @@ const integratedGames: SeedableGameSchema[] = [
       {
         id: 'BLOCK_BASH_20000_BLOCKS_LIFETIME',
         version: 1,
-        gameId: 'block-bash',
         name: 'Place 20,000 Blocks',
         description: 'Place 20,000 blocks across all games',
         iconUrl:
@@ -757,7 +971,6 @@ const integratedGames: SeedableGameSchema[] = [
       {
         id: 'BLOCK_BASH_50000_BLOCKS_LIFETIME',
         version: 1,
-        gameId: 'block-bash',
         name: 'Place 50,000 Blocks',
         description: 'Place 50,000 blocks across all games',
         iconUrl:
@@ -774,7 +987,6 @@ const integratedGames: SeedableGameSchema[] = [
       {
         id: 'BLOCK_BASH_100000_BLOCKS_LIFETIME',
         version: 1,
-        gameId: 'block-bash',
         name: 'Place 100,000 Blocks',
         description: 'Place 100,000 blocks across all games',
         iconUrl:
@@ -822,68 +1034,11 @@ const integratedGames: SeedableGameSchema[] = [
         score: 250,
       },
     ],
-    loot: [
-      {
-        itemId: '10044',
-        quantity: 1,
-        chance: 1,
-      },
-      {
-        itemId: '10055',
-        quantity: 1,
-        chance: 1,
-      },
-      {
-        itemId: '10058',
-        quantity: 1,
-        chance: 1,
-      },
-      {
-        itemId: '10029',
-        quantity: 1,
-        chance: 1,
-      },
-      {
-        itemId: '10047',
-        quantity: 1,
-        chance: 1,
-      },
-      {
-        itemId: '10114',
-        quantity: 1,
-        chance: 1,
-      },
-      {
-        itemId: '10115',
-        quantity: 1,
-        chance: 1,
-      },
-      {
-        itemId: '10116',
-        quantity: 1,
-        chance: 1,
-      },
-      {
-        itemId: '10117',
-        quantity: 1,
-        chance: 1,
-      },
-      {
-        itemId: '10118',
-        quantity: 1,
-        chance: 1,
-      },
-      {
-        itemId: '10119',
-        quantity: 1,
-        chance: 1,
-      },
-    ],
+    loot: [],
     achievements: [
       {
         id: 'DINO_DASH_SCORE_100',
         version: 1,
-        gameId: 'dino-dash',
         name: 'Score 100',
         description: 'Score over 100 points in a single game',
         iconUrl:
@@ -900,7 +1055,6 @@ const integratedGames: SeedableGameSchema[] = [
       {
         id: 'DINO_DASH_SCORE_500',
         version: 1,
-        gameId: 'dino-dash',
         name: 'Score 500',
         description: 'Score over 500 points in a single game',
         iconUrl:
@@ -917,7 +1071,6 @@ const integratedGames: SeedableGameSchema[] = [
       {
         id: 'DINO_DASH_SCORE_1000',
         version: 1,
-        gameId: 'dino-dash',
         name: 'Score 1000',
         description: 'Score over 1000 points in a single game',
         iconUrl:
@@ -939,7 +1092,6 @@ const integratedGames: SeedableGameSchema[] = [
       {
         id: 'DINO_DASH_SCORE_2500',
         version: 1,
-        gameId: 'dino-dash',
         name: 'Score 2500',
         description: 'Score over 2500 points in a single game',
         iconUrl:
@@ -961,7 +1113,6 @@ const integratedGames: SeedableGameSchema[] = [
       {
         id: 'DINO_DASH_SCORE_5000',
         version: 1,
-        gameId: 'dino-dash',
         name: 'Score 5000',
         description: 'Score over 5000 points in a single game',
         iconUrl:
@@ -993,7 +1144,6 @@ const integratedGames: SeedableGameSchema[] = [
       {
         id: 'DINO_DASH_COINS_1',
         version: 1,
-        gameId: 'dino-dash',
         name: 'Collect 1 Coin',
         description: 'Collect 1 coin across all games',
         iconUrl:
@@ -1010,7 +1160,6 @@ const integratedGames: SeedableGameSchema[] = [
       {
         id: 'DINO_DASH_COINS_10',
         version: 1,
-        gameId: 'dino-dash',
         name: 'Collect 10 Coins',
         description: 'Collect 10 coins across all games',
         iconUrl:
@@ -1027,7 +1176,6 @@ const integratedGames: SeedableGameSchema[] = [
       {
         id: 'DINO_DASH_COINS_50',
         version: 1,
-        gameId: 'dino-dash',
         name: 'Collect 50 Coins',
         description: 'Collect 50 coins across all games',
         iconUrl:
@@ -1044,7 +1192,6 @@ const integratedGames: SeedableGameSchema[] = [
       {
         id: 'DINO_DASH_COINS_100',
         version: 1,
-        gameId: 'dino-dash',
         name: 'Collect 100 Coins',
         description: 'Collect 100 coins across all games',
         iconUrl:
@@ -1066,7 +1213,6 @@ const integratedGames: SeedableGameSchema[] = [
       {
         id: 'DINO_DASH_COINS_250',
         version: 1,
-        gameId: 'dino-dash',
         name: 'Collect 250 Coins',
         description: 'Collect 250 coins across all games',
         iconUrl:
@@ -1088,7 +1234,6 @@ const integratedGames: SeedableGameSchema[] = [
       {
         id: 'DINO_DASH_DAMAGE_1',
         version: 1,
-        gameId: 'dino-dash',
         name: 'Take 1 Damage',
         description: 'Take 1 damage across all games',
         iconUrl:
@@ -1105,7 +1250,6 @@ const integratedGames: SeedableGameSchema[] = [
       {
         id: 'DINO_DASH_DAMAGE_10',
         version: 1,
-        gameId: 'dino-dash',
         name: 'Take 10 Damage',
         description: 'Take 10 damage across all games',
         iconUrl:
@@ -1122,7 +1266,6 @@ const integratedGames: SeedableGameSchema[] = [
       {
         id: 'DINO_DASH_DAMAGE_25',
         version: 1,
-        gameId: 'dino-dash',
         name: 'Take 25 Damage',
         description: 'Take 25 damage across all games',
         iconUrl:
@@ -1139,7 +1282,6 @@ const integratedGames: SeedableGameSchema[] = [
       {
         id: 'DINO_DASH_DAMAGE_50',
         version: 1,
-        gameId: 'dino-dash',
         name: 'Take 50 Damage',
         description: 'Take 50 damage across all games',
         iconUrl:
@@ -1156,7 +1298,6 @@ const integratedGames: SeedableGameSchema[] = [
       {
         id: 'DINO_DASH_DAMAGE_100',
         version: 1,
-        gameId: 'dino-dash',
         name: 'Take 100 Damage',
         description: 'Take 100 damage across all games',
         iconUrl:
@@ -1173,7 +1314,6 @@ const integratedGames: SeedableGameSchema[] = [
       {
         id: 'DINO_DASH_JUMPS_125',
         version: 2,
-        gameId: 'dino-dash',
         name: 'Jump 125 Times',
         description: 'Jump 125 time across all games',
         iconUrl:
@@ -1190,7 +1330,6 @@ const integratedGames: SeedableGameSchema[] = [
       {
         id: 'DINO_DASH_JUMPS_250',
         version: 2,
-        gameId: 'dino-dash',
         name: 'Jump 250 Times',
         description: 'Jump 250 times across all games',
         iconUrl:
@@ -1207,7 +1346,6 @@ const integratedGames: SeedableGameSchema[] = [
       {
         id: 'DINO_DASH_JUMPS_1250',
         version: 2,
-        gameId: 'dino-dash',
         name: 'Jump 1250 Times',
         description: 'Jump 1250 times across all games',
         iconUrl:
@@ -1224,7 +1362,6 @@ const integratedGames: SeedableGameSchema[] = [
       {
         id: 'DINO_DASH_JUMPS_3000',
         version: 2,
-        gameId: 'dino-dash',
         name: 'Jump 3000 Times',
         description: 'Jump 3000 times across all games',
         iconUrl:
@@ -1241,7 +1378,6 @@ const integratedGames: SeedableGameSchema[] = [
       {
         id: 'DINO_DASH_JUMPS_5000',
         version: 2,
-        gameId: 'dino-dash',
         name: 'Jump 5000 Times',
         description: 'Jump 5000 times across all games',
         iconUrl:
@@ -1258,7 +1394,6 @@ const integratedGames: SeedableGameSchema[] = [
       {
         id: 'DINO_DASH_UNLOCK_BILLY',
         version: 1,
-        gameId: 'dino-dash',
         name: 'Unlock Billy the Brontosaurus',
         description:
           'Visit the shop and purchase the character: Billy the Brontosaurus',
@@ -1276,7 +1411,6 @@ const integratedGames: SeedableGameSchema[] = [
       {
         id: 'DINO_DASH_UNLOCK_TERRY',
         version: 1,
-        gameId: 'dino-dash',
         name: 'Unlock Terry the Triceratops',
         description:
           'Visit the shop and purchase the character: Terry the Triceratops',
@@ -1294,7 +1428,6 @@ const integratedGames: SeedableGameSchema[] = [
       {
         id: 'DINO_DASH_UNLOCK_CARLY',
         version: 1,
-        gameId: 'dino-dash',
         name: 'Unlock Carly the Carnotaurus',
         description:
           'Visit the shop and purchase the character: Carly the Carnotaurus',
@@ -1339,18 +1472,11 @@ const integratedGames: SeedableGameSchema[] = [
         score: 10,
       },
     ],
-    loot: [
-      {
-        itemId: '2',
-        quantity: 2,
-        chance: 0.1,
-      },
-    ],
+    loot: [],
     achievements: [
       {
         id: 'COLOR_RUN_SCORE_1',
         version: 3,
-        gameId: 'color-run',
         name: 'First Score',
         description: 'Score 1 point in the game',
         iconUrl:
@@ -1367,7 +1493,6 @@ const integratedGames: SeedableGameSchema[] = [
       {
         id: 'COLOR_RUN_SCORE_5',
         version: 3,
-        gameId: 'color-run',
         name: 'Score 5',
         description: 'Score 5 points in the game',
         iconUrl:
@@ -1384,7 +1509,6 @@ const integratedGames: SeedableGameSchema[] = [
       {
         id: 'COLOR_RUN_SCORE_10',
         version: 3,
-        gameId: 'color-run',
         name: 'Score 10',
         description: 'Score 10 points in the game',
         iconUrl:
@@ -1401,7 +1525,6 @@ const integratedGames: SeedableGameSchema[] = [
       {
         id: 'COLOR_RUN_SCORE_25',
         version: 3,
-        gameId: 'color-run',
         name: 'Score 25',
         description: 'Score 25 points in the game',
         iconUrl:
@@ -1423,7 +1546,6 @@ const integratedGames: SeedableGameSchema[] = [
       {
         id: 'COLOR_RUN_SCORE_50',
         version: 3,
-        gameId: 'color-run',
         name: 'Score 50',
         description: 'Score 50 points in the game',
         iconUrl:
@@ -1445,7 +1567,6 @@ const integratedGames: SeedableGameSchema[] = [
       {
         id: 'COLOR_RUN_SCORE_75',
         version: 3,
-        gameId: 'color-run',
         name: 'Score 75',
         description: 'Score 75 points in the game',
         iconUrl:
@@ -1467,7 +1588,6 @@ const integratedGames: SeedableGameSchema[] = [
       {
         id: 'COLOR_RUN_SCORE_100',
         version: 3,
-        gameId: 'color-run',
         name: 'Score 100',
         description: 'Score 100 points in the game',
         iconUrl:

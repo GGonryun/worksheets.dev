@@ -1,0 +1,9 @@
+{
+  "name": "games-bit-jumper",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/games/bit-jumper/src",
+  "tags": [],
+  "// targets": "to see all targets run: nx show project games-bit-jumper --web",
+  "targets": {}
+}

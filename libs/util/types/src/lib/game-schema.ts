@@ -22,11 +22,13 @@ export const basicGameAchievementSchema = z.object({
   iconUrl: z.string(),
 });
 
-export const seedableGameAchievementSchema = basicGameAchievementSchema.extend({
-  secret: z.boolean(),
-  version: z.number(),
-  loot: seedableLootSchema.array(),
-});
+export const seedableGameAchievementSchema = basicGameAchievementSchema
+  .extend({
+    secret: z.boolean(),
+    version: z.number(),
+    loot: seedableLootSchema.array(),
+  })
+  .omit({ gameId: true });
 
 export type SeedableGameAchievementSchema = z.infer<
   typeof seedableGameAchievementSchema

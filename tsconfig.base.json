@@ -324,6 +324,7 @@
       "@worksheets/util/data": ["libs/util/data/src/index.ts"],
       "@worksheets/util/enums": ["libs/util/enums/src/index.ts"],
       "@worksheets/util/errors": ["libs/util/errors/src/index.ts"],
+      "@worksheets/util/functions": ["libs/util/functions/src/index.ts"],
       "@worksheets/util/generators": ["libs/util/generators/src/index.ts"],
       "@worksheets/util/html": ["libs/util/html/src/index.ts"],
       "@worksheets/util/integrations": ["libs/util/integrations/src/index.ts"],

@@ -26,6 +26,7 @@ export const isValidOrigin = (origin: string) => {
   return origin === '*' || validOrigins.includes(origin);
 };
 
+// TODO: Move charity games plugin towards an API-first approach.
 export class CharityGamesPlugin extends Phaser.Plugins.BasePlugin {
   static KEY = 'CharityGamesPlugin';
   storage: StorageAPI;
@@ -37,6 +38,7 @@ export class CharityGamesPlugin extends Phaser.Plugins.BasePlugin {
   rewards: RewardAPI;
   events: Phaser.Events.EventEmitter = new Phaser.Events.EventEmitter();
   isInitialized = false;
+  isDisabled = false;
   storageKey = 'storage';
 
   constructor(pluginManager: Phaser.Plugins.PluginManager) {
@@ -54,6 +56,8 @@ export class CharityGamesPlugin extends Phaser.Plugins.BasePlugin {
   }
 
   #preload() {
+    if (this.isDisabled) return;
+
     if (window.parent === window) {
       throw new Error('No parent window');
     }
@@ -85,25 +89,29 @@ export class CharityGamesPlugin extends Phaser.Plugins.BasePlugin {
     });
   }
 
-  async initialize() {
-    // 10 seconds timeout for initialization
-    const { signal, cancel } = createTimeout(10 * SECONDS);
+  async initialize(): Promise<void> {
+    this.isDisabled = process.env['DISABLE_CHARITY_GAMES_SDK'] === 'true';
+    if (this.isDisabled) console.info('Charity Games SDK is disabled');
+
+    const { signal, cancel } = createTimeout(10 * (this.isDisabled ? 0 : 10));
     try {
       this.#preload();
 
       this.#emit('initializing', 0.33);
-      await this.session.start(signal);
+      await this.session.initialize(signal);
 
       this.#emit('initializing', 0.66);
-      await this.storage.load(signal);
+      await this.storage.initialize(signal);
 
       this.#emit('initializing', 1);
-      await this.achievements.load(signal);
+      await this.achievements.initialize(signal);
 
       this.isInitialized = true;
       this.#emit('initialized', { ok: true });
     } catch (error) {
-      console.error('Failed to initialize', error);
+      if (!this.isDisabled) {
+        console.error('Failed to initialize', error);
+      }
       this.isInitialized = true;
       this.#emit('initialized', { ok: false });
     } finally {
@@ -112,6 +120,7 @@ export class CharityGamesPlugin extends Phaser.Plugins.BasePlugin {
   }
 
   send<T extends GameEventKey>(event: T, payload: GameEventPayload<T>) {
+    if (this.isDisabled) return;
     window.parent.postMessage({ event, payload }, '*');
   }
 
@@ -142,7 +151,7 @@ class SessionAPI {
     this.id = null;
   }
 
-  async start(signal: AbortSignal) {
+  async initialize(signal: AbortSignal) {
     const { sessionId } = await cancelableRequest(this.plugin, signal)(
       'start-session',
       'session-started'
@@ -167,7 +176,7 @@ class StorageAPI {
     this.ignored = keys;
   }
 
-  async load(signal: AbortSignal) {
+  async initialize(signal: AbortSignal) {
     const { storage } = await cancelableRequest(this.plugin, signal)(
       'load-storage',
       'storage-loaded'
@@ -221,7 +230,7 @@ class StorageAPI {
 class LeaderboardsAPI {
   constructor(private plugin: CharityGamesPlugin) {}
 
-  async submit(score: number) {
+  submit(score: number) {
     this.plugin.send('submit-score', {
       sessionId: this.plugin.session.id,
       score,
@@ -233,7 +242,7 @@ class AchievementsAPI {
   cached: string[] = [];
   constructor(private plugin: CharityGamesPlugin) {}
 
-  async load(signal: AbortSignal) {
+  async initialize(signal: AbortSignal) {
     const act = await cancelableRequest(this.plugin, signal)(
       'load-achievements',
       'achievements-loaded'
