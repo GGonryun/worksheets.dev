@@ -174,7 +174,7 @@ export class PrizeService {
           id: prize.id,
         },
         data: {
-          discount: randomFloatBetween(0.01, 0.5),
+          discount: randomFloatBetween(0.1, 0.5),
           status: PrizeStatus.ACTIVE,
         },
       });
