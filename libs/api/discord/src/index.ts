@@ -9,6 +9,9 @@ export type DiscordMessageInput = {
     description?: string;
     color?: number;
     url?: string;
+    image?: {
+      url: string;
+    };
     fields?: {
       name: string;
       value: string;

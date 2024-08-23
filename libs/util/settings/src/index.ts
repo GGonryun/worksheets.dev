@@ -37,3 +37,8 @@ export const SESSION_AGE_MINUTES = 30;
 
 export const DAMAGE_PER_ATTACK = 1;
 export const STRIKES_PER_ATTACK = 1;
+
+export const PRIZE_WALL_INTERVAL = 6; // TODO: load from vercel cron job json file.
+export const MAX_DAILY_PRIZES = 6;
+export const MAX_PRIZE_DISCOUNT = 0.5;
+export const MIN_PRIZE_DISCOUNT = 0.1;

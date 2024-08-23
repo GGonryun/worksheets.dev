@@ -4,12 +4,15 @@ import {
   ModalProps as MuiModalProps,
   Paper,
 } from '@mui/material';
+import { Theme } from '@worksheets/ui/theme';
 import { forwardRef } from 'react';
 
 export type ModalProps = Pick<
   MuiModalProps,
   'open' | 'onClose' | 'children' | 'sx'
->;
+> & {
+  background?: (theme: Theme) => string;
+};
 
 export type OnClose = MuiModalProps['onClose'];
 
@@ -17,7 +20,7 @@ export type OnClose = MuiModalProps['onClose'];
 export type ModalWrapper<T = {}> = Omit<ModalProps, 'children'> & T;
 
 export const Modal = forwardRef<HTMLDivElement, ModalProps>(
-  ({ children, sx, ...props }, ref) => {
+  ({ children, sx, background, ...props }, ref) => {
     return (
       <MuiModal {...props}>
         <Box
@@ -38,6 +41,7 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
           <Paper
             elevation={6}
             sx={{
+              background,
               borderRadius: (theme) => theme.shape.borderRadius,
               display: 'flex',
               position: 'relative',

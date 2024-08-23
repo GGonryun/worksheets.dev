@@ -345,6 +345,47 @@ export const nextUtcMidnight = (now = new Date()): Date => {
   return nextMidnight;
 };
 
+/**
+ * Calculates the next interval time based on a specified interval in hours,
+ * starting from 12 AM UTC.
+ *
+ * @param currentTime - The current Date and time.
+ * @param intervalHours - The interval duration in hours (e.g., 12 for 12-hour intervals).
+ * @returns A Date object representing the next interval start time in UTC.
+ */
+export function getNextIntervalAligned(
+  intervalHours: number,
+  currentTime: Date = new Date()
+): Date {
+  // Calculate the total milliseconds since the Unix epoch
+  const currentTimeMs: number = currentTime.getTime();
+
+  // Calculate the interval duration in milliseconds
+  const intervalMs: number = intervalHours * 60 * 60 * 1000;
+
+  // Calculate the Unix timestamp for 12 AM UTC of the current day
+  const startOfDay: Date = new Date(
+    Date.UTC(
+      currentTime.getUTCFullYear(),
+      currentTime.getUTCMonth(),
+      currentTime.getUTCDate()
+    )
+  );
+  const startOfDayMs: number = startOfDay.getTime();
+
+  // Calculate the elapsed time since the start of the day
+  const elapsedMs: number = currentTimeMs - startOfDayMs;
+
+  // Calculate the number of complete intervals that have passed
+  const intervalsPassed: number = Math.floor(elapsedMs / intervalMs);
+
+  // Calculate the timestamp for the next interval
+  const nextIntervalMs: number =
+    startOfDayMs + (intervalsPassed + 1) * intervalMs;
+
+  return new Date(nextIntervalMs);
+}
+
 export const lastUtcMidnight = (now = new Date()): Date => {
   const lastMidnight = new Date(
     Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate())

@@ -32,7 +32,7 @@ export class PushTemplates {
     opts: ExtractTemplatePayload<'prize-purchased'>
   ): PushNotifyInput {
     return {
-      userIds: [opts.userId],
+      userIds: [opts.user.id],
       type: 'PRIZE',
       text: `You have unlocked the prize <a href="${opts.url}">${opts.name} ${
         opts.type === 'STEAM' ? 'Steam Key' : ''

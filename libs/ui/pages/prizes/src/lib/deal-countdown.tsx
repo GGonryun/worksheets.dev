@@ -3,10 +3,10 @@ import { Box, LinearProgress, Typography } from '@mui/material';
 import { Row } from '@worksheets/ui/components/flex';
 import { printShortDateTime } from '@worksheets/util/time';
 
-import { useTimeToUtcMidnight } from './hooks/use-time-to-midnight';
+import { useNextPrizeWallInterval } from './hooks/use-time-to-interval';
 
 export const DealCountdown = () => {
-  const timeRemaining = useTimeToUtcMidnight();
+  const timeRemaining = useNextPrizeWallInterval();
   const ONE_DAY_MS = 24 * 60 * 60 * 1000;
   return (
     <Box>

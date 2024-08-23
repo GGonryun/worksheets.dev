@@ -33,8 +33,8 @@ export const InfoModal = forwardRef<
     <Modal
       open={open}
       onClose={onClose}
+      background={background}
       sx={{
-        background,
         maxHeight: '90vh',
         maxWidth: `min(${maxWidth}px, 95vw)`,
       }}

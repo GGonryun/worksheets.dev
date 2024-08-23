@@ -26,8 +26,12 @@ export const purchaseResultSchema = z.object({
   type: z.nativeEnum(ActivationCodeType),
   url: z.string(),
   code: z.string(),
-  userId: z.string(),
+  imageUrl: z.string(),
   cost: z.number(),
+  user: z.object({
+    id: z.string(),
+    username: z.string(),
+  }),
 });
 
 export type PurchaseResultSchema = z.infer<typeof purchaseResultSchema>;

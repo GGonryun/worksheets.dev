@@ -11,15 +11,22 @@ export class DiscordTemplates {
     opts: ExtractTemplatePayload<'prize-purchased'>
   ): DiscordMessageInput {
     return {
-      content: `A user has purchased a prize: ${opts.prizeId}`,
+      content: `🔑🎁 PRIZE UNLOCKED 🎁🔑`,
       embeds: [
         {
-          title: `User ID: ${opts.userId}`,
-          description: `The user
-            (${opts.userId}) has purchased the prize ${opts.name} for ${opts.cost} tokens.`,
+          title: `${opts.name} — ${opts.cost} tokens`,
+          url: routes.prizes.url(),
+          description: `The user ${opts.user.username} has purchased a ${
+            opts.name
+          } ${opts.type === 'STEAM' ? 'Steam Key' : 'Unknown'} for ${
+            opts.cost
+          } tokens!`,
+          image: {
+            url: opts.imageUrl,
+          },
         },
       ],
-      channel: 'admin',
+      channel: 'notification',
     };
   }
   static userReport(

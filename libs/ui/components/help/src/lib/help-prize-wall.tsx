@@ -2,6 +2,12 @@ import { Box, Link, Typography } from '@mui/material';
 import { routes } from '@worksheets/routes';
 import { ListItem, OrderedList } from '@worksheets/ui-core';
 import { InventoryPanels } from '@worksheets/util/enums';
+import { toPercentage } from '@worksheets/util/numbers';
+import {
+  MAX_PRIZE_DISCOUNT,
+  MIN_PRIZE_DISCOUNT,
+  PRIZE_WALL_INTERVAL,
+} from '@worksheets/util/settings';
 import { QuestionAnswer } from '@worksheets/util/types';
 
 import { HelpfulLinks } from './helpful-links';
@@ -19,8 +25,10 @@ export const helpPrizeWall: QuestionAnswer[] = [
         prize.
         <br />
         <br />
-        Every 24 hours, a new set of prizes will be available for redemption
-        with varying discounts. Be sure to check back daily to see what's new!
+        Every {PRIZE_WALL_INTERVAL} hours, a new set of prizes will be available
+        for redemption with varying discounts. Discounts range from{' '}
+        {toPercentage(MIN_PRIZE_DISCOUNT)} to {toPercentage(MAX_PRIZE_DISCOUNT)}
+        . Be sure to check back often to see what's new!
         <br />
         <br />
         Players are only allowed to redeem one prize per day. If you have any

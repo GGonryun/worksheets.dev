@@ -8,6 +8,11 @@ import {
 import { InventoryService } from '@worksheets/services/inventory';
 import { shuffle } from '@worksheets/util/arrays';
 import { randomFloatBetween } from '@worksheets/util/numbers';
+import {
+  MAX_DAILY_PRIZES,
+  MAX_PRIZE_DISCOUNT,
+  MIN_PRIZE_DISCOUNT,
+} from '@worksheets/util/settings';
 import { calculatePrizePrice, UserSchema } from '@worksheets/util/types';
 
 export class PrizeService {
@@ -139,14 +144,16 @@ export class PrizeService {
       code: prize.code.content,
       type: prize.code.type,
       url: prize.code.sourceUrl,
-      userId: user.id,
+      imageUrl: prize.code.imageUrl,
+      user: {
+        id: user.id,
+        username: user.username,
+      },
       cost,
     };
   }
 
   async shuffle() {
-    const MAX_DAILY_PRIZES = 5;
-
     const prizes = await this.db.prize.findMany({
       where: {
         status: {
@@ -174,7 +181,7 @@ export class PrizeService {
           id: prize.id,
         },
         data: {
-          discount: randomFloatBetween(0.1, 0.5),
+          discount: randomFloatBetween(MIN_PRIZE_DISCOUNT, MAX_PRIZE_DISCOUNT),
           status: PrizeStatus.ACTIVE,
         },
       });
