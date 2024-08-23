@@ -12,4 +12,4 @@ export enum StorageKey {
   MUTE = 'mute-sound',
 }
 
-export const VERSION = 'v1.0.3';
+export const VERSION = 'v1.0.4';

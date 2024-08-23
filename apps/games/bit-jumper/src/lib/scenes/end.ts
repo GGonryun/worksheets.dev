@@ -48,12 +48,8 @@ export class End extends Phaser.Scene {
     enemies.spawn(width * Phaser.Math.FloatBetween(0.2, 0.8), height * 0.9);
 
     this.server.storage.save();
-    this.submitScore(highScore);
+    this.server.leaderboard.submit(this.payload.score);
     this.submitAchievements(highScore);
-  }
-
-  submitScore(score: number) {
-    this.server.leaderboard.submit(score);
   }
 
   submitAchievements(score: number) {
