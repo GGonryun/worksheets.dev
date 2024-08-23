@@ -93,7 +93,9 @@ export class CharityGamesPlugin extends Phaser.Plugins.BasePlugin {
     this.isDisabled = process.env['DISABLE_CHARITY_GAMES_SDK'] === 'true';
     if (this.isDisabled) console.info('Charity Games SDK is disabled');
 
-    const { signal, cancel } = createTimeout(10 * (this.isDisabled ? 0 : 10));
+    const { signal, cancel } = createTimeout(
+      (this.isDisabled ? 0 : 10) * SECONDS
+    );
     try {
       this.#preload();
 
