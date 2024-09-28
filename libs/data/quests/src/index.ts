@@ -1,8 +1,5 @@
 import { Prisma } from '@worksheets/prisma';
-import {
-  PER_GAME_PLAY_REWARD,
-  TOKENS_PER_REFERRAL_ACCOUNT,
-} from '@worksheets/util/settings';
+import { TOKENS_PER_REFERRAL_ACCOUNT } from '@worksheets/util/settings';
 
 export const QUESTS: Prisma.PlatformQuestUncheckedCreateInput[] = [
   // prize wheels
@@ -372,23 +369,6 @@ export const QUESTS: Prisma.PlatformQuestUncheckedCreateInput[] = [
     version: 0,
     taskId: 'PLAY_MINUTES_INFINITE',
     loot: {},
-  },
-  {
-    id: 'PLAY_GAME_INFINITE',
-    order: 1001,
-    version: 0,
-    taskId: 'PLAY_GAME_INFINITE',
-    loot: {
-      createMany: {
-        data: [
-          {
-            itemId: '1',
-            quantity: PER_GAME_PLAY_REWARD,
-            chance: 1,
-          },
-        ],
-      },
-    },
   },
   {
     id: 'ADD_FRIEND_INFINITE',

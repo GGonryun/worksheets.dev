@@ -19,7 +19,10 @@ import {
   ReportIssueModal,
   ShareGameModal,
 } from '../components';
-import { GameNotificationContextProvider } from '../hooks/use-game-notifications';
+import {
+  GameNotificationContextProvider,
+  useGameNotifications,
+} from '../hooks/use-game-notifications';
 
 type GameScreenContainerProps = {
   game: SerializableGameSchema;
@@ -52,7 +55,7 @@ const GameScreenContainerInner: React.FC<GameScreenContainerProps> = ({
   const session = useSession();
   const authenticated = session.status === 'authenticated';
 
-  // const notifications = useGameNotifications();
+  const notifications = useGameNotifications();
 
   const [showShare, setShowShare] = useState(false);
   const [showReport, setShowReport] = useState(false);
@@ -63,7 +66,7 @@ const GameScreenContainerInner: React.FC<GameScreenContainerProps> = ({
   const record = trpc.maybe.games.record.useMutation();
   const reportGame = trpc.public.games.report.useMutation();
 
-  // const trackGamePlay = trpc.user.gamePlay.track.useMutation();
+  const trackGamePlay = trpc.user.gamePlay.track.useMutation();
 
   const { data: suggestions } = trpc.public.games.suggestions.useQuery(
     {
@@ -76,19 +79,19 @@ const GameScreenContainerInner: React.FC<GameScreenContainerProps> = ({
 
   const [showVoteWarning, setShowVoteWarning] = useState(false);
 
-  // const handleRewardPlay = useCallback(async () => {
-  //   if (authenticated) {
-  //     await trackGamePlay.mutateAsync({
-  //       gameId: game.id,
-  //     });
-  //     notifications.add('You earned 1 token for starting the game!');
-  //   } else {
-  //     notifications.add('Login to earn tokens!', {
-  //       color: 'warning',
-  //       unique: true,
-  //     });
-  //   }
-  // }, [authenticated, game.id, notifications, trackGamePlay]);
+  const handleRewardPlay = useCallback(async () => {
+    if (authenticated) {
+      await trackGamePlay.mutateAsync({
+        gameId: game.id,
+      });
+      notifications.add('You earned 1 token for starting the game!');
+    } else {
+      notifications.add('Login to earn tokens!', {
+        color: 'warning',
+        unique: true,
+      });
+    }
+  }, [authenticated, game.id, notifications, trackGamePlay]);
 
   const handleIncrementPlayCount = useCallback(async () => {
     await record.mutateAsync({ gameId: game.id });
@@ -103,10 +106,7 @@ const GameScreenContainerInner: React.FC<GameScreenContainerProps> = ({
       playedLast: new Date().getTime(),
     });
 
-    await Promise.all([
-      // handleRewardPlay(),
-      handleIncrementPlayCount(),
-    ]);
+    await Promise.all([handleRewardPlay(), handleIncrementPlayCount()]);
   }, [
     addRecentlyPlayed,
     game.iconUrl,
@@ -114,7 +114,7 @@ const GameScreenContainerInner: React.FC<GameScreenContainerProps> = ({
     game.name,
     game.plays,
     handleIncrementPlayCount,
-    // handleRewardPlay,
+    handleRewardPlay,
   ]);
 
   const handleReportGame = useCallback(
