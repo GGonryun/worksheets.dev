@@ -19,6 +19,7 @@ export const EXPIRED_RAFFLE_PROPS = {
         select: {
           id: true,
           email: true,
+          multiplier: true,
         },
       },
       id: true,

@@ -108,7 +108,16 @@ export class RafflesService {
   }
 
   async processExpiredRaffle(raffle: ExpiredRaffle) {
-    if (raffle.participants.length === 0) {
+    // shadow-ban users with multiplier < 0.5
+    const participants = raffle.participants.filter(
+      (p) => p.user.multiplier > 0.5
+    );
+
+    console.log(
+      `All participants ${raffle.participants.length}, viable participants ${participants.length}`
+    );
+
+    if (participants.length === 0) {
       console.info('No participants in raffle', raffle.id);
       await this.#db.raffle.update({
         where: {
@@ -125,7 +134,7 @@ export class RafflesService {
       };
     }
 
-    if (!raffle.participants.every((p) => p.numEntries >= 0)) {
+    if (!participants.every((p) => p.numEntries >= 0)) {
       throw new TRPCError({
         code: 'INTERNAL_SERVER_ERROR',
         message:
@@ -142,7 +151,7 @@ export class RafflesService {
       },
     });
 
-    const winners = pickWinners(raffle.numWinners, raffle.participants);
+    const winners = pickWinners(raffle.numWinners, participants);
 
     console.info('Winners:', winners.map((w) => w.user.email).join(', '));
 
@@ -163,7 +172,7 @@ export class RafflesService {
       );
     }
 
-    const losers = raffle.participants.filter(
+    const losers = participants.filter(
       (p) => !winners.some((w) => w.participationId === p.id)
     );
 
