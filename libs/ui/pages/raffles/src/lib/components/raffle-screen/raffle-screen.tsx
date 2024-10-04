@@ -1,7 +1,6 @@
 import { NavigateBefore } from '@mui/icons-material';
 import { Button, Container, Typography } from '@mui/material';
 import { routes } from '@worksheets/routes';
-import { HorizontalAdvertisement } from '@worksheets/ui/components/advertisements';
 import { RaffleSchema } from '@worksheets/util/types';
 import React from 'react';
 
@@ -40,7 +39,6 @@ export const RaffleScreen: React.FC<{
         onShare={onShare}
       />
     </Container>
-    <HorizontalAdvertisement slot={'6739186907'} />
 
     <RaffleDescription raffle={raffle} onShare={onShare} />
 

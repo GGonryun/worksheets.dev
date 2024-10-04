@@ -1,7 +1,6 @@
 import { NavigateNext } from '@mui/icons-material';
 import { Button } from '@mui/material';
 import { routes } from '@worksheets/routes';
-import { HorizontalAdvertisement } from '@worksheets/ui/components/advertisements';
 import {
   RaffleCarousel,
   RafflesGroup,
@@ -37,7 +36,6 @@ export const RaffleContents: React.FC<{
           }
         />
       )}
-      <HorizontalAdvertisement slot={'2215023507'} />
       <RafflesGroup
         title={'Raffles'}
         action={

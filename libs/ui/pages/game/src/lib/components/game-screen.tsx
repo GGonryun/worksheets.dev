@@ -1,6 +1,5 @@
 import { Box, Paper, styled } from '@mui/material';
 import Container from '@mui/material/Container';
-import { HorizontalAdvertisement } from '@worksheets/ui/components/advertisements';
 import {
   Game,
   GamesGroup,
@@ -80,8 +79,6 @@ export const GameScreen: FC<GameScreenProps> = ({
           ))}
         </PaperSidebar>
       </Box>
-
-      <HorizontalAdvertisement slot={'2284936571'} />
 
       <CreateAccountBanner
         enabled={status === 'unauthenticated'}

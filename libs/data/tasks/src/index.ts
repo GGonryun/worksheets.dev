@@ -692,18 +692,6 @@ export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
   },
   {
     version: 1,
-    id: 'PLAY_GAME_INFINITE',
-    type: TaskType.PLAY_GAME,
-    category: TaskCategory.GAMEPLAY,
-    frequency: TaskFrequency.INFINITE,
-    requiredRepetitions: 1,
-    maxRepetitions: MAX_INT,
-    name: 'Play a Game',
-    description: 'Start a game and earn tokens for playing on Charity Games.',
-    data: {},
-  },
-  {
-    version: 1,
     id: 'ADD_FRIEND_INFINITE',
     type: TaskType.ADD_FRIEND,
     category: TaskCategory.SOCIAL,

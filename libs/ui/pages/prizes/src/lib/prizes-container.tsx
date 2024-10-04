@@ -2,7 +2,6 @@ import { CardGiftcardOutlined, PlayCircleOutline } from '@mui/icons-material';
 import { Button, Container, Paper, Typography } from '@mui/material';
 import { routes } from '@worksheets/routes';
 import { trpc } from '@worksheets/trpc-charity';
-import { HorizontalAdvertisement } from '@worksheets/ui/components/advertisements';
 import { Column, Row } from '@worksheets/ui/components/flex';
 import { ErrorScreen } from '@worksheets/ui/pages/errors';
 import { LoadingScreen } from '@worksheets/ui/pages/loading';
@@ -81,7 +80,6 @@ export const PrizesContainer: React.FC = () => {
       >
         <ResetNotice />
       </Paper>
-      <HorizontalAdvertisement slot="3430497289" />
       <Paper
         sx={{
           background: (theme) => theme.palette.background['solid-blue'],

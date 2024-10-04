@@ -1,5 +1,4 @@
 import { Box, Container } from '@mui/material';
-import { HorizontalAdvertisement } from '@worksheets/ui/components/advertisements';
 import { Categories } from '@worksheets/ui/components/categories';
 import {
   GameCarousel,
@@ -57,15 +56,11 @@ export const ArcadeScreen: React.FC<{
           <GameCarousel title="Recently Played" items={props.recentGames} />
         )}
 
-        <HorizontalAdvertisement slot={'9668602578'} />
-
         <GameCarousel title="Best Games" items={props.topGames} />
 
         <GameCarousel title="Newest Games" items={props.newGames} />
 
         {props.topBattles}
-
-        <HorizontalAdvertisement slot={'4318442660'} />
 
         <GamesGroup
           title="All Games"
