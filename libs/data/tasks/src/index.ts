@@ -397,6 +397,22 @@ export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
       label: 'Visit Water.org',
     },
   },
+  {
+    version: 1,
+    id: 'INSTAGRAM_VISIT_KEYMUNITY_ONCE',
+    type: TaskType.VISIT_INSTAGRAM,
+    category: TaskCategory.TASK,
+    frequency: TaskFrequency.ONCE,
+    requiredRepetitions: 1,
+    maxRepetitions: 1,
+    name: 'Visit Keymunity on Instagram',
+    description:
+      'View an account on Instagram. Stay up to date on the latest news and updates.',
+    data: {
+      url: 'https://www.instagram.com/keymunityofficial',
+      label: 'Visit Keymunity',
+    },
+  },
   // visit facebook
   {
     version: 2,
@@ -412,6 +428,22 @@ export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
     data: {
       url: 'https://www.facebook.com/profile.php?id=61554655570040',
       label: 'Visit Charity Games',
+    },
+  },
+  {
+    version: 1,
+    id: 'FACEBOOK_VISIT_KEYMUNITY_ONCE',
+    type: TaskType.VISIT_FACEBOOK,
+    category: TaskCategory.TASK,
+    frequency: TaskFrequency.ONCE,
+    requiredRepetitions: 1,
+    maxRepetitions: 1,
+    name: 'Visit Keymunity on Facebook',
+    description:
+      'View an account on Facebook. Stay up to date on the latest news and updates.',
+    data: {
+      url: 'https://www.facebook.com/share/1WAaj2zugnW45Qu2/',
+      label: 'Visit Keymunity',
     },
   },
   // visit tiktok
@@ -432,6 +464,21 @@ export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
     },
   },
   // follow twitter
+  {
+    version: 1,
+    id: 'FOLLOW_KEYMUNITY_TWITTER_ONCE',
+    type: TaskType.FOLLOW_TWITTER,
+    category: TaskCategory.TASK,
+    frequency: TaskFrequency.ONCE,
+    requiredRepetitions: 1,
+    maxRepetitions: 1,
+    name: 'Follow Keymunity',
+    description:
+      'Follow Keymunity on Twitter. Stay up to date on the latest news and updates.',
+    data: {
+      handle: 'TheKeymunity',
+    },
+  },
   {
     version: 1,
     id: 'FOLLOW_CHARITY_GAMES_TWITTER_ONCE',

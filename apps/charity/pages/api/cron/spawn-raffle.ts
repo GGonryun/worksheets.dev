@@ -69,6 +69,18 @@ const prizes = {
     numWinners: [5, 7, 10],
     imageUrl: undefined,
   },
+  '102': {
+    itemId: '102',
+    premium: false,
+    numWinners: [1, 2, 3],
+    imageUrl: undefined,
+  },
+  '103': {
+    itemId: '103',
+    premium: false,
+    numWinners: [1, 1, 1, 2, 3],
+    imageUrl: undefined,
+  },
   '1000': {
     itemId: '1000',
     premium: false,
@@ -104,7 +116,18 @@ const generateRaffle = (): Prisma.RaffleUncheckedCreateInput => {
 
   const maxEntries = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
 
-  const dropChance: PrizeId[] = ['5', '8', '1000', '4', '4', '4', '4'];
+  const dropChance: PrizeId[] = [
+    '5',
+    '8',
+    '1000',
+    '102',
+    '103',
+    '4',
+    '4',
+    '4',
+    '4',
+    '4',
+  ];
 
   const prizeId = randomArrayElement(dropChance);
   const prize = prizes[prizeId];
@@ -156,14 +179,14 @@ const selectActions = (
     ]
   );
 
-  if (isLucky(0.25)) {
+  if (isLucky(0.75)) {
     actions.push({
       order: 5,
       reward: randomArrayElement([1, 2, 3, 4, 5]),
       taskId: randomArrayElement(primarySocial),
     });
   }
-  if (isLucky(0.25)) {
+  if (isLucky(0.75)) {
     actions.push({
       order: 6,
       reward: randomArrayElement([1, 2, 3, 4, 5]),
