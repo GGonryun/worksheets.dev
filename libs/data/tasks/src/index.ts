@@ -632,6 +632,22 @@ export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
       invite: 'https://discord.com/invite/Auatjee2BZ',
     },
   },
+  {
+    version: 1,
+    id: 'JOIN_KEYMUNITY_DISCORD_ONCE',
+    type: TaskType.JOIN_DISCORD_GUILD,
+    category: TaskCategory.TASK,
+    frequency: TaskFrequency.ONCE,
+    requiredRepetitions: 1,
+    maxRepetitions: 1,
+    name: 'Join Keymunity Discord',
+    description:
+      'Join the Keymunity Discord server and chat with other players.',
+    data: {
+      guildId: '1187099114731749457',
+      invite: 'https://discord.gg/DAd2hHwsPN',
+    },
+  },
   // steams
   {
     version: 1,
