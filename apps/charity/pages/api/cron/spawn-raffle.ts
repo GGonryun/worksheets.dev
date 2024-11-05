@@ -72,13 +72,13 @@ const prizes = {
   '102': {
     itemId: '102',
     premium: false,
-    numWinners: [1, 2, 3],
+    numWinners: [1, 1, 1, 1, 1, 1, 2],
     imageUrl: undefined,
   },
   '103': {
     itemId: '103',
     premium: false,
-    numWinners: [1, 1, 1, 2, 3],
+    numWinners: [1, 1, 1, 1, 1, 1, 2],
     imageUrl: undefined,
   },
   '1000': {
@@ -90,7 +90,7 @@ const prizes = {
   '4': {
     itemId: '4',
     premium: true,
-    numWinners: [1, 1, 1, 2, 3],
+    numWinners: [1, 1, 1, 1, 1, 1, 2],
     imageUrl: [
       'https://cdn.charity.games/_raffles/random_steam_key_1.png',
       'https://cdn.charity.games/_raffles/random_steam_key_2.png',

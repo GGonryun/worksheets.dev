@@ -72,6 +72,10 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'shared.akamai.steamstatic.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'shared.fastly.steamstatic.com',
+      },
     ],
   },
   nx: {
