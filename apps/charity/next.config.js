@@ -76,6 +76,10 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'shared.fastly.steamstatic.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'shared.cloudflare.steamstatic.com',
+      },
     ],
   },
   nx: {
