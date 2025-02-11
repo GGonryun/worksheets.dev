@@ -1,0 +1,9 @@
+{
+  "name": "ui-layouts-shared",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/ui/layouts/shared/src",
+  "projectType": "library",
+  "tags": [],
+  "// targets": "to see all targets run: nx show project ui-layouts-shared --web",
+  "targets": {}
+}

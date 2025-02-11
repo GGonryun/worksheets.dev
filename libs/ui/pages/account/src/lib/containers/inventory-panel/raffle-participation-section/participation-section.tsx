@@ -1,7 +1,7 @@
 import { InfoOutlined } from '@mui/icons-material';
 import { Box, Link, Typography } from '@mui/material';
 import { ValentinesLetter } from '@worksheets/icons/valentines';
-import { routes } from '@worksheets/routes';
+import { contestsRoutes, helpRoutes, portalRoutes } from '@worksheets/routes';
 import { BulletPoints } from '@worksheets/ui/components/lists';
 import { PanelFooter } from '@worksheets/ui/components/panels';
 import { useMediaQueryDown } from '@worksheets/ui/hooks/use-media-query';
@@ -54,14 +54,14 @@ export const ParticipationSection: React.FC<{
         points={[
           <>
             Redeem tokens for{' '}
-            <Link href={routes.raffles.path()}>Raffle Entries</Link>.
+            <Link href={contestsRoutes.raffles.url()}>Raffle Entries</Link>.
           </>,
           `Play games, refer friends, and make purchases to earn tokens.`,
           `Some items have expiration dates. You'll receive a reminder to claim them before they expire.`,
           <>
             Configure your{' '}
             <Link
-              href={routes.account.path({
+              href={portalRoutes.account.url({
                 bookmark: SettingsPanels.Communication,
               })}
             >
@@ -75,11 +75,11 @@ export const ParticipationSection: React.FC<{
       <PanelFooter
         learn={{
           text: 'Prizes',
-          href: routes.help.prizes.path(),
+          href: helpRoutes.prizes.url(),
         }}
         action={{
           text: 'Activation Codes',
-          href: routes.account.inventory.path({
+          href: portalRoutes.account.inventory.url({
             bookmark: InventoryPanels.ActivationCodes,
           }),
           color: 'success',
@@ -123,7 +123,7 @@ const EmptyParticipationTable = () => {
       <Typography variant="body2">
         Play games and refer friends to earn more tokens.
       </Typography>
-      <Link href={routes.help.prizes.path()} variant="body1" color="error">
+      <Link href={helpRoutes.prizes.url()} variant="body1" color="error">
         Learn More
       </Link>
     </Box>

@@ -1,6 +1,6 @@
 import { OpenInNew } from '@mui/icons-material';
 import { Button } from '@mui/material';
-import { routes } from '@worksheets/routes';
+import { playRoutes } from '@worksheets/routes';
 import { Column } from '@worksheets/ui/components/flex';
 import { TaskFormProps } from '@worksheets/util/tasks';
 
@@ -16,12 +16,12 @@ export const SubmitLeaderboardScore: React.FC<TaskFormProps> = ({ task }) => {
         color={colorKey}
         href={
           gameId
-            ? routes.game.path({
+            ? playRoutes.game.path({
                 params: {
                   gameId,
                 },
               })
-            : routes.play.path()
+            : playRoutes.play.path()
         }
         startIcon={<OpenInNew />}
         target="_blank"

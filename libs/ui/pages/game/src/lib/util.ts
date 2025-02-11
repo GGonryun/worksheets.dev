@@ -1,9 +1,9 @@
-import { routes } from '@worksheets/routes';
+import { playRoutes, portalRoutes } from '@worksheets/routes';
 
 export const gameRedirectLogin = (gameId: string) =>
-  routes.login.path({
+  portalRoutes.login.url({
     query: {
-      redirect: routes.game.path({
+      redirect: playRoutes.game.path({
         params: {
           gameId,
         },

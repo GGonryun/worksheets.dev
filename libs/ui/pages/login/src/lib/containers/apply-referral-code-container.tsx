@@ -1,4 +1,4 @@
-import { routes } from '@worksheets/routes';
+import { playRoutes } from '@worksheets/routes';
 import { trpc } from '@worksheets/trpc-charity';
 import { useReferralCode } from '@worksheets/ui/hooks/use-referral-code';
 import { LoadingScreen } from '@worksheets/ui/pages/loading';
@@ -22,12 +22,12 @@ const ApplyReferralCode: React.FC<{
   const redirect = useCallback(() => {
     replace(
       raffleId
-        ? routes.raffle.path({
+        ? playRoutes.raffle.path({
             params: {
               raffleId,
             },
           })
-        : routes.play.path()
+        : playRoutes.play.path()
     );
   }, [raffleId, replace]);
 

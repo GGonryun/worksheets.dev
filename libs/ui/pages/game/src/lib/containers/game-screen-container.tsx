@@ -1,5 +1,7 @@
+'use client';
+
 import { ReportReason } from '@worksheets/prisma';
-import { routes } from '@worksheets/routes';
+import { playRoutes, portalRoutes } from '@worksheets/routes';
 import { trpc } from '@worksheets/trpc-charity';
 import { useGameVotes } from '@worksheets/ui/hooks/use-game-votes';
 import { useRecentlyPlayedGames } from '@worksheets/ui/hooks/use-recently-played-games';
@@ -24,18 +26,17 @@ import {
   useGameNotifications,
 } from '../hooks/use-game-notifications';
 
-type GameScreenContainerProps = {
+export type GameScreenContainerProps = {
   game: SerializableGameSchema;
   developer: DeveloperSchema;
 };
 
-const GameScreenContainer: React.FC<GameScreenContainerProps> = ({
-  game,
-  developer,
-}) => {
+export const GameScreenContainer: React.FC<GameScreenContainerProps> = (
+  props
+) => {
   return (
     <GameNotificationContextProvider limit={10}>
-      <GameScreenContainerInner game={game} developer={developer} />;
+      <GameScreenContainerInner {...props} />;
     </GameNotificationContextProvider>
   );
 };
@@ -44,9 +45,9 @@ const GameScreenContainerInner: React.FC<GameScreenContainerProps> = ({
   game,
   developer,
 }) => {
-  const loginHref = routes.login.path({
+  const loginHref = portalRoutes.login.url({
     query: {
-      redirect: routes.game.path({
+      redirect: playRoutes.game.path({
         params: { gameId: game.id },
       }),
     },
@@ -189,5 +190,3 @@ const GameScreenContainerInner: React.FC<GameScreenContainerProps> = ({
     </>
   );
 };
-
-export default GameScreenContainer;

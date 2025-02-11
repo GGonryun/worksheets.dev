@@ -1,3 +1,4 @@
+'use container';
 import Container from '@mui/material/Container';
 import {
   BasicWebsiteStatistics,

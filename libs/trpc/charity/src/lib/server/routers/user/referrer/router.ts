@@ -1,5 +1,5 @@
 import { TRPCError } from '@trpc/server';
-import { routes } from '@worksheets/routes';
+import { playRoutes } from '@worksheets/routes';
 import { convertReferralCode } from '@worksheets/services/referral';
 import { referrerSchema } from '@worksheets/util/types';
 import { z } from 'zod';
@@ -45,7 +45,7 @@ export default t.router({
         id: referrer.id,
         username: referrer.username,
         code: referrer.referralCode.code,
-        link: routes.ref.url({
+        link: playRoutes.ref.url({
           params: {
             code: referrer.referralCode.code,
           },
@@ -94,7 +94,7 @@ export default t.router({
         id: referrer.user.id,
         username: referrer.user.username,
         code: referrer.code,
-        link: routes.ref.url({
+        link: playRoutes.ref.url({
           params: {
             code: referrer.code,
           },

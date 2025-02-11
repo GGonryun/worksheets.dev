@@ -1,4 +1,4 @@
-import { routes } from '@worksheets/routes';
+import { portalRoutes } from '@worksheets/routes';
 import { ParsedUrlQuery } from 'querystring';
 
 export const createCallbackUrl = (opts: {
@@ -11,16 +11,16 @@ export const createCallbackUrl = (opts: {
   // or take them to the home page if there's no redirect
   const redirect = query['redirect']
     ? (query['redirect'] as string)
-    : routes.account.path();
+    : portalRoutes.account.path();
 
   // if the user already has completed the portal setup, we can send them straight
   // to the requested url or their account page
   if (skipPortal) {
-    return new URL(redirect, routes.baseUrl);
+    return new URL(redirect, portalRoutes.baseUrl);
   }
 
   // otherwise, we'll send them to the portal page with the redirect url as a query param
-  const url = new URL(routes.portal.path(), routes.baseUrl);
+  const url = new URL(portalRoutes.home.path(), portalRoutes.baseUrl);
   url.searchParams.set('redirect', redirect);
 
   return url;

@@ -1,6 +1,6 @@
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { routes } from '@worksheets/routes';
+import { playRoutes } from '@worksheets/routes';
 import { ClipboardText } from '@worksheets/ui/components/inputs';
 import { BasicModal, ModalWrapper } from '@worksheets/ui/components/modals';
 import {
@@ -15,7 +15,7 @@ export const ShareGameModal: FC<
     name: string;
   }>
 > = ({ id, name, open, onClose }) => {
-  const gameUrl = routes.game.url({
+  const gameUrl = playRoutes.game.url({
     params: {
       gameId: id,
     },

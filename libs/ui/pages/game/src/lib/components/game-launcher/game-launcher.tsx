@@ -1,3 +1,5 @@
+'use client';
+
 import { Box } from '@mui/material';
 import { useDetectAdBlock } from '@worksheets/ui/components/advertisements';
 import {
@@ -5,7 +7,7 @@ import {
   SerializableGameSchema,
   Vote,
 } from '@worksheets/util/types';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { SessionContextValue } from 'next-auth/react';
 import { FC, useEffect, useRef, useState } from 'react';
 

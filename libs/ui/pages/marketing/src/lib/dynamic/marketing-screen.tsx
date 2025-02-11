@@ -1,6 +1,6 @@
+'use client';
+
 import { Box } from '@mui/material';
-import { LoadingScreen } from '@worksheets/ui/pages/loading';
-import dynamic from 'next/dynamic';
 
 import { FooterSection } from '../components/footer-section';
 import { HeroSection } from '../components/hero-section';
@@ -10,7 +10,7 @@ import { RulesSection } from '../components/rules-section';
 import { SocialProofSection } from '../components/social-proof-section';
 import { RafflesSectionContainer } from './dynamic-raffles-section';
 
-const MarketingScreen = () => (
+export const MarketingScreen = () => (
   <Box>
     <HeroSection />
 
@@ -63,14 +63,4 @@ const MarketingScreen = () => (
 
     <FooterSection />
   </Box>
-);
-
-const MarketingScreenContainer = () => <MarketingScreen />;
-
-export const DynamicMarketingScreen = dynamic(
-  () => Promise.resolve(MarketingScreenContainer),
-  {
-    ssr: false,
-    loading: () => <LoadingScreen />,
-  }
 );

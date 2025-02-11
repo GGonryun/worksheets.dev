@@ -1,5 +1,5 @@
 import { TRPCError } from '@trpc/server';
-import { routes } from '@worksheets/routes';
+import { playRoutes } from '@worksheets/routes';
 import { z } from 'zod';
 
 import { protectedProcedure } from '../../../procedures';
@@ -47,7 +47,7 @@ export default protectedProcedure
         createdAt: referral.createdAt.getTime(),
       })),
       numReferrals: userData.referred.length,
-      referralLink: routes.ref.url({
+      referralLink: playRoutes.ref.url({
         params: { code: userData.referralCode.code },
       }),
     };

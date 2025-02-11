@@ -2,7 +2,7 @@ import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { FC } from 'react';
 
 import { AccountTabsHref } from './tabs';
@@ -28,12 +28,8 @@ export const AccountTabs: FC<{
       >
         <Tab label="Settings" value={AccountTabsHref.SETTINGS} />
         <Tab label="Notifications" value={AccountTabsHref.NOTIFICATIONS} />
-        <Tab label="Quests" value={AccountTabsHref.QUESTS} />
         <Tab label="Inventory" value={AccountTabsHref.INVENTORY} />
-        <Tab label="Friends" value={AccountTabsHref.FRIENDS} />
-        <Tab label="Referrals" value={AccountTabsHref.REFERRALS} />
         <Tab label="Integrations" value={AccountTabsHref.INTEGRATIONS} />
-        <Tab label="Submissions" value={AccountTabsHref.SUBMISSIONS} />
       </Tabs>
       <Divider />
     </Box>

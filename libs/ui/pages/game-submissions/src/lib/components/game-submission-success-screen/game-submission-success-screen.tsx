@@ -5,7 +5,7 @@ import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import { ColoredGestureThumbsUp } from '@worksheets/icons/youtube';
-import { routes } from '@worksheets/routes';
+import { playRoutes } from '@worksheets/routes';
 
 export const GameSubmissionSuccessScreen = () => {
   return (
@@ -50,10 +50,10 @@ export const GameSubmissionSuccessScreen = () => {
         </Typography>
         <Typography variant="body3" textAlign="center">
           If you have any questions, please{' '}
-          <Link href={routes.contact.path()}>contact us</Link>
+          <Link href={playRoutes.contact.path()}>contact us</Link>
         </Typography>
         <Button
-          href={routes.account.submissions.path()}
+          href={playRoutes.account.submissions.path()}
           variant="arcade"
           color="error"
           size="large"

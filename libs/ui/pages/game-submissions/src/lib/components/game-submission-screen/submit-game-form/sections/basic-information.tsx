@@ -5,7 +5,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
-import { routes } from '@worksheets/routes';
+import { playRoutes } from '@worksheets/routes';
 import { PrefixTextField } from '@worksheets/ui/components/inputs';
 import { labelFor } from '@worksheets/util/misc';
 import { GameSubmissionForm } from '@worksheets/util/types';
@@ -76,7 +76,7 @@ const GameIdField: FC = () => {
         error ||
         'Used in to identify and share your game link. Only letters, numbers, and dashes are allowed.'
       }
-      prefix={routes.play.url() + '/'}
+      prefix={playRoutes.play.url() + '/'}
     />
   );
 };

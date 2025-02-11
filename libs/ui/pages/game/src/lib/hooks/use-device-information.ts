@@ -1,3 +1,5 @@
+'use client';
+
 import { useDeviceOrientation } from '@worksheets/ui-core';
 import { GameSchema } from '@worksheets/util/types';
 import { isMobileOrTabletDeviceBrowser } from '@worksheets/util-devices';

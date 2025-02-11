@@ -1,6 +1,8 @@
+'use client';
+
 import { ArrowForward } from '@mui/icons-material';
 import { Box, Button, Link, Typography } from '@mui/material';
-import { routes } from '@worksheets/routes';
+import { helpRoutes } from '@worksheets/routes';
 import { FC } from 'react';
 
 export const StickyContactBox: FC<{
@@ -31,7 +33,7 @@ export const StickyContactBox: FC<{
       {text}
     </Typography>
     <Button
-      href={routes.contact.path()}
+      href={helpRoutes.contact.path()}
       variant="arcade"
       color="success"
       fullWidth
@@ -46,7 +48,7 @@ export const StickyContactBox: FC<{
     <Typography
       fontWeight={500}
       component={Link}
-      href={routes.help.path()}
+      href={helpRoutes.home.path()}
       variant="body2"
       sx={{
         color: 'text.arcade',

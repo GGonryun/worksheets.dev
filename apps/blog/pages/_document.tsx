@@ -45,7 +45,7 @@ export default function MyDocument(props: DocumentProps) {
           content="black-translucent"
         />
         <meta name="apple-mobile-web-app-title" content="Charity Games Blog" />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="mobile-web-app-capable" content="yes" />
         <meta name="HandheldFriendly" content="true" />
         <script
           type="application/ld+json"

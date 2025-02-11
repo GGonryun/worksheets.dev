@@ -1,6 +1,6 @@
 import { Link, TableCell, TableRow } from '@mui/material';
 import { RaffleStatus } from '@worksheets/prisma';
-import { routes } from '@worksheets/routes';
+import { playRoutes } from '@worksheets/routes';
 import { printShortDateTime } from '@worksheets/util/time';
 import { BasicRaffleDetails } from '@worksheets/util/types';
 
@@ -11,7 +11,7 @@ export const ExpiredRaffleTableRow: React.FC<{
     <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
       <TableCell align="left">
         <Link
-          href={routes.raffle.path({
+          href={playRoutes.raffle.path({
             params: { raffleId: raffle.id },
           })}
         >

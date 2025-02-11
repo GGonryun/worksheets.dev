@@ -7,7 +7,7 @@ import {
   PrismaClient,
   PrismaTransactionalClient,
 } from '@worksheets/prisma';
-import { routes } from '@worksheets/routes';
+import { playRoutes } from '@worksheets/routes';
 import { randomUUID } from '@worksheets/util/crypto';
 import {
   APIKeyIntegrationProvider,
@@ -177,7 +177,7 @@ export class OAuthService {
 
     const params = new URLSearchParams();
     params.append('response_type', 'code');
-    params.append('redirect_uri', routes.api.oauth.callback.url());
+    params.append('redirect_uri', playRoutes.api.oauth.callback.url());
     params.append('client_id', this.config.clientId);
     params.append('scope', this.config.scopes.join(' '));
     params.append('state', integration.id);
@@ -223,14 +223,14 @@ export class OAuthService {
 
     try {
       await this.#secure({ integration, code });
-      return routes.oauth.success.path();
+      return playRoutes.oauth.success.path();
     } catch (error) {
       console.error(
         'An unexpected error occurred while securing integration',
         error
       );
       await this.#saveError(integration.id, IntegrationError.ACCESS_DENIED);
-      return routes.oauth.error.path({
+      return playRoutes.oauth.error.path({
         query: {
           message:
             'Failed to secure integration connection. Close this tab and try again later.',
@@ -257,7 +257,7 @@ export class OAuthService {
       code,
       client_id: this.config.clientId,
       grant_type: OAUTH_GRANTS.AUTHORIZATION,
-      redirect_uri: routes.api.oauth.callback.url(),
+      redirect_uri: playRoutes.api.oauth.callback.url(),
       client_secret: this.config.clientSecret,
     });
     if (integration.challenge) {
@@ -471,7 +471,7 @@ export class APIKeyService {
       },
     });
 
-    return routes.connect.url({
+    return playRoutes.connect.url({
       params: { providerId: this.config.provider },
       query: { state: integration.id },
     });

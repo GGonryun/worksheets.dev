@@ -5,7 +5,7 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import { routes } from '@worksheets/routes';
+import { playRoutes } from '@worksheets/routes';
 import { usePseudoPagination } from '@worksheets/ui/components/pagination';
 import { printShortDateTime } from '@worksheets/util/time';
 import { EnteredRaffleSchema } from '@worksheets/util/types';
@@ -43,7 +43,7 @@ export const ParticipationTable: React.FC<{
             <TableRow key={raffle.id}>
               <TableCell component="th" scope="row">
                 <Link
-                  href={routes.raffle.path({
+                  href={playRoutes.raffle.path({
                     params: { raffleId: raffle.id },
                   })}
                 >

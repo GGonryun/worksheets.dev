@@ -1,6 +1,8 @@
+'use client';
+
 import { LinkedIn } from '@mui/icons-material';
 import { Box, Button, Container, Link, Paper, Typography } from '@mui/material';
-import { externalRoutes, routes } from '@worksheets/routes';
+import { externalRoutes, helpRoutes } from '@worksheets/routes';
 import { BookmarkAnchor, Markdown } from '@worksheets/ui-core';
 import { Author, blogAuthors } from '@worksheets/util/blog';
 import Image from 'next/image';
@@ -47,15 +49,11 @@ export const AboutScreen: FC<AboutScreenProps> = (props) => {
           <Link color="text.arcade" href={externalRoutes.external.waterOrg}>
             Water.Org
           </Link>{' '}
-          as our charity of choice. Read more about our{' '}
-          <Link color="text.arcade" href={routes.help.path()}>
-            current donation campaign here
-          </Link>
-          .
+          as our charity of choice.
           <br />
           <br />
           If you have a charity you would like to see us support, please{' '}
-          <Link color="text.arcade" href={routes.contact.path()}>
+          <Link color="text.arcade" href={helpRoutes.contact.url()}>
             contact us.
           </Link>
         </Typography>

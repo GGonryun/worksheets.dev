@@ -1,9 +1,7 @@
 import { Link, Typography } from '@mui/material';
-import { routes } from '@worksheets/routes';
 import { trpc } from '@worksheets/trpc-charity';
 import { Row } from '@worksheets/ui/components/flex';
 import { LoadingBar } from '@worksheets/ui/components/loading';
-import { HelpTokensQuestions } from '@worksheets/util/enums';
 import dynamic from 'next/dynamic';
 import pluralize from 'pluralize';
 
@@ -19,9 +17,6 @@ const Container = () => {
         component={Link}
         underline="hover"
         color="text.primary"
-        href={routes.help.tokens.path({
-          bookmark: HelpTokensQuestions.HowToEarn,
-        })}
       >
         <ItemsCount />
       </Typography>

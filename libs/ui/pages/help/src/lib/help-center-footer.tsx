@@ -1,6 +1,6 @@
 import { ContactPage, Gamepad } from '@mui/icons-material';
 import { Box, Button, Typography } from '@mui/material';
-import { routes } from '@worksheets/routes';
+import { helpRoutes, portalRoutes } from '@worksheets/routes';
 import { GradientTypography } from '@worksheets/ui/components/typography';
 
 export const HelpCenterFooter = () => (
@@ -41,7 +41,7 @@ export const HelpCenterFooter = () => (
       }}
     >
       <Button
-        href={routes.contact.path()}
+        href={helpRoutes.contact.path()}
         variant="arcade"
         startIcon={<ContactPage />}
         sx={{
@@ -52,7 +52,7 @@ export const HelpCenterFooter = () => (
         Contact Us
       </Button>
       <Button
-        href={routes.newsletter.subscribe.path()}
+        href={portalRoutes.newsletter.subscribe.url()}
         variant="arcade"
         color="secondary"
         startIcon={<Gamepad />}

@@ -1,6 +1,5 @@
 import { InfoOutlined, OfflinePin } from '@mui/icons-material';
 import { Button } from '@mui/material';
-import { routes } from '@worksheets/routes';
 import { PaletteColor } from '@worksheets/ui/theme';
 import { LootSchema } from '@worksheets/util/types';
 import React from 'react';
@@ -53,7 +52,7 @@ export const InventoryInformation: React.FC<{
             variant="arcade"
             size="small"
             startIcon={<InfoOutlined />}
-            href={routes.item.path({ params: { itemId: loot.item.id } })}
+            href={'/404'}
           >
             Details
           </Button>

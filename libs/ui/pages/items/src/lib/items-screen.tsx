@@ -4,7 +4,7 @@ import {
   SportsMmaOutlined,
 } from '@mui/icons-material';
 import { Box, Button, Container, Link, Paper, Typography } from '@mui/material';
-import { routes } from '@worksheets/routes';
+import { playRoutes } from '@worksheets/routes';
 import { Row } from '@worksheets/ui/components/flex';
 import { ContainImage } from '@worksheets/ui/components/images';
 import { LoadingScreen } from '@worksheets/ui/pages/loading';
@@ -28,7 +28,7 @@ const Screen: React.FC<{ items: ItemSchema[] }> = (props) => (
     </Typography>
     <Row justifyContent="space-evenly" flexWrap="wrap" gap={2}>
       <Button
-        href={routes.monsters.path()}
+        href={playRoutes.monsters.path()}
         sx={{ width: { xs: '100%', sm: '250px' } }}
         variant="arcade"
         color="secondary"
@@ -37,7 +37,7 @@ const Screen: React.FC<{ items: ItemSchema[] }> = (props) => (
         Monster Database
       </Button>
       <Button
-        href={routes.battles.path()}
+        href={playRoutes.battles.path()}
         sx={{ width: { xs: '100%', sm: '250px' } }}
         variant="arcade"
         color="error"
@@ -72,7 +72,7 @@ const ItemBox: React.FC<{ item: ItemSchema }> = (props) => {
   return (
     <Paper
       component={Link}
-      href={routes.item.path({ params: { itemId: props.item.id } })}
+      href={playRoutes.item.path({ params: { itemId: props.item.id } })}
       sx={{
         backgroundColor: (theme) => theme.palette.background.paper,
       }}

@@ -12,7 +12,7 @@ import {
   Typography,
   useTheme,
 } from '@mui/material';
-import { routes } from '@worksheets/routes';
+import { playRoutes } from '@worksheets/routes';
 import { trpc } from '@worksheets/trpc-charity';
 import { ErrorComponent } from '@worksheets/ui/components/errors';
 import { Column, Row } from '@worksheets/ui/components/flex';
@@ -318,7 +318,7 @@ const RaffleModal: React.FC<{
                 gap={0.5}
                 target="_blank"
                 alignItems="center"
-                href={routes.user.path({
+                href={playRoutes.user.path({
                   params: {
                     userId: participation.data.user.id,
                   },
@@ -341,7 +341,7 @@ const RaffleModal: React.FC<{
                 gap={0.5}
                 target="_blank"
                 alignItems="center"
-                href={routes.user.path({
+                href={playRoutes.user.path({
                   params: {
                     userId: referral.id,
                   },
@@ -413,7 +413,7 @@ const RaffleModal: React.FC<{
         >
           <Button
             variant="text"
-            href={routes.help.prizes.path()}
+            href={playRoutes.help.prizes.path()}
             target="_blank"
             startIcon={<HelpOutline />}
             fullWidth
@@ -656,7 +656,7 @@ const UseTokensContent: React.FC<{
       <Box alignSelf="flex-end">
         <Button
           variant="text"
-          href={routes.account.quests.path()}
+          href={playRoutes.account.quests.path()}
           target="_blank"
           startIcon={<OpenInNew />}
           sx={{ width: 200 }}

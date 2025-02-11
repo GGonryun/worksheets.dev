@@ -30,11 +30,7 @@ export default publicProcedure
       ? tags
       : tags.filter((tag) => tag.games.length > 0);
 
-    const omitted = filtered.filter(
-      (tag) => !['new', 'popular'].includes(tag.id)
-    );
-
-    return omitted.map((tag) => ({
+    return filtered.map((tag) => ({
       id: tag.id,
       name: tag.name,
       image: tag.iconUrl,

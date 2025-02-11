@@ -23,7 +23,7 @@ import {
   SortAmountUp,
   Undo,
 } from '@worksheets/icons/font-awesome-solid';
-import { routes } from '@worksheets/routes';
+import { playRoutes } from '@worksheets/routes';
 import { trpc } from '@worksheets/trpc-charity';
 import { Description } from '@worksheets/ui/components/description';
 import { Column, Row } from '@worksheets/ui/components/flex';
@@ -81,7 +81,7 @@ const MobsScreen = () => {
                     <BossBattle
                       key={battle.id}
                       battle={battle}
-                      href={routes.battle.path({
+                      href={playRoutes.battle.path({
                         params: {
                           battleId: battle.id,
                         },
@@ -139,7 +139,7 @@ const NoBattlesAvailable = () => (
     <Button
       variant="text"
       startIcon={<HelpOutline />}
-      href={routes.help.mobs.path()}
+      href={playRoutes.help.mobs.path()}
     >
       Learn more about boss battles
     </Button>
@@ -169,7 +169,7 @@ const MobsOrder: React.FC<{
           variant="square"
           size="small"
           color="secondary"
-          href={routes.monsters.path()}
+          href={playRoutes.monsters.path()}
         >
           <Sword />
         </Button>
@@ -177,11 +177,15 @@ const MobsOrder: React.FC<{
           variant="square"
           size="small"
           color="secondary"
-          href={routes.items.path()}
+          href={playRoutes.items.path()}
         >
           <Inventory2Outlined />
         </Button>
-        <Button variant="square" size="small" href={routes.help.mobs.path()}>
+        <Button
+          variant="square"
+          size="small"
+          href={playRoutes.help.mobs.path()}
+        >
           <InfoOutlined />
         </Button>
       </Row>

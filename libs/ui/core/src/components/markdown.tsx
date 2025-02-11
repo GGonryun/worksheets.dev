@@ -1,3 +1,4 @@
+'use client';
 /**
  * A super tiny library for converting the basics of markdown to HTML.
  */

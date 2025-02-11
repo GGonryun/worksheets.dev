@@ -1,7 +1,7 @@
 import { ArrowLeft, OpenInNew } from '@mui/icons-material';
 import { Box, Button, Container, Paper, Typography } from '@mui/material';
 import { BattleStatus } from '@prisma/client';
-import { routes } from '@worksheets/routes';
+import { playRoutes } from '@worksheets/routes';
 import { trpc } from '@worksheets/trpc-charity';
 import { Description } from '@worksheets/ui/components/description';
 import { ErrorComponent } from '@worksheets/ui/components/errors';
@@ -63,7 +63,7 @@ const BattleScreen = () => {
           variant="arcade"
           size="small"
           color="error"
-          href={routes.battles.path()}
+          href={playRoutes.battles.path()}
           startIcon={<ArrowLeft />}
           sx={{ mb: 3 }}
         >
@@ -148,7 +148,7 @@ const BattleLogsContent: React.FC<{ battleLogs?: BattleLogSchema[] }> = ({
           startIcon={<OpenInNew />}
           target="_blank"
           sx={{ width: 'fit-content' }}
-          href={routes.help.mobs.path()}
+          href={playRoutes.help.mobs.path()}
         >
           Learn about monsters
         </Button>
@@ -213,7 +213,7 @@ const BattleDetails: React.FC<{
       <BattleTitle {...battle} />
       <BossBattle
         battle={battle}
-        href={routes.monster.path({
+        href={playRoutes.monster.path({
           params: {
             monsterId: battle.mob.id,
           },
@@ -259,7 +259,7 @@ const ParticipationContent: React.FC<{
     <Column gap={2}>
       {session.status === 'unauthenticated' || !user.data ? (
         <LoginToView
-          redirect={routes.battle.path({
+          redirect={playRoutes.battle.path({
             params: {
               battleId: battle.id,
             },

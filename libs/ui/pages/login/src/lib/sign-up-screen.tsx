@@ -1,5 +1,5 @@
 import { Box, Link, Typography } from '@mui/material';
-import { routes } from '@worksheets/routes';
+import { helpRoutes, portalRoutes } from '@worksheets/routes';
 import { HelpAccountQuestions } from '@worksheets/util/enums';
 import { FC } from 'react';
 
@@ -24,7 +24,7 @@ export const SignUpScreen: FC<SignUpScreenProps> = (props) => {
           Create a new Charity.Games account
           <br />
           <Link
-            href={routes.help.accounts.path({
+            href={helpRoutes.accounts.url({
               bookmark: HelpAccountQuestions.AccountRequired,
             })}
           >
@@ -35,7 +35,7 @@ export const SignUpScreen: FC<SignUpScreenProps> = (props) => {
       <SocialProviders {...props} />
       <Typography variant="body2" textAlign="center" display="flex" gap={2}>
         Already registered?{' '}
-        <Link href={routes.login.path()}>
+        <Link href={portalRoutes.login.url()}>
           <b>Log in</b>
         </Link>
       </Typography>

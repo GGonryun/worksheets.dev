@@ -61,7 +61,13 @@ const AchievementContent: React.FC<{
     }
   );
 
-  if (total.isLoading || global.isLoading || status === 'loading')
+  if (
+    total.isLoading ||
+    global.isLoading ||
+    status === 'loading' ||
+    !global.data ||
+    !total.data
+  )
     return <LoadingBar />;
   if (total.isError || global.isError) return <ErrorComponent />;
 
@@ -70,7 +76,6 @@ const AchievementContent: React.FC<{
       <AchievementsHeader
         gameId={gameId}
         player={player.data?.length}
-        total={total.data}
         global={global.data.length}
         status={status}
       />
@@ -86,24 +91,18 @@ const AchievementContent: React.FC<{
 const AchievementsHeader: React.FC<
   PlayerProgressOptions & {
     gameId: string;
-    total: number;
     status: SessionContextValue['status'];
   }
-> = ({ gameId, player, total, global, status }) => (
+> = ({ gameId, player, global, status }) => (
   <Box
     sx={{
       display: 'grid',
       gridTemplateColumns: '1fr 64px',
       gap: 2,
+      alignItems: 'flex-end',
     }}
   >
     <Column>
-      <Typography typography="body2">
-        Total achievements: <b>{global}</b>
-      </Typography>
-      <Typography typography="body2">
-        Total players: <b>{total}</b>
-      </Typography>
       {status === 'authenticated' ? (
         <PlayerProgressText player={player} global={global} />
       ) : (
@@ -119,7 +118,13 @@ const AchievementsHeader: React.FC<
         </Button>
       )}
     </Column>
-    <Typography typography="body2" component="span" alignSelf="flex-end">
+    <Typography
+      typography="body2"
+      color="text.arcade"
+      fontWeight={500}
+      component="span"
+      alignSelf="flex-end"
+    >
       % of all players
     </Typography>
   </Box>
@@ -134,16 +139,12 @@ const PlayerProgressText: React.FC<PlayerProgressOptions> = ({
   global,
   player,
 }) => (
-  <Typography variant="body2">
+  <Typography variant="body2" color="text.arcade" fontWeight={500}>
     {player == null ? (
       'Loading...'
     ) : (
       <>
-        Your progress:{' '}
-        <b>
-          {player} / {global}
-        </b>{' '}
-        ({toPercentage(player, global, 1)})
+        Progress: {player} / {global} ({toPercentage(player, global, 1)})
       </>
     )}
   </Typography>

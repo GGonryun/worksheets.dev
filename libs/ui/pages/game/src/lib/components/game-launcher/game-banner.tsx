@@ -1,3 +1,5 @@
+'use client';
+
 import {
   CheckCircleOutline,
   Close,
@@ -34,8 +36,9 @@ import {
   Typography,
   TypographyProps,
 } from '@mui/material';
-import { routes } from '@worksheets/routes';
+import { playRoutes } from '@worksheets/routes';
 import { ResponsiveImage } from '@worksheets/ui/components/images';
+import { useIsClient } from '@worksheets/ui-core';
 import { shorthandNumber } from '@worksheets/util/numbers';
 import {
   CastVote,
@@ -70,12 +73,16 @@ export const GameBanner: FC<GameBannerProps> = ({
   onFullscreen,
   onVote,
 }) => {
+  const isClient = useIsClient();
   const { notifications, active, show, showing, remove } =
     useGameNotifications();
   const [anchor, setAnchor] = useState<HTMLButtonElement | null>(null);
   const { canPlay } = useDeviceInformation(game.viewport);
   const isFullScreenAndHandheld = isMobileOrTablet && isFullscreen;
   const height = isFullScreenAndHandheld ? '36px' : { xs: '64px', sm: '80px' };
+
+  // eslint-disable-next-line react/jsx-no-useless-fragment
+  if (!isClient) return <>{/* no-op */}</>;
 
   return (
     <Box
@@ -148,7 +155,7 @@ export const GameBanner: FC<GameBannerProps> = ({
             color={(theme) => theme.palette.text.blue.light}
             fontWeight={{ xs: 500, sm: 500 }}
             underline="hover"
-            href={routes.developer.path({
+            href={playRoutes.developer.path({
               params: {
                 developerId: developer.id,
               },
@@ -217,7 +224,7 @@ export const GameBanner: FC<GameBannerProps> = ({
             container={
               // the box ref is used by our pseudo fullscreen mode
               // this chain makes sure the menu appears on top of the game.
-              document.fullscreenElement ?? boxRef.current ?? document.body
+              document?.fullscreenElement ?? boxRef.current ?? document?.body
             }
             anchorOrigin={{
               vertical: isFullscreen && isMobileOrTablet ? 32 : 2,

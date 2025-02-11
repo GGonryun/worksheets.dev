@@ -7,7 +7,7 @@ import {
   Paper,
   Typography,
 } from '@mui/material';
-import { routes } from '@worksheets/routes';
+import { playRoutes } from '@worksheets/routes';
 import { GradientTypography } from '@worksheets/ui/components/typography';
 import { NewsletterSubscription } from '@worksheets/util/types';
 
@@ -80,7 +80,7 @@ export const ConfirmNewsletterScreen: React.FC<{
           <Typography
             mt={1}
             component={Link}
-            href={routes.newsletter.subscribe.path({
+            href={playRoutes.newsletter.subscribe.path({
               query: { id: subscription.id },
             })}
           >

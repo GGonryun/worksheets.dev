@@ -1,6 +1,6 @@
 import { OpenInNew } from '@mui/icons-material';
 import { Button, Link, Typography } from '@mui/material';
-import { routes } from '@worksheets/routes';
+import { portalRoutes } from '@worksheets/routes';
 import { Column } from '@worksheets/ui/components/flex';
 import { BulletPoints } from '@worksheets/ui/components/lists';
 import { FriendsPanels } from '@worksheets/util/enums';
@@ -8,10 +8,10 @@ import { MAX_BEST_FRIENDS } from '@worksheets/util/settings';
 import { TaskFormProps } from '@worksheets/util/tasks';
 import pluralize from 'pluralize';
 
-const ADD_FRIENDS_LINK = routes.account.friends.path({
+const ADD_FRIENDS_LINK = portalRoutes.account.friends.path({
   bookmark: FriendsPanels.AddFriends,
 });
-const FRIENDS_LIST_LINK = routes.account.friends.path({
+const FRIENDS_LIST_LINK = portalRoutes.account.friends.path({
   bookmark: FriendsPanels.FriendsList,
 });
 
@@ -30,10 +30,6 @@ export const FriendPlayMinutesForm: React.FC<TaskFormProps> = ({ task }) => {
           `You can select up to ${MAX_BEST_FRIENDS} best friends.`,
           `Any time you play a game, your best friends will earn tokens.`,
           `You must remain active on the page for at least 1 minute to contribute towards this quest.`,
-          <>
-            <Link href={routes.vip.path()}>VIP members</Link> earn 2x the
-            tokens!
-          </>,
         ]}
       />
       <Typography fontWeight={700} variant="body2" textAlign="center">

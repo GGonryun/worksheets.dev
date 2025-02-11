@@ -1,3 +1,5 @@
+'use client';
+
 import { Box, Theme } from '@mui/material';
 import { SystemStyleObject } from '@mui/system';
 

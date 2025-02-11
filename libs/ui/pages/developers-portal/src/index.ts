@@ -1,3 +1,2 @@
-export * from './lib/components';
-export * from './lib/data';
-export * from './lib/dynamic';
+export * from './lib/data/developers-portal-faq';
+export * from './lib/containers/developers-portal-screen-container';

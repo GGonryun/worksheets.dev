@@ -1,7 +1,9 @@
+'use client';
+
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
-import { routes } from '@worksheets/routes';
+import { helpRoutes, portalRoutes } from '@worksheets/routes';
 import { ListItem, OrderedList, UnorderedList } from '@worksheets/ui-core';
 import { HelpDevelopersQuestions } from '@worksheets/util/enums';
 import { QuestionAnswer } from '@worksheets/util/types';
@@ -25,7 +27,7 @@ export const developersPortalFaq: QuestionAnswer[] = [
           which are 4:3 and 16:9 aspect ratios. For more information on the file
           formats we support, please refer to the question:{' '}
           <Link
-            href={routes.help.developers.path({
+            href={helpRoutes.developers.url({
               bookmark: HelpDevelopersQuestions.FileFormats,
             })}
           >
@@ -41,16 +43,16 @@ export const developersPortalFaq: QuestionAnswer[] = [
           <ListItem>
             Create a developer account by clicking the "Sign Up" button in the
             top right corner of the page or by{' '}
-            <Link href={routes.signUp.path()}>clicking here</Link>
+            <Link href={portalRoutes.signUp.url()}>clicking here</Link>
           </ListItem>
           <ListItem>
             Fill out your profile by clicking on your "Account" button in the
             top right corner of the page or by{' '}
-            <Link href={routes.account.path()}>clicking here</Link>
+            <Link href={portalRoutes.account.url()}>clicking here</Link>
           </ListItem>
           <ListItem>
             Complete and sign the terms of service agreement located on the{' '}
-            <Link href={routes.account.submissions.path()}>
+            <Link href={portalRoutes.account.submissions.url()}>
               {' '}
               submission page.
             </Link>
@@ -58,7 +60,9 @@ export const developersPortalFaq: QuestionAnswer[] = [
           <ListItem>
             Create a new game by clicking the "Submit Game" button on your
             profile page or by{' '}
-            <Link href={routes.account.submissions.path()}>clicking here.</Link>
+            <Link href={portalRoutes.account.submissions.url()}>
+              clicking here.
+            </Link>
           </ListItem>
           <ListItem>
             Follow the instructions on the submission page to upload your game
@@ -87,7 +91,7 @@ export const developersPortalFaq: QuestionAnswer[] = [
       <Box>
         <Typography>
           In order to make changes to your game navigate to your{' '}
-          <Link href={routes.account.submissions.path()}>
+          <Link href={portalRoutes.account.submissions.url()}>
             game submission section of your account page
           </Link>{' '}
           and click on the game you would like to edit.
@@ -106,7 +110,7 @@ export const developersPortalFaq: QuestionAnswer[] = [
           For more information on deleting a game submission or an existing game
           on the platform, please refer to the question:{' '}
           <Link
-            href={routes.help.developers.path({
+            href={helpRoutes.developers.url({
               bookmark: HelpDevelopersQuestions.DeleteGame,
             })}
           >
@@ -124,9 +128,9 @@ export const developersPortalFaq: QuestionAnswer[] = [
       <Typography>
         Deleting a game is a permanent action and cannot be undone. If you would
         like to remove your game from the platform, please{' '}
-        <Link href={routes.contact.path()}>contact us</Link>. You must be the
-        owner of the game and you must be contacting us from the email address
-        associated with the account that created the game.
+        <Link href={helpRoutes.contact.path()}>contact us</Link>. You must be
+        the owner of the game and you must be contacting us from the email
+        address associated with the account that created the game.
       </Typography>
     ),
   },
@@ -149,7 +153,7 @@ export const developersPortalFaq: QuestionAnswer[] = [
           For more information on submitting a game, please refer to the
           question:{' '}
           <Link
-            href={routes.help.developers.path({
+            href={helpRoutes.developers.url({
               bookmark: HelpDevelopersQuestions.SubmitGame,
             })}
           >
@@ -186,7 +190,7 @@ export const developersPortalFaq: QuestionAnswer[] = [
           <br />
           <br />
           If you are having trouble exporting your game to a web build, please{' '}
-          <Link href={routes.contact.path()}>contact us</Link> and we will do
+          <Link href={helpRoutes.contact.url()}>contact us</Link> and we will do
           our best to help you.
         </Typography>
         <br />
@@ -316,7 +320,7 @@ export const developersPortalFaq: QuestionAnswer[] = [
       <Box>
         <Typography>
           A quality game is a game that is fun to play and adheres to our{' '}
-          <Link href={routes.terms.path()}>terms of service</Link>.
+          <Link href={helpRoutes.terms.url()}>terms of service</Link>.
           <br />
           <br />
           Our contribution standards are based on the following criteria:

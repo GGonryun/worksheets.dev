@@ -1,4 +1,4 @@
-import { routes } from '@worksheets/routes';
+import { playRoutes } from '@worksheets/routes';
 import { printShortDate } from '@worksheets/util/time';
 import pluralize from 'pluralize';
 
@@ -6,7 +6,7 @@ import { ExtractTemplatePayload } from './types';
 import { GAME_URL } from './urls';
 
 const RAFFLE_URL = (raffleId: number) =>
-  routes.raffle.url({ params: { raffleId } });
+  playRoutes.raffle.url({ params: { raffleId } });
 export class TwitterTemplates {
   static newGame(opts: ExtractTemplatePayload<'new-game'>) {
     return `🚨 New Game Alert!\n📷 Play ${opts.title} by ${

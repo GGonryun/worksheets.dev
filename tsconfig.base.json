@@ -105,6 +105,8 @@
       "@worksheets/services/twitter": ["libs/services/twitter/src/index.ts"],
       "@worksheets/trpc-charity": ["libs/trpc/charity/src/index.ts"],
       "@worksheets/trpc-charity/server": ["libs/trpc/charity/src/server.ts"],
+      "@worksheets/trpc/hydrate": ["libs/trpc/hydrate/src/index.ts"],
+      "@worksheets/trpc/hydrate/server": ["libs/trpc/hydrate/src/server.ts"],
       "@worksheets/trpc/shared": ["libs/trpc/shared/src/index.ts"],
       "@worksheets/ui-core": ["libs/ui/core/src/index.ts"],
       "@worksheets/ui/components/achievements": [
@@ -206,6 +208,7 @@
       "@worksheets/ui/components/raffles": [
         "libs/ui/components/raffles/src/index.ts"
       ],
+      "@worksheets/ui/components/seo": ["libs/ui/components/seo/src/index.ts"],
       "@worksheets/ui/components/session-replay": [
         "libs/ui/components/session-replay/src/index.ts"
       ],
@@ -260,6 +263,20 @@
         "libs/ui/hooks/use-skip-portal/src/index.ts"
       ],
       "@worksheets/ui/layout": ["libs/ui/layout/src/index.ts"],
+      "@worksheets/ui/layouts/app": ["libs/ui/layouts/app/src/index.ts"],
+      "@worksheets/ui/layouts/app/server": [
+        "libs/ui/layouts/app/src/server.ts"
+      ],
+      "@worksheets/ui/layouts/marketing": [
+        "libs/ui/layouts/marketing/src/index.ts"
+      ],
+      "@worksheets/ui/layouts/marketing/server": [
+        "libs/ui/layouts/marketing/src/server.ts"
+      ],
+      "@worksheets/ui/layouts/shared": ["libs/ui/layouts/shared/src/index.ts"],
+      "@worksheets/ui/layouts/shared/server": [
+        "libs/ui/layouts/shared/src/server.ts"
+      ],
       "@worksheets/ui/pages/about": ["libs/ui/pages/about/src/index.ts"],
       "@worksheets/ui/pages/account": ["libs/ui/pages/account/src/index.ts"],
       "@worksheets/ui/pages/arcade": ["libs/ui/pages/arcade/src/index.ts"],
@@ -298,7 +315,6 @@
       "@worksheets/ui/pages/privacy-policy": [
         "libs/ui/pages/privacy-policy/src/index.ts"
       ],
-      "@worksheets/ui/pages/prizes": ["libs/ui/pages/prizes/src/index.ts"],
       "@worksheets/ui/pages/raffles": ["libs/ui/pages/raffles/src/index.ts"],
       "@worksheets/ui/pages/terms-of-service": [
         "libs/ui/pages/terms-of-service/src/index.ts"
@@ -310,6 +326,8 @@
       "@worksheets/ui/pages/vip": ["libs/ui/pages/vip/src/index.ts"],
       "@worksheets/ui/qa-section/server": ["libs/ui/qa-section/src/server.ts"],
       "@worksheets/ui/styles": ["libs/ui/styles/src/index.ts"],
+      "@worksheets/ui/suspense": ["libs/ui/suspense/src/index.ts"],
+      "@worksheets/ui/suspense/server": ["libs/ui/suspense/src/server.ts"],
       "@worksheets/ui/theme": ["libs/ui/theme/src/index.ts"],
       "@worksheets/ui/widgets": ["libs/ui/widgets/src/index.ts"],
       "@worksheets/util-devices": ["libs/util/devices/src/index.ts"],

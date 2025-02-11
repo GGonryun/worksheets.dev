@@ -1,3 +1,5 @@
+'use client';
+
 import { ArrowDropDown } from '@mui/icons-material';
 import {
   Box,
@@ -7,6 +9,7 @@ import {
   Link,
   Typography,
 } from '@mui/material';
+import { helpRoutes } from '@worksheets/routes';
 import { BookmarkAnchor } from '@worksheets/ui-core';
 import { QuestionAnswer } from '@worksheets/util/types';
 import React, { useEffect, useState } from 'react';
@@ -50,7 +53,7 @@ export const Questions: React.FC<{
             variant="arcade"
             color="success"
             size="small"
-            href="#top"
+            href={helpRoutes.contact.url()}
             sx={{
               width: 'fit-content',
             }}

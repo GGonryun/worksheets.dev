@@ -12,9 +12,15 @@ export const notificationSchema = z.object({
 export type NotificationSchema = z.infer<typeof notificationSchema>;
 
 export const filterableNotificationType = z.nativeEnum({
-  ...NotificationType,
-  ALL: 'ALL' as const,
-});
+  SYSTEM: 'SYSTEM',
+  ALL: 'ALL',
+  PRIZE: 'PRIZE',
+  RAFFLE: 'RAFFLE',
+  INVENTORY: 'INVENTORY',
+  GAME: 'GAME',
+  VICTORY: 'VICTORY',
+  ACHIEVEMENT: 'ACHIEVEMENT',
+} as const);
 
 export type FilterableNotificationType = z.infer<
   typeof filterableNotificationType

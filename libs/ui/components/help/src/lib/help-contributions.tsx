@@ -1,7 +1,9 @@
+'use client';
+
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
-import { routes } from '@worksheets/routes';
+import { helpRoutes } from '@worksheets/routes';
 import { ListItem, OrderedList } from '@worksheets/ui-core';
 import { HelpContributionsQuestions } from '@worksheets/util/enums';
 import { QuestionAnswer } from '@worksheets/util/types';
@@ -23,19 +25,17 @@ export const helpContributions: QuestionAnswer[] = [
             Add your game to our platform. We're always looking for new games to
             add to our platform. If you have a game that you'd like to add,
             please use our{' '}
-            <Link href={routes.help.developers.path()}>
-              contribution portal
-            </Link>
+            <Link href={helpRoutes.developers.path()}>contribution portal</Link>
             .
           </ListItem>
           <ListItem>
             Help us improve our platform. We're always looking for ways to
             improve our platform. If you have any suggestions, please{' '}
-            <Link href={routes.contact.path()}>contact us</Link>.
+            <Link href={helpRoutes.contact.path()}>contact us</Link>.
           </ListItem>
           <ListItem>
             Help us fix bugs. If you find a bug, please
-            <Link href={routes.contact.path()}>contact us</Link> via email.
+            <Link href={helpRoutes.contact.path()}>contact us</Link> via email.
           </ListItem>
         </OrderedList>
       </Box>
@@ -64,7 +64,7 @@ export const helpContributions: QuestionAnswer[] = [
           <ListItem>
             Share your feedback. We're always looking for ways to improve our
             platform. If you have any suggestions, please{' '}
-            <Link href={routes.contact.path()}>contact us</Link>.
+            <Link href={helpRoutes.contact.path()}>contact us</Link>.
           </ListItem>
         </OrderedList>
       </Box>
@@ -93,8 +93,8 @@ export const helpContributions: QuestionAnswer[] = [
           educational content for our website.
           <br />
           <br />
-          Please <Link href={routes.contact.path()}>contact us</Link> for more
-          information on our affiliate and referral programs.
+          Please <Link href={helpRoutes.contact.path()}>contact us</Link> for
+          more information on our affiliate and referral programs.
         </Typography>
       </Box>
     ),
@@ -116,8 +116,8 @@ export const helpContributions: QuestionAnswer[] = [
           will receive special links so that all funds raised by your supporters
           go straight to your charity.
           <br /> <br />
-          Please <Link href={routes.contact.path()}>contact us</Link> for more
-          information on our ambassador and affiliate programs.
+          Please <Link href={helpRoutes.contact.path()}>contact us</Link> for
+          more information on our ambassador and affiliate programs.
         </Typography>
       </Box>
     ),
@@ -136,7 +136,7 @@ export const helpContributions: QuestionAnswer[] = [
           <ListItem>
             Promote our platform on your stream. We have a number of assets that
             you can use to promote our platform on your stream. Please{' '}
-            <Link href={routes.contact.path()}>contact us</Link> for more
+            <Link href={helpRoutes.contact.path()}>contact us</Link> for more
             information.
           </ListItem>
           <ListItem>
@@ -148,8 +148,8 @@ export const helpContributions: QuestionAnswer[] = [
           <ListItem>
             All content creator get a free shirt if they become members of our
             ambassador program. Please{' '}
-            <Link href={routes.contact.path()}>contact us</Link> to learn more
-            about this program!
+            <Link href={helpRoutes.contact.path()}>contact us</Link> to learn
+            more about this program!
           </ListItem>
         </OrderedList>
       </Box>
@@ -183,7 +183,7 @@ export const helpContributions: QuestionAnswer[] = [
           </ListItem>
           <ListItem>
             If you're a professional in another field, we still need your help!
-            Please <Link href={routes.contact.path()}>contact us</Link> and
+            Please <Link href={helpRoutes.contact.path()}>contact us</Link> and
             we'll find a way for you to help.
           </ListItem>
         </OrderedList>
@@ -216,7 +216,7 @@ export const helpContributions: QuestionAnswer[] = [
           </ListItem>
           <ListItem>
             If you want to become a campus ambassador, please{' '}
-            <Link href={routes.contact.path()}>contact us</Link> for a free
+            <Link href={helpRoutes.contact.path()}>contact us</Link> for a free
             shirt and other perks.
           </ListItem>
         </OrderedList>
@@ -239,7 +239,7 @@ export const helpContributions: QuestionAnswer[] = [
           </ListItem>
           <ListItem>
             If you want to become an ambassador for your child's school, please{' '}
-            <Link href={routes.contact.path()}>contact us</Link> for a free
+            <Link href={helpRoutes.contact.path()}>contact us</Link> for a free
             shirt and other perks.
           </ListItem>
           <ListItem>
@@ -250,7 +250,7 @@ export const helpContributions: QuestionAnswer[] = [
           <ListItem>
             If you have a child with a disability, you can help us improve our
             platform. Please{' '}
-            <Link href={routes.contact.path()}>contact us</Link> for more
+            <Link href={helpRoutes.contact.path()}>contact us</Link> for more
             information.
           </ListItem>
         </OrderedList>
@@ -284,7 +284,7 @@ export const helpContributions: QuestionAnswer[] = [
             Sponsor our platform. We're always looking for sponsors to help us
             cover our operating costs. If you're interested in sponsoring our
             platform, please{' '}
-            <Link href={routes.contact.path()}>contact us</Link>.
+            <Link href={helpRoutes.contact.path()}>contact us</Link>.
           </ListItem>
         </OrderedList>
       </Box>
@@ -311,13 +311,13 @@ export const helpContributions: QuestionAnswer[] = [
             encourage the next generation of developers to build games. If
             you're interested in sponsoring a hackathon or game jam on our
             platform, please{' '}
-            <Link href={routes.contact.path()}>contact us</Link>.
+            <Link href={helpRoutes.contact.path()}>contact us</Link>.
           </ListItem>
           <ListItem>
             Sponsor our platform. We're always looking for sponsors to help us
             cover our operating costs. If you're interested in sponsoring our
             platform, please{' '}
-            <Link href={routes.contact.path()}>contact us</Link>.
+            <Link href={helpRoutes.contact.path()}>contact us</Link>.
           </ListItem>
         </OrderedList>
       </Box>
@@ -344,7 +344,7 @@ export const helpContributions: QuestionAnswer[] = [
             Sponsor our platform. We're always looking for sponsors to help us
             cover our operating costs. If you're interested in sponsoring our
             platform, please{' '}
-            <Link href={routes.contact.path()}>contact us</Link>.
+            <Link href={helpRoutes.contact.path()}>contact us</Link>.
           </ListItem>
         </OrderedList>
       </Box>
@@ -364,8 +364,8 @@ export const helpContributions: QuestionAnswer[] = [
           <br />
           <br />
           If you are eager to help, please{' '}
-          <Link href={routes.contact.path()}>contact us</Link> and we will find
-          a way for you to make a difference and help us raise money for
+          <Link href={helpRoutes.contact.path()}>contact us</Link> and we will
+          find a way for you to make a difference and help us raise money for
           charity.
         </Typography>
       </Box>

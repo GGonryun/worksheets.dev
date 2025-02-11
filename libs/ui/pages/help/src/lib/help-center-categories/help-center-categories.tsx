@@ -3,22 +3,15 @@ import {
   ECommerceCustomerService,
   ECommerceGift,
   ECommercePrizes,
-  ECommerceQuality,
 } from '@worksheets/icons/ecommerce';
-import { HalloweenDeath } from '@worksheets/icons/halloween';
 import { LearningCode } from '@worksheets/icons/learning';
 import {
-  ValentinesCalendar,
-  ValentinesMail,
   ValentinesPadlock,
-  ValentinesPhones,
   ValentinesPotion,
   ValentinesProfile,
-  ValentinesTicket,
-  ValentinesWorld,
 } from '@worksheets/icons/valentines';
-import { WebGamepad, WebHeart, WebQuestion } from '@worksheets/icons/web';
-import { routes } from '@worksheets/routes';
+import { WebGamepad, WebQuestion } from '@worksheets/icons/web';
+import { helpRoutes } from '@worksheets/routes';
 
 import {
   HelpCenterCategory,
@@ -29,104 +22,56 @@ const categories: HelpCenterCategoryProps[] = [
   {
     title: 'Common Questions',
     description: 'Answers to our most frequently asked questions',
-    href: routes.help.faq.path(),
+    href: helpRoutes.faq.url(),
     icon: WebQuestion,
   },
   {
     title: 'Accounts & Profiles',
     description: 'Learn about accounts and profile settings',
-    href: routes.help.accounts.path(),
+    href: helpRoutes.accounts.url(),
     icon: ValentinesProfile,
   },
   {
-    title: 'Notifications',
-    href: routes.help.notifications.path(),
-    description: 'Get notified about new games and rewards',
-    icon: ValentinesPhones,
-  },
-  {
     title: 'Playing Games',
-    href: routes.help.playingGames.path(),
+    href: helpRoutes.playingGames.url(),
     description: 'Learn how to play games on our arcade',
     icon: WebGamepad,
   },
   {
-    title: 'Tokens',
-    href: routes.help.tokens.path(),
-    description: 'Play games at our arcade and win real world prizes',
-    icon: ValentinesTicket,
-  },
-  {
-    title: 'Quests',
-    href: routes.help.quests.path(),
-    description: 'Complete challenges to earn tokens',
-    icon: ValentinesCalendar,
-  },
-  {
-    title: 'Referrals',
-    href: routes.help.referrals.path(),
-    description: 'Refer your friends and earn rewards',
-    icon: ValentinesWorld,
-  },
-  {
-    title: 'Friends',
-    href: routes.help.friends.path(),
-    description: 'Playing with friends is more fun and rewarding',
-    icon: WebHeart,
-  },
-  {
     title: 'Prizes',
-    href: routes.help.prizes.path(),
+    href: helpRoutes.prizes.url(),
     description: 'Redeem your tokens for real world prizes',
     icon: ECommercePrizes,
   },
   {
     title: 'Inventory',
-    href: routes.help.inventory.path(),
+    href: helpRoutes.inventory.url(),
     description: 'Learn about your inventory and how to use items',
     icon: ValentinesPotion,
   },
   {
     title: 'Integrations',
-    href: routes.help.integrations.path(),
+    href: helpRoutes.integrations.url(),
     description: 'Connect your account to other services and apps',
     icon: ValentinesPadlock,
   },
   {
     title: 'Contributions',
-    href: routes.help.contributions.path(),
+    href: helpRoutes.contributions.url(),
     description: 'Help us build a better world, one game at a time',
     icon: ECommerceGift,
   },
   {
-    title: 'Boss Fights',
-    href: routes.help.mobs.path(),
-    description: 'Team up with other players to defeat powerful bosses',
-    icon: HalloweenDeath,
-  },
-  {
-    title: 'Emails',
-    href: routes.help.emails.path(),
-    description: 'Understand the emails we send you',
-    icon: ValentinesMail,
-  },
-  {
     title: 'Developer',
-    href: routes.help.developers.path(),
+    href: helpRoutes.developers.url(),
     description: 'Contribute a game to our arcade',
     icon: LearningCode,
   },
   {
     title: 'Contact Us',
     description: 'Reach out to our support team',
-    href: routes.contact.path(),
+    href: helpRoutes.contact.url(),
     icon: ECommerceCustomerService,
-  },
-  {
-    title: 'VIP Membership',
-    href: routes.help.vip.path(),
-    description: 'Help support our mission and earn more rewards',
-    icon: ECommerceQuality,
   },
 ];
 

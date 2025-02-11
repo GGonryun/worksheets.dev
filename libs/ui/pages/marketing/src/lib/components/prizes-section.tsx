@@ -1,5 +1,5 @@
 import { Box, Container, Link, Typography } from '@mui/material';
-import { routes } from '@worksheets/routes';
+import { contestsRoutes } from '@worksheets/routes';
 import { ContainImage } from '@worksheets/ui/components/images';
 import { GradientShadowedTypography } from '@worksheets/ui/components/typography';
 import { useMediaQueryDown } from '@worksheets/ui/hooks/use-media-query';
@@ -85,7 +85,7 @@ const Prizes = () => {
       {PRIZE_ITEMS.slice(0, count).map((prize) => (
         <Box
           component={Link}
-          href={routes.raffles.path()}
+          href={contestsRoutes.raffles.url()}
           key={prize.alt}
           sx={{
             cursor: 'pointer',
@@ -121,7 +121,7 @@ const Disclaimer = () => (
     <Typography
       variant="h6"
       component={Link}
-      href={routes.raffles.path()}
+      href={contestsRoutes.raffles.url()}
       color="text.white"
       underline="hover"
       textTransform="uppercase"

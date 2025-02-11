@@ -1,10 +1,10 @@
 import { Box, BoxProps, styled } from '@mui/material';
 import common from '@worksheets/assets-common';
-import { routes } from '@worksheets/routes';
+import { portalRoutes } from '@worksheets/routes';
 import { ContainImage } from '@worksheets/ui/components/images';
 import { JSXElementConstructor } from 'react';
 
-const purposeHref = routes.newsletter.subscribe.path();
+const purposeHref = portalRoutes.newsletter.subscribe.path();
 
 const playWithPurposeAlt = 'Play With Purpose';
 

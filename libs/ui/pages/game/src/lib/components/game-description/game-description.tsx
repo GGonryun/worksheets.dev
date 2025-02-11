@@ -1,7 +1,6 @@
 import { Report, Share } from '@mui/icons-material';
-import { Box, IconButton, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import { Description } from '@worksheets/ui/components/description';
-import { useMediaQuery } from '@worksheets/ui/hooks/use-media-query';
 import { HTMLinator } from '@worksheets/ui-core';
 import { GameDevices } from '@worksheets/util/types';
 import { FC } from 'react';
@@ -15,20 +14,28 @@ export const GameDescription: FC<{
   onShare: () => void;
   onReport: () => void;
 }> = ({ description, trailer, devices, onShare, onReport }) => {
-  const isMobile = useMediaQuery((theme) => theme.breakpoints.down('sm'));
-
   return (
     <Box mt={2}>
       <Description
         title="About This Game"
         icons={
-          <Box display="flex">
-            <IconButton color="inherit" onClick={onShare}>
-              <Share fontSize={isMobile ? 'small' : 'medium'} />
-            </IconButton>
-            <IconButton color="inherit" onClick={onReport}>
-              <Report fontSize={isMobile ? 'small' : 'medium'} />
-            </IconButton>
+          <Box display="flex" gap={1}>
+            <Button
+              variant="square"
+              size="small"
+              color="secondary"
+              onClick={onShare}
+            >
+              <Share fontSize={'small'} />
+            </Button>
+            <Button
+              variant="square"
+              size="small"
+              color="warning"
+              onClick={onReport}
+            >
+              <Report fontSize={'small'} />
+            </Button>
           </Box>
         }
         description={<Content description={description} trailer={trailer} />}
@@ -43,7 +50,10 @@ const Content: React.FC<{ description: string; trailer: string | null }> = ({
 }) => {
   return (
     <Box>
-      <HTMLinator text={description} />
+      <HTMLinator
+        text={description}
+        sx={{ color: (theme) => theme.palette.text.arcade }}
+      />
       {trailer && <GameplayVideo trailer={trailer} />}
     </Box>
   );

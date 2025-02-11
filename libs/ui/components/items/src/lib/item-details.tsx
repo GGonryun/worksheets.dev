@@ -6,7 +6,7 @@ import {
   Typography,
   TypographyProps,
 } from '@mui/material';
-import { routes } from '@worksheets/routes';
+import { playRoutes } from '@worksheets/routes';
 import { Row } from '@worksheets/ui/components/flex';
 import { ResponsiveImage } from '@worksheets/ui/components/images';
 import { PaletteColor } from '@worksheets/ui/theme';
@@ -113,7 +113,7 @@ export const ItemDetails: React.FC<{
                     <Fragment>
                       <Link
                         key={monster.id}
-                        href={routes.monster.path({
+                        href={playRoutes.monster.path({
                           params: {
                             monsterId: monster.id,
                           },
@@ -139,7 +139,10 @@ export const ItemDetails: React.FC<{
                 <span>
                   {props.sources.quests.map((quest, index) => (
                     <Fragment>
-                      <Link key={quest.id} href={routes.account.quests.path()}>
+                      <Link
+                        key={quest.id}
+                        href={playRoutes.account.quests.path()}
+                      >
                         {quest.name}
                       </Link>
                       {index < props.sources.quests.length - 1 ? ', ' : ''}
@@ -161,7 +164,7 @@ export const ItemDetails: React.FC<{
                     <Fragment>
                       <Link
                         key={item.id}
-                        href={routes.item.path({
+                        href={playRoutes.item.path({
                           params: {
                             itemId: item.id,
                           },

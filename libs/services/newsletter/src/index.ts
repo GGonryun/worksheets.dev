@@ -4,7 +4,7 @@ import {
   PrismaClient,
   PrismaTransactionalClient,
 } from '@worksheets/prisma';
-import { routes } from '@worksheets/routes';
+import { playRoutes } from '@worksheets/routes';
 import { EmailService, TemplateOptions } from '@worksheets/services/email';
 import { EmailPriority } from '@worksheets/util/types';
 
@@ -63,7 +63,7 @@ export class NewsletterService {
         ...opts.template,
         unsubscribe:
           opts.topic !== 'Transactional'
-            ? routes.newsletter.unsubscribe.url({
+            ? playRoutes.newsletter.unsubscribe.url({
                 query: {
                   id,
                 },

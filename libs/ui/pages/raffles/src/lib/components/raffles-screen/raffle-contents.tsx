@@ -1,6 +1,6 @@
 import { NavigateNext } from '@mui/icons-material';
 import { Button } from '@mui/material';
-import { routes } from '@worksheets/routes';
+import { playRoutes } from '@worksheets/routes';
 import {
   RaffleCarousel,
   RafflesGroup,
@@ -27,7 +27,7 @@ export const RaffleContents: React.FC<{
               size={isMobile ? 'small' : 'medium'}
               sx={{ width: 'fit-content', alignSelf: 'flex-end' }}
               endIcon={isMobile ? undefined : <NavigateNext />}
-              href={routes.account.inventory.path({
+              href={playRoutes.account.inventory.path({
                 bookmark: InventoryPanels.RaffleParticipation,
               })}
             >
@@ -42,7 +42,7 @@ export const RaffleContents: React.FC<{
           <Button
             variant="arcade"
             color="error"
-            href={routes.raffles.expired.path()}
+            href={playRoutes.raffles.expired.path()}
             size={isMobile ? 'small' : 'medium'}
             endIcon={isMobile ? undefined : <NavigateNext />}
           >

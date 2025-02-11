@@ -1,12 +1,8 @@
 import { Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
-import {
-  CharityBook,
-  CharityBox,
-  CharityWater,
-} from '@worksheets/icons/charity';
-import { routes } from '@worksheets/routes';
+import { CharityBook, CharityWater } from '@worksheets/icons/charity';
+import { helpRoutes } from '@worksheets/routes';
 import { BLOG_BASE_URL } from '@worksheets/ui/env';
 
 import { RedirectBox } from './redirect-box';
@@ -49,21 +45,11 @@ export const SupportSection = () => (
         }}
       />
       <RedirectBox
-        title="Share your game"
-        description="Donate a game to our platform and help us make a difference."
-        Icon={CharityBox}
-        action={{
-          href: routes.account.submissions.path(),
-          label: 'Submit a game',
-          color: 'secondary',
-        }}
-      />
-      <RedirectBox
         title="Get to know us"
         description="We're on a mission to make the world a better place."
         Icon={CharityWater}
         action={{
-          href: routes.about.path(),
+          href: helpRoutes.about.url(),
           label: 'About us',
           color: 'warning',
         }}

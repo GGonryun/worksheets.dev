@@ -1,5 +1,5 @@
 import { Button, Link, Typography } from '@mui/material';
-import { routes } from '@worksheets/routes';
+import { playRoutes } from '@worksheets/routes';
 import { Column } from '@worksheets/ui/components/flex';
 import { BulletPoints } from '@worksheets/ui/components/lists';
 import { TaskFormProps } from '@worksheets/util/tasks';
@@ -15,7 +15,7 @@ export const AddFriendForm: React.FC<TaskFormProps> = ({ task }) => {
           `Go to your account and add friends using their friend code.`,
           `They don't need to add you back for you to complete this quest.`,
           <>
-            <Link href={routes.help.vip.path()}>VIP Members</Link> earn x2
+            <Link href={playRoutes.help.vip.path()}>VIP Members</Link> earn x2
             tokens for each friend added.
           </>,
         ]}
@@ -28,7 +28,7 @@ export const AddFriendForm: React.FC<TaskFormProps> = ({ task }) => {
         variant="arcade"
         size="small"
         color="secondary"
-        href={routes.account.friends.path()}
+        href={playRoutes.account.friends.path()}
       >
         Add Friends
       </Button>

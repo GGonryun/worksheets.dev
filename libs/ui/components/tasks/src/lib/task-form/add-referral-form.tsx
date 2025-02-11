@@ -1,5 +1,5 @@
 import { Button, Link, Typography } from '@mui/material';
-import { routes } from '@worksheets/routes';
+import { playRoutes } from '@worksheets/routes';
 import { Column } from '@worksheets/ui/components/flex';
 import { BulletPoints } from '@worksheets/ui/components/lists';
 import { ReferralsPanels } from '@worksheets/util/enums';
@@ -17,7 +17,7 @@ export const AddReferralForm: React.FC<TaskFormProps> = ({ task }) => {
           `Share your referral link with other players.`,
           `Every time someone signs up with your referral link, you'll earn extra tokens.`,
           <>
-            <Link href={routes.help.vip.path()}>VIP Members</Link> earn x2
+            <Link href={playRoutes.help.vip.path()}>VIP Members</Link> earn x2
             tokens for each referral added.
           </>,
         ]}
@@ -29,7 +29,7 @@ export const AddReferralForm: React.FC<TaskFormProps> = ({ task }) => {
         variant="arcade"
         size="small"
         color="warning"
-        href={routes.account.referrals.path({
+        href={playRoutes.account.referrals.path({
           bookmark: ReferralsPanels.ShareYourLink,
         })}
       >

@@ -10,7 +10,6 @@ import {
   RedeemOutlined,
   ShuffleOutlined,
   SportsMmaOutlined,
-  StarsOutlined,
   VideogameAssetOutlined,
 } from '@mui/icons-material';
 import Divider from '@mui/material/Divider';
@@ -80,11 +79,6 @@ export const AppDrawer: React.FC<WithDrawerProps<{ connected: boolean }>> = ({
       <DrawerLinks
         title="Rewards"
         links={[
-          {
-            href: routes.prizes.path(),
-            icon: <StarsOutlined />,
-            label: 'Prizes',
-          },
           {
             href: routes.raffles.path(),
             icon: <RedeemOutlined />,

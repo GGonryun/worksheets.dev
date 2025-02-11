@@ -1,7 +1,7 @@
 import { ButtonBase, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
-import { routes } from '@worksheets/routes';
+import { playRoutes } from '@worksheets/routes';
 import { CoverImage } from '@worksheets/ui/components/images';
 import { DeveloperSchema } from '@worksheets/util/types';
 import { FC, ReactNode, useState } from 'react';
@@ -57,7 +57,7 @@ export const DevelopersSection: React.FC<{ developers: DeveloperSchema[] }> = ({
 const DeveloperBox: FC<{ developer: DeveloperSchema }> = ({ developer }) => {
   return (
     <CustomBox
-      href={routes.developer.path({
+      href={playRoutes.developer.path({
         params: { developerId: developer.id },
       })}
     >

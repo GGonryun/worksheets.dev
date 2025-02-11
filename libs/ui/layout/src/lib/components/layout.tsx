@@ -1,3 +1,5 @@
+'use client';
+
 import Box from '@mui/material/Box';
 import MuiToolbar from '@mui/material/Toolbar';
 import {

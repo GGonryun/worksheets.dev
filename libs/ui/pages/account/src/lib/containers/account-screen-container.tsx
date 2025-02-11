@@ -1,30 +1,20 @@
-import { getNextUTCMidnight } from '@worksheets/util/time';
-import { useRouter } from 'next/router';
+'use client';
+
+import { usePathname } from 'next/navigation';
 
 import { AccountScreen } from '../components';
-import { DynamicQuestPanel } from '../dynamic/dynamic-quests-panel';
-import { FriendsPanelContainer } from './friends-panel-container';
 import { IntegrationsPanelContainer } from './integrations-panel-container';
 import { DynamicInventoryPanel } from './inventory-panel';
 import { NotificationsPanelContainer } from './notifications-panel-container';
-import { ReferralsPanelContainer } from './referrals-panel-container';
 import { SettingsPanelContainer } from './settings-panel-container';
-import { SubmissionsPanelContainer } from './submission-panel-container';
 
-const AccountScreenContainer: React.FC = () => {
-  const { pathname } = useRouter();
-  const refreshTimestamp = getNextUTCMidnight().getTime();
+export const AccountScreenContainer: React.FC = () => {
+  const pathname = usePathname();
 
   return (
     <AccountScreen
       path={pathname}
       settingsPanel={<SettingsPanelContainer />}
-      submissionsPanel={<SubmissionsPanelContainer />}
-      friendsPanel={
-        <FriendsPanelContainer refreshTimestamp={refreshTimestamp} />
-      }
-      referralsPanel={<ReferralsPanelContainer />}
-      questsPanel={<DynamicQuestPanel />}
       inventory={<DynamicInventoryPanel />}
       notificationsPanel={<NotificationsPanelContainer />}
       integrationsPanel={<IntegrationsPanelContainer />}

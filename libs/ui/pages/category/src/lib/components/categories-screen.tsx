@@ -1,6 +1,8 @@
+'use client';
+
 import { PlayArrow } from '@mui/icons-material';
 import { Button, Container, Paper, Typography } from '@mui/material';
-import { routes } from '@worksheets/routes';
+import { playRoutes } from '@worksheets/routes';
 import { Categories } from '@worksheets/ui/components/categories';
 import { useMediaQuery } from '@worksheets/ui/hooks/use-media-query';
 import { BasicCategoryInfo } from '@worksheets/util/types';
@@ -50,7 +52,7 @@ export const CategoriesScreen: FC<CategoriesScreenProps> = ({ categories }) => {
           size={isMobile ? 'medium' : 'large'}
           startIcon={<PlayArrow />}
           color="error"
-          href={routes.library.path()}
+          href={playRoutes.library.path()}
         >
           All Games
         </Button>

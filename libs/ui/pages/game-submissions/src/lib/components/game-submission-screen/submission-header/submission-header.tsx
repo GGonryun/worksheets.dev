@@ -4,7 +4,7 @@ import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
-import { routes } from '@worksheets/routes';
+import { playRoutes } from '@worksheets/routes';
 import { HelpDevelopersQuestions } from '@worksheets/util/enums';
 import { FC } from 'react';
 
@@ -50,7 +50,7 @@ export const SubmissionHeader: FC<{ invalidProfile: boolean | undefined }> = ({
         variant="arcade"
         color="primary"
         size="small"
-        href={routes.account.submissions.path()}
+        href={playRoutes.account.submissions.path()}
         endIcon={<ArrowRightAlt />}
         sx={{
           width: { xs: '100%', sm: 'auto' },
@@ -71,7 +71,7 @@ export const SubmissionHeader: FC<{ invalidProfile: boolean | undefined }> = ({
       <Typography variant="body2">
         Review our{' '}
         <Link
-          href={routes.help.developers.path({
+          href={playRoutes.help.developers.path({
             bookmark: HelpDevelopersQuestions.Quality,
           })}
         >

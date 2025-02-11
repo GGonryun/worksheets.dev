@@ -1,4 +1,4 @@
-import { routes } from '@worksheets/routes';
+import { playRoutes } from '@worksheets/routes';
 import { trpc } from '@worksheets/trpc-charity';
 import { useSnackbar } from '@worksheets/ui/components/snackbar';
 import { isImage, isZip, toMegabytes } from '@worksheets/util/data';
@@ -118,7 +118,7 @@ export const useGameSubmissionForm = (
         setErrors(results.errors);
       } else {
         await submitForm.mutateAsync({ ...values, id: submissionId });
-        push(routes.account.submissions.success.path());
+        push(playRoutes.account.submissions.success.path());
       }
     } finally {
       setLoading(false);
@@ -133,7 +133,7 @@ export const useGameSubmissionForm = (
 
       snackbar.success('Submission updated');
 
-      push(routes.account.submissions.path());
+      push(playRoutes.account.submissions.path());
     } finally {
       setLoading(false);
       setUpdated(false);

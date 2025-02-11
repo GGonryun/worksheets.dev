@@ -10,10 +10,6 @@ export enum LoginQueryParams {
   Redirect = 'redirect',
 }
 
-export enum AccountFriendsQueryParams {
-  Code = 'code',
-}
-
 export enum NewsletterQueryParams {
   Id = 'id',
 }

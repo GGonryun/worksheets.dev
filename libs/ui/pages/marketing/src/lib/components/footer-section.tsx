@@ -15,7 +15,14 @@ import {
   styled,
   Typography,
 } from '@mui/material';
-import { blogRoutes, externalRoutes, routes } from '@worksheets/routes';
+import {
+  blogRoutes,
+  contestsRoutes,
+  externalRoutes,
+  helpRoutes,
+  playRoutes,
+  portalRoutes,
+} from '@worksheets/routes';
 import { SponsorLogo } from '@worksheets/ui/components/logos';
 import { useMediaQueryDown } from '@worksheets/ui/hooks/use-media-query';
 import { currentYear } from '@worksheets/util/time';
@@ -103,7 +110,7 @@ const Subscribe = () => (
     </Typography>
     <Box
       component={Link}
-      href={routes.newsletter.subscribe.path()}
+      href={portalRoutes.newsletter.subscribe.url()}
       sx={{
         cursor: 'pointer',
         p: 4,
@@ -144,7 +151,13 @@ const Links = () => (
       >
         © {currentYear} Charity Games. All rights reserved.
       </Typography>
-      <Box component={Link} href={routes.about.path()}>
+      <Box
+        component={Link}
+        href={helpRoutes.about.url()}
+        sx={{
+          textDecoration: 'none',
+        }}
+      >
         <SponsorLogo />
       </Box>
     </Box>
@@ -155,15 +168,15 @@ const Links = () => (
       flexWrap="wrap"
     >
       <Box display="flex" gap={2} justifyContent="center">
-        <CustomLink href={routes.about.path()}>About</CustomLink>
-        <CustomLink href={routes.contact.path()}>Contact</CustomLink>
-        <CustomLink href={routes.terms.path()}>Terms</CustomLink>
-        <CustomLink href={routes.privacy.path()}>Privacy</CustomLink>
+        <CustomLink href={helpRoutes.about.url()}>About</CustomLink>
+        <CustomLink href={helpRoutes.contact.url()}>Contact</CustomLink>
+        <CustomLink href={helpRoutes.terms.url()}>Terms</CustomLink>
+        <CustomLink href={helpRoutes.privacy.url()}>Privacy</CustomLink>
       </Box>
       <Box display="flex" gap={2} justifyContent="center">
-        <CustomLink href={routes.play.path()}>Arcade</CustomLink>
-        <CustomLink href={routes.raffles.path()}>Raffles</CustomLink>
-        <CustomLink href={routes.help.path()}>Help</CustomLink>
+        <CustomLink href={playRoutes.home.url()}>Arcade</CustomLink>
+        <CustomLink href={contestsRoutes.raffles.url()}>Raffles</CustomLink>
+        <CustomLink href={helpRoutes.home.url()}>Help</CustomLink>
         <CustomLink href={blogRoutes.home.url()}>Blog</CustomLink>
       </Box>
     </Box>

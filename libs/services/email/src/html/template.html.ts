@@ -1,5 +1,11 @@
-import { externalRoutes, routes } from '@worksheets/routes';
-import { HelpEmailsQuestions } from '@worksheets/util/enums';
+import {
+  contestsRoutes,
+  externalRoutes,
+  helpRoutes,
+  marketingRoutes,
+  playRoutes,
+} from '@worksheets/routes';
+import { HelpAccountQuestions } from '@worksheets/util/enums';
 import { copyright } from '@worksheets/util/settings';
 
 const HEADER_IMAGE = `https://cdn.charity.games/_emails/primary.png`;
@@ -54,8 +60,8 @@ export const template = ({
         text: 'Unsubscribe',
       })}`
     : `This is a transactional email from Charity Games. ${link({
-        href: routes.help.emails.url({
-          bookmark: HelpEmailsQuestions.Description,
+        href: helpRoutes.accounts.url({
+          bookmark: HelpAccountQuestions.Emails,
         }),
         text: 'Learn more',
       })}`;
@@ -264,7 +270,7 @@ export const template = ({
                                                                         <tr>
                                                                             <td width="25%"
                                                                                 style="padding: 10px; word-break: break-word; border-top: 1px solid transparent; border-right: 1px solid transparent; border-bottom: 1px solid transparent; border-left: 1px solid transparent;">
-                                                                                <a href="${routes.play.url()}"
+                                                                                <a href="${marketingRoutes.home.url()}"
                                                                                     target="_blank"
                                                                                     style="text-decoration: underline; color: #2477f4;"
                                                                                     rel="noopener"><span
@@ -277,7 +283,7 @@ export const template = ({
                                                                             </td>
                                                                             <td width="25%"
                                                                                 style="padding: 10px; word-break: break-word; border-top: 1px solid transparent; border-right: 1px solid transparent; border-bottom: 1px solid transparent; border-left: 1px solid transparent;">
-                                                                                <a href="${routes.raffles.url()}"
+                                                                                <a href="${contestsRoutes.raffles.url()}"
                                                                                     target="_blank"
                                                                                     style="text-decoration: underline; color: #2477f4;"
                                                                                     rel="noopener"><span
@@ -290,7 +296,7 @@ export const template = ({
                                                                             </td>
                                                                             <td width="25%"
                                                                                 style="padding: 10px; word-break: break-word; border-top: 1px solid transparent; border-right: 1px solid transparent; border-bottom: 1px solid transparent; border-left: 1px solid transparent;">
-                                                                                <a href="${routes.help.contributions.url()}"
+                                                                                <a href="${helpRoutes.contributions.url()}"
                                                                                     target="_blank"
                                                                                     style="text-decoration: underline; color: #2477f4;"
                                                                                     rel="noopener"><span
@@ -303,7 +309,7 @@ export const template = ({
                                                                             </td>
                                                                             <td width="25%"
                                                                                 style="padding: 10px; word-break: break-word; border-top: 1px solid transparent; border-right: 1px solid transparent; border-bottom: 1px solid transparent; border-left: 1px solid transparent;">
-                                                                                <a href="${routes.help.url()}"
+                                                                                <a href="${helpRoutes.home.url()}"
                                                                                     target="_blank"
                                                                                     style="text-decoration: underline; color: #2477f4;"
                                                                                     rel="noopener"><span
@@ -352,7 +358,7 @@ export const template = ({
                                                                         style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; display: inline-block;">
                                                                         <tr>
                                                                             <td style="padding:0 2px 0 2px;"><a
-                                                                                    href="${routes.home.url()}"
+                                                                                    href="${playRoutes.home.url()}"
                                                                                     target="_blank"><img
                                                                                         src="https://cdn.charity.games/_emails/social/website@2x.png"
                                                                                         width="32" height="auto"

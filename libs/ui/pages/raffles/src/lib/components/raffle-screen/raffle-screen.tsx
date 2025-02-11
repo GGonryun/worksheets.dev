@@ -1,6 +1,6 @@
 import { NavigateBefore } from '@mui/icons-material';
 import { Button, Container, Typography } from '@mui/material';
-import { routes } from '@worksheets/routes';
+import { contestsRoutes } from '@worksheets/routes';
 import { RaffleSchema } from '@worksheets/util/types';
 import React from 'react';
 
@@ -50,7 +50,7 @@ export const RaffleScreen: React.FC<{
 
 const AllRafflesLink = () => (
   <Button
-    href={routes.raffles.path()}
+    href={contestsRoutes.raffles.url()}
     color="white"
     startIcon={<NavigateBefore />}
     sx={{

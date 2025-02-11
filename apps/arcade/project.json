@@ -1,0 +1,12 @@
+{
+  "name": "arcade",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/arcade",
+  "projectType": "application",
+  "tags": [],
+  "// targets": "to see all targets run: nx show project arcade --web",
+  "implicitDependencies": [
+    "assets-common"
+  ],
+  "targets": {}
+}

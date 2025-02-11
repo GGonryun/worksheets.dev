@@ -21,12 +21,6 @@ export const leaderboardFrequency = z.nativeEnum(LEADERBOARD_FREQUENCY);
 
 export type LeaderboardFrequency = keyof typeof LEADERBOARD_FREQUENCY;
 
-export const LEADERBOARD_REWARD_PAYOUT: Record<LeaderboardFrequency, number[]> =
-  {
-    WEEKLY: [400, 300, 150, 150, 100, 100, 50, 50, 25, 25],
-    ALL_TIME: [],
-  };
-
 export const leaderboardPlayerSchema = z.object({
   user: z.object({
     id: z.string(),

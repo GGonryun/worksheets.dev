@@ -1,3 +1,5 @@
+'use client';
+
 import {
   ArrowRight,
   Facebook,
@@ -18,26 +20,25 @@ import {
   IconButtonProps,
   Typography,
 } from '@mui/material';
-import { routes } from '@worksheets/routes';
+import { playRoutes } from '@worksheets/routes';
 import { GamesGroup } from '@worksheets/ui/components/games';
 import { FillImage } from '@worksheets/ui/components/images';
 import { BasicGameInfo, DeveloperSchema } from '@worksheets/util/types';
 import { FC } from 'react';
 
 export type DeveloperScreenProps = {
-  name: string;
-  description: string;
-  avatarUrl: string;
-  socials: DeveloperSchema['socials'];
+  developer: {
+    name: string;
+    description: string;
+    avatarUrl: string;
+    socials: DeveloperSchema['socials'];
+  };
   games: BasicGameInfo[];
 };
 
 export const DeveloperScreen: FC<DeveloperScreenProps> = ({
-  name,
-  description,
-  socials,
+  developer: { name, description, socials, avatarUrl },
   games,
-  avatarUrl,
 }) => {
   return (
     <Container maxWidth="lg" sx={{ py: 2 }}>
@@ -90,7 +91,7 @@ export const DeveloperScreen: FC<DeveloperScreenProps> = ({
             <Button
               variant="arcade"
               color="error"
-              href={routes.play.path()}
+              href={playRoutes.library.url()}
               endIcon={<ArrowRight />}
             >
               All Games
@@ -98,7 +99,7 @@ export const DeveloperScreen: FC<DeveloperScreenProps> = ({
             <Button
               variant="arcade"
               color="warning"
-              href={routes.categories.path()}
+              href={playRoutes.categories.path()}
               endIcon={<ArrowRight />}
             >
               All Tags
@@ -110,7 +111,7 @@ export const DeveloperScreen: FC<DeveloperScreenProps> = ({
   );
 };
 
-const SocialButtons: FC<DeveloperScreenProps['socials']> = ({
+const SocialButtons: FC<DeveloperScreenProps['developer']['socials']> = ({
   facebook,
   twitter,
   instagram,

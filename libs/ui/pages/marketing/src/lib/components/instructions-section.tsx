@@ -1,5 +1,5 @@
 import { Box, Button, Container, Typography } from '@mui/material';
-import { routes } from '@worksheets/routes';
+import { helpRoutes } from '@worksheets/routes';
 import { FillImage, ResponsiveImage } from '@worksheets/ui/components/images';
 import { GradientTypography } from '@worksheets/ui/components/typography';
 import React from 'react';
@@ -87,7 +87,7 @@ const ContactUs = () => (
       variant="arcade"
       color="warning"
       sx={{ minWidth: { xs: 150, sm: 250 } }}
-      href={routes.contact.path()}
+      href={helpRoutes.contact.url()}
     >
       Contact Us
     </Button>

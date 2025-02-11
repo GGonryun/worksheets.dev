@@ -1,9 +1,9 @@
 import { initTRPC } from '@trpc/server';
-import { Context } from '@worksheets/trpc/shared';
+import { createContext, InnerContext } from '@worksheets/trpc/shared';
 import { ZodError } from 'zod';
 
 export const t = initTRPC
-  .context<Context>()
+  .context<InnerContext>()
   .meta<{ cache: number }>()
   .create({
     errorFormatter(opts) {
@@ -25,3 +25,5 @@ export const t = initTRPC
 // Base router and procedure helpers
 export const router = t.router;
 export const middleware = t.middleware;
+export const createCallerFactory = t.createCallerFactory;
+export const createTRPCContext = createContext;

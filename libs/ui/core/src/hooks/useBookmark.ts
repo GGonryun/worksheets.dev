@@ -1,22 +1,24 @@
-import { useRouter } from 'next/router';
+'use client';
+
+import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 import { useEventListener } from './useEventListener';
 
 export const useBookmark = <T extends string>() => {
-  const { asPath } = useRouter();
+  const path = usePathname();
   const [bookmark, setBookmark] = useState<T | undefined>(undefined);
 
   useEffect(() => {
-    if (asPath && asPath.includes('#')) {
-      setBookmark(asPath.split('#')[1] as T);
+    if (path && path.includes('#')) {
+      setBookmark(path.split('#')[1] as T);
     }
-  }, [asPath]);
+  }, [path]);
 
   useEffect(() => {
     // when bookmark changes scroll to the element with the id
     if (bookmark) {
-      const element = document.getElementById(bookmark);
+      const element = document?.getElementById(bookmark);
       if (element) {
         element.scrollIntoView();
       }

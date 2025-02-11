@@ -1,1 +1,1 @@
-export * from './lib/dynamic';
+export * from './lib/containers/account-screen-container';

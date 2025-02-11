@@ -1,5 +1,5 @@
 import { DiscordMessageInput } from '@worksheets/api/discord';
-import { routes } from '@worksheets/routes';
+import { playRoutes } from '@worksheets/routes';
 import { printShortDate, printShortDateTime } from '@worksheets/util/time';
 import pluralize from 'pluralize';
 
@@ -15,7 +15,7 @@ export class DiscordTemplates {
       embeds: [
         {
           title: `${opts.name} — ${opts.cost} tokens`,
-          url: routes.prizes.url(),
+          url: playRoutes.prizes.url(),
           description: `The user ${opts.user.username} has purchased a ${
             opts.name
           } ${opts.type === 'STEAM' ? 'Steam Key' : 'Unknown'} for ${
@@ -67,7 +67,7 @@ export class DiscordTemplates {
       embeds: [
         {
           title: `Play ${opts.title} by ${opts.developer.name}!`,
-          url: routes.game.url({ params: { gameId: opts.id } }),
+          url: playRoutes.game.url({ params: { gameId: opts.id } }),
         },
       ],
       channel: 'notification',
@@ -85,7 +85,7 @@ export class DiscordTemplates {
             'winner',
             opts.numWinners
           )} will be chosen on ${printShortDate(opts.expiresAt)}.`,
-          url: routes.raffle.url({ params: { raffleId: opts.id } }),
+          url: playRoutes.raffle.url({ params: { raffleId: opts.id } }),
         },
       ],
       channel: 'notification',

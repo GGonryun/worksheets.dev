@@ -1,5 +1,7 @@
+'use client';
+
 import { Box, Link, Typography } from '@mui/material';
-import { routes } from '@worksheets/routes';
+import { helpRoutes, portalRoutes } from '@worksheets/routes';
 import { Column } from '@worksheets/ui/components/flex';
 import { ResponsiveImage } from '@worksheets/ui/components/images';
 import { HelpIntegrationsQuestions } from '@worksheets/util/enums';
@@ -42,7 +44,7 @@ export const helpIntegrations: QuestionAnswer[] = [
       <Column>
         <Typography>
           To connect your Steam account, visit the{' '}
-          <Link href={routes.account.integrations.path()}>
+          <Link href={portalRoutes.account.integrations.url()}>
             Integrations page in your account settings
           </Link>
           . Click the "Connect" button next to the Steam logo. You will be
@@ -54,7 +56,7 @@ export const helpIntegrations: QuestionAnswer[] = [
           <br />
           If you are having difficulty connecting your Steam account, follow the
           instructions below or{' '}
-          <Link href={routes.contact.path()}>contact us</Link> for help.
+          <Link href={helpRoutes.contact.url()}>contact us</Link> for help.
         </Typography>
         <br />
         <Typography variant="h5" gutterBottom>
@@ -72,7 +74,7 @@ export const helpIntegrations: QuestionAnswer[] = [
             </li>
             <Box position="relative" maxWidth="500px">
               <ResponsiveImage
-                src="/integrations/steam/tutorial-0.png"
+                src="/help/integrations/steam/tutorial-0.png"
                 alt={'Steam login page'}
               />
             </Box>
@@ -84,7 +86,7 @@ export const helpIntegrations: QuestionAnswer[] = [
             </li>
             <Box position="relative" maxWidth="500px">
               <ResponsiveImage
-                src="/integrations/steam/tutorial-1.png"
+                src="/help/integrations/steam/tutorial-1.png"
                 alt={'Steam account details page'}
               />
             </Box>

@@ -1,3 +1,5 @@
+'use client';
+
 import { Paper } from '@mui/material';
 import { ErrorComponent } from '@worksheets/ui/components/errors';
 import { AbsolutelyCentered } from '@worksheets/ui-core';

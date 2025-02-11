@@ -1,7 +1,9 @@
+'use client';
+
 import { ArrowBack } from '@mui/icons-material';
 import { Box, Button, Link, Paper, Typography } from '@mui/material';
 import { externalRoutes } from '@worksheets/routes';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { FC, ReactNode } from 'react';
 
 import { Construction } from './icons/construction';

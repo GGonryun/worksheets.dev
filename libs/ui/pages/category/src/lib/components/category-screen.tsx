@@ -1,7 +1,9 @@
+'use client';
+
 import { ArrowRight } from '@mui/icons-material';
 import { Box, Button, Container, Paper } from '@mui/material';
 import { ShuffleIcon } from '@worksheets/icons/native';
-import { routes } from '@worksheets/routes';
+import { playRoutes } from '@worksheets/routes';
 import { Categories } from '@worksheets/ui/components/categories';
 import { GamesGroup } from '@worksheets/ui/components/games';
 import { Markdown } from '@worksheets/ui-core';
@@ -53,7 +55,7 @@ export const CategoryScreen: FC<CategoryScreenProps> = ({
               variant="arcade"
               color="success"
               endIcon={<ArrowRight />}
-              href={routes.categories.path()}
+              href={playRoutes.categories.path()}
               sx={{
                 width: { xs: '100%', sm: 'auto' },
               }}
@@ -89,7 +91,7 @@ export const CategoryScreen: FC<CategoryScreenProps> = ({
               variant="arcade"
               color="error"
               endIcon={<ArrowRight />}
-              href={routes.play.path()}
+              href={playRoutes.library.path()}
             >
               All Games
             </Button>
@@ -97,7 +99,7 @@ export const CategoryScreen: FC<CategoryScreenProps> = ({
               variant="arcade"
               color="warning"
               startIcon={<ShuffleIcon size={20} />}
-              href={routes.play.random.path()}
+              href={playRoutes.random.path()}
             >
               Random Game
             </Button>

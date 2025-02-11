@@ -1,6 +1,8 @@
+'use client';
+
 import { KeyboardBackspace } from '@mui/icons-material';
 import { Box, Button, Container, Paper, Typography } from '@mui/material';
-import { routes } from '@worksheets/routes';
+import { helpRoutes } from '@worksheets/routes';
 import { Questions } from '@worksheets/ui/components/qa-section';
 import { GradientTypography } from '@worksheets/ui/components/typography';
 import { UnderConstruction } from '@worksheets/ui/pages/under-construction';
@@ -33,7 +35,7 @@ export const HelpScreen: FC<HelpScreenProps> = ({ title, description, qa }) => {
           color="warning"
           size="small"
           startIcon={<KeyboardBackspace />}
-          href={routes.help.path()}
+          href={helpRoutes.home.path()}
           sx={{
             width: 'fit-content',
             mb: { xs: 3, sm: 6 },

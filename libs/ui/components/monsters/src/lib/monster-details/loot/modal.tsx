@@ -1,7 +1,7 @@
 import { InfoOutlined } from '@mui/icons-material';
 import { Button } from '@mui/material';
 import { Trophy } from '@worksheets/icons/adventure';
-import { routes } from '@worksheets/routes';
+import { playRoutes } from '@worksheets/routes';
 import {
   ItemModalLayout,
   MobLootDescription,
@@ -30,7 +30,7 @@ export const ItemModal: React.FC<ModalWrapper<{ loot: MobLootSchema }>> = ({
           variant="arcade"
           size="small"
           startIcon={<InfoOutlined />}
-          href={routes.item.path({ params: { itemId: loot.item.id } })}
+          href={playRoutes.item.path({ params: { itemId: loot.item.id } })}
         >
           Details
         </Button>

@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import FormHelperText from '@mui/material/FormHelperText';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
-import { routes } from '@worksheets/routes';
+import { playRoutes } from '@worksheets/routes';
 import { PrefixTextField } from '@worksheets/ui/components/inputs';
 import { HelpDevelopersQuestions } from '@worksheets/util/enums';
 import { FC } from 'react';
@@ -40,7 +40,7 @@ export const ExternalWebsiteSection: FC = () => {
         devices. For more information on our embedded web page requirements see
         the{' '}
         <Link
-          href={routes.help.developers.path({
+          href={playRoutes.help.developers.path({
             bookmark: HelpDevelopersQuestions.EmbeddedWebPage,
           })}
           target="_blank"

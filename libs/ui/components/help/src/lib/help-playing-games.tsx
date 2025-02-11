@@ -1,5 +1,7 @@
+'use client';
+
 import { Box, Link, Typography } from '@mui/material';
-import { routes } from '@worksheets/routes';
+import { helpRoutes, playRoutes, portalRoutes } from '@worksheets/routes';
 import { ListItem, OrderedList } from '@worksheets/ui-core';
 import { HelpPlayingGamesQuestions } from '@worksheets/util/enums';
 import { QuestionAnswer } from '@worksheets/util/types';
@@ -11,29 +13,28 @@ export const helpPlayingGames: QuestionAnswer[] = [
     id: HelpPlayingGamesQuestions.WhatAre,
     question: 'What are games?',
     summary:
-      'Games are fun and interactive activities that you can play to win prizes and tokens.',
+      'Games are fun and interactive activities. You can play games to help raise money for charity.',
     answer: (
       <Box>
         <Typography>
-          Games are fun and interactive activities that you can play to win
-          prizes and tokens.
+          Games are fun and interactive activities that you can play to help
+          raise money for charity.
           <br />
           <br />
-          We have a variety of games for you to play. All our games have no
-          advertisements and are free to play. You can earn tokens by playing
-          games and use them to enter raffles and prize draws.
+          We have a variety of games for you to play. All our games have
+          optional advertisements and are free to play.
         </Typography>
         <br />
         <HelpfulLinks
           links={[
             {
               text: 'View all game categories',
-              href: routes.categories.path(),
+              href: playRoutes.categories.url(),
             },
-            { text: 'Play Games', href: routes.play.path() },
+            { text: 'Play Games', href: playRoutes.home.url() },
             {
               text: 'How to Play Games',
-              href: routes.help.playingGames.path({
+              href: helpRoutes.playingGames.url({
                 bookmark: HelpPlayingGamesQuestions.HowToPlay,
               }),
             },
@@ -51,15 +52,14 @@ export const helpPlayingGames: QuestionAnswer[] = [
       <Box>
         <Typography>
           We have a variety of games for you to play. All our games have no
-          advertisements and are free to play. You can earn tokens by playing
-          games and use them to enter raffles and prize draws.
+          advertisements and are free to play.
         </Typography>
         <br />
         <Typography variant="h6">Game Categories</Typography>
         <OrderedList>
           <ListItem>
             <Link
-              href={routes.category.path({
+              href={playRoutes.category.url({
                 params: {
                   tagId: 'popular',
                 },
@@ -70,7 +70,7 @@ export const helpPlayingGames: QuestionAnswer[] = [
           </ListItem>
           <ListItem>
             <Link
-              href={routes.category.path({
+              href={playRoutes.category.url({
                 params: {
                   tagId: 'arcade',
                 },
@@ -81,7 +81,7 @@ export const helpPlayingGames: QuestionAnswer[] = [
           </ListItem>
           <ListItem>
             <Link
-              href={routes.category.path({
+              href={playRoutes.category.url({
                 params: {
                   tagId: 'puzzle',
                 },
@@ -92,7 +92,7 @@ export const helpPlayingGames: QuestionAnswer[] = [
           </ListItem>
           <ListItem>
             <Link
-              href={routes.category.path({
+              href={playRoutes.category.url({
                 params: {
                   tagId: 'action',
                 },
@@ -103,7 +103,7 @@ export const helpPlayingGames: QuestionAnswer[] = [
           </ListItem>
           <ListItem>
             <Link
-              href={routes.category.path({
+              href={playRoutes.category.url({
                 params: {
                   tagId: 'word',
                 },
@@ -118,9 +118,9 @@ export const helpPlayingGames: QuestionAnswer[] = [
           links={[
             {
               text: 'View all game categories',
-              href: routes.categories.path(),
+              href: playRoutes.categories.url(),
             },
-            { text: 'Play Games', href: routes.play.path() },
+            { text: 'Play Games', href: playRoutes.home.url() },
           ]}
         />
       </Box>
@@ -149,17 +149,16 @@ export const helpPlayingGames: QuestionAnswer[] = [
       <Box>
         <Typography>
           You can play games by visiting the games page, selecting a game, and
-          clicking the play button. You can earn tokens by playing games and use
-          them to enter raffles and prize draws.
+          clicking the play button.
           <br />
           <br />
-          Create an account to earn tokens and save your progress.
+          Create an account to earn achievements and save your progress.
         </Typography>
         <br />
         <HelpfulLinks
           links={[
-            { text: 'Play Games', href: routes.play.path() },
-            { text: 'Connect to your account', href: routes.login.path() },
+            { text: 'Play Games', href: playRoutes.home.url() },
+            { text: 'Connect to your account', href: portalRoutes.login.url() },
           ]}
         />
       </Box>
@@ -182,7 +181,7 @@ export const helpPlayingGames: QuestionAnswer[] = [
         </Typography>
         <br />
         <HelpfulLinks
-          links={[{ text: 'Contact support', href: routes.contact.path() }]}
+          links={[{ text: 'Contact support', href: helpRoutes.contact.url() }]}
         />
       </Box>
     ),
@@ -211,8 +210,8 @@ export const helpPlayingGames: QuestionAnswer[] = [
         <br />
         <HelpfulLinks
           links={[
-            { text: 'Connect to your account', href: routes.login.path() },
-            { text: 'Contact support', href: routes.contact.path() },
+            { text: 'Connect to your account', href: portalRoutes.login.url() },
+            { text: 'Contact support', href: helpRoutes.contact.url() },
             {
               text: 'Enable Cross-Site Tracking',
               href: '"https://support.apple.com/en-is/guide/safari/sfri11471/16.0/mac/11.0#:~:text=In%20the%20Safari%20app%20on,Prevent%20cross%2Dsite%20tracking.%E2%80%9D"',
@@ -237,19 +236,18 @@ export const helpPlayingGames: QuestionAnswer[] = [
           We are constantly adding new games and improving existing ones to
           provide you with the best gaming experience. If you are a game
           developer interested in contributing games, please{' '}
-          <Link href={routes.contact.path()}>contact us</Link> or visit our{' '}
-          <Link href={routes.help.developers.path()}>contribution portal</Link>{' '}
-          to get started.
+          <Link href={helpRoutes.contact.url()}>contact us</Link> to get
+          started.
         </Typography>
         <br />
         <HelpfulLinks
           links={[
-            { text: 'Contact us', href: routes.contact.path() },
+            { text: 'Contact us', href: helpRoutes.contact.url() },
             {
               text: 'Contribution Portal',
-              href: routes.help.developers.path(),
+              href: helpRoutes.developers.url(),
             },
-            { text: 'View all games', href: routes.play.path() },
+            { text: 'View all games', href: playRoutes.library.url() },
           ]}
         />
       </Box>
@@ -261,13 +259,7 @@ export const helpPlayingGames: QuestionAnswer[] = [
     summary: 'You need an internet connection to play games.',
     answer: (
       <Typography>
-        You need an internet connection to play games. All of our games are
-        hosted on our servers and require an internet connection to play.
-        <br />
-        <br />
-        If you want to play games offline, please{' '}
-        <Link href={routes.contact.path()}>contact us</Link> and let us know. We
-        are considering adding this feature in the future.
+        We are currently working on an offline mode for our platform.
       </Typography>
     ),
   },

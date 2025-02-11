@@ -5,7 +5,7 @@ import FormHelperText from '@mui/material/FormHelperText';
 import Input from '@mui/material/Input';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
-import { emailRoutes, routes } from '@worksheets/routes';
+import { emailRoutes, playRoutes } from '@worksheets/routes';
 import { HelpDevelopersQuestions } from '@worksheets/util/enums';
 import {
   GameSubmissionFileKeys,
@@ -47,7 +47,7 @@ export const GameFiles: FC = () => {
           &#8212; Your ZIP file must include an index.html file. For more
           information on the zip file requirements, see the{' '}
           <Link
-            href={routes.help.developers.path({
+            href={playRoutes.help.developers.path({
               bookmark: HelpDevelopersQuestions.FileFormats,
             })}
             target="_blank"

@@ -1,6 +1,6 @@
 import { LoginOutlined, VpnKeyOutlined } from '@mui/icons-material';
 import { Button, Link, Typography } from '@mui/material';
-import { routes } from '@worksheets/routes';
+import { playRoutes } from '@worksheets/routes';
 import { Column } from '@worksheets/ui/components/flex';
 import React from 'react';
 
@@ -11,7 +11,7 @@ export const LoginToView: React.FC<{
 }> = ({ redirect, title, subtitle }) => (
   <Column gap={2}>
     <Typography color="text.arcade" typography="h6">
-      <Link href={routes.signUp.path()} color="text.arcade">
+      <Link href={playRoutes.signUp.path()} color="text.arcade">
         Create an account
       </Link>{' '}
       to {title}.
@@ -23,7 +23,7 @@ export const LoginToView: React.FC<{
       <Button
         variant="arcade"
         color="warning"
-        href={routes.login.path({
+        href={playRoutes.login.path({
           query: {
             redirect,
           },
@@ -43,7 +43,7 @@ export const LoginToView: React.FC<{
       <Button
         variant="arcade"
         color="secondary"
-        href={routes.signUp.path({
+        href={playRoutes.signUp.path({
           query: {
             redirect,
           },

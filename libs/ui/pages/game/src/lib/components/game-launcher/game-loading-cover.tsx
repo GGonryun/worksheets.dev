@@ -8,7 +8,7 @@ import {
   SvgIconComponent,
 } from '@mui/icons-material';
 import { alpha, Box, Button, Link, Typography } from '@mui/material';
-import { routes } from '@worksheets/routes';
+import { playRoutes, portalRoutes } from '@worksheets/routes';
 import { useDetectAdBlock } from '@worksheets/ui/components/advertisements';
 import { Column } from '@worksheets/ui/components/flex';
 import { FillImage } from '@worksheets/ui/components/images';
@@ -16,7 +16,7 @@ import { InfoModal, ModalWrapper } from '@worksheets/ui/components/modals';
 import { useMediaQuery } from '@worksheets/ui/hooks/use-media-query';
 import { Emoji } from '@worksheets/ui-core';
 import { GameSchema } from '@worksheets/util/types';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { SessionContextValue } from 'next-auth/react';
 import React, { FC } from 'react';
 
@@ -216,9 +216,9 @@ const CloudStorageNotice: React.FC<{
   const [show, setShow] = React.useState(false);
   const { push } = useRouter();
   const unauthenticated = status === 'unauthenticated';
-  const loginPath = routes.login.path({
+  const loginPath = portalRoutes.login.url({
     query: {
-      redirect: routes.game.path({
+      redirect: playRoutes.game.path({
         params: { gameId },
       }),
     },

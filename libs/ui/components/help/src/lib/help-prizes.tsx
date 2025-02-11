@@ -1,5 +1,12 @@
+'use client';
+
 import { Box, Link, Typography } from '@mui/material';
-import { routes } from '@worksheets/routes';
+import {
+  contestsRoutes,
+  helpRoutes,
+  playRoutes,
+  portalRoutes,
+} from '@worksheets/routes';
 import { ResponsiveImage } from '@worksheets/ui/components/images';
 import { Emoji } from '@worksheets/ui-core';
 import { HelpPrizesQuestions, InventoryPanels } from '@worksheets/util/enums';
@@ -12,28 +19,25 @@ export const helpPrizes: QuestionAnswer[] = [
     id: HelpPrizesQuestions.WhatAre,
     question: 'What are prizes?',
     summary:
-      'Prizes are rewards that you can win by playing games and entering raffles.',
+      'Prizes are rewards that you can win by participating in contests.',
     answer: (
       <Box>
         <Typography>
-          Prizes are rewards that you can win by playing games and entering
-          raffles. Prizes can include digital rewards or physical items.
+          Prizes are rewards that you can win by participating in contests
           <br />
           <br />
           All prizes are digital and can be claimed in{' '}
-          <Link href={routes.account.inventory.path()}>your account</Link>.
+          <Link href={portalRoutes.account.inventory.url()}>your account</Link>.
           <br />
           <br />
           If you are unable to claim a prize, please{' '}
-          <Link href={routes.contact.path()}>contact us</Link> for assistance.
-          You may receive an alternative prize or tokens equal to the prize
-          value.
+          <Link href={helpRoutes.contact.url()}>contact us</Link> for
+          assistance.
           <br />
           <br />
           <b>
             Participation in physical prize raffles will be locked to your
-            country of origin. If you are unable to receive a physical prize,
-            you will receive tokens or a cash reward equal to the prize value.
+            country of origin.
           </b>
         </Typography>
         <br />
@@ -41,10 +45,9 @@ export const helpPrizes: QuestionAnswer[] = [
           links={[
             {
               text: 'Access your inventory',
-              href: routes.account.inventory.path(),
+              href: portalRoutes.account.inventory.url(),
             },
-            { text: 'View Raffles', href: routes.raffles.path() },
-            { text: 'Learn about Tokens', href: routes.help.tokens.path() },
+            { text: 'View Raffles', href: contestsRoutes.raffles.url() },
           ]}
         />
       </Box>
@@ -58,18 +61,17 @@ export const helpPrizes: QuestionAnswer[] = [
     answer: (
       <Box>
         <Typography>
-          You can win prizes by playing games, entering raffles, and prize
-          draws. You must have enough tokens to enter raffles and prize draws.
+          You can win prizes by participating in contests
           <br />
           <br />
-          <Link href={routes.signUp.path()}>Create an account</Link> to start
-          earning tokens.
+          <Link href={portalRoutes.signUp.url()}>Create an account</Link> to
+          start
         </Typography>
         <br />
         <HelpfulLinks
           links={[
-            { text: 'Play Games', href: routes.play.path() },
-            { text: 'Enter Raffles', href: routes.raffles.path() },
+            { text: 'Play Games', href: playRoutes.home.url() },
+            { text: 'View Contests', href: contestsRoutes.home.url() },
           ]}
         />
       </Box>
@@ -83,18 +85,24 @@ export const helpPrizes: QuestionAnswer[] = [
       <Box>
         <Typography>
           Prizes that have active raffles can be found on the{' '}
-          <Link href={routes.raffles.path()}>raffles page</Link>.
+          <Link href={contestsRoutes.raffles.url()}>raffles page</Link>.
           <br />
           <br />
           If you have won a prize, you will receive a notification and an email
           to claim your prize. You can find all your prizes in your{' '}
-          <Link href={routes.account.inventory.path()}>inventory page</Link>.
+          <Link href={portalRoutes.account.inventory.url()}>
+            inventory page
+          </Link>
+          .
         </Typography>
         <br />
         <HelpfulLinks
           links={[
-            { text: 'Enter Raffles', href: routes.raffles.expired.path() },
-            { text: 'See my inventory', href: routes.account.inventory.path() },
+            { text: 'Enter Raffles', href: contestsRoutes.raffles.url() },
+            {
+              text: 'See my inventory',
+              href: portalRoutes.account.inventory.url(),
+            },
           ]}
         />
       </Box>
@@ -109,7 +117,7 @@ export const helpPrizes: QuestionAnswer[] = [
         <Typography>
           You can claim prizes by visiting the{' '}
           <Link
-            href={routes.account.inventory.path({
+            href={portalRoutes.account.inventory.url({
               bookmark: InventoryPanels.Items,
             })}
           >
@@ -117,7 +125,10 @@ export const helpPrizes: QuestionAnswer[] = [
           </Link>
           . If you have won a prize, you will receive a notification to claim
           your prize. You can find all your prizes in your{' '}
-          <Link href={routes.account.inventory.path()}>inventory page</Link>.
+          <Link href={portalRoutes.account.inventory.url()}>
+            inventory page
+          </Link>
+          .
           <br />
           <br />
           We will attempt to deliver your prize to you within 24 hours. If you
@@ -126,71 +137,20 @@ export const helpPrizes: QuestionAnswer[] = [
           <br />
           <br />
           If you are unable to claim a prize, please{' '}
-          <Link href={routes.contact.path()}>contact us</Link> for assistance.
-          You may receive an alternative prize or tokens equal to the prize
-          value.
+          <Link href={helpRoutes.contact.url()}>contact us</Link> for
+          assistance.
         </Typography>
         <br />
         <HelpfulLinks
           links={[
-            { text: 'Learn about Tokens', href: routes.help.tokens.path() },
-            { text: 'See my inventory', href: routes.account.inventory.path() },
+            {
+              text: 'See my inventory',
+              href: portalRoutes.account.inventory.url(),
+            },
             {
               text: 'Contact Us',
-              href: routes.contact.path(),
+              href: helpRoutes.contact.url(),
             },
-          ]}
-        />
-      </Box>
-    ),
-  },
-  {
-    id: HelpPrizesQuestions.HowToEarn,
-    question: 'How do I earn tokens?',
-    summary:
-      'You can earn tokens by playing games, entering raffles, and prize draws.',
-    answer: (
-      <Box>
-        <Typography>
-          You can earn tokens by playing games, entering raffles, and sharing
-          gifts with friends. You can also earn tokens by referring friends to
-          the platform.
-          <br />
-          <br />
-          <Link href={routes.account.quests.path()}>Create an account</Link> to
-          start earning tokens.
-        </Typography>
-        <br />
-        <HelpfulLinks
-          links={[
-            { text: 'Learn about Tokens', href: routes.help.tokens.path() },
-          ]}
-        />
-      </Box>
-    ),
-  },
-  {
-    id: HelpPrizesQuestions.HowToSpend,
-    question: 'How do I spend tokens?',
-    summary: 'You can spend tokens by entering raffles and prize draws.',
-    answer: (
-      <Box>
-        <Typography>
-          You can spend tokens by entering raffles and prize draws. You must
-          have enough tokens to enter raffles and prize draws. Entering a raffle
-          requires purchasing a ticket with tokens. The price of a ticket is
-          displayed on the raffle page and differs for each prize and raffle.
-          <br />
-          <br />
-          <Link href={routes.raffles.path()}>Enter a raffle</Link> to spend your
-          tokens.
-        </Typography>
-        <br />
-        <HelpfulLinks
-          links={[
-            { text: 'Learn about Tokens', href: routes.help.tokens.path() },
-            { text: 'My Tokens', href: routes.account.quests.path() },
-            { text: 'Enter Raffles', href: routes.raffles.path() },
           ]}
         />
       </Box>
@@ -199,7 +159,8 @@ export const helpPrizes: QuestionAnswer[] = [
   {
     id: HelpPrizesQuestions.TradeCode,
     question: 'Can I trade my code?',
-    summary: 'In most cases, codes are non-transferable, but we may allow it.',
+    summary:
+      'In most cases, codes are non-transferable, but we may allow it in rare circumstances.',
     answer: (
       <Box>
         <b>
@@ -210,7 +171,7 @@ export const helpPrizes: QuestionAnswer[] = [
         <br />
         In most cases, codes are non-transferable, but we may allow it. If you
         would like to trade your code, please{' '}
-        <Link href={routes.contact.path()}>contact us</Link> for assistance.
+        <Link href={helpRoutes.contact.url()}>contact us</Link> for assistance.
         <br />
         <br />
         We will review your request and determine if we can allow the trade. If
@@ -233,13 +194,13 @@ export const helpPrizes: QuestionAnswer[] = [
           links={[
             {
               text: 'My Activation Codes',
-              href: routes.account.inventory.path({
+              href: portalRoutes.account.inventory.url({
                 bookmark: InventoryPanels.ActivationCodes,
               }),
             },
             {
               text: 'Contact Us',
-              href: routes.contact.path(),
+              href: helpRoutes.contact.url(),
             },
           ]}
         />
@@ -297,7 +258,7 @@ export const helpPrizes: QuestionAnswer[] = [
           </Box>
         </ol>
         If you encounter any issues redeeming your Steam key, please{' '}
-        <Link href={routes.contact.path()}>contact us</Link> for assistance.
+        <Link href={helpRoutes.contact.url()}>contact us</Link> for assistance.
         <br />
         <br />
         <HelpfulLinks
@@ -308,13 +269,13 @@ export const helpPrizes: QuestionAnswer[] = [
             },
             {
               text: 'My Activation Codes',
-              href: routes.account.inventory.path({
+              href: portalRoutes.account.inventory.url({
                 bookmark: InventoryPanels.ActivationCodes,
               }),
             },
             {
               text: 'Contact Us',
-              href: routes.contact.path(),
+              href: helpRoutes.contact.url(),
             },
           ]}
         />

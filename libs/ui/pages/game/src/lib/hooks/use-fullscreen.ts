@@ -1,5 +1,5 @@
-import { useEventListener } from '@worksheets/ui-core';
-import { RefObject, useRef, useState } from 'react';
+import { useEventListener, useIsClient } from '@worksheets/ui-core';
+import { RefObject, useEffect, useRef, useState } from 'react';
 
 // game banner and game menu are allowed to be touched when in pseudo-fullscreen.
 // this is a work around for ios safari, where the touch events get registered
@@ -65,7 +65,7 @@ export const useNativeFullscreen = (
 };
 
 const usePseudoFullscreen = (
-  docRef: RefObject<Document>,
+  docRef: RefObject<Document | undefined>,
   boxRef: RefObject<HTMLDivElement>
 ) => {
   const [fullscreen, setFullscreen] = useState(false);
@@ -135,7 +135,14 @@ const usePseudoFullscreen = (
 };
 
 export const useFullscreen = (boxRef: RefObject<HTMLDivElement>) => {
-  const documentRef = useRef<Document>(document);
+  const isClient = useIsClient();
+  const documentRef = useRef<Document>();
+
+  useEffect(() => {
+    if (isClient) {
+      documentRef.current = document;
+    }
+  }, [isClient]);
 
   const pseudo = usePseudoFullscreen(documentRef, boxRef);
 

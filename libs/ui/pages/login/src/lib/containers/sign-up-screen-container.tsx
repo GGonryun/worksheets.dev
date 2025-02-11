@@ -1,12 +1,14 @@
+'use client';
+
 import { useSkipPortal } from '@worksheets/ui/hooks/use-skip-portal';
-import { useRouter } from 'next/router';
+import { useParams } from 'next/navigation';
 import { signIn, SignInOptions } from 'next-auth/react';
 
 import { SignUpScreen } from '../sign-up-screen';
 import { createCallbackUrl } from '../util/create-callback-url';
 
-const SignUpScreenContainer = () => {
-  const { query } = useRouter();
+export const SignUpScreenContainer = () => {
+  const query = useParams();
 
   const [skipPortal] = useSkipPortal();
 
@@ -21,5 +23,3 @@ const SignUpScreenContainer = () => {
     />
   );
 };
-
-export default SignUpScreenContainer;

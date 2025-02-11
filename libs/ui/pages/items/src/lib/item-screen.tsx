@@ -1,6 +1,6 @@
 import { ArrowLeft } from '@mui/icons-material';
 import { Button, Container, Paper, Typography } from '@mui/material';
-import { routes } from '@worksheets/routes';
+import { playRoutes } from '@worksheets/routes';
 import { trpc } from '@worksheets/trpc-charity';
 import { Description } from '@worksheets/ui/components/description';
 import { ErrorComponent } from '@worksheets/ui/components/errors';
@@ -30,7 +30,7 @@ const Screen: React.FC<{ item: ItemSchema }> = (props) => {
         variant="arcade"
         color="error"
         size="small"
-        href={routes.items.path()}
+        href={playRoutes.items.path()}
         startIcon={<ArrowLeft />}
         sx={{ mb: 3 }}
       >

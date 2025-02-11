@@ -1,31 +1,30 @@
-import { inferAsyncReturnType } from '@trpc/server';
 import { CreateNextContextOptions } from '@trpc/server/adapters/next';
 import { prisma } from '@worksheets/prisma';
 import { createClient } from '@worksheets/services/kv';
-import {
-  GetServerSidePropsContext,
-  GetStaticPropsContext,
-  PreviewData,
-} from 'next';
+import { GetServerSidePropsContext, PreviewData } from 'next';
+import { getServerSession, Session } from 'next-auth';
 import { getToken } from 'next-auth/jwt';
 import { ParsedUrlQuery } from 'querystring';
-import { v4 as uuid } from 'uuid';
 
-export async function createContext(ctx: CreateNextContextOptions) {
-  const { req, res } = ctx;
+interface CreateInnerContextOptions extends Partial<CreateNextContextOptions> {
+  session: Session | null | undefined;
+}
 
-  const requestId = uuid();
-  res.setHeader('x-request-id', requestId);
-
-  const session = await getToken(ctx);
-
+export async function createInnerContext(options?: CreateInnerContextOptions) {
   return {
-    type: 'api',
-    req: req,
-    res: res,
     db: prisma,
     kv: createClient(),
-    session,
+    session: options?.session,
+  };
+}
+
+export async function createContext() {
+  const session = await getServerSession();
+  const inner = await createInnerContext({ session });
+
+  return {
+    ...inner,
+    type: 'api',
   };
 }
 
@@ -45,10 +44,7 @@ export async function createServerSideContext(
   };
 }
 
-export async function createStaticContext(
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  _: GetStaticPropsContext<ParsedUrlQuery, PreviewData>
-) {
+export async function createStaticContext() {
   return {
     type: 'static',
     req: null,
@@ -59,8 +55,12 @@ export async function createStaticContext(
   };
 }
 
-export type Context = inferAsyncReturnType<
-  | typeof createContext
-  | typeof createServerSideContext
-  | typeof createStaticContext
+export type Context = Awaited<
+  ReturnType<
+    | typeof createContext
+    | typeof createServerSideContext
+    | typeof createStaticContext
+  >
 >;
+
+export type InnerContext = Awaited<ReturnType<typeof createInnerContext>>;

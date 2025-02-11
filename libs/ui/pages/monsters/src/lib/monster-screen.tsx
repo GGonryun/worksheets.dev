@@ -4,7 +4,7 @@ import {
   InfoOutlined,
 } from '@mui/icons-material';
 import { Button, Container, Link, Paper, Typography } from '@mui/material';
-import { routes } from '@worksheets/routes';
+import { playRoutes } from '@worksheets/routes';
 import { trpc } from '@worksheets/trpc-charity';
 import { Description } from '@worksheets/ui/components/description';
 import { ErrorComponent } from '@worksheets/ui/components/errors';
@@ -36,7 +36,7 @@ const Screen: React.FC<{ monster: MonsterSchema }> = (props) => {
         variant="arcade"
         color="error"
         size="small"
-        href={routes.monsters.path()}
+        href={playRoutes.monsters.path()}
         startIcon={<ArrowLeft />}
         sx={{ mb: 3 }}
       >
@@ -58,7 +58,7 @@ const Screen: React.FC<{ monster: MonsterSchema }> = (props) => {
                 <Button
                   size="small"
                   variant="square"
-                  href={routes.help.mobs.path()}
+                  href={playRoutes.help.mobs.path()}
                 >
                   <HelpCenterOutlined />
                 </Button>
@@ -106,7 +106,7 @@ const BattlesContent: React.FC<{ monster: MonsterSchema }> = (props) => {
         <InfoOutlined color="info" fontSize="small" />
         <Typography
           component={Link}
-          href={routes.help.mobs.path()}
+          href={playRoutes.help.mobs.path()}
           variant="body2"
           color="info"
         >
@@ -140,7 +140,7 @@ export const BattleTable: React.FC<{
                 <Typography
                   fontWeight={500}
                   component={Link}
-                  href={routes.battle.path({
+                  href={playRoutes.battle.path({
                     params: { battleId: battle.id },
                   })}
                 >

@@ -1,6 +1,6 @@
-import { CardGiftcardOutlined, PlayCircleOutline } from '@mui/icons-material';
+import { PlayCircleOutline } from '@mui/icons-material';
 import { Box, Button, Typography } from '@mui/material';
-import { routes } from '@worksheets/routes';
+import { playRoutes } from '@worksheets/routes';
 import { Row } from '@worksheets/ui/components/flex';
 
 import { CustomPaper } from '../shared/custom-paper';
@@ -58,18 +58,9 @@ export const TitleText = () => {
             variant="arcade"
             color="success"
             startIcon={<PlayCircleOutline />}
-            href={routes.help.prizes.path()}
+            href={playRoutes.help.prizes.path()}
           >
             How It Works
-          </Button>
-          <Button
-            size="large"
-            variant="arcade"
-            color="secondary"
-            startIcon={<CardGiftcardOutlined />}
-            href={routes.prizes.path()}
-          >
-            Prize Wall
           </Button>
         </Row>
       </Box>

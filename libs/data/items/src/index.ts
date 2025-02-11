@@ -2013,16 +2013,6 @@ export const DROP_LOTTERY: Record<DroppableItemId, number> = {
   10119: 1,
 };
 
-export const PRIZE_SPINNER_WEIGHTS: Record<ItemRarity, number> = {
-  COMMON: 6,
-  UNCOMMON: 4,
-  RARE: 2,
-  LEGENDARY: 1,
-  MYTHIC: 1,
-  // prize spinner cannot contain premium items
-  PREMIUM: 0,
-};
-
 export const SHARE_RATES: Record<
   SharableItemId,
   { user: number; friend: number }
@@ -2264,72 +2254,6 @@ export const LOTTERY_ITEMS = Object.fromEntries(
   ])
 ) as Record<LotteryItemId, LotteryItems>;
 
-// TODO: add support for capsules that drop more than 1 premium item.
-export const CAPSULE_PREMIUM_DROP_RATE: Record<CapsuleItemId, number> = {
-  100: 0.05,
-  101: 0.1,
-  102: 0.25,
-  103: 0.5,
-  104: 1,
-  105: 1,
-  106: 1,
-};
-
-export const CAPSULE_DROP_RATES: Record<
-  CapsuleItemId,
-  Record<Exclude<ItemRarity, 'PREMIUM'>, number>
-> = {
-  100: {
-    COMMON: 0.75,
-    UNCOMMON: 0.2,
-    RARE: 0.05,
-    LEGENDARY: 0,
-    MYTHIC: 0,
-  },
-  101: {
-    COMMON: 0.6,
-    UNCOMMON: 0.3,
-    RARE: 0.1,
-    LEGENDARY: 0,
-    MYTHIC: 0,
-  },
-  102: {
-    COMMON: 0.45,
-    UNCOMMON: 0.35,
-    RARE: 0.15,
-    LEGENDARY: 0.05,
-    MYTHIC: 0,
-  },
-  103: {
-    COMMON: 0.3,
-    UNCOMMON: 0.45,
-    RARE: 0.2,
-    LEGENDARY: 0.05,
-    MYTHIC: 0,
-  },
-  104: {
-    COMMON: 0.15,
-    UNCOMMON: 0.3,
-    RARE: 0.45,
-    LEGENDARY: 0.1,
-    MYTHIC: 0,
-  },
-  105: {
-    COMMON: 0,
-    UNCOMMON: 0.15,
-    RARE: 0.6,
-    LEGENDARY: 0.15,
-    MYTHIC: 0.1,
-  },
-  106: {
-    COMMON: 0,
-    UNCOMMON: 0,
-    RARE: 0.6,
-    LEGENDARY: 0.25,
-    MYTHIC: 0.15,
-  },
-};
-
 export type CommonItem = Extract<Item, { rarity: 'COMMON' }>;
 export type UncommonItem = Extract<Item, { rarity: 'UNCOMMON' }>;
 export type RareItem = Extract<Item, { rarity: 'RARE' }>;
@@ -2355,12 +2279,3 @@ export const MYTHIC_ITEMS = ITEMS.filter(
 export const PREMIUM_ITEMS = ITEMS.filter(
   (item): item is PremiumItem => item.rarity === 'PREMIUM'
 );
-
-export const RARITY_BAGS: Record<ItemRarity, Item[]> = {
-  [ItemRarity.COMMON]: COMMON_ITEMS,
-  [ItemRarity.UNCOMMON]: UNCOMMON_ITEMS,
-  [ItemRarity.RARE]: RARE_ITEMS,
-  [ItemRarity.LEGENDARY]: LEGENDARY_ITEMS,
-  [ItemRarity.MYTHIC]: MYTHIC_ITEMS,
-  [ItemRarity.PREMIUM]: PREMIUM_ITEMS,
-};

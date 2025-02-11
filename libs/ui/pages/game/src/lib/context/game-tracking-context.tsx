@@ -18,14 +18,16 @@ export const GameTrackingProvider: React.FC<{
       return forcedFlag ? setWindowIsActive(true) : setWindowIsActive(false);
     }
 
-    return document.hidden ? setWindowIsActive(false) : setWindowIsActive(true);
+    return document?.hidden
+      ? setWindowIsActive(false)
+      : setWindowIsActive(true);
   }
 
   useEffect(() => {
-    document.addEventListener('visibilitychange', handleActivity);
+    document?.addEventListener('visibilitychange', handleActivity);
 
     return () => {
-      document.removeEventListener('visibilitychange', handleActivity);
+      document?.removeEventListener('visibilitychange', handleActivity);
     };
   }, []);
 

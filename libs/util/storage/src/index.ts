@@ -6,6 +6,8 @@ export const destroyAllData = () => {
     sessionStorage.clear();
   }
   // Clear all cookies
+  if (!document || !document.cookie) return;
+
   const cookies = document.cookie.split(';');
   for (let i = 0; i < cookies.length; i++) {
     const cookie = cookies[i];

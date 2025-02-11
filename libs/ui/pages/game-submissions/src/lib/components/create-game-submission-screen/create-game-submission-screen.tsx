@@ -1,4 +1,4 @@
-import { routes } from '@worksheets/routes';
+import { playRoutes } from '@worksheets/routes';
 import { ErrorScreen } from '@worksheets/ui/pages/errors';
 import { LoadingScreen } from '@worksheets/ui/pages/loading';
 import { waitFor } from '@worksheets/util/time';
@@ -17,7 +17,7 @@ export const CreateGameSubmissionScreen: React.FC<{
       createSubmission()
         .then(({ id }) => {
           router.replace(
-            routes.account.submissions.edit.path({
+            playRoutes.account.submissions.edit.path({
               params: { submissionId: id },
             })
           );

@@ -3,7 +3,6 @@ import {
   alpha,
   Box,
   Button,
-  Link,
   styled,
   Table,
   TableBody,
@@ -14,14 +13,9 @@ import {
   Typography,
 } from '@mui/material';
 import { ValentinesWings } from '@worksheets/icons/valentines';
-import { routes } from '@worksheets/routes';
+import { helpRoutes } from '@worksheets/routes';
 import { Row } from '@worksheets/ui/components/flex';
-import {
-  LEADERBOARD_REWARD_PAYOUT,
-  LeaderboardFrequency,
-  LeaderboardPlayerSchema,
-} from '@worksheets/util/types';
-import pluralize from 'pluralize';
+import { LeaderboardPlayerSchema } from '@worksheets/util/types';
 
 const StyledBox = styled(Box)(({ theme }) => ({
   borderRadius: theme.shape.borderRadius * 2,
@@ -38,11 +32,10 @@ const StyledBox = styled(Box)(({ theme }) => ({
 }));
 
 export const LeaderboardTable: React.FC<{
-  frequency: LeaderboardFrequency;
   players: LeaderboardPlayerSchema[];
   participation: LeaderboardPlayerSchema | null;
-}> = ({ frequency, players, participation }) => {
-  const rankThreshold = LEADERBOARD_REWARD_PAYOUT[frequency].length;
+}> = ({ players, participation }) => {
+  const rankThreshold = 4;
   if (players.length === 0) {
     return <Placeholder />;
   }
@@ -98,19 +91,13 @@ export const LeaderboardTable: React.FC<{
                       }}
                     />
                   )}
-                  <Link
-                    href={routes.user.path({
-                      params: {
-                        userId: player.user.id,
-                      },
-                    })}
+                  <Typography
                     fontWeight={
                       player.user.id === participation?.user.id ? 700 : 500
                     }
                   >
                     {player.user.username}
-                  </Link>
-                  <PlayerPayout frequency={frequency} rank={player.rank} />
+                  </Typography>
                 </Row>
               </TableCell>
 
@@ -130,19 +117,6 @@ export const LeaderboardTable: React.FC<{
         </TableBody>
       </Table>
     </TableContainer>
-  );
-};
-
-const PlayerPayout: React.FC<{
-  frequency: LeaderboardFrequency;
-  rank: number;
-}> = ({ frequency, rank }) => {
-  const payout = LEADERBOARD_REWARD_PAYOUT[frequency][rank - 1];
-  if (!payout) return null;
-  return (
-    <Typography typography="body3" fontWeight={700}>
-      +{payout} {pluralize('tokens', payout)}
-    </Typography>
   );
 };
 
@@ -175,7 +149,7 @@ const Placeholder = () => (
     </Typography>
     <Button
       variant="arcade"
-      href={routes.help.playingGames.path()}
+      href={helpRoutes.playingGames.url()}
       target="_blank"
       startIcon={<OpenInNew />}
       color="error"

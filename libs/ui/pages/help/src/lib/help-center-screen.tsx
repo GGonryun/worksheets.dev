@@ -1,3 +1,5 @@
+'use client';
+
 import { Box, Container, Paper, useMediaQuery, useTheme } from '@mui/material';
 import React from 'react';
 

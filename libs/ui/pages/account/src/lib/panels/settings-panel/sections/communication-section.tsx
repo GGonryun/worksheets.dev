@@ -1,7 +1,7 @@
 import { EmailOutlined } from '@mui/icons-material';
 import { Box, Typography } from '@mui/material';
 import { ValentinesPhones } from '@worksheets/icons/valentines';
-import { routes } from '@worksheets/routes';
+import { helpRoutes } from '@worksheets/routes';
 import { PanelFooter } from '@worksheets/ui/components/panels';
 import { SettingsPanels } from '@worksheets/util/enums';
 import React from 'react';
@@ -34,7 +34,7 @@ export const CommunicationSection: React.FC<{
       <PanelFooter
         learn={{
           text: 'Account & Profile',
-          href: routes.help.accounts.path(),
+          href: helpRoutes.accounts.url(),
         }}
       />
     </Box>

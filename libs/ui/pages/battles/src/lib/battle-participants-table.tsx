@@ -2,7 +2,7 @@ import { OpenInNew } from '@mui/icons-material';
 import { Star } from '@mui/icons-material';
 import { alpha, Box, Button, Link, Typography } from '@mui/material';
 import { Sword } from '@worksheets/icons/dazzle';
-import { routes } from '@worksheets/routes';
+import { playRoutes } from '@worksheets/routes';
 import { Table, TableCell, TableRow } from '@worksheets/ui/components/tables';
 import { toPercentage } from '@worksheets/util/numbers';
 import { BattleParticipationSchema } from '@worksheets/util/types';
@@ -76,7 +76,7 @@ export const BattleParticipantsTable: React.FC<{
               </TableCell>
               <TableCell scope="row">
                 <Link
-                  href={routes.user.path({
+                  href={playRoutes.user.path({
                     params: {
                       userId: participant.user.id,
                     },
@@ -141,7 +141,7 @@ const Placeholder = () => (
     </Typography>
     <Button
       variant="arcade"
-      href={routes.help.mobs.path()}
+      href={playRoutes.help.mobs.path()}
       target="_blank"
       startIcon={<OpenInNew />}
       color="error"

@@ -1,0 +1,9 @@
+{
+  "name": "api",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/api",
+  "projectType": "application",
+  "tags": [],
+  "// targets": "to see all targets run: nx show project api --web",
+  "targets": {}
+}

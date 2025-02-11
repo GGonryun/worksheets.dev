@@ -1,6 +1,6 @@
 import { Button, Link, Typography } from '@mui/material';
 import { ActivationCodeType } from '@prisma/client';
-import { routes } from '@worksheets/routes';
+import { playRoutes } from '@worksheets/routes';
 import { trpc } from '@worksheets/trpc-charity';
 import {
   ActivationCodeImage,
@@ -98,7 +98,7 @@ const ActivationCode: React.FC<{
         Close
       </Button>
       <Button
-        href={routes.help.prizes.path({
+        href={playRoutes.help.prizes.path({
           bookmark:
             code.type === ActivationCodeType.STEAM
               ? HelpPrizesQuestions.SteamKeys
@@ -135,7 +135,7 @@ const ViewCode: React.FC<{
         <Typography textAlign="center" variant="body2">
           Once you access the code, it will{' '}
           <Link
-            href={routes.help.prizes.path({
+            href={playRoutes.help.prizes.path({
               bookmark: HelpPrizesQuestions.TradeCode,
             })}
             fontWeight={700}
@@ -158,14 +158,14 @@ const ViewCode: React.FC<{
       </Button>
       <Row justifyContent="space-evenly" gap={1} flexWrap="wrap" width="100%">
         <Button
-          href={routes.help.prizes.path({
+          href={playRoutes.help.prizes.path({
             bookmark: HelpPrizesQuestions.HowToClaim,
           })}
         >
           Help Center
         </Button>
         <Button
-          href={routes.help.prizes.path({
+          href={playRoutes.help.prizes.path({
             bookmark: HelpPrizesQuestions.TradeCode,
           })}
         >

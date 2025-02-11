@@ -3,7 +3,12 @@ import Box, { BoxProps } from '@mui/material/Box';
 import Link, { LinkProps } from '@mui/material/Link';
 import { styled } from '@mui/material/styles';
 import Typography, { TypographyProps } from '@mui/material/Typography';
-import { blogRoutes, externalRoutes, routes } from '@worksheets/routes';
+import {
+  blogRoutes,
+  externalRoutes,
+  helpRoutes,
+  playRoutes,
+} from '@worksheets/routes';
 import { copyright } from '@worksheets/util/settings';
 import Image from 'next/image';
 import { JSXElementConstructor } from 'react';
@@ -68,7 +73,7 @@ export const WebsiteFooter: React.FC<{
         justifyContent="center"
         my={-2}
       >
-        <LogoBox rootHref={links?.root ?? routes.home.url()} />
+        <LogoBox rootHref={links?.root ?? playRoutes.home.url()} />
         <CopyrightText>{copyright}</CopyrightText>
       </Box>
       <Box
@@ -86,19 +91,19 @@ export const WebsiteFooter: React.FC<{
         <FooterLinkTypography href={links?.blog ?? blogRoutes.home.url()}>
           Blog
         </FooterLinkTypography>
-        <FooterLinkTypography href={links?.about ?? routes.about.url()}>
+        <FooterLinkTypography href={links?.about ?? helpRoutes.about.url()}>
           About
         </FooterLinkTypography>
-        <FooterLinkTypography href={links?.help ?? routes.help.url()}>
+        <FooterLinkTypography href={links?.help ?? helpRoutes.home.url()}>
           Help
         </FooterLinkTypography>
-        <FooterLinkTypography href={links?.cookies ?? routes.cookies.url()}>
+        <FooterLinkTypography href={links?.cookies ?? helpRoutes.cookies.url()}>
           Cookies
         </FooterLinkTypography>
-        <FooterLinkTypography href={links?.privacy ?? routes.privacy.url()}>
+        <FooterLinkTypography href={links?.privacy ?? helpRoutes.privacy.url()}>
           Privacy
         </FooterLinkTypography>
-        <FooterLinkTypography href={links?.terms ?? routes.terms.url()}>
+        <FooterLinkTypography href={links?.terms ?? helpRoutes.terms.url()}>
           Terms
         </FooterLinkTypography>
       </Box>

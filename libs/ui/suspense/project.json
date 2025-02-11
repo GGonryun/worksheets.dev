@@ -1,0 +1,9 @@
+{
+  "name": "ui-suspense",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/ui/suspense/src",
+  "projectType": "library",
+  "tags": [],
+  "// targets": "to see all targets run: nx show project ui-suspense --web",
+  "targets": {}
+}

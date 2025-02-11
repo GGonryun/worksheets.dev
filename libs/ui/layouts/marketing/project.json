@@ -1,0 +1,9 @@
+{
+  "name": "ui-layouts-marketing",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/ui/layouts/marketing/src",
+  "projectType": "library",
+  "tags": [],
+  "// targets": "to see all targets run: nx show project ui-layouts-marketing --web",
+  "targets": {}
+}

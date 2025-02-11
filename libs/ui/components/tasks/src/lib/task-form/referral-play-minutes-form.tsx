@@ -1,13 +1,13 @@
 import { OpenInNew } from '@mui/icons-material';
 import { Button, Link, Typography } from '@mui/material';
-import { routes } from '@worksheets/routes';
+import { portalRoutes } from '@worksheets/routes';
 import { Column } from '@worksheets/ui/components/flex';
 import { BulletPoints } from '@worksheets/ui/components/lists';
 import { ReferralsPanels } from '@worksheets/util/enums';
 import { TaskFormProps } from '@worksheets/util/tasks';
 import pluralize from 'pluralize';
 
-const SHARE_YOUR_LINK = routes.account.referrals.path({
+const SHARE_YOUR_LINK = portalRoutes.account.referrals.path({
   bookmark: ReferralsPanels.ShareYourLink,
 });
 export const ReferralPlayMinutesForm: React.FC<TaskFormProps> = ({ task }) => {
@@ -24,10 +24,6 @@ export const ReferralPlayMinutesForm: React.FC<TaskFormProps> = ({ task }) => {
           </>,
           `Anyone who signs up with your link and plays a game will contribute towards this task.`,
           `Players must remain active on the page for at least 1 minute to contribute towards this task.`,
-          <>
-            <Link href={routes.vip.path()}>VIP members</Link> earn 2x the
-            tokens!
-          </>,
         ]}
       />
       <Typography textAlign="center" fontWeight={700} variant="body2">

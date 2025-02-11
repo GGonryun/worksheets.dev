@@ -1,3 +1,5 @@
+'use client';
+
 import {
   EmailOutlined,
   Favorite,
@@ -13,7 +15,12 @@ import {
   TypographyProps,
 } from '@mui/material';
 import { Discord } from '@worksheets/icons/companies';
-import { emailRoutes, externalRoutes, routes } from '@worksheets/routes';
+import {
+  emailRoutes,
+  externalRoutes,
+  helpRoutes,
+  portalRoutes,
+} from '@worksheets/routes';
 import React, { FC } from 'react';
 
 const Title: React.FC<TypographyProps> = (props) => (
@@ -70,7 +77,7 @@ export const ContactScreen: React.FC = () => (
           <Button
             variant="square"
             size="small"
-            href={routes.help.path()}
+            href={helpRoutes.home.url()}
             color="warning"
           >
             <HelpCenter />
@@ -78,7 +85,7 @@ export const ContactScreen: React.FC = () => (
           <Button
             variant="square"
             size="small"
-            href={routes.about.path()}
+            href={helpRoutes.about.url()}
             color="secondary"
           >
             <Favorite />
@@ -153,7 +160,7 @@ const SignUpSection: FC = () => (
       <Button
         variant="arcade"
         color="secondary"
-        href={routes.login.path()}
+        href={portalRoutes.login.url()}
         startIcon={<Login />}
       >
         Sign Up

@@ -8,7 +8,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { routes } from '@worksheets/routes';
+import { helpRoutes, portalRoutes } from '@worksheets/routes';
 import { trpc } from '@worksheets/trpc-charity';
 import { Column } from '@worksheets/ui/components/flex';
 import { FillImage } from '@worksheets/ui/components/images';
@@ -111,7 +111,7 @@ const RedemptionCodesSection: React.FC = () => {
         <PanelFooter
           learn={{
             text: 'Prizes',
-            href: routes.help.prizes.path(),
+            href: helpRoutes.prizes.url(),
           }}
         />
       </Column>
@@ -141,16 +141,7 @@ const RewardModal: React.FC<ModalWrapper<{ reward: RedemptionCodeSchema }>> = ({
         <Typography variant="body1">
           You have successfully redeemed the following reward:
         </Typography>
-        <Typography
-          variant="h6"
-          component={Link}
-          href={routes.item.path({
-            params: {
-              itemId: reward.item.id,
-            },
-          })}
-          target="_blank"
-        >
+        <Typography variant="h6" component={Link} target="_blank">
           <strong>
             {reward.quantity}x {pluralize(reward.item.name, reward.quantity)}
           </strong>
@@ -163,7 +154,7 @@ const RewardModal: React.FC<ModalWrapper<{ reward: RedemptionCodeSchema }>> = ({
           fullWidth
           variant="arcade"
           color="primary"
-          href={routes.account.inventory.path({
+          href={portalRoutes.account.inventory.url({
             bookmark: InventoryPanels.Items,
           })}
           onClick={handleClick}

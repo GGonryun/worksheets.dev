@@ -1,6 +1,6 @@
 import { ArrowForward } from '@mui/icons-material';
 import { Box, Button, Typography } from '@mui/material';
-import { routes } from '@worksheets/routes';
+import { playRoutes } from '@worksheets/routes';
 import { FC } from 'react';
 
 export const JoinNewsletterBox: FC = () => (
@@ -13,7 +13,7 @@ export const JoinNewsletterBox: FC = () => (
     </Typography>
     <Box mt={2} alignSelf="flex-end">
       <Button
-        href={routes.newsletter.subscribe.url()}
+        href={playRoutes.newsletter.subscribe.url()}
         variant="arcade"
         color="error"
         endIcon={<ArrowForward sx={{ ml: -0.5 }} />}

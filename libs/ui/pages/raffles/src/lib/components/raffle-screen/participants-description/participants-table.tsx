@@ -6,7 +6,7 @@ import {
 } from '@mui/icons-material';
 import { alpha, Box, Button, Link, Typography } from '@mui/material';
 import { ValentinesGift } from '@worksheets/icons/valentines';
-import { routes } from '@worksheets/routes';
+import { playRoutes } from '@worksheets/routes';
 import { Table, TableCell, TableRow } from '@worksheets/ui/components/tables';
 import { useMediaQueryDown } from '@worksheets/ui/hooks/use-media-query';
 import { toPercentage } from '@worksheets/util/numbers';
@@ -105,7 +105,7 @@ export const ParticipantsTable: React.FC<{
               )}
               <TableCell scope="row">
                 <Link
-                  href={routes.user.path({
+                  href={playRoutes.user.path({
                     params: {
                       userId: participant.user.id,
                     },
@@ -175,7 +175,7 @@ const Placeholder = () => (
     </Typography>
     <Button
       variant="arcade"
-      href={routes.help.prizes.path()}
+      href={playRoutes.help.prizes.path()}
       target="_blank"
       startIcon={<OpenInNew />}
       color="error"

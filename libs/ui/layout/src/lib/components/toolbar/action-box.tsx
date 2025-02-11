@@ -1,5 +1,5 @@
 import { Box, Button } from '@mui/material';
-import { routes } from '@worksheets/routes';
+import { contestsRoutes, playRoutes } from '@worksheets/routes';
 import { useMediaQuery } from '@worksheets/ui/hooks/use-media-query';
 import { buttonBoxShadow } from '@worksheets/ui/styles';
 
@@ -11,7 +11,7 @@ export const ActionBox = () => {
   return (
     <Box display="flex" gap={1} alignItems="center" pb={1}>
       <Button
-        href={routes.category.url({
+        href={playRoutes.category.url({
           params: {
             tagId: 'popular',
           },
@@ -29,7 +29,7 @@ export const ActionBox = () => {
       </Button>
 
       <Button
-        href={routes.prizes.url()}
+        href={contestsRoutes.raffles.url()}
         variant="arcade"
         color="success"
         size={isMedium ? 'small' : 'medium'}
@@ -39,34 +39,7 @@ export const ActionBox = () => {
           ...buttonBoxShadow('success'),
         }}
       >
-        Prize Wall
-      </Button>
-
-      <Button
-        href={routes.raffles.url()}
-        variant="arcade"
-        color="secondary"
-        size={isMedium ? 'small' : 'medium'}
-        sx={{
-          display: isSmall ? 'none' : 'flex',
-          width: 170,
-          ...buttonBoxShadow('secondary'),
-        }}
-      >
         Giveaways
-      </Button>
-      <Button
-        href={routes.battles.url()}
-        variant="arcade"
-        color="primary"
-        size={isMedium ? 'small' : 'medium'}
-        sx={{
-          display: isMedium ? 'none' : 'flex',
-          width: 170,
-          ...buttonBoxShadow('primary'),
-        }}
-      >
-        Boss Battles
       </Button>
     </Box>
   );

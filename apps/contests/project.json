@@ -1,0 +1,9 @@
+{
+  "name": "contests",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/contests",
+  "projectType": "application",
+  "tags": [],
+  "// targets": "to see all targets run: nx show project contests --web",
+  "targets": {}
+}

@@ -1,4 +1,4 @@
-import { routes } from '@worksheets/routes';
+import { playRoutes } from '@worksheets/routes';
 import { trpc } from '@worksheets/trpc-charity';
 import { ErrorComponent } from '@worksheets/ui/components/errors';
 import { DynamicUserSubscriptionForm } from '@worksheets/ui/components/newsletter';
@@ -31,7 +31,7 @@ export const SettingsPanelContainer: React.FC = () => {
 
   const handleClearLocalStorage = () => {
     destroyAllData();
-    signOut({ callbackUrl: routes.play.path() });
+    signOut({ callbackUrl: playRoutes.home.url() });
   };
 
   const handleDeleteAccount = async () => {
@@ -66,6 +66,7 @@ export const SettingsPanelContainer: React.FC = () => {
         onClear={handleClearLocalStorage}
         onClose={() => setShowClearStorageModal(false)}
       />
+
       <DeleteAccountModal
         open={showDeleteAccountModal}
         onDelete={handleDeleteAccount}

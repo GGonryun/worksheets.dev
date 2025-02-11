@@ -1,3 +1,5 @@
+'use client';
+
 import {
   Box,
   LinkProps,
@@ -6,13 +8,13 @@ import {
   TypographyProps,
 } from '@mui/material';
 import common from '@worksheets/assets-common';
-import { routes } from '@worksheets/routes';
+import { playRoutes } from '@worksheets/routes';
 import Image from 'next/image';
 import React from 'react';
 
 export const LogoBox: React.FC<{ rootHref?: string }> = ({ rootHref }) => {
   return (
-    <TitleBox component="a" href={rootHref ?? routes.play.url()}>
+    <TitleBox component="a" href={rootHref ?? playRoutes.home.url()}>
       <Image
         src={common.charityGames.logos.flat}
         alt="Charity.Games"

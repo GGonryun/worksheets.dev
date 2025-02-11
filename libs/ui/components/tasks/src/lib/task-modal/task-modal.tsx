@@ -1,6 +1,6 @@
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import { Box, Button, Collapse, Typography, useTheme } from '@mui/material';
-import { routes } from '@worksheets/routes';
+import { playRoutes } from '@worksheets/routes';
 import { Column, Row } from '@worksheets/ui/components/flex';
 import { PulsingLogo } from '@worksheets/ui/components/loading';
 import { InfoModal, ModalWrapper } from '@worksheets/ui/components/modals';
@@ -28,7 +28,7 @@ export const TaskModal: React.FC<
   const { task, actions, isLoading, rewards, ...modalProps } = props;
 
   return (
-    <InfoModal {...modalProps} infoHref={routes.help.quests.path()}>
+    <InfoModal {...modalProps} infoHref={playRoutes.help.quests.path()}>
       <TaskModalContent
         task={task}
         actions={actions}

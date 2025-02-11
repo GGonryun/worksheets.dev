@@ -1,6 +1,6 @@
 import { LocalActivity, Star } from '@mui/icons-material';
 import { Button } from '@mui/material';
-import { routes } from '@worksheets/routes';
+import { playRoutes } from '@worksheets/routes';
 import { trpc } from '@worksheets/trpc-charity';
 import { Description } from '@worksheets/ui/components/description';
 import { ErrorComponent } from '@worksheets/ui/components/errors';
@@ -64,7 +64,7 @@ export const ParticipantsDescription: React.FC<{
           />
         ) : (
           <LoginToView
-            redirect={routes.raffle.path({
+            redirect={playRoutes.raffle.path({
               params: {
                 raffleId,
               },

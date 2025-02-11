@@ -1,6 +1,6 @@
 import { Diversity1, HelpCenter, Share } from '@mui/icons-material';
 import { Box, Button, Divider, Link, Typography } from '@mui/material';
-import { routes } from '@worksheets/routes';
+import { playRoutes } from '@worksheets/routes';
 import { Description } from '@worksheets/ui/components/description';
 import { HTMLinator } from '@worksheets/ui-core';
 import { printShortDateTime } from '@worksheets/util/time';
@@ -43,7 +43,7 @@ export const RaffleDescription: React.FC<{
           size="small"
           variant="arcade"
           color="warning"
-          href={routes.help.prizes.path()}
+          href={playRoutes.help.prizes.path()}
           startIcon={<HelpCenter />}
         >
           Get Help

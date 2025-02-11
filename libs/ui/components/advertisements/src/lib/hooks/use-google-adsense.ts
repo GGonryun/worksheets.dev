@@ -67,7 +67,7 @@ export const useGoogleAdsense = () => {
   useEffect(() => {
     if (initialized) return;
 
-    const adsense = document.createElement('script');
+    const adsense = document?.createElement('script');
     adsense.src = GOOGLE_AD_PLACEMENT_API;
     adsense['crossOrigin'] = 'anonymous';
     if (process.env['NODE_ENV'] === 'development') {

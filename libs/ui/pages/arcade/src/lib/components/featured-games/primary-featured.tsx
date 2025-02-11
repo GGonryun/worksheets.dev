@@ -7,7 +7,7 @@ import {
   Theme,
   useMediaQuery,
 } from '@mui/material';
-import { routes } from '@worksheets/routes';
+import { playRoutes } from '@worksheets/routes';
 import { FillImage } from '@worksheets/ui/components/images';
 import { useInterval } from '@worksheets/ui-core';
 import { BasicGameInfo } from '@worksheets/util/types';
@@ -44,7 +44,7 @@ export const PrimaryFeatured: React.FC<{
     >
       <Paper
         component="a"
-        href={routes.game.path({
+        href={playRoutes.game.path({
           params: {
             gameId: item.id,
           },

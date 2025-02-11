@@ -1,3 +1,5 @@
+'use client';
+
 import { Box, Paper, styled } from '@mui/material';
 import Container from '@mui/material/Container';
 import {
@@ -19,7 +21,7 @@ import { GameAchievements } from './game-achievements';
 import { GameDescription } from './game-description';
 import { GameLeaderboards } from './game-leaderboards/game-leaderboards';
 
-type GameScreenProps = {
+export type GameScreenProps = {
   status: SessionContextValue['status'];
   suggestions: BasicGameInfo[];
   game: SerializableGameSchema;

@@ -1,5 +1,5 @@
 import { Box, Divider, Typography } from '@mui/material';
-import { routes } from '@worksheets/routes';
+import { helpRoutes } from '@worksheets/routes';
 import { Column, Row } from '@worksheets/ui/components/flex';
 import { ContainImage } from '@worksheets/ui/components/images';
 import { InfoModal, ModalWrapper } from '@worksheets/ui/components/modals';
@@ -35,7 +35,7 @@ export const ItemModalLayout: React.FC<
     <InfoModal
       open={open}
       onClose={onClose}
-      infoHref={routes.help.inventory.path()}
+      infoHref={helpRoutes.inventory.url()}
     >
       <Box
         sx={{

@@ -2,27 +2,12 @@ export enum HelpAccountQuestions {
   AccountRequired = 'account-required',
   AccountCreation = 'account-creation',
   ValidUsernames = 'valid-usernames',
-}
-
-export enum HelpVIPQuestions {
-  Description = 'description',
-  Benefits = 'benefits',
-  Membership = 'membership',
-}
-
-export enum HelpTokensQuestions {
-  Description = 'description',
-  HowToEarn = 'how-to-earn',
-  Purpose = 'purpose',
-  Referrals = 'referrals',
-  HowMuchCanIEarn = 'how-much-can-i-earn',
-}
-
-export enum HelpReferralsQuestions {
-  Description = 'description',
-  Benefits = 'benefits',
-  Earnings = 'earnings',
-  HowTo = 'how-to',
+  Emails = 'emails',
+  Unsubscribing = 'unsubscribing',
+  NotReceiving = 'not-receiving',
+  Notifications = 'notifications',
+  ViewingNotifications = 'viewing-notifications',
+  DisablingNotifications = 'disabling-notifications',
 }
 
 export enum HelpPrizesQuestions {
@@ -31,8 +16,6 @@ export enum HelpPrizesQuestions {
   HowToWin = 'how-do-i-win',
   HowToSee = 'how-to-see',
   HowToClaim = 'how-to-claim',
-  HowToEarn = 'how-to-earn',
-  HowToSpend = 'how-to-spend',
   TradeCode = 'trade-code',
 }
 
@@ -45,22 +28,6 @@ export enum HelpPlayingGamesQuestions {
   HowToPlay = 'how-to-play',
   Developers = 'developers',
   OfflineAccess = 'offline-access',
-}
-
-export enum HelpNotificationsQuestions {
-  Description = 'description',
-  Viewing = 'viewing',
-  Disabling = 'disabling',
-}
-
-export enum HelpFriendsQuestions {
-  Description = 'description',
-  Followers = 'followers',
-  Removing = 'removing',
-  BestFriends = 'best-friends',
-  Inviting = 'inviting',
-  WhyInvite = 'why-invite',
-  Sharing = 'sharing',
 }
 
 export enum HelpCommonQuestions {
@@ -96,36 +63,10 @@ export enum HelpContributionsQuestions {
   Broke = 'broke',
 }
 
-export enum HelpQuestsQuestions {
-  Description = 'description',
-  AddingQuests = 'adding-quests',
-  Rewards = 'rewards',
-  Frequency = 'frequency',
-  Types = 'types',
-}
-
-export enum HelpEmailsQuestions {
-  Description = 'description',
-  Unsubscribing = 'unsubscribing',
-  NotReceiving = 'not-receiving',
-}
-
 export enum HelpInventoryQuestions {
   Description = 'description',
-  FindingItems = 'finding',
-  DropRates = 'drop-rates',
   Claiming = 'claiming',
   Premium = 'premium',
-  Capsules = 'capsules',
-}
-
-export enum HelpMobsQuestions {
-  Description = 'description',
-  HowToJoin = 'joining',
-  HowDoIDealDamage = 'damage',
-  HowToWin = 'winning',
-  MVP = 'mvp',
-  Rewards = 'rewards',
 }
 
 export enum HelpIntegrationsQuestions {

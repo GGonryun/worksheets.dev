@@ -8,7 +8,7 @@ import {
   TypographyProps,
 } from '@mui/material';
 import common from '@worksheets/assets-common';
-import { routes } from '@worksheets/routes';
+import { playRoutes } from '@worksheets/routes';
 import Image from 'next/image';
 import { FC, JSXElementConstructor } from 'react';
 
@@ -48,7 +48,7 @@ export const ProgressWidget: FC<ProgressWidgetProps> = ({
           gap: 2,
         }}
       >
-        <Link href={routes.home.url()}>
+        <Link href={playRoutes.home.url()}>
           <Image
             src={common.charityGames.logos.primary}
             alt="charity-games logo"

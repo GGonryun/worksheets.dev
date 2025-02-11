@@ -1,6 +1,6 @@
 import { OpenInNew } from '@mui/icons-material';
 import { Button } from '@mui/material';
-import { routes } from '@worksheets/routes';
+import { playRoutes } from '@worksheets/routes';
 import { Column } from '@worksheets/ui/components/flex';
 import { TaskFormProps } from '@worksheets/util/tasks';
 
@@ -17,7 +17,7 @@ export const BattleParticipationForm: React.FC<TaskFormProps> = ({ task }) => {
         color={colorKey}
         fullWidth
         startIcon={complete ? undefined : <OpenInNew />}
-        href={routes.battles.path()}
+        href={playRoutes.battles.path()}
         target="_blank"
       >
         {complete ? 'Task Complete' : 'Join a Battle'}

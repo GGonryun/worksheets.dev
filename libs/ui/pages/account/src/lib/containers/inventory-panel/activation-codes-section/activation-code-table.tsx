@@ -9,7 +9,7 @@ import TableRow from '@mui/material/TableRow';
 import { ActivationCodeType } from '@prisma/client';
 import { ColoredSteamGames } from '@worksheets/icons/companies';
 import { ValentinesGift } from '@worksheets/icons/valentines';
-import { routes } from '@worksheets/routes';
+import { helpRoutes } from '@worksheets/routes';
 import {
   PseudoPagination,
   usePseudoPagination,
@@ -163,7 +163,7 @@ const EmptyPrizesPlaceholder = () => {
         Keep playing games and referring friends to earn more tokens and win
         prizes!
       </Typography>
-      <Link href={routes.help.prizes.path()} variant="body1" color="error">
+      <Link href={helpRoutes.prizes.url()} variant="body1" color="error">
         Learn More
       </Link>
     </Box>

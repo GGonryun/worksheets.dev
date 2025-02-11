@@ -1,4 +1,5 @@
 import { TRPCError } from '@trpc/server';
+import { PrismaClient } from '@worksheets/prisma';
 import {
   BasicCategoryInfo,
   BasicGameInfo,
@@ -34,19 +35,6 @@ export default publicProcedure
         description: true,
         iconUrl: true,
         relatedCategoryIds: true,
-        games: {
-          include: {
-            game: {
-              select: {
-                id: true,
-                title: true,
-                thumbnail: true,
-                cover: true,
-                plays: true,
-              },
-            },
-          },
-        },
       },
     });
 
@@ -83,6 +71,52 @@ export default publicProcedure
         name: r.name,
         image: r.iconUrl,
       })),
-      games: tag.games.map((g) => g.game),
+      games:
+        tag.id === 'popular'
+          ? await getPopularGames(db)
+          : tag.id === 'new'
+          ? await getNewGames(db)
+          : await getTagGames(db, tagId),
     };
   });
+
+const select = {
+  id: true as const,
+  title: true as const,
+  plays: true as const,
+  cover: true as const,
+  thumbnail: true as const,
+};
+
+const getPopularGames = async (db: PrismaClient) => {
+  return await db.game.findMany({
+    orderBy: {
+      plays: 'desc',
+    },
+    take: 10,
+    select,
+  });
+};
+
+const getNewGames = async (db: PrismaClient) => {
+  return await db.game.findMany({
+    orderBy: {
+      createdAt: 'desc',
+    },
+    take: 10,
+    select,
+  });
+};
+
+const getTagGames = async (db: PrismaClient, tagId: string) => {
+  return await db.game.findMany({
+    where: {
+      categories: {
+        some: {
+          categoryId: tagId,
+        },
+      },
+    },
+    select,
+  });
+};

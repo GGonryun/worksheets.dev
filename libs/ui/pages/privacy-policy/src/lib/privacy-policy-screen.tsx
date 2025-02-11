@@ -1,5 +1,7 @@
+'use client';
+
 import { Container, Link, Paper, Typography } from '@mui/material';
-import { routes } from '@worksheets/routes';
+import { playRoutes } from '@worksheets/routes';
 import { BookmarkAnchor } from '@worksheets/ui-core';
 import { FC } from 'react';
 
@@ -34,7 +36,7 @@ export const PrivacyPolicyScreen: FC<PrivacyPolicyScreenProps> = () => {
           <Link href="#top" color="inherit">
             Back to the top
           </Link>
-          <Link href={routes.home.path()} color="inherit">
+          <Link href={playRoutes.home.path()} color="inherit">
             Home Page
           </Link>
         </Typography>

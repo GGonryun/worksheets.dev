@@ -1,3 +1,5 @@
+'use client';
+
 import { emailRoutes } from '@worksheets/routes';
 import { Markdown } from '@worksheets/ui-core';
 import { printDate } from '@worksheets/util/time';

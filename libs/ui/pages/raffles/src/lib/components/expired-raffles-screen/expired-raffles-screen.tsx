@@ -1,6 +1,6 @@
 import { ArrowRightAlt, InfoOutlined } from '@mui/icons-material';
 import { Box, Button, Typography } from '@mui/material';
-import { routes } from '@worksheets/routes';
+import { playRoutes } from '@worksheets/routes';
 import {
   Pagination,
   usePagination,
@@ -42,7 +42,7 @@ export const ExpiredRafflesScreen: React.FC<{
           </Typography>
           <Button
             size={isMobile ? 'small' : 'medium'}
-            href={routes.raffles.path()}
+            href={playRoutes.raffles.path()}
             variant="arcade"
             color="success"
             endIcon={<ArrowRightAlt />}
@@ -58,7 +58,7 @@ export const ExpiredRafflesScreen: React.FC<{
           <Typography
             typography="body2"
             component={Link}
-            href={routes.help.prizes.path({
+            href={playRoutes.help.prizes.path({
               bookmark: HelpPrizesQuestions.HowToWin,
             })}
             color="inherit"

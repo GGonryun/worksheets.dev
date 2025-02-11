@@ -1,4 +1,4 @@
-import { routes } from '@worksheets/routes';
+import { playRoutes } from '@worksheets/routes';
 import { FriendsPanels } from '@worksheets/util/enums';
 
 const CHARITY_GAMES_TWITTER_HANDLE = 'charitydotgames';
@@ -16,7 +16,7 @@ export const shareGameIntent = ({
   title: string;
   id: string;
 }): SocialProviderIntent => {
-  const url = routes.game.url({
+  const url = playRoutes.game.url({
     params: {
       gameId: id,
     },
@@ -40,7 +40,7 @@ export const addFriendsIntent = ({
 }: {
   friendCode: string;
 }): SocialProviderIntent => {
-  const url = routes.account.friends.url({
+  const url = playRoutes.account.friends.url({
     query: {
       code: friendCode,
     },
@@ -67,7 +67,7 @@ export const shareRaffleIntent = ({
   name: string;
   id: number;
 }) => {
-  const url = routes.raffle.url({
+  const url = playRoutes.raffle.url({
     params: {
       raffleId: id,
     },

@@ -1,6 +1,6 @@
 import { ArrowRightAlt, KeyboardBackspace } from '@mui/icons-material';
 import { Box, Button, Paper, Typography } from '@mui/material';
-import { routes } from '@worksheets/routes';
+import { helpRoutes, portalRoutes } from '@worksheets/routes';
 import { shorthandNumber } from '@worksheets/util/numbers';
 import { BasicWebsiteStatistics } from '@worksheets/util/types';
 import { FC, ReactNode } from 'react';
@@ -23,7 +23,7 @@ export const TitleSection: FC<{ statistics?: BasicWebsiteStatistics }> = ({
       size="small"
       variant="arcade"
       color="warning"
-      href={routes.help.path()}
+      href={helpRoutes.home.url()}
       startIcon={<KeyboardBackspace />}
       sx={{
         width: 'fit-content',
@@ -59,10 +59,6 @@ export const TitleSection: FC<{ statistics?: BasicWebsiteStatistics }> = ({
         {shorthandNumber(statistics?.totalGamePlays ?? 0)}+ Total Game Plays
       </TextPoint>
       <TextPoint>
-        {shorthandNumber(statistics?.tokensAccumulated ?? 0)}+ Tokens
-        Accumulated
-      </TextPoint>
-      <TextPoint>
         {shorthandNumber(statistics?.rafflesParticipated ?? 0)}+ Raffle Entries
       </TextPoint>
       <TextPoint>
@@ -72,7 +68,7 @@ export const TitleSection: FC<{ statistics?: BasicWebsiteStatistics }> = ({
     <Button
       variant="arcade"
       color="secondary"
-      href={routes.account.submissions.path()}
+      href={portalRoutes.account.submissions.url()}
       endIcon={<ArrowRightAlt />}
       sx={{
         width: { xs: '100%', sm: 'fit-content' },

@@ -1,5 +1,5 @@
 import { Typography } from '@mui/material';
-import { routes } from '@worksheets/routes';
+import { playRoutes } from '@worksheets/routes';
 import { trpc } from '@worksheets/trpc-charity';
 import { Column, Row } from '@worksheets/ui/components/flex';
 import { ClipboardText } from '@worksheets/ui/components/inputs';
@@ -51,7 +51,7 @@ const ReferralCodeSection: React.FC<TaskFormProps['task']> = ({ raffleId }) => {
   if (code.isError) return <Typography>Error loading user</Typography>;
   return (
     <ClipboardText
-      text={routes.ref.url({
+      text={playRoutes.ref.url({
         params: {
           code: code.data || '',
         },

@@ -44,7 +44,7 @@ import {
 } from '@worksheets/data/items';
 import { Sword } from '@worksheets/icons/dazzle';
 import { ItemType } from '@worksheets/prisma';
-import { routes } from '@worksheets/routes';
+import { playRoutes } from '@worksheets/routes';
 import { trpc } from '@worksheets/trpc-charity';
 import { Column, Row } from '@worksheets/ui/components/flex';
 import { ContainImage, FillImage } from '@worksheets/ui/components/images';
@@ -258,7 +258,7 @@ const FightModal: React.FC<ModalWrapper<{ battle: BattleSchema }>> = ({
         onClose={handleClose}
         gutter={0}
         maxWidth={440}
-        infoHref={routes.help.mobs.path()}
+        infoHref={playRoutes.help.mobs.path()}
         ref={ref}
       >
         <Column>
@@ -1041,9 +1041,9 @@ const LoginToFight: React.FC<{ battleId: number }> = ({ battleId }) => {
         fullWidth
         size="large"
         sx={{ mt: 2 }}
-        href={routes.login.path({
+        href={playRoutes.login.path({
           query: {
-            redirect: routes.battle.path({
+            redirect: playRoutes.battle.path({
               params: { battleId },
             }),
           },
@@ -1075,7 +1075,7 @@ const NoCombatItems = () => {
         size="large"
         startIcon={<OpenInNew />}
         target="_blank"
-        href={routes.help.inventory.path({
+        href={playRoutes.help.inventory.path({
           bookmark: HelpInventoryQuestions.FindingItems,
         })}
       >

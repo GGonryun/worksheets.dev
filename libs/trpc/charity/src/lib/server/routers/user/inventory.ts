@@ -1,11 +1,7 @@
 import { TRPCError } from '@trpc/server';
 import { ItemId, SharableItemId, SHARE_RATES } from '@worksheets/data/items';
 import { FriendshipService } from '@worksheets/services/friendship';
-import {
-  CapsuleService,
-  InventoryService,
-  PrizeWheelService,
-} from '@worksheets/services/inventory';
+import { InventoryService } from '@worksheets/services/inventory';
 import { NotificationsService } from '@worksheets/services/notifications';
 import { retryTransaction } from '@worksheets/util/prisma';
 import {
@@ -31,14 +27,6 @@ export default t.router({
     .query(async ({ input, ctx: { db, user } }) => {
       const inventory = new InventoryService(db);
       return inventory.quantity(user.id, input);
-    }),
-  autoSell: protectedProcedure
-    .output(z.number())
-    .mutation(async ({ ctx: { db, user } }) => {
-      return await retryTransaction(db, async (tx) => {
-        const inventory = new InventoryService(tx);
-        return inventory.autoSell(user.id);
-      });
     }),
   items: protectedProcedure
     .input(z.custom<Parameters<InventoryService['items']>[1]>())
@@ -122,62 +110,4 @@ export default t.router({
 
       return result;
     }),
-  capsule: t.router({
-    get: protectedProcedure
-      .input(z.custom<Parameters<CapsuleService['getOrCreate']>[1]>())
-      .output(z.custom<Awaited<ReturnType<CapsuleService['getOrCreate']>>>())
-      .query(async ({ input, ctx: { db, user } }) => {
-        return await retryTransaction(db, async (tx) => {
-          const capsule = new CapsuleService(tx);
-          return capsule.getOrCreate(user.id, input);
-        });
-      }),
-    unlock: protectedProcedure
-      .input(z.custom<Parameters<CapsuleService['unlock']>[1]>())
-      .output(z.custom<Awaited<ReturnType<CapsuleService['unlock']>>>())
-      .mutation(async ({ input, ctx: { db, user } }) => {
-        return await retryTransaction(db, async (tx) => {
-          const capsule = new CapsuleService(tx);
-          return capsule.unlock(user.id, input);
-        });
-      }),
-    open: protectedProcedure
-      .input(z.custom<Parameters<CapsuleService['open']>[1]>())
-      .output(z.custom<Awaited<ReturnType<CapsuleService['open']>>>())
-      .mutation(async ({ input, ctx: { db, user } }) => {
-        return await retryTransaction(db, async (tx) => {
-          const capsule = new CapsuleService(tx);
-          return capsule.open(user.id, input);
-        });
-      }),
-    close: protectedProcedure
-      .input(z.custom<Parameters<CapsuleService['close']>[1]>())
-      .output(z.custom<Awaited<ReturnType<CapsuleService['close']>>>())
-      .mutation(async ({ input, ctx: { db, user } }) => {
-        return await retryTransaction(db, async (tx) => {
-          const capsule = new CapsuleService(tx);
-          return capsule.close(user.id, input);
-        });
-      }),
-    award: protectedProcedure
-      .input(z.custom<Parameters<CapsuleService['award']>[1]>())
-      .output(z.custom<Awaited<ReturnType<CapsuleService['award']>>>())
-      .mutation(async ({ input, ctx: { db, user } }) => {
-        return await retryTransaction(db, async (tx) => {
-          const capsule = new CapsuleService(tx);
-          return capsule.award(user.id, input);
-        });
-      }),
-  }),
-  prizeWheel: t.router({
-    spin: protectedProcedure
-      .input(z.custom<Parameters<PrizeWheelService['spin']>[1]>())
-      .output(z.custom<Awaited<ReturnType<PrizeWheelService['spin']>>>())
-      .mutation(async ({ ctx: { db, user }, input }) => {
-        return await retryTransaction(db, async (tx) => {
-          const spinner = new PrizeWheelService(tx);
-          return spinner.spin(user.id, input);
-        });
-      }),
-  }),
 });

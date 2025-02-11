@@ -1,5 +1,5 @@
 import { Box, Link, Typography } from '@mui/material';
-import { routes } from '@worksheets/routes';
+import { playRoutes } from '@worksheets/routes';
 import { GradientTypography } from '@worksheets/ui/components/typography';
 
 export const HelpCenterTitle: React.FC = () => (
@@ -30,7 +30,7 @@ export const HelpCenterTitle: React.FC = () => (
       fontWeight={{ xs: 500, sm: 500, md: 500 }}
     >
       Get answers to all your questions about the{' '}
-      <Link href={routes.home.path()}>Charity Games</Link> platform.
+      <Link href={playRoutes.home.path()}>Charity Games</Link> platform.
     </Typography>
   </Box>
 );

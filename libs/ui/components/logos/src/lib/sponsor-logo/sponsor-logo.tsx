@@ -70,6 +70,9 @@ export const SponsorLogo: React.FC<{
           textOverflow="wrap"
           color={(theme) => theme.palette.text.blue.dark}
           whiteSpace="break-spaces"
+          sx={{
+            textDecoration: 'none',
+          }}
         >
           {text.replace(' ', '\n')}
         </Typography>

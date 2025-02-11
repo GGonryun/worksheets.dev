@@ -122,36 +122,6 @@ export type NotificationTemplate =
       };
     }
   | {
-      type: 'new-referral';
-      payload: {
-        user: {
-          id: string;
-        };
-      };
-    }
-  | {
-      type: 'new-follower';
-      payload: {
-        user: {
-          id: string;
-        };
-        follower: {
-          username: string;
-        };
-      };
-    }
-  | {
-      type: 'new-game-submission';
-      payload: {
-        user: {
-          id: string;
-        };
-        submission: {
-          title: string | null;
-        };
-      };
-    }
-  | {
       type: 'confirm-newsletter-subscription';
       payload: {
         id: string;
@@ -162,74 +132,6 @@ export type NotificationTemplate =
       type: 'new-subscriber';
       payload: {
         email: string;
-      };
-    }
-  | {
-      type: 'quest-completed';
-      payload: {
-        userId: string;
-        quest: {
-          name: string;
-          loot: {
-            item: {
-              name: string;
-            };
-            quantity: number;
-          }[];
-        };
-      };
-    }
-  | {
-      type: 'new-battle';
-      payload: {
-        battleId: number;
-        mobName: string;
-        loot: number;
-      };
-    }
-  | {
-      type: 'battle-completed';
-      payload: {
-        userIds: string[];
-        battle: {
-          id: number;
-          mob: {
-            name: string;
-          };
-        };
-      };
-    }
-  | {
-      type: 'battle-mvp-awarded';
-      payload: {
-        userId: string;
-        battle: {
-          id: number;
-          mob: {
-            name: string;
-          };
-        };
-        loot: {
-          item: {
-            id: string;
-            name: string;
-          };
-          quantity: number;
-        };
-      };
-    }
-  | {
-      type: 'found-item';
-      payload: {
-        userId: string;
-        item: {
-          id: string;
-          name: string;
-        };
-        game: {
-          id: string;
-          title: string;
-        };
       };
     }
   | {
@@ -249,28 +151,11 @@ export type NotificationTemplate =
       };
     }
   | {
-      type: 'share-gift';
-      payload: {
-        friendId: string;
-        from: {
-          id: string;
-          username: string;
-        };
-        item: {
-          id: string;
-          name: string;
-        };
-        giving: number;
-        quantity: number;
-      };
-    }
-  | {
       type: 'won-leaderboard';
       payload: {
         frequency: LeaderboardFrequency;
         rank: number;
         score: number;
-        payout: number;
         game: {
           id: string;
           title: string;

@@ -5,7 +5,7 @@ import {
   OpenInNew,
 } from '@mui/icons-material';
 import { Box, Button, Divider, Typography } from '@mui/material';
-import { routes } from '@worksheets/routes';
+import { playRoutes } from '@worksheets/routes';
 import { trpc } from '@worksheets/trpc-charity';
 import { PulsingLogo } from '@worksheets/ui/components/loading';
 import { RaffleSchema } from '@worksheets/util/types';
@@ -20,9 +20,9 @@ export const RaffleEntry: React.FC<{
   onEnter: () => void;
 }> = ({ raffle, onEnter }) => {
   const isExpired = raffle.expiresAt < Date.now();
-  const loginHref = routes.login.path({
+  const loginHref = playRoutes.login.path({
     query: {
-      redirect: routes.raffle.path({
+      redirect: playRoutes.raffle.path({
         params: { raffleId: raffle.id },
       }),
     },
@@ -95,7 +95,7 @@ export const RaffleEntry: React.FC<{
           color="primary"
           fullWidth
           sx={{ px: 1 }}
-          href={routes.help.inventory.path()}
+          href={playRoutes.help.inventory.path()}
           target="_blank"
           startIcon={<OpenInNew />}
         >

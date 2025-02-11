@@ -1,4 +1,4 @@
-import { routes } from '@worksheets/routes';
+import { playRoutes } from '@worksheets/routes';
 import { ArcadeItemCarousel } from '@worksheets/ui/components/arcade';
 import { ArcadeItemLayout } from '@worksheets/ui/components/arcade';
 import { BattleSchema, isBattleComplete } from '@worksheets/util/types';
@@ -29,7 +29,7 @@ export const Battle: React.FC<BattleSchema> = (props) => {
 
   return (
     <ArcadeItemLayout
-      href={routes.battle.path({ params: { battleId: props.id } })}
+      href={playRoutes.battle.path({ params: { battleId: props.id } })}
       imageUrl={props.mob.imageUrl}
       name={props.mob.name}
       caption={status}

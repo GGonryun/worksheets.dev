@@ -13,19 +13,6 @@ import Phaser from 'phaser';
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import { AdBreak, RewardAdBreak } from 'types/adsense';
 
-export const isValidOrigin = (origin: string) => {
-  if (process.env['NODE_ENV'] === 'development') {
-    return true;
-  }
-  const validOrigins = [
-    'http://localhost:6969',
-    'https://charity.games',
-    'https://cdn.charity.games',
-    'https://storage.googleapis.com',
-  ];
-  return origin === '*' || validOrigins.includes(origin);
-};
-
 // TODO: Move charity games plugin towards an API-first approach.
 export class CharityGamesPlugin extends Phaser.Plugins.BasePlugin {
   static KEY = 'CharityGamesPlugin';
@@ -63,12 +50,6 @@ export class CharityGamesPlugin extends Phaser.Plugins.BasePlugin {
     }
 
     window.addEventListener('message', (event) => {
-      const origin = event.origin;
-      if (!isValidOrigin(origin)) {
-        console.error('Invalid origin', origin);
-        return;
-      }
-
       const data = event.data;
       if (!data || typeof data !== 'object' || Array.isArray(data)) {
         return;

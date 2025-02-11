@@ -1,10 +1,9 @@
 import { Link } from '@mui/material';
-import { routes } from '@worksheets/routes';
+import { helpRoutes, portalRoutes } from '@worksheets/routes';
 import { Panel } from '@worksheets/ui/components/panels';
 import { SettingsPanels } from '@worksheets/util/enums';
 import { FC, ReactNode } from 'react';
 
-import { ProfileButtonContainer } from '../../containers/profile-button-container';
 import { DangerZoneSection, ProfileSection } from './sections';
 import { CommunicationSection } from './sections/communication-section';
 
@@ -19,25 +18,29 @@ export const SettingsPanel: FC<{
       bookmark={bookmark}
       header={{
         primary: 'My Account',
-        icon: <ProfileButtonContainer />,
       }}
       note={{
         content: (
           <>
-            Help us grow by sharing your{' '}
-            <Link href={routes.account.referrals.path()}>referral link</Link>{' '}
-            with friends and family.
+            We take your privacy and security seriously.{' '}
+            <Link
+              href={helpRoutes.privacy.url()}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Learn more
+            </Link>
           </>
         ),
       }}
       footer={{
         learn: {
           text: 'Account Settings',
-          href: routes.help.accounts.path(),
+          href: helpRoutes.accounts.url(),
         },
         action: {
           text: 'Log Out',
-          href: routes.logout.path(),
+          href: portalRoutes.logout.url(),
           color: 'error',
         },
       }}

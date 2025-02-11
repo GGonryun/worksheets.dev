@@ -1,6 +1,6 @@
 import { OpenInNew } from '@mui/icons-material';
 import { Button, Typography } from '@mui/material';
-import { routes } from '@worksheets/routes';
+import { playRoutes } from '@worksheets/routes';
 import { Column, Row } from '@worksheets/ui/components/flex';
 import { calculatePercentage } from '@worksheets/util/numbers';
 import { TaskFormProps } from '@worksheets/util/tasks';
@@ -36,12 +36,12 @@ export const PlayGameForm: React.FC<TaskFormProps> = ({ task }) => {
         color={colorKey}
         href={
           gameId
-            ? routes.game.path({
+            ? playRoutes.game.path({
                 params: {
                   gameId,
                 },
               })
-            : routes.play.path()
+            : playRoutes.play.path()
         }
         startIcon={<OpenInNew />}
         target="_blank"

@@ -15,6 +15,21 @@ import GoogleProvider from 'next-auth/providers/google';
 import { customPrismaAdapter } from './prisma-adapter';
 import { googleRefreshAccessToken } from './refresh/google-oauth-refresh';
 
+const getDomainWithoutSubdomain = (url: string) => {
+  const urlParts = new URL(url).hostname.split('.');
+
+  return urlParts
+    .slice(0)
+    .slice(-(urlParts.length === 4 ? 3 : 2))
+    .join('.');
+};
+
+const useSecureCookies = !!process.env['NEXTAUTH_URL']?.startsWith('https://');
+const cookiePrefix = useSecureCookies ? '__Secure-' : '';
+const hostName = getDomainWithoutSubdomain(
+  process.env['NEXTAUTH_URL'] ?? 'http://localhost:3000'
+);
+
 // TODO: switch jwt maxAge to 1 hour
 // const ONE_HOUR_IN_SECONDS = 60 * 60;
 const SEVEN_DAYS_IN_SECONDS = 60 * 60 * 24 * 7;
@@ -22,6 +37,19 @@ export const AUTH_OPTIONS: AuthOptions = {
   session: { strategy: 'jwt', maxAge: SEVEN_DAYS_IN_SECONDS },
   jwt: {
     maxAge: SEVEN_DAYS_IN_SECONDS,
+  },
+  useSecureCookies,
+  cookies: {
+    sessionToken: {
+      name: `${cookiePrefix}next-auth.session-token`,
+      options: {
+        httpOnly: true,
+        sameSite: 'lax',
+        path: '/',
+        secure: useSecureCookies,
+        domain: hostName == 'localhost' ? hostName : '.' + hostName, // add a . in front so that subdomains are included
+      },
+    },
   },
   adapter: customPrismaAdapter(prisma),
   providers: [

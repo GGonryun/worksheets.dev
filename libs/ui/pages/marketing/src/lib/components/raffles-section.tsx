@@ -1,5 +1,5 @@
 import { Box, Button, Container } from '@mui/material';
-import { routes } from '@worksheets/routes';
+import { contestsRoutes } from '@worksheets/routes';
 import { FillImage } from '@worksheets/ui/components/images';
 import { Countdown } from '@worksheets/ui/components/marketing';
 import { GradientTypography } from '@worksheets/ui/components/typography';
@@ -55,7 +55,7 @@ export const RafflesSection: React.FC<{ raffleExpiration: number }> = ({
           variant="arcade"
           color="warning"
           size={isMobile ? 'small' : 'medium'}
-          href={routes.raffles.path()}
+          href={contestsRoutes.raffles.url()}
           sx={{
             mt: { xs: 2, sm: 3, md: 4 },
           }}

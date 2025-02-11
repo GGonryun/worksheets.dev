@@ -29,15 +29,11 @@ export const NotificationsTypeFilter: React.FC<{
 
 const buttonLabels: Record<FilterableNotificationType, string> = {
   ALL: 'All',
-  FRIEND: 'Friends',
   SYSTEM: 'System',
   RAFFLE: 'Raffles',
   PRIZE: 'Prizes',
   INVENTORY: 'Inventory',
-  REWARD: 'Rewards',
   GAME: 'Games',
-  QUEST: 'Quests',
-  BATTLE: 'Battles',
   VICTORY: 'Victories',
   ACHIEVEMENT: 'Achievements',
 };

@@ -8,7 +8,7 @@ import {
   Typography,
 } from '@mui/material';
 import { IntegrationProvider } from '@prisma/client';
-import { routes } from '@worksheets/routes';
+import { playRoutes } from '@worksheets/routes';
 import { trpc } from '@worksheets/trpc-charity';
 import { Column } from '@worksheets/ui/components/flex';
 import { IntegrationLogo } from '@worksheets/ui/components/integrations';
@@ -146,7 +146,7 @@ const SteamConnectionScreen: React.FC<{ integrationId: string }> = ({
               variant="text"
               startIcon={<OpenInNew />}
               size="small"
-              href={routes.help.integrations.path({
+              href={playRoutes.help.integrations.path({
                 bookmark: HelpIntegrationsQuestions.Steam,
               })}
             >
@@ -171,7 +171,7 @@ const SteamConnectionScreen: React.FC<{ integrationId: string }> = ({
                 variant={error ? 'arcade' : 'text'}
                 color={error ? 'secondary' : 'primary'}
                 size="small"
-                href={routes.contact.url()}
+                href={playRoutes.contact.url()}
                 startIcon={<HelpOutline />}
               >
                 Contact Support

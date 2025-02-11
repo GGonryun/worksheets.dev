@@ -1,5 +1,7 @@
+'use client';
+
 import { Container, Link, Paper, Typography } from '@mui/material';
-import { routes } from '@worksheets/routes';
+import { playRoutes } from '@worksheets/routes';
 import { BookmarkAnchor } from '@worksheets/ui-core';
 import { destroyAllData } from '@worksheets/util/storage';
 import { signOut } from 'next-auth/react';
@@ -36,7 +38,7 @@ export const CookiePolicyScreen: FC<CookiePolicyScreenProps> = () => {
           <Link href="#top" color="inherit">
             Back to the top
           </Link>
-          <Link href={routes.home.path()} color="inherit">
+          <Link href={playRoutes.home.path()} color="inherit">
             Home Page
           </Link>
           <Link
@@ -45,7 +47,7 @@ export const CookiePolicyScreen: FC<CookiePolicyScreenProps> = () => {
               destroyAllData();
               alert('Your local storage and cookies have been cleared.');
               window.location.reload();
-              signOut({ callbackUrl: routes.cookies.path() });
+              signOut({ callbackUrl: playRoutes.cookies.path() });
             }}
             color="inherit"
           >

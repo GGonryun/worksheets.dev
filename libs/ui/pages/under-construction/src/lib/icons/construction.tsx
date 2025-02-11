@@ -1,3 +1,5 @@
+'use client';
+
 import { createSvgIcon } from '@mui/material';
 
 const name = 'Construction';
