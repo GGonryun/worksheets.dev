@@ -4,7 +4,11 @@ import {
   Login,
   Menu,
 } from '@mui/icons-material';
-import { routes } from '@worksheets/routes';
+import { Box, Button, Link, Typography } from '@mui/material';
+import { blogRoutes, routes } from '@worksheets/routes';
+import { InfoModal } from '@worksheets/ui/components/modals';
+import { useLocalStorage } from '@worksheets/ui-core';
+import { daysFromNow, isExpired, minutesAgo } from '@worksheets/util/time';
 import { FC, ReactNode, useState } from 'react';
 
 import { AccountDrawer, AppDrawer } from '../components';
@@ -16,6 +20,10 @@ export const AppLayoutContainer: FC<{
   children: ReactNode;
 }> = ({ children }) => {
   const { connected, loading, user, notifications, tokens } = useDrawerData();
+  const [showUpdate, setShowUpdate] = useLocalStorage(
+    '67d302a7-d0c7-4196-b074-c3697e943896',
+    minutesAgo(1)
+  );
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [accountOpen, setAccountOpen] = useState(false);
 
@@ -61,6 +69,50 @@ export const AppLayoutContainer: FC<{
         tokens={tokens.data}
         notifications={notifications.data}
       />
+      <InfoModal open={isExpired(showUpdate)} hideClose={true}>
+        <Box mt={1}>
+          <Link
+            href={blogRoutes.article.url({
+              params: { slug: 'charity-games-2-0' },
+            })}
+          >
+            <Typography variant="h3">Major Updates!</Typography>
+          </Link>
+          <br />
+          <Typography variant="body1" component={'div'}>
+            In order to maintain the platform long term, we're making some
+            changes to the features we offer.
+            <br />
+            <br />
+            The following major features are scheduled for demolition in the
+            upcoming weeks:
+            <ul>
+              <li>Quests</li>
+              <li>Tokens & Items</li>
+              <li>Prize Wall</li>
+              <li>Boss Battles</li>
+              <li>Integrations</li>
+              <li>Gifting & Friends</li>
+            </ul>
+            <Link
+              href={blogRoutes.article.url({
+                params: { slug: 'charity-games-2-0' },
+              })}
+            >
+              You can read more about the changes in our blog post
+            </Link>
+            .
+          </Typography>
+          <br />
+          <Button
+            variant="arcade"
+            color="primary"
+            onClick={() => setShowUpdate(daysFromNow(1))}
+          >
+            Got it!
+          </Button>
+        </Box>
+      </InfoModal>
     </>
   );
 };
