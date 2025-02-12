@@ -79,7 +79,6 @@ export default t.router({
         include: {
           loot: {
             include: {
-              mob: true,
               quest: {
                 include: {
                   task: true,
@@ -99,8 +98,6 @@ export default t.router({
       }
 
       return {
-        monsters: monsterSources(item),
-        quests: questSources(item),
         items: await findItemSources(db, item),
       };
     }),
@@ -110,7 +107,6 @@ type PrismaItem = Prisma.ItemGetPayload<{
   include: {
     loot: {
       include: {
-        mob: true;
         quest: {
           include: {
             task: true;
@@ -121,34 +117,6 @@ type PrismaItem = Prisma.ItemGetPayload<{
     raffles: true;
   };
 }>;
-const monsterSources = (item: PrismaItem): ItemSourcesSchema['monsters'] => {
-  return item.loot
-    .filter((l) => l.mob)
-    .filter((l) => l.itemId === item.id)
-    .map((l) => ({
-      // we filter out null values above.
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      id: l.mob!.id,
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      name: l.mob!.name,
-      chance: l.chance,
-      quantity: l.quantity,
-      mvp: l.mvp,
-    }));
-};
-
-const questSources = (item: PrismaItem): ItemSourcesSchema['quests'] => {
-  return item.loot
-    .filter((l) => l.quest)
-    .filter((l) => l.itemId === item.id)
-    .map((l) => ({
-      // we filter out null values above.
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      id: l.quest!.id,
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      name: l.quest!.name ?? l.quest!.task.name,
-    }));
-};
 
 const findItemSources = async (
   db: PrismaClient,
