@@ -2,18 +2,17 @@ import React from 'react';
 
 import { WebsiteFooter } from './footer';
 import { Layout } from './layout';
-import { AppToolbar } from './toolbar/app-toolbar';
+import { AppToolbar, ToolbarProps } from './toolbar/app-toolbar';
 
 type Props = {
   children: React.ReactNode;
-  connectionButton?: React.ReactNode;
-};
+} & ToolbarProps;
 
-export const AppLayout: React.FC<Props> = ({ children, connectionButton }) => {
+export const AppLayout: React.FC<Props> = ({ children, ...toolbarProps }) => {
   return (
     <Layout
       wallpaper={'coins'}
-      toolbar={<AppToolbar connectionButton={connectionButton} />}
+      toolbar={<AppToolbar {...toolbarProps} />}
       footer={<WebsiteFooter />}
     >
       {children}

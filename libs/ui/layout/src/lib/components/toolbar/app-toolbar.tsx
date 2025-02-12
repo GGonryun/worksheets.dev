@@ -5,9 +5,10 @@ import { LogoBox } from '../shared/logo-box';
 import { ActionBox } from './action-box';
 import { Toolbar } from './toolbar';
 
-interface ToolbarProps {
+export interface ToolbarProps {
   connectionButton?: React.ReactNode;
-  drawerButton?: React.ReactNode;
+  gamesButton?: React.ReactNode;
+  rafflesButton?: React.ReactNode;
 }
 
 export const AppToolbar = (props: ToolbarProps) => {
@@ -24,8 +25,9 @@ export const AppToolbar = (props: ToolbarProps) => {
         alignItems="center"
         gap={1}
       >
+        {props.gamesButton}
+        {props.rafflesButton}
         {props.connectionButton}
-        {props.drawerButton}
       </Box>
     </Toolbar>
   );

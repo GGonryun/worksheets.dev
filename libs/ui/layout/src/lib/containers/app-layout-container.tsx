@@ -1,7 +1,14 @@
-import { AccountCircle, HourglassEmpty, Login } from '@mui/icons-material';
+import {
+  AccountCircle,
+  HourglassEmpty,
+  Login,
+  Redeem,
+  SportsEsports,
+} from '@mui/icons-material';
 import { Box, Button, Link, Typography } from '@mui/material';
 import { blogRoutes, routes } from '@worksheets/routes';
 import { InfoModal } from '@worksheets/ui/components/modals';
+import { useMediaQuery } from '@worksheets/ui/hooks/use-media-query';
 import { useLocalStorage } from '@worksheets/ui-core';
 import { daysFromNow, isExpired, minutesAgo } from '@worksheets/util/time';
 import { FC, ReactNode } from 'react';
@@ -18,6 +25,7 @@ export const AppLayoutContainer: FC<{
     '67d302a7-d0c7-4196-b074-c3697e943896',
     minutesAgo(1)
   );
+  const isTiny = useMediaQuery((theme) => theme.breakpoints.down('sm'));
 
   return (
     <>
@@ -39,6 +47,23 @@ export const AppLayoutContainer: FC<{
               <Login fontSize="small" />
             )}
           </SquareButton>
+        }
+        gamesButton={
+          isTiny && (
+            <SquareButton
+              color="success"
+              href={routes.category.url({ params: { tagId: 'popular' } })}
+            >
+              <SportsEsports fontSize="small" />
+            </SquareButton>
+          )
+        }
+        rafflesButton={
+          isTiny && (
+            <SquareButton color="secondary" href={routes.raffles.url()}>
+              <Redeem fontSize="small" />
+            </SquareButton>
+          )
         }
       >
         {children}
