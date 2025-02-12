@@ -2,7 +2,6 @@ import { Prisma } from '@prisma/client';
 import { assertNever } from '@worksheets/util/errors';
 
 import { validateFormInput } from '../form';
-import { validateFriendInput } from '../friend';
 import { validateLeaderboardScore } from '../leaderboard';
 import { validatePollSubmission } from '../poll';
 import { validateSecretInput } from '../secret';
@@ -20,16 +19,10 @@ export const validateTaskInput = (
   const {
     task: { type, data },
     state,
-    progress,
   } = opts;
   switch (type) {
     case 'PLAY_GAME':
     case 'PLAY_MINUTES':
-    case 'REFERRAL_PLAY_MINUTES':
-    case 'FRIEND_PLAY_MINUTES':
-    case 'ADD_REFERRAL':
-    case 'RAFFLE_PARTICIPATION':
-    case 'BATTLE_PARTICIPATION':
     case 'VISIT_WEBSITE':
     case 'FOLLOW_TWITTER':
     case 'REPOST_TWITTER':
@@ -48,8 +41,7 @@ export const validateTaskInput = (
       return { skip: false, state };
     case 'SUBMIT_LEADERBOARD_SCORE':
       return validateLeaderboardScore({ data, state });
-    case 'ADD_FRIEND':
-      return validateFriendInput({ progress, state });
+
     case 'POLL':
       return validatePollSubmission({ data, state });
     case 'SECRET':

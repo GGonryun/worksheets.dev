@@ -9,7 +9,6 @@ import {
   Instagram,
   LanguageOutlined,
   PasswordOutlined,
-  PersonOutlined,
   PollOutlined,
   ScheduleOutlined,
   SvgIconComponent,
@@ -77,12 +76,6 @@ const TASK_BACKGROUND_COLOR: Record<TaskType, ButtonProps['color']> = {
   [TaskType.SUBMIT_LEADERBOARD_SCORE]: 'yellow',
   POLL: undefined,
   SECRET: undefined,
-  REFERRAL_PLAY_MINUTES: undefined,
-  FRIEND_PLAY_MINUTES: undefined,
-  ADD_FRIEND: undefined,
-  ADD_REFERRAL: undefined,
-  RAFFLE_PARTICIPATION: undefined,
-  BATTLE_PARTICIPATION: undefined,
 };
 
 export const selectTaskBackgroundColor = (
@@ -98,7 +91,6 @@ const TASK_ICON: Record<TaskType, SvgIconComponent> = {
   [TaskType.VISIT_WEBSITE]: LanguageOutlined,
   [TaskType.FOLLOW_TWITTER]: NewTwitter,
   [TaskType.REPOST_TWITTER]: NewTwitter,
-  [TaskType.ADD_REFERRAL]: PersonOutlined,
   [TaskType.PLAY_MINUTES]: ScheduleOutlined,
   [TaskType.BASIC_ACTION]: CheckBoxOutlined,
   [TaskType.WATCH_AD]: FeaturedVideoOutlined,
@@ -116,11 +108,6 @@ const TASK_ICON: Record<TaskType, SvgIconComponent> = {
   [TaskType.VISIT_TIKTOK]: TikTok,
   [TaskType.REFERRAL_TASK]: FavoriteBorder,
   [TaskType.SUBMIT_LEADERBOARD_SCORE]: EmojiEvents,
-  REFERRAL_PLAY_MINUTES: EmojiEvents,
-  FRIEND_PLAY_MINUTES: EmojiEvents,
-  ADD_FRIEND: EmojiEvents,
-  RAFFLE_PARTICIPATION: EmojiEvents,
-  BATTLE_PARTICIPATION: EmojiEvents,
 };
 
 export const selectTaskStatusIcon = (
@@ -202,24 +189,12 @@ export const formatTaskTypeLabel = (type: TaskType) => {
       return 'Follow on Twitter';
     case TaskType.REPOST_TWITTER:
       return 'Repost on Twitter';
-    case TaskType.ADD_FRIEND:
-      return 'Add Friend';
-    case TaskType.ADD_REFERRAL:
-      return 'Add Referral';
     case TaskType.PLAY_MINUTES:
-      return 'Play Minutes';
-    case TaskType.RAFFLE_PARTICIPATION:
-      return 'Raffle Participation';
-    case TaskType.REFERRAL_PLAY_MINUTES:
-      return 'Play Minutes';
-    case TaskType.FRIEND_PLAY_MINUTES:
       return 'Play Minutes';
     case TaskType.BASIC_ACTION:
       return 'Basic Action';
     case TaskType.WATCH_AD:
       return 'Watch Ad';
-    case TaskType.BATTLE_PARTICIPATION:
-      return 'Battle Participation';
     case TaskType.FOLLOW_TWITCH:
       return 'Follow on Twitch';
     case TaskType.JOIN_DISCORD_GUILD:

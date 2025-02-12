@@ -6,7 +6,6 @@ import {
   TaskFrequency,
   TaskType,
 } from '@worksheets/prisma';
-import { MAX_REFERRALS } from '@worksheets/util/settings';
 
 import { createGameTask } from './util';
 
@@ -723,18 +722,6 @@ export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
     name: 'Play Games for 5 Minutes',
     description:
       'Earn rewards for every 5 minutes you play a game on Charity Games.',
-    data: {},
-  },
-  {
-    version: 1,
-    id: 'ADD_REFERRAL_INFINITE',
-    type: TaskType.ADD_REFERRAL,
-    category: TaskCategory.SOCIAL,
-    frequency: TaskFrequency.INFINITE,
-    requiredRepetitions: 1,
-    maxRepetitions: MAX_REFERRALS,
-    name: 'Add a Referral',
-    description: `Earn tokens every time you add a new referral on Charity Games. You can receive this reward up to ${MAX_REFERRALS} times`,
     data: {},
   },
   // sample tasks, not for production

@@ -3,7 +3,6 @@ import { assertNever } from '@worksheets/util/errors';
 import { TaskFormProps } from '@worksheets/util/tasks';
 import React from 'react';
 
-import { AddReferralForm } from './add-referral-form';
 import { BasicActionForm } from './basic-action-form';
 import { CatpchaForm } from './captcha-form';
 import { CustomInputForm } from './custom-input-form';
@@ -36,8 +35,6 @@ export const TaskForm: React.FC<TaskFormProps> = ({ task, actions }) => {
       return <FollowTwitterForm task={task} actions={actions} />;
     case TaskType.REPOST_TWITTER:
       return <RepostTwitterForm task={task} actions={actions} />;
-    case TaskType.ADD_REFERRAL:
-      return <AddReferralForm task={task} actions={actions} />;
     case TaskType.PLAY_MINUTES:
       return <PlayMinutesForm task={task} actions={actions} />;
     case TaskType.BASIC_ACTION:
@@ -72,12 +69,6 @@ export const TaskForm: React.FC<TaskFormProps> = ({ task, actions }) => {
       return <ReferralTaskForm task={task} actions={actions} />;
     case TaskType.SUBMIT_LEADERBOARD_SCORE:
       return <SubmitLeaderboardScore task={task} actions={actions} />;
-    case TaskType.BATTLE_PARTICIPATION:
-    case TaskType.RAFFLE_PARTICIPATION:
-    case TaskType.REFERRAL_PLAY_MINUTES:
-    case TaskType.FRIEND_PLAY_MINUTES:
-    case TaskType.ADD_FRIEND:
-      return <>DEMOLITION IN PROGRESS</>;
     default:
       throw assertNever(task.type);
   }
