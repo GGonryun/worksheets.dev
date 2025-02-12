@@ -17,20 +17,6 @@ export const ActionBox = () => {
           },
         })}
         variant="arcade"
-        color="error"
-        size={isMedium ? 'small' : 'medium'}
-        sx={{
-          display: isTiny ? 'none' : 'flex',
-          width: isSmall ? 'unset' : 170,
-          ...buttonBoxShadow('error'),
-        }}
-      >
-        Top Games
-      </Button>
-
-      <Button
-        href={routes.prizes.url()}
-        variant="arcade"
         color="success"
         size={isMedium ? 'small' : 'medium'}
         sx={{
@@ -39,7 +25,7 @@ export const ActionBox = () => {
           ...buttonBoxShadow('success'),
         }}
       >
-        Prize Wall
+        Top Games
       </Button>
 
       <Button
@@ -48,25 +34,12 @@ export const ActionBox = () => {
         color="secondary"
         size={isMedium ? 'small' : 'medium'}
         sx={{
-          display: isSmall ? 'none' : 'flex',
-          width: 170,
+          display: isTiny ? 'none' : 'flex',
+          width: isSmall ? 'unset' : 170,
           ...buttonBoxShadow('secondary'),
         }}
       >
         Giveaways
-      </Button>
-      <Button
-        href={routes.battles.url()}
-        variant="arcade"
-        color="primary"
-        size={isMedium ? 'small' : 'medium'}
-        sx={{
-          display: isMedium ? 'none' : 'flex',
-          width: 170,
-          ...buttonBoxShadow('primary'),
-        }}
-      >
-        Boss Battles
       </Button>
     </Box>
   );

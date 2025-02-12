@@ -1,17 +1,11 @@
-import {
-  AccountCircle,
-  HourglassEmpty,
-  Login,
-  Menu,
-} from '@mui/icons-material';
+import { AccountCircle, HourglassEmpty, Login } from '@mui/icons-material';
 import { Box, Button, Link, Typography } from '@mui/material';
 import { blogRoutes, routes } from '@worksheets/routes';
 import { InfoModal } from '@worksheets/ui/components/modals';
 import { useLocalStorage } from '@worksheets/ui-core';
 import { daysFromNow, isExpired, minutesAgo } from '@worksheets/util/time';
-import { FC, ReactNode, useState } from 'react';
+import { FC, ReactNode } from 'react';
 
-import { AccountDrawer, AppDrawer } from '../components';
 import { AppLayout } from '../components/app-layout';
 import { SquareButton } from '../components/shared/square-button';
 import { useDrawerData } from '../hook/use-drawer-data';
@@ -19,26 +13,18 @@ import { useDrawerData } from '../hook/use-drawer-data';
 export const AppLayoutContainer: FC<{
   children: ReactNode;
 }> = ({ children }) => {
-  const { connected, loading, user, notifications, tokens } = useDrawerData();
+  const { connected, loading, notifications } = useDrawerData();
   const [showUpdate, setShowUpdate] = useLocalStorage(
     '67d302a7-d0c7-4196-b074-c3697e943896',
     minutesAgo(1)
   );
-  const [drawerOpen, setDrawerOpen] = useState(false);
-  const [accountOpen, setAccountOpen] = useState(false);
 
   return (
     <>
       <AppLayout
-        drawerButton={
-          <SquareButton onClick={() => setDrawerOpen(true)} color={'primary'}>
-            <Menu fontSize="small" />
-          </SquareButton>
-        }
         connectionButton={
           <SquareButton
-            href={connected ? undefined : routes.login.path()}
-            onClick={connected ? () => setAccountOpen(true) : undefined}
+            href={connected ? routes.account.path() : routes.login.path()}
             color={
               connected && notifications.data && notifications.data > 0
                 ? 'error'
@@ -57,18 +43,6 @@ export const AppLayoutContainer: FC<{
       >
         {children}
       </AppLayout>
-      <AppDrawer
-        open={drawerOpen}
-        onClose={() => setDrawerOpen(false)}
-        connected={connected}
-      />
-      <AccountDrawer
-        open={accountOpen}
-        onClose={() => setAccountOpen(false)}
-        user={user.data}
-        tokens={tokens.data}
-        notifications={notifications.data}
-      />
       <InfoModal open={isExpired(showUpdate)} hideClose={true}>
         <Box mt={1}>
           <Link
