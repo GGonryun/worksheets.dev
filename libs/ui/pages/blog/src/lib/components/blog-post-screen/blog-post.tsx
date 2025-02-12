@@ -7,7 +7,7 @@ import { JoinNewsletterBox } from '../shared/join-newsletter-box';
 import { PostBody } from './post-body';
 import { PostHeader } from './post-header';
 
-export type BlogPostProps = {
+type BlogPostProps = {
   metadata: MarkdownMetadata;
   content: string;
   author: BlogAuthor;

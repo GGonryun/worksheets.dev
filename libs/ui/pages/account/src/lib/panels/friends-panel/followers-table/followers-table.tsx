@@ -31,5 +31,3 @@ export const FollowersTable: React.FC<{
     </TableContainer>
   );
 };
-
-export type FollowersTableProps = React.ComponentProps<typeof FollowersTable>;

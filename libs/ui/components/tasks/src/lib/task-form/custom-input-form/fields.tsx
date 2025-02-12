@@ -32,9 +32,11 @@ import { Column } from '@worksheets/ui/components/flex';
 import { PaletteColor } from '@worksheets/ui/theme';
 import { RatingFieldIcon } from '@worksheets/util/tasks';
 
-export const BaseHelperText: React.FC<
-  { required?: boolean } & BaseFieldProps
-> = ({ required, err, description }) => {
+const BaseHelperText: React.FC<{ required?: boolean } & BaseFieldProps> = ({
+  required,
+  err,
+  description,
+}) => {
   return (
     <FormHelperText
       required={required}
@@ -48,7 +50,7 @@ export const BaseHelperText: React.FC<
   );
 };
 
-export type BaseFieldProps = {
+type BaseFieldProps = {
   description?: string;
   err?: string; // because error is a reserved prop.
 };

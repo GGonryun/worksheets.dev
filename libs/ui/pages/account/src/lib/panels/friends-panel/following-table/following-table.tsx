@@ -100,5 +100,3 @@ export const FollowingTable: React.FC<{
     </TableContainer>
   );
 };
-
-export type FriendsTableProps = React.ComponentProps<typeof FollowingTable>;

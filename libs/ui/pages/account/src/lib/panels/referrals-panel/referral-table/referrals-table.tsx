@@ -11,7 +11,7 @@ import { printShortDate } from '@worksheets/util/time';
 import { Referral } from '@worksheets/util/types';
 import * as React from 'react';
 
-export type ReferralsTableProps = {
+type ReferralsTableProps = {
   referrals: Referral[];
 };
 

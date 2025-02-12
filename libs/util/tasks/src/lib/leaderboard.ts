@@ -6,7 +6,7 @@ const leaderboardScoreDataSchema = z.object({
   score: z.number(),
 });
 
-export type LeaderboardScoreData = z.infer<typeof leaderboardScoreDataSchema>;
+type LeaderboardScoreData = z.infer<typeof leaderboardScoreDataSchema>;
 
 export const validateLeaderboardScore = (opts: ValidationOptions) => {
   const data = parseData(opts.data);

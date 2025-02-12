@@ -121,7 +121,7 @@ const Form: React.FC<TaskFormProps> = ({ task, actions }) => {
   );
 };
 
-export const PolymorphicField: React.FC<{
+const PolymorphicField: React.FC<{
   field: FormField;
   value: any;
   error: string | undefined;

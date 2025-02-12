@@ -11,7 +11,7 @@ export const S_TO_MS = (seconds: number) => seconds * 1000;
 /**
  * Checks if a given timestamp is in the past.
  */
-export const isPast = (
+export const isExpired = (
   timestamp: number | Date | string | null | undefined
 ): boolean => {
   if (!timestamp) return false;
@@ -19,8 +19,6 @@ export const isPast = (
   if (typeof timestamp === 'number') return timestamp < Date.now();
   return timestamp.getTime() < Date.now();
 };
-
-export const isExpired = isPast;
 
 export const currentYear = new Date().getFullYear();
 

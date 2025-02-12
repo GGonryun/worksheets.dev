@@ -1,0 +1,13 @@
+{
+    "entry": [
+        "{apps,libs}/**/src/index.{ts,tsx}"
+    ],
+    "project": [
+        "{apps,libs}/**/src/**/*.{ts,tsx}"
+    ],
+    "eslint": {
+        "config": [
+            "{apps,libs}/**/.eslintrc.json"
+        ]
+    }
+}

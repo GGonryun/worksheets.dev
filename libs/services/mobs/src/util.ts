@@ -2,7 +2,7 @@ import { Prisma } from '@worksheets/prisma';
 import { assertNever } from '@worksheets/util/errors';
 import { BattleFiltersSchema } from '@worksheets/util/types';
 
-export type MobSorter = (
+type MobSorter = (
   filters: Pick<BattleFiltersSchema, 'direction' | 'sort'>
 ) => Prisma.BattleFindManyArgs['orderBy'];
 

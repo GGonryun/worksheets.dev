@@ -25,7 +25,7 @@ import { PLAY_NOW_BUTTON_ID } from '../../hooks/use-fullscreen';
 import { RotateToLandscape } from '../icons/rotate-to-landscape';
 import { RotateToPortrait } from '../icons/rotate-to-portrait';
 
-export type GameLoadingCoverProps = {
+type GameLoadingCoverProps = {
   gameId: string;
   backgroundUrl: string;
   iconUrl: string;

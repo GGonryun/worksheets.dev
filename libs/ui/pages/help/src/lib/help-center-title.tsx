@@ -34,5 +34,3 @@ export const HelpCenterTitle: React.FC = () => (
     </Typography>
   </Box>
 );
-
-export type HelpCenterTitleProps = React.ComponentProps<typeof HelpCenterTitle>;

@@ -29,7 +29,7 @@ const replaceLinks = (content: string, links?: TemplateLink[]) => {
   }, content);
 };
 
-export type TemplateLink = {
+type TemplateLink = {
   href: string;
   text: string;
   id: string;

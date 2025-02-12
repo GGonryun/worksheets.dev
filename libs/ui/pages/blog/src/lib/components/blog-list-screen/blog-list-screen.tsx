@@ -19,7 +19,7 @@ import { usePostFilter } from '../../hooks';
 import { PostPreview } from './post-preview';
 import { PostPreviews } from './post-previews';
 
-export type BlogListScreenProps = {
+type BlogListScreenProps = {
   posts: MarkdownMetadata[];
   tag: string;
 };

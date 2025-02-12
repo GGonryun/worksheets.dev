@@ -39,7 +39,7 @@ import { MAX_INT } from '@worksheets/prisma';
 import { PaletteColor } from '@worksheets/ui/theme';
 import { assertNever } from '@worksheets/util/errors';
 import {
-  isPast,
+  isExpired,
   millisecondsToDuration,
   timeUntil,
 } from '@worksheets/util/time';
@@ -189,7 +189,7 @@ export const formatTaskExpiration = (
     return 'Pending';
   }
 
-  if (isPast(expiresAt)) {
+  if (isExpired(expiresAt)) {
     return 'Expired';
   }
 

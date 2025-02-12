@@ -15,7 +15,7 @@ import { GameBanner } from './game-banner';
 import { GameFrame } from './game-frame';
 import { GameLoadingCover } from './game-loading-cover';
 
-export type GameLauncherProps = {
+type GameLauncherProps = {
   game: SerializableGameSchema;
   developer: DeveloperSchema;
   userVote?: Vote;

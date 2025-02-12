@@ -6,7 +6,7 @@ import { printDate } from '@worksheets/util/time';
 import { BlogAuthor } from '@worksheets/util/types';
 import { FC } from 'react';
 
-export type PostHeaderProps = {
+type PostHeaderProps = {
   title: string;
   coverImage: string;
   date: string;

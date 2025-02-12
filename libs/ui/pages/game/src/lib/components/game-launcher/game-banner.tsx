@@ -49,7 +49,7 @@ import { useDeviceInformation } from '../../hooks/use-device-information';
 import { GAME_BANNER_ID, GAME_MENU_ID } from '../../hooks/use-fullscreen';
 import { useGameNotifications } from '../../hooks/use-game-notifications';
 
-export type GameBannerProps = {
+type GameBannerProps = {
   boxRef: React.RefObject<HTMLDivElement>;
   developer: DeveloperSchema;
   isFullscreen: boolean;

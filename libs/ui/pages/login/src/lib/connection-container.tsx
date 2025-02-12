@@ -5,7 +5,7 @@ import { FC } from 'react';
 
 import { CharityGamesLogo } from './charity-games-logo';
 
-export type ConnectionContainerProps = {
+type ConnectionContainerProps = {
   children: React.ReactNode;
 };
 

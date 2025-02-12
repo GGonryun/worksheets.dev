@@ -1,4 +1,4 @@
-export type UserItemQuantities = Record<string, Record<string, number>>;
+type UserItemQuantities = Record<string, Record<string, number>>;
 export type UserItemQuantity = {
   quantity: number;
   itemId: string;

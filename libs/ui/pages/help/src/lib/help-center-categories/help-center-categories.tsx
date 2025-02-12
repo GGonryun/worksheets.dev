@@ -148,7 +148,3 @@ export const HelpCenterCategories: React.FC = () => {
     </Box>
   );
 };
-
-export type HelpCenterCategoriesProps = React.ComponentProps<
-  typeof HelpCenterCategories
->;

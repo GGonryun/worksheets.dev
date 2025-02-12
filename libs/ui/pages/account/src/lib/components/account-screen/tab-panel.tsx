@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box';
 import { FC } from 'react';
 
-export type TabPanelProps = {
+type TabPanelProps = {
   children?: React.ReactNode;
   target: string;
   current: string;

@@ -36,7 +36,7 @@ export const Data: React.FC<{
   </Row>
 );
 
-export const DataCell = styled((props: TypographyProps) => (
+const DataCell = styled((props: TypographyProps) => (
   <Typography fontWeight={500} {...props} />
 ))(({ theme }) => ({
   width: '100%',

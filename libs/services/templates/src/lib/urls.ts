@@ -13,8 +13,6 @@ export const RAFFLES_URL = routes.raffles.url();
 
 export const CONTACT_URL = routes.contact.url();
 
-export const ACCOUNT_URL = routes.account.url();
-
 export const ACCOUNT_QUESTS_URL = routes.account.quests.url();
 
 export const CONFIRM_NEWSLETTER_SUBSCRIPTION_URL = (id: string) =>

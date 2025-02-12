@@ -7,7 +7,7 @@ import { AccountTabs } from './account-tabs';
 import { TabPanel } from './tab-panel';
 import { AccountTabsHref } from './tabs';
 
-export type AccountScreenProps = {
+type AccountScreenProps = {
   path: string;
   settingsPanel: ReactNode;
   submissionsPanel: ReactNode;

@@ -13,7 +13,7 @@ import { useInterval } from '@worksheets/ui-core';
 import { BasicGameInfo } from '@worksheets/util/types';
 import React from 'react';
 
-export const PROMOTION_INTERVAL = 5000;
+const PROMOTION_INTERVAL = 5000;
 
 export const PrimaryFeatured: React.FC<{
   items: BasicGameInfo[];
@@ -123,5 +123,3 @@ const ActionTabs: React.FC<{
     </Box>
   );
 };
-
-export type PrimaryFeaturedProps = React.ComponentProps<typeof PrimaryFeatured>;

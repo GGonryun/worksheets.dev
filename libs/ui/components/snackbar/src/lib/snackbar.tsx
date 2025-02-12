@@ -5,7 +5,7 @@ import MuiSnackbar, {
 
 export type SnackbarSeverity = AlertProps['severity'];
 
-export type SnackbarProps = Pick<MuiSnackbarProps, 'open' | 'onClose'> & {
+type SnackbarProps = Pick<MuiSnackbarProps, 'open' | 'onClose'> & {
   message?: React.ReactNode;
   severity: SnackbarSeverity;
   duration?: number;

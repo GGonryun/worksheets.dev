@@ -47,5 +47,3 @@ export const RafflesScreen: React.FC<{
     </Container>
   </>
 );
-
-export type RafflesScreenProps = React.ComponentProps<typeof RafflesScreen>;

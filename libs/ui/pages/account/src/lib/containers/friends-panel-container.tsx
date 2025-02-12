@@ -14,11 +14,6 @@ import { useState } from 'react';
 import { AddFriendModal } from '../components';
 import { FriendsPanel } from '../panels';
 
-export const genericUnexpectedErrorMessage = {
-  message: 'An unexpected error occurred. Please try again later.',
-  severity: 'error' as const,
-};
-
 export const FriendsPanelContainer: React.FC<{ refreshTimestamp: number }> = ({
   refreshTimestamp,
 }) => {

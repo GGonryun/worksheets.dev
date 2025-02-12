@@ -3,7 +3,7 @@ import { GAME_TRACK_FREQUENCY_SECONDS } from '@worksheets/util/settings';
 import { useSession } from 'next-auth/react';
 import React, { useEffect, useState } from 'react';
 
-export const GameTrackingContext = React.createContext<null>(null);
+const GameTrackingContext = React.createContext<null>(null);
 
 export const GameTrackingProvider: React.FC<{
   gameId: string;

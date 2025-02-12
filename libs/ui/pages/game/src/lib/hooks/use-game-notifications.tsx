@@ -1,7 +1,7 @@
 import { AlertColor } from '@mui/material';
 import { createContext, useContext, useState } from 'react';
 
-export type GameNotification = {
+type GameNotification = {
   id: string;
   text: string;
   color: AlertColor;
@@ -18,21 +18,20 @@ type GameNotificationContextType = {
   show: (b: boolean) => void;
 };
 
-export const GameNotificationContext =
-  createContext<GameNotificationContextType>({
-    notifications: [],
-    showing: false,
-    active: false,
-    add: () => {
-      return;
-    },
-    remove: () => {
-      return;
-    },
-    show: () => {
-      return;
-    },
-  });
+const GameNotificationContext = createContext<GameNotificationContextType>({
+  notifications: [],
+  showing: false,
+  active: false,
+  add: () => {
+    return;
+  },
+  remove: () => {
+    return;
+  },
+  show: () => {
+    return;
+  },
+});
 
 export const useGameNotifications = () => {
   const context = useContext(GameNotificationContext);

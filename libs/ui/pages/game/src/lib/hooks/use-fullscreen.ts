@@ -1,4 +1,3 @@
-import { useEventListener } from '@worksheets/ui-core';
 import { RefObject, useRef, useState } from 'react';
 
 // game banner and game menu are allowed to be touched when in pseudo-fullscreen.
@@ -24,46 +23,6 @@ function customTouch(e: any) {
   e.preventDefault();
   e.stopPropagation();
 }
-
-// TODO: native fullscreen does not allow adsense to show advertisements because
-// the fullscreen box will not include the adsense ad. We have currently disabled
-// the native fullscreen for all games.
-export const useNativeFullscreen = (
-  docRef: RefObject<Document>,
-  boxRef: RefObject<HTMLDivElement>
-) => {
-  const [fullscreen, setFullscreen] = useState(false);
-
-  const handleFullscreenChange = (e: Event) => {
-    if (!docRef.current) return;
-    setFullscreen(docRef.current.fullscreenElement !== null);
-  };
-
-  useEventListener('fullscreenchange', handleFullscreenChange, docRef);
-  useEventListener('webkitfullscreenchange', handleFullscreenChange, docRef);
-  useEventListener('mozfullscreenchange', handleFullscreenChange, docRef);
-  useEventListener('msfullscreenchange', handleFullscreenChange, docRef);
-
-  return {
-    fullscreen,
-    canRequestFullscreen: () => !!boxRef.current?.requestFullscreen,
-    requestFullscreen: () => {
-      const element = boxRef.current;
-      const requestFullscreen = element?.requestFullscreen;
-      if (!requestFullscreen) return;
-
-      requestFullscreen.call(element);
-    },
-    canExitFullscreen: () => !!docRef.current?.exitFullscreen,
-    exitFullscreen: () => {
-      const exitFullscreen = docRef.current?.exitFullscreen;
-      if (!exitFullscreen) return;
-
-      exitFullscreen.call(docRef.current);
-    },
-  };
-};
-
 const usePseudoFullscreen = (
   docRef: RefObject<Document>,
   boxRef: RefObject<HTMLDivElement>

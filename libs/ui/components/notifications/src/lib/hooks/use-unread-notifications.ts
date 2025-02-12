@@ -1,13 +1,13 @@
 import { trpc } from '@worksheets/trpc-charity';
 import { useNotificationCache } from '@worksheets/ui/hooks/use-notification-cache';
-import { isPast, minutesFromNow } from '@worksheets/util/time';
+import { isExpired, minutesFromNow } from '@worksheets/util/time';
 import { useEffect } from 'react';
 
 const CACHE_DURATION = 5; // minutes
 
 export const useUnreadNotifications = (connected: boolean) => {
   const [cache, setCache] = useNotificationCache();
-  const expiredCache = isPast(cache.expires);
+  const expiredCache = isExpired(cache.expires);
 
   const hasNotification = trpc.user.notifications.hasAny.useQuery(undefined, {
     enabled: connected && expiredCache,
