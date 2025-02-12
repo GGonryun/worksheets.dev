@@ -8,10 +8,7 @@ import {
 } from '@worksheets/data/items';
 import { routes } from '@worksheets/routes';
 import { itemRarityLabel } from '@worksheets/ui/components/items';
-import {
-  HelpInventoryQuestions,
-  InventoryPanels,
-} from '@worksheets/util/enums';
+import { HelpInventoryQuestions, SettingsPanels } from '@worksheets/util/enums';
 import { toPercentage } from '@worksheets/util/numbers';
 import { QuestionAnswer } from '@worksheets/util/types';
 
@@ -56,7 +53,7 @@ export const helpInventory: QuestionAnswer[] = [
       <Typography component="div" fontWeight={500}>
         The inventory is where you can view and manage your digital prizes and
         in game items. You can view your inventory by visiting{' '}
-        <Link href={routes.account.inventory.path()}>your account</Link>.
+        <Link href={routes.account.path()}>your account</Link>.
         <br />
         <br />
         There are many different types of items in your inventory such as:
@@ -121,8 +118,8 @@ export const helpInventory: QuestionAnswer[] = [
         code, so make sure to check your email. You can also view the activation
         code by visiting your inventory and clicking on the{' '}
         <Link
-          href={routes.account.inventory.path({
-            bookmark: InventoryPanels.ActivationCodes,
+          href={routes.account.path({
+            bookmark: SettingsPanels.ActivationCodes,
           })}
         >
           Activation Codes Section

@@ -77,7 +77,7 @@ const ConfirmUnlockContent: React.FC<{
             <Link
               typography="body1"
               fontWeight={700}
-              href={routes.account.inventory.path()}
+              href={routes.account.path()}
               color="inherit"
               target="_blank"
             >

@@ -109,7 +109,7 @@ export const helpMobs: QuestionAnswer[] = [
         participating in playing games on our platform, participating in
         raffles, completing quests, and other activities on the platform. You
         can view your token balance on your{' '}
-        <Link href={routes.account.quests.path()}>profile</Link> page.
+        <Link href={routes.account.path()}>profile</Link> page.
         <br />
         <br />
         <Typography variant="h6" gutterBottom>

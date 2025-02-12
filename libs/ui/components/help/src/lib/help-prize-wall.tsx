@@ -1,7 +1,7 @@
 import { Box, Link, Typography } from '@mui/material';
 import { routes } from '@worksheets/routes';
 import { ListItem, OrderedList } from '@worksheets/ui-core';
-import { InventoryPanels } from '@worksheets/util/enums';
+import { SettingsPanels } from '@worksheets/util/enums';
 import { toPercentage } from '@worksheets/util/numbers';
 import {
   MAX_PRIZE_DISCOUNT,
@@ -65,7 +65,7 @@ export const helpPrizeWall: QuestionAnswer[] = [
               text: 'Enter Giveaways',
             },
             {
-              href: routes.account.quests.path(),
+              href: routes.account.path(),
               text: 'Complete Quests',
             },
           ]}
@@ -89,8 +89,8 @@ export const helpPrizeWall: QuestionAnswer[] = [
         <br />
         Alternatively, you can click{' '}
         <Link
-          href={routes.account.inventory.path({
-            bookmark: InventoryPanels.ActivationCodes,
+          href={routes.account.path({
+            bookmark: SettingsPanels.ActivationCodes,
           })}
           color="primary"
         >

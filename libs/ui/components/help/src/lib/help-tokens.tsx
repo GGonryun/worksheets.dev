@@ -112,7 +112,7 @@ export const helpTokens: QuestionAnswer[] = [
               text: 'Referrals',
             },
             {
-              href: routes.account.quests.path(),
+              href: routes.account.path(),
               text: 'View your tokens',
             },
             { href: routes.help.vip.path(), text: 'VIP Benefits' },
@@ -216,7 +216,7 @@ export const helpTokens: QuestionAnswer[] = [
         <HelpfulLinks
           links={[
             {
-              href: routes.account.referrals.path(),
+              href: routes.account.path(),
               text: `Share your referral link`,
             },
             {

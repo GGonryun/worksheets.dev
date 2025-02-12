@@ -26,7 +26,7 @@ export const helpFriends: QuestionAnswer[] = [
         <br />
         <HelpfulLinks
           links={[
-            { href: routes.account.friends.path(), text: 'See Your Friends' },
+            { href: routes.account.path(), text: 'See Your Friends' },
 
             {
               href: routes.help.referrals.path(),
@@ -54,7 +54,7 @@ export const helpFriends: QuestionAnswer[] = [
         <br />
         <HelpfulLinks
           links={[
-            { href: routes.account.friends.path(), text: 'See Your Friends' },
+            { href: routes.account.path(), text: 'See Your Friends' },
             {
               href: routes.help.referrals.path(),
               text: 'Learn more about Referrals',

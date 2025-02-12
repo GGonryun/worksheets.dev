@@ -72,7 +72,7 @@ export const TitleSection: FC<{ statistics?: BasicWebsiteStatistics }> = ({
     <Button
       variant="arcade"
       color="secondary"
-      href={routes.account.submissions.path()}
+      href={routes.account.path()}
       endIcon={<ArrowRightAlt />}
       sx={{
         width: { xs: '100%', sm: 'fit-content' },

@@ -3,17 +3,12 @@ import { Button, Link, Typography } from '@mui/material';
 import { routes } from '@worksheets/routes';
 import { Column } from '@worksheets/ui/components/flex';
 import { BulletPoints } from '@worksheets/ui/components/lists';
-import { FriendsPanels } from '@worksheets/util/enums';
 import { MAX_BEST_FRIENDS } from '@worksheets/util/settings';
 import { TaskFormProps } from '@worksheets/util/tasks';
 import pluralize from 'pluralize';
 
-const ADD_FRIENDS_LINK = routes.account.friends.path({
-  bookmark: FriendsPanels.AddFriends,
-});
-const FRIENDS_LIST_LINK = routes.account.friends.path({
-  bookmark: FriendsPanels.FriendsList,
-});
+const ADD_FRIENDS_LINK = routes.account.path({});
+const FRIENDS_LIST_LINK = routes.account.path({});
 
 export const FriendPlayMinutesForm: React.FC<TaskFormProps> = ({ task }) => {
   const minutes = Math.floor(task.repetitions / 60);

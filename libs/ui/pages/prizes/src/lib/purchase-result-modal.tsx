@@ -5,7 +5,7 @@ import { routes } from '@worksheets/routes';
 import { CopyableActivationCodes } from '@worksheets/ui/components/activation-codes';
 import { Column } from '@worksheets/ui/components/flex';
 import { InfoModal, ModalWrapper } from '@worksheets/ui/components/modals';
-import { HelpPrizesQuestions, InventoryPanels } from '@worksheets/util/enums';
+import { HelpPrizesQuestions, SettingsPanels } from '@worksheets/util/enums';
 import { PurchaseResultSchema } from '@worksheets/util/types';
 import React from 'react';
 export const PurchaseResultModal: React.FC<
@@ -91,8 +91,8 @@ const SuccessfulPurchaseContent: React.FC<{ result: PurchaseResultSchema }> = ({
           color="inherit"
           target="_blank"
           startIcon={<OpenInNew />}
-          href={routes.account.inventory.path({
-            bookmark: InventoryPanels.ActivationCodes,
+          href={routes.account.path({
+            bookmark: SettingsPanels.ActivationCodes,
           })}
         >
           View my activation codes

@@ -656,7 +656,7 @@ const UseTokensContent: React.FC<{
       <Box alignSelf="flex-end">
         <Button
           variant="text"
-          href={routes.account.quests.path()}
+          href={routes.account.path()}
           target="_blank"
           startIcon={<OpenInNew />}
           sx={{ width: 200 }}

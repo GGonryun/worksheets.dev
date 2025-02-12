@@ -1,9 +1,7 @@
 import { Author } from '@worksheets/util/blog';
 import {
-  AccountFriendsQueryParams,
   ConnectIntegrationQueryParams,
   ErrorQueryParams,
-  FriendsPanels,
   HelpAccountQuestions,
   HelpCommonQuestions,
   HelpContributionsQuestions,
@@ -20,11 +18,9 @@ import {
   HelpReferralsQuestions,
   HelpTokensQuestions,
   HelpVIPQuestions,
-  InventoryPanels,
   LoginQueryParams,
   NewsletterQueryParams,
   RafflesQueryParams,
-  ReferralsPanels,
   RefQueryParams,
   SettingsPanels,
 } from '@worksheets/util/enums';
@@ -261,44 +257,6 @@ export const routes = {
   account: createRoute({
     path: '/account',
     bookmarks: SettingsPanels,
-    routes: {
-      submissions: createRoute({
-        path: '/account/submissions',
-        routes: {
-          create: createRoute({
-            path: '/account/submissions/new',
-          }),
-          edit: createRoute({
-            path: '/account/submissions/edit/[submissionId]',
-          }),
-          success: createRoute({
-            path: '/account/submissions/success',
-          }),
-        },
-      }),
-      quests: createRoute({
-        path: '/account/quests',
-      }),
-      referrals: createRoute({
-        path: '/account/referrals',
-        bookmarks: ReferralsPanels,
-      }),
-      friends: createRoute({
-        path: '/account/friends',
-        bookmarks: FriendsPanels,
-        query: AccountFriendsQueryParams,
-      }),
-      inventory: createRoute({
-        path: '/account/inventory',
-        bookmarks: InventoryPanels,
-      }),
-      notifications: createRoute({
-        path: '/account/notifications',
-      }),
-      integrations: createRoute({
-        path: '/account/integrations',
-      }),
-    },
   }),
   ref: createRoute({
     path: '/ref/[code]',

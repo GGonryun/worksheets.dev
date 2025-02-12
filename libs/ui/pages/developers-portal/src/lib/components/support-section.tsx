@@ -53,7 +53,7 @@ export const SupportSection = () => (
         description="Donate a game to our platform and help us make a difference."
         Icon={CharityBox}
         action={{
-          href: routes.account.submissions.path(),
+          href: routes.account.path(),
           label: 'Submit a game',
           color: 'secondary',
         }}

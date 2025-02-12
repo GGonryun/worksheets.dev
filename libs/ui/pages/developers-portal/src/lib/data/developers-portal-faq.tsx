@@ -50,15 +50,12 @@ export const developersPortalFaq: QuestionAnswer[] = [
           </ListItem>
           <ListItem>
             Complete and sign the terms of service agreement located on the{' '}
-            <Link href={routes.account.submissions.path()}>
-              {' '}
-              submission page.
-            </Link>
+            <Link href={routes.account.path()}> submission page.</Link>
           </ListItem>
           <ListItem>
             Create a new game by clicking the "Submit Game" button on your
             profile page or by{' '}
-            <Link href={routes.account.submissions.path()}>clicking here.</Link>
+            <Link href={routes.account.path()}>clicking here.</Link>
           </ListItem>
           <ListItem>
             Follow the instructions on the submission page to upload your game
@@ -87,7 +84,7 @@ export const developersPortalFaq: QuestionAnswer[] = [
       <Box>
         <Typography>
           In order to make changes to your game navigate to your{' '}
-          <Link href={routes.account.submissions.path()}>
+          <Link href={routes.account.path()}>
             game submission section of your account page
           </Link>{' '}
           and click on the game you would like to edit.

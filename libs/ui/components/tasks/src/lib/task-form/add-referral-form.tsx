@@ -2,7 +2,7 @@ import { Button, Link, Typography } from '@mui/material';
 import { routes } from '@worksheets/routes';
 import { Column } from '@worksheets/ui/components/flex';
 import { BulletPoints } from '@worksheets/ui/components/lists';
-import { ReferralsPanels } from '@worksheets/util/enums';
+import { SettingsPanels } from '@worksheets/util/enums';
 import { TaskFormProps } from '@worksheets/util/tasks';
 import pluralize from 'pluralize';
 import React from 'react';
@@ -29,8 +29,8 @@ export const AddReferralForm: React.FC<TaskFormProps> = ({ task }) => {
         variant="arcade"
         size="small"
         color="warning"
-        href={routes.account.referrals.path({
-          bookmark: ReferralsPanels.ShareYourLink,
+        href={routes.account.path({
+          bookmark: SettingsPanels.Referrals,
         })}
       >
         Share Your Link

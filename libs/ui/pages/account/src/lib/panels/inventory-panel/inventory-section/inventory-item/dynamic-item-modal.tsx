@@ -39,11 +39,7 @@ import { PrizeWheel } from '@worksheets/ui/components/prize-wheel';
 import { useSnackbar } from '@worksheets/ui/components/snackbar';
 import { useMediaQueryDown } from '@worksheets/ui/hooks/use-media-query';
 import { Redirect } from '@worksheets/ui-core';
-import {
-  FriendsPanels,
-  HelpInventoryQuestions,
-  InventoryPanels,
-} from '@worksheets/util/enums';
+import { HelpInventoryQuestions, SettingsPanels } from '@worksheets/util/enums';
 import { assertNever } from '@worksheets/util/errors';
 import { MAX_CONSUMPTION_RATE } from '@worksheets/util/settings';
 import { capitalizeFirstLetter, shorten } from '@worksheets/util/strings';
@@ -98,8 +94,8 @@ const ActivateItem: React.FC<{
       await utils.user.codes.activation.list.invalidate();
       snackbar.success(<Typography>{result}</Typography>);
       push(
-        routes.account.inventory.path({
-          bookmark: InventoryPanels.ActivationCodes,
+        routes.account.path({
+          bookmark: SettingsPanels.ActivationCodes,
         })
       );
     } catch (error) {
@@ -351,9 +347,7 @@ const NoFriendsWarning = () => (
       color="secondary"
       sx={{ width: 'fit-content' }}
       startIcon={<FavoriteBorder />}
-      href={routes.account.friends.path({
-        bookmark: FriendsPanels.AddFriends,
-      })}
+      href={routes.account.path()}
     >
       Add Friends
     </Button>

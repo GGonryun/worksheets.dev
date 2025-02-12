@@ -50,7 +50,7 @@ export const SubmissionHeader: FC<{ invalidProfile: boolean | undefined }> = ({
         variant="arcade"
         color="primary"
         size="small"
-        href={routes.account.submissions.path()}
+        href={routes.account.path()}
         endIcon={<ArrowRightAlt />}
         sx={{
           width: { xs: '100%', sm: 'auto' },

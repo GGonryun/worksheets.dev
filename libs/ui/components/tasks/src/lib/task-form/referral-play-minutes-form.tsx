@@ -3,12 +3,12 @@ import { Button, Link, Typography } from '@mui/material';
 import { routes } from '@worksheets/routes';
 import { Column } from '@worksheets/ui/components/flex';
 import { BulletPoints } from '@worksheets/ui/components/lists';
-import { ReferralsPanels } from '@worksheets/util/enums';
+import { SettingsPanels } from '@worksheets/util/enums';
 import { TaskFormProps } from '@worksheets/util/tasks';
 import pluralize from 'pluralize';
 
-const SHARE_YOUR_LINK = routes.account.referrals.path({
-  bookmark: ReferralsPanels.ShareYourLink,
+const SHARE_YOUR_LINK = routes.account.path({
+  bookmark: SettingsPanels.Referrals,
 });
 export const ReferralPlayMinutesForm: React.FC<TaskFormProps> = ({ task }) => {
   const minutes = Math.floor(task.repetitions / 60);

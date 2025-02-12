@@ -53,7 +53,7 @@ export const GameSubmissionSuccessScreen = () => {
           <Link href={routes.contact.path()}>contact us</Link>
         </Typography>
         <Button
-          href={routes.account.submissions.path()}
+          href={routes.account.path()}
           variant="arcade"
           color="error"
           size="large"

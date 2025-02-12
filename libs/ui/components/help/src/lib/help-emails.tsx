@@ -1,6 +1,6 @@
 import { Box, Link, Typography } from '@mui/material';
 import { emailRoutes, routes } from '@worksheets/routes';
-import { HelpEmailsQuestions, SettingsPanels } from '@worksheets/util/enums';
+import { HelpEmailsQuestions } from '@worksheets/util/enums';
 import { QuestionAnswer } from '@worksheets/util/types';
 
 export const helpEmails: QuestionAnswer[] = [

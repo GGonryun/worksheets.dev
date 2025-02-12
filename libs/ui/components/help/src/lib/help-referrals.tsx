@@ -1,9 +1,6 @@
 import { Box, Link, Typography } from '@mui/material';
 import { routes } from '@worksheets/routes';
-import {
-  HelpReferralsQuestions,
-  ReferralsPanels,
-} from '@worksheets/util/enums';
+import { HelpReferralsQuestions, SettingsPanels } from '@worksheets/util/enums';
 import { TOKENS_PER_REFERRAL_ACCOUNT } from '@worksheets/util/settings';
 import { QuestionAnswer } from '@worksheets/util/types';
 
@@ -27,8 +24,8 @@ export const helpReferrals: QuestionAnswer[] = [
         <HelpfulLinks
           links={[
             {
-              href: routes.account.referrals.path({
-                bookmark: ReferralsPanels.ShareYourLink,
+              href: routes.account.path({
+                bookmark: SettingsPanels.Referrals,
               }),
               text: `Share your referral link`,
             },
@@ -64,8 +61,8 @@ export const helpReferrals: QuestionAnswer[] = [
         <HelpfulLinks
           links={[
             {
-              href: routes.account.referrals.path({
-                bookmark: ReferralsPanels.ShareYourLink,
+              href: routes.account.path({
+                bookmark: SettingsPanels.Referrals,
               }),
               text: `Share your referral link`,
             },
@@ -98,8 +95,8 @@ export const helpReferrals: QuestionAnswer[] = [
         <HelpfulLinks
           links={[
             {
-              href: routes.account.referrals.path({
-                bookmark: ReferralsPanels.ShareYourLink,
+              href: routes.account.path({
+                bookmark: SettingsPanels.Referrals,
               }),
               text: `Share your referral link`,
             },
@@ -129,8 +126,8 @@ export const helpReferrals: QuestionAnswer[] = [
         <HelpfulLinks
           links={[
             {
-              href: routes.account.referrals.path({
-                bookmark: ReferralsPanels.ShareYourLink,
+              href: routes.account.path({
+                bookmark: SettingsPanels.Referrals,
               }),
               text: `Share your referral link`,
             },

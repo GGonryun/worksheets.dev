@@ -65,13 +65,13 @@ export const ReferralsSection: React.FC<{
         <PanelFooter
           learn={{
             text: 'Referred Accounts',
-            href: routes.account.referrals.path({
+            href: routes.account.path({
               bookmark: SettingsPanels.Referrals,
             }),
           }}
           action={{
             text: 'Friends List',
-            href: routes.account.friends.path({}),
+            href: routes.account.path({}),
           }}
         />
       </Box>

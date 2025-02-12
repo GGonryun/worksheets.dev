@@ -40,7 +40,7 @@ export const helpNotifications: QuestionAnswer[] = [
           links={[
             {
               text: 'See my notifications',
-              href: routes.account.notifications.path(),
+              href: routes.account.path(),
             },
             {
               text: 'Change my notification settings',
@@ -72,7 +72,7 @@ export const helpNotifications: QuestionAnswer[] = [
           links={[
             {
               text: 'See my notifications',
-              href: routes.account.notifications.path(),
+              href: routes.account.path(),
             },
           ]}
         />

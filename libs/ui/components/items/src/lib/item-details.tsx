@@ -139,7 +139,7 @@ export const ItemDetails: React.FC<{
                 <span>
                   {props.sources.quests.map((quest, index) => (
                     <Fragment>
-                      <Link key={quest.id} href={routes.account.quests.path()}>
+                      <Link key={quest.id} href={routes.account.path()}>
                         {quest.name}
                       </Link>
                       {index < props.sources.quests.length - 1 ? ', ' : ''}

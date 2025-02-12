@@ -21,7 +21,7 @@ export const helpPrizes: QuestionAnswer[] = [
           <br />
           <br />
           All prizes are digital and can be claimed in{' '}
-          <Link href={routes.account.inventory.path()}>your account</Link>.
+          <Link href={routes.account.path()}>your account</Link>.
           <br />
           <br />
           If you are unable to claim a prize, please{' '}
@@ -41,7 +41,7 @@ export const helpPrizes: QuestionAnswer[] = [
           links={[
             {
               text: 'Access your inventory',
-              href: routes.account.inventory.path(),
+              href: routes.account.path(),
             },
             { text: 'View Raffles', href: routes.raffles.path() },
             { text: 'Learn about Tokens', href: routes.help.tokens.path() },
@@ -88,13 +88,13 @@ export const helpPrizes: QuestionAnswer[] = [
           <br />
           If you have won a prize, you will receive a notification and an email
           to claim your prize. You can find all your prizes in your{' '}
-          <Link href={routes.account.inventory.path()}>inventory page</Link>.
+          <Link href={routes.account.path()}>inventory page</Link>.
         </Typography>
         <br />
         <HelpfulLinks
           links={[
             { text: 'Enter Raffles', href: routes.raffles.expired.path() },
-            { text: 'See my inventory', href: routes.account.inventory.path() },
+            { text: 'See my inventory', href: routes.account.path() },
           ]}
         />
       </Box>
@@ -109,7 +109,7 @@ export const helpPrizes: QuestionAnswer[] = [
         <Typography>
           You can claim prizes by visiting the{' '}
           <Link
-            href={routes.account.inventory.path({
+            href={routes.account.path({
               bookmark: SettingsPanels.Items,
             })}
           >
@@ -117,7 +117,7 @@ export const helpPrizes: QuestionAnswer[] = [
           </Link>
           . If you have won a prize, you will receive a notification to claim
           your prize. You can find all your prizes in your{' '}
-          <Link href={routes.account.inventory.path()}>inventory page</Link>.
+          <Link href={routes.account.path()}>inventory page</Link>.
           <br />
           <br />
           We will attempt to deliver your prize to you within 24 hours. If you
@@ -134,7 +134,7 @@ export const helpPrizes: QuestionAnswer[] = [
         <HelpfulLinks
           links={[
             { text: 'Learn about Tokens', href: routes.help.tokens.path() },
-            { text: 'See my inventory', href: routes.account.inventory.path() },
+            { text: 'See my inventory', href: routes.account.path() },
             {
               text: 'Contact Us',
               href: routes.contact.path(),
@@ -157,8 +157,8 @@ export const helpPrizes: QuestionAnswer[] = [
           the platform.
           <br />
           <br />
-          <Link href={routes.account.quests.path()}>Create an account</Link> to
-          start earning tokens.
+          <Link href={routes.account.path()}>Create an account</Link> to start
+          earning tokens.
         </Typography>
         <br />
         <HelpfulLinks
@@ -189,7 +189,7 @@ export const helpPrizes: QuestionAnswer[] = [
         <HelpfulLinks
           links={[
             { text: 'Learn about Tokens', href: routes.help.tokens.path() },
-            { text: 'My Tokens', href: routes.account.quests.path() },
+            { text: 'My Tokens', href: routes.account.path() },
             { text: 'Enter Raffles', href: routes.raffles.path() },
           ]}
         />
@@ -233,7 +233,7 @@ export const helpPrizes: QuestionAnswer[] = [
           links={[
             {
               text: 'My Activation Codes',
-              href: routes.account.inventory.path({
+              href: routes.account.path({
                 bookmark: SettingsPanels.ActivationCodes,
               }),
             },
@@ -308,7 +308,7 @@ export const helpPrizes: QuestionAnswer[] = [
             },
             {
               text: 'My Activation Codes',
-              href: routes.account.inventory.path({
+              href: routes.account.path({
                 bookmark: SettingsPanels.ActivationCodes,
               }),
             },

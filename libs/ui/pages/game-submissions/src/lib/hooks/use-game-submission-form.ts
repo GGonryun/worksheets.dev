@@ -118,7 +118,7 @@ export const useGameSubmissionForm = (
         setErrors(results.errors);
       } else {
         await submitForm.mutateAsync({ ...values, id: submissionId });
-        push(routes.account.submissions.success.path());
+        push(routes.account.path());
       }
     } finally {
       setLoading(false);
@@ -133,7 +133,7 @@ export const useGameSubmissionForm = (
 
       snackbar.success('Submission updated');
 
-      push(routes.account.submissions.path());
+      push(routes.account.path());
     } finally {
       setLoading(false);
       setUpdated(false);

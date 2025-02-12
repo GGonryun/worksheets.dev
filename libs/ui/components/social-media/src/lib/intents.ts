@@ -1,5 +1,4 @@
 import { routes } from '@worksheets/routes';
-import { FriendsPanels } from '@worksheets/util/enums';
 
 const CHARITY_GAMES_TWITTER_HANDLE = 'charitydotgames';
 
@@ -40,12 +39,7 @@ export const addFriendsIntent = ({
 }: {
   friendCode: string;
 }): SocialProviderIntent => {
-  const url = routes.account.friends.url({
-    query: {
-      code: friendCode,
-    },
-    bookmark: FriendsPanels.AddFriends,
-  });
+  const url = routes.account.url({});
 
   const text = `Add me as a friend on Charity.Games!`;
 

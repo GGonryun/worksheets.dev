@@ -102,10 +102,8 @@ export const SettingsPanelContainer: React.FC = () => {
             content: (
               <>
                 Help us grow by sharing your{' '}
-                <Link href={routes.account.referrals.path()}>
-                  referral link
-                </Link>{' '}
-                with friends and family.
+                <Link href={routes.account.path()}>referral link</Link> with
+                friends and family.
               </>
             ),
           }}

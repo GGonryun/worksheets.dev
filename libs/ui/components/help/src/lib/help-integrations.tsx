@@ -42,7 +42,7 @@ export const helpIntegrations: QuestionAnswer[] = [
       <Column>
         <Typography>
           To connect your Steam account, visit the{' '}
-          <Link href={routes.account.integrations.path()}>
+          <Link href={routes.account.path()}>
             Integrations page in your account settings
           </Link>
           . Click the "Connect" button next to the Steam logo. You will be

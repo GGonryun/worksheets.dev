@@ -28,7 +28,7 @@ export const AddFriendForm: React.FC<TaskFormProps> = ({ task }) => {
         variant="arcade"
         size="small"
         color="secondary"
-        href={routes.account.friends.path()}
+        href={routes.account.path()}
       >
         Add Friends
       </Button>

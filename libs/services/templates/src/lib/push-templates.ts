@@ -1,6 +1,6 @@
 import { routes } from '@worksheets/routes';
 import { PushNotifyInput } from '@worksheets/services/push';
-import { InventoryPanels } from '@worksheets/util/enums';
+import { SettingsPanels } from '@worksheets/util/enums';
 import { nth } from '@worksheets/util/numbers';
 import {
   STARTING_GIFT_BOXES,
@@ -36,8 +36,8 @@ export class PushTemplates {
       type: 'PRIZE',
       text: `You have unlocked the prize <a href="${opts.url}">${opts.name} ${
         opts.type === 'STEAM' ? 'Steam Key' : ''
-      }</a>. Access your prize <a href="${routes.account.inventory.url({
-        bookmark: InventoryPanels.ActivationCodes,
+      }</a>. Access your prize <a href="${routes.account.url({
+        bookmark: SettingsPanels.ActivationCodes,
       })}">here</a>!`,
     };
   }

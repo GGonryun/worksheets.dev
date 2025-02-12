@@ -22,7 +22,7 @@ export const helpQuests: QuestionAnswer[] = [
           challenges that you can complete to earn tokens. There are many
           different types of quests, including daily quests, weekly quests, and
           event quests. You can view your current quests on the{' '}
-          <Link href={routes.account.quests.path()}>
+          <Link href={routes.account.path()}>
             Quests section of your account page
           </Link>
           .
@@ -97,7 +97,7 @@ export const helpQuests: QuestionAnswer[] = [
           tokens, while others offer a random number of tokens. Some quests
           offer a chance to win a prize. You can view the rewards for each quest
           on the{' '}
-          <Link href={routes.account.quests.path()}>
+          <Link href={routes.account.path()}>
             Quests section of your account page
           </Link>
           .
@@ -146,7 +146,7 @@ export const helpQuests: QuestionAnswer[] = [
         quests offer a fixed number of tokens, while others offer a random
         number of tokens. Some quests offer a chance to win a prize. You can
         view the rewards for each quest on the{' '}
-        <Link href={routes.account.quests.path()}>
+        <Link href={routes.account.path()}>
           Quests section of your account page
         </Link>
         .
@@ -174,7 +174,7 @@ export const helpQuests: QuestionAnswer[] = [
           You can complete quests as often as you like. Some quests can be
           completed multiple times, while others can only be completed once. You
           can view the specific frequency of each quest on the{' '}
-          <Link href={routes.account.quests.path()}>
+          <Link href={routes.account.path()}>
             Quests section of your account page
           </Link>
           .
@@ -186,7 +186,7 @@ export const helpQuests: QuestionAnswer[] = [
           <br />
           For quests that can be completed multiple times, you can view your
           progress on the{' '}
-          <Link href={routes.account.quests.path()}>
+          <Link href={routes.account.path()}>
             Quests section of your account page
           </Link>
           .

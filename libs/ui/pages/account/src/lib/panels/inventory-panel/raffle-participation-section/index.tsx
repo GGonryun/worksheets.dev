@@ -91,7 +91,7 @@ export const RaffleParticipationSection: React.FC<{
           }}
           action={{
             text: 'Activation Codes',
-            href: routes.account.inventory.path({
+            href: routes.account.path({
               bookmark: SettingsPanels.ActivationCodes,
             }),
             color: 'success',

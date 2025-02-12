@@ -178,7 +178,7 @@ const RewardModal: React.FC<ModalWrapper<{ reward: RedemptionCodeSchema }>> = ({
           fullWidth
           variant="arcade"
           color="primary"
-          href={routes.account.inventory.path({
+          href={routes.account.path({
             bookmark: SettingsPanels.Items,
           })}
           onClick={handleClick}
