@@ -41,10 +41,6 @@
             "schedule": "0 * * * *"
         },
         {
-            "path": "/api/cron/shuffle-prizes",
-            "schedule": "0 */6 * * *"
-        },
-        {
             "path": "/api/cron/spawn-raffle",
             "schedule": "0 0 * * *"
         },

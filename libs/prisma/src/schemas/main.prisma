@@ -67,7 +67,6 @@ model User {
   gameStorage      GameStorage[]
   gameScores       GameScore[]
   achievement      PlayerAchievement[]
-  prizes           Prize[]
 }
 
 model Account {
@@ -565,7 +564,6 @@ model ActivationCode {
   // ** Relationships **
   itemId    String?
   item      Item?   @relation(fields: [itemId], references: [id])
-  prize     Prize?
   userId    String?
   user      User?   @relation(fields: [userId], references: [id])
 }
@@ -1056,23 +1054,4 @@ model PlayerAchievement {
   createdAt     DateTime        @default(now())
 
   @@unique([achievementId, userId])
-}
-
-enum PrizeStatus {
-  PENDING
-  ACTIVE
-  REDEEMED
-  EXPIRED
-}
-
-model Prize {
-  id          Int            @id @default(autoincrement())
-  status      PrizeStatus    @default(PENDING)
-  discount    Float          @default(0) // percentage discount
-  purchasedAt DateTime?
-  userId      String?
-  user        User?          @relation(fields: [userId], references: [id], onDelete: Cascade)
-  value       Int
-  codeId      String         @unique
-  code        ActivationCode @relation(fields: [codeId], references: [id])
 }

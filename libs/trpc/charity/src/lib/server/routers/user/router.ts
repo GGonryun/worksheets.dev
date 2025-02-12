@@ -14,7 +14,6 @@ import inventory from './inventory';
 import leaderboards from './leaderboards/router';
 import newsletter from './newsletter/router';
 import notifications from './notifications/router';
-import prizes from './prizes';
 import profile from './profile/router';
 import raffles from './raffles/router';
 import referrals from './referrals/router';
@@ -34,7 +33,6 @@ export default t.router({
   friends,
   followers,
   raffles,
-  prizes,
   game,
   vip,
   initialize,

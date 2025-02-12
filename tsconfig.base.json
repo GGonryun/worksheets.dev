@@ -88,7 +88,6 @@
       "@worksheets/services/notifications": [
         "libs/services/notifications/src/index.ts"
       ],
-      "@worksheets/services/prizes": ["libs/services/prizes/src/index.ts"],
       "@worksheets/services/push": ["libs/services/push/src/index.ts"],
       "@worksheets/services/raffles": ["libs/services/raffles/src/index.ts"],
       "@worksheets/services/ratelimit": [
@@ -298,7 +297,6 @@
       "@worksheets/ui/pages/privacy-policy": [
         "libs/ui/pages/privacy-policy/src/index.ts"
       ],
-      "@worksheets/ui/pages/prizes": ["libs/ui/pages/prizes/src/index.ts"],
       "@worksheets/ui/pages/raffles": ["libs/ui/pages/raffles/src/index.ts"],
       "@worksheets/ui/pages/terms-of-service": [
         "libs/ui/pages/terms-of-service/src/index.ts"

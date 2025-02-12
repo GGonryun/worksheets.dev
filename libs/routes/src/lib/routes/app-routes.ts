@@ -61,14 +61,6 @@ export const routes = {
       }),
     },
   }),
-  prizes: createRoute({
-    path: '/prizes',
-    routes: {
-      prize: createRoute({
-        path: '/prizes/[prizeId]',
-      }),
-    },
-  }),
   connect: createRoute({
     path: '/connect/[providerId]',
     query: ConnectIntegrationQueryParams,

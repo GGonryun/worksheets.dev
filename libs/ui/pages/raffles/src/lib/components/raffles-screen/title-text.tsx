@@ -1,4 +1,4 @@
-import { CardGiftcardOutlined, PlayCircleOutline } from '@mui/icons-material';
+import { PlayCircleOutline } from '@mui/icons-material';
 import { Box, Button, Typography } from '@mui/material';
 import { routes } from '@worksheets/routes';
 import { Row } from '@worksheets/ui/components/flex';
@@ -20,13 +20,13 @@ export const TitleText = () => {
           alignItems: 'center',
           justifyContent: 'center',
           flexDirection: 'column',
-          gap: 0.875,
         }}
       >
         <Typography
           color="text.arcade"
           sx={{
-            typography: { xs: 'body3', sm: 'body1' },
+            typography: { xs: 'body2', sm: 'body1' },
+            fontWeight: { xs: 500, sm: 500 },
           }}
         >
           Charity Games Raffles
@@ -61,15 +61,6 @@ export const TitleText = () => {
             href={routes.help.prizes.path()}
           >
             How It Works
-          </Button>
-          <Button
-            size="large"
-            variant="arcade"
-            color="secondary"
-            startIcon={<CardGiftcardOutlined />}
-            href={routes.prizes.path()}
-          >
-            Prize Wall
           </Button>
         </Row>
       </Box>

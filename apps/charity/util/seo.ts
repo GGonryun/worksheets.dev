@@ -459,10 +459,3 @@ export const connectSeo = (providerId: string): NextSeoProps => {
     description: `Connect an external account to Charity Games. Turn your games into donations. Help us make a difference.`,
   });
 };
-
-export const prizesSeo = createSeo({
-  path: routes.prizes.path(),
-  title: 'Prizes',
-  description:
-    'Trade your tokens for digital and physical prizes. Win prizes by playing browser games.',
-});

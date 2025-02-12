@@ -7,28 +7,6 @@ import { ExtractTemplatePayload } from './types';
 import { RAFFLE_URL } from './urls';
 
 export class DiscordTemplates {
-  static prizePurchased(
-    opts: ExtractTemplatePayload<'prize-purchased'>
-  ): DiscordMessageInput {
-    return {
-      content: `🔑🎁 PRIZE UNLOCKED 🎁🔑`,
-      embeds: [
-        {
-          title: `${opts.name} — ${opts.cost} tokens`,
-          url: routes.prizes.url(),
-          description: `The user ${opts.user.username} has purchased a ${
-            opts.name
-          } ${opts.type === 'STEAM' ? 'Steam Key' : 'Unknown'} for ${
-            opts.cost
-          } tokens!`,
-          image: {
-            url: opts.imageUrl,
-          },
-        },
-      ],
-      channel: 'notification',
-    };
-  }
   static userReport(
     opts: ExtractTemplatePayload<'user-report'>
   ): DiscordMessageInput {
