@@ -77,15 +77,6 @@ export default t.router({
           id: input,
         },
         include: {
-          loot: {
-            include: {
-              quest: {
-                include: {
-                  task: true,
-                },
-              },
-            },
-          },
           raffles: true,
         },
       });
@@ -105,15 +96,6 @@ export default t.router({
 
 type PrismaItem = Prisma.ItemGetPayload<{
   include: {
-    loot: {
-      include: {
-        quest: {
-          include: {
-            task: true;
-          };
-        };
-      };
-    };
     raffles: true;
   };
 }>;

@@ -162,21 +162,6 @@ export type NotificationTemplate =
       };
     }
   | {
-      type: 'quest-completed';
-      payload: {
-        userId: string;
-        quest: {
-          name: string;
-          loot: {
-            item: {
-              name: string;
-            };
-            quantity: number;
-          }[];
-        };
-      };
-    }
-  | {
       type: 'found-item';
       payload: {
         userId: string;

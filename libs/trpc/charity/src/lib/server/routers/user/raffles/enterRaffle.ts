@@ -1,5 +1,4 @@
 import { RafflesService } from '@worksheets/services/raffles';
-import { startBackgroundJob } from '@worksheets/util/jobs';
 import { z } from 'zod';
 
 import { protectedProcedure } from '../../../procedures';
@@ -32,13 +31,6 @@ export default protectedProcedure
           entries,
           bonus: false,
         });
-      });
-
-      startBackgroundJob('raffle/participation', {
-        userId: user.id,
-        raffleId,
-        repetitions: entries,
-        referralCode,
       });
     }
   );

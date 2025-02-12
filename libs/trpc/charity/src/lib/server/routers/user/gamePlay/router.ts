@@ -34,12 +34,6 @@ export default t.router({
 
       await retryTransaction(db, async (tx) => {
         const tasks = new TasksService(tx);
-        await tasks.trackGameQuests({
-          gameId,
-          userId,
-          type: 'PLAY_GAME',
-          repetitions: 1,
-        });
         await tasks.trackGameActions({
           gameId,
           userId,

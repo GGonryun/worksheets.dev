@@ -1,15 +1,13 @@
 import { DoneOutline, OpenInNew } from '@mui/icons-material';
 import { Button } from '@mui/material';
-import { IntegrationProvider } from '@prisma/client';
-import { trpc } from '@worksheets/trpc-charity';
 import { Column } from '@worksheets/ui/components/flex';
-import { SteamIntegration } from '@worksheets/ui/components/integrations';
 import { useSnackbar } from '@worksheets/ui/components/snackbar';
 import { TaskFormProps } from '@worksheets/util/tasks';
 import { parseTRPCClientErrorMessage } from '@worksheets/util/trpc';
 import React from 'react';
 
-import { QuestCompleteNotice } from './quest-complete-notice';
+import { IntegrationDisclaimer } from '../shared/disclaimer';
+import { TaskCompleteNotice } from './task-complete-notice';
 
 export const WishlistSteamGameForm: React.FC<TaskFormProps> = ({
   task,
@@ -18,10 +16,9 @@ export const WishlistSteamGameForm: React.FC<TaskFormProps> = ({
   return (
     <Column>
       {task.status === 'COMPLETED' ? (
-        <QuestCompleteNotice />
+        <TaskCompleteNotice />
       ) : (
         <Column gap={2}>
-          <SteamIntegration />
           <WishlistGame
             task={task}
             onComplete={() => actions.onSubmit({ repetitions: 1 })}
@@ -37,27 +34,10 @@ const WishlistGame: React.FC<{
   onComplete: () => void;
 }> = ({ task, onComplete }) => {
   const snackbar = useSnackbar();
-  const user = trpc.user.integrations.apiKey.identity.useQuery(
-    IntegrationProvider.STEAM
-  );
-  const hasGameInWishlist =
-    trpc.user.integrations.steam.hasGameInWishlist.useMutation();
-
-  if (user.isLoading || user.isError || !user.data) return null;
 
   const handleClick = async () => {
     try {
-      const result = await hasGameInWishlist.mutateAsync({
-        appId: task.data.appId,
-      });
-      if (result) {
-        snackbar.success('Quest completed!');
-        onComplete();
-      } else {
-        snackbar.error(
-          'Failed to complete quest. Did you add the game to your wishlist?'
-        );
-      }
+      onComplete();
     } catch (error) {
       snackbar.error(parseTRPCClientErrorMessage(error));
     }
@@ -75,7 +55,6 @@ const WishlistGame: React.FC<{
         Add To Wishlist
       </Button>
       <Button
-        disabled={hasGameInWishlist.isLoading}
         onClick={handleClick}
         variant="arcade"
         color="success"
@@ -83,6 +62,7 @@ const WishlistGame: React.FC<{
       >
         Claim Reward
       </Button>
+      <IntegrationDisclaimer provider="Steam" />
     </Column>
   );
 };

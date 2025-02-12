@@ -45,7 +45,7 @@ export const helpPrizeWall: QuestionAnswer[] = [
     id: 'getting-tokens',
     question: 'How do I get tokens?',
     summary:
-      'Earn tokens by playing games, participating in leaderboards, unlocking achievements, winning giveaways and raffles, and completing quests.',
+      'Earn tokens by playing games, participating in leaderboards, unlocking achievements, or winning giveaways and raffles.',
     answer: (
       <Box>
         Prizes can be redeemed by spending tokens earned from:
@@ -54,7 +54,6 @@ export const helpPrizeWall: QuestionAnswer[] = [
           <ListItem disablePadding>Participating on Leaderboards</ListItem>
           <ListItem disablePadding>Unlocking achievements</ListItem>
           <ListItem disablePadding>Winning giveaways and raffles</ListItem>
-          <ListItem disablePadding>Completing quests</ListItem>
         </OrderedList>
         <br />
         <HelpfulLinks
@@ -63,10 +62,6 @@ export const helpPrizeWall: QuestionAnswer[] = [
             {
               href: routes.raffles.path(),
               text: 'Enter Giveaways',
-            },
-            {
-              href: routes.account.path(),
-              text: 'Complete Quests',
             },
           ]}
         />

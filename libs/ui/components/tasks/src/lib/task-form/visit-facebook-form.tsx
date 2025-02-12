@@ -2,14 +2,14 @@ import { Button } from '@mui/material';
 import { Column } from '@worksheets/ui/components/flex';
 import { TaskFormProps } from '@worksheets/util/tasks';
 
-import { QuestCompleteNotice } from './quest-complete-notice';
+import { TaskCompleteNotice } from './task-complete-notice';
 
 export const VisitFacebookForm: React.FC<TaskFormProps> = ({
   task,
   actions,
 }) => {
   if (task.status === 'COMPLETED') {
-    return <QuestCompleteNotice />;
+    return <TaskCompleteNotice />;
   }
 
   return (

@@ -5,7 +5,7 @@ import { routes } from '@worksheets/routes';
 import { Column } from '@worksheets/ui/components/flex';
 import { BulletPoints } from '@worksheets/ui/components/lists';
 import { PanelFooter } from '@worksheets/ui/components/panels';
-import { HelpTokensQuestions, SettingsPanels } from '@worksheets/util/enums';
+import { SettingsPanels } from '@worksheets/util/enums';
 import { ActivationCodeDetailSchema } from '@worksheets/util/types';
 import React from 'react';
 
@@ -36,16 +36,6 @@ export const ActivationCodesSection: React.FC<{
           icon={<InfoOutlined fontSize="small" color="info" />}
           title={'How It Works'}
           points={[
-            <>
-              <Link
-                href={routes.help.tokens.path({
-                  bookmark: HelpTokensQuestions.HowToEarn,
-                })}
-              >
-                Play games, refer friends, and complete quests.
-              </Link>{' '}
-              to earn tokens.
-            </>,
             <>
               Compete in <Link href={routes.raffles.path()}>raffles</Link> to
               win prizes. New winners are chosen every day.

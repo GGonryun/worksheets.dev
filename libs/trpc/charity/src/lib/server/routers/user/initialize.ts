@@ -4,7 +4,6 @@ import { PrismaClient } from '@worksheets/prisma';
 import { FriendshipService } from '@worksheets/services/friendship';
 import { InventoryService } from '@worksheets/services/inventory';
 import { NotificationsService } from '@worksheets/services/notifications';
-import { TasksService } from '@worksheets/services/tasks';
 import { capitalizeFirstLetter } from '@worksheets/util/strings';
 import { generateSlug } from 'random-word-slugs';
 import { z } from 'zod';
@@ -112,7 +111,6 @@ const setReferralCode = async (
   const userId = user.id;
 
   const notifications = new NotificationsService(db);
-  const tasks = new TasksService(db);
   const friends = new FriendshipService(db);
 
   const referral = await db.referralCode.findFirst({
@@ -147,21 +145,7 @@ const setReferralCode = async (
       },
     }),
     friends.link(userId, referral.userId),
-    tasks.trackQuest({
-      userId: referral.userId,
-      questId: 'ADD_REFERRAL_INFINITE',
-      repetitions: 1,
-    }),
-    tasks.trackQuest({
-      userId,
-      questId: 'ADD_FRIEND_INFINITE',
-      repetitions: 1,
-    }),
-    tasks.trackQuest({
-      userId: referral.userId,
-      questId: 'ADD_FRIEND_INFINITE',
-      repetitions: 1,
-    }),
+
     notifications.send('new-referral', { user: { id: referral.userId } }),
   ]);
 

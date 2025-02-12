@@ -86,10 +86,12 @@ export const AppLayoutContainer: FC<{
             The following major features are scheduled for demolition in the
             upcoming weeks:
             <ul>
-              <li>Quests</li>
               <li>Tokens & Items</li>
               <li>Integrations</li>
               <li>Gifting & Friends</li>
+              <li>
+                <s>Quests</s>
+              </li>
               <li>
                 <s>Prize Wall</s>
               </li>

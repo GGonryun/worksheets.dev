@@ -106,7 +106,7 @@ export const EnterRaffleModal: React.FC<
             utils.maybe.raffles.participants.refetch({ raffleId }),
           ])
         );
-        snackbar.success(`You received ${reward} free entries!`);
+        snackbar.success(`You received ${reward} raffle entries!`);
       } else {
         snackbar.success('Action completed!');
       }

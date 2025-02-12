@@ -60,7 +60,7 @@ export const VisitWebsiteForm: React.FC<TaskFormProps> = ({
           onClick={() => setClicked(true)}
           disabled={complete}
         >
-          {complete ? 'Quest Complete' : 'Visit Website'}
+          {complete ? 'Task Complete' : 'Visit Website'}
         </Button>
       )}
     </Column>

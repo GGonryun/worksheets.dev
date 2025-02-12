@@ -8,14 +8,14 @@ import { parseTRPCClientErrorMessage } from '@worksheets/util/trpc';
 import { MouseEventHandler, useRef } from 'react';
 import ReCAPTCHA from 'react-google-recaptcha';
 
-import { QuestCompleteNotice } from './quest-complete-notice';
+import { TaskCompleteNotice } from './task-complete-notice';
 
 export const CatpchaForm: React.FC<TaskFormProps> = ({ task, actions }) => {
   const snackbar = useSnackbar();
   const verify = trpc.user.integrations.recaptcha.verify.useMutation();
   const captchaRef = useRef<ReCAPTCHA>(null);
   if (task.status === 'COMPLETED') {
-    return <QuestCompleteNotice />;
+    return <TaskCompleteNotice />;
   }
 
   const handleSubmit: MouseEventHandler<HTMLButtonElement> = async (e) => {

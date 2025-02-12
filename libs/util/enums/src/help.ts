@@ -96,14 +96,6 @@ export enum HelpContributionsQuestions {
   Broke = 'broke',
 }
 
-export enum HelpQuestsQuestions {
-  Description = 'description',
-  AddingQuests = 'adding-quests',
-  Rewards = 'rewards',
-  Frequency = 'frequency',
-  Types = 'types',
-}
-
 export enum HelpEmailsQuestions {
   Description = 'description',
   Unsubscribing = 'unsubscribing',
@@ -117,9 +109,4 @@ export enum HelpInventoryQuestions {
   Claiming = 'claiming',
   Premium = 'premium',
   Capsules = 'capsules',
-}
-
-export enum HelpIntegrationsQuestions {
-  Description = 'description',
-  Steam = 'steam',
 }

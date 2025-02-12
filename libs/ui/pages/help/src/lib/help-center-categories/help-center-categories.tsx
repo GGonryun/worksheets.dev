@@ -7,9 +7,7 @@ import {
 } from '@worksheets/icons/ecommerce';
 import { LearningCode } from '@worksheets/icons/learning';
 import {
-  ValentinesCalendar,
   ValentinesMail,
-  ValentinesPadlock,
   ValentinesPhones,
   ValentinesPotion,
   ValentinesProfile,
@@ -56,12 +54,6 @@ const categories: HelpCenterCategoryProps[] = [
     icon: ValentinesTicket,
   },
   {
-    title: 'Quests',
-    href: routes.help.quests.path(),
-    description: 'Complete challenges to earn tokens',
-    icon: ValentinesCalendar,
-  },
-  {
     title: 'Referrals',
     href: routes.help.referrals.path(),
     description: 'Refer your friends and earn rewards',
@@ -84,12 +76,6 @@ const categories: HelpCenterCategoryProps[] = [
     href: routes.help.inventory.path(),
     description: 'Learn about your inventory and how to use items',
     icon: ValentinesPotion,
-  },
-  {
-    title: 'Integrations',
-    href: routes.help.integrations.path(),
-    description: 'Connect your account to other services and apps',
-    icon: ValentinesPadlock,
   },
   {
     title: 'Contributions',

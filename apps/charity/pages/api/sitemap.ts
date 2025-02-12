@@ -18,7 +18,6 @@ import {
   helpNotificationsSeo,
   helpPlayingGamesSeo,
   helpPrizesSeo,
-  helpQuestsSeo,
   helpReferralsSeo,
   helpTokensSeo,
   helpVIPSeo,
@@ -66,7 +65,6 @@ const addBasicPages = () => {
     helpNotificationsSeo.canonical,
     helpContributionsSeo.canonical,
     helpDevelopersSeo.canonical,
-    helpQuestsSeo.canonical,
     helpEmailsSeo.canonical,
   ];
 

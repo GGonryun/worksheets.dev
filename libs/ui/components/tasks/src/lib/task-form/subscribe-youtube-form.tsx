@@ -5,7 +5,7 @@ import { useSnackbar } from '@worksheets/ui/components/snackbar';
 import { TaskFormProps, TaskSchema } from '@worksheets/util/tasks';
 import React from 'react';
 
-import { QuestCompleteNotice } from './quest-complete-notice';
+import { TaskCompleteNotice } from './task-complete-notice';
 
 export const SubscribeYouTubeForm: React.FC<TaskFormProps> = ({
   task,
@@ -14,7 +14,7 @@ export const SubscribeYouTubeForm: React.FC<TaskFormProps> = ({
   return (
     <Column>
       {task.status === 'COMPLETED' ? (
-        <QuestCompleteNotice />
+        <TaskCompleteNotice />
       ) : (
         <Column gap={2}>
           <SubscribeChannel
@@ -40,7 +40,7 @@ const SubscribeChannel: React.FC<{
   const [visited, setVisited] = React.useState(false);
 
   const handleClick = async () => {
-    snackbar.success('Quest completed!');
+    snackbar.success('Task completed!');
     onComplete();
   };
 

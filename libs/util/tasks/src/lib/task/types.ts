@@ -4,7 +4,6 @@ import {
   TaskStatus,
   TaskType,
 } from '@worksheets/prisma';
-import { lootSchema } from '@worksheets/util/types';
 import { z } from 'zod';
 
 import { FormField } from '../form';
@@ -29,13 +28,6 @@ export const taskSchema = z.object({
 });
 
 export type TaskSchema = z.infer<typeof taskSchema>;
-
-export const questSchema = taskSchema.extend({
-  questId: z.string(),
-  loot: z.array(lootSchema),
-});
-
-export type QuestSchema = z.infer<typeof questSchema>;
 
 export const actionSchema = taskSchema.extend({
   actionId: z.string(),

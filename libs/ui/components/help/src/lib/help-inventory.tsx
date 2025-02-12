@@ -87,7 +87,6 @@ export const helpInventory: QuestionAnswer[] = [
         You can find items for your inventory by{' '}
         <Link href={routes.play.path()}>playing games</Link>,{' '}
         <Link href={routes.raffles.path()}>winning raffles</Link>, or by{' '}
-        <Link href={routes.help.quests.path()}>completing quests</Link>.
       </Typography>
     ),
   },

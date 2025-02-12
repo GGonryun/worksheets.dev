@@ -28,7 +28,7 @@ export const TaskModal: React.FC<
   const { task, actions, isLoading, rewards, ...modalProps } = props;
 
   return (
-    <InfoModal {...modalProps} infoHref={routes.help.quests.path()}>
+    <InfoModal {...modalProps} infoHref={routes.help.path()}>
       <TaskModalContent
         task={task}
         actions={actions}
@@ -71,7 +71,7 @@ export const TaskModalContent: React.FC<
                 {category} - {type}
               </Typography>
               <Typography variant="body3" color={color} fontWeight={500}>
-                {frequency} Quest
+                {frequency} Task
               </Typography>
             </Column>
           </Row>
@@ -82,7 +82,7 @@ export const TaskModalContent: React.FC<
         </Column>
         {expiresAt && status === 'COMPLETED' && (
           <Typography variant="body2" color="text.secondary">
-            This quest resets in <b>{printTimeRemaining(expiresAt)}</b> on{' '}
+            This task resets in <b>{printTimeRemaining(expiresAt)}</b> on{' '}
             <b>{printDateTime(expiresAt)}</b>
           </Typography>
         )}

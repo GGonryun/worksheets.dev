@@ -6,7 +6,7 @@ import {
   TaskFrequency,
   TaskType,
 } from '@worksheets/prisma';
-import { MAX_FRIENDS, MAX_REFERRALS } from '@worksheets/util/settings';
+import { MAX_REFERRALS } from '@worksheets/util/settings';
 
 import { createGameTask } from './util';
 
@@ -237,34 +237,6 @@ export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
     maxRepetitions: 1,
     name: 'Check In',
     description: 'Receive a one-time reward for checking in.',
-    data: {},
-  },
-  // raffle participation
-  {
-    version: 1,
-    id: 'RAFFLE_PARTICIPATION_DAILY',
-    type: TaskType.RAFFLE_PARTICIPATION,
-    category: TaskCategory.GAMEPLAY,
-    frequency: TaskFrequency.DAILY,
-    requiredRepetitions: 1,
-    maxRepetitions: 1,
-    name: 'Enter Raffles',
-    description:
-      'Enter at least one raffle every day on Charity Games and get 10 bonus tokens.',
-    data: {},
-  },
-  // battle participation
-  {
-    version: 1,
-    id: 'BATTLE_PARTICIPATION_DAILY',
-    type: TaskType.BATTLE_PARTICIPATION,
-    category: TaskCategory.GAMEPLAY,
-    frequency: TaskFrequency.DAILY,
-    requiredRepetitions: 1,
-    maxRepetitions: 1,
-    name: 'Fight Boss Battle',
-    description:
-      'Participate in at least one battle every day on Charity Games and get 10 bonus tokens.',
     data: {},
   },
   // visit websites
@@ -751,18 +723,6 @@ export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
     name: 'Play Games for 5 Minutes',
     description:
       'Earn rewards for every 5 minutes you play a game on Charity Games.',
-    data: {},
-  },
-  {
-    version: 1,
-    id: 'ADD_FRIEND_INFINITE',
-    type: TaskType.ADD_FRIEND,
-    category: TaskCategory.SOCIAL,
-    frequency: TaskFrequency.INFINITE,
-    requiredRepetitions: 1,
-    maxRepetitions: MAX_FRIENDS,
-    name: 'Add a Friend',
-    description: `Earn tokens every time you add a new friend on Charity Games. You can receive this reward up to ${MAX_FRIENDS} times.`,
     data: {},
   },
   {

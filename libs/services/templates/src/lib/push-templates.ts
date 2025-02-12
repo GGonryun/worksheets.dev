@@ -14,7 +14,6 @@ import { ExtractTemplatePayload } from './types';
 import {
   ACCOUNT_FRIENDS_LIST_URL,
   ACCOUNT_INVENTORY_URL,
-  ACCOUNT_QUESTS_URL,
   ACCOUNT_REFERRED_ACCOUNTS_URL,
   DEVELOPER_URL,
   GAME_URL,
@@ -173,20 +172,6 @@ export class PushTemplates {
       userIds: [opts.user.id],
       type: 'SYSTEM',
       text: `<b>${opts.follower.username}</b> has started <a href="${ACCOUNT_FRIENDS_LIST_URL}">following you</a>!`,
-    };
-  }
-
-  static questCompleted(
-    opts: ExtractTemplatePayload<'quest-completed'>
-  ): PushNotifyInput {
-    return {
-      userIds: [opts.userId],
-      type: 'QUEST',
-      text: `You have completed the quest <b>${
-        opts.quest.name
-      }</b> and received ${opts.quest.loot
-        .map((l) => `${l.quantity} ${pluralize(l.item.name, l.quantity)}`)
-        .join(', ')}! <a href="${ACCOUNT_QUESTS_URL}">Find more quests</a>.`,
     };
   }
 

@@ -2,7 +2,7 @@ import { TRPCError } from '@trpc/server';
 import { PrismaClient, PrismaTransactionalClient } from '@worksheets/prisma';
 import { InventoryService } from '@worksheets/services/inventory';
 import { NotificationsService } from '@worksheets/services/notifications';
-import { startBackgroundJob } from '@worksheets/util/jobs';
+import { TasksService } from '@worksheets/services/tasks';
 import { jsonStringifyWithBigInt } from '@worksheets/util/objects';
 import { retryTransaction } from '@worksheets/util/prisma';
 import { daysAgo } from '@worksheets/util/time';
@@ -69,7 +69,8 @@ export const submitScore = async (
 
   const tokens = Math.floor(score * game.multiplier);
 
-  startBackgroundJob('leaderboard/score', {
+  const tasks = new TasksService(prisma);
+  await tasks.trackLeaderboardAction({
     userId,
     gameId: game.id,
     score,

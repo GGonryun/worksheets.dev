@@ -1,7 +1,6 @@
 import {
   Check,
   CheckBoxOutlined,
-  Diversity1Outlined,
   DynamicFormOutlined,
   EmojiEvents,
   Facebook,
@@ -9,11 +8,9 @@ import {
   FeaturedVideoOutlined,
   Instagram,
   LanguageOutlined,
-  LocalActivityOutlined,
   PasswordOutlined,
   PersonOutlined,
   PollOutlined,
-  PunchClockOutlined,
   ScheduleOutlined,
   SvgIconComponent,
   VideogameAssetOutlined,
@@ -34,7 +31,6 @@ import {
   TikTok,
   Twitch,
 } from '@worksheets/icons/companies';
-import { Sword } from '@worksheets/icons/dazzle';
 import { MAX_INT } from '@worksheets/prisma';
 import { PaletteColor } from '@worksheets/ui/theme';
 import { assertNever } from '@worksheets/util/errors';
@@ -79,14 +75,14 @@ const TASK_BACKGROUND_COLOR: Record<TaskType, ButtonProps['color']> = {
   [TaskType.CAPTCHA]: 'primary',
   [TaskType.REFERRAL_TASK]: 'secondary',
   [TaskType.SUBMIT_LEADERBOARD_SCORE]: 'yellow',
+  POLL: undefined,
+  SECRET: undefined,
   REFERRAL_PLAY_MINUTES: undefined,
   FRIEND_PLAY_MINUTES: undefined,
   ADD_FRIEND: undefined,
   ADD_REFERRAL: undefined,
   RAFFLE_PARTICIPATION: undefined,
   BATTLE_PARTICIPATION: undefined,
-  POLL: undefined,
-  SECRET: undefined,
 };
 
 export const selectTaskBackgroundColor = (
@@ -102,16 +98,11 @@ const TASK_ICON: Record<TaskType, SvgIconComponent> = {
   [TaskType.VISIT_WEBSITE]: LanguageOutlined,
   [TaskType.FOLLOW_TWITTER]: NewTwitter,
   [TaskType.REPOST_TWITTER]: NewTwitter,
-  [TaskType.ADD_FRIEND]: Diversity1Outlined,
   [TaskType.ADD_REFERRAL]: PersonOutlined,
   [TaskType.PLAY_MINUTES]: ScheduleOutlined,
-  [TaskType.RAFFLE_PARTICIPATION]: LocalActivityOutlined,
-  [TaskType.REFERRAL_PLAY_MINUTES]: PunchClockOutlined,
-  [TaskType.FRIEND_PLAY_MINUTES]: Diversity1Outlined,
   [TaskType.BASIC_ACTION]: CheckBoxOutlined,
   [TaskType.WATCH_AD]: FeaturedVideoOutlined,
   [TaskType.SUBSCRIBE_YOUTUBE]: YouTube,
-  [TaskType.BATTLE_PARTICIPATION]: Sword,
   [TaskType.FOLLOW_TWITCH]: Twitch,
   [TaskType.JOIN_DISCORD_GUILD]: Discord,
   [TaskType.WISHLIST_STEAM_GAME]: SteamGames,
@@ -125,6 +116,11 @@ const TASK_ICON: Record<TaskType, SvgIconComponent> = {
   [TaskType.VISIT_TIKTOK]: TikTok,
   [TaskType.REFERRAL_TASK]: FavoriteBorder,
   [TaskType.SUBMIT_LEADERBOARD_SCORE]: EmojiEvents,
+  REFERRAL_PLAY_MINUTES: EmojiEvents,
+  FRIEND_PLAY_MINUTES: EmojiEvents,
+  ADD_FRIEND: EmojiEvents,
+  RAFFLE_PARTICIPATION: EmojiEvents,
+  BATTLE_PARTICIPATION: EmojiEvents,
 };
 
 export const selectTaskStatusIcon = (

@@ -1,5 +1,4 @@
 import { TRPCError } from '@trpc/server';
-import { ItemId } from '@worksheets/data/items';
 import {
   Prisma,
   PrismaClient,
@@ -9,7 +8,6 @@ import {
   TaskType,
 } from '@worksheets/prisma';
 import { InventoryService } from '@worksheets/services/inventory';
-import { NotificationsService } from '@worksheets/services/notifications';
 import { RafflesService } from '@worksheets/services/raffles';
 import { convertReferralCode } from '@worksheets/services/referral';
 import { calculatePercentage } from '@worksheets/util/numbers';
@@ -20,7 +18,6 @@ import {
   parseExpiration,
   parseTaskPollData,
   parseTaskPollState,
-  QuestSchema,
   TaskInputSchema,
   TaskPollResult,
   validateTaskInput,
@@ -43,22 +40,11 @@ export class TasksService {
   async destroyExpiredTasks(frequency: TaskFrequency) {
     const result = await this.#db.taskProgress.deleteMany({
       where: {
-        OR: [
-          {
-            quest: {
-              task: {
-                frequency,
-              },
-            },
+        action: {
+          task: {
+            frequency,
           },
-          {
-            action: {
-              task: {
-                frequency,
-              },
-            },
-          },
-        ],
+        },
       },
     });
 
@@ -78,18 +64,9 @@ export class TasksService {
       }),
       this.#db.taskProgress.findMany({
         where: {
-          OR: [
-            {
-              quest: {
-                taskId,
-              },
-            },
-            {
-              action: {
-                taskId,
-              },
-            },
-          ],
+          action: {
+            taskId,
+          },
         },
         select: {
           state: true,
@@ -169,70 +146,6 @@ export class TasksService {
     });
 
     return joined.sort((a, b) => a.order - b.order);
-  }
-
-  async listQuests(opts: { userId: string }): Promise<QuestSchema[]> {
-    const quests = await this.#db.platformQuest.findMany({
-      include: {
-        loot: {
-          include: { item: true },
-        },
-        task: true,
-        progress: {
-          where: {
-            userId: opts.userId,
-          },
-        },
-      },
-    });
-
-    const joined = quests.map((quest) => {
-      // Quests should only have one progress record, so we can safely take
-      // the first one if it exists.
-      const p = quest.progress?.at(0);
-      return {
-        questId: quest.id,
-        order: quest.order,
-        name: quest.name ?? quest.task.name,
-        description: quest.description ?? quest.task.description,
-        taskId: quest.taskId,
-        category: quest.task.category,
-        frequency: quest.task.frequency,
-        type: quest.task.type,
-        gameId: quest.task.gameId ?? null,
-        data: quest.task.data,
-        raffleId: null,
-        state: p?.state ?? null,
-        repetitions: p?.repetitions ?? 0,
-        createdAt: p?.createdAt?.getTime() ?? null,
-        maxRepetitions: quest.task.maxRepetitions,
-        status: p?.status ?? 'PENDING',
-        expiresAt: parseExpiration(quest.task.frequency)?.getTime() ?? null,
-        loot: quest.loot,
-      };
-    });
-
-    return joined
-      .sort((a, b) => a.order - b.order)
-      .sort((a, b) => {
-        if (a.status === 'COMPLETED' && b.status !== 'COMPLETED') {
-          // return whichever expires sooner
-          return 1;
-        } else if (a.status !== 'COMPLETED' && b.status === 'COMPLETED') {
-          return -1;
-        } else if (a.status === 'COMPLETED' && b.status === 'COMPLETED') {
-          if (a.expiresAt && b.expiresAt) {
-            return a.expiresAt - b.expiresAt;
-            // completed infinite quests go to the bottom
-          } else if (a.expiresAt) {
-            return -1;
-          } else {
-            return 1;
-          }
-        } else {
-          return 0;
-        }
-      });
   }
 
   async trackAction(
@@ -332,7 +245,6 @@ export class TasksService {
 
     const progress = await this.#calculateProgress({
       task: action.task,
-      // each quest should have at most one progress record per user.
       progress: action?.progress?.at(0),
       where: {
         userId: userId,
@@ -606,170 +518,6 @@ export class TasksService {
     });
   }
 
-  async trackQuest(
-    opts: {
-      questId: string;
-      userId: string;
-    } & TaskInputSchema
-  ): Promise<TaskProgress | undefined> {
-    console.info(`Tracking quest`, opts);
-    const quest = await this.#db.platformQuest.findFirst({
-      where: {
-        id: opts.questId,
-      },
-      include: {
-        loot: {
-          include: { item: true },
-        },
-        task: {
-          include: {
-            game: true,
-          },
-        },
-        progress: {
-          where: {
-            userId: opts.userId,
-          },
-        },
-      },
-    });
-
-    if (!quest) {
-      throw new TRPCError({
-        code: 'NOT_FOUND',
-        message: `Platform quest not found`,
-        cause: `Quest with id ${opts.questId} does not exist in the database`,
-      });
-    }
-
-    return await this.#trackQuest({
-      ...opts,
-      quest,
-    });
-  }
-
-  async #trackQuest(
-    opts: {
-      quest: Prisma.PlatformQuestGetPayload<{
-        include: {
-          task: true;
-          progress: true;
-          loot: { include: { item: true } };
-        };
-      }>;
-      userId: string;
-      game?: Prisma.GameGetPayload<true>;
-    } & TaskInputSchema
-  ): Promise<TaskProgress | undefined> {
-    const { quest, userId, repetitions, state } = opts;
-    const progress = await this.#calculateProgress({
-      task: quest.task,
-      // each quest should have at most one progress record per user.
-      progress: quest?.progress?.at(0),
-      where: {
-        userId,
-        questId: quest.id,
-      },
-      repetitions,
-      state,
-    });
-
-    if (!progress) {
-      console.info(`Quest with id ${quest.id} was not tracked`);
-      return;
-    }
-
-    // if the status is not being updated to completed, then we cannot award loot or send notifications.
-    if (progress.status === 'COMPLETED') {
-      await this.#sendNotification(userId, quest);
-    }
-
-    if (progress.completions > 0) {
-      await this.#awardLoot(userId, quest.loot, progress.completions);
-    }
-
-    return progress;
-  }
-
-  async trackQuests(opts: {
-    userId: string;
-    repetitions: number;
-    where: Prisma.PlatformQuestWhereInput;
-    state?: unknown;
-  }): Promise<TaskProgress[]> {
-    const { state, where, userId, repetitions } = opts;
-    console.info(`Tracking user ${opts.userId} quests`);
-
-    const quests = await this.#db.platformQuest.findMany({
-      where,
-      include: {
-        loot: {
-          include: { item: true },
-        },
-        task: {
-          include: {
-            game: true,
-          },
-        },
-        progress: {
-          where: {
-            userId: opts.userId,
-          },
-        },
-      },
-    });
-
-    console.info(
-      `Found ${quests.length} quests`,
-      quests.map((q) => q.id)
-    );
-
-    const progress: TaskProgress[] = [];
-    // TODO: using Promise.all sometimes breaks transactions, so we need to await each one separately.
-    for (const quest of quests) {
-      const p = await this.#trackQuest({
-        quest,
-        repetitions,
-        userId,
-        state,
-      });
-
-      if (p) progress.push(p);
-    }
-
-    return progress;
-  }
-
-  async trackGameQuests(opts: {
-    userId: string;
-    gameId: string;
-    type: Extract<TaskType, 'PLAY_GAME' | 'PLAY_MINUTES'>;
-    repetitions: number;
-  }): Promise<TaskProgress[]> {
-    console.info(
-      `Tracking user ${opts.userId} ${opts.type} game ${opts.gameId} quests with ${opts.repetitions} repetitions`
-    );
-    const { type, gameId, userId, repetitions } = opts;
-    return await this.trackQuests({
-      userId,
-      repetitions,
-      where: {
-        // task is PLAY_GAME and gameId is either the game or null
-        task: {
-          type,
-          OR: [
-            {
-              gameId: gameId,
-            },
-            {
-              gameId: null,
-            },
-          ],
-        },
-      },
-    });
-  }
-
   async #calculateProgress({
     task,
     progress,
@@ -779,9 +527,7 @@ export class TasksService {
   }: {
     task: Prisma.TaskGetPayload<true>;
     progress: Prisma.TaskProgressGetPayload<true> | undefined;
-    where:
-      | { userId: string; actionId: string }
-      | { userId: string; questId: string };
+    where: { userId: string; actionId: string };
   } & TaskInputSchema): Promise<TaskProgress | undefined> {
     if (progress && progress.status === 'COMPLETED') {
       // skip processing completed tasks
@@ -810,7 +556,12 @@ export class TasksService {
     }
 
     const updated = await this.#db.taskProgress.upsert({
-      where: joinClause(where),
+      where: {
+        userId_actionId: {
+          userId: where.userId,
+          actionId: where.actionId,
+        },
+      },
       create: {
         ...where,
         status: newStatus,
@@ -838,58 +589,4 @@ export class TasksService {
       completions,
     };
   }
-
-  async #sendNotification(
-    userId: string,
-    quest: Prisma.PlatformQuestGetPayload<{
-      include: { task: true; loot: { include: { item: true } } };
-    }>
-  ) {
-    const notifications = new NotificationsService(this.#db);
-
-    await notifications.send('quest-completed', {
-      userId: userId,
-      quest: {
-        name: quest.name ?? quest.task.name,
-        loot: quest.loot,
-      },
-    });
-  }
-
-  async #awardLoot(
-    userId: string,
-    loot: Prisma.LootGetPayload<true>[],
-    multiplier: number
-  ) {
-    // using a promise.all here breaks transactions, so we need to await each one separately.
-    for (const l of loot) {
-      await this.#inventory.increment(
-        userId,
-        l.itemId as ItemId,
-        l.quantity * multiplier
-      );
-    }
-  }
 }
-
-const joinClause = (
-  where:
-    | { userId: string; actionId: string }
-    | { userId: string; questId: string }
-) => {
-  if ('actionId' in where) {
-    return {
-      userId_actionId: {
-        userId: where.userId,
-        actionId: where.actionId,
-      },
-    };
-  } else {
-    return {
-      userId_questId: {
-        userId: where.userId,
-        questId: where.questId,
-      },
-    };
-  }
-};

@@ -255,20 +255,6 @@ export const helpFriendsSeo = createSeo({
     'Find answers to questions about friends on Charity Games. Learn how to earn tokens by sharing gifts with friends.',
 });
 
-export const helpIntegrationsSeo = createSeo({
-  path: routes.help.integrations.path(),
-  title: 'Integrations Help Center',
-  description:
-    'Find answers to questions about integrations on Charity Games. Learn how to connect your account to other services.',
-});
-
-export const helpQuestsSeo = createSeo({
-  path: routes.help.quests.path(),
-  title: 'Quests Help Center',
-  description:
-    'Find answers to questions about quests on Charity Games. Learn how to earn tokens by completing challenges.',
-});
-
 export const helpEmailsSeo = createSeo({
   path: routes.help.emails.path(),
   title: 'Emails Help Center',
@@ -400,13 +386,5 @@ export const userSeo = (userId: string): NextSeoProps => {
     path: routes.user.path({ params: { userId } }),
     title: `User Profile`,
     description: `View information about a user on Charity Games. Turn your games into donations. Help us make a difference.`,
-  });
-};
-
-export const connectSeo = (providerId: string): NextSeoProps => {
-  return createSeo({
-    path: routes.connect.path({ params: { providerId } }),
-    title: `Connect Account`,
-    description: `Connect an external account to Charity Games. Turn your games into donations. Help us make a difference.`,
   });
 };

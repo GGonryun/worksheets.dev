@@ -86,12 +86,6 @@ const newSubscriberTemplates: TemplateBuilder<'new-subscriber'> = (
   discord: DiscordTemplates.newSubscriber(payload),
 });
 
-const questCompletedTemplates: TemplateBuilder<'quest-completed'> = (
-  payload
-) => ({
-  push: PushTemplates.questCompleted(payload),
-});
-
 const foundItemTemplates: TemplateBuilder<'found-item'> = (payload) => ({
   push: PushTemplates.foundItem(payload),
 });
@@ -135,7 +129,6 @@ export const destinations: Record<NotificationTemplateType, TemplateBuilder> = {
   'new-game-submission': newGameSubmissionTemplates,
   'confirm-newsletter-subscription': confirmNewsletterSubscriptionTemplates,
   'new-subscriber': newSubscriberTemplates,
-  'quest-completed': questCompletedTemplates,
   'found-item': foundItemTemplates,
   'game-report': gameReportTemplates,
   'user-report': userReportTemplates,

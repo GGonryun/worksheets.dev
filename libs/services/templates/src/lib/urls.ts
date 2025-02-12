@@ -7,8 +7,6 @@ export const RAFFLES_URL = routes.raffles.url();
 
 export const CONTACT_URL = routes.contact.url();
 
-export const ACCOUNT_QUESTS_URL = routes.account.url();
-
 export const CONFIRM_NEWSLETTER_SUBSCRIPTION_URL = (id: string) =>
   routes.newsletter.confirm.url({
     query: { id },
@@ -25,8 +23,6 @@ export const ACCOUNT_REFERRED_ACCOUNTS_URL = routes.account.url({
 export const ACCOUNT_FRIENDS_LIST_URL = routes.account.url({});
 
 export const ACCOUNT_ADD_FRIENDS_URL = routes.account.url({});
-
-export const ACCOUNT_COMMUNICATIONS_URL = routes.account.url({});
 
 export const CLAIM_URL = routes.help.inventory.url({
   bookmark: HelpInventoryQuestions.Claiming,

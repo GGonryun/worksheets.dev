@@ -1,10 +1,7 @@
 import { Box, Link, Typography } from '@mui/material';
 import { routes } from '@worksheets/routes';
 import { ListItem, OrderedList } from '@worksheets/ui-core';
-import {
-  HelpQuestsQuestions,
-  HelpTokensQuestions,
-} from '@worksheets/util/enums';
+import { HelpTokensQuestions } from '@worksheets/util/enums';
 import { toPercentage } from '@worksheets/util/numbers';
 import {
   PLAY_MINUTE_DROP_CHANCE,
@@ -68,16 +65,6 @@ export const helpTokens: QuestionAnswer[] = [
           </ListItem>
           <ListItem>
             <Link
-              href={routes.help.quests.path({
-                bookmark: HelpQuestsQuestions.Description,
-              })}
-            >
-              Quests
-            </Link>{' '}
-            - Varies by quests, all quests will have a token reward
-          </ListItem>
-          <ListItem>
-            <Link
               href={routes.help.tokens.path({
                 bookmark: HelpTokensQuestions.Referrals,
               })}
@@ -99,10 +86,6 @@ export const helpTokens: QuestionAnswer[] = [
         <br />
         <HelpfulLinks
           links={[
-            {
-              href: routes.help.quests.path(),
-              text: 'Quests',
-            },
             {
               href: routes.help.friends.path(),
               text: 'Friends',
@@ -131,7 +114,7 @@ export const helpTokens: QuestionAnswer[] = [
         <Typography>
           You can earn tokens by playing games, collecting the daily reward,
           participating in events, sending Gift Boxes to your friends,
-          completing quests, and referring new users.
+          completing tasks, and referring new users.
           <br />
           <br />
           These donations will be converted into tokens and added to your
@@ -140,12 +123,6 @@ export const helpTokens: QuestionAnswer[] = [
         <br />
         <HelpfulLinks
           links={[
-            {
-              href: routes.help.quests.path({
-                bookmark: HelpQuestsQuestions.Description,
-              }),
-              text: 'Learn more about Quests',
-            },
             {
               href: routes.help.playingGames.path(),
               text: 'Learn more about Playing Games',

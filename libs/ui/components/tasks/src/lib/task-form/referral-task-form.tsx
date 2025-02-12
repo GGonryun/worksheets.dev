@@ -9,11 +9,11 @@ import { TaskFormProps } from '@worksheets/util/tasks';
 
 import { formatMaxRepetitions, selectTaskColor } from '../util';
 import { ProgressBar } from './progress-bar';
-import { QuestCompleteNotice } from './quest-complete-notice';
+import { TaskCompleteNotice } from './task-complete-notice';
 
 export const ReferralTaskForm: React.FC<TaskFormProps> = ({ task }) => {
   if (task.status === 'COMPLETED') {
-    return <QuestCompleteNotice />;
+    return <TaskCompleteNotice />;
   }
   const colorKey = selectTaskColor(task.status);
   return (
