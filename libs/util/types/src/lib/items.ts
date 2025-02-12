@@ -135,22 +135,6 @@ export const inventoryCapsuleSchema = z.object({
 export type InventoryCapsuleSchema = z.infer<typeof inventoryCapsuleSchema>;
 
 export const itemSourcesSchema = z.object({
-  monsters: z
-    .object({
-      id: z.number(),
-      name: z.string(),
-      chance: z.number().min(0).max(1),
-      mvp: z.boolean(),
-      quantity: z.number(),
-    })
-    .array(),
-  // describes quests or other sources of items.
-  quests: z
-    .object({
-      id: z.string(),
-      name: z.string(),
-    })
-    .array(),
   // describes which other consumables may drop this item.
   items: z
     .object({
@@ -191,12 +175,6 @@ export const serializableLoot = (
   chance: p.chance,
 });
 
-export const mobLootSchema = lootSchema.extend({
-  mvp: z.boolean(),
-});
-
-export type MobLootSchema = z.infer<typeof mobLootSchema>;
-
 export const inventoryItemSchema = z.object({
   inventoryId: z.string(),
   itemId: z.custom<ItemId>(),
@@ -210,15 +188,6 @@ export const inventoryItemSchema = z.object({
   buy: z.number(),
   rarity: z.custom<ItemRarity>(),
 });
-
-export const separateLoot = (loot: MobLootSchema[]) => {
-  const basicLoot = loot.filter((l) => !l.mvp);
-  const mvpLoot = loot.filter((l) => l.mvp);
-  return {
-    basicLoot,
-    mvpLoot,
-  };
-};
 
 export type InventoryItemSchema = z.infer<typeof inventoryItemSchema>;
 
