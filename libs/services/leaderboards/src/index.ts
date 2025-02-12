@@ -69,7 +69,7 @@ export const submitScore = async (
 
   const tokens = Math.floor(score * game.multiplier);
 
-  const tasks = new TasksService(prisma);
+  const tasks = new TasksService(db);
   await tasks.trackLeaderboardAction({
     userId,
     gameId: game.id,
