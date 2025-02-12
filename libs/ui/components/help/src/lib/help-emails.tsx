@@ -70,11 +70,7 @@ export const helpEmails: QuestionAnswer[] = [
           <li>Clicking the unsubscribe link in the email you received.</li>
           <li>
             Going to your{' '}
-            <Link
-              href={routes.account.path({
-                bookmark: SettingsPanels.Communication,
-              })}
-            >
+            <Link href={routes.account.path({})}>
               account's communications settings section
             </Link>
           </li>

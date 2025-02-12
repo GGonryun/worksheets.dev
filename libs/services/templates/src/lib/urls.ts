@@ -1,11 +1,5 @@
 import { routes } from '@worksheets/routes';
-import {
-  FriendsPanels,
-  HelpInventoryQuestions,
-  InventoryPanels,
-  ReferralsPanels,
-  SettingsPanels,
-} from '@worksheets/util/enums';
+import { HelpInventoryQuestions, SettingsPanels } from '@worksheets/util/enums';
 
 export const GAMES_URL = routes.play.url();
 
@@ -21,24 +15,18 @@ export const CONFIRM_NEWSLETTER_SUBSCRIPTION_URL = (id: string) =>
   });
 
 export const ACCOUNT_INVENTORY_URL = routes.account.inventory.url({
-  bookmark: InventoryPanels.Items,
+  bookmark: SettingsPanels.Items,
 });
 
 export const ACCOUNT_REFERRED_ACCOUNTS_URL = routes.account.referrals.url({
-  bookmark: ReferralsPanels.ReferredAccounts,
+  bookmark: SettingsPanels.Referrals,
 });
 
-export const ACCOUNT_FRIENDS_LIST_URL = routes.account.friends.url({
-  bookmark: FriendsPanels.FriendsList,
-});
+export const ACCOUNT_FRIENDS_LIST_URL = routes.account.friends.url({});
 
-export const ACCOUNT_ADD_FRIENDS_URL = routes.account.friends.url({
-  bookmark: FriendsPanels.AddFriends,
-});
+export const ACCOUNT_ADD_FRIENDS_URL = routes.account.friends.url({});
 
-export const ACCOUNT_COMMUNICATIONS_URL = routes.account.url({
-  bookmark: SettingsPanels.Communication,
-});
+export const ACCOUNT_COMMUNICATIONS_URL = routes.account.url({});
 
 export const CLAIM_URL = routes.help.inventory.url({
   bookmark: HelpInventoryQuestions.Claiming,

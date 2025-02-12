@@ -16,8 +16,9 @@ import { SettingsPanels } from '@worksheets/util/enums';
 import { JSXElementConstructor } from 'react';
 
 import { CollapsibleSection } from '../../../components/collapsible-section';
-import { useBasicInformationFormContext } from '../context';
-import { BioField, UsernameField } from '../fields';
+import { useBasicInformationFormContext } from '../context/hook';
+import { BioField } from '../fields/bio';
+import { UsernameField } from '../fields/username';
 
 export const ProfileSection: React.FC<{
   active: SettingsPanels | undefined;

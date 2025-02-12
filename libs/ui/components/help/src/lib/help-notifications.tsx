@@ -103,9 +103,7 @@ export const helpNotifications: QuestionAnswer[] = [
           links={[
             {
               text: 'Change my notification settings',
-              href: routes.account.path({
-                bookmark: SettingsPanels.Communication,
-              }),
+              href: routes.account.path({}),
             },
           ]}
         />

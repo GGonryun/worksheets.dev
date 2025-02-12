@@ -1,5 +1,5 @@
 import { routes } from '@worksheets/routes';
-import { FriendsPanels, InventoryPanels } from '@worksheets/util/enums';
+import { SettingsPanels } from '@worksheets/util/enums';
 import { minutesAgo } from '@worksheets/util/time';
 import { NotificationSchema } from '@worksheets/util/types';
 
@@ -13,11 +13,7 @@ export const mockNotifications: NotificationSchema[] = [
   },
   {
     id: '2',
-    text: `<b>GGonryun</b> has added you as a friend. Visit your <a href="${routes.account.friends.path(
-      {
-        bookmark: FriendsPanels.FriendsList,
-      }
-    )}">friends list</a> to add them back.`,
+    text: `<b>GGonryun</b> has added you as a friend. Visit your <a href="${routes.account.friends.path()}">friends list</a> to add them back.`,
     type: 'FRIEND',
     read: false,
     createdAt: minutesAgo(10).getTime(),
@@ -26,7 +22,7 @@ export const mockNotifications: NotificationSchema[] = [
     id: '3',
     text: `<b>You won a raffle!</b> Visit your <a href="${routes.account.inventory.path(
       {
-        bookmark: InventoryPanels.Items,
+        bookmark: SettingsPanels.Items,
       }
     )}}">inventory</a> to claim your reward.`,
     type: 'RAFFLE',

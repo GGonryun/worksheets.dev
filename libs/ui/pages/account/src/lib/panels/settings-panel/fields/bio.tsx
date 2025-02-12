@@ -1,6 +1,6 @@
 import TextField from '@mui/material/TextField';
 
-import { useBasicInformationFormContext } from '../context';
+import { useBasicInformationFormContext } from '../context/hook';
 
 export const BioField = () => {
   const { values, errors, setFieldValue } = useBasicInformationFormContext();

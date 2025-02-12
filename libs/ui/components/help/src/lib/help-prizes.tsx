@@ -2,7 +2,7 @@ import { Box, Link, Typography } from '@mui/material';
 import { routes } from '@worksheets/routes';
 import { ResponsiveImage } from '@worksheets/ui/components/images';
 import { Emoji } from '@worksheets/ui-core';
-import { HelpPrizesQuestions, InventoryPanels } from '@worksheets/util/enums';
+import { HelpPrizesQuestions, SettingsPanels } from '@worksheets/util/enums';
 import { QuestionAnswer } from '@worksheets/util/types';
 
 import { HelpfulLinks } from './helpful-links';
@@ -110,7 +110,7 @@ export const helpPrizes: QuestionAnswer[] = [
           You can claim prizes by visiting the{' '}
           <Link
             href={routes.account.inventory.path({
-              bookmark: InventoryPanels.Items,
+              bookmark: SettingsPanels.Items,
             })}
           >
             inventory page
@@ -234,7 +234,7 @@ export const helpPrizes: QuestionAnswer[] = [
             {
               text: 'My Activation Codes',
               href: routes.account.inventory.path({
-                bookmark: InventoryPanels.ActivationCodes,
+                bookmark: SettingsPanels.ActivationCodes,
               }),
             },
             {
@@ -309,7 +309,7 @@ export const helpPrizes: QuestionAnswer[] = [
             {
               text: 'My Activation Codes',
               href: routes.account.inventory.path({
-                bookmark: InventoryPanels.ActivationCodes,
+                bookmark: SettingsPanels.ActivationCodes,
               }),
             },
             {
