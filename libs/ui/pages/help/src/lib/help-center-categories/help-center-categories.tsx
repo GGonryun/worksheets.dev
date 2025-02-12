@@ -5,7 +5,6 @@ import {
   ECommercePrizes,
   ECommerceQuality,
 } from '@worksheets/icons/ecommerce';
-import { HalloweenDeath } from '@worksheets/icons/halloween';
 import { LearningCode } from '@worksheets/icons/learning';
 import {
   ValentinesCalendar,
@@ -97,12 +96,6 @@ const categories: HelpCenterCategoryProps[] = [
     href: routes.help.contributions.path(),
     description: 'Help us build a better world, one game at a time',
     icon: ECommerceGift,
-  },
-  {
-    title: 'Boss Fights',
-    href: routes.help.mobs.path(),
-    description: 'Team up with other players to defeat powerful bosses',
-    icon: HalloweenDeath,
   },
   {
     title: 'Emails',

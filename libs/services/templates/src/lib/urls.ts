@@ -53,13 +53,6 @@ export const RAFFLE_URL = (raffleId: number) =>
     },
   });
 
-export const BATTLE_URL = (battleId: number) =>
-  routes.battle.url({
-    params: {
-      battleId,
-    },
-  });
-
 export const ITEM_URL = (itemId: string) =>
   routes.item.url({
     params: {

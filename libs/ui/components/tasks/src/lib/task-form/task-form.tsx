@@ -6,7 +6,6 @@ import React from 'react';
 import { AddFriendForm } from './add-friend-form';
 import { AddReferralForm } from './add-referral-form';
 import { BasicActionForm } from './basic-action-form';
-import { BattleParticipationForm } from './battle-participation-form';
 import { CatpchaForm } from './captcha-form';
 import { CustomInputForm } from './custom-input-form';
 import { FollowTwitchForm } from './follow-twitch-form';
@@ -60,7 +59,7 @@ export const TaskForm: React.FC<TaskFormProps> = ({ task, actions }) => {
     case TaskType.WATCH_AD:
       return <WatchAdForm task={task} actions={actions} />;
     case TaskType.BATTLE_PARTICIPATION:
-      return <BattleParticipationForm task={task} actions={actions} />;
+      return <>NOT IMPLEMENTED</>;
     case TaskType.FOLLOW_TWITCH:
       return <FollowTwitchForm task={task} actions={actions} />;
     case TaskType.JOIN_DISCORD_GUILD:

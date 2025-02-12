@@ -10,7 +10,6 @@ import {
   HelpFriendsQuestions,
   HelpIntegrationsQuestions,
   HelpInventoryQuestions,
-  HelpMobsQuestions,
   HelpNotificationsQuestions,
   HelpPlayingGamesQuestions,
   HelpPrizesQuestions,
@@ -121,12 +120,6 @@ export const routes = {
   logout: createRoute({
     path: '/logout',
   }),
-  monsters: createRoute({
-    path: '/monsters',
-  }),
-  monster: createRoute({
-    path: '/monsters/[monsterId]',
-  }),
   items: createRoute({
     path: '/items',
   }),
@@ -153,9 +146,6 @@ export const routes = {
       }),
     },
   }),
-  auctions: createRoute({
-    path: '/auctions',
-  }),
   vip: createRoute({
     path: '/vip',
   }),
@@ -170,12 +160,6 @@ export const routes = {
         path: '/raffles/expired',
       }),
     },
-  }),
-  battles: createRoute({
-    path: '/battles',
-  }),
-  battle: createRoute({
-    path: '/battles/[battleId]',
   }),
   help: createRoute({
     path: '/help',
@@ -239,10 +223,6 @@ export const routes = {
       quests: createRoute({
         path: '/help/quests',
         bookmarks: HelpQuestsQuestions,
-      }),
-      mobs: createRoute({
-        path: '/help/mobs',
-        bookmarks: HelpMobsQuestions,
       }),
     },
   }),

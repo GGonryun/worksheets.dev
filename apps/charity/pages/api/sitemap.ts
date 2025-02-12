@@ -33,7 +33,7 @@ import {
   vipSeo,
 } from '../../util/seo';
 
-const LAST_UPDATE_DATE = `2024-02-14`;
+const LAST_UPDATE_DATE = `2025-02-11`;
 
 const addHomePage = () => {
   return `<url><loc>${routes.baseUrl}</loc><lastmod>${LAST_UPDATE_DATE}</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>`;

@@ -1,10 +1,8 @@
 import { routes } from '@worksheets/routes';
 import { OpenGraphProps, TWITTER_SEO } from '@worksheets/util/seo';
 import {
-  BattleSchema,
   DeveloperSchema,
   ItemSchema,
-  MonsterSchema,
   RaffleSchema,
   SerializableGameSchema,
   TagSchema,
@@ -121,25 +119,6 @@ export const categorySeo = (
     path: routes.category.path({ params: { tagId: tag.id } }),
     title: `${tag.name} Category`,
     description: `Play ${tag.name} online for free on Charity Games. The easiest way to make a difference. Donate to charity by playing ${tag.name}.`,
-  });
-export const bossBattlesSeo = createSeo({
-  path: routes.battles.path(),
-  title: `Boss Battles`,
-  description: `Join boss battles on Charity Games. Team up with other players to defeat powerful bosses and earn rewards.`,
-});
-
-export const bossBattleSeo = (battle: BattleSchema): NextSeoProps =>
-  createSeo({
-    noindex: true,
-    path: routes.battle.path({ params: { battleId: battle.id } }),
-    title: `${battle.mob.name} | Boss Battle`,
-    description: `Defeat ${battle.mob.name} and earn rewards. Every token you spend is a donation towards charity. Win prizes by playing browser games.`,
-    images: [
-      {
-        url: battle.mob.imageUrl,
-        alt: battle.mob.name,
-      },
-    ],
   });
 
 export const developerSeo = (developer: DeveloperSchema): NextSeoProps =>
@@ -338,13 +317,6 @@ export const helpDevelopersSeo = createSeo({
     'Find answers to questions about contributing games to the Charity Games Platform. Turn your games into donations.',
 });
 
-export const helpMobsSeo = createSeo({
-  path: routes.help.mobs.path(),
-  title: 'Boss Fights',
-  description:
-    'Boss fights are global events where you team up with other players to defeat a powerful boss and earn rewards.',
-});
-
 export const rafflesSeo = createSeo({
   path: routes.raffles.path(),
   title: 'Raffles',
@@ -408,27 +380,6 @@ export const librarySeo = createSeo({
   description:
     'Find and play your favorite mobile and desktop games for free on Charity Games. The easiest way to donate to charity.',
 });
-
-export const auctionsSeo = createSeo({
-  path: routes.auctions.path(),
-  title: 'Auctions',
-  description:
-    'Bid on digital prizes and win free games. Win tokens by playing browser games and completing tasks.',
-});
-
-export const monstersSeo = createSeo({
-  path: routes.monsters.path(),
-  title: 'Monsters',
-  description:
-    'Defeat monsters and earn rewards. Win tokens by playing browser games.',
-});
-
-export const monsterSeo = (monster: MonsterSchema): NextSeoProps =>
-  createSeo({
-    path: routes.monster.path({ params: { monsterId: monster.id } }),
-    title: `${monster.name} | Monster`,
-    description: `Defeat ${monster.name} and earn rewards. Win prizes by playing browser games.`,
-  });
 
 export const itemsSeo = createSeo({
   path: routes.items.path(),

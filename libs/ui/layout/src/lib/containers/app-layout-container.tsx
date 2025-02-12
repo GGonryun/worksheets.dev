@@ -88,10 +88,14 @@ export const AppLayoutContainer: FC<{
             <ul>
               <li>Quests</li>
               <li>Tokens & Items</li>
-              <li>Prize Wall</li>
-              <li>Boss Battles</li>
               <li>Integrations</li>
               <li>Gifting & Friends</li>
+              <li>
+                <s>Prize Wall</s>
+              </li>
+              <li>
+                <s>Boss Battles</s>
+              </li>
             </ul>
             <Link
               href={blogRoutes.article.url({

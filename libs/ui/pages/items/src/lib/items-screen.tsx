@@ -1,11 +1,6 @@
-import {
-  InfoOutlined,
-  Inventory2Outlined,
-  SportsMmaOutlined,
-} from '@mui/icons-material';
+import { InfoOutlined } from '@mui/icons-material';
 import { Box, Button, Container, Link, Paper, Typography } from '@mui/material';
 import { routes } from '@worksheets/routes';
-import { Row } from '@worksheets/ui/components/flex';
 import { ContainImage } from '@worksheets/ui/components/images';
 import { LoadingScreen } from '@worksheets/ui/pages/loading';
 import { ItemSchema } from '@worksheets/util/types';
@@ -26,26 +21,6 @@ const Screen: React.FC<{ items: ItemSchema[] }> = (props) => (
     >
       Item Database
     </Typography>
-    <Row justifyContent="space-evenly" flexWrap="wrap" gap={2}>
-      <Button
-        href={routes.monsters.path()}
-        sx={{ width: { xs: '100%', sm: '250px' } }}
-        variant="arcade"
-        color="secondary"
-        startIcon={<Inventory2Outlined />}
-      >
-        Monster Database
-      </Button>
-      <Button
-        href={routes.battles.path()}
-        sx={{ width: { xs: '100%', sm: '250px' } }}
-        variant="arcade"
-        color="error"
-        startIcon={<SportsMmaOutlined />}
-      >
-        Boss Battles
-      </Button>
-    </Row>
 
     <Box
       sx={{

@@ -38,7 +38,6 @@ import { InfoModal } from '@worksheets/ui/components/modals';
 import { PrizeWheel } from '@worksheets/ui/components/prize-wheel';
 import { useSnackbar } from '@worksheets/ui/components/snackbar';
 import { useMediaQueryDown } from '@worksheets/ui/hooks/use-media-query';
-import { Redirect } from '@worksheets/ui-core';
 import { HelpInventoryQuestions, SettingsPanels } from '@worksheets/util/enums';
 import { assertNever } from '@worksheets/util/errors';
 import { MAX_CONSUMPTION_RATE } from '@worksheets/util/settings';
@@ -901,12 +900,7 @@ const ItemContent: React.FC<{
       return <ActivateItem item={item} onDirty={onDirty} onClose={onClose} />;
     // No activation supported.
     case 'COMBAT':
-      return (
-        <Redirect
-          href={routes.battles.path()}
-          placeholder={<PulsingLogo message={'Redirecting...'} />}
-        />
-      );
+      return <>DEMOLITION IN PROGRESS</>;
     case 'CURRENCY':
       return (
         <ErrorComponent message="Currency cannot be used. Contact Support." />

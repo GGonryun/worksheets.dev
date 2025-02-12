@@ -52,8 +52,6 @@ model User {
   // codes
   activationCode   ActivationCode[]
   redemptionCodes  RedemptionCode[]
-  // battles
-  battles          BattleParticipation[]
   // reports
   banned           Boolean                @default(false)
   reportsAgainst   UserReport[]           @relation(name: "Against")
@@ -782,39 +780,6 @@ model RaffleAction {
   progress    TaskProgress[]
 }
 
-enum MobRace {
-  FORMLESS
-  UNDEAD
-  BEAST
-  PLANT
-  INSECT
-  FISH
-  DEMON
-  MACHINE
-  HUMANOID
-  ANGEL
-  DRAGON
-}
-
-enum MobElement {
-  NEUTRAL_1
-  WATER_1
-  EARTH_1
-  FIRE_1
-  WIND_1
-  POISON_1
-  HOLY_1
-  SHADOW_1
-  GHOST_1
-  UNDEAD_1
-}
-
-enum MobSize {
-  SMALL
-  MEDIUM
-  LARGE
-}
-
 // used to link an item and quantity to a mob, participation, user, quest, etc.
 model Loot {
   id            Int              @id @default(autoincrement())
@@ -822,92 +787,12 @@ model Loot {
   item          Item             @relation(fields: [itemId], references: [id], onDelete: Cascade)
   quantity      Int
   chance        Float
-  mvp           Boolean          @default(false)
-  mobId         Int?
-  mob           Mob?             @relation(fields: [mobId], references: [id], onDelete: Cascade)
   questId       String?
   quest         PlatformQuest?   @relation(fields: [questId], references: [id], onDelete: Cascade)
   gameId        String?
   game          Game?            @relation(fields: [gameId], references: [id], onDelete: Cascade)
   achievementId String?
   achievement   GameAchievement? @relation(fields: [achievementId], references: [id], onDelete: Cascade)
-}
-
-enum MobType {
-  BASIC
-  BOSS
-}
-
-model Mob {
-  id          Int        @id @default(autoincrement())
-  version     Int        @default(0)
-  name        String
-  imageUrl    String
-  description String
-  maxHp       Int
-  type        MobType    @default(BASIC)
-  level       Int
-  race        MobRace
-  element     MobElement
-  size        MobSize
-  attack      Int
-  defense     Int
-  baseExp     Int
-  mvpExp      Int
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @default(now()) @updatedAt
-  battles     Battle[]
-  loot        Loot[]
-}
-
-enum BattleStatus {
-  PENDING
-  ACTIVE
-  COMPLETE
-  CANCELLED
-}
-
-model Battle {
-  id            Int                   @id @default(autoincrement())
-  status        BattleStatus
-  mobId         Int
-  mob           Mob                   @relation(fields: [mobId], references: [id], onDelete: Cascade)
-  createdAt     DateTime              @default(now())
-  updatedAt     DateTime              @updatedAt
-  publishAt     DateTime              @default(now())
-  health        Int
-  participation BattleParticipation[]
-  logs          BattleLogs[]
-}
-
-model BattleLogs {
-  id        Int      @id @default(autoincrement())
-  battleId  Int
-  battle    Battle   @relation(fields: [battleId], references: [id], onDelete: Cascade)
-  message   String
-  createdAt DateTime @default(now())
-}
-
-enum MvpReason {
-  MOST_DAMAGE
-  MOST_STRIKES // deprecated
-  LAST_HIT // deprecated
-}
-
-model BattleParticipation {
-  id        Int        @id @default(autoincrement())
-  damage    Int // how much damage the user has done to the mob
-  strikes   Int // how many times the user has attacked the mob
-  mvp       MvpReason?
-  battleId  Int
-  battle    Battle     @relation(fields: [battleId], references: [id], onDelete: Cascade)
-  userId    String
-  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-  struckAt  DateTime
-
-  @@unique([userId, battleId])
 }
 
 enum IntegrationProvider {

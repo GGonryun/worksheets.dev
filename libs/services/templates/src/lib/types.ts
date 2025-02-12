@@ -177,45 +177,6 @@ export type NotificationTemplate =
       };
     }
   | {
-      type: 'new-battle';
-      payload: {
-        battleId: number;
-        mobName: string;
-        loot: number;
-      };
-    }
-  | {
-      type: 'battle-completed';
-      payload: {
-        userIds: string[];
-        battle: {
-          id: number;
-          mob: {
-            name: string;
-          };
-        };
-      };
-    }
-  | {
-      type: 'battle-mvp-awarded';
-      payload: {
-        userId: string;
-        battle: {
-          id: number;
-          mob: {
-            name: string;
-          };
-        };
-        loot: {
-          item: {
-            id: string;
-            name: string;
-          };
-          quantity: number;
-        };
-      };
-    }
-  | {
       type: 'found-item';
       payload: {
         userId: string;

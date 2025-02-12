@@ -16,7 +16,6 @@ import {
   ACCOUNT_INVENTORY_URL,
   ACCOUNT_QUESTS_URL,
   ACCOUNT_REFERRED_ACCOUNTS_URL,
-  BATTLE_URL,
   DEVELOPER_URL,
   GAME_URL,
   GAMES_URL,
@@ -105,19 +104,6 @@ export class PushTemplates {
     };
   }
 
-  static newBattle(
-    opts: ExtractTemplatePayload<'new-battle'>
-  ): PushNotifyInput {
-    return {
-      type: 'BATTLE',
-      text: `A new boss battle has started! <a href="${BATTLE_URL(
-        opts.battleId
-      )}">Fight the ${opts.mobName}</a> for a chance to win ${
-        opts.loot
-      } items!`,
-    };
-  }
-
   static lostRaffle(
     opts: ExtractTemplatePayload<'lost-raffle'>
   ): PushNotifyInput[] {
@@ -201,34 +187,6 @@ export class PushTemplates {
       }</b> and received ${opts.quest.loot
         .map((l) => `${l.quantity} ${pluralize(l.item.name, l.quantity)}`)
         .join(', ')}! <a href="${ACCOUNT_QUESTS_URL}">Find more quests</a>.`,
-    };
-  }
-
-  static battleCompleted(
-    opts: ExtractTemplatePayload<'battle-completed'>
-  ): PushNotifyInput {
-    return {
-      userIds: opts.userIds,
-      type: 'BATTLE',
-      text: `${opts.battle.mob.name} has been defeated! <a href="${BATTLE_URL(
-        opts.battle.id
-      )}">View results</a>.`,
-    };
-  }
-
-  static battleMvpAwarded(
-    opts: ExtractTemplatePayload<'battle-mvp-awarded'>
-  ): PushNotifyInput {
-    return {
-      userIds: [opts.userId],
-      type: 'BATTLE',
-      text: `You are the MVP for the battle against the <a href="${BATTLE_URL(
-        opts.battle.id
-      )}">${
-        opts.battle.mob.name
-      }</a>! You have been awarded <a href="${ACCOUNT_INVENTORY_URL}">${
-        opts.loot.quantity
-      }x ${pluralize(opts.loot.item.name, opts.loot.quantity)}</a>.`,
     };
   }
 

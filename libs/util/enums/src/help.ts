@@ -119,15 +119,6 @@ export enum HelpInventoryQuestions {
   Capsules = 'capsules',
 }
 
-export enum HelpMobsQuestions {
-  Description = 'description',
-  HowToJoin = 'joining',
-  HowDoIDealDamage = 'damage',
-  HowToWin = 'winning',
-  MVP = 'mvp',
-  Rewards = 'rewards',
-}
-
 export enum HelpIntegrationsQuestions {
   Description = 'description',
   Steam = 'steam',

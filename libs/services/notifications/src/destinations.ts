@@ -92,30 +92,6 @@ const questCompletedTemplates: TemplateBuilder<'quest-completed'> = (
   push: PushTemplates.questCompleted(payload),
 });
 
-const newBattleTemplates: TemplateBuilder<'new-battle'> = (payload) => ({
-  // TODO: twitter battle notifications get low engagement and may just be noise.
-  // twitter: TwitterTemplates.newBattle(payload),
-  // TODO: reduce discord noise from boss battles
-  // discord: DiscordTemplates.newBattle(payload),
-  broadcast: PushTemplates.newBattle(payload),
-});
-
-const battleCompletedTemplates: TemplateBuilder<'battle-completed'> = (
-  payload
-) => ({
-  // TODO: twitter battle notifications get low engagement and may just be noise.
-  // twitter: TwitterTemplates.battleCompleted(payload),
-  // TODO: reduce discord noise from boss battles
-  // discord: DiscordTemplates.battleCompleted(payload),
-  push: PushTemplates.battleCompleted(payload),
-});
-
-const battleMvpAwardedTemplates: TemplateBuilder<'battle-mvp-awarded'> = (
-  payload
-) => ({
-  push: PushTemplates.battleMvpAwarded(payload),
-});
-
 const foundItemTemplates: TemplateBuilder<'found-item'> = (payload) => ({
   push: PushTemplates.foundItem(payload),
 });
@@ -160,9 +136,6 @@ export const destinations: Record<NotificationTemplateType, TemplateBuilder> = {
   'confirm-newsletter-subscription': confirmNewsletterSubscriptionTemplates,
   'new-subscriber': newSubscriberTemplates,
   'quest-completed': questCompletedTemplates,
-  'new-battle': newBattleTemplates,
-  'battle-completed': battleCompletedTemplates,
-  'battle-mvp-awarded': battleMvpAwardedTemplates,
   'found-item': foundItemTemplates,
   'game-report': gameReportTemplates,
   'user-report': userReportTemplates,

@@ -71,11 +71,6 @@ export const helpInventory: QuestionAnswer[] = [
             redeemed after a certain period of time.
           </li>
           <li>
-            <b>Combat</b> — Items that can be used in{' '}
-            <Link href={routes.help.mobs.path()}>Boss Battles</Link> to help you
-            deal more damage or take less damage.
-          </li>
-          <li>
             <b>Et Cetera</b> — Items that are used for crafting other items or
             selling for currency.
           </li>
@@ -91,11 +86,8 @@ export const helpInventory: QuestionAnswer[] = [
       <Typography>
         You can find items for your inventory by{' '}
         <Link href={routes.play.path()}>playing games</Link>,{' '}
-        <Link href={routes.raffles.path()}>winning raffles</Link>,{' '}
-        <Link href={routes.help.mobs.path()}>
-          defeating enemies in Boss Battles
-        </Link>
-        , or by <Link href={routes.help.quests.path()}>completing quests</Link>.
+        <Link href={routes.raffles.path()}>winning raffles</Link>, or by{' '}
+        <Link href={routes.help.quests.path()}>completing quests</Link>.
       </Typography>
     ),
   },
@@ -191,8 +183,7 @@ export const helpInventory: QuestionAnswer[] = [
         >
           Mystery Capsules
         </Link>
-        , <Link href={routes.raffles.path()}>Raffles</Link>, and{' '}
-        <Link href={routes.help.mobs.path()}>Boss Battles</Link>. Premium items
+        , and <Link href={routes.raffles.path()}>Raffles</Link>. Premium items
         are usually more rare than other items.
         <br />
         <br />

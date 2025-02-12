@@ -1,5 +1,4 @@
 import { t } from '../../trpc';
-import battles from './battles';
 import codes from './codes';
 import destroy from './delete';
 import followers from './followers';
@@ -41,6 +40,5 @@ export default t.router({
   inventory,
   delete: destroy,
   codes,
-  battles,
   integrations,
 });

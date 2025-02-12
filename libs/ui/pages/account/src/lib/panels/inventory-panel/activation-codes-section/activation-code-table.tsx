@@ -157,7 +157,7 @@ const EmptyPrizesPlaceholder = () => {
         You don't have any codes yet
       </Typography>
       <Typography variant="body2">
-        Participate in a Raffles or Boss Battles to win prizes and earn
+        Participate in a Raffles to win prizes and earn activation codes!
       </Typography>
       <Typography variant="body2">
         Keep playing games and referring friends to earn more tokens and win

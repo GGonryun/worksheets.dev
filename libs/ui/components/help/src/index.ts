@@ -10,7 +10,6 @@ export * from './lib/help-vip';
 export * from './lib/help-quests';
 export * from './lib/help-emails';
 export * from './lib/help-inventory';
-export * from './lib/help-mobs';
 export * from './lib/help-integrations';
 export * from './lib/help-loot';
 export * from './lib/help-prize-wall';

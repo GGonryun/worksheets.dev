@@ -10,7 +10,6 @@ import { routes } from '@worksheets/routes';
 import { Row } from '@worksheets/ui/components/flex';
 import { ResponsiveImage } from '@worksheets/ui/components/images';
 import { PaletteColor } from '@worksheets/ui/theme';
-import { toPercentage } from '@worksheets/util/numbers';
 import { ItemSchema, ItemSourcesSchema } from '@worksheets/util/types';
 import pluralize from 'pluralize';
 import React, { Fragment, ReactNode } from 'react';
@@ -101,34 +100,6 @@ export const ItemDetails: React.FC<{
               props.item.buy
                 ? `${props.item.buy} ${pluralize('token', props.item.buy)}`
                 : 'N/A'
-            }
-          />
-          <Data
-            wrap
-            label={'Dropped By'}
-            value={
-              props.sources.monsters.length ? (
-                <span>
-                  {props.sources.monsters.map((monster, index) => (
-                    <Fragment>
-                      <Link
-                        key={monster.id}
-                        href={routes.monster.path({
-                          params: {
-                            monsterId: monster.id,
-                          },
-                        })}
-                      >
-                        {monster.mvp ? '[MVP] ' : ''}
-                        {monster.name} ({toPercentage(monster.chance, 1, 2)})
-                      </Link>
-                      {index < props.sources.monsters.length - 1 ? ', ' : ''}
-                    </Fragment>
-                  ))}
-                </span>
-              ) : (
-                'N/A'
-              )
             }
           />
           <Data

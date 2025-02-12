@@ -4,7 +4,6 @@ import { BasicCategoryInfo, BasicGameInfo } from '@worksheets/util/types';
 import dynamic from 'next/dynamic';
 
 import { ArcadeScreen } from '../components/arcade-screen';
-import { DynamicTopBattles } from './dynamic-top-battles';
 import { DynamicTopRaffles } from './dynamic-top-raffles';
 
 const ArcadeScreenContainer: React.FC<{
@@ -27,7 +26,6 @@ const ArcadeScreenContainer: React.FC<{
       allGames={allGames}
       newGames={newGames}
       topRaffles={<DynamicTopRaffles />}
-      topBattles={<DynamicTopBattles />}
       recentGames={recentlyPlayed}
     />
   );

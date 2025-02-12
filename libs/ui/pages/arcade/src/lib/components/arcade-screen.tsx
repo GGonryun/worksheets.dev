@@ -14,7 +14,6 @@ export const ArcadeScreen: React.FC<{
   categories: BasicCategoryInfo[];
   featured: FeaturedGamesProps;
   topRaffles: ReactNode;
-  topBattles: ReactNode;
   topGames: BasicGameInfo[];
   newGames: BasicGameInfo[];
   allGames: BasicGameInfo[];
@@ -59,8 +58,6 @@ export const ArcadeScreen: React.FC<{
         <GameCarousel title="Best Games" items={props.topGames} />
 
         <GameCarousel title="Newest Games" items={props.newGames} />
-
-        {props.topBattles}
 
         <GamesGroup
           title="All Games"
