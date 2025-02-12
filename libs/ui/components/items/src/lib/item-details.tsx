@@ -104,26 +104,6 @@ export const ItemDetails: React.FC<{
           />
           <Data
             wrap
-            label={'Quest Reward'}
-            value={
-              props.sources.quests.length ? (
-                <span>
-                  {props.sources.quests.map((quest, index) => (
-                    <Fragment>
-                      <Link key={quest.id} href={routes.account.path()}>
-                        {quest.name}
-                      </Link>
-                      {index < props.sources.quests.length - 1 ? ', ' : ''}
-                    </Fragment>
-                  ))}
-                </span>
-              ) : (
-                'N/A'
-              )
-            }
-          />
-          <Data
-            wrap
             label={'Obtainable From'}
             value={
               props.sources.items.length ? (
