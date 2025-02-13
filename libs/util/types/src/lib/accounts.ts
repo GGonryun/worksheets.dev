@@ -1,16 +1,4 @@
-import { GameSubmissionStatus } from '@worksheets/prisma';
 import { z } from 'zod';
-
-export const basicGameSubmissionSchema = z.object({
-  id: z.string(),
-  status: z.nativeEnum(GameSubmissionStatus),
-  slug: z.string().nullable(),
-  title: z.string().nullable(),
-  tooltip: z.string().nullable(),
-  thumbnail: z.string().nullable(),
-});
-
-export type BasicGameSubmission = z.infer<typeof basicGameSubmissionSchema>;
 
 export type Referral = {
   id: string;
