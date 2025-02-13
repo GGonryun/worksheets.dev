@@ -1,22 +1,14 @@
 import { Author } from '@worksheets/util/blog';
 import {
-  ConnectIntegrationQueryParams,
-  ErrorQueryParams,
   HelpAccountQuestions,
   HelpCommonQuestions,
   HelpContributionsQuestions,
   HelpDevelopersQuestions,
   HelpEmailsQuestions,
-  HelpFriendsQuestions,
-  HelpInventoryQuestions,
-  HelpNotificationsQuestions,
   HelpPlayingGamesQuestions,
   HelpPrizesQuestions,
   HelpReferralsQuestions,
-  HelpTokensQuestions,
-  HelpVIPQuestions,
   LoginQueryParams,
-  NewsletterQueryParams,
   RafflesQueryParams,
   RefQueryParams,
   SettingsPanels,
@@ -44,23 +36,6 @@ export const routes = {
         },
       }),
     },
-  }),
-  // used by login api
-  oauth: createRoute({
-    path: '/oauth',
-    routes: {
-      success: createRoute({
-        path: '/oauth/success',
-      }),
-      error: createRoute({
-        path: '/oauth/error',
-        query: ErrorQueryParams,
-      }),
-    },
-  }),
-  connect: createRoute({
-    path: '/connect/[providerId]',
-    query: ConnectIntegrationQueryParams,
   }),
   about: createRoute({
     path: '/about',
@@ -124,29 +99,6 @@ export const routes = {
   item: createRoute({
     path: '/items/[itemId]',
   }),
-  user: createRoute({
-    path: '/users/[userId]',
-  }),
-  newsletter: createRoute({
-    path: '/newsletter',
-    routes: {
-      confirm: createRoute({
-        path: '/newsletter/confirm',
-        query: NewsletterQueryParams,
-      }),
-      subscribe: createRoute({
-        path: '/newsletter/subscribe',
-        query: NewsletterQueryParams,
-      }),
-      unsubscribe: createRoute({
-        path: '/newsletter/unsubscribe',
-        query: NewsletterQueryParams,
-      }),
-    },
-  }),
-  vip: createRoute({
-    path: '/vip',
-  }),
   raffle: createRoute({
     path: '/raffles/[raffleId]',
   }),
@@ -170,10 +122,6 @@ export const routes = {
         path: '/help/accounts',
         bookmarks: HelpAccountQuestions,
       }),
-      tokens: createRoute({
-        path: '/help/tokens',
-        bookmarks: HelpTokensQuestions,
-      }),
       playingGames: createRoute({
         path: '/help/playing-games',
         bookmarks: HelpPlayingGamesQuestions,
@@ -182,21 +130,9 @@ export const routes = {
         path: '/help/referrals',
         bookmarks: HelpReferralsQuestions,
       }),
-      friends: createRoute({
-        path: '/help/friends',
-        bookmarks: HelpFriendsQuestions,
-      }),
-      notifications: createRoute({
-        path: '/help/notifications',
-        bookmarks: HelpNotificationsQuestions,
-      }),
       emails: createRoute({
         path: '/help/emails',
         bookmarks: HelpEmailsQuestions,
-      }),
-      vip: createRoute({
-        path: '/help/vip',
-        bookmarks: HelpVIPQuestions,
       }),
       prizes: createRoute({
         path: '/help/prizes',
@@ -209,10 +145,6 @@ export const routes = {
       developers: createRoute({
         path: '/help/developers',
         bookmarks: HelpDevelopersQuestions,
-      }),
-      inventory: createRoute({
-        path: '/help/inventory',
-        bookmarks: HelpInventoryQuestions,
       }),
     },
   }),

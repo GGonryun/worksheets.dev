@@ -1,6 +1,6 @@
 import { Laptop, Smartphone } from '@mui/icons-material';
 import { Box } from '@mui/material';
-import { GameDevices } from '@worksheets/util/types';
+import { GameDevices } from '@worksheets/prisma';
 import { FC } from 'react';
 
 export const SupportedDeviceIcons: FC<{ devices: GameDevices[] }> = ({

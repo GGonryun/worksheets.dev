@@ -27,7 +27,7 @@ export const convertReferralCode = async ({
 };
 
 const cleanCode = (code: string) => {
-  // code can be a referral link or a friend code.
+  // code can be a referral link
   if (isUrl(code)) {
     const sections = code.split('/');
     // last section is the code

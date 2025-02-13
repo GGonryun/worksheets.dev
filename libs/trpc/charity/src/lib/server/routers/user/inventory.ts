@@ -1,12 +1,10 @@
 import { TRPCError } from '@trpc/server';
-import { ItemId, SharableItemId, SHARE_RATES } from '@worksheets/data/items';
-import { FriendshipService } from '@worksheets/services/friendship';
+import { ItemId } from '@worksheets/data/items';
 import {
   CapsuleService,
   InventoryService,
   PrizeWheelService,
 } from '@worksheets/services/inventory';
-import { NotificationsService } from '@worksheets/services/notifications';
 import { retryTransaction } from '@worksheets/util/prisma';
 import {
   DecrementOpts,
@@ -55,7 +53,6 @@ export default t.router({
       z.object({
         itemId: z.custom<ItemId>(),
         quantity: z.number(),
-        friendId: z.string().optional(),
       })
     )
     .output(z.custom<Awaited<ReturnType<InventoryService['decrement']>>>())
@@ -86,41 +83,6 @@ export default t.router({
           quantity: 1,
         } as DecrementOpts);
       });
-    }),
-  share: protectedProcedure
-    .input(
-      z.object({
-        friendshipId: z.string(),
-        itemId: z.custom<ItemId>(),
-        quantity: z.number(),
-      })
-    )
-    .output(z.custom<Awaited<ReturnType<InventoryService['decrement']>>>())
-    .mutation(async ({ input, ctx: { db, user } }) => {
-      const notification = new NotificationsService(db);
-      const friends = new FriendshipService(db);
-      const inventory = new InventoryService(db);
-      const friendship = await friends.get(input.friendshipId);
-
-      const result = await inventory.decrement(user.id, {
-        friendId: friendship.friendId,
-        itemId: input.itemId as SharableItemId,
-        quantity: input.quantity,
-      });
-
-      // TODO: if this is too slow, we can wrap it in a fireAndForgetFn
-      const item = await inventory.getItem(input.itemId);
-      const rate = SHARE_RATES[input.itemId as SharableItemId];
-      const giving = rate.friend * input.quantity;
-      await notification.send('share-gift', {
-        friendId: friendship.friendId,
-        from: user,
-        giving,
-        quantity: input.quantity,
-        item,
-      });
-
-      return result;
     }),
   capsule: t.router({
     get: protectedProcedure

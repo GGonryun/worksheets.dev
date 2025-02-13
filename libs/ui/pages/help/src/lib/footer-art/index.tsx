@@ -4,12 +4,10 @@ import { routes } from '@worksheets/routes';
 import { ContainImage } from '@worksheets/ui/components/images';
 import { JSXElementConstructor } from 'react';
 
-const purposeHref = routes.newsletter.subscribe.path();
-
 const playWithPurposeAlt = 'Play With Purpose';
 
 const PlayWithPurposeBox = styled<JSXElementConstructor<BoxProps>>((props) => (
-  <Box component="a" href={purposeHref} {...props} />
+  <Box component="a" href={routes.play.url()} {...props} />
 ))(({ theme }) => ({
   position: 'relative',
   height: 'auto',

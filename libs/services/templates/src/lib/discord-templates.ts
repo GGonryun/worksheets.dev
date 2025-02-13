@@ -114,25 +114,4 @@ export class DiscordTemplates {
       channel: 'admin',
     };
   }
-  static newGameSubmission(
-    opts: ExtractTemplatePayload<'new-game-submission'>
-  ): DiscordMessageInput {
-    return {
-      content: `A game submission has been created by ${opts.user.id}.`,
-      embeds: [
-        {
-          title: opts.submission.title ?? 'Untitled',
-        },
-      ],
-      channel: 'admin',
-    };
-  }
-  static newSubscriber(
-    opts: ExtractTemplatePayload<'new-subscriber'>
-  ): DiscordMessageInput {
-    return {
-      content: `A new subscriber has signed up: ${opts.email}`,
-      channel: 'admin',
-    };
-  }
 }

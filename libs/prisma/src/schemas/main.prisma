@@ -15,51 +15,43 @@ enum UserType {
 }
 
 model User {
-  id               String                 @id @default(cuid())
+  id               String                @id @default(cuid())
   name             String?
-  email            String                 @unique
+  email            String                @unique
   emailVerified    DateTime?
   image            String?
   referredByUserId String?
-  username         String                 @default(cuid())
+  username         String                @default(cuid())
   bio              String?
-  isPublisher      Boolean                @default(false)
-  createdAt        DateTime               @default(now())
-  updatedAt        DateTime               @updatedAt
-  lastSeen         DateTime?              @default(now())
-  multiplier       Float                  @default(1)
-  experience       Int                    @default(0)
-  type             UserType               @default(USER)
+  isPublisher      Boolean               @default(false)
+  createdAt        DateTime              @default(now())
+  updatedAt        DateTime              @updatedAt
+  lastSeen         DateTime?             @default(now())
+  multiplier       Float                 @default(1)
+  experience       Int                   @default(0)
+  type             UserType              @default(USER)
   accounts         Account[]
   sessions         Session[]
-  submissions      GameSubmission[]
   // inventory & loot
   inventory        Inventory[]
   // raffles
   participation    RaffleParticipation[]
-  // friendships
-  friends          Friendship[]           @relation(name: "Friends")
-  followers        Friendship[]           @relation(name: "Followers")
   // socials
   referralCode     ReferralCode?
-  referredBy       User?                  @relation(name: "Referred", fields: [referredByUserId], references: [id])
-  referred         User[]                 @relation(name: "Referred")
-  // notifications
-  notifications    Notification[]
-  // vip membership
-  vip              VipMembershipWaitlist?
+  referredBy       User?                 @relation(name: "Referred", fields: [referredByUserId], references: [id])
+  referred         User[]                @relation(name: "Referred")
   tasks            TaskProgress[]
   // codes
   activationCode   ActivationCode[]
   redemptionCodes  RedemptionCode[]
   // reports
-  banned           Boolean                @default(false)
-  reportsAgainst   UserReport[]           @relation(name: "Against")
-  reportsSent      UserReport[]           @relation(name: "Sender")
+  banned           Boolean               @default(false)
+  reportsAgainst   UserReport[]          @relation(name: "Against")
+  reportsSent      UserReport[]          @relation(name: "Sender")
   plays            GamePlayHistory[]
   // integrations
-  referredAction   ReferralAction[]       @relation(name: "ReferredAction")
-  referrerAction   ReferralAction[]       @relation(name: "ReferrerAction")
+  referredAction   ReferralAction[]      @relation(name: "ReferredAction")
+  referrerAction   ReferralAction[]      @relation(name: "ReferrerAction")
   gameSessions     GameSession[]
   gameStorage      GameStorage[]
   gameScores       GameScore[]
@@ -111,17 +103,6 @@ model UserReport {
   against   User     @relation(name: "Against", fields: [againstId], references: [id], onDelete: Cascade)
   text      String   @db.VarChar(255)
   createdAt DateTime @default(now())
-}
-
-model Friendship {
-  id         String   @id @default(cuid())
-  userId     String
-  friendId   String
-  isFavorite Boolean  @default(false)
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  user       User     @relation(name: "Friends", fields: [userId], references: [id], onDelete: Cascade)
-  friend     User     @relation(name: "Followers", fields: [friendId], references: [id], onDelete: Cascade)
 }
 
 model Inventory {
@@ -277,14 +258,6 @@ enum GameDevices {
   COMPUTER
 }
 
-enum GameSubmissionStatus {
-  DRAFT
-  REJECTED
-  PENDING
-  ACCEPTED
-  DELETED
-}
-
 enum ProjectType {
   HTML
   EXTERNAL
@@ -411,70 +384,15 @@ model GamePlayHistory {
 }
 
 model StoredFile {
-  id           String          @id @default(cuid())
+  id           String   @id @default(cuid())
   submissionId String
   userId       String
-  name         String          @db.VarChar(255)
-  path         String          @db.VarChar(511)
-  size         Int             @default(0) // stored as MB
-  type         String          @db.VarChar(63)
-  createdAt    DateTime        @default(now())
-  updatedAt    DateTime        @updatedAt
-  gameFileFor  GameSubmission? @relation(name: "gameFile")
-  thumbnailFor GameSubmission? @relation(name: "thumbnailFile")
-  coverFor     GameSubmission? @relation(name: "coverFile")
-}
-
-model GameSubmission {
-  id                 String                   @id @default(cuid())
-  // form data
-  slug               String?                  @db.VarChar(63)
-  title              String?                  @db.VarChar(63)
-  headline           String?                  @db.VarChar(255)
-  projectType        ProjectType?
-  externalWebsiteUrl String?                  @db.VarChar(255)
-  viewport           ViewportType?            @default(RESPONSIVE)
-  viewportWidth      Int?
-  viewportHeight     Int?
-  devices            GameDevices[]
-  orientations       DeviceOrientations[]
-  description        String?                  @db.VarChar(1023)
-  instructions       String?                  @db.VarChar(1023)
-  categories         String[]                 @default([])
-  // a JSON object with the game's supported markets
-  // we use a string instead of JSON because our zod parser doesn't support JSON properly.
-  // known-issue: https://github.com/microsoft/TypeScript/issues/34933
-  markets            String?
-  // assets
-  // cascade delete the files when the submission is deleted.
-  gameFileId         String?                  @unique @db.VarChar(63)
-  gameFile           StoredFile?              @relation(name: "gameFile", fields: [gameFileId], references: [id])
-  thumbnailFileId    String?                  @unique @db.VarChar(63)
-  thumbnailFile      StoredFile?              @relation(name: "thumbnailFile", fields: [thumbnailFileId], references: [id])
-  coverFileId        String?                  @unique @db.VarChar(63)
-  coverFile          StoredFile?              @relation(name: "coverFile", fields: [coverFileId], references: [id])
-  trailerUrl         String?                  @db.VarChar(63)
-  // The game status is updated when the game is submitted.
-  // approved submissions are deleted after the game is published.
-  status             GameSubmissionStatus     @default(DRAFT)
-  reviews            GameSubmissionFeedback[]
-  // the profile that submitted the game
-  userId             String
-  user               User                     @relation(fields: [userId], references: [id])
-  // auditing and analytics
-  createdAt          DateTime                 @default(now())
-  updatedAt          DateTime                 @updatedAt
-}
-
-// Feedback for a game submission, written by an admin or moderator.
-// Feedback should be created if a game has some issues that need to be fixed before it can be published.
-// A game submission can have multiple feedback reports.
-model GameSubmissionFeedback {
-  id           String         @id @default(cuid())
-  submissionId String
-  text         String         @db.VarChar(511)
-  createdAt    DateTime       @default(now())
-  game         GameSubmission @relation(fields: [submissionId], references: [id])
+  name         String   @db.VarChar(255)
+  path         String   @db.VarChar(511)
+  size         Int      @default(0) // stored as MB
+  type         String   @db.VarChar(63)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 }
 
 model Sponsor {
@@ -578,62 +496,6 @@ model RedemptionCode {
   // this is useful for assigning codes to users who win a prize in a different way.
   userId String?
   user   User?   @relation(fields: [userId], references: [id])
-}
-
-enum ScheduledEmailStatus {
-  DRAFT // don't try to send draft messages.
-  PENDING
-  SENT
-  SENDING
-  FAILED
-  CANCELLED
-}
-
-model ScheduledEmail {
-  id        Int                  @id @default(autoincrement())
-  createdAt DateTime             @default(now())
-  updatedAt DateTime             @default(now())
-  priority  Int
-  sendAt    DateTime
-  status    ScheduledEmailStatus @default(PENDING)
-  to        String[]             @default([])
-  cc        String[]             @default([])
-  bcc       String[]             @default([])
-  subject   String
-  html      String
-}
-
-enum NotificationType {
-  SYSTEM
-  FRIEND
-  PRIZE
-  RAFFLE
-  QUEST
-  INVENTORY
-  REWARD
-  GAME
-  BATTLE
-  VICTORY
-  ACHIEVEMENT
-}
-
-model Notification {
-  id        String           @id @default(cuid())
-  type      NotificationType
-  text      String           @db.VarChar(511)
-  read      Boolean          @default(false)
-  createdAt DateTime         @default(now())
-  updatedAt DateTime         @updatedAt
-  userId    String
-  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
-model VipMembershipWaitlist {
-  id        String   @id @default(cuid())
-  userId    String   @unique
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 }
 
 enum TaskStatus {

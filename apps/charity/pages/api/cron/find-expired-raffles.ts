@@ -9,7 +9,7 @@ import { retryTransaction } from '@worksheets/util/prisma';
 import { SECONDS } from '@worksheets/util/time';
 
 export default createCronJob(async () => {
-  const notifications = new NotificationsService(prisma);
+  const notifications = new NotificationsService();
   const expiredRaffles = await prisma.raffle.findMany({
     where: {
       expiresAt: {
@@ -23,7 +23,7 @@ export default createCronJob(async () => {
 
   for (const expired of expiredRaffles) {
     console.info(`Processing expired raffle ${expired.id}.`);
-    const { winners, losers, raffle } = await retryTransaction(
+    const { winners, raffle } = await retryTransaction(
       prisma,
       async (tx) => {
         const raffles = new RafflesService(tx);
@@ -43,10 +43,7 @@ export default createCronJob(async () => {
         item: raffle.item,
       });
     }
-    await notifications.send('lost-raffle', {
-      ...raffle,
-      participants: losers,
-    });
+
     await notifications.send('raffle-expired', {
       ...raffle,
       name: raffle.name ?? raffle.item.name,

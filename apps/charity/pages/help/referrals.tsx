@@ -13,7 +13,7 @@ const Page: NextPageWithLayout = () => {
       <HelpScreen
         title={'Referrals'}
         description={
-          'Referring friends to Charity Games is a great way to earn tokens and rewards. Find out how to refer friends and how to earn tokens for referring friends.'
+          'Referring friends to Charity Games is a great way to help us grow! Find out how to refer friends and how to earn bonuses for referring friends.'
         }
         qa={helpReferrals}
       />

@@ -11,7 +11,6 @@ import {
   ITEMS,
   PRIZE_SPINNER_WEIGHTS,
   RARITY_BAGS,
-  SHARE_RATES,
 } from '@worksheets/data/items';
 import {
   ItemType,
@@ -25,13 +24,6 @@ import {
   shuffle,
 } from '@worksheets/util/arrays';
 import { assertNever } from '@worksheets/util/errors';
-import {
-  STARTING_APPLES,
-  STARTING_GIFT_BOXES,
-  STARTING_SMALL_CHESTS,
-  STARTING_SWORDS,
-  STARTING_TOKENS,
-} from '@worksheets/util/settings';
 import { daysFromNow, isExpired } from '@worksheets/util/time';
 import {
   ConsumableDecrementOpts,
@@ -47,11 +39,9 @@ import {
   isEtCeteraDecrementOpts,
   isPrizeWheelDecrementOpts,
   isPrizeWheelItemId,
-  isSharableDecrementOpts,
   isSteamKeyDecrementOpts,
   ItemSchema,
   PRIZE_WHEEL_COLORS,
-  SharableDecrementOpts,
   SteamKeyDecrementOpts,
 } from '@worksheets/util/types';
 import pluralize from 'pluralize';
@@ -202,17 +192,6 @@ export class InventoryService {
     // TODO: does the same as find but it finds multiple items at once.
   }
 
-  async initializeUser(userId: string) {
-    await Promise.all([
-      // TODO: support increment many
-      this.increment(userId, '1', STARTING_TOKENS),
-      this.increment(userId, '2', STARTING_SMALL_CHESTS),
-      this.increment(userId, '3', STARTING_GIFT_BOXES),
-      this.increment(userId, '1002', STARTING_SWORDS),
-      this.increment(userId, '10001', STARTING_APPLES),
-    ]);
-  }
-
   async quantity(userId: string, itemId: ItemId) {
     const item = await this.find(userId, itemId);
     return item.quantity;
@@ -324,10 +303,6 @@ export class InventoryService {
       return `${opts.quantity} ${pluralize('weapon', opts.quantity)} used.`;
     }
 
-    if (isSharableDecrementOpts(opts)) {
-      return await this.#share(userId, opts);
-    }
-
     if (isConsumableDecrementOpts(opts)) {
       return await this.#consume(userId, opts);
     }
@@ -388,22 +363,6 @@ export class InventoryService {
       item.name,
       opts.quantity
     )} for ${total} tokens.`;
-  }
-
-  async #share(userId: string, opts: SharableDecrementOpts) {
-    const rate = SHARE_RATES[opts.itemId];
-    const giving = rate.friend * opts.quantity;
-    const receiving = rate.user * opts.quantity;
-
-    await this.increment(opts.friendId, '1', giving);
-    await this.increment(userId, '1', receiving);
-
-    // TODO: notify the friend that someone shared items with them.
-
-    return `You have shared ${giving} ${pluralize(
-      'token',
-      giving
-    )} and received ${receiving} ${pluralize('token', receiving)}`;
   }
 
   async #consume(userId: string, opts: ConsumableDecrementOpts) {

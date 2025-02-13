@@ -23,7 +23,7 @@ export default createCronJob(async (_, res) => {
       item: true,
     },
   });
-  const notifications = new NotificationsService(prisma);
+  const notifications = new NotificationsService();
   const sent = await notifications.send('new-raffle', {
     id: raffle.id,
     numWinners: raffle.numWinners,

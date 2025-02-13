@@ -21,7 +21,7 @@ type ExpiringInventoryItem = Prisma.InventoryExpirationGetPayload<
 >;
 
 export default createCronJob(async () => {
-  const notifications = new NotificationsService(prisma);
+  const notifications = new NotificationsService();
   const expired = await prisma.inventoryExpiration.findMany({
     where: {
       expiresAt: {

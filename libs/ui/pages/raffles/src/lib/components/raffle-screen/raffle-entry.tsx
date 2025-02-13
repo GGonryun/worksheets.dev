@@ -95,7 +95,7 @@ export const RaffleEntry: React.FC<{
           color="primary"
           fullWidth
           sx={{ px: 1 }}
-          href={routes.help.inventory.path()}
+          href={routes.help.path()}
           target="_blank"
           startIcon={<OpenInNew />}
         >

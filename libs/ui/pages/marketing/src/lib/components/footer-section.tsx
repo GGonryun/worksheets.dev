@@ -47,7 +47,6 @@ export const FooterSection = () => {
       >
         <SocialLinks />
         <Box py={{ xs: 2, sm: 2.5, md: 3 }} />
-        <Subscribe />
         <br />
         <br />
         <Links />
@@ -87,45 +86,6 @@ const SocialLinks = () => {
     </Box>
   );
 };
-
-const Subscribe = () => (
-  <Box width="fit-content" display="flex" flexDirection="column" gap={2}>
-    <Typography
-      typography={{ xs: 'h5', sm: 'h4', md: 'h3' }}
-      sx={{
-        background: (theme) =>
-          theme.palette.text.marketing.gradients.blue.light,
-        WebkitBackgroundClip: 'text',
-        WebkitTextFillColor: 'transparent',
-      }}
-    >
-      Subscribe To Newsletter
-    </Typography>
-    <Box
-      component={Link}
-      href={routes.newsletter.subscribe.path()}
-      sx={{
-        cursor: 'pointer',
-        p: 4,
-        borderRadius: (theme) => theme.shape.borderRadius,
-        backgroundColor: (theme) => theme.palette.primary.dark,
-        textDecoration: 'none',
-        '&:hover': {
-          textDecoration: 'underline',
-          textDecorationColor: (theme) => theme.palette.text.white,
-        },
-      }}
-    >
-      <Typography
-        color="text.white"
-        typography={{ xs: 'body1', sm: 'h6' }}
-        fontWeight={{ xs: 700, sm: 700 }}
-      >
-        charity.gamer@gmail.com
-      </Typography>
-    </Box>
-  </Box>
-);
 
 const Links = () => (
   <Box display="flex" flexDirection="column" gap={1}>

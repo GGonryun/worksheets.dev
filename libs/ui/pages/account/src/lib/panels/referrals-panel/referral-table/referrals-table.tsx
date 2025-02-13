@@ -89,14 +89,6 @@ const EmptyReferralsPlaceholder = () => (
     <Typography variant="h4" color="error">
       Invite your friends
     </Typography>
-    <Box my={1} mb={2} textAlign="center">
-      <Typography variant="body2">
-        Earn tokens when someone plays games with your link.
-      </Typography>
-      <Typography variant="body2">
-        When they sign up, you'll both get a bonus!
-      </Typography>
-    </Box>
     <Link href={routes.help.referrals.path()} variant="body1" color="error">
       Learn More
     </Link>

@@ -14,7 +14,7 @@ export default t.router({
       })
     )
     .mutation(async ({ input: { userId, text }, ctx: { db, user } }) => {
-      const notifications = new NotificationsService(db);
+      const notifications = new NotificationsService();
       const reportedBy = user?.id;
       console.info('creating user report', {
         userId,

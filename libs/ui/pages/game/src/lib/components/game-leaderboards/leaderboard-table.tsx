@@ -3,7 +3,6 @@ import {
   alpha,
   Box,
   Button,
-  Link,
   styled,
   Table,
   TableBody,
@@ -98,18 +97,13 @@ export const LeaderboardTable: React.FC<{
                       }}
                     />
                   )}
-                  <Link
-                    href={routes.user.path({
-                      params: {
-                        userId: player.user.id,
-                      },
-                    })}
+                  <Typography
                     fontWeight={
                       player.user.id === participation?.user.id ? 700 : 500
                     }
                   >
                     {player.user.username}
-                  </Link>
+                  </Typography>
                   <PlayerPayout frequency={frequency} rank={player.rank} />
                 </Row>
               </TableCell>

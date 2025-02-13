@@ -10,9 +10,10 @@ import { compact } from 'lodash';
 import { ExtractTemplatePayload } from './types';
 import {
   ACCOUNT_INVENTORY_URL,
-  CLAIM_URL,
-  CONFIRM_NEWSLETTER_SUBSCRIPTION_URL,
   CONTACT_URL,
+  GAMES_URL,
+  HELP_CENTER_URL,
+  RAFFLES_URL,
 } from './urls';
 
 const claimHelpText = `Please visit {{CLAIM_PRIZE}} to claim your prize. If you are unable to claim a prize, please {{CONTACT_US}} for assistance. You may receive an alternative prize or tokens equal to the prize value. If you need help, please visit our {{HELP_CENTER}}.`;
@@ -35,7 +36,7 @@ const claimHelpLinks = [
   },
   {
     id: 'HELP_CENTER',
-    href: CLAIM_URL,
+    href: HELP_CENTER_URL,
     text: 'Help Center',
   },
 ];
@@ -83,30 +84,34 @@ export class EmailTemplates {
       }),
     };
   }
-  static confirmNewsletterSubscription(opts: {
-    id: string;
-    email: string;
-  }): SendEmailInput {
+  static welcomeUser(
+    opts: ExtractTemplatePayload<'welcome-user'>
+  ): SendEmailInput {
     return {
       id: randomUUID(),
-      subject: 'Confirm your Charity Games newsletter subscription',
+      to: [opts.user.email],
+      subject: `Welcome to Charity Games!`,
       html: EmailService.template({
-        title: 'Welcome to the Charity Games Newsletter!',
+        title: `Welcome to Charity Games!`,
         paragraphs: [
-          `We're excited to have you on board.`,
-          `Click the link below to confirm your subscription.`,
-          `{{CONFIRM_NEWSLETTER_SUBSCRIPTION}}`,
-          `If you did not sign up for our newsletter, disregard this email.`,
+          `Thank you for joining Charity Games! Our mission is to help you win prizes while supporting great causes. Here's how you can get started:`,
+          `1. {{GAMES_LINK}}`,
+          `2. {{RAFFLES_LINK}}`,
+          `Good luck and have fun!`,
         ],
         links: [
           {
-            id: 'CONFIRM_NEWSLETTER_SUBSCRIPTION',
-            href: CONFIRM_NEWSLETTER_SUBSCRIPTION_URL(opts.id),
-            text: 'Confirm Subscription',
+            id: 'GAMES_LINK',
+            href: GAMES_URL,
+            text: 'Play games',
+          },
+          {
+            id: 'RAFFLES_LINK',
+            href: RAFFLES_URL,
+            text: 'Participate in raffles',
           },
         ],
       }),
-      to: [opts.email],
     };
   }
 }

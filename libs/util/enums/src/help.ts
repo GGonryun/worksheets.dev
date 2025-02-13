@@ -4,12 +4,6 @@ export enum HelpAccountQuestions {
   ValidUsernames = 'valid-usernames',
 }
 
-export enum HelpVIPQuestions {
-  Description = 'description',
-  Benefits = 'benefits',
-  Membership = 'membership',
-}
-
 export enum HelpTokensQuestions {
   Description = 'description',
   HowToEarn = 'how-to-earn',
@@ -20,8 +14,6 @@ export enum HelpTokensQuestions {
 
 export enum HelpReferralsQuestions {
   Description = 'description',
-  Benefits = 'benefits',
-  Earnings = 'earnings',
   HowTo = 'how-to',
 }
 
@@ -31,8 +23,6 @@ export enum HelpPrizesQuestions {
   HowToWin = 'how-do-i-win',
   HowToSee = 'how-to-see',
   HowToClaim = 'how-to-claim',
-  HowToEarn = 'how-to-earn',
-  HowToSpend = 'how-to-spend',
   TradeCode = 'trade-code',
 }
 
@@ -47,22 +37,6 @@ export enum HelpPlayingGamesQuestions {
   OfflineAccess = 'offline-access',
 }
 
-export enum HelpNotificationsQuestions {
-  Description = 'description',
-  Viewing = 'viewing',
-  Disabling = 'disabling',
-}
-
-export enum HelpFriendsQuestions {
-  Description = 'description',
-  Followers = 'followers',
-  Removing = 'removing',
-  BestFriends = 'best-friends',
-  Inviting = 'inviting',
-  WhyInvite = 'why-invite',
-  Sharing = 'sharing',
-}
-
 export enum HelpCommonQuestions {
   WhatsYourMission = 'whats-your-mission',
   RaisingMoney = 'raising-money',
@@ -75,7 +49,6 @@ export enum HelpCommonQuestions {
 export enum HelpDevelopersQuestions {
   SubmitGame = 'submit-game',
   FileFormats = 'file-formats',
-  MakeChanges = 'make-changes',
   DeleteGame = 'delete-game',
   Quality = 'quality',
   EmbeddedWebPage = 'embedded-web-page',
@@ -100,13 +73,4 @@ export enum HelpEmailsQuestions {
   Description = 'description',
   Unsubscribing = 'unsubscribing',
   NotReceiving = 'not-receiving',
-}
-
-export enum HelpInventoryQuestions {
-  Description = 'description',
-  FindingItems = 'finding',
-  DropRates = 'drop-rates',
-  Claiming = 'claiming',
-  Premium = 'premium',
-  Capsules = 'capsules',
 }

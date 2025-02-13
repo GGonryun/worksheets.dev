@@ -3,7 +3,6 @@ import { BlogAuthor } from '@worksheets/util/types';
 import { MarkdownMetadata } from '@worksheets/util-markdown';
 import { FC } from 'react';
 
-import { JoinNewsletterBox } from '../shared/join-newsletter-box';
 import { PostBody } from './post-body';
 import { PostHeader } from './post-header';
 
@@ -36,20 +35,6 @@ export const BlogPost: FC<BlogPostProps> = ({ metadata, content, author }) => {
           author={author}
         />
         <PostBody content={content} />
-      </Paper>
-
-      <Paper
-        sx={{
-          borderTop: (theme) => `1px solid ${theme.palette.white.main}`,
-          backgroundColor: (theme) => theme.palette.background['solid-blue'],
-          p: { xs: 2, sm: 4 },
-          borderTopLeftRadius: 0,
-          borderTopRightRadius: 0,
-          borderBottomLeftRadius: '16px',
-          borderBottomRightRadius: '16px',
-        }}
-      >
-        <JoinNewsletterBox />
       </Paper>
     </Box>
   );

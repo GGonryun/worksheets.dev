@@ -7,7 +7,7 @@ export class GamesService {
   #notifications: NotificationsService;
   constructor(db: PrismaClient | PrismaTransactionalClient) {
     this.#db = db;
-    this.#notifications = new NotificationsService(db);
+    this.#notifications = new NotificationsService();
   }
 
   async publishAll() {

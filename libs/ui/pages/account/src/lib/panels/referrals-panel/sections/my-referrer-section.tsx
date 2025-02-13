@@ -37,7 +37,7 @@ export const MyReferrerSection: React.FC<{
                 <b>{referrer.username}</b> has been set as your referrer.
               </Typography>
             ) : (
-              'Enter a users referral link or friend code.'
+              'Enter a users referral link.'
             )
           }
         />

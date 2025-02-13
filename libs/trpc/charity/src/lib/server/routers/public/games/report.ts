@@ -18,7 +18,7 @@ export default publicProcedure
     })
   )
   .mutation(async ({ input: { gameId, reason, text }, ctx: { db } }) => {
-    const notifications = new NotificationsService(db);
+    const notifications = new NotificationsService();
     try {
       await db.gameReport.create({
         data: {

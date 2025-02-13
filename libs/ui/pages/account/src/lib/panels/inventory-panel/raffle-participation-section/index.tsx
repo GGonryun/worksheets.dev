@@ -64,11 +64,7 @@ export const RaffleParticipationSection: React.FC<{
           icon={<InfoOutlined fontSize="small" color="info" />}
           title={'How It Works'}
           points={[
-            <>
-              Redeem tokens for{' '}
-              <Link href={routes.raffles.path()}>Raffle Entries</Link>.
-            </>,
-            `Play games, refer friends, and make purchases to earn tokens.`,
+            `Play games for more chances to win.`,
             `Some items have expiration dates. You'll receive a reminder to claim them before they expire.`,
             <>
               Configure your{' '}
@@ -131,10 +127,7 @@ const EmptyRaffleParticipationTable = () => {
         You haven't participated in any raffles yet
       </Typography>
       <Typography variant="body2">
-        Redeem your tokens for Raffle Entries or Prizes.
-      </Typography>
-      <Typography variant="body2">
-        Play games and refer friends to earn more tokens.
+        Play games and refer friends for more chances to win.
       </Typography>
       <Link href={routes.help.prizes.path()} variant="body1" color="error">
         Learn More

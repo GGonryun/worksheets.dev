@@ -1,12 +1,11 @@
 import {
-  CardGiftcard,
   LocalActivityOutlined,
   Shuffle,
   StarBorder,
   SvgIconComponent,
 } from '@mui/icons-material';
 import { ColoredSteamGames } from '@worksheets/icons/companies';
-import { Briefcase, Sword } from '@worksheets/icons/dazzle';
+import { Briefcase } from '@worksheets/icons/dazzle';
 import { ValentinesPotion } from '@worksheets/icons/valentines';
 import { ItemRarity, ItemType } from '@worksheets/prisma';
 
@@ -20,22 +19,22 @@ export const itemRarityLabel: Record<ItemRarity, string> = {
   PREMIUM: 'Premium',
 };
 export const itemTypeLabel: Record<ItemType, string> = {
-  SHARABLE: 'Sharable',
+  SHARABLE: 'Miscellaneous',
   CURRENCY: 'Currency',
   STEAM_KEY: 'Steam Key',
   CONSUMABLE: 'Consumable',
-  COMBAT: 'Combat',
+  COMBAT: 'Miscellaneous',
   ETCETERA: 'Miscellaneous',
   CAPSULE: 'Prize Capsule',
   PRIZE_WHEEL: 'Prize Wheel',
 };
 
 export const itemTypeLogo: Record<ItemType, SvgIconComponent> = {
-  SHARABLE: CardGiftcard,
+  SHARABLE: Briefcase,
   CURRENCY: LocalActivityOutlined,
   STEAM_KEY: ColoredSteamGames,
   CONSUMABLE: ValentinesPotion,
-  COMBAT: Sword,
+  COMBAT: Briefcase,
   ETCETERA: Briefcase,
   CAPSULE: Shuffle,
   PRIZE_WHEEL: StarBorder,

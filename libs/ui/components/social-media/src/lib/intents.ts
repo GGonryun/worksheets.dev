@@ -34,26 +34,6 @@ export const shareGameIntent = ({
   };
 };
 
-export const addFriendsIntent = ({
-  friendCode,
-}: {
-  friendCode: string;
-}): SocialProviderIntent => {
-  const url = routes.account.url({});
-
-  const text = `Add me as a friend on Charity.Games!`;
-
-  return {
-    twitter: twitterIntent(
-      url,
-      text,
-      ['browsergames', 'html5games'],
-      CHARITY_GAMES_TWITTER_HANDLE
-    ),
-    facebook: facebookIntent(url),
-  };
-};
-
 export const shareRaffleIntent = ({
   name,
   id,

@@ -1,5 +1,4 @@
 import {
-  FavoriteBorder,
   PanToolAltOutlined,
   QuestionMark,
   Remove,
@@ -7,7 +6,7 @@ import {
   Shuffle,
 } from '@mui/icons-material';
 import { Box, Typography } from '@mui/material';
-import { ClockExclamation, Sword } from '@worksheets/icons/dazzle';
+import { ClockExclamation } from '@worksheets/icons/dazzle';
 import { ItemRarity } from '@worksheets/prisma';
 import { assertNever } from '@worksheets/util/errors';
 import {
@@ -53,30 +52,6 @@ export const ConsumableItemIcon: React.FC<{ size: number }> = ({ size }) => (
   // blue gradient
   <IconLayout gradient="radial-gradient(circle at 10% 20%, rgb(59, 149, 237) 0%, rgb(7, 91, 173) 90%)">
     <PanToolAltOutlined
-      color="white"
-      sx={{
-        fontSize: size,
-      }}
-    />
-  </IconLayout>
-);
-
-export const BattleItemIcon: React.FC<{ size: number }> = ({ size }) => (
-  // green gradient
-  <IconLayout gradient="linear-gradient(to top, #0ba360 0%, #3cba92 100%)">
-    <Sword
-      color="white"
-      sx={{
-        fontSize: size,
-      }}
-    />
-  </IconLayout>
-);
-
-export const HeartItemIcon: React.FC<{ size: number }> = ({ size }) => (
-  // pink gradient
-  <IconLayout gradient="linear-gradient(to right, #ff758c 0%, #ff7eb3 100%)">
-    <FavoriteBorder
       color="white"
       sx={{
         fontSize: size,
@@ -189,12 +164,10 @@ export const ItemTypeLogo: React.FC<InventoryItemSchema> = (item) => {
       return null;
     case 'CONSUMABLE':
       return <ConsumableItemIcon size={18} />;
-    case 'SHARABLE':
-      return <HeartItemIcon size={18} />;
     case 'CAPSULE':
       return <ShuffleItemIcon size={18} />;
+    case 'SHARABLE':
     case 'COMBAT':
-      return <BattleItemIcon size={18} />;
     case 'ETCETERA':
       return <SellableItemIcon size={18} />;
     case 'PRIZE_WHEEL':

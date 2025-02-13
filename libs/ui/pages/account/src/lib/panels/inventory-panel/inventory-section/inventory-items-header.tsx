@@ -1,8 +1,6 @@
 import { Link, Typography } from '@mui/material';
-import { routes } from '@worksheets/routes';
 import { trpc } from '@worksheets/trpc-charity';
 import { Row } from '@worksheets/ui/components/flex';
-import { HelpTokensQuestions } from '@worksheets/util/enums';
 import pluralize from 'pluralize';
 
 export const InventoryItemsHeader = () => {
@@ -17,9 +15,6 @@ export const InventoryItemsHeader = () => {
         component={Link}
         underline="hover"
         color="text.primary"
-        href={routes.help.tokens.path({
-          bookmark: HelpTokensQuestions.HowToEarn,
-        })}
       >
         <ItemsCount />
       </Typography>

@@ -16,7 +16,7 @@ export const config = {
   ],
 };
 
-const protectedPages = [routes.account.path(), routes.vip.path()];
+const protectedPages = [routes.account.path()];
 
 export default async function middleware(req: NextRequest) {
   // TODO: re-enable web rate limiting after we have a better understanding of the traffic patterns

@@ -23,8 +23,8 @@ import { z } from 'zod';
 export const ACTION_LABEL: Record<ItemType, string> = {
   STEAM_KEY: 'Claim',
   CONSUMABLE: 'Use Item',
-  SHARABLE: 'Share',
-  COMBAT: 'Join Battle',
+  COMBAT: 'N/A',
+  SHARABLE: 'N/A',
   ETCETERA: 'Sell Item',
   CURRENCY: 'N/A',
   PRIZE_WHEEL: 'Spin Wheel',
@@ -34,8 +34,8 @@ export const ACTION_LABEL: Record<ItemType, string> = {
 export const ACTION_AVAILABLE: Record<ItemType, boolean> = {
   STEAM_KEY: true,
   CONSUMABLE: true,
-  SHARABLE: true,
-  COMBAT: true,
+  SHARABLE: false,
+  COMBAT: false,
   ETCETERA: true,
   CAPSULE: true,
   PRIZE_WHEEL: true,
@@ -191,18 +191,6 @@ export const inventoryItemSchema = z.object({
 
 export type InventoryItemSchema = z.infer<typeof inventoryItemSchema>;
 
-export type SharableDecrementOpts = {
-  itemId: SharableItemId;
-  quantity: number;
-  friendId: string;
-};
-
-export const isSharableDecrementOpts = (
-  opts: DecrementOpts
-): opts is SharableDecrementOpts => {
-  return SHARABLE_ITEMS.find((i) => i.id === opts.itemId) !== undefined;
-};
-
 export const isSharableItemId = (itemId: ItemId): itemId is SharableItemId => {
   return SHARABLE_ITEMS.find((i) => i.id === itemId) !== undefined;
 };
@@ -316,7 +304,6 @@ export const isPrizeWheelItemId = (
 };
 
 export type DecrementOpts =
-  | SharableDecrementOpts
   | SteamKeyDecrementOpts
   | ConsumableDecrementOpts
   | CombatDecrementOpts

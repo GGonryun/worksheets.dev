@@ -4,7 +4,7 @@ import {
   OpenInNew,
   Star,
 } from '@mui/icons-material';
-import { alpha, Box, Button, Link, Typography } from '@mui/material';
+import { alpha, Box, Button, Typography } from '@mui/material';
 import { ValentinesGift } from '@worksheets/icons/valentines';
 import { routes } from '@worksheets/routes';
 import { Table, TableCell, TableRow } from '@worksheets/ui/components/tables';
@@ -104,16 +104,11 @@ export const ParticipantsTable: React.FC<{
                 </TableCell>
               )}
               <TableCell scope="row">
-                <Link
-                  href={routes.user.path({
-                    params: {
-                      userId: participant.user.id,
-                    },
-                  })}
+                <Typography
                   fontWeight={participant.user.id === userId ? 700 : 500}
                 >
                   {participant.user.username}
-                </Link>
+                </Typography>
               </TableCell>
 
               <TableCell

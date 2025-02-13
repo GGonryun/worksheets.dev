@@ -1,4 +1,4 @@
-import { ContactPage, Gamepad } from '@mui/icons-material';
+import { ContactPage } from '@mui/icons-material';
 import { Box, Button, Typography } from '@mui/material';
 import { routes } from '@worksheets/routes';
 import { GradientTypography } from '@worksheets/ui/components/typography';
@@ -27,7 +27,7 @@ export const HelpCenterFooter = () => (
       color={(theme) => theme.palette.text.blue.light}
       fontWeight={700}
     >
-      Contact us or join our newsletter.
+      Contact us
     </Typography>
 
     <Box
@@ -50,18 +50,6 @@ export const HelpCenterFooter = () => (
         }}
       >
         Contact Us
-      </Button>
-      <Button
-        href={routes.newsletter.subscribe.path()}
-        variant="arcade"
-        color="secondary"
-        startIcon={<Gamepad />}
-        sx={{
-          width: { xs: '100%', sm: 'auto' },
-          px: { xs: 3, sm: 6 },
-        }}
-      >
-        Join the Fun
       </Button>
     </Box>
   </Box>

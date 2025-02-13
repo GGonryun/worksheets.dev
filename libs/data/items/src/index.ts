@@ -2023,36 +2023,6 @@ export const PRIZE_SPINNER_WEIGHTS: Record<ItemRarity, number> = {
   PREMIUM: 0,
 };
 
-export const SHARE_RATES: Record<
-  SharableItemId,
-  { user: number; friend: number }
-> = {
-  3: {
-    user: 10,
-    friend: 25,
-  },
-  6: {
-    user: 25,
-    friend: 50,
-  },
-  7: {
-    user: 10,
-    friend: 10,
-  },
-  10109: {
-    user: 50,
-    friend: 50,
-  },
-  10110: {
-    user: 20,
-    friend: 10,
-  },
-  10048: {
-    user: 100,
-    friend: 5,
-  },
-};
-
 export const isLotteryItems = (rate: ConsumptionRate): rate is LotteryItems =>
   'items' in rate && Array.isArray(rate.items);
 

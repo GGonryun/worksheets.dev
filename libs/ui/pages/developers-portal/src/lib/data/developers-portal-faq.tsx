@@ -6,12 +6,11 @@ import { ListItem, OrderedList, UnorderedList } from '@worksheets/ui-core';
 import { HelpDevelopersQuestions } from '@worksheets/util/enums';
 import { QuestionAnswer } from '@worksheets/util/types';
 
-// The redirects to urls with bookmarks aren't triggering a scroll to the bookmark, using a query param forces the page to refresh and scroll to the bookmark
 export const developersPortalFaq: QuestionAnswer[] = [
   {
     id: HelpDevelopersQuestions.SubmitGame,
     question: 'How do I submit a game?',
-    summary: `We support most game engines and frameworks as long as they can be exported to a web build. Make sure that your game is responsive and works across a variety of different screen sizes. The most common of which are 4:3 and 16:9 aspect ratios. For more information on the file formats we support, please refer to the question: "What file formats are supported?"`,
+    summary: `We support most game engines and frameworks as long as they can be exported to a web build. Make sure that your game is responsive and works across a variety of different screen sizes. The most common of which are 4:3 and 16:9 aspect ratios.`,
     answer: (
       <Box>
         <Typography>
@@ -20,96 +19,26 @@ export const developersPortalFaq: QuestionAnswer[] = [
           </i>
           <br />
           <br /> We support most game engines and frameworks as long as they can
-          be exported to a web build. Make sure that your game is responsive and
-          works across a variety of different screen sizes. The most common of
-          which are 4:3 and 16:9 aspect ratios. For more information on the file
-          formats we support, please refer to the question:{' '}
-          <Link
-            href={routes.help.developers.path({
-              bookmark: HelpDevelopersQuestions.FileFormats,
-            })}
-          >
-            "What file formats are supported?"
-          </Link>
-          .
+          be exported to a web build and integrate with the Charity Games SDK.
+          Make sure that your game is responsive and works across a variety of
+          different screen sizes. The most common of which are 4:3 and 16:9
+          aspect ratios.
           <br />
           <br />
-          In order to upload one of your games to our platform you must complete
-          the following steps:
+          If you are interested in submitting a game to our platform, please{' '}
+          <Link href={routes.contact.path()}>contact us</Link> with the
+          following information:
         </Typography>
         <OrderedList>
-          <ListItem>
-            Create a developer account by clicking the "Sign Up" button in the
-            top right corner of the page or by{' '}
-            <Link href={routes.signUp.path()}>clicking here</Link>
+          <ListItem disablePadding>1. The name of your game</ListItem>
+          <ListItem disablePadding>
+            2. A brief description of your game
           </ListItem>
-          <ListItem>
-            Fill out your profile by clicking on your "Account" button in the
-            top right corner of the page or by{' '}
-            <Link href={routes.account.path()}>clicking here</Link>
-          </ListItem>
-          <ListItem>
-            Complete and sign the terms of service agreement located on the{' '}
-            <Link href={routes.account.path()}> submission page.</Link>
-          </ListItem>
-          <ListItem>
-            Create a new game by clicking the "Submit Game" button on your
-            profile page or by{' '}
-            <Link href={routes.account.path()}>clicking here.</Link>
-          </ListItem>
-          <ListItem>
-            Follow the instructions on the submission page to upload your game
-            and related assets.
-          </ListItem>
-          <ListItem>
-            All submissions are reviewed by our team before being published to
-            the platform. You will receive an email when your game has been
-            accepted or rejected.
+          <ListItem disablePadding>3. A URL to your game's web build</ListItem>
+          <ListItem disablePadding>
+            4. Why you think your game would be a good fit for our platform
           </ListItem>
         </OrderedList>
-        <br />
-        <Typography>
-          We do our best to play-test and review every game that is submitted to
-          us. However, due to the high volume of submissions we receive, we
-          cannot guarantee that your game will be accepted.
-        </Typography>
-      </Box>
-    ),
-  },
-  {
-    id: HelpDevelopersQuestions.MakeChanges,
-    question: 'How do I make changes to my game?',
-    summary: `A game can be edited at any time, but games that have already been submitted and approved will require a review before the changes are published. We recommend making updates to your existing game submission rather than creating a new submission. This will allow you to keep your game's play count and ratings. For more information on how to submit a game, please refer to the question: "How do I submit a game?"`,
-    answer: (
-      <Box>
-        <Typography>
-          In order to make changes to your game navigate to your{' '}
-          <Link href={routes.account.path()}>
-            game submission section of your account page
-          </Link>{' '}
-          and click on the game you would like to edit.
-          <br />
-          <br />
-          A game can be edited at any time, but games that have already been
-          submitted and approved will require a review before the changes are
-          published.
-          <br />
-          <br />
-          We recommend making updates to your existing game submission rather
-          than creating a new submission. This will allow you to keep your
-          game's play count and ratings.
-          <br />
-          <br />
-          For more information on deleting a game submission or an existing game
-          on the platform, please refer to the question:{' '}
-          <Link
-            href={routes.help.developers.path({
-              bookmark: HelpDevelopersQuestions.DeleteGame,
-            })}
-          >
-            "How do I delete my game?"
-          </Link>
-        </Typography>
       </Box>
     ),
   },

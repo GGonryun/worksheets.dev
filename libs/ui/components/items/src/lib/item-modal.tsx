@@ -31,11 +31,7 @@ export const ItemModalLayout: React.FC<
   }>
 > = ({ content, icon, open, onClose, item, action }) => {
   return (
-    <InfoModal
-      open={open}
-      onClose={onClose}
-      infoHref={routes.help.inventory.path()}
-    >
+    <InfoModal open={open} onClose={onClose} infoHref={routes.help.url()}>
       <Box
         sx={{
           display: 'grid',

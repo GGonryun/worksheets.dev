@@ -160,8 +160,7 @@ const EmptyPrizesPlaceholder = () => {
         Participate in a Raffles to win prizes and earn activation codes!
       </Typography>
       <Typography variant="body2">
-        Keep playing games and referring friends to earn more tokens and win
-        prizes!
+        Keep playing games and referring friends for more chances to win prizes!
       </Typography>
       <Link href={routes.help.prizes.path()} variant="body1" color="error">
         Learn More

@@ -227,32 +227,18 @@ export const helpAccountsSeo = createSeo({
     'Find answers to questions about accounts, profiles, and settings on Charity Games.',
 });
 
-export const helpTokensSeo = createSeo({
-  path: routes.help.tokens.path(),
-  title: 'Tokens Help Center',
-  description:
-    'Find answers to questions about tokens on Charity Games. Learn how to earn tokens and redeem them for rewards.',
-});
-
 export const helpPlayingGamesSeo = createSeo({
   path: routes.help.playingGames.path(),
   title: 'Games Help Center',
   description:
-    'Find answers to questions about playing games on Charity Games. Learn how to play games and earn tokens.',
+    'Find answers to questions about playing games on Charity Games. Learn how to play games and earn rewards.',
 });
 
 export const helpReferralsSeo = createSeo({
   path: routes.help.referrals.path(),
   title: 'Charity Games - Referrals Help Center',
   description:
-    'Find answers to questions about referrals on Charity Games. Learn how to earn tokens by referring friends.',
-});
-
-export const helpFriendsSeo = createSeo({
-  path: routes.help.friends.path(),
-  title: 'Friends Help Center',
-  description:
-    'Find answers to questions about friends on Charity Games. Learn how to earn tokens by sharing gifts with friends.',
+    'Find answers to questions about referrals on Charity Games. Learn how to earn bonuses by referring friends.',
 });
 
 export const helpEmailsSeo = createSeo({
@@ -262,32 +248,11 @@ export const helpEmailsSeo = createSeo({
     'Find answers to questions about emails on Charity Games. Learn about the types of emails we send.',
 });
 
-export const helpVIPSeo = createSeo({
-  path: routes.help.vip.path(),
-  title: 'VIP Help Center',
-  description:
-    'Find answers to questions about VIP membership on Charity Games. Learn how to earn tokens by becoming a VIP.',
-});
-
-export const helpNotificationsSeo = createSeo({
-  path: routes.help.notifications.path(),
-  title: 'Notifications Help Center',
-  description:
-    'Find answers to questions about notifications on Charity Games. Learn about notification settings and alerts.',
-});
-
-export const helpInventorySeo = createSeo({
-  path: routes.help.inventory.path(),
-  title: 'Inventory Help Center',
-  description:
-    'Find answers to questions about the inventory on Charity Games. Learn about your digital and physical prizes.',
-});
-
 export const helpPrizesSeo = createSeo({
   path: routes.help.prizes.path(),
   title: 'Prizes Help Center',
   description:
-    'Find answers to questions about prizes on Charity Games. Learn about redeeming tokens for real world prizes.',
+    'Find answers to questions about prizes on Charity Games. Learn about real world prizes.',
 });
 export const helpContributionsSeo = createSeo({
   path: routes.help.contributions.path(),
@@ -307,7 +272,7 @@ export const rafflesSeo = createSeo({
   path: routes.raffles.path(),
   title: 'Raffles',
   description:
-    'Redeem your tokens for raffle entries and win real world prizes. Every token you spend is a donation towards charity. Win free prizes by playing browser games and referring friends',
+    'Complete small challenges for raffle entries and win real world prizes. Win free prizes by playing browser games and referring friends',
 });
 
 export const raffleSeo = (raffle: RaffleSchema): NextSeoProps =>
@@ -316,7 +281,7 @@ export const raffleSeo = (raffle: RaffleSchema): NextSeoProps =>
     path: routes.raffle.path({ params: { raffleId: raffle.id } }),
     title: `${raffle.name} | Raffle`,
     description:
-      'Redeem your tokens for raffle entries and win real world prizes. Every token you spend is a donation towards charity. Win free prizes by playing browser games and referring friends',
+      'Complete small challenges for raffle entries and win real world prizes. Win free prizes by playing browser games and referring friends',
     images: [
       {
         url: raffle.imageUrl,
@@ -329,35 +294,7 @@ export const expiredRafflesSeo = createSeo({
   path: routes.raffles.expired.path(),
   title: 'Expired Raffles',
   description:
-    'View all expired raffles on Charity Games. See what prizes were given away. Every token you spend is a donation towards a better world.',
-});
-
-export const vipSeo = createSeo({
-  path: routes.vip.path(),
-  title: 'VIP Membership',
-  description:
-    'Join the VIP membership program and receive exclusive benefits. Every token you spend is a donation towards charity. Win free prizes by playing browser games and referring friends',
-});
-
-export const unsubscribeSeo = createSeo({
-  path: routes.newsletter.unsubscribe.path(),
-  title: 'Unsubscribe',
-  description:
-    'Unsubscribe from the Charity Games newsletter. We are sorry to see you go. We hope you will return soon!',
-});
-
-export const subscribeSeo = createSeo({
-  path: routes.newsletter.subscribe.path(),
-  title: 'Subscribe',
-  description:
-    'Subscribe to the Charity Games newsletter. Stay up to date with the latest news, updates, and promotions.',
-});
-
-export const confirmSubscriptionSeo = createSeo({
-  path: routes.newsletter.confirm.path(),
-  title: 'Confirm Subscription',
-  description:
-    'Confirm your subscription to the Charity Games newsletter. Stay up to date with the latest news, updates, and promotions.',
+    'View all expired raffles on Charity Games. See what prizes were given away. Every game play is a donation towards a better world.',
 });
 
 export const librarySeo = createSeo({
@@ -370,8 +307,7 @@ export const librarySeo = createSeo({
 export const itemsSeo = createSeo({
   path: routes.items.path(),
   title: 'Items',
-  description:
-    'View all items available on Charity Games. Win tokens by playing browser games.',
+  description: 'View all items available on Charity Games.',
 });
 
 export const itemSeo = (item: ItemSchema): NextSeoProps =>
@@ -380,11 +316,3 @@ export const itemSeo = (item: ItemSchema): NextSeoProps =>
     title: `${item.name} | Item`,
     description: `View ${item.name} and learn how to use it. Win prizes by playing browser games.`,
   });
-
-export const userSeo = (userId: string): NextSeoProps => {
-  return createSeo({
-    path: routes.user.path({ params: { userId } }),
-    title: `User Profile`,
-    description: `View information about a user on Charity Games. Turn your games into donations. Help us make a difference.`,
-  });
-};

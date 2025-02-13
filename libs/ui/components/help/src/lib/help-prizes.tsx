@@ -26,14 +26,11 @@ export const helpPrizes: QuestionAnswer[] = [
           <br />
           If you are unable to claim a prize, please{' '}
           <Link href={routes.contact.path()}>contact us</Link> for assistance.
-          You may receive an alternative prize or tokens equal to the prize
-          value.
           <br />
           <br />
           <b>
             Participation in physical prize raffles will be locked to your
-            country of origin. If you are unable to receive a physical prize,
-            you will receive tokens or a cash reward equal to the prize value.
+            country of origin.
           </b>
         </Typography>
         <br />
@@ -44,7 +41,6 @@ export const helpPrizes: QuestionAnswer[] = [
               href: routes.account.path(),
             },
             { text: 'View Raffles', href: routes.raffles.path() },
-            { text: 'Learn about Tokens', href: routes.help.tokens.path() },
           ]}
         />
       </Box>
@@ -133,7 +129,6 @@ export const helpPrizes: QuestionAnswer[] = [
         <br />
         <HelpfulLinks
           links={[
-            { text: 'Learn about Tokens', href: routes.help.tokens.path() },
             { text: 'See my inventory', href: routes.account.path() },
             {
               text: 'Contact Us',
@@ -144,58 +139,7 @@ export const helpPrizes: QuestionAnswer[] = [
       </Box>
     ),
   },
-  {
-    id: HelpPrizesQuestions.HowToEarn,
-    question: 'How do I earn tokens?',
-    summary:
-      'You can earn tokens by playing games, entering raffles, and prize draws.',
-    answer: (
-      <Box>
-        <Typography>
-          You can earn tokens by playing games, entering raffles, and sharing
-          gifts with friends. You can also earn tokens by referring friends to
-          the platform.
-          <br />
-          <br />
-          <Link href={routes.account.path()}>Create an account</Link> to start
-          earning tokens.
-        </Typography>
-        <br />
-        <HelpfulLinks
-          links={[
-            { text: 'Learn about Tokens', href: routes.help.tokens.path() },
-          ]}
-        />
-      </Box>
-    ),
-  },
-  {
-    id: HelpPrizesQuestions.HowToSpend,
-    question: 'How do I spend tokens?',
-    summary: 'You can spend tokens by entering raffles and prize draws.',
-    answer: (
-      <Box>
-        <Typography>
-          You can spend tokens by entering raffles and prize draws. You must
-          have enough tokens to enter raffles and prize draws. Entering a raffle
-          requires purchasing a ticket with tokens. The price of a ticket is
-          displayed on the raffle page and differs for each prize and raffle.
-          <br />
-          <br />
-          <Link href={routes.raffles.path()}>Enter a raffle</Link> to spend your
-          tokens.
-        </Typography>
-        <br />
-        <HelpfulLinks
-          links={[
-            { text: 'Learn about Tokens', href: routes.help.tokens.path() },
-            { text: 'My Tokens', href: routes.account.path() },
-            { text: 'Enter Raffles', href: routes.raffles.path() },
-          ]}
-        />
-      </Box>
-    ),
-  },
+
   {
     id: HelpPrizesQuestions.TradeCode,
     question: 'Can I trade my code?',

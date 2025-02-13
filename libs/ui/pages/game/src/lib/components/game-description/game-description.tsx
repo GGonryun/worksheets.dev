@@ -1,9 +1,9 @@
 import { Report, Share } from '@mui/icons-material';
 import { Box, IconButton, Typography } from '@mui/material';
+import { GameDevices } from '@worksheets/prisma';
 import { Description } from '@worksheets/ui/components/description';
 import { useMediaQuery } from '@worksheets/ui/hooks/use-media-query';
 import { HTMLinator } from '@worksheets/ui-core';
-import { GameDevices } from '@worksheets/util/types';
 import { FC } from 'react';
 
 import { SupportedDeviceIcons } from './supported-device-icons';

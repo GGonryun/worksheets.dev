@@ -35,7 +35,6 @@ export const helpFaq: QuestionAnswer[] = [
         <i>optional, non-intrusive</i> advertisements which generate a small
         amount of revenue for our platform. Additionally, players are rewarded
         with tokens every time they play a game.{' '}
-        <Link href={routes.help.tokens.path()}>Tokens earned</Link> can be{' '}
         <Link href={routes.help.prizes.path()}>redeemed for prizes</Link> or
         used to{' '}
         <Link href={routes.help.prizes.path()}>participate in raffles</Link>.

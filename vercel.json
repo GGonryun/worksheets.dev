@@ -9,10 +9,6 @@
             "schedule": "0 1 * * *"
         },
         {
-            "path": "/api/cron/destroy-expired-notifications",
-            "schedule": "17 3 * * *"
-        },
-        {
             "path": "/api/cron/destroy-expired-tasks-daily",
             "schedule": "0 0 * * *"
         },
@@ -47,10 +43,6 @@
         {
             "path": "/api/cron/reward-leaderboards-weekly",
             "schedule": "0 0 * * 0"
-        },
-        {
-            "path": "/api/cron/send-scheduled-emails",
-            "schedule": "30 * * * *"
         }
     ],
     "functions": {

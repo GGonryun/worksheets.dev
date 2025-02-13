@@ -39,26 +39,17 @@ export type TemplateOptions = {
   title: string;
   paragraphs: string[];
   links?: TemplateLink[];
-  unsubscribe?: string;
 };
 
-export const template = ({
-  title,
-  paragraphs,
-  unsubscribe,
-  links,
-}: TemplateOptions) => {
-  const captionText = unsubscribe
-    ? `No longer want to receive these emails? ${link({
-        href: unsubscribe,
-        text: 'Unsubscribe',
-      })}`
-    : `This is a transactional email from Charity Games. ${link({
-        href: routes.help.emails.url({
-          bookmark: HelpEmailsQuestions.Description,
-        }),
-        text: 'Learn more',
-      })}`;
+export const template = ({ title, paragraphs, links }: TemplateOptions) => {
+  const captionText = `This is a transactional email from Charity Games. ${link(
+    {
+      href: routes.help.emails.url({
+        bookmark: HelpEmailsQuestions.Description,
+      }),
+      text: 'Learn more',
+    }
+  )}`;
 
   // add signature to the end of the email
   const content = paragraphs.concat(SIGNATURE).join('<br/><br/>');

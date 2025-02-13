@@ -1,8 +1,5 @@
 import { DiscordAPI } from '@worksheets/api/discord';
-import { PrismaClient, PrismaTransactionalClient } from '@worksheets/prisma';
 import { EmailService } from '@worksheets/services/email';
-import { NewsletterService } from '@worksheets/services/newsletter';
-import { PushService } from '@worksheets/services/push';
 import {
   ExtractTemplatePayload,
   NotificationTemplate,
@@ -16,15 +13,11 @@ import { destinations } from './destinations';
 export class NotificationsService {
   #discord: DiscordAPI;
   #twitter: TwitterService;
-  #newsletter: NewsletterService;
-  #push: PushService;
   #email: EmailService;
-  constructor(db: PrismaClient | PrismaTransactionalClient) {
+  constructor() {
     this.#discord = new DiscordAPI();
     this.#twitter = new TwitterService();
-    this.#newsletter = new NewsletterService(db);
-    this.#push = new PushService(db);
-    this.#email = new EmailService(db);
+    this.#email = new EmailService();
   }
   async send<T extends NotificationTemplateType>(
     type: T,
@@ -40,24 +33,9 @@ export class NotificationsService {
     if (targets.discord) {
       tasks.push(this.#discord.message(targets.discord));
     }
-    if (targets.push) {
-      tasks.push(this.#push.notify(targets.push));
-    }
-    if (targets.pushMany) {
-      tasks.push(this.#push.notifyMany(targets.pushMany));
-    }
-    if (targets.broadcast) {
-      tasks.push(this.#push.notify(targets.broadcast));
-    }
     // TODO: add support for a real newsletter and email service.
     if (targets.email) {
       tasks.push(this.#email.send(targets.email));
-    }
-    // TODO: add support for a real newsletter and email service.
-    if (targets.newsletter) {
-      targets.newsletter.forEach((newsletter) => {
-        tasks.push(this.#newsletter.schedule(newsletter));
-      });
     }
 
     const results = await Promise.allSettled(tasks);

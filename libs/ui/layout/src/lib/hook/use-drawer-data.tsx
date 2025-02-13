@@ -17,19 +17,11 @@ export const useDrawerData = () => {
     enabled: connected,
     ...NO_REFETCH,
   });
-  const notifications = trpc.user.notifications.count.useQuery(
-    { unread: true },
-    {
-      enabled: connected,
-      ...NO_REFETCH,
-    }
-  );
 
   return {
     connected,
     loading,
     user,
     tokens,
-    notifications,
   };
 };

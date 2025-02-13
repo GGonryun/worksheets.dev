@@ -69,10 +69,6 @@ export const ReferralsSection: React.FC<{
               bookmark: SettingsPanels.Referrals,
             }),
           }}
-          action={{
-            text: 'Friends List',
-            href: routes.account.path({}),
-          }}
         />
       </Box>
     </CollapsibleSection>

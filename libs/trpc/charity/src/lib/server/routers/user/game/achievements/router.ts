@@ -1,7 +1,6 @@
 import { TRPCError } from '@trpc/server';
 import { ItemId } from '@worksheets/data/items';
 import { InventoryService } from '@worksheets/services/inventory';
-import { NotificationsService } from '@worksheets/services/notifications';
 import { retryTransaction } from '@worksheets/util/prisma';
 import { playerGameAchievementSchema } from '@worksheets/util/types';
 import { z } from 'zod';
@@ -171,12 +170,6 @@ export default t.router({
                 l.quantity
               );
             }
-          });
-
-          const notifications = new NotificationsService(db);
-          await notifications.send('achievement-unlocked', {
-            user,
-            achievement,
           });
 
           messages.push(`Achievement "${achievement.name}" unlocked`);

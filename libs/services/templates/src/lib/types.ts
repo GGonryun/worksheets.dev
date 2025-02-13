@@ -1,9 +1,6 @@
 import { DiscordMessageInput } from '@worksheets/api/discord';
 import { SendEmailInput } from '@worksheets/services/email';
-import { ScheduleNewsletterInput } from '@worksheets/services/newsletter';
-import { PushNotifyInput } from '@worksheets/services/push';
 import { TwitterTweetInput } from '@worksheets/services/twitter';
-import { LeaderboardFrequency } from '@worksheets/util/types';
 
 export type NotificationTemplate =
   | {
@@ -86,21 +83,6 @@ export type NotificationTemplate =
       };
     }
   | {
-      type: 'lost-raffle';
-      payload: {
-        id: number;
-        expiresAt: Date;
-        numWinners: number;
-        participants: {
-          user: {
-            id: string;
-          };
-          numEntries: number;
-        }[];
-        item: { name: string; id: string };
-      };
-    }
-  | {
       type: 'new-user';
       payload: {
         user: {
@@ -119,63 +101,6 @@ export type NotificationTemplate =
       };
     }
   | {
-      type: 'new-referral';
-      payload: {
-        user: {
-          id: string;
-        };
-      };
-    }
-  | {
-      type: 'new-follower';
-      payload: {
-        user: {
-          id: string;
-        };
-        follower: {
-          username: string;
-        };
-      };
-    }
-  | {
-      type: 'new-game-submission';
-      payload: {
-        user: {
-          id: string;
-        };
-        submission: {
-          title: string | null;
-        };
-      };
-    }
-  | {
-      type: 'confirm-newsletter-subscription';
-      payload: {
-        id: string;
-        email: string;
-      };
-    }
-  | {
-      type: 'new-subscriber';
-      payload: {
-        email: string;
-      };
-    }
-  | {
-      type: 'found-item';
-      payload: {
-        userId: string;
-        item: {
-          id: string;
-          name: string;
-        };
-        game: {
-          id: string;
-          title: string;
-        };
-      };
-    }
-  | {
       type: 'game-report';
       payload: {
         gameId: string;
@@ -189,61 +114,6 @@ export type NotificationTemplate =
         againstId: string;
         senderId: string | null;
         text: string;
-      };
-    }
-  | {
-      type: 'share-gift';
-      payload: {
-        friendId: string;
-        from: {
-          id: string;
-          username: string;
-        };
-        item: {
-          id: string;
-          name: string;
-        };
-        giving: number;
-        quantity: number;
-      };
-    }
-  | {
-      type: 'won-leaderboard';
-      payload: {
-        frequency: LeaderboardFrequency;
-        rank: number;
-        score: number;
-        payout: number;
-        game: {
-          id: string;
-          title: string;
-        };
-        user: {
-          id: string;
-          username: string;
-        };
-      };
-    }
-  | {
-      type: 'achievement-unlocked';
-      payload: {
-        user: {
-          id: string;
-        };
-        achievement: {
-          id: string;
-          name: string;
-          game: {
-            id: string;
-            title: string;
-          };
-          loot: {
-            item: {
-              name: string;
-            };
-            quantity: number;
-          }[];
-        };
       };
     };
 
@@ -266,10 +136,6 @@ export type TemplateBuilder<T extends NotificationTemplateType = any> = (
   payload: ExtractTemplatePayload<T, NotificationTemplate>
 ) => {
   twitter?: TwitterTweetInput;
-  newsletter?: ScheduleNewsletterInput[];
   discord?: DiscordMessageInput;
-  push?: PushNotifyInput;
-  pushMany?: PushNotifyInput[];
   email?: SendEmailInput;
-  broadcast?: PushNotifyInput;
 };

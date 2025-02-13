@@ -1,8 +1,6 @@
 import { TRPCError } from '@trpc/server';
 import { User } from '@worksheets/prisma';
 import { PrismaClient } from '@worksheets/prisma';
-import { FriendshipService } from '@worksheets/services/friendship';
-import { InventoryService } from '@worksheets/services/inventory';
 import { NotificationsService } from '@worksheets/services/notifications';
 import { capitalizeFirstLetter } from '@worksheets/util/strings';
 import { generateSlug } from 'random-word-slugs';
@@ -22,8 +20,7 @@ export default protectedProcedure
   // returns true if the user was initialized, false if the user was already initialized.
   .output(z.boolean())
   .mutation(async ({ input, ctx: { db, user } }) => {
-    const notifications = new NotificationsService(db);
-    const inventory = new InventoryService(db);
+    const notifications = new NotificationsService();
     // check if user rewards object has been created.
     const exists = await db.referralCode.findFirst({
       where: {
@@ -40,7 +37,6 @@ export default protectedProcedure
     await initializeUser(db, user.id, MAX_ATTEMPTS);
     await setReferralCode(db, user, input?.referralCode);
     await commitToNewsletter(db, user.email);
-    await inventory.initializeUser(user.id);
     await notifications.send('new-user', { user });
     await notifications.send('welcome-user', { user });
 
@@ -110,9 +106,6 @@ const setReferralCode = async (
   }
   const userId = user.id;
 
-  const notifications = new NotificationsService(db);
-  const friends = new FriendshipService(db);
-
   const referral = await db.referralCode.findFirst({
     where: {
       code: referralCode,
@@ -135,19 +128,14 @@ const setReferralCode = async (
     return false;
   }
 
-  await Promise.allSettled([
-    db.user.update({
-      where: {
-        id: userId,
-      },
-      data: {
-        referredByUserId: referral.userId,
-      },
-    }),
-    friends.link(userId, referral.userId),
-
-    notifications.send('new-referral', { user: { id: referral.userId } }),
-  ]);
+  await db.user.update({
+    where: {
+      id: userId,
+    },
+    data: {
+      referredByUserId: referral.userId,
+    },
+  });
 
   return true;
 };

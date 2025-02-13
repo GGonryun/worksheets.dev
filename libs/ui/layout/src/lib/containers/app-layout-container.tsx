@@ -20,7 +20,7 @@ import { useDrawerData } from '../hook/use-drawer-data';
 export const AppLayoutContainer: FC<{
   children: ReactNode;
 }> = ({ children }) => {
-  const { connected, loading, notifications } = useDrawerData();
+  const { connected, loading } = useDrawerData();
   const [showUpdate, setShowUpdate] = useLocalStorage(
     '67d302a7-d0c7-4196-b074-c3697e943896',
     minutesAgo(1)
@@ -33,11 +33,7 @@ export const AppLayoutContainer: FC<{
         connectionButton={
           <SquareButton
             href={connected ? routes.account.path() : routes.login.path()}
-            color={
-              connected && notifications.data && notifications.data > 0
-                ? 'error'
-                : 'primary'
-            }
+            color={connected ? 'primary' : 'warning'}
           >
             {connected ? (
               <AccountCircle fontSize="small" />
@@ -87,17 +83,15 @@ export const AppLayoutContainer: FC<{
             upcoming weeks:
             <ul>
               <li>Tokens & Items</li>
+            </ul>
+            <br />
+            The following features have been removed:
+            <ul>
               <li>Integrations</li>
               <li>Gifting & Friends</li>
-              <li>
-                <s>Quests</s>
-              </li>
-              <li>
-                <s>Prize Wall</s>
-              </li>
-              <li>
-                <s>Boss Battles</s>
-              </li>
+              <li>Quests</li>
+              <li>Prize Wall</li>
+              <li>Boss Battles</li>
             </ul>
             <Link
               href={blogRoutes.article.url({

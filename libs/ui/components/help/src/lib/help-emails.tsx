@@ -8,16 +8,12 @@ export const helpEmails: QuestionAnswer[] = [
     id: HelpEmailsQuestions.Description,
     question: 'What are the different types of Emails we send?',
     summary:
-      'Charity Games sends emails to keep you informed about your account, rewards, and new games.',
+      'Charity Games only sends emails to keep you informed about your account, rewards, and new games.',
     answer: (
       <Box>
         <Typography variant="body1">
           We never send spam emails. We only send emails to keep you informed
           about your account, rewards, and new games.
-          <br />
-          <br />
-          There are two primary types of emails we send: Transactional and
-          Marketing emails.
         </Typography>
         <br />
         <Typography variant="h6" gutterBottom>
@@ -35,26 +31,6 @@ export const helpEmails: QuestionAnswer[] = [
             <li>Getting a warning or a ban notice</li>
           </ul>
         </Typography>
-        <br />
-        <Typography variant="h6" gutterBottom>
-          Marketing Emails
-        </Typography>
-        <Typography variant="body1">
-          Marketing emails are sent to keep you informed about new games and
-          promotions. We only send marketing emails to users who have opted in
-          to receive them. Our newsletter includes updates about new games,
-          rewards, tips & tricks, and promotions.
-          <br />
-          <br />
-          You can unsubscribe from marketing emails at any time.{' '}
-          <Link
-            href={routes.help.emails.path({
-              bookmark: HelpEmailsQuestions.Unsubscribing,
-            })}
-          >
-            Learn how.
-          </Link>
-        </Typography>
       </Box>
     ),
   },
@@ -64,23 +40,11 @@ export const helpEmails: QuestionAnswer[] = [
     summary:
       'You can unsubscribe from marketing emails by clicking the unsubscribe link in the email.',
     answer: (
-      <Typography>
+      <Typography component={'div'}>
         You can unsubscribe from marketing emails by:
         <ul>
           <li>Clicking the unsubscribe link in the email you received.</li>
-          <li>
-            Going to your{' '}
-            <Link href={routes.account.path({})}>
-              account's communications settings section
-            </Link>
-          </li>
-          <li>
-            Visiting our
-            <Link href={routes.newsletter.unsubscribe.path()}>
-              unsubscribe page
-            </Link>
-            and manually entering your email
-          </li>
+          <li>Contacting us.</li>
         </ul>
       </Typography>
     ),

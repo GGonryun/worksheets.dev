@@ -3,18 +3,14 @@ import {
   ECommerceCustomerService,
   ECommerceGift,
   ECommercePrizes,
-  ECommerceQuality,
 } from '@worksheets/icons/ecommerce';
 import { LearningCode } from '@worksheets/icons/learning';
 import {
   ValentinesMail,
-  ValentinesPhones,
-  ValentinesPotion,
   ValentinesProfile,
-  ValentinesTicket,
   ValentinesWorld,
 } from '@worksheets/icons/valentines';
-import { WebGamepad, WebHeart, WebQuestion } from '@worksheets/icons/web';
+import { WebGamepad, WebQuestion } from '@worksheets/icons/web';
 import { routes } from '@worksheets/routes';
 
 import {
@@ -36,22 +32,10 @@ const categories: HelpCenterCategoryProps[] = [
     icon: ValentinesProfile,
   },
   {
-    title: 'Notifications',
-    href: routes.help.notifications.path(),
-    description: 'Get notified about new games and rewards',
-    icon: ValentinesPhones,
-  },
-  {
     title: 'Playing Games',
     href: routes.help.playingGames.path(),
     description: 'Learn how to play games on our arcade',
     icon: WebGamepad,
-  },
-  {
-    title: 'Tokens',
-    href: routes.help.tokens.path(),
-    description: 'Play games at our arcade and win real world prizes',
-    icon: ValentinesTicket,
   },
   {
     title: 'Referrals',
@@ -60,22 +44,10 @@ const categories: HelpCenterCategoryProps[] = [
     icon: ValentinesWorld,
   },
   {
-    title: 'Friends',
-    href: routes.help.friends.path(),
-    description: 'Playing with friends is more fun and rewarding',
-    icon: WebHeart,
-  },
-  {
     title: 'Prizes',
     href: routes.help.prizes.path(),
     description: 'Redeem your tokens for real world prizes',
     icon: ECommercePrizes,
-  },
-  {
-    title: 'Inventory',
-    href: routes.help.inventory.path(),
-    description: 'Learn about your inventory and how to use items',
-    icon: ValentinesPotion,
   },
   {
     title: 'Contributions',
@@ -100,12 +72,6 @@ const categories: HelpCenterCategoryProps[] = [
     description: 'Reach out to our support team',
     href: routes.contact.path(),
     icon: ECommerceCustomerService,
-  },
-  {
-    title: 'VIP Membership',
-    href: routes.help.vip.path(),
-    description: 'Help support our mission and earn more rewards',
-    icon: ECommerceQuality,
   },
 ];
 

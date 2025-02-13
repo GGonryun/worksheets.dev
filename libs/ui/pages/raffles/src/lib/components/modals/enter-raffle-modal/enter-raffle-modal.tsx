@@ -318,14 +318,9 @@ const RaffleModal: React.FC<{
                 gap={0.5}
                 target="_blank"
                 alignItems="center"
-                href={routes.user.path({
-                  params: {
-                    userId: participation.data.user.id,
-                  },
-                })}
+                href={routes.account.path()}
               >
-                {participation.data.user.username ?? 'Guest'}
-                <OpenInNew fontSize="inherit" sx={{ mb: -0.1 }} />
+                {participation.data.user.username}
               </Link>
             </Typography>
           )}
@@ -334,22 +329,7 @@ const RaffleModal: React.FC<{
               color="text.primary"
               typography={{ xs: 'body3', sm: 'body2' }}
             >
-              <b>Referred By:</b>{' '}
-              <Link
-                color="inherit"
-                display="inline-flex"
-                gap={0.5}
-                target="_blank"
-                alignItems="center"
-                href={routes.user.path({
-                  params: {
-                    userId: referral.id,
-                  },
-                })}
-              >
-                {referral.username ?? 'Guest'}
-                <OpenInNew fontSize="inherit" sx={{ mb: -0.1 }} />
-              </Link>
+              <b>Referred By:</b> {referral.username}
             </Typography>
           )}
           <Typography

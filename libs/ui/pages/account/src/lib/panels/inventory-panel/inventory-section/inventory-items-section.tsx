@@ -38,7 +38,6 @@ export const InventoryItemsSection: React.FC<{
   const closeCapsule = trpc.user.inventory.capsule.close.useMutation();
   const autoSell = trpc.user.inventory.autoSell.useMutation();
   const decrement = trpc.user.inventory.decrement.useMutation();
-  const share = trpc.user.inventory.share.useMutation();
   const inventory = trpc.user.inventory.items.useQuery(undefined, NO_REFETCH);
   const tokens = trpc.user.inventory.quantity.useQuery('1');
   const items = inventory.data ?? [];
@@ -50,7 +49,6 @@ export const InventoryItemsSection: React.FC<{
     autoSell.isLoading ||
     decrement.isLoading ||
     closeCapsule.isLoading ||
-    share.isLoading ||
     activate.isLoading;
 
   useEffect(() => {
@@ -100,26 +98,6 @@ export const InventoryItemsSection: React.FC<{
     inventory.refetch();
   };
 
-  const handleShare = async (
-    friendshipId: string,
-    itemId: ItemId,
-    quantity: number
-  ) => {
-    try {
-      addDirty(itemId);
-      clearSelection();
-      const message = await share.mutateAsync({
-        friendshipId,
-        itemId,
-        quantity,
-      });
-      inventory.refetch();
-      snackbar.success(message);
-    } catch (error) {
-      snackbar.error(parseTRPCClientErrorMessage(error));
-    }
-  };
-
   return (
     <>
       <CollapsibleSection
@@ -166,8 +144,8 @@ export const InventoryItemsSection: React.FC<{
 
           <PanelFooter
             learn={{
-              text: 'Inventory Items',
-              href: routes.help.inventory.path(),
+              text: 'Prizes & Items',
+              href: routes.help.prizes.path(),
             }}
             action={{
               text: 'Redeem Tokens',
@@ -200,7 +178,6 @@ export const InventoryItemsSection: React.FC<{
           onConsume={handleConsume}
           onCloseCapsule={handleCloseCapsule}
           onClose={clearSelection}
-          onShare={handleShare}
         />
       )}
     </>
