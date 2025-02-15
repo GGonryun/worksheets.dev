@@ -146,8 +146,8 @@ const SignUpSection: FC = () => (
   <Box>
     <Subtitle>Stay up to date</Subtitle>
     <Text>
-      We are always adding new games and features. Create an account to join our
-      newsletter and stay up to date. We promise not to spam you!
+      We are always adding new games and features. Create an account to stay up
+      to date. We promise not to spam you!
     </Text>
     <Box mt={2}>
       <Button

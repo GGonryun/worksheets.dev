@@ -66,17 +66,6 @@ export const RaffleParticipationSection: React.FC<{
           points={[
             `Play games for more chances to win.`,
             `Some items have expiration dates. You'll receive a reminder to claim them before they expire.`,
-            <>
-              Configure your{' '}
-              <Link
-                href={routes.account.path({
-                  bookmark: SettingsPanels.Communication,
-                })}
-              >
-                notification settings
-              </Link>{' '}
-              to receive reminders about your prizes.
-            </>,
           ]}
         />
 

@@ -4,4 +4,3 @@ export * from './lib/help-playing-games';
 export * from './lib/help-prizes';
 export * from './lib/help-referrals';
 export * from './lib/help-emails';
-export * from './lib/help-loot';

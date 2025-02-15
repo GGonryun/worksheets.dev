@@ -5,7 +5,6 @@ export const basicWebsiteStatisticsSchema = z.object({
   uniquePlayers: z.number(),
   totalGamePlays: z.number(),
   rafflesParticipated: z.number(),
-  tokensAccumulated: z.number(),
   prizesDelivered: z.number(),
 });
 

@@ -18,11 +18,6 @@ export default t.router({
           gameId: input.gameId,
         },
         include: {
-          loot: {
-            include: {
-              item: true,
-            },
-          },
           _count: {
             select: {
               players: true,

@@ -1,19 +1,14 @@
 import { TRPCError } from '@trpc/server';
 import { PrismaClient, PrismaTransactionalClient } from '@worksheets/prisma';
-import { InventoryService } from '@worksheets/services/inventory';
 import { TasksService } from '@worksheets/services/tasks';
 import { jsonStringifyWithBigInt } from '@worksheets/util/objects';
-import { retryTransaction } from '@worksheets/util/prisma';
 import { daysAgo } from '@worksheets/util/time';
 import {
   getLeaderboardFrequencyDate,
   LEADERBOARD_LIMIT,
-  LEADERBOARD_REWARD_PAYOUT,
   LeaderboardFrequency,
 } from '@worksheets/util/types';
 import pluralize from 'pluralize';
-
-import { getPayoutDates } from './util';
 
 export const submitScore = async (
   db: PrismaTransactionalClient | PrismaClient,
@@ -81,87 +76,6 @@ export const submitScore = async (
       'token'
     )}`,
   };
-};
-
-export const rewardTopPlayers = async (
-  db: PrismaClient,
-  frequency: LeaderboardFrequency
-) => {
-  const leaderboards = await db.game.findMany({
-    where: {
-      leaderboard: true,
-    },
-  });
-
-  const payouts = LEADERBOARD_REWARD_PAYOUT[frequency];
-
-  if (!payouts.length) {
-    console.warn(`No rewards for this leaderboard frequency`, { frequency });
-    return;
-  }
-
-  const { starting, ending } = getPayoutDates(frequency);
-
-  console.info(`Calculating leaderboard rewards`, {
-    frequency,
-    starting,
-    ending,
-    payouts,
-  });
-
-  for (const leaderboard of leaderboards) {
-    const scores = await db.gameScore.findMany({
-      where: {
-        gameId: leaderboard.id,
-        createdAt: {
-          // because we are running this cron job at 00:00, we can't use the current date we need to use the previous day
-          gte: starting,
-          lt: ending,
-        },
-      },
-      distinct: ['userId'],
-      orderBy: [
-        {
-          score: 'desc',
-        },
-        {
-          createdAt: 'asc',
-        },
-      ],
-      include: {
-        user: {
-          select: {
-            id: true,
-            username: true,
-          },
-        },
-      },
-      take: payouts.length,
-    });
-
-    if (scores.length === 0) {
-      console.warn(`No scores for game ${leaderboard.id}`);
-      continue;
-    }
-
-    console.info(
-      `Paying out ${scores.length} users for game ${leaderboard.id}`,
-      scores
-    );
-
-    const winners = scores.map((score, index) => ({
-      payout: payouts[index],
-      score,
-      rank: index + 1,
-    }));
-
-    for (const { score, payout } of winners) {
-      await retryTransaction(db, async (tx) => {
-        const inventory = new InventoryService(tx);
-        await inventory.increment(score.userId, '1', payout);
-      });
-    }
-  }
 };
 
 export const cleanUpOldScores = async (db: PrismaClient) => {

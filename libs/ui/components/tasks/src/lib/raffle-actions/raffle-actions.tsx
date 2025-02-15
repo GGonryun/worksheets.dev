@@ -23,7 +23,7 @@ export const RaffleActions: React.FC<{
   return actions.length ? (
     <Column gap={1}>
       <Typography fontWeight={700} typography="h6">
-        Enter raffle with actions
+        Participation
       </Typography>
 
       {actions.map((action) => (

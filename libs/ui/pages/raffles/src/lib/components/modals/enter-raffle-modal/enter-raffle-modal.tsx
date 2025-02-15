@@ -1,23 +1,9 @@
-import {
-  CancelOutlined,
-  HelpOutline,
-  OpenInNew,
-  StarBorder,
-} from '@mui/icons-material';
-import {
-  Box,
-  Button,
-  Divider,
-  Link,
-  Typography,
-  useTheme,
-} from '@mui/material';
+import { CancelOutlined, HelpOutline } from '@mui/icons-material';
+import { Box, Button, Link, Typography, useTheme } from '@mui/material';
 import { routes } from '@worksheets/routes';
 import { trpc } from '@worksheets/trpc-charity';
-import { ErrorComponent } from '@worksheets/ui/components/errors';
 import { Column, Row } from '@worksheets/ui/components/flex';
 import { FillImage } from '@worksheets/ui/components/images';
-import { NumericCounterField } from '@worksheets/ui/components/inputs';
 import { PulsingLogo } from '@worksheets/ui/components/loading';
 import {
   InfoModal,
@@ -30,13 +16,11 @@ import { useReferralCode } from '@worksheets/ui/hooks/use-referral-code';
 import { PaletteColor } from '@worksheets/ui/theme';
 import { HTMLinator } from '@worksheets/ui-core';
 import { fireAndForget } from '@worksheets/util/promises';
-import { RAFFLE_ENTRY_FEE } from '@worksheets/util/settings';
 import { ActionSchema, TaskInputSchema } from '@worksheets/util/tasks';
 import { printDateTime, printTimeRemaining } from '@worksheets/util/time';
 import { parseTRPCClientErrorMessage } from '@worksheets/util/trpc';
 import { RaffleSchema } from '@worksheets/util/types';
 import { useSession } from 'next-auth/react';
-import pluralize from 'pluralize';
 import React, { useEffect, useState } from 'react';
 
 const ModalLayout: React.FC<ModalProps> = ({ open, onClose, children }) => {
@@ -73,10 +57,8 @@ export const EnterRaffleModal: React.FC<
   const handleClose = () => {
     onClose?.({}, 'backdropClick');
     setActionId(undefined);
-    setUseTokens(false);
   };
 
-  const [useTokens, setUseTokens] = useState(false);
   const [actionId, setActionId] = useState<string | undefined>(undefined);
   const [dirty, setDirty] = useState<string[]>([]);
 
@@ -126,14 +108,8 @@ export const EnterRaffleModal: React.FC<
         dirty={dirty}
         actions={data.sort(sortRules)}
         onClickAction={setActionId}
-        onUseTokens={() => setUseTokens(true)}
         referral={referral.data ?? null}
         onClearReferral={() => setReferral('')}
-      />
-      <TokensModal
-        raffle={raffle}
-        open={useTokens}
-        onClose={() => setUseTokens(false)}
       />
       <RaffleActionModal
         isLoading={
@@ -189,7 +165,6 @@ const RaffleModal: React.FC<{
   actions: ActionSchema[];
   dirty: string[];
   onClickAction: (actionId: string) => void;
-  onUseTokens: () => void;
   onClearReferral: () => void;
   referral: { username: string; id: string } | null;
 }> = ({
@@ -199,13 +174,11 @@ const RaffleModal: React.FC<{
   onClose,
   raffle,
   onClickAction,
-  onUseTokens,
   referral,
   onClearReferral,
 }) => {
   const theme = useTheme();
   const participation = useYourEntries(raffle.id);
-  const purchased = participation.data?.purchased ?? 0;
 
   // TODO: find a more elegant way to clear self-referral, maybe at a higher level in the app.
   useEffect(() => {
@@ -304,7 +277,7 @@ const RaffleModal: React.FC<{
             color="text.primary"
             typography={{ xs: 'body3', sm: 'body2' }}
           >
-            <b>Total Winners:</b> {raffle.numWinners}
+            <b>Total Winners:</b> 1
           </Typography>
           {participation.data?.user.id && (
             <Typography
@@ -345,37 +318,7 @@ const RaffleModal: React.FC<{
             <b>Expires At:</b> {printDateTime(raffle.expiresAt)}
           </Typography>
         </Column>
-        {(raffle.maxEntries == null || raffle.maxEntries > 1) && (
-          <Column gap={1} my={1}>
-            <Typography fontWeight={700} typography={'h6'}>
-              Enter raffle with tokens
-            </Typography>
-            <Button
-              size="large"
-              disabled={
-                raffle.maxEntries != null && purchased === raffle.maxEntries
-              }
-              startIcon={<StarBorder />}
-              onClick={onUseTokens}
-              variant="arcade"
-              color="success"
-              sx={{
-                '&.MuiButton-root': {
-                  minHeight: 50,
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                },
-              }}
-            >
-              <span>Spend Tokens</span>
-              <span>
-                {raffle.maxEntries != null
-                  ? `(${purchased ?? '...'}/${raffle.maxEntries})`
-                  : '∞'}
-              </span>
-            </Button>
-          </Column>
-        )}
+
         <RaffleActions
           raffleId={raffle.id}
           actions={actions}
@@ -475,177 +418,6 @@ const useYourEntries = (raffleId: number) => {
     }
   );
   return participation;
-};
-
-const TokensModal: React.FC<{
-  open: boolean;
-  onClose: () => void;
-  raffle: RaffleSchema;
-}> = ({ open, onClose, raffle }) => {
-  return (
-    <ModalLayout open={open} onClose={onClose}>
-      <UseTokensContent raffle={raffle} onClose={onClose} />
-    </ModalLayout>
-  );
-};
-
-const UseTokensContent: React.FC<{
-  raffle: RaffleSchema;
-  onClose: () => void;
-}> = (props) => {
-  const [referralCode] = useReferralCode();
-  const [entries, setEntries] = useState(1);
-  const [entering, setEntering] = useState(false);
-
-  const snackbar = useSnackbar();
-  const utils = trpc.useUtils();
-
-  const participation = useYourEntries(props.raffle.id);
-  const enterRaffle = trpc.user.raffles.enterRaffle.useMutation();
-  const tokens = trpc.user.inventory.quantity.useQuery('1');
-
-  if (entering) return <PulsingLogo message="Entering raffle..." />;
-  if (tokens.isLoading || tokens.isFetching || tokens.isRefetching)
-    return <PulsingLogo />;
-
-  if (tokens.isError) return <ErrorComponent />;
-
-  const maxAffordable = Math.floor(tokens.data / RAFFLE_ENTRY_FEE);
-  const cannotAfford = entries > maxAffordable;
-  const purchased = participation.data?.purchased ?? 0;
-  const availableEntries = props.raffle.maxEntries
-    ? props.raffle.maxEntries - purchased
-    : Infinity;
-  const tooManyEntries = entries > availableEntries;
-
-  const handleSetEntries = (value: number) => {
-    if (value < 1) {
-      setEntries(1);
-      return;
-    }
-
-    if (value > maxAffordable) {
-      snackbar.error('You do not have enough tokens!');
-    }
-
-    if (value > availableEntries) {
-      snackbar.error('Too many entries!');
-    }
-
-    setEntries(value);
-  };
-
-  const handleEnterRaffle = async () => {
-    try {
-      setEntering(true);
-
-      await enterRaffle.mutateAsync({
-        raffleId: props.raffle.id,
-        entries,
-        referralCode,
-      });
-
-      utils.user.raffles.participation.refetch();
-      utils.user.inventory.quantity.refetch();
-      utils.maybe.raffles.participants.refetch({ raffleId: props.raffle.id });
-
-      snackbar.success('You entered the raffle! Good luck!');
-    } catch (error) {
-      snackbar.error(parseTRPCClientErrorMessage(error));
-    } finally {
-      props.onClose();
-      setEntering(false);
-    }
-  };
-
-  return (
-    <Column gap={2}>
-      <Column>
-        <Typography fontWeight={600} variant="h6" gutterBottom>
-          How many entries would you like to purchase?
-        </Typography>
-
-        <Typography>
-          You have{' '}
-          <u>
-            <b>{tokens.data} tokens</b>
-          </u>{' '}
-          available to spend.
-        </Typography>
-
-        {props.raffle.maxEntries != null && (
-          <Typography>
-            You can purchase up to{' '}
-            <u>
-              <b>
-                {availableEntries} {pluralize('entry', availableEntries)}
-              </b>
-            </u>{' '}
-            for this raffle.
-          </Typography>
-        )}
-      </Column>
-      <Divider />
-      <Typography variant="body2" color="text.secondary" textAlign="center">
-        <b>
-          {entries} {pluralize('entry', entries)}
-        </b>{' '}
-        will cost you <b>{entries * RAFFLE_ENTRY_FEE} tokens</b>.
-      </Typography>
-      <NumericCounterField
-        value={entries}
-        onChange={handleSetEntries}
-        onMin={() => {
-          handleSetEntries(1);
-        }}
-        onMax={() => {
-          handleSetEntries(Math.min(maxAffordable, availableEntries));
-        }}
-      />
-
-      <Column gap={1}>
-        <Button
-          startIcon={<StarBorder />}
-          fullWidth
-          size="medium"
-          variant="arcade"
-          color="success"
-          disabled={entering || cannotAfford || tooManyEntries}
-          onClick={handleEnterRaffle}
-        >
-          Purchase {entries} {pluralize('Entry', entries)}
-        </Button>
-        <Typography
-          display={cannotAfford || tooManyEntries ? 'block' : 'none'}
-          variant="body2"
-          color={
-            cannotAfford || tooManyEntries ? 'error.main' : 'text.secondary'
-          }
-          fontWeight={700}
-        >
-          {tokens.data < RAFFLE_ENTRY_FEE
-            ? `You need at least ${RAFFLE_ENTRY_FEE} tokens to enter the raffle!`
-            : tooManyEntries
-            ? `You can only purchase ${availableEntries} ${pluralize(
-                'entry',
-                availableEntries
-              )}!`
-            : `You do not have enough tokens!`}
-        </Typography>
-      </Column>
-      <Box alignSelf="flex-end">
-        <Button
-          variant="text"
-          href={routes.account.path()}
-          target="_blank"
-          startIcon={<OpenInNew />}
-          sx={{ width: 200 }}
-        >
-          Earn more tokens
-        </Button>
-      </Box>
-    </Column>
-  );
 };
 
 const RaffleActionModal: React.FC<{

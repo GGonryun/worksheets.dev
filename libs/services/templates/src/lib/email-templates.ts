@@ -1,5 +1,6 @@
 import { EmailService, SendEmailInput } from '@worksheets/services/email';
 import { randomUUID } from '@worksheets/util/crypto';
+import { BASE_EXPIRATION_TIME } from '@worksheets/util/settings';
 import {
   daysFromNow,
   printDateTime,
@@ -9,14 +10,14 @@ import { compact } from 'lodash';
 
 import { ExtractTemplatePayload } from './types';
 import {
-  ACCOUNT_INVENTORY_URL,
+  ACCOUNT_CODES_URL,
   CONTACT_URL,
   GAMES_URL,
   HELP_CENTER_URL,
   RAFFLES_URL,
 } from './urls';
 
-const claimHelpText = `Please visit {{CLAIM_PRIZE}} to claim your prize. If you are unable to claim a prize, please {{CONTACT_US}} for assistance. You may receive an alternative prize or tokens equal to the prize value. If you need help, please visit our {{HELP_CENTER}}.`;
+const claimHelpText = `Please visit {{CLAIM_PRIZE}} to claim your prize. If you are unable to claim a prize, please {{CONTACT_US}} for assistance. If you need help, please visit our {{HELP_CENTER}}.`;
 
 const expirationText = (expiration: Date) =>
   `<b>If you do not claim your prize before ${printDateTime(
@@ -26,7 +27,7 @@ const expirationText = (expiration: Date) =>
 const claimHelpLinks = [
   {
     id: 'CLAIM_PRIZE',
-    href: ACCOUNT_INVENTORY_URL,
+    href: ACCOUNT_CODES_URL,
     text: 'Charity Games',
   },
   {
@@ -46,37 +47,29 @@ export class EmailTemplates {
     return {
       id: randomUUID(),
       to: [opts.user.email],
-      subject: `You won a raffle for ${opts.item.name}`,
+      subject: `You won a raffle for ${opts.prize.name}`,
       html: EmailService.template({
-        title: `Congratulations! You won a raffle for a ${opts.item.name}`,
+        title: `Congratulations! You won a raffle for a ${opts.prize.name}`,
         paragraphs: compact([
-          `You won a raffle for {{ITEM_LINK}}.`,
+          `You won a raffle for ${opts.prize.name}.`,
           claimHelpText,
-          opts.item.expiration &&
-            expirationText(daysFromNow(opts.item.expiration)),
+          expirationText(daysFromNow(BASE_EXPIRATION_TIME)),
         ]),
-        links: [
-          ...claimHelpLinks,
-          {
-            id: 'ITEM_LINK',
-            href: ACCOUNT_INVENTORY_URL,
-            text: opts.item.name,
-          },
-        ],
+        links: [...claimHelpLinks],
       }),
     };
   }
   static expiringItemReminder(
-    opts: ExtractTemplatePayload<'expiring-item-reminder'>
+    opts: ExtractTemplatePayload<'expiring-code-reminder'>
   ): SendEmailInput {
     return {
       id: randomUUID(),
       to: [opts.user.email],
       subject: `An item in your inventory is expiring soon!`,
       html: EmailService.template({
-        title: `Don't forget to use your ${opts.item.name} item!`,
+        title: `Don't forget to access your activation code for ${opts.code.name}!`,
         paragraphs: [
-          `You won a raffle for ${opts.item.name}.`,
+          `You won a raffle for ${opts.code.name}.`,
           claimHelpText,
           expirationText(opts.expiresAt),
         ],

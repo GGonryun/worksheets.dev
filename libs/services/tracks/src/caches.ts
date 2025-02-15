@@ -2,41 +2,6 @@ import { TRPCError } from '@trpc/server';
 import { Prisma, PrismaClient } from '@worksheets/prisma';
 
 /**
- * Temporary local in-memory cache for item data
- * Use this if you're writing a function that needs to fetch item data multiple times
- */
-export const itemCache = (db: PrismaClient) => {
-  const items: Record<string, Prisma.ItemGetPayload<true>> = {};
-
-  const get = async (itemId: string) => {
-    if (items[itemId]) {
-      return items[itemId];
-    }
-    const item = await db.item.findUnique({
-      where: { id: itemId },
-    });
-
-    if (!item) {
-      throw new Error(`Item not found: ${itemId}`);
-    }
-
-    items[itemId] = item;
-
-    return item;
-  };
-
-  const safeGet = async (itemId: string) => {
-    try {
-      return await get(itemId);
-    } catch (error) {
-      return null;
-    }
-  };
-
-  return { get, safeGet };
-};
-
-/**
  * Temporary local in-memory cache for game data
  * Use this if you're writing a function that needs to fetch game data multiple times
  */

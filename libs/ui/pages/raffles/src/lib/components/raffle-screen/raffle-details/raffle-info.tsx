@@ -1,7 +1,6 @@
 import { AccessTime, Share } from '@mui/icons-material';
 import { Box, Button, Divider, Typography } from '@mui/material';
-import { ItemType } from '@prisma/client';
-import { itemTypeLabel, itemTypeLogo } from '@worksheets/ui/components/items';
+import { ColoredSteamGames } from '@worksheets/icons/companies';
 import {
   daysFromNow,
   durationToString,
@@ -18,7 +17,7 @@ export const RaffleInfo: React.FC<{
   onShare: () => void;
   raffleEntry: React.ReactNode;
 }> = ({ raffle, raffleEntry, onShare }) => {
-  const { expiresAt, type } = raffle;
+  const { expiresAt } = raffle;
   const soon = expiresAt < daysFromNow(1).getTime();
   const expired = expiresAt < Date.now();
 
@@ -70,7 +69,7 @@ export const RaffleInfo: React.FC<{
           </Box>
         </Box>
         <Divider />
-        <ItemTypeInfo type={type} />
+        <ItemTypeInfo />
         <Divider />
         {raffleEntry}
         <Box my={1.5} />
@@ -79,8 +78,7 @@ export const RaffleInfo: React.FC<{
   );
 };
 
-const ItemTypeInfo: React.FC<{ type: ItemType }> = ({ type }) => {
-  const Icon = itemTypeLogo[type];
+const ItemTypeInfo: React.FC = () => {
   return (
     <Box>
       <SectionHeaderTypography>Prize Type</SectionHeaderTypography>
@@ -91,8 +89,8 @@ const ItemTypeInfo: React.FC<{ type: ItemType }> = ({ type }) => {
         gap={1}
         alignItems="center"
       >
-        <Icon fontSize="large" />
-        <Typography variant="h6">{itemTypeLabel[type]}</Typography>
+        <ColoredSteamGames fontSize="large" />
+        <Typography variant="h6">Steam</Typography>
       </Box>
     </Box>
   );

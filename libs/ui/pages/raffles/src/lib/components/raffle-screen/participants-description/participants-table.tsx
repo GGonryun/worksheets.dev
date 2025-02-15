@@ -1,7 +1,9 @@
 import {
   ArrowRightAlt,
+  LocalActivity,
   LocalActivityOutlined,
   OpenInNew,
+  People,
   Star,
 } from '@mui/icons-material';
 import { alpha, Box, Button, Typography } from '@mui/material';
@@ -27,13 +29,26 @@ export const ParticipantsTable: React.FC<{
     <Table
       title={
         <Box>
-          <Typography fontWeight={700} color="text.arcade">
-            {participants.length}{' '}
-            {pluralize('participants', participants.length)}{' '}
-            {pluralize('have', participants.length)} joined the giveaway
+          <Typography
+            fontWeight={700}
+            color="text.arcade"
+            display="flex"
+            alignItems="center"
+            gap={0.5}
+          >
+            <People /> {participants.length}{' '}
+            {pluralize('participants', participants.length)}
           </Typography>
-          <Typography mb={1} fontWeight={700} gutterBottom color="text.arcade">
-            {total} giveaway {pluralize('entry', total)} in total
+          <Typography
+            mb={1}
+            fontWeight={700}
+            gutterBottom
+            color="text.arcade"
+            display="flex"
+            alignItems="center"
+            gap={0.5}
+          >
+            <LocalActivity /> {total} {pluralize('entry', total)}
           </Typography>
         </Box>
       }

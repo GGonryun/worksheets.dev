@@ -6,12 +6,6 @@ import {
 } from '@worksheets/prisma';
 import { z } from 'zod';
 
-import {
-  LootSchema,
-  lootSchema,
-  SeedableLootSchema,
-  seedableLootSchema,
-} from './items';
 import { GameTag } from './tag-schema';
 
 export const basicGameAchievementSchema = z.object({
@@ -26,7 +20,6 @@ export const seedableGameAchievementSchema = basicGameAchievementSchema
   .extend({
     secret: z.boolean(),
     version: z.number(),
-    loot: seedableLootSchema.array(),
   })
   .omit({ gameId: true });
 
@@ -35,7 +28,6 @@ export type SeedableGameAchievementSchema = z.infer<
 >;
 
 export const gameAchievementSchema = seedableGameAchievementSchema.extend({
-  loot: lootSchema.array(),
   players: z.number(),
 });
 
@@ -84,12 +76,10 @@ export type GameSchema = {
   markets: Partial<MarketLinks>;
   plays: number;
   likes: number;
-  multiplier: number;
   leaderboard: boolean;
   cloudStorage: boolean;
   achievements: boolean;
   dislikes: number;
-  loot: LootSchema[];
   file: {
     type: ProjectType;
     url: string;
@@ -112,11 +102,10 @@ export type GameTask = {
 
 export type SeedableGameSchema = Omit<
   GameSchema,
-  'likes' | 'dislikes' | 'plays' | 'trailer' | 'loot' | 'achievements'
+  'likes' | 'dislikes' | 'plays' | 'trailer' | 'achievements'
 > &
   Partial<Pick<GameSchema, 'trailer'>> & {
     publishAt?: Date;
-    loot: SeedableLootSchema[];
     achievements: SeedableGameAchievementSchema[];
     tasks?: GameTask[];
   };

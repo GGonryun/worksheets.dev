@@ -1,10 +1,7 @@
 import { TRPCError } from '@trpc/server';
-import { ItemId } from '@worksheets/data/items';
-import { InventoryService } from '@worksheets/services/inventory';
 import {
   activationCodeContentSchema,
   activationCodeDetailSchema,
-  redemptionCodeSchema,
 } from '@worksheets/util/types';
 import { z } from 'zod';
 
@@ -23,6 +20,9 @@ export default t.router({
           orderBy: {
             accessedAt: 'desc',
           },
+          include: {
+            expiration: true,
+          },
         });
 
         return codes.map((code) => {
@@ -31,6 +31,7 @@ export default t.router({
             name: code.name,
             sourceUrl: code.sourceUrl,
             accessedAt: code.accessedAt?.getTime() ?? 0,
+            expiresAt: code.expiration?.expiresAt.getTime() ?? null,
             type: code.type,
             imageUrl: code.imageUrl,
           };
@@ -48,8 +49,12 @@ export default t.router({
           select: {
             id: true,
             userId: true,
-            accessedAt: true,
             content: true,
+            expiration: {
+              select: {
+                id: true,
+              },
+            },
           },
         });
 
@@ -67,6 +72,14 @@ export default t.router({
           });
         }
 
+        if (code.expiration) {
+          await db.expiration.delete({
+            where: {
+              id: code.expiration.id,
+            },
+          });
+        }
+
         await db.activationCode.update({
           where: {
             id: input,
@@ -80,55 +93,6 @@ export default t.router({
           id: code.id,
           content: code.content,
         };
-      }),
-  }),
-  redemption: t.router({
-    redeem: protectedProcedure
-      .input(z.string())
-      .output(redemptionCodeSchema)
-      .mutation(async ({ ctx: { db, user }, input }) => {
-        return await db.$transaction(async (tx) => {
-          const inventory = new InventoryService(tx);
-          const code = await db.redemptionCode.findFirst({
-            where: {
-              id: input,
-            },
-            include: {
-              item: true,
-            },
-          });
-
-          if (!code) {
-            throw new TRPCError({
-              code: 'NOT_FOUND',
-              message: 'Code not found',
-            });
-          }
-
-          if (code.userId) {
-            throw new TRPCError({
-              code: 'FORBIDDEN',
-              message: 'Code already redeemed',
-            });
-          }
-
-          await db.redemptionCode.update({
-            where: {
-              id: input,
-            },
-            data: {
-              userId: user.id,
-            },
-          });
-
-          await inventory.increment(
-            user.id,
-            code.item.id as ItemId,
-            code.quantity
-          );
-
-          return code;
-        });
       }),
   }),
 });

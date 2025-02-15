@@ -16,7 +16,6 @@ import { PulsingIcon } from '@worksheets/ui/components/loading';
 import { useEventListener } from '@worksheets/ui-core';
 import { noop } from 'lodash';
 import { SessionContextValue } from 'next-auth/react';
-import pluralize from 'pluralize';
 import React, { useRef } from 'react';
 
 import { GameTrackingProvider } from '../../../context/game-tracking-context';
@@ -109,7 +108,6 @@ export const GameFrame: React.FC<{
   const startSession = trpc.user.game.session.start.useMutation();
   const loadAchievements = trpc.user.game.achievements.load.useMutation();
   const unlockAchievements = trpc.user.game.achievements.unlock.useMutation();
-  const rewardUser = trpc.user.game.reward.send.useMutation();
   const submitScore = trpc.user.leaderboards.submit.useMutation();
   const frameRef = useRef<HTMLIFrameElement>(null);
 
@@ -223,23 +221,6 @@ export const GameFrame: React.FC<{
         });
       }
     }
-  });
-
-  child.on('reward-user', async ({ sessionId, itemId, quantity, source }) => {
-    if (!authenticated || !sessionId) return;
-
-    const result = await rewardUser.mutateAsync({
-      sessionId,
-      itemId,
-      quantity,
-    });
-
-    notifications.add(
-      `You received a ${source} and earned ${quantity} ${pluralize(
-        result.item.name,
-        quantity
-      )}!`
-    );
   });
 
   child.on('save-storage', async ({ sessionId, data }) => {

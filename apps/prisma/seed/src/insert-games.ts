@@ -42,7 +42,6 @@ const insertGame = async (game: SeedableGameSchema) => {
         trailer: game.trailer,
         leaderboard: game.leaderboard,
         cloudStorage: game.cloudStorage,
-        multiplier: game.multiplier ?? 0,
         developer: {
           connect: {
             id: game.developerId,
@@ -70,18 +69,6 @@ const insertGame = async (game: SeedableGameSchema) => {
       })),
       skipDuplicates: true,
     });
-
-    if (game.loot.length > 0) {
-      await tx.loot.createMany({
-        data: game.loot.map((loot) => ({
-          gameId: game.id,
-          itemId: loot.itemId,
-          quantity: loot.quantity,
-          chance: loot.chance,
-        })),
-        skipDuplicates: true,
-      });
-    }
   });
 };
 
@@ -129,7 +116,6 @@ const updateGame = async (game: SeedableGameSchema) => {
         trailer: game.trailer,
         leaderboard: game.leaderboard,
         cloudStorage: game.cloudStorage,
-        multiplier: game.multiplier ?? 0,
         developer: updateDeveloper
           ? {
               connect: {

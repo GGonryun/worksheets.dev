@@ -93,12 +93,6 @@ export const routes = {
   logout: createRoute({
     path: '/logout',
   }),
-  items: createRoute({
-    path: '/items',
-  }),
-  item: createRoute({
-    path: '/items/[itemId]',
-  }),
   raffle: createRoute({
     path: '/raffles/[raffleId]',
   }),

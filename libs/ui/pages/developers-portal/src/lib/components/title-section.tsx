@@ -59,10 +59,6 @@ export const TitleSection: FC<{ statistics?: BasicWebsiteStatistics }> = ({
         {shorthandNumber(statistics?.totalGamePlays ?? 0)}+ Total Game Plays
       </TextPoint>
       <TextPoint>
-        {shorthandNumber(statistics?.tokensAccumulated ?? 0)}+ Tokens
-        Accumulated
-      </TextPoint>
-      <TextPoint>
         {shorthandNumber(statistics?.rafflesParticipated ?? 0)}+ Raffle Entries
       </TextPoint>
       <TextPoint>

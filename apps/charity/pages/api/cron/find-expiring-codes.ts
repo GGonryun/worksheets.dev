@@ -5,32 +5,31 @@ import { createCronJob } from '@worksheets/util/cron';
 import { EXPIRATION_TIME_THRESHOLD } from '@worksheets/util/settings';
 import { daysFromNow } from '@worksheets/util/time';
 
-const INVENTORY_EXPIRATION_PROPS = {
+const EXPIRATION_PROPS = {
   include: {
-    inventory: {
+    activationCode: {
       include: {
         user: true,
-        item: true,
       },
     },
   },
 } as const;
 
-type ExpiringInventoryItem = Prisma.InventoryExpirationGetPayload<
-  typeof INVENTORY_EXPIRATION_PROPS
+type ExpiringActivationCode = Prisma.ExpirationGetPayload<
+  typeof EXPIRATION_PROPS
 >;
 
 export default createCronJob(async () => {
   const notifications = new NotificationsService();
-  const expired = await prisma.inventoryExpiration.findMany({
+  const expired = await prisma.expiration.findMany({
     where: {
       expiresAt: {
         lte: new Date(),
       },
     },
-    ...INVENTORY_EXPIRATION_PROPS,
+    ...EXPIRATION_PROPS,
   });
-  const lastChance = await prisma.inventoryExpiration.findMany({
+  const lastChance = await prisma.expiration.findMany({
     where: {
       id: {
         notIn: expired.map((e) => e.id),
@@ -40,7 +39,7 @@ export default createCronJob(async () => {
         lte: daysFromNow(EXPIRATION_TIME_THRESHOLD),
       },
     },
-    ...INVENTORY_EXPIRATION_PROPS,
+    ...EXPIRATION_PROPS,
   });
 
   await Promise.allSettled([
@@ -54,14 +53,19 @@ export default createCronJob(async () => {
 
 const processLastChance =
   (notifications: NotificationsService) =>
-  async (expiring: ExpiringInventoryItem) => {
+  async (expiring: ExpiringActivationCode) => {
     if (expiring.expiresAt) {
-      await notifications.send('expiring-item-reminder', {
-        user: expiring.inventory.user,
-        item: expiring.inventory.item,
+      if (!expiring.activationCode.user)
+        throw new TRPCError({
+          code: 'INTERNAL_SERVER_ERROR',
+          message: 'Failed to process last chance: user is missing',
+        });
+      await notifications.send('expiring-code-reminder', {
+        user: expiring.activationCode.user,
+        code: expiring.activationCode,
         expiresAt: expiring.expiresAt,
       });
-      await prisma.inventoryExpiration.update({
+      await prisma.expiration.update({
         where: {
           id: expiring.id,
         },
@@ -74,40 +78,30 @@ const processLastChance =
 
 const processExpired =
   (notifications: NotificationsService) =>
-  async (expiring: ExpiringInventoryItem) => {
+  async (expiring: ExpiringActivationCode) => {
     await prisma.$transaction(async (tx) => {
-      const inventory = await tx.inventory.findUniqueOrThrow({
+      await tx.activationCode.update({
         where: {
-          id: expiring.inventory.id,
-        },
-      });
-
-      await prisma.inventory.update({
-        where: {
-          id: expiring.inventory.id,
+          id: expiring.activationCode.id,
         },
         data: {
-          quantity: {
-            decrement: 1,
-          },
+          userId: null,
         },
       });
 
-      if (inventory.quantity < 0)
-        throw new TRPCError({
-          code: 'INTERNAL_SERVER_ERROR',
-          message:
-            'Failed to process expired item: inventory quantity is less than 0',
-        });
-
-      await prisma.inventoryExpiration.delete({
+      await tx.expiration.delete({
         where: {
           id: expiring.id,
         },
       });
     });
+    if (!expiring.activationCode.user)
+      throw new TRPCError({
+        code: 'INTERNAL_SERVER_ERROR',
+        message: 'Failed to process expired item: user is missing',
+      });
     await notifications.send('expired-item', {
-      user: expiring.inventory.user,
-      item: expiring.inventory.item,
+      user: expiring.activationCode.user,
+      code: expiring.activationCode,
     });
   };

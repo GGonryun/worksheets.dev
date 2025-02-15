@@ -19,9 +19,7 @@ export type NotificationTemplate =
       type: 'new-raffle';
       payload: {
         id: number;
-        numWinners: number;
         expiresAt: Date;
-        premium: boolean;
         name: string;
       };
     }
@@ -35,21 +33,19 @@ export type NotificationTemplate =
           id: string;
           email: string;
         };
-        item: {
-          id: string;
+        prize: {
           name: string;
-          expiration: number | null;
         };
       };
     }
   | {
-      type: 'expiring-item-reminder';
+      type: 'expiring-code-reminder';
       payload: {
         user: {
           id: string;
           email: string;
         };
-        item: {
+        code: {
           name: string;
         };
         expiresAt: Date;
@@ -62,7 +58,7 @@ export type NotificationTemplate =
           id: string;
           email: string;
         };
-        item: {
+        code: {
           name: string;
         };
       };
@@ -72,9 +68,7 @@ export type NotificationTemplate =
       payload: {
         id: number;
         expiresAt: Date;
-        numWinners: number;
         name: string;
-        premium: boolean;
         participants: {
           user: {
             id: string;

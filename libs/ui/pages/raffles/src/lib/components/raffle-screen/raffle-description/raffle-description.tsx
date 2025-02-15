@@ -89,8 +89,7 @@ const DetailsGrid: React.FC<{ raffle: RaffleSchema }> = ({ raffle }) => {
             label={isOver ? 'Ended On' : 'Ends On'}
             value={printShortDateTime(raffle.expiresAt)}
           />
-          <DetailPair label="Winners" value={raffle.numWinners} />
-          <DetailPair label="Item ID" value={raffle.itemId} />
+          <DetailPair label="Winners" value={1} />
         </Box>
       </Box>
       <Divider sx={{ backgroundColor: 'text.arcade' }} />

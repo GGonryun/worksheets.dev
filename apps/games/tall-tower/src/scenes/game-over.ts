@@ -36,7 +36,6 @@ export class GameOver extends Phaser.Scene {
 
     this.submitLeaderboard();
     this.submitAchievements();
-    this.submitRewards();
   }
 
   submitLeaderboard() {
@@ -59,56 +58,6 @@ export class GameOver extends Phaser.Scene {
     majorLine > 1 && achievements.push('TALL_TOWER_MAJOR_2');
     majorLine > 2 && achievements.push('TALL_TOWER_MAJOR_3');
     this.server.achievements.unlock(achievements);
-  }
-
-  submitRewards() {
-    const { placements, bonus } = this.payload;
-    const bonusLine = placements[BONUS_PRIZE_THRESHOLD];
-    const minorLine = placements[MINOR_PRIZE_THRESHOLD];
-    const majorLine = placements[MAJOR_PRIZE_THRESHOLD];
-    if (majorLine > 0) {
-      if (bonus) {
-        this.server.rewards.send({
-          itemId: '2',
-          quantity: 3,
-          source: 'Bonus Major Prize',
-        });
-      } else {
-        this.server.rewards.send({
-          itemId: '1',
-          quantity: 15,
-          source: 'Major Prize',
-        });
-      }
-    } else if (minorLine > 0) {
-      if (bonus) {
-        this.server.rewards.send({
-          itemId: '2',
-          quantity: 2,
-          source: 'Bonus Minor Prize',
-        });
-      } else {
-        this.server.rewards.send({
-          itemId: '1',
-          quantity: 10,
-          source: 'Minor Prize',
-        });
-      }
-    } else if (bonusLine > 0) {
-      if (bonus) {
-        this.server.rewards.send({
-          itemId: '2',
-          quantity: 1,
-          source: 'Extra Bonus Prize',
-        });
-      } else {
-        this.server.rewards.send({
-          itemId: '1',
-          quantity: 5,
-          source: 'Bonus Prize',
-        });
-      }
-    }
   }
 
   addText() {

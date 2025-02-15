@@ -11,12 +11,12 @@ import { PulsingLogo } from '@worksheets/ui/components/loading';
 import { BasicModal, ModalWrapper } from '@worksheets/ui/components/modals';
 import { useSnackbar } from '@worksheets/ui/components/snackbar';
 import { HelpPrizesQuestions } from '@worksheets/util/enums';
+import { printDateTime } from '@worksheets/util/time';
 import { parseTRPCClientErrorMessage } from '@worksheets/util/trpc';
 import {
   ActivationCodeContentSchema,
   ActivationCodeDetailSchema,
 } from '@worksheets/util/types';
-import Image from 'next/image';
 import { useState } from 'react';
 
 export const ActivationCodeModal: React.FC<
@@ -117,12 +117,12 @@ const ViewCode: React.FC<{
 }> = ({ code, onAccessCode }) => {
   return (
     <>
-      <Typography variant="h4" color="secondary.main" pt={2}>
+      <Typography variant="h4" color="primary.main" pt={2}>
         Access Your Code
       </Typography>
 
       <Typography textAlign="center">
-        Use the code below to access your <br />
+        Use the code below to access your prize: <br />
         <Link href={code.sourceUrl} target="_blank" fontWeight={700}>
           {code.name}
         </Link>
@@ -131,18 +131,11 @@ const ViewCode: React.FC<{
 
       <ActivationCodeImage src={code.imageUrl} alt={code.name} width={200} />
 
-      {!code.accessedAt && (
-        <Typography textAlign="center" variant="body2">
-          Once you access the code, it will{' '}
-          <Link
-            href={routes.help.prizes.path({
-              bookmark: HelpPrizesQuestions.TradeCode,
-            })}
-            fontWeight={700}
-          >
-            become ineligible for trading
-          </Link>
-          .
+      {code.expiresAt && code.expiresAt > 0 && (
+        <Typography textAlign="center" variant="body2" color="error">
+          <b>Expires</b>
+          <br />
+          {printDateTime(code.expiresAt)}
         </Typography>
       )}
 
@@ -152,7 +145,7 @@ const ViewCode: React.FC<{
         fullWidth
         variant="arcade"
         size="large"
-        color="secondary"
+        color="primary"
       >
         Access Code
       </Button>
@@ -163,13 +156,6 @@ const ViewCode: React.FC<{
           })}
         >
           Help Center
-        </Button>
-        <Button
-          href={routes.help.prizes.path({
-            bookmark: HelpPrizesQuestions.TradeCode,
-          })}
-        >
-          Trade Code
         </Button>
       </Row>
     </>

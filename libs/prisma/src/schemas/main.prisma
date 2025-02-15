@@ -32,8 +32,6 @@ model User {
   type             UserType              @default(USER)
   accounts         Account[]
   sessions         Session[]
-  // inventory & loot
-  inventory        Inventory[]
   // raffles
   participation    RaffleParticipation[]
   // socials
@@ -43,13 +41,12 @@ model User {
   tasks            TaskProgress[]
   // codes
   activationCode   ActivationCode[]
-  redemptionCodes  RedemptionCode[]
   // reports
   banned           Boolean               @default(false)
   reportsAgainst   UserReport[]          @relation(name: "Against")
   reportsSent      UserReport[]          @relation(name: "Sender")
   plays            GamePlayHistory[]
-  // integrations
+  prizes           Prize[]
   referredAction   ReferralAction[]      @relation(name: "ReferredAction")
   referrerAction   ReferralAction[]      @relation(name: "ReferrerAction")
   gameSessions     GameSession[]
@@ -103,128 +100,6 @@ model UserReport {
   against   User     @relation(name: "Against", fields: [againstId], references: [id], onDelete: Cascade)
   text      String   @db.VarChar(255)
   createdAt DateTime @default(now())
-}
-
-model Inventory {
-  id         String                @id @default(cuid())
-  itemId     String
-  item       Item                  @relation(fields: [itemId], references: [id], onDelete: Cascade)
-  quantity   Int
-  createdAt  DateTime              @default(now())
-  updatedAt  DateTime              @updatedAt
-  userId     String
-  user       User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
-  expiration InventoryExpiration[]
-  capsule    InventoryCapsule?
-
-  @@unique([itemId, userId])
-}
-
-// how do we stack loot crates?
-// we should only allow useres to open one loot crate at a time.
-// after the loot crate is opened, it'll have 3 usages.
-// if you watch an add you can get extra usages.
-// after you use all the usages, you can choose to open
-// another loot crate.
-
-model InventoryCapsule {
-  id          String          @id @default(cuid())
-  inventoryId String          @unique
-  inventory   Inventory       @relation(fields: [inventoryId], references: [id], onDelete: Cascade)
-  unlocks     Int
-  createdAt   DateTime        @default(now())
-  updatedAt   DateTime        @updatedAt
-  options     CapsuleOption[]
-}
-
-model CapsuleOption {
-  id        String           @id @default(cuid())
-  createdAt DateTime         @default(now())
-  updatedAt DateTime         @updatedAt
-  capsuleId String
-  capsule   InventoryCapsule @relation(fields: [capsuleId], references: [id], onDelete: Cascade)
-  itemId    String
-  item      Item             @relation(fields: [itemId], references: [id], onDelete: Cascade)
-  position  Int
-  unlocked  Boolean          @default(false)
-  quantity  Int
-
-  @@unique([capsuleId, position])
-}
-
-model InventoryExpiration {
-  id          String    @id @default(cuid())
-  inventoryId String
-  inventory   Inventory @relation(fields: [inventoryId], references: [id], onDelete: Cascade)
-  expiresAt   DateTime
-  lastSentAt  DateTime?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-}
-
-enum ItemType {
-  CURRENCY
-  STEAM_KEY
-  CONSUMABLE
-  SHARABLE
-  COMBAT
-  ETCETERA
-  CAPSULE
-  PRIZE_WHEEL
-}
-
-enum ItemRarity {
-  COMMON
-  UNCOMMON
-  RARE
-  LEGENDARY
-  MYTHIC
-  // items that have a monetary value
-  PREMIUM
-}
-
-model Item {
-  id              String           @id @default(cuid())
-  version         Int              @default(0)
-  code            String
-  type            ItemType
-  name            String
-  description     String
-  // TODO: remove default values for sell, buy, and rarity. Make these required after migration.
-  // how much this item sells for in the marketplace
-  sell            Int              @default(1)
-  // how much this item costs to purchase in the marketplace
-  // an item without a buy price can't be purchased.
-  buy             Int              @default(0)
-  rarity          ItemRarity       @default(COMMON)
-  imageUrl        String
-  expiration      Int?
-  createdAt       DateTime         @default(now())
-  updatedAt       DateTime         @updatedAt
-  inventory       Inventory[]
-  raffles         Raffle[]
-  activationCodes ActivationCode[]
-  redemptionCodes RedemptionCode[]
-  loot            Loot[]
-  capsuleOption   CapsuleOption[]
-}
-
-enum NewsletterTopic {
-  Transactional
-  NewRaffle
-  NewGame
-  NewAuction
-  WeeklyNewsletter
-  TipsAndTricks
-}
-
-model NewsletterSubscription {
-  id        String            @id @default(cuid())
-  email     String            @unique
-  topics    NewsletterTopic[] @default([Transactional, NewRaffle, NewGame, NewAuction, WeeklyNewsletter, TipsAndTricks])
-  confirmed Boolean           @default(false)
-  createdAt DateTime          @default(now())
-  updatedAt DateTime          @updatedAt
 }
 
 model ReferralCode {
@@ -365,9 +240,7 @@ model Game {
   tasks        Task[]
   gameSessions GameSession[]
   gameStorage  GameStorage[]
-  loot         Loot[]
   scores       GameScore[]
-  competitions GameCompetition[]
   achievements GameAchievement[]
 }
 
@@ -381,18 +254,6 @@ model GamePlayHistory {
   plays     Int      @default(1)
 
   @@unique([gameId, userId])
-}
-
-model StoredFile {
-  id           String   @id @default(cuid())
-  submissionId String
-  userId       String
-  name         String   @db.VarChar(255)
-  path         String   @db.VarChar(511)
-  size         Int      @default(0) // stored as MB
-  type         String   @db.VarChar(63)
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
 }
 
 model Sponsor {
@@ -413,19 +274,11 @@ enum RaffleStatus {
 
 model Raffle {
   id              Int                   @id @default(autoincrement())
-  version         Int                   @default(0)
   status          RaffleStatus
   expiresAt       DateTime
-  numWinners      Int                   @default(1)
-  name            String?
-  headline        String?
-  description     String?
-  imageUrl        String?               @db.VarChar(255)
-  premium         Boolean               @default(false)
-  itemId          String
-  item            Item                  @relation(fields: [itemId], references: [id])
-  // max purchasable entries per user
-  maxEntries      Int?
+  // prize
+  prizeId         Int                   @unique
+  prize           Prize                 @relation(fields: [prizeId], references: [id])
   // sponsorship
   sponsorId       String                @db.VarChar(127)
   sponsor         Sponsor               @relation(fields: [sponsorId], references: [id])
@@ -439,10 +292,29 @@ model Raffle {
   referralActions ReferralAction[]
 }
 
+enum PrizeType {
+  RANDOM_STEAM_KEY
+  STEAM_KEY
+}
+
+model Prize {
+  id          Int             @id @default(autoincrement())
+  raffle      Raffle?
+  type        PrizeType
+  name        String
+  headline    String
+  description String
+  imageUrl    String
+  // if type is STEAM_KEY, this is the associated activation code.
+  codeId      String?         @unique
+  code        ActivationCode? @relation(fields: [codeId], references: [id])
+  userId      String?
+  user        User?           @relation(fields: [userId], references: [id])
+}
+
 model RaffleParticipation {
   id         Int      @id @default(autoincrement())
   numEntries Int
-  purchased  Int      @default(0)
   // the user who bought the ticket
   userId     String
   user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -461,41 +333,32 @@ enum ActivationCodeType {
   STEAM
 }
 
+model Expiration {
+  id               String         @id @default(cuid())
+  expiresAt        DateTime
+  lastSentAt       DateTime?
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+  activationCodeId String         @unique
+  activationCode   ActivationCode @relation(fields: [activationCodeId], references: [id])
+}
+
 model ActivationCode {
   id         String             @id @default(cuid())
   createdAt  DateTime           @default(now())
   updatedAt  DateTime           @updatedAt
+  accessedAt DateTime?
+  expiration Expiration?
+  type       ActivationCodeType @default(STEAM)
+  name       String
+  imageUrl   String             @default("")
+  sourceUrl  String
   // the redemption/secret code for the prize.
   content    String
-  accessedAt DateTime?
-  type       ActivationCodeType @default(STEAM)
-
-  // ** Code Overrides **
-  // even though the item has a name, the code itself can have a different name.
-  // for example the source item could be "Random Steam Key" and the name would be "Steam Key for Game X"
-  name      String
-  imageUrl  String  @default("")
-  sourceUrl String
   // ** Relationships **
-  itemId    String?
-  item      Item?   @relation(fields: [itemId], references: [id])
-  userId    String?
-  user      User?   @relation(fields: [userId], references: [id])
-}
-
-// these codes are used to redeem prizes on the site as opposed to activation codes which are used to redeem external prizes.
-model RedemptionCode {
-  id         String    @id @default(cuid())
-  redeemedAt DateTime?
-  quantity   Int       @default(1)
-
-  // the item the code is for
-  itemId String
-  item   Item    @relation(fields: [itemId], references: [id])
-  // an owner can be assigned to the code without using a raffle.
-  // this is useful for assigning codes to users who win a prize in a different way.
-  userId String?
-  user   User?   @relation(fields: [userId], references: [id])
+  userId     String?
+  user       User?              @relation(fields: [userId], references: [id])
+  prize      Prize?
 }
 
 enum TaskStatus {
@@ -618,43 +481,6 @@ model RaffleAction {
   progress    TaskProgress[]
 }
 
-model Loot {
-  id            Int              @id @default(autoincrement())
-  itemId        String
-  item          Item             @relation(fields: [itemId], references: [id], onDelete: Cascade)
-  quantity      Int
-  chance        Float
-  gameId        String?
-  game          Game?            @relation(fields: [gameId], references: [id], onDelete: Cascade)
-  achievementId String?
-  achievement   GameAchievement? @relation(fields: [achievementId], references: [id], onDelete: Cascade)
-}
-
-enum IntegrationError {
-  // TODO: support more error types.
-  ACCESS_DENIED
-  INVALID_REFRESH_TOKEN
-  REDIRECT_MISMATCH
-  UNAUTHORIZED_CLIENT
-  UNSUPPORTED_RESPONSE_TYPE
-  INVALID_SCOPE
-  SERVER_ERROR
-  TEMPORARILY_UNAVAILABLE
-  INVALID_REQUEST
-  UNKNOWN
-}
-
-enum IntegrationStatus {
-  PENDING
-  AUTHORIZED
-  ERROR
-}
-
-enum IntegrationType {
-  OAUTH
-  API_KEY
-}
-
 model GameSession {
   id        String   @id @default(cuid())
   gameId    String
@@ -689,35 +515,6 @@ model GameScore {
   updatedAt DateTime @updatedAt
 }
 
-// TODO: implement competitions.
-// -- competitions are like leaderboards but they have a prize pool.
-// -- competitions can last for any duration, and can have a base prize pool, and a bonus prize pool.
-// for each game competition, whoever has the highest scores will earn a tokens.
-model GameCompetition {
-  id              String            @id @default(cuid())
-  version         Int               @default(0)
-  updatedAt       DateTime          @updatedAt
-  createdAt       DateTime          @default(now())
-  publishAt       DateTime
-  expiresAt       DateTime
-  gameId          String
-  game            Game              @relation(fields: [gameId], references: [id], onDelete: Cascade)
-  base            Int // base number of tokens to be distributed
-  playerBonus     Float // the bonus tokens to be distributed based on the # of participants.
-  submissionBonus Float // the bonus number of tokens to be distributed based on the # of scores submitted.
-  distribution    PrizeDistribution // the number of players that will receive a prize
-}
-
-enum PrizeDistribution {
-  TOP_1
-  TOP_2
-  TOP_3
-  TOP_4
-  TOP_6
-  TOP_8
-  TOP_10
-}
-
 model GameAchievement {
   id          String              @id
   version     Int                 @default(0)
@@ -729,7 +526,6 @@ model GameAchievement {
   createdAt   DateTime            @default(now())
   updatedAt   DateTime            @updatedAt
   secret      Boolean             @default(false)
-  loot        Loot[]
   players     PlayerAchievement[]
 
   @@unique([gameId, id])

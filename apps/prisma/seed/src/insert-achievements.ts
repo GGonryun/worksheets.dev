@@ -52,15 +52,6 @@ const insertAchievement = async (achievement: GameAchievementSchema) => {
         },
       },
     });
-
-    await tx.loot.createMany({
-      data: achievement.loot.map((loot) => ({
-        achievementId: achievement.id,
-        itemId: loot.itemId,
-        quantity: loot.quantity,
-        chance: loot.chance,
-      })),
-    });
   });
 };
 
@@ -76,21 +67,6 @@ const updateAchievement = async (achievement: GameAchievementSchema) => {
         description: achievement.description,
         iconUrl: achievement.iconUrl,
       },
-    });
-
-    await tx.loot.deleteMany({
-      where: {
-        achievementId: achievement.id,
-      },
-    });
-
-    await tx.loot.createMany({
-      data: achievement.loot.map((loot) => ({
-        achievementId: achievement.id,
-        itemId: loot.itemId,
-        quantity: loot.quantity,
-        chance: loot.chance,
-      })),
     });
   });
 };

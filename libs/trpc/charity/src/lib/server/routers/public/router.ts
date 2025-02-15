@@ -2,7 +2,6 @@ import { t } from '../../trpc';
 import categories from './categories/router';
 import developers from './developers/router';
 import games from './games/router';
-import items from './items/router';
 import raffles from './raffles/router';
 import referral from './referral/router';
 import usage from './usage/router';
@@ -14,7 +13,6 @@ export default t.router({
   categories,
   developers,
   games,
-  items,
   users,
   referral,
 });

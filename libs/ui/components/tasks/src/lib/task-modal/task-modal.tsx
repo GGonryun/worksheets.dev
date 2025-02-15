@@ -1,5 +1,4 @@
-import { ExpandLess, ExpandMore } from '@mui/icons-material';
-import { Box, Button, Collapse, Typography, useTheme } from '@mui/material';
+import { Box, Button, Typography, useTheme } from '@mui/material';
 import { routes } from '@worksheets/routes';
 import { Column, Row } from '@worksheets/ui/components/flex';
 import { PulsingLogo } from '@worksheets/ui/components/loading';
@@ -26,9 +25,10 @@ export const TaskModal: React.FC<
   >
 > = (props) => {
   const { task, actions, isLoading, rewards, ...modalProps } = props;
+  const colorKey = selectTaskColor(task.status);
 
   return (
-    <InfoModal {...modalProps} infoHref={routes.help.path()}>
+    <InfoModal {...modalProps} infoHref={routes.help.path()} color={colorKey}>
       <TaskModalContent
         task={task}
         actions={actions}
@@ -46,7 +46,6 @@ export const TaskModalContent: React.FC<
   }
 > = (props) => {
   const { task, actions, isLoading, rewards } = props;
-  const [open, setOpen] = React.useState(false);
   const { name, description, expiresAt, status } = task;
   const theme = useTheme();
   const Icon = selectTaskStatusIcon(task.status, task.type);
@@ -65,15 +64,15 @@ export const TaskModalContent: React.FC<
               <Button variant="square" color={colorKey} size="small">
                 <Icon />
               </Button>
+              <Column alignItems="flex-start" pl={5.5} mt={-4.5}>
+                <Typography variant="body3" color={color} fontWeight={500}>
+                  {category} - {type}
+                </Typography>
+                <Typography variant="body3" color={color} fontWeight={500}>
+                  {frequency} Task
+                </Typography>
+              </Column>
             </Box>
-            <Column alignItems="flex-end" pr={3}>
-              <Typography variant="body3" color={color} fontWeight={500}>
-                {category} - {type}
-              </Typography>
-              <Typography variant="body3" color={color} fontWeight={500}>
-                {frequency} Task
-              </Typography>
-            </Column>
           </Row>
           <Column alignItems="flex-start" textAlign="left">
             <Typography variant="h6">{name}</Typography>
@@ -86,7 +85,7 @@ export const TaskModalContent: React.FC<
             <b>{printDateTime(expiresAt)}</b>
           </Typography>
         )}
-        <Box width="100%">
+        <Box width="100%" mb={2}>
           {isLoading ? (
             <PulsingLogo />
           ) : (
@@ -94,21 +93,6 @@ export const TaskModalContent: React.FC<
           )}
         </Box>
       </Column>
-      {rewards && (
-        <Column>
-          <Button
-            onClick={() => setOpen((o) => !o)}
-            size="small"
-            variant="arcade"
-            color="secondary"
-            endIcon={open ? <ExpandLess /> : <ExpandMore />}
-            sx={{ width: 'fit-content' }}
-          >
-            View Rewards
-          </Button>
-          <Collapse in={open}>{rewards}</Collapse>
-        </Column>
-      )}
     </Column>
   );
 };

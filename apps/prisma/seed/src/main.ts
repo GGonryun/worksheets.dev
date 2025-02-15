@@ -4,7 +4,6 @@ import { insertAchievements } from './insert-achievements';
 import { insertCategories } from './insert-categories';
 import { insertDevelopers } from './insert-developers';
 import { insertGames } from './insert-games';
-import { insertItems } from './insert-items';
 import { insertSponsors } from './insert-sponsors';
 import { insertTasks } from './insert-tasks';
 import { insertViewports } from './insert-viewports';
@@ -15,7 +14,6 @@ async function main() {
     await insertViewports();
     await insertDevelopers();
     await insertSponsors();
-    await insertItems();
     await insertGames();
     await insertAchievements();
     await insertTasks();

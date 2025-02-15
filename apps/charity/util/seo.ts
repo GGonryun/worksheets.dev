@@ -2,7 +2,6 @@ import { routes } from '@worksheets/routes';
 import { OpenGraphProps, TWITTER_SEO } from '@worksheets/util/seo';
 import {
   DeveloperSchema,
-  ItemSchema,
   RaffleSchema,
   SerializableGameSchema,
   TagSchema,
@@ -303,16 +302,3 @@ export const librarySeo = createSeo({
   description:
     'Find and play your favorite mobile and desktop games for free on Charity Games. The easiest way to donate to charity.',
 });
-
-export const itemsSeo = createSeo({
-  path: routes.items.path(),
-  title: 'Items',
-  description: 'View all items available on Charity Games.',
-});
-
-export const itemSeo = (item: ItemSchema): NextSeoProps =>
-  createSeo({
-    path: routes.item.path({ params: { itemId: item.id } }),
-    title: `${item.name} | Item`,
-    description: `View ${item.name} and learn how to use it. Win prizes by playing browser games.`,
-  });

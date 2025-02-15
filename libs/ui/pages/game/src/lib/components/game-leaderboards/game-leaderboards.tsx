@@ -1,4 +1,12 @@
-import { Box, MenuItem, Select, Typography } from '@mui/material';
+import { AccessTime, EmojiEvents, Leaderboard } from '@mui/icons-material';
+import {
+  Box,
+  MenuItem,
+  Select,
+  styled,
+  Tooltip,
+  Typography,
+} from '@mui/material';
 import { trpc } from '@worksheets/trpc-charity';
 import { Description } from '@worksheets/ui/components/description';
 import { Column } from '@worksheets/ui/components/flex';
@@ -16,12 +24,11 @@ import { NO_REFETCH } from '@worksheets/util/trpc';
 import {
   LEADERBOARD_FREQUENCY,
   LEADERBOARD_FREQUENCY_LABELS,
-  LEADERBOARD_REWARD_PAYOUT,
   LeaderboardFrequency,
 } from '@worksheets/util/types';
 import { useSession } from 'next-auth/react';
 import pluralize from 'pluralize';
-import { FC, useState } from 'react';
+import React, { FC, useState } from 'react';
 
 import { LeaderboardTable } from './leaderboard-table';
 
@@ -32,7 +39,7 @@ export const GameLeaderboards: FC<{
   return (
     <Box mt={2}>
       <Description
-        title="Leaderboards"
+        title="Leaderboard"
         description={<Content gameId={gameId} frequency={frequency} />}
         ancillary={
           <SelectFrequency current={frequency} onChange={setFrequency} />
@@ -112,83 +119,55 @@ const Content: React.FC<{
   return (
     <Column gap={3}>
       <Column>
-        <Typography color="text.arcade" typography="h6">
-          Information
-        </Typography>
-        <LeaderboardTimestamps frequency={frequency} />
-      </Column>
-      <Column>
-        <Typography color="text.arcade" typography="h6">
-          Top Players
-        </Typography>
-        <Typography color="text.arcade" typography="body2">
-          Showing top {leaderboard.data.players.length} players
-        </Typography>
-        <Typography color="text.arcade" typography="body2" gutterBottom>
-          {participation.data?.rank ? (
-            <>
-              Your rank:{' '}
-              <u>
-                {participation.data.rank}
-                {nth(participation.data.rank)}
-              </u>
-            </>
-          ) : (
-            <i>You have not participated in this leaderboard yet</i>
-          )}
-        </Typography>
         <LeaderboardTable
-          frequency={frequency}
-          players={leaderboard.data.players}
+          players={leaderboard.data?.players ?? []}
           participation={participation.data ?? null}
         />
       </Column>
-
-      <Column>
-        <Typography color="text.arcade" typography="h6">
-          Leaderboard Rewards
-        </Typography>
-        <LeaderboardPayouts frequency={frequency} />
+      <Column mt={-1} gap={0.5} sx={{ width: 'fit-content' }}>
+        <TotalPlayers total={leaderboard.data?.players.length} />
+        <PlayerPosition rank={participation.data?.rank} />
+        <LeaderboardTimestamps frequency={frequency} />
       </Column>
     </Column>
   );
 };
 
-const LeaderboardPayouts: React.FC<{
-  frequency: LeaderboardFrequency;
-}> = ({ frequency }) => {
-  const payouts = LEADERBOARD_REWARD_PAYOUT[frequency];
-  if (!payouts.length) {
-    return (
-      <Typography color="text.arcade" typography="body2">
-        No rewards for this leaderboard
-      </Typography>
-    );
-  }
+const DetailText = styled(Typography)(({ theme }) => ({
+  color: theme.palette.text.arcade,
+  fontSize: theme.typography.body2.fontSize,
+  fontWeight: theme.typography.fontWeightMedium,
+  display: 'flex',
+  alignItems: 'center',
+  gap: theme.spacing(1),
+}));
+
+const TotalPlayers: React.FC<{ total?: number }> = ({ total }) => {
   return (
-    <Column gap={0.5}>
-      <Typography color="text.arcade" typography="body2">
-        Tokens are distributed to the{' '}
-        <b>
-          Top {payouts.length} {LEADERBOARD_FREQUENCY_LABELS[frequency]}
-        </b>{' '}
-        players as follows:
-      </Typography>
-      <Column gap={0.25}>
-        {payouts.map((payout, i) => (
-          <Typography key={i} color="text.arcade" typography="body2">
-            <b>
-              {i + 1}
-              {nth(i + 1)}
-            </b>{' '}
-            — {payout} {payout ? pluralize('token', payout) : 'No reward'}
-          </Typography>
-        ))}
-      </Column>
-      <Typography color="text.arcade" typography="body2">
-        Tie-breakers are determined by the <b>earliest submission</b>.
-      </Typography>
-    </Column>
+    <DetailText>
+      <Leaderboard fontSize="small" />{' '}
+      {`${total} ${pluralize('participant', total)}`}
+    </DetailText>
+  );
+};
+
+const PlayerPosition: React.FC<{
+  rank?: number;
+}> = ({ rank }) => {
+  return (
+    <DetailText>
+      {rank ? (
+        <>
+          <EmojiEvents fontSize="small" />
+          <span>
+            {rank}
+            {nth(rank)} place
+          </span>
+        </>
+      ) : (
+        <span>You have not participated in this leaderboard yet</span>
+      )}
+    </DetailText>
   );
 };
 
@@ -198,27 +177,26 @@ const LeaderboardTimestamps: React.FC<{
   const timestamps = getLeaderboardTimestamps(frequency);
 
   if (timestamps == null)
-    return (
-      <Typography color="text.arcade" typography="body2">
-        Leaderboard never expires
-      </Typography>
-    );
+    return <DetailText>Leaderboard never expires</DetailText>;
 
   return (
-    <Column>
-      <Typography color="text.arcade" typography="body2">
-        Started at: {printDateTime(timestamps.start)}
-      </Typography>
-      <Typography color="text.arcade" typography="body2">
-        Resets at: {printDateTime(timestamps.end)}
-      </Typography>
-      <Typography color="text.arcade" typography="body2">
-        Time remaining:{' '}
+    <Tooltip
+      title={`Leaderboard resets ${printDateTime(timestamps.end)}`}
+      arrow
+    >
+      <DetailText
+        color="text.arcade"
+        typography="body2"
+        display="flex"
+        alignItems="center"
+        gap={1}
+      >
+        <AccessTime fontSize="small" />
         {durationToString(
           millisecondsAsDuration(timestamps.end.getTime() - Date.now())
         )}
-      </Typography>
-    </Column>
+      </DetailText>
+    </Tooltip>
   );
 };
 

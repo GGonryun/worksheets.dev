@@ -1,32 +1,29 @@
 import { TRPCError } from '@trpc/server';
-import { ItemId } from '@worksheets/data/items';
 import { PrismaClient, PrismaTransactionalClient } from '@worksheets/prisma';
-import { InventoryService } from '@worksheets/services/inventory';
-import { RAFFLE_ENTRY_FEE } from '@worksheets/util/settings';
+import { randomArrayElement } from '@worksheets/util/arrays';
+import { assertNever } from '@worksheets/util/errors';
+import { BASE_EXPIRATION_TIME } from '@worksheets/util/settings';
+import { daysFromNow } from '@worksheets/util/time';
 
 import { ExpiredRaffle } from './types';
-import { pickWinners } from './util/winners';
+import { BasicUserInfo, pickWinners, Winner } from './util/winners';
 
 export * from './types';
 
 export class RafflesService {
   #db: PrismaClient | PrismaTransactionalClient;
-  #inventory: InventoryService;
   constructor(db: PrismaClient | PrismaTransactionalClient) {
     this.#db = db;
-    this.#inventory = new InventoryService(db);
   }
 
   async addEntries({
     userId,
     raffleId,
     entries,
-    bonus,
   }: {
     userId: string;
     raffleId: number;
     entries: number;
-    bonus: boolean;
   }) {
     const raffle = await this.#db.raffle.findFirst({
       where: {
@@ -65,9 +62,7 @@ export class RafflesService {
       });
     }
 
-    const purchased = bonus ? 0 : entries;
-
-    const update = await this.#db.raffleParticipation.upsert({
+    await this.#db.raffleParticipation.upsert({
       where: {
         userId_raffleId: {
           userId,
@@ -78,33 +73,13 @@ export class RafflesService {
         userId,
         raffleId,
         numEntries: entries,
-        purchased,
       },
       update: {
         numEntries: {
           increment: entries,
         },
-        purchased: {
-          increment: purchased,
-        },
       },
     });
-
-    if (!bonus) {
-      await this.#inventory.decrement(userId, {
-        itemId: '1',
-        // TODO: customizable entry fee.
-        quantity: RAFFLE_ENTRY_FEE * entries,
-      });
-
-      if (raffle.maxEntries != null && update.purchased > raffle.maxEntries) {
-        throw new TRPCError({
-          code: 'BAD_REQUEST',
-          message: 'You cannot exceed the maximum number of entries',
-          cause: `User ${userId} has already purchased ${update.purchased} entries for this raffle where the max is ${raffle.maxEntries}.`,
-        });
-      }
-    }
   }
 
   async processExpiredRaffle(raffle: ExpiredRaffle) {
@@ -151,7 +126,7 @@ export class RafflesService {
       },
     });
 
-    const winners = pickWinners(raffle.numWinners, participants);
+    const winners = pickWinners(1, participants);
 
     console.info('Winners:', winners.map((w) => w.user.email).join(', '));
 
@@ -165,26 +140,147 @@ export class RafflesService {
         },
       });
 
-      await this.#inventory.increment(
-        winner.user.id,
-        raffle.item.id as ItemId,
-        1
-      );
+      await this.awardPrize({ ...raffle, winner });
     }
 
     const losers = participants.filter(
       (p) => !winners.some((w) => w.participationId === p.id)
     );
 
-    console.info('Losers:', losers.map((w) => w.user.email).join(', '));
-
-    for (const loser of losers) {
-      await this.#inventory.increment(loser.user.id, '1', loser.numEntries);
-    }
     return {
       raffle,
       losers,
       winners,
     };
+  }
+
+  private async awardPrize(opts: {
+    winner: Winner;
+    prize: ExpiredRaffle['prize'];
+  }) {
+    switch (opts.prize.type) {
+      case 'RANDOM_STEAM_KEY':
+        return this.awardRandomSteamKey({
+          prize: opts.prize,
+          user: opts.winner.user,
+        });
+      case 'STEAM_KEY':
+        return this.awardSteamKey({
+          prize: opts.prize,
+          user: opts.winner.user,
+        });
+      default:
+        throw assertNever(opts.prize.type);
+    }
+  }
+
+  private async awardRandomSteamKey(opts: {
+    prize: ExpiredRaffle['prize'];
+    user: BasicUserInfo;
+  }) {
+    const codes = await this.#db.activationCode.findMany({
+      where: {
+        // This is required to prevent users from claiming a key that's already assigned to a prize or another user
+        userId: null,
+        prize: null,
+      },
+      select: {
+        id: true,
+      },
+    });
+
+    if (!codes.length) {
+      console.error('No unclaimed Steam keys available');
+      throw new TRPCError({
+        code: 'INTERNAL_SERVER_ERROR',
+        message: 'No unclaimed Steam keys available',
+      });
+    }
+
+    // select a random code and assign it to the user.
+    const code = randomArrayElement(codes);
+    await this.#db.activationCode.update({
+      where: {
+        id: code.id,
+      },
+      data: {
+        userId: opts.user.id,
+      },
+    });
+    // assign the code to the prize and user for tracking purposes.
+    await this.#db.prize.update({
+      where: {
+        id: opts.prize.id,
+      },
+      data: {
+        codeId: code.id,
+        userId: opts.user.id,
+      },
+    });
+    // create an expiration date for the code
+    await this.#db.expiration.create({
+      data: {
+        activationCodeId: code.id,
+        expiresAt: daysFromNow(BASE_EXPIRATION_TIME),
+      },
+    });
+  }
+
+  private async awardSteamKey(opts: {
+    prize: ExpiredRaffle['prize'];
+    user: BasicUserInfo;
+  }) {
+    if (!opts.prize.codeId) {
+      throw new TRPCError({
+        code: 'INTERNAL_SERVER_ERROR',
+        message: `Prize ${opts.prize.id} does not have a code`,
+      });
+    }
+
+    const code = await this.#db.activationCode.findUnique({
+      where: {
+        id: opts.prize.codeId,
+      },
+    });
+
+    if (!code) {
+      throw new TRPCError({
+        code: 'INTERNAL_SERVER_ERROR',
+        message: `Code ${opts.prize.codeId} does not exist`,
+      });
+    }
+
+    if (code.userId) {
+      throw new TRPCError({
+        code: 'INTERNAL_SERVER_ERROR',
+        message: `Code ${code.id} is already assigned to a user`,
+      });
+    }
+
+    await this.#db.activationCode.update({
+      where: {
+        id: code.id,
+      },
+      data: {
+        userId: opts.user.id,
+      },
+    });
+    // assign the code to the prize and user for tracking purposes.
+    await this.#db.prize.update({
+      where: {
+        id: opts.prize.id,
+      },
+      data: {
+        codeId: code.id,
+        userId: opts.user.id,
+      },
+    });
+    // create an expiration date for the code
+    await this.#db.expiration.create({
+      data: {
+        activationCodeId: code.id,
+        expiresAt: daysFromNow(BASE_EXPIRATION_TIME),
+      },
+    });
   }
 }

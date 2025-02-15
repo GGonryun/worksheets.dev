@@ -23,6 +23,7 @@ export class DiscordTemplates {
       channel: 'admin',
     };
   }
+
   static gameReport(
     opts: ExtractTemplatePayload<'game-report'>
   ): DiscordMessageInput {
@@ -37,6 +38,7 @@ export class DiscordTemplates {
       channel: 'admin',
     };
   }
+
   static newGame(
     opts: ExtractTemplatePayload<'new-game'>
   ): DiscordMessageInput {
@@ -51,6 +53,7 @@ export class DiscordTemplates {
       channel: 'notification',
     };
   }
+
   static newRaffle(
     opts: ExtractTemplatePayload<'new-raffle'>
   ): DiscordMessageInput {
@@ -59,16 +62,16 @@ export class DiscordTemplates {
       embeds: [
         {
           title: `🎁 ${opts.name} giveaway!`,
-          description: `🏆 ${opts.numWinners} lucky ${pluralize(
-            'winner',
-            opts.numWinners
-          )} will be chosen on ${printShortDate(opts.expiresAt)}.`,
+          description: `🏆 1 lucky winner will be chosen on ${printShortDate(
+            opts.expiresAt
+          )}.`,
           url: routes.raffle.url({ params: { raffleId: opts.id } }),
         },
       ],
       channel: 'notification',
     };
   }
+
   static expiredItem(
     opts: ExtractTemplatePayload<'expired-item'>
   ): DiscordMessageInput {
@@ -77,7 +80,7 @@ export class DiscordTemplates {
       embeds: [
         {
           title: `User ID: ${opts.user.id}`,
-          description: `The user (${opts.user.email}) did not access their item (${opts.item.name}) in time. The item has expired.`,
+          description: `The user (${opts.user.email}) did not access their code (${opts.code.name}) in time. The item has expired.`,
         },
       ],
       channel: 'admin',
@@ -88,11 +91,7 @@ export class DiscordTemplates {
     opts: ExtractTemplatePayload<'raffle-expired'>
   ): DiscordMessageInput {
     return {
-      content: `${opts.name} giveaway has expired and ${
-        opts.numWinners
-      } ${pluralize('winners', opts.numWinners)} ${
-        opts.numWinners > 1 ? 'have' : 'has'
-      } been chosen.`,
+      content: `${opts.name} giveaway has expired and a winner chosen.`,
       embeds: [
         {
           title: `Raffle ID: ${opts.id}`,
@@ -106,6 +105,7 @@ export class DiscordTemplates {
       channel: 'notification',
     };
   }
+
   static newUser(
     opts: ExtractTemplatePayload<'new-user'>
   ): DiscordMessageInput {

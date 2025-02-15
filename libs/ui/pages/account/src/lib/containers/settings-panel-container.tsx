@@ -16,9 +16,7 @@ import { useState } from 'react';
 import { ClearStorageModal, DeleteAccountModal } from '../components';
 import { useBasicInformationForm } from '../hooks';
 import { ActivationCodesSection } from '../panels/inventory-panel/activation-codes-section/activation-code-section';
-import { InventoryItemsSection } from '../panels/inventory-panel/inventory-section/inventory-items-section';
 import { RaffleParticipationSection } from '../panels/inventory-panel/raffle-participation-section';
-import { RedemptionCodesSection } from '../panels/inventory-panel/redemption-codes-section';
 import { ReferralsSection } from '../panels/referrals-panel/sections/referrals-section';
 import { BasicInformationFormContextProvider } from '../panels/settings-panel/context/provider';
 import { DangerZoneSection } from '../panels/settings-panel/sections/danger-zone-section';
@@ -121,7 +119,6 @@ export const SettingsPanelContainer: React.FC = () => {
           sections={(active, toggle) => (
             <>
               <ProfileSection active={active} onClick={toggle} />
-              <InventoryItemsSection active={active} onClick={toggle} />
               <ActivationCodesSection
                 codes={codes.data ?? []}
                 active={active}
@@ -141,7 +138,7 @@ export const SettingsPanelContainer: React.FC = () => {
                 onClick={toggle}
                 raffles={enteredRaffles.data ?? []}
               />
-              <RedemptionCodesSection active={active} onClick={toggle} />
+
               <DangerZoneSection
                 active={active}
                 onClick={toggle}

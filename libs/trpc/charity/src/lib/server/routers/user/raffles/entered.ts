@@ -22,23 +22,10 @@ export default protectedProcedure
         },
         userId: user.id,
       },
-      select: {
-        numEntries: true,
+      include: {
         raffle: {
-          select: {
-            id: true,
-            name: true,
-            status: true,
-            expiresAt: true,
-            imageUrl: true,
-            item: {
-              select: {
-                id: true,
-                type: true,
-                name: true,
-                imageUrl: true,
-              },
-            },
+          include: {
+            prize: true,
           },
         },
       },
@@ -46,11 +33,10 @@ export default protectedProcedure
 
     return participation.map((p) => ({
       id: p.raffle.id,
-      type: p.raffle.item.type,
-      itemId: p.raffle.item.id,
+      type: p.raffle.prize.type,
       status: p.raffle.status,
-      name: p.raffle.name ?? p.raffle.item.name,
-      imageUrl: p.raffle.imageUrl ?? p.raffle.item.imageUrl,
+      name: p.raffle.prize.name,
+      imageUrl: p.raffle.prize.imageUrl,
       entries: p.numEntries,
       expiresAt: p.raffle.expiresAt.getTime(),
     }));

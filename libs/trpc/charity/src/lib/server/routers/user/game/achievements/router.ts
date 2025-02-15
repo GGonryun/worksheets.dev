@@ -1,6 +1,4 @@
 import { TRPCError } from '@trpc/server';
-import { ItemId } from '@worksheets/data/items';
-import { InventoryService } from '@worksheets/services/inventory';
 import { retryTransaction } from '@worksheets/util/prisma';
 import { playerGameAchievementSchema } from '@worksheets/util/types';
 import { z } from 'zod';
@@ -125,11 +123,6 @@ export default t.router({
             },
             include: {
               game: true,
-              loot: {
-                include: {
-                  item: true,
-                },
-              },
             },
           });
 
@@ -154,22 +147,12 @@ export default t.router({
           }
 
           await retryTransaction(db, async (tx) => {
-            const inventory = new InventoryService(tx);
             await tx.playerAchievement.create({
               data: {
                 userId: session.userId,
                 achievementId: achievement.id,
               },
             });
-            console.info(`Awarding loot for achievement "${achievement.name}"`);
-            for (const l of achievement.loot) {
-              // TODO: all achievement loots should have a guaranteed drop rate.
-              await inventory.increment(
-                user.id,
-                l.itemId as ItemId,
-                l.quantity
-              );
-            }
           });
 
           messages.push(`Achievement "${achievement.name}" unlocked`);

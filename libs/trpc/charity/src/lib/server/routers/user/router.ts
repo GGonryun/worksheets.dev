@@ -7,9 +7,7 @@ import gameTime from './gameTime/router';
 import get from './get';
 import initialize from './initialize';
 import integrations from './integrations/router';
-import inventory from './inventory';
 import leaderboards from './leaderboards/router';
-import newsletter from './newsletter/router';
 import profile from './profile/router';
 import raffles from './raffles/router';
 import referrals from './referrals/router';
@@ -27,9 +25,7 @@ export default t.router({
   raffles,
   game,
   initialize,
-  newsletter,
   tasks,
-  inventory,
   delete: destroy,
   codes,
   integrations,

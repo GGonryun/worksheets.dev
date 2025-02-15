@@ -36,25 +36,10 @@ export default protectedProcedure
 
     await initializeUser(db, user.id, MAX_ATTEMPTS);
     await setReferralCode(db, user, input?.referralCode);
-    await commitToNewsletter(db, user.email);
     await notifications.send('new-user', { user });
     await notifications.send('welcome-user', { user });
 
     return true;
-  });
-
-const commitToNewsletter = async (db: PrismaClient, email: string) =>
-  await db.newsletterSubscription.upsert({
-    where: {
-      email,
-    },
-    create: {
-      email,
-      confirmed: true,
-    },
-    update: {
-      confirmed: true,
-    },
   });
 
 const initializeUser = async (

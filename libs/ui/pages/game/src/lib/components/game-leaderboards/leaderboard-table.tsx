@@ -15,12 +15,7 @@ import {
 import { ValentinesWings } from '@worksheets/icons/valentines';
 import { routes } from '@worksheets/routes';
 import { Row } from '@worksheets/ui/components/flex';
-import {
-  LEADERBOARD_REWARD_PAYOUT,
-  LeaderboardFrequency,
-  LeaderboardPlayerSchema,
-} from '@worksheets/util/types';
-import pluralize from 'pluralize';
+import { LeaderboardPlayerSchema } from '@worksheets/util/types';
 
 const StyledBox = styled(Box)(({ theme }) => ({
   borderRadius: theme.shape.borderRadius * 2,
@@ -37,11 +32,10 @@ const StyledBox = styled(Box)(({ theme }) => ({
 }));
 
 export const LeaderboardTable: React.FC<{
-  frequency: LeaderboardFrequency;
   players: LeaderboardPlayerSchema[];
   participation: LeaderboardPlayerSchema | null;
-}> = ({ frequency, players, participation }) => {
-  const rankThreshold = LEADERBOARD_REWARD_PAYOUT[frequency].length;
+}> = ({ players, participation }) => {
+  const rankThreshold = 3;
   if (players.length === 0) {
     return <Placeholder />;
   }
@@ -104,7 +98,6 @@ export const LeaderboardTable: React.FC<{
                   >
                     {player.user.username}
                   </Typography>
-                  <PlayerPayout frequency={frequency} rank={player.rank} />
                 </Row>
               </TableCell>
 
@@ -124,19 +117,6 @@ export const LeaderboardTable: React.FC<{
         </TableBody>
       </Table>
     </TableContainer>
-  );
-};
-
-const PlayerPayout: React.FC<{
-  frequency: LeaderboardFrequency;
-  rank: number;
-}> = ({ frequency, rank }) => {
-  const payout = LEADERBOARD_REWARD_PAYOUT[frequency][rank - 1];
-  if (!payout) return null;
-  return (
-    <Typography typography="body3" fontWeight={700}>
-      +{payout} {pluralize('tokens', payout)}
-    </Typography>
   );
 };
 

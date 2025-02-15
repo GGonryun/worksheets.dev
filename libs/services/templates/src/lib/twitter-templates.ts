@@ -14,24 +14,18 @@ export class TwitterTemplates {
     }!\n\n${GAME_URL(opts.id)}\n\n#HTML5Games #FreeGames #BrowserGames`;
   }
   static newRaffle(opts: ExtractTemplatePayload<'new-raffle'>) {
-    if (!opts.premium) return;
-
-    return `🎊 GIVEAWAY 🎊\n🎁 Enter our ${opts.name} giveaway!\n\n🏆 ${
-      opts.numWinners
-    } lucky ${pluralize(
-      'winner',
-      opts.numWinners
-    )} will be chosen on ${printShortDate(opts.expiresAt)}.\n\n${RAFFLE_URL(
-      opts.id
-    )}\n\n#Giveaway #Sweepstakes #Raffle`;
+    return `🎊 GIVEAWAY 🎊\n🎁 Enter our ${
+      opts.name
+    } giveaway!\n\n🏆 1 lucky winner will be chosen on ${printShortDate(
+      opts.expiresAt
+    )}.\n\n${RAFFLE_URL(opts.id)}\n\n#Giveaway #Sweepstakes #Raffle`;
   }
   static raffleExpired(opts: ExtractTemplatePayload<'raffle-expired'>) {
-    if (!opts.premium) return;
-    return `🎉 Giveaway #${opts.id} for ${opts.name} has ended! 🎉\n\n${
-      opts.numWinners
-    } lucky ${pluralize('winner', opts.numWinners)} ${
-      opts.numWinners > 1 ? 'were' : 'was'
-    } chosen out of ${opts.participants.length} ${pluralize(
+    return `🎉 Giveaway #${opts.id} for ${
+      opts.name
+    } has ended! 🎉\n\n1 lucky winner was chosen out of ${
+      opts.participants.length
+    } ${pluralize(
       'participant',
       opts.participants.length
     )}. View results: ${RAFFLE_URL(opts.id)}`;

@@ -37,7 +37,7 @@ export const helpPrizes: QuestionAnswer[] = [
         <HelpfulLinks
           links={[
             {
-              text: 'Access your inventory',
+              text: 'Access your account',
               href: routes.account.path(),
             },
             { text: 'View Raffles', href: routes.raffles.path() },
@@ -84,13 +84,13 @@ export const helpPrizes: QuestionAnswer[] = [
           <br />
           If you have won a prize, you will receive a notification and an email
           to claim your prize. You can find all your prizes in your{' '}
-          <Link href={routes.account.path()}>inventory page</Link>.
+          <Link href={routes.account.path()}>account page</Link>.
         </Typography>
         <br />
         <HelpfulLinks
           links={[
             { text: 'Enter Raffles', href: routes.raffles.expired.path() },
-            { text: 'See my inventory', href: routes.account.path() },
+            { text: 'See my account', href: routes.account.path() },
           ]}
         />
       </Box>
@@ -99,21 +99,21 @@ export const helpPrizes: QuestionAnswer[] = [
   {
     id: HelpPrizesQuestions.HowToClaim,
     question: 'How do I claim prizes?',
-    summary: 'You can claim prizes by visiting the inventory page.',
+    summary: 'You can claim prizes by visiting the account page.',
     answer: (
       <Box>
         <Typography>
           You can claim prizes by visiting the{' '}
           <Link
             href={routes.account.path({
-              bookmark: SettingsPanels.Items,
+              bookmark: SettingsPanels.ActivationCodes,
             })}
           >
-            inventory page
+            account page
           </Link>
-          . If you have won a prize, you will receive a notification to claim
-          your prize. You can find all your prizes in your{' '}
-          <Link href={routes.account.path()}>inventory page</Link>.
+          . If you have won a prize, you will receive an email to claim your
+          prize. You can find all your prizes in your{' '}
+          <Link href={routes.account.path()}>account page</Link>.
           <br />
           <br />
           We will attempt to deliver your prize to you within 24 hours. If you
@@ -129,7 +129,7 @@ export const helpPrizes: QuestionAnswer[] = [
         <br />
         <HelpfulLinks
           links={[
-            { text: 'See my inventory', href: routes.account.path() },
+            { text: 'See my account', href: routes.account.path() },
             {
               text: 'Contact Us',
               href: routes.contact.path(),

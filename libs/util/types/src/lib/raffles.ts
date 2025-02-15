@@ -1,4 +1,4 @@
-import { ItemType, Prisma, RaffleStatus } from '@worksheets/prisma';
+import { Prisma, PrizeType, RaffleStatus } from '@worksheets/prisma';
 import { z } from 'zod';
 
 export const raffleCategorySchema = z.enum([
@@ -21,18 +21,15 @@ export type FilterableRaffleCategory = Extract<
 
 export const raffleSchema = z.object({
   id: z.number(),
-  itemId: z.string(),
+  type: z.nativeEnum(PrizeType),
   name: z.string(),
   description: z.string(),
   headline: z.string(),
+  imageUrl: z.string(),
   createdAt: z.number(),
   expiresAt: z.number(),
   status: z.nativeEnum(RaffleStatus),
   publishAt: z.number(),
-  imageUrl: z.string(),
-  numWinners: z.number(),
-  type: z.nativeEnum(ItemType),
-  maxEntries: z.number().nullable(),
   sponsor: z.object({
     name: z.string(),
     logo: z.string(),
@@ -53,33 +50,29 @@ export const participationSchema = z.object({
 
 export type ParticipationSchema = z.infer<typeof participationSchema>;
 
-export const userParticipationSchema = participationSchema.extend({
-  purchased: z.number(),
-});
-
-export type UserParticipationSchema = z.infer<typeof userParticipationSchema>;
-
 export type BasicRaffleDetails = Pick<
   RaffleSchema,
   'id' | 'name' | 'imageUrl' | 'expiresAt' | 'status' | 'type'
 >;
 
 export const convertRaffle = (
-  raffle: Prisma.RaffleGetPayload<{ include: { item: true; sponsor: true } }>
+  raffle: Prisma.RaffleGetPayload<{
+    include: {
+      sponsor: true;
+      prize: true;
+    };
+  }>
 ): RaffleSchema => ({
   id: raffle.id,
-  itemId: raffle.item.id,
-  name: raffle.name ?? raffle.item.name,
-  description: raffle.description ?? raffle.item.description,
-  headline: raffle.headline ?? raffle.item.description,
+  name: raffle.prize.name,
+  description: raffle.prize.description,
+  headline: raffle.prize.headline,
   createdAt: raffle.createdAt.getTime(),
   expiresAt: raffle.expiresAt.getTime(),
   publishAt: raffle.publishAt?.getTime(),
-  imageUrl: raffle.imageUrl ?? raffle.item.imageUrl,
-  numWinners: raffle.numWinners,
-  type: raffle.item.type,
+  imageUrl: raffle.prize.imageUrl,
+  type: raffle.prize.type,
   status: raffle.status,
-  maxEntries: raffle.maxEntries,
   sponsor: {
     name: raffle.sponsor.name,
     logo: raffle.sponsor.logo,
@@ -89,13 +82,12 @@ export const convertRaffle = (
 
 export const enteredRaffleSchema = z.object({
   id: z.number(),
-  itemId: z.string(),
+  type: z.nativeEnum(PrizeType),
   status: z.nativeEnum(RaffleStatus),
   name: z.string(),
   imageUrl: z.string(),
   entries: z.number(),
   expiresAt: z.number(),
-  type: z.nativeEnum(ItemType),
 });
 
 export type EnteredRaffleSchema = z.infer<typeof enteredRaffleSchema>;

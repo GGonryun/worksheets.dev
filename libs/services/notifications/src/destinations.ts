@@ -20,8 +20,8 @@ const wonRaffleTemplates: TemplateBuilder<'won-raffle'> = (payload) => ({
   email: EmailTemplates.wonRaffle(payload),
 });
 
-const expiringItemReminderTemplates: TemplateBuilder<
-  'expiring-item-reminder'
+const expiringCodeReminderTemplates: TemplateBuilder<
+  'expiring-code-reminder'
 > = (payload) => ({
   email: EmailTemplates.expiringItemReminder(payload),
 });
@@ -57,7 +57,7 @@ export const destinations: Record<NotificationTemplateType, TemplateBuilder> = {
   'new-game': newGameTemplates,
   'new-raffle': newRaffleTemplates,
   'won-raffle': wonRaffleTemplates,
-  'expiring-item-reminder': expiringItemReminderTemplates,
+  'expiring-code-reminder': expiringCodeReminderTemplates,
   'expired-item': expiredItemTemplates,
   'raffle-expired': raffleExpiredTemplates,
   'new-user': newUserTemplates,

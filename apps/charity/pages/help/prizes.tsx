@@ -13,7 +13,7 @@ const Page: NextPageWithLayout = () => {
       <HelpScreen
         title={'Prizes & Rewards'}
         description={
-          'Get instant prizes and rewards. The Prize Wall is a great way to earn instant prizes and rewards. Find out how to earn prizes and how to win prizes.'
+          'Get instant prizes and rewards.  Find out how to win prizes.'
         }
         qa={helpPrizes}
       />

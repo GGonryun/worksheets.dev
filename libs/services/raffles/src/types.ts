@@ -2,15 +2,13 @@ import { Prisma } from '@worksheets/prisma';
 
 export const EXPIRED_RAFFLE_PROPS = {
   id: true,
-  numWinners: true,
   expiresAt: true,
-  name: true,
-  premium: true,
-  item: {
+  prize: {
     select: {
       id: true,
       name: true,
-      expiration: true,
+      type: true,
+      codeId: true,
     },
   },
   participants: {

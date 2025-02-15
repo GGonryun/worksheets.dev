@@ -1,4 +1,5 @@
 import { RafflesService } from '@worksheets/services/raffles';
+import { TasksService } from '@worksheets/services/tasks';
 import { z } from 'zod';
 
 import { protectedProcedure } from '../../../procedures';
@@ -29,8 +30,17 @@ export default protectedProcedure
           userId: user.id,
           raffleId,
           entries,
-          bonus: false,
         });
+
+        // TODO: if this is too slow we should move this to our kv background queue
+        const tasks = new TasksService(prisma);
+        if (referralCode) {
+          await tasks.trackReferralAction({
+            userId: user.id,
+            raffleId,
+            referralCode,
+          });
+        }
       });
     }
   );

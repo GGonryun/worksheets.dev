@@ -40,13 +40,13 @@ export default createCronJob(async () => {
       await notifications.send('won-raffle', {
         raffle,
         user: winner.user,
-        item: raffle.item,
+        prize: raffle.prize,
       });
     }
 
     await notifications.send('raffle-expired', {
       ...raffle,
-      name: raffle.name ?? raffle.item.name,
+      name: raffle.prize.name,
     });
   }
 

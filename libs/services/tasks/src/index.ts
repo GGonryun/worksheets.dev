@@ -7,7 +7,6 @@ import {
   TaskStatus,
   TaskType,
 } from '@worksheets/prisma';
-import { InventoryService } from '@worksheets/services/inventory';
 import { RafflesService } from '@worksheets/services/raffles';
 import { convertReferralCode } from '@worksheets/services/referral';
 import { calculatePercentage } from '@worksheets/util/numbers';
@@ -29,11 +28,9 @@ import { validateRequirements } from './util';
 
 export class TasksService {
   #db: PrismaClient | PrismaTransactionalClient;
-  #inventory: InventoryService;
   #raffle: RafflesService;
   constructor(db: PrismaClient | PrismaTransactionalClient) {
     this.#db = db;
-    this.#inventory = new InventoryService(db);
     this.#raffle = new RafflesService(db);
   }
 
@@ -265,7 +262,6 @@ export class TasksService {
         userId,
         raffleId: action.raffleId,
         entries: reward,
-        bonus: true,
       });
       return reward;
     }

@@ -58,10 +58,7 @@ export const RaffleEntry: React.FC<{
 
   return (
     <>
-      <EntrySection
-        winners={raffle.numWinners}
-        entries={participation.data?.numEntries ?? 0}
-      />
+      <EntrySection entries={participation.data?.numEntries ?? 0} />
       <Divider />
 
       <Box display="flex" flexDirection="column" gap={1} mt={1}>
@@ -106,10 +103,7 @@ export const RaffleEntry: React.FC<{
   );
 };
 
-const EntrySection: React.FC<{ winners: number; entries: number }> = ({
-  winners,
-  entries,
-}) => (
+const EntrySection: React.FC<{ entries: number }> = ({ entries }) => (
   <Box display="flex">
     <Box width="50%">
       <SectionHeaderTypography>Your Entries</SectionHeaderTypography>
@@ -117,7 +111,7 @@ const EntrySection: React.FC<{ winners: number; entries: number }> = ({
     </Box>
     <Box width="50%">
       <SectionHeaderTypography>Total Winners</SectionHeaderTypography>
-      <Typography fontWeight={700}>{winners}</Typography>
+      <Typography fontWeight={700}>1</Typography>
     </Box>
   </Box>
 );

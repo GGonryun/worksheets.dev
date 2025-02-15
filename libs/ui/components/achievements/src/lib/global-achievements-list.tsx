@@ -3,9 +3,8 @@ import { lighten, useTheme } from '@mui/material';
 import { Box, Collapse, LinearProgress, Typography } from '@mui/material';
 import { Column, Row } from '@worksheets/ui/components/flex';
 import { FillImage } from '@worksheets/ui/components/images';
-import { InventoryInformation } from '@worksheets/ui/components/items';
 import { calculatePercentage, toPercentage } from '@worksheets/util/numbers';
-import { printShortDateTime } from '@worksheets/util/time';
+import { printDateTime } from '@worksheets/util/time';
 import {
   GameAchievementSchema,
   PlayerGameAchievementSchema,
@@ -119,13 +118,6 @@ const GlobalAchievementListItem: React.FC<{
               >
                 {achievement.name}
               </Typography>
-              <Typography
-                typography={{ xs: 'body3', sm: 'body2' }}
-                fontWeight={{ xs: 500, sm: 500 }}
-                color={theme.palette[color].main}
-              >
-                {achievement.description}
-              </Typography>
             </Column>
           </Row>
           <Box
@@ -150,41 +142,28 @@ const GlobalAchievementListItem: React.FC<{
           sx={{
             userSelect: 'none',
             borderTop: `1px solid ${lighten(theme.palette[color].main, 0.2)}`,
-            p: 1,
+            p: progress?.unlockedAt ? 1 : 1.5,
+            pl: 1.5,
           }}
         >
+          <Typography
+            typography={{ xs: 'body3', sm: 'body3' }}
+            fontWeight={{ xs: 500, sm: 500 }}
+            color={theme.palette[color].main}
+          >
+            {achievement.description}
+          </Typography>
           {progress?.unlockedAt && (
             <Typography
               typography={{ xs: 'body3', sm: 'body3' }}
               fontWeight={{ xs: 500, sm: 500 }}
               color={theme.palette[color].main}
-              fontStyle={'italic'}
-              my={1}
+              fontStyle={{ xs: 'italic', sm: 'italic' }}
+              mt={1}
             >
-              <u>Unlocked at {printShortDateTime(progress?.unlockedAt)}</u>
+              Unlocked {printDateTime(progress.unlockedAt)}
             </Typography>
           )}
-          <Typography
-            typography="body2"
-            color="text.primary"
-            fontWeight={700}
-            gutterBottom
-          >
-            Rewards
-          </Typography>
-          <Row flexWrap="wrap" gap={1}>
-            {achievement.loot.map((l) => (
-              <InventoryInformation
-                hideChance
-                hideQuantity
-                color={color}
-                size={48}
-                key={l.item.id}
-                loot={l}
-                checked={!!progress}
-              />
-            ))}
-          </Row>
         </Box>
       </Collapse>
     </Box>

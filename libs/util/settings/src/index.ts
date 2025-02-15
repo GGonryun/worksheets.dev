@@ -1,10 +1,10 @@
-export * from './newsletter';
 export * from './copyright';
 export * from './version';
 
 // raffles
 export const RAFFLE_ENTRY_FEE = 10;
 // alerts
+export const BASE_EXPIRATION_TIME = 5; // days
 export const EXPIRATION_TIME_THRESHOLD = 2; // send reminder days before expiration
 
 export const GAME_TRACK_FREQUENCY_SECONDS = 90;
