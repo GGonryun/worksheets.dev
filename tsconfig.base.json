@@ -28,7 +28,6 @@
       "@worksheets/assets/marketing": ["libs/assets/marketing/src/index.ts"],
       "@worksheets/data/developers": ["libs/data/developers/src/index.ts"],
       "@worksheets/data/games": ["libs/data/games/src/index.ts"],
-      "@worksheets/data/items": ["libs/data/items/src/index.ts"],
       "@worksheets/data/sponsors": ["libs/data/sponsors/src/index.ts"],
       "@worksheets/data/tags": ["libs/data/tags/src/index.ts"],
       "@worksheets/data/tasks": ["libs/data/tasks/src/index.ts"],
@@ -65,9 +64,6 @@
         "libs/services/environment/src/index.ts"
       ],
       "@worksheets/services/games": ["libs/services/games/src/index.ts"],
-      "@worksheets/services/inventory": [
-        "libs/services/inventory/src/index.ts"
-      ],
       "@worksheets/services/kv": ["libs/services/kv/src/index.ts"],
       "@worksheets/services/leaderboards": [
         "libs/services/leaderboards/src/index.ts"
@@ -110,9 +106,6 @@
       ],
       "@worksheets/ui/components/description": [
         "libs/ui/components/description/src/index.ts"
-      ],
-      "@worksheets/ui/components/drawer": [
-        "libs/ui/components/drawer/src/index.ts"
       ],
       "@worksheets/ui/components/errors": [
         "libs/ui/components/errors/src/index.ts"
@@ -240,7 +233,6 @@
       "@worksheets/ui/pages/errors": ["libs/ui/pages/errors/src/index.ts"],
       "@worksheets/ui/pages/game": ["libs/ui/pages/game/src/index.ts"],
       "@worksheets/ui/pages/help": ["libs/ui/pages/help/src/index.ts"],
-      "@worksheets/ui/pages/items": ["libs/ui/pages/items/src/index.ts"],
       "@worksheets/ui/pages/loading": ["libs/ui/pages/loading/src/index.ts"],
       "@worksheets/ui/pages/login": ["libs/ui/pages/login/src/index.ts"],
       "@worksheets/ui/pages/marketing": [

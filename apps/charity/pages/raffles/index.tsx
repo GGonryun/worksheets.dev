@@ -23,7 +23,7 @@ Page.getLayout = (page) => {
 
 // Because raffles are generated statically, we should always put them
 // into a pending state and deploy new pages before they are live.
-export const getStaticProps = (async (ctx) => {
+export const getStaticProps = (async () => {
   try {
     return {
       props: {
