@@ -28,7 +28,7 @@
     "prisma:seed:local": "nx build prisma-seed && dotenv -e .env.local -- nx serve prisma-seed",
     "prisma:seed:production": "dotenv -e .env.production -- nx serve prisma-seed",
     "prisma:statistics:production": "dotenv -e .env.production -- nx serve prisma-statistics",
-    "prisma:rollback:production": "dotenv -e .env.production -- npx prisma migrate resolve --rolled-back",
+    "prisma:rollback:production": "dotenv -e .env.production -- npx prisma migrate resolve --rolled-back 20250215085053_add_prizes",
     "psql:local": "psql -h 192.168.0.26 -p 5432 -U prisma",
     "docker:psql:local": "docker run --name psql -e POSTGRES_PASSWORD=prisma -e POSTGRES_USER=prisma -e POSTGRES_DB=prisma -d -p 5432:5432 postgres",
     "docker:compose:up": "docker-compose up -d",
