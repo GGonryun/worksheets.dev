@@ -45,7 +45,7 @@ export const getStaticProps = (async (ctx) => {
       },
     };
   } catch (error) {
-    console.error(`Failed to load monster `, error);
+    console.error(`Failed to load raffle`, error);
     return {
       notFound: true,
     };
