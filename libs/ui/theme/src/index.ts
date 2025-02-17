@@ -301,9 +301,9 @@ const theme = createTheme({
       shadow: '#BC3D4D',
     },
     secondary: {
-      light: '',
+      light: '#FF70C6',
       main: '#FF70C6',
-      dark: '',
+      dark: '#FF70C6',
       contrastText: '#FFFFFF',
       gradient: 'linear-gradient(181deg, #FF70C6 0.5%, #F4243C 242.97%)',
       shadow: '#BC3D4D',

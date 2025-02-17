@@ -57,9 +57,6 @@
       "@worksheets/sdk-games": ["libs/sdk/games/src/index.ts"],
       "@worksheets/services/captchas": ["libs/services/captchas/src/index.ts"],
       "@worksheets/services/email": ["libs/services/email/src/index.ts"],
-      "@worksheets/services/encryption": [
-        "libs/services/encryption/src/index.ts"
-      ],
       "@worksheets/services/environment": [
         "libs/services/environment/src/index.ts"
       ],
@@ -125,9 +122,6 @@
       "@worksheets/ui/components/inputs": [
         "libs/ui/components/inputs/src/index.ts"
       ],
-      "@worksheets/ui/components/items": [
-        "libs/ui/components/items/src/index.ts"
-      ],
       "@worksheets/ui/components/lists": [
         "libs/ui/components/lists/src/index.ts"
       ],
@@ -151,9 +145,6 @@
       ],
       "@worksheets/ui/components/panels": [
         "libs/ui/components/panels/src/index.ts"
-      ],
-      "@worksheets/ui/components/prize-wheel": [
-        "libs/ui/components/prize-wheel/src/index.ts"
       ],
       "@worksheets/ui/components/qa-section": [
         "libs/ui/components/qa-section/src/index.ts"
@@ -181,9 +172,6 @@
       ],
       "@worksheets/ui/components/typography": [
         "libs/ui/components/typography/src/index.ts"
-      ],
-      "@worksheets/ui/components/uploads": [
-        "libs/ui/components/uploads/src/index.ts"
       ],
       "@worksheets/ui/components/wallpaper": [
         "libs/ui/components/wallpaper/src/index.ts"

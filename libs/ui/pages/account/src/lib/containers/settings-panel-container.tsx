@@ -73,10 +73,10 @@ export const SettingsPanelContainer: React.FC = () => {
   };
 
   if (
-    profile.isLoading ||
-    referrals.isLoading ||
-    enteredRaffles.isLoading ||
-    codes.isLoading
+    profile.isPending ||
+    referrals.isPending ||
+    enteredRaffles.isPending ||
+    codes.isPending
   )
     return <LoadingScreen />;
 

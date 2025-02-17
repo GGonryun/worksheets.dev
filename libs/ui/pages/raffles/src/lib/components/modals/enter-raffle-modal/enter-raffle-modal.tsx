@@ -112,8 +112,8 @@ export const EnterRaffleModal: React.FC<
         onClearReferral={() => setReferral('')}
       />
       <RaffleActionModal
-        isLoading={
-          trackAction.isLoading && !!actionId && dirty.includes(actionId)
+        isPending={
+          trackAction.isPending && !!actionId && dirty.includes(actionId)
         }
         onSubmit={handleSubmit}
         onClose={() => setActionId(undefined)}
@@ -365,7 +365,7 @@ const RaffleEntrants: React.FC<{ raffleId: number }> = ({ raffleId }) => {
     raffleId,
   });
 
-  if (participants.isLoading || participants.isRefetching)
+  if (participants.isPending || participants.isRefetching)
     return <PulsingLogo hideMessage size={22} />;
 
   return (
@@ -380,7 +380,7 @@ const RaffleTotalEntries: React.FC<{ raffleId: number }> = ({ raffleId }) => {
     raffleId,
   });
 
-  if (participants.isLoading || participants.isRefetching)
+  if (participants.isPending || participants.isRefetching)
     return <PulsingLogo hideMessage size={22} />;
 
   return (
@@ -397,7 +397,7 @@ const RaffleTotalEntries: React.FC<{ raffleId: number }> = ({ raffleId }) => {
 const RaffleYourEntries: React.FC<{ raffleId: number }> = ({ raffleId }) => {
   const participation = useYourEntries(raffleId);
 
-  if (participation.isLoading || participation.isRefetching)
+  if (participation.isPending || participation.isRefetching)
     return <PulsingLogo hideMessage size={22} />;
   return (
     <span>
@@ -424,15 +424,15 @@ const RaffleActionModal: React.FC<{
   onClose: () => void;
   onSubmit: (input: TaskInputSchema) => void;
   action?: ActionSchema;
-  isLoading: boolean;
-}> = ({ onClose, action, isLoading, onSubmit }) => {
+  isPending: boolean;
+}> = ({ onClose, action, isPending, onSubmit }) => {
   if (!action) return null;
 
   return (
     <TaskModal
       onClose={onClose}
       open={Boolean(action)}
-      isLoading={isLoading}
+      isPending={isPending}
       task={action}
       actions={{
         onSubmit: onSubmit,

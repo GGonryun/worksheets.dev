@@ -25,7 +25,7 @@ function customTouch(e: any) {
 }
 const usePseudoFullscreen = (
   docRef: RefObject<Document>,
-  boxRef: RefObject<HTMLDivElement>
+  boxRef: RefObject<HTMLDivElement | null>
 ) => {
   const [fullscreen, setFullscreen] = useState(false);
 
@@ -93,7 +93,7 @@ const usePseudoFullscreen = (
   };
 };
 
-export const useFullscreen = (boxRef: RefObject<HTMLDivElement>) => {
+export const useFullscreen = (boxRef: RefObject<HTMLDivElement | null>) => {
   const documentRef = useRef<Document>(document);
 
   const pseudo = usePseudoFullscreen(documentRef, boxRef);

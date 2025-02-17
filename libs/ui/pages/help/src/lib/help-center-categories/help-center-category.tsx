@@ -37,16 +37,13 @@ export const HelpCenterCategory: React.FC<{
         }}
       />
       <Box>
-        <Typography
-          variant="h6"
-          color={(theme) => theme.palette.text.blue.dark}
-        >
+        <Typography variant="h6" color={'text.blue.dark'}>
           {props.title}
         </Typography>
         <Typography
           typography={{ xs: 'body2', sm: 'body1' }}
           fontWeight={{ xs: 500, sm: 500 }}
-          color={(theme) => theme.palette.text.blue.light}
+          color={'text.blue.light'}
         >
           {props.description}
         </Typography>

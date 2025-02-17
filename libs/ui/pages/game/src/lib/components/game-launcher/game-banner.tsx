@@ -50,7 +50,7 @@ import { GAME_BANNER_ID, GAME_MENU_ID } from '../../hooks/use-fullscreen';
 import { useGameNotifications } from '../../hooks/use-game-notifications';
 
 type GameBannerProps = {
-  boxRef: React.RefObject<HTMLDivElement>;
+  boxRef: React.RefObject<HTMLDivElement | null>;
   developer: DeveloperSchema;
   isFullscreen: boolean;
   isMobileOrTablet: boolean;
@@ -145,7 +145,7 @@ export const GameBanner: FC<GameBannerProps> = ({
           <Typography
             typography={{ xs: 'body3', sm: 'body2' }}
             component={Link}
-            color={(theme) => theme.palette.text.blue.light}
+            color={'text.blue.light'}
             fontWeight={{ xs: 500, sm: 500 }}
             underline="hover"
             href={routes.developer.path({

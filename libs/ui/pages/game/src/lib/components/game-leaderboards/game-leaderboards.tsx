@@ -100,7 +100,7 @@ const Content: React.FC<{
   );
 
   if (
-    leaderboard.isLoading ||
+    leaderboard.isPending ||
     participation.isFetching ||
     participation.isRefetching
   ) {

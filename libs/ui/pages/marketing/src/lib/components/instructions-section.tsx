@@ -77,7 +77,7 @@ const ContactUs = () => (
     <Typography
       variant="body2"
       fontWeight={700}
-      color={(theme) => theme.palette.text.blue.light}
+      color={'text.blue.light'}
       sx={{ pt: 1 }}
       gutterBottom
     >
@@ -125,15 +125,12 @@ const Instruction: React.FC<{ title: string; description: string }> = ({
   >
     <Dot />
     <Box>
-      <Typography
-        typography={{ xs: 'h6', sm: 'h5' }}
-        color={(theme) => theme.palette.text.blue.dark}
-      >
+      <Typography typography={{ xs: 'h6', sm: 'h5' }} color={'text.blue.dark'}>
         {title}
       </Typography>
       <Typography
         typography={{ xs: 'body2', sm: 'body1' }}
-        color={(theme) => theme.palette.text.blue.light}
+        color={'text.blue.light'}
         fontWeight={{ xs: 700, sm: 700 }}
       >
         {description}

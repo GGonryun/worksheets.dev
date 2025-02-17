@@ -1,7 +1,7 @@
 import classes from './game-frame.module.scss';
 
 type GameInternalFrameProps = {
-  frameRef?: React.RefObject<HTMLIFrameElement>;
+  frameRef?: React.RefObject<HTMLIFrameElement | null>;
   url: string;
 };
 

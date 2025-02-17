@@ -21,12 +21,7 @@ export const HelpCenterFooter = () => (
     >
       Need more help?
     </GradientTypography>
-    <Typography
-      mb={4}
-      mt={1}
-      color={(theme) => theme.palette.text.blue.light}
-      fontWeight={700}
-    >
+    <Typography mb={4} mt={1} color={'text.blue.light'} fontWeight={700}>
       Contact us
     </Typography>
 

@@ -48,7 +48,7 @@ export const ParticipantsDescription: React.FC<{
         ) : null
       }
       description={
-        session.status === 'loading' || participants.isLoading ? (
+        session.status === 'loading' || participants.isPending ? (
           <LoadingBar />
         ) : participants.isError ? (
           <ErrorComponent color="text.primary" />

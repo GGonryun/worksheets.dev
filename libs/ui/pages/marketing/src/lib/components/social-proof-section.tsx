@@ -156,7 +156,7 @@ const WinnerItem: React.FC<{ username: string; tweetUrl: string }> = ({
       boxShadow={(theme) => theme.shadows[4]}
     />
     <Typography
-      color={(theme) => theme.palette.text.blue.main}
+      color={'text.blue.main'}
       typography={{ xs: 'body3', sm: 'body2', md: 'body1' }}
       fontWeight={{ xs: 600, sm: 600, md: 600 }}
     >
@@ -287,7 +287,7 @@ const PrizeText: React.FC<{ label: string; value: string }> = ({
         sm: 700,
         md: 700,
       }}
-      color={(theme) => theme.palette.text.white}
+      color={'text.white'}
     >
       {label}
     </Typography>
@@ -307,7 +307,7 @@ const WinnersText = () => (
       component="span"
       textTransform="uppercase"
       letterSpacing={{ xs: 1, sm: 2, md: 3 }}
-      color={(theme) => theme.palette.white.main}
+      color={'white.main'}
     >
       Lucky{' '}
     </Typography>

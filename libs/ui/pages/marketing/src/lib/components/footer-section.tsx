@@ -100,7 +100,7 @@ const Links = () => (
         textAlign="center"
         variant="body1"
         fontWeight={700}
-        color={(theme) => theme.palette.text.blue.lightest}
+        color={'text.blue.lightest'}
       >
         © {currentYear} Charity Games. All rights reserved.
       </Typography>

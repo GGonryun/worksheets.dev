@@ -13,7 +13,7 @@ const TopRaffles = () => {
     category: 'hottest',
   });
 
-  if (!raffles.isLoading && !raffles.data?.length) return null;
+  if (!raffles.isPending && !raffles.data?.length) return null;
 
   return (
     <RaffleCarousel

@@ -53,7 +53,7 @@ export const HelpScreen: FC<HelpScreenProps> = ({ title, description, qa }) => {
         <Typography
           component="h2"
           typography={{ xs: 'body2', sm: 'body1' }}
-          color={(theme) => theme.palette.text.blue.dark}
+          color={'text.blue.dark'}
           fontWeight={{ xs: 500, sm: 500, md: 500 }}
         >
           {description}

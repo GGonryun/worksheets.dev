@@ -21,7 +21,7 @@ const RafflesContainer: React.FC = () => {
     category: 'not-expired',
   });
 
-  if (list.isLoading) return <LoadingScreen />;
+  if (list.isPending) return <LoadingScreen />;
   if (list.isError) return <ErrorScreen />;
 
   return <RafflesScreen entered={entered.data ?? []} list={list.data ?? []} />;

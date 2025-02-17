@@ -47,7 +47,7 @@ export const ReferralTaskForm: React.FC<TaskFormProps> = ({ task }) => {
 
 const ReferralCodeSection: React.FC<TaskFormProps['task']> = ({ raffleId }) => {
   const code = trpc.user.referrals.code.useQuery();
-  if (code.isLoading) return <PulsingLogo />;
+  if (code.isPending) return <PulsingLogo />;
   if (code.isError) return <Typography>Error loading user</Typography>;
   return (
     <ClipboardText

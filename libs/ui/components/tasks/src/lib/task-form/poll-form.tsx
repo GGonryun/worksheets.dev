@@ -23,7 +23,7 @@ export const PollForm: React.FC<TaskFormProps> = ({ task, actions }) => {
 const CompletedForm: React.FC<Pick<TaskFormProps, 'task'>> = ({ task }) => {
   const results = trpc.user.tasks.poll.results.useQuery(task);
 
-  if (results.isLoading) {
+  if (results.isPending) {
     return <PulsingLogo message={'Generating poll results...'} />;
   }
 

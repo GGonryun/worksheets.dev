@@ -8,13 +8,13 @@ import { ExpiredRafflesScreen } from '../components/expired-raffles-screen';
 const ExpiredRafflesScreenContainer = () => {
   const {
     data: expiredPrizes,
-    isLoading,
+    isPending,
     error,
   } = trpc.public.raffles.list.useQuery({
     category: 'expired',
   });
 
-  if (isLoading) {
+  if (isPending) {
     return <LoadingScreen />;
   }
 

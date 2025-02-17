@@ -112,7 +112,7 @@ const Disclaimer = () => (
     <Typography
       typography={{ xs: 'body2', sm: 'body1' }}
       fontWeight={{ xs: 600, sm: 600 }}
-      color={(theme) => theme.palette.text.blue.lightest}
+      color={'text.blue.lightest'}
     >
       Prizes shown are for illustrative purposes only. Actual prizes may vary
       depending on sponsorships and availability. Please visit the Prizes page

@@ -61,7 +61,7 @@ const AchievementContent: React.FC<{
     }
   );
 
-  if (total.isLoading || global.isLoading || status === 'loading')
+  if (total.isPending || global.isPending || status === 'loading')
     return <LoadingBar />;
   if (total.isError || global.isError) return <ErrorComponent />;
 

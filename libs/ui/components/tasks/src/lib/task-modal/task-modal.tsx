@@ -19,12 +19,12 @@ import {
 export const TaskModal: React.FC<
   ModalWrapper<
     {
-      isLoading?: boolean;
+      isPending?: boolean;
       rewards: React.ReactNode;
     } & TaskFormProps
   >
 > = (props) => {
-  const { task, actions, isLoading, rewards, ...modalProps } = props;
+  const { task, actions, isPending, rewards, ...modalProps } = props;
   const colorKey = selectTaskColor(task.status);
 
   return (
@@ -32,7 +32,7 @@ export const TaskModal: React.FC<
       <TaskModalContent
         task={task}
         actions={actions}
-        isLoading={isLoading}
+        isPending={isPending}
         rewards={rewards}
       />
     </InfoModal>
@@ -41,11 +41,11 @@ export const TaskModal: React.FC<
 
 export const TaskModalContent: React.FC<
   TaskFormProps & {
-    isLoading?: boolean;
+    isPending?: boolean;
     rewards?: React.ReactNode;
   }
 > = (props) => {
-  const { task, actions, isLoading, rewards } = props;
+  const { task, actions, isPending, rewards } = props;
   const { name, description, expiresAt, status } = task;
   const theme = useTheme();
   const Icon = selectTaskStatusIcon(task.status, task.type);
@@ -86,7 +86,7 @@ export const TaskModalContent: React.FC<
           </Typography>
         )}
         <Box width="100%" mb={2}>
-          {isLoading ? (
+          {isPending ? (
             <PulsingLogo />
           ) : (
             <TaskForm task={task} actions={actions} />

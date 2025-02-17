@@ -52,7 +52,8 @@
         "production": {
           "buildTarget": "games-color-run:build:production"
         }
-      }
+      },
+      "dependsOn": ["build"]
     },
     "lint": {
       "executor": "@nx/eslint:lint"

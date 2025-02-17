@@ -36,7 +36,9 @@ const isValidOrigin = (origin: string) => {
   return VERIFIED_GAME_ORIGINS.includes(origin);
 };
 
-const usePlatformListener = (frameRef: React.RefObject<HTMLIFrameElement>) => {
+const usePlatformListener = (
+  frameRef: React.RefObject<HTMLIFrameElement | null>
+) => {
   const callbacks = new Map<GameEventKey, GameEventCallback<GameEventKey>>();
 
   useEventListener('message', (message) => {
@@ -109,7 +111,7 @@ export const GameFrame: React.FC<{
   const loadAchievements = trpc.user.game.achievements.load.useMutation();
   const unlockAchievements = trpc.user.game.achievements.unlock.useMutation();
   const submitScore = trpc.user.leaderboards.submit.useMutation();
-  const frameRef = useRef<HTMLIFrameElement>(null);
+  const frameRef = useRef<HTMLIFrameElement | null>(null);
 
   const child = usePlatformListener(frameRef);
 

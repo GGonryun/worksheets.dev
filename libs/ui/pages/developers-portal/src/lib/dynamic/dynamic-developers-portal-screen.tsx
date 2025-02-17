@@ -10,9 +10,9 @@ import { developersPortalFaq } from '../data';
 const DevelopersPortalScreenContainer = () => {
   const statistics = trpc.public.usage.contributions.useQuery();
   const developers = trpc.public.developers.list.useQuery();
-  if (statistics.error || developers.error) return <ErrorScreen />;
 
-  if (statistics.isLoading || developers.isLoading) return <LoadingScreen />;
+  if (statistics.error || developers.error) return <ErrorScreen />;
+  if (statistics.isPending || developers.isPending) return <LoadingScreen />;
 
   return (
     <DevelopersPortalScreen

@@ -12,14 +12,14 @@ const RandomGameScreen = () => {
   const { isMobileOrTablet } = useDeviceChecks();
   const { recentlyPlayed } = useRecentlyPlayedGames();
 
-  const { data, isLoading, error } = trpc.maybe.games.random.useQuery({
+  const { data, isPending, error } = trpc.maybe.games.random.useQuery({
     isMobileOrTablet,
     recentlyPlayed: recentlyPlayed.map((g) => g.id),
   });
   const { push } = useRouter();
 
   useEffect(() => {
-    if (data && !isLoading && !error) {
+    if (data && !isPending && !error) {
       push(
         routes.game.path({
           params: {
@@ -30,11 +30,11 @@ const RandomGameScreen = () => {
     } else if (error) {
       push(routes.play.path());
     }
-  }, [data, error, isLoading, push]);
+  }, [data, error, isPending, push]);
 
   return (
     <>
-      {isLoading && <LoadingScreen />}
+      {isPending && <LoadingScreen />}
       {error && <ErrorScreen />}
     </>
   );

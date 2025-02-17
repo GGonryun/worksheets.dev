@@ -41,7 +41,7 @@ export const Questions: React.FC<{
         <Box display="flex" flexDirection="column" gap={1}>
           <Typography
             typography={{ xs: 'body2', sm: 'body1' }}
-            color={(theme) => theme.palette.text.blue.main}
+            color={'text.blue.main'}
             fontWeight={{ xs: 500, sm: 500 }}
           >
             Need more help? Contact us!
@@ -107,7 +107,7 @@ const Question: React.FC<{
               sm: 800,
               md: 800,
             }}
-            color={(theme) => theme.palette.text.blue.dark}
+            color={'text.blue.dark'}
           >
             {question}
           </Typography>

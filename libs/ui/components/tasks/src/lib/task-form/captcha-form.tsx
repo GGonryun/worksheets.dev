@@ -50,7 +50,7 @@ export const CatpchaForm: React.FC<TaskFormProps> = ({ task, actions }) => {
       <Button
         variant="arcade"
         onClick={handleSubmit}
-        disabled={verify.isLoading || !captchaRef.current?.getValue()}
+        disabled={verify.isPending || !captchaRef.current?.getValue()}
         sx={{
           display: !captchaRef.current?.getValue() ? 'none' : 'block',
         }}

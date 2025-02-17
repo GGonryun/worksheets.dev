@@ -52,7 +52,7 @@ export const RaffleEntry: React.FC<{
     onEnter();
   };
 
-  if (session.status === 'loading' || (isConnected && participation.isLoading))
+  if (session.status === 'loading' || (isConnected && participation.isPending))
     return <PulsingLogo />;
   if (participation.isError) return <Typography>Error...</Typography>;
 

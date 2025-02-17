@@ -45,7 +45,7 @@ export const SponsorLogo: React.FC<{
         fontWeight={500}
         fontSize="14px"
         lineHeight="19px"
-        color={(theme) => color ?? theme.palette.primary.light}
+        color={color ?? 'primary.light'}
         pl="43px"
         sx={{
           width: '100%',
@@ -68,7 +68,7 @@ export const SponsorLogo: React.FC<{
           py="3px"
           lineHeight="18px"
           textOverflow="wrap"
-          color={(theme) => theme.palette.text.blue.dark}
+          color={'text.blue.dark'}
           whiteSpace="break-spaces"
         >
           {text.replace(' ', '\n')}

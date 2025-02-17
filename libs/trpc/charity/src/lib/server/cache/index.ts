@@ -1,4 +1,4 @@
-import { ResponseMetaFn } from '@trpc/server/dist/http/internals/types';
+import { ResponseMetaFn } from '@trpc/server/http';
 
 import { appRouter } from '../routers/_app';
 

@@ -46,7 +46,7 @@ describe('shuffle', () => {
   it.skip('should create a near average distribution', () => {
     const original = [1, 2, 3, 4, 5];
 
-    const results = Array.from({ length: 1000000 }, () =>
+    const results: number[][] = Array.from({ length: 1000000 }, () =>
       shuffle(cloneDeep(original))
     );
     const first = results.map((r) => r[0]);

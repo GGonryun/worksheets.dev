@@ -26,7 +26,7 @@ export const HelpCenterTitle: React.FC = () => (
     <Typography
       component="h2"
       typography={{ xs: 'body2', sm: 'body1' }}
-      color={(theme) => theme.palette.text.blue.light}
+      color={'text.blue.light'}
       fontWeight={{ xs: 500, sm: 500, md: 500 }}
     >
       Get answers to all your questions about the{' '}
