@@ -207,7 +207,6 @@ model Game {
   id           String             @id @default(cuid())
   version      Int                @default(0)
   status       GameStatus         @default(UNPUBLISHED)
-  multiplier   Float              @default(0)
   leaderboard  Boolean            @default(false)
   cloudStorage Boolean            @default(false)
   // Details

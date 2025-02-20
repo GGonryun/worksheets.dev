@@ -18,7 +18,6 @@ export default t.router({
     )
     .output(
       z.object({
-        tokens: z.number(),
         message: z.string(),
       })
     )

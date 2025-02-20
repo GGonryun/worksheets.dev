@@ -16,7 +16,6 @@ export const helpAccounts: QuestionAnswer[] = [
           You can:
         </Typography>
         <OrderedList>
-          <ListItem>Start earning tokens for prizes.</ListItem>
           <ListItem>Participate in raffles and giveaways.</ListItem>
           <ListItem>Save your favorite games.</ListItem>
           <ListItem>Earn achievements.</ListItem>

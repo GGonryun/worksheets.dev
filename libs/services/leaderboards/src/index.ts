@@ -61,8 +61,6 @@ export const submitScore = async (
     });
   }
 
-  const tokens = Math.floor(score * game.multiplier);
-
   const tasks = new TasksService(db);
   await tasks.trackLeaderboardAction({
     userId,
@@ -71,10 +69,7 @@ export const submitScore = async (
   });
 
   return {
-    tokens,
-    message: `You've scored ${score} points and won ${tokens} ${pluralize(
-      'token'
-    )}`,
+    message: `You've scored ${score} ${pluralize('point', score)}!`,
   };
 };
 

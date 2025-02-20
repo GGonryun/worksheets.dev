@@ -4,14 +4,6 @@ export enum HelpAccountQuestions {
   ValidUsernames = 'valid-usernames',
 }
 
-export enum HelpTokensQuestions {
-  Description = 'description',
-  HowToEarn = 'how-to-earn',
-  Purpose = 'purpose',
-  Referrals = 'referrals',
-  HowMuchCanIEarn = 'how-much-can-i-earn',
-}
-
 export enum HelpReferralsQuestions {
   Description = 'description',
   HowTo = 'how-to',

@@ -11,17 +11,16 @@ export const helpPlayingGames: QuestionAnswer[] = [
     id: HelpPlayingGamesQuestions.WhatAre,
     question: 'What are games?',
     summary:
-      'Games are fun and interactive activities that you can play to win prizes and tokens.',
+      'Games are fun and interactive activities that you can play to win prizes and more.',
     answer: (
       <Box>
         <Typography>
           Games are fun and interactive activities that you can play to win
-          prizes and tokens.
+          prizes.
           <br />
           <br />
           We have a variety of games for you to play. All our games have no
-          advertisements and are free to play. You can earn tokens by playing
-          games and use them to enter raffles and prize draws.
+          advertisements and are free to play.
         </Typography>
         <br />
         <HelpfulLinks

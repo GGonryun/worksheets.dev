@@ -97,13 +97,13 @@ const ContactUs = () => (
 const Instructions = () => (
   <Box>
     <Instruction
-      title="Earn Tokens"
-      description="Earn tokens by playing games and completing challenges. The more tokens you earn, the better your chances are to win!"
+      title="Play Games"
+      description="Participate in competitions by playing games and completing challenges. The more you play, the better your chances are to win!"
     />
     <Line />
     <Instruction
-      title="Participate in Raffles"
-      description="Use your tokens to enter raffles for a chance to win amazing prizes! The more tokens you use, the better your chances are to win!"
+      title="Participate in competitions"
+      description="Play games and complete challenges to earn entries into competitions. No purchase necessary, and you can play for free!"
     />
     <Line />
     <Instruction

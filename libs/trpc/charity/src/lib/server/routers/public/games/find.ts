@@ -57,7 +57,6 @@ export default publicProcedure
         leaderboard: game.leaderboard,
         cloudStorage: game.cloudStorage,
         achievements: game.achievements.length > 0,
-        multiplier: game.multiplier,
         categories: game.categories.map((c) => c.categoryId) as GameTag[],
         updatedAt: printDate(game.updatedAt),
         createdAt: printDate(game.createdAt),

@@ -264,18 +264,11 @@ export const GameFrame: React.FC<{
           score,
         });
 
-        if (!result.tokens) {
-          child.send('score-submitted', {
-            ok: true,
-            submitted: false,
-          });
-        } else {
-          notifications.add(result.message, { color: 'success' });
-          child.send('score-submitted', {
-            ok: true,
-            submitted: true,
-          });
-        }
+        notifications.add(result.message, { color: 'success' });
+        child.send('score-submitted', {
+          ok: true,
+          submitted: true,
+        });
       } catch (error) {
         child.send('score-submitted', {
           ok: false,
