@@ -5,7 +5,7 @@ import { useSnackbar } from '@worksheets/ui/components/snackbar';
 import { RECAPTCHA_SITE_KEY } from '@worksheets/ui/env';
 import { TaskFormProps } from '@worksheets/util/tasks';
 import { parseTRPCClientErrorMessage } from '@worksheets/util/trpc';
-import { MouseEventHandler, useRef } from 'react';
+import { MouseEventHandler, useState } from 'react';
 import ReCAPTCHA from 'react-google-recaptcha';
 
 import { TaskCompleteNotice } from './task-complete-notice';
@@ -13,18 +13,17 @@ import { TaskCompleteNotice } from './task-complete-notice';
 export const CatpchaForm: React.FC<TaskFormProps> = ({ task, actions }) => {
   const snackbar = useSnackbar();
   const verify = trpc.user.integrations.recaptcha.verify.useMutation();
-  const captchaRef = useRef<ReCAPTCHA>(null);
+  const [token, setToken] = useState<string | null>(null);
   if (task.status === 'COMPLETED') {
     return <TaskCompleteNotice />;
   }
 
   const handleSubmit: MouseEventHandler<HTMLButtonElement> = async (e) => {
     e.preventDefault();
-    if (!captchaRef.current) {
+    if (!token) {
       alert('Captcha ref is not available');
     } else {
       try {
-        const token = captchaRef.current.getValue();
         if (!token) {
           snackbar.error('Captcha token is missing');
           return;
@@ -34,7 +33,7 @@ export const CatpchaForm: React.FC<TaskFormProps> = ({ task, actions }) => {
           snackbar.error('Captcha verification failed');
           return;
         }
-        captchaRef.current.reset();
+        setToken(null);
         actions.onSubmit({
           repetitions: 1,
         });
@@ -46,13 +45,13 @@ export const CatpchaForm: React.FC<TaskFormProps> = ({ task, actions }) => {
 
   return (
     <Column gap={2}>
-      <ReCAPTCHA sitekey={RECAPTCHA_SITE_KEY} ref={captchaRef} />
+      <ReCAPTCHA sitekey={RECAPTCHA_SITE_KEY} onChange={setToken} />
       <Button
         variant="arcade"
         onClick={handleSubmit}
-        disabled={verify.isPending || !captchaRef.current?.getValue()}
+        disabled={verify.isPending || !token}
         sx={{
-          display: !captchaRef.current?.getValue() ? 'none' : 'block',
+          display: !token ? 'none' : 'block',
         }}
       >
         Submit Captcha
