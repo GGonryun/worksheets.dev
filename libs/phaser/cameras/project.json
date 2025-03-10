@@ -1,0 +1,26 @@
+{
+  "name": "phaser-cameras",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/phaser/cameras/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/phaser/cameras",
+        "main": "libs/phaser/cameras/src/index.ts",
+        "tsConfig": "libs/phaser/cameras/tsconfig.lib.json",
+        "assets": ["libs/phaser/cameras/*.md"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/phaser/cameras/jest.config.ts"
+      }
+    }
+  }
+}

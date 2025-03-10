@@ -55,6 +55,7 @@ const nextConfig = {
       './**/node_modules/webpack',
       './**/node_modules/rollup',
       './**/node_modules/terser',
+      './**/node_modules/nx',
     ],
   },
 };

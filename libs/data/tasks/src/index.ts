@@ -159,7 +159,7 @@ export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
     requiredRepetitions: 5,
     maxRepetitions: 5,
     name: 'Play 5 Games',
-    description: 'Earn tokens for playing 5 games today on Charity Games.',
+    description: 'Earn rewards for playing 5 games today on Charity Games.',
     data: {
       requirement: 25,
     },
@@ -186,7 +186,8 @@ export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
     requiredRepetitions: 25,
     maxRepetitions: 25,
     name: 'Play 25 Games',
-    description: 'Earn tokens for playing 25 games this week on Charity Games.',
+    description:
+      'Earn rewards for playing 25 games this week on Charity Games.',
     data: {},
   },
   // check in tasks
@@ -248,7 +249,7 @@ export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
     requiredRepetitions: 1,
     maxRepetitions: 1,
     name: 'Visit Charity Games',
-    description: 'Visit Charity Games and start playing games to earn tokens.',
+    description: 'Visit Charity Games and start playing games to earn rewards.',
     data: {
       url: 'https://charity.games/',
       preview: 'https://cdn.charity.games/_partners/charity-games/preview.png',

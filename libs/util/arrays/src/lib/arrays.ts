@@ -16,6 +16,10 @@ export function arrayFromNumber(num: number): number[] {
   return Array.from(Array(num).keys());
 }
 
+export function fill<T>(items: number, content: T): T[] {
+  return Array.from({ length: items }).fill(content) as T[];
+}
+
 export const batchArray = <T>(arr: T[], batchSize: number): T[][] => {
   const numBatches = Math.ceil(arr.length / batchSize);
   const batches: T[][] = [];

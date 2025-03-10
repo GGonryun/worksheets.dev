@@ -12,6 +12,84 @@ import { SeedableGameSchema } from '@worksheets/util/types';
 
 const integratedGames: SeedableGameSchema[] = [
   {
+    version: 1,
+    id: 'slime-arrows',
+    name: 'Slime & Arrows',
+    developerId: 'charity-games',
+    iconUrl:
+      'https://cdn.charity.games/_games/slime-arrows/assets/thumbnail.png',
+    bannerUrl:
+      'https://cdn.charity.games/_games/slime-arrows/assets/banner.png',
+    viewport: viewports['PORTRAIT-ONLY'],
+    categories: ['1p', 'arcade', 'endless', 'mobile', 'desktop', 'survival'],
+    file: {
+      type: 'HTML',
+      url: 'https://cdn.charity.games/_games/slime-arrows/index.html',
+    },
+    markets: {},
+    createdAt: new Date('2024-03-11T00:00:00.000Z'),
+    updatedAt: new Date('2024-03-11T00:00:00.000Z'),
+    description:
+      '<p>Slime & Arrows is a dodgeball game where players need to survive as a slime by avoiding arrows. The game gets progressively harder as the player survives longer. How long can you survive?<br/>Control your slime using a virtual joystick, tap anywhere on the screen to start moving.</p>',
+    leaderboard: true,
+    cloudStorage: true,
+    achievements: [
+      {
+        id: 'slime-arrows:die-once',
+        version: 1,
+        name: 'Lose Your First Game',
+        description:
+          "Lose your first game of Slime & Arrows. Don't worry, it happens to the best of us.",
+        iconUrl:
+          'https://cdn.charity.games/_games/slime-arrows/assets/achievements/die-once.png',
+        secret: false,
+      },
+      {
+        id: 'slime-arrows:score-100',
+        version: 1,
+        name: 'Score 100',
+        description: 'Score 100 points in a single game of Slime & Arrows',
+        iconUrl:
+          'https://cdn.charity.games/_games/slime-arrows/assets/achievements/score-100.png',
+        secret: false,
+      },
+      {
+        id: 'slime-arrows:score-200',
+        version: 1,
+        name: 'Score 200',
+        description: 'Score 200 points in a single game of Slime & Arrows',
+        iconUrl:
+          'https://cdn.charity.games/_games/slime-arrows/assets/achievements/score-200.png',
+        secret: false,
+      },
+      {
+        id: 'slime-arrows:score-300',
+        version: 1,
+        name: 'Score 300',
+        description: 'Score 300 points in a single game of Slime & Arrows',
+        iconUrl:
+          'https://cdn.charity.games/_games/slime-arrows/assets/achievements/score-300.png',
+        secret: false,
+      },
+    ],
+    tasks: [
+      {
+        name: 'Play Slime & Arrows #1',
+        description:
+          'Dodge at least 50 arrows in a single game of Slime & Arrows',
+        type: 'score',
+        score: 50,
+      },
+      {
+        name: 'Play Slime & Arrows #2',
+        description:
+          'Dodge at least 75 arrows in a single game of Slime & Arrows',
+        type: 'score',
+        score: 75,
+      },
+    ],
+  },
+  {
     version: 2,
     id: 'bit-jumper',
     name: 'Bit Jumper',

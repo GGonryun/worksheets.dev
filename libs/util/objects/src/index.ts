@@ -12,3 +12,11 @@ export const jsonStringifyWithBigInt = (obj: any) => {
     typeof v === 'bigint' ? `${v.toString()}n` : v
   );
 };
+
+/**
+ * Remove undefined values from an object
+ */
+export const compress = <T extends Record<string, K>, K>(obj: T) =>
+  Object.fromEntries(
+    Object.entries(obj).filter(([, value]) => value !== undefined)
+  );

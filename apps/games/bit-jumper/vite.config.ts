@@ -6,6 +6,7 @@ import { defineConfig } from 'vite';
 dotenv.config({
   path: '.env',
 });
+
 export default defineConfig({
   root: __dirname,
   cacheDir: '../../../node_modules/.vite/apps/games/bit-jumper',

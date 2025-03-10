@@ -1,10 +1,11 @@
 import {
   GameEventKey,
   GameEventPayload,
+  isValidOrigin,
   PlatformEvent,
   PlatformEventKey,
   PlatformEventPayload,
-  PlatformSuccessPayload as PlatformEventSuccessPayload,
+  PlatformSuccessPayload,
   PluginEventKey,
   PluginEventPayload,
 } from '@worksheets/sdk-games';
@@ -13,20 +14,6 @@ import Phaser from 'phaser';
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import { AdBreak, RewardAdBreak } from 'types/adsense';
 
-export const isValidOrigin = (origin: string) => {
-  if (process.env['NODE_ENV'] === 'development') {
-    return true;
-  }
-  const validOrigins = [
-    'http://localhost:6969',
-    'https://charity.games',
-    'https://cdn.charity.games',
-    'https://storage.googleapis.com',
-  ];
-  return origin === '*' || validOrigins.includes(origin);
-};
-
-// TODO: Move charity games plugin towards an API-first approach.
 export class CharityGamesPlugin extends Phaser.Plugins.BasePlugin {
   static KEY = 'CharityGamesPlugin';
   storage: StorageAPI;
@@ -35,9 +22,11 @@ export class CharityGamesPlugin extends Phaser.Plugins.BasePlugin {
   leaderboard: LeaderboardsAPI;
   score: LeaderboardsAPI;
   advertisements: AdvertisementsAPI;
+  logger: LoggerAPI;
   events: Phaser.Events.EventEmitter = new Phaser.Events.EventEmitter();
   isInitialized = false;
   isDisabled = false;
+  isLogging = false;
   storageKey = 'storage';
 
   constructor(pluginManager: Phaser.Plugins.PluginManager) {
@@ -47,10 +36,19 @@ export class CharityGamesPlugin extends Phaser.Plugins.BasePlugin {
     this.achievements = new AchievementsAPI(this);
     this.advertisements = new AdvertisementsAPI(this);
     this.score = this.leaderboard = new LeaderboardsAPI(this);
+    this.logger = new LoggerAPI(this);
   }
 
   static find(scene: Phaser.Scene): CharityGamesPlugin {
     return scene.plugins.get(CharityGamesPlugin.KEY) as CharityGamesPlugin;
+  }
+
+  static config(): Phaser.Types.Plugins.GlobalPlugin {
+    return {
+      key: CharityGamesPlugin.KEY,
+      plugin: CharityGamesPlugin,
+      active: true,
+    };
   }
 
   #preload() {
@@ -92,7 +90,7 @@ export class CharityGamesPlugin extends Phaser.Plugins.BasePlugin {
     if (this.isDisabled) console.info('Charity Games SDK is disabled');
 
     const { signal, cancel } = createTimeout(
-      (this.isDisabled ? 0 : 10) * SECONDS
+      (this.isDisabled ? 0 : 5) * SECONDS
     );
     try {
       this.#preload();
@@ -318,6 +316,15 @@ class AdvertisementsAPI {
   }
 }
 
+class LoggerAPI {
+  constructor(private plugin: CharityGamesPlugin) {}
+  debug(message: string, ...args: unknown[]) {
+    if (!this.plugin.isLogging) return;
+
+    console.log(`${message}`, ...args);
+  }
+}
+
 const createTimeout = (duration: number) => {
   const abortController = new AbortController();
   const signal = abortController.signal;
@@ -343,28 +350,34 @@ const cancelableRequest =
     response: TResponse
   ) =>
   async (input: GameEventPayload<TRequest>) => {
-    return new Promise<PlatformEventSuccessPayload<TResponse>>(
-      (resolve, reject) => {
-        const abortHandler = () => {
-          reject(`[${request}] Request aborted`);
-          signal.removeEventListener('abort', abortHandler);
-          plugin.events.removeListener(response, callback);
-        };
-        signal.addEventListener('abort', abortHandler);
+    return new Promise<PlatformSuccessPayload<TResponse>>((resolve, reject) => {
+      plugin.logger.debug(`[${request}] Request sent`, input);
+      const abortHandler = () => {
+        plugin.logger.debug(`[${request}] Request aborted`);
+        reject(`[${request}] Request aborted`);
+        signal.removeEventListener('abort', abortHandler);
+        plugin.events.removeListener(response, callback);
+      };
+      signal.addEventListener('abort', abortHandler);
 
-        const callback = (result: PlatformEvent[TResponse]) => {
-          if (result.ok) {
-            resolve(result as PlatformEventSuccessPayload<TResponse>);
-          } else {
-            reject(`[${request}] Request failed with error: ${result.error}`);
-          }
+      const callback = (result: PlatformEvent[TResponse]) => {
+        plugin.logger.debug(
+          `[${request}] Received response (${response})`,
+          result
+        );
+        if (result.ok) {
+          resolve(result as PlatformSuccessPayload<TResponse>);
+        } else {
+          const msg = `[${request}] Request failed with error (${response})`;
+          plugin.logger.debug(msg, result);
+          reject(msg);
+        }
 
-          plugin.events.removeListener(response, callback);
-        };
+        plugin.events.removeListener(response, callback);
+      };
 
-        plugin.events.addListener(response, callback);
+      plugin.events.addListener(response, callback);
 
-        plugin.send(request, input);
-      }
-    );
+      plugin.send(request, input);
+    });
   };
