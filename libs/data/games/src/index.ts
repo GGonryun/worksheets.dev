@@ -27,8 +27,8 @@ const integratedGames: SeedableGameSchema[] = [
       url: 'https://cdn.charity.games/_games/slime-arrows/index.html',
     },
     markets: {},
-    createdAt: new Date('2024-03-11T00:00:00.000Z'),
-    updatedAt: new Date('2024-03-11T00:00:00.000Z'),
+    createdAt: new Date('2025-03-11T00:00:00.000Z'),
+    updatedAt: new Date('2025-03-11T00:00:00.000Z'),
     description:
       '<p>Slime & Arrows is a dodgeball game where players need to survive as a slime by avoiding arrows. The game gets progressively harder as the player survives longer. How long can you survive?<br/>Control your slime using a virtual joystick, tap anywhere on the screen to start moving.</p>',
     leaderboard: true,
