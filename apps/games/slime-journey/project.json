@@ -1,9 +1,0 @@
-{
-  "name": "games-slime-journey",
-  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "projectType": "application",
-  "sourceRoot": "apps/games/slime-journey/src",
-  "tags": [],
-  "// targets": "to see all targets run: nx show project games-slime-journey --web",
-  "targets": {}
-}

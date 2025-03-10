@@ -1,9 +1,9 @@
 {
-  "name": "slime-arrows",
+  "name": "games-slime-arrows",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "sourceRoot": "apps/games/slime-arrows/src",
   "tags": [],
-  "// targets": "to see all targets run: nx show project slime-arrows --web",
+  "// targets": "to see all targets run: nx show project games-slime-arrows --web",
   "targets": {}
 }
