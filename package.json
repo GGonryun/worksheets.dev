@@ -183,7 +183,7 @@
     "@types/react-dom": "19.0.3"
   },
   "optionalDependencies": {
-    "@rollup/rollup-linux-x64-gnu": "^4.34.8",
-    "@esbuild/linux-x64": "0.25.1"
+    "@esbuild/linux-x64": "0.25.1",
+    "@rollup/rollup-linux-x64-gnu": "^4.34.8"
   }
 }

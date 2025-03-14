@@ -93,9 +93,9 @@ export const newScoreKeeper = (scene: GameScene, events: ScoreEventEmitter) => {
 
     updateAchievements: () => {
       const achievements: string[] = ['slime-arrows:die-once'];
-      score > 100 && achievements.push('slime-arrows:score-100');
-      score > 200 && achievements.push('slime-arrows:score-200');
-      score > 300 && achievements.push('slime-arrows:score-300');
+      score >= 100 && achievements.push('slime-arrows:score-100');
+      score >= 150 && achievements.push('slime-arrows:score-150');
+      score >= 200 && achievements.push('slime-arrows:score-200');
       scene.server.achievements.unlock(achievements);
     },
     increment: (value: number) => {

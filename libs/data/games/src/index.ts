@@ -45,6 +45,15 @@ const integratedGames: SeedableGameSchema[] = [
         secret: false,
       },
       {
+        id: 'slime-arrows:score-50',
+        version: 1,
+        name: 'Score 50',
+        description: 'Score 50 points in a single game of Slime & Arrows',
+        iconUrl:
+          'https://cdn.charity.games/_games/slime-arrows/assets/achievements/score-500.png',
+        secret: false,
+      },
+      {
         id: 'slime-arrows:score-100',
         version: 1,
         name: 'Score 100',
@@ -54,34 +63,25 @@ const integratedGames: SeedableGameSchema[] = [
         secret: false,
       },
       {
-        id: 'slime-arrows:score-200',
+        id: 'slime-arrows:score-150',
         version: 1,
-        name: 'Score 200',
-        description: 'Score 200 points in a single game of Slime & Arrows',
+        name: 'Score 150',
+        description: 'Score 150 points in a single game of Slime & Arrows',
         iconUrl:
-          'https://cdn.charity.games/_games/slime-arrows/assets/achievements/score-200.png',
-        secret: false,
-      },
-      {
-        id: 'slime-arrows:score-300',
-        version: 1,
-        name: 'Score 300',
-        description: 'Score 300 points in a single game of Slime & Arrows',
-        iconUrl:
-          'https://cdn.charity.games/_games/slime-arrows/assets/achievements/score-300.png',
+          'https://cdn.charity.games/_games/slime-arrows/assets/achievements/score-150.png',
         secret: false,
       },
     ],
     tasks: [
       {
-        name: 'Play Slime & Arrows #1',
+        name: 'Play Slime & Arrows (50)',
         description:
           'Dodge at least 50 arrows in a single game of Slime & Arrows',
         type: 'score',
         score: 50,
       },
       {
-        name: 'Play Slime & Arrows #2',
+        name: 'Play Slime & Arrows (75)',
         description:
           'Dodge at least 75 arrows in a single game of Slime & Arrows',
         type: 'score',

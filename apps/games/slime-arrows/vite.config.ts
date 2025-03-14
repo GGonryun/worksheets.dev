@@ -14,9 +14,9 @@ export default defineConfig({
     'process.env': process.env,
   },
   build: {
+    outDir: '../../../dist/apps/games/slime-arrows',
     reportCompressedSize: true,
     commonjsOptions: { transformMixedEsModules: true },
-    outDir: 'dist', // Specify output directory
     assetsDir: 'assets', // Specify assets directory
   },
   plugins: [nxViteTsPaths()],
