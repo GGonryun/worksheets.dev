@@ -1,0 +1,59 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "",
+    "expandedProjectPaths": [
+    ],
+    "file.lastUsedOpenFilter": "All Files (*)",
+    "fileStates": {
+        "": {
+            "scaleInDock": 1
+        },
+        "map-1.json": {
+            "scale": 12.16,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 42.393092105263165,
+                "y": 32.9358552631579
+            }
+        },
+        "map-1.json#grass": {
+            "scaleInDock": 5.5
+        },
+        "tilemap.tmx": {
+            "scale": 7.43,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 38.627187079407804,
+                "y": 5.518169582772543
+            }
+        },
+        "tilemap.tmx#grass": {
+            "scaleInDock": 8
+        }
+    },
+    "last.exportedFilePath": "/Users/miguelcampos/src/worksheets/apps/games/tiny-dungeon/public/assets/map",
+    "last.imagePath": "/Users/miguelcampos/src/worksheets/apps/games/tiny-dungeon/public/assets/sprites",
+    "map.fixedSize": true,
+    "map.height": 9,
+    "map.lastUsedExportFilter": "JSON map files (*.tmj *.json)",
+    "map.lastUsedFormat": "json",
+    "map.tileHeight": 8,
+    "map.tileWidth": 8,
+    "map.width": 9,
+    "openFiles": [
+    ],
+    "project": "map-1.tiled-project",
+    "property.type": "bool",
+    "recentFiles": [
+        "map-1.json",
+        "tilemap.tmx"
+    ],
+    "tileset.embedInMap": true,
+    "tileset.tileSize": {
+        "height": 8,
+        "width": 8
+    }
+}

@@ -9,7 +9,7 @@ dotenv.config({
 
 export default defineConfig({
   root: __dirname,
-  cacheDir: '../../../node_modules/.vite/apps/games/bit-jumper',
+  cacheDir: '../../../node_modules/.vite/apps/games/template',
   base: './', // Use relative paths for all assets
   define: {
     'process.env': process.env,
@@ -25,7 +25,7 @@ export default defineConfig({
   plugins: [nxViteTsPaths()],
 
   build: {
-    outDir: '../../../dist/apps/games/bit-jumper',
+    outDir: '../../../dist/apps/games/template',
     emptyOutDir: true,
     reportCompressedSize: true,
     commonjsOptions: {

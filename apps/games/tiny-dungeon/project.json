@@ -1,0 +1,9 @@
+{
+  "name": "games-tiny-dungeon",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/games/tiny-dungeon/src",
+  "tags": [],
+  "// targets": "to see all targets run: nx show project tiny-dungeon --web",
+  "targets": {}
+}

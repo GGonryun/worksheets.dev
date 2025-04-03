@@ -20,3 +20,5 @@ export const compress = <T extends Record<string, K>, K>(obj: T) =>
   Object.fromEntries(
     Object.entries(obj).filter(([, value]) => value !== undefined)
   );
+
+export const keysOf = getObjectKeys;

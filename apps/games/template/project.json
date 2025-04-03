@@ -1,0 +1,9 @@
+{
+  "name": "games-template",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/games/template/src",
+  "tags": [],
+  "// targets": "to see all targets run: nx show project games-template --web",
+  "targets": {}
+}
