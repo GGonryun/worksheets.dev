@@ -109,6 +109,17 @@
         "serveTargetName": "serve",
         "previewTargetName": "preview"
       }
+    },
+    {
+      "plugin": "@nx/next/plugin",
+      "options": {
+        "startTargetName": "start",
+        "buildTargetName": "next:build",
+        "devTargetName": "dev",
+        "serveStaticTargetName": "serve-static",
+        "buildDepsTargetName": "build-deps",
+        "watchDepsTargetName": "watch-deps"
+      }
     }
   ],
   "nxCloudId": "67b2ec4d79ed107f0f811df2",
