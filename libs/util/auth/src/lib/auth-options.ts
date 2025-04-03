@@ -6,6 +6,7 @@ import {
   GITHUB_CLIENT_SECRET,
   GOOGLE_CLIENT_ID,
   GOOGLE_CLIENT_SECRET,
+  VERCEL_URL,
 } from '@worksheets/services/environment';
 import { AuthOptions } from 'next-auth';
 import DiscordProvider from 'next-auth/providers/discord';
@@ -15,13 +16,25 @@ import GoogleProvider from 'next-auth/providers/google';
 import { customPrismaAdapter } from './prisma-adapter';
 import { googleRefreshAccessToken } from './refresh/google-oauth-refresh';
 
-// TODO: switch jwt maxAge to 1 hour
-// const ONE_HOUR_IN_SECONDS = 60 * 60;
+const useSecureCookies = !!VERCEL_URL;
+
 const SEVEN_DAYS_IN_SECONDS = 60 * 60 * 24 * 7;
 export const AUTH_OPTIONS: AuthOptions = {
   session: { strategy: 'jwt', maxAge: SEVEN_DAYS_IN_SECONDS },
   jwt: {
     maxAge: SEVEN_DAYS_IN_SECONDS,
+  },
+  cookies: {
+    sessionToken: {
+      name: `${useSecureCookies ? '__Secure-' : ''}next-auth.session-token`,
+      options: {
+        httpOnly: true,
+        sameSite: 'lax',
+        path: '/',
+        domain: useSecureCookies ? '.charity.games' : 'localhost',
+        secure: useSecureCookies,
+      },
+    },
   },
   adapter: customPrismaAdapter(prisma),
   providers: [

@@ -6,4 +6,4 @@ export * from './lib/cron';
 export * from './lib/urls';
 export * from './lib/gmail';
 export * from './lib/twitter';
-export * from './lib/gruvian';
+export * from './lib/vercel';
