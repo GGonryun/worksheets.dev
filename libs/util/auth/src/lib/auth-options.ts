@@ -1,5 +1,6 @@
 import { prisma } from '@worksheets/prisma';
 import {
+  COOKIE_DOMAIN,
   DISCORD_CLIENT_ID,
   DISCORD_CLIENT_SECRET,
   GITHUB_CLIENT_ID,
@@ -31,7 +32,7 @@ export const AUTH_OPTIONS: AuthOptions = {
         httpOnly: true,
         sameSite: 'lax',
         path: '/',
-        domain: useSecureCookies ? '.charity.games' : 'localhost',
+        domain: useSecureCookies ? `.${COOKIE_DOMAIN}` : 'localhost',
         secure: useSecureCookies,
       },
     },

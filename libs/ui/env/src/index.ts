@@ -15,7 +15,10 @@ const BLOG_BASE_URL =
   process.env['BLOG_BASE_URL'] ??
   '';
 
-const COOKIE_DOMAIN = process.env['NEXT_PUBLIC_COOKIE_DOMAIN'] ?? '';
+const COOKIE_DOMAIN =
+  process.env['COOKIE_DOMAIN'] ??
+  process.env['NEXT_PUBLIC_COOKIE_DOMAIN'] ??
+  '';
 const IS_PRODUCTION = process.env['NODE_ENV'] === 'production';
 const IS_DEVELOPMENT = process.env['NODE_ENV'] !== 'production';
 const RECAPTCHA_SITE_KEY = process.env['NEXT_PUBLIC_RECAPTCHA_SITE_KEY'] ?? '';
