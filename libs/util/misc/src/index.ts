@@ -38,5 +38,3 @@ export const parseKey = <T>(
 export const noop = (..._: unknown[]) => {
   // noop
 };
-
-export const TOKEN_ICON = 'https://cdn.charity.games/_items/detailed/1.png';
