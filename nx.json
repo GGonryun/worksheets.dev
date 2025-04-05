@@ -40,6 +40,11 @@
       "cache": true,
       "dependsOn": ["^build"],
       "inputs": ["production", "^production"]
+    },
+    "@nx/esbuild:esbuild": {
+      "cache": true,
+      "dependsOn": ["^build"],
+      "inputs": ["production", "^production"]
     }
   },
   "namedInputs": {
@@ -123,5 +128,10 @@
     }
   ],
   "nxCloudId": "67b2ec4d79ed107f0f811df2",
-  "useLegacyCache": true
+  "useLegacyCache": true,
+  "release": {
+    "version": {
+      "preVersionCommand": "npx nx run-many -t build"
+    }
+  }
 }

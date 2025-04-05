@@ -1,0 +1,53 @@
+{
+  "name": "unzip",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/unzip/src",
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "options": {}
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "options": {
+        "jestConfig": "apps/unzip/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "build": {
+      "executor": "@nx-extend/gcp-functions:build",
+      "options": {
+        "generateLockFile": true,
+        "outputPath": "dist/apps/unzip",
+        "main": "apps/unzip/src/main.ts",
+        "tsConfig": "apps/unzip/tsconfig.app.json",
+        "assets": []
+      },
+      "configurations": {
+        "production": {
+          "optimization": true,
+          "extractLicenses": false,
+          "inspect": false
+        }
+      }
+    },
+    "deploy": {
+      "executor": "@nx-extend/gcp-functions:deploy",
+      "options": {
+        "functionName": "unzip",
+        "envVarsFile": "apps/unzip/src/environments/production.yaml",
+        "entryPoint": "Unzip",
+        "allowUnauthenticated": false,
+        "region": "us-west1",
+        "triggerEvent": "google.storage.object.finalize",
+        "trigger": "resource",
+        "triggerValue": "gs://charity-games-us-west1",
+        "memory": "128MB",
+        "maxInstances": 1,
+        "concurrency": 1
+      }
+    }
+  },
+  "tags": []
+}

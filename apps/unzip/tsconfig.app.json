@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "target": "ES2022",
+    "outDir": "../../dist/out-tsc/unzip",
+    "declaration": true,
+    "importHelpers": false,
+    "types": ["node"]
+  },
+  "exclude": ["**/*.spec.ts", "**/*.e2e.ts"],
+  "include": ["**/*.ts"]
+}
