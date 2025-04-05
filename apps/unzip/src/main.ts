@@ -2,19 +2,7 @@ import { CloudEvent, cloudEvent } from '@google-cloud/functions-framework';
 import { Storage } from '@google-cloud/storage';
 import * as unzipper from 'unzipper';
 
-const zippedFolder = `zipped/`;
-const unzippedFolder = `unzipped/`;
-
 cloudEvent('Unzip', async (cloudEvent: CloudEvent<StorageObjectData>) => {
-  // only process zip files placed into the folder "zipped/" to prevent infinite loops
-  if (!cloudEvent.data.name.startsWith(zippedFolder)) {
-    // the file path would typically be: "zipped/{submission_id}/{filename}.zip"
-    // console.log(
-    //   `The file ${cloudEvent.data.name} is not in the '${zippedFolder}' folder. Skipping processing.`
-    // );
-    return;
-  }
-
   // only process zip files
   if (cloudEvent.data.contentType !== 'application/zip') {
     // console.log(
@@ -24,7 +12,7 @@ cloudEvent('Unzip', async (cloudEvent: CloudEvent<StorageObjectData>) => {
   }
 
   //split the file name.
-  const [, submissionId, file] = cloudEvent.data.name.split('/');
+  const [submissionId, file] = cloudEvent.data.name.split('/');
 
   console.log(`Processing zip file: ${cloudEvent.data.name}`, {
     submissionId,
@@ -35,7 +23,7 @@ cloudEvent('Unzip', async (cloudEvent: CloudEvent<StorageObjectData>) => {
     await unzip({
       bucket: cloudEvent.data.bucket,
       file: cloudEvent.data.name,
-      folder: `${unzippedFolder}${submissionId}`, // e.g. unzipped/1234
+      folder: `_submissions/${submissionId}`,
     });
     console.log(`Unzipping completed for ${cloudEvent.data.name}`);
   } catch (error) {
@@ -49,7 +37,8 @@ cloudEvent('Unzip', async (cloudEvent: CloudEvent<StorageObjectData>) => {
 const unzip = (options: { bucket: string; file: string; folder: string }) =>
   new Promise((resolve, reject) => {
     const storageBucket = new Storage().bucket(options.bucket);
-    const remoteFile = storageBucket.file(options.file); // e.g. uploads/1234/submission.zip
+    const targetBucket = new Storage().bucket('charity-games');
+    const remoteFile = storageBucket.file(options.file); // e.g. 1234/submission.zip
     const targetFolder = options.folder; // e.g. submissions/1234
 
     remoteFile
@@ -66,7 +55,7 @@ const unzip = (options: { bucket: string; file: string; folder: string }) =>
         }
 
         // Create a new file in the target folder
-        const targetFile = storageBucket.file(`${targetFolder}/${fileName}`);
+        const targetFile = targetBucket.file(`${targetFolder}/${fileName}`);
         entry
           .pipe(targetFile.createWriteStream())
           .on('error', (err) => reject(err))

@@ -42,7 +42,7 @@
         "region": "us-west1",
         "triggerEvent": "google.storage.object.finalize",
         "trigger": "resource",
-        "triggerValue": "gs://charity-games-us-west1",
+        "triggerValue": "gs://game-submissions",
         "memory": "128MB",
         "maxInstances": 1,
         "concurrency": 1
