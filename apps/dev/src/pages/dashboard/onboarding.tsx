@@ -1,7 +1,7 @@
 import { OnboardingFlow } from '@worksheets/ui/shadcn';
 import { NextPageWithLayout } from '@worksheets/util-next';
 
-import { DeveloperDashboardLayout } from './layout';
+import { DeveloperDashboardLayout } from '../../components/layout';
 
 const Page: NextPageWithLayout = () => {
   return (

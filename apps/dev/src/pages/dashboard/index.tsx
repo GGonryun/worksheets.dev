@@ -1,7 +1,7 @@
 import { trpc } from '@worksheets/trpc-charity';
 import { NextPageWithLayout } from '@worksheets/util-next';
 
-import { DeveloperDashboardLayout } from './layout';
+import { DeveloperDashboardLayout } from '../../components/layout';
 
 const Page: NextPageWithLayout = () => {
   const user = trpc.user.get.useQuery();
