@@ -271,7 +271,9 @@
       "@worksheets/util/time": ["libs/util/time/src/index.ts"],
       "@worksheets/util/trpc": ["libs/util/trpc/src/index.ts"],
       "@worksheets/util/types": ["libs/util/types/src/index.ts"],
-      "@worksheets/zod": ["libs/util/zod/src/index.ts"]
+      "@worksheets/zod": ["libs/util/zod/src/index.ts"],
+      "@worksheets/ui/shadcn": ["libs/ui/shadcn/src/index.ts"],
+      "@worksheets/ui/shadcn/server": ["libs/ui/shadcn/src/server.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

@@ -1,25 +1,27 @@
 import './styles.css';
 
-import { AppProps } from 'next/app';
+import { trpc } from '@worksheets/trpc-charity';
+import { Toaster } from '@worksheets/ui/shadcn';
+import { AppPropsWithLayout } from '@worksheets/util-next';
 import Head from 'next/head';
 import { SessionProvider } from 'next-auth/react';
 
-function CustomApp({
+function App({
   Component,
   pageProps: { session, ...pageProps },
-}: AppProps) {
+}: AppPropsWithLayout) {
+  const getLayout = Component.getLayout ?? ((page) => page);
   return (
     <>
       <Head>
         <title>Welcome to dev!</title>
       </Head>
       <SessionProvider session={session} refetchOnWindowFocus={false}>
-        <main className="app">
-          <Component {...pageProps} />
-        </main>
+        <main className="app">{getLayout(<Component {...pageProps} />)}</main>
+        <Toaster />
       </SessionProvider>
     </>
   );
 }
 
-export default CustomApp;
+export default trpc.withTRPC(App);
