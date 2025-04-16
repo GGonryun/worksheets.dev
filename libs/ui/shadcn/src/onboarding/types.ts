@@ -1,5 +1,6 @@
 export type TeamData = {
   name: string;
+  slug: string;
   image: File | null;
   imagePreview: string;
   description: string;

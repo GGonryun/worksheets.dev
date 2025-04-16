@@ -53,3 +53,8 @@ export type DeepNullable<T> = {
 export type NonEmptyArray<T> = [T, ...T[]];
 
 export type NativeEnum<T> = T[keyof T];
+
+// makes a specific key non-nullable
+export type MakeNonNullable<T, K extends keyof T> = Omit<T, K> & {
+  [P in K]-?: Exclude<T[P], null | undefined>;
+};

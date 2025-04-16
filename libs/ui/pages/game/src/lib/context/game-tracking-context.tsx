@@ -1,6 +1,5 @@
 import { trpc } from '@worksheets/trpc-charity';
 import { GAME_TRACK_FREQUENCY_SECONDS } from '@worksheets/util/settings';
-import { useSession } from 'next-auth/react';
 import React, { useEffect, useState } from 'react';
 
 const GameTrackingContext = React.createContext<null>(null);
@@ -9,8 +8,7 @@ export const GameTrackingProvider: React.FC<{
   gameId: string;
   children: React.ReactNode;
 }> = ({ children, gameId }) => {
-  const session = useSession();
-  const trackGameTime = trpc.user.gameTime.track.useMutation();
+  const trackGameTime = trpc.maybe.games.track.useMutation();
   const [windowIsActive, setWindowIsActive] = useState(true);
 
   function handleActivity(forcedFlag: unknown) {
@@ -31,7 +29,6 @@ export const GameTrackingProvider: React.FC<{
 
   useEffect(() => {
     const interval = setInterval(() => {
-      if (session.status !== 'authenticated') return;
       if (!windowIsActive) return;
 
       trackGameTime.mutate({
@@ -40,7 +37,7 @@ export const GameTrackingProvider: React.FC<{
       });
     }, GAME_TRACK_FREQUENCY_SECONDS * 1000);
     return () => clearInterval(interval);
-  }, [gameId, session.status, trackGameTime, windowIsActive]);
+  }, [gameId, trackGameTime, windowIsActive]);
 
   return (
     <GameTrackingContext.Provider value={null}>

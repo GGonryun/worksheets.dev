@@ -1,8 +1,8 @@
-import { IS_DEVELOPMENT } from './development';
-
 const GCP_CLIENT_EMAIL = process.env['GCP_CLIENT_EMAIL'] ?? '';
 const GCP_PRIVATE_KEY = process.env['GCP_PRIVATE_KEY'] ?? '';
 const GCP_PROJECT_ID = process.env['GCP_PROJECT_ID'] ?? '';
+const GCP_CDN_URL = process.env['GCP_CDN_URL'] ?? '';
+const GCP_BUCKET_ID = process.env['GCP_BUCKET_ID'] ?? '';
 
 if (!GCP_PROJECT_ID) {
   throw new Error('Missing GCP_PROJECT_ID');
@@ -16,24 +16,20 @@ if (!GCP_PRIVATE_KEY) {
   throw new Error('Missing GCP_PRIVATE_KEY');
 }
 
-const LOCAL_GCP_BUCKET = 'local-game-submissions';
-const PROD_GCP_BUCKET = 'game-submissions';
+if (!GCP_CDN_URL) {
+  throw new Error('Missing GCP_CDN_URL');
+}
 
-const GCP_SUBMISSION_BUCKET_ID = IS_DEVELOPMENT
-  ? LOCAL_GCP_BUCKET
-  : PROD_GCP_BUCKET;
+if (!GCP_BUCKET_ID) {
+  throw new Error('Missing GCP_BUCKET_ID');
+}
 
-const GCP_SUBMISSION_BUCKET_URL = `https://storage.googleapis.com/${GCP_SUBMISSION_BUCKET_ID}`;
-
-const createFileDownloadUrl = (path: string) => {
-  return `${GCP_SUBMISSION_BUCKET_URL}/${path}`;
-};
-
+const GCP_BUCKET_URL = `https://storage.googleapis.com/${GCP_BUCKET_ID}`;
 export {
   GCP_PROJECT_ID,
-  GCP_SUBMISSION_BUCKET_ID,
-  GCP_SUBMISSION_BUCKET_URL,
+  GCP_BUCKET_ID,
+  GCP_BUCKET_URL,
   GCP_CLIENT_EMAIL,
   GCP_PRIVATE_KEY,
-  createFileDownloadUrl,
+  GCP_CDN_URL,
 };

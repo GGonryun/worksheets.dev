@@ -10,8 +10,8 @@
 
 ```bash
 # from project root directory
-gcloud storage buckets update gs://game-submissions --cors-file=./_gcp/gcs/production_cors.json
+gcloud storage buckets update gs://charity-games --cors-file=./_gcp/gcs/production_cors.json
 
-gcloud storage buckets update gs://local-game-submissions --cors-file=./_gcp/gcs/local_cors.json
+gcloud storage buckets update gs://local-charity-games --cors-file=./_gcp/gcs/local_cors.json
 
 ```

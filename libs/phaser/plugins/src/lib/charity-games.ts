@@ -321,7 +321,7 @@ class LoggerAPI {
   debug(message: string, ...args: unknown[]) {
     if (!this.plugin.isLogging) return;
 
-    console.log(`${message}`, ...args);
+    console.info(`${message}`, ...args);
   }
 }
 

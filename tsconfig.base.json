@@ -74,6 +74,7 @@
         "libs/services/ratelimit/src/index.ts"
       ],
       "@worksheets/services/referral": ["libs/services/referral/src/index.ts"],
+      "@worksheets/services/storage": ["libs/services/storage/src/index.ts"],
       "@worksheets/services/tasks": ["libs/services/tasks/src/index.ts"],
       "@worksheets/services/templates": [
         "libs/services/templates/src/index.ts"
@@ -238,6 +239,8 @@
         "libs/ui/pages/under-construction/src/index.ts"
       ],
       "@worksheets/ui/qa-section/server": ["libs/ui/qa-section/src/server.ts"],
+      "@worksheets/ui/shadcn": ["libs/ui/shadcn/src/index.ts"],
+      "@worksheets/ui/shadcn/server": ["libs/ui/shadcn/src/server.ts"],
       "@worksheets/ui/styles": ["libs/ui/styles/src/index.ts"],
       "@worksheets/ui/theme": ["libs/ui/theme/src/index.ts"],
       "@worksheets/ui/widgets": ["libs/ui/widgets/src/index.ts"],
@@ -256,6 +259,7 @@
       "@worksheets/util/functions": ["libs/util/functions/src/index.ts"],
       "@worksheets/util/generators": ["libs/util/generators/src/index.ts"],
       "@worksheets/util/html": ["libs/util/html/src/index.ts"],
+      "@worksheets/util/legal": ["libs/util/legal/src/index.ts"],
       "@worksheets/util/misc": ["libs/util/misc/src/index.ts"],
       "@worksheets/util/numbers": ["libs/util/numbers/src/index.ts"],
       "@worksheets/util/objects": ["libs/util/objects/src/index.ts"],
@@ -268,12 +272,11 @@
       "@worksheets/util/strings": ["libs/util/strings/src/index.ts"],
       "@worksheets/util/styles": ["libs/util/styles/src/index.ts"],
       "@worksheets/util/tasks": ["libs/util/tasks/src/index.ts"],
+      "@worksheets/util/team": ["libs/util/team/src/index.ts"],
       "@worksheets/util/time": ["libs/util/time/src/index.ts"],
       "@worksheets/util/trpc": ["libs/util/trpc/src/index.ts"],
       "@worksheets/util/types": ["libs/util/types/src/index.ts"],
-      "@worksheets/zod": ["libs/util/zod/src/index.ts"],
-      "@worksheets/ui/shadcn": ["libs/ui/shadcn/src/index.ts"],
-      "@worksheets/ui/shadcn/server": ["libs/ui/shadcn/src/server.ts"]
+      "@worksheets/zod": ["libs/util/zod/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

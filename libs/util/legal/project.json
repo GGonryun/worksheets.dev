@@ -1,0 +1,19 @@
+{
+  "name": "util-legal",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/util/legal/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/util/legal",
+        "main": "libs/util/legal/src/index.ts",
+        "tsConfig": "libs/util/legal/tsconfig.lib.json",
+        "assets": ["libs/util/legal/*.md"]
+      }
+    }
+  },
+  "tags": []
+}

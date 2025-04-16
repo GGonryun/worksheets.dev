@@ -23,6 +23,8 @@ export const TermsOfServiceScreen: FC<TermsOfServiceScreenProps> = () => {
         }}
       >
         <BookmarkAnchor id={'top'} />
+        <Typography variant="h4">Terms of Service</Typography>
+        <br />
         <TermsOfServiceStatement />
         <Typography
           sx={{

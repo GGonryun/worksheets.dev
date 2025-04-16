@@ -88,7 +88,7 @@ export class RafflesService {
       (p) => p.user.multiplier > 0.5
     );
 
-    console.log(
+    console.info(
       `All participants ${raffle.participants.length}, viable participants ${participants.length}`
     );
 

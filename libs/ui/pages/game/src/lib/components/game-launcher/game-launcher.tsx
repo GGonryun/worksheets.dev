@@ -12,7 +12,6 @@ import { FC, useEffect, useRef, useState } from 'react';
 import { useDeviceInformation } from '../../hooks/use-device-information';
 import { useFullscreen } from '../../hooks/use-fullscreen';
 import { GameBanner } from './game-banner';
-import { GameFrame } from './game-frame';
 import { GameLoadingCover } from './game-loading-cover';
 
 type GameLauncherProps = {
@@ -20,7 +19,8 @@ type GameLauncherProps = {
   developer: DeveloperSchema;
   userVote?: Vote;
   status: SessionContextValue['status'];
-  onPlay: () => void;
+  frame: React.ReactNode;
+  onPlay?: () => void;
   onVote: (vote: Vote) => void;
 };
 
@@ -29,6 +29,7 @@ export const GameLauncher: FC<GameLauncherProps> = ({
   game,
   userVote,
   status,
+  frame,
   onPlay,
   onVote,
 }) => {
@@ -52,7 +53,7 @@ export const GameLauncher: FC<GameLauncherProps> = ({
 
   const handlePlayGame = () => {
     if (requiresAds && adBlockDetected) return;
-    onPlay();
+    onPlay?.();
 
     if (game.file.type === 'EXTERNAL') {
       push(game.file.url);
@@ -118,7 +119,7 @@ export const GameLauncher: FC<GameLauncherProps> = ({
           supportsCloudStorage={game.cloudStorage}
         />
       ) : (
-        <GameFrame gameId={game.id} url={game.file.url} status={status} />
+        frame
       )}
 
       {!showTopControls && Banner}

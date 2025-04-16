@@ -5,6 +5,8 @@ import {
   Bell,
   ChevronsUpDown,
   CreditCard,
+  ExternalLinkIcon,
+  HeartIcon,
   LogOut,
   Sparkles,
 } from 'lucide-react';
@@ -25,6 +27,9 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from '../ui/sidebar';
+import { Button } from '../ui/button';
+import Link from 'next/link';
+import { devRoutes, routes } from '@worksheets/routes';
 
 export function NavUser({
   user,
@@ -77,30 +82,34 @@ export function NavUser({
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <Sparkles />
-                Upgrade to Pro
+              <DropdownMenuItem asChild>
+                <Link href={routes.play.url()} target="_blank">
+                  <ExternalLinkIcon />
+                  Visit Arcade
+                </Link>
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <BadgeCheck />
-                Account
+              <DropdownMenuItem asChild>
+                <Link href={routes.account.url()}>
+                  <BadgeCheck />
+                  Account
+                </Link>
               </DropdownMenuItem>
-              <DropdownMenuItem>
-                <CreditCard />
-                Billing
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Bell />
-                Notifications
+              <DropdownMenuItem asChild>
+                <Link href={devRoutes.dashboard.notifications.url()}>
+                  <Bell />
+                  Notifications
+                </Link>
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <LogOut />
-              Log out
+            <DropdownMenuItem asChild>
+              <Link href={routes.logout.url()}>
+                <LogOut />
+                Log out
+              </Link>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

@@ -19,12 +19,13 @@ import {
   ReportIssueModal,
   ShareGameModal,
 } from '../components';
+import { GameFrame } from '../components/game-launcher/game-frame';
 import {
   GameNotificationContextProvider,
   useGameNotifications,
 } from '../hooks/use-game-notifications';
 
-type GameScreenContainerProps = {
+export type GameScreenContainerProps = {
   game: SerializableGameSchema;
   developer: DeveloperSchema;
 };
@@ -161,6 +162,13 @@ const GameScreenContainerInner: React.FC<GameScreenContainerProps> = ({
         onReport={() => setShowReport(true)}
         launcher={
           <GameLauncher
+            frame={
+              <GameFrame
+                gameId={game.id}
+                url={game.file.url}
+                status={session.status}
+              />
+            }
             game={game}
             status={session.status}
             developer={developer}

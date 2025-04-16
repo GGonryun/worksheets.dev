@@ -52,7 +52,6 @@ describe('shuffle', () => {
     const first = results.map((r) => r[0]);
     const firstFrequency = frequency(first);
 
-    console.log('firstFrequency', firstFrequency);
     expect(Object.keys(firstFrequency).length).toEqual(5);
   });
 });

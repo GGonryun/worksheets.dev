@@ -449,11 +449,14 @@ export const findNextCronTime = (interval: {
   minutes: number;
 }) => {
   const hour = new Date().getHours() % interval.hours;
-  console.log(hour);
   const nextHour = interval.hours - hour;
   const nextDate = new Date();
   nextDate.setHours(nextHour + nextDate.getHours());
   nextDate.setMinutes(interval.minutes);
   nextDate.setSeconds(0);
   return nextDate;
+};
+
+export const computeDateIsoString = (date: Date = new Date()) => {
+  return date.toISOString();
 };

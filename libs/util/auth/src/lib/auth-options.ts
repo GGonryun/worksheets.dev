@@ -127,6 +127,7 @@ export const AUTH_OPTIONS: AuthOptions = {
       session.user = {
         ...session.user,
         id: token.sub ?? '',
+        test: true,
       };
 
       return session;

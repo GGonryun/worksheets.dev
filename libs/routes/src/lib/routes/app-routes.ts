@@ -23,6 +23,9 @@ export const routes = {
   home: createRoute({
     path: '/',
   }),
+  sitemap: createRoute({
+    path: '/sitemap.xml',
+  }),
   // used by integrations
   api: createRoute({
     path: '/api',
@@ -63,6 +66,9 @@ export const routes = {
         path: '/play/random',
       }),
     },
+  }),
+  preview: createRoute({
+    path: '/preview/[gameId]',
   }),
   game: createRoute({
     path: '/play/[gameId]',

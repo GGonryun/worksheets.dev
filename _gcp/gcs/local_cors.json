@@ -2,7 +2,8 @@
     {
         "origin": [
             "https://charity.games",
-            "http://localhost:6969"
+            "http://localhost:6969",
+            "http://localhost:30420"
         ],
         "responseHeader": [
             "Content-Type"

@@ -22,7 +22,7 @@ export const defaultSeo: DefaultSeoProps = {
         url: `${routes.baseUrl}/og-image.png`,
         width: 978,
         height: 800,
-        alt: 'Charity Games Logo',
+        alt: 'Charity Games',
         type: 'image/png',
       },
     ],
@@ -148,6 +148,22 @@ export const gameSeo = (
       },
     ],
   });
+
+export const previewSeo: NextSeoProps = createSeo({
+  path: '/preview',
+  title: 'Preview Mode',
+  description:
+    'Preview a game in Charity Games. This mode is for developers to test their games before publishing. If you are a developer, please publish your game to make it available to others.',
+  images: [
+    {
+      url: `${routes.baseUrl}/og-image.png`,
+      width: 978,
+      height: 800,
+      alt: 'Charity Games',
+      type: 'image/png',
+    },
+  ],
+});
 
 export const gameJsonLd = (
   game: SerializableGameSchema,

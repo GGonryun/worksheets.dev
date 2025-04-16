@@ -10,10 +10,12 @@ import { useEffect, useState } from 'react';
 export function useLocalStorage<T>(
   key: string,
   defaultValue: T
-): [T, (value: T) => void] {
+): [T, (value: T) => void, boolean] {
   const [value, setValue] = useState(defaultValue);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    setLoading(true);
     const item = localStorage.getItem(key);
 
     if (!item) {
@@ -30,6 +32,7 @@ export function useLocalStorage<T>(
     }
 
     window.addEventListener('storage', handler);
+    setLoading(false);
 
     return () => {
       window.removeEventListener('storage', handler);
@@ -50,5 +53,5 @@ export function useLocalStorage<T>(
     }
   };
 
-  return [value, setValueWrap];
+  return [value, setValueWrap, loading];
 }

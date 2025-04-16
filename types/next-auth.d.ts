@@ -9,6 +9,7 @@ declare module 'next-auth' {
     user: {
       id: string;
       email: string;
+      test: boolean;
     };
   }
   interface User {

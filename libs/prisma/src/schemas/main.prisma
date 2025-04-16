@@ -53,6 +53,52 @@ model User {
   gameStorage      GameStorage[]
   gameScores       GameScore[]
   achievement      PlayerAchievement[]
+  teams            TeamMembership[]
+  files            StoredFile[]
+}
+
+model Team {
+  id          String           @id @default(cuid())
+  name        String           @unique
+  slug        String           @unique
+  description String           @db.VarChar(4095)
+  logo        StoredFile?
+  links       Json
+  members     TeamMembership[]
+  games       Game[]
+}
+
+model TeamMembership {
+  teamId    String
+  team      Team     @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@id([teamId, userId])
+}
+
+enum FileUploadStatus {
+  PENDING
+  DONE
+  ERROR
+}
+
+model StoredFile {
+  id        String           @id @default(cuid())
+  url       String           @db.Text
+  path      String           @db.Text
+  name      String           @db.VarChar(127)
+  size      Int
+  type      String
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+  status    FileUploadStatus @default(PENDING)
+  userId    String
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  teamId    String?          @unique
+  team      Team?            @relation(fields: [teamId], references: [id], onDelete: Cascade)
 }
 
 model Account {
@@ -204,43 +250,49 @@ enum GameStatus {
 }
 
 model Game {
-  id           String             @id @default(cuid())
-  version      Int                @default(0)
-  status       GameStatus         @default(UNPUBLISHED)
-  leaderboard  Boolean            @default(false)
-  cloudStorage Boolean            @default(false)
+  id           String              @id @default(cuid())
+  version      Int                 @default(0)
+  status       GameStatus          @default(UNPUBLISHED)
+  leaderboard  Boolean             @default(false)
+  cloudStorage Boolean             @default(false)
   // Details
-  title        String             @db.VarChar(127)
-  description  String             @db.VarChar(4095)
-  plays        Int                @default(0)
-  likes        Int                @default(0)
-  dislikes     Int                @default(0)
+  title        String              @db.VarChar(127)
+  description  String              @db.VarChar(4095)
+  plays        Int                 @default(0)
+  duration     Int                 @default(0)
+  likes        Int                 @default(0)
+  dislikes     Int                 @default(0)
+  // Ownership
+  team         Team?               @relation(fields: [teamId], references: [id])
+  teamId       String?
   // Search
   categories   CategoriesOnGame[]
   // Audit
-  createdAt    DateTime           @default(now())
-  updatedAt    DateTime           @updatedAt
-  publishAt    DateTime           @default(now())
+  createdAt    DateTime            @default(now())
+  updatedAt    DateTime            @updatedAt
+  publishAt    DateTime            @default(now())
   // Assets
-  thumbnail    String             @db.Text // URL
-  cover        String             @db.Text // URL
-  trailer      String?            @db.Text // URL
-  fileId       String             @unique
-  file         GameFile           @relation(fields: [fileId], references: [id])
+  thumbnail    String              @db.Text // URL
+  cover        String              @db.Text // URL
+  trailer      String?             @db.Text // URL
+  fileId       String              @unique
+  file         GameFile            @relation(fields: [fileId], references: [id])
   // Display
   viewportId   String
-  viewport     Viewport           @relation(fields: [viewportId], references: [id])
+  viewport     Viewport            @relation(fields: [viewportId], references: [id])
   // Developer
   developerId  String
-  developer    Developer          @relation(fields: [developerId], references: [id])
+  developer    Developer           @relation(fields: [developerId], references: [id])
+  // Tasks
+  tasks        Task[]
   // Reports
   reports      GameReport[]
   history      GamePlayHistory[]
-  tasks        Task[]
   gameSessions GameSession[]
   gameStorage  GameStorage[]
   scores       GameScore[]
   achievements GameAchievement[]
+  analytics    GamePlayAnalytics[]
 }
 
 model GamePlayHistory {
@@ -253,6 +305,17 @@ model GamePlayHistory {
   plays     Int      @default(1)
 
   @@unique([gameId, userId])
+}
+
+model GamePlayAnalytics {
+  id       String   @id @default(cuid())
+  date     DateTime @default(now()) @db.Date
+  gameId   String
+  game     Game     @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  plays    Int      @default(0)
+  duration Int      @default(0)
+
+  @@unique([date, gameId])
 }
 
 model Sponsor {

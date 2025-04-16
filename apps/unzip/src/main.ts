@@ -5,16 +5,13 @@ import * as unzipper from 'unzipper';
 cloudEvent('Unzip', async (cloudEvent: CloudEvent<StorageObjectData>) => {
   // only process zip files
   if (cloudEvent.data.contentType !== 'application/zip') {
-    // console.log(
-    //   `The file ${cloudEvent.data.name} is not a zip file. Skipping processing.`
-    // );
     return;
   }
 
   //split the file name.
   const [submissionId, file] = cloudEvent.data.name.split('/');
 
-  console.log(`Processing zip file: ${cloudEvent.data.name}`, {
+  console.info(`Processing zip file: ${cloudEvent.data.name}`, {
     submissionId,
     file,
   });
@@ -25,7 +22,7 @@ cloudEvent('Unzip', async (cloudEvent: CloudEvent<StorageObjectData>) => {
       file: cloudEvent.data.name,
       folder: `_submissions/${submissionId}`,
     });
-    console.log(`Unzipping completed for ${cloudEvent.data.name}`);
+    console.info(`Unzipping completed for ${cloudEvent.data.name}`);
   } catch (error) {
     console.error(
       `Error during unzip process for ${cloudEvent.data.name}:`,

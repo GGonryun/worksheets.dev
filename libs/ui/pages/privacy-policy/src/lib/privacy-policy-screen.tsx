@@ -23,6 +23,8 @@ export const PrivacyPolicyScreen: FC<PrivacyPolicyScreenProps> = () => {
         }}
       >
         <BookmarkAnchor id={'top'} />
+        <Typography variant="h4">Global Privacy Statement</Typography>
+        <br />
         <PrivacyStatement />
         <Typography
           sx={{
