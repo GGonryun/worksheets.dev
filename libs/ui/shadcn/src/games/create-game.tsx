@@ -2,70 +2,64 @@
 
 import { Button } from '../ui/button';
 import { Card, CardDescription, CardHeader, CardTitle } from '../ui/card';
-import { GameFormFields, gameFormSchema } from './game-form';
-import { MediaFormFields, mediaFormSchema } from './media-form';
+import { GameFormFields } from './game-form';
+import { MediaFormFields } from './media-form';
 import router from 'next/router';
 
-import { FormProvider, useForm, useWatch } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
 import { devRoutes } from '@worksheets/routes';
-import { VersionFormFields, versionFormSchema } from './version-form';
-import { useImagePreview } from '../hooks/use-image-preview';
+import { VersionFormFields } from './version-form';
 import { useRouteChangeGuard } from '../hooks/use-route-change-guard';
 import { useUnsavedChangesWarning } from '../hooks/use-unsaved-changes-warning';
-import { Separator } from '../ui';
 import React from 'react';
 import { CardContent } from '@mui/material';
+import { SaveIcon } from 'lucide-react';
+import { trpc } from '@worksheets/trpc-charity';
+import {
+  createGameFormDefaultValues,
+  createGameFormSchema,
+  CreateGameFormSchema,
+} from '@worksheets/util/types';
+import { useActiveTeam } from '../hooks';
 
-const formSchema = gameFormSchema
-  .merge(mediaFormSchema)
-  .merge(versionFormSchema);
-
-type FormSchema = z.infer<typeof formSchema>;
+// TODO: remove in order to bypass the unsaved changes warning
+const enableProtection = false;
 
 export const CreateGame = () => {
-  const form = useForm<FormSchema>({
-    resolver: zodResolver(formSchema),
+  const [teamId] = useActiveTeam();
+
+  const create = trpc.user.teams.games.create.useMutation();
+  const [exitSafely, setExitSafely] = React.useState(false);
+  const form = useForm<CreateGameFormSchema>({
+    resolver: zodResolver(createGameFormSchema),
     mode: 'onChange',
-    defaultValues: {
-      title: '',
-      slug: '',
-      description: '',
-      tags: [],
-      aiDisclosure: false,
-    },
+    defaultValues: createGameFormDefaultValues,
   });
 
-  useUnsavedChangesWarning(form.formState.isDirty);
-  useRouteChangeGuard(form.formState.isDirty);
+  useUnsavedChangesWarning(
+    enableProtection && !exitSafely && form.formState.isDirty
+  );
+  useRouteChangeGuard(
+    enableProtection && !exitSafely && form.formState.isDirty
+  );
 
-  const onSubmit = async (data: FormSchema) => {
-    console.log('Form submitted:', data);
-    console.log(form.formState);
-    form.reset(); // Reset the form after submission
-    // Here you would typically send the data to your server or API
-    // router.push(devRoutes.dashboard.path());
+  const onSubmit = async (form: CreateGameFormSchema) => {
+    console.log('Form submitted:', form);
+    setExitSafely(true);
+    try {
+      await create.mutateAsync({
+        teamId,
+        form,
+      });
+      router.push(devRoutes.dashboard.path());
+    } catch (error) {
+      console.error('Error creating game:', error);
+      // depending on the type of error we may need to add a toast
+      // and show an error on the form.
+      // for example, the slug might already be taken, in which case we need to show an error on the slug field.
+    }
   };
-
-  const thumbnail = useWatch({
-    control: form.control,
-    name: 'thumbnail',
-  });
-
-  const cover = useWatch({
-    control: form.control,
-    name: 'coverImage',
-  });
-
-  const screenshots = useWatch({
-    control: form.control,
-    name: 'screenshots',
-  });
-
-  const thumbnailPreview = useImagePreview(thumbnail);
-  const coverImagePreview = useImagePreview(cover);
-  const screenshotsPreview = useImagePreview(screenshots);
 
   return (
     <div className="container py-6 space-y-6">
@@ -95,11 +89,7 @@ export const CreateGame = () => {
               </CardHeader>
 
               <CardContent>
-                <MediaFormFields
-                  thumbnailPreview={thumbnailPreview[0]}
-                  coverImagePreview={coverImagePreview[0]}
-                  screenshotsPreview={screenshotsPreview}
-                />
+                <MediaFormFields />
               </CardContent>
             </Card>
 
@@ -116,17 +106,10 @@ export const CreateGame = () => {
               </CardContent>
             </Card>
 
-            <div className="flex gap-4 justify-end">
-              <Button
-                variant="outline"
-                type="button"
-                size="lg"
-                onClick={() => router.push(devRoutes.dashboard.path())}
-              >
-                Cancel
-              </Button>
-              <Button type="submit" size="lg">
-                Create Game
+            <div className="flex justify-end">
+              <Button type="submit">
+                <SaveIcon />
+                Save Game
               </Button>
             </div>
           </div>

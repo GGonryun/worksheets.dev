@@ -9,18 +9,19 @@ cloudEvent('Unzip', async (cloudEvent: CloudEvent<StorageObjectData>) => {
   }
 
   //split the file name.
-  const [submissionId, file] = cloudEvent.data.name.split('/');
+  const [folder, file] = cloudEvent.data.name.split('/');
 
   console.info(`Processing zip file: ${cloudEvent.data.name}`, {
-    submissionId,
+    folder,
     file,
+    bucket: process.env.GCP_GAME_SUBMISSION_BUCKET_ID,
   });
 
   try {
     await unzip({
       bucket: cloudEvent.data.bucket,
-      file: cloudEvent.data.name,
-      folder: `_submissions/${submissionId}`,
+      path: cloudEvent.data.name,
+      destination: `${folder}/${file.replace('.zip', '')}`,
     });
     console.info(`Unzipping completed for ${cloudEvent.data.name}`);
   } catch (error) {
@@ -31,14 +32,20 @@ cloudEvent('Unzip', async (cloudEvent: CloudEvent<StorageObjectData>) => {
   }
 });
 
-const unzip = (options: { bucket: string; file: string; folder: string }) =>
+const unzip = (options: {
+  bucket: string;
+  path: string;
+  destination: string;
+}) =>
   new Promise((resolve, reject) => {
-    const storageBucket = new Storage().bucket(options.bucket);
-    const targetBucket = new Storage().bucket('charity-games');
-    const remoteFile = storageBucket.file(options.file); // e.g. 1234/submission.zip
-    const targetFolder = options.folder; // e.g. submissions/1234
+    const sourceBucket = new Storage().bucket(options.bucket);
+    const targetBucket = new Storage().bucket(
+      process.env.GCP_GAME_SUBMISSION_BUCKET_ID
+    );
+    const remotePath = sourceBucket.file(options.path);
+    const targetFolder = options.destination;
 
-    remoteFile
+    remotePath
       .createReadStream()
       .on('error', (err) => reject(err))
       .pipe(unzipper.Parse())

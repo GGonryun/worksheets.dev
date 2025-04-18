@@ -18,3 +18,4 @@ export * from './lib/arcade';
 export * from './lib/user';
 export * from './lib/codes';
 export * from './lib/tasks';
+export * from './lib/teams';

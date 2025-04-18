@@ -205,10 +205,11 @@ model Viewport {
 }
 
 model GameFile {
-  id   String      @id @default(cuid())
-  type ProjectType @default(HTML)
-  url  String      @db.VarChar(511)
-  game Game?
+  id      String      @id @default(cuid())
+  version String      @default("1.0.0")
+  type    ProjectType @default(HTML)
+  url     String      @db.VarChar(511)
+  game    Game?
 }
 
 model CategoriesOnGame {
@@ -252,40 +253,34 @@ enum GameStatus {
 model Game {
   id           String              @id @default(cuid())
   version      Int                 @default(0)
+  title        String              @db.VarChar(127)
+  // TODO: remove this after we've migrated all games.
+  slug         String              @default("")
+  description  String              @db.VarChar(4095)
+  categories   CategoriesOnGame[]
+  cover        String              @db.Text // URL
+  thumbnail    String              @db.Text // URL
+  trailer      String?             @db.Text // URL
+  viewportId   String
+  viewport     Viewport            @relation(fields: [viewportId], references: [id])
+  // Ownership
   status       GameStatus          @default(UNPUBLISHED)
+  team         Team?               @relation(fields: [teamId], references: [id])
+  teamId       String?
+  // Game File -- Must have at least one active version saved to the file.
+  fileId       String              @unique
+  file         GameFile            @relation(fields: [fileId], references: [id])
+  // SDK Enabled
   leaderboard  Boolean             @default(false)
   cloudStorage Boolean             @default(false)
-  // Details
-  title        String              @db.VarChar(127)
-  description  String              @db.VarChar(4095)
+  // Analytics & Actions
   plays        Int                 @default(0)
   duration     Int                 @default(0)
   likes        Int                 @default(0)
   dislikes     Int                 @default(0)
-  // Ownership
-  team         Team?               @relation(fields: [teamId], references: [id])
-  teamId       String?
-  // Search
-  categories   CategoriesOnGame[]
-  // Audit
   createdAt    DateTime            @default(now())
   updatedAt    DateTime            @updatedAt
   publishAt    DateTime            @default(now())
-  // Assets
-  thumbnail    String              @db.Text // URL
-  cover        String              @db.Text // URL
-  trailer      String?             @db.Text // URL
-  fileId       String              @unique
-  file         GameFile            @relation(fields: [fileId], references: [id])
-  // Display
-  viewportId   String
-  viewport     Viewport            @relation(fields: [viewportId], references: [id])
-  // Developer
-  developerId  String
-  developer    Developer           @relation(fields: [developerId], references: [id])
-  // Tasks
-  tasks        Task[]
-  // Reports
   reports      GameReport[]
   history      GamePlayHistory[]
   gameSessions GameSession[]
@@ -293,6 +288,10 @@ model Game {
   scores       GameScore[]
   achievements GameAchievement[]
   analytics    GamePlayAnalytics[]
+  tasks        Task[]
+  // Legacy
+  developerId  String
+  developer    Developer           @relation(fields: [developerId], references: [id])
 }
 
 model GamePlayHistory {

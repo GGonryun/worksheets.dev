@@ -32,7 +32,7 @@
         }
       }
     },
-    "deploy": {
+    "deploy:prod": {
       "executor": "@nx-extend/gcp-functions:deploy",
       "options": {
         "functionName": "unzip",
@@ -43,6 +43,22 @@
         "triggerEvent": "google.storage.object.finalize",
         "trigger": "resource",
         "triggerValue": "gs://game-submissions",
+        "memory": "128MB",
+        "maxInstances": 1,
+        "concurrency": 1
+      }
+    },
+    "deploy:local": {
+      "executor": "@nx-extend/gcp-functions:deploy",
+      "options": {
+        "functionName": "unzip-local",
+        "envVarsFile": "apps/unzip/src/environments/local.yaml",
+        "entryPoint": "Unzip",
+        "allowUnauthenticated": false,
+        "region": "us-west1",
+        "triggerEvent": "google.storage.object.finalize",
+        "trigger": "resource",
+        "triggerValue": "gs://local-game-submissions",
         "memory": "128MB",
         "maxInstances": 1,
         "concurrency": 1

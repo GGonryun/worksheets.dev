@@ -4,7 +4,7 @@ import { createClient } from '@worksheets/services/kv';
 export default {
   web: new Ratelimit({
     redis: createClient(),
-    limiter: Ratelimit.slidingWindow(15, '10 s'),
+    limiter: Ratelimit.slidingWindow(5, '5 s'),
     timeout: 1000,
     prefix: 'ratelimit:web',
   }),
@@ -13,5 +13,10 @@ export default {
     limiter: Ratelimit.slidingWindow(100, '10 s'),
     timeout: 1000,
     prefix: 'ratelimit:api',
+  }),
+  uploads: new Ratelimit({
+    redis: createClient(),
+    limiter: Ratelimit.slidingWindow(20, '60 m'),
+    prefix: 'ratelimit:uploads',
   }),
 };

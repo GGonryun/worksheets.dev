@@ -20,6 +20,7 @@ export default t.router({
     .output(
       z.object({
         fileId: z.string(),
+        publicUrl: z.string(),
         uploadUrl: z.string(),
       })
     )
@@ -34,11 +35,13 @@ export default t.router({
           contentType: type,
         });
 
+        const publicUrl = `${GCP_CDN_URL}/${path}`;
+
         const storedFile = await db.storedFile.create({
           data: {
             userId: user.id,
             teamId: teamId,
-            url: `${GCP_CDN_URL}/${path}`,
+            url: publicUrl,
             status: 'PENDING',
             path,
             size: toMegabytes(size),
@@ -52,6 +55,7 @@ export default t.router({
         return {
           fileId: storedFile.id,
           uploadUrl,
+          publicUrl,
         };
       }
     ),

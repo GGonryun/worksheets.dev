@@ -17,35 +17,15 @@ import {
 import { Input } from '../ui/input';
 import { Textarea } from '../ui/textarea';
 import { useEffect, useState } from 'react';
-import { CheckCircle2, FileArchive, Loader2, TrashIcon, X } from 'lucide-react';
-import { FileRequirements } from './file-requirements';
-import { MediaUploader } from './media-uploader';
-import { Card, CardContent } from '../ui/card';
-import { printBytes } from '@worksheets/util/data';
+import { CheckCircle2, Loader2 } from 'lucide-react';
+import { FileUploader } from './file-uploader';
+import {
+  versionFormDefaultValues,
+  VersionFormSchema,
+  versionFormSchema,
+} from '@worksheets/util/types';
 
-const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
-
-export const versionFormSchema = z.object({
-  version: z.string().regex(/^\d+\.\d+\.\d+$/, {
-    message: 'Version must be in format x.y.z (e.g., 1.0.0)',
-  }),
-  gameFile: z
-    .custom<File>()
-    .refine((file) => file instanceof File, { message: 'File is required' })
-    .refine(
-      (file) => file.name.endsWith('.zip') || file.name.endsWith('.html'),
-      {
-        message: 'Only .zip or .html files are allowed',
-      }
-    )
-    .refine((file) => file.size <= MAX_FILE_SIZE, {
-      message: 'File must be smaller than 50MB',
-    })
-    .array(),
-  notes: z.string().optional(),
-});
-
-export type VersionFormSchema = z.infer<typeof versionFormSchema>;
+const MAX_FILE_SIZE = 100 * 1000 * 1000; // 100MB
 
 type FormState = 'form' | 'uploading' | 'success';
 
@@ -67,11 +47,7 @@ export function VersionForm({
   // Initialize form with default values
   const form = useForm<VersionFormSchema>({
     resolver: zodResolver(versionFormSchema),
-    defaultValues: {
-      version: '',
-      gameFile: undefined,
-      notes: '',
-    },
+    defaultValues: versionFormDefaultValues,
   });
 
   // Track form changes
@@ -203,7 +179,9 @@ export const VersionFormFields: React.FC = () => {
         name="version"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Version Number</FormLabel>
+            <FormLabel>
+              Version Number <span className="text-red-500">*</span>
+            </FormLabel>
             <FormControl>
               <Input placeholder="1.0.0" {...field} />
             </FormControl>
@@ -224,38 +202,26 @@ export const VersionFormFields: React.FC = () => {
               Game File <span className="text-red-500">*</span>
             </FormLabel>
 
-            {!!field.value?.length ? (
-              <GameFilePreview
-                file={field.value[0]}
-                onRemove={() => field.onChange(undefined)}
-              />
-            ) : (
-              <FormControl>
-                <MediaUploader
-                  value={field.value}
-                  onChange={field.onChange}
-                  type="zip"
-                  label="Upload Game File"
-                  description="Drag and drop your game file (ZIP) here or click to browse"
-                  fileTypes={['application/zip']}
-                />
-              </FormControl>
-            )}
-
-            <FormMessage />
-
-            {!field.value && (
-              <FileRequirements
-                title="Game File Requirements"
+            <FormControl>
+              <FileUploader
+                fieldId={field.name}
+                name="Game File"
+                label="Upload Game File"
                 description="Your ZIP file must include:"
-                items={[
+                type={'zip'}
+                requirements={[
                   'An index.html file at the root level',
                   'All game assets (images, sounds, scripts) referenced by relative paths',
                   'Self-contained game that works in a browser environment',
-                  'Maximum file size: 100MB',
                 ]}
+                restrictions={{
+                  fileTypes: ['application/zip'],
+                  maxSize: MAX_FILE_SIZE,
+                }}
               />
-            )}
+            </FormControl>
+
+            <FormMessage />
           </FormItem>
         )}
       />
@@ -281,36 +247,5 @@ export const VersionFormFields: React.FC = () => {
         )}
       />
     </div>
-  );
-};
-
-const GameFilePreview: React.FC<{ file: File; onRemove: () => void }> = ({
-  file,
-  onRemove,
-}) => {
-  return (
-    <Card className="w-full">
-      <CardContent className="p-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <div className="p-2 bg-primary/10 rounded">
-              <FileArchive className="h-6 w-6 text-primary" />
-            </div>
-            <div>
-              <p className="font-medium truncate">{file.name}</p>
-              <p className="text-sm text-gray-500">{printBytes(file.size)}</p>
-            </div>
-          </div>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={onRemove}
-            aria-label="Remove file"
-          >
-            <TrashIcon className="h-4 w-4" />
-          </Button>
-        </div>
-      </CardContent>
-    </Card>
   );
 };

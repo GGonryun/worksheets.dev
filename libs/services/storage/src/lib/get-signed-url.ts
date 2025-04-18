@@ -4,6 +4,7 @@ import { newStorageClient } from './client';
 import { StorageError } from './errors';
 
 type GetSignedUrlOptions = {
+  bucket?: string;
   path: string;
   contentType: string;
   version?: 'v4';
@@ -11,6 +12,7 @@ type GetSignedUrlOptions = {
   expires?: number;
 };
 export const getSignedUrl = async ({
+  bucket = GCP_BUCKET_ID,
   path,
   contentType,
   action = 'write',
@@ -20,15 +22,12 @@ export const getSignedUrl = async ({
   const storage = newStorageClient();
 
   try {
-    const [uploadUrl] = await storage
-      .bucket(GCP_BUCKET_ID)
-      .file(path)
-      .getSignedUrl({
-        version,
-        action,
-        expires,
-        contentType,
-      });
+    const [uploadUrl] = await storage.bucket(bucket).file(path).getSignedUrl({
+      version,
+      action,
+      expires,
+      contentType,
+    });
 
     return uploadUrl;
   } catch (error) {

@@ -30,7 +30,6 @@ export function MediaUploader({
   const allowMultiple = type === 'image' && max > 1;
 
   const updateFiles = async (files: FileList | File[]) => {
-    console.log('Updating files...', files);
     if (allowMultiple) {
       onChange([...value, ...Array.from(files)]);
     } else {

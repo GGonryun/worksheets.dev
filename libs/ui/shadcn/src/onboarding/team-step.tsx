@@ -129,7 +129,7 @@ export default function TeamStep({
               imagePreview: event.target?.result as string,
             }));
           };
-          img.src = event.target.result as string;
+          img.src = event.target.result;
         }
       };
 

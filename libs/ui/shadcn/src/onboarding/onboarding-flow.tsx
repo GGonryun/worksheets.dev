@@ -222,6 +222,7 @@ export const OnboardingFlow = () => {
     </div>
   );
 };
+
 const ProgressIndicator: React.FC<{
   currentStep: number;
   onSetStep: (s: number) => void;

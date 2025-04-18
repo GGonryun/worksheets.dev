@@ -1,16 +1,10 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import {
-  FormProvider,
-  useForm,
-  useFormContext,
-  UseFormReturn,
-} from 'react-hook-form';
+import { FormProvider, useForm, useFormContext } from 'react-hook-form';
 import { z } from 'zod';
 import { Button } from '../ui/button';
 import {
-  Form,
   FormControl,
   FormDescription,
   FormField,
@@ -21,11 +15,14 @@ import {
 import { Input } from '../ui/input';
 import { Textarea } from '../ui/textarea';
 import { Checkbox } from '../ui/checkbox';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/router';
-import { cn } from '../utils';
-import { isEqual } from 'lodash';
 import { CHARITY_GAMES_BASE_URL } from '@worksheets/ui/env';
+import {
+  gameFormDefaultValues,
+  gameFormSchema,
+  GameFormSchema,
+} from '@worksheets/util/types';
 
 // Mock data for tags
 const availableTags = [
@@ -41,45 +38,11 @@ const availableTags = [
   { id: 'platformer', label: 'Platformer' },
 ];
 
-// Mock data for a game (used when editing)
-const mockGame = {
-  id: '1',
-  title: 'Space Explorer',
-  slug: 'space-explorer',
-  description:
-    'An exciting space adventure game where you explore distant planets and encounter alien species.',
-  tags: ['action', 'adventure'],
-  aiDisclosure: true,
-  coverImage: '/placeholder.svg?height=400&width=600',
-  screenshots: [
-    '/placeholder.svg?height=400&width=600',
-    '/placeholder.svg?height=400&width=600',
-  ],
-  trailerUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-};
-
-export const gameFormSchema = z.object({
-  title: z.string().min(3, {
-    message: 'Title must be at least 3 characters.',
-  }),
-  slug: z
-    .string()
-    .min(3, {
-      message: 'Slug must be at least 3 characters.',
-    })
-    .regex(/^[a-z0-9-]+$/, {
-      message: 'Slug can only contain lowercase letters, numbers, and hyphens.',
-    }),
-  description: z.string().min(10, {
-    message: 'Description must be at least 10 characters.',
-  }),
-  tags: z.array(z.string()).min(1, {
-    message: 'Select at least one tag.',
-  }),
-  aiDisclosure: z.boolean(),
-});
-
-export type GameFormSchema = z.infer<typeof gameFormSchema>;
+const supportedDevices = [
+  { id: 'mobile-landscape', label: 'Mobile (Landscape)' },
+  { id: 'mobile-portrait', label: 'Mobile (Portrait)' },
+  { id: 'desktop', label: 'Desktop' },
+];
 
 export function GameForm({
   gameId,
@@ -94,29 +57,8 @@ export function GameForm({
   // Initialize form with default values
   const form = useForm<GameFormSchema>({
     resolver: zodResolver(gameFormSchema),
-    defaultValues: {
-      title: '',
-      slug: '',
-      description: '',
-      tags: [],
-      aiDisclosure: false,
-    },
+    defaultValues: gameFormDefaultValues,
   });
-
-  // Load game data if editing
-  useEffect(() => {
-    if (gameId) {
-      // In a real app, you would fetch the game data from an API
-      // For this example, we'll use mock data
-      form.reset({
-        title: mockGame.title,
-        slug: mockGame.slug,
-        description: mockGame.description,
-        tags: mockGame.tags,
-        aiDisclosure: mockGame.aiDisclosure,
-      });
-    }
-  }, [gameId, form]);
 
   // Handle form submission
   const onSubmit = async (values: GameFormSchema) => {
@@ -160,7 +102,9 @@ export const GameFormFields: React.FC = () => {
           name="title"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Title</FormLabel>
+              <FormLabel>
+                Title <span className="text-red-500">*</span>
+              </FormLabel>
               <FormControl>
                 <Input placeholder="Enter game title" {...field} />
               </FormControl>
@@ -195,7 +139,9 @@ export const GameFormFields: React.FC = () => {
           name="description"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Description</FormLabel>
+              <FormLabel>
+                Description <span className="text-red-500">*</span>
+              </FormLabel>
               <FormControl>
                 <Textarea
                   placeholder="Describe your game..."
@@ -213,11 +159,37 @@ export const GameFormFields: React.FC = () => {
 
         <FormField
           control={form.control}
+          name="instructions"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>
+                Instructions <span className="text-red-500">*</span>
+              </FormLabel>
+              <FormControl>
+                <Textarea
+                  placeholder="How to play..."
+                  className="min-h-32"
+                  {...field}
+                />
+              </FormControl>
+              <FormDescription>
+                Explain how to play your game, including controls and
+                objectives.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
           name="tags"
           render={() => (
             <FormItem>
               <div className="mb-4">
-                <FormLabel>Tags</FormLabel>
+                <FormLabel>
+                  Tags <span className="text-red-500">*</span>
+                </FormLabel>
                 <FormDescription>
                   Select categories that best describe your game.
                 </FormDescription>
@@ -250,6 +222,59 @@ export const GameFormFields: React.FC = () => {
                           </FormControl>
                           <FormLabel className="font-normal">
                             {tag.label}
+                          </FormLabel>
+                        </FormItem>
+                      );
+                    }}
+                  />
+                ))}
+              </div>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="devices"
+          render={() => (
+            <FormItem>
+              <div className="mb-4">
+                <FormLabel>
+                  Supported Devices <span className="text-red-500">*</span>
+                </FormLabel>
+                <FormDescription>
+                  Select the devices your game supports.
+                </FormDescription>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                {supportedDevices.map((device) => (
+                  <FormField
+                    key={device.id}
+                    control={form.control}
+                    name="devices"
+                    render={({ field }) => {
+                      return (
+                        <FormItem
+                          key={device.id}
+                          className="flex flex-row items-start space-x-3 space-y-0"
+                        >
+                          <FormControl>
+                            <Checkbox
+                              checked={field.value?.includes(device.id)}
+                              onCheckedChange={(checked) => {
+                                return checked
+                                  ? field.onChange([...field.value, device.id])
+                                  : field.onChange(
+                                      field.value?.filter(
+                                        (value) => value !== device.id
+                                      )
+                                    );
+                              }}
+                            />
+                          </FormControl>
+                          <FormLabel className="font-normal">
+                            {device.label}
                           </FormLabel>
                         </FormItem>
                       );
