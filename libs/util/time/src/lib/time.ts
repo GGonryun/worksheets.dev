@@ -2,6 +2,10 @@ import pluralize from 'pluralize';
 export const MILLISECONDS = 1;
 export const SECONDS = MILLISECONDS * 1000;
 export const MINUTES = SECONDS * 60;
+export const HOURS = MINUTES * 60;
+export const DAYS = HOURS * 24;
+export const WEEKS = DAYS * 7;
+export const MONTHS = DAYS * 30;
 
 export const now = () => new Date();
 
@@ -68,13 +72,23 @@ export const weeksAgo = (weeks: number) =>
 export const monthsAgo = (months: number) =>
   new Date(Date.now() - 2629800000 * months);
 
-export const printDate = (stamp: string | Date | number, locale = 'en-US') => {
-  const options: Intl.DateTimeFormatOptions = {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  };
+export const printDate = (
+  stamp: string | Date | number,
+  locale = 'en-US',
+  hideWeekday = false
+) => {
+  const options: Intl.DateTimeFormatOptions = hideWeekday
+    ? {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      }
+    : {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      };
 
   const date = new Date(stamp);
 

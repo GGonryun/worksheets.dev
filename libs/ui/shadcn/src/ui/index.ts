@@ -24,3 +24,4 @@ export * from './form';
 export * from './select';
 export * from './alert';
 export * from './radio-group';
+export * from './alert-dialog';

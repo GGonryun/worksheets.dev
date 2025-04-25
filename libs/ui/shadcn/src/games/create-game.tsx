@@ -2,7 +2,7 @@
 
 import { Button } from '../ui/button';
 import { Card, CardDescription, CardHeader, CardTitle } from '../ui/card';
-import { GameFormFields } from './game-form';
+import { DetailsFormFields } from './details-form';
 import { MediaFormFields } from './media-form';
 import router from 'next/router';
 
@@ -21,16 +21,19 @@ import {
   createGameFormSchema,
   CreateGameFormSchema,
 } from '@worksheets/util/types';
-import { useActiveTeam } from '../hooks';
+import {
+  DetailsSectionLayout,
+  FilesSectionLayout,
+  MediaSectionLayout,
+} from './section-card-layout';
 
 // TODO: remove in order to bypass the unsaved changes warning
 const enableProtection = false;
 
 export const CreateGame = () => {
-  const [teamId] = useActiveTeam();
-
   const create = trpc.user.teams.games.create.useMutation();
   const [exitSafely, setExitSafely] = React.useState(false);
+  const team = trpc.user.teams.selected.useQuery();
   const form = useForm<CreateGameFormSchema>({
     resolver: zodResolver(createGameFormSchema),
     mode: 'onChange',
@@ -48,14 +51,11 @@ export const CreateGame = () => {
     console.log('Form submitted:', form);
     setExitSafely(true);
     try {
-      await create.mutateAsync({
-        teamId,
-        form,
-      });
+      await create.mutateAsync(form);
       router.push(devRoutes.dashboard.path());
     } catch (error) {
       console.error('Error creating game:', error);
-      // depending on the type of error we may need to add a toast
+      // TODO: depending on the type of error we may need to add a toast
       // and show an error on the form.
       // for example, the slug might already be taken, in which case we need to show an error on the slug field.
     }
@@ -66,46 +66,20 @@ export const CreateGame = () => {
       <FormProvider {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <div className="grid grid-cols-1 gap-8">
-            <Card>
-              <CardHeader>
-                <CardTitle>Details</CardTitle>
-                <CardDescription>
-                  Information about your game, including title, description, and
-                  tags.
-                </CardDescription>
-              </CardHeader>
+            <DetailsSectionLayout>
+              <DetailsFormFields
+                isPending={team.isPending}
+                teamSlug={team.data?.slug}
+              />
+            </DetailsSectionLayout>
 
-              <CardContent>
-                <GameFormFields />
-              </CardContent>
-            </Card>
+            <MediaSectionLayout>
+              <MediaFormFields />
+            </MediaSectionLayout>
 
-            <Card>
-              <CardHeader>
-                <CardTitle>Media</CardTitle>
-                <CardDescription>
-                  Upload images and media for your game.
-                </CardDescription>
-              </CardHeader>
-
-              <CardContent>
-                <MediaFormFields />
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle>Files</CardTitle>
-                <CardDescription>
-                  Upload the game files and set the current version.
-                </CardDescription>
-              </CardHeader>
-
-              <CardContent>
-                <VersionFormFields />
-              </CardContent>
-            </Card>
-
+            <FilesSectionLayout>
+              <VersionFormFields />
+            </FilesSectionLayout>
             <div className="flex justify-end">
               <Button type="submit">
                 <SaveIcon />

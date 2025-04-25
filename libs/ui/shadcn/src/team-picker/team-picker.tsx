@@ -22,7 +22,6 @@ import {
 } from 'lucide-react';
 import { cn } from '../utils';
 import { trpc } from '@worksheets/trpc-charity';
-import { useActiveTeam } from '../hooks';
 import { devRoutes } from '@worksheets/routes';
 import { Skeleton } from '../ui/skeleton';
 import { TeamQuery, TeamsQuery } from '../types';
@@ -30,17 +29,18 @@ import { ErrorMessage } from '../errors/error-message';
 
 export function TeamPicker() {
   const router = useRouter();
-  const [, setActiveTeam] = useActiveTeam();
   const [selectedTeam, setSelectedTeam] = useState<TeamQuery | null>(null);
   const teamList = trpc.user.teams.list.useQuery();
+  const selectTeam = trpc.user.teams.select.useMutation();
 
   const handleContinue = () => {
     if (selectedTeam) {
-      // Save selected team to localStorage
-      setActiveTeam(selectedTeam.id);
-
-      // Redirect to dashboard or appropriate page
-      router.push(devRoutes.dashboard.path());
+      selectTeam.mutate(selectedTeam.id, {
+        onSuccess: () => {
+          // Redirect to dashboard or appropriate page
+          router.push(devRoutes.dashboard.path());
+        },
+      });
     }
   };
 

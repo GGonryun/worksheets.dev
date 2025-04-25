@@ -8,8 +8,8 @@ import { Card } from '../ui/card';
 import { ErrorMessage } from './error-message';
 
 interface ErrorScreenProps {
-  title?: string;
-  message?: string;
+  title?: string | null;
+  message?: string | null;
   showHomeButton?: boolean;
   showBackButton?: boolean;
   className?: string;

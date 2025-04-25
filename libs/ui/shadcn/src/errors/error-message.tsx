@@ -1,12 +1,23 @@
 import { motion } from 'framer-motion';
 import { AlertCircle } from 'lucide-react';
+import { cn } from '../utils';
 
-export const ErrorMessage: React.FC<{ title?: string; message?: string }> = ({
+export const ErrorMessage: React.FC<{
+  title?: string | null;
+  message?: string | null;
+  className?: string;
+}> = ({
   title = 'An error occurred',
   message = "We're sorry, something went wrong.",
+  className,
 }) => {
   return (
-    <div className="flex flex-col items-center text-center space-y-4">
+    <div
+      className={cn(
+        'flex flex-col items-center text-center space-y-4',
+        className
+      )}
+    >
       <motion.div
         animate={{
           scale: [1, 1.1, 1],

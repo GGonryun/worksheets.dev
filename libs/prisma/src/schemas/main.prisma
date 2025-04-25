@@ -54,15 +54,16 @@ model User {
   gameScores       GameScore[]
   achievement      PlayerAchievement[]
   teams            TeamMembership[]
-  files            StoredFile[]
+  games            Game[]
+  files            GameFile[]
 }
 
 model Team {
   id          String           @id @default(cuid())
-  name        String           @unique
+  name        String           @db.VarChar(64)
   slug        String           @unique
   description String           @db.VarChar(4095)
-  logo        StoredFile?
+  logo        String           @db.Text // URL
   links       Json
   members     TeamMembership[]
   games       Game[]
@@ -83,22 +84,6 @@ enum FileUploadStatus {
   PENDING
   DONE
   ERROR
-}
-
-model StoredFile {
-  id        String           @id @default(cuid())
-  url       String           @db.Text
-  path      String           @db.Text
-  name      String           @db.VarChar(127)
-  size      Int
-  type      String
-  createdAt DateTime         @default(now())
-  updatedAt DateTime         @updatedAt
-  status    FileUploadStatus @default(PENDING)
-  userId    String
-  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
-  teamId    String?          @unique
-  team      Team?            @relation(fields: [teamId], references: [id], onDelete: Cascade)
 }
 
 model Account {
@@ -185,7 +170,6 @@ enum ProjectType {
 }
 
 enum ViewportType {
-  FIXED
   RESPONSIVE
 }
 
@@ -197,19 +181,30 @@ enum DeviceOrientations {
 model Viewport {
   id           String               @id @default(cuid())
   type         ViewportType         @default(RESPONSIVE)
-  width        Int?
-  height       Int?
   devices      GameDevices[]        @default([COMPUTER, MOBILE])
   orientations DeviceOrientations[] @default([PORTRAIT, LANDSCAPE])
   games        Game[]
 }
 
 model GameFile {
-  id      String      @id @default(cuid())
-  version String      @default("1.0.0")
-  type    ProjectType @default(HTML)
-  url     String      @db.VarChar(511)
-  game    Game?
+  id         String      @id @default(cuid())
+  version    String      @default("1.0.0")
+  type       ProjectType @default(HTML)
+  url        String      @db.VarChar(511)
+  // TODO: remove optionality after migration.
+  metadata   Json?
+  notes      String      @default("") @db.Text
+  isCurrent  Boolean     @default(false)
+  // TODO: after we migrate the existing games, we can remove the optional part.
+  gameId     String?
+  game       Game?       @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  uploaderId String?
+  uploader   User?       @relation(fields: [uploaderId], references: [id], onDelete: Cascade)
+  // analytics
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @default(now()) @updatedAt
+
+  @@unique([gameId, version])
 }
 
 model CategoriesOnGame {
@@ -234,42 +229,46 @@ model GameCategory {
   updatedAt          DateTime           @default(now()) @updatedAt
 }
 
-model Developer {
-  id          String @id @default(cuid())
-  version     Int    @default(0)
-  name        String @unique
-  description String @db.VarChar(4095)
-  logoUrl     String @db.VarChar(255)
-  links       String
-  games       Game[]
+enum GameStatus {
+  DRAFT
+  PENDING
+  APPROVED
+  REJECTED
+  CHANGES_REQUESTED
+  UNPUBLISHED // TODO: remove this after migration.
 }
 
-enum GameStatus {
-  PUBLISHED
-  UNPUBLISHED
-  DELETED
+enum GameVisibility {
+  PRIVATE
+  UNLISTED
+  PUBLIC
 }
 
 model Game {
   id           String              @id @default(cuid())
   version      Int                 @default(0)
   title        String              @db.VarChar(127)
-  // TODO: remove this after we've migrated all games.
-  slug         String              @default("")
+  slug         String              @default("") // TODO: remove the default value after migration.
   description  String              @db.VarChar(4095)
   categories   CategoriesOnGame[]
   cover        String              @db.Text // URL
   thumbnail    String              @db.Text // URL
   trailer      String?             @db.Text // URL
+  aiDisclosure Boolean             @default(false)
   viewportId   String
   viewport     Viewport            @relation(fields: [viewportId], references: [id])
   // Ownership
-  status       GameStatus          @default(UNPUBLISHED)
-  team         Team?               @relation(fields: [teamId], references: [id])
+  status       GameStatus          @default(DRAFT)
+  visibility   GameVisibility      @default(PRIVATE)
+  // TODO: remove optionality after migration.
+  ownerId      String?
+  owner        User?               @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  // TODO: remove optionality after migration.
   teamId       String?
+  team         Team?               @relation(fields: [teamId], references: [id])
+  fileId       String? // TODO: remove this after the migration.
   // Game File -- Must have at least one active version saved to the file.
-  fileId       String              @unique
-  file         GameFile            @relation(fields: [fileId], references: [id])
+  files        GameFile[]
   // SDK Enabled
   leaderboard  Boolean             @default(false)
   cloudStorage Boolean             @default(false)
@@ -289,9 +288,8 @@ model Game {
   achievements GameAchievement[]
   analytics    GamePlayAnalytics[]
   tasks        Task[]
-  // Legacy
-  developerId  String
-  developer    Developer           @relation(fields: [developerId], references: [id])
+
+  @@unique([slug, teamId])
 }
 
 model GamePlayHistory {

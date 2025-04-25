@@ -7,19 +7,16 @@ import {
   CardHeader,
   CardTitle,
 } from '../ui/card';
-import { Tabs, TabsList, TabsTrigger } from '../ui/tabs';
 import { BarChart } from '../ui/bar-chart';
-import { useState } from 'react';
 import { ChartColumnIcon, PlusIcon } from 'lucide-react';
 import { Button } from '../ui/button';
 import Link from 'next/link';
 import { cn } from '../utils';
-import { TeamGameplayStatistics } from '../types';
+import { TeamGameplayStatisticsQuery } from '../types';
 import { devRoutes } from '@worksheets/routes';
 import { ErrorMessage } from '../errors/error-message';
 import { trpc } from '@worksheets/trpc-charity';
 import { Skeleton } from '../ui';
-import { useActiveTeam } from '../hooks/use-active-team';
 
 const mockData = [
   { name: '1-01', plays: 24, time: 120 },
@@ -34,11 +31,7 @@ const mockData = [
 const blurStyles = 'opacity-10 filter blur-[2px] pointer-events-none';
 
 export const GameStats: React.FC = () => {
-  const [savedTeam] = useActiveTeam();
-
-  const statistics = trpc.user.teams.games.statistics.useQuery({
-    teamId: savedTeam,
-  });
+  const statistics = trpc.user.teams.games.statistics.useQuery();
 
   return (
     <GameStatsLayout>
@@ -70,7 +63,7 @@ export const GameStatsLayout: React.FC<{
 };
 
 export const GameStatsContent: React.FC<{
-  statistics: NonNullable<TeamGameplayStatistics>;
+  statistics: NonNullable<TeamGameplayStatisticsQuery>;
 }> = ({ statistics }) => {
   const data = statistics.analytics;
   return (

@@ -16,13 +16,13 @@ export const config = {
   ],
 };
 
-const protectedPages = [devRoutes.dashboard.path()];
+const protectedPages = [devRoutes.dashboard.path(), devRoutes.teams.path()];
 
 export default async function middleware(req: NextRequest) {
   // authorization middleware
   const session = await getToken({ req });
   const user = session?.user;
-  const pathname = req.nextUrl.pathname;
+  const pathname = req.nextUrl?.pathname ?? '';
 
   if (pathname === '/' && user) {
     // redirect to the dashboard if the user is already logged in
@@ -38,6 +38,15 @@ export default async function middleware(req: NextRequest) {
   if (isProtectedPath && !user) {
     // redirect the user to the home page if they are not authenticated
     return NextResponse.redirect(new URL(devRoutes.baseUrl).toString());
+  }
+  const isDashboard = pathname.startsWith(devRoutes.dashboard.path());
+
+  const hasTeam = req.cookies.get('teamId')?.value;
+  if (isDashboard && !hasTeam) {
+    // redirect the user to the team selection page if they are authenticated but don't have a team
+    return NextResponse.redirect(
+      new URL(devRoutes.teams.select.url()).toString()
+    );
   }
 
   // If the user is logged in, continue to the page

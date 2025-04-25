@@ -1,16 +1,9 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import {
-  FormProvider,
-  useForm,
-  useFormContext,
-  useWatch,
-} from 'react-hook-form';
-import { z } from 'zod';
+import { FormProvider, useForm, useFormContext } from 'react-hook-form';
 import { Button } from '../ui/button';
 import {
-  Form,
   FormControl,
   FormDescription,
   FormField,
@@ -19,99 +12,112 @@ import {
   FormMessage,
 } from '../ui/form';
 import { Input } from '../ui/input';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
-import { FileUploader } from './file-uploader';
+import { FileUploader } from '../forms/fields/file-uploader';
 import {
   MediaFormSchema,
   mediaFormSchema,
   mediaFormDefaultValues,
 } from '@worksheets/util/types';
+import {
+  MAX_BASIC_IMAGE_SIZE,
+  VALID_BASIC_IMAGE_TYPES,
+} from '@worksheets/util/settings';
+import { MediaSectionLayout } from './section-card-layout';
+import { trpc } from '@worksheets/trpc-charity';
+import {
+  useRouteChangeGuard,
+  useToast,
+  useUnsavedChangesWarning,
+} from '../hooks';
+import { Skeleton } from '../ui';
+import { devRoutes } from '@worksheets/routes';
+import { Loader2 } from 'lucide-react';
+import { TeamSelectedQuery, TeamGamesReadQuery } from '../types';
 
-const MAX_BASIC_IMAGE_SIZE = 1.5 * 1000 * 1000; // 1.5MB
-const VALID_BASIC_IMAGE_TYPES = ['image/png', 'image/jpeg', 'image/jpg'];
-
-export const MediaForm = ({
-  gameId,
-  onSave,
-}: {
-  gameId: string;
-  onSave?: () => void;
-}) => {
+export const MediaForm: React.FC<{
+  team: NonNullable<TeamSelectedQuery>;
+  game: NonNullable<TeamGamesReadQuery>;
+}> = ({ game }) => {
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false);
+  const { toast } = useToast();
+
+  const utils = trpc.useUtils();
+  const update = trpc.user.teams.games.media.update.useMutation();
+  const media = trpc.user.teams.games.media.read.useQuery({ gameId: game.id });
 
   const form = useForm<MediaFormSchema>({
     resolver: zodResolver(mediaFormSchema),
-    mode: 'onChange',
     defaultValues: mediaFormDefaultValues,
+    mode: 'onChange',
   });
 
-  const thumbnail = useWatch({
-    control: form.control,
-    name: 'thumbnail',
-  });
+  useUnsavedChangesWarning(form.formState.isDirty);
+  useRouteChangeGuard(form.formState.isDirty);
 
   useEffect(() => {
-    console.error('thumbnail changed', thumbnail);
-  }, [thumbnail]);
+    if (media.data) {
+      form.reset(media.data);
+    }
+  }, [media.data, form]);
 
-  // Load game data if editing
-  // useEffect(() => {
-  //   if (gameId) {
-  //     // In a real app, you would fetch the game data from an API
-  //     // For this example, we'll use mock data
-  //     form.reset({
-  //       trailerUrl: mockGame.trailerUrl,
-  //     });
-  //     setThumbnailPreview(mockGame.thumbnail);
-  //     setCoverImagePreview(mockGame.coverImage);
-  //     setScreenshotsPreview(mockGame.screenshots);
-  //   }
-  // }, [gameId, form]);
+  const onSubmit = async (values: MediaFormSchema) => {
+    try {
+      await update.mutateAsync({
+        gameId: game.id,
+        form: values,
+      });
+      await utils.user.teams.games.media.read.invalidate({ gameId: game.id });
+      toast({
+        title: 'Success',
+        description: 'Media updated successfully',
+        duration: 5000,
+      });
+    } catch (error) {
+      toast({
+        title: 'Error',
+        description: 'Failed to update media',
+        variant: 'destructive',
+      });
+    }
+  };
 
-  // Handle form submission
-  function onSubmit(values: z.infer<typeof mediaFormSchema>) {
-    setIsLoading(true);
-
-    // In a real app, you would send the data to an API
-    console.log(values);
-
-    // Simulate API call
-    setTimeout(() => {
-      setIsLoading(false);
-      if (onSave) {
-        onSave();
-      }
-    }, 1000);
-  }
-
+  const canSubmit =
+    form.formState.isDirty &&
+    form.formState.isValid &&
+    !update.isPending &&
+    !media.isPending;
   return (
-    <FormProvider {...form}>
-      <Form {...form}>
+    <MediaSectionLayout>
+      <FormProvider {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          <MediaFormFields />
+          <MediaFormFields isPending={media.isPending || update.isPending} />
 
           <div className="flex justify-end gap-4">
             <Button
               variant="outline"
               type="button"
-              onClick={() => router.push('/dashboard')}
+              disabled={!canSubmit}
+              onClick={() => router.push(devRoutes.dashboard.path())}
             >
               Cancel
             </Button>
-            <Button type="submit" disabled={isLoading}>
-              {isLoading ? 'Saving...' : 'Update Media'}
+            <Button type="submit" disabled={!canSubmit}>
+              {update.isPending && <Loader2 className="h-4 w-4 animate-spin" />}
+              {update.isPending ? 'Updating...' : 'Update'}
             </Button>
           </div>
         </form>
-      </Form>
-    </FormProvider>
+      </FormProvider>
+    </MediaSectionLayout>
   );
 };
 
-export const MediaFormFields: React.FC = () => {
+export const MediaFormFields: React.FC<{ isPending?: boolean }> = ({
+  isPending,
+}) => {
   const form = useFormContext<MediaFormSchema>();
 
   return (
@@ -125,20 +131,24 @@ export const MediaFormFields: React.FC = () => {
               Thumbnail Image <span className="text-red-500">*</span>
             </FormLabel>
             <FormControl>
-              <FileUploader
-                fieldId={field.name}
-                type="image"
-                name="Thumbnail Image"
-                label="Upload thumbnail image"
-                description="This is the main image that will represent your game on the platform."
-                restrictions={{
-                  square: true,
-                  maxSize: MAX_BASIC_IMAGE_SIZE,
-                  fileTypes: VALID_BASIC_IMAGE_TYPES,
-                  minHeight: 300,
-                  minWidth: 300,
-                }}
-              />
+              {isPending ? (
+                <Skeleton className="h-64 w-full rounded-md" />
+              ) : (
+                <FileUploader
+                  fieldId={field.name}
+                  type="image"
+                  name="Thumbnail Image"
+                  label="Upload thumbnail image"
+                  description="This is the main image that will represent your game on the platform."
+                  restrictions={{
+                    square: true,
+                    maxSize: MAX_BASIC_IMAGE_SIZE,
+                    fileTypes: VALID_BASIC_IMAGE_TYPES,
+                    minHeight: 300,
+                    minWidth: 300,
+                  }}
+                />
+              )}
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -153,20 +163,24 @@ export const MediaFormFields: React.FC = () => {
             <FormLabel>
               Cover Image <span className="text-red-500">*</span>
             </FormLabel>
-            <FileUploader
-              fieldId={field.name}
-              type="image"
-              name="Cover Image"
-              label="Upload a cover image"
-              description="This image will be displayed on the game details page and in marketing materials."
-              requirements={['For best results use an aspect ratio of 16:9']}
-              restrictions={{
-                maxSize: MAX_BASIC_IMAGE_SIZE,
-                fileTypes: VALID_BASIC_IMAGE_TYPES,
-                minHeight: 300,
-                minWidth: 600,
-              }}
-            />
+            {isPending ? (
+              <Skeleton className="h-64 w-full rounded-md" />
+            ) : (
+              <FileUploader
+                fieldId={field.name}
+                type="image"
+                name="Cover Image"
+                label="Upload a cover image"
+                description="This image will be displayed on the game details page and in marketing materials."
+                requirements={['For best results use an aspect ratio of 16:9']}
+                restrictions={{
+                  maxSize: MAX_BASIC_IMAGE_SIZE,
+                  fileTypes: VALID_BASIC_IMAGE_TYPES,
+                  minHeight: 300,
+                  minWidth: 600,
+                }}
+              />
+            )}
             <FormMessage />
           </FormItem>
         )}
@@ -179,10 +193,14 @@ export const MediaFormFields: React.FC = () => {
           <FormItem>
             <FormLabel>Trailer URL</FormLabel>
             <FormControl>
-              <Input
-                placeholder="https://www.youtube.com/watch?v=..."
-                {...field}
-              />
+              {isPending ? (
+                <Skeleton className="h-10 w-full rounded-md" />
+              ) : (
+                <Input
+                  placeholder="https://www.youtube.com/watch?v=..."
+                  {...field}
+                />
+              )}
             </FormControl>
             <FormDescription>
               Link to a gameplay video or trailer on YouTube or Vimeo.

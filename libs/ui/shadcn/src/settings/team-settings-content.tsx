@@ -1,30 +1,32 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { useForm } from 'react-hook-form';
-
-import { Button } from '../ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '../ui/card';
-import { Form } from '../ui/form';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
-import { toast } from '../hooks/use-toast';
-import { TeamProfileForm } from './team-profile-form';
-import { TeamSocialForm } from './team-social-form';
+
+import { SectionCardLayout } from '../games/section-card-layout';
+import { devRoutes } from '@worksheets/routes';
+import Link from 'next/link';
+import { SocialLinksFields, TeamStep, TeamStepFields } from '../onboarding';
+import { FormProvider, SubmitErrorHandler, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from '../ui/dialog';
+  createTeamDefaultValues,
+  CreateProfileFormSchema,
+  createProfileFormSchema,
+  socialLinksDefaultValues,
+  socialLinksSchema,
+  SocialLinksSchema,
+} from '@worksheets/util/types';
+import { ActionsLayout } from '../onboarding/actions-layout';
+import { Button } from '../ui/button';
+import { Loader2 } from 'lucide-react';
+import { trpc } from '@worksheets/trpc-charity';
+import { ErrorScreen } from '../errors';
+import { Skeleton } from '../ui';
+import { TeamSelectedQuery } from '../types';
+import { useToast } from '../hooks';
+import { parseTRPCClientErrorMessage } from '@worksheets/util/trpc';
+import { useEffect } from 'react';
+import { z } from 'zod';
 
 // This would typically come from your database
 const defaultValues = {
@@ -37,187 +39,213 @@ const defaultValues = {
   linkedin: 'https://linkedin.com/company/acme',
 };
 
-export const TeamSettingsContent = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [activeTab, setActiveTab] = useState('profile');
-  const [pendingTab, setPendingTab] = useState<string | null>(null);
-  const [showDialog, setShowDialog] = useState(false);
-  const [dialogAction, setDialogAction] = useState<
-    'tab-switch' | 'cancel' | null
-  >(null);
+export const TeamSettingsContent: React.FC<{
+  activeTab: 'profile' | 'social';
+}> = ({ activeTab }) => {
+  const team = trpc.user.teams.selected.useQuery();
 
-  const form = useForm({
-    defaultValues,
-  });
+  if (team.isPending) {
+    return (
+      <div className="container py-2 space-y-6">
+        <Skeleton className="h-10 w-full" />
+        <Skeleton className="h-96 w-full" />
+        <Skeleton className="h-96 w-full" />
+      </div>
+    );
+  }
 
-  const isDirty = form.formState.isDirty;
-
-  // Handle browser navigation/refresh warning
-  useEffect(() => {
-    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
-      if (isDirty) {
-        e.preventDefault();
-        e.returnValue = '';
-        return '';
-      }
-    };
-
-    window.addEventListener('beforeunload', handleBeforeUnload);
-    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
-  }, [isDirty]);
-
-  // Handle tab switching with unsaved changes
-  const handleTabChange = (value: string) => {
-    if (isDirty) {
-      setPendingTab(value);
-      setDialogAction('tab-switch');
-      setShowDialog(true);
-    } else {
-      setActiveTab(value);
-    }
-  };
-
-  // Handle cancel button click with unsaved changes
-  const handleCancel = () => {
-    if (isDirty) {
-      setDialogAction('cancel');
-      setShowDialog(true);
-    } else {
-      form.reset();
-    }
-  };
-
-  // Handle dialog confirmation
-  const handleConfirm = () => {
-    if (dialogAction === 'tab-switch' && pendingTab) {
-      form.reset();
-      setActiveTab(pendingTab);
-    } else if (dialogAction === 'cancel') {
-      form.reset();
-    }
-    setShowDialog(false);
-    setPendingTab(null);
-    setDialogAction(null);
-  };
-
-  // Handle dialog dismissal
-  const handleDismiss = () => {
-    setShowDialog(false);
-    setPendingTab(null);
-    setDialogAction(null);
-  };
-
-  async function onSubmit(data: typeof defaultValues) {
-    setIsLoading(true);
-
-    try {
-      // This would be your API call to update the team
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
-      toast({
-        title: 'Settings updated',
-        description: 'Your team settings have been updated successfully.',
-      });
-
-      // Mark form as pristine after successful save
-      form.reset(data);
-    } catch (error) {
-      toast({
-        title: 'Error',
-        description: 'Failed to update team settings. Please try again.',
-        variant: 'destructive',
-      });
-    } finally {
-      setIsLoading(false);
-    }
+  if (team.isError) {
+    return <ErrorScreen message={team.error?.message} />;
   }
 
   return (
-    <>
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
-          <Tabs
-            value={activeTab}
-            onValueChange={handleTabChange}
-            className="w-full"
+    <div className="container py-2 space-y-6">
+      <Tabs value={activeTab} className="w-full">
+        <TabsList className="grid w-full grid-cols-2">
+          <TabsTrigger value="profile" asChild>
+            <Link href={devRoutes.dashboard.settings.profile.path()}>
+              Profile
+            </Link>
+          </TabsTrigger>
+          <TabsTrigger value="social" asChild>
+            <Link href={devRoutes.dashboard.settings.social.path()}>
+              Social Links
+            </Link>
+          </TabsTrigger>
+        </TabsList>
+        <TabsContent value="profile" className="mt-6">
+          <SectionCardLayout
+            title="Team Profile"
+            description="Update your team's basic information"
           >
-            <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="profile">Profile</TabsTrigger>
-              <TabsTrigger value="social">Social Links</TabsTrigger>
-            </TabsList>
-            <TabsContent value="profile" className="mt-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Team Profile</CardTitle>
-                  <CardDescription>
-                    Update your team's basic information
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <TeamProfileForm form={form} />
-                </CardContent>
-                <CardFooter className="flex justify-end space-x-4 border-t px-6 py-4">
-                  <Button
-                    variant="outline"
-                    type="button"
-                    onClick={handleCancel}
-                  >
-                    Cancel
-                  </Button>
-                  <Button type="submit" disabled={isLoading}>
-                    {isLoading ? 'Saving...' : 'Save changes'}
-                  </Button>
-                </CardFooter>
-              </Card>
-            </TabsContent>
-            <TabsContent value="social" className="mt-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Social Links</CardTitle>
-                  <CardDescription>
-                    Connect your team's social media accounts
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <TeamSocialForm form={form} />
-                </CardContent>
-                <CardFooter className="flex justify-end space-x-4 border-t px-6 py-4">
-                  <Button
-                    variant="outline"
-                    type="button"
-                    onClick={handleCancel}
-                  >
-                    Cancel
-                  </Button>
-                  <Button type="submit" disabled={isLoading}>
-                    {isLoading ? 'Saving...' : 'Save changes'}
-                  </Button>
-                </CardFooter>
-              </Card>
-            </TabsContent>
-          </Tabs>
-        </form>
-      </Form>
+            <TeamProfileStep team={team.data} />
+          </SectionCardLayout>
+        </TabsContent>
+        <TabsContent value="social" className="mt-6">
+          <SectionCardLayout
+            title="Social Links"
+            description="Connect your team's social media accounts"
+          >
+            <TeamLinksStep team={team.data} />
+          </SectionCardLayout>
+        </TabsContent>
+      </Tabs>
+    </div>
+  );
+};
 
-      {/* Unsaved Changes Dialog */}
-      <Dialog open={showDialog} onOpenChange={setShowDialog}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Unsaved Changes</DialogTitle>
-            <DialogDescription>
-              You have unsaved changes. Are you sure you want to discard them?
-            </DialogDescription>
-          </DialogHeader>
-          <DialogFooter>
-            <Button variant="outline" onClick={handleDismiss}>
-              Continue Editing
-            </Button>
-            <Button variant="destructive" onClick={handleConfirm}>
-              Discard Changes
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-    </>
+const TeamProfileStep: React.FC<{ team: NonNullable<TeamSelectedQuery> }> = ({
+  team,
+}) => {
+  const { toast } = useToast();
+
+  const utils = trpc.useUtils();
+
+  const form = useForm<CreateProfileFormSchema>({
+    resolver: zodResolver(createProfileFormSchema),
+    mode: 'onChange',
+    defaultValues: {
+      ...createTeamDefaultValues,
+      name: team.name,
+      description: team.description,
+      logo: team.logo,
+      slug: team.slug,
+    },
+  });
+
+  const updateProfile = trpc.user.teams.profile.update.useMutation();
+
+  const onSubmit = async (data: CreateProfileFormSchema) => {
+    try {
+      await updateProfile.mutateAsync({
+        name: data.name,
+        description: data.description,
+        logo: data.logo,
+      });
+      form.reset({
+        name: data.name,
+        description: data.description,
+        logo: data.logo,
+        slug: data.slug,
+      });
+      await utils.user.teams.selected.invalidate();
+      toast({
+        title: 'Profile updated',
+        description: 'Your profile has been updated successfully',
+      });
+    } catch (error) {
+      toast({
+        title: 'Error updating profile',
+        description: parseTRPCClientErrorMessage(error),
+        variant: 'destructive',
+      });
+    }
+  };
+
+  const onInvalid: SubmitErrorHandler<CreateProfileFormSchema> = (errors) => {
+    console.error(
+      'Your submission has errors. Fix them and try again.',
+      errors
+    );
+  };
+
+  return (
+    <FormProvider {...form}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit, onInvalid)}
+        className="space-y-8"
+      >
+        <TeamStepFields editing />
+        <ActionsLayout>
+          <div />
+          <Button
+            type="submit"
+            disabled={
+              updateProfile.isPending ||
+              !form.formState.isValid ||
+              !form.formState.isDirty
+            }
+          >
+            {updateProfile.isPending && (
+              <Loader2 className="h-4 w-4 animate-spin" />
+            )}
+            {updateProfile.isPending ? 'Updating...' : 'Update'}
+          </Button>
+        </ActionsLayout>
+      </form>
+    </FormProvider>
+  );
+};
+
+const TeamLinksStep: React.FC<{
+  team: NonNullable<TeamSelectedQuery>;
+}> = ({ team }) => {
+  const { toast } = useToast();
+
+  const utils = trpc.useUtils();
+
+  const form = useForm<{ links: SocialLinksSchema }>({
+    resolver: zodResolver(z.object({ links: socialLinksSchema })),
+    mode: 'onChange',
+    defaultValues: {
+      links: {
+        ...socialLinksDefaultValues,
+        ...team.links,
+      },
+    },
+  });
+
+  const updateLinks = trpc.user.teams.links.update.useMutation();
+
+  const onSubmit = async (data: { links: SocialLinksSchema }) => {
+    try {
+      await updateLinks.mutateAsync(data.links);
+      form.reset(data);
+      await utils.user.teams.selected.invalidate();
+      toast({
+        title: 'Social Links updated',
+        description: 'Your social links have been updated successfully',
+      });
+    } catch (error) {
+      toast({
+        title: 'Error updating social links',
+        description: parseTRPCClientErrorMessage(error),
+        variant: 'destructive',
+      });
+    }
+  };
+
+  const onInvalid: SubmitErrorHandler<CreateProfileFormSchema> = (errors) => {
+    console.error(
+      'Your submission has errors. Fix them and try again.',
+      errors
+    );
+  };
+
+  return (
+    <FormProvider {...form}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit, onInvalid)}
+        className="space-y-8"
+      >
+        <SocialLinksFields />
+        <ActionsLayout>
+          <div />
+          <Button
+            type="submit"
+            disabled={
+              updateLinks.isPending ||
+              !form.formState.isValid ||
+              !form.formState.isDirty
+            }
+          >
+            {updateLinks.isPending && (
+              <Loader2 className="h-4 w-4 animate-spin" />
+            )}
+            {updateLinks.isPending ? 'Updating...' : 'Update'}
+          </Button>
+        </ActionsLayout>
+      </form>
+    </FormProvider>
   );
 };

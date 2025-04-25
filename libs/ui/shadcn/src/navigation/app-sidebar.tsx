@@ -18,11 +18,6 @@ import {
 
 // This is sample data.
 const data = {
-  user: {
-    name: 'shadcn',
-    email: 'm@example.com',
-    avatar: '/avatars/placeholder.jpg',
-  },
   navMain: [
     {
       title: 'Dashboard',
@@ -46,7 +41,7 @@ const data = {
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const { navMain, user } = data;
+  const { navMain } = data;
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
@@ -56,7 +51,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavMain items={navMain} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={user} />
+        <NavUser />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

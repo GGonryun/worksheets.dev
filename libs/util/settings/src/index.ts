@@ -19,3 +19,7 @@ export const SESSION_AGE_MINUTES = 30;
 
 export const DAMAGE_PER_ATTACK = 1;
 export const STRIKES_PER_ATTACK = 1;
+
+export const MAX_BASIC_IMAGE_SIZE = 1.5 * 1000 * 1000; // 1.5MB
+export const VALID_BASIC_IMAGE_TYPES = ['image/png', 'image/jpeg', 'image/jpg'];
+export const MAX_GAME_FILE_SIZE = 100 * 1000 * 1000; // 100MB

@@ -1,5 +1,7 @@
+import { teamSchema } from '@worksheets/util/types';
+
 import { protectedProcedure } from '../../../procedures';
-import { parseTeam, teamSchema } from './shared';
+import { parseTeam } from './shared';
 
 export default protectedProcedure
   .output(teamSchema.array())
@@ -11,7 +13,6 @@ export default protectedProcedure
       include: {
         team: {
           include: {
-            logo: true,
             members: true,
             games: true,
           },

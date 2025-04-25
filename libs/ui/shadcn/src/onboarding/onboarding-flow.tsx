@@ -3,11 +3,10 @@
 import { useState } from 'react';
 import { Button } from '../ui/button';
 import { Card, CardContent } from '../ui/card';
-import TermsStep from './terms-step';
-import TeamStep from './team-step';
-import SocialLinksStep from './social-links-step';
-import SuccessStep from './success-step';
-import { TeamData, SocialLinks } from './types';
+import { TermsStep } from './terms-step';
+import { TeamStep } from './team-step';
+import { SocialLinksStep } from './social-links-step';
+import { SuccessStep } from './success-step';
 import { Progress } from '../ui/progress';
 import {
   Dialog,
@@ -21,45 +20,33 @@ import { CheckIcon, X } from 'lucide-react';
 import { useRouter } from 'next/router';
 import { devRoutes, routes } from '@worksheets/routes';
 import { trpc } from '@worksheets/trpc-charity';
-import ErrorStep from './error-step';
+import { ErrorStep } from './error-step';
 import { LoadingStep } from './loading-step';
 import { TeamsQuery } from '../types';
-import { useActiveTeam } from '../hooks/use-active-team';
 import { waitFor } from '@worksheets/util/time';
+import { FormProvider, SubmitErrorHandler, useForm } from 'react-hook-form';
+import {
+  createTeamDefaultValues,
+  CreateTeamSchema,
+  createTeamSchema,
+} from '@worksheets/util/types';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 export const OnboardingFlow = () => {
   const utils = trpc.useUtils();
   const teams = trpc.user.teams.list.useQuery();
-  const prepareImage = trpc.user.teams.images.prepare.useMutation();
-  const completeImage = trpc.user.teams.images.complete.useMutation();
   const createTeam = trpc.user.teams.create.useMutation();
-
-  const [, setSavedTeam] = useActiveTeam();
+  const selectTeam = trpc.user.teams.select.useMutation();
 
   const [progress, setProgress] = useState(0);
+  const [error, setError] = useState('');
   const [exitDialogOpen, setExitDialogOpen] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
   const [currentStep, setCurrentStep] = useState(1);
-  const [imageError, setImageError] = useState('');
-  const [nameError, setNameError] = useState('');
-  const [termsAccepted, setTermsAccepted] = useState({
-    termsOfService: false,
-    privacyPolicy: false,
-    submissionPolicies: false,
-  });
-  const [teamData, setTeamData] = useState<TeamData>({
-    name: '',
-    slug: '',
-    image: null,
-    imagePreview: '',
-    description: '',
-  });
-  const [socialLinks, setSocialLinks] = useState<SocialLinks>({
-    twitter: '',
-    facebook: '',
-    itchio: '',
-    instagram: '',
-    discord: '',
+
+  const form = useForm<CreateTeamSchema>({
+    resolver: zodResolver(createTeamSchema),
+    mode: 'onChange',
+    defaultValues: createTeamDefaultValues,
   });
 
   const nextStep = () => {
@@ -74,74 +61,49 @@ export const OnboardingFlow = () => {
     setCurrentStep(step);
   };
 
-  const handleSubmit = async () => {
+  // TODO: remove the fake progress
+  const onSubmit = async (data: CreateTeamSchema) => {
+    console.log('submit data', data);
     setProgress(0);
     setCurrentStep(4);
     try {
-      const team = await createTeam.mutateAsync({
-        name: teamData.name,
-        description: teamData.description,
-        links: socialLinks,
-      });
       setProgress(20);
+      const team = await createTeam.mutateAsync(data);
 
-      const file = teamData.image;
+      setProgress(30);
+      await waitFor(200);
+      setProgress(40);
 
-      if (file) {
-        // Here you would typically send the data to your backend
-        const prepareData = await prepareImage.mutateAsync({
-          type: file.type,
-          size: file.size,
-          name: file.name,
-          teamId: team.id,
-        });
-        setProgress(40);
+      setProgress(50);
+      await utils.user.teams.list.invalidate();
+      setProgress(60);
+      await waitFor(200);
+      setProgress(70);
 
-        const result = await fetch(prepareData.uploadUrl, {
-          method: 'PUT',
-          body: file,
-          headers: {
-            'Content-Type': file.type,
-          },
-        });
-        setProgress(60);
-
-        if (!result.ok) {
-          throw new Error(`File upload failed: ${result.statusText}`);
-        }
-
-        await completeImage.mutateAsync({
-          fileId: prepareData.fileId,
-        });
-        setProgress(90);
-
-        await waitFor(300);
-        await utils.user.teams.list.invalidate();
-        setSavedTeam(team.id);
-        setProgress(100);
-      }
+      setProgress(80);
+      await selectTeam.mutateAsync(team.id);
+      setProgress(90);
+      await waitFor(200);
+      setProgress(100);
+      await waitFor(300);
 
       setCurrentStep(5);
-    } catch (error) {
-      setErrorMessage((error as Error).message);
+    } catch (error: any) {
+      setError((error as Error).message);
       setCurrentStep(-1);
-      return;
     }
   };
 
-  const allTermsAccepted = Object.values(termsAccepted).every(Boolean);
-  const teamValid =
-    teamData.name.trim() !== '' &&
-    teamData.description.trim() !== '' &&
-    nameError === '' &&
-    teamData.image !== null &&
-    imageError === '';
+  const onInvalid: SubmitErrorHandler<CreateTeamSchema> = (errors) => {
+    setError('Your submission has errors. Fix them and try again.');
+    setCurrentStep(-1);
+  };
 
   return (
     <div className="w-full mx-auto">
       <ProgressIndicator currentStep={currentStep} onSetStep={goToStep} />
 
-      {currentStep !== -1 && (
+      {currentStep === -1 && (
         <div className="absolute top-4 right-4 z-10">
           <Button
             variant="ghost"
@@ -154,66 +116,33 @@ export const OnboardingFlow = () => {
         </div>
       )}
 
-      <Card>
-        <CardContent className="pt-6">
-          {currentStep === -1 && (
-            <ErrorStep
-              message={errorMessage}
-              onRetry={handleSubmit}
-              onGoBack={() => goToStep(2)}
-            />
-          )}
-          {currentStep === 1 && (
-            <TermsStep
-              termsAccepted={termsAccepted}
-              setTermsAccepted={setTermsAccepted}
-            />
-          )}
-          {currentStep === 2 && (
-            <TeamStep
-              teamData={teamData}
-              setTeamData={setTeamData}
-              imageError={imageError}
-              setImageError={setImageError}
-              nameError={nameError}
-              setNameError={setNameError}
-            />
-          )}
-          {currentStep === 3 && (
-            <SocialLinksStep
-              socialLinks={socialLinks}
-              setSocialLinks={setSocialLinks}
-            />
-          )}
-          {currentStep === 4 && <LoadingStep progress={progress} />}
-          {currentStep === 5 && <SuccessStep teamData={teamData} />}
+      <FormProvider {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit, onInvalid)}
+          className="space-y-8"
+        >
+          <Card>
+            <CardContent className="pt-6">
+              {currentStep === -1 && (
+                <ErrorStep
+                  message={error}
+                  onGoBack={() => {
+                    setCurrentStep(1);
+                  }}
+                />
+              )}
+              {currentStep === 1 && <TermsStep onNext={nextStep} />}
+              {currentStep === 2 && (
+                <TeamStep onNext={nextStep} onPrev={prevStep} />
+              )}
+              {currentStep === 3 && <SocialLinksStep onPrev={prevStep} />}
+              {currentStep === 4 && <LoadingStep progress={progress} />}
+              {currentStep === 5 && <SuccessStep team={form.getValues()} />}
+            </CardContent>
+          </Card>
+        </form>
+      </FormProvider>
 
-          {currentStep > 0 && currentStep < 4 && (
-            <div className="flex justify-between mt-8">
-              {currentStep > 1 ? (
-                <Button variant="outline" onClick={prevStep}>
-                  Back
-                </Button>
-              ) : (
-                <div></div>
-              )}
-              {currentStep < 3 ? (
-                <Button
-                  onClick={nextStep}
-                  disabled={
-                    (currentStep === 1 && !allTermsAccepted) ||
-                    (currentStep === 2 && !teamValid)
-                  }
-                >
-                  Next
-                </Button>
-              ) : (
-                <Button onClick={handleSubmit}>Submit</Button>
-              )}
-            </div>
-          )}
-        </CardContent>
-      </Card>
       <ExitConfirmationDialog
         exitDialogOpen={exitDialogOpen}
         setExitDialogOpen={setExitDialogOpen}

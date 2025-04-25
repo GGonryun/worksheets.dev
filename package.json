@@ -75,6 +75,7 @@
     "@vercel/kv": "^2.0.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^1.2.1",
+    "cookie": "^1.0.2",
     "core-js": "3.36.1",
     "docker-compose": "^1.1.1",
     "dotenv": "^16.4.7",

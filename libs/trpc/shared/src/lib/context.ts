@@ -20,7 +20,7 @@ export async function createContext(ctx: CreateNextContextOptions) {
   const session = await getToken(ctx);
 
   return {
-    type: 'api',
+    type: 'api' as const,
     req: req,
     res: res,
     db: prisma,
@@ -36,7 +36,7 @@ export async function createServerSideContext(
   const session = await getToken(ctx);
 
   return {
-    type: 'ssr',
+    type: 'ssr' as const,
     req,
     res,
     db: prisma,
@@ -50,7 +50,7 @@ export async function createStaticContext(
   _: GetStaticPropsContext<ParsedUrlQuery, PreviewData>
 ) {
   return {
-    type: 'static',
+    type: 'static' as const,
     req: null,
     res: null,
     db: prisma,

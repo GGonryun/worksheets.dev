@@ -2,298 +2,211 @@
 
 import type React from 'react';
 
-import {
-  type Dispatch,
-  type SetStateAction,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
 import { Input } from '../ui/input';
-import { Label } from '../ui/label';
 import { Textarea } from '../ui/textarea';
-import { Button } from '../ui/button';
-import {
-  ImageIcon,
-  InfoIcon,
-  Link2Icon,
-  Trash2Icon,
-  UploadIcon,
-} from 'lucide-react';
-import { TeamData } from './types';
-import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
-import { generateTeamSlug, validateTeamName } from '@worksheets/util/team';
 import { routes } from '@worksheets/routes';
+import { useFormContext } from 'react-hook-form';
+import { CreateTeamSchema } from '@worksheets/util/types';
+import {
+  Button,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '../ui';
+import { FileUploader } from '../forms/fields/file-uploader';
+import {
+  MAX_BASIC_IMAGE_SIZE,
+  VALID_BASIC_IMAGE_TYPES,
+} from '@worksheets/util/settings';
+import { ActionsLayout } from './actions-layout';
+import { Link2Icon, Loader2 } from 'lucide-react';
+import { trpc } from '@worksheets/trpc-charity';
+import { PrefixInput } from '../forms/fields/prefix-input';
+import { SectionCardLayout } from '../games/section-card-layout';
 import Link from 'next/link';
 
-interface TeamStepProps {
-  teamData: TeamData;
-  setTeamData: Dispatch<SetStateAction<TeamData>>;
-  imageError: string;
-  setImageError: Dispatch<SetStateAction<string>>;
-  nameError: string;
-  setNameError: Dispatch<SetStateAction<string>>;
-}
+export const TeamStep: React.FC<{
+  onNext: () => void;
+  onPrev: () => void;
+}> = ({ onNext, onPrev }) => {
+  const form = useFormContext<CreateTeamSchema>();
+  const check = trpc.user.teams.checkSlug.useMutation();
 
-const fileChecks = [
-  {
-    label: 'Maximum file size: 1.5MB',
-    error: 'Image size exceeds 1.5MB limit',
-    query: (file: File) => file.size <= 1.5 * 1024 * 1024,
-  },
-  {
-    label: 'Recommended formats: PNG, JPG',
-    error: 'Image must be a PNG or JPG',
-    query: (file: File) =>
-      file.type === 'image/png' || file.type === 'image/jpeg',
-  },
-];
-const imageChecks = [
-  {
-    label: 'Dimensions: At least 300×300 pixels',
-    error: 'Image dimensions must be at least 300x300',
-    query: (img: HTMLImageElement) => img.width >= 300 && img.height >= 300,
-  },
-  {
-    label: 'Size: Image must be a square',
-    error: 'Image must be a square',
-    query: (img: HTMLImageElement) => img.width === img.height,
-  },
-];
-
-export default function TeamStep({
-  teamData,
-  setTeamData,
-  imageError,
-  setImageError,
-  nameError,
-  setNameError,
-}: TeamStepProps) {
-  const [infoOpen, setInfoOpen] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    const slug = generateTeamSlug(teamData.name);
-    setTeamData((prev) => ({ ...prev, slug }));
-  }, [teamData.name, setTeamData]);
-
-  // Validate team name
-  useEffect(() => {
-    const error = validateTeamName(teamData.name);
-    setNameError(error);
-  }, [teamData.name, setNameError]);
-
-  const teamUrl = useMemo(() => {
-    return `${routes.baseUrl}/teams/${teamData.slug}`;
-  }, [teamData.slug]);
-
-  const handleClearImage = () => {
-    setImageError('');
-    setTeamData((prev) => ({
-      ...prev,
-      image: null,
-      imagePreview: '',
-    }));
+  const handleBack = () => {
+    onPrev();
   };
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0];
-
-      for (const check of fileChecks) {
-        if (check.error && check.query && !check.query(file)) {
-          setImageError(check.error);
-          return;
-        }
+  const handleNext = async () => {
+    const validate = await form.trigger([
+      'name',
+      'slug',
+      'logo',
+      'description',
+    ]);
+    if (validate) {
+      const result = await check.mutateAsync({
+        slug: form.getValues('slug'),
+      });
+      if (result.exists) {
+        form.setError('slug', {
+          type: 'manual',
+          message: 'This slug is already taken',
+        });
+        return;
       }
-
-      const reader = new FileReader();
-
-      reader.onload = (event) => {
-        if (event.target && typeof event.target.result === 'string') {
-          // Check image dimensions
-          const img = new Image();
-          img.onload = () => {
-            for (const check of imageChecks) {
-              if (check.error && check.query && !check.query(img)) {
-                setImageError(check.error);
-                return;
-              }
-            }
-
-            setImageError('');
-            setTeamData((prev) => ({
-              ...prev,
-              image: file,
-              imagePreview: event.target?.result as string,
-            }));
-          };
-          img.src = event.target.result;
-        }
-      };
-
-      reader.readAsDataURL(file);
+      onNext();
     }
   };
 
   return (
-    <div className="space-y-6">
-      <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold">Team Details</h2>
-        <p className="text-muted-foreground mt-2">Tell us about your Team</p>
+    <SectionCardLayout title="Profile" description="Tell us about your team">
+      <div className="space-y-6">
+        <TeamStepFields />
+
+        <ActionsLayout>
+          <Button type="button" variant="outline" onClick={handleBack}>
+            Back
+          </Button>
+
+          <Button type="button" onClick={handleNext} disabled={check.isPending}>
+            {check.isPending && <Loader2 className="h-4 w-4 animate-spin" />}
+            Next
+          </Button>
+        </ActionsLayout>
       </div>
-
-      <div className="space-y-4">
-        <div className="space-y-2">
-          <Label htmlFor="team-name" aria-required>
-            Team Name <span className="text-red-500">*</span>
-          </Label>
-          <Input
-            id="team-name"
-            value={teamData.name}
-            onChange={(e) =>
-              setTeamData((prev) => ({ ...prev, name: e.target.value }))
-            }
-            placeholder="Enter your team name"
-            required
-          />
-          {nameError && (
-            <p className="text-sm text-red-500 mt-1">{nameError}</p>
-          )}
-
-          {teamData.slug && (
-            <div className="flex items-center mt-2 text-sm text-muted-foreground">
-              <Link2Icon className="h-3.5 w-3.5 mr-1.5" />
-              <Link href={teamUrl} className="font-medium">
-                {teamUrl}
-              </Link>
-            </div>
-          )}
-        </div>
-
-        <div className="space-y-2">
-          <div className="flex items-center gap-2">
-            <Label htmlFor="image-requirements" aria-required>
-              Team Image <span className="text-red-500">*</span>
-            </Label>
-            <Popover open={infoOpen} onOpenChange={setInfoOpen}>
-              <PopoverTrigger asChild>
-                <Button
-                  id="image-requirements"
-                  variant="ghost"
-                  size="icon"
-                  className="h-6 w-6 rounded-full md:hidden"
-                  aria-label="Image requirements"
-                >
-                  <InfoIcon className="h-4 w-4" />
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent side="right" className="w-[240px] p-0">
-                <ImageRequirements />
-              </PopoverContent>
-            </Popover>
-          </div>
-          <div className="flex items-start justify-between">
-            <div>
-              <input
-                type="file"
-                ref={fileInputRef}
-                onChange={handleImageChange}
-                accept="image/*"
-                className="hidden"
-                id="imageUpload"
-              />
-
-              {teamData.imagePreview ? (
-                <div className="relative w-32 h-32 mb-4">
-                  <img
-                    src={teamData.imagePreview || '/placeholder.svg'}
-                    alt="Team preview"
-                    className="w-32 h-32 object-cover rounded-md"
-                  />
-                </div>
-              ) : (
-                <div
-                  onClick={() => fileInputRef.current?.click()}
-                  className="w-32 h-32 border-2 border-dashed rounded-md flex flex-col items-center justify-center cursor-pointer hover:bg-muted transition-colors mb-4"
-                >
-                  <ImageIcon className="h-10 w-10 text-muted-foreground mb-2" />
-                  <span className="text-sm text-muted-foreground">
-                    Upload Image
-                  </span>
-                </div>
-              )}
-
-              {teamData.image ? (
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => handleClearImage()}
-                  className="flex items-center"
-                >
-                  <Trash2Icon className="mr-2 h-4 w-4" />
-                  Remove Image
-                </Button>
-              ) : (
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => fileInputRef.current?.click()}
-                  className="flex items-center"
-                >
-                  <UploadIcon className="mr-2 h-4 w-4" />
-                  Upload Image
-                </Button>
-              )}
-            </div>
-            {/* Requirements box - visible on md screens and up */}
-            <div className="hidden md:block flex-1">
-              <ImageRequirements />
-            </div>
-          </div>
-          {imageError && (
-            <p className="text-sm text-red-500 mb-2">{imageError}</p>
-          )}
-        </div>
-        <div className="space-y-2">
-          <Label htmlFor="description">
-            Short Description <span className="text-red-500">*</span>
-          </Label>
-          <Textarea
-            id="description"
-            value={teamData.description}
-            onChange={(e) =>
-              setTeamData((prev) => ({
-                ...prev,
-                description: e.target.value,
-              }))
-            }
-            placeholder="Briefly describe your team"
-            rows={4}
-            required
-          />
-          <p className="text-sm text-muted-foreground">
-            {teamData.description.length}/250 characters
-          </p>
-        </div>
-      </div>
-    </div>
+    </SectionCardLayout>
   );
-}
+};
 
-const ImageRequirements = () => (
-  <div className="space-y-2 p-3 bg-muted/50 rounded-md">
-    <h4 className="font-medium text-sm">Image Requirements:</h4>
-    <ul className="text-xs space-y-1 text-muted-foreground">
-      {[...imageChecks, ...fileChecks]
-        .filter((check) => check.label)
-        .map((check, index) => (
-          <li key={index} className="flex items-start">
-            <span className="mr-2">•</span>
-            <span>{check.label}</span>
-          </li>
-        ))}
-    </ul>
-  </div>
-);
+export const TeamStepFields: React.FC<{ editing?: boolean }> = ({
+  editing,
+}) => {
+  const form = useFormContext<CreateTeamSchema>();
+
+  const url = routes.team.url({
+    params: {
+      teamSlug: form.getValues('slug'),
+    },
+  });
+
+  return (
+    <>
+      <FormField
+        control={form.control}
+        name="name"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>
+              Name <span className="text-red-500">*</span>
+            </FormLabel>
+            <FormControl>
+              <Input {...field} placeholder="Enter your team name" required />
+            </FormControl>
+            <FormDescription>
+              {field.value.length}/50 characters
+            </FormDescription>
+
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+
+      {editing ? (
+        <div>
+          <FormItem>
+            <FormLabel>Slug</FormLabel>
+            <Link
+              href={url}
+              className="flex rounded-md border border-input ring-offset-background focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 w-fit items-center p-2 text-muted-foreground text-sm whitespace-nowrap bg-muted/40 gap-1.5 hover:bg-muted/60 hover:underline"
+            >
+              <Link2Icon className="h-4 w-4" />
+              {url}
+            </Link>
+            <FormDescription>
+              This is the unique identifier for your team. If you want to change
+              your slug, please contact support.
+            </FormDescription>
+          </FormItem>
+        </div>
+      ) : (
+        <FormField
+          control={form.control}
+          name="slug"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>
+                Slug <span className="text-red-500">*</span>
+              </FormLabel>
+              <PrefixInput
+                field={field}
+                prefix={`${routes.baseUrl}/`}
+                placeholder="your-team"
+                disabled={editing}
+              />
+              <FormDescription>
+                This is the unique identifier for your team. This value cannot
+                be changed later.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      )}
+
+      <FormField
+        control={form.control}
+        name="logo"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>
+              Logo <span className="text-red-500">*</span>
+            </FormLabel>
+            <FileUploader
+              fieldId={field.name}
+              type="image"
+              name="Team Logo"
+              label="Upload your team's logo"
+              description="This image will be displayed on your team page and in marketing materials."
+              requirements={['For best results use an aspect ratio of 16:9']}
+              restrictions={{
+                maxSize: MAX_BASIC_IMAGE_SIZE,
+                fileTypes: VALID_BASIC_IMAGE_TYPES,
+                minHeight: 256,
+                minWidth: 256,
+                square: true,
+              }}
+            />
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+
+      <FormField
+        control={form.control}
+        name="description"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>
+              Short Description <span className="text-red-500">*</span>
+            </FormLabel>
+            <FormControl>
+              <Textarea
+                placeholder="Briefly describe your team"
+                rows={4}
+                required
+                {...field}
+              />
+            </FormControl>
+            <FormDescription>
+              {field.value.length}/250 characters
+            </FormDescription>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+    </>
+  );
+};

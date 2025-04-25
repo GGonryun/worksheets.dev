@@ -1,6 +1,6 @@
 export * from '@prisma/client';
 
-import { PrismaClient } from '@prisma/client';
+import { Prisma, PrismaClient } from '@prisma/client';
 
 import prisma from './lib/client';
 
@@ -14,3 +14,13 @@ export type PrismaTransactionalClient = Parameters<
 >[0];
 
 export const MAX_INT = 2147483647;
+
+export const isPrismaError = (
+  error: unknown
+): error is Prisma.PrismaClientKnownRequestError => {
+  return (
+    error instanceof Prisma.PrismaClientKnownRequestError &&
+    'code' in error &&
+    'meta' in error
+  );
+};

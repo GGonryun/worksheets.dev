@@ -1,0 +1,22 @@
+import { socialLinksSchema } from '@worksheets/util/types';
+import { z } from 'zod';
+
+import { protectedTeamProcedure } from '../../../procedures';
+
+export default protectedTeamProcedure
+  .output(
+    z.object({
+      id: z.string(),
+      description: z.string(),
+      slug: z.string(),
+      name: z.string(),
+      logo: z.string(),
+      links: socialLinksSchema,
+    })
+  )
+  .query(async ({ ctx: { team } }) => {
+    return {
+      ...team,
+      links: socialLinksSchema.parse(team.links),
+    };
+  });

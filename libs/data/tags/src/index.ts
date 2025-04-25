@@ -2,10 +2,12 @@ import { GameTag, TagSchema } from '@worksheets/util/types';
 
 export type SeedableTag = TagSchema & {
   version: number;
+  special?: boolean;
 };
 
 export const tags: Record<GameTag, SeedableTag> = {
   'ad-free': {
+    special: true,
     version: 1,
     id: 'ad-free',
     name: 'Ad-Free Games',
@@ -22,6 +24,7 @@ export const tags: Record<GameTag, SeedableTag> = {
     `,
   },
   popular: {
+    special: true,
     version: 1,
     id: 'popular',
     name: 'Popular Games',
@@ -51,6 +54,7 @@ export const tags: Record<GameTag, SeedableTag> = {
     `,
   },
   skibidi: {
+    special: true,
     version: 1,
     id: 'skibidi',
     name: 'Skibidi Games',
@@ -191,6 +195,7 @@ export const tags: Record<GameTag, SeedableTag> = {
     `,
   },
   grimace: {
+    special: true,
     version: 1,
     id: 'grimace',
     name: 'Grimace Games',
@@ -576,7 +581,6 @@ export const tags: Record<GameTag, SeedableTag> = {
     `,
     relatedTags: ['girl', 'fashion', '1p', 'arcade', 'ball'],
   },
-
   '3d': {
     version: 1,
     id: '3d',
@@ -618,6 +622,7 @@ export const tags: Record<GameTag, SeedableTag> = {
     `,
   },
   new: {
+    special: true,
     version: 1,
     id: 'new',
     name: 'New Games',
@@ -631,6 +636,7 @@ export const tags: Record<GameTag, SeedableTag> = {
     `,
   },
   desktop: {
+    special: true,
     version: 1,
     id: 'desktop',
     name: 'Computer Games',

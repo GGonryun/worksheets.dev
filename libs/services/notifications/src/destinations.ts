@@ -53,6 +53,12 @@ const userReportTemplates: TemplateBuilder<'user-report'> = (payload) => ({
   discord: DiscordTemplates.userReport(payload),
 });
 
+const gameSubmissionTemplates: TemplateBuilder<'game-submission'> = (
+  payload
+) => ({
+  discord: DiscordTemplates.gameSubmission(payload),
+});
+
 export const destinations: Record<NotificationTemplateType, TemplateBuilder> = {
   'new-game': newGameTemplates,
   'new-raffle': newRaffleTemplates,
@@ -64,4 +70,5 @@ export const destinations: Record<NotificationTemplateType, TemplateBuilder> = {
   'welcome-user': welcomeUserTemplates,
   'game-report': gameReportTemplates,
   'user-report': userReportTemplates,
+  'game-submission': gameSubmissionTemplates,
 };

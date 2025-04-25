@@ -24,7 +24,7 @@ export default async function middleware(req: NextRequest) {
   // authorization middleware
   const session = await getToken({ req });
   const user = session?.user;
-  const pathname = req.nextUrl.pathname;
+  const pathname = req.nextUrl?.pathname ?? '';
 
   // if the user is attempting to access a protected page and is not logged in redirect to login
   // TODO: one day we may need to protected nested routes or paths. This will need to be updated to use regex

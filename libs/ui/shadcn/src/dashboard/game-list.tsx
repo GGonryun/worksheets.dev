@@ -27,33 +27,36 @@ import {
   Edit,
   Eye,
   GamepadIcon,
+  MessageCircleHeart,
   MoreHorizontal,
   Plus,
+  Send,
   Trash,
 } from 'lucide-react';
 import Link from 'next/link';
 import { devRoutes, routes } from '@worksheets/routes';
 import { trpc } from '@worksheets/trpc-charity';
 import React from 'react';
-import { TeamOwnedGames } from '../types';
+import { TeamGamesListQuery, TeamSelectedQuery } from '../types';
 import { ErrorMessage } from '../errors/error-message';
 import { Skeleton } from '../ui/skeleton';
-import { useActiveTeam } from '../hooks/use-active-team';
+import { printShortDateTime } from '@worksheets/util/time';
+import { GameStatus, GameVisibility } from '@prisma/client';
 
 export const GameList: React.FC = () => {
-  const [savedTeam] = useActiveTeam();
-  const games = trpc.user.teams.games.list.useQuery({ teamId: savedTeam });
+  const games = trpc.user.teams.games.list.useQuery();
+  const team = trpc.user.teams.selected.useQuery();
 
   return (
     <GameListLayout>
-      {games.isPending ? (
+      {games.isPending || team.isPending ? (
         <GameListSkeleton />
-      ) : games.isError ? (
-        <ErrorMessage message={games.error.message} />
+      ) : games.isError || team.isError ? (
+        <ErrorMessage message={games.error?.message ?? team.error?.message} />
       ) : !games.data.length ? (
         <EmptyGameListState />
       ) : (
-        <GameListContent games={games.data} />
+        <GameListContent games={games.data} team={team.data} />
       )}
     </GameListLayout>
   );
@@ -83,10 +86,10 @@ const GameTableLayout: React.FC<{ children: React.ReactNode }> = ({
       <TableHeader>
         <TableRow>
           <TableHead>Title</TableHead>
-          <TableHead>Status</TableHead>
-          <TableHead className="hidden md:table-cell">Plays</TableHead>
+          <TableHead>Visibility</TableHead>
+          <TableHead className="hidden sm:table-cell">Status</TableHead>
           <TableHead className="hidden md:table-cell">Minutes</TableHead>
-          <TableHead className="hidden md:table-cell">Last Updated</TableHead>
+          <TableHead className="hidden lg:table-cell">Last Updated</TableHead>
           <TableHead className="text-right">Actions</TableHead>
         </TableRow>
       </TableHeader>
@@ -148,9 +151,10 @@ const EmptyGameListState: React.FC = () => {
   );
 };
 
-const GameListContent: React.FC<{ games: NonNullable<TeamOwnedGames> }> = ({
-  games,
-}) => {
+const GameListContent: React.FC<{
+  team: NonNullable<TeamSelectedQuery>;
+  games: NonNullable<TeamGamesListQuery>;
+}> = ({ games, team }) => {
   return (
     <GameTableLayout>
       {games.map((game) => (
@@ -158,18 +162,20 @@ const GameListContent: React.FC<{ games: NonNullable<TeamOwnedGames> }> = ({
           <TableCell className="font-medium">
             <div className="flex flex-col">
               <span>{game.title}</span>
-              <span className="text-xs text-muted-foreground">{game.id}</span>
+              <span className="text-xs text-muted-foreground">{game.slug}</span>
             </div>
           </TableCell>
           <TableCell>
+            <VisibilityBadge visibility={game.visibility} />
+          </TableCell>
+          <TableCell className="hidden sm:table-cell">
             <StatusBadge status={game.status} />
           </TableCell>
-          <TableCell className="hidden md:table-cell">{game.plays}</TableCell>
           <TableCell className="hidden md:table-cell">
             {game.duration}
           </TableCell>
-          <TableCell className="hidden md:table-cell">
-            {game.lastUpdated}
+          <TableCell className="hidden lg:table-cell">
+            {printShortDateTime(game.lastUpdated)}
           </TableCell>
           <TableCell className="text-right">
             <DropdownMenu>
@@ -192,11 +198,38 @@ const GameListContent: React.FC<{ games: NonNullable<TeamOwnedGames> }> = ({
                     Edit
                   </Link>
                 </DropdownMenuItem>
+                {game.status === 'DRAFT' && (
+                  <DropdownMenuItem asChild>
+                    <Link
+                      href={devRoutes.dashboard.games.view.visibility.path({
+                        params: {
+                          gameId: game.id,
+                        },
+                      })}
+                    >
+                      <Send className="mr-2 h-4 w-4" />
+                      Publish
+                    </Link>
+                  </DropdownMenuItem>
+                )}
                 <DropdownMenuItem asChild>
                   <Link
-                    href={routes.preview.url({
+                    href={devRoutes.dashboard.games.view.feedback.path({
                       params: {
                         gameId: game.id,
+                      },
+                    })}
+                  >
+                    <MessageCircleHeart className="mr-2 h-4 w-4" />
+                    Feedback
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link
+                    href={routes.team.game.url({
+                      params: {
+                        teamSlug: team.slug,
+                        gameSlug: game.slug,
                       },
                     })}
                     target="_blank"
@@ -218,14 +251,33 @@ const GameListContent: React.FC<{ games: NonNullable<TeamOwnedGames> }> = ({
   );
 };
 
-const StatusBadge: React.FC<{ status: string }> = ({ status }) => {
+const VisibilityBadge: React.FC<{ visibility: GameVisibility }> = ({
+  visibility,
+}) => {
+  switch (visibility) {
+    case 'PUBLIC':
+      return <Badge className="bg-green-500">Public</Badge>;
+    case 'UNLISTED':
+      return <Badge className="bg-blue-500">Unlisted</Badge>;
+    case 'PRIVATE':
+      return <Badge className="bg-slate-500">Private</Badge>;
+    default:
+      return <Badge variant="secondary">{visibility}</Badge>;
+  }
+};
+
+const StatusBadge: React.FC<{ status: GameStatus }> = ({ status }) => {
   switch (status) {
-    case 'published':
-      return <Badge className="bg-green-500">Published</Badge>;
-    case 'draft':
-      return <Badge variant="outline">Draft</Badge>;
-    case 'review':
-      return <Badge className="bg-amber-500">In Review</Badge>;
+    case 'APPROVED':
+      return <Badge className="bg-green-500">Approved</Badge>;
+    case 'PENDING':
+      return <Badge className="bg-yellow-500">Pending</Badge>;
+    case 'REJECTED':
+      return <Badge className="bg-red-500">Rejected</Badge>;
+    case 'CHANGES_REQUESTED':
+      return <Badge className="bg-orange-500">Changes Requested</Badge>;
+    case 'DRAFT':
+      return <Badge variant="secondary">Draft</Badge>;
     default:
       return <Badge variant="secondary">{status}</Badge>;
   }

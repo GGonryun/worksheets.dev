@@ -3,12 +3,10 @@ import { Storage } from '@google-cloud/storage';
 import * as unzipper from 'unzipper';
 
 cloudEvent('Unzip', async (cloudEvent: CloudEvent<StorageObjectData>) => {
-  // only process zip files
   if (cloudEvent.data.contentType !== 'application/zip') {
     return;
   }
 
-  //split the file name.
   const [folder, file] = cloudEvent.data.name.split('/');
 
   console.info(`Processing zip file: ${cloudEvent.data.name}`, {

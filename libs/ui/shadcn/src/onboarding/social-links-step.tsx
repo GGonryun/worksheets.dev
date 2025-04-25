@@ -10,23 +10,23 @@ import {
   Instagram,
   MessageSquare,
 } from 'lucide-react';
-import { SocialLinks } from './types';
+import { useFormContext } from 'react-hook-form';
+import { CreateTeamSchema } from '@worksheets/util/types';
+import {
+  Button,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '../ui';
+import { ActionsLayout } from './actions-layout';
 
-interface SocialLinksStepProps {
-  socialLinks: SocialLinks;
-  setSocialLinks: Dispatch<SetStateAction<SocialLinks>>;
-}
-
-export default function SocialLinksStep({
-  socialLinks,
-  setSocialLinks,
-}: SocialLinksStepProps) {
-  const handleInputChange = (key: keyof SocialLinks, value: string) => {
-    setSocialLinks((prev) => ({
-      ...prev,
-      [key]: value,
-    }));
-  };
+export const SocialLinksStep: React.FC<{ onPrev: () => void }> = ({
+  onPrev,
+}) => {
+  const form = useFormContext<CreateTeamSchema>();
 
   return (
     <div className="space-y-6">
@@ -37,72 +37,111 @@ export default function SocialLinksStep({
         </p>
       </div>
 
-      <div className="space-y-4">
-        <div className="space-y-2">
-          <Label htmlFor="twitter" className="flex items-center">
-            <Twitter className="h-4 w-4 mr-2" />
-            Twitter
-          </Label>
-          <Input
-            id="twitter"
-            value={socialLinks.twitter}
-            onChange={(e) => handleInputChange('twitter', e.target.value)}
-            placeholder="https://twitter.com/yourusername"
-          />
-        </div>
-
-        <div className="space-y-2">
-          <Label htmlFor="facebook" className="flex items-center">
-            <Facebook className="h-4 w-4 mr-2" />
-            Facebook
-          </Label>
-          <Input
-            id="facebook"
-            value={socialLinks.facebook}
-            onChange={(e) => handleInputChange('facebook', e.target.value)}
-            placeholder="https://facebook.com/yourpage"
-          />
-        </div>
-
-        <div className="space-y-2">
-          <Label htmlFor="itchio" className="flex items-center">
-            <Globe className="h-4 w-4 mr-2" />
-            itch.io
-          </Label>
-          <Input
-            id="itchio"
-            value={socialLinks.itchio}
-            onChange={(e) => handleInputChange('itchio', e.target.value)}
-            placeholder="https://yourstudio.itch.io"
-          />
-        </div>
-
-        <div className="space-y-2">
-          <Label htmlFor="instagram" className="flex items-center">
-            <Instagram className="h-4 w-4 mr-2" />
-            Instagram
-          </Label>
-          <Input
-            id="instagram"
-            value={socialLinks.instagram}
-            onChange={(e) => handleInputChange('instagram', e.target.value)}
-            placeholder="https://instagram.com/yourusername"
-          />
-        </div>
-
-        <div className="space-y-2">
-          <Label htmlFor="discord" className="flex items-center">
-            <MessageSquare className="h-4 w-4 mr-2" />
-            Discord
-          </Label>
-          <Input
-            id="discord"
-            value={socialLinks.discord}
-            onChange={(e) => handleInputChange('discord', e.target.value)}
-            placeholder="https://discord.gg/yourinvite"
-          />
-        </div>
-      </div>
+      <ActionsLayout>
+        <Button variant="outline" onClick={onPrev}>
+          Back
+        </Button>
+        <Button type="submit" disabled={form.formState.isSubmitting}>
+          Submit
+        </Button>
+      </ActionsLayout>
     </div>
   );
-}
+};
+
+export const SocialLinksFields = () => {
+  const form = useFormContext<CreateTeamSchema>();
+  return (
+    <>
+      <FormField
+        control={form.control}
+        name="links.twitter"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel className="flex items-center gap-1.5">
+              <Twitter className="h-4 w-4" />
+              Twitter
+            </FormLabel>
+            <FormControl>
+              <Input
+                {...field}
+                placeholder="https://twitter.com/yourusername"
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+
+      <FormField
+        control={form.control}
+        name="links.facebook"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel className="flex items-center gap-1.5">
+              <Facebook className="h-4 w-4" />
+              Facebook
+            </FormLabel>
+            <FormControl>
+              <Input {...field} placeholder="https://facebook.com/yourpage" />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+
+      <FormField
+        control={form.control}
+        name="links.itchio"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel className="flex items-center gap-1.5">
+              <Globe className="h-4 w-4" />
+              itch.io
+            </FormLabel>
+            <FormControl>
+              <Input {...field} placeholder="https://yourstudio.itch.io" />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+      <FormField
+        control={form.control}
+        name="links.instagram"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel className="flex items-center gap-1.5">
+              <Instagram className="h-4 w-4" />
+              Instagram
+            </FormLabel>
+            <FormControl>
+              <Input
+                {...field}
+                placeholder="https://instagram.com/yourusername"
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+
+      <FormField
+        control={form.control}
+        name="links.discord"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel className="flex items-center gap-1.5">
+              <MessageSquare className="h-4 w-4" />
+              Discord
+            </FormLabel>
+            <FormControl>
+              <Input {...field} placeholder="https://discord.gg/yourinvite" />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+    </>
+  );
+};

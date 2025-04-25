@@ -59,7 +59,7 @@
         "triggerEvent": "google.storage.object.finalize",
         "trigger": "resource",
         "triggerValue": "gs://local-game-submissions",
-        "memory": "128MB",
+        "memory": "256MB",
         "maxInstances": 1,
         "concurrency": 1
       }

@@ -10,12 +10,32 @@ export type TeamsQuery = UseTRPCQueryResult<
 
 export type TeamQuery = NonNullable<TeamsQuery>[number];
 
-export type TeamOwnedGames = UseTRPCQueryResult<
+export type TeamSelectedQuery = UseTRPCQueryResult<
+  inferRouterOutputs<AppRouter>['user']['teams']['selected'],
+  TRPCClientErrorLike<AppRouter>
+>['data'];
+
+export type TeamGamesListQuery = UseTRPCQueryResult<
   inferRouterOutputs<AppRouter>['user']['teams']['games']['list'],
   TRPCClientErrorLike<AppRouter>
 >['data'];
 
-export type TeamGameplayStatistics = UseTRPCQueryResult<
+export type TeamGamesReadQuery = UseTRPCQueryResult<
+  inferRouterOutputs<AppRouter>['user']['teams']['games']['read'],
+  TRPCClientErrorLike<AppRouter>
+>['data'];
+
+export type TeamGameplayStatisticsQuery = UseTRPCQueryResult<
   inferRouterOutputs<AppRouter>['user']['teams']['games']['statistics'],
+  TRPCClientErrorLike<AppRouter>
+>['data'];
+
+export type TeamsGamesVersionsReadQuery = UseTRPCQueryResult<
+  inferRouterOutputs<AppRouter>['user']['teams']['games']['versions']['read'],
+  TRPCClientErrorLike<AppRouter>
+>['data'];
+
+export type TeamGamesVersionsListQuery = UseTRPCQueryResult<
+  inferRouterOutputs<AppRouter>['user']['teams']['games']['versions']['list'],
   TRPCClientErrorLike<AppRouter>
 >['data'];

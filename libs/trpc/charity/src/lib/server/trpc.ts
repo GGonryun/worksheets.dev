@@ -1,4 +1,4 @@
-import { initTRPC } from '@trpc/server';
+import { initTRPC, TRPCError } from '@trpc/server';
 import { Context } from '@worksheets/trpc/shared';
 import { ZodError } from 'zod';
 
@@ -8,17 +8,25 @@ export const t = initTRPC
   .create({
     errorFormatter(opts) {
       const { shape, error } = opts;
-      console.error('TRPC error', error);
-      return {
-        ...shape,
-        data: {
-          ...shape.data,
-          zodError:
-            error.code === 'BAD_REQUEST' && error.cause instanceof ZodError
-              ? error.cause.flatten()
-              : null,
-        },
-      };
+
+      if (error instanceof TRPCError) {
+        return {
+          ...shape,
+          data: {
+            ...shape.data,
+            zodError:
+              error.code === 'BAD_REQUEST' && error.cause instanceof ZodError
+                ? error.cause.flatten()
+                : null,
+          },
+        };
+      } else {
+        return {
+          code: 'INTERNAL_SERVER_ERROR',
+          message: 'Something unexpected happened.',
+          cause: error,
+        };
+      }
     },
   });
 

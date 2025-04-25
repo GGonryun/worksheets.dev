@@ -251,6 +251,7 @@
       "@worksheets/util/arrays": ["libs/util/arrays/src/index.ts"],
       "@worksheets/util/auth": ["libs/util/auth/src/index.ts"],
       "@worksheets/util/blog": ["libs/util/blog/src/index.ts"],
+      "@worksheets/util/cookies": ["libs/util/cookies/src/index.ts"],
       "@worksheets/util/cron": ["libs/util/cron/src/index.ts"],
       "@worksheets/util/crypto": ["libs/util/crypto/src/index.ts"],
       "@worksheets/util/data": ["libs/util/data/src/index.ts"],
@@ -276,6 +277,7 @@
       "@worksheets/util/time": ["libs/util/time/src/index.ts"],
       "@worksheets/util/trpc": ["libs/util/trpc/src/index.ts"],
       "@worksheets/util/types": ["libs/util/types/src/index.ts"],
+      "@worksheets/util/viewport": ["libs/util/viewport/src/index.ts"],
       "@worksheets/zod": ["libs/util/zod/src/index.ts"]
     }
   },

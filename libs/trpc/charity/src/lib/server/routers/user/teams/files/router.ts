@@ -28,7 +28,7 @@ export default t.router({
     .mutation(async ({ input: { type }, ctx: { user } }) => {
       const { success } = await ratelimit.uploads.limit(user.id);
       if (!success) {
-        console.error('Rate limit exceeded for file uploads', user.id);
+        // console.error('Rate limit exceeded for file uploads', user.id);
         throw new TRPCError({
           code: 'TOO_MANY_REQUESTS',
           message:

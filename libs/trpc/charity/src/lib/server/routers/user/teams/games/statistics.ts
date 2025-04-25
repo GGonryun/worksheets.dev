@@ -2,7 +2,7 @@ import { Prisma } from '@prisma/client';
 import { daysAgo } from '@worksheets/util/time';
 import { z } from 'zod';
 
-import { protectedProcedure } from '../../../../procedures';
+import { protectedTeamProcedure } from '../../../../procedures';
 
 const reportSchema = z.object({
   name: z.string(),
@@ -12,19 +12,18 @@ const reportSchema = z.object({
 
 export type ReportSchema = z.infer<typeof reportSchema>;
 
-export default protectedProcedure
-  .input(z.object({ teamId: z.string() }))
+export default protectedTeamProcedure
   .output(
     z.object({
       hasGames: z.boolean(),
       analytics: z.array(reportSchema),
     })
   )
-  .query(async ({ ctx: { db }, input: { teamId } }) => {
+  .query(async ({ ctx: { db, team } }) => {
     const analytics = await db.gamePlayAnalytics.findMany({
       where: {
         game: {
-          teamId,
+          teamId: team.id,
         },
       },
       include: {
@@ -32,10 +31,14 @@ export default protectedProcedure
       },
     });
 
-    const uniqueGames = new Set(analytics.map((a) => a.gameId));
+    const games = await db.game.count({
+      where: {
+        teamId: team.id,
+      },
+    });
 
     return {
-      hasGames: uniqueGames.size > 0,
+      hasGames: games > 0,
       analytics: groupDaily(analytics),
     };
   });

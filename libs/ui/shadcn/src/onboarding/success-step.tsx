@@ -3,15 +3,15 @@
 import { Button } from '../ui/button';
 
 import { CheckCircle } from 'lucide-react';
-import { TeamData } from './types';
 import { useRouter } from 'next/router';
 import { devRoutes } from '@worksheets/routes';
+import { CreateTeamSchema } from '@worksheets/util/types';
 
 interface SuccessStepProps {
-  teamData: TeamData;
+  team: CreateTeamSchema;
 }
 
-export default function SuccessStep({ teamData }: SuccessStepProps) {
+export const SuccessStep = ({ team }: SuccessStepProps) => {
   const router = useRouter();
   return (
     <div className="text-center py-8 space-y-6">
@@ -24,15 +24,18 @@ export default function SuccessStep({ teamData }: SuccessStepProps) {
       <h2 className="text-2xl font-bold">Setup Complete!</h2>
 
       <p className="text-muted-foreground">
-        Congratulations! Your organization <strong>{teamData.name}</strong> has
-        been successfully set up.
+        Congratulations! Your organization <strong>{team.name}</strong> has been
+        successfully set up.
       </p>
 
       <div className="pt-4">
-        <Button onClick={() => router.push(devRoutes.dashboard.path())}>
+        <Button
+          type="button"
+          onClick={() => router.push(devRoutes.dashboard.path())}
+        >
           Go to Dashboard
         </Button>
       </div>
     </div>
   );
-}
+};

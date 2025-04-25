@@ -109,6 +109,21 @@ export type NotificationTemplate =
         senderId: string | null;
         text: string;
       };
+    }
+  | {
+      type: 'game-submission';
+      payload: {
+        game: {
+          id: string;
+          title: string;
+          slug: string;
+        };
+        team: {
+          id: string;
+          name: string;
+          slug: string;
+        };
+      };
     };
 
 /** Helper Types **/

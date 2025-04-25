@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Checkbox } from '../ui/checkbox';
 import { Label } from '../ui/label';
 import { Badge } from '../ui/badge';
@@ -14,24 +14,23 @@ import {
   SheetFooter,
 } from '../ui/sheet';
 import type { Dispatch, SetStateAction } from 'react';
-import { CheckCircle } from 'lucide-react';
+import { CheckCircle, Square, SquareCheckBig } from 'lucide-react';
 import {
   privacyStatement,
   submissionGuidelines,
   tosStatement,
 } from '@worksheets/util/legal';
 import { LegalHtml } from './legal';
+import { ActionsLayout } from './actions-layout';
+import { useFormContext } from 'react-hook-form';
+import { CreateTeamSchema } from '@worksheets/util/types';
+import { FormField, FormItem, FormLabel, FormMessage } from '../ui/form';
 
 type TermsAccepted = {
   termsOfService: boolean;
   privacyPolicy: boolean;
   submissionPolicies: boolean;
 };
-
-interface TermsStepProps {
-  termsAccepted: TermsAccepted;
-  setTermsAccepted: Dispatch<SetStateAction<TermsAccepted>>;
-}
 
 type PolicyType = 'termsOfService' | 'privacyPolicy' | 'submissionPolicies';
 
@@ -50,11 +49,47 @@ const policyContent = {
   },
 };
 
-export default function TermsStep({
-  termsAccepted,
-  setTermsAccepted,
-}: TermsStepProps) {
+const getPolicyTitle = (policy: PolicyType): string => {
+  switch (policy) {
+    case 'termsOfService':
+      return 'Terms of Service Agreement';
+    case 'privacyPolicy':
+      return 'Privacy Policy';
+    case 'submissionPolicies':
+      return 'Game Submission Policies';
+  }
+};
+
+const getPolicyDescription = (policy: PolicyType): string => {
+  switch (policy) {
+    case 'termsOfService':
+      return 'I have read and agree to the Terms of Service that govern my use of the platform.';
+    case 'privacyPolicy':
+      return 'I understand how my data will be used as described in the Privacy Policy.';
+    case 'submissionPolicies':
+      return 'I agree to follow the guidelines for submitting games to the platform.';
+  }
+};
+
+export const TermsStep: React.FC<{
+  onNext: () => void;
+}> = ({ onNext }) => {
+  const form = useFormContext<CreateTeamSchema>();
+
   const [openPolicy, setOpenPolicy] = useState<PolicyType | null>(null);
+
+  const termsOfService = form.watch('termsOfService');
+  const privacyPolicy = form.watch('privacyPolicy');
+  const submissionPolicies = form.watch('submissionPolicies');
+
+  const termsAccepted: TermsAccepted = useMemo(
+    () => ({
+      termsOfService,
+      privacyPolicy,
+      submissionPolicies,
+    }),
+    [termsOfService, privacyPolicy, submissionPolicies]
+  );
 
   const handleOpenPolicy = (policy: PolicyType) => {
     setOpenPolicy(policy);
@@ -62,10 +97,8 @@ export default function TermsStep({
 
   const handleAcceptPolicy = () => {
     if (openPolicy) {
-      setTermsAccepted((prev) => ({
-        ...prev,
-        [openPolicy]: true,
-      }));
+      form.setValue(openPolicy, true);
+      form.trigger(openPolicy);
       setOpenPolicy(null);
     }
   };
@@ -74,25 +107,14 @@ export default function TermsStep({
     setOpenPolicy(null);
   };
 
-  const getPolicyTitle = (policy: PolicyType): string => {
-    switch (policy) {
-      case 'termsOfService':
-        return 'Terms of Service Agreement';
-      case 'privacyPolicy':
-        return 'Privacy Policy';
-      case 'submissionPolicies':
-        return 'Game Submission Policies';
-    }
-  };
-
-  const getPolicyDescription = (policy: PolicyType): string => {
-    switch (policy) {
-      case 'termsOfService':
-        return 'I have read and agree to the Terms of Service that govern my use of the platform.';
-      case 'privacyPolicy':
-        return 'I understand how my data will be used as described in the Privacy Policy.';
-      case 'submissionPolicies':
-        return 'I agree to follow the guidelines for submitting games to the platform.';
+  const handleNext = async () => {
+    const validate = await form.trigger([
+      'termsOfService',
+      'privacyPolicy',
+      'submissionPolicies',
+    ]);
+    if (validate) {
+      onNext();
     }
   };
 
@@ -113,46 +135,48 @@ export default function TermsStep({
             'submissionPolicies',
           ] as PolicyType[]
         ).map((policy) => (
-          <div
+          <FormField
             key={policy}
-            className={`flex items-start space-x-3 p-4 border rounded-md cursor-pointer transition-colors ${
-              termsAccepted[policy]
-                ? 'border-green-500 bg-green-50'
-                : 'hover:bg-muted'
-            }`}
-            onClick={() => handleOpenPolicy(policy)}
-          >
-            <Checkbox
-              id={policy}
-              checked={termsAccepted[policy]}
-              className="mt-1"
-              // Prevent checkbox from handling click separately
-              onClick={(e) => {
-                e.stopPropagation();
-                handleOpenPolicy(policy);
-              }}
-            />
-            <div className="space-y-1 flex-1">
-              <div className="flex items-center justify-between">
-                <Label
-                  htmlFor={policy}
-                  className="font-medium text-base cursor-pointer"
+            control={form.control}
+            name={policy}
+            render={() => (
+              <FormItem>
+                <div
+                  className={`flex items-start space-x-3 p-4 border rounded-md cursor-pointer transition-colors ${
+                    termsAccepted[policy]
+                      ? 'border-green-500 bg-green-50'
+                      : 'hover:bg-muted'
+                  }`}
+                  onClick={() => handleOpenPolicy(policy)}
                 >
-                  {getPolicyTitle(policy)}
-                </Label>
-                {termsAccepted[policy] && (
-                  <Badge className="bg-green-500 hover:bg-green-600 flex items-center">
-                    <CheckCircle className="h-3 w-3 mr-1" />
-                    Complete
-                  </Badge>
-                )}
-              </div>
-              <p className="text-sm text-muted-foreground">
-                {getPolicyDescription(policy)}
-              </p>
-            </div>
-          </div>
+                  {termsAccepted[policy] ? <SquareCheckBig /> : <Square />}
+                  <div className="space-y-1 flex-1">
+                    <div className="flex items-center justify-between">
+                      <FormLabel>{getPolicyTitle(policy)}</FormLabel>
+
+                      {termsAccepted[policy] && (
+                        <Badge className="bg-green-500 hover:bg-green-600 flex items-center">
+                          <CheckCircle className="h-3 w-3 mr-1" />
+                          Complete
+                        </Badge>
+                      )}
+                    </div>
+                    <p className="text-sm text-muted-foreground">
+                      {getPolicyDescription(policy)}
+                    </p>
+                  </div>
+                </div>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         ))}
+        <ActionsLayout>
+          <div />
+          <Button type="button" onClick={handleNext}>
+            Next
+          </Button>
+        </ActionsLayout>
       </div>
 
       <Sheet open={openPolicy !== null} onOpenChange={handleSheetClose}>
@@ -182,4 +206,4 @@ export default function TermsStep({
       </Sheet>
     </div>
   );
-}
+};

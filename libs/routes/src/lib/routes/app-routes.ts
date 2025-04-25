@@ -67,11 +67,24 @@ export const routes = {
       }),
     },
   }),
-  preview: createRoute({
-    path: '/preview/[gameId]',
+  team: createRoute({
+    path: '/[teamSlug]',
+    routes: {
+      game: createRoute({
+        path: '/[teamSlug]/[gameSlug]',
+        routes: {
+          version: createRoute({
+            path: '/[teamSlug]/[gameSlug]/[version]',
+          }),
+        },
+      }),
+    },
   }),
   game: createRoute({
     path: '/play/[gameId]',
+  }),
+  teams: createRoute({
+    path: '/teams',
   }),
   developer: createRoute({
     path: '/developers/[developerId]',
