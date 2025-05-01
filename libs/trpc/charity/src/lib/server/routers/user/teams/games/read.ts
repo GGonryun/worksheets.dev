@@ -4,7 +4,7 @@ import { z } from 'zod';
 import { protectedTeamProcedure } from '../../../../procedures';
 import { parseTeamGame, teamOwnedGameSchema } from './shared';
 
-export default protectedTeamProcedure
+export default protectedTeamProcedure(['games:read'])
   .input(
     z.object({
       gameId: z.string(),

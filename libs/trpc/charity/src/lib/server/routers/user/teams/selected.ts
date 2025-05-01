@@ -3,7 +3,7 @@ import { z } from 'zod';
 
 import { protectedTeamProcedure } from '../../../procedures';
 
-export default protectedTeamProcedure
+export default protectedTeamProcedure(['team:read'])
   .output(
     z.object({
       id: z.string(),

@@ -22,7 +22,7 @@ import { devRoutes, routes } from '@worksheets/routes';
 import { trpc } from '@worksheets/trpc-charity';
 import { ErrorStep } from './error-step';
 import { LoadingStep } from './loading-step';
-import { TeamsQuery } from '../types';
+import { UserTeamsListQuery } from '../types';
 import { waitFor } from '@worksheets/util/time';
 import { FormProvider, SubmitErrorHandler, useForm } from 'react-hook-form';
 import {
@@ -215,7 +215,7 @@ const ProgressIndicator: React.FC<{
 const ExitConfirmationDialog: React.FC<{
   exitDialogOpen: boolean;
   setExitDialogOpen: (open: boolean) => void;
-  teams: TeamsQuery;
+  teams: UserTeamsListQuery;
 }> = ({ exitDialogOpen, setExitDialogOpen, teams }) => {
   const router = useRouter();
   return (

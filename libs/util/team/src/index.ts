@@ -1,3 +1,5 @@
+import { TeamMemberRole } from '@prisma/client';
+
 export const protectedTeamSlugs = [
   'create',
   'list',
@@ -314,4 +316,75 @@ export const protectedTeamSlugs = [
   'command',
   'sql',
   'admin-panel',
+];
+
+export const MEMBERSHIP_PERMISSIONS: Record<
+  TeamMemberRole,
+  MemberPermission[]
+> = {
+  OWNER: [
+    'team:read',
+    'games:create',
+    'games:read',
+    'games:update',
+    'games:delete',
+    'members:create',
+    'members:read',
+    'members:update',
+    'members:delete',
+    'members:leave',
+    'settings:update',
+    'ownership:update',
+  ],
+  MANAGER: [
+    'team:read',
+    'games:create',
+    'games:read',
+    'games:update',
+    'games:delete',
+    'members:create',
+    'members:read',
+    'members:update',
+    'members:delete',
+    'members:leave',
+    'settings:update',
+  ],
+  MEMBER: ['team:read', 'games:read', 'members:read', 'members:leave'],
+};
+
+export type MemberPermission =
+  | 'team:read'
+  | 'games:create'
+  | 'games:read'
+  | 'games:update'
+  | 'games:delete'
+  | 'members:create'
+  | 'members:read'
+  | 'members:update'
+  | 'members:delete'
+  | 'members:leave'
+  | 'settings:update'
+  | 'ownership:update';
+
+export const MEMBERSHIP_LABELS: Record<MemberPermission, string> = {
+  'team:read': 'View team details',
+  'games:read': 'View games and information',
+  'members:read': 'View team information',
+  'games:create': 'Create new games',
+  'games:update': 'Create, update, and delete games',
+  'games:delete': 'Delete games',
+  'members:create': 'Invite new team members',
+  'members:update': 'Change member roles',
+  'members:leave': 'Leave the team',
+  'members:delete': 'Remove team members',
+  'settings:update': 'Change team settings',
+  'ownership:update': 'Transfer team ownership',
+};
+
+export const HIDDEN_MEMBERSHIP_LABELS: MemberPermission[] = [
+  'team:read',
+  'games:create',
+  'games:delete',
+  'members:leave',
+  'settings:update',
 ];

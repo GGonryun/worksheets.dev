@@ -1,6 +1,9 @@
 import { TRPCError } from '@trpc/server';
+import {
+  MemberPermission,
+  MEMBERSHIP_PERMISSIONS,
+} from '@worksheets/util/team';
 import * as cookie from 'cookie';
-import { z } from 'zod';
 
 import { middleware } from '../trpc';
 
@@ -48,8 +51,8 @@ export const apiOnly = authentication.unstable_pipe(
   }
 );
 
-export const teamMembership = apiOnly.unstable_pipe(
-  async ({ next, ctx: { req, db, user } }) => {
+export const teamMembership = (required: MemberPermission[]) =>
+  apiOnly.unstable_pipe(async ({ next, ctx: { req, db, user } }) => {
     const cookies = cookie.parse(req.headers.cookie || '');
     const teamId = cookies.teamId ?? null;
 
@@ -60,35 +63,44 @@ export const teamMembership = apiOnly.unstable_pipe(
       });
     }
 
-    const team = await db.team.findFirst({
+    const teamMembership = await db.teamMembership.findFirst({
       where: {
-        id: teamId,
-        members: {
-          some: {
-            userId: user.id,
-          },
-        },
+        userId: user.id,
+        teamId,
       },
       include: {
-        members: {
-          select: {
-            userId: true,
-          },
-        },
+        team: true,
       },
     });
 
-    if (!team) {
+    if (!teamMembership) {
       throw new TRPCError({
         code: 'NOT_FOUND',
         message: 'Team not found',
+      });
+    }
+    const { team, ...membership } = teamMembership;
+
+    const permissions = MEMBERSHIP_PERMISSIONS[teamMembership.role];
+
+    if (required.some((permission) => !permissions.includes(permission))) {
+      console.error('User does not have permission to perform this action', {
+        required,
+        permissions,
+        teamId,
+        userId: user.id,
+      });
+      throw new TRPCError({
+        code: 'FORBIDDEN',
+        message: `User does not have permission to perform this action`,
       });
     }
 
     return next({
       ctx: {
         team,
+        membership,
+        permissions,
       },
     });
-  }
-);
+  });

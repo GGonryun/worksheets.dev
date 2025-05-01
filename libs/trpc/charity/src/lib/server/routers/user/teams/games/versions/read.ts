@@ -5,7 +5,7 @@ import { z } from 'zod';
 import { protectedTeamProcedure } from '../../../../../procedures';
 import { parseGameFileVersion } from './shared';
 
-export default protectedTeamProcedure
+export default protectedTeamProcedure(['games:read'])
   .input(
     z.object({
       fileId: z.string(),

@@ -1,223 +1,84 @@
 'use client';
 
 import { useState } from 'react';
-import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { Badge } from '../ui/badge';
 import { Button } from '../ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '../ui/card';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '../ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { InviteTeamMemberDialog } from './invite-team-member-dialog';
 import { RoleInfoDialog } from './role-info-dialog';
-import { OwnerChangeDialog } from './owner-change-dialog';
-import { RemoveMemberDialog } from './remove-member-dialog';
-import { InvitationSuccessDialog } from './invitation-success-dialog';
 import { AlertCircle, HelpCircle, UserPlus } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '../ui/alert';
+import { trpc } from '@worksheets/trpc-charity';
+import {
+  TeamMembersReadQuery,
+  TeamMembersListQuery,
+  TeamInvitationsListQuery,
+  TeamSelectedQuery,
+} from '../types';
+import { MAX_TEAM_MEMBERS } from '@worksheets/util/settings';
+import { ErrorScreen } from '../errors';
+import { ActiveTeamContent } from './active-team-content';
+import Link from 'next/link';
+import { devRoutes } from '@worksheets/routes';
+import { PendingTeamContent } from './pending-team-content';
 
-// Mock data - replace with actual data fetching
-const mockTeamMembers = [
-  {
-    id: '1',
-    name: 'Alex Johnson',
-    email: 'alex@example.com',
-    role: 'owner',
-    avatarUrl: '/placeholder.svg?height=40&width=40',
-    status: 'active',
-  },
-  {
-    id: '2',
-    name: 'Jamie Smith',
-    email: 'jamie@example.com',
-    role: 'manager',
-    avatarUrl: '/placeholder.svg?height=40&width=40',
-    status: 'active',
-  },
-  {
-    id: '3',
-    name: 'Taylor Wilson',
-    email: 'taylor@example.com',
-    role: 'member',
-    avatarUrl: '/placeholder.svg?height=40&width=40',
-    status: 'active',
-  },
-  {
-    id: '4',
-    name: 'Casey Brown',
-    email: 'casey@example.com',
-    role: 'member',
-    avatarUrl: '/placeholder.svg?height=40&width=40',
-    status: 'pending',
-  },
-];
+export const TeamManagement: React.FC<{ activeTab: 'active' | 'pending' }> = ({
+  activeTab,
+}) => {
+  const members = trpc.user.teams.members.list.useQuery();
+  const invitations = trpc.user.teams.invitations.list.useQuery();
+  const user = trpc.user.teams.members.read.useQuery();
+  const team = trpc.user.teams.selected.useQuery();
 
-export function TeamManagement() {
-  const [teamMembers, setTeamMembers] = useState(mockTeamMembers);
-  const [isInviteDialogOpen, setIsInviteDialogOpen] = useState(false);
-  const [isRoleInfoDialogOpen, setIsRoleInfoDialogOpen] = useState(false);
-  const [isOwnerChangeDialogOpen, setIsOwnerChangeDialogOpen] = useState(false);
-  const [isRemoveMemberDialogOpen, setIsRemoveMemberDialogOpen] =
-    useState(false);
-  const [isInvitationSuccessDialogOpen, setIsInvitationSuccessDialogOpen] =
-    useState(false);
-  const [pendingOwnerChange, setPendingOwnerChange] = useState<{
-    memberId: string;
-    memberName: string;
-  } | null>(null);
-  const [pendingRemoval, setPendingRemoval] = useState<{
-    memberId: string;
-    memberName: string;
-    isPending: boolean;
-  } | null>(null);
-  const [lastInvitation, setLastInvitation] = useState<{
-    email: string;
-    role: string;
-  } | null>(null);
+  if (
+    members.isPending ||
+    user.isPending ||
+    team.isPending ||
+    invitations.isPending
+  ) {
+    return <TeamManagementSkeleton />;
+  }
 
-  const activeMembers = teamMembers.filter(
-    (member) => member.status === 'active'
-  );
-  const pendingInvites = teamMembers.filter(
-    (member) => member.status === 'pending'
-  );
-  const memberCount = teamMembers.length;
-  const memberLimit = 10;
-
-  // Add a function to check if a role change is allowed
-  const canChangeRole = (currentMember: any, targetRole: string) => {
-    // If trying to set someone as owner
-    if (targetRole === 'owner') {
-      // Check if there's already an owner (excluding the current member)
-      const existingOwner = teamMembers.find(
-        (m) => m.role === 'owner' && m.id !== currentMember.id
-      );
-      return !existingOwner;
-    }
-    return true;
-  };
-
-  // Update the handleRoleChange function to include owner role validation
-  const handleRoleChange = (memberId: string, newRole: string) => {
-    const member = teamMembers.find((m) => m.id === memberId);
-    if (!member) return;
-
-    // If changing to owner, check if there's already an owner
-    if (newRole === 'owner') {
-      const existingOwner = teamMembers.find(
-        (m) => m.role === 'owner' && m.id !== memberId
-      );
-      if (existingOwner) {
-        // Show the owner change dialog
-        setPendingOwnerChange({ memberId, memberName: member.name });
-        setIsOwnerChangeDialogOpen(true);
-        return;
-      }
-    }
-
-    setTeamMembers((prev) =>
-      prev.map((m) => (m.id === memberId ? { ...m, role: newRole } : m))
-    );
-  };
-
-  // Add functions to handle owner change confirmation
-  const handleOwnerChangeConfirm = () => {
-    if (!pendingOwnerChange) return;
-
-    // Find the current owner
-    const currentOwner = teamMembers.find((m) => m.role === 'owner');
-
-    // Update roles
-    setTeamMembers((prev) =>
-      prev.map((m) => {
-        if (m.id === pendingOwnerChange.memberId) {
-          return { ...m, role: 'owner' };
-        } else if (m.id === currentOwner?.id) {
-          return { ...m, role: 'manager' };
+  if (members.isError || user.isError || team.isError || invitations.isError) {
+    return (
+      <ErrorScreen
+        message={
+          members.error?.message ??
+          user.error?.message ??
+          team.error?.message ??
+          invitations.error?.message
         }
-        return m;
-      })
+      />
     );
-
-    // Close dialog and reset state
-    setIsOwnerChangeDialogOpen(false);
-    setPendingOwnerChange(null);
-  };
-
-  const handleOwnerChangeCancel = () => {
-    setIsOwnerChangeDialogOpen(false);
-    setPendingOwnerChange(null);
-  };
-
-  // Update to show removal confirmation dialog
-  const initiateRemoveMember = (memberId: string) => {
-    const memberToRemove = teamMembers.find((m) => m.id === memberId);
-    if (!memberToRemove) return;
-
-    const currentUser = teamMembers.find((m) => m.id === '1'); // Assuming user 1 is the current user for demo
-
-    // If trying to remove an owner and current user is not an owner, prevent it
-    if (memberToRemove.role === 'owner' && currentUser?.role !== 'owner') {
-      alert('Only the owner can remove another owner');
-      return;
-    }
-
-    setPendingRemoval({
-      memberId,
-      memberName: memberToRemove.name || memberToRemove.email,
-      isPending: memberToRemove.status === 'pending',
-    });
-    setIsRemoveMemberDialogOpen(true);
-  };
-
-  const handleRemoveMemberConfirm = () => {
-    if (!pendingRemoval) return;
-
-    setTeamMembers((prev) =>
-      prev.filter((member) => member.id !== pendingRemoval.memberId)
-    );
-    setIsRemoveMemberDialogOpen(false);
-    setPendingRemoval(null);
-  };
-
-  const handleRemoveMemberCancel = () => {
-    setIsRemoveMemberDialogOpen(false);
-    setPendingRemoval(null);
-  };
-
-  const handleInviteMember = (email: string, role: string) => {
-    if (memberCount >= memberLimit) return;
-
-    const newMember = {
-      id: `new-${Date.now()}`,
-      name: email.split('@')[0],
-      email,
-      role,
-      avatarUrl: '/placeholder.svg?height=40&width=40',
-      status: 'pending',
-    };
-
-    setTeamMembers((prev) => [...prev, newMember]);
-    setIsInviteDialogOpen(false);
-
-    // Set the last invitation and show success dialog
-    setLastInvitation({ email, role });
-    setIsInvitationSuccessDialogOpen(true);
-  };
+  }
 
   return (
-    <div className="space-y-6">
+    <TeamManagementContent
+      activeTab={activeTab}
+      members={members.data}
+      invitations={invitations.data}
+      user={user.data}
+      team={team.data}
+    />
+  );
+};
+
+const TeamManagementSkeleton = () => {
+  return <div>Loading...</div>;
+};
+
+const TeamManagementContent: React.FC<{
+  members: NonNullable<TeamMembersListQuery>;
+  user: NonNullable<TeamMembersReadQuery>;
+  invitations: NonNullable<TeamInvitationsListQuery>;
+  team: NonNullable<TeamSelectedQuery>;
+  activeTab: 'active' | 'pending';
+}> = ({ members, invitations, user, team, activeTab }) => {
+  const [isInviteDialogOpen, setIsInviteDialogOpen] = useState(false);
+  const [isRoleInfoDialogOpen, setIsRoleInfoDialogOpen] = useState(false);
+
+  return (
+    <div className="container space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h2 className="text-xl font-semibold">Team Members</h2>
@@ -235,7 +96,7 @@ export function TeamManagement() {
           </Button>
           <Button
             onClick={() => setIsInviteDialogOpen(true)}
-            disabled={memberCount >= memberLimit}
+            disabled={members.length >= MAX_TEAM_MEMBERS}
           >
             <UserPlus className="h-4 w-4 mr-2" />
             Invite Member
@@ -245,170 +106,34 @@ export function TeamManagement() {
 
       <div className="flex items-center justify-between bg-muted p-3 rounded-lg">
         <div className="text-sm">
-          <span className="font-medium">{memberCount}</span> of{' '}
-          <span className="font-medium">{memberLimit}</span> team members
+          <span className="font-medium">{members.length}</span> of{' '}
+          <span className="font-medium">{MAX_TEAM_MEMBERS}</span> team members
         </div>
-        {memberCount >= memberLimit && (
+        {members.length >= MAX_TEAM_MEMBERS && (
           <Badge variant="destructive">Team limit reached</Badge>
         )}
       </div>
 
-      <Tabs defaultValue="active">
+      <Tabs value={activeTab} className="w-full">
         <TabsList>
-          <TabsTrigger value="active">
-            Active Members ({activeMembers.length})
+          <TabsTrigger value="active" asChild>
+            <Link href={devRoutes.dashboard.users.active.path()}>
+              Active Members ({members.length})
+            </Link>
           </TabsTrigger>
-          <TabsTrigger value="pending">
-            Pending Invites ({pendingInvites.length})
+          <TabsTrigger value="pending" asChild>
+            <Link href={devRoutes.dashboard.users.pending.path()}>
+              Pending Members ({invitations.length})
+            </Link>
           </TabsTrigger>
         </TabsList>
 
         <TabsContent value="active" className="mt-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>Active Team Members</CardTitle>
-              <CardDescription>
-                Manage your active team members and their roles
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              {activeMembers.length === 0 ? (
-                <div className="text-center py-6 text-muted-foreground">
-                  No active members found
-                </div>
-              ) : (
-                <div className="space-y-4">
-                  {activeMembers.map((member) => (
-                    <div
-                      key={member.id}
-                      className="flex items-center justify-between p-4 border rounded-lg"
-                    >
-                      <div className="flex items-center gap-4">
-                        <Avatar>
-                          <AvatarImage
-                            src={member.avatarUrl || '/placeholder.svg'}
-                            alt={member.name}
-                          />
-                          <AvatarFallback>
-                            {member.name.substring(0, 2).toUpperCase()}
-                          </AvatarFallback>
-                        </Avatar>
-                        <div>
-                          <div className="font-medium">{member.name}</div>
-                          <div className="text-sm text-muted-foreground">
-                            {member.email}
-                          </div>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-4">
-                        <Select
-                          defaultValue={member.role}
-                          onValueChange={(value) =>
-                            handleRoleChange(member.id, value)
-                          }
-                          disabled={
-                            member.role === 'owner' &&
-                            teamMembers.find((m) => m.id === '1')?.role !==
-                              'owner'
-                          }
-                        >
-                          <SelectTrigger className="w-[130px]">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="owner">Owner</SelectItem>
-                            <SelectItem value="manager">Manager</SelectItem>
-                            <SelectItem value="member">Member</SelectItem>
-                          </SelectContent>
-                        </Select>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => initiateRemoveMember(member.id)}
-                        >
-                          Remove
-                        </Button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </CardContent>
-          </Card>
+          <ActiveTeamContent members={members} user={user} />
         </TabsContent>
 
         <TabsContent value="pending" className="mt-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>Pending Invites</CardTitle>
-              <CardDescription>
-                Manage your pending team invitations
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              {pendingInvites.length === 0 ? (
-                <div className="text-center py-6 text-muted-foreground">
-                  No pending invites
-                </div>
-              ) : (
-                <div className="space-y-4">
-                  {pendingInvites.map((member) => (
-                    <div
-                      key={member.id}
-                      className="flex items-center justify-between p-4 border rounded-lg"
-                    >
-                      <div className="flex items-center gap-4">
-                        <Avatar>
-                          <AvatarImage
-                            src={member.avatarUrl || '/placeholder.svg'}
-                            alt={member.name}
-                          />
-                          <AvatarFallback>
-                            {member.name.substring(0, 2).toUpperCase()}
-                          </AvatarFallback>
-                        </Avatar>
-                        <div>
-                          <div className="font-medium">{member.email}</div>
-                          <div className="text-sm text-muted-foreground">
-                            <Badge variant="outline">Pending</Badge>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-4">
-                        <Select
-                          defaultValue={member.role}
-                          onValueChange={(value) =>
-                            handleRoleChange(member.id, value)
-                          }
-                          disabled={
-                            member.role === 'owner' &&
-                            teamMembers.find((m) => m.id === '1')?.role !==
-                              'owner'
-                          }
-                        >
-                          <SelectTrigger className="w-[130px]">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="owner">Owner</SelectItem>
-                            <SelectItem value="manager">Manager</SelectItem>
-                            <SelectItem value="member">Member</SelectItem>
-                          </SelectContent>
-                        </Select>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => initiateRemoveMember(member.id)}
-                        >
-                          Cancel
-                        </Button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </CardContent>
-          </Card>
+          <PendingTeamContent invitations={invitations} team={team} />
         </TabsContent>
       </Tabs>
 
@@ -417,48 +142,21 @@ export function TeamManagement() {
         <AlertTitle>Team Member Limit</AlertTitle>
         <AlertDescription>
           Your team can have a maximum of 10 members. You currently have{' '}
-          {memberCount} members.
+          {members.length} members.
         </AlertDescription>
       </Alert>
 
-      {/* Dialogs */}
       <InviteTeamMemberDialog
         open={isInviteDialogOpen}
         onOpenChange={setIsInviteDialogOpen}
-        onInvite={handleInviteMember}
-        memberCount={memberCount}
-        memberLimit={memberLimit}
+        team={team}
+        members={members}
       />
 
       <RoleInfoDialog
         open={isRoleInfoDialogOpen}
         onOpenChange={setIsRoleInfoDialogOpen}
       />
-
-      <OwnerChangeDialog
-        open={isOwnerChangeDialogOpen}
-        onOpenChange={setIsOwnerChangeDialogOpen}
-        onConfirm={handleOwnerChangeConfirm}
-        onCancel={handleOwnerChangeCancel}
-        newOwnerName={pendingOwnerChange?.memberName || ''}
-      />
-
-      <RemoveMemberDialog
-        open={isRemoveMemberDialogOpen}
-        onOpenChange={setIsRemoveMemberDialogOpen}
-        onConfirm={handleRemoveMemberConfirm}
-        onCancel={handleRemoveMemberCancel}
-        memberName={pendingRemoval?.memberName || ''}
-        isPending={pendingRemoval?.isPending || false}
-      />
-
-      <InvitationSuccessDialog
-        open={isInvitationSuccessDialogOpen}
-        onOpenChange={setIsInvitationSuccessDialogOpen}
-        email={lastInvitation?.email || ''}
-        role={lastInvitation?.role || ''}
-        teamName="Charity Games"
-      />
     </div>
   );
-}
+};

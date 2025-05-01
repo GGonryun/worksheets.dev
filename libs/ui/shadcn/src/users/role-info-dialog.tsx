@@ -10,6 +10,13 @@ import {
 } from '../ui/dialog';
 import { Button } from '../ui/button';
 import { Check, X } from 'lucide-react';
+import {
+  HIDDEN_MEMBERSHIP_LABELS,
+  MemberPermission,
+  MEMBERSHIP_LABELS,
+  MEMBERSHIP_PERMISSIONS,
+} from '@worksheets/util/team';
+import { entriesOf, keysOf } from '@worksheets/util/objects';
 
 interface RoleInfoDialogProps {
   open: boolean;
@@ -19,7 +26,7 @@ interface RoleInfoDialogProps {
 export function RoleInfoDialog({ open, onOpenChange }: RoleInfoDialogProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[650px]">
+      <DialogContent className="sm:max-w-[650px] max-h-[100vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Team Role Information</DialogTitle>
           <DialogDescription>
@@ -38,102 +45,34 @@ export function RoleInfoDialog({ open, onOpenChange }: RoleInfoDialogProps) {
                 </tr>
               </thead>
               <tbody className="divide-y">
-                <tr>
-                  <td className="p-3">View games and information</td>
-                  <td className="text-center p-3">
-                    <Check className="h-5 w-5 mx-auto text-green-500" />
-                  </td>
-                  <td className="text-center p-3">
-                    <Check className="h-5 w-5 mx-auto text-green-500" />
-                  </td>
-                  <td className="text-center p-3">
-                    <Check className="h-5 w-5 mx-auto text-green-500" />
-                  </td>
-                </tr>
-                <tr>
-                  <td className="p-3">Edit game information</td>
-                  <td className="text-center p-3">
-                    <Check className="h-5 w-5 mx-auto text-green-500" />
-                  </td>
-                  <td className="text-center p-3">
-                    <Check className="h-5 w-5 mx-auto text-green-500" />
-                  </td>
-                  <td className="text-center p-3">
-                    <X className="h-5 w-5 mx-auto text-red-500" />
-                  </td>
-                </tr>
-                <tr>
-                  <td className="p-3">Upload new games</td>
-                  <td className="text-center p-3">
-                    <Check className="h-5 w-5 mx-auto text-green-500" />
-                  </td>
-                  <td className="text-center p-3">
-                    <Check className="h-5 w-5 mx-auto text-green-500" />
-                  </td>
-                  <td className="text-center p-3">
-                    <X className="h-5 w-5 mx-auto text-red-500" />
-                  </td>
-                </tr>
-                <tr>
-                  <td className="p-3">Invite team members</td>
-                  <td className="text-center p-3">
-                    <Check className="h-5 w-5 mx-auto text-green-500" />
-                  </td>
-                  <td className="text-center p-3">
-                    <Check className="h-5 w-5 mx-auto text-green-500" />
-                  </td>
-                  <td className="text-center p-3">
-                    <X className="h-5 w-5 mx-auto text-red-500" />
-                  </td>
-                </tr>
-                <tr>
-                  <td className="p-3">Remove team members</td>
-                  <td className="text-center p-3">
-                    <Check className="h-5 w-5 mx-auto text-green-500" />
-                  </td>
-                  <td className="text-center p-3">
-                    <Check className="h-5 w-5 mx-auto text-green-500" />
-                  </td>
-                  <td className="text-center p-3">
-                    <X className="h-5 w-5 mx-auto text-red-500" />
-                  </td>
-                </tr>
-                <tr>
-                  <td className="p-3">Remove owner</td>
-                  <td className="text-center p-3">
-                    <Check className="h-5 w-5 mx-auto text-green-500" />
-                  </td>
-                  <td className="text-center p-3">
-                    <X className="h-5 w-5 mx-auto text-red-500" />
-                  </td>
-                  <td className="text-center p-3">
-                    <X className="h-5 w-5 mx-auto text-red-500" />
-                  </td>
-                </tr>
-                <tr>
-                  <td className="p-3">Change member roles</td>
-                  <td className="text-center p-3">
-                    <Check className="h-5 w-5 mx-auto text-green-500" />
-                  </td>
-                  <td className="text-center p-3">
-                    <Check className="h-5 w-5 mx-auto text-green-500" />
-                  </td>
-                  <td className="text-center p-3">
-                    <X className="h-5 w-5 mx-auto text-red-500" />
-                  </td>
-                </tr>
-                <tr>
-                  <td className="p-3">Transfer ownership</td>
-                  <td className="text-center p-3">
-                    <Check className="h-5 w-5 mx-auto text-green-500" />
-                  </td>
-                  <td className="text-center p-3">
-                    <X className="h-5 w-5 mx-auto text-red-500" />
-                  </td>
-                  <td className="text-center p-3">
-                    <X className="h-5 w-5 mx-auto text-red-500" />
-                  </td>
-                </tr>
+                {entriesOf(MEMBERSHIP_LABELS)
+                  .filter(([key]) => !HIDDEN_MEMBERSHIP_LABELS.includes(key))
+                  .map(([key, value]) => (
+                    <tr key={key}>
+                      <td className="p-3">{value}</td>
+                      <td className="text-center p-3">
+                        {MEMBERSHIP_PERMISSIONS['OWNER'].includes(key) ? (
+                          <Check className="h-5 w-5 mx-auto text-green-500" />
+                        ) : (
+                          <X className="h-5 w-5 mx-auto text-red-500" />
+                        )}
+                      </td>
+                      <td className="text-center p-3">
+                        {MEMBERSHIP_PERMISSIONS['MANAGER'].includes(key) ? (
+                          <Check className="h-5 w-5 mx-auto text-green-500" />
+                        ) : (
+                          <X className="h-5 w-5 mx-auto text-red-500" />
+                        )}
+                      </td>
+                      <td className="text-center p-3">
+                        {MEMBERSHIP_PERMISSIONS['MEMBER'].includes(key) ? (
+                          <Check className="h-5 w-5 mx-auto text-green-500" />
+                        ) : (
+                          <X className="h-5 w-5 mx-auto text-red-500" />
+                        )}
+                      </td>
+                    </tr>
+                  ))}
               </tbody>
             </table>
           </div>

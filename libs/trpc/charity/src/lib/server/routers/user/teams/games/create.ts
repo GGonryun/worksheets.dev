@@ -6,7 +6,7 @@ import { z } from 'zod';
 
 import { protectedTeamProcedure } from '../../../../procedures';
 
-export default protectedTeamProcedure
+export default protectedTeamProcedure(['games:create'])
   .input(createGameFormSchema)
   .output(z.any())
   .mutation(

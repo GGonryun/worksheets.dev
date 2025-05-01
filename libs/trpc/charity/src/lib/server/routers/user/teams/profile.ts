@@ -4,7 +4,7 @@ import { protectedTeamProcedure } from '../../../procedures';
 import { t } from '../../../trpc';
 
 export default t.router({
-  update: protectedTeamProcedure
+  update: protectedTeamProcedure(['settings:update', 'settings:read'])
     .input(editProfileFormSchema)
     .mutation(async ({ ctx: { db, team }, input }) => {
       await db.team.update({

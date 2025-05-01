@@ -40,28 +40,13 @@ const defaultValues = {
 };
 
 export const TeamSettingsContent: React.FC<{
-  activeTab: 'profile' | 'social';
-}> = ({ activeTab }) => {
-  const team = trpc.user.teams.selected.useQuery();
-
-  if (team.isPending) {
-    return (
-      <div className="container py-2 space-y-6">
-        <Skeleton className="h-10 w-full" />
-        <Skeleton className="h-96 w-full" />
-        <Skeleton className="h-96 w-full" />
-      </div>
-    );
-  }
-
-  if (team.isError) {
-    return <ErrorScreen message={team.error?.message} />;
-  }
-
+  activeTab: 'profile' | 'social' | 'sensitive';
+  team: NonNullable<TeamSelectedQuery>;
+}> = ({ activeTab, team }) => {
   return (
     <div className="container py-2 space-y-6">
       <Tabs value={activeTab} className="w-full">
-        <TabsList className="grid w-full grid-cols-2">
+        <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="profile" asChild>
             <Link href={devRoutes.dashboard.settings.profile.path()}>
               Profile
@@ -72,13 +57,18 @@ export const TeamSettingsContent: React.FC<{
               Social Links
             </Link>
           </TabsTrigger>
+          <TabsTrigger value="sensitive" asChild>
+            <Link href={devRoutes.dashboard.settings.sensitive.path()}>
+              Danger Zone
+            </Link>
+          </TabsTrigger>
         </TabsList>
         <TabsContent value="profile" className="mt-6">
           <SectionCardLayout
             title="Team Profile"
             description="Update your team's basic information"
           >
-            <TeamProfileStep team={team.data} />
+            <TeamProfileStep team={team} />
           </SectionCardLayout>
         </TabsContent>
         <TabsContent value="social" className="mt-6">
@@ -86,7 +76,15 @@ export const TeamSettingsContent: React.FC<{
             title="Social Links"
             description="Connect your team's social media accounts"
           >
-            <TeamLinksStep team={team.data} />
+            <TeamLinksStep team={team} />
+          </SectionCardLayout>
+        </TabsContent>
+        <TabsContent value="sensitive" className="mt-6">
+          <SectionCardLayout
+            title="Danger Zone"
+            description="Delete your team and all its data"
+          >
+            <div>TODO</div>
           </SectionCardLayout>
         </TabsContent>
       </Tabs>
@@ -112,6 +110,16 @@ const TeamProfileStep: React.FC<{ team: NonNullable<TeamSelectedQuery> }> = ({
       slug: team.slug,
     },
   });
+
+  useEffect(() => {
+    form.reset({
+      ...createTeamDefaultValues,
+      name: team.name,
+      description: team.description,
+      logo: team.logo,
+      slug: team.slug,
+    });
+  }, [team, form]);
 
   const updateProfile = trpc.user.teams.profile.update.useMutation();
 

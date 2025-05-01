@@ -34,9 +34,7 @@ export const TeamSwitcher: React.FC = () => {
 
   const utils = trpc.useUtils();
   const teamList = trpc.user.teams.list.useQuery();
-  const selectedTeam = trpc.user.teams.selected.useQuery(undefined, {
-    retry: false,
-  });
+  const selectedTeam = trpc.user.teams.selected.useQuery();
   const selectTeam = trpc.user.teams.select.useMutation();
 
   const handleChangeTeam = async (team: TeamQuery) => {

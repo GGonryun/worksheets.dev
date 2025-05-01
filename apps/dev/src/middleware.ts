@@ -1,4 +1,4 @@
-import { devRoutes } from '@worksheets/routes';
+import { devRoutes, routes } from '@worksheets/routes';
 import { NextRequest, NextResponse } from 'next/server';
 import { getToken } from 'next-auth/jwt';
 
@@ -36,8 +36,9 @@ export default async function middleware(req: NextRequest) {
   );
 
   if (isProtectedPath && !user) {
-    // redirect the user to the home page if they are not authenticated
-    return NextResponse.redirect(new URL(devRoutes.baseUrl).toString());
+    const redirect = new URL(routes.login.url(), req.url);
+    redirect.searchParams.append('redirect', req.nextUrl.href);
+    return NextResponse.redirect(redirect.toString());
   }
   const isDashboard = pathname.startsWith(devRoutes.dashboard.path());
 

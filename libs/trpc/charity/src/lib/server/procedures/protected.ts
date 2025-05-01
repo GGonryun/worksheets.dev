@@ -1,3 +1,5 @@
+import { MemberPermission } from '@worksheets/util/team';
+
 import {
   apiOnly,
   authentication,
@@ -6,5 +8,6 @@ import {
 import { t } from '../trpc';
 
 export const protectedProcedure = t.procedure.use(authentication);
-export const protectedTeamProcedure = t.procedure.use(teamMembership);
+export const protectedTeamProcedure = (permission: MemberPermission[]) =>
+  t.procedure.use(teamMembership(permission));
 export const protectedApiProcedure = t.procedure.use(apiOnly);

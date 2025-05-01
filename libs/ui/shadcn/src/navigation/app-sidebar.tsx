@@ -27,9 +27,9 @@ const data = {
     },
     {
       title: 'Users',
-      url: devRoutes.dashboard.users.path(),
+      url: devRoutes.dashboard.users.active.path(),
       icon: UsersIcon,
-      pathname: devRoutes.dashboard.users.raw.path,
+      pathname: devRoutes.dashboard.users.active.raw.path,
     },
     {
       title: 'Settings',

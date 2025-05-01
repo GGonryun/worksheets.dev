@@ -11,6 +11,15 @@ const serializeTeamId = (teamId: string) => {
   });
 };
 
+const deleteTeamId = () => {
+  return serialize('teamId', '', {
+    httpOnly: true,
+    path: '/',
+    sameSite: 'lax',
+    maxAge: -1,
+  });
+};
+
 export const cookies = {
   set: (res: NextApiResponse) => {
     const setHeader = (value: string | number | readonly string[]) => {
@@ -20,6 +29,16 @@ export const cookies = {
     return {
       teamId: (teamId: string) => {
         setHeader(serializeTeamId(teamId));
+      },
+    };
+  },
+  del: (res: NextApiResponse) => {
+    const setHeader = (value: string | number | readonly string[]) => {
+      return res.setHeader('Set-Cookie', value);
+    };
+    return {
+      teamId: () => {
+        setHeader(deleteTeamId());
       },
     };
   },

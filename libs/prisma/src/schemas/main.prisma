@@ -54,8 +54,8 @@ model User {
   gameScores       GameScore[]
   achievement      PlayerAchievement[]
   teams            TeamMembership[]
-  games            Game[]
   files            GameFile[]
+  invitesSent      TeamInvite[]
 }
 
 model Team {
@@ -65,17 +65,39 @@ model Team {
   description String           @db.VarChar(4095)
   logo        String           @db.Text // URL
   links       Json
-  members     TeamMembership[]
   games       Game[]
+  members     TeamMembership[]
+  invites     TeamInvite[]
+}
+
+enum TeamMemberRole {
+  OWNER
+  MANAGER
+  MEMBER
+}
+
+model TeamInvite {
+  id          String         @id @default(cuid())
+  teamId      String
+  team        Team           @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  email       String
+  invitedById String
+  invitedBy   User           @relation(fields: [invitedById], references: [id], onDelete: Cascade)
+  role        TeamMemberRole @default(MEMBER)
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+
+  @@unique([teamId, email])
 }
 
 model TeamMembership {
   teamId    String
-  team      Team     @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  team      Team           @relation(fields: [teamId], references: [id], onDelete: Cascade)
   userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  user      User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+  role      TeamMemberRole @default(MEMBER)
 
   @@id([teamId, userId])
 }
@@ -260,9 +282,6 @@ model Game {
   // Ownership
   status       GameStatus          @default(DRAFT)
   visibility   GameVisibility      @default(PRIVATE)
-  // TODO: remove optionality after migration.
-  ownerId      String?
-  owner        User?               @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   // TODO: remove optionality after migration.
   teamId       String?
   team         Team?               @relation(fields: [teamId], references: [id])

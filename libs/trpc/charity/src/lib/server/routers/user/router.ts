@@ -6,6 +6,7 @@ import gamePlay from './gamePlay/router';
 import get from './get';
 import initialize from './initialize';
 import integrations from './integrations/router';
+import invitations from './invitations/router';
 import leaderboards from './leaderboards/router';
 import profile from './profile/router';
 import raffles from './raffles/router';
@@ -20,6 +21,7 @@ export default t.router({
   gamePlay,
   profile,
   leaderboards,
+  invitations,
   get,
   raffles,
   game,

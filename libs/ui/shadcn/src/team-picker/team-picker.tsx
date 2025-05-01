@@ -22,7 +22,7 @@ import {
 } from 'lucide-react';
 import { cn } from '../utils';
 import { trpc } from '@worksheets/trpc-charity';
-import { devRoutes } from '@worksheets/routes';
+import { devRoutes, routes } from '@worksheets/routes';
 import { Skeleton } from '../ui/skeleton';
 import { TeamQuery, TeamsQuery } from '../types';
 import { ErrorMessage } from '../errors/error-message';
@@ -37,7 +37,6 @@ export function TeamPicker() {
     if (selectedTeam) {
       selectTeam.mutate(selectedTeam.id, {
         onSuccess: () => {
-          // Redirect to dashboard or appropriate page
           router.push(devRoutes.dashboard.path());
         },
       });
@@ -106,7 +105,7 @@ const TeamPickerContent: React.FC<{
       onClick={() => onSelectTeam(team)}
     >
       <div className="flex-shrink-0 mr-4">
-        <div className="relative h-16 w-16 rounded-md overflow-hidden border">
+        <div className="relative h-20 w-20 rounded-md overflow-hidden border">
           <Image
             src={team.logo || '/placeholder.svg'}
             alt={team.name}
@@ -122,9 +121,11 @@ const TeamPickerContent: React.FC<{
             <Check className="h-5 w-5 text-primary flex-shrink-0" />
           )}
         </div>
-        <p className="text-sm text-muted-foreground mt-1">{team.description}</p>
+        <p className="text-sm text-muted-foreground italic truncate">
+          charity.games/{team.slug}
+        </p>
 
-        <div className="flex items-center gap-3 mt-2">
+        <div className="flex items-center gap-3 mt-4">
           <div
             className="flex items-center text-xs text-muted-foreground"
             title="Team Size"
@@ -176,7 +177,7 @@ const TeamPickerLayout: React.FC<{
           ) : !hasTeams ? (
             <Button
               className="w-full"
-              onClick={() => router.push(devRoutes.dashboard.onboarding.path())}
+              onClick={() => router.push(devRoutes.teams.create.path())}
             >
               <PlusIcon className="h-4 w-4 mr-2" />
               Create a Team

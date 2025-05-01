@@ -66,7 +66,7 @@ export const VersionDetails: React.FC<VersionDetailsProps> = ({
           <div>{printDate(createdAt, 'en-US', true)}</div>
           <div className="text-muted-foreground">Uploader:</div>
           <Link
-            href={devRoutes.dashboard.users.url()}
+            href={devRoutes.dashboard.users.active.url()}
             className="text-blue-500 hover:underline"
           >
             {uploader.username}

@@ -9,7 +9,7 @@ import { protectedTeamProcedure } from '../../../../../procedures';
 const editDetailsFormSchema = detailsFormSchema.extend({ id: z.string() });
 type EditDetailsFormSchema = z.infer<typeof editDetailsFormSchema>;
 
-export default protectedTeamProcedure
+export default protectedTeamProcedure(['games:read'])
   .input(
     z.object({
       gameId: z.string(),

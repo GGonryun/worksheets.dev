@@ -12,7 +12,7 @@ const reportSchema = z.object({
 
 export type ReportSchema = z.infer<typeof reportSchema>;
 
-export default protectedTeamProcedure
+export default protectedTeamProcedure(['games:read'])
   .output(
     z.object({
       hasGames: z.boolean(),

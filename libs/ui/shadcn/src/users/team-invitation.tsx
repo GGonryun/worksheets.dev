@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import { Button } from '../ui/button';
 import {
@@ -12,33 +12,98 @@ import {
   CardTitle,
 } from '../ui/card';
 import { Badge } from '../ui/badge';
-import { CheckCircle, X } from 'lucide-react';
+import { CheckCircle, Loader2, X } from 'lucide-react';
 import { devRoutes } from '@worksheets/routes';
+import { trpc } from '@worksheets/trpc-charity';
+import { ErrorScreen } from '../errors';
+import { Skeleton } from '../ui';
+import { TeamInvitationsReadQuery } from '../types';
 
 export const TeamInvitation = () => {
   const router = useRouter();
-  const id = router.query.id as string;
+  const slug = router.query.slug as string;
+
+  const invitation = trpc.user.teams.invitations.read.useQuery(
+    {
+      slug,
+    },
+    {
+      enabled: !!slug,
+      retry: false,
+    }
+  );
+
+  if (invitation.isPending) {
+    return <TeamInvitationSkeleton />;
+  }
+
+  if (invitation.isError) {
+    return (
+      <TeamInvitationLayout>
+        <ErrorScreen
+          title={'Invalid Invitation'}
+          message={invitation.error.message}
+        />
+      </TeamInvitationLayout>
+    );
+  }
+
+  return <TeamInvitationContent invitation={invitation.data} />;
+};
+
+const TeamInvitationLayout: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
+      {children}
+    </div>
+  );
+};
+
+const TeamInvitationSkeleton = () => {
+  return (
+    <TeamInvitationLayout>
+      <Card className="w-full max-w-md">
+        <CardHeader>
+          <CardTitle className="text-xl">Team Invitation</CardTitle>
+          <CardDescription>
+            <Skeleton className="h-6 w-72" />
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <Skeleton className="h-28" />
+          <Skeleton className="h-6 w-32" />
+          <div className="flex justify-between">
+            <Skeleton className="h-10 w-24" />
+            <Skeleton className="h-10 w-24" />
+          </div>
+        </CardContent>
+      </Card>
+    </TeamInvitationLayout>
+  );
+};
+
+const TeamInvitationContent: React.FC<{
+  invitation: NonNullable<TeamInvitationsReadQuery>;
+}> = ({ invitation }) => {
+  const router = useRouter();
+  const acceptInvite = trpc.user.teams.invitations.accept.useMutation();
+  const rejectInvite = trpc.user.teams.invitations.reject.useMutation();
+
   const [status, setStatus] = useState<'pending' | 'accepted' | 'rejected'>(
     'pending'
   );
-
-  // In a real app, you would fetch the invitation details from your API
-  // This is mock data for demonstration
-  const invitation = {
-    id,
-    teamName: 'Charity Games',
-    inviterName: 'Alex Johnson',
-    role: 'manager',
-    email: 'user@example.com',
-  };
-
-  const handleAccept = () => {
-    // In a real app, you would call your API to accept the invitation
-    setStatus('accepted');
-    // Redirect after a short delay
-    setTimeout(() => {
-      router.push(devRoutes.dashboard.path());
-    }, 2000);
+  const handleAccept = async () => {
+    try {
+      await acceptInvite.mutateAsync({
+        teamId: invitation.team.id,
+      });
+      setStatus('accepted');
+      setTimeout(() => {
+        router.push(devRoutes.teams.select.path());
+      }, 2000);
+    } catch (error) {}
   };
 
   const handleReject = () => {
@@ -47,13 +112,13 @@ export const TeamInvitation = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
+    <TeamInvitationLayout>
       <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle className="text-xl">Team Invitation</CardTitle>
           <CardDescription>
-            {invitation.inviterName} is inviting you to join{' '}
-            {invitation.teamName}
+            {invitation.invitedBy.username} is inviting you to join{' '}
+            {invitation.team.name}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -63,11 +128,13 @@ export const TeamInvitation = () => {
                 <div className="space-y-3">
                   <div className="flex justify-between">
                     <span className="text-sm font-medium">Team:</span>
-                    <span className="text-sm">{invitation.teamName}</span>
+                    <span className="text-sm">{invitation.team.name}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-sm font-medium">Invited by:</span>
-                    <span className="text-sm">{invitation.inviterName}</span>
+                    <span className="text-sm">
+                      {invitation.invitedBy.username}
+                    </span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-sm font-medium">Role:</span>
@@ -82,14 +149,14 @@ export const TeamInvitation = () => {
                   By accepting this invitation, you will join the team as a{' '}
                   <span className="font-medium">{invitation.role}</span>.
                 </p>
-                {invitation.role === 'manager' && (
+                {invitation.role === 'MANAGER' && (
                   <ul className="list-disc ml-5 mt-2 space-y-1">
                     <li>You can manage team members and games</li>
                     <li>You can invite new members to the team</li>
                     <li>You cannot remove the team owner</li>
                   </ul>
                 )}
-                {invitation.role === 'member' && (
+                {invitation.role === 'MEMBER' && (
                   <ul className="list-disc ml-5 mt-2 space-y-1">
                     <li>You can view games and information</li>
                     <li>You cannot edit or upload new games</li>
@@ -118,10 +185,22 @@ export const TeamInvitation = () => {
         </CardContent>
         {status === 'pending' && (
           <CardFooter className="flex justify-between">
-            <Button variant="outline" onClick={handleReject}>
-              Decline
+            <Button
+              variant="outline"
+              onClick={handleReject}
+              disabled={rejectInvite.isPending || acceptInvite.isPending}
+            >
+              {rejectInvite.isPending && (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              )}
+              {rejectInvite.isPending ? 'Declining...' : 'Decline'}
             </Button>
-            <Button onClick={handleAccept}>Accept Invitation</Button>
+            <Button onClick={handleAccept} disabled={acceptInvite.isPending}>
+              {acceptInvite.isPending && (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              )}
+              {acceptInvite.isPending ? 'Accepting...' : 'Accept Invitation'}
+            </Button>
           </CardFooter>
         )}
         {status === 'rejected' && (
@@ -132,6 +211,6 @@ export const TeamInvitation = () => {
           </CardFooter>
         )}
       </Card>
-    </div>
+    </TeamInvitationLayout>
   );
 };

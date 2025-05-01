@@ -1,5 +1,8 @@
-import { GameVisibility } from '@prisma/client';
+import { GameVisibility, TeamMemberRole } from '@prisma/client';
+import { keysOf } from '@worksheets/util/objects';
 import { z } from 'zod';
+
+import { userSchema } from './user';
 
 export const gameDeviceSchema = z.union([
   z.literal('COMPUTER'),
@@ -303,4 +306,50 @@ export type VisibilityFormSchema = z.infer<typeof visibilityFormSchema>;
 
 export const visibilityFormDefaultValues: VisibilityFormSchema = {
   visibility: GameVisibility.PRIVATE,
+};
+
+export const teamMemberSchema = z.object({
+  teamId: z.string(),
+  userId: z.string(),
+  user: userSchema,
+  role: z.nativeEnum(TeamMemberRole),
+  createdAt: z.date(),
+  updatedAt: z.date(),
+});
+
+export type TeamMemberSchema = z.infer<typeof teamMemberSchema>;
+
+export const MEMBER_LABELS: Record<TeamMemberRole, string> = {
+  OWNER: 'Owner',
+  MANAGER: 'Manager',
+  MEMBER: 'Member',
+};
+
+export const ROLE_SENSITIVITY: Record<TeamMemberRole, 'ADMIN' | 'STANDARD'> = {
+  OWNER: 'ADMIN',
+  MANAGER: 'ADMIN',
+  MEMBER: 'STANDARD',
+};
+
+export const ADMIN_ROLES: TeamMemberRole[] = keysOf(ROLE_SENSITIVITY).filter(
+  (role) => ROLE_SENSITIVITY[role] === 'ADMIN'
+);
+
+export const STANDARD_ROLES: TeamMemberRole[] = keysOf(ROLE_SENSITIVITY).filter(
+  (role) => ROLE_SENSITIVITY[role] === 'STANDARD'
+);
+
+export const ROLE_VALUES: Record<TeamMemberRole, number> = {
+  OWNER: 1,
+  MANAGER: 2,
+  MEMBER: 3,
+};
+
+export const adminsFirst = (a: TeamMemberSchema, b: TeamMemberSchema) => {
+  const av = ROLE_VALUES[a.role];
+  const bv = ROLE_VALUES[b.role];
+  if (av === bv) {
+    return a.user.email.localeCompare(b.user.email);
+  }
+  return av - bv;
 };

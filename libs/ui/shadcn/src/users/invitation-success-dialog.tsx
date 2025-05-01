@@ -12,27 +12,27 @@ import { Input } from '../ui/input';
 import { CheckCircle2, Copy, Share2 } from 'lucide-react';
 import { useToast } from '../hooks/use-toast';
 import { devRoutes } from '@worksheets/routes';
+import { TeamInvitationsReadQuery, TeamSelectedQuery } from '../types';
+import { TeamMemberRole } from '@prisma/client';
+import { MEMBER_LABELS } from '@worksheets/util/types';
 
 interface InvitationSuccessDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  email: string;
-  role: string;
-  teamName: string;
+  invite: TeamInvitationsReadQuery;
+  team: NonNullable<TeamSelectedQuery>;
 }
 
 export function InvitationSuccessDialog({
   open,
   onOpenChange,
-  email,
-  role,
-  teamName,
+  invite,
+  team,
 }: InvitationSuccessDialogProps) {
   const { toast } = useToast();
   // Generate a fake invitation link with a unique ID
-  const invitationId = `inv_${Math.random().toString(36).substring(2, 10)}`;
-  const invitationLink = devRoutes.dashboard.invitations.url({
-    params: { invitationId: invitationId },
+  const invitationLink = devRoutes.teams.join.url({
+    params: { slug: invite?.team.slug ?? '' },
   });
 
   const handleCopyLink = () => {
@@ -47,8 +47,10 @@ export function InvitationSuccessDialog({
     if (navigator.share) {
       try {
         await navigator.share({
-          title: `Join ${teamName} Team`,
-          text: `You've been invited to join ${teamName} as a ${role}`,
+          title: `Join ${team.name} Team`,
+          text: `You've been invited to join ${team.name} as a ${
+            MEMBER_LABELS[invite?.role ?? 'MEMBER']
+          }`,
           url: invitationLink,
         });
       } catch (error) {
@@ -68,11 +70,12 @@ export function InvitationSuccessDialog({
             Invitation Sent!
           </DialogTitle>
           <DialogDescription>
-            An invitation has been sent to {email} to join your team as a {role}
+            An invitation has been sent to {invite?.email ?? '...'} to join your
+            team as a <strong>{MEMBER_LABELS[invite?.role ?? 'MEMBER']}</strong>
             .
           </DialogDescription>
         </DialogHeader>
-        <div className="py-4 space-y-4">
+        <div className="space-y-4">
           <div className="rounded-md bg-green-50 p-4 text-green-800">
             <p className="text-sm">
               You can also share this invitation link directly with the user.

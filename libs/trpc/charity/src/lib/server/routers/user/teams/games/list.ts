@@ -3,8 +3,7 @@ import { z } from 'zod';
 import { protectedTeamProcedure } from '../../../../procedures';
 import { parseTeamGame, teamOwnedGameSchema } from './shared';
 
-export default protectedTeamProcedure
-
+export default protectedTeamProcedure(['games:read'])
   .output(z.array(teamOwnedGameSchema))
   .query(async ({ ctx: { db, team } }) => {
     const games = await db.game.findMany({

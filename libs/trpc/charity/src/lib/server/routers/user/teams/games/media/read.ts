@@ -6,7 +6,7 @@ import { protectedTeamProcedure } from '../../../../../procedures';
 
 const editMediaFormSchema = mediaFormSchema.extend({ id: z.string() });
 
-export default protectedTeamProcedure
+export default protectedTeamProcedure(['games:read'])
   .input(
     z.object({
       gameId: z.string(),

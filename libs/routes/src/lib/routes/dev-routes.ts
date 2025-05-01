@@ -13,6 +13,9 @@ export const devRoutes = {
       create: createRoute({
         path: '/teams/create',
       }),
+      join: createRoute({
+        path: '/teams/join/[slug]',
+      }),
     },
   }),
   dashboard: createRoute({
@@ -46,11 +49,17 @@ export const devRoutes = {
           }),
         },
       }),
-      invitations: createRoute({
-        path: '/dashboard/invitations/[invitationId]',
-      }),
+
       users: createRoute({
         path: '/dashboard/users',
+        routes: {
+          active: createRoute({
+            path: '/dashboard/users/active',
+          }),
+          pending: createRoute({
+            path: '/dashboard/users/pending',
+          }),
+        },
       }),
 
       settings: createRoute({
@@ -61,6 +70,9 @@ export const devRoutes = {
           }),
           social: createRoute({
             path: '/dashboard/settings/social',
+          }),
+          sensitive: createRoute({
+            path: '/dashboard/settings/sensitive',
           }),
         },
       }),

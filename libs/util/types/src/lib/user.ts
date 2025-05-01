@@ -3,7 +3,6 @@ import { z } from 'zod';
 
 export const userSchema = z.object({
   id: z.string(),
-  isPublisher: z.boolean(),
   username: z.string(),
   multiplier: z.number(),
   bio: z.string().nullable(),

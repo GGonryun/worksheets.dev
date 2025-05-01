@@ -1,2 +1,2 @@
 export * from './team-invitation';
-export * from './team-users';
+export * from './team-management';

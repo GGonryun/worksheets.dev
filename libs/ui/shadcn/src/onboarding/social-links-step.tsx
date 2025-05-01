@@ -37,6 +37,8 @@ export const SocialLinksStep: React.FC<{ onPrev: () => void }> = ({
         </p>
       </div>
 
+      <SocialLinksFields />
+
       <ActionsLayout>
         <Button variant="outline" onClick={onPrev}>
           Back

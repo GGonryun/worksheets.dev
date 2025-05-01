@@ -1,9 +1,9 @@
 import { devRoutes } from '@worksheets/routes';
-import { DashboardLayout, TeamUsers } from '@worksheets/ui/shadcn';
+import { DashboardLayout, TeamManagement } from '@worksheets/ui/shadcn';
 import { NextPageWithLayout } from '@worksheets/util-next';
 
 const Page: NextPageWithLayout = () => {
-  return <TeamUsers />;
+  return <TeamManagement activeTab="active" />;
 };
 
 Page.getLayout = (page) => {
