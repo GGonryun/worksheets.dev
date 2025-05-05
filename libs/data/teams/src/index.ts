@@ -64,7 +64,8 @@ export const teams: SeedableTeam[] = [
     id: 'gordo-raba',
     name: 'GordoRaba',
     logo: 'https://cdn.charity.games/_developers/gordo-raba.png',
-    description: '',
+    description:
+      'Charity Games is developing games that raise money for charity. We believe everyone should have access to clean water!',
     ...defaults,
     links: {
       ...defaults.links,
@@ -105,7 +106,8 @@ export const teams: SeedableTeam[] = [
     id: 'seredim',
     name: 'SereDim',
     logo: 'https://cdn.charity.games/_developers/seredim.jpeg',
-    description: '',
+    description:
+      'Charity Games is developing games that raise money for charity. We believe everyone should have access to clean water!',
     ...defaults,
     links: {
       ...defaults.links,

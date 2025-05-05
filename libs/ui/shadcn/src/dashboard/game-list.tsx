@@ -161,7 +161,7 @@ const EmptyGameListState: React.FC = () => {
 const GameListContent: React.FC<{
   team: NonNullable<TeamSelectedQuery>;
   games: NonNullable<TeamGamesListQuery>;
-}> = ({ games, team }) => {
+}> = ({ games }) => {
   return (
     <GameTableLayout>
       {games.map((game) => (
@@ -169,7 +169,7 @@ const GameListContent: React.FC<{
           <TableCell className="font-medium">
             <div className="flex flex-col">
               <span>{game.title}</span>
-              <span className="text-xs text-muted-foreground">{game.slug}</span>
+              <span className="text-xs text-muted-foreground">{game.id}</span>
             </div>
           </TableCell>
           <TableCell>

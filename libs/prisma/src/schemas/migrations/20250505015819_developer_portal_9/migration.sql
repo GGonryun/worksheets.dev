@@ -5,6 +5,7 @@
 
 */
 -- DropForeignKey
+-- ALTER TABLE "Game" DROP CONSTRAINT "Game_teamId_fkey";
 
 -- AlterTable
 ALTER TABLE "Game" ALTER COLUMN "teamId" SET NOT NULL,

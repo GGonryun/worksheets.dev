@@ -1847,7 +1847,7 @@ const basicGames: SeedableGameSchema[] = [
     achievements: [],
   },
   {
-    version: 2,
+    version: 1,
     id: 'skwatta',
     name: 'Skwatta',
     teamId: 'seredim',
