@@ -64,6 +64,7 @@ export const SocialLinksFields = () => {
             <FormControl>
               <Input
                 {...field}
+                value={field.value ?? ''}
                 placeholder="https://twitter.com/yourusername"
               />
             </FormControl>
@@ -82,7 +83,11 @@ export const SocialLinksFields = () => {
               Facebook
             </FormLabel>
             <FormControl>
-              <Input {...field} placeholder="https://facebook.com/yourpage" />
+              <Input
+                {...field}
+                value={field.value ?? ''}
+                placeholder="https://facebook.com/yourpage"
+              />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -99,7 +104,11 @@ export const SocialLinksFields = () => {
               itch.io
             </FormLabel>
             <FormControl>
-              <Input {...field} placeholder="https://yourstudio.itch.io" />
+              <Input
+                {...field}
+                value={field.value ?? ''}
+                placeholder="https://yourstudio.itch.io"
+              />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -117,6 +126,7 @@ export const SocialLinksFields = () => {
             <FormControl>
               <Input
                 {...field}
+                value={field.value ?? ''}
                 placeholder="https://instagram.com/yourusername"
               />
             </FormControl>
@@ -135,7 +145,11 @@ export const SocialLinksFields = () => {
               Discord
             </FormLabel>
             <FormControl>
-              <Input {...field} placeholder="https://discord.gg/yourinvite" />
+              <Input
+                {...field}
+                value={field.value ?? ''}
+                placeholder="https://discord.gg/yourinvite"
+              />
             </FormControl>
             <FormMessage />
           </FormItem>

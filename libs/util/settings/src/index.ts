@@ -26,3 +26,4 @@ export const MAX_GAME_FILE_SIZE = 100 * 1000 * 1000; // 100MB
 
 export const MAX_TEAM_MEMBERS = 10;
 export const MAX_TEAM_GAMES = 10;
+export const MAX_TEAM_MEMBERSHIP = 5;

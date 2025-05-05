@@ -78,6 +78,14 @@ export const getStaticProps = (async (ctx) => {
       plays: 'desc',
     },
     take: 10,
+    select: {
+      id: true,
+      teamId: true,
+      title: true,
+      plays: true,
+      thumbnail: true,
+      cover: true,
+    },
   });
 
   return {

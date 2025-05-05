@@ -1,4 +1,5 @@
 import { TRPCError } from '@trpc/server';
+import { MAX_TEAM_MEMBERSHIP } from '@worksheets/util/settings';
 import { protectedIds } from '@worksheets/util/team';
 import {
   createTeamSchema,
@@ -17,6 +18,19 @@ export default protectedProcedure
       throw new TRPCError({
         code: 'CONFLICT',
         message: 'Team slug is not available',
+      });
+    }
+
+    const count = await db.teamMembership.count({
+      where: {
+        userId: user.id,
+      },
+    });
+    if (count >= MAX_TEAM_MEMBERSHIP) {
+      throw new TRPCError({
+        code: 'FORBIDDEN',
+        message:
+          'You cannot belong to more than 5 teams. Leave a team or ask an admin to remove you from a team.',
       });
     }
 
