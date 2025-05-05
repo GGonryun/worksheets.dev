@@ -91,6 +91,9 @@ const updateGame = async (game: SeedableGameSchema) => {
         trailer: game.trailer,
         leaderboard: game.leaderboard,
         cloudStorage: game.cloudStorage,
+        teamId: game.teamId,
+        status: 'APPROVED',
+        visibility: 'PUBLIC',
       },
     });
   });

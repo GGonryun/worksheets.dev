@@ -90,7 +90,7 @@ const integratedGames: SeedableGameSchema[] = [
     ],
   },
   {
-    version: 2,
+    version: 1,
     id: 'bit-jumper',
     name: 'Bit Jumper',
     teamId: 'charity-games',
@@ -335,7 +335,7 @@ const integratedGames: SeedableGameSchema[] = [
     ],
   },
   {
-    version: 3,
+    version: 1,
     id: 'tall-tower',
     name: 'Tall Tower',
     teamId: 'charity-games',
@@ -449,7 +449,7 @@ const integratedGames: SeedableGameSchema[] = [
     ],
   },
   {
-    version: 2,
+    version: 1,
     id: 'block-bash',
     name: 'Block Bash',
     teamId: 'charity-games',
@@ -684,7 +684,7 @@ const integratedGames: SeedableGameSchema[] = [
     ],
   },
   {
-    version: 4,
+    version: 1,
     id: 'dino-dash',
     name: 'Dino Dash',
     teamId: 'charity-games',
@@ -922,7 +922,7 @@ const integratedGames: SeedableGameSchema[] = [
     ],
   },
   {
-    version: 4,
+    version: 1,
     id: 'color-run',
     name: 'Color Run',
     teamId: 'charity-games',
@@ -1170,7 +1170,7 @@ const basicGames: SeedableGameSchema[] = [
     achievements: [],
   },
   {
-    version: 4,
+    version: 1,
     id: 'hard-flappy',
     name: 'Hard Flappy',
     teamId: 'charity-games',
@@ -1227,7 +1227,7 @@ const basicGames: SeedableGameSchema[] = [
     achievements: [],
   },
   {
-    version: 2,
+    version: 1,
     id: '20-punch',
     name: '20 Punch',
     teamId: 'charity-games',
@@ -1257,7 +1257,7 @@ const basicGames: SeedableGameSchema[] = [
     achievements: [],
   },
   {
-    version: 2,
+    version: 1,
     id: 'the-sorcerer',
     name: 'The Sorcerer',
     teamId: 'charity-games',
@@ -1290,7 +1290,7 @@ const basicGames: SeedableGameSchema[] = [
     achievements: [],
   },
   {
-    version: 2,
+    version: 1,
     id: 'quacksquad',
     name: 'Quack Squad',
     teamId: 'ale-tobias',
@@ -1312,7 +1312,7 @@ const basicGames: SeedableGameSchema[] = [
     achievements: [],
   },
   {
-    version: 2,
+    version: 1,
     id: 'fragile-floor',
     name: 'Fragile Floor',
     teamId: 'wmgcat',
@@ -1346,7 +1346,7 @@ const basicGames: SeedableGameSchema[] = [
     achievements: [],
   },
   {
-    version: 3,
+    version: 1,
     id: 'kuttuk',
     name: 'Kuttuk',
     teamId: 'seredim',
@@ -1372,7 +1372,7 @@ const basicGames: SeedableGameSchema[] = [
     achievements: [],
   },
   {
-    version: 2,
+    version: 1,
     id: 'plane-fly',
     name: 'Plane Fly',
     teamId: 'charity-games',
@@ -1394,7 +1394,7 @@ const basicGames: SeedableGameSchema[] = [
     achievements: [],
   },
   {
-    version: 2,
+    version: 1,
     id: 'blasteroids',
     name: 'Blasteroids',
     teamId: 'whitgroves',
@@ -1428,7 +1428,7 @@ const basicGames: SeedableGameSchema[] = [
     achievements: [],
   },
   {
-    version: 2,
+    version: 1,
     id: 'solitaire',
     name: 'Solitaire',
     teamId: 'charity-games',
@@ -1449,7 +1449,7 @@ const basicGames: SeedableGameSchema[] = [
     achievements: [],
   },
   {
-    version: 2,
+    version: 1,
     id: 'emoji-war',
     name: 'Emoji War',
     teamId: 'charity-games',
@@ -1470,7 +1470,7 @@ const basicGames: SeedableGameSchema[] = [
     achievements: [],
   },
   {
-    version: 2,
+    version: 1,
     id: '1d-chess',
     name: '1D Chess',
     teamId: 'seredim',
@@ -1495,7 +1495,7 @@ const basicGames: SeedableGameSchema[] = [
     achievements: [],
   },
   {
-    version: 2,
+    version: 1,
     id: 'baku-gamu',
     name: 'Baku Gamu',
     teamId: 'syb-coin-coin',
@@ -1516,7 +1516,7 @@ const basicGames: SeedableGameSchema[] = [
     achievements: [],
   },
   {
-    version: 2,
+    version: 1,
     id: 'conquer-the-world',
     name: 'RPG Conquer The World',
     teamId: 'llstd',
@@ -1540,7 +1540,7 @@ const basicGames: SeedableGameSchema[] = [
     achievements: [],
   },
   {
-    version: 2,
+    version: 1,
     id: 'freedom-run',
     name: 'Freedom Run',
     teamId: 'charity-games',
@@ -1570,7 +1570,7 @@ const basicGames: SeedableGameSchema[] = [
     // - [LPC Birds by bluecarrot16, commissioned by castelonia](https://opengameart.org/content/lpc-birds)`,
   },
   {
-    version: 2,
+    version: 1,
     id: 'word-search',
     name: 'Word Search',
     teamId: 'charity-games',
@@ -1591,7 +1591,7 @@ const basicGames: SeedableGameSchema[] = [
     achievements: [],
   },
   {
-    version: 2,
+    version: 1,
     id: 'feaare',
     name: 'Feaare',
     teamId: 'seredim',
@@ -1616,7 +1616,7 @@ const basicGames: SeedableGameSchema[] = [
     achievements: [],
   },
   {
-    version: 2,
+    version: 1,
     id: 'invention-timeline-game',
     name: 'Time Travel',
     teamId: 'gordo-raba',
@@ -1646,7 +1646,7 @@ const basicGames: SeedableGameSchema[] = [
     achievements: [],
   },
   {
-    version: 2,
+    version: 1,
     id: 'stick-jump',
     name: 'Stick Jump',
     teamId: 'charity-games',
@@ -1667,7 +1667,7 @@ const basicGames: SeedableGameSchema[] = [
     achievements: [],
   },
   {
-    version: 2,
+    version: 1,
     id: 'puzzle-words',
     name: 'Puzzle Words',
     teamId: 'charity-games',
@@ -1688,7 +1688,7 @@ const basicGames: SeedableGameSchema[] = [
     achievements: [],
   },
   {
-    version: 2,
+    version: 1,
     id: 'word-smith',
     name: 'Word Smith',
     teamId: 'charity-games',
@@ -1709,7 +1709,7 @@ const basicGames: SeedableGameSchema[] = [
     achievements: [],
   },
   {
-    version: 2,
+    version: 1,
     id: 'quickbeat',
     name: 'Quick Beat',
     teamId: 'rainboworm',
@@ -1732,7 +1732,7 @@ const basicGames: SeedableGameSchema[] = [
     achievements: [],
   },
   {
-    version: 2,
+    version: 1,
     id: 'hyper-wheel',
     name: 'Hyper Wheel',
     teamId: 'charity-games',
@@ -1754,7 +1754,7 @@ const basicGames: SeedableGameSchema[] = [
     achievements: [],
   },
   {
-    version: 2,
+    version: 1,
     id: 'nonograms',
     name: 'Nonograms',
     teamId: 'charity-games',
@@ -1776,7 +1776,7 @@ const basicGames: SeedableGameSchema[] = [
     achievements: [],
   },
   {
-    version: 2,
+    version: 1,
     id: 'word-pack',
     name: 'Word Pack',
     teamId: 'charity-games',
@@ -1797,7 +1797,7 @@ const basicGames: SeedableGameSchema[] = [
     achievements: [],
   },
   {
-    version: 2,
+    version: 1,
     id: 'air-hockey-neon',
     name: 'Air Hockey Neon',
     teamId: 'charity-games',
@@ -1818,7 +1818,7 @@ const basicGames: SeedableGameSchema[] = [
     achievements: [],
   },
   {
-    version: 2,
+    version: 1,
     id: 'solitaire-2048',
     name: 'Solitaire 2048',
     teamId: 'charity-games',
@@ -1872,7 +1872,7 @@ const basicGames: SeedableGameSchema[] = [
     achievements: [],
   },
   {
-    version: 2,
+    version: 1,
     id: 'arrow-hit',
     name: 'Arrow Hit',
     teamId: 'charity-games',
@@ -1894,7 +1894,7 @@ const basicGames: SeedableGameSchema[] = [
     achievements: [],
   },
   {
-    version: 2,
+    version: 1,
     id: 'on-the-road',
     name: 'On The Road',
     teamId: 'charity-games',
@@ -1915,7 +1915,7 @@ const basicGames: SeedableGameSchema[] = [
     achievements: [],
   },
   {
-    version: 2,
+    version: 1,
     id: 'fruit-merge',
     name: 'Fruit Merge',
     teamId: 'charity-games',
@@ -1936,7 +1936,7 @@ const basicGames: SeedableGameSchema[] = [
     achievements: [],
   },
   {
-    version: 2,
+    version: 1,
     id: 'mini-golf',
     name: 'Mini Golf',
     teamId: 'charity-games',
@@ -1966,7 +1966,7 @@ const basicGames: SeedableGameSchema[] = [
     achievements: [],
   },
   {
-    version: 2,
+    version: 1,
     id: 'dominoes',
     name: 'Dominoes',
     teamId: 'charity-games',

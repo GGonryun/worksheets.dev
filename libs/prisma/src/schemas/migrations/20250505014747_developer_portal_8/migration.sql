@@ -1,0 +1,9 @@
+-- DropForeignKey
+ALTER TABLE "Game" DROP CONSTRAINT "Game_teamId_fkey";
+
+-- AlterTable
+ALTER TABLE "Game" ALTER COLUMN "teamId" DROP NOT NULL,
+ALTER COLUMN "teamId" DROP DEFAULT;
+
+-- AddForeignKey
+ALTER TABLE "Game" ADD CONSTRAINT "Game_teamId_fkey" FOREIGN KEY ("teamId") REFERENCES "Team"("id") ON DELETE SET NULL ON UPDATE CASCADE;
