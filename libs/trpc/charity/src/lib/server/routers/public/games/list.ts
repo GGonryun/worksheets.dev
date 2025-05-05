@@ -9,11 +9,24 @@ export default publicProcedure
       status: z.nativeEnum(GameStatus).optional(),
     })
   )
-  .output(z.custom<Prisma.GameGetPayload<true>>().array())
+  .output(
+    z
+      .custom<
+        Prisma.GameGetPayload<{
+          include: {
+            team: true;
+          };
+        }>
+      >()
+      .array()
+  )
   .query(async ({ input: { status }, ctx: { db } }) => {
     return await db.game.findMany({
       where: {
         status,
+      },
+      include: {
+        team: true,
       },
     });
   });

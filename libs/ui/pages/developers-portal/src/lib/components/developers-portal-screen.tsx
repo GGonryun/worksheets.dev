@@ -1,8 +1,8 @@
 import Container from '@mui/material/Container';
 import {
   BasicWebsiteStatistics,
-  DeveloperSchema,
   QuestionAnswer,
+  TeamSchema,
 } from '@worksheets/util/types';
 
 import { DevelopersSection } from './developers-section';
@@ -12,7 +12,7 @@ import { TitleSection } from './title-section';
 
 export interface DevelopersPortalScreenProps {
   statistics?: BasicWebsiteStatistics;
-  developers: DeveloperSchema[];
+  teams: TeamSchema[];
   faq: QuestionAnswer[];
 }
 
@@ -28,7 +28,7 @@ export function DevelopersPortalScreen(props: DevelopersPortalScreenProps) {
       }}
     >
       <TitleSection statistics={props.statistics} />
-      <DevelopersSection developers={props.developers} />
+      <DevelopersSection teams={props.teams} />
       <SupportSection />
       <QuestionsSection faq={props.faq} />
     </Container>

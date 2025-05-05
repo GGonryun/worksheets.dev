@@ -9,6 +9,5 @@ export const EMPTY_METADATA: MarkdownMetadata = {
   tags: [],
   date: '',
   authorId: Author.MiguelCampos,
-
   slug: '',
 };

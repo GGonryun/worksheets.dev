@@ -6,7 +6,6 @@ export const teamInviteSchema = z.object({
   team: z.object({
     id: z.string(),
     name: z.string(),
-    slug: z.string(),
   }),
   email: z.string(),
   role: z.nativeEnum(TeamMemberRole),

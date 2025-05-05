@@ -33,27 +33,22 @@ export const TeamStep: React.FC<{
   onPrev: () => void;
 }> = ({ onNext, onPrev }) => {
   const form = useFormContext<CreateTeamSchema>();
-  const check = trpc.user.teams.checkSlug.useMutation();
+  const check = trpc.user.teams.check.useMutation();
 
   const handleBack = () => {
     onPrev();
   };
 
   const handleNext = async () => {
-    const validate = await form.trigger([
-      'name',
-      'slug',
-      'logo',
-      'description',
-    ]);
+    const validate = await form.trigger(['name', 'id', 'logo', 'description']);
     if (validate) {
       const result = await check.mutateAsync({
-        slug: form.getValues('slug'),
+        id: form.getValues('id'),
       });
       if (result.exists) {
-        form.setError('slug', {
+        form.setError('id', {
           type: 'manual',
-          message: 'This slug is already taken',
+          message: 'This ID is already taken',
         });
         return;
       }
@@ -88,7 +83,7 @@ export const TeamStepFields: React.FC<{ editing?: boolean }> = ({
 
   const url = routes.team.url({
     params: {
-      teamSlug: form.getValues('slug'),
+      teamId: form.getValues('id'),
     },
   });
 
@@ -117,7 +112,7 @@ export const TeamStepFields: React.FC<{ editing?: boolean }> = ({
       {editing ? (
         <div>
           <FormItem>
-            <FormLabel>Slug</FormLabel>
+            <FormLabel>Team ID</FormLabel>
             <Link
               href={url}
               className="flex rounded-md border border-input ring-offset-background focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 w-fit items-center p-2 text-muted-foreground text-sm whitespace-nowrap bg-muted/40 gap-1.5 hover:bg-muted/60 hover:underline"
@@ -127,18 +122,18 @@ export const TeamStepFields: React.FC<{ editing?: boolean }> = ({
             </Link>
             <FormDescription>
               This is the unique identifier for your team. If you want to change
-              your slug, please contact support.
+              your team ID, please contact support.
             </FormDescription>
           </FormItem>
         </div>
       ) : (
         <FormField
           control={form.control}
-          name="slug"
+          name="id"
           render={({ field }) => (
             <FormItem>
               <FormLabel>
-                Slug <span className="text-red-500">*</span>
+                Team ID <span className="text-red-500">*</span>
               </FormLabel>
               <PrefixInput
                 field={field}

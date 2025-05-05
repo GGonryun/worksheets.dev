@@ -1,6 +1,8 @@
 import {
   DeviceOrientations,
   GameDevices,
+  GameStatus,
+  GameVisibility,
   ProjectType,
   ViewportType,
 } from '@worksheets/prisma';
@@ -64,10 +66,10 @@ export type MarketLinks = {
 
 export type GameSchema = {
   id: string;
+  teamId: string;
   version: number;
   name: string;
   description: string;
-  developerId: string;
   iconUrl: string;
   bannerUrl: string;
   categories: GameTag[];
@@ -76,6 +78,8 @@ export type GameSchema = {
   markets: Partial<MarketLinks>;
   plays: number;
   likes: number;
+  visibility: GameVisibility;
+  status: GameStatus;
   leaderboard: boolean;
   cloudStorage: boolean;
   achievements: boolean;
@@ -102,7 +106,13 @@ export type GameTask = {
 
 export type SeedableGameSchema = Omit<
   GameSchema,
-  'likes' | 'dislikes' | 'plays' | 'trailer' | 'achievements'
+  | 'likes'
+  | 'dislikes'
+  | 'plays'
+  | 'trailer'
+  | 'achievements'
+  | 'visibility'
+  | 'status'
 > &
   Partial<Pick<GameSchema, 'trailer'>> & {
     publishAt?: Date;

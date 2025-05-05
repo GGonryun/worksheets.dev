@@ -1,6 +1,7 @@
 import { t } from '../../../trpc';
-import checkSlug from './check-slug';
+import check from './check';
 import create from './create';
+import destroy from './destroy';
 import files from './files/router';
 import games from './games/router';
 import invitations from './invitations/router';
@@ -18,9 +19,10 @@ export default t.router({
   files,
   games,
   selected,
-  checkSlug,
+  check,
   profile,
   links,
   members,
   invitations,
+  delete: destroy,
 });

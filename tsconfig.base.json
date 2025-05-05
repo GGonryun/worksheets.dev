@@ -26,11 +26,11 @@
       "@worksheets/assets/authors": ["libs/assets/authors/src/index.ts"],
       "@worksheets/assets/icons": ["libs/assets/icons/src/index.ts"],
       "@worksheets/assets/marketing": ["libs/assets/marketing/src/index.ts"],
-      "@worksheets/data/developers": ["libs/data/developers/src/index.ts"],
       "@worksheets/data/games": ["libs/data/games/src/index.ts"],
       "@worksheets/data/sponsors": ["libs/data/sponsors/src/index.ts"],
       "@worksheets/data/tags": ["libs/data/tags/src/index.ts"],
       "@worksheets/data/tasks": ["libs/data/tasks/src/index.ts"],
+      "@worksheets/data/teams": ["libs/data/teams/src/index.ts"],
       "@worksheets/data/viewports": ["libs/data/viewports/src/index.ts"],
       "@worksheets/icons/adventure": ["libs/icons/adventure/src/index.ts"],
       "@worksheets/icons/arrows": ["libs/icons/arrows/src/index.ts"],
@@ -61,7 +61,6 @@
       "@worksheets/services/environment": [
         "libs/services/environment/src/index.ts"
       ],
-      "@worksheets/services/games": ["libs/services/games/src/index.ts"],
       "@worksheets/services/kv": ["libs/services/kv/src/index.ts"],
       "@worksheets/services/leaderboards": [
         "libs/services/leaderboards/src/index.ts"
@@ -214,9 +213,6 @@
       "@worksheets/ui/pages/cookie-policy": [
         "libs/ui/pages/cookie-policy/src/index.ts"
       ],
-      "@worksheets/ui/pages/developer": [
-        "libs/ui/pages/developer/src/index.ts"
-      ],
       "@worksheets/ui/pages/developers-portal": [
         "libs/ui/pages/developers-portal/src/index.ts"
       ],
@@ -232,6 +228,7 @@
         "libs/ui/pages/privacy-policy/src/index.ts"
       ],
       "@worksheets/ui/pages/raffles": ["libs/ui/pages/raffles/src/index.ts"],
+      "@worksheets/ui/pages/teams": ["libs/ui/pages/teams/src/index.ts"],
       "@worksheets/ui/pages/terms-of-service": [
         "libs/ui/pages/terms-of-service/src/index.ts"
       ],
@@ -258,6 +255,7 @@
       "@worksheets/util/enums": ["libs/util/enums/src/index.ts"],
       "@worksheets/util/errors": ["libs/util/errors/src/index.ts"],
       "@worksheets/util/functions": ["libs/util/functions/src/index.ts"],
+      "@worksheets/util/games": ["libs/util/games/src/index.ts"],
       "@worksheets/util/generators": ["libs/util/generators/src/index.ts"],
       "@worksheets/util/html": ["libs/util/html/src/index.ts"],
       "@worksheets/util/legal": ["libs/util/legal/src/index.ts"],

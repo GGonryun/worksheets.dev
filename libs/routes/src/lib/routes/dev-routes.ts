@@ -14,7 +14,7 @@ export const devRoutes = {
         path: '/teams/create',
       }),
       join: createRoute({
-        path: '/teams/join/[slug]',
+        path: '/teams/join/[teamId]',
       }),
     },
   }),
@@ -38,9 +38,6 @@ export const devRoutes = {
               }),
               visibility: createRoute({
                 path: '/dashboard/games/[gameId]/visibility',
-              }),
-              feedback: createRoute({
-                path: '/dashboard/games/[gameId]/feedback',
               }),
             },
           }),

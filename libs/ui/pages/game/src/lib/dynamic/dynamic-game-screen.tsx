@@ -8,3 +8,11 @@ export const DynamicGameScreenContainer = dynamic(
     loading: () => <LoadingScreen />,
   }
 );
+
+export const DynamicFallbackGameScreenContainer = dynamic(
+  () => import('../containers/fallback-game-screen-container'),
+  {
+    ssr: false,
+    loading: () => <LoadingScreen />,
+  }
+);

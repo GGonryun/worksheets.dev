@@ -39,6 +39,7 @@ export default publicProcedure
             game: {
               select: {
                 id: true,
+                teamId: true,
                 title: true,
                 thumbnail: true,
                 cover: true,

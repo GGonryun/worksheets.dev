@@ -19,7 +19,7 @@ cloudEvent('Unzip', async (cloudEvent: CloudEvent<StorageObjectData>) => {
     await unzip({
       bucket: cloudEvent.data.bucket,
       path: cloudEvent.data.name,
-      destination: `${folder}/${file.replace('.zip', '')}`,
+      destination: `${folder}/${file}`,
     });
     console.info(`Unzipping completed for ${cloudEvent.data.name}`);
   } catch (error) {

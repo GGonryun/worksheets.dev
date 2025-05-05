@@ -1,0 +1,1 @@
+ALTER TYPE "GameStatus" ADD VALUE 'REJECTED';

@@ -23,6 +23,7 @@ import {
   privacySeo,
   rafflesSeo,
   signUpSeo,
+  teamsSeo,
   termsSeo,
 } from '../../util/seo';
 
@@ -40,6 +41,7 @@ const addBasicPages = () => {
     loginSeo.canonical,
     signUpSeo.canonical,
     privacySeo.canonical,
+    teamsSeo.canonical,
     termsSeo.canonical,
     playSeo.canonical,
     librarySeo.canonical,
@@ -66,6 +68,9 @@ const addBasicPages = () => {
 
 const getGames = async () => {
   const games = await prisma.game.findMany({
+    where: {
+      visibility: 'PUBLIC',
+    },
     select: {
       id: true,
       updatedAt: true,
@@ -110,19 +115,19 @@ const getTags = async () => {
     .join('');
 };
 
-const getDevelopers = async () => {
-  const developers = await prisma.developer.findMany({
+const getTeams = async () => {
+  const teams = await prisma.team.findMany({
     select: {
       id: true,
     },
   });
 
-  return developers
+  return teams
     .map(
-      (developer) =>
-        `<url><loc>${routes.developer.url({
+      (team) =>
+        `<url><loc>${routes.team.url({
           params: {
-            developerId: developer.id,
+            teamId: team.id,
           },
         })}</loc><lastmod>${LAST_UPDATE_DATE}</lastmod><priority>0.3</priority></url>`
     )
@@ -136,10 +141,10 @@ const handler: NextApiHandler = async (req, res) => {
   // Instructing the Vercel edge to cache the file for 7 days in seconds
   res.setHeader('Cache-control', 'stale-while-revalidate, s-maxage=604800');
 
-  const [games, tags, developers] = await Promise.all([
+  const [games, tags, teams] = await Promise.all([
     getGames(),
     getTags(),
-    getDevelopers(),
+    getTeams(),
   ]);
 
   // generate sitemap here
@@ -149,7 +154,7 @@ const handler: NextApiHandler = async (req, res) => {
       ${addBasicPages()}
       ${games}
       ${tags}
-      ${developers}
+      ${teams}
       </urlset>`;
 
   res.end(xml);

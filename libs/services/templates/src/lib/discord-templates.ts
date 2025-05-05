@@ -33,8 +33,8 @@ export class DiscordTemplates {
         {
           title: `Game ID: ${opts.game.id}`,
           description: `Game title: ${opts.game.title}\nby Team: ${opts.team.name}`,
-          url: routes.team.game.url({
-            params: { gameSlug: opts.game.slug, teamSlug: opts.team.slug },
+          url: routes.game.url({
+            params: { gameId: opts.game.id },
           }),
         },
       ],

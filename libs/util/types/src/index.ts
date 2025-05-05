@@ -1,6 +1,5 @@
 export * from './lib/tag-schema';
 export * from './lib/game-schema';
-export * from './lib/developers';
 export * from './lib/author';
 export * from './lib/leaderboards';
 export * from './lib/types';

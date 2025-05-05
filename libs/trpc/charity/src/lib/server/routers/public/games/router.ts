@@ -6,6 +6,7 @@ import newest from './newest';
 import popular from './popular';
 import report from './report';
 import suggestions from './suggestions';
+import team from './team/router';
 import vote from './vote/router';
 
 export default t.router({
@@ -17,4 +18,5 @@ export default t.router({
   report,
   list,
   library,
+  team,
 });

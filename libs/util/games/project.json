@@ -1,0 +1,26 @@
+{
+  "name": "util-games",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/util/games/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/util/games",
+        "main": "libs/util/games/src/index.ts",
+        "tsConfig": "libs/util/games/tsconfig.lib.json",
+        "assets": ["libs/util/games/*.md"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/util/games/jest.config.ts"
+      }
+    }
+  }
+}

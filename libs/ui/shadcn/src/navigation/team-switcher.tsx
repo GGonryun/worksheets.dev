@@ -101,7 +101,7 @@ export const TeamSwitcher: React.FC = () => {
                   </div>
                   <div className="truncate">{team.name}</div>
                   <DropdownMenuShortcut>
-                    {team.slug === selectedTeam.data.slug && '✓'}
+                    {team.id === selectedTeam.data.id && '✓'}
                   </DropdownMenuShortcut>
                 </DropdownMenuItem>
               ))}

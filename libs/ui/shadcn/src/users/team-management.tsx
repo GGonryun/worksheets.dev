@@ -141,8 +141,8 @@ const TeamManagementContent: React.FC<{
         <AlertCircle className="h-4 w-4" />
         <AlertTitle>Team Member Limit</AlertTitle>
         <AlertDescription>
-          Your team can have a maximum of 10 members. You currently have{' '}
-          {members.length} members.
+          Your team can have a maximum of {MAX_TEAM_MEMBERS} members. You
+          currently have {members.length} members.
         </AlertDescription>
       </Alert>
 

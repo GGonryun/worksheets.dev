@@ -1,5 +1,7 @@
 import { t } from '../../../../trpc';
+import check from './check';
 import create from './create';
+import destroy from './destroy';
 import details from './details/router';
 import list from './list';
 import media from './media/router';
@@ -14,7 +16,9 @@ export default t.router({
   read,
   statistics,
   create,
+  check,
   details,
+  delete: destroy,
   media,
   versions,
   status,

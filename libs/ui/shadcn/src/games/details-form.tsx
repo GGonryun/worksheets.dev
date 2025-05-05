@@ -42,8 +42,9 @@ import { parseTRPCClientErrorMessage } from '@worksheets/util/trpc';
 import { PrefixInput } from '../forms/fields/prefix-input';
 import { devRoutes, routes } from '@worksheets/routes';
 import { DetailsSectionLayout } from './section-card-layout';
-import { Loader2 } from 'lucide-react';
+import { Link2Icon, Loader2 } from 'lucide-react';
 import { TeamSelectedQuery, TeamGamesReadQuery, TeamQuery } from '../types';
+import Link from 'next/link';
 
 // Mock data for tags
 const availableTags = Object.values(tags)
@@ -119,7 +120,8 @@ export const DetailsForm: React.FC<{
           <div className="grid grid-cols-1 gap-8">
             <DetailsFormFields
               isPending={details.isPending}
-              teamSlug={team.slug}
+              editing
+              teamId={team.id}
             />
             <div className={'flex gap-4 justify-end'}>
               {details.isPending ? (
@@ -154,11 +156,13 @@ export const DetailsForm: React.FC<{
 
 export const DetailsFormFields: React.FC<{
   isPending: boolean;
-  teamSlug: string | undefined;
-}> = ({ isPending, teamSlug = 'my-team' }) => {
+  editing: boolean;
+  teamId: string | undefined;
+}> = ({ isPending, editing, teamId = 'my-team' }) => {
   const form = useFormContext<DetailsFormSchema>();
-  const prefix = `${routes.baseUrl}/${teamSlug}/`;
-  const gameSlug = form.watch('slug');
+  const prefix = `${routes.baseUrl}/play/`;
+  const gameId = form.watch('id');
+  const url = `${prefix}${gameId}`;
 
   return (
     <div className="grid grid-cols-1 gap-8">
@@ -186,33 +190,52 @@ export const DetailsFormFields: React.FC<{
           )}
         />
 
-        <FormField
-          control={form.control}
-          name="slug"
-          render={({ field }) => (
+        {editing ? (
+          <div>
             <FormItem>
-              <FormLabel>
-                Slug <span className="text-red-500">*</span>
-              </FormLabel>
-              <FormControl>
-                {isPending ? (
-                  <Skeleton className="w-full h-10" />
-                ) : (
-                  <PrefixInput
-                    field={field}
-                    prefix={prefix}
-                    placeholder="my-game-name"
-                  />
-                )}
-              </FormControl>
+              <FormLabel>Game ID</FormLabel>
+              <Link
+                href={url}
+                className="flex rounded-md border border-input ring-offset-background focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 w-fit items-center p-2 text-muted-foreground text-sm whitespace-nowrap bg-muted/40 gap-1.5 hover:bg-muted/60 hover:underline"
+              >
+                <Link2Icon className="h-4 w-4" />
+                {url}
+              </Link>
               <FormDescription>
-                The unique identifier for your game. It will be part of the URL
-                where players can access your game.
+                This is the unique identifier for your game. If you want to
+                change your <strong>Game ID</strong>, please contact support.
               </FormDescription>
-              <FormMessage />
             </FormItem>
-          )}
-        />
+          </div>
+        ) : (
+          <FormField
+            control={form.control}
+            name="id"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>
+                  Game ID <span className="text-red-500">*</span>
+                </FormLabel>
+                <FormControl>
+                  {isPending ? (
+                    <Skeleton className="w-full h-10" />
+                  ) : (
+                    <PrefixInput
+                      field={field}
+                      prefix={prefix}
+                      placeholder="my-game-name"
+                    />
+                  )}
+                </FormControl>
+                <FormDescription>
+                  The unique identifier for your game. It will be part of the
+                  URL where players can access your game.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        )}
 
         <FormField
           control={form.control}
@@ -234,7 +257,7 @@ export const DetailsFormFields: React.FC<{
                 )}
               </FormControl>
               <FormDescription>
-                Provide a detailed description of your game.
+                Provide a detailed description of your game. HTML is supported.
               </FormDescription>
               <FormMessage />
             </FormItem>

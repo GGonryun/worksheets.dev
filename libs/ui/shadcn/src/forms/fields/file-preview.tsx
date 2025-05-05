@@ -127,7 +127,7 @@ export const ZipPreview: React.FC<{
               <FileArchive className="h-6 w-6 text-primary" />
             </div>
             <div>
-              <p className="font-medium truncate">{file.name}</p>
+              <p className="font-medium wrap">{file.name}</p>
               <p className="text-sm text-gray-500">{printBytes(file.size)}</p>
             </div>
           </div>

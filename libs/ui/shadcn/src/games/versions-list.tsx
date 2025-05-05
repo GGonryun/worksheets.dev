@@ -169,8 +169,7 @@ export const VersionsList: React.FC<{
         ) : versions.data.length ? (
           <VersionContentLayout>
             <VersionContent
-              gameSlug={game.slug}
-              teamSlug={team.slug}
+              gameId={game.id}
               files={versions.data}
               onView={handleViewDetails}
               onSetCurrent={handleSetAsCurrent}
@@ -331,7 +330,6 @@ const UploadNewVersionSheet: React.FC<{
 
   const handleOpenChange = (open: boolean) => {
     if (!open) {
-      console.log('handleOpenChange', form.formState.isDirty);
       if (form.formState.isDirty) {
         setShowExitDialog(true);
       } else {
@@ -534,20 +532,12 @@ const VersionContentLayout: React.FC<{ children: React.ReactNode }> = ({
 };
 
 const VersionContent: React.FC<{
-  teamSlug: string;
-  gameSlug: string;
+  gameId: string;
   files: GameFileSchema[];
   onView: (id: string) => void;
   onSetCurrent: (id: string) => void;
   onDelete: (id: string) => void;
-}> = ({
-  teamSlug,
-  gameSlug,
-  files: versions,
-  onView,
-  onSetCurrent,
-  onDelete,
-}) => {
+}> = ({ gameId, files: versions, onView, onSetCurrent, onDelete }) => {
   return (
     <>
       {versions.map((file) => (
@@ -601,10 +591,9 @@ const VersionContent: React.FC<{
                 )}
                 <DropdownMenuItem asChild>
                   <Link
-                    href={routes.team.game.version.url({
+                    href={routes.game.version.url({
                       params: {
-                        teamSlug,
-                        gameSlug,
+                        gameId,
                         version: file.version,
                       },
                     })}

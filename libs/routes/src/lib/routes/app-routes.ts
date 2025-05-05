@@ -67,28 +67,21 @@ export const routes = {
       }),
     },
   }),
-  team: createRoute({
-    path: '/[teamSlug]',
-    routes: {
-      game: createRoute({
-        path: '/[teamSlug]/[gameSlug]',
-        routes: {
-          version: createRoute({
-            path: '/[teamSlug]/[gameSlug]/[version]',
-          }),
-        },
-      }),
-    },
-  }),
   game: createRoute({
     path: '/play/[gameId]',
+    routes: {
+      version: createRoute({
+        path: '/play/[gameId]/[version]',
+      }),
+    },
   }),
   teams: createRoute({
     path: '/teams',
   }),
-  developer: createRoute({
-    path: '/developers/[developerId]',
+  team: createRoute({
+    path: '/teams/[teamId]',
   }),
+
   terms: createRoute({
     path: '/terms',
   }),

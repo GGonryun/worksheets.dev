@@ -18,7 +18,7 @@ type Props = {
 };
 
 const publishedOnly = (g: DetailedGameInfo) =>
-  g.status === 'PUBLISHED' || g.publishAt === null || isExpired(g.publishAt);
+  g.visibility === 'PUBLIC' || g.publishAt === null || isExpired(g.publishAt);
 
 const MAX_CAROUSEL_LENGTH = 20;
 const MAX_FEATURED_GAMES = 8;

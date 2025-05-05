@@ -40,9 +40,8 @@ export function InvitationInfoDialog({
   const utils = trpc.useUtils();
   const [revoked, setRevoked] = useState(false);
   const revokeInvite = trpc.user.teams.invitations.revoke.useMutation();
-  // Generate a fake invitation link with a unique ID
   const invitationLink = devRoutes.teams.join.url({
-    params: { slug: invite?.team.slug ?? '' },
+    params: { teamId: invite?.team.id ?? '' },
   });
 
   const handleCopyLink = () => {

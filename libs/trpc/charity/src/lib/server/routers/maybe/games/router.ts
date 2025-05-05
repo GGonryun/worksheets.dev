@@ -29,7 +29,7 @@ export default t.router({
     )
     .output(
       z.object({
-        id: z.string(),
+        gameId: z.string(),
       })
     )
     .query(
@@ -40,7 +40,7 @@ export default t.router({
             id: true,
           },
           where: {
-            status: 'PUBLISHED',
+            visibility: 'PUBLIC',
             viewport: {
               devices: {
                 has: isMobileOrTablet ? 'MOBILE' : 'COMPUTER',
@@ -56,7 +56,7 @@ export default t.router({
         const randomGame = game[Math.floor(Math.random() * game.length)];
 
         return {
-          id: randomGame.id,
+          gameId: randomGame.id,
         };
       }
     ),

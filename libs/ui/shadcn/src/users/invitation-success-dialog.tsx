@@ -32,7 +32,7 @@ export function InvitationSuccessDialog({
   const { toast } = useToast();
   // Generate a fake invitation link with a unique ID
   const invitationLink = devRoutes.teams.join.url({
-    params: { slug: invite?.team.slug ?? '' },
+    params: { teamId: invite?.team.id ?? '' },
   });
 
   const handleCopyLink = () => {

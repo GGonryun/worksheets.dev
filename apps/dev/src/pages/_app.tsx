@@ -14,7 +14,7 @@ function App({
   return (
     <>
       <Head>
-        <title>Welcome to dev!</title>
+        <title> Developer Portal | Charity Games</title>
       </Head>
       <SessionProvider session={session} refetchOnWindowFocus={false}>
         <main className="app">{getLayout(<Component {...pageProps} />)}</main>

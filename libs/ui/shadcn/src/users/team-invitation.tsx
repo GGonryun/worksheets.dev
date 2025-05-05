@@ -21,14 +21,14 @@ import { TeamInvitationsReadQuery } from '../types';
 
 export const TeamInvitation = () => {
   const router = useRouter();
-  const slug = router.query.slug as string;
+  const teamId = router.query.teamId as string;
 
   const invitation = trpc.user.teams.invitations.read.useQuery(
     {
-      slug,
+      id: teamId,
     },
     {
-      enabled: !!slug,
+      enabled: !!teamId,
       retry: false,
     }
   );

@@ -4,7 +4,6 @@ import { z } from 'zod';
 export const teamOwnedGameSchema = z.object({
   id: z.string(),
   teamId: z.string(),
-  slug: z.string(),
   title: z.string(),
   status: z.nativeEnum(GameStatus),
   visibility: z.nativeEnum(GameVisibility),
@@ -23,7 +22,6 @@ export const parseTeamGame = (
   id: game.id,
   // TODO: remove this when we have a mandatory teamId
   teamId: game.teamId ?? '',
-  slug: game.slug,
   title: game.title,
   status: game.status,
   visibility: game.visibility,

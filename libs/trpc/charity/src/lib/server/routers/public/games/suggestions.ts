@@ -2,6 +2,7 @@ import { basicGameInfoSchema } from '@worksheets/util/types';
 import { z } from 'zod';
 
 import { publicProcedure } from '../../../procedures';
+import { gameBasicInfoProperties } from './shared';
 
 export default publicProcedure
   .input(
@@ -16,19 +17,15 @@ export default publicProcedure
         id: {
           notIn: [gameId],
         },
-        status: 'PUBLISHED',
+        visibility: 'PUBLIC',
       },
-      select: {
-        id: true,
-        title: true,
-        thumbnail: true,
-        plays: true,
-        cover: true,
-      },
+      select: gameBasicInfoProperties,
       orderBy: {
         plays: 'desc',
       },
     });
 
-    return games;
+    const randomGames = games.sort(() => 0.5 - Math.random()).slice(0, 30);
+
+    return randomGames.map((game) => game);
   });

@@ -39,8 +39,8 @@ import { ResponsiveImage } from '@worksheets/ui/components/images';
 import { shorthandNumber } from '@worksheets/util/numbers';
 import {
   CastVote,
-  DeveloperSchema,
   SerializableGameSchema,
+  TeamSchema,
   Vote,
 } from '@worksheets/util/types';
 import React, { FC, JSXElementConstructor, useState } from 'react';
@@ -51,7 +51,7 @@ import { useGameNotifications } from '../../hooks/use-game-notifications';
 
 type GameBannerProps = {
   boxRef: React.RefObject<HTMLDivElement | null>;
-  developer: DeveloperSchema;
+  team: TeamSchema;
   isFullscreen: boolean;
   isMobileOrTablet: boolean;
   userVote?: Vote;
@@ -61,7 +61,7 @@ type GameBannerProps = {
 };
 
 export const GameBanner: FC<GameBannerProps> = ({
-  developer,
+  team,
   boxRef,
   isFullscreen,
   isMobileOrTablet,
@@ -148,13 +148,13 @@ export const GameBanner: FC<GameBannerProps> = ({
             color={'text.blue.light'}
             fontWeight={{ xs: 500, sm: 500 }}
             underline="hover"
-            href={routes.developer.path({
+            href={routes.team.path({
               params: {
-                developerId: developer.id,
+                teamId: team.id,
               },
             })}
           >
-            by {developer.name}
+            by {team.name}
           </Typography>
         </Box>
 

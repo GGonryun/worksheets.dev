@@ -1,7 +1,6 @@
-import { teamSchema } from '@worksheets/util/types';
+import { parseTeam, teamSchema } from '@worksheets/util/types';
 
 import { protectedProcedure } from '../../../procedures';
-import { parseTeam } from './shared';
 
 export default protectedProcedure
   .output(teamSchema.array())

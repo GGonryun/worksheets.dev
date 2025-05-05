@@ -96,10 +96,9 @@ export const VersionDetails: React.FC<VersionDetailsProps> = ({
       <div className="flex flex-col gap-2 pt-4">
         <Button asChild variant="outline">
           <Link
-            href={routes.team.game.version.url({
+            href={routes.game.version.url({
               params: {
-                teamSlug: team.slug,
-                gameSlug: game.slug,
+                gameId: game.id,
                 version,
               },
             })}

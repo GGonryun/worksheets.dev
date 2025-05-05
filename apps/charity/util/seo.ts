@@ -1,10 +1,10 @@
 import { routes } from '@worksheets/routes';
 import { OpenGraphProps, TWITTER_SEO } from '@worksheets/util/seo';
 import {
-  DeveloperSchema,
   RaffleSchema,
   SerializableGameSchema,
   TagSchema,
+  TeamSchema,
 } from '@worksheets/util/types';
 import { DefaultSeoProps, NextSeoProps, VideoGameJsonLdProps } from 'next-seo';
 
@@ -120,12 +120,20 @@ export const categorySeo = (
     description: `Play ${tag.name} online for free on Charity Games. The easiest way to make a difference. Donate to charity by playing ${tag.name}.`,
   });
 
-export const developerSeo = (developer: DeveloperSchema): NextSeoProps =>
+export const teamSeo = (team?: TeamSchema): NextSeoProps =>
   createSeo({
-    path: routes.developer.path({ params: { developerId: developer.id } }),
-    title: `${developer.name} Profile`,
-    description: `Play ${developer.name} games online for free on Charity Games. Turn your games into donations. Help us make a difference.`,
+    path: team ? routes.team.path({ params: { teamId: team.id } }) : undefined,
+    title: `${team?.name ?? 'Team'} Profile`,
+    description: `Play ${
+      team?.name ?? 'our communities'
+    } games online for free on Charity Games. Turn your games into donations. Help us make a difference.`,
   });
+
+export const teamsSeo = createSeo({
+  path: routes.teams.path(),
+  title: `All Teams`,
+  description: `Find and play your favorite mobile and desktop games for free on Charity Games. The easiest way to donate to charity.`,
+});
 
 export const playSeo = createSeo({
   path: routes.play.path(),
@@ -134,19 +142,36 @@ export const playSeo = createSeo({
 });
 
 export const gameSeo = (
-  game: SerializableGameSchema,
-  developer: DeveloperSchema
+  game?: SerializableGameSchema,
+  team?: TeamSchema
 ): NextSeoProps =>
   createSeo({
-    path: routes.game.path({ params: { gameId: game.id } }),
-    title: `Play ${game.name}`,
-    description: `Play ${game.name} by ${developer.name} online for free on Charity Games. ${game.name} is one of our top ${game.categories[0]} games. `,
-    images: [
-      {
-        url: game.bannerUrl,
-        alt: game.name,
-      },
-    ],
+    path: game
+      ? routes.game.path({
+          params: { gameId: game.id },
+        })
+      : undefined,
+    title: `Play ${game?.name ?? 'Free Games'}`,
+    description: `Play ${game?.name ?? 'Free Games'} by ${
+      team?.name ?? 'Charity Games'
+    } online for free on Charity Games. ${
+      game?.name ?? 'This'
+    } is one of our top ${game?.categories[0] ?? 'free'} games. `,
+    images: game
+      ? [
+          {
+            url: game.bannerUrl,
+            alt: game.name,
+          },
+        ]
+      : [],
+  });
+
+export const previewGameSeo = (): NextSeoProps =>
+  createSeo({
+    title: 'Preview Game',
+    description:
+      'Preview a game in Charity Games. This mode is for developers to test their games before publishing. If you are a developer, please publish your game to make it available to others.',
   });
 
 export const previewSeo: NextSeoProps = createSeo({
@@ -167,19 +192,21 @@ export const previewSeo: NextSeoProps = createSeo({
 
 export const gameJsonLd = (
   game: SerializableGameSchema,
-  developer: DeveloperSchema
+  team: TeamSchema
 ): VideoGameJsonLdProps => ({
   name: game.name,
   languageName: 'English',
   description: game.description,
   playMode: 'SinglePlayer',
   applicationCategory: 'Game',
-  url: routes.game.url({ params: { gameId: game.id } }),
+  url: routes.game.url({
+    params: { gameId: game.id },
+  }),
   keywords: game.categories.join(', '),
   datePublished: game.createdAt,
   image: game.iconUrl,
-  publisherName: developer.name,
-  producerUrl: routes.developer.path({ params: { developerId: developer.id } }),
+  publisherName: team.name,
+  producerUrl: routes.team.path({ params: { teamId: team.id } }),
 });
 
 export const termsSeo = createSeo({

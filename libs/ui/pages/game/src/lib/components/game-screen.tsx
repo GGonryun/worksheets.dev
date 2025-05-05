@@ -5,11 +5,8 @@ import {
   GamesGroup,
   RandomGameButton,
 } from '@worksheets/ui/components/games';
-import {
-  BasicGameInfo,
-  DeveloperSchema,
-  SerializableGameSchema,
-} from '@worksheets/util/types';
+import { ErrorScreen } from '@worksheets/ui/pages/errors';
+import { BasicGameInfo, SerializableGameSchema } from '@worksheets/util/types';
 import { SessionContextValue } from 'next-auth/react';
 import { FC } from 'react';
 
@@ -23,7 +20,7 @@ type GameScreenProps = {
   status: SessionContextValue['status'];
   suggestions: BasicGameInfo[];
   game: SerializableGameSchema;
-  developer: DeveloperSchema;
+  hidden: boolean;
   onShare: () => void;
   onReport: () => void;
   launcher: React.ReactNode;
@@ -34,12 +31,24 @@ export const GameScreen: FC<GameScreenProps> = ({
   suggestions,
   game,
   launcher,
+  hidden,
   onShare,
   onReport,
 }) => {
   const leftBar = suggestions.slice(0, 5);
   const rightBar = suggestions.slice(6, 11);
   const remaining = suggestions.slice(12);
+
+  if (hidden) {
+    return (
+      <ErrorScreen
+        title="Private Game"
+        header=""
+        message="This game is private and only visible to the team that created it."
+      />
+    );
+  }
+
   return (
     <Container
       maxWidth="xl"
@@ -63,7 +72,7 @@ export const GameScreen: FC<GameScreenProps> = ({
           }}
         >
           {leftBar.map((g) => (
-            <Game key={g.id} id={g.id} title={''} thumbnail={g.thumbnail} />
+            <Game key={g.id} {...g} title={''} />
           ))}
         </PaperSidebar>
 
@@ -75,7 +84,7 @@ export const GameScreen: FC<GameScreenProps> = ({
           }}
         >
           {rightBar.map((g) => (
-            <Game key={g.id} id={g.id} title={''} thumbnail={g.thumbnail} />
+            <Game key={g.id} {...g} title={''} />
           ))}
         </PaperSidebar>
       </Box>

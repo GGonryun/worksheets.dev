@@ -60,8 +60,8 @@ model User {
 
 model Team {
   id          String           @id @default(cuid())
+  version     Int              @default(0)
   name        String           @db.VarChar(64)
-  slug        String           @unique
   description String           @db.VarChar(4095)
   logo        String           @db.Text // URL
   links       Json
@@ -172,6 +172,16 @@ enum ReportReason {
   OTHER
 }
 
+model Developer {
+  id          String @id @default(cuid())
+  version     Int    @default(0)
+  name        String @unique
+  description String @db.VarChar(4095)
+  logoUrl     String @db.VarChar(255)
+  links       String
+  games       Game[]
+}
+
 model GameReport {
   id        String       @id @default(cuid())
   gameId    String
@@ -193,6 +203,7 @@ enum ProjectType {
 
 enum ViewportType {
   RESPONSIVE
+  FIXED // TODO: remove this after migration.
 }
 
 enum DeviceOrientations {
@@ -258,6 +269,8 @@ enum GameStatus {
   REJECTED
   CHANGES_REQUESTED
   UNPUBLISHED // TODO: remove this after migration.
+  PUBLISHED // TODO: remove this after migration.
+  DELETED // TODO: remove this after migration.
 }
 
 enum GameVisibility {
@@ -270,7 +283,6 @@ model Game {
   id           String              @id @default(cuid())
   version      Int                 @default(0)
   title        String              @db.VarChar(127)
-  slug         String              @default("") // TODO: remove the default value after migration.
   description  String              @db.VarChar(4095)
   categories   CategoriesOnGame[]
   cover        String              @db.Text // URL
@@ -282,10 +294,12 @@ model Game {
   // Ownership
   status       GameStatus          @default(DRAFT)
   visibility   GameVisibility      @default(PRIVATE)
-  // TODO: remove optionality after migration.
-  teamId       String?
-  team         Team?               @relation(fields: [teamId], references: [id])
+  teamId       String              @default("charity-games")
+  team         Team                @relation(fields: [teamId], references: [id])
   fileId       String? // TODO: remove this after the migration.
+  // Developer
+  developerId  String?
+  developer    Developer?          @relation(fields: [developerId], references: [id])
   // Game File -- Must have at least one active version saved to the file.
   files        GameFile[]
   // SDK Enabled
@@ -307,8 +321,6 @@ model Game {
   achievements GameAchievement[]
   analytics    GamePlayAnalytics[]
   tasks        Task[]
-
-  @@unique([slug, teamId])
 }
 
 model GamePlayHistory {

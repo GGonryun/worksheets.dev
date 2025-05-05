@@ -3,11 +3,11 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import { routes } from '@worksheets/routes';
 import { CoverImage } from '@worksheets/ui/components/images';
-import { DeveloperSchema } from '@worksheets/util/types';
+import { TeamSchema } from '@worksheets/util/types';
 import { FC, ReactNode, useState } from 'react';
 
-export const DevelopersSection: React.FC<{ developers: DeveloperSchema[] }> = ({
-  developers,
+export const DevelopersSection: React.FC<{ teams: TeamSchema[] }> = ({
+  teams,
 }) => (
   <Box display="flex" flexDirection="column" gap={2}>
     <Paper
@@ -46,22 +46,22 @@ export const DevelopersSection: React.FC<{ developers: DeveloperSchema[] }> = ({
           gap: 2,
         }}
       >
-        {developers.map((dev) => (
-          <DeveloperBox key={dev.id} developer={dev} />
+        {teams.map((team) => (
+          <DeveloperBox key={team.id} team={team} />
         ))}
       </Box>
     </Paper>
   </Box>
 );
 
-const DeveloperBox: FC<{ developer: DeveloperSchema }> = ({ developer }) => {
+const DeveloperBox: FC<{ team: TeamSchema }> = ({ team }) => {
   return (
     <CustomBox
-      href={routes.developer.path({
-        params: { developerId: developer.id },
+      href={routes.team.path({
+        params: { teamId: team.id },
       })}
     >
-      <CoverImage src={developer.avatarUrl} alt={developer.name} />
+      <CoverImage src={team.logo} alt={team.name} />
     </CustomBox>
   );
 };

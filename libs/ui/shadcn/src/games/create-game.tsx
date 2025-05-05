@@ -1,7 +1,6 @@
 'use client';
 
 import { Button } from '../ui/button';
-import { Card, CardDescription, CardHeader, CardTitle } from '../ui/card';
 import { DetailsFormFields } from './details-form';
 import { MediaFormFields } from './media-form';
 import router from 'next/router';
@@ -13,7 +12,6 @@ import { VersionFormFields } from './version-form';
 import { useRouteChangeGuard } from '../hooks/use-route-change-guard';
 import { useUnsavedChangesWarning } from '../hooks/use-unsaved-changes-warning';
 import React from 'react';
-import { CardContent } from '@mui/material';
 import { SaveIcon } from 'lucide-react';
 import { trpc } from '@worksheets/trpc-charity';
 import {
@@ -26,12 +24,16 @@ import {
   FilesSectionLayout,
   MediaSectionLayout,
 } from './section-card-layout';
+import { useToast } from '../hooks';
+import { parseTRPCClientErrorMessage } from '@worksheets/util/trpc';
 
 // TODO: remove in order to bypass the unsaved changes warning
 const enableProtection = false;
 
 export const CreateGame = () => {
+  const { toast } = useToast();
   const create = trpc.user.teams.games.create.useMutation();
+  const check = trpc.user.teams.games.check.useMutation();
   const [exitSafely, setExitSafely] = React.useState(false);
   const team = trpc.user.teams.selected.useQuery();
   const form = useForm<CreateGameFormSchema>({
@@ -47,17 +49,31 @@ export const CreateGame = () => {
     enableProtection && !exitSafely && form.formState.isDirty
   );
 
-  const onSubmit = async (form: CreateGameFormSchema) => {
-    console.log('Form submitted:', form);
-    setExitSafely(true);
+  const onSubmit = async (data: CreateGameFormSchema) => {
+    const { exists } = await check.mutateAsync(data);
+    if (exists) {
+      form.setError('id', { message: 'Game with this id already exists' });
+      toast({
+        title: 'Error',
+        description: 'Game with this id already exists',
+        variant: 'destructive',
+      });
+      return;
+    }
+
     try {
-      await create.mutateAsync(form);
+      setExitSafely(true);
+      await create.mutateAsync(data);
       router.push(devRoutes.dashboard.path());
     } catch (error) {
       console.error('Error creating game:', error);
-      // TODO: depending on the type of error we may need to add a toast
-      // and show an error on the form.
-      // for example, the slug might already be taken, in which case we need to show an error on the slug field.
+      toast({
+        title: 'Error',
+        description: parseTRPCClientErrorMessage(error),
+        variant: 'destructive',
+      });
+    } finally {
+      setExitSafely(false);
     }
   };
 
@@ -69,7 +85,8 @@ export const CreateGame = () => {
             <DetailsSectionLayout>
               <DetailsFormFields
                 isPending={team.isPending}
-                teamSlug={team.data?.slug}
+                editing={false}
+                teamId={team.data?.id}
               />
             </DetailsSectionLayout>
 

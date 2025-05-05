@@ -1,0 +1,19 @@
+{
+  "name": "data-teams",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/data/teams/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/data/teams",
+        "main": "libs/data/teams/src/index.ts",
+        "tsConfig": "libs/data/teams/tsconfig.lib.json",
+        "assets": ["libs/data/teams/*.md"]
+      }
+    }
+  },
+  "tags": []
+}

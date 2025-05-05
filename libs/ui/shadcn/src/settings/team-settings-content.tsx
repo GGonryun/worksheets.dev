@@ -20,13 +20,12 @@ import { ActionsLayout } from '../onboarding/actions-layout';
 import { Button } from '../ui/button';
 import { Loader2 } from 'lucide-react';
 import { trpc } from '@worksheets/trpc-charity';
-import { ErrorScreen } from '../errors';
-import { Skeleton } from '../ui';
 import { TeamSelectedQuery } from '../types';
 import { useToast } from '../hooks';
 import { parseTRPCClientErrorMessage } from '@worksheets/util/trpc';
 import { useEffect } from 'react';
 import { z } from 'zod';
+import { DangerZone } from './danger-zone';
 
 // This would typically come from your database
 const defaultValues = {
@@ -84,7 +83,7 @@ export const TeamSettingsContent: React.FC<{
             title="Danger Zone"
             description="Delete your team and all its data"
           >
-            <div>TODO</div>
+            <DangerZone team={team} />
           </SectionCardLayout>
         </TabsContent>
       </Tabs>
@@ -107,7 +106,7 @@ const TeamProfileStep: React.FC<{ team: NonNullable<TeamSelectedQuery> }> = ({
       name: team.name,
       description: team.description,
       logo: team.logo,
-      slug: team.slug,
+      id: team.id,
     },
   });
 
@@ -117,7 +116,7 @@ const TeamProfileStep: React.FC<{ team: NonNullable<TeamSelectedQuery> }> = ({
       name: team.name,
       description: team.description,
       logo: team.logo,
-      slug: team.slug,
+      id: team.id,
     });
   }, [team, form]);
 
@@ -134,7 +133,7 @@ const TeamProfileStep: React.FC<{ team: NonNullable<TeamSelectedQuery> }> = ({
         name: data.name,
         description: data.description,
         logo: data.logo,
-        slug: data.slug,
+        id: data.id,
       });
       await utils.user.teams.selected.invalidate();
       toast({

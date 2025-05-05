@@ -3,12 +3,12 @@ import { UseTRPCQueryResult } from '@trpc/react-query/shared';
 import { inferRouterOutputs } from '@trpc/server';
 import { AppRouter } from '@worksheets/trpc-charity/server';
 
-export type TeamsQuery = UseTRPCQueryResult<
+export type TeamsListQuery = UseTRPCQueryResult<
   inferRouterOutputs<AppRouter>['user']['teams']['list'],
   TRPCClientErrorLike<AppRouter>
 >['data'];
 
-export type TeamQuery = NonNullable<TeamsQuery>[number];
+export type TeamQuery = NonNullable<TeamsListQuery>[number];
 
 export type TeamSelectedQuery = UseTRPCQueryResult<
   inferRouterOutputs<AppRouter>['user']['teams']['selected'],

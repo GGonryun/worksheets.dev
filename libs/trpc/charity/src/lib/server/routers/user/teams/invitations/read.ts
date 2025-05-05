@@ -7,15 +7,13 @@ import { teamInviteSchema } from './shared';
 export default protectedProcedure
   .input(
     z.object({
-      slug: z.string(),
+      id: z.string(),
     })
   )
   .output(teamInviteSchema)
   .query(async ({ ctx: { db, user }, input }) => {
     const team = await db.team.findFirst({
-      where: {
-        slug: input.slug,
-      },
+      where: input,
     });
     if (!team) {
       console.error('Team does not exist', input);
@@ -27,9 +25,7 @@ export default protectedProcedure
     }
     const invite = await db.teamInvite.findFirst({
       where: {
-        team: {
-          slug: input.slug,
-        },
+        team: input,
         email: user.email,
       },
       include: {

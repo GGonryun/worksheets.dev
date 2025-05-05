@@ -24,6 +24,7 @@ import {
   TableRow,
 } from '../ui/table';
 import {
+  AlertCircle,
   Edit,
   Eye,
   GamepadIcon,
@@ -42,6 +43,9 @@ import { ErrorMessage } from '../errors/error-message';
 import { Skeleton } from '../ui/skeleton';
 import { printShortDateTime } from '@worksheets/util/time';
 import { GameStatus, GameVisibility } from '@prisma/client';
+import { Alert, AlertDescription, AlertTitle } from '../ui/alert';
+import { MAX_TEAM_GAMES, MAX_TEAM_MEMBERS } from '@worksheets/util/settings';
+import { cn } from '../utils';
 
 export const GameList: React.FC = () => {
   const games = trpc.user.teams.games.list.useQuery();
@@ -56,7 +60,10 @@ export const GameList: React.FC = () => {
       ) : !games.data.length ? (
         <EmptyGameListState />
       ) : (
-        <GameListContent games={games.data} team={team.data} />
+        <>
+          <GamesLimit games={games.data} />
+          <GameListContent games={games.data} team={team.data} />
+        </>
       )}
     </GameListLayout>
   );
@@ -214,22 +221,9 @@ const GameListContent: React.FC<{
                 )}
                 <DropdownMenuItem asChild>
                   <Link
-                    href={devRoutes.dashboard.games.view.feedback.path({
+                    href={routes.game.url({
                       params: {
                         gameId: game.id,
-                      },
-                    })}
-                  >
-                    <MessageCircleHeart className="mr-2 h-4 w-4" />
-                    Feedback
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link
-                    href={routes.team.game.url({
-                      params: {
-                        teamSlug: team.slug,
-                        gameSlug: game.slug,
                       },
                     })}
                     target="_blank"
@@ -238,9 +232,17 @@ const GameListContent: React.FC<{
                     Preview
                   </Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem className="text-destructive">
-                  <Trash className="mr-2 h-4 w-4" />
-                  Delete
+                <DropdownMenuItem className="text-destructive" asChild>
+                  <Link
+                    href={devRoutes.dashboard.games.view.visibility.url({
+                      params: {
+                        gameId: game.id,
+                      },
+                    })}
+                  >
+                    <Trash className="mr-2 h-4 w-4" />
+                    Delete
+                  </Link>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -248,6 +250,22 @@ const GameListContent: React.FC<{
         </TableRow>
       ))}
     </GameTableLayout>
+  );
+};
+
+const GamesLimit: React.FC<{ games: NonNullable<TeamGamesListQuery> }> = ({
+  games,
+}) => {
+  return (
+    <div className="flex items-center justify-between bg-muted p-3 rounded-lg mb-2">
+      <div className="text-sm">
+        <span className="font-medium">{games.length}</span> of{' '}
+        <span className="font-medium">{MAX_TEAM_MEMBERS}</span> games created
+      </div>
+      {games.length >= MAX_TEAM_MEMBERS && (
+        <Badge variant="destructive">limit reached</Badge>
+      )}
+    </div>
   );
 };
 

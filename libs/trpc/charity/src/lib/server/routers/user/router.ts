@@ -3,6 +3,7 @@ import codes from './codes';
 import destroy from './delete';
 import game from './game/router';
 import gamePlay from './gamePlay/router';
+import games from './games/router';
 import get from './get';
 import initialize from './initialize';
 import integrations from './integrations/router';
@@ -22,6 +23,7 @@ export default t.router({
   profile,
   leaderboards,
   invitations,
+  games,
   get,
   raffles,
   game,

@@ -38,7 +38,11 @@ export default t.router({
           referralCode: true,
           plays: {
             include: {
-              game: true,
+              game: {
+                include: {
+                  team: true,
+                },
+              },
             },
           },
         },
@@ -75,7 +79,7 @@ export default t.router({
 
       const mostPlayed = reverse(
         sortBy(cloneDeep(user.plays), (a) => a.plays)
-      ).map((p) => p.game);
+      ).map((p) => ({ ...p.game }));
 
       return {
         username: user.username,

@@ -116,12 +116,10 @@ export type NotificationTemplate =
         game: {
           id: string;
           title: string;
-          slug: string;
         };
         team: {
           id: string;
           name: string;
-          slug: string;
         };
       };
     };

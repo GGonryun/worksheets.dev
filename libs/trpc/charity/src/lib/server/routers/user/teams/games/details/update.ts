@@ -48,7 +48,6 @@ export default protectedTeamProcedure(['games:update', 'games:read'])
         where: { id: game.id, teamId: team.id },
         data: {
           title: input.form.title,
-          slug: input.form.slug,
           description: input.form.description,
           viewportId,
         },

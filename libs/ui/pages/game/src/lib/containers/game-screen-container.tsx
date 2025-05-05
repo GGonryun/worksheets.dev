@@ -5,8 +5,8 @@ import { useGameVotes } from '@worksheets/ui/hooks/use-game-votes';
 import { useRecentlyPlayedGames } from '@worksheets/ui/hooks/use-recently-played-games';
 import { NO_REFETCH } from '@worksheets/util/trpc';
 import {
-  DeveloperSchema,
   SerializableGameSchema,
+  TeamSchema,
   Vote,
 } from '@worksheets/util/types';
 import { useSession } from 'next-auth/react';
@@ -27,23 +27,23 @@ import {
 
 export type GameScreenContainerProps = {
   game: SerializableGameSchema;
-  developer: DeveloperSchema;
+  team: TeamSchema;
 };
 
 const GameScreenContainer: React.FC<GameScreenContainerProps> = ({
   game,
-  developer,
+  team,
 }) => {
   return (
     <GameNotificationContextProvider limit={10}>
-      <GameScreenContainerInner game={game} developer={developer} />;
+      <GameScreenContainerInner game={game} team={team} />;
     </GameNotificationContextProvider>
   );
 };
 
 const GameScreenContainerInner: React.FC<GameScreenContainerProps> = ({
   game,
-  developer,
+  team,
 }) => {
   const loginHref = routes.login.path({
     query: {
@@ -55,6 +55,10 @@ const GameScreenContainerInner: React.FC<GameScreenContainerProps> = ({
 
   const session = useSession();
   const authenticated = session.status === 'authenticated';
+
+  const teams = trpc.user.teams.list.useQuery(undefined, {
+    enabled: authenticated,
+  });
 
   const notifications = useGameNotifications();
 
@@ -75,6 +79,8 @@ const GameScreenContainerInner: React.FC<GameScreenContainerProps> = ({
     },
     NO_REFETCH
   );
+
+  console.log('suggestions', suggestions);
 
   const { addRecentlyPlayed } = useRecentlyPlayedGames();
 
@@ -100,6 +106,7 @@ const GameScreenContainerInner: React.FC<GameScreenContainerProps> = ({
   const handlePlayGame = useCallback(async () => {
     addRecentlyPlayed({
       id: game.id,
+      teamId: game.teamId,
       title: game.name,
       thumbnail: game.iconUrl,
       plays: game.plays,
@@ -110,9 +117,10 @@ const GameScreenContainerInner: React.FC<GameScreenContainerProps> = ({
   }, [
     addRecentlyPlayed,
     game.iconUrl,
-    game.id,
     game.name,
     game.plays,
+    game.id,
+    game.teamId,
     handleIncrementPlayCount,
     handleRewardPlay,
   ]);
@@ -156,8 +164,8 @@ const GameScreenContainerInner: React.FC<GameScreenContainerProps> = ({
       <GameScreen
         status={session.status}
         suggestions={suggestions ?? []}
+        hidden={!canSeeGame(game, teams.data)}
         game={game}
-        developer={developer}
         onShare={() => setShowShare(true)}
         onReport={() => setShowReport(true)}
         launcher={
@@ -171,7 +179,7 @@ const GameScreenContainerInner: React.FC<GameScreenContainerProps> = ({
             }
             game={game}
             status={session.status}
-            developer={developer}
+            team={team}
             userVote={userVotes.getVote(game.id)?.vote}
             onPlay={handlePlayGame}
             onVote={handleMakeVote}
@@ -196,6 +204,23 @@ const GameScreenContainerInner: React.FC<GameScreenContainerProps> = ({
       />
     </>
   );
+};
+
+const canSeeGame = (
+  game: SerializableGameSchema,
+  teams: TeamSchema[] | undefined
+) => {
+  if (game.visibility === 'PUBLIC') {
+    return true;
+  }
+  if (game.visibility === 'UNLISTED') {
+    return true;
+  }
+  if (game.status === 'REJECTED') {
+    return false;
+  }
+
+  return teams?.some((team) => team.id === game.teamId);
 };
 
 export default GameScreenContainer;

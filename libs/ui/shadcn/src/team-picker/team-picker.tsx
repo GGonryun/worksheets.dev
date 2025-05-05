@@ -24,7 +24,7 @@ import { cn } from '../utils';
 import { trpc } from '@worksheets/trpc-charity';
 import { devRoutes, routes } from '@worksheets/routes';
 import { Skeleton } from '../ui/skeleton';
-import { TeamQuery, TeamsQuery } from '../types';
+import { TeamQuery, TeamsListQuery } from '../types';
 import { ErrorMessage } from '../errors/error-message';
 
 export function TeamPicker() {
@@ -89,7 +89,7 @@ const TeamPickerSkeleton = () => {
 };
 
 const TeamPickerContent: React.FC<{
-  teams: NonNullable<TeamsQuery>;
+  teams: NonNullable<TeamsListQuery>;
   selectedTeam: TeamQuery | null;
   onSelectTeam: (team: TeamQuery) => void;
 }> = ({ teams, selectedTeam, onSelectTeam }) => {
@@ -122,7 +122,7 @@ const TeamPickerContent: React.FC<{
           )}
         </div>
         <p className="text-sm text-muted-foreground italic truncate">
-          charity.games/{team.slug}
+          charity.games/{team.id}
         </p>
 
         <div className="flex items-center gap-3 mt-4">

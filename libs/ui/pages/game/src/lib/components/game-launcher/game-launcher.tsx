@@ -1,8 +1,8 @@
 import { Box } from '@mui/material';
 import { useDetectAdBlock } from '@worksheets/ui/components/advertisements';
 import {
-  DeveloperSchema,
   SerializableGameSchema,
+  TeamSchema,
   Vote,
 } from '@worksheets/util/types';
 import { useRouter } from 'next/router';
@@ -16,7 +16,7 @@ import { GameLoadingCover } from './game-loading-cover';
 
 type GameLauncherProps = {
   game: SerializableGameSchema;
-  developer: DeveloperSchema;
+  team: TeamSchema;
   userVote?: Vote;
   status: SessionContextValue['status'];
   frame: React.ReactNode;
@@ -25,7 +25,7 @@ type GameLauncherProps = {
 };
 
 export const GameLauncher: FC<GameLauncherProps> = ({
-  developer,
+  team,
   game,
   userVote,
   status,
@@ -83,7 +83,7 @@ export const GameLauncher: FC<GameLauncherProps> = ({
       boxRef={boxRef}
       isMobileOrTablet={isMobileOrTablet}
       isFullscreen={fullscreen}
-      developer={developer}
+      team={team}
       game={game}
       userVote={userVote}
       onFullscreen={handleFullscreen}

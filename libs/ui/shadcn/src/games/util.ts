@@ -54,7 +54,6 @@ export const uploadFileWithProgress = (
 
     xhr.onload = () => {
       if (xhr.status === 200) {
-        console.log('Upload successful!');
         resolve();
       } else {
         console.error('Upload failed:', xhr.responseText);

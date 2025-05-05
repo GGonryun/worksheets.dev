@@ -7,7 +7,6 @@ export default protectedProcedure
   .output(
     z
       .object({
-        code: z.string(),
         team: teamSchema,
       })
       .array()
@@ -28,10 +27,8 @@ export default protectedProcedure
     });
 
     return teamInvites.map((invite) => ({
-      code: invite.code,
       team: {
         id: invite.team.id,
-        slug: invite.team.slug,
         name: invite.team.name,
         logo: invite.team.logo,
         description: invite.team.description,

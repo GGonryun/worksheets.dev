@@ -1,24 +1,19 @@
 import { TRPCError } from '@trpc/server';
-import { protectedTeamSlugs } from '@worksheets/util/team';
-import { createTeamSchema, teamSchema } from '@worksheets/util/types';
+import { protectedIds } from '@worksheets/util/team';
+import {
+  createTeamSchema,
+  parseTeam,
+  teamSchema,
+} from '@worksheets/util/types';
 
 import { protectedProcedure } from '../../../procedures';
-import { parseTeam } from './shared';
 
 export default protectedProcedure
   .input(createTeamSchema)
   .output(teamSchema)
   .mutation(async ({ ctx: { user, db }, input }) => {
-    const data = {
-      name: input.name,
-      description: input.description,
-      links: input.links,
-      logo: input.logo,
-      slug: input.slug,
-    };
-
-    if (protectedTeamSlugs.includes(input.slug)) {
-      console.warn('Protected team slug cannot be used', { slug: input.slug });
+    if (protectedIds.includes(input.id)) {
+      console.warn('Protected team slug cannot be used', { slug: input.id });
       throw new TRPCError({
         code: 'CONFLICT',
         message: 'Team slug is not available',
@@ -27,10 +22,15 @@ export default protectedProcedure
 
     const team = await db.team.create({
       data: {
-        ...data,
+        id: input.id,
+        name: input.name,
+        description: input.description,
+        links: input.links,
+        logo: input.logo,
         members: {
           create: {
             userId: user.id,
+            role: 'OWNER',
           },
         },
       },

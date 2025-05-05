@@ -77,14 +77,7 @@ export const getStaticProps = (async (ctx) => {
     orderBy: {
       plays: 'desc',
     },
-    take: 8,
-    select: {
-      id: true,
-      title: true,
-      plays: true,
-      thumbnail: true,
-      cover: true,
-    },
+    take: 10,
   });
 
   return {

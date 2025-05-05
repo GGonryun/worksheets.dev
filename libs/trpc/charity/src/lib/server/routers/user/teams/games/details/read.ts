@@ -47,7 +47,6 @@ export const parseDetails = (
   return {
     id: game.id,
     title: game.title,
-    slug: game.slug,
     description: game.description,
     tags: game.categories.map((c) => c.categoryId),
     aiDisclosure: game.aiDisclosure,

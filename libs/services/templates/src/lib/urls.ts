@@ -24,13 +24,6 @@ export const GAME_URL = (gameId: string) =>
     },
   });
 
-export const DEVELOPER_URL = (developerId: string) =>
-  routes.developer.url({
-    params: {
-      developerId,
-    },
-  });
-
 export const RAFFLE_URL = (raffleId: number) =>
   routes.raffle.url({
     params: {

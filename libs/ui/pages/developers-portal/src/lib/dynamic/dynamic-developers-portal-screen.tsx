@@ -9,16 +9,16 @@ import { developersPortalFaq } from '../data';
 
 const DevelopersPortalScreenContainer = () => {
   const statistics = trpc.public.usage.contributions.useQuery();
-  const developers = trpc.public.developers.list.useQuery();
+  const teams = trpc.public.teams.list.useQuery();
 
-  if (statistics.error || developers.error) return <ErrorScreen />;
-  if (statistics.isPending || developers.isPending) return <LoadingScreen />;
+  if (statistics.error || teams.error) return <ErrorScreen />;
+  if (statistics.isPending || teams.isPending) return <LoadingScreen />;
 
   return (
     <DevelopersPortalScreen
       statistics={statistics.data}
       faq={developersPortalFaq}
-      developers={developers.data}
+      teams={teams.data}
     />
   );
 };

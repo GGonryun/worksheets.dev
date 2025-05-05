@@ -1,4 +1,4 @@
-import { GameVisibility, TeamMemberRole } from '@prisma/client';
+import { GameVisibility, Prisma, TeamMemberRole } from '@prisma/client';
 import { keysOf } from '@worksheets/util/objects';
 import { z } from 'zod';
 
@@ -23,13 +23,14 @@ export const detailsFormSchema = z.object({
   title: z.string().min(3, {
     message: 'Title must be at least 3 characters.',
   }),
-  slug: z
+  id: z
     .string()
     .min(3, {
-      message: 'Slug must be at least 3 characters.',
+      message: 'Game ID must be at least 3 characters.',
     })
     .regex(/^[a-z0-9-]+$/, {
-      message: 'Slug can only contain lowercase letters, numbers, and hyphens.',
+      message:
+        'Game ID can only contain lowercase letters, numbers, and hyphens.',
     }),
   description: z.string().min(10, {
     message: 'Description must be at least 10 characters.',
@@ -66,8 +67,8 @@ export const ORIENTATION_VALUES: {
 ];
 
 export const detailsFormDefaultValues: DetailsFormSchema = {
+  id: '',
   title: '',
-  slug: '',
   description: '',
   tags: [],
   viewport: 'RESPONSIVE',
@@ -142,12 +143,41 @@ export const createGameFormDefaultValues = {
   ...versionFormDefaultValues,
 };
 
+// {
+//   facebook?: string;
+//   twitter?: string;
+//   instagram?: string;
+//   youtube?: string;
+//   twitch?: string;
+//   pintrest?: string;
+//   discord?: string;
+//   linkedIn?: string;
+//   itchio?: string;
+//   tiktok?: string;
+//   website?: string;
+//   website2?: string;
+//   steam?: string;
+//   playstore?: string;
+//   appstore?: string;
+//   github?: string;
+// }
 export const socialLinksSchema = z.object({
-  twitter: z.string(),
-  facebook: z.string(),
-  itchio: z.string(),
-  instagram: z.string(),
-  discord: z.string(),
+  twitter: z.string().optional().nullable(),
+  facebook: z.string().optional().nullable(),
+  itchio: z.string().optional().nullable(),
+  instagram: z.string().optional().nullable(),
+  discord: z.string().optional().nullable(),
+  github: z.string().optional().nullable(),
+  website: z.string().optional().nullable(),
+  website2: z.string().optional().nullable(),
+  twitch: z.string().optional().nullable(),
+  youtube: z.string().optional().nullable(),
+  pintrest: z.string().optional().nullable(),
+  tiktok: z.string().optional().nullable(),
+  linkedIn: z.string().optional().nullable(),
+  steam: z.string().optional().nullable(),
+  playstore: z.string().optional().nullable(),
+  appstore: z.string().optional().nullable(),
 });
 
 export type SocialLinksSchema = z.infer<typeof socialLinksSchema>;
@@ -158,6 +188,17 @@ export const socialLinksDefaultValues: SocialLinksSchema = {
   itchio: '',
   instagram: '',
   discord: '',
+  github: '',
+  twitch: '',
+  pintrest: '',
+  tiktok: '',
+  website: '',
+  youtube: '',
+  linkedIn: '',
+  website2: '',
+  steam: '',
+  playstore: '',
+  appstore: '',
 };
 
 export const editProfileFormSchema = z.object({
@@ -207,23 +248,23 @@ export const editProfileFormDefaultValues: EditProfileFormSchema = {
 
 export const createProfileFormSchema = z
   .object({
-    slug: z
+    id: z
       .string()
       .min(3, {
-        message: 'Slug must be at least 3 characters.',
+        message: 'Team Id must be at least 3 characters.',
       })
       .max(15, {
-        message: 'Slug must be at most 15 characters.',
+        message: 'Team Id must be at most 15 characters.',
       })
       .regex(/^[a-z0-9-]+$/, {
         message:
-          'Slug can only contain lowercase letters, numbers, hyphens, and underscores.',
+          'Team Id can only contain lowercase letters, numbers, hyphens, and underscores.',
       })
       .regex(/^(?!.*-{2,}).*$/, {
-        message: 'Slug must not contain more than 1 consecutive hyphen.',
+        message: 'Team Id must not contain more than 1 consecutive hyphen.',
       })
       .regex(/^(?!\s)(.*\S)?$/, {
-        message: 'Slug must not have leading or trailing spaces.',
+        message: 'Team Id must not have leading or trailing spaces.',
       }),
   })
   .merge(editProfileFormSchema);
@@ -232,7 +273,7 @@ export type CreateProfileFormSchema = z.infer<typeof createProfileFormSchema>;
 
 export const createProfileFormDefaultValues: CreateProfileFormSchema = {
   ...editProfileFormDefaultValues,
-  slug: '',
+  id: '',
 };
 
 export const createTeamSchema = z
@@ -268,11 +309,29 @@ export const teamSchema = createTeamSchema
   })
   .extend({
     id: z.string(),
-    slug: z.string(),
     members: z.number(),
     games: z.number(),
     links: socialLinksSchema,
   });
+
+export type TeamSchema = z.infer<typeof teamSchema>;
+
+export const parseTeam = (
+  team: Prisma.TeamGetPayload<{
+    include: {
+      members: true;
+      games: true;
+    };
+  }>
+) => ({
+  id: team.id,
+  name: team.name,
+  members: team.members.length,
+  description: team.description,
+  games: team.games.length,
+  logo: team.logo,
+  links: socialLinksSchema.parse(team.links),
+});
 
 export const gameFileMetadataSchema = z.object({
   name: z.string(),
@@ -300,7 +359,7 @@ export const gameFileSchema = z.object({
 export type GameFileSchema = z.infer<typeof gameFileSchema>;
 
 export const visibilityFormSchema = z.object({
-  visibility: z.nativeEnum(GameVisibility),
+  visibility: z.nativeEnum({ ...GameVisibility, DELETE: 'DELETE' as const }),
 });
 export type VisibilityFormSchema = z.infer<typeof visibilityFormSchema>;
 

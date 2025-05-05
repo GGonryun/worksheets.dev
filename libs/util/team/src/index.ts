@@ -1,14 +1,15 @@
 import { TeamMemberRole } from '@prisma/client';
 
-export const protectedTeamSlugs = [
+export const protectedIds = [
   'create',
+  'random',
   'list',
   'select',
   'selected',
   'profile',
   'links',
   'checkSlug',
-  'games',
+  'slug',
   'files',
   'play',
   'category',
@@ -335,6 +336,7 @@ export const MEMBERSHIP_PERMISSIONS: Record<
     'members:leave',
     'settings:update',
     'ownership:update',
+    'team:delete',
   ],
   MANAGER: [
     'team:read',
@@ -354,6 +356,7 @@ export const MEMBERSHIP_PERMISSIONS: Record<
 
 export type MemberPermission =
   | 'team:read'
+  | 'team:delete'
   | 'games:create'
   | 'games:read'
   | 'games:update'
@@ -379,6 +382,7 @@ export const MEMBERSHIP_LABELS: Record<MemberPermission, string> = {
   'members:delete': 'Remove team members',
   'settings:update': 'Change team settings',
   'ownership:update': 'Transfer team ownership',
+  'team:delete': 'Delete team',
 };
 
 export const HIDDEN_MEMBERSHIP_LABELS: MemberPermission[] = [

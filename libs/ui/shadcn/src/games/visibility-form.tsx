@@ -9,8 +9,8 @@ import { Form, FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import React, { useEffect, useRef } from 'react';
 import { Alert, AlertDescription, AlertTitle } from '../ui/alert';
-import { GameStatus } from '@prisma/client';
-import { routes } from '@worksheets/routes';
+import { GameStatus, GameVisibility } from '@prisma/client';
+import { devRoutes, routes } from '@worksheets/routes';
 import Link from 'next/link';
 
 import {
@@ -49,6 +49,8 @@ import {
   Save,
   Sparkles,
   SquarePen,
+  Trash2Icon,
+  TrashIcon,
 } from 'lucide-react';
 import { cn } from '../utils';
 import { useToast } from '../hooks';
@@ -62,6 +64,8 @@ import { MeteorShowerCanvas } from '../animations/meteor-shower-canvas';
 import { StarryBackground } from '../animations/starry-background-canvas';
 import { FreepikTooltip } from '../compliance/freepik-tooltip';
 import { set } from 'lodash';
+import { keysOf } from '@worksheets/util/objects';
+import { useRouter } from 'next/router';
 
 const GAME_STATUS_LABEL: Record<GameStatus, string> = {
   APPROVED: 'Approved',
@@ -69,7 +73,9 @@ const GAME_STATUS_LABEL: Record<GameStatus, string> = {
   DRAFT: 'Draft',
   REJECTED: 'Rejected',
   CHANGES_REQUESTED: 'Action Required',
-  UNPUBLISHED: 'Unpublished', // TODO: remove after migration
+  UNPUBLISHED: 'Unpublished',
+  PUBLISHED: '',
+  DELETED: '',
 };
 
 const GAME_STATUS_ALERT: Record<GameStatus, React.ReactNode> = {
@@ -128,6 +134,8 @@ const GAME_STATUS_ALERT: Record<GameStatus, React.ReactNode> = {
       to make it visible to the public.
     </p>
   ),
+  PUBLISHED: undefined,
+  DELETED: undefined,
 };
 
 const GAME_STATUS_ICON: Record<GameStatus, LucideIcon> = {
@@ -137,6 +145,8 @@ const GAME_STATUS_ICON: Record<GameStatus, LucideIcon> = {
   REJECTED: Ban,
   CHANGES_REQUESTED: SquarePen,
   UNPUBLISHED: CircleHelp,
+  PUBLISHED: CircleHelp,
+  DELETED: CircleHelp,
 };
 
 const GAME_ALERT_STYLE: Record<GameStatus, string> = {
@@ -146,6 +156,8 @@ const GAME_ALERT_STYLE: Record<GameStatus, string> = {
   REJECTED: 'border-red-500 bg-red-50 text-red-800',
   CHANGES_REQUESTED: 'border-orange-500 bg-orange-50 text-orange-800',
   UNPUBLISHED: 'border-gray-500 bg-gray-50 text-gray-800',
+  PUBLISHED: '',
+  DELETED: '',
 };
 
 const GAME_ALERT_ICON_STROKE: Record<GameStatus, string> = {
@@ -155,12 +167,15 @@ const GAME_ALERT_ICON_STROKE: Record<GameStatus, string> = {
   REJECTED: 'stroke-red-800',
   CHANGES_REQUESTED: 'stroke-orange-800',
   UNPUBLISHED: 'stroke-gray-800',
+  PUBLISHED: '',
+  DELETED: '',
 };
 
 export const VisibilityForm: React.FC<{
   team: NonNullable<TeamSelectedQuery>;
   game: NonNullable<TeamGamesReadQuery>;
 }> = ({ game }) => {
+  const router = useRouter();
   const { toast } = useToast();
 
   const utils = trpc.useUtils();
@@ -168,6 +183,7 @@ export const VisibilityForm: React.FC<{
   const submitForApproval = trpc.user.teams.games.status.update.useMutation();
   const changeVisibility =
     trpc.user.teams.games.visibility.update.useMutation();
+  const deleteGame = trpc.user.teams.games.delete.useMutation();
 
   const form = useForm({
     resolver: zodResolver(visibilityFormSchema),
@@ -177,6 +193,9 @@ export const VisibilityForm: React.FC<{
     },
   });
 
+  const visibility = form.watch('visibility');
+
+  const isDeleting = visibility === 'DELETE';
   const isEditable = game.status === 'APPROVED';
 
   const onChangeVisibility = async (data: VisibilityFormSchema) => {
@@ -185,17 +204,29 @@ export const VisibilityForm: React.FC<{
         ...visibilityFormDefaultValues,
         visibility: data.visibility,
       });
-      await changeVisibility.mutateAsync({
-        gameId: game.id,
-        visibility: data.visibility,
-      });
-      await utils.user.teams.games.read.invalidate({
-        gameId: game.id,
-      });
-      toast({
-        title: 'Visibility updated',
-        description: 'Your game visibility has been updated.',
-      });
+
+      if (data.visibility === 'DELETE') {
+        await deleteGame.mutateAsync({
+          gameId: game.id,
+        });
+        toast({
+          title: 'Game deleted',
+          description: 'Your game has been deleted.',
+        });
+        router.push(devRoutes.dashboard.url());
+      } else {
+        await changeVisibility.mutateAsync({
+          gameId: game.id,
+          visibility: data.visibility,
+        });
+        await utils.user.teams.games.read.invalidate({
+          gameId: game.id,
+        });
+        toast({
+          title: 'Visibility updated',
+          description: 'Your game visibility has been updated.',
+        });
+      }
     } catch (error) {
       toast({
         title: 'Error',
@@ -289,31 +320,37 @@ export const VisibilityForm: React.FC<{
                     <FormLabel>Visibility</FormLabel>
                     <FormControl>
                       <RadioGroup
-                        disabled={!isEditable}
                         onValueChange={field.onChange}
                         defaultValue={field.value}
-                        className={cn(
-                          'flex flex-col space-y-2',
-                          !isEditable && 'opacity-50'
-                        )}
+                        className={cn('flex flex-col space-y-2')}
                       >
                         <LabeledRadioGroupItem
+                          disabled={!isEditable}
                           value="PRIVATE"
                           id="PRIVATE"
                           label="Private"
                           description="Visible only to you and your team."
                         />
                         <LabeledRadioGroupItem
+                          disabled={!isEditable}
                           value="UNLISTED"
                           id="UNLISTED"
                           label="Unlisted"
                           description="Anyone with the link can view it. Hidden from search."
                         />
                         <LabeledRadioGroupItem
+                          disabled={!isEditable}
                           value="PUBLIC"
                           id="PUBLIC"
                           label="Public"
                           description="Visible to everyone. Appears in search, browse, and featured sections."
+                        />
+                        <LabeledRadioGroupItem
+                          value="DELETE"
+                          id="DELETE"
+                          label="Delete"
+                          description="Permanently delete this game. This action cannot be undone."
+                          destructive
                         />
                       </RadioGroup>
                     </FormControl>
@@ -323,6 +360,7 @@ export const VisibilityForm: React.FC<{
               />
 
               <SubmissionDelayDialog
+                isDeleting={isDeleting}
                 onOpenChange={(setOpen) => {
                   setAnimationsVisible(setOpen);
                 }}
@@ -332,22 +370,31 @@ export const VisibilityForm: React.FC<{
               >
                 <Button
                   type="button"
+                  variant={isDeleting ? 'destructive' : 'default'}
                   className="mt-4"
                   disabled={
-                    !isEditable ||
                     changeVisibility.isPending ||
+                    deleteGame.isPending ||
                     !form.formState.isDirty
                   }
                   onClick={() => {
                     setAnimationsVisible(true);
                   }}
                 >
-                  {changeVisibility.isPending ? (
+                  {changeVisibility.isPending || deleteGame.isPending ? (
                     <LoaderCircle className="animate-spin h-4 w-4" />
+                  ) : isDeleting ? (
+                    <Trash2Icon className="h-4 w-4" />
                   ) : (
                     <Globe2 className="h-4 w-4" />
                   )}
-                  {changeVisibility.isPending ? 'Updating...' : 'Update'}
+                  {isDeleting
+                    ? deleteGame.isPending
+                      ? 'Deleting...'
+                      : 'Delete'
+                    : changeVisibility.isPending
+                    ? 'Updating...'
+                    : 'Update'}
                 </Button>
               </SubmissionDelayDialog>
             </form>
@@ -361,20 +408,43 @@ export const VisibilityForm: React.FC<{
 };
 
 const LabeledRadioGroupItem: React.FC<{
+  disabled?: boolean;
   value: string;
   id: string;
   label: string;
   description?: string;
-}> = ({ value, id, label, description }) => {
+  destructive?: boolean;
+}> = ({ value, id, label, description, destructive, disabled }) => {
   return (
-    <FormItem className="flex items-center space-x-3 space-y-0">
+    <FormItem
+      className={`flex items-center space-x-3 space-y-0 ${
+        disabled && 'opacity-50'
+      }`}
+    >
       <div className="flex space-x-2">
         <FormControl>
-          <RadioGroupItem value={value} id={id} className="mt-1.5" />
+          <RadioGroupItem
+            disabled={disabled}
+            value={value}
+            id={id}
+            className="mt-1.5"
+          />
         </FormControl>
         <div>
-          <Label htmlFor={id}>{label}</Label>
-          <p className="text-xs text-muted-foreground">{description}</p>
+          <Label
+            htmlFor={id}
+            className={cn(destructive ? 'text-destructive' : '')}
+          >
+            {label}
+          </Label>
+          <p
+            className={cn(
+              'text-xs',
+              destructive ? 'text-destructive' : 'text-muted-foreground'
+            )}
+          >
+            {description}
+          </p>
         </div>
       </div>
     </FormItem>
@@ -382,10 +452,11 @@ const LabeledRadioGroupItem: React.FC<{
 };
 
 export const SubmissionDelayDialog: React.FC<{
+  isDeleting?: boolean;
   children: React.ReactNode;
   onOpenChange: (open: boolean) => void;
   onContinue: () => void;
-}> = ({ children, onOpenChange, onContinue }) => {
+}> = ({ isDeleting, children, onOpenChange, onContinue }) => {
   return (
     <AlertDialog onOpenChange={onOpenChange}>
       <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
@@ -393,7 +464,7 @@ export const SubmissionDelayDialog: React.FC<{
         <FreepikTooltip>
           <div className="m-auto aspect-square w-64 h-64 md:h-80 md:w-80 relative mb-4">
             <FillImage
-              src="/art/astronaut-1.png"
+              src={isDeleting ? '/art/astronaut-1.png' : '/art/astronaut-3.png'}
               alt="Astronaut - Designed by Freepik"
             />
           </div>
@@ -401,22 +472,44 @@ export const SubmissionDelayDialog: React.FC<{
         <span className="absolute left-0 bottom-0 h-[6px] w-full bg-gradient-to-r from-yellow-400 via-pink-500 to-indigo-500 animate-pulse" />
         <AlertDialogHeader>
           <AlertDialogTitle className="text-2xl">
-            Broadcasting to the World
+            {isDeleting ? 'Leaving this World' : 'Broadcasting to the World'}
           </AlertDialogTitle>
 
-          <AlertDialogDescription className="text-sm text-muted-foreground leading-relaxed">
-            Changing your game's visibility will trigger an update across our
-            network's edge caches and content delivery nodes orbiting the web.
-            <br />
-            <br />
-            While changes usually propagate quickly, they might take up to{' '}
-            <strong>48 hours</strong> to fully sync across the globe.
-            <br />
-            <br />
-            <em className="block italic text-xs text-center sm:text-right text-muted-foreground mt-2">
-              "The web is fast, but even stars take time to shine." - Wise Dev
-            </em>
-          </AlertDialogDescription>
+          {isDeleting ? (
+            <AlertDialogDescription className="text-sm text-muted-foreground leading-relaxed">
+              We're sorry to see you go. Deleting your game will remove it from
+              our platform and it will no longer be accessible to anyone.
+              <br />
+              <br />
+              <strong>There's no turning back.</strong>
+              <br />
+              <br />
+              Deleting your game might take up to <strong>24 hours</strong> to
+              propagate across our network's edge caches and content delivery
+              nodes orbiting the web.
+              <br />
+              <br />
+              <em className="block italic text-xs text-center sm:text-right text-muted-foreground mt-2">
+                "I'm not saying goodbye, I'm just taking a break from the
+                universe." - Astronaut
+              </em>
+            </AlertDialogDescription>
+          ) : (
+            <AlertDialogDescription className="text-sm text-muted-foreground leading-relaxed">
+              Changing your game's visibility will trigger an update across our
+              network's edge caches and content delivery nodes orbiting the web.
+              <br />
+              <br />
+              While changes usually propagate quickly, they might take up to{' '}
+              <strong>24 hours</strong> to fully sync across the globe.
+              <br />
+              <br />
+              <em className="block italic text-xs text-center sm:text-right text-muted-foreground mt-2">
+                "The web is fast, but even stars take time to shine." -
+                Astronaut
+              </em>
+            </AlertDialogDescription>
+          )}
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel className="bg-gray-200 hover:bg-gray-300">
@@ -424,9 +517,13 @@ export const SubmissionDelayDialog: React.FC<{
           </AlertDialogCancel>
           <AlertDialogAction
             onClick={onContinue}
-            className="bg-indigo-600 hover:bg-indigo-700 text-white"
+            className={cn(
+              isDeleting
+                ? 'bg-red-600 hover:bg-red-700 text-white'
+                : 'bg-indigo-600 hover:bg-indigo-700 text-white'
+            )}
           >
-            Continue
+            {isDeleting ? 'Delete' : 'Continue'}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

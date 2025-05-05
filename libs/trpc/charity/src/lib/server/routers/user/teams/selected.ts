@@ -8,7 +8,6 @@ export default protectedTeamProcedure(['team:read'])
     z.object({
       id: z.string(),
       description: z.string(),
-      slug: z.string(),
       name: z.string(),
       logo: z.string(),
       links: socialLinksSchema,
