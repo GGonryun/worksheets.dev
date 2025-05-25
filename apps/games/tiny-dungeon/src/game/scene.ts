@@ -34,7 +34,7 @@ export class GameScene extends Phaser.Scene {
       startTile: new Phaser.Math.Vector2(3, 3),
     });
     this.player = this.characters.create({
-      type: 'raider',
+      type: 'hunter',
       startTile: new Phaser.Math.Vector2(1, 4),
     });
 
