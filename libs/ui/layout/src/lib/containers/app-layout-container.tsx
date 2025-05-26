@@ -24,7 +24,7 @@ export const AppLayoutContainer: FC<{
       connectionButton={
         <SquareButton
           href={connected ? routes.account.path() : routes.login.path()}
-          color={connected ? 'primary' : 'warning'}
+          color="primary"
         >
           {connected ? (
             <AccountCircle fontSize="small" />

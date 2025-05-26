@@ -18,6 +18,12 @@ const ArcadeScreenContainer: React.FC<{
 }> = ({ topGames, allGames, newGames, featured, categories }) => {
   const { recentlyPlayed } = useRecentlyPlayedGames();
 
+  if (allGames.length === 0) {
+    return (
+      <LoadingScreen message="No games available at the moment. Please come back in a few minutes" />
+    );
+  }
+
   return (
     <ArcadeScreen
       categories={categories}
