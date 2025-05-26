@@ -29,7 +29,7 @@ export const TitleText = () => {
             fontWeight: { xs: 500, sm: 500 },
           }}
         >
-          Charity Games Raffles
+          Win free prizes!
         </Typography>
         <Typography
           component="h1"
@@ -39,7 +39,7 @@ export const TitleText = () => {
             typography: { xs: 'h4', sm: 'h3', md: 'h2' },
           }}
         >
-          Raffles & Giveaways
+          Contests & Giveaways
         </Typography>
         <Row
           sx={{

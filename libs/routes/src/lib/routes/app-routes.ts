@@ -81,7 +81,6 @@ export const routes = {
   team: createRoute({
     path: '/teams/[teamId]',
   }),
-
   terms: createRoute({
     path: '/terms',
   }),

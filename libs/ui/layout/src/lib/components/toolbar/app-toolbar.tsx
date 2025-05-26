@@ -1,34 +1,56 @@
+import {
+  AccountCircle,
+  Login,
+  Redeem,
+  SportsEsports,
+} from '@mui/icons-material';
 import { Box } from '@mui/material';
+import { routes } from '@worksheets/routes';
+import { useMediaQuery } from '@worksheets/ui/hooks/use-media-query';
 import React from 'react';
 
 import { LogoBox } from '../shared/logo-box';
-import { ActionBox } from './action-box';
+import { ToolbarActionButton } from './action-box';
 import { Toolbar } from './toolbar';
 
-export interface ToolbarProps {
-  connectionButton?: React.ReactNode;
-  gamesButton?: React.ReactNode;
-  rafflesButton?: React.ReactNode;
-}
+export const AppToolbar: React.FC<{ connected: boolean }> = ({ connected }) => {
+  const isTiny = useMediaQuery((theme) => theme.breakpoints.down('sm'));
 
-export const AppToolbar = (props: ToolbarProps) => {
   return (
     <Toolbar>
       <LogoBox />
-
-      <ActionBox />
-
       <Box
-        mb={1}
         display="flex"
-        flexDirection="row"
-        alignItems="center"
         gap={1}
+        alignItems="center"
+        justifyContent={isTiny ? 'flex-end' : 'center'}
+        flex={1}
+        pr={1}
       >
-        {props.gamesButton}
-        {props.rafflesButton}
-        {props.connectionButton}
+        <ToolbarActionButton
+          color="success"
+          href={routes.category.url({
+            params: {
+              tagId: 'popular',
+            },
+          })}
+          label="Top Games"
+          Icon={SportsEsports}
+        />
+        <ToolbarActionButton
+          color="secondary"
+          href={routes.raffles.url()}
+          label="Giveaways"
+          Icon={Redeem}
+        />
       </Box>
+
+      <ToolbarActionButton
+        square
+        color="primary"
+        href={connected ? routes.account.path() : routes.login.path()}
+        Icon={connected ? AccountCircle : Login}
+      />
     </Toolbar>
   );
 };

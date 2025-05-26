@@ -1,11 +1,13 @@
 import { alpha, Palette, SxProps, Theme } from '@mui/material';
 
-export type AcceptableColors = Extract<
+export type ButtonBoxShadowColor = Extract<
   keyof Palette,
   'primary' | 'warning' | 'success' | 'error' | 'secondary'
 >;
 
-export const buttonBoxShadow = (color: AcceptableColors): SxProps<Theme> => ({
+export const buttonBoxShadow = (
+  color: ButtonBoxShadowColor
+): SxProps<Theme> => ({
   '&:active:before': {
     boxShadow: 0,
   },

@@ -6,12 +6,12 @@ import {
   useTheme,
 } from '@mui/material';
 import { routes } from '@worksheets/routes';
-import { AcceptableColors, buttonBoxShadow } from '@worksheets/ui/styles';
+import { buttonBoxShadow, ButtonBoxShadowColor } from '@worksheets/ui/styles';
 import Image from 'next/image';
 
 export type CategoryProps = {
   id: string;
-  color: AcceptableColors;
+  color: ButtonBoxShadowColor;
   text: string;
   imageSrc: string;
 };
@@ -48,7 +48,7 @@ export const Category: React.FC<CategoryProps> = ({
               placeItems: 'center',
               borderRadius: (theme) => theme.shape.borderRadius * 0.5,
               backgroundColor: (theme) =>
-                theme.palette[color as AcceptableColors].dark,
+                theme.palette[color as ButtonBoxShadowColor].dark,
             }}
           >
             <Image
