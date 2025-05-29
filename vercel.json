@@ -25,7 +25,7 @@
             "schedule": "0 * * * *"
         },
         {
-            "path": "/api/cron/find-expiring-items",
+            "path": "/api/cron/find-expiring-codes",
             "schedule": "0 0 * * *"
         },
         {
