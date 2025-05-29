@@ -2,7 +2,7 @@ import { alpha, Palette, SxProps, Theme } from '@mui/material';
 
 export type ButtonBoxShadowColor = Extract<
   keyof Palette,
-  'primary' | 'warning' | 'success' | 'error' | 'secondary'
+  'primary' | 'warning' | 'success' | 'error' | 'secondary' | 'yellow'
 >;
 
 export const buttonBoxShadow = (

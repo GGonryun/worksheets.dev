@@ -116,6 +116,12 @@ export const routes = {
       }),
     },
   }),
+  contest: createRoute({
+    path: '/contests/[contestId]',
+  }),
+  contests: createRoute({
+    path: '/contests',
+  }),
   help: createRoute({
     path: '/help',
     routes: {

@@ -12,8 +12,8 @@ declare module '@mui/material/styles' {
   }
 
   interface SimplePaletteColorOptions {
-    gradient?: string;
-    shadow?: string;
+    gradient: string;
+    shadow: string;
   }
 
   interface PaletteColor {

@@ -321,6 +321,7 @@ model Game {
   achievements GameAchievement[]
   analytics    GamePlayAnalytics[]
   tasks        Task[]
+  contests     Contest[]
 }
 
 model GamePlayHistory {
@@ -347,12 +348,13 @@ model GamePlayAnalytics {
 }
 
 model Sponsor {
-  id      String   @id @default(cuid())
-  version Int      @default(0)
-  name    String   @db.VarChar(127)
-  url     String   @db.VarChar(255)
-  logo    String   @default("") @db.VarChar(255)
-  raffle  Raffle[]
+  id       String    @id @default(cuid())
+  version  Int       @default(0)
+  name     String    @db.VarChar(127)
+  url      String    @db.VarChar(255)
+  logo     String    @default("") @db.VarChar(255)
+  raffle   Raffle[]
+  contests Contest[]
 }
 
 enum RaffleStatus {
@@ -382,14 +384,41 @@ model Raffle {
   referralActions ReferralAction[]
 }
 
+enum ContestType {
+  TOP_8_QUALIFY
+  TOP_8_TIERED
+}
+
+model Contest {
+  id        Int         @id @default(autoincrement())
+  type      ContestType
+  imageUrl  String      @db.VarChar(255)
+  startAt   DateTime
+  endAt     DateTime
+  // sponsorship
+  sponsorId String      @db.VarChar(127)
+  sponsor   Sponsor     @relation(fields: [sponsorId], references: [id])
+  // prizes
+  prizeId   Int         @unique
+  prize     Prize       @relation(fields: [prizeId], references: [id])
+  // analytics
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  // relationships
+  gameId    String
+  game      Game        @relation(fields: [gameId], references: [id], onDelete: Cascade)
+}
+
 enum PrizeType {
   RANDOM_STEAM_KEY
   STEAM_KEY
 }
 
 model Prize {
-  id          Int             @id @default(autoincrement())
-  raffle      Raffle?
+  id      Int      @id @default(autoincrement())
+  raffle  Raffle?
+  contest Contest?
+
   type        PrizeType
   name        String
   headline    String
@@ -400,6 +429,7 @@ model Prize {
   code        ActivationCode? @relation(fields: [codeId], references: [id])
   userId      String?
   user        User?           @relation(fields: [userId], references: [id])
+  contestId   Int?
 }
 
 model RaffleParticipation {

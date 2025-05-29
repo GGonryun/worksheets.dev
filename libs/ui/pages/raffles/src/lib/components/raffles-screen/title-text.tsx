@@ -39,7 +39,7 @@ export const TitleText = () => {
             typography: { xs: 'h4', sm: 'h3', md: 'h2' },
           }}
         >
-          Contests & Giveaways
+          Raffles & Giveaways
         </Typography>
         <Row
           sx={{

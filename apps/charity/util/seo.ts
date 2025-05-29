@@ -317,6 +317,13 @@ export const rafflesSeo = createSeo({
     'Complete small challenges for raffle entries and win real world prizes. Win free prizes by playing browser games and referring friends',
 });
 
+export const contestsSeo = createSeo({
+  path: routes.contests.path(),
+  title: 'Contests',
+  description:
+    'Participate in contests and win exciting prizes. Show off your skills and compete with others in fun challenges.',
+});
+
 export const raffleSeo = (raffle: RaffleSchema): NextSeoProps =>
   createSeo({
     noindex: true,

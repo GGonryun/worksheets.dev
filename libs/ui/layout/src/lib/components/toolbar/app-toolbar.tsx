@@ -1,5 +1,6 @@
 import {
   AccountCircle,
+  EmojiEvents,
   Login,
   Redeem,
   SportsEsports,
@@ -42,6 +43,12 @@ export const AppToolbar: React.FC<{ connected: boolean }> = ({ connected }) => {
           href={routes.raffles.url()}
           label="Giveaways"
           Icon={Redeem}
+        />
+        <ToolbarActionButton
+          color="warning"
+          href={routes.contests.url()}
+          label="Contests"
+          Icon={EmojiEvents}
         />
       </Box>
 
