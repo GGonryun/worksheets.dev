@@ -1,6 +1,7 @@
 import { routes } from '@worksheets/routes';
 import { OpenGraphProps, TWITTER_SEO } from '@worksheets/util/seo';
 import {
+  ContestSchema,
   RaffleSchema,
   SerializableGameSchema,
   TagSchema,
@@ -309,19 +310,31 @@ export const helpDevelopersSeo = createSeo({
   description:
     'Find answers to questions about contributing games to the Charity Games Platform. Turn your games into donations.',
 });
+export const contestsSeo = createSeo({
+  path: routes.contests.path(),
+  title: 'Contests',
+  description:
+    'Participate in contests and win exciting prizes. Show off your skills and compete with others in fun challenges.',
+});
+export const contestSeo = (contest: ContestSchema): NextSeoProps =>
+  createSeo({
+    noindex: true,
+    path: routes.contest.path({ params: { contestId: contest.id } }),
+    title: `${contest.game.title} | Contest`,
+    description: `Compete in a leaderboard contest for ${contest.game.title}. Win prizes by playing games and referring friends.`,
+    images: [
+      {
+        url: contest.game.cover,
+        alt: contest.game.title,
+      },
+    ],
+  });
 
 export const rafflesSeo = createSeo({
   path: routes.raffles.path(),
   title: 'Raffles',
   description:
     'Complete small challenges for raffle entries and win real world prizes. Win free prizes by playing browser games and referring friends',
-});
-
-export const contestsSeo = createSeo({
-  path: routes.contests.path(),
-  title: 'Contests',
-  description:
-    'Participate in contests and win exciting prizes. Show off your skills and compete with others in fun challenges.',
 });
 
 export const raffleSeo = (raffle: RaffleSchema): NextSeoProps =>

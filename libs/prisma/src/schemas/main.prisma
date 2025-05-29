@@ -392,7 +392,6 @@ enum ContestType {
 model Contest {
   id        Int         @id @default(autoincrement())
   type      ContestType
-  imageUrl  String      @db.VarChar(255)
   startAt   DateTime
   endAt     DateTime
   // sponsorship
