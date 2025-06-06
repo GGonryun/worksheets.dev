@@ -37,8 +37,9 @@ export const ReferralTaskForm: React.FC<TaskFormProps> = ({ task }) => {
         />
       </Column>
       <Typography variant="body2">
-        Share your referral link with other users. Whenever someone completes a
-        task using your referral code.
+        Share your referral link with other users. You will receive bonus
+        entries the first time someone else completes a task using your referral
+        code.
       </Typography>
       <ReferralCodeSection {...task} />
     </Column>
