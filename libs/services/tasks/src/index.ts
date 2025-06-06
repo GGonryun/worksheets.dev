@@ -149,6 +149,7 @@ export class TasksService {
     opts: {
       actionId: string;
       userId: string;
+      referralCode?: string;
     } & TaskInputSchema
   ) {
     console.info(`Tracking action`, opts);
@@ -199,74 +200,76 @@ export class TasksService {
     return { reward, raffleId: action.raffleId };
   }
 
-  /**
-   * @returns undefined, or the number of entries rewarded.
-   * when undefined, the action was not tracked most likely because the requirements were not met.
-   * when 0, the action was tracked but not completed.
-   * when > 0, the action was tracked and completed, and the user was rewarded some number of entries.
-   */
-  async #trackAction({
-    action,
-    userId,
-    repetitions,
-    state,
-  }: {
+  async trackGameActions(opts: {
+    type: Extract<
+      TaskType,
+      'PLAY_GAME' | 'PLAY_MINUTES' | 'SUBMIT_LEADERBOARD_SCORE'
+    >;
+    gameId: string;
     userId: string;
-    action: Prisma.RaffleActionGetPayload<{
-      include: {
-        task: true;
-        raffle: {
-          include: {
-            actions: {
-              where: {
-                required: true;
-              };
-              include: {
-                task: true;
-                progress: true;
-              };
-            };
-          };
-        };
-        progress: {
-          where: {
-            userId: string;
-          };
-        };
-      };
-    }>;
-  } & TaskInputSchema) {
-    if (!validateRequirements(action)) {
-      return undefined;
-    }
-
-    const progress = await this.#calculateProgress({
-      task: action.task,
-      progress: action?.progress?.at(0),
-      where: {
-        userId: userId,
-        actionId: action.id,
-      },
-      repetitions,
-      state,
-    });
-
-    console.debug(
-      `Checking progress`,
-      pick(progress ?? {}, ['id', 'status', 'completions'])
+    repetitions: number;
+    state?: unknown;
+  }) {
+    console.info(
+      `Tracking user ${opts.userId} ${opts.type} game ${opts.gameId} actions with ${opts.repetitions} repetitions`
     );
-    if (progress && progress.completions > 0) {
-      const reward = action.reward * progress.completions;
-      console.debug(`Rewarding ${reward} entries`);
-      await this.#raffle.addEntries({
-        userId,
-        raffleId: action.raffleId,
-        entries: reward,
-      });
-      return reward;
-    }
 
-    return 0;
+    await this.trackActions({
+      where: {
+        task: {
+          type: opts.type,
+          OR: [
+            {
+              gameId: opts.gameId,
+            },
+            {
+              gameId: null,
+            },
+          ],
+        },
+        raffle: {
+          publishAt: {
+            lte: new Date(),
+          },
+          expiresAt: {
+            gte: new Date(),
+          },
+        },
+      },
+      state: opts.state,
+      repetitions: opts.repetitions,
+      userId: opts.userId,
+    });
+  }
+
+  async trackLeaderboardAction(opts: {
+    gameId: string;
+    userId: string;
+    score: number;
+  }) {
+    console.info(
+      `Tracking user ${opts.userId} leaderboard score for game ${opts.gameId} with score ${opts.score}`
+    );
+
+    await this.trackActions({
+      where: {
+        task: {
+          type: 'SUBMIT_LEADERBOARD_SCORE',
+          gameId: opts.gameId,
+        },
+        raffle: {
+          publishAt: {
+            lte: new Date(),
+          },
+          expiresAt: {
+            gte: new Date(),
+          },
+        },
+      },
+      state: { score: opts.score },
+      repetitions: 1,
+      userId: opts.userId,
+    });
   }
 
   async trackActions(opts: {
@@ -321,6 +324,90 @@ export class TasksService {
         state,
       });
     }
+  }
+
+  /**
+   * @returns undefined, or the number of entries rewarded.
+   * when undefined, the action was not tracked most likely because the requirements were not met.
+   * when 0, the action was tracked but not completed.
+   * when > 0, the action was tracked and completed, and the user was rewarded some number of entries.
+   */
+  async #trackAction({
+    action,
+    userId,
+    repetitions,
+    state,
+    referralCode,
+  }: {
+    referralCode?: string;
+    userId: string;
+    action: Prisma.RaffleActionGetPayload<{
+      include: {
+        task: true;
+        raffle: {
+          include: {
+            actions: {
+              where: {
+                required: true;
+              };
+              include: {
+                task: true;
+                progress: true;
+              };
+            };
+          };
+        };
+        progress: {
+          where: {
+            userId: string;
+          };
+        };
+      };
+    }>;
+  } & TaskInputSchema) {
+    if (!validateRequirements(action)) {
+      return undefined;
+    }
+
+    // TODO: if this is too slow we should move this to our kv background queue
+    if (referralCode) {
+      console.info(
+        `Tracking referral action for user ${userId} with code ${referralCode}`
+      );
+      await this.trackReferralAction({
+        userId,
+        referralCode,
+        raffleId: action.raffleId,
+      });
+    }
+
+    const progress = await this.#calculateProgress({
+      task: action.task,
+      progress: action?.progress?.at(0),
+      where: {
+        userId: userId,
+        actionId: action.id,
+      },
+      repetitions,
+      state,
+    });
+
+    console.debug(
+      `Checking progress`,
+      pick(progress ?? {}, ['id', 'status', 'completions'])
+    );
+    if (progress && progress.completions > 0) {
+      const reward = action.reward * progress.completions;
+      console.debug(`Rewarding ${reward} entries`);
+      await this.#raffle.addEntries({
+        userId,
+        raffleId: action.raffleId,
+        entries: reward,
+      });
+      return reward;
+    }
+
+    return 0;
   }
 
   async trackReferralAction(opts: {
@@ -440,78 +527,6 @@ export class TasksService {
       },
     });
     console.info(`Referral action was tracked`, opts);
-  }
-
-  async trackGameActions(opts: {
-    type: Extract<
-      TaskType,
-      'PLAY_GAME' | 'PLAY_MINUTES' | 'SUBMIT_LEADERBOARD_SCORE'
-    >;
-    gameId: string;
-    userId: string;
-    repetitions: number;
-    state?: unknown;
-  }) {
-    console.info(
-      `Tracking user ${opts.userId} ${opts.type} game ${opts.gameId} actions with ${opts.repetitions} repetitions`
-    );
-
-    await this.trackActions({
-      where: {
-        task: {
-          type: opts.type,
-          OR: [
-            {
-              gameId: opts.gameId,
-            },
-            {
-              gameId: null,
-            },
-          ],
-        },
-        raffle: {
-          publishAt: {
-            lte: new Date(),
-          },
-          expiresAt: {
-            gte: new Date(),
-          },
-        },
-      },
-      state: opts.state,
-      repetitions: opts.repetitions,
-      userId: opts.userId,
-    });
-  }
-
-  async trackLeaderboardAction(opts: {
-    gameId: string;
-    userId: string;
-    score: number;
-  }) {
-    console.info(
-      `Tracking user ${opts.userId} leaderboard score for game ${opts.gameId} with score ${opts.score}`
-    );
-
-    await this.trackActions({
-      where: {
-        task: {
-          type: 'SUBMIT_LEADERBOARD_SCORE',
-          gameId: opts.gameId,
-        },
-        raffle: {
-          publishAt: {
-            lte: new Date(),
-          },
-          expiresAt: {
-            gte: new Date(),
-          },
-        },
-      },
-      state: { score: opts.score },
-      repetitions: 1,
-      userId: opts.userId,
-    });
   }
 
   async #calculateProgress({
