@@ -8,13 +8,16 @@ export const GameCarousel: React.FC<{
   items: Omit<BasicGameInfo, 'cover'>[];
   title: string;
   action?: ReactNode;
-}> = ({ items, title, action }) => {
+  hideCaption?: boolean;
+}> = ({ items, title, action, hideCaption }) => {
   return (
     <ArcadeItemCarousel
       items={items}
       title={title}
       action={action}
-      render={(item) => <Game {...item} />}
+      render={(item) => (
+        <Game {...item} plays={hideCaption ? undefined : item.plays} />
+      )}
     />
   );
 };

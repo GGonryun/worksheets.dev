@@ -52,7 +52,11 @@ export const ArcadeScreen: React.FC<{
         {props.topRaffles}
 
         {props.recentGames.length > 0 && (
-          <GameCarousel title="Recently Played" items={props.recentGames} />
+          <GameCarousel
+            title="Recently Played"
+            items={props.recentGames}
+            hideCaption
+          />
         )}
 
         <GameCarousel title="Best Games" items={props.topGames} />
