@@ -1,6 +1,7 @@
 import { MoreHoriz } from '@mui/icons-material';
 import { lighten, useTheme } from '@mui/material';
 import { Box, Collapse, LinearProgress, Typography } from '@mui/material';
+import common from '@worksheets/assets-common';
 import { Column, Row } from '@worksheets/ui/components/flex';
 import { FillImage } from '@worksheets/ui/components/images';
 import { calculatePercentage, toPercentage } from '@worksheets/util/numbers';
@@ -95,28 +96,14 @@ const GlobalAchievementListItem: React.FC<{
           }}
         >
           <Row gap={1}>
-            <Box
-              sx={{
-                height: 64,
-                minWidth: 64,
-                width: 64,
-                borderRadius: theme.shape.borderRadius,
-                overflow: 'hidden',
-                position: 'relative',
-              }}
-            >
-              <FillImage
-                src={achievement.iconUrl}
-                alt={`achievement.name achievement logo`}
-              />
-            </Box>
+            <AchievementIcon achievement={achievement} progress={progress} />
             <Column>
               <Typography
                 typography={{ xs: 'body2', sm: 'body1' }}
                 fontWeight={{ xs: 700, sm: 700 }}
                 color={theme.palette[color].dark}
               >
-                {achievement.name}
+                {toDisplayName(achievement, progress)}
               </Typography>
             </Column>
           </Row>
@@ -151,7 +138,7 @@ const GlobalAchievementListItem: React.FC<{
             fontWeight={{ xs: 500, sm: 500 }}
             color={theme.palette[color].main}
           >
-            {achievement.description}
+            {toDisplayDescription(achievement, progress)}
           </Typography>
           {progress?.unlockedAt && (
             <Typography
@@ -168,4 +155,70 @@ const GlobalAchievementListItem: React.FC<{
       </Collapse>
     </Box>
   );
+};
+
+const AchievementIcon: React.FC<{
+  achievement: GameAchievementSchema;
+  progress?: PlayerGameAchievementSchema;
+}> = ({ achievement, progress }) => {
+  const theme = useTheme();
+
+  return (
+    <Box
+      sx={{
+        height: 64,
+        minWidth: 64,
+        width: 64,
+        borderRadius: theme.shape.borderRadius,
+        overflow: 'hidden',
+        position: 'relative',
+        filter: progress?.unlockedAt
+          ? 'grayscale(0) brightness(1)'
+          : 'grayscale(1) brightness(0.75)',
+        transition: 'filter 0.2s',
+      }}
+    >
+      <FillImage
+        src={
+          progress?.unlockedAt || !achievement.secret
+            ? achievement.iconUrl
+            : common.charityGames.logos.square128
+        }
+        alt={`achievement.name achievement logo`}
+      />
+    </Box>
+  );
+};
+
+const toDisplayName = (
+  achievement: GameAchievementSchema,
+  progress?: PlayerGameAchievementSchema
+): string => {
+  if (progress?.unlockedAt) {
+    return achievement.name;
+  }
+  if (achievement.secret) {
+    return toObscureText(achievement.name);
+  }
+  return achievement.name;
+};
+
+const toDisplayDescription = (
+  achievement: GameAchievementSchema,
+  progress?: PlayerGameAchievementSchema
+): string => {
+  if (progress?.unlockedAt) {
+    return achievement.description;
+  }
+  if (achievement.secret) {
+    return toObscureText(achievement.description);
+  }
+  return achievement.description;
+};
+
+const toObscureText = (text: string): string => {
+  return text
+    .split('')
+    .map((l) => (l === ' ' ? ' ' : '?'))
+    .join('');
 };

@@ -13,6 +13,171 @@ import { SeedableGameSchema } from '@worksheets/util/types';
 const integratedGames: SeedableGameSchema[] = [
   {
     version: 1,
+    id: 'tiny-dungeon',
+    name: 'Tiny Dungeon',
+    teamId: 'charity-games',
+    iconUrl:
+      'https://cdn.charity.games/_games/tiny-dungeon/assets/thumbnail.png',
+    bannerUrl:
+      'https://cdn.charity.games/_games/tiny-dungeon/assets/banner.png',
+    viewport: viewports['PORTRAIT-ONLY'],
+    categories: [
+      '1p',
+      'arcade',
+      'endless',
+      'mobile',
+      'desktop',
+      'survival',
+      'shooting',
+      'action',
+    ],
+    file: {
+      type: 'HTML',
+      url: 'https://cdn.charity.games/_games/tiny-dungeon',
+    },
+    markets: {},
+    createdAt: new Date('2025-06-11T00:00:00.000Z'),
+    updatedAt: new Date('2025-06-11T00:00:00.000Z'),
+    description:
+      '<p>Tiny Dungeon is a thrilling survival game where players constantly dodge incoming projectiles from all directions. The game can be played by using the arrow keys, touching on the screen to move in the desired direction, or using the on screen keyboard for movement. The longer you survive and the more coins you pick up the higher your score! The game will get harder and harder as you progress. Good luck!</p>',
+    leaderboard: true,
+    cloudStorage: true,
+    achievements: [
+      {
+        id: 'tiny-dungeon:survive-5-minutes',
+        version: 1,
+        name: 'Play 5 Minutes',
+        description: 'Play Tiny Dungeons for 5 minutes in total.',
+        iconUrl:
+          'https://cdn.charity.games/_games/tiny-dungeon/assets/achievements/survive-5-minutes.png',
+        secret: true,
+      },
+      {
+        id: 'tiny-dungeon:survive-30-minutes',
+        version: 1,
+        name: 'Play 30 Minutes',
+        description: 'Play Tiny Dungeons for 30 minutes in total.',
+        iconUrl:
+          'https://cdn.charity.games/_games/tiny-dungeon/assets/achievements/survive-30-minutes.png',
+        secret: true,
+      },
+      {
+        id: 'tiny-dungeon:survive-1-hour',
+        version: 1,
+        name: 'Play for 1 Hour',
+        description: 'Play Tiny Dungeons for 1 hour in total.',
+        iconUrl:
+          'https://cdn.charity.games/_games/tiny-dungeon/assets/achievements/survive-1-hour.png',
+        secret: true,
+      },
+      {
+        id: 'tiny-dungeon:collect-100-coins',
+        version: 1,
+        name: 'Collect 100 Coins',
+        description: 'Collect 100 coins in total.',
+        iconUrl:
+          'https://cdn.charity.games/_games/tiny-dungeon/assets/achievements/collect-100-coins.png',
+        secret: true,
+      },
+      {
+        id: 'tiny-dungeon:collect-500-coins',
+        version: 1,
+        name: 'Collect 500 Coins',
+        description: 'Collect 500 coins in total.',
+        iconUrl:
+          'https://cdn.charity.games/_games/tiny-dungeon/assets/achievements/collect-500-coins.png',
+        secret: true,
+      },
+      {
+        id: 'tiny-dungeon:collect-1000-coins',
+        version: 1,
+        name: 'Collect 1000 Coins',
+        description: 'Collect 1000 coins in total.',
+        iconUrl:
+          'https://cdn.charity.games/_games/tiny-dungeon/assets/achievements/collect-1000-coins.png',
+        secret: true,
+      },
+      {
+        id: 'tiny-dungeon:collect-2500-coins',
+        version: 1,
+        name: 'Collect 2500 Coins',
+        description: 'Collect 2500 coins in total.',
+        iconUrl:
+          'https://cdn.charity.games/_games/tiny-dungeon/assets/achievements/collect-2500-coins.png',
+        secret: true,
+      },
+      {
+        id: 'tiny-dungeon:score-10-points',
+        version: 1,
+        name: 'Score 10 Points',
+        description: 'Score 10 points in a single game.',
+        iconUrl:
+          'https://cdn.charity.games/_games/tiny-dungeon/assets/achievements/score-10-points.png',
+        secret: true,
+      },
+      {
+        id: 'tiny-dungeon:score-50-points',
+        version: 1,
+        name: 'Score 50 Points',
+        description: 'Score 50 points in a single game.',
+        iconUrl:
+          'https://cdn.charity.games/_games/tiny-dungeon/assets/achievements/score-50-points.png',
+        secret: true,
+      },
+      {
+        id: 'tiny-dungeon:score-100-points',
+        version: 1,
+        name: 'Score 100 Points',
+        description: 'Score 100 points in a single game.',
+        iconUrl:
+          'https://cdn.charity.games/_games/tiny-dungeon/assets/achievements/score-100-points.png',
+        secret: true,
+      },
+      {
+        id: 'tiny-dungeon:score-150-points',
+        version: 1,
+        name: 'Score 150 Points',
+        description: 'Score 150 points in a single game.',
+        iconUrl:
+          'https://cdn.charity.games/_games/tiny-dungeon/assets/achievements/score-150-points.png',
+        secret: true,
+      },
+      {
+        id: 'tiny-dungeon:score-200-points',
+        version: 1,
+        name: 'Score 200 Points',
+        description: 'Score 200 points in a single game.',
+        iconUrl:
+          'https://cdn.charity.games/_games/tiny-dungeon/assets/achievements/score-200-points.png',
+        secret: true,
+      },
+    ],
+    tasks: [
+      {
+        name: 'Play Tiny Dungeon (25)',
+        description:
+          'Score at least 25 points in a single game of Tiny Dungeon',
+        type: 'score',
+        score: 25,
+      },
+      {
+        name: 'Play Tiny Dungeon (50)',
+        description:
+          'Score at least 50 points in a single game of Tiny Dungeon',
+        type: 'score',
+        score: 50,
+      },
+      {
+        name: 'Play Tiny Dungeon (100)',
+        description:
+          'Score at least 100 points in a single game of Tiny Dungeon',
+        type: 'score',
+        score: 100,
+      },
+    ],
+  },
+  {
+    version: 1,
     id: 'slime-arrows',
     name: 'Slime & Arrows',
     teamId: 'charity-games',

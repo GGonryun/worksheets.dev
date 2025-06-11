@@ -1,4 +1,4 @@
-import { LoaderScene } from '../loader/scene';
+import { LoaderScene } from './loader';
 
 export class BootScene extends Phaser.Scene {
   static Key = 'BootScene';

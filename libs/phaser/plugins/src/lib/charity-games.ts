@@ -187,11 +187,29 @@ class StorageAPI {
     }
   }
 
-  set<T>(key: string, value: T) {
-    this.registry.set(key, value);
+  set<T>(key: string, value: T): T;
+  set<T>(key: string, value: (prev: T | undefined) => T): T;
+  set<T>(key: string, value: (prev: T) => T, defaultValue: T): T;
+  set<T>(
+    key: string,
+    value: T | ((prev: T | undefined) => T),
+    defaultValue?: T
+  ): T {
+    const prev = this.get<T>(key, defaultValue);
+
+    const nextValue =
+      typeof value === 'function'
+        ? (value as (prev: T | undefined) => T)(prev)
+        : value;
+
+    this.registry.set(key, nextValue);
+    return nextValue;
   }
 
-  get<T>(key: string, defaultValue: T): T {
+  get<T>(key: string): T | undefined;
+  get<T>(key: string, defaultValue: T): T;
+  get<T>(key: string, defaultValue?: T): T | undefined;
+  get<T>(key: string, defaultValue?: T): T | undefined {
     const existing = this.registry.get(key);
     return existing ?? defaultValue;
   }
@@ -214,6 +232,7 @@ class StorageAPI {
         )
       );
     }
+
     return this.registry.getAll();
   }
 

@@ -20,3 +20,8 @@ export const lucky = <T extends Function>(chance: number, callback: T) => {
     callback(x, y);
   };
 };
+
+export const identity =
+  <T>() =>
+  (value: T): T =>
+    value;

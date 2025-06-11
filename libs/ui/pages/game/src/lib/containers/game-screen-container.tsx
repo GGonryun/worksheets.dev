@@ -80,8 +80,6 @@ const GameScreenContainerInner: React.FC<GameScreenContainerProps> = ({
     NO_REFETCH
   );
 
-  console.log('suggestions', suggestions);
-
   const { addRecentlyPlayed } = useRecentlyPlayedGames();
 
   const [showVoteWarning, setShowVoteWarning] = useState(false);
@@ -92,7 +90,7 @@ const GameScreenContainerInner: React.FC<GameScreenContainerProps> = ({
         gameId: game.id,
       });
     } else {
-      notifications.add('Login to earn tokens!', {
+      notifications.add('Login to unlock all features!', {
         color: 'warning',
         unique: true,
       });

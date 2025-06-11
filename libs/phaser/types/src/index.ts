@@ -1,7 +1,18 @@
 export type Movement = { angle: number; force: number };
 
 export type Direction = 'up' | 'down' | 'left' | 'right';
+
 export type Axis = 'horizontal' | 'vertical';
+
+export type Coordinate = {
+  row: number;
+  col: number;
+};
+
+export type Point = {
+  x: number;
+  y: number;
+};
 
 export type PlayerInput = {
   isDown: boolean;

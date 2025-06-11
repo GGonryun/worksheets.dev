@@ -29,6 +29,10 @@ export class TypedEventEmitter<TEvents extends Record<string, any>> {
   ) {
     this.emitter.off(eventName, handler, context);
   }
+
+  shutdown() {
+    this.emitter.shutdown();
+  }
 }
 
 export type MovementEventBus = TypedEventEmitter<{

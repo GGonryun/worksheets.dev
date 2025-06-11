@@ -17,8 +17,8 @@ canvas {
 }
 
 @font-face {
-  font-family: 'frog-block';
-  src: url('/assets/fonts/frog-block.ttf');
+  font-family: 'boxel';
+  src: url('/assets/fonts/boxel.ttf');
   font-weight: 400;
   font-weight: normal;
 }

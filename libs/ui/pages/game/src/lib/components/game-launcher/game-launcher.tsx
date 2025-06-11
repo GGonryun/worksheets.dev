@@ -101,6 +101,7 @@ export const GameLauncher: FC<GameLauncherProps> = ({
         display: 'flex',
         flexDirection: 'column',
         userSelect: 'none',
+        tabindex: 0,
       }}
     >
       {showTopControls && Banner}

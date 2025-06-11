@@ -11,11 +11,11 @@
             "scaleInEditor": 1
         },
         "map-1.json": {
-            "scale": 11,
+            "scale": 7.6437,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 40.18181818181818,
-                "y": 36.13636363636363
+                "x": 58.414118816803395,
+                "y": 78.56142967411071
             }
         },
         "map-1.json#grass": {
