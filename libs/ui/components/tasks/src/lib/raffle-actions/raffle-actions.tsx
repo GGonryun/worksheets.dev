@@ -168,7 +168,11 @@ const Reward: React.FC<ActionSchema> = ({ reward, frequency }) => {
       <Typography fontWeight={700} lineHeight={1}>
         +{reward}
       </Typography>
-      {frequency !== 'INFINITE' && (
+      {frequency === 'INFINITE' ? (
+        <Typography fontWeight={700} typography={'body3'}>
+          Infinite
+        </Typography>
+      ) : (
         <Typography fontWeight={700} typography={'body3'}>
           {formatTaskFrequencyLabel(frequency)}
         </Typography>

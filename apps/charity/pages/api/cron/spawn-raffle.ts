@@ -9,7 +9,11 @@ import {
 } from '@worksheets/prisma';
 import { routes } from '@worksheets/routes';
 import { NotificationsService } from '@worksheets/services/notifications';
-import { arrayFromNumber, randomArrayElement } from '@worksheets/util/arrays';
+import {
+  arrayFromNumber,
+  pickRandom,
+  randomArrayElement,
+} from '@worksheets/util/arrays';
 import { createCronJob } from '@worksheets/util/cron';
 import { isLucky } from '@worksheets/util/numbers';
 import { hoursFromNow } from '@worksheets/util/time';
@@ -106,54 +110,31 @@ const selectActions = (): Prisma.RaffleActionCreateManyRaffleInput[] => {
       },
       {
         order: 1,
-        reward: 1,
+        reward: 2,
         taskId: 'WATCH_AD_ONCE',
       },
     ]
   );
 
-  if (isLucky(0.75)) {
+  for (const taskId of pickRandom(leaderboards, 3)) {
     actions.push({
       order: 5,
-      reward: 1,
-      taskId: randomArrayElement(primarySocial),
+      reward: 3,
+      taskId,
     });
   }
-  if (isLucky(0.75)) {
-    actions.push({
-      order: 6,
-      reward: 1,
-      taskId: randomArrayElement(secondarySocial),
-    });
-  }
-  if (isLucky(0.75)) {
-    actions.push({
-      order: 7,
-      reward: 5,
-      taskId: randomArrayElement(leaderboards),
-    });
-  }
-  if (isLucky(0.75)) {
-    actions.push({
-      order: 8,
-      reward: 5,
-      taskId: randomArrayElement(leaderboards),
-    });
-  }
-  if (isLucky(0.75)) {
-    actions.push({
-      order: 9,
-      reward: 1,
-      taskId: randomArrayElement(playGame),
-    });
-  }
-  if (isLucky(0.75)) {
-    actions.push({
-      order: 10,
-      reward: 1,
-      taskId: randomArrayElement(referrals),
-    });
-  }
+
+  actions.push({
+    order: 10,
+    reward: 1,
+    taskId: randomArrayElement(social),
+  });
+
+  actions.push({
+    order: 15,
+    reward: 1,
+    taskId: randomArrayElement(referrals),
+  });
 
   return uniqBy(
     actions.map((a, i) => ({ ...a, order: i })),
@@ -164,14 +145,12 @@ const selectActions = (): Prisma.RaffleActionCreateManyRaffleInput[] => {
 const leaderboards = TASKS.filter(
   (t) => t.type === TaskType.SUBMIT_LEADERBOARD_SCORE
 ).map((t) => t.id as string);
-const primarySocial = TASKS.filter(
+
+const social = TASKS.filter(
   (t) =>
     t.type === TaskType.JOIN_DISCORD_GUILD ||
     t.type === TaskType.FOLLOW_TWITTER ||
-    t.type === TaskType.FOLLOW_TWITCH
-).map((t) => t.id as string);
-const secondarySocial = TASKS.filter(
-  (t) =>
+    t.type === TaskType.FOLLOW_TWITCH ||
     t.type === TaskType.VISIT_FACEBOOK ||
     t.type === TaskType.VISIT_INSTAGRAM ||
     t.type === TaskType.VISIT_TIKTOK ||
@@ -179,9 +158,6 @@ const secondarySocial = TASKS.filter(
     t.type === TaskType.SUBSCRIBE_YOUTUBE
 ).map((t) => t.id as string);
 
-const playGame = TASKS.filter((t) => t.type === TaskType.PLAY_GAME).map(
-  (t) => t.id as string
-);
 const referrals = ['REFERRAL_TASKS_INFINITE'];
 
 const connectTweet = async (
@@ -208,7 +184,7 @@ const connectTweet = async (
       order: 3,
       raffleId,
       required: false,
-      reward: 1,
+      reward: 2,
       taskId: task.id,
     },
   });

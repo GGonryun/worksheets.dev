@@ -45,6 +45,14 @@ export const randomArrayElement = <T>(arr: T[]): T => {
   return arr[Math.floor(Math.random() * arr.length)];
 };
 
+export const pickRandom = <T>(arr: T[], count = 1): T[] => {
+  if (count >= arr.length) {
+    return shuffle(arr);
+  }
+  const shuffled = shuffle(arr);
+  return shuffled.slice(0, count);
+};
+
 export const lottery = <T extends string | number>(
   entries: Record<T, number>
 ): T => {
