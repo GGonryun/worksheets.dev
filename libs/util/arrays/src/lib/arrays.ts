@@ -83,3 +83,33 @@ export const weightedPick = <T>(arr: T[], weights: number[]): T => {
   }
   return arr[arr.length - 1];
 };
+
+export const hasOne = <T>(array: T[]): array is [T] => array.length === 1;
+export const hasNone = <T>(array: T[]): array is [] => array.length === 0;
+export const hasMany = <T>(array: T[]): array is T[] => array.length > 1;
+// Generate a tuple type of length N
+type TupleOf<T, N extends number, R extends T[] = []> = R['length'] extends N
+  ? R
+  : TupleOf<T, N, [T, ...R]>;
+
+// Main utility function
+export const hasExactly = <T, N extends number>(
+  array: T[],
+  count: N
+): array is TupleOf<T, N> => array.length === count;
+
+export const toArrayAsync = async <T>(generator: AsyncGenerator<T>) => {
+  const result: T[] = [];
+  for await (const item of generator) {
+    result.push(item);
+  }
+  return result;
+};
+
+export const toArray = <T>(generator: Generator<T>) => {
+  const result: T[] = [];
+  for (const item of generator) {
+    result.push(item);
+  }
+  return result;
+};

@@ -13,6 +13,167 @@ import { SeedableGameSchema } from '@worksheets/util/types';
 const integratedGames: SeedableGameSchema[] = [
   {
     version: 1,
+    id: 'petroglyphs',
+    name: 'Petroglyphs',
+    teamId: 'charity-games',
+    iconUrl:
+      'https://cdn.charity.games/_games/petroglyphs/assets/thumbnail.png',
+    bannerUrl: 'https://cdn.charity.games/_games/petroglyphs/assets/banner.png',
+    viewport: viewports['PORTRAIT-ONLY'],
+    categories: ['1p', 'arcade', 'puzzle', 'brain', 'ad-free'],
+    file: {
+      type: 'HTML',
+      url: 'https://cdn.charity.games/_games/petroglyphs',
+    },
+    markets: {},
+    createdAt: new Date('2025-06-15T00:00:00.000Z'),
+    updatedAt: new Date('2025-06-15T00:00:00.000Z'),
+    description: `<div class="game-description"><h1>Petroglyphs</h1><p><strong>Petroglyphs</strong> is a match-3 roguelike puzzle game where every slide brings you closer to sealing an ancient portal.</p><p>Match tiles by sliding rows or columns, and create large combos to generate powerful orbs. Fill the orb meter to close the portal and advance to the next stage.</p><p>Along the way, collect unique <strong>relics</strong> that grant game-changing bonuses, letting you build powerful synergies and adapt to the challenges ahead.</p><p>With each run offering new relics and tile layouts, no two games are ever the same. Can you master the patterns and seal the final portal?</p></div>`,
+    leaderboard: true,
+    cloudStorage: true,
+    achievements: [
+      {
+        id: 'petroglyphs:cascade-8',
+        version: 1,
+        name: 'The Biggest Cascade',
+        description:
+          'Get the largest cascade possible (8 cascade). A cascade occurs when multiple matches happen back-to-back but not necessarily at the same time.',
+        iconUrl:
+          'https://cdn.charity.games/_games/petroglyphs/assets/achievements/cascade-8.png',
+        secret: true,
+      },
+      {
+        id: 'petroglyphs:spell-cast-25',
+        version: 1,
+        name: 'Spellcaster',
+        description:
+          'Cast 25 spells in total. Tap into the arcane to bend the board to your will.',
+        iconUrl:
+          'https://cdn.charity.games/_games/petroglyphs/assets/achievements/spell-cast-25.png',
+        secret: true,
+      },
+      {
+        id: 'petroglyphs:score-5000',
+        version: 1,
+        name: 'Score Chaser',
+        description: 'Reach a score of 5,000 or more in a single run.',
+        iconUrl:
+          'https://cdn.charity.games/_games/petroglyphs/assets/achievements/score-5000.png',
+        secret: true,
+      },
+      {
+        id: 'petroglyphs:score-7500',
+        version: 1,
+        name: 'High Roller',
+        description: 'Reach a score of 7,500 or more in a single run.',
+        iconUrl:
+          'https://cdn.charity.games/_games/petroglyphs/assets/achievements/score-7500.png',
+        secret: true,
+      },
+      {
+        id: 'petroglyphs:score-10000',
+        version: 1,
+        name: 'Portal Master',
+        description:
+          'Score 10,000 points in a single run. Only the best can do this.',
+        iconUrl:
+          'https://cdn.charity.games/_games/petroglyphs/assets/achievements/score-10000.png',
+        secret: true,
+      },
+      {
+        id: 'petroglyphs:relics-25',
+        version: 1,
+        name: 'Relic Hunter',
+        description: 'Discover 25 different relics across your runs.',
+        iconUrl:
+          'https://cdn.charity.games/_games/petroglyphs/assets/achievements/relics-25.png',
+        secret: false,
+      },
+      {
+        id: 'petroglyphs:relics-50',
+        version: 1,
+        name: 'Relic Collector',
+        description: 'See 50 different relics during your adventures.',
+        iconUrl:
+          'https://cdn.charity.games/_games/petroglyphs/assets/achievements/relics-50.png',
+        secret: true,
+      },
+      {
+        id: 'petroglyphs:relics-67',
+        version: 1,
+        name: 'Relic Encyclopedia',
+        description: "Encounter all 67 relics in the game. You've seen it all.",
+        iconUrl:
+          'https://cdn.charity.games/_games/petroglyphs/assets/achievements/relics-67.png',
+        secret: true,
+      },
+      {
+        id: 'petroglyphs:orbs-10k',
+        version: 1,
+        name: 'Orb Whisperer',
+        description: 'Generate 10,000 orbs across all games.',
+        iconUrl:
+          'https://cdn.charity.games/_games/petroglyphs/assets/achievements/orbs-10k.png',
+        secret: false,
+      },
+      {
+        id: 'petroglyphs:orbs-50k',
+        version: 1,
+        name: 'Orb Master',
+        description: "Generate 50,000 orbs. That's a lot of power.",
+        iconUrl:
+          'https://cdn.charity.games/_games/petroglyphs/assets/achievements/orbs-50k.png',
+        secret: true,
+      },
+      {
+        id: 'petroglyphs:orbs-100k',
+        version: 1,
+        name: 'Orb Enthusiast',
+        description: 'Generate 100,000 orbs. You might be glowing.',
+        iconUrl:
+          'https://cdn.charity.games/_games/petroglyphs/assets/achievements/orbs-100k.png',
+        secret: true,
+      },
+      {
+        id: 'petroglyphs:tiles-10k',
+        version: 1,
+        name: 'Tile Tapper',
+        description: 'Destroy a total of 10,000 tiles.',
+        iconUrl:
+          'https://cdn.charity.games/_games/petroglyphs/assets/achievements/tiles-10k.png',
+        secret: false,
+      },
+      {
+        id: 'petroglyphs:tiles-50k',
+        version: 1,
+        name: 'Board Shifter',
+        description: "Destroy 50,000 tiles in total. That's commitment.",
+        iconUrl:
+          'https://cdn.charity.games/_games/petroglyphs/assets/achievements/tiles-50k.png',
+        secret: true,
+      },
+      {
+        id: 'petroglyphs:tiles-100k',
+        version: 1,
+        name: 'Destroyer of Tiles',
+        description: "Destroy 100,000 tiles. You've mastered the grid.",
+        iconUrl:
+          'https://cdn.charity.games/_games/petroglyphs/assets/achievements/tiles-100k.png',
+        secret: true,
+      },
+    ],
+    tasks: [
+      {
+        name: 'Play Petroglyphs (*)',
+        description:
+          'Finish a game of Petroglyphs. There is no minimum score. You must reach the level complete screen!',
+        type: 'score',
+        score: 1,
+      },
+    ],
+  },
+  {
+    version: 1,
     id: 'tiny-dungeon',
     name: 'Tiny Dungeon',
     teamId: 'charity-games',

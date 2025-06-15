@@ -1,0 +1,19 @@
+body,
+html,
+#app {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  margin: 0px;
+  position: relative;
+  touch-action: none;
+  /* background: linear-gradient(180deg, #fff -10%, #d0eeff 110%); */
+  background-color: #000;
+}
+canvas {
+  border: 4px solid #fff;
+  box-sizing: border-box;
+  margin: auto;
+}

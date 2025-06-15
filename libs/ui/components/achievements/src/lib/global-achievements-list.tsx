@@ -179,11 +179,7 @@ const AchievementIcon: React.FC<{
       }}
     >
       <FillImage
-        src={
-          progress?.unlockedAt || !achievement.secret
-            ? achievement.iconUrl
-            : common.charityGames.logos.square128
-        }
+        src={achievement.iconUrl}
         alt={`achievement.name achievement logo`}
       />
     </Box>

@@ -33,3 +33,8 @@ export const getObjectValues = <T extends object>(obj: T): T[keyof T][] => {
   return Object.values(obj) as T[keyof T][];
 };
 export const valuesOf = getObjectValues;
+
+export const randomKeyOf = <T extends object>(obj: T) => {
+  const keys = keysOf(obj);
+  return keys[Math.floor(Math.random() * keys.length)];
+};

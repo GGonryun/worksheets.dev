@@ -1,0 +1,9 @@
+{
+  "name": "games-petroglyphs",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/games/petroglyphs/src",
+  "tags": [],
+  "// targets": "to see all targets run: nx show project games-petroglyphs --web",
+  "targets": {}
+}
