@@ -119,7 +119,7 @@ const selectActions = (): Prisma.RaffleActionCreateManyRaffleInput[] => {
   for (const taskId of pickRandom(leaderboards, 3)) {
     actions.push({
       order: 5,
-      reward: 3,
+      reward: 1,
       taskId,
     });
   }
@@ -184,7 +184,7 @@ const connectTweet = async (
       order: 3,
       raffleId,
       required: false,
-      reward: 2,
+      reward: 1,
       taskId: task.id,
     },
   });
