@@ -10,10 +10,10 @@ export class BootScene extends Phaser.Scene {
 
   preload() {
     this.load.setPath('assets');
+    this.load.image('charity-games', 'sprites/charity_games.png');
   }
 
   create() {
     this.scene.start(LoaderScene.Key);
-    // this.load.on('complete', () => {});
   }
 }

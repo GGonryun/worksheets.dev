@@ -1,0 +1,19 @@
+{
+  "name": "phaser-scenes-loading",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/phaser/scenes/loading/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/phaser/scenes/loading",
+        "main": "libs/phaser/scenes/loading/src/index.ts",
+        "tsConfig": "libs/phaser/scenes/loading/tsconfig.lib.json",
+        "assets": ["libs/phaser/scenes/loading/*.md"]
+      }
+    }
+  },
+  "tags": []
+}

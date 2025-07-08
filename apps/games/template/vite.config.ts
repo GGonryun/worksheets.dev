@@ -1,6 +1,6 @@
 /// <reference types='vitest' />
 import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
-import dotenv from 'dotenv';
+import * as dotenv from 'dotenv';
 import { defineConfig } from 'vite';
 
 dotenv.config({
