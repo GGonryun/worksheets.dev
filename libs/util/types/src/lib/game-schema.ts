@@ -81,6 +81,7 @@ export type GameSchema = {
   visibility: GameVisibility;
   status: GameStatus;
   leaderboard: boolean;
+  banner: boolean;
   cloudStorage: boolean;
   achievements: boolean;
   dislikes: number;

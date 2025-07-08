@@ -9,6 +9,7 @@ import {
 import { trpc } from '@worksheets/trpc-charity';
 import {
   AdBlockModal,
+  HorizontalAdvertisement,
   useDetectAdBlock,
   useGoogleAdsense,
 } from '@worksheets/ui/components/advertisements';
@@ -95,10 +96,11 @@ const usePlatformListener = (
 };
 
 export const GameFrame: React.FC<{
+  banner: boolean;
   status: SessionContextValue['status'];
   url: string;
   gameId: string;
-}> = ({ gameId, url, status }) => {
+}> = ({ gameId, url, status, banner }) => {
   const [showAdBlockModal, setShowAdBlockModal] = React.useState(false);
   const adsense = useGoogleAdsense();
   const adBlockDetected = useDetectAdBlock();
@@ -324,17 +326,26 @@ export const GameFrame: React.FC<{
   };
 
   return (
-    <Box width="100%" height="100%" position="relative">
-      <Box className={classes.placeholder}>
-        <PulsingIcon size={164} />
-        <Typography variant="h4" component="h1" color="error.main">
-          Downloading Game...
-        </Typography>
+    <Box
+      sx={{
+        flex: 1,
+        display: 'flex',
+        flexDirection: 'column',
+      }}
+    >
+      <Box width="100%" height="100%" position="relative">
+        <Box className={classes.placeholder}>
+          <PulsingIcon size={164} />
+          <Typography variant="h4" component="h1" color="error.main">
+            Downloading Game...
+          </Typography>
+        </Box>
+        <AdBlockModal open={showAdBlockModal} onClose={handleClose} />
+        <GameTrackingProvider gameId={gameId}>
+          <GameInternalFrame frameRef={frameRef} url={url} />
+        </GameTrackingProvider>
       </Box>
-      <AdBlockModal open={showAdBlockModal} onClose={handleClose} />
-      <GameTrackingProvider gameId={gameId}>
-        <GameInternalFrame frameRef={frameRef} url={url} />
-      </GameTrackingProvider>
+      {banner && <HorizontalAdvertisement slot="4318442660" bordered />}
     </Box>
   );
 };

@@ -84,6 +84,7 @@ export const findGame = async (
     bannerUrl: game.cover,
     trailer: game.trailer,
     visibility: game.visibility,
+    banner: game.banner,
     status: game.status,
     leaderboard: game.leaderboard,
     cloudStorage: game.cloudStorage,

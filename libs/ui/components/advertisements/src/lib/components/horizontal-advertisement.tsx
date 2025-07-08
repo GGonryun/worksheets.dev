@@ -8,14 +8,16 @@ import { useGoogleAdsense } from '../hooks';
 export const HorizontalAdvertisement: FC<{
   slot: string;
   bordered?: boolean;
-}> = ({ bordered, ...props }) => {
+  text?: boolean;
+}> = ({ bordered, text, slot }) => {
   useGoogleAdsense();
   return (
     <Box
       sx={{
+        backgroundColor: 'white',
         position: 'relative',
         display: 'flex',
-        height: '100%',
+        height: 'fit-content',
         width: '100%',
         border: bordered ? '1px solid' : 'none',
       }}
@@ -27,48 +29,49 @@ export const HorizontalAdvertisement: FC<{
           display: 'flex',
         }}
       >
-        <ResponsiveAdvertisement client={GOOGLE_PUBLISHER_ID} {...props} />
+        <ResponsiveAdvertisement slot={slot} />
       </Box>
-      <Box
-        sx={{
-          transform: 'rotate(90deg)',
-          transformOrigin: 'right center',
-          height: '14px',
-          right: '14px',
-          top: '84%',
-          position: 'absolute',
-          lineHeight: '0',
-        }}
-      >
-        <Typography
-          variant="body3"
+      {text && (
+        <Box
           sx={{
-            textTransform: 'uppercase',
-            textAlign: 'center',
-            fontSize: '0.5rem',
-            opacity: 0.7,
-            letterSpacing: '1px',
+            transform: 'rotate(90deg)',
+            transformOrigin: 'right center',
+            height: '14px',
+            right: '14px',
+            top: '84%',
+            position: 'absolute',
+            lineHeight: '0',
           }}
         >
-          Advertisement
-        </Typography>
-      </Box>
+          <Typography
+            variant="body3"
+            sx={{
+              textTransform: 'uppercase',
+              textAlign: 'center',
+              fontSize: { xs: '0.3rem', sm: '0.35rem', md: '0.4rem' },
+              opacity: 0.7,
+              letterSpacing: '1px',
+            }}
+          >
+            Advertisement
+          </Typography>
+        </Box>
+      )}
     </Box>
   );
 };
 
-export const ResponsiveAdvertisement: FC<{ slot: string; client: string }> = ({
-  slot,
-  client,
-}) => {
+export const ResponsiveAdvertisement: FC<{ slot: string }> = ({ slot }) => {
   return (
-    <div
-      style={{
+    <Box
+      sx={{
         display: 'block',
-        minWidth: '250px',
-        maxWidth: '1070px',
         width: '100%',
-        height: '90px',
+        height: {
+          xs: '50px',
+          sm: '60px',
+          md: '70px',
+        },
       }}
     >
       <ins
@@ -78,11 +81,11 @@ export const ResponsiveAdvertisement: FC<{ slot: string; client: string }> = ({
           width: '100%',
           height: '100%',
         }}
-        data-ad-client={client}
+        data-ad-client={GOOGLE_PUBLISHER_ID}
         data-ad-slot={slot}
         data-full-width-responsive="true"
         data-ad-format="auto"
       />
-    </div>
+    </Box>
   );
 };

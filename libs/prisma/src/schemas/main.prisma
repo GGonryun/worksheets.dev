@@ -304,6 +304,7 @@ model Game {
   files        GameFile[]
   // SDK Enabled
   leaderboard  Boolean             @default(false)
+  banner       Boolean             @default(true)
   cloudStorage Boolean             @default(false)
   // Analytics & Actions
   plays        Int                 @default(0)
