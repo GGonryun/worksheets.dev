@@ -63,7 +63,7 @@ export const GameScreen: FC<GameScreenProps> = ({
         display="flex"
         gap={3}
         sx={{
-          aspectRatio: { xs: '1/1', sm: '4/3', md: '14/9', lg: '16/9' },
+          aspectRatio: { xs: '7/8', sm: '4/3', md: '14/9', lg: '16/9' },
         }}
       >
         <PaperSidebar

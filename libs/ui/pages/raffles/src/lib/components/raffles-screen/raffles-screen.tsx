@@ -17,7 +17,7 @@ export const RafflesScreen: React.FC<{
   <>
     <CustomContainer>
       <TitleText />
-      <HorizontalAdvertisement unit="raffles" text bordered tall />
+      <HorizontalAdvertisement unit="raffles" text bordered />
       <Box
         width="100%"
         display="flex"

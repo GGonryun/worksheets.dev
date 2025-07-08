@@ -345,7 +345,7 @@ export const GameFrame: React.FC<{
           <GameInternalFrame frameRef={frameRef} url={url} />
         </GameTrackingProvider>
       </Box>
-      {banner && <HorizontalAdvertisement unit="game-frame" bordered />}
+      {banner && <HorizontalAdvertisement unit="game-frame" />}
     </Box>
   );
 };

@@ -37,14 +37,13 @@ const AD_UNITS: Record<
 export const HorizontalAdvertisement: FC<{
   unit: AdUnit;
   bordered?: boolean;
-  tall?: boolean;
   text?: boolean;
-}> = ({ bordered, text, tall, unit }) => {
+}> = ({ bordered, text, unit }) => {
   useGoogleAdsense();
   return (
     <Box
       sx={{
-        backgroundColor: 'white',
+        backgroundColor: 'whitesmoke',
         position: 'relative',
         display: 'flex',
         height: 'fit-content',
@@ -59,7 +58,7 @@ export const HorizontalAdvertisement: FC<{
           display: 'flex',
         }}
       >
-        <ResponsiveAdvertisement unit={unit} tall={tall} />
+        <ResponsiveAdvertisement unit={unit} />
       </Box>
       {text && (
         <Box
@@ -78,12 +77,12 @@ export const HorizontalAdvertisement: FC<{
             sx={{
               textTransform: 'uppercase',
               textAlign: 'center',
-              fontSize: tall
-                ? {
-                    xs: '0.4rem',
-                    sm: '0.5rem',
-                  }
-                : { xs: '0.3rem', sm: '0.35rem', md: '0.4rem' },
+              fontSize: {
+                xs: '0.3rem',
+                sm: '0.4rem',
+                lg: '0.5rem',
+                xl: '0.6rem',
+              },
               opacity: 0.7,
               letterSpacing: '1px',
             }}
@@ -97,22 +96,21 @@ export const HorizontalAdvertisement: FC<{
 };
 
 export const ResponsiveAdvertisement: FC<{
-  tall?: boolean;
   unit: AdUnit;
-}> = ({ tall, unit }) => {
+}> = ({ unit }) => {
   const adUnit = AD_UNITS[unit];
   return (
     <Box
       sx={{
         display: 'block',
         width: '100%',
-        height: tall
-          ? { xs: '80px', sm: '90px', md: '100px', lg: '110px', xl: '120px' }
-          : {
-              xs: '50px',
-              sm: '60px',
-              md: '70px',
-            },
+        height: {
+          xs: '60px',
+          sm: '70px',
+          md: '80px',
+          lg: '90px',
+          xl: '100px',
+        },
       }}
     >
       <ins

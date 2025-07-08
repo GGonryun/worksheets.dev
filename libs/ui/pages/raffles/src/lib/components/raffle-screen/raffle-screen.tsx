@@ -40,7 +40,7 @@ export const RaffleScreen: React.FC<{
         onShare={onShare}
       />
     </Container>
-    <HorizontalAdvertisement unit="raffle" text bordered tall />
+    <HorizontalAdvertisement unit="raffle" text bordered />
 
     <RaffleDescription raffle={raffle} onShare={onShare} />
 
