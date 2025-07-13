@@ -9,11 +9,7 @@ import {
 } from '@worksheets/prisma';
 import { routes } from '@worksheets/routes';
 import { NotificationsService } from '@worksheets/services/notifications';
-import {
-  arrayFromNumber,
-  pickRandom,
-  randomArrayElement,
-} from '@worksheets/util/arrays';
+import { arrayFromNumber, randomArrayElement } from '@worksheets/util/arrays';
 import { createCronJob } from '@worksheets/util/cron';
 import { isLucky } from '@worksheets/util/numbers';
 import { hoursFromNow } from '@worksheets/util/time';
@@ -110,19 +106,17 @@ const selectActions = (): Prisma.RaffleActionCreateManyRaffleInput[] => {
       },
       {
         order: 1,
-        reward: 2,
+        reward: 1,
         taskId: 'WATCH_AD_ONCE',
       },
     ]
   );
 
-  for (const taskId of pickRandom(leaderboards, 3)) {
-    actions.push({
-      order: 5,
-      reward: 1,
-      taskId,
-    });
-  }
+  actions.push({
+    order: 5,
+    reward: 1,
+    taskId: randomArrayElement(leaderboards),
+  });
 
   actions.push({
     order: 10,
@@ -133,7 +127,7 @@ const selectActions = (): Prisma.RaffleActionCreateManyRaffleInput[] => {
   actions.push({
     order: 15,
     reward: 1,
-    taskId: randomArrayElement(referrals),
+    taskId: 'REFERRAL_TASKS_INFINITE',
   });
 
   return uniqBy(
@@ -157,8 +151,6 @@ const social = TASKS.filter(
     t.type === TaskType.VISIT_YOUTUBE ||
     t.type === TaskType.SUBSCRIBE_YOUTUBE
 ).map((t) => t.id as string);
-
-const referrals = ['REFERRAL_TASKS_INFINITE'];
 
 const connectTweet = async (
   tweet: TweetV2PostTweetResult,
