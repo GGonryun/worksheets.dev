@@ -1,5 +1,4 @@
 import { Box, Container } from '@mui/material';
-import { HorizontalAdvertisement } from '@worksheets/ui/components/advertisements';
 import { Description } from '@worksheets/ui/components/description';
 import { helpPrizes } from '@worksheets/ui/components/help';
 import { Questions } from '@worksheets/ui/components/qa-section';
@@ -17,7 +16,6 @@ export const RafflesScreen: React.FC<{
   <>
     <CustomContainer>
       <TitleText />
-      <HorizontalAdvertisement unit="raffles" text bordered />
       <Box
         width="100%"
         display="flex"

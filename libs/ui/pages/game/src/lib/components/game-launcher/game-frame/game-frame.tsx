@@ -9,7 +9,6 @@ import {
 import { trpc } from '@worksheets/trpc-charity';
 import {
   AdBlockModal,
-  HorizontalAdvertisement,
   useDetectAdBlock,
   useGoogleAdsense,
 } from '@worksheets/ui/components/advertisements';
@@ -345,7 +344,6 @@ export const GameFrame: React.FC<{
           <GameInternalFrame frameRef={frameRef} url={url} />
         </GameTrackingProvider>
       </Box>
-      {banner && <HorizontalAdvertisement unit="game-frame" />}
     </Box>
   );
 };
