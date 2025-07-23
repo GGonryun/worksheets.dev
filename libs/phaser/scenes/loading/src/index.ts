@@ -5,12 +5,13 @@ export type LoadingScreen = ReturnType<typeof newLoadingScreen>;
 export type LoadingScreenOptions = {
   to: string; // the scene to start after loading
   icon?: string;
+  volume?: number;
 };
 
 export const newLoadingScreen = (
   scene: Phaser.Scene,
   server: CharityGamesPlugin,
-  { to, icon }: LoadingScreenOptions
+  { to, icon, volume }: LoadingScreenOptions
 ) => {
   const { width, height } = scene.cameras.main;
 
@@ -21,6 +22,7 @@ export const newLoadingScreen = (
 
   const start = () => {
     if (server.isInitialized && scene.load.isReady()) {
+      scene.sound.volume = volume ?? 1;
       scene.scene.start(to);
     }
   };

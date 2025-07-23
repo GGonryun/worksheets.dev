@@ -1,0 +1,19 @@
+{
+  "name": "phaser-numbers",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/phaser/numbers/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/phaser/numbers",
+        "main": "libs/phaser/numbers/src/index.ts",
+        "tsConfig": "libs/phaser/numbers/tsconfig.lib.json",
+        "assets": ["libs/phaser/numbers/*.md"]
+      }
+    }
+  }
+}

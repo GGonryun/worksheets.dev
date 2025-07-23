@@ -98,7 +98,10 @@ export type PossibleFailure<T = object> =
   | { ok: false; error: unknown };
 
 export type PlatformEvent = {
-  'session-started': PossibleFailure<{ sessionId: string | null }>;
+  'session-started': PossibleFailure<{
+    sessionId: string | null;
+    username: string | null;
+  }>;
   'storage-loaded': PossibleFailure<{ storage: Record<string, any> }>;
   'achievements-loaded': PossibleFailure<{ achievements: string[] }>;
   'achievement-unlocked': PossibleFailure<{ unlocked: boolean }>;

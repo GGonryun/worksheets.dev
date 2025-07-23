@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Movement } from '@worksheets/phaser/types';
 import * as Phaser from 'phaser';
 
 export class TypedEventEmitter<TEvents extends Record<string, any>> {
@@ -34,8 +33,3 @@ export class TypedEventEmitter<TEvents extends Record<string, any>> {
     this.emitter.shutdown();
   }
 }
-
-export type MovementEventBus = TypedEventEmitter<{
-  movement: [Movement];
-  'stop-movement': [];
-}>;

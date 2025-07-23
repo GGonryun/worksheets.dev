@@ -16,8 +16,15 @@ export function arrayFromNumber(num: number): number[] {
   return Array.from(Array(num).keys());
 }
 
-export function fill<T>(items: number, content: T): T[] {
-  return Array.from({ length: items }).fill(content) as T[];
+export function fill(
+  count: number,
+  content?: (index: number) => number
+): number[];
+export function fill<T>(count: number, content?: (index: number) => T): T[];
+export function fill<T>(count: number, content?: (index: number) => T): T[] {
+  const identity = (i: number) => i;
+  const c = content ?? identity;
+  return Array.from({ length: count }, (_, index) => c(index)) as T[];
 }
 
 export const batchArray = <T>(arr: T[], batchSize: number): T[][] => {

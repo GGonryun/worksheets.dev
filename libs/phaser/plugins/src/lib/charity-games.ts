@@ -142,23 +142,30 @@ export class CharityGamesPlugin extends Phaser.Plugins.BasePlugin {
 
 class SessionAPI {
   id: string | null;
+  username: string | null;
   plugin: CharityGamesPlugin;
 
   constructor(plugin: CharityGamesPlugin) {
     this.plugin = plugin;
     this.id = null;
+    this.username = null;
   }
 
   async initialize(signal: AbortSignal) {
-    const { sessionId } = await cancelableRequest(this.plugin, signal)(
+    const { sessionId, username } = await cancelableRequest(
+      this.plugin,
+      signal
+    )(
       'start-session',
       'session-started'
     )({});
 
     this.id = sessionId;
+    this.username = username;
   }
 }
 
+// TODO: introduce storage v2 API that keeps localstorage and upstream in sync.
 class StorageAPI {
   registry: Phaser.Data.DataManager;
   plugin: CharityGamesPlugin;
@@ -204,6 +211,16 @@ class StorageAPI {
 
     this.registry.set(key, nextValue);
     return nextValue;
+  }
+
+  /**
+   * Set a value in the registry and save it at the same time.
+   * @deprecated Susceptible to race conditions, use sparingly or upgrade to v2.
+   */
+  push<T>(key: string, value: T): T {
+    this.set<T>(key, value);
+    this.save();
+    return value;
   }
 
   get<T>(key: string): T | undefined;

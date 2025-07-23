@@ -20,3 +20,7 @@ const newHexCode = (value: number): HexCode => {
 export const toHex = (color: Phaser.Display.Color): HexCode => {
   return newHexCode(color.color);
 };
+
+export const toCSS = (color: Phaser.Display.Color): string => {
+  return toHex(color).toCSS();
+};

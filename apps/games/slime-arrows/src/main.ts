@@ -1,10 +1,9 @@
-import { CharityGamesPlugin } from '@worksheets/phaser/plugins';
+import { CharityGamesPlugin, OutlinePlugin } from '@worksheets/phaser/plugins';
 import { Game, Types } from 'phaser';
 
 import { BootScene } from './boot/scene';
 import { GameScene } from './game/scene';
 import { LoaderScene } from './loader/scene';
-import { OutlinePipelineSystem } from './plugins/outline';
 
 export const GAME_WIDTH = 720 / 4;
 export const GAME_HEIGHT = 1280 / 4;
@@ -32,7 +31,7 @@ export const config: Types.Core.GameConfig = {
   },
   scene: [BootScene, LoaderScene, GameScene],
   plugins: {
-    global: [OutlinePipelineSystem.config(), CharityGamesPlugin.config()],
+    global: [OutlinePlugin.config(), CharityGamesPlugin.config()],
   },
 };
 

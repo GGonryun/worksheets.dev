@@ -1,0 +1,19 @@
+{
+  "name": "phaser-objects",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/phaser/objects/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/phaser/objects",
+        "main": "libs/phaser/objects/src/index.ts",
+        "tsConfig": "libs/phaser/objects/tsconfig.lib.json",
+        "assets": ["libs/phaser/objects/*.md"]
+      }
+    }
+  },
+  "tags": []
+}

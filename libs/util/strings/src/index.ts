@@ -78,3 +78,6 @@ export const grammaticalJoin = (arr: string[]) => {
 
   return `${arr.slice(0, -1).join(', ')} and ${arr.slice(-1)}`;
 };
+
+export const pad = (n: number, q: number, t: string) =>
+  n.toString().padStart(q, t);

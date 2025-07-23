@@ -1,6 +1,11 @@
-import { MovementEventBus, TypedEventEmitter } from '@worksheets/phaser/events';
-import { DirectionalInput, Movement } from '@worksheets/phaser/types';
+import { TypedEventEmitter } from '@worksheets/phaser/events';
+import { ContinuousMovement, DirectionalInput } from '@worksheets/phaser/types';
 import { assertNever } from '@worksheets/util/errors';
+
+export type PlayerJoystickEventBus = TypedEventEmitter<{
+  movement: [ContinuousMovement];
+  'stop-movement': [];
+}>;
 
 export type ArcJoystickOptions = {
   type: 'arc';
@@ -27,7 +32,7 @@ export type JoystickOptions = ArcJoystickOptions | SpriteJoystickOptions;
 export type ITargetingRing = Phaser.GameObjects.GameObject & {
   show: () => void;
   hide: () => void;
-  setLocation: (pointer: Phaser.Input.Pointer) => Movement;
+  setLocation: (pointer: Phaser.Input.Pointer) => ContinuousMovement;
   setPosition: (x: number, y: number) => void;
 };
 
@@ -37,7 +42,7 @@ export class PlayerJoystick extends Phaser.GameObjects.Container {
   private options: JoystickOptions;
 
   cursors: DirectionalInput;
-  bus: MovementEventBus;
+  bus: PlayerJoystickEventBus;
 
   constructor(scene: Phaser.Scene, options: JoystickOptions) {
     super(scene, 0, 0);
@@ -214,7 +219,7 @@ class TargetingRing
    * @param pointer
    * @returns the angle in radians
    */
-  setLocation(pointer: Phaser.Input.Pointer): Movement {
+  setLocation(pointer: Phaser.Input.Pointer): ContinuousMovement {
     // Get the distance from the center of the targeting ring to the pointer
     const dx = pointer.x - this.x;
     const dy = pointer.y - this.y;

@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
 import OutlinePipelinePlugin from 'phaser3-rex-plugins/plugins/outlinepipeline-plugin.js';
 
-export class OutlinePipelineSystem {
+export class OutlinePlugin {
   scene: Phaser.Scene;
   outline: OutlinePipelinePlugin;
   constructor(scene: Phaser.Scene) {

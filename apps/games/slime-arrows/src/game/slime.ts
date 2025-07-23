@@ -1,5 +1,5 @@
 import { getCenterOfCamera } from '@worksheets/phaser/cameras';
-import { Movement } from '@worksheets/phaser/types';
+import { ContinuousMovement } from '@worksheets/phaser/types';
 
 import { ElementDepth } from '../util/depth';
 
@@ -21,7 +21,7 @@ export class Slime extends Phaser.Physics.Arcade.Sprite {
     this.setCollideWorldBounds(true);
   }
 
-  act(movement: Movement) {
+  act(movement: ContinuousMovement) {
     this.behavior = this.behavior.act(movement);
   }
 
@@ -88,7 +88,7 @@ export class Slime extends Phaser.Physics.Arcade.Sprite {
 }
 
 type ISlimeBehavior = {
-  act: (movement: Movement) => ISlimeBehavior;
+  act: (movement: ContinuousMovement) => ISlimeBehavior;
   halt: () => ISlimeBehavior;
 };
 
@@ -115,7 +115,7 @@ class MovingSlimeBehavior implements ISlimeBehavior {
     this.slime.anims.play('slime-walk');
   }
 
-  act(movement: Movement) {
+  act(movement: ContinuousMovement) {
     const { x, y } = normalizeMovement(movement);
     this.slime.setVelocityX(x * this.speed);
     this.slime.setVelocityY(y * this.speed);
@@ -143,7 +143,7 @@ class DeadSlimeBehavior implements ISlimeBehavior {
   }
 }
 
-const normalizeMovement = (movement: Movement) => {
+const normalizeMovement = (movement: ContinuousMovement) => {
   //convert angle to an X/Y vector normalized to 1
   const x = Math.cos(movement.angle);
   const y = Math.sin(movement.angle);

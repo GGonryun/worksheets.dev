@@ -17,16 +17,32 @@ export const newGameBackground = (scene: Phaser.Scene) => {
   lumpsLayer?.setPosition(xOffset, yOffset).setDepth(ElementDepth.Lumps);
   // top grass
   grassLayer?.putTileAt(3, 0, 0);
-  grassLayer?.putTilesAt(fill(10, 11), 1, 0);
+  grassLayer?.putTilesAt(
+    fill(10, () => 11),
+    1,
+    0
+  );
   grassLayer?.putTileAt(4, 11, 0);
   // left wall
-  grassLayer?.putTilesAt(fill(19, [7]), 0, 1);
+  grassLayer?.putTilesAt(
+    fill(19, () => [7]),
+    0,
+    1
+  );
   // bottom grass
   grassLayer?.putTileAt(8, 0, 20);
-  grassLayer?.putTilesAt(fill(10, 1), 1, 20);
+  grassLayer?.putTilesAt(
+    fill(10, () => 1),
+    1,
+    20
+  );
   grassLayer?.putTileAt(9, 11, 20);
   // right wall
-  grassLayer?.putTilesAt(fill(19, [5]), 11, 1);
+  grassLayer?.putTilesAt(
+    fill(19, () => [5]),
+    11,
+    1
+  );
 
   // dirt fill
   dirtLayer?.fill(6, 0, 0, 13, 21);

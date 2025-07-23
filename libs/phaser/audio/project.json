@@ -1,0 +1,26 @@
+{
+  "name": "phaser-audio",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/phaser/audio/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/phaser/audio",
+        "main": "libs/phaser/audio/src/index.ts",
+        "tsConfig": "libs/phaser/audio/tsconfig.lib.json",
+        "assets": ["libs/phaser/audio/*.md"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/phaser/audio/jest.config.ts"
+      }
+    }
+  }
+}

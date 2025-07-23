@@ -15,6 +15,7 @@ export default t.router({
     .output(
       z.object({
         sessionId: z.string(),
+        username: z.string(),
       })
     )
     .mutation(async ({ input: { gameId }, ctx: { db, user } }) => {
@@ -31,7 +32,7 @@ export default t.router({
 
       if (existingSession) {
         console.info('Found existing session', existingSession.id);
-        return { sessionId: existingSession.id };
+        return { sessionId: existingSession.id, username: user.username };
       }
 
       // create a new session
@@ -43,6 +44,6 @@ export default t.router({
       });
 
       console.info('Created new session', session.id);
-      return { sessionId: session.id };
+      return { sessionId: session.id, username: user.username };
     }),
 });

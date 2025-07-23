@@ -2,6 +2,7 @@ import { Casino } from '@mui/icons-material';
 import { Box, Link, Paper, Typography } from '@mui/material';
 import { routes } from '@worksheets/routes';
 import { useInterval } from '@worksheets/ui-core';
+import { pad } from '@worksheets/util/strings';
 import { millisecondsAsDuration } from '@worksheets/util/time';
 import { useState } from 'react';
 
@@ -86,10 +87,8 @@ const DurationBox: React.FC<{ unit: string; value: number }> = ({
         md: 'h2',
       }}
     >
-      {pad(value)}
+      {pad(value, 2, '0')}
     </Typography>
     <Typography variant="body3">{unit}</Typography>
   </Box>
 );
-
-const pad = (n: number) => n.toString().padStart(2, '0');

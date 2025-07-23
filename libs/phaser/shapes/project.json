@@ -1,0 +1,19 @@
+{
+  "name": "phaser-shapes",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/phaser/shapes/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/phaser/shapes",
+        "main": "libs/phaser/shapes/src/index.ts",
+        "tsConfig": "libs/phaser/shapes/tsconfig.lib.json",
+        "assets": ["libs/phaser/shapes/*.md"]
+      }
+    }
+  }
+}

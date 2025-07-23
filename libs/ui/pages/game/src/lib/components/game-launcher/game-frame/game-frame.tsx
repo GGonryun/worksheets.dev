@@ -125,6 +125,7 @@ export const GameFrame: React.FC<{
         child.send('session-started', {
           ok: true,
           sessionId: session.sessionId,
+          username: session.username,
         });
       } catch (error) {
         child.send('session-started', {
@@ -136,6 +137,7 @@ export const GameFrame: React.FC<{
       child.send('session-started', {
         ok: true,
         sessionId: null,
+        username: null,
       });
     }
   });

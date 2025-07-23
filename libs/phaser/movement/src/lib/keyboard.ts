@@ -1,10 +1,29 @@
-import { MovementEventBus, TypedEventEmitter } from '@worksheets/phaser/events';
+import { TypedEventEmitter } from '@worksheets/phaser/events';
+import { DiscreteMovement } from '@worksheets/phaser/types';
+
+export type PlayerKeyboardEventBus = TypedEventEmitter<{
+  movement: [DiscreteMovement];
+  'stop-movement': [];
+}>;
 
 export class PlayerKeyboard extends Phaser.GameObjects.Container {
   cursor?: Phaser.Types.Input.Keyboard.CursorKeys;
-  bus: MovementEventBus;
-  status: 'acting' | 'idle';
+  bus: PlayerKeyboardEventBus;
+  status: 'active' | 'idle';
   disabled: boolean;
+
+  static get Movement() {
+    return {
+      UpLeft: (5 * Math.PI) / 4,
+      UpRight: (7 * Math.PI) / 4,
+      DownLeft: (3 * Math.PI) / 4,
+      DownRight: Math.PI / 4,
+      Left: Math.PI,
+      Right: 0,
+      Up: (3 * Math.PI) / 2,
+      Down: Math.PI / 2,
+    };
+  }
 
   constructor(scene: Phaser.Scene) {
     super(scene);
@@ -40,40 +59,72 @@ export class PlayerKeyboard extends Phaser.GameObjects.Container {
     }
 
     if (pressed) {
-      this.state = 'acting';
+      this.state = 'active';
     }
 
     //if top left is pressed, move top left
     if (this.cursor.left.isDown && this.cursor.up.isDown) {
-      this.bus.emit('movement', { force: 1, angle: (5 * Math.PI) / 4 });
+      this.bus.emit('movement', {
+        force: 1,
+        angle: PlayerKeyboard.Movement.UpLeft,
+        direction: ['up', 'left'],
+      });
     }
     //if top right is pressed, move top right
     else if (this.cursor.right.isDown && this.cursor.up.isDown) {
-      this.bus.emit('movement', { force: 1, angle: (7 * Math.PI) / 4 });
+      this.bus.emit('movement', {
+        force: 1,
+        angle: PlayerKeyboard.Movement.UpRight,
+        direction: ['up', 'right'],
+      });
     }
     // if bottom left is pressed, move bottom left
     else if (this.cursor.left.isDown && this.cursor.down.isDown) {
-      this.bus.emit('movement', { force: 1, angle: (3 * Math.PI) / 4 });
+      this.bus.emit('movement', {
+        force: 1,
+        angle: PlayerKeyboard.Movement.DownLeft,
+        direction: ['down', 'left'],
+      });
     }
     // if bottom right is pressed, move bottom right
     else if (this.cursor.right.isDown && this.cursor.down.isDown) {
-      this.bus.emit('movement', { force: 1, angle: Math.PI / 4 });
+      this.bus.emit('movement', {
+        force: 1,
+        angle: PlayerKeyboard.Movement.DownRight,
+        direction: ['down', 'right'],
+      });
     }
     // if just down is pressed, move down
     else if (this.cursor.left.isDown) {
-      this.bus.emit('movement', { force: 1, angle: Math.PI });
+      this.bus.emit('movement', {
+        force: 1,
+        angle: PlayerKeyboard.Movement.Left,
+        direction: ['left'],
+      });
     }
     // if just up is pressed, move up
     else if (this.cursor.right.isDown) {
-      this.bus.emit('movement', { force: 1, angle: 0 });
+      this.bus.emit('movement', {
+        force: 1,
+        angle: PlayerKeyboard.Movement.Right,
+        direction: ['right'],
+      });
     }
     // if just left is pressed, move left
     else if (this.cursor.down.isDown) {
-      this.bus.emit('movement', { force: 1, angle: Math.PI / 2 });
+      this.bus.emit('movement', {
+        force: 1,
+        angle: PlayerKeyboard.Movement.Down,
+        direction: ['down'],
+      });
     }
     // if just right is pressed, move right
     else if (this.cursor.up.isDown) {
-      this.bus.emit('movement', { force: 1, angle: (3 * Math.PI) / 2 });
+      this.bus.emit('movement', {
+        force: 1,
+        angle: PlayerKeyboard.Movement.Up,
+        direction: ['up'],
+      });
     }
   }
 

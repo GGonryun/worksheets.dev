@@ -1,9 +1,8 @@
 import { TypedEventEmitter } from '@worksheets/phaser/events';
 import { PlayerJoystick, PlayerKeyboard } from '@worksheets/phaser/movement';
-import { CharityGamesPlugin } from '@worksheets/phaser/plugins';
-import { DirectionalInput, Movement } from '@worksheets/phaser/types';
+import { CharityGamesPlugin, OutlinePlugin } from '@worksheets/phaser/plugins';
+import { ContinuousMovement, DirectionalInput } from '@worksheets/phaser/types';
 
-import { OutlinePipelineSystem } from '../plugins/outline';
 import { ElementDepth } from '../util/depth';
 import { newArrowFactory } from './arrows';
 import { newGameBackground } from './background';
@@ -15,7 +14,7 @@ import { ARROW_OBJECT_TYPE, SceneEventEmitter } from './types';
 
 export class GameScene extends Phaser.Scene {
   static KEY = 'game';
-  outline: OutlinePipelineSystem;
+  outline: OutlinePlugin;
   cursors: DirectionalInput;
   player: Slime;
   joystick: PlayerJoystick;
@@ -50,7 +49,7 @@ export class GameScene extends Phaser.Scene {
     const scoreEvents: ScoreEventEmitter = new TypedEventEmitter();
 
     this.sceneEvents = new TypedEventEmitter();
-    this.outline = new OutlinePipelineSystem(this);
+    this.outline = new OutlinePlugin(this);
 
     this.scoreKeeper = newScoreKeeper(this, scoreEvents);
     this.startScreen = newStartGameScreen(this, this.sceneEvents);
@@ -158,7 +157,7 @@ export class GameScene extends Phaser.Scene {
     this.scoreKeeper.increment(1);
   }
 
-  handleAct(movement: Movement) {
+  handleAct(movement: ContinuousMovement) {
     this.player.act(movement);
 
     if (this.playing) return;
