@@ -12,6 +12,151 @@ import { SeedableGameSchema } from '@worksheets/util/types';
 
 const integratedGames: SeedableGameSchema[] = [
   {
+    version: 2,
+    id: 'tap-racing',
+    name: 'Tap Racing',
+    teamId: 'charity-games',
+    iconUrl: 'https://cdn.charity.games/_games/tap-racing/assets/thumbnail.png',
+    bannerUrl: 'https://cdn.charity.games/_games/tap-racing/assets/banner.png',
+    viewport: viewports['ALL-DEVICES'],
+    categories: [
+      '1p',
+      'arcade',
+      'racing',
+      'ad-free',
+      'car',
+      'mobile',
+      'desktop',
+    ],
+    file: {
+      type: 'HTML',
+      url: 'https://cdn.charity.games/_games/tap-racing',
+    },
+    markets: {},
+    createdAt: new Date('2025-06-15T00:00:00.000Z'),
+    updatedAt: new Date('2025-06-15T00:00:00.000Z'),
+    description: `<div class="game-description"><h1>Tap Racing</h1><p><strong>Tap Racing</strong> is an exhilarating racing game where players tap as fast as they can to accelerate their vehicles and outpace their opponents. With vibrant graphics and addictive gameplay, it's a race against time and skill!</p></div>`,
+    leaderboard: 'LOW',
+    cloudStorage: true,
+    banner: true,
+    achievements: [
+      {
+        id: 'tap-racing:best-12500',
+        version: 1,
+        name: 'Car Legend',
+        description: 'Race to the finish in less than 12.5 seconds!',
+        iconUrl:
+          'https://cdn.charity.games/_games/tap-racing/assets/achievements/best-12500.png',
+        secret: true,
+      },
+      {
+        id: 'tap-racing:best-15000',
+        version: 1,
+        name: 'Car Expert',
+        description: 'Race to the finish in less than 15.0 seconds!',
+        iconUrl:
+          'https://cdn.charity.games/_games/tap-racing/assets/achievements/best-15000.png',
+        secret: true,
+      },
+      {
+        id: 'tap-racing:clicks-1000',
+        version: 1,
+        name: 'Tap Enthusiast',
+        description: 'Achieve 1,000 taps across all your games',
+        iconUrl:
+          'https://cdn.charity.games/_games/tap-racing/assets/achievements/clicks-1000.png',
+        secret: true,
+      },
+      {
+        id: 'tap-racing:clicks-5000',
+        version: 1,
+        name: 'Tap Master',
+        description: 'Achieve 5,000 taps across all your games',
+        iconUrl:
+          'https://cdn.charity.games/_games/tap-racing/assets/achievements/clicks-5000.png',
+        secret: true,
+      },
+      {
+        id: 'tap-racing:clicks-10000',
+        version: 1,
+        name: 'Tap Maniac',
+        description: 'Achieve 10,000 taps across all your games',
+        iconUrl:
+          'https://cdn.charity.games/_games/tap-racing/assets/achievements/clicks-10000.png',
+        secret: true,
+      },
+      {
+        id: 'tap-racing:races-10',
+        version: 1,
+        name: 'Racing Beginner',
+        description: 'Complete 10 races in Tap Racing',
+        iconUrl:
+          'https://cdn.charity.games/_games/tap-racing/assets/achievements/races-10.png',
+        secret: true,
+      },
+      {
+        id: 'tap-racing:races-50',
+        version: 1,
+        name: 'Racing Intermediate',
+        description: 'Complete 50 races in Tap Racing',
+        iconUrl:
+          'https://cdn.charity.games/_games/tap-racing/assets/achievements/races-50.png',
+        secret: true,
+      },
+      {
+        id: 'tap-racing:races-100',
+        version: 1,
+        name: 'Racing Expert',
+        description: 'Complete 100 races in Tap Racing',
+        iconUrl:
+          'https://cdn.charity.games/_games/tap-racing/assets/achievements/races-10.png',
+        secret: true,
+      },
+      {
+        id: 'tap-racing:speed-200',
+        version: 1,
+        name: 'Speed Demon',
+        description: 'Achieve a speed of 200 taps per second!',
+        iconUrl:
+          'https://cdn.charity.games/_games/tap-racing/assets/achievements/speed-200.png',
+        secret: true,
+      },
+      {
+        id: 'tap-racing:speed-250',
+        version: 1,
+        name: 'Speedster',
+        description: 'Achieve a speed of 250 taps per second!',
+        iconUrl:
+          'https://cdn.charity.games/_games/tap-racing/assets/achievements/speed-250.png',
+        secret: true,
+      },
+      {
+        id: 'tap-racing:cheater',
+        version: 1,
+        name: 'Cheater!',
+        description:
+          'You were caught cheating! I wonder what the consequences will be?',
+        iconUrl:
+          'https://cdn.charity.games/_games/tap-racing/assets/achievements/cheater.png',
+        secret: true,
+      },
+    ],
+    tasks: [
+      {
+        name: 'Play Tap Racing (15)',
+        description: 'Finish a game of Tap Racing in less than 15 seconds!',
+        type: 'score',
+        score: 15000,
+      },
+      {
+        name: 'Play Tap Racing (20)',
+        description: 'Finish a game of Tap Racing in less than 20 seconds!',
+        type: 'score',
+        score: 20000,
+      },
+    ],
+  },
+  {
     version: 1,
     id: 'petroglyphs',
     name: 'Petroglyphs',

@@ -654,7 +654,7 @@ class GameOver extends Phaser.GameObjects.Container {
 
     this.submitAchievements({ best, clicks, races, topSpeed });
 
-    this.scene.server.leaderboard.submit(current);
+    this.scene.server.leaderboard.submit(Math.round(current));
   }
 
   setHighScore() {
