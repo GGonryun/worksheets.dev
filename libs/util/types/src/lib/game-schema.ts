@@ -3,6 +3,7 @@ import {
   GameDevices,
   GameStatus,
   GameVisibility,
+  LeaderboardType,
   ProjectType,
   ViewportType,
 } from '@worksheets/prisma';
@@ -80,7 +81,7 @@ export type GameSchema = {
   likes: number;
   visibility: GameVisibility;
   status: GameStatus;
-  leaderboard: boolean;
+  leaderboard: LeaderboardType;
   banner: boolean;
   cloudStorage: boolean;
   achievements: boolean;

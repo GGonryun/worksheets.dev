@@ -41,7 +41,6 @@ export const validateTaskInput = (
       return { skip: false, state };
     case 'SUBMIT_LEADERBOARD_SCORE':
       return validateLeaderboardScore({ data, state });
-
     case 'POLL':
       return validatePollSubmission({ data, state });
     case 'SECRET':

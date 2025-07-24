@@ -1,6 +1,11 @@
 import { TRPCError } from '@trpc/server';
-import { PrismaClient, PrismaTransactionalClient } from '@worksheets/prisma';
+import {
+  LeaderboardType,
+  PrismaClient,
+  PrismaTransactionalClient,
+} from '@worksheets/prisma';
 import { TasksService } from '@worksheets/services/tasks';
+import { assertNever } from '@worksheets/util/errors';
 import { jsonStringifyWithBigInt } from '@worksheets/util/objects';
 import { daysAgo } from '@worksheets/util/time';
 import {
@@ -74,38 +79,42 @@ export const submitScore = async (
 };
 
 export const cleanUpOldScores = async (db: PrismaClient) => {
-  // find scores older than 30 days.
   const thirtyDaysAgo = daysAgo(30);
-  // do not delete the best score for each user.
-  const topScores = await db.gameScore.findMany({
-    distinct: ['userId'],
-    orderBy: [
-      {
-        score: 'desc',
+
+  // for each game with a leaderboard
+  const gamesWithLeaderboards = await db.game.findMany({
+    where: {
+      leaderboard: {
+        notIn: ['NONE'],
       },
-      {
-        createdAt: 'asc',
-      },
-    ],
-    select: {
-      id: true,
     },
   });
 
-  const deleted = await db.gameScore.deleteMany({
-    where: {
-      createdAt: {
-        lt: thirtyDaysAgo,
-      },
-      NOT: {
-        id: {
-          in: topScores.map((score) => score.id),
+  for (const game of gamesWithLeaderboards) {
+    // do not delete the best score for each user.
+    const topScores = await db.gameScore.findMany({
+      distinct: ['userId'], // for each user
+      take: 1, // only save the best score.
+      where: { gameId: game.id }, // for this game
+      orderBy: [{ score: toSortOrder(game.leaderboard) }, { createdAt: 'asc' }],
+      select: { id: true },
+    });
+
+    const deleted = await db.gameScore.deleteMany({
+      where: {
+        createdAt: {
+          lt: thirtyDaysAgo,
+        },
+        NOT: {
+          id: {
+            in: topScores.map((score) => score.id),
+          },
         },
       },
-    },
-  });
+    });
 
-  console.info(`Deleted ${deleted.count} old scores`);
+    console.info(`Deleted ${deleted.count} old scores for game ${game.id}`);
+  }
 };
 
 export const getParticipantRank = async (
@@ -125,55 +134,18 @@ export const getParticipantRank = async (
     userId,
   });
 
-  // find the user's rank in the leaderboard
+  const { leaderboard } = await db.game.findUniqueOrThrow({
+    where: {
+      id: gameId,
+    },
+    select: {
+      leaderboard: true,
+    },
+  });
 
-  const result = await db.$queryRaw`
-      WITH best_scores AS (
-        SELECT
-            "userId",
-            MAX("score") AS "bestScore"
-
-        FROM
-            "GameScore"
-        WHERE
-            "gameId" = ${gameId}
-            AND "createdAt" >= ${getLeaderboardFrequencyDate(frequency)}
-        GROUP BY
-            "userId"
-        ),
-        best_scores_with_time AS (
-          SELECT
-            bs."userId",
-            bs."bestScore",
-            ur."createdAt"
-          FROM
-            best_scores bs
-            JOIN "GameScore" ur ON bs."userId" = ur."userId" AND bs."bestScore" = ur."score"
-          WHERE
-            ur."createdAt" = (
-              SELECT MIN("createdAt")
-              FROM "GameScore"
-              WHERE "userId" = bs."userId" AND "score" = bs."bestScore"
-            )
-        ),
-        ranked_scores AS (
-          SELECT
-            "userId",
-            "bestScore",
-            "createdAt",
-            ROW_NUMBER() OVER (ORDER BY "bestScore" DESC, "createdAt" ASC) AS "rank"
-          FROM
-          best_scores_with_time
-        )
-        SELECT
-            "userId",
-            "bestScore",
-            "rank"
-        FROM
-          ranked_scores
-        WHERE 
-          "userId" = ${userId}
-      `;
+  const fn =
+    leaderboard === 'LOW' ? minUserPositionQuery : maxUserPositionQuery;
+  const result = await fn(db, { gameId, frequency, userId });
 
   console.info(
     `Queried user score and rank relative to leaderboard`,
@@ -252,7 +224,7 @@ export const find = async (
     });
   }
 
-  if (!game.leaderboard) {
+  if (!game.leaderboard || game.leaderboard === 'NONE') {
     throw new TRPCError({
       code: 'BAD_REQUEST',
       message: 'Leaderboards are not enabled',
@@ -264,18 +236,21 @@ export const find = async (
     `Finding leaderboard for game ${gameId} and frequency ${frequency}`,
     { start }
   );
-  const scores = await db.gameScore.findMany({
-    where: {
-      gameId,
-      createdAt: {
-        gte: start,
-      },
+
+  const where = {
+    gameId,
+    createdAt: {
+      gte: start,
     },
+  } as const;
+
+  const scores = await db.gameScore.findMany({
+    where,
     distinct: ['userId'],
     take: LEADERBOARD_LIMIT,
     orderBy: [
       {
-        score: 'desc',
+        score: toSortOrder(game.leaderboard),
       },
       {
         createdAt: 'asc',
@@ -284,6 +259,10 @@ export const find = async (
     include: {
       user: true,
     },
+  });
+
+  const total = await db.gameScore.count({
+    where,
   });
 
   const players = scores.map((player, index) => ({
@@ -295,5 +274,130 @@ export const find = async (
     rank: index + 1,
   }));
 
-  return { players };
+  return { players, total };
+};
+
+const toSortOrder = (leaderboard: LeaderboardType) => {
+  switch (leaderboard) {
+    case 'NONE':
+      throw new Error("Cannot sort 'NONE' leaderboard");
+    case 'LOW':
+      return 'asc';
+    case 'HIGH':
+      return 'desc';
+    default:
+      throw assertNever(leaderboard);
+  }
+};
+
+type PositionQueryOptions = {
+  gameId: string;
+  frequency: LeaderboardFrequency;
+  userId: string;
+};
+// TODO: dedupe w/ the min user position query
+const maxUserPositionQuery = async (
+  db: PrismaClient,
+  { gameId, frequency, userId }: PositionQueryOptions
+) => {
+  return await db.$queryRaw`
+      WITH best_scores AS (
+        SELECT
+            "userId",
+            MAX("score") AS "bestScore"
+
+        FROM
+            "GameScore"
+        WHERE
+            "gameId" = ${gameId}
+            AND "createdAt" >= ${getLeaderboardFrequencyDate(frequency)}
+        GROUP BY
+            "userId"
+        ),
+        best_scores_with_time AS (
+          SELECT
+            bs."userId",
+            bs."bestScore",
+            ur."createdAt"
+          FROM
+            best_scores bs
+            JOIN "GameScore" ur ON bs."userId" = ur."userId" AND bs."bestScore" = ur."score"
+          WHERE
+            ur."createdAt" = (
+              SELECT MIN("createdAt")
+              FROM "GameScore"
+              WHERE "userId" = bs."userId" AND "score" = bs."bestScore"
+            )
+        ),
+        ranked_scores AS (
+          SELECT
+            "userId",
+            "bestScore",
+            "createdAt",
+            ROW_NUMBER() OVER (ORDER BY "bestScore" DESC, "createdAt" ASC) AS "rank"
+          FROM
+          best_scores_with_time
+        )
+        SELECT
+            "userId",
+            "bestScore",
+            "rank"
+        FROM
+          ranked_scores
+        WHERE 
+          "userId" = ${userId}
+      `;
+};
+
+const minUserPositionQuery = async (
+  db: PrismaClient,
+  { gameId, frequency, userId }: PositionQueryOptions
+) => {
+  return await db.$queryRaw`
+      WITH best_scores AS (
+        SELECT
+            "userId",
+            MIN("score") AS "bestScore"
+
+        FROM
+            "GameScore"
+        WHERE
+            "gameId" = ${gameId}
+            AND "createdAt" >= ${getLeaderboardFrequencyDate(frequency)}
+        GROUP BY
+            "userId"
+        ),
+        best_scores_with_time AS (
+          SELECT
+            bs."userId",
+            bs."bestScore",
+            ur."createdAt"
+          FROM
+            best_scores bs
+            JOIN "GameScore" ur ON bs."userId" = ur."userId" AND bs."bestScore" = ur."score"
+          WHERE
+            ur."createdAt" = (
+              SELECT MIN("createdAt")
+              FROM "GameScore"
+              WHERE "userId" = bs."userId" AND "score" = bs."bestScore"
+            )
+        ),
+        ranked_scores AS (
+          SELECT
+            "userId",
+            "bestScore",
+            "createdAt",
+            ROW_NUMBER() OVER (ORDER BY "bestScore" ASC, "createdAt" ASC) AS "rank"
+          FROM
+          best_scores_with_time
+        )
+        SELECT
+            "userId",
+            "bestScore",
+            "rank"
+        FROM
+          ranked_scores
+        WHERE 
+          "userId" = ${userId}
+      `;
 };

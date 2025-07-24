@@ -39,11 +39,12 @@ export const createGameTask = (
         description:
           t.name ??
           `Submit a minimum score of ${t.score} on the leaderboard for ${game.name} and earn rewards.`,
-        version: 1,
+        version: 2,
         category: TaskCategory.GAMEPLAY,
         gameId: game.id,
         data: {
           score: t.score,
+          order: game.leaderboard,
         },
       });
     });

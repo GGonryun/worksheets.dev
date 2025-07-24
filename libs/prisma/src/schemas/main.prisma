@@ -279,6 +279,12 @@ enum GameVisibility {
   PUBLIC
 }
 
+enum LeaderboardType {
+  LOW
+  HIGH
+  NONE
+}
+
 model Game {
   id           String              @id @default(cuid())
   version      Int                 @default(0)
@@ -303,7 +309,7 @@ model Game {
   // Game File -- Must have at least one active version saved to the file.
   files        GameFile[]
   // SDK Enabled
-  leaderboard  Boolean             @default(false)
+  leaderboard  LeaderboardType     @default(NONE)
   banner       Boolean             @default(true)
   cloudStorage Boolean             @default(false)
   // Analytics & Actions
