@@ -20,7 +20,7 @@ export const createGameTask = (
       requiredRepetitions: 1,
       maxRepetitions: 1,
       description: `Play ${game.name} once and earn rewards.`,
-      version: 1,
+      version: 2,
       category: TaskCategory.GAMEPLAY,
       gameId: game.id,
       data: {},
@@ -37,9 +37,9 @@ export const createGameTask = (
         requiredRepetitions: 1,
         maxRepetitions: 1,
         description:
-          t.name ??
+          t.description ??
           `Submit a minimum score of ${t.score} on the leaderboard for ${game.name} and earn rewards.`,
-        version: 2,
+        version: 3,
         category: TaskCategory.GAMEPLAY,
         gameId: game.id,
         data: {
