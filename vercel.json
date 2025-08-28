@@ -34,7 +34,7 @@
         },
         {
             "path": "/api/cron/spawn-raffle",
-            "schedule": "0 0 */2 * *"
+            "schedule": "0 0 */3 * *"
         }
     ],
     "functions": {
