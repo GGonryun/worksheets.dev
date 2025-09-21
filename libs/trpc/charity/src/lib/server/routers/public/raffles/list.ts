@@ -10,7 +10,7 @@ import { z } from 'zod';
 
 import { publicProcedure } from '../../../procedures';
 
-const DEFAULT_LIMIT = 100;
+const DEFAULT_LIMIT = 250;
 
 export default publicProcedure
   .input(
