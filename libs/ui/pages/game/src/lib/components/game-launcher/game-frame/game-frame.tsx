@@ -14,6 +14,7 @@ import {
 } from '@worksheets/ui/components/advertisements';
 import { PulsingIcon } from '@worksheets/ui/components/loading';
 import { useEventListener } from '@worksheets/ui-core';
+import { GameSchema } from '@worksheets/util/types';
 import { noop } from 'lodash';
 import { SessionContextValue } from 'next-auth/react';
 import React, { useRef } from 'react';
@@ -95,11 +96,10 @@ const usePlatformListener = (
 };
 
 export const GameFrame: React.FC<{
-  banner: boolean;
   status: SessionContextValue['status'];
-  url: string;
+  file: GameSchema['file'];
   gameId: string;
-}> = ({ gameId, url, status, banner }) => {
+}> = ({ gameId, file, status }) => {
   const [showAdBlockModal, setShowAdBlockModal] = React.useState(false);
   const adsense = useGoogleAdsense();
   const adBlockDetected = useDetectAdBlock();
@@ -343,7 +343,7 @@ export const GameFrame: React.FC<{
         </Box>
         <AdBlockModal open={showAdBlockModal} onClose={handleClose} />
         <GameTrackingProvider gameId={gameId}>
-          <GameInternalFrame frameRef={frameRef} url={url} />
+          <GameInternalFrame frameRef={frameRef} file={file} />
         </GameTrackingProvider>
       </Box>
     </Box>
