@@ -170,9 +170,8 @@ const GameScreenContainerInner: React.FC<GameScreenContainerProps> = ({
           <GameLauncher
             frame={
               <GameFrame
-                banner={game.banner}
                 gameId={game.id}
-                url={game.file.url}
+                file={game.file}
                 status={session.status}
               />
             }
