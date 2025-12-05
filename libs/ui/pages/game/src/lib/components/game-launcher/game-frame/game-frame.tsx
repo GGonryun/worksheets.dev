@@ -24,11 +24,7 @@ import { useGameNotifications } from '../../../hooks/use-game-notifications';
 import classes from './game-frame.module.scss';
 import { GameInternalFrame } from './game-internal-frame';
 
-const VERIFIED_GAME_ORIGINS = [
-  '*',
-  'https://storage.googleapis.com',
-  'https://cdn.charity.games',
-];
+const VERIFIED_GAME_ORIGINS = ['*', 'https://storage.googleapis.com'];
 
 const isValidOrigin = (origin: string) => {
   if (process.env.NODE_ENV === 'development') {

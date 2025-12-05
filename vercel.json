@@ -31,10 +31,6 @@
         {
             "path": "/api/cron/flush-game-tracks",
             "schedule": "*/14 * * * *"
-        },
-        {
-            "path": "/api/cron/spawn-raffle",
-            "schedule": "0 0 */3 * *"
         }
     ],
     "functions": {

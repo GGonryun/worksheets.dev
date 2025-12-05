@@ -2,7 +2,7 @@ import { externalRoutes, routes } from '@worksheets/routes';
 import { HelpEmailsQuestions } from '@worksheets/util/enums';
 import { copyright } from '@worksheets/util/settings';
 
-const HEADER_IMAGE = `https://cdn.charity.games/_emails/primary.png`;
+const HEADER_IMAGE = `https://storage.googleapis.com/charity-games/_emails/primary.png`;
 
 const SIGNATURE = `❤️ Charity Games<br/>`;
 
@@ -345,7 +345,7 @@ export const template = ({ title, paragraphs, links }: TemplateOptions) => {
                                                                             <td style="padding:0 2px 0 2px;"><a
                                                                                     href="${routes.home.url()}"
                                                                                     target="_blank"><img
-                                                                                        src="https://cdn.charity.games/_emails/social/website@2x.png"
+                                                                                        src="https://storage.googleapis.com/charity-games/_emails/social/website%402x.png"
                                                                                         width="32" height="auto"
                                                                                         alt="Web Site" title="Web Site"
                                                                                         style="display: block; height: auto; border: 0;"></a>
@@ -357,7 +357,7 @@ export const template = ({ title, paragraphs, links }: TemplateOptions) => {
                                                                                         .facebook
                                                                                     }"
                                                                                     target="_blank"><img
-                                                                                        src="https://cdn.charity.games/_emails/social/facebook@2x.png"
+                                                                                        src="https://storage.googleapis.com/charity-games/_emails/social/facebook@2x.png"
                                                                                         width="32" height="auto"
                                                                                         alt="Facebook" title="facebook"
                                                                                         style="display: block; height: auto; border: 0;"></a>
@@ -369,7 +369,7 @@ export const template = ({ title, paragraphs, links }: TemplateOptions) => {
                                                                                         .twitter
                                                                                     }"
                                                                                     target="_blank"><img
-                                                                                        src="https://cdn.charity.games/_emails/social/twitter@2x.png"
+                                                                                        src="https://storage.googleapis.com/charity-games/_emails/social/twitter@2x.png"
                                                                                         width="32" height="auto"
                                                                                         alt="Twitter" title="twitter"
                                                                                         style="display: block; height: auto; border: 0;"></a>
@@ -381,7 +381,7 @@ export const template = ({ title, paragraphs, links }: TemplateOptions) => {
                                                                                         .linkedIn
                                                                                     }"
                                                                                     target="_blank"><img
-                                                                                        src="https://cdn.charity.games/_emails/social/linkedin@2x.png"
+                                                                                        src="https://storage.googleapis.com/charity-games/_emails/social/linkedin@2x.png"
                                                                                         width="32" height="auto"
                                                                                         alt="Linkedin" title="linkedin"
                                                                                         style="display: block; height: auto; border: 0;"></a>
@@ -393,7 +393,7 @@ export const template = ({ title, paragraphs, links }: TemplateOptions) => {
                                                                                         .youtube
                                                                                     }"
                                                                                     target="_blank"><img
-                                                                                        src="https://cdn.charity.games/_emails/social/youtube@2x.png"
+                                                                                        src="https://storage.googleapis.com/charity-games/_emails/social/youtube@2x.png"
                                                                                         width="32" height="auto"
                                                                                         alt="YouTube" title="YouTube"
                                                                                         style="display: block; height: auto; border: 0;"></a>

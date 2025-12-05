@@ -87,7 +87,6 @@ export const isValidOrigin = (origin: string) => {
   const validOrigins = [
     'http://localhost:6969',
     'https://charity.games',
-    'https://cdn.charity.games',
     'https://storage.googleapis.com',
   ];
   return origin === '*' || validOrigins.includes(origin);

@@ -12,7 +12,7 @@ import { createGameTask } from './util';
 export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
   // captcha
   {
-    version: 1,
+    version: 33,
     type: TaskType.CAPTCHA,
     category: TaskCategory.INPUT,
     id: 'CAPTCHA_ONCE',
@@ -25,7 +25,7 @@ export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
   },
   // forms
   {
-    version: 1,
+    version: 33,
     type: TaskType.FORM,
     category: TaskCategory.INPUT,
     id: 'RATE_CHARITY_GAMES',
@@ -58,7 +58,7 @@ export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
   },
   // polls
   {
-    version: 1,
+    version: 33,
     type: TaskType.POLL,
     category: TaskCategory.INPUT,
     id: 'GIVEAWAY_POLL_1',
@@ -80,7 +80,7 @@ export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
   },
   // watch ads
   {
-    version: 1,
+    version: 33,
     id: 'WATCH_AD_ONCE',
     type: TaskType.WATCH_AD,
     category: TaskCategory.TASK,
@@ -94,7 +94,7 @@ export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
     },
   },
   {
-    version: 1,
+    version: 33,
     id: 'WATCH_AD_DAILY',
     type: TaskType.WATCH_AD,
     category: TaskCategory.TASK,
@@ -108,7 +108,7 @@ export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
     },
   },
   {
-    version: 1,
+    version: 33,
     id: 'WATCH_AD_WEEKLY',
     type: TaskType.WATCH_AD,
     category: TaskCategory.TASK,
@@ -122,7 +122,7 @@ export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
     },
   },
   {
-    version: 1,
+    version: 33,
     id: 'WATCH_AD_MONTHLY',
     type: TaskType.WATCH_AD,
     category: TaskCategory.TASK,
@@ -136,7 +136,7 @@ export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
     },
   },
   {
-    version: 1,
+    version: 33,
     id: 'WATCH_AD_THRICE',
     type: TaskType.WATCH_AD,
     category: TaskCategory.TASK,
@@ -151,7 +151,7 @@ export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
   },
   // play games
   {
-    version: 2,
+    version: 33,
     id: 'PLAY_GAME_DAILY_5',
     type: TaskType.PLAY_GAME,
     category: TaskCategory.GAMEPLAY,
@@ -165,7 +165,7 @@ export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
     },
   },
   {
-    version: 1,
+    version: 33,
     id: 'PLAY_GAME_ONCE_5',
     type: TaskType.PLAY_GAME,
     category: TaskCategory.GAMEPLAY,
@@ -178,7 +178,7 @@ export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
     data: {},
   },
   {
-    version: 3,
+    version: 33,
     id: 'PLAY_GAME_WEEKLY_25',
     type: TaskType.PLAY_GAME,
     category: TaskCategory.GAMEPLAY,
@@ -192,7 +192,7 @@ export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
   },
   // check in tasks
   {
-    version: 2,
+    version: 33,
     id: 'DAILY_CHECK_IN',
     type: TaskType.BASIC_ACTION,
     category: TaskCategory.GAMEPLAY,
@@ -204,7 +204,7 @@ export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
     data: {},
   },
   {
-    version: 2,
+    version: 33,
     id: 'WEEKLY_CHECK_IN',
     type: TaskType.BASIC_ACTION,
     category: TaskCategory.GAMEPLAY,
@@ -216,7 +216,7 @@ export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
     data: {},
   },
   {
-    version: 2,
+    version: 33,
     id: 'MONTHLY_CHECK_IN',
     type: TaskType.BASIC_ACTION,
     category: TaskCategory.GAMEPLAY,
@@ -228,7 +228,7 @@ export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
     data: {},
   },
   {
-    version: 1,
+    version: 33,
     id: 'CHECK_IN_ONCE',
     type: TaskType.BASIC_ACTION,
     category: TaskCategory.GAMEPLAY,
@@ -241,7 +241,7 @@ export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
   },
   // visit websites
   {
-    version: 1,
+    version: 33,
     id: 'VISIT_CHARITY_GAMES_WEEKLY',
     type: TaskType.VISIT_WEBSITE,
     category: TaskCategory.TASK,
@@ -252,11 +252,12 @@ export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
     description: 'Visit Charity Games and start playing games to earn rewards.',
     data: {
       url: 'https://charity.games/',
-      preview: 'https://cdn.charity.games/_partners/charity-games/preview.png',
+      preview:
+        'https://storage.googleapis.com/charity-games/_partners/charity-games/preview.png',
     },
   },
   {
-    version: 1,
+    version: 33,
     id: 'VISIT_WATER_ORG_WEEKLY',
     type: TaskType.VISIT_WEBSITE,
     category: TaskCategory.TASK,
@@ -268,11 +269,12 @@ export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
       'Visit Water.org and learn about their mission to provide clean water to people in need.',
     data: {
       url: 'https://water.org',
-      preview: 'https://cdn.charity.games/_partners/water-org/preview.jpg',
+      preview:
+        'https://storage.googleapis.com/charity-games/_partners/water-org/preview.jpg',
     },
   },
   {
-    version: 1,
+    version: 33,
     id: 'VISIT_GAMERS_OUTREACH_WEEKLY',
     type: TaskType.VISIT_WEBSITE,
     category: TaskCategory.TASK,
@@ -284,11 +286,12 @@ export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
       'We believe the world is better when hospitalized kids can play. Gamers have the power to help.',
     data: {
       url: 'https://gamersoutreach.org/',
-      preview: 'https://cdn.charity.games/_partners/gamersoutreach/preview.png',
+      preview:
+        'https://storage.googleapis.com/charity-games/_partners/gamersoutreach/preview.png',
     },
   },
   {
-    version: 1,
+    version: 33,
     id: 'VISIT_INDIEFOLD_ONCE',
     type: TaskType.VISIT_WEBSITE,
     category: TaskCategory.TASK,
@@ -300,11 +303,12 @@ export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
       'Visit IndieFold and learn about their mission to support indie game developers.',
     data: {
       url: 'https://indiefold.com',
-      preview: 'https://cdn.charity.games/_partners/indiefold/preview.png',
+      preview:
+        'https://storage.googleapis.com/charity-games/_partners/indiefold/preview.png',
     },
   },
   {
-    version: 2,
+    version: 33,
     id: 'VISIT_LOOT4ALL_ONCE',
     type: TaskType.VISIT_WEBSITE,
     category: TaskCategory.TASK,
@@ -316,11 +320,12 @@ export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
       'Visit Loot4All and learn about their mission to bring loot to all.',
     data: {
       url: 'https://loot4all.org/',
-      preview: 'https://cdn.charity.games/_partners/loot4all/preview.png',
+      preview:
+        'https://storage.googleapis.com/charity-games/_partners/loot4all/preview.png',
     },
   },
   {
-    version: 2,
+    version: 33,
     id: 'LINKEDIN_VISIT_CHARITY_GAMES_ONCE',
     // TODO: update to TaskType.VISIT_LINKEDIN
     type: TaskType.VISIT_WEBSITE,
@@ -333,12 +338,13 @@ export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
       'View a page on LinkedIn. Stay up to date on the latest news and updates.',
     data: {
       url: 'https://www.linkedin.com/company/charity-games',
-      preview: 'https://cdn.charity.games/_partners/charity-games/linkedin.png',
+      preview:
+        'https://storage.googleapis.com/charity-games/_partners/charity-games/linkedin.png',
     },
   },
   // visit youtube
   {
-    version: 1,
+    version: 33,
     id: 'YOUTUBE_WATCH_CHARITY_GAMES_MINI_GOLF_ONCE',
     type: TaskType.VISIT_YOUTUBE,
     category: TaskCategory.TASK,
@@ -354,7 +360,7 @@ export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
   },
   // visit instagram
   {
-    version: 1,
+    version: 33,
     id: 'INSTAGRAM_VISIT_WATER_ORG_ONCE',
     type: TaskType.VISIT_INSTAGRAM,
     category: TaskCategory.TASK,
@@ -370,7 +376,7 @@ export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
     },
   },
   {
-    version: 1,
+    version: 33,
     id: 'INSTAGRAM_VISIT_KEYMUNITY_ONCE',
     type: TaskType.VISIT_INSTAGRAM,
     category: TaskCategory.TASK,
@@ -387,7 +393,7 @@ export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
   },
   // visit facebook
   {
-    version: 2,
+    version: 33,
     id: 'FACEBOOK_VISIT_CHARITY_GAMES_ONCE',
     type: TaskType.VISIT_FACEBOOK,
     category: TaskCategory.TASK,
@@ -403,7 +409,7 @@ export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
     },
   },
   {
-    version: 1,
+    version: 33,
     id: 'FACEBOOK_VISIT_KEYMUNITY_ONCE',
     type: TaskType.VISIT_FACEBOOK,
     category: TaskCategory.TASK,
@@ -420,7 +426,7 @@ export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
   },
   // visit tiktok
   {
-    version: 1,
+    version: 33,
     id: 'TIKTOK_VISIT_CHARITY_WATER_ONCE',
     type: TaskType.VISIT_TIKTOK,
     category: TaskCategory.TASK,
@@ -437,7 +443,7 @@ export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
   },
   // follow twitter
   {
-    version: 1,
+    version: 33,
     id: 'FOLLOW_KEYMUNITY_TWITTER_ONCE',
     type: TaskType.FOLLOW_TWITTER,
     category: TaskCategory.TASK,
@@ -452,7 +458,7 @@ export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
     },
   },
   {
-    version: 1,
+    version: 33,
     id: 'FOLLOW_CHARITY_GAMES_TWITTER_ONCE',
     type: TaskType.FOLLOW_TWITTER,
     category: TaskCategory.TASK,
@@ -467,7 +473,7 @@ export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
     },
   },
   {
-    version: 2,
+    version: 33,
     id: 'FOLLOW_LOOT4ALL_TWITTER_ONCE',
     type: TaskType.FOLLOW_TWITTER,
     category: TaskCategory.TASK,
@@ -482,7 +488,7 @@ export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
     },
   },
   {
-    version: 1,
+    version: 33,
     id: 'FOLLOW_WATER_ORG_TWITTER_ONCE',
     type: TaskType.FOLLOW_TWITTER,
     category: TaskCategory.TASK,
@@ -497,7 +503,7 @@ export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
     },
   },
   {
-    version: 1,
+    version: 33,
     id: 'FOLLOW_GAMERS_OUTREACH_TWITTER_ONCE',
     type: TaskType.FOLLOW_TWITTER,
     category: TaskCategory.TASK,
@@ -512,7 +518,7 @@ export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
     },
   },
   {
-    version: 1,
+    version: 33,
     id: 'FOLLOW_INDIEFOLD_TWITTER_ONCE',
     type: TaskType.FOLLOW_TWITTER,
     category: TaskCategory.TASK,
@@ -527,7 +533,7 @@ export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
     },
   },
   {
-    version: 1,
+    version: 33,
     id: 'FOLLOW_GDQ_TWITCH_ONCE',
     type: TaskType.FOLLOW_TWITCH,
     category: TaskCategory.TASK,
@@ -542,7 +548,7 @@ export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
     },
   },
   {
-    version: 1,
+    version: 33,
     id: 'FOLLOW_CHARITY_WATER_TWITCH_ONCE',
     type: TaskType.FOLLOW_TWITCH,
     category: TaskCategory.TASK,
@@ -557,7 +563,7 @@ export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
     },
   },
   {
-    version: 1,
+    version: 33,
     id: 'FOLLOW_GAMERS_OUTREACH_TWITCH_ONCE',
     type: TaskType.FOLLOW_TWITCH,
     category: TaskCategory.TASK,
@@ -573,7 +579,7 @@ export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
   },
   // repost twitter
   {
-    version: 3,
+    version: 33,
     id: 'REPOST_TWITTER_ONCE',
     type: TaskType.REPOST_TWITTER,
     category: TaskCategory.TASK,
@@ -589,7 +595,7 @@ export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
   },
   // discords
   {
-    version: 1,
+    version: 33,
     id: 'JOIN_CHARITY_GAMES_DISCORD_ONCE',
     type: TaskType.JOIN_DISCORD_GUILD,
     category: TaskCategory.TASK,
@@ -605,7 +611,7 @@ export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
     },
   },
   {
-    version: 1,
+    version: 33,
     id: 'JOIN_KEYMUNITY_DISCORD_ONCE',
     type: TaskType.JOIN_DISCORD_GUILD,
     category: TaskCategory.TASK,
@@ -622,7 +628,7 @@ export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
   },
   // steams
   {
-    version: 1,
+    version: 33,
     id: 'WISHLIST_SANDYS_GREAT_ESCAPE_STEAM_ONCE',
     type: TaskType.WISHLIST_STEAM_GAME,
     category: TaskCategory.TASK,
@@ -637,7 +643,7 @@ export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
     },
   },
   {
-    version: 1,
+    version: 33,
     id: 'WISHLIST_CHECK_AND_SLASH_STEAM_ONCE',
     type: TaskType.WISHLIST_STEAM_GAME,
     category: TaskCategory.TASK,
@@ -653,7 +659,7 @@ export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
   },
   // subscribe youtube
   {
-    version: 1,
+    version: 33,
     id: 'SUBSCRIBE_CHARITY_GAMES_YOUTUBE_ONCE',
     type: TaskType.SUBSCRIBE_YOUTUBE,
     category: TaskCategory.TASK,
@@ -673,7 +679,7 @@ export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
   },
   // referral tasks
   {
-    version: 3,
+    version: 33,
     id: 'REFERRAL_TASKS_INFINITE',
     type: TaskType.REFERRAL_TASK,
     category: TaskCategory.SOCIAL,
@@ -686,7 +692,7 @@ export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
     data: {},
   },
   {
-    version: 3,
+    version: 33,
     id: 'REFERRAL_TASKS_10',
     type: TaskType.REFERRAL_TASK,
     category: TaskCategory.SOCIAL,
@@ -700,7 +706,7 @@ export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
   },
   // infinites
   {
-    version: 3,
+    version: 33,
     id: 'PLAY_MINUTES_INFINITE',
     type: TaskType.PLAY_MINUTES,
     category: TaskCategory.GAMEPLAY,
@@ -713,7 +719,7 @@ export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
     data: {},
   },
   {
-    version: 2,
+    version: 33,
     id: 'PLAY_MINUTES_5_INFINITE',
     type: TaskType.PLAY_MINUTES,
     category: TaskCategory.GAMEPLAY,
@@ -727,7 +733,7 @@ export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
   },
   // sample tasks, not for production
   {
-    version: 2,
+    version: 33,
     type: TaskType.FORM,
     category: TaskCategory.INPUT,
     id: 'SAMPLE_FORM',
@@ -832,7 +838,7 @@ export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
     },
   },
   {
-    version: 2,
+    version: 33,
     type: TaskType.POLL,
     category: TaskCategory.INPUT,
     id: 'SAMPLE_POLL',
@@ -857,7 +863,7 @@ export const TASKS: Prisma.TaskUncheckedCreateInput[] = [
     },
   },
   {
-    version: 2,
+    version: 33,
     type: TaskType.SECRET,
     category: TaskCategory.INPUT,
     id: 'SAMPLE_SECRET',

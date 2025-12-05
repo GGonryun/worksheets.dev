@@ -17,7 +17,10 @@ export default function MyDocument(props: DocumentProps) {
     <Html lang="en">
       <Head title="Charity Games">
         <link rel="preconnect" href="https://edge.fullstory.com" />
-        <link rel="preconnect" href="https://cdn.charity.games" />
+        <link
+          rel="preconnect"
+          href="https://storage.googleapis.com/charity-games"
+        />
         <link
           rel="apple-touch-icon"
           sizes="76x76"

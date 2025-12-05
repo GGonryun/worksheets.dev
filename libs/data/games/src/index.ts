@@ -12,12 +12,14 @@ import { SeedableGameSchema } from '@worksheets/util/types';
 
 const integratedGames: SeedableGameSchema[] = [
   {
-    version: 2,
+    version: 33,
     id: 'tap-racing',
     name: 'Tap Racing',
     teamId: 'charity-games',
-    iconUrl: 'https://cdn.charity.games/_games/tap-racing/assets/thumbnail.png',
-    bannerUrl: 'https://cdn.charity.games/_games/tap-racing/assets/banner.png',
+    iconUrl:
+      'https://storage.googleapis.com/charity-games/_games/tap-racing/assets/thumbnail.png',
+    bannerUrl:
+      'https://storage.googleapis.com/charity-games/_games/tap-racing/assets/banner.png',
     viewport: viewports['ALL-DEVICES'],
     categories: [
       '1p',
@@ -30,7 +32,7 @@ const integratedGames: SeedableGameSchema[] = [
     ],
     file: {
       type: 'HTML',
-      url: 'https://cdn.charity.games/_games/tap-racing',
+      url: 'https://storage.googleapis.com/charity-games/_games/tap-racing',
     },
     markets: {},
     createdAt: new Date('2025-06-15T00:00:00.000Z'),
@@ -42,102 +44,102 @@ const integratedGames: SeedableGameSchema[] = [
     achievements: [
       {
         id: 'tap-racing:best-12500',
-        version: 1,
+        version: 33,
         name: 'Car Legend',
         description: 'Race to the finish in less than 12.5 seconds!',
         iconUrl:
-          'https://cdn.charity.games/_games/tap-racing/assets/achievements/best-12500.png',
+          'https://storage.googleapis.com/charity-games/_games/tap-racing/assets/achievements/best-12500.png',
         secret: true,
       },
       {
         id: 'tap-racing:best-15000',
-        version: 1,
+        version: 33,
         name: 'Car Expert',
         description: 'Race to the finish in less than 15.0 seconds!',
         iconUrl:
-          'https://cdn.charity.games/_games/tap-racing/assets/achievements/best-15000.png',
+          'https://storage.googleapis.com/charity-games/_games/tap-racing/assets/achievements/best-15000.png',
         secret: true,
       },
       {
         id: 'tap-racing:clicks-1000',
-        version: 1,
+        version: 33,
         name: 'Tap Enthusiast',
         description: 'Achieve 1,000 taps across all your games',
         iconUrl:
-          'https://cdn.charity.games/_games/tap-racing/assets/achievements/clicks-1000.png',
+          'https://storage.googleapis.com/charity-games/_games/tap-racing/assets/achievements/clicks-1000.png',
         secret: true,
       },
       {
         id: 'tap-racing:clicks-5000',
-        version: 1,
+        version: 33,
         name: 'Tap Master',
         description: 'Achieve 5,000 taps across all your games',
         iconUrl:
-          'https://cdn.charity.games/_games/tap-racing/assets/achievements/clicks-5000.png',
+          'https://storage.googleapis.com/charity-games/_games/tap-racing/assets/achievements/clicks-5000.png',
         secret: true,
       },
       {
         id: 'tap-racing:clicks-10000',
-        version: 1,
+        version: 33,
         name: 'Tap Maniac',
         description: 'Achieve 10,000 taps across all your games',
         iconUrl:
-          'https://cdn.charity.games/_games/tap-racing/assets/achievements/clicks-10000.png',
+          'https://storage.googleapis.com/charity-games/_games/tap-racing/assets/achievements/clicks-10000.png',
         secret: true,
       },
       {
         id: 'tap-racing:races-10',
-        version: 1,
+        version: 33,
         name: 'Racing Beginner',
         description: 'Complete 10 races in Tap Racing',
         iconUrl:
-          'https://cdn.charity.games/_games/tap-racing/assets/achievements/races-10.png',
+          'https://storage.googleapis.com/charity-games/_games/tap-racing/assets/achievements/races-10.png',
         secret: true,
       },
       {
         id: 'tap-racing:races-50',
-        version: 1,
+        version: 33,
         name: 'Racing Intermediate',
         description: 'Complete 50 races in Tap Racing',
         iconUrl:
-          'https://cdn.charity.games/_games/tap-racing/assets/achievements/races-50.png',
+          'https://storage.googleapis.com/charity-games/_games/tap-racing/assets/achievements/races-50.png',
         secret: true,
       },
       {
         id: 'tap-racing:races-100',
-        version: 1,
+        version: 33,
         name: 'Racing Expert',
         description: 'Complete 100 races in Tap Racing',
         iconUrl:
-          'https://cdn.charity.games/_games/tap-racing/assets/achievements/races-10.png',
+          'https://storage.googleapis.com/charity-games/_games/tap-racing/assets/achievements/races-10.png',
         secret: true,
       },
       {
         id: 'tap-racing:speed-200',
-        version: 1,
+        version: 33,
         name: 'Speed Demon',
         description: 'Achieve a speed of 200 taps per second!',
         iconUrl:
-          'https://cdn.charity.games/_games/tap-racing/assets/achievements/speed-200.png',
+          'https://storage.googleapis.com/charity-games/_games/tap-racing/assets/achievements/speed-200.png',
         secret: true,
       },
       {
         id: 'tap-racing:speed-250',
-        version: 1,
+        version: 33,
         name: 'Speedster',
         description: 'Achieve a speed of 250 taps per second!',
         iconUrl:
-          'https://cdn.charity.games/_games/tap-racing/assets/achievements/speed-250.png',
+          'https://storage.googleapis.com/charity-games/_games/tap-racing/assets/achievements/speed-250.png',
         secret: true,
       },
       {
         id: 'tap-racing:cheater',
-        version: 1,
+        version: 33,
         name: 'Cheater!',
         description:
           'You were caught cheating! I wonder what the consequences will be?',
         iconUrl:
-          'https://cdn.charity.games/_games/tap-racing/assets/achievements/cheater.png',
+          'https://storage.googleapis.com/charity-games/_games/tap-racing/assets/achievements/cheater.png',
         secret: true,
       },
     ],
@@ -157,18 +159,19 @@ const integratedGames: SeedableGameSchema[] = [
     ],
   },
   {
-    version: 1,
+    version: 33,
     id: 'petroglyphs',
     name: 'Petroglyphs',
     teamId: 'charity-games',
     iconUrl:
-      'https://cdn.charity.games/_games/petroglyphs/assets/thumbnail.png',
-    bannerUrl: 'https://cdn.charity.games/_games/petroglyphs/assets/banner.png',
+      'https://storage.googleapis.com/charity-games/_games/petroglyphs/assets/thumbnail.png',
+    bannerUrl:
+      'https://storage.googleapis.com/charity-games/_games/petroglyphs/assets/banner.png',
     viewport: viewports['PORTRAIT-ONLY'],
     categories: ['1p', 'arcade', 'puzzle', 'brain', 'ad-free'],
     file: {
       type: 'HTML',
-      url: 'https://cdn.charity.games/_games/petroglyphs',
+      url: 'https://storage.googleapis.com/charity-games/_games/petroglyphs',
     },
     markets: {},
     createdAt: new Date('2025-06-15T00:00:00.000Z'),
@@ -180,131 +183,131 @@ const integratedGames: SeedableGameSchema[] = [
     achievements: [
       {
         id: 'petroglyphs:cascade-8',
-        version: 1,
+        version: 33,
         name: 'The Biggest Cascade',
         description:
           'Get the largest cascade possible (8 cascade). A cascade occurs when multiple matches happen back-to-back but not necessarily at the same time.',
         iconUrl:
-          'https://cdn.charity.games/_games/petroglyphs/assets/achievements/cascade-8.png',
+          'https://storage.googleapis.com/charity-games/_games/petroglyphs/assets/achievements/cascade-8.png',
         secret: true,
       },
       {
         id: 'petroglyphs:spell-cast-25',
-        version: 1,
+        version: 33,
         name: 'Spellcaster',
         description:
           'Cast 25 spells in total. Tap into the arcane to bend the board to your will.',
         iconUrl:
-          'https://cdn.charity.games/_games/petroglyphs/assets/achievements/spell-cast-25.png',
+          'https://storage.googleapis.com/charity-games/_games/petroglyphs/assets/achievements/spell-cast-25.png',
         secret: true,
       },
       {
         id: 'petroglyphs:score-5000',
-        version: 1,
+        version: 33,
         name: 'Score Chaser',
         description: 'Reach a score of 5,000 or more in a single run.',
         iconUrl:
-          'https://cdn.charity.games/_games/petroglyphs/assets/achievements/score-5000.png',
+          'https://storage.googleapis.com/charity-games/_games/petroglyphs/assets/achievements/score-5000.png',
         secret: true,
       },
       {
         id: 'petroglyphs:score-7500',
-        version: 1,
+        version: 33,
         name: 'High Roller',
         description: 'Reach a score of 7,500 or more in a single run.',
         iconUrl:
-          'https://cdn.charity.games/_games/petroglyphs/assets/achievements/score-7500.png',
+          'https://storage.googleapis.com/charity-games/_games/petroglyphs/assets/achievements/score-7500.png',
         secret: true,
       },
       {
         id: 'petroglyphs:score-10000',
-        version: 1,
+        version: 33,
         name: 'Portal Master',
         description:
           'Score 10,000 points in a single run. Only the best can do this.',
         iconUrl:
-          'https://cdn.charity.games/_games/petroglyphs/assets/achievements/score-10000.png',
+          'https://storage.googleapis.com/charity-games/_games/petroglyphs/assets/achievements/score-10000.png',
         secret: true,
       },
       {
         id: 'petroglyphs:relics-25',
-        version: 1,
+        version: 33,
         name: 'Relic Hunter',
         description: 'Discover 25 different relics across your runs.',
         iconUrl:
-          'https://cdn.charity.games/_games/petroglyphs/assets/achievements/relics-25.png',
+          'https://storage.googleapis.com/charity-games/_games/petroglyphs/assets/achievements/relics-25.png',
         secret: false,
       },
       {
         id: 'petroglyphs:relics-50',
-        version: 1,
+        version: 33,
         name: 'Relic Collector',
         description: 'See 50 different relics during your adventures.',
         iconUrl:
-          'https://cdn.charity.games/_games/petroglyphs/assets/achievements/relics-50.png',
+          'https://storage.googleapis.com/charity-games/_games/petroglyphs/assets/achievements/relics-50.png',
         secret: true,
       },
       {
         id: 'petroglyphs:relics-67',
-        version: 1,
+        version: 33,
         name: 'Relic Encyclopedia',
         description: "Encounter all 67 relics in the game. You've seen it all.",
         iconUrl:
-          'https://cdn.charity.games/_games/petroglyphs/assets/achievements/relics-67.png',
+          'https://storage.googleapis.com/charity-games/_games/petroglyphs/assets/achievements/relics-67.png',
         secret: true,
       },
       {
         id: 'petroglyphs:orbs-10k',
-        version: 1,
+        version: 33,
         name: 'Orb Whisperer',
         description: 'Generate 10,000 orbs across all games.',
         iconUrl:
-          'https://cdn.charity.games/_games/petroglyphs/assets/achievements/orbs-10k.png',
+          'https://storage.googleapis.com/charity-games/_games/petroglyphs/assets/achievements/orbs-10k.png',
         secret: false,
       },
       {
         id: 'petroglyphs:orbs-50k',
-        version: 1,
+        version: 33,
         name: 'Orb Master',
         description: "Generate 50,000 orbs. That's a lot of power.",
         iconUrl:
-          'https://cdn.charity.games/_games/petroglyphs/assets/achievements/orbs-50k.png',
+          'https://storage.googleapis.com/charity-games/_games/petroglyphs/assets/achievements/orbs-50k.png',
         secret: true,
       },
       {
         id: 'petroglyphs:orbs-100k',
-        version: 1,
+        version: 33,
         name: 'Orb Enthusiast',
         description: 'Generate 100,000 orbs. You might be glowing.',
         iconUrl:
-          'https://cdn.charity.games/_games/petroglyphs/assets/achievements/orbs-100k.png',
+          'https://storage.googleapis.com/charity-games/_games/petroglyphs/assets/achievements/orbs-100k.png',
         secret: true,
       },
       {
         id: 'petroglyphs:tiles-10k',
-        version: 1,
+        version: 33,
         name: 'Tile Tapper',
         description: 'Destroy a total of 10,000 tiles.',
         iconUrl:
-          'https://cdn.charity.games/_games/petroglyphs/assets/achievements/tiles-10k.png',
+          'https://storage.googleapis.com/charity-games/_games/petroglyphs/assets/achievements/tiles-10k.png',
         secret: false,
       },
       {
         id: 'petroglyphs:tiles-50k',
-        version: 1,
+        version: 33,
         name: 'Board Shifter',
         description: "Destroy 50,000 tiles in total. That's commitment.",
         iconUrl:
-          'https://cdn.charity.games/_games/petroglyphs/assets/achievements/tiles-50k.png',
+          'https://storage.googleapis.com/charity-games/_games/petroglyphs/assets/achievements/tiles-50k.png',
         secret: true,
       },
       {
         id: 'petroglyphs:tiles-100k',
-        version: 1,
+        version: 33,
         name: 'Destroyer of Tiles',
         description: "Destroy 100,000 tiles. You've mastered the grid.",
         iconUrl:
-          'https://cdn.charity.games/_games/petroglyphs/assets/achievements/tiles-100k.png',
+          'https://storage.googleapis.com/charity-games/_games/petroglyphs/assets/achievements/tiles-100k.png',
         secret: true,
       },
     ],
@@ -319,14 +322,14 @@ const integratedGames: SeedableGameSchema[] = [
     ],
   },
   {
-    version: 1,
+    version: 33,
     id: 'tiny-dungeon',
     name: 'Tiny Dungeon',
     teamId: 'charity-games',
     iconUrl:
-      'https://cdn.charity.games/_games/tiny-dungeon/assets/thumbnail.png',
+      'https://storage.googleapis.com/charity-games/_games/tiny-dungeon/assets/thumbnail.png',
     bannerUrl:
-      'https://cdn.charity.games/_games/tiny-dungeon/assets/banner.png',
+      'https://storage.googleapis.com/charity-games/_games/tiny-dungeon/assets/banner.png',
     viewport: viewports['PORTRAIT-ONLY'],
     categories: [
       '1p',
@@ -340,7 +343,7 @@ const integratedGames: SeedableGameSchema[] = [
     ],
     file: {
       type: 'HTML',
-      url: 'https://cdn.charity.games/_games/tiny-dungeon',
+      url: 'https://storage.googleapis.com/charity-games/_games/tiny-dungeon',
     },
     markets: {},
     createdAt: new Date('2025-06-11T00:00:00.000Z'),
@@ -353,110 +356,110 @@ const integratedGames: SeedableGameSchema[] = [
     achievements: [
       {
         id: 'tiny-dungeon:survive-5-minutes',
-        version: 1,
+        version: 33,
         name: 'Play 5 Minutes',
         description: 'Play Tiny Dungeons for 5 minutes in total.',
         iconUrl:
-          'https://cdn.charity.games/_games/tiny-dungeon/assets/achievements/survive-5-minutes.png',
+          'https://storage.googleapis.com/charity-games/_games/tiny-dungeon/assets/achievements/survive-5-minutes.png',
         secret: true,
       },
       {
         id: 'tiny-dungeon:survive-30-minutes',
-        version: 1,
+        version: 33,
         name: 'Play 30 Minutes',
         description: 'Play Tiny Dungeons for 30 minutes in total.',
         iconUrl:
-          'https://cdn.charity.games/_games/tiny-dungeon/assets/achievements/survive-30-minutes.png',
+          'https://storage.googleapis.com/charity-games/_games/tiny-dungeon/assets/achievements/survive-30-minutes.png',
         secret: true,
       },
       {
         id: 'tiny-dungeon:survive-1-hour',
-        version: 1,
+        version: 33,
         name: 'Play for 1 Hour',
         description: 'Play Tiny Dungeons for 1 hour in total.',
         iconUrl:
-          'https://cdn.charity.games/_games/tiny-dungeon/assets/achievements/survive-1-hour.png',
+          'https://storage.googleapis.com/charity-games/_games/tiny-dungeon/assets/achievements/survive-1-hour.png',
         secret: true,
       },
       {
         id: 'tiny-dungeon:collect-100-coins',
-        version: 1,
+        version: 33,
         name: 'Collect 100 Coins',
         description: 'Collect 100 coins in total.',
         iconUrl:
-          'https://cdn.charity.games/_games/tiny-dungeon/assets/achievements/collect-100-coins.png',
+          'https://storage.googleapis.com/charity-games/_games/tiny-dungeon/assets/achievements/collect-100-coins.png',
         secret: true,
       },
       {
         id: 'tiny-dungeon:collect-500-coins',
-        version: 1,
+        version: 33,
         name: 'Collect 500 Coins',
         description: 'Collect 500 coins in total.',
         iconUrl:
-          'https://cdn.charity.games/_games/tiny-dungeon/assets/achievements/collect-500-coins.png',
+          'https://storage.googleapis.com/charity-games/_games/tiny-dungeon/assets/achievements/collect-500-coins.png',
         secret: true,
       },
       {
         id: 'tiny-dungeon:collect-1000-coins',
-        version: 1,
+        version: 33,
         name: 'Collect 1000 Coins',
         description: 'Collect 1000 coins in total.',
         iconUrl:
-          'https://cdn.charity.games/_games/tiny-dungeon/assets/achievements/collect-1000-coins.png',
+          'https://storage.googleapis.com/charity-games/_games/tiny-dungeon/assets/achievements/collect-1000-coins.png',
         secret: true,
       },
       {
         id: 'tiny-dungeon:collect-2500-coins',
-        version: 1,
+        version: 33,
         name: 'Collect 2500 Coins',
         description: 'Collect 2500 coins in total.',
         iconUrl:
-          'https://cdn.charity.games/_games/tiny-dungeon/assets/achievements/collect-2500-coins.png',
+          'https://storage.googleapis.com/charity-games/_games/tiny-dungeon/assets/achievements/collect-2500-coins.png',
         secret: true,
       },
       {
         id: 'tiny-dungeon:score-10-points',
-        version: 1,
+        version: 33,
         name: 'Score 10 Points',
         description: 'Score 10 points in a single game.',
         iconUrl:
-          'https://cdn.charity.games/_games/tiny-dungeon/assets/achievements/score-10-points.png',
+          'https://storage.googleapis.com/charity-games/_games/tiny-dungeon/assets/achievements/score-10-points.png',
         secret: true,
       },
       {
         id: 'tiny-dungeon:score-50-points',
-        version: 1,
+        version: 33,
         name: 'Score 50 Points',
         description: 'Score 50 points in a single game.',
         iconUrl:
-          'https://cdn.charity.games/_games/tiny-dungeon/assets/achievements/score-50-points.png',
+          'https://storage.googleapis.com/charity-games/_games/tiny-dungeon/assets/achievements/score-50-points.png',
         secret: true,
       },
       {
         id: 'tiny-dungeon:score-100-points',
-        version: 1,
+        version: 33,
         name: 'Score 100 Points',
         description: 'Score 100 points in a single game.',
         iconUrl:
-          'https://cdn.charity.games/_games/tiny-dungeon/assets/achievements/score-100-points.png',
+          'https://storage.googleapis.com/charity-games/_games/tiny-dungeon/assets/achievements/score-100-points.png',
         secret: true,
       },
       {
         id: 'tiny-dungeon:score-150-points',
-        version: 1,
+        version: 33,
         name: 'Score 150 Points',
         description: 'Score 150 points in a single game.',
         iconUrl:
-          'https://cdn.charity.games/_games/tiny-dungeon/assets/achievements/score-150-points.png',
+          'https://storage.googleapis.com/charity-games/_games/tiny-dungeon/assets/achievements/score-150-points.png',
         secret: true,
       },
       {
         id: 'tiny-dungeon:score-200-points',
-        version: 1,
+        version: 33,
         name: 'Score 200 Points',
         description: 'Score 200 points in a single game.',
         iconUrl:
-          'https://cdn.charity.games/_games/tiny-dungeon/assets/achievements/score-200-points.png',
+          'https://storage.googleapis.com/charity-games/_games/tiny-dungeon/assets/achievements/score-200-points.png',
         secret: true,
       },
     ],
@@ -485,19 +488,19 @@ const integratedGames: SeedableGameSchema[] = [
     ],
   },
   {
-    version: 1,
+    version: 33,
     id: 'slime-arrows',
     name: 'Slime & Arrows',
     teamId: 'charity-games',
     iconUrl:
-      'https://cdn.charity.games/_games/slime-arrows/assets/thumbnail.png',
+      'https://storage.googleapis.com/charity-games/_games/slime-arrows/assets/thumbnail.png',
     bannerUrl:
-      'https://cdn.charity.games/_games/slime-arrows/assets/banner.png',
+      'https://storage.googleapis.com/charity-games/_games/slime-arrows/assets/banner.png',
     viewport: viewports['PORTRAIT-ONLY'],
     categories: ['1p', 'arcade', 'endless', 'mobile', 'desktop', 'survival'],
     file: {
       type: 'HTML',
-      url: 'https://cdn.charity.games/_games/slime-arrows',
+      url: 'https://storage.googleapis.com/charity-games/_games/slime-arrows',
     },
     markets: {},
     createdAt: new Date('2025-03-11T00:00:00.000Z'),
@@ -510,39 +513,39 @@ const integratedGames: SeedableGameSchema[] = [
     achievements: [
       {
         id: 'slime-arrows:die-once',
-        version: 1,
+        version: 33,
         name: 'Lose Your First Game',
         description:
           "Lose your first game of Slime & Arrows. Don't worry, it happens to the best of us.",
         iconUrl:
-          'https://cdn.charity.games/_games/slime-arrows/assets/achievements/die-once.png',
+          'https://storage.googleapis.com/charity-games/_games/slime-arrows/assets/achievements/die-once.png',
         secret: false,
       },
       {
         id: 'slime-arrows:score-50',
-        version: 1,
+        version: 33,
         name: 'Score 50',
         description: 'Score 50 points in a single game of Slime & Arrows',
         iconUrl:
-          'https://cdn.charity.games/_games/slime-arrows/assets/achievements/score-500.png',
+          'https://storage.googleapis.com/charity-games/_games/slime-arrows/assets/achievements/score-500.png',
         secret: false,
       },
       {
         id: 'slime-arrows:score-100',
-        version: 1,
+        version: 33,
         name: 'Score 100',
         description: 'Score 100 points in a single game of Slime & Arrows',
         iconUrl:
-          'https://cdn.charity.games/_games/slime-arrows/assets/achievements/score-100.png',
+          'https://storage.googleapis.com/charity-games/_games/slime-arrows/assets/achievements/score-100.png',
         secret: false,
       },
       {
         id: 'slime-arrows:score-150',
-        version: 1,
+        version: 33,
         name: 'Score 150',
         description: 'Score 150 points in a single game of Slime & Arrows',
         iconUrl:
-          'https://cdn.charity.games/_games/slime-arrows/assets/achievements/score-150.png',
+          'https://storage.googleapis.com/charity-games/_games/slime-arrows/assets/achievements/score-150.png',
         secret: false,
       },
     ],
@@ -564,19 +567,19 @@ const integratedGames: SeedableGameSchema[] = [
     ],
   },
   {
-    version: 1,
+    version: 33,
     id: 'bit-jumper',
     name: 'Bit Jumper',
     teamId: 'charity-games',
     iconUrl:
-      'https://cdn.charity.games/_games/bit-jumper/assets/media/thumbnail.png',
+      'https://storage.googleapis.com/charity-games/_games/bit-jumper/assets/media/thumbnail.png',
     bannerUrl:
-      'https://cdn.charity.games/_games/bit-jumper/assets/media/banner.png',
+      'https://storage.googleapis.com/charity-games/_games/bit-jumper/assets/media/banner.png',
     viewport: viewports['PORTRAIT-ONLY'],
     categories: ['1p', 'arcade', 'endless', 'mobile', 'desktop'],
     file: {
       type: 'HTML',
-      url: 'https://cdn.charity.games/_games/bit-jumper',
+      url: 'https://storage.googleapis.com/charity-games/_games/bit-jumper',
     },
     markets: {},
     createdAt: new Date('2024-08-24T00:00:00.000Z'),
@@ -589,132 +592,132 @@ const integratedGames: SeedableGameSchema[] = [
     achievements: [
       {
         id: 'bit-jumper:spiker',
-        version: 2,
+        version: 33,
         name: 'Die to a Spiker',
         description: 'Slam into a Spiker enemy and die in Bit Jumper.',
         iconUrl:
-          'https://cdn.charity.games/_games/bit-jumper/assets/achievements/spiker.png',
+          'https://storage.googleapis.com/charity-games/_games/bit-jumper/assets/achievements/spiker.png',
         secret: false,
       },
       {
         id: 'bit-jumper:chomper',
-        version: 2,
+        version: 33,
         name: 'Die to a Chomper',
         description: 'Slam into a Chomper enemy and die in Bit Jumper.',
         iconUrl:
-          'https://cdn.charity.games/_games/bit-jumper/assets/achievements/chomper.png',
+          'https://storage.googleapis.com/charity-games/_games/bit-jumper/assets/achievements/chomper.png',
         secret: false,
       },
       {
         id: 'bit-jumper:floater',
-        version: 2,
+        version: 33,
         name: 'Die to a Floater',
         description: 'Slam into a Floater enemy and die in Bit Jumper.',
         iconUrl:
-          'https://cdn.charity.games/_games/bit-jumper/assets/achievements/floater.png',
+          'https://storage.googleapis.com/charity-games/_games/bit-jumper/assets/achievements/floater.png',
         secret: false,
       },
       {
         id: 'bit-jumper:smasher',
-        version: 2,
+        version: 33,
         name: 'Smash 5 Enemies',
         description:
           'Hit an enemy while using a power-up to smash it in Bit Jumper. Enemies include Spikers, Chompers, and Floaters.',
         iconUrl:
-          'https://cdn.charity.games/_games/bit-jumper/assets/achievements/smasher.png',
+          'https://storage.googleapis.com/charity-games/_games/bit-jumper/assets/achievements/smasher.png',
         secret: false,
       },
       {
         id: 'bit-jumper:balloon',
-        version: 2,
+        version: 33,
         name: 'Balloon Power-Up x2',
         description:
           'Collect the Balloon Power-Up twice in a single game of Bit Jumper.',
         iconUrl:
-          'https://cdn.charity.games/_games/bit-jumper/assets/achievements/balloon.png',
+          'https://storage.googleapis.com/charity-games/_games/bit-jumper/assets/achievements/balloon.png',
         secret: false,
       },
       {
         id: 'bit-jumper:helicopter',
-        version: 2,
+        version: 33,
         name: 'Helicopter Power-Up x2',
         description:
           'Collect the Helicopter Power-Up twice in a single game of Bit Jumper.',
         iconUrl:
-          'https://cdn.charity.games/_games/bit-jumper/assets/achievements/helicopter.png',
+          'https://storage.googleapis.com/charity-games/_games/bit-jumper/assets/achievements/helicopter.png',
         secret: false,
       },
       {
         id: 'bit-jumper:rocket',
-        version: 2,
+        version: 33,
         name: 'Rocket Power-Up x2',
         description:
           'Collect the Rocket Power-Up twice in a single game of Bit Jumper.',
         iconUrl:
-          'https://cdn.charity.games/_games/bit-jumper/assets/achievements/rocket.png',
+          'https://storage.googleapis.com/charity-games/_games/bit-jumper/assets/achievements/rocket.png',
         secret: false,
       },
       {
         id: 'bit-jumper:1000',
-        version: 2,
+        version: 33,
         name: 'Score 1000',
         description: 'Score 1000 points in a single game of Bit Jumper',
         iconUrl:
-          'https://cdn.charity.games/_games/bit-jumper/assets/achievements/1000.png',
+          'https://storage.googleapis.com/charity-games/_games/bit-jumper/assets/achievements/1000.png',
         secret: false,
       },
       {
         id: 'bit-jumper:2500',
-        version: 2,
+        version: 33,
         name: 'Score 2500',
         description: 'Score 2500 points in a single game of Bit Jumper',
         iconUrl:
-          'https://cdn.charity.games/_games/bit-jumper/assets/achievements/2500.png',
+          'https://storage.googleapis.com/charity-games/_games/bit-jumper/assets/achievements/2500.png',
         secret: false,
       },
       {
         id: 'bit-jumper:5000',
-        version: 2,
+        version: 33,
         name: 'Score 5000',
         description: 'Score 5000 points in a single game of Bit Jumper',
         iconUrl:
-          'https://cdn.charity.games/_games/bit-jumper/assets/achievements/5000.png',
+          'https://storage.googleapis.com/charity-games/_games/bit-jumper/assets/achievements/5000.png',
         secret: false,
       },
       {
         id: 'bit-jumper:7500',
-        version: 2,
+        version: 33,
         name: 'Score 7500',
         description: 'Score 7500 points in a single game of Bit Jumper',
         iconUrl:
-          'https://cdn.charity.games/_games/bit-jumper/assets/achievements/7500.png',
+          'https://storage.googleapis.com/charity-games/_games/bit-jumper/assets/achievements/7500.png',
         secret: false,
       },
       {
         id: 'bit-jumper:10000',
-        version: 2,
+        version: 33,
         name: 'Score 10000',
         description: 'Score 10000 points in a single game of Bit Jumper',
         iconUrl:
-          'https://cdn.charity.games/_games/bit-jumper/assets/achievements/10000.png',
+          'https://storage.googleapis.com/charity-games/_games/bit-jumper/assets/achievements/10000.png',
         secret: false,
       },
       {
         id: 'bit-jumper:15000',
-        version: 2,
+        version: 33,
         name: 'Score 15000',
         description: 'Score 15000 points in a single game of Bit Jumper',
         iconUrl:
-          'https://cdn.charity.games/_games/bit-jumper/assets/achievements/15000.png',
+          'https://storage.googleapis.com/charity-games/_games/bit-jumper/assets/achievements/15000.png',
         secret: false,
       },
       {
         id: 'bit-jumper:20000',
-        version: 2,
+        version: 33,
         name: 'Score 20000',
         description: 'Score 20000 points in a single game of Bit Jumper',
         iconUrl:
-          'https://cdn.charity.games/_games/bit-jumper/assets/achievements/20000.png',
+          'https://storage.googleapis.com/charity-games/_games/bit-jumper/assets/achievements/20000.png',
         secret: false,
       },
     ],
@@ -725,19 +728,19 @@ const integratedGames: SeedableGameSchema[] = [
     ],
   },
   {
-    version: 1,
+    version: 33,
     id: 'hide-and-seek',
     name: 'Hide and Seek',
     teamId: 'charity-games',
     iconUrl:
-      'https://cdn.charity.games/_games/hide-and-seek/assets/thumbnail.png',
+      'https://storage.googleapis.com/charity-games/_games/hide-and-seek/assets/thumbnail.png',
     bannerUrl:
-      'https://cdn.charity.games/_games/hide-and-seek/assets/banner.png',
+      'https://storage.googleapis.com/charity-games/_games/hide-and-seek/assets/banner.png',
     viewport: viewports['ALL-DEVICES'],
     categories: ['1p', 'brain', 'puzzle', 'mobile', 'desktop', 'educational'],
     file: {
       type: 'HTML',
-      url: 'https://cdn.charity.games/_games/hide-and-seek',
+      url: 'https://storage.googleapis.com/charity-games/_games/hide-and-seek',
     },
     markets: {},
     createdAt: new Date('2024-08-01T00:00:00.000Z'),
@@ -750,39 +753,39 @@ const integratedGames: SeedableGameSchema[] = [
     achievements: [
       {
         id: 'hide-and-seek:perfect',
-        version: 1,
+        version: 33,
         name: 'Play a Perfect Game',
         description:
           'Find all three hidden characters without making a mistake',
         iconUrl:
-          'https://cdn.charity.games/_games/hide-and-seek/assets/achievements/perfect.png',
+          'https://storage.googleapis.com/charity-games/_games/hide-and-seek/assets/achievements/perfect.png',
         secret: false,
       },
       {
         id: 'hide-and-seek:found-one',
-        version: 1,
+        version: 33,
         name: 'Find One',
         description: 'Find at least one hidden character during a game',
         iconUrl:
-          'https://cdn.charity.games/_games/hide-and-seek/assets/achievements/found-one.png',
+          'https://storage.googleapis.com/charity-games/_games/hide-and-seek/assets/achievements/found-one.png',
         secret: false,
       },
       {
         id: 'hide-and-seek:found-two',
-        version: 1,
+        version: 33,
         name: 'Find Two',
         description: 'Find at least two hidden characters during a game',
         iconUrl:
-          'https://cdn.charity.games/_games/hide-and-seek/assets/achievements/found-two.png',
+          'https://storage.googleapis.com/charity-games/_games/hide-and-seek/assets/achievements/found-two.png',
         secret: false,
       },
       {
         id: 'hide-and-seek:found-three',
-        version: 1,
+        version: 33,
         name: 'Find Three',
         description: 'Find all three hidden characters during a game',
         iconUrl:
-          'https://cdn.charity.games/_games/hide-and-seek/assets/achievements/found-three.png',
+          'https://storage.googleapis.com/charity-games/_games/hide-and-seek/assets/achievements/found-three.png',
         secret: false,
       },
     ],
@@ -811,16 +814,18 @@ const integratedGames: SeedableGameSchema[] = [
     ],
   },
   {
-    version: 1,
+    version: 33,
     id: 'tall-tower',
     name: 'Tall Tower',
     teamId: 'charity-games',
-    iconUrl: 'https://cdn.charity.games/_games/tall-tower/assets/thumbnail.png',
-    bannerUrl: 'https://cdn.charity.games/_games/tall-tower/assets/banner.png',
+    iconUrl:
+      'https://storage.googleapis.com/charity-games/_games/tall-tower/assets/thumbnail.png',
+    bannerUrl:
+      'https://storage.googleapis.com/charity-games/_games/tall-tower/assets/banner.png',
     viewport: viewports['PORTRAIT-ONLY'],
     file: {
       type: 'HTML',
-      url: 'https://cdn.charity.games/_games/tall-tower',
+      url: 'https://storage.googleapis.com/charity-games/_games/tall-tower',
     },
     markets: {},
     createdAt: new Date('2024-07-19T00:00:00.000Z'),
@@ -834,83 +839,83 @@ const integratedGames: SeedableGameSchema[] = [
     achievements: [
       {
         id: 'TALL_TOWER_BONUS_1',
-        version: 1,
+        version: 33,
         name: 'Bonus Prize - 1',
         description: 'Reach the bonus prize line with a single block',
         iconUrl:
-          'https://cdn.charity.games/_games/tall-tower/assets/achievements/bonus_1.png',
+          'https://storage.googleapis.com/charity-games/_games/tall-tower/assets/achievements/bonus_1.png',
         secret: false,
       },
       {
         id: 'TALL_TOWER_BONUS_2',
-        version: 1,
+        version: 33,
         name: 'Bonus Prize - 2',
         description: 'Reach the bonus prize line with two blocks',
         iconUrl:
-          'https://cdn.charity.games/_games/tall-tower/assets/achievements/bonus_2.png',
+          'https://storage.googleapis.com/charity-games/_games/tall-tower/assets/achievements/bonus_2.png',
         secret: false,
       },
       {
         id: 'TALL_TOWER_BONUS_3',
-        version: 1,
+        version: 33,
         name: 'Bonus Prize - 3',
         description: 'Reach the bonus prize line with three blocks',
         iconUrl:
-          'https://cdn.charity.games/_games/tall-tower/assets/achievements/bonus_3.png',
+          'https://storage.googleapis.com/charity-games/_games/tall-tower/assets/achievements/bonus_3.png',
         secret: false,
       },
       {
         id: 'TALL_TOWER_MINOR_1',
-        version: 1,
+        version: 33,
         name: 'Minor Prize - 1',
         description: 'Reach the minor prize line with one block',
         iconUrl:
-          'https://cdn.charity.games/_games/tall-tower/assets/achievements/minor_1.png',
+          'https://storage.googleapis.com/charity-games/_games/tall-tower/assets/achievements/minor_1.png',
         secret: false,
       },
       {
         id: 'TALL_TOWER_MINOR_2',
-        version: 1,
+        version: 33,
         name: 'Minor Prize - 2',
         description: 'Reach the minor prize line with two blocks',
         iconUrl:
-          'https://cdn.charity.games/_games/tall-tower/assets/achievements/minor_2.png',
+          'https://storage.googleapis.com/charity-games/_games/tall-tower/assets/achievements/minor_2.png',
         secret: false,
       },
       {
         id: 'TALL_TOWER_MINOR_3',
-        version: 1,
+        version: 33,
         name: 'Minor Prize - 3',
         description: 'Reach the minor prize line with three blocks',
         iconUrl:
-          'https://cdn.charity.games/_games/tall-tower/assets/achievements/minor_3.png',
+          'https://storage.googleapis.com/charity-games/_games/tall-tower/assets/achievements/minor_3.png',
         secret: false,
       },
       {
         id: 'TALL_TOWER_MAJOR_1',
-        version: 1,
+        version: 33,
         name: 'Major Prize - 1',
         description: 'Reach the major prize line with one block',
         iconUrl:
-          'https://cdn.charity.games/_games/tall-tower/assets/achievements/major_1.png',
+          'https://storage.googleapis.com/charity-games/_games/tall-tower/assets/achievements/major_1.png',
         secret: false,
       },
       {
         id: 'TALL_TOWER_MAJOR_2',
-        version: 1,
+        version: 33,
         name: 'Major Prize - 2',
         description: 'Reach the major prize line with two blocks',
         iconUrl:
-          'https://cdn.charity.games/_games/tall-tower/assets/achievements/major_2.png',
+          'https://storage.googleapis.com/charity-games/_games/tall-tower/assets/achievements/major_2.png',
         secret: false,
       },
       {
         id: 'TALL_TOWER_MAJOR_3',
-        version: 1,
+        version: 33,
         name: 'Major Prize - 3',
         description: 'Reach the major prize line with three blocks',
         iconUrl:
-          'https://cdn.charity.games/_games/tall-tower/assets/achievements/major_3.png',
+          'https://storage.googleapis.com/charity-games/_games/tall-tower/assets/achievements/major_3.png',
         secret: false,
       },
     ],
@@ -926,16 +931,18 @@ const integratedGames: SeedableGameSchema[] = [
     ],
   },
   {
-    version: 1,
+    version: 33,
     id: 'block-bash',
     name: 'Block Bash',
     teamId: 'charity-games',
-    iconUrl: 'https://cdn.charity.games/_games/block-bash/assets/thumbnail.png',
-    bannerUrl: 'https://cdn.charity.games/_games/block-bash/assets/banner.png',
+    iconUrl:
+      'https://storage.googleapis.com/charity-games/_games/block-bash/assets/thumbnail.png',
+    bannerUrl:
+      'https://storage.googleapis.com/charity-games/_games/block-bash/assets/banner.png',
     viewport: viewports['PORTRAIT-ONLY'],
     file: {
       type: 'HTML',
-      url: 'https://cdn.charity.games/_games/block-bash',
+      url: 'https://storage.googleapis.com/charity-games/_games/block-bash',
     },
     categories: ['1p', 'brain', 'puzzle', 'mobile', 'desktop', 'educational'],
     markets: {},
@@ -948,209 +955,209 @@ const integratedGames: SeedableGameSchema[] = [
     achievements: [
       {
         id: 'BLOCK_BASH_100_POINTS_GAME',
-        version: 1,
+        version: 33,
         name: 'Score 100',
         description: 'Score 100 points in a single game',
         iconUrl:
-          'https://cdn.charity.games/_games/block-bash/assets/achievements/score_100.png',
+          'https://storage.googleapis.com/charity-games/_games/block-bash/assets/achievements/score_100.png',
         secret: false,
       },
       {
         id: 'BLOCK_BASH_500_POINTS_GAME',
-        version: 1,
+        version: 33,
         name: 'Score 500',
         description: 'Score 500 points in a single game',
         iconUrl:
-          'https://cdn.charity.games/_games/block-bash/assets/achievements/score_500.png',
+          'https://storage.googleapis.com/charity-games/_games/block-bash/assets/achievements/score_500.png',
         secret: false,
       },
       {
         id: 'BLOCK_BASH_1000_POINTS_GAME',
-        version: 2,
+        version: 33,
         name: 'Score 1,000',
         description: 'Score 1,000 points in a single game',
         iconUrl:
-          'https://cdn.charity.games/_games/block-bash/assets/achievements/score_1000.png',
+          'https://storage.googleapis.com/charity-games/_games/block-bash/assets/achievements/score_1000.png',
         secret: false,
       },
       {
         id: 'BLOCK_BASH_1500_POINTS_GAME',
-        version: 2,
+        version: 33,
         name: 'Score 1,500',
         description: 'Score 1,500 points in a single game',
         iconUrl:
-          'https://cdn.charity.games/_games/block-bash/assets/achievements/score_1500.png',
+          'https://storage.googleapis.com/charity-games/_games/block-bash/assets/achievements/score_1500.png',
         secret: false,
       },
       {
         id: 'BLOCK_BASH_2000_POINTS_GAME',
-        version: 2,
+        version: 33,
         name: 'Score 2,000',
         description: 'Score 2,000 points in a single game',
         iconUrl:
-          'https://cdn.charity.games/_games/block-bash/assets/achievements/score_2000.png',
+          'https://storage.googleapis.com/charity-games/_games/block-bash/assets/achievements/score_2000.png',
         secret: false,
       },
       {
         id: 'BLOCK_BASH_2500_POINTS_GAME',
-        version: 1,
+        version: 33,
         name: 'Score 2,500',
         description: 'Score 2,500 points in a single game',
         iconUrl:
-          'https://cdn.charity.games/_games/block-bash/assets/achievements/score_2500.png',
+          'https://storage.googleapis.com/charity-games/_games/block-bash/assets/achievements/score_2500.png',
         secret: false,
       },
       {
         id: 'BLOCK_BASH_3000_POINTS_GAME',
-        version: 2,
+        version: 33,
         name: 'Score 3,000',
         description: 'Score 3,000 points in a single game',
         iconUrl:
-          'https://cdn.charity.games/_games/block-bash/assets/achievements/score_3000.png',
+          'https://storage.googleapis.com/charity-games/_games/block-bash/assets/achievements/score_3000.png',
         secret: false,
       },
       {
         id: 'BLOCK_BASH_3500_POINTS_GAME',
-        version: 1,
+        version: 33,
         name: 'Score 3,500',
         description: 'Score 3,500 points in a single game',
         iconUrl:
-          'https://cdn.charity.games/_games/block-bash/assets/achievements/score_3500.png',
+          'https://storage.googleapis.com/charity-games/_games/block-bash/assets/achievements/score_3500.png',
         secret: false,
       },
       {
         id: 'BLOCK_BASH_4000_POINTS_GAME',
-        version: 2,
+        version: 33,
         name: 'Score 4,000',
         description: 'Score 4,000 points in a single game',
         iconUrl:
-          'https://cdn.charity.games/_games/block-bash/assets/achievements/score_4000.png',
+          'https://storage.googleapis.com/charity-games/_games/block-bash/assets/achievements/score_4000.png',
         secret: false,
       },
       {
         id: 'BLOCK_BASH_4500_POINTS_GAME',
-        version: 1,
+        version: 33,
         name: 'Score 4,500',
         description: 'Score 4,500 points in a single game',
         iconUrl:
-          'https://cdn.charity.games/_games/block-bash/assets/achievements/score_4500.png',
+          'https://storage.googleapis.com/charity-games/_games/block-bash/assets/achievements/score_4500.png',
         secret: false,
       },
       {
         id: 'BLOCK_BASH_5000_POINTS_GAME',
-        version: 2,
+        version: 33,
         name: 'Score 5,000',
         description: 'Score 5,000 points in a single game',
         iconUrl:
-          'https://cdn.charity.games/_games/block-bash/assets/achievements/score_5000.png',
+          'https://storage.googleapis.com/charity-games/_games/block-bash/assets/achievements/score_5000.png',
         secret: false,
       },
       {
         id: 'BLOCK_BASH_100_LINES',
-        version: 1,
+        version: 33,
         name: 'Complete 100 Lines',
         description: 'Complete 100 lines across all games',
         iconUrl:
-          'https://cdn.charity.games/_games/block-bash/assets/achievements/lines_100.png',
+          'https://storage.googleapis.com/charity-games/_games/block-bash/assets/achievements/lines_100.png',
         secret: false,
       },
       {
         id: 'BLOCK_BASH_500_LINES',
-        version: 1,
+        version: 33,
         name: 'Complete 500 Lines',
         description: 'Complete 500 lines across all games',
         iconUrl:
-          'https://cdn.charity.games/_games/block-bash/assets/achievements/lines_500.png',
+          'https://storage.googleapis.com/charity-games/_games/block-bash/assets/achievements/lines_500.png',
         secret: false,
       },
       {
         id: 'BLOCK_BASH_1000_LINES',
-        version: 1,
+        version: 33,
         name: 'Complete 1,000 Lines',
         description: 'Complete 1,000 lines across all games',
         iconUrl:
-          'https://cdn.charity.games/_games/block-bash/assets/achievements/lines_1000.png',
+          'https://storage.googleapis.com/charity-games/_games/block-bash/assets/achievements/lines_1000.png',
         secret: false,
       },
       {
         id: 'BLOCK_BASH_2500_LINES',
-        version: 1,
+        version: 33,
         name: 'Complete 2,500 Lines',
         description: 'Complete 2,500 lines across all games',
         iconUrl:
-          'https://cdn.charity.games/_games/block-bash/assets/achievements/lines_2500.png',
+          'https://storage.googleapis.com/charity-games/_games/block-bash/assets/achievements/lines_2500.png',
         secret: false,
       },
       {
         id: 'BLOCK_BASH_5000_LINES',
-        version: 1,
+        version: 33,
         name: 'Complete 5,000 Lines',
         description: 'Complete 5,000 lines across all games',
         iconUrl:
-          'https://cdn.charity.games/_games/block-bash/assets/achievements/lines_5000.png',
+          'https://storage.googleapis.com/charity-games/_games/block-bash/assets/achievements/lines_5000.png',
         secret: false,
       },
       {
         id: 'BLOCK_BASH_10000_LINES',
-        version: 1,
+        version: 33,
         name: 'Complete 10,000 Lines',
         description: 'Complete 10,000 lines across all games',
         iconUrl:
-          'https://cdn.charity.games/_games/block-bash/assets/achievements/lines_10000.png',
+          'https://storage.googleapis.com/charity-games/_games/block-bash/assets/achievements/lines_10000.png',
         secret: false,
       },
       {
         id: 'BLOCK_BASH_1000_BLOCKS_LIFETIME',
-        version: 1,
+        version: 33,
         name: 'Place 1,000 Blocks',
         description: 'Place 1,000 blocks across all games',
         iconUrl:
-          'https://cdn.charity.games/_games/block-bash/assets/achievements/blocks_1000.png',
+          'https://storage.googleapis.com/charity-games/_games/block-bash/assets/achievements/blocks_1000.png',
         secret: false,
       },
       {
         id: 'BLOCK_BASH_5000_BLOCKS_LIFETIME',
-        version: 1,
+        version: 33,
         name: 'Place 5,000 Blocks',
         description: 'Place 5,000 blocks across all games',
         iconUrl:
-          'https://cdn.charity.games/_games/block-bash/assets/achievements/blocks_5000.png',
+          'https://storage.googleapis.com/charity-games/_games/block-bash/assets/achievements/blocks_5000.png',
         secret: false,
       },
       {
         id: 'BLOCK_BASH_10000_BLOCKS_LIFETIME',
-        version: 1,
+        version: 33,
         name: 'Place 10,00 Blocks',
         description: 'Place 10,000 blocks across all games',
         iconUrl:
-          'https://cdn.charity.games/_games/block-bash/assets/achievements/blocks_10000.png',
+          'https://storage.googleapis.com/charity-games/_games/block-bash/assets/achievements/blocks_10000.png',
         secret: false,
       },
       {
         id: 'BLOCK_BASH_20000_BLOCKS_LIFETIME',
-        version: 1,
+        version: 33,
         name: 'Place 20,000 Blocks',
         description: 'Place 20,000 blocks across all games',
         iconUrl:
-          'https://cdn.charity.games/_games/block-bash/assets/achievements/blocks_20000.png',
+          'https://storage.googleapis.com/charity-games/_games/block-bash/assets/achievements/blocks_20000.png',
         secret: false,
       },
       {
         id: 'BLOCK_BASH_50000_BLOCKS_LIFETIME',
-        version: 1,
+        version: 33,
         name: 'Place 50,000 Blocks',
         description: 'Place 50,000 blocks across all games',
         iconUrl:
-          'https://cdn.charity.games/_games/block-bash/assets/achievements/blocks_50000.png',
+          'https://storage.googleapis.com/charity-games/_games/block-bash/assets/achievements/blocks_50000.png',
         secret: false,
       },
       {
         id: 'BLOCK_BASH_100000_BLOCKS_LIFETIME',
-        version: 1,
+        version: 33,
         name: 'Place 100,000 Blocks',
         description: 'Place 100,000 blocks across all games',
         iconUrl:
-          'https://cdn.charity.games/_games/block-bash/assets/achievements/blocks_100000.png',
+          'https://storage.googleapis.com/charity-games/_games/block-bash/assets/achievements/blocks_100000.png',
         secret: false,
       },
     ],
@@ -1162,17 +1169,19 @@ const integratedGames: SeedableGameSchema[] = [
     ],
   },
   {
-    version: 1,
+    version: 33,
     id: 'dino-dash',
     name: 'Dino Dash',
     teamId: 'charity-games',
-    iconUrl: 'https://cdn.charity.games/_games/dino-dash/assets/thumbnail.png',
-    bannerUrl: 'https://cdn.charity.games/_games/dino-dash/assets/banner.png',
+    iconUrl:
+      'https://storage.googleapis.com/charity-games/_games/dino-dash/assets/thumbnail.png',
+    bannerUrl:
+      'https://storage.googleapis.com/charity-games/_games/dino-dash/assets/banner.png',
     viewport: viewports['ALL-DEVICES'],
     categories: ['action', 'arcade', 'endless', 'desktop', 'mobile'],
     file: {
       type: 'HTML',
-      url: 'https://cdn.charity.games/_games/dino-dash',
+      url: 'https://storage.googleapis.com/charity-games/_games/dino-dash',
     },
     markets: {},
     createdAt: new Date('2024-07-01T00:00:00.000Z'),
@@ -1190,228 +1199,230 @@ const integratedGames: SeedableGameSchema[] = [
     achievements: [
       {
         id: 'DINO_DASH_SCORE_100',
-        version: 1,
+        version: 33,
         name: 'Score 100',
         description: 'Score over 100 points in a single game',
         iconUrl:
-          'https://cdn.charity.games/_games/dino-dash/assets/achievements/score_100.png',
+          'https://storage.googleapis.com/charity-games/_games/dino-dash/assets/achievements/score_100.png',
         secret: false,
       },
       {
         id: 'DINO_DASH_SCORE_500',
-        version: 1,
+        version: 33,
         name: 'Score 500',
         description: 'Score over 500 points in a single game',
         iconUrl:
-          'https://cdn.charity.games/_games/dino-dash/assets/achievements/score_500.png',
+          'https://storage.googleapis.com/charity-games/_games/dino-dash/assets/achievements/score_500.png',
         secret: false,
       },
       {
         id: 'DINO_DASH_SCORE_1000',
-        version: 1,
+        version: 33,
         name: 'Score 1000',
         description: 'Score over 1000 points in a single game',
         iconUrl:
-          'https://cdn.charity.games/_games/dino-dash/assets/achievements/score_1000.png',
+          'https://storage.googleapis.com/charity-games/_games/dino-dash/assets/achievements/score_1000.png',
         secret: false,
       },
       {
         id: 'DINO_DASH_SCORE_2500',
-        version: 1,
+        version: 33,
         name: 'Score 2500',
         description: 'Score over 2500 points in a single game',
         iconUrl:
-          'https://cdn.charity.games/_games/dino-dash/assets/achievements/score_2500.png',
+          'https://storage.googleapis.com/charity-games/_games/dino-dash/assets/achievements/score_2500.png',
         secret: false,
       },
       {
         id: 'DINO_DASH_SCORE_5000',
-        version: 1,
+        version: 33,
         name: 'Score 5000',
         description: 'Score over 5000 points in a single game',
         iconUrl:
-          'https://cdn.charity.games/_games/dino-dash/assets/achievements/score_5000.png',
+          'https://storage.googleapis.com/charity-games/_games/dino-dash/assets/achievements/score_5000.png',
         secret: false,
       },
       {
         id: 'DINO_DASH_COINS_1',
-        version: 1,
+        version: 33,
         name: 'Collect 1 Coin',
         description: 'Collect 1 coin across all games',
         iconUrl:
-          'https://cdn.charity.games/_games/dino-dash/assets/achievements/coins_1.png',
+          'https://storage.googleapis.com/charity-games/_games/dino-dash/assets/achievements/coins_1.png',
         secret: false,
       },
       {
         id: 'DINO_DASH_COINS_10',
-        version: 1,
+        version: 33,
         name: 'Collect 10 Coins',
         description: 'Collect 10 coins across all games',
         iconUrl:
-          'https://cdn.charity.games/_games/dino-dash/assets/achievements/coins_10.png',
+          'https://storage.googleapis.com/charity-games/_games/dino-dash/assets/achievements/coins_10.png',
         secret: false,
       },
       {
         id: 'DINO_DASH_COINS_50',
-        version: 1,
+        version: 33,
         name: 'Collect 50 Coins',
         description: 'Collect 50 coins across all games',
         iconUrl:
-          'https://cdn.charity.games/_games/dino-dash/assets/achievements/coins_50.png',
+          'https://storage.googleapis.com/charity-games/_games/dino-dash/assets/achievements/coins_50.png',
         secret: false,
       },
       {
         id: 'DINO_DASH_COINS_100',
-        version: 1,
+        version: 33,
         name: 'Collect 100 Coins',
         description: 'Collect 100 coins across all games',
         iconUrl:
-          'https://cdn.charity.games/_games/dino-dash/assets/achievements/coins_100.png',
+          'https://storage.googleapis.com/charity-games/_games/dino-dash/assets/achievements/coins_100.png',
         secret: false,
       },
       {
         id: 'DINO_DASH_COINS_250',
-        version: 1,
+        version: 33,
         name: 'Collect 250 Coins',
         description: 'Collect 250 coins across all games',
         iconUrl:
-          'https://cdn.charity.games/_games/dino-dash/assets/achievements/coins_250.png',
+          'https://storage.googleapis.com/charity-games/_games/dino-dash/assets/achievements/coins_250.png',
         secret: false,
       },
       {
         id: 'DINO_DASH_DAMAGE_1',
-        version: 1,
+        version: 33,
         name: 'Take 1 Damage',
         description: 'Take 1 damage across all games',
         iconUrl:
-          'https://cdn.charity.games/_games/dino-dash/assets/achievements/damage_1.png',
+          'https://storage.googleapis.com/charity-games/_games/dino-dash/assets/achievements/damage_1.png',
         secret: false,
       },
       {
         id: 'DINO_DASH_DAMAGE_10',
-        version: 1,
+        version: 33,
         name: 'Take 10 Damage',
         description: 'Take 10 damage across all games',
         iconUrl:
-          'https://cdn.charity.games/_games/dino-dash/assets/achievements/damage_10.png',
+          'https://storage.googleapis.com/charity-games/_games/dino-dash/assets/achievements/damage_10.png',
         secret: false,
       },
       {
         id: 'DINO_DASH_DAMAGE_25',
-        version: 1,
+        version: 33,
         name: 'Take 25 Damage',
         description: 'Take 25 damage across all games',
         iconUrl:
-          'https://cdn.charity.games/_games/dino-dash/assets/achievements/damage_25.png',
+          'https://storage.googleapis.com/charity-games/_games/dino-dash/assets/achievements/damage_25.png',
         secret: false,
       },
       {
         id: 'DINO_DASH_DAMAGE_50',
-        version: 1,
+        version: 33,
         name: 'Take 50 Damage',
         description: 'Take 50 damage across all games',
         iconUrl:
-          'https://cdn.charity.games/_games/dino-dash/assets/achievements/damage_50.png',
+          'https://storage.googleapis.com/charity-games/_games/dino-dash/assets/achievements/damage_50.png',
         secret: false,
       },
       {
         id: 'DINO_DASH_DAMAGE_100',
-        version: 1,
+        version: 33,
         name: 'Take 100 Damage',
         description: 'Take 100 damage across all games',
         iconUrl:
-          'https://cdn.charity.games/_games/dino-dash/assets/achievements/damage_100.png',
+          'https://storage.googleapis.com/charity-games/_games/dino-dash/assets/achievements/damage_100.png',
         secret: false,
       },
       {
         id: 'DINO_DASH_JUMPS_125',
-        version: 2,
+        version: 33,
         name: 'Jump 125 Times',
         description: 'Jump 125 time across all games',
         iconUrl:
-          'https://cdn.charity.games/_games/dino-dash/assets/achievements/jumps_125.png',
+          'https://storage.googleapis.com/charity-games/_games/dino-dash/assets/achievements/jumps_125.png',
         secret: false,
       },
       {
         id: 'DINO_DASH_JUMPS_250',
-        version: 2,
+        version: 33,
         name: 'Jump 250 Times',
         description: 'Jump 250 times across all games',
         iconUrl:
-          'https://cdn.charity.games/_games/dino-dash/assets/achievements/jumps_250.png',
+          'https://storage.googleapis.com/charity-games/_games/dino-dash/assets/achievements/jumps_250.png',
         secret: false,
       },
       {
         id: 'DINO_DASH_JUMPS_1250',
-        version: 2,
+        version: 33,
         name: 'Jump 1250 Times',
         description: 'Jump 1250 times across all games',
         iconUrl:
-          'https://cdn.charity.games/_games/dino-dash/assets/achievements/jumps_1250.png',
+          'https://storage.googleapis.com/charity-games/_games/dino-dash/assets/achievements/jumps_1250.png',
         secret: false,
       },
       {
         id: 'DINO_DASH_JUMPS_3000',
-        version: 2,
+        version: 33,
         name: 'Jump 3000 Times',
         description: 'Jump 3000 times across all games',
         iconUrl:
-          'https://cdn.charity.games/_games/dino-dash/assets/achievements/jumps_3000.png',
+          'https://storage.googleapis.com/charity-games/_games/dino-dash/assets/achievements/jumps_3000.png',
         secret: false,
       },
       {
         id: 'DINO_DASH_JUMPS_5000',
-        version: 2,
+        version: 33,
         name: 'Jump 5000 Times',
         description: 'Jump 5000 times across all games',
         iconUrl:
-          'https://cdn.charity.games/_games/dino-dash/assets/achievements/jumps_5000.png',
+          'https://storage.googleapis.com/charity-games/_games/dino-dash/assets/achievements/jumps_5000.png',
         secret: false,
       },
       {
         id: 'DINO_DASH_UNLOCK_BILLY',
-        version: 1,
+        version: 33,
         name: 'Unlock Billy the Brontosaurus',
         description:
           'Visit the shop and purchase the character: Billy the Brontosaurus',
         iconUrl:
-          'https://cdn.charity.games/_games/dino-dash/assets/achievements/unlock_billy.png',
+          'https://storage.googleapis.com/charity-games/_games/dino-dash/assets/achievements/unlock_billy.png',
         secret: false,
       },
       {
         id: 'DINO_DASH_UNLOCK_TERRY',
-        version: 1,
+        version: 33,
         name: 'Unlock Terry the Triceratops',
         description:
           'Visit the shop and purchase the character: Terry the Triceratops',
         iconUrl:
-          'https://cdn.charity.games/_games/dino-dash/assets/achievements/unlock_terry.png',
+          'https://storage.googleapis.com/charity-games/_games/dino-dash/assets/achievements/unlock_terry.png',
         secret: false,
       },
       {
         id: 'DINO_DASH_UNLOCK_CARLY',
-        version: 1,
+        version: 33,
         name: 'Unlock Carly the Carnotaurus',
         description:
           'Visit the shop and purchase the character: Carly the Carnotaurus',
         iconUrl:
-          'https://cdn.charity.games/_games/dino-dash/assets/achievements/unlock_carly.png',
+          'https://storage.googleapis.com/charity-games/_games/dino-dash/assets/achievements/unlock_carly.png',
         secret: false,
       },
     ],
   },
   {
-    version: 1,
+    version: 33,
     id: 'color-run',
     name: 'Color Run',
     teamId: 'charity-games',
-    iconUrl: 'https://cdn.charity.games/_games/color-run/assets/thumbnail.png',
-    bannerUrl: 'https://cdn.charity.games/_games/color-run/assets/banner.png',
+    iconUrl:
+      'https://storage.googleapis.com/charity-games/_games/color-run/assets/thumbnail.png',
+    bannerUrl:
+      'https://storage.googleapis.com/charity-games/_games/color-run/assets/banner.png',
     viewport: viewports['PORTRAIT-ONLY'],
     categories: ['ad-free', 'arcade', 'desktop', 'mobile', '1p', 'survival'],
     file: {
       type: 'HTML',
-      url: 'https://cdn.charity.games/_games/color-run',
+      url: 'https://storage.googleapis.com/charity-games/_games/color-run',
     },
     createdAt: new Date('2024-06-05T00:00:00.000Z'),
     updatedAt: new Date('2024-06-05T00:00:00.000Z'),
@@ -1431,65 +1442,65 @@ const integratedGames: SeedableGameSchema[] = [
     achievements: [
       {
         id: 'COLOR_RUN_SCORE_1',
-        version: 3,
+        version: 33,
         name: 'First Score',
         description: 'Score 1 point in the game',
         iconUrl:
-          'https://cdn.charity.games/_games/color-run/assets/achievements/1.png',
+          'https://storage.googleapis.com/charity-games/_games/color-run/assets/achievements/1.png',
         secret: false,
       },
       {
         id: 'COLOR_RUN_SCORE_5',
-        version: 3,
+        version: 33,
         name: 'Score 5',
         description: 'Score 5 points in the game',
         iconUrl:
-          'https://cdn.charity.games/_games/color-run/assets/achievements/5.png',
+          'https://storage.googleapis.com/charity-games/_games/color-run/assets/achievements/5.png',
         secret: false,
       },
       {
         id: 'COLOR_RUN_SCORE_10',
-        version: 3,
+        version: 33,
         name: 'Score 10',
         description: 'Score 10 points in the game',
         iconUrl:
-          'https://cdn.charity.games/_games/color-run/assets/achievements/10.png',
+          'https://storage.googleapis.com/charity-games/_games/color-run/assets/achievements/10.png',
         secret: false,
       },
       {
         id: 'COLOR_RUN_SCORE_25',
-        version: 3,
+        version: 33,
         name: 'Score 25',
         description: 'Score 25 points in the game',
         iconUrl:
-          'https://cdn.charity.games/_games/color-run/assets/achievements/25.png',
+          'https://storage.googleapis.com/charity-games/_games/color-run/assets/achievements/25.png',
         secret: false,
       },
       {
         id: 'COLOR_RUN_SCORE_50',
-        version: 3,
+        version: 33,
         name: 'Score 50',
         description: 'Score 50 points in the game',
         iconUrl:
-          'https://cdn.charity.games/_games/color-run/assets/achievements/50.png',
+          'https://storage.googleapis.com/charity-games/_games/color-run/assets/achievements/50.png',
         secret: false,
       },
       {
         id: 'COLOR_RUN_SCORE_75',
-        version: 3,
+        version: 33,
         name: 'Score 75',
         description: 'Score 75 points in the game',
         iconUrl:
-          'https://cdn.charity.games/_games/color-run/assets/achievements/75.png',
+          'https://storage.googleapis.com/charity-games/_games/color-run/assets/achievements/75.png',
         secret: false,
       },
       {
         id: 'COLOR_RUN_SCORE_100',
-        version: 3,
+        version: 33,
         name: 'Score 100',
         description: 'Score 100 points in the game',
         iconUrl:
-          'https://cdn.charity.games/_games/color-run/assets/achievements/100.png',
+          'https://storage.googleapis.com/charity-games/_games/color-run/assets/achievements/100.png',
         secret: false,
       },
     ],
@@ -1498,14 +1509,14 @@ const integratedGames: SeedableGameSchema[] = [
 
 const basicGames: SeedableGameSchema[] = [
   {
-    version: 1,
+    version: 33,
     id: 'gravity-blocks',
     name: 'Gravity Blocks',
     teamId: 'charity-games',
     iconUrl:
-      'https://cdn.charity.games/_games/gravity-blocks/assets/thumbnail.png',
+      'https://storage.googleapis.com/charity-games/_games/gravity-blocks/assets/thumbnail.png',
     bannerUrl:
-      'https://cdn.charity.games/_games/gravity-blocks/assets/banner.png',
+      'https://storage.googleapis.com/charity-games/_games/gravity-blocks/assets/banner.png',
     viewport: viewports['LANDSCAPE-ONLY'],
     categories: [
       '1p',
@@ -1519,7 +1530,7 @@ const basicGames: SeedableGameSchema[] = [
     ],
     file: {
       type: 'HTML',
-      url: 'https://cdn.charity.games/_games/gravity-blocks',
+      url: 'https://storage.googleapis.com/charity-games/_games/gravity-blocks',
     },
     createdAt: new Date('2024-07-10T00:00:00.000Z'),
     updatedAt: new Date('2024-07-10T00:00:00.000Z'),
@@ -1532,19 +1543,19 @@ const basicGames: SeedableGameSchema[] = [
     achievements: [],
   },
   {
-    version: 1,
+    version: 33,
     id: 'avoid-blocks',
     name: 'Avoid Blocks',
     teamId: 'charity-games',
     iconUrl:
-      'https://cdn.charity.games/_games/avoid-blocks/assets/thumbnail.png',
+      'https://storage.googleapis.com/charity-games/_games/avoid-blocks/assets/thumbnail.png',
     bannerUrl:
-      'https://cdn.charity.games/_games/avoid-blocks/assets/banner.png',
+      'https://storage.googleapis.com/charity-games/_games/avoid-blocks/assets/banner.png',
     viewport: viewports['PORTRAIT-ONLY'],
     categories: ['1p', 'arcade', 'desktop', 'mobile', 'survival', 'ad-free'],
     file: {
       type: 'HTML',
-      url: 'https://cdn.charity.games/_games/avoid-blocks',
+      url: 'https://storage.googleapis.com/charity-games/_games/avoid-blocks',
     },
     createdAt: new Date('2024-07-03T00:00:00.000Z'),
     updatedAt: new Date('2024-07-03T00:00:00.000Z'),
@@ -1557,12 +1568,14 @@ const basicGames: SeedableGameSchema[] = [
     achievements: [],
   },
   {
-    version: 1,
+    version: 33,
     id: 'zig-up',
     name: 'Zig Up',
     teamId: 'charity-games',
-    iconUrl: 'https://cdn.charity.games/_games/zig-up/assets/thumbnail.png',
-    bannerUrl: 'https://cdn.charity.games/_games/zig-up/assets/banner.png',
+    iconUrl:
+      'https://storage.googleapis.com/charity-games/_games/zig-up/assets/thumbnail.png',
+    bannerUrl:
+      'https://storage.googleapis.com/charity-games/_games/zig-up/assets/banner.png',
     viewport: viewports['PORTRAIT-ONLY'],
     categories: [
       'ad-free',
@@ -1575,7 +1588,7 @@ const basicGames: SeedableGameSchema[] = [
     ],
     file: {
       type: 'HTML',
-      url: 'https://cdn.charity.games/_games/zig-up',
+      url: 'https://storage.googleapis.com/charity-games/_games/zig-up',
     },
     createdAt: new Date('2024-06-26T00:00:00.000Z'),
     updatedAt: new Date('2024-06-26T00:00:00.000Z'),
@@ -1589,12 +1602,14 @@ const basicGames: SeedableGameSchema[] = [
     achievements: [],
   },
   {
-    version: 1,
+    version: 33,
     id: 'golf-golf',
     name: 'Golf Golf',
     teamId: 'charity-games',
-    iconUrl: 'https://cdn.charity.games/_games/golf-golf/assets/thumbnail.png',
-    bannerUrl: 'https://cdn.charity.games/_games/golf-golf/assets/banner.png',
+    iconUrl:
+      'https://storage.googleapis.com/charity-games/_games/golf-golf/assets/thumbnail.png',
+    bannerUrl:
+      'https://storage.googleapis.com/charity-games/_games/golf-golf/assets/banner.png',
     viewport: viewports['LANDSCAPE-ONLY'],
     categories: [
       'ad-free',
@@ -1608,7 +1623,7 @@ const basicGames: SeedableGameSchema[] = [
     ],
     file: {
       type: 'HTML',
-      url: 'https://cdn.charity.games/_games/golf-golf',
+      url: 'https://storage.googleapis.com/charity-games/_games/golf-golf',
     },
     createdAt: new Date('2024-06-19T00:00:00.000Z'),
     updatedAt: new Date('2024-06-19T00:00:00.000Z'),
@@ -1622,12 +1637,14 @@ const basicGames: SeedableGameSchema[] = [
     achievements: [],
   },
   {
-    version: 1,
+    version: 33,
     id: 'right-box',
     name: 'Right Box',
     teamId: 'charity-games',
-    iconUrl: 'https://cdn.charity.games/_games/right-box/assets/thumbnail.png',
-    bannerUrl: 'https://cdn.charity.games/_games/right-box/assets/banner.png',
+    iconUrl:
+      'https://storage.googleapis.com/charity-games/_games/right-box/assets/thumbnail.png',
+    bannerUrl:
+      'https://storage.googleapis.com/charity-games/_games/right-box/assets/banner.png',
     viewport: viewports['PORTRAIT-ONLY'],
     categories: [
       'ad-free',
@@ -1641,7 +1658,7 @@ const basicGames: SeedableGameSchema[] = [
     ],
     file: {
       type: 'HTML',
-      url: 'https://cdn.charity.games/_games/right-box',
+      url: 'https://storage.googleapis.com/charity-games/_games/right-box',
     },
     createdAt: new Date('2024-06-12T00:00:00.000Z'),
     updatedAt: new Date('2024-06-12T00:00:00.000Z'),
@@ -1655,13 +1672,14 @@ const basicGames: SeedableGameSchema[] = [
     achievements: [],
   },
   {
-    version: 1,
+    version: 33,
     id: 'hard-flappy',
     name: 'Hard Flappy',
     teamId: 'charity-games',
     iconUrl:
-      'https://cdn.charity.games/_games/hard-flappy/assets/thumbnail.png',
-    bannerUrl: 'https://cdn.charity.games/_games/hard-flappy/assets/banner.png',
+      'https://storage.googleapis.com/charity-games/_games/hard-flappy/assets/thumbnail.png',
+    bannerUrl:
+      'https://storage.googleapis.com/charity-games/_games/hard-flappy/assets/banner.png',
     viewport: viewports['PORTRAIT-ONLY'],
     categories: [
       'ad-free',
@@ -1676,7 +1694,7 @@ const basicGames: SeedableGameSchema[] = [
     ],
     file: {
       type: 'HTML',
-      url: 'https://cdn.charity.games/_games/hard-flappy',
+      url: 'https://storage.googleapis.com/charity-games/_games/hard-flappy',
     },
     createdAt: new Date('2024-05-29T00:00:00.000Z'),
     updatedAt: new Date('2024-05-29T00:00:00.000Z'),
@@ -1689,19 +1707,19 @@ const basicGames: SeedableGameSchema[] = [
     achievements: [],
   },
   {
-    version: 1,
+    version: 33,
     id: 'space-pinball',
     name: 'Space Adventure Pinball',
     teamId: 'charity-games',
     iconUrl:
-      'https://cdn.charity.games/_games/space-pinball/assets/thumbnail.png',
+      'https://storage.googleapis.com/charity-games/_games/space-pinball/assets/thumbnail.png',
     bannerUrl:
-      'https://cdn.charity.games/_games/space-pinball/assets/banner.png',
+      'https://storage.googleapis.com/charity-games/_games/space-pinball/assets/banner.png',
     viewport: viewports['ALL-DEVICES'],
     categories: ['ad-free', 'action', 'arcade', 'desktop', 'mobile', '1p'],
     file: {
       type: 'HTML',
-      url: 'https://cdn.charity.games/_games/space-pinball',
+      url: 'https://storage.googleapis.com/charity-games/_games/space-pinball',
     },
     createdAt: new Date('2024-05-22T00:00:00.000Z'),
     updatedAt: new Date('2024-05-22T00:00:00.000Z'),
@@ -1714,12 +1732,14 @@ const basicGames: SeedableGameSchema[] = [
     achievements: [],
   },
   {
-    version: 1,
+    version: 33,
     id: '20-punch',
     name: '20 Punch',
     teamId: 'charity-games',
-    iconUrl: 'https://cdn.charity.games/_games/20-punch/assets/thumbnail.png',
-    bannerUrl: 'https://cdn.charity.games/_games/20-punch/assets/banner.png',
+    iconUrl:
+      'https://storage.googleapis.com/charity-games/_games/20-punch/assets/thumbnail.png',
+    bannerUrl:
+      'https://storage.googleapis.com/charity-games/_games/20-punch/assets/banner.png',
     viewport: viewports['MOBILE-PORTRAIT'],
     categories: [
       'ad-free',
@@ -1732,7 +1752,7 @@ const basicGames: SeedableGameSchema[] = [
     ],
     file: {
       type: 'HTML',
-      url: 'https://cdn.charity.games/_games/20-punch',
+      url: 'https://storage.googleapis.com/charity-games/_games/20-punch',
     },
     createdAt: new Date('2024-04-30T00:00:00.000Z'),
     updatedAt: new Date('2024-04-30T00:00:00.000Z'),
@@ -1745,14 +1765,14 @@ const basicGames: SeedableGameSchema[] = [
     achievements: [],
   },
   {
-    version: 1,
+    version: 33,
     id: 'the-sorcerer',
     name: 'The Sorcerer',
     teamId: 'charity-games',
     iconUrl:
-      'https://cdn.charity.games/_games/the-sorcerer/assets/thumbnail.jpg',
+      'https://storage.googleapis.com/charity-games/_games/the-sorcerer/assets/thumbnail.jpg',
     bannerUrl:
-      'https://cdn.charity.games/_games/the-sorcerer/assets/banner.jpg',
+      'https://storage.googleapis.com/charity-games/_games/the-sorcerer/assets/banner.jpg',
     viewport: viewports['ALL-DEVICES'],
     categories: [
       'ad-free',
@@ -1766,7 +1786,7 @@ const basicGames: SeedableGameSchema[] = [
     ],
     file: {
       type: 'HTML',
-      url: 'https://cdn.charity.games/_games/the-sorcerer',
+      url: 'https://storage.googleapis.com/charity-games/_games/the-sorcerer',
     },
     createdAt: new Date('2024-03-02T00:00:00.000Z'),
     updatedAt: new Date('2024-03-02T00:00:00.000Z'),
@@ -1779,17 +1799,19 @@ const basicGames: SeedableGameSchema[] = [
     achievements: [],
   },
   {
-    version: 1,
+    version: 33,
     id: 'quacksquad',
     name: 'Quack Squad',
     teamId: 'ale-tobias',
-    iconUrl: 'https://cdn.charity.games/_games/quacksquad/assets/thumbnail.png',
-    bannerUrl: 'https://cdn.charity.games/_games/quacksquad/assets/banner.png',
+    iconUrl:
+      'https://storage.googleapis.com/charity-games/_games/quacksquad/assets/thumbnail.png',
+    bannerUrl:
+      'https://storage.googleapis.com/charity-games/_games/quacksquad/assets/banner.png',
     viewport: viewports['LANDSCAPE-ONLY'],
     categories: ['action', 'arcade', 'shooting'],
     file: {
       type: 'HTML',
-      url: 'https://cdn.charity.games/_games/quacksquad',
+      url: 'https://storage.googleapis.com/charity-games/_games/quacksquad',
     },
     createdAt: new Date('2024-02-20T00:00:00.000Z'),
     updatedAt: new Date('2024-02-20T00:00:00.000Z'),
@@ -1802,12 +1824,14 @@ const basicGames: SeedableGameSchema[] = [
     achievements: [],
   },
   {
-    version: 1,
+    version: 33,
     id: 'fragile-floor',
     name: 'Fragile Floor',
     teamId: 'wmgcat',
-    iconUrl: 'https://cdn.charity.games/fragile-floor/assets/thumbnail.png',
-    bannerUrl: 'https://cdn.charity.games/fragile-floor/assets/banner.png',
+    iconUrl:
+      'https://storage.googleapis.com/charity-games/fragile-floor/assets/thumbnail.png',
+    bannerUrl:
+      'https://storage.googleapis.com/charity-games/fragile-floor/assets/banner.png',
     viewport: viewports['ALL-DEVICES'],
     categories: [
       'action',
@@ -1822,7 +1846,7 @@ const basicGames: SeedableGameSchema[] = [
     trailer: 'https://www.youtube.com/embed/gJb67llcWMU?si=tzyV-Lgn5P2jqRUf',
     file: {
       type: 'HTML',
-      url: 'https://cdn.charity.games/fragile-floor',
+      url: 'https://storage.googleapis.com/charity-games/fragile-floor',
     },
     markets: {
       itch: 'https://itch.io/embed/2328837',
@@ -1837,17 +1861,19 @@ const basicGames: SeedableGameSchema[] = [
     achievements: [],
   },
   {
-    version: 1,
+    version: 33,
     id: 'kuttuk',
     name: 'Kuttuk',
     teamId: 'seredim',
-    iconUrl: 'https://cdn.charity.games/seredim/kuttuk/assets/thumbnail.png',
-    bannerUrl: 'https://cdn.charity.games/seredim/kuttuk/assets/banner.jpeg',
+    iconUrl:
+      'https://storage.googleapis.com/charity-games/seredim/kuttuk/assets/thumbnail.png',
+    bannerUrl:
+      'https://storage.googleapis.com/charity-games/seredim/kuttuk/assets/banner.jpeg',
     viewport: viewports['DESKTOP-PORTRAIT'],
     categories: ['arcade', 'ad-free', 'action', 'arcade', 'desktop'],
     file: {
       type: 'HTML',
-      url: 'https://cdn.charity.games/seredim/kuttuk',
+      url: 'https://storage.googleapis.com/charity-games/seredim/kuttuk',
     },
     createdAt: new Date('2023-12-29T00:00:00.000Z'),
     updatedAt: new Date('2023-12-29T00:00:00.000Z'),
@@ -1864,17 +1890,19 @@ const basicGames: SeedableGameSchema[] = [
     achievements: [],
   },
   {
-    version: 1,
+    version: 33,
     id: 'plane-fly',
     name: 'Plane Fly',
     teamId: 'charity-games',
-    iconUrl: 'https://cdn.charity.games/plane-fly/assets/thumbnail.png',
-    bannerUrl: 'https://cdn.charity.games/plane-fly/assets/banner.png',
+    iconUrl:
+      'https://storage.googleapis.com/charity-games/plane-fly/assets/thumbnail.png',
+    bannerUrl:
+      'https://storage.googleapis.com/charity-games/plane-fly/assets/banner.png',
     viewport: viewports['LANDSCAPE-ONLY'],
     categories: ['ad-free', 'action', 'arcade', 'endless', 'desktop', 'mobile'],
     file: {
       type: 'HTML',
-      url: 'https://cdn.charity.games/plane-fly',
+      url: 'https://storage.googleapis.com/charity-games/plane-fly',
     },
     createdAt: new Date('2023-12-18T00:00:00.000Z'),
     updatedAt: new Date('2021-12-18T00:00:00.000Z'),
@@ -1887,14 +1915,14 @@ const basicGames: SeedableGameSchema[] = [
     achievements: [],
   },
   {
-    version: 1,
+    version: 33,
     id: 'blasteroids',
     name: 'Blasteroids',
     teamId: 'whitgroves',
     iconUrl:
-      'https://cdn.charity.games/whitgroves/blasteroids/assets/thumbnail.png',
+      'https://storage.googleapis.com/charity-games/whitgroves/blasteroids/assets/thumbnail.png',
     bannerUrl:
-      'https://cdn.charity.games/whitgroves/blasteroids/assets/banner.png',
+      'https://storage.googleapis.com/charity-games/whitgroves/blasteroids/assets/banner.png',
     viewport: viewports['ALL-DEVICES'],
     categories: [
       'action',
@@ -1906,7 +1934,7 @@ const basicGames: SeedableGameSchema[] = [
     ],
     file: {
       type: 'HTML',
-      url: 'https://cdn.charity.games/whitgroves/blasteroids',
+      url: 'https://storage.googleapis.com/charity-games/whitgroves/blasteroids',
     },
     createdAt: new Date('2023-12-29T00:00:00.000Z'),
     updatedAt: new Date('2021-12-29T00:00:00.000Z'),
@@ -1922,12 +1950,14 @@ const basicGames: SeedableGameSchema[] = [
     achievements: [],
   },
   {
-    version: 1,
+    version: 33,
     id: 'solitaire',
     name: 'Solitaire',
     teamId: 'charity-games',
-    iconUrl: 'https://cdn.charity.games/_games/solitaire/icon.jpg',
-    bannerUrl: 'https://cdn.charity.games/_games/solitaire/banner.png',
+    iconUrl:
+      'https://storage.googleapis.com/charity-games/_games/solitaire/icon.jpg',
+    bannerUrl:
+      'https://storage.googleapis.com/charity-games/_games/solitaire/banner.png',
     viewport: viewports['PORTRAIT-ONLY'],
     categories: ['ad-free', 'card', 'brain', 'board', 'puzzle', 'mobile'],
     file: {
@@ -1944,12 +1974,14 @@ const basicGames: SeedableGameSchema[] = [
     achievements: [],
   },
   {
-    version: 1,
+    version: 33,
     id: 'emoji-war',
     name: 'Emoji War',
     teamId: 'charity-games',
-    iconUrl: 'https://cdn.charity.games/_games/emoji-war/icon.jpg',
-    bannerUrl: 'https://cdn.charity.games/_games/emoji-war/banner.jpg',
+    iconUrl:
+      'https://storage.googleapis.com/charity-games/_games/emoji-war/icon.jpg',
+    bannerUrl:
+      'https://storage.googleapis.com/charity-games/_games/emoji-war/banner.jpg',
     viewport: viewports['ALL-DEVICES'],
     categories: ['ad-free', 'card', 'board', 'action', 'desktop', 'mobile'],
     file: {
@@ -1966,17 +1998,19 @@ const basicGames: SeedableGameSchema[] = [
     achievements: [],
   },
   {
-    version: 1,
+    version: 33,
     id: '1d-chess',
     name: '1D Chess',
     teamId: 'seredim',
-    iconUrl: 'https://cdn.charity.games/seredim/1d-chess/assets/thumbnail.png',
-    bannerUrl: 'https://cdn.charity.games/seredim/1d-chess/assets/banner.jpeg',
+    iconUrl:
+      'https://storage.googleapis.com/charity-games/seredim/1d-chess/assets/thumbnail.png',
+    bannerUrl:
+      'https://storage.googleapis.com/charity-games/seredim/1d-chess/assets/banner.jpeg',
     viewport: viewports['DESKTOP-LANDSCAPE'],
     categories: ['ad-free', 'board', 'desktop'],
     file: {
       type: 'HTML',
-      url: 'https://cdn.charity.games/seredim/1d-chess',
+      url: 'https://storage.googleapis.com/charity-games/seredim/1d-chess',
     },
     createdAt: new Date('2023-12-29T00:00:00.000Z'),
     updatedAt: new Date('2023-12-29T00:00:00.000Z'),
@@ -1992,12 +2026,14 @@ const basicGames: SeedableGameSchema[] = [
     achievements: [],
   },
   {
-    version: 1,
+    version: 33,
     id: 'baku-gamu',
     name: 'Baku Gamu',
     teamId: 'syb-coin-coin',
-    iconUrl: 'https://cdn.charity.games/baku-gamu/assets/thumbnail.png',
-    bannerUrl: 'https://cdn.charity.games/baku-gamu/assets/banner.png',
+    iconUrl:
+      'https://storage.googleapis.com/charity-games/baku-gamu/assets/thumbnail.png',
+    bannerUrl:
+      'https://storage.googleapis.com/charity-games/baku-gamu/assets/banner.png',
     viewport: viewports['PORTRAIT-ONLY'],
     categories: ['ad-free', 'action', 'arcade', 'desktop', 'mobile', 'funny'],
     file: {
@@ -2014,17 +2050,19 @@ const basicGames: SeedableGameSchema[] = [
     achievements: [],
   },
   {
-    version: 1,
+    version: 33,
     id: 'conquer-the-world',
     name: 'RPG Conquer The World',
     teamId: 'llstd',
-    iconUrl: 'https://cdn.charity.games/conquer-the-world/assets/thumbnail.png',
-    bannerUrl: 'https://cdn.charity.games/conquer-the-world/assets/banner.jpg',
+    iconUrl:
+      'https://storage.googleapis.com/charity-games/conquer-the-world/assets/thumbnail.png',
+    bannerUrl:
+      'https://storage.googleapis.com/charity-games/conquer-the-world/assets/banner.jpg',
     categories: ['ad-free', 'adventure', 'desktop', 'mobile'],
     viewport: viewports['PORTRAIT-ONLY'],
     file: {
       type: 'HTML',
-      url: 'https://cdn.charity.games/conquer-the-world',
+      url: 'https://storage.googleapis.com/charity-games/conquer-the-world',
     },
     createdAt: new Date('2023-12-21T00:00:00.000Z'),
     updatedAt: new Date('2023-12-21:00:00.000Z'),
@@ -2039,17 +2077,19 @@ const basicGames: SeedableGameSchema[] = [
     achievements: [],
   },
   {
-    version: 1,
+    version: 33,
     id: 'freedom-run',
     name: 'Freedom Run',
     teamId: 'charity-games',
-    iconUrl: 'https://cdn.charity.games/freedom_run/icons/game-icon.png',
-    bannerUrl: 'https://cdn.charity.games/freedom_run/icons/banner.png',
+    iconUrl:
+      'https://storage.googleapis.com/charity-games/freedom_run/icons/game-icon.png',
+    bannerUrl:
+      'https://storage.googleapis.com/charity-games/freedom_run/icons/banner.png',
     viewport: viewports['ALL-DEVICES'],
     categories: ['ad-free', 'action', 'arcade', 'endless', 'desktop', 'mobile'],
     file: {
       type: 'HTML',
-      url: 'https://cdn.charity.games/freedom_run',
+      url: 'https://storage.googleapis.com/charity-games/freedom_run',
     },
     createdAt: new Date('2023-12-11T00:00:00.000Z'),
     updatedAt: new Date('2021-12-11T00:00:00.000Z'),
@@ -2070,12 +2110,14 @@ const basicGames: SeedableGameSchema[] = [
     // - [LPC Birds by bluecarrot16, commissioned by castelonia](https://opengameart.org/content/lpc-birds)`,
   },
   {
-    version: 1,
+    version: 33,
     id: 'word-search',
     name: 'Word Search',
     teamId: 'charity-games',
-    iconUrl: 'https://cdn.charity.games/_games/word-search/icon.jpg',
-    bannerUrl: 'https://cdn.charity.games/_games/word-search/banner.jpg',
+    iconUrl:
+      'https://storage.googleapis.com/charity-games/_games/word-search/icon.jpg',
+    bannerUrl:
+      'https://storage.googleapis.com/charity-games/_games/word-search/banner.jpg',
     viewport: viewports['ALL-DEVICES'],
     categories: ['ad-free', 'puzzle', 'word', 'brain', 'desktop', 'mobile'],
     file: {
@@ -2092,17 +2134,19 @@ const basicGames: SeedableGameSchema[] = [
     achievements: [],
   },
   {
-    version: 1,
+    version: 33,
     id: 'feaare',
     name: 'Feaare',
     teamId: 'seredim',
-    iconUrl: 'https://cdn.charity.games/seredim/feaare/assets/thumbnail.png',
-    bannerUrl: 'https://cdn.charity.games/seredim/feaare/assets/banner.jpg',
+    iconUrl:
+      'https://storage.googleapis.com/charity-games/seredim/feaare/assets/thumbnail.png',
+    bannerUrl:
+      'https://storage.googleapis.com/charity-games/seredim/feaare/assets/banner.jpg',
     viewport: viewports['MOBILE-PORTRAIT'],
     categories: ['ad-free', 'action', 'arcade', 'mobile'],
     file: {
       type: 'HTML',
-      url: 'https://cdn.charity.games/seredim/feaare',
+      url: 'https://storage.googleapis.com/charity-games/seredim/feaare',
     },
     createdAt: new Date('2023-12-29T00:00:00.000Z'),
     updatedAt: new Date('2023-12-29T00:00:00.000Z'),
@@ -2118,14 +2162,14 @@ const basicGames: SeedableGameSchema[] = [
     achievements: [],
   },
   {
-    version: 1,
+    version: 33,
     id: 'invention-timeline-game',
     name: 'Time Travel',
     teamId: 'gordo-raba',
     iconUrl:
-      'https://cdn.charity.games/invention-timeline-game/assets/thumbnail.png',
+      'https://storage.googleapis.com/charity-games/invention-timeline-game/assets/thumbnail.png',
     bannerUrl:
-      'https://cdn.charity.games/invention-timeline-game/assets/banner.png',
+      'https://storage.googleapis.com/charity-games/invention-timeline-game/assets/banner.png',
     viewport: viewports['ALL-DEVICES'],
     categories: [
       'ad-free',
@@ -2149,17 +2193,19 @@ const basicGames: SeedableGameSchema[] = [
     achievements: [],
   },
   {
-    version: 1,
+    version: 33,
     id: 'stick-jump',
     name: 'Stick Jump',
     teamId: 'charity-games',
-    iconUrl: 'https://cdn.charity.games/stick-jump/assets/thumbnail.png',
-    bannerUrl: 'https://cdn.charity.games/stick-jump/assets/banner.png',
+    iconUrl:
+      'https://storage.googleapis.com/charity-games/stick-jump/assets/thumbnail.png',
+    bannerUrl:
+      'https://storage.googleapis.com/charity-games/stick-jump/assets/banner.png',
     viewport: viewports['PORTRAIT-ONLY'],
     categories: ['ad-free', 'arcade', 'endless', 'mobile'],
     file: {
       type: 'HTML',
-      url: 'https://cdn.charity.games/stick-jump',
+      url: 'https://storage.googleapis.com/charity-games/stick-jump',
     },
     createdAt: new Date('2023-12-20T00:00:00.000Z'),
     updatedAt: new Date('2021-12-20:00:00.000Z'),
@@ -2171,12 +2217,14 @@ const basicGames: SeedableGameSchema[] = [
     achievements: [],
   },
   {
-    version: 1,
+    version: 33,
     id: 'puzzle-words',
     name: 'Puzzle Words',
     teamId: 'charity-games',
-    iconUrl: 'https://cdn.charity.games/_games/puzzle-words/icon.jpg',
-    bannerUrl: 'https://cdn.charity.games/_games/puzzle-words/banner.jpg',
+    iconUrl:
+      'https://storage.googleapis.com/charity-games/_games/puzzle-words/icon.jpg',
+    bannerUrl:
+      'https://storage.googleapis.com/charity-games/_games/puzzle-words/banner.jpg',
     viewport: viewports['ALL-DEVICES'],
     categories: ['ad-free', 'puzzle', 'word', 'brain', 'desktop', 'mobile'],
     file: {
@@ -2193,12 +2241,14 @@ const basicGames: SeedableGameSchema[] = [
     achievements: [],
   },
   {
-    version: 1,
+    version: 33,
     id: 'word-smith',
     name: 'Word Smith',
     teamId: 'charity-games',
-    iconUrl: 'https://cdn.charity.games/_games/word-smith/icon.jpg',
-    bannerUrl: 'https://cdn.charity.games/_games/word-smith/banner.png',
+    iconUrl:
+      'https://storage.googleapis.com/charity-games/_games/word-smith/icon.jpg',
+    bannerUrl:
+      'https://storage.googleapis.com/charity-games/_games/word-smith/banner.png',
     viewport: viewports['ALL-DEVICES'],
     categories: ['ad-free', 'puzzle', 'word', 'brain', 'desktop', 'mobile'],
     file: {
@@ -2215,17 +2265,19 @@ const basicGames: SeedableGameSchema[] = [
     achievements: [],
   },
   {
-    version: 1,
+    version: 33,
     id: 'quickbeat',
     name: 'Quick Beat',
     teamId: 'rainboworm',
-    iconUrl: 'https://cdn.charity.games/quickbeat/assets/thumbnail.png',
-    bannerUrl: 'https://cdn.charity.games/quickbeat/assets/banner.png',
+    iconUrl:
+      'https://storage.googleapis.com/charity-games/quickbeat/assets/thumbnail.png',
+    bannerUrl:
+      'https://storage.googleapis.com/charity-games/quickbeat/assets/banner.png',
     viewport: viewports['PORTRAIT-ONLY'],
     categories: ['ad-free', 'action', 'arcade', 'desktop', 'mobile'],
     file: {
       type: 'HTML',
-      url: 'https://cdn.charity.games/quickbeat',
+      url: 'https://storage.googleapis.com/charity-games/quickbeat',
     },
     createdAt: new Date('2023-12-21T00:00:00.000Z'),
     updatedAt: new Date('2021-12-21T00:00:00.000Z'),
@@ -2239,17 +2291,19 @@ const basicGames: SeedableGameSchema[] = [
     achievements: [],
   },
   {
-    version: 1,
+    version: 33,
     id: 'hyper-wheel',
     name: 'Hyper Wheel',
     teamId: 'charity-games',
-    iconUrl: 'https://cdn.charity.games/hyper-wheel/assets/thumbnail.png',
-    bannerUrl: 'https://cdn.charity.games/hyper-wheel/assets/banner.png',
+    iconUrl:
+      'https://storage.googleapis.com/charity-games/hyper-wheel/assets/thumbnail.png',
+    bannerUrl:
+      'https://storage.googleapis.com/charity-games/hyper-wheel/assets/banner.png',
     viewport: viewports['ALL-DEVICES'],
     categories: ['ad-free', 'action', 'arcade', 'desktop', 'mobile'],
     file: {
       type: 'HTML',
-      url: 'https://cdn.charity.games/hyper-wheel',
+      url: 'https://storage.googleapis.com/charity-games/hyper-wheel',
     },
     createdAt: new Date('2023-12-20T00:00:00.000Z'),
     updatedAt: new Date('2021-12-20T00:00:00.000Z'),
@@ -2262,12 +2316,14 @@ const basicGames: SeedableGameSchema[] = [
     achievements: [],
   },
   {
-    version: 1,
+    version: 33,
     id: 'nonograms',
     name: 'Nonograms',
     teamId: 'charity-games',
-    iconUrl: 'https://cdn.charity.games/_games/nonograms/icon.jpg',
-    bannerUrl: 'https://cdn.charity.games/_games/nonograms/banner.png',
+    iconUrl:
+      'https://storage.googleapis.com/charity-games/_games/nonograms/icon.jpg',
+    bannerUrl:
+      'https://storage.googleapis.com/charity-games/_games/nonograms/banner.png',
     viewport: viewports['ALL-DEVICES'],
     categories: ['ad-free', 'puzzle', 'brain', 'desktop', 'mobile'],
     file: {
@@ -2285,12 +2341,14 @@ const basicGames: SeedableGameSchema[] = [
     achievements: [],
   },
   {
-    version: 1,
+    version: 33,
     id: 'word-pack',
     name: 'Word Pack',
     teamId: 'charity-games',
-    iconUrl: 'https://cdn.charity.games/_games/word-pack/icon.jpg',
-    bannerUrl: 'https://cdn.charity.games/_games/word-pack/banner.jpg',
+    iconUrl:
+      'https://storage.googleapis.com/charity-games/_games/word-pack/icon.jpg',
+    bannerUrl:
+      'https://storage.googleapis.com/charity-games/_games/word-pack/banner.jpg',
     viewport: viewports['ALL-DEVICES'],
     categories: ['ad-free', 'puzzle', 'word', 'brain', 'desktop', 'mobile'],
     file: {
@@ -2307,17 +2365,19 @@ const basicGames: SeedableGameSchema[] = [
     achievements: [],
   },
   {
-    version: 1,
+    version: 33,
     id: 'air-hockey-neon',
     name: 'Air Hockey Neon',
     teamId: 'charity-games',
-    iconUrl: 'https://cdn.charity.games/air-hockey-neon/assets/thumbnail.png',
-    bannerUrl: 'https://cdn.charity.games/air-hockey-neon/assets/banner.png',
+    iconUrl:
+      'https://storage.googleapis.com/charity-games/air-hockey-neon/assets/thumbnail.png',
+    bannerUrl:
+      'https://storage.googleapis.com/charity-games/air-hockey-neon/assets/banner.png',
     viewport: viewports['PORTRAIT-ONLY'],
     categories: ['ad-free', 'action', 'arcade', 'desktop', 'mobile'],
     file: {
       type: 'HTML',
-      url: 'https://cdn.charity.games/air-hockey-neon',
+      url: 'https://storage.googleapis.com/charity-games/air-hockey-neon',
     },
     createdAt: new Date('2023-12-21T00:00:00.000Z'),
     updatedAt: new Date('2021-12-21T00:00:00.000Z'),
@@ -2329,12 +2389,14 @@ const basicGames: SeedableGameSchema[] = [
     achievements: [],
   },
   {
-    version: 1,
+    version: 33,
     id: 'solitaire-2048',
     name: 'Solitaire 2048',
     teamId: 'charity-games',
-    iconUrl: 'https://cdn.charity.games/solitaire-2048/assets/thumbnail.png',
-    bannerUrl: 'https://cdn.charity.games/solitaire-2048/assets/banner.png',
+    iconUrl:
+      'https://storage.googleapis.com/charity-games/solitaire-2048/assets/thumbnail.png',
+    bannerUrl:
+      'https://storage.googleapis.com/charity-games/solitaire-2048/assets/banner.png',
     viewport: viewports['PORTRAIT-ONLY'],
     categories: [
       'ad-free',
@@ -2347,7 +2409,7 @@ const basicGames: SeedableGameSchema[] = [
     ],
     file: {
       type: 'HTML',
-      url: 'https://cdn.charity.games/solitaire-2048',
+      url: 'https://storage.googleapis.com/charity-games/solitaire-2048',
     },
     createdAt: new Date('2023-12-21T00:00:00.000Z'),
     updatedAt: new Date('2023-12-21T00:00:00.000Z'),
@@ -2359,17 +2421,19 @@ const basicGames: SeedableGameSchema[] = [
     achievements: [],
   },
   {
-    version: 1,
+    version: 33,
     id: 'skwatta',
     name: 'Skwatta',
     teamId: 'seredim',
-    iconUrl: 'https://cdn.charity.games/seredim/skwatta/assets/thumbnail.png',
-    bannerUrl: 'https://cdn.charity.games/seredim/skwatta/assets/banner.jpg',
+    iconUrl:
+      'https://storage.googleapis.com/charity-games/seredim/skwatta/assets/thumbnail.png',
+    bannerUrl:
+      'https://storage.googleapis.com/charity-games/seredim/skwatta/assets/banner.jpg',
     viewport: viewports['MOBILE-PORTRAIT'],
     categories: ['ad-free', 'action', 'arcade', 'mobile'],
     file: {
       type: 'HTML',
-      url: 'https://cdn.charity.games/seredim/skwatta',
+      url: 'https://storage.googleapis.com/charity-games/seredim/skwatta',
     },
     createdAt: new Date('2023-12-29T00:00:00.000Z'),
     updatedAt: new Date('2023-12-29T00:00:00.000Z'),
@@ -2385,12 +2449,14 @@ const basicGames: SeedableGameSchema[] = [
     achievements: [],
   },
   {
-    version: 1,
+    version: 33,
     id: 'arrow-hit',
     name: 'Arrow Hit',
     teamId: 'charity-games',
-    iconUrl: 'https://cdn.charity.games/arrow-hit/assets/thumbnail.png',
-    bannerUrl: 'https://cdn.charity.games/arrow-hit/assets/banner.png',
+    iconUrl:
+      'https://storage.googleapis.com/charity-games/arrow-hit/assets/thumbnail.png',
+    bannerUrl:
+      'https://storage.googleapis.com/charity-games/arrow-hit/assets/banner.png',
     trailer: 'https://www.youtube.com/embed/4qVZpctJtuk?si=q6TRarj7ZL7Q2QYw',
     viewport: viewports['ALL-DEVICES'],
     categories: ['ad-free', 'survival', '1p', 'arcade', 'desktop', 'mobile'],
@@ -2399,7 +2465,7 @@ const basicGames: SeedableGameSchema[] = [
     markets: {},
     file: {
       type: 'HTML',
-      url: 'https://cdn.charity.games/arrow-hit',
+      url: 'https://storage.googleapis.com/charity-games/arrow-hit',
     },
     description: `<h3>What is Arrow Hit?</h3><p>Experience the ultimate test of precision and focus in “Aim Challenge: Arrow Edition.” This straightforward yet addictive game is designed to sharpen your aiming skills and provide an exciting challenge for players of all levels.</p><p>Simplicity at its Best: “Aim Challenge: Arrow Edition” strips away the frills to focus solely on the art of aiming. No distractions, no complications, just pure target-hitting fun.</p><p>Aim Challenge: Arrow Edition is the perfect game to unwind, compete with friends, or simply improve your hand-eye coordination. Whether you're a seasoned marksman or just starting out, this game is bound to provide hours of addictive, aim-testing entertainment.</p><p>Play now and become the ultimate arrow-slinging virtuoso in Aim Challenge: Arrow Hit!</p>`,
     leaderboard: 'NONE',
@@ -2408,12 +2474,14 @@ const basicGames: SeedableGameSchema[] = [
     achievements: [],
   },
   {
-    version: 1,
+    version: 33,
     id: 'on-the-road',
     name: 'On The Road',
     teamId: 'charity-games',
-    iconUrl: 'https://cdn.charity.games/on-the-road/assets/thumbnail.png',
-    bannerUrl: 'https://cdn.charity.games/on-the-road/assets/banner.png',
+    iconUrl:
+      'https://storage.googleapis.com/charity-games/on-the-road/assets/thumbnail.png',
+    bannerUrl:
+      'https://storage.googleapis.com/charity-games/on-the-road/assets/banner.png',
     viewport: viewports['PORTRAIT-ONLY'],
     categories: ['ad-free', 'survival', 'endless', 'car', 'desktop', 'mobile'],
     createdAt: new Date('2024-02-02T00:00:00.000Z'),
@@ -2421,7 +2489,7 @@ const basicGames: SeedableGameSchema[] = [
     markets: {},
     file: {
       type: 'HTML',
-      url: 'https://cdn.charity.games/on-the-road',
+      url: 'https://storage.googleapis.com/charity-games/on-the-road',
     },
     description: `<p>On The Road is an endless runner game. The goal of the game is to drive as far as you can without hitting any obstacles.</p><h3>How to Play On The Road?</h3><h5>Desktop</h5><p>Use the arrow keys or drag your mouse across the screen to change lanes and avoid the obstacles.</p><h5>Mobile</h5><p>Tap the left or right side of the screen to change lanes and avoid the obstacles.</p>`,
     leaderboard: 'NONE',
@@ -2430,12 +2498,14 @@ const basicGames: SeedableGameSchema[] = [
     achievements: [],
   },
   {
-    version: 1,
+    version: 33,
     id: 'fruit-merge',
     name: 'Fruit Merge',
     teamId: 'charity-games',
-    iconUrl: 'https://cdn.charity.games/fruit-merge/assets/thumbnail.png',
-    bannerUrl: 'https://cdn.charity.games/fruit-merge/assets/banner.png',
+    iconUrl:
+      'https://storage.googleapis.com/charity-games/fruit-merge/assets/thumbnail.png',
+    bannerUrl:
+      'https://storage.googleapis.com/charity-games/fruit-merge/assets/banner.png',
     viewport: viewports['ALL-DEVICES'],
     categories: ['ad-free', 'puzzle', 'brain', 'desktop', 'mobile'],
     createdAt: new Date('2024-02-03T00:00:00.000Z'),
@@ -2443,7 +2513,7 @@ const basicGames: SeedableGameSchema[] = [
     markets: {},
     file: {
       type: 'HTML',
-      url: 'https://cdn.charity.games/fruit-merge',
+      url: 'https://storage.googleapis.com/charity-games/fruit-merge',
     },
     description: `<h3>What is Fruit Merge?</h3><p>The game is a very simple but addictive game where you have to touch 2 identical objects together to make them explode and go to the next level</p><p>Click or drag and drop fruits anywhere on the screen to drop them on top of the fruit of the same type and earn points. 2 fruits of the same type merge and turn into a bigger fruit in the position where they collide, so you can blast the watermelon, the biggest fruit, and earn 1000 points</p><h3>How to Play Fruit Merge?</h3><p>Use your mouse or finger to drop the fruits on top of each other to merge them.</p>`,
     leaderboard: 'NONE',
@@ -2452,12 +2522,14 @@ const basicGames: SeedableGameSchema[] = [
     achievements: [],
   },
   {
-    version: 1,
+    version: 33,
     id: 'mini-golf',
     name: 'Mini Golf',
     teamId: 'charity-games',
-    iconUrl: 'https://cdn.charity.games/mini-golf/assets/thumbnail.png',
-    bannerUrl: 'https://cdn.charity.games/mini-golf/assets/banner.png',
+    iconUrl:
+      'https://storage.googleapis.com/charity-games/mini-golf/assets/thumbnail.png',
+    bannerUrl:
+      'https://storage.googleapis.com/charity-games/mini-golf/assets/banner.png',
     viewport: viewports['PORTRAIT-ONLY'],
     categories: [
       'ad-free',
@@ -2473,7 +2545,7 @@ const basicGames: SeedableGameSchema[] = [
     markets: {},
     file: {
       type: 'HTML',
-      url: 'https://cdn.charity.games/mini-golf',
+      url: 'https://storage.googleapis.com/charity-games/mini-golf',
     },
     description: `<p>Mini Golf is a simple and fun game. The goal of the game is to get the ball into the hole in as few shots as possible.</p><p>Mini Golf comes with over 400 levels. Have fun exploring the game's green hills and plains while listening to the birds and enjoying its beautiful views, collect as many coins as possible and try to hit all the holes to achieve the highest score.</p><p>Do you like bonus levels? In the blue lakes there are 50 levels where there are always lots of coins and you never lose!</p><p>Among the game mechanics are levels with: Portals, Boxing Gloves, Cannons, Burners, Impulses, Mill, Sand, Mole Holes, Spikes and Movement Blocks that will help or hinder your game!</p><p>With many levels and mechanics, the level randomization system provides a lot of fun and playing time.</p><p>Thank you and have fun!</p><h3>How to Play Mini Golf?</h3><p>Click and drag the mouse to aim and set the power of your shot. Release the mouse button to take the shot.</p>`,
     trailer: 'https://www.youtube.com/embed/b2quiBhyvk8?si=NLfNQdyIuZTutlNm',
@@ -2483,18 +2555,20 @@ const basicGames: SeedableGameSchema[] = [
     achievements: [],
   },
   {
-    version: 1,
+    version: 33,
     id: 'dominoes',
     name: 'Dominoes',
     teamId: 'charity-games',
-    iconUrl: 'https://cdn.charity.games/dominoes/assets/thumbnail.png',
-    bannerUrl: 'https://cdn.charity.games/dominoes/assets/banner.jpg',
+    iconUrl:
+      'https://storage.googleapis.com/charity-games/dominoes/assets/thumbnail.png',
+    bannerUrl:
+      'https://storage.googleapis.com/charity-games/dominoes/assets/banner.jpg',
     viewport: viewports['ALL-DEVICES'],
     categories: ['ad-free', 'board', 'desktop', 'mobile', '2p', 'brain'],
     markets: {},
     file: {
       type: 'HTML',
-      url: 'https://cdn.charity.games/dominoes',
+      url: 'https://storage.googleapis.com/charity-games/dominoes',
     },
     createdAt: new Date('2024-02-05T00:00:00.000Z'),
     updatedAt: new Date('2024-02-05T00:00:00.000Z'),

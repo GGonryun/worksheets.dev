@@ -75,7 +75,7 @@ export class DiscordAPI {
     if (process.env['SILENCE_DISCORD'] === 'true') {
       return 'silenced';
     }
-    const DEFAULT_DISCORD_AVATAR = `https://cdn.charity.games/_developers/charity-games.png`;
+    const DEFAULT_DISCORD_AVATAR = `https://storage.googleapis.com/charity-games/_developers/charity-games.png`;
     const DEFAULT_DISCORD_USERNAME = `Charity Games Bot`;
     const CHANNEL_WEBHOOKS: Record<DiscordChannel, string> = {
       admin: process.env['DISCORD_ADMIN_WEBHOOK_URL'] ?? '',
